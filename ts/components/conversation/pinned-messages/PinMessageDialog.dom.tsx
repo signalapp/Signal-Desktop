@@ -7,21 +7,18 @@ import { AxoRadioGroup } from '../../../axo/AxoRadioGroup.dom.js';
 import { DurationInSeconds } from '../../../util/durations/duration-in-seconds.std.js';
 import { strictAssert } from '../../../util/assert.std.js';
 
-export enum DurationOption {
+enum DurationOption {
   TIME_24_HOURS = 'TIME_24_HOURS',
   TIME_7_DAYS = 'TIME_7_DAYS',
   TIME_30_DAYS = 'TIME_30_DAYS',
   FOREVER = 'FOREVER',
 }
-export type DurationValue =
-  | { seconds: number; forever?: never }
-  | { seconds?: never; forever: true };
 
-const DURATION_OPTIONS: Record<DurationOption, DurationValue> = {
-  [DurationOption.TIME_24_HOURS]: { seconds: DurationInSeconds.fromHours(24) },
-  [DurationOption.TIME_7_DAYS]: { seconds: DurationInSeconds.fromDays(7) },
-  [DurationOption.TIME_30_DAYS]: { seconds: DurationInSeconds.fromDays(30) },
-  [DurationOption.FOREVER]: { forever: true },
+const DURATION_OPTIONS: Record<DurationOption, DurationInSeconds | null> = {
+  [DurationOption.TIME_24_HOURS]: DurationInSeconds.fromHours(24),
+  [DurationOption.TIME_7_DAYS]: DurationInSeconds.fromDays(7),
+  [DurationOption.TIME_30_DAYS]: DurationInSeconds.fromDays(30),
+  [DurationOption.FOREVER]: null,
 };
 
 function isValidDurationOption(value: string): value is DurationOption {
@@ -33,13 +30,16 @@ export type PinMessageDialogProps = Readonly<{
   open: boolean;
   onOpenChange: (open: boolean) => void;
   messageId: string;
-  onPinMessage: (messageId: string, duration: DurationValue) => void;
+  onPinnedMessageAdd: (
+    messageId: string,
+    duration: DurationInSeconds | null
+  ) => void;
 }>;
 
 export const PinMessageDialog = memo(function PinMessageDialog(
   props: PinMessageDialogProps
 ) {
-  const { i18n, messageId, onPinMessage, onOpenChange } = props;
+  const { i18n, messageId, onPinnedMessageAdd, onOpenChange } = props;
   const [duration, setDuration] = useState(DurationOption.TIME_7_DAYS);
 
   const handleValueChange = useCallback((value: string) => {
@@ -51,14 +51,18 @@ export const PinMessageDialog = memo(function PinMessageDialog(
     onOpenChange(false);
   }, [onOpenChange]);
 
-  const handlePinMessage = useCallback(() => {
+  const handlePinnedMessageAdd = useCallback(() => {
     const durationValue = DURATION_OPTIONS[duration];
-    onPinMessage(messageId, durationValue);
-  }, [duration, onPinMessage, messageId]);
+    onPinnedMessageAdd(messageId, durationValue);
+  }, [duration, onPinnedMessageAdd, messageId]);
 
   return (
     <AxoDialog.Root open={props.open} onOpenChange={onOpenChange}>
-      <AxoDialog.Content size="sm" escape="cancel-is-noop">
+      <AxoDialog.Content
+        size="sm"
+        escape="cancel-is-noop"
+        disableMissingAriaDescriptionWarning
+      >
         <AxoDialog.Header>
           <AxoDialog.Title>
             {i18n('icu:PinMessageDialog__Title')}
@@ -101,7 +105,10 @@ export const PinMessageDialog = memo(function PinMessageDialog(
             <AxoDialog.Action variant="secondary" onClick={handleCancel}>
               {i18n('icu:PinMessageDialog__Cancel')}
             </AxoDialog.Action>
-            <AxoDialog.Action variant="primary" onClick={handlePinMessage}>
+            <AxoDialog.Action
+              variant="primary"
+              onClick={handlePinnedMessageAdd}
+            >
               {i18n('icu:PinMessageDialog__Pin')}
             </AxoDialog.Action>
           </AxoDialog.Actions>

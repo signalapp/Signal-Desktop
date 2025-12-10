@@ -6,7 +6,7 @@ import lodash from 'lodash';
 import { type PhoneNumber } from 'google-libphonenumber';
 
 import { clipboard, ipcRenderer } from 'electron';
-import type { ReadonlyDeep } from 'type-fest';
+import type { ReadonlyDeep, SetOptional } from 'type-fest';
 import { DataReader, DataWriter } from '../../sql/Client.preload.js';
 import type { AttachmentType } from '../../types/Attachment.std.js';
 import type { StateType as RootStateType } from '../reducer.preload.js';
@@ -96,6 +96,7 @@ import {
   getPendingAvatarDownloadSelector,
   getAllConversations,
   getActivePanel,
+  getSelectedConversationId,
 } from '../selectors/conversations.dom.js';
 import { getIntl } from '../selectors/user.std.js';
 import type {
@@ -243,6 +244,10 @@ import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { enqueuePollVoteForSend as enqueuePollVoteForSendHelper } from '../../polls/enqueuePollVoteForSend.preload.js';
 import { updateChatFolderStateOnTargetConversationChanged } from './chatFolders.preload.js';
+import type { PinnedMessage } from '../../types/PinnedMessage.std.js';
+import type { StateThunk } from '../types.std.js';
+import { getPinnedMessagesLimit } from '../../util/pinnedMessages.dom.js';
+import { getPinnedMessageExpiresAt } from '../../util/pinnedMessages.std.js';
 
 const {
   chunk,
@@ -503,9 +508,21 @@ export type ConversationMessageType = ReadonlyDeep<{
 export type ConversationPreloadDataType = ReadonlyDeep<{
   conversationId: string;
   messages: ReadonlyArray<ReadonlyMessageAttributesType>;
+  pinnedMessages: ReadonlyArray<PinnedMessage>;
   metrics: MessageMetricsType;
   unboundedFetch: boolean;
 }>;
+
+export type MessagesResetDataType = ReadonlyDeep<
+  ConversationPreloadDataType & {
+    scrollToMessageId?: string;
+  }
+>;
+
+export type MessagesResetOptionsType = SetOptional<
+  MessagesResetDataType,
+  'unboundedFetch'
+>;
 
 export type MessagesByConversationType = ReadonlyDeep<{
   [key: string]: ConversationMessageType | undefined;
@@ -625,6 +642,7 @@ export type ConversationsStateType = ReadonlyDeep<{
   // Note: it's very important that both of these locations are always kept up to date
   messagesLookup: MessageLookupType;
   messagesByConversation: MessagesByConversationType;
+  pinnedMessages: ReadonlyArray<PinnedMessage>;
 
   lastCenterMessageByConversation: LastCenterMessageByConversationType;
 
@@ -698,6 +716,7 @@ export const SET_PENDING_REQUESTED_AVATAR_DOWNLOAD =
   'conversations/SET_PENDING_REQUESTED_AVATAR_DOWNLOAD';
 export const SET_PROFILE_UPDATE_ERROR =
   'conversations/SET_PROFILE_UPDATE_ERROR';
+const REPLACE_PINNED_MESSAGES = 'conversations/REPLACE_PINNED_MESSAGES';
 
 export type CancelVerificationDataByConversationActionType = ReadonlyDeep<{
   type: typeof CANCEL_CONVERSATION_PENDING_VERIFICATION;
@@ -934,15 +953,7 @@ export type RepairOldestMessageActionType = ReadonlyDeep<{
 }>;
 export type MessagesResetActionType = ReadonlyDeep<{
   type: 'MESSAGES_RESET';
-  payload: {
-    conversationId: string;
-    messages: ReadonlyArray<ReadonlyMessageAttributesType>;
-    metrics: MessageMetricsType;
-    scrollToMessageId?: string;
-    // The set of provided messages should be trusted, even if it conflicts with metrics,
-    //   because we weren't looking for a specific time window of messages with our query.
-    unboundedFetch: boolean;
-  };
+  payload: MessagesResetDataType;
 }>;
 export type SetMessageLoadingStateActionType = ReadonlyDeep<{
   type: 'SET_MESSAGE_LOADING_STATE';
@@ -1086,6 +1097,13 @@ type ReplaceAvatarsActionType = ReadonlyDeep<{
     avatars: ReadonlyArray<AvatarDataType>;
   };
 }>;
+type ReplacePinnedMessagesActionType = ReadonlyDeep<{
+  type: typeof REPLACE_PINNED_MESSAGES;
+  payload: {
+    conversationId: string;
+    pinnedMessages: ReadonlyArray<PinnedMessage>;
+  };
+}>;
 export type AddPreloadDataActionType = ReadonlyDeep<{
   type: 'ADD_PRELOAD_DATA';
   payload: ConversationPreloadDataType;
@@ -1141,6 +1159,7 @@ export type ConversationActionType =
   | RepairNewestMessageActionType
   | RepairOldestMessageActionType
   | ReplaceAvatarsActionType
+  | ReplacePinnedMessagesActionType
   | ReviewConversationNameCollisionActionType
   | ScrollToMessageActionType
   | SetPendingRequestedAvatarDownloadActionType
@@ -1236,6 +1255,9 @@ export const actions = {
   onArchive,
   onMarkUnread,
   onMoveToInbox,
+  onPinnedMessagesChanged,
+  onPinnedMessageAdd,
+  onPinnedMessageRemove,
   onUndoArchive,
   openGiftBadge,
   popPanelForConversation,
@@ -1329,7 +1351,7 @@ function onArchive(
   unknown,
   ConversationUnloadedActionType | ShowToastActionType
 > {
-  return (dispatch, getState) => {
+  return dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
       throw new Error('onArchive: Conversation not found!');
@@ -1338,11 +1360,7 @@ function onArchive(
     const wasPinned = conversation.attributes.isPinned ?? false;
     conversation.setArchived(true);
 
-    onConversationClosed(conversationId, 'archive')(
-      dispatch,
-      getState,
-      undefined
-    );
+    dispatch(onConversationClosed(conversationId, 'archive'));
 
     dispatch({
       type: SHOW_TOAST,
@@ -1365,7 +1383,7 @@ function onUndoArchive(
   unknown,
   TargetedConversationChangedActionType
 > {
-  return (dispatch, getState) => {
+  return dispatch => {
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
       throw new Error('onUndoArchive: Conversation not found!');
@@ -1375,9 +1393,11 @@ function onUndoArchive(
     if (options.wasPinned) {
       conversation.pin();
     }
-    showConversation({
-      conversationId,
-    })(dispatch, getState, null);
+    dispatch(
+      showConversation({
+        conversationId,
+      })
+    );
   };
 }
 
@@ -1915,7 +1935,7 @@ function deleteMessages({
   messageIds: ReadonlyArray<string>;
   lastSelectedMessage?: MessageTimestamps;
 }): ThunkAction<void, RootStateType, unknown, NoopActionType> {
-  return async (dispatch, getState) => {
+  return async dispatch => {
     if (!messageIds || messageIds.length === 0) {
       log.warn('deleteMessages: No message ids provided');
       return;
@@ -1968,7 +1988,7 @@ function deleteMessages({
       cleanupMessages,
     });
 
-    popPanelForConversation()(dispatch, getState, undefined);
+    dispatch(popPanelForConversation());
 
     if (nearbyMessageId != null) {
       dispatch(scrollToMessage(conversationId, nearbyMessageId));
@@ -2019,11 +2039,7 @@ function destroyMessages(
       name: 'destroymessages',
       idForLogging: conversation.idForLogging(),
       task: async () => {
-        onConversationClosed(conversationId, 'delete messages')(
-          dispatch,
-          getState,
-          undefined
-        );
+        dispatch(onConversationClosed(conversationId, 'delete messages'));
 
         await conversation.destroyMessages({ source: 'local-delete' });
 
@@ -2110,11 +2126,7 @@ function setMessageToEdit(
       dispatch(scrollToMessage(conversationId, messageId));
     }
 
-    setQuoteByMessageId(conversationId, undefined)(
-      dispatch,
-      getState,
-      undefined
-    );
+    dispatch(setQuoteByMessageId(conversationId, undefined));
 
     let attachmentThumbnail: string | undefined;
     if (message.attachments) {
@@ -3379,21 +3391,14 @@ function reviewConversationNameCollision(): ReviewConversationNameCollisionActio
   };
 }
 
-export type MessageResetOptionsType = ReadonlyDeep<{
-  conversationId: string;
-  messages: ReadonlyArray<ReadonlyMessageAttributesType>;
-  metrics: MessageMetricsType;
-  scrollToMessageId?: string;
-  unboundedFetch?: boolean;
-}>;
-
 function messagesReset({
   conversationId,
   messages,
   metrics,
+  pinnedMessages,
   scrollToMessageId,
   unboundedFetch,
-}: MessageResetOptionsType): MessagesResetActionType {
+}: MessagesResetOptionsType): MessagesResetActionType {
   for (const message of messages) {
     strictAssert(
       message.conversationId === conversationId,
@@ -3405,10 +3410,11 @@ function messagesReset({
   return {
     type: 'MESSAGES_RESET',
     payload: {
-      unboundedFetch: Boolean(unboundedFetch),
+      unboundedFetch: unboundedFetch ?? false,
       conversationId,
       messages,
       metrics,
+      pinnedMessages,
       scrollToMessageId,
     },
   };
@@ -4336,7 +4342,7 @@ export function saveAttachmentFromMessage(
   messageId: string,
   providedAttachment?: AttachmentType
 ): ThunkAction<void, RootStateType, unknown, ShowToastActionType> {
-  return async (dispatch, getState) => {
+  return async dispatch => {
     const message = await getMessageById(messageId);
     if (!message) {
       throw new Error(
@@ -4354,7 +4360,7 @@ export function saveAttachmentFromMessage(
         ? providedAttachment
         : attachments[0];
 
-    saveAttachment(attachment, timestamp)(dispatch, getState, null);
+    dispatch(saveAttachment(attachment, timestamp));
   };
 }
 
@@ -4840,7 +4846,7 @@ function showConversation({
 
     // notify composer in case we need to stop recording a voice note
     if (conversations.selectedConversationId) {
-      saveDraftRecordingIfNeeded()(dispatch, getState, undefined);
+      dispatch(saveDraftRecordingIfNeeded());
       dispatch(
         onConversationClosed(
           conversations.selectedConversationId,
@@ -4874,7 +4880,7 @@ function onConversationOpened(
   | SetFocusActionType
   | SetQuotedMessageActionType
 > {
-  return async (dispatch, getState) => {
+  return async dispatch => {
     const promises: Array<Promise<void>> = [];
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
@@ -4926,11 +4932,7 @@ function onConversationOpened(
 
     const quotedMessageId = conversation.get('quotedMessageId');
     if (quotedMessageId) {
-      setQuoteByMessageId(conversation.id, quotedMessageId)(
-        dispatch,
-        getState,
-        undefined
-      );
+      dispatch(setQuoteByMessageId(conversation.id, quotedMessageId));
     }
 
     promises.push(conversation.fetchLatestGroupV2Data());
@@ -4961,10 +4963,12 @@ function onConversationOpened(
 
     promises.push(conversation.updateVerified());
 
-    replaceAttachments(
-      conversation.get('id'),
-      conversation.get('draftAttachments') || []
-    )(dispatch, getState, undefined);
+    dispatch(
+      replaceAttachments(
+        conversation.get('id'),
+        conversation.get('draftAttachments') || []
+      )
+    );
     dispatch(resetComposer(conversationId));
 
     await Promise.all(promises);
@@ -5113,6 +5117,107 @@ function startAvatarDownload(
   };
 }
 
+function getMessageAuthorAci(
+  message: ReadonlyMessageAttributesType
+): AciString {
+  if (isIncoming(message)) {
+    strictAssert(
+      isAciString(message.sourceServiceId),
+      'Message sourceServiceId must be an ACI'
+    );
+    return message.sourceServiceId;
+  }
+  return itemStorage.user.getCheckedAci();
+}
+
+type PinnedMessageTarget = ReadonlyDeep<{
+  conversationId: string;
+  targetMessageId: string;
+  targetAuthorAci: AciString;
+  targetSentTimestamp: number;
+}>;
+
+async function getPinnedMessageTarget(
+  targetMessageId: string
+): Promise<PinnedMessageTarget> {
+  const message = await DataReader.getMessageById(targetMessageId);
+  if (message == null) {
+    throw new Error('getPinnedMessageTarget: Target message not found');
+  }
+  return {
+    conversationId: message.conversationId,
+    targetMessageId: message.id,
+    targetAuthorAci: getMessageAuthorAci(message),
+    targetSentTimestamp: message.sent_at,
+  };
+}
+
+function onPinnedMessagesChanged(
+  conversationId: string
+): StateThunk<ReplacePinnedMessagesActionType> {
+  return async (dispatch, getState) => {
+    const selectedConversationId = getSelectedConversationId(getState());
+    if (
+      selectedConversationId == null ||
+      selectedConversationId !== conversationId
+    ) {
+      return;
+    }
+
+    const pinnedMessages =
+      await DataReader.getPinnedMessagesForConversation(conversationId);
+
+    dispatch({
+      type: REPLACE_PINNED_MESSAGES,
+      payload: {
+        conversationId,
+        pinnedMessages,
+      },
+    });
+  };
+}
+
+function onPinnedMessageAdd(
+  targetMessageId: string,
+  pinDurationSeconds: DurationInSeconds | null
+): StateThunk {
+  return async dispatch => {
+    const target = await getPinnedMessageTarget(targetMessageId);
+    await conversationJobQueue.add({
+      type: conversationQueueJobEnum.enum.PinMessage,
+      ...target,
+      pinDurationSeconds,
+    });
+
+    const pinnedMessagesLimit = getPinnedMessagesLimit();
+
+    const pinnedAt = Date.now();
+    const expiresAt = getPinnedMessageExpiresAt(pinnedAt, pinDurationSeconds);
+
+    await DataWriter.appendPinnedMessage(pinnedMessagesLimit, {
+      conversationId: target.conversationId,
+      messageId: target.targetMessageId,
+      expiresAt,
+      pinnedAt,
+    });
+
+    dispatch(onPinnedMessagesChanged(target.conversationId));
+  };
+}
+
+function onPinnedMessageRemove(targetMessageId: string): StateThunk {
+  return async dispatch => {
+    const target = await getPinnedMessageTarget(targetMessageId);
+    await conversationJobQueue.add({
+      type: conversationQueueJobEnum.enum.UnpinMessage,
+      ...target,
+    });
+    await DataWriter.deletePinnedMessageByMessageId(targetMessageId);
+
+    dispatch(onPinnedMessagesChanged(target.conversationId));
+  };
+}
+
 // Reducer
 
 export function getEmptyState(): ConversationsStateType {
@@ -5126,6 +5231,7 @@ export function getEmptyState(): ConversationsStateType {
     lastCenterMessageByConversation: {},
     messagesByConversation: {},
     messagesLookup: {},
+    pinnedMessages: [],
     targetedMessage: undefined,
     targetedMessageCounter: 0,
     targetedMessageSource: undefined,
@@ -5532,15 +5638,10 @@ function updateMessageLookup(
     conversationId,
     messages,
     metrics,
+    pinnedMessages,
     scrollToMessageId,
     unboundedFetch,
-  }: {
-    conversationId: string;
-    messages: ReadonlyArray<ReadonlyMessageAttributesType>;
-    metrics: MessageMetricsType;
-    scrollToMessageId?: string | undefined;
-    unboundedFetch: boolean;
-  }
+  }: MessagesResetDataType
 ): ConversationsStateType {
   const { messagesByConversation, messagesLookup } = state;
   const existingConversation = messagesByConversation[conversationId];
@@ -5580,6 +5681,7 @@ function updateMessageLookup(
           targetedMessage: scrollToMessageId,
           targetedMessageCounter: state.targetedMessageCounter + 1,
           targetedMessageSource: TargetedMessageSource.Reset,
+          pinnedMessages,
         }
       : {}),
     messagesLookup: {
@@ -5897,6 +5999,7 @@ export function reducer(
       messagesByConversation: omit(state.messagesByConversation, [
         conversationId,
       ]),
+      pinnedMessages: [],
     };
   }
   if (action.type === 'CONVERSATIONS_REMOVE_ALL') {
@@ -7487,6 +7590,21 @@ export function reducer(
         [conversationId]: changed,
       },
       ...updateConversationLookups([changed], [conversation], state),
+    };
+  }
+
+  if (action.type === REPLACE_PINNED_MESSAGES) {
+    // Discard new pinned messages if the `selectedConversationId` has changed.
+    if (
+      state.selectedConversationId == null ||
+      action.payload.conversationId !== state.selectedConversationId
+    ) {
+      return state;
+    }
+
+    return {
+      ...state,
+      pinnedMessages: action.payload.pinnedMessages,
     };
   }
 

@@ -2985,6 +2985,11 @@ export async function startApp(): Promise<void> {
     }
 
     if (data.message.pinMessage != null) {
+      if (!isPinnedMessagesReceiveEnabled()) {
+        log.warn('Dropping PinMessage because the flag is disabled');
+        confirm();
+        return;
+      }
       strictAssert(data.timestamp != null, 'Missing sent timestamp');
       await PinnedMessages.onPinnedMessageAdd({
         targetSentTimestamp: data.message.pinMessage.targetSentTimestamp,
@@ -3129,6 +3134,11 @@ export async function startApp(): Promise<void> {
     }
 
     if (data.message.unpinMessage != null) {
+      if (!isPinnedMessagesReceiveEnabled()) {
+        log.warn('Dropping UnpinMessage because the flag is disabled');
+        confirm();
+        return;
+      }
       await PinnedMessages.onPinnedMessageRemove({
         targetSentTimestamp: data.message.unpinMessage.targetSentTimestamp,
         targetAuthorAci: data.message.unpinMessage.targetAuthorAci,

@@ -7,10 +7,13 @@ import { VoiceNotesPlaybackContext } from '../../components/VoiceNotesPlaybackCo
 import type { Props as MessageAudioProps } from './MessageAudio.preload.js';
 import { SmartMessageAudio } from './MessageAudio.preload.js';
 
-type AudioAttachmentProps = Omit<MessageAudioProps, 'computePeaks'>;
+export type RenderAudioAttachmentProps = Omit<
+  MessageAudioProps,
+  'computePeaks'
+>;
 
 export function renderAudioAttachment(
-  props: AudioAttachmentProps
+  props: RenderAudioAttachmentProps
 ): ReactElement {
   return (
     <VoiceNotesPlaybackContext.Consumer>

@@ -49,6 +49,7 @@ export type OwnProps = Readonly<{
   expirationLength?: number;
   expirationTimestamp?: number;
   id: string;
+  isPinned: boolean;
   played: boolean;
   status?: MessageStatusType;
   textPending?: boolean;
@@ -156,6 +157,7 @@ export function MessageAudio(props: Props): JSX.Element {
     expirationLength,
     expirationTimestamp,
     id,
+    isPinned,
     played,
     status,
     textPending,
@@ -381,6 +383,7 @@ export function MessageAudio(props: Props): JSX.Element {
           hasText={withContentBelow}
           i18n={i18n}
           id={id}
+          isPinned={isPinned}
           isShowingImage={false}
           isSticker={false}
           pushPanelForConversation={pushPanelForConversation}

@@ -1193,12 +1193,34 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__metadata {
+  @include mixins.font-caption;
+
   align-items: center;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   margin-top: 3px;
   font-style: normal;
+  user-select: none;
+  white-space: nowrap;
+
+  color: light-dark(variables.$color-gray-60, variables.$color-gray-25);
+
+  &--outgoing {
+    color: variables.$color-white-alpha-80;
+  }
+
+  &--with-image-no-caption {
+    color: light-dark(variables.$color-white, variables.$color-white-alpha-80);
+  }
+
+  &--outline-only-bubble {
+    color: light-dark(variables.$color-gray-60, variables.$color-gray-25);
+  }
+
+  &--sticker {
+    color: variables.$color-gray-60;
+  }
 
   &--inline {
     float: inline-end;
@@ -1211,43 +1233,14 @@ $message-padding-horizontal: 12px;
 .module-message__metadata__edited {
   @include mixins.button-reset;
   & {
-    @include mixins.font-caption;
-    color: variables.$color-gray-60;
     cursor: pointer;
     margin-inline-end: 6px;
     z-index: variables.$z-index-base;
   }
-
-  @include mixins.dark-theme {
-    color: variables.$color-gray-25;
-  }
 }
 
 .module-message__metadata__sms {
-  width: 12px;
-  height: 12px;
-  display: inline-block;
   margin-inline-start: 6px;
-  // High margin to leave space for the increase when we go to two checks
-  margin-bottom: 2px;
-
-  @include mixins.color-svg(
-    '../images/icons/v2/lock-unlock-outline-12.svg',
-    variables.$color-white
-  );
-}
-
-.module-message__metadata__sms--incoming {
-  @include mixins.light-theme {
-    background-color: variables.$color-gray-60;
-  }
-  @include mixins.dark-theme {
-    background-color: variables.$color-gray-25;
-  }
-}
-
-.module-message__container--outgoing .module-message__metadata__edited {
-  color: variables.$color-white-alpha-80;
 }
 
 // With an image and no caption, this section needs to be on top of the image overlay
@@ -1265,61 +1258,8 @@ $message-padding-horizontal: 12px;
   pointer-events: none;
 }
 
-.module-message__metadata--outline-only-bubble {
-  @include mixins.light-theme {
-    color: variables.$color-gray-60;
-  }
-  @include mixins.dark-theme {
-    color: variables.$color-gray-25;
-  }
-}
-
-.module-message__metadata__date {
-  @include mixins.font-caption;
-  user-select: none;
-  white-space: nowrap;
-
-  @include mixins.light-theme {
-    color: variables.$color-white-alpha-80;
-  }
-  @include mixins.dark-theme {
-    color: variables.$color-white-alpha-80;
-  }
-}
 .module-message__metadata__tapable {
   @include mixins.button-reset;
-}
-.module-message__metadata__date--incoming {
-  color: variables.$color-white-alpha-80;
-
-  @include mixins.light-theme {
-    color: variables.$color-gray-60;
-  }
-  @include mixins.dark-theme {
-    color: variables.$color-gray-25;
-  }
-}
-.module-message__metadata__date--with-image-no-caption {
-  @include mixins.light-theme {
-    color: variables.$color-white;
-  }
-  @include mixins.dark-theme {
-    color: variables.$color-white-alpha-80;
-  }
-}
-.module-message__metadata__date--outline-only-bubble {
-  @include mixins.light-theme {
-    color: variables.$color-gray-60;
-  }
-  @include mixins.dark-theme {
-    color: variables.$color-gray-25;
-  }
-}
-
-.module-message__metadata__date--with-sticker {
-  @include mixins.light-theme {
-    color: variables.$color-gray-60;
-  }
 }
 
 .module-message__metadata__status-icon {
@@ -1338,41 +1278,25 @@ $message-padding-horizontal: 12px;
   }
   @include mixins.color-svg(
     '../images/icons/v3/message_status/messagestatus-sending.svg',
-    variables.$color-white
+    currentColor
   );
 }
 
 .module-message__metadata__status-icon--sent {
-  @include mixins.light-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/message_status/messagestatus-sent.svg',
-      variables.$color-white-alpha-80
-    );
-  }
-  @include mixins.dark-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/message_status/messagestatus-sent.svg',
-      variables.$color-white-alpha-80
-    );
-  }
+  @include mixins.color-svg(
+    '../images/icons/v3/message_status/messagestatus-sent.svg',
+    currentColor
+  );
 }
 .module-message__metadata__status-icon--delivered {
   // We reduce the margin size to keep the overall width the same
   margin-inline-end: 0px;
   width: 18px;
 
-  @include mixins.light-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/message_status/messagestatus-delivered.svg',
-      variables.$color-white-alpha-80
-    );
-  }
-  @include mixins.dark-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/message_status/messagestatus-delivered.svg',
-      variables.$color-white-alpha-80
-    );
-  }
+  @include mixins.color-svg(
+    '../images/icons/v3/message_status/messagestatus-delivered.svg',
+    currentColor
+  );
 }
 .module-message__metadata__status-icon--read,
 .module-message__metadata__status-icon--viewed {
@@ -1380,42 +1304,15 @@ $message-padding-horizontal: 12px;
   margin-inline-end: 0px;
   width: 18px;
 
-  @include mixins.light-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/message_status/messagestatus-read.svg',
-      variables.$color-white-alpha-80
-    );
-  }
-  @include mixins.dark-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/message_status/messagestatus-read.svg',
-      variables.$color-white-alpha-80
-    );
-  }
+  @include mixins.color-svg(
+    '../images/icons/v3/message_status/messagestatus-read.svg',
+    currentColor
+  );
 }
 
 // When status indicators are overlaid on top of an image, they use different colors
 .module-message__metadata__status-icon--with-image-no-caption {
-  @include mixins.dark-theme {
-    background-color: variables.$color-gray-02;
-  }
-  @include mixins.light-theme {
-    background-color: variables.$color-white;
-  }
-}
-.module-message__metadata__status-icon--with-sticker {
-  @include mixins.light-theme {
-    background-color: variables.$color-gray-60;
-  }
-}
-
-.module-message__metadata__status-icon--outline-only-bubble {
-  @include mixins.light-theme {
-    background-color: variables.$color-gray-60;
-  }
-  @include mixins.dark-theme {
-    background-color: variables.$color-gray-25;
-  }
+  color: light-dark(variables.$color-white, variables.$color-gray-02);
 }
 
 .module-message__metadata__spinner-container {

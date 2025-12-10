@@ -73,12 +73,24 @@ export namespace AxoDialog {
   export type ContentProps = Readonly<{
     size: ContentSize;
     escape: ContentEscape;
+    disableMissingAriaDescriptionWarning?: boolean;
     children: ReactNode;
   }>;
 
   export const Content: FC<ContentProps> = memo(props => {
     const sizeConfig = ContentSizes[props.size];
     const handleContentEscapeEvent = useContentEscapeBehavior(props.escape);
+
+    const descriptionProps = useMemo((): Dialog.DialogContentProps => {
+      if (props.disableMissingAriaDescriptionWarning) {
+        // Generally you should just add a description with `AxoDialog.Description`
+        // and use `sr-only` to hide it if you don't want it to be visible
+        // https://www.radix-ui.com/primitives/docs/components/dialog#description
+        return { 'aria-describedby': undefined };
+      }
+      return {};
+    }, [props.disableMissingAriaDescriptionWarning]);
+
     return (
       <Dialog.Portal>
         <Dialog.Overlay className={AxoBaseDialog.overlayStyles}>
@@ -90,6 +102,7 @@ export namespace AxoDialog {
               width: sizeConfig.width,
               minWidth: 320,
             }}
+            {...descriptionProps}
           >
             {props.children}
           </Dialog.Content>

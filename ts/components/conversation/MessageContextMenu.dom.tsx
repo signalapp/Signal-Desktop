@@ -23,6 +23,7 @@ type MessageContextMenuProps = Readonly<{
   onForward: (() => void) | null;
   onDeleteMessage: (() => void) | null;
   onPinMessage: (() => void) | null;
+  onUnpinMessage: (() => void) | null;
   onMoreInfo: (() => void) | null;
   onSelect: (() => void) | null;
   children: ReactNode;
@@ -47,6 +48,7 @@ export function MessageContextMenu({
   onForward,
   onDeleteMessage,
   onPinMessage,
+  onUnpinMessage,
   children,
 }: MessageContextMenuProps): JSX.Element {
   return (
@@ -102,6 +104,11 @@ export function MessageContextMenu({
         {isPinnedMessagesReceiveEnabled() && onPinMessage && (
           <AxoMenuBuilder.Item symbol="pin" onSelect={onPinMessage}>
             {i18n('icu:MessageContextMenu__PinMessage')}
+          </AxoMenuBuilder.Item>
+        )}
+        {isPinnedMessagesReceiveEnabled() && onUnpinMessage && (
+          <AxoMenuBuilder.Item symbol="pin-slash" onSelect={onUnpinMessage}>
+            {i18n('icu:MessageContextMenu__UnpinMessage')}
           </AxoMenuBuilder.Item>
         )}
         {onMoreInfo && (

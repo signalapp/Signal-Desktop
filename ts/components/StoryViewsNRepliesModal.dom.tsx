@@ -59,6 +59,7 @@ const MESSAGE_DEFAULT_PROPS = {
   doubleCheckMissingQuoteReference: shouldNeverBeCalled,
   isBlocked: false,
   isMessageRequestAccepted: true,
+  isPinned: false,
   isSelected: false,
   isSelectMode: false,
   isSMS: false,

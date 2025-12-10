@@ -37,6 +37,7 @@ import { isNotNil } from '../../util/isNotNil.std.js';
 import type { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.js';
 import { AxoContextMenu } from '../../axo/AxoContextMenu.dom.js';
 import { PinMessageDialog } from './pinned-messages/PinMessageDialog.dom.js';
+import type { DurationInSeconds } from '../../util/durations/duration-in-seconds.std.js';
 import { useDocumentKeyDown } from '../../hooks/useDocumentKeyDown.dom.js';
 
 const { useAxoContextMenuOutsideKeyboardTrigger } = AxoContextMenu;
@@ -53,11 +54,17 @@ export type PropsData = {
   canRetryDeleteForEveryone: boolean;
   canReact: boolean;
   canReply: boolean;
+  canPinMessages: boolean;
   selectedReaction?: string;
   isTargeted?: boolean;
 } & Omit<MessagePropsData, 'renderingContext' | 'menu'>;
 
 export type PropsActions = {
+  onPinnedMessageAdd: (
+    messageId: string,
+    duration: DurationInSeconds | null
+  ) => void;
+  onPinnedMessageRemove: (messageId: string) => void;
   pushPanelForConversation: PushPanelForConversationActionType;
   toggleDeleteMessagesModal: (props: DeleteMessagesPropsType) => void;
   toggleForwardMessagesModal: (payload: ForwardMessagesPayload) => void;
@@ -106,6 +113,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     canReply,
     canRetry,
     canRetryDeleteForEveryone,
+    canPinMessages,
     containerElementRef,
     containerWidthBreakpoint,
     conversationId,
@@ -113,10 +121,13 @@ export function TimelineMessage(props: Props): JSX.Element {
     i18n,
     id,
     interactivity,
+    isPinned,
     isTargeted,
     kickOffAttachmentDownload,
     copyMessageText,
     endPoll,
+    onPinnedMessageAdd,
+    onPinnedMessageRemove,
     pushPanelForConversation,
     reactToMessage,
     renderReactionPicker,
@@ -277,6 +288,18 @@ export function TimelineMessage(props: Props): JSX.Element {
     setPinMessageDialogOpen(true);
   }, []);
 
+  const handlePinnedMessageAdd = useCallback(
+    (messageId: string, duration: DurationInSeconds | null) => {
+      onPinnedMessageAdd(messageId, duration);
+      setPinMessageDialogOpen(false);
+    },
+    [onPinnedMessageAdd]
+  );
+
+  const handleUnpinMessage = useCallback(() => {
+    onPinnedMessageRemove(id);
+  }, [onPinnedMessageRemove, id]);
+
   const toggleReactionPickerKeyboard = useToggleReactionPicker(
     handleReact || noop
   );
@@ -339,7 +362,12 @@ export function TimelineMessage(props: Props): JSX.Element {
               messageIds: [id],
             });
           }}
-          onPinMessage={handleOpenPinMessageDialog}
+          onPinMessage={
+            canPinMessages && !isPinned ? handleOpenPinMessageDialog : null
+          }
+          onUnpinMessage={
+            canPinMessages && isPinned ? handleUnpinMessage : null
+          }
           onMoreInfo={() =>
             pushPanelForConversation({
               type: PanelType.MessageDetails,
@@ -355,6 +383,7 @@ export function TimelineMessage(props: Props): JSX.Element {
       canCopy,
       canEditMessage,
       canForward,
+      canPinMessages,
       canRetry,
       canSelect,
       canEndPoll,
@@ -364,10 +393,12 @@ export function TimelineMessage(props: Props): JSX.Element {
       handleDownload,
       handleReact,
       handleOpenPinMessageDialog,
+      handleUnpinMessage,
       endPoll,
       handleReplyToMessage,
       i18n,
       id,
+      isPinned,
       pushPanelForConversation,
       retryDeleteForEveryone,
       retryMessageSend,
@@ -461,10 +492,7 @@ export function TimelineMessage(props: Props): JSX.Element {
         messageId={id}
         open={pinMessageDialogOpen}
         onOpenChange={setPinMessageDialogOpen}
-        onPinMessage={() => {
-          // TODO
-          setPinMessageDialogOpen(false);
-        }}
+        onPinnedMessageAdd={handlePinnedMessageAdd}
       />
     </>
   );

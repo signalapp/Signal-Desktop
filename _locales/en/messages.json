@@ -1470,6 +1470,10 @@
     "messageformat": "Pin message",
     "description": "Shown on the drop-down menu for an individual message, pins the current message"
   },
+  "icu:MessageContextMenu__UnpinMessage": {
+    "messageformat": "Unpin message",
+    "description": "Shown on the drop-down menu for an individual message, unpins the current message"
+  },
   "icu:Poll__end-poll": {
     "messageformat": "End poll",
     "description": "Label for button/menu item to end a poll. Shown in the poll votes modal and in the message context menu"
@@ -9265,6 +9269,10 @@
   "icu:MessageMetadata__edited": {
     "messageformat": "Edited",
     "description": "label for an edited message"
+  },
+  "icu:MessageMetadata__pinned": {
+    "messageformat": "Pinned",
+    "description": "label for an pinned message"
   },
   "icu:DraftGifMessageSendModal__Title": {
     "messageformat": "Add a message",

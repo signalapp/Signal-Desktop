@@ -41,6 +41,7 @@ const getDefaultProps = () => ({
   getPreferredBadge: () => undefined,
   id: 'asdf',
   isNextItemCallingNotification: false,
+  isPinned: false,
   isTargeted: false,
   isBlocked: false,
   isGroup: false,
@@ -69,6 +70,8 @@ const getDefaultProps = () => ({
   openGiftBadge: action('openGiftBadge'),
   saveAttachment: action('saveAttachment'),
   saveAttachments: action('saveAttachments'),
+  onPinnedMessageAdd: action('onPinnedMessageAdd'),
+  onPinnedMessageRemove: action('onPinnedMessageRemove'),
   onOpenEditNicknameAndNoteModal: action('onOpenEditNicknameAndNoteModal'),
   onOutgoingAudioCallInConversation: action(
     'onOutgoingAudioCallInConversation'
