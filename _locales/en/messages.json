@@ -735,6 +735,10 @@
     "messageformat": "When you click Submit, your log will be posted online for 30 days at a unique, unpublished URL. You may Save it locally first.",
     "description": "Description of what will happen with your debug log"
   },
+  "icu:debugLogExplanation--close": {
+    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting.",
+    "description": "Explanation text shown in the debug log window when opened in close mode - the user can't submit, just view"
+  },
   "icu:debugLogError": {
     "messageformat": "Something went wrong with the upload! Please email support@signal.org and attach your log as a text file.",
     "description": "Error message a recommendations if debug log upload fails"
@@ -10022,9 +10026,17 @@
     "messageformat": "Please include any details relevant to the issue. Anything you share here will be kept private and will only be used to help improve calls in Signal.",
     "description": "Call Quality Survey Dialog > What issues did you have? > Something else > Textarea > Help Text"
   },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
+    "messageformat": "Please describe your issue",
+    "description": "Call Quality Survey Dialog > What issues did you have? > Something else > Textarea > Error text shown when field is empty"
+  },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "Continue",
     "description": "Call Quality Survey Dialog > What issues did you have? > Continue Button"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
+    "messageformat": "Make a selection to continue",
+    "description": "Call Quality Survey Dialog > What issues did you have? > Tooltip shown when Continue button is disabled because no issues are selected"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Help us improve",
@@ -10049,6 +10061,22 @@
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Submit",
     "description": "Call Quality Survey Dialog > Help us improve > Submit Button"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
+    "messageformat": "Submitting survey...",
+    "description": "Call Quality Survey Dialog > Help us improve > Accessibility label for loading spinner while submitting"
+  },
+  "icu:CallQualitySurvey__SubmissionFailed": {
+    "messageformat": "Failed to submit survey",
+    "description": "Toast message shown when call quality survey submission fails"
+  },
+  "icu:CallQualitySurvey__SubmissionFailed__Retry": {
+    "messageformat": "Retry",
+    "description": "Button label in toast to retry submitting the call quality survey after a failure"
+  },
+  "icu:CallQualitySurvey__SubmissionSuccess": {
+    "messageformat": "Thanks for your feedback!",
+    "description": "Toast message shown when call quality survey submission succeeds"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",

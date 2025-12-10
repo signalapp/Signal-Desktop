@@ -32,6 +32,7 @@ export type PropsType = {
   i18n: LocalizerType;
   fetchLogs: () => Promise<string>;
   uploadLogs: (logs: string) => Promise<string>;
+  mode?: 'submit' | 'close';
 };
 
 export function DebugLogWindow({
@@ -40,6 +41,7 @@ export function DebugLogWindow({
   i18n,
   fetchLogs,
   uploadLogs,
+  mode = 'submit',
 }: PropsType): JSX.Element {
   const [loadState, setLoadState] = useState<LoadState>(LoadState.NotStarted);
   const [logText, setLogText] = useState<string | undefined>();
@@ -157,6 +159,7 @@ export function DebugLogWindow({
           i18n={i18n}
           onShowDebugLog={shouldNeverBeCalled}
           onUndoArchive={shouldNeverBeCalled}
+          retryCallQualitySurvey={shouldNeverBeCalled}
           openFileInFolder={shouldNeverBeCalled}
           setDidResumeDonation={shouldNeverBeCalled}
           toast={toast}
@@ -179,7 +182,9 @@ export function DebugLogWindow({
           {i18n('icu:submitDebugLog')}
         </div>
         <p className="DebugLogWindow__subtitle">
-          {i18n('icu:debugLogExplanation')}
+          {mode === 'close'
+            ? i18n('icu:debugLogExplanation--close')
+            : i18n('icu:debugLogExplanation')}
         </p>
       </div>
       {isLoading ? (
@@ -205,9 +210,13 @@ export function DebugLogWindow({
         >
           {i18n('icu:debugLogSave')}
         </Button>
-        <Button disabled={!canSubmit} onClick={handleSubmit}>
-          {i18n('icu:submit')}
-        </Button>
+        {mode === 'close' ? (
+          <Button onClick={closeWindow}>{i18n('icu:close')}</Button>
+        ) : (
+          <Button disabled={!canSubmit} onClick={handleSubmit}>
+            {i18n('icu:submit')}
+          </Button>
+        )}
       </div>
       <ToastManager
         changeLocation={shouldNeverBeCalled}
@@ -216,6 +225,7 @@ export function DebugLogWindow({
         i18n={i18n}
         onShowDebugLog={shouldNeverBeCalled}
         onUndoArchive={shouldNeverBeCalled}
+        retryCallQualitySurvey={shouldNeverBeCalled}
         openFileInFolder={shouldNeverBeCalled}
         setDidResumeDonation={shouldNeverBeCalled}
         toast={toast}

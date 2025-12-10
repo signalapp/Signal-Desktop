@@ -54,7 +54,7 @@ export type IPCType = {
   setMediaPermissions: (value: boolean) => Promise<void>;
   setMediaCameraPermissions: (value: boolean) => Promise<void>;
   setMenuBarVisibility: (value: boolean) => void;
-  showDebugLog: () => void;
+  showDebugLog: (options?: { mode?: 'submit' | 'close' }) => void;
   showPermissionsPopup: (
     forCalling: boolean,
     forCamera: boolean
@@ -88,6 +88,7 @@ type DebugLogWindowPropsType = {
   downloadLog: (text: string) => unknown;
   fetchLogs: () => Promise<string>;
   uploadLogs: (text: string) => Promise<string>;
+  mode: 'submit' | 'close';
 };
 
 type PermissionsWindowPropsType = {

@@ -1462,7 +1462,11 @@ async function openArtCreator() {
 }
 
 let debugLogWindow: BrowserWindow | undefined;
-async function showDebugLogWindow() {
+type DebugLogWindowOptions = {
+  mode?: 'submit' | 'close';
+};
+
+async function showDebugLogWindow(options: DebugLogWindowOptions = {}) {
   if (debugLogWindow) {
     doShowDebugLogWindow();
     return;
@@ -1483,7 +1487,7 @@ async function showDebugLogWindow() {
     }
   }
 
-  const options: Electron.BrowserWindowConstructorOptions = {
+  const windowOptions: Electron.BrowserWindowConstructorOptions = {
     width: 700,
     height: 500,
     resizable: false,
@@ -1503,7 +1507,7 @@ async function showDebugLogWindow() {
     parent: mainWindow,
   };
 
-  debugLogWindow = new BrowserWindow(options);
+  debugLogWindow = new BrowserWindow(windowOptions);
 
   await handleCommonWindowEvents(debugLogWindow);
 
@@ -1520,10 +1524,12 @@ async function showDebugLogWindow() {
     }
   });
 
-  await safeLoadURL(
-    debugLogWindow,
-    await prepareFileUrl([__dirname, '../debug_log.html'])
-  );
+  const url = pathToFileURL(join(__dirname, '../debug_log.html'));
+  if (options.mode) {
+    url.searchParams.set('mode', options.mode);
+  }
+
+  await safeLoadURL(debugLogWindow, url.href);
 }
 
 let permissionsPopupWindow: BrowserWindow | undefined;
@@ -2718,7 +2724,12 @@ ipc.on('update-tray-icon', (_event: Electron.Event, unreadCount: number) => {
 
 // Debug Log-related IPC calls
 
-ipc.on('show-debug-log', showDebugLogWindow);
+ipc.on(
+  'show-debug-log',
+  (_event: Electron.Event, options?: DebugLogWindowOptions) => {
+    void showDebugLogWindow(options);
+  }
+);
 ipc.on(
   'show-debug-log-save-dialog',
   async (_event: Electron.Event, logText: string) => {

@@ -638,6 +638,10 @@ export default {
     __dangerouslyRunAbitraryReadOnlySqlQuery: async () => {
       return Promise.resolve([]);
     },
+    callQualitySurveyCooldownDisabled: false,
+    setCallQualitySurveyCooldownDisabled: action(
+      'setCallQualitySurveyCooldownDisabled'
+    ),
   } satisfies PropsType,
 } satisfies Meta<PropsType>;
 

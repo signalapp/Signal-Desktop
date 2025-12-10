@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { useCallback, useId, useState } from 'react';
+import React, { useCallback, useId, useMemo, useState } from 'react';
 import type { LocalizerType } from '../types/I18N.std.js';
 import { AxoSymbol } from '../axo/AxoSymbol.dom.js';
 import { AxoButton } from '../axo/AxoButton.dom.js';
@@ -10,6 +10,7 @@ import { tw } from '../axo/tw.dom.js';
 import { missingCaseError } from '../util/missingCaseError.std.js';
 import { AxoCheckbox } from '../axo/AxoCheckbox.dom.js';
 import { strictAssert } from '../util/assert.std.js';
+import { Tooltip, TooltipPlacement } from './Tooltip.dom.js';
 
 import Issue = CallQualitySurvey.Issue;
 
@@ -17,7 +18,6 @@ enum Page {
   HOW_WAS_YOUR_CALL,
   WHAT_ISSUES_DID_YOU_HAVE,
   CONFIRM_SUBMISSION,
-  PREVIEW_DEBUGLOGS,
 }
 
 export type CallQualitySurveyDialogProps = Readonly<{
@@ -25,12 +25,14 @@ export type CallQualitySurveyDialogProps = Readonly<{
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSubmit: (form: CallQualitySurvey.Form) => void;
+  onViewDebugLog?: () => void;
+  isSubmitting?: boolean;
 }>;
 
 export function CallQualitySurveyDialog(
   props: CallQualitySurveyDialogProps
 ): JSX.Element {
-  const { i18n, onSubmit } = props;
+  const { i18n, onSubmit, onViewDebugLog, isSubmitting } = props;
 
   const [page, setPage] = useState(Page.HOW_WAS_YOUR_CALL);
   const [userSatisfied, setUserSatisfied] = useState<boolean | null>(null);
@@ -39,8 +41,22 @@ export function CallQualitySurveyDialog(
   >(() => new Set());
   const [additionalIssuesDescription, setAdditionalIssuesDescription] =
     useState('');
+  const [userHasSeenOtherForm, setUserHasSeenOtherForm] = useState(false);
   const debugLogCheckboxId = useId();
+  const otherTextareaErrorId = useId();
   const [shareDebugLog, setShareDebugLog] = useState(false);
+
+  // Validation for the issues page
+  const hasOtherIssue = callQualityIssues.has(Issue.OTHER);
+  const isOtherInputValid = useMemo(() => {
+    if (!hasOtherIssue) {
+      return true;
+    }
+    return additionalIssuesDescription.trim() !== '';
+  }, [hasOtherIssue, additionalIssuesDescription]);
+  const canContinueFromIssuesPage =
+    callQualityIssues.size > 0 && isOtherInputValid;
+  const showOtherInputError = userHasSeenOtherForm && !isOtherInputValid;
 
   const handleSubmit = useCallback(() => {
     strictAssert(userSatisfied != null, 'userSatisfied cannot be null');
@@ -150,27 +166,54 @@ export function CallQualitySurveyDialog(
                 <IssueSelector
                   i18n={i18n}
                   issues={callQualityIssues}
-                  onIssuesChange={setCallQualityIssues}
+                  onIssuesChange={newIssues => {
+                    if (!newIssues.has(Issue.OTHER)) {
+                      setUserHasSeenOtherForm(false);
+                    }
+                    setCallQualityIssues(newIssues);
+                  }}
                 />
               </div>
-              {callQualityIssues.has(Issue.OTHER) && (
+              {hasOtherIssue && (
                 <div className={tw('mb-3')}>
                   <textarea
                     aria-label={i18n(
                       'icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel'
                     )}
+                    aria-describedby={
+                      showOtherInputError ? otherTextareaErrorId : undefined
+                    }
+                    aria-invalid={showOtherInputError}
                     value={additionalIssuesDescription}
                     onChange={event => {
                       setAdditionalIssuesDescription(event.currentTarget.value);
                     }}
+                    onBlur={() => {
+                      setUserHasSeenOtherForm(true);
+                    }}
                     placeholder="Describe your issue"
                     className={tw(
                       'field-sizing-content max-h-50 min-h-20 w-full resize-none',
-                      'rounded-lg border-[0.5px] border-border-primary px-3 py-2 shadow-elevation-1',
+                      'rounded-lg border-[0.5px] px-3 py-2 shadow-elevation-1',
                       'text-label-primary placeholder:text-label-placeholder disabled:text-label-disabled',
-                      'outline-border-focused not-forced-colors:outline-0 not-forced-colors:focused:outline-[2.5px]'
+                      'outline-offset-[-2.5px] not-forced-colors:outline-0 not-forced-colors:focused:outline-[2.5px]',
+                      showOtherInputError
+                        ? 'border-border-error outline-[2.5px] outline-border-error'
+                        : 'border-border-primary outline-border-focused'
                     )}
                   />
+                  {showOtherInputError && (
+                    <p
+                      id={otherTextareaErrorId}
+                      className={tw(
+                        'mt-1 mb-3 type-body-small text-color-label-destructive'
+                      )}
+                    >
+                      {i18n(
+                        'icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText'
+                      )}
+                    </p>
+                  )}
                   <p
                     className={tw('mt-3 type-body-small text-label-secondary')}
                   >
@@ -183,16 +226,40 @@ export function CallQualitySurveyDialog(
             </AxoDialog.Body>
             <AxoDialog.Footer>
               <AxoDialog.Actions>
-                <AxoDialog.Action
-                  variant="primary"
-                  onClick={() => {
-                    setPage(Page.CONFIRM_SUBMISSION);
-                  }}
-                >
-                  {i18n(
-                    'icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton'
-                  )}
-                </AxoDialog.Action>
+                {canContinueFromIssuesPage ? (
+                  <AxoButton.Root
+                    variant="primary"
+                    size="md"
+                    width="grow"
+                    onClick={() => {
+                      setPage(Page.CONFIRM_SUBMISSION);
+                    }}
+                  >
+                    {i18n(
+                      'icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton'
+                    )}
+                  </AxoButton.Root>
+                ) : (
+                  <Tooltip
+                    content={i18n(
+                      !isOtherInputValid
+                        ? 'icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText'
+                        : 'icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip'
+                    )}
+                    direction={TooltipPlacement.Top}
+                  >
+                    <AxoButton.Root
+                      variant="primary"
+                      size="md"
+                      width="grow"
+                      disabled
+                    >
+                      {i18n(
+                        'icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton'
+                      )}
+                    </AxoButton.Root>
+                  </Tooltip>
+                )}
               </AxoDialog.Actions>
             </AxoDialog.Footer>
           </>
@@ -248,7 +315,7 @@ export function CallQualitySurveyDialog(
                   variant="subtle-primary"
                   size="sm"
                   onClick={() => {
-                    setPage(Page.PREVIEW_DEBUGLOGS);
+                    onViewDebugLog?.();
                   }}
                 >
                   {i18n(
@@ -264,7 +331,19 @@ export function CallQualitySurveyDialog(
             </AxoDialog.Body>
             <AxoDialog.Footer>
               <AxoDialog.Actions>
-                <AxoDialog.Action variant="primary" onClick={handleSubmit}>
+                <AxoDialog.Action
+                  variant="primary"
+                  onClick={handleSubmit}
+                  experimentalSpinner={
+                    isSubmitting
+                      ? {
+                          'aria-label': i18n(
+                            'icu:CallQualitySurvey__ConfirmSubmission__Submitting'
+                          ),
+                        }
+                      : null
+                  }
+                >
                   {i18n(
                     'icu:CallQualitySurvey__ConfirmSubmission__SubmitButton'
                   )}
@@ -502,7 +581,7 @@ function IssueToggle(props: {
     <AxoButton.Root
       variant={props.isSelected ? 'primary' : 'secondary'}
       size="md"
-      symbol={ISSUE_ICONS[issue]}
+      symbol={isSelected ? 'check' : ISSUE_ICONS[issue]}
       aria-pressed={props.isSelected}
       onClick={handleClick}
     >

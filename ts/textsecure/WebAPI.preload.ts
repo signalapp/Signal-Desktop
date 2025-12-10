@@ -3390,10 +3390,11 @@ export async function submitCallQualitySurvey(
   const data = Proto.SubmitCallQualitySurveyRequest.encode(survey).finish();
   await _ajax({
     call: 'callQualitySurvey',
-    contentType: 'application/x-protobuf',
+    contentType: 'application/octet-stream',
     data,
     host: 'chatService',
     httpType: 'PUT',
+    unauthenticated: true,
   });
 }
 

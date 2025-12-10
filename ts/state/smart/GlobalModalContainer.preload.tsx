@@ -26,6 +26,7 @@ import { getGlobalModalsState } from '../selectors/globalModals.std.js';
 import { SmartEditNicknameAndNoteModal } from './EditNicknameAndNoteModal.preload.js';
 import { SmartNotePreviewModal } from './NotePreviewModal.preload.js';
 import { SmartCallLinkEditModal } from './CallLinkEditModal.preload.js';
+import { SmartCallQualitySurveyDialog } from './CallQualitySurveyDialog.preload.js';
 import { SmartCallLinkAddNameModal } from './CallLinkAddNameModal.preload.js';
 import { SmartConfirmLeaveCallModal } from './ConfirmLeaveCallModal.preload.js';
 import { SmartCallLinkPendingParticipantModal } from './CallLinkPendingParticipantModal.preload.js';
@@ -41,6 +42,10 @@ function renderCallLinkAddNameModal(): JSX.Element {
 
 function renderCallLinkEditModal(): JSX.Element {
   return <SmartCallLinkEditModal />;
+}
+
+function renderCallQualitySurvey(): JSX.Element {
+  return <SmartCallQualitySurveyDialog />;
 }
 
 function renderCallLinkPendingParticipantModal(): JSX.Element {
@@ -128,6 +133,7 @@ export const SmartGlobalModalContainer = memo(
       backfillFailureModalProps,
       callLinkAddNameModalRoomId,
       callLinkEditModalRoomId,
+      callQualitySurveyProps,
       callLinkPendingParticipantContactId,
       confirmLeaveCallModalState,
       contactModalState,
@@ -236,6 +242,8 @@ export const SmartGlobalModalContainer = memo(
         backfillFailureModalProps={backfillFailureModalProps}
         callLinkAddNameModalRoomId={callLinkAddNameModalRoomId}
         callLinkEditModalRoomId={callLinkEditModalRoomId}
+        callQualitySurveyProps={callQualitySurveyProps}
+        renderCallQualitySurvey={renderCallQualitySurvey}
         callLinkPendingParticipantContactId={
           callLinkPendingParticipantContactId
         }

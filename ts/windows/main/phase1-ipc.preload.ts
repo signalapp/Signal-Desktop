@@ -129,9 +129,9 @@ const IPC: IPCType = {
   setBadge: badge => ipc.send('set-badge', badge),
   setMenuBarVisibility: visibility =>
     ipc.send('set-menu-bar-visibility', visibility),
-  showDebugLog: () => {
-    log.info('showDebugLog');
-    ipc.send('show-debug-log');
+  showDebugLog: (options?: { mode?: 'submit' | 'close' }) => {
+    log.info('showDebugLog', options);
+    ipc.send('show-debug-log', options);
   },
   showPermissionsPopup: (forCalling, forCamera) =>
     ipc.invoke('show-permissions-popup', forCalling, forCamera),

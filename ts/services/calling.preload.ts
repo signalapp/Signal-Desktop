@@ -5,6 +5,7 @@ import { ipcRenderer } from 'electron';
 import type {
   AudioDevice,
   CallId,
+  CallSummary,
   DeviceId,
   GroupCallObserver,
   PeekInfo,
@@ -175,6 +176,11 @@ import OS from '../util/os/osMain.node.js';
 import { sleep } from '../util/sleep.std.js';
 import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
+import { CallQualitySurvey } from '../types/CallQualitySurvey.std.js';
+import {
+  isCallFailure,
+  shouldShowCallQualitySurvey,
+} from '../util/callQualitySurvey.dom.js';
 
 const { i18n } = window.SignalContext;
 
@@ -201,6 +207,7 @@ const RINGRTC_HTTP_METHOD_TO_OUR_HTTP_METHOD: Map<
 
 const CLEAN_EXPIRED_GROUP_CALL_RINGS_INTERVAL = 10 * durations.MINUTE;
 const OUTGOING_SIGNALING_WAIT = 15 * durations.SECOND;
+const CALL_QUALITY_SURVEY_DELAY = 2.5 * durations.SECOND;
 
 const ICE_SERVER_IS_IP_LIKE = /(turn|turns|stun):[.\d]+/;
 
@@ -320,6 +327,40 @@ function cleanForLogging(settings?: MediaDeviceSettings): unknown {
     selectedSpeaker: truncateForLogging(settings.selectedSpeaker?.name),
     selectedCamera: settings.selectedCamera,
   };
+}
+
+function maybeShowCallQualitySurvey(
+  summary: CallSummary,
+  callType: CallQualitySurvey.CallType
+): void {
+  const lastSurveyTime = itemStorage.get('lastCallQualitySurveyTime') ?? null;
+  const lastFailureSurveyTime =
+    itemStorage.get('lastCallQualityFailureSurveyTime') ?? null;
+  const bypassCooldown =
+    itemStorage.get('callQualitySurveyCooldownDisabled') ?? false;
+
+  if (
+    !shouldShowCallQualitySurvey(
+      summary,
+      lastSurveyTime,
+      lastFailureSurveyTime,
+      bypassCooldown
+    )
+  ) {
+    return;
+  }
+
+  drop(itemStorage.put('lastCallQualitySurveyTime', Date.now()));
+  if (isCallFailure(summary.callEndReasonText)) {
+    drop(itemStorage.put('lastCallQualityFailureSurveyTime', Date.now()));
+  }
+
+  setTimeout(() => {
+    window.reduxActions.calling.showCallQualitySurvey({
+      callSummary: summary,
+      callType,
+    });
+  }, CALL_QUALITY_SURVEY_DELAY);
 }
 
 function protoToCallingMessage({
@@ -1715,7 +1756,7 @@ export class CallingClass {
       requestGroupMembers: groupCall => {
         groupCall.setGroupMembers(this.#getGroupCallMembers(conversationId));
       },
-      onEnded: (groupCall, endedReason, _summary) => {
+      onEnded: (groupCall, endedReason, summary) => {
         const localDeviceState = groupCall.getLocalDeviceState();
         const peekInfo = groupCall.getPeekInfo();
 
@@ -1726,7 +1767,13 @@ export class CallingClass {
           peekInfo ? formatPeekInfo(peekInfo) : '(No PeekInfo)'
         );
 
-        // TODO: handle call summary
+        if (summary != null) {
+          const callType =
+            callMode === CallMode.Adhoc
+              ? CallQualitySurvey.CallType.CALL_LINK
+              : CallQualitySurvey.CallType.GROUP;
+          maybeShowCallQualitySurvey(summary, callType);
+        }
 
         this.#reduxInterface?.groupCallEnded({
           conversationId,
@@ -3631,7 +3678,16 @@ export class CallingClass {
         await updateCallHistoryFromLocalEvent(callEvent, null, null);
       }
 
-      // TODO: handle CallSummary here.
+      if (
+        call.state === CallState.Ended &&
+        call.summary != null &&
+        call.endedReason != null
+      ) {
+        const callType = call.isVideoCall
+          ? CallQualitySurvey.CallType.DIRECT_VIDEO
+          : CallQualitySurvey.CallType.DIRECT_VOICE;
+        maybeShowCallQualitySurvey(call.summary, callType);
+      }
 
       reduxInterface.callStateChange({
         conversationId,

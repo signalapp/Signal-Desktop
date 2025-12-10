@@ -312,6 +312,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
         i18n={i18n}
         onShowDebugLog={action('onShowDebugLog')}
         onUndoArchive={action('onUndoArchive')}
+        retryCallQualitySurvey={action('retryCallQualitySurvey')}
         openFileInFolder={action('openFileInFolder')}
         setDidResumeDonation={action('setDidResumeDonation')}
         toast={undefined}

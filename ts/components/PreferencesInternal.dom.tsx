@@ -20,6 +20,7 @@ import { isStagingServer } from '../util/isStagingServer.dom.js';
 import { getHumanDonationAmount } from '../util/currency.dom.js';
 import { AutoSizeTextArea } from './AutoSizeTextArea.dom.js';
 import { AxoButton } from '../axo/AxoButton.dom.js';
+import { AxoSwitch } from '../axo/AxoSwitch.dom.js';
 
 const log = createLogger('PreferencesInternal');
 
@@ -35,6 +36,8 @@ export function PreferencesInternal({
   generateDonationReceiptBlob,
   internalDeleteAllMegaphones,
   __dangerouslyRunAbitraryReadOnlySqlQuery,
+  callQualitySurveyCooldownDisabled,
+  setCallQualitySurveyCooldownDisabled,
 }: {
   i18n: LocalizerType;
   exportLocalBackup: () => Promise<BackupValidationResultType>;
@@ -58,6 +61,8 @@ export function PreferencesInternal({
   __dangerouslyRunAbitraryReadOnlySqlQuery: (
     readonlySqlQuery: string
   ) => Promise<ReadonlyArray<RowType<object>>>;
+  callQualitySurveyCooldownDisabled: boolean;
+  setCallQualitySurveyCooldownDisabled: (value: boolean) => void;
 }): JSX.Element {
   const [isExportPending, setIsExportPending] = useState(false);
   const [exportResult, setExportResult] = useState<
@@ -487,6 +492,20 @@ export function PreferencesInternal({
           )}
         </SettingsRow>
       )}
+
+      <SettingsRow title="Call Quality Survey Testing">
+        <FlowingSettingsControl>
+          <div className="Preferences__two-thirds-flow">
+            Disable 24h cooldown (show survey after every call)
+          </div>
+          <div className="Preferences__one-third-flow Preferences__one-third-flow--align-right">
+            <AxoSwitch.Root
+              checked={callQualitySurveyCooldownDisabled}
+              onCheckedChange={setCallQualitySurveyCooldownDisabled}
+            />
+          </div>
+        </FlowingSettingsControl>
+      </SettingsRow>
 
       <SettingsRow title="Readonly SQL Playground">
         <FlowingSettingsControl>

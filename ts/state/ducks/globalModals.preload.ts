@@ -1,6 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { CallSummary } from '@signalapp/ringrtc';
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
 import OS from '../../util/os/osMain.node.js';
@@ -55,6 +56,7 @@ import type { CallLinkType } from '../../types/CallLink.std.js';
 import type { LocalizerType } from '../../types/I18N.std.js';
 import { linkCallRoute } from '../../util/signalRoutes.std.js';
 import type { StartCallData } from '../../components/ConfirmLeaveCallModal.dom.js';
+import type { CallQualitySurvey } from '../../types/CallQualitySurvey.std.js';
 import { getMessageById } from '../../messages/getMessageById.preload.js';
 import type { DataPropsType as TapToViewNotAvailablePropsType } from '../../components/TapToViewNotAvailableModal.dom.js';
 import type { DataPropsType as BackfillFailureModalPropsType } from '../../components/BackfillFailureModal.dom.js';
@@ -102,6 +104,11 @@ type MigrateToGV2PropsType = ReadonlyDeep<{
   invitedMemberIds: Array<string>;
 }>;
 
+export type CallQualitySurveyPropsType = ReadonlyDeep<{
+  callSummary: CallSummary;
+  callType: CallQualitySurvey.CallType;
+}>;
+
 export type GlobalModalsStateType = ReadonlyDeep<{
   addUserToAnotherGroupModalContactId?: string;
   aboutContactModalContactId?: string;
@@ -109,6 +116,7 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   callLinkAddNameModalRoomId: string | null;
   callLinkEditModalRoomId: string | null;
   callLinkPendingParticipantContactId: string | undefined;
+  callQualitySurveyProps: CallQualitySurveyPropsType | null;
   confirmLeaveCallModalState: StartCallData | null;
   contactModalState?: ContactModalStateType;
   criticalIdlePrimaryDeviceModal: boolean;
@@ -186,6 +194,8 @@ const TOGGLE_CALL_LINK_ADD_NAME_MODAL =
 const TOGGLE_CALL_LINK_EDIT_MODAL = 'globalModals/TOGGLE_CALL_LINK_EDIT_MODAL';
 const TOGGLE_CALL_LINK_PENDING_PARTICIPANT_MODAL =
   'globalModals/TOGGLE_CALL_LINK_PENDING_PARTICIPANT_MODAL';
+export const SHOW_CALL_QUALITY_SURVEY = 'globalModals/SHOW_CALL_QUALITY_SURVEY';
+export const HIDE_CALL_QUALITY_SURVEY = 'globalModals/HIDE_CALL_QUALITY_SURVEY';
 const TOGGLE_ABOUT_MODAL = 'globalModals/TOGGLE_ABOUT_MODAL';
 const TOGGLE_SIGNAL_CONNECTIONS_MODAL =
   'globalModals/TOGGLE_SIGNAL_CONNECTIONS_MODAL';
@@ -341,6 +351,15 @@ type ToggleCallLinkPendingParticipantModalActionType = ReadonlyDeep<{
   payload: string | undefined;
 }>;
 
+export type ShowCallQualitySurveyActionType = ReadonlyDeep<{
+  type: typeof SHOW_CALL_QUALITY_SURVEY;
+  payload: CallQualitySurveyPropsType;
+}>;
+
+export type HideCallQualitySurveyActionType = ReadonlyDeep<{
+  type: typeof HIDE_CALL_QUALITY_SURVEY;
+}>;
+
 type ToggleAboutContactModalActionType = ReadonlyDeep<{
   type: typeof TOGGLE_ABOUT_MODAL;
   payload: string | undefined;
@@ -490,6 +509,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | CloseShortcutGuideModalActionType
   | CloseStickerPackPreviewActionType
   | HideBackfillFailureModalActionType
+  | HideCallQualitySurveyActionType
   | HideContactModalActionType
   | HideCriticalIdlePrimaryDeviceModalActionType
   | HideLowDiskSpaceBackupImportModalActionType
@@ -502,6 +522,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | MessageDeletedActionType
   | MessageExpiredActionType
   | ShowBackfillFailureModalActionType
+  | ShowCallQualitySurveyActionType
   | ShowCriticalIdlePrimaryDeviceModalActionType
   | ShowContactModalActionType
   | ShowDebugLogErrorModalActionType
@@ -549,6 +570,7 @@ export const actions = {
   ensureSystemMediaPermissions,
   hideBackfillFailureModal,
   hideBlockingSafetyNumberChangeDialog,
+  hideCallQualitySurvey,
   hideContactModal,
   hideCriticalIdlePrimaryDeviceModal,
   hideLowDiskSpaceBackupImportModal,
@@ -558,6 +580,7 @@ export const actions = {
   hideWhatsNewModal,
   showBackfillFailureModal,
   showBlockingSafetyNumberChangeDialog,
+  showCallQualitySurvey,
   showContactModal,
   showCriticalIdlePrimaryDeviceModal,
   showDebugLogErrorModal,
@@ -622,6 +645,21 @@ function showBackfillFailureModal(
 function hideBackfillFailureModal(): HideBackfillFailureModalActionType {
   return {
     type: HIDE_BACKFILL_FAILURE_MODAL,
+  };
+}
+
+function showCallQualitySurvey(
+  payload: CallQualitySurveyPropsType
+): ShowCallQualitySurveyActionType {
+  return {
+    type: SHOW_CALL_QUALITY_SURVEY,
+    payload,
+  };
+}
+
+function hideCallQualitySurvey(): HideCallQualitySurveyActionType {
+  return {
+    type: HIDE_CALL_QUALITY_SURVEY,
   };
 }
 
@@ -1306,6 +1344,7 @@ export function getEmptyState(): GlobalModalsStateType {
     callLinkAddNameModalRoomId: null,
     callLinkEditModalRoomId: null,
     callLinkPendingParticipantContactId: undefined,
+    callQualitySurveyProps: null,
     confirmLeaveCallModalState: null,
     criticalIdlePrimaryDeviceModal: false,
     draftGifMessageSendModalProps: null,
@@ -1339,6 +1378,20 @@ export function reducer(
     return {
       ...state,
       confirmLeaveCallModalState: action.payload,
+    };
+  }
+
+  if (action.type === SHOW_CALL_QUALITY_SURVEY) {
+    return {
+      ...state,
+      callQualitySurveyProps: action.payload,
+    };
+  }
+
+  if (action.type === HIDE_CALL_QUALITY_SURVEY) {
+    return {
+      ...state,
+      callQualitySurveyProps: null,
     };
   }
 

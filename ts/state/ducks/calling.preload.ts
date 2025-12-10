@@ -2,13 +2,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import { ipcRenderer } from 'electron';
 import lodash from 'lodash';
+import Long from 'long';
 import type { ReadonlyDeep } from 'type-fest';
 import {
   CallLinkEpoch,
   CallLinkRootKey,
   CallEndReason,
   type Reaction as CallReaction,
+  type CallSummary,
 } from '@signalapp/ringrtc';
 import { getOwn } from '../../util/getOwn.std.js';
 import * as Errors from '../../types/errors.std.js';
@@ -93,13 +96,20 @@ import {
   isGroupOrAdhocCallState,
 } from '../../util/isGroupOrAdhocCall.std.js';
 import type {
+  CallQualitySurveyPropsType,
+  HideCallQualitySurveyActionType,
+  ShowCallQualitySurveyActionType,
   ShowErrorModalActionType,
   ToggleConfirmLeaveCallModalActionType,
 } from './globalModals.preload.js';
 import {
+  HIDE_CALL_QUALITY_SURVEY,
+  SHOW_CALL_QUALITY_SURVEY,
   SHOW_ERROR_MODAL,
   toggleConfirmLeaveCallModal,
 } from './globalModals.preload.js';
+import { CallQualitySurvey } from '../../types/CallQualitySurvey.std.js';
+import { isCallFailure } from '../../util/callQualitySurvey.dom.js';
 import { ButtonVariant } from '../../components/Button.dom.js';
 import { getConversationIdForLogging } from '../../util/idForLogging.preload.js';
 import { DataReader, DataWriter } from '../../sql/Client.preload.js';
@@ -115,7 +125,10 @@ import {
 import { storageServiceUploadJob } from '../../services/storage.preload.js';
 import { CallLinkFinalizeDeleteManager } from '../../jobs/CallLinkFinalizeDeleteManager.preload.js';
 import { callLinkRefreshJobQueue } from '../../jobs/callLinkRefreshJobQueue.preload.js';
-import { isOnline } from '../../textsecure/WebAPI.preload.js';
+import {
+  isOnline,
+  submitCallQualitySurvey as submitCallQualitySurveyToServer,
+} from '../../textsecure/WebAPI.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 const { omit } = lodash;
@@ -228,6 +241,18 @@ export type CallLinksByRoomIdType = ReadonlyDeep<{
   [roomId: string]: CallLinkType;
 }>;
 
+// CQS Submission State
+export type CQSSubmissionStateType = ReadonlyDeep<{
+  failedAttempts: number;
+  state:
+    | { status: 'idle' }
+    | { status: 'loading' }
+    | {
+        status: 'failed';
+        lastSubmissionData: SubmitCallQualitySurveyOptionsType;
+      };
+}>;
+
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type CallingStateType = MediaDeviceSettings & {
   callsByConversation: CallsByConversationType;
@@ -235,6 +260,7 @@ export type CallingStateType = MediaDeviceSettings & {
   callLinks: CallLinksByRoomIdType;
   activeCallState?: ActiveCallStateType | WaitingCallStateType;
   capturerBaton?: DesktopCapturerBaton;
+  callQualitySurveySubmission: CQSSubmissionStateType;
 };
 
 export type AcceptCallType = ReadonlyDeep<{
@@ -708,6 +734,9 @@ const TOGGLE_SELF_VIEW_EXPANDED = 'calling/TOGGLE_SELF_VIEW_EXPANDED';
 const TOGGLE_SETTINGS = 'calling/TOGGLE_SETTINGS';
 const SWITCH_TO_PRESENTATION_VIEW = 'calling/SWITCH_TO_PRESENTATION_VIEW';
 const SWITCH_FROM_PRESENTATION_VIEW = 'calling/SWITCH_FROM_PRESENTATION_VIEW';
+const CQS_SUBMISSION_STARTED = 'calling/CQS_SUBMISSION_STARTED';
+const CQS_SUBMISSION_FAILED = 'calling/CQS_SUBMISSION_FAILED';
+const RESET_CQS_SUBMISSION_STATE = 'calling/RESET_CQS_SUBMISSION_STATE';
 
 type AcceptCallPendingActionType = ReadonlyDeep<{
   type: 'calling/ACCEPT_CALL_PENDING';
@@ -1023,6 +1052,21 @@ type SwitchFromPresentationViewActionType = ReadonlyDeep<{
   type: 'calling/SWITCH_FROM_PRESENTATION_VIEW';
 }>;
 
+type CQSSubmissionStartedActionType = ReadonlyDeep<{
+  type: 'calling/CQS_SUBMISSION_STARTED';
+}>;
+
+type CQSSubmissionFailedActionType = ReadonlyDeep<{
+  type: 'calling/CQS_SUBMISSION_FAILED';
+  payload: {
+    lastSubmissionData: SubmitCallQualitySurveyOptionsType;
+  };
+}>;
+
+type ResetCQSSubmissionStateActionType = ReadonlyDeep<{
+  type: typeof RESET_CQS_SUBMISSION_STATE;
+}>;
+
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type CallingActionType =
   | ApproveUserActionType
@@ -1080,7 +1124,10 @@ export type CallingActionType =
   | SwitchToPresentationViewActionType
   | SwitchFromPresentationViewActionType
   | WaitingForCallingLobbyActionType
-  | WaitingForCallLinkLobbyActionType;
+  | WaitingForCallLinkLobbyActionType
+  | CQSSubmissionStartedActionType
+  | CQSSubmissionFailedActionType
+  | ResetCQSSubmissionStateActionType;
 
 // Action Creators
 
@@ -2864,6 +2911,155 @@ function switchFromPresentationView(): SwitchFromPresentationViewActionType {
     type: SWITCH_FROM_PRESENTATION_VIEW,
   };
 }
+
+type SubmitCallQualitySurveyOptionsType = ReadonlyDeep<{
+  userSatisfied: boolean;
+  callQualityIssues: ReadonlyArray<CallQualitySurvey.Issue>;
+  additionalIssuesDescription: string;
+  shareDebugLog: boolean;
+  callSummary: CallSummary;
+  callType: CallQualitySurvey.CallType;
+}>;
+
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
+type CQSSubmissionActionType =
+  | CQSSubmissionStartedActionType
+  | CQSSubmissionFailedActionType
+  | ResetCQSSubmissionStateActionType
+  | HideCallQualitySurveyActionType
+  | ShowCallQualitySurveyActionType;
+
+function showCallQualitySurvey(
+  payload: CallQualitySurveyPropsType
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ResetCQSSubmissionStateActionType | ShowCallQualitySurveyActionType
+> {
+  return dispatch => {
+    dispatch({ type: RESET_CQS_SUBMISSION_STATE });
+    dispatch({ type: SHOW_CALL_QUALITY_SURVEY, payload });
+  };
+}
+
+function submitCallQualitySurvey(
+  options: SubmitCallQualitySurveyOptionsType
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  CQSSubmissionActionType | ShowToastActionType
+> {
+  return async (dispatch, getState) => {
+    const {
+      userSatisfied,
+      callQualityIssues,
+      additionalIssuesDescription,
+      shareDebugLog,
+      callSummary,
+      callType,
+    } = options;
+
+    dispatch({ type: CQS_SUBMISSION_STARTED });
+
+    try {
+      let debugLogUrl: string | undefined;
+
+      if (shareDebugLog) {
+        const logData = await ipcRenderer.invoke('fetch-log');
+        const logs: string = await ipcRenderer.invoke(
+          'DebugLogs.getLogs',
+          logData,
+          window.navigator.userAgent
+        );
+        debugLogUrl = await ipcRenderer.invoke('DebugLogs.upload', logs);
+      }
+
+      const { qualityStats } = callSummary;
+      const { audioStats, videoStats } = qualityStats;
+
+      const surveyRequest = {
+        userSatisfied,
+        callQualityIssues: userSatisfied ? [] : Array.from(callQualityIssues),
+        additionalIssuesDescription:
+          !userSatisfied &&
+          callQualityIssues.includes(CallQualitySurvey.Issue.OTHER)
+            ? additionalIssuesDescription
+            : null,
+        debugLogUrl,
+        startTimestamp: Long.fromNumber(callSummary.startTime),
+        endTimestamp: Long.fromNumber(callSummary.endTime),
+        callType,
+        success: !isCallFailure(callSummary.callEndReasonText),
+        callEndReason: callSummary.callEndReasonText,
+        connectionRttMedian: qualityStats.rttMedianConnection,
+        audioRttMedian: audioStats.rttMedianMillis,
+        videoRttMedian: videoStats.rttMedianMillis,
+        audioRecvJitterMedian: audioStats.jitterMedianRecvMillis,
+        videoRecvJitterMedian: videoStats.jitterMedianRecvMillis,
+        audioSendJitterMedian: audioStats.jitterMedianSendMillis,
+        videoSendJitterMedian: videoStats.jitterMedianSendMillis,
+        audioRecvPacketLossFraction: audioStats.packetLossPercentageRecv,
+        videoRecvPacketLossFraction: videoStats.packetLossPercentageRecv,
+        audioSendPacketLossFraction: audioStats.packetLossPercentageSend,
+        videoSendPacketLossFraction: videoStats.packetLossPercentageSend,
+        callTelemetry: callSummary.rawStats,
+      };
+
+      await submitCallQualitySurveyToServer(surveyRequest);
+
+      log.info('Call quality survey submitted successfully');
+      dispatch({ type: RESET_CQS_SUBMISSION_STATE });
+      dispatch({
+        type: SHOW_TOAST,
+        payload: { toastType: ToastType.CallQualitySurveySuccess },
+      });
+    } catch (error) {
+      log.error(
+        'Failed to submit call quality survey:',
+        Errors.toLogFormat(error)
+      );
+      dispatch({
+        type: CQS_SUBMISSION_FAILED,
+        payload: {
+          lastSubmissionData: options,
+        },
+      });
+      const { failedAttempts } = getState().calling.callQualitySurveySubmission;
+      const maxRetries = 3;
+      dispatch({
+        type: SHOW_TOAST,
+        payload: {
+          toastType: ToastType.CallQualitySurveyFailed,
+          parameters: { canRetry: failedAttempts < maxRetries },
+        },
+      });
+    } finally {
+      dispatch({ type: HIDE_CALL_QUALITY_SURVEY });
+    }
+  };
+}
+
+function retryCallQualitySurvey(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  CQSSubmissionActionType
+> {
+  return (dispatch, getState) => {
+    const { state: submissionState } =
+      getState().calling.callQualitySurveySubmission;
+
+    if (submissionState.status !== 'failed') {
+      log.warn('Cannot retry CQS submission: not in failed state');
+      return;
+    }
+
+    dispatch(submitCallQualitySurvey(submissionState.lastSubmissionData));
+  };
+}
+
 export const actions = {
   acceptCall,
   approveUser,
@@ -2925,6 +3121,9 @@ export const actions = {
   startCallLinkLobby,
   startCallLinkLobbyByRoomId,
   startCallingLobby,
+  showCallQualitySurvey,
+  submitCallQualitySurvey,
+  retryCallQualitySurvey,
   switchToPresentationView,
   switchFromPresentationView,
   toggleParticipants,
@@ -2960,6 +3159,10 @@ export function getEmptyState(): CallingStateType {
     adhocCalls: {},
     activeCallState: undefined,
     callLinks: {},
+    callQualitySurveySubmission: {
+      failedAttempts: 0,
+      state: { status: 'idle' },
+    },
   };
 }
 
@@ -4505,6 +4708,39 @@ export function reducer(
       activeCallState: {
         ...activeCallState,
         suggestLowerHand,
+      },
+    };
+  }
+
+  if (action.type === RESET_CQS_SUBMISSION_STATE) {
+    return {
+      ...state,
+      callQualitySurveySubmission: {
+        failedAttempts: 0,
+        state: { status: 'idle' },
+      },
+    };
+  }
+
+  if (action.type === CQS_SUBMISSION_STARTED) {
+    return {
+      ...state,
+      callQualitySurveySubmission: {
+        failedAttempts: state.callQualitySurveySubmission.failedAttempts,
+        state: { status: 'loading' },
+      },
+    };
+  }
+
+  if (action.type === CQS_SUBMISSION_FAILED) {
+    return {
+      ...state,
+      callQualitySurveySubmission: {
+        failedAttempts: state.callQualitySurveySubmission.failedAttempts + 1,
+        state: {
+          status: 'failed',
+          lastSubmissionData: action.payload.lastSubmissionData,
+        },
       },
     };
   }

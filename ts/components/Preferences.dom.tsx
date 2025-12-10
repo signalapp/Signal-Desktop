@@ -329,6 +329,8 @@ type PropsFunctionType = {
   __dangerouslyRunAbitraryReadOnlySqlQuery: (
     readonlySqlQuery: string
   ) => Promise<ReadonlyArray<RowType<object>>>;
+  callQualitySurveyCooldownDisabled: boolean;
+  setCallQualitySurveyCooldownDisabled: (value: boolean) => void;
 
   // Localization
   i18n: LocalizerType;
@@ -538,6 +540,8 @@ export function Preferences({
   generateDonationReceiptBlob,
   internalDeleteAllMegaphones,
   __dangerouslyRunAbitraryReadOnlySqlQuery,
+  callQualitySurveyCooldownDisabled,
+  setCallQualitySurveyCooldownDisabled,
 }: PropsType): JSX.Element {
   const storiesId = useId();
   const themeSelectId = useId();
@@ -2288,6 +2292,12 @@ export function Preferences({
             internalDeleteAllMegaphones={internalDeleteAllMegaphones}
             __dangerouslyRunAbitraryReadOnlySqlQuery={
               __dangerouslyRunAbitraryReadOnlySqlQuery
+            }
+            callQualitySurveyCooldownDisabled={
+              callQualitySurveyCooldownDisabled
+            }
+            setCallQualitySurveyCooldownDisabled={
+              setCallQualitySurveyCooldownDisabled
             }
           />
         }

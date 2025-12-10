@@ -45,6 +45,13 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.BlockedGroup };
     case ToastType.CallHistoryCleared:
       return { toastType: ToastType.CallHistoryCleared };
+    case ToastType.CallQualitySurveyFailed:
+      return {
+        toastType: ToastType.CallQualitySurveyFailed,
+        parameters: { canRetry: true },
+      };
+    case ToastType.CallQualitySurveySuccess:
+      return { toastType: ToastType.CallQualitySurveySuccess };
     case ToastType.CannotEditMessage:
       return { toastType: ToastType.CannotEditMessage };
     case ToastType.CannotForwardEmptyMessage:
@@ -304,6 +311,7 @@ export default {
     openFileInFolder: action('openFileInFolder'),
     onShowDebugLog: action('onShowDebugLog'),
     onUndoArchive: action('onUndoArchive'),
+    retryCallQualitySurvey: action('retryCallQualitySurvey'),
     i18n,
     toastType: ToastType.AddingUserToGroup,
     megaphoneType: MegaphoneType.UsernameOnboarding,

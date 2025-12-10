@@ -27,6 +27,11 @@ export const getCallLinkEditModalRoomId = createSelector(
   ({ callLinkEditModalRoomId }) => callLinkEditModalRoomId
 );
 
+export const getCallQualitySurveyProps = createSelector(
+  getGlobalModalsState,
+  ({ callQualitySurveyProps }) => callQualitySurveyProps
+);
+
 export const getCallLinkAddNameModalRoomId = createSelector(
   getGlobalModalsState,
   ({ callLinkAddNameModalRoomId }) => callLinkAddNameModalRoomId

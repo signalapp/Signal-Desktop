@@ -765,6 +765,13 @@ export function SmartPreferences(): JSX.Element | null {
     []
   );
 
+  const callQualitySurveyCooldownDisabled =
+    items.callQualitySurveyCooldownDisabled ?? false;
+
+  const setCallQualitySurveyCooldownDisabled = useCallback((value: boolean) => {
+    drop(itemStorage.put('callQualitySurveyCooldownDisabled', value));
+  }, []);
+
   if (currentLocation.tab !== NavTab.Settings) {
     return null;
   }
@@ -968,6 +975,10 @@ export function SmartPreferences(): JSX.Element | null {
           internalDeleteAllMegaphones={internalDeleteAllMegaphones}
           __dangerouslyRunAbitraryReadOnlySqlQuery={
             __dangerouslyRunAbitraryReadOnlySqlQuery
+          }
+          callQualitySurveyCooldownDisabled={callQualitySurveyCooldownDisabled}
+          setCallQualitySurveyCooldownDisabled={
+            setCallQualitySurveyCooldownDisabled
           }
         />
       </AxoProvider>

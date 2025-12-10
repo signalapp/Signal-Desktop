@@ -22,6 +22,7 @@ import {
   getSelectedConversationId,
 } from '../selectors/conversations.dom.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
+import { useCallingActions } from '../ducks/calling.preload.js';
 import { useToastActions } from '../ducks/toast.preload.js';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
 import { useNavActions } from '../ducks/nav.std.js';
@@ -63,6 +64,7 @@ export const SmartToastManager = memo(function SmartToastManager({
   const { setDidResume } = useDonationsActions();
 
   const { onUndoArchive } = useConversationsActions();
+  const { retryCallQualitySurvey } = useCallingActions();
   const { openFileInFolder, hideToast } = useToastActions();
   const { toggleUsernameOnboarding } = useGlobalModalActions();
 
@@ -100,6 +102,7 @@ export const SmartToastManager = memo(function SmartToastManager({
       megaphone={disableMegaphone ? undefined : megaphone}
       onShowDebugLog={handleShowDebugLog}
       onUndoArchive={onUndoArchive}
+      retryCallQualitySurvey={retryCallQualitySurvey}
       openFileInFolder={openFileInFolder}
       hideToast={hideToast}
       setDidResumeDonation={setDidResume}

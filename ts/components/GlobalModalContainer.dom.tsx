@@ -3,6 +3,7 @@
 
 import React from 'react';
 import type {
+  CallQualitySurveyPropsType,
   ContactModalStateType,
   DeleteMessagesPropsType,
   EditHistoryMessagesType,
@@ -49,6 +50,9 @@ export type PropsType = {
   // CallLinkEditModal
   callLinkEditModalRoomId: string | null;
   renderCallLinkEditModal: () => JSX.Element;
+  // CallQualitySurvey
+  callQualitySurveyProps: CallQualitySurveyPropsType | null;
+  renderCallQualitySurvey: () => JSX.Element;
   // CallLinkPendingParticipantModal
   callLinkPendingParticipantContactId: string | undefined;
   renderCallLinkPendingParticipantModal: () => JSX.Element;
@@ -172,6 +176,9 @@ export function GlobalModalContainer({
   // CallLinkEditModal
   callLinkEditModalRoomId,
   renderCallLinkEditModal,
+  // CallQualitySurvey
+  callQualitySurveyProps,
+  renderCallQualitySurvey,
   // CallLinkPendingParticipantModal
   callLinkPendingParticipantContactId,
   renderCallLinkPendingParticipantModal,
@@ -321,6 +328,10 @@ export function GlobalModalContainer({
 
   if (callLinkEditModalRoomId) {
     return renderCallLinkEditModal();
+  }
+
+  if (callQualitySurveyProps) {
+    return renderCallQualitySurvey();
   }
 
   if (editHistoryMessages) {

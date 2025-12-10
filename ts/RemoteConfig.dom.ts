@@ -23,6 +23,8 @@ const log = createLogger('RemoteConfig');
 
 // Semver flags must always be set to a valid semver (no empty enabled-only keys)
 const SemverKeys = [
+  'desktop.callQualitySurvey.beta',
+  'desktop.callQualitySurvey.prod',
   'desktop.plaintextExport.beta',
   'desktop.plaintextExport.prod',
 ] as const;

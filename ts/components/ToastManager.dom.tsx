@@ -35,6 +35,7 @@ export type PropsType = {
     conversationId: string,
     options?: { wasPinned?: boolean }
   ) => unknown;
+  retryCallQualitySurvey: () => unknown;
   setDidResumeDonation: (didResume: boolean) => unknown;
   toast?: AnyToast;
   megaphone?: AnyActionableMegaphone;
@@ -53,6 +54,7 @@ export function renderToast({
   openFileInFolder,
   onShowDebugLog,
   onUndoArchive,
+  retryCallQualitySurvey,
   setDidResumeDonation,
   OS,
   toast,
@@ -127,6 +129,36 @@ export function renderToast({
     return (
       <Toast onClose={hideToast}>
         {i18n('icu:CallsTab__ToastCallHistoryCleared')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.CallQualitySurveyFailed) {
+    const { canRetry } = toast.parameters;
+
+    return (
+      <Toast
+        onClose={hideToast}
+        toastAction={
+          canRetry
+            ? {
+                label: i18n('icu:CallQualitySurvey__SubmissionFailed__Retry'),
+                onClick: () => {
+                  retryCallQualitySurvey();
+                },
+              }
+            : undefined
+        }
+      >
+        {i18n('icu:CallQualitySurvey__SubmissionFailed')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.CallQualitySurveySuccess) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:CallQualitySurvey__SubmissionSuccess')}
       </Toast>
     );
   }

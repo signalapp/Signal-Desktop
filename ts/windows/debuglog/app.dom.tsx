@@ -29,6 +29,7 @@ createRoot(app).render(
           i18n={i18n}
           fetchLogs={DebugLogWindowProps.fetchLogs}
           uploadLogs={DebugLogWindowProps.uploadLogs}
+          mode={DebugLogWindowProps.mode}
         />
       </FunDefaultEnglishEmojiLocalizationProvider>
     </AxoProvider>

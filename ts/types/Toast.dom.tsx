@@ -11,6 +11,8 @@ export enum ToastType {
   Blocked = 'Blocked',
   BlockedGroup = 'BlockedGroup',
   CallHistoryCleared = 'CallHistoryCleared',
+  CallQualitySurveyFailed = 'CallQualitySurveyFailed',
+  CallQualitySurveySuccess = 'CallQualitySurveySuccess',
   CaptchaFailed = 'CaptchaFailed',
   CaptchaSolved = 'CaptchaSolved',
   CannotEditMessage = 'CannotEditMessage',
@@ -114,6 +116,11 @@ export type AnyToast =
   | { toastType: ToastType.Blocked }
   | { toastType: ToastType.BlockedGroup }
   | { toastType: ToastType.CallHistoryCleared }
+  | {
+      toastType: ToastType.CallQualitySurveyFailed;
+      parameters: { canRetry: boolean };
+    }
+  | { toastType: ToastType.CallQualitySurveySuccess }
   | { toastType: ToastType.CannotEditMessage }
   | { toastType: ToastType.CannotForwardEmptyMessage }
   | { toastType: ToastType.CannotMixMultiAndNonMultiAttachments }
