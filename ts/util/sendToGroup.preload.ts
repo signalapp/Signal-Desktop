@@ -37,7 +37,7 @@ import { isRecord } from './isRecord.std.js';
 
 import { isOlderThan } from './timestamp.std.js';
 import type {
-  GroupSendOptionsType,
+  GroupMessageOptionsType,
   SendOptionsType,
 } from '../textsecure/SendMessage.preload.js';
 import { messageSender } from '../textsecure/SendMessage.preload.js';
@@ -137,7 +137,7 @@ export async function sendToGroup({
 }: {
   abortSignal?: AbortSignal;
   contentHint: number;
-  groupSendOptions: GroupSendOptionsType;
+  groupSendOptions: GroupMessageOptionsType;
   isPartialSend?: boolean;
   messageId: string | undefined;
   sendOptions?: SendOptionsType;
@@ -931,7 +931,7 @@ export function _shouldFailSend(error: unknown, logId: string): boolean {
 }
 
 function getRecipients(
-  options: GroupSendOptionsType
+  options: GroupMessageOptionsType
 ): ReadonlyArray<ServiceIdString> {
   if (options.groupV2) {
     return options.groupV2.members;

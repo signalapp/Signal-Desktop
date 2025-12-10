@@ -340,7 +340,8 @@ export async function sendNormalMessage(
         const groupV2Info = conversation.getGroupV2Info({
           members: recipientServiceIdsWithoutMe,
         });
-        if (groupV2Info && isNumber(revision)) {
+        strictAssert(groupV2Info, 'Missing groupV2Info');
+        if (isNumber(revision)) {
           groupV2Info.revision = revision;
         }
 
@@ -358,7 +359,7 @@ export async function sendNormalMessage(
                 deletedForEveryoneTimestamp,
                 expireTimer,
                 groupV2: groupV2Info,
-                messageText: body,
+                body,
                 preview,
                 profileKey,
                 quote,
@@ -416,27 +417,29 @@ export async function sendNormalMessage(
 
         log.info('sending direct message');
         innerPromise = messaging.sendMessageToServiceId({
-          attachments,
-          bodyRanges,
-          contact,
-          contentHint: ContentHint.Resendable,
-          deletedForEveryoneTimestamp,
-          expireTimer,
-          expireTimerVersion: conversation.getExpireTimerVersion(),
-          groupId: undefined,
           serviceId: recipientServiceIdsWithoutMe[0],
-          messageText: body,
+          messageOptions: {
+            attachments,
+            body,
+            bodyRanges,
+            contact,
+            deletedForEveryoneTimestamp,
+            expireTimer,
+            expireTimerVersion: conversation.getExpireTimerVersion(),
+            preview,
+            profileKey,
+            quote,
+            sticker,
+            storyContext,
+            reaction,
+            targetTimestampForEdit: editedMessageTimestamp
+              ? targetOfThisEditTimestamp
+              : undefined,
+            timestamp: targetTimestamp,
+          },
+          contentHint: ContentHint.Resendable,
+          groupId: undefined,
           options: sendOptions,
-          preview,
-          profileKey,
-          quote,
-          sticker,
-          storyContext,
-          reaction,
-          targetTimestampForEdit: editedMessageTimestamp
-            ? targetOfThisEditTimestamp
-            : undefined,
-          timestamp: targetTimestamp,
           // Note: 1:1 story replies should not set story=true -   they aren't group sends
           urgent: true,
           includePniSignatureMessage: true,

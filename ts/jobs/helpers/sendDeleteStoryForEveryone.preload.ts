@@ -180,17 +180,15 @@ export async function sendDeleteStoryForEveryone(
             await handleMessageSend(
               messaging.sendMessageToServiceId({
                 serviceId,
-                messageText: undefined,
-                attachments: [],
-                deletedForEveryoneTimestamp: targetTimestamp,
-                timestamp,
-                expireTimer: undefined,
-                expireTimerVersion: undefined,
-                contentHint,
+                messageOptions: {
+                  deletedForEveryoneTimestamp: targetTimestamp,
+                  timestamp,
+                  profileKey: conversation.get('profileSharing')
+                    ? profileKey
+                    : undefined,
+                },
                 groupId: undefined,
-                profileKey: conversation.get('profileSharing')
-                  ? profileKey
-                  : undefined,
+                contentHint,
                 options: sendOptions,
                 urgent: true,
                 story: true,

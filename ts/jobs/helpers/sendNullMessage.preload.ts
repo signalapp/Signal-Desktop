@@ -25,6 +25,7 @@ import {
 import { MessageSender } from '../../textsecure/SendMessage.preload.js';
 import { sendToGroup } from '../../util/sendToGroup.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { strictAssert } from '../../util/assert.std.js';
 
 async function clearResetsTracking(idForTracking: string | undefined) {
   if (!idForTracking) {
@@ -101,9 +102,8 @@ export async function sendNullMessage(
       );
     } else {
       const groupV2Info = conversation.getGroupV2Info();
-      if (groupV2Info) {
-        groupV2Info.revision = 0;
-      }
+      strictAssert(groupV2Info, 'Missing groupV2Info');
+      groupV2Info.revision = 0;
 
       await conversation.queueJob(
         'conversationQueue/sendNullMessage/group',
@@ -118,7 +118,7 @@ export async function sendNullMessage(
               deletedForEveryoneTimestamp: undefined,
               expireTimer: undefined,
               groupV2: groupV2Info,
-              messageText: undefined,
+              body: undefined,
               preview: [],
               profileKey: undefined,
               quote: undefined,

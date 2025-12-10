@@ -57,6 +57,8 @@ import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.js'
 import { FIBONACCI } from '../util/BackOff.std.js';
 import { parseUnknown } from '../util/schemas.std.js';
 import { challengeHandler } from '../services/challengeHandler.preload.js';
+import { sendPinMessage } from './helpers/sendPinMessage.preload.js';
+import { sendUnpinMessage } from './helpers/sendUnpinMessage.preload.js';
 
 const globalLogger = createLogger('conversationJobQueue');
 
@@ -71,6 +73,7 @@ export const conversationQueueJobEnum = z.enum([
   'GroupUpdate',
   'NormalMessage',
   'NullMessage',
+  'PinMessage',
   'PollTerminate',
   'PollVote',
   'ProfileKey',
@@ -81,6 +84,7 @@ export const conversationQueueJobEnum = z.enum([
   'SenderKeyDistribution',
   'Story',
   'Receipts',
+  'UnpinMessage',
 ]);
 type ConversationQueueJobEnum = z.infer<typeof conversationQueueJobEnum>;
 
@@ -198,6 +202,16 @@ const reactionJobDataSchema = z.object({
 });
 export type ReactionJobData = z.infer<typeof reactionJobDataSchema>;
 
+const pinMessageJobDataSchema = z.object({
+  type: z.literal(conversationQueueJobEnum.enum.PinMessage),
+  conversationId: z.string(),
+  targetMessageId: z.string(),
+  targetAuthorAci: aciSchema,
+  targetSentTimestamp: z.number(),
+  pinDurationSeconds: z.number().nullable(),
+});
+export type PinMessageJobData = z.infer<typeof pinMessageJobDataSchema>;
+
 const pollVoteJobDataSchema = z.object({
   type: z.literal(conversationQueueJobEnum.enum.PollVote),
   conversationId: z.string(),
@@ -270,6 +284,15 @@ const receiptsJobDataSchema = z.object({
 });
 export type ReceiptsJobData = z.infer<typeof receiptsJobDataSchema>;
 
+const unpinMessageJobDataSchema = z.object({
+  type: z.literal(conversationQueueJobEnum.enum.UnpinMessage),
+  conversationId: z.string(),
+  targetMessageId: z.string(),
+  targetAuthorAci: aciSchema,
+  targetSentTimestamp: z.number(),
+});
+export type UnpinMessageJobData = z.infer<typeof unpinMessageJobDataSchema>;
+
 export const conversationQueueJobDataSchema = z.union([
   callingMessageJobDataSchema,
   deleteForEveryoneJobDataSchema,
@@ -279,6 +302,7 @@ export const conversationQueueJobDataSchema = z.union([
   groupUpdateJobDataSchema,
   normalMessageSendJobDataSchema,
   nullMessageJobDataSchema,
+  pinMessageJobDataSchema,
   pollTerminateJobDataSchema,
   pollVoteJobDataSchema,
   profileKeyJobDataSchema,
@@ -288,6 +312,7 @@ export const conversationQueueJobDataSchema = z.union([
   senderKeyDistributionJobDataSchema,
   storyJobDataSchema,
   receiptsJobDataSchema,
+  unpinMessageJobDataSchema,
 ]);
 export type ConversationQueueJobData = z.infer<
   typeof conversationQueueJobDataSchema
@@ -330,6 +355,9 @@ function shouldSendShowCaptcha(type: ConversationQueueJobEnum): boolean {
   if (type === 'NullMessage') {
     return false;
   }
+  if (type === 'PinMessage') {
+    return true;
+  }
   if (type === 'ProfileKey') {
     return false;
   }
@@ -360,6 +388,9 @@ function shouldSendShowCaptcha(type: ConversationQueueJobEnum): boolean {
     return false;
   }
   if (type === 'Story') {
+    return true;
+  }
+  if (type === 'UnpinMessage') {
     return true;
   }
 
@@ -989,6 +1020,9 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
         case jobSet.Reaction:
           await sendReaction(conversation, jobBundle, data);
           break;
+        case jobSet.PinMessage:
+          await sendPinMessage(conversation, jobBundle, data);
+          break;
         case jobSet.PollTerminate:
           await sendPollTerminate(conversation, jobBundle, data);
           break;
@@ -1009,6 +1043,9 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
           break;
         case jobSet.Receipts:
           await sendReceipts(conversation, jobBundle, data);
+          break;
+        case jobSet.UnpinMessage:
+          await sendUnpinMessage(conversation, jobBundle, data);
           break;
         default: {
           // Note: This should never happen, because the zod call in parseData wouldn't
