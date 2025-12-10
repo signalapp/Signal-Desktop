@@ -199,11 +199,15 @@ export async function onStoryRecipientUpdate(
           // sent timestamp doesn't happen (it would return all copies of the
           // story, not just the one we want to delete).
           drop(
-            handleDeleteForEveryone(message, {
-              fromId: ourConversationId,
-              serverTimestamp: Number(item.serverTimestamp),
-              targetSentTimestamp: item.timestamp,
-            })
+            handleDeleteForEveryone(
+              message,
+              {
+                fromId: ourConversationId,
+                serverTimestamp: Number(item.serverTimestamp),
+                targetSentTimestamp: item.timestamp,
+              },
+              { shouldPersist: true }
+            )
           );
         } else {
           message.set({

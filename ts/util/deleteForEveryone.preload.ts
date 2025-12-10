@@ -19,7 +19,8 @@ export async function deleteForEveryone(
   doe: Pick<
     DeleteAttributesType,
     'fromId' | 'targetSentTimestamp' | 'serverTimestamp'
-  >
+  >,
+  { shouldPersist = true }: { shouldPersist?: boolean } = {}
 ): Promise<void> {
   if (isDeletionByMe(message, doe)) {
     const conversation = window.ConversationController.get(
@@ -35,7 +36,7 @@ export async function deleteForEveryone(
       return;
     }
 
-    await handleDeleteForEveryone(message, doe);
+    await handleDeleteForEveryone(message, doe, { shouldPersist });
     return;
   }
 
@@ -50,7 +51,7 @@ export async function deleteForEveryone(
     return;
   }
 
-  await handleDeleteForEveryone(message, doe);
+  await handleDeleteForEveryone(message, doe, { shouldPersist });
 }
 
 function isDeletionByMe(
@@ -70,7 +71,8 @@ export async function handleDeleteForEveryone(
   del: Pick<
     DeleteAttributesType,
     'fromId' | 'targetSentTimestamp' | 'serverTimestamp'
-  >
+  >,
+  { shouldPersist = true }: { shouldPersist?: boolean }
 ): Promise<void> {
   if (message.deletingForEveryone || message.get('deletedForEveryone')) {
     return;
@@ -97,16 +99,18 @@ export async function handleDeleteForEveryone(
       reactions: [],
     });
 
-    // We delete the message first, before re-saving it -- this causes any foreign key ON
-    // DELETE CASCADE and messages_on_delete triggers to run, which is important
-    await DataWriter.removeMessage(message.attributes.id, {
-      cleanupMessages: async () => {
-        // We don't actually want to remove this message up from in-memory caches
-      },
-    });
-    await window.MessageCache.saveMessage(message.attributes, {
-      forceSave: true,
-    });
+    if (shouldPersist) {
+      // We delete the message first, before re-saving it -- this causes any foreign key
+      // ON DELETE CASCADE and messages_on_delete triggers to run, which is important
+      await DataWriter.removeMessage(message.attributes.id, {
+        cleanupMessages: async () => {
+          // We don't actually want to remove this message up from in-memory caches
+        },
+      });
+      await window.MessageCache.saveMessage(message.attributes, {
+        forceSave: true,
+      });
+    }
   } finally {
     // eslint-disable-next-line no-param-reassign
     message.deletingForEveryone = undefined;
