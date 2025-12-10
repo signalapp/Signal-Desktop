@@ -1098,7 +1098,7 @@
     "messageformat": "માહિતી"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin message"
+    "messageformat": "મેસેજને પિન કરો"
   },
   "icu:Poll__end-poll": {
     "messageformat": "મતદાન સમાપ્ત કરો"
@@ -1206,58 +1206,58 @@
     "messageformat": "તમે ગ્રૂપ છોડો તે પહેલાં, તમારે આ ગ્રૂપ માટે ઓછામાં ઓછા એક નવા એડમિન પસંદ કરવા આવશ્યક છે."
   },
   "icu:PinnedMessageNotification__Message--You": {
-    "messageformat": "You pinned a message"
+    "messageformat": "તમે એક મેસેજને પિન કર્યો"
   },
   "icu:PinnedMessageNotification__Message--SomeoneElse": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender}એ એક મેસેજને પિન કર્યો"
   },
   "icu:PinnedMessageNotification__Button": {
-    "messageformat": "Go to message"
+    "messageformat": "મેસેજ પર જાઓ"
   },
   "icu:PinMessageDialog__Title": {
-    "messageformat": "Pin message for..."
+    "messageformat": "આટલા સમય માટે મેસેજને પિન કરો..."
   },
   "icu:PinMessageDialog__Close": {
-    "messageformat": "Close"
+    "messageformat": "બંધ"
   },
   "icu:PinMessageDialog__Option--TIME_24_HOURS": {
-    "messageformat": "24 hours"
+    "messageformat": "24 કલાક"
   },
   "icu:PinMessageDialog__Option--TIME_7_DAYS": {
-    "messageformat": "7 days"
+    "messageformat": "7 દિવસ"
   },
   "icu:PinMessageDialog__Option--TIME_30_DAYS": {
-    "messageformat": "30 days"
+    "messageformat": "30 દિવસ"
   },
   "icu:PinMessageDialog__Option--FOREVER": {
-    "messageformat": "Forever"
+    "messageformat": "હંમેશા"
   },
   "icu:PinMessageDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "રદ કરો"
   },
   "icu:PinMessageDialog__Pin": {
-    "messageformat": "Pin"
+    "messageformat": "પિન કરો"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
-    "messageformat": "{pinsCount, plural, one {Pinned message} other {Pinned messages}}"
+    "messageformat": "{pinsCount, plural, one {પિન કરેલો મેસેજ} other {પિન કરેલા મેસેજ}}"
   },
   "icu:PinnedMessagesBar__Tab__AccessibilityLabel": {
-    "messageformat": "Go to pin {pinNumber,number}"
+    "messageformat": "પિન {pinNumber,number} પર જાઓ"
   },
   "icu:PinnedMessagesBar__GoToMessageClickableArea__AccessibilityLabel": {
-    "messageformat": "Go to message"
+    "messageformat": "મેસેજ પર જાઓ"
   },
   "icu:PinnedMessagesBar__ActionsMenu__Button__AccessibilityLabel": {
-    "messageformat": "More actions"
+    "messageformat": "વધુ પગલાં"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin message"
+    "messageformat": "મેસેજને અનપિન કરો"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
-    "messageformat": "Go to message"
+    "messageformat": "મેસેજ પર જાઓ"
   },
   "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
-    "messageformat": "See all messages"
+    "messageformat": "બધા મેસેજ જુઓ"
   },
   "icu:sessionEnded": {
     "messageformat": "સુરક્ષિત સત્ર રીસેટ કરો."
@@ -5082,7 +5082,7 @@
     "messageformat": "બ્રાઉઝરમાં લિંક ખોલો"
   },
   "icu:ListItem__show-message": {
-    "messageformat": "Show message in conversation"
+    "messageformat": "વાતચીતમાં મેસેજ બતાવો"
   },
   "icu:MediaGallery__tab__audio": {
     "messageformat": "ઓડિયો"
@@ -5109,7 +5109,7 @@
     "messageformat": "કોઈ લિંક નથી"
   },
   "icu:MediaGallery__EmptyState__description--links-2": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "તમારા દ્વારા મોકલવામાં અને મેળવવામાં આવતી લિંક અહીં દેખાશે"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
     "messageformat": "તમારા દ્વારા મોકલવામાં અને મેળવવામાં આવતી લિંક અહીં દેખાશે"
@@ -5118,7 +5118,7 @@
     "messageformat": "કોઈ ફાઈલો નથી"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "તમારા દ્વારા મોકલવામાં અને મેળવવામાં આવતી ફાઈલો અહીં દેખાશે"
   },
   "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "તમારા દ્વારા મોકલવામાં અને મેળવવામાં આવતી ફાઈલો અહીં દેખાશે"
@@ -5463,88 +5463,88 @@
     "messageformat": "નોટિફિકેશન કન્ટેન્ટ"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
-    "messageformat": "Export chat history"
+    "messageformat": "ચેટ હિસ્ટ્રી નિકાસ કરો"
   },
   "icu:PlaintextExport--PreferencesRow--Description": {
-    "messageformat": "Export a machine-readable JSON copy of all your chats. Disappearing messages will not be exported."
+    "messageformat": "તમારી બધી ચેટની મશીન-રીડેબલ JSON કૉપિ નિકાસ કરો. ગાયબ થતાં મેસેજ નિકાસ કરવામાં નહીં આવે."
   },
   "icu:PlaintextExport--ActionButton": {
-    "messageformat": "Export"
+    "messageformat": "એક્સપોર્ટ કરો"
   },
   "icu:PlaintextExport--Confirmation--Header": {
-    "messageformat": "Export chat history?"
+    "messageformat": "ચેટ હિસ્ટ્રી નિકાસ કરવી છે?"
   },
   "icu:PlaintextExport--Confirmation--Description": {
-    "messageformat": "<bold>BE CAREFUL!</bold> Do NOT share this file with anyone. Your chat history will be saved to your computer and other apps can access it depending on your computer’s permissions."
+    "messageformat": "<bold>સાવધાન રહો!</bold> આ ફાઈલ કોઈની સાથે શેર કરશો નહીં. તમારી ચેટ હિસ્ટ્રી તમારા કમ્પ્યુટરમાં સાચવવામાં આવશે અને અન્ય ઍપ્સ તમારા કમ્પ્યુટરની પરવાનગીઓના આધારે તેને ઍક્સેસ કરી શકશે."
   },
   "icu:PlaintextExport--Confirmation--IncludeMedia": {
-    "messageformat": "Include media <secondary>(larger file size)</secondary>"
+    "messageformat": "મીડિયા શામેલ કરો <secondary>(મોટી સાઇઝની ફાઈલ)</secondary>"
   },
   "icu:PlaintextExport--Confirmation--ContinueButton": {
-    "messageformat": "Continue"
+    "messageformat": "ચાલુ રાખો"
   },
   "icu:PlaintextExport--Confirmation--WaitingLabel": {
-    "messageformat": "Waiting for input"
+    "messageformat": "ઇનપુટની રાહ જોઈ રહ્યા છીએ"
   },
   "icu:PlaintextExport--OSPrompt--Mac": {
-    "messageformat": "export your chat history"
+    "messageformat": "તમારી ચેટ હિસ્ટ્રી નિકાસ કરો"
   },
   "icu:PlaintextExport--OSPrompt--Windows": {
-    "messageformat": "Verify your identity to export your chat history."
+    "messageformat": "તમારી ચેટ હિસ્ટ્રી નિકાસ કરવા માટે તમારી ઓળખ ચકાસો."
   },
   "icu:PlaintextExport--OSPrompt--description--Linux": {
-    "messageformat": "Export"
+    "messageformat": "એક્સપોર્ટ કરો"
   },
   "icu:PlaintextExport--OSPrompt--message--Linux": {
-    "messageformat": "Authentication is required to export your chat history."
+    "messageformat": "તમારી ચેટ હિસ્ટ્રી નિકાસ કરવા માટે પ્રમાણીકરણ જરૂરી છે."
   },
   "icu:PlaintextExport--ProgressDialog--Header": {
-    "messageformat": "Exporting chat history"
+    "messageformat": "ચેટ હિસ્ટ્રી નિકાસ થઈ રહી છે"
   },
   "icu:PlaintextExport--ProgressDialog--Progress": {
-    "messageformat": "Exporting {currentBytes} of {totalBytes} ({percentage,number,percent})..."
+    "messageformat": "{totalBytes}માંથી {currentBytes} નિકાસ થઈ રહ્યાં છે ({percentage,number,percent})..."
   },
   "icu:PlaintextExport--ProgressDialog--TimeWarning": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "આમાં થોડી મિનિટનો સમય લાગી શકે છે"
   },
   "icu:PlaintextExport--CompleteDialog--Header": {
-    "messageformat": "Export complete"
+    "messageformat": "એક્સપોર્ટ પૂર્ણ"
   },
   "icu:PlaintextExport--CompleteDialog--Description": {
-    "messageformat": "<bold>BE CAREFUL</bold> where you store your chat export file and do not share it with anyone. Other apps on your computer can access it depending on your computer’s permissions. "
+    "messageformat": "જ્યાં તમે તમારી ચેટ નિકાસ ફાઈલ સ્ટોર કરો છો ત્યાં <bold>સાવધાન રહો</bold> અને તેને કોઈની સાથે શેર ન કરો. તમારા કમ્પ્યૂટરની પરવાનગીઓના આધારે તમારા કમ્પ્યૂટર પરની અન્ય ઍપ તેને ઍક્સેસ કરી શકે છે. "
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Mac": {
-    "messageformat": "Show in Finder"
+    "messageformat": "ફાઇન્ડરમાં બતાવો"
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Linux": {
-    "messageformat": "Show in folder"
+    "messageformat": "ફોલ્ડરમાં બતાવો."
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Windows": {
-    "messageformat": "Show in folder"
+    "messageformat": "ફોલ્ડરમાં બતાવો."
   },
   "icu:PlaintextExport--Error--General--Title": {
-    "messageformat": "Couldn’t export chat history"
+    "messageformat": "ચેટ હિસ્ટ્રી નિકાસ ન કરી શકાઈ"
   },
   "icu:PlaintextExport--Error--General--Description": {
-    "messageformat": "An error occurred and your chat history could not be exported."
+    "messageformat": "એક ભૂલ આવી અને તમારી ચેટ હિસ્ટ્રી નિકાસ કરી શકાઈ નથી."
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Title": {
-    "messageformat": "Not enough storage space"
+    "messageformat": "પૂરતી સ્ટોરેજ સ્પેસ નથી"
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Detail": {
-    "messageformat": "Your chat history can’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+    "messageformat": "તમારા કમ્પ્યૂટરમાં પૂરતી ખાલી જગ્યા ન હોવાથી તમારી ચેટ હિસ્ટ્રી નિકાસ કરી શકાતી નથી. {bytes} જગ્યા ખાલી કરો અને પછી ફરી પ્રયાસ કરો."
   },
   "icu:PlaintextExport--Error--RanOutOfStorage--Title": {
-    "messageformat": "Couldn’t export chat history"
+    "messageformat": "ચેટ હિસ્ટ્રી નિકાસ ન કરી શકાઈ"
   },
   "icu:PlaintextExport--Error--RanOutOfStorage--Detail": {
-    "messageformat": "Your chat history couldn’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+    "messageformat": "તમારા કમ્પ્યૂટરમાં પૂરતી ખાલી જગ્યા ન હોવાથી તમારી ચેટ હિસ્ટ્રી નિકાસ ન કરી શકાઈ. {bytes} જગ્યા ખાલી કરો અને પછી ફરી પ્રયાસ કરો."
   },
   "icu:PlaintextExport--Error--DiskPermssions--Title": {
-    "messageformat": "Can’t export chat history"
+    "messageformat": "ચેટ હિસ્ટ્રી નિકાસ કરી શકાતી નથી"
   },
   "icu:PlaintextExport--Error--DiskPermssions--Detail": {
-    "messageformat": "Your chat history can’t be exported because Signal doesn’t have permission to write files to disk. Try changing your disk's permissions or updating your system settings and then export again."
+    "messageformat": "તમારી ચેટ હિસ્ટ્રી નિકાસ કરી શકાતી નથી કારણ કે Signal પાસે ડિસ્ક પર ફાઇલો લખવાની પરવાનગી નથી. તમારી ડિસ્કની પરવાનગીઓ બદલવાનો અથવા તમારી સિસ્ટમ સેટિંગ્સ અપડેટ કરવાનો પ્રયાસ કરો અને પછી ફરીથી નિકાસ કરો."
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "ચંદ્રનો આઇકન"
@@ -5862,16 +5862,16 @@
     "messageformat": "થઈ ગયું"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "show your backup key"
+    "messageformat": "તમારી બેકઅપ કી બતાવો"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your backup key."
+    "messageformat": "તમારી બેકઅપ કી જોવા માટે તમારી ઓળખ ચકાસો."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "View backup key"
+    "messageformat": "બેકઅપ કી જુઓ"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your backup key."
+    "messageformat": "તમારી બેકઅપ કી જોવા માટે પ્રમાણીકરણ જરૂરી છે."
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "બેકઅપ કી ટેક્સ્ટ બોક્સ"
@@ -5916,16 +5916,16 @@
     "messageformat": "બેકઅપ કી કૉપિ કરી"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
-    "messageformat": "enable backups"
+    "messageformat": "બેકઅપ સક્ષમ કરો"
   },
   "icu:Preferences__local-backups--enable--os-prompt--windows": {
-    "messageformat": "Verify your identity to enable backups."
+    "messageformat": "બેકઅપ સક્ષમ કરવા માટે તમારી ઓળખ ચકાસો."
   },
   "icu:Preferences__local-backups--enable--os-prompt-description--linux": {
-    "messageformat": "Enable backups"
+    "messageformat": "બેકઅપ સક્ષમ કરો"
   },
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to enable backups."
+    "messageformat": "બેકઅપ સક્ષમ કરવા માટે પ્રમાણીકરણ જરૂરી છે."
   },
   "icu:Preferences__view-key": {
     "messageformat": "કી જુઓ"

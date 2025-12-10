@@ -1098,7 +1098,7 @@
     "messageformat": "정보"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin message"
+    "messageformat": "메시지 고정"
   },
   "icu:Poll__end-poll": {
     "messageformat": "설문조사 종료"
@@ -1206,58 +1206,58 @@
     "messageformat": "나가기 전에 이 그룹에 대한 새 관리자를 한 명 이상 선택해야 합니다."
   },
   "icu:PinnedMessageNotification__Message--You": {
-    "messageformat": "You pinned a message"
+    "messageformat": "메시지를 고정했습니다"
   },
   "icu:PinnedMessageNotification__Message--SomeoneElse": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} 님이 메시지를 고정했습니다"
   },
   "icu:PinnedMessageNotification__Button": {
-    "messageformat": "Go to message"
+    "messageformat": "메시지로 이동"
   },
   "icu:PinMessageDialog__Title": {
-    "messageformat": "Pin message for..."
+    "messageformat": "메시지 고정 기간"
   },
   "icu:PinMessageDialog__Close": {
-    "messageformat": "Close"
+    "messageformat": "닫기"
   },
   "icu:PinMessageDialog__Option--TIME_24_HOURS": {
-    "messageformat": "24 hours"
+    "messageformat": "24시간"
   },
   "icu:PinMessageDialog__Option--TIME_7_DAYS": {
-    "messageformat": "7 days"
+    "messageformat": "7일"
   },
   "icu:PinMessageDialog__Option--TIME_30_DAYS": {
-    "messageformat": "30 days"
+    "messageformat": "30일"
   },
   "icu:PinMessageDialog__Option--FOREVER": {
-    "messageformat": "Forever"
+    "messageformat": "계속"
   },
   "icu:PinMessageDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "취소"
   },
   "icu:PinMessageDialog__Pin": {
-    "messageformat": "Pin"
+    "messageformat": "고정"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
-    "messageformat": "{pinsCount, plural, one {Pinned message} other {Pinned messages}}"
+    "messageformat": "{pinsCount, plural, other {고정 메시지}}"
   },
   "icu:PinnedMessagesBar__Tab__AccessibilityLabel": {
-    "messageformat": "Go to pin {pinNumber,number}"
+    "messageformat": "{pinNumber,number} 핀으로 이동"
   },
   "icu:PinnedMessagesBar__GoToMessageClickableArea__AccessibilityLabel": {
-    "messageformat": "Go to message"
+    "messageformat": "메시지로 이동"
   },
   "icu:PinnedMessagesBar__ActionsMenu__Button__AccessibilityLabel": {
-    "messageformat": "More actions"
+    "messageformat": "더 많은 작업"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin message"
+    "messageformat": "메시지 고정 해제"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
-    "messageformat": "Go to message"
+    "messageformat": "메시지로 이동"
   },
   "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
-    "messageformat": "See all messages"
+    "messageformat": "모든 메시지 보기"
   },
   "icu:sessionEnded": {
     "messageformat": "보안 세션 초기화"
@@ -2661,7 +2661,7 @@
     "messageformat": "깃발"
   },
   "icu:FunPanelEmojis__CustomizeReactionsButtonLabel": {
-    "messageformat": "반응 맞춤 설정하기"
+    "messageformat": "맞춤 반응 설정하기"
   },
   "icu:FunPanelStickers__SearchLabel": {
     "messageformat": "스티커 검색"
@@ -3747,7 +3747,7 @@
     "messageformat": "관리자"
   },
   "icu:GroupV2--only-admins": {
-    "messageformat": "관리자만"
+    "messageformat": "관리자"
   },
   "icu:GroupV2--all-members": {
     "messageformat": "모든 멤버"
@@ -3801,13 +3801,13 @@
     "messageformat": "멤버가 그룹 아바타를 제거했습니다."
   },
   "icu:GroupV2--access-attributes--admins--other": {
-    "messageformat": "{adminName} 님이 그룹 정보를 수정할 수 있는 사용자를 '관리자만'으로 변경했습니다."
+    "messageformat": "{adminName} 님이 그룹 정보를 수정할 수 있는 사람을 '관리자'로 변경했습니다."
   },
   "icu:GroupV2--access-attributes--admins--you": {
-    "messageformat": "그룹 정보를 수정할 수 있는 사람을 '관리자만'으로 변경했습니다."
+    "messageformat": "그룹 정보를 수정할 수 있는 사람을 '관리자'로 변경했습니다."
   },
   "icu:GroupV2--access-attributes--admins--unknown": {
-    "messageformat": "관리자가 그룹 정보를 수정할 수 있는 사람을 '관리자만'으로 변경했습니다."
+    "messageformat": "관리자가 그룹 정보를 수정할 수 있는 사람을 '관리자'로 변경했습니다."
   },
   "icu:GroupV2--access-attributes--all--other": {
     "messageformat": "{adminName} 님이 그룹 정보를 수정할 수 있는 사용자를 '모든 멤버'로 변경했습니다."
@@ -3819,16 +3819,16 @@
     "messageformat": "관리자가 그룹 정보를 수정할 수 있는 사용자를 '모든 멤버'로 변경했습니다."
   },
   "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} 님이 그룹 멤버십을 수정할 수 있는 사용자를 '관리자만'으로 변경했습니다."
+    "messageformat": "{adminName} 님이 그룹 멤버십을 수정할 수 있는 사람을 '관리자'로 변경했습니다."
   },
   "icu:GroupV2--access-members--admins--you": {
-    "messageformat": "그룹 멤버십을 수정할 수 있는 사용자를 '관리자만'으로 변경했습니다."
+    "messageformat": "그룹 멤버십을 수정할 수 있는 사람을 '관리자'로 변경했습니다."
   },
   "icu:GroupV2--access-members--admins--unknown": {
-    "messageformat": "그룹 멤버십을 수정할 수 있는 관리자가 '관리자만'으로 변경되었습니다."
+    "messageformat": "관리자가 그룹 멤버십을 수정할 수 있는 사람을 '관리자'로 변경했습니다."
   },
   "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} 님이 그룹 멤버를 수정할 수 있는 사용자를 '모든 멤버'로 변경했습니다."
+    "messageformat": "{adminName} 님이 그룹 멤버를 수정할 수 있는 사람을 '모든 멤버'로 변경했습니다."
   },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "그룹 멤버를 수정할 수 있는 사람을 '모든 멤버'로 변경했습니다."
@@ -3837,19 +3837,19 @@
     "messageformat": "관리자가 그룹 멤버십을 수정할 수 있는 사용자를 '모든 멤버'로 변경했습니다."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
-    "messageformat": "그룹 링크에 대한 관리자 승인을 비활성화하셨습니다."
+    "messageformat": "그룹 링크에 대한 관리자 승인을 비활성화했습니다."
   },
   "icu:GroupV2--access-invite-link--disabled--other": {
-    "messageformat": "{adminName}가 그룹 링크에 대한 관리자 승인을 비활성화했습니다."
+    "messageformat": "{adminName} 님이 그룹 링크에 대한 관리자 승인을 비활성화했습니다."
   },
   "icu:GroupV2--access-invite-link--disabled--unknown": {
     "messageformat": "그룹 링크에 대한 관리자 승인이 비활성화됐습니다."
   },
   "icu:GroupV2--access-invite-link--enabled--you": {
-    "messageformat": "그룹 링크에 대한 관리자 승인을 활성화하셨습니다."
+    "messageformat": "그룹 링크에 대한 관리자 승인을 활성화했습니다."
   },
   "icu:GroupV2--access-invite-link--enabled--other": {
-    "messageformat": "{adminName}가 그룹 링크에 대한 관리자 승인을 활성화하셨습니다."
+    "messageformat": "{adminName} 님이 그룹 링크에 대한 관리자 승인을 활성화했습니다."
   },
   "icu:GroupV2--access-invite-link--enabled--unknown": {
     "messageformat": "그룹 링크에 대한 관리자 승인이 활성화됐습니다."
@@ -4092,16 +4092,16 @@
     "messageformat": "{numberOfRequests, plural, other {{joinerName} 님이 그룹 링크를 통한 참가를 {numberOfRequests,number}번 요청했다가 취소했습니다.}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
-    "messageformat": "관리자 승인을 비활성화한 상태로 그룹 링크를 활성화하셨습니다."
+    "messageformat": "관리자 승인을 비활성화한 상태로 그룹 링크를 활성화했습니다."
   },
   "icu:GroupV2--group-link-add--disabled--other": {
-    "messageformat": "{adminName}가 관리자 승인을 비활성화한 상태로 그룹 링크를 활성화했습니다."
+    "messageformat": "{adminName} 님이 관리자 승인을 비활성화한 상태로 그룹 링크를 활성화했습니다."
   },
   "icu:GroupV2--group-link-add--disabled--unknown": {
     "messageformat": "그룹 링크가 관리자 승인이 비활성화된 상태로 활성화됐습니다."
   },
   "icu:GroupV2--group-link-add--enabled--you": {
-    "messageformat": "관리자 승인을 활성화한 상태로 그룹 링크를 활성화하셨습니다."
+    "messageformat": "관리자 승인을 활성화한 상태로 그룹 링크를 활성화했습니다."
   },
   "icu:GroupV2--group-link-add--enabled--other": {
     "messageformat": "{adminName}가 관리자 승인을 활성화한 상태로 그룹 링크를 활성화했습니다."
@@ -4167,7 +4167,7 @@
     "messageformat": "이 그룹의 멤버 또는 설정이 바뀌었습니다."
   },
   "icu:GroupV1--Migration--disabled--link": {
-    "messageformat": "이 그룹을 업그레이드하여 @멘션, 관리자와 같은 새로운 기능을 활성화하세요. 이 그룹과 이름이나 사진을 공유하지 않은 멤버가 참가하도록 초대됩니다. <learnMoreLink>자세히 알아보기.</learnMoreLink>"
+    "messageformat": "그룹을 업그레이드하여 @멘션, 관리자와 같은 새로운 기능을 활성화하세요. 이 그룹에 이름이나 사진을 공유하지 않은 멤버도 초대되어 참여할 수 있습니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"
   },
   "icu:GroupV1--Migration--was-upgraded": {
     "messageformat": "그룹이 새 그룹으로 업그레이드되었습니다."
@@ -4449,7 +4449,7 @@
     "messageformat": "배지 수에 알림을 끈 대화 포함"
   },
   "icu:ContactModal--nickname": {
-    "messageformat": "별칭"
+    "messageformat": "닉네임"
   },
   "icu:ContactModal--rm-admin": {
     "messageformat": "권리자 권한으로 제거"
@@ -4491,13 +4491,13 @@
     "messageformat": "사라지는 메시지"
   },
   "icu:ConversationDetails--disappearing-messages-info--group": {
-    "messageformat": "활성화할 경우, 이 그룹에서 수/발신되는 메시지들은 열람 후 사라집니다."
+    "messageformat": "활성화할 경우, 이 그룹에서 주고받는 메시지는 열람 후 자동으로 삭제됩니다."
   },
   "icu:ConversationDetails--disappearing-messages-info--direct": {
     "messageformat": "설정을 켜면 이 일대일 대화에서 주고받은 메시지는 상대가 확인하고 일정 시간이 흐르면 사라지게 됩니다."
   },
   "icu:ConversationDetails--nickname-label": {
-    "messageformat": "별칭"
+    "messageformat": "닉네임"
   },
   "icu:ConversationDetails--nickname-actions": {
     "messageformat": "작업"
@@ -4506,25 +4506,25 @@
     "messageformat": "삭제"
   },
   "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Title": {
-    "messageformat": "별칭을 삭제할까요?"
+    "messageformat": "닉네임을 삭제할까요?"
   },
   "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Description": {
-    "messageformat": "이 별칭과 메모를 영구 삭제합니다."
+    "messageformat": "이 닉네임과 메모를 영구 삭제합니다."
   },
   "icu:ConversationDetails--notifications": {
     "messageformat": "알림"
   },
   "icu:ConversationDetails--group-info-label": {
-    "messageformat": "누가 그룹 정보를 수정할 수 있나요"
+    "messageformat": "그룹 정보를 수정할 수 있는 사람"
   },
   "icu:ConversationDetails--group-info-info": {
-    "messageformat": "그룹 이름, 사진, 설명과 사라지는 메시지 타이머를 편집할 수 있는 사람을 선택하세요."
+    "messageformat": "그룹 이름과 사진, 설명, 사라지는 메시지 타이머를 수정할 수 있는 사람을 선택하세요."
   },
   "icu:ConversationDetails--add-members-label": {
-    "messageformat": "누가 멤버를 추가할 수 있나요"
+    "messageformat": "멤버를 추가할 수 있는 사람"
   },
   "icu:ConversationDetails--add-members-info": {
-    "messageformat": "누구에게 이 그룹에 멤버를 추가할 권한을 부여할지 선택하십시오."
+    "messageformat": "그룹에 멤버를 추가할 수 있는 사람을 선택하세요."
   },
   "icu:ConversationDetails--announcement-label": {
     "messageformat": "메시지를 전송할 수 있는 사람"
@@ -4602,10 +4602,10 @@
     "messageformat": "모두 보기"
   },
   "icu:EditNicknameAndNoteModal__Title": {
-    "messageformat": "별칭"
+    "messageformat": "닉네임"
   },
   "icu:EditNicknameAndNoteModal__Description": {
-    "messageformat": "별칭과 메모는 Signal에 엔드투엔드 암호화되어 저장됩니다. 해당 항목은 사용자에게만 표시됩니다."
+    "messageformat": "닉네임과 메모는 Signal에 엔드투엔드 암호화되어 저장되며, 나에게만 표시됩니다."
   },
   "icu:EditNicknameAndNoteModal__FirstName__Label": {
     "messageformat": "이름"
@@ -4626,7 +4626,7 @@
     "messageformat": "메모"
   },
   "icu:ConversationNotificationsSettings__mentions__label": {
-    "messageformat": "언급"
+    "messageformat": "멘션"
   },
   "icu:ConversationNotificationsSettings__mentions__info": {
     "messageformat": "알림을 끈 대화에서 내가 멘션되는 경우 알림을 받습니다."
@@ -4635,7 +4635,7 @@
     "messageformat": "항상 알림"
   },
   "icu:ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
-    "messageformat": "알림을 끈 경우 알림을 받지 않습니다."
+    "messageformat": "알림을 끈 경우 받지 않습니다."
   },
   "icu:GroupLinkManagement--clipboard": {
     "messageformat": "그룹 링크가 복사되었습니다."
@@ -4674,7 +4674,7 @@
     "messageformat": "''{name}' 님의 요청을 거부할까요? 그룹 링크를 통한 참가를 더 이상 요청할 수 없게 됩니다."
   },
   "icu:PendingInvites--invited-by-you": {
-    "messageformat": "당신에 의해 초대됨"
+    "messageformat": "내가 초대한 멤버"
   },
   "icu:PendingInvites--invited-by-others": {
     "messageformat": "다른 사람에 의해 초대됨"
@@ -4701,10 +4701,10 @@
     "messageformat": "요청 거절"
   },
   "icu:PendingRequests--info": {
-    "messageformat": "이 목록에 있는 사람들이 그룹 링크를 통해 \"{name}\"에 참가 시도하고 있습니다."
+    "messageformat": "이 목록에는 그룹 링크를 통해 ''{name}' 그룹에 참여를 요청한 사람들이 표시됩니다."
   },
   "icu:PendingInvites--info": {
-    "messageformat": "이 그룹에 초대된 사람들에 대한 세부정보는 실제 참가 전까지는 보이지 않습니다. 초대된 사람들은 실제 참가 이후부터 이 그룹의 메시지들을 볼 수 있습니다."
+    "messageformat": "초대된 사람들에 대한 정보는 그룹 가입 전까지 표시되지 않습니다. 초대된 사용자는 그룹에 참여한 후에만 메시지를 볼 수 있습니다."
   },
   "icu:PendingRequests--block--button": {
     "messageformat": "요청 차단"
@@ -4767,7 +4767,7 @@
     "messageformat": "연락처 제거"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--title": {
-    "messageformat": "{count, plural, other {{count,number}에게 초대가 전송됨}}"
+    "messageformat": "{count, plural, other {{count,number}명에게 초대가 전송됨}}"
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--one": {
     "messageformat": "{name} 님을 그룹에 자동으로 추가할 수 없습니다."
@@ -4944,7 +4944,7 @@
     "messageformat": "색상 삭제하기"
   },
   "icu:ChatColorPicker__delete--message": {
-    "messageformat": "{num, plural, other {이 색상은 {num,number} 대화에서 사용됩니다. 모든 대화에서 삭제하시겠습니까?}}"
+    "messageformat": "{num, plural, other {{num,number}개 대화에서 이 색상을 사용 중입니다. 모든 대화에서 삭제할까요?}}"
   },
   "icu:ChatColorPicker__menu-title": {
     "messageformat": "대화창 색상"
@@ -4971,13 +4971,13 @@
     "messageformat": "맞춤 색상 편집기 표시"
   },
   "icu:ChatColorPicker__sampleBubble1": {
-    "messageformat": "다음은 대화창 색상의 미리 보기입니다."
+    "messageformat": "다음은 대화창 색상의 미리보기입니다."
   },
   "icu:ChatColorPicker__sampleBubble2": {
-    "messageformat": "또 다른 거품이군요."
+    "messageformat": "말풍선 하나 더!"
   },
   "icu:ChatColorPicker__sampleBubble3": {
-    "messageformat": "색상은 사용자에게만 보입니다."
+    "messageformat": "색상은 나에게만 표시됩니다."
   },
   "icu:ChatColorPicker__context--edit": {
     "messageformat": "색상 편집"
@@ -4989,10 +4989,10 @@
     "messageformat": "삭제"
   },
   "icu:CustomColorEditor__solid": {
-    "messageformat": "견고함"
+    "messageformat": "단색"
   },
   "icu:CustomColorEditor__gradient": {
-    "messageformat": "그라디언트"
+    "messageformat": "그라데이션"
   },
   "icu:CustomColorEditor__hue": {
     "messageformat": "색상"
@@ -5001,7 +5001,7 @@
     "messageformat": "채도"
   },
   "icu:CustomColorEditor__title": {
-    "messageformat": "사용자 지정 색상"
+    "messageformat": "맞춤 색상"
   },
   "icu:GradientDial__knob-start": {
     "messageformat": "그라데이션 시작"
@@ -5013,10 +5013,10 @@
     "messageformat": "GIF 첨부 파일 다운로드"
   },
   "icu:customDisappearingTimeOption": {
-    "messageformat": "사용자 지정 시간…"
+    "messageformat": "맞춤 시간"
   },
   "icu:selectedCustomDisappearingTimeOption": {
-    "messageformat": "사용자 지정 시간"
+    "messageformat": "맞춤 시간"
   },
   "icu:DisappearingTimeDialog__label--value": {
     "messageformat": "숫자"
@@ -5025,7 +5025,7 @@
     "messageformat": "시간 단위"
   },
   "icu:DisappearingTimeDialog__title": {
-    "messageformat": "사용자 지정 시간"
+    "messageformat": "맞춤 시간"
   },
   "icu:DisappearingTimeDialog__body": {
     "messageformat": "사라지는 메시지의 시간 제한을 직접 설정하세요."
@@ -5070,7 +5070,7 @@
     "messageformat": "그룹 설명은 이 그룹의 구성원과 초대받은 사람들에게 표시됩니다."
   },
   "icu:ConversationDetailsHeader--add-group-description": {
-    "messageformat": "그룹 설명 추가…"
+    "messageformat": "그룹 설명 추가하기"
   },
   "icu:AudioListItem__subtitle--voice-message": {
     "messageformat": "음성 메시지"
@@ -5082,7 +5082,7 @@
     "messageformat": "브라우저에서 링크를 엽니다."
   },
   "icu:ListItem__show-message": {
-    "messageformat": "Show message in conversation"
+    "messageformat": "대화에서 메시지 표시"
   },
   "icu:MediaGallery__tab__audio": {
     "messageformat": "오디오"
@@ -5109,7 +5109,7 @@
     "messageformat": "링크 없음"
   },
   "icu:MediaGallery__EmptyState__description--links-2": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "내가 전송 및 수신하는 링크가 여기에 표시됩니다."
   },
   "icu:MediaGallery__EmptyState__description--documents": {
     "messageformat": "내가 전송 및 수신하는 링크가 여기에 표시됩니다."
@@ -5118,7 +5118,7 @@
     "messageformat": "파일 없음"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "내가 전송 및 수신하는 파일이 여기에 표시됩니다"
   },
   "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "내가 전송 및 수신하는 파일이 여기에 표시됩니다"
@@ -5463,88 +5463,88 @@
     "messageformat": "알림 콘텐츠"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
-    "messageformat": "Export chat history"
+    "messageformat": "대화 기록 내보내기"
   },
   "icu:PlaintextExport--PreferencesRow--Description": {
-    "messageformat": "Export a machine-readable JSON copy of all your chats. Disappearing messages will not be exported."
+    "messageformat": "모든 대화의 기계 판독 가능한 JSON 사본을 내보냅니다. 자동 삭제 메시지는 내보내기에서 제외됩니다."
   },
   "icu:PlaintextExport--ActionButton": {
-    "messageformat": "Export"
+    "messageformat": "내보내기"
   },
   "icu:PlaintextExport--Confirmation--Header": {
-    "messageformat": "Export chat history?"
+    "messageformat": "대화 기록을 내보내시겠습니까?"
   },
   "icu:PlaintextExport--Confirmation--Description": {
-    "messageformat": "<bold>BE CAREFUL!</bold> Do NOT share this file with anyone. Your chat history will be saved to your computer and other apps can access it depending on your computer’s permissions."
+    "messageformat": "<bold>주의!</bold> 이 파일을 다른 사람과 공유하지 마세요. 대화 기록은 컴퓨터에 저장되며, 컴퓨터의 사용 권한에 따라 다른 앱에서 액세스할 수 있습니다."
   },
   "icu:PlaintextExport--Confirmation--IncludeMedia": {
-    "messageformat": "Include media <secondary>(larger file size)</secondary>"
+    "messageformat": "미디어 포함<secondary>(대용량 파일)</secondary>"
   },
   "icu:PlaintextExport--Confirmation--ContinueButton": {
-    "messageformat": "Continue"
+    "messageformat": "계속"
   },
   "icu:PlaintextExport--Confirmation--WaitingLabel": {
-    "messageformat": "Waiting for input"
+    "messageformat": "입력 대기 중"
   },
   "icu:PlaintextExport--OSPrompt--Mac": {
-    "messageformat": "export your chat history"
+    "messageformat": "대화 기록 내보내기"
   },
   "icu:PlaintextExport--OSPrompt--Windows": {
-    "messageformat": "Verify your identity to export your chat history."
+    "messageformat": "대화 기록을 내보내려면 신원을 인증하세요."
   },
   "icu:PlaintextExport--OSPrompt--description--Linux": {
-    "messageformat": "Export"
+    "messageformat": "내보내기"
   },
   "icu:PlaintextExport--OSPrompt--message--Linux": {
-    "messageformat": "Authentication is required to export your chat history."
+    "messageformat": "대화 기록을 내보내려면 인증이 필요합니다."
   },
   "icu:PlaintextExport--ProgressDialog--Header": {
-    "messageformat": "Exporting chat history"
+    "messageformat": "대화 기록을 내보내는 중"
   },
   "icu:PlaintextExport--ProgressDialog--Progress": {
-    "messageformat": "Exporting {currentBytes} of {totalBytes} ({percentage,number,percent})..."
+    "messageformat": "내보내기 {currentBytes}/{totalBytes}({percentage,number,percent})..."
   },
   "icu:PlaintextExport--ProgressDialog--TimeWarning": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "몇 분 정도 소요됩니다"
   },
   "icu:PlaintextExport--CompleteDialog--Header": {
-    "messageformat": "Export complete"
+    "messageformat": "내보내기 완료"
   },
   "icu:PlaintextExport--CompleteDialog--Description": {
-    "messageformat": "<bold>BE CAREFUL</bold> where you store your chat export file and do not share it with anyone. Other apps on your computer can access it depending on your computer’s permissions. "
+    "messageformat": "대화 기록 파일 저장 위치에 <bold>주의</bold>하고, 다른 사람과 공유하지 마세요. 컴퓨터의 사용 권한에 따라 컴퓨터의 다른 앱에서 해당 대화 기록에 액세스할 수 있습니다. "
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Mac": {
-    "messageformat": "Show in Finder"
+    "messageformat": "Finder에서 표시"
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Linux": {
-    "messageformat": "Show in folder"
+    "messageformat": "폴더에서 표시"
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Windows": {
-    "messageformat": "Show in folder"
+    "messageformat": "폴더에서 표시"
   },
   "icu:PlaintextExport--Error--General--Title": {
-    "messageformat": "Couldn’t export chat history"
+    "messageformat": "대화 기록을 내보낼 수 없음"
   },
   "icu:PlaintextExport--Error--General--Description": {
-    "messageformat": "An error occurred and your chat history could not be exported."
+    "messageformat": "오류가 발생하여 대화 기록을 내보낼 수 없습니다."
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Title": {
-    "messageformat": "Not enough storage space"
+    "messageformat": "저장 공간 부족"
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Detail": {
-    "messageformat": "Your chat history can’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+    "messageformat": "컴퓨터에 저장 공간이 충분치 않아 대화 기록을 내보낼 수 없습니다. {bytes}의 저장 공간을 확보한 후 다시 시도해 주세요."
   },
   "icu:PlaintextExport--Error--RanOutOfStorage--Title": {
-    "messageformat": "Couldn’t export chat history"
+    "messageformat": "대화 기록을 내보낼 수 없음"
   },
   "icu:PlaintextExport--Error--RanOutOfStorage--Detail": {
-    "messageformat": "Your chat history couldn’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+    "messageformat": "컴퓨터에 저장 공간이 충분치 않아 대화 기록을 내보낼 수 없습니다. {bytes}의 저장 공간을 확보한 후 다시 시도해 주세요."
   },
   "icu:PlaintextExport--Error--DiskPermssions--Title": {
-    "messageformat": "Can’t export chat history"
+    "messageformat": "대화 기록을 내보낼 수 없음"
   },
   "icu:PlaintextExport--Error--DiskPermssions--Detail": {
-    "messageformat": "Your chat history can’t be exported because Signal doesn’t have permission to write files to disk. Try changing your disk's permissions or updating your system settings and then export again."
+    "messageformat": "Signal은 디스크에 파일을 쓸 권한이 없어 대화 기록을 내보낼 수 없습니다. 디스크 사용 권한을 변경하거나 시스템 설정을 업데이트한 다음 내보내기를 다시 시도해 보세요."
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "달 아이콘"
@@ -5862,16 +5862,16 @@
     "messageformat": "확인"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "show your backup key"
+    "messageformat": "백업 키 표시"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your backup key."
+    "messageformat": "백업 키를 확인하려면 신원을 인증하세요."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "View backup key"
+    "messageformat": "백업 키 보기"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your backup key."
+    "messageformat": "백업 키를 확인하려면 인증이 필요합니다."
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "백업 키 텍스트 상자"
@@ -5916,16 +5916,16 @@
     "messageformat": "백업 키 복사됨"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
-    "messageformat": "enable backups"
+    "messageformat": "백업 활성화"
   },
   "icu:Preferences__local-backups--enable--os-prompt--windows": {
-    "messageformat": "Verify your identity to enable backups."
+    "messageformat": "백업을 활성화하려면 신원을 인증하세요."
   },
   "icu:Preferences__local-backups--enable--os-prompt-description--linux": {
-    "messageformat": "Enable backups"
+    "messageformat": "백업 활성화"
   },
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to enable backups."
+    "messageformat": "백업을 활성화하려면 인증이 필요합니다."
   },
   "icu:Preferences__view-key": {
     "messageformat": "키 보기"
@@ -6159,7 +6159,7 @@
     "messageformat": "보내지 않음"
   },
   "icu:CustomizingPreferredReactions__title": {
-    "messageformat": "반응 맞춤 설정하기"
+    "messageformat": "맞춤 반응 설정하기"
   },
   "icu:CustomizingPreferredReactions__subtitle": {
     "messageformat": "클릭하여 이모지 바꾸기"
@@ -6435,7 +6435,7 @@
     "messageformat": "스토리 개인정보보호"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "스토리는 24시간이 지나면 자동으로 사라집니다. 스토리를 볼 수 있는 사람을 선택하거나, 스토리를 볼 수 있는 사람이나 그룹을 지정하여 새 스토리를 만드세요."
+    "messageformat": "스토리는 24시간 후 자동으로 사라집니다. 스토리를 볼 수 있는 사람을 선택하거나, 특정 사용자 또는 그룹을 지정해 새 스토리를 만들어보세요."
   },
   "icu:StoriesSettings__my_stories": {
     "messageformat": "내 스토리"
@@ -6444,7 +6444,7 @@
     "messageformat": "새 스토리"
   },
   "icu:StoriesSettings__custom-story-subtitle": {
-    "messageformat": "사용자 지정 스토리"
+    "messageformat": "맞춤 스토리"
   },
   "icu:StoriesSettings__group-story-subtitle": {
     "messageformat": "그룹 스토리"
@@ -6477,7 +6477,7 @@
     "messageformat": "내 스토리를 볼 수 있는 사람들의 반응과 답장 허용"
   },
   "icu:StoriesSettings__delete-list": {
-    "messageformat": "사용자 지정 스토리 삭제"
+    "messageformat": "맞춤 스토리 삭제"
   },
   "icu:StoriesSettings__delete-list--confirm": {
     "messageformat": "''{name}'을(를) 삭제할까요? 이 스토리에 공유한 업데이트도 삭제합니다."
@@ -6504,7 +6504,7 @@
     "messageformat": "일부 사용자와만 공유"
   },
   "icu:StoriesSettings__mine__disclaimer--link": {
-    "messageformat": "스토리를 볼 수 있는 사람을 선택하세요. 이미 전송한 스토리에는 변경 내용이 적용되지 않습니다. <learnMoreLink>자세히 알아보기.</learnMoreLink>"
+    "messageformat": "스토리를 볼 수 있는 사람을 선택하세요. 이미 전송한 스토리에는 변경 내용이 적용되지 않습니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"
   },
   "icu:StoriesSettings__context-menu": {
     "messageformat": "스토리 개인정보보호"
@@ -6537,7 +6537,7 @@
     "messageformat": "스토리 보내기"
   },
   "icu:SendStoryModal__custom-story": {
-    "messageformat": "사용자 지정 스토리"
+    "messageformat": "맞춤 스토리"
   },
   "icu:SendStoryModal__group-story": {
     "messageformat": "그룹 스토리"
@@ -6552,7 +6552,7 @@
     "messageformat": "새 스토리"
   },
   "icu:SendStoryModal__new-custom--title": {
-    "messageformat": "새 사용자 지정 스토리"
+    "messageformat": "새 맞춤 스토리"
   },
   "icu:SendStoryModal__new-custom--name-visibility": {
     "messageformat": "이 스토리의 이름은 나에게만 표시됩니다."

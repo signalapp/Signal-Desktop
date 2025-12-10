@@ -1098,7 +1098,7 @@
     "messageformat": "Информация"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin message"
+    "messageformat": "Закрепить сообщение"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Завершить опрос"
@@ -1206,58 +1206,58 @@
     "messageformat": "Прежде чем покинуть эту группу, вы должны назначить для неё как минимум одного нового администратора."
   },
   "icu:PinnedMessageNotification__Message--You": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Вы закрепили сообщение"
   },
   "icu:PinnedMessageNotification__Message--SomeoneElse": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} закрепил(-а) сообщение"
   },
   "icu:PinnedMessageNotification__Button": {
-    "messageformat": "Go to message"
+    "messageformat": "Перейти к сообщению"
   },
   "icu:PinMessageDialog__Title": {
-    "messageformat": "Pin message for..."
+    "messageformat": "Закрепить сообщение на..."
   },
   "icu:PinMessageDialog__Close": {
-    "messageformat": "Close"
+    "messageformat": "Закрыть"
   },
   "icu:PinMessageDialog__Option--TIME_24_HOURS": {
-    "messageformat": "24 hours"
+    "messageformat": "24 часа"
   },
   "icu:PinMessageDialog__Option--TIME_7_DAYS": {
-    "messageformat": "7 days"
+    "messageformat": "7 дней"
   },
   "icu:PinMessageDialog__Option--TIME_30_DAYS": {
-    "messageformat": "30 days"
+    "messageformat": "30 дней"
   },
   "icu:PinMessageDialog__Option--FOREVER": {
-    "messageformat": "Forever"
+    "messageformat": "Бессрочно"
   },
   "icu:PinMessageDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Отменить"
   },
   "icu:PinMessageDialog__Pin": {
-    "messageformat": "Pin"
+    "messageformat": "Прикрепить"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
-    "messageformat": "{pinsCount, plural, one {Pinned message} other {Pinned messages}}"
+    "messageformat": "{pinsCount, plural, one {Закреплённое сообщение} few {Закреплённых сообщения} many {Закреплённых сообщений} other {Закреплённых сообщения}}"
   },
   "icu:PinnedMessagesBar__Tab__AccessibilityLabel": {
-    "messageformat": "Go to pin {pinNumber,number}"
+    "messageformat": "Перейти к функции закрепления {pinNumber,number}"
   },
   "icu:PinnedMessagesBar__GoToMessageClickableArea__AccessibilityLabel": {
-    "messageformat": "Go to message"
+    "messageformat": "Перейти к сообщению"
   },
   "icu:PinnedMessagesBar__ActionsMenu__Button__AccessibilityLabel": {
-    "messageformat": "More actions"
+    "messageformat": "Больше действий"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin message"
+    "messageformat": "Открепить сообщение"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
-    "messageformat": "Go to message"
+    "messageformat": "Перейти к сообщению"
   },
   "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
-    "messageformat": "See all messages"
+    "messageformat": "Просмотреть все сообщения"
   },
   "icu:sessionEnded": {
     "messageformat": "Защищенный сеанс сброшен"
@@ -5082,7 +5082,7 @@
     "messageformat": "Откройте ссылку в браузере"
   },
   "icu:ListItem__show-message": {
-    "messageformat": "Show message in conversation"
+    "messageformat": "Показать сообщение в разговоре"
   },
   "icu:MediaGallery__tab__audio": {
     "messageformat": "Аудио"
@@ -5109,7 +5109,7 @@
     "messageformat": "Ссылок нет"
   },
   "icu:MediaGallery__EmptyState__description--links-2": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Ссылки, которые вы отправляете и получаете, будут отображаться здесь"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
     "messageformat": "Ссылки, которые вы отправляете и получаете, будут отображаться здесь"
@@ -5118,7 +5118,7 @@
     "messageformat": "Нет файлов"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Файлы, которые вы отправляете и получаете, будут отображаться здесь"
   },
   "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "Файлы, которые вы отправляете и получаете, будут отображаться здесь"
@@ -5463,88 +5463,88 @@
     "messageformat": "Содержимое уведомления"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
-    "messageformat": "Export chat history"
+    "messageformat": "Экспортировать историю чата"
   },
   "icu:PlaintextExport--PreferencesRow--Description": {
-    "messageformat": "Export a machine-readable JSON copy of all your chats. Disappearing messages will not be exported."
+    "messageformat": "Экспортировать машиночитаемую копию всех ваших чатов в формате JSON. Исчезающие сообщения экспортированы не будут."
   },
   "icu:PlaintextExport--ActionButton": {
-    "messageformat": "Export"
+    "messageformat": "Экспорт"
   },
   "icu:PlaintextExport--Confirmation--Header": {
-    "messageformat": "Export chat history?"
+    "messageformat": "Экспортировать историю чата?"
   },
   "icu:PlaintextExport--Confirmation--Description": {
-    "messageformat": "<bold>BE CAREFUL!</bold> Do NOT share this file with anyone. Your chat history will be saved to your computer and other apps can access it depending on your computer’s permissions."
+    "messageformat": "<bold>БУДЬТЕ ОСТОРОЖНЫ!</bold> Ни с кем НЕ делитесь этим файлом. История чата будет сохранена на вашем компьютере, и другие приложения смогут получить доступ к ней в зависимости от разрешений вашего компьютера."
   },
   "icu:PlaintextExport--Confirmation--IncludeMedia": {
-    "messageformat": "Include media <secondary>(larger file size)</secondary>"
+    "messageformat": "Включить медиафайлы <secondary>(больший размер файла)</secondary>"
   },
   "icu:PlaintextExport--Confirmation--ContinueButton": {
-    "messageformat": "Continue"
+    "messageformat": "Продолжить"
   },
   "icu:PlaintextExport--Confirmation--WaitingLabel": {
-    "messageformat": "Waiting for input"
+    "messageformat": "Ожидание ввода"
   },
   "icu:PlaintextExport--OSPrompt--Mac": {
-    "messageformat": "export your chat history"
+    "messageformat": "экспортировать историю чата"
   },
   "icu:PlaintextExport--OSPrompt--Windows": {
-    "messageformat": "Verify your identity to export your chat history."
+    "messageformat": "Подтвердите свою личность, чтобы экспортировать вашу историю чата."
   },
   "icu:PlaintextExport--OSPrompt--description--Linux": {
-    "messageformat": "Export"
+    "messageformat": "Экспорт"
   },
   "icu:PlaintextExport--OSPrompt--message--Linux": {
-    "messageformat": "Authentication is required to export your chat history."
+    "messageformat": "Для экспорта истории чата требуется аутентификация."
   },
   "icu:PlaintextExport--ProgressDialog--Header": {
-    "messageformat": "Exporting chat history"
+    "messageformat": "Экспорт истории чата"
   },
   "icu:PlaintextExport--ProgressDialog--Progress": {
-    "messageformat": "Exporting {currentBytes} of {totalBytes} ({percentage,number,percent})..."
+    "messageformat": "Экспортируем {currentBytes} из {totalBytes} ({percentage,number,percent})..."
   },
   "icu:PlaintextExport--ProgressDialog--TimeWarning": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Это может занять несколько минут"
   },
   "icu:PlaintextExport--CompleteDialog--Header": {
-    "messageformat": "Export complete"
+    "messageformat": "Экспорт завершён"
   },
   "icu:PlaintextExport--CompleteDialog--Description": {
-    "messageformat": "<bold>BE CAREFUL</bold> where you store your chat export file and do not share it with anyone. Other apps on your computer can access it depending on your computer’s permissions. "
+    "messageformat": "<bold>БУДЬТЕ ОСТОРОЖНЫ</bold> при выборе места для хранения файла экспорта чата, и не делитесь им ни с кем. Он может быть доступен для других приложений на вашем компьютере в зависимости от его разрешений. "
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Mac": {
-    "messageformat": "Show in Finder"
+    "messageformat": "Показать в Finder"
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Linux": {
-    "messageformat": "Show in folder"
+    "messageformat": "Показать в папке"
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Windows": {
-    "messageformat": "Show in folder"
+    "messageformat": "Показать в папке"
   },
   "icu:PlaintextExport--Error--General--Title": {
-    "messageformat": "Couldn’t export chat history"
+    "messageformat": "Не удалось экспортировать историю чатов"
   },
   "icu:PlaintextExport--Error--General--Description": {
-    "messageformat": "An error occurred and your chat history could not be exported."
+    "messageformat": "Вашу историю чата не удалось экспортировать из-за ошибки."
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Title": {
-    "messageformat": "Not enough storage space"
+    "messageformat": "Недостаточно места для хранения"
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Detail": {
-    "messageformat": "Your chat history can’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+    "messageformat": "Историю чата нельзя экспортировать, потому что на вашем компьютере недостаточно места для хранения. Освободите {bytes} места и попробуйте ещё раз."
   },
   "icu:PlaintextExport--Error--RanOutOfStorage--Title": {
-    "messageformat": "Couldn’t export chat history"
+    "messageformat": "Не удалось экспортировать историю чата"
   },
   "icu:PlaintextExport--Error--RanOutOfStorage--Detail": {
-    "messageformat": "Your chat history couldn’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+    "messageformat": "Историю чата не удалось экспортировать, потому что на вашем компьютере недостаточно места для хранения. Освободите {bytes} места и попробуйте ещё раз."
   },
   "icu:PlaintextExport--Error--DiskPermssions--Title": {
-    "messageformat": "Can’t export chat history"
+    "messageformat": "Не удалось экспортировать историю чата"
   },
   "icu:PlaintextExport--Error--DiskPermssions--Detail": {
-    "messageformat": "Your chat history can’t be exported because Signal doesn’t have permission to write files to disk. Try changing your disk's permissions or updating your system settings and then export again."
+    "messageformat": "Историю чата нельзя экспортировать, потому что у Signal нет разрешения на запись файлов на диск. Попробуйте изменить права доступа к диску или обновить системные настройки, а затем экспортировать ещё раз."
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Значок луны"
@@ -5862,16 +5862,16 @@
     "messageformat": "Готово"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "show your backup key"
+    "messageformat": "показать резервный ключ"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your backup key."
+    "messageformat": "Подтвердите свою личность, чтобы просмотреть резервный ключ."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "View backup key"
+    "messageformat": "Просмотреть резервный ключ"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your backup key."
+    "messageformat": "Для просмотра вашего резервного ключа требуется аутентификация."
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Текстовое поле для резервного ключа"
@@ -5916,16 +5916,16 @@
     "messageformat": "Резервный ключ скопирован"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
-    "messageformat": "enable backups"
+    "messageformat": "Включить резервные копии"
   },
   "icu:Preferences__local-backups--enable--os-prompt--windows": {
-    "messageformat": "Verify your identity to enable backups."
+    "messageformat": "Подтвердите свою личность, чтобы включить резервное копирование."
   },
   "icu:Preferences__local-backups--enable--os-prompt-description--linux": {
-    "messageformat": "Enable backups"
+    "messageformat": "Включить резервные копии"
   },
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to enable backups."
+    "messageformat": "Для включения резервного копирования требуется аутентификация."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Просмотреть ключ"

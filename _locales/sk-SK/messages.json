@@ -1098,7 +1098,7 @@
     "messageformat": "Info"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin message"
+    "messageformat": "Pripnúť správu"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Ukončiť anketu"
@@ -1206,58 +1206,58 @@
     "messageformat": "Pred tým, než opustíte túto skupinu, musíte pre ňu vybrať aspoň jedného nového administrátora."
   },
   "icu:PinnedMessageNotification__Message--You": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Pripli ste správu"
   },
   "icu:PinnedMessageNotification__Message--SomeoneElse": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "Používateľ {sender} pripol správu"
   },
   "icu:PinnedMessageNotification__Button": {
-    "messageformat": "Go to message"
+    "messageformat": "Prejsť na správu"
   },
   "icu:PinMessageDialog__Title": {
-    "messageformat": "Pin message for..."
+    "messageformat": "Pripnúť správu…"
   },
   "icu:PinMessageDialog__Close": {
-    "messageformat": "Close"
+    "messageformat": "Zatvoriť"
   },
   "icu:PinMessageDialog__Option--TIME_24_HOURS": {
-    "messageformat": "24 hours"
+    "messageformat": "24 hodín"
   },
   "icu:PinMessageDialog__Option--TIME_7_DAYS": {
-    "messageformat": "7 days"
+    "messageformat": "7 dní"
   },
   "icu:PinMessageDialog__Option--TIME_30_DAYS": {
-    "messageformat": "30 days"
+    "messageformat": "30 dní"
   },
   "icu:PinMessageDialog__Option--FOREVER": {
-    "messageformat": "Forever"
+    "messageformat": "Navždy"
   },
   "icu:PinMessageDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Zrušiť"
   },
   "icu:PinMessageDialog__Pin": {
-    "messageformat": "Pin"
+    "messageformat": "Pripnúť"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
-    "messageformat": "{pinsCount, plural, one {Pinned message} other {Pinned messages}}"
+    "messageformat": "{pinsCount, plural, one {Pripnutá správa} few {Pripnuté správy} many {Pripnutej správy} other {Pripnutých správ}}"
   },
   "icu:PinnedMessagesBar__Tab__AccessibilityLabel": {
-    "messageformat": "Go to pin {pinNumber,number}"
+    "messageformat": "Prejsť na pripnutie {pinNumber,number}"
   },
   "icu:PinnedMessagesBar__GoToMessageClickableArea__AccessibilityLabel": {
-    "messageformat": "Go to message"
+    "messageformat": "Prejsť na správu"
   },
   "icu:PinnedMessagesBar__ActionsMenu__Button__AccessibilityLabel": {
-    "messageformat": "More actions"
+    "messageformat": "Viac akcií"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin message"
+    "messageformat": "Odopnúť správu"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
-    "messageformat": "Go to message"
+    "messageformat": "Prejsť na správu"
   },
   "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
-    "messageformat": "See all messages"
+    "messageformat": "Zobraziť všetky správy"
   },
   "icu:sessionEnded": {
     "messageformat": "Zabezpečené spojenie bolo obnovené"
@@ -5082,7 +5082,7 @@
     "messageformat": "Otvoriť odkaz v prehliadači"
   },
   "icu:ListItem__show-message": {
-    "messageformat": "Show message in conversation"
+    "messageformat": "Zobraziť správu v konverzácii"
   },
   "icu:MediaGallery__tab__audio": {
     "messageformat": "Audio"
@@ -5109,7 +5109,7 @@
     "messageformat": "Žiadne odkazy"
   },
   "icu:MediaGallery__EmptyState__description--links-2": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Tu sa zobrazia odkazy, ktoré odošlete a prijmete"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
     "messageformat": "Tu sa zobrazia odkazy, ktoré odošlete a prijmete"
@@ -5118,7 +5118,7 @@
     "messageformat": "Žiadne súbory"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Tu sa zobrazia súbory, ktoré odošlete a prijmete"
   },
   "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "Tu sa zobrazia súbory, ktoré odošlete a prijmete"
@@ -5463,88 +5463,88 @@
     "messageformat": "Obsah oznámenia"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
-    "messageformat": "Export chat history"
+    "messageformat": "Exportovať históriu četov"
   },
   "icu:PlaintextExport--PreferencesRow--Description": {
-    "messageformat": "Export a machine-readable JSON copy of all your chats. Disappearing messages will not be exported."
+    "messageformat": "Exportujte strojovo čitateľnú kópiu JSON všetkých vašich četov. Miznúce správy nebudú exportované."
   },
   "icu:PlaintextExport--ActionButton": {
-    "messageformat": "Export"
+    "messageformat": "Exportovať"
   },
   "icu:PlaintextExport--Confirmation--Header": {
-    "messageformat": "Export chat history?"
+    "messageformat": "Exportovať históriu četov?"
   },
   "icu:PlaintextExport--Confirmation--Description": {
-    "messageformat": "<bold>BE CAREFUL!</bold> Do NOT share this file with anyone. Your chat history will be saved to your computer and other apps can access it depending on your computer’s permissions."
+    "messageformat": "<bold>POZOR!</bold> Tento súbor s nikým NEZDIEĽAJTE. História četov sa uloží do vášho počítača a ostatné aplikácie k nej môžu mať prístup v závislosti od nastavených povolení počítača."
   },
   "icu:PlaintextExport--Confirmation--IncludeMedia": {
-    "messageformat": "Include media <secondary>(larger file size)</secondary>"
+    "messageformat": "Zahrnúť médiá <secondary>(väčšia veľkosť súboru)</secondary>"
   },
   "icu:PlaintextExport--Confirmation--ContinueButton": {
-    "messageformat": "Continue"
+    "messageformat": "Pokračovať"
   },
   "icu:PlaintextExport--Confirmation--WaitingLabel": {
-    "messageformat": "Waiting for input"
+    "messageformat": "Čaká sa na vstup"
   },
   "icu:PlaintextExport--OSPrompt--Mac": {
-    "messageformat": "export your chat history"
+    "messageformat": "exportovať históriu četov"
   },
   "icu:PlaintextExport--OSPrompt--Windows": {
-    "messageformat": "Verify your identity to export your chat history."
+    "messageformat": "Ak chcete exportovať históriu četov, overte svoju totožnosť."
   },
   "icu:PlaintextExport--OSPrompt--description--Linux": {
-    "messageformat": "Export"
+    "messageformat": "Exportovať"
   },
   "icu:PlaintextExport--OSPrompt--message--Linux": {
-    "messageformat": "Authentication is required to export your chat history."
+    "messageformat": "Na exportovanie histórie četov je potrebné overenie."
   },
   "icu:PlaintextExport--ProgressDialog--Header": {
-    "messageformat": "Exporting chat history"
+    "messageformat": "Exportuje sa história četov"
   },
   "icu:PlaintextExport--ProgressDialog--Progress": {
-    "messageformat": "Exporting {currentBytes} of {totalBytes} ({percentage,number,percent})..."
+    "messageformat": "Exportuje sa {currentBytes} z {totalBytes} ({percentage,number,percent})…"
   },
   "icu:PlaintextExport--ProgressDialog--TimeWarning": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Môže to trvať pár minút"
   },
   "icu:PlaintextExport--CompleteDialog--Header": {
-    "messageformat": "Export complete"
+    "messageformat": "Export bol úspešne dokončený"
   },
   "icu:PlaintextExport--CompleteDialog--Description": {
-    "messageformat": "<bold>BE CAREFUL</bold> where you store your chat export file and do not share it with anyone. Other apps on your computer can access it depending on your computer’s permissions. "
+    "messageformat": "<bold>DÁVAJTE POZOR</bold>, kde ukladáte exportovaný súbor s četmi a s nikým ho nezdieľate. V závislosti od nastavených povolení počítača môžu mať k nemu prístup iné aplikácie vo vašom počítači. "
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Mac": {
-    "messageformat": "Show in Finder"
+    "messageformat": "Zobraziť vo Finderi"
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Linux": {
-    "messageformat": "Show in folder"
+    "messageformat": "Zobraziť v priečinku"
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Windows": {
-    "messageformat": "Show in folder"
+    "messageformat": "Zobraziť v priečinku"
   },
   "icu:PlaintextExport--Error--General--Title": {
-    "messageformat": "Couldn’t export chat history"
+    "messageformat": "Históriu četov sa nepodarilo exportovať"
   },
   "icu:PlaintextExport--Error--General--Description": {
-    "messageformat": "An error occurred and your chat history could not be exported."
+    "messageformat": "Vyskytla sa chyba a históriu četov sa nepodarilo exportovať."
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Title": {
-    "messageformat": "Not enough storage space"
+    "messageformat": "Nedostatok úložného priestoru"
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Detail": {
-    "messageformat": "Your chat history can’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+    "messageformat": "Históriu četov sa nepodarilo exportovať, pretože váš počítač nemá dostatok voľného úložného priestoru. Uvoľnite {bytes} miesta a potom to skúste znova."
   },
   "icu:PlaintextExport--Error--RanOutOfStorage--Title": {
-    "messageformat": "Couldn’t export chat history"
+    "messageformat": "Históriu četov sa nepodarilo exportovať"
   },
   "icu:PlaintextExport--Error--RanOutOfStorage--Detail": {
-    "messageformat": "Your chat history couldn’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+    "messageformat": "Históriu četov nebolo možné exportovať, pretože váš počítač nemá dostatok voľného úložného priestoru. Uvoľnite {bytes} miesta a potom to skúste znova."
   },
   "icu:PlaintextExport--Error--DiskPermssions--Title": {
-    "messageformat": "Can’t export chat history"
+    "messageformat": "Históriu četov sa nepodarilo exportovať"
   },
   "icu:PlaintextExport--Error--DiskPermssions--Detail": {
-    "messageformat": "Your chat history can’t be exported because Signal doesn’t have permission to write files to disk. Try changing your disk's permissions or updating your system settings and then export again."
+    "messageformat": "Históriu četov sa nepodarilo exportovať, pretože Signal nemá povolenie na zapisovanie súborov na disk. Skúste zmeniť povolenia disku alebo aktualizovať systémové nastavenia a potom exportujte znova."
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Ikona mesiaca"
@@ -5862,16 +5862,16 @@
     "messageformat": "Hotovo"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "show your backup key"
+    "messageformat": "zobraziť váš záložný kľúč"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your backup key."
+    "messageformat": "Ak chcete zobraziť záložný kľúč, overte svoju totožnosť."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "View backup key"
+    "messageformat": "Zobraziť záložný kľúč"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your backup key."
+    "messageformat": "Na zobrazenie záložného kľúča je potrebné overenie."
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Textové pole záložného kľúča"
@@ -5916,16 +5916,16 @@
     "messageformat": "Záložný kľúč bol skopírovaný"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
-    "messageformat": "enable backups"
+    "messageformat": "Povoliť zálohovanie"
   },
   "icu:Preferences__local-backups--enable--os-prompt--windows": {
-    "messageformat": "Verify your identity to enable backups."
+    "messageformat": "Ak chcete povoliť zálohovanie, overte svoju totožnosť."
   },
   "icu:Preferences__local-backups--enable--os-prompt-description--linux": {
-    "messageformat": "Enable backups"
+    "messageformat": "Povoliť zálohovanie"
   },
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to enable backups."
+    "messageformat": "Na povolenie zálohovania je potrebné overenie."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Zobraziť kľúč"

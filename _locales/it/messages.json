@@ -1098,7 +1098,7 @@
     "messageformat": "Informazioni"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin message"
+    "messageformat": "Metti in evidenza"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Termina sondaggio"
@@ -1206,58 +1206,58 @@
     "messageformat": "Prima di abbandonare il gruppo, devi scegliere almeno un nuovo amministratore."
   },
   "icu:PinnedMessageNotification__Message--You": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Hai messo in evidenza un messaggio"
   },
   "icu:PinnedMessageNotification__Message--SomeoneElse": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} ha messo in evidenza un messaggio"
   },
   "icu:PinnedMessageNotification__Button": {
-    "messageformat": "Go to message"
+    "messageformat": "Vai al messaggio"
   },
   "icu:PinMessageDialog__Title": {
-    "messageformat": "Pin message for..."
+    "messageformat": "Metti in evidenza il messaggio per…"
   },
   "icu:PinMessageDialog__Close": {
-    "messageformat": "Close"
+    "messageformat": "Chiudi"
   },
   "icu:PinMessageDialog__Option--TIME_24_HOURS": {
-    "messageformat": "24 hours"
+    "messageformat": "24 ore"
   },
   "icu:PinMessageDialog__Option--TIME_7_DAYS": {
-    "messageformat": "7 days"
+    "messageformat": "7 giorni"
   },
   "icu:PinMessageDialog__Option--TIME_30_DAYS": {
-    "messageformat": "30 days"
+    "messageformat": "30 giorni"
   },
   "icu:PinMessageDialog__Option--FOREVER": {
-    "messageformat": "Forever"
+    "messageformat": "Per sempre"
   },
   "icu:PinMessageDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Annulla"
   },
   "icu:PinMessageDialog__Pin": {
-    "messageformat": "Pin"
+    "messageformat": "Metti in evidenza"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
-    "messageformat": "{pinsCount, plural, one {Pinned message} other {Pinned messages}}"
+    "messageformat": "{pinsCount, plural, one {Messaggio in evidenza} other {Messaggi in evidenza}}"
   },
   "icu:PinnedMessagesBar__Tab__AccessibilityLabel": {
-    "messageformat": "Go to pin {pinNumber,number}"
+    "messageformat": "Vai all'elemento in evidenza {pinNumber,number}"
   },
   "icu:PinnedMessagesBar__GoToMessageClickableArea__AccessibilityLabel": {
-    "messageformat": "Go to message"
+    "messageformat": "Vai al messaggio"
   },
   "icu:PinnedMessagesBar__ActionsMenu__Button__AccessibilityLabel": {
-    "messageformat": "More actions"
+    "messageformat": "Più azioni"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin message"
+    "messageformat": "Rimuovi messaggio in evidenza"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
-    "messageformat": "Go to message"
+    "messageformat": "Vai al messaggio"
   },
   "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
-    "messageformat": "See all messages"
+    "messageformat": "Vedi tutti i messaggi"
   },
   "icu:sessionEnded": {
     "messageformat": "Ripristina la sessione sicura"
@@ -5082,7 +5082,7 @@
     "messageformat": "Apri il link in un browser"
   },
   "icu:ListItem__show-message": {
-    "messageformat": "Show message in conversation"
+    "messageformat": "Mostra messaggio nella chat"
   },
   "icu:MediaGallery__tab__audio": {
     "messageformat": "Audio"
@@ -5109,7 +5109,7 @@
     "messageformat": "Nessun link"
   },
   "icu:MediaGallery__EmptyState__description--links-2": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Qui vedrai i link che invii e ricevi"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
     "messageformat": "Qui vedrai i link che invii e ricevi"
@@ -5118,7 +5118,7 @@
     "messageformat": "Nessun file"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Qui vedrai i file che invii e ricevi"
   },
   "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "Qui vedrai i file che invii e ricevi"
@@ -5463,88 +5463,88 @@
     "messageformat": "Contenuto notifica"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
-    "messageformat": "Export chat history"
+    "messageformat": "Esporta la cronologia chat"
   },
   "icu:PlaintextExport--PreferencesRow--Description": {
-    "messageformat": "Export a machine-readable JSON copy of all your chats. Disappearing messages will not be exported."
+    "messageformat": "Esporta una copia JSON di tipo \"machine-readable\" di tutte le tue chat. I messaggi temporanei non verranno esportati."
   },
   "icu:PlaintextExport--ActionButton": {
-    "messageformat": "Export"
+    "messageformat": "Esporta"
   },
   "icu:PlaintextExport--Confirmation--Header": {
-    "messageformat": "Export chat history?"
+    "messageformat": "Esportare la cronologia chat?"
   },
   "icu:PlaintextExport--Confirmation--Description": {
-    "messageformat": "<bold>BE CAREFUL!</bold> Do NOT share this file with anyone. Your chat history will be saved to your computer and other apps can access it depending on your computer’s permissions."
+    "messageformat": "<bold>ATTENZIONE!</bold> NON condividere mai questo file con altre persone. La tua cronologia chat verrà salvata sul tuo computer e altre app potranno accedervi, a seconda delle autorizzazioni fornite sul tuo computer."
   },
   "icu:PlaintextExport--Confirmation--IncludeMedia": {
-    "messageformat": "Include media <secondary>(larger file size)</secondary>"
+    "messageformat": "Includi media <secondary>(file di grandi dimensioni)</secondary>"
   },
   "icu:PlaintextExport--Confirmation--ContinueButton": {
-    "messageformat": "Continue"
+    "messageformat": "Continua"
   },
   "icu:PlaintextExport--Confirmation--WaitingLabel": {
-    "messageformat": "Waiting for input"
+    "messageformat": "In attesa di un input"
   },
   "icu:PlaintextExport--OSPrompt--Mac": {
-    "messageformat": "export your chat history"
+    "messageformat": "Esporta la tua cronologia chat"
   },
   "icu:PlaintextExport--OSPrompt--Windows": {
-    "messageformat": "Verify your identity to export your chat history."
+    "messageformat": "Verifica la tua identità per esportare la cronologia chat."
   },
   "icu:PlaintextExport--OSPrompt--description--Linux": {
-    "messageformat": "Export"
+    "messageformat": "Esporta"
   },
   "icu:PlaintextExport--OSPrompt--message--Linux": {
-    "messageformat": "Authentication is required to export your chat history."
+    "messageformat": "È necessaria l'autenticazione per esportare la tua cronologia chat."
   },
   "icu:PlaintextExport--ProgressDialog--Header": {
-    "messageformat": "Exporting chat history"
+    "messageformat": "Esportazione cronologia chat…"
   },
   "icu:PlaintextExport--ProgressDialog--Progress": {
-    "messageformat": "Exporting {currentBytes} of {totalBytes} ({percentage,number,percent})..."
+    "messageformat": "Esportazione di {currentBytes} su {totalBytes} ({percentage,number,percent})…"
   },
   "icu:PlaintextExport--ProgressDialog--TimeWarning": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Ci vuole qualche minuto"
   },
   "icu:PlaintextExport--CompleteDialog--Header": {
-    "messageformat": "Export complete"
+    "messageformat": "Esportazione completata"
   },
   "icu:PlaintextExport--CompleteDialog--Description": {
-    "messageformat": "<bold>BE CAREFUL</bold> where you store your chat export file and do not share it with anyone. Other apps on your computer can access it depending on your computer’s permissions. "
+    "messageformat": "<bold>FAI ATTENZIONE</bold> a dove archivi il file esportato e non condividerlo mai con altre persone. Altre app sul tuo computer potrebbero accedervi, a seconda delle autorizzazioni fornite sul tuo computer. "
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Mac": {
-    "messageformat": "Show in Finder"
+    "messageformat": "Mostra nel Finder"
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Linux": {
-    "messageformat": "Show in folder"
+    "messageformat": "Mostra nella cartella"
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Windows": {
-    "messageformat": "Show in folder"
+    "messageformat": "Mostra nella cartella"
   },
   "icu:PlaintextExport--Error--General--Title": {
-    "messageformat": "Couldn’t export chat history"
+    "messageformat": "Impossibile esportare la cronologia chat"
   },
   "icu:PlaintextExport--Error--General--Description": {
-    "messageformat": "An error occurred and your chat history could not be exported."
+    "messageformat": "Si è verificato un errore: non è stato possibile esportare la tua cronologia chat."
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Title": {
-    "messageformat": "Not enough storage space"
+    "messageformat": "Spazio insufficiente"
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Detail": {
-    "messageformat": "Your chat history can’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+    "messageformat": "La tua cronologia chat non può essere esportata perché il tuo computer non ha abbastanza spazio di archiviazione libero. Libera {bytes} di memoria e riprova."
   },
   "icu:PlaintextExport--Error--RanOutOfStorage--Title": {
-    "messageformat": "Couldn’t export chat history"
+    "messageformat": "Impossibile esportare la cronologia chat"
   },
   "icu:PlaintextExport--Error--RanOutOfStorage--Detail": {
-    "messageformat": "Your chat history couldn’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+    "messageformat": "La tua cronologia chat non può essere esportata perché il tuo computer non ha abbastanza spazio di archiviazione libero. Libera {bytes} di memoria e riprova."
   },
   "icu:PlaintextExport--Error--DiskPermssions--Title": {
-    "messageformat": "Can’t export chat history"
+    "messageformat": "Impossibile esportare la cronologia chat"
   },
   "icu:PlaintextExport--Error--DiskPermssions--Detail": {
-    "messageformat": "Your chat history can’t be exported because Signal doesn’t have permission to write files to disk. Try changing your disk's permissions or updating your system settings and then export again."
+    "messageformat": "La tua cronologia chat non può essere esportata perché Signal non ha le autorizzazioni necessarie per sovrascrivere i file sullo spazio di archiviazione. Prova a cambiare le autorizzazioni per lo spazio di archiviazione oppure ad aggiornare le impostazioni di sistema, poi riprova l'esportazione."
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Icona della luna"
@@ -5862,16 +5862,16 @@
     "messageformat": "Fatto"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "show your backup key"
+    "messageformat": "Mostra la tua chiave di backup"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your backup key."
+    "messageformat": "Verifica la tua identità per vedere la tua chiave di backup."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "View backup key"
+    "messageformat": "Vedi la chiave per i backup"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your backup key."
+    "messageformat": "È necessaria l'autenticazione per vedere la tua chiave di backup."
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Box testuale con la chiave di backup"
@@ -5916,16 +5916,16 @@
     "messageformat": "Chiave del backup copiata"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
-    "messageformat": "enable backups"
+    "messageformat": "Abilitare i backup"
   },
   "icu:Preferences__local-backups--enable--os-prompt--windows": {
-    "messageformat": "Verify your identity to enable backups."
+    "messageformat": "Verifica la tua identità per attivare i backup."
   },
   "icu:Preferences__local-backups--enable--os-prompt-description--linux": {
-    "messageformat": "Enable backups"
+    "messageformat": "Abilitare i backup"
   },
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to enable backups."
+    "messageformat": "È necessaria l'autenticazione per attivare i backup."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Visualizza chiave"

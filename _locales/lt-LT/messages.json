@@ -1098,7 +1098,7 @@
     "messageformat": "Informacija"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin message"
+    "messageformat": "Prisegti žinutę"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Baigti apklausą"
@@ -1206,58 +1206,58 @@
     "messageformat": "Prieš išeinant tau reikia parinkti šiai grupei bent vieną naują administratorių."
   },
   "icu:PinnedMessageNotification__Message--You": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Prisegėte žinutę"
   },
   "icu:PinnedMessageNotification__Message--SomeoneElse": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} prisegė žinutę"
   },
   "icu:PinnedMessageNotification__Button": {
-    "messageformat": "Go to message"
+    "messageformat": "Eiti į žinutę"
   },
   "icu:PinMessageDialog__Title": {
-    "messageformat": "Pin message for..."
+    "messageformat": "Prisegti žinutę..."
   },
   "icu:PinMessageDialog__Close": {
-    "messageformat": "Close"
+    "messageformat": "Užverti"
   },
   "icu:PinMessageDialog__Option--TIME_24_HOURS": {
-    "messageformat": "24 hours"
+    "messageformat": "24 val."
   },
   "icu:PinMessageDialog__Option--TIME_7_DAYS": {
-    "messageformat": "7 days"
+    "messageformat": "7 d."
   },
   "icu:PinMessageDialog__Option--TIME_30_DAYS": {
-    "messageformat": "30 days"
+    "messageformat": "30 dienų"
   },
   "icu:PinMessageDialog__Option--FOREVER": {
-    "messageformat": "Forever"
+    "messageformat": "Amžinai"
   },
   "icu:PinMessageDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Atšaukti"
   },
   "icu:PinMessageDialog__Pin": {
-    "messageformat": "Pin"
+    "messageformat": "Prisegti"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
-    "messageformat": "{pinsCount, plural, one {Pinned message} other {Pinned messages}}"
+    "messageformat": "{pinsCount, plural, one {Prisegta žinutė} few {Prisegtos žinutės} many {Prisegtos žinutės} other {Prisegtų žinučių}}"
   },
   "icu:PinnedMessagesBar__Tab__AccessibilityLabel": {
-    "messageformat": "Go to pin {pinNumber,number}"
+    "messageformat": "Eiti į {pinNumber,number} prisegtą žinutę"
   },
   "icu:PinnedMessagesBar__GoToMessageClickableArea__AccessibilityLabel": {
-    "messageformat": "Go to message"
+    "messageformat": "Eiti į žinutę"
   },
   "icu:PinnedMessagesBar__ActionsMenu__Button__AccessibilityLabel": {
-    "messageformat": "More actions"
+    "messageformat": "Daugiau veiksmų"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin message"
+    "messageformat": "Atsegti žinutę"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
-    "messageformat": "Go to message"
+    "messageformat": "Eiti į žinutę"
   },
   "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
-    "messageformat": "See all messages"
+    "messageformat": "Žiūrėti visas žinutes"
   },
   "icu:sessionEnded": {
     "messageformat": "Saugusis seansas atstatytas"
@@ -5082,7 +5082,7 @@
     "messageformat": "Atverti nuorodą naršyklėje"
   },
   "icu:ListItem__show-message": {
-    "messageformat": "Show message in conversation"
+    "messageformat": "Rodyti žinutę pokalbyje"
   },
   "icu:MediaGallery__tab__audio": {
     "messageformat": "Garso įrašas"
@@ -5109,7 +5109,7 @@
     "messageformat": "Nuorodų nėra"
   },
   "icu:MediaGallery__EmptyState__description--links-2": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Čia bus rodomos jūsų siunčiamos ir gaunamos nuorodos"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
     "messageformat": "Čia bus rodomos jūsų siunčiamos ir gaunamos nuorodos"
@@ -5118,7 +5118,7 @@
     "messageformat": "Failų nėra"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Čia bus rodomi jūsų siunčiami ir gaunami failai"
   },
   "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "Čia bus rodomi jūsų siunčiami ir gaunami failai"
@@ -5463,88 +5463,88 @@
     "messageformat": "Pranešimų turinys"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
-    "messageformat": "Export chat history"
+    "messageformat": "Eksportuoti pokalbių istoriją"
   },
   "icu:PlaintextExport--PreferencesRow--Description": {
-    "messageformat": "Export a machine-readable JSON copy of all your chats. Disappearing messages will not be exported."
+    "messageformat": "Eksportuoti visus pokalbius kompiuterio skaitomu JSON formatu. Dingstančios žinutės nebus eksportuotos."
   },
   "icu:PlaintextExport--ActionButton": {
-    "messageformat": "Export"
+    "messageformat": "Eksportuoti"
   },
   "icu:PlaintextExport--Confirmation--Header": {
-    "messageformat": "Export chat history?"
+    "messageformat": "Eksportuoti pokalbių istoriją?"
   },
   "icu:PlaintextExport--Confirmation--Description": {
-    "messageformat": "<bold>BE CAREFUL!</bold> Do NOT share this file with anyone. Your chat history will be saved to your computer and other apps can access it depending on your computer’s permissions."
+    "messageformat": "<bold>BŪKITE ATSARGŪS!</bold> NESIDALYKITE šiuo failu su niekuo. Jūsų pokalbių istorija bus išsaugota jūsų kompiuteryje ir ją galės pasiekti kitos programos, priklausomai nuo jūsų kompiuterio leidimų."
   },
   "icu:PlaintextExport--Confirmation--IncludeMedia": {
-    "messageformat": "Include media <secondary>(larger file size)</secondary>"
+    "messageformat": "Įtraukti įrašus <secondary>(didesnius failus )</secondary>"
   },
   "icu:PlaintextExport--Confirmation--ContinueButton": {
-    "messageformat": "Continue"
+    "messageformat": "Tęsti"
   },
   "icu:PlaintextExport--Confirmation--WaitingLabel": {
-    "messageformat": "Waiting for input"
+    "messageformat": "Laukiama įvesties"
   },
   "icu:PlaintextExport--OSPrompt--Mac": {
-    "messageformat": "export your chat history"
+    "messageformat": "eksportuoti pokalbių istoriją"
   },
   "icu:PlaintextExport--OSPrompt--Windows": {
-    "messageformat": "Verify your identity to export your chat history."
+    "messageformat": "Patvirtinkite savo tapatybę, kad galėtumėte eksportuoti pokalbių istoriją."
   },
   "icu:PlaintextExport--OSPrompt--description--Linux": {
-    "messageformat": "Export"
+    "messageformat": "Eksportuoti"
   },
   "icu:PlaintextExport--OSPrompt--message--Linux": {
-    "messageformat": "Authentication is required to export your chat history."
+    "messageformat": "Norint eksportuoti pokalbių istoriją, reikalingas autentifikavimas."
   },
   "icu:PlaintextExport--ProgressDialog--Header": {
-    "messageformat": "Exporting chat history"
+    "messageformat": "Eksportuojama pokalbių istorija"
   },
   "icu:PlaintextExport--ProgressDialog--Progress": {
-    "messageformat": "Exporting {currentBytes} of {totalBytes} ({percentage,number,percent})..."
+    "messageformat": "Eksportuojame {currentBytes} iš {totalBytes} ({percentage,number,percent})..."
   },
   "icu:PlaintextExport--ProgressDialog--TimeWarning": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Tai gali šiek tiek užtrukti"
   },
   "icu:PlaintextExport--CompleteDialog--Header": {
-    "messageformat": "Export complete"
+    "messageformat": "Eksportavimas atliktas"
   },
   "icu:PlaintextExport--CompleteDialog--Description": {
-    "messageformat": "<bold>BE CAREFUL</bold> where you store your chat export file and do not share it with anyone. Other apps on your computer can access it depending on your computer’s permissions. "
+    "messageformat": "<bold>BŪKITE ATSARGŪS</bold> rinkdamiesi vietą, kur išsaugoti eksportuotą pokalbių istoriją, ir nesidalykite ja su niekuo. Priklausomai nuo jūsų kompiuterio leidimų, ją galės pasiekti kitos programos. "
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Mac": {
-    "messageformat": "Show in Finder"
+    "messageformat": "Rodyti „Finder“"
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Linux": {
-    "messageformat": "Show in folder"
+    "messageformat": "Rodyti aplanke"
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Windows": {
-    "messageformat": "Show in folder"
+    "messageformat": "Rodyti aplanke"
   },
   "icu:PlaintextExport--Error--General--Title": {
-    "messageformat": "Couldn’t export chat history"
+    "messageformat": "Nepavyko eksportuoti pokalbių istorijos"
   },
   "icu:PlaintextExport--Error--General--Description": {
-    "messageformat": "An error occurred and your chat history could not be exported."
+    "messageformat": "Įvyko klaida ir nepavyko eksportuoti pokalbių istorijos."
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Title": {
-    "messageformat": "Not enough storage space"
+    "messageformat": "Nepakanka vietos saugykloje"
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Detail": {
-    "messageformat": "Your chat history can’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+    "messageformat": "Jūsų pokalbių istorijos negalima eksportuoti, nes jūsų kompiuterio saugykloje nėra pakankamai laisvos vietos. Atlaisvinkite {bytes} vietos ir bandykite dar kartą."
   },
   "icu:PlaintextExport--Error--RanOutOfStorage--Title": {
-    "messageformat": "Couldn’t export chat history"
+    "messageformat": "Nepavyko eksportuoti pokalbių istorijos"
   },
   "icu:PlaintextExport--Error--RanOutOfStorage--Detail": {
-    "messageformat": "Your chat history couldn’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+    "messageformat": "Jūsų pokalbių istorijos negalima eksportuoti, nes jūsų kompiuterio saugykloje nėra pakankamai laisvos vietos. Atlaisvinkite {bytes} vietos ir bandykite dar kartą."
   },
   "icu:PlaintextExport--Error--DiskPermssions--Title": {
-    "messageformat": "Can’t export chat history"
+    "messageformat": "Nepavyksta eksportuoti pokalbių istorijos"
   },
   "icu:PlaintextExport--Error--DiskPermssions--Detail": {
-    "messageformat": "Your chat history can’t be exported because Signal doesn’t have permission to write files to disk. Try changing your disk's permissions or updating your system settings and then export again."
+    "messageformat": "Jūsų pokalbių istorijos negalima eksportuoti, nes „Signal“ neturi leidimo įrašyti failus į diską. Pabandykite pakeisti disko leidimus arba atnaujinti sistemos nustatymus ir tada eksportuoti dar kartą."
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Mėnulio piktograma"
@@ -5862,16 +5862,16 @@
     "messageformat": "Atlikta"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "show your backup key"
+    "messageformat": "rodyti atsarginės kopijos raktą"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your backup key."
+    "messageformat": "Patvirtinkite savo tapatybę, kad galėtumėte peržiūrėti atsarginės kopijos raktą."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "View backup key"
+    "messageformat": "Peržiūrėti atsarginės kopijos raktą"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your backup key."
+    "messageformat": "Norint peržiūrėti atsarginės kopijos raktą, reikalingas autentifikavimas."
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Atsarginės kopijos rakto teksto laukas"
@@ -5916,16 +5916,16 @@
     "messageformat": "Atsarginės kopijos raktas nukopijuotas"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
-    "messageformat": "enable backups"
+    "messageformat": "Įjungti atsargines kopijas"
   },
   "icu:Preferences__local-backups--enable--os-prompt--windows": {
-    "messageformat": "Verify your identity to enable backups."
+    "messageformat": "Patvirtinkite savo tapatybę, kad įjungtumėte atsargines kopijas."
   },
   "icu:Preferences__local-backups--enable--os-prompt-description--linux": {
-    "messageformat": "Enable backups"
+    "messageformat": "Įjungti atsargines kopijas"
   },
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to enable backups."
+    "messageformat": "Norint įjungti atsargines kopijas, reikalingas autentifikavimas."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Peržiūrėti raktą"

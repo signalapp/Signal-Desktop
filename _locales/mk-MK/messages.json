@@ -1098,7 +1098,7 @@
     "messageformat": "Информации"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin message"
+    "messageformat": "Закачете ја пораката на врвот"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Затворете ја анкетата"
@@ -1206,58 +1206,58 @@
     "messageformat": "Пред да ја напуштите групата мора да одберете барем еден нов администратор за оваа група."
   },
   "icu:PinnedMessageNotification__Message--You": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Закачивте порака на врвот"
   },
   "icu:PinnedMessageNotification__Message--SomeoneElse": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} закачи порака"
   },
   "icu:PinnedMessageNotification__Button": {
-    "messageformat": "Go to message"
+    "messageformat": "Одете до пораката"
   },
   "icu:PinMessageDialog__Title": {
-    "messageformat": "Pin message for..."
+    "messageformat": "Закачете ја пораката на врвот за…"
   },
   "icu:PinMessageDialog__Close": {
-    "messageformat": "Close"
+    "messageformat": "Затвори"
   },
   "icu:PinMessageDialog__Option--TIME_24_HOURS": {
-    "messageformat": "24 hours"
+    "messageformat": "24 часа"
   },
   "icu:PinMessageDialog__Option--TIME_7_DAYS": {
-    "messageformat": "7 days"
+    "messageformat": "7 дена"
   },
   "icu:PinMessageDialog__Option--TIME_30_DAYS": {
-    "messageformat": "30 days"
+    "messageformat": "30 дена"
   },
   "icu:PinMessageDialog__Option--FOREVER": {
-    "messageformat": "Forever"
+    "messageformat": "Засекогаш"
   },
   "icu:PinMessageDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Откажи"
   },
   "icu:PinMessageDialog__Pin": {
-    "messageformat": "Pin"
+    "messageformat": "Закачи"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
-    "messageformat": "{pinsCount, plural, one {Pinned message} other {Pinned messages}}"
+    "messageformat": "{pinsCount, plural, one {Закачена порака} other {Закачени пораки}}"
   },
   "icu:PinnedMessagesBar__Tab__AccessibilityLabel": {
-    "messageformat": "Go to pin {pinNumber,number}"
+    "messageformat": "Одете до закачената порака {pinNumber,number}"
   },
   "icu:PinnedMessagesBar__GoToMessageClickableArea__AccessibilityLabel": {
-    "messageformat": "Go to message"
+    "messageformat": "Одете до пораката"
   },
   "icu:PinnedMessagesBar__ActionsMenu__Button__AccessibilityLabel": {
-    "messageformat": "More actions"
+    "messageformat": "Повеќе дејствија"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin message"
+    "messageformat": "Отстранете ја пораката од врвот"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
-    "messageformat": "Go to message"
+    "messageformat": "Одете до пораката"
   },
   "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
-    "messageformat": "See all messages"
+    "messageformat": "Видете ги сите пораки"
   },
   "icu:sessionEnded": {
     "messageformat": "Безбедната сесија е ресетирана"
@@ -5082,7 +5082,7 @@
     "messageformat": "Отворете го линкот во прелистувач"
   },
   "icu:ListItem__show-message": {
-    "messageformat": "Show message in conversation"
+    "messageformat": "Прикажи ја пораката во разговорот"
   },
   "icu:MediaGallery__tab__audio": {
     "messageformat": "Аудио"
@@ -5109,7 +5109,7 @@
     "messageformat": "Нема линкови"
   },
   "icu:MediaGallery__EmptyState__description--links-2": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Линковите што ги испраќате и примате ќе се појават тука"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
     "messageformat": "Линковите што ги испраќате и примате ќе се појават тука"
@@ -5118,7 +5118,7 @@
     "messageformat": "Нема датотеки"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "Датотеките што ги испраќате и примате ќе се појават тука"
   },
   "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "Датотеките што ги испраќате и примате ќе се појават тука"
@@ -5463,88 +5463,88 @@
     "messageformat": "Содржина на известување"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
-    "messageformat": "Export chat history"
+    "messageformat": "Извоз на историјата на разговори"
   },
   "icu:PlaintextExport--PreferencesRow--Description": {
-    "messageformat": "Export a machine-readable JSON copy of all your chats. Disappearing messages will not be exported."
+    "messageformat": "Извезете JSON копија која може да се прочита компјутерски од сите ваши разговори. Исчезнувачки пораки нема да се извезат."
   },
   "icu:PlaintextExport--ActionButton": {
-    "messageformat": "Export"
+    "messageformat": "Извези"
   },
   "icu:PlaintextExport--Confirmation--Header": {
-    "messageformat": "Export chat history?"
+    "messageformat": "Да се извезе историјата на разговори?"
   },
   "icu:PlaintextExport--Confirmation--Description": {
-    "messageformat": "<bold>BE CAREFUL!</bold> Do NOT share this file with anyone. Your chat history will be saved to your computer and other apps can access it depending on your computer’s permissions."
+    "messageformat": "<bold>БИДЕТЕ ВНИМАТЕЛНИ!</bold> НЕ ја споделувајте оваа датотека со никого. Вашата историја на разговори ќе биде зачувана на вашиот компјутер и други апликации ќе можат да пристапат до неа во зависност од дозволите на вашиот компјутер."
   },
   "icu:PlaintextExport--Confirmation--IncludeMedia": {
-    "messageformat": "Include media <secondary>(larger file size)</secondary>"
+    "messageformat": "Вклучи медиумски датотеки <secondary>(поголема големина на датотека)</secondary>"
   },
   "icu:PlaintextExport--Confirmation--ContinueButton": {
-    "messageformat": "Continue"
+    "messageformat": "Продолжи"
   },
   "icu:PlaintextExport--Confirmation--WaitingLabel": {
-    "messageformat": "Waiting for input"
+    "messageformat": "Се чека внес на податоци"
   },
   "icu:PlaintextExport--OSPrompt--Mac": {
-    "messageformat": "export your chat history"
+    "messageformat": "да се извезе вашата историја на разговори"
   },
   "icu:PlaintextExport--OSPrompt--Windows": {
-    "messageformat": "Verify your identity to export your chat history."
+    "messageformat": "Потврдете го вашиот идентитет за да ја извезете историјата на разговори."
   },
   "icu:PlaintextExport--OSPrompt--description--Linux": {
-    "messageformat": "Export"
+    "messageformat": "Извези"
   },
   "icu:PlaintextExport--OSPrompt--message--Linux": {
-    "messageformat": "Authentication is required to export your chat history."
+    "messageformat": "Потребна е автентикација за да се извезе вашата историја на разговори."
   },
   "icu:PlaintextExport--ProgressDialog--Header": {
-    "messageformat": "Exporting chat history"
+    "messageformat": "Се извезува историјата на разговори"
   },
   "icu:PlaintextExport--ProgressDialog--Progress": {
-    "messageformat": "Exporting {currentBytes} of {totalBytes} ({percentage,number,percent})..."
+    "messageformat": "Извезување на {currentBytes} од {totalBytes} ({percentage,number,percent})..."
   },
   "icu:PlaintextExport--ProgressDialog--TimeWarning": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Ова може да потрае неколку минути"
   },
   "icu:PlaintextExport--CompleteDialog--Header": {
-    "messageformat": "Export complete"
+    "messageformat": "Извозот е завршен"
   },
   "icu:PlaintextExport--CompleteDialog--Description": {
-    "messageformat": "<bold>BE CAREFUL</bold> where you store your chat export file and do not share it with anyone. Other apps on your computer can access it depending on your computer’s permissions. "
+    "messageformat": "<bold>БИДЕТЕ ВНИМАТЕЛНИ</bold> за тоа каде ја чувате вашата датотека со извезени разговори и не ја споделувате со никого. Другите апликации на вашиот компјутер можат да пристапат до неа во зависност од дозволите на вашиот компјутер. "
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Mac": {
-    "messageformat": "Show in Finder"
+    "messageformat": "Прикажи во Finder"
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Linux": {
-    "messageformat": "Show in folder"
+    "messageformat": "Прикажи во папката"
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Windows": {
-    "messageformat": "Show in folder"
+    "messageformat": "Прикажи во папката"
   },
   "icu:PlaintextExport--Error--General--Title": {
-    "messageformat": "Couldn’t export chat history"
+    "messageformat": "Не можеше да се извезе историјата на разговори"
   },
   "icu:PlaintextExport--Error--General--Description": {
-    "messageformat": "An error occurred and your chat history could not be exported."
+    "messageformat": "Настана грешка и не можеше да се извезе вашата историја на разговори."
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Title": {
-    "messageformat": "Not enough storage space"
+    "messageformat": "Нема доволно простор за складирање"
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Detail": {
-    "messageformat": "Your chat history can’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+    "messageformat": "Вашата историја на разговори не може да се извезе бидејќи вашиот компјутер нема доволно слободен простор за складирање. Ослободете {bytes} простор и обидете се повторно."
   },
   "icu:PlaintextExport--Error--RanOutOfStorage--Title": {
-    "messageformat": "Couldn’t export chat history"
+    "messageformat": "Не можеше да се извезе историјата на разговори"
   },
   "icu:PlaintextExport--Error--RanOutOfStorage--Detail": {
-    "messageformat": "Your chat history couldn’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+    "messageformat": "Вашата историја на разговори не може да се извезе бидејќи вашиот компјутер нема доволно слободен простор за складирање. Ослободете {bytes} простор и обидете се повторно."
   },
   "icu:PlaintextExport--Error--DiskPermssions--Title": {
-    "messageformat": "Can’t export chat history"
+    "messageformat": "Не може да се извезе историјата на разговори"
   },
   "icu:PlaintextExport--Error--DiskPermssions--Detail": {
-    "messageformat": "Your chat history can’t be exported because Signal doesn’t have permission to write files to disk. Try changing your disk's permissions or updating your system settings and then export again."
+    "messageformat": "Вашата историја на разговори не може да се извезе бидејќи Signal нема дозвола да зачува датотеки на вашиот диск. Обидете се да ги промените дозволите на дискот или да ги ажурирате системските поставки, а потоа повторно извезете."
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Икона месечина"
@@ -5862,16 +5862,16 @@
     "messageformat": "Готово"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "show your backup key"
+    "messageformat": "да се прикаже клучот за резервни копии"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your backup key."
+    "messageformat": "Потврдете го вашиот идентитет за да го видите клучот за резервни копии."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "View backup key"
+    "messageformat": "Видете го клучот за резервни копии"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your backup key."
+    "messageformat": "Потребна е автентикација за да го видите вашиот клуч за резервни копии."
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Поле за текст за клуч за резервни копии"
@@ -5916,16 +5916,16 @@
     "messageformat": "Клучот за резервни копии е копиран"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
-    "messageformat": "enable backups"
+    "messageformat": "Вклучи резервна копија"
   },
   "icu:Preferences__local-backups--enable--os-prompt--windows": {
-    "messageformat": "Verify your identity to enable backups."
+    "messageformat": "Потврдете го вашиот идентитет за да овозможите резервни копии."
   },
   "icu:Preferences__local-backups--enable--os-prompt-description--linux": {
-    "messageformat": "Enable backups"
+    "messageformat": "Вклучи резервна копија"
   },
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to enable backups."
+    "messageformat": "Потребна е автентикација за да се овозможат резервни копии."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Видете го клучот"

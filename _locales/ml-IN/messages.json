@@ -1098,7 +1098,7 @@
     "messageformat": "വിവരം"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin message"
+    "messageformat": "സന്ദേശം പിൻ ചെയ്യുക"
   },
   "icu:Poll__end-poll": {
     "messageformat": "പോൾ അവസാനിപ്പിക്കുക"
@@ -1206,58 +1206,58 @@
     "messageformat": "നിങ്ങൾ പോകുന്നതിനുമുമ്പ്, ഈ ഗ്രൂപ്പിനായി പുതിയ ഒരു അഡ്‌മിനെയെങ്കിലും തിരഞ്ഞെടുക്കണം."
   },
   "icu:PinnedMessageNotification__Message--You": {
-    "messageformat": "You pinned a message"
+    "messageformat": "നിങ്ങൾ ഒരു സന്ദേശം പിൻ ചെയ്തു"
   },
   "icu:PinnedMessageNotification__Message--SomeoneElse": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} ഒരു സന്ദേശം പിൻ ചെയ്തു"
   },
   "icu:PinnedMessageNotification__Button": {
-    "messageformat": "Go to message"
+    "messageformat": "സന്ദേശത്തിലേക്ക് പോകുക"
   },
   "icu:PinMessageDialog__Title": {
-    "messageformat": "Pin message for..."
+    "messageformat": "ഇനിപ്പറയുന്നത്ര സമയം സന്ദേശം പിൻ ചെയ്യുക..."
   },
   "icu:PinMessageDialog__Close": {
-    "messageformat": "Close"
+    "messageformat": "അടയ്ക്കുക"
   },
   "icu:PinMessageDialog__Option--TIME_24_HOURS": {
-    "messageformat": "24 hours"
+    "messageformat": "24 മണിക്കൂർ"
   },
   "icu:PinMessageDialog__Option--TIME_7_DAYS": {
-    "messageformat": "7 days"
+    "messageformat": "7 ദിവസം"
   },
   "icu:PinMessageDialog__Option--TIME_30_DAYS": {
-    "messageformat": "30 days"
+    "messageformat": "30 ദിവസം"
   },
   "icu:PinMessageDialog__Option--FOREVER": {
-    "messageformat": "Forever"
+    "messageformat": "എന്നേക്കും"
   },
   "icu:PinMessageDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "റദ്ദാക്കുക"
   },
   "icu:PinMessageDialog__Pin": {
-    "messageformat": "Pin"
+    "messageformat": "പിൻ ചെയ്യുക"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
-    "messageformat": "{pinsCount, plural, one {Pinned message} other {Pinned messages}}"
+    "messageformat": "{pinsCount, plural, one {പിൻ ചെയ്ത സന്ദേശം} other {പിൻ ചെയ്ത സന്ദേശങ്ങൾ}}"
   },
   "icu:PinnedMessagesBar__Tab__AccessibilityLabel": {
-    "messageformat": "Go to pin {pinNumber,number}"
+    "messageformat": "പിൻ {pinNumber,number}-ലേക്ക് പോകുക"
   },
   "icu:PinnedMessagesBar__GoToMessageClickableArea__AccessibilityLabel": {
-    "messageformat": "Go to message"
+    "messageformat": "സന്ദേശത്തിലേക്ക് പോകുക"
   },
   "icu:PinnedMessagesBar__ActionsMenu__Button__AccessibilityLabel": {
-    "messageformat": "More actions"
+    "messageformat": "കൂടുതൽ പ്രവർത്തനങ്ങൾ"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin message"
+    "messageformat": "സന്ദേശം അൺപിൻ ചെയ്യുക"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
-    "messageformat": "Go to message"
+    "messageformat": "സന്ദേശത്തിലേക്ക് പോകുക"
   },
   "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
-    "messageformat": "See all messages"
+    "messageformat": "എല്ലാ സന്ദേശങ്ങളും കാണുക"
   },
   "icu:sessionEnded": {
     "messageformat": "സെഷൻ പുനഃക്രമീകരിക്കുക സുരക്ഷിതമാക്കുക "
@@ -5082,7 +5082,7 @@
     "messageformat": "ബ്രൗസറിൽ, ലിങ്ക് തുറക്കുക"
   },
   "icu:ListItem__show-message": {
-    "messageformat": "Show message in conversation"
+    "messageformat": "സംഭാഷണത്തിൽ സന്ദേശം കാണിക്കുക"
   },
   "icu:MediaGallery__tab__audio": {
     "messageformat": "ഓഡിയോ"
@@ -5109,7 +5109,7 @@
     "messageformat": "ലിങ്കുകളൊന്നുമില്ല"
   },
   "icu:MediaGallery__EmptyState__description--links-2": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "നിങ്ങൾ അയയ്ക്കുകയും സ്വീകരിക്കുകയും ചെയ്യുന്ന ലിങ്കുകൾ ഇവിടെ ദൃശ്യമാകും"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
     "messageformat": "നിങ്ങൾ അയയ്ക്കുകയും സ്വീകരിക്കുകയും ചെയ്യുന്ന ലിങ്കുകൾ ഇവിടെ ദൃശ്യമാകും"
@@ -5118,7 +5118,7 @@
     "messageformat": "ഫയലുകളൊന്നുമില്ല"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "നിങ്ങൾ അയയ്ക്കുകയും സ്വീകരിക്കുകയും ചെയ്യുന്ന ഫയലുകൾ ഇവിടെ ദൃശ്യമാകും"
   },
   "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "നിങ്ങൾ അയയ്ക്കുകയും സ്വീകരിക്കുകയും ചെയ്യുന്ന ഫയലുകൾ ഇവിടെ ദൃശ്യമാകും"
@@ -5463,88 +5463,88 @@
     "messageformat": "നോട്ടിഫിക്കേഷൻ ഉള്ളടക്കം"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
-    "messageformat": "Export chat history"
+    "messageformat": "ചാറ്റ് ചരിത്രം എക്സ്പോർട്ട് ചെയ്യുക"
   },
   "icu:PlaintextExport--PreferencesRow--Description": {
-    "messageformat": "Export a machine-readable JSON copy of all your chats. Disappearing messages will not be exported."
+    "messageformat": "നിങ്ങളുടെ എല്ലാ ചാറ്റുകളുടെയും മെഷീൻ വായിക്കാൻ കഴിയുന്ന ഒരു JSON പകർപ്പ് എക്സ്പോർട്ട് ചെയ്യുക. അപ്രത്യക്ഷമാകുന്ന സന്ദേശങ്ങൾ എക്സ്പോർട്ട് ചെയ്യില്ല."
   },
   "icu:PlaintextExport--ActionButton": {
-    "messageformat": "Export"
+    "messageformat": "എക്സ്പോർട്ട് ചെയ്യുക"
   },
   "icu:PlaintextExport--Confirmation--Header": {
-    "messageformat": "Export chat history?"
+    "messageformat": "ചാറ്റ് ചരിത്രം എക്സ്പോർട്ട് ചെയ്യണോ?"
   },
   "icu:PlaintextExport--Confirmation--Description": {
-    "messageformat": "<bold>BE CAREFUL!</bold> Do NOT share this file with anyone. Your chat history will be saved to your computer and other apps can access it depending on your computer’s permissions."
+    "messageformat": "<bold>ശ്രദ്ധാലുവായിരിക്കുക!</bold> ഈ ഫയൽ ആരുമായും പങ്കിടരുത്. നിങ്ങളുടെ ചാറ്റ് ചരിത്രം നിങ്ങളുടെ കമ്പ്യൂട്ടറിൽ സംരക്ഷിക്കപ്പെടും, നിങ്ങളുടെ കമ്പ്യൂട്ടറിന്റെ അനുമതികൾ അനുസരിച്ച് മറ്റ് ആപ്പുകള്‍ക്ക് അത് ആക്‌സസ് ചെയ്യാൻ കഴിയും."
   },
   "icu:PlaintextExport--Confirmation--IncludeMedia": {
-    "messageformat": "Include media <secondary>(larger file size)</secondary>"
+    "messageformat": "മീഡിയ ഉൾപ്പെടുത്തുക <secondary>(വലിയ ഫയൽ വലുപ്പം)</secondary>"
   },
   "icu:PlaintextExport--Confirmation--ContinueButton": {
-    "messageformat": "Continue"
+    "messageformat": "തുടരുക"
   },
   "icu:PlaintextExport--Confirmation--WaitingLabel": {
-    "messageformat": "Waiting for input"
+    "messageformat": "ഇൻപുട്ടിനായി കാത്തിരിക്കുന്നു"
   },
   "icu:PlaintextExport--OSPrompt--Mac": {
-    "messageformat": "export your chat history"
+    "messageformat": "നിങ്ങളുടെ ചാറ്റ് ചരിത്രം എക്സ്പോർട്ട് ചെയ്യുക"
   },
   "icu:PlaintextExport--OSPrompt--Windows": {
-    "messageformat": "Verify your identity to export your chat history."
+    "messageformat": "നിങ്ങളുടെ ചാറ്റ് ചരിത്രം എക്സ്പോര്‍ട്ട് ചെയ്യാന്‍ നിങ്ങളുടെ ഐഡന്റിറ്റി പരിശോധിച്ചുറപ്പിക്കുക."
   },
   "icu:PlaintextExport--OSPrompt--description--Linux": {
-    "messageformat": "Export"
+    "messageformat": "എക്സ്പോർട്ട് ചെയ്യുക"
   },
   "icu:PlaintextExport--OSPrompt--message--Linux": {
-    "messageformat": "Authentication is required to export your chat history."
+    "messageformat": "നിങ്ങളുടെ ചാറ്റ് ചരിത്രം എക്സ്പോർട്ട് ചെയ്യുന്നതിന് പ്രാമാണീകരണം ആവശ്യമാണ്."
   },
   "icu:PlaintextExport--ProgressDialog--Header": {
-    "messageformat": "Exporting chat history"
+    "messageformat": "ചാറ്റ് ചരിത്രം എക്സ്പോർട്ട് ചെയ്യുന്നു"
   },
   "icu:PlaintextExport--ProgressDialog--Progress": {
-    "messageformat": "Exporting {currentBytes} of {totalBytes} ({percentage,number,percent})..."
+    "messageformat": "{totalBytes} ({percentage,number,percent}) ന്റെ {currentBytes} എക്സ്പോർട്ട് ചെയ്യുന്നു..."
   },
   "icu:PlaintextExport--ProgressDialog--TimeWarning": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "ഇതിന് കുറച്ച് മിനിറ്റുകൾ എടുത്തേക്കാം"
   },
   "icu:PlaintextExport--CompleteDialog--Header": {
-    "messageformat": "Export complete"
+    "messageformat": "എക്‌സ്‌പോർട്ട് പൂർത്തിയായി"
   },
   "icu:PlaintextExport--CompleteDialog--Description": {
-    "messageformat": "<bold>BE CAREFUL</bold> where you store your chat export file and do not share it with anyone. Other apps on your computer can access it depending on your computer’s permissions. "
+    "messageformat": "<bold>ശ്രദ്ധാലുവായിരിക്കുക</bold> നിങ്ങളുടെ ചാറ്റ് എക്‌സ്‌പോർട്ട് ഫയൽ സൂക്ഷിക്കുന്നിടത്ത്, അത് ആരുമായും പങ്കിടരുത്. നിങ്ങളുടെ കമ്പ്യൂട്ടറിന്റെ അനുമതികൾ അനുസരിച്ച്, നിങ്ങളുടെ കമ്പ്യൂട്ടറിലെ മറ്റ് ആപ്പുകൾക്ക് അത് ആക്‌സസ് ചെയ്യാൻ കഴിയും. "
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Mac": {
-    "messageformat": "Show in Finder"
+    "messageformat": "ഫൈൻഡറിൽ കാണിക്കുക"
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Linux": {
-    "messageformat": "Show in folder"
+    "messageformat": "ഫോൾഡറിൽ കാണിക്കുക"
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Windows": {
-    "messageformat": "Show in folder"
+    "messageformat": "ഫോൾഡറിൽ കാണിക്കുക"
   },
   "icu:PlaintextExport--Error--General--Title": {
-    "messageformat": "Couldn’t export chat history"
+    "messageformat": "ചാറ്റ് ചരിത്രം എക്സ്പോർട്ട് ചെയ്യാൻ കഴിഞ്ഞില്ല"
   },
   "icu:PlaintextExport--Error--General--Description": {
-    "messageformat": "An error occurred and your chat history could not be exported."
+    "messageformat": "ഒരു പിശക് സംഭവിച്ചു, നിങ്ങളുടെ ചാറ്റ് ചരിത്രം എക്സ്പോർട്ട് ചെയ്യാൻ കഴിഞ്ഞില്ല."
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Title": {
-    "messageformat": "Not enough storage space"
+    "messageformat": "ആവശ്യത്തിന് സംഭരണ സ്ഥലമില്ല"
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Detail": {
-    "messageformat": "Your chat history can’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+    "messageformat": "നിങ്ങളുടെ കമ്പ്യൂട്ടറിൽ മതിയായ സംഭരണ സ്ഥലമില്ലാത്തതിനാൽ നിങ്ങളുടെ ചാറ്റ് ചരിത്രം എക്സ്പോർട്ട് ചെയ്യാൻ കഴിയില്ല. {bytes} സ്ഥലം ശൂന്യമാക്കിയ ശേഷം വീണ്ടും ശ്രമിക്കുക."
   },
   "icu:PlaintextExport--Error--RanOutOfStorage--Title": {
-    "messageformat": "Couldn’t export chat history"
+    "messageformat": "ചാറ്റ് ചരിത്രം എക്സ്പോർട്ട് ചെയ്യാൻ കഴിഞ്ഞില്ല"
   },
   "icu:PlaintextExport--Error--RanOutOfStorage--Detail": {
-    "messageformat": "Your chat history couldn’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+    "messageformat": "നിങ്ങളുടെ കമ്പ്യൂട്ടറിൽ മതിയായ സംഭരണ സ്ഥലം ഇല്ലാത്തതിനാൽ നിങ്ങളുടെ ചാറ്റ് ചരിത്രം എക്സ്പോർട്ട് ചെയ്യാൻ കഴിഞ്ഞില്ല. {bytes} സ്ഥലം ശൂന്യമാക്കിയ ശേഷം വീണ്ടും ശ്രമിക്കുക."
   },
   "icu:PlaintextExport--Error--DiskPermssions--Title": {
-    "messageformat": "Can’t export chat history"
+    "messageformat": "ചാറ്റ് ചരിത്രം എക്സ്പോർട്ട് ചെയ്യാൻ കഴിയില്ല"
   },
   "icu:PlaintextExport--Error--DiskPermssions--Detail": {
-    "messageformat": "Your chat history can’t be exported because Signal doesn’t have permission to write files to disk. Try changing your disk's permissions or updating your system settings and then export again."
+    "messageformat": "Signal-ന് ഡിസ്കിലേക്ക് ഫയലുകൾ എഴുതാൻ അനുമതിയില്ലാത്തതിനാൽ നിങ്ങളുടെ ചാറ്റ് ചരിത്രം എക്സ്പോർട്ട് ചെയ്യാൻ കഴിയില്ല. നിങ്ങളുടെ ഡിസ്കിന്റെ അനുമതികൾ മാറ്റാനോ സിസ്റ്റം ക്രമീകരണങ്ങൾ അപ്ഡേറ്റ് ചെയ്യാനോ ശ്രമിക്കുക, തുടർന്ന് വീണ്ടും എക്സ്പോർട്ട് ചെയ്യുക."
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "മൂൺ ഐക്കൺ"
@@ -5862,16 +5862,16 @@
     "messageformat": "ചെയ്‌തു"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "show your backup key"
+    "messageformat": "നിങ്ങളുടെ ബാക്കപ്പ് കീ കാണിക്കുക"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your backup key."
+    "messageformat": "നിങ്ങളുടെ ബാക്കപ്പ് കീ കാണുന്നതിന് നിങ്ങളുടെ ഐഡന്റിറ്റി പരിശോധിച്ചുറപ്പിക്കുക."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "View backup key"
+    "messageformat": "ബാക്കപ്പ് കീ കാണുക"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your backup key."
+    "messageformat": "നിങ്ങളുടെ ബാക്കപ്പ് കീ കാണുന്നതിന് പ്രാമാണീകരണം ആവശ്യമാണ്."
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "ബാക്കപ്പ് കീ ടെക്സ്റ്റ് ബോക്സ്"
@@ -5916,16 +5916,16 @@
     "messageformat": "ബാക്കപ്പ് കീ പകർത്തി"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
-    "messageformat": "enable backups"
+    "messageformat": "ബാക്കപ്പുകൾ പ്രവർത്തനക്ഷമമാക്കുക"
   },
   "icu:Preferences__local-backups--enable--os-prompt--windows": {
-    "messageformat": "Verify your identity to enable backups."
+    "messageformat": "ബാക്കപ്പുകൾ പ്രവർത്തനക്ഷമമാക്കാൻ നിങ്ങളുടെ ഐഡന്റിറ്റി പരിശോധിച്ചുറപ്പിക്കുക."
   },
   "icu:Preferences__local-backups--enable--os-prompt-description--linux": {
-    "messageformat": "Enable backups"
+    "messageformat": "ബാക്കപ്പുകൾ പ്രവർത്തനക്ഷമമാക്കുക"
   },
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to enable backups."
+    "messageformat": "ബാക്കപ്പുകൾ പ്രവർത്തനക്ഷമമാക്കാൻ പ്രാമാണീകരണം ആവശ്യമാണ്."
   },
   "icu:Preferences__view-key": {
     "messageformat": "കീ കാണുക"

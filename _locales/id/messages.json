@@ -1098,7 +1098,7 @@
     "messageformat": "Info"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin message"
+    "messageformat": "Sematkan pesan"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Akhiri polling"
@@ -1206,58 +1206,58 @@
     "messageformat": "Sebelum Anda keluar, pilih minimal satu admin baru untuk grup ini."
   },
   "icu:PinnedMessageNotification__Message--You": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Anda menyematkan sebuah pesan"
   },
   "icu:PinnedMessageNotification__Message--SomeoneElse": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} menyematkan sebuah pesan"
   },
   "icu:PinnedMessageNotification__Button": {
-    "messageformat": "Go to message"
+    "messageformat": "Buka pesan"
   },
   "icu:PinMessageDialog__Title": {
-    "messageformat": "Pin message for..."
+    "messageformat": "Sematkan pesan selama …"
   },
   "icu:PinMessageDialog__Close": {
-    "messageformat": "Close"
+    "messageformat": "Tutup"
   },
   "icu:PinMessageDialog__Option--TIME_24_HOURS": {
-    "messageformat": "24 hours"
+    "messageformat": "24 jam"
   },
   "icu:PinMessageDialog__Option--TIME_7_DAYS": {
-    "messageformat": "7 days"
+    "messageformat": "7 hari"
   },
   "icu:PinMessageDialog__Option--TIME_30_DAYS": {
-    "messageformat": "30 days"
+    "messageformat": "30 hari"
   },
   "icu:PinMessageDialog__Option--FOREVER": {
-    "messageformat": "Forever"
+    "messageformat": "Selamanya"
   },
   "icu:PinMessageDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Batal"
   },
   "icu:PinMessageDialog__Pin": {
-    "messageformat": "Pin"
+    "messageformat": "Sematkan"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
-    "messageformat": "{pinsCount, plural, one {Pinned message} other {Pinned messages}}"
+    "messageformat": "{pinsCount, plural, other {Pesan disematkan}}"
   },
   "icu:PinnedMessagesBar__Tab__AccessibilityLabel": {
-    "messageformat": "Go to pin {pinNumber,number}"
+    "messageformat": "Lihat sematan {pinNumber,number}"
   },
   "icu:PinnedMessagesBar__GoToMessageClickableArea__AccessibilityLabel": {
-    "messageformat": "Go to message"
+    "messageformat": "Buka pesan"
   },
   "icu:PinnedMessagesBar__ActionsMenu__Button__AccessibilityLabel": {
-    "messageformat": "More actions"
+    "messageformat": "Tindakan lainnya"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin message"
+    "messageformat": "Lepas sematan pesan"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
-    "messageformat": "Go to message"
+    "messageformat": "Buka pesan"
   },
   "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
-    "messageformat": "See all messages"
+    "messageformat": "Lihat semua pesan"
   },
   "icu:sessionEnded": {
     "messageformat": "Sesi aman berakhir"
@@ -5082,7 +5082,7 @@
     "messageformat": "Buka tautan di browser"
   },
   "icu:ListItem__show-message": {
-    "messageformat": "Show message in conversation"
+    "messageformat": "Tampilkan pesan dalam percakapan"
   },
   "icu:MediaGallery__tab__audio": {
     "messageformat": "Audio"
@@ -5109,7 +5109,7 @@
     "messageformat": "Tidak Ada Tautan"
   },
   "icu:MediaGallery__EmptyState__description--links-2": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "Tautan yang Anda kirim dan terima akan ditampilkan di sini"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
     "messageformat": "Tautan yang Anda kirim dan terima akan ditampilkan di sini"
@@ -5118,7 +5118,7 @@
     "messageformat": "Tidak Ada File"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "File yang Anda kirim dan terima akan ditampilkan di sini"
   },
   "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "File yang Anda kirim dan terima akan muncul di sini"
@@ -5463,88 +5463,88 @@
     "messageformat": "Konten notifikasi"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
-    "messageformat": "Export chat history"
+    "messageformat": "Ekspor riwayat chat"
   },
   "icu:PlaintextExport--PreferencesRow--Description": {
-    "messageformat": "Export a machine-readable JSON copy of all your chats. Disappearing messages will not be exported."
+    "messageformat": "Ekspor semua chat Anda berupa salinan file JSON yang dapat dibaca mesin. Pesan terhapus otomatis tidak akan diekspor."
   },
   "icu:PlaintextExport--ActionButton": {
-    "messageformat": "Export"
+    "messageformat": "Ekspor"
   },
   "icu:PlaintextExport--Confirmation--Header": {
-    "messageformat": "Export chat history?"
+    "messageformat": "Ekspor riwayat chat?"
   },
   "icu:PlaintextExport--Confirmation--Description": {
-    "messageformat": "<bold>BE CAREFUL!</bold> Do NOT share this file with anyone. Your chat history will be saved to your computer and other apps can access it depending on your computer’s permissions."
+    "messageformat": "<bold>HATI-HATI!</bold> JANGAN bagikan file ini dengan siapa pun. Riwayat chat akan disimpan di komputer Anda dan aplikasi lain dapat mengaksesnya tergantung pengaturan izin di komputer Anda."
   },
   "icu:PlaintextExport--Confirmation--IncludeMedia": {
-    "messageformat": "Include media <secondary>(larger file size)</secondary>"
+    "messageformat": "Sertakan media <secondary>(file ukuran besar)</secondary>"
   },
   "icu:PlaintextExport--Confirmation--ContinueButton": {
-    "messageformat": "Continue"
+    "messageformat": "Lanjutkan"
   },
   "icu:PlaintextExport--Confirmation--WaitingLabel": {
-    "messageformat": "Waiting for input"
+    "messageformat": "Menunggu input"
   },
   "icu:PlaintextExport--OSPrompt--Mac": {
-    "messageformat": "export your chat history"
+    "messageformat": "ekspor riwayat chat Anda"
   },
   "icu:PlaintextExport--OSPrompt--Windows": {
-    "messageformat": "Verify your identity to export your chat history."
+    "messageformat": "Verifikasi identitas Anda untuk mengekspor riwayat chat."
   },
   "icu:PlaintextExport--OSPrompt--description--Linux": {
-    "messageformat": "Export"
+    "messageformat": "Ekspor"
   },
   "icu:PlaintextExport--OSPrompt--message--Linux": {
-    "messageformat": "Authentication is required to export your chat history."
+    "messageformat": "Autentikasi diperlukan untuk mengekspor riwayat chat Anda."
   },
   "icu:PlaintextExport--ProgressDialog--Header": {
-    "messageformat": "Exporting chat history"
+    "messageformat": "Mengekspor riwayat chat"
   },
   "icu:PlaintextExport--ProgressDialog--Progress": {
-    "messageformat": "Exporting {currentBytes} of {totalBytes} ({percentage,number,percent})..."
+    "messageformat": "Mengekspor {currentBytes} dari {totalBytes} ({percentage,number,percent}) …"
   },
   "icu:PlaintextExport--ProgressDialog--TimeWarning": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "Mungkin perlu waktu beberapa menit"
   },
   "icu:PlaintextExport--CompleteDialog--Header": {
-    "messageformat": "Export complete"
+    "messageformat": "Ekspor selesai"
   },
   "icu:PlaintextExport--CompleteDialog--Description": {
-    "messageformat": "<bold>BE CAREFUL</bold> where you store your chat export file and do not share it with anyone. Other apps on your computer can access it depending on your computer’s permissions. "
+    "messageformat": "<bold>HATI-HATI</bold> dengan tempat Anda menyimpan file ekspor chat dan jangan bagikan dengan siapa pun. Aplikasi lain dapat mengaksesnya tergantung pengaturan izin di komputer Anda. "
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Mac": {
-    "messageformat": "Show in Finder"
+    "messageformat": "Tampilkan di Finder"
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Linux": {
-    "messageformat": "Show in folder"
+    "messageformat": "Tampilkan di folder"
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Windows": {
-    "messageformat": "Show in folder"
+    "messageformat": "Tampilkan di folder"
   },
   "icu:PlaintextExport--Error--General--Title": {
-    "messageformat": "Couldn’t export chat history"
+    "messageformat": "Tidak dapat mengekspor riwayat chat"
   },
   "icu:PlaintextExport--Error--General--Description": {
-    "messageformat": "An error occurred and your chat history could not be exported."
+    "messageformat": "Terjadi kesalahan dan riwayat chat Anda tidak dapat diekspor."
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Title": {
-    "messageformat": "Not enough storage space"
+    "messageformat": "Ruang penyimpanan tidak cukup"
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Detail": {
-    "messageformat": "Your chat history can’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+    "messageformat": "Riwayat chat tidak dapat diekspor karena komputer Anda tidak memiliki ruang penyimpanan yang cukup. Kosongkan ruang sebesar {bytes}, lalu coba lagi."
   },
   "icu:PlaintextExport--Error--RanOutOfStorage--Title": {
-    "messageformat": "Couldn’t export chat history"
+    "messageformat": "Tidak dapat mengekspor riwayat chat"
   },
   "icu:PlaintextExport--Error--RanOutOfStorage--Detail": {
-    "messageformat": "Your chat history couldn’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+    "messageformat": "Riwayat chat tidak dapat diekspor karena komputer Anda tidak memiliki ruang penyimpanan yang cukup. Kosongkan ruang sebesar {bytes}, lalu coba lagi."
   },
   "icu:PlaintextExport--Error--DiskPermssions--Title": {
-    "messageformat": "Can’t export chat history"
+    "messageformat": "Tidak dapat mengekspor riwayat chat"
   },
   "icu:PlaintextExport--Error--DiskPermssions--Detail": {
-    "messageformat": "Your chat history can’t be exported because Signal doesn’t have permission to write files to disk. Try changing your disk's permissions or updating your system settings and then export again."
+    "messageformat": "Riwayat chat Anda tidak dapat diekspor karena Signal tidak memiliki izin untuk menulis file ke disk. Coba ubah izin disk Anda atau perbarui pengaturan sistem dan kemudian ekspor lagi."
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Ikon bulan"
@@ -5862,16 +5862,16 @@
     "messageformat": "Selesai"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "show your backup key"
+    "messageformat": "tampilkan kunci cadangan Anda"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your backup key."
+    "messageformat": "Verifikasi identitas Anda untuk melihat kunci cadangan."
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "View backup key"
+    "messageformat": "Lihat kunci cadangan"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your backup key."
+    "messageformat": "Autentikasi diperlukan untuk melihat kunci cadangan Anda."
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Kotak teks kunci cadangan"
@@ -5916,16 +5916,16 @@
     "messageformat": "Kunci cadangan disalin"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
-    "messageformat": "enable backups"
+    "messageformat": "aktifkan pencadangan"
   },
   "icu:Preferences__local-backups--enable--os-prompt--windows": {
-    "messageformat": "Verify your identity to enable backups."
+    "messageformat": "Verifikasi identitas Anda untuk mengaktifkan cadangan."
   },
   "icu:Preferences__local-backups--enable--os-prompt-description--linux": {
-    "messageformat": "Enable backups"
+    "messageformat": "Aktifkan pencadangan"
   },
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to enable backups."
+    "messageformat": "Autentikasi diperlukan untuk mengaktifkan cadangan."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Lihat kunci"

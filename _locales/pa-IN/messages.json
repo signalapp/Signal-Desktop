@@ -1098,7 +1098,7 @@
     "messageformat": "ਜਾਣਕਾਰੀ"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin message"
+    "messageformat": "ਸੁਨੇਹੇ ਨੂੰ ਪਿੰਨ ਕਰੋ"
   },
   "icu:Poll__end-poll": {
     "messageformat": "ਪੋਲ ਸਮਾਪਤ ਕਰੋ"
@@ -1206,58 +1206,58 @@
     "messageformat": "ਗਰੁੱਪ ਨੂੰ ਛੱਡਣ ਤੋਂ ਪਹਿਲਾਂ, ਤੁਹਾਨੂੰ ਇਸ ਗਰੁੱਪ ਲਈ ਘੱਟੋ-ਘੱਟ ਕੋਈ ਇੱਕ ਨਵਾਂ ਐਡਮਿਨ ਚੁਣਨਾ ਪਵੇਗਾ।"
   },
   "icu:PinnedMessageNotification__Message--You": {
-    "messageformat": "You pinned a message"
+    "messageformat": "ਤੁਸੀਂ ਇੱਕ ਸੁਨੇਹਾ ਪਿੰਨ ਕੀਤਾ ਹੈ"
   },
   "icu:PinnedMessageNotification__Message--SomeoneElse": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} ਨੇ ਇੱਕ ਸੁਨੇਹੇ ਨੂੰ ਪਿੰਨ ਕੀਤਾ"
   },
   "icu:PinnedMessageNotification__Button": {
-    "messageformat": "Go to message"
+    "messageformat": "ਸੁਨੇਹੇ 'ਤੇ ਜਾਓ"
   },
   "icu:PinMessageDialog__Title": {
-    "messageformat": "Pin message for..."
+    "messageformat": "ਇੰਨੀ ਦੇਰ ਲਈ ਸੁਨੇਹਾ ਪਿੰਨ ਕਰੋ..."
   },
   "icu:PinMessageDialog__Close": {
-    "messageformat": "Close"
+    "messageformat": "ਬੰਦ ਕਰੋ"
   },
   "icu:PinMessageDialog__Option--TIME_24_HOURS": {
-    "messageformat": "24 hours"
+    "messageformat": "24 ਘੰਟੇ"
   },
   "icu:PinMessageDialog__Option--TIME_7_DAYS": {
-    "messageformat": "7 days"
+    "messageformat": "7 ਦਿਨ"
   },
   "icu:PinMessageDialog__Option--TIME_30_DAYS": {
-    "messageformat": "30 days"
+    "messageformat": "30 ਦਿਨ"
   },
   "icu:PinMessageDialog__Option--FOREVER": {
-    "messageformat": "Forever"
+    "messageformat": "ਹਮੇਸ਼ਾਂ ਲਈ"
   },
   "icu:PinMessageDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "ਰੱਦ ਕਰੋ"
   },
   "icu:PinMessageDialog__Pin": {
-    "messageformat": "Pin"
+    "messageformat": "ਪਿੰਨ ਕਰੋ"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
-    "messageformat": "{pinsCount, plural, one {Pinned message} other {Pinned messages}}"
+    "messageformat": "{pinsCount, plural, one {ਪਿੰਨ ਕੀਤਾ ਸੁਨੇਹਾ} other {ਪਿੰਨ ਕੀਤੇ ਸੁਨੇਹੇ}}"
   },
   "icu:PinnedMessagesBar__Tab__AccessibilityLabel": {
-    "messageformat": "Go to pin {pinNumber,number}"
+    "messageformat": "ਪਿੰਨ {pinNumber,number} 'ਤੇ ਜਾਓ"
   },
   "icu:PinnedMessagesBar__GoToMessageClickableArea__AccessibilityLabel": {
-    "messageformat": "Go to message"
+    "messageformat": "ਸੁਨੇਹੇ 'ਤੇ ਜਾਓ"
   },
   "icu:PinnedMessagesBar__ActionsMenu__Button__AccessibilityLabel": {
-    "messageformat": "More actions"
+    "messageformat": "ਹੋਰ ਕਾਰਵਾਈਆਂ"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin message"
+    "messageformat": "ਸੁਨੇਹੇ ਨੂੰ ਅਨਪਿੰਨ ਕਰੋ"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
-    "messageformat": "Go to message"
+    "messageformat": "ਸੁਨੇਹੇ 'ਤੇ ਜਾਓ"
   },
   "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
-    "messageformat": "See all messages"
+    "messageformat": "ਸਾਰੇ ਸੁਨੇਹੇ ਦੇਖੋ"
   },
   "icu:sessionEnded": {
     "messageformat": "ਸੁਰੱਖਿਅਤ ਸੈਸ਼ਨ ਰੀਸੈੱਟ ਕੀਤਾ ਗਿਆ"
@@ -5082,7 +5082,7 @@
     "messageformat": "ਲਿੰਕ ਨੂੰ ਬ੍ਰਾਊਜ਼ਰ ਵਿੱਚ ਖੋਲ੍ਹੋ"
   },
   "icu:ListItem__show-message": {
-    "messageformat": "Show message in conversation"
+    "messageformat": "ਗੱਲਬਾਤ ਵਿੱਚ ਸੁਨੇਹਾ ਦਿਖਾਓ"
   },
   "icu:MediaGallery__tab__audio": {
     "messageformat": "ਆਡੀਓ"
@@ -5109,7 +5109,7 @@
     "messageformat": "ਕੋਈ ਲਿੰਕ ਨਹੀਂ ਹਨ"
   },
   "icu:MediaGallery__EmptyState__description--links-2": {
-    "messageformat": "Links that you send and receive will appear here"
+    "messageformat": "ਤੁਹਾਡੇ ਵੱਲੋਂ ਭੇਜੇ ਅਤੇ ਪ੍ਰਾਪਤ ਹੋਏ ਲਿੰਕ ਇੱਥੇ ਦਿਖਾਏ ਜਾਣਗੇ"
   },
   "icu:MediaGallery__EmptyState__description--documents": {
     "messageformat": "ਤੁਹਾਡੇ ਵੱਲੋਂ ਭੇਜੇ ਅਤੇ ਪ੍ਰਾਪਤ ਹੋਏ ਲਿੰਕ ਇੱਥੇ ਦਿਖਾਏ ਜਾਣਗੇ"
@@ -5118,7 +5118,7 @@
     "messageformat": "ਕੋਈ ਫਾਈਲਾਂ ਨਹੀਂ ਹਨ"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "Files that you send and receive will appear here"
+    "messageformat": "ਤੁਹਾਡੇ ਵੱਲੋਂ ਭੇਜੀਆਂ ਅਤੇ ਪ੍ਰਾਪਤ ਹੋਈਆਂ ਫ਼ਾਈਲਾਂ ਨੂੰ ਇੱਥੇ ਦਿਖਾਇਆ ਜਾਵੇਗਾ"
   },
   "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "ਤੁਹਾਡੇ ਵੱਲੋਂ ਭੇਜੀਆਂ ਅਤੇ ਪ੍ਰਾਪਤ ਹੋਈਆਂ ਫ਼ਾਈਲਾਂ ਨੂੰ ਇੱਥੇ ਦਿਖਾਇਆ ਜਾਵੇਗਾ"
@@ -5463,88 +5463,88 @@
     "messageformat": "ਨੋਟੀਫਿਕੇਸ਼ਨ ਸਮੱਗਰੀ"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
-    "messageformat": "Export chat history"
+    "messageformat": "ਪੁਰਾਣੀ ਚੈਟ ਨੂੰ ਐਕਸਪੋਰਟ ਕਰੋ"
   },
   "icu:PlaintextExport--PreferencesRow--Description": {
-    "messageformat": "Export a machine-readable JSON copy of all your chats. Disappearing messages will not be exported."
+    "messageformat": "ਆਪਣੀਆਂ ਸਾਰੀਆਂ ਚੈਟਾਂ ਦੀ ਇੱਕ ਮਸ਼ੀਨ-ਪੜ੍ਹਨਯੋਗ JSON ਕਾਪੀ ਐਕਸਪੋਰਟ ਕਰੋ। ਗਾਇਬ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹੇ ਐਕਸਪੋਰਟ ਨਹੀਂ ਕੀਤੇ ਜਾਣਗੇ।"
   },
   "icu:PlaintextExport--ActionButton": {
-    "messageformat": "Export"
+    "messageformat": "ਐਕਸਪੋਰਟ ਕਰੋ"
   },
   "icu:PlaintextExport--Confirmation--Header": {
-    "messageformat": "Export chat history?"
+    "messageformat": "ਕੀ ਪੁਰਾਣੀ ਚੈਟ ਨੂੰ ਐਕਸਪੋਰਟ ਕਰਨਾ ਹੈ?"
   },
   "icu:PlaintextExport--Confirmation--Description": {
-    "messageformat": "<bold>BE CAREFUL!</bold> Do NOT share this file with anyone. Your chat history will be saved to your computer and other apps can access it depending on your computer’s permissions."
+    "messageformat": "<bold>ਧਿਆਨ ਰੱਖੋ!</bold> ਇਸ ਫ਼ਾਈਲ ਨੂੰ ਕਿਸੇ ਨਾਲ ਵੀ ਸਾਂਝਾ ਨਾ ਕਰੋ। ਤੁਹਾਡੀ ਪੁਰਾਣੀ ਚੈਟ ਨੂੰ ਤੁਹਾਡੇ ਕੰਪਿਊਟਰ 'ਤੇ ਸੁਰੱਖਿਅਤ ਕੀਤਾ ਜਾਵੇਗਾ ਅਤੇ ਹੋਰ ਐਪਾਂ ਤੁਹਾਡੇ ਕੰਪਿਊਟਰ ਦੀਆਂ ਇਜਾਜ਼ਤਾਂ ਦੇ ਆਧਾਰ 'ਤੇ ਇਸ ਤੱਕ ਪਹੁੰਚ ਕਰ ਸਕਦੀਆਂ ਹਨ।"
   },
   "icu:PlaintextExport--Confirmation--IncludeMedia": {
-    "messageformat": "Include media <secondary>(larger file size)</secondary>"
+    "messageformat": "ਮੀਡੀਆ ਸ਼ਾਮਲ ਕਰੋ <secondary>(ਵੱਡਾ ਫ਼ਾਈਲ ਆਕਾਰ)</secondary>"
   },
   "icu:PlaintextExport--Confirmation--ContinueButton": {
-    "messageformat": "Continue"
+    "messageformat": "ਜਾਰੀ ਰੱਖੋ"
   },
   "icu:PlaintextExport--Confirmation--WaitingLabel": {
-    "messageformat": "Waiting for input"
+    "messageformat": "ਇਨਪੁੱਟ ਦੀ ਉਡੀਕ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ"
   },
   "icu:PlaintextExport--OSPrompt--Mac": {
-    "messageformat": "export your chat history"
+    "messageformat": "ਆਪਣੀ ਪੁਰਾਣੀ ਚੈਟ ਨੂੰ ਐਕਸਪੋਰਟ ਕਰੋ"
   },
   "icu:PlaintextExport--OSPrompt--Windows": {
-    "messageformat": "Verify your identity to export your chat history."
+    "messageformat": "ਆਪਣੀ ਪੁਰਾਣੀ ਚੈਟ ਨੂੰ ਐਕਸਪੋਰਟ ਕਰਨ ਲਈ ਆਪਣੀ ਪਛਾਣ ਦੀ ਤਸਦੀਕ ਕਰੋ।"
   },
   "icu:PlaintextExport--OSPrompt--description--Linux": {
-    "messageformat": "Export"
+    "messageformat": "ਐਕਸਪੋਰਟ ਕਰੋ"
   },
   "icu:PlaintextExport--OSPrompt--message--Linux": {
-    "messageformat": "Authentication is required to export your chat history."
+    "messageformat": "ਤੁਹਾਡੀ ਪੁਰਾਣੀ ਚੈਟ ਨੂੰ ਐਕਸਪੋਰਟ ਕਰਨ ਲਈ ਪ੍ਰਮਾਣੀਕਰਨ ਲੋੜੀਂਦਾ ਹੈ।"
   },
   "icu:PlaintextExport--ProgressDialog--Header": {
-    "messageformat": "Exporting chat history"
+    "messageformat": "ਪੁਰਾਣੀ ਚੈਟ ਨੂੰ ਐਕਸਪੋਰਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
   },
   "icu:PlaintextExport--ProgressDialog--Progress": {
-    "messageformat": "Exporting {currentBytes} of {totalBytes} ({percentage,number,percent})..."
+    "messageformat": "{totalBytes} ਵਿੱਚੋਂ {currentBytes} ({percentage,number,percent}) ਨੂੰ ਐਕਸਪੋਰਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ…"
   },
   "icu:PlaintextExport--ProgressDialog--TimeWarning": {
-    "messageformat": "This may take a few minutes"
+    "messageformat": "ਇਸ ਵਿੱਚ ਕੁਝ ਮਿੰਟ ਲੱਗ ਸਕਦੇ ਹਨ"
   },
   "icu:PlaintextExport--CompleteDialog--Header": {
-    "messageformat": "Export complete"
+    "messageformat": "ਐਕਸਪੋਰਟ ਪੂਰਾ ਹੋਇਆ"
   },
   "icu:PlaintextExport--CompleteDialog--Description": {
-    "messageformat": "<bold>BE CAREFUL</bold> where you store your chat export file and do not share it with anyone. Other apps on your computer can access it depending on your computer’s permissions. "
+    "messageformat": "ਤੁਸੀਂ ਆਪਣੀ ਚੈਟ ਐਕਸਪੋਰਟ ਫ਼ਾਈਲ ਨੂੰ ਜਿੱਥੇ ਸਟੋਰ ਕਰਦੇ ਹੋ ਉਸਦਾ <bold>ਧਿਆਨ ਰੱਖੋ</bold> ਅਤੇ ਇਸਨੂੰ ਕਿਸੇ ਨਾਲ ਸਾਂਝਾ ਨਾ ਕਰੋ। ਤੁਹਾਡੇ ਕੰਪਿਊਟਰ ਦੀਆਂ ਇਜਾਜ਼ਤਾਂ ਦੇ ਆਧਾਰ 'ਤੇ ਤੁਹਾਡੇ ਕੰਪਿਊਟਰ 'ਤੇ ਹੋਰ ਐਪਾਂ ਇਸ ਤੱਕ ਪਹੁੰਚ ਕਰ ਸਕਦੀਆਂ ਹਨ। "
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Mac": {
-    "messageformat": "Show in Finder"
+    "messageformat": "ਫ਼ਾਈਂਡਰ ਵਿੱਚ ਦਿਖਾਓ"
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Linux": {
-    "messageformat": "Show in folder"
+    "messageformat": "ਫੋਲਡਰ ਵਿੱਚ ਦਿਖਾਓ"
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Windows": {
-    "messageformat": "Show in folder"
+    "messageformat": "ਫੋਲਡਰ ਵਿੱਚ ਦਿਖਾਓ"
   },
   "icu:PlaintextExport--Error--General--Title": {
-    "messageformat": "Couldn’t export chat history"
+    "messageformat": "ਪੁਰਾਣੀ ਚੈਟ ਨੂੰ ਐਕਸਪੋਰਟ ਨਹੀਂ ਕਰ ਸਕੇ"
   },
   "icu:PlaintextExport--Error--General--Description": {
-    "messageformat": "An error occurred and your chat history could not be exported."
+    "messageformat": "ਕੋਈ ਗੜਬੜ ਹੋ ਗਈ ਹੈ, ਜਿਸ ਕਾਰਨ ਤੁਹਾਡੀ ਪੁਰਾਣੀ ਚੈਟ ਨੂੰ ਐਕਸਪੋਰਟ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ।"
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Title": {
-    "messageformat": "Not enough storage space"
+    "messageformat": "ਸਟੋਰੇਜ ਲਈ ਲੋੜੀਂਦੀ ਥਾਂ ਨਹੀਂ ਹੈ"
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Detail": {
-    "messageformat": "Your chat history can’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+    "messageformat": "ਤੁਹਾਡੀ ਪੁਰਾਣੀ ਚੈਟ ਨੂੰ ਐਕਸਪੋਰਟ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਕਿਉਂਕਿ ਤੁਹਾਡੇ ਕੰਪਿਊਟਰ ਵਿੱਚ ਲੋੜੀਂਦੀ ਖਾਲੀ ਸਟੋਰੇਜ ਥਾਂ ਨਹੀਂ ਹੈ। {bytes} ਥਾਂ ਖਾਲੀ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
   },
   "icu:PlaintextExport--Error--RanOutOfStorage--Title": {
-    "messageformat": "Couldn’t export chat history"
+    "messageformat": "ਪੁਰਾਣੀ ਚੈਟ ਨੂੰ ਐਕਸਪੋਰਟ ਨਹੀਂ ਕਰ ਸਕੇ"
   },
   "icu:PlaintextExport--Error--RanOutOfStorage--Detail": {
-    "messageformat": "Your chat history couldn’t be exported because your computer doesn’t have enough free storage space. Free up {bytes} of space and then try again."
+    "messageformat": "ਤੁਹਾਡੀ ਪੁਰਾਣੀ ਚੈਟ ਨੂੰ ਐਕਸਪੋਰਟ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਕਿਉਂਕਿ ਤੁਹਾਡੇ ਕੰਪਿਊਟਰ ਵਿੱਚ ਲੋੜੀਂਦੀ ਖਾਲੀ ਸਟੋਰੇਜ ਥਾਂ ਨਹੀਂ ਹੈ। {bytes} ਥਾਂ ਖਾਲੀ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
   },
   "icu:PlaintextExport--Error--DiskPermssions--Title": {
-    "messageformat": "Can’t export chat history"
+    "messageformat": "ਪੁਰਾਣੀ ਚੈਟ ਨੂੰ ਐਕਸਪੋਰਟ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ"
   },
   "icu:PlaintextExport--Error--DiskPermssions--Detail": {
-    "messageformat": "Your chat history can’t be exported because Signal doesn’t have permission to write files to disk. Try changing your disk's permissions or updating your system settings and then export again."
+    "messageformat": "ਤੁਹਾਡੀ ਪੁਰਾਣੀ ਚੈਟ ਨੂੰ ਐਕਸਪੋਰਟ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਕਿਉਂਕਿ Signal ਕੋਲ ਡਿਸਕ 'ਤੇ ਫਾਈਲਾਂ ਲਿਖਣ ਦੀ ਇਜਾਜ਼ਤ ਨਹੀਂ ਹੈ। ਆਪਣੀ ਡਿਸਕ ਦੀਆਂ ਇਜਾਜ਼ਤਾਂ ਬਦਲਣ ਜਾਂ ਆਪਣੀਆਂ ਸਿਸਟਮ ਸੈਟਿੰਗਾਂ ਨੂੰ ਅੱਪਡੇਟ ਕਰੋ ਅਤੇ ਫਿਰ ਦੁਬਾਰਾ ਐਕਸਪੋਰਟ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "ਚੰਦਰਮਾ ਦਾ ਆਈਕਾਨ"
@@ -5862,16 +5862,16 @@
     "messageformat": "ਮੁਕੰਮਲ"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "show your backup key"
+    "messageformat": "ਆਪਣੀ ਬੈਕਅੱਪ ਕੁੰਜੀ ਦਿਖਾਓ"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
-    "messageformat": "Verify your identity to view your backup key."
+    "messageformat": "ਆਪਣੀ ਬੈਕਅੱਪ ਕੁੰਜੀ ਦੇਖਣ ਲਈ ਆਪਣੀ ਪਛਾਣ ਦੀ ਤਸਦੀਕ ਕਰੋ।"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
-    "messageformat": "View backup key"
+    "messageformat": "ਬੈਕਅੱਪ ਕੁੰਜੀ ਦੇਖੋ"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to view your backup key."
+    "messageformat": "ਤੁਹਾਡੀ ਬੈਕਅੱਪ ਕੁੰਜੀ ਦੇਖਣ ਲਈ ਪ੍ਰਮਾਣੀਕਰਨ ਲੋੜੀਂਦਾ ਹੈ।"
   },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "ਬੈਕਅੱਪ ਕੁੰਜੀ ਟੈਕਸਟ ਬਾਕਸ"
@@ -5916,16 +5916,16 @@
     "messageformat": "ਬੈਕਅੱਪ ਕੁੰਜੀ ਕਾਪੀ ਕੀਤੀ ਗਈ"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
-    "messageformat": "enable backups"
+    "messageformat": "ਬੈਕਅੱਪ ਨੂੰ ਸਮਰੱਥ ਕਰੋ"
   },
   "icu:Preferences__local-backups--enable--os-prompt--windows": {
-    "messageformat": "Verify your identity to enable backups."
+    "messageformat": "ਬੈਕਅੱਪ ਚਾਲੂ ਕਰਨ ਲਈ ਆਪਣੀ ਪਛਾਣ ਦੀ ਤਸਦੀਕ ਕਰੋ।"
   },
   "icu:Preferences__local-backups--enable--os-prompt-description--linux": {
-    "messageformat": "Enable backups"
+    "messageformat": "ਬੈਕਅੱਪ ਨੂੰ ਸਮਰੱਥ ਕਰੋ"
   },
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
-    "messageformat": "Authentication is required to enable backups."
+    "messageformat": "ਬੈਕਅੱਪ ਨੂੰ ਸਮਰੱਥ ਬਣਾਉਣ ਲਈ ਪ੍ਰਮਾਣੀਕਰਨ ਲੋੜੀਂਦਾ ਹੈ।"
   },
   "icu:Preferences__view-key": {
     "messageformat": "ਕੁੰਜੀ ਦੇਖੋ"
