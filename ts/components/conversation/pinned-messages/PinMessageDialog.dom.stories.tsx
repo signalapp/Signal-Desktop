@@ -19,7 +19,7 @@ export function Default(): JSX.Element {
       open={open}
       onOpenChange={setOpen}
       messageId="42"
-      onPinMessage={action('onPinMessage')}
+      onPinnedMessageAdd={action('onPinnedMessageAdd')}
     />
   );
 }

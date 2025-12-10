@@ -20,6 +20,7 @@ import {
   handleMultipleSendErrors,
   maybeExpandErrors,
 } from './handleMultipleSendErrors.std.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 export type SendMessageJobOptions<Data> = Readonly<{
   sendName: string; // ex: 'sendExampleMessage'
@@ -49,15 +50,12 @@ export function createSendMessageJob<Data>(
       return;
     }
 
-    const {
-      allRecipientServiceIds,
-      recipientServiceIdsWithoutMe,
-      untrustedServiceIds,
-    } = getSendRecipientLists({
-      log,
-      conversation,
-      conversationIds: conversation.getRecipients(),
-    });
+    const { recipientServiceIdsWithoutMe, untrustedServiceIds } =
+      getSendRecipientLists({
+        log,
+        conversation,
+        conversationIds: Array.from(conversation.getMemberConversationIds()),
+      });
 
     if (untrustedServiceIds.length > 0) {
       window.reduxActions.conversations.conversationStoppedByMissingVerification(
@@ -84,10 +82,11 @@ export function createSendMessageJob<Data>(
         await conversation.queueJob(
           `conversationQueue/${sendName}/sync`,
           async () => {
+            const ourAci = itemStorage.user.getCheckedAci();
             const encodedDataMessage = await job.messaging.getDataOrEditMessage(
               {
                 ...messageOptions,
-                recipients: allRecipientServiceIds,
+                recipients: [ourAci],
               }
             );
 

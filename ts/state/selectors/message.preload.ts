@@ -103,6 +103,7 @@ import {
   getMessages,
   getCachedConversationMemberColorsSelector,
   getContactNameColor,
+  getPinnedMessageIds,
 } from './conversations.dom.js';
 import {
   getIntl,
@@ -167,6 +168,7 @@ import { getCallIdFromEra } from '../../util/callDisposition.preload.js';
 import { LONG_MESSAGE } from '../../types/MIME.std.js';
 import type { MessageRequestResponseNotificationData } from '../../components/conversation/MessageRequestResponseNotification.dom.js';
 import type { PinnedMessageNotificationData } from '../../components/conversation/pinned-messages/PinnedMessageNotification.dom.js';
+import { canEditGroupInfo } from '../../util/canEditGroupInfo.preload.js';
 
 const { groupBy, isEmpty, isNumber, isObject, map } = lodash;
 
@@ -204,6 +206,7 @@ export type GetPropsForBubbleOptions = Readonly<{
   ourPni: PniString | undefined;
   targetedMessageId?: string;
   targetedMessageCounter?: number;
+  pinnedMessageIds: ReadonlyArray<string> | null;
   selectedMessageIds: ReadonlyArray<string> | undefined;
   regionCode?: string;
   callSelector: CallSelectorType;
@@ -775,6 +778,7 @@ export type GetPropsForMessageOptions = Pick<
   | 'ourNumber'
   | 'targetedMessageId'
   | 'targetedMessageCounter'
+  | 'pinnedMessageIds'
   | 'selectedMessageIds'
   | 'regionCode'
   | 'accountSelector'
@@ -877,6 +881,7 @@ export const getPropsForMessage = (
     regionCode,
     targetedMessageId,
     targetedMessageCounter,
+    pinnedMessageIds,
     selectedMessageIds,
     contactNameColors,
     defaultConversationColor,
@@ -895,6 +900,7 @@ export const getPropsForMessage = (
   const activeCallConversationId = activeCall?.conversationId;
 
   const isTargeted = message.id === targetedMessageId;
+  const isPinned = pinnedMessageIds?.includes(message.id) ?? false;
   const isSelected = selectedMessageIds?.includes(message.id) ?? false;
   const isSelectMode = selectedMessageIds != null;
 
@@ -938,6 +944,7 @@ export const getPropsForMessage = (
     canDownload: canDownload(message, conversationSelector),
     canEndPoll: canEndPoll(message),
     canForward: canForward(message),
+    canPinMessages: canPinMessages(conversation),
     canReact: canReact(message, ourConversationId, conversationSelector),
     canReply: canReply(message, ourConversationId, conversationSelector),
     canRetry: hasErrors(message),
@@ -966,6 +973,7 @@ export const getPropsForMessage = (
     isBlocked: conversation.isBlocked || false,
     isEditedMessage: Boolean(message.editHistory),
     isMessageRequestAccepted: conversation?.acceptedMessageRequest ?? true,
+    isPinned,
     isSelected,
     isSelectMode,
     isSMS: message.sms === true,
@@ -1003,6 +1011,7 @@ export const getMessagePropsSelector = createSelector(
   getAccountSelector,
   getCachedConversationMemberColorsSelector,
   getTargetedMessage,
+  getPinnedMessageIds,
   getSelectedMessageIds,
   getDefaultConversationColor,
   (
@@ -1015,6 +1024,7 @@ export const getMessagePropsSelector = createSelector(
     accountSelector,
     cachedConversationMemberColorsSelector,
     targetedMessage,
+    pinnedMessageIds,
     selectedMessageIds,
     defaultConversationColor
   ) =>
@@ -1033,6 +1043,7 @@ export const getMessagePropsSelector = createSelector(
         regionCode,
         targetedMessageCounter: targetedMessage?.counter,
         targetedMessageId: targetedMessage?.id,
+        pinnedMessageIds,
         selectedMessageIds,
         defaultConversationColor,
       });
@@ -2391,6 +2402,10 @@ export function canForward(message: ReadonlyMessageAttributesType): boolean {
   );
 }
 
+export function canPinMessages(conversation: ConversationType): boolean {
+  return canEditGroupInfo(conversation);
+}
+
 export function getLastChallengeError(
   message: Pick<MessageWithUIFieldsType, 'errors'>
 ): ShallowChallengeError | undefined {
@@ -2430,6 +2445,7 @@ export const getMessageDetails = createSelector(
   getUserPNI,
   getUserConversationId,
   getUserNumber,
+  getPinnedMessageIds,
   getSelectedMessageIds,
   getDefaultConversationColor,
   getHasUnidentifiedDeliveryIndicators,
@@ -2444,6 +2460,7 @@ export const getMessageDetails = createSelector(
     ourPni,
     ourConversationId,
     ourNumber,
+    pinnedMessageIds,
     selectedMessageIds,
     defaultConversationColor,
     hasUnidentifiedDeliveryIndicators
@@ -2578,6 +2595,7 @@ export const getMessageDetails = createSelector(
         ourConversationId,
         ourNumber,
         regionCode,
+        pinnedMessageIds,
         selectedMessageIds,
         defaultConversationColor,
       }),

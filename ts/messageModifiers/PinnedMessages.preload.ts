@@ -2,9 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import { DataWriter } from '../sql/Client.preload.js';
 import type { AciString } from '../types/ServiceId.std.js';
-import { DurationInSeconds } from '../util/durations/duration-in-seconds.std.js';
-import * as RemoteConfig from '../RemoteConfig.dom.js';
-import { parseIntWithFallback } from '../util/parseIntWithFallback.std.js';
+import type { DurationInSeconds } from '../util/durations/duration-in-seconds.std.js';
 import { createLogger } from '../logging/log.std.js';
 import type { MessageModifierTarget } from './helpers/findMessageModifierTarget.preload.js';
 import { findMessageModifierTarget } from './helpers/findMessageModifierTarget.preload.js';
@@ -12,6 +10,8 @@ import { isValidSenderAciForConversation } from './helpers/isValidSenderAciForCo
 import { isGroupV2 } from '../util/whatTypeOfConversation.dom.js';
 import { SignalService as Proto } from '../protobuf/index.std.js';
 import type { ConversationModel } from '../models/conversations.preload.js';
+import { getPinnedMessagesLimit } from '../util/pinnedMessages.dom.js';
+import { getPinnedMessageExpiresAt } from '../util/pinnedMessages.std.js';
 
 const { AccessRequired } = Proto.AccessControl;
 const { Role } = Proto.Member;
@@ -92,6 +92,10 @@ export async function onPinnedMessageAdd(
       log.info(`Truncated older pinned message ${pinnedMessageId}`);
     }
   }
+
+  window.reduxActions.conversations.onPinnedMessagesChanged(
+    targetConversation.id
+  );
 }
 
 export async function onPinnedMessageRemove(
@@ -120,6 +124,7 @@ export async function onPinnedMessageRemove(
   }
 
   const targetMessageId = target.targetMessage.id;
+  const targetConversationId = target.targetConversation.id;
 
   const deletedPinnedMessageId =
     await DataWriter.deletePinnedMessageByMessageId(targetMessageId);
@@ -131,6 +136,10 @@ export async function onPinnedMessageRemove(
 
   log.info(
     `Deleted pinned message ${deletedPinnedMessageId} for messageId ${targetMessageId}`
+  );
+
+  window.reduxActions.conversations.onPinnedMessagesChanged(
+    targetConversationId
   );
 }
 
@@ -174,20 +183,4 @@ function validatePinnedMessageTarget(
   }
 
   return null;
-}
-
-function getPinnedMessageExpiresAt(
-  receivedAtTimestamp: number,
-  pinDuration: DurationInSeconds | null
-): number | null {
-  if (pinDuration == null) {
-    return null;
-  }
-  const pinDurationMs = DurationInSeconds.toMillis(pinDuration);
-  return receivedAtTimestamp + pinDurationMs;
-}
-
-function getPinnedMessagesLimit(): number {
-  const remoteValue = RemoteConfig.getValue('global.pinned_message_limit');
-  return parseIntWithFallback(remoteValue, 3);
 }

@@ -32,6 +32,7 @@ const defaultMessage: MessageDataPropsType = {
   renderMenu: undefined,
   isBlocked: false,
   isMessageRequestAccepted: true,
+  isPinned: false,
   isSelected: false,
   isSelectMode: false,
   isSMS: false,

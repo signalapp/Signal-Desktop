@@ -274,6 +274,7 @@ const {
   getMostRecentAddressableMessages,
   getMostRecentAddressableNondisappearingMessages,
   getNewerMessagesByConversation,
+  getPinnedMessagesForConversation,
 } = DataReader;
 const { addStickerPackReference } = DataWriter;
 
@@ -1688,10 +1689,13 @@ export class ConversationModel {
           `latest timestamp=${cleaned.at(-1)?.sent_at}`
       );
 
+      const pinnedMessages = await getPinnedMessagesForConversation(this.id);
+
       addPreloadData({
         conversationId: this.id,
         messages: cleaned,
         metrics,
+        pinnedMessages,
         unboundedFetch,
       });
     } finally {
@@ -1803,6 +1807,9 @@ export class ConversationModel {
           `latest timestamp=${cleaned.at(-1)?.sent_at}`
       );
 
+      const pinnedMessages =
+        await DataReader.getPinnedMessagesForConversation(conversationId);
+
       // Because our `getOlderMessages` fetch above didn't specify a receivedAt, we got
       //   the most recent N messages in the conversation. If it has a conflict with
       //   metrics, fetched a bit before, that's likely a race condition. So we tell our
@@ -1813,6 +1820,7 @@ export class ConversationModel {
         conversationId,
         messages: cleaned,
         metrics,
+        pinnedMessages,
         scrollToMessageId,
         unboundedFetch,
       });
@@ -1977,10 +1985,14 @@ export class ConversationModel {
       const scrollToMessageId =
         options && options.disableScroll ? undefined : messageId;
 
+      const pinnedMessages =
+        await DataReader.getPinnedMessagesForConversation(conversationId);
+
       messagesReset({
         conversationId,
         messages: cleaned,
         metrics,
+        pinnedMessages,
         scrollToMessageId,
       });
     } catch (error) {

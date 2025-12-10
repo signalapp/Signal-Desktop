@@ -18,6 +18,8 @@ import { ConfirmationDialog } from '../ConfirmationDialog.dom.js';
 import { refMerger } from '../../util/refMerger.std.js';
 import type { Size } from '../../hooks/useSizeObserver.dom.js';
 import { SizeObserver } from '../../hooks/useSizeObserver.dom.js';
+import { AxoSymbol } from '../../axo/AxoSymbol.dom.js';
+import { tw } from '../../axo/tw.dom.js';
 
 type PropsType = {
   deletedForEveryone?: boolean;
@@ -28,6 +30,7 @@ type PropsType = {
   i18n: LocalizerType;
   id: string;
   isEditedMessage?: boolean;
+  isPinned: boolean;
   isSMS?: boolean;
   isInline?: boolean;
   isOutlineOnlyBubble?: boolean;
@@ -57,6 +60,7 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
       i18n,
       id,
       isEditedMessage,
+      isPinned,
       isSMS,
       isOutlineOnlyBubble,
       isInline,
@@ -135,19 +139,7 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
         }
 
         timestampNode = (
-          <span
-            className={classNames({
-              'module-message__metadata__date': true,
-              'module-message__metadata__date--with-sticker': isSticker,
-              'module-message__metadata__date--outline-only-bubble':
-                isOutlineOnlyBubble,
-              [`module-message__metadata__date--${direction}`]: !isSticker,
-              'module-message__metadata__date--with-image-no-caption':
-                withImageNoCaption,
-            })}
-          >
-            {statusInfo}
-          </span>
+          <span className="module-message__metadata__date">{statusInfo}</span>
         );
       } else {
         timestampNode = (
@@ -195,12 +187,22 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
 
     const className = classNames(
       'module-message__metadata',
+      direction === 'outgoing' && 'module-message__metadata--outgoing',
       isInline && 'module-message__metadata--inline',
       withImageNoCaption && 'module-message__metadata--with-image-no-caption',
-      isOutlineOnlyBubble && 'module-message__metadata--outline-only-bubble'
+      isOutlineOnlyBubble && 'module-message__metadata--outline-only-bubble',
+      isSticker && 'module-message__metadata--sticker'
     );
     const children = (
       <>
+        {isPinned && (
+          <span className={tw('me-1')}>
+            <AxoSymbol.InlineGlyph
+              symbol="pin-fill"
+              label={i18n('icu:MessageMetadata__pinned')}
+            />
+          </span>
+        )}
         {isEditedMessage && showEditHistoryModal && (
           <button
             className="module-message__metadata__edited"
@@ -212,9 +214,9 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
         )}
         {timestampNode}
         {isSMS ? (
-          <div
-            className={`module-message__metadata__sms module-message__metadata__sms--${direction}`}
-          />
+          <div className="module-message__metadata__sms">
+            <AxoSymbol.InlineGlyph symbol="lock-open" label={null} />
+          </div>
         ) : null}
         {expirationLength ? (
           <ExpireTimer
@@ -239,16 +241,7 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
           <div
             className={classNames(
               'module-message__metadata__status-icon',
-              `module-message__metadata__status-icon--${status}`,
-              isSticker
-                ? 'module-message__metadata__status-icon--with-sticker'
-                : null,
-              withImageNoCaption
-                ? 'module-message__metadata__status-icon--with-image-no-caption'
-                : null,
-              isOutlineOnlyBubble
-                ? 'module-message__metadata__status-icon--outline-only-bubble'
-                : null
+              `module-message__metadata__status-icon--${status}`
             )}
           />
         ) : null}

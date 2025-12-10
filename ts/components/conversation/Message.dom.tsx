@@ -126,6 +126,7 @@ import {
 } from '../fun/data/emojis.std.js';
 import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.dom.js';
 import type { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.js';
+import type { RenderAudioAttachmentProps } from '../../state/smart/renderAudioAttachment.preload.js';
 
 const { drop, take, unescape } = lodash;
 
@@ -326,6 +327,8 @@ export type PropsData = {
   isTapToViewExpired?: boolean;
   isTapToViewError?: boolean;
 
+  isPinned: boolean;
+
   readStatus?: ReadStatus;
 
   expirationLength?: number;
@@ -361,7 +364,7 @@ export type PropsHousekeeping = {
   interactivity: MessageInteractivity;
   interactionMode: InteractionModeType;
   platform: string;
-  renderAudioAttachment: (props: AudioAttachmentProps) => JSX.Element;
+  renderAudioAttachment: (props: RenderAudioAttachmentProps) => JSX.Element;
   shouldCollapseAbove: boolean;
   shouldCollapseBelow: boolean;
   shouldHideMetadata: boolean;
@@ -826,6 +829,7 @@ export class Message extends React.PureComponent<Props, State> {
       expirationTimestamp,
       giftBadge,
       i18n,
+      isPinned,
       isTapToView,
       isTapToViewError,
       isTapToViewExpired,
@@ -840,6 +844,7 @@ export class Message extends React.PureComponent<Props, State> {
     if (
       !expirationLength &&
       !expirationTimestamp &&
+      !isPinned &&
       (!status || SENT_STATUSES.has(status)) &&
       shouldHideMetadata
     ) {
@@ -1084,6 +1089,7 @@ export class Message extends React.PureComponent<Props, State> {
       i18n,
       id,
       isEditedMessage,
+      isPinned,
       isSMS,
       isSticker,
       retryMessageSend,
@@ -1107,6 +1113,7 @@ export class Message extends React.PureComponent<Props, State> {
         i18n={i18n}
         id={id}
         isEditedMessage={isEditedMessage}
+        isPinned={isPinned}
         isSMS={isSMS}
         isInline={isInline}
         isOutlineOnlyBubble={
@@ -1153,12 +1160,12 @@ export class Message extends React.PureComponent<Props, State> {
       attachmentDroppedDueToSize,
       attachments,
       cancelAttachmentDownload,
-      conversationId,
       direction,
       expirationLength,
       expirationTimestamp,
       i18n,
       id,
+      isPinned,
       isSticker,
       isVoiceMessagePlayed,
       kickOffAttachmentDownload,
@@ -1301,7 +1308,6 @@ export class Message extends React.PureComponent<Props, State> {
         i18n,
         buttonRef: this.audioButtonRef,
         renderingContext,
-        theme,
         attachment: firstAttachment,
         collapseMetadata,
         withContentAbove,
@@ -1311,9 +1317,8 @@ export class Message extends React.PureComponent<Props, State> {
         expirationLength,
         expirationTimestamp,
         id,
-        conversationId,
+        isPinned,
         played: isVoiceMessagePlayed,
-        pushPanelForConversation,
         status,
         textPending: textAttachment?.pending,
         timestamp,
@@ -1336,7 +1341,10 @@ export class Message extends React.PureComponent<Props, State> {
     const isIncoming = direction === 'incoming';
 
     const willShowMetadata =
-      expirationLength || expirationTimestamp || !shouldHideMetadata;
+      expirationLength ||
+      expirationTimestamp ||
+      isPinned ||
+      !shouldHideMetadata;
 
     // Note: this has to be interactive for the case where text comes along with the
     // attachment. But we don't want the user to tab here unless that text exists.
@@ -1426,6 +1434,7 @@ export class Message extends React.PureComponent<Props, State> {
                   i18n={i18n}
                   id={id}
                   isEditedMessage={false}
+                  isPinned={isPinned}
                   isSMS={false}
                   isInline={false}
                   isOutlineOnlyBubble={false}
@@ -2699,6 +2708,7 @@ export class Message extends React.PureComponent<Props, State> {
       expirationTimestamp,
       i18n,
       id,
+      isPinned,
       isTapToViewError,
       isTapToViewExpired,
       pushPanelForConversation,
@@ -2763,6 +2773,7 @@ export class Message extends React.PureComponent<Props, State> {
                   i18n={i18n}
                   id={id}
                   isEditedMessage={false}
+                  isPinned={isPinned}
                   isSMS={false}
                   isInline={false}
                   isOutlineOnlyBubble={false}
@@ -2804,6 +2815,7 @@ export class Message extends React.PureComponent<Props, State> {
                 i18n={i18n}
                 id={id}
                 isEditedMessage={false}
+                isPinned={isPinned}
                 isSMS={false}
                 isInline={false}
                 isOutlineOnlyBubble={false}

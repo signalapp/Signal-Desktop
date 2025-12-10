@@ -131,6 +131,8 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
     messageExpanded,
+    onPinnedMessageAdd,
+    onPinnedMessageRemove,
     openGiftBadge,
     pushPanelForConversation,
     retryDeleteForEveryone,
@@ -237,6 +239,8 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       }
       onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
       onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
+      onPinnedMessageAdd={onPinnedMessageAdd}
+      onPinnedMessageRemove={onPinnedMessageRemove}
       scrollToPinnedMessage={scrollToPinnedMessage}
       retryDeleteForEveryone={retryDeleteForEveryone}
       retryMessageSend={retryMessageSend}

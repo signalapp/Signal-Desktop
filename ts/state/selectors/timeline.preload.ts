@@ -11,6 +11,7 @@ import {
   getSelectedMessageIds,
   getMessages,
   getCachedConversationMemberColorsSelector,
+  getPinnedMessageIds,
 } from './conversations.dom.js';
 import { getAccountSelector } from './accounts.std.js';
 import {
@@ -53,6 +54,7 @@ const getTimelineItem = (
   const callHistorySelector = getCallHistorySelector(state);
   const activeCall = getActiveCall(state);
   const accountSelector = getAccountSelector(state);
+  const pinnedMessageIds = getPinnedMessageIds(state);
   const selectedMessageIds = getSelectedMessageIds(state);
   const defaultConversationColor = getDefaultConversationColor(state);
 
@@ -70,6 +72,7 @@ const getTimelineItem = (
     callHistorySelector,
     activeCall,
     accountSelector,
+    pinnedMessageIds,
     selectedMessageIds,
     defaultConversationColor,
   });

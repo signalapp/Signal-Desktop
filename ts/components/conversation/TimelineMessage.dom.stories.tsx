@@ -9,7 +9,6 @@ import type { Meta, StoryFn } from '@storybook/react';
 
 import { SignalService } from '../../protobuf/index.std.js';
 import { ConversationColors } from '../../types/Colors.std.js';
-import type { AudioAttachmentProps } from './Message.dom.js';
 import type { Props } from './TimelineMessage.dom.js';
 import { TimelineMessage } from './TimelineMessage.dom.js';
 import { MessageInteractivity, TextDirection } from './Message.dom.js';
@@ -43,6 +42,7 @@ import { getFakeBadge } from '../../test-helpers/getFakeBadge.std.js';
 import { ThemeType } from '../../types/Util.std.js';
 import { BadgeCategory } from '../../badges/BadgeCategory.std.js';
 import { PaymentEventKind } from '../../types/Payment.std.js';
+import type { RenderAudioAttachmentProps } from '../../state/smart/renderAudioAttachment.preload.js';
 
 const { isBoolean, noop } = lodash;
 
@@ -117,7 +117,7 @@ const renderReactionPicker: Props['renderReactionPicker'] = () => <div />;
 function MessageAudioContainer({
   played,
   ...props
-}: AudioAttachmentProps): JSX.Element {
+}: RenderAudioAttachmentProps): JSX.Element {
   const [isActive, setIsActive] = React.useState<boolean>(false);
   const [currentTime, setCurrentTime] = React.useState<number>(0);
   const [playbackRate, setPlaybackRate] = React.useState<number>(1);
@@ -214,6 +214,7 @@ function MessageAudioContainer({
       {...props}
       active={active}
       computePeaks={computePeaks}
+      isPinned={false}
       onPlayMessage={handlePlayMessage}
       played={_played}
       pushPanelForConversation={action('pushPanelForConversation')}
@@ -236,6 +237,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   canCopy: true,
   canEditMessage: true,
   canEndPoll: overrideProps.direction === 'outgoing',
+  canPinMessages: overrideProps.canPinMessages ?? true,
   canReact: true,
   canReply: true,
   canDownload: true,
@@ -276,6 +278,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   isMessageRequestAccepted: isBoolean(overrideProps.isMessageRequestAccepted)
     ? overrideProps.isMessageRequestAccepted
     : true,
+  isPinned: isBoolean(overrideProps.isPinned) ? overrideProps.isPinned : false,
   isSelected: isBoolean(overrideProps.isSelected)
     ? overrideProps.isSelected
     : false,
@@ -294,6 +297,8 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   messageExpanded: action('messageExpanded'),
   showConversation: action('showConversation'),
   openGiftBadge: action('openGiftBadge'),
+  onPinnedMessageAdd: action('onPinnedMessageAdd'),
+  onPinnedMessageRemove: action('onPinnedMessageRemove'),
   previews: overrideProps.previews || [],
   quote: overrideProps.quote || undefined,
   reactions: overrideProps.reactions,
@@ -3287,4 +3292,10 @@ AttachmentWithError.args = {
     }),
   ],
   status: 'sent',
+};
+
+export const PinnedMessages = Template.bind({});
+PinnedMessages.args = {
+  text: 'I am pinned',
+  isPinned: true,
 };
