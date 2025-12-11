@@ -6,6 +6,7 @@ import lodash from 'lodash';
 
 import { action } from '@storybook/addon-actions';
 import type { Meta, StoryFn } from '@storybook/react';
+import { tw } from '../../axo/tw.dom.js';
 
 import { SignalService } from '../../protobuf/index.std.js';
 import { ConversationColors } from '../../types/Colors.std.js';
@@ -43,6 +44,7 @@ import { ThemeType } from '../../types/Util.std.js';
 import { BadgeCategory } from '../../badges/BadgeCategory.std.js';
 import { PaymentEventKind } from '../../types/Payment.std.js';
 import type { RenderAudioAttachmentProps } from '../../state/smart/renderAudioAttachment.preload.js';
+import type { PollVoteWithUserType } from '../../state/selectors/message.preload.js';
 
 const { isBoolean, noop } = lodash;
 
@@ -314,7 +316,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   saveAttachments: action('saveAttachments'),
   setQuoteByMessageId: action('setQuoteByMessageId'),
   retryMessageSend: action('retryMessageSend'),
-  sendPollVote: action('sendPollVote'),
+  sendPollVote: overrideProps.sendPollVote ?? action('sendPollVote'),
   copyMessageText: action('copyMessageText'),
   retryDeleteForEveryone: action('retryDeleteForEveryone'),
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
@@ -1991,7 +1993,99 @@ AudioWithPendingAttachment.args = {
 
 // Poll Messages
 
-function createMockPollWithVotes(
+function getStableVoter(optionIndex: number, voterIndex: number) {
+  const name = `Voter ${optionIndex * 100 + voterIndex + 1}`;
+
+  return {
+    acceptedMessageRequest: true,
+    avatarUrl: undefined,
+    badges: [],
+    color: 'A100' as const,
+    id: `stable-voter-${optionIndex}-${voterIndex}`,
+    isMe: false,
+    name,
+    phoneNumber: undefined,
+    profileName: undefined,
+    sharedGroupNames: [],
+    title: name,
+  };
+}
+
+function createMockPollWithVoteCounts(
+  question: string,
+  options: Array<string>,
+  otherVoteCounts: Map<number, number>,
+  allowMultiple: boolean,
+  myVotes: Set<number>,
+  pendingVoteDiff?: Map<number, 'PENDING_VOTE' | 'PENDING_UNVOTE'>
+) {
+  const votesByOption = new Map<number, Array<PollVoteWithUserType>>();
+
+  let totalNumVotes = 0;
+  const uniqueVoterIds = new Set<string>();
+
+  // Add other voters
+  otherVoteCounts.forEach((count, optionIndex) => {
+    if (count > 0) {
+      const voters = [];
+      for (let i = 0; i < count; i += 1) {
+        const from = getStableVoter(optionIndex, i);
+        uniqueVoterIds.add(from.id);
+        voters.push({
+          optionIndexes: [optionIndex],
+          timestamp: Date.now() - (optionIndex * 100 + i) * 1000,
+          isMe: false,
+          from,
+        });
+      }
+      votesByOption.set(optionIndex, voters);
+      totalNumVotes += count;
+    }
+  });
+
+  // Add my votes if present
+  if (myVotes.size > 0) {
+    uniqueVoterIds.add('me');
+    const myVoteIndexes = Array.from(myVotes);
+    for (const voteIndex of myVoteIndexes) {
+      const existingVoters = votesByOption.get(voteIndex) ?? [];
+      votesByOption.set(voteIndex, [
+        ...existingVoters,
+        {
+          optionIndexes: myVoteIndexes,
+          timestamp: Date.now(),
+          isMe: true,
+          from: {
+            acceptedMessageRequest: true,
+            avatarUrl: undefined,
+            badges: [],
+            color: 'A100' as const,
+            id: 'me',
+            isMe: true,
+            name: 'You',
+            phoneNumber: undefined,
+            profileName: undefined,
+            sharedGroupNames: [],
+            title: 'You',
+          },
+        },
+      ]);
+      totalNumVotes += 1;
+    }
+  }
+
+  return {
+    question,
+    options,
+    allowMultiple,
+    votesByOption,
+    totalNumVotes,
+    uniqueVoters: uniqueVoterIds.size,
+    pendingVoteDiff,
+  };
+}
+
+function createMockPollWithVoters(
   question: string,
   options: Array<string>,
   allowMultiple: boolean,
@@ -2090,7 +2184,7 @@ PollMultipleChoice.args = {
 export const PollWithVotes = Template.bind({});
 PollWithVotes.args = {
   conversationType: 'group',
-  poll: createMockPollWithVotes(
+  poll: createMockPollWithVoters(
     'Best day for the team meeting?',
     ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
     false,
@@ -2114,7 +2208,7 @@ PollWithVotes.args = {
 export const PollWithPendingVotes = Template.bind({});
 PollWithPendingVotes.args = {
   conversationType: 'group',
-  poll: createMockPollWithVotes(
+  poll: createMockPollWithVoters(
     'Best day for the team meeting?',
     ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
     false,
@@ -2142,7 +2236,7 @@ PollWithPendingVotes.args = {
 export const PollTerminated = Template.bind({});
 PollTerminated.args = {
   conversationType: 'group',
-  poll: createMockPollWithVotes(
+  poll: createMockPollWithVoters(
     'Quick poll: Coffee or tea?',
     ['Coffee ☕', 'Tea 🍵'],
     false,
@@ -2168,7 +2262,7 @@ PollTerminated.args = {
 export const PollLongText = Template.bind({});
 PollLongText.args = {
   conversationType: 'group',
-  poll: createMockPollWithVotes(
+  poll: createMockPollWithVoters(
     'Given the current situation with remote work becoming more prevalent, what would be your preferred working arrangement for the future once everything stabilizes?',
     [
       'Fully remote with no requirement to come to office except for special team events or emergencies', // 96 chars
@@ -2193,7 +2287,7 @@ PollLongText.args = {
 export const PollMultipleChoiceWithVotes = Template.bind({});
 PollMultipleChoiceWithVotes.args = {
   conversationType: 'group',
-  poll: createMockPollWithVotes(
+  poll: createMockPollWithVoters(
     'Which toppings do you want on the pizza?',
     [
       'Pepperoni',
@@ -2214,6 +2308,178 @@ PollMultipleChoiceWithVotes.args = {
   ),
   status: 'read',
 };
+
+const POLL_ANIMATION_OPTIONS = ['Pizza', 'Sushi', 'Tacos', 'Salad'];
+const BAD_NETWORK_DELAY_MS = 5000;
+
+export function PollAnimationPlayground(): JSX.Element {
+  const [otherVoteCounts, setOtherVoteCounts] = React.useState<
+    Map<number, number>
+  >(() => new Map(POLL_ANIMATION_OPTIONS.map((_, i) => [i, 0])));
+
+  const [myVotes, setMyVotes] = React.useState<Set<number>>(() => new Set());
+
+  // Pending state for my vote (only used with bad network)
+  const [pendingVoteDiff, setPendingVoteDiff] = React.useState<
+    Map<number, 'PENDING_VOTE' | 'PENDING_UNVOTE'>
+  >(() => new Map());
+
+  const [badNetwork, setBadNetwork] = React.useState(false);
+  const [allowMultiple, setAllowMultiple] = React.useState(false);
+
+  const handleSendPollVote = React.useCallback(
+    (params: { messageId: string; optionIndexes: ReadonlyArray<number> }) => {
+      const newVotes = new Set(params.optionIndexes);
+
+      if (badNetwork) {
+        // Calculate pending diff: difference between committed state (myVotes)
+        // and requested state (newVotes)
+        const nextPendingDiff = new Map<
+          number,
+          'PENDING_VOTE' | 'PENDING_UNVOTE'
+        >();
+        // Options being added (in newVotes but not in myVotes)
+        for (const idx of newVotes) {
+          if (!myVotes.has(idx)) {
+            nextPendingDiff.set(idx, 'PENDING_VOTE');
+          }
+        }
+        // Options being removed (in myVotes but not in newVotes)
+        for (const idx of myVotes) {
+          if (!newVotes.has(idx)) {
+            nextPendingDiff.set(idx, 'PENDING_UNVOTE');
+          }
+        }
+        setPendingVoteDiff(nextPendingDiff);
+
+        // After delay, clear pending and apply votes
+        setTimeout(() => {
+          setPendingVoteDiff(new Map());
+          setMyVotes(newVotes);
+        }, BAD_NETWORK_DELAY_MS);
+      } else {
+        setMyVotes(newVotes);
+      }
+    },
+    [badNetwork, myVotes]
+  );
+
+  // Increment other voters (instant, no pending)
+  const incrementOther = (index: number) => {
+    setOtherVoteCounts(prev => {
+      const next = new Map(prev);
+      next.set(index, (prev.get(index) ?? 0) + 1);
+      return next;
+    });
+  };
+
+  // Decrement other voters (instant, no pending)
+  const decrementOther = (index: number) => {
+    setOtherVoteCounts(prev => {
+      const next = new Map(prev);
+      const current = prev.get(index) ?? 0;
+      if (current > 0) {
+        next.set(index, current - 1);
+      }
+      return next;
+    });
+  };
+
+  const reset = () => {
+    setOtherVoteCounts(new Map(POLL_ANIMATION_OPTIONS.map((_, i) => [i, 0])));
+    setMyVotes(new Set());
+    setPendingVoteDiff(new Map());
+  };
+
+  const poll = createMockPollWithVoteCounts(
+    'What should we have for lunch?',
+    POLL_ANIMATION_OPTIONS,
+    otherVoteCounts,
+    allowMultiple,
+    myVotes,
+    pendingVoteDiff.size > 0 ? pendingVoteDiff : undefined
+  );
+
+  const props = createProps({
+    conversationType: 'group',
+    poll,
+    status: 'sent',
+    sendPollVote: handleSendPollVote,
+  });
+
+  return (
+    <div>
+      <TimelineMessage {...props} />
+
+      <div
+        className={tw(
+          'mt-6 max-w-[300px] rounded-lg border border-solid border-label-primary p-4'
+        )}
+      >
+        <label className={tw('mb-2 flex cursor-pointer items-center gap-2')}>
+          <input
+            type="checkbox"
+            checked={allowMultiple}
+            onChange={e => {
+              setAllowMultiple(e.target.checked);
+              // Clear votes when changing mode to avoid invalid state
+              setMyVotes(new Set());
+              setPendingVoteDiff(new Map());
+            }}
+          />
+          <span>Allow Multiple Votes</span>
+        </label>
+
+        <label className={tw('mb-4 flex cursor-pointer items-center gap-2')}>
+          <input
+            type="checkbox"
+            checked={badNetwork}
+            onChange={e => setBadNetwork(e.target.checked)}
+          />
+          <span>Bad Network (5s delay for your vote)</span>
+        </label>
+
+        <div className={tw('mb-3 type-body-medium font-semibold')}>
+          Other Voters
+        </div>
+        {POLL_ANIMATION_OPTIONS.map((option, index) => (
+          <div
+            key={option}
+            className={tw('mb-2 flex items-center justify-between')}
+          >
+            <span className={tw('flex-1')}>{option}</span>
+            <div className={tw('flex items-center gap-2')}>
+              <button
+                type="button"
+                onClick={() => decrementOther(index)}
+                className={tw('size-7 cursor-pointer type-body-large')}
+              >
+                -
+              </button>
+              <span className={tw('min-w-5 text-center')}>
+                {otherVoteCounts.get(index) ?? 0}
+              </span>
+              <button
+                type="button"
+                onClick={() => incrementOther(index)}
+                className={tw('size-7 cursor-pointer type-body-large')}
+              >
+                +
+              </button>
+            </div>
+          </div>
+        ))}
+        <button
+          type="button"
+          onClick={reset}
+          className={tw('mt-2 cursor-pointer px-3 py-1.5')}
+        >
+          Reset All
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export const OtherFileType = Template.bind({});
 OtherFileType.args = {
