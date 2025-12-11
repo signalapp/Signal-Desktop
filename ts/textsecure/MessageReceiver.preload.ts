@@ -262,6 +262,14 @@ const CAN_BE_URGENT_TYPES: Array<SendTypesType> = [
   'legacyGroupChange',
 ];
 
+(async () => {
+  try {
+    await pqCrypto.initialize();
+  } catch (e) {
+    log.error('[PQ] Failed to initialize PQ crypto', e);
+  }
+})();
+
 function logUnexpectedUrgentValue(
   envelope: ProcessedEnvelope,
   type: SendTypesType

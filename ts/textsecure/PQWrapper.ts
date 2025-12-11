@@ -278,11 +278,3 @@ class PQCrypto {
 
 export const pqCrypto = new PQCrypto();
 
-(async () => {
-  try {
-    await pqCrypto.initialize();
-  } catch (e) {
-    log.error('[PQ] Failed to initialize PQ crypto', e);
-  }
-})();
-
