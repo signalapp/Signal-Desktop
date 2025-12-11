@@ -125,6 +125,8 @@
     "@indutny/simple-windows-notifications": "2.0.16",
     "@indutny/sneequals": "4.0.0",
     "@internationalized/date": "3.7.0",
+    "@noble/ciphers": "^2.0.1",
+    "@noble/post-quantum": "^0.5.2",
     "@popperjs/core": "2.11.8",
     "@radix-ui/react-tooltip": "1.2.7",
     "@react-aria/focus": "3.19.1",

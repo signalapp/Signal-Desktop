@@ -6,7 +6,7 @@
 /* eslint-disable no-param-reassign */
 
 import lodash from 'lodash';
-
+import { pqCrypto } from './PQWrapper';
 import { z } from 'zod';
 import type {
   CiphertextMessage,
@@ -367,17 +367,45 @@ export default class OutgoingMessage {
     });
   }
 
-  getPlaintext(): Uint8Array {
+  async getPlaintext(): Promise<Uint8Array> {
     if (!this.plaintext) {
       const { message } = this;
 
+      // 1) Build the original Signal plaintext (unchanged behaviour)
+      let signalPlaintext: Uint8Array;
       if (message instanceof Proto.Content) {
-        this.plaintext = padMessage(Proto.Content.encode(message).finish());
+        signalPlaintext = padMessage(Proto.Content.encode(message).finish());
       } else {
-        this.plaintext = message.serialize();
+        signalPlaintext = message.serialize();
+      }
+
+      // 2) Derive a contactId string for PQ from this.recipients
+      //    In 1:1 conversations there should be a single recipient.
+      let contactId: string | undefined;
+
+      if (Array.isArray(this.recipients) && this.recipients.length > 0) {
+        // this.recipients is number[]
+        contactId = String(this.recipients[0]);
+      }
+
+      // If we can't figure out a contactId, just send the original Signal plaintext
+      if (!contactId) {
+        this.plaintext = signalPlaintext;
+        return this.plaintext;
+      }
+
+      try {
+        // pqCrypto.wrapOutgoing expects a string contactId, so this is now correct
+        const { wrapped } =  await pqCrypto.wrapOutgoing(contactId, signalPlaintext);
+        this.plaintext = wrapped;
+      } catch (e) {
+        // Fail open: fall back to unwrapped Signal message
+        log.error('[PQ] Failed to wrap outgoing message, sending unwrapped', e);
+        this.plaintext = signalPlaintext;
       }
     }
-    return this.plaintext;
+
+    return this.plaintext as Uint8Array;
   }
 
   getContentProtoBytes(): Uint8Array | undefined {
@@ -401,7 +429,7 @@ export default class OutgoingMessage {
 
     if (message instanceof Proto.Content) {
       return signalEncrypt(
-        this.getPlaintext(),
+        await this.getPlaintext(),
         protocolAddress,
         sessionStore,
         identityKeyStore

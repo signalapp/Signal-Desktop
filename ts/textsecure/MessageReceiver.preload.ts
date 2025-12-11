@@ -6,6 +6,7 @@
 import lodash from 'lodash';
 import PQueue from 'p-queue';
 import { v7 as getGuid } from 'uuid';
+import { pqCrypto } from './PQWrapper';
 
 import type {
   SenderCertificate,
@@ -1459,7 +1460,44 @@ export default class MessageReceiver
       return { plaintext: undefined, envelope };
     }
 
+   // after you get `plaintext` from the normal Signal decryption:
     const { plaintext, wasEncrypted } = decryptResult;
+
+    let unwrappedPlaintext = plaintext;
+
+    // Derive the same contactId we used in OutgoingMessage
+    let contactId: string | undefined;
+
+    // Example (you must adjust to your actual types):
+    if (typeof envelope.sourceDevice === 'number') {
+      contactId = String(envelope.sourceDevice);
+    } else if (typeof envelope.sourceServiceId === 'string') {
+      // Only if that matches what you used as recipients[0]
+      contactId = envelope.sourceServiceId;
+    }
+
+    if (contactId) {
+      try {
+        log.info(
+          `[PQ] Attempting to unwrap message from: ${contactId}, length: ${plaintext.length}`
+        );
+        unwrappedPlaintext = await pqCrypto.unwrapIncoming(contactId, plaintext);
+        log.info(
+          `[PQ] Successfully unwrapped message, new length: ${unwrappedPlaintext.length}`
+        );
+      } catch (error) {
+        log.error('[PQ] Failed to unwrap message:', error);
+        unwrappedPlaintext = plaintext;
+      }
+    }
+
+    //
+    // Then, everywhere below where the file used `plaintext`,
+    // change it to `unwrappedPlaintext`.
+    //
+
+
+
 
     // Note: we need to process this as part of decryption, because we might need this
     //   sender key to decrypt the next message in the queue!
@@ -1467,7 +1505,7 @@ export default class MessageReceiver
 
     let inProgressMessageType = '';
     try {
-      const content = Proto.Content.decode(plaintext);
+      const content = Proto.Content.decode(unwrappedPlaintext);
       if (!wasEncrypted && Bytes.isEmpty(content.decryptionErrorMessage)) {
         log.warn(
           `${logId}: dropping plaintext envelope without decryption error message`

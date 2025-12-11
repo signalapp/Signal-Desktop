@@ -102,6 +102,12 @@ importers:
       '@internationalized/date':
         specifier: 3.7.0
         version: 3.7.0
+      '@noble/ciphers':
+        specifier: ^2.0.1
+        version: 2.0.1
+      '@noble/post-quantum':
+        specifier: ^0.5.2
+        version: 0.5.2
       '@popperjs/core':
         specifier: 2.11.8
         version: 2.11.8
@@ -1970,6 +1976,22 @@ packages:
   '@napi-rs/canvas@0.1.61':
     resolution: {integrity: sha512-IJDok7OsGQ+Wd9QOWaOnFszw1mxNtJuynD+tBAhWMV6QJr7fWZx83eYS9xSl+3XR2tUa9oiHc44APcHBgdErmA==}
     engines: {node: '>= 10'}
+
+  '@noble/ciphers@2.0.1':
+    resolution: {integrity: sha512-xHK3XHPUW8DTAobU+G0XT+/w+JLM7/8k1UFdB5xg/zTFPnFCobhftzw8wl4Lw2aq/Rvir5pxfZV5fEazmeCJ2g==}
+    engines: {node: '>= 20.19.0'}
+
+  '@noble/curves@2.0.1':
+    resolution: {integrity: sha512-vs1Az2OOTBiP4q0pwjW5aF0xp9n4MxVrmkFBxc6EKZc6ddYx5gaZiAsZoq0uRRXWbi3AT/sBqn05eRPtn1JCPw==}
+    engines: {node: '>= 20.19.0'}
+
+  '@noble/hashes@2.0.1':
+    resolution: {integrity: sha512-XlOlEbQcE9fmuXxrVTXCTlG2nlRXa9Rj3rr5Ue/+tX+nmkgbX720YHh0VR3hBF9xDvwnb8D2shVGOwNx+ulArw==}
+    engines: {node: '>= 20.19.0'}
+
+  '@noble/post-quantum@0.5.2':
+    resolution: {integrity: sha512-etMDBkCuB95Xj/gfsWYBD2x+84IjL4uMLd/FhGoUUG/g+eh0K2eP7pJz1EmvpN8Df3vKdoWVAc7RxIBCHQfFHQ==}
+    engines: {node: '>= 20.19.0'}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -12238,6 +12260,19 @@ snapshots:
       '@napi-rs/canvas-linux-x64-gnu': 0.1.61
       '@napi-rs/canvas-linux-x64-musl': 0.1.61
       '@napi-rs/canvas-win32-x64-msvc': 0.1.61
+
+  '@noble/ciphers@2.0.1': {}
+
+  '@noble/curves@2.0.1':
+    dependencies:
+      '@noble/hashes': 2.0.1
+
+  '@noble/hashes@2.0.1': {}
+
+  '@noble/post-quantum@0.5.2':
+    dependencies:
+      '@noble/curves': 2.0.1
+      '@noble/hashes': 2.0.1
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
