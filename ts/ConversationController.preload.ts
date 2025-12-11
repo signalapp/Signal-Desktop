@@ -57,6 +57,7 @@ import type {
   ConversationAttributesType,
   ConversationAttributesTypeType,
   ConversationRenderInfoType,
+  SettableConversationAttributesType,
 } from './model-types.d.ts';
 import type {
   ServiceIdString,
@@ -483,7 +484,7 @@ export class ConversationController {
   getOrCreate(
     identifier: string | null,
     type: ConversationAttributesTypeType,
-    additionalInitialProps: Partial<ConversationAttributesType> = {}
+    additionalInitialProps: Partial<SettableConversationAttributesType> = {}
   ): ConversationModel {
     if (typeof identifier !== 'string') {
       throw new TypeError("'id' must be a string");
@@ -613,7 +614,7 @@ export class ConversationController {
   async getOrCreateAndWait(
     id: string | null,
     type: ConversationAttributesTypeType,
-    additionalInitialProps: Partial<ConversationAttributesType> = {}
+    additionalInitialProps: Partial<SettableConversationAttributesType> = {}
   ): Promise<ConversationModel> {
     await this.load();
     const conversation = this.getOrCreate(id, type, additionalInitialProps);
@@ -1920,6 +1921,33 @@ export class ConversationController {
     } else {
       throw missingCaseError(idProp);
     }
+  }
+
+  async usernameUpdated(conversationModel: ConversationModel): Promise<void> {
+    const username = conversationModel.get('username');
+    if (!username) {
+      return;
+    }
+
+    const otherConversationsWithThisUsername = this.getAll().filter(
+      conversation =>
+        conversation !== conversationModel &&
+        conversation.get('username') === username
+    );
+
+    if (otherConversationsWithThisUsername.length === 0) {
+      return;
+    }
+
+    log.warn(
+      `usernameUpdated(${conversationModel.idForLogging()}): detected ${otherConversationsWithThisUsername.length}` +
+        ' with the same username, clearing'
+    );
+    await Promise.all(
+      otherConversationsWithThisUsername.map(conversation =>
+        conversation.updateUsername(undefined)
+      )
+    );
   }
 
   #resetLookups(): void {

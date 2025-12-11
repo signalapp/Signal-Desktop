@@ -1459,6 +1459,7 @@ export async function mergeContactRecord(
 
   await conversation.updateUsername(dropNull(contactRecord.username), {
     shouldSave: false,
+    fromStorageService: true,
   });
 
   let needsProfileFetch = false;
@@ -2013,10 +2014,14 @@ export async function mergeAccountRecord(
   conversation.set({
     isArchived: Boolean(noteToSelfArchived),
     markedUnread: Boolean(noteToSelfMarkedUnread),
-    username: dropNull(username),
     storageID,
     storageVersion,
     needsStorageServiceSync: false,
+  });
+
+  await conversation.updateUsername(dropNull(username), {
+    shouldSave: false,
+    fromStorageService: true,
   });
 
   let needsProfileFetch = false;
