@@ -3280,8 +3280,10 @@ export async function startApp(): Promise<void> {
       const ourConversation =
         window.ConversationController.getOurConversation();
       if (ourConversation) {
-        ourConversation.set({ username: undefined });
-        await DataWriter.updateConversation(ourConversation.attributes);
+        await ourConversation.updateUsername(undefined, {
+          shouldSave: true,
+          fromStorageService: false,
+        });
       }
 
       // Then make sure outstanding conversation saves are flushed

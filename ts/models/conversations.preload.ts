@@ -14,6 +14,7 @@ import type {
   MessageAttributesType,
   QuotedMessageType,
   SenderKeyInfoType,
+  SettableConversationAttributesType,
 } from '../model-types.d.ts';
 import { DataReader, DataWriter } from '../sql/Client.preload.js';
 import { getConversation } from '../util/getConversation.preload.js';
@@ -369,7 +370,15 @@ export class ConversationModel {
   ): ConversationAttributesType[keyName] {
     return this.attributes[key];
   }
+
   public set(
+    attributes: Partial<SettableConversationAttributesType>,
+    { noTrigger }: { noTrigger?: boolean } = {}
+  ): void {
+    this.#doSet(attributes, { noTrigger });
+  }
+
+  #doSet(
     attributes: Partial<ConversationAttributesType>,
     { noTrigger }: { noTrigger?: boolean } = {}
   ): void {
@@ -4327,7 +4336,7 @@ export class ConversationModel {
 
     log.info(`maybeClearUsername(${this.idForLogging()}): clearing username`);
 
-    this.set({ username: undefined });
+    this.#doSet({ username: undefined });
 
     if (this.get('needsTitleTransition') && getProfileName(this.attributes)) {
       log.info(
@@ -4356,7 +4365,13 @@ export class ConversationModel {
 
   async updateUsername(
     username: string | undefined,
-    { shouldSave = true }: { shouldSave?: boolean } = {}
+    {
+      shouldSave = true,
+      fromStorageService = false,
+    }: {
+      shouldSave?: boolean;
+      fromStorageService?: boolean;
+    } = {}
   ): Promise<void> {
     const ourConversationId =
       window.ConversationController.getOurConversationId();
@@ -4371,8 +4386,12 @@ export class ConversationModel {
 
     log.info(`updateUsername(${this.idForLogging()}): updating username`);
 
-    this.set({ username });
-    this.captureChange('updateUsername');
+    this.#doSet({ username });
+    await window.ConversationController.usernameUpdated(this);
+
+    if (!fromStorageService) {
+      this.captureChange('updateUsername');
+    }
 
     if (shouldSave) {
       await DataWriter.updateConversation(this.attributes);
