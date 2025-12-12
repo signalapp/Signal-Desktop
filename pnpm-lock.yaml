@@ -434,8 +434,8 @@ importers:
         specifier: 3.0.0
         version: 3.0.0(prettier@3.3.3)
       '@indutny/rezip-electron':
-        specifier: 2.0.1
-        version: 2.0.1
+        specifier: 3.0.0
+        version: 3.0.0
       '@napi-rs/canvas':
         specifier: 0.1.61
         version: 0.1.61
@@ -623,8 +623,8 @@ importers:
         specifier: 3.3.4
         version: 3.3.4
       better-blockmap:
-        specifier: 1.0.2
-        version: 1.0.2
+        specifier: 2.0.1
+        version: 2.0.1
       casual:
         specifier: 1.6.2
         version: 1.6.2(patch_hash=b88b5052437cbdc1882137778b76ca5037f71b2a030ae9ef39dc97f51670d599)
@@ -1715,8 +1715,8 @@ packages:
   '@indutny/range-finder@1.3.4':
     resolution: {integrity: sha512-UWNRZZCp3f97NJuhP0IgBktob+kPDFsnyKx42PDwPQsAa/ZczyeLdhfz3tD8zK1wVC+OkOXAM6YkBAgEv9Xhaw==}
 
-  '@indutny/rezip-electron@2.0.1':
-    resolution: {integrity: sha512-DEgSMgjiskmbpMUEJhlvY/RoxThtSwGVyvN2sBU8bDDVqGrihrkGIzXBLA5GKe69shZ3QzlBpR+fDuOpimVMPw==}
+  '@indutny/rezip-electron@3.0.0':
+    resolution: {integrity: sha512-DfaM/M035fA9bZbGfxsjuqw3bJdBDs+mU8fBw+pUgkK4x4WJZFsa/H0hDa1Efj4ZyOw7+nItIAr0jjCYUszzpg==}
     hasBin: true
 
   '@indutny/simple-windows-notifications@2.0.16':
@@ -4847,8 +4847,8 @@ packages:
   before-after-hook@2.2.3:
     resolution: {integrity: sha512-NzUnlZexiaH/46WDhANlyR2bXRopNg4F/zuSA3OpZnllCUgRaOF2znDioDWrmbNVsuZk6l9pMquQB38cfBZwkQ==}
 
-  better-blockmap@1.0.2:
-    resolution: {integrity: sha512-D6Fp7QuPcO1mlCbOM8MigD66B/uqSlLXilGkK7Fo8XkMy4Zxh7oFeLORnlGhkQqrbJsrKKchuRGaEo0jCvh61Q==}
+  better-blockmap@2.0.1:
+    resolution: {integrity: sha512-vT2IsQtDcZTrY7zCzitMPShUhxjiegVhheW/qG/lObk70tsjLDg93cw3+Vi8PlG+7CaF8Re2GLpDtc7emP89LQ==}
     hasBin: true
 
   better-opn@3.0.2:
@@ -11871,11 +11871,11 @@ snapshots:
     dependencies:
       readable-stream: 4.7.0
 
-  '@indutny/rezip-electron@2.0.1':
+  '@indutny/rezip-electron@3.0.0':
     dependencies:
       '@indutny/inflate': 1.0.5
       '@indutny/yazl': 2.7.0
-      better-blockmap: 1.0.2
+      better-blockmap: 2.0.1
       commander: 12.1.0
       functional-red-black-tree: 1.0.1
       yauzl: 3.2.0
@@ -15965,7 +15965,7 @@ snapshots:
 
   before-after-hook@2.2.3: {}
 
-  better-blockmap@1.0.2:
+  better-blockmap@2.0.1:
     dependencies:
       yargs: 17.7.2
 
