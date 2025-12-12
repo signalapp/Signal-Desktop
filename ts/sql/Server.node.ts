@@ -3178,6 +3178,15 @@ function saveMessagesIndividually(
   arrayOfMessages: ReadonlyArray<ReadonlyDeep<MessageType>>,
   options: { forceSave?: boolean; ourAci: AciString }
 ): { failedIndices: Array<number> } {
+  try {
+    saveMessages(db, arrayOfMessages, options);
+    return { failedIndices: [] };
+  } catch (e) {
+    logger.error(
+      'saveMessagesIndividually: Failed to save messages in one transaction, falling over to individual saves'
+    );
+  }
+
   return db.transaction(() => {
     const failedIndices: Array<number> = [];
     arrayOfMessages.forEach((message, index) => {
