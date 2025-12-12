@@ -608,6 +608,8 @@
       "!ts/scripts/**",
       "!build",
       "!ts/{storybook,test-helpers,test-node,test-mock,test-electron}",
+      "!ts/**/*.preload.js",
+      "!ts/**/*.dom.js",
       "!**/{tsconfig,bower,component}.json",
       "!**/.{github,husky,grenrc,npmrc,nycrc,taprc,bithoundrc}",
       "!**/.testem.json",
