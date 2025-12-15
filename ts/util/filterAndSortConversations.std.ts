@@ -170,7 +170,8 @@ export function filterAndSortConversations(
   searchTerm: string,
   regionCode: string | undefined,
   filterByUnread: boolean = false,
-  conversationToInject?: ConversationType
+  conversationToInject?: ConversationType,
+  includeArchived: boolean = true
 ): Array<ConversationType> {
   let filteredConversations = filterByUnread
     ? filterConversationsByUnread(conversations, 'force-include')
@@ -178,6 +179,12 @@ export function filterAndSortConversations(
 
   if (conversationToInject) {
     filteredConversations = [...filteredConversations, conversationToInject];
+  }
+
+  if (!includeArchived) {
+    filteredConversations = filteredConversations.filter(
+      conversation => !conversation.isArchived
+    );
   }
 
   if (searchTerm.length) {

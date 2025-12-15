@@ -185,7 +185,10 @@ export function ForwardMessagesModal({
         filterAndSortConversations(
           candidateConversations,
           normalizedSearchTerm,
-          regionCode
+          regionCode,
+          false,
+          undefined,
+          false
         )
       );
     }, 200);
