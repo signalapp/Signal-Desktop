@@ -1,3 +1,36 @@
+diff --git a/out/asar/asarUtil.js b/out/asar/asarUtil.js
+index bea8a3b1b2ab56d99ea3679eb88aaf0b4b646803..622e362315642a7144021bbb885e571e9e948e07 100644
+--- a/out/asar/asarUtil.js
++++ b/out/asar/asarUtil.js
+@@ -149,15 +149,24 @@ class AsarPackager {
+             if (a === b) {
+                 return 0;
+             }
++            // SIGNAL CHANGE START
+             // Place addons last because their signature changes per build
+-            const isAAddon = a.endsWith(".node");
+-            const isBAddon = b.endsWith(".node");
+-            if (isAAddon && !isBAddon) {
++            function isFickle(name) {
++              return name.endsWith(".node") ||
++                name.endsWith(path.sep + "local-production.json") ||
++                name.endsWith(path.sep + "preload.bundle.js") ||
++                name.endsWith(path.sep + "preload.bundle.cache") ||
++                name.endsWith(path.sep + "package.json");
++            }
++            const isAFickle = isFickle(a);
++            const isBFickle = isFickle(b);
++            if (isAFickle && !isBFickle) {
+                 return 1;
+             }
+-            if (isBAddon && !isAAddon) {
++            if (isBFickle && !isAFickle) {
+                 return -1;
+             }
++            // SIGNAL CHANGE END
+             // Otherwise order by name
+             return a < b ? -1 : 1;
+         });
 diff --git a/out/targets/FpmTarget.js b/out/targets/FpmTarget.js
 index 47e6f48fcbed88b6ac07cff15c888c1b8b59721f..76dd6cc7265054222f2d70c76aa8456d550f29d1 100644
 --- a/out/targets/FpmTarget.js
@@ -42,7 +75,7 @@ index 6cf860bd2847bae35ca8885cb680dd6c8c516e39..a3cb08a6dc7970ab2b32c731f41ea6e4
 +
 +# SIGNAL CHANGES END
 diff --git a/templates/linux/after-remove.tpl b/templates/linux/after-remove.tpl
-index 19b3decabe18a816f9ed5440fa9124ebfd6e3907..676e76bae609cd3309be87a4606346f75945e900 100644
+index 19b3decabe18a816f9ed5440fa9124ebfd6e3907..b5011d1b8cdb741ba6453f942a3c0660b66d41a0 100644
 --- a/templates/linux/after-remove.tpl
 +++ b/templates/linux/after-remove.tpl
 @@ -13,3 +13,12 @@ APPARMOR_PROFILE_DEST='/etc/apparmor.d/${executable}'
@@ -58,6 +91,7 @@ index 19b3decabe18a816f9ed5440fa9124ebfd6e3907..676e76bae609cd3309be87a4606346f7
 +fi
 +
 +# SIGNAL CHANGES END
+\ No newline at end of file
 diff --git a/templates/nsis/include/installer.nsh b/templates/nsis/include/installer.nsh
 index 34e91dfe82fdbb2e929820f2e8deb771b7f7893c..73bfffc6c227a018cbbeb690d6d7b882ed142fc8 100644
 --- a/templates/nsis/include/installer.nsh
