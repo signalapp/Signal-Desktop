@@ -25,6 +25,10 @@ const log = createLogger('RemoteConfig');
 const SemverKeys = [
   'desktop.callQualitySurvey.beta',
   'desktop.callQualitySurvey.prod',
+  'desktop.pinnedMessages.receive.beta',
+  'desktop.pinnedMessages.receive.prod',
+  'desktop.pinnedMessages.send.beta',
+  'desktop.pinnedMessages.send.prod',
   'desktop.plaintextExport.beta',
   'desktop.plaintextExport.prod',
 ] as const;

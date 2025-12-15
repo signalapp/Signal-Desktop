@@ -10,6 +10,7 @@ import { PinnedMessagesPanel } from '../../components/conversation/pinned-messag
 import type { SmartTimelineItemProps } from './TimelineItem.preload.js';
 import { SmartTimelineItem } from './TimelineItem.preload.js';
 import { getPinnedMessages } from '../selectors/pinnedMessages.dom.js';
+import { canPinMessages as getCanPinMessages } from '../selectors/message.preload.js';
 
 export type SmartPinnedMessagesPanelProps = Readonly<{
   conversationId: string;
@@ -32,6 +33,7 @@ export const SmartPinnedMessagesPanel = memo(function SmartPinnedMessagesPanel(
   );
 
   const pinnedMessages = useSelector(getPinnedMessages);
+  const canPinMessages = getCanPinMessages(conversation);
 
   return (
     <PinnedMessagesPanel
@@ -39,6 +41,7 @@ export const SmartPinnedMessagesPanel = memo(function SmartPinnedMessagesPanel(
       conversation={conversation}
       pinnedMessages={pinnedMessages}
       renderTimelineItem={renderTimelineItem}
+      canPinMessages={canPinMessages}
     />
   );
 });

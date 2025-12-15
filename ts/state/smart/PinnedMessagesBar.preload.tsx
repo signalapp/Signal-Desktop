@@ -4,7 +4,10 @@ import React, { memo, useCallback, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 import { getIntl } from '../selectors/user.std.js';
-import { getSelectedConversationId } from '../selectors/conversations.dom.js';
+import {
+  getConversationSelector,
+  getSelectedConversationId,
+} from '../selectors/conversations.dom.js';
 import { strictAssert } from '../../util/assert.std.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
 import type {
@@ -20,6 +23,7 @@ import { PinnedMessagesBar } from '../../components/conversation/pinned-messages
 import { PanelType } from '../../types/Panels.std.js';
 import type { PinnedMessageId } from '../../types/PinnedMessage.std.js';
 import {
+  canPinMessages as getCanPinMessages,
   getMessagePropsSelector,
   type MessagePropsType,
 } from '../selectors/message.preload.js';
@@ -129,12 +133,17 @@ const selectPins: StateSelector<ReadonlyArray<Pin>> = createSelector(
 export const SmartPinnedMessagesBar = memo(function SmartPinnedMessagesBar() {
   const i18n = useSelector(getIntl);
   const conversationId = useSelector(getSelectedConversationId);
-  const pins = useSelector(selectPins);
-
   strictAssert(
     conversationId != null,
     'PinnedMessagesBar should only be rendered in selected conversation'
   );
+
+  const conversationSelector = useSelector(getConversationSelector);
+  const conversation = conversationSelector(conversationId);
+  strictAssert(conversation != null, 'Missing conversation');
+
+  const pins = useSelector(selectPins);
+  const canPinMessages = getCanPinMessages(conversation);
 
   const { pushPanelForConversation, scrollToMessage } =
     useConversationsActions();
@@ -203,6 +212,7 @@ export const SmartPinnedMessagesBar = memo(function SmartPinnedMessagesBar() {
       onPinGoTo={handlePinGoTo}
       onPinRemove={handlePinRemove}
       onPinsShowAll={handlePinsShowAll}
+      canPinMessages={canPinMessages}
     />
   );
 });

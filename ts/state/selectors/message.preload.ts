@@ -169,6 +169,7 @@ import type { MessageRequestResponseNotificationData } from '../../components/co
 import type { PinnedMessageNotificationData } from '../../components/conversation/pinned-messages/PinnedMessageNotification.dom.js';
 import { canEditGroupInfo } from '../../util/canEditGroupInfo.preload.js';
 import { getPinnedMessagesMessageIds } from './pinnedMessages.dom.js';
+import { isPinnedMessagesSendEnabled } from '../../util/isPinnedMessagesEnabled.dom.js';
 
 const { groupBy, isEmpty, isNumber, isObject, map } = lodash;
 
@@ -2403,6 +2404,9 @@ export function canForward(message: ReadonlyMessageAttributesType): boolean {
 }
 
 export function canPinMessages(conversation: ConversationType): boolean {
+  if (!isPinnedMessagesSendEnabled()) {
+    return false;
+  }
   return conversation.type === 'direct' || canEditGroupInfo(conversation);
 }
 

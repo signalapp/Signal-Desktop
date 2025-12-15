@@ -283,7 +283,7 @@ import {
 } from './types/Message2.preload.js';
 import { JobCancelReason } from './jobs/types.std.js';
 import { itemStorage } from './textsecure/Storage.preload.js';
-import { isPinnedMessagesReceiveEnabled } from './util/isPinnedMessagesEnabled.std.js';
+import { isPinnedMessagesReceiveEnabled } from './util/isPinnedMessagesEnabled.dom.js';
 
 const { isNumber, throttle } = lodash;
 
