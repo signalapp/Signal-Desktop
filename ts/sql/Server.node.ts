@@ -49,7 +49,7 @@ import { isNormalNumber } from '../util/isNormalNumber.std.js';
 import { isNotNil } from '../util/isNotNil.std.js';
 import { parseIntOrThrow } from '../util/parseIntOrThrow.std.js';
 import { updateSchema } from './migrations/index.node.js';
-import type { JSONRows } from './util.std.js';
+import type { JSONRows, QueryFragment } from './util.std.js';
 import {
   batchMultiVarQuery,
   bulkAdd,
@@ -68,7 +68,6 @@ import {
   sqlConstant,
   sqlFragment,
   sqlJoin,
-  QueryFragment,
   convertOptionalBooleanToInteger,
 } from './util.std.js';
 import {
@@ -199,6 +198,8 @@ import type {
 import {
   AttachmentDownloadSource,
   MESSAGE_COLUMNS,
+  MESSAGE_COLUMNS_FRAGMENTS,
+  MESSAGE_COLUMNS_SELECT,
   MESSAGE_ATTACHMENT_COLUMNS,
   MESSAGE_NON_PRIMARY_KEY_COLUMNS,
 } from './Interface.std.js';
@@ -782,10 +783,6 @@ export const DataWriter: ServerWritableInterface = {
   removeKnownDraftAttachments,
   runCorruptionChecks,
 };
-
-const MESSAGE_COLUMNS_FRAGMENTS = MESSAGE_COLUMNS.map(
-  column => new QueryFragment(column, [])
-);
 
 function rowToConversation(row: ConversationRow): ConversationType {
   const { expireTimerVersion } = row;
@@ -3534,7 +3531,7 @@ function getUnreadReactionsAndMarkRead(
   return db
     .prepare(
       `
-        UPDATE reactions 
+        UPDATE reactions
         INDEXED BY reactions_unread
         SET unread = 0
         WHERE
@@ -3782,7 +3779,7 @@ function getRecentStoryReplies(
 
   const createQuery = (timeFilter: QueryFragment): QueryFragment => sqlFragment`
     SELECT
-      ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
+      ${MESSAGE_COLUMNS_SELECT}
     FROM messages
     WHERE
       (${messageId ?? null} IS NULL OR id IS NOT ${messageId ?? null}) AND

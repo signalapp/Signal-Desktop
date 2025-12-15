@@ -103,6 +103,7 @@ type PropsHousekeepingType = {
   invitedContactsForNewlyCreatedGroup: Array<ConversationType>;
   selectedMessageId?: string;
   shouldShowMiniPlayer: boolean;
+  shouldShowPinnedMessagesBar: boolean;
 
   warning?: WarningType;
   hasContactSpoofingReview: boolean | undefined;
@@ -143,6 +144,7 @@ type PropsHousekeepingType = {
     unreadIndicatorPlacement: undefined | UnreadIndicatorPlacement;
   }) => JSX.Element;
   renderMiniPlayer: (options: { shouldFlow: boolean }) => JSX.Element;
+  renderPinnedMessagesBar: () => JSX.Element;
   renderTypingBubble: (id: string) => JSX.Element;
 };
 
@@ -936,10 +938,12 @@ export class Timeline extends React.Component<
       renderHeroRow,
       renderItem,
       renderMiniPlayer,
+      renderPinnedMessagesBar,
       renderTypingBubble,
       reviewConversationNameCollision,
       scrollToOldestUnreadMention,
       shouldShowMiniPlayer,
+      shouldShowPinnedMessagesBar,
       theme,
       totalUnseen,
       unreadCount,
@@ -1086,7 +1090,7 @@ export class Timeline extends React.Component<
 
     const warning = Timeline.getWarning(this.props, this.state);
     let headerElements: ReactNode;
-    if (warning || shouldShowMiniPlayer) {
+    if (warning || shouldShowMiniPlayer || shouldShowPinnedMessagesBar) {
       let text: ReactChild | undefined;
       let icon: ReactChild | undefined;
       let onClose: () => void;
@@ -1180,7 +1184,10 @@ export class Timeline extends React.Component<
         >
           {measureRef => (
             <TimelineWarnings ref={measureRef}>
-              {renderMiniPlayer({ shouldFlow: true })}
+              {shouldShowMiniPlayer && renderMiniPlayer({ shouldFlow: true })}
+              {!shouldShowMiniPlayer &&
+                shouldShowPinnedMessagesBar &&
+                renderPinnedMessagesBar()}
               {text && (
                 <TimelineWarning i18n={i18n} onClose={onClose}>
                   {icon}
