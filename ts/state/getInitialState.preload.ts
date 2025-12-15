@@ -30,6 +30,7 @@ import { getEmptyState as mediaGalleryEmptyState } from './ducks/mediaGallery.pr
 import { getEmptyState as navEmptyState } from './ducks/nav.std.js';
 import { getEmptyState as networkEmptyState } from './ducks/network.dom.js';
 import { getEmptyState as notificationProfilesEmptyState } from './ducks/notificationProfiles.preload.js';
+import { getEmptyState as pinnedMessagesEmptyState } from './ducks/pinnedMessages.preload.js';
 import { getEmptyState as preferredReactionsEmptyState } from './ducks/preferredReactions.preload.js';
 import { getEmptyState as safetyNumberEmptyState } from './ducks/safetyNumber.preload.js';
 import { getEmptyState as searchEmptyState } from './ducks/search.preload.js';
@@ -172,6 +173,7 @@ function getEmptyState(): StateType {
     nav: navEmptyState(),
     network: networkEmptyState(),
     notificationProfiles: notificationProfilesEmptyState(),
+    pinnedMessages: pinnedMessagesEmptyState(),
     preferredReactions: preferredReactionsEmptyState(),
     safetyNumber: safetyNumberEmptyState(),
     search: searchEmptyState(),

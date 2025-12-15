@@ -93,7 +93,7 @@ export async function onPinnedMessageAdd(
     }
   }
 
-  window.reduxActions.conversations.onPinnedMessagesChanged(
+  window.reduxActions.pinnedMessages.onPinnedMessagesChanged(
     targetConversation.id
   );
 }
@@ -138,7 +138,7 @@ export async function onPinnedMessageRemove(
     `Deleted pinned message ${deletedPinnedMessageId} for messageId ${targetMessageId}`
   );
 
-  window.reduxActions.conversations.onPinnedMessagesChanged(
+  window.reduxActions.pinnedMessages.onPinnedMessagesChanged(
     targetConversationId
   );
 }

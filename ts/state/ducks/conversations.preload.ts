@@ -96,7 +96,6 @@ import {
   getPendingAvatarDownloadSelector,
   getAllConversations,
   getActivePanel,
-  getSelectedConversationId,
 } from '../selectors/conversations.dom.js';
 import { getIntl } from '../selectors/user.std.js';
 import type {
@@ -244,10 +243,7 @@ import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { enqueuePollVoteForSend as enqueuePollVoteForSendHelper } from '../../polls/enqueuePollVoteForSend.preload.js';
 import { updateChatFolderStateOnTargetConversationChanged } from './chatFolders.preload.js';
-import type { PinnedMessage } from '../../types/PinnedMessage.std.js';
-import type { StateThunk } from '../types.std.js';
-import { getPinnedMessagesLimit } from '../../util/pinnedMessages.dom.js';
-import { getPinnedMessageExpiresAt } from '../../util/pinnedMessages.std.js';
+import type { PinnedMessageRenderData } from '../../types/PinnedMessage.std.js';
 
 const {
   chunk,
@@ -508,7 +504,7 @@ export type ConversationMessageType = ReadonlyDeep<{
 export type ConversationPreloadDataType = ReadonlyDeep<{
   conversationId: string;
   messages: ReadonlyArray<ReadonlyMessageAttributesType>;
-  pinnedMessages: ReadonlyArray<PinnedMessage>;
+  pinnedMessages: ReadonlyArray<PinnedMessageRenderData>;
   metrics: MessageMetricsType;
   unboundedFetch: boolean;
 }>;
@@ -642,7 +638,6 @@ export type ConversationsStateType = ReadonlyDeep<{
   // Note: it's very important that both of these locations are always kept up to date
   messagesLookup: MessageLookupType;
   messagesByConversation: MessagesByConversationType;
-  pinnedMessages: ReadonlyArray<PinnedMessage>;
 
   lastCenterMessageByConversation: LastCenterMessageByConversationType;
 
@@ -716,7 +711,9 @@ export const SET_PENDING_REQUESTED_AVATAR_DOWNLOAD =
   'conversations/SET_PENDING_REQUESTED_AVATAR_DOWNLOAD';
 export const SET_PROFILE_UPDATE_ERROR =
   'conversations/SET_PROFILE_UPDATE_ERROR';
-const REPLACE_PINNED_MESSAGES = 'conversations/REPLACE_PINNED_MESSAGES';
+export const ADD_PRELOAD_DATA = 'conversations/ADD_PRELOAD_DATA';
+export const CONSUME_PRELOAD_DATA = 'conversations/CONSUME_PRELOAD_DATA';
+export const MESSAGES_RESET = 'conversations/MESSAGES_RESET';
 
 export type CancelVerificationDataByConversationActionType = ReadonlyDeep<{
   type: typeof CANCEL_CONVERSATION_PENDING_VERIFICATION;
@@ -952,7 +949,7 @@ export type RepairOldestMessageActionType = ReadonlyDeep<{
   };
 }>;
 export type MessagesResetActionType = ReadonlyDeep<{
-  type: 'MESSAGES_RESET';
+  type: typeof MESSAGES_RESET;
   payload: MessagesResetDataType;
 }>;
 export type SetMessageLoadingStateActionType = ReadonlyDeep<{
@@ -1097,19 +1094,12 @@ type ReplaceAvatarsActionType = ReadonlyDeep<{
     avatars: ReadonlyArray<AvatarDataType>;
   };
 }>;
-type ReplacePinnedMessagesActionType = ReadonlyDeep<{
-  type: typeof REPLACE_PINNED_MESSAGES;
-  payload: {
-    conversationId: string;
-    pinnedMessages: ReadonlyArray<PinnedMessage>;
-  };
-}>;
 export type AddPreloadDataActionType = ReadonlyDeep<{
-  type: 'ADD_PRELOAD_DATA';
+  type: typeof ADD_PRELOAD_DATA;
   payload: ConversationPreloadDataType;
 }>;
 export type ConsumePreloadDataActionType = ReadonlyDeep<{
-  type: 'CONSUME_PRELOAD_DATA';
+  type: typeof CONSUME_PRELOAD_DATA;
   payload: {
     conversationId: string;
   };
@@ -1159,7 +1149,6 @@ export type ConversationActionType =
   | RepairNewestMessageActionType
   | RepairOldestMessageActionType
   | ReplaceAvatarsActionType
-  | ReplacePinnedMessagesActionType
   | ReviewConversationNameCollisionActionType
   | ScrollToMessageActionType
   | SetPendingRequestedAvatarDownloadActionType
@@ -1255,9 +1244,6 @@ export const actions = {
   onArchive,
   onMarkUnread,
   onMoveToInbox,
-  onPinnedMessagesChanged,
-  onPinnedMessageAdd,
-  onPinnedMessageRemove,
   onUndoArchive,
   openGiftBadge,
   popPanelForConversation,
@@ -3408,7 +3394,7 @@ function messagesReset({
   }
 
   return {
-    type: 'MESSAGES_RESET',
+    type: MESSAGES_RESET,
     payload: {
       unboundedFetch: unboundedFetch ?? false,
       conversationId,
@@ -3432,7 +3418,7 @@ function addPreloadData(
   }
 
   return {
-    type: 'ADD_PRELOAD_DATA',
+    type: ADD_PRELOAD_DATA,
     payload: preloadData,
   };
 }
@@ -3440,7 +3426,7 @@ function consumePreloadData(
   conversationId: string
 ): ConsumePreloadDataActionType {
   return {
-    type: 'CONSUME_PRELOAD_DATA',
+    type: CONSUME_PRELOAD_DATA,
     payload: {
       conversationId,
     },
@@ -5117,107 +5103,6 @@ function startAvatarDownload(
   };
 }
 
-function getMessageAuthorAci(
-  message: ReadonlyMessageAttributesType
-): AciString {
-  if (isIncoming(message)) {
-    strictAssert(
-      isAciString(message.sourceServiceId),
-      'Message sourceServiceId must be an ACI'
-    );
-    return message.sourceServiceId;
-  }
-  return itemStorage.user.getCheckedAci();
-}
-
-type PinnedMessageTarget = ReadonlyDeep<{
-  conversationId: string;
-  targetMessageId: string;
-  targetAuthorAci: AciString;
-  targetSentTimestamp: number;
-}>;
-
-async function getPinnedMessageTarget(
-  targetMessageId: string
-): Promise<PinnedMessageTarget> {
-  const message = await DataReader.getMessageById(targetMessageId);
-  if (message == null) {
-    throw new Error('getPinnedMessageTarget: Target message not found');
-  }
-  return {
-    conversationId: message.conversationId,
-    targetMessageId: message.id,
-    targetAuthorAci: getMessageAuthorAci(message),
-    targetSentTimestamp: message.sent_at,
-  };
-}
-
-function onPinnedMessagesChanged(
-  conversationId: string
-): StateThunk<ReplacePinnedMessagesActionType> {
-  return async (dispatch, getState) => {
-    const selectedConversationId = getSelectedConversationId(getState());
-    if (
-      selectedConversationId == null ||
-      selectedConversationId !== conversationId
-    ) {
-      return;
-    }
-
-    const pinnedMessages =
-      await DataReader.getPinnedMessagesForConversation(conversationId);
-
-    dispatch({
-      type: REPLACE_PINNED_MESSAGES,
-      payload: {
-        conversationId,
-        pinnedMessages,
-      },
-    });
-  };
-}
-
-function onPinnedMessageAdd(
-  targetMessageId: string,
-  pinDurationSeconds: DurationInSeconds | null
-): StateThunk {
-  return async dispatch => {
-    const target = await getPinnedMessageTarget(targetMessageId);
-    await conversationJobQueue.add({
-      type: conversationQueueJobEnum.enum.PinMessage,
-      ...target,
-      pinDurationSeconds,
-    });
-
-    const pinnedMessagesLimit = getPinnedMessagesLimit();
-
-    const pinnedAt = Date.now();
-    const expiresAt = getPinnedMessageExpiresAt(pinnedAt, pinDurationSeconds);
-
-    await DataWriter.appendPinnedMessage(pinnedMessagesLimit, {
-      conversationId: target.conversationId,
-      messageId: target.targetMessageId,
-      expiresAt,
-      pinnedAt,
-    });
-
-    dispatch(onPinnedMessagesChanged(target.conversationId));
-  };
-}
-
-function onPinnedMessageRemove(targetMessageId: string): StateThunk {
-  return async dispatch => {
-    const target = await getPinnedMessageTarget(targetMessageId);
-    await conversationJobQueue.add({
-      type: conversationQueueJobEnum.enum.UnpinMessage,
-      ...target,
-    });
-    await DataWriter.deletePinnedMessageByMessageId(targetMessageId);
-
-    dispatch(onPinnedMessagesChanged(target.conversationId));
-  };
-}
-
 // Reducer
 
 export function getEmptyState(): ConversationsStateType {
@@ -5231,7 +5116,6 @@ export function getEmptyState(): ConversationsStateType {
     lastCenterMessageByConversation: {},
     messagesByConversation: {},
     messagesLookup: {},
-    pinnedMessages: [],
     targetedMessage: undefined,
     targetedMessageCounter: 0,
     targetedMessageSource: undefined,
@@ -5638,7 +5522,6 @@ function updateMessageLookup(
     conversationId,
     messages,
     metrics,
-    pinnedMessages,
     scrollToMessageId,
     unboundedFetch,
   }: MessagesResetDataType
@@ -5681,7 +5564,6 @@ function updateMessageLookup(
           targetedMessage: scrollToMessageId,
           targetedMessageCounter: state.targetedMessageCounter + 1,
           targetedMessageSource: TargetedMessageSource.Reset,
-          pinnedMessages,
         }
       : {}),
     messagesLookup: {
@@ -5999,7 +5881,6 @@ export function reducer(
       messagesByConversation: omit(state.messagesByConversation, [
         conversationId,
       ]),
-      pinnedMessages: [],
     };
   }
   if (action.type === 'CONVERSATIONS_REMOVE_ALL') {
@@ -6431,16 +6312,16 @@ export function reducer(
     };
   }
 
-  if (action.type === 'MESSAGES_RESET') {
+  if (action.type === MESSAGES_RESET) {
     return updateMessageLookup(state, action.payload);
   }
-  if (action.type === 'ADD_PRELOAD_DATA') {
+  if (action.type === ADD_PRELOAD_DATA) {
     return {
       ...state,
       preloadData: action.payload,
     };
   }
-  if (action.type === 'CONSUME_PRELOAD_DATA') {
+  if (action.type === CONSUME_PRELOAD_DATA) {
     const { preloadData, selectedConversationId } = state;
     const { conversationId } = action.payload;
     if (!preloadData) {
@@ -7590,21 +7471,6 @@ export function reducer(
         [conversationId]: changed,
       },
       ...updateConversationLookups([changed], [conversation], state),
-    };
-  }
-
-  if (action.type === REPLACE_PINNED_MESSAGES) {
-    // Discard new pinned messages if the `selectedConversationId` has changed.
-    if (
-      state.selectedConversationId == null ||
-      action.payload.conversationId !== state.selectedConversationId
-    ) {
-      return state;
-    }
-
-    return {
-      ...state,
-      pinnedMessages: action.payload.pinnedMessages,
     };
   }
 

@@ -12,7 +12,7 @@ import React, {
 import { useLayoutEffect } from '@react-aria/utils';
 import type { LocalizerType } from '../../../types/I18N.std.js';
 import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
-import type { PinnedMessage } from '../../../types/PinnedMessage.std.js';
+import type { PinnedMessageRenderData } from '../../../types/PinnedMessage.std.js';
 import type { SmartTimelineItemProps } from '../../../state/smart/TimelineItem.preload.js';
 import { WidthBreakpoint } from '../../_util.std.js';
 import { AxoScrollArea } from '../../../axo/AxoScrollArea.dom.js';
@@ -30,7 +30,7 @@ import { AxoButton } from '../../../axo/AxoButton.dom.js';
 export type PinnedMessagesPanelProps = Readonly<{
   i18n: LocalizerType;
   conversation: ConversationType;
-  pinnedMessages: ReadonlyArray<PinnedMessage>;
+  pinnedMessages: ReadonlyArray<PinnedMessageRenderData>;
   renderTimelineItem: (props: SmartTimelineItemProps) => JSX.Element;
 }>;
 
@@ -60,7 +60,7 @@ export const PinnedMessagesPanel = memo(function PinnedMessagesPanel(
           const next = props.pinnedMessages[pinnedMessageIndex + 1];
           const prev = props.pinnedMessages[pinnedMessageIndex - 1];
           return (
-            <Fragment key={pinnedMessage.id}>
+            <Fragment key={pinnedMessage.pinnedMessage.id}>
               {props.renderTimelineItem({
                 containerElementRef,
                 containerWidthBreakpoint,
@@ -69,9 +69,9 @@ export const PinnedMessagesPanel = memo(function PinnedMessagesPanel(
                 isBlocked: props.conversation.isBlocked ?? false,
                 isGroup: props.conversation.type === 'group',
                 isOldestTimelineItem: pinnedMessageIndex === 0,
-                messageId: pinnedMessage.messageId,
-                nextMessageId: next?.messageId,
-                previousMessageId: prev?.messageId,
+                messageId: pinnedMessage.message.id,
+                nextMessageId: next?.message.id,
+                previousMessageId: prev?.message.id,
                 unreadIndicatorPlacement: undefined,
               })}
             </Fragment>

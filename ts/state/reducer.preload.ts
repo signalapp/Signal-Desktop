@@ -29,6 +29,7 @@ import { reducer as mediaGallery } from './ducks/mediaGallery.preload.js';
 import { reducer as nav } from './ducks/nav.std.js';
 import { reducer as network } from './ducks/network.dom.js';
 import { reducer as notificationProfiles } from './ducks/notificationProfiles.preload.js';
+import { reducer as pinnedMessages } from './ducks/pinnedMessages.preload.js';
 import { reducer as preferredReactions } from './ducks/preferredReactions.preload.js';
 import { reducer as safetyNumber } from './ducks/safetyNumber.preload.js';
 import { reducer as search } from './ducks/search.preload.js';
@@ -67,6 +68,7 @@ export const reducer = combineReducers({
   nav,
   network,
   notificationProfiles,
+  pinnedMessages,
   preferredReactions,
   safetyNumber,
   search,

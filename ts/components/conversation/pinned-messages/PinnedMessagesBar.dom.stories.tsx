@@ -64,7 +64,7 @@ const PIN_3: Pin = {
       bodyRanges: [],
     },
     attachment: {
-      type: 'photo',
+      type: 'image',
       url: '/fixtures/tina-rolf-269345-unsplash.jpg',
     },
   },
@@ -133,15 +133,15 @@ export function Variants(): JSX.Element {
         message={{ text: { body: SHORT_TEXT, bodyRanges: [] } }}
       />
       <Variant
-        title="Photo attachment with text"
+        title="Image attachment with text"
         message={{
           text: { body: SHORT_TEXT, bodyRanges: [] },
-          attachment: { type: 'photo', url: IMAGE_URL },
+          attachment: { type: 'image', url: IMAGE_URL },
         }}
       />
       <Variant
-        title="Photo attachment"
-        message={{ attachment: { type: 'photo', url: IMAGE_URL } }}
+        title="Image attachment"
+        message={{ attachment: { type: 'image', url: IMAGE_URL } }}
       />
       <Variant
         title="Video attachment with text"
@@ -158,10 +158,7 @@ export function Variants(): JSX.Element {
         title="Voice message"
         message={{ attachment: { type: 'voiceMessage' } }}
       />
-      <Variant
-        title="GIF message"
-        message={{ attachment: { type: 'gif', url: IMAGE_URL } }}
-      />
+      <Variant title="GIF message" message={{ attachment: { type: 'gif' } }} />
       <Variant
         title="File"
         message={{ attachment: { type: 'file', name: 'project.zip' } }}
@@ -172,10 +169,6 @@ export function Variants(): JSX.Element {
       />
       <Variant title="Sticker" message={{ sticker: true }} />
       <Variant title="Contact" message={{ contact: { name: 'Tyler' } }} />
-      <Variant
-        title="Address"
-        message={{ contact: { address: '742 Evergreen Terrace' } }}
-      />
       <Variant title="Payment" message={{ payment: true }} />
     </Stack>
   );
