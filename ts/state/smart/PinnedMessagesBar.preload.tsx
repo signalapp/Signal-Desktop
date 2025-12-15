@@ -1,8 +1,16 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo, useCallback, useMemo, useState } from 'react';
+import React, {
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
+import { orderBy } from 'lodash';
 import { getIntl } from '../selectors/user.std.js';
 import {
   getConversationSelector,
@@ -113,12 +121,49 @@ function getPinSender(props: MessagePropsType): PinSender {
   };
 }
 
+function getPrevPinId(
+  pins: ReadonlyArray<Pin>,
+  pinnedMessageId: PinnedMessageId
+): PinnedMessageId | null {
+  let prev: Pin | null = null;
+  for (const pin of pins) {
+    if (pin.id === pinnedMessageId) {
+      break;
+    }
+    prev = pin;
+  }
+  return prev?.id ?? null;
+}
+
+function getNextPinId(
+  pins: ReadonlyArray<Pin>,
+  pinnedMessageId: PinnedMessageId
+): PinnedMessageId | null {
+  let found = false;
+  for (const pin of pins) {
+    if (found) {
+      return pin.id;
+    }
+    if (pin.id === pinnedMessageId) {
+      found = true;
+    }
+  }
+  return null;
+}
+
 const selectPins: StateSelector<ReadonlyArray<Pin>> = createSelector(
   getPinnedMessages,
   getMessagePropsSelector,
   (pinnedMessages, messagePropsSelector) => {
-    return pinnedMessages.map((pinnedMessageRenderData): Pin => {
+    const sorted = orderBy(
+      pinnedMessages,
+      ['message.received_at', 'message.sent_at'],
+      ['ASC', 'ASC']
+    );
+
+    return sorted.map((pinnedMessageRenderData): Pin => {
       const { pinnedMessage, message } = pinnedMessageRenderData;
+
       const messageProps = messagePropsSelector(message);
 
       return {
@@ -129,6 +174,168 @@ const selectPins: StateSelector<ReadonlyArray<Pin>> = createSelector(
     });
   }
 );
+
+function isHTMLElement(node: Node): node is HTMLElement {
+  return node instanceof HTMLElement;
+}
+
+function getNodeDataMessageId(node: Node): string | null {
+  if (isHTMLElement(node)) {
+    return node.dataset.messageId ?? null;
+  }
+  return null;
+}
+
+function useTimelineIntersectionObserver(
+  pins: ReadonlyArray<Pin>,
+  onCurrentChange: (current: PinnedMessageId) => void
+) {
+  const onCurrentChangeRef = useRef(onCurrentChange);
+  useEffect(() => {
+    onCurrentChangeRef.current = onCurrentChange;
+  }, [onCurrentChange]);
+
+  useEffect(() => {
+    // We only need to track anything if there are multiple pins
+    if (pins.length <= 1) {
+      return;
+    }
+
+    const scroller = document.querySelector(
+      '.module-timeline__messages__container'
+    );
+    strictAssert(scroller != null, 'Missing timeline scroller element');
+    const messagesList = document.querySelector('.module-timeline__messages');
+    strictAssert(
+      messagesList != null,
+      'Missing timeline messages list element'
+    );
+
+    const pinnedMessageIdsByMessageIds = new Map<string, PinnedMessageId>();
+    for (const pin of pins) {
+      pinnedMessageIdsByMessageIds.set(pin.message.id, pin.id);
+    }
+
+    const pinnedMessageIdVisibility = new Map<PinnedMessageId, boolean>();
+
+    const intersectionObserver = new IntersectionObserver(
+      entries => {
+        const changesByPinnedMessageId = new Map<
+          PinnedMessageId,
+          IntersectionObserverEntry
+        >();
+
+        const sortedEntries = entries.toSorted((a, b) => {
+          return b.boundingClientRect.bottom - a.boundingClientRect.bottom;
+        });
+
+        for (const entry of sortedEntries) {
+          const messageId = getNodeDataMessageId(entry.target);
+          strictAssert(messageId != null, 'Missing node messageId');
+          const pinnedMessageId = pinnedMessageIdsByMessageIds.get(messageId);
+          strictAssert(pinnedMessageId != null, 'Message is not pinned');
+
+          const prevVisible = pinnedMessageIdVisibility.get(pinnedMessageId);
+          const isVisible = entry.isIntersecting;
+
+          if (prevVisible != null && prevVisible !== isVisible) {
+            changesByPinnedMessageId.set(pinnedMessageId, entry);
+          }
+
+          pinnedMessageIdVisibility.set(pinnedMessageId, isVisible);
+        }
+
+        let currentPinId: PinnedMessageId | null = null;
+
+        for (const [pinnedMessageId, entry] of changesByPinnedMessageId) {
+          strictAssert(entry.rootBounds != null, 'Missing rootBounds');
+          const { top, bottom } = entry.boundingClientRect;
+
+          if (top > entry.rootBounds.bottom) {
+            // entry is below scroll area, show prev pin
+            currentPinId = getPrevPinId(pins, pinnedMessageId);
+            break; // don't check lower pins
+          }
+
+          if (bottom < entry.rootBounds.top) {
+            // entry is above scroll area, show next pin if visible
+            const nextPinId = getNextPinId(pins, pinnedMessageId);
+            if (nextPinId != null && pinnedMessageIdVisibility.get(nextPinId)) {
+              currentPinId = nextPinId;
+            }
+            continue;
+          }
+
+          // entry is intersecting with scroll area, show it
+          currentPinId = pinnedMessageId;
+          break; // don't show further pins
+        }
+
+        if (currentPinId != null) {
+          onCurrentChangeRef.current(currentPinId);
+        }
+      },
+      { root: scroller }
+    );
+
+    function added(node: Node, messageId: string | null) {
+      if (messageId == null || !isHTMLElement(node)) {
+        return;
+      }
+      const pinnedMessageId = pinnedMessageIdsByMessageIds.get(messageId);
+      if (pinnedMessageId == null) {
+        return;
+      }
+
+      intersectionObserver.observe(node);
+    }
+
+    function removed(node: Node, messageId: string | null) {
+      if (messageId == null || !isHTMLElement(node)) {
+        return;
+      }
+      const pinnedMessageId = pinnedMessageIdsByMessageIds.get(messageId);
+      if (pinnedMessageId == null) {
+        return;
+      }
+
+      pinnedMessageIdVisibility.delete(pinnedMessageId);
+      intersectionObserver.unobserve(node);
+    }
+
+    const mutationObserver = new MutationObserver(mutations => {
+      for (const mutation of mutations) {
+        if (mutation.type === 'attributes') {
+          removed(mutation.target, mutation.oldValue ?? '');
+          added(mutation.target, getNodeDataMessageId(mutation.target));
+        } else if (mutation.type === 'childList') {
+          for (const removedNode of mutation.removedNodes) {
+            removed(removedNode, getNodeDataMessageId(removedNode));
+          }
+          for (const addedNode of mutation.addedNodes) {
+            added(addedNode, getNodeDataMessageId(addedNode));
+          }
+        }
+      }
+    });
+
+    mutationObserver.observe(messagesList, {
+      childList: true,
+      attributes: true,
+      attributeOldValue: true,
+      attributeFilter: ['data-message-id'],
+    });
+
+    for (const child of messagesList.children) {
+      added(child, getNodeDataMessageId(child));
+    }
+
+    return () => {
+      mutationObserver.disconnect();
+      intersectionObserver.disconnect();
+    };
+  }, [pins]);
+}
 
 export const SmartPinnedMessagesBar = memo(function SmartPinnedMessagesBar() {
   const i18n = useSelector(getIntl);
@@ -150,7 +357,7 @@ export const SmartPinnedMessagesBar = memo(function SmartPinnedMessagesBar() {
   const { onPinnedMessageRemove } = usePinnedMessagesActions();
 
   const [current, setCurrent] = useState(() => {
-    return pins.at(0)?.id ?? null;
+    return pins.at(-1)?.id ?? null;
   });
 
   const isCurrentOutOfDate = useMemo(() => {
@@ -169,7 +376,7 @@ export const SmartPinnedMessagesBar = memo(function SmartPinnedMessagesBar() {
   }, [current, pins]);
 
   if (isCurrentOutOfDate) {
-    setCurrent(pins.at(0)?.id ?? null);
+    setCurrent(pins.at(-1)?.id ?? null);
   }
 
   const handleCurrentChange = useCallback(
@@ -182,8 +389,15 @@ export const SmartPinnedMessagesBar = memo(function SmartPinnedMessagesBar() {
   const handlePinGoTo = useCallback(
     (messageId: string) => {
       scrollToMessage(conversationId, messageId);
+      if (current == null) {
+        return;
+      }
+      const prevPinId = getPrevPinId(pins, current);
+      if (prevPinId != null) {
+        setCurrent(prevPinId);
+      }
     },
-    [scrollToMessage, conversationId]
+    [scrollToMessage, conversationId, pins, current]
   );
 
   const handlePinRemove = useCallback(
@@ -198,6 +412,10 @@ export const SmartPinnedMessagesBar = memo(function SmartPinnedMessagesBar() {
       type: PanelType.PinnedMessages,
     });
   }, [pushPanelForConversation]);
+
+  useTimelineIntersectionObserver(pins, nextCurrent => {
+    setCurrent(nextCurrent);
+  });
 
   if (current == null) {
     return;

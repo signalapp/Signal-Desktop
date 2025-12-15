@@ -185,7 +185,7 @@ function TabsList(props: {
   return (
     <AriaClickable.SubWidget>
       <Tabs.List className={tw('flex h-full flex-col')}>
-        {props.pins.toReversed().map((pin, pinIndex) => {
+        {props.pins.map((pin, pinIndex) => {
           return (
             <TabTrigger
               key={pin.id}
