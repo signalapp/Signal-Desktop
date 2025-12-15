@@ -84,6 +84,7 @@ function Template(props: {
       onPinGoTo={action('onPinGoTo')}
       onPinRemove={action('onPinRemove')}
       onPinsShowAll={action('onPinsShowAll')}
+      canPinMessages
     />
   );
 }

@@ -70,6 +70,7 @@ export type PinnedMessagesBarProps = Readonly<{
   onPinGoTo: (messageId: string) => void;
   onPinRemove: (messageId: string) => void;
   onPinsShowAll: () => void;
+  canPinMessages: boolean;
 }>;
 
 export const PinnedMessagesBar = memo(function PinnedMessagesBar(
@@ -97,6 +98,7 @@ export const PinnedMessagesBar = memo(function PinnedMessagesBar(
           onPinGoTo={props.onPinGoTo}
           onPinRemove={props.onPinRemove}
           onPinsShowAll={props.onPinsShowAll}
+          canPinMessages={props.canPinMessages}
         />
       </Container>
     );
@@ -131,6 +133,7 @@ export const PinnedMessagesBar = memo(function PinnedMessagesBar(
                 onPinGoTo={props.onPinGoTo}
                 onPinRemove={props.onPinRemove}
                 onPinsShowAll={props.onPinsShowAll}
+                canPinMessages={props.canPinMessages}
               />
             </Tabs.Content>
           );
@@ -236,6 +239,7 @@ const Content = forwardRef(function Content(
     onPinGoTo: (messageId: string) => void;
     onPinRemove: (messageId: string) => void;
     onPinsShowAll: () => void;
+    canPinMessages: boolean;
   },
   ref: ForwardedRef<HTMLDivElement>
 ): JSX.Element {
@@ -298,9 +302,14 @@ const Content = forwardRef(function Content(
             />
           </AxoDropdownMenu.Trigger>
           <AxoDropdownMenu.Content>
-            <AxoDropdownMenu.Item symbol="pin-slash" onSelect={handlePinRemove}>
-              {i18n('icu:PinnedMessagesBar__ActionsMenu__UnpinMessage')}
-            </AxoDropdownMenu.Item>
+            {props.canPinMessages && (
+              <AxoDropdownMenu.Item
+                symbol="pin-slash"
+                onSelect={handlePinRemove}
+              >
+                {i18n('icu:PinnedMessagesBar__ActionsMenu__UnpinMessage')}
+              </AxoDropdownMenu.Item>
+            )}
             <AxoDropdownMenu.Item
               symbol="message-arrow"
               onSelect={handlePinGoTo}

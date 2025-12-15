@@ -31,6 +31,7 @@ export type PinnedMessagesPanelProps = Readonly<{
   i18n: LocalizerType;
   conversation: ConversationType;
   pinnedMessages: ReadonlyArray<PinnedMessageRenderData>;
+  canPinMessages: boolean;
   renderTimelineItem: (props: SmartTimelineItemProps) => JSX.Element;
 }>;
 
@@ -78,11 +79,13 @@ export const PinnedMessagesPanel = memo(function PinnedMessagesPanel(
           );
         })}
       </ScrollArea>
-      <div className={tw('flex items-center justify-center p-2.5')}>
-        <AxoButton.Root variant="borderless-primary" size="lg">
-          {i18n('icu:PinnedMessagesPanel__UnpinAllMessages')}
-        </AxoButton.Root>
-      </div>
+      {props.canPinMessages && (
+        <div className={tw('flex items-center justify-center p-2.5')}>
+          <AxoButton.Root variant="borderless-primary" size="lg">
+            {i18n('icu:PinnedMessagesPanel__UnpinAllMessages')}
+          </AxoButton.Root>
+        </div>
+      )}
     </div>
   );
 });
