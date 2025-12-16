@@ -209,8 +209,7 @@ export const SmartTimeline = memo(function SmartTimeline({
     setIsNearBottom,
     targetMessage,
   } = useConversationsActions();
-  const { peekGroupCallForTheFirstTime, peekGroupCallIfItHasMembers } =
-    useCallingActions();
+  const { maybePeekGroupCall } = useCallingActions();
 
   const getTimestampForMessage = useCallback(
     (messageId: string): undefined | number => {
@@ -282,14 +281,13 @@ export const SmartTimeline = memo(function SmartTimeline({
       loadNewestMessages={loadNewestMessages}
       loadOlderMessages={loadOlderMessages}
       markMessageRead={markMessageRead}
+      maybePeekGroupCall={maybePeekGroupCall}
       messageChangeCounter={messageChangeCounter}
       messageLoadingState={messageLoadingState}
       updateVisibleMessages={
         AttachmentDownloadManager.updateVisibleTimelineMessages
       }
       oldestUnseenIndex={oldestUnseenIndex}
-      peekGroupCallForTheFirstTime={peekGroupCallForTheFirstTime}
-      peekGroupCallIfItHasMembers={peekGroupCallIfItHasMembers}
       renderCollidingAvatars={renderCollidingAvatars}
       renderContactSpoofingReviewDialog={renderContactSpoofingReviewDialog}
       renderHeroRow={renderHeroRow}

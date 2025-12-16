@@ -348,8 +348,7 @@ const actions = () => ({
   closeContactSpoofingReview: action('closeContactSpoofingReview'),
   reviewConversationNameCollision: action('reviewConversationNameCollision'),
 
-  peekGroupCallForTheFirstTime: action('peekGroupCallForTheFirstTime'),
-  peekGroupCallIfItHasMembers: action('peekGroupCallIfItHasMembers'),
+  maybePeekGroupCall: action('maybePeekGroupCall'),
 
   viewStory: action('viewStory'),
 
