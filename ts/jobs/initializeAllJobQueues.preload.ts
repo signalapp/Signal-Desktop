@@ -5,6 +5,7 @@ import type { reportMessage, isOnline } from '../textsecure/WebAPI.preload.js';
 import { drop } from '../util/drop.std.js';
 import { CallLinkFinalizeDeleteManager } from './CallLinkFinalizeDeleteManager.preload.js';
 import { chatFolderCleanupService } from '../services/expiring/chatFolderCleanupService.preload.js';
+import { pinnedMessagesCleanupService } from '../services/expiring/pinnedMessagesCleanupService.preload.js';
 import { callLinkRefreshJobQueue } from './callLinkRefreshJobQueue.preload.js';
 import { conversationJobQueue } from './conversationJobQueue.preload.js';
 import { deleteDownloadsJobQueue } from './deleteDownloadsJobQueue.preload.js';
@@ -52,6 +53,7 @@ export function initializeAllJobQueues({
   drop(callLinkRefreshJobQueue.streamJobs());
   drop(CallLinkFinalizeDeleteManager.start());
   drop(chatFolderCleanupService.start('initializeAllJobQueues'));
+  drop(pinnedMessagesCleanupService.start('initializeAllJobQueues'));
 }
 
 export async function shutdownAllJobQueues(): Promise<void> {
@@ -67,5 +69,6 @@ export async function shutdownAllJobQueues(): Promise<void> {
     reportSpamJobQueue.shutdown(),
     CallLinkFinalizeDeleteManager.stop(),
     chatFolderCleanupService.stop('shutdownAllJobQueues'),
+    pinnedMessagesCleanupService.stop('shutdownAllJobQueues'),
   ]);
 }

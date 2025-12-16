@@ -12,6 +12,8 @@ import { SignalService as Proto } from '../protobuf/index.std.js';
 import type { ConversationModel } from '../models/conversations.preload.js';
 import { getPinnedMessagesLimit } from '../util/pinnedMessages.dom.js';
 import { getPinnedMessageExpiresAt } from '../util/pinnedMessages.std.js';
+import { pinnedMessagesCleanupService } from '../services/expiring/pinnedMessagesCleanupService.preload.js';
+import { drop } from '../util/drop.std.js';
 
 const { AccessRequired } = Proto.AccessControl;
 const { Role } = Proto.Member;
@@ -93,6 +95,8 @@ export async function onPinnedMessageAdd(
     }
   }
 
+  drop(pinnedMessagesCleanupService.trigger('onPinnedMessageAdd'));
+
   if (result.change?.inserted) {
     await targetConversation.addNotification('pinned-message-notification', {
       pinnedMessageId: targetMessage.id,
@@ -144,6 +148,7 @@ export async function onPinnedMessageRemove(
   log.info(
     `Deleted pinned message ${deletedPinnedMessageId} for messageId ${targetMessageId}`
   );
+  drop(pinnedMessagesCleanupService.trigger('onPinnedMessageRemove'));
 
   window.reduxActions.pinnedMessages.onPinnedMessagesChanged(
     targetConversationId
