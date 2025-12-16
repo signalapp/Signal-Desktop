@@ -113,7 +113,7 @@ export const PinnedMessagesPanel = memo(function PinnedMessagesPanel(
             </AxoAlertDialog.Title>
             <AxoAlertDialog.Description>
               {i18n(
-                'icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description--Group'
+                'icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description'
               )}
             </AxoAlertDialog.Description>
           </AxoAlertDialog.Body>
