@@ -3376,6 +3376,14 @@
     "messageformat": "You donated for {recipient}",
     "description": "Shown to label a donation badge you've sent in notifications and the left pane"
   },
+  "icu:message--pinned--preview--received": {
+    "messageformat": "{sender} pinned a message",
+    "description": "Shown to label pinned message notification in notifications and the left pane."
+  },
+  "icu:message--pinned--preview--sent": {
+    "messageformat": "You pinned a message",
+    "description": "Shown to label pinned message notification in notifications and the left pane."
+  },
   "icu:message--donation": {
     "messageformat": "Donation",
     "description": "Shown to label the donation badge you've redeemed on another device."

@@ -134,6 +134,11 @@ function onPinnedMessageAdd(
 ): StateThunk {
   return async dispatch => {
     const target = await getPinnedMessageTarget(targetMessageId);
+    const targetConversation = window.ConversationController.get(
+      target.conversationId
+    );
+    strictAssert(targetConversation != null, 'Missing target conversation');
+
     await conversationJobQueue.add({
       type: conversationQueueJobEnum.enum.PinMessage,
       ...target,
@@ -150,6 +155,11 @@ function onPinnedMessageAdd(
       messageId: target.targetMessageId,
       expiresAt,
       pinnedAt,
+    });
+
+    await targetConversation.addNotification('pinned-message-notification', {
+      pinnedMessageId: targetMessageId,
+      sourceServiceId: itemStorage.user.getCheckedAci(),
     });
 
     dispatch(onPinnedMessagesChanged(target.conversationId));
