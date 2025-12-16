@@ -1933,7 +1933,8 @@ export class BackupExportStream extends Readable {
     }
 
     if (isPinnedMessageNotification(message)) {
-      throw new Error('unimplemented');
+      // TODO(jamie): Implement backups for pinned messages
+      return { kind: NonBubbleResultKind.Drop };
     }
 
     if (isProfileChange(message)) {

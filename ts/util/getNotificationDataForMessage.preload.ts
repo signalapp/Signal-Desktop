@@ -512,7 +512,21 @@ export function getNotificationDataForMessage(
   }
 
   if (isPinnedMessageNotification(attributes)) {
-    throw new Error('unimplemented');
+    const fromContact = getAuthor(attributes);
+    const ourAci = itemStorage.user.getCheckedAci();
+
+    let text: string;
+    if (fromContact?.getAci() === ourAci) {
+      text = i18n('icu:message--pinned--preview--sent');
+    } else {
+      const sender = fromContact?.getTitle() ?? i18n('icu:unknownContact');
+      text = i18n('icu:message--pinned--preview--received', { sender });
+    }
+
+    return {
+      emoji: '📌',
+      text,
+    };
   }
 
   const { poll } = attributes;

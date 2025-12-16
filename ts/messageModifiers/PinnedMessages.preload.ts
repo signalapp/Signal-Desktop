@@ -93,6 +93,13 @@ export async function onPinnedMessageAdd(
     }
   }
 
+  if (result.change?.inserted) {
+    await targetConversation.addNotification('pinned-message-notification', {
+      pinnedMessageId: targetMessage.id,
+      sourceServiceId: props.pinnedByAci,
+    });
+  }
+
   window.reduxActions.pinnedMessages.onPinnedMessagesChanged(
     targetConversation.id
   );

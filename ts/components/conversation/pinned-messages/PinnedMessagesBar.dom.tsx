@@ -232,26 +232,27 @@ function TabTrigger(props: {
   );
 }
 
+type ContentProps = Readonly<{
+  i18n: LocalizerType;
+  pin: Pin;
+  onPinGoTo: (messageId: string) => void;
+  onPinRemove: (messageId: string) => void;
+  onPinsShowAll: () => void;
+  canPinMessages: boolean;
+}>;
+
 const Content = forwardRef(function Content(
-  props: {
-    i18n: LocalizerType;
-    pin: Pin;
-    onPinGoTo: (messageId: string) => void;
-    onPinRemove: (messageId: string) => void;
-    onPinsShowAll: () => void;
-    canPinMessages: boolean;
-  },
-  ref: ForwardedRef<HTMLDivElement>
-): JSX.Element {
-  const {
+  {
     i18n,
     pin,
     onPinGoTo,
     onPinRemove,
     onPinsShowAll,
+    canPinMessages,
     ...forwardedProps
-  } = props;
-
+  }: ContentProps,
+  ref: ForwardedRef<HTMLDivElement>
+): JSX.Element {
   const handlePinGoTo = useCallback(() => {
     onPinGoTo(pin.message.id);
   }, [onPinGoTo, pin.message.id]);
@@ -277,10 +278,10 @@ const Content = forwardRef(function Content(
       {thumbnailUrl != null && <ImageThumbnail url={thumbnailUrl} />}
       <div className={tw('min-w-0 flex-1')}>
         <h1 className={tw('type-body-small font-semibold text-label-primary')}>
-          <UserText text={props.pin.sender.title} />
+          <UserText text={pin.sender.title} />
         </h1>
         <p className={tw('me-2 truncate type-body-medium text-label-primary')}>
-          <MessagePreview i18n={i18n} message={props.pin.message} />
+          <MessagePreview i18n={i18n} message={pin.message} />
         </p>
         <AriaClickable.HiddenTrigger
           aria-label={i18n(
@@ -302,7 +303,7 @@ const Content = forwardRef(function Content(
             />
           </AxoDropdownMenu.Trigger>
           <AxoDropdownMenu.Content>
-            {props.canPinMessages && (
+            {canPinMessages && (
               <AxoDropdownMenu.Item
                 symbol="pin-slash"
                 onSelect={handlePinRemove}
