@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { getIntl } from '../selectors/user.std.js';
 import { getConversationByIdSelector } from '../selectors/conversations.dom.js';
@@ -11,6 +11,8 @@ import type { SmartTimelineItemProps } from './TimelineItem.preload.js';
 import { SmartTimelineItem } from './TimelineItem.preload.js';
 import { getPinnedMessages } from '../selectors/pinnedMessages.dom.js';
 import { canPinMessages as getCanPinMessages } from '../selectors/message.preload.js';
+import { usePinnedMessagesActions } from '../ducks/pinnedMessages.preload.js';
+import { useConversationsActions } from '../ducks/conversations.preload.js';
 
 export type SmartPinnedMessagesPanelProps = Readonly<{
   conversationId: string;
@@ -26,6 +28,7 @@ export const SmartPinnedMessagesPanel = memo(function SmartPinnedMessagesPanel(
   const i18n = useSelector(getIntl);
   const conversationSelector = useSelector(getConversationByIdSelector);
   const conversation = conversationSelector(props.conversationId);
+  const { popPanelForConversation } = useConversationsActions();
 
   strictAssert(
     conversation,
@@ -35,6 +38,15 @@ export const SmartPinnedMessagesPanel = memo(function SmartPinnedMessagesPanel(
   const pinnedMessages = useSelector(getPinnedMessages);
   const canPinMessages = getCanPinMessages(conversation);
 
+  const { onPinnedMessageRemove } = usePinnedMessagesActions();
+
+  const handlePinnedMessageRemoveAll = useCallback(() => {
+    popPanelForConversation();
+    for (const { pinnedMessage } of pinnedMessages) {
+      onPinnedMessageRemove(pinnedMessage.messageId);
+    }
+  }, [popPanelForConversation, pinnedMessages, onPinnedMessageRemove]);
+
   return (
     <PinnedMessagesPanel
       i18n={i18n}
@@ -42,6 +54,7 @@ export const SmartPinnedMessagesPanel = memo(function SmartPinnedMessagesPanel(
       pinnedMessages={pinnedMessages}
       renderTimelineItem={renderTimelineItem}
       canPinMessages={canPinMessages}
+      onPinnedMessageRemoveAll={handlePinnedMessageRemoveAll}
     />
   );
 });

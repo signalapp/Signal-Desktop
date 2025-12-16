@@ -1750,6 +1750,22 @@
     "messageformat": "Unpin all messages",
     "description": "Conversation > Pinned messages panel (view all) > Unpin all messages button"
   },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
+    "messageformat": "Unpin all messages?",
+    "description": "Conversation > Pinned messages panel (view all) > Unpin all messages button > Confirm Dialog > Title"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description--Group": {
+    "messageformat": "Messages will be unpinned for all group members.",
+    "description": "Conversation > Pinned messages panel (view all) > Unpin all messages button > Confirm Dialog > Description (in group)"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
+    "messageformat": "Cancel",
+    "description": "Conversation > Pinned messages panel (view all) > Unpin all messages button > Confirm Dialog > Cancel"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
+    "messageformat": "Unpin",
+    "description": "Conversation > Pinned messages panel (view all) > Unpin all messages button > Confirm Dialog > Unpin"
+  },
   "icu:sessionEnded": {
     "messageformat": "Secure session reset",
     "description": "This is a past tense, informational message. In other words, your secure session has been reset."

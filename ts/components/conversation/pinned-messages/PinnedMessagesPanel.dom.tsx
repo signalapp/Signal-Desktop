@@ -5,6 +5,7 @@ import React, {
   forwardRef,
   Fragment,
   memo,
+  useCallback,
   useMemo,
   useRef,
   useState,
@@ -26,12 +27,14 @@ import { useSizeObserver } from '../../../hooks/useSizeObserver.dom.js';
 import { MessageInteractivity } from '../Message.dom.js';
 import { tw } from '../../../axo/tw.dom.js';
 import { AxoButton } from '../../../axo/AxoButton.dom.js';
+import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.js';
 
 export type PinnedMessagesPanelProps = Readonly<{
   i18n: LocalizerType;
   conversation: ConversationType;
   pinnedMessages: ReadonlyArray<PinnedMessageRenderData>;
   canPinMessages: boolean;
+  onPinnedMessageRemoveAll: () => void;
   renderTimelineItem: (props: SmartTimelineItemProps) => JSX.Element;
 }>;
 
@@ -43,6 +46,13 @@ export const PinnedMessagesPanel = memo(function PinnedMessagesPanel(
   const [containerWidthBreakpoint, setContainerWidthBreakpoint] = useState(
     WidthBreakpoint.Wide
   );
+
+  const [confirmUnpinAllDialogOpen, setConfirmUnpinAllDialogOpen] =
+    useState(false);
+
+  const handleClickUnpinAll = useCallback(() => {
+    setConfirmUnpinAllDialogOpen(true);
+  }, []);
 
   useLayoutEffect(() => {
     strictAssert(containerElementRef.current, 'Missing container ref');
@@ -81,11 +91,49 @@ export const PinnedMessagesPanel = memo(function PinnedMessagesPanel(
       </ScrollArea>
       {props.canPinMessages && (
         <div className={tw('flex items-center justify-center p-2.5')}>
-          <AxoButton.Root variant="borderless-primary" size="lg">
+          <AxoButton.Root
+            variant="borderless-primary"
+            size="lg"
+            onClick={handleClickUnpinAll}
+          >
             {i18n('icu:PinnedMessagesPanel__UnpinAllMessages')}
           </AxoButton.Root>
         </div>
       )}
+      <AxoAlertDialog.Root
+        open={confirmUnpinAllDialogOpen}
+        onOpenChange={setConfirmUnpinAllDialogOpen}
+      >
+        <AxoAlertDialog.Content escape="cancel-is-noop">
+          <AxoAlertDialog.Body>
+            <AxoAlertDialog.Title>
+              {i18n(
+                'icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title'
+              )}
+            </AxoAlertDialog.Title>
+            <AxoAlertDialog.Description>
+              {i18n(
+                'icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description--Group'
+              )}
+            </AxoAlertDialog.Description>
+          </AxoAlertDialog.Body>
+          <AxoAlertDialog.Footer>
+            <AxoAlertDialog.Cancel>
+              {i18n(
+                'icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel'
+              )}
+            </AxoAlertDialog.Cancel>
+            <AxoAlertDialog.Action
+              variant="primary"
+              onClick={props.onPinnedMessageRemoveAll}
+            >
+              {i18n(
+                'icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin'
+              )}
+            </AxoAlertDialog.Action>
+          </AxoAlertDialog.Footer>
+        </AxoAlertDialog.Content>
+      </AxoAlertDialog.Root>
     </div>
   );
 });
