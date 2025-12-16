@@ -36,6 +36,8 @@ import {
   MESSAGE_CHANGED,
   TARGETED_CONVERSATION_CHANGED,
 } from './conversations.preload.js';
+import { pinnedMessagesCleanupService } from '../../services/expiring/pinnedMessagesCleanupService.preload.js';
+import { drop } from '../../util/drop.std.js';
 
 type PreloadData = ReadonlyDeep<{
   conversationId: string;
@@ -156,6 +158,7 @@ function onPinnedMessageAdd(
       expiresAt,
       pinnedAt,
     });
+    drop(pinnedMessagesCleanupService.trigger('onPinnedMessageAdd'));
 
     await targetConversation.addNotification('pinned-message-notification', {
       pinnedMessageId: targetMessageId,
@@ -174,7 +177,7 @@ function onPinnedMessageRemove(targetMessageId: string): StateThunk {
       ...target,
     });
     await DataWriter.deletePinnedMessageByMessageId(targetMessageId);
-
+    drop(pinnedMessagesCleanupService.trigger('onPinnedMessageRemove'));
     dispatch(onPinnedMessagesChanged(target.conversationId));
   };
 }

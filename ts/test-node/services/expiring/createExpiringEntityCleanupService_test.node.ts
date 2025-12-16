@@ -109,7 +109,7 @@ describe('createExpiringEntityCleanupService', () => {
       },
       async cleanupExpiredEntities() {
         calls.push('cleanupExpiredEntities');
-        const deletedIds: Array<string> = [];
+        const deletedIds: Array<string | number> = [];
         const undeleted: Array<ExpiringEntity> = [];
         for (const entity of mockExpiringEntities) {
           if (entity.expiresAtMs <= clock.getCurrentTime()) {
