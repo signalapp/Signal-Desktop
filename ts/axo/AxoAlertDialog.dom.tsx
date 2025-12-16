@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { AlertDialog } from 'radix-ui';
-import type { FC, ReactNode } from 'react';
+import type { FC, MouseEvent, ReactNode } from 'react';
 import React, { memo } from 'react';
 import { AxoButton } from './AxoButton.dom.js';
 import { tw } from './tw.dom.js';
@@ -221,7 +221,7 @@ export namespace AxoAlertDialog {
     variant: ActionVariant;
     symbol?: AxoSymbol.InlineGlyphName;
     arrow?: boolean;
-    onClick: () => void;
+    onClick: (event: MouseEvent<HTMLButtonElement>) => void;
     children: ReactNode;
   }>;
 

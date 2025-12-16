@@ -1658,6 +1658,22 @@
     "messageformat": "Pin",
     "description": "Message > Context Menu > Pin Message > Dialog > Pin Button"
   },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
+    "messageformat": "Replace oldest pin?",
+    "description": "Message > Context Menu > Pin Message (when at max pinned messages) > Dialog > Title"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
+    "messageformat": "Pinning this message will replace the oldest one.",
+    "description": "Message > Context Menu > Pin Message (when at max pinned messages) > Dialog > Description"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
+    "messageformat": "Cancel",
+    "description": "Message > Context Menu > Pin Message (when at max pinned messages) > Dialog > Cancel Button"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
+    "messageformat": "Continue",
+    "description": "Message > Context Menu > Pin Message (when at max pinned messages) > Dialog > Continue Button"
+  },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Pinned message} other {Pinned messages}}",
     "description": "Conversation > With pinned message(s) > Pinned messages bar > Accessibility label"
