@@ -18,6 +18,7 @@ import {
 import type { HydratedBodyRangesType } from '../../../types/BodyRange.std.js';
 import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
 import { missingCaseError } from '../../../util/missingCaseError.std.js';
+import { stripNewlinesForLeftPane } from '../../../util/stripNewlinesForLeftPane.std.js';
 
 export type PinMessageText = Readonly<{
   body: string;
@@ -483,6 +484,11 @@ function MessageTextPreview(props: {
   text: PinMessageText;
 }) {
   const { i18n } = props;
+
+  const messagePreview = useMemo(() => {
+    return stripNewlinesForLeftPane(props.text.body);
+  }, [props.text.body]);
+
   return (
     <MessageTextRenderer
       bodyRanges={props.text.bodyRanges}
@@ -491,7 +497,7 @@ function MessageTextPreview(props: {
       jumboEmojiSize={null}
       i18n={i18n}
       isSpoilerExpanded={{}}
-      messageText={props.text.body}
+      messageText={messagePreview}
       originalMessageText={props.text.body}
       onExpandSpoiler={undefined}
       onMentionTrigger={() => null}
