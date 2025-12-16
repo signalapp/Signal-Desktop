@@ -20,6 +20,7 @@ export function Default(): JSX.Element {
       onOpenChange={setOpen}
       messageId="42"
       onPinnedMessageAdd={action('onPinnedMessageAdd')}
+      hasMaxPinnedMessages={false}
     />
   );
 }

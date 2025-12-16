@@ -170,6 +170,7 @@ import type { PinnedMessageNotificationData } from '../../components/conversatio
 import { canEditGroupInfo } from '../../util/canEditGroupInfo.preload.js';
 import { getPinnedMessagesMessageIds } from './pinnedMessages.dom.js';
 import { isPinnedMessagesSendEnabled } from '../../util/isPinnedMessagesEnabled.dom.js';
+import { getPinnedMessagesLimit } from '../../util/pinnedMessages.dom.js';
 
 const { groupBy, isEmpty, isNumber, isObject, map } = lodash;
 
@@ -966,6 +967,9 @@ export const getPropsForMessage = (
       expirationStartTimestamp,
     }),
     giftBadge: message.giftBadge,
+    hasMaxPinnedMessages: getHasMaxPinnedMessages(
+      options.pinnedMessagesMessageIds ?? []
+    ),
     poll: getPollForMessage(message, {
       conversationSelector: options.conversationSelector,
       ourConversationId,
@@ -2408,6 +2412,14 @@ export function canPinMessages(conversation: ConversationType): boolean {
     return false;
   }
   return conversation.type === 'direct' || canEditGroupInfo(conversation);
+}
+
+function getHasMaxPinnedMessages(
+  pinnedMessagesMessageIds: ReadonlyArray<string>
+) {
+  const pinnedMessagesLimit = getPinnedMessagesLimit();
+  const pinnedMessagesCount = pinnedMessagesMessageIds.length;
+  return pinnedMessagesCount >= pinnedMessagesLimit;
 }
 
 export function getLastChallengeError(

@@ -66,6 +66,7 @@ function mockMessageTimelineItem(
       direction: 'incoming',
       status: 'sent',
       text: 'Hello there from the new world!',
+      hasMaxPinnedMessages: false,
       isBlocked: false,
       isMessageRequestAccepted: true,
       isPinned: false,
