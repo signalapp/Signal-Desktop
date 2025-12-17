@@ -4100,12 +4100,14 @@ export class ConversationModel {
     },
     {
       dontClearDraft = false,
+      isForwarding = false,
       sendHQImages,
       storyId,
       timestamp,
       extraReduxActions,
     }: {
       dontClearDraft?: boolean;
+      isForwarding?: boolean;
       sendHQImages?: boolean;
       storyId?: string;
       timestamp?: number;
@@ -4176,7 +4178,7 @@ export class ConversationModel {
     // any attachments as well.
     let attachmentsToSend = preview && preview.length ? [] : attachments;
 
-    if (preview && preview.length) {
+    if (preview && preview.length && !isForwarding) {
       attachments.forEach(attachment => {
         if (attachment.path) {
           void deleteAttachmentData(attachment.path);
@@ -4197,7 +4199,7 @@ export class ConversationModel {
      * All draft attachments (with a path or just in-memory) will be written to disk for
      * real in `upgradeMessageSchema`.
      */
-    if (!sendHQImages) {
+    if (!sendHQImages && !isForwarding) {
       attachmentsToSend = await Promise.all(
         attachmentsToSend.map(async attachment => {
           const downscaledAttachment =

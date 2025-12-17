@@ -80,7 +80,7 @@ export async function maybeForwardMessages(
     return false;
   }
 
-  const sendMessageOptions = { dontClearDraft: true };
+  const sendMessageOptions = { dontClearDraft: true, isForwarding: true };
   const baseTimestamp = Date.now();
 
   let timestampOffset = 0;
