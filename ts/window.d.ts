@@ -192,6 +192,12 @@ declare global {
     // TODO DESKTOP-4801
     SignalContext: SignalContextType;
 
+    SignalClipboard: {
+      clear: () => void;
+      clearIfNeeded: () => void;
+      copyTextTemporarily: (text: string, clearAfterMs: number) => void;
+    };
+
     // Used only in preload to calculate load time
     preloadCompileStartTime: number;
     preloadStartTime: number;
