@@ -53,6 +53,7 @@ import type {
   UntaggedPniString,
 } from '../types/ServiceId.std.js';
 import {
+  fromAciObject,
   ServiceIdKind,
   serviceIdSchema,
   aciSchema,
@@ -628,27 +629,29 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
   return result;
 }
 
-async function _retryAjax<Type extends ResponseType, OutputShape>(
-  url: string | null,
-  options: PromiseAjaxOptionsType<Type, OutputShape>,
-  providedLimit?: number,
-  providedCount?: number
-): Promise<unknown> {
-  const count = (providedCount || 0) + 1;
-  const limit = providedLimit || 3;
+async function _retry<R>(
+  f: () => Promise<R>,
+  provided?: { abortSignal?: AbortSignal } & (
+    | { limit: number; count: number }
+    | { limit?: undefined; count?: undefined }
+  )
+): Promise<R> {
+  const count = (provided?.count ?? 0) + 1;
+  const limit = provided?.limit ?? 3;
+  const abortSignal = provided?.abortSignal;
 
   try {
-    return await _promiseAjax(url, options);
+    return await f();
   } catch (e) {
     if (
       e instanceof HTTPError &&
       e.code === -1 &&
       count < limit &&
-      !options.abortSignal?.aborted
+      !abortSignal?.aborted
     ) {
       return new Promise(resolve => {
         setTimeout(() => {
-          resolve(_retryAjax(url, options, limit, count));
+          resolve(_retry(f, { abortSignal, limit, count }));
         }, 1000);
       });
     }
@@ -681,7 +684,9 @@ async function _outerAjax<Type extends ResponseType, OutputShape>(
     return _promiseAjax(url, options);
   }
 
-  return _retryAjax(url, options);
+  return _retry(() => _promiseAjax(url, options), {
+    abortSignal: options.abortSignal,
+  });
 }
 
 function makeHTTPError(
@@ -944,13 +949,7 @@ export type GetAccountForUsernameOptionsType = Readonly<{
   hash: Uint8Array;
 }>;
 
-const getAccountForUsernameResultZod = z.object({
-  uuid: aciSchema,
-});
-
-export type GetAccountForUsernameResultType = z.infer<
-  typeof getAccountForUsernameResultZod
->;
+export type GetAccountForUsernameResultType = AciString | null;
 
 const getDevicesResultZod = z.object({
   devices: z.array(
@@ -2450,19 +2449,12 @@ export async function getTransferArchive({
 export async function getAccountForUsername({
   hash,
 }: GetAccountForUsernameOptionsType): Promise<GetAccountForUsernameResultType> {
-  const hashBase64 = toWebSafeBase64(Bytes.toBase64(hash));
-  return _ajax({
-    host: 'chatService',
-    call: 'username',
-    httpType: 'GET',
-    urlParameters: `/${hashBase64}`,
-    responseType: 'json',
-    redactUrl: _createRedactor(hashBase64),
-    unauthenticated: true,
-    accessKey: undefined,
-    groupSendToken: undefined,
-    zodSchema: getAccountForUsernameResultZod,
+  const aci = await _retry(async () => {
+    const chat = await socketManager.getUnauthenticatedLibsignalApi();
+    return chat.lookUpUsernameHash({ hash });
   });
+
+  return aci ? fromAciObject(aci) : null;
 }
 
 export async function putProfile(

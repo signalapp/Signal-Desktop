@@ -37,9 +37,11 @@ import type { LibSignalError, Net } from '@signalapp/libsignal-client';
 import { ErrorCode } from '@signalapp/libsignal-client';
 import { Buffer } from 'node:buffer';
 import type {
+  AuthenticatedChatConnection,
   ChatServerMessageAck,
   ChatServiceListener,
   ConnectionEventsListener,
+  UnauthenticatedChatConnection,
 } from '@signalapp/libsignal-client/dist/net/Chat.js';
 import type { EventHandler } from './EventTarget.std.js';
 import EventTarget from './EventTarget.std.js';
@@ -281,6 +283,12 @@ export class CloseEvent extends Event {
   }
 }
 
+export type ChatKind = 'auth' | 'unauth';
+
+type LibsignalChatConnection<Kind extends ChatKind> = Kind extends 'auth'
+  ? AuthenticatedChatConnection
+  : UnauthenticatedChatConnection;
+
 // eslint-disable-next-line no-restricted-syntax
 export interface IWebSocketResource extends IResource {
   sendRequest(options: SendRequestOptions): Promise<Response>;
@@ -296,8 +304,12 @@ export interface IWebSocketResource extends IResource {
   localPort(): number | undefined;
 }
 
-type LibsignalWebSocketResourceHolder = {
-  resource: LibsignalWebSocketResource | undefined;
+export type IChatConnection<Chat extends ChatKind> = IWebSocketResource & {
+  get libsignalWebsocket(): LibsignalChatConnection<Chat>;
+};
+
+type LibsignalWebSocketResourceHolder<Chat extends ChatKind> = {
+  resource: LibsignalWebSocketResource<Chat> | undefined;
 };
 
 const UNEXPECTED_DISCONNECT_CODE = 3001;
@@ -312,20 +324,20 @@ export function connectUnauthenticatedLibsignal({
   name: string;
   userLanguages: ReadonlyArray<string>;
   keepalive: KeepAliveOptionsType;
-}): AbortableProcess<LibsignalWebSocketResource> {
+}): AbortableProcess<LibsignalWebSocketResource<'unauth'>> {
   const logId = `LibsignalWebSocketResource(${name})`;
-  const listener: LibsignalWebSocketResourceHolder & ConnectionEventsListener =
-    {
-      resource: undefined,
-      onConnectionInterrupted(cause: LibSignalError | null): void {
-        if (!this.resource) {
-          logDisconnectedListenerWarn(logId, 'onConnectionInterrupted');
-          return;
-        }
-        this.resource.onConnectionInterrupted(cause);
-        this.resource = undefined;
-      },
-    };
+  const listener: LibsignalWebSocketResourceHolder<'unauth'> &
+    ConnectionEventsListener = {
+    resource: undefined,
+    onConnectionInterrupted(cause: LibSignalError | null): void {
+      if (!this.resource) {
+        logDisconnectedListenerWarn(logId, 'onConnectionInterrupted');
+        return;
+      }
+      this.resource.onConnectionInterrupted(cause);
+      this.resource = undefined;
+    },
+  };
   return connectLibsignal(
     abortSignal =>
       libsignalNet.connectUnauthenticatedChat(listener, {
@@ -356,9 +368,10 @@ export function connectAuthenticatedLibsignal({
   receiveStories: boolean;
   userLanguages: ReadonlyArray<string>;
   keepalive: KeepAliveOptionsType;
-}): AbortableProcess<LibsignalWebSocketResource> {
+}): AbortableProcess<LibsignalWebSocketResource<'auth'>> {
   const logId = `LibsignalWebSocketResource(${name})`;
-  const listener: LibsignalWebSocketResourceHolder & ChatServiceListener = {
+  const listener: LibsignalWebSocketResourceHolder<'auth'> &
+    ChatServiceListener = {
     resource: undefined,
     onIncomingMessage(
       envelope: Uint8Array,
@@ -418,16 +431,14 @@ function logDisconnectedListenerWarn(logId: string, method: string): void {
   log.warn(`${logId} received ${method}, but listener already disconnected`);
 }
 
-function connectLibsignal(
+function connectLibsignal<Chat extends ChatKind>(
   makeConnection: (
     abortSignal: AbortSignal
-  ) => Promise<
-    Net.UnauthenticatedChatConnection | Net.AuthenticatedChatConnection
-  >,
-  resourceHolder: LibsignalWebSocketResourceHolder,
+  ) => Promise<LibsignalChatConnection<Chat>>,
+  resourceHolder: LibsignalWebSocketResourceHolder<Chat>,
   logId: string,
   keepalive: KeepAliveOptionsType
-): AbortableProcess<LibsignalWebSocketResource> {
+): AbortableProcess<LibsignalWebSocketResource<Chat>> {
   const abortController = new AbortController();
   const connectAsync = async () => {
     try {
@@ -454,7 +465,7 @@ function connectLibsignal(
       throw error;
     }
   };
-  return new AbortableProcess<LibsignalWebSocketResource>(
+  return new AbortableProcess<LibsignalWebSocketResource<Chat>>(
     `${logId}.connect`,
     {
       abort() {
@@ -470,9 +481,9 @@ function connectLibsignal(
   );
 }
 
-export class LibsignalWebSocketResource
+export class LibsignalWebSocketResource<Chat extends ChatKind>
   extends EventTarget
-  implements IWebSocketResource
+  implements IChatConnection<Chat>
 {
   // The reason that the connection was closed, if it was closed.
   //
@@ -487,7 +498,7 @@ export class LibsignalWebSocketResource
   #keepalive: KeepAlive;
 
   constructor(
-    private readonly chatService: Net.ChatConnection,
+    private readonly chatService: LibsignalChatConnection<Chat>,
     private readonly socketIpVersion: IpVersion,
     private readonly localPortNumber: number,
     private readonly logId: string,
@@ -574,6 +585,10 @@ export class LibsignalWebSocketResource
   public async sendRequest(options: SendRequestOptions): Promise<Response> {
     const response = await this.sendRequestGetDebugInfo(options);
     return response;
+  }
+
+  get libsignalWebsocket(): LibsignalChatConnection<Chat> {
+    return this.chatService;
   }
 
   public async sendRequestGetDebugInfo(
