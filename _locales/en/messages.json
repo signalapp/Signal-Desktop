@@ -1770,8 +1770,8 @@
     "messageformat": "Unpin all messages?",
     "description": "Conversation > Pinned messages panel (view all) > Unpin all messages button > Confirm Dialog > Title"
   },
-  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description--Group": {
-    "messageformat": "Messages will be unpinned for all group members.",
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
+    "messageformat": "Messages will be unpinned for members of this chat.",
     "description": "Conversation > Pinned messages panel (view all) > Unpin all messages button > Confirm Dialog > Description (in group)"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
