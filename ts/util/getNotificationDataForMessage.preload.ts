@@ -512,14 +512,14 @@ export function getNotificationDataForMessage(
   }
 
   if (isPinnedMessageNotification(attributes)) {
-    const fromContact = getAuthor(attributes);
+    const { sourceServiceId } = attributes;
     const ourAci = itemStorage.user.getCheckedAci();
 
     let text: string;
-    if (fromContact?.getAci() === ourAci) {
+    if (sourceServiceId === ourAci) {
       text = i18n('icu:message--pinned--preview--sent');
     } else {
-      const sender = fromContact?.getTitle() ?? i18n('icu:unknownContact');
+      const sender = findAndFormatContact(sourceServiceId).title;
       text = i18n('icu:message--pinned--preview--received', { sender });
     }
 
