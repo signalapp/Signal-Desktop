@@ -165,14 +165,13 @@ export type PropsActionsType = {
     setFocus?: boolean
   ) => unknown;
   markMessageRead: (conversationId: string, messageId: string) => unknown;
+  maybePeekGroupCall: (conversationId: string) => unknown;
   targetMessage: (messageId: string, conversationId: string) => unknown;
   setCenterMessage: (
     conversationId: string,
     messageId: string | undefined
   ) => void;
   setIsNearBottom: (conversationId: string, isNearBottom: boolean) => void;
-  peekGroupCallForTheFirstTime: (conversationId: string) => unknown;
-  peekGroupCallIfItHasMembers: (conversationId: string) => unknown;
   reviewConversationNameCollision: () => void;
   scrollToOldestUnreadMention: (conversationId: string) => unknown;
 };
@@ -590,15 +589,14 @@ export class Timeline extends React.Component<
     this.#cleanupGroupCallPeekTimeouts();
 
     this.#delayedPeekTimeout = setTimeout(() => {
-      const { id, peekGroupCallForTheFirstTime } = this.props;
+      const { id, maybePeekGroupCall } = this.props;
       this.#delayedPeekTimeout = undefined;
-      peekGroupCallForTheFirstTime(id);
-    }, 500);
+      maybePeekGroupCall(id);
 
-    this.#peekInterval = setInterval(() => {
-      const { id, peekGroupCallIfItHasMembers } = this.props;
-      peekGroupCallIfItHasMembers(id);
-    }, MINUTE);
+      this.#peekInterval = setInterval(() => {
+        maybePeekGroupCall(id);
+      }, MINUTE);
+    }, 500);
   }
 
   #cleanupGroupCallPeekTimeouts(): void {
