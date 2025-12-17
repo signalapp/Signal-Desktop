@@ -760,6 +760,8 @@ export async function startApp(): Promise<void> {
 
         flushMessageCounter();
 
+        window.SignalClipboard.clearIfNeeded();
+
         // Hangup active calls
         calling.hangupAllCalls({
           excludeRinging: true,
