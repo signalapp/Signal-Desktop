@@ -20,5 +20,9 @@ const renderNonNewLine: RenderTextCallbackType = ({ key, text }) => (
 );
 
 export function GroupDescriptionText({ text }: PropsType): JSX.Element {
-  return <AddNewLines text={text} renderNonNewLine={renderNonNewLine} />;
+  return (
+    <div className="GroupDescriptionText">
+      <AddNewLines text={text} renderNonNewLine={renderNonNewLine} />
+    </div>
+  );
 }
