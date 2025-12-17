@@ -26,8 +26,6 @@ import * as RemoteConfig from '../RemoteConfig.dom.js';
 import { ToastType } from '../types/Toast.dom.js';
 import { isAbortError } from './isAbortError.std.js';
 import { expiresTooSoonForBackup } from '../services/backups/util/expiration.std.js';
-import { isMoreRecentThan } from './timestamp.std.js';
-import { DAY } from './durations/constants.std.js';
 
 const log = createLogger('downloadAttachment');
 
@@ -39,7 +37,6 @@ export async function downloadAttachment({
     abortSignal,
     hasMediaBackups,
     logId: _logId,
-    messageReceivedAtMs,
     messageExpiresAt,
   },
   dependencies = {
@@ -54,8 +51,7 @@ export async function downloadAttachment({
     abortSignal: AbortSignal;
     hasMediaBackups: boolean;
     logId: string;
-    messageExpiresAt?: number | null;
-    messageReceivedAtMs?: number | null;
+    messageExpiresAt: number | null;
   };
   dependencies?: {
     downloadAttachmentFromServer: typeof doDownloadAttachment;
@@ -69,15 +65,11 @@ export async function downloadAttachment({
   const isBackupable = hasRequiredInformationForRemoteBackup(attachment);
 
   const mightBeOnBackupTierNow = isBackupable && hasMediaBackups;
-  const mightBeExpiredFromBackupTier =
-    messageExpiresAt != null &&
-    expiresTooSoonForBackup({
-      messageExpiresAt,
-    });
+  const mightBeExpiredFromBackupTier = expiresTooSoonForBackup({
+    messageExpiresAt,
+  });
   const mightBeOnBackupTierInTheFuture =
     isBackupable && !mightBeExpiredFromBackupTier;
-  const mightNotYetBeBackedUp =
-    messageReceivedAtMs && isMoreRecentThan(messageReceivedAtMs, DAY);
 
   if (wasImportedFromLocalBackup(attachment)) {
     log.info(`${logId}: Downloading attachment from local backup`);
@@ -130,8 +122,7 @@ export async function downloadAttachment({
 
       if (
         RemoteConfig.isEnabled('desktop.internalUser') &&
-        !mightBeExpiredFromBackupTier &&
-        !mightNotYetBeBackedUp
+        !mightBeExpiredFromBackupTier
       ) {
         window.reduxActions.toast.showToast({
           toastType: ToastType.UnableToDownloadFromBackupTier,

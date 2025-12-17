@@ -544,7 +544,6 @@ export async function runDownloadAttachmentJob({
       dependencies,
       messageExpiresAt:
         calculateExpirationTimestamp(message.attributes) ?? null,
-      messageReceivedAtMs: message.attributes.received_at_ms ?? null,
     });
 
     if (result.downloadedVariant === AttachmentVariant.ThumbnailFromBackup) {
@@ -719,13 +718,11 @@ export async function runDownloadAttachmentJobInner({
   maxTextAttachmentSizeInKib,
   hasMediaBackups,
   messageExpiresAt,
-  messageReceivedAtMs,
   dependencies,
 }: {
   job: AttachmentDownloadJobType;
   dependencies: Omit<DependenciesType, 'runDownloadAttachmentJobInner'>;
   messageExpiresAt: number | null;
-  messageReceivedAtMs: number | null;
 } & RunDownloadAttachmentJobOptions): Promise<DownloadAttachmentResultType> {
   const { messageId, attachment, attachmentType } = job;
 
@@ -786,6 +783,7 @@ export async function runDownloadAttachmentJobInner({
         abortSignal,
         dependencies,
         logId,
+        messageExpiresAt,
       });
       await addAttachmentToMessage(
         messageId,
@@ -855,7 +853,6 @@ export async function runDownloadAttachmentJobInner({
         abortSignal,
         hasMediaBackups,
         logId,
-        messageReceivedAtMs,
         messageExpiresAt,
       },
     });
@@ -934,6 +931,7 @@ export async function runDownloadAttachmentJobInner({
           abortSignal,
           dependencies,
           logId,
+          messageExpiresAt,
         });
 
         await addAttachmentToMessage(
@@ -991,10 +989,12 @@ async function downloadBackupThumbnail({
   abortSignal,
   logId,
   dependencies,
+  messageExpiresAt,
 }: {
   attachment: AttachmentType;
   abortSignal: AbortSignal;
   logId: string;
+  messageExpiresAt: number | null;
   dependencies: {
     downloadAttachment: typeof downloadAttachmentUtil;
   };
@@ -1005,6 +1005,7 @@ async function downloadBackupThumbnail({
       onSizeUpdate: noop,
       variant: AttachmentVariant.ThumbnailFromBackup,
       abortSignal,
+      messageExpiresAt,
       hasMediaBackups: true,
       logId,
     },
