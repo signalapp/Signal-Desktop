@@ -208,7 +208,6 @@ export function CallingPipRemoteVideo({
         conversation.type === 'direct',
         'CallingPipRemoteVideo for direct call must be associated with direct conversation'
       );
-      // TODO: DESKTOP-8537 - when black bars go away, we need to make some CSS changes
       return (
         <div className="module-calling-pip__video--remote">
           <BlurredBackground

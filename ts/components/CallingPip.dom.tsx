@@ -391,7 +391,6 @@ export function CallingPip({
     remoteVideoNode = (
       <div className="module-calling-pip__video--remote">
         {isSendingVideo ? (
-          // TODO: DESKTOP-8537 - when black bars go away, need to make some CSS changes
           <>
             <CallBackgroundBlur avatarUrl={me.avatarUrl} darken />
             <div

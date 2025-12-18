@@ -89,7 +89,7 @@ function renderAvatar(
           profileName={profileName}
           title={title}
           sharedGroupNames={sharedGroupNames}
-          size={AvatarSize.EIGHTY}
+          size={AvatarSize.NINETY_SIX}
         />
       </CallBackgroundBlur>
     </div>
