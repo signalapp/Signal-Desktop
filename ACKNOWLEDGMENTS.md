@@ -14719,7 +14719,7 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 ```
 
-## libsignal-account-keys 0.1.0, libsignal-core 0.1.0, mrp 2.60.7, protobuf 2.60.7, ringrtc 2.60.7, regex-aot 0.1.0, partial-default-derive 0.1.0
+## libsignal-account-keys 0.1.0, libsignal-core 0.1.0, mrp 2.61.0, protobuf 2.61.0, ringrtc 2.61.0, regex-aot 0.1.0, partial-default-derive 0.1.0
 
 ```
 GNU AFFERO GENERAL PUBLIC LICENSE
@@ -14960,7 +14960,7 @@ You should also get your employer (if you work as a programmer) or school, if an
 
 ```
 
-## pulldown-cmark-to-cmark 21.0.0
+## pulldown-cmark-to-cmark 21.1.0
 
 ```
                                  Apache License
@@ -15763,7 +15763,7 @@ limitations under the License.
 
 ```
 
-## hax-lib-macros 0.3.2, hax-lib 0.3.2, libcrux-intrinsics 0.0.3, libcrux-platform 0.0.2, libcrux-sha3 0.0.3
+## hax-lib-macros 0.3.5, hax-lib 0.3.5, libcrux-intrinsics 0.0.4, libcrux-platform 0.0.2, libcrux-secrets 0.0.4, libcrux-sha3 0.0.4, libcrux-traits 0.0.4
 
 ```
 Apache License
@@ -15978,7 +15978,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ```
 
-## libloading 0.8.8
+## libloading 0.8.9
 
 ```
 Copyright © 2015, Simonas Kazlauskas
@@ -16015,7 +16015,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 ```
 
-## windows-sys 0.45.0, windows-sys 0.59.0, windows-sys 0.60.2, windows-targets 0.42.2, windows-targets 0.52.6, windows-targets 0.53.3, windows_aarch64_msvc 0.42.2, windows_aarch64_msvc 0.52.6, windows_aarch64_msvc 0.53.0, windows_x86_64_gnu 0.52.6, windows_x86_64_gnu 0.53.0, windows_x86_64_msvc 0.42.2, windows_x86_64_msvc 0.52.6, windows_x86_64_msvc 0.53.0
+## windows-sys 0.45.0, windows-sys 0.59.0, windows-sys 0.61.2, windows-targets 0.42.2, windows-targets 0.52.6, windows_aarch64_msvc 0.42.2, windows_aarch64_msvc 0.52.6, windows_x86_64_gnu 0.52.6, windows_x86_64_msvc 0.42.2, windows_x86_64_msvc 0.52.6
 
 ```
     MIT License
@@ -16163,7 +16163,7 @@ SOFTWARE.
 
 ```
 
-## cc 1.2.33, cfg-if 1.0.1, cmake 0.1.54, pkg-config 0.3.32
+## cc 1.2.49, cfg-if 1.0.4, cmake 0.1.54, find-msvc-tools 0.1.5, pkg-config 0.3.32
 
 ```
 Copyright (c) 2014 Alex Crichton
@@ -16194,7 +16194,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## errno 0.3.13
+## errno 0.3.14
 
 ```
 Copyright (c) 2014 Chris Wong
@@ -16225,7 +16225,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## base64ct 1.8.0
+## base64ct 1.8.1
 
 ```
 Copyright (c) 2014 Steve "Sc00bz" Thomas (steve at tobtu dot com)
@@ -16257,7 +16257,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## bitflags 1.3.2, bitflags 2.9.2, log 0.4.27, regex-automata 0.4.9, regex-syntax 0.8.5, regex 1.11.1
+## bitflags 1.3.2, bitflags 2.10.0, log 0.4.29, regex-automata 0.4.13, regex-syntax 0.8.8, regex 1.12.2
 
 ```
 Copyright (c) 2014 The Rust Project Developers
@@ -16288,7 +16288,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## uuid 1.18.0
+## uuid 1.19.0
 
 ```
 Copyright (c) 2014 The Rust Project Developers
@@ -16346,7 +16346,7 @@ THE SOFTWARE.
 
 ```
 
-## libc 0.2.175
+## libc 0.2.178
 
 ```
 Copyright (c) 2014-2020 The Rust Project Developers
@@ -16377,7 +16377,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## either 1.15.0, itertools 0.14.0, petgraph 0.7.1, serde_with 3.14.0, serde_with_macros 3.14.0
+## either 1.15.0, itertools 0.14.0, petgraph 0.7.1, serde_with 3.16.1, serde_with_macros 3.16.1
 
 ```
 Copyright (c) 2015
@@ -16433,7 +16433,7 @@ THE SOFTWARE.
 
 ```
 
-## tempfile 3.20.0
+## tempfile 3.23.0
 
 ```
 Copyright (c) 2015 Steven Allen
@@ -16665,7 +16665,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## hashbrown 0.15.5
+## hashbrown 0.16.1
 
 ```
 Copyright (c) 2016 Amanieu d'Antras
@@ -16758,7 +16758,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## indexmap 2.10.0
+## indexmap 2.12.1
 
 ```
 Copyright (c) 2016--2017
@@ -16944,7 +16944,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## bytes 1.10.1
+## bytes 1.11.0
 
 ```
 Copyright (c) 2018 Carl Lerche
@@ -17132,7 +17132,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## getrandom 0.3.3
+## getrandom 0.3.4
 
 ```
 Copyright (c) 2018-2025 The rust-random Project Developers
@@ -17438,7 +17438,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## crypto-common 0.1.6
+## crypto-common 0.1.7
 
 ```
 Copyright (c) 2021 RustCrypto Developers
@@ -17532,7 +17532,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## tonic-build 0.14.1
+## tonic-build 0.14.2
 
 ```
 Copyright (c) 2025 Lucio Franco
@@ -17557,7 +17557,7 @@ THE SOFTWARE.
 
 ```
 
-## toml_datetime 0.6.11, toml_edit 0.22.27
+## toml_datetime 0.7.3, toml_edit 0.23.9, toml_parser 1.0.4
 
 ```
 Copyright (c) Individual contributors
@@ -17614,7 +17614,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## zerocopy-derive 0.8.26, zerocopy 0.8.26
+## zerocopy-derive 0.8.31, zerocopy 0.8.31
 
 ```
 Copyright 2023 The Fuchsia Authors
@@ -17673,7 +17673,7 @@ SOFTWARE.
 
 ```
 
-## darling 0.20.11, darling_core 0.20.11, darling_macro 0.20.11
+## darling 0.21.3, darling_core 0.21.3, darling_macro 0.21.3
 
 ```
 MIT License
@@ -17700,7 +17700,7 @@ SOFTWARE.
 
 ```
 
-## zeroize 1.8.1
+## zeroize 1.8.2
 
 ```
 MIT License
@@ -17835,7 +17835,7 @@ SOFTWARE.
 
 ```
 
-## cesu8 1.1.0, neon 1.1.1, protobuf-parse 3.7.2, tonic-prost-build 0.14.1, windows-core 0.57.0, windows-core 0.58.0, windows-implement 0.57.0, windows-implement 0.58.0, windows-interface 0.57.0, windows-interface 0.58.0, windows-result 0.1.2, windows-result 0.2.0, windows-strings 0.1.0, windows 0.57.0, windows 0.58.0
+## cesu8 1.1.0, neon 1.1.1, protobuf-parse 3.7.2, tonic-prost-build 0.14.2, windows-core 0.57.0, windows-core 0.58.0, windows-implement 0.57.0, windows-implement 0.58.0, windows-interface 0.57.0, windows-interface 0.58.0, windows-link 0.2.1, windows-result 0.1.2, windows-result 0.2.0, windows-strings 0.1.0, windows 0.57.0, windows 0.58.0
 
 ```
 MIT License
@@ -17875,7 +17875,7 @@ SOFTWARE.
 
 ```
 
-## curve25519-dalek-derive 0.1.1, anyhow 1.0.99, displaydoc 0.2.5, fastrand 2.3.0, home 0.5.11, itoa 1.0.15, linkme-impl 0.3.33, linkme 0.3.33, linux-raw-sys 0.4.15, linux-raw-sys 0.9.4, num_enum 0.7.4, num_enum_derive 0.7.4, once_cell 1.21.3, prettyplease 0.2.36, proc-macro-crate 3.3.0, proc-macro2 1.0.101, quote 1.0.40, rustix 0.38.44, rustix 1.0.8, rustversion 1.0.22, semver 1.0.26, send_wrapper 0.6.0, serde 1.0.219, serde_derive 1.0.219, serde_json 1.0.142, syn 1.0.109, syn 2.0.106, thiserror-impl 1.0.69, thiserror-impl 2.0.15, thiserror 1.0.69, thiserror 2.0.15, unicode-ident 1.0.18
+## curve25519-dalek-derive 0.1.1, anyhow 1.0.100, displaydoc 0.2.5, fastrand 2.3.0, home 0.5.12, itoa 1.0.15, linkme-impl 0.3.35, linkme 0.3.35, linux-raw-sys 0.11.0, linux-raw-sys 0.4.15, num_enum 0.7.5, num_enum_derive 0.7.5, once_cell 1.21.3, prettyplease 0.2.37, proc-macro-crate 3.4.0, proc-macro2 1.0.103, quote 1.0.42, rustix 0.38.44, rustix 1.1.2, rustversion 1.0.22, semver 1.0.27, send_wrapper 0.6.0, serde 1.0.228, serde_core 1.0.228, serde_derive 1.0.228, serde_json 1.0.145, syn 1.0.109, syn 2.0.111, thiserror-impl 1.0.69, thiserror-impl 2.0.17, thiserror 1.0.69, thiserror 2.0.17, unicode-ident 1.0.22
 
 ```
 Permission is hereby granted, free of charge, to any
@@ -17904,7 +17904,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## winnow 0.7.12
+## winnow 0.7.14
 
 ```
 Permission is hereby granted, free of charge, to any person obtaining
@@ -17978,7 +17978,7 @@ THE SOFTWARE.
 
 ```
 
-## typenum 1.18.0
+## typenum 1.19.0
 
 ```
 The MIT License (MIT)
@@ -18032,7 +18032,7 @@ THE SOFTWARE.
 
 ```
 
-## aho-corasick 1.1.3, memchr 2.7.5, walkdir 2.5.0
+## aho-corasick 1.1.4, memchr 2.7.6, walkdir 2.5.0
 
 ```
 The MIT License (MIT)
@@ -18171,7 +18171,7 @@ THE SOFTWARE.
 
 ```
 
-## derive_more-impl 2.0.1, derive_more 2.0.1
+## derive_more-impl 2.1.0, derive_more 2.1.0
 
 ```
 The MIT License (MIT)
@@ -18225,7 +18225,7 @@ SOFTWARE.
 
 ```
 
-## same-file 1.0.6, winapi-util 0.1.9
+## same-file 1.0.6, winapi-util 0.1.11
 
 ```
 The MIT License (MIT)
@@ -18363,7 +18363,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## hpke-rs-crypto 0.3.0, hpke-rs 0.3.0
+## hpke-rs-crypto 0.3.0, hpke-rs 0.4.0
 
 ```
 Mozilla Public License Version 2.0
@@ -18742,7 +18742,7 @@ Exhibit B - "Incompatible With Secondary Licenses" Notice
 
 ```
 
-## unicode-ident 1.0.18
+## unicode-ident 1.0.22
 
 ```
 UNICODE LICENSE V3

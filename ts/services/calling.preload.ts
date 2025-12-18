@@ -338,14 +338,16 @@ function maybeShowCallQualitySurvey(
     itemStorage.get('lastCallQualityFailureSurveyTime') ?? null;
   const bypassCooldown =
     itemStorage.get('callQualitySurveyCooldownDisabled') ?? false;
+  const ourE164 = itemStorage.user.getNumber();
 
   if (
-    !shouldShowCallQualitySurvey(
-      summary,
+    !shouldShowCallQualitySurvey({
+      callSummary: summary,
       lastSurveyTime,
       lastFailureSurveyTime,
-      bypassCooldown
-    )
+      e164: ourE164,
+      bypassCooldown,
+    })
   ) {
     return;
   }
