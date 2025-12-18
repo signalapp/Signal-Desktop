@@ -2992,10 +2992,10 @@ function submitCallQualitySurvey(
         videoRecvJitterMedian: videoStats.jitterMedianRecvMillis,
         audioSendJitterMedian: audioStats.jitterMedianSendMillis,
         videoSendJitterMedian: videoStats.jitterMedianSendMillis,
-        audioRecvPacketLossFraction: audioStats.packetLossPercentageRecv,
-        videoRecvPacketLossFraction: videoStats.packetLossPercentageRecv,
-        audioSendPacketLossFraction: audioStats.packetLossPercentageSend,
-        videoSendPacketLossFraction: videoStats.packetLossPercentageSend,
+        audioRecvPacketLossFraction: audioStats.packetLossFractionRecv,
+        videoRecvPacketLossFraction: videoStats.packetLossFractionRecv,
+        audioSendPacketLossFraction: audioStats.packetLossFractionSend,
+        videoSendPacketLossFraction: videoStats.packetLossFractionSend,
         callTelemetry: callSummary.rawStats,
       };
 

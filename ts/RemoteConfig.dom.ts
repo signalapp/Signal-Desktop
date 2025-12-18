@@ -36,6 +36,7 @@ const SemverKeys = [
 export type SemverKeyType = (typeof SemverKeys)[number];
 
 const ScalarKeys = [
+  'desktop.callQualitySurveyPPM',
   'desktop.chatFolders.alpha',
   'desktop.chatFolders.beta',
   'desktop.chatFolders.prod',
@@ -320,8 +321,10 @@ export function isCountryPpmCsvBucketEnabled(
   return bucketValue < remoteConfigValue;
 }
 
+export const COUNTRY_CODE_FALLBACK = Symbol('fallback');
+
 export function getCountryCodeValue(
-  countryCode: number,
+  countryCode: number | typeof COUNTRY_CODE_FALLBACK,
   countryPpmCsv: string,
   logTag: string
 ): number | undefined {
@@ -330,7 +333,6 @@ export function getCountryCodeValue(
     return undefined;
   }
 
-  const countryCodeString = countryCode.toString();
   const items = countryPpmCsv.split(',');
 
   let wildcard: number | undefined;
@@ -347,7 +349,10 @@ export function getCountryCodeValue(
     );
     if (code === '*') {
       wildcard = parsedValue;
-    } else if (countryCodeString === code) {
+    } else if (
+      countryCode !== COUNTRY_CODE_FALLBACK &&
+      countryCode.toString() === code
+    ) {
       return parsedValue;
     }
   }
