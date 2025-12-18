@@ -396,8 +396,11 @@ jobs:
         path: ~/.electron-gyp
         key: electron-gyp-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
+    - name: Update apt
+      run: sudo apt-get update
+
     - name: Install xvfb and libpulse0
-      run: sudo apt-get install -y xvfb libpulse0 || (sudo apt-get update && sudo apt-get install -y xvfb libpulse0)
+      run: sudo apt-get install -y xvfb libpulse0
 
     # - name: Setup sccache
     #   uses: mozilla-actions/sccache-action@054db53350805f83040bf3e6e9b8cf5a139aa7c9 # v0.0.7
