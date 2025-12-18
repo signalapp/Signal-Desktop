@@ -1101,7 +1101,7 @@
     "messageformat": "ئۇچۇرنى مىقلاش"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin message"
+    "messageformat": "ئۇچۇرنىڭ مىقىنى ئېلىۋېتىش"
   },
   "icu:Poll__end-poll": {
     "messageformat": "راي سىناشنى توختىتىش"
@@ -1263,52 +1263,52 @@
     "messageformat": "بارلىق ئۇچۇرلارنى كۆرۈش"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Address": {
-    "messageformat": "Address"
+    "messageformat": "ئادرېس"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "ئۈن ئۇچۇر"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Gif": {
     "messageformat": "GIF"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
-    "messageformat": "File"
+    "messageformat": "ھۆججەت"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Contact": {
-    "messageformat": "Contact"
+    "messageformat": "ئالاقىداش"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "چىقىم"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Poll": {
-    "messageformat": "Poll"
+    "messageformat": "ئشلەتكۈچىلەرنىڭ رايىنى سىناش"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "چىراي ئىپادە"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
-    "messageformat": "Photo"
+    "messageformat": "سۈرەت"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Video": {
-    "messageformat": "Video"
+    "messageformat": "سىن"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "ئۈن ئۇچۇر"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Gif": {
     "messageformat": "GIF"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "چىقىم"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "چىراي ئىپادە"
   },
   "icu:PinnedMessagesPanel__Title": {
-    "messageformat": "Pinned messages"
+    "messageformat": "مىقلانغان ئۇچۇرلار"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages": {
-    "messageformat": "Unpin all messages"
+    "messageformat": "بارلىق ئۇچۇرلارنىڭ مىقىنى ئېلىۋېتىش"
   },
   "icu:sessionEnded": {
     "messageformat": "بىخەتەر سۆزلىشىش ئەسلىگە قايتۇرۇلدى"
@@ -6964,7 +6964,7 @@
     "messageformat": "تەھرىرلەنگەن"
   },
   "icu:MessageMetadata__pinned": {
-    "messageformat": "Pinned"
+    "messageformat": "قوندۇرۇلدى"
   },
   "icu:DraftGifMessageSendModal__Title": {
     "messageformat": "بىز ئۇچۇر قوش"
@@ -7474,88 +7474,88 @@
     "messageformat": "بۇنى كۆچمە ئۈسكۈنىڭىزدە «تەڭشەك → سىگنالغا ئىئانە قىلىش → ئىزنەك» ئارقىلىق تەڭشىيەلەيسىز"
   },
   "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "تاقا"
   },
   "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
-    "messageformat": "Back"
+    "messageformat": "قايت"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
-    "messageformat": "How was your call?"
+    "messageformat": "تېلېفونلىشىش جەريانى قانداق بولدى؟"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageDescription": {
-    "messageformat": "This helps us improve calls in Signal. No personally identifiable information will be stored."
+    "messageformat": "بۇ بىزنىڭ Signalدىكى تېلېفونلىشىش سۈپىتىنى ياخشىلىشىمىزغا ياردەم بېرىدۇ. شەخسىي سالاھىيەتكە باغلىنىشلىق ئۇچۇرلار ساقلانمايدۇ."
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__HadIssues": {
-    "messageformat": "Had issues"
+    "messageformat": "مەسىلىلەرگە يولۇقتىۇم"
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__Great": {
-    "messageformat": "Great"
+    "messageformat": "ناھايىتى ياخشى"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__PageTitle": {
-    "messageformat": "What issues did you have?"
+    "messageformat": "سىز قانداق مەسىلىلەرنى بايقىدىڭىز؟"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__IssuesList__Heading": {
-    "messageformat": "Select all that apply"
+    "messageformat": "ماس كەلگەننىڭ ھەممىسىنى تاللاڭ"
   },
   "icu:CallQualitySurvey__Issue--AUDIO": {
-    "messageformat": "Audio issue"
+    "messageformat": "تېلفۇنلاشقاندىكى ئاۋاز مەسىلىسى"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_STUTTERING": {
-    "messageformat": "Audio stuttering"
+    "messageformat": "ئۈن كېكەشلەپ چىقىش"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_LOCAL_ECHO": {
-    "messageformat": "I heard echo"
+    "messageformat": "ئەكىس سادانى ئاڭلىدىم"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_REMOTE_ECHO": {
-    "messageformat": "Others heard echo"
+    "messageformat": "باشقىلار ئەكىس سادانى ئاڭلاپتۇ"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_DROP": {
-    "messageformat": "Audio cut out"
+    "messageformat": "ئاۋاز ئۈزۈلۈپ قالدى"
   },
   "icu:CallQualitySurvey__Issue--VIDEO": {
-    "messageformat": "Video issue"
+    "messageformat": "سىن مەسىلىسى"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_NO_CAMERA": {
-    "messageformat": "Camera didn't work"
+    "messageformat": "كامېرا ئىشلىمىدى"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_QUALITY": {
-    "messageformat": "Poor video quality"
+    "messageformat": "سىن سۈپىتىنىڭ ناچار بولۇشى"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_RESOLUTION": {
-    "messageformat": "Low resolution"
+    "messageformat": "ئېنىقلىق دەرىجىسى تۆۋەن"
   },
   "icu:CallQualitySurvey__Issue--CALL_DROPPED": {
-    "messageformat": "Call dropped"
+    "messageformat": "تېلېفون ئۈزۈلۈپ قالدى"
   },
   "icu:CallQualitySurvey__Issue--OTHER": {
-    "messageformat": "Something else"
+    "messageformat": "باشقا يەنە"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
-    "messageformat": "Issues description"
+    "messageformat": "مەسىلىلەرنىڭ چۈشەندۈرۈلۈشى"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
-    "messageformat": "Please include any details relevant to the issue. Anything you share here will be kept private and will only be used to help improve calls in Signal."
+    "messageformat": "مەسىلىگە مۇناسىۋەتلىك قانداق تەپسىلاتلار بولسا قوشۇپ قويۇڭ. بۇ يەردە ھەمبەھىرلىگەن ھەر قانداق مەزمۇن شەخسىي ھالەتتە ساقلىنىدۇ ھەمدە Signalدىكى تېلېفونلىشىش سۈپىتىنى ياردەملىشىپ ياخشىلاشقا ئىشلىتىلىدۇ."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
-    "messageformat": "Continue"
+    "messageformat": "داۋاملاشتۇرۇش"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
-    "messageformat": "Help us improve"
+    "messageformat": "بىزنىڭ تېخىمۇ ياخشىلىنىشىمىزغا ياردەم قىلىڭ"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "This helps us learn more about calls and what is working or not working. You can view your debug log before submitting."
+    "messageformat": "بۇ ياردەملىشىپ بىزنى تېلېفونلىشىش ۋە نېمىنىڭ ئىشلەۋاتقان ياكى ئىشلىمەيدىغانلىقى توغرىسىدا تېخىمۇ كۆپ چۈشەنچىگە ئىگە قىلىدۇ. يوللاشتىن بۇرۇن كاشىلا ھەل قىلىش خاتىرىڭىزنى كۆرەلەيسىز."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "كاشىلا ھەل قىلىش خاتىرىسىنى ئورتاقلىشىش"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "كۆرسەت"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Debug logs contain low level app information and do not reveal any of your message contents."
+    "messageformat": "كاشىلا ھەل قىلىش خاتىرىلىرى تۆۋەن دەرىجىدىكى ئەپ ئۇچۇرلىرىنى ئۆز ئىچىگە ئالغان بولۇپ، پاراڭ مەزمۇنلىرىڭىزنىڭ ھېچقايسىسىنى ئاشكارىلىمايدۇ."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
-    "messageformat": "Submit"
+    "messageformat": "تاپشۇر"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal نىڭ راۋان ئىجرا بولۇشى ئۈچۈن بۇ نەشرىدە بىر قانچە كىچىك ئۆزگەرتىشلەر ئېلىپ بېرىلدى ۋە كاشىلىلار ئوڭشالدى.",

@@ -1101,7 +1101,7 @@
     "messageformat": "ਸੁਨੇਹੇ ਨੂੰ ਪਿੰਨ ਕਰੋ"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin message"
+    "messageformat": "ਸੁਨੇਹੇ ਨੂੰ ਅਨਪਿੰਨ ਕਰੋ"
   },
   "icu:Poll__end-poll": {
     "messageformat": "ਪੋਲ ਸਮਾਪਤ ਕਰੋ"
@@ -1263,52 +1263,52 @@
     "messageformat": "ਸਾਰੇ ਸੁਨੇਹੇ ਦੇਖੋ"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Address": {
-    "messageformat": "Address"
+    "messageformat": "ਪਤਾ"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "ਵੌਇਸ ਸੁਨੇਹਾ"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Gif": {
     "messageformat": "GIF"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
-    "messageformat": "File"
+    "messageformat": "ਫ਼ਾਈਲ"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Contact": {
-    "messageformat": "Contact"
+    "messageformat": "ਸੰਪਰਕ"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "ਭੁਗਤਾਨ"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Poll": {
-    "messageformat": "Poll"
+    "messageformat": "ਪੋਲ"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "ਸਟਿੱਕਰ"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
-    "messageformat": "Photo"
+    "messageformat": "ਫ਼ੋਟੋ"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Video": {
-    "messageformat": "Video"
+    "messageformat": "ਵੀਡੀਓ"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "ਵੌਇਸ ਸੁਨੇਹਾ"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Gif": {
     "messageformat": "GIF"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "ਭੁਗਤਾਨ"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "ਸਟਿੱਕਰ"
   },
   "icu:PinnedMessagesPanel__Title": {
-    "messageformat": "Pinned messages"
+    "messageformat": "ਪਿੰਨ ਕੀਤੇ ਸੁਨੇਹੇ"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages": {
-    "messageformat": "Unpin all messages"
+    "messageformat": "ਸਾਰੇ ਸੁਨੇਹਿਆਂ ਨੂੰ ਅਨਪਿੰਨ ਕਰੋ"
   },
   "icu:sessionEnded": {
     "messageformat": "ਸੁਰੱਖਿਅਤ ਸੈਸ਼ਨ ਰੀਸੈੱਟ ਕੀਤਾ ਗਿਆ"
@@ -6964,7 +6964,7 @@
     "messageformat": "ਸੋਧਿਆ ਗਿਆ"
   },
   "icu:MessageMetadata__pinned": {
-    "messageformat": "Pinned"
+    "messageformat": "ਪਿੰਨ ਕੀਤਾ ਗਿਆ"
   },
   "icu:DraftGifMessageSendModal__Title": {
     "messageformat": "ਸੁਨੇਹਾ ਜੋੜੋ"
@@ -7474,88 +7474,88 @@
     "messageformat": "ਤੁਸੀਂ ਇਸਨੂੰ ਆਪਣੇ ਮੋਬਾਈਲ ਡਿਵਾਈਸ ਵਿੱਚ ਸੈਟਿੰਗਾਂ → Signal ਨੂੰ ਦਾਨ ਕਰੋ → ਬੈਜ 'ਤੇ ਜਾ ਕੇ ਵਿਵਸਥਿਤ ਕਰ ਸਕਦੇ ਹੋ"
   },
   "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "ਬੰਦ ਕਰੋ"
   },
   "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
-    "messageformat": "Back"
+    "messageformat": "ਪਿੱਛੇ ਜਾਓ"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
-    "messageformat": "How was your call?"
+    "messageformat": "ਤੁਹਾਡੀ ਕਾਲ ਕਿਵੇਂ ਦੀ ਰਹੀ?"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageDescription": {
-    "messageformat": "This helps us improve calls in Signal. No personally identifiable information will be stored."
+    "messageformat": "ਇਸ ਨਾਲ Signal ਵਿੱਚ ਕਾਲਾਂ ਨੂੰ ਬਿਹਤਰ ਬਣਾਉਣ ਵਿੱਚ ਸਾਨੂੰ ਮਦਦ ਮਿਲੇਗੀ। ਕੋਈ ਵੀ ਨਿੱਜੀ ਤੌਰ 'ਤੇ ਪਛਾਣਨਯੋਗ ਜਾਣਕਾਰੀ ਸਟੋਰ ਨਹੀਂ ਕੀਤੀ ਜਾਵੇਗੀ।"
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__HadIssues": {
-    "messageformat": "Had issues"
+    "messageformat": "ਸਮੱਸਿਆਵਾਂ ਪੇਸ਼ ਆਈਆਂ ਸਨ"
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__Great": {
-    "messageformat": "Great"
+    "messageformat": "ਵਧੀਆ"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__PageTitle": {
-    "messageformat": "What issues did you have?"
+    "messageformat": "ਤੁਹਾਨੂੰ ਕਿਹੜੀਆਂ ਸਮੱਸਿਆਵਾਂ ਪੇਸ਼ ਆਈਆਂ ਹਨ?"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__IssuesList__Heading": {
-    "messageformat": "Select all that apply"
+    "messageformat": "ਲਾਗੂ ਹੋਣ ਵਾਲੇ ਸਾਰੇ ਵਿਕਲਪ ਚੁਣੋ"
   },
   "icu:CallQualitySurvey__Issue--AUDIO": {
-    "messageformat": "Audio issue"
+    "messageformat": "ਆਡੀਓ ਸੰਬੰਧੀ ਸਮੱਸਿਆ"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_STUTTERING": {
-    "messageformat": "Audio stuttering"
+    "messageformat": "ਆਡੀਓ ਅਟਕ-ਅਟਕ ਕੇ ਚੱਲ ਰਹੀ ਸੀ"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_LOCAL_ECHO": {
-    "messageformat": "I heard echo"
+    "messageformat": "ਮੈਨੂੰ ਗੂੰਜ ਸੁਣਾਈ ਦੇ ਰਹੀ ਸੀ"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_REMOTE_ECHO": {
-    "messageformat": "Others heard echo"
+    "messageformat": "ਦੂਜਿਆਂ ਨੇ ਗੂੰਜ ਸੁਣਾਈ ਦੇ ਰਹੀ ਸੀ"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_DROP": {
-    "messageformat": "Audio cut out"
+    "messageformat": "ਆਡੀਓ ਕੱਟ ਰਹੀ ਸੀ"
   },
   "icu:CallQualitySurvey__Issue--VIDEO": {
-    "messageformat": "Video issue"
+    "messageformat": "ਵੀਡੀਓ ਸੰਬੰਧੀ ਸਮੱਸਿਆ"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_NO_CAMERA": {
-    "messageformat": "Camera didn't work"
+    "messageformat": "ਕੈਮਰਾ ਕੰਮ ਨਹੀਂ ਕਰ ਰਿਹਾ ਸੀ"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_QUALITY": {
-    "messageformat": "Poor video quality"
+    "messageformat": "ਵੀਡੀਓ ਕੁਆਲਟੀ ਖ਼ਰਾਬ ਸੀ"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_RESOLUTION": {
-    "messageformat": "Low resolution"
+    "messageformat": "ਰੈਜ਼ੋਲਿਊਸ਼ਨ ਘੱਟ ਸੀ"
   },
   "icu:CallQualitySurvey__Issue--CALL_DROPPED": {
-    "messageformat": "Call dropped"
+    "messageformat": "ਕਾਲ ਕੱਟੀ ਗਈ ਸੀ"
   },
   "icu:CallQualitySurvey__Issue--OTHER": {
-    "messageformat": "Something else"
+    "messageformat": "ਕੁਝ ਹੋਰ"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
-    "messageformat": "Issues description"
+    "messageformat": "ਸਮੱਸਿਆਵਾਂ ਦਾ ਵਰਣਨ"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
-    "messageformat": "Please include any details relevant to the issue. Anything you share here will be kept private and will only be used to help improve calls in Signal."
+    "messageformat": "ਕਿਰਪਾ ਕਰਕੇ ਸਮੱਸਿਆ ਨਾਲ ਸੰਬੰਧਿਤ ਵੇਰਵੇ ਸ਼ਾਮਲ ਕਰੋ। ਤੁਸੀਂ ਇੱਥੇ ਜੋ ਕੁਝ ਵੀ ਸਾਂਝਾ ਕਰਦੇ ਹੋ, ਉਸਨੂੰ ਨਿੱਜੀ ਰੱਖਿਆ ਜਾਵੇਗਾ ਅਤੇ ਸਿਰਫ਼ Signal ਵਿੱਚ ਕਾਲਾਂ ਨੂੰ ਬਿਹਤਰ ਬਣਾਉਣ ਲਈ ਵਰਤਿਆ ਜਾਵੇਗਾ।"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
-    "messageformat": "Continue"
+    "messageformat": "ਜਾਰੀ ਰੱਖੋ"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
-    "messageformat": "Help us improve"
+    "messageformat": "ਸੁਧਾਰ ਕਰਨ ਵਿੱਚ ਸਾਡੀ ਮਦਦ ਕਰੋ"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "This helps us learn more about calls and what is working or not working. You can view your debug log before submitting."
+    "messageformat": "ਇਹ ਸਾਨੂੰ ਕਾਲਾਂ ਬਾਰੇ ਜਾਣਨ ਅਤੇ ਕੀ ਕੰਮ ਕਰ ਰਿਹਾ ਹੈ ਅਤੇ ਕੀ ਨਹੀਂ, ਇਸ ਬਾਰੇ ਹੋਰ ਜਾਣਨ ਵਿੱਚ ਮਦਦ ਮਿਲਦੀ ਹੈ। ਤੁਸੀਂ ਦਰਜ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਆਪਣਾ ਡੀਬੱਗ ਲੌਗ ਦੇਖ ਸਕਦੇ ਹੋ।"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "ਡੀਬੱਗ ਲੌਗ ਸਾਂਝਾ ਕਰੋ"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "ਦੇਖੋ"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Debug logs contain low level app information and do not reveal any of your message contents."
+    "messageformat": "ਡੀਬੱਗ ਲੌਗ ਵਿੱਚ ਘੱਟ ਪੱਧਰ ਦੀ ਐਪ ਜਾਣਕਾਰੀ ਮੌਜੂਦ ਹੁੰਦੀ ਹੈ ਅਤੇ ਤੁਹਾਡੇ ਸੁਨੇਹੇ ਦੀ ਕਿਸੇ ਵੀ ਸਮੱਗਰੀ ਦਾ ਖੁਲਾਸਾ ਨਹੀਂ ਕੀਤਾ ਜਾਂਦਾ ਹੈ।"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
-    "messageformat": "Submit"
+    "messageformat": "ਦਰਜ ਕਰੋ"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal ਨੂੰ ਸੁਚਾਰੂ ਢੰਗ ਨਾਲ ਚੱਲਦਾ ਰੱਖਣ ਲਈ ਇਸ ਵਰਜ਼ਨ ਵਿੱਚ ਨਿੱਕੇ-ਮੋਟੇ ਸੁਧਾਰ ਅਤੇ ਬੱਗ ਠੀਕ ਕੀਤੇ ਗਏ ਹਨ।",

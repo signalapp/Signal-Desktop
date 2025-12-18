@@ -1101,7 +1101,7 @@
     "messageformat": "సందేశాన్ని పిన్ చేయండి"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin message"
+    "messageformat": "సందేశాన్ని అన్‌పిన్ చేయండి"
   },
   "icu:Poll__end-poll": {
     "messageformat": "పోల్‌ను ముగించండి"
@@ -1263,52 +1263,52 @@
     "messageformat": "అన్ని సందేశాలను చూడండి"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Address": {
-    "messageformat": "Address"
+    "messageformat": "చిరునామా"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "వాయిస్ సందేశం"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Gif": {
-    "messageformat": "GIF"
+    "messageformat": "గిఫ్"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
-    "messageformat": "File"
+    "messageformat": "పత్రం"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Contact": {
-    "messageformat": "Contact"
+    "messageformat": "పరిచయం"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "చెల్లింపు"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Poll": {
-    "messageformat": "Poll"
+    "messageformat": "పోల్"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "స్టికర్"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
-    "messageformat": "Photo"
+    "messageformat": "చిత్రం"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Video": {
-    "messageformat": "Video"
+    "messageformat": "వీడియో"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "వాయిస్ సందేశం"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Gif": {
-    "messageformat": "GIF"
+    "messageformat": "గిఫ్"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "చెల్లింపు"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "స్టికర్"
   },
   "icu:PinnedMessagesPanel__Title": {
-    "messageformat": "Pinned messages"
+    "messageformat": "పిన్ చేసిన సందేశాలు"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages": {
-    "messageformat": "Unpin all messages"
+    "messageformat": "అన్ని సందేశాలను అన్‌పిన్ చేయండి"
   },
   "icu:sessionEnded": {
     "messageformat": "సురక్షిత సెషన్ పునరుద్ధరించు."
@@ -6964,7 +6964,7 @@
     "messageformat": "సవరించబడినది"
   },
   "icu:MessageMetadata__pinned": {
-    "messageformat": "Pinned"
+    "messageformat": "పిన్ చేయబడింది"
   },
   "icu:DraftGifMessageSendModal__Title": {
     "messageformat": "ఒక సందేశాన్ని జోడించండి"
@@ -7474,88 +7474,88 @@
     "messageformat": "మీరు దీనిని మీ మొబైల్ పరికరంలో సెట్టింగ్‌లు → Signal కు విరాళం ఇవ్వండి → బ్యాడ్జ్‌లు కింద సర్దుబాటు చేయవచ్చు"
   },
   "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "మూసివెయ్యి"
   },
   "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
-    "messageformat": "Back"
+    "messageformat": "తిరిగి"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
-    "messageformat": "How was your call?"
+    "messageformat": "మీ కాల్ ఎలా ఉంది?"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageDescription": {
-    "messageformat": "This helps us improve calls in Signal. No personally identifiable information will be stored."
+    "messageformat": "ఇది Signal లో కాల్‌లను మెరుగుపరచడానికి మాకు సహాయపడుతుంది. వ్యక్తిగతంగా గుర్తించదగిన సమాచారం ఏదీ నిల్వ చేయబడదు."
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__HadIssues": {
-    "messageformat": "Had issues"
+    "messageformat": "సమస్యలు ఉన్నాయి"
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__Great": {
-    "messageformat": "Great"
+    "messageformat": "బాగుంది"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__PageTitle": {
-    "messageformat": "What issues did you have?"
+    "messageformat": "మీకు ఏ సమస్యలు ఉన్నాయి?"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__IssuesList__Heading": {
-    "messageformat": "Select all that apply"
+    "messageformat": "వర్తించేవి అన్నింటినీ ఎంచుకోండి"
   },
   "icu:CallQualitySurvey__Issue--AUDIO": {
-    "messageformat": "Audio issue"
+    "messageformat": "ఆడియో సమస్య"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_STUTTERING": {
-    "messageformat": "Audio stuttering"
+    "messageformat": "ఆడియో తడబడుతోంది"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_LOCAL_ECHO": {
-    "messageformat": "I heard echo"
+    "messageformat": "నేను ప్రతిధ్వనిని విన్నాను"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_REMOTE_ECHO": {
-    "messageformat": "Others heard echo"
+    "messageformat": "ఇతరులు ప్రతిధ్వనిని విన్నారు"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_DROP": {
-    "messageformat": "Audio cut out"
+    "messageformat": "ఆడియో కట్ అయింది"
   },
   "icu:CallQualitySurvey__Issue--VIDEO": {
-    "messageformat": "Video issue"
+    "messageformat": "వీడియో సమస్య"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_NO_CAMERA": {
-    "messageformat": "Camera didn't work"
+    "messageformat": "కెమెరా పని చేయలేదు"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_QUALITY": {
-    "messageformat": "Poor video quality"
+    "messageformat": "దరిద్రమైన వీడియో నాణ్యత"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_RESOLUTION": {
-    "messageformat": "Low resolution"
+    "messageformat": "తక్కువ రిజల్యూషన్"
   },
   "icu:CallQualitySurvey__Issue--CALL_DROPPED": {
-    "messageformat": "Call dropped"
+    "messageformat": "కాల్ డ్రాప్ అయింది"
   },
   "icu:CallQualitySurvey__Issue--OTHER": {
-    "messageformat": "Something else"
+    "messageformat": "ఇంకేదో"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
-    "messageformat": "Issues description"
+    "messageformat": "సమస్యల వివరణ"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
-    "messageformat": "Please include any details relevant to the issue. Anything you share here will be kept private and will only be used to help improve calls in Signal."
+    "messageformat": "దయచేసి సమస్యకు సంబంధించిన ఏవైనా వివరాలను చేర్చండి. మీరు ఇక్కడ పంచుకునేవి ఏవైనా రహస్యంగా ఉంచబడతాయి మరియు Signal లో కాల్‌లను మెరుగుపరచడంలో సహాయపడటానికి మాత్రమే ఉపయోగించబడతాయి."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
-    "messageformat": "Continue"
+    "messageformat": "కొనసాగించండి"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
-    "messageformat": "Help us improve"
+    "messageformat": "మెరుగుపరచడంలో మాకు సహాయం చేయండి"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "This helps us learn more about calls and what is working or not working. You can view your debug log before submitting."
+    "messageformat": "ఇది కాల్స్ గురించి మరియు ఏది పని చేస్తుంది లేదా పని చేయదు అనే దాని గురించి మరింత తెలుసుకోవడానికి మాకు సహాయపడుతుంది. సమర్పించడానికి ముందు మీరు మీ డీబగ్ లాగ్‌ను వీక్షించవచ్చు."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "డీబగ్ లాగ్‌ను పంచుకోండి"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "వీక్షించండి"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Debug logs contain low level app information and do not reveal any of your message contents."
+    "messageformat": "డీబగ్ లాగ్‌లు తక్కువ స్థాయి యాప్ సమాచారాన్ని కలిగి ఉంటాయి మరియు మీ సందేశ కంటెంట్‌లు వేటినీ బహిర్గతం చేయవు."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
-    "messageformat": "Submit"
+    "messageformat": "సమర్పించండి"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal ని సజావుగా నడిపించడానికి ఈ వెర్షన్‌లో చిన్నపాటి ట్వీక్‌లు మరియు బగ్ ఫిక్స్‌లు ఉన్నాయి.",
