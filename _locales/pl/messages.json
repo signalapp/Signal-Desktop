@@ -539,6 +539,9 @@
   "icu:debugLogExplanation": {
     "messageformat": "Gdy klikniesz „Prześlij”, dziennik zostanie opublikowany online na 30 dni pod unikalnym, niepublicznym adresem URL. Możesz też najpierw zapisać dziennik na swoim urządzeniu."
   },
+  "icu:debugLogExplanation--close": {
+    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+  },
   "icu:debugLogError": {
     "messageformat": "Podczas przesyłania coś poszło nie tak. Wyślij e-mail na adres support@signal.org i załącz dziennik jako plik tekstowy."
   },
@@ -1101,7 +1104,7 @@
     "messageformat": "Przypnij wiadomość"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin message"
+    "messageformat": "Odepnij wiadomość"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Zamknij ankietę"
@@ -1209,7 +1212,7 @@
     "messageformat": "Zanim opuścisz grupę, musisz wybrać co najmniej jednego nowego administratora."
   },
   "icu:PinnedMessageNotification__Message--You": {
-    "messageformat": "Przypięto wiadomość"
+    "messageformat": "Przypinasz wiadomość"
   },
   "icu:PinnedMessageNotification__Message--SomeoneElse": {
     "messageformat": "{sender} przypina wiadomość"
@@ -1233,7 +1236,7 @@
     "messageformat": "30 dni"
   },
   "icu:PinMessageDialog__Option--FOREVER": {
-    "messageformat": "Na zawsze"
+    "messageformat": "Zawsze"
   },
   "icu:PinMessageDialog__Cancel": {
     "messageformat": "Anuluj"
@@ -1241,11 +1244,23 @@
   "icu:PinMessageDialog__Pin": {
     "messageformat": "Przypnij"
   },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
+    "messageformat": "Replace oldest pin?"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
+    "messageformat": "Pinning this message will replace the oldest one."
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
+    "messageformat": "Continue"
+  },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
-    "messageformat": "{pinsCount, plural, one {przypięta wiadomość} few {przypięte wiadomości} many {przypiętych wiadomości} other {przypięte wiadomości}}"
+    "messageformat": "{pinsCount, plural, one {Przypięta wiadomość} few {Przypięte wiadomości} many {Przypięte wiadomości} other {Przypięte wiadomości}}"
   },
   "icu:PinnedMessagesBar__Tab__AccessibilityLabel": {
-    "messageformat": "Idź do przypiętej wiadomości {pinNumber,number}"
+    "messageformat": "Przejdź do przypiętej wiadomości {pinNumber,number}"
   },
   "icu:PinnedMessagesBar__GoToMessageClickableArea__AccessibilityLabel": {
     "messageformat": "Przejdź do wiadomości"
@@ -1260,55 +1275,67 @@
     "messageformat": "Przejdź do wiadomości"
   },
   "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
-    "messageformat": "Zobacz wszystkie wiadomości"
+    "messageformat": "Wyświetl wszystkie wiadomości"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Address": {
-    "messageformat": "Address"
+    "messageformat": "Adres"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "Wiadomość głosowa"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Gif": {
     "messageformat": "GIF"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
-    "messageformat": "File"
+    "messageformat": "Plik"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Contact": {
-    "messageformat": "Contact"
+    "messageformat": "Kontakt"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "Płatność"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Ankieta"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "Naklejka"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
-    "messageformat": "Photo"
+    "messageformat": "Zdjęcie"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Video": {
-    "messageformat": "Video"
+    "messageformat": "Wideo"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "Wiadomość głosowa"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Gif": {
     "messageformat": "GIF"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "Płatność"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "Naklejka"
   },
   "icu:PinnedMessagesPanel__Title": {
-    "messageformat": "Pinned messages"
+    "messageformat": "Przypięte wiadomości"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages": {
-    "messageformat": "Unpin all messages"
+    "messageformat": "Odepnij wszystkie wiadomości"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
+    "messageformat": "Unpin all messages?"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
+    "messageformat": "Messages will be unpinned for members of this chat."
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
+    "messageformat": "Unpin"
   },
   "icu:sessionEnded": {
     "messageformat": "Bezpieczna sesja zresetowana"
@@ -2539,6 +2566,12 @@
   },
   "icu:message--donation--preview--sent": {
     "messageformat": "Wpłacasz darowiznę w imieniu tej osoby: {recipient}"
+  },
+  "icu:message--pinned--preview--received": {
+    "messageformat": "{sender} pinned a message"
+  },
+  "icu:message--pinned--preview--sent": {
+    "messageformat": "You pinned a message"
   },
   "icu:message--donation": {
     "messageformat": "Darowizna"
@@ -5511,7 +5544,7 @@
     "messageformat": "Treść powiadomień"
   },
   "icu:PlaintextExport--PreferencesRow--Header": {
-    "messageformat": "Wyeksportuj historię czatu"
+    "messageformat": "Wyeksportuj historię czatów"
   },
   "icu:PlaintextExport--PreferencesRow--Description": {
     "messageformat": "Wyeksportuj kopię wszystkich czatów w formacie JSON do odczytu maszynowego. Znikające wiadomości nie zostaną wyeksportowane."
@@ -5523,10 +5556,10 @@
     "messageformat": "Wyeksportować historię czatu?"
   },
   "icu:PlaintextExport--Confirmation--Description": {
-    "messageformat": "<bold>UWAGA!</bold> NIE UDOSTĘPNIAJ nikomu tego pliku. Historia czatu zostanie zapisana na Twoim komputerze. Inne aplikacje mogą mieć do niej dostęp w zależności od przyznanych im uprawnień."
+    "messageformat": "<bold>UWAGA!</bold> NIE UDOSTĘPNIAJ nikomu tego pliku. Historia czatu zostanie zapisana na Twoim komputerze. Dostęp do niej mogą mieć inne aplikacje, co zależy od uprawnień przyznanych im w ustawieniach komputera."
   },
   "icu:PlaintextExport--Confirmation--IncludeMedia": {
-    "messageformat": "Dołącz multimedia <secondary>(większy rozmiar pliku)</secondary>"
+    "messageformat": "Uwzględnij multimedia <secondary>(plik będzie miał większy rozmiar)</secondary>"
   },
   "icu:PlaintextExport--Confirmation--ContinueButton": {
     "messageformat": "Kontynuuj"
@@ -5559,7 +5592,7 @@
     "messageformat": "Eksport zakończony"
   },
   "icu:PlaintextExport--CompleteDialog--Description": {
-    "messageformat": "Zapisz plik eksportu historii czatu w <bold>BEZPIECZNYM MIEJSCU</bold> i nikomu go nie udostępniaj. Dostęp do niego mogą mieć inne aplikacje w zależności od uprawnień skonfigurowanych w ustawieniach komputera. "
+    "messageformat": "Zapisz plik z eksportem historii czatu w <bold>BEZPIECZNYM MIEJSCU</bold> i nikomu go nie udostępniaj. Dostęp do tego pliku mogą mieć inne aplikacje, co zależy od uprawnień przyznanych im w ustawieniach komputera. "
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Mac": {
     "messageformat": "Pokaż w Finderze"
@@ -5592,7 +5625,7 @@
     "messageformat": "Nie można wyeksportować historii czatu"
   },
   "icu:PlaintextExport--Error--DiskPermssions--Detail": {
-    "messageformat": "Nie można wyeksportować historii czatu, ponieważ Signal nie ma uprawnień do zapisywania plików na dysku. Zmień uprawnienia dysku lub ustawienia systemowe, a następnie wyeksportuj ponownie."
+    "messageformat": "Nie można wyeksportować historii czatu, ponieważ Signal nie ma uprawnień do zapisywania plików na dysku. Zmień uprawnienia dostępu do dysku lub ustawienia systemowe, a następnie spróbuj ponownie."
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Ikona księżyca"
@@ -5910,7 +5943,7 @@
     "messageformat": "Gotowe"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "wyświetl kod kopii zapasowej"
+    "messageformat": "wyświetlić kod kopii zapasowej"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "Aby wyświetlić kod kopii zapasowej, zweryfikuj swoją tożsamość."
@@ -5964,7 +5997,7 @@
     "messageformat": "Skopiowano kod kopii zapasowej"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
-    "messageformat": "Włącz kopie zapasowe"
+    "messageformat": "włączyć kopie zapasowe"
   },
   "icu:Preferences__local-backups--enable--os-prompt--windows": {
     "messageformat": "Aby włączyć tworzenie kopii zapasowych, zweryfikuj swoją tożsamość."
@@ -5973,7 +6006,7 @@
     "messageformat": "Włącz kopie zapasowe"
   },
   "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
-    "messageformat": "Aby włączyć kopię zapasową, zweryfikuj swoją tożsamość."
+    "messageformat": "Aby włączyć tworzenie kopii zapasowych, zweryfikuj swoją tożsamość."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Wyświetl kod"
@@ -6964,7 +6997,7 @@
     "messageformat": "Edytowana"
   },
   "icu:MessageMetadata__pinned": {
-    "messageformat": "Pinned"
+    "messageformat": "Przypięte"
   },
   "icu:DraftGifMessageSendModal__Title": {
     "messageformat": "Dodaj wiadomość"
@@ -7474,88 +7507,106 @@
     "messageformat": "Możesz to zmienić na swoim urządzeniu mobilnym. Aby to zrobić, przejdź do sekcji Ustawienia → Wesprzyj Signal darowizną → Odznaki"
   },
   "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Zamknij"
   },
   "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
-    "messageformat": "Back"
+    "messageformat": "Wstecz"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
-    "messageformat": "How was your call?"
+    "messageformat": "Jaka była jakość połączenia?"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageDescription": {
-    "messageformat": "This helps us improve calls in Signal. No personally identifiable information will be stored."
+    "messageformat": "Twoja opinia pomoże nam ulepszyć połączenia w komunikatorze Signal. Z opinią nie zostaną powiązane żadne Twoje dane osobowe."
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__HadIssues": {
-    "messageformat": "Had issues"
+    "messageformat": "Mogła być lepsza"
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__Great": {
-    "messageformat": "Great"
+    "messageformat": "Doskonała"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__PageTitle": {
-    "messageformat": "What issues did you have?"
+    "messageformat": "Jakie problemy wystąpiły?"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__IssuesList__Heading": {
-    "messageformat": "Select all that apply"
+    "messageformat": "Wybierz wszystkie pasujące opcje"
   },
   "icu:CallQualitySurvey__Issue--AUDIO": {
-    "messageformat": "Audio issue"
+    "messageformat": "Problem z dźwiękiem"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_STUTTERING": {
-    "messageformat": "Audio stuttering"
+    "messageformat": "Zacinanie się dźwięku"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_LOCAL_ECHO": {
-    "messageformat": "I heard echo"
+    "messageformat": "Echo słyszalne u mnie"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_REMOTE_ECHO": {
-    "messageformat": "Others heard echo"
+    "messageformat": "Inni słyszeli echo"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_DROP": {
-    "messageformat": "Audio cut out"
+    "messageformat": "Przerywanie dźwięku"
   },
   "icu:CallQualitySurvey__Issue--VIDEO": {
-    "messageformat": "Video issue"
+    "messageformat": "Problem z wideo"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_NO_CAMERA": {
-    "messageformat": "Camera didn't work"
+    "messageformat": "Aparat nie działał"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_QUALITY": {
-    "messageformat": "Poor video quality"
+    "messageformat": "Niska jakość wideo"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_RESOLUTION": {
-    "messageformat": "Low resolution"
+    "messageformat": "Niska rozdzielczość"
   },
   "icu:CallQualitySurvey__Issue--CALL_DROPPED": {
-    "messageformat": "Call dropped"
+    "messageformat": "Przerwane połączenie"
   },
   "icu:CallQualitySurvey__Issue--OTHER": {
-    "messageformat": "Something else"
+    "messageformat": "Coś innego"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
-    "messageformat": "Issues description"
+    "messageformat": "Opis problemów"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
-    "messageformat": "Please include any details relevant to the issue. Anything you share here will be kept private and will only be used to help improve calls in Signal."
+    "messageformat": "Prosimy o podanie wszystkich istotnych szczegółów dotyczących problemu. Informacje te będą traktowane poufnie i zostaną wykorzystane wyłącznie do ulepszenia połączeń w aplikacji Signal."
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
+    "messageformat": "Please describe your issue"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
-    "messageformat": "Continue"
+    "messageformat": "Kontynuuj"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
+    "messageformat": "Make a selection to continue"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
-    "messageformat": "Help us improve"
+    "messageformat": "Pomóż nam ulepszyć Signal"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "This helps us learn more about calls and what is working or not working. You can view your debug log before submitting."
+    "messageformat": "Dzięki Twojemu dziennikowi debugowania będziemy mieć lepszy wgląd w to, jak działają połączenia i co możemy w nich poprawić. Zanim wyślesz nam dziennik debugowania, możesz go wyświetlić."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "Udostępnij dziennik debugowania"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "Wyświetl"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Debug logs contain low level app information and do not reveal any of your message contents."
+    "messageformat": "Dzienniki debugowania to zapis szczegółowych informacji o działaniu aplikacji. Nie zawierają one treści żadnych wiadomości."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
-    "messageformat": "Submit"
+    "messageformat": "Prześlij"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
+    "messageformat": "Submitting survey..."
+  },
+  "icu:CallQualitySurvey__SubmissionFailed": {
+    "messageformat": "Failed to submit survey"
+  },
+  "icu:CallQualitySurvey__SubmissionFailed__Retry": {
+    "messageformat": "Retry"
+  },
+  "icu:CallQualitySurvey__SubmissionSuccess": {
+    "messageformat": "Thanks for your feedback!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ta wersja obejmuje wiele drobnych ulepszeń i poprawek błędów. Wszystko po to, aby aplikacja Signal działała płynnie.",
@@ -7585,16 +7636,7 @@
     "messageformat": "Drobne ulepszenia, poprawki błędów i większa funkcjonalność. Cieszymy się, że korzystasz z aplikacji Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.79-1": {
-    "messageformat": "Zaktualizowaliśmy wygląd i poprawiliśmy wizualną spójność wszystkich pasków przewijania w aplikacji. Zwykle jest tak, że przez zbyt szybkie przewijanie możemy coś przeoczyć, ale w tym przypadku żeby to zobaczyć, musisz poprzewijać."
-  },
-  "icu:WhatsNew__7.79-2": {
-    "messageformat": "Ulepszyliśmy funkcje kopiowania i wklejania, aby ułatwić zaznaczanie oraz zastępowanie tekstu bez poprzedniego formatowania. Dzięki, <brianHarder></brianHarder>!"
-  },
-  "icu:WhatsNew__7.80-1": {
-    "messageformat": "Przedstawiamy ankiety Signal. Czy w Waszej grupie panuje jednomyślność? Sprawdźmy, jak odpowiadali ankietowani. Ankiety to łatwy sposób na zbadanie nastrojów w czacie grupowym. Spytaj, dokąd Twoi znajomi chcieliby pójść na pizzę bądź wyjechać na długi weekend. Poznaj ich gusta muzyczne lub dowiedz się, czy wakacje wolą spędzić w górach, czy nad morzem. Ankiety pomogą Wam podjąć każdą decyzję. Wszyscy w grupie mogą głosować i wyświetlać odpowiedzi innych, a Ty możesz zdecydować, czy zezwolić na udzielanie wielu odpowiedzi."
-  },
-  "icu:WhatsNew__7.81-1": {
-    "messageformat": "Dodaliśmy do galerii multimediów dwie nowe zakładki: jedną na wiadomości zawierające audio, a drugą na linki. Od teraz wszystkie linki do rickrolla wysłane w grupie będą w jednym miejscu."
+  "icu:WhatsNew__7.84--0": {
+    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
   }
 }
