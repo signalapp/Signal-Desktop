@@ -1704,7 +1704,7 @@
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Address": {
     "messageformat": "Address",
-    "description": "Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Symbol Accessibility Label (Address)"
+    "description": "(Deleted 2025/12/18) Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Symbol Accessibility Label (Address)"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
     "messageformat": "Voice message",
@@ -1720,7 +1720,7 @@
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Contact": {
     "messageformat": "Contact",
-    "description": "Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Symbol Accessibility Label (Contact)"
+    "description": "(Deleted 2025/12/18) Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Symbol Accessibility Label (Contact)"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
     "messageformat": "Payment",

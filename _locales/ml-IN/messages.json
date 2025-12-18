@@ -539,6 +539,9 @@
   "icu:debugLogExplanation": {
     "messageformat": "സമർപ്പിക്കുക എന്നതിൽ നിങ്ങൾ ക്ലിക്ക് ചെയ്യുമ്പോൾ, നിങ്ങളുടെ ലോഗ് 30 ദിവസത്തേക്ക് തനതും പ്രസിദ്ധീകരിക്കാത്തതുമായ ഒരു URL-ൽ ഓൺലൈനിൽ പോസ്റ്റ് ചെയ്യും. നിങ്ങൾ അത് ആദ്യം പ്രാദേശികമായി സംരക്ഷിക്കേണ്ടതാണ്."
   },
+  "icu:debugLogExplanation--close": {
+    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+  },
   "icu:debugLogError": {
     "messageformat": "അപ്‌ലോഡ് ചെയ്‌തതിൽ എന്തോ കുഴപ്പം സംഭവിച്ചു! നിങ്ങളുടെ ലോഗ് ഒരു ടെക്സ്റ്റ് ഫയലായി അറ്റാച്ച് ചെയ്‌ത്, support@signal.org എന്ന വിലാസത്തിലേക്ക് ഇമെയിൽ അയയ്‌ക്കുക."
   },
@@ -1101,7 +1104,7 @@
     "messageformat": "സന്ദേശം പിൻ ചെയ്യുക"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin message"
+    "messageformat": "സന്ദേശം അൺപിൻ ചെയ്യുക"
   },
   "icu:Poll__end-poll": {
     "messageformat": "പോൾ അവസാനിപ്പിക്കുക"
@@ -1241,6 +1244,18 @@
   "icu:PinMessageDialog__Pin": {
     "messageformat": "പിൻ ചെയ്യുക"
   },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
+    "messageformat": "Replace oldest pin?"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
+    "messageformat": "Pinning this message will replace the oldest one."
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
+    "messageformat": "Continue"
+  },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {പിൻ ചെയ്ത സന്ദേശം} other {പിൻ ചെയ്ത സന്ദേശങ്ങൾ}}"
   },
@@ -1263,52 +1278,64 @@
     "messageformat": "എല്ലാ സന്ദേശങ്ങളും കാണുക"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Address": {
-    "messageformat": "Address"
+    "messageformat": "മേൽവിലാസം"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "ശബ്ദ സന്ദേശം"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Gif": {
     "messageformat": "GIF"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
-    "messageformat": "File"
+    "messageformat": "ഫയൽ"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Contact": {
-    "messageformat": "Contact"
+    "messageformat": "കോൺ‌ടാക്റ്റ്"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "പേയ്മെന്റ്"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Poll": {
-    "messageformat": "Poll"
+    "messageformat": "പോൾ"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "സ്റ്റിക്കർ"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
-    "messageformat": "Photo"
+    "messageformat": "ഫോട്ടോ"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Video": {
-    "messageformat": "Video"
+    "messageformat": "വീഡിയോ"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "ശബ്ദ സന്ദേശം"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Gif": {
     "messageformat": "GIF"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "പേയ്മെന്റ്"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "സ്റ്റിക്കർ"
   },
   "icu:PinnedMessagesPanel__Title": {
-    "messageformat": "Pinned messages"
+    "messageformat": "പിൻ ചെയ്ത സന്ദേശങ്ങൾ"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages": {
-    "messageformat": "Unpin all messages"
+    "messageformat": "എല്ലാ സന്ദേശങ്ങളും അൺപിൻ ചെയ്യുക"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
+    "messageformat": "Unpin all messages?"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
+    "messageformat": "Messages will be unpinned for members of this chat."
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
+    "messageformat": "Unpin"
   },
   "icu:sessionEnded": {
     "messageformat": "സെഷൻ പുനഃക്രമീകരിക്കുക സുരക്ഷിതമാക്കുക "
@@ -2539,6 +2566,12 @@
   },
   "icu:message--donation--preview--sent": {
     "messageformat": "നിങ്ങൾ {recipient} എന്നയാൾക്ക് സംഭാവന നൽകി"
+  },
+  "icu:message--pinned--preview--received": {
+    "messageformat": "{sender} pinned a message"
+  },
+  "icu:message--pinned--preview--sent": {
+    "messageformat": "You pinned a message"
   },
   "icu:message--donation": {
     "messageformat": "സംഭാവന"
@@ -6964,7 +6997,7 @@
     "messageformat": "എഡിറ്റ് ചെയ്തത്"
   },
   "icu:MessageMetadata__pinned": {
-    "messageformat": "Pinned"
+    "messageformat": "പിൻ ചെയ്‌തു"
   },
   "icu:DraftGifMessageSendModal__Title": {
     "messageformat": "ഒരു സന്ദേശം ചേര്‍ക്കുക"
@@ -7474,88 +7507,106 @@
     "messageformat": "നിങ്ങളുടെ മൊബൈൽ ഉപകരണത്തിൽ ക്രമീകരണങ്ങൾ → Signal-ലേക്ക് സംഭാവന ചെയ്യുക → ബാഡ്ജുകൾ എന്നതിന് കീഴിൽ ഇത് ക്രമീകരിക്കാം"
   },
   "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "അടയ്ക്കുക"
   },
   "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
-    "messageformat": "Back"
+    "messageformat": "തിരികെ പോകുക"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
-    "messageformat": "How was your call?"
+    "messageformat": "നിങ്ങളുടെ കോൾ എങ്ങനെയുണ്ടായിരുന്നു?"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageDescription": {
-    "messageformat": "This helps us improve calls in Signal. No personally identifiable information will be stored."
+    "messageformat": "ഇത് Signal-ലെ കോളുകൾ മെച്ചപ്പെടുത്താൻ ഞങ്ങളെ സഹായിക്കുന്നു. വ്യക്തിപരമായി തിരിച്ചറിയാൻ കഴിയുന്ന വിവരങ്ങളൊന്നും സൂക്ഷിക്കില്ല."
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__HadIssues": {
-    "messageformat": "Had issues"
+    "messageformat": "പ്രശ്നങ്ങൾ ഉണ്ടായിരുന്നു"
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__Great": {
-    "messageformat": "Great"
+    "messageformat": "കൊള്ളാം"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__PageTitle": {
-    "messageformat": "What issues did you have?"
+    "messageformat": "നിങ്ങൾക്ക് എന്തൊക്കെ പ്രശ്‌നങ്ങളാണ് ഉണ്ടായിരുന്നത്?"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__IssuesList__Heading": {
-    "messageformat": "Select all that apply"
+    "messageformat": "ബാധകമായതെല്ലാം തിരഞ്ഞെടുക്കുക"
   },
   "icu:CallQualitySurvey__Issue--AUDIO": {
-    "messageformat": "Audio issue"
+    "messageformat": "ഓഡിയോ പ്രശ്നം"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_STUTTERING": {
-    "messageformat": "Audio stuttering"
+    "messageformat": "ഓഡിയോ ഇടർച്ച"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_LOCAL_ECHO": {
-    "messageformat": "I heard echo"
+    "messageformat": "ഞാൻ എക്കോ കേട്ടു"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_REMOTE_ECHO": {
-    "messageformat": "Others heard echo"
+    "messageformat": "മറ്റുള്ളവർ എക്കോ കേട്ടു"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_DROP": {
-    "messageformat": "Audio cut out"
+    "messageformat": "ഓഡിയോ കട്ട് ഔട്ട്"
   },
   "icu:CallQualitySurvey__Issue--VIDEO": {
-    "messageformat": "Video issue"
+    "messageformat": "വീഡിയോ പ്രശ്നം"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_NO_CAMERA": {
-    "messageformat": "Camera didn't work"
+    "messageformat": "ക്യാമറ പ്രവർത്തിച്ചില്ല"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_QUALITY": {
-    "messageformat": "Poor video quality"
+    "messageformat": "മോശം വീഡിയോ നിലവാരം"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_RESOLUTION": {
-    "messageformat": "Low resolution"
+    "messageformat": "കുറഞ്ഞ റെസല്യൂഷൻ"
   },
   "icu:CallQualitySurvey__Issue--CALL_DROPPED": {
-    "messageformat": "Call dropped"
+    "messageformat": "കോൾ ഡ്രോപ്പ് ചെയ്‌തു"
   },
   "icu:CallQualitySurvey__Issue--OTHER": {
-    "messageformat": "Something else"
+    "messageformat": "വേറെ എന്തെങ്കിലും"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
-    "messageformat": "Issues description"
+    "messageformat": "പ്രശ്നങ്ങളുടെ വിവരണം"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
-    "messageformat": "Please include any details relevant to the issue. Anything you share here will be kept private and will only be used to help improve calls in Signal."
+    "messageformat": "പ്രശ്നവുമായി ബന്ധപ്പെട്ട എന്തെങ്കിലും വിശദാംശങ്ങൾ ഉൾപ്പെടുത്തുക. നിങ്ങൾ ഇവിടെ പങ്കിടുന്ന എന്തും സ്വകാര്യമായി സൂക്ഷിക്കും, Signal-ലെ കോളുകൾ മെച്ചപ്പെടുത്താൻ മാത്രമേ അത് ഉപയോഗിക്കൂ."
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
+    "messageformat": "Please describe your issue"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
-    "messageformat": "Continue"
+    "messageformat": "തുടരുക"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
+    "messageformat": "Make a selection to continue"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
-    "messageformat": "Help us improve"
+    "messageformat": "മെച്ചപ്പെടുത്താൻ ഞങ്ങളെ സഹായിക്കൂ"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "This helps us learn more about calls and what is working or not working. You can view your debug log before submitting."
+    "messageformat": "കോളുകളെക്കുറിച്ചും എന്താണ് പ്രവർത്തിക്കുന്നത് അല്ലെങ്കിൽ പ്രവർത്തിക്കാത്തത് എന്നതിനെക്കുറിച്ചും കൂടുതലറിയാൻ ഇത് ഞങ്ങളെ സഹായിക്കുന്നു. സമർപ്പിക്കുന്നതിന് മുമ്പ് നിങ്ങളുടെ ഡീബഗ് ലോഗ് കാണാൻ കഴിയും."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "ഡീബഗ് ലോഗ് പങ്കിടുക"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "കാണുക"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Debug logs contain low level app information and do not reveal any of your message contents."
+    "messageformat": "ഡീബഗ് ലോഗുകളിൽ താഴ്ന്ന നിലയിലുള്ള ആപ്പ് വിവരങ്ങൾ അടങ്ങിയിരിക്കുന്നു, നിങ്ങളുടെ സന്ദേശ ഉള്ളടക്കങ്ങളൊന്നും അവ വെളിപ്പെടുത്തുന്നില്ല."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
-    "messageformat": "Submit"
+    "messageformat": "സമർപ്പിക്കുക"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
+    "messageformat": "Submitting survey..."
+  },
+  "icu:CallQualitySurvey__SubmissionFailed": {
+    "messageformat": "Failed to submit survey"
+  },
+  "icu:CallQualitySurvey__SubmissionFailed__Retry": {
+    "messageformat": "Retry"
+  },
+  "icu:CallQualitySurvey__SubmissionSuccess": {
+    "messageformat": "Thanks for your feedback!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal സുഗമമായി പ്രവർത്തിപ്പിക്കുന്നതിന് ആവശ്യമായ ഏതാനും ചെറിയ മാറ്റങ്ങളും ബഗ് ഫിക്‌സുകളും ഈ പതിപ്പിൽ അടങ്ങിയിട്ടുണ്ട്.",
@@ -7585,16 +7636,7 @@
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.79-1": {
-    "messageformat": "ആപ്പിലുടനീളം സ്ക്രോൾബാറുകളുടെ രൂപഭാവവും സ്റ്റൈലിസ്റ്റിക് സ്ഥിരതയും ഞങ്ങൾ അപ്ഡേറ്റ് ചെയ്തു. സാധാരണയായി നിങ്ങൾ വളരെ വേഗത്തിൽ സ്ക്രോൾ ചെയ്താൽ നിങ്ങൾക്ക് എന്തെങ്കിലും നഷ്ടപ്പെട്ടേക്കാം, എന്നാൽ ഈ സാഹചര്യത്തിൽ സ്ക്രോളിംഗ് വഴി മാത്രമേ അത് കാണാനാകൂ."
-  },
-  "icu:WhatsNew__7.79-2": {
-    "messageformat": "പഴയ ഫോർമാറ്റിംഗ് ഉപയോഗിക്കാതെ തന്നെ, എല്ലാം തിരഞ്ഞെടുത്ത് നിലവിലുള്ള വാചകം മാറ്റിസ്ഥാപിക്കുന്നത് കോപ്പി/പേസ്റ്റ് മെച്ചപ്പെടുത്തലുകൾ എളുപ്പമാക്കുന്നു. നന്ദി, <brianHarder></brianHarder>!"
-  },
-  "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal പോളുകൾ ഇതാ! നിങ്ങളും നിങ്ങളുടെ സുഹൃത്തുക്കളും ഒരേ പേജിലാണോ, അതോ നിങ്ങൾ വിപരീത ദിശയിലാണോ? നിങ്ങളുടെ ഗ്രൂപ്പ് ചാറ്റ് യഥാർത്ഥത്തിൽ എന്താണ് ചിന്തിക്കുന്നതെന്ന് കാണാനുള്ള എളുപ്പവഴിയാണ് പോളുകൾ. ഒന്നിനൊന്നു മികച്ച ഡിന്നർ ഓപ്ഷനുകൾ, വെക്കേഷൻ ഡെസ്റ്റിനേഷനുകൾ, വരാനിരിക്കുന്ന റോഡ് യാത്രയ്ക്കുള്ള സംഗീത മുൻഗണനകൾ അല്ലെങ്കിൽ മറ്റ് പ്രധാനപ്പെട്ട ചോയിസുകള്‍ എന്നിവ ഉൾപ്പെടുത്തി ഒരു പോൾ സൃഷ്ടിക്കുക. ഗ്രൂപ്പിലെ എല്ലാവർക്കും വോട്ട് ചെയ്യാനും പരസ്പരം പ്രതികരണങ്ങൾ കാണാനും കഴിയും, ഒന്നിലധികം വോട്ടുകൾ അനുവദിക്കണോ വേണ്ടയോ എന്ന് നിങ്ങൾക്ക് തീരുമാനിക്കാം."
-  },
-  "icu:WhatsNew__7.81-1": {
-    "messageformat": "മീഡിയ ഗാലറിയിൽ ഇപ്പോൾ ഓഡിയോ സന്ദേശങ്ങൾക്കും ലിങ്ക് പ്രിവ്യൂകൾക്കുമായി രണ്ട് പുതിയ ടാബുകൾ ഉൾപ്പെടുത്തിയിട്ടുണ്ട്. ഒരു ഗ്രൂപ്പ് ചാറ്റിൽ ഒരു ലിങ്ക് വീണാൽ, അത് ശബ്ദമുണ്ടാക്കുമോ?"
+  "icu:WhatsNew__7.84--0": {
+    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
   }
 }
