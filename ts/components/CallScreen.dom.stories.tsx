@@ -28,6 +28,7 @@ import { CallScreen as UnwrappedCallScreen } from './CallScreen.dom.js';
 import { DEFAULT_PREFERRED_REACTION_EMOJI } from '../reactions/constants.std.js';
 import { missingCaseError } from '../util/missingCaseError.std.js';
 import {
+  getAvatarPath,
   getDefaultConversation,
   getDefaultConversationWithServiceId,
 } from '../test-helpers/getDefaultConversation.std.js';
@@ -55,6 +56,7 @@ const conversation = getDefaultConversation({
 });
 
 type OverridePropsBase = {
+  conversation?: ConversationType;
   hasLocalAudio?: boolean;
   hasLocalVideo?: boolean;
   localAudioLevel?: number;
@@ -96,7 +98,6 @@ const createActiveDirectCallProp = (
   overrideProps: DirectCallOverrideProps
 ) => ({
   callMode: CallMode.Direct as CallMode.Direct,
-  conversation,
   callState: overrideProps.callState ?? CallState.Accepted,
   peekedParticipants: [] as [],
   remoteAudioLevel: overrideProps.remoteAudioLevel ?? 0,
@@ -189,7 +190,7 @@ const createActiveCallProp = (
 ) => {
   const baseResult = {
     joinedAt: Date.now() - MINUTE,
-    conversation,
+    conversation: overrideProps.conversation ?? conversation,
     hasLocalAudio: overrideProps.hasLocalAudio ?? false,
     hasLocalVideo: overrideProps.hasLocalVideo ?? false,
     localAudioLevel: overrideProps.localAudioLevel ?? 0,
@@ -299,6 +300,20 @@ export function PreRing(): JSX.Element {
   );
 }
 
+export function PreRingWithAvatar(): JSX.Element {
+  return (
+    <CallScreen
+      {...createProps({
+        callMode: CallMode.Direct,
+        callState: CallState.Prering,
+        conversation: getDefaultConversation({
+          avatarUrl: getAvatarPath(),
+        }),
+      })}
+    />
+  );
+}
+
 export function DirectRinging(): JSX.Element {
   return (
     <CallScreen
@@ -310,12 +325,40 @@ export function DirectRinging(): JSX.Element {
   );
 }
 
+export function DirectRingingWithAvatar(): JSX.Element {
+  return (
+    <CallScreen
+      {...createProps({
+        callMode: CallMode.Direct,
+        callState: CallState.Ringing,
+        conversation: getDefaultConversation({
+          avatarUrl: getAvatarPath(),
+        }),
+      })}
+    />
+  );
+}
+
 export function Reconnecting(): JSX.Element {
   return (
     <CallScreen
       {...createProps({
         callMode: CallMode.Direct,
         callState: CallState.Reconnecting,
+      })}
+    />
+  );
+}
+
+export function ReconnectingWithAvatar(): JSX.Element {
+  return (
+    <CallScreen
+      {...createProps({
+        callMode: CallMode.Direct,
+        callState: CallState.Reconnecting,
+        conversation: getDefaultConversation({
+          avatarUrl: getAvatarPath(),
+        }),
       })}
     />
   );
