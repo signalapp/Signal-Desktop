@@ -33,6 +33,8 @@ import type { WidthBreakpoint } from '../../components/_util.std.js';
 import { getToast } from '../selectors/toast.std.js';
 import { useDonationsActions } from '../ducks/donations.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { getVisibleMegaphonesForDisplay } from '../selectors/megaphones.preload.js';
+import { useMegaphonesActions } from '../ducks/megaphones.preload.js';
 
 export type SmartPropsType = Readonly<{
   disableMegaphone?: boolean;
@@ -60,6 +62,8 @@ export const SmartToastManager = memo(function SmartToastManager({
   const { username } = useSelector(getMe);
   const selectedNavTab = useSelector(getSelectedNavTab);
   const selectedConversationId = useSelector(getSelectedConversationId);
+  const megaphones = useSelector(getVisibleMegaphonesForDisplay);
+
   const { changeLocation } = useNavActions();
   const { setDidResume } = useDonationsActions();
 
@@ -67,6 +71,7 @@ export const SmartToastManager = memo(function SmartToastManager({
   const { retryCallQualitySurvey } = useCallingActions();
   const { openFileInFolder, hideToast } = useToastActions();
   const { toggleUsernameOnboarding } = useGlobalModalActions();
+  const { interactWithMegaphone } = useMegaphonesActions();
 
   let megaphone: AnyActionableMegaphone | undefined;
 
@@ -81,6 +86,12 @@ export const SmartToastManager = memo(function SmartToastManager({
       onDismiss: () => {
         drop(itemStorage.put('hasCompletedUsernameOnboarding', true));
       },
+    };
+  } else if (megaphones.length > 0) {
+    megaphone = {
+      ...megaphones[0],
+      type: MegaphoneType.Remote,
+      onInteractWithMegaphone: interactWithMegaphone,
     };
   }
 

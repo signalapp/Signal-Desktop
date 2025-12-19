@@ -112,6 +112,9 @@ window.testUtilities = {
         isFullScreen: false,
         isMaximized: false,
       },
+      megaphones: {
+        visibleMegaphones: [],
+      },
       menuOptions: {
         development: false,
         devTools: false,

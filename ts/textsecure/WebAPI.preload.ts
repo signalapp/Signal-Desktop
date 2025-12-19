@@ -114,8 +114,7 @@ import { badgeFromServerSchema } from '../badges/parseBadgesFromServer.std.js';
 import { ZERO_DECIMAL_CURRENCIES } from '../util/currency.dom.js';
 import type { JobCancelReason } from '../jobs/types.std.js';
 import {
-  RemoteMegaphoneSecondaryCtaDataSchema,
-  RemoteMegaphoneUnknownCtaDataSchema,
+  RemoteMegaphoneCtaDataSchema,
   type RemoteMegaphoneId,
 } from '../types/Megaphone.std.js';
 
@@ -1441,9 +1440,9 @@ export const releaseNotesManifestSchema = z.object({
       showForNumberOfDays: z.number().nonnegative(),
       conditionalId: z.string().optional(),
       primaryCtaId: z.string().optional(),
-      primaryCtaData: RemoteMegaphoneUnknownCtaDataSchema.optional(),
+      primaryCtaData: RemoteMegaphoneCtaDataSchema.optional(),
       secondaryCtaId: z.string().optional(),
-      secondaryCtaData: RemoteMegaphoneSecondaryCtaDataSchema.optional(),
+      secondaryCtaData: RemoteMegaphoneCtaDataSchema.optional(),
     })
     .array(),
 });

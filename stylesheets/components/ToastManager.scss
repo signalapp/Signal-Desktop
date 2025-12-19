@@ -49,3 +49,11 @@
 .ToastManager--full-screen-call {
   bottom: calc(variables.$CallControls__height + 32px);
 }
+
+.ToastManager--megaphones {
+  padding: 12px;
+}
+
+.ToastManager--megaphones.ToastManager--narrow-sidebar {
+  padding: 10px;
+}

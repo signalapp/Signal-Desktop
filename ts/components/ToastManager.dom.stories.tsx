@@ -8,7 +8,11 @@ import { action } from '@storybook/addon-actions';
 import { ToastManager } from './ToastManager.dom.js';
 import type { AnyToast } from '../types/Toast.dom.js';
 import { ToastType } from '../types/Toast.dom.js';
-import type { AnyActionableMegaphone } from '../types/Megaphone.std.js';
+import type {
+  AnyActionableMegaphone,
+  MegaphoneCtaId,
+  RemoteMegaphoneId,
+} from '../types/Megaphone.std.js';
 import { MegaphoneType } from '../types/Megaphone.std.js';
 import { missingCaseError } from '../util/missingCaseError.std.js';
 import type { PropsType } from './ToastManager.dom.js';
@@ -281,6 +285,19 @@ function getMegaphone(megaphoneType: MegaphoneType): AnyActionableMegaphone {
         type: megaphoneType,
         onLearnMore: action('onLearnMore'),
         onDismiss: action('onDismiss'),
+      };
+    case MegaphoneType.Remote:
+      return {
+        type: megaphoneType,
+        remoteMegaphoneId: 'a' as RemoteMegaphoneId,
+        primaryCtaId: 'donate' as MegaphoneCtaId,
+        secondaryCtaId: 'snooze' as MegaphoneCtaId,
+        primaryCtaText: 'Donate',
+        secondaryCtaText: 'Not now',
+        title: 'Donate Today',
+        body: 'As a nonprofit, Signal needs your support',
+        imagePath: '/fixtures/orange-heart.svg',
+        onInteractWithMegaphone: action('onInteractWithMegaphone'),
       };
     default:
       throw missingCaseError(megaphoneType);

@@ -173,6 +173,40 @@ export function updateMegaphone(
   db.prepare(query).run(params);
 }
 
+export function finishMegaphone(
+  db: WritableDB,
+  megaphoneId: RemoteMegaphoneId
+): void {
+  const [query, params] = sql`
+    UPDATE megaphones
+    SET isFinished = 1
+    WHERE id = ${megaphoneId}
+  `;
+  const result = db.prepare(query).run(params);
+  strictAssert(
+    result.changes === 1,
+    `finishMegaphone: Expected changes: 1, Actual: ${result.changes}`
+  );
+}
+
+export function snoozeMegaphone(
+  db: WritableDB,
+  megaphoneId: RemoteMegaphoneId
+): void {
+  const [query, params] = sql`
+    UPDATE megaphones
+    SET
+      snoozedAt = ${Date.now()},
+      snoozeCount = snoozeCount + 1
+    WHERE id = ${megaphoneId}
+  `;
+  const result = db.prepare(query).run(params);
+  strictAssert(
+    result.changes === 1,
+    `snoozeMegaphone: Expected changes: 1, Actual: ${result.changes}`
+  );
+}
+
 export function deleteMegaphone(
   db: WritableDB,
   megaphoneId: RemoteMegaphoneId

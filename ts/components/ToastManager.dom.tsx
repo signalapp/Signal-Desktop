@@ -23,6 +23,7 @@ import type { AnyActionableMegaphone } from '../types/Megaphone.std.js';
 import type { Location } from '../types/Nav.std.js';
 import { I18n } from './I18n.dom.js';
 import { UserText } from './UserText.dom.js';
+import { RemoteMegaphone } from './RemoteMegaphone.dom.js';
 
 export type PropsType = {
   changeLocation: (newLocation: Location) => unknown;
@@ -946,6 +947,7 @@ export function renderToast({
 export function renderMegaphone({
   i18n,
   megaphone,
+  containerWidthBreakpoint,
 }: PropsType): JSX.Element | null {
   if (!megaphone) {
     return null;
@@ -955,7 +957,17 @@ export function renderMegaphone({
     return <UsernameMegaphone i18n={i18n} {...megaphone} />;
   }
 
-  throw missingCaseError(megaphone.type);
+  if (megaphone.type === MegaphoneType.Remote) {
+    return (
+      <RemoteMegaphone
+        {...megaphone}
+        i18n={i18n}
+        isFullSize={containerWidthBreakpoint !== WidthBreakpoint.Narrow}
+      />
+    );
+  }
+
+  throw missingCaseError(megaphone);
 }
 
 export function ToastManager(props: PropsType): JSX.Element {
@@ -964,31 +976,43 @@ export function ToastManager(props: PropsType): JSX.Element {
     containerWidthBreakpoint,
     isCompositionAreaVisible,
     isInFullScreenCall,
+    megaphone,
   } = props;
 
   const toast = renderToast(props);
 
   return (
-    <div
-      className={classNames('ToastManager', {
-        'ToastManager--narrow-sidebar':
-          containerWidthBreakpoint === WidthBreakpoint.Narrow,
-        'ToastManager--composition-area-visible': isCompositionAreaVisible,
-      })}
-    >
-      {centerToast
-        ? createPortal(
-            <div
-              className={classNames('ToastManager__root', {
-                'ToastManager--full-screen-call': isInFullScreenCall,
-              })}
-            >
-              {toast}
-            </div>,
-            document.body
-          )
-        : toast}
-      {renderMegaphone(props)}
-    </div>
+    <>
+      {megaphone && (
+        <div
+          className={classNames('ToastManager', 'ToastManager--megaphones', {
+            'ToastManager--narrow-sidebar':
+              containerWidthBreakpoint === WidthBreakpoint.Narrow,
+          })}
+        >
+          {renderMegaphone(props)}
+        </div>
+      )}
+      <div
+        className={classNames('ToastManager', {
+          'ToastManager--narrow-sidebar':
+            containerWidthBreakpoint === WidthBreakpoint.Narrow,
+          'ToastManager--composition-area-visible': isCompositionAreaVisible,
+        })}
+      >
+        {centerToast
+          ? createPortal(
+              <div
+                className={classNames('ToastManager__root', {
+                  'ToastManager--full-screen-call': isInFullScreenCall,
+                })}
+              >
+                {toast}
+              </div>,
+              document.body
+            )
+          : toast}
+      </div>
+    </>
   );
 }

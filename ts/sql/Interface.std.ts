@@ -1353,6 +1353,8 @@ type WritableInterface = {
   createMegaphone: (megaphone: RemoteMegaphoneType) => void;
   updateMegaphone: (megaphone: RemoteMegaphoneType) => void;
   deleteMegaphone: (megaphoneId: RemoteMegaphoneId) => void;
+  finishMegaphone: (megaphoneId: RemoteMegaphoneId) => void;
+  snoozeMegaphone: (megaphoneId: RemoteMegaphoneId) => void;
   internalDeleteAllMegaphones: () => number;
 
   appendPinnedMessage: (
