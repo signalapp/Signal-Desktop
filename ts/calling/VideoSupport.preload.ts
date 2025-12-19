@@ -471,12 +471,36 @@ export class CanvasVideoRenderer {
       return;
     }
 
+    const aspectRatio = width / height;
+
+    const { parentElement } = canvas;
+    let parentAspectRatio = 1;
+
+    if (parentElement) {
+      parentAspectRatio =
+        parentElement.clientWidth / parentElement.clientHeight;
+    }
+
+    let style;
+    if (aspectRatio >= 1) {
+      // landscape
+      style = 'width: 100%';
+    } else {
+      // portrait
+      style = 'height: 100%';
+    }
+    // container is more landscape than video
+    if (aspectRatio > 1 && parentAspectRatio > aspectRatio) {
+      style = 'height: 100%';
+    }
+    // container is more portait than video
+    if (aspectRatio < 1 && parentAspectRatio < aspectRatio) {
+      style = 'width: 100%';
+    }
+
     canvas.width = width;
     canvas.height = height;
-    canvas.setAttribute(
-      'style',
-      width >= height ? 'width: 100%' : 'height: 100%'
-    );
+    canvas.setAttribute('style', style);
 
     if (this.imageData?.width !== width || this.imageData?.height !== height) {
       this.imageData = new ImageData(width, height);
