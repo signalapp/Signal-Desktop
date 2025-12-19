@@ -270,6 +270,8 @@ import {
   createMegaphone,
   updateMegaphone,
   deleteMegaphone,
+  finishMegaphone,
+  snoozeMegaphone,
   internalDeleteAllMegaphones,
   getAllMegaphoneImageLocalPaths,
   hasMegaphone,
@@ -752,6 +754,8 @@ export const DataWriter: ServerWritableInterface = {
   createMegaphone,
   updateMegaphone,
   deleteMegaphone,
+  finishMegaphone,
+  snoozeMegaphone,
   internalDeleteAllMegaphones,
 
   appendPinnedMessage,

@@ -20,6 +20,7 @@ import type { StickersStateType } from './ducks/stickers.preload.js';
 import type { GifsStateType } from './ducks/gifs.preload.js';
 import type { NotificationProfileType } from '../types/NotificationProfile.std.js';
 import type { CurrentChatFolder } from '../types/CurrentChatFolders.std.js';
+import type { MegaphonesStateType } from './ducks/megaphones.preload.js';
 
 export type ReduxInitData = {
   badgesState: BadgesStateType;
@@ -30,6 +31,7 @@ export type ReduxInitData = {
   donations: DonationsStateType;
   gifs: GifsStateType;
   mainWindowStats: MainWindowStatsType;
+  megaphones: MegaphonesStateType;
   menuOptions: MenuOptionsType;
   notificationProfiles: ReadonlyArray<NotificationProfileType>;
   recentEmoji: RecentEmojiObjectType;
@@ -89,6 +91,7 @@ export function initializeRedux(data: ReduxInitData): void {
       actionCreators.mediaGallery,
       store.dispatch
     ),
+    megaphones: bindActionCreators(actionCreators.megaphones, store.dispatch),
     nav: bindActionCreators(actionCreators.nav, store.dispatch),
     network: bindActionCreators(actionCreators.network, store.dispatch),
     pinnedMessages: bindActionCreators(

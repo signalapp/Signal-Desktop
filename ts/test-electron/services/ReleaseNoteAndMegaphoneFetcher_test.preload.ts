@@ -80,7 +80,7 @@ describe('ReleaseNoteAndMegaphoneFetcher', () => {
       title: string;
       body: string;
       image?: string;
-      primaryCtaTest?: string;
+      primaryCtaText?: string;
       secondaryCtaText?: string;
     };
     releaseNote?: {
@@ -159,7 +159,7 @@ describe('ReleaseNoteAndMegaphoneFetcher', () => {
           title: 'megaphone',
           body: 'cats',
           image: 'https://signal.org/axolotl.png',
-          primaryCtaTest: 'donate',
+          primaryCtaText: 'donate',
           secondaryCtaText: 'snooze',
         }
       ),
@@ -469,7 +469,7 @@ describe('ReleaseNoteAndMegaphoneFetcher', () => {
             title: 'megaphone',
             body: 'cats',
             image: 'https://signal.org/axolotl.png',
-            primaryCtaTest: 'donate',
+            primaryCtaText: 'donate',
             secondaryCtaText: 'snooze',
           },
         });
@@ -550,7 +550,8 @@ describe('ReleaseNoteAndMegaphoneFetcher', () => {
             uuid: megaphoneForMyCountry.uuid,
             title: 'megaphone',
             body: 'cats',
-            primaryCtaTest: 'donate',
+            image: 'https://signal.org/axolotl.png',
+            primaryCtaText: 'donate',
             secondaryCtaText: 'snooze',
           },
         });

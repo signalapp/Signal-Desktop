@@ -28,6 +28,7 @@ import type { actions as items } from './ducks/items.preload.js';
 import type { actions as lightbox } from './ducks/lightbox.preload.js';
 import type { actions as linkPreviews } from './ducks/linkPreviews.preload.js';
 import type { actions as mediaGallery } from './ducks/mediaGallery.preload.js';
+import type { actions as megaphones } from './ducks/megaphones.preload.js';
 import type { actions as nav } from './ducks/nav.std.js';
 import type { actions as network } from './ducks/network.dom.js';
 import type { actions as notificationProfiles } from './ducks/notificationProfiles.preload.js';
@@ -66,6 +67,7 @@ export type ReduxActions = {
   lightbox: typeof lightbox;
   linkPreviews: typeof linkPreviews;
   mediaGallery: typeof mediaGallery;
+  megaphones: typeof megaphones;
   nav: typeof nav;
   network: typeof network;
   notificationProfiles: typeof notificationProfiles;

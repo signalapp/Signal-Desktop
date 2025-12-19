@@ -24,6 +24,7 @@ import { actions as items } from './ducks/items.preload.js';
 import { actions as lightbox } from './ducks/lightbox.preload.js';
 import { actions as linkPreviews } from './ducks/linkPreviews.preload.js';
 import { actions as mediaGallery } from './ducks/mediaGallery.preload.js';
+import { actions as megaphones } from './ducks/megaphones.preload.js';
 import { actions as nav } from './ducks/nav.std.js';
 import { actions as network } from './ducks/network.dom.js';
 import { actions as notificationProfiles } from './ducks/notificationProfiles.preload.js';
@@ -63,6 +64,7 @@ export const actionCreators: ReduxActions = {
   lightbox,
   linkPreviews,
   mediaGallery,
+  megaphones,
   nav,
   network,
   notificationProfiles,

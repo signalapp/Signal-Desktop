@@ -27,6 +27,7 @@ import { getEmptyState as itemsEmptyState } from './ducks/items.preload.js';
 import { getEmptyState as lightboxEmptyState } from './ducks/lightbox.preload.js';
 import { getEmptyState as linkPreviewsEmptyState } from './ducks/linkPreviews.preload.js';
 import { getEmptyState as mediaGalleryEmptyState } from './ducks/mediaGallery.preload.js';
+import { getEmptyState as megaphonesEmptyState } from './ducks/megaphones.preload.js';
 import { getEmptyState as navEmptyState } from './ducks/nav.std.js';
 import { getEmptyState as networkEmptyState } from './ducks/network.dom.js';
 import { getEmptyState as notificationProfilesEmptyState } from './ducks/notificationProfiles.preload.js';
@@ -105,6 +106,7 @@ export function getInitialState(
     emojis: recentEmoji,
     gifs,
     items,
+    megaphones: megaphonesEmptyState(),
     notificationProfiles: {
       ...notificationProfilesEmptyState(),
       override: items.notificationProfileOverride,
@@ -170,6 +172,7 @@ function getEmptyState(): StateType {
     lightbox: lightboxEmptyState(),
     linkPreviews: linkPreviewsEmptyState(),
     mediaGallery: mediaGalleryEmptyState(),
+    megaphones: megaphonesEmptyState(),
     nav: navEmptyState(),
     network: networkEmptyState(),
     notificationProfiles: notificationProfilesEmptyState(),

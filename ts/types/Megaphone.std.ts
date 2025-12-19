@@ -1,14 +1,19 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import { z } from 'zod';
-import {
-  Environment,
-  getEnvironment,
-  isMockEnvironment,
-} from '../environment.std.js';
+import type { Simplify } from 'type-fest';
+import { safeParsePartial } from '../util/schemas.std.js';
+import { DAY } from '../util/durations/index.std.js';
+
+const SNOOZE_DEFAULT_DURATION_DAYS = 3;
+const SNOOZE_DEFAULT_CTA_DATA: RemoteMegaphoneSnoozeCtaType = {
+  snoozeDurationDays: [SNOOZE_DEFAULT_DURATION_DAYS],
+};
+export const SNOOZE_DEFAULT_DURATION = SNOOZE_DEFAULT_DURATION_DAYS * DAY;
 
 export enum MegaphoneType {
   UsernameOnboarding = 'UsernameOnboarding',
+  Remote = 'Remote',
 }
 
 export type UsernameOnboardingMegaphoneType = {
@@ -21,23 +26,65 @@ export type UsernameOnboardingActionableMegaphoneType =
     onDismiss: () => void;
   };
 
-export type AnyMegaphone = UsernameOnboardingMegaphoneType;
+export type VisibleRemoteMegaphoneType = Simplify<
+  Omit<RemoteMegaphoneType, 'primaryCtaId' | 'secondaryCtaId'> & {
+    primaryCtaId: MegaphoneCtaId | null;
+    secondaryCtaId: MegaphoneCtaId | null;
+  }
+>;
 
-export type AnyActionableMegaphone = UsernameOnboardingActionableMegaphoneType;
+export type RemoteMegaphoneDisplayType = Simplify<
+  Readonly<
+    Pick<
+      VisibleRemoteMegaphoneType,
+      | 'title'
+      | 'body'
+      | 'imagePath'
+      | 'primaryCtaId'
+      | 'secondaryCtaId'
+      | 'primaryCtaText'
+      | 'secondaryCtaText'
+    > & {
+      type: MegaphoneType.Remote;
+      remoteMegaphoneId: RemoteMegaphoneId;
+    }
+  >
+>;
+
+export type RemoteActionableMegaphoneType = RemoteMegaphoneDisplayType & {
+  onInteractWithMegaphone: (
+    megaphoneId: RemoteMegaphoneId,
+    ctaId: MegaphoneCtaId
+  ) => void;
+};
+
+export type AnyActionableMegaphone =
+  | UsernameOnboardingActionableMegaphoneType
+  | RemoteActionableMegaphoneType;
 
 export type RemoteMegaphoneId = string & { RemoteMegaphoneId: never }; // uuid
 
-const RemoteMegaphoneSecondaryCtaSnoozeSchema = z.object({
+export enum MegaphoneCtaId {
+  Donate = 'donate',
+  Finish = 'finish',
+  Snooze = 'snooze',
+}
+
+export const RemoteMegaphoneSnoozeCtaSchema = z.object({
   snoozeDurationDays: z.array(z.number()),
 });
+
+export type RemoteMegaphoneSnoozeCtaType = z.infer<
+  typeof RemoteMegaphoneSnoozeCtaSchema
+>;
 
 export const RemoteMegaphoneUnknownCtaDataSchema = z.record(
   z.string(),
   z.any()
 );
 
-export const RemoteMegaphoneSecondaryCtaDataSchema = z.union([
-  RemoteMegaphoneSecondaryCtaSnoozeSchema,
+export const RemoteMegaphoneCtaDataSchema = z.union([
+  RemoteMegaphoneSnoozeCtaSchema,
   RemoteMegaphoneUnknownCtaDataSchema,
 ]);
 
@@ -51,15 +98,15 @@ export const RemoteMegaphoneSchema = z.object({
   showForNumberOfDays: z.number().int().positive(),
   primaryCtaId: z.string().nullable(),
   secondaryCtaId: z.string().nullable(),
-  primaryCtaData: RemoteMegaphoneUnknownCtaDataSchema.nullable(),
-  secondaryCtaData: RemoteMegaphoneSecondaryCtaDataSchema.nullable(),
+  primaryCtaData: RemoteMegaphoneCtaDataSchema.nullable(),
+  secondaryCtaData: RemoteMegaphoneCtaDataSchema.nullable(),
   conditionalId: z.string().nullable(),
   // Locale specific remote note
   title: z.string(),
   body: z.string(),
   primaryCtaText: z.string().nullable(),
   secondaryCtaText: z.string().nullable(),
-  imagePath: z.string().nullable(),
+  imagePath: z.string(),
   // Local state
   localeFetched: z.string(),
   shownAt: z.number().int().positive().nullable(),
@@ -70,17 +117,31 @@ export const RemoteMegaphoneSchema = z.object({
 
 export type RemoteMegaphoneType = z.infer<typeof RemoteMegaphoneSchema>;
 
-export function isRemoteMegaphoneEnabled(): boolean {
-  const env = getEnvironment();
+export function getMegaphoneSnoozeConfig(
+  megaphone: RemoteMegaphoneType
+): RemoteMegaphoneSnoozeCtaType {
+  let parseableCtaData;
 
-  if (
-    env === Environment.Development ||
-    env === Environment.Test ||
-    env === Environment.Staging ||
-    isMockEnvironment()
-  ) {
-    return true;
+  if (megaphone.primaryCtaId === 'snooze') {
+    parseableCtaData = megaphone.primaryCtaData;
+  } else if (megaphone.secondaryCtaId === 'snooze') {
+    parseableCtaData = megaphone.secondaryCtaData;
+  } else {
+    throw new Error('primaryCtaId or secondaryCtaId must be snooze');
   }
 
-  return false;
+  const result = safeParsePartial(
+    RemoteMegaphoneSnoozeCtaSchema,
+    parseableCtaData ?? {}
+  );
+  return result.success ? result.data : SNOOZE_DEFAULT_CTA_DATA;
+}
+
+export function getMegaphoneLastSnoozeDurationMs(
+  megaphone: RemoteMegaphoneType
+): number {
+  const { snoozeDurationDays } = getMegaphoneSnoozeConfig(megaphone);
+  const lastSnoozeCount = Math.max(megaphone.snoozeCount - 1, 0);
+  const snoozeIndex = Math.min(lastSnoozeCount, snoozeDurationDays.length - 1);
+  return snoozeDurationDays[snoozeIndex] * DAY;
 }

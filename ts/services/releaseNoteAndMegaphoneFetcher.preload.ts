@@ -43,12 +43,13 @@ import { stringToMIMEType } from '../types/MIME.std.js';
 import { isNotNil } from '../util/isNotNil.std.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
 import { DataReader, DataWriter } from '../sql/Client.preload.js';
-import {
-  isRemoteMegaphoneEnabled,
-  type RemoteMegaphoneType,
-} from '../types/Megaphone.std.js';
+import { type RemoteMegaphoneType } from '../types/Megaphone.std.js';
 import { isCountryPpmCsvBucketEnabled } from '../RemoteConfig.dom.js';
 import type { AciString } from '../types/ServiceId.std.js';
+import {
+  isRemoteMegaphoneEnabled,
+  runMegaphoneCheck,
+} from './megaphone.preload.js';
 
 const { last } = lodash;
 
@@ -223,11 +224,12 @@ export class ReleaseNoteAndMegaphoneFetcher {
 
   async #processMegaphones(
     megaphones: ReadonlyArray<ManifestMegaphoneType>
-  ): Promise<void> {
+  ): Promise<number> {
     const nowSeconds = Math.round(Date.now() / 1000);
     const ourE164 = itemStorage.user.getNumber();
     const ourAci = itemStorage.user.getAci();
     const locales = this.#getLocales();
+    let savedCount = 0;
 
     for (const megaphone of megaphones) {
       const { uuid } = megaphone;
@@ -250,6 +252,14 @@ export class ReleaseNoteAndMegaphoneFetcher {
         if (localeDetail == null) {
           log.warn(
             `processMegaphones: could not fetch locale megaphone for ${uuid}, skipping`
+          );
+          continue;
+        }
+
+        // API allows for empty imagePath, but we require it for desktop
+        if (localeDetail.imagePath == null) {
+          log.error(
+            `processMegaphones: megaphone ${uuid} ${localeDetail.localeFetched} missing imagePath, skipping`
           );
           continue;
         }
@@ -281,6 +291,7 @@ export class ReleaseNoteAndMegaphoneFetcher {
         };
         // eslint-disable-next-line no-await-in-loop
         await DataWriter.createMegaphone(hydratedMegaphone);
+        savedCount += 1;
       } catch (error) {
         // Don't add it, we'll try again later
         log.warn(
@@ -289,6 +300,8 @@ export class ReleaseNoteAndMegaphoneFetcher {
         );
       }
     }
+
+    return savedCount;
   }
 
   async #getReleaseNote(
@@ -543,7 +556,10 @@ export class ReleaseNoteAndMegaphoneFetcher {
             (megaphone): megaphone is ManifestMegaphoneType =>
               megaphone.desktopMinVersion != null
           );
-          await this.#processMegaphones(validMegaphones);
+          const savedCount = await this.#processMegaphones(validMegaphones);
+          if (savedCount > 0) {
+            drop(runMegaphoneCheck());
+          }
         }
 
         const validNotes = manifest.announcements.filter(

@@ -44,6 +44,7 @@ import {
   getChatFoldersForRedux,
   loadChatFolders,
 } from './chatFoldersLoader.preload.js';
+import { getInitialMegaphonesState } from '../state/ducks/megaphones.preload.js';
 
 export async function loadAll(): Promise<void> {
   await Promise.all([
@@ -80,6 +81,7 @@ export function getParametersForRedux(): ReduxInitData {
     gifs: getGifsStateForRedux(),
     mainWindowStats,
     menuOptions,
+    megaphones: getInitialMegaphonesState(),
     notificationProfiles: getNotificationProfiles(),
     recentEmoji: getEmojiReducerState(),
     stickers: getStickersReduxState(),
