@@ -139,7 +139,8 @@
   .module-quote--outgoing-#{$color} {
     background-attachment: fixed;
     @include mixins.light-theme {
-      background-image: linear-gradient(
+      background-image:
+        linear-gradient(
           map.get($value, 'deg'),
           color.scale(map.get($value, 'start'), $lightness: 60%),
           color.scale(map.get($value, 'end'), $lightness: 60%)

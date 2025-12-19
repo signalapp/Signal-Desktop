@@ -1300,8 +1300,8 @@ function getPropsForUnsupportedMessage(
   const requiredVersion = message.requiredProtocolVersion;
   const canProcessNow = Boolean(
     CURRENT_PROTOCOL_VERSION &&
-      requiredVersion &&
-      CURRENT_PROTOCOL_VERSION >= requiredVersion
+    requiredVersion &&
+    CURRENT_PROTOCOL_VERSION >= requiredVersion
   );
 
   return {
@@ -2343,9 +2343,9 @@ export function canRetryDeleteForEveryone(
 ): boolean {
   return Boolean(
     message.deletedForEveryone &&
-      message.deletedForEveryoneFailed &&
-      // Is it too old to delete?
-      isMoreRecentThan(message.sent_at, DAY)
+    message.deletedForEveryoneFailed &&
+    // Is it too old to delete?
+    isMoreRecentThan(message.sent_at, DAY)
   );
 }
 

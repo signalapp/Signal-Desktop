@@ -261,10 +261,10 @@ export function getExtensionForDisplay({
 export function isAudio(attachments?: ReadonlyArray<AttachmentType>): boolean {
   return Boolean(
     attachments &&
-      attachments[0] &&
-      attachments[0].contentType &&
-      !attachments[0].isCorrupted &&
-      MIME.isAudio(attachments[0].contentType)
+    attachments[0] &&
+    attachments[0].contentType &&
+    !attachments[0].isCorrupted &&
+    MIME.isAudio(attachments[0].contentType)
   );
 }
 
@@ -290,11 +290,11 @@ export function canDisplayImage(
 
   return Boolean(
     height &&
-      height > 0 &&
-      height <= MAX_DISPLAYABLE_IMAGE_HEIGHT &&
-      width &&
-      width > 0 &&
-      width <= MAX_DISPLAYABLE_IMAGE_WIDTH
+    height > 0 &&
+    height <= MAX_DISPLAYABLE_IMAGE_HEIGHT &&
+    width &&
+    width > 0 &&
+    width <= MAX_DISPLAYABLE_IMAGE_WIDTH
   );
 }
 
@@ -323,9 +323,9 @@ export function getUrl(attachment: AttachmentForUIType): string | undefined {
 export function isImage(attachments?: ReadonlyArray<AttachmentType>): boolean {
   return Boolean(
     attachments &&
-      attachments[0] &&
-      attachments[0].contentType &&
-      isImageTypeSupported(attachments[0].contentType)
+    attachments[0] &&
+    attachments[0].contentType &&
+    isImageTypeSupported(attachments[0].contentType)
   );
 }
 
@@ -334,8 +334,8 @@ export function isImageAttachment(
 ): boolean {
   return Boolean(
     attachment &&
-      attachment.contentType &&
-      isImageTypeSupported(attachment.contentType)
+    attachment.contentType &&
+    isImageTypeSupported(attachment.contentType)
   );
 }
 
@@ -344,16 +344,16 @@ export function canBeTranscoded(
 ): boolean {
   return Boolean(
     attachment &&
-      isImageAttachment(attachment) &&
-      !MIME.isGif(attachment.contentType)
+    isImageAttachment(attachment) &&
+    !MIME.isGif(attachment.contentType)
   );
 }
 
 export function hasImage(attachments?: ReadonlyArray<AttachmentType>): boolean {
   return Boolean(
     attachments &&
-      attachments[0] &&
-      (attachments[0].url || attachments[0].pending || attachments[0].blurHash)
+    attachments[0] &&
+    (attachments[0].url || attachments[0].pending || attachments[0].blurHash)
   );
 }
 
@@ -426,7 +426,7 @@ export function isReadyToView(
   const resolved = resolveNestedAttachment(attachment);
   return Boolean(
     resolved &&
-      (resolved.path || resolved.textAttachment || isIncremental(resolved))
+    (resolved.path || resolved.textAttachment || isIncremental(resolved))
   );
 }
 

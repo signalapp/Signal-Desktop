@@ -304,7 +304,7 @@ export function UsernameEditor({
     confirmDiscardIf(
       Boolean(
         currentNickname !== nickname ||
-          (customDiscriminator && customDiscriminator !== currentDiscriminator)
+        (customDiscriminator && customDiscriminator !== currentDiscriminator)
       ),
       onDiscard
     );

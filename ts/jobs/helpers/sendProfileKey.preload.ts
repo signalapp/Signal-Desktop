@@ -53,13 +53,13 @@ export function canAllErrorsBeIgnored(
 
   return Boolean(
     isGroup(conversation) &&
-      error instanceof SendMessageProtoError &&
-      error.errors?.every(
-        item =>
-          item instanceof OutgoingIdentityKeyError ||
-          item instanceof SendMessageChallengeError ||
-          item instanceof UnregisteredUserError
-      )
+    error instanceof SendMessageProtoError &&
+    error.errors?.every(
+      item =>
+        item instanceof OutgoingIdentityKeyError ||
+        item instanceof SendMessageChallengeError ||
+        item instanceof UnregisteredUserError
+    )
   );
 }
 

@@ -635,9 +635,9 @@ function isTrusted(conversation: ConversationType): boolean {
 
   return Boolean(
     isInSystemContacts(conversation) ||
-      conversation.sharedGroupNames.length > 0 ||
-      conversation.profileSharing ||
-      conversation.isMe
+    conversation.sharedGroupNames.length > 0 ||
+    conversation.profileSharing ||
+    conversation.isMe
   );
 }
 
@@ -648,21 +648,21 @@ function hasDisplayInfo(conversation: ConversationType): boolean {
 
   return Boolean(
     conversation.name ||
-      conversation.profileName ||
-      conversation.phoneNumber ||
-      conversation.isMe
+    conversation.profileName ||
+    conversation.phoneNumber ||
+    conversation.isMe
   );
 }
 
 function canComposeConversation(conversation: ConversationType): boolean {
   return Boolean(
     !isSignalConversation(conversation) &&
-      !conversation.isBlocked &&
-      !conversation.removalStage &&
-      ((isGroupV2(conversation) && !conversation.left) ||
-        !isConversationUnregistered(conversation)) &&
-      hasDisplayInfo(conversation) &&
-      isTrusted(conversation)
+    !conversation.isBlocked &&
+    !conversation.removalStage &&
+    ((isGroupV2(conversation) && !conversation.left) ||
+      !isConversationUnregistered(conversation)) &&
+    hasDisplayInfo(conversation) &&
+    isTrusted(conversation)
   );
 }
 
@@ -1285,8 +1285,8 @@ export function isMissingRequiredProfileSharing(
 
   return Boolean(
     doesConversationRequireIt &&
-      !conversation.profileSharing &&
-      conversation.hasMessages
+    !conversation.profileSharing &&
+    conversation.hasMessages
   );
 }
 

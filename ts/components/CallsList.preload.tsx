@@ -402,8 +402,8 @@ export function CallsList({
       // For group and adhoc calls
       return Boolean(
         isActive &&
-          conversation &&
-          conversation?.id === activeCallConversationId
+        conversation &&
+        conversation?.id === activeCallConversationId
       );
     },
     []

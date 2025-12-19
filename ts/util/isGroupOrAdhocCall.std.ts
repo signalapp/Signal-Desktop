@@ -28,7 +28,7 @@ export function isGroupOrAdhocCallState(
 ): callState is GroupCallStateType {
   return Boolean(
     callState &&
-      (callState.callMode === CallMode.Group ||
-        callState.callMode === CallMode.Adhoc)
+    (callState.callMode === CallMode.Group ||
+      callState.callMode === CallMode.Adhoc)
   );
 }

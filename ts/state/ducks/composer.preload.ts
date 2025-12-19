@@ -360,8 +360,8 @@ function scrollToQuotedMessage({
     const message = messages.find(item =>
       Boolean(
         item.conversationId === conversationId &&
-          authorId &&
-          getAuthorId(item) === authorId
+        authorId &&
+        getAuthorId(item) === authorId
       )
     );
 

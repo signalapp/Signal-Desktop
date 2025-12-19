@@ -181,10 +181,10 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
 
       return Boolean(
         record.type === IdentifierType.ACCOUNT &&
-          id &&
-          id.length &&
-          profileId &&
-          constantTimeEqual(id, profileId)
+        id &&
+        id.length &&
+        profileId &&
+        constantTimeEqual(id, profileId)
       );
     });
     if (!acountRecordHasOverride) {

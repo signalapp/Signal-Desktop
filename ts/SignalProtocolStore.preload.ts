@@ -2399,7 +2399,7 @@ export class SignalProtocolStore extends EventEmitter {
         const hadEntry = identityRecord !== undefined;
         const keyMatches = Boolean(
           identityRecord?.publicKey &&
-            constantTimeEqual(publicKey, identityRecord.publicKey)
+          constantTimeEqual(publicKey, identityRecord.publicKey)
         );
         const statusMatches =
           keyMatches && verifiedStatus === identityRecord?.verified;

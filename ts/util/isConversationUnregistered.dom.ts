@@ -29,7 +29,7 @@ export function isConversationUnregistered({
     !serviceId ||
     Boolean(
       discoveredUnregisteredAt &&
-        isMoreRecentThan(discoveredUnregisteredAt, SIX_HOURS)
+      isMoreRecentThan(discoveredUnregisteredAt, SIX_HOURS)
     )
   );
 }
@@ -47,6 +47,6 @@ export function isConversationUnregisteredAndStale({
 
   return Boolean(
     firstUnregisteredAt &&
-      isOlderThan(firstUnregisteredAt, getMessageQueueTime())
+    isOlderThan(firstUnregisteredAt, getMessageQueueTime())
   );
 }

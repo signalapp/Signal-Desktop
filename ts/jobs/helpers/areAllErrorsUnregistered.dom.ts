@@ -14,7 +14,7 @@ export function areAllErrorsUnregistered(
 ): error is SendMessageProtoError {
   return Boolean(
     isGroup(conversation) &&
-      error instanceof SendMessageProtoError &&
-      error.errors?.every(item => item instanceof UnregisteredUserError)
+    error instanceof SendMessageProtoError &&
+    error.errors?.every(item => item instanceof UnregisteredUserError)
   );
 }
