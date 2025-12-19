@@ -1463,7 +1463,7 @@ export async function startApp(): Promise<void> {
 
     const isCoreDataValid = Boolean(
       itemStorage.user.getAci() &&
-        window.ConversationController.getOurConversation()
+      window.ConversationController.getOurConversation()
     );
 
     if (isCoreDataValid && Registration.everDone()) {

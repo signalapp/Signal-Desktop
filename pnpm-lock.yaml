@@ -432,7 +432,7 @@ importers:
         version: 2.10.14(typescript@5.6.3)
       '@indutny/parallel-prettier':
         specifier: 3.0.0
-        version: 3.0.0(prettier@3.3.3)
+        version: 3.0.0(prettier@3.7.4)
       '@indutny/rezip-electron':
         specifier: 3.0.2
         version: 3.0.2
@@ -444,28 +444,28 @@ importers:
         version: 15.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       '@storybook/addon-a11y':
         specifier: 8.4.4
-        version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
+        version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
       '@storybook/addon-actions':
         specifier: 8.4.4
-        version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
+        version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
       '@storybook/addon-controls':
         specifier: 8.4.4
-        version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
+        version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
       '@storybook/addon-interactions':
         specifier: 8.4.4
-        version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
+        version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
       '@storybook/addon-jest':
         specifier: 8.4.4
-        version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
+        version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
       '@storybook/addon-measure':
         specifier: 8.4.4
-        version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
+        version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
       '@storybook/addon-toolbars':
         specifier: 8.4.4
-        version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
+        version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
       '@storybook/addon-viewport':
         specifier: 8.4.4
-        version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
+        version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
       '@storybook/addon-webpack5-compiler-swc':
         specifier: 1.0.5
         version: 1.0.5(@swc/helpers@0.5.15)(webpack@5.96.1)
@@ -474,19 +474,19 @@ importers:
         version: 0.1.11
       '@storybook/preview-api':
         specifier: 8.4.4
-        version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
+        version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
       '@storybook/react':
         specifier: 8.4.4
-        version: 8.4.4(@storybook/test@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))(typescript@5.6.3)
+        version: 8.4.4(@storybook/test@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))(typescript@5.6.3)
       '@storybook/react-webpack5':
         specifier: 8.4.4
-        version: 8.4.4(@storybook/test@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)))(@swc/core@1.10.16(@swc/helpers@0.5.15))(esbuild@0.25.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))(typescript@5.6.3)(webpack-cli@5.1.4)
+        version: 8.4.4(@storybook/test@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)))(@swc/core@1.10.16(@swc/helpers@0.5.15))(esbuild@0.25.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))(typescript@5.6.3)(webpack-cli@5.1.4)
       '@storybook/test':
         specifier: 8.4.4
-        version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
+        version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
       '@storybook/test-runner':
         specifier: 0.22.0
-        version: 0.22.0(@swc/helpers@0.5.15)(@types/node@20.17.6)(debug@4.3.7)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))(ts-node@10.9.2(@swc/core@1.10.16(@swc/helpers@0.5.15))(@types/node@20.17.6)(typescript@5.6.3))
+        version: 0.22.0(@swc/helpers@0.5.15)(@types/node@20.17.6)(debug@4.3.7)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))(ts-node@10.9.2(@swc/core@1.10.16(@swc/helpers@0.5.15))(@types/node@20.17.6)(typescript@5.6.3))
       '@storybook/types':
         specifier: 8.1.11
         version: 8.1.11
@@ -681,7 +681,7 @@ importers:
         version: 8.56.0
       eslint-config-airbnb-typescript-prettier:
         specifier: 5.0.0
-        version: 5.0.0(@types/eslint@9.6.1)(eslint@8.56.0)(prettier@3.3.3)(typescript@5.6.3)
+        version: 5.0.0(@types/eslint@9.6.1)(eslint@8.56.0)(prettier@3.7.4)(typescript@5.6.3)
       eslint-config-prettier:
         specifier: 8.5.0
         version: 8.5.0(eslint@8.56.0)
@@ -752,11 +752,11 @@ importers:
         specifier: 8.1.1
         version: 8.1.1(postcss@8.5.3)(typescript@5.6.3)(webpack@5.96.1)
       prettier:
-        specifier: 3.3.3
-        version: 3.3.3
+        specifier: 3.7.4
+        version: 3.7.4
       prettier-plugin-tailwindcss:
-        specifier: 0.6.11
-        version: 0.6.11(prettier@3.3.3)
+        specifier: 0.7.2
+        version: 0.7.2(prettier@3.7.4)
       protobufjs-cli:
         specifier: 1.1.1
         version: 1.1.1(patch_hash=178ca99a7e71f1cce7aadae6118e2c4c3b2478d3bfb787c00a661c3b02c09923)(protobufjs@7.3.2(patch_hash=0ae0fcb7c2b673e67231536164cc4841642d16c8a26578de4d43637e2a6f1774))
@@ -783,7 +783,7 @@ importers:
         version: 19.0.2
       storybook:
         specifier: 8.4.4
-        version: 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
+        version: 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
       style-loader:
         specifier: 4.0.0
         version: 4.0.0(webpack@5.96.1)
@@ -8945,11 +8945,13 @@ packages:
     resolution: {integrity: sha512-GbK2cP9nraSSUF9N2XwUwqfzlAFlMNYYl+ShE/V+H8a9uNl/oUqB1w2EL54Jh0OlyRSd8RfWYJ3coVS4TROP2w==}
     engines: {node: '>=6.0.0'}
 
-  prettier-plugin-tailwindcss@0.6.11:
-    resolution: {integrity: sha512-YxaYSIvZPAqhrrEpRtonnrXdghZg1irNg4qrjboCXrpybLWVs55cW2N3juhspVJiO0JBvYJT8SYsJpc8OQSnsA==}
-    engines: {node: '>=14.21.3'}
+  prettier-plugin-tailwindcss@0.7.2:
+    resolution: {integrity: sha512-LkphyK3Fw+q2HdMOoiEHWf93fNtYJwfamoKPl7UwtjFQdei/iIBoX11G6j706FzN3ymX9mPVi97qIY8328vdnA==}
+    engines: {node: '>=20.19'}
     peerDependencies:
       '@ianvs/prettier-plugin-sort-imports': '*'
+      '@prettier/plugin-hermes': '*'
+      '@prettier/plugin-oxc': '*'
       '@prettier/plugin-pug': '*'
       '@shopify/prettier-plugin-liquid': '*'
       '@trivago/prettier-plugin-sort-imports': '*'
@@ -8957,17 +8959,19 @@ packages:
       prettier: ^3.0
       prettier-plugin-astro: '*'
       prettier-plugin-css-order: '*'
-      prettier-plugin-import-sort: '*'
       prettier-plugin-jsdoc: '*'
       prettier-plugin-marko: '*'
       prettier-plugin-multiline-arrays: '*'
       prettier-plugin-organize-attributes: '*'
       prettier-plugin-organize-imports: '*'
       prettier-plugin-sort-imports: '*'
-      prettier-plugin-style-order: '*'
       prettier-plugin-svelte: '*'
     peerDependenciesMeta:
       '@ianvs/prettier-plugin-sort-imports':
+        optional: true
+      '@prettier/plugin-hermes':
+        optional: true
+      '@prettier/plugin-oxc':
         optional: true
       '@prettier/plugin-pug':
         optional: true
@@ -8981,8 +8985,6 @@ packages:
         optional: true
       prettier-plugin-css-order:
         optional: true
-      prettier-plugin-import-sort:
-        optional: true
       prettier-plugin-jsdoc:
         optional: true
       prettier-plugin-marko:
@@ -8995,18 +8997,16 @@ packages:
         optional: true
       prettier-plugin-sort-imports:
         optional: true
-      prettier-plugin-style-order:
-        optional: true
       prettier-plugin-svelte:
         optional: true
 
-  prettier@3.3.3:
-    resolution: {integrity: sha512-i2tDNA0O5IrMO757lfrdQZCc2jPNDVntV0m/+4whiDfWaTKfMNgR7Qz0NAeGz/nRqF4m5/6CLzbP4/liHt12Ew==}
+  prettier@3.6.2:
+    resolution: {integrity: sha512-I7AIg5boAr5R0FFtJ6rCfD+LFsWHp81dolrFD8S79U9tb8Az2nGrJncnMSnys+bpQJfRUzqs9hnA81OAA3hCuQ==}
     engines: {node: '>=14'}
     hasBin: true
 
-  prettier@3.6.2:
-    resolution: {integrity: sha512-I7AIg5boAr5R0FFtJ6rCfD+LFsWHp81dolrFD8S79U9tb8Az2nGrJncnMSnys+bpQJfRUzqs9hnA81OAA3hCuQ==}
+  prettier@3.7.4:
+    resolution: {integrity: sha512-v6UNi1+3hSlVvv8fSaoUbggEM5VErKmmpGA7Pl3HF8V6uKY7rvClBOJlH6yNwQtfTueNkGVpOv/mtWL9L4bgRA==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -11847,24 +11847,14 @@ snapshots:
       bindings: 1.5.0
       node-addon-api: 8.3.0
 
-  '@indutny/parallel-prettier@3.0.0(prettier@3.3.3)':
+  '@indutny/parallel-prettier@3.0.0(prettier@3.7.4)':
     dependencies:
       chalk: 4.1.2
       commander: 7.2.0
       glob-stream: 7.0.0
       ignore: 5.3.2
       ora: 5.4.1
-      prettier: 3.3.3
-      rxjs: 6.6.7
-
-  '@indutny/parallel-prettier@3.0.0(prettier@3.6.2)':
-    dependencies:
-      chalk: 4.1.2
-      commander: 7.2.0
-      glob-stream: 7.0.0
-      ignore: 5.3.2
-      ora: 5.4.1
-      prettier: 3.6.2
+      prettier: 3.7.4
       rxjs: 6.6.7
 
   '@indutny/range-finder@1.3.4':
@@ -14294,7 +14284,7 @@ snapshots:
 
   '@signalapp/mock-server@15.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
     dependencies:
-      '@indutny/parallel-prettier': 3.0.0(prettier@3.6.2)
+      '@indutny/parallel-prettier': 3.0.0(prettier@3.7.4)
       '@signalapp/libsignal-client': 0.76.7
       '@tus/file-store': 1.5.1
       '@tus/server': 1.10.2
@@ -14303,7 +14293,7 @@ snapshots:
       long: 5.2.3
       micro: 9.4.1
       microrouter: 3.1.3
-      prettier: 3.6.2
+      prettier: 3.7.4
       protobufjs: 7.3.2(patch_hash=0ae0fcb7c2b673e67231536164cc4841642d16c8a26578de4d43637e2a6f1774)
       type-fest: 4.26.1
       url-pattern: 1.0.3
@@ -14365,64 +14355,64 @@ snapshots:
 
   '@sinonjs/text-encoding@0.7.3': {}
 
-  '@storybook/addon-a11y@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))':
+  '@storybook/addon-a11y@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))':
     dependencies:
-      '@storybook/addon-highlight': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
+      '@storybook/addon-highlight': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
       axe-core: 4.10.2
-      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
+      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
 
-  '@storybook/addon-actions@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))':
+  '@storybook/addon-actions@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))':
     dependencies:
       '@storybook/global': 5.0.0
       '@types/uuid': 9.0.8
       dequal: 2.0.3
       polished: 4.3.1
-      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
+      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
       uuid: 9.0.1
 
-  '@storybook/addon-controls@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))':
+  '@storybook/addon-controls@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))':
     dependencies:
       '@storybook/global': 5.0.0
       dequal: 2.0.3
-      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
+      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
       ts-dedent: 2.2.0
 
-  '@storybook/addon-highlight@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))':
+  '@storybook/addon-highlight@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))':
     dependencies:
       '@storybook/global': 5.0.0
-      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
+      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
 
-  '@storybook/addon-interactions@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))':
+  '@storybook/addon-interactions@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))':
     dependencies:
       '@storybook/global': 5.0.0
-      '@storybook/instrumenter': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
-      '@storybook/test': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
+      '@storybook/instrumenter': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
+      '@storybook/test': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
       polished: 4.3.1
-      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
+      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
       ts-dedent: 2.2.0
 
-  '@storybook/addon-jest@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))':
+  '@storybook/addon-jest@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))':
     dependencies:
       '@storybook/global': 5.0.0
-      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
+      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
       tiny-invariant: 1.3.3
       ts-dedent: 2.2.0
       upath: 2.0.1
 
-  '@storybook/addon-measure@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))':
+  '@storybook/addon-measure@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))':
     dependencies:
       '@storybook/global': 5.0.0
-      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
+      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
       tiny-invariant: 1.3.3
 
-  '@storybook/addon-toolbars@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))':
+  '@storybook/addon-toolbars@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))':
     dependencies:
-      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
+      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
 
-  '@storybook/addon-viewport@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))':
+  '@storybook/addon-viewport@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))':
     dependencies:
       memoizerific: 1.11.3
-      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
+      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
 
   '@storybook/addon-webpack5-compiler-swc@1.0.5(@swc/helpers@0.5.15)(webpack@5.96.1)':
     dependencies:
@@ -14432,9 +14422,9 @@ snapshots:
       - '@swc/helpers'
       - webpack
 
-  '@storybook/builder-webpack5@8.4.4(@swc/core@1.10.16(@swc/helpers@0.5.15))(esbuild@0.25.9)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))(typescript@5.6.3)(webpack-cli@5.1.4)':
+  '@storybook/builder-webpack5@8.4.4(@swc/core@1.10.16(@swc/helpers@0.5.15))(esbuild@0.25.9)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))(typescript@5.6.3)(webpack-cli@5.1.4)':
     dependencies:
-      '@storybook/core-webpack': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
+      '@storybook/core-webpack': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
       '@types/node': 22.13.4
       '@types/semver': 7.5.8
       browser-assert: 1.2.1
@@ -14449,7 +14439,7 @@ snapshots:
       path-browserify: 1.0.1
       process: 0.11.10
       semver: 7.6.3
-      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
+      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
       style-loader: 3.3.4(webpack@5.96.1)
       terser-webpack-plugin: 5.3.10(@swc/core@1.10.16(@swc/helpers@0.5.15))(esbuild@0.25.9)(webpack@5.96.1)
       ts-dedent: 2.2.0
@@ -14481,22 +14471,22 @@ snapshots:
     dependencies:
       '@storybook/global': 5.0.0
 
-  '@storybook/components@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))':
+  '@storybook/components@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))':
     dependencies:
-      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
+      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
 
   '@storybook/core-events@8.1.11':
     dependencies:
       '@storybook/csf': 0.1.11
       ts-dedent: 2.2.0
 
-  '@storybook/core-webpack@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))':
+  '@storybook/core-webpack@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))':
     dependencies:
       '@types/node': 22.13.4
-      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
+      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
       ts-dedent: 2.2.0
 
-  '@storybook/core@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)':
+  '@storybook/core@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)':
     dependencies:
       '@storybook/csf': 0.1.11
       better-opn: 3.0.2
@@ -14510,7 +14500,7 @@ snapshots:
       util: 0.12.5
       ws: 8.18.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
     optionalDependencies:
-      prettier: 3.3.3
+      prettier: 3.7.4
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -14522,20 +14512,20 @@ snapshots:
 
   '@storybook/global@5.0.0': {}
 
-  '@storybook/instrumenter@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))':
+  '@storybook/instrumenter@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))':
     dependencies:
       '@storybook/global': 5.0.0
       '@vitest/utils': 2.1.9
-      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
+      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
 
-  '@storybook/manager-api@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))':
+  '@storybook/manager-api@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))':
     dependencies:
-      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
+      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
 
-  '@storybook/preset-react-webpack@8.4.4(@storybook/test@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)))(@swc/core@1.10.16(@swc/helpers@0.5.15))(esbuild@0.25.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))(typescript@5.6.3)(webpack-cli@5.1.4)':
+  '@storybook/preset-react-webpack@8.4.4(@storybook/test@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)))(@swc/core@1.10.16(@swc/helpers@0.5.15))(esbuild@0.25.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))(typescript@5.6.3)(webpack-cli@5.1.4)':
     dependencies:
-      '@storybook/core-webpack': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
-      '@storybook/react': 8.4.4(@storybook/test@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))(typescript@5.6.3)
+      '@storybook/core-webpack': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
+      '@storybook/react': 8.4.4(@storybook/test@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))(typescript@5.6.3)
       '@storybook/react-docgen-typescript-plugin': 1.0.6--canary.9.0c3f3b7.0(typescript@5.6.3)(webpack@5.96.1)
       '@types/node': 22.13.4
       '@types/semver': 7.5.8
@@ -14546,7 +14536,7 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
       resolve: 1.22.10
       semver: 7.6.3
-      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
+      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
       tsconfig-paths: 4.2.0
       webpack: 5.96.1(@swc/core@1.10.16(@swc/helpers@0.5.15))(esbuild@0.25.9)(webpack-cli@5.1.4)
     optionalDependencies:
@@ -14559,9 +14549,9 @@ snapshots:
       - uglify-js
       - webpack-cli
 
-  '@storybook/preview-api@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))':
+  '@storybook/preview-api@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))':
     dependencies:
-      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
+      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
 
   '@storybook/react-docgen-typescript-plugin@1.0.6--canary.9.0c3f3b7.0(typescript@5.6.3)(webpack@5.96.1)':
     dependencies:
@@ -14577,21 +14567,21 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@storybook/react-dom-shim@8.4.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))':
+  '@storybook/react-dom-shim@8.4.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))':
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
+      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
 
-  '@storybook/react-webpack5@8.4.4(@storybook/test@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)))(@swc/core@1.10.16(@swc/helpers@0.5.15))(esbuild@0.25.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))(typescript@5.6.3)(webpack-cli@5.1.4)':
+  '@storybook/react-webpack5@8.4.4(@storybook/test@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)))(@swc/core@1.10.16(@swc/helpers@0.5.15))(esbuild@0.25.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))(typescript@5.6.3)(webpack-cli@5.1.4)':
     dependencies:
-      '@storybook/builder-webpack5': 8.4.4(@swc/core@1.10.16(@swc/helpers@0.5.15))(esbuild@0.25.9)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))(typescript@5.6.3)(webpack-cli@5.1.4)
-      '@storybook/preset-react-webpack': 8.4.4(@storybook/test@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)))(@swc/core@1.10.16(@swc/helpers@0.5.15))(esbuild@0.25.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))(typescript@5.6.3)(webpack-cli@5.1.4)
-      '@storybook/react': 8.4.4(@storybook/test@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))(typescript@5.6.3)
+      '@storybook/builder-webpack5': 8.4.4(@swc/core@1.10.16(@swc/helpers@0.5.15))(esbuild@0.25.9)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))(typescript@5.6.3)(webpack-cli@5.1.4)
+      '@storybook/preset-react-webpack': 8.4.4(@storybook/test@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)))(@swc/core@1.10.16(@swc/helpers@0.5.15))(esbuild@0.25.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))(typescript@5.6.3)(webpack-cli@5.1.4)
+      '@storybook/react': 8.4.4(@storybook/test@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))(typescript@5.6.3)
       '@types/node': 22.13.4
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
+      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
     optionalDependencies:
       typescript: 5.6.3
     transitivePeerDependencies:
@@ -14603,22 +14593,22 @@ snapshots:
       - uglify-js
       - webpack-cli
 
-  '@storybook/react@8.4.4(@storybook/test@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))(typescript@5.6.3)':
+  '@storybook/react@8.4.4(@storybook/test@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))(typescript@5.6.3)':
     dependencies:
-      '@storybook/components': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
+      '@storybook/components': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
       '@storybook/global': 5.0.0
-      '@storybook/manager-api': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
-      '@storybook/preview-api': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
-      '@storybook/react-dom-shim': 8.4.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
-      '@storybook/theming': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
+      '@storybook/manager-api': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
+      '@storybook/preview-api': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
+      '@storybook/react-dom-shim': 8.4.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
+      '@storybook/theming': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
+      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
     optionalDependencies:
-      '@storybook/test': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
+      '@storybook/test': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
       typescript: 5.6.3
 
-  '@storybook/test-runner@0.22.0(@swc/helpers@0.5.15)(@types/node@20.17.6)(debug@4.3.7)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))(ts-node@10.9.2(@swc/core@1.10.16(@swc/helpers@0.5.15))(@types/node@20.17.6)(typescript@5.6.3))':
+  '@storybook/test-runner@0.22.0(@swc/helpers@0.5.15)(@types/node@20.17.6)(debug@4.3.7)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))(ts-node@10.9.2(@swc/core@1.10.16(@swc/helpers@0.5.15))(@types/node@20.17.6)(typescript@5.6.3))':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/generator': 7.26.8
@@ -14639,7 +14629,7 @@ snapshots:
       jest-watch-typeahead: 2.2.2(jest@29.7.0(@types/node@20.17.6)(ts-node@10.9.2(@swc/core@1.10.16(@swc/helpers@0.5.15))(@types/node@20.17.6)(typescript@5.6.3)))
       nyc: 15.1.0
       playwright: 1.54.2
-      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
+      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
       - '@swc/helpers'
       - '@types/node'
@@ -14649,21 +14639,21 @@ snapshots:
       - supports-color
       - ts-node
 
-  '@storybook/test@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))':
+  '@storybook/test@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))':
     dependencies:
       '@storybook/csf': 0.1.11
       '@storybook/global': 5.0.0
-      '@storybook/instrumenter': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))
+      '@storybook/instrumenter': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
       '@testing-library/dom': 10.4.0
       '@testing-library/jest-dom': 6.5.0
       '@testing-library/user-event': 14.5.2(@testing-library/dom@10.4.0)
       '@vitest/expect': 2.0.5(patch_hash=e8a96f71e52bf903c9f1eadba4740489a0beb48da33db52354adca484fe1f495)
       '@vitest/spy': 2.0.5
-      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
+      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
 
-  '@storybook/theming@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10))':
+  '@storybook/theming@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))':
     dependencies:
-      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
+      storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
 
   '@storybook/types@8.1.11':
     dependencies:
@@ -17450,7 +17440,7 @@ snapshots:
       object.entries: 1.1.8
       semver: 6.3.1
 
-  eslint-config-airbnb-typescript-prettier@5.0.0(@types/eslint@9.6.1)(eslint@8.56.0)(prettier@3.3.3)(typescript@5.6.3):
+  eslint-config-airbnb-typescript-prettier@5.0.0(@types/eslint@9.6.1)(eslint@8.56.0)(prettier@3.7.4)(typescript@5.6.3):
     dependencies:
       '@typescript-eslint/eslint-plugin': 5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.56.0)(typescript@5.6.3))(eslint@8.56.0)(typescript@5.6.3)
       '@typescript-eslint/parser': 5.62.0(eslint@8.56.0)(typescript@5.6.3)
@@ -17459,10 +17449,10 @@ snapshots:
       eslint-config-prettier: 6.15.0(eslint@8.56.0)
       eslint-plugin-import: 2.32.0(@typescript-eslint/parser@5.62.0(eslint@8.56.0)(typescript@5.6.3))(eslint@8.56.0)
       eslint-plugin-jsx-a11y: 6.10.2(eslint@8.56.0)
-      eslint-plugin-prettier: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@6.15.0(eslint@8.56.0))(eslint@8.56.0)(prettier@3.3.3)
+      eslint-plugin-prettier: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@6.15.0(eslint@8.56.0))(eslint@8.56.0)(prettier@3.7.4)
       eslint-plugin-react: 7.31.10(eslint@8.56.0)
       eslint-plugin-react-hooks: 4.6.2(eslint@8.56.0)
-      prettier: 3.3.3
+      prettier: 3.7.4
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@types/eslint'
@@ -17620,10 +17610,10 @@ snapshots:
     dependencies:
       eslint: 8.56.0
 
-  eslint-plugin-prettier@5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@6.15.0(eslint@8.56.0))(eslint@8.56.0)(prettier@3.3.3):
+  eslint-plugin-prettier@5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@6.15.0(eslint@8.56.0))(eslint@8.56.0)(prettier@3.7.4):
     dependencies:
       eslint: 8.56.0
-      prettier: 3.3.3
+      prettier: 3.7.4
       prettier-linter-helpers: 1.0.0
       synckit: 0.9.2
     optionalDependencies:
@@ -20886,13 +20876,13 @@ snapshots:
     dependencies:
       fast-diff: 1.3.0
 
-  prettier-plugin-tailwindcss@0.6.11(prettier@3.3.3):
+  prettier-plugin-tailwindcss@0.7.2(prettier@3.7.4):
     dependencies:
-      prettier: 3.3.3
-
-  prettier@3.3.3: {}
+      prettier: 3.7.4
 
   prettier@3.6.2: {}
+
+  prettier@3.7.4: {}
 
   pretty-error@4.0.0:
     dependencies:
@@ -22037,11 +22027,11 @@ snapshots:
       es-errors: 1.3.0
       internal-slot: 1.1.0
 
-  storybook@8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10):
+  storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10):
     dependencies:
-      '@storybook/core': 8.4.4(bufferutil@4.0.9)(prettier@3.3.3)(utf-8-validate@5.0.10)
+      '@storybook/core': 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
     optionalDependencies:
-      prettier: 3.3.3
+      prettier: 3.7.4
     transitivePeerDependencies:
       - bufferutil
       - supports-color

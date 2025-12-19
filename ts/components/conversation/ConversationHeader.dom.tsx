@@ -575,9 +575,9 @@ function HeaderDropdownMenuContent({
   const isGroup = conversation.type === 'group';
   const disableTimerChanges = Boolean(
     !conversation.canChangeTimer ||
-      !conversation.acceptedMessageRequest ||
-      conversation.left ||
-      isMissingMandatoryProfileSharing
+    !conversation.acceptedMessageRequest ||
+    conversation.left ||
+    isMissingMandatoryProfileSharing
   );
   const hasGV2AdminEnabled = isGroup && conversation.groupVersion === 2;
 

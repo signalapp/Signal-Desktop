@@ -163,8 +163,8 @@ export function getConversation(model: ConversationModel): ConversationType {
     areWePending: areWePending(attributes),
     areWePendingApproval: Boolean(
       ourConversationId &&
-        ourAci &&
-        isMemberAwaitingApproval(attributes, ourAci)
+      ourAci &&
+      isMemberAwaitingApproval(attributes, ourAci)
     ),
     areWeAdmin: areWeAdmin(attributes),
     avatarPlaceholderGradient,

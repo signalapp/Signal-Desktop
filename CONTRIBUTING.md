@@ -244,7 +244,6 @@ So you wanna make a pull request? Please observe the following guidelines.
   link](http://chris.beams.io/posts/git-commit/)
   for some tips on formatting. As far as content, try to include the following in your
   summary:
-
   1.  What you changed
   2.  Why this change was made. If there is a relevant [GitHub Issue](https://github.com/signalapp/Signal-Desktop/issues), please include the Issue number.
   3.  Any relevant technical details or motivations for your implementation

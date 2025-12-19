@@ -168,11 +168,11 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       addedTime && joinedAt && addedTime > joinedAt ? addedTime : joinedAt;
     const showMissingMediaKeys = Boolean(
       !mediaKeysReceived &&
-        timeForMissingMediaKeysCheck &&
-        isOlderThan(
-          timeForMissingMediaKeysCheck,
-          DELAY_TO_SHOW_MISSING_MEDIA_KEYS
-        )
+      timeForMissingMediaKeysCheck &&
+      isOlderThan(
+        timeForMissingMediaKeysCheck,
+        DELAY_TO_SHOW_MISSING_MEDIA_KEYS
+      )
     );
 
     const videoFrameSource = useMemo(

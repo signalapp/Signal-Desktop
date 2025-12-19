@@ -199,11 +199,11 @@ export function areWePending(
   const ourPni = itemStorage.user.getPni();
   return Boolean(
     ourAci &&
-      (isMemberPending(conversationAttrs, ourAci) ||
-        Boolean(
-          ourPni &&
-            !isMember(conversationAttrs, ourAci) &&
-            isMemberPending(conversationAttrs, ourPni)
-        ))
+    (isMemberPending(conversationAttrs, ourAci) ||
+      Boolean(
+        ourPni &&
+        !isMember(conversationAttrs, ourAci) &&
+        isMemberPending(conversationAttrs, ourPni)
+      ))
   );
 }

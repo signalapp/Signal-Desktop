@@ -93,8 +93,8 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
   const targetedMessageSource = useSelector(getTargetedMessageSource);
   const isTargeted = Boolean(
     targetedMessage &&
-      messageId === targetedMessage.id &&
-      targetedMessageSource !== TargetedMessageSource.Reset
+    messageId === targetedMessage.id &&
+    targetedMessageSource !== TargetedMessageSource.Reset
   );
   const isNextItemCallingNotification = nextItem?.type === 'callHistory';
 
@@ -117,10 +117,10 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     isOldestTimelineItem ||
     Boolean(
       item &&
-        previousItem &&
-        // This comparison avoids strange header behavior for out-of-order messages.
-        item.timestamp > previousItem.timestamp &&
-        !isSameDay(previousItem.timestamp, item.timestamp)
+      previousItem &&
+      // This comparison avoids strange header behavior for out-of-order messages.
+      item.timestamp > previousItem.timestamp &&
+      !isSameDay(previousItem.timestamp, item.timestamp)
     );
 
   const {

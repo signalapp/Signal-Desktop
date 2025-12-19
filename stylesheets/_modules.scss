@@ -1893,8 +1893,8 @@ $message-padding-horizontal: 12px;
   }
 }
 
-$timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
-  '00';
+$timer-icons:
+  '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05', '00';
 
 @each $timer-icon in $timer-icons {
   .module-expire-timer--#{$timer-icon} {

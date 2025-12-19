@@ -1244,10 +1244,10 @@ function isValidSenderKeyRecipient(
 function deviceComparator(left?: DeviceType, right?: DeviceType): boolean {
   return Boolean(
     left &&
-      right &&
-      left.id === right.id &&
-      left.serviceId === right.serviceId &&
-      left.registrationId === right.registrationId
+    right &&
+    left.id === right.id &&
+    left.serviceId === right.serviceId &&
+    left.registrationId === right.registrationId
   );
 }
 

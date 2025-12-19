@@ -26,9 +26,9 @@ function isWrapped(element: Readonly<null | HTMLElement>): boolean {
 
   return Boolean(
     firstChild &&
-      lastChild &&
-      firstChild !== lastChild &&
-      getBottom(firstChild) <= getTop(lastChild)
+    lastChild &&
+    firstChild !== lastChild &&
+    getBottom(firstChild) <= getTop(lastChild)
   );
 }
 
