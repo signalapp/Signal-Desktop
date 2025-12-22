@@ -3,6 +3,7 @@
 
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
+import { createSelector } from 'reselect';
 import type { PropsType as DialogExpiredBuildPropsType } from '../../components/DialogExpiredBuild.dom.js';
 import { DialogExpiredBuild } from '../../components/DialogExpiredBuild.dom.js';
 import type { PropsType as LeftPanePropsType } from '../../components/LeftPane.dom.js';
@@ -35,7 +36,6 @@ import { useItemsActions } from '../ducks/items.preload.js';
 import { useNetworkActions } from '../ducks/network.dom.js';
 import { useSearchActions } from '../ducks/search.preload.js';
 import { useUsernameActions } from '../ducks/username.preload.js';
-import type { StateType } from '../reducer.preload.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import {
   getComposeAvatarData,
@@ -124,6 +124,7 @@ import {
 import { NavTab, SettingsPage } from '../../types/Nav.std.js';
 import { SmartNotificationProfilesMenu } from './NotificationProfilesMenu.preload.js';
 import { getActiveProfile } from '../selectors/notificationProfiles.dom.js';
+import type { StateSelector } from '../types.std.js';
 
 function renderMessageSearchResult(id: string): JSX.Element {
   return <SmartMessageSearchResult id={id} />;
@@ -183,116 +184,121 @@ function renderNotificationProfilesMenu(): JSX.Element {
   return <SmartNotificationProfilesMenu />;
 }
 
-const getModeSpecificProps = (
-  state: StateType
-): LeftPanePropsType['modeSpecificProps'] => {
-  const i18n = getIntl(state);
-  const composerStep = getComposerStep(state);
-  switch (composerStep) {
-    case undefined:
-      if (getShowArchived(state)) {
-        const { archivedConversations } = getLeftPaneLists(state);
-        const searchConversation = getSearchConversation(state);
-        const searchTerm = getQuery(state);
+type ModeSpecificProps = LeftPanePropsType['modeSpecificProps'];
+
+const getModeSpecificProps: StateSelector<ModeSpecificProps> = createSelector(
+  state => state,
+  state => {
+    const i18n = getIntl(state);
+    const composerStep = getComposerStep(state);
+    switch (composerStep) {
+      case undefined:
+        if (getShowArchived(state)) {
+          const { archivedConversations } = getLeftPaneLists(state);
+          const searchConversation = getSearchConversation(state);
+          const searchTerm = getQuery(state);
+          return {
+            mode: LeftPaneMode.Archive,
+            archivedConversations,
+            isSearchingGlobally: getIsSearchingGlobally(state),
+            searchConversation,
+            searchTerm,
+            startSearchCounter: getStartSearchCounter(state),
+            ...(searchConversation && searchTerm
+              ? getSearchResults(state)
+              : {}),
+          };
+        }
+        if (getIsActivelySearching(state)) {
+          return {
+            mode: LeftPaneMode.Search,
+            isSearchingGlobally: getIsSearchingGlobally(state),
+            searchConversation: getSearchConversation(state),
+            searchDisabled: state.network.challengeStatus !== 'idle',
+            startSearchCounter: getStartSearchCounter(state),
+            ...getSearchResults(state),
+          };
+        }
         return {
-          mode: LeftPaneMode.Archive,
-          archivedConversations,
-          isSearchingGlobally: getIsSearchingGlobally(state),
-          searchConversation,
-          searchTerm,
-          startSearchCounter: getStartSearchCounter(state),
-          ...(searchConversation && searchTerm ? getSearchResults(state) : {}),
-        };
-      }
-      if (getIsActivelySearching(state)) {
-        return {
-          mode: LeftPaneMode.Search,
+          mode: LeftPaneMode.Inbox,
+          isAboutToSearch: getIsSearching(state),
           isSearchingGlobally: getIsSearchingGlobally(state),
           searchConversation: getSearchConversation(state),
           searchDisabled: state.network.challengeStatus !== 'idle',
+          searchTerm: getQuery(state),
           startSearchCounter: getStartSearchCounter(state),
-          ...getSearchResults(state),
+          filterByUnread: getFilterByUnread(state),
+          selectedChatFolder: getSelectedChatFolder(state),
+          ...getLeftPaneLists(state),
         };
-      }
-      return {
-        mode: LeftPaneMode.Inbox,
-        isAboutToSearch: getIsSearching(state),
-        isSearchingGlobally: getIsSearchingGlobally(state),
-        searchConversation: getSearchConversation(state),
-        searchDisabled: state.network.challengeStatus !== 'idle',
-        searchTerm: getQuery(state),
-        startSearchCounter: getStartSearchCounter(state),
-        filterByUnread: getFilterByUnread(state),
-        selectedChatFolder: getSelectedChatFolder(state),
-        ...getLeftPaneLists(state),
-      };
-    case ComposerStep.StartDirectConversation:
-      return {
-        mode: LeftPaneMode.Compose,
-        composeContacts: getFilteredComposeContacts(state),
-        composeGroups: getFilteredComposeGroups(state),
-        regionCode: getRegionCode(state),
-        searchTerm: getComposerConversationSearchTerm(state),
-        uuidFetchState: getComposerUUIDFetchState(state),
-        username: getUsernameFromSearch(
-          getComposerConversationSearchTerm(state)
-        ),
-      };
-    case ComposerStep.FindByUsername:
-      return {
-        mode: LeftPaneMode.FindByUsername,
-        searchTerm: getComposerConversationSearchTerm(state),
-        uuidFetchState: getComposerUUIDFetchState(state),
-        username: getUsernameFromSearch(
-          getComposerConversationSearchTerm(state)
-        ),
-      };
-    case ComposerStep.FindByPhoneNumber:
-      return {
-        mode: LeftPaneMode.FindByPhoneNumber,
-        searchTerm: getComposerConversationSearchTerm(state),
-        regionCode: getRegionCode(state),
-        uuidFetchState: getComposerUUIDFetchState(state),
-        countries: getCountryDataForLocale(i18n.getLocale()),
-        selectedRegion: getComposerSelectedRegion(state),
-      };
-    case ComposerStep.ChooseGroupMembers:
-      return {
-        mode: LeftPaneMode.ChooseGroupMembers,
-        candidateContacts: getFilteredCandidateContactsForNewGroup(state),
-        groupSizeRecommendedLimit: getGroupSizeRecommendedLimit(),
-        groupSizeHardLimit: getGroupSizeHardLimit(),
-        isShowingRecommendedGroupSizeModal:
-          getRecommendedGroupSizeModalState(state) ===
-          OneTimeModalState.Showing,
-        isShowingMaximumGroupSizeModal:
-          getMaximumGroupSizeModalState(state) === OneTimeModalState.Showing,
-        ourE164: getMe(state).e164,
-        ourUsername: getMe(state).username,
-        regionCode: getRegionCode(state),
-        searchTerm: getComposerConversationSearchTerm(state),
-        selectedContacts: getComposeSelectedContacts(state),
-        uuidFetchState: getComposerUUIDFetchState(state),
-        username: getUsernameFromSearch(
-          getComposerConversationSearchTerm(state)
-        ),
-      };
-    case ComposerStep.SetGroupMetadata:
-      return {
-        mode: LeftPaneMode.SetGroupMetadata,
-        groupAvatar: getComposeGroupAvatar(state),
-        groupName: getComposeGroupName(state),
-        groupExpireTimer: getComposeGroupExpireTimer(state),
-        hasError: hasGroupCreationError(state),
-        isCreating: isCreatingGroup(state),
-        isEditingAvatar: isEditingAvatar(state),
-        selectedContacts: getComposeSelectedContacts(state),
-        userAvatarData: getComposeAvatarData(state),
-      };
-    default:
-      throw missingCaseError(composerStep);
+      case ComposerStep.StartDirectConversation:
+        return {
+          mode: LeftPaneMode.Compose,
+          composeContacts: getFilteredComposeContacts(state),
+          composeGroups: getFilteredComposeGroups(state),
+          regionCode: getRegionCode(state),
+          searchTerm: getComposerConversationSearchTerm(state),
+          uuidFetchState: getComposerUUIDFetchState(state),
+          username: getUsernameFromSearch(
+            getComposerConversationSearchTerm(state)
+          ),
+        };
+      case ComposerStep.FindByUsername:
+        return {
+          mode: LeftPaneMode.FindByUsername,
+          searchTerm: getComposerConversationSearchTerm(state),
+          uuidFetchState: getComposerUUIDFetchState(state),
+          username: getUsernameFromSearch(
+            getComposerConversationSearchTerm(state)
+          ),
+        };
+      case ComposerStep.FindByPhoneNumber:
+        return {
+          mode: LeftPaneMode.FindByPhoneNumber,
+          searchTerm: getComposerConversationSearchTerm(state),
+          regionCode: getRegionCode(state),
+          uuidFetchState: getComposerUUIDFetchState(state),
+          countries: getCountryDataForLocale(i18n.getLocale()),
+          selectedRegion: getComposerSelectedRegion(state),
+        };
+      case ComposerStep.ChooseGroupMembers:
+        return {
+          mode: LeftPaneMode.ChooseGroupMembers,
+          candidateContacts: getFilteredCandidateContactsForNewGroup(state),
+          groupSizeRecommendedLimit: getGroupSizeRecommendedLimit(),
+          groupSizeHardLimit: getGroupSizeHardLimit(),
+          isShowingRecommendedGroupSizeModal:
+            getRecommendedGroupSizeModalState(state) ===
+            OneTimeModalState.Showing,
+          isShowingMaximumGroupSizeModal:
+            getMaximumGroupSizeModalState(state) === OneTimeModalState.Showing,
+          ourE164: getMe(state).e164,
+          ourUsername: getMe(state).username,
+          regionCode: getRegionCode(state),
+          searchTerm: getComposerConversationSearchTerm(state),
+          selectedContacts: getComposeSelectedContacts(state),
+          uuidFetchState: getComposerUUIDFetchState(state),
+          username: getUsernameFromSearch(
+            getComposerConversationSearchTerm(state)
+          ),
+        };
+      case ComposerStep.SetGroupMetadata:
+        return {
+          mode: LeftPaneMode.SetGroupMetadata,
+          groupAvatar: getComposeGroupAvatar(state),
+          groupName: getComposeGroupName(state),
+          groupExpireTimer: getComposeGroupExpireTimer(state),
+          hasError: hasGroupCreationError(state),
+          isCreating: isCreatingGroup(state),
+          isEditingAvatar: isEditingAvatar(state),
+          selectedContacts: getComposeSelectedContacts(state),
+          userAvatarData: getComposeAvatarData(state),
+        };
+      default:
+        throw missingCaseError(composerStep);
+    }
   }
-};
+);
 
 async function saveAlerts(alerts: ServerAlertsType): Promise<void> {
   await itemStorage.put('serverAlerts', alerts);
