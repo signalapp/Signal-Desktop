@@ -14,6 +14,8 @@ import { getPinnedMessagesLimit } from '../util/pinnedMessages.dom.js';
 import { getPinnedMessageExpiresAt } from '../util/pinnedMessages.std.js';
 import { pinnedMessagesCleanupService } from '../services/expiring/pinnedMessagesCleanupService.preload.js';
 import { drop } from '../util/drop.std.js';
+import type { AppendPinnedMessageResult } from '../sql/server/pinnedMessages.std.js';
+import * as Errors from '../types/errors.std.js';
 
 const { AccessRequired } = Proto.AccessControl;
 const { Role } = Proto.Member;
@@ -37,9 +39,8 @@ export type PinnedMessageRemoveProps = Readonly<{
 export async function onPinnedMessageAdd(
   props: PinnedMessageAddProps
 ): Promise<void> {
-  const log = parentLog.child(
-    `onPinnedMessageAdd(timestamp=${props.targetSentTimestamp}, aci=${props.targetAuthorAci})`
-  );
+  const logPrefix = `onPinnedMessageAdd(timestamp=${props.targetSentTimestamp}, aci=${props.targetAuthorAci})`;
+  const log = parentLog.child(logPrefix);
 
   const target = await findMessageModifierTarget(
     props.targetSentTimestamp,
@@ -61,18 +62,34 @@ export async function onPinnedMessageAdd(
 
   const { targetMessage, targetConversation } = target;
 
-  const expiresAt = getPinnedMessageExpiresAt(
-    props.receivedAtTimestamp,
-    props.pinDuration
-  );
+  const result = await targetConversation.queueJob(logPrefix, async () => {
+    const promises = targetConversation.getSavePromises();
+    log.info(`Waiting for message saves (${promises.length} items)...`);
+    await Promise.all(promises);
 
-  const pinnedMessagesLimit = getPinnedMessagesLimit();
+    const expiresAt = getPinnedMessageExpiresAt(
+      props.receivedAtTimestamp,
+      props.pinDuration
+    );
 
-  const result = await DataWriter.appendPinnedMessage(pinnedMessagesLimit, {
-    conversationId: targetConversation.id,
-    messageId: targetMessage.id,
-    expiresAt,
-    pinnedAt: props.receivedAtTimestamp,
+    const pinnedMessagesLimit = getPinnedMessagesLimit();
+
+    let appendResult: AppendPinnedMessageResult;
+    try {
+      appendResult = await DataWriter.appendPinnedMessage(pinnedMessagesLimit, {
+        conversationId: targetConversation.id,
+        messageId: targetMessage.id,
+        expiresAt,
+        pinnedAt: props.receivedAtTimestamp,
+      });
+    } catch (error) {
+      log.error(
+        `Failed to append pinned message: ${Errors.toLogFormat(error)}`
+      );
+      throw error;
+    }
+
+    return appendResult;
   });
 
   if (result.change == null) {
