@@ -26,7 +26,6 @@ export type MenuActionsType = Readonly<{
   setupAsStandalone: () => unknown;
   showAbout: () => unknown;
   showDebugLog: () => unknown;
-  showCallingDevTools: () => unknown;
   showKeyboardShortcuts: () => unknown;
   showSettings: () => unknown;
   showWindow: () => unknown;

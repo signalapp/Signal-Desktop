@@ -1007,14 +1007,6 @@
     "messageformat": "Sharing screen",
     "description": "Title for screen sharing window"
   },
-  "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools",
-    "description": "Title for calling developer tools window"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "This window is used during development to display diagnostics from ongoing calls.",
-    "description": "Description displayed for calling developer tools window"
-  },
   "icu:speech": {
     "messageformat": "Speech",
     "description": "Item under the Edit menu, with 'start/stop speaking' items below it"

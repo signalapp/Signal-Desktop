@@ -120,8 +120,6 @@ if (
 
       calling._iceServerOverride = override;
     },
-    setRtcStatsInterval: (intervalMillis: number) =>
-      calling.setAllRtcStatsInterval(intervalMillis),
     sendPollInSelectedConversation: async (poll: PollCreateType) => {
       if (!isPollSendEnabled()) {
         throw new Error('Poll sending is not enabled');

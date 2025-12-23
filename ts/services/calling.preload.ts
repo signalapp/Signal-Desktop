@@ -211,8 +211,6 @@ const CALL_QUALITY_SURVEY_DELAY = 2.5 * durations.SECOND;
 
 const ICE_SERVER_IS_IP_LIKE = /(turn|turns|stun):[.\d]+/;
 
-const MAX_CALL_DEBUG_STATS_TABS = 5;
-
 // We send group call update messages to tell other clients to peek, which triggers
 //   notifications, timeline messages, big green "Join" buttons, and so on. This enum
 //   represents the three possible states we can be in. This helps ensure that we don't
@@ -536,8 +534,6 @@ export class CallingClass {
   #lastMediaDeviceSettings?: MediaDeviceSettings;
   #deviceReselectionTimer?: NodeJS.Timeout;
   #callsLookup: { [key: string]: Call | GroupCall };
-  #currentRtcStatsInterval: number | null = null;
-  #callDebugNumber: number = 0;
 
   #cameraEnabled: boolean = false;
 
@@ -581,7 +577,6 @@ export class CallingClass {
       this.#handleSendCallMessageToGroup.bind(this);
     RingRTC.handleGroupCallRingUpdate =
       this.#handleGroupCallRingUpdate.bind(this);
-    RingRTC.handleRtcStatsReport = this.#handleRtcStatsReport.bind(this);
 
     this.#attemptToGiveOurServiceIdToRingRtc();
     window.Whisper.events.on('userChanged', () => {
@@ -591,12 +586,6 @@ export class CallingClass {
     ipcRenderer.on('stop-screen-share', () => {
       reduxInterface.cancelPresenting();
     });
-    ipcRenderer.on(
-      'calling:set-rtc-stats-interval',
-      (_, intervalMillis: number | null) => {
-        this.setAllRtcStatsInterval(intervalMillis);
-      }
-    );
 
     drop(this.#cleanExpiredGroupCallRingsAndLoop());
     drop(this.cleanupStaleRingingCalls());
@@ -617,16 +606,6 @@ export class CallingClass {
       // Trigger UI update
       reduxInterface.setLocalAudio({ enabled: !isMuted, isUIOnly: true });
     });
-  }
-
-  #maybeUpdateRtcLogging(groupCall: GroupCall): void {
-    if (!this.#currentRtcStatsInterval) {
-      return;
-    }
-
-    groupCall.setRtcStatsInterval(this.#currentRtcStatsInterval);
-    this.#callDebugNumber =
-      (this.#callDebugNumber + 1) % MAX_CALL_DEBUG_STATS_TABS;
   }
 
   #attemptToGiveOurServiceIdToRingRtc(): void {
@@ -1439,7 +1418,6 @@ export class CallingClass {
 
     outerGroupCall.connect();
 
-    this.#maybeUpdateRtcLogging(outerGroupCall);
     this.#syncGroupCallToRedux(conversationId, outerGroupCall, CallMode.Group);
 
     return outerGroupCall;
@@ -1502,7 +1480,6 @@ export class CallingClass {
 
     outerGroupCall.connect();
 
-    this.#maybeUpdateRtcLogging(outerGroupCall);
     this.#syncGroupCallToRedux(roomId, outerGroupCall, CallMode.Adhoc);
 
     return outerGroupCall;
@@ -2263,27 +2240,6 @@ export class CallingClass {
       throw new Error('Could not find matching call');
     }
     groupCall.react(value);
-  }
-
-  // configures how often call stats are computed
-  public setAllRtcStatsInterval(intervalMillis: number | null): void {
-    if (this.#currentRtcStatsInterval === intervalMillis) {
-      return;
-    }
-    this.#currentRtcStatsInterval = intervalMillis;
-
-    // GroupCall.setRtcStatsInterval resets to the default when interval == 0
-    // so set it to 0 when intervalMillis is undefined
-    const statsInterval = intervalMillis ?? 0;
-
-    for (const conversationId of Object.keys(this.#callsLookup)) {
-      const groupCall = this.#getGroupCall(conversationId);
-      if (!groupCall) {
-        continue;
-      }
-      log.info('Setting rtc stats interval:', conversationId, statsInterval);
-      groupCall.setRtcStatsInterval(statsInterval);
-    }
   }
 
   #syncGroupCallToRedux(
@@ -3757,18 +3713,6 @@ export class CallingClass {
       default:
         break;
     }
-  }
-
-  async #handleRtcStatsReport(reportJson: string) {
-    // assumes one active call
-    const conversationId = Object.keys(this.#callsLookup)[0] ?? '';
-    const callId = this.#callDebugNumber;
-
-    ipcRenderer.send('calling:rtc-stats-report', {
-      conversationId,
-      callId,
-      reportJson,
-    });
   }
 
   async #handleSendHttpRequest(

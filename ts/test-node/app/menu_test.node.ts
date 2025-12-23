@@ -24,7 +24,6 @@ const setupAsNewDevice = stub();
 const setupAsStandalone = stub();
 const showAbout = stub();
 const showDebugLog = stub();
-const showCallingDevTools = stub();
 const showKeyboardShortcuts = stub();
 const showSettings = stub();
 const showWindow = stub();
@@ -74,7 +73,6 @@ const getExpectedViewMenu = (): MenuItemConstructorOptions => ({
     { label: 'Debug Log', click: showDebugLog },
     { type: 'separator' },
     { label: 'Toggle Developer Tools', role: 'toggleDevTools' },
-    { label: 'Open Calling Developer Tools', click: showCallingDevTools },
     { label: 'Force Update', click: forceUpdate },
   ],
 });
@@ -236,7 +234,6 @@ describe('createTemplate', () => {
     setupAsStandalone,
     showAbout,
     showDebugLog,
-    showCallingDevTools,
     showKeyboardShortcuts,
     showSettings,
     showWindow,
