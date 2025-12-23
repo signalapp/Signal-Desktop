@@ -29,7 +29,7 @@ export function CallingHeader({
   participantCount,
   togglePip,
   toggleSettings,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   return (
     <div className="module-calling-tools">
       {isGroupCall &&

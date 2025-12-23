@@ -11,7 +11,7 @@ export default {
   title: 'Components/Select',
 } satisfies Meta<PropsType>;
 
-export function Normal(): JSX.Element {
+export function Normal(): React.JSX.Element {
   const [value, setValue] = useState(0);
 
   const onChange = action('onChange');
@@ -32,7 +32,7 @@ export function Normal(): JSX.Element {
   );
 }
 
-export function WithDisabledOptions(): JSX.Element {
+export function WithDisabledOptions(): React.JSX.Element {
   return (
     <Select
       options={[

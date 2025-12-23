@@ -106,7 +106,7 @@ export default {
   },
 } satisfies Meta<Props>;
 
-export function DeliveredIncoming(args: Props): JSX.Element {
+export function DeliveredIncoming(args: Props): React.JSX.Element {
   return (
     <MessageDetail
       {...args}
@@ -125,7 +125,7 @@ export function DeliveredIncoming(args: Props): JSX.Element {
   );
 }
 
-export function DeliveredOutgoing(args: Props): JSX.Element {
+export function DeliveredOutgoing(args: Props): React.JSX.Element {
   return (
     <MessageDetail
       {...args}
@@ -138,7 +138,7 @@ export function DeliveredOutgoing(args: Props): JSX.Element {
   );
 }
 
-export function MessageStatuses(args: Props): JSX.Element {
+export function MessageStatuses(args: Props): React.JSX.Element {
   return (
     <MessageDetail
       {...args}
@@ -193,7 +193,7 @@ export function MessageStatuses(args: Props): JSX.Element {
   );
 }
 
-export function NotDelivered(args: Props): JSX.Element {
+export function NotDelivered(args: Props): React.JSX.Element {
   return (
     <MessageDetail
       {...args}
@@ -208,7 +208,7 @@ export function NotDelivered(args: Props): JSX.Element {
   );
 }
 
-export function NoContacts(args: Props): JSX.Element {
+export function NoContacts(args: Props): React.JSX.Element {
   return (
     <MessageDetail
       {...args}
@@ -222,7 +222,7 @@ export function NoContacts(args: Props): JSX.Element {
   );
 }
 
-export function AllErrors(args: Props): JSX.Element {
+export function AllErrors(args: Props): React.JSX.Element {
   return (
     <MessageDetail
       {...args}

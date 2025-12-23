@@ -16,7 +16,7 @@ export type DonationPrivacyInformationModalProps = {
 export function DonationPrivacyInformationModal({
   i18n,
   onClose,
-}: DonationPrivacyInformationModalProps): JSX.Element {
+}: DonationPrivacyInformationModalProps): React.JSX.Element {
   const handleDonationFAQsClick = () => {
     openLinkInWebBrowser(
       'https://support.signal.org/hc/articles/360031949872-Donor-FAQs'
@@ -39,7 +39,7 @@ export function DonationPrivacyInformationModal({
   );
 
   const paragraphComponent = useCallback(
-    (parts: Array<string | JSX.Element>) => <p>{parts}</p>,
+    (parts: Array<string | React.JSX.Element>) => <p>{parts}</p>,
     []
   );
 

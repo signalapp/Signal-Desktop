@@ -26,12 +26,12 @@ export function StoryLinkPreview({
   image,
   title,
   url,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const isImage = isImageAttachment(image);
   const location = domain || getSafeDomain(String(url));
   const isCompact = forceCompactMode || !image;
 
-  let content: JSX.Element | undefined;
+  let content: React.JSX.Element | undefined;
   if (!title && !description) {
     content = (
       <div

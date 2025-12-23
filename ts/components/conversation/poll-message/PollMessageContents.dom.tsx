@@ -21,7 +21,7 @@ function VotedCheckmark({
 }: {
   isIncoming: boolean;
   i18n: LocalizerType;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <div
       className={tw(
@@ -163,7 +163,7 @@ export function PollMessageContents({
   sendPollVote,
   endPoll,
   canEndPoll,
-}: PollMessageContentsProps): JSX.Element {
+}: PollMessageContentsProps): React.JSX.Element {
   const [showVotesModal, setShowVotesModal] = useState(false);
   const [isPending, setIsPending] = useState(false);
 

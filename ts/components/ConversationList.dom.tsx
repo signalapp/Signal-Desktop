@@ -238,10 +238,10 @@ export type PropsType = {
   onOutgoingAudioCallInConversation: (conversationId: string) => void;
   onOutgoingVideoCallInConversation: (conversationId: string) => void;
   removeConversation: (conversationId: string) => void;
-  renderMessageSearchResult?: (id: string) => JSX.Element;
+  renderMessageSearchResult?: (id: string) => React.JSX.Element;
   renderConversationListItemContextMenu?: (
     props: RenderConversationListItemContextMenuProps
-  ) => JSX.Element;
+  ) => React.JSX.Element;
   showChooseGroupMembers: () => void;
   showFindByUsername: () => void;
   showFindByPhoneNumber: () => void;
@@ -283,7 +283,7 @@ export function ConversationList({
   setIsFetchingUUID,
   showConversation,
   theme,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   const calculateRowHeight = useCallback(
     (index: number): number => {
       const row = getRow(index);

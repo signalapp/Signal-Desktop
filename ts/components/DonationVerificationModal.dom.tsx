@@ -17,7 +17,7 @@ export type PropsType = {
   onTimedOut: () => unknown;
 };
 
-export function DonationVerificationModal(props: PropsType): JSX.Element {
+export function DonationVerificationModal(props: PropsType): React.JSX.Element {
   const { _timeout, i18n, onCancelDonation, onOpenBrowser, onTimedOut } = props;
   const [hasOpenedBrowser, setHasOpenedBrowser] = useState(false);
 

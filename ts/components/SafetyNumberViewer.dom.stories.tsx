@@ -85,11 +85,11 @@ export default {
   title: 'Components/SafetyNumberViewer',
 } satisfies Meta<PropsType>;
 
-export function SafetyNumber(): JSX.Element {
+export function SafetyNumber(): React.JSX.Element {
   return <SafetyNumberViewer {...createProps({})} />;
 }
 
-export function SafetyNumberNotVerified(): JSX.Element {
+export function SafetyNumberNotVerified(): React.JSX.Element {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -102,7 +102,7 @@ export function SafetyNumberNotVerified(): JSX.Element {
   );
 }
 
-export function VerificationDisabled(): JSX.Element {
+export function VerificationDisabled(): React.JSX.Element {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -112,7 +112,7 @@ export function VerificationDisabled(): JSX.Element {
   );
 }
 
-export function SafetyNumberDialogClose(): JSX.Element {
+export function SafetyNumberDialogClose(): React.JSX.Element {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -122,7 +122,7 @@ export function SafetyNumberDialogClose(): JSX.Element {
   );
 }
 
-export function JustProfileAndNumber(): JSX.Element {
+export function JustProfileAndNumber(): React.JSX.Element {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -132,7 +132,7 @@ export function JustProfileAndNumber(): JSX.Element {
   );
 }
 
-export function JustNumber(): JSX.Element {
+export function JustNumber(): React.JSX.Element {
   return (
     <SafetyNumberViewer
       {...createProps({
@@ -142,7 +142,7 @@ export function JustNumber(): JSX.Element {
   );
 }
 
-export function NoACICannotVerify(): JSX.Element {
+export function NoACICannotVerify(): React.JSX.Element {
   return (
     <SafetyNumberViewer
       {...createProps({

@@ -96,13 +96,13 @@ export type Props = PropsData &
   Omit<PropsHousekeeping, 'isAttachmentPending'> & {
     renderReactionPicker: (
       props: React.ComponentProps<typeof SmartReactionPicker>
-    ) => JSX.Element;
+    ) => React.JSX.Element;
   };
 
 /**
  * Message with menu/context-menu (as necessary for rendering in the timeline)
  */
-export function TimelineMessage(props: Props): JSX.Element {
+export function TimelineMessage(props: Props): React.JSX.Element {
   const {
     attachments,
     canDownload,
@@ -326,7 +326,10 @@ export function TimelineMessage(props: Props): JSX.Element {
   }, [groupedReactions]);
 
   const renderMessageContextMenu = useCallback(
-    (renderer: AxoMenuBuilder.Renderer, children: ReactNode): JSX.Element => {
+    (
+      renderer: AxoMenuBuilder.Renderer,
+      children: ReactNode
+    ): React.JSX.Element => {
       return (
         <MessageContextMenu
           i18n={i18n}

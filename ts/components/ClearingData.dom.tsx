@@ -13,7 +13,10 @@ export type PropsType = {
   i18n: LocalizerType;
 };
 
-export function ClearingData({ deleteAllData, i18n }: PropsType): JSX.Element {
+export function ClearingData({
+  deleteAllData,
+  i18n,
+}: PropsType): React.JSX.Element {
   useEffect(() => {
     deleteAllData();
   }, [deleteAllData]);

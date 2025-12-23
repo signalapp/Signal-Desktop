@@ -29,10 +29,10 @@ export type PropsType = {
   workflow: PlaintextExportWorkflowType;
 };
 
-function Bold(parts: Array<string | JSX.Element>) {
+function Bold(parts: Array<string | React.JSX.Element>) {
   return <b>{parts}</b>;
 }
-function Secondary(parts: Array<string | JSX.Element>) {
+function Secondary(parts: Array<string | React.JSX.Element>) {
   return <span className={tw('text-label-secondary')}>{parts}</span>;
 }
 
@@ -44,7 +44,7 @@ export function PlaintextExportWorkflow({
   osName,
   verifyWithOSForExport,
   workflow,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [includeMedia, setIncludeMedia] = React.useState(true);
   const { step } = workflow;
 

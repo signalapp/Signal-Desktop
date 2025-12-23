@@ -47,7 +47,7 @@ export function AvatarTextEditor({
   i18n,
   onCancel,
   onDone,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const initialText = useMemo(() => avatarData?.text || '', [avatarData]);
   const initialColor = useMemo(
     () => avatarData?.color || AvatarColors[0],

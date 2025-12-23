@@ -18,11 +18,11 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   phoneNumber: '(555) 333-1111',
 });
 
-export function WithoutSharedGroup(): JSX.Element {
+export function WithoutSharedGroup(): React.JSX.Element {
   return <PhoneNumberDiscoveryNotification {...createProps()} />;
 }
 
-export function WithSharedGroup(): JSX.Element {
+export function WithSharedGroup(): React.JSX.Element {
   return (
     <PhoneNumberDiscoveryNotification
       {...createProps()}

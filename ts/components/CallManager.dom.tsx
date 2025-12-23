@@ -102,10 +102,10 @@ export type PropsType = {
   getPresentingSources: () => void;
   isOnline: boolean;
   ringingCall: DirectIncomingCall | GroupIncomingCall | null;
-  renderDeviceSelection: () => JSX.Element;
+  renderDeviceSelection: () => React.JSX.Element;
   renderReactionPicker: (
     props: React.ComponentProps<typeof SmartReactionPicker>
-  ) => JSX.Element;
+  ) => React.JSX.Element;
   showContactModal: (contactId: string, conversationId?: string) => void;
   startCall: (payload: StartCallType) => void;
   toggleParticipants: () => void;
@@ -219,7 +219,7 @@ function ActiveCallManager({
   toggleSelfViewExpanded,
   toggleSettings,
   pauseVoiceNotePlayer,
-}: ActiveCallManagerPropsType): JSX.Element {
+}: ActiveCallManagerPropsType): React.JSX.Element {
   const {
     conversation,
     hasLocalAudio,
@@ -597,7 +597,7 @@ export function CallManager({
   toggleScreenRecordingPermissionsDialog,
   toggleSelfViewExpanded,
   toggleSettings,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   const isCallActive = Boolean(activeCall);
   useEffect(() => {
     setIsCallActive(isCallActive);

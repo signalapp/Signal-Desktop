@@ -39,7 +39,7 @@ export type SmartConversationViewProps = Readonly<{
 
 export const SmartConversationView = memo(function SmartConversationView(
   props: SmartConversationViewProps
-): JSX.Element {
+): React.JSX.Element {
   const { toggleSelectMode } = useConversationsActions();
   const selectedMessageIds = useSelector(getSelectedMessageIds);
   const isSelectMode = selectedMessageIds != null;

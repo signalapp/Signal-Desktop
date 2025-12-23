@@ -55,7 +55,7 @@ export function AddUserToAnotherGroupModal({
   showToast,
   candidateConversations,
   regionCode,
-}: Props): JSX.Element | null {
+}: Props): React.JSX.Element | null {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [filteredConversations, setFilteredConversations] = React.useState(
     filterAndSortConversations(candidateConversations, '', undefined)

@@ -15,7 +15,7 @@ export type PropsType = Readonly<{
 export function SignalConnectionsModal({
   i18n,
   onClose,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   return (
     <Modal
       modalName="SignalConnectionsModal"

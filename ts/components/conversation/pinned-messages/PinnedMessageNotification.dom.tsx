@@ -21,7 +21,7 @@ export type PinnedMessageNotificationProps = PinnedMessageNotificationData &
 
 export function PinnedMessageNotification(
   props: PinnedMessageNotificationProps
-): JSX.Element {
+): React.JSX.Element {
   const { i18n, sender, pinnedMessageId, onScrollToPinnedMessage } = props;
 
   const onClick = useCallback(() => {

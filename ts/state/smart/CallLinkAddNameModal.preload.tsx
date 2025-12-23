@@ -15,7 +15,7 @@ import { CallLinkAddNameModal } from '../../components/CallLinkAddNameModal.dom.
 const log = createLogger('CallLinkAddNameModal');
 
 export const SmartCallLinkAddNameModal = memo(
-  function SmartCallLinkAddNameModal(): JSX.Element | null {
+  function SmartCallLinkAddNameModal(): React.JSX.Element | null {
     const roomId = useSelector(getCallLinkAddNameModalRoomId);
     strictAssert(roomId, 'Expected roomId to be set');
 

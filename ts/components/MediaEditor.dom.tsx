@@ -173,7 +173,7 @@ export function MediaEditor({
   sortedGroupMembers,
   convertDraftBodyRangesIntoHydrated,
   imageToBlurHash,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   const [fabricCanvas, setFabricCanvas] = useState<fabric.Canvas | undefined>();
   const [image, setImage] = useState<HTMLImageElement>(new Image());
   const [stickerPickerOpen, setStickerPickerOpen] = useState(false);
@@ -851,7 +851,7 @@ export function MediaEditor({
     return null;
   }
 
-  let toolElement: JSX.Element | undefined;
+  let toolElement: React.JSX.Element | undefined;
   if (editMode === EditMode.Text) {
     toolElement = (
       <>

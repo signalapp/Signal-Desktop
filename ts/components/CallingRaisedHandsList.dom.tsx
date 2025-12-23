@@ -36,7 +36,7 @@ export function CallingRaisedHandsList({
   conversationsByDemuxId,
   raisedHands,
   localHandRaised,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   const ourServiceId: ServiceIdString | undefined = localDemuxId
     ? conversationsByDemuxId.get(localDemuxId)?.serviceId
     : undefined;
@@ -175,7 +175,7 @@ export function CallingRaisedHandsListButton({
   syncedLocalHandRaised,
   raisedHandsCount,
   onClick,
-}: CallingRaisedHandsListButtonPropsType): JSX.Element | null {
+}: CallingRaisedHandsListButtonPropsType): React.JSX.Element | null {
   const [isVisible, setIsVisible] = React.useState(raisedHandsCount > 0);
 
   const reducedMotion = useReducedMotion();

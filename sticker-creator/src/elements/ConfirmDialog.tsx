@@ -20,7 +20,7 @@ export type Props = Readonly<{
 export const ConfirmDialog = forwardRef(function ConfirmDialog(
   { title, children, confirm, cancel, onConfirm, onCancel }: Props,
   ref: Ref<HTMLDivElement>
-): JSX.Element {
+): React.JSX.Element {
   const i18n = useI18n();
   const cancelText = cancel || i18n('StickerCreator--ConfirmDialog--cancel');
 

@@ -212,29 +212,29 @@ type PropsFunctionType = {
     contentsRef: MutableRefObject<HTMLDivElement | null>;
     settingsLocation: SettingsLocation;
     setSettingsLocation: (settingsLocation: SettingsLocation) => void;
-  }) => JSX.Element;
+  }) => React.JSX.Element;
   renderNotificationProfilesHome: (
     props: SmartNotificationProfilesProps
-  ) => JSX.Element;
+  ) => React.JSX.Element;
   renderNotificationProfilesCreateFlow: (
     props: SmartNotificationProfilesProps
-  ) => JSX.Element;
+  ) => React.JSX.Element;
 
   renderProfileEditor: (options: {
     contentsRef: MutableRefObject<HTMLDivElement | null>;
-  }) => JSX.Element;
+  }) => React.JSX.Element;
   renderToastManager: (
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
-  ) => JSX.Element;
+  ) => React.JSX.Element;
   renderUpdateDialog: (
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
-  ) => JSX.Element;
+  ) => React.JSX.Element;
   renderPreferencesChatFoldersPage: (
     props: SmartPreferencesChatFoldersPageProps
-  ) => JSX.Element;
+  ) => React.JSX.Element;
   renderPreferencesEditChatFolderPage: (
     props: SmartPreferencesEditChatFolderPageProps
-  ) => JSX.Element;
+  ) => React.JSX.Element;
 
   // Other props
   addCustomColor: (color: CustomColorType) => unknown;
@@ -542,7 +542,7 @@ export function Preferences({
   __dangerouslyRunAbitraryReadOnlySqlQuery,
   callQualitySurveyCooldownDisabled,
   setCallQualitySurveyCooldownDisabled,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const storiesId = useId();
   const themeSelectId = useId();
   const zoomSelectId = useId();
@@ -595,7 +595,7 @@ export function Preferences({
     setSettingsLocation({ page: SettingsPage.General });
   }
 
-  let maybeUpdateDialog: JSX.Element | undefined;
+  let maybeUpdateDialog: React.JSX.Element | undefined;
   if (shouldShowUpdateDialog) {
     maybeUpdateDialog = renderUpdateDialog({
       containerWidthBreakpoint: WidthBreakpoint.Wide,
@@ -752,7 +752,7 @@ export function Preferences({
     });
   }, [localeSearchOptions, languageSearchInput]);
 
-  let content: JSX.Element | undefined;
+  let content: React.JSX.Element | undefined;
 
   if (settingsLocation.page === SettingsPage.Profile) {
     content = renderProfileEditor({
@@ -2217,7 +2217,7 @@ export function Preferences({
     } else if (settingsLocation.page !== SettingsPage.Backups) {
       backPage = SettingsPage.Backups;
     }
-    let backButton: JSX.Element | undefined;
+    let backButton: React.JSX.Element | undefined;
     if (backPage) {
       backButton = (
         <button
@@ -2572,12 +2572,12 @@ export function PreferencesContent({
   title,
   actions,
 }: {
-  backButton?: JSX.Element | undefined;
-  contents: JSX.Element | undefined;
+  backButton?: React.JSX.Element | undefined;
+  contents: React.JSX.Element | undefined;
   contentsRef: MutableRefObject<HTMLDivElement | null>;
   title: string | undefined;
   actions?: ReactNode;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <div className="Preferences__content">
       <div className="Preferences__title">

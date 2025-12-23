@@ -30,7 +30,7 @@ export default function DeleteMessagesModal({
   onDeleteForMe,
   onDeleteForEveryone,
   showToast,
-}: DeleteMessagesModalProps): JSX.Element {
+}: DeleteMessagesModalProps): React.JSX.Element {
   const actions: Array<ActionSpec> = [];
 
   const syncNoteToSelfDelete = isMe;

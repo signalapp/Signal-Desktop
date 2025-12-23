@@ -22,7 +22,7 @@ function onLearnMore() {
 export function SafetyNumberNotReady({
   i18n,
   onClose,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   return (
     <div className="module-SafetyNumberNotReady">
       <div>

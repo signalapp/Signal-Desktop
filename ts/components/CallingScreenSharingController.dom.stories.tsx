@@ -24,11 +24,11 @@ export default {
   title: 'Components/CallingScreenSharingController',
 } satisfies Meta<PropsType>;
 
-export function Controller(): JSX.Element {
+export function Controller(): React.JSX.Element {
   return <CallingScreenSharingController {...createProps()} />;
 }
 
-export function ReallyLongAppName(): JSX.Element {
+export function ReallyLongAppName(): React.JSX.Element {
   return (
     <CallingScreenSharingController
       {...createProps({
@@ -39,7 +39,7 @@ export function ReallyLongAppName(): JSX.Element {
   );
 }
 
-export function Reconnecting(): JSX.Element {
+export function Reconnecting(): React.JSX.Element {
   return (
     <CallingScreenSharingController
       {...createProps({

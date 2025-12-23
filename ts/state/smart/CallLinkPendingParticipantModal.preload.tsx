@@ -12,7 +12,7 @@ import { getCallLinkPendingParticipantContactId } from '../selectors/globalModal
 import { strictAssert } from '../../util/assert.std.js';
 
 export const SmartCallLinkPendingParticipantModal = memo(
-  function SmartCallLinkPendingParticipantModal(): JSX.Element | null {
+  function SmartCallLinkPendingParticipantModal(): React.JSX.Element | null {
     const contactId = useSelector(getCallLinkPendingParticipantContactId);
     strictAssert(contactId, 'Expected contactId to be set');
 

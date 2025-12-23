@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactChild } from 'react';
+import type { ReactNode } from 'react';
 import React, { forwardRef, useCallback, useState } from 'react';
 import classNames from 'classnames';
 
@@ -84,7 +84,7 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
     );
     const metadataDirection = isSticker ? undefined : direction;
 
-    let timestampNode: ReactChild;
+    let timestampNode: ReactNode;
     {
       const isError = status === 'error' && direction === 'outgoing';
       const isPartiallySent =
@@ -92,7 +92,7 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
       const isPaused = status === 'paused';
 
       if (isError || isPartiallySent || isPaused) {
-        let statusInfo: React.ReactChild;
+        let statusInfo: React.ReactNode;
         if (isError) {
           if (deletedForEveryone) {
             statusInfo = i18n('icu:deleteFailed');
@@ -156,7 +156,7 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
       }
     }
 
-    let confirmation: JSX.Element | undefined;
+    let confirmation: React.JSX.Element | undefined;
     if (confirmationType === undefined) {
       // no-op
     } else if (confirmationType === ConfirmationType.EditError) {

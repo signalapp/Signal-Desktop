@@ -15,7 +15,7 @@ export default {
 
 const { i18n } = window.SignalContext;
 
-export function Basic(): JSX.Element {
+export function Basic(): React.JSX.Element {
   const [isPending, setIsPending] = useState(false);
 
   return (

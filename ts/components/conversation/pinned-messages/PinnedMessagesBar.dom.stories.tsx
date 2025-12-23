@@ -97,7 +97,7 @@ function Stack(props: { children: ReactNode }) {
   );
 }
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return (
     <Stack>
       <Template defaultCurrent={PIN_1.id} pins={[PIN_1]} />
@@ -126,7 +126,7 @@ function Variant(props: { title: string; message: Omit<PinMessage, 'id'> }) {
 const SHORT_TEXT = 'Lorem, ipsum dolor sit amet';
 const IMAGE_URL = '/fixtures/tina-rolf-269345-unsplash.jpg';
 
-export function Variants(): JSX.Element {
+export function Variants(): React.JSX.Element {
   return (
     <Stack>
       <Variant

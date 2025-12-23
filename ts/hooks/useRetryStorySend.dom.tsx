@@ -12,7 +12,7 @@ export function useRetryStorySend(
   i18n: LocalizerType,
   sendStatus: ResolvedSendStatus | undefined
 ): {
-  renderAlert: () => JSX.Element | null;
+  renderAlert: () => React.JSX.Element | null;
   setWasManuallyRetried: (value: boolean) => unknown;
   wasManuallyRetried: boolean;
 } {
@@ -38,7 +38,7 @@ export function useRetryStorySend(
     }
   }, [previousSendStatus, sendStatus, wasManuallyRetried]);
 
-  function renderAlert(): JSX.Element | null {
+  function renderAlert(): React.JSX.Element | null {
     return hasSendFailedAlert ? (
       <Alert
         body={i18n('icu:Stories__failed-send')}

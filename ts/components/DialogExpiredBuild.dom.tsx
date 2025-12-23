@@ -17,7 +17,7 @@ export type PropsType = {
 export function DialogExpiredBuild({
   containerWidthBreakpoint,
   i18n,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   return (
     <LeftPaneDialog
       containerWidthBreakpoint={containerWidthBreakpoint}

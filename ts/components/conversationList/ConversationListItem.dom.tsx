@@ -69,7 +69,7 @@ type PropsHousekeeping = {
   theme: ThemeType;
   renderConversationListItemContextMenu?: (
     props: RenderConversationListItemContextMenuProps
-  ) => JSX.Element;
+  ) => React.JSX.Element;
 };
 
 export type Props = PropsData & PropsHousekeeping;

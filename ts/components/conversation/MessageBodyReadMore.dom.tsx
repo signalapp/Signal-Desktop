@@ -50,7 +50,7 @@ export function MessageBodyReadMore({
   showConversation,
   text,
   textAttachment,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const maxLength = displayLimit || INITIAL_LENGTH;
 
   const shouldDisableLinks = disableLinks || !shouldLinkifyMessage(text);

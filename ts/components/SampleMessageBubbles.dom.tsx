@@ -32,7 +32,7 @@ function SampleMessage({
   timestampDeltaFromNow: number;
   status: 'delivered' | 'read' | 'sent';
   style?: CSSProperties;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <div className={`module-message module-message--${direction}`}>
       <div className="module-message__container-outer">
@@ -71,7 +71,7 @@ export function SampleMessageBubbles({
   color,
   i18n,
   includeAnotherBubble = false,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const firstBubbleStyle = includeAnotherBubble ? backgroundStyle : undefined;
   return (
     <>

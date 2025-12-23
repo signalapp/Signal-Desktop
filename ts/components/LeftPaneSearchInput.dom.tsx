@@ -64,7 +64,7 @@ export function LeftPaneSearchInput({
   filterButtonEnabled = false,
   filterPressed = false,
   onFilterClick,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const inputRef = useRef<null | HTMLInputElement>(null);
 
   const prevSearchConversationId = usePrevious(

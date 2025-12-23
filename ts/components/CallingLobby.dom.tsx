@@ -108,7 +108,7 @@ export function CallingLobby({
   togglePip,
   toggleSettings,
   outgoingRing,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const shouldShowLocalVideo = hasLocalVideo && availableCameras.length > 0;
 
   const isGroupOrAdhocCall = isGroupOrAdhocCallMode(callMode);

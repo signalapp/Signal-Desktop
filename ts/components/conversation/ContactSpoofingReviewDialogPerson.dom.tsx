@@ -39,7 +39,7 @@ export function ContactSpoofingReviewDialogPerson({
   theme,
   oldName,
   isSignalConnection,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   assertDev(
     conversation.type === 'direct',
     '<ContactSpoofingReviewDialogPerson> expected a direct conversation'
@@ -52,7 +52,7 @@ export function ContactSpoofingReviewDialogPerson({
 
   const newName = conversation.profileName || conversation.title;
 
-  let callout: JSX.Element | undefined;
+  let callout: React.JSX.Element | undefined;
   if (oldName && oldName !== newName) {
     callout = (
       <div className="module-ContactSpoofingReviewDialogPerson__info__property">

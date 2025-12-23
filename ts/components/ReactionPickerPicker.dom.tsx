@@ -71,7 +71,7 @@ export function ReactionPickerPickerMoreButton({
 }: Readonly<{
   i18n: LocalizerType;
   onClick: () => unknown;
-}>): JSX.Element {
+}>): React.JSX.Element {
   return (
     <button
       aria-label={i18n('icu:Reactions--more')}

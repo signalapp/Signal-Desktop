@@ -10,7 +10,7 @@ export default {
   title: 'Axo/AxoContextMenu',
 } satisfies Meta;
 
-export function Basic(): JSX.Element {
+export function Basic(): React.JSX.Element {
   const [showBookmarks, setShowBookmarks] = useState(true);
   const [showFullUrls, setShowFullUrls] = useState(false);
   const [selectedPerson, setSelectedPerson] = useState('jamie');

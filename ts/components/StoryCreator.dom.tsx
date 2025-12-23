@@ -136,7 +136,7 @@ export function StoryCreator({
   theme,
   toggleGroupsForStorySend,
   toggleSignalConnectionsModal,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   const portalElement = usePortalElement('StoryCreatorPortal');
 
   const [draftAttachment, setDraftAttachment] = useState<

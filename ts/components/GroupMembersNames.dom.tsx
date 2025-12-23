@@ -24,7 +24,7 @@ type PropsType = {
 function renderClickableButton(
   parts: ReactNode,
   onOtherMembersClick?: () => void
-): JSX.Element {
+): React.JSX.Element {
   return (
     <button
       className="module-conversation-hero__members-count__button"
@@ -49,11 +49,11 @@ function MemberList({
   onOtherMembersClick,
 }: {
   otherMemberNames: ReadonlyArray<string | undefined>;
-  firstThreeMemberNames: Array<JSX.Element>;
+  firstThreeMemberNames: Array<React.JSX.Element>;
   areWeInGroup: boolean;
   i18n: LocalizerType;
   onOtherMembersClick?: () => void;
-}): JSX.Element {
+}): React.JSX.Element {
   if (areWeInGroup) {
     if (otherMemberNames.length === 0) {
       return (
@@ -173,7 +173,7 @@ export function GroupMembersNames({
   memberships,
   invitesCount,
   onOtherMembersClick,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const areWeInGroup = useMemo(() => {
     return memberships.some(({ member }) => member.isMe);
   }, [memberships]);

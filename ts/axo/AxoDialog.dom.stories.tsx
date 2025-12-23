@@ -43,7 +43,7 @@ function Template(props: {
   iconAction?: boolean;
   footerContent?: ReactNode;
   children: ReactNode;
-}): JSX.Element {
+}): React.JSX.Element {
   const [open, setOpen] = useState(true);
   return (
     <AxoDialog.Root open={open} onOpenChange={setOpen}>
@@ -97,7 +97,7 @@ function Template(props: {
   );
 }
 
-export function Basic(): JSX.Element {
+export function Basic(): React.JSX.Element {
   return (
     <Template contentSize="md">
       <p>
@@ -110,15 +110,15 @@ export function Basic(): JSX.Element {
   );
 }
 
-export function Small(): JSX.Element {
+export function Small(): React.JSX.Element {
   return <Template contentSize="sm">{TEXT_LONG}</Template>;
 }
 
-export function Large(): JSX.Element {
+export function Large(): React.JSX.Element {
   return <Template contentSize="lg">{TEXT_LONG}</Template>;
 }
 
-export function IconAction(): JSX.Element {
+export function IconAction(): React.JSX.Element {
   return (
     <Template contentSize="sm" iconAction>
       {TEXT_SHORT}
@@ -126,7 +126,7 @@ export function IconAction(): JSX.Element {
   );
 }
 
-export function LongContent(): JSX.Element {
+export function LongContent(): React.JSX.Element {
   return (
     <Template contentSize="md">
       <div className={tw('flex flex-col gap-2')}>
@@ -138,7 +138,7 @@ export function LongContent(): JSX.Element {
   );
 }
 
-export function BackButton(): JSX.Element {
+export function BackButton(): React.JSX.Element {
   return (
     <Template contentSize="md" back>
       {TEXT_LONG}
@@ -146,7 +146,7 @@ export function BackButton(): JSX.Element {
   );
 }
 
-export function FooterContent(): JSX.Element {
+export function FooterContent(): React.JSX.Element {
   return (
     <Template contentSize="md" footerContent={TEXT_SHORT}>
       {TEXT_LONG}
@@ -154,7 +154,7 @@ export function FooterContent(): JSX.Element {
   );
 }
 
-export function FooterContentLong(): JSX.Element {
+export function FooterContentLong(): React.JSX.Element {
   return (
     <Template contentSize="md" footerContent={TEXT_LONG}>
       {TEXT_LONG}
@@ -162,7 +162,7 @@ export function FooterContentLong(): JSX.Element {
   );
 }
 
-export function FooterContentLongAndTight(): JSX.Element {
+export function FooterContentLongAndTight(): React.JSX.Element {
   return (
     <Template contentSize="sm" footerContent={TEXT_LONG}>
       {TEXT_LONG}
@@ -198,7 +198,7 @@ function TextInputField(props: { placeholder: string }) {
   );
 }
 
-export function ExampleNicknameAndNoteDialog(): JSX.Element {
+export function ExampleNicknameAndNoteDialog(): React.JSX.Element {
   const [open, setOpen] = useState(true);
   return (
     <AxoDialog.Root open={open} onOpenChange={setOpen}>
@@ -266,7 +266,7 @@ function CheckboxField(props: { label: string }) {
   );
 }
 
-export function ExampleMuteNotificationsDialog(): JSX.Element {
+export function ExampleMuteNotificationsDialog(): React.JSX.Element {
   const [open, setOpen] = useState(true);
   return (
     <AxoDialog.Root open={open} onOpenChange={setOpen}>
@@ -333,7 +333,7 @@ function ExampleItem(props: { label: string; description: string }) {
   );
 }
 
-export function ExampleLanguageDialog(): JSX.Element {
+export function ExampleLanguageDialog(): React.JSX.Element {
   const [open, setOpen] = useState(true);
   return (
     <AxoDialog.Root open={open} onOpenChange={setOpen}>

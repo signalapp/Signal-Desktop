@@ -185,7 +185,7 @@ export namespace AxoIconButton {
   }>;
 
   // eslint-disable-next-line no-inner-declarations
-  function Spinner(props: SpinnerProps): JSX.Element {
+  function Spinner(props: SpinnerProps): React.JSX.Element {
     const variant = SpinnerVariants[props.buttonVariant];
     const sizeConfig = SpinnerSizes[props.buttonSize];
     return (

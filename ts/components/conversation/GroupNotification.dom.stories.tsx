@@ -378,7 +378,7 @@ const stories: Array<GroupNotificationStory> = [
   ],
 ];
 
-export const _GroupNotification = (): JSX.Element => (
+export const _GroupNotification = (): React.JSX.Element => (
   <>
     {stories.map(([title, propsArray]) => (
       <>

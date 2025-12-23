@@ -52,8 +52,8 @@ export function ConversationDetailsIcon({
   icon,
   fakeButton,
   onClick,
-}: Props): JSX.Element {
-  let content: React.ReactChild;
+}: Props): React.JSX.Element {
+  let content: React.ReactNode;
 
   if (icon === IconType.spinner) {
     content = <Spinner svgSize="small" size="24" />;

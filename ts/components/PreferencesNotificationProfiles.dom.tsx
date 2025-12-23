@@ -279,7 +279,7 @@ export function NotificationProfilesCreateFlow({
   preferredBadgeSelector,
   setSettingsLocation,
   theme,
-}: CreateFlowProps): JSX.Element {
+}: CreateFlowProps): React.JSX.Element {
   const [page, setPage] = React.useState(CreateFlowPage.Name);
 
   const [name, setName] = React.useState<string | undefined>();
@@ -452,7 +452,7 @@ export function NotificationProfilesHome({
   setProfileOverride,
   theme,
   updateProfile,
-}: HomeProps): JSX.Element {
+}: HomeProps): React.JSX.Element {
   const [page, setPage] = React.useState(HomePage.List);
   const [profile, setProfile] = React.useState<
     NotificationProfileType | undefined
@@ -1080,7 +1080,7 @@ function NotificationProfilesDonePage({
   i18n: LocalizerType;
   onNext: () => void;
   profile: ProfileToSave;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <>
       <Header i18n={i18n} />
@@ -1402,7 +1402,7 @@ export function FullWidthButton({
   className?: string;
   onClick: () => void;
   testId?: string;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <button
       className={classNames(

@@ -42,7 +42,7 @@ export function DebugLogWindow({
   fetchLogs,
   uploadLogs,
   mode = 'submit',
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [loadState, setLoadState] = useState<LoadState>(LoadState.NotStarted);
   const [logText, setLogText] = useState<string | undefined>();
   const [publicLogURL, setPublicLogURL] = useState<string | undefined>();

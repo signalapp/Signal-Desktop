@@ -28,7 +28,7 @@ export function BackupMediaDownloadProgressSettings({
   handleCancel,
   handleResume,
   handlePause,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   const [isShowingCancelConfirmation, setIsShowingCancelConfirmation] =
     useState(false);
   const isRTL = i18n.getLocaleDirection() === 'rtl';
@@ -48,7 +48,7 @@ export function BackupMediaDownloadProgressSettings({
 
   let title: string;
   let description: string;
-  let actionButton: JSX.Element | undefined;
+  let actionButton: React.JSX.Element | undefined;
 
   if (isPaused) {
     title = i18n('icu:BackupMediaDownloadProgressSettings__paused--title');

@@ -27,11 +27,11 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-export function Group(args: PropsType): JSX.Element {
+export function Group(args: PropsType): React.JSX.Element {
   return <AvatarLightbox {...args} isGroup />;
 }
 
-export function Person(args: PropsType): JSX.Element {
+export function Person(args: PropsType): React.JSX.Element {
   const conversation = getDefaultConversation();
   return (
     <AvatarLightbox
@@ -42,6 +42,6 @@ export function Person(args: PropsType): JSX.Element {
   );
 }
 
-export function Photo(args: PropsType): JSX.Element {
+export function Photo(args: PropsType): React.JSX.Element {
   return <AvatarLightbox {...args} avatarUrl="/fixtures/kitten-1-64-64.jpg" />;
 }

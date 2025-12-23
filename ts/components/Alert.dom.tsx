@@ -23,7 +23,7 @@ export function Alert({
   onClose,
   theme,
   title,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   return (
     <Modal
       i18n={i18n}

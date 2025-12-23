@@ -23,7 +23,7 @@ export function TimelineWarning({
   children,
   i18n,
   onClose,
-}: Readonly<PropsType>): JSX.Element {
+}: Readonly<PropsType>): React.JSX.Element {
   return (
     <div className={CLASS_NAME}>
       {children}
@@ -39,7 +39,7 @@ export function TimelineWarning({
 
 function IconContainer({
   children,
-}: Readonly<{ children: ReactNode }>): JSX.Element {
+}: Readonly<{ children: ReactNode }>): React.JSX.Element {
   return <div className={ICON_CONTAINER_CLASS_NAME}>{children}</div>;
 }
 
@@ -51,7 +51,9 @@ function GenericIcon() {
 
 TimelineWarning.GenericIcon = GenericIcon;
 
-function Text({ children }: Readonly<{ children: ReactNode }>): JSX.Element {
+function Text({
+  children,
+}: Readonly<{ children: ReactNode }>): React.JSX.Element {
   return <div className={TEXT_CLASS_NAME}>{children}</div>;
 }
 
@@ -62,7 +64,7 @@ type LinkProps = {
   onClick: () => void;
 };
 
-function Link({ children, onClick }: Readonly<LinkProps>): JSX.Element {
+function Link({ children, onClick }: Readonly<LinkProps>): React.JSX.Element {
   return (
     <button className={LINK_CLASS_NAME} onClick={onClick} type="button">
       {children}
@@ -74,7 +76,7 @@ TimelineWarning.Link = Link;
 
 function CustomInfo({
   children,
-}: Readonly<{ children: ReactNode }>): JSX.Element {
+}: Readonly<{ children: ReactNode }>): React.JSX.Element {
   return <div className="module-TimelineWarning__custom_info">{children}</div>;
 }
 

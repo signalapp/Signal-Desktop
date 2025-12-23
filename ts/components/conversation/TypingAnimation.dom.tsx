@@ -11,7 +11,7 @@ export type Props = {
   color?: string;
 };
 
-export function TypingAnimation({ i18n, color }: Props): JSX.Element {
+export function TypingAnimation({ i18n, color }: Props): React.JSX.Element {
   return (
     <div className="module-typing-animation" title={i18n('icu:typingAlt')}>
       <div

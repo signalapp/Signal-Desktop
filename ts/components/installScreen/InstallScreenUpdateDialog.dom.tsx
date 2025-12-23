@@ -46,8 +46,8 @@ export function InstallScreenUpdateDialog({
   currentVersion,
   OS,
   onClose = noop,
-}: PropsType): JSX.Element | null {
-  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
+}: PropsType): React.JSX.Element | null {
+  const learnMoreLink = (parts: Array<string | React.JSX.Element>) => (
     <a
       key="signal-support"
       href={UNSUPPORTED_OS_URL}
@@ -122,7 +122,7 @@ export function InstallScreenUpdateDialog({
     dialogType === DialogType.DownloadedUpdate
   ) {
     let title = i18n('icu:autoUpdateNewVersionTitle');
-    let actionText: string | JSX.Element = i18n(
+    let actionText: string | React.JSX.Element = i18n(
       'icu:autoUpdateRestartButtonLabel'
     );
     let bodyText = i18n('icu:InstallScreenUpdateDialog--auto-update__body');
@@ -269,7 +269,7 @@ export function DownloadingModal({
 }: {
   i18n: LocalizerType;
   width: number;
-}): JSX.Element {
+}): React.JSX.Element {
   // Focus trap can't be used because there are no elements that can be
   // focused within the modal.
   return (

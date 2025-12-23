@@ -8,4 +8,4 @@ import { SmartReactionPicker } from './ReactionPicker.dom.js';
 
 export const renderReactionPicker = (
   props: ComponentProps<typeof SmartReactionPicker>
-): JSX.Element => <SmartReactionPicker {...props} />;
+): React.JSX.Element => <SmartReactionPicker {...props} />;

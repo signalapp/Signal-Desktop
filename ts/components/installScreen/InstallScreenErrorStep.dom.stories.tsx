@@ -20,22 +20,22 @@ const defaultProps = {
   tryAgain: action('tryAgain'),
 };
 
-export const _TooManyDevices = (): JSX.Element => (
+export const _TooManyDevices = (): React.JSX.Element => (
   <InstallScreenErrorStep
     {...defaultProps}
     error={InstallScreenError.TooManyDevices}
   />
 );
 
-export const _TooOld = (): JSX.Element => (
+export const _TooOld = (): React.JSX.Element => (
   <InstallScreenErrorStep {...defaultProps} error={InstallScreenError.TooOld} />
 );
 
-export const __TooOld = (): JSX.Element => (
+export const __TooOld = (): React.JSX.Element => (
   <InstallScreenErrorStep {...defaultProps} error={InstallScreenError.TooOld} />
 );
 
-export const _ConnectionFailed = (): JSX.Element => (
+export const _ConnectionFailed = (): React.JSX.Element => (
   <InstallScreenErrorStep
     {...defaultProps}
     error={InstallScreenError.ConnectionFailed}

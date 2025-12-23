@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactChild } from 'react';
+import type { ReactNode } from 'react';
 import React, { useState } from 'react';
 import lodash from 'lodash';
 
@@ -41,11 +41,11 @@ export function CallingLobbyJoinButton({
   i18n,
   onClick,
   variant,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [width, setWidth] = useState<undefined | number>();
   const [height, setHeight] = useState<undefined | number>();
 
-  const childrenByVariant: Record<CallingLobbyJoinButtonVariant, ReactChild> = {
+  const childrenByVariant: Record<CallingLobbyJoinButtonVariant, ReactNode> = {
     [CallingLobbyJoinButtonVariant.CallIsFull]: i18n(
       'icu:CallingLobbyJoinButton--call-full'
     ),

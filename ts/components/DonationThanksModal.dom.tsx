@@ -27,7 +27,7 @@ export function DonationThanksModal({
   onClose,
   badge,
   applyDonationBadge,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [applyBadgeIsChecked, setApplyBadgeIsChecked] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
 

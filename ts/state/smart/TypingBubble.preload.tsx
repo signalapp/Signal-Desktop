@@ -22,7 +22,7 @@ type ExternalProps = {
 
 export const SmartTypingBubble = memo(function SmartTypingBubble({
   conversationId,
-}: ExternalProps): JSX.Element {
+}: ExternalProps): React.JSX.Element {
   const i18n = useSelector(getIntl);
   const theme = useSelector(getTheme);
   const getConversation = useSelector(getConversationSelector);

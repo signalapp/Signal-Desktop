@@ -230,7 +230,7 @@ IncomingByMe.args = {
   isIncoming: true,
 };
 
-export function IncomingOutgoingColors(args: Props): JSX.Element {
+export function IncomingOutgoingColors(args: Props): React.JSX.Element {
   return (
     <>
       {ConversationColors.map(color =>
@@ -550,7 +550,7 @@ MentionIncomingMe.args = {
   text: '@Tony Stark sure',
 };
 
-export function CustomColor(args: Props): JSX.Element {
+export function CustomColor(args: Props): React.JSX.Element {
   return (
     <>
       <Quote

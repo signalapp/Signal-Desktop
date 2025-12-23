@@ -28,7 +28,7 @@ export function GroupV2Permissions({
   setAccessControlAttributesSetting,
   setAccessControlMembersSetting,
   setAnnouncementsOnly,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const addMembersSelectId = useId();
   const groupInfoSelectId = useId();
   const announcementSelectId = useId();

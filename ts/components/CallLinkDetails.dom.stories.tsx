@@ -33,15 +33,17 @@ export default {
   },
 } satisfies ComponentMeta<CallLinkDetailsProps>;
 
-export function Admin(args: CallLinkDetailsProps): JSX.Element {
+export function Admin(args: CallLinkDetailsProps): React.JSX.Element {
   return <CallLinkDetails {...args} />;
 }
 
-export function AdminAndCallActive(args: CallLinkDetailsProps): JSX.Element {
+export function AdminAndCallActive(
+  args: CallLinkDetailsProps
+): React.JSX.Element {
   return <CallLinkDetails {...args} isAnybodyInCall isCallActiveOnServer />;
 }
 
-export function AdminAndInCall(args: CallLinkDetailsProps): JSX.Element {
+export function AdminAndInCall(args: CallLinkDetailsProps): React.JSX.Element {
   return (
     <CallLinkDetails {...args} isAnybodyInCall isCallActiveOnServer isInCall />
   );
@@ -49,15 +51,17 @@ export function AdminAndInCall(args: CallLinkDetailsProps): JSX.Element {
 
 export function AdminRecentlyEndedCall(
   args: CallLinkDetailsProps
-): JSX.Element {
+): React.JSX.Element {
   return <CallLinkDetails {...args} isCallActiveOnServer />;
 }
 
-export function NonAdmin(args: CallLinkDetailsProps): JSX.Element {
+export function NonAdmin(args: CallLinkDetailsProps): React.JSX.Element {
   return <CallLinkDetails {...args} callLink={FAKE_CALL_LINK} />;
 }
 
-export function NonAdminAndCallActive(args: CallLinkDetailsProps): JSX.Element {
+export function NonAdminAndCallActive(
+  args: CallLinkDetailsProps
+): React.JSX.Element {
   return (
     <CallLinkDetails
       {...args}
@@ -68,7 +72,7 @@ export function NonAdminAndCallActive(args: CallLinkDetailsProps): JSX.Element {
   );
 }
 
-export function InAnotherCall(args: CallLinkDetailsProps): JSX.Element {
+export function InAnotherCall(args: CallLinkDetailsProps): React.JSX.Element {
   return (
     <CallLinkDetails
       {...args}
@@ -81,7 +85,7 @@ export function InAnotherCall(args: CallLinkDetailsProps): JSX.Element {
 
 export function InAnotherCallAndCallActive(
   args: CallLinkDetailsProps
-): JSX.Element {
+): React.JSX.Element {
   return (
     <CallLinkDetails
       {...args}
@@ -93,6 +97,6 @@ export function InAnotherCallAndCallActive(
   );
 }
 
-export function MissingCallLink(args: CallLinkDetailsProps): JSX.Element {
+export function MissingCallLink(args: CallLinkDetailsProps): React.JSX.Element {
   return <CallLinkDetails {...args} callLink={undefined} />;
 }

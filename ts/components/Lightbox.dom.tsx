@@ -103,7 +103,7 @@ export function Lightbox({
   onSelectAttachment,
   hasNextMessage,
   hasPrevMessage,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   const hasThumbnails = media.length > 1;
   const messageId = media.at(0)?.message.id;
   const prevMessageId = usePrevious(messageId, messageId);
@@ -586,7 +586,7 @@ export function Lightbox({
 
   const caption = attachment?.caption;
 
-  let content: JSX.Element;
+  let content: React.JSX.Element;
   if (!contentType) {
     content = <>{children}</>;
   } else {
@@ -876,7 +876,7 @@ function LightboxHeader({
   getConversation: (id: string) => ConversationType;
   i18n: LocalizerType;
   item: ReadonlyDeep<MediaItemType>;
-}): JSX.Element {
+}): React.JSX.Element {
   const { message } = item;
   const conversation = getConversation(message.conversationId);
 

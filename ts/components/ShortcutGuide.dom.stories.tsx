@@ -19,12 +19,12 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   platform: overrideProps.platform || 'other',
 });
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   const props = createProps({});
   return <ShortcutGuide {...props} />;
 }
 
-export function Mac(): JSX.Element {
+export function Mac(): React.JSX.Element {
   const props = createProps({ platform: 'darwin' });
   return <ShortcutGuide {...props} />;
 }

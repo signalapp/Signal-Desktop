@@ -32,6 +32,6 @@ const getDefaultProps = (): PropsType<number> => ({
   ],
 });
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return <ContextMenu {...getDefaultProps()}>Menu</ContextMenu>;
 }

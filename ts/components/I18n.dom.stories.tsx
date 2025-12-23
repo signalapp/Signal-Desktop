@@ -21,13 +21,13 @@ export default {
 
 export function NoReplacements(
   args: Props<'icu:deleteAndRestart'>
-): JSX.Element {
+): React.JSX.Element {
   return <I18n {...args} id="icu:deleteAndRestart" />;
 }
 
 export function SingleStringReplacement(
   args: Props<'icu:leftTheGroup'>
-): JSX.Element {
+): React.JSX.Element {
   return (
     <I18n {...args} id="icu:leftTheGroup" components={{ name: 'Theodora' }} />
   );
@@ -35,7 +35,7 @@ export function SingleStringReplacement(
 
 export function SingleTagReplacement(
   args: Props<'icu:leftTheGroup'>
-): JSX.Element {
+): React.JSX.Element {
   return (
     <I18n
       {...args}
@@ -53,7 +53,7 @@ export function SingleTagReplacement(
 
 export function MultipleStringReplacement(
   args: Props<'icu:changedRightAfterVerify'>
-): JSX.Element {
+): React.JSX.Element {
   return (
     <I18n
       {...args}
@@ -65,7 +65,7 @@ export function MultipleStringReplacement(
 
 export function MultipleTagReplacement(
   args: Props<'icu:changedRightAfterVerify'>
-): JSX.Element {
+): React.JSX.Element {
   return (
     <I18n
       {...args}
@@ -77,7 +77,7 @@ export function MultipleTagReplacement(
 
 export function Emoji(
   args: Props<'icu:Message__reaction-emoji-label--you'>
-): JSX.Element {
+): React.JSX.Element {
   return (
     <I18n
       {...args}

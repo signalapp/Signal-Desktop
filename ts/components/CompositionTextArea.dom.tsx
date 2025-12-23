@@ -77,7 +77,7 @@ export function CompositionTextArea({
   theme,
   whenToShowRemainingCount = Infinity,
   convertDraftBodyRangesIntoHydrated,
-}: CompositionTextAreaProps): JSX.Element {
+}: CompositionTextAreaProps): React.JSX.Element {
   const inputApiRef = useRef<InputApi | undefined>();
   const [characterCount, setCharacterCount] = useState(
     grapheme.count(draftText)

@@ -20,7 +20,7 @@ export function SharedGroupNames({
   i18n,
   nameClassName,
   sharedGroupNames,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const firstThreeGroups = take(sharedGroupNames, 3).map((group, i) => (
     // We cannot guarantee uniqueness of group names
     // eslint-disable-next-line react/no-array-index-key

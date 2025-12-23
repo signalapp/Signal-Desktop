@@ -26,7 +26,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   text: overrideProps.text || '',
 });
 
-export function NoMentions(): JSX.Element {
+export function NoMentions(): React.JSX.Element {
   const props = createProps({
     text: 'Hello World',
   });
@@ -34,7 +34,7 @@ export function NoMentions(): JSX.Element {
   return <AtMentionify {...props} />;
 }
 
-export function MultipleMentions(): JSX.Element {
+export function MultipleMentions(): React.JSX.Element {
   const mentions = [
     {
       start: 4,
@@ -67,7 +67,7 @@ export function MultipleMentions(): JSX.Element {
   return <AtMentionify {...props} />;
 }
 
-export function ComplexMentions(): JSX.Element {
+export function ComplexMentions(): React.JSX.Element {
   const mentions = [
     {
       start: 80,
@@ -103,7 +103,7 @@ export function ComplexMentions(): JSX.Element {
   return <AtMentionify {...props} />;
 }
 
-export function WithOddCharacter(): JSX.Element {
+export function WithOddCharacter(): React.JSX.Element {
   const mentions = [
     {
       start: 4,

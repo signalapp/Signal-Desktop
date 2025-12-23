@@ -63,7 +63,7 @@ export function PreferencesLocalBackups({
   ) => Promise<PromptOSAuthResultType>;
   setSettingsLocation: (settingsLocation: SettingsLocation) => void;
   showToast: ShowToastAction;
-}): JSX.Element {
+}): React.JSX.Element {
   const [authError, setAuthError] =
     React.useState<Omit<PromptOSAuthResultType, 'success'>>();
   const [isAuthPending, setIsAuthPending] = useState<boolean>(false);
@@ -101,7 +101,7 @@ export function PreferencesLocalBackups({
     );
   }
 
-  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
+  const learnMoreLink = (parts: Array<string | React.JSX.Element>) => (
     <a href={SIGNAL_BACKUPS_LEARN_MORE_URL} rel="noreferrer" target="_blank">
       {parts}
     </a>
@@ -221,7 +221,7 @@ function LocalBackupsSetupFolderPicker({
 }: {
   i18n: LocalizerType;
   pickLocalBackupFolder: () => Promise<string | undefined>;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <div className="Preferences--LocalBackupsSetupScreen Preferences__padding">
       <div className="Preferences--LocalBackupsSetupScreenPaneContent">
@@ -258,7 +258,7 @@ function LocalBackupsBackupKeyViewer({
   isReferencing: boolean;
   onBackupKeyViewed: () => void;
   showToast: ShowToastAction;
-}): JSX.Element {
+}): React.JSX.Element {
   const [isBackupKeyConfirmed, setIsBackupKeyConfirmed] =
     useState<boolean>(false);
   const [step, setStep] = useState<BackupKeyStep>(
@@ -282,16 +282,16 @@ function LocalBackupsBackupKeyViewer({
     [backupKey, showToast]
   );
 
-  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
+  const learnMoreLink = (parts: Array<string | React.JSX.Element>) => (
     <a href={SIGNAL_BACKUPS_LEARN_MORE_URL} rel="noreferrer" target="_blank">
       {parts}
     </a>
   );
 
   let title: string;
-  let description: JSX.Element | string;
-  let footerLeft: JSX.Element | undefined;
-  let footerRight: JSX.Element;
+  let description: React.JSX.Element | string;
+  let footerLeft: React.JSX.Element | undefined;
+  let footerRight: React.JSX.Element;
   if (isStepViewOrReference) {
     title = i18n('icu:Preferences--local-backups-record-backup-key');
     description = (
@@ -431,7 +431,7 @@ function LocalBackupsBackupKeyTextarea({
   i18n: LocalizerType;
   onValidate: (isValid: boolean) => void;
   isStepViewOrReference: boolean;
-}): JSX.Element {
+}): React.JSX.Element {
   const backupKeyTextareaRef = useRef<HTMLTextAreaElement>(null);
   const [backupKeyInput, setBackupKeyInput] = useState<string>('');
 

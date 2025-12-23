@@ -12,6 +12,6 @@ export default {
   title: 'Components/InstallScreen/InstallScreenLinkInProgressStep',
 } satisfies Meta<Props>;
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return <InstallScreenLinkInProgressStep i18n={i18n} />;
 }

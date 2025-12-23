@@ -58,7 +58,7 @@ const DEMO_COUNTRIES = [
   },
 ];
 
-function Template(args: StoryPropsType): JSX.Element {
+function Template(args: StoryPropsType): React.JSX.Element {
   const [value, setValue] = useState('');
 
   return <CountryCodeSelect {...args} value={value} onChange={setValue} />;
@@ -75,6 +75,6 @@ export default {
   },
 } satisfies ComponentMeta<StoryPropsType>;
 
-export function Defaults(args: StoryPropsType): JSX.Element {
+export function Defaults(args: StoryPropsType): React.JSX.Element {
   return <Template {...args} />;
 }

@@ -22,7 +22,7 @@ export function ExpireTimer({
   isOutlineOnlyBubble,
   withImageNoCaption,
   withSticker,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const [, forceUpdate] = useReducer(() => ({}), {});
 
   useEffect(() => {

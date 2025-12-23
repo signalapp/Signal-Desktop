@@ -17,11 +17,11 @@ export function SafetyNumberModal({
   i18n,
   toggleSafetyNumberModal,
   ...safetyNumberViewerProps
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   const { contact } = safetyNumberViewerProps;
 
   let title: string | undefined;
-  let content: JSX.Element;
+  let content: React.JSX.Element;
   let hasXButton = true;
   if (isSafetyNumberNotAvailable(contact)) {
     content = (

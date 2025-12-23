@@ -305,7 +305,7 @@ function ContextMenuMuteNotificationsItem(props: {
   value: number;
   onSelect: (value: number) => void;
   children: ReactNode;
-}): JSX.Element {
+}): React.JSX.Element {
   const { value, onSelect } = props;
   const handleSelect = useCallback(() => {
     onSelect(value);
@@ -320,7 +320,7 @@ function ContextMenuMuteNotificationsItem(props: {
 function ContextMenuCopyTextItem(props: {
   value: string;
   children: ReactNode;
-}): JSX.Element {
+}): React.JSX.Element {
   const { value } = props;
 
   const handleSelect = useCallback((): void => {

@@ -40,7 +40,7 @@ function MessageBodyReadMoreTest({
   isSpoilerExpanded?: Record<number, boolean>;
   onExpandSpoiler?: (data: Record<number, boolean>) => void;
   text: string;
-}): JSX.Element {
+}): React.JSX.Element {
   const [displayLimit, setDisplayLimit] = useState<number | undefined>();
 
   return (
@@ -57,7 +57,7 @@ function MessageBodyReadMoreTest({
   );
 }
 
-export function LongText100More(): JSX.Element {
+export function LongText100More(): React.JSX.Element {
   return (
     <MessageBodyReadMoreTest
       text={`${'test '.repeat(160)}${'extra '.repeat(10)}`}
@@ -65,17 +65,17 @@ export function LongText100More(): JSX.Element {
   );
 }
 
-export function LotsOfCakeWithSomeCherriesOnTop(): JSX.Element {
+export function LotsOfCakeWithSomeCherriesOnTop(): React.JSX.Element {
   return (
     <MessageBodyReadMoreTest text={`x${'🍰'.repeat(399)}${'🍒'.repeat(100)}`} />
   );
 }
 
-export function LeafyNotBuffered(): JSX.Element {
+export function LeafyNotBuffered(): React.JSX.Element {
   return <MessageBodyReadMoreTest text={`x${'🌿'.repeat(450)}`} />;
 }
 
-export function LongTextWithMention(): JSX.Element {
+export function LongTextWithMention(): React.JSX.Element {
   const bodyRanges = [
     // This is right at boundary for better testing
     {
@@ -92,7 +92,7 @@ export function LongTextWithMention(): JSX.Element {
   return <MessageBodyReadMoreTest bodyRanges={bodyRanges} text={text} />;
 }
 
-export function LongTextWithFormatting(): JSX.Element {
+export function LongTextWithFormatting(): React.JSX.Element {
   const bodyRanges = [
     {
       start: 0,
@@ -121,7 +121,7 @@ export function LongTextWithFormatting(): JSX.Element {
   return <MessageBodyReadMoreTest bodyRanges={bodyRanges} text={text} />;
 }
 
-export function LongTextMostlySpoiler(): JSX.Element {
+export function LongTextMostlySpoiler(): React.JSX.Element {
   const [isSpoilerExpanded, setIsSpoilerExpanded] = React.useState({});
   const bodyRanges = [
     {
@@ -143,7 +143,7 @@ export function LongTextMostlySpoiler(): JSX.Element {
   );
 }
 
-export function Links(): JSX.Element {
+export function Links(): React.JSX.Element {
   return (
     <MessageBodyReadMoreTest
       text={`${'test '.repeat(176)}https://www.signal.org`}
@@ -151,11 +151,11 @@ export function Links(): JSX.Element {
   );
 }
 
-export function ExcessiveAmountsOfCake(): JSX.Element {
+export function ExcessiveAmountsOfCake(): React.JSX.Element {
   return <MessageBodyReadMoreTest text={`x${'🍰'.repeat(20000)}`} />;
 }
 
-export function LongText(): JSX.Element {
+export function LongText(): React.JSX.Element {
   return (
     <MessageBodyReadMoreTest
       text={`

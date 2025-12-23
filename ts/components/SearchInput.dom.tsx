@@ -59,7 +59,7 @@ export const SearchInput = forwardRef<HTMLInputElement, PropTypes>(
           className={classNames(
             getClassName('__input'),
             value && getClassName('__input--with-text'),
-            children && getClassName('__input--with-children')
+            children != null && getClassName('__input--with-children')
           )}
           dir="auto"
           disabled={disabled}

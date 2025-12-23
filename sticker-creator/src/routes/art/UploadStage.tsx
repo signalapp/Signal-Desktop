@@ -27,7 +27,7 @@ import {
 
 const debug = createDebug('signal:routes:stickers:UploadStage');
 
-export function UploadStage(): JSX.Element {
+export function UploadStage(): React.JSX.Element {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const navigate = useNavigate();

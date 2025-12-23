@@ -9,7 +9,7 @@ export default {
   title: 'Axo/AriaBadge (Experimental)',
 } satisfies Meta;
 
-export function All(): JSX.Element {
+export function All(): React.JSX.Element {
   const values: ReadonlyArray<ExperimentalAxoBadge.BadgeValue> = [
     -1,
     0,

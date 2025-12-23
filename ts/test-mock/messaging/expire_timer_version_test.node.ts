@@ -281,9 +281,12 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
     debug('setting timer to 1 week');
     await conversationStack.getByRole('button', { name: 'More Info' }).click();
 
-    await window
-      .getByRole('menuitem', { name: 'Disappearing messages' })
-      .click();
+    const disappearingMessages = window.getByRole('menuitem', {
+      name: 'Disappearing messages',
+    });
+
+    await disappearingMessages.focus();
+    await disappearingMessages.press('ArrowRight');
 
     await window.getByRole('menuitemradio', { name: '1 week' }).click();
 
@@ -301,9 +304,8 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
     debug('setting timer to 4 weeks');
     await conversationStack.getByRole('button', { name: 'More Info' }).click();
 
-    await window
-      .getByRole('menuitem', { name: 'Disappearing messages' })
-      .click();
+    await disappearingMessages.focus();
+    await disappearingMessages.press('ArrowRight');
 
     await window.getByRole('menuitemradio', { name: '4 weeks' }).click();
 

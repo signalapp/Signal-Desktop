@@ -17,7 +17,7 @@ type Args = {
   initialValue: number;
 };
 
-function TimerSelectWrap({ initialValue }: Args): JSX.Element {
+function TimerSelectWrap({ initialValue }: Args): React.JSX.Element {
   const [value, setValue] = useState(initialValue);
 
   return (
@@ -29,10 +29,10 @@ function TimerSelectWrap({ initialValue }: Args): JSX.Element {
   );
 }
 
-export function InitialValue1Day(): JSX.Element {
+export function InitialValue1Day(): React.JSX.Element {
   return <TimerSelectWrap initialValue={24 * 3600} />;
 }
 
-export function InitialValue3DaysCustomTime(): JSX.Element {
+export function InitialValue3DaysCustomTime(): React.JSX.Element {
   return <TimerSelectWrap initialValue={3 * 24 * 3600} />;
 }

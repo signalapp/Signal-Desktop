@@ -10,7 +10,7 @@ export default {
   title: 'Components/QrCode',
 } satisfies Meta<PropsType>;
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return (
     <QrCode
       alt="Scan this little code!"

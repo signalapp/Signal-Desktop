@@ -40,7 +40,7 @@ export function ConversationDetailsActions({
   isGroup,
   left,
   onLeave,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const [confirmLeave, gLeave] = useState<boolean>(false);
   const [confirmGroupBlock, gGroupBlock] = useState<boolean>(false);
   const [confirmGroupUnblock, gGroupUnblock] = useState<boolean>(false);

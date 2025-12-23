@@ -152,7 +152,7 @@ export function NavTabsToggle({
   navTabsCollapsed,
   otherTabsUnreadStats,
   onToggleNavTabsCollapse,
-}: NavTabsToggleProps): JSX.Element {
+}: NavTabsToggleProps): React.JSX.Element {
   function handleToggle() {
     onToggleNavTabsCollapse(!navTabsCollapsed);
   }
@@ -238,7 +238,7 @@ export function NavTabs({
   unreadCallsCount,
   unreadConversationsStats,
   unreadStoriesCount,
-}: NavTabsProps): JSX.Element {
+}: NavTabsProps): React.JSX.Element {
   const [showingProfileMovedModal, setShowingProfileMovedModal] =
     useState(false);
 

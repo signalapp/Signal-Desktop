@@ -18,7 +18,7 @@ import type { LocalizerType } from '../types/Util.std.js';
 import type { DismissOptions } from './LeftPaneDialog.dom.js';
 import type { WidthBreakpoint } from './_util.std.js';
 
-function contactSupportLink(parts: ReactNode): JSX.Element {
+function contactSupportLink(parts: ReactNode): React.JSX.Element {
   return (
     <a
       key="signal-support"
@@ -57,9 +57,9 @@ export function DialogUpdate({
   startUpdate,
   version,
   currentVersion,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   const retryUpdateButton = useCallback(
-    (parts: ReactNode): JSX.Element => {
+    (parts: ReactNode): React.JSX.Element => {
       return (
         <button
           className="LeftPaneDialog__retry"

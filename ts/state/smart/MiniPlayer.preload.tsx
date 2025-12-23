@@ -25,7 +25,7 @@ type Props = Pick<DumbProps, 'shouldFlow'>;
  */
 export const SmartMiniPlayer = memo(function SmartMiniPlayer({
   shouldFlow,
-}: Props): JSX.Element | null {
+}: Props): React.JSX.Element | null {
   const i18n = useSelector(getIntl);
   const active = useSelector(selectAudioPlayerActive);
   const getVoiceNoteTitle = useSelector(selectVoiceNoteTitle);

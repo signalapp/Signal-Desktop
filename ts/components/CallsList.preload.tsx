@@ -78,7 +78,7 @@ function Timestamp({
 }: {
   i18n: LocalizerType;
   timestamp: number;
-}): JSX.Element {
+}): React.JSX.Element {
   const [now, setNow] = useState(() => Date.now());
 
   useEffect(() => {
@@ -198,7 +198,7 @@ export function CallsList({
   startCallLinkLobbyByRoomId,
   toggleConfirmLeaveCallModal,
   togglePip,
-}: CallsListProps): JSX.Element {
+}: CallsListProps): React.JSX.Element {
   const infiniteLoaderRef = useRef<InfiniteLoader>(null);
   const listRef = useRef<List>(null);
   const [queryInput, setQueryInput] = useState('');

@@ -35,7 +35,7 @@ export function ListView({
   scrollable = true,
   shouldRecomputeRowHeights = false,
   scrollBehavior = ScrollBehavior.Default,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const listRef = useRef<null | List>(null);
 
   useLayoutEffect(() => {

@@ -57,7 +57,7 @@ export default {
   title: 'Components/UnsupportedOSDialog',
 } satisfies Meta<PropsType>;
 
-export function Iterations(): JSX.Element {
+export function Iterations(): React.JSX.Element {
   return (
     <>
       {permutations.map(({ props, title }) => (

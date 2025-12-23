@@ -134,13 +134,13 @@ const createProps = (
   },
 });
 
-export function Basic(): JSX.Element {
+export function Basic(): React.JSX.Element {
   const props = createProps();
 
   return <ConversationDetails {...props} />;
 }
 
-export function SystemContact(): JSX.Element {
+export function SystemContact(): React.JSX.Element {
   const props = createProps();
   const contact = getDefaultConversation();
 
@@ -156,13 +156,13 @@ export function SystemContact(): JSX.Element {
   );
 }
 
-export function AsAdmin(): JSX.Element {
+export function AsAdmin(): React.JSX.Element {
   const props = createProps();
 
   return <ConversationDetails {...props} isAdmin />;
 }
 
-export function AsLastAdmin(): JSX.Element {
+export function AsLastAdmin(): React.JSX.Element {
   const props = createProps();
 
   return (
@@ -179,7 +179,7 @@ export function AsLastAdmin(): JSX.Element {
   );
 }
 
-export function AsOnlyAdmin(): JSX.Element {
+export function AsOnlyAdmin(): React.JSX.Element {
   const props = createProps();
 
   return (
@@ -198,29 +198,29 @@ export function AsOnlyAdmin(): JSX.Element {
   );
 }
 
-export function GroupEditable(): JSX.Element {
+export function GroupEditable(): React.JSX.Element {
   const props = createProps();
 
   return <ConversationDetails {...props} canEditGroupInfo />;
 }
 
-export function GroupEditableWithCustomDisappearingTimeout(): JSX.Element {
+export function GroupEditableWithCustomDisappearingTimeout(): React.JSX.Element {
   const props = createProps(false, DurationInSeconds.fromDays(3));
 
   return <ConversationDetails {...props} canEditGroupInfo />;
 }
 
-export function GroupLinksOn(): JSX.Element {
+export function GroupLinksOn(): React.JSX.Element {
   const props = createProps(true);
 
   return <ConversationDetails {...props} isAdmin />;
 }
 
-export const _11 = (): JSX.Element => (
+export const _11 = (): React.JSX.Element => (
   <ConversationDetails {...createProps()} isGroup={false} />
 );
 
-export function WithCallHistoryGroup(): JSX.Element {
+export function WithCallHistoryGroup(): React.JSX.Element {
   const props = createProps();
 
   return (
@@ -234,19 +234,19 @@ export function WithCallHistoryGroup(): JSX.Element {
   );
 }
 
-export function InAnotherCallGroup(): JSX.Element {
+export function InAnotherCallGroup(): React.JSX.Element {
   const props = createProps();
 
   return <ConversationDetails {...props} hasActiveCall />;
 }
 
-export function InAnotherCallIndividual(): JSX.Element {
+export function InAnotherCallIndividual(): React.JSX.Element {
   const props = createProps();
 
   return <ConversationDetails {...props} hasActiveCall isGroup={false} />;
 }
 
-export function SignalConversation(): JSX.Element {
+export function SignalConversation(): React.JSX.Element {
   const props = createProps();
 
   return (

@@ -22,22 +22,22 @@ export default {
   },
 } satisfies Meta<Props>;
 
-export function Default(args: Props): JSX.Element {
+export function Default(args: Props): React.JSX.Element {
   return <EmptyState {...args} />;
 }
 
-export function Media(args: Props): JSX.Element {
+export function Media(args: Props): React.JSX.Element {
   return <EmptyState {...args} tab="media" />;
 }
 
-export function Audio(args: Props): JSX.Element {
+export function Audio(args: Props): React.JSX.Element {
   return <EmptyState {...args} tab="audio" />;
 }
 
-export function Links(args: Props): JSX.Element {
+export function Links(args: Props): React.JSX.Element {
   return <EmptyState {...args} tab="links" />;
 }
 
-export function Documents(args: Props): JSX.Element {
+export function Documents(args: Props): React.JSX.Element {
   return <EmptyState {...args} tab="documents" />;
 }

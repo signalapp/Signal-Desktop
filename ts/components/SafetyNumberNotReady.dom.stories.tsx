@@ -13,6 +13,6 @@ export default {
   title: 'Components/SafetyNumberNotReady',
 } satisfies Meta<PropsType>;
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return <SafetyNumberNotReady i18n={i18n} onClose={action('close')} />;
 }

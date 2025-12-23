@@ -109,7 +109,7 @@ function renderCallLinkDetails(
   roomId: string,
   callHistoryGroup: CallHistoryGroup,
   onClose: () => void
-): JSX.Element {
+): React.JSX.Element {
   return (
     <SmartCallLinkDetails
       roomId={roomId}
@@ -122,7 +122,7 @@ function renderCallLinkDetails(
 function renderConversationDetails(
   conversationId: string,
   callHistoryGroup: CallHistoryGroup | null
-): JSX.Element {
+): React.JSX.Element {
   return (
     <SmartConversationDetails
       conversationId={conversationId}
@@ -133,7 +133,7 @@ function renderConversationDetails(
 
 function renderToastManager(props: {
   containerWidthBreakpoint: WidthBreakpoint;
-}): JSX.Element {
+}): React.JSX.Element {
   return <SmartToastManager disableMegaphone {...props} />;
 }
 

@@ -59,7 +59,7 @@ export function renderToast({
   setDidResumeDonation,
   OS,
   toast,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   if (toast === undefined) {
     return null;
   }
@@ -948,7 +948,7 @@ export function renderMegaphone({
   i18n,
   megaphone,
   containerWidthBreakpoint,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   if (!megaphone) {
     return null;
   }
@@ -970,7 +970,7 @@ export function renderMegaphone({
   throw missingCaseError(megaphone);
 }
 
-export function ToastManager(props: PropsType): JSX.Element {
+export function ToastManager(props: PropsType): React.JSX.Element {
   const {
     centerToast,
     containerWidthBreakpoint,

@@ -18,7 +18,7 @@ export type PropsType = {
   errorType: DonationErrorType;
 };
 
-export function DonationErrorModal(props: PropsType): JSX.Element {
+export function DonationErrorModal(props: PropsType): React.JSX.Element {
   const { i18n, onClose } = props;
 
   let title: string;

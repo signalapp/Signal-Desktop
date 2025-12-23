@@ -46,7 +46,7 @@ const SAMPLE_CUSTOM_COLOR = {
   start: { hue: 315, saturation: 78 },
 };
 
-export function Default(args: PropsType): JSX.Element {
+export function Default(args: PropsType): React.JSX.Element {
   return <ChatColorPicker {...args} />;
 }
 
@@ -67,7 +67,7 @@ const CUSTOM_COLORS = {
   },
 };
 
-export function CustomColors(args: PropsType): JSX.Element {
+export function CustomColors(args: PropsType): React.JSX.Element {
   return (
     <ChatColorPicker
       {...args}

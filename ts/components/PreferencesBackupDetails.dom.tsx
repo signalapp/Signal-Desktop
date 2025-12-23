@@ -44,7 +44,7 @@ export function BackupsDetailsPage({
   pauseBackupMediaDownload: () => void;
   resumeBackupMediaDownload: () => void;
   backupMediaDownloadStatus?: BackupMediaDownloadStatusType;
-}): JSX.Element {
+}): React.JSX.Element {
   const shouldShowMediaProgress =
     backupMediaDownloadStatus &&
     backupMediaDownloadStatus.completedBytes <
@@ -115,7 +115,7 @@ function renderPaidBackupDetailsSummary({
   locale: string;
   subscriptionStatus?: BackupsSubscriptionType;
   i18n: LocalizerType;
-}): JSX.Element | null {
+}): React.JSX.Element | null {
   return (
     <>
       <div className="Preferences--backups-summary__status-container">
@@ -183,7 +183,7 @@ function renderFreeBackupDetailsSummary({
 }: {
   backupFreeMediaDays: number;
   i18n: LocalizerType;
-}): JSX.Element | null {
+}): React.JSX.Element | null {
   return (
     <>
       <div className="Preferences--backups-summary__status-container">
@@ -214,7 +214,7 @@ export function renderSubscriptionDetails({
   i18n: LocalizerType;
   locale: string;
   subscriptionStatus: BackupsSubscriptionType;
-}): JSX.Element | null {
+}): React.JSX.Element | null {
   const { status } = subscriptionStatus;
   if (
     subscriptionStatus.isFetching &&

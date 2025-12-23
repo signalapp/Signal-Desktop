@@ -30,7 +30,7 @@ function focusRef(el: HTMLElement | null) {
   }
 }
 
-export function BackfillFailureModal(props: PropsType): JSX.Element {
+export function BackfillFailureModal(props: PropsType): React.JSX.Element {
   const { i18n, kind, onClose } = props;
 
   const footer = (

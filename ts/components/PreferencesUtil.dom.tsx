@@ -20,7 +20,7 @@ export function SettingsRow({
   children: ReactNode;
   title?: string;
   className?: string;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <fieldset className={classNames('Preferences__settings-row', className)}>
       {title && <legend className="Preferences__padding">{title}</legend>}
@@ -33,7 +33,7 @@ export function FlowingSettingsControl({
   children,
 }: {
   children: ReactNode;
-}): JSX.Element {
+}): React.JSX.Element {
   return <div className="Preferences__flow-control">{children}</div>;
 }
 
@@ -43,7 +43,7 @@ export function LightIconLabel({
 }: {
   icon: string;
   children: ReactNode;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <label className="Preferences__light-icon-label">
       <div className={classNames('Preferences__control--icon', icon)} />
@@ -65,7 +65,7 @@ export function SettingsControl({
   onClick?: () => unknown;
   right: ReactNode;
   description?: ReactNode;
-}): JSX.Element {
+}): React.JSX.Element {
   const content = (
     <>
       {icon && (
@@ -116,7 +116,7 @@ export function SettingsRadio<Enum>({
   value: Enum;
   options: ReadonlyArray<SettingsRadioOptionType<Enum>>;
   onChange: (value: Enum) => void;
-}): JSX.Element {
+}): React.JSX.Element {
   const htmlIds = useMemo(() => {
     return Array.from({ length: options.length }, () => uuid());
   }, [options.length]);

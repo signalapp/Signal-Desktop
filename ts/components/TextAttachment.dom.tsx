@@ -121,7 +121,7 @@ export const TextAttachment = forwardRef<HTMLTextAreaElement, PropsType>(
       textAttachment,
     },
     forwardedTextEditorRef
-  ): JSX.Element | null {
+  ): React.JSX.Element | null {
     const linkPreview = useRef<HTMLDivElement | null>(null);
     const [linkPreviewOffsetTop, setLinkPreviewOffsetTop] = useState<
       number | undefined

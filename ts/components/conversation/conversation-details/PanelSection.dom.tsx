@@ -22,7 +22,7 @@ export function PanelSection({
   centerTitle,
   children,
   title,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   return (
     <div
       className={classNames(bem('root'), borderless ? borderlessClass : null)}

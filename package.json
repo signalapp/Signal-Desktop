@@ -131,7 +131,7 @@
     "@react-aria/focus": "3.19.1",
     "@react-aria/interactions": "3.23.0",
     "@react-aria/utils": "3.25.3",
-    "@react-spring/web": "9.7.5",
+    "@react-spring/web": "10.0.3",
     "@react-types/shared": "3.27.0",
     "@signalapp/libsignal-client": "0.86.3",
     "@signalapp/minimask": "1.0.1",
@@ -283,8 +283,8 @@
     "@types/pify": "5.0.4",
     "@types/pixelmatch": "5.2.6",
     "@types/pngjs": "6.0.5",
-    "@types/react": "18.3.20",
-    "@types/react-dom": "18.3.6",
+    "@types/react": "18.3.27",
+    "@types/react-dom": "18.3.7",
     "@types/react-redux": "7.1.34",
     "@types/react-virtualized": "9.22.2",
     "@types/redux-logger": "3.0.13",
@@ -378,7 +378,9 @@
       "canvas": "-",
       "jsdom": "-",
       "thenify-all>thenify": "3.3.1",
-      "@electron/rebuild@3.7.2>@electron/node-gyp": "10.2.0-electron.2"
+      "@electron/rebuild@3.7.2>@electron/node-gyp": "10.2.0-electron.2",
+      "react-popper@2.3.0>react": "18.3.1",
+      "react-popper@2.3.0>react-dom": "18.3.1"
     },
     "patchedDependencies": {
       "casual@1.6.2": "patches/casual+1.6.2.patch",
@@ -398,7 +400,8 @@
       "zod@3.23.8": "patches/zod+3.23.8.patch",
       "app-builder-lib": "patches/app-builder-lib.patch",
       "dmg-builder": "patches/dmg-builder.patch",
-      "eslint-plugin-better-tailwindcss": "patches/eslint-plugin-better-tailwindcss.patch"
+      "eslint-plugin-better-tailwindcss": "patches/eslint-plugin-better-tailwindcss.patch",
+      "framer-motion@6.5.1": "patches/framer-motion@6.5.1.patch"
     },
     "onlyBuiltDependencies": [
       "@indutny/mac-screen-share",

@@ -126,61 +126,65 @@ import { SmartNotificationProfilesMenu } from './NotificationProfilesMenu.preloa
 import { getActiveProfile } from '../selectors/notificationProfiles.dom.js';
 import type { StateSelector } from '../types.std.js';
 
-function renderMessageSearchResult(id: string): JSX.Element {
+function renderMessageSearchResult(id: string): React.JSX.Element {
   return <SmartMessageSearchResult id={id} />;
 }
 function renderConversationListItemContextMenu(
   props: RenderConversationListItemContextMenuProps
-): JSX.Element {
+): React.JSX.Element {
   return <SmartLeftPaneConversationListItemContextMenu {...props} />;
 }
 function renderNetworkStatus(
   props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
-): JSX.Element {
+): React.JSX.Element {
   return <SmartNetworkStatus {...props} />;
 }
 function renderRelinkDialog(
   props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
-): JSX.Element {
+): React.JSX.Element {
   return <SmartRelinkDialog {...props} />;
 }
 function renderUpdateDialog(
   props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
-): JSX.Element {
+): React.JSX.Element {
   return <SmartUpdateDialog {...props} />;
 }
-function renderCaptchaDialog({ onSkip }: { onSkip(): void }): JSX.Element {
+function renderCaptchaDialog({
+  onSkip,
+}: {
+  onSkip(): void;
+}): React.JSX.Element {
   return <SmartCaptchaDialog onSkip={onSkip} />;
 }
-function renderCrashReportDialog(): JSX.Element {
+function renderCrashReportDialog(): React.JSX.Element {
   return <SmartCrashReportDialog />;
 }
 function renderExpiredBuildDialog(
   props: DialogExpiredBuildPropsType
-): JSX.Element {
+): React.JSX.Element {
   return <DialogExpiredBuild {...props} />;
 }
-function renderLeftPaneChatFolders(): JSX.Element {
+function renderLeftPaneChatFolders(): React.JSX.Element {
   return <SmartLeftPaneChatFolders />;
 }
 function renderUnsupportedOSDialog(
   props: Readonly<SmartUnsupportedOSDialogPropsType>
-): JSX.Element {
+): React.JSX.Element {
   return <SmartUnsupportedOSDialog {...props} />;
 }
 function renderToastManagerWithMegaphone(props: {
   containerWidthBreakpoint: WidthBreakpoint;
-}): JSX.Element {
+}): React.JSX.Element {
   return <SmartToastManager {...props} />;
 }
 
 function renderToastManagerWithoutMegaphone(props: {
   containerWidthBreakpoint: WidthBreakpoint;
-}): JSX.Element {
+}): React.JSX.Element {
   return <SmartToastManager disableMegaphone {...props} />;
 }
 
-function renderNotificationProfilesMenu(): JSX.Element {
+function renderNotificationProfilesMenu(): React.JSX.Element {
   return <SmartNotificationProfilesMenu />;
 }
 

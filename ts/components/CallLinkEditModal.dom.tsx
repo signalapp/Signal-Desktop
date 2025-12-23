@@ -89,7 +89,7 @@ export function CallLinkEditModal({
   onUpdateCallLinkRestrictions,
   onShareCallLinkViaSignal,
   onStartCallLinkLobby,
-}: CallLinkEditModalProps): JSX.Element {
+}: CallLinkEditModalProps): React.JSX.Element {
   const [restrictionsId] = useState(() => generateUuid());
 
   const callLinkWebUrl = useMemo(() => {

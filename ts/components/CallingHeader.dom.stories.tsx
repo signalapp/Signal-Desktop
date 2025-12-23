@@ -27,11 +27,11 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-export function Default(args: PropsType): JSX.Element {
+export function Default(args: PropsType): React.JSX.Element {
   return <CallingHeader {...args} />;
 }
 
-export function LobbyStyle(args: PropsType): JSX.Element {
+export function LobbyStyle(args: PropsType): React.JSX.Element {
   return (
     <CallingHeader
       {...args}

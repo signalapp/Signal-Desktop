@@ -17,7 +17,7 @@ export function DeleteMessagesConfirmationDialog({
   onDestroyMessages: () => void;
   onClose: () => void;
   setLocalDeleteWarningShown: () => void;
-}): JSX.Element {
+}): React.JSX.Element {
   if (!localDeleteWarningShown) {
     return (
       <LocalDeleteWarningModal

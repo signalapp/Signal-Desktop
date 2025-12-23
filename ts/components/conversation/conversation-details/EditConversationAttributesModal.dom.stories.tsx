@@ -33,11 +33,11 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   ...overrideProps,
 });
 
-export function NoAvatarEmptyTitle(): JSX.Element {
+export function NoAvatarEmptyTitle(): React.JSX.Element {
   return <EditConversationAttributesModal {...createProps({ title: '' })} />;
 }
 
-export function AvatarAndTitle(): JSX.Element {
+export function AvatarAndTitle(): React.JSX.Element {
   return (
     <EditConversationAttributesModal
       {...createProps({
@@ -47,7 +47,7 @@ export function AvatarAndTitle(): JSX.Element {
   );
 }
 
-export function InitiallyFocusingDescription(): JSX.Element {
+export function InitiallyFocusingDescription(): React.JSX.Element {
   return (
     <EditConversationAttributesModal
       {...createProps({ title: 'Has title', initiallyFocusDescription: true })}
@@ -55,7 +55,7 @@ export function InitiallyFocusingDescription(): JSX.Element {
   );
 }
 
-export function RequestActive(): JSX.Element {
+export function RequestActive(): React.JSX.Element {
   return (
     <EditConversationAttributesModal
       {...createProps({ requestState: RequestState.Active })}
@@ -63,7 +63,7 @@ export function RequestActive(): JSX.Element {
   );
 }
 
-export function HasError(): JSX.Element {
+export function HasError(): React.JSX.Element {
   return (
     <EditConversationAttributesModal
       {...createProps({ requestState: RequestState.InactiveWithError })}

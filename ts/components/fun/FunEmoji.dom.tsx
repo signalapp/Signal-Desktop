@@ -82,7 +82,7 @@ export type FunStaticEmojiProps = FunImageAriaProps &
     emoji: EmojiVariantData;
   }>;
 
-export function FunStaticEmoji(props: FunStaticEmojiProps): JSX.Element {
+export function FunStaticEmoji(props: FunStaticEmojiProps): React.JSX.Element {
   const jumboImage = getEmojiJumboBackground(props.emoji, props.size);
   return (
     <div
@@ -153,7 +153,7 @@ export type FunInlineEmojiProps = FunImageAriaProps &
     emoji: EmojiVariantData;
   }>;
 
-export function FunInlineEmoji(props: FunInlineEmojiProps): JSX.Element {
+export function FunInlineEmoji(props: FunInlineEmojiProps): React.JSX.Element {
   const jumboImage = useMemo(() => {
     // Note: we don't pass size here because appearance of jumbomoji is decided
     // in cass based on the parent svg container size.

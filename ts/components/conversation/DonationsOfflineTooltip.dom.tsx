@@ -20,7 +20,7 @@ export function getTooltipContent(i18n: LocalizerType): string {
 export function DonationsOfflineTooltip({
   i18n,
   children,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   return (
     <Tooltip
       className="InAnotherCallTooltip"

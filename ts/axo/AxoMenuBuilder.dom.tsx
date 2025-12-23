@@ -27,7 +27,7 @@ export namespace AxoMenuBuilder {
   export const Root: FC<RootProps> = memo(props => {
     const { renderer, ...rest } = props;
 
-    let child: JSX.Element;
+    let child: React.JSX.Element;
     if (renderer === 'AxoDropdownMenu') {
       child = <AxoDropdownMenu.Root {...rest} />;
     } else if (renderer === 'AxoContextMenu') {

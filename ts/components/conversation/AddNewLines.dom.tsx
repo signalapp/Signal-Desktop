@@ -16,8 +16,8 @@ const defaultRenderNonNewLine: RenderTextCallbackType = ({ text }) => text;
 export function AddNewLines({
   text,
   renderNonNewLine = defaultRenderNonNewLine,
-}: Props): JSX.Element {
-  const results: Array<JSX.Element | string> = [];
+}: Props): React.JSX.Element {
+  const results: Array<React.JSX.Element | string> = [];
   const FIND_NEWLINES = /\n/g;
 
   let match = FIND_NEWLINES.exec(text);

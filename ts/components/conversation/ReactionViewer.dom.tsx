@@ -88,7 +88,7 @@ type ReactionWithEmojiData = Reaction &
 
 function ReactionViewerEmoji(props: {
   emojiVariantValue: string | undefined;
-}): JSX.Element | null {
+}): React.JSX.Element | null {
   const emojiLocalizer = useFunEmojiLocalizer();
   strictAssert(props.emojiVariantValue != null, 'Expected an emoji');
 

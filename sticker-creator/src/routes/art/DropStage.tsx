@@ -11,7 +11,7 @@ import { resetStatus } from '../../slices/art';
 import { useArtType, useArtReady } from '../../selectors/art';
 import { useI18n } from '../../contexts/I18n';
 
-export function DropStage(): JSX.Element {
+export function DropStage(): React.JSX.Element {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const artType = useArtType();

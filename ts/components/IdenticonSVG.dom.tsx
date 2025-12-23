@@ -13,7 +13,7 @@ export function IdenticonSVGForContact({
   backgroundColor,
   text,
   foregroundColor,
-}: PropsTypeForContact): JSX.Element {
+}: PropsTypeForContact): React.JSX.Element {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
       <circle cx="50" cy="50" r="40" fill={backgroundColor} />
@@ -40,7 +40,7 @@ export type PropsTypeForGroup = {
 export function IdenticonSVGForGroup({
   backgroundColor,
   foregroundColor,
-}: PropsTypeForGroup): JSX.Element {
+}: PropsTypeForGroup): React.JSX.Element {
   // Note: the inner SVG below is taken from images/icons/v3/group/group.svg, viewBox
   //   added to match the original SVG, new dimensions to create match Avatar.tsx.
   return (
@@ -71,7 +71,7 @@ export function IdenticonSVGForGroup({
 export function IdenticonSVGForCallLink({
   backgroundColor,
   foregroundColor,
-}: PropsTypeForGroup): JSX.Element {
+}: PropsTypeForGroup): React.JSX.Element {
   // Note: the inner SVG below is taken from images/icons/v3/video/video-display-bold.svg,
   //   viewBox added to match the original SVG, new dimensions to create match Avatar.tsx.
   return (

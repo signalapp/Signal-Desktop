@@ -35,7 +35,7 @@ const createAttachment = (
   size: 14243,
 });
 
-export function TextFile(args: Props): JSX.Element {
+export function TextFile(args: Props): React.JSX.Element {
   const attachment = createAttachment({
     contentType: stringToMIMEType('text/plain'),
     fileName: 'manifesto.txt',
@@ -44,7 +44,7 @@ export function TextFile(args: Props): JSX.Element {
   return <StagedGenericAttachment {...args} attachment={attachment} />;
 }
 
-export function LongName(args: Props): JSX.Element {
+export function LongName(args: Props): React.JSX.Element {
   const attachment = createAttachment({
     contentType: stringToMIMEType('text/plain'),
     fileName: 'this-is-my-very-important-manifesto-you-must-read-it.txt',
@@ -53,7 +53,7 @@ export function LongName(args: Props): JSX.Element {
   return <StagedGenericAttachment {...args} attachment={attachment} />;
 }
 
-export function LongExtension(args: Props): JSX.Element {
+export function LongExtension(args: Props): React.JSX.Element {
   const attachment = createAttachment({
     contentType: stringToMIMEType('text/plain'),
     fileName: 'manifesto.reallylongtxt',

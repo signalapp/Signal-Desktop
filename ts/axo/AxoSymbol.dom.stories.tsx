@@ -22,7 +22,7 @@ const fuse = new Fuse(allAxoSymbolNames);
 
 const SymbolInfo = memo(function SymbolInfo(props: {
   symbolName: AxoSymbol.InlineGlyphName;
-}): JSX.Element {
+}): React.JSX.Element {
   const ltr = getAxoSymbolInlineGlyph(props.symbolName, 'ltr');
   const rtl = getAxoSymbolInlineGlyph(props.symbolName, 'rtl');
 
@@ -81,7 +81,7 @@ const SymbolInfo = memo(function SymbolInfo(props: {
   );
 });
 
-export function All(): JSX.Element {
+export function All(): React.JSX.Element {
   const [input, setInput] = useState('');
 
   const results = useMemo(() => {

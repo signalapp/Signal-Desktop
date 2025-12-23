@@ -86,7 +86,7 @@ export function MessageBody({
   text,
   textAttachment,
   originalText,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const shouldDisableLinks =
     disableLinks || !shouldLinkifyMessage(originalText);
   const textWithSuffix =

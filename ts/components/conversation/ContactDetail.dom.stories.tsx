@@ -131,7 +131,7 @@ const fullContact = {
   ],
 };
 
-export function FullyFilledOut(): JSX.Element {
+export function FullyFilledOut(): React.JSX.Element {
   const props = createProps({
     contact: fullContact,
     hasSignalAccount: true,
@@ -139,7 +139,7 @@ export function FullyFilledOut(): JSX.Element {
   return <ContactDetail {...props} />;
 }
 
-export function FullyFilledOutNotDownloaded(): JSX.Element {
+export function FullyFilledOutNotDownloaded(): React.JSX.Element {
   const props = createProps({
     contact: fullContact,
     hasSignalAccount: true,
@@ -159,7 +159,7 @@ export function FullyFilledOutNotDownloaded(): JSX.Element {
   };
   return <ContactDetail {...propsWithUpdatedAvatar} />;
 }
-export function FullyFilledOutDownloading(): JSX.Element {
+export function FullyFilledOutDownloading(): React.JSX.Element {
   const props = createProps({
     contact: fullContact,
     hasSignalAccount: true,
@@ -182,7 +182,7 @@ export function FullyFilledOutDownloading(): JSX.Element {
   };
   return <ContactDetail {...propsWithUpdatedAvatar} />;
 }
-export function FullyFilledOutTransientError(): JSX.Element {
+export function FullyFilledOutTransientError(): React.JSX.Element {
   const props = createProps({
     contact: fullContact,
     hasSignalAccount: true,
@@ -207,7 +207,7 @@ export function FullyFilledOutTransientError(): JSX.Element {
   };
   return <ContactDetail {...propsWithUpdatedAvatar} />;
 }
-export function FullyFilledOutPermanentError(): JSX.Element {
+export function FullyFilledOutPermanentError(): React.JSX.Element {
   const props = createProps({
     contact: fullContact,
     hasSignalAccount: true,
@@ -229,7 +229,7 @@ export function FullyFilledOutPermanentError(): JSX.Element {
   return <ContactDetail {...propsWithUpdatedAvatar} />;
 }
 
-export function OnlyEmail(): JSX.Element {
+export function OnlyEmail(): React.JSX.Element {
   const props = createProps({
     contact: {
       email: [
@@ -245,7 +245,7 @@ export function OnlyEmail(): JSX.Element {
   return <ContactDetail {...props} />;
 }
 
-export function GivenName(): JSX.Element {
+export function GivenName(): React.JSX.Element {
   const props = createProps({
     contact: {
       name: {
@@ -258,7 +258,7 @@ export function GivenName(): JSX.Element {
   return <ContactDetail {...props} />;
 }
 
-export function Organization(): JSX.Element {
+export function Organization(): React.JSX.Element {
   const props = createProps({
     contact: {
       organization: 'Company 5',
@@ -269,7 +269,7 @@ export function Organization(): JSX.Element {
   return <ContactDetail {...props} />;
 }
 
-export function GivenFamilyName(): JSX.Element {
+export function GivenFamilyName(): React.JSX.Element {
   const props = createProps({
     contact: {
       name: {
@@ -283,7 +283,7 @@ export function GivenFamilyName(): JSX.Element {
   return <ContactDetail {...props} />;
 }
 
-export function FamilyName(): JSX.Element {
+export function FamilyName(): React.JSX.Element {
   const props = createProps({
     contact: {
       name: {
@@ -296,7 +296,7 @@ export function FamilyName(): JSX.Element {
   return <ContactDetail {...props} />;
 }
 
-export function LoadingAvatar(): JSX.Element {
+export function LoadingAvatar(): React.JSX.Element {
   const props = createProps({
     contact: {
       avatar: {
@@ -312,14 +312,14 @@ export function LoadingAvatar(): JSX.Element {
   return <ContactDetail {...props} />;
 }
 
-export function EmptyWithAccount(): JSX.Element {
+export function EmptyWithAccount(): React.JSX.Element {
   const props = createProps({
     hasSignalAccount: true,
   });
   return <ContactDetail {...props} />;
 }
 
-export function EmptyWithoutAccount(): JSX.Element {
+export function EmptyWithoutAccount(): React.JSX.Element {
   const props = createProps({
     hasSignalAccount: false,
   });

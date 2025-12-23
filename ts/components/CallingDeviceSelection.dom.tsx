@@ -106,7 +106,7 @@ export function CallingDeviceSelection({
   selectedMicrophone,
   selectedSpeaker,
   toggleSettings,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const selectedMicrophoneIndex = selectedMicrophone
     ? selectedMicrophone.index
     : undefined;

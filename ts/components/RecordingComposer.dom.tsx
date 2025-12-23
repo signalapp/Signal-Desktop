@@ -18,7 +18,7 @@ export function RecordingComposer({
   onCancel,
   onSend,
   children,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   return (
     <div className="RecordingComposer">
       <div className="RecordingComposer__content">{children}</div>

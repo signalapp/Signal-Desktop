@@ -47,7 +47,7 @@ function BlurredBackground({
   avatarSize: AvatarSize;
   darken?: boolean;
   i18n: LocalizerType;
-}): JSX.Element {
+}): React.JSX.Element {
   const {
     avatarPlaceholderGradient,
     color,
@@ -107,7 +107,7 @@ export function CallingPipRemoteVideo({
   height,
   width,
   updateHeight,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const { conversation } = activeCall;
 
   const getGroupCallFrameBuffer = useGetCallingFrameBuffer();

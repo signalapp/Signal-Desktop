@@ -163,7 +163,7 @@ SearchIcon.args = createProps({
   searchResult: true,
 });
 
-export function Colors(): JSX.Element {
+export function Colors(): React.JSX.Element {
   const props = createProps();
 
   return (

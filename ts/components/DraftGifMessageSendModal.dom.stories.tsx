@@ -43,7 +43,7 @@ function RenderCompositionTextArea(props: SmartCompositionTextAreaProps) {
   );
 }
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {

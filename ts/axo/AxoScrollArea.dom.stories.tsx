@@ -87,15 +87,15 @@ function VerticalVariants(props: { mask?: boolean; hints?: boolean }) {
   );
 }
 
-export function Vertical(): JSX.Element {
+export function Vertical(): React.JSX.Element {
   return <VerticalVariants />;
 }
 
-export function VerticalWithHints(): JSX.Element {
+export function VerticalWithHints(): React.JSX.Element {
   return <VerticalVariants hints />;
 }
 
-export function VerticalWithMask(): JSX.Element {
+export function VerticalWithMask(): React.JSX.Element {
   return <VerticalVariants mask />;
 }
 
@@ -162,15 +162,15 @@ function HorizontalVariants(props: { mask?: boolean; hints?: boolean }) {
   );
 }
 
-export function Horizontal(): JSX.Element {
+export function Horizontal(): React.JSX.Element {
   return <HorizontalVariants />;
 }
 
-export function HorizontalWithHints(): JSX.Element {
+export function HorizontalWithHints(): React.JSX.Element {
   return <HorizontalVariants hints />;
 }
 
-export function HorizontalWithMask(): JSX.Element {
+export function HorizontalWithMask(): React.JSX.Element {
   return <HorizontalVariants mask />;
 }
 
@@ -249,14 +249,14 @@ function BothVariants(props: { mask?: boolean; hints?: boolean }) {
   );
 }
 
-export function Both(): JSX.Element {
+export function Both(): React.JSX.Element {
   return <BothVariants />;
 }
 
-export function BothWithHints(): JSX.Element {
+export function BothWithHints(): React.JSX.Element {
   return <BothVariants hints />;
 }
 
-export function BothWithMask(): JSX.Element {
+export function BothWithMask(): React.JSX.Element {
   return <BothVariants mask />;
 }

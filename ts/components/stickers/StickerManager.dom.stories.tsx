@@ -52,31 +52,31 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   uninstallStickerPack: action('uninstallStickerPack'),
 });
 
-export function Full(): JSX.Element {
+export function Full(): React.JSX.Element {
   const props = createProps({ installedPacks, receivedPacks, blessedPacks });
 
   return <StickerManager {...props} />;
 }
 
-export function InstalledPacks(): JSX.Element {
+export function InstalledPacks(): React.JSX.Element {
   const props = createProps({ installedPacks });
 
   return <StickerManager {...props} />;
 }
 
-export function ReceivedPacks(): JSX.Element {
+export function ReceivedPacks(): React.JSX.Element {
   const props = createProps({ receivedPacks });
 
   return <StickerManager {...props} />;
 }
 
-export function InstalledAndKnownPacks(): JSX.Element {
+export function InstalledAndKnownPacks(): React.JSX.Element {
   const props = createProps({ installedPacks, knownPacks });
 
   return <StickerManager {...props} />;
 }
 
-export function Empty(): JSX.Element {
+export function Empty(): React.JSX.Element {
   const props = createProps();
 
   return <StickerManager {...props} />;

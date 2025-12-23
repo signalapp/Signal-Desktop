@@ -76,39 +76,39 @@ export default {
   },
 } satisfies ComponentMeta<PropsType>;
 
-export function Defaults(args: PropsType): JSX.Element {
+export function Defaults(args: PropsType): React.JSX.Element {
   return <AboutContactModal {...args} />;
 }
 
-export function Me(args: PropsType): JSX.Element {
+export function Me(args: PropsType): React.JSX.Element {
   return <AboutContactModal {...args} conversation={me} />;
 }
 
-export function Verified(args: PropsType): JSX.Element {
+export function Verified(args: PropsType): React.JSX.Element {
   return <AboutContactModal {...args} conversation={verifiedConversation} />;
 }
 
-export function Blocked(args: PropsType): JSX.Element {
+export function Blocked(args: PropsType): React.JSX.Element {
   return <AboutContactModal {...args} conversation={blockedConversation} />;
 }
 
-export function Pending(args: PropsType): JSX.Element {
+export function Pending(args: PropsType): React.JSX.Element {
   return <AboutContactModal {...args} conversation={pendingConversation} />;
 }
 
-export function NoMessages(args: PropsType): JSX.Element {
+export function NoMessages(args: PropsType): React.JSX.Element {
   return <AboutContactModal {...args} conversation={noMessages} />;
 }
 
-export function WithAbout(args: PropsType): JSX.Element {
+export function WithAbout(args: PropsType): React.JSX.Element {
   return <AboutContactModal {...args} conversation={conversationWithAbout} />;
 }
 
-export function SignalConnection(args: PropsType): JSX.Element {
+export function SignalConnection(args: PropsType): React.JSX.Element {
   return <AboutContactModal {...args} isSignalConnection />;
 }
 
-export function SystemContact(args: PropsType): JSX.Element {
+export function SystemContact(args: PropsType): React.JSX.Element {
   return (
     <AboutContactModal
       {...args}
@@ -118,7 +118,7 @@ export function SystemContact(args: PropsType): JSX.Element {
   );
 }
 
-export function WithSharedGroups(args: PropsType): JSX.Element {
+export function WithSharedGroups(args: PropsType): React.JSX.Element {
   return (
     <AboutContactModal
       {...args}
@@ -128,7 +128,7 @@ export function WithSharedGroups(args: PropsType): JSX.Element {
   );
 }
 
-export function DirectFromTrustedContact(args: PropsType): JSX.Element {
+export function DirectFromTrustedContact(args: PropsType): React.JSX.Element {
   return (
     <AboutContactModal
       {...args}

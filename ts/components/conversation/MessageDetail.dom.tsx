@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactChild, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import React, { useRef } from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
@@ -168,10 +168,10 @@ export function MessageDetail({
   theme,
   toggleSafetyNumberModal,
   viewStory,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const messageDetailRef = useRef<HTMLDivElement>(null);
 
-  function renderAvatar(contact: Contact): JSX.Element {
+  function renderAvatar(contact: Contact): React.JSX.Element {
     const {
       avatarUrl,
       badges,
@@ -199,7 +199,7 @@ export function MessageDetail({
     );
   }
 
-  function renderContact(contact: Contact): JSX.Element {
+  function renderContact(contact: Contact): React.JSX.Element {
     const contactErrors = contact.errors || [];
 
     const errorComponent = contact.isOutgoingKeyError ? (
@@ -302,7 +302,7 @@ export function MessageDetail({
     );
   }
 
-  function renderContacts(): ReactChild {
+  function renderContacts(): ReactNode {
     // This assumes that the list either contains one sender (a status of `undefined`) or
     //   1+ contacts with `SendStatus`es, but it doesn't check that assumption.
     const contactsBySendStatus = groupBy(contacts, contact => contact.status);

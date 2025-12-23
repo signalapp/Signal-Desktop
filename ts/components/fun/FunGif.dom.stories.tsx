@@ -10,7 +10,7 @@ export default {
   title: 'Components/Fun/FunGif',
 } satisfies Meta;
 
-export function Basic(): JSX.Element {
+export function Basic(): React.JSX.Element {
   const id = useId();
   return (
     <>
@@ -31,7 +31,7 @@ export function Basic(): JSX.Element {
   );
 }
 
-export function PreviewSizing(): JSX.Element {
+export function PreviewSizing(): React.JSX.Element {
   return (
     <>
       <FunGifPreview
@@ -66,7 +66,7 @@ export function PreviewSizing(): JSX.Element {
   );
 }
 
-export function PreviewLoading(): JSX.Element {
+export function PreviewLoading(): React.JSX.Element {
   const [src, setSrc] = useState<string | null>(null);
 
   useEffect(() => {
@@ -89,7 +89,7 @@ export function PreviewLoading(): JSX.Element {
   );
 }
 
-export function PreviewError(): JSX.Element {
+export function PreviewError(): React.JSX.Element {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {

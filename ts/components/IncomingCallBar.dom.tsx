@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactChild } from 'react';
+import type { ReactNode } from 'react';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { Avatar, AvatarSize } from './Avatar.dom.js';
 import { Tooltip } from './Tooltip.dom.js';
@@ -81,7 +81,7 @@ function CallButton({
   onClick,
   tabIndex,
   tooltipContent,
-}: CallButtonProps): JSX.Element {
+}: CallButtonProps): React.JSX.Element {
   return (
     <Tooltip
       content={tooltipContent}
@@ -117,7 +117,7 @@ function GroupCallMessage({
     ConversationType,
     'firstName' | 'systemGivenName' | 'systemNickname' | 'title'
   >;
-}>): JSX.Element {
+}>): React.JSX.Element {
   // As an optimization, we only process the first two names.
   const [first, second] = otherMembersRung
     .slice(0, 2)
@@ -184,7 +184,7 @@ function GroupCallMessage({
   }
 }
 
-export function IncomingCallBar(props: PropsType): JSX.Element | null {
+export function IncomingCallBar(props: PropsType): React.JSX.Element | null {
   const {
     acceptCall,
     bounceAppIconStart,
@@ -206,8 +206,8 @@ export function IncomingCallBar(props: PropsType): JSX.Element | null {
   } = conversation;
 
   let isVideoCall: boolean;
-  let headerNode: ReactChild;
-  let messageNode: ReactChild;
+  let headerNode: ReactNode;
+  let messageNode: ReactNode;
 
   switch (props.callMode) {
     case CallMode.Direct:

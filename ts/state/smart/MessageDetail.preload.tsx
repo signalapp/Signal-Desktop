@@ -30,7 +30,7 @@ export type OwnProps = Pick<
 >;
 
 export const SmartMessageDetail = memo(
-  function SmartMessageDetail(): JSX.Element | null {
+  function SmartMessageDetail(): React.JSX.Element | null {
     const getContactNameColor = useSelector(getContactNameColorSelector);
     const getPreferredBadge = useSelector(getPreferredBadgeSelector);
     const i18n = useSelector(getIntl);

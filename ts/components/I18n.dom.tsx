@@ -26,7 +26,7 @@ export function I18n<Key extends keyof ICUJSXMessageParamsByKeyType>({
   id,
   // Indirection for linter/migration tooling
   i18n: localizer,
-}: Props<Key>): JSX.Element | null {
+}: Props<Key>): React.JSX.Element | null {
   strictAssert(id != null, 'Error: <I18n> id prop not provided');
   const intl = localizer.getIntl();
   return <>{intl.formatMessage({ id }, components, {})}</>;

@@ -27,7 +27,7 @@ export default {
   },
 } satisfies Meta<Props>;
 
-export function GroupConversation(args: Props): JSX.Element {
+export function GroupConversation(args: Props): React.JSX.Element {
   return (
     <SafetyNumberNotification
       {...args}
@@ -39,7 +39,7 @@ export function GroupConversation(args: Props): JSX.Element {
   );
 }
 
-export function DirectConversation(args: Props): JSX.Element {
+export function DirectConversation(args: Props): React.JSX.Element {
   return (
     <SafetyNumberNotification
       {...args}
@@ -51,7 +51,7 @@ export function DirectConversation(args: Props): JSX.Element {
   );
 }
 
-export function LongNameInGroup(args: Props): JSX.Element {
+export function LongNameInGroup(args: Props): React.JSX.Element {
   return (
     <SafetyNumberNotification
       {...args}

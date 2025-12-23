@@ -25,7 +25,7 @@ export type FunLightboxProviderProps = Readonly<{
 
 export function FunLightboxProvider(
   props: FunLightboxProviderProps
-): JSX.Element {
+): React.JSX.Element {
   const [lightboxKey, setLightboxKey] = useState<string | null>(null);
 
   useEffect(() => {
@@ -118,7 +118,9 @@ export type FunLightboxPortalProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunLightboxPortal(props: FunLightboxPortalProps): JSX.Element {
+export function FunLightboxPortal(
+  props: FunLightboxPortalProps
+): React.JSX.Element {
   return createPortal(props.children, document.body);
 }
 
@@ -132,7 +134,7 @@ export type FunLightboxBackdropProps = Readonly<{
 
 export function FunLightboxBackdrop(
   props: FunLightboxBackdropProps
-): JSX.Element {
+): React.JSX.Element {
   return <div className="FunLightbox__Backdrop">{props.children}</div>;
 }
 
@@ -145,7 +147,9 @@ export type FunLightboxDialogProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunLightboxDialog(props: FunLightboxDialogProps): JSX.Element {
+export function FunLightboxDialog(
+  props: FunLightboxDialogProps
+): React.JSX.Element {
   return (
     <div
       role="dialog"

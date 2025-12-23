@@ -201,7 +201,7 @@ export function FunPanelStickers({
   onSelectSticker,
   onAddStickerPack,
   onClose,
-}: FunPanelStickersProps): JSX.Element {
+}: FunPanelStickersProps): React.JSX.Element {
   const fun = useFunContext();
   const {
     i18n,
@@ -564,7 +564,7 @@ const Row = memo(function Row(props: {
     stickerSelection: FunStickerSelection
   ) => void;
   onClickTimeSticker: (event: PointerEvent, style: FunTimeStickerStyle) => void;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <FunGridRow rowIndex={props.rowIndex}>
       {props.cells.map(cell => {
@@ -602,7 +602,7 @@ const Cell = memo(function Cell(props: {
     stickerSelection: FunStickerSelection
   ) => void;
   onClickTimeSticker: (event: PointerEvent, style: FunTimeStickerStyle) => void;
-}): JSX.Element {
+}): React.JSX.Element {
   const { onClickSticker, onClickTimeSticker } = props;
   const stickerLookupItem = props.stickerLookup[props.value];
 

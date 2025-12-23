@@ -48,7 +48,7 @@ export function CompositionRecording({
   saveDraftRecordingIfNeeded,
   showToast,
   hideToast,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   useEscapeHandling(onCancel);
 
   // switched to another app
@@ -90,7 +90,7 @@ export function CompositionRecording({
     };
   }, [duration, errorRecording]);
 
-  let confirmationDialog: JSX.Element | undefined;
+  let confirmationDialog: React.JSX.Element | undefined;
   if (errorDialogAudioRecorderType === ErrorDialogAudioRecorderType.Timeout) {
     confirmationDialog = (
       <ConfirmationDialog

@@ -39,11 +39,11 @@ export default {
   args: {},
 } satisfies Meta<PropsType>;
 
-export function Normal(): JSX.Element {
+export function Normal(): React.JSX.Element {
   return <OutgoingGiftBadgeModal {...createProps()} />;
 }
 
-export function MissingBadge(): JSX.Element {
+export function MissingBadge(): React.JSX.Element {
   const props = {
     ...createProps(),
     getPreferredBadge: () => undefined,

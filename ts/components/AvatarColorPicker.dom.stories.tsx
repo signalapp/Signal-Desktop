@@ -21,11 +21,11 @@ export default {
   title: 'Components/AvatarColorPicker',
 } satisfies Meta<PropsType>;
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return <AvatarColorPicker {...createProps()} />;
 }
 
-export function Selected(): JSX.Element {
+export function Selected(): React.JSX.Element {
   return (
     <AvatarColorPicker
       {...createProps({

@@ -56,7 +56,7 @@ export type Props = {
   renderMediaItem: (props: {
     onItemClick: (event: ItemClickEvent) => unknown;
     mediaItem: GenericMediaItemType;
-  }) => JSX.Element;
+  }) => React.JSX.Element;
 };
 
 const MONTH_FORMAT = 'MMMM YYYY';
@@ -85,7 +85,7 @@ function MediaSection({
 > & {
   tab: MediaTabType;
   mediaItems: ReadonlyArray<GenericMediaItemType>;
-}): JSX.Element {
+}): React.JSX.Element {
   const onItemClick = useCallback(
     (event: ItemClickEvent) => {
       const { state, mediaItem } = event;
@@ -209,7 +209,7 @@ export function MediaGallery({
   playAudio,
   showLightbox,
   renderMediaItem,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const focusRef = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useState(reduxLoading);
 

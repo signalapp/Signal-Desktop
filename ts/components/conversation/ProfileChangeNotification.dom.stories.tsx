@@ -14,7 +14,7 @@ export default {
   title: 'Components/Conversation/ProfileChangeNotification',
 } satisfies Meta<PropsType>;
 
-export function FromContact(): JSX.Element {
+export function FromContact(): React.JSX.Element {
   return (
     <ProfileChangeNotification
       i18n={i18n}
@@ -34,7 +34,7 @@ export function FromContact(): JSX.Element {
   );
 }
 
-export function FromNonContact(): JSX.Element {
+export function FromNonContact(): React.JSX.Element {
   return (
     <ProfileChangeNotification
       i18n={i18n}
@@ -53,7 +53,7 @@ export function FromNonContact(): JSX.Element {
   );
 }
 
-export function FromContactWithLongNamesBeforeAndAfter(): JSX.Element {
+export function FromContactWithLongNamesBeforeAndAfter(): React.JSX.Element {
   return (
     <ProfileChangeNotification
       i18n={i18n}
@@ -72,7 +72,7 @@ export function FromContactWithLongNamesBeforeAndAfter(): JSX.Element {
   );
 }
 
-export function WithNickname(): JSX.Element {
+export function WithNickname(): React.JSX.Element {
   return (
     <ProfileChangeNotification
       i18n={i18n}

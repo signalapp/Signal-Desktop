@@ -52,13 +52,13 @@ const createProps = (
   ),
 });
 
-export function OffAdmin(): JSX.Element {
+export function OffAdmin(): React.JSX.Element {
   const props = createProps(undefined, true);
 
   return <GroupLinkManagement {...props} />;
 }
 
-export function OnAdmin(): JSX.Element {
+export function OnAdmin(): React.JSX.Element {
   const props = createProps(
     getConversation('https://signal.group/1', AccessControlEnum.ANY),
     true
@@ -67,7 +67,7 @@ export function OnAdmin(): JSX.Element {
   return <GroupLinkManagement {...props} />;
 }
 
-export function OnAdminAdminApprovalNeeded(): JSX.Element {
+export function OnAdminAdminApprovalNeeded(): React.JSX.Element {
   const props = createProps(
     getConversation('https://signal.group/1', AccessControlEnum.ADMINISTRATOR),
     true
@@ -76,7 +76,7 @@ export function OnAdminAdminApprovalNeeded(): JSX.Element {
   return <GroupLinkManagement {...props} />;
 }
 
-export function OnNonAdmin(): JSX.Element {
+export function OnNonAdmin(): React.JSX.Element {
   const props = createProps(
     getConversation('https://signal.group/1', AccessControlEnum.ANY)
   );
@@ -84,7 +84,7 @@ export function OnNonAdmin(): JSX.Element {
   return <GroupLinkManagement {...props} />;
 }
 
-export function OffNonAdminUserCannotGetHere(): JSX.Element {
+export function OffNonAdminUserCannotGetHere(): React.JSX.Element {
   const props = createProps(undefined, false);
 
   return <GroupLinkManagement {...props} />;

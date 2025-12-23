@@ -5,7 +5,6 @@ import type {
   AriaAttributes,
   CSSProperties,
   MouseEvent,
-  ReactChild,
   ReactNode,
 } from 'react';
 import React, { useEffect, useState } from 'react';
@@ -125,7 +124,7 @@ export function Avatar({
   storyRing,
   blur = AvatarBlur.NoBlur,
   ...ariaProps
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const [imageBroken, setImageBroken] = useState(false);
 
   useEffect(() => {
@@ -249,7 +248,7 @@ export function Avatar({
     );
   }
 
-  let contents: ReactChild;
+  let contents: ReactNode;
   const contentsClassName = classNames(
     'module-Avatar__contents',
     `module-Avatar__contents--${color}`

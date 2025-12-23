@@ -95,7 +95,7 @@ export type PreferencesChatFoldersPageProps = Readonly<{
 
 export function PreferencesChatFoldersPage(
   props: PreferencesChatFoldersPageProps
-): JSX.Element {
+): React.JSX.Element {
   const {
     i18n,
     onOpenEditChatFoldersPage,
@@ -411,7 +411,7 @@ function ChatFolderListItem(props: {
   chatFolder: ChatFolder;
   onChatFolderEdit: (chatFolder: ChatFolder) => void;
   onChatFolderDelete: (chatFolder: ChatFolder) => void;
-}): JSX.Element {
+}): React.JSX.Element {
   const { i18n, chatFolder, onChatFolderEdit } = props;
 
   const handleClickChatFolder = useCallback(() => {

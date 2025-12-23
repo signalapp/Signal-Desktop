@@ -82,7 +82,7 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
       <ContactName module={HEADER_CONTACT_NAME_CLASS_NAME} title={title} />
     );
 
-    let messageText: undefined | string | JSX.Element;
+    let messageText: undefined | string | React.JSX.Element;
     if (disabledReason === ContactCheckboxDisabledReason.AlreadyAdded) {
       messageText = i18n('icu:alreadyAMember');
     } else if (about) {

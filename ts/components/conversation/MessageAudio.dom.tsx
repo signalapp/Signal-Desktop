@@ -143,7 +143,7 @@ function PlayedDot({
  * `context` is required for displaying separate MessageAudio instances in
  * MessageDetails and Message React components.
  */
-export function MessageAudio(props: Props): JSX.Element {
+export function MessageAudio(props: Props): React.JSX.Element {
   const {
     active,
     buttonRef,

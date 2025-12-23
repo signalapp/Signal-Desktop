@@ -34,7 +34,7 @@ type PropsType = {
   hasHeaderDivider?: boolean;
   hasFooterDivider?: boolean;
   i18n: LocalizerType;
-  modalFooter?: JSX.Element;
+  modalFooter?: React.JSX.Element;
   modalHeaderChildren?: ReactNode;
   moduleClassName?: string;
   onBackButtonClick?: () => unknown;
@@ -72,7 +72,7 @@ export function Modal({
   noTransform = false,
   padded = true,
   'aria-describedby': ariaDescribedBy,
-}: Readonly<ModalPropsType>): JSX.Element | null {
+}: Readonly<ModalPropsType>): React.JSX.Element | null {
   const { close, isClosed, modalStyles, overlayStyles } = useAnimated(
     onClose,
 
@@ -183,7 +183,7 @@ export function ModalPage({
   hasHeaderDivider = false,
   hasFooterDivider = false,
   'aria-describedby': ariaDescribedBy,
-}: ModalPageProps): JSX.Element {
+}: ModalPageProps): React.JSX.Element {
   const modalRef = useRef<HTMLDivElement | null>(null);
 
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -344,7 +344,7 @@ export function PagedModal({
   noMouseClose,
   onClose = noop,
   theme,
-}: PagedModalProps): JSX.Element | null {
+}: PagedModalProps): React.JSX.Element | null {
   const { close, isClosed, modalStyles, overlayStyles } = useAnimated(onClose, {
     getFrom: () => ({ opacity: 0, transform: 'translateY(48px)' }),
     getTo: isOpen =>
@@ -385,4 +385,4 @@ export function PagedModal({
   );
 }
 
-export type RenderModalPage = (onClose: () => void) => JSX.Element;
+export type RenderModalPage = (onClose: () => void) => React.JSX.Element;

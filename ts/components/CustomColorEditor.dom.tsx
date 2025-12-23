@@ -47,7 +47,7 @@ export function CustomColorEditor({
   i18n,
   onClose,
   onSave,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [color, setColor] = useState<CustomColorType>(customColor);
   const [selectedColorKnob, setSelectedColorKnob] = useState<KnobType>(
     KnobType.start

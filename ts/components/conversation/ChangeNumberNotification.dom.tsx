@@ -22,7 +22,7 @@ export type PropsHousekeeping = {
 
 export type Props = PropsData & PropsHousekeeping;
 
-export function ChangeNumberNotification(props: Props): JSX.Element {
+export function ChangeNumberNotification(props: Props): React.JSX.Element {
   const { i18n, sender, timestamp } = props;
 
   return (

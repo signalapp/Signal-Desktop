@@ -17,7 +17,10 @@ import { AudioListItem } from '../AudioListItem.dom.js';
 
 const { i18n } = window.SignalContext;
 
-export function MediaItem({ mediaItem, onItemClick }: PropsType): JSX.Element {
+export function MediaItem({
+  mediaItem,
+  onItemClick,
+}: PropsType): React.JSX.Element {
   const onClick = useCallback(
     (state: AttachmentStatusType['state']) => {
       onItemClick({ mediaItem, state });

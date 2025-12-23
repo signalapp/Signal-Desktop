@@ -97,7 +97,7 @@ function ExportedImage({
   link,
   colorId,
   usernameLines,
-}: ExportedImagePropsType): JSX.Element {
+}: ExportedImagePropsType): React.JSX.Element {
   const { fg, bg, tint } = COLOR_MAP.get(colorId) ?? DEFAULT_PRESET;
 
   const isWhiteBackground = colorId === ColorEnum.WHITE;
@@ -319,7 +319,7 @@ function UsernameLinkColorRadio({
   bgColor,
   isSelected,
   onSelect,
-}: UsernameLinkColorRadioPropsType): JSX.Element {
+}: UsernameLinkColorRadioPropsType): React.JSX.Element {
   const className = `${CLASS}__colors__radio`;
 
   const onClick = useCallback(
@@ -376,7 +376,7 @@ function UsernameLinkColors({
   onChange,
   onSave,
   onCancel,
-}: UsernameLinkColorsPropsType): JSX.Element {
+}: UsernameLinkColorsPropsType): React.JSX.Element {
   const className = `${CLASS}__colors`;
 
   const normalizedValue = value === ColorEnum.UNKNOWN ? ColorEnum.BLUE : value;
@@ -431,7 +431,7 @@ export function UsernameLinkEditor({
   showToast,
 
   onBack,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [pngData, setPngData] = useState<Uint8Array | undefined>();
   const [showColors, setShowColors] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
@@ -680,7 +680,7 @@ export function UsernameLinkEditor({
     </>
   );
 
-  let linkImage: JSX.Element | undefined;
+  let linkImage: React.JSX.Element | undefined;
   if (isReady && link) {
     linkImage = (
       <svg

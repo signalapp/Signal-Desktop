@@ -10,7 +10,7 @@ export function DeleteChatFolderDialog(props: {
   cancelText: string;
   deleteText: string;
   onConfirm: () => void;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <AxoAlertDialog.Content escape="cancel-is-noop">
       <AxoAlertDialog.Body>

@@ -192,10 +192,10 @@ export type OwnProps = Readonly<{
   showConversation: ShowConversationType;
   startRecording: (id: string) => unknown;
   theme: ThemeType;
-  renderSmartCompositionRecording: () => JSX.Element;
+  renderSmartCompositionRecording: () => React.JSX.Element;
   renderSmartCompositionRecordingDraft: (
     props: SmartCompositionRecordingDraftProps
-  ) => JSX.Element | null;
+  ) => React.JSX.Element | null;
   selectedMessageIds: ReadonlyArray<string> | undefined;
   areSelectedMessagesForwardable: boolean | undefined;
   toggleSelectMode: (on: boolean) => void;
@@ -334,7 +334,7 @@ export const CompositionArea = memo(function CompositionArea({
   toggleForwardMessagesModal,
   // DraftGifMessageSendModal
   toggleDraftGifMessageSendModal,
-}: Props): JSX.Element | null {
+}: Props): React.JSX.Element | null {
   const [dirty, setDirty] = useState(false);
   const [large, setLarge] = useState(false);
   const [attachmentToEdit, setAttachmentToEdit] = useState<

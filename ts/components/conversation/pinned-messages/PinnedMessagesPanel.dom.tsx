@@ -35,7 +35,7 @@ export type PinnedMessagesPanelProps = Readonly<{
   pinnedMessages: ReadonlyArray<PinnedMessageRenderData>;
   canPinMessages: boolean;
   onPinnedMessageRemoveAll: () => void;
-  renderTimelineItem: (props: SmartTimelineItemProps) => JSX.Element;
+  renderTimelineItem: (props: SmartTimelineItemProps) => React.JSX.Element;
 }>;
 
 export const PinnedMessagesPanel = memo(function PinnedMessagesPanel(

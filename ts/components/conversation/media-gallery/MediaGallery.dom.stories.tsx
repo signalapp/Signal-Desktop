@@ -51,7 +51,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   renderMediaItem: props => <MediaItem {...props} />,
 });
 
-function Panel(props: Props): JSX.Element {
+function Panel(props: Props): React.JSX.Element {
   const [tab, setTab] = useState<MediaTabType>(props.tab);
 
   const [loading, setLoading] = useState(false);
@@ -82,7 +82,7 @@ function Panel(props: Props): JSX.Element {
   );
 }
 
-export function Populated(): JSX.Element {
+export function Populated(): React.JSX.Element {
   const documents = createRandomDocuments(Date.now() - days(5), days(5));
   const media = createPreparedMediaItems(createRandomMedia);
   const props = createProps({ documents, media });
@@ -90,21 +90,21 @@ export function Populated(): JSX.Element {
   return <Panel {...props} />;
 }
 
-export function NoDocuments(): JSX.Element {
+export function NoDocuments(): React.JSX.Element {
   const media = createPreparedMediaItems(createRandomMedia);
   const props = createProps({ media, haveOldestDocument: true });
 
   return <Panel {...props} />;
 }
 
-export function NoMedia(): JSX.Element {
+export function NoMedia(): React.JSX.Element {
   const documents = createPreparedMediaItems(createRandomDocuments);
   const props = createProps({ documents, haveOldestMedia: true });
 
   return <Panel {...props} />;
 }
 
-export function OneEach(): JSX.Element {
+export function OneEach(): React.JSX.Element {
   const media = createRandomMedia(Date.now(), days(1)).slice(0, 1);
   const audio = createRandomAudio(Date.now(), days(1)).slice(0, 1);
   const documents = createRandomDocuments(Date.now(), days(1)).slice(0, 1);
@@ -115,7 +115,7 @@ export function OneEach(): JSX.Element {
   return <Panel {...props} />;
 }
 
-export function Empty(): JSX.Element {
+export function Empty(): React.JSX.Element {
   const props = createProps({
     haveOldestMedia: true,
     haveOldestAudio: true,

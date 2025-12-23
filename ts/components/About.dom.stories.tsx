@@ -25,7 +25,7 @@ export default {
   },
 } satisfies ComponentMeta<AboutProps>;
 
-export function Basic(args: AboutProps): JSX.Element {
+export function Basic(args: AboutProps): React.JSX.Element {
   return (
     <div style={{ height: '100vh' }}>
       <About {...args} />

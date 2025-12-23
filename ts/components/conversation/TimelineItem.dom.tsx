@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactChild, RefObject } from 'react';
+import type { ReactNode, RefObject } from 'react';
 import React, { memo } from 'react';
 
 import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
@@ -213,8 +213,8 @@ type PropsLocalType = {
   onOpenEditNicknameAndNoteModal: (contactId: string) => void;
   onOpenMessageRequestActionsConfirmation: (state: MessageRequestState) => void;
   platform: string;
-  renderContact: SmartContactRendererType<JSX.Element>;
-  renderUniversalTimerNotification: () => JSX.Element;
+  renderContact: SmartContactRendererType<React.JSX.Element>;
+  renderUniversalTimerNotification: () => React.JSX.Element;
   i18n: LocalizerType;
   interactionMode: InteractionModeType;
   theme: ThemeType;
@@ -267,7 +267,7 @@ export const TimelineItem = memo(function TimelineItem({
   shouldRenderDateHeader,
   theme,
   ...reducedProps
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   if (!item) {
     // This can happen under normal conditions.
     //
@@ -278,7 +278,7 @@ export const TimelineItem = memo(function TimelineItem({
     return null;
   }
 
-  let itemContents: ReactChild;
+  let itemContents: ReactNode;
   if (item.type === 'message') {
     itemContents = (
       <TimelineMessage

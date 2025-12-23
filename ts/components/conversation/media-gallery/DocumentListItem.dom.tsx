@@ -28,14 +28,14 @@ export function DocumentListItem({
   authorTitle,
   onClick,
   onShowMessage,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const { attachment } = mediaItem;
 
   const { fileName, size: fileSize } = attachment;
 
   const status = useAttachmentStatus(attachment);
 
-  let glyph: JSX.Element | undefined;
+  let glyph: React.JSX.Element | undefined;
   if (status.state !== 'ReadyToShow') {
     glyph = (
       <>

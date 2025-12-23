@@ -69,7 +69,7 @@ export function MessageTextRenderer({
   renderLocation,
   textLength,
   originalMessageText,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const finalNodes = React.useMemo(() => {
     const links = disableLinks
       ? []

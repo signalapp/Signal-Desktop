@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactChild } from 'react';
+import type { ReactNode } from 'react';
 import React from 'react';
 import lodash from 'lodash';
 
@@ -63,7 +63,7 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
   }: Readonly<{
     i18n: LocalizerType;
     showInbox: () => void;
-  }>): ReactChild {
+  }>): ReactNode {
     return (
       <div className="module-left-pane__header__contents">
         <button
@@ -96,7 +96,7 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
     i18n: LocalizerType;
     updateSearchTerm: (searchTerm: string) => unknown;
     showConversation: ShowConversationType;
-  }>): ReactChild | null {
+  }>): ReactNode | null {
     if (!this.#searchConversation) {
       return null;
     }
@@ -124,7 +124,7 @@ export class LeftPaneArchiveHelper extends LeftPaneHelper<LeftPaneArchivePropsTy
 
   override getPreRowsNode({
     i18n,
-  }: Readonly<{ i18n: LocalizerType }>): ReactChild | null {
+  }: Readonly<{ i18n: LocalizerType }>): ReactNode | null {
     if (this.#searchHelper) {
       return this.#searchHelper.getPreRowsNode({ i18n });
     }

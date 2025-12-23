@@ -20,7 +20,7 @@ function Container(props: { children: ReactNode }) {
   );
 }
 
-export function Basic(): JSX.Element {
+export function Basic(): React.JSX.Element {
   const [showBookmarks, setShowBookmarks] = useState(true);
   const [showFullUrls, setShowFullUrls] = useState(false);
   const [selectedPerson, setSelectedPerson] = useState('jamie');
@@ -109,7 +109,7 @@ export function Basic(): JSX.Element {
   );
 }
 
-export function WithHeader(): JSX.Element {
+export function WithHeader(): React.JSX.Element {
   return (
     <Container>
       <AxoDropdownMenu.Root>
@@ -153,7 +153,7 @@ export function WithHeader(): JSX.Element {
 const LONG_TEXT =
   'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum nostrum, inventore quia tenetur sunt non ab fuga explicabo ullam tempore.';
 
-export function StressTestLongText(): JSX.Element {
+export function StressTestLongText(): React.JSX.Element {
   const items = (
     <>
       <AxoDropdownMenu.Item onSelect={action('onSelect')}>

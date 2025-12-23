@@ -31,7 +31,7 @@ export function Emojify({
   fontSizeOverride,
   text,
   renderNonEmoji = defaultRenderNonEmoji,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const emojiLocalizer = useFunEmojiLocalizer();
   return (
     <>

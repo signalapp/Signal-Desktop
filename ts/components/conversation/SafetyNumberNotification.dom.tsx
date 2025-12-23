@@ -34,7 +34,7 @@ export function SafetyNumberNotification({
   isGroup,
   i18n,
   toggleSafetyNumberModal,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const name = (
     <span
       key="external-1"

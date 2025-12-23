@@ -33,7 +33,7 @@ const log = createLogger('completion');
 
 export type EmojiCompletionOptions = {
   onSelectEmoji: (emojiSelection: FunEmojiSelection) => void;
-  setEmojiPickerElement: (element: JSX.Element | null) => void;
+  setEmojiPickerElement: (element: React.JSX.Element | null) => void;
   emojiSkinToneDefault: EmojiSkinTone | null;
   emojiSearch: FunEmojiSearch;
   emojiLocalizer: FunEmojiLocalizer;

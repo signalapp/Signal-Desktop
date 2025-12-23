@@ -34,6 +34,6 @@ const getClassName = ({ left, right, top, bottom }: Props) => {
 export function StoryRow({
   children,
   ...props
-}: React.PropsWithChildren<Props>): JSX.Element {
+}: React.PropsWithChildren<Props>): React.JSX.Element {
   return <div className={getClassName(props)}>{children}</div>;
 }

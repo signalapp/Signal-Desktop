@@ -93,7 +93,9 @@ export namespace AxoBaseMenu {
     children: ReactNode;
   }>;
 
-  export function ItemLeadingSlot(props: ItemLeadingSlotProps): JSX.Element {
+  export function ItemLeadingSlot(
+    props: ItemLeadingSlotProps
+  ): React.JSX.Element {
     return (
       <span
         className={tw('col-start-1 col-end-1 me-1.5 flex items-center gap-1.5')}
@@ -107,7 +109,9 @@ export namespace AxoBaseMenu {
     children: ReactNode;
   }>;
 
-  export function ItemContentSlot(props: ItemContentSlotProps): JSX.Element {
+  export function ItemContentSlot(
+    props: ItemContentSlotProps
+  ): React.JSX.Element {
     return (
       <span className={tw('col-start-2 col-end-2 flex min-w-0 items-center')}>
         {props.children}
@@ -126,7 +130,7 @@ export namespace AxoBaseMenu {
     children: ReactNode;
   }>;
 
-  export function ItemText(props: ItemTextProps): JSX.Element {
+  export function ItemText(props: ItemTextProps): React.JSX.Element {
     return <span className={itemTextStyles}>{props.children}</span>;
   }
 
@@ -136,17 +140,17 @@ export namespace AxoBaseMenu {
 
   export function ItemCheckPlaceholder(
     props: ItemCheckPlaceholderProps
-  ): JSX.Element {
+  ): React.JSX.Element {
     return <span className={tw('w-3.5')}>{props.children}</span>;
   }
 
-  export function ItemCheck(): JSX.Element {
+  export function ItemCheck(): React.JSX.Element {
     return <AxoSymbol.Icon size={14} symbol="check" label={null} />;
   }
 
   export function ItemSymbol(props: {
     symbol: AxoSymbol.IconName;
-  }): JSX.Element {
+  }): React.JSX.Element {
     return <AxoSymbol.Icon size={16} symbol={props.symbol} label={null} />;
   }
 
@@ -156,7 +160,7 @@ export namespace AxoBaseMenu {
 
   export function ItemKeyboardShortcut(
     props: ItemKeyboardShortcutProps
-  ): JSX.Element {
+  ): React.JSX.Element {
     return (
       <span
         dir="auto"

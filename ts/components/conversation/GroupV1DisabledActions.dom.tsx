@@ -15,7 +15,7 @@ export function GroupV1DisabledActions({
   conversationId,
   i18n,
   showGV2MigrationDialog,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   return (
     <div className="module-group-v1-disabled-actions">
       <p className="module-group-v1-disabled-actions__message">

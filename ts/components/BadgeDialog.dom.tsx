@@ -24,7 +24,7 @@ export type PropsType = Readonly<{
   title: string;
 }>;
 
-export function BadgeDialog(props: PropsType): null | JSX.Element {
+export function BadgeDialog(props: PropsType): null | React.JSX.Element {
   const { badges, i18n, onClose } = props;
 
   const [isShowingInstructions, setIsShowingInstructions] = useState(false);
@@ -61,7 +61,7 @@ function BadgeDialogWithBadges({
   onClose,
   onShowInstructions,
   title,
-}: PropsType & { onShowInstructions: () => unknown }): JSX.Element {
+}: PropsType & { onShowInstructions: () => unknown }): React.JSX.Element {
   const firstBadge = badges[0];
   strictAssert(
     firstBadge,

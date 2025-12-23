@@ -10,7 +10,7 @@ export default {
   title: 'Components/ImageOrBlurhash',
 } satisfies Meta<Props>;
 
-export function JustImage(): JSX.Element {
+export function JustImage(): React.JSX.Element {
   return (
     <ImageOrBlurhash
       src="/fixtures/kitten-1-64-64.jpg"
@@ -21,7 +21,7 @@ export function JustImage(): JSX.Element {
   );
 }
 
-export function JustBlurHash(): JSX.Element {
+export function JustBlurHash(): React.JSX.Element {
   return (
     <ImageOrBlurhash
       blurHash="LDA,FDBnm+I=p{tkIUI;~UkpELV]"
@@ -32,7 +32,7 @@ export function JustBlurHash(): JSX.Element {
   );
 }
 
-export function WideBlurHash(): JSX.Element {
+export function WideBlurHash(): React.JSX.Element {
   return (
     <ImageOrBlurhash
       blurHash="LDA,FDBnm+I=p{tkIUI;~UkpELV]"
@@ -43,7 +43,7 @@ export function WideBlurHash(): JSX.Element {
   );
 }
 
-export function TallBlurHash(): JSX.Element {
+export function TallBlurHash(): React.JSX.Element {
   return (
     <ImageOrBlurhash
       blurHash="LDA,FDBnm+I=p{tkIUI;~UkpELV]"
@@ -54,7 +54,7 @@ export function TallBlurHash(): JSX.Element {
   );
 }
 
-export function FullImage(): JSX.Element {
+export function FullImage(): React.JSX.Element {
   return (
     <ImageOrBlurhash
       src="/fixtures/kitten-1-64-64.jpg"

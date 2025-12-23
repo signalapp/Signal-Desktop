@@ -25,6 +25,6 @@ export default {
   },
 } satisfies ComponentMeta<NotePreviewModalProps>;
 
-export function Normal(args: NotePreviewModalProps): JSX.Element {
+export function Normal(args: NotePreviewModalProps): React.JSX.Element {
   return <NotePreviewModal {...args} />;
 }

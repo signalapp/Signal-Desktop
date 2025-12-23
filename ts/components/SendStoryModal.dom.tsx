@@ -156,7 +156,7 @@ export function SendStoryModal({
   mostRecentActiveStoryTimestampByGroupOrDistributionList,
   toggleSignalConnectionsModal,
   onMediaPlaybackStart,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [page, setPage] = useState<PageType>(Page.SendStory);
 
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
@@ -645,7 +645,7 @@ export function SendStoryModal({
 
     const renderDistributionList = (
       list: StoryDistributionListWithMembersDataType
-    ): JSX.Element => {
+    ): React.JSX.Element => {
       return (
         <Checkbox
           checked={selectedListIds.has(list.id)}

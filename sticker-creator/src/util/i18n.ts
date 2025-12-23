@@ -77,7 +77,7 @@ export function formatIcuMessage(
   intl: IntlShape,
   id: string,
   substitutions:
-    | ReplacementValuesType<string | number | undefined | JSX.Element>
+    | ReplacementValuesType<string | number | undefined | React.JSX.Element>
     | undefined
 ): string {
   assert(

@@ -15,7 +15,7 @@ export default {
   title: 'Components/Conversation/DeliveryIssueDialog',
 } satisfies Meta<PropsType>;
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return (
     <DeliveryIssueDialog
       i18n={i18n}
@@ -26,7 +26,7 @@ export function Default(): JSX.Element {
   );
 }
 
-export function InGroup(): JSX.Element {
+export function InGroup(): React.JSX.Element {
   return (
     <DeliveryIssueDialog
       i18n={i18n}

@@ -29,21 +29,21 @@ export default {
   },
 } satisfies Meta<Props>;
 
-export function MarkAsVerified(args: Props): JSX.Element {
+export function MarkAsVerified(args: Props): React.JSX.Element {
   return <VerificationNotification {...args} type="markVerified" />;
 }
 
-export function MarkAsNotVerified(args: Props): JSX.Element {
+export function MarkAsNotVerified(args: Props): React.JSX.Element {
   return <VerificationNotification {...args} type="markNotVerified" />;
 }
 
-export function MarkAsVerifiedRemotely(args: Props): JSX.Element {
+export function MarkAsVerifiedRemotely(args: Props): React.JSX.Element {
   return (
     <VerificationNotification {...args} type="markVerified" isLocal={false} />
   );
 }
 
-export function MarkAsNotVerifiedRemotely(args: Props): JSX.Element {
+export function MarkAsNotVerifiedRemotely(args: Props): React.JSX.Element {
   return (
     <VerificationNotification
       {...args}
@@ -53,7 +53,7 @@ export function MarkAsNotVerifiedRemotely(args: Props): JSX.Element {
   );
 }
 
-export function LongName(args: Props): JSX.Element {
+export function LongName(args: Props): React.JSX.Element {
   const longName = '🎆🍬🏈'.repeat(50);
   return (
     <VerificationNotification

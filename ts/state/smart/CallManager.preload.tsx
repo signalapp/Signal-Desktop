@@ -60,7 +60,7 @@ const { memoize } = lodash;
 
 const log = createLogger('CallManager');
 
-function renderDeviceSelection(): JSX.Element {
+function renderDeviceSelection(): React.JSX.Element {
   return <SmartCallingDeviceSelection />;
 }
 

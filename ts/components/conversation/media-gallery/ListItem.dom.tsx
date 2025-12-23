@@ -38,7 +38,7 @@ export function ListItem({
   readyLabel,
   onClick,
   onShowMessage,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const { message } = mediaItem;
   let attachment: AttachmentForUIType | undefined;
 
@@ -82,7 +82,7 @@ export function ListItem({
     throw missingCaseError(status);
   }
 
-  let button: JSX.Element | undefined;
+  let button: React.JSX.Element | undefined;
   if (
     status != null &&
     status.state !== 'ReadyToShow' &&

@@ -33,14 +33,14 @@ export function ConfirmAdditionsModal({
   onClose,
   requestState,
   selectedContacts,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const firstContact = selectedContacts[0];
   assertDev(
     firstContact,
     'Expected at least one conversation to be selected but none were picked'
   );
 
-  const groupTitleNode: JSX.Element = <UserText text={groupTitle} />;
+  const groupTitleNode: React.JSX.Element = <UserText text={groupTitle} />;
 
   let headerText: ReactNode;
   if (selectedContacts.length === 1) {

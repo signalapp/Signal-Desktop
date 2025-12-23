@@ -41,7 +41,7 @@ const RANGES = new Map<Unit, [number, number]>([
   ['weeks', [1, 5]],
 ]);
 
-export function DisappearingTimeDialog(props: PropsType): JSX.Element {
+export function DisappearingTimeDialog(props: PropsType): React.JSX.Element {
   const {
     i18n,
     theme,

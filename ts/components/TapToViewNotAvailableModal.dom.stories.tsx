@@ -25,7 +25,7 @@ export default {
   },
 } satisfies ComponentMeta<PropsType>;
 
-export function Error(args: PropsType): JSX.Element {
+export function Error(args: PropsType): React.JSX.Element {
   return (
     <TapToViewNotAvailableModal
       {...args}
@@ -34,7 +34,7 @@ export function Error(args: PropsType): JSX.Element {
   );
 }
 
-export function Expired(args: PropsType): JSX.Element {
+export function Expired(args: PropsType): React.JSX.Element {
   return (
     <TapToViewNotAvailableModal
       {...args}

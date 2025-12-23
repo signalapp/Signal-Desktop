@@ -82,7 +82,7 @@ type FunProviderInnerProps = FunContextProps & {
 
 const FunProviderInner = memo(function FunProviderInner(
   props: FunProviderInnerProps
-): JSX.Element {
+): React.JSX.Element {
   return (
     <FunContext.Provider value={props}>{props.children}</FunContext.Provider>
   );
@@ -94,7 +94,7 @@ export type FunProviderProps = FunContextSmartProps & {
 
 export const FunProvider = memo(function FunProvider(
   props: FunProviderProps
-): JSX.Element {
+): React.JSX.Element {
   // Current Tab
   const [tab, setTab] = useState<FunPickerTabKey>(FunPickerTabKey.Emoji);
   const handleChangeTab = useCallback((key: FunPickerTabKey) => {

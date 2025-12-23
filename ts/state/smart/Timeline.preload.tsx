@@ -68,7 +68,7 @@ function renderItem({
   nextMessageId,
   previousMessageId,
   unreadIndicatorPlacement,
-}: SmartTimelineItemProps): JSX.Element {
+}: SmartTimelineItemProps): React.JSX.Element {
   return (
     <SmartTimelineItem
       containerElementRef={containerElementRef}
@@ -88,26 +88,26 @@ function renderItem({
 
 function renderCollidingAvatars(
   props: SmartCollidingAvatarsPropsType
-): JSX.Element {
+): React.JSX.Element {
   return <SmartCollidingAvatars {...props} />;
 }
 
 function renderContactSpoofingReviewDialog(
   props: SmartContactSpoofingReviewDialogPropsType
-): JSX.Element {
+): React.JSX.Element {
   return <SmartContactSpoofingReviewDialog {...props} />;
 }
 
-function renderHeroRow(id: string): JSX.Element {
+function renderHeroRow(id: string): React.JSX.Element {
   return <SmartHeroRow id={id} />;
 }
-function renderMiniPlayer(options: { shouldFlow: boolean }): JSX.Element {
+function renderMiniPlayer(options: { shouldFlow: boolean }): React.JSX.Element {
   return <SmartMiniPlayer {...options} />;
 }
-function renderPinnedMessagesBar(): JSX.Element {
+function renderPinnedMessagesBar(): React.JSX.Element {
   return <SmartPinnedMessagesBar />;
 }
-function renderTypingBubble(conversationId: string): JSX.Element {
+function renderTypingBubble(conversationId: string): React.JSX.Element {
   return <SmartTypingBubble conversationId={conversationId} />;
 }
 

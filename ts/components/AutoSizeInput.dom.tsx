@@ -28,7 +28,7 @@ export function AutoSizeInput({
   placeholder,
   value = '',
   maxLength,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [root, setRoot] = useState<HTMLElement | null>(null);
   const hiddenRef = useRef<HTMLSpanElement | null>(null);
 

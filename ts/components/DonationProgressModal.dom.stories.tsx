@@ -20,6 +20,6 @@ const defaultProps = {
   onWaitedTooLong: action('onWaitedTooLong'),
 };
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return <DonationProgressModal {...defaultProps} />;
 }

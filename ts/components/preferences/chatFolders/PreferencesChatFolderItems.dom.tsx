@@ -25,7 +25,7 @@ export type ItemContentProps = HTMLAttributes<HTMLSpanElement>;
 export const ItemContent = forwardRef(function ItemContent(
   props: ItemContentProps,
   ref: ForwardedRef<HTMLSpanElement>
-): JSX.Element {
+): React.JSX.Element {
   return (
     <span
       ref={ref}
@@ -37,7 +37,7 @@ export const ItemContent = forwardRef(function ItemContent(
 
 export function ItemAvatar(props: {
   kind: 'Folder' | 'Add' | ChatFolderPresetId;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <span
       className={`Preferences__ChatFolders__ChatSelection__ItemAvatar Preferences__ChatFolders__ChatSelection__ItemAvatar--${props.kind}`}
@@ -45,7 +45,7 @@ export function ItemAvatar(props: {
   );
 }
 
-export function ItemBody(props: { children: ReactNode }): JSX.Element {
+export function ItemBody(props: { children: ReactNode }): React.JSX.Element {
   return (
     <span className="Preferences__ChatFolders__ChatSelection__ItemBody">
       {props.children}
@@ -53,7 +53,7 @@ export function ItemBody(props: { children: ReactNode }): JSX.Element {
   );
 }
 
-export function ItemTitle(props: { children: ReactNode }): JSX.Element {
+export function ItemTitle(props: { children: ReactNode }): React.JSX.Element {
   return (
     <span className="Preferences__ChatFolders__ChatSelection__ItemTitle">
       {props.children}
@@ -61,7 +61,9 @@ export function ItemTitle(props: { children: ReactNode }): JSX.Element {
   );
 }
 
-export function ItemDescription(props: { children: ReactNode }): JSX.Element {
+export function ItemDescription(props: {
+  children: ReactNode;
+}): React.JSX.Element {
   return (
     <span className="Preferences__ChatFolders__ChatSelection__ItemDescription">
       {props.children}
@@ -69,7 +71,9 @@ export function ItemDescription(props: { children: ReactNode }): JSX.Element {
   );
 }
 
-export function ItemDragHandle(props: { i18n: LocalizerType }): JSX.Element {
+export function ItemDragHandle(props: {
+  i18n: LocalizerType;
+}): React.JSX.Element {
   const { i18n } = props;
   return (
     <span

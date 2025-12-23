@@ -70,7 +70,7 @@ export const StartNewConversation: FunctionComponent<Props> = React.memo(
       isFetching,
     ]);
 
-    let modal: JSX.Element | undefined;
+    let modal: React.JSX.Element | undefined;
     if (isModalVisible) {
       modal = (
         <ConfirmationDialog

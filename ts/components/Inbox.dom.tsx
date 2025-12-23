@@ -20,12 +20,12 @@ export type PropsType = {
   isCustomizingPreferredReactions: boolean;
   navTabsCollapsed: boolean;
   onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => unknown;
-  renderCallsTab: () => JSX.Element;
-  renderChatsTab: () => JSX.Element;
-  renderCustomizingPreferredReactionsModal: () => JSX.Element;
-  renderNavTabs: (props: SmartNavTabsProps) => JSX.Element;
-  renderStoriesTab: () => JSX.Element;
-  renderSettingsTab: () => JSX.Element;
+  renderCallsTab: () => React.JSX.Element;
+  renderChatsTab: () => React.JSX.Element;
+  renderCustomizingPreferredReactionsModal: () => React.JSX.Element;
+  renderNavTabs: (props: SmartNavTabsProps) => React.JSX.Element;
+  renderStoriesTab: () => React.JSX.Element;
+  renderSettingsTab: () => React.JSX.Element;
 };
 
 const PART_COUNT = 16;
@@ -45,7 +45,7 @@ export function Inbox({
   renderNavTabs,
   renderStoriesTab,
   renderSettingsTab,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [internalHasInitialLoadCompleted, setInternalHasInitialLoadCompleted] =
     useState(hasInitialLoadCompleted);
 
@@ -131,9 +131,9 @@ export function Inbox({
       }
     }
 
-    let logo: JSX.Element;
+    let logo: React.JSX.Element;
     if (isNightly) {
-      const parts = new Array<JSX.Element>();
+      const parts = new Array<React.JSX.Element>();
       parts.push(
         <i key="base" className="Inbox__logo__part Inbox__logo__part--base" />
       );

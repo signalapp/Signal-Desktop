@@ -23,7 +23,7 @@ export type FunGifProps = Readonly<{
   ignoreReducedMotion?: boolean;
 }>;
 
-export function FunGif(props: FunGifProps): JSX.Element {
+export function FunGif(props: FunGifProps): React.JSX.Element {
   if (props.ignoreReducedMotion) {
     return <FunGifBase {...props} autoPlay />;
   }
@@ -96,7 +96,7 @@ export type FunGifPreviewProps = Readonly<{
   'aria-describedby': string;
 }>;
 
-export function FunGifPreview(props: FunGifPreviewProps): JSX.Element {
+export function FunGifPreview(props: FunGifPreviewProps): React.JSX.Element {
   const ref = useRef<HTMLVideoElement>(null);
   const [spinner, setSpinner] = useState(false);
   const [playbackError, setPlaybackError] = useState(false);

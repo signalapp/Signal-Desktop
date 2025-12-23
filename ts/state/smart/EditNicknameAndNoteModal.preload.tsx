@@ -12,7 +12,7 @@ import type { NicknameAndNote } from '../ducks/conversations.preload.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
 
 export const SmartEditNicknameAndNoteModal = memo(
-  function SmartEditNicknameAndNoteModal(): JSX.Element {
+  function SmartEditNicknameAndNoteModal(): React.JSX.Element {
     const props = useSelector(getEditNicknameAndNoteModalProps);
     strictAssert(props != null, 'EditNicknameAndNoteModal requires props');
     const { conversationId } = props;

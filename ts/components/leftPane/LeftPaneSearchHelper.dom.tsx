@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactChild } from 'react';
+import type { ReactNode } from 'react';
 import React from 'react';
 
 import type { ToFindType } from './LeftPaneHelper.dom.js';
@@ -111,7 +111,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     showConversation: ShowConversationType;
     updateSearchTerm: (searchTerm: string) => unknown;
     updateFilterByUnread: (filterByUnread: boolean) => void;
-  }>): ReactChild {
+  }>): ReactNode {
     return (
       <LeftPaneSearchInput
         clearConversationSearch={clearConversationSearch}
@@ -138,7 +138,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     i18n,
   }: Readonly<{
     i18n: LocalizerType;
-  }>): ReactChild | null {
+  }>): ReactNode | null {
     const mightHaveSearchResults = this.#allResults().some(
       searchResult => searchResult.isLoading || searchResult.results.length
     );
@@ -150,7 +150,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
     const searchTerm = this.#searchTerm;
     const searchConversationName = this.#searchConversationName;
 
-    let noResults: ReactChild;
+    let noResults: ReactNode;
     if (searchConversationName) {
       noResults = (
         <I18n

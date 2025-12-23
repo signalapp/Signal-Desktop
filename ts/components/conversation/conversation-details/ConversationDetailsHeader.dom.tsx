@@ -54,7 +54,7 @@ export function ConversationDetailsHeader({
   startEditing,
   toggleAboutContactModal,
   theme,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const [activeModal, setActiveModal] = useState<
     undefined | ConversationDetailsHeaderActiveModal
   >();
@@ -209,7 +209,7 @@ export function ConversationDetailsHeader({
     );
   }
 
-  let title: JSX.Element;
+  let title: React.JSX.Element;
 
   if (isMe) {
     title = (

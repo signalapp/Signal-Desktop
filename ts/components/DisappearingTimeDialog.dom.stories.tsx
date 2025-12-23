@@ -14,7 +14,7 @@ export default {
 
 const { i18n } = window.SignalContext;
 
-export function Seconds(): JSX.Element {
+export function Seconds(): React.JSX.Element {
   return (
     <DisappearingTimeDialog
       i18n={i18n}
@@ -25,7 +25,7 @@ export function Seconds(): JSX.Element {
   );
 }
 
-export function Minutes(): JSX.Element {
+export function Minutes(): React.JSX.Element {
   return (
     <DisappearingTimeDialog
       i18n={i18n}
@@ -36,7 +36,7 @@ export function Minutes(): JSX.Element {
   );
 }
 
-export function Hours(): JSX.Element {
+export function Hours(): React.JSX.Element {
   return (
     <DisappearingTimeDialog
       i18n={i18n}
@@ -47,7 +47,7 @@ export function Hours(): JSX.Element {
   );
 }
 
-export function Days(): JSX.Element {
+export function Days(): React.JSX.Element {
   return (
     <DisappearingTimeDialog
       i18n={i18n}
@@ -58,7 +58,7 @@ export function Days(): JSX.Element {
   );
 }
 
-export function Weeks(): JSX.Element {
+export function Weeks(): React.JSX.Element {
   return (
     <DisappearingTimeDialog
       i18n={i18n}

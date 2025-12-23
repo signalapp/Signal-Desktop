@@ -12,7 +12,7 @@ import { CustomizingPreferredReactionsModal } from '../../components/Customizing
 import { strictAssert } from '../../util/assert.std.js';
 
 export const SmartCustomizingPreferredReactionsModal = memo(
-  function SmartCustomizingPreferredReactionsModal(): JSX.Element {
+  function SmartCustomizingPreferredReactionsModal(): React.JSX.Element {
     const i18n = useSelector(getIntl);
     const customizeModalState = useSelector(getCustomizeModalState);
     const emojiSkinToneDefault = useSelector(getEmojiSkinToneDefault);

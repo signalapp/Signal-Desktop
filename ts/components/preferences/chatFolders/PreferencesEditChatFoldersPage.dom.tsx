@@ -73,7 +73,7 @@ export type PreferencesEditChatFolderPageProps = Readonly<{
 
 export function PreferencesEditChatFolderPage(
   props: PreferencesEditChatFolderPageProps
-): JSX.Element {
+): React.JSX.Element {
   const {
     i18n,
     previousLocation,

@@ -17,7 +17,7 @@ export function StagedGenericAttachment({
   attachment,
   i18n,
   onClose,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const { fileName } = attachment;
 
   return (

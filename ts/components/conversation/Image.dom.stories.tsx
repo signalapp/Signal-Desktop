@@ -53,13 +53,13 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   width: overrideProps.width || 300,
 });
 
-export function UrlWithHeightWidth(): JSX.Element {
+export function UrlWithHeightWidth(): React.JSX.Element {
   const props = createProps();
 
   return <Image {...props} />;
 }
 
-export function Caption(): JSX.Element {
+export function Caption(): React.JSX.Element {
   const defaultProps = createProps();
   const props = {
     ...defaultProps,
@@ -72,7 +72,7 @@ export function Caption(): JSX.Element {
   return <Image {...props} />;
 }
 
-export function PlayIcon(): JSX.Element {
+export function PlayIcon(): React.JSX.Element {
   const props = createProps({
     playIconOverlay: true,
   });
@@ -80,7 +80,7 @@ export function PlayIcon(): JSX.Element {
   return <Image {...props} />;
 }
 
-export function CloseButton(): JSX.Element {
+export function CloseButton(): React.JSX.Element {
   const props = createProps({
     closeButton: true,
   });
@@ -88,7 +88,7 @@ export function CloseButton(): JSX.Element {
   return <Image {...props} />;
 }
 
-export function NoBorderOrBackground(): JSX.Element {
+export function NoBorderOrBackground(): React.JSX.Element {
   const props = createProps({
     attachment: fakeAttachment({
       contentType: IMAGE_PNG,
@@ -107,7 +107,7 @@ export function NoBorderOrBackground(): JSX.Element {
   );
 }
 
-export function NotDownloadedNotIncrementalNotPending(): JSX.Element {
+export function NotDownloadedNotIncrementalNotPending(): React.JSX.Element {
   const props = createProps({
     attachment: fakeAttachment({
       contentType: IMAGE_PNG,
@@ -122,7 +122,7 @@ export function NotDownloadedNotIncrementalNotPending(): JSX.Element {
   return <Image {...props} />;
 }
 
-export function PendingWDownloadQueuedNotIncremental(): JSX.Element {
+export function PendingWDownloadQueuedNotIncremental(): React.JSX.Element {
   const props = createProps({
     attachment: fakeAttachment({
       contentType: IMAGE_PNG,
@@ -138,7 +138,7 @@ export function PendingWDownloadQueuedNotIncremental(): JSX.Element {
   return <Image {...props} />;
 }
 
-export function PendingWDownloadProgress(): JSX.Element {
+export function PendingWDownloadProgress(): React.JSX.Element {
   const props = createProps({
     attachment: fakeAttachment({
       contentType: IMAGE_PNG,
@@ -155,7 +155,7 @@ export function PendingWDownloadProgress(): JSX.Element {
   return <Image {...props} />;
 }
 
-export function NotPendingWDownloadProgress(): JSX.Element {
+export function NotPendingWDownloadProgress(): React.JSX.Element {
   const props = createProps({
     attachment: fakeAttachment({
       contentType: IMAGE_PNG,
@@ -171,7 +171,7 @@ export function NotPendingWDownloadProgress(): JSX.Element {
   return <Image {...props} />;
 }
 
-export function PendingIncrementalNoProgress(): JSX.Element {
+export function PendingIncrementalNoProgress(): React.JSX.Element {
   const props = createProps({
     attachment: fakeAttachment({
       contentType: IMAGE_PNG,
@@ -190,7 +190,7 @@ export function PendingIncrementalNoProgress(): JSX.Element {
   return <Image {...props} />;
 }
 
-export function PendingIncrementalDownloadProgress(): JSX.Element {
+export function PendingIncrementalDownloadProgress(): React.JSX.Element {
   const props = createProps({
     attachment: fakeAttachment({
       contentType: IMAGE_PNG,
@@ -210,7 +210,7 @@ export function PendingIncrementalDownloadProgress(): JSX.Element {
   return <Image {...props} />;
 }
 
-export function NotPendingIncrementalNoProgress(): JSX.Element {
+export function NotPendingIncrementalNoProgress(): React.JSX.Element {
   const props = createProps({
     attachment: fakeAttachment({
       contentType: IMAGE_PNG,
@@ -228,7 +228,7 @@ export function NotPendingIncrementalNoProgress(): JSX.Element {
   return <Image {...props} />;
 }
 
-export function NotPendingIncrementalWProgress(): JSX.Element {
+export function NotPendingIncrementalWProgress(): React.JSX.Element {
   const props = createProps({
     attachment: fakeAttachment({
       contentType: IMAGE_PNG,
@@ -247,7 +247,7 @@ export function NotPendingIncrementalWProgress(): JSX.Element {
   return <Image {...props} />;
 }
 
-export function CurvedCorners(): JSX.Element {
+export function CurvedCorners(): React.JSX.Element {
   const props = createProps({
     curveBottomLeft: CurveType.Normal,
     curveBottomRight: CurveType.Normal,
@@ -258,7 +258,7 @@ export function CurvedCorners(): JSX.Element {
   return <Image {...props} />;
 }
 
-export function SmallCurveTopLeft(): JSX.Element {
+export function SmallCurveTopLeft(): React.JSX.Element {
   const props = createProps({
     curveTopLeft: CurveType.Small,
   });
@@ -266,7 +266,7 @@ export function SmallCurveTopLeft(): JSX.Element {
   return <Image {...props} />;
 }
 
-export function SoftCorners(): JSX.Element {
+export function SoftCorners(): React.JSX.Element {
   const props = createProps({
     curveBottomLeft: CurveType.Tiny,
     curveBottomRight: CurveType.Tiny,
@@ -277,7 +277,7 @@ export function SoftCorners(): JSX.Element {
   return <Image {...props} />;
 }
 
-export function BottomOverlay(): JSX.Element {
+export function BottomOverlay(): React.JSX.Element {
   const props = createProps({
     bottomOverlay: true,
   });
@@ -285,7 +285,7 @@ export function BottomOverlay(): JSX.Element {
   return <Image {...props} />;
 }
 
-export function FullOverlayWithText(): JSX.Element {
+export function FullOverlayWithText(): React.JSX.Element {
   const props = createProps({
     darkOverlay: true,
     overlayText: 'Honk!',
@@ -294,7 +294,7 @@ export function FullOverlayWithText(): JSX.Element {
   return <Image {...props} />;
 }
 
-export function Blurhash(): JSX.Element {
+export function Blurhash(): React.JSX.Element {
   const props = createProps({
     attachment: fakeAttachment({
       contentType: IMAGE_PNG,
@@ -318,11 +318,11 @@ function UndefinedBlurHashWrapper() {
   return <Image {...props} />;
 }
 
-export function UndefinedBlurHash(): JSX.Element {
+export function UndefinedBlurHash(): React.JSX.Element {
   return <UndefinedBlurHashWrapper />;
 }
 
-export function MissingImage(): JSX.Element {
+export function MissingImage(): React.JSX.Element {
   const props = createProps({
     attachment: undefined,
     url: 'random',

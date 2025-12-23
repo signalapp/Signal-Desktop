@@ -44,7 +44,7 @@ export type Props = Partial<Pick<DropZoneProps, 'onDrop'>> &
     onRemove?(id: string): unknown;
   }>;
 
-function Emoji({ name, sheetX, sheetY }: EmojiData): JSX.Element {
+function Emoji({ name, sheetX, sheetY }: EmojiData): React.JSX.Element {
   const onRef = (elem: HTMLImageElement | null): void => {
     if (elem) {
       elem.style.setProperty('--sheet-x', sheetX.toString());

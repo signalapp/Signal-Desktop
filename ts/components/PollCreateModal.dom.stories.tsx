@@ -16,7 +16,7 @@ export default {
 const onClose = action('onClose');
 const onSendPoll = action('onSendPoll');
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return (
     <PollCreateModal i18n={i18n} onClose={onClose} onSendPoll={onSendPoll} />
   );

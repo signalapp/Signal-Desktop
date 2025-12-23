@@ -10,7 +10,7 @@ import { Input } from './Input.dom.js';
 export const AutoSizeTextArea = forwardRef(function AutoSizeTextArea(
   props: PropsType,
   ref: ForwardedRef<HTMLTextAreaElement>
-): JSX.Element {
+): React.JSX.Element {
   const ownRef = useRef<HTMLTextAreaElement | null>(null);
   const textareaRef = mergeRefs(ownRef, ref);
 

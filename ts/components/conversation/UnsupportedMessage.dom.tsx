@@ -75,7 +75,7 @@ export function UnsupportedMessage({
   canProcessNow,
   contact,
   i18n,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   return (
     <SystemMessage
       icon={canProcessNow ? 'unsupported--can-process' : 'unsupported'}

@@ -17,7 +17,7 @@ export type FunImageProps = FunImageAriaProps &
     ignoreReducedMotion?: boolean;
   }>;
 
-export function FunImage(props: FunImageProps): JSX.Element {
+export function FunImage(props: FunImageProps): React.JSX.Element {
   if (props.ignoreReducedMotion) {
     return <FunImageBase {...props} />;
   }

@@ -101,7 +101,7 @@ export function PreferencesBackups({
   refreshBackupSubscriptionStatus: () => void;
   setSettingsLocation: (settingsLocation: SettingsLocation) => void;
   showToast: ShowToastAction;
-}): JSX.Element | null {
+}): React.JSX.Element | null {
   const [authError, setAuthError] =
     useState<Omit<PromptOSAuthResultType, 'success'>>();
   const [isAuthPending, setIsAuthPending] = useState<boolean>(false);
@@ -167,7 +167,7 @@ export function PreferencesBackups({
     );
   }
 
-  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
+  const learnMoreLink = (parts: Array<string | React.JSX.Element>) => (
     <a href={SIGNAL_BACKUPS_LEARN_MORE_URL} rel="noreferrer" target="_blank">
       {parts}
     </a>
@@ -343,7 +343,7 @@ export function renderPaidBackupsSummary({
   locale: string;
   subscriptionStatus: BackupsSubscriptionType;
   i18n: LocalizerType;
-}): JSX.Element | null {
+}): React.JSX.Element | null {
   return (
     <div className="Preferences--backups-summary__status-container">
       <div>
@@ -364,7 +364,7 @@ export function renderFreeBackupsSummary({
 }: {
   backupFreeMediaDays: number;
   i18n: LocalizerType;
-}): JSX.Element | null {
+}): React.JSX.Element | null {
   return (
     <div className="Preferences--backups-summary__status-container">
       <div>

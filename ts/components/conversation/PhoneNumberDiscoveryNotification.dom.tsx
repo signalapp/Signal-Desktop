@@ -20,7 +20,7 @@ export type PropsType = PropsDataType & {
 // Also known as a Session Switchover Event (SSE)
 export function PhoneNumberDiscoveryNotification(
   props: PropsType
-): JSX.Element {
+): React.JSX.Element {
   const { conversationTitle, i18n, sharedGroup, phoneNumber } = props;
 
   const message = getStringForPhoneNumberDiscovery({

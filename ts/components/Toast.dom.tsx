@@ -30,7 +30,7 @@ export const Toast = memo(function ToastInner({
   style,
   timeout = 8000,
   toastAction,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   const [focusRef] = useRestoreFocus();
 
   useEffect(() => {

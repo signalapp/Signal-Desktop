@@ -181,7 +181,7 @@ type ExperimentalButtonSpinnerProps = Readonly<{
 
 function ExperimentalButtonSpinner(
   props: ExperimentalButtonSpinnerProps
-): JSX.Element {
+): React.JSX.Element {
   const variant = AxoButtonSpinnerVariants[props.buttonVariant];
   const sizeConfig = AxoButtonSpinnerSizes[props.buttonSize];
   return (

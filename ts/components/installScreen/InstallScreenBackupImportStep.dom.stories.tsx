@@ -71,7 +71,7 @@ const Template: StoryFn<PropsType> = (args: PropsType) => {
   );
 };
 
-export function FullFlow(): JSX.Element {
+export function FullFlow(): React.JSX.Element {
   const [backupStep, setBackupStep] = useState<InstallScreenBackupStep>(
     InstallScreenBackupStep.WaitForBackup
   );

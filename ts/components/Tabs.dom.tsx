@@ -11,7 +11,7 @@ type PropsType = {
   children: (renderProps: { selectedTab: string }) => ReactNode;
 } & TabsOptionsType;
 
-export function Tabs(props: PropsType): JSX.Element {
+export function Tabs(props: PropsType): React.JSX.Element {
   const { children, ...options } = props;
   const { selectedTab, tabsHeaderElement } = useTabs(options);
 

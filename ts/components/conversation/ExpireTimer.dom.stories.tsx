@@ -19,13 +19,13 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   withSticker: overrideProps.withSticker || false,
 });
 
-export const _30Seconds = (): JSX.Element => {
+export const _30Seconds = (): React.JSX.Element => {
   const props = createProps();
 
   return <ExpireTimer {...props} />;
 };
 
-export const _2Minutes = (): JSX.Element => {
+export const _2Minutes = (): React.JSX.Element => {
   const twoMinutes = 60 * 1000 * 2;
   const props = createProps({
     expirationTimestamp: Date.now() + twoMinutes,
@@ -35,7 +35,7 @@ export const _2Minutes = (): JSX.Element => {
   return <ExpireTimer {...props} />;
 };
 
-export function InProgress(): JSX.Element {
+export function InProgress(): React.JSX.Element {
   const props = createProps({
     expirationTimestamp: Date.now() + 15 * 1000,
   });
@@ -43,7 +43,7 @@ export function InProgress(): JSX.Element {
   return <ExpireTimer {...props} />;
 }
 
-export function Expired(): JSX.Element {
+export function Expired(): React.JSX.Element {
   const props = createProps({
     expirationTimestamp: Date.now() - 30 * 1000,
   });
@@ -51,7 +51,7 @@ export function Expired(): JSX.Element {
   return <ExpireTimer {...props} />;
 }
 
-export function Sticker(): JSX.Element {
+export function Sticker(): React.JSX.Element {
   const props = createProps({
     withSticker: true,
   });
@@ -59,7 +59,7 @@ export function Sticker(): JSX.Element {
   return <ExpireTimer {...props} />;
 }
 
-export function ImageNoCaption(): JSX.Element {
+export function ImageNoCaption(): React.JSX.Element {
   const props = createProps({
     withImageNoCaption: true,
   });
@@ -71,7 +71,7 @@ export function ImageNoCaption(): JSX.Element {
   );
 }
 
-export function Incoming(): JSX.Element {
+export function Incoming(): React.JSX.Element {
   const props = createProps({
     direction: 'incoming',
   });
@@ -83,7 +83,7 @@ export function Incoming(): JSX.Element {
   );
 }
 
-export function ExpirationTooFarOut(): JSX.Element {
+export function ExpirationTooFarOut(): React.JSX.Element {
   const props = createProps({
     expirationTimestamp: Date.now() + 150 * 1000,
   });

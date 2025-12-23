@@ -11,7 +11,7 @@ export default {
   title: 'Components/CallQualitySurveyDialog',
 } satisfies Meta;
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   const [open, setOpen] = useState(true);
   return (
     <CallQualitySurveyDialog

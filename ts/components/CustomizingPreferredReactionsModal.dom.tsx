@@ -56,7 +56,7 @@ export function CustomizingPreferredReactionsModal({
   savePreferredReactions,
   selectDraftEmojiToBeReplaced,
   selectedDraftEmojiIndex,
-}: Readonly<PropsType>): JSX.Element {
+}: Readonly<PropsType>): React.JSX.Element {
   const pickerRef = useRef<HTMLDivElement>(null);
 
   const isSomethingSelected = selectedDraftEmojiIndex !== undefined;

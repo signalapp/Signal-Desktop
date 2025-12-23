@@ -33,7 +33,7 @@ export type Props = Readonly<{
   theme?: ThemeType;
 }>;
 
-export function MediaGridItem(props: Props): JSX.Element {
+export function MediaGridItem(props: Props): React.JSX.Element {
   const {
     mediaItem: { attachment },
     i18n,
@@ -103,7 +103,9 @@ type SpinnerOverlayProps = Readonly<{
   status: AttachmentStatusType;
 }>;
 
-function SpinnerOverlay(props: SpinnerOverlayProps): JSX.Element | undefined {
+function SpinnerOverlay(
+  props: SpinnerOverlayProps
+): React.JSX.Element | undefined {
   const { status } = props;
 
   if (status.state === 'ReadyToShow') {
@@ -145,7 +147,9 @@ type MetadataOverlayProps = Readonly<{
   attachment: AttachmentForUIType;
 }>;
 
-function MetadataOverlay(props: MetadataOverlayProps): JSX.Element | undefined {
+function MetadataOverlay(
+  props: MetadataOverlayProps
+): React.JSX.Element | undefined {
   const { i18n, status, attachment } = props;
 
   if (

@@ -62,7 +62,7 @@ function StoryListItemAvatar({
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   theme: ThemeType;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <Avatar
       avatarPlaceholderGradient={avatarPlaceholderGradient}
@@ -96,7 +96,7 @@ export function StoryListItem({
   story,
   theme,
   viewUserStories,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [hasConfirmHideStory, setHasConfirmHideStory] = useState(false);
 
   const { attachment, isUnread, sender, timestamp } = story;
@@ -110,7 +110,7 @@ export function StoryListItem({
     avatarStoryRing = isUnread ? HasStories.Unread : HasStories.Read;
   }
 
-  let repliesElement: JSX.Element | undefined;
+  let repliesElement: React.JSX.Element | undefined;
   if (group === undefined && hasRepliesFromSelf) {
     repliesElement = <div className="StoryListItem__info--replies--self" />;
   } else if (group && (hasReplies || hasRepliesFromSelf)) {

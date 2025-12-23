@@ -30,7 +30,7 @@ export function SafetyNumberViewer({
   safetyNumber,
   toggleVerified,
   verificationDisabled,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   React.useEffect(() => {
     if (!contact) {
       return;

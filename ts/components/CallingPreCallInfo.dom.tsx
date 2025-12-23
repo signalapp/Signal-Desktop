@@ -71,7 +71,7 @@ export function CallingPreCallInfo({
   me,
   peekedParticipants = [],
   ringMode,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [visibleParticipants, unknownParticipants] = React.useMemo<
     [Array<PeekedParticipantType>, Array<PeekedParticipantType>]
   >(

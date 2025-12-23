@@ -114,19 +114,19 @@ export default {
   args: {},
 } satisfies Meta<PropsType>;
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   const props = createProps();
   return <CallingLobby {...props} />;
 }
 
-export function NoCameraNoAvatar(): JSX.Element {
+export function NoCameraNoAvatar(): React.JSX.Element {
   const props = createProps({
     availableCameras: [],
   });
   return <CallingLobby {...props} />;
 }
 
-export function NoCameraLocalAvatar(): JSX.Element {
+export function NoCameraLocalAvatar(): React.JSX.Element {
   const props = createProps({
     availableCameras: [],
     me: getDefaultConversation({
@@ -139,21 +139,21 @@ export function NoCameraLocalAvatar(): JSX.Element {
   return <CallingLobby {...props} />;
 }
 
-export function LocalVideo(): JSX.Element {
+export function LocalVideo(): React.JSX.Element {
   const props = createProps({
     hasLocalVideo: true,
   });
   return <CallingLobby {...props} />;
 }
 
-export function InitiallyMuted(): JSX.Element {
+export function InitiallyMuted(): React.JSX.Element {
   const props = createProps({
     hasLocalAudio: false,
   });
   return <CallingLobby {...props} />;
 }
 
-export function GroupCallWithNoPeekedParticipants(): JSX.Element {
+export function GroupCallWithNoPeekedParticipants(): React.JSX.Element {
   const props = createProps({
     callMode: CallMode.Group,
     peekedParticipants: [],
@@ -161,7 +161,7 @@ export function GroupCallWithNoPeekedParticipants(): JSX.Element {
   return <CallingLobby {...props} />;
 }
 
-export function GroupCallWith1PeekedParticipant(): JSX.Element {
+export function GroupCallWith1PeekedParticipant(): React.JSX.Element {
   const props = createProps({
     callMode: CallMode.Group,
     peekedParticipants: [{ title: 'Sam' }].map(fakePeekedParticipant),
@@ -169,7 +169,7 @@ export function GroupCallWith1PeekedParticipant(): JSX.Element {
   return <CallingLobby {...props} />;
 }
 
-export function GroupCallWith1PeekedParticipantSelf(): JSX.Element {
+export function GroupCallWith1PeekedParticipantSelf(): React.JSX.Element {
   const serviceId = generateAci();
   const props = createProps({
     callMode: CallMode.Group,
@@ -182,7 +182,7 @@ export function GroupCallWith1PeekedParticipantSelf(): JSX.Element {
   return <CallingLobby {...props} />;
 }
 
-export function GroupCallWith4PeekedParticipants(): JSX.Element {
+export function GroupCallWith4PeekedParticipants(): React.JSX.Element {
   const props = createProps({
     callMode: CallMode.Group,
     peekedParticipants: ['Sam', 'Cayce', 'April', 'Logan', 'Carl'].map(title =>
@@ -192,7 +192,7 @@ export function GroupCallWith4PeekedParticipants(): JSX.Element {
   return <CallingLobby {...props} />;
 }
 
-export function GroupCallWith4PeekedParticipantsParticipantsList(): JSX.Element {
+export function GroupCallWith4PeekedParticipantsParticipantsList(): React.JSX.Element {
   const props = createProps({
     callMode: CallMode.Group,
     peekedParticipants: ['Sam', 'Cayce', 'April', 'Logan', 'Carl'].map(title =>
@@ -203,7 +203,7 @@ export function GroupCallWith4PeekedParticipantsParticipantsList(): JSX.Element 
   return <CallingLobby {...props} />;
 }
 
-export function GroupCallWithCallFull(): JSX.Element {
+export function GroupCallWithCallFull(): React.JSX.Element {
   const props = createProps({
     callMode: CallMode.Group,
     isCallFull: true,
@@ -214,7 +214,7 @@ export function GroupCallWithCallFull(): JSX.Element {
   return <CallingLobby {...props} />;
 }
 
-export function GroupCallWith0PeekedParticipantsBigGroup(): JSX.Element {
+export function GroupCallWith0PeekedParticipantsBigGroup(): React.JSX.Element {
   const props = createProps({
     callMode: CallMode.Group,
     groupMembers: times(100, () => getDefaultConversation()),
@@ -222,7 +222,7 @@ export function GroupCallWith0PeekedParticipantsBigGroup(): JSX.Element {
   return <CallingLobby {...props} />;
 }
 
-export function CallLink(): JSX.Element {
+export function CallLink(): React.JSX.Element {
   const props = createProps({
     callMode: CallMode.Adhoc,
   });
@@ -231,7 +231,7 @@ export function CallLink(): JSX.Element {
 
 // Due to storybook font loading, if you directly load this story then
 // the button width is not calculated correctly
-export function CallLinkAdminApproval(): JSX.Element {
+export function CallLinkAdminApproval(): React.JSX.Element {
   const props = createProps({
     callMode: CallMode.Adhoc,
     isAdhocAdminApprovalRequired: true,
@@ -239,7 +239,7 @@ export function CallLinkAdminApproval(): JSX.Element {
   return <CallingLobby {...props} />;
 }
 
-export function CallLinkJoinRequestPending(): JSX.Element {
+export function CallLinkJoinRequestPending(): React.JSX.Element {
   const props = createProps({
     callMode: CallMode.Adhoc,
     isAdhocAdminApprovalRequired: true,

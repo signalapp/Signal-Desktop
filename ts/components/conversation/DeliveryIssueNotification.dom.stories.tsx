@@ -14,13 +14,13 @@ export default {
 const { i18n } = window.SignalContext;
 const sender = getDefaultConversation();
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return (
     <DeliveryIssueNotification i18n={i18n} inGroup={false} sender={sender} />
   );
 }
 
-export function WithALongName(): JSX.Element {
+export function WithALongName(): React.JSX.Element {
   const longName = '🤷🏽‍♀️❤️🐞'.repeat(50);
   return (
     <DeliveryIssueNotification
@@ -36,6 +36,6 @@ export function WithALongName(): JSX.Element {
   );
 }
 
-export function InGroup(): JSX.Element {
+export function InGroup(): React.JSX.Element {
   return <DeliveryIssueNotification i18n={i18n} inGroup sender={sender} />;
 }

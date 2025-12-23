@@ -31,11 +31,11 @@ function Wrapper({
   );
 }
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return <Wrapper />;
 }
 
-export function Disabled(): JSX.Element {
+export function Disabled(): React.JSX.Element {
   return (
     <>
       <Wrapper disabled />

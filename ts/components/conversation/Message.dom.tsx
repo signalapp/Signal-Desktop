@@ -344,11 +344,11 @@ export type PropsData = {
   isMessageRequestAccepted: boolean;
   bodyRanges?: HydratedBodyRangesType;
 
-  renderMenu?: () => JSX.Element | undefined;
+  renderMenu?: () => React.JSX.Element | undefined;
   renderMessageContextMenu?: (
     renderer: AxoMenuBuilder.Renderer,
     children: ReactNode
-  ) => JSX.Element;
+  ) => React.JSX.Element;
 
   item?: never;
   // test-only, to force GIF's reduced motion experience
@@ -364,7 +364,9 @@ export type PropsHousekeeping = {
   interactivity: MessageInteractivity;
   interactionMode: InteractionModeType;
   platform: string;
-  renderAudioAttachment: (props: RenderAudioAttachmentProps) => JSX.Element;
+  renderAudioAttachment: (
+    props: RenderAudioAttachmentProps
+  ) => React.JSX.Element;
   shouldCollapseAbove: boolean;
   shouldCollapseBelow: boolean;
   shouldHideMetadata: boolean;
@@ -471,7 +473,7 @@ const MessageReactions = forwardRef(function MessageReactions(
     popperPreventOverflowModifier,
   }: MessageReactionsProps,
   parentRef
-): JSX.Element {
+): React.JSX.Element {
   const ordered = useGroupedAndOrderedReactions(reactions, 'parentKey');
 
   const reactionsContainerRefMerger = useRef(createRefMerger());
@@ -1154,7 +1156,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderAttachment(): JSX.Element | null {
+  public renderAttachment(): React.JSX.Element | null {
     const {
       _forceTapToPlay,
       attachmentDroppedDueToSize,
@@ -1457,7 +1459,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderSimpleAttachmentNotAvailable(): JSX.Element | null {
+  public renderSimpleAttachmentNotAvailable(): React.JSX.Element | null {
     const {
       attachmentDroppedDueToSize,
       attachments,
@@ -1552,7 +1554,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderUndownloadableTextAttachment(): JSX.Element | null {
+  public renderUndownloadableTextAttachment(): React.JSX.Element | null {
     const { i18n, textAttachment } = this.props;
     if (!textAttachment || !textAttachment.isPermanentlyUndownloadable) {
       return null;
@@ -1571,7 +1573,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderPreview(): JSX.Element | null {
+  public renderPreview(): React.JSX.Element | null {
     const {
       attachments,
       conversationType,
@@ -1764,7 +1766,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderAttachmentTooBig(): JSX.Element | null {
+  public renderAttachmentTooBig(): React.JSX.Element | null {
     const {
       attachments,
       attachmentDroppedDueToSize,
@@ -1820,7 +1822,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderGiftBadge(): JSX.Element | null {
+  public renderGiftBadge(): React.JSX.Element | null {
     const { conversationTitle, direction, getPreferredBadge, giftBadge, i18n } =
       this.props;
     const { showOutgoingGiftBadgeModal } = this.state;
@@ -2009,7 +2011,7 @@ export class Message extends React.PureComponent<Props, State> {
     throw missingCaseError(giftBadge.state);
   }
 
-  public renderPayment(): JSX.Element | null {
+  public renderPayment(): React.JSX.Element | null {
     const {
       payment,
       direction,
@@ -2051,7 +2053,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderPoll(): JSX.Element | null {
+  public renderPoll(): React.JSX.Element | null {
     const { poll, direction, i18n, id, endPoll, canEndPoll } = this.props;
     if (!poll || !isPollReceiveEnabled()) {
       return null;
@@ -2073,7 +2075,7 @@ export class Message extends React.PureComponent<Props, State> {
     return this.props.doubleCheckMissingQuoteReference(this.props.id);
   };
 
-  public renderQuote(): JSX.Element | null {
+  public renderQuote(): React.JSX.Element | null {
     const {
       conversationColor,
       conversationId,
@@ -2128,7 +2130,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderStoryReplyContext(): JSX.Element | null {
+  public renderStoryReplyContext(): React.JSX.Element | null {
     const {
       conversationTitle,
       conversationColor,
@@ -2186,7 +2188,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderEmbeddedContact(): JSX.Element | null {
+  public renderEmbeddedContact(): React.JSX.Element | null {
     const {
       cancelAttachmentDownload,
       contact,
@@ -2249,7 +2251,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderSendMessageButton(): JSX.Element | null {
+  public renderSendMessageButton(): React.JSX.Element | null {
     const { contact, direction, shouldCollapseBelow, startConversation, i18n } =
       this.props;
     const noBottomLeftCurve = direction === 'incoming' && shouldCollapseBelow;
@@ -2348,7 +2350,7 @@ export class Message extends React.PureComponent<Props, State> {
     return text;
   }
 
-  public renderText(): JSX.Element | null {
+  public renderText(): React.JSX.Element | null {
     const {
       bodyRanges,
       deletedForEveryone,
@@ -2454,7 +2456,7 @@ export class Message extends React.PureComponent<Props, State> {
     return Boolean(onlyPreview.isCallLink);
   }
 
-  #renderAction(): JSX.Element | null {
+  #renderAction(): React.JSX.Element | null {
     const { direction, activeCallConversationId, i18n, previews } = this.props;
 
     if (this.#shouldShowJoinButton()) {
@@ -2600,7 +2602,7 @@ export class Message extends React.PureComponent<Props, State> {
     return Boolean(first.pending);
   }
 
-  public renderTapToViewIcon(): JSX.Element {
+  public renderTapToViewIcon(): React.JSX.Element {
     const { direction, isTapToViewError, isTapToViewExpired, readStatus } =
       this.props;
     const isIncoming = direction === 'incoming';
@@ -2698,7 +2700,7 @@ export class Message extends React.PureComponent<Props, State> {
     };
   }
 
-  public renderTapToView(): JSX.Element | null {
+  public renderTapToView(): React.JSX.Element | null {
     const {
       attachments,
       attachmentDroppedDueToSize,
@@ -2741,7 +2743,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     const text = this.renderTapToViewText();
-    let content: JSX.Element;
+    let content: React.JSX.Element;
     if (text.title && text.detail) {
       content = (
         <div className="module-message__simple-attachment__text">
@@ -2917,7 +2919,7 @@ export class Message extends React.PureComponent<Props, State> {
     });
   };
 
-  public renderReactions(outgoing: boolean): JSX.Element | null {
+  public renderReactions(outgoing: boolean): React.JSX.Element | null {
     const { getPreferredBadge, reactions = [], i18n, theme } = this.props;
 
     if (!this.#hasReactions()) {
@@ -2943,7 +2945,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderContents(): JSX.Element | null {
+  public renderContents(): React.JSX.Element | null {
     const { deletedForEveryone, giftBadge, isTapToView } = this.props;
 
     if (deletedForEveryone) {
@@ -3194,7 +3196,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderContainer(): JSX.Element {
+  public renderContainer(): React.JSX.Element {
     const {
       attachments,
       attachmentDroppedDueToSize,
@@ -3299,7 +3301,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  renderAltAccessibilityTree(): JSX.Element {
+  renderAltAccessibilityTree(): React.JSX.Element {
     const { id, i18n, author } = this.props;
     return (
       <span className="module-message__alt-accessibility-tree">
@@ -3318,7 +3320,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public override render(): JSX.Element | null {
+  public override render(): React.JSX.Element | null {
     const {
       id,
       attachments,

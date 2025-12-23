@@ -253,7 +253,7 @@ const Content = forwardRef(function Content(
     ...forwardedProps
   }: ContentProps,
   ref: ForwardedRef<HTMLDivElement>
-): JSX.Element {
+): React.JSX.Element {
   const handlePinGoTo = useCallback(() => {
     onPinGoTo(pin.message.id);
   }, [onPinGoTo, pin.message.id]);

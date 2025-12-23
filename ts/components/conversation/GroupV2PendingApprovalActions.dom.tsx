@@ -15,7 +15,7 @@ export function GroupV2PendingApprovalActions({
   cancelJoinRequest,
   conversationId,
   i18n,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [isConfirming, setIsConfirming] = React.useState(false);
 
   return (

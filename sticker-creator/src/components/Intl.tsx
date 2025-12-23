@@ -34,7 +34,7 @@ export class Intl extends React.Component<Props> {
     index: number,
     placeholderName: string,
     key: number
-  ): JSX.Element | null {
+  ): React.JSX.Element | null {
     const { id, components } = this.props;
 
     if (!components) {
@@ -91,7 +91,7 @@ export class Intl extends React.Component<Props> {
 
     const text = i18n(id);
     const results: Array<
-      string | JSX.Element | Array<string | JSX.Element> | null
+      string | React.JSX.Element | Array<string | React.JSX.Element> | null
     > = [];
     const FIND_REPLACEMENTS = /\$([^$]+)\$/g;
 
