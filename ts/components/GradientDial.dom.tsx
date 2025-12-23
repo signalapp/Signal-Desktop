@@ -195,7 +195,7 @@ export function GradientDial({
   onChange,
   onClick,
   selectedKnob,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const [knobDim, setKnobDim] = useState<{

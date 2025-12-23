@@ -21,7 +21,7 @@ function renderSafetyNumber({ contactID, onClose }: SafetyNumberProps) {
 }
 
 export const SmartSendAnywayDialog = memo(
-  function SmartSendAnywayDialog(): JSX.Element {
+  function SmartSendAnywayDialog(): React.JSX.Element {
     const { hideBlockingSafetyNumberChangeDialog } = useGlobalModalActions();
     const { removeMembersFromDistributionList } =
       useStoryDistributionListsActions();

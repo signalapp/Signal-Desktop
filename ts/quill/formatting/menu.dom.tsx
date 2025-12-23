@@ -39,7 +39,7 @@ type FormattingPickerOptions = {
   isMenuEnabled: boolean;
   isMouseDown?: boolean;
   platform: string;
-  setFormattingChooserElement: (element: JSX.Element | null) => void;
+  setFormattingChooserElement: (element: React.JSX.Element | null) => void;
 };
 
 export enum QuillFormattingStyle {
@@ -453,7 +453,7 @@ function FormattingButton({
   popupGuideShortcut: string;
   style: QuillFormattingStyle;
   toggleForStyle: (style: QuillFormattingStyle) => unknown;
-}): JSX.Element {
+}): React.JSX.Element {
   const buttonRef = React.useRef<HTMLButtonElement | null>(null);
 
   const [isHovered, setIsHovered] = React.useState<boolean>(false);

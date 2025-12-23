@@ -40,7 +40,7 @@ export function PollCreateModal({
   i18n,
   onClose,
   onSendPoll,
-}: PollCreateModalProps): JSX.Element {
+}: PollCreateModalProps): React.JSX.Element {
   const [question, setQuestion] = useState('');
   const [options, setOptions] = useState<Array<PollOption>>([
     { id: generateUuid(), value: '' },

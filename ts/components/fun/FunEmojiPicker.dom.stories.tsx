@@ -28,7 +28,7 @@ const skinToneOptions = [
   { value: EmojiSkinTone.Type5, text: 'Dark Skin Tone' },
 ];
 
-function Template(props: TemplateProps): JSX.Element {
+function Template(props: TemplateProps): React.JSX.Element {
   const [open, setOpen] = useState(true);
   const [skinTone, setSkinTone] = useState(EmojiSkinTone.None);
 
@@ -92,10 +92,12 @@ export default {
   },
 } satisfies ComponentMeta<TemplateProps>;
 
-export function Default(props: TemplateProps): JSX.Element {
+export function Default(props: TemplateProps): React.JSX.Element {
   return <Template {...props} />;
 }
 
-export function WithThisMessageReactions(props: TemplateProps): JSX.Element {
+export function WithThisMessageReactions(
+  props: TemplateProps
+): React.JSX.Element {
   return <Template {...props} messageEmojis={MOCK_THIS_MESSAGE_EMOJIS} />;
 }

@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactChild, ReactElement } from 'react';
+import type { ReactNode, ReactElement } from 'react';
 import React from 'react';
 import { ContactName } from './conversation/ContactName.dom.js';
 
@@ -16,7 +16,7 @@ export function BadgeDescription({
   template,
   title,
 }: Props): ReactElement {
-  const result: Array<ReactChild> = [];
+  const result: Array<ReactNode> = [];
 
   let lastIndex = 0;
 

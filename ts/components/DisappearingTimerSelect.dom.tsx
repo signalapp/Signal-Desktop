@@ -17,7 +17,7 @@ export type Props = {
   onChange(value: DurationInSeconds): void;
 };
 
-export function DisappearingTimerSelect(props: Props): JSX.Element {
+export function DisappearingTimerSelect(props: Props): React.JSX.Element {
   const { i18n, value = DurationInSeconds.ZERO, onChange } = props;
 
   const [isModalOpen, setIsModalOpen] = useState(false);

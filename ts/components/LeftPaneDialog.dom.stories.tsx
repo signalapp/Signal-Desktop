@@ -14,7 +14,7 @@ const widths = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function WidthDecorator(Story: any, context: any): JSX.Element {
+function WidthDecorator(Story: any, context: any): React.JSX.Element {
   return (
     <div
       style={{

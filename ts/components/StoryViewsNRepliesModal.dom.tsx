@@ -158,7 +158,7 @@ export function StoryViewsNRepliesModal({
   sortedGroupMembers,
   viewTarget,
   views,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   const [deleteReplyId, setDeleteReplyId] = useState<string | undefined>(
     undefined
   );
@@ -209,7 +209,7 @@ export function StoryViewsNRepliesModal({
     }
   }, []);
 
-  let composerElement: JSX.Element | undefined;
+  let composerElement: React.JSX.Element | undefined;
 
   useLayoutEffect(() => {
     if (
@@ -312,7 +312,7 @@ export function StoryViewsNRepliesModal({
     );
   }
 
-  let repliesElement: JSX.Element | undefined;
+  let repliesElement: React.JSX.Element | undefined;
 
   function shouldCollapse(reply: ReplyType, otherReply?: ReplyType) {
     // deleted reactions get rendered the same as deleted replies
@@ -376,7 +376,7 @@ export function StoryViewsNRepliesModal({
     );
   }
 
-  let viewsElement: JSX.Element | undefined;
+  let viewsElement: React.JSX.Element | undefined;
   if (hasViewsCapability && !hasViewReceiptSetting) {
     viewsElement = (
       <div className="StoryViewsNRepliesModal__read-receipts-off">

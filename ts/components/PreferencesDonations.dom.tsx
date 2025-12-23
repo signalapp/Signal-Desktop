@@ -131,7 +131,7 @@ type PreferencesHomeProps = Pick<
   | 'donationReceipts'
   | 'workflow'
 > & {
-  renderDonationHero: () => JSX.Element;
+  renderDonationHero: () => React.JSX.Element;
 };
 
 function isDonationPage(page: SettingsPage): page is DonationPage {
@@ -157,9 +157,9 @@ function DonationHero({
   profileAvatarUrl,
   theme,
   showPrivacyModal,
-}: DonationHeroProps): JSX.Element {
+}: DonationHeroProps): React.JSX.Element {
   const privacyReadMoreLink = useCallback(
-    (parts: ReactNode): JSX.Element => {
+    (parts: ReactNode): React.JSX.Element => {
       return (
         <button
           type="button"
@@ -211,7 +211,7 @@ function DonationsHome({
   isOnline,
   donationReceipts,
   workflow,
-}: PreferencesHomeProps): JSX.Element {
+}: PreferencesHomeProps): React.JSX.Element {
   const [isInProgressModalVisible, setIsInProgressVisible] = useState(false);
 
   const inProgressDonationAmount = useMemo<string | undefined>(() => {
@@ -353,7 +353,7 @@ function PreferencesReceiptList({
     i18n: LocalizerType
   ) => Promise<Blob>;
   showToast: (toast: AnyToast) => void;
-}): JSX.Element {
+}): React.JSX.Element {
   const [selectedReceipt, setSelectedReceipt] =
     useState<DonationReceipt | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
@@ -567,7 +567,7 @@ export function PreferencesDonations({
   updateLastError,
   donationBadge,
   fetchBadgeData,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   const [hasProcessingExpired, setHasProcessingExpired] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -783,7 +783,7 @@ export function PreferencesDonations({
   }
 
   let title: string | undefined;
-  let backButton: JSX.Element | undefined;
+  let backButton: React.JSX.Element | undefined;
   if (settingsLocation.page === SettingsPage.Donations) {
     title = i18n('icu:Preferences__DonateTitle');
   } else if (settingsLocation.page === SettingsPage.DonationsReceiptList) {

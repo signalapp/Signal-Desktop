@@ -19,7 +19,7 @@ export type SmartPreferencesChatFoldersPageProps = Readonly<{
 
 export function SmartPreferencesChatFoldersPage(
   props: SmartPreferencesChatFoldersPageProps
-): JSX.Element {
+): React.JSX.Element {
   const i18n = useSelector(getIntl);
   const currentChatFolders = useSelector(getCurrentChatFolders);
   const { createChatFolder, deleteChatFolder, updateChatFoldersPositions } =

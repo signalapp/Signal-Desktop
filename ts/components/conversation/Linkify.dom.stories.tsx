@@ -15,7 +15,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   text: overrideProps.text || '',
 });
 
-export function OnlyLink(): JSX.Element {
+export function OnlyLink(): React.JSX.Element {
   const props = createProps({
     text: 'https://www.signal.org',
   });
@@ -23,7 +23,7 @@ export function OnlyLink(): JSX.Element {
   return <Linkify {...props} />;
 }
 
-export function LinksWithText(): JSX.Element {
+export function LinksWithText(): React.JSX.Element {
   const props = createProps({
     text: 'you should see this: https://www.signal.org - it is good. Also: https://placekitten.com!',
   });
@@ -31,7 +31,7 @@ export function LinksWithText(): JSX.Element {
   return <Linkify {...props} />;
 }
 
-export function LinksWithEmojiWithoutSpace(): JSX.Element {
+export function LinksWithEmojiWithoutSpace(): React.JSX.Element {
   const props = createProps({
     text: '👍https://www.signal.org😎',
   });
@@ -39,7 +39,7 @@ export function LinksWithEmojiWithoutSpace(): JSX.Element {
   return <Linkify {...props} />;
 }
 
-export function LinksWithEmojiAndText(): JSX.Element {
+export function LinksWithEmojiAndText(): React.JSX.Element {
   const props = createProps({
     text: 'https://example.com ⚠️ 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ https://example.com',
   });
@@ -47,7 +47,7 @@ export function LinksWithEmojiAndText(): JSX.Element {
   return <Linkify {...props} />;
 }
 
-export function NoLink(): JSX.Element {
+export function NoLink(): React.JSX.Element {
   const props = createProps({
     text: 'I am fond of cats',
   });
@@ -55,7 +55,7 @@ export function NoLink(): JSX.Element {
   return <Linkify {...props} />;
 }
 
-export function BlockedProtocols(): JSX.Element {
+export function BlockedProtocols(): React.JSX.Element {
   const props = createProps({
     text: 'smailto:someone@somewhere.com - ftp://something.com - //local/share - \\localshare',
   });
@@ -63,7 +63,7 @@ export function BlockedProtocols(): JSX.Element {
   return <Linkify {...props} />;
 }
 
-export function MissingProtocols(): JSX.Element {
+export function MissingProtocols(): React.JSX.Element {
   const props = createProps({
     text: 'I love example.com. I also love кц.рф. I also love مثال.تونس. But I do not love test.example.',
   });
@@ -71,7 +71,7 @@ export function MissingProtocols(): JSX.Element {
   return <Linkify {...props} />;
 }
 
-export function CustomTextRender(): JSX.Element {
+export function CustomTextRender(): React.JSX.Element {
   const props = createProps({
     text: 'you should see this: https://www.signal.org - it is good. Also: https://placekitten.com!',
     renderNonLink: ({ text: theText, key }) => (

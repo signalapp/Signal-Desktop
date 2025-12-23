@@ -20,6 +20,6 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-export function Defaults(args: PropsType): JSX.Element {
+export function Defaults(args: PropsType): React.JSX.Element {
   return <LeftPaneBanner {...args} />;
 }

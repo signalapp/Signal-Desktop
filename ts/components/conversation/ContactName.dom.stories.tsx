@@ -11,11 +11,11 @@ export default {
   title: 'Components/Conversation/ContactName',
 } satisfies Meta<PropsType>;
 
-export function FirstNameAndTitleTitlePreferred(): JSX.Element {
+export function FirstNameAndTitleTitlePreferred(): React.JSX.Element {
   return <ContactName firstName="Ignored" title="Someone 🔥 Somewhere" />;
 }
 
-export function FirstNameAndTitleFirstNamePreferred(): JSX.Element {
+export function FirstNameAndTitleFirstNamePreferred(): React.JSX.Element {
   return (
     <ContactName
       firstName="Someone 🔥 Somewhere"
@@ -25,7 +25,7 @@ export function FirstNameAndTitleFirstNamePreferred(): JSX.Element {
   );
 }
 
-export function Colors(): JSX.Element {
+export function Colors(): React.JSX.Element {
   return (
     <>
       {ContactNameColors.map(color => (

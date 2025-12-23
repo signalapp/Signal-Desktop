@@ -19,7 +19,7 @@ export function ConfirmDiscardDialog({
   discardText,
   onClose,
   onDiscard,
-}: ConfirmDialogProps): JSX.Element {
+}: ConfirmDialogProps): React.JSX.Element {
   return (
     <ConfirmationDialog
       dialogName="ConfirmDiscardDialog"

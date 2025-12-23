@@ -51,10 +51,10 @@ export type PropsType = {
   preferredLeftPaneWidth: number;
   preferredWidthFromStorage: number;
   queueStoryDownload: (storyId: string) => unknown;
-  renderStoryCreator: () => JSX.Element;
+  renderStoryCreator: () => React.JSX.Element;
   renderToastManager: (_: {
     containerWidthBreakpoint: WidthBreakpoint;
-  }) => JSX.Element;
+  }) => React.JSX.Element;
   retryMessageSend: (messageId: string) => unknown;
   savePreferredLeftPaneWidth: (preferredLeftPaneWidth: number) => void;
   setAddStoryData: (data: AddStoryData) => unknown;
@@ -101,7 +101,7 @@ export function StoriesTab({
   toggleHideStories,
   viewStory,
   viewUserStories,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [isMyStories, setIsMyStories] = useState(false);
 
   function onAddStory(file?: File) {

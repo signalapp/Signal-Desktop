@@ -73,7 +73,7 @@ const renderPerson = (
     isMe?: boolean;
     title: string;
   }>
-): JSX.Element =>
+): React.JSX.Element =>
   person.isMe ? (
     <I18n i18n={i18n} id="icu:you" />
   ) : (

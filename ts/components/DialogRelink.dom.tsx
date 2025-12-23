@@ -18,7 +18,7 @@ export function DialogRelink({
   containerWidthBreakpoint,
   i18n,
   relinkDevice,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   return (
     <LeftPaneDialog
       containerWidthBreakpoint={containerWidthBreakpoint}

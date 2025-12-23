@@ -26,7 +26,7 @@ export type Props = LinkPreviewForUIType & {
   onClose?: () => void;
 };
 
-export function StagedLinkPreview(props: Props): JSX.Element {
+export function StagedLinkPreview(props: Props): React.JSX.Element {
   const { date, description, domain, i18n, moduleClassName, onClose, title } =
     props;
   const isLoaded = Boolean(domain);
@@ -36,7 +36,7 @@ export function StagedLinkPreview(props: Props): JSX.Element {
     moduleClassName
   );
 
-  let maybeContent: JSX.Element | undefined;
+  let maybeContent: React.JSX.Element | undefined;
   if (isLoaded) {
     // No title, no description - display only domain
     if (!title && !description) {
@@ -107,7 +107,7 @@ export function Thumbnail({
   | 'moduleClassName'
   | 'title'
   | 'url'
->): JSX.Element {
+>): React.JSX.Element {
   const isImage = isImageAttachment(image);
   const getClassName = getClassNamesFor(
     'module-staged-link-preview',

@@ -116,18 +116,18 @@ function Template(props: {
   );
 }
 
-export function Basic(): JSX.Element {
+export function Basic(): React.JSX.Element {
   return <Template />;
 }
 
-export function VisuallyHiddenTitle(): JSX.Element {
+export function VisuallyHiddenTitle(): React.JSX.Element {
   return <Template visuallyHiddenTitle />;
 }
 
-export function RequireExplicitChoice(): JSX.Element {
+export function RequireExplicitChoice(): React.JSX.Element {
   return <Template requireExplicitChoice />;
 }
 
-export function ExtraLongText(): JSX.Element {
+export function ExtraLongText(): React.JSX.Element {
   return <Template extraLongText />;
 }

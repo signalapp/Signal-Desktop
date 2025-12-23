@@ -56,16 +56,16 @@ export type SmartTimelineItemProps = {
   unreadIndicatorPlacement: undefined | UnreadIndicatorPlacement;
 };
 
-function renderContact(contactId: string): JSX.Element {
+function renderContact(contactId: string): React.JSX.Element {
   return <SmartContactName contactId={contactId} />;
 }
 
-function renderUniversalTimerNotification(): JSX.Element {
+function renderUniversalTimerNotification(): React.JSX.Element {
   return <SmartUniversalTimerNotification />;
 }
 export const SmartTimelineItem = memo(function SmartTimelineItem(
   props: SmartTimelineItemProps
-): JSX.Element {
+): React.JSX.Element {
   const {
     containerElementRef,
     containerWidthBreakpoint,

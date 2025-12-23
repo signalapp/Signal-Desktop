@@ -26,7 +26,7 @@ export function NotePreviewModal({
   i18n,
   onClose,
   onEdit,
-}: NotePreviewModalProps): JSX.Element {
+}: NotePreviewModalProps): React.JSX.Element {
   return (
     <Modal
       modalName="NotePreviewModal"

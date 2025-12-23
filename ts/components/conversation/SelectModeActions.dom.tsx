@@ -28,7 +28,7 @@ export default function SelectModeActions({
   onForwardMessages,
   showToast,
   i18n,
-}: SelectModeActionsProps): JSX.Element {
+}: SelectModeActionsProps): React.JSX.Element {
   const hasSelectedMessages = selectedMessageIds.length >= 1;
   const tooManyMessagesToForward =
     selectedMessageIds.length > MAX_FORWARD_COUNT;

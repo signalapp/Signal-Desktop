@@ -24,7 +24,7 @@ export type PropsType = {
   conversationId: string;
 };
 
-function renderMediaItem(props: MediaItemPropsType): JSX.Element {
+function renderMediaItem(props: MediaItemPropsType): React.JSX.Element {
   return <MediaItem {...props} />;
 }
 

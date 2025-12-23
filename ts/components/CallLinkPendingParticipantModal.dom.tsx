@@ -32,7 +32,7 @@ export function CallLinkPendingParticipantModal({
   onClose,
   toggleAboutContactModal,
   updateSharedGroups,
-}: CallLinkPendingParticipantModalProps): JSX.Element {
+}: CallLinkPendingParticipantModalProps): React.JSX.Element {
   useEffect(() => {
     // Kick off the expensive hydration of the current sharedGroupNames
     updateSharedGroups(conversation.id);

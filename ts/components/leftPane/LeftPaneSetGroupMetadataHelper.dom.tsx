@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactChild } from 'react';
+import type { ReactNode } from 'react';
 import React from 'react';
 
 import { LeftPaneHelper } from './LeftPaneHelper.dom.js';
@@ -75,7 +75,7 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
   }: Readonly<{
     i18n: LocalizerType;
     showChooseGroupMembers: () => void;
-  }>): ReactChild {
+  }>): ReactNode {
     const backButtonLabel = i18n('icu:setGroupMetadata__back-button');
 
     return (
@@ -125,7 +125,7 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
     setComposeGroupExpireTimer: (_: DurationInSeconds) => void;
     setComposeGroupName: (_: string) => unknown;
     toggleComposeEditingAvatar: () => unknown;
-  }>): ReactChild {
+  }>): ReactNode {
     const [avatarColor] = AvatarColors;
     const disabled = this.#isCreating;
 
@@ -222,7 +222,7 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
   }: Readonly<{
     createGroup: () => unknown;
     i18n: LocalizerType;
-  }>): ReactChild {
+  }>): ReactNode {
     return (
       <Button
         disabled={!this.#canCreateGroup()}

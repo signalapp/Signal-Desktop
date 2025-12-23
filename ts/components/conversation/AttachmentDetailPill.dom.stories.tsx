@@ -27,15 +27,15 @@ export default {
   },
 } satisfies ComponentMeta<PropsType>;
 
-export function NoneDefaultsBlank(args: PropsType): JSX.Element {
+export function NoneDefaultsBlank(args: PropsType): React.JSX.Element {
   return <AttachmentDetailPill {...args} />;
 }
 
-export function OneDownloadedBlank(args: PropsType): JSX.Element {
+export function OneDownloadedBlank(args: PropsType): React.JSX.Element {
   return <AttachmentDetailPill {...args} attachments={[fakeAttachment()]} />;
 }
 
-export function OneNotPendingNotDownloaded(args: PropsType): JSX.Element {
+export function OneNotPendingNotDownloaded(args: PropsType): React.JSX.Element {
   return (
     <AttachmentDetailPill
       {...args}
@@ -48,7 +48,7 @@ export function OneNotPendingNotDownloaded(args: PropsType): JSX.Element {
   );
 }
 
-export function OnePendingNotDownloading(args: PropsType): JSX.Element {
+export function OnePendingNotDownloading(args: PropsType): React.JSX.Element {
   return (
     <AttachmentDetailPill
       {...args}
@@ -62,7 +62,7 @@ export function OnePendingNotDownloading(args: PropsType): JSX.Element {
   );
 }
 
-export function OneDownloading(args: PropsType): JSX.Element {
+export function OneDownloading(args: PropsType): React.JSX.Element {
   return (
     <AttachmentDetailPill
       {...args}
@@ -77,7 +77,9 @@ export function OneDownloading(args: PropsType): JSX.Element {
   );
 }
 
-export function OneNotPendingSomeDownloaded(args: PropsType): JSX.Element {
+export function OneNotPendingSomeDownloaded(
+  args: PropsType
+): React.JSX.Element {
   return (
     <AttachmentDetailPill
       {...args}
@@ -91,7 +93,9 @@ export function OneNotPendingSomeDownloaded(args: PropsType): JSX.Element {
   );
 }
 
-export function OneIncrementalDownloadedBlank(args: PropsType): JSX.Element {
+export function OneIncrementalDownloadedBlank(
+  args: PropsType
+): React.JSX.Element {
   return (
     <AttachmentDetailPill
       {...args}
@@ -107,7 +111,7 @@ export function OneIncrementalDownloadedBlank(args: PropsType): JSX.Element {
 
 export function OneIncrementalNotPendingNotDownloaded(
   args: PropsType
-): JSX.Element {
+): React.JSX.Element {
   return (
     <AttachmentDetailPill
       {...args}
@@ -124,7 +128,7 @@ export function OneIncrementalNotPendingNotDownloaded(
 
 export function OneIncrementalPendingNotDownloading(
   args: PropsType
-): JSX.Element {
+): React.JSX.Element {
   return (
     <AttachmentDetailPill
       {...args}
@@ -140,7 +144,7 @@ export function OneIncrementalPendingNotDownloading(
   );
 }
 
-export function OneIncrementalDownloading(args: PropsType): JSX.Element {
+export function OneIncrementalDownloading(args: PropsType): React.JSX.Element {
   return (
     <AttachmentDetailPill
       {...args}
@@ -159,7 +163,7 @@ export function OneIncrementalDownloading(args: PropsType): JSX.Element {
 
 export function OneIncrementalNotPendingSomeDownloaded(
   args: PropsType
-): JSX.Element {
+): React.JSX.Element {
   return (
     <AttachmentDetailPill
       {...args}

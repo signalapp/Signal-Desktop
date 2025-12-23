@@ -138,7 +138,7 @@ export function TextStoryCreator({
   onClose,
   onDone,
   onSelectEmoji,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const tryClose = useRef<() => void | undefined>();
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,

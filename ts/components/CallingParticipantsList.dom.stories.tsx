@@ -26,12 +26,12 @@ export default {
   title: 'Components/CallingParticipantsList',
 } satisfies Meta<PropsType>;
 
-export function NoOne(): JSX.Element {
+export function NoOne(): React.JSX.Element {
   const props = createProps();
   return <CallingParticipantsList {...props} />;
 }
 
-export function SoloCall(): JSX.Element {
+export function SoloCall(): React.JSX.Element {
   const props = createProps({
     participants: [
       createCallParticipant({
@@ -42,7 +42,7 @@ export function SoloCall(): JSX.Element {
   return <CallingParticipantsList {...props} />;
 }
 
-export function ManyParticipants(): JSX.Element {
+export function ManyParticipants(): React.JSX.Element {
   const props = createProps({
     participants: [
       createCallParticipant({
@@ -83,7 +83,7 @@ export function ManyParticipants(): JSX.Element {
   return <CallingParticipantsList {...props} />;
 }
 
-export function Overflow(): JSX.Element {
+export function Overflow(): React.JSX.Element {
   const props = createProps({
     participants: Array(50)
       .fill(null)

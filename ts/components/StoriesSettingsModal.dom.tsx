@@ -271,7 +271,7 @@ export function StoriesSettingsModal({
   theme,
   setStoriesDisabled,
   getConversationByServiceId,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const tryClose = useRef<() => void | undefined>();
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,
@@ -596,7 +596,7 @@ export function DistributionListSettingsModal({
   theme,
   toggleSignalConnectionsModal,
   signalConnectionsCount,
-}: DistributionListSettingsModalPropsType): JSX.Element {
+}: DistributionListSettingsModalPropsType): React.JSX.Element {
   const [confirmRemoveMember, setConfirmRemoveMember] = useState<
     | undefined
     | {
@@ -838,8 +838,8 @@ export function EditMyStoryPrivacy({
   setMyStoriesToAllSignalConnections,
   toggleSignalConnectionsModal,
   signalConnectionsCount,
-}: EditMyStoryPrivacyPropsType): JSX.Element {
-  const learnMoreLink = (parts: Array<JSX.Element | string>) => (
+}: EditMyStoryPrivacyPropsType): React.JSX.Element {
+  const learnMoreLink = (parts: Array<React.JSX.Element | string>) => (
     <button
       className="StoriesSettingsModal__disclaimer__learn-more"
       onClick={toggleSignalConnectionsModal}
@@ -1000,7 +1000,7 @@ export function EditDistributionListModal({
   setSelectedContacts,
   theme,
   onBackButtonClick,
-}: EditDistributionListModalPropsType): JSX.Element {
+}: EditDistributionListModalPropsType): React.JSX.Element {
   const [storyName, setStoryName] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -1146,7 +1146,7 @@ export function EditDistributionListModal({
     };
   };
 
-  let footer: JSX.Element | undefined;
+  let footer: React.JSX.Element | undefined;
   if (isChoosingViewers) {
     footer = (
       <Button
@@ -1285,7 +1285,7 @@ export function GroupStorySettingsModal({
   onBackButtonClick,
   getConversationByServiceId,
   onRemoveGroup,
-}: GroupStorySettingsModalProps): JSX.Element {
+}: GroupStorySettingsModalProps): React.JSX.Element {
   const groupMemberships = getGroupMemberships(
     group,
     getConversationByServiceId

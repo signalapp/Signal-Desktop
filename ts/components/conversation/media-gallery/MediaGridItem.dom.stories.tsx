@@ -72,7 +72,7 @@ const createMediaItem = (
   },
 });
 
-export function Image(): JSX.Element {
+export function Image(): React.JSX.Element {
   const mediaItem = createMediaItem({
     objectURL: '/fixtures/kitten-1-64-64.jpg',
     contentType: IMAGE_JPEG,
@@ -85,7 +85,7 @@ export function Image(): JSX.Element {
   return <MediaGridItem {...props} />;
 }
 
-export function WideImage(): JSX.Element {
+export function WideImage(): React.JSX.Element {
   const mediaItem = createMediaItem({
     objectURL: '/fixtures/wide.jpg',
     contentType: IMAGE_JPEG,
@@ -98,7 +98,7 @@ export function WideImage(): JSX.Element {
   return <MediaGridItem {...props} />;
 }
 
-export function TallImage(): JSX.Element {
+export function TallImage(): React.JSX.Element {
   const mediaItem = createMediaItem({
     objectURL: '/fixtures/snow.jpg',
     contentType: IMAGE_JPEG,
@@ -111,7 +111,7 @@ export function TallImage(): JSX.Element {
   return <MediaGridItem {...props} />;
 }
 
-export function Video(): JSX.Element {
+export function Video(): React.JSX.Element {
   const mediaItem = createMediaItem({
     attachment: {
       incrementalUrl: 'abc',
@@ -134,7 +134,7 @@ export function Video(): JSX.Element {
   return <MediaGridItem {...props} />;
 }
 
-export function GIF(): JSX.Element {
+export function GIF(): React.JSX.Element {
   const mediaItem = createMediaItem({
     attachment: {
       url: 'abc',
@@ -158,7 +158,7 @@ export function GIF(): JSX.Element {
   return <MediaGridItem {...props} />;
 }
 
-export function MissingImage(): JSX.Element {
+export function MissingImage(): React.JSX.Element {
   const mediaItem = createMediaItem({
     contentType: IMAGE_JPEG,
     attachment: {
@@ -176,7 +176,7 @@ export function MissingImage(): JSX.Element {
   return <MediaGridItem {...props} />;
 }
 
-export function PendingImage(): JSX.Element {
+export function PendingImage(): React.JSX.Element {
   const mediaItem = createMediaItem({
     contentType: IMAGE_JPEG,
     attachment: {
@@ -196,7 +196,7 @@ export function PendingImage(): JSX.Element {
   return <MediaGridItem {...props} />;
 }
 
-export function DownloadingImage(): JSX.Element {
+export function DownloadingImage(): React.JSX.Element {
   const mediaItem = createMediaItem({
     contentType: IMAGE_JPEG,
     attachment: {
@@ -216,7 +216,7 @@ export function DownloadingImage(): JSX.Element {
   return <MediaGridItem {...props} />;
 }
 
-export function MissingVideo(): JSX.Element {
+export function MissingVideo(): React.JSX.Element {
   const mediaItem = createMediaItem({
     contentType: VIDEO_MP4,
   });
@@ -228,7 +228,7 @@ export function MissingVideo(): JSX.Element {
   return <MediaGridItem {...props} />;
 }
 
-export function BrokenImage(): JSX.Element {
+export function BrokenImage(): React.JSX.Element {
   const mediaItem = createMediaItem({
     objectURL: '/missing-fixtures/nope.jpg',
     contentType: IMAGE_JPEG,
@@ -241,7 +241,7 @@ export function BrokenImage(): JSX.Element {
   return <MediaGridItem {...props} />;
 }
 
-export function BrokenVideo(): JSX.Element {
+export function BrokenVideo(): React.JSX.Element {
   const mediaItem = createMediaItem({
     objectURL: '/missing-fixtures/nope.mp4',
     contentType: VIDEO_MP4,
@@ -254,7 +254,7 @@ export function BrokenVideo(): JSX.Element {
   return <MediaGridItem {...props} />;
 }
 
-export function OtherContentType(): JSX.Element {
+export function OtherContentType(): React.JSX.Element {
   const mediaItem = createMediaItem({
     contentType: APPLICATION_OCTET_STREAM,
   });

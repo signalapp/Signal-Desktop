@@ -26,12 +26,12 @@ type PropsType = {
     firstName: string;
     lastName: string;
   }) => Promise<void>;
-  renderCallManager: () => JSX.Element;
-  renderGlobalModalContainer: () => JSX.Element;
+  renderCallManager: () => React.JSX.Element;
+  renderGlobalModalContainer: () => React.JSX.Element;
   hasSelectedStoryData: boolean;
   readyForUpdates: () => void;
-  renderStoryViewer: (closeView: () => unknown) => JSX.Element;
-  renderLightbox: () => JSX.Element | null;
+  renderStoryViewer: (closeView: () => unknown) => React.JSX.Element;
+  renderLightbox: () => React.JSX.Element | null;
   requestVerification: (
     number: string,
     captcha: string,
@@ -44,7 +44,7 @@ type PropsType = {
 
   scrollToMessage: (conversationId: string, messageId: string) => unknown;
   viewStory: ViewStoryActionCreatorType;
-  renderInbox: () => JSX.Element;
+  renderInbox: () => React.JSX.Element;
 };
 
 export function App({
@@ -66,7 +66,7 @@ export function App({
   theme,
   uploadProfile,
   viewStory,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   let contents;
 
   if (state.appView === AppViewType.Installer) {

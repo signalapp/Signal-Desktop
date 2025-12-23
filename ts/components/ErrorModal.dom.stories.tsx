@@ -26,17 +26,17 @@ export default {
   args: {},
 } satisfies Meta<PropsType>;
 
-export function Normal(): JSX.Element {
+export function Normal(): React.JSX.Element {
   return <ErrorModal {...createProps()} />;
 }
 
-export function PrimaryButton(): JSX.Element {
+export function PrimaryButton(): React.JSX.Element {
   return (
     <ErrorModal {...createProps({ buttonVariant: ButtonVariant.Primary })} />
   );
 }
 
-export function CustomStrings(): JSX.Element {
+export function CustomStrings(): React.JSX.Element {
   return (
     <ErrorModal
       {...createProps({
@@ -47,7 +47,7 @@ export function CustomStrings(): JSX.Element {
   );
 }
 
-export function NoTitle(): JSX.Element {
+export function NoTitle(): React.JSX.Element {
   return (
     <ErrorModal
       {...createProps({

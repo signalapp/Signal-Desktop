@@ -55,7 +55,7 @@ export function CallsNewCallButton({
   isInCall: boolean;
   i18n: LocalizerType;
   onClick: () => void;
-}): JSX.Element {
+}): React.JSX.Element {
   let innerContent: React.ReactNode | string;
   let inAnotherCallTooltipContent = '';
   if (!isEnabled) {
@@ -111,7 +111,7 @@ export function CallsNewCall({
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
   regionCode,
-}: CallsNewCallProps): JSX.Element {
+}: CallsNewCallProps): React.JSX.Element {
   const [queryInput, setQueryInput] = useState('');
 
   const query = useMemo(() => {

@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { useI18n } from '../contexts/I18n';
 import styles from './Index.module.scss';
 
-export function Index(): JSX.Element {
+export function Index(): React.JSX.Element {
   const i18n = useI18n();
 
   return (

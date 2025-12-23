@@ -16,27 +16,27 @@ export default {
   },
 } satisfies ComponentMeta<Props>;
 
-export function Spinning(args: Props): JSX.Element {
+export function Spinning(args: Props): React.JSX.Element {
   return <ProgressBar {...args} fractionComplete={null} />;
 }
-export function Zero(args: Props): JSX.Element {
+export function Zero(args: Props): React.JSX.Element {
   return <ProgressBar {...args} />;
 }
 
-export function Thirty(args: Props): JSX.Element {
+export function Thirty(args: Props): React.JSX.Element {
   return <ProgressBar {...args} fractionComplete={0.3} />;
 }
 
-export function Done(args: Props): JSX.Element {
+export function Done(args: Props): React.JSX.Element {
   return <ProgressBar {...args} fractionComplete={1} />;
 }
 
-export function Increasing(args: Props): JSX.Element {
+export function Increasing(args: Props): React.JSX.Element {
   const fractionComplete = useIncreasingFractionComplete();
   return <ProgressBar {...args} fractionComplete={fractionComplete} />;
 }
 
-export function RTLIncreasing(args: Props): JSX.Element {
+export function RTLIncreasing(args: Props): React.JSX.Element {
   const fractionComplete = useIncreasingFractionComplete();
   return <ProgressBar {...args} fractionComplete={fractionComplete} isRTL />;
 }

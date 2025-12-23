@@ -14,7 +14,7 @@ import { I18n } from '../I18n.dom.js';
 import { canHaveNicknameAndNote } from '../../util/nicknames.dom.js';
 import { Tooltip, TooltipPlacement } from '../Tooltip.dom.js';
 
-function muted(parts: Array<string | JSX.Element>) {
+function muted(parts: Array<string | React.JSX.Element>) {
   return (
     <span className="AboutContactModal__TitleWithoutNickname">{parts}</span>
   );
@@ -48,7 +48,7 @@ export function AboutContactModal({
   updateSharedGroups,
   onClose,
   onOpenNotePreviewModal,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const { avatarUrl, hasAvatar, isMe } = conversation;
 
   useEffect(() => {
@@ -103,7 +103,7 @@ export function AboutContactModal({
     [toggleProfileNameWarningModal]
   );
 
-  let statusRow: JSX.Element | undefined;
+  let statusRow: React.JSX.Element | undefined;
 
   if (isMe) {
     // No status for ourselves

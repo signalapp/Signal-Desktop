@@ -393,7 +393,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
   };
 };
 
-function LeftPaneInContainer(props: PropsType): JSX.Element {
+function LeftPaneInContainer(props: PropsType): React.JSX.Element {
   return (
     <div style={{ height: '600px' }}>
       <LeftPane {...props} />
@@ -401,7 +401,7 @@ function LeftPaneInContainer(props: PropsType): JSX.Element {
   );
 }
 
-export function InboxNoConversations(): JSX.Element {
+export function InboxNoConversations(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -419,7 +419,7 @@ export function InboxNoConversations(): JSX.Element {
   );
 }
 
-export function InboxBackupMediaDownload(): JSX.Element {
+export function InboxBackupMediaDownload(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -429,7 +429,7 @@ export function InboxBackupMediaDownload(): JSX.Element {
   );
 }
 
-export function InboxBackupMediaDownloadWithDialogs(): JSX.Element {
+export function InboxBackupMediaDownloadWithDialogs(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -439,7 +439,7 @@ export function InboxBackupMediaDownloadWithDialogs(): JSX.Element {
     />
   );
 }
-export function InboxBackupMediaDownloadWithDialogsAndUnpinnedConversations(): JSX.Element {
+export function InboxBackupMediaDownloadWithDialogsAndUnpinnedConversations(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -458,7 +458,7 @@ export function InboxBackupMediaDownloadWithDialogsAndUnpinnedConversations(): J
     />
   );
 }
-export function InboxCriticalIdlePrimaryDeviceAlert(): JSX.Element {
+export function InboxCriticalIdlePrimaryDeviceAlert(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -471,7 +471,7 @@ export function InboxCriticalIdlePrimaryDeviceAlert(): JSX.Element {
     />
   );
 }
-export function InboxIdlePrimaryDeviceAlert(): JSX.Element {
+export function InboxIdlePrimaryDeviceAlert(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -484,7 +484,7 @@ export function InboxIdlePrimaryDeviceAlert(): JSX.Element {
     />
   );
 }
-export function InboxIdlePrimaryDeviceAlertNonDismissable(): JSX.Element {
+export function InboxIdlePrimaryDeviceAlertNonDismissable(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -499,7 +499,7 @@ export function InboxIdlePrimaryDeviceAlertNonDismissable(): JSX.Element {
   );
 }
 
-export function InboxUsernameCorrupted(): JSX.Element {
+export function InboxUsernameCorrupted(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -518,7 +518,7 @@ export function InboxUsernameCorrupted(): JSX.Element {
   );
 }
 
-export function InboxUsernameLinkCorrupted(): JSX.Element {
+export function InboxUsernameLinkCorrupted(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -537,7 +537,7 @@ export function InboxUsernameLinkCorrupted(): JSX.Element {
   );
 }
 
-export function InboxOnlyPinnedConversations(): JSX.Element {
+export function InboxOnlyPinnedConversations(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -555,7 +555,7 @@ export function InboxOnlyPinnedConversations(): JSX.Element {
   );
 }
 
-export function InboxOnlyNonPinnedConversations(): JSX.Element {
+export function InboxOnlyNonPinnedConversations(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -573,7 +573,7 @@ export function InboxOnlyNonPinnedConversations(): JSX.Element {
   );
 }
 
-export function InboxOnlyArchivedConversations(): JSX.Element {
+export function InboxOnlyArchivedConversations(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -591,7 +591,7 @@ export function InboxOnlyArchivedConversations(): JSX.Element {
   );
 }
 
-export function InboxPinnedAndArchivedConversations(): JSX.Element {
+export function InboxPinnedAndArchivedConversations(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -609,7 +609,7 @@ export function InboxPinnedAndArchivedConversations(): JSX.Element {
   );
 }
 
-export function InboxNonPinnedAndArchivedConversations(): JSX.Element {
+export function InboxNonPinnedAndArchivedConversations(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -627,7 +627,7 @@ export function InboxNonPinnedAndArchivedConversations(): JSX.Element {
   );
 }
 
-export function InboxPinnedAndNonPinnedConversations(): JSX.Element {
+export function InboxPinnedAndNonPinnedConversations(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -645,7 +645,7 @@ export function InboxPinnedAndNonPinnedConversations(): JSX.Element {
   );
 }
 
-export function InboxPinnedAndNonPinnedConversationsWithBackupDownload(): JSX.Element {
+export function InboxPinnedAndNonPinnedConversationsWithBackupDownload(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -664,11 +664,11 @@ export function InboxPinnedAndNonPinnedConversationsWithBackupDownload(): JSX.El
   );
 }
 
-export function InboxPinnedNonPinnedAndArchivedConversations(): JSX.Element {
+export function InboxPinnedNonPinnedAndArchivedConversations(): React.JSX.Element {
   return <LeftPaneInContainer {...useProps()} />;
 }
 
-export function SearchNoResultsWhenSearchingEverywhere(): JSX.Element {
+export function SearchNoResultsWhenSearchingEverywhere(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -684,7 +684,7 @@ export function SearchNoResultsWhenSearchingEverywhere(): JSX.Element {
   );
 }
 
-export function SearchNoResultsWhenSearchingInAConversation(): JSX.Element {
+export function SearchNoResultsWhenSearchingInAConversation(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -701,7 +701,7 @@ export function SearchNoResultsWhenSearchingInAConversation(): JSX.Element {
   );
 }
 
-export function SearchNoResultsUnreadFilterAndQuery(): JSX.Element {
+export function SearchNoResultsUnreadFilterAndQuery(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -718,7 +718,7 @@ export function SearchNoResultsUnreadFilterAndQuery(): JSX.Element {
   );
 }
 
-export function SearchNoResultsUnreadFilterWithoutQuery(): JSX.Element {
+export function SearchNoResultsUnreadFilterWithoutQuery(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -736,7 +736,7 @@ export function SearchNoResultsUnreadFilterWithoutQuery(): JSX.Element {
   );
 }
 
-export function SearchAllResultsLoading(): JSX.Element {
+export function SearchAllResultsLoading(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -752,7 +752,7 @@ export function SearchAllResultsLoading(): JSX.Element {
   );
 }
 
-export function SearchSomeResultsLoading(): JSX.Element {
+export function SearchSomeResultsLoading(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -771,7 +771,7 @@ export function SearchSomeResultsLoading(): JSX.Element {
   );
 }
 
-export function SearchHasConversationsAndContactsButNotMessages(): JSX.Element {
+export function SearchHasConversationsAndContactsButNotMessages(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -790,7 +790,7 @@ export function SearchHasConversationsAndContactsButNotMessages(): JSX.Element {
   );
 }
 
-export function SearchAllResults(): JSX.Element {
+export function SearchAllResults(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -815,7 +815,7 @@ export function SearchAllResults(): JSX.Element {
   );
 }
 
-export function SearchAllResultsUnreadFilter(): JSX.Element {
+export function SearchAllResultsUnreadFilter(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -838,7 +838,7 @@ export function SearchAllResultsUnreadFilter(): JSX.Element {
   );
 }
 
-export function ArchiveNoArchivedConversations(): JSX.Element {
+export function ArchiveNoArchivedConversations(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -855,7 +855,7 @@ export function ArchiveNoArchivedConversations(): JSX.Element {
   );
 }
 
-export function ArchiveArchivedConversations(): JSX.Element {
+export function ArchiveArchivedConversations(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -872,7 +872,7 @@ export function ArchiveArchivedConversations(): JSX.Element {
   );
 }
 
-export function ArchiveSearchingAConversation(): JSX.Element {
+export function ArchiveSearchingAConversation(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -889,7 +889,7 @@ export function ArchiveSearchingAConversation(): JSX.Element {
   );
 }
 
-export function ComposeNoResults(): JSX.Element {
+export function ComposeNoResults(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -907,7 +907,7 @@ export function ComposeNoResults(): JSX.Element {
   );
 }
 
-export function ComposeSomeContactsNoSearchTerm(): JSX.Element {
+export function ComposeSomeContactsNoSearchTerm(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -925,7 +925,7 @@ export function ComposeSomeContactsNoSearchTerm(): JSX.Element {
   );
 }
 
-export function ComposeSomeContactsWithASearchTerm(): JSX.Element {
+export function ComposeSomeContactsWithASearchTerm(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -943,7 +943,7 @@ export function ComposeSomeContactsWithASearchTerm(): JSX.Element {
   );
 }
 
-export function ComposeSomeGroupsNoSearchTerm(): JSX.Element {
+export function ComposeSomeGroupsNoSearchTerm(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -961,7 +961,7 @@ export function ComposeSomeGroupsNoSearchTerm(): JSX.Element {
   );
 }
 
-export function ComposeSomeGroupsWithSearchTerm(): JSX.Element {
+export function ComposeSomeGroupsWithSearchTerm(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -979,7 +979,7 @@ export function ComposeSomeGroupsWithSearchTerm(): JSX.Element {
   );
 }
 
-export function ComposeSearchIsValidUsername(): JSX.Element {
+export function ComposeSearchIsValidUsername(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -997,7 +997,7 @@ export function ComposeSearchIsValidUsername(): JSX.Element {
   );
 }
 
-export function ComposeSearchIsValidUsernameFetchingUsername(): JSX.Element {
+export function ComposeSearchIsValidUsernameFetchingUsername(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -1017,7 +1017,7 @@ export function ComposeSearchIsValidUsernameFetchingUsername(): JSX.Element {
   );
 }
 
-export function ComposeSearchIsValidPhoneNumber(): JSX.Element {
+export function ComposeSearchIsValidPhoneNumber(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -1035,7 +1035,7 @@ export function ComposeSearchIsValidPhoneNumber(): JSX.Element {
   );
 }
 
-export function ComposeSearchIsValidPhoneNumberFetchingPhoneNumber(): JSX.Element {
+export function ComposeSearchIsValidPhoneNumberFetchingPhoneNumber(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -1055,7 +1055,7 @@ export function ComposeSearchIsValidPhoneNumberFetchingPhoneNumber(): JSX.Elemen
   );
 }
 
-export function ComposeAllKindsOfResultsNoSearchTerm(): JSX.Element {
+export function ComposeAllKindsOfResultsNoSearchTerm(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -1073,7 +1073,7 @@ export function ComposeAllKindsOfResultsNoSearchTerm(): JSX.Element {
   );
 }
 
-export function ComposeAllKindsOfResultsWithASearchTerm(): JSX.Element {
+export function ComposeAllKindsOfResultsWithASearchTerm(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -1091,7 +1091,7 @@ export function ComposeAllKindsOfResultsWithASearchTerm(): JSX.Element {
   );
 }
 
-export function CaptchaDialogRequired(): JSX.Element {
+export function CaptchaDialogRequired(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -1111,7 +1111,7 @@ export function CaptchaDialogRequired(): JSX.Element {
   );
 }
 
-export function CaptchaDialogPending(): JSX.Element {
+export function CaptchaDialogPending(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -1131,7 +1131,7 @@ export function CaptchaDialogPending(): JSX.Element {
   );
 }
 
-export function _CrashReportDialog(): JSX.Element {
+export function _CrashReportDialog(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -1151,7 +1151,7 @@ export function _CrashReportDialog(): JSX.Element {
   );
 }
 
-export function ChooseGroupMembersPartialPhoneNumber(): JSX.Element {
+export function ChooseGroupMembersPartialPhoneNumber(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -1175,7 +1175,7 @@ export function ChooseGroupMembersPartialPhoneNumber(): JSX.Element {
   );
 }
 
-export function ChooseGroupMembersValidPhoneNumber(): JSX.Element {
+export function ChooseGroupMembersValidPhoneNumber(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -1199,7 +1199,7 @@ export function ChooseGroupMembersValidPhoneNumber(): JSX.Element {
   );
 }
 
-export function ChooseGroupMembersUsername(): JSX.Element {
+export function ChooseGroupMembersUsername(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -1223,7 +1223,7 @@ export function ChooseGroupMembersUsername(): JSX.Element {
   );
 }
 
-export function GroupMetadataNoTimer(): JSX.Element {
+export function GroupMetadataNoTimer(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -1243,7 +1243,7 @@ export function GroupMetadataNoTimer(): JSX.Element {
   );
 }
 
-export function GroupMetadataRegularTimer(): JSX.Element {
+export function GroupMetadataRegularTimer(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -1263,7 +1263,7 @@ export function GroupMetadataRegularTimer(): JSX.Element {
   );
 }
 
-export function GroupMetadataCustomTimer(): JSX.Element {
+export function GroupMetadataCustomTimer(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({
@@ -1283,7 +1283,7 @@ export function GroupMetadataCustomTimer(): JSX.Element {
   );
 }
 
-export function SearchingConversation(): JSX.Element {
+export function SearchingConversation(): React.JSX.Element {
   return (
     <LeftPaneInContainer
       {...useProps({

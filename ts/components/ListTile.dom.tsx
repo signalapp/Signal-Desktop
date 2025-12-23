@@ -8,10 +8,10 @@ import { getClassNamesFor } from '../util/getClassNamesFor.std.js';
 import { CircleCheckbox } from './CircleCheckbox.dom.js';
 
 export type Props = {
-  title: string | JSX.Element;
-  subtitle?: string | JSX.Element;
-  leading?: string | JSX.Element;
-  trailing?: string | JSX.Element;
+  title: string | React.JSX.Element;
+  subtitle?: string | React.JSX.Element;
+  leading?: string | React.JSX.Element;
+  trailing?: string | React.JSX.Element;
   moduleClassName?: string;
   onClick?: () => void;
   onContextMenu?: (ev: React.MouseEvent<Element, MouseEvent>) => void;
@@ -58,7 +58,7 @@ export type Props = {
  */
 export function ListTile(
   params: Props & React.RefAttributes<HTMLButtonElement>
-): JSX.Element {
+): React.JSX.Element {
   // forwardRef makes it impossible to add extra static fields to the function type so
   // we have to create this inner implementation that can be wrapped with a non-arrow
   // function. A bit weird, but looks fine at call-site.

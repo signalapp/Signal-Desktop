@@ -23,7 +23,10 @@ export namespace AxoSymbol {
   const labelStyles = tw('select-none');
 
   // eslint-disable-next-line no-inner-declarations
-  function useRenderSymbol(glyph: string, label: string | null): JSX.Element {
+  function useRenderSymbol(
+    glyph: string,
+    label: string | null
+  ): React.JSX.Element {
     return useMemo(() => {
       return (
         <>

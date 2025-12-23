@@ -47,7 +47,7 @@ export type PreferencesSelectChatsDialogProps = Readonly<{
 
 export function PreferencesSelectChatsDialog(
   props: PreferencesSelectChatsDialogProps
-): JSX.Element {
+): React.JSX.Element {
   const {
     i18n,
     conversations,

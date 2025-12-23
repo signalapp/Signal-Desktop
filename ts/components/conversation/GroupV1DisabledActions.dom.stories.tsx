@@ -19,6 +19,6 @@ export default {
   title: 'Components/Conversation/GroupV1DisabledActions',
 } satisfies Meta<GroupV1DisabledActionsPropsType>;
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return <GroupV1DisabledActions {...createProps()} />;
 }

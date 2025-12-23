@@ -44,7 +44,7 @@ export function EditNicknameAndNoteModal({
   i18n,
   onSave,
   onClose,
-}: EditNicknameAndNoteModalProps): JSX.Element {
+}: EditNicknameAndNoteModalProps): React.JSX.Element {
   strictAssert(
     conversation.type === 'direct',
     'Expected a direct conversation'

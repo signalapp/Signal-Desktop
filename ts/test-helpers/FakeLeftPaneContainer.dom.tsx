@@ -18,7 +18,7 @@ const WIDTHS = {
 export function FakeLeftPaneContainer({
   children,
   containerWidthBreakpoint,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   return (
     <div
       className={`module-left-pane--width-${containerWidthBreakpoint}`}

@@ -57,7 +57,7 @@ export function AvatarPreview({
   onClick,
   showUploadButton,
   style = {},
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [avatarPreview, setAvatarPreview] = useState<Uint8Array | undefined>();
 
   // Loads the initial avatarUrl if one is provided, but only if we're in editable mode.
@@ -165,7 +165,7 @@ export function AvatarPreview({
   }
 
   if (imageStatus === ImageStatus.Nothing) {
-    let content: JSX.Element | string | undefined;
+    let content: React.JSX.Element | string | undefined;
     if (isGroup) {
       content = (
         <div

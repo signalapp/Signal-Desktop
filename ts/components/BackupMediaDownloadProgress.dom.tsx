@@ -37,7 +37,7 @@ export function BackupMediaDownloadProgress({
   handleResume,
   handlePause,
   widthBreakpoint,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   const [isShowingCancelConfirmation, setIsShowingCancelConfirmation] =
     useState(false);
 
@@ -49,8 +49,8 @@ export function BackupMediaDownloadProgress({
     setIsShowingCancelConfirmation(true);
   }
 
-  let content: JSX.Element | undefined;
-  let icon: JSX.Element | undefined;
+  let content: React.JSX.Element | undefined;
+  let icon: React.JSX.Element | undefined;
 
   const isCompleted = downloadedBytes === totalBytes;
 

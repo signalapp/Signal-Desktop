@@ -20,7 +20,7 @@ export function ImageOrBlurhash({
   intrinsicWidth,
   intrinsicHeight,
   ...rest
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const ref = useRef<HTMLImageElement | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 

@@ -90,7 +90,7 @@ const LEFT_PANE_CHAT_FOLDERS_CLASS_NAME = 'module-left-pane__chatFolders';
 
 export function LeftPaneChatFolders(
   props: LeftPaneChatFoldersProps
-): JSX.Element | null {
+): React.JSX.Element | null {
   const { i18n, currentChatFolders, onSelectedChatFolderIdChange } = props;
 
   const sortedChatFolders = useMemo(() => {
@@ -192,7 +192,7 @@ function ChatFolderSelectItem(props: {
   i18n: LocalizerType;
   chatFolder: ChatFolder;
   unreadStats: UnreadStats | null;
-}): JSX.Element {
+}): React.JSX.Element {
   const { i18n, unreadStats } = props;
 
   const badgeValue = useMemo(() => {
@@ -233,7 +233,7 @@ function ChatFolderSegmentedControlItem(props: {
   onChatFolderMarkRead: (chatFolderId: ChatFolderId) => void;
   onChatFolderUpdateMute: (chatFolderId: ChatFolderId, value: number) => void;
   onChatFolderOpenSettings: (chatFolderId: ChatFolderId) => void;
-}): JSX.Element {
+}): React.JSX.Element {
   const { i18n, unreadStats } = props;
 
   const badgeValue = useMemo(() => {
@@ -386,7 +386,7 @@ function ContextMenuMuteNotificationsItem(props: {
   value: number;
   onSelect: (value: number) => void;
   children: ReactNode;
-}): JSX.Element {
+}): React.JSX.Element {
   const { value, onSelect } = props;
   const handleSelect = useCallback(() => {
     onSelect(value);

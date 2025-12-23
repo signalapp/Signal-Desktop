@@ -18,10 +18,10 @@ export type PropsType = {
     files: ReadonlyArray<File>;
     flags: number | null;
   }) => void;
-  renderCompositionArea: (conversationId: string) => JSX.Element;
-  renderConversationHeader: (conversationId: string) => JSX.Element;
-  renderTimeline: (conversationId: string) => JSX.Element;
-  renderPanel: (conversationId: string) => JSX.Element | undefined;
+  renderCompositionArea: (conversationId: string) => React.JSX.Element;
+  renderConversationHeader: (conversationId: string) => React.JSX.Element;
+  renderTimeline: (conversationId: string) => React.JSX.Element;
+  renderPanel: (conversationId: string) => React.JSX.Element | undefined;
   shouldHideConversationView?: boolean;
 };
 
@@ -68,7 +68,7 @@ export function ConversationView({
   renderTimeline,
   renderPanel,
   shouldHideConversationView,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const onDrop = React.useCallback(
     (event: React.DragEvent<HTMLDivElement>) => {
       event.stopPropagation();

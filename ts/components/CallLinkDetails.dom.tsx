@@ -60,7 +60,7 @@ export function CallLinkDetails({
   onStartCallLinkLobby,
   onShareCallLinkViaSignal,
   onUpdateCallLinkRestrictions,
-}: CallLinkDetailsProps): JSX.Element {
+}: CallLinkDetailsProps): React.JSX.Element {
   const [isDeleteCallLinkModalOpen, setIsDeleteCallLinkModalOpen] =
     useState(false);
 
@@ -269,7 +269,7 @@ export function CallLinkDetails({
 function renderMissingCallLink({
   callHistoryGroup,
   i18n,
-}: Pick<CallLinkDetailsProps, 'callHistoryGroup' | 'i18n'>): JSX.Element {
+}: Pick<CallLinkDetailsProps, 'callHistoryGroup' | 'i18n'>): React.JSX.Element {
   return (
     <div className="CallLinkDetails__Container">
       <header className="CallLinkDetails__Header">

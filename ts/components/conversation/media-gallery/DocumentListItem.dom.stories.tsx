@@ -17,7 +17,7 @@ export default {
 
 const { i18n } = window.SignalContext;
 
-export function Multiple(): JSX.Element {
+export function Multiple(): React.JSX.Element {
   const items = createPreparedMediaItems(createRandomDocuments);
 
   return (

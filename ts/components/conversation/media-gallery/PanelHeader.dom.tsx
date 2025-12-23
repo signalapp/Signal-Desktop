@@ -16,7 +16,7 @@ export type Props = Readonly<{
   setTab: (newTab: MediaTabType) => void;
 }>;
 
-export function PanelHeader({ i18n, tab, setTab }: Props): JSX.Element {
+export function PanelHeader({ i18n, tab, setTab }: Props): React.JSX.Element {
   const setSelectedTabWithDefault = useCallback(
     (value: string | null) => {
       switch (value) {

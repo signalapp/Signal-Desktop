@@ -31,7 +31,7 @@ function Source({
   onSourceClick: (source: PresentedSource) => void;
   source: PresentableSource;
   sourceToPresent?: PresentedSource;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <button
       className={classNames({
@@ -76,7 +76,7 @@ export function CallingSelectPresentingSourcesModal({
   presentingSourcesAvailable,
   selectPresentingSource,
   cancelPresenting,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   const [sourceToPresent, setSourceToPresent] = useState<
     PresentedSource | undefined
   >(undefined);

@@ -57,7 +57,7 @@ export function StoryImage({
   queueStoryDownload,
   storyId,
   onMediaPlaybackStart,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   const shouldDownloadAttachment =
     (!isDownloaded(attachment) && !isDownloading(attachment)) ||
     hasNotResolved(attachment);
@@ -104,7 +104,7 @@ export function StoryImage({
 
   const getClassName = getClassNamesFor('StoryImage', moduleClassName);
 
-  let storyElement: JSX.Element;
+  let storyElement: React.JSX.Element;
   if (attachment.textAttachment) {
     storyElement = (
       <TextAttachment
@@ -152,7 +152,7 @@ export function StoryImage({
     );
   }
 
-  let overlay: JSX.Element | undefined;
+  let overlay: React.JSX.Element | undefined;
   if (isPending) {
     overlay = (
       <div className="StoryImage__overlay-container">

@@ -265,7 +265,7 @@ function QRCodeImage({
 }: {
   i18n: LocalizerType;
   link: string;
-}): JSX.Element {
+}): React.JSX.Element {
   const [isCopying, setIsCopying] = useState(false);
 
   // Add a development-only feature to copy a QR code to the clipboard by double-clicking.
@@ -317,7 +317,7 @@ function RetryButton({
 }: {
   onClick: () => void;
   children: ReactNode;
-}): JSX.Element {
+}): React.JSX.Element {
   const onKeyDown = useCallback(
     (ev: React.KeyboardEvent<HTMLButtonElement>) => {
       if (ev.key === 'Enter') {
@@ -341,6 +341,6 @@ function RetryButton({
   );
 }
 
-function Paragraph(children: React.ReactNode): JSX.Element {
+function Paragraph(children: React.ReactNode): React.JSX.Element {
   return <p>{children}</p>;
 }

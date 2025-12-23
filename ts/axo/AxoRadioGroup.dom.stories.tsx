@@ -8,7 +8,7 @@ export default {
   title: 'Axo/AxoRadioGroup',
 } satisfies Meta;
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   const [value, setValue] = useState('foo');
   return (
     <AxoRadioGroup.Root value={value} onValueChange={setValue}>

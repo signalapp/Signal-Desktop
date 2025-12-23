@@ -46,7 +46,7 @@ export const SmartNavTabs = memo(function SmartNavTabs({
   renderChatsTab,
   renderStoriesTab,
   renderSettingsTab,
-}: SmartNavTabsProps): JSX.Element {
+}: SmartNavTabsProps): React.JSX.Element {
   const i18n = useSelector(getIntl);
   const selectedNavTab = useSelector(getSelectedNavTab);
   const me = useSelector(getMe);

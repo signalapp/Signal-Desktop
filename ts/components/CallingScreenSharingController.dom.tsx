@@ -20,7 +20,7 @@ export function CallingScreenSharingController({
   onStopSharing,
   status,
   presentedSourceName,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   let text: string;
 
   if (status === ScreenShareStatus.Reconnecting) {

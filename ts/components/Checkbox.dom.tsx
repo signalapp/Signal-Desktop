@@ -11,10 +11,10 @@ export type PropsType = {
   checked?: boolean;
   children?: (childrenOpts: {
     id: string;
-    checkboxNode: JSX.Element;
-    labelNode: JSX.Element;
+    checkboxNode: React.JSX.Element;
+    labelNode: React.JSX.Element;
     checked?: boolean;
-  }) => JSX.Element;
+  }) => React.JSX.Element;
   description?: ReactNode;
   disabled?: boolean;
   isRadio?: boolean;
@@ -39,7 +39,7 @@ export const Checkbox = forwardRef(function CheckboxInner(
     onClick,
   }: PropsType,
   ref: React.Ref<HTMLInputElement>
-): JSX.Element {
+): React.JSX.Element {
   const getClassName = getClassNamesFor('Checkbox', moduleClassName);
   const id = useMemo(() => `${name}::${uuid()}`, [name]);
 

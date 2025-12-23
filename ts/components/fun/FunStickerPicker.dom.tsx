@@ -25,7 +25,7 @@ export type FunStickerPickerProps = Readonly<{
 
 export const FunStickerPicker = memo(function FunStickerPicker(
   props: FunStickerPickerProps
-): JSX.Element {
+): React.JSX.Element {
   const { onOpenChange } = props;
   const fun = useFunContext();
   const { onOpenChange: onFunOpenChange } = fun;

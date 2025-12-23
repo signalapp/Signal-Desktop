@@ -20,6 +20,6 @@ export default {
   title: 'Components/AvatarUploadButton',
 } satisfies Meta<PropsType>;
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return <AvatarUploadButton {...createProps()} />;
 }

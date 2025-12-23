@@ -22,7 +22,7 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-export function Basic(args: PropsType): JSX.Element {
+export function Basic(args: PropsType): React.JSX.Element {
   const [isSkipped, setIsSkipped] = useState(false);
 
   if (isSkipped) {

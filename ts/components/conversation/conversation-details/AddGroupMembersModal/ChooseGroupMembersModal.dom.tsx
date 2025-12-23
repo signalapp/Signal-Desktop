@@ -97,7 +97,7 @@ export function ChooseGroupMembersModal({
   lookupConversationWithoutServiceId,
   showUserNotFoundModal,
   username,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [focusRef] = useRestoreFocus();
 
   const isUsernameChecked = selectedContacts.some(

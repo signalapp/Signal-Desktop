@@ -124,7 +124,7 @@ export function CallingPip({
   toggleAudio,
   togglePip,
   toggleVideo,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const isRTL = i18n.getLocaleDirection() === 'rtl';
 
   const videoContainerRef = React.useRef<null | HTMLDivElement>(null);
@@ -379,7 +379,7 @@ export function CallingPip({
       ? CallingButtonType.HANGUP_DIRECT
       : CallingButtonType.HANGUP_GROUP;
 
-  let remoteVideoNode: JSX.Element;
+  let remoteVideoNode: React.JSX.Element;
   const isLonelyInCall = !activeCall.remoteParticipants.length;
   const isSendingVideo =
     activeCall.hasLocalVideo || activeCall.presentingSource;

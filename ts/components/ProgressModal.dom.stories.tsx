@@ -12,6 +12,6 @@ export default {
   title: 'Components/ProgressModal',
 } satisfies Meta<PropsType>;
 
-export function Normal(): JSX.Element {
+export function Normal(): React.JSX.Element {
   return <ProgressModal i18n={i18n} />;
 }

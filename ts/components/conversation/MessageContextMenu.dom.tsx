@@ -49,7 +49,7 @@ export function MessageContextMenu({
   onPinMessage,
   onUnpinMessage,
   children,
-}: MessageContextMenuProps): JSX.Element {
+}: MessageContextMenuProps): React.JSX.Element {
   return (
     <AxoMenuBuilder.Root renderer={renderer} onOpenChange={onOpenChange}>
       <AxoMenuBuilder.Trigger disabled={disabled}>

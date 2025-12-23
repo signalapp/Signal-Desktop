@@ -148,7 +148,7 @@ function getTypeLabel({
   return MIME.isAudio(contentType) ? i18n('icu:audio') : undefined;
 }
 
-export function Quote(props: Props): JSX.Element | null {
+export function Quote(props: Props): React.JSX.Element | null {
   const {
     conversationColor,
     customColor,
@@ -220,7 +220,7 @@ export function Quote(props: Props): JSX.Element | null {
     url: string,
     icon: string | undefined,
     asGiftBadge?: boolean
-  ): JSX.Element {
+  ): React.JSX.Element {
     const iconElement = icon ? (
       <div className={getClassName('__icon-container__inner')}>
         <div className={getClassName('__icon-container__circle-background')}>
@@ -604,7 +604,7 @@ function ThumbnailImage({
   src: string;
   onError: () => void;
   children: ReactNode;
-}>): JSX.Element {
+}>): React.JSX.Element {
   const imageRef = useRef(new Image());
   const [loadedSrc, setLoadedSrc] = useState<null | string>(null);
 

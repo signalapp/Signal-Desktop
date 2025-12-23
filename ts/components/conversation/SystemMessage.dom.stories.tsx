@@ -10,7 +10,7 @@ export default {
   title: 'Components/Conversation/SystemMessage',
 } satisfies Meta<PropsType>;
 
-export function PlainSystemMessage(): JSX.Element {
+export function PlainSystemMessage(): React.JSX.Element {
   return (
     <SystemMessage
       icon="audio-incoming"
@@ -20,7 +20,7 @@ export function PlainSystemMessage(): JSX.Element {
   );
 }
 
-export function DangerSystemMessage(): JSX.Element {
+export function DangerSystemMessage(): React.JSX.Element {
   return (
     <SystemMessage
       icon="audio-missed"
@@ -30,7 +30,7 @@ export function DangerSystemMessage(): JSX.Element {
   );
 }
 
-export function ErrorSystemMessage(): JSX.Element {
+export function ErrorSystemMessage(): React.JSX.Element {
   return (
     <SystemMessage
       icon="unsupported"

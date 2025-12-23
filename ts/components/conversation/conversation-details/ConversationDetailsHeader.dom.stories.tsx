@@ -52,14 +52,14 @@ function Wrapper(overrideProps: Partial<Props>) {
   );
 }
 
-export function Basic(): JSX.Element {
+export function Basic(): React.JSX.Element {
   return <Wrapper />;
 }
-export function Editable(): JSX.Element {
+export function Editable(): React.JSX.Element {
   return <Wrapper canEdit />;
 }
 
-export function BasicNoDescription(): JSX.Element {
+export function BasicNoDescription(): React.JSX.Element {
   return (
     <Wrapper
       conversation={getDefaultConversation({
@@ -70,7 +70,7 @@ export function BasicNoDescription(): JSX.Element {
   );
 }
 
-export function EditableNoDescription(): JSX.Element {
+export function EditableNoDescription(): React.JSX.Element {
   return (
     <Wrapper
       conversation={getDefaultConversation({
@@ -81,7 +81,7 @@ export function EditableNoDescription(): JSX.Element {
   );
 }
 
-export function OneOnOne(): JSX.Element {
+export function OneOnOne(): React.JSX.Element {
   return (
     <Wrapper
       isGroup={false}
@@ -94,6 +94,6 @@ export function OneOnOne(): JSX.Element {
   );
 }
 
-export function NoteToSelf(): JSX.Element {
+export function NoteToSelf(): React.JSX.Element {
   return <Wrapper isMe />;
 }

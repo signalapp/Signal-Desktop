@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactChild, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import React from 'react';
 import classNames from 'classnames';
 import { Tooltip, TooltipPlacement } from './Tooltip.dom.js';
@@ -23,7 +23,13 @@ export type DismissOptions =
 
 export type PropsType = {
   type?: 'warning' | 'error' | 'info';
-  icon?: 'update' | 'relink' | 'network' | 'warning' | 'error' | JSX.Element;
+  icon?:
+    | 'update'
+    | 'relink'
+    | 'network'
+    | 'warning'
+    | 'error'
+    | React.JSX.Element;
   title?: string;
   subtitle?: string;
   children?: ReactNode;
@@ -58,7 +64,7 @@ export function LeftPaneDialog({
   hasXButton,
   onClose,
   closeLabel,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const onClickWrap = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -151,7 +157,7 @@ export function LeftPaneDialog({
     </>
   );
 
-  let dialogNode: ReactChild;
+  let dialogNode: ReactNode;
   if (onClick) {
     dialogNode = (
       <div
@@ -196,7 +202,7 @@ export function LeftPaneDialogIcon({
   type,
 }: {
   type?: 'update' | 'relink' | 'network' | 'warning' | 'error';
-}): JSX.Element {
+}): React.JSX.Element {
   const iconClassName = classNames([
     `${BASE_CLASS_NAME}__icon`,
     `${BASE_CLASS_NAME}__icon--${type}`,
@@ -210,7 +216,7 @@ export function LeftPaneDialogIconBackground({
 }: {
   type?: 'warning';
   children: React.ReactNode;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <div
       className={`${BASE_CLASS_NAME}__icon-background ${BASE_CLASS_NAME}__icon-background--${type}`}

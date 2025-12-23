@@ -5,6 +5,8 @@ import React from 'react';
 
 type PropsType = Record<string, never>;
 
-export function SearchResultsLoadingFakeHeader(_: PropsType): JSX.Element {
+export function SearchResultsLoadingFakeHeader(
+  _: PropsType
+): React.JSX.Element {
   return <div className="module-SearchResultsLoadingFakeHeader" />;
 }

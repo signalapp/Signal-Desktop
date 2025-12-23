@@ -26,11 +26,11 @@ export default {
   args: {},
 } satisfies Meta<PropsType>;
 
-export function Basic(): JSX.Element {
+export function Basic(): React.JSX.Element {
   return <GroupV2JoinDialog {...createProps()} />;
 }
 
-export function ApprovalRequired(): JSX.Element {
+export function ApprovalRequired(): React.JSX.Element {
   return (
     <GroupV2JoinDialog
       {...createProps({
@@ -41,7 +41,7 @@ export function ApprovalRequired(): JSX.Element {
   );
 }
 
-export function WithAvatar(): JSX.Element {
+export function WithAvatar(): React.JSX.Element {
   return (
     <GroupV2JoinDialog
       {...createProps({
@@ -54,7 +54,7 @@ export function WithAvatar(): JSX.Element {
   );
 }
 
-export function WithOneMember(): JSX.Element {
+export function WithOneMember(): React.JSX.Element {
   return (
     <GroupV2JoinDialog
       {...createProps({
@@ -65,7 +65,7 @@ export function WithOneMember(): JSX.Element {
   );
 }
 
-export function AvatarLoadingState(): JSX.Element {
+export function AvatarLoadingState(): React.JSX.Element {
   return (
     <GroupV2JoinDialog
       {...createProps({
@@ -78,7 +78,7 @@ export function AvatarLoadingState(): JSX.Element {
   );
 }
 
-export function Full(): JSX.Element {
+export function Full(): React.JSX.Element {
   return (
     <GroupV2JoinDialog
       {...createProps({

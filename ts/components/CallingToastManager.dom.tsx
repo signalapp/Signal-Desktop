@@ -164,7 +164,7 @@ function useRaisedHandsToast({
   raisedHands?: Set<number>;
   renderRaisedHandsToast?: (
     hands: Array<number>
-  ) => JSX.Element | string | undefined;
+  ) => React.JSX.Element | string | undefined;
 }): void {
   const RAISED_HANDS_TOAST_KEY = 'raised-hands';
   const RAISED_HANDS_TOAST_LIFETIME = 4000;
@@ -478,7 +478,7 @@ type CallingButtonToastsType = {
   raisedHands?: Set<number>;
   renderRaisedHandsToast?: (
     hands: Array<number>
-  ) => JSX.Element | string | undefined;
+  ) => React.JSX.Element | string | undefined;
   suggestLowerHand?: boolean;
   isHandRaised?: boolean;
   handleLowerHand?: () => void;
@@ -491,7 +491,7 @@ type CallingButtonToastsType = {
 
 export function CallingButtonToastsContainer(
   props: CallingButtonToastsType
-): JSX.Element {
+): React.JSX.Element {
   const toastRegionRef = useRef<HTMLDivElement>(null);
   return (
     <CallingToastProvider

@@ -101,7 +101,7 @@ export function ForwardMessagesModal({
   showToast,
   theme,
   regionCode,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const inputRef = useRef<null | HTMLInputElement>(null);
   const [selectedContacts, setSelectedContacts] = useState<
     Array<ConversationType>
@@ -462,7 +462,7 @@ function ForwardMessageEditor({
   onChangeAttachments,
   onSubmit,
   theme,
-}: ForwardMessageEditorProps): JSX.Element {
+}: ForwardMessageEditorProps): React.JSX.Element {
   const { attachments } = draft;
   return (
     <div className="module-ForwardMessageModal__main-body">

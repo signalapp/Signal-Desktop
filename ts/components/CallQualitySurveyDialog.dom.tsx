@@ -31,7 +31,7 @@ export type CallQualitySurveyDialogProps = Readonly<{
 
 export function CallQualitySurveyDialog(
   props: CallQualitySurveyDialogProps
-): JSX.Element {
+): React.JSX.Element {
   const { i18n, onSubmit, onViewDebugLog, isSubmitting } = props;
 
   const [page, setPage] = useState(Page.HOW_WAS_YOUR_CALL);
@@ -467,7 +467,7 @@ function IssueSelector(props: {
   i18n: LocalizerType;
   issues: ReadonlySet<Issue>;
   onIssuesChange: (issues: ReadonlySet<Issue>) => void;
-}): JSX.Element {
+}): React.JSX.Element {
   const { i18n, issues, onIssuesChange } = props;
 
   return (

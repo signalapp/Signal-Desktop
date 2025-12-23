@@ -21,7 +21,7 @@ import { drop } from '../../util/drop.std.js';
 const log = createLogger('CallLinkEditModal');
 
 export const SmartCallLinkEditModal = memo(
-  function SmartCallLinkEditModal(): JSX.Element | null {
+  function SmartCallLinkEditModal(): React.JSX.Element | null {
     const roomId = useSelector(getCallLinkEditModalRoomId);
     strictAssert(roomId, 'Expected roomId to be set');
 

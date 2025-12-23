@@ -16,9 +16,11 @@ export type ChatsTabProps = Readonly<{
   hasFailedStorySends: boolean;
   navTabsCollapsed: boolean;
   onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
-  renderConversationView: (props: SmartConversationViewProps) => JSX.Element;
-  renderLeftPane: (props: NavTabPanelProps) => JSX.Element;
-  renderMiniPlayer: (options: { shouldFlow: boolean }) => JSX.Element;
+  renderConversationView: (
+    props: SmartConversationViewProps
+  ) => React.JSX.Element;
+  renderLeftPane: (props: NavTabPanelProps) => React.JSX.Element;
+  renderMiniPlayer: (options: { shouldFlow: boolean }) => React.JSX.Element;
   selectedConversationId: string | undefined;
   showWhatsNewModal: () => unknown;
 }>;
@@ -36,7 +38,7 @@ export function ChatsTab({
   renderMiniPlayer,
   selectedConversationId,
   showWhatsNewModal,
-}: ChatsTabProps): JSX.Element {
+}: ChatsTabProps): React.JSX.Element {
   return (
     <>
       <div id="LeftPane">

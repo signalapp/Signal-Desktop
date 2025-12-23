@@ -46,7 +46,7 @@ export type Props = {
 
 type MediaEvent = React.SyntheticEvent<HTMLVideoElement, Event>;
 
-export function GIF(props: Props): JSX.Element {
+export function GIF(props: Props): React.JSX.Element {
   const {
     attachment,
     size,
@@ -190,7 +190,7 @@ export function GIF(props: Props): JSX.Element {
   const isNotResolved = hasNotResolved(attachment) && !isPending;
   const isMediaDownloadable = isDownloadable(attachment);
 
-  let gif: JSX.Element | undefined;
+  let gif: React.JSX.Element | undefined;
   if (isNotResolved || isPending || !isMediaDownloadable) {
     gif = (
       <Blurhash
@@ -254,7 +254,7 @@ export function GIF(props: Props): JSX.Element {
     tabIndex,
   });
 
-  let overlay: JSX.Element | undefined;
+  let overlay: React.JSX.Element | undefined;
   if ((tapToPlay && !isPlaying) || (isNotResolved && isMediaDownloadable)) {
     const className = classNames([
       'module-image__border-overlay',

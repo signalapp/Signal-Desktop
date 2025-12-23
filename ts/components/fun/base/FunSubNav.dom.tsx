@@ -38,7 +38,7 @@ export type FunSubNavProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunSubNav(props: FunSubNavProps): JSX.Element {
+export function FunSubNav(props: FunSubNavProps): React.JSX.Element {
   return <div className="FunSubNav__Container">{props.children}</div>;
 }
 
@@ -50,7 +50,9 @@ export type FunSubNavScrollerProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunSubNavScroller(props: FunSubNavScrollerProps): JSX.Element {
+export function FunSubNavScroller(
+  props: FunSubNavScrollerProps
+): React.JSX.Element {
   const outerRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
 
@@ -119,7 +121,9 @@ export type FunSubNavButtonsProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunSubNavButtons(props: FunSubNavButtonsProps): JSX.Element {
+export function FunSubNavButtons(
+  props: FunSubNavButtonsProps
+): React.JSX.Element {
   return <div className="FunSubNav__Buttons">{props.children}</div>;
 }
 
@@ -132,7 +136,9 @@ export type FunSubNavButtonProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunSubNavButton(props: FunSubNavButtonProps): JSX.Element {
+export function FunSubNavButton(
+  props: FunSubNavButtonProps
+): React.JSX.Element {
   return (
     <button type="button" className="FunSubNav__Button" onClick={props.onClick}>
       {props.children}
@@ -157,7 +163,7 @@ const FunSubNavListBoxContext =
 
 export function FunSubNavListBox<Key extends string>(
   props: FunSubNavListBoxProps<Key>
-): JSX.Element {
+): React.JSX.Element {
   const { onSelect } = props;
   const id = useId();
 
@@ -221,7 +227,7 @@ const FunSubNavListBoxItemTransition: Transition = {
 function FunSubNavListBoxItemButton(props: {
   isSelected: boolean;
   children: ReactNode;
-}): JSX.Element {
+}): React.JSX.Element {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -264,7 +270,7 @@ const FunSubNavListBoxItemTooltipTarget = forwardRef(
 
 export function FunSubNavListBoxItem(
   props: FunSubNavListBoxItemProps
-): JSX.Element {
+): React.JSX.Element {
   const context = useContext(FunSubNavListBoxContext);
   strictAssert(context, 'Must be wrapped with <FunSubNavListBox>');
 
@@ -326,7 +332,7 @@ export type FunSubNavIconProps = Readonly<{
   iconClassName: `FunSubNav__Icon--${string}`;
 }>;
 
-export function FunSubNavIcon(props: FunSubNavIconProps): JSX.Element {
+export function FunSubNavIcon(props: FunSubNavIconProps): React.JSX.Element {
   return <div className={classNames('FunSubNav__Icon', props.iconClassName)} />;
 }
 
@@ -338,7 +344,7 @@ export type FunSubNavImageProps = Readonly<{
   src: string;
 }>;
 
-export function FunSubNavImage(props: FunSubNavImageProps): JSX.Element {
+export function FunSubNavImage(props: FunSubNavImageProps): React.JSX.Element {
   return (
     <FunImage
       role="presentation"

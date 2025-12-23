@@ -103,10 +103,10 @@ export type StateProps = {
   userAvatarData: ReadonlyArray<AvatarDataType>;
   renderChooseGroupMembersModal: (
     props: SmartChooseGroupMembersModalPropsType
-  ) => JSX.Element;
+  ) => React.JSX.Element;
   renderConfirmAdditionsModal: (
     props: SmartConfirmAdditionsModalPropsType
-  ) => JSX.Element;
+  ) => React.JSX.Element;
 };
 
 type ActionProps = {
@@ -219,7 +219,7 @@ export function ConversationDetails({
   toggleAddUserToAnotherGroupModal,
   updateGroupAttributes,
   userAvatarData,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const [modalState, setModalState] = useState<ModalState>(
     ModalState.NothingOpen
   );

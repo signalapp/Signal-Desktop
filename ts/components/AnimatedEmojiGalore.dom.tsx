@@ -46,7 +46,7 @@ function transform(y: number, scale: number, rotate: number): string {
 export function AnimatedEmojiGalore({
   emoji,
   onAnimationEnd,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   strictAssert(isEmojiVariantValue(emoji), 'Must be valid english short name');
   const emojiVariantKey = getEmojiVariantKeyByValue(emoji);
   const emojiVariant = getEmojiVariantByKey(emojiVariantKey);

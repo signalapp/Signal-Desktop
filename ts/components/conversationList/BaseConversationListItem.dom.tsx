@@ -65,7 +65,7 @@ type PropsType = {
   testId?: string;
   renderConversationListItemContextMenu?: (
     props: RenderConversationListItemContextMenuProps
-  ) => JSX.Element;
+  ) => React.JSX.Element;
 } & Pick<
   ConversationType,
   | 'avatarPlaceholderGradient'
@@ -284,7 +284,7 @@ export const BaseConversationListItem: FunctionComponent<PropsType> =
       );
     }
 
-    let wrapper: JSX.Element;
+    let wrapper: React.JSX.Element;
 
     if (onClick) {
       wrapper = (

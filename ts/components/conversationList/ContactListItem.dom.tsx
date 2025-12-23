@@ -156,7 +156,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
     const messageText =
       about && !isMe ? <About className="" text={about} /> : undefined;
 
-    let trailing: JSX.Element | undefined;
+    let trailing: React.JSX.Element | undefined;
     if (hasContextMenu) {
       trailing = (
         <ContextMenu
@@ -170,8 +170,8 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
       );
     }
 
-    let blockConfirmation: JSX.Element | undefined;
-    let removeConfirmation: JSX.Element | undefined;
+    let blockConfirmation: React.JSX.Element | undefined;
+    let removeConfirmation: React.JSX.Element | undefined;
 
     if (isConfirmingBlocking) {
       blockConfirmation = (

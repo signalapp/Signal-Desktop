@@ -187,7 +187,7 @@ export type VoiceNotesPlaybackProps = {
  */
 export function VoiceNotesPlaybackProvider({
   children,
-}: VoiceNotesPlaybackProps): JSX.Element {
+}: VoiceNotesPlaybackProps): React.JSX.Element {
   return (
     <VoiceNotesPlaybackContext.Provider value={globalContents}>
       {children}

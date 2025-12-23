@@ -13,7 +13,7 @@ export type Props = {
   tab: MediaTabType;
 };
 
-export function EmptyState({ i18n, tab }: Props): JSX.Element {
+export function EmptyState({ i18n, tab }: Props): React.JSX.Element {
   let title: string;
   let description: string;
 

@@ -26,7 +26,7 @@ export function CallLinkAddNameModal({
   callLink,
   onClose,
   onUpdateCallLinkName,
-}: CallLinkAddNameModalProps): JSX.Element {
+}: CallLinkAddNameModalProps): React.JSX.Element {
   const [formId] = useState(() => generateUuid());
   const [nameId] = useState(() => generateUuid());
   const [nameInput, setNameInput] = useState(callLink.name);

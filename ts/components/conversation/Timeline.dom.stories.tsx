@@ -508,13 +508,13 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   ...actions(),
 });
 
-export function OldestAndNewest(): JSX.Element {
+export function OldestAndNewest(): React.JSX.Element {
   const props = useProps();
 
   return <Timeline {...props} />;
 }
 
-export function WithActiveMessageRequest(): JSX.Element {
+export function WithActiveMessageRequest(): React.JSX.Element {
   const props = useProps({
     isIncomingMessageRequest: true,
   });
@@ -522,7 +522,7 @@ export function WithActiveMessageRequest(): JSX.Element {
   return <Timeline {...props} />;
 }
 
-export function WithoutNewestMessage(): JSX.Element {
+export function WithoutNewestMessage(): React.JSX.Element {
   const props = useProps({
     haveNewest: false,
   });
@@ -530,7 +530,7 @@ export function WithoutNewestMessage(): JSX.Element {
   return <Timeline {...props} />;
 }
 
-export function WithoutNewestMessageActiveMessageRequest(): JSX.Element {
+export function WithoutNewestMessageActiveMessageRequest(): React.JSX.Element {
   const props = useProps({
     haveOldest: false,
     isIncomingMessageRequest: true,
@@ -539,7 +539,7 @@ export function WithoutNewestMessageActiveMessageRequest(): JSX.Element {
   return <Timeline {...props} />;
 }
 
-export function WithoutOldestMessage(): JSX.Element {
+export function WithoutOldestMessage(): React.JSX.Element {
   const props = useProps({
     haveOldest: false,
     scrollToIndex: -1,
@@ -548,7 +548,7 @@ export function WithoutOldestMessage(): JSX.Element {
   return <Timeline {...props} />;
 }
 
-export function EmptyJustHero(): JSX.Element {
+export function EmptyJustHero(): React.JSX.Element {
   const props = useProps({
     items: [],
   });
@@ -556,7 +556,7 @@ export function EmptyJustHero(): JSX.Element {
   return <Timeline {...props} />;
 }
 
-export function LastSeen(): JSX.Element {
+export function LastSeen(): React.JSX.Element {
   const props = useProps({
     oldestUnseenIndex: 13,
     totalUnseen: 2,
@@ -565,7 +565,7 @@ export function LastSeen(): JSX.Element {
   return <Timeline {...props} />;
 }
 
-export function TargetIndexToTop(): JSX.Element {
+export function TargetIndexToTop(): React.JSX.Element {
   const props = useProps({
     scrollToIndex: 0,
   });
@@ -573,13 +573,13 @@ export function TargetIndexToTop(): JSX.Element {
   return <Timeline {...props} />;
 }
 
-export function TypingIndicator(): JSX.Element {
+export function TypingIndicator(): React.JSX.Element {
   const props = useProps({ isSomeoneTyping: true });
 
   return <Timeline {...props} />;
 }
 
-export function WithInvitedContactsForANewlyCreatedGroup(): JSX.Element {
+export function WithInvitedContactsForANewlyCreatedGroup(): React.JSX.Element {
   const props = useProps({
     invitedContactsForNewlyCreatedGroup: [
       getDefaultConversation({
@@ -596,7 +596,7 @@ export function WithInvitedContactsForANewlyCreatedGroup(): JSX.Element {
   return <Timeline {...props} />;
 }
 
-export function WithSameNameInDirectConversationWarning(): JSX.Element {
+export function WithSameNameInDirectConversationWarning(): React.JSX.Element {
   const props = useProps({
     warning: {
       type: ContactSpoofingType.DirectConversationWithSameTitle,
@@ -610,7 +610,7 @@ export function WithSameNameInDirectConversationWarning(): JSX.Element {
   return <Timeline {...props} />;
 }
 
-export function WithSameNameInGroupConversationWarning(): JSX.Element {
+export function WithSameNameInGroupConversationWarning(): React.JSX.Element {
   const props = useProps({
     warning: {
       type: ContactSpoofingType.MultipleGroupMembersWithSameTitle,
@@ -625,7 +625,7 @@ export function WithSameNameInGroupConversationWarning(): JSX.Element {
   return <Timeline {...props} />;
 }
 
-export function WithSameNamesInGroupConversationWarning(): JSX.Element {
+export function WithSameNamesInGroupConversationWarning(): React.JSX.Element {
   const props = useProps({
     warning: {
       type: ContactSpoofingType.MultipleGroupMembersWithSameTitle,
@@ -641,7 +641,7 @@ export function WithSameNamesInGroupConversationWarning(): JSX.Element {
   return <Timeline {...props} />;
 }
 
-export function WithJustMiniPlayer(): JSX.Element {
+export function WithJustMiniPlayer(): React.JSX.Element {
   const props = useProps({
     shouldShowMiniPlayer: true,
     items: [],

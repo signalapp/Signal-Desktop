@@ -23,7 +23,7 @@ export default {
   title: 'Components/AvatarIconEditor',
 } satisfies Meta<PropsType>;
 
-export function PersonalIcon(): JSX.Element {
+export function PersonalIcon(): React.JSX.Element {
   return (
     <AvatarIconEditor
       {...createProps({
@@ -36,7 +36,7 @@ export function PersonalIcon(): JSX.Element {
   );
 }
 
-export function GroupIcon(): JSX.Element {
+export function GroupIcon(): React.JSX.Element {
   return (
     <AvatarIconEditor
       {...createProps({

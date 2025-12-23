@@ -35,7 +35,7 @@ export default {
   },
 } satisfies ComponentMeta<ChatsTabProps>;
 
-export function Basic(args: ChatsTabProps): JSX.Element {
+export function Basic(args: ChatsTabProps): React.JSX.Element {
   return (
     <div style={{ height: '100vh' }}>
       <ChatsTab {...args} />

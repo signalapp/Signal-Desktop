@@ -16,7 +16,7 @@ const getCallQualitySurveySubmission = (state: StateType) =>
   state.calling.callQualitySurveySubmission;
 
 export const SmartCallQualitySurveyDialog = memo(
-  function SmartCallQualitySurveyDialog(): JSX.Element | null {
+  function SmartCallQualitySurveyDialog(): React.JSX.Element | null {
     const i18n = useSelector(getIntl);
     const props = useSelector(getCallQualitySurveyProps);
     strictAssert(props, 'Expected callQualitySurveyProps to be set');

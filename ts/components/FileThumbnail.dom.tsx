@@ -9,7 +9,7 @@ import { tw } from '../axo/tw.dom.js';
 
 export type PropsType = Readonly<Parameters<typeof getExtensionForDisplay>[0]>;
 
-export function FileThumbnail(props: PropsType): JSX.Element {
+export function FileThumbnail(props: PropsType): React.JSX.Element {
   const extension = getExtensionForDisplay(props) ?? '';
   const isDangerous = isFileDangerous(props.fileName || '');
 

@@ -48,7 +48,7 @@ export function AudioListItem({
   isPlayed,
   onClick,
   onShowMessage,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const { attachment } = mediaItem;
 
   const { fileName, size: fileSize, url } = attachment;

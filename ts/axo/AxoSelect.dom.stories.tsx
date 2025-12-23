@@ -14,7 +14,7 @@ function TemplateItem(props: {
   value: string;
   disabled?: boolean;
   children: ReactNode;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <AxoSelect.Item value={props.value} disabled={props.disabled}>
       <AxoSelect.ItemText>{props.children}</AxoSelect.ItemText>
@@ -71,7 +71,7 @@ function Template(props: {
   );
 }
 
-export function Basic(): JSX.Element {
+export function Basic(): React.JSX.Element {
   return (
     <div
       className={tw(

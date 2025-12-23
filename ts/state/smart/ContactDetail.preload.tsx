@@ -16,7 +16,7 @@ export type OwnProps = Pick<ContactDetailProps, 'messageId'>;
 
 export const SmartContactDetail = memo(function SmartContactDetail({
   messageId,
-}: OwnProps): JSX.Element | null {
+}: OwnProps): React.JSX.Element | null {
   const i18n = useSelector(getIntl);
   const regionCode = useSelector(getRegionCode);
   const messageLookup = useSelector(getMessages);

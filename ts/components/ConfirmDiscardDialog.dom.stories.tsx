@@ -28,11 +28,11 @@ export default {
   title: 'Components/ConfirmDiscardDialog',
 } satisfies Meta<ConfirmDialogProps>;
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return <ConfirmDiscardDialog {...createProps()} />;
 }
 
-export function DonateFlow(): JSX.Element {
+export function DonateFlow(): React.JSX.Element {
   return (
     <ConfirmDiscardDialog
       {...createProps({

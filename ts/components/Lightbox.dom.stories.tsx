@@ -91,7 +91,7 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => {
   };
 };
 
-export function Multimedia(): JSX.Element {
+export function Multimedia(): React.JSX.Element {
   const props = createProps({
     media: [
       {
@@ -160,7 +160,7 @@ export function Multimedia(): JSX.Element {
   return <Lightbox {...props} />;
 }
 
-export function MissingMedia(): JSX.Element {
+export function MissingMedia(): React.JSX.Element {
   const props = createProps({
     media: [
       {
@@ -194,7 +194,7 @@ export function MissingMedia(): JSX.Element {
   return <Lightbox {...props} />;
 }
 
-export function SingleImage(): JSX.Element {
+export function SingleImage(): React.JSX.Element {
   return (
     <Lightbox
       {...createProps({
@@ -208,7 +208,7 @@ export function SingleImage(): JSX.Element {
   );
 }
 
-export function ImageWithCaptionNormalImage(): JSX.Element {
+export function ImageWithCaptionNormalImage(): React.JSX.Element {
   return (
     <Lightbox
       {...createProps({
@@ -224,7 +224,7 @@ export function ImageWithCaptionNormalImage(): JSX.Element {
   );
 }
 
-export function ImageWithCaptionAllWhiteImage(): JSX.Element {
+export function ImageWithCaptionAllWhiteImage(): React.JSX.Element {
   return (
     <Lightbox
       {...createProps({
@@ -240,7 +240,7 @@ export function ImageWithCaptionAllWhiteImage(): JSX.Element {
   );
 }
 
-export function SingleVideo(): JSX.Element {
+export function SingleVideo(): React.JSX.Element {
   return (
     <Lightbox
       {...createProps({
@@ -255,7 +255,7 @@ export function SingleVideo(): JSX.Element {
   );
 }
 
-export function SingleVideoWCaption(): JSX.Element {
+export function SingleVideoWCaption(): React.JSX.Element {
   return (
     <Lightbox
       {...createProps({
@@ -272,7 +272,7 @@ export function SingleVideoWCaption(): JSX.Element {
   );
 }
 
-export function UnsupportedImageType(): JSX.Element {
+export function UnsupportedImageType(): React.JSX.Element {
   return (
     <Lightbox
       {...createProps({
@@ -287,7 +287,7 @@ export function UnsupportedImageType(): JSX.Element {
   );
 }
 
-export function UnsupportedVideoType(): JSX.Element {
+export function UnsupportedVideoType(): React.JSX.Element {
   return (
     <Lightbox
       {...createProps({
@@ -302,7 +302,7 @@ export function UnsupportedVideoType(): JSX.Element {
   );
 }
 
-export function UnsupportedContent(): JSX.Element {
+export function UnsupportedContent(): React.JSX.Element {
   return (
     <Lightbox
       {...createProps({
@@ -317,7 +317,7 @@ export function UnsupportedContent(): JSX.Element {
   );
 }
 
-export function CustomChildren(): JSX.Element {
+export function CustomChildren(): React.JSX.Element {
   return (
     <Lightbox {...createProps({})} media={[]}>
       <div
@@ -334,7 +334,7 @@ export function CustomChildren(): JSX.Element {
   );
 }
 
-export function ConversationHeader(): JSX.Element {
+export function ConversationHeader(): React.JSX.Element {
   return (
     <Lightbox
       {...createProps({})}
@@ -360,7 +360,7 @@ export function ConversationHeader(): JSX.Element {
   );
 }
 
-export function ViewOnceVideo(): JSX.Element {
+export function ViewOnceVideo(): React.JSX.Element {
   return (
     <Lightbox
       {...createProps({
@@ -377,7 +377,7 @@ export function ViewOnceVideo(): JSX.Element {
   );
 }
 
-export function IncrementalVideo(): JSX.Element {
+export function IncrementalVideo(): React.JSX.Element {
   const item = createMediaItem({
     contentType: VIDEO_MP4,
     objectURL: '/fixtures/pixabay-Soap-Bubble-7141.mp4',

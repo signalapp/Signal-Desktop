@@ -44,46 +44,46 @@ const createMemberships = (
   );
 };
 
-export function Few(args: Props): JSX.Element {
+export function Few(args: Props): React.JSX.Element {
   const memberships = createMemberships(3);
   return (
     <ConversationDetailsMembershipList {...args} memberships={memberships} />
   );
 }
 
-export function Limit(args: Props): JSX.Element {
+export function Limit(args: Props): React.JSX.Element {
   const memberships = createMemberships(5);
   return (
     <ConversationDetailsMembershipList {...args} memberships={memberships} />
   );
 }
 
-export function Limit1(args: Props): JSX.Element {
+export function Limit1(args: Props): React.JSX.Element {
   const memberships = createMemberships(6);
   return (
     <ConversationDetailsMembershipList {...args} memberships={memberships} />
   );
 }
 
-export function Limit2(args: Props): JSX.Element {
+export function Limit2(args: Props): React.JSX.Element {
   const memberships = createMemberships(7);
   return (
     <ConversationDetailsMembershipList {...args} memberships={memberships} />
   );
 }
 
-export function Many(args: Props): JSX.Element {
+export function Many(args: Props): React.JSX.Element {
   const memberships = createMemberships(100);
   return (
     <ConversationDetailsMembershipList {...args} memberships={memberships} />
   );
 }
 
-export function None(args: Props): JSX.Element {
+export function None(args: Props): React.JSX.Element {
   return <ConversationDetailsMembershipList {...args} memberships={[]} />;
 }
 
-export function CanAddNewMembers(args: Props): JSX.Element {
+export function CanAddNewMembers(args: Props): React.JSX.Element {
   const memberships = createMemberships(10);
   return (
     <ConversationDetailsMembershipList

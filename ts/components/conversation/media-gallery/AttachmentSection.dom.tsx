@@ -21,7 +21,7 @@ export type Props = {
   renderMediaItem: (props: {
     onItemClick: (event: ItemClickEvent) => unknown;
     mediaItem: GenericMediaItemType;
-  }) => JSX.Element;
+  }) => React.JSX.Element;
 };
 
 function getMediaItemKey(mediaItem: GenericMediaItemType): string {
@@ -69,7 +69,7 @@ export function AttachmentSection({
   onItemClick,
 
   renderMediaItem,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const verified = verifyMediaItems(mediaItems);
   switch (verified.type) {
     case 'media':

@@ -17,7 +17,7 @@ export type PropsType = {
   i18n: LocalizerType;
 };
 
-export function PaymentEventNotification(props: PropsType): JSX.Element {
+export function PaymentEventNotification(props: PropsType): React.JSX.Element {
   const { event, sender, conversation, i18n } = props;
   const message = getPaymentEventDescription(
     event,

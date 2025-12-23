@@ -119,7 +119,7 @@ const renderReactionPicker: Props['renderReactionPicker'] = () => <div />;
 function MessageAudioContainer({
   played,
   ...props
-}: RenderAudioAttachmentProps): JSX.Element {
+}: RenderAudioAttachmentProps): React.JSX.Element {
   const [isActive, setIsActive] = React.useState<boolean>(false);
   const [currentTime, setCurrentTime] = React.useState<number>(0);
   const [playbackRate, setPlaybackRate] = React.useState<number>(1);
@@ -412,7 +412,7 @@ PlainRtlMessage.args = {
   textDirection: TextDirection.RightToLeft,
 };
 
-export function EmojiMessages(): JSX.Element {
+export function EmojiMessages(): React.JSX.Element {
   return (
     <>
       <TimelineMessage {...createProps({ text: '😀' })} />
@@ -789,7 +789,7 @@ Quote.args = {
   conversationType: 'group',
 };
 
-export function Deleted(): JSX.Element {
+export function Deleted(): React.JSX.Element {
   const propsSent = createProps({
     conversationType: 'direct',
     deletedForEveryone: true,
@@ -822,7 +822,7 @@ DeletedWithExpireTimer.args = {
   status: 'sent',
 };
 
-export function DeletedWithError(): JSX.Element {
+export function DeletedWithError(): React.JSX.Element {
   const propsPartialError = createProps({
     timestamp: Date.now() - 60 * 1000,
     // canDeleteForEveryone: true,
@@ -870,7 +870,7 @@ const bigAttachment = {
   isPermanentlyUndownloadable: true,
 };
 
-export function AttachmentTooBig(): JSX.Element {
+export function AttachmentTooBig(): React.JSX.Element {
   const propsSent = createProps({
     conversationType: 'direct',
     attachmentDroppedDueToSize: true,
@@ -880,7 +880,7 @@ export function AttachmentTooBig(): JSX.Element {
   return <>{renderBothDirections(propsSent)}</>;
 }
 
-export function AttachmentTooBigWithText(): JSX.Element {
+export function AttachmentTooBigWithText(): React.JSX.Element {
   const propsSent = createProps({
     conversationType: 'direct',
     attachmentDroppedDueToSize: true,
@@ -900,7 +900,7 @@ const bigImageAttachment = {
   height: 1000,
 };
 
-export function AttachmentTooBigImage(): JSX.Element {
+export function AttachmentTooBigImage(): React.JSX.Element {
   const propsSent = createProps({
     conversationType: 'direct',
     attachmentDroppedDueToSize: true,
@@ -910,7 +910,7 @@ export function AttachmentTooBigImage(): JSX.Element {
   return <>{renderBothDirections(propsSent)}</>;
 }
 
-export function AttachmentTooBigImageWithText(): JSX.Element {
+export function AttachmentTooBigImageWithText(): React.JSX.Element {
   const propsSent = createProps({
     conversationType: 'direct',
     attachmentDroppedDueToSize: true,
@@ -1353,7 +1353,7 @@ LinkPreviewWithCallLinkInCurrentCall.args = {
   text: 'Use this link to join a Signal call: https://signal.link/call/#key=hzcn-pcff-ctsc-bdbf-stcr-tzpc-bhqx-kghh',
 };
 
-export function Image(): JSX.Element {
+export function Image(): React.JSX.Element {
   const darkImageProps = createProps({
     attachments: [
       fakeAttachment({
@@ -1387,7 +1387,7 @@ export function Image(): JSX.Element {
   );
 }
 
-export function BrokenImage(): JSX.Element {
+export function BrokenImage(): React.JSX.Element {
   const darkImageProps = createProps({
     attachments: [
       fakeAttachment({
@@ -1421,7 +1421,7 @@ export function BrokenImage(): JSX.Element {
   );
 }
 
-export function BrokenImageWithExpirationTimer(): JSX.Element {
+export function BrokenImageWithExpirationTimer(): React.JSX.Element {
   const darkImageProps = createProps({
     attachments: [
       fakeAttachment({
@@ -1459,7 +1459,7 @@ export function BrokenImageWithExpirationTimer(): JSX.Element {
   );
 }
 
-export function Video(): JSX.Element {
+export function Video(): React.JSX.Element {
   const darkImageProps = createProps({
     attachments: [
       fakeAttachment({
@@ -1507,7 +1507,7 @@ export function Video(): JSX.Element {
   );
 }
 
-export function BrokenVideo(): JSX.Element {
+export function BrokenVideo(): React.JSX.Element {
   const darkImageProps = createProps({
     attachments: [
       fakeAttachment({
@@ -1555,7 +1555,7 @@ export function BrokenVideo(): JSX.Element {
   );
 }
 
-export function BrokenVideoWithExpirationTimer(): JSX.Element {
+export function BrokenVideoWithExpirationTimer(): React.JSX.Element {
   const darkImageProps = createProps({
     attachments: [
       fakeAttachment({
@@ -2313,7 +2313,7 @@ PollMultipleChoiceWithVotes.args = {
 const POLL_ANIMATION_OPTIONS = ['Pizza', 'Sushi', 'Tacos', 'Salad'];
 const BAD_NETWORK_DELAY_MS = 5000;
 
-export function PollAnimationPlayground(): JSX.Element {
+export function PollAnimationPlayground(): React.JSX.Element {
   const [otherVoteCounts, setOtherVoteCounts] = React.useState<
     Map<number, number>
   >(() => new Map(POLL_ANIMATION_OPTIONS.map((_, i) => [i, 0])));
@@ -2738,7 +2738,7 @@ TapToViewError.args = {
   status: 'sent',
 };
 
-export function Colors(): JSX.Element {
+export function Colors(): React.JSX.Element {
   return (
     <>
       {ConversationColors.map(color => (
@@ -2769,7 +2769,7 @@ Mentions.args = {
   text: '\uFFFC This Is It. The Moment We Should Have Trained For.',
 };
 
-export function AllTheContextMenus(): JSX.Element {
+export function AllTheContextMenus(): React.JSX.Element {
   const props = createProps({
     attachments: [
       fakeAttachment({
@@ -2815,7 +2815,7 @@ NotApprovedWithLinkPreview.args = {
   isMessageRequestAccepted: false,
 };
 
-export function CustomColor(): JSX.Element {
+export function CustomColor(): React.JSX.Element {
   return (
     <>
       {renderThree({
@@ -2839,7 +2839,7 @@ export function CustomColor(): JSX.Element {
   );
 }
 
-export const CollapsingTextOnlyDMs = (): JSX.Element => {
+export const CollapsingTextOnlyDMs = (): React.JSX.Element => {
   const them = getDefaultConversation();
   const me = getDefaultConversation({ isMe: true });
 
@@ -2879,7 +2879,7 @@ export const CollapsingTextOnlyDMs = (): JSX.Element => {
   ]);
 };
 
-export const CollapsingTextOnlyGroupMessages = (): JSX.Element => {
+export const CollapsingTextOnlyGroupMessages = (): React.JSX.Element => {
   const author = getDefaultConversation();
 
   return renderMany([
@@ -2903,7 +2903,7 @@ export const CollapsingTextOnlyGroupMessages = (): JSX.Element => {
   ]);
 };
 
-export const StoryReply = (): JSX.Element => {
+export const StoryReply = (): React.JSX.Element => {
   const conversation = getDefaultConversation();
 
   return renderThree({
@@ -2921,7 +2921,7 @@ export const StoryReply = (): JSX.Element => {
   });
 };
 
-export const StoryReplyYours = (): JSX.Element => {
+export const StoryReplyYours = (): React.JSX.Element => {
   const conversation = getDefaultConversation();
 
   return renderThree({
@@ -2939,7 +2939,7 @@ export const StoryReplyYours = (): JSX.Element => {
   });
 };
 
-export const StoryReplyEmoji = (): JSX.Element => {
+export const StoryReplyEmoji = (): React.JSX.Element => {
   const conversation = getDefaultConversation();
 
   return renderBothDirections({
@@ -3264,7 +3264,7 @@ function MultiSelectMessage() {
   );
 }
 
-export function MultiSelect(): JSX.Element {
+export function MultiSelect(): React.JSX.Element {
   return (
     <>
       <MultiSelectMessage />
@@ -3278,7 +3278,7 @@ MultiSelect.args = {
   name: 'Multi Select',
 };
 
-export function PermanentlyUndownloadableAttachments(): JSX.Element {
+export function PermanentlyUndownloadableAttachments(): React.JSX.Element {
   const imageProps = createProps({
     attachments: [
       fakeAttachment({

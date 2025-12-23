@@ -18,15 +18,15 @@ export type PropsType = {
 type ReleaseNotesType = {
   date: Date;
   version: string;
-  header?: JSX.Element;
-  features: Array<JSX.Element>;
+  header?: React.JSX.Element;
+  features: Array<React.JSX.Element>;
 };
 
 // Exported so it doesn't get marked unused
 export function ExternalLink(props: {
   href: string;
   children: ReactNode;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <a href={props.href} target="_blank" rel="noreferrer">
       {props.children}
@@ -37,7 +37,7 @@ export function ExternalLink(props: {
 export function WhatsNewModal({
   i18n,
   hideWhatsNewModal,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   let contentNode: ReactNode;
 
   const releaseNotes: ReleaseNotesType = {

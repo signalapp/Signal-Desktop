@@ -38,7 +38,7 @@ const ScrollerSectionObserveContext =
 export const FunScroller = forwardRef(function FunScroller(
   props: FunScrollerProps,
   ref: Ref<HTMLDivElement>
-): JSX.Element {
+): React.JSX.Element {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const scrollerInnerRef = useRef<HTMLDivElement>(null);
 
@@ -154,7 +154,7 @@ export type FunScrollerSectionProps = Readonly<{
 
 export function FunScrollerSection(
   props: FunScrollerSectionProps
-): JSX.Element {
+): React.JSX.Element {
   const ref = useRef<HTMLDivElement>(null);
   const observe = useContext(ScrollerSectionObserveContext);
   strictAssert(observe, 'Expected observe to be defined');

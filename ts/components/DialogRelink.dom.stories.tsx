@@ -36,7 +36,7 @@ export default {
   title: 'Components/DialogRelink',
 } satisfies Meta<PropsType>;
 
-export function Iterations(): JSX.Element {
+export function Iterations(): React.JSX.Element {
   return (
     <>
       {permutations.map(({ props, title }) => (

@@ -65,14 +65,14 @@ type CallsTabProps = Readonly<{
     roomId: string,
     callHistoryGroup: CallHistoryGroup,
     onClose: () => void
-  ) => JSX.Element;
+  ) => React.JSX.Element;
   renderConversationDetails: (
     conversationId: string,
     callHistoryGroup: CallHistoryGroup | null
-  ) => JSX.Element;
+  ) => React.JSX.Element;
   renderToastManager: (_: {
     containerWidthBreakpoint: WidthBreakpoint;
-  }) => JSX.Element;
+  }) => React.JSX.Element;
   regionCode: string | undefined;
   savePreferredLeftPaneWidth: (preferredLeftPaneWidth: number) => void;
   startCallLinkLobbyByRoomId: (options: { roomId: string }) => void;
@@ -125,7 +125,7 @@ export function CallsTab({
   startCallLinkLobbyByRoomId,
   toggleConfirmLeaveCallModal,
   togglePip,
-}: CallsTabProps): JSX.Element {
+}: CallsTabProps): React.JSX.Element {
   const [sidebarView, setSidebarView] = useState(
     CallsTabSidebarView.CallsListView
   );

@@ -24,7 +24,7 @@ export function ScrollDownButton({
   count,
   onClick,
   i18n,
-}: ScrollDownButtonPropsType): JSX.Element {
+}: ScrollDownButtonPropsType): React.JSX.Element {
   const getClassName = getClassNamesFor('ScrollDownButton');
 
   let badgeText: string | undefined;

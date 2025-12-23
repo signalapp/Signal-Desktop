@@ -18,15 +18,15 @@ export default {
   },
 } satisfies Meta<Props>;
 
-export function Basic(args: Props): JSX.Element {
+export function Basic(args: Props): React.JSX.Element {
   return <PanelSection {...args} />;
 }
 
-export function Centered(args: Props): JSX.Element {
+export function Centered(args: Props): React.JSX.Element {
   return <PanelSection {...args} centerTitle />;
 }
 
-export function WithActions(args: Props): JSX.Element {
+export function WithActions(args: Props): React.JSX.Element {
   return (
     <PanelSection
       {...args}
@@ -39,7 +39,7 @@ export function WithActions(args: Props): JSX.Element {
   );
 }
 
-export function WithContent(args: Props): JSX.Element {
+export function WithContent(args: Props): React.JSX.Element {
   return (
     <PanelSection {...args}>
       <PanelRow label="this is panel row one" />

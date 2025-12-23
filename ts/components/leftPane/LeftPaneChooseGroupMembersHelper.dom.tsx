@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactChild, ChangeEvent } from 'react';
+import type { ReactNode, ChangeEvent } from 'react';
 import React from 'react';
 
 import { LeftPaneHelper } from './LeftPaneHelper.dom.js';
@@ -128,7 +128,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
   }: Readonly<{
     i18n: LocalizerType;
     startComposing: () => void;
-  }>): ReactChild {
+  }>): ReactNode {
     const backButtonLabel = i18n('icu:chooseGroupMembers__back-button');
 
     return (
@@ -163,7 +163,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
     onChangeComposeSearchTerm: (
       event: ChangeEvent<HTMLInputElement>
     ) => unknown;
-  }>): ReactChild {
+  }>): ReactNode {
     return (
       <SearchInput
         i18n={i18n}
@@ -186,8 +186,8 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
     closeRecommendedGroupSizeModal: () => unknown;
     i18n: LocalizerType;
     removeSelectedContact: (conversationId: string) => unknown;
-  }>): ReactChild {
-    let modalNode: undefined | ReactChild;
+  }>): ReactNode {
+    let modalNode: undefined | ReactNode;
     if (this.#isShowingMaximumGroupSizeModal) {
       modalNode = (
         <AddGroupMemberErrorDialog
@@ -250,7 +250,7 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
   }: Readonly<{
     i18n: LocalizerType;
     startSettingGroupMetadata: () => void;
-  }>): ReactChild {
+  }>): ReactNode {
     return (
       <Button
         disabled={this.#hasExceededMaximumNumberOfContacts()}

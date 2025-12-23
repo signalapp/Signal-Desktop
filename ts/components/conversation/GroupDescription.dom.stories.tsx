@@ -21,11 +21,11 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-export function Default(args: PropsType): JSX.Element {
+export function Default(args: PropsType): React.JSX.Element {
   return <GroupDescription {...args} />;
 }
 
-export function Long(args: PropsType): JSX.Element {
+export function Long(args: PropsType): React.JSX.Element {
   return (
     <GroupDescription
       {...args}
@@ -34,7 +34,7 @@ export function Long(args: PropsType): JSX.Element {
   );
 }
 
-export function WithNewlines(args: PropsType): JSX.Element {
+export function WithNewlines(args: PropsType): React.JSX.Element {
   return (
     <GroupDescription
       {...args}
@@ -43,11 +43,11 @@ export function WithNewlines(args: PropsType): JSX.Element {
   );
 }
 
-export function WithEmoji(args: PropsType): JSX.Element {
+export function WithEmoji(args: PropsType): React.JSX.Element {
   return <GroupDescription {...args} text="🍒🍩🌭" />;
 }
 
-export function WithLink(args: PropsType): JSX.Element {
+export function WithLink(args: PropsType): React.JSX.Element {
   return (
     <GroupDescription
       {...args}
@@ -56,7 +56,7 @@ export function WithLink(args: PropsType): JSX.Element {
   );
 }
 
-export function KitchenSink(args: PropsType): JSX.Element {
+export function KitchenSink(args: PropsType): React.JSX.Element {
   return (
     <GroupDescription
       {...args}

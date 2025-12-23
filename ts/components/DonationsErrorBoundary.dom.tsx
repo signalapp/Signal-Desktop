@@ -44,7 +44,7 @@ export type DonationsErrorBoundaryProps = Readonly<{
 
 export function DonationsErrorBoundary(
   props: DonationsErrorBoundaryProps
-): JSX.Element {
+): React.JSX.Element {
   const fallback = useCallback(() => {
     return <div className="DonationsErrorBoundary" />;
   }, []);

@@ -36,13 +36,13 @@ import { getIsStoriesSettingsVisible } from '../selectors/globalModals.std.js';
 import type { StoryViewType } from '../../types/Stories.std.js';
 import { ForwardMessagesModalType } from '../../components/ForwardMessagesModal.dom.js';
 
-function renderStoryCreator(): JSX.Element {
+function renderStoryCreator(): React.JSX.Element {
   return <SmartStoryCreator />;
 }
 
 function renderToastManager(props: {
   containerWidthBreakpoint: WidthBreakpoint;
-}): JSX.Element {
+}): React.JSX.Element {
   return <SmartToastManager disableMegaphone {...props} />;
 }
 

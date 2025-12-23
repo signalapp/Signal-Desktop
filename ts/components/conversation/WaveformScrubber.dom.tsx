@@ -39,7 +39,7 @@ export const WaveformScrubber = React.forwardRef(function WaveformScrubber(
     onScrub,
   }: Props,
   ref
-): JSX.Element {
+): React.JSX.Element {
   const refMerger = useRefMerger();
 
   const waveformRef = useRef<HTMLDivElement | null>(null);

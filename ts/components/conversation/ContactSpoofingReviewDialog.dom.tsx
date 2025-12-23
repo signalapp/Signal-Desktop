@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactChild, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import React, { useState } from 'react';
 
 import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
@@ -73,7 +73,9 @@ enum ConfirmationStateType {
   ConfirmingGroupRemoval,
 }
 
-export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
+export function ContactSpoofingReviewDialog(
+  props: PropsType
+): React.JSX.Element {
   const {
     acceptConversation,
     reportSpam,
@@ -185,7 +187,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
   }
 
   let title: string;
-  let contents: ReactChild;
+  let contents: ReactNode;
 
   switch (props.type) {
     case ContactSpoofingType.DirectConversationWithSameTitle: {

@@ -29,7 +29,7 @@ export function DialogNetworkStatus({
   isOutage,
   socketStatus,
   manualReconnect,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   const [isConnecting, setIsConnecting] = React.useState<boolean>(
     socketStatus === SocketStatus.CONNECTING
   );

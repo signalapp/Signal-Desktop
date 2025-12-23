@@ -58,7 +58,7 @@ export default {
   title: 'Components/SafetyNumberChangeDialog',
 } satisfies Meta<Props>;
 
-export function SingleContactDialog(): JSX.Element {
+export function SingleContactDialog(): React.JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -82,7 +82,7 @@ export function SingleContactDialog(): JSX.Element {
   );
 }
 
-export function DifferentConfirmationText(): JSX.Element {
+export function DifferentConfirmationText(): React.JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -107,7 +107,7 @@ export function DifferentConfirmationText(): JSX.Element {
   );
 }
 
-export function MultiContactDialog(): JSX.Element {
+export function MultiContactDialog(): React.JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -135,7 +135,7 @@ export function MultiContactDialog(): JSX.Element {
   );
 }
 
-export function AllVerified(): JSX.Element {
+export function AllVerified(): React.JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -162,7 +162,7 @@ export function AllVerified(): JSX.Element {
   );
 }
 
-export function MultipleContactsAllWithBadges(): JSX.Element {
+export function MultipleContactsAllWithBadges(): React.JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -191,7 +191,7 @@ export function MultipleContactsAllWithBadges(): JSX.Element {
   );
 }
 
-export function TenContacts(): JSX.Element {
+export function TenContacts(): React.JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -226,7 +226,7 @@ export function TenContacts(): JSX.Element {
   );
 }
 
-export function NoContacts(): JSX.Element {
+export function NoContacts(): React.JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -262,7 +262,7 @@ export function NoContacts(): JSX.Element {
   );
 }
 
-export function InMultipleStories(): JSX.Element {
+export function InMultipleStories(): React.JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog

@@ -35,7 +35,9 @@ import type { ProfileEditorPage } from '../../types/Nav.std.js';
 import type { SmartUsernameEditorProps } from './UsernameEditor.preload.js';
 import { ConfirmationDialog } from '../../components/ConfirmationDialog.dom.js';
 
-function renderUsernameEditor(props: SmartUsernameEditorProps): JSX.Element {
+function renderUsernameEditor(
+  props: SmartUsernameEditorProps
+): React.JSX.Element {
   return <SmartUsernameEditor {...props} />;
 }
 
@@ -86,7 +88,7 @@ export const SmartProfileEditor = memo(function SmartProfileEditor(props: {
   const { showToast } = useToastActions();
   const { changeLocation } = useNavActions();
 
-  let errorDialog: JSX.Element | undefined;
+  let errorDialog: React.JSX.Element | undefined;
   if (hasError) {
     errorDialog = (
       <ConfirmationDialog

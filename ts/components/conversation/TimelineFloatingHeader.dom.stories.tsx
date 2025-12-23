@@ -22,14 +22,14 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-export function Default(args: PropsType): JSX.Element {
+export function Default(args: PropsType): React.JSX.Element {
   return <TimelineFloatingHeader {...args} />;
 }
 
-export function Visible(args: PropsType): JSX.Element {
+export function Visible(args: PropsType): React.JSX.Element {
   return <TimelineFloatingHeader {...args} visible />;
 }
 
-export function Loading(args: PropsType): JSX.Element {
+export function Loading(args: PropsType): React.JSX.Element {
   return <TimelineFloatingHeader {...args} visible isLoading />;
 }

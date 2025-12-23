@@ -20,7 +20,9 @@ export type PropsType = PropsDataType & {
   i18n: LocalizerType;
 };
 
-export function ConversationMergeNotification(props: PropsType): JSX.Element {
+export function ConversationMergeNotification(
+  props: PropsType
+): React.JSX.Element {
   const {
     conversationTitle,
     obsoleteConversationTitle,

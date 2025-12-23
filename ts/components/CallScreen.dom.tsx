@@ -128,7 +128,7 @@ export type PropsType = {
   openSystemPreferencesAction: () => unknown;
   renderReactionPicker: (
     props: React.ComponentProps<typeof SmartReactionPicker>
-  ) => JSX.Element;
+  ) => React.JSX.Element;
   sendGroupCallRaiseHand: (payload: SendGroupCallRaiseHandType) => void;
   sendGroupCallReaction: (payload: SendGroupCallReactionType) => void;
   setGroupCallVideoRequest: (
@@ -183,7 +183,7 @@ function CallDuration({
   joinedAt,
 }: {
   joinedAt: number | null;
-}): JSX.Element | null {
+}): React.JSX.Element | null {
   const [acceptedDuration, setAcceptedDuration] = useState<
     number | undefined
   >();
@@ -239,7 +239,7 @@ export function CallScreen({
   toggleSelfViewExpanded,
   toggleSettings,
   setLocalAudioRemoteMuted,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const {
     conversation,
     hasLocalAudio,
@@ -726,7 +726,7 @@ export function CallScreen({
       const otherName = names[1] ?? '';
 
       let message: string;
-      let buttonOverride: JSX.Element | undefined;
+      let buttonOverride: React.JSX.Element | undefined;
       switch (count) {
         case 0:
           return undefined;
@@ -1467,7 +1467,7 @@ function useReactionsToast(props: UseReactionsToastType): void {
 
 function CallingReactionsToastsContainer(
   props: CallingReactionsToastsType
-): JSX.Element {
+): React.JSX.Element {
   const { i18n } = props;
   const toastRegionRef = useRef<HTMLDivElement>(null);
   const burstRegionRef = useRef<HTMLDivElement>(null);

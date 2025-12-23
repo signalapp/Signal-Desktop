@@ -30,6 +30,6 @@ export default {
   title: 'Components/DebugLogWindow',
 } satisfies Meta<PropsType>;
 
-export function Basic(): JSX.Element {
+export function Basic(): React.JSX.Element {
   return <DebugLogWindow {...createProps()} />;
 }

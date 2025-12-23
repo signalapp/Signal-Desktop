@@ -52,7 +52,7 @@ export function CallingButton({
   onMouseEnter,
   onMouseLeave,
   tooltipDirection,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const uniqueButtonId = useMemo(() => uuid(), []);
 
   let classNameSuffix = '';

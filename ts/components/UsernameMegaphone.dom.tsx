@@ -14,7 +14,7 @@ export function UsernameMegaphone({
   i18n,
   onLearnMore,
   onDismiss,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   return (
     <div className="UsernameMegaphone">
       <div className="UsernameMegaphone__row">

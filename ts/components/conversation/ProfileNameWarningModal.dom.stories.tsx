@@ -19,10 +19,10 @@ export default {
   },
 } satisfies ComponentMeta<PropsType>;
 
-export function Direct(args: PropsType): JSX.Element {
+export function Direct(args: PropsType): React.JSX.Element {
   return <ProfileNameWarningModal {...args} conversationType="direct" />;
 }
 
-export function Group(args: PropsType): JSX.Element {
+export function Group(args: PropsType): React.JSX.Element {
   return <ProfileNameWarningModal {...args} conversationType="group" />;
 }

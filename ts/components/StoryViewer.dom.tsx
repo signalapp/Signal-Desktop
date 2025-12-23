@@ -56,7 +56,7 @@ import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.js';
 
 const log = createLogger('StoryViewer');
 
-function renderStrong(parts: Array<JSX.Element | string>) {
+function renderStrong(parts: Array<React.JSX.Element | string>) {
   return <strong>{parts}</strong>;
 }
 
@@ -172,7 +172,7 @@ export function StoryViewer({
   storyViewMode,
   viewStory,
   viewTarget,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [isShowingContextMenu, setIsShowingContextMenu] =
     useState<boolean>(false);
   const [storyDuration, setStoryDuration] = useState<number | undefined>();

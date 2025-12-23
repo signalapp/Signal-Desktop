@@ -26,7 +26,7 @@ export function AtMentionify({
   direction,
   showConversation,
   text,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   if (!mentions) {
     return <>{text}</>;
   }

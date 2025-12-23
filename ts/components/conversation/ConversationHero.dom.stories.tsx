@@ -219,7 +219,7 @@ GroupNotFromTrustedContact.args = {
   fromOrAddedByTrustedContact: false,
 };
 
-export function GroupMemberNames(args: Props): JSX.Element {
+export function GroupMemberNames(args: Props): React.JSX.Element {
   const theme = useContext(StorybookThemeContext);
   const baseProps = {
     ...args,

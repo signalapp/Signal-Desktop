@@ -43,13 +43,13 @@ export default {
 
 export function Default(
   args: CallLinkPendingParticipantModalProps
-): JSX.Element {
+): React.JSX.Element {
   return <CallLinkPendingParticipantModal {...args} />;
 }
 
 export function SystemContact(
   args: CallLinkPendingParticipantModalProps
-): JSX.Element {
+): React.JSX.Element {
   return (
     <CallLinkPendingParticipantModal {...args} conversation={systemContact} />
   );
@@ -57,7 +57,7 @@ export function SystemContact(
 
 export function WithSharedGroups(
   args: CallLinkPendingParticipantModalProps
-): JSX.Element {
+): React.JSX.Element {
   return (
     <CallLinkPendingParticipantModal
       {...args}

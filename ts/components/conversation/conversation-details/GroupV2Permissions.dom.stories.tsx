@@ -37,13 +37,13 @@ const createProps = (): PropsType => ({
   setAnnouncementsOnly: action('setAnnouncementsOnly'),
 });
 
-export function Basic(): JSX.Element {
+export function Basic(): React.JSX.Element {
   const props = createProps();
 
   return <GroupV2Permissions {...props} />;
 }
 
-export function NotAdmin(): JSX.Element {
+export function NotAdmin(): React.JSX.Element {
   return (
     <GroupV2Permissions
       {...createProps()}
@@ -55,7 +55,7 @@ export function NotAdmin(): JSX.Element {
   );
 }
 
-export function AdminButNotAnnouncementReady(): JSX.Element {
+export function AdminButNotAnnouncementReady(): React.JSX.Element {
   return (
     <GroupV2Permissions
       {...createProps()}
@@ -67,7 +67,7 @@ export function AdminButNotAnnouncementReady(): JSX.Element {
   );
 }
 
-export function AdminNotAnnouncementReadyButItWasOn(): JSX.Element {
+export function AdminNotAnnouncementReadyButItWasOn(): React.JSX.Element {
   return (
     <GroupV2Permissions
       {...createProps()}

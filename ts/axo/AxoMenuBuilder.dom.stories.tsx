@@ -96,7 +96,7 @@ function Template(props: {
   );
 }
 
-export function Basic(): JSX.Element {
+export function Basic(): React.JSX.Element {
   return (
     <div className={tw('flex h-96 w-full items-center justify-center gap-8')}>
       <Template renderer="AxoDropdownMenu">

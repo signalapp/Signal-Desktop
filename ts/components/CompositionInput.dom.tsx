@@ -198,13 +198,13 @@ export function CompositionInput(props: Props): React.ReactElement {
   } = props;
 
   const [emojiCompletionElement, setEmojiCompletionElement] =
-    React.useState<JSX.Element | null>();
+    React.useState<React.JSX.Element | null>();
   const [formattingChooserElement, setFormattingChooserElement] =
-    React.useState<JSX.Element>();
+    React.useState<React.JSX.Element>();
   const [lastSelectionRange, setLastSelectionRange] =
     React.useState<RangeStatic | null>(null);
   const [mentionCompletionElement, setMentionCompletionElement] =
-    React.useState<JSX.Element>();
+    React.useState<React.JSX.Element>();
 
   const emojiCompletionRef = React.useRef<EmojiCompletion>();
   const mentionCompletionRef = React.useRef<MentionCompletion>();

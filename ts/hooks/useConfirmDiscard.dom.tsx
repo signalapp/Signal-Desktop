@@ -29,7 +29,7 @@ export function useConfirmDiscard({
   name: string;
   tryClose?: React.MutableRefObject<(() => void) | undefined>;
 }): [
-  JSX.Element | null,
+  React.JSX.Element | null,
   (condition: boolean, discardChanges: () => void, cancel?: () => void) => void,
 ] {
   const [props, setProps] = useState<Omit<

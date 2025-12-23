@@ -25,7 +25,7 @@ export type MentionCompletionOptions = {
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   memberRepositoryRef: RefObject<MemberRepository>;
-  setMentionPickerElement: (element: JSX.Element | null) => void;
+  setMentionPickerElement: (element: React.JSX.Element | null) => void;
   ourConversationId: string | undefined;
   theme: ThemeType;
 };

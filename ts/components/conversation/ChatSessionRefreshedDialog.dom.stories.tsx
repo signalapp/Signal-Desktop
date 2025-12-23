@@ -13,7 +13,7 @@ export default {
   title: 'Components/Conversation/ChatSessionRefreshedDialog',
 } satisfies Meta<PropsType>;
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return (
     <ChatSessionRefreshedDialog
       contactSupport={action('contactSupport')}

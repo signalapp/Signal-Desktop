@@ -27,7 +27,7 @@ const getClassName = ({ inner }: Props, isDragActive: boolean) => {
   return styles.standalone;
 };
 
-export function DropZone(props: Props): JSX.Element {
+export function DropZone(props: Props): React.JSX.Element {
   const { inner, label, onDrop, onDragActive } = props;
   const i18n = useI18n();
 

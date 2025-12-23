@@ -19,7 +19,7 @@ export function AvatarModalButtons({
   i18n,
   onCancel,
   onSave,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [confirmDiscardAction, setConfirmDiscardAction] = useState<
     (() => unknown) | undefined
   >(undefined);

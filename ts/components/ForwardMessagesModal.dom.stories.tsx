@@ -92,11 +92,11 @@ function getMessageForwardDraft(
   };
 }
 
-export function Modal(): JSX.Element {
+export function Modal(): React.JSX.Element {
   return <ForwardMessagesModal {...useProps()} />;
 }
 
-export function WithText(): JSX.Element {
+export function WithText(): React.JSX.Element {
   return (
     <ForwardMessagesModal
       {...useProps({
@@ -106,7 +106,7 @@ export function WithText(): JSX.Element {
   );
 }
 
-export function ASticker(): JSX.Element {
+export function ASticker(): React.JSX.Element {
   return (
     <ForwardMessagesModal
       {...useProps({
@@ -116,7 +116,7 @@ export function ASticker(): JSX.Element {
   );
 }
 
-export function WithAContact(): JSX.Element {
+export function WithAContact(): React.JSX.Element {
   return (
     <ForwardMessagesModal
       {...useProps({
@@ -126,7 +126,7 @@ export function WithAContact(): JSX.Element {
   );
 }
 
-export function LinkPreview(): JSX.Element {
+export function LinkPreview(): React.JSX.Element {
   return (
     <ForwardMessagesModal
       {...useProps({
@@ -155,7 +155,7 @@ export function LinkPreview(): JSX.Element {
   );
 }
 
-export function MediaAttachments(): JSX.Element {
+export function MediaAttachments(): React.JSX.Element {
   return (
     <ForwardMessagesModal
       {...useProps({
@@ -185,7 +185,7 @@ export function MediaAttachments(): JSX.Element {
   );
 }
 
-export function AnnouncementOnlyGroupsNonAdmin(): JSX.Element {
+export function AnnouncementOnlyGroupsNonAdmin(): React.JSX.Element {
   return (
     <ForwardMessagesModal
       {...useProps()}

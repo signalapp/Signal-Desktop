@@ -44,7 +44,9 @@ export type FunErrorBoundaryProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunErrorBoundary(props: FunErrorBoundaryProps): JSX.Element {
+export function FunErrorBoundary(
+  props: FunErrorBoundaryProps
+): React.JSX.Element {
   const fallback = useCallback(() => {
     return <div className="FunErrorBoundary" />;
   }, []);

@@ -38,11 +38,11 @@ const defaultProps: ComponentProps<typeof CustomizingPreferredReactionsModal> =
     emojiSkinToneDefault: EmojiSkinTone.Type4,
   };
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return <CustomizingPreferredReactionsModal {...defaultProps} />;
 }
 
-export function DraftEmojiSelected(): JSX.Element {
+export function DraftEmojiSelected(): React.JSX.Element {
   return (
     <CustomizingPreferredReactionsModal
       {...defaultProps}
@@ -51,10 +51,10 @@ export function DraftEmojiSelected(): JSX.Element {
   );
 }
 
-export function Saving(): JSX.Element {
+export function Saving(): React.JSX.Element {
   return <CustomizingPreferredReactionsModal {...defaultProps} isSaving />;
 }
 
-export function HadError(): JSX.Element {
+export function HadError(): React.JSX.Element {
   return <CustomizingPreferredReactionsModal {...defaultProps} hadSaveError />;
 }

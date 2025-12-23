@@ -36,83 +36,83 @@ import { DebugLogErrorModal } from '../../components/DebugLogErrorModal.dom.js';
 import { SmartPlaintextExportWorkflow } from './PlaintextExportWorkflow.preload.js';
 import { shouldShowPlaintextWorkflow } from '../selectors/backups.std.js';
 
-function renderCallLinkAddNameModal(): JSX.Element {
+function renderCallLinkAddNameModal(): React.JSX.Element {
   return <SmartCallLinkAddNameModal />;
 }
 
-function renderCallLinkEditModal(): JSX.Element {
+function renderCallLinkEditModal(): React.JSX.Element {
   return <SmartCallLinkEditModal />;
 }
 
-function renderCallQualitySurvey(): JSX.Element {
+function renderCallQualitySurvey(): React.JSX.Element {
   return <SmartCallQualitySurveyDialog />;
 }
 
-function renderCallLinkPendingParticipantModal(): JSX.Element {
+function renderCallLinkPendingParticipantModal(): React.JSX.Element {
   return <SmartCallLinkPendingParticipantModal />;
 }
 
-function renderConfirmLeaveCallModal(): JSX.Element {
+function renderConfirmLeaveCallModal(): React.JSX.Element {
   return <SmartConfirmLeaveCallModal />;
 }
 
-function renderEditHistoryMessagesModal(): JSX.Element {
+function renderEditHistoryMessagesModal(): React.JSX.Element {
   return <SmartEditHistoryMessagesModal />;
 }
 
-function renderEditNicknameAndNoteModal(): JSX.Element {
+function renderEditNicknameAndNoteModal(): React.JSX.Element {
   return <SmartEditNicknameAndNoteModal />;
 }
 
-function renderProfileNameWarningModal(): JSX.Element {
+function renderProfileNameWarningModal(): React.JSX.Element {
   return <SmartProfileNameWarningModal />;
 }
 
-function renderUsernameOnboarding(): JSX.Element {
+function renderUsernameOnboarding(): React.JSX.Element {
   return <SmartUsernameOnboardingModal />;
 }
 
-function renderContactModal(): JSX.Element {
+function renderContactModal(): React.JSX.Element {
   return <SmartContactModal />;
 }
 
-function renderDeleteMessagesModal(): JSX.Element {
+function renderDeleteMessagesModal(): React.JSX.Element {
   return <SmartDeleteMessagesModal />;
 }
 
-function renderDraftGifMessageSendModal(): JSX.Element {
+function renderDraftGifMessageSendModal(): React.JSX.Element {
   return <SmartDraftGifMessageSendModal />;
 }
 
-function renderForwardMessagesModal(): JSX.Element {
+function renderForwardMessagesModal(): React.JSX.Element {
   return <SmartForwardMessagesModal />;
 }
 
-function renderMessageRequestActionsConfirmation(): JSX.Element {
+function renderMessageRequestActionsConfirmation(): React.JSX.Element {
   return <SmartMessageRequestActionsConfirmation />;
 }
 
-function renderNotePreviewModal(): JSX.Element {
+function renderNotePreviewModal(): React.JSX.Element {
   return <SmartNotePreviewModal />;
 }
 
-function renderPlaintextExportWorkflow(): JSX.Element {
+function renderPlaintextExportWorkflow(): React.JSX.Element {
   return <SmartPlaintextExportWorkflow />;
 }
 
-function renderStoriesSettings(): JSX.Element {
+function renderStoriesSettings(): React.JSX.Element {
   return <SmartStoriesSettingsModal />;
 }
 
-function renderSendAnywayDialog(): JSX.Element {
+function renderSendAnywayDialog(): React.JSX.Element {
   return <SmartSendAnywayDialog />;
 }
 
-function renderShortcutGuideModal(): JSX.Element {
+function renderShortcutGuideModal(): React.JSX.Element {
   return <SmartShortcutGuideModal />;
 }
 
-function renderAboutContactModal(): JSX.Element {
+function renderAboutContactModal(): React.JSX.Element {
   return <SmartAboutContactModal />;
 }
 

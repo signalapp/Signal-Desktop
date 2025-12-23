@@ -214,7 +214,7 @@ function ReleaseNotesExtraInformation({
   i18n,
 }: {
   i18n: LocalizerType;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <div className="module-conversation-hero--release-notes-notice">
       <div className="module-conversation-hero__release-notes-notice-content">
@@ -261,7 +261,7 @@ export function ConversationHero({
   viewUserStories,
   toggleAboutContactModal,
   toggleProfileNameWarningModal,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const [isShowingSafetyTips, setIsShowingSafetyTips] = useState(false);
 
   useEffect(() => {
@@ -288,7 +288,7 @@ export function ConversationHero({
     };
   }
 
-  let titleElem: JSX.Element | undefined;
+  let titleElem: React.JSX.Element | undefined;
 
   if (isMe) {
     titleElem = (

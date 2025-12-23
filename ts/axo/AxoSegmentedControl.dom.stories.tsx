@@ -103,18 +103,18 @@ function TemplateVariants(props: {
   );
 }
 
-export function Basic(): JSX.Element {
+export function Basic(): React.JSX.Element {
   return <TemplateVariants />;
 }
 
-export function LongNames(): JSX.Element {
+export function LongNames(): React.JSX.Element {
   return <TemplateVariants longNames />;
 }
 
-export function WithBadges(): JSX.Element {
+export function WithBadges(): React.JSX.Element {
   return <TemplateVariants includeBadges />;
 }
 
-export function LongNamesWithBadges(): JSX.Element {
+export function LongNamesWithBadges(): React.JSX.Element {
   return <TemplateVariants longNames includeBadges />;
 }

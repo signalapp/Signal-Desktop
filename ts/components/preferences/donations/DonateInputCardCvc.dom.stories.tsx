@@ -18,7 +18,7 @@ export default {
   },
 } satisfies ComponentMeta<DonateInputCardCvcProps>;
 
-export function Default(props: DonateInputCardCvcProps): JSX.Element {
+export function Default(props: DonateInputCardCvcProps): React.JSX.Element {
   const [value, setValue] = useState('');
   return (
     <DonateInputCardCvc {...props} value={value} onValueChange={setValue} />

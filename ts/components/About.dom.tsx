@@ -22,7 +22,7 @@ export function About({
   platform,
   i18n,
   version,
-}: AboutProps): JSX.Element {
+}: AboutProps): React.JSX.Element {
   useEscapeHandling(closeAbout);
 
   let env: string;

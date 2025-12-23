@@ -3,7 +3,7 @@
 
 import lodash from 'lodash';
 import classNames from 'classnames';
-import type { ReactChild, ReactNode, RefObject, UIEvent } from 'react';
+import type { ReactNode, RefObject, UIEvent } from 'react';
 import React from 'react';
 
 import type { ReadonlyDeep } from 'type-fest';
@@ -125,11 +125,11 @@ type PropsHousekeepingType = {
   updateVisibleMessages?: (messageIds: Array<string>) => void;
   renderCollidingAvatars: (_: {
     conversationIds: ReadonlyArray<string>;
-  }) => JSX.Element;
+  }) => React.JSX.Element;
   renderContactSpoofingReviewDialog: (
     props: SmartContactSpoofingReviewDialogPropsType
-  ) => JSX.Element;
-  renderHeroRow: (id: string) => JSX.Element;
+  ) => React.JSX.Element;
+  renderHeroRow: (id: string) => React.JSX.Element;
   renderItem: (props: {
     containerElementRef: RefObject<HTMLElement>;
     containerWidthBreakpoint: WidthBreakpoint;
@@ -142,10 +142,10 @@ type PropsHousekeepingType = {
     nextMessageId: undefined | string;
     previousMessageId: undefined | string;
     unreadIndicatorPlacement: undefined | UnreadIndicatorPlacement;
-  }) => JSX.Element;
-  renderMiniPlayer: (options: { shouldFlow: boolean }) => JSX.Element;
-  renderPinnedMessagesBar: () => JSX.Element;
-  renderTypingBubble: (id: string) => JSX.Element;
+  }) => React.JSX.Element;
+  renderMiniPlayer: (options: { shouldFlow: boolean }) => React.JSX.Element;
+  renderPinnedMessagesBar: () => React.JSX.Element;
+  renderTypingBubble: (id: string) => React.JSX.Element;
 };
 
 export type PropsActionsType = {
@@ -911,7 +911,7 @@ export class Timeline extends React.Component<
     }
   };
 
-  public override render(): JSX.Element | null {
+  public override render(): React.JSX.Element | null {
     const {
       acknowledgeGroupMemberNameCollisions,
       clearInvitedServiceIdsForNewlyCreatedGroup,
@@ -1019,7 +1019,7 @@ export class Timeline extends React.Component<
       );
     }
 
-    const messageNodes: Array<ReactChild> = [];
+    const messageNodes: Array<ReactNode> = [];
     for (let itemIndex = 0; itemIndex < items.length; itemIndex += 1) {
       const previousItemIndex = itemIndex - 1;
       const nextItemIndex = itemIndex + 1;
@@ -1089,8 +1089,8 @@ export class Timeline extends React.Component<
     const warning = Timeline.getWarning(this.props, this.state);
     let headerElements: ReactNode;
     if (warning || shouldShowMiniPlayer || shouldShowPinnedMessagesBar) {
-      let text: ReactChild | undefined;
-      let icon: ReactChild | undefined;
+      let text: ReactNode | undefined;
+      let icon: ReactNode | undefined;
       let onClose: () => void;
       if (warning) {
         icon = (
@@ -1127,8 +1127,8 @@ export class Timeline extends React.Component<
             const { groupNameCollisions } = warning;
             const numberOfSharedNames = Object.keys(groupNameCollisions).length;
             const reviewRequestLink = (
-              parts: Array<string | JSX.Element>
-            ): JSX.Element => (
+              parts: Array<string | React.JSX.Element>
+            ): React.JSX.Element => (
               <TimelineWarning.Link onClick={reviewConversationNameCollision}>
                 {parts}
               </TimelineWarning.Link>

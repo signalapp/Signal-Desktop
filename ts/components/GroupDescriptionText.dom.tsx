@@ -19,7 +19,7 @@ const renderNonNewLine: RenderTextCallbackType = ({ key, text }) => (
   <Linkify key={key} text={text} renderNonLink={renderNonLink} />
 );
 
-export function GroupDescriptionText({ text }: PropsType): JSX.Element {
+export function GroupDescriptionText({ text }: PropsType): React.JSX.Element {
   return (
     <div className="GroupDescriptionText">
       <AddNewLines text={text} renderNonNewLine={renderNonNewLine} />

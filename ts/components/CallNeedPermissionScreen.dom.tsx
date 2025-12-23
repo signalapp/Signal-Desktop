@@ -34,7 +34,7 @@ export function CallNeedPermissionScreen({
   conversation,
   i18n,
   close,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const title = conversation.title || i18n('icu:unknownContact');
 
   const autoCloseAtRef = useRef<number>(Date.now() + AUTO_CLOSE_MS);

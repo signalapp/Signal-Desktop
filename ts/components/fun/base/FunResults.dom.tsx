@@ -10,7 +10,7 @@ export type FunResultsProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunResults(props: FunResultsProps): JSX.Element {
+export function FunResults(props: FunResultsProps): React.JSX.Element {
   return (
     <div role="region" className="FunResults" aria-live="polite">
       {props.children}
@@ -22,7 +22,9 @@ export type FunResultsFigureProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunResultsFigure(props: FunResultsFigureProps): JSX.Element {
+export function FunResultsFigure(
+  props: FunResultsFigureProps
+): React.JSX.Element {
   return (
     <div role="presentation" className="FunResults__Figure">
       {props.children}
@@ -34,7 +36,9 @@ export type FunResultsHeaderProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunResultsHeader(props: FunResultsHeaderProps): JSX.Element {
+export function FunResultsHeader(
+  props: FunResultsHeaderProps
+): React.JSX.Element {
   return <Header className="FunResults__Header">{props.children}</Header>;
 }
 
@@ -43,7 +47,9 @@ export type FunResultsButtonProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunResultsButton(props: FunResultsButtonProps): JSX.Element {
+export function FunResultsButton(
+  props: FunResultsButtonProps
+): React.JSX.Element {
   return (
     <Button className="FunResults__Button" onPress={props.onPress}>
       {props.children}
@@ -51,6 +57,6 @@ export function FunResultsButton(props: FunResultsButtonProps): JSX.Element {
   );
 }
 
-export function FunResultsSpinner(): JSX.Element {
+export function FunResultsSpinner(): React.JSX.Element {
   return <SpinnerV2 size={36} strokeWidth={2} />;
 }

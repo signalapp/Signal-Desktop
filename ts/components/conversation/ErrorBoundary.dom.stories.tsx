@@ -17,7 +17,7 @@ const Fail: React.FC<Record<string, never>> = () => {
   throw new Error('Failed');
 };
 
-export function ErrorState(): JSX.Element {
+export function ErrorState(): React.JSX.Element {
   return (
     <ErrorBoundary i18n={i18n} showDebugLog={action('showDebugLog')}>
       <Fail />

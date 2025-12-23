@@ -22,11 +22,11 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   onSelectQuality: action('onSelectQuality'),
 });
 
-export function StandardQuality(): JSX.Element {
+export function StandardQuality(): React.JSX.Element {
   return <MediaQualitySelector {...createProps()} />;
 }
 
-export function HighQuality(): JSX.Element {
+export function HighQuality(): React.JSX.Element {
   return (
     <MediaQualitySelector
       {...createProps({

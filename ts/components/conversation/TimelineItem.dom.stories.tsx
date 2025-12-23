@@ -127,7 +127,7 @@ export default {
   title: 'Components/Conversation/TimelineItem',
 } satisfies Meta<TimelineItemProps>;
 
-export function PlainMessage(): JSX.Element {
+export function PlainMessage(): React.JSX.Element {
   const item = {
     type: 'message',
     data: {
@@ -145,7 +145,7 @@ export function PlainMessage(): JSX.Element {
   return <TimelineItem {...getDefaultProps()} item={item} i18n={i18n} />;
 }
 
-export function Notification(): JSX.Element {
+export function Notification(): React.JSX.Element {
   const items = [
     {
       type: 'timerNotification',
@@ -598,7 +598,7 @@ export function Notification(): JSX.Element {
   );
 }
 
-export function UnknownType(): JSX.Element {
+export function UnknownType(): React.JSX.Element {
   const item = {
     type: 'random',
     data: {
@@ -614,7 +614,7 @@ export function UnknownType(): JSX.Element {
   );
 }
 
-export function MissingItem(): JSX.Element {
+export function MissingItem(): React.JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const item = null as any as TimelineItemProps['item'];
 

@@ -84,12 +84,12 @@ export default {
   title: 'Components/CallingAdhocCallInfo',
 } satisfies Meta<PropsType>;
 
-export function NoOne(): JSX.Element {
+export function NoOne(): React.JSX.Element {
   const props = createProps();
   return <CallingAdhocCallInfo {...props} />;
 }
 
-export function SoloCall(): JSX.Element {
+export function SoloCall(): React.JSX.Element {
   const props = createProps({
     participants: [
       createParticipant({
@@ -100,7 +100,7 @@ export function SoloCall(): JSX.Element {
   return <CallingAdhocCallInfo {...props} />;
 }
 
-export function ManyParticipants(): JSX.Element {
+export function ManyParticipants(): React.JSX.Element {
   const props = createProps({
     participants: [
       createParticipant({
@@ -145,7 +145,7 @@ export function ManyParticipants(): JSX.Element {
   return <CallingAdhocCallInfo {...props} />;
 }
 
-export function Overflow(): JSX.Element {
+export function Overflow(): React.JSX.Element {
   const props = createProps({
     participants: Array(50)
       .fill(null)
@@ -154,7 +154,7 @@ export function Overflow(): JSX.Element {
   return <CallingAdhocCallInfo {...props} />;
 }
 
-export function AsAdmin(): JSX.Element {
+export function AsAdmin(): React.JSX.Element {
   const props = createProps({
     participants: [
       createParticipant({

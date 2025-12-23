@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import type { ReactChild, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import React from 'react';
 
 import type { ToFindType } from './LeftPaneHelper.dom.js';
@@ -117,7 +117,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     showConversation: ShowConversationType;
     updateSearchTerm: (searchTerm: string) => unknown;
     updateFilterByUnread: (filterByUnread: boolean) => void;
-  }>): ReactChild {
+  }>): ReactNode {
     return (
       <LeftPaneSearchInput
         clearConversationSearch={clearConversationSearch}
@@ -142,8 +142,8 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
   override getPreRowsNode({
     renderLeftPaneChatFolders,
   }: Readonly<{
-    renderLeftPaneChatFolders: () => JSX.Element;
-  }>): ReactChild {
+    renderLeftPaneChatFolders: () => React.JSX.Element;
+  }>): ReactNode {
     return renderLeftPaneChatFolders();
   }
 
@@ -155,7 +155,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     i18n: LocalizerType;
     selectedChatFolder: ChatFolder | null;
     changeLocation: (location: Location) => void;
-  }>): ReactChild | null {
+  }>): ReactNode | null {
     if (this.getRowCount() === 0) {
       if (selectedChatFolder?.folderType === ChatFolderType.CUSTOM) {
         return (

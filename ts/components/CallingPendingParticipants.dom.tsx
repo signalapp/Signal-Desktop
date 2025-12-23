@@ -55,7 +55,7 @@ export function CallingPendingParticipants({
   batchUserAction,
   denyUser,
   toggleCallLinkPendingParticipantModal,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   const reducedMotion = useReducedMotion();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps

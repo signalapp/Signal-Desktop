@@ -123,43 +123,43 @@ const DEFAULT_NOTIFICATION_SETTING = 'message';
 
 function renderUpdateDialog(
   props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
-): JSX.Element {
+): React.JSX.Element {
   return <SmartUpdateDialog {...props} disableDismiss />;
 }
 
 function renderPreferencesChatFoldersPage(
   props: SmartPreferencesChatFoldersPageProps
-): JSX.Element {
+): React.JSX.Element {
   return <SmartPreferencesChatFoldersPage {...props} />;
 }
 
 function renderPreferencesEditChatFolderPage(
   props: SmartPreferencesEditChatFolderPageProps
-): JSX.Element {
+): React.JSX.Element {
   return <SmartPreferencesEditChatFolderPage {...props} />;
 }
 
 function renderNotificationProfilesHome(
   props: SmartNotificationProfilesProps
-): JSX.Element {
+): React.JSX.Element {
   return <SmartNotificationProfilesHome {...props} />;
 }
 
 function renderNotificationProfilesCreateFlow(
   props: SmartNotificationProfilesProps
-): JSX.Element {
+): React.JSX.Element {
   return <SmartNotificationProfilesCreateFlow {...props} />;
 }
 
 function renderProfileEditor(options: {
   contentsRef: MutableRefObject<HTMLDivElement | null>;
-}): JSX.Element {
+}): React.JSX.Element {
   return <SmartProfileEditor contentsRef={options.contentsRef} />;
 }
 
 function renderToastManager(props: {
   containerWidthBreakpoint: WidthBreakpoint;
-}): JSX.Element {
+}): React.JSX.Element {
   return <SmartToastManager disableMegaphone {...props} />;
 }
 
@@ -171,7 +171,7 @@ function renderDonationsPane({
   contentsRef: MutableRefObject<HTMLDivElement | null>;
   settingsLocation: SettingsLocation;
   setSettingsLocation: (settingsLocation: SettingsLocation) => void;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <DonationsErrorBoundary>
       <SmartPreferencesDonations
@@ -210,7 +210,7 @@ function getSystemTraySettingValues(
   };
 }
 
-export function SmartPreferences(): JSX.Element | null {
+export function SmartPreferences(): React.JSX.Element | null {
   const {
     addCustomColor,
     editCustomColor,

@@ -19,16 +19,16 @@ const createProps = (): PropsType => ({
   value: 30,
 });
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return <Slider {...createProps()} />;
 }
 
-function StatefulSliderController(props: PropsType): JSX.Element {
+function StatefulSliderController(props: PropsType): React.JSX.Element {
   const [value, setValue] = useState(30);
 
   return <Slider {...props} onChange={setValue} value={value} />;
 }
 
-export function DraggableTest(): JSX.Element {
+export function DraggableTest(): React.JSX.Element {
   return <StatefulSliderController {...createProps()} />;
 }

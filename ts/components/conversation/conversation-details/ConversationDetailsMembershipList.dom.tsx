@@ -83,7 +83,7 @@ export function ConversationDetailsMembershipList({
   showContactModal,
   startAddingNewMembers,
   theme,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const [showAllMembers, setShowAllMembers] = React.useState<boolean>(false);
   const sortedMemberships = sortMemberships(memberships);
 

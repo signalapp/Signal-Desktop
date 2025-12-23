@@ -29,7 +29,7 @@ export function PlaybackRateButton({
   visible = true,
   i18n,
   onClick,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const [isDown, setIsDown] = useState(false);
   const reducedMotion = useReducedMotion();
 

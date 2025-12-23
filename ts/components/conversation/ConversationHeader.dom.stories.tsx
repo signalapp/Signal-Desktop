@@ -76,7 +76,7 @@ const commonProps: PropsType = {
   onViewUserStories: action('onViewUserStories'),
 };
 
-export function PrivateConvo(): JSX.Element {
+export function PrivateConvo(): React.JSX.Element {
   const items: ItemsType = [
     {
       title: 'With name and profile, verified',
@@ -237,7 +237,7 @@ export function PrivateConvo(): JSX.Element {
   );
 }
 
-export function Group(): JSX.Element {
+export function Group(): React.JSX.Element {
   const items: ItemsType = [
     {
       title: 'Basic',
@@ -328,7 +328,7 @@ export function Group(): JSX.Element {
   );
 }
 
-export function NoteToSelf(): JSX.Element {
+export function NoteToSelf(): React.JSX.Element {
   const items: ItemsType = [
     {
       title: 'In chat with yourself',
@@ -364,7 +364,7 @@ export function NoteToSelf(): JSX.Element {
   );
 }
 
-export function Unaccepted(): JSX.Element {
+export function Unaccepted(): React.JSX.Element {
   const items: ItemsType = [
     {
       title: '1:1 conversation',
@@ -400,7 +400,7 @@ export function Unaccepted(): JSX.Element {
   );
 }
 
-export function Blocked(): JSX.Element {
+export function Blocked(): React.JSX.Element {
   const items: ItemsType = [
     {
       title: 'Unaccepted & Blocked',
@@ -454,7 +454,7 @@ export function Blocked(): JSX.Element {
   );
 }
 
-export function NeedsDeleteConfirmation(): JSX.Element {
+export function NeedsDeleteConfirmation(): React.JSX.Element {
   const [localDeleteWarningShown, setLocalDeleteWarningShown] =
     React.useState(false);
   const props = {
@@ -467,7 +467,7 @@ export function NeedsDeleteConfirmation(): JSX.Element {
   return <ConversationHeader {...props} theme={theme} />;
 }
 
-export function DirectConversationInAnotherCall(): JSX.Element {
+export function DirectConversationInAnotherCall(): React.JSX.Element {
   const props = {
     ...commonProps,
     hasActiveCall: true,
@@ -477,7 +477,7 @@ export function DirectConversationInAnotherCall(): JSX.Element {
   return <ConversationHeader {...props} theme={theme} />;
 }
 
-export function DirectConversationInCurrentCall(): JSX.Element {
+export function DirectConversationInCurrentCall(): React.JSX.Element {
   const props = {
     ...commonProps,
     hasActiveCall: true,
@@ -488,7 +488,7 @@ export function DirectConversationInCurrentCall(): JSX.Element {
   return <ConversationHeader {...props} theme={theme} />;
 }
 
-export function GroupConversationInAnotherCall(): JSX.Element {
+export function GroupConversationInAnotherCall(): React.JSX.Element {
   const props = {
     ...commonProps,
     conversation: getDefaultGroup(),
@@ -500,7 +500,7 @@ export function GroupConversationInAnotherCall(): JSX.Element {
   return <ConversationHeader {...props} theme={theme} />;
 }
 
-export function GroupConversationInCurrentCall(): JSX.Element {
+export function GroupConversationInCurrentCall(): React.JSX.Element {
   const props = {
     ...commonProps,
     conversation: getDefaultGroup(),

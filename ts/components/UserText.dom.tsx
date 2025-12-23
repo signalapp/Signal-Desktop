@@ -8,7 +8,7 @@ export type UserTextProps = Readonly<{
   text: string;
 }>;
 
-export function UserText(props: UserTextProps): JSX.Element {
+export function UserText(props: UserTextProps): React.JSX.Element {
   const normalizedText = useMemo(() => {
     return bidiIsolate(props.text);
   }, [props.text]);

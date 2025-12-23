@@ -76,7 +76,7 @@ export default {
   title: 'Components/CallingRaisedHandsList',
 } satisfies Meta<PropsType>;
 
-export function Me(): JSX.Element {
+export function Me(): React.JSX.Element {
   const props = createProps({
     localHandRaised: true,
     raisedHands: new Set([LOCAL_DEMUX_ID]),
@@ -84,14 +84,14 @@ export function Me(): JSX.Element {
   return <CallingRaisedHandsList {...props} />;
 }
 
-export function MeOnAnotherDevice(): JSX.Element {
+export function MeOnAnotherDevice(): React.JSX.Element {
   const props = createProps({
     raisedHands: new Set([LOCAL_DEMUX_ID]),
   });
   return <CallingRaisedHandsList {...props} />;
 }
 
-export function MeAndOne(): JSX.Element {
+export function MeAndOne(): React.JSX.Element {
   const props = createProps({
     localHandRaised: true,
     raisedHands: new Set([LOCAL_DEMUX_ID, LOCAL_DEMUX_ID + 1]),
@@ -99,24 +99,24 @@ export function MeAndOne(): JSX.Element {
   return <CallingRaisedHandsList {...props} />;
 }
 
-export function One(): JSX.Element {
+export function One(): React.JSX.Element {
   const props = createProps({ raisedHands: new Set([LOCAL_DEMUX_ID + 1]) });
   return <CallingRaisedHandsList {...props} />;
 }
 
-export function Many(): JSX.Element {
+export function Many(): React.JSX.Element {
   const props = createProps({
     raisedHands: new Set([...conversationsByDemuxId.keys()]),
   });
   return <CallingRaisedHandsList {...props} />;
 }
 
-export function Button(): JSX.Element {
+export function Button(): React.JSX.Element {
   const props = createPropsForButton();
   return <CallingRaisedHandsListButton {...props} />;
 }
 
-export function ButtonChanging(): JSX.Element {
+export function ButtonChanging(): React.JSX.Element {
   const initialProps = createPropsForButton();
 
   const [props, setProps] = React.useState(initialProps);

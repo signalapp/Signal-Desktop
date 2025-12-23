@@ -219,7 +219,7 @@ export const Input = forwardRef<
     autoFocus,
     className: classNames(
       getClassName('__input'),
-      icon && getClassName('__input--with-icon'),
+      icon != null && getClassName('__input--with-icon'),
       isLarge && getClassName('__input--large'),
       isTextarea && getClassName('__input--textarea')
     ),

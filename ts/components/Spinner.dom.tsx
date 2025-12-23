@@ -38,7 +38,7 @@ export function Spinner({
   role,
   size,
   svgSize,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const getClassName = getClassNamesFor('module-spinner', moduleClassName);
 
   return (

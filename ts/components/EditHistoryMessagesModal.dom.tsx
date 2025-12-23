@@ -92,7 +92,7 @@ export function EditHistoryMessagesModal({
   platform,
   kickOffAttachmentDownload,
   showLightbox,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const containerElementRef = useRef<HTMLDivElement | null>(null);
   const theme = useTheme();
 

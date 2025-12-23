@@ -59,7 +59,7 @@ export default {
   },
 } satisfies Meta<Props>;
 
-export function Normal(args: Props): JSX.Element {
+export function Normal(args: Props): React.JSX.Element {
   return (
     <table cellPadding={5}>
       <tbody>
@@ -84,6 +84,6 @@ export function Normal(args: Props): JSX.Element {
   );
 }
 
-export function Knobs(args: Props): JSX.Element {
+export function Knobs(args: Props): React.JSX.Element {
   return <MessageTimestamp {...args} />;
 }

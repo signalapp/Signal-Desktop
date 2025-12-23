@@ -32,7 +32,7 @@ export function UsernameSearchResultListItem({
   showUserNotFoundModal,
   setIsFetchingUUID,
   showConversation,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const boundOnClick = useCallback(async () => {
     if (isFetchingUsername) {
       return;

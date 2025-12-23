@@ -16,7 +16,7 @@ export function LeftPaneBanner({
   children,
   actionText,
   onClick,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const onClickWrap = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault();

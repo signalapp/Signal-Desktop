@@ -17,7 +17,10 @@ export function getTooltipContent(i18n: LocalizerType): string {
   return i18n('icu:calling__in-another-call-tooltip');
 }
 
-export function InAnotherCallTooltip({ i18n, children }: Props): JSX.Element {
+export function InAnotherCallTooltip({
+  i18n,
+  children,
+}: Props): React.JSX.Element {
   return (
     <Tooltip
       className="InAnotherCallTooltip"

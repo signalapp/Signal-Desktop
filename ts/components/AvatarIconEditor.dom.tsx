@@ -21,7 +21,7 @@ export function AvatarIconEditor({
   avatarData: initialAvatarData,
   i18n,
   onClose,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [avatarBuffer, setAvatarBuffer] = useState<Uint8Array | undefined>();
   const [avatarData, setAvatarData] =
     useState<AvatarDataType>(initialAvatarData);

@@ -144,7 +144,7 @@ export type FunPanelGifsProps = Readonly<{
 export function FunPanelGifs({
   onSelectGif,
   onClose,
-}: FunPanelGifsProps): JSX.Element {
+}: FunPanelGifsProps): React.JSX.Element {
   const fun = useFunContext();
   const {
     i18n,

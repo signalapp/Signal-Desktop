@@ -19,7 +19,7 @@ export type PropsHousekeeping = {
 
 export type Props = PropsData & PropsHousekeeping;
 
-export function JoinedSignalNotification(props: Props): JSX.Element {
+export function JoinedSignalNotification(props: Props): React.JSX.Element {
   const { i18n, timestamp } = props;
 
   return (

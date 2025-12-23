@@ -41,7 +41,7 @@ export function MyStoryButton({
   onMediaPlaybackStart,
   queueStoryDownload,
   showToast,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [active, setActive] = useState(false);
 
   const newestStory = myStories.length

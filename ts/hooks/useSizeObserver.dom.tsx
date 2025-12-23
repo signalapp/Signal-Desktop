@@ -80,13 +80,13 @@ export type SizeObserverProps = Readonly<{
    */
   onSizeChange?: SizeChangeHandler;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  children(ref: RefObject<any>, size: Size | null): JSX.Element;
+  children(ref: RefObject<any>, size: Size | null): React.JSX.Element;
 }>;
 
 export function SizeObserver({
   onSizeChange,
   children,
-}: SizeObserverProps): JSX.Element {
+}: SizeObserverProps): React.JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = useRef<any>();
   const size = useSizeObserver(ref, onSizeChange);

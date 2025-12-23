@@ -89,7 +89,7 @@ export function ContactDetail({
   kickOffAttachmentDownload,
   messageId,
   onSendMessage,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   // We don't want the overall click handler for this element to fire, so we stop
   //   propagation before handing control to the caller's callback.
   const onClick = (e: React.MouseEvent<HTMLButtonElement>): void => {

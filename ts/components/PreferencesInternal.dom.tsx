@@ -63,7 +63,7 @@ export function PreferencesInternal({
   ) => Promise<ReadonlyArray<RowType<object>>>;
   callQualitySurveyCooldownDisabled: boolean;
   setCallQualitySurveyCooldownDisabled: (value: boolean) => void;
-}): JSX.Element {
+}): React.JSX.Element {
   const [isExportPending, setIsExportPending] = useState(false);
   const [exportResult, setExportResult] = useState<
     BackupValidationResultType | undefined
@@ -104,7 +104,7 @@ export function PreferencesInternal({
   const renderValidationResult = useCallback(
     (
       backupResult: BackupValidationResultType | undefined
-    ): JSX.Element | undefined => {
+    ): React.JSX.Element | undefined => {
       if (backupResult == null) {
         return;
       }
@@ -114,7 +114,7 @@ export function PreferencesInternal({
           result: { totalBytes, stats, duration },
         } = backupResult;
 
-        let snapshotDirEl: JSX.Element | undefined;
+        let snapshotDirEl: React.JSX.Element | undefined;
         if ('snapshotDir' in backupResult.result) {
           snapshotDirEl = (
             <p>

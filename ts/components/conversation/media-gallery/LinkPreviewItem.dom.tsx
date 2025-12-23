@@ -37,11 +37,11 @@ export function LinkPreviewItem({
   authorTitle,
   onClick,
   onShowMessage,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const { preview } = mediaItem;
 
   const url = preview.image == null ? undefined : getUrl(preview.image);
-  let imageOrPlaceholder: JSX.Element;
+  let imageOrPlaceholder: React.JSX.Element;
   if (preview.image != null && url != null) {
     const resolvedBlurHash = preview.image.blurHash || defaultBlurHash(theme);
 

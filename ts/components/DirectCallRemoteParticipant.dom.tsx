@@ -24,7 +24,7 @@ export function DirectCallRemoteParticipant({
   i18n,
   isReconnecting,
   setRendererCanvas,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const remoteVideoRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
@@ -72,7 +72,7 @@ function renderAvatar(
     | 'sharedGroupNames'
     | 'title'
   >
-): JSX.Element {
+): React.JSX.Element {
   return (
     <div className="module-ongoing-call__remote-video-disabled">
       <CallBackgroundBlur avatarUrl={avatarUrl}>

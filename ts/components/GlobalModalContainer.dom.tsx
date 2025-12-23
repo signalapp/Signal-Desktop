@@ -43,31 +43,31 @@ export type PropsType = {
   theme: ThemeType;
   // AddUserToAnotherGroupModal
   addUserToAnotherGroupModalContactId: string | undefined;
-  renderAddUserToAnotherGroup: () => JSX.Element;
+  renderAddUserToAnotherGroup: () => React.JSX.Element;
   // CallLinkAddNameModal
   callLinkAddNameModalRoomId: string | null;
-  renderCallLinkAddNameModal: () => JSX.Element;
+  renderCallLinkAddNameModal: () => React.JSX.Element;
   // CallLinkEditModal
   callLinkEditModalRoomId: string | null;
-  renderCallLinkEditModal: () => JSX.Element;
+  renderCallLinkEditModal: () => React.JSX.Element;
   // CallQualitySurvey
   callQualitySurveyProps: CallQualitySurveyPropsType | null;
-  renderCallQualitySurvey: () => JSX.Element;
+  renderCallQualitySurvey: () => React.JSX.Element;
   // CallLinkPendingParticipantModal
   callLinkPendingParticipantContactId: string | undefined;
-  renderCallLinkPendingParticipantModal: () => JSX.Element;
+  renderCallLinkPendingParticipantModal: () => React.JSX.Element;
   // ConfirmLeaveCallModal
   confirmLeaveCallModalState: StartCallData | null;
-  renderConfirmLeaveCallModal: () => JSX.Element;
+  renderConfirmLeaveCallModal: () => React.JSX.Element;
   // ContactModal
   contactModalState: ContactModalStateType | undefined;
-  renderContactModal: () => JSX.Element;
+  renderContactModal: () => React.JSX.Element;
   // EditHistoryMessagesModal
   editHistoryMessages: EditHistoryMessagesType | undefined;
-  renderEditHistoryMessagesModal: () => JSX.Element;
+  renderEditHistoryMessagesModal: () => React.JSX.Element;
   // EditNicknameAndNoteModal
   editNicknameAndNoteModalProps: EditNicknameAndNoteModalPropsType | null;
-  renderEditNicknameAndNoteModal: () => JSX.Element;
+  renderEditNicknameAndNoteModal: () => React.JSX.Element;
   // ErrorModal
   errorModalProps:
     | {
@@ -80,23 +80,25 @@ export type PropsType = {
     buttonVariant?: ButtonVariant;
     description?: string;
     title?: string | null;
-  }) => JSX.Element;
+  }) => React.JSX.Element;
   // DebugLogErrorModal
   debugLogErrorModalProps:
     | {
         description?: string;
       }
     | undefined;
-  renderDebugLogErrorModal: (opts: { description?: string }) => JSX.Element;
+  renderDebugLogErrorModal: (opts: {
+    description?: string;
+  }) => React.JSX.Element;
   // DeleteMessageModal
   deleteMessagesProps: DeleteMessagesPropsType | undefined;
-  renderDeleteMessagesModal: () => JSX.Element;
+  renderDeleteMessagesModal: () => React.JSX.Element;
   // DraftGifMessageSendModal
   draftGifMessageSendModalProps: SmartDraftGifMessageSendModalProps | null;
-  renderDraftGifMessageSendModal: () => JSX.Element;
+  renderDraftGifMessageSendModal: () => React.JSX.Element;
   // ForwardMessageModal
   forwardMessagesProps: ForwardMessagesPropsType | undefined;
-  renderForwardMessagesModal: () => JSX.Element;
+  renderForwardMessagesModal: () => React.JSX.Element;
   // MediaPermissionsModal
   mediaPermissionsModalProps:
     | {
@@ -108,34 +110,34 @@ export type PropsType = {
   openSystemMediaPermissions: (mediaType: 'camera' | 'microphone') => void;
   // MessageRequestActionsConfirmation
   messageRequestActionsConfirmationProps: MessageRequestActionsConfirmationPropsType | null;
-  renderMessageRequestActionsConfirmation: () => JSX.Element;
+  renderMessageRequestActionsConfirmation: () => React.JSX.Element;
   // NotePreviewModal
   notePreviewModalProps: { conversationId: string } | null;
-  renderNotePreviewModal: () => JSX.Element;
+  renderNotePreviewModal: () => React.JSX.Element;
   // SafetyNumberModal
   safetyNumberModalContactId: string | undefined;
-  renderSafetyNumber: () => JSX.Element;
+  renderSafetyNumber: () => React.JSX.Element;
   // ShortcutGuideModal
   isShortcutGuideModalVisible: boolean;
-  renderShortcutGuideModal: () => JSX.Element;
+  renderShortcutGuideModal: () => React.JSX.Element;
   // SignalConnectionsModal
   isSignalConnectionsVisible: boolean;
   toggleSignalConnectionsModal: () => unknown;
   // AboutContactModal
   isAboutContactModalVisible: boolean;
-  renderAboutContactModal: () => JSX.Element | null;
+  renderAboutContactModal: () => React.JSX.Element | null;
   // StickerPackPreviewModal
   stickerPackPreviewId: string | undefined;
-  renderStickerPreviewModal: () => JSX.Element | null;
+  renderStickerPreviewModal: () => React.JSX.Element | null;
   // StoriesSettings
   isStoriesSettingsVisible: boolean;
-  renderStoriesSettings: () => JSX.Element;
+  renderStoriesSettings: () => React.JSX.Element;
   // SendAnywayDialog
   hasSafetyNumberChangeModal: boolean;
   safetyNumberChangedBlockingData:
     | SafetyNumberChangedBlockingDataType
     | undefined;
-  renderSendAnywayDialog: () => JSX.Element;
+  renderSendAnywayDialog: () => React.JSX.Element;
   // TapToViewNotAvailableModal
   tapToViewNotAvailableModalProps: TapToViewNotAvailablePropsType | undefined;
   hideTapToViewNotAvailableModal: () => void;
@@ -150,10 +152,10 @@ export type PropsType = {
   hideWhatsNewModal: () => unknown;
   // UsernameOnboarding
   usernameOnboardingState: UsernameOnboardingState;
-  renderUsernameOnboarding: () => JSX.Element;
+  renderUsernameOnboarding: () => React.JSX.Element;
   isProfileNameWarningModalVisible: boolean;
   profileNameWarningModalConversationType?: string;
-  renderProfileNameWarningModal: () => JSX.Element;
+  renderProfileNameWarningModal: () => React.JSX.Element;
   // CriticalIdlePrimaryDeviceModal,
   criticalIdlePrimaryDeviceModal: boolean;
   hideCriticalIdlePrimaryDeviceModal: () => void;
@@ -162,7 +164,7 @@ export type PropsType = {
   hideLowDiskSpaceBackupImportModal: () => void;
   // PlaintextExportWorkflow
   shouldShowPlaintextExportWorkflow: boolean;
-  renderPlaintextExportWorkflow: () => JSX.Element;
+  renderPlaintextExportWorkflow: () => React.JSX.Element;
 };
 
 export function GlobalModalContainer({
@@ -268,7 +270,7 @@ export function GlobalModalContainer({
   // PlaintextExportWorkflow
   shouldShowPlaintextExportWorkflow,
   renderPlaintextExportWorkflow,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   // We want the following dialogs to show in this order:
   // 0. Stateful multi-modal workflows
   // 1. Errors

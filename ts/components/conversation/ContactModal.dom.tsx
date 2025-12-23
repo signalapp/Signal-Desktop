@@ -110,7 +110,7 @@ export function ContactModal({
   toggleSafetyNumberModal,
   updateConversationModelSharedGroups,
   viewUserStories,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   if (!contact) {
     throw new Error('Contact modal opened without a matching contact');
   }

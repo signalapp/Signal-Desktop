@@ -89,11 +89,11 @@ const createProps = (
   ...overrideProps,
 });
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return <AddGroupMembersModal {...createProps()} />;
 }
 
-export function Only3Contacts(): JSX.Element {
+export function Only3Contacts(): React.JSX.Element {
   return (
     <AddGroupMembersModal
       {...createProps({}, allCandidateContacts.slice(0, 3))}
@@ -101,11 +101,11 @@ export function Only3Contacts(): JSX.Element {
   );
 }
 
-export function NoCandidateContacts(): JSX.Element {
+export function NoCandidateContacts(): React.JSX.Element {
   return <AddGroupMembersModal {...createProps({}, [])} />;
 }
 
-export function EveryoneAlreadyAdded(): JSX.Element {
+export function EveryoneAlreadyAdded(): React.JSX.Element {
   return (
     <AddGroupMembersModal
       {...createProps({
@@ -137,6 +137,6 @@ function RequestFailsAfter1SecondWrapper() {
   );
 }
 
-export function RequestFailsAfter1Second(): JSX.Element {
+export function RequestFailsAfter1Second(): React.JSX.Element {
   return <RequestFailsAfter1SecondWrapper />;
 }

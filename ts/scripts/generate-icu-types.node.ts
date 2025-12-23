@@ -151,6 +151,11 @@ let top = ts.factory.createImportDeclaration(
       ts.factory.createImportSpecifier(
         false,
         undefined,
+        ts.factory.createIdentifier('JSX')
+      ),
+      ts.factory.createImportSpecifier(
+        false,
+        undefined,
         ts.factory.createIdentifier('ReactNode')
       ),
     ])

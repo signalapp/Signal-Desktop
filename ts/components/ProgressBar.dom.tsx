@@ -9,7 +9,7 @@ export function ProgressBar({
 }: {
   fractionComplete: number | null;
   isRTL: boolean;
-}): JSX.Element {
+}): React.JSX.Element {
   if (fractionComplete == null) {
     return (
       <div className="ProgressBar">

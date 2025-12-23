@@ -22,10 +22,10 @@ export default {
   },
 } satisfies ComponentMeta<PropsType>;
 
-export function Timeout(args: PropsType): JSX.Element {
+export function Timeout(args: PropsType): React.JSX.Element {
   return <BackfillFailureModal {...args} />;
 }
 
-export function NotFound(args: PropsType): JSX.Element {
+export function NotFound(args: PropsType): React.JSX.Element {
   return <BackfillFailureModal {...args} kind={BackfillFailureKind.NotFound} />;
 }

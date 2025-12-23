@@ -15,7 +15,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   text: overrideProps.text || '',
 });
 
-export function AllNewlines(): JSX.Element {
+export function AllNewlines(): React.JSX.Element {
   const props = createProps({
     text: '\n\n\n',
   });
@@ -23,7 +23,7 @@ export function AllNewlines(): JSX.Element {
   return <AddNewLines {...props} />;
 }
 
-export function StartingEndingWithNewlines(): JSX.Element {
+export function StartingEndingWithNewlines(): React.JSX.Element {
   const props = createProps({
     text: '\nSome text\n',
   });
@@ -31,7 +31,7 @@ export function StartingEndingWithNewlines(): JSX.Element {
   return <AddNewLines {...props} />;
 }
 
-export function NewlinesInTheMiddle(): JSX.Element {
+export function NewlinesInTheMiddle(): React.JSX.Element {
   const props = createProps({
     text: 'Some\ntext',
   });
@@ -39,7 +39,7 @@ export function NewlinesInTheMiddle(): JSX.Element {
   return <AddNewLines {...props} />;
 }
 
-export function NoNewlines(): JSX.Element {
+export function NoNewlines(): React.JSX.Element {
   const props = createProps({
     text: 'Some text',
   });
@@ -47,7 +47,7 @@ export function NoNewlines(): JSX.Element {
   return <AddNewLines {...props} />;
 }
 
-export function CustomRenderFunction(): JSX.Element {
+export function CustomRenderFunction(): React.JSX.Element {
   const props = createProps({
     text: 'Some text',
     renderNonNewLine: ({ text: theText, key }) => (

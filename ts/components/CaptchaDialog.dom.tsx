@@ -21,7 +21,7 @@ export function CaptchaDialog({
   isPending,
   onSkip,
   onContinue,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [isClosing, setIsClosing] = useState(false);
 
   const buttonRef = useRef<HTMLButtonElement | null>(null);

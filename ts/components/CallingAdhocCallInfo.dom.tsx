@@ -64,7 +64,7 @@ function UnknownContacts({
   isInAdditionToKnownContacts,
   participants,
   showUnknownContactDialog,
-}: UnknownContactsPropsType): JSX.Element {
+}: UnknownContactsPropsType): React.JSX.Element {
   const renderUnknownAvatar = React.useCallback(
     ({
       participant,
@@ -156,7 +156,7 @@ export function CallingAdhocCallInfo({
   onShareCallLinkViaSignal,
   removeClient,
   showContactModal,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   const [isUnknownContactDialogVisible, setIsUnknownContactDialogVisible] =
     React.useState(false);
   const [removeClientDialogState, setRemoveClientDialogState] = React.useState<{

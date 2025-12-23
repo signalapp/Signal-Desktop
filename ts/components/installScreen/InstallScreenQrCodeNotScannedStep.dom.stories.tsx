@@ -69,7 +69,7 @@ function Simulation({
   );
 }
 
-export function QrCodeLoading(): JSX.Element {
+export function QrCodeLoading(): React.JSX.Element {
   return (
     <InstallScreenQrCodeNotScannedStep
       i18n={i18n}
@@ -87,7 +87,7 @@ export function QrCodeLoading(): JSX.Element {
   );
 }
 
-export function QrCodeFailedToLoad(): JSX.Element {
+export function QrCodeFailedToLoad(): React.JSX.Element {
   return (
     <InstallScreenQrCodeNotScannedStep
       i18n={i18n}
@@ -106,7 +106,7 @@ export function QrCodeFailedToLoad(): JSX.Element {
   );
 }
 
-export function QrCodeLoaded(): JSX.Element {
+export function QrCodeLoaded(): React.JSX.Element {
   return (
     <InstallScreenQrCodeNotScannedStep
       i18n={i18n}
@@ -122,11 +122,11 @@ export function QrCodeLoaded(): JSX.Element {
   );
 }
 
-export function SimulatedLoading(): JSX.Element {
+export function SimulatedLoading(): React.JSX.Element {
   return <Simulation finalResult={LOADED_URL} />;
 }
 
-export function SimulatedMaxRotationsError(): JSX.Element {
+export function SimulatedMaxRotationsError(): React.JSX.Element {
   return (
     <Simulation
       finalResult={{
@@ -137,7 +137,7 @@ export function SimulatedMaxRotationsError(): JSX.Element {
   );
 }
 
-export function SimulatedUnknownError(): JSX.Element {
+export function SimulatedUnknownError(): React.JSX.Element {
   return (
     <Simulation
       finalResult={{
@@ -148,7 +148,7 @@ export function SimulatedUnknownError(): JSX.Element {
   );
 }
 
-export function SimulatedNetworkIssue(): JSX.Element {
+export function SimulatedNetworkIssue(): React.JSX.Element {
   return (
     <Simulation
       finalResult={{
@@ -159,7 +159,7 @@ export function SimulatedNetworkIssue(): JSX.Element {
   );
 }
 
-export function SimulatedTimeout(): JSX.Element {
+export function SimulatedTimeout(): React.JSX.Element {
   return (
     <Simulation
       finalResult={{
@@ -178,7 +178,7 @@ export const WithUpdateKnobs: StoryFn<PropsType & { dialogType: DialogType }> =
   }: {
     dialogType: DialogType;
     currentVersion: string;
-  }): JSX.Element {
+  }): React.JSX.Element {
     return (
       <InstallScreenQrCodeNotScannedStep
         i18n={i18n}

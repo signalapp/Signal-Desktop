@@ -26,7 +26,7 @@ export function MessageRequestResponseNotification({
   isGroup,
   messageRequestResponseEvent: event,
   onOpenMessageRequestActionsConfirmation,
-}: MessageRequestResponseNotificationProps): JSX.Element | null {
+}: MessageRequestResponseNotificationProps): React.JSX.Element | null {
   const [isSafetyTipsModalOpen, setIsSafetyTipsModalOpen] = useState(false);
 
   return (

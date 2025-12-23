@@ -14,7 +14,7 @@ export default {
   component: CompositionRecordingDraft,
 } satisfies Meta<Props>;
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = React.useState<number>(0);
   const [duration, setDuration] = React.useState<number | undefined>(undefined);

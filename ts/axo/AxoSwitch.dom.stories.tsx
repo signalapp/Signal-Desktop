@@ -13,7 +13,7 @@ function Template(props: {
   label: string;
   defaultChecked: boolean;
   disabled?: boolean;
-}): JSX.Element {
+}): React.JSX.Element {
   const [checked, setChecked] = useState(props.defaultChecked);
   return (
     <label className={tw('my-2 flex items-center gap-2')}>
@@ -27,7 +27,7 @@ function Template(props: {
   );
 }
 
-export function Basic(): JSX.Element {
+export function Basic(): React.JSX.Element {
   return (
     <>
       <h1 className={tw('type-title-large')}>AxoSwitch</h1>

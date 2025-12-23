@@ -203,11 +203,11 @@ export default {
   args: {},
 } satisfies Meta<PropsType>;
 
-export function NoCall(): JSX.Element {
+export function NoCall(): React.JSX.Element {
   return <CallManager {...createProps()} />;
 }
 
-export function OngoingDirectCall(): JSX.Element {
+export function OngoingDirectCall(): React.JSX.Element {
   return (
     <CallManager
       {...createProps({
@@ -228,7 +228,7 @@ export function OngoingDirectCall(): JSX.Element {
   );
 }
 
-export function OngoingGroupCall(): JSX.Element {
+export function OngoingGroupCall(): React.JSX.Element {
   return (
     <CallManager
       {...createProps({
@@ -255,7 +255,7 @@ export function OngoingGroupCall(): JSX.Element {
   );
 }
 
-export function RingingDirectCall(): JSX.Element {
+export function RingingDirectCall(): React.JSX.Element {
   return (
     <CallManager
       {...createProps({
@@ -269,7 +269,7 @@ export function RingingDirectCall(): JSX.Element {
   );
 }
 
-export function RingingGroupCall(): JSX.Element {
+export function RingingGroupCall(): React.JSX.Element {
   return (
     <CallManager
       {...createProps({
@@ -296,7 +296,7 @@ export function RingingGroupCall(): JSX.Element {
   );
 }
 
-export function CallRequestNeeded(): JSX.Element {
+export function CallRequestNeeded(): React.JSX.Element {
   return (
     <CallManager
       {...createProps({
@@ -318,7 +318,7 @@ export function CallRequestNeeded(): JSX.Element {
   );
 }
 
-export function CallLinkLobbyParticipantsKnown(): JSX.Element {
+export function CallLinkLobbyParticipantsKnown(): React.JSX.Element {
   return (
     <CallManager
       {...createProps({
@@ -329,7 +329,7 @@ export function CallLinkLobbyParticipantsKnown(): JSX.Element {
   );
 }
 
-export function CallLinkLobbyParticipants1Unknown(): JSX.Element {
+export function CallLinkLobbyParticipants1Unknown(): React.JSX.Element {
   return (
     <CallManager
       {...createProps({
@@ -342,7 +342,7 @@ export function CallLinkLobbyParticipants1Unknown(): JSX.Element {
   );
 }
 
-export function CallLinkLobbyParticipants1Known1Unknown(): JSX.Element {
+export function CallLinkLobbyParticipants1Known1Unknown(): React.JSX.Element {
   return (
     <CallManager
       {...createProps({
@@ -355,7 +355,7 @@ export function CallLinkLobbyParticipants1Known1Unknown(): JSX.Element {
   );
 }
 
-export function CallLinkLobbyParticipants1Known2Unknown(): JSX.Element {
+export function CallLinkLobbyParticipants1Known2Unknown(): React.JSX.Element {
   return (
     <CallManager
       {...createProps({
@@ -372,7 +372,7 @@ export function CallLinkLobbyParticipants1Known2Unknown(): JSX.Element {
   );
 }
 
-export function CallLinkLobbyParticipants1Known12Unknown(): JSX.Element {
+export function CallLinkLobbyParticipants1Known12Unknown(): React.JSX.Element {
   const peekedParticipants: Array<ConversationType> = [
     allRemoteParticipants[0],
   ];
@@ -391,7 +391,7 @@ export function CallLinkLobbyParticipants1Known12Unknown(): JSX.Element {
   );
 }
 
-export function CallLinkLobbyParticipants3Unknown(): JSX.Element {
+export function CallLinkLobbyParticipants3Unknown(): React.JSX.Element {
   return (
     <CallManager
       {...createProps({
@@ -408,7 +408,7 @@ export function CallLinkLobbyParticipants3Unknown(): JSX.Element {
   );
 }
 
-export function CallLinkWithJoinRequestsOne(): JSX.Element {
+export function CallLinkWithJoinRequestsOne(): React.JSX.Element {
   return (
     <CallManager
       {...createProps({
@@ -425,7 +425,7 @@ export function CallLinkWithJoinRequestsOne(): JSX.Element {
   );
 }
 
-export function CallLinkWithJoinRequestsTwo(): JSX.Element {
+export function CallLinkWithJoinRequestsTwo(): React.JSX.Element {
   return (
     <CallManager
       {...createProps({
@@ -442,7 +442,7 @@ export function CallLinkWithJoinRequestsTwo(): JSX.Element {
   );
 }
 
-export function CallLinkWithJoinRequestsMany(): JSX.Element {
+export function CallLinkWithJoinRequestsMany(): React.JSX.Element {
   return (
     <CallManager
       {...createProps({
@@ -459,7 +459,7 @@ export function CallLinkWithJoinRequestsMany(): JSX.Element {
   );
 }
 
-export function CallLinkWithJoinRequestUnknownContact(): JSX.Element {
+export function CallLinkWithJoinRequestUnknownContact(): React.JSX.Element {
   return (
     <CallManager
       {...createProps({
@@ -480,7 +480,7 @@ export function CallLinkWithJoinRequestUnknownContact(): JSX.Element {
   );
 }
 
-export function CallLinkWithJoinRequestsSystemContact(): JSX.Element {
+export function CallLinkWithJoinRequestsSystemContact(): React.JSX.Element {
   return (
     <CallManager
       {...createProps({
@@ -499,7 +499,7 @@ export function CallLinkWithJoinRequestsSystemContact(): JSX.Element {
   );
 }
 
-export function CallLinkWithJoinRequestsSystemContactMany(): JSX.Element {
+export function CallLinkWithJoinRequestsSystemContactMany(): React.JSX.Element {
   return (
     <CallManager
       {...createProps({
@@ -520,7 +520,7 @@ export function CallLinkWithJoinRequestsSystemContactMany(): JSX.Element {
   );
 }
 
-export function CallLinkWithJoinRequestsParticipantsOpen(): JSX.Element {
+export function CallLinkWithJoinRequestsParticipantsOpen(): React.JSX.Element {
   return (
     <CallManager
       {...createProps({
@@ -536,7 +536,7 @@ export function CallLinkWithJoinRequestsParticipantsOpen(): JSX.Element {
   );
 }
 
-export function CallLinkWithUnknownContacts(): JSX.Element {
+export function CallLinkWithUnknownContacts(): React.JSX.Element {
   return (
     <CallManager
       {...createProps({

@@ -173,7 +173,7 @@ const donationAmountsConfig = {
 
 function renderUpdateDialog(
   props: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
-): JSX.Element {
+): React.JSX.Element {
   return (
     <DialogUpdate
       i18n={i18n}
@@ -194,7 +194,7 @@ function renderProfileEditor({
   contentsRef,
 }: {
   contentsRef: MutableRefObject<HTMLDivElement | null>;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <ProfileEditor
       aboutEmoji={undefined}
@@ -254,7 +254,7 @@ function renderDonationsPane(props: {
   ) => Promise<Blob>;
   showToast: (toast: AnyToast) => void;
   workflow?: DonationWorkflow;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <PreferencesDonations
       applyDonationBadge={action('applyDonationBadge')}
@@ -290,13 +290,13 @@ function renderDonationsPane(props: {
   );
 }
 
-function renderToastManager(): JSX.Element {
+function renderToastManager(): React.JSX.Element {
   return <div />;
 }
 
 function renderPreferencesChatFoldersPage(
   props: SmartPreferencesChatFoldersPageProps
-): JSX.Element {
+): React.JSX.Element {
   return (
     <PreferencesChatFoldersPage
       i18n={i18n}
@@ -314,7 +314,7 @@ function renderPreferencesChatFoldersPage(
 
 function renderPreferencesEditChatFolderPage(
   props: SmartPreferencesEditChatFolderPageProps
-): JSX.Element {
+): React.JSX.Element {
   return (
     <PreferencesEditChatFolderPage
       i18n={i18n}
@@ -339,7 +339,7 @@ function renderPreferencesEditChatFolderPage(
 
 function renderNotificationProfilesCreateFlow(
   props: SmartNotificationProfilesProps
-): JSX.Element {
+): React.JSX.Element {
   return (
     <NotificationProfilesCreateFlow
       contentsRef={props.contentsRef}
@@ -356,7 +356,7 @@ function renderNotificationProfilesCreateFlow(
 
 function renderNotificationProfilesHome(
   props: SmartNotificationProfilesProps
-): JSX.Element {
+): React.JSX.Element {
   return (
     <NotificationProfilesHome
       activeProfileId={undefined}

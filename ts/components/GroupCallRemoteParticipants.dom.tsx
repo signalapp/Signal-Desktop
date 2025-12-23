@@ -125,7 +125,7 @@ export function GroupCallRemoteParticipants({
   setGroupCallVideoRequest,
   remoteAudioLevels,
   onClickRaisedHand,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [gridDimensions, setGridDimensions] = useState<Dimensions>({
     width: 0,
     height: 0,
@@ -295,7 +295,7 @@ export function GroupCallRemoteParticipants({
     Math.round((gridDimensions.height - gridTotalRowHeightWithMargin) / 2)
   );
 
-  const rowElements: Array<Array<JSX.Element>> = gridArrangement.rows.map(
+  const rowElements: Array<Array<React.JSX.Element>> = gridArrangement.rows.map(
     (tiles, index) => {
       const top = gridTopOffset + index * gridParticipantHeightWithMargin;
 

@@ -46,7 +46,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   },
 });
 
-export function LinksEnabled(): JSX.Element {
+export function LinksEnabled(): React.JSX.Element {
   const props = createProps({
     text: 'Check out https://www.signal.org',
   });
@@ -54,7 +54,7 @@ export function LinksEnabled(): JSX.Element {
   return <MessageBody {...props} />;
 }
 
-export function LinksDisabled(): JSX.Element {
+export function LinksDisabled(): React.JSX.Element {
   const props = createProps({
     disableLinks: true,
     text: 'Check out https://www.signal.org',
@@ -63,7 +63,7 @@ export function LinksDisabled(): JSX.Element {
   return <MessageBody {...props} />;
 }
 
-export function EmojiSizeBasedOnCount(): JSX.Element {
+export function EmojiSizeBasedOnCount(): React.JSX.Element {
   const props = createProps();
 
   return (
@@ -81,7 +81,7 @@ export function EmojiSizeBasedOnCount(): JSX.Element {
   );
 }
 
-export function JumbomojiEnabled(): JSX.Element {
+export function JumbomojiEnabled(): React.JSX.Element {
   const props = createProps({
     text: '😹',
   });
@@ -89,7 +89,7 @@ export function JumbomojiEnabled(): JSX.Element {
   return <MessageBody {...props} />;
 }
 
-export function JumbomojiDisabled(): JSX.Element {
+export function JumbomojiDisabled(): React.JSX.Element {
   const props = createProps({
     disableJumbomoji: true,
     text: '😹',
@@ -98,7 +98,7 @@ export function JumbomojiDisabled(): JSX.Element {
   return <MessageBody {...props} />;
 }
 
-export function JumbomojiDisabledByText(): JSX.Element {
+export function JumbomojiDisabledByText(): React.JSX.Element {
   const props = createProps({
     text: 'not a jumbo kitty 😹',
   });
@@ -106,7 +106,7 @@ export function JumbomojiDisabledByText(): JSX.Element {
   return <MessageBody {...props} />;
 }
 
-export function TextPending(): JSX.Element {
+export function TextPending(): React.JSX.Element {
   const props = createProps({
     text: 'Check out https://www.signal.org',
     textAttachment: {
@@ -117,7 +117,7 @@ export function TextPending(): JSX.Element {
   return <MessageBody {...props} />;
 }
 
-export function MessageTooLong(): JSX.Element {
+export function MessageTooLong(): React.JSX.Element {
   const props = createProps({
     text: 'Check out https://www.signal.org',
     textAttachment: {
@@ -128,7 +128,7 @@ export function MessageTooLong(): JSX.Element {
   return <MessageBody {...props} />;
 }
 
-export function Mention(): JSX.Element {
+export function Mention(): React.JSX.Element {
   const props = createProps({
     bodyRanges: [
       {
@@ -145,7 +145,7 @@ export function Mention(): JSX.Element {
   return <MessageBody {...props} />;
 }
 
-export function MultipleMentions(): JSX.Element {
+export function MultipleMentions(): React.JSX.Element {
   const props = createProps({
     // These are intentionally in a mixed order to test how we deal with that
     bodyRanges: [
@@ -183,7 +183,7 @@ export function MultipleMentions(): JSX.Element {
   );
 }
 
-export function ComplexMessageBody(): JSX.Element {
+export function ComplexMessageBody(): React.JSX.Element {
   const props = createProps({
     bodyRanges: [
       // These are intentionally in a mixed order to test how we deal with that
@@ -222,7 +222,7 @@ export function ComplexMessageBody(): JSX.Element {
   );
 }
 
-export function FormattingBasic(): JSX.Element {
+export function FormattingBasic(): React.JSX.Element {
   const [isSpoilerExpanded, setIsSpoilerExpanded] = React.useState({});
 
   const props = createProps({
@@ -278,7 +278,7 @@ export function FormattingBasic(): JSX.Element {
   );
 }
 
-export function FormattingSpoiler(): JSX.Element {
+export function FormattingSpoiler(): React.JSX.Element {
   const [isSpoilerExpanded, setIsSpoilerExpanded] = React.useState({});
 
   const props = createProps({
@@ -352,7 +352,7 @@ export function FormattingSpoiler(): JSX.Element {
   );
 }
 
-export function FormattingNesting(): JSX.Element {
+export function FormattingNesting(): React.JSX.Element {
   const props = createProps({
     bodyRanges: [
       {
@@ -428,7 +428,7 @@ export function FormattingNesting(): JSX.Element {
   );
 }
 
-export function FormattingComplex(): JSX.Element {
+export function FormattingComplex(): React.JSX.Element {
   const [isSpoilerExpanded, setIsSpoilerExpanded] = React.useState({});
   const text =
     'Computational processes \uFFFC are abstract beings that inhabit computers. ' +
@@ -491,7 +491,7 @@ export function FormattingComplex(): JSX.Element {
   return <MessageBody {...props} />;
 }
 
-export function ZalgoText(): JSX.Element {
+export function ZalgoText(): React.JSX.Element {
   const text = 'T̸͎̆̏̇̊̄͜ͅh̸͙̟͎̯̍͋͜͜i̸̪͚̼̜̦̲̇͒̇͝͝ś̴̡̩͙͜͝ ̴̼̣̩͂͑͠i̸̡̞̯͗s̵͙̔͛͊͑̔ ̶͇̒͝f̴̗͇͙̳͕̅̈́̏̉ò̵̲͉̤̬̖̱ȓ̶̳̫͗͝m̶̗͚̓ą̶̘̳͉̣̿̋t̴͎͎̞̤̱̅̓͝͝t̶̝͊͗é̵̛̥̔̃̀d̸̢̘̹̥̋͆ ̸̘͓͐̓̅̚ẕ̸͉̊̊͝a̴̙̖͎̥̥̅̽́͑͘ͅl̴͔̪͙͔̑̈́g̴͔̝̙̰̊͆̎͌́ǫ̵̪̤̖̖͗̑̎̿̄̎ ̵̪͈̲͇̫̼͌̌͛̚t̸̠́ẽ̴̡̺̖͘x̵͈̰̮͔̃̔͗̑̓͘t';
 
   const props = createProps({
@@ -527,7 +527,7 @@ export function ZalgoText(): JSX.Element {
   return <MessageBody {...props} />;
 }
 
-export function LinkOverReadMoreBoundary(): JSX.Element {
+export function LinkOverReadMoreBoundary(): React.JSX.Element {
   const text = 'https://hello.me';
   const originalText = 'https://hello.me123';
 

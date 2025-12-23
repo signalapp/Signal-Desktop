@@ -30,11 +30,11 @@ export default {
   },
 } satisfies ComponentMeta<PropsType>;
 
-export function ConfirmingExport(args: PropsType): JSX.Element {
+export function ConfirmingExport(args: PropsType): React.JSX.Element {
   return <PlaintextExportWorkflow {...args} />;
 }
 
-export function ConfirmingWithOS(args: PropsType): JSX.Element {
+export function ConfirmingWithOS(args: PropsType): React.JSX.Element {
   return (
     <PlaintextExportWorkflow
       {...args}
@@ -46,7 +46,7 @@ export function ConfirmingWithOS(args: PropsType): JSX.Element {
   );
 }
 
-export function ChoosingLocation(args: PropsType): JSX.Element {
+export function ChoosingLocation(args: PropsType): React.JSX.Element {
   return (
     <PlaintextExportWorkflow
       {...args}
@@ -58,7 +58,7 @@ export function ChoosingLocation(args: PropsType): JSX.Element {
   );
 }
 
-export function ExportingMessages(args: PropsType): JSX.Element {
+export function ExportingMessages(args: PropsType): React.JSX.Element {
   return (
     <PlaintextExportWorkflow
       {...args}
@@ -72,7 +72,7 @@ export function ExportingMessages(args: PropsType): JSX.Element {
   );
 }
 
-export function ExportingAttachments(args: PropsType): JSX.Element {
+export function ExportingAttachments(args: PropsType): React.JSX.Element {
   return (
     <PlaintextExportWorkflow
       {...args}
@@ -90,7 +90,7 @@ export function ExportingAttachments(args: PropsType): JSX.Element {
   );
 }
 
-export function CompleteMac(args: PropsType): JSX.Element {
+export function CompleteMac(args: PropsType): React.JSX.Element {
   return (
     <PlaintextExportWorkflow
       {...args}
@@ -103,7 +103,7 @@ export function CompleteMac(args: PropsType): JSX.Element {
   );
 }
 
-export function CompleteLinux(args: PropsType): JSX.Element {
+export function CompleteLinux(args: PropsType): React.JSX.Element {
   return (
     <PlaintextExportWorkflow
       {...args}
@@ -116,7 +116,7 @@ export function CompleteLinux(args: PropsType): JSX.Element {
   );
 }
 
-export function ErrorGeneric(args: PropsType): JSX.Element {
+export function ErrorGeneric(args: PropsType): React.JSX.Element {
   return (
     <PlaintextExportWorkflow
       {...args}
@@ -130,7 +130,7 @@ export function ErrorGeneric(args: PropsType): JSX.Element {
   );
 }
 
-export function ErrorNotEnoughStorage(args: PropsType): JSX.Element {
+export function ErrorNotEnoughStorage(args: PropsType): React.JSX.Element {
   return (
     <PlaintextExportWorkflow
       {...args}
@@ -145,7 +145,7 @@ export function ErrorNotEnoughStorage(args: PropsType): JSX.Element {
   );
 }
 
-export function ErrorRanOutOfStorage(args: PropsType): JSX.Element {
+export function ErrorRanOutOfStorage(args: PropsType): React.JSX.Element {
   return (
     <PlaintextExportWorkflow
       {...args}
@@ -160,7 +160,7 @@ export function ErrorRanOutOfStorage(args: PropsType): JSX.Element {
   );
 }
 
-export function ErrorStoragePermissions(args: PropsType): JSX.Element {
+export function ErrorStoragePermissions(args: PropsType): React.JSX.Element {
   return (
     <PlaintextExportWorkflow
       {...args}

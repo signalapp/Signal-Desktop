@@ -40,11 +40,11 @@ export default {
   title: 'Components/CallingDeviceSelection',
 } satisfies Meta<Props>;
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return <CallingDeviceSelection {...createProps()} />;
 }
 
-export function SomeDevices(): JSX.Element {
+export function SomeDevices(): React.JSX.Element {
   const availableSpeakers = [
     {
       name: 'Default',
@@ -73,7 +73,7 @@ export function SomeDevices(): JSX.Element {
   return <CallingDeviceSelection {...props} />;
 }
 
-export function DefaultDevices(): JSX.Element {
+export function DefaultDevices(): React.JSX.Element {
   const availableSpeakers = [
     {
       name: 'default (Headphones)',
@@ -104,7 +104,7 @@ export function DefaultDevices(): JSX.Element {
   return <CallingDeviceSelection {...props} />;
 }
 
-export function AllDevices(): JSX.Element {
+export function AllDevices(): React.JSX.Element {
   const availableSpeakers = [
     {
       name: 'Default',

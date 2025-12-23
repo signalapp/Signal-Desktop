@@ -22,7 +22,7 @@ export default {
   title: 'Components/AvatarModalButtons',
 } satisfies Meta<PropsType>;
 
-export function HasChanges(): JSX.Element {
+export function HasChanges(): React.JSX.Element {
   return (
     <AvatarModalButtons
       {...createProps({
@@ -32,6 +32,6 @@ export function HasChanges(): JSX.Element {
   );
 }
 
-export function NoChanges(): JSX.Element {
+export function NoChanges(): React.JSX.Element {
   return <AvatarModalButtons {...createProps()} />;
 }

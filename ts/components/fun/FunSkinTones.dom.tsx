@@ -19,7 +19,9 @@ export type FunSkinTonesListProps = Readonly<{
   onSelectSkinTone: (skinTone: EmojiSkinTone) => void;
 }>;
 
-export function FunSkinTonesList(props: FunSkinTonesListProps): JSX.Element {
+export function FunSkinTonesList(
+  props: FunSkinTonesListProps
+): React.JSX.Element {
   const { i18n, onSelectSkinTone } = props;
 
   const handleSelectionChange = useCallback(

@@ -24,7 +24,7 @@ export function NeedsScreenRecordingPermissionsModal({
   i18n,
   openSystemPreferencesAction,
   toggleScreenRecordingPermissionsDialog,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const footer = (
     <>
       <Button

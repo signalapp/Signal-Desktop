@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactChild, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import React from 'react';
 
 import type { LocalizerType, ThemeType } from '../types/Util.std.js';
@@ -30,7 +30,7 @@ type PropsType = {
 );
 
 // TODO: This should use <Modal>. See DESKTOP-1038.
-export function GroupDialog(props: Readonly<PropsType>): JSX.Element {
+export function GroupDialog(props: Readonly<PropsType>): React.JSX.Element {
   const {
     children,
     i18n,
@@ -40,7 +40,7 @@ export function GroupDialog(props: Readonly<PropsType>): JSX.Element {
     title,
   } = props;
 
-  let secondaryButton: undefined | ReactChild;
+  let secondaryButton: undefined | ReactNode;
   if ('secondaryButtonText' in props) {
     const { onClickSecondaryButton, secondaryButtonText } = props;
     secondaryButton = (
@@ -85,7 +85,9 @@ type ParagraphPropsType = {
   children: ReactNode;
 };
 
-function Paragraph({ children }: Readonly<ParagraphPropsType>): JSX.Element {
+function Paragraph({
+  children,
+}: Readonly<ParagraphPropsType>): React.JSX.Element {
   return <p className="module-GroupDialog__paragraph">{children}</p>;
 }
 
@@ -103,7 +105,7 @@ function Contacts({
   getPreferredBadge,
   i18n,
   theme,
-}: Readonly<ContactsPropsType>): JSX.Element {
+}: Readonly<ContactsPropsType>): React.JSX.Element {
   return (
     <ul className="module-GroupDialog__contacts">
       {contacts.map(contact => (

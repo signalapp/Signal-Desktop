@@ -285,12 +285,12 @@ const PanelContainer = forwardRef<
 >(function PanelContainerInner(
   { conversationId, isActive, panel },
   ref
-): JSX.Element {
+): React.JSX.Element {
   const i18n = useSelector(getIntl);
   const { popPanelForConversation } = useConversationsActions();
   const conversationTitle = getConversationTitleForPanelType(i18n, panel.type);
 
-  let info: JSX.Element | undefined;
+  let info: React.JSX.Element | undefined;
   if (panel.type === PanelType.AllMedia) {
     info = <SmartAllMediaHeader />;
   } else if (conversationTitle != null) {
@@ -351,7 +351,7 @@ const PanelContainer = forwardRef<
 function PanelElement({
   conversationId,
   panel,
-}: PanelPropsType): JSX.Element | null {
+}: PanelPropsType): React.JSX.Element | null {
   if (panel.type === PanelType.AllMedia) {
     return <SmartAllMedia conversationId={conversationId} />;
   }

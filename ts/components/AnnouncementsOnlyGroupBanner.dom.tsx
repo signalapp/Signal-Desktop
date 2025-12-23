@@ -26,7 +26,7 @@ export function AnnouncementsOnlyGroupBanner({
   i18n,
   showConversation,
   theme,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [isShowingAdmins, setIsShowingAdmins] = useState(false);
 
   return (

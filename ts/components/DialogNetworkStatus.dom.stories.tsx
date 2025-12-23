@@ -29,7 +29,7 @@ export default {
   title: 'Components/DialogNetworkStatus',
 } satisfies Meta<PropsType>;
 
-export function KnobsPlayground(args: PropsType): JSX.Element {
+export function KnobsPlayground(args: PropsType): React.JSX.Element {
   /*
   const socketStatus = select(
     'socketStatus',
@@ -57,7 +57,7 @@ KnobsPlayground.args = {
   socketStatus: SocketStatus.CONNECTING,
 };
 
-export function ConnectingWide(): JSX.Element {
+export function ConnectingWide(): React.JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
       <DialogNetworkStatus
@@ -69,7 +69,7 @@ export function ConnectingWide(): JSX.Element {
   );
 }
 
-export function ClosingWide(): JSX.Element {
+export function ClosingWide(): React.JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
       <DialogNetworkStatus
@@ -81,7 +81,7 @@ export function ClosingWide(): JSX.Element {
   );
 }
 
-export function ClosedWide(): JSX.Element {
+export function ClosedWide(): React.JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
       <DialogNetworkStatus
@@ -93,7 +93,7 @@ export function ClosedWide(): JSX.Element {
   );
 }
 
-export function OfflineWide(): JSX.Element {
+export function OfflineWide(): React.JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
       <DialogNetworkStatus
@@ -105,7 +105,7 @@ export function OfflineWide(): JSX.Element {
   );
 }
 
-export function OutageWide(): JSX.Element {
+export function OutageWide(): React.JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Wide}>
       <DialogNetworkStatus
@@ -118,7 +118,7 @@ export function OutageWide(): JSX.Element {
   );
 }
 
-export function ConnectingNarrow(): JSX.Element {
+export function ConnectingNarrow(): React.JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
       <DialogNetworkStatus
@@ -130,7 +130,7 @@ export function ConnectingNarrow(): JSX.Element {
   );
 }
 
-export function ClosingNarrow(): JSX.Element {
+export function ClosingNarrow(): React.JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
       <DialogNetworkStatus
@@ -142,7 +142,7 @@ export function ClosingNarrow(): JSX.Element {
   );
 }
 
-export function ClosedNarrow(): JSX.Element {
+export function ClosedNarrow(): React.JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
       <DialogNetworkStatus
@@ -154,7 +154,7 @@ export function ClosedNarrow(): JSX.Element {
   );
 }
 
-export function OfflineNarrow(): JSX.Element {
+export function OfflineNarrow(): React.JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
       <DialogNetworkStatus
@@ -166,7 +166,7 @@ export function OfflineNarrow(): JSX.Element {
   );
 }
 
-export function OutageNarrow(): JSX.Element {
+export function OutageNarrow(): React.JSX.Element {
   return (
     <FakeLeftPaneContainer containerWidthBreakpoint={WidthBreakpoint.Narrow}>
       <DialogNetworkStatus

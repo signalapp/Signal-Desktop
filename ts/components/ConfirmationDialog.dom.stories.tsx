@@ -14,7 +14,7 @@ export default {
   title: 'Components/ConfirmationDialog',
 } satisfies Meta<Props>;
 
-export function Basic(): JSX.Element {
+export function Basic(): React.JSX.Element {
   return (
     <ConfirmationDialog
       dialogName="test"
@@ -39,7 +39,7 @@ export function Basic(): JSX.Element {
   );
 }
 
-export function CustomCancelText(): JSX.Element {
+export function CustomCancelText(): React.JSX.Element {
   return (
     <ConfirmationDialog
       dialogName="test"
@@ -60,7 +60,7 @@ export function CustomCancelText(): JSX.Element {
   );
 }
 
-export function NoDefaultCancel(): JSX.Element {
+export function NoDefaultCancel(): React.JSX.Element {
   return (
     <ConfirmationDialog
       dialogName="test"

@@ -23,11 +23,11 @@ export default {
   args: {},
 } satisfies Meta<PropsType>;
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return <DebugLogErrorModal {...createProps()} />;
 }
 
-export function Donations(): JSX.Element {
+export function Donations(): React.JSX.Element {
   return (
     <DebugLogErrorModal
       {...createProps({

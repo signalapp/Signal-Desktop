@@ -25,7 +25,7 @@ export function AttachmentDetailPill({
   i18n,
   isGif,
   startDownload,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   const areAllDownloaded = attachments.every(attachment => attachment.path);
   const totalSize = attachments.reduce(
     (total: number, attachment: AttachmentForUIType) => {
@@ -97,8 +97,8 @@ export function AttachmentDetailPill({
     let ariaLabel: string;
     let onClick: (event: React.MouseEvent) => void;
     let onKeyDown: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
-    let control: JSX.Element;
-    let text: JSX.Element;
+    let control: React.JSX.Element;
+    let text: React.JSX.Element;
 
     if (!areAnyPending && totalDownloadedSize > 0) {
       ariaLabel = i18n('icu:AttachmentDetailPill__retryDownload');

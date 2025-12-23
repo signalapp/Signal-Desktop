@@ -21,6 +21,6 @@ export default {
   },
 } satisfies ComponentMeta<CallLinkAddNameModalProps>;
 
-export function Basic(args: CallLinkAddNameModalProps): JSX.Element {
+export function Basic(args: CallLinkAddNameModalProps): React.JSX.Element {
   return <CallLinkAddNameModal {...args} />;
 }

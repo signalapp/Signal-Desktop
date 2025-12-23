@@ -40,7 +40,7 @@ export function ContactPill({
   sharedGroupNames,
   title,
   onClickRemove,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const removeLabel = i18n('icu:ContactPill--remove');
 
   return (

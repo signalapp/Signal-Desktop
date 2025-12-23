@@ -68,6 +68,6 @@ export default {
   },
 } satisfies ComponentMeta<TemplateProps>;
 
-export function Default(props: TemplateProps): JSX.Element {
+export function Default(props: TemplateProps): React.JSX.Element {
   return <Template {...props} />;
 }

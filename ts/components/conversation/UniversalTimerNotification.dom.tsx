@@ -13,7 +13,9 @@ export type Props = {
   expireTimer: DurationInSeconds;
 };
 
-export function UniversalTimerNotification(props: Props): JSX.Element | null {
+export function UniversalTimerNotification(
+  props: Props
+): React.JSX.Element | null {
   const { i18n, expireTimer } = props;
 
   if (!expireTimer) {

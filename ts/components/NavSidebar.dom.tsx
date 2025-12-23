@@ -31,7 +31,7 @@ export const NavSidebarActionButton = React.forwardRef<
 >(function NavSidebarActionButtonInner(
   { icon, label, ...rest },
   ref
-): JSX.Element {
+): React.JSX.Element {
   return (
     <button
       {...rest}
@@ -62,7 +62,7 @@ export type NavSidebarProps = Readonly<{
   otherTabsUnreadStats: UnreadStats;
   renderToastManager: (_: {
     containerWidthBreakpoint: WidthBreakpoint;
-  }) => JSX.Element;
+  }) => React.JSX.Element;
 }>;
 
 enum DragState {
@@ -87,7 +87,7 @@ export function NavSidebar({
   title,
   otherTabsUnreadStats,
   renderToastManager,
-}: NavSidebarProps): JSX.Element {
+}: NavSidebarProps): React.JSX.Element {
   const isRTL = i18n.getLocaleDirection() === 'rtl';
   const [dragState, setDragState] = useState(DragState.INITIAL);
 
@@ -239,7 +239,7 @@ export function NavSidebarSearchHeader({
   children,
 }: {
   children: ReactNode;
-}): JSX.Element {
+}): React.JSX.Element {
   return <div className="NavSidebarSearchHeader">{children}</div>;
 }
 
@@ -249,7 +249,7 @@ export function NavSidebarEmpty({
 }: {
   title: string;
   subtitle: string;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <div className="NavSidebarEmpty">
       <div className="NavSidebarEmpty__inner">

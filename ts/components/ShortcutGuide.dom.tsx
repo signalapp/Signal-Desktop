@@ -361,7 +361,7 @@ function getCallingShortcuts(i18n: LocalizerType): Array<ShortcutType> {
   ];
 }
 
-export function ShortcutGuide(props: Props): JSX.Element {
+export function ShortcutGuide(props: Props): React.JSX.Element {
   const { i18n, close, platform } = props;
   const isMacOS = platform === 'darwin';
 

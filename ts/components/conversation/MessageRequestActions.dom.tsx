@@ -37,13 +37,13 @@ export function MessageRequestActions({
   blockConversation,
   reportSpam,
   deleteConversation,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const [mrState, setMrState] = React.useState(MessageRequestState.default);
 
   const nameValue =
     conversationType === 'direct' ? conversationName : addedByName;
 
-  let message: JSX.Element | undefined;
+  let message: React.JSX.Element | undefined;
   if (conversationType === 'direct') {
     strictAssert(nameValue != null, 'nameValue is null');
     const name = (

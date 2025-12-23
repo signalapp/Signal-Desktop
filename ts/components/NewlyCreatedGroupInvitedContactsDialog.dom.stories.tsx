@@ -23,7 +23,7 @@ export default {
   title: 'Components/NewlyCreatedGroupInvitedContactsDialog',
 } satisfies Meta<PropsType>;
 
-export function OneContact(): JSX.Element {
+export function OneContact(): React.JSX.Element {
   return (
     <NewlyCreatedGroupInvitedContactsDialog
       contacts={[conversations[0]]}
@@ -35,7 +35,7 @@ export function OneContact(): JSX.Element {
   );
 }
 
-export function TwoContacts(): JSX.Element {
+export function TwoContacts(): React.JSX.Element {
   return (
     <NewlyCreatedGroupInvitedContactsDialog
       contacts={conversations}

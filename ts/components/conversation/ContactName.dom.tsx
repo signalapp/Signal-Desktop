@@ -56,7 +56,7 @@ export function ContactName({
   title,
   onClick,
   largeVerifiedBadge,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const getClassName = getClassNamesFor('module-contact-name', module);
 
   let text: string;

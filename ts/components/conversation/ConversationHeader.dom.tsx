@@ -189,7 +189,7 @@ export const ConversationHeader = memo(function ConversationHeader({
   setLocalDeleteWarningShown,
   sharedGroupNames,
   theme,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   // Comes from a third-party dependency
   const headerRef = useRef<HTMLDivElement>(null);
 
@@ -901,7 +901,7 @@ function OutgoingCallButtons({
   | 'onOutgoingAudioCall'
   | 'onOutgoingVideoCall'
   | 'outgoingCallButtonStyle'
->): JSX.Element | null {
+>): React.JSX.Element | null {
   const disabled =
     conversation.type === 'group' &&
     conversation.announcementsOnly &&

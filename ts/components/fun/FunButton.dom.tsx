@@ -19,7 +19,9 @@ export type FunPickerButtonProps = Readonly<{
   i18n: LocalizerType;
 }>;
 
-export function FunPickerButton(props: FunPickerButtonProps): JSX.Element {
+export function FunPickerButton(
+  props: FunPickerButtonProps
+): React.JSX.Element {
   const { i18n } = props;
   return (
     <Button className="FunButton">
@@ -40,7 +42,7 @@ export type FunEmojiPickerButtonProps = Readonly<{
 
 export function FunEmojiPickerButton(
   props: FunEmojiPickerButtonProps
-): JSX.Element {
+): React.JSX.Element {
   const { i18n } = props;
   const emojiLocalizer = useFunEmojiLocalizer();
 
@@ -83,7 +85,7 @@ export type FunStickerPickerButtonProps = Readonly<{
 
 export function FunStickerPickerButton(
   props: FunStickerPickerButtonProps
-): JSX.Element {
+): React.JSX.Element {
   const { i18n } = props;
   return (
     <Button className="FunButton">

@@ -71,7 +71,7 @@ export class SimpleQuillWrapper extends React.Component<Props> {
     return this.quill;
   }
 
-  override render(): JSX.Element {
+  override render(): React.JSX.Element {
     return (
       <div className={`quill ${this.props.className}`}>
         <div ref={this.quillElement} />

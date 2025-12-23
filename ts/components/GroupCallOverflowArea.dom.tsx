@@ -45,7 +45,7 @@ export function GroupCallOverflowArea({
   overflowedParticipants,
   remoteAudioLevels,
   remoteParticipantsCount,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   const overflowRef = useRef<HTMLDivElement | null>(null);
   const [overflowScrollTop, setOverflowScrollTop] = useState(0);
 

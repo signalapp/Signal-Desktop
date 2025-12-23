@@ -23,7 +23,7 @@ export function MediaPermissionsModal({
   requestor,
   openSystemMediaPermissions,
   onClose,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   let title: string;
   if (mediaType === 'camera') {
     title = i18n('icu:MediaPermissionsModal__title--camera');

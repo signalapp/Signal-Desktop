@@ -91,7 +91,7 @@ export function UsernameEditor({
   state,
   recoveredUsername,
   onClose,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const currentNickname = useMemo(() => {
     if (!currentUsername) {
       return undefined;

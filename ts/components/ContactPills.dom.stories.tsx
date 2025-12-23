@@ -52,11 +52,11 @@ const contactPillProps = (
   onClickRemove: action('onClickRemove'),
 });
 
-export function EmptyList(): JSX.Element {
+export function EmptyList(): React.JSX.Element {
   return <ContactPills />;
 }
 
-export function OneContact(): JSX.Element {
+export function OneContact(): React.JSX.Element {
   return (
     <ContactPills>
       <ContactPill {...contactPillProps()} />
@@ -64,7 +64,7 @@ export function OneContact(): JSX.Element {
   );
 }
 
-export function ThreeContacts(): JSX.Element {
+export function ThreeContacts(): React.JSX.Element {
   return (
     <ContactPills>
       <ContactPill {...contactPillProps(contacts[0])} />
@@ -74,7 +74,7 @@ export function ThreeContacts(): JSX.Element {
   );
 }
 
-export function FourContactsOneWithALongName(): JSX.Element {
+export function FourContactsOneWithALongName(): React.JSX.Element {
   return (
     <ContactPills>
       <ContactPill {...contactPillProps(contacts[0])} />
@@ -91,7 +91,7 @@ export function FourContactsOneWithALongName(): JSX.Element {
   );
 }
 
-export function FiftyContacts(): JSX.Element {
+export function FiftyContacts(): React.JSX.Element {
   return (
     <ContactPills>
       {contacts.map(contact => (

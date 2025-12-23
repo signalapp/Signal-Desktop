@@ -16,7 +16,7 @@ export type PropsType = {
 export function LocalDeleteWarningModal({
   i18n,
   onClose,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   return (
     <Modal
       modalName="LocalDeleteWarningModal"

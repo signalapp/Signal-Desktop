@@ -24,7 +24,7 @@ export type ActionSpec = {
       id?: string;
     }
   | {
-      text: string | JSX.Element;
+      text: string | React.JSX.Element;
       id: string;
     }
 );

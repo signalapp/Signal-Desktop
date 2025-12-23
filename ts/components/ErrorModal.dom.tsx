@@ -22,7 +22,7 @@ function focusRef(el: HTMLElement | null) {
   }
 }
 
-export function ErrorModal(props: PropsType): JSX.Element {
+export function ErrorModal(props: PropsType): React.JSX.Element {
   const { buttonVariant, description, i18n, onClose, title } = props;
 
   const footer = (

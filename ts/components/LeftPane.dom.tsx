@@ -186,30 +186,32 @@ export type PropsType = {
   updateFilterByUnread: (filterByUnread: boolean) => void;
 
   // Render Props
-  renderMessageSearchResult: (id: string) => JSX.Element;
+  renderMessageSearchResult: (id: string) => React.JSX.Element;
   renderConversationListItemContextMenu: (
     props: RenderConversationListItemContextMenuProps
-  ) => JSX.Element;
+  ) => React.JSX.Element;
   renderNetworkStatus: (
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
-  ) => JSX.Element;
+  ) => React.JSX.Element;
   renderUnsupportedOSDialog: (
     _: Readonly<UnsupportedOSDialogPropsType>
-  ) => JSX.Element;
+  ) => React.JSX.Element;
   renderRelinkDialog: (
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
-  ) => JSX.Element;
+  ) => React.JSX.Element;
   renderUpdateDialog: (
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
-  ) => JSX.Element;
-  renderCaptchaDialog: (props: { onSkip(): void }) => JSX.Element;
-  renderCrashReportDialog: () => JSX.Element;
-  renderExpiredBuildDialog: (_: DialogExpiredBuildPropsType) => JSX.Element;
-  renderLeftPaneChatFolders: () => JSX.Element;
-  renderNotificationProfilesMenu: () => JSX.Element;
+  ) => React.JSX.Element;
+  renderCaptchaDialog: (props: { onSkip(): void }) => React.JSX.Element;
+  renderCrashReportDialog: () => React.JSX.Element;
+  renderExpiredBuildDialog: (
+    _: DialogExpiredBuildPropsType
+  ) => React.JSX.Element;
+  renderLeftPaneChatFolders: () => React.JSX.Element;
+  renderNotificationProfilesMenu: () => React.JSX.Element;
   renderToastManager: (_: {
     containerWidthBreakpoint: WidthBreakpoint;
-  }) => JSX.Element;
+  }) => React.JSX.Element;
 } & LookupConversationWithoutServiceIdActionsType;
 
 export function LeftPane({
@@ -305,7 +307,7 @@ export function LeftPane({
   updateSearchTerm,
   dismissBackupMediaDownloadBanner,
   updateFilterByUnread,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const previousModeSpecificProps = usePrevious(
     modeSpecificProps,
     modeSpecificProps
@@ -652,7 +654,7 @@ export function LeftPane({
     commonDialogProps
   );
   // Yellow dialogs
-  let maybeYellowDialog: JSX.Element | undefined;
+  let maybeYellowDialog: React.JSX.Element | undefined;
 
   if (unsupportedOSDialogType === 'warning') {
     maybeYellowDialog = renderUnsupportedOSDialog({
@@ -668,13 +670,13 @@ export function LeftPane({
   }
 
   // Update dialog
-  let maybeUpdateDialog: JSX.Element | undefined;
+  let maybeUpdateDialog: React.JSX.Element | undefined;
   if (hasUpdateDialog && (!hasNetworkDialog || isUpdateDownloaded)) {
     maybeUpdateDialog = renderUpdateDialog(commonDialogProps);
   }
 
   // Red dialogs
-  let maybeRedDialog: JSX.Element | undefined;
+  let maybeRedDialog: React.JSX.Element | undefined;
   if (unsupportedOSDialogType === 'error') {
     maybeRedDialog = renderUnsupportedOSDialog({
       type: 'error',
@@ -684,7 +686,7 @@ export function LeftPane({
     maybeRedDialog = renderExpiredBuildDialog(commonDialogProps);
   }
 
-  const dialogs = new Array<{ key: string; dialog: JSX.Element }>();
+  const dialogs = new Array<{ key: string; dialog: React.JSX.Element }>();
 
   if (maybeRedDialog) {
     dialogs.push({ key: 'red', dialog: maybeRedDialog });
@@ -702,7 +704,7 @@ export function LeftPane({
     }
   }
 
-  let maybeBanner: JSX.Element | undefined;
+  let maybeBanner: React.JSX.Element | undefined;
   if (usernameCorrupted) {
     maybeBanner = (
       <LeftPaneBanner

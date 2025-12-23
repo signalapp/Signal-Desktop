@@ -12,7 +12,7 @@ export type Props = {
 export function StagedPlaceholderAttachment({
   i18n,
   onClick,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   return (
     <button
       type="button"

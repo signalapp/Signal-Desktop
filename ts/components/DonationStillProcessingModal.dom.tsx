@@ -12,7 +12,9 @@ export type PropsType = {
   onClose: () => unknown;
 };
 
-export function DonationStillProcessingModal(props: PropsType): JSX.Element {
+export function DonationStillProcessingModal(
+  props: PropsType
+): React.JSX.Element {
   const { i18n, onClose } = props;
 
   return (

@@ -41,7 +41,7 @@ export function GroupListItem({
   group,
   i18n,
   onSelectGroup,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   let messageText: string;
   switch (group.disabledReason) {
     case DisabledReason.AlreadyMember:

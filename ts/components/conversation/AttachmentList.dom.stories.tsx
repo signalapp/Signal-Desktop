@@ -36,7 +36,7 @@ const createProps = (
   onCloseAttachment: action('onCloseAttachment'),
 });
 
-export function OneFile(): JSX.Element {
+export function OneFile(): React.JSX.Element {
   const props = createProps({
     attachments: [
       fakeDraftAttachment({
@@ -49,7 +49,7 @@ export function OneFile(): JSX.Element {
   return <AttachmentList {...props} />;
 }
 
-export function MultipleVisualAttachments(): JSX.Element {
+export function MultipleVisualAttachments(): React.JSX.Element {
   const props = createProps({
     attachments: [
       fakeDraftAttachment({
@@ -74,7 +74,7 @@ export function MultipleVisualAttachments(): JSX.Element {
   return <AttachmentList {...props} />;
 }
 
-export function MultipleWithNonVisualTypes(): JSX.Element {
+export function MultipleWithNonVisualTypes(): React.JSX.Element {
   const props = createProps({
     attachments: [
       fakeDraftAttachment({
@@ -109,7 +109,7 @@ export function MultipleWithNonVisualTypes(): JSX.Element {
   return <AttachmentList {...props} />;
 }
 
-export function EmptyList(): JSX.Element {
+export function EmptyList(): React.JSX.Element {
   const props = createProps();
 
   return <AttachmentList {...props} />;

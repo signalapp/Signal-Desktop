@@ -74,7 +74,7 @@ export const PhoneNumberCheckbox: FunctionComponent<PropsType> = React.memo(
       phoneNumber,
     ]);
 
-    let modal: JSX.Element | undefined;
+    let modal: React.JSX.Element | undefined;
     if (isModalVisible) {
       modal = (
         <ConfirmationDialog

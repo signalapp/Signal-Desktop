@@ -60,7 +60,7 @@ export function AttachmentList<
   onClickAttachment,
   onCloseAttachment,
   onClose,
-}: Props<T>): JSX.Element | null {
+}: Props<T>): React.JSX.Element | null {
   const attachmentsForUI = useMemo(() => {
     return attachments.map((attachment: T): AttachmentForUIType => {
       // Already ForUI attachment

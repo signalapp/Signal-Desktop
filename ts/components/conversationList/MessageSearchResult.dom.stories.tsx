@@ -58,7 +58,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   theme: React.useContext(StorybookThemeContext),
 });
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   const props = useProps({
     from: someone,
     to: me,
@@ -67,7 +67,7 @@ export function Default(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-export function SenderHasABadge(): JSX.Element {
+export function SenderHasABadge(): React.JSX.Element {
   const props = useProps({
     from: { ...someone, badges: [{ id: 'sender badge' }] },
     to: me,
@@ -83,7 +83,7 @@ export function SenderHasABadge(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-export function Selected(): JSX.Element {
+export function Selected(): React.JSX.Element {
   const props = useProps({
     from: someone,
     to: me,
@@ -93,7 +93,7 @@ export function Selected(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-export function FromYou(): JSX.Element {
+export function FromYou(): React.JSX.Element {
   const props = useProps({
     from: me,
     to: someone,
@@ -102,7 +102,7 @@ export function FromYou(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-export function SearchingInConversation(): JSX.Element {
+export function SearchingInConversation(): React.JSX.Element {
   const props = useProps({
     from: me,
     to: someone,
@@ -112,7 +112,7 @@ export function SearchingInConversation(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-export function FromYouToYourself(): JSX.Element {
+export function FromYouToYourself(): React.JSX.Element {
   const props = useProps({
     from: me,
     to: me,
@@ -121,7 +121,7 @@ export function FromYouToYourself(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-export function FromYouToGroup(): JSX.Element {
+export function FromYouToGroup(): React.JSX.Element {
   const props = useProps({
     from: me,
     to: group,
@@ -130,7 +130,7 @@ export function FromYouToGroup(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-export function FromSomeoneToGroup(): JSX.Element {
+export function FromSomeoneToGroup(): React.JSX.Element {
   const props = useProps({
     from: someone,
     to: group,
@@ -139,7 +139,7 @@ export function FromSomeoneToGroup(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-export function LongSearchResult(): JSX.Element {
+export function LongSearchResult(): React.JSX.Element {
   const props1 = useProps({
     from: someone,
     to: me,
@@ -164,13 +164,13 @@ export function LongSearchResult(): JSX.Element {
   );
 }
 
-export function EmptyShouldBeInvalid(): JSX.Element {
+export function EmptyShouldBeInvalid(): React.JSX.Element {
   const props = useProps();
 
   return <MessageSearchResult {...props} />;
 }
 
-export function Mention(): JSX.Element {
+export function Mention(): React.JSX.Element {
   const props = useProps({
     body: 'moss banana twine sound lake zoo brain count vacuum work stairs try power forget hair dry diary years no results \uFFFC elephant sorry umbrella potato igloo kangaroo home Georgia bayonet vector orange forge diary zebra turtle rise front \uFFFC',
     bodyRanges: [
@@ -198,7 +198,7 @@ export function Mention(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-export function MentionRegexp(): JSX.Element {
+export function MentionRegexp(): React.JSX.Element {
   const props = useProps({
     body: '\uFFFC This is a (long) /text/ ^$ that is ... specially **crafted** to (test) our regexp escaping mechanism! Making sure that the code we write works in all sorts of scenarios',
     bodyRanges: [
@@ -219,7 +219,7 @@ export function MentionRegexp(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-export function MentionNoMatches(): JSX.Element {
+export function MentionNoMatches(): React.JSX.Element {
   const props = useProps({
     body: '\uFFFC hello',
     bodyRanges: [
@@ -239,7 +239,7 @@ export function MentionNoMatches(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-export const _MentionNoMatches = (): JSX.Element => {
+export const _MentionNoMatches = (): React.JSX.Element => {
   const props = useProps({
     body: 'moss banana twine sound lake zoo brain count vacuum work stairs try power forget hair dry diary years no results \uFFFC elephant sorry umbrella potato igloo kangaroo home Georgia bayonet vector orange forge diary zebra turtle rise front \uFFFC',
     bodyRanges: [
@@ -267,7 +267,7 @@ export const _MentionNoMatches = (): JSX.Element => {
   return <MessageSearchResult {...props} />;
 };
 
-export function DoubleMention(): JSX.Element {
+export function DoubleMention(): React.JSX.Element {
   const props = useProps({
     body: 'Hey \uFFFC \uFFFC --- test! Two mentions!',
     bodyRanges: [
@@ -294,7 +294,7 @@ export function DoubleMention(): JSX.Element {
   return <MessageSearchResult {...props} />;
 }
 
-export function WithFormatting(): JSX.Element {
+export function WithFormatting(): React.JSX.Element {
   const props = useProps({
     body: "We're playing with formatting in fun ways like you do!",
     bodyRanges: [

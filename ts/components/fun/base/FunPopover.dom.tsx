@@ -14,7 +14,7 @@ export type FunPopoverProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunPopover(props: FunPopoverProps): JSX.Element {
+export function FunPopover(props: FunPopoverProps): React.JSX.Element {
   const shouldCloseOnInteractOutside = useCallback(
     (element: Element): boolean => {
       const match = element.closest(

@@ -37,7 +37,7 @@ const getCommonProps = () => ({
   theme: ThemeType.light,
 });
 
-export function DirectConversationsWithSameTitle(): JSX.Element {
+export function DirectConversationsWithSameTitle(): React.JSX.Element {
   return (
     <ContactSpoofingReviewDialog
       {...getCommonProps()}
@@ -54,7 +54,7 @@ export function DirectConversationsWithSameTitle(): JSX.Element {
   );
 }
 
-export function NotAdminMany(): JSX.Element {
+export function NotAdminMany(): React.JSX.Element {
   return (
     <ContactSpoofingReviewDialog
       {...getCommonProps()}
@@ -82,7 +82,7 @@ export function NotAdminMany(): JSX.Element {
   );
 }
 
-export function NotAdminOne(): JSX.Element {
+export function NotAdminOne(): React.JSX.Element {
   return (
     <ContactSpoofingReviewDialog
       {...getCommonProps()}
@@ -109,7 +109,7 @@ export function NotAdminOne(): JSX.Element {
   );
 }
 
-export function AdminMany(): JSX.Element {
+export function AdminMany(): React.JSX.Element {
   return (
     <ContactSpoofingReviewDialog
       {...getCommonProps()}
@@ -137,7 +137,7 @@ export function AdminMany(): JSX.Element {
   );
 }
 
-export function AdminOne(): JSX.Element {
+export function AdminOne(): React.JSX.Element {
   return (
     <ContactSpoofingReviewDialog
       {...getCommonProps()}
