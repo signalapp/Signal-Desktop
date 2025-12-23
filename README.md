@@ -7,6 +7,20 @@ Signal Desktop links with Signal on [Android](https://github.com/signalapp/Signa
 
 [Install the production version](https://signal.org/download/) or help us out by [installing the beta version](https://support.signal.org/hc/articles/360007318471-Signal-Beta).
 
+## Build production version for Fedora
+
+Install dependices and build it:
+```
+sudo dnf install pnpm gcc g++ make git libxcrypt-compat nspr nss dbus-libs atk at-spi2-atk cups-libs cairo gtk3
+pnpm install
+pnpm build
+```
+
+Execute the binary:
+```
+release/linux-unpacked/signal-desktop
+```
+
 ## Got a question?
 
 You can find answers to a number of frequently asked questions on our [support site](https://support.signal.org/).
