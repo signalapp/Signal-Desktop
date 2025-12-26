@@ -41,12 +41,12 @@ export namespace AxoBaseMenu {
   const navigableItemStyles = tw(
     labeledItemStyles,
     'rounded-md type-body-medium',
-    'outline-0 data-[highlighted]:bg-fill-secondary-pressed',
-    'data-[disabled]:text-label-disabled',
+    'outline-0 hover:bg-fill-secondary-pressed data-[highlighted]:bg-fill-secondary-pressed',
+    'data-[disabled]:text-label-disabled data-[disabled]:hover:bg-transparent',
     'outline-0 outline-border-focused focused:outline-[2.5px]',
     'forced-colors:text-[CanvasText]',
-    'forced-colors:data-[highlighted]:bg-[Highlight]',
-    'forced-colors:data-[highlighted]:text-[HighlightText]',
+    'forced-colors:hover:bg-[Highlight] forced-colors:data-[highlighted]:bg-[Highlight]',
+    'forced-colors:hover:text-[HighlightText] forced-colors:data-[highlighted]:text-[HighlightText]',
     'forced-colors:data-[disabled]:text-[GrayText]',
     'forced-color-adjust-none'
   );

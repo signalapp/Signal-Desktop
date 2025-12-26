@@ -238,6 +238,7 @@ export namespace AxoContextMenu {
           className={AxoBaseMenu.menuContentStyles}
           alignOffset={-6}
           collisionPadding={6}
+          onCloseAutoFocus={e => e.preventDefault()}
         >
           {props.children}
         </ContextMenu.Content>
@@ -270,6 +271,8 @@ export namespace AxoContextMenu {
         textValue={props.textValue}
         onSelect={props.onSelect}
         className={AxoBaseMenu.menuItemStyles}
+        onPointerMove={e => e.preventDefault()}
+        onPointerLeave={e => e.preventDefault()}
       >
         {props.symbol && (
           <AxoBaseMenu.ItemLeadingSlot>

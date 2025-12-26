@@ -200,6 +200,7 @@ export namespace AxoDropdownMenu {
             className={AxoBaseMenu.menuContentStyles}
             aria-labelledby={labelId}
             aria-describedby={descriptionId}
+            onCloseAutoFocus={e => e.preventDefault()}
           >
             {props.children}
           </DropdownMenu.Content>
@@ -234,6 +235,8 @@ export namespace AxoDropdownMenu {
         textValue={props.textValue}
         onSelect={props.onSelect}
         className={AxoBaseMenu.menuItemStyles}
+        onPointerMove={e => e.preventDefault()}
+        onPointerLeave={e => e.preventDefault()}
       >
         {props.leading && (
           <AxoBaseMenu.ItemLeadingSlot>
@@ -273,6 +276,8 @@ export namespace AxoDropdownMenu {
         textValue={props.textValue}
         onSelect={props.onSelect}
         className={AxoBaseMenu.menuItemStyles}
+        onPointerMove={e => e.preventDefault()}
+        onPointerLeave={e => e.preventDefault()}
       >
         {props.symbol && (
           <AxoBaseMenu.ItemLeadingSlot>
