@@ -69,12 +69,14 @@ import type {
   PinnedMessage,
   PinnedMessageId,
   PinnedMessageParams,
+  PinnedMessageRenderData,
 } from '../types/PinnedMessage.std.js';
 import type { AppendPinnedMessageResult } from './server/pinnedMessages.std.js';
 import type {
   RemoteMegaphoneId,
   RemoteMegaphoneType,
 } from '../types/Megaphone.std.js';
+import { QueryFragment, sqlJoin } from './util.std.js';
 
 export type ReadableDB = Database & { __readable_db: never };
 export type WritableDB = ReadableDB & { __writable_db: never };
@@ -190,6 +192,12 @@ export const MESSAGE_COLUMNS = [
   ...MESSAGE_PRIMARY_KEY_COLUMNS,
   ...MESSAGE_NON_PRIMARY_KEY_COLUMNS,
 ] as const;
+
+export const MESSAGE_COLUMNS_FRAGMENTS = MESSAGE_COLUMNS.map(
+  column => new QueryFragment(column, [])
+);
+
+export const MESSAGE_COLUMNS_SELECT = sqlJoin(MESSAGE_COLUMNS_FRAGMENTS);
 
 export type MessageTypeUnhydrated = {
   json: string;
@@ -980,7 +988,7 @@ type ReadableInterface = {
 
   getPinnedMessagesForConversation: (
     conversationId: string
-  ) => ReadonlyArray<PinnedMessage>;
+  ) => ReadonlyArray<PinnedMessageRenderData>;
   getNextExpiringPinnedMessageAcrossConversations: () => PinnedMessage | null;
 
   getMessagesNeedingUpgrade: (

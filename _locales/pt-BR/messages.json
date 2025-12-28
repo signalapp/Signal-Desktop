@@ -539,6 +539,9 @@
   "icu:debugLogExplanation": {
     "messageformat": "Ao clicar no botão Enviar, seu registro será postado online por 30 dias via uma URL original e inédita. Você pode salvá-la localmente primeiro."
   },
+  "icu:debugLogExplanation--close": {
+    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+  },
   "icu:debugLogError": {
     "messageformat": "Algo deu errado no envio do registro! Por favor, envie um e-mail para support@signal.org e anexe um arquivo de texto contendo o seu registro."
   },
@@ -1101,7 +1104,7 @@
     "messageformat": "Fixar mensagem"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin message"
+    "messageformat": "Desafixar mensagem"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Encerrar enquete"
@@ -1241,6 +1244,18 @@
   "icu:PinMessageDialog__Pin": {
     "messageformat": "Fixar"
   },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
+    "messageformat": "Replace oldest pin?"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
+    "messageformat": "Pinning this message will replace the oldest one."
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
+    "messageformat": "Continue"
+  },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Mensagem fixada} other {Mensagens fixadas}}"
   },
@@ -1263,52 +1278,64 @@
     "messageformat": "Ver todas as mensagens"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Address": {
-    "messageformat": "Address"
+    "messageformat": "Endereço"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "Mensagem de voz"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Gif": {
     "messageformat": "GIF"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
-    "messageformat": "File"
+    "messageformat": "Arquivo"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Contact": {
-    "messageformat": "Contact"
+    "messageformat": "Contato"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "Pagamento"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Enquete"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "Figurinha"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
-    "messageformat": "Photo"
+    "messageformat": "Foto"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Video": {
-    "messageformat": "Video"
+    "messageformat": "Vídeo"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "Mensagem de voz"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Gif": {
     "messageformat": "GIF"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "Pagamento"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "Figurinha"
   },
   "icu:PinnedMessagesPanel__Title": {
-    "messageformat": "Pinned messages"
+    "messageformat": "Mensagens fixadas"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages": {
-    "messageformat": "Unpin all messages"
+    "messageformat": "Desafixar todas as mensagens"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
+    "messageformat": "Unpin all messages?"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
+    "messageformat": "Messages will be unpinned for members of this chat."
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
+    "messageformat": "Unpin"
   },
   "icu:sessionEnded": {
     "messageformat": "A sessão segura foi reiniciada"
@@ -2539,6 +2566,12 @@
   },
   "icu:message--donation--preview--sent": {
     "messageformat": "Você fez uma doação para {recipient}"
+  },
+  "icu:message--pinned--preview--received": {
+    "messageformat": "{sender} pinned a message"
+  },
+  "icu:message--pinned--preview--sent": {
+    "messageformat": "You pinned a message"
   },
   "icu:message--donation": {
     "messageformat": "Doação"
@@ -6964,7 +6997,7 @@
     "messageformat": "Editado"
   },
   "icu:MessageMetadata__pinned": {
-    "messageformat": "Pinned"
+    "messageformat": "Fixadas"
   },
   "icu:DraftGifMessageSendModal__Title": {
     "messageformat": "Adicionar uma mensagem"
@@ -7474,88 +7507,106 @@
     "messageformat": "Ajuste isso no seu dispositivo móvel em Configurações → Doar para o Signal → Selos"
   },
   "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Fechar"
   },
   "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
-    "messageformat": "Back"
+    "messageformat": "Voltar"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
-    "messageformat": "How was your call?"
+    "messageformat": "Como foi sua ligação?"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageDescription": {
-    "messageformat": "This helps us improve calls in Signal. No personally identifiable information will be stored."
+    "messageformat": "Isso nos ajuda a melhorar as chamadas no Signal. Nenhuma informação pessoal identificável será armazenada. "
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__HadIssues": {
-    "messageformat": "Had issues"
+    "messageformat": "Tive problemas"
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__Great": {
-    "messageformat": "Great"
+    "messageformat": "Ótima"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__PageTitle": {
-    "messageformat": "What issues did you have?"
+    "messageformat": "Quais problemas você enfrentou?"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__IssuesList__Heading": {
-    "messageformat": "Select all that apply"
+    "messageformat": "Selecione todas as opções aplicáveis"
   },
   "icu:CallQualitySurvey__Issue--AUDIO": {
-    "messageformat": "Audio issue"
+    "messageformat": "Problema de áudio"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_STUTTERING": {
-    "messageformat": "Audio stuttering"
+    "messageformat": "Áudio falhando"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_LOCAL_ECHO": {
-    "messageformat": "I heard echo"
+    "messageformat": "Ouvi um eco"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_REMOTE_ECHO": {
-    "messageformat": "Others heard echo"
+    "messageformat": "Outras pessoas ouviram um eco"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_DROP": {
-    "messageformat": "Audio cut out"
+    "messageformat": "Áudio cortado"
   },
   "icu:CallQualitySurvey__Issue--VIDEO": {
-    "messageformat": "Video issue"
+    "messageformat": "Problema de vídeo"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_NO_CAMERA": {
-    "messageformat": "Camera didn't work"
+    "messageformat": "A câmera não funcionou"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_QUALITY": {
-    "messageformat": "Poor video quality"
+    "messageformat": "Qualidade de vídeo ruim"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_RESOLUTION": {
-    "messageformat": "Low resolution"
+    "messageformat": "Baixa resolução"
   },
   "icu:CallQualitySurvey__Issue--CALL_DROPPED": {
-    "messageformat": "Call dropped"
+    "messageformat": "A ligação caiu"
   },
   "icu:CallQualitySurvey__Issue--OTHER": {
-    "messageformat": "Something else"
+    "messageformat": "Outro motivo"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
-    "messageformat": "Issues description"
+    "messageformat": "Descrição dos problemas"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
-    "messageformat": "Please include any details relevant to the issue. Anything you share here will be kept private and will only be used to help improve calls in Signal."
+    "messageformat": "Inclua quaisquer detalhes relevantes sobre o problema. Tudo o que você compartilhar aqui será mantido em sigilo e usado apenas para ajudar a melhorar as chamadas no Signal."
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
+    "messageformat": "Please describe your issue"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
-    "messageformat": "Continue"
+    "messageformat": "Continuar"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
+    "messageformat": "Make a selection to continue"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
-    "messageformat": "Help us improve"
+    "messageformat": "Ajude-nos a melhorar"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "This helps us learn more about calls and what is working or not working. You can view your debug log before submitting."
+    "messageformat": "Isso nos ajuda a saber mais sobre as chamadas e a compreender o que está funcionando ou não. Você pode ver seu registro de depuração antes de enviar."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "Compartilhar registro de depuração"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "Exibir"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Debug logs contain low level app information and do not reveal any of your message contents."
+    "messageformat": "Os registros de depuração contêm informações técnicas do aplicativo e não revelam o conteúdo das suas mensagens."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
-    "messageformat": "Submit"
+    "messageformat": "Enviar"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
+    "messageformat": "Submitting survey..."
+  },
+  "icu:CallQualitySurvey__SubmissionFailed": {
+    "messageformat": "Failed to submit survey"
+  },
+  "icu:CallQualitySurvey__SubmissionFailed__Retry": {
+    "messageformat": "Retry"
+  },
+  "icu:CallQualitySurvey__SubmissionSuccess": {
+    "messageformat": "Thanks for your feedback!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Essa versão contém pequenos retoques e consertos no Signal para ele continuar funcionando confortavelmente.",
@@ -7585,16 +7636,7 @@
     "messageformat": "Pequenas alterações adicionais, correções de bugs e melhorias de desempenho. Agradecemos por usar o Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.79-1": {
-    "messageformat": "Atualizamos a aparência e a consistência estilística das barras de rolagem em todo o aplicativo. "
-  },
-  "icu:WhatsNew__7.79-2": {
-    "messageformat": "As melhorias na função de copiar e colar facilitam selecionar tudo e substituir o texto existente sem manter a formatação anterior. Valeu, <brianHarder></brianHarder>!"
-  },
-  "icu:WhatsNew__7.80-1": {
-    "messageformat": "Chegaram as enquetes do Signal! Você e seus amigos estão em sintonia ou têm opiniões completamente opostas? As enquetes são uma maneira fácil de ver o que o seu grupo realmente pensa. Crie uma enquete com opções para jantar, destinos de férias, preferências musicais para uma próxima viagem de carro ou outras escolhas importantes. Todos no grupo podem votar e ver as respostas uns dos outros, e você pode decidir se permite ou não votos múltiplos."
-  },
-  "icu:WhatsNew__7.81-1": {
-    "messageformat": "Agora a galeria de mídia inclui duas novas abas para mensagens de áudio e pré-visualizações de links."
+  "icu:WhatsNew__7.84--0": {
+    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
   }
 }

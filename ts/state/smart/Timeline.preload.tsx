@@ -47,6 +47,8 @@ import {
 import { SmartTypingBubble } from './TypingBubble.preload.js';
 import { AttachmentDownloadManager } from '../../jobs/AttachmentDownloadManager.preload.js';
 import { isInFullScreenCall as getIsInFullScreenCall } from '../selectors/calling.std.js';
+import { SmartPinnedMessagesBar } from './PinnedMessagesBar.preload.js';
+import { getPinnedMessages } from '../selectors/pinnedMessages.dom.js';
 
 const { isEmpty } = lodash;
 
@@ -101,6 +103,9 @@ function renderHeroRow(id: string): JSX.Element {
 }
 function renderMiniPlayer(options: { shouldFlow: boolean }): JSX.Element {
   return <SmartMiniPlayer {...options} />;
+}
+function renderPinnedMessagesBar(): JSX.Element {
+  return <SmartPinnedMessagesBar />;
 }
 function renderTypingBubble(conversationId: string): JSX.Element {
   return <SmartTypingBubble conversationId={conversationId} />;
@@ -177,6 +182,7 @@ export const SmartTimeline = memo(function SmartTimeline({
   const isInFullScreenCall = useSelector(getIsInFullScreenCall);
   const conversation = conversationSelector(id);
   const conversationMessages = conversationMessagesSelector(id);
+  const pinnedMessages = useSelector(getPinnedMessages);
 
   const warning = useSelector(
     useCallback(
@@ -203,8 +209,7 @@ export const SmartTimeline = memo(function SmartTimeline({
     setIsNearBottom,
     targetMessage,
   } = useConversationsActions();
-  const { peekGroupCallForTheFirstTime, peekGroupCallIfItHasMembers } =
-    useCallingActions();
+  const { maybePeekGroupCall } = useCallingActions();
 
   const getTimestampForMessage = useCallback(
     (messageId: string): undefined | number => {
@@ -214,6 +219,7 @@ export const SmartTimeline = memo(function SmartTimeline({
   );
 
   const shouldShowMiniPlayer = activeAudioPlayer != null;
+  const shouldShowPinnedMessagesBar = pinnedMessages.length > 0;
   const {
     acceptedMessageRequest,
     isBlocked = false,
@@ -275,19 +281,19 @@ export const SmartTimeline = memo(function SmartTimeline({
       loadNewestMessages={loadNewestMessages}
       loadOlderMessages={loadOlderMessages}
       markMessageRead={markMessageRead}
+      maybePeekGroupCall={maybePeekGroupCall}
       messageChangeCounter={messageChangeCounter}
       messageLoadingState={messageLoadingState}
       updateVisibleMessages={
         AttachmentDownloadManager.updateVisibleTimelineMessages
       }
       oldestUnseenIndex={oldestUnseenIndex}
-      peekGroupCallForTheFirstTime={peekGroupCallForTheFirstTime}
-      peekGroupCallIfItHasMembers={peekGroupCallIfItHasMembers}
       renderCollidingAvatars={renderCollidingAvatars}
       renderContactSpoofingReviewDialog={renderContactSpoofingReviewDialog}
       renderHeroRow={renderHeroRow}
       renderItem={renderItem}
       renderMiniPlayer={renderMiniPlayer}
+      renderPinnedMessagesBar={renderPinnedMessagesBar}
       renderTypingBubble={renderTypingBubble}
       reviewConversationNameCollision={reviewConversationNameCollision}
       scrollToIndex={scrollToIndex}
@@ -296,6 +302,7 @@ export const SmartTimeline = memo(function SmartTimeline({
       setCenterMessage={setCenterMessage}
       setIsNearBottom={setIsNearBottom}
       shouldShowMiniPlayer={shouldShowMiniPlayer}
+      shouldShowPinnedMessagesBar={shouldShowPinnedMessagesBar}
       targetedMessageId={targetedMessageId}
       targetMessage={targetMessage}
       theme={theme}

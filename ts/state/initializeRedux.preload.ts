@@ -91,6 +91,10 @@ export function initializeRedux(data: ReduxInitData): void {
     ),
     nav: bindActionCreators(actionCreators.nav, store.dispatch),
     network: bindActionCreators(actionCreators.network, store.dispatch),
+    pinnedMessages: bindActionCreators(
+      actionCreators.pinnedMessages,
+      store.dispatch
+    ),
     notificationProfiles: bindActionCreators(
       actionCreators.notificationProfiles,
       store.dispatch

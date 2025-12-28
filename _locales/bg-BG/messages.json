@@ -539,6 +539,9 @@
   "icu:debugLogExplanation": {
     "messageformat": "Когато кликнете „Изпрати“, вашият регистър ще бъде публикуван онлайн за 30 дни на уникален, непубликуван URL адрес. Може преди това да го запазите локално."
   },
+  "icu:debugLogExplanation--close": {
+    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+  },
   "icu:debugLogError": {
     "messageformat": "Нещо се обърка при качването! Моля, изпратете имейл на support@signal.org и прикачете регистъра си като текстов файл."
   },
@@ -1101,7 +1104,7 @@
     "messageformat": "Закачване на съобщение"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin message"
+    "messageformat": "Откачане на съобщението"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Приключване на анкетата"
@@ -1241,6 +1244,18 @@
   "icu:PinMessageDialog__Pin": {
     "messageformat": "Закачане"
   },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
+    "messageformat": "Replace oldest pin?"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
+    "messageformat": "Pinning this message will replace the oldest one."
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
+    "messageformat": "Continue"
+  },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Закачено съобщение} other {Закачени съобщения}}"
   },
@@ -1263,52 +1278,64 @@
     "messageformat": "Преглед на всички съобщения"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Address": {
-    "messageformat": "Address"
+    "messageformat": "Адрес"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "Гласово съобщение"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Gif": {
     "messageformat": "GIF"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
-    "messageformat": "File"
+    "messageformat": "Файл"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Contact": {
-    "messageformat": "Contact"
+    "messageformat": "Контакт"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "Плащане"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Анкета"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "Стикер"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
-    "messageformat": "Photo"
+    "messageformat": "Изображение"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Video": {
-    "messageformat": "Video"
+    "messageformat": "Видео"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "Гласово съобщение"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Gif": {
     "messageformat": "GIF"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "Плащане"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "Стикер"
   },
   "icu:PinnedMessagesPanel__Title": {
-    "messageformat": "Pinned messages"
+    "messageformat": "Закачени съобщения"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages": {
-    "messageformat": "Unpin all messages"
+    "messageformat": "Откачане на всички съобщения"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
+    "messageformat": "Unpin all messages?"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
+    "messageformat": "Messages will be unpinned for members of this chat."
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
+    "messageformat": "Unpin"
   },
   "icu:sessionEnded": {
     "messageformat": "Рестартиране на поверителна сесия"
@@ -2539,6 +2566,12 @@
   },
   "icu:message--donation--preview--sent": {
     "messageformat": "Вие дарихте за {recipient}"
+  },
+  "icu:message--pinned--preview--received": {
+    "messageformat": "{sender} pinned a message"
+  },
+  "icu:message--pinned--preview--sent": {
+    "messageformat": "You pinned a message"
   },
   "icu:message--donation": {
     "messageformat": "Дарение"
@@ -6964,7 +6997,7 @@
     "messageformat": "Редактирано"
   },
   "icu:MessageMetadata__pinned": {
-    "messageformat": "Pinned"
+    "messageformat": "Закачени"
   },
   "icu:DraftGifMessageSendModal__Title": {
     "messageformat": "Добавете съобщение"
@@ -7474,88 +7507,106 @@
     "messageformat": "Можете да ги регулирате на мобилното си устройство в Настройки → Дарение за Signal → Значки"
   },
   "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Затваряне"
   },
   "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
-    "messageformat": "Back"
+    "messageformat": "Обратно"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
-    "messageformat": "How was your call?"
+    "messageformat": "Как беше обаждането ви?"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageDescription": {
-    "messageformat": "This helps us improve calls in Signal. No personally identifiable information will be stored."
+    "messageformat": "Това ни помага да подобряваме обажданията в Signal. Няма да се съхранява лична идентифицираща информация."
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__HadIssues": {
-    "messageformat": "Had issues"
+    "messageformat": "Имаше проблеми"
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__Great": {
-    "messageformat": "Great"
+    "messageformat": "Добре"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__PageTitle": {
-    "messageformat": "What issues did you have?"
+    "messageformat": "Какви проблеми срещнахте?"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__IssuesList__Heading": {
-    "messageformat": "Select all that apply"
+    "messageformat": "Изберете всичко, което е приложимо"
   },
   "icu:CallQualitySurvey__Issue--AUDIO": {
-    "messageformat": "Audio issue"
+    "messageformat": "Проблем със звука"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_STUTTERING": {
-    "messageformat": "Audio stuttering"
+    "messageformat": "Звукът сечеше"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_LOCAL_ECHO": {
-    "messageformat": "I heard echo"
+    "messageformat": "Чувах ехо"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_REMOTE_ECHO": {
-    "messageformat": "Others heard echo"
+    "messageformat": "Други чуваха ехо"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_DROP": {
-    "messageformat": "Audio cut out"
+    "messageformat": "Прекъсване на звука"
   },
   "icu:CallQualitySurvey__Issue--VIDEO": {
-    "messageformat": "Video issue"
+    "messageformat": "Проблем с видеото"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_NO_CAMERA": {
-    "messageformat": "Camera didn't work"
+    "messageformat": "Камерата не работеше"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_QUALITY": {
-    "messageformat": "Poor video quality"
+    "messageformat": "Лошо качество на видеото"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_RESOLUTION": {
-    "messageformat": "Low resolution"
+    "messageformat": "Ниска резолюция"
   },
   "icu:CallQualitySurvey__Issue--CALL_DROPPED": {
-    "messageformat": "Call dropped"
+    "messageformat": "Обаждането прекъсна"
   },
   "icu:CallQualitySurvey__Issue--OTHER": {
-    "messageformat": "Something else"
+    "messageformat": "Нещо друго"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
-    "messageformat": "Issues description"
+    "messageformat": "Описание на проблемите"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
-    "messageformat": "Please include any details relevant to the issue. Anything you share here will be kept private and will only be used to help improve calls in Signal."
+    "messageformat": "Моля, включете всички подробности, свързани с проблема. Всичко, което споделяте тук, ще бъде запазено поверително и ще се използва единствено, за да помогне в подобряването на обажданията в Signal."
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
+    "messageformat": "Please describe your issue"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
-    "messageformat": "Continue"
+    "messageformat": "Продължаване"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
+    "messageformat": "Make a selection to continue"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
-    "messageformat": "Help us improve"
+    "messageformat": "Помогнете ни да станем по-добри"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "This helps us learn more about calls and what is working or not working. You can view your debug log before submitting."
+    "messageformat": "Това ни помага да научим повече за обажданията и за това какво работи и какво не работи. Можете да видите своя доклад за дебъг, преди да го изпратите."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "Споделяне на доклад за дебъг"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "Преглед"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Debug logs contain low level app information and do not reveal any of your message contents."
+    "messageformat": "Докладите за дебъг съдържат информация за приложенията от ниско ниво и не разкриват никакво съдържание от съобщенията ви."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
-    "messageformat": "Submit"
+    "messageformat": "Изпрати"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
+    "messageformat": "Submitting survey..."
+  },
+  "icu:CallQualitySurvey__SubmissionFailed": {
+    "messageformat": "Failed to submit survey"
+  },
+  "icu:CallQualitySurvey__SubmissionFailed__Retry": {
+    "messageformat": "Retry"
+  },
+  "icu:CallQualitySurvey__SubmissionSuccess": {
+    "messageformat": "Thanks for your feedback!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Тази версия съдържа редица дребни модификации и корекции на бъгове, за да поддържа гладката работа на Signal.",
@@ -7585,16 +7636,7 @@
     "messageformat": "Дребни корекции, поправки на бъгове и подобрения на работата. Благодарим ви, че използвате Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.79-1": {
-    "messageformat": "Актуализирахме външния вид на лентите за превъртане в приложението, за да са по-подходящи визуално."
-  },
-  "icu:WhatsNew__7.79-2": {
-    "messageformat": "Подобренията за копиране/поставянe. Благодарим, <brianHarder></brianHarder>!"
-  },
-  "icu:WhatsNew__7.80-1": {
-    "messageformat": "Анкетите на Signal са тук! Анкетите са лесен начин да видите какво наистина мисли груповият чат. Създайте анкета с различни опции за вечеря или за всякакви други важни избори. Всички в групата могат да гласуват и да виждат отговорите на другите, а вие можете да решите дали да разрешите гласуването за няколко опции."
-  },
-  "icu:WhatsNew__7.81-1": {
-    "messageformat": "Мултимедийната галерия вече има два нови раздела за аудио съобщения и прегледи на линкове."
+  "icu:WhatsNew__7.84--0": {
+    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
   }
 }

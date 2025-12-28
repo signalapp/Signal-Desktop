@@ -11,7 +11,6 @@ import {
   getSelectedMessageIds,
   getMessages,
   getCachedConversationMemberColorsSelector,
-  getPinnedMessageIds,
 } from './conversations.dom.js';
 import { getAccountSelector } from './accounts.std.js';
 import {
@@ -26,6 +25,7 @@ import { getActiveCall, getCallSelector } from './calling.std.js';
 import { getPropsForBubble } from './message.preload.js';
 import { getCallHistorySelector } from './callHistory.std.js';
 import { useProxySelector } from '../../hooks/useProxySelector.std.js';
+import { getPinnedMessagesMessageIds } from './pinnedMessages.dom.js';
 
 const getTimelineItem = (
   state: StateType,
@@ -54,7 +54,7 @@ const getTimelineItem = (
   const callHistorySelector = getCallHistorySelector(state);
   const activeCall = getActiveCall(state);
   const accountSelector = getAccountSelector(state);
-  const pinnedMessageIds = getPinnedMessageIds(state);
+  const pinnedMessagesMessageIds = getPinnedMessagesMessageIds(state);
   const selectedMessageIds = getSelectedMessageIds(state);
   const defaultConversationColor = getDefaultConversationColor(state);
 
@@ -72,7 +72,7 @@ const getTimelineItem = (
     callHistorySelector,
     activeCall,
     accountSelector,
-    pinnedMessageIds,
+    pinnedMessagesMessageIds,
     selectedMessageIds,
     defaultConversationColor,
   });

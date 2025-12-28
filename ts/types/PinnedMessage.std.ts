@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { AciString } from '@signalapp/mock-server/src/types.js';
-import type { MessageAttributesType } from '../model-types.js';
-import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import type { ReadonlyMessageAttributesType } from '../model-types.js';
 
 export type PinnedMessageId = number & { PinnedMessageId: never };
 
@@ -19,8 +18,7 @@ export type PinnedMessageParams = Omit<PinnedMessage, 'id'>;
 
 export type PinnedMessageRenderData = Readonly<{
   pinnedMessage: PinnedMessage;
-  sender: ConversationType;
-  message: MessageAttributesType;
+  message: ReadonlyMessageAttributesType;
 }>;
 
 export type SendPinMessageType = Readonly<{

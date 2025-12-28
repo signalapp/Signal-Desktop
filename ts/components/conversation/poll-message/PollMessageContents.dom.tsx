@@ -3,6 +3,7 @@
 
 import React, { memo, useState, useEffect, useRef } from 'react';
 import { Checkbox } from 'radix-ui';
+import { AnimatePresence, motion } from 'framer-motion';
 import { type TailwindStyles, tw } from '../../../axo/tw.dom.js';
 import { AxoButton } from '../../../axo/AxoButton.dom.js';
 import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
@@ -83,20 +84,28 @@ const PollCheckbox = memo((props: PollCheckboxProps) => {
 
   return (
     <>
-      {isPending ? (
-        <div className={tw('pointer-events-none absolute')}>
-          <SpinnerV2
-            value="indeterminate"
-            size={24}
-            strokeWidth={1.5}
-            marginRatio={1}
-            variant={{
-              bg: tw('stroke-none'),
-              fg: strokeColor,
-            }}
-          />
-        </div>
-      ) : null}
+      <AnimatePresence>
+        {isPending && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className={tw('pointer-events-none absolute')}
+          >
+            <SpinnerV2
+              value="indeterminate"
+              size={24}
+              strokeWidth={1.5}
+              marginRatio={1}
+              variant={{
+                bg: tw('stroke-none'),
+                fg: strokeColor,
+              }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
       <Checkbox.Root
         checked={props.checked}
         onCheckedChange={props.onCheckedChange}
@@ -105,14 +114,25 @@ const PollCheckbox = memo((props: PollCheckboxProps) => {
           isPending ? '' : 'border-[1.5px]',
           'outline-0 outline-border-focused focused:outline-[2.5px]',
           'overflow-hidden',
+          'transition-colors duration-250',
           bgColor,
           borderColor
         )}
       >
-        <Checkbox.Indicator
-          className={tw(checkmarkColor, 'flex items-center justify-center')}
-        >
-          <AxoSymbol.Icon symbol="check" size={16} label={null} />
+        <Checkbox.Indicator forceMount asChild>
+          <motion.div
+            initial={false}
+            animate={{ opacity: checked ? 1 : 0 }}
+            transition={{ duration: 0.25 }}
+            className={tw(
+              checkmarkColor,
+              'flex items-center justify-center',
+              // Animate color so it doesn't instantly switch to grey during fade-out
+              'transition-colors duration-250'
+            )}
+          >
+            <AxoSymbol.Icon symbol="check" size={16} label={null} />
+          </motion.div>
         </Checkbox.Indicator>
       </Checkbox.Root>
     </>
@@ -281,24 +301,28 @@ export function PollMessageContents({
                   <span className={tw('min-w-0 type-body-large break-words')}>
                     <UserText text={option} />
                   </span>
-                  {totalVotes > 0 && (
-                    <div className={tw('flex shrink-0 items-center gap-1')}>
-                      {poll.terminatedAt != null && weVotedForThis && (
-                        <VotedCheckmark isIncoming={isIncoming} i18n={i18n} />
+                  <div
+                    className={tw(
+                      'flex shrink-0 items-center gap-1',
+                      'transition-opacity duration-250',
+                      totalVotes > 0 ? 'opacity-100' : 'invisible opacity-0'
+                    )}
+                  >
+                    {poll.terminatedAt != null && weVotedForThis && (
+                      <VotedCheckmark isIncoming={isIncoming} i18n={i18n} />
+                    )}
+                    <span
+                      className={tw(
+                        'type-body-medium',
+                        isIncoming
+                          ? 'text-label-secondary'
+                          : 'text-label-secondary-on-color'
                       )}
-                      <span
-                        className={tw(
-                          'type-body-medium',
-                          isIncoming
-                            ? 'text-label-secondary'
-                            : 'text-label-secondary-on-color'
-                        )}
-                        data-testid={`poll-option-${index}-votes-${optionVotes}`}
-                      >
-                        {optionVotes}
-                      </span>
-                    </div>
-                  )}
+                      data-testid={`poll-option-${index}-votes-${optionVotes}`}
+                    >
+                      {optionVotes}
+                    </span>
+                  </div>
                 </div>
 
                 <div
@@ -314,17 +338,16 @@ export function PollMessageContents({
                         : 'bg-message-fill-outgoing-tertiary'
                     )}
                   />
-                  {percentage > 0 && (
-                    <div
-                      className={tw(
-                        'absolute inset-y-0 start-0 rounded-s-full',
-                        isIncoming
-                          ? 'bg-color-fill-primary'
-                          : 'bg-label-primary-on-color'
-                      )}
-                      style={{ width: `${percentage}%` }}
-                    />
-                  )}
+                  <div
+                    className={tw(
+                      'absolute inset-y-0 start-0 rounded-s-full',
+                      'transition-[width] duration-250 motion-reduce:transition-none',
+                      isIncoming
+                        ? 'bg-color-fill-primary'
+                        : 'bg-label-primary-on-color'
+                    )}
+                    style={{ width: `${percentage}%` }}
+                  />
                 </div>
               </div>
             </div>
@@ -332,26 +355,45 @@ export function PollMessageContents({
         })}
       </div>
 
-      {totalVotes > 0 ? (
-        <div className={tw('mt-4 flex justify-center scheme-light')}>
-          <AxoButton.Root
-            size="md"
-            variant="floating-secondary"
-            onClick={() => setShowVotesModal(true)}
-          >
-            {i18n('icu:PollMessage__ViewVotesButton')}
-          </AxoButton.Root>
-        </div>
-      ) : (
-        <div
-          className={tw(
-            'mt-4 text-center type-body-medium',
-            isIncoming ? 'text-label-primary' : 'text-label-primary-on-color'
+      <div className={tw('mt-4 flex h-10 items-center justify-center')}>
+        <AnimatePresence exitBeforeEnter initial={false}>
+          {totalVotes > 0 ? (
+            <motion.div
+              key="view-votes"
+              initial={{ opacity: 0 }}
+              animate={{
+                opacity: 1,
+                transition: { duration: 0.25, ease: 'easeOut' },
+              }}
+              exit={{
+                opacity: 0,
+                transition: { duration: 0.25, ease: 'easeIn' },
+              }}
+              className={tw('scheme-light')}
+            >
+              <AxoButton.Root
+                size="md"
+                variant="floating-secondary"
+                onClick={() => setShowVotesModal(true)}
+              >
+                {i18n('icu:PollMessage__ViewVotesButton')}
+              </AxoButton.Root>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="no-votes"
+              className={tw(
+                'type-body-medium',
+                isIncoming
+                  ? 'text-label-primary'
+                  : 'text-label-primary-on-color'
+              )}
+            >
+              {i18n('icu:PollVotesModal__noVotes')}
+            </motion.div>
           )}
-        >
-          {i18n('icu:PollVotesModal__noVotes')}
-        </div>
-      )}
+        </AnimatePresence>
+      </div>
 
       {showVotesModal && (
         <PollVotesModal

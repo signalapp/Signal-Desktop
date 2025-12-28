@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import type { ReactNode } from 'react';
-import React, { memo, useCallback, useMemo } from 'react';
+import type { ForwardedRef, ReactNode } from 'react';
+import React, { forwardRef, memo, useCallback, useMemo } from 'react';
 import { Tabs } from 'radix-ui';
 import type { LocalizerType } from '../../../types/I18N.std.js';
 import { tw } from '../../../axo/tw.dom.js';
@@ -18,40 +18,48 @@ import {
 import type { HydratedBodyRangesType } from '../../../types/BodyRange.std.js';
 import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
 import { missingCaseError } from '../../../util/missingCaseError.std.js';
+import { stripNewlinesForLeftPane } from '../../../util/stripNewlinesForLeftPane.std.js';
 
 export type PinMessageText = Readonly<{
   body: string;
   bodyRanges: HydratedBodyRangesType;
 }>;
 
-export type PinMessageAttachment = Readonly<{
-  type: 'photo' | 'video' | 'voiceMessage' | 'gif' | 'file';
-  name?: string;
-  url?: string;
+export type PinMessageAttachment = Readonly<
+  | { type: 'image'; url: string | null }
+  | { type: 'video'; url: string | null }
+  | { type: 'voiceMessage' }
+  | { type: 'gif' }
+  | { type: 'file'; name: string | null }
+>;
+
+export type PinMessageContact = Readonly<{
+  name: string | null;
+}>;
+
+export type PinMessagePoll = Readonly<{
+  question: string;
 }>;
 
 export type PinMessage = Readonly<{
   id: string;
-  text?: PinMessageText;
-  attachment?: PinMessageAttachment;
-  contact?: {
-    name?: string;
-    address?: string;
-  };
-  payment?: true;
-  poll?: {
-    question: string;
-  };
-  sticker?: true;
+  text?: PinMessageText | null;
+  attachment?: PinMessageAttachment | null;
+  contact?: PinMessageContact | null;
+  payment?: boolean;
+  poll?: PinMessagePoll | null;
+  sticker?: boolean;
+}>;
+
+export type PinSender = Readonly<{
+  id: string;
+  title: string;
+  isMe: boolean;
 }>;
 
 export type Pin = Readonly<{
   id: PinnedMessageId;
-  sender: {
-    id: string;
-    title: string;
-    isMe: boolean;
-  };
+  sender: PinSender;
   message: PinMessage;
 }>;
 
@@ -60,9 +68,10 @@ export type PinnedMessagesBarProps = Readonly<{
   pins: ReadonlyArray<Pin>;
   current: PinnedMessageId;
   onCurrentChange: (current: PinnedMessageId) => void;
-  onPinGoTo: (pinnedMessageId: PinnedMessageId) => void;
-  onPinRemove: (pinnedMessageId: PinnedMessageId) => void;
+  onPinGoTo: (messageId: string) => void;
+  onPinRemove: (messageId: string) => void;
   onPinsShowAll: () => void;
+  canPinMessages: boolean;
 }>;
 
 export const PinnedMessagesBar = memo(function PinnedMessagesBar(
@@ -90,6 +99,7 @@ export const PinnedMessagesBar = memo(function PinnedMessagesBar(
           onPinGoTo={props.onPinGoTo}
           onPinRemove={props.onPinRemove}
           onPinsShowAll={props.onPinsShowAll}
+          canPinMessages={props.canPinMessages}
         />
       </Container>
     );
@@ -124,6 +134,7 @@ export const PinnedMessagesBar = memo(function PinnedMessagesBar(
                 onPinGoTo={props.onPinGoTo}
                 onPinRemove={props.onPinRemove}
                 onPinsShowAll={props.onPinsShowAll}
+                canPinMessages={props.canPinMessages}
               />
             </Tabs.Content>
           );
@@ -175,7 +186,7 @@ function TabsList(props: {
   return (
     <AriaClickable.SubWidget>
       <Tabs.List className={tw('flex h-full flex-col')}>
-        {props.pins.toReversed().map((pin, pinIndex) => {
+        {props.pins.map((pin, pinIndex) => {
           return (
             <TabTrigger
               key={pin.id}
@@ -222,22 +233,34 @@ function TabTrigger(props: {
   );
 }
 
-function Content(props: {
+type ContentProps = Readonly<{
   i18n: LocalizerType;
   pin: Pin;
-  onPinGoTo: (pinnedMessageId: PinnedMessageId) => void;
-  onPinRemove: (pinnedMessageId: PinnedMessageId) => void;
+  onPinGoTo: (messageId: string) => void;
+  onPinRemove: (messageId: string) => void;
   onPinsShowAll: () => void;
-}) {
-  const { i18n, pin, onPinGoTo, onPinRemove, onPinsShowAll } = props;
+  canPinMessages: boolean;
+}>;
 
+const Content = forwardRef(function Content(
+  {
+    i18n,
+    pin,
+    onPinGoTo,
+    onPinRemove,
+    onPinsShowAll,
+    canPinMessages,
+    ...forwardedProps
+  }: ContentProps,
+  ref: ForwardedRef<HTMLDivElement>
+): JSX.Element {
   const handlePinGoTo = useCallback(() => {
-    onPinGoTo(pin.id);
-  }, [onPinGoTo, pin.id]);
+    onPinGoTo(pin.message.id);
+  }, [onPinGoTo, pin.message.id]);
 
   const handlePinRemove = useCallback(() => {
-    onPinRemove(pin.id);
-  }, [onPinRemove, pin.id]);
+    onPinRemove(pin.message.id);
+  }, [onPinRemove, pin.message.id]);
 
   const handlePinsShowAll = useCallback(() => {
     onPinsShowAll();
@@ -248,14 +271,18 @@ function Content(props: {
   }, [pin.message]);
 
   return (
-    <div className={tw('flex min-w-0 flex-1 flex-row items-center')}>
+    <div
+      ref={ref}
+      {...forwardedProps}
+      className={tw('flex min-w-0 flex-1 flex-row items-center')}
+    >
       {thumbnailUrl != null && <ImageThumbnail url={thumbnailUrl} />}
       <div className={tw('min-w-0 flex-1')}>
         <h1 className={tw('type-body-small font-semibold text-label-primary')}>
-          <UserText text={props.pin.sender.title} />
+          <UserText text={pin.sender.title} />
         </h1>
         <p className={tw('me-2 truncate type-body-medium text-label-primary')}>
-          <MessagePreview i18n={i18n} message={props.pin.message} />
+          <MessagePreview i18n={i18n} message={pin.message} />
         </p>
         <AriaClickable.HiddenTrigger
           aria-label={i18n(
@@ -277,9 +304,14 @@ function Content(props: {
             />
           </AxoDropdownMenu.Trigger>
           <AxoDropdownMenu.Content>
-            <AxoDropdownMenu.Item symbol="pin-slash" onSelect={handlePinRemove}>
-              {i18n('icu:PinnedMessagesBar__ActionsMenu__UnpinMessage')}
-            </AxoDropdownMenu.Item>
+            {canPinMessages && (
+              <AxoDropdownMenu.Item
+                symbol="pin-slash"
+                onSelect={handlePinRemove}
+              >
+                {i18n('icu:PinnedMessagesBar__ActionsMenu__UnpinMessage')}
+              </AxoDropdownMenu.Item>
+            )}
             <AxoDropdownMenu.Item
               symbol="message-arrow"
               onSelect={handlePinGoTo}
@@ -297,14 +329,14 @@ function Content(props: {
       </AriaClickable.SubWidget>
     </div>
   );
-}
+});
 
 function getThumbnailUrl(message: PinMessage): string | null {
   if (message.attachment == null) {
     return null;
   }
   if (
-    message.attachment.type === 'photo' ||
+    message.attachment.type === 'image' ||
     message.attachment.type === 'video'
   ) {
     return message.attachment.url ?? null;
@@ -353,23 +385,13 @@ function getMessagePreviewIcon(
       };
     }
   }
-  if (message.contact?.name != null) {
+  if (message.contact != null) {
     return {
       symbol: 'person-circle',
-      label: i18n(
-        'icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Contact'
-      ),
+      label: message.contact.name ?? i18n('icu:unknownContact'),
     };
   }
-  if (message.contact?.address != null) {
-    return {
-      symbol: 'location',
-      label: i18n(
-        'icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Address'
-      ),
-    };
-  }
-  if (message.payment != null) {
+  if (message.payment) {
     return {
       symbol: 'creditcard',
       label: i18n(
@@ -383,7 +405,7 @@ function getMessagePreviewIcon(
       label: i18n('icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Poll'),
     };
   }
-  if (message.sticker != null) {
+  if (message.sticker) {
     return {
       symbol: 'sticker',
       label: i18n(
@@ -402,7 +424,7 @@ function getMessagePreviewText(
     return <MessageTextPreview i18n={i18n} text={message.text} />;
   }
   if (message.attachment != null) {
-    if (message.attachment.type === 'photo') {
+    if (message.attachment.type === 'image') {
       return i18n('icu:PinnedMessagesBar__MessagePreview__Text--Photo');
     }
     if (message.attachment.type === 'video') {
@@ -417,13 +439,10 @@ function getMessagePreviewText(
     if (message.attachment.type === 'file') {
       return <UserText text={message.attachment.name ?? ''} />;
     }
-    throw missingCaseError(message.attachment.type);
+    throw missingCaseError(message.attachment);
   }
   if (message.contact?.name != null) {
     return <UserText text={message.contact.name} />;
-  }
-  if (message.contact?.address != null) {
-    return <UserText text={message.contact.address} />;
   }
   if (message.payment != null) {
     return i18n('icu:PinnedMessagesBar__MessagePreview__Text--Payment');
@@ -465,6 +484,11 @@ function MessageTextPreview(props: {
   text: PinMessageText;
 }) {
   const { i18n } = props;
+
+  const messagePreview = useMemo(() => {
+    return stripNewlinesForLeftPane(props.text.body);
+  }, [props.text.body]);
+
   return (
     <MessageTextRenderer
       bodyRanges={props.text.bodyRanges}
@@ -473,7 +497,7 @@ function MessageTextPreview(props: {
       jumboEmojiSize={null}
       i18n={i18n}
       isSpoilerExpanded={{}}
-      messageText={props.text.body}
+      messageText={messagePreview}
       originalMessageText={props.text.body}
       onExpandSpoiler={undefined}
       onMentionTrigger={() => null}

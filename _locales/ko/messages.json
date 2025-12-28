@@ -539,6 +539,9 @@
   "icu:debugLogExplanation": {
     "messageformat": "제출을 클릭하면 게시되지 않은 고유 URL에서 로그가 30일 동안 온라인에 게시됩니다. 로컬로 먼저 저장할 수 있습니다."
   },
+  "icu:debugLogExplanation--close": {
+    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+  },
   "icu:debugLogError": {
     "messageformat": "업로드 중 문제가 발생했습니다! 로그를 텍스트 파일로 첨부하여 support@signal.org에 이메일을 보내주세요."
   },
@@ -1101,7 +1104,7 @@
     "messageformat": "메시지 고정"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin message"
+    "messageformat": "메시지 고정 해제"
   },
   "icu:Poll__end-poll": {
     "messageformat": "설문조사 종료"
@@ -1241,6 +1244,18 @@
   "icu:PinMessageDialog__Pin": {
     "messageformat": "고정"
   },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
+    "messageformat": "Replace oldest pin?"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
+    "messageformat": "Pinning this message will replace the oldest one."
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
+    "messageformat": "Continue"
+  },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, other {고정 메시지}}"
   },
@@ -1263,52 +1278,64 @@
     "messageformat": "모든 메시지 보기"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Address": {
-    "messageformat": "Address"
+    "messageformat": "주소"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "음성 메시지"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Gif": {
     "messageformat": "GIF"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
-    "messageformat": "File"
+    "messageformat": "파일"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Contact": {
-    "messageformat": "Contact"
+    "messageformat": "연락처"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "결제"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Poll": {
-    "messageformat": "Poll"
+    "messageformat": "설문조사"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "스티커"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
-    "messageformat": "Photo"
+    "messageformat": "사진"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Video": {
-    "messageformat": "Video"
+    "messageformat": "동영상"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "음성 메시지"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Gif": {
     "messageformat": "GIF"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "결제"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "스티커"
   },
   "icu:PinnedMessagesPanel__Title": {
-    "messageformat": "Pinned messages"
+    "messageformat": "고정 메시지"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages": {
-    "messageformat": "Unpin all messages"
+    "messageformat": "모든 메시지 고정 해제"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
+    "messageformat": "Unpin all messages?"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
+    "messageformat": "Messages will be unpinned for members of this chat."
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
+    "messageformat": "Unpin"
   },
   "icu:sessionEnded": {
     "messageformat": "보안 세션 초기화"
@@ -2539,6 +2566,12 @@
   },
   "icu:message--donation--preview--sent": {
     "messageformat": "{recipient} 님을 대신해 기부했습니다."
+  },
+  "icu:message--pinned--preview--received": {
+    "messageformat": "{sender} pinned a message"
+  },
+  "icu:message--pinned--preview--sent": {
+    "messageformat": "You pinned a message"
   },
   "icu:message--donation": {
     "messageformat": "기부"
@@ -3789,7 +3822,7 @@
     "messageformat": "링크 에러"
   },
   "icu:GroupV2--join--general-join-failure": {
-    "messageformat": "그룹에 가입할 수 없습니다. 나중에 다시 시도하세요."
+    "messageformat": "그룹에 참가할 수 없습니다. 나중에 다시 시도해 주세요."
   },
   "icu:GroupV2--admin": {
     "messageformat": "관리자"
@@ -3954,7 +3987,7 @@
     "messageformat": "{adminName}가 귀하의 그룹 참가 요청을 승인했습니다."
   },
   "icu:GroupV2--member-add-from-admin-approval--you--unknown": {
-    "messageformat": "그룹 가입 요청이 승인되었습니다."
+    "messageformat": "그룹 참가 요청이 승인되었습니다."
   },
   "icu:GroupV2--member-add-from-admin-approval--other--you": {
     "messageformat": "{joinerName}의 그룹 참가 요청을 승인하셨습니다."
@@ -4122,16 +4155,16 @@
     "messageformat": "내 그룹 참가 요청을 취소했습니다."
   },
   "icu:GroupV2--admin-approval-remove-one--you--unknown": {
-    "messageformat": "그룹 가입 요청이 관리자에 의해 거부되었습니다."
+    "messageformat": "관리자가 그룹 참가 요청을 거절했습니다."
   },
   "icu:GroupV2--admin-approval-remove-one--other--you": {
-    "messageformat": "{joinerName}의 그룹 참가 요청을 거절하셨습니다."
+    "messageformat": "{joinerName} 님의 그룹 참가 요청을 거절했습니다."
   },
   "icu:GroupV2--admin-approval-remove-one--other--own": {
     "messageformat": "{joinerName}가 그룹 참가 요청을 취소했습니다."
   },
   "icu:GroupV2--admin-approval-remove-one--other--other": {
-    "messageformat": "{adminName}가 {joinerName}의 그룹 참가 요청을 거절했습니다."
+    "messageformat": "{adminName}가 {joinerName} 님의 그룹 참가 요청을 거절했습니다."
   },
   "icu:GroupV2--admin-approval-remove-one--other--unknown": {
     "messageformat": "{joinerName} 님의 그룹 참가 요청이 거절되었습니다."
@@ -4497,7 +4530,7 @@
     "messageformat": "배지 수에 알림을 끈 대화 포함"
   },
   "icu:ContactModal--nickname": {
-    "messageformat": "닉네임"
+    "messageformat": "별칭"
   },
   "icu:ContactModal--rm-admin": {
     "messageformat": "권리자 권한으로 제거"
@@ -4545,7 +4578,7 @@
     "messageformat": "설정을 켜면 이 일대일 대화에서 주고받은 메시지는 상대가 확인하고 일정 시간이 흐르면 사라지게 됩니다."
   },
   "icu:ConversationDetails--nickname-label": {
-    "messageformat": "닉네임"
+    "messageformat": "별칭"
   },
   "icu:ConversationDetails--nickname-actions": {
     "messageformat": "작업"
@@ -4554,10 +4587,10 @@
     "messageformat": "삭제"
   },
   "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Title": {
-    "messageformat": "닉네임을 삭제할까요?"
+    "messageformat": "별칭을 삭제할까요?"
   },
   "icu:ConversationDetails__ConfirmDeleteNicknameAndNote__Description": {
-    "messageformat": "이 닉네임과 메모를 영구 삭제합니다."
+    "messageformat": "이 별칭과 메모를 영구 삭제합니다."
   },
   "icu:ConversationDetails--notifications": {
     "messageformat": "알림"
@@ -4650,10 +4683,10 @@
     "messageformat": "모두 보기"
   },
   "icu:EditNicknameAndNoteModal__Title": {
-    "messageformat": "닉네임"
+    "messageformat": "별칭"
   },
   "icu:EditNicknameAndNoteModal__Description": {
-    "messageformat": "닉네임과 메모는 Signal에 엔드투엔드 암호화되어 저장되며, 나에게만 표시됩니다."
+    "messageformat": "별칭과 메모는 Signal에 엔드투엔드 암호화되어 저장되며, 나에게만 표시됩니다."
   },
   "icu:EditNicknameAndNoteModal__FirstName__Label": {
     "messageformat": "이름"
@@ -5145,31 +5178,31 @@
     "messageformat": "미디어 없음"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "내가 전송 및 수신하는 사진, 동영상, GIF 파일이 여기에 표시됩니다."
+    "messageformat": "내가 주고받는 사진, 동영상, GIF 파일이 여기에 표시됩니다."
   },
   "icu:MediaGallery__EmptyState__title--audio": {
     "messageformat": "오디오 파일 없음"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "내가 전송 및 수신하는 음성 메시지와 오디오 파일이 여기에 표시됩니다."
+    "messageformat": "내가 주고받는 음성 메시지와 오디오 파일이 여기에 표시됩니다."
   },
   "icu:MediaGallery__EmptyState__title--links": {
     "messageformat": "링크 없음"
   },
   "icu:MediaGallery__EmptyState__description--links-2": {
-    "messageformat": "내가 전송 및 수신하는 링크가 여기에 표시됩니다."
+    "messageformat": "내가 주고받는 링크가 여기에 표시됩니다."
   },
   "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "내가 전송 및 수신하는 링크가 여기에 표시됩니다."
+    "messageformat": "내가 주고받는 링크가 여기에 표시됩니다."
   },
   "icu:MediaGallery__EmptyState__title--documents": {
     "messageformat": "파일 없음"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "내가 전송 및 수신하는 파일이 여기에 표시됩니다"
+    "messageformat": "내가 주고받는 파일이 여기에 표시됩니다"
   },
   "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "내가 전송 및 수신하는 파일이 여기에 표시됩니다"
+    "messageformat": "내가 주고받는 파일이 여기에 표시됩니다"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "미디어 품질 선택"
@@ -6964,7 +6997,7 @@
     "messageformat": "수정함"
   },
   "icu:MessageMetadata__pinned": {
-    "messageformat": "Pinned"
+    "messageformat": "고정됨"
   },
   "icu:DraftGifMessageSendModal__Title": {
     "messageformat": "메시지 추가"
@@ -7474,88 +7507,106 @@
     "messageformat": "모바일 장치의 설정 → Signal에 기부 → 배지에서 조정할 수 있습니다."
   },
   "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "닫기"
   },
   "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
-    "messageformat": "Back"
+    "messageformat": "뒤로"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
-    "messageformat": "How was your call?"
+    "messageformat": "통화는 어땠나요?"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageDescription": {
-    "messageformat": "This helps us improve calls in Signal. No personally identifiable information will be stored."
+    "messageformat": "귀하의 피드백은 Signal의 통화를 개선하는 데 도움이 됩니다. 개인 식별 정보는 저장되지 않습니다."
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__HadIssues": {
-    "messageformat": "Had issues"
+    "messageformat": "문제가 있었음"
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__Great": {
-    "messageformat": "Great"
+    "messageformat": "좋았음"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__PageTitle": {
-    "messageformat": "What issues did you have?"
+    "messageformat": "어떤 문제가 있었나요?"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__IssuesList__Heading": {
-    "messageformat": "Select all that apply"
+    "messageformat": "해당되는 항목 모두 선택"
   },
   "icu:CallQualitySurvey__Issue--AUDIO": {
-    "messageformat": "Audio issue"
+    "messageformat": "오디오 문제"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_STUTTERING": {
-    "messageformat": "Audio stuttering"
+    "messageformat": "오디오 끊김 현상"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_LOCAL_ECHO": {
-    "messageformat": "I heard echo"
+    "messageformat": "소리가 울림"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_REMOTE_ECHO": {
-    "messageformat": "Others heard echo"
+    "messageformat": "다른 사람들이 소리가 울린다고 함"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_DROP": {
-    "messageformat": "Audio cut out"
+    "messageformat": "오디오 잘림"
   },
   "icu:CallQualitySurvey__Issue--VIDEO": {
-    "messageformat": "Video issue"
+    "messageformat": "화상 문제"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_NO_CAMERA": {
-    "messageformat": "Camera didn't work"
+    "messageformat": "카메라 작동 오류"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_QUALITY": {
-    "messageformat": "Poor video quality"
+    "messageformat": "화상 품질이 낮음"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_RESOLUTION": {
-    "messageformat": "Low resolution"
+    "messageformat": "낮은 해상도"
   },
   "icu:CallQualitySurvey__Issue--CALL_DROPPED": {
-    "messageformat": "Call dropped"
+    "messageformat": "통화 끊김"
   },
   "icu:CallQualitySurvey__Issue--OTHER": {
-    "messageformat": "Something else"
+    "messageformat": "기타"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
-    "messageformat": "Issues description"
+    "messageformat": "문제 설명"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
-    "messageformat": "Please include any details relevant to the issue. Anything you share here will be kept private and will only be used to help improve calls in Signal."
+    "messageformat": "문제와 관련된 모든 세부 정보를 포함해 주세요. 여기에서 공유하는 모든 내용은 비공개로 유지되며 Signal의 통화를 개선하는 데에만 사용됩니다."
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
+    "messageformat": "Please describe your issue"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
-    "messageformat": "Continue"
+    "messageformat": "계속"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
+    "messageformat": "Make a selection to continue"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
-    "messageformat": "Help us improve"
+    "messageformat": "더 나은 서비스를 제공할 수 있도록 도와주세요"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "This helps us learn more about calls and what is working or not working. You can view your debug log before submitting."
+    "messageformat": "이를 통해 통화 품질을 점검하고 개선점을 찾는 데 활용됩니다. 피드백은 디버그 로그를 확인한 후 제출할 수 있습니다."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "디버그 로그 공유"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "보기"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Debug logs contain low level app information and do not reveal any of your message contents."
+    "messageformat": "디버그 로그에는 낮은 수준의 앱 정보가 포함되어 있으며, 메시지 내용은 공개되지 않습니다."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
-    "messageformat": "Submit"
+    "messageformat": "제출"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
+    "messageformat": "Submitting survey..."
+  },
+  "icu:CallQualitySurvey__SubmissionFailed": {
+    "messageformat": "Failed to submit survey"
+  },
+  "icu:CallQualitySurvey__SubmissionFailed__Retry": {
+    "messageformat": "Retry"
+  },
+  "icu:CallQualitySurvey__SubmissionSuccess": {
+    "messageformat": "Thanks for your feedback!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "이 버전에는 Signal의 원활한 실행을 위한 일부 기능 업데이트와 버그 수정이 다수 포함되어 있습니다.",
@@ -7585,16 +7636,7 @@
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.79-1": {
-    "messageformat": "앱 전반의 스크롤바 디자인을 시각적으로 일관성 있게 업데이트했습니다."
-  },
-  "icu:WhatsNew__7.79-2": {
-    "messageformat": "복사/붙여넣기 서식을 개선했습니다. 감사합니다, <brianHarder></brianHarder> 님!"
-  },
-  "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal 설문조사 기능이 추가되었습니다! 설문조사는 그룹의 의견을 모을 수 있는 간편한 방법입니다. 다양한 저녁 옵션이나 다른 중요한 선택지를 사용하여 설문조사를 만들어 보세요. 그룹의 모든 사용자가 설문조사에 참여할 수 있으며 서로의 의견을 확인할 수 있습니다. 또한, 설문조사를 만들 때 다중 옵션 선택 가능 여부도 선택할 수 있습니다."
-  },
-  "icu:WhatsNew__7.81-1": {
-    "messageformat": "이제 미디어 갤러리가 오디오 메시지와 링크 미리 보기, 두 가지 새로운 탭을 포함합니다."
+  "icu:WhatsNew__7.84--0": {
+    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
   }
 }

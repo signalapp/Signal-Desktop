@@ -103,6 +103,7 @@ type PropsHousekeepingType = {
   invitedContactsForNewlyCreatedGroup: Array<ConversationType>;
   selectedMessageId?: string;
   shouldShowMiniPlayer: boolean;
+  shouldShowPinnedMessagesBar: boolean;
 
   warning?: WarningType;
   hasContactSpoofingReview: boolean | undefined;
@@ -143,6 +144,7 @@ type PropsHousekeepingType = {
     unreadIndicatorPlacement: undefined | UnreadIndicatorPlacement;
   }) => JSX.Element;
   renderMiniPlayer: (options: { shouldFlow: boolean }) => JSX.Element;
+  renderPinnedMessagesBar: () => JSX.Element;
   renderTypingBubble: (id: string) => JSX.Element;
 };
 
@@ -163,14 +165,13 @@ export type PropsActionsType = {
     setFocus?: boolean
   ) => unknown;
   markMessageRead: (conversationId: string, messageId: string) => unknown;
+  maybePeekGroupCall: (conversationId: string) => unknown;
   targetMessage: (messageId: string, conversationId: string) => unknown;
   setCenterMessage: (
     conversationId: string,
     messageId: string | undefined
   ) => void;
   setIsNearBottom: (conversationId: string, isNearBottom: boolean) => void;
-  peekGroupCallForTheFirstTime: (conversationId: string) => unknown;
-  peekGroupCallIfItHasMembers: (conversationId: string) => unknown;
   reviewConversationNameCollision: () => void;
   scrollToOldestUnreadMention: (conversationId: string) => unknown;
 };
@@ -588,15 +589,14 @@ export class Timeline extends React.Component<
     this.#cleanupGroupCallPeekTimeouts();
 
     this.#delayedPeekTimeout = setTimeout(() => {
-      const { id, peekGroupCallForTheFirstTime } = this.props;
+      const { id, maybePeekGroupCall } = this.props;
       this.#delayedPeekTimeout = undefined;
-      peekGroupCallForTheFirstTime(id);
-    }, 500);
+      maybePeekGroupCall(id);
 
-    this.#peekInterval = setInterval(() => {
-      const { id, peekGroupCallIfItHasMembers } = this.props;
-      peekGroupCallIfItHasMembers(id);
-    }, MINUTE);
+      this.#peekInterval = setInterval(() => {
+        maybePeekGroupCall(id);
+      }, MINUTE);
+    }, 500);
   }
 
   #cleanupGroupCallPeekTimeouts(): void {
@@ -936,10 +936,12 @@ export class Timeline extends React.Component<
       renderHeroRow,
       renderItem,
       renderMiniPlayer,
+      renderPinnedMessagesBar,
       renderTypingBubble,
       reviewConversationNameCollision,
       scrollToOldestUnreadMention,
       shouldShowMiniPlayer,
+      shouldShowPinnedMessagesBar,
       theme,
       totalUnseen,
       unreadCount,
@@ -1086,7 +1088,7 @@ export class Timeline extends React.Component<
 
     const warning = Timeline.getWarning(this.props, this.state);
     let headerElements: ReactNode;
-    if (warning || shouldShowMiniPlayer) {
+    if (warning || shouldShowMiniPlayer || shouldShowPinnedMessagesBar) {
       let text: ReactChild | undefined;
       let icon: ReactChild | undefined;
       let onClose: () => void;
@@ -1180,7 +1182,10 @@ export class Timeline extends React.Component<
         >
           {measureRef => (
             <TimelineWarnings ref={measureRef}>
-              {renderMiniPlayer({ shouldFlow: true })}
+              {shouldShowMiniPlayer && renderMiniPlayer({ shouldFlow: true })}
+              {!shouldShowMiniPlayer &&
+                shouldShowPinnedMessagesBar &&
+                renderPinnedMessagesBar()}
               {text && (
                 <TimelineWarning i18n={i18n} onClose={onClose}>
                   {icon}

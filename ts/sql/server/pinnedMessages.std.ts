@@ -5,21 +5,65 @@ import type {
   PinnedMessage,
   PinnedMessageId,
   PinnedMessageParams,
+  PinnedMessageRenderData,
 } from '../../types/PinnedMessage.std.js';
 import { strictAssert } from '../../util/assert.std.js';
-import type { ReadableDB, WritableDB } from '../Interface.std.js';
+import { hydrateMessage } from '../hydration.std.js';
+import type {
+  MessageTypeUnhydrated,
+  MessageType,
+  ReadableDB,
+  WritableDB,
+} from '../Interface.std.js';
 import { sql } from '../util.std.js';
+
+function _getMessageById(
+  db: ReadableDB,
+  messageId: string
+): MessageType | null {
+  const [query, params] = sql`
+    SELECT * FROM messages
+    WHERE id = ${messageId}
+  `;
+
+  const row = db.prepare(query).get<MessageTypeUnhydrated>(params);
+  if (row == null) {
+    return null;
+  }
+
+  return hydrateMessage(db, row);
+}
+
+function _getPinnedMessageRenderData(
+  db: ReadableDB,
+  pinnedMessage: PinnedMessage
+): PinnedMessageRenderData {
+  const message = _getMessageById(db, pinnedMessage.messageId);
+  strictAssert(
+    message != null,
+    `Missing message ${pinnedMessage.messageId} for pinned message ${pinnedMessage.id}`
+  );
+  return { pinnedMessage, message };
+}
 
 export function getPinnedMessagesForConversation(
   db: ReadableDB,
   conversationId: string
-): ReadonlyArray<PinnedMessage> {
-  const [query, params] = sql`
-    SELECT * FROM pinnedMessages
-    WHERE conversationId = ${conversationId}
-    ORDER BY pinnedAt DESC
-  `;
-  return db.prepare(query).all<PinnedMessage>(params);
+): ReadonlyArray<PinnedMessageRenderData> {
+  return db.transaction(() => {
+    const [query, params] = sql`
+      SELECT * FROM pinnedMessages
+      WHERE conversationId = ${conversationId}
+      ORDER BY pinnedAt DESC
+    `;
+
+    return db
+      .prepare(query)
+      .all<PinnedMessage>(params)
+      .map(pinnedMessage => {
+        return _getPinnedMessageRenderData(db, pinnedMessage);
+      });
+  })();
 }
 
 function _getPinnedMessageByMessageId(

@@ -527,6 +527,13 @@ export type ConversationAttributesType = {
   test_chatFrameImportedFromBackup?: boolean;
 };
 
+// Fields omitted from SettableConversationAttributesType must be set via their
+// appropriate setter functions (e.g. ConverationModel.updateUsername)
+export type SettableConversationAttributesType = Omit<
+  ConversationAttributesType,
+  'username'
+>;
+
 export type ConversationRenderInfoType = Pick<
   ConversationAttributesType,
   | 'e164'

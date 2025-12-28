@@ -103,7 +103,6 @@ import {
   getMessages,
   getCachedConversationMemberColorsSelector,
   getContactNameColor,
-  getPinnedMessageIds,
 } from './conversations.dom.js';
 import {
   getIntl,
@@ -169,6 +168,9 @@ import { LONG_MESSAGE } from '../../types/MIME.std.js';
 import type { MessageRequestResponseNotificationData } from '../../components/conversation/MessageRequestResponseNotification.dom.js';
 import type { PinnedMessageNotificationData } from '../../components/conversation/pinned-messages/PinnedMessageNotification.dom.js';
 import { canEditGroupInfo } from '../../util/canEditGroupInfo.preload.js';
+import { getPinnedMessagesMessageIds } from './pinnedMessages.dom.js';
+import { isPinnedMessagesSendEnabled } from '../../util/isPinnedMessagesEnabled.dom.js';
+import { getPinnedMessagesLimit } from '../../util/pinnedMessages.dom.js';
 
 const { groupBy, isEmpty, isNumber, isObject, map } = lodash;
 
@@ -206,7 +208,7 @@ export type GetPropsForBubbleOptions = Readonly<{
   ourPni: PniString | undefined;
   targetedMessageId?: string;
   targetedMessageCounter?: number;
-  pinnedMessageIds: ReadonlyArray<string> | null;
+  pinnedMessagesMessageIds: ReadonlyArray<string> | null;
   selectedMessageIds: ReadonlyArray<string> | undefined;
   regionCode?: string;
   callSelector: CallSelectorType;
@@ -778,7 +780,7 @@ export type GetPropsForMessageOptions = Pick<
   | 'ourNumber'
   | 'targetedMessageId'
   | 'targetedMessageCounter'
-  | 'pinnedMessageIds'
+  | 'pinnedMessagesMessageIds'
   | 'selectedMessageIds'
   | 'regionCode'
   | 'accountSelector'
@@ -857,7 +859,7 @@ function getTextDirection(body?: string): TextDirection {
 export const getPropsForMessage = (
   message: MessageWithUIFieldsType,
   options: GetPropsForMessageOptions
-): Omit<PropsForMessage, 'renderingContext' | 'menu' | 'contextMenu'> => {
+): MessagePropsType => {
   const attachmentDroppedDueToSize = message.attachments?.some(
     item => item.wasTooBig
   );
@@ -881,7 +883,7 @@ export const getPropsForMessage = (
     regionCode,
     targetedMessageId,
     targetedMessageCounter,
-    pinnedMessageIds,
+    pinnedMessagesMessageIds,
     selectedMessageIds,
     contactNameColors,
     defaultConversationColor,
@@ -900,7 +902,7 @@ export const getPropsForMessage = (
   const activeCallConversationId = activeCall?.conversationId;
 
   const isTargeted = message.id === targetedMessageId;
-  const isPinned = pinnedMessageIds?.includes(message.id) ?? false;
+  const isPinned = pinnedMessagesMessageIds?.includes(message.id) ?? false;
   const isSelected = selectedMessageIds?.includes(message.id) ?? false;
   const isSelectMode = selectedMessageIds != null;
 
@@ -965,6 +967,9 @@ export const getPropsForMessage = (
       expirationStartTimestamp,
     }),
     giftBadge: message.giftBadge,
+    hasMaxPinnedMessages: getHasMaxPinnedMessages(
+      options.pinnedMessagesMessageIds ?? []
+    ),
     poll: getPollForMessage(message, {
       conversationSelector: options.conversationSelector,
       ourConversationId,
@@ -1011,7 +1016,7 @@ export const getMessagePropsSelector = createSelector(
   getAccountSelector,
   getCachedConversationMemberColorsSelector,
   getTargetedMessage,
-  getPinnedMessageIds,
+  getPinnedMessagesMessageIds,
   getSelectedMessageIds,
   getDefaultConversationColor,
   (
@@ -1024,7 +1029,7 @@ export const getMessagePropsSelector = createSelector(
     accountSelector,
     cachedConversationMemberColorsSelector,
     targetedMessage,
-    pinnedMessageIds,
+    pinnedMessagesMessageIds,
     selectedMessageIds,
     defaultConversationColor
   ) =>
@@ -1043,7 +1048,7 @@ export const getMessagePropsSelector = createSelector(
         regionCode,
         targetedMessageCounter: targetedMessage?.counter,
         targetedMessageId: targetedMessage?.id,
-        pinnedMessageIds,
+        pinnedMessagesMessageIds,
         selectedMessageIds,
         defaultConversationColor,
       });
@@ -2403,7 +2408,18 @@ export function canForward(message: ReadonlyMessageAttributesType): boolean {
 }
 
 export function canPinMessages(conversation: ConversationType): boolean {
-  return canEditGroupInfo(conversation);
+  if (!isPinnedMessagesSendEnabled()) {
+    return false;
+  }
+  return conversation.type === 'direct' || canEditGroupInfo(conversation);
+}
+
+function getHasMaxPinnedMessages(
+  pinnedMessagesMessageIds: ReadonlyArray<string>
+) {
+  const pinnedMessagesLimit = getPinnedMessagesLimit();
+  const pinnedMessagesCount = pinnedMessagesMessageIds.length;
+  return pinnedMessagesCount >= pinnedMessagesLimit;
 }
 
 export function getLastChallengeError(
@@ -2445,7 +2461,7 @@ export const getMessageDetails = createSelector(
   getUserPNI,
   getUserConversationId,
   getUserNumber,
-  getPinnedMessageIds,
+  getPinnedMessagesMessageIds,
   getSelectedMessageIds,
   getDefaultConversationColor,
   getHasUnidentifiedDeliveryIndicators,
@@ -2460,7 +2476,7 @@ export const getMessageDetails = createSelector(
     ourPni,
     ourConversationId,
     ourNumber,
-    pinnedMessageIds,
+    pinnedMessagesMessageIds,
     selectedMessageIds,
     defaultConversationColor,
     hasUnidentifiedDeliveryIndicators
@@ -2595,7 +2611,7 @@ export const getMessageDetails = createSelector(
         ourConversationId,
         ourNumber,
         regionCode,
-        pinnedMessageIds,
+        pinnedMessagesMessageIds,
         selectedMessageIds,
         defaultConversationColor,
       }),

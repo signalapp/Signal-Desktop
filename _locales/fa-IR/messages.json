@@ -539,6 +539,9 @@
   "icu:debugLogExplanation": {
     "messageformat": "وقتی روی ارسال کلیک می‌کنید، گزارش شما به مدت 30 روز به صورت آنلاین در یک URL منحصربه‌فرد و منتشرنشده پست می‌شود. می‌توانید ابتدا آن را در دستگاه خود ذخیره کنید."
   },
+  "icu:debugLogExplanation--close": {
+    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+  },
   "icu:debugLogError": {
     "messageformat": "مشکلی در بارگذاری رخ داد. لطفا گزارش خود را به صورت یک فایل متنی به support@signal.org ایمیل کنید."
   },
@@ -1101,7 +1104,7 @@
     "messageformat": "سنجاق کردن پیام"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin message"
+    "messageformat": "برداشتن سنجاق پیام"
   },
   "icu:Poll__end-poll": {
     "messageformat": "پایان نظرسنجی"
@@ -1241,6 +1244,18 @@
   "icu:PinMessageDialog__Pin": {
     "messageformat": "سنجاق کردن"
   },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
+    "messageformat": "Replace oldest pin?"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
+    "messageformat": "Pinning this message will replace the oldest one."
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
+    "messageformat": "Continue"
+  },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {پیام سنجاق‌شده} other {پیام‌های سنجاق‌شده}}"
   },
@@ -1263,52 +1278,64 @@
     "messageformat": "مشاهده همه پیام‌ها"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Address": {
-    "messageformat": "Address"
+    "messageformat": "آدرس"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "پیام صوتی"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Gif": {
-    "messageformat": "GIF"
+    "messageformat": "گیف"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
-    "messageformat": "File"
+    "messageformat": "فایل"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Contact": {
-    "messageformat": "Contact"
+    "messageformat": "مخاطب"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "پرداخت"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Poll": {
-    "messageformat": "Poll"
+    "messageformat": "نظرسنجی"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "استیکر"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
-    "messageformat": "Photo"
+    "messageformat": "تصویر"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Video": {
-    "messageformat": "Video"
+    "messageformat": "ویدئو"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "پیام صوتی"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Gif": {
-    "messageformat": "GIF"
+    "messageformat": "گیف"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "پرداخت"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "استیکر"
   },
   "icu:PinnedMessagesPanel__Title": {
-    "messageformat": "Pinned messages"
+    "messageformat": "پیام‌های سنجاق‌شده"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages": {
-    "messageformat": "Unpin all messages"
+    "messageformat": "برداشتن سنجاق همه پیام‌ها"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
+    "messageformat": "Unpin all messages?"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
+    "messageformat": "Messages will be unpinned for members of this chat."
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
+    "messageformat": "Unpin"
   },
   "icu:sessionEnded": {
     "messageformat": "جلسه‌ی امن از نو ایجاد شد"
@@ -2539,6 +2566,12 @@
   },
   "icu:message--donation--preview--sent": {
     "messageformat": "از طرف {recipient} کمک مالی کردید"
+  },
+  "icu:message--pinned--preview--received": {
+    "messageformat": "{sender} pinned a message"
+  },
+  "icu:message--pinned--preview--sent": {
+    "messageformat": "You pinned a message"
   },
   "icu:message--donation": {
     "messageformat": "کمک مالی"
@@ -6964,7 +6997,7 @@
     "messageformat": "ویرایش‌شده"
   },
   "icu:MessageMetadata__pinned": {
-    "messageformat": "Pinned"
+    "messageformat": "سنجاق‌شده"
   },
   "icu:DraftGifMessageSendModal__Title": {
     "messageformat": "افزودن یک پیام"
@@ -7474,88 +7507,106 @@
     "messageformat": "می‌توانید این را در دستگاه تلفن همراهتان در «تنظیمات ← اهدای کمک مالی به سیگنال ← نشان‌ها» تنظیم کنید."
   },
   "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "بستن"
   },
   "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
-    "messageformat": "Back"
+    "messageformat": "بازگشت"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
-    "messageformat": "How was your call?"
+    "messageformat": "تماستان چطور بود؟"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageDescription": {
-    "messageformat": "This helps us improve calls in Signal. No personally identifiable information will be stored."
+    "messageformat": "این کمک می‌کند تا تماس‌های سیگنال را بهبود دهیم. اطلاعات شخصی قابل‌شناسایی ذخیره نخواهد شد."
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__HadIssues": {
-    "messageformat": "Had issues"
+    "messageformat": "مشکل داشت"
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__Great": {
-    "messageformat": "Great"
+    "messageformat": "عالی بود"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__PageTitle": {
-    "messageformat": "What issues did you have?"
+    "messageformat": "چه مشکلاتی داشتید؟"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__IssuesList__Heading": {
-    "messageformat": "Select all that apply"
+    "messageformat": "همه مواردی که مصداق دارند را علامت بزنید"
   },
   "icu:CallQualitySurvey__Issue--AUDIO": {
-    "messageformat": "Audio issue"
+    "messageformat": "مشکل صدا"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_STUTTERING": {
-    "messageformat": "Audio stuttering"
+    "messageformat": "قطع و وصل صدا"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_LOCAL_ECHO": {
-    "messageformat": "I heard echo"
+    "messageformat": "من انعکاس صدا شنیدم"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_REMOTE_ECHO": {
-    "messageformat": "Others heard echo"
+    "messageformat": "طرف مقابل انعکاس صدا شنید"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_DROP": {
-    "messageformat": "Audio cut out"
+    "messageformat": "قطع صدا"
   },
   "icu:CallQualitySurvey__Issue--VIDEO": {
-    "messageformat": "Video issue"
+    "messageformat": "مشکل ویدیو"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_NO_CAMERA": {
-    "messageformat": "Camera didn't work"
+    "messageformat": "دوربین کار نکرد"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_QUALITY": {
-    "messageformat": "Poor video quality"
+    "messageformat": "کیفیت ضعیف ویدیو"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_RESOLUTION": {
-    "messageformat": "Low resolution"
+    "messageformat": "وضوح پایین"
   },
   "icu:CallQualitySurvey__Issue--CALL_DROPPED": {
-    "messageformat": "Call dropped"
+    "messageformat": "تماس قطع شد"
   },
   "icu:CallQualitySurvey__Issue--OTHER": {
-    "messageformat": "Something else"
+    "messageformat": "موارد دیگر"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
-    "messageformat": "Issues description"
+    "messageformat": "شرح مشکلات"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
-    "messageformat": "Please include any details relevant to the issue. Anything you share here will be kept private and will only be used to help improve calls in Signal."
+    "messageformat": "لطفاً هرگونه جزئیات مرتبط با مشکل را ارائه دهید. هرچه که با ما به اشتراک می‌گذارید خصوصی خواهد ماند و فقط برای کمک به بهبود تماس‌ها در سیگنال استفاده خواهد شد."
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
+    "messageformat": "Please describe your issue"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
-    "messageformat": "Continue"
+    "messageformat": "ادامه"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
+    "messageformat": "Make a selection to continue"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
-    "messageformat": "Help us improve"
+    "messageformat": "کمک کنید بهتر شویم"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "This helps us learn more about calls and what is working or not working. You can view your debug log before submitting."
+    "messageformat": "این به ما کمک می‌کند درباره تماس‌ها و نقاط قوت و ضعف آن‌ها بیشتر بدانیم. می‌توانید قبل از ارسال، گزارش اشکال‌زدایی خود را ببینید."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "هم‌رسانی گزارش اشکال‌زدایی"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "مشاهده"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Debug logs contain low level app information and do not reveal any of your message contents."
+    "messageformat": "گزارش‌های عیب‌یابی حاوی اطلاعات سطح پایین برنامه هستند و هیچ‌یک از محتواهای پیام شما را افشا نمی‌کنند."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
-    "messageformat": "Submit"
+    "messageformat": "ارسال"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
+    "messageformat": "Submitting survey..."
+  },
+  "icu:CallQualitySurvey__SubmissionFailed": {
+    "messageformat": "Failed to submit survey"
+  },
+  "icu:CallQualitySurvey__SubmissionFailed__Retry": {
+    "messageformat": "Retry"
+  },
+  "icu:CallQualitySurvey__SubmissionSuccess": {
+    "messageformat": "Thanks for your feedback!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "این نسخه شامل شماری از بهینه سازی های کوچک و رفع عیب برای تداوم اجرای راحت سیگنال می باشد",
@@ -7585,16 +7636,7 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.79-1": {
-    "messageformat": "ظاهر نوارهای پیمایش در سراسر برنامه را به‌روزرسانی کردیم تا هماهنگی بصری بیشتری داشته باشند."
-  },
-  "icu:WhatsNew__7.79-2": {
-    "messageformat": "قالب‌بندی کپی کردن/چسباندن را بهبود دادیم. با تشکر از <brianHarder></brianHarder>!"
-  },
-  "icu:WhatsNew__7.80-1": {
-    "messageformat": "نظرسنجی‌های سیگنال اینجاست! نظرسنجی‌ها راهی آسان برای دیدن نظرات واقعی اعضای گروه هستند. یک نظرسنجی با گزینه‌های مختلف برای شام یا هر انتخاب مهم دیگری ایجاد کنید. همه افراد گروه می‌توانند رأی بدهند و پاسخ‌های یکدیگر را ببینند و شما می‌توانید تصمیم بگیرید که آیا اجازه رأی‌دهی چندگانه را بدهید یا خیر."
-  },
-  "icu:WhatsNew__7.81-1": {
-    "messageformat": "گالری رسانه اکنون شامل دو زبانه جدید برای پیام‌های صوتی و پیش‌نمایش‌های پیوندها است."
+  "icu:WhatsNew__7.84--0": {
+    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
   }
 }

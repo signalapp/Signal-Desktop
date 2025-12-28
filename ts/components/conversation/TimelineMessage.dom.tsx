@@ -55,6 +55,7 @@ export type PropsData = {
   canReact: boolean;
   canReply: boolean;
   canPinMessages: boolean;
+  hasMaxPinnedMessages: boolean;
   selectedReaction?: string;
   isTargeted?: boolean;
 } & Omit<MessagePropsData, 'renderingContext' | 'menu'>;
@@ -118,6 +119,7 @@ export function TimelineMessage(props: Props): JSX.Element {
     containerWidthBreakpoint,
     conversationId,
     direction,
+    hasMaxPinnedMessages,
     i18n,
     id,
     interactivity,
@@ -493,6 +495,7 @@ export function TimelineMessage(props: Props): JSX.Element {
         open={pinMessageDialogOpen}
         onOpenChange={setPinMessageDialogOpen}
         onPinnedMessageAdd={handlePinnedMessageAdd}
+        hasMaxPinnedMessages={hasMaxPinnedMessages}
       />
     </>
   );

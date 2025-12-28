@@ -10,8 +10,10 @@ import { longTimeoutAsync } from '../../util/timeout.std.js';
 
 const parentLog = createLogger('ExpiringEntityCleanupService');
 
+type EntityId = string | number;
+
 export type ExpiringEntity = Readonly<{
-  id: string;
+  id: EntityId;
   expiresAtMs: number;
 }>;
 
@@ -21,7 +23,7 @@ export type Unsubscribe = () => void;
 export type ExpiringEntityCleanupServiceOptions = Readonly<{
   logPrefix: string;
   getNextExpiringEntity: () => Promise<ExpiringEntity | null>;
-  cleanupExpiredEntities: () => Promise<ReadonlyArray<string>>;
+  cleanupExpiredEntities: () => Promise<ReadonlyArray<EntityId>>;
   subscribeToTriggers: (trigger: Trigger) => Unsubscribe;
   _mockGetCurrentTime?: () => number;
   _mockScheduleLongTimeout?: (ms: number, signal: AbortSignal) => Promise<void>;

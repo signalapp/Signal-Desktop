@@ -231,14 +231,7 @@ export const getTargetedMessageSource = createSelector(
     return state.targetedMessageSource;
   }
 );
-export const getPinnedMessageIds = createSelector(
-  getConversations,
-  (state: ConversationsStateType): ReadonlyArray<string> | null => {
-    return state.pinnedMessages.map(pinnedMessage => {
-      return pinnedMessage.messageId;
-    });
-  }
-);
+
 export const getSelectedMessageIds = createSelector(
   getConversations,
   (state: ConversationsStateType): ReadonlyArray<string> | undefined => {

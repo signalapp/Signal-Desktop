@@ -8,6 +8,7 @@ import lodash from 'lodash';
 import { normalizeAci } from '../util/normalizeAci.std.js';
 import type { ConfigKeyType, ConfigListenerType } from '../RemoteConfig.dom.js';
 import {
+  COUNTRY_CODE_FALLBACK,
   getCountryCodeValue,
   getBucketValue,
   isCountryPpmCsvBucketEnabled,
@@ -92,6 +93,20 @@ describe('RemoteConfig', () => {
     it('returns undefined if no wildcard or specific value', () => {
       assert.strictEqual(
         getCountryCodeValue(1, '2:56,3:74', 'flagName'),
+        undefined
+      );
+    });
+
+    it('returns wildcard for COUNTRY_CODE_FALLBACK', () => {
+      assert.strictEqual(
+        getCountryCodeValue(COUNTRY_CODE_FALLBACK, '*:56,1:74', 'flagName'),
+        56
+      );
+    });
+
+    it('returns undefined for COUNTRY_CODE_FALLBACK when no wildcard', () => {
+      assert.strictEqual(
+        getCountryCodeValue(COUNTRY_CODE_FALLBACK, '1:74,2:56', 'flagName'),
         undefined
       );
     });

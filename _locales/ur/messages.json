@@ -539,6 +539,9 @@
   "icu:debugLogExplanation": {
     "messageformat": "آپ کے جمع کروائیں پر کلک کرنے پر، آپ کا لاگ ایک منفرد، غیر پبلش شدہ URL پر 30 دنوں کے لیے آن لائن پوسٹ کر دیا جائے گا۔ آپ پہلے اسے مقامی طور پر محفوظ کر سکتے ہیں۔"
   },
+  "icu:debugLogExplanation--close": {
+    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+  },
   "icu:debugLogError": {
     "messageformat": "اپ لوڈ کے ساتھ کوئی خرابی واقع ہو گئی ہے! براہ کرم support@signal.org پر ای میل کریں اور متنی فائل کے طور پر اپنا لاگ منسلک کریں۔"
   },
@@ -1101,7 +1104,7 @@
     "messageformat": "میسج پِن کریں"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin message"
+    "messageformat": "میسج اَن پِن کریں"
   },
   "icu:Poll__end-poll": {
     "messageformat": "پول ختم کریں"
@@ -1241,6 +1244,18 @@
   "icu:PinMessageDialog__Pin": {
     "messageformat": "پِن کریں"
   },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
+    "messageformat": "Replace oldest pin?"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
+    "messageformat": "Pinning this message will replace the oldest one."
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
+    "messageformat": "Continue"
+  },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {پِن کردہ میسج} other {پِن کردہ میسجز}}"
   },
@@ -1263,52 +1278,64 @@
     "messageformat": "تمام میسجز دیکھیں"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Address": {
-    "messageformat": "Address"
+    "messageformat": "ایڈریس"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "آڈیو پیغام"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Gif": {
-    "messageformat": "GIF"
+    "messageformat": "گِف"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
-    "messageformat": "File"
+    "messageformat": "فائل"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Contact": {
-    "messageformat": "Contact"
+    "messageformat": "رابطہ"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "پیمنٹ"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Poll": {
-    "messageformat": "Poll"
+    "messageformat": "پول"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "اسٹیکر"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
-    "messageformat": "Photo"
+    "messageformat": "تصویر"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Video": {
-    "messageformat": "Video"
+    "messageformat": "وڈیو"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "آڈیو پیغام"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Gif": {
-    "messageformat": "GIF"
+    "messageformat": "گِف"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "پیمنٹ"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "اسٹیکر"
   },
   "icu:PinnedMessagesPanel__Title": {
-    "messageformat": "Pinned messages"
+    "messageformat": "پِن کردہ میسجز"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages": {
-    "messageformat": "Unpin all messages"
+    "messageformat": "تمام میسجز اَن پِن کریں"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
+    "messageformat": "Unpin all messages?"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
+    "messageformat": "Messages will be unpinned for members of this chat."
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
+    "messageformat": "Unpin"
   },
   "icu:sessionEnded": {
     "messageformat": "محفوظ سیشن ری سیٹ کریں"
@@ -2539,6 +2566,12 @@
   },
   "icu:message--donation--preview--sent": {
     "messageformat": "آپ نے {recipient} کے لیے عطیہ کیا ہے"
+  },
+  "icu:message--pinned--preview--received": {
+    "messageformat": "{sender} pinned a message"
+  },
+  "icu:message--pinned--preview--sent": {
+    "messageformat": "You pinned a message"
   },
   "icu:message--donation": {
     "messageformat": "عطیہ"
@@ -6964,7 +6997,7 @@
     "messageformat": "ترمیم کردہ"
   },
   "icu:MessageMetadata__pinned": {
-    "messageformat": "Pinned"
+    "messageformat": "پِن کیا ہوا"
   },
   "icu:DraftGifMessageSendModal__Title": {
     "messageformat": "پیغام شامل کریں"
@@ -7474,88 +7507,106 @@
     "messageformat": "آپ اپنی موبائل ڈیوائس پر سیٹنگز → Signal کو عطیہ کریں → بیجز کے تحت اس کو ایڈجسٹ کر سکتے ہیں"
   },
   "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "بند کریں"
   },
   "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
-    "messageformat": "Back"
+    "messageformat": "واپس جائیں"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
-    "messageformat": "How was your call?"
+    "messageformat": "آپ کی کال کا تجربہ کیسا تھا؟"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageDescription": {
-    "messageformat": "This helps us improve calls in Signal. No personally identifiable information will be stored."
+    "messageformat": "اس سے ہمیں Signal میں کالز کو بہتر بنانے میں مدد ملتی ہے۔ کوئی ذاتی قابل شناخت معلومات اسٹور نہیں کی جائیں گی۔"
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__HadIssues": {
-    "messageformat": "Had issues"
+    "messageformat": "مسائل کا سامنا تھا"
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__Great": {
-    "messageformat": "Great"
+    "messageformat": "بہترین"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__PageTitle": {
-    "messageformat": "What issues did you have?"
+    "messageformat": "آپ کو کن مسائل کا سامنا کرنا پڑا؟"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__IssuesList__Heading": {
-    "messageformat": "Select all that apply"
+    "messageformat": "تمام قابل اطلاق کو منتخب کریں"
   },
   "icu:CallQualitySurvey__Issue--AUDIO": {
-    "messageformat": "Audio issue"
+    "messageformat": "آڈیو کا مسئلہ"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_STUTTERING": {
-    "messageformat": "Audio stuttering"
+    "messageformat": "آڈیو کا اٹکنا"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_LOCAL_ECHO": {
-    "messageformat": "I heard echo"
+    "messageformat": "مجھے گونج سنائی دی"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_REMOTE_ECHO": {
-    "messageformat": "Others heard echo"
+    "messageformat": "دوسروں کو گونج سنائی دی"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_DROP": {
-    "messageformat": "Audio cut out"
+    "messageformat": "آڈیو میں خلل پڑنا"
   },
   "icu:CallQualitySurvey__Issue--VIDEO": {
-    "messageformat": "Video issue"
+    "messageformat": "ویڈیو کا مسئلہ"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_NO_CAMERA": {
-    "messageformat": "Camera didn't work"
+    "messageformat": "کیمرہ نے کام نہیں کیا"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_QUALITY": {
-    "messageformat": "Poor video quality"
+    "messageformat": "ویڈیو کا ناقص معیار"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_RESOLUTION": {
-    "messageformat": "Low resolution"
+    "messageformat": "کم ریزولوشن"
   },
   "icu:CallQualitySurvey__Issue--CALL_DROPPED": {
-    "messageformat": "Call dropped"
+    "messageformat": "کال منقطع ہو گئی"
   },
   "icu:CallQualitySurvey__Issue--OTHER": {
-    "messageformat": "Something else"
+    "messageformat": "اس کے علاوہ کچھ اور"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
-    "messageformat": "Issues description"
+    "messageformat": "مسائل کی تفصیل"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
-    "messageformat": "Please include any details relevant to the issue. Anything you share here will be kept private and will only be used to help improve calls in Signal."
+    "messageformat": "براہ کرم مسئلے سے متعلق کوئی تفصیلات شامل کریں۔ آپ جو کچھ یہاں شیئر کرتے ہیں اسے مخفی رکھا جائے گا اور صرف Signal میں کالز کو بہتر بنانے میں استعمال کیا جائے گا۔"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
+    "messageformat": "Please describe your issue"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
-    "messageformat": "Continue"
+    "messageformat": "جاری رکھیں"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
+    "messageformat": "Make a selection to continue"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
-    "messageformat": "Help us improve"
+    "messageformat": "بہتر بننے میں ہماری مدد کریں"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "This helps us learn more about calls and what is working or not working. You can view your debug log before submitting."
+    "messageformat": "اس سے ہمیں کالز اور اس بارے میں مزید جاننے میں مدد ملتی ہے کہ کیا چیز کام کر رہی یا نہیں کر رہی ہے۔ آپ جمع کروانے سے پہلے اپنا ڈی بگ لاگ دیکھ سکتے ہیں۔"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "ڈی بگ لاگ شیئر کریں"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "ویو"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Debug logs contain low level app information and do not reveal any of your message contents."
+    "messageformat": "ڈی بگ لاگز کم درجے کی ایپ معلومات پر مشتمل ہوتے ہیں اور آپ کے کسی بھی میسج کے مندرجات کو ظاہر نہیں کرتے۔"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
-    "messageformat": "Submit"
+    "messageformat": "جمح کریں"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
+    "messageformat": "Submitting survey..."
+  },
+  "icu:CallQualitySurvey__SubmissionFailed": {
+    "messageformat": "Failed to submit survey"
+  },
+  "icu:CallQualitySurvey__SubmissionFailed__Retry": {
+    "messageformat": "Retry"
+  },
+  "icu:CallQualitySurvey__SubmissionSuccess": {
+    "messageformat": "Thanks for your feedback!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "یہ ورژن Signal کو بے خلل طور پر چلتا رکھنے کے لیے کچھ معمولی تبدیلیوں اور بگ درستگیوں پر مشتمل ہے۔",
@@ -7585,16 +7636,7 @@
     "messageformat": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.79-1": {
-    "messageformat": "ہم نے پوری ایپ میں اسکرول بارز کے رنگ روپ کو اپ ڈیٹ کیا ہے تاکہ انہیں دیکھنے میں زیادہ ہم آہنگ بنایا جا سکے۔"
-  },
-  "icu:WhatsNew__7.79-2": {
-    "messageformat": "کاپی/پیسٹ کی فارمیٹنگ میں بہتریاں۔ شکریہ، @brianHarder <brianHarder></brianHarder>!"
-  },
-  "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal کی رائے شماریاں یہاں ہیں! رائے شماریاں یہ جاننے کا ایک آسان طریقہ ہیں کہ آپ کی گروپ چیٹ حقیقت میں کیا سوچتی ہے۔ رات کے کھانے کے مختلف اختیارات یا کسی اور اہم انتخابات کے ساتھ رائے شماری تخلیق کریں۔ گروپ میں موجود ہر فرد ووٹ دے سکتا اور ایک دوسرے کے جوابات دیکھ سکتا ہے، اور آپ یہ فیصلہ کر سکتے ہیں کہ متعدد ووٹس کی اجازت دیں یا نہیں۔"
-  },
-  "icu:WhatsNew__7.81-1": {
-    "messageformat": "میڈیا گیلری میں آڈیو میسجز اور لنک کے پیش منظروں کے لیے اب دو نئی ٹیبز شامل ہیں۔اگر گروپ چیٹ میں لنک پوسٹ ہو تو اس کی آواز آتی ہے یا نہیں؟"
+  "icu:WhatsNew__7.84--0": {
+    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
   }
 }

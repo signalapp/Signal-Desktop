@@ -539,6 +539,9 @@
   "icu:debugLogExplanation": {
     "messageformat": "ပေးပို့ရန်ကို နှိပ်သည့်အခါ သင့်မှတ်တမ်းကို သီးခြား အများနှင့်မဆိုင်သော URL တွင် ရက် ၃၀ ကြာ ပို့စ်တင်ထားပါမည်။ ဦးစွာ ၎င်းကို စက်တွင်း သိမ်းထားနိုင်ပါသည်။"
   },
+  "icu:debugLogExplanation--close": {
+    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+  },
   "icu:debugLogError": {
     "messageformat": "အပ်လုဒ်လုပ်ရာတွင် တစ်စုံတစ်ခု မှားယွင်းသွားသည်။ support@signal.org ကို အီးမေးလ် ပို့ပြီး သင့်မှတ်တမ်းကို စာသားဖိုင်အဖြစ် ဖိုင်တွဲပို့ပါ။"
   },
@@ -1101,7 +1104,7 @@
     "messageformat": "မက်ဆေ့ချ်ကို ပင်တွဲရန်"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin message"
+    "messageformat": "မက်ဆေ့ချ်ကို ပင်ဖြုတ်ရန်"
   },
   "icu:Poll__end-poll": {
     "messageformat": "စစ်တမ်း အဆုံးသတ်"
@@ -1241,6 +1244,18 @@
   "icu:PinMessageDialog__Pin": {
     "messageformat": "ပင်တွဲရန်"
   },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
+    "messageformat": "Replace oldest pin?"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
+    "messageformat": "Pinning this message will replace the oldest one."
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
+    "messageformat": "Continue"
+  },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, other {ပင်တွဲထားသော မက်ဆေ့ချ်များ}}"
   },
@@ -1263,52 +1278,64 @@
     "messageformat": "မက်ဆေ့ချ်အားလုံးကို ကြည့်ရှုရန်"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Address": {
-    "messageformat": "Address"
+    "messageformat": "လိပ်စာ"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "အသံ မက်ဆေ့ချ်"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Gif": {
     "messageformat": "GIF"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
-    "messageformat": "File"
+    "messageformat": "ဖိုင်"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Contact": {
-    "messageformat": "Contact"
+    "messageformat": "အဆက်အသွယ်"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "ငွေပေးချေမှု"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Poll": {
-    "messageformat": "Poll"
+    "messageformat": "စစ်တမ်း"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "စတစ်ကာ"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
-    "messageformat": "Photo"
+    "messageformat": "ရုပ်ပုံ"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Video": {
-    "messageformat": "Video"
+    "messageformat": "ရုပ်မြင်သံကြား"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "အသံ မက်ဆေ့ချ်"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Gif": {
     "messageformat": "GIF"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "ငွေပေးချေမှု"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "စတစ်ကာ"
   },
   "icu:PinnedMessagesPanel__Title": {
-    "messageformat": "Pinned messages"
+    "messageformat": "ပင်တွဲထားသော မက်ဆေ့ချ်များ"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages": {
-    "messageformat": "Unpin all messages"
+    "messageformat": "မက်ဆေ့ချ်အားလုံးကို ပင်ဖြုတ်ပါ"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
+    "messageformat": "Unpin all messages?"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
+    "messageformat": "Messages will be unpinned for members of this chat."
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
+    "messageformat": "Unpin"
   },
   "icu:sessionEnded": {
     "messageformat": "Secure session reset"
@@ -2539,6 +2566,12 @@
   },
   "icu:message--donation--preview--sent": {
     "messageformat": "သင်သည် {recipient} အတွက် လှူထားပါသည်"
+  },
+  "icu:message--pinned--preview--received": {
+    "messageformat": "{sender} pinned a message"
+  },
+  "icu:message--pinned--preview--sent": {
+    "messageformat": "You pinned a message"
   },
   "icu:message--donation": {
     "messageformat": "လှူဒါန်းမှု"
@@ -6964,7 +6997,7 @@
     "messageformat": "တည်းဖြတ်ပြီး"
   },
   "icu:MessageMetadata__pinned": {
-    "messageformat": "Pinned"
+    "messageformat": "ပင်မှတ်ထားသည်"
   },
   "icu:DraftGifMessageSendModal__Title": {
     "messageformat": "မက်ဆေ့ချ် ပေါင်းထည့်ရန်"
@@ -7474,88 +7507,106 @@
     "messageformat": "၎င်းကို ဆက်တင် → Signal သို့ လှူဒါန်းမှု → ဘဲ့ဂျ်များထဲမှ သင့်မိုဘိုင်းစက်တွင် ၎င်းကို ချိန်ညှိနိုင်သည်။"
   },
   "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "ပိတ်မယ်"
   },
   "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
-    "messageformat": "Back"
+    "messageformat": "နောက်သို့"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
-    "messageformat": "How was your call?"
+    "messageformat": "သင့်ခေါ်ဆိုမှု အဆင်ပြေပါသလား။"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageDescription": {
-    "messageformat": "This helps us improve calls in Signal. No personally identifiable information will be stored."
+    "messageformat": "၎င်းသည် Signal တွင် ခေါ်ဆိုမှုများကို ပိုမိုကောင်းမွန်အောင် ကူညီပေးသည်။ ပုဂ္ဂိုလ်ရေးဆိုင်ရာ သိရှိနိုင်သော အချက်အလက်များကို သိမ်းဆည်းထားမည်မဟုတ်ပါ။"
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__HadIssues": {
-    "messageformat": "Had issues"
+    "messageformat": "ပြဿနာများ ရှိခဲ့သည်"
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__Great": {
-    "messageformat": "Great"
+    "messageformat": "ကောင်းပါသည်"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__PageTitle": {
-    "messageformat": "What issues did you have?"
+    "messageformat": "ဘာပြဿနာရှိပါသလဲ။"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__IssuesList__Heading": {
-    "messageformat": "Select all that apply"
+    "messageformat": "သက်ဆိုင်သမျှကို ရွေးပါ"
   },
   "icu:CallQualitySurvey__Issue--AUDIO": {
-    "messageformat": "Audio issue"
+    "messageformat": "အော်ဒီယို ပြဿနာ"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_STUTTERING": {
-    "messageformat": "Audio stuttering"
+    "messageformat": "အသံထစ်ခြင်း"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_LOCAL_ECHO": {
-    "messageformat": "I heard echo"
+    "messageformat": "ပဲ့တင်သံကြားရခြင်း"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_REMOTE_ECHO": {
-    "messageformat": "Others heard echo"
+    "messageformat": "အခြားသူများ ပဲ့တင်သံကြားရခြင်း"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_DROP": {
-    "messageformat": "Audio cut out"
+    "messageformat": "အသံပြတ်တောက်ခြင်း"
   },
   "icu:CallQualitySurvey__Issue--VIDEO": {
-    "messageformat": "Video issue"
+    "messageformat": "ဗီဒီယို ပြဿနာ"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_NO_CAMERA": {
-    "messageformat": "Camera didn't work"
+    "messageformat": "ကင်မရာ အလုပ်မလုပ်ခြင်း"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_QUALITY": {
-    "messageformat": "Poor video quality"
+    "messageformat": "ဗီဒီယိုအရည်အသွေး မကောင်းခြင်း"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_RESOLUTION": {
-    "messageformat": "Low resolution"
+    "messageformat": "ကြည်လင်ပြတ်သားမှု နည်းပါးခြင်း"
   },
   "icu:CallQualitySurvey__Issue--CALL_DROPPED": {
-    "messageformat": "Call dropped"
+    "messageformat": "ခေါ်ဆိုမှု ပြတ်တောက်ခြင်း"
   },
   "icu:CallQualitySurvey__Issue--OTHER": {
-    "messageformat": "Something else"
+    "messageformat": "အခြားအရာများ"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
-    "messageformat": "Issues description"
+    "messageformat": "ပြဿနာ ဖော်ပြချက်"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
-    "messageformat": "Please include any details relevant to the issue. Anything you share here will be kept private and will only be used to help improve calls in Signal."
+    "messageformat": "ကျေးဇူးပြု၍ ပြဿနာနှင့်သက်ဆိုင်သည့် အသေးစိတ်အချက်အလက်များကို ထည့်သွင်းပါ။ သင်မျှဝေထားသမျှကို လျှို့ဝှက်ထားမည်ဖြစ်ပြီး Signal တွင် ခေါ်ဆိုမှုများကို ပိုမိုကောင်းမွန်စေရန်အတွက်သာ အသုံးပြုမည်ဖြစ်သည်။"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
+    "messageformat": "Please describe your issue"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
-    "messageformat": "Continue"
+    "messageformat": "ဆက်လုပ်ရန်"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
+    "messageformat": "Make a selection to continue"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
-    "messageformat": "Help us improve"
+    "messageformat": "ပိုမိုကောင်းမွန်စေရန် ကူညီပေးပါ"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "This helps us learn more about calls and what is working or not working. You can view your debug log before submitting."
+    "messageformat": "၎င်းက ဖုန်းခေါ်ဆိုမှုများအပြင် မည်သည့်အရာများက ကောင်းစွာ အလုပ်လုပ်သည်၊ မလုပ်သည်ကို ပိုမိုလေ့လာရန် ကူညီပေးပါသည်။ တင်သွင်းခြင်းမပြုမီ သင်၏ ပြစ်ချက်မှတ်တမ်းကို ကြည့်ရှုနိုင်ပါသည်။"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "ပြစ်ချက်မှတ်တမ်း မျှဝေရန်"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "ကြည့်ရန်"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Debug logs contain low level app information and do not reveal any of your message contents."
+    "messageformat": "ပြစ်ချက်ရှာဖွေပြုပြင်မှု မှတ်တမ်းများတွင် အဆင့်နိမ့် အက်ပ်အချက်အလက်များ ပါဝင်ပြီး သင်၏မက်ဆေ့ချ်တွင် ပါရှိသော မည်သည့်အကြောင်းအရာကိုမျှ ထုတ်ဖော်ခြင်းမပြုပါ။"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
-    "messageformat": "Submit"
+    "messageformat": "တင်မည်"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
+    "messageformat": "Submitting survey..."
+  },
+  "icu:CallQualitySurvey__SubmissionFailed": {
+    "messageformat": "Failed to submit survey"
+  },
+  "icu:CallQualitySurvey__SubmissionFailed__Retry": {
+    "messageformat": "Retry"
+  },
+  "icu:CallQualitySurvey__SubmissionSuccess": {
+    "messageformat": "Thanks for your feedback!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "ဤဗားရှင်းတွင် Signal အား အထစ်အငေါ့မရှိ လုပ်ဆောင်နိုင်စေရန် ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် အနေအထား ပြုပြင်မှု အသေးလေးများ ပါဝင်ပါသည်။",
@@ -7585,16 +7636,7 @@
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.79-1": {
-    "messageformat": "အမြင်တသမတ်တည်းဖြစ်စေရန်အတွက် အက်ပ်တစ်ခုလုံးရှိ Scrollbar များ၏ အသွင်အပြင်ကို အပ်ဒိတ်လုပ်ထားပါသည်။"
-  },
-  "icu:WhatsNew__7.79-2": {
-    "messageformat": "ကူးယူ/ကူးထည့်ခြင်း ဖော်မတ်ကို မြှင့်တင်ထားပါသည်။ @brianHarder ကို ကျေးဇူးတင်ပါသည်။ ကျေးဇူးပါ <brianHarder></brianHarder>။"
-  },
-  "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal စစ်တမ်းများ ဤနေရာတွင်ရှိသည်။ စစ်တမ်းများသည် သင့်အဖွဲ့ချက်(တ်)အတွင်း အမှန်တကယ်ထင်မြင်ယူဆချက်ကို သိရန် လွယ်ကူသောနည်းလမ်းတစ်ခုဖြစ်သည်။ ညစာအတွက် မတူညီသောရွေးချယ်စရာများ သို့မဟုတ် အခြားအရေးကြီးသော ရွေးချယ်စရာများဖြင့် စစ်တမ်းတစ်ခုဖန်တီးပါ။ အဖွဲ့ရှိလူတိုင်းသည် မဲပေးနိုင်ပြီး အချင်းချင်း၏ တုံ့ပြန်မှုများကို ကြည့်ရှုနိုင်ကာ တစ်ခုထက်ပိုသော မဲပေးခွင့်ပြုမပြု သင် ဆုံးဖြတ်နိုင်သည်။"
-  },
-  "icu:WhatsNew__7.81-1": {
-    "messageformat": "ယခုအခါ မီဒီယာပြခန်းတွင် အော်ဒီယို မက်ဆေ့ချ်များနှင့် လင့်ခ်ကြိုတင်ကြည့်ရှုမှုများအတွက် တက်ဘ်အသစ်နှစ်ခု ပါဝင်သည်။"
+  "icu:WhatsNew__7.84--0": {
+    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
   }
 }

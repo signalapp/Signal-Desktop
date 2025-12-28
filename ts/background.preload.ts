@@ -283,7 +283,7 @@ import {
 } from './types/Message2.preload.js';
 import { JobCancelReason } from './jobs/types.std.js';
 import { itemStorage } from './textsecure/Storage.preload.js';
-import { isPinnedMessagesReceiveEnabled } from './util/isPinnedMessagesEnabled.std.js';
+import { isPinnedMessagesReceiveEnabled } from './util/isPinnedMessagesEnabled.dom.js';
 
 const { isNumber, throttle } = lodash;
 
@@ -759,6 +759,8 @@ export async function startApp(): Promise<void> {
         log.info('shutdown');
 
         flushMessageCounter();
+
+        window.SignalClipboard.clearIfNeeded();
 
         // Hangup active calls
         calling.hangupAllCalls({
@@ -3280,8 +3282,10 @@ export async function startApp(): Promise<void> {
       const ourConversation =
         window.ConversationController.getOurConversation();
       if (ourConversation) {
-        ourConversation.set({ username: undefined });
-        await DataWriter.updateConversation(ourConversation.attributes);
+        await ourConversation.updateUsername(undefined, {
+          shouldSave: true,
+          fromStorageService: false,
+        });
       }
 
       // Then make sure outstanding conversation saves are flushed

@@ -98,6 +98,7 @@ const defaultMessageProps: TimelineMessagesProps = {
     'default--doubleCheckMissingQuoteReference'
   ),
   getPreferredBadge: () => undefined,
+  hasMaxPinnedMessages: false,
   i18n,
   platform: 'darwin',
   id: 'messageId',

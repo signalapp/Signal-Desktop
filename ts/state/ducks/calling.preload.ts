@@ -1880,41 +1880,33 @@ function joinedAdhocCall(
   };
 }
 
-function peekGroupCallForTheFirstTime(
+function maybePeekGroupCall(
   conversationId: string
 ): ThunkAction<void, RootStateType, unknown, PeekGroupCallFulfilledActionType> {
   return (dispatch, getState) => {
     const call = getOwn(getState().calling.callsByConversation, conversationId);
-    const shouldPeek =
-      !call || (isGroupOrAdhocCallState(call) && !call.peekInfo);
-    const callMode = call?.callMode ?? CallMode.Group;
-    if (callMode === CallMode.Direct) {
+
+    if (call && !isGroupOrAdhocCallState(call)) {
       return;
     }
 
-    if (shouldPeek) {
+    const existingPeekInfo = call?.peekInfo;
+
+    // We peek if:
+    // 1. this is the first time since app has started that we've peeked, or
+    // 2. we've peeked prior and there is an ongoing group call
+    if (existingPeekInfo == null) {
       doGroupCallPeek({
         conversationId,
-        callMode,
+        callMode: call?.callMode ?? CallMode.Group,
         dispatch,
         getState,
       });
-    }
-  };
-}
-
-function peekGroupCallIfItHasMembers(
-  conversationId: string
-): ThunkAction<void, RootStateType, unknown, PeekGroupCallFulfilledActionType> {
-  return (dispatch, getState) => {
-    const call = getOwn(getState().calling.callsByConversation, conversationId);
-    const shouldPeek =
+    } else if (
       call &&
-      isGroupOrAdhocCallState(call) &&
       call.joinState === GroupCallJoinState.NotJoined &&
-      call.peekInfo &&
-      call.peekInfo.deviceCount > 0;
-    if (shouldPeek) {
+      existingPeekInfo.deviceCount > 0
+    ) {
       doGroupCallPeek({
         conversationId,
         callMode: call.callMode,
@@ -3000,10 +2992,10 @@ function submitCallQualitySurvey(
         videoRecvJitterMedian: videoStats.jitterMedianRecvMillis,
         audioSendJitterMedian: audioStats.jitterMedianSendMillis,
         videoSendJitterMedian: videoStats.jitterMedianSendMillis,
-        audioRecvPacketLossFraction: audioStats.packetLossPercentageRecv,
-        videoRecvPacketLossFraction: videoStats.packetLossPercentageRecv,
-        audioSendPacketLossFraction: audioStats.packetLossPercentageSend,
-        videoSendPacketLossFraction: videoStats.packetLossPercentageSend,
+        audioRecvPacketLossFraction: audioStats.packetLossFractionRecv,
+        videoRecvPacketLossFraction: videoStats.packetLossFractionRecv,
+        audioSendPacketLossFraction: audioStats.packetLossFractionSend,
+        videoSendPacketLossFraction: videoStats.packetLossFractionSend,
         callTelemetry: callSummary.rawStats,
       };
 
@@ -3088,13 +3080,12 @@ export const actions = {
   handleCallLinkDelete,
   joinedAdhocCall,
   leaveCurrentCallAndStartCallingLobby,
+  maybePeekGroupCall,
   onObservedRemoteMute,
   onOutgoingVideoCallInConversation,
   onOutgoingAudioCallInConversation,
   openSystemPreferencesAction,
   outgoingCall,
-  peekGroupCallForTheFirstTime,
-  peekGroupCallIfItHasMembers,
   peekNotConnectedGroupCall,
   receiveGroupCallReactions,
   receiveIncomingDirectCall,

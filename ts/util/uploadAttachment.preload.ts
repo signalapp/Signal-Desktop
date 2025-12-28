@@ -6,6 +6,8 @@ import type {
   AttachmentWithHydratedData,
   UploadedAttachmentType,
 } from '../types/Attachment.std.js';
+import * as Bytes from '../Bytes.std.js';
+import { createLogger } from '../logging/log.std.js';
 import { MIMETypeToString, supportsIncrementalMac } from '../types/MIME.std.js';
 import { getRandomBytes } from '../Crypto.node.js';
 import { backupsService } from '../services/backups/index.preload.js';
@@ -25,24 +27,66 @@ import {
 } from '../AttachmentCrypto.node.js';
 import { missingCaseError } from './missingCaseError.std.js';
 import { uuidToBytes } from './uuidToBytes.std.js';
+import { DAY } from './durations/index.std.js';
 import { isVisualMedia } from './Attachment.std.js';
 import { getAbsoluteAttachmentPath } from './migrations.preload.js';
+import { isMoreRecentThan } from './timestamp.std.js';
 
 const CDNS_SUPPORTING_TUS = new Set([3]);
+
+const log = createLogger('uploadAttachment');
 
 export async function uploadAttachment(
   attachment: AttachmentWithHydratedData
 ): Promise<UploadedAttachmentType> {
-  const keys = getRandomBytes(64);
-  const needIncrementalMac = supportsIncrementalMac(attachment.contentType);
+  let keys: Uint8Array;
+  let cdnKey: string;
+  let cdnNumber: number;
+  let encrypted: Pick<
+    EncryptedAttachmentV2,
+    'digest' | 'plaintextHash' | 'incrementalMac' | 'chunkSize'
+  >;
+  let uploadTimestamp: number;
 
-  const uploadTimestamp = Date.now();
-  const { cdnKey, cdnNumber, encrypted } = await encryptAndUploadAttachment({
-    keys,
-    needIncrementalMac,
-    plaintext: { data: attachment.data },
-    uploadType: 'standard',
-  });
+  // Recently uploaded attachment
+  if (
+    attachment.cdnKey &&
+    attachment.cdnNumber &&
+    attachment.key &&
+    attachment.size != null &&
+    attachment.digest &&
+    attachment.contentType != null &&
+    attachment.plaintextHash != null &&
+    attachment.uploadTimestamp != null &&
+    isMoreRecentThan(attachment.uploadTimestamp, 3 * DAY)
+  ) {
+    log.info('reusing attachment uploaded at', attachment.uploadTimestamp);
+
+    ({ cdnKey, cdnNumber, uploadTimestamp } = attachment);
+
+    keys = Bytes.fromBase64(attachment.key);
+
+    encrypted = {
+      digest: Bytes.fromBase64(attachment.digest),
+      plaintextHash: attachment.plaintextHash,
+      incrementalMac: attachment.incrementalMac
+        ? Bytes.fromBase64(attachment.incrementalMac)
+        : undefined,
+      chunkSize: attachment.chunkSize,
+    };
+  } else {
+    keys = getRandomBytes(64);
+    uploadTimestamp = Date.now();
+
+    const needIncrementalMac = supportsIncrementalMac(attachment.contentType);
+
+    ({ cdnKey, cdnNumber, encrypted } = await encryptAndUploadAttachment({
+      keys,
+      needIncrementalMac,
+      plaintext: { data: attachment.data },
+      uploadType: 'standard',
+    }));
+  }
 
   const { blurHash, caption, clientUuid, flags, height, width } = attachment;
 

@@ -66,6 +66,7 @@ function mockMessageTimelineItem(
       direction: 'incoming',
       status: 'sent',
       text: 'Hello there from the new world!',
+      hasMaxPinnedMessages: false,
       isBlocked: false,
       isMessageRequestAccepted: true,
       isPinned: false,
@@ -347,8 +348,7 @@ const actions = () => ({
   closeContactSpoofingReview: action('closeContactSpoofingReview'),
   reviewConversationNameCollision: action('reviewConversationNameCollision'),
 
-  peekGroupCallForTheFirstTime: action('peekGroupCallForTheFirstTime'),
-  peekGroupCallIfItHasMembers: action('peekGroupCallIfItHasMembers'),
+  maybePeekGroupCall: action('maybePeekGroupCall'),
 
   viewStory: action('viewStory'),
 
@@ -462,6 +462,10 @@ const renderMiniPlayer = () => (
   <div>If active, this is where smart mini player would be</div>
 );
 
+const renderPinnedMessagesBar = () => (
+  <div>If active, this is where the smart pinned messages bar would be</div>
+);
+
 const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   discardMessages: action('discardMessages'),
   getPreferredBadge: () => undefined,
@@ -482,6 +486,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   scrollToIndex: overrideProps.scrollToIndex ?? null,
   scrollToIndexCounter: 0,
   shouldShowMiniPlayer: Boolean(overrideProps.shouldShowMiniPlayer),
+  shouldShowPinnedMessagesBar: false,
   totalUnseen: overrideProps.totalUnseen ?? 0,
   oldestUnseenIndex: overrideProps.oldestUnseenIndex ?? 0,
   invitedContactsForNewlyCreatedGroup:
@@ -494,6 +499,7 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   renderItem,
   renderHeroRow,
   renderMiniPlayer,
+  renderPinnedMessagesBar,
   renderTypingBubble,
   renderCollidingAvatars,
   renderContactSpoofingReviewDialog,

@@ -512,7 +512,21 @@ export function getNotificationDataForMessage(
   }
 
   if (isPinnedMessageNotification(attributes)) {
-    throw new Error('unimplemented');
+    const { sourceServiceId } = attributes;
+    const ourAci = itemStorage.user.getCheckedAci();
+
+    let text: string;
+    if (sourceServiceId === ourAci) {
+      text = i18n('icu:message--pinned--preview--sent');
+    } else {
+      const sender = findAndFormatContact(sourceServiceId).title;
+      text = i18n('icu:message--pinned--preview--received', { sender });
+    }
+
+    return {
+      emoji: '📌',
+      text,
+    };
   }
 
   const { poll } = attributes;

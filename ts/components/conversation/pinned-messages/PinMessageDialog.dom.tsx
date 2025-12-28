@@ -1,11 +1,13 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+import type { MouseEvent } from 'react';
 import React, { memo, useCallback, useState } from 'react';
 import { AxoDialog } from '../../../axo/AxoDialog.dom.js';
 import type { LocalizerType } from '../../../types/I18N.std.js';
 import { AxoRadioGroup } from '../../../axo/AxoRadioGroup.dom.js';
 import { DurationInSeconds } from '../../../util/durations/duration-in-seconds.std.js';
 import { strictAssert } from '../../../util/assert.std.js';
+import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.js';
 
 enum DurationOption {
   TIME_24_HOURS = 'TIME_24_HOURS',
@@ -30,6 +32,7 @@ export type PinMessageDialogProps = Readonly<{
   open: boolean;
   onOpenChange: (open: boolean) => void;
   messageId: string;
+  hasMaxPinnedMessages: boolean;
   onPinnedMessageAdd: (
     messageId: string,
     duration: DurationInSeconds | null
@@ -41,6 +44,23 @@ export const PinMessageDialog = memo(function PinMessageDialog(
 ) {
   const { i18n, messageId, onPinnedMessageAdd, onOpenChange } = props;
   const [duration, setDuration] = useState(DurationOption.TIME_7_DAYS);
+  const [confirmedReplaceOldestPin, setConfirmedReplaceOldestPin] =
+    useState(false);
+
+  const handleOpenChange = useCallback(
+    (open: boolean) => {
+      onOpenChange(open);
+      // reset state
+      setConfirmedReplaceOldestPin(false);
+      setDuration(DurationOption.TIME_7_DAYS);
+    },
+    [onOpenChange]
+  );
+
+  const handleConfirmReplaceOldestPin = useCallback((event: MouseEvent) => {
+    event.preventDefault();
+    setConfirmedReplaceOldestPin(true);
+  }, []);
 
   const handleValueChange = useCallback((value: string) => {
     strictAssert(isValidDurationOption(value), `Invalid option: ${value}`);
@@ -48,72 +68,107 @@ export const PinMessageDialog = memo(function PinMessageDialog(
   }, []);
 
   const handleCancel = useCallback(() => {
-    onOpenChange(false);
-  }, [onOpenChange]);
+    handleOpenChange(false);
+  }, [handleOpenChange]);
 
   const handlePinnedMessageAdd = useCallback(() => {
     const durationValue = DURATION_OPTIONS[duration];
     onPinnedMessageAdd(messageId, durationValue);
   }, [duration, onPinnedMessageAdd, messageId]);
 
+  const showConfirmReplaceOldestPin =
+    props.hasMaxPinnedMessages && !confirmedReplaceOldestPin;
+
   return (
-    <AxoDialog.Root open={props.open} onOpenChange={onOpenChange}>
-      <AxoDialog.Content
-        size="sm"
-        escape="cancel-is-noop"
-        disableMissingAriaDescriptionWarning
+    <>
+      <AxoAlertDialog.Root
+        open={props.open && showConfirmReplaceOldestPin}
+        onOpenChange={handleOpenChange}
       >
-        <AxoDialog.Header>
-          <AxoDialog.Title>
-            {i18n('icu:PinMessageDialog__Title')}
-          </AxoDialog.Title>
-          <AxoDialog.Close aria-label={i18n('icu:PinMessageDialog__Close')} />
-        </AxoDialog.Header>
-        <AxoDialog.Body>
-          <AxoRadioGroup.Root
-            value={duration}
-            onValueChange={handleValueChange}
-          >
-            <AxoRadioGroup.Item value={DurationOption.TIME_24_HOURS}>
-              <AxoRadioGroup.Indicator />
-              <AxoRadioGroup.Label>
-                {i18n('icu:PinMessageDialog__Option--TIME_24_HOURS')}
-              </AxoRadioGroup.Label>
-            </AxoRadioGroup.Item>
-            <AxoRadioGroup.Item value={DurationOption.TIME_7_DAYS}>
-              <AxoRadioGroup.Indicator />
-              <AxoRadioGroup.Label>
-                {i18n('icu:PinMessageDialog__Option--TIME_7_DAYS')}
-              </AxoRadioGroup.Label>
-            </AxoRadioGroup.Item>
-            <AxoRadioGroup.Item value={DurationOption.TIME_30_DAYS}>
-              <AxoRadioGroup.Indicator />
-              <AxoRadioGroup.Label>
-                {i18n('icu:PinMessageDialog__Option--TIME_30_DAYS')}
-              </AxoRadioGroup.Label>
-            </AxoRadioGroup.Item>
-            <AxoRadioGroup.Item value={DurationOption.FOREVER}>
-              <AxoRadioGroup.Indicator />
-              <AxoRadioGroup.Label>
-                {i18n('icu:PinMessageDialog__Option--FOREVER')}
-              </AxoRadioGroup.Label>
-            </AxoRadioGroup.Item>
-          </AxoRadioGroup.Root>
-        </AxoDialog.Body>
-        <AxoDialog.Footer>
-          <AxoDialog.Actions>
-            <AxoDialog.Action variant="secondary" onClick={handleCancel}>
-              {i18n('icu:PinMessageDialog__Cancel')}
-            </AxoDialog.Action>
-            <AxoDialog.Action
+        <AxoAlertDialog.Content escape="cancel-is-noop">
+          <AxoAlertDialog.Body>
+            <AxoAlertDialog.Title>
+              {i18n('icu:PinMessageDialog--HasMaxPinnedMessages__Title')}
+            </AxoAlertDialog.Title>
+            <AxoAlertDialog.Description>
+              {i18n('icu:PinMessageDialog--HasMaxPinnedMessages__Description')}
+            </AxoAlertDialog.Description>
+          </AxoAlertDialog.Body>
+          <AxoAlertDialog.Footer>
+            <AxoAlertDialog.Cancel>
+              {i18n('icu:PinMessageDialog--HasMaxPinnedMessages__Cancel')}
+            </AxoAlertDialog.Cancel>
+            <AxoAlertDialog.Action
               variant="primary"
-              onClick={handlePinnedMessageAdd}
+              onClick={handleConfirmReplaceOldestPin}
             >
-              {i18n('icu:PinMessageDialog__Pin')}
-            </AxoDialog.Action>
-          </AxoDialog.Actions>
-        </AxoDialog.Footer>
-      </AxoDialog.Content>
-    </AxoDialog.Root>
+              {i18n('icu:PinMessageDialog--HasMaxPinnedMessages__Continue')}
+            </AxoAlertDialog.Action>
+          </AxoAlertDialog.Footer>
+        </AxoAlertDialog.Content>
+      </AxoAlertDialog.Root>
+
+      <AxoDialog.Root
+        open={props.open && !showConfirmReplaceOldestPin}
+        onOpenChange={handleOpenChange}
+      >
+        <AxoDialog.Content
+          size="sm"
+          escape="cancel-is-noop"
+          disableMissingAriaDescriptionWarning
+        >
+          <AxoDialog.Header>
+            <AxoDialog.Title>
+              {i18n('icu:PinMessageDialog__Title')}
+            </AxoDialog.Title>
+            <AxoDialog.Close aria-label={i18n('icu:PinMessageDialog__Close')} />
+          </AxoDialog.Header>
+          <AxoDialog.Body>
+            <AxoRadioGroup.Root
+              value={duration}
+              onValueChange={handleValueChange}
+            >
+              <AxoRadioGroup.Item value={DurationOption.TIME_24_HOURS}>
+                <AxoRadioGroup.Indicator />
+                <AxoRadioGroup.Label>
+                  {i18n('icu:PinMessageDialog__Option--TIME_24_HOURS')}
+                </AxoRadioGroup.Label>
+              </AxoRadioGroup.Item>
+              <AxoRadioGroup.Item value={DurationOption.TIME_7_DAYS}>
+                <AxoRadioGroup.Indicator />
+                <AxoRadioGroup.Label>
+                  {i18n('icu:PinMessageDialog__Option--TIME_7_DAYS')}
+                </AxoRadioGroup.Label>
+              </AxoRadioGroup.Item>
+              <AxoRadioGroup.Item value={DurationOption.TIME_30_DAYS}>
+                <AxoRadioGroup.Indicator />
+                <AxoRadioGroup.Label>
+                  {i18n('icu:PinMessageDialog__Option--TIME_30_DAYS')}
+                </AxoRadioGroup.Label>
+              </AxoRadioGroup.Item>
+              <AxoRadioGroup.Item value={DurationOption.FOREVER}>
+                <AxoRadioGroup.Indicator />
+                <AxoRadioGroup.Label>
+                  {i18n('icu:PinMessageDialog__Option--FOREVER')}
+                </AxoRadioGroup.Label>
+              </AxoRadioGroup.Item>
+            </AxoRadioGroup.Root>
+          </AxoDialog.Body>
+          <AxoDialog.Footer>
+            <AxoDialog.Actions>
+              <AxoDialog.Action variant="secondary" onClick={handleCancel}>
+                {i18n('icu:PinMessageDialog__Cancel')}
+              </AxoDialog.Action>
+              <AxoDialog.Action
+                variant="primary"
+                onClick={handlePinnedMessageAdd}
+              >
+                {i18n('icu:PinMessageDialog__Pin')}
+              </AxoDialog.Action>
+            </AxoDialog.Actions>
+          </AxoDialog.Footer>
+        </AxoDialog.Content>
+      </AxoDialog.Root>
+    </>
   );
 });

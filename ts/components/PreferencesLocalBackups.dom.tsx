@@ -35,6 +35,7 @@ import type {
 } from '../util/os/promptOSAuthMain.main.js';
 import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
 import { AxoButton } from '../axo/AxoButton.dom.js';
+import { SECOND } from '../util/durations/constants.std.js';
 
 const { noop } = lodash;
 
@@ -275,7 +276,7 @@ function LocalBackupsBackupKeyViewer({
   const onCopyBackupKey = useCallback(
     async function handleCopyBackupKey(e: React.MouseEvent) {
       e.preventDefault();
-      await window.navigator.clipboard.writeText(backupKey);
+      await window.SignalClipboard.copyTextTemporarily(backupKey, 45 * SECOND);
       showToast({ toastType: ToastType.CopiedBackupKey });
     },
     [backupKey, showToast]

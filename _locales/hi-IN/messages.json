@@ -539,6 +539,9 @@
   "icu:debugLogExplanation": {
     "messageformat": "'सबमिट करें' पर क्लिक करने पर, आपका लॉग एक यूनीक और अनपब्लिश URL पर 30 दिनों के लिए ऑनलाइन पोस्ट हो जाएगा। आप चाहें, तो इसे अपने पास सेव करके रख लें।"
   },
+  "icu:debugLogExplanation--close": {
+    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+  },
   "icu:debugLogError": {
     "messageformat": "अपलोड में कोई गड़बड़ी हुई! कृपया support@signal.org पर ईमेल करें और टेक्स्ट फ़ाइल के रूप में अपना लॉग अटैच करें।"
   },
@@ -1101,7 +1104,7 @@
     "messageformat": "मैसेज पिन करें"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin message"
+    "messageformat": "मैसेज अनपिन करें"
   },
   "icu:Poll__end-poll": {
     "messageformat": "पोल समाप्त करें"
@@ -1241,6 +1244,18 @@
   "icu:PinMessageDialog__Pin": {
     "messageformat": "पिन"
   },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
+    "messageformat": "Replace oldest pin?"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
+    "messageformat": "Pinning this message will replace the oldest one."
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
+    "messageformat": "Continue"
+  },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {पिन किया गया मैसेज} other {पिन किए गए मैसेज}}"
   },
@@ -1263,52 +1278,64 @@
     "messageformat": "सभी मैसेज देखें"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Address": {
-    "messageformat": "Address"
+    "messageformat": "पता"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "ऑडियो मेसेज"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Gif": {
     "messageformat": "GIF"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
-    "messageformat": "File"
+    "messageformat": "फ़ाइल"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Contact": {
-    "messageformat": "Contact"
+    "messageformat": "कॉन्टैक्ट"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "भुगतान"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Poll": {
-    "messageformat": "Poll"
+    "messageformat": "पोल"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "स्टिकर"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
-    "messageformat": "Photo"
+    "messageformat": "फ़ोटो"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Video": {
-    "messageformat": "Video"
+    "messageformat": "वीडियो"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "ऑडियो मेसेज"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Gif": {
     "messageformat": "GIF"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "भुगतान"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
-    "messageformat": "Sticker"
+    "messageformat": "स्टिकर"
   },
   "icu:PinnedMessagesPanel__Title": {
-    "messageformat": "Pinned messages"
+    "messageformat": "पिन किए गए मैसेज"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages": {
-    "messageformat": "Unpin all messages"
+    "messageformat": "सभी मैसेज अनपिन करें"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
+    "messageformat": "Unpin all messages?"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
+    "messageformat": "Messages will be unpinned for members of this chat."
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
+    "messageformat": "Unpin"
   },
   "icu:sessionEnded": {
     "messageformat": "सिक्योर सेशन रीसेट करें"
@@ -2539,6 +2566,12 @@
   },
   "icu:message--donation--preview--sent": {
     "messageformat": "आपने {recipient} की ओर से डोनेट किया"
+  },
+  "icu:message--pinned--preview--received": {
+    "messageformat": "{sender} pinned a message"
+  },
+  "icu:message--pinned--preview--sent": {
+    "messageformat": "You pinned a message"
   },
   "icu:message--donation": {
     "messageformat": "दान"
@@ -5535,7 +5568,7 @@
     "messageformat": "इनपुट का इंतज़ार है"
   },
   "icu:PlaintextExport--OSPrompt--Mac": {
-    "messageformat": "अपनी पुरानी चैट एक्सपोर्ट करें"
+    "messageformat": "आपसे पुरानी चैट एक्सपोर्ट करने"
   },
   "icu:PlaintextExport--OSPrompt--Windows": {
     "messageformat": "अपनी पुरानी चैट एक्सपोर्ट करने के लिए अपनी पहचान वेरिफ़ाई करें।"
@@ -5910,7 +5943,7 @@
     "messageformat": "पूर्ण"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
-    "messageformat": "अपनी 'बैकअप की' दिखाएं"
+    "messageformat": "आपसे 'बैकअप की' दिखाने"
   },
   "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
     "messageformat": "अपनी 'बैकअप की' देखने के लिए अपनी पहचान वेरिफ़ाई करें।"
@@ -5964,7 +5997,7 @@
     "messageformat": "बैकअप की कॉपी की गई"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
-    "messageformat": "बैकअप चालू करें"
+    "messageformat": "बैकअप चालू करने"
   },
   "icu:Preferences__local-backups--enable--os-prompt--windows": {
     "messageformat": "बैकअप चालू करने के लिए अपनी पहचान वेरिफ़ाई करें।"
@@ -6964,7 +6997,7 @@
     "messageformat": "संपादित है"
   },
   "icu:MessageMetadata__pinned": {
-    "messageformat": "Pinned"
+    "messageformat": "पिन किया गया"
   },
   "icu:DraftGifMessageSendModal__Title": {
     "messageformat": "एक मेसेज को शामिल करें"
@@ -7474,88 +7507,106 @@
     "messageformat": "इसे अपने मोबाइल डिवाइस पर यहां जाकर ऐडजस्ट किया जा सकता है: सेटिंग → Signal को डोनेट करें → बैज"
   },
   "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "बंद करें"
   },
   "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
-    "messageformat": "Back"
+    "messageformat": "पीछे जाएं"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
-    "messageformat": "How was your call?"
+    "messageformat": "आपकी कॉल कैसी रही?"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageDescription": {
-    "messageformat": "This helps us improve calls in Signal. No personally identifiable information will be stored."
+    "messageformat": "इससे हमें Signal में कॉल की क्वालिटी बेहतर बनाने में मदद मिलती है। ऐसी कोई व्यक्तिगत जानकारी स्टोर नहीं की जाती है जिससे किसी की पहचान हो सके।"
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__HadIssues": {
-    "messageformat": "Had issues"
+    "messageformat": "समस्या आई"
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__Great": {
-    "messageformat": "Great"
+    "messageformat": "बहुत बढ़िया"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__PageTitle": {
-    "messageformat": "What issues did you have?"
+    "messageformat": "आपको किस तरह की समस्याएं आई हैं?"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__IssuesList__Heading": {
-    "messageformat": "Select all that apply"
+    "messageformat": "लागू होने वाले सभी विकल्प चुनें"
   },
   "icu:CallQualitySurvey__Issue--AUDIO": {
-    "messageformat": "Audio issue"
+    "messageformat": "ऑडियो से जुड़ी समस्या"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_STUTTERING": {
-    "messageformat": "Audio stuttering"
+    "messageformat": "ऑडियो रुक-रुक कर आना"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_LOCAL_ECHO": {
-    "messageformat": "I heard echo"
+    "messageformat": "मुझे आवाज़ गूंजती हुई सुनाई दी"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_REMOTE_ECHO": {
-    "messageformat": "Others heard echo"
+    "messageformat": "दूसरों को आवाज़ गूंजती हुई सुनाई दी"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_DROP": {
-    "messageformat": "Audio cut out"
+    "messageformat": "ऑडियो का कट जाना"
   },
   "icu:CallQualitySurvey__Issue--VIDEO": {
-    "messageformat": "Video issue"
+    "messageformat": "वीडियो से जुड़ी समस्या"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_NO_CAMERA": {
-    "messageformat": "Camera didn't work"
+    "messageformat": "कैमरा काम नहीं कर रहा था"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_QUALITY": {
-    "messageformat": "Poor video quality"
+    "messageformat": "वीडियो की खराब क्वालिटी"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_RESOLUTION": {
-    "messageformat": "Low resolution"
+    "messageformat": "कम रिज़ॉल्यूशन वाला वीडियो"
   },
   "icu:CallQualitySurvey__Issue--CALL_DROPPED": {
-    "messageformat": "Call dropped"
+    "messageformat": "कॉल ड्रॉप होना"
   },
   "icu:CallQualitySurvey__Issue--OTHER": {
-    "messageformat": "Something else"
+    "messageformat": "कुछ और"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
-    "messageformat": "Issues description"
+    "messageformat": "समस्याओं का विवरण"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
-    "messageformat": "Please include any details relevant to the issue. Anything you share here will be kept private and will only be used to help improve calls in Signal."
+    "messageformat": "कृपया समस्या से जुड़ी हर एक जानकारी दें। यहां जो भी जानकारी शेयर की जाती है उसे गोपनीय रखा जाता है। इस जानकारी का इस्तेमाल सिर्फ़ Signal में कॉल की क्वालिटी को बेहतर बनाने के लिए किया जाता है।"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
+    "messageformat": "Please describe your issue"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
-    "messageformat": "Continue"
+    "messageformat": "जारी रखें"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
+    "messageformat": "Make a selection to continue"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
-    "messageformat": "Help us improve"
+    "messageformat": "Signal को बेहतर बनाने में हमारी मदद करें"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "This helps us learn more about calls and what is working or not working. You can view your debug log before submitting."
+    "messageformat": "इससे हमें कॉल के बारे में ज़्यादा जानकारी पाने और यह समझने में मदद मिलती है कि क्या काम कर रहा है और क्या नहीं। सबमिट करने से पहले आपके पास अपना डीबग लॉग देखने का विकल्प होता है।"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "डीबग लॉग शेयर करें"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "देखें"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Debug logs contain low level app information and do not reveal any of your message contents."
+    "messageformat": "डीबग लॉग में ऐप की थोड़ी-बहुत तकनीकी जानकारी शामिल होती है, लेकिन इनसे आपके मैसेज के कॉन्टेंट का पता नहीं चलता।"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
-    "messageformat": "Submit"
+    "messageformat": "सबमिट करें"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
+    "messageformat": "Submitting survey..."
+  },
+  "icu:CallQualitySurvey__SubmissionFailed": {
+    "messageformat": "Failed to submit survey"
+  },
+  "icu:CallQualitySurvey__SubmissionFailed__Retry": {
+    "messageformat": "Retry"
+  },
+  "icu:CallQualitySurvey__SubmissionSuccess": {
+    "messageformat": "Thanks for your feedback!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "इस वर्ज़न में बग ठीक करने के साथ-साथ कई छोटे-छोटे बदलाव किए गए हैं, जिससे Signal की परफ़ॉर्मेंस और बेहतर हो सके।",
@@ -7585,16 +7636,7 @@
     "messageformat": "कई छोटे सुधार किए गए हैं, बग हटाए गए हैं, और परफ़ॉर्मेंस बेहतर की गई है। Signal के साथ बने रहने के लिए धन्यवाद!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.79-1": {
-    "messageformat": "हमने ऐप में हर जगह स्क्रॉलबार के लुक और स्टाइल को एक जैसा करने के लिए उन्हें अपडेट किया है। आम तौर पर, बहुत तेज़ी से स्क्रॉल करने पर हो सकता है कि कुछ छूट जाए, लेकिन यहां आपको जो देखना है वो सिर्फ़ स्क्रॉल करने पर ही नज़र आएगा।"
-  },
-  "icu:WhatsNew__7.79-2": {
-    "messageformat": "कॉपी/पेस्ट में किए गए सुधारों से अब पूरा टेक्स्ट चुनना और पुरानी फ़ॉर्मेटिंग को छेड़े बिना मौजूदा टेक्स्ट को बदलना आसान हो गया है। धन्यवाद, <brianHarder></brianHarder>!"
-  },
-  "icu:WhatsNew__7.80-1": {
-    "messageformat": "★ Signal पोल अब उपलब्ध हैं! क्या आपकी और आपके दोस्तों की सोच एक जैसी है या वह कभी नहीं मिलती? पोल से तुरंत पता करें कि आपके ग्रुप चैट में मौजूद लोग क्या सोचते हैं। डिनर के विकल्प, छुट्टी की जगहें, आने वाली रोड ट्रिप के लिए  सही म्यूज़िक या किसी भी ज़रूरी बात के लिए एक पोल बनाएं। ग्रुप में मौजूद सभी लोग वोट कर सकते हैं और एक-दूसरे के जवाब देख सकते हैं। आप खुद तय करें कि एक से ज़्यादा वोट देने की अनुमति देनी है या नहीं।"
-  },
-  "icu:WhatsNew__7.81-1": {
-    "messageformat": "अब मीडिया गैलरी में ऑडियो मैसेज और लिंक प्रीव्यू के लिए दो नए टैब शामिल किए गए हैं। अगर किसी ग्रुप चैट में कोई लिंक डाला जाता है, तो क्या कोई उस पर ध्यान देता है?"
+  "icu:WhatsNew__7.84--0": {
+    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
   }
 }

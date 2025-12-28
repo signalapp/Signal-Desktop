@@ -1974,7 +1974,11 @@ function TimePicker({
                 theme ? themeClassName2(theme) : undefined
               )}
             >
-              <div className={tw('w-[46px] overflow-y-scroll')}>
+              <div
+                className={tw(
+                  'w-[46px] overflow-y-scroll scrollbar-width-none'
+                )}
+              >
                 {(use24HourTime ? HOURS_24 : HOURS_12).map(hour => {
                   const isSelected = hour === hours;
 
@@ -1983,7 +1987,9 @@ function TimePicker({
                       key={hour.toString()}
                       ref={isSelected ? selectedHour : null}
                       className={classNames(
-                        tw('w-[46px] rounded-sm py-[7px] type-body-medium'),
+                        tw(
+                          'w-[46px] rounded-sm border-[2.5px] border-transparent py-[7px] type-body-medium outline-none focus:border-border-focused'
+                        ),
                         isSelected ? tw('bg-fill-secondary') : null
                       )}
                       type="button"
@@ -1997,7 +2003,11 @@ function TimePicker({
                   );
                 })}
               </div>
-              <div className={tw('ms-0.5 w-[46px] overflow-y-scroll')}>
+              <div
+                className={tw(
+                  'ms-0.5 w-[46px] overflow-y-scroll scrollbar-width-none'
+                )}
+              >
                 {MINUTES.map(minute => {
                   const isSelected = minute === minutes;
 
@@ -2006,7 +2016,9 @@ function TimePicker({
                       key={minute.toString()}
                       ref={isSelected ? selectedMinute : null}
                       className={classNames(
-                        tw('w-[46px] rounded-sm py-[7px] type-body-medium'),
+                        tw(
+                          'w-[46px] rounded-sm border-[2.5px] border-transparent py-[7px] type-body-medium outline-none focus:border-border-focused'
+                        ),
                         isSelected ? tw('bg-fill-secondary') : null
                       )}
                       type="button"
@@ -2021,7 +2033,11 @@ function TimePicker({
                 })}
               </div>
               {!use24HourTime ? (
-                <div className={tw('ms-0.5 w-[46px] overflow-y-scroll')}>
+                <div
+                  className={tw(
+                    'ms-0.5 w-[46px] overflow-y-scroll scrollbar-width-none'
+                  )}
+                >
                   {AM_PM.map(item => {
                     const isSelected = item === period;
 
@@ -2029,7 +2045,9 @@ function TimePicker({
                       <button
                         key={item}
                         className={classNames(
-                          tw('w-[46px] rounded-sm py-[7px] type-body-medium'),
+                          tw(
+                            'w-[46px] rounded-sm border-[2.5px] border-transparent py-[7px] type-body-medium outline-none focus:border-border-focused'
+                          ),
                           isSelected ? tw('bg-fill-secondary') : null
                         )}
                         type="button"

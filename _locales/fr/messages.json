@@ -539,6 +539,9 @@
   "icu:debugLogExplanation": {
     "messageformat": "Après avoir cliqué sur \"Envoyer\", votre journal sera publié en ligne pendant 30 jours sur une URL non publique unique. Vous pouvez d'abord  l'enregistrer localement."
   },
+  "icu:debugLogExplanation--close": {
+    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+  },
   "icu:debugLogError": {
     "messageformat": "Un problème s’est produit lors de l’importation. Merci de nous envoyer le journal au format texte à l’adresse suivante : support@signal.org."
   },
@@ -1101,7 +1104,7 @@
     "messageformat": "Épingler le message"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin message"
+    "messageformat": "Détacher le message"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Arrêter le sondage"
@@ -1241,6 +1244,18 @@
   "icu:PinMessageDialog__Pin": {
     "messageformat": "Épingler"
   },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
+    "messageformat": "Replace oldest pin?"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
+    "messageformat": "Pinning this message will replace the oldest one."
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
+    "messageformat": "Continue"
+  },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Message épinglé} other {Messages épinglés}}"
   },
@@ -1263,25 +1278,25 @@
     "messageformat": "Afficher tous les messages"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Address": {
-    "messageformat": "Address"
+    "messageformat": "Adresse"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "Message vocal"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Gif": {
     "messageformat": "GIF"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
-    "messageformat": "File"
+    "messageformat": "Fichier"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Contact": {
     "messageformat": "Contact"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "Paiement"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Poll": {
-    "messageformat": "Poll"
+    "messageformat": "Sondage"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
     "messageformat": "Sticker"
@@ -1290,25 +1305,37 @@
     "messageformat": "Photo"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Video": {
-    "messageformat": "Video"
+    "messageformat": "Vidéo"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--VoiceMessage": {
-    "messageformat": "Voice message"
+    "messageformat": "Message vocal"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Gif": {
     "messageformat": "GIF"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Payment": {
-    "messageformat": "Payment"
+    "messageformat": "Paiement"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
     "messageformat": "Sticker"
   },
   "icu:PinnedMessagesPanel__Title": {
-    "messageformat": "Pinned messages"
+    "messageformat": "Messages épinglés"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages": {
-    "messageformat": "Unpin all messages"
+    "messageformat": "Détacher tous les messages"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
+    "messageformat": "Unpin all messages?"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
+    "messageformat": "Messages will be unpinned for members of this chat."
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
+    "messageformat": "Unpin"
   },
   "icu:sessionEnded": {
     "messageformat": "Session sécurisée réinitialisée"
@@ -2539,6 +2566,12 @@
   },
   "icu:message--donation--preview--sent": {
     "messageformat": "Vous avez fait un don à Signal pour {recipient}"
+  },
+  "icu:message--pinned--preview--received": {
+    "messageformat": "{sender} pinned a message"
+  },
+  "icu:message--pinned--preview--sent": {
+    "messageformat": "You pinned a message"
   },
   "icu:message--donation": {
     "messageformat": "Don"
@@ -6964,7 +6997,7 @@
     "messageformat": "Modifié"
   },
   "icu:MessageMetadata__pinned": {
-    "messageformat": "Pinned"
+    "messageformat": "Épinglé"
   },
   "icu:DraftGifMessageSendModal__Title": {
     "messageformat": "Ajouter un message"
@@ -7474,88 +7507,106 @@
     "messageformat": "Vous pouvez modifier ce réglage depuis votre appareil mobile sous Paramètres → Faire un don à Signal → Macarons."
   },
   "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Fermer"
   },
   "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
-    "messageformat": "Back"
+    "messageformat": "Retour"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
-    "messageformat": "How was your call?"
+    "messageformat": "Comment s'est passé votre appel ?"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageDescription": {
-    "messageformat": "This helps us improve calls in Signal. No personally identifiable information will be stored."
+    "messageformat": "Vos retours nous permettent d'améliorer les appels passés sur Signal. Nous ne stockons jamais aucune information qui permette de vous identifier."
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__HadIssues": {
-    "messageformat": "Had issues"
+    "messageformat": "J'ai rencontré des problèmes"
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__Great": {
-    "messageformat": "Great"
+    "messageformat": "Très bien"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__PageTitle": {
-    "messageformat": "What issues did you have?"
+    "messageformat": "Quels problèmes avez-vous rencontrés ?"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__IssuesList__Heading": {
-    "messageformat": "Select all that apply"
+    "messageformat": "Sélectionnez tous les problèmes rencontrés"
   },
   "icu:CallQualitySurvey__Issue--AUDIO": {
-    "messageformat": "Audio issue"
+    "messageformat": "Problème de son"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_STUTTERING": {
-    "messageformat": "Audio stuttering"
+    "messageformat": "Son haché"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_LOCAL_ECHO": {
-    "messageformat": "I heard echo"
+    "messageformat": "J'entendais de l'écho"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_REMOTE_ECHO": {
-    "messageformat": "Others heard echo"
+    "messageformat": "On m'entendait avec de l'écho"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_DROP": {
-    "messageformat": "Audio cut out"
+    "messageformat": "Son coupé"
   },
   "icu:CallQualitySurvey__Issue--VIDEO": {
-    "messageformat": "Video issue"
+    "messageformat": "Problème de vidéo"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_NO_CAMERA": {
-    "messageformat": "Camera didn't work"
+    "messageformat": "La caméra ne fonctionnait pas"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_QUALITY": {
-    "messageformat": "Poor video quality"
+    "messageformat": "Mauvaise qualité vidéo"
   },
   "icu:CallQualitySurvey__Issue--VIDEO_LOW_RESOLUTION": {
-    "messageformat": "Low resolution"
+    "messageformat": "Basse résolution"
   },
   "icu:CallQualitySurvey__Issue--CALL_DROPPED": {
-    "messageformat": "Call dropped"
+    "messageformat": "Appel coupé"
   },
   "icu:CallQualitySurvey__Issue--OTHER": {
-    "messageformat": "Something else"
+    "messageformat": "Autre problème"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
-    "messageformat": "Issues description"
+    "messageformat": "Description des problèmes"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
-    "messageformat": "Please include any details relevant to the issue. Anything you share here will be kept private and will only be used to help improve calls in Signal."
+    "messageformat": "Veuillez décrire le problème de la façon la plus précise possible. Toutes ces informations resteront confidentielles. Nous ne les utiliserons que pour améliorer les appels passés sur Signal."
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
+    "messageformat": "Please describe your issue"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
-    "messageformat": "Continue"
+    "messageformat": "Continuer"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
+    "messageformat": "Make a selection to continue"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
-    "messageformat": "Help us improve"
+    "messageformat": "Aidez-nous à améliorer Signal"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "This helps us learn more about calls and what is working or not working. You can view your debug log before submitting."
+    "messageformat": "Vos retours nous permettent de comprendre ce qui fonctionne et ce que nous devons améliorer. Vous pouvez consulter votre journal de débogage avant de nous l'envoyer."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "Partager le journal de débogage"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "Afficher"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Debug logs contain low level app information and do not reveal any of your message contents."
+    "messageformat": "Les journaux de débogage ne contiennent que des informations techniques relatives à l'application et ne révèlent en aucun cas le contenu de vos messages."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
-    "messageformat": "Submit"
+    "messageformat": "Envoyer"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
+    "messageformat": "Submitting survey..."
+  },
+  "icu:CallQualitySurvey__SubmissionFailed": {
+    "messageformat": "Failed to submit survey"
+  },
+  "icu:CallQualitySurvey__SubmissionFailed__Retry": {
+    "messageformat": "Retry"
+  },
+  "icu:CallQualitySurvey__SubmissionSuccess": {
+    "messageformat": "Thanks for your feedback!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Dans cette version, nous avons apporté quelques ajustements et corrigé de petits bugs. Pour que votre messagerie préférée continue de fonctionner comme sur des roulettes.",
@@ -7585,16 +7636,7 @@
     "messageformat": "Au menu de cette version : quelques ajustements de plus, quelques petits bugs en moins et des gains de performance. Merci d'utiliser Signal !",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.79-1": {
-    "messageformat": "Nous avons modifié l'apparence des barres de défilement et les avons harmonisées. Un petit relooking pour finir l'année en beauté."
-  },
-  "icu:WhatsNew__7.79-2": {
-    "messageformat": "Côté fonctionnalités, le copier-coller devient plus simple : vous pouvez maintenant tout sélectionner et remplacer du texte sans conserver la mise en forme initiale. Merci, <brianHarder></brianHarder> !"
-  },
-  "icu:WhatsNew__7.80-1": {
-    "messageformat": "• Un vent de démocratie souffle sur Signal avec l'arrivée des sondages ! Plutôt restaurant chinois ou pizzeria ? Vacances à la mer ou à la montagne ? Et cette AG, au fait, on l'organise à quelle date ? Faites voter vos amis et prenez ensemble les décisions qui vous tiennent à cœur. Tous les membres du groupe peuvent voter et voir les réponses des autres participants. Et vous pouvez même autoriser plusieurs réponses par personne."
-  },
-  "icu:WhatsNew__7.81-1": {
-    "messageformat": "Deux nouveaux onglets font leur entrée dans la galerie multimédias : les messages vocaux et les aperçus de liens. Plus besoin de faire défiler la conversation pour retrouver le dernier vocal de votre meilleure amie ou ce \"lien-à-consulter-absolument\" avant la prochaine réunion !"
+  "icu:WhatsNew__7.84--0": {
+    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
   }
 }

@@ -4,7 +4,6 @@
 import React, { type ReactNode } from 'react';
 import type { LocalizerType } from '../../types/I18N.std.js';
 import { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.js';
-import { isPinnedMessagesReceiveEnabled } from '../../util/isPinnedMessagesEnabled.std.js';
 
 type MessageContextMenuProps = Readonly<{
   i18n: LocalizerType;
@@ -101,12 +100,12 @@ export function MessageContextMenu({
             {i18n('icu:copy')}
           </AxoMenuBuilder.Item>
         )}
-        {isPinnedMessagesReceiveEnabled() && onPinMessage && (
+        {onPinMessage && (
           <AxoMenuBuilder.Item symbol="pin" onSelect={onPinMessage}>
             {i18n('icu:MessageContextMenu__PinMessage')}
           </AxoMenuBuilder.Item>
         )}
-        {isPinnedMessagesReceiveEnabled() && onUnpinMessage && (
+        {onUnpinMessage && (
           <AxoMenuBuilder.Item symbol="pin-slash" onSelect={onUnpinMessage}>
             {i18n('icu:MessageContextMenu__UnpinMessage')}
           </AxoMenuBuilder.Item>
