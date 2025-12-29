@@ -5,7 +5,7 @@ import type {
   PinnedMessage,
   PinnedMessageId,
   PinnedMessageParams,
-  PinnedMessageRenderData,
+  PinnedMessagePreloadData,
 } from '../../types/PinnedMessage.std.js';
 import { strictAssert } from '../../util/assert.std.js';
 import { hydrateMessage } from '../hydration.std.js';
@@ -34,10 +34,10 @@ function _getMessageById(
   return hydrateMessage(db, row);
 }
 
-function _getPinnedMessageRenderData(
+function _getPinnedMessagePreloadData(
   db: ReadableDB,
   pinnedMessage: PinnedMessage
-): PinnedMessageRenderData {
+): PinnedMessagePreloadData {
   const message = _getMessageById(db, pinnedMessage.messageId);
   strictAssert(
     message != null,
@@ -46,10 +46,10 @@ function _getPinnedMessageRenderData(
   return { pinnedMessage, message };
 }
 
-export function getPinnedMessagesForConversation(
+export function getPinnedMessagesPreloadDataForConversation(
   db: ReadableDB,
   conversationId: string
-): ReadonlyArray<PinnedMessageRenderData> {
+): ReadonlyArray<PinnedMessagePreloadData> {
   return db.transaction(() => {
     const [query, params] = sql`
       SELECT * FROM pinnedMessages
@@ -61,7 +61,7 @@ export function getPinnedMessagesForConversation(
       .prepare(query)
       .all<PinnedMessage>(params)
       .map(pinnedMessage => {
-        return _getPinnedMessageRenderData(db, pinnedMessage);
+        return _getPinnedMessagePreloadData(db, pinnedMessage);
       });
   })();
 }

@@ -69,7 +69,7 @@ import type {
   PinnedMessage,
   PinnedMessageId,
   PinnedMessageParams,
-  PinnedMessageRenderData,
+  PinnedMessagePreloadData,
 } from '../types/PinnedMessage.std.js';
 import type { AppendPinnedMessageResult } from './server/pinnedMessages.std.js';
 import type {
@@ -986,9 +986,9 @@ type ReadableInterface = {
   getAllMegaphones: () => ReadonlyArray<RemoteMegaphoneType>;
   hasMegaphone: (megaphoneId: RemoteMegaphoneId) => boolean;
 
-  getPinnedMessagesForConversation: (
+  getPinnedMessagesPreloadDataForConversation: (
     conversationId: string
-  ) => ReadonlyArray<PinnedMessageRenderData>;
+  ) => ReadonlyArray<PinnedMessagePreloadData>;
   getNextExpiringPinnedMessageAcrossConversations: () => PinnedMessage | null;
 
   getMessagesNeedingUpgrade: (

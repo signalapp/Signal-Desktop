@@ -467,6 +467,7 @@ describe('both/state/ducks/conversations', () => {
       return {
         messageChangeCounter: 0,
         messageIds: [],
+        pinnedMessages: [],
         metrics: {
           totalUnseen: 0,
         },
@@ -1548,6 +1549,7 @@ describe('both/state/ducks/conversations', () => {
             },
             scrollToMessageCounter: 0,
             messageIds: [messageId, messageIdTwo, messageIdThree],
+            pinnedMessages: [],
           },
         },
       };
@@ -1628,6 +1630,7 @@ describe('both/state/ducks/conversations', () => {
           [conversationId]: {
             messageChangeCounter: 0,
             messageIds: [messageId, messageIdTwo, messageIdThree],
+            pinnedMessages: [],
             metrics: {
               totalUnseen: 0,
             },

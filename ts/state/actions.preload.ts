@@ -28,7 +28,6 @@ import { actions as megaphones } from './ducks/megaphones.preload.js';
 import { actions as nav } from './ducks/nav.std.js';
 import { actions as network } from './ducks/network.dom.js';
 import { actions as notificationProfiles } from './ducks/notificationProfiles.preload.js';
-import { actions as pinnedMessages } from './ducks/pinnedMessages.preload.js';
 import { actions as safetyNumber } from './ducks/safetyNumber.preload.js';
 import { actions as search } from './ducks/search.preload.js';
 import { actions as stickers } from './ducks/stickers.preload.js';
@@ -68,7 +67,6 @@ export const actionCreators: ReduxActions = {
   nav,
   network,
   notificationProfiles,
-  pinnedMessages,
   safetyNumber,
   search,
   stickers,

@@ -275,7 +275,7 @@ const {
   getMostRecentAddressableMessages,
   getMostRecentAddressableNondisappearingMessages,
   getNewerMessagesByConversation,
-  getPinnedMessagesForConversation,
+  getPinnedMessagesPreloadDataForConversation,
 } = DataReader;
 const { addStickerPackReference } = DataWriter;
 
@@ -1698,13 +1698,14 @@ export class ConversationModel {
           `latest timestamp=${cleaned.at(-1)?.sent_at}`
       );
 
-      const pinnedMessages = await getPinnedMessagesForConversation(this.id);
+      const pinnedMessagesPreloadData =
+        await getPinnedMessagesPreloadDataForConversation(this.id);
 
       addPreloadData({
         conversationId: this.id,
         messages: cleaned,
         metrics,
-        pinnedMessages,
+        pinnedMessagesPreloadData,
         unboundedFetch,
       });
     } finally {
@@ -1816,8 +1817,10 @@ export class ConversationModel {
           `latest timestamp=${cleaned.at(-1)?.sent_at}`
       );
 
-      const pinnedMessages =
-        await DataReader.getPinnedMessagesForConversation(conversationId);
+      const pinnedMessagesPreloadData =
+        await DataReader.getPinnedMessagesPreloadDataForConversation(
+          conversationId
+        );
 
       // Because our `getOlderMessages` fetch above didn't specify a receivedAt, we got
       //   the most recent N messages in the conversation. If it has a conflict with
@@ -1829,7 +1832,7 @@ export class ConversationModel {
         conversationId,
         messages: cleaned,
         metrics,
-        pinnedMessages,
+        pinnedMessagesPreloadData,
         scrollToMessageId,
         unboundedFetch,
       });
@@ -1994,14 +1997,14 @@ export class ConversationModel {
       const scrollToMessageId =
         options && options.disableScroll ? undefined : messageId;
 
-      const pinnedMessages =
-        await DataReader.getPinnedMessagesForConversation(conversationId);
+      const pinnedMessagesPreloadData =
+        await getPinnedMessagesPreloadDataForConversation(conversationId);
 
       messagesReset({
         conversationId,
         messages: cleaned,
         metrics,
-        pinnedMessages,
+        pinnedMessagesPreloadData,
         scrollToMessageId,
       });
     } catch (error) {

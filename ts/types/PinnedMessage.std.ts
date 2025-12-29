@@ -16,7 +16,7 @@ export type PinnedMessage = Readonly<{
 
 export type PinnedMessageParams = Omit<PinnedMessage, 'id'>;
 
-export type PinnedMessageRenderData = Readonly<{
+export type PinnedMessagePreloadData = Readonly<{
   pinnedMessage: PinnedMessage;
   message: ReadonlyMessageAttributesType;
 }>;

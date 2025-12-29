@@ -32,6 +32,7 @@ import {
   getSafeConversationWithSameTitle,
   getSelectedConversationId,
   getTargetedMessage,
+  getPinnedMessages,
 } from '../selectors/conversations.dom.js';
 import { getIntl, getTheme } from '../selectors/user.std.js';
 import type { PropsType as SmartCollidingAvatarsPropsType } from './CollidingAvatars.dom.js';
@@ -48,7 +49,6 @@ import { SmartTypingBubble } from './TypingBubble.preload.js';
 import { AttachmentDownloadManager } from '../../jobs/AttachmentDownloadManager.preload.js';
 import { isInFullScreenCall as getIsInFullScreenCall } from '../selectors/calling.std.js';
 import { SmartPinnedMessagesBar } from './PinnedMessagesBar.preload.js';
-import { getPinnedMessages } from '../selectors/pinnedMessages.dom.js';
 
 const { isEmpty } = lodash;
 

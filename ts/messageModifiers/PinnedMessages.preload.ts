@@ -121,7 +121,7 @@ export async function onPinnedMessageAdd(
     });
   }
 
-  window.reduxActions.pinnedMessages.onPinnedMessagesChanged(
+  window.reduxActions.conversations.onPinnedMessagesChanged(
     targetConversation.id
   );
 }
@@ -167,7 +167,7 @@ export async function onPinnedMessageRemove(
   );
   drop(pinnedMessagesCleanupService.trigger('onPinnedMessageRemove'));
 
-  window.reduxActions.pinnedMessages.onPinnedMessagesChanged(
+  window.reduxActions.conversations.onPinnedMessagesChanged(
     targetConversationId
   );
 }

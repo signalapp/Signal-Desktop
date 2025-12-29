@@ -89,6 +89,7 @@ import {
 import type { AllChatFoldersMutedStats } from '../../util/countMutedStats.std.js';
 import { countAllChatFoldersMutedStats } from '../../util/countMutedStats.std.js';
 import { getActiveProfile } from './notificationProfiles.dom.js';
+import type { PinnedMessage } from '../../types/PinnedMessage.std.js';
 
 const { isNumber, pick } = lodash;
 
@@ -317,6 +318,18 @@ export const getConversationMessages = createSelector(
     return conversationId ? messagesByConversation[conversationId] : undefined;
   }
 );
+
+export const getPinnedMessages: StateSelector<ReadonlyArray<PinnedMessage>> =
+  createSelector(getConversationMessages, conversationMessages => {
+    return conversationMessages?.pinnedMessages ?? [];
+  });
+
+export const getPinnedMessagesMessageIds: StateSelector<ReadonlyArray<string>> =
+  createSelector(getPinnedMessages, pinnedMessages => {
+    return pinnedMessages.map(pinnedMessage => {
+      return pinnedMessage.messageId;
+    });
+  });
 
 const collator = new Intl.Collator();
 
