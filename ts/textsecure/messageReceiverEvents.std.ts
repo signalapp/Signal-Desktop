@@ -300,21 +300,24 @@ export class ConfigurationEvent extends ConfirmableEvent {
 export type ViewOnceOpenSyncOptions = {
   sourceAci?: AciString;
   timestamp?: number;
+  envelopeTimestamp: number;
 };
 
 export class ViewOnceOpenSyncEvent extends ConfirmableEvent {
   public readonly sourceAci?: AciString;
 
+  public readonly envelopeTimestamp: number;
   public readonly timestamp?: number;
 
   constructor(
-    { sourceAci, timestamp }: ViewOnceOpenSyncOptions,
+    { sourceAci, timestamp, envelopeTimestamp }: ViewOnceOpenSyncOptions,
     confirm: ConfirmCallback
   ) {
     super('viewOnceOpenSync', confirm);
 
     this.sourceAci = sourceAci;
     this.timestamp = timestamp;
+    this.envelopeTimestamp = envelopeTimestamp;
   }
 }
 
