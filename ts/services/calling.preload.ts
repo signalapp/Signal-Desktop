@@ -58,7 +58,10 @@ import {
   CanvasVideoRenderer,
   GumVideoCapturer,
 } from '../calling/VideoSupport.preload.js';
-import type { GumVideoCaptureOptions } from '../calling/VideoSupport.preload.js';
+import type {
+  GumVideoCaptureOptions,
+  SizeCallbackType,
+} from '../calling/VideoSupport.preload.js';
 import type {
   ActionsType as CallingReduxActionsType,
   GroupCallParticipantInfoType,
@@ -516,11 +519,16 @@ const GROUP_CALL_OPTIONS: GumVideoCaptureOptions = {
   maxFramerate: REQUESTED_VIDEO_FRAMERATE,
 };
 
+export type SetLocalPreviewContainerType = {
+  container: HTMLDivElement | undefined;
+  sizeCallback: SizeCallbackType | undefined;
+};
+
 export class CallingClass {
   readonly #videoCapturer: GumVideoCapturer;
   readonly videoRenderer: CanvasVideoRenderer;
 
-  #localPreviewContainer: HTMLDivElement | null = null;
+  #localPreviewContainer: HTMLDivElement | undefined;
   #localPreview: HTMLVideoElement | undefined;
   #reduxInterface?: CallingReduxInterface;
 
@@ -542,7 +550,7 @@ export class CallingClass {
   #sendProfileKeysForAdhocCallCache: Set<AciString>;
 
   constructor() {
-    this.#videoCapturer = new GumVideoCapturer(DIRECT_CALL_OPTIONS);
+    this.#videoCapturer = new GumVideoCapturer();
     this.videoRenderer = new CanvasVideoRenderer();
 
     this.#callsLookup = {};
@@ -1217,18 +1225,21 @@ export class CallingClass {
     );
   }
 
-  public setLocalPreviewContainer(container: HTMLDivElement | null): void {
+  public setLocalPreviewContainer(options: SetLocalPreviewContainerType): void {
     // Reuse HTMLVideoElement between different containers so that the preview
     // of the last frame stays valid even if there are no new frames on the
     // underlying MediaStream.
     if (this.#localPreview == null) {
       this.#localPreview = document.createElement('video');
       this.#localPreview.autoplay = true;
-      this.#videoCapturer.setLocalPreview(this.#localPreview);
     }
+    this.#videoCapturer.setLocalPreview({
+      localPreview: this.#localPreview,
+      sizeCallback: options.sizeCallback,
+    });
 
     this.#localPreviewContainer?.removeChild(this.#localPreview);
-    this.#localPreviewContainer = container;
+    this.#localPreviewContainer = options.container;
     this.#localPreviewContainer?.appendChild(this.#localPreview);
   }
 
@@ -2966,13 +2977,15 @@ export class CallingClass {
     );
 
     await this.#videoCapturer.enableCapture(
-      mode === CallMode.Direct ? undefined : GROUP_CALL_OPTIONS
+      mode === CallMode.Direct ? DIRECT_CALL_OPTIONS : GROUP_CALL_OPTIONS
     );
   }
 
   async enableCaptureAndSend(
     call: GroupCall | Call,
-    options = call instanceof GroupCall ? GROUP_CALL_OPTIONS : undefined,
+    options = call instanceof GroupCall
+      ? GROUP_CALL_OPTIONS
+      : DIRECT_CALL_OPTIONS,
     logId = 'enableCaptureAndSend'
   ): Promise<void> {
     try {

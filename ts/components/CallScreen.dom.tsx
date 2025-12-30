@@ -106,6 +106,12 @@ import {
   beforeNavigateService,
 } from '../services/BeforeNavigate.std.js';
 import { createLogger } from '../logging/log.std.js';
+import type { SetLocalPreviewContainerType } from '../services/calling.preload.js';
+import type { SizeCallbackType } from '../calling/VideoSupport.preload.js';
+import {
+  PIP_MAXIMUM_LOCAL_VIDEO_HEIGHT_MULTIPLIER,
+  PIP_MINIMUM_LOCAL_VIDEO_HEIGHT_MULTIPLIER,
+} from './CallingPip.dom.js';
 
 const { isEqual, noop } = lodash;
 
@@ -137,7 +143,7 @@ export type PropsType = {
   ) => void;
   setLocalAudio: SetLocalAudioType;
   setLocalVideo: SetLocalVideoType;
-  setLocalPreviewContainer: (container: HTMLDivElement | null) => void;
+  setLocalPreviewContainer: (options: SetLocalPreviewContainerType) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
   stickyControls: boolean;
   switchToPresentationView: () => void;
@@ -178,6 +184,11 @@ const REACTIONS_BURST_TRAILING_WINDOW = 2000;
 // Max number of bursts in a short timeframe to avoid overwhelming the user.
 const REACTIONS_BURST_MAX_IN_SHORT_WINDOW = 3;
 const REACTIONS_BURST_SHORT_WINDOW = 4000;
+
+const LOCAL_PREVIEW_HEIGHT_NORMAL = 80;
+const LOCAL_PREVIEW_WIDTH_NORMAL = 106.67;
+const LOCAL_PREVIEW_HEIGHT_LARGE = 234;
+const LOCAL_PREVIEW_WIDTH_LARGE = 312;
 
 function CallDuration({
   joinedAt,
@@ -288,6 +299,20 @@ export function CallScreen({
   const hangUp = useCallback(() => {
     hangUpActiveCall('button click');
   }, [hangUpActiveCall]);
+
+  const localPreviewRef = React.useRef<HTMLDivElement | null>(null);
+  const lonelyCallPreviewRef = React.useRef<HTMLDivElement | null>(null);
+
+  const [localPreviewHeight, setLocalPreviewHeight] = React.useState(
+    activeCall.selfViewExpanded
+      ? LOCAL_PREVIEW_HEIGHT_LARGE
+      : LOCAL_PREVIEW_HEIGHT_NORMAL
+  );
+  const [localPreviewWidth, setLocalPreviewWidth] = React.useState(
+    activeCall.selfViewExpanded
+      ? LOCAL_PREVIEW_WIDTH_LARGE
+      : LOCAL_PREVIEW_WIDTH_NORMAL
+  );
 
   const reactButtonRef = React.useRef<null | HTMLDivElement>(null);
   const reactionPickerRef = React.useRef<null | HTMLDivElement>(null);
@@ -510,6 +535,71 @@ export function CallScreen({
     [toggleSelfViewExpanded]
   );
 
+  const handleSize = React.useCallback(
+    (size: Parameters<SizeCallbackType>[0]) => {
+      const ratio = size.width / size.height;
+
+      const newLocalPreviewWidth = localPreviewHeight * ratio;
+      if (
+        newLocalPreviewWidth !== localPreviewWidth &&
+        ratio >= PIP_MINIMUM_LOCAL_VIDEO_HEIGHT_MULTIPLIER &&
+        ratio <= PIP_MAXIMUM_LOCAL_VIDEO_HEIGHT_MULTIPLIER
+      ) {
+        setLocalPreviewWidth(newLocalPreviewWidth);
+      }
+    },
+    [localPreviewHeight, localPreviewWidth, setLocalPreviewWidth]
+  );
+
+  React.useLayoutEffect(() => {
+    if (isLonelyInCall && !lonelyCallPreviewRef.current) {
+      return;
+    }
+    if (!isLonelyInCall && !localPreviewRef.current) {
+      return;
+    }
+
+    if (lonelyCallPreviewRef.current) {
+      setLocalPreviewContainer({
+        container: lonelyCallPreviewRef.current,
+        sizeCallback: undefined,
+      });
+    }
+    if (localPreviewRef.current) {
+      setLocalPreviewContainer({
+        container: localPreviewRef.current,
+        sizeCallback: handleSize,
+      });
+    }
+  }, [handleSize, isLonelyInCall, setLocalPreviewContainer]);
+
+  const { selfViewExpanded } = activeCall;
+  const previousSelfViewExpanded = usePrevious(
+    selfViewExpanded,
+    selfViewExpanded
+  );
+  React.useLayoutEffect(() => {
+    if (selfViewExpanded === previousSelfViewExpanded) {
+      return;
+    }
+
+    const existingAspectRatio = localPreviewWidth / localPreviewHeight;
+    if (selfViewExpanded) {
+      setLocalPreviewHeight(LOCAL_PREVIEW_HEIGHT_LARGE);
+      setLocalPreviewWidth(LOCAL_PREVIEW_HEIGHT_LARGE * existingAspectRatio);
+    } else {
+      setLocalPreviewHeight(LOCAL_PREVIEW_HEIGHT_NORMAL);
+      setLocalPreviewWidth(LOCAL_PREVIEW_HEIGHT_NORMAL * existingAspectRatio);
+    }
+  }, [
+    localPreviewHeight,
+    localPreviewWidth,
+    previousSelfViewExpanded,
+    selfViewExpanded,
+    setLocalPreviewHeight,
+    setLocalPreviewWidth,
+  ]);
+
   if (isLonelyInCall) {
     lonelyInCallNode = (
       <div
@@ -522,7 +612,7 @@ export function CallScreen({
         {isSendingVideo ? (
           <div
             className="module-ongoing-call__local-preview-container"
-            ref={setLocalPreviewContainer}
+            ref={lonelyCallPreviewRef}
           />
         ) : (
           <CallBackgroundBlur avatarUrl={me.avatarUrl}>
@@ -542,7 +632,7 @@ export function CallScreen({
           presentingSource &&
             'module-ongoing-call__local-preview__video--presenting'
         )}
-        ref={setLocalPreviewContainer}
+        ref={localPreviewRef}
       />
     ) : (
       <CallBackgroundBlur
@@ -582,6 +672,10 @@ export function CallScreen({
             ? 'module-ongoing-call__local-preview--controls-hidden'
             : undefined
         )}
+        style={{
+          height: `${localPreviewHeight}px`,
+          width: `${localPreviewWidth}px`,
+        }}
         onMouseEnter={onSelfViewMouseEnter}
         onMouseLeave={onSelfViewMouseLeave}
         onClick={handlePreviewClick}
@@ -850,13 +944,36 @@ export function CallScreen({
         'direct call must have direct conversation'
       );
       remoteParticipantsElement = hasCallStarted ? (
-        <DirectCallRemoteParticipant
-          conversation={conversation}
-          hasRemoteVideo={hasRemoteVideo}
-          i18n={i18n}
-          isReconnecting={isReconnecting}
-          setRendererCanvas={setRendererCanvas}
-        />
+        <>
+          <CallBackgroundBlur avatarUrl={conversation.avatarUrl} darken>
+            <div className="module-calling-pip__video--avatar">
+              <Avatar
+                avatarPlaceholderGradient={
+                  conversation.avatarPlaceholderGradient
+                }
+                avatarUrl={conversation.avatarUrl}
+                badge={undefined}
+                color={conversation.color || AvatarColors[0]}
+                noteToSelf={false}
+                conversationType={conversation.type}
+                i18n={i18n}
+                phoneNumber={conversation.phoneNumber}
+                profileName={conversation.profileName}
+                title={conversation.title}
+                size={AvatarSize.EIGHTY}
+                sharedGroupNames={conversation.sharedGroupNames}
+              />
+            </div>
+          </CallBackgroundBlur>
+          <DirectCallRemoteParticipant
+            conversation={conversation}
+            hasRemoteVideo={hasRemoteVideo}
+            handleSize={noop}
+            i18n={i18n}
+            isReconnecting={isReconnecting}
+            setRendererCanvas={setRendererCanvas}
+          />
+        </>
       ) : (
         <div className="module-ongoing-call__direct-call-ringing-spacer">
           <CallBackgroundBlur avatarUrl={conversation.avatarUrl} darken>

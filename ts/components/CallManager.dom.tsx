@@ -59,6 +59,7 @@ import {
 } from '../types/NotificationProfile.std.js';
 import type { NotificationProfileType } from '../types/NotificationProfile.std.js';
 import { strictAssert } from '../util/assert.std.js';
+import type { SetLocalPreviewContainerType } from '../services/calling.preload.js';
 
 const { noop } = lodash;
 
@@ -137,7 +138,7 @@ export type PropsType = {
   setLocalAudio: SetLocalAudioType;
   setLocalVideo: SetLocalVideoType;
   setLocalAudioRemoteMuted: SetMutedByType;
-  setLocalPreviewContainer: (container: HTMLDivElement | null) => void;
+  setLocalPreviewContainer: (options: SetLocalPreviewContainerType) => void;
   setOutgoingRing: (_: boolean) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
   showShareCallLinkViaSignal: (

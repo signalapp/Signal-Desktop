@@ -28,6 +28,7 @@ import { CallingButtonToastsContainer } from './CallingToastManager.dom.js';
 import { isGroupOrAdhocCallMode } from '../util/isGroupOrAdhocCall.std.js';
 import { Button, ButtonVariant } from './Button.dom.js';
 import { SpinnerV2 } from './SpinnerV2.dom.js';
+import type { SetLocalPreviewContainerType } from '../services/calling.preload.js';
 
 export type PropsType = {
   availableCameras: Array<MediaDeviceInfo>;
@@ -74,7 +75,7 @@ export type PropsType = {
   peekedParticipants: Array<ConversationType>;
   setLocalAudio: SetLocalAudioType;
   setLocalVideo: SetLocalVideoType;
-  setLocalPreviewContainer: (container: HTMLDivElement | null) => void;
+  setLocalPreviewContainer: (options: SetLocalPreviewContainerType) => void;
   setOutgoingRing: (_: boolean) => void;
   showParticipantsList: boolean;
   toggleParticipants: () => void;
@@ -251,13 +252,23 @@ export function CallingLobby({
 
   useWasInitiallyMutedToast(hasLocalAudio, i18n);
 
+  const onLocalPreviewContainerRef = React.useCallback(
+    (container: HTMLDivElement) => {
+      setLocalPreviewContainer({
+        container,
+        sizeCallback: undefined,
+      });
+    },
+    [setLocalPreviewContainer]
+  );
+
   return (
     <FocusScope contain restoreFocus>
       <div className="module-calling__container dark-theme">
         {shouldShowLocalVideo ? (
           <div
             className="module-CallingLobby__local-preview module-CallingLobby__local-preview--camera-is-on"
-            ref={setLocalPreviewContainer}
+            ref={onLocalPreviewContainerRef}
           />
         ) : (
           <CallBackgroundBlur

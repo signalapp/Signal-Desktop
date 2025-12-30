@@ -9,12 +9,14 @@ import type { LocalizerType } from '../types/Util.std.js';
 import { AvatarColors } from '../types/Colors.std.js';
 import { Avatar, AvatarSize } from './Avatar.dom.js';
 import { CallBackgroundBlur } from './CallBackgroundBlur.dom.js';
+import type { SizeCallbackType } from '../calling/VideoSupport.preload.js';
 
 type PropsType = {
   conversation: ConversationType;
   hasRemoteVideo: boolean;
   i18n: LocalizerType;
   isReconnecting: boolean;
+  handleSize: SizeCallbackType;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
 };
 
@@ -24,15 +26,16 @@ export function DirectCallRemoteParticipant({
   i18n,
   isReconnecting,
   setRendererCanvas,
+  handleSize,
 }: PropsType): React.JSX.Element {
   const remoteVideoRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
-    setRendererCanvas({ element: remoteVideoRef });
+    setRendererCanvas({ element: remoteVideoRef, sizeCallback: handleSize });
     return () => {
-      setRendererCanvas({ element: undefined });
+      setRendererCanvas({ element: undefined, sizeCallback: undefined });
     };
-  }, [setRendererCanvas]);
+  }, [handleSize, setRendererCanvas]);
 
   return hasRemoteVideo ? (
     <canvas

@@ -130,6 +130,7 @@ import {
   submitCallQualitySurvey as submitCallQualitySurveyToServer,
 } from '../../textsecure/WebAPI.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
+import type { SizeCallbackType } from '../../calling/VideoSupport.preload.js';
 
 const { omit } = lodash;
 
@@ -499,6 +500,7 @@ type StartCallLinkLobbyPayloadType = {
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type SetRendererCanvasType = {
   element: React.RefObject<HTMLCanvasElement> | undefined;
+  sizeCallback: SizeCallbackType | undefined;
 };
 
 // Helpers
@@ -1992,6 +1994,7 @@ function setRendererCanvas(
 ): ThunkAction<void, RootStateType, unknown, never> {
   return () => {
     calling.videoRenderer.setCanvas(payload.element);
+    calling.videoRenderer.setSizer(payload.sizeCallback);
   };
 }
 

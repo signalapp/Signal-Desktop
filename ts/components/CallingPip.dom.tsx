@@ -3,7 +3,7 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import lodash from 'lodash';
+import lodash, { clamp } from 'lodash';
 
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 
@@ -26,6 +26,10 @@ import type { CallingImageDataCache } from './CallManager.dom.js';
 import type { ConversationType } from '../state/ducks/conversations.preload.js';
 import { Avatar, AvatarSize } from './Avatar.dom.js';
 import { AvatarColors } from '../types/Colors.std.js';
+import type { SetLocalPreviewContainerType } from '../services/calling.preload.js';
+import { usePrevious } from '../hooks/usePrevious.std.js';
+import type { SizeCallbackType } from '../calling/VideoSupport.preload.js';
+import { MAX_FRAME_HEIGHT } from '../calling/constants.std.js';
 
 const { minBy, debounce, noop } = lodash;
 
@@ -86,7 +90,7 @@ export type PropsType = {
     _: Array<GroupCallVideoRequest>,
     speakerHeight: number
   ) => void;
-  setLocalPreviewContainer: (container: HTMLDivElement | null) => void;
+  setLocalPreviewContainer: (options: SetLocalPreviewContainerType) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
   switchToPresentationView: () => void;
   switchFromPresentationView: () => void;
@@ -102,12 +106,20 @@ const LARGE_THRESHOLD = 1200;
 export const PIP_WIDTH_NORMAL = 160;
 const PIP_WIDTH_LARGE = 224;
 const PIP_TOP_MARGIN = 78;
-const PIP_PADDING = 8;
+const PIP_PADDING = 15;
 
 // Receiving portrait video will cause the PIP to update to match that video size, but
 // we need limits
 export const PIP_MINIMUM_HEIGHT_MULTIPLIER = 1.2;
 export const PIP_MAXIMUM_HEIGHT_MULTIPLIER = 2;
+
+const LOCAL_VIDEO_LARGE_WIDTH = 120;
+const LOCAL_VIDEO_LARGE_HEIGHT = 90;
+const LOCAL_VIDEO_NORMAL_WIDTH = 80;
+const LOCAL_VIDEO_NORMAL_HEIGHT = 60;
+
+export const PIP_MINIMUM_LOCAL_VIDEO_HEIGHT_MULTIPLIER = 0.5;
+export const PIP_MAXIMUM_LOCAL_VIDEO_HEIGHT_MULTIPLIER = 2;
 
 export function CallingPip({
   activeCall,
@@ -142,6 +154,12 @@ export function CallingPip({
   );
   const [width, setWidth] = React.useState(
     isWindowLarge ? PIP_WIDTH_LARGE : PIP_WIDTH_NORMAL
+  );
+  const [localVideoWidth, setLocalVideoWidth] = React.useState(
+    isWindowLarge ? LOCAL_VIDEO_LARGE_WIDTH : LOCAL_VIDEO_NORMAL_WIDTH
+  );
+  const [localVideoHeight, setLocalVideoHeight] = React.useState(
+    isWindowLarge ? LOCAL_VIDEO_LARGE_HEIGHT : LOCAL_VIDEO_NORMAL_HEIGHT
   );
 
   useActivateSpeakerViewOnPresenting({
@@ -264,16 +282,46 @@ export function CallingPip({
     };
   }, []);
 
+  const previousIsWindowLarge = usePrevious(isWindowLarge, isWindowLarge);
   // This only runs when isWindowLarge changes, so we aggressively change height + width
   React.useEffect(() => {
-    if (isWindowLarge) {
-      setHeight(PIP_STARTING_HEIGHT_LARGE);
-      setWidth(PIP_WIDTH_LARGE);
-    } else {
-      setHeight(PIP_STARTING_HEIGHT_NORMAL);
-      setWidth(PIP_WIDTH_NORMAL);
+    if (previousIsWindowLarge === isWindowLarge) {
+      return;
     }
-  }, [isWindowLarge, setHeight, setWidth]);
+    const existingPortraitAspectRatio = height / width;
+
+    if (isWindowLarge) {
+      setWidth(PIP_WIDTH_LARGE);
+      setHeight(PIP_WIDTH_LARGE * existingPortraitAspectRatio);
+    } else {
+      setWidth(PIP_WIDTH_NORMAL);
+      setHeight(PIP_WIDTH_NORMAL * existingPortraitAspectRatio);
+    }
+
+    const existingLocalVideoPortraitAspectRatio = localVideoHeight;
+    if (isWindowLarge) {
+      setLocalVideoWidth(LOCAL_VIDEO_LARGE_WIDTH);
+      setLocalVideoHeight(
+        LOCAL_VIDEO_LARGE_WIDTH * existingLocalVideoPortraitAspectRatio
+      );
+    } else {
+      setLocalVideoWidth(LOCAL_VIDEO_NORMAL_WIDTH);
+      setLocalVideoHeight(
+        LOCAL_VIDEO_NORMAL_WIDTH * existingLocalVideoPortraitAspectRatio
+      );
+    }
+  }, [
+    height,
+    isWindowLarge,
+    localVideoHeight,
+    localVideoWidth,
+    previousIsWindowLarge,
+    setHeight,
+    setLocalVideoHeight,
+    setLocalVideoWidth,
+    setWidth,
+    width,
+  ]);
 
   const [translateX, translateY] = React.useMemo<[number, number]>(() => {
     const topMin = PIP_TOP_MARGIN;
@@ -387,6 +435,72 @@ export function CallingPip({
     ? AvatarSize.NINETY_SIX
     : AvatarSize.SIXTY_FOUR;
 
+  const lonelyCallPreviewRef = React.useRef<HTMLDivElement | null>(null);
+  const localPreviewRef = React.useRef<HTMLDivElement | null>(null);
+
+  const handleSize = React.useCallback(
+    (size: Parameters<SizeCallbackType>[0]) => {
+      const portraitRatio = size.height / size.width;
+
+      if (isLonelyInCall) {
+        const newHeight = clamp(
+          Math.floor(width * portraitRatio),
+          1,
+          MAX_FRAME_HEIGHT
+        );
+
+        if (
+          newHeight !== height &&
+          portraitRatio >= PIP_MINIMUM_HEIGHT_MULTIPLIER &&
+          portraitRatio <= PIP_MAXIMUM_HEIGHT_MULTIPLIER
+        ) {
+          setHeight(newHeight);
+        }
+
+        return;
+      }
+
+      const newLocalVideoHeight = localVideoWidth * portraitRatio;
+      if (
+        newLocalVideoHeight !== localVideoHeight &&
+        portraitRatio >= PIP_MINIMUM_LOCAL_VIDEO_HEIGHT_MULTIPLIER &&
+        portraitRatio <= PIP_MAXIMUM_LOCAL_VIDEO_HEIGHT_MULTIPLIER
+      ) {
+        setLocalVideoHeight(newLocalVideoHeight);
+      }
+    },
+    [
+      height,
+      isLonelyInCall,
+      setHeight,
+      width,
+      localVideoWidth,
+      localVideoHeight,
+    ]
+  );
+
+  React.useLayoutEffect(() => {
+    if (isLonelyInCall && !lonelyCallPreviewRef.current) {
+      return;
+    }
+    if (!isLonelyInCall && !localPreviewRef.current) {
+      return;
+    }
+
+    if (lonelyCallPreviewRef.current) {
+      setLocalPreviewContainer({
+        container: lonelyCallPreviewRef.current,
+        sizeCallback: handleSize,
+      });
+    }
+    if (localPreviewRef.current) {
+      setLocalPreviewContainer({
+        container: localPreviewRef.current,
+        sizeCallback: handleSize,
+      });
+    }
+  }, [handleSize, isLonelyInCall, setLocalPreviewContainer]);
+
   if (isLonelyInCall) {
     remoteVideoNode = (
       <div className="module-calling-pip__video--remote">
@@ -400,7 +514,7 @@ export function CallingPip({
                   ? 'module-calling-pip__full-size-local-preview--presenting'
                   : undefined
               )}
-              ref={setLocalPreviewContainer}
+              ref={lonelyCallPreviewRef}
             />
           </>
         ) : (
@@ -442,8 +556,6 @@ export function CallingPip({
       />
     );
   }
-  const localVideoWidth = isWindowLarge ? 120 : 80;
-  const localVideoHeight = isWindowLarge ? 80 : 54;
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
@@ -502,7 +614,7 @@ export function CallingPip({
             width: `${localVideoWidth}px`,
           }}
           className={localVideoClassName}
-          ref={setLocalPreviewContainer}
+          ref={localPreviewRef}
         />
       ) : null}
 

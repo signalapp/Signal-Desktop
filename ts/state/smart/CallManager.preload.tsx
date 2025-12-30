@@ -12,6 +12,7 @@ import { CallManager } from '../../components/CallManager.dom.js';
 import { isConversationTooBigToRing as getIsConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing.dom.js';
 import { createLogger } from '../../logging/log.std.js';
 import { calling as callingService } from '../../services/calling.preload.js';
+import type { SetLocalPreviewContainerType } from '../../services/calling.preload.js';
 import {
   bounceAppIconStart,
   bounceAppIconStop,
@@ -69,8 +70,8 @@ const getGroupCallVideoFrameSource =
 
 const notifyForCall = callingService.notifyForCall.bind(callingService);
 
-function setLocalPreviewContainer(container: HTMLDivElement | null): void {
-  callingService.setLocalPreviewContainer(container);
+function setLocalPreviewContainer(options: SetLocalPreviewContainerType): void {
+  callingService.setLocalPreviewContainer(options);
 }
 
 const playRingtone = callingTones.playRingtone.bind(callingTones);
