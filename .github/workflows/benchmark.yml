@@ -71,7 +71,7 @@ jobs:
       run: uname -a
 
     - name: Clone Desktop repo
-      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+      uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v5
 
     # - name: Setup sccache
     #   uses: mozilla-actions/sccache-action@054db53350805f83040bf3e6e9b8cf5a139aa7c9 # v0.0.7
@@ -143,7 +143,7 @@ jobs:
         path: artifacts
 
     - name: Clone benchmark repo
-      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+      uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v5
       with:
         repository: 'signalapp/Signal-Desktop-Benchmarks-Private'
         path: 'benchmark-results'
