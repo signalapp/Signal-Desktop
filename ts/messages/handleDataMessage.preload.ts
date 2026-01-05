@@ -477,13 +477,6 @@ export async function handleDataMessage(
         confirm();
         return;
       }
-      if (!isGroup(conversation.attributes)) {
-        log.warn(
-          `${idLog}: Dropping PollCreate in non-group conversation ${conversation.idForLogging()}`
-        );
-        confirm();
-        return;
-      }
       const result = safeParsePartial(
         PollCreateSchema,
         initialMessage.pollCreate

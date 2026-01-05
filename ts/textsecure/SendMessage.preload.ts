@@ -243,9 +243,12 @@ export type GroupMessageOptionsType = Readonly<
 >;
 
 export type PollVoteBuildOptions = Required<
-  Pick<MessageOptionsType, 'groupV2' | 'timestamp' | 'pollVote'>
+  Pick<MessageOptionsType, 'timestamp' | 'pollVote'>
 > &
-  Pick<MessageOptionsType, 'profileKey' | 'expireTimer' | 'expireTimerVersion'>;
+  Pick<
+    MessageOptionsType,
+    'groupV2' | 'profileKey' | 'expireTimer' | 'expireTimerVersion'
+  >;
 
 export type PollTerminateBuildOptions = Required<
   Pick<MessageOptionsType, 'groupV2' | 'timestamp' | 'pollTerminate'>
@@ -689,13 +692,13 @@ class Message {
   }
 }
 
-type AddPniSignatureMessageToProtoOptionsType = Readonly<{
+export type AddPniSignatureMessageToProtoOptionsType = Readonly<{
   conversation?: ConversationModel;
   proto: Proto.Content;
   reason: string;
 }>;
 
-function addPniSignatureMessageToProto({
+export function addPniSignatureMessageToProto({
   conversation,
   proto,
   reason,
@@ -838,10 +841,12 @@ export class MessageSender {
     const dataMessage = new Proto.DataMessage();
     dataMessage.timestamp = Long.fromNumber(timestamp);
 
-    const groupContext = new Proto.GroupContextV2();
-    groupContext.masterKey = groupV2.masterKey;
-    groupContext.revision = groupV2.revision;
-    dataMessage.groupV2 = groupContext;
+    if (groupV2) {
+      const groupContext = new Proto.GroupContextV2();
+      groupContext.masterKey = groupV2.masterKey;
+      groupContext.revision = groupV2.revision;
+      dataMessage.groupV2 = groupContext;
+    }
 
     if (typeof expireTimer !== 'undefined') {
       dataMessage.expireTimer = expireTimer;

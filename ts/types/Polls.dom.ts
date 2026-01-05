@@ -14,7 +14,10 @@ import type { SendStateByConversationId } from '../messages/MessageSendState.std
 import { aciSchema } from './ServiceId.std.js';
 import { MAX_MESSAGE_BODY_BYTE_LENGTH } from '../util/longAttachment.std.js';
 
-export const POLL_QUESTION_MAX_LENGTH = 100;
+// temporarily limit poll questions to an outbound 100 char and an inbound 200 char
+export const POLL_QUESTION_MAX_LENGTH_RECEIVE = 200;
+export const POLL_QUESTION_MAX_LENGTH_SEND = 100;
+export const POLL_OPTION_MAX_LENGTH = 100;
 export const POLL_OPTIONS_MIN_COUNT = 2;
 export const POLL_OPTIONS_MAX_COUNT = 10;
 
@@ -27,9 +30,12 @@ export const PollCreateSchema = z
     question: z
       .string()
       .min(1)
-      .refine(value => hasAtMostGraphemes(value, POLL_QUESTION_MAX_LENGTH), {
-        message: `question must contain at most ${POLL_QUESTION_MAX_LENGTH} characters`,
-      })
+      .refine(
+        value => hasAtMostGraphemes(value, POLL_QUESTION_MAX_LENGTH_RECEIVE),
+        {
+          message: `question must contain at most ${POLL_QUESTION_MAX_LENGTH_RECEIVE} characters`,
+        }
+      )
       .refine(
         value => Buffer.byteLength(value) <= MAX_MESSAGE_BODY_BYTE_LENGTH,
         {
@@ -41,12 +47,9 @@ export const PollCreateSchema = z
         z
           .string()
           .min(1)
-          .refine(
-            value => hasAtMostGraphemes(value, POLL_QUESTION_MAX_LENGTH),
-            {
-              message: `option must contain at most ${POLL_QUESTION_MAX_LENGTH} characters`,
-            }
-          )
+          .refine(value => hasAtMostGraphemes(value, POLL_OPTION_MAX_LENGTH), {
+            message: `option must contain at most ${POLL_OPTION_MAX_LENGTH} characters`,
+          })
           .refine(
             value => Buffer.byteLength(value) <= MAX_MESSAGE_BODY_BYTE_LENGTH,
             {
