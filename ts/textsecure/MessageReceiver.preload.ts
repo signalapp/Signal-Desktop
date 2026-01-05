@@ -3196,6 +3196,7 @@ export default class MessageReceiver
           'handleViewOnceOpen.senderUuid'
         ),
         timestamp: sync.timestamp?.toNumber(),
+        envelopeTimestamp: envelope.timestamp,
       },
       this.#removeFromCache.bind(this, envelope)
     );

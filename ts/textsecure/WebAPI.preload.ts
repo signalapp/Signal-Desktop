@@ -3539,6 +3539,7 @@ export async function sendMessagesUnauth(
     urgent,
   };
 
+  log.info(`send/${timestamp}/${destination}/sendMessagesUnauth`);
   await _ajax({
     host: 'chatService',
     call: 'messages',
@@ -3571,6 +3572,7 @@ export async function sendMessages(
     urgent,
   };
 
+  log.info(`send/${timestamp}/${destination}/sendMessages`);
   await _ajax({
     host: 'chatService',
     call: 'messages',
@@ -3606,6 +3608,7 @@ export async function sendWithSenderKey(
   const urgentParam = `&urgent=${booleanToString(urgent)}`;
   const storyParam = `&story=${booleanToString(story)}`;
 
+  log.info(`send/${timestamp}/<multiple>/sendWithSenderKey`);
   const response = await _ajax({
     host: 'chatService',
     call: 'multiRecipient',

@@ -3358,8 +3358,10 @@ export async function startApp(): Promise<void> {
   }
 
   function onViewOnceOpenSync(ev: ViewOnceOpenSyncEvent): void {
-    const { sourceAci, timestamp } = ev;
-    log.info(`view once open sync ${sourceAci} ${timestamp}`);
+    const { sourceAci, timestamp, envelopeTimestamp } = ev;
+    log.info(
+      `view once open sync ${envelopeTimestamp} for message ${sourceAci} ${timestamp}`
+    );
     strictAssert(sourceAci, 'ViewOnceOpen without sourceAci');
     strictAssert(timestamp, 'ViewOnceOpen without timestamp');
 
