@@ -32,6 +32,7 @@ export namespace AxoBaseDialog {
    */
 
   export const overlayStyles = tw(
+    'legacy-z-index-modal-host',
     'absolute inset-0 flex items-center-safe justify-center-safe bg-background-overlay p-4',
     // Allow the entire overlay to be scrolled in case the window is extremely small
     'overflow-auto scrollbar-width-none',

@@ -287,6 +287,7 @@ $calling-background-color: $color-gray-90;
 $calling-local-preview-normal-width: 106.67px;
 
 // General
+// Keep in sync with --legacy-z-index-* in stylesheets/tailwind-config.css
 
 $z-index-negative: -1;
 $z-index-base: 1;
@@ -304,6 +305,7 @@ $z-index-window-controls: 10000;
 // Component specific
 // The scroll down button should be above everything in the timeline but
 // popups, tooltips, toasts, and other items should stack above it.
+// Keep in sync with --legacy-z-index-* in stylesheets/tailwind-config.css
 $z-index-story-meta: 3;
 $z-index-scroll-down-button: 10;
 $z-index-stories: 98;

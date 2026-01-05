@@ -6,9 +6,9 @@ import { tw } from '../tw.dom.js';
 import { AxoSymbol } from '../AxoSymbol.dom.js';
 import { isTestOrMockEnvironment } from '../../environment.std.js';
 
-// Pulled from $z-index-context-menu. In the future we should be relying more
-// on insert order of dialogs/popovers/menus into portals
-const LEGACY_CONTEXT_MENU_Z_INDEX = tw('z-[125]');
+// In the future we should be relying more on insert order of
+// dialogs/popovers/menus into portals
+const LEGACY_CONTEXT_MENU_Z_INDEX = tw('legacy-z-index-context-menu');
 
 export namespace AxoBaseMenu {
   // <Content/SubContent>
