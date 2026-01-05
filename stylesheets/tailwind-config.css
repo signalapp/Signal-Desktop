@@ -438,3 +438,39 @@
   --default-scrollbar-track: transparent;
   --default-scrollbar-thumb: var(--color-label-placeholder);
 }
+
+/**
+ * Legacy z-index values
+ * Keep in sync with $z-index-* variables in stylesheets/_variables.scss
+ */
+
+@theme {
+  /* General */
+  --legacy-z-index-negative: -1;
+  --legacy-z-index-base: 1;
+  --legacy-z-index-above-base: 2;
+  --legacy-z-index-above-above-base: 3;
+  --legacy-z-index-megaphone: 75;
+  --legacy-z-index-popup-overlay: 99;
+  --legacy-z-index-popup: 100;
+  --legacy-z-index-context-menu: 125;
+  --legacy-z-index-tooltip: 150;
+  --legacy-z-index-toast: 200;
+  --legacy-z-index-on-top-of-everything: 9000;
+  --legacy-z-index-window-controls: 10000;
+
+  /* Component specific */
+  --legacy-z-index-story-meta: 3;
+  --legacy-z-index-scroll-down-button: 10;
+  --legacy-z-index-stories: 98;
+  --legacy-z-index-calling-container: 100;
+  --legacy-z-index-calling: 101;
+  --legacy-z-index-modal-host: 102;
+  --legacy-z-index-above-popup: 103;
+  --legacy-z-index-calling-pip: 104;
+  --legacy-z-index-above-context-menu: 126;
+}
+
+@utility legacy-z-index-* {
+  z-index: --value(--legacy-z-index-*);
+}
