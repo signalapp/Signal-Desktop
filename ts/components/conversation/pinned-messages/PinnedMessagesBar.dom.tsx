@@ -43,6 +43,8 @@ export type PinMessagePoll = Readonly<{
 
 export type PinMessage = Readonly<{
   id: string;
+  sentAtTimestamp: number;
+  receivedAtCounter: number;
   text?: PinMessageText | null;
   attachment?: PinMessageAttachment | null;
   contact?: PinMessageContact | null;
@@ -186,7 +188,7 @@ function TabsList(props: {
   return (
     <AriaClickable.SubWidget>
       <Tabs.List className={tw('flex h-full flex-col')}>
-        {props.pins.map((pin, pinIndex) => {
+        {props.pins.toReversed().map((pin, pinIndex) => {
           return (
             <TabTrigger
               key={pin.id}

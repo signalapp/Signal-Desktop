@@ -61,6 +61,7 @@ import type {
   ConversationAttributesType,
   DraftEditMessageType,
   LastMessageStatus,
+  MessageAttributesType,
   ReadonlyMessageAttributesType,
 } from '../../model-types.d.ts';
 import type {
@@ -96,6 +97,7 @@ import {
   getPendingAvatarDownloadSelector,
   getAllConversations,
   getActivePanel,
+  getSelectedConversationId,
 } from '../selectors/conversations.dom.js';
 import { getIntl } from '../selectors/user.std.js';
 import type {
@@ -243,7 +245,14 @@ import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { enqueuePollVoteForSend as enqueuePollVoteForSendHelper } from '../../polls/enqueuePollVoteForSend.preload.js';
 import { updateChatFolderStateOnTargetConversationChanged } from './chatFolders.preload.js';
-import type { PinnedMessageRenderData } from '../../types/PinnedMessage.std.js';
+import type {
+  PinnedMessage,
+  PinnedMessagePreloadData,
+} from '../../types/PinnedMessage.std.js';
+import type { StateThunk } from '../types.std.js';
+import { getPinnedMessagesLimit } from '../../util/pinnedMessages.dom.js';
+import { getPinnedMessageExpiresAt } from '../../util/pinnedMessages.std.js';
+import { pinnedMessagesCleanupService } from '../../services/expiring/pinnedMessagesCleanupService.preload.js';
 
 const {
   chunk,
@@ -496,6 +505,7 @@ export type ConversationMessageType = ReadonlyDeep<{
   isNearBottom?: boolean;
   messageChangeCounter: number;
   messageIds: ReadonlyArray<string>;
+  pinnedMessages: ReadonlyArray<PinnedMessage>;
   messageLoadingState?: undefined | TimelineMessageLoadingState;
   metrics: MessageMetricsType;
   scrollToMessageId?: string;
@@ -504,7 +514,7 @@ export type ConversationMessageType = ReadonlyDeep<{
 export type ConversationPreloadDataType = ReadonlyDeep<{
   conversationId: string;
   messages: ReadonlyArray<ReadonlyMessageAttributesType>;
-  pinnedMessages: ReadonlyArray<PinnedMessageRenderData>;
+  pinnedMessagesPreloadData: ReadonlyArray<PinnedMessagePreloadData>;
   metrics: MessageMetricsType;
   unboundedFetch: boolean;
 }>;
@@ -714,6 +724,7 @@ export const SET_PROFILE_UPDATE_ERROR =
 export const ADD_PRELOAD_DATA = 'conversations/ADD_PRELOAD_DATA';
 export const CONSUME_PRELOAD_DATA = 'conversations/CONSUME_PRELOAD_DATA';
 export const MESSAGES_RESET = 'conversations/MESSAGES_RESET';
+const PINNED_MESSAGES_REPLACE = 'conversations/PINNED_MESSAGES_REPLACE';
 
 export type CancelVerificationDataByConversationActionType = ReadonlyDeep<{
   type: typeof CANCEL_CONVERSATION_PENDING_VERIFICATION;
@@ -1087,6 +1098,14 @@ type PanelAnimationStartedActionType = ReadonlyDeep<{
   payload: null;
 }>;
 
+type PinnedMessagesReplace = ReadonlyDeep<{
+  type: typeof PINNED_MESSAGES_REPLACE;
+  payload: {
+    conversationId: string;
+    pinnedMessagesPreloadData: ReadonlyArray<PinnedMessagePreloadData>;
+  };
+}>;
+
 type ReplaceAvatarsActionType = ReadonlyDeep<{
   type: typeof REPLACE_AVATARS;
   payload: {
@@ -1145,6 +1164,7 @@ export type ConversationActionType =
   | PanelAnimationDoneActionType
   | PopPanelActionType
   | PushPanelActionType
+  | PinnedMessagesReplace
   | RemoveAllConversationsActionType
   | RepairNewestMessageActionType
   | RepairOldestMessageActionType
@@ -1245,6 +1265,9 @@ export const actions = {
   onMarkUnread,
   onMoveToInbox,
   onUndoArchive,
+  onPinnedMessagesChanged,
+  onPinnedMessageAdd,
+  onPinnedMessageRemove,
   openGiftBadge,
   popPanelForConversation,
   pushPanelForConversation,
@@ -3381,7 +3404,7 @@ function messagesReset({
   conversationId,
   messages,
   metrics,
-  pinnedMessages,
+  pinnedMessagesPreloadData,
   scrollToMessageId,
   unboundedFetch,
 }: MessagesResetOptionsType): MessagesResetActionType {
@@ -3400,7 +3423,7 @@ function messagesReset({
       conversationId,
       messages,
       metrics,
-      pinnedMessages,
+      pinnedMessagesPreloadData,
       scrollToMessageId,
     },
   };
@@ -5103,6 +5126,120 @@ function startAvatarDownload(
   };
 }
 
+function getMessageAuthorAci(
+  message: ReadonlyMessageAttributesType
+): AciString {
+  if (isIncoming(message)) {
+    strictAssert(
+      isAciString(message.sourceServiceId),
+      'Message sourceServiceId must be an ACI'
+    );
+    return message.sourceServiceId;
+  }
+  return itemStorage.user.getCheckedAci();
+}
+
+type PinnedMessageTarget = ReadonlyDeep<{
+  conversationId: string;
+  targetMessageId: string;
+  targetAuthorAci: AciString;
+  targetSentTimestamp: number;
+}>;
+
+async function getPinnedMessageTarget(
+  targetMessageId: string
+): Promise<PinnedMessageTarget> {
+  const message = await DataReader.getMessageById(targetMessageId);
+  if (message == null) {
+    throw new Error('getPinnedMessageTarget: Target message not found');
+  }
+  return {
+    conversationId: message.conversationId,
+    targetMessageId: message.id,
+    targetAuthorAci: getMessageAuthorAci(message),
+    targetSentTimestamp: message.sent_at,
+  };
+}
+
+function onPinnedMessagesChanged(
+  conversationId: string
+): StateThunk<PinnedMessagesReplace> {
+  return async (dispatch, getState) => {
+    const selectedConversationId = getSelectedConversationId(getState());
+    if (
+      selectedConversationId == null ||
+      selectedConversationId !== conversationId
+    ) {
+      return;
+    }
+
+    const pinnedMessagesPreloadData =
+      await DataReader.getPinnedMessagesPreloadDataForConversation(
+        conversationId
+      );
+
+    dispatch({
+      type: PINNED_MESSAGES_REPLACE,
+      payload: {
+        conversationId,
+        pinnedMessagesPreloadData,
+      },
+    });
+  };
+}
+
+function onPinnedMessageAdd(
+  targetMessageId: string,
+  pinDurationSeconds: DurationInSeconds | null
+): StateThunk {
+  return async dispatch => {
+    const target = await getPinnedMessageTarget(targetMessageId);
+    const targetConversation = window.ConversationController.get(
+      target.conversationId
+    );
+    strictAssert(targetConversation != null, 'Missing target conversation');
+
+    await conversationJobQueue.add({
+      type: conversationQueueJobEnum.enum.PinMessage,
+      ...target,
+      pinDurationSeconds,
+    });
+
+    const pinnedMessagesLimit = getPinnedMessagesLimit();
+
+    const pinnedAt = Date.now();
+    const expiresAt = getPinnedMessageExpiresAt(pinnedAt, pinDurationSeconds);
+
+    await DataWriter.appendPinnedMessage(pinnedMessagesLimit, {
+      conversationId: target.conversationId,
+      messageId: target.targetMessageId,
+      expiresAt,
+      pinnedAt,
+    });
+    drop(pinnedMessagesCleanupService.trigger('onPinnedMessageAdd'));
+
+    await targetConversation.addNotification('pinned-message-notification', {
+      pinnedMessageId: targetMessageId,
+      sourceServiceId: itemStorage.user.getCheckedAci(),
+    });
+
+    dispatch(onPinnedMessagesChanged(target.conversationId));
+  };
+}
+
+function onPinnedMessageRemove(targetMessageId: string): StateThunk {
+  return async dispatch => {
+    const target = await getPinnedMessageTarget(targetMessageId);
+    await conversationJobQueue.add({
+      type: conversationQueueJobEnum.enum.UnpinMessage,
+      ...target,
+    });
+    await DataWriter.deletePinnedMessageByMessageId(targetMessageId);
+    drop(pinnedMessagesCleanupService.trigger('onPinnedMessageRemove'));
+    dispatch(onPinnedMessagesChanged(target.conversationId));
+  };
+}
+
 // Reducer
 
 export function getEmptyState(): ConversationsStateType {
@@ -5524,6 +5661,7 @@ function updateMessageLookup(
     metrics,
     scrollToMessageId,
     unboundedFetch,
+    pinnedMessagesPreloadData,
   }: MessagesResetDataType
 ): ConversationsStateType {
   const { messagesByConversation, messagesLookup } = state;
@@ -5556,6 +5694,14 @@ function updateMessageLookup(
 
   const messageIds = sorted.map(message => message.id);
 
+  const extraMessagesLookup: Record<string, MessageType> = {};
+  const pinnedMessages: Array<PinnedMessage> = [];
+
+  for (const { pinnedMessage, message } of pinnedMessagesPreloadData) {
+    extraMessagesLookup[message.id] = message;
+    pinnedMessages.push(pinnedMessage);
+  }
+
   return {
     ...state,
     preloadData: undefined,
@@ -5568,6 +5714,7 @@ function updateMessageLookup(
       : {}),
     messagesLookup: {
       ...messagesLookup,
+      ...extraMessagesLookup,
       ...lookup,
     },
     messagesByConversation: {
@@ -5579,12 +5726,70 @@ function updateMessageLookup(
           ? existingConversation.scrollToMessageCounter + 1
           : 0,
         messageIds,
+        pinnedMessages,
         metrics: {
           ...metrics,
           newest,
           oldest,
         },
       },
+    },
+  };
+}
+
+function maybeDropMessageIdsFromMessagesLookup(
+  messagesLookup: MessageLookupType,
+  messageIdsToMaybeRemove: ReadonlyArray<string>,
+  pinnedMessages: ReadonlyArray<PinnedMessage>
+): MessageLookupType {
+  const pinnedMessagesMessageIds = new Set<string>();
+  for (const pinnedMessage of pinnedMessages) {
+    pinnedMessagesMessageIds.add(pinnedMessage.messageId);
+  }
+
+  const messageIdsToRemove = new Set<string>();
+  for (const messageIdToMaybeRemove of messageIdsToMaybeRemove) {
+    if (!pinnedMessagesMessageIds.has(messageIdToMaybeRemove)) {
+      messageIdsToRemove.add(messageIdToMaybeRemove);
+    }
+  }
+
+  if (messageIdsToRemove.size === 0) {
+    return messagesLookup;
+  }
+
+  const updatedMessagesLookup: Record<string, MessageWithUIFieldsType> = {};
+  for (const messageId of Object.keys(messagesLookup)) {
+    if (!messageIdsToRemove.has(messageId)) {
+      updatedMessagesLookup[messageId] = messagesLookup[messageId];
+    }
+  }
+
+  return updatedMessagesLookup;
+}
+
+function maybeDropMessageIdFromPinnedMessages(
+  messagesByConversation: MessagesByConversationType,
+  conversationId: string,
+  messageId: string
+): MessagesByConversationType {
+  const prevConversationMessages = messagesByConversation[conversationId];
+  if (
+    prevConversationMessages == null ||
+    prevConversationMessages.pinnedMessages.length === 0
+  ) {
+    return messagesByConversation;
+  }
+
+  return {
+    ...messagesByConversation,
+    [conversationId]: {
+      ...prevConversationMessages,
+      pinnedMessages: prevConversationMessages.pinnedMessages.filter(
+        pinnedMessage => {
+          return pinnedMessage.messageId !== messageId;
+        }
+      ),
     },
   };
 }
@@ -5736,7 +5941,11 @@ export function reducer(
 
       return {
         ...state,
-        messagesLookup: omit(state.messagesLookup, messageIdsToRemove),
+        messagesLookup: maybeDropMessageIdsFromMessagesLookup(
+          state.messagesLookup,
+          messageIdsToRemove,
+          conversationMessages?.pinnedMessages ?? []
+        ),
         messagesByConversation: {
           ...state.messagesByConversation,
           [conversationId]: {
@@ -5767,7 +5976,11 @@ export function reducer(
 
       return {
         ...state,
-        messagesLookup: omit(state.messagesLookup, messageIdsToRemove),
+        messagesLookup: maybeDropMessageIdsFromMessagesLookup(
+          state.messagesLookup,
+          messageIdsToRemove,
+          conversationMessages.pinnedMessages
+        ),
         messagesByConversation: {
           ...state.messagesByConversation,
           [conversationId]: {
@@ -5877,7 +6090,11 @@ export function reducer(
         stack: [],
         watermark: -1,
       },
-      messagesLookup: omit(state.messagesLookup, [...messageIds]),
+      messagesLookup: maybeDropMessageIdsFromMessagesLookup(
+        state.messagesLookup,
+        [...messageIds],
+        []
+      ),
       messagesByConversation: omit(state.messagesByConversation, [
         conversationId,
       ]),
@@ -6232,6 +6449,8 @@ export function reducer(
         : existingMessage.isSpoilerExpanded,
     };
 
+    const wasDeletedForEveryone = updatedMessage.deletedForEveryone;
+
     return {
       ...maybeUpdateSelectedMessageForDetails(
         {
@@ -6245,6 +6464,13 @@ export function reducer(
         ...state.messagesLookup,
         [id]: updatedMessage,
       },
+      messagesByConversation: !wasDeletedForEveryone
+        ? state.messagesByConversation
+        : maybeDropMessageIdFromPinnedMessages(
+            state.messagesByConversation,
+            conversationId,
+            id
+          ),
     };
   }
 
@@ -6497,18 +6723,29 @@ export function reducer(
       };
     }
 
+    const pinnedMessages = existingConversation.pinnedMessages.filter(
+      pinnedMesage => {
+        return pinnedMesage.messageId !== id;
+      }
+    );
+
     return {
       ...maybeUpdateSelectedMessageForDetails(
         { messageId: id, targetedMessageForDetails: undefined },
         state
       ),
       preloadData: undefined,
-      messagesLookup: omit(messagesLookup, id),
+      messagesLookup: maybeDropMessageIdsFromMessagesLookup(
+        messagesLookup,
+        [id],
+        pinnedMessages
+      ),
       messagesByConversation: {
         [conversationId]: {
           ...existingConversation,
           messageIds,
           metrics,
+          pinnedMessages,
         },
       },
     };
@@ -7509,6 +7746,40 @@ export function reducer(
         ...state.pendingRequestedAvatarDownload,
         [conversationId]: value,
       },
+    };
+  }
+
+  if (action.type === PINNED_MESSAGES_REPLACE) {
+    const { conversationId, pinnedMessagesPreloadData } = action.payload;
+
+    const extraMessagesLookup: Record<string, MessageAttributesType> = {};
+    const pinnedMessages: Array<PinnedMessage> = [];
+
+    for (const pinnedMessagePreloadData of pinnedMessagesPreloadData) {
+      const { message, pinnedMessage } = pinnedMessagePreloadData;
+      extraMessagesLookup[message.id] = message;
+      pinnedMessages.push(pinnedMessage);
+    }
+
+    return {
+      ...state,
+      messagesLookup:
+        state.selectedConversationId !== conversationId
+          ? state.messagesLookup
+          : {
+              ...state.messagesLookup,
+              ...extraMessagesLookup,
+            },
+      messagesByConversation:
+        state.messagesByConversation[conversationId] == null
+          ? state.messagesByConversation
+          : {
+              ...state.messagesByConversation,
+              [conversationId]: {
+                ...state.messagesByConversation[conversationId],
+                pinnedMessages,
+              },
+            },
     };
   }
 

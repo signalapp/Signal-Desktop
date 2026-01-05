@@ -259,7 +259,7 @@ import {
   deleteExpiredChatFolders,
 } from './server/chatFolders.std.js';
 import {
-  getPinnedMessagesForConversation,
+  getPinnedMessagesPreloadDataForConversation,
   getNextExpiringPinnedMessageAcrossConversations,
   appendPinnedMessage,
   deletePinnedMessageByMessageId,
@@ -493,7 +493,7 @@ export const DataReader: ServerReadableInterface = {
   getAllMegaphones,
   hasMegaphone,
 
-  getPinnedMessagesForConversation,
+  getPinnedMessagesPreloadDataForConversation,
   getNextExpiringPinnedMessageAcrossConversations,
 
   callLinkExists,

@@ -11,6 +11,7 @@ import {
   getSelectedMessageIds,
   getMessages,
   getCachedConversationMemberColorsSelector,
+  getPinnedMessagesMessageIds,
 } from './conversations.dom.js';
 import { getAccountSelector } from './accounts.std.js';
 import {
@@ -25,7 +26,6 @@ import { getActiveCall, getCallSelector } from './calling.std.js';
 import { getPropsForBubble } from './message.preload.js';
 import { getCallHistorySelector } from './callHistory.std.js';
 import { useProxySelector } from '../../hooks/useProxySelector.std.js';
-import { getPinnedMessagesMessageIds } from './pinnedMessages.dom.js';
 
 const getTimelineItem = (
   state: StateType,

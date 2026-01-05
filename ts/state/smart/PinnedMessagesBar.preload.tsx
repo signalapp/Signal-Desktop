@@ -15,6 +15,8 @@ import { getIntl } from '../selectors/user.std.js';
 import {
   getConversationSelector,
   getSelectedConversationId,
+  getPinnedMessages,
+  getMessages,
 } from '../selectors/conversations.dom.js';
 import { strictAssert } from '../../util/assert.std.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
@@ -39,8 +41,6 @@ import * as Attachment from '../../util/Attachment.std.js';
 import * as MIME from '../../types/MIME.std.js';
 import * as EmbeddedContact from '../../types/EmbeddedContact.std.js';
 import type { StateSelector } from '../types.std.js';
-import { usePinnedMessagesActions } from '../ducks/pinnedMessages.preload.js';
-import { getPinnedMessages } from '../selectors/pinnedMessages.dom.js';
 
 function getPinMessageAttachment(
   props: MessagePropsType
@@ -101,9 +101,15 @@ function isPinMessageSticker(props: MessagePropsType): boolean {
   return props.isSticker ?? false;
 }
 
-function getPinMessage(props: MessagePropsType): PinMessage {
+function getPinMessage(
+  props: MessagePropsType,
+  sentAtTimestamp: number,
+  receivedAtCounter: number
+): PinMessage {
   return {
     id: props.id,
+    sentAtTimestamp,
+    receivedAtCounter,
     text: getPinMessageText(props),
     attachment: getPinMessageAttachment(props),
     contact: getPinMessageContact(props),
@@ -153,23 +159,22 @@ function getNextPinId(
 
 const selectPins: StateSelector<ReadonlyArray<Pin>> = createSelector(
   getPinnedMessages,
+  getMessages,
   getMessagePropsSelector,
-  (pinnedMessages, messagePropsSelector) => {
-    const sorted = orderBy(
-      pinnedMessages,
-      ['message.received_at', 'message.sent_at'],
-      ['ASC', 'ASC']
-    );
-
-    return sorted.map((pinnedMessageRenderData): Pin => {
-      const { pinnedMessage, message } = pinnedMessageRenderData;
-
+  (pinnedMessages, messagesLookup, messagePropsSelector) => {
+    return pinnedMessages.map((pinnedMessage): Pin => {
+      const message = messagesLookup[pinnedMessage.messageId];
+      strictAssert(message != null, 'Missing pinned message');
       const messageProps = messagePropsSelector(message);
 
       return {
         id: pinnedMessage.id,
         sender: getPinSender(messageProps),
-        message: getPinMessage(messageProps),
+        message: getPinMessage(
+          messageProps,
+          message.sent_at,
+          message.received_at
+        ),
       };
     });
   }
@@ -187,7 +192,7 @@ function getNodeDataMessageId(node: Node): string | null {
 }
 
 function useTimelineIntersectionObserver(
-  pins: ReadonlyArray<Pin>,
+  unsortedPins: ReadonlyArray<Pin>,
   onCurrentChange: (current: PinnedMessageId) => void
 ) {
   const onCurrentChangeRef = useRef(onCurrentChange);
@@ -197,9 +202,18 @@ function useTimelineIntersectionObserver(
 
   useEffect(() => {
     // We only need to track anything if there are multiple pins
-    if (pins.length <= 1) {
+    if (unsortedPins.length <= 1) {
       return;
     }
+
+    const pins = orderBy<Pin>(
+      unsortedPins,
+      [
+        pin => pin.message.receivedAtCounter,
+        pin => pin.message.sentAtTimestamp,
+      ],
+      ['ASC', 'ASC']
+    );
 
     const scroller = document.querySelector(
       '.module-timeline__messages__container'
@@ -334,7 +348,7 @@ function useTimelineIntersectionObserver(
       mutationObserver.disconnect();
       intersectionObserver.disconnect();
     };
-  }, [pins]);
+  }, [unsortedPins]);
 }
 
 export const SmartPinnedMessagesBar = memo(function SmartPinnedMessagesBar() {
@@ -352,12 +366,11 @@ export const SmartPinnedMessagesBar = memo(function SmartPinnedMessagesBar() {
   const pins = useSelector(selectPins);
   const canPinMessages = getCanPinMessages(conversation);
 
-  const { pushPanelForConversation, scrollToMessage } =
+  const { onPinnedMessageRemove, pushPanelForConversation, scrollToMessage } =
     useConversationsActions();
-  const { onPinnedMessageRemove } = usePinnedMessagesActions();
 
   const [current, setCurrent] = useState(() => {
-    return pins.at(-1)?.id ?? null;
+    return pins.at(0)?.id ?? null;
   });
 
   const isCurrentOutOfDate = useMemo(() => {
@@ -376,7 +389,7 @@ export const SmartPinnedMessagesBar = memo(function SmartPinnedMessagesBar() {
   }, [current, pins]);
 
   if (isCurrentOutOfDate) {
-    setCurrent(pins.at(-1)?.id ?? null);
+    setCurrent(pins.at(0)?.id ?? null);
   }
 
   const handleCurrentChange = useCallback(

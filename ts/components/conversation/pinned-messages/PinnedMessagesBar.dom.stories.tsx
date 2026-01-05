@@ -25,6 +25,8 @@ const PIN_1: Pin = {
   },
   message: {
     id: 'message-1',
+    sentAtTimestamp: 1,
+    receivedAtCounter: 1,
     poll: {
       question: 'What should we get for lunch?',
     },
@@ -40,6 +42,8 @@ const PIN_2: Pin = {
   },
   message: {
     id: 'message-2',
+    sentAtTimestamp: 2,
+    receivedAtCounter: 2,
     text: {
       body: 'We found a cute pottery store close to Inokashira Park that we’re going to check out on Saturday. Anyone want to meet at the south exit at Kichijoji station at 1pm? Too early?',
       bodyRanges: [
@@ -59,6 +63,8 @@ const PIN_3: Pin = {
   },
   message: {
     id: 'message-3',
+    sentAtTimestamp: 3,
+    receivedAtCounter: 3,
     text: {
       body: 'Photo',
       bodyRanges: [],
@@ -107,7 +113,10 @@ export function Default(): React.JSX.Element {
   );
 }
 
-function Variant(props: { title: string; message: Omit<PinMessage, 'id'> }) {
+function Variant(props: {
+  title: string;
+  message: Omit<PinMessage, 'id' | 'sentAtTimestamp' | 'receivedAtCounter'>;
+}) {
   const pin: Pin = {
     id: 1 as PinnedMessageId,
     sender: {
@@ -117,6 +126,8 @@ function Variant(props: { title: string; message: Omit<PinMessage, 'id'> }) {
     },
     message: {
       id: 'message-1',
+      sentAtTimestamp: 1,
+      receivedAtCounter: 1,
       ...props.message,
     },
   };

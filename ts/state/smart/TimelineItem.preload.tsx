@@ -40,7 +40,6 @@ import { renderReactionPicker } from './renderReactionPicker.dom.js';
 import type { MessageRequestState } from '../../components/conversation/MessageRequestActionsConfirmation.dom.js';
 import { TargetedMessageSource } from '../ducks/conversationsEnums.std.js';
 import type { MessageInteractivity } from '../../components/conversation/Message.dom.js';
-import { usePinnedMessagesActions } from '../ducks/pinnedMessages.preload.js';
 
 export type SmartTimelineItemProps = {
   containerElementRef: RefObject<HTMLElement>;
@@ -132,6 +131,8 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
     messageExpanded,
+    onPinnedMessageAdd,
+    onPinnedMessageRemove,
     openGiftBadge,
     pushPanelForConversation,
     retryDeleteForEveryone,
@@ -150,9 +151,6 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     targetMessage,
     toggleSelectMessage,
   } = useConversationsActions();
-
-  const { onPinnedMessageAdd, onPinnedMessageRemove } =
-    usePinnedMessagesActions();
 
   const {
     endPoll,

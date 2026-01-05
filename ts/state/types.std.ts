@@ -32,7 +32,6 @@ import type { actions as megaphones } from './ducks/megaphones.preload.js';
 import type { actions as nav } from './ducks/nav.std.js';
 import type { actions as network } from './ducks/network.dom.js';
 import type { actions as notificationProfiles } from './ducks/notificationProfiles.preload.js';
-import type { actions as pinnedMessages } from './ducks/pinnedMessages.preload.js';
 import type { actions as safetyNumber } from './ducks/safetyNumber.preload.js';
 import type { actions as search } from './ducks/search.preload.js';
 import type { actions as stickers } from './ducks/stickers.preload.js';
@@ -71,7 +70,6 @@ export type ReduxActions = {
   nav: typeof nav;
   network: typeof network;
   notificationProfiles: typeof notificationProfiles;
-  pinnedMessages: typeof pinnedMessages;
   safetyNumber: typeof safetyNumber;
   search: typeof search;
   stickers: typeof stickers;

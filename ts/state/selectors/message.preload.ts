@@ -103,6 +103,7 @@ import {
   getMessages,
   getCachedConversationMemberColorsSelector,
   getContactNameColor,
+  getPinnedMessagesMessageIds,
 } from './conversations.dom.js';
 import {
   getIntl,
@@ -168,7 +169,6 @@ import { LONG_MESSAGE } from '../../types/MIME.std.js';
 import type { MessageRequestResponseNotificationData } from '../../components/conversation/MessageRequestResponseNotification.dom.js';
 import type { PinnedMessageNotificationData } from '../../components/conversation/pinned-messages/PinnedMessageNotification.dom.js';
 import { canEditGroupInfo } from '../../util/canEditGroupInfo.preload.js';
-import { getPinnedMessagesMessageIds } from './pinnedMessages.dom.js';
 import { isPinnedMessagesSendEnabled } from '../../util/isPinnedMessagesEnabled.dom.js';
 import { getPinnedMessagesLimit } from '../../util/pinnedMessages.dom.js';
 
