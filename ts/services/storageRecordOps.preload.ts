@@ -994,24 +994,32 @@ export function toNotificationProfileRecord(
 
 type MessageRequestCapableRecord = Proto.IContactRecord | Proto.IGroupV2Record;
 
-function applyMessageRequestState(
+async function applyMessageRequestState(
   record: MessageRequestCapableRecord,
   conversation: ConversationModel
-): void {
+): Promise<void> {
   const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
 
   if (record.blocked) {
-    void conversation.applyMessageRequestResponse(messageRequestEnum.BLOCK, {
-      source: MessageRequestResponseSource.STORAGE_SERVICE,
-      learnedAtMs: Date.now(),
-    });
+    await conversation.applyMessageRequestResponse(
+      messageRequestEnum.BLOCK,
+      {
+        source: MessageRequestResponseSource.STORAGE_SERVICE,
+        learnedAtMs: Date.now(),
+      },
+      { shouldSave: false }
+    );
   } else if (record.whitelisted) {
     // unblocking is also handled by this function which is why the next
     // condition is part of the else-if and not separate
-    void conversation.applyMessageRequestResponse(messageRequestEnum.ACCEPT, {
-      source: MessageRequestResponseSource.STORAGE_SERVICE,
-      learnedAtMs: Date.now(),
-    });
+    await conversation.applyMessageRequestResponse(
+      messageRequestEnum.ACCEPT,
+      {
+        source: MessageRequestResponseSource.STORAGE_SERVICE,
+        learnedAtMs: Date.now(),
+      },
+      { shouldSave: false }
+    );
   } else if (!record.blocked) {
     // if the condition above failed the state could still be blocked=false
     // in which case we should unblock the conversation
@@ -1048,7 +1056,12 @@ function logRecordChanges(
     return details;
   }
 
-  for (const key of Object.keys(remoteRecord)) {
+  const allKeys = new Set([
+    ...Object.keys(remoteRecord),
+    ...Object.keys(localRecord),
+  ]);
+
+  for (const key of allKeys) {
     const localValue = localRecord[key];
     const remoteValue = remoteRecord[key];
 
@@ -1339,7 +1352,7 @@ export async function mergeGroupV2Record(
     }
   );
 
-  applyMessageRequestState(groupV2Record, conversation);
+  await applyMessageRequestState(groupV2Record, conversation);
 
   applyAvatarColor(conversation, groupV2Record.avatarColor);
 
@@ -1539,7 +1552,7 @@ export async function mergeContactRecord(
     }
   }
 
-  applyMessageRequestState(contactRecord, conversation);
+  await applyMessageRequestState(contactRecord, conversation);
 
   addUnknownFieldsToConversation(contactRecord, conversation, details);
 
