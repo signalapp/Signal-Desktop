@@ -1061,14 +1061,14 @@ export type ReplaceUsernameLinkResultType = z.infer<
   typeof replaceUsernameLinkResultZod
 >;
 
-const resolveUsernameLinkResultZod = z.object({
-  usernameLinkEncryptedValue: z
-    .string()
-    .transform(x => Bytes.fromBase64(fromWebSafeBase64(x))),
-});
-export type ResolveUsernameLinkResultType = z.infer<
-  typeof resolveUsernameLinkResultZod
->;
+export type ResolveUsernameByLinkOptionsType = Readonly<{
+  entropy: Uint8Array;
+  uuid: string;
+}>;
+export type ResolveUsernameLinkResultType = {
+  username: string;
+  hash: Uint8Array;
+} | null;
 
 export type CreateAccountOptionsType = Readonly<{
   sessionId: string;
@@ -2659,19 +2659,13 @@ export async function deleteUsernameLink(): Promise<void> {
   });
 }
 
-export async function resolveUsernameLink(
-  serverId: string
-): Promise<ResolveUsernameLinkResultType> {
-  return _ajax({
-    host: 'chatService',
-    httpType: 'GET',
-    call: 'usernameLink',
-    urlParameters: `/${encodeURIComponent(serverId)}`,
-    responseType: 'json',
-    unauthenticated: true,
-    accessKey: undefined,
-    groupSendToken: undefined,
-    zodSchema: resolveUsernameLinkResultZod,
+export async function resolveUsernameLink({
+  entropy,
+  uuid,
+}: ResolveUsernameByLinkOptionsType): Promise<ResolveUsernameLinkResultType> {
+  return _retry(async () => {
+    const chat = await socketManager.getUnauthenticatedLibsignalApi();
+    return chat.lookUpUsernameLink({ uuid, entropy });
   });
 }
 
