@@ -496,9 +496,9 @@ export function PreferencesInternal({
       <SettingsRow title="Call Quality Survey Testing">
         <FlowingSettingsControl>
           <div className="Preferences__two-thirds-flow">
-            Disable 24h cooldown (show survey after every call)
+            Disable 24h cooldown
           </div>
-          <div className="Preferences__one-third-flow Preferences__one-third-flow--align-right">
+          <div className="Preferences__one-third-flow Preferences__one-third-flow--justify-end">
             <AxoSwitch.Root
               checked={callQualitySurveyCooldownDisabled}
               onCheckedChange={setCallQualitySurveyCooldownDisabled}
