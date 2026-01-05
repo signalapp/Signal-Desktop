@@ -130,52 +130,51 @@ export function CallingPipRemoteVideo({
     }, [activeCall]);
 
   useEffect(() => {
-    if (isGroupOrAdhocActiveCall(activeCall)) {
-      if (!activeGroupCallSpeaker || !activeGroupCallSpeaker.hasRemoteVideo) {
-        return;
-      }
-      const { videoAspectRatio } = activeGroupCallSpeaker;
-      if (!isNumber(videoAspectRatio)) {
-        return;
-      }
+    if (!isGroupOrAdhocActiveCall(activeCall)) {
+      return;
+    }
 
-      const ratio = 1 / videoAspectRatio;
-      const newHeight = clamp(Math.floor(width * ratio), 1, MAX_FRAME_HEIGHT);
+    if (!activeGroupCallSpeaker || !activeGroupCallSpeaker.hasRemoteVideo) {
+      return;
+    }
+    const { videoAspectRatio } = activeGroupCallSpeaker;
+    if (!isNumber(videoAspectRatio)) {
+      return;
+    }
 
-      // Update only for portrait video that fits, otherwise leave things as they are
-      if (
-        newHeight !== height &&
-        ratio >= PIP_MINIMUM_HEIGHT_MULTIPLIER &&
-        ratio <= PIP_MAXIMUM_HEIGHT_MULTIPLIER
-      ) {
-        updateHeight(newHeight);
-      }
+    const portraitRatio = 1 / videoAspectRatio;
+    const newHeight = clamp(
+      Math.floor(width * portraitRatio),
+      1,
+      MAX_FRAME_HEIGHT
+    );
 
-      if (isPageVisible) {
-        const participants = activeCall.remoteParticipants.map(participant => {
-          if (participant === activeGroupCallSpeaker) {
-            return {
-              demuxId: participant.demuxId,
-              width,
-              height: newHeight,
-            };
-          }
-          return nonRenderedRemoteParticipant(participant);
-        });
-        setGroupCallVideoRequest(participants, newHeight);
-      } else {
-        setGroupCallVideoRequest(
-          activeCall.remoteParticipants.map(nonRenderedRemoteParticipant),
-          0
-        );
-      }
+    // Update only for portrait video that fits, otherwise leave things as they are
+    if (
+      newHeight !== height &&
+      portraitRatio >= PIP_MINIMUM_HEIGHT_MULTIPLIER &&
+      portraitRatio <= PIP_MAXIMUM_HEIGHT_MULTIPLIER
+    ) {
+      updateHeight(newHeight);
+    }
+
+    if (isPageVisible) {
+      const participants = activeCall.remoteParticipants.map(participant => {
+        if (participant === activeGroupCallSpeaker) {
+          return {
+            demuxId: participant.demuxId,
+            width,
+            height: newHeight,
+          };
+        }
+        return nonRenderedRemoteParticipant(participant);
+      });
+      setGroupCallVideoRequest(participants, newHeight);
     } else {
-      // eslint-disable-next-line no-lonely-if
-      if (!activeCall.hasRemoteVideo) {
-        // eslint-disable-next-line no-useless-return
-        return;
-      }
-      // TODO: DESKTOP-8537 - with direct call video stats, call updateHeight as needed
+      setGroupCallVideoRequest(
+        activeCall.remoteParticipants.map(nonRenderedRemoteParticipant),
+        0
+      );
     }
   }, [
     activeCall,
@@ -186,6 +185,27 @@ export function CallingPipRemoteVideo({
     updateHeight,
     width,
   ]);
+
+  const handleDirectSize = React.useCallback(
+    (newSize: { width: number; height: number }) => {
+      const portraitRatio = newSize.height / newSize.width;
+      const newHeight = clamp(
+        Math.floor(width * portraitRatio),
+        1,
+        MAX_FRAME_HEIGHT
+      );
+
+      // Update only for portrait video that fits, otherwise leave things as they are
+      if (
+        newHeight !== height &&
+        portraitRatio >= PIP_MINIMUM_HEIGHT_MULTIPLIER &&
+        portraitRatio <= PIP_MAXIMUM_HEIGHT_MULTIPLIER
+      ) {
+        updateHeight(newHeight);
+      }
+    },
+    [height, updateHeight, width]
+  );
 
   const avatarSize =
     width > PIP_WIDTH_NORMAL ? AvatarSize.NINETY_SIX : AvatarSize.SIXTY_FOUR;
@@ -219,6 +239,7 @@ export function CallingPipRemoteVideo({
           <DirectCallRemoteParticipant
             conversation={conversation}
             hasRemoteVideo={hasRemoteVideo}
+            handleSize={handleDirectSize}
             i18n={i18n}
             isReconnecting={isReconnecting(activeCall)}
             setRendererCanvas={setRendererCanvas}

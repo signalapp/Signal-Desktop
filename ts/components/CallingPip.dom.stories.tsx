@@ -22,6 +22,7 @@ import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCa
 import { MINUTE } from '../util/durations/index.std.js';
 import type { SetRendererCanvasType } from '../state/ducks/calling.preload.js';
 import { createCallParticipant } from '../test-helpers/createCallParticipant.std.js';
+import type { SetLocalPreviewContainerType } from '../services/calling.preload.js';
 
 const { times } = lodash;
 
@@ -92,8 +93,8 @@ export default {
       title: 'Lonely InGroup',
     }),
     setGroupCallVideoRequest: action('set-group-call-video-request'),
-    setLocalPreviewContainer: (container: HTMLDivElement | null) => {
-      container?.appendChild(localPreviewVideo);
+    setLocalPreviewContainer: (options: SetLocalPreviewContainerType) => {
+      options.container?.appendChild(localPreviewVideo);
     },
     setRendererCanvas: ({ element }: SetRendererCanvasType) => {
       element?.current?.getContext('2d')?.drawImage(videoScreenshot, 0, 0);
