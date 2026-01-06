@@ -181,6 +181,7 @@ describe('Contact', () => {
           avatar: fakeAttachment({
             pending: true,
             path: undefined,
+            url: undefined,
             contentType: IMAGE_GIF,
           }),
         },
@@ -224,7 +225,8 @@ describe('Contact', () => {
         avatar: {
           isProfile: true,
           avatar: fakeAttachment({
-            path: 'attachment://v1/somewhere?size=10304&contentType=image%2Fgif',
+            path: 'somewhere',
+            url: 'attachment://v1/somewhere?size=10304&contentType=image%2Fgif',
             contentType: IMAGE_GIF,
           }),
         },

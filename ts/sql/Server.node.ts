@@ -136,14 +136,16 @@ import type {
   GetKnownMessageAttachmentsResultType,
   GetNearbyMessageFromDeletedSetOptionsType,
   GetSortedMediaOptionsType,
-  GetOlderLinkPreviewsOptionsType,
+  GetOlderNonAttachmentMediaOptionsType,
+  GetOlderDocumentsOptionsType,
   GetRecentStoryRepliesOptionsType,
   GetUnreadByConversationAndMarkReadResultType,
   IdentityKeyIdType,
   ItemKeyType,
   KyberPreKeyTripleType,
-  LinkPreviewMediaItemDBType,
+  NonAttachmentMediaItemDBType,
   MediaItemDBType,
+  ContactMediaItemDBType,
   MessageAttachmentsCursorType,
   MessageCursorType,
   MessageMetricsType,
@@ -307,6 +309,7 @@ const {
   omit,
   partition,
   pick,
+  sortBy,
 } = lodash;
 
 type ConversationRow = Readonly<{
@@ -476,7 +479,8 @@ export const DataReader: ServerReadableInterface = {
 
   hasMedia,
   getSortedMedia,
-  getOlderLinkPreviews,
+  getOlderNonAttachmentMedia,
+  getOlderDocuments,
 
   getAllNotificationProfiles,
   getNotificationProfileById,
@@ -5259,6 +5263,7 @@ function hasMedia(db: ReadableDB, conversationId: string): boolean {
   return db.transaction(() => {
     let hasAttachments: boolean;
     let hasPreviews: boolean;
+    let hasContacts: boolean;
 
     {
       const [query, params] = sql`
@@ -5296,7 +5301,23 @@ function hasMedia(db: ReadableDB, conversationId: string): boolean {
         db.prepare(query, { pluck: true }).get<number>(params) === 1;
     }
 
-    return hasAttachments || hasPreviews;
+    {
+      const [query, params] = sql`
+        SELECT EXISTS(
+          SELECT 1 FROM messages
+          INDEXED BY messages_hasContacts
+          WHERE
+            conversationId IS ${conversationId} AND
+            type IN ('incoming', 'outgoing') AND
+            isViewOnce IS NOT 1 AND
+            hasContacts IS 1
+        );
+      `;
+      hasContacts =
+        db.prepare(query, { pluck: true }).get<number>(params) === 1;
+    }
+
+    return hasAttachments || hasPreviews || hasContacts;
   })();
 }
 
@@ -5443,6 +5464,7 @@ function getSortedMedia(
     } = attachment;
 
     return {
+      type: 'mediaItem',
       message: {
         id: attachment.messageId,
         type: messageType as 'incoming' | 'outgoing',
@@ -5464,7 +5486,7 @@ function getSortedMedia(
   });
 }
 
-function getOlderLinkPreviews(
+function getOlderNonAttachmentMedia(
   db: ReadableDB,
   {
     conversationId,
@@ -5472,21 +5494,34 @@ function getOlderLinkPreviews(
     messageId,
     receivedAt: maxReceivedAt = Number.MAX_VALUE,
     sentAt: maxSentAt = Number.MAX_VALUE,
-  }: GetOlderLinkPreviewsOptionsType
-): Array<LinkPreviewMediaItemDBType> {
+    type,
+  }: GetOlderNonAttachmentMediaOptionsType
+): Array<NonAttachmentMediaItemDBType> {
   const timeFilters = {
     first: sqlFragment`received_at = ${maxReceivedAt} AND sent_at < ${maxSentAt}`,
     second: sqlFragment`received_at < ${maxReceivedAt}`,
   };
 
+  let index: QueryFragment;
+  let predicate: QueryFragment;
+  if (type === 'links') {
+    index = sqlFragment`messages_hasPreviews`;
+    predicate = sqlFragment`hasPreviews IS 1`;
+  } else if (type === 'contacts') {
+    index = sqlFragment`messages_hasContacts`;
+    predicate = sqlFragment`hasContacts IS 1`;
+  } else {
+    throw missingCaseError(type);
+  }
+
   const createQuery = (timeFilter: QueryFragment): QueryFragment => sqlFragment`
     SELECT
       ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
     FROM messages
-    INDEXED BY messages_hasPreviews
+    INDEXED BY ${index}
     WHERE
       conversationId IS ${conversationId} AND
-      hasPreviews IS 1 AND
+      (${predicate}) AND
       isViewOnce IS NOT 1 AND
       type IN ('incoming', 'outgoing') AND
       (${messageId ?? null} IS NULL OR id IS NOT ${messageId ?? null})
@@ -5503,30 +5538,75 @@ function getOlderLinkPreviews(
 
   const rows = db.prepare(query).all<MessageTypeUnhydrated>(params);
 
-  return hydrateMessages(db, rows).map(message => {
-    strictAssert(
-      message.preview != null && message.preview.length >= 1,
-      `getOlderLinkPreviews: got message without previe ${message.id}`
-    );
-
-    return {
-      message: {
-        id: message.id,
-        type: message.type as 'incoming' | 'outgoing',
-        conversationId,
-        source: message.source,
-        sourceServiceId: message.sourceServiceId,
-        receivedAt: message.received_at,
-        receivedAtMs: message.received_at_ms ?? undefined,
-        sentAt: message.sent_at,
-        errors: message.errors,
-        sendStateByConversationId: message.sendStateByConversationId,
-        readStatus: message.readStatus,
-        isErased: !!message.isErased,
-      },
-      preview: message.preview[0],
+  return hydrateMessages(db, rows).map(row => {
+    const message = {
+      id: row.id,
+      type: row.type as 'incoming' | 'outgoing',
+      conversationId,
+      source: row.source,
+      sourceServiceId: row.sourceServiceId,
+      receivedAt: row.received_at,
+      receivedAtMs: row.received_at_ms ?? undefined,
+      sentAt: row.sent_at,
+      errors: row.errors,
+      sendStateByConversationId: row.sendStateByConversationId,
+      readStatus: row.readStatus,
+      isErased: !!row.isErased,
     };
+
+    if (type === 'links') {
+      strictAssert(
+        row.preview != null && row.preview.length >= 1,
+        `getOlderNonAttachmentMedia: got message without preview ${row.id}`
+      );
+
+      return {
+        type: 'link',
+        message,
+        preview: row.preview[0],
+      };
+    }
+
+    if (type === 'contacts') {
+      strictAssert(
+        row.contact != null && row.contact.length >= 1,
+        `getOlderNonAttachmentMedia: got message without contact ${row.id}`
+      );
+
+      return {
+        type: 'contact',
+        message,
+        contact: row.contact[0],
+      };
+    }
+
+    throw missingCaseError(type);
   });
+}
+
+function getOlderDocuments(
+  db: ReadableDB,
+  options: GetOlderDocumentsOptionsType
+): Array<MediaItemDBType | ContactMediaItemDBType> {
+  return db.transaction(() => {
+    const documents = getSortedMedia(db, {
+      ...options,
+      order: 'older',
+      type: 'documents',
+    });
+    const contacts = getOlderNonAttachmentMedia(db, {
+      ...options,
+      type: 'contacts',
+    }) as Array<ContactMediaItemDBType>;
+
+    return sortBy(
+      (documents as Array<MediaItemDBType | ContactMediaItemDBType>).concat(
+        contacts
+      ),
+      [raw => raw.message.receivedAt, raw => raw.message.sentAt],
+      ['DESC', 'DESC']
+    ).slice(0, options.limit);
+  })();
 }
 
 function _markCallHistoryMissed(

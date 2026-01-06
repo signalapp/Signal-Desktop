@@ -46,6 +46,7 @@ export const SmartAllMedia = memo(function SmartAllMedia({
   const { initialLoad, loadMore } = useMediaGalleryActions();
   const {
     saveAttachment,
+    pushPanelForConversation,
     kickOffAttachmentDownload,
     cancelAttachmentDownload,
   } = useConversationsActions();
@@ -111,6 +112,7 @@ export const SmartAllMedia = memo(function SmartAllMedia({
       kickOffAttachmentDownload={kickOffAttachmentDownload}
       cancelAttachmentDownload={cancelAttachmentDownload}
       saveAttachment={saveAttachment}
+      pushPanelForConversation={pushPanelForConversation}
       renderMediaItem={renderMediaItem}
     />
   );

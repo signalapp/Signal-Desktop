@@ -1204,7 +1204,7 @@ async function uploadMessageContacts(
 
   const newContact = oldContact.map((contact, index) => {
     const loaded = contacts.at(index);
-    if (!contact.avatar) {
+    if (contact.avatar?.avatar == null) {
       strictAssert(
         loaded?.avatar === undefined,
         `${logId}: Avatar erased in the message`
@@ -1213,8 +1213,7 @@ async function uploadMessageContacts(
     }
 
     strictAssert(
-      loaded !== undefined &&
-        loaded.avatar !== undefined &&
+      loaded?.avatar?.avatar != null &&
         loaded.avatar.avatar.path === contact.avatar.avatar.path,
       `${logId}: Avatar has incorrect path`
     );

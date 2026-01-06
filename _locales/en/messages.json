@@ -6852,6 +6852,10 @@
     "messageformat": "Audio",
     "description": "Subtitle of the audio list item in the audio tab of media gallery"
   },
+  "icu:ContactListItem__subtitle": {
+    "messageformat": "Contact",
+    "description": "Subtitle of the contact list item in the files tab of media gallery"
+  },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Open the link in a browser",
     "description": "Alt text for the link preview item button"

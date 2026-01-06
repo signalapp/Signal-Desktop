@@ -13,6 +13,7 @@ import { isVoiceMessagePlayed } from '../../../../util/isVoiceMessagePlayed.std.
 import { LinkPreviewItem } from '../LinkPreviewItem.dom.js';
 import { MediaGridItem } from '../MediaGridItem.dom.js';
 import { DocumentListItem } from '../DocumentListItem.dom.js';
+import { ContactListItem } from '../ContactListItem.dom.js';
 import { AudioListItem } from '../AudioListItem.dom.js';
 
 const { i18n } = window.SignalContext;
@@ -48,6 +49,16 @@ export function MediaItem({
     case 'document':
       return (
         <DocumentListItem
+          i18n={i18n}
+          authorTitle="Alice"
+          mediaItem={mediaItem}
+          onClick={onClick}
+          onShowMessage={onShowMessage}
+        />
+      );
+    case 'contact':
+      return (
+        <ContactListItem
           i18n={i18n}
           authorTitle="Alice"
           mediaItem={mediaItem}

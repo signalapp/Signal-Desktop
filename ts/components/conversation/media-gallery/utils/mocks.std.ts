@@ -5,8 +5,10 @@ import lodash from 'lodash';
 import { type MIMEType, IMAGE_JPEG } from '../../../../types/MIME.std.js';
 import type {
   MediaItemType,
+  ContactMediaItemType,
   LinkPreviewMediaItemType,
   MediaItemMessageType,
+  GenericMediaItemType,
 } from '../../../../types/MediaItem.std.js';
 import type { AttachmentForUIType } from '../../../../types/Attachment.std.js';
 import { randomBlurHash } from '../../../../util/randomBlurHash.std.js';
@@ -126,6 +128,28 @@ function createRandomLink(
   };
 }
 
+function createRandomContact(
+  startTime: number,
+  timeWindow: number
+): ContactMediaItemType {
+  return {
+    type: 'contact',
+    message: createRandomMessage(startTime, timeWindow),
+    contact: {
+      name: {
+        givenName: 'Bob',
+      },
+      avatar:
+        Math.random() > 0.3
+          ? {
+              isProfile: true,
+              avatar: createRandomAttachment('png'),
+            }
+          : undefined,
+    },
+  };
+}
+
 function createRandomFiles(
   type: 'media' | 'document' | 'audio',
   startTime: number,
@@ -151,6 +175,14 @@ export function createRandomDocuments(
     'exe',
     'txt',
   ]);
+}
+export function createRandomContacts(
+  startTime: number,
+  timeWindow: number
+): Array<ContactMediaItemType> {
+  return range(random(5, 10)).map(() =>
+    createRandomContact(startTime, timeWindow)
+  );
 }
 export function createRandomLinks(
   startTime: number,
@@ -179,9 +211,9 @@ export function createRandomMedia(
   ]);
 }
 
-export function createPreparedMediaItems<
-  Item extends MediaItemType | LinkPreviewMediaItemType,
->(fn: (startTime: number, timeWindow: number) => Array<Item>): Array<Item> {
+export function createPreparedMediaItems<Item extends GenericMediaItemType>(
+  fn: (startTime: number, timeWindow: number) => Array<Item>
+): Array<Item> {
   const now = Date.now();
   return sortBy<Item>(
     [

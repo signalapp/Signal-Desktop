@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { LinkPreviewItem } from '../../components/conversation/media-gallery/LinkPreviewItem.dom.js';
 import { MediaGridItem } from '../../components/conversation/media-gallery/MediaGridItem.dom.js';
 import { DocumentListItem } from '../../components/conversation/media-gallery/DocumentListItem.dom.js';
+import { ContactListItem } from '../../components/conversation/media-gallery/ContactListItem.dom.js';
 import { AudioListItem } from '../../components/conversation/media-gallery/AudioListItem.dom.js';
 import type { ItemClickEvent } from '../../components/conversation/media-gallery/types/ItemClickEvent.std.js';
 import { getSafeDomain } from '../../types/LinkPreview.std.js';
@@ -81,6 +82,16 @@ export const MediaItem = memo(function MediaItem({
     case 'document':
       return (
         <DocumentListItem
+          i18n={i18n}
+          authorTitle={authorTitle}
+          mediaItem={mediaItem}
+          onClick={onClick}
+          onShowMessage={onShowMessage}
+        />
+      );
+    case 'contact':
+      return (
+        <ContactListItem
           i18n={i18n}
           authorTitle={authorTitle}
           mediaItem={mediaItem}
