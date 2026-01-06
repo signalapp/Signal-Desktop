@@ -161,8 +161,10 @@ function Container(props: {
     >
       <AriaClickable.Root
         className={tw(
-          'flex h-14 items-center bg-background-primary py-2.5 pe-3 select-none',
+          'flex h-14 items-center py-2.5 pe-3 select-none',
           'rounded-xs',
+          'bg-legacy-conversation-header-bg',
+          'border-t-[0.5px] border-t-border-primary',
           'outline-0 outline-border-focused',
           'data-[focused]:outline-[2.5px]',
           props.pinsCount === 1 && 'ps-4'

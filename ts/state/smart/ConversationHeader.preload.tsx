@@ -39,6 +39,7 @@ import {
   getConversationSelector,
   getHasPanelOpen,
   isMissingRequiredProfileSharing as getIsMissingRequiredProfileSharing,
+  getPinnedMessages,
   getSelectedMessageIds,
 } from '../selectors/conversations.dom.js';
 import { getHasStoriesSelector } from '../selectors/stories2.dom.js';
@@ -48,6 +49,27 @@ import { getLocalDeleteWarningShown } from '../selectors/items.dom.js';
 import { isConversationEverUnregistered } from '../../util/isConversationUnregistered.dom.js';
 import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.js';
 import type { DurationInSeconds } from '../../util/durations/index.std.js';
+import { selectAudioPlayerActive } from '../selectors/audioPlayer.preload.js';
+import type { SmartCollidingAvatarsProps } from './CollidingAvatars.dom.js';
+import { SmartCollidingAvatars } from './CollidingAvatars.dom.js';
+import type { SmartMiniPlayerProps } from './MiniPlayer.preload.js';
+import { SmartMiniPlayer } from './MiniPlayer.preload.js';
+import { SmartPinnedMessagesBar } from './PinnedMessagesBar.preload.js';
+import { getContactSpoofingWarningSelector } from '../selectors/timeline.preload.js';
+
+function renderCollidingAvatars(
+  props: SmartCollidingAvatarsProps
+): React.JSX.Element {
+  return <SmartCollidingAvatars {...props} />;
+}
+
+function renderMiniPlayer(props: SmartMiniPlayerProps): React.JSX.Element {
+  return <SmartMiniPlayer {...props} />;
+}
+
+function renderPinnedMessagesBar(): React.JSX.Element {
+  return <SmartPinnedMessagesBar />;
+}
 
 export type OwnProps = {
   id: string;
@@ -108,6 +130,17 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
   const activeCall = useSelector(getActiveCallState);
   const hasActiveCall = Boolean(activeCall);
 
+  const contactSpoofingWarningSelector = useSelector(
+    getContactSpoofingWarningSelector
+  );
+  const contactSpoofingWarning = contactSpoofingWarningSelector(conversation);
+
+  const activeAudioPlayer = useSelector(selectAudioPlayerActive);
+  const shouldShowMiniPlayer = activeAudioPlayer != null;
+
+  const pinnedMessages = useSelector(getPinnedMessages);
+  const shouldShowPinnedMessagesBar = pinnedMessages.length > 0;
+
   const {
     destroyMessages,
     leaveGroup,
@@ -124,6 +157,8 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
     blockConversation,
     reportSpam,
     deleteConversation,
+    acknowledgeGroupMemberNameCollisions,
+    reviewConversationNameCollision,
   } = useConversationsActions();
   const {
     onOutgoingAudioCallInConversation,
@@ -311,6 +346,16 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
       setLocalDeleteWarningShown={setLocalDeleteWarningShown}
       sharedGroupNames={conversation.sharedGroupNames}
       theme={theme}
+      contactSpoofingWarning={contactSpoofingWarning}
+      renderCollidingAvatars={renderCollidingAvatars}
+      shouldShowMiniPlayer={shouldShowMiniPlayer}
+      renderMiniPlayer={renderMiniPlayer}
+      shouldShowPinnedMessagesBar={shouldShowPinnedMessagesBar}
+      renderPinnedMessagesBar={renderPinnedMessagesBar}
+      acknowledgeGroupMemberNameCollisions={
+        acknowledgeGroupMemberNameCollisions
+      }
+      reviewConversationNameCollision={reviewConversationNameCollision}
     />
   );
 });

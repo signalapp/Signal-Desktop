@@ -9,6 +9,8 @@ import type {
 } from '../types/Util.std.js';
 import { strictAssert } from '../util/assert.std.js';
 
+export type I18nComponentParts = ReadonlyArray<string | React.JSX.Element>;
+
 export type Props<Key extends keyof ICUJSXMessageParamsByKeyType> = {
   /** The translation string id */
   id: Key;

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as React from 'react';
-import lodash from 'lodash';
 import { v4 as uuid } from 'uuid';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
@@ -15,21 +14,14 @@ import { StorybookThemeContext } from '../../../.storybook/StorybookThemeContext
 import { ConversationHero } from './ConversationHero.dom.js';
 import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.js';
 import { TypingBubble } from './TypingBubble.dom.js';
-import { ContactSpoofingType } from '../../util/contactSpoofing.std.js';
 import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
 import type { WidthBreakpoint } from '../_util.std.js';
 import { ThemeType } from '../../types/Util.std.js';
 import { MessageInteractivity, TextDirection } from './Message.dom.js';
 import { PaymentEventKind } from '../../types/Payment.std.js';
 import type { PropsData as TimelineMessageProps } from './TimelineMessage.dom.js';
-import { CollidingAvatars } from '../CollidingAvatars.dom.js';
-
-const { times } = lodash;
 
 const { i18n } = window.SignalContext;
-
-const alice = getDefaultConversation();
-const bob = getDefaultConversation();
 
 export default {
   title: 'Components/Conversation/Timeline',
@@ -455,16 +447,6 @@ const renderTypingBubble = () => (
     theme={ThemeType.light}
   />
 );
-const renderCollidingAvatars = () => (
-  <CollidingAvatars i18n={i18n} conversations={[alice, bob]} />
-);
-const renderMiniPlayer = () => (
-  <div>If active, this is where smart mini player would be</div>
-);
-
-const renderPinnedMessagesBar = () => (
-  <div>If active, this is where the smart pinned messages bar would be</div>
-);
 
 const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   discardMessages: action('discardMessages'),
@@ -485,23 +467,17 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   isNearBottom: null,
   scrollToIndex: overrideProps.scrollToIndex ?? null,
   scrollToIndexCounter: 0,
-  shouldShowMiniPlayer: Boolean(overrideProps.shouldShowMiniPlayer),
-  shouldShowPinnedMessagesBar: false,
   totalUnseen: overrideProps.totalUnseen ?? 0,
   oldestUnseenIndex: overrideProps.oldestUnseenIndex ?? 0,
   invitedContactsForNewlyCreatedGroup:
     overrideProps.invitedContactsForNewlyCreatedGroup || [],
-  warning: overrideProps.warning,
   hasContactSpoofingReview: false,
   conversationType: 'direct',
 
   id: uuid(),
   renderItem,
   renderHeroRow,
-  renderMiniPlayer,
-  renderPinnedMessagesBar,
   renderTypingBubble,
-  renderCollidingAvatars,
   renderContactSpoofingReviewDialog,
   isSomeoneTyping: overrideProps.isSomeoneTyping || false,
 
@@ -591,60 +567,6 @@ export function WithInvitedContactsForANewlyCreatedGroup(): React.JSX.Element {
         title: 'Bon John Bon Jovi',
       }),
     ],
-  });
-
-  return <Timeline {...props} />;
-}
-
-export function WithSameNameInDirectConversationWarning(): React.JSX.Element {
-  const props = useProps({
-    warning: {
-      type: ContactSpoofingType.DirectConversationWithSameTitle,
-
-      // Just to pacify type-script
-      safeConversationId: '123',
-    },
-    items: [],
-  });
-
-  return <Timeline {...props} />;
-}
-
-export function WithSameNameInGroupConversationWarning(): React.JSX.Element {
-  const props = useProps({
-    warning: {
-      type: ContactSpoofingType.MultipleGroupMembersWithSameTitle,
-      acknowledgedGroupNameCollisions: {},
-      groupNameCollisions: {
-        Alice: times(2, () => uuid()),
-      },
-    },
-    items: [],
-  });
-
-  return <Timeline {...props} />;
-}
-
-export function WithSameNamesInGroupConversationWarning(): React.JSX.Element {
-  const props = useProps({
-    warning: {
-      type: ContactSpoofingType.MultipleGroupMembersWithSameTitle,
-      acknowledgedGroupNameCollisions: {},
-      groupNameCollisions: {
-        Alice: times(2, () => uuid()),
-        Bob: times(3, () => uuid()),
-      },
-    },
-    items: [],
-  });
-
-  return <Timeline {...props} />;
-}
-
-export function WithJustMiniPlayer(): React.JSX.Element {
-  const props = useProps({
-    shouldShowMiniPlayer: true,
-    items: [],
   });
 
   return <Timeline {...props} />;

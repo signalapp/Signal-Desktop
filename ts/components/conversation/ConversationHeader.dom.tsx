@@ -4,6 +4,7 @@
 import classNames from 'classnames';
 import type { RefObject } from 'react';
 import React, { memo, useCallback, useMemo, useRef, useState } from 'react';
+import type { ReadonlyDeep } from 'type-fest';
 import type { BadgeType } from '../../badges/types.std.js';
 import {
   useKeyboardShortcuts,
@@ -35,6 +36,22 @@ import { InAnotherCallTooltip } from './InAnotherCallTooltip.dom.js';
 import { DeleteMessagesConfirmationDialog } from '../DeleteMessagesConfirmationDialog.dom.js';
 import { AxoDropdownMenu } from '../../axo/AxoDropdownMenu.dom.js';
 import { strictAssert } from '../../util/assert.std.js';
+import {
+  TimelineWarning,
+  TimelineWarningCustomInfo,
+  TimelineWarningLink,
+} from './TimelineWarning.dom.js';
+import { ContactSpoofingType } from '../../util/contactSpoofing.std.js';
+import type { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCollisions.std.js';
+import { hasUnacknowledgedCollisions } from '../../util/groupMemberNameCollisions.std.js';
+import type { I18nComponentParts } from '../I18n.dom.js';
+import { I18n } from '../I18n.dom.js';
+import type { SmartCollidingAvatarsProps } from '../../state/smart/CollidingAvatars.dom.js';
+import type {
+  ContactSpoofingWarning,
+  MultipleGroupMembersWithSameTitleContactSpoofingWarning,
+} from '../../state/selectors/timeline.preload.js';
+import { tw } from '../../axo/tw.dom.js';
 
 function HeaderInfoTitle({
   name,
@@ -92,6 +109,22 @@ export enum OutgoingCallButtonStyle {
   Join,
 }
 
+export type RenderCollidingAvatars = (
+  props: SmartCollidingAvatarsProps
+) => React.JSX.Element;
+
+export type RenderMiniPlayer = (options: {
+  shouldFlow: boolean;
+}) => React.JSX.Element;
+export type RenderPinnedMessagesBar = () => React.JSX.Element;
+
+export type AcknowledgeGroupMemberNameCollisions = (
+  conversationId: string,
+  groupNameCollisions: ReadonlyDeep<GroupNameCollisionsWithIdsByTitle>
+) => void;
+
+export type ReviewConversationNameCollission = () => void;
+
 export type PropsDataType = {
   addedByName: ContactNameData | null;
   badge?: BadgeType;
@@ -109,6 +142,15 @@ export type PropsDataType = {
   outgoingCallButtonStyle: OutgoingCallButtonStyle;
   sharedGroupNames: ReadonlyArray<string>;
   theme: ThemeType;
+
+  contactSpoofingWarning: ContactSpoofingWarning | null;
+  renderCollidingAvatars: RenderCollidingAvatars;
+
+  shouldShowMiniPlayer: boolean;
+  renderMiniPlayer: RenderMiniPlayer;
+
+  shouldShowPinnedMessagesBar: boolean;
+  renderPinnedMessagesBar: RenderPinnedMessagesBar;
 };
 
 export type PropsActionsType = {
@@ -138,6 +180,9 @@ export type PropsActionsType = {
   onViewAllMedia: () => void;
   onViewConversationDetails: () => void;
   onViewUserStories: () => void;
+
+  acknowledgeGroupMemberNameCollisions: AcknowledgeGroupMemberNameCollisions;
+  reviewConversationNameCollision: ReviewConversationNameCollission;
 };
 
 export type PropsHousekeepingType = {
@@ -189,6 +234,17 @@ export const ConversationHeader = memo(function ConversationHeader({
   setLocalDeleteWarningShown,
   sharedGroupNames,
   theme,
+
+  contactSpoofingWarning,
+  acknowledgeGroupMemberNameCollisions,
+  reviewConversationNameCollision,
+  renderCollidingAvatars,
+
+  shouldShowMiniPlayer,
+  renderMiniPlayer,
+
+  shouldShowPinnedMessagesBar,
+  renderPinnedMessagesBar,
 }: PropsType): React.JSX.Element | null {
   // Comes from a third-party dependency
   const headerRef = useRef<HTMLDivElement>(null);
@@ -276,106 +332,110 @@ export const ConversationHeader = memo(function ConversationHeader({
       >
         {measureRef => (
           <div
-            className={classNames('module-ConversationHeader', {
-              'module-ConversationHeader--narrow': isNarrow,
-            })}
+            className={tw('flex flex-col shadow-elevation-1')}
             ref={measureRef}
           >
-            <HeaderContent
-              conversation={conversation}
-              badge={badge ?? null}
-              hasStories={hasStories ?? null}
-              headerRef={headerRef}
-              i18n={i18n}
-              sharedGroupNames={sharedGroupNames}
-              theme={theme}
-              onViewUserStories={onViewUserStories}
-              onViewConversationDetails={onViewConversationDetails}
-              isSignalConversation={isSignalConversation ?? false}
-            />
-            {!isSmsOnlyOrUnregistered && !isSignalConversation && (
-              <OutgoingCallButtons
+            <div
+              className={classNames('module-ConversationHeader', {
+                'module-ConversationHeader--narrow': isNarrow,
+              })}
+            >
+              <HeaderContent
                 conversation={conversation}
-                hasActiveCall={hasActiveCall}
+                badge={badge ?? null}
+                hasStories={hasStories ?? null}
+                headerRef={headerRef}
                 i18n={i18n}
-                isNarrow={isNarrow}
-                onOutgoingAudioCall={onOutgoingAudioCall}
-                onOutgoingVideoCall={onOutgoingVideoCall}
-                outgoingCallButtonStyle={outgoingCallButtonStyle}
-              />
-            )}
-            <button
-              type="button"
-              onClick={onSearchInConversation}
-              className={classNames(
-                'module-ConversationHeader__button',
-                'module-ConversationHeader__button--search'
-              )}
-              aria-label={i18n('icu:search')}
-            />
-
-            <AxoDropdownMenu.Root>
-              <AxoDropdownMenu.Trigger disabled={isSelectMode}>
-                <button
-                  type="button"
-                  className={classNames(
-                    'module-ConversationHeader__button',
-                    'module-ConversationHeader__button--more'
-                  )}
-                  aria-label={i18n('icu:moreInfo')}
-                />
-              </AxoDropdownMenu.Trigger>
-              <HeaderDropdownMenuContent
-                i18n={i18n}
-                conversation={conversation}
-                isMissingMandatoryProfileSharing={
-                  isMissingMandatoryProfileSharing ?? false
-                }
-                isSelectMode={isSelectMode}
-                isSignalConversation={isSignalConversation ?? false}
-                onChangeDisappearingMessages={
-                  onConversationDisappearingMessagesChange
-                }
-                onChangeMuteExpiration={onConversationMuteExpirationChange}
-                onConversationAccept={onConversationAccept}
-                onConversationArchive={onConversationArchive}
-                onConversationBlock={() => {
-                  setMessageRequestState(MessageRequestState.blocking);
-                }}
-                onConversationDelete={() => {
-                  setMessageRequestState(MessageRequestState.deleting);
-                }}
-                onConversationDeleteMessages={() => {
-                  setHasDeleteMessagesConfirmation(true);
-                }}
-                onConversationLeaveGroup={() => {
-                  if (cannotLeaveBecauseYouAreLastAdmin) {
-                    setHasCannotLeaveGroupBecauseYouAreLastAdminAlert(true);
-                  } else {
-                    setHasLeaveGroupConfirmation(true);
-                  }
-                }}
-                onConversationMarkUnread={onConversationMarkUnread}
-                onConversationPin={onConversationPin}
-                onConversationReportAndMaybeBlock={() => {
-                  setMessageRequestState(
-                    MessageRequestState.reportingAndMaybeBlocking
-                  );
-                }}
-                onConversationUnarchive={onConversationUnarchive}
-                onConversationUnblock={() => {
-                  setMessageRequestState(MessageRequestState.unblocking);
-                }}
-                onConversationUnpin={onConversationUnpin}
-                onSelectModeEnter={onSelectModeEnter}
-                onSetupCustomDisappearingTimeout={() => {
-                  setHasCustomDisappearingTimeoutModal(true);
-                }}
-                onShowMembers={onShowMembers}
-                onViewAllMedia={onViewAllMedia}
+                sharedGroupNames={sharedGroupNames}
+                theme={theme}
+                onViewUserStories={onViewUserStories}
                 onViewConversationDetails={onViewConversationDetails}
+                isSignalConversation={isSignalConversation ?? false}
               />
-            </AxoDropdownMenu.Root>
+              {!isSmsOnlyOrUnregistered && !isSignalConversation && (
+                <OutgoingCallButtons
+                  conversation={conversation}
+                  hasActiveCall={hasActiveCall}
+                  i18n={i18n}
+                  isNarrow={isNarrow}
+                  onOutgoingAudioCall={onOutgoingAudioCall}
+                  onOutgoingVideoCall={onOutgoingVideoCall}
+                  outgoingCallButtonStyle={outgoingCallButtonStyle}
+                />
+              )}
+              <button
+                type="button"
+                onClick={onSearchInConversation}
+                className={classNames(
+                  'module-ConversationHeader__button',
+                  'module-ConversationHeader__button--search'
+                )}
+                aria-label={i18n('icu:search')}
+              />
+
+              <AxoDropdownMenu.Root>
+                <AxoDropdownMenu.Trigger disabled={isSelectMode}>
+                  <button
+                    type="button"
+                    className={classNames(
+                      'module-ConversationHeader__button',
+                      'module-ConversationHeader__button--more'
+                    )}
+                    aria-label={i18n('icu:moreInfo')}
+                  />
+                </AxoDropdownMenu.Trigger>
+                <HeaderDropdownMenuContent
+                  i18n={i18n}
+                  conversation={conversation}
+                  isMissingMandatoryProfileSharing={
+                    isMissingMandatoryProfileSharing ?? false
+                  }
+                  isSelectMode={isSelectMode}
+                  isSignalConversation={isSignalConversation ?? false}
+                  onChangeDisappearingMessages={
+                    onConversationDisappearingMessagesChange
+                  }
+                  onChangeMuteExpiration={onConversationMuteExpirationChange}
+                  onConversationAccept={onConversationAccept}
+                  onConversationArchive={onConversationArchive}
+                  onConversationBlock={() => {
+                    setMessageRequestState(MessageRequestState.blocking);
+                  }}
+                  onConversationDelete={() => {
+                    setMessageRequestState(MessageRequestState.deleting);
+                  }}
+                  onConversationDeleteMessages={() => {
+                    setHasDeleteMessagesConfirmation(true);
+                  }}
+                  onConversationLeaveGroup={() => {
+                    if (cannotLeaveBecauseYouAreLastAdmin) {
+                      setHasCannotLeaveGroupBecauseYouAreLastAdminAlert(true);
+                    } else {
+                      setHasLeaveGroupConfirmation(true);
+                    }
+                  }}
+                  onConversationMarkUnread={onConversationMarkUnread}
+                  onConversationPin={onConversationPin}
+                  onConversationReportAndMaybeBlock={() => {
+                    setMessageRequestState(
+                      MessageRequestState.reportingAndMaybeBlocking
+                    );
+                  }}
+                  onConversationUnarchive={onConversationUnarchive}
+                  onConversationUnblock={() => {
+                    setMessageRequestState(MessageRequestState.unblocking);
+                  }}
+                  onConversationUnpin={onConversationUnpin}
+                  onSelectModeEnter={onSelectModeEnter}
+                  onSetupCustomDisappearingTimeout={() => {
+                    setHasCustomDisappearingTimeoutModal(true);
+                  }}
+                  onShowMembers={onShowMembers}
+                  onViewAllMedia={onViewAllMedia}
+                  onViewConversationDetails={onViewConversationDetails}
+                />
+              </AxoDropdownMenu.Root>
+            </div>
 
             <MessageRequestActionsConfirmation
               i18n={i18n}
@@ -392,6 +452,21 @@ export const ConversationHeader = memo(function ConversationHeader({
               reportSpam={onConversationReportSpam}
               deleteConversation={onConversationDelete}
               onChangeState={setMessageRequestState}
+            />
+
+            <ConversationSubheader
+              i18n={i18n}
+              contactSpoofingWarning={contactSpoofingWarning}
+              conversationId={conversation.id}
+              acknowledgeGroupMemberNameCollisions={
+                acknowledgeGroupMemberNameCollisions
+              }
+              reviewConversationNameCollision={reviewConversationNameCollision}
+              renderCollidingAvatars={renderCollidingAvatars}
+              shouldShowMiniPlayer={shouldShowMiniPlayer}
+              renderMiniPlayer={renderMiniPlayer}
+              shouldShowPinnedMessagesBar={shouldShowPinnedMessagesBar}
+              renderPinnedMessagesBar={renderPinnedMessagesBar}
             />
           </div>
         )}
@@ -1050,5 +1125,219 @@ function CannotLeaveGroupBecauseYouAreLastAdminAlert({
       )}
       onClose={onClose}
     />
+  );
+}
+
+function ConversationSubheader(props: {
+  i18n: LocalizerType;
+
+  conversationId: string;
+
+  contactSpoofingWarning: ContactSpoofingWarning | null;
+  reviewConversationNameCollision: ReviewConversationNameCollission;
+  acknowledgeGroupMemberNameCollisions: AcknowledgeGroupMemberNameCollisions;
+  renderCollidingAvatars: RenderCollidingAvatars;
+
+  shouldShowMiniPlayer: boolean;
+  renderMiniPlayer: RenderMiniPlayer;
+
+  shouldShowPinnedMessagesBar: boolean;
+  renderPinnedMessagesBar: RenderPinnedMessagesBar;
+}) {
+  const { i18n } = props;
+  const [
+    hasDismissedDirectContactSpoofingWarning,
+    setHasDismissedDirectContactSpoofingWarning,
+  ] = useState(false);
+
+  const renderableContactSpoofingWarning = getRenderableContactSpoofingWarning(
+    props.contactSpoofingWarning,
+    hasDismissedDirectContactSpoofingWarning
+  );
+
+  const handleDismissDirectContactSpoofingWarning = useCallback(() => {
+    setHasDismissedDirectContactSpoofingWarning(true);
+  }, []);
+
+  return (
+    <>
+      {renderableContactSpoofingWarning != null && (
+        <>
+          {renderableContactSpoofingWarning.type ===
+            ContactSpoofingType.DirectConversationWithSameTitle && (
+            <DirectConversationWithSameTitleWarning
+              i18n={i18n}
+              reviewConversationNameCollision={
+                props.reviewConversationNameCollision
+              }
+              onDismissDirectContactSpoofingWarning={
+                handleDismissDirectContactSpoofingWarning
+              }
+            />
+          )}
+          {renderableContactSpoofingWarning.type ===
+            ContactSpoofingType.MultipleGroupMembersWithSameTitle && (
+            <MultipleGroupMembersWithSameTitleWarning
+              i18n={i18n}
+              conversationId={props.conversationId}
+              contactSpoofingWarning={renderableContactSpoofingWarning}
+              acknowledgeGroupMemberNameCollisions={
+                props.acknowledgeGroupMemberNameCollisions
+              }
+              reviewConversationNameCollision={
+                props.reviewConversationNameCollision
+              }
+              renderCollidingAvatars={props.renderCollidingAvatars}
+            />
+          )}
+        </>
+      )}
+      {props.shouldShowMiniPlayer &&
+        props.renderMiniPlayer({ shouldFlow: true })}
+      {!props.shouldShowMiniPlayer &&
+        props.shouldShowPinnedMessagesBar &&
+        props.renderPinnedMessagesBar()}
+    </>
+  );
+}
+
+function getRenderableContactSpoofingWarning(
+  contactSpoofingWarning: ContactSpoofingWarning | null,
+  hasDismissedDirectContactSpoofingWarning: boolean
+): ContactSpoofingWarning | null {
+  if (contactSpoofingWarning == null) {
+    return null;
+  }
+
+  if (
+    contactSpoofingWarning.type ===
+    ContactSpoofingType.DirectConversationWithSameTitle
+  ) {
+    const shouldRender = !hasDismissedDirectContactSpoofingWarning;
+    return shouldRender ? contactSpoofingWarning : null;
+  }
+
+  if (
+    contactSpoofingWarning.type ===
+    ContactSpoofingType.MultipleGroupMembersWithSameTitle
+  ) {
+    const shouldRender = hasUnacknowledgedCollisions(
+      contactSpoofingWarning.acknowledgedGroupNameCollisions,
+      contactSpoofingWarning.groupNameCollisions
+    );
+
+    return shouldRender ? contactSpoofingWarning : null;
+  }
+
+  throw missingCaseError(contactSpoofingWarning);
+}
+
+function DirectConversationWithSameTitleWarning(props: {
+  i18n: LocalizerType;
+  reviewConversationNameCollision: ReviewConversationNameCollission;
+  onDismissDirectContactSpoofingWarning: () => void;
+}) {
+  const { i18n } = props;
+
+  return (
+    <TimelineWarning
+      i18n={i18n}
+      onClose={props.onDismissDirectContactSpoofingWarning}
+    >
+      <I18n
+        i18n={i18n}
+        id="icu:ContactSpoofing__same-name--link"
+        components={{
+          // This is a render props, not a component
+          // eslint-disable-next-line react/no-unstable-nested-components
+          reviewRequestLink: parts => (
+            <TimelineWarningLink
+              onClick={props.reviewConversationNameCollision}
+            >
+              {parts}
+            </TimelineWarningLink>
+          ),
+        }}
+      />
+    </TimelineWarning>
+  );
+}
+
+function MultipleGroupMembersWithSameTitleWarning(props: {
+  i18n: LocalizerType;
+  conversationId: string;
+  contactSpoofingWarning: MultipleGroupMembersWithSameTitleContactSpoofingWarning;
+  acknowledgeGroupMemberNameCollisions: AcknowledgeGroupMemberNameCollisions;
+  reviewConversationNameCollision: ReviewConversationNameCollission;
+  renderCollidingAvatars: RenderCollidingAvatars;
+}) {
+  const {
+    i18n,
+    conversationId,
+    contactSpoofingWarning,
+    acknowledgeGroupMemberNameCollisions,
+    reviewConversationNameCollision,
+    renderCollidingAvatars,
+  } = props;
+  const { groupNameCollisions } = contactSpoofingWarning;
+
+  const numberOfSharedNames = Object.keys(groupNameCollisions).length;
+  const conversationIds = Object.values(groupNameCollisions).flat(1);
+
+  const handleClose = useCallback(() => {
+    acknowledgeGroupMemberNameCollisions(conversationId, groupNameCollisions);
+  }, [
+    acknowledgeGroupMemberNameCollisions,
+    conversationId,
+    groupNameCollisions,
+  ]);
+
+  const reviewRequestLink = useCallback(
+    (parts: I18nComponentParts) => {
+      return (
+        <TimelineWarningLink onClick={reviewConversationNameCollision}>
+          {parts}
+        </TimelineWarningLink>
+      );
+    },
+    [reviewConversationNameCollision]
+  );
+
+  if (numberOfSharedNames === 1) {
+    return (
+      <TimelineWarning
+        i18n={i18n}
+        onClose={handleClose}
+        customInfo={
+          conversationIds.length >= 2 ? (
+            <TimelineWarningCustomInfo>
+              {renderCollidingAvatars({ conversationIds })}
+            </TimelineWarningCustomInfo>
+          ) : null
+        }
+      >
+        <I18n
+          i18n={i18n}
+          id="icu:ContactSpoofing__same-name-in-group--link"
+          components={{
+            count: conversationIds.length,
+            reviewRequestLink,
+          }}
+        />
+      </TimelineWarning>
+    );
+  }
+
+  return (
+    <TimelineWarning i18n={i18n} onClose={handleClose}>
+      <I18n
+        i18n={i18n}
+        id="icu:ContactSpoofing__same-names-in-group--link"
+        components={{
+          count: numberOfSharedNames,
+          reviewRequestLink,
+        }}
+      />
+    </TimelineWarning>
   );
 }

@@ -23,10 +23,6 @@
 
   border-top-width: 1px;
   border-top-style: solid;
-  &:last-child {
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-  }
 
   @include mixins.light-theme {
     color: variables.$color-gray-65;
