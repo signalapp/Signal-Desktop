@@ -1212,7 +1212,7 @@ function processAttachments({
           } catch (err) {
             log.error(
               'handleAttachmentsProcessing: failed to process attachment:',
-              err.stack
+              Errors.toLogFormat(err)
             );
             removeAttachment(conversationId, pendingAttachment)(
               dispatch,
