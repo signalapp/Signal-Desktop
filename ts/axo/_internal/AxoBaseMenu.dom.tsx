@@ -205,6 +205,7 @@ export namespace AxoBaseMenu {
    */
 
   export type MenuContentProps = Readonly<{
+    onCloseAutoFocus?: (e: Event) => void;
     children: ReactNode;
   }>;
 
