@@ -2370,5 +2370,12 @@
     "line": "  message.innerHTML = window.SignalContext.i18n('icu:optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/MessageContextMenu.dom.tsx",
+    "line": "  const shouldReturnFocusToTrigger = useRef(true);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-12-19T16:03:53.849Z"
   }
 ]
