@@ -114,6 +114,16 @@
   --color-shadow-elevation-5: light-dark(--alpha(#000 / 20%), --alpha(#000 / 40%));
   --color-shadow-outline:     light-dark(--alpha(#000 / 12%), /*  */ transparent);
   --color-shadow-highlight:   light-dark(/*  */ transparent, --alpha(#FFF / 08%));
+
+
+  /**
+   * Colors/Legacy
+   * -------------
+   * These should all eventually be removed, but in places where we need new
+   * components to specifically match the colors of older components, we can
+   * add them here.
+   */
+  --color-legacy-conversation-header-bg: light-dark(#fff, #121212);
 }
 
 @layer theme {

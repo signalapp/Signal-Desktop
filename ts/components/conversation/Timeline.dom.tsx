@@ -6,7 +6,6 @@ import classNames from 'classnames';
 import type { ReactNode, RefObject, UIEvent } from 'react';
 import React from 'react';
 
-import type { ReadonlyDeep } from 'type-fest';
 import {
   ScrollDownButton,
   ScrollDownButtonVariant,
@@ -21,14 +20,8 @@ import { clearTimeoutIfNecessary } from '../../util/clearTimeoutIfNecessary.std.
 import { WidthBreakpoint } from '../_util.std.js';
 
 import { ErrorBoundary } from './ErrorBoundary.dom.js';
-import { I18n } from '../I18n.dom.js';
-import { TimelineWarning } from './TimelineWarning.dom.js';
-import { TimelineWarnings } from './TimelineWarnings.dom.js';
 import { NewlyCreatedGroupInvitedContactsDialog } from '../NewlyCreatedGroupInvitedContactsDialog.dom.js';
-import { ContactSpoofingType } from '../../util/contactSpoofing.std.js';
 import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from '../../state/smart/ContactSpoofingReviewDialog.preload.js';
-import type { GroupNameCollisionsWithIdsByTitle } from '../../util/groupMemberNameCollisions.std.js';
-import { hasUnacknowledgedCollisions } from '../../util/groupMemberNameCollisions.std.js';
 import { TimelineFloatingHeader } from './TimelineFloatingHeader.dom.js';
 import {
   getScrollAnchorBeforeUpdate,
@@ -62,18 +55,6 @@ const LOAD_NEWER_THRESHOLD = 5;
 
 const DELAY_BEFORE_MARKING_READ_AFTER_FOCUS = SECOND;
 
-export type WarningType = ReadonlyDeep<
-  | {
-      type: ContactSpoofingType.DirectConversationWithSameTitle;
-      safeConversationId: string;
-    }
-  | {
-      type: ContactSpoofingType.MultipleGroupMembersWithSameTitle;
-      acknowledgedGroupNameCollisions: GroupNameCollisionsWithIdsByTitle;
-      groupNameCollisions: GroupNameCollisionsWithIdsByTitle;
-    }
->;
-
 export type PropsDataType = {
   haveNewest: boolean;
   haveOldest: boolean;
@@ -102,10 +83,7 @@ type PropsHousekeepingType = {
   targetedMessageId?: string;
   invitedContactsForNewlyCreatedGroup: Array<ConversationType>;
   selectedMessageId?: string;
-  shouldShowMiniPlayer: boolean;
-  shouldShowPinnedMessagesBar: boolean;
 
-  warning?: WarningType;
   hasContactSpoofingReview: boolean | undefined;
 
   discardMessages: (
@@ -123,9 +101,6 @@ type PropsHousekeepingType = {
   theme: ThemeType;
 
   updateVisibleMessages?: (messageIds: Array<string>) => void;
-  renderCollidingAvatars: (_: {
-    conversationIds: ReadonlyArray<string>;
-  }) => React.JSX.Element;
   renderContactSpoofingReviewDialog: (
     props: SmartContactSpoofingReviewDialogPropsType
   ) => React.JSX.Element;
@@ -143,17 +118,11 @@ type PropsHousekeepingType = {
     previousMessageId: undefined | string;
     unreadIndicatorPlacement: undefined | UnreadIndicatorPlacement;
   }) => React.JSX.Element;
-  renderMiniPlayer: (options: { shouldFlow: boolean }) => React.JSX.Element;
-  renderPinnedMessagesBar: () => React.JSX.Element;
+
   renderTypingBubble: (id: string) => React.JSX.Element;
 };
 
 export type PropsActionsType = {
-  // From Model
-  acknowledgeGroupMemberNameCollisions: (
-    conversationId: string,
-    groupNameCollisions: ReadonlyDeep<GroupNameCollisionsWithIdsByTitle>
-  ) => void;
   clearInvitedServiceIdsForNewlyCreatedGroup: () => void;
   clearTargetedMessage: () => unknown;
   closeContactSpoofingReview: () => void;
@@ -172,7 +141,6 @@ export type PropsActionsType = {
     messageId: string | undefined
   ) => void;
   setIsNearBottom: (conversationId: string, isNearBottom: boolean) => void;
-  reviewConversationNameCollision: () => void;
   scrollToOldestUnreadMention: (conversationId: string) => unknown;
 };
 
@@ -183,9 +151,7 @@ export type PropsType = PropsDataType &
 type StateType = {
   scrollLocked: boolean;
   scrollLockHeight: number | undefined;
-  hasDismissedDirectContactSpoofingWarning: boolean;
   hasRecentlyScrolled: boolean;
-  lastMeasuredWarningHeight: number;
   newestBottomVisibleMessageId?: string;
   oldestPartiallyVisibleMessageId?: string;
   widthBreakpoint: WidthBreakpoint;
@@ -224,10 +190,7 @@ export class Timeline extends React.Component<
     scrollLocked: false,
     scrollLockHeight: undefined,
     hasRecentlyScrolled: true,
-    hasDismissedDirectContactSpoofingWarning: false,
 
-    // These may be swiftly overridden.
-    lastMeasuredWarningHeight: 0,
     widthBreakpoint: WidthBreakpoint.Wide,
   };
 
@@ -913,7 +876,6 @@ export class Timeline extends React.Component<
 
   public override render(): React.JSX.Element | null {
     const {
-      acknowledgeGroupMemberNameCollisions,
       clearInvitedServiceIdsForNewlyCreatedGroup,
       closeContactSpoofingReview,
       conversationType,
@@ -931,17 +893,11 @@ export class Timeline extends React.Component<
       items,
       messageLoadingState,
       oldestUnseenIndex,
-      renderCollidingAvatars,
       renderContactSpoofingReviewDialog,
       renderHeroRow,
       renderItem,
-      renderMiniPlayer,
-      renderPinnedMessagesBar,
       renderTypingBubble,
-      reviewConversationNameCollision,
       scrollToOldestUnreadMention,
-      shouldShowMiniPlayer,
-      shouldShowPinnedMessagesBar,
       theme,
       totalUnseen,
       unreadCount,
@@ -951,7 +907,6 @@ export class Timeline extends React.Component<
       scrollLocked,
       scrollLockHeight,
       hasRecentlyScrolled,
-      lastMeasuredWarningHeight,
       newestBottomVisibleMessageId,
       oldestPartiallyVisibleMessageId,
       widthBreakpoint,
@@ -1005,11 +960,6 @@ export class Timeline extends React.Component<
         <TimelineFloatingHeader
           i18n={i18n}
           isLoading={isLoadingMessages}
-          style={
-            lastMeasuredWarningHeight
-              ? { marginTop: lastMeasuredWarningHeight }
-              : undefined
-          }
           timestamp={oldestPartiallyVisibleMessageTimestamp}
           visible={
             (hasRecentlyScrolled || isLoadingMessages) &&
@@ -1086,118 +1036,6 @@ export class Timeline extends React.Component<
       );
     }
 
-    const warning = Timeline.getWarning(this.props, this.state);
-    let headerElements: ReactNode;
-    if (warning || shouldShowMiniPlayer || shouldShowPinnedMessagesBar) {
-      let text: ReactNode | undefined;
-      let icon: ReactNode | undefined;
-      let onClose: () => void;
-      if (warning) {
-        icon = (
-          <TimelineWarning.IconContainer>
-            <TimelineWarning.GenericIcon />
-          </TimelineWarning.IconContainer>
-        );
-        switch (warning.type) {
-          case ContactSpoofingType.DirectConversationWithSameTitle:
-            text = (
-              <I18n
-                i18n={i18n}
-                id="icu:ContactSpoofing__same-name--link"
-                components={{
-                  // This is a render props, not a component
-                  // eslint-disable-next-line react/no-unstable-nested-components
-                  reviewRequestLink: parts => (
-                    <TimelineWarning.Link
-                      onClick={reviewConversationNameCollision}
-                    >
-                      {parts}
-                    </TimelineWarning.Link>
-                  ),
-                }}
-              />
-            );
-            onClose = () => {
-              this.setState({
-                hasDismissedDirectContactSpoofingWarning: true,
-              });
-            };
-            break;
-          case ContactSpoofingType.MultipleGroupMembersWithSameTitle: {
-            const { groupNameCollisions } = warning;
-            const numberOfSharedNames = Object.keys(groupNameCollisions).length;
-            const reviewRequestLink = (
-              parts: Array<string | React.JSX.Element>
-            ): React.JSX.Element => (
-              <TimelineWarning.Link onClick={reviewConversationNameCollision}>
-                {parts}
-              </TimelineWarning.Link>
-            );
-            if (numberOfSharedNames === 1) {
-              const [conversationIds] = [...Object.values(groupNameCollisions)];
-              if (conversationIds.length >= 2) {
-                icon = (
-                  <TimelineWarning.CustomInfo>
-                    {renderCollidingAvatars({ conversationIds })}
-                  </TimelineWarning.CustomInfo>
-                );
-              }
-              text = (
-                <I18n
-                  i18n={i18n}
-                  id="icu:ContactSpoofing__same-name-in-group--link"
-                  components={{
-                    count: conversationIds.length,
-                    reviewRequestLink,
-                  }}
-                />
-              );
-            } else {
-              text = (
-                <I18n
-                  i18n={i18n}
-                  id="icu:ContactSpoofing__same-names-in-group--link"
-                  components={{
-                    count: numberOfSharedNames,
-                    reviewRequestLink,
-                  }}
-                />
-              );
-            }
-            onClose = () => {
-              acknowledgeGroupMemberNameCollisions(id, groupNameCollisions);
-            };
-            break;
-          }
-          default:
-            throw missingCaseError(warning);
-        }
-      }
-
-      headerElements = (
-        <SizeObserver
-          onSizeChange={size => {
-            this.setState({ lastMeasuredWarningHeight: size.height });
-          }}
-        >
-          {measureRef => (
-            <TimelineWarnings ref={measureRef}>
-              {shouldShowMiniPlayer && renderMiniPlayer({ shouldFlow: true })}
-              {!shouldShowMiniPlayer &&
-                shouldShowPinnedMessagesBar &&
-                renderPinnedMessagesBar()}
-              {text && (
-                <TimelineWarning i18n={i18n} onClose={onClose}>
-                  {icon}
-                  <TimelineWarning.Text>{text}</TimelineWarning.Text>
-                </TimelineWarning>
-              )}
-            </TimelineWarnings>
-          )}
-        </SizeObserver>
-      );
-    }
-
     let contactSpoofingReviewDialog: ReactNode;
     if (hasContactSpoofingReview) {
       contactSpoofingReviewDialog = renderContactSpoofingReviewDialog({
@@ -1237,8 +1075,6 @@ export class Timeline extends React.Component<
               onKeyDown={this.#handleKeyDown}
               ref={ref}
             >
-              {headerElements}
-
               {floatingHeader}
 
               <main
@@ -1261,14 +1097,7 @@ export class Timeline extends React.Component<
                       : undefined
                   }
                 >
-                  {haveOldest && (
-                    <>
-                      {Timeline.getWarning(this.props, this.state) && (
-                        <div style={{ height: lastMeasuredWarningHeight }} />
-                      )}
-                      {renderHeroRow(id)}
-                    </>
-                  )}
+                  {haveOldest && renderHeroRow(id)}
 
                   {messageNodes}
 
@@ -1317,31 +1146,6 @@ export class Timeline extends React.Component<
         {contactSpoofingReviewDialog}
       </ScrollerLockContext.Provider>
     );
-  }
-
-  private static getWarning(
-    { warning }: PropsType,
-    state: StateType
-  ): undefined | WarningType {
-    if (!warning) {
-      return undefined;
-    }
-
-    switch (warning.type) {
-      case ContactSpoofingType.DirectConversationWithSameTitle: {
-        const { hasDismissedDirectContactSpoofingWarning } = state;
-        return hasDismissedDirectContactSpoofingWarning ? undefined : warning;
-      }
-      case ContactSpoofingType.MultipleGroupMembersWithSameTitle:
-        return hasUnacknowledgedCollisions(
-          warning.acknowledgedGroupNameCollisions,
-          warning.groupNameCollisions
-        )
-          ? warning
-          : undefined;
-      default:
-        throw missingCaseError(warning);
-    }
   }
 }
 

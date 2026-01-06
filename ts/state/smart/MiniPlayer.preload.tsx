@@ -15,7 +15,7 @@ import {
 } from '../selectors/audioPlayer.preload.js';
 import { getIntl } from '../selectors/user.std.js';
 
-type Props = Pick<DumbProps, 'shouldFlow'>;
+export type SmartMiniPlayerProps = Pick<DumbProps, 'shouldFlow'>;
 
 /**
  * Wires the dispatch props and shows/hides the MiniPlayer
@@ -25,7 +25,7 @@ type Props = Pick<DumbProps, 'shouldFlow'>;
  */
 export const SmartMiniPlayer = memo(function SmartMiniPlayer({
   shouldFlow,
-}: Props): React.JSX.Element | null {
+}: SmartMiniPlayerProps): React.JSX.Element | null {
   const i18n = useSelector(getIntl);
   const active = useSelector(selectAudioPlayerActive);
   const getVoiceNoteTitle = useSelector(selectVoiceNoteTitle);
