@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { type ReactNode } from 'react';
+import React, { useRef, type ReactNode } from 'react';
 import type { LocalizerType } from '../../types/I18N.std.js';
 import { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.js';
 
@@ -50,12 +50,20 @@ export function MessageContextMenu({
   onUnpinMessage,
   children,
 }: MessageContextMenuProps): JSX.Element {
+  const shouldReturnFocusToTrigger = useRef(true);
+
   return (
     <AxoMenuBuilder.Root renderer={renderer} onOpenChange={onOpenChange}>
       <AxoMenuBuilder.Trigger disabled={disabled}>
         {children}
       </AxoMenuBuilder.Trigger>
-      <AxoMenuBuilder.Content>
+      <AxoMenuBuilder.Content
+        onCloseAutoFocus={e => {
+          if (!shouldReturnFocusToTrigger.current) {
+            e.preventDefault();
+          }
+        }}
+      >
         {shouldShowAdditional && (
           <>
             {onDownload && (
@@ -64,7 +72,14 @@ export function MessageContextMenu({
               </AxoMenuBuilder.Item>
             )}
             {onReplyToMessage && (
-              <AxoMenuBuilder.Item symbol="reply" onSelect={onReplyToMessage}>
+              <AxoMenuBuilder.Item
+                symbol="reply"
+                onSelect={() => {
+                  // onReplyToMessage will focus the quill input
+                  shouldReturnFocusToTrigger.current = false;
+                  onReplyToMessage();
+                }}
+              >
                 {i18n('icu:MessageContextMenu__reply')}
               </AxoMenuBuilder.Item>
             )}
@@ -86,7 +101,14 @@ export function MessageContextMenu({
           </AxoMenuBuilder.Item>
         )}
         {onEdit && (
-          <AxoMenuBuilder.Item symbol="pencil" onSelect={onEdit}>
+          <AxoMenuBuilder.Item
+            symbol="pencil"
+            onSelect={() => {
+              // onEdit will focus the quill input
+              shouldReturnFocusToTrigger.current = false;
+              onEdit();
+            }}
+          >
             {i18n('icu:edit')}
           </AxoMenuBuilder.Item>
         )}

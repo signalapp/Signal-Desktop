@@ -2342,5 +2342,12 @@
     "line": "  const listenerRef = useRef(listener);",
     "reasonCategory": "usageTrusted",
     "updated": "2025-12-09T15:37:49.757Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/MessageContextMenu.dom.tsx",
+    "line": "  const shouldReturnFocusToTrigger = useRef(true);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-12-19T16:03:53.849Z"
   }
 ]

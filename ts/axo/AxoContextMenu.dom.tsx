@@ -238,6 +238,7 @@ export namespace AxoContextMenu {
           className={AxoBaseMenu.menuContentStyles}
           alignOffset={-6}
           collisionPadding={6}
+          onCloseAutoFocus={props.onCloseAutoFocus}
         >
           {props.children}
         </ContextMenu.Content>
