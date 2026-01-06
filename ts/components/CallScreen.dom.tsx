@@ -552,6 +552,9 @@ export function CallScreen({
   );
 
   React.useLayoutEffect(() => {
+    if (!isSendingVideo) {
+      return;
+    }
     if (isLonelyInCall && !lonelyCallPreviewRef.current) {
       return;
     }
@@ -571,7 +574,7 @@ export function CallScreen({
         sizeCallback: handleSize,
       });
     }
-  }, [handleSize, isLonelyInCall, setLocalPreviewContainer]);
+  }, [isSendingVideo, handleSize, isLonelyInCall, setLocalPreviewContainer]);
 
   const { selfViewExpanded } = activeCall;
   const previousSelfViewExpanded = usePrevious(

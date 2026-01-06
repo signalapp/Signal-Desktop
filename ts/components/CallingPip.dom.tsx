@@ -480,6 +480,9 @@ export function CallingPip({
   );
 
   React.useLayoutEffect(() => {
+    if (!isSendingVideo) {
+      return;
+    }
     if (isLonelyInCall && !lonelyCallPreviewRef.current) {
       return;
     }
@@ -499,7 +502,7 @@ export function CallingPip({
         sizeCallback: handleSize,
       });
     }
-  }, [handleSize, isLonelyInCall, setLocalPreviewContainer]);
+  }, [isSendingVideo, handleSize, isLonelyInCall, setLocalPreviewContainer]);
 
   if (isLonelyInCall) {
     remoteVideoNode = (
