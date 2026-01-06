@@ -140,6 +140,12 @@ export async function sendNormalMessage(
     return;
   }
 
+  log.info(
+    'Sending normal message;',
+    `editedMessageTimestamp=${editedMessageTimestamp},`,
+    `storyMessage=${Boolean(message.attributes.storyId)}`
+  );
+
   // The original timestamp for this message
   const messageTimestamp = getMessageSentTimestamp(message.attributes, {
     includeEdits: false,
