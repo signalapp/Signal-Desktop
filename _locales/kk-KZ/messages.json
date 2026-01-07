@@ -540,7 +540,7 @@
     "messageformat": "\"Жіберу\" түймесін басқанда, сіздің журналыңыз 30 күнге бірегей жарияланбаған URL мекенжайына жарияланады. Оны алдымен жергілікті сақтап қоюыңызға болады."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "Бұл журнал баршаға ашық жарияланады және үлес қосушылар оны онлайн көре алады. Жібермес бұрын оны жүктеп алуыңызға болады."
   },
   "icu:debugLogError": {
     "messageformat": "Жүктеп салу кезінде бірдеңе дұрыс болмады! support@signal.org электрондық мекенжайына хат жазып, журналыңызды мәтіндік файл ретінде тіркеңіз."
@@ -1245,16 +1245,16 @@
     "messageformat": "Бекіту"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "Ең ескі бекітілген хабарды ауыстыру керек пе?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "Бұл хабарды бекітсеңіз, ол ескі хабардың орнын басады."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Бас тарту"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Жалғастыру"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Бекітілген хабар} other {Бекітілген хабарлар}}"
@@ -1326,16 +1326,16 @@
     "messageformat": "Барлық хабарды босату"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "Барлық хабарды босату керек пе?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "Хабарлар осы чаттың мүшелері үшін босатылады."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Бас тарту"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "Босату"
   },
   "icu:sessionEnded": {
     "messageformat": "Қауіпсіз сеанс қалпына келтірілді"
@@ -2568,10 +2568,10 @@
     "messageformat": "Сіз {recipient} деген кісіге демеу бердіңіз"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} хабарды бекітті"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Хабарды бекіттіңіз"
   },
   "icu:message--donation": {
     "messageformat": "Демеушілік"
@@ -7570,13 +7570,13 @@
     "messageformat": "Осы ақауға қатысты деректердің барлығын енгізіңіз. Осы жерде бөліскен ақпаратыңыздың барлығы құпия сақталады және Signal-дағы қоңыраулар сапасын жақсарту үшін ғана қолданылады."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "Мәселеңізді сипаттаңыз"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "Жалғастыру"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "Жалғастыру үшін таңдау жасаңыз"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Сапаны жақсартуға көмектесіңіз"
@@ -7597,16 +7597,16 @@
     "messageformat": "Жіберу"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "Сауалнама жіберіліп жатыр..."
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "Сауалнама жіберілмеді"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "Қайталап көру"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "Пікіріңіз үшін рақмет!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Бұл нұсқада Signal-дың еш кінәратсыз жұмыс істеуіне қажетті бірнеше шағын түзетпе жасалды және ақаулар түзетілді.",
@@ -7637,6 +7637,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Жұмыс үстеліндегі Signal сауалнамалары енді телефоныңызда шығып жүрген жеңіл анимациялық эффектілерді қамтиды. Таңдаулы нұсқаның айқын алға шыққанын көру үшін сауалнамаға қатысу жеткілікті."
   }
 }

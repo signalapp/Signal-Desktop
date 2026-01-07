@@ -540,7 +540,7 @@
     "messageformat": "Όταν πατήσεις Υποβολή, το αρχείο καταγραφής θα αναρτηθεί στο διαδίκτυο για 30 ημέρες, σε ένα μοναδικό και μη δημοσιευμένο σύνδεσμο URL. Μπορείς να το αποθηκεύσεις πρώτα τοπικά."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "Αυτό το αρχείο καταγραφής συμβάντων θα αναρτηθεί δημόσια στο διαδίκτυο για προβολή από τους συνεισφέροντες. Μπορείς να το εξετάσεις πριν το υποβάλλεις."
   },
   "icu:debugLogError": {
     "messageformat": "Κάτι πήγε στραβά με τη φόρτωση του αρχείου! Παρακαλώ στείλε email στο support@signal.org και επισύναψε το αρχείο καταγραφής σου ως αρχείο κειμένου."
@@ -1245,16 +1245,16 @@
     "messageformat": "Καρφίτσωμα"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "Αντικατάσταση του παλαιότερου καρφιτσωμένου μηνύματος;"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "Το καρφίτσωμα αυτού του μηνύματος θα αντικαταστήσει το παλαιότερο."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Ακύρωση"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Συνέχεια"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Καρφιτσωμένo μήνυμα} other {Καρφιτσωμένα μηνύματα}}"
@@ -1326,16 +1326,16 @@
     "messageformat": "Κατάργηση καρφιτσώματος για όλα τα μηνύματα"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "Κατάργηση καρφιτσώματος για όλα τα μηνύματα;"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "Τα καρφιτσωμένα μηνύματα θα καταργηθούν για τα μέλη αυτής της συνομιλίας."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Ακύρωση"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "Ξεκαρφίτσωμα"
   },
   "icu:sessionEnded": {
     "messageformat": "Η ασφαλής σύνδεση επανεκκινήθηκε"
@@ -2568,10 +2568,10 @@
     "messageformat": "Έκανες δωρεά για τον/την {recipient}"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "Ο χρήστης {sender} καρφίτσωσε ένα μήνυμα"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Καρφίτσωσες ένα μήνυμα"
   },
   "icu:message--donation": {
     "messageformat": "Δωρεά"
@@ -7570,13 +7570,13 @@
     "messageformat": "Πρόσθεσε τυχόν λεπτομέρειες σχετικές με το πρόβλημα. Οτιδήποτε κοινοποιείς εδώ θα παραμείνει ιδιωτικό και θα χρησιμοποιηθεί μόνο για τη βελτίωση των κλήσεων στο Signal."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "Περίγραψε το πρόβλημά σου"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "Συνέχεια"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "Κάνε μία επιλογή για να συνεχίσεις"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Βοήθησέ μας να βελτιωθούμε"
@@ -7597,16 +7597,16 @@
     "messageformat": "Υποβολή"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "Υποβολή έρευνας..."
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "Αποτυχία υποβολής της έρευνας"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "Επανάληψη"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "Ευχαριστούμε για τα σχόλιά σου!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Αυτή η έκδοση περιλαμβάνει διάφορες μικρές βελτιώσεις και αποσφαλματώσεις για να συνεχίσει το Signal να λειτουργεί ομαλά.",
@@ -7637,6 +7637,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Οι δημοσκοπήσεις Signal στην επιφάνεια εργασίας περιλαμβάνουν πλέον τα ίδια ανεπαίσθητα εφέ κίνησης που εμφανίζονταν ήδη στο τηλέφωνό σου."
   }
 }

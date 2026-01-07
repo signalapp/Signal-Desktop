@@ -540,7 +540,7 @@
     "messageformat": "நீங்கள் சமர்ப்பி என்பதைக் கிளிக் செய்யும் போது, ​​உங்கள் பதிவு 30 நாட்களுக்கு ஒரு தனித்துவமான, வெளியிடப்படாத இணைப்பு மூலம் ஆன்லைனில் வெளியிடப்படும். நீங்கள் முதலில் அதை உள்நிலையில் சேமிக்கலாம்."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "பங்களிப்பாளர்கள் பார்ப்பதற்காக இந்தப் பதிவு ஆன்லைனில் பொதுவில் வெளியிடப்படும். சமர்ப்பிப்பதற்கு முன் நீங்கள் அதைப் பதிவிறக்கலாம்."
   },
   "icu:debugLogError": {
     "messageformat": "பதிவேற்றத்தில் ஏதோ தவறு நடந்துவிட்டது! support@signal.org க்கு மின்னஞ்சல் செய்து உங்கள் பதிவை உரைக் கோப்பாக இணைக்கவும்."
@@ -1245,16 +1245,16 @@
     "messageformat": "பின்செய்"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "பழைய பின்னை மாற்றவா?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "ஒரு மெசேஜைப் பின் செய்வது, மிகப் பழைய ஒன்றை மாற்றியமைக்கும்."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "ரத்துசெய்"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "தொடர்க"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {பின் செய்யப்பட்ட மெசேஜ்} other {பின் செய்யப்பட்ட மெசேஜ்கள்}}"
@@ -1326,16 +1326,16 @@
     "messageformat": "அனைத்து மெசேஜ்களின் பின்னையும் அகற்றுக"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "அனைத்து மெசேஜ்களின் பின்னையும் அகற்றவா?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "இந்த சாட் உறுப்பினர்களுக்கு பின் செய்யப்பட்டுள்ள மெசேஜ்கள் நீக்கப்படும்."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "ரத்துசெய்"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "பின்னை அகற்று"
   },
   "icu:sessionEnded": {
     "messageformat": "பாதுகாப்பான அமர்வு மீட்டமைப்பு"
@@ -2568,10 +2568,10 @@
     "messageformat": "நீங்கள் {recipient} க்காக நன்கொடை அளித்துள்ளீர்கள்"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} என்பவர் ஒரு மெசேஜைப் பின் செய்துள்ளார்"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "ஒரு மெசேஜைப் பின் செய்துள்ளீர்கள்"
   },
   "icu:message--donation": {
     "messageformat": "நன்கொடை"
@@ -7570,13 +7570,13 @@
     "messageformat": "சிக்கலுடன் தொடர்புடைய எந்த விவரங்களையும் சேர்த்திடுங்கள். நீங்கள் இங்கு பகிரும் அனைத்தும் தனிப்பட்டதாக வைக்கப்படும் மற்றும் சிக்னலில் அழைப்புகளை மேம்படுத்தும் நோக்கத்திற்கு மட்டுமே பயன்படுத்தப்படும்."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "நீங்கள் எதிர்கொள்ளும் சிக்கல் குறித்து விவரித்திடுங்கள்"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "தொடர்க"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "தொடர, ஒரு தேர்வு செய்யவும்"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "மேம்படுத்த எங்களுக்கு உதவுங்கள்"
@@ -7597,16 +7597,16 @@
     "messageformat": "சமர்ப்பி"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "கருத்துக்கணிப்பைச் சமர்ப்பிக்கிறது..."
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "கருத்துக்கணிப்பைச் சமர்ப்பிக்க முடியவில்லை"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "மீண்டும் முயற்சி செய்"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "நீங்கள் வழங்கிய கருத்துக்கு நன்றி!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "இந்த பதிப்பில் சிக்னலை சீராக இயங்க வைக்க பல சிறிய மாற்றங்கள் மற்றும் பிழை திருத்தங்கள் உள்ளன.",
@@ -7637,6 +7637,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "சிக்னல் வாக்கெடுப்புகளுக்கான மேம்படுத்தப்பட்ட அனிமேஷன்."
   }
 }

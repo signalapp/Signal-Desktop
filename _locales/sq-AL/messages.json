@@ -540,7 +540,7 @@
     "messageformat": "Kur klikoni mbi Parashtroje, regjistri juaj do të postohet në internet për 30 ditë, te një URL unike, e pabotuar më parë. Mundeni ta Ruani lokalisht, së pari."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "Regjistri do të postohet publikisht në internet që ta shohin kontribuesit. Mund ta shkarkosh përpara se ta dërgosh."
   },
   "icu:debugLogError": {
     "messageformat": "Diç shkoi ters me ngarkimin! Ju lutemi, dërgoni një email te support@signal.org dhe bashkëngjitni si një kartelë tekst regjistrin tuaj."
@@ -1245,16 +1245,16 @@
     "messageformat": "Fiksoji"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "Të zëvendësohet mesazhi më i vjetër i fiksuar?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "Fiksimi i këtij mesazhi do të zëvendësojë mesazhin më të vjetër."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Anulo"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Vazhdo"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Mesazh i fiksuar} other {Mesazhe të fiksuara}}"
@@ -1326,16 +1326,16 @@
     "messageformat": "Hiq të gjitha mesazhet e fiksuara"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "Të hiqen të gjitha mesazhet e fiksuara?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "Mesazhet e fiksuara do të hiqen për anëtarët e kësaj bisede."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Anulo"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "Çfiksoji"
   },
   "icu:sessionEnded": {
     "messageformat": "U rinis sesion i siguruar"
@@ -2568,10 +2568,10 @@
     "messageformat": "Ti dhurove për {recipient}"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} ka fiksuar një mesazh"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Ke fiksuar një mesazh"
   },
   "icu:message--donation": {
     "messageformat": "Dhurim"
@@ -7570,13 +7570,13 @@
     "messageformat": "Të lutem, përfshi çdo detaj që lidhet me çështjen. Çdo gjë që ndan këtu do të mbahet private dhe do të përdoret vetëm për të ndihmuar në përmirësimin e thirrjeve në Signal."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "Të lutem, përshkruaj problemin"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "Vazhdo"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "Përzgjidh për të vazhduar"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Na ndihmo të përmirësohemi"
@@ -7597,16 +7597,16 @@
     "messageformat": "Parashtrojeni"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "Duke dërguar anketën..."
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "Dërgimi i anketës dështoi"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "Riprovo"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "Faleminderit për përshtypjet!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ky version përmban një numër përimtimesh të vockla dhe ndreqje të metash për ta mbajtur të rrjedhshme punën e Signal-it.",
@@ -7637,6 +7637,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Sondazhet e Signal në Desktop tani përfshijnë të njëjtat efekte delikate animacioni që shfaqeshin në telefon. Shikimi i zgjedhjes së preferuar është thjesht një sondazh larg."
   }
 }

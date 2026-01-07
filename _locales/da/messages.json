@@ -540,7 +540,7 @@
     "messageformat": "Når du klikker på Indsend, bliver din log lagt online i 30 dage på en unik, ikke-offentliggjort URL-adresse. Du kan gemme den lokalt først."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "Denne log vil blive offentliggjort online, så bidragydere kan se den. Du kan downloade den før indsendelse."
   },
   "icu:debugLogError": {
     "messageformat": "Noget gik galt med upload! Send venligst en e-mail til support@signal.org og vedhæft din log som en tekstfil."
@@ -1245,16 +1245,16 @@
     "messageformat": "Fastgør"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "Vil du erstatte den ældste fastgjorte besked?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "Hvis du fastgør denne besked, erstattes den ældste."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Annullér"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Fortsæt"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Fastgjort besked} other {Fastgjorte beskeder}}"
@@ -1326,16 +1326,16 @@
     "messageformat": "Frigør alle beskeder"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "Vil du frigøre alle beskeder?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "Fastgjorte beskeder frigøres for medlemmer af denne chat."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Annullér"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "Frigør"
   },
   "icu:sessionEnded": {
     "messageformat": "Nulstilling af sikker session"
@@ -2568,10 +2568,10 @@
     "messageformat": "Du donerede for {recipient}"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} har fastgjort en besked"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Besked fastgjort"
   },
   "icu:message--donation": {
     "messageformat": "Donation"
@@ -7570,13 +7570,13 @@
     "messageformat": "Inkluder venligst alle oplysninger, der er relevante for problemet. Din information holdes fortrolig og bruges kun til at forbedre opkald i Signal."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "Beskriv dit problem"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "Fortsæt"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "Foretag et valg for at fortsætte"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Hjælp os med at blive bedre"
@@ -7597,16 +7597,16 @@
     "messageformat": "Indsend"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "Indsender undersøgelse…"
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "Kunne ikke indsende undersøgelsen"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "Prøv igen"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "Tak for din feedback!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Denne version indeholder en række småjusteringer og fejlrettelser som sikrer, at Signal kører problemfrit.",
@@ -7637,6 +7637,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Afstemninger i Signal på computer har nu de samme diskrete animationer som på din telefon. Det kræver kun en afstemning at se dit favoritvalg trække fra."
   }
 }

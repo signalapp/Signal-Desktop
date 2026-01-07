@@ -540,7 +540,7 @@
     "messageformat": "\"Bidali\" sakatzen duzunean, erregistroa sarera kargatuko da 30 egunez, argitaratu gabeko URL esklusibo batean. Lehenik, gailuan gorde dezakezu."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "Erregistro hau publikoki argitaratuko da, laguntzaileek ikus dezaten. Bidali aurretik, deskargatu egin dezakezu."
   },
   "icu:debugLogError": {
     "messageformat": "Arazoren bat izan da kargatzean! Bidali mezu elektroniko bat support@signal.org helbidera eta erantsi erregistroa testu-fitxategi gisa."
@@ -1245,16 +1245,16 @@
     "messageformat": "Ainguratu"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "Aingura zaharrena ordeztu nahi duzu?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "Mezua ainguratzen baduzu, zaharrena ordeztu egingo da"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Utzi"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Jarraitu"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Ainguratutako mezua} other {Ainguratutako mezuak}}"
@@ -1326,16 +1326,16 @@
     "messageformat": "Kendu mezu guztien aingurak"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "Mezu guztien aingurak kendu nahi dituzu?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "Mezuen aingurak txat honetako kide guztientzat kenduko dira."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Utzi"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "Kendu aingura"
   },
   "icu:sessionEnded": {
     "messageformat": "Saio segurua berrezarri da"
@@ -2568,10 +2568,10 @@
     "messageformat": "{recipient} erabiltzaileari dohaintza bat egin diozu"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender}(e)k mezu bat ainguratu du"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Mezu bat ainguratu duzu"
   },
   "icu:message--donation": {
     "messageformat": "Dohaintza"
@@ -7570,13 +7570,13 @@
     "messageformat": "Adierazi arazoarekin lotutako xehetasun guztiak. Hemen partekatzen duzun guztia pribatu mantenduko da, eta Signal-eko deiak hobetzeko bakarrik erabiliko da."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "Mesedez, azaldu arazoa"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "Jarraitu"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "Jarraitzeko, hautatu zerbait"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Lagun iezaguzu hobetzen"
@@ -7597,16 +7597,16 @@
     "messageformat": "Bidali"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "Inkesta bidaltzen…"
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "Ezin izan da bidali inkesta"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "Saiatu berriro"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "Eskerrik asko iritziarengatik!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bertsio honek hainbat doikuntza txiki eta akats konpontzen ditu Signal-ek ondo funtzionatzen jarraitzeko.",
@@ -7637,6 +7637,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Signal-eko galdeketetako animazioak hobetu egin dira."
   }
 }

@@ -540,7 +540,7 @@
     "messageformat": "Apabila anda klik Hantar, log anda akan disiarkan selama 30 hari pada URL unik, tidak diterbitkan. Anda boleh Simpan ia secara tempatan dahulu."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "Log ini akan disiarkan secara terbuka dalam talian untuk dilihat oleh penyumbang. Anda boleh memuat turun fail ini sebelum menghantar."
   },
   "icu:debugLogError": {
     "messageformat": "Ada sesuatu yang tidak kena dengan muat naik! Sila e-mel support@signal.org dan lampirkan log anda sebagai fail teks."
@@ -1245,16 +1245,16 @@
     "messageformat": "Pin"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "Gantikan pin paling lama?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "Mengepin mesej ini akan menggantikan mesej yang paling lama."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Batal"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Teruskan"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, other {Mesej yang dipinkan}}"
@@ -1326,16 +1326,16 @@
     "messageformat": "Nyahpin Semua Mesej"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "Nyahpin semua mesej?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "Mesej akan dinyahpin untuk ahli sembang ini."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Batal"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "Nyahpin"
   },
   "icu:sessionEnded": {
     "messageformat": "Penetapan semula sesi selamat"
@@ -2568,10 +2568,10 @@
     "messageformat": "Anda menderma untuk {recipient}"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} mengepin mesej"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Anda mengepin mesej"
   },
   "icu:message--donation": {
     "messageformat": "Derma"
@@ -7570,13 +7570,13 @@
     "messageformat": "Sila sertakan sebarang butiran yang berkaitan dengan isu tersebut. Segala maklumat yang anda kongsikan di sini akan dirahsiakan dan hanya digunakan untuk membantu menambah baik panggilan di Signal."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "Sila nyatakan isu anda"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "Teruskan"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "Buat pilihan untuk meneruskan"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Bantu kami menjadi lebih baik"
@@ -7597,16 +7597,16 @@
     "messageformat": "Hantar"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "Menghantar survei..."
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "Gagal menghantar survei"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "Cuba Semula"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "Terima kasih atas maklum balas anda!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Versi ini mengandungi sedikit tweak kecil dan pembetulan pepijat untuk memastikan Signal berjalan dengan lancar.",
@@ -7637,6 +7637,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Animasi untuk undian Signal dipertingkatkan."
   }
 }

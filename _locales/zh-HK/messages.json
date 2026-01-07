@@ -540,7 +540,7 @@
     "messageformat": "當你點擊提交時，你的日誌將在一個唯一的、未發布的 URL 上在線發布 30 天。你可以先將其保存在本地。"
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "此記錄將公開發布於線上供貢獻者查閱。你可在提交前下載該檔案。"
   },
   "icu:debugLogError": {
     "messageformat": "上傳出了點問題！ 請傳送電子郵件至 support@signal.org 並將你的日誌作為文字檔案附上。"
@@ -1245,16 +1245,16 @@
     "messageformat": "釘選"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "要取代最舊的釘選訊息嗎？"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "正在釘選的訊息會取代最舊的訊息。"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "取消"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "繼續"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, other {已釘選的訊息}}"
@@ -1326,16 +1326,16 @@
     "messageformat": "取消釘選所有訊息"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "要取消釘選所有訊息嗎？"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "此聊天群組成員的訊息將被取消釘選。"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "取消"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "取消釘選"
   },
   "icu:sessionEnded": {
     "messageformat": "安全對話重設"
@@ -2568,10 +2568,10 @@
     "messageformat": "你已為 {recipient} 捐款"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender}已釘選訊息"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "你已釘選訊息"
   },
   "icu:message--donation": {
     "messageformat": "捐款"
@@ -7570,13 +7570,13 @@
     "messageformat": "請提供與問題相關的任何詳細資訊。你在此分享的任何內容都將保密，並僅用於協助改善 Signal 中的通話。"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "請描述你的問題"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "繼續"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "選一個項目以便繼續"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "幫助我們改進"
@@ -7597,16 +7597,16 @@
     "messageformat": "送出"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "正在提交調查問卷..."
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "提交調查問卷失敗"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "重試"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "感謝你的意見！"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "此版本包含許多小調整和錯誤修復，以維持 Signal 穩定運作。",
@@ -7637,6 +7637,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "桌面版 Signal 的投票現已包括與手機版相同的細緻動畫效果。看著你最喜愛的選項拉開距離，只需一次投票。"
   }
 }

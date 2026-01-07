@@ -540,7 +540,7 @@
     "messageformat": "Po kliknutí na tlačítko Odeslat bude váš protokol zveřejněn online po dobu 30 dnů na jedinečné neveřejné adrese URL. Nejprve jej můžete uložit lokálně."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "Tento protokol bude zveřejněn online, aby si jej mohli přispěvatelé prohlédnout. Před odesláním si jej můžete stáhnout."
   },
   "icu:debugLogError": {
     "messageformat": "Při nahrávání se něco pokazilo! Pošlete prosím e-mail na adresu support@signal.org a přiložte protokol jako textový soubor."
@@ -1245,16 +1245,16 @@
     "messageformat": "Připnout"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "Nahradit nejstarší připnutou zprávu?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "Připnutí této zprávy nahradí nejstarší zprávu."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Zrušit"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Pokračovat"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {připnutá zpráva} few {připnuté zprávy} many {připnutých zpráv} other {připnutých zpráv}}"
@@ -1326,16 +1326,16 @@
     "messageformat": "Odepnout všechny zprávy"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "Odepnout všechny zprávy?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "Zprávy budou pro členy tohoto chatu odepnuty."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Zrušit"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "Odepnout"
   },
   "icu:sessionEnded": {
     "messageformat": "Zabezpečená relace byla resetována"
@@ -2568,10 +2568,10 @@
     "messageformat": "Přispěli jste za uživatele {recipient}"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} připnul/a zprávu"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Připnuli jste zprávu"
   },
   "icu:message--donation": {
     "messageformat": "Příspěvek"
@@ -7570,13 +7570,13 @@
     "messageformat": "Uveďte prosím všechny podrobnosti, které se k problému vztahují. Vše, co zde sdílíte, zůstane soukromé a bude použito pouze ke zlepšení hovorů v aplikaci Signal."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "Popište prosím svůj problém"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "Pokračovat"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "Vyberte možnost pro pokračování"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Pomozte nám s vylepšováním"
@@ -7597,16 +7597,16 @@
     "messageformat": "Odeslat"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "Odesílání dotazníku…"
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "Dotazník se nepodařilo odeslat"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "Zkusit znovu"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "Děkujeme vám za zpětnou vazbu!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Tato verze obsahuje řadu drobných vylepšení a oprav chyb, aby Signal fungoval bez problémů.",
@@ -7637,6 +7637,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Vylepšená animace pro ankety Signal."
   }
 }

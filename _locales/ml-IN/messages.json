@@ -540,7 +540,7 @@
     "messageformat": "സമർപ്പിക്കുക എന്നതിൽ നിങ്ങൾ ക്ലിക്ക് ചെയ്യുമ്പോൾ, നിങ്ങളുടെ ലോഗ് 30 ദിവസത്തേക്ക് തനതും പ്രസിദ്ധീകരിക്കാത്തതുമായ ഒരു URL-ൽ ഓൺലൈനിൽ പോസ്റ്റ് ചെയ്യും. നിങ്ങൾ അത് ആദ്യം പ്രാദേശികമായി സംരക്ഷിക്കേണ്ടതാണ്."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "സംഭാവന ചെയ്യുന്നവർക്ക് കാണുന്നതിനായി ഈ ലോഗ് പബ്ലിക്കായി ഓൺലൈനിൽ പോസ്റ്റ് ചെയ്യുന്നതാണ്. സമർപ്പിക്കുന്നതിന് മുമ്പ് നിങ്ങൾക്ക് ഇത് ഡൗൺലോഡ് ചെയ്യാം."
   },
   "icu:debugLogError": {
     "messageformat": "അപ്‌ലോഡ് ചെയ്‌തതിൽ എന്തോ കുഴപ്പം സംഭവിച്ചു! നിങ്ങളുടെ ലോഗ് ഒരു ടെക്സ്റ്റ് ഫയലായി അറ്റാച്ച് ചെയ്‌ത്, support@signal.org എന്ന വിലാസത്തിലേക്ക് ഇമെയിൽ അയയ്‌ക്കുക."
@@ -1245,16 +1245,16 @@
     "messageformat": "പിൻ ചെയ്യുക"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "പിൻ ചെയ്തിരിക്കുന്ന ഏറ്റവും പഴയത് മാറ്റണോ?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "ഈ സന്ദേശം പിൻ ചെയ്യുന്നത് ഏറ്റവും പഴയതിന് പകരമായി മാറും."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "റദ്ദാക്കുക"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "തുടരുക"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {പിൻ ചെയ്ത സന്ദേശം} other {പിൻ ചെയ്ത സന്ദേശങ്ങൾ}}"
@@ -1326,16 +1326,16 @@
     "messageformat": "എല്ലാ സന്ദേശങ്ങളും അൺപിൻ ചെയ്യുക"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "എല്ലാ സന്ദേശങ്ങളും അൺപിൻ ചെയ്യണോ?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "ഈ ചാറ്റിലെ അംഗങ്ങൾക്കായി സന്ദേശങ്ങൾ അൺപിൻ ചെയ്യപ്പെടും."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "റദ്ദാക്കുക"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "അൺപിൻ ചെയ്യുക"
   },
   "icu:sessionEnded": {
     "messageformat": "സെഷൻ പുനഃക്രമീകരിക്കുക സുരക്ഷിതമാക്കുക "
@@ -2568,10 +2568,10 @@
     "messageformat": "നിങ്ങൾ {recipient} എന്നയാൾക്ക് സംഭാവന നൽകി"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} ഒരു സന്ദേശം പിൻ ചെയ്തു"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "നിങ്ങൾ ഒരു സന്ദേശം പിൻ ചെയ്തു"
   },
   "icu:message--donation": {
     "messageformat": "സംഭാവന"
@@ -7570,13 +7570,13 @@
     "messageformat": "പ്രശ്നവുമായി ബന്ധപ്പെട്ട എന്തെങ്കിലും വിശദാംശങ്ങൾ ഉൾപ്പെടുത്തുക. നിങ്ങൾ ഇവിടെ പങ്കിടുന്ന എന്തും സ്വകാര്യമായി സൂക്ഷിക്കും, Signal-ലെ കോളുകൾ മെച്ചപ്പെടുത്താൻ മാത്രമേ അത് ഉപയോഗിക്കൂ."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "നിങ്ങളുടെ പ്രശ്നം വിവരിക്കുക"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "തുടരുക"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "തുടരാൻ ഒന്ന് തിരഞ്ഞെടുക്കുക"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "മെച്ചപ്പെടുത്താൻ ഞങ്ങളെ സഹായിക്കൂ"
@@ -7597,16 +7597,16 @@
     "messageformat": "സമർപ്പിക്കുക"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "സർവേ സമർപ്പിക്കുന്നു..."
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "സർവേ സമർപ്പിക്കുന്നതിൽ പരാജയപ്പെട്ടു"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "വീണ്ടും ശ്രമിക്കുക"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "നിങ്ങളുടെ പ്രതികരണത്തിന് നന്ദി!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal സുഗമമായി പ്രവർത്തിപ്പിക്കുന്നതിന് ആവശ്യമായ ഏതാനും ചെറിയ മാറ്റങ്ങളും ബഗ് ഫിക്‌സുകളും ഈ പതിപ്പിൽ അടങ്ങിയിട്ടുണ്ട്.",
@@ -7637,6 +7637,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "ഡെസ്‌ക്‌ടോപ്പിലെ Signal പോളുകളിൽ ഇപ്പോൾ നിങ്ങളുടെ ഫോണിൽ ദൃശ്യമാകുന്ന അതേ സൂക്ഷ്മമായ ആനിമേഷൻ ഇഫക്റ്റുകൾ ഉൾപ്പെടുന്നു. പോളിൽ പങ്കെടുക്കുന്നതിലൂടെ നിങ്ങൾക്ക് പ്രിയപ്പട്ടവയെ മുൻനിരയിലെത്തിക്കാൻ നിങ്ങൾക്കാകും."
   }
 }

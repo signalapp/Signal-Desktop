@@ -540,7 +540,7 @@
     "messageformat": "Kapag na-click mo na ang Submit, ang iyong log ay ipo-post sa isang unique, unpublished URL online sa loob ng 30 days. Maaari mo muna itong i-Save locally."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "Ipapakita sa lahat online ang log na ito para makita ng contributors. Maaari mo itong i-download bago i-submit."
   },
   "icu:debugLogError": {
     "messageformat": "Something went wrong with the upload! Mag-email sa support@signal.org at i-attach ang iyong log as a text file."
@@ -1245,16 +1245,16 @@
     "messageformat": "I-pin"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "Palitan ang pinakalumang pin?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "Ang pag-pin ng message na ito ay papalitan ang pinakalumang naka-pin."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "I-cancel"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Magpatuloy"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Pinned message} other {Pinned messages}}"
@@ -1326,16 +1326,16 @@
     "messageformat": "I-unpin Lahat ng Messages"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "Gusto mo bang i-unpin ang lahat ng messages?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "Tatanggalin ang mga naka-pin na message para sa members ng chat na ito."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "I-cancel"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "I-unpin"
   },
   "icu:sessionEnded": {
     "messageformat": "Nai-reset na ang secure session"
@@ -2568,10 +2568,10 @@
     "messageformat": "Nag-donate ka para kay {recipient}"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "Si {sender} ay nag-pin ng message"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Nag-pin ka ng message"
   },
   "icu:message--donation": {
     "messageformat": "Donation"
@@ -7570,13 +7570,13 @@
     "messageformat": "Pakisama ang anumang detalye na may kaugnayan sa isyu. Anumang ibinahagi mo rito ay mapapanatiling pribado at gagamitin lamang para sa pagpapabuti ng mga tawag dito sa Signal."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "Pakilarawan ang isyu mo"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "Magpatuloy"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "Pumili para maagpatuloy"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Tulungan kaming mag-improve"
@@ -7597,16 +7597,16 @@
     "messageformat": "Isumite"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "Sinu-submit ang survey..."
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "Hindi na-submit ang survey"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "Subukang muli"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "Maraming salamat sa feedback mo!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ang version na ito'y may small tweaks at bug fixes to keep Signal running smoothly.",
@@ -7637,6 +7637,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Mas pinagandang animation para sa Signal polls."
   }
 }

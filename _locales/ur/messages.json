@@ -540,7 +540,7 @@
     "messageformat": "آپ کے جمع کروائیں پر کلک کرنے پر، آپ کا لاگ ایک منفرد، غیر پبلش شدہ URL پر 30 دنوں کے لیے آن لائن پوسٹ کر دیا جائے گا۔ آپ پہلے اسے مقامی طور پر محفوظ کر سکتے ہیں۔"
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "یہ لاگ عوامی طور پر آن لائن شائع کیا جائے گا تاکہ معاونین اسے دیکھیں۔ آپ اسے جمع کروانے سے پہلے ڈاؤن لوڈ کر سکتے ہیں۔"
   },
   "icu:debugLogError": {
     "messageformat": "اپ لوڈ کے ساتھ کوئی خرابی واقع ہو گئی ہے! براہ کرم support@signal.org پر ای میل کریں اور متنی فائل کے طور پر اپنا لاگ منسلک کریں۔"
@@ -1245,16 +1245,16 @@
     "messageformat": "پِن کریں"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "پرانا پِن تبدیل کریں؟"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "اس میسج کو پِن کرنے سے سب سے پرانا میسج ہٹ جائے گا۔"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "منسوخ کریں"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "جاری رکھیں"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {پِن کردہ میسج} other {پِن کردہ میسجز}}"
@@ -1326,16 +1326,16 @@
     "messageformat": "تمام میسجز اَن پِن کریں"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "تمام میسجز اَن پِن کریں؟"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "اس چیٹ کے ممبرز کے لیے میسجز ان پِن کر دیے جائیں گے۔"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "منسوخ کریں"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "ان پِن کریں"
   },
   "icu:sessionEnded": {
     "messageformat": "محفوظ سیشن ری سیٹ کریں"
@@ -2568,10 +2568,10 @@
     "messageformat": "آپ نے {recipient} کے لیے عطیہ کیا ہے"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} نے ایک میسج پِن کیا ہے"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "آپ نے ایک میسج پِن کیا ہے"
   },
   "icu:message--donation": {
     "messageformat": "عطیہ"
@@ -7570,13 +7570,13 @@
     "messageformat": "براہ کرم مسئلے سے متعلق کوئی تفصیلات شامل کریں۔ آپ جو کچھ یہاں شیئر کرتے ہیں اسے مخفی رکھا جائے گا اور صرف Signal میں کالز کو بہتر بنانے میں استعمال کیا جائے گا۔"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "براہ کرم اپنا مسئلہ بیان کریں"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "جاری رکھیں"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "جاری رکھنے کے لیے کوئی انتخاب کریں"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "بہتر بننے میں ہماری مدد کریں"
@@ -7597,16 +7597,16 @@
     "messageformat": "جمح کریں"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "سروے جمع کروایا جا رہا ہے…"
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "سروے جمع کروانے میں ناکامی ہوئی"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "دوبارہ کوشش کریں"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "آپ کی رائے کا شکریہ!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "یہ ورژن Signal کو بے خلل طور پر چلتا رکھنے کے لیے کچھ معمولی تبدیلیوں اور بگ درستگیوں پر مشتمل ہے۔",
@@ -7637,6 +7637,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Signal کی رائے شماریوں کے لیے بہتر کردہ اینیمیشن۔"
   }
 }

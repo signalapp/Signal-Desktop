@@ -540,7 +540,7 @@
     "messageformat": "Ukibonyeza Wasilisha, logi yako itachapishwa mtandaoni kwa siku 30 katika anuani ya URL ya kipekee ambayo haijachapishwa. Unaweza kuihifadhi kwenye simu kwanza."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "Kumbukumbu hii itachapishwa hadharani mtandaoni ili wachangiaji watazame. Unaweza kuipakua kabla hujawasilisha."
   },
   "icu:debugLogError": {
     "messageformat": "Kuna hitilafu katika upakiaji! Tafadhali tuma barua pepe kwa support@signal.org  na uambatanishe na logi yako kama faili ya maandishi."
@@ -1245,16 +1245,16 @@
     "messageformat": "Pin"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "Ungependa kubadilisha ujumbe wa zamani zaidi uliobandika?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "Kubandika ujumbe huu kutabadilisha ujumbe wa zamani zaidi."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Ghairi"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Endelea"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Ujumbe uliobandikwa} other {Jumbe zilizobandikwa}}"
@@ -1326,16 +1326,16 @@
     "messageformat": "Bandua Jumbe Zote"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "Bandua jumbe zote?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "Jumbe zitabanduliwa kwa wanachama wa gumzo hili."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Ghairi"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "Bandua"
   },
   "icu:sessionEnded": {
     "messageformat": "Kipindi salama kimewekwa upya"
@@ -2568,10 +2568,10 @@
     "messageformat": "Umemchangia {recipient}"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} amebandika ujumbe"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Umebandika ujumbe"
   },
   "icu:message--donation": {
     "messageformat": "Mchango"
@@ -7570,13 +7570,13 @@
     "messageformat": "Tafadhali jumuisha maelezo yoyote yanayohusiana na tatizo. Chochote unachotuma hapa kitahifadhiwa kwa faragha na kitatumika tu kusaidia kuboresha simu katika Signal."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "Tafadhali elezea hitilafu inayokukumba"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "Endelea"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "Fanya uteuzi ili uendelee"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Tusaidie kuboresha"
@@ -7597,16 +7597,16 @@
     "messageformat": "Tuma"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "Inawasilisha dodoso..."
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "Imeshindwa kuwasilisha dodoso"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "Jaribu Upya"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "Asante kwa maoni yako!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Toleo hili lina mabadiliko kidogo na maboresho ya program kuiwezesha Signal kufanya kazi vizuri.",
@@ -7637,6 +7637,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Kura za maoni za Signal kwenye Desktop sasa zinajumuisha madoido madogo ya uhuishaji ambayo tayari yalikuwa yanaonekana kwenye simu yako. Utahitaji kupiga kura tu ili utazame chaguo ulipendalo."
   }
 }

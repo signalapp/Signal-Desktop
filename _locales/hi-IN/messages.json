@@ -540,7 +540,7 @@
     "messageformat": "'सबमिट करें' पर क्लिक करने पर, आपका लॉग एक यूनीक और अनपब्लिश URL पर 30 दिनों के लिए ऑनलाइन पोस्ट हो जाएगा। आप चाहें, तो इसे अपने पास सेव करके रख लें।"
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "इस लॉग को इंटरनेट पर सबके लिए पोस्ट किया जाएगा, ताकि लोग इसे देख सकें। आप चाहें, तो सबमिट करने से पहले इसे डाउनलोड करके रख लें।"
   },
   "icu:debugLogError": {
     "messageformat": "अपलोड में कोई गड़बड़ी हुई! कृपया support@signal.org पर ईमेल करें और टेक्स्ट फ़ाइल के रूप में अपना लॉग अटैच करें।"
@@ -1245,16 +1245,16 @@
     "messageformat": "पिन"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "पुराने मैसेज की जगह कोई नया पिन करना है?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "इस मैसेज को पिन करने से वह पुराने की जगह ले लेगा।"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "कैंसिल करें"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "जारी रखें"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {पिन किया गया मैसेज} other {पिन किए गए मैसेज}}"
@@ -1326,16 +1326,16 @@
     "messageformat": "सभी मैसेज अनपिन करें"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "सभी मैसेज अनपिन करने हैं?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "मैसेज इस चैट के सदस्यों के लिए अनपिन हो जाएंगे।"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "कैंसिल करें"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "अनपिन करें"
   },
   "icu:sessionEnded": {
     "messageformat": "सिक्योर सेशन रीसेट करें"
@@ -2568,10 +2568,10 @@
     "messageformat": "आपने {recipient} की ओर से डोनेट किया"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} ने एक मैसेज पिन किया है"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "आपने मैसेज पिन किया है"
   },
   "icu:message--donation": {
     "messageformat": "दान"
@@ -7399,7 +7399,7 @@
     "messageformat": "एक बार"
   },
   "icu:DonationReceipt__footer-text": {
-    "messageformat": "Signal की सहायता करने के लिए शुक्रिया. आपका योगदान मुक्त स्रोत प्राइवेसी तकनीक के माध्यम से दुनिया भर में लाखों लोगों के लिए स्वतंत्र अभिव्यक्ति की रक्षा करने और सुरक्षित वैश्विक संचार को सक्षम करने के मिशन को बढ़ावा देने में मदद करता है। यदि आप संयुक्त राज्य अमेरिका के निवासी हैं, तो कृपया अपने कर रिकॉर्ड्स के लिए यह रसीद अपने पास रखें। Signal Technology Foundation आंतरिक राजस्व संहिता की धारा 501c3 के तहत एक स्वतंत्र गैर-लाभकारी धर्मार्थ संगठन है और कर-मुक्त है। हमारा फ़ेडरल टैक्स आईडी नंबर 82-4506840 है।"
+    "messageformat": "Signal की सहायता करने के लिए शुक्रिया. आपका योगदान मुक्त स्रोत प्राइवेसी तकनीक के माध्यम से दुनिया भर में लाखों लोगों के लिए स्वतंत्र अभिव्यक्ति की रक्षा करने और सुरक्षित वैश्विक संचार को सक्षम करने के मिशन को बढ़ावा देने में मदद करता है। यदि आप संयुक्त राज्य अमेरिका के निवासी हैं, तो कृपया अपने कर रिकॉर्ड्स के लिए यह रसीद अपने पास रखें। Signal Technology Foundation आंतरिक राजस्व संहिता की धारा 501c3 के तहत एक स्वतंत्र गैर-लाभकारी धर्मार्थ संगठन है और कर-मुक्त है। हमारा फ़ेडरल टैक्स ID नंबर 82-4506840 है।"
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "आप ऑफ़लाइन हैं। दान पूरा करने के लिए कृपया इंटरनेट से कनेक्ट करें।"
@@ -7570,13 +7570,13 @@
     "messageformat": "कृपया समस्या से जुड़ी हर एक जानकारी दें। यहां जो भी जानकारी शेयर की जाती है उसे गोपनीय रखा जाता है। इस जानकारी का इस्तेमाल सिर्फ़ Signal में कॉल की क्वालिटी को बेहतर बनाने के लिए किया जाता है।"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "कृपया अपनी समस्या बताएं"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "जारी रखें"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "जारी रखने के लिए किसी समस्या को चुनें"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Signal को बेहतर बनाने में हमारी मदद करें"
@@ -7597,16 +7597,16 @@
     "messageformat": "सबमिट करें"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "सर्वे सबमिट किया जा रहा है..."
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "सर्वे सबमिट नहीं हो सका"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "दोबारा कोशिश करें"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "आपके फ़ीडबैक के लिए शुक्रिया!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "इस वर्ज़न में बग ठीक करने के साथ-साथ कई छोटे-छोटे बदलाव किए गए हैं, जिससे Signal की परफ़ॉर्मेंस और बेहतर हो सके।",
@@ -7637,6 +7637,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "डेस्कटॉप पर Signal पोल में अब वही छोटे ऐनिमेशन इफ़ेक्ट शामिल किए गए हैं जो आपके फ़ोन पर पहले से दिख रहे थे। बस किसी पोल में हिस्सा लें और अपने पसंदीदा विकल्प को जीत की ओर बढ़ते देखें।"
   }
 }

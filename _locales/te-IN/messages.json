@@ -540,7 +540,7 @@
     "messageformat": "మీరు సబ్మిట్ మీద క్లిక్ చేసినప్పుడు, మీ లాగ్ ప్రత్యేకమైన, పబ్లిష్ చేయని  URL వద్ద 30 రోజులపాటు ఆన్‌లైన్‌లో పోస్ట్ చేయబడుతుంది. మీరు ముందుగా దానిని స్థానికంగా సేవ్ చేయవచ్చు."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "సహాయకులు వీక్షించడానికి ఈ లాగ్ బహిరంగంగా ఆన్‌లైన్‌లో పోస్ట్ చేయబడుతుంది. సమర్పించడానికి ముందు మీరు దానిని డౌన్‌లోడ్ చేసుకోవచ్చు."
   },
   "icu:debugLogError": {
     "messageformat": "అప్‌లోడ్‌తో ఏదో తప్పు జరిగింది! దయచేసి support@signal.org కు ఇమెయిల్ చేసి, టెక్ట్స్ ఫైల్ వలే మీ లాగ్‌ని జతచేయండి."
@@ -1245,16 +1245,16 @@
     "messageformat": "పిన్"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "పాత పిన్‌ను భర్తీ చేయాలా?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "ఈ సందేశాన్ని పిన్ చేయడం వలన పాతది భర్తీ చేయబడుతుంది."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "రద్దు చేయండి"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "కొనసాగించండి"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {పిన్ చేసిన సందేశం} other {పిన్ చేసిన సందేశాలు}}"
@@ -1326,16 +1326,16 @@
     "messageformat": "అన్ని సందేశాలను అన్‌పిన్ చేయండి"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "అన్ని సందేశాలను అన్‌పిన్ చేయాలా?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "ఈ చాట్‌లోని సభ్యుల కోసం సందేశాలు అన్‌పిన్ చేయబడతాయి."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "రద్దు చేయండి"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "అన్‌పిన్"
   },
   "icu:sessionEnded": {
     "messageformat": "సురక్షిత సెషన్ పునరుద్ధరించు."
@@ -2568,10 +2568,10 @@
     "messageformat": "మీరు {recipient} కొరకు విరాళం ఇచ్చారు"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} ఒక సందేశాన్ని పిన్ చేశారు"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "మీరు సందేశాన్ని పిన్ చేశారు"
   },
   "icu:message--donation": {
     "messageformat": "విరాళం"
@@ -7570,13 +7570,13 @@
     "messageformat": "దయచేసి సమస్యకు సంబంధించిన ఏవైనా వివరాలను చేర్చండి. మీరు ఇక్కడ పంచుకునేవి ఏవైనా రహస్యంగా ఉంచబడతాయి మరియు Signal లో కాల్‌లను మెరుగుపరచడంలో సహాయపడటానికి మాత్రమే ఉపయోగించబడతాయి."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "దయచేసి మీ సమస్యను వివరించండి"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "కొనసాగించండి"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "కొనసాగడానికి ఒక ఎంపిక చేయండి"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "మెరుగుపరచడంలో మాకు సహాయం చేయండి"
@@ -7597,16 +7597,16 @@
     "messageformat": "సమర్పించండి"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "సర్వేను సమర్పిస్తోంది..."
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "సర్వేను సమర్పించడంలో విఫలమైంది"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "మళ్ళీ ప్రయత్నించు"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "మీ ఫీడ్‌బ్యాక్‌కు ధన్యవాదాలు!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal ని సజావుగా నడిపించడానికి ఈ వెర్షన్‌లో చిన్నపాటి ట్వీక్‌లు మరియు బగ్ ఫిక్స్‌లు ఉన్నాయి.",
@@ -7637,6 +7637,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Signal పోల్స్ కోసం మెరుగుపరచబడిన యానిమేషన్."
   }
 }

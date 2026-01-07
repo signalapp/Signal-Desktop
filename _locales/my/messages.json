@@ -540,7 +540,7 @@
     "messageformat": "ပေးပို့ရန်ကို နှိပ်သည့်အခါ သင့်မှတ်တမ်းကို သီးခြား အများနှင့်မဆိုင်သော URL တွင် ရက် ၃၀ ကြာ ပို့စ်တင်ထားပါမည်။ ဦးစွာ ၎င်းကို စက်တွင်း သိမ်းထားနိုင်ပါသည်။"
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "ကူညီပံ့ပိုးသူများ ကြည့်ရှုနိုင်ရန်အတွက် ဤမှတ်တမ်းကို အွန်လိုင်းတွင် လူသူမရွေးကြည့်နိုင်ရန် တင်သွားပါမည်။ မတင်သွင်းမီ ဒေါင်းလုဒ်လုပ်ထားနိုင်ပါသည်။"
   },
   "icu:debugLogError": {
     "messageformat": "အပ်လုဒ်လုပ်ရာတွင် တစ်စုံတစ်ခု မှားယွင်းသွားသည်။ support@signal.org ကို အီးမေးလ် ပို့ပြီး သင့်မှတ်တမ်းကို စာသားဖိုင်အဖြစ် ဖိုင်တွဲပို့ပါ။"
@@ -1245,16 +1245,16 @@
     "messageformat": "ပင်တွဲရန်"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "အဟောင်းဆုံး ပင်ကို အစားထိုးမလား။"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "ဤမက်ဆေ့ချ်ကို ပင်တွဲလိုက်ခြင်းက အဟောင်းဆုံးတစ်ခုကို အစားထိုးသွားပါမည်။"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "မလုပ်တော့ပါ"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "ဆက်လုပ်ရန်"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, other {ပင်တွဲထားသော မက်ဆေ့ချ်များ}}"
@@ -1326,16 +1326,16 @@
     "messageformat": "မက်ဆေ့ချ်အားလုံးကို ပင်ဖြုတ်ပါ"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "မက်ဆေ့ချ်အားလုံးကို ပင်ဖြုတ်မလား။"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "ဤချက်(တ်)၏အဖွဲ့ဝင်များအတွက် မက်ဆေ့ချ်ကို ပင်ဖြုတ်လိုက်ပါမည်။"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "မလုပ်တော့ပါ"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "ပင်ဖြုတ်ရန်"
   },
   "icu:sessionEnded": {
     "messageformat": "Secure session reset"
@@ -2568,10 +2568,10 @@
     "messageformat": "သင်သည် {recipient} အတွက် လှူထားပါသည်"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} သည် မက်ဆေ့ချ်တစ်ခုကို ပင်တွဲထားသည်"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "သင်သည် မက်ဆေ့ချ်တစ်ခုကို ပင်တွဲထားသည်"
   },
   "icu:message--donation": {
     "messageformat": "လှူဒါန်းမှု"
@@ -7570,13 +7570,13 @@
     "messageformat": "ကျေးဇူးပြု၍ ပြဿနာနှင့်သက်ဆိုင်သည့် အသေးစိတ်အချက်အလက်များကို ထည့်သွင်းပါ။ သင်မျှဝေထားသမျှကို လျှို့ဝှက်ထားမည်ဖြစ်ပြီး Signal တွင် ခေါ်ဆိုမှုများကို ပိုမိုကောင်းမွန်စေရန်အတွက်သာ အသုံးပြုမည်ဖြစ်သည်။"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "သင့်ပြဿနာကို ဖော်ပြပါ"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "ဆက်လုပ်ရန်"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "ဆက်လုပ်ရန် ရွေးချယ်မှုတစ်ခု ပြုလုပ်ပါ"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "ပိုမိုကောင်းမွန်စေရန် ကူညီပေးပါ"
@@ -7597,16 +7597,16 @@
     "messageformat": "တင်မည်"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "စစ်တမ်း တင်သွင်းနေသည်..."
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "စစ်တမ်း တင်သွင်းရန် မအောင်မြင်ပါ"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "ထပ်ကြိုးစားပါ"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "သင့်အကြံပြုချက်အတွက် ကျေးဇူးတင်ပါသည်။"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "ဤဗားရှင်းတွင် Signal အား အထစ်အငေါ့မရှိ လုပ်ဆောင်နိုင်စေရန် ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် အနေအထား ပြုပြင်မှု အသေးလေးများ ပါဝင်ပါသည်။",
@@ -7637,6 +7637,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Signal စစ်တမ်းတွင် အန်နီမေးရှင်းကို ပိုမိုကောင်းမွန်အာင်ပြုလုပ်ထားပါသည်။"
   }
 }

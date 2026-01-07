@@ -540,7 +540,7 @@
     "messageformat": "제출을 클릭하면 게시되지 않은 고유 URL에서 로그가 30일 동안 온라인에 게시됩니다. 로컬로 먼저 저장할 수 있습니다."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "이 로그는 기여자들이 볼 수 있도록 온라인에 공개적으로 게시됩니다. 로그는 제출하기 전에 다운로드할 수 있습니다."
   },
   "icu:debugLogError": {
     "messageformat": "업로드 중 문제가 발생했습니다! 로그를 텍스트 파일로 첨부하여 support@signal.org에 이메일을 보내주세요."
@@ -570,7 +570,7 @@
     "messageformat": "제출"
   },
   "icu:SafetyNumberViewer__markAsVerified": {
-    "messageformat": "검증으로 표시"
+    "messageformat": "인증 완료로 표시"
   },
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "인증 초기화하기"
@@ -1245,16 +1245,16 @@
     "messageformat": "고정"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "가장 오래된 고정 항목을 교체할까요?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "이 메시지를 고정하면 가장 오래된 메시지가 대체됩니다."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "취소"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "계속"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, other {고정 메시지}}"
@@ -1326,16 +1326,16 @@
     "messageformat": "모든 메시지 고정 해제"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "모든 메시지를 고정 해제할까요?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "이 채팅의 모든 멤버에게서 메시지가 고정 해제됩니다."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "취소"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "고정 해제"
   },
   "icu:sessionEnded": {
     "messageformat": "보안 세션 초기화"
@@ -2568,10 +2568,10 @@
     "messageformat": "{recipient} 님을 대신해 기부했습니다."
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} 님이 메시지를 고정했습니다"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "메시지를 고정했습니다"
   },
   "icu:message--donation": {
     "messageformat": "기부"
@@ -2607,7 +2607,7 @@
     "messageformat": "지지와 성원에 감사드립니다!"
   },
   "icu:modal--donation--description": {
-    "messageformat": "{name} 님을 대신하여 Signal에 기부했습니다. 프로필을 통해 지지를 표현할 옵션이 제공됩니다."
+    "messageformat": "{name} 님을 대신해 Signal에 후원금을 보냈어요. 해당 사용자는 Signal 후원 사실을 프로필 배지로 표시할 수 있어요."
   },
   "icu:stickers--toast--InstallFailed": {
     "messageformat": "스티커 팩을 설치할 수 없음"
@@ -3270,13 +3270,13 @@
     "messageformat": "스팸으로 신고할까요?"
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-body--direct": {
-    "messageformat": "Signal에 이 사람이 스팸을 보내는 것 같다는 알림이 전송됩니다. Signal은 대화의 내용을 볼 수 없습니다."
+    "messageformat": "해당 사용자에 대한 스팸 신고가 Signal에 전달됩니다. Signal은 대화 내용을 확인할 수 없습니다."
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-body--group--unknown-contact": {
-    "messageformat": "Signal에 나를 이 그룹에 초대한 사람이 스팸을 보내는 것 같다는 알림이 전송됩니다. Signal은 대화의 내용을 볼 수 없습니다."
+    "messageformat": "그룹 초대를 보낸 해당 사용자에 대한 스팸 신고가 Signal에 전달됩니다. Signal은 대화 내용을 확인할 수 없습니다."
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-body--group": {
-    "messageformat": "Signal에 나를 이 그룹에 초대한 {name} 님이 스팸을 보내는 것 같다는 알림이 전송됩니다. Signal은 대화의 내용을 볼 수 없습니다."
+    "messageformat": "그룹 초대를 보낸 {name} 님에 대한 스팸 신고가 Signal에 전달됩니다. Signal은 대화 내용을 확인할 수 없습니다."
   },
   "icu:MessageRequests--ReportAndMaybeBlockModal-report": {
     "messageformat": "스팸 신고"
@@ -3699,7 +3699,7 @@
     "messageformat": "알림 끄기"
   },
   "icu:notMuted": {
-    "messageformat": "알림 꺼지지 않음"
+    "messageformat": "알림 켜짐"
   },
   "icu:muteHour": {
     "messageformat": "1시간 동안 알림 끄기"
@@ -7264,7 +7264,7 @@
     "messageformat": "이익보다 개인정보보호를 우선시하는 Signal"
   },
   "icu:PreferencesDonations__description": {
-    "messageformat": "사용자의 기부로 운영되는 개인정보를 보호하는 메시지. 광고와 트래커, 타협에서 자유로운 앱. 지금 기부를 통해 Signal을 지지해 주세요. <readMoreLink>자세히 알아보기</readMoreLink>"
+    "messageformat": "Signal은 사용자의 후원으로 운영되는 개인정보 보호 메신저입니다. 그래서 광고와 트래킹, 타협에서 자유롭죠. 이 가치를 지지하신다면 후원을 통해 Signal을 응원해 주세요. <readMoreLink>자세히 알아보기</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "기부"
@@ -7570,13 +7570,13 @@
     "messageformat": "문제와 관련된 모든 세부 정보를 포함해 주세요. 여기에서 공유하는 모든 내용은 비공개로 유지되며 Signal의 통화를 개선하는 데에만 사용됩니다."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "어떤 문제가 있었는지 알려주세요."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "계속"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "계속하려면 항목을 선택하세요."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "더 나은 서비스를 제공할 수 있도록 도와주세요"
@@ -7597,16 +7597,16 @@
     "messageformat": "제출"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "설문조사를 제출하는 중..."
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "설문조사를 제출하지 못했습니다."
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "재시도"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "피드백을 보내주셔서 감사합니다!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "이 버전에는 Signal의 원활한 실행을 위한 일부 기능 업데이트와 버그 수정이 다수 포함되어 있습니다.",
@@ -7637,6 +7637,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Signal 설문조사의 애니메이션을 개선했습니다."
   }
 }

@@ -540,7 +540,7 @@
     "messageformat": "Khi bạn bấm Gửi, nhật ký của bạn sẽ được đăng online trong 30 ngày tại một URL độc nhất, chưa được xuất bản. Bạn có thể Lưu trên thiết bị trước."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "Nhật ký này sẽ được đăng trực tuyến công khai cho những người đóng góp theo dõi. Bạn có thể tải nhật ký xuống trước khi gửi."
   },
   "icu:debugLogError": {
     "messageformat": "Đã xảy ra sự cố với quá trình tải lên! Vui lòng gửi email tới support@signal.org và đính kèm nhật ký của bạn dưới dạng tệp văn bản."
@@ -1245,16 +1245,16 @@
     "messageformat": "Ghim"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "Thay thế ghim cũ nhất?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "Thao tác ghim tin nhắn này sẽ thay thế tin nhắn được ghim cũ nhất."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Hủy"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Tiếp tục"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, other {Tin nhắn đã ghim}}"
@@ -1326,16 +1326,16 @@
     "messageformat": "Bỏ ghim tất cả tin nhắn"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "Bỏ ghim tất cả tin nhắn?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "Tin nhắn sẽ được bỏ ghim đối với thành viên của cuộc trò chuyện này."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Hủy"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "Bỏ ghim"
   },
   "icu:sessionEnded": {
     "messageformat": "Đặt lại phiên bảo mật"
@@ -2568,10 +2568,10 @@
     "messageformat": "Bạn đã ủng hộ thay cho {recipient}"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} đã ghim một tin nhắn"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Bạn đã ghim một tin nhắn"
   },
   "icu:message--donation": {
     "messageformat": "Khoản Ủng hộ"
@@ -7570,13 +7570,13 @@
     "messageformat": "Vui lòng cung cấp mọi thông tin liên quan đến vấn đề. Mọi thông tin bạn chia sẻ ở đây sẽ được bảo mật và chỉ được sử dụng để tăng chất lượng cuộc gọi Signal."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "Vui lòng mô tả vấn đề của bạn"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "Tiếp tục"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "Chọn để tiếp tục"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Giúp chúng tôi cải thiện"
@@ -7597,16 +7597,16 @@
     "messageformat": "Gửi"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "Đang gửi khảo sát…"
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "Không thể gửi khảo sát"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "Thử lại"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "Cảm ơn góp ý của bạn!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Phiên bản này có một số tinh chỉnh và sửa lỗi để giữ cho Signal hoạt động mượt mà.",
@@ -7637,6 +7637,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Cải thiện hình ảnh động của tính năng Hỏi ý kiến."
   }
 }
