@@ -45,12 +45,13 @@ export type PinMessage = Readonly<{
   id: string;
   sentAtTimestamp: number;
   receivedAtCounter: number;
-  text?: PinMessageText | null;
-  attachment?: PinMessageAttachment | null;
-  contact?: PinMessageContact | null;
-  payment?: boolean;
-  poll?: PinMessagePoll | null;
-  sticker?: boolean;
+  text: PinMessageText | null;
+  attachment: PinMessageAttachment | null;
+  contact: PinMessageContact | null;
+  payment: boolean;
+  poll: PinMessagePoll | null;
+  sticker: boolean;
+  viewOnceMedia: boolean;
 }>;
 
 export type PinSender = Readonly<{
@@ -336,6 +337,10 @@ const Content = forwardRef(function Content(
 });
 
 function getThumbnailUrl(message: PinMessage): string | null {
+  // Never render a thumbnail if its view-once media
+  if (message.viewOnceMedia) {
+    return null;
+  }
   if (message.attachment == null) {
     return null;
   }
@@ -363,122 +368,116 @@ type PreviewIcon = Readonly<{
   label: string;
 }>;
 
-function getMessagePreviewIcon(
-  i18n: LocalizerType,
-  message: PinMessage
-): PreviewIcon | null {
+type Preview = Readonly<{
+  icon: PreviewIcon | null;
+  text: ReactNode | null;
+}>;
+
+function getMessagePreview(i18n: LocalizerType, message: PinMessage): Preview {
+  // Note: The order of this function matters, once something higher-up assigns
+  // `icon` or `text` nothing else should override it.
+  let icon: PreviewIcon | null = null;
+  let text: ReactNode | null = null;
+
+  // 1. View-once media is highest priority, no other icons or text should be shown
+  if (message.viewOnceMedia) {
+    text ??= i18n('icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia');
+    icon ??= {
+      symbol: 'viewonce',
+      label: i18n(
+        'icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia'
+      ),
+    };
+  }
+
+  // 2. The message body should take priority over other generic text labels
+  if (message.text != null) {
+    text ??= <MessageTextPreview i18n={i18n} text={message.text} />;
+  }
+
+  // 3. And everything else...
   if (message.attachment != null) {
-    if (message.attachment.type === 'voiceMessage') {
-      return {
+    if (message.attachment.type === 'image') {
+      text ??= i18n('icu:PinnedMessagesBar__MessagePreview__Text--Photo');
+    } else if (message.attachment.type === 'video') {
+      text ??= i18n('icu:PinnedMessagesBar__MessagePreview__Text--Video');
+    } else if (message.attachment.type === 'voiceMessage') {
+      text ??= i18n(
+        'icu:PinnedMessagesBar__MessagePreview__Text--VoiceMessage'
+      );
+      icon ??= {
         symbol: 'audio',
         label: i18n(
           'icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage'
         ),
       };
-    }
-    if (message.attachment.type === 'gif') {
-      return {
+    } else if (message.attachment.type === 'gif') {
+      text ??= i18n('icu:PinnedMessagesBar__MessagePreview__Text--Gif');
+      icon ??= {
         symbol: 'gif',
         label: i18n('icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Gif'),
       };
-    }
-    if (message.attachment.type === 'file') {
-      return {
+    } else if (message.attachment.type === 'file') {
+      text ??= <UserText text={message.attachment.name ?? ''} />;
+      icon ??= {
         symbol: 'file',
         label: i18n('icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File'),
       };
+    } else {
+      throw missingCaseError(message.attachment);
     }
-  }
-  if (message.contact != null) {
-    return {
+  } else if (message.contact != null) {
+    const name = message.contact.name ?? i18n('icu:unknownContact');
+    text ??= <UserText text={name} />;
+    icon ??= {
       symbol: 'person-circle',
-      label: message.contact.name ?? i18n('icu:unknownContact'),
+      label: name,
     };
-  }
-  if (message.payment) {
-    return {
+  } else if (message.payment) {
+    text ??= i18n('icu:PinnedMessagesBar__MessagePreview__Text--Payment');
+    icon ??= {
       symbol: 'creditcard',
       label: i18n(
         'icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment'
       ),
     };
-  }
-  if (message.poll != null) {
-    return {
+  } else if (message.poll != null) {
+    text ??= <UserText text={message.poll.question} />;
+    icon ??= {
       symbol: 'poll',
       label: i18n('icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Poll'),
     };
-  }
-  if (message.sticker) {
-    return {
+  } else if (message.sticker) {
+    text ??= i18n('icu:PinnedMessagesBar__MessagePreview__Text--Sticker');
+    icon ??= {
       symbol: 'sticker',
       label: i18n(
         'icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker'
       ),
     };
   }
-  return null;
-}
 
-function getMessagePreviewText(
-  i18n: LocalizerType,
-  message: PinMessage
-): ReactNode {
-  if (message.text != null) {
-    return <MessageTextPreview i18n={i18n} text={message.text} />;
-  }
-  if (message.attachment != null) {
-    if (message.attachment.type === 'image') {
-      return i18n('icu:PinnedMessagesBar__MessagePreview__Text--Photo');
-    }
-    if (message.attachment.type === 'video') {
-      return i18n('icu:PinnedMessagesBar__MessagePreview__Text--Video');
-    }
-    if (message.attachment.type === 'voiceMessage') {
-      return i18n('icu:PinnedMessagesBar__MessagePreview__Text--VoiceMessage');
-    }
-    if (message.attachment.type === 'gif') {
-      return i18n('icu:PinnedMessagesBar__MessagePreview__Text--Gif');
-    }
-    if (message.attachment.type === 'file') {
-      return <UserText text={message.attachment.name ?? ''} />;
-    }
-    throw missingCaseError(message.attachment);
-  }
-  if (message.contact?.name != null) {
-    return <UserText text={message.contact.name} />;
-  }
-  if (message.payment != null) {
-    return i18n('icu:PinnedMessagesBar__MessagePreview__Text--Payment');
-  }
-  if (message.poll != null) {
-    return <UserText text={message.poll.question} />;
-  }
-  if (message.sticker != null) {
-    return i18n('icu:PinnedMessagesBar__MessagePreview__Text--Sticker');
-  }
-  return null;
+  return { icon, text };
 }
 
 function MessagePreview(props: { i18n: LocalizerType; message: PinMessage }) {
   const { i18n, message } = props;
 
-  const icon = useMemo(() => {
-    return getMessagePreviewIcon(i18n, message);
-  }, [i18n, message]);
-
-  const text = useMemo(() => {
-    return getMessagePreviewText(i18n, message);
+  const preview = useMemo(() => {
+    return getMessagePreview(i18n, message);
   }, [i18n, message]);
 
   return (
     <>
-      {icon != null && (
+      {preview.icon != null && (
         <>
-          <AxoSymbol.InlineGlyph symbol={icon.symbol} label={null} />{' '}
+          <AxoSymbol.InlineGlyph
+            symbol={preview.icon.symbol}
+            label={null}
+          />{' '}
         </>
       )}
-      {text}
+      {preview.text}
     </>
   );
 }
