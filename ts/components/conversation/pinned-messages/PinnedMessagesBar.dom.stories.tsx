@@ -16,6 +16,26 @@ export default {
   title: 'Components/PinnedMessages/PinnedMessagesBar',
 } satisfies Meta;
 
+type MockPinMessageProps = Partial<
+  Omit<PinMessage, 'id' | 'sentAtTimestamp' | 'receivedAtCounter'>
+>;
+
+function mockPinMessage(id: number, props: MockPinMessageProps): PinMessage {
+  return {
+    id: `message-${id}`,
+    sentAtTimestamp: id,
+    receivedAtCounter: id,
+    text: null,
+    attachment: null,
+    contact: null,
+    payment: false,
+    poll: null,
+    sticker: false,
+    viewOnceMedia: false,
+    ...props,
+  };
+}
+
 const PIN_1: Pin = {
   id: 1 as PinnedMessageId,
   sender: {
@@ -23,14 +43,11 @@ const PIN_1: Pin = {
     title: 'Jamie',
     isMe: true,
   },
-  message: {
-    id: 'message-1',
-    sentAtTimestamp: 1,
-    receivedAtCounter: 1,
+  message: mockPinMessage(1, {
     poll: {
       question: 'What should we get for lunch?',
     },
-  },
+  }),
 };
 
 const PIN_2: Pin = {
@@ -40,10 +57,7 @@ const PIN_2: Pin = {
     title: 'Tyler',
     isMe: false,
   },
-  message: {
-    id: 'message-2',
-    sentAtTimestamp: 2,
-    receivedAtCounter: 2,
+  message: mockPinMessage(2, {
     text: {
       body: 'We found a cute pottery store close to Inokashira Park that we’re going to check out on Saturday. Anyone want to meet at the south exit at Kichijoji station at 1pm? Too early?',
       bodyRanges: [
@@ -51,7 +65,7 @@ const PIN_2: Pin = {
         { start: 39, length: 15, style: BodyRange.Style.SPOILER },
       ],
     },
-  },
+  }),
 };
 
 const PIN_3: Pin = {
@@ -61,10 +75,7 @@ const PIN_3: Pin = {
     title: 'Adrian',
     isMe: false,
   },
-  message: {
-    id: 'message-3',
-    sentAtTimestamp: 3,
-    receivedAtCounter: 3,
+  message: mockPinMessage(3, {
     text: {
       body: 'Photo',
       bodyRanges: [],
@@ -73,7 +84,7 @@ const PIN_3: Pin = {
       type: 'image',
       url: '/fixtures/tina-rolf-269345-unsplash.jpg',
     },
-  },
+  }),
 };
 
 function Template(props: {
@@ -113,10 +124,7 @@ export function Default(): React.JSX.Element {
   );
 }
 
-function Variant(props: {
-  title: string;
-  message: Omit<PinMessage, 'id' | 'sentAtTimestamp' | 'receivedAtCounter'>;
-}) {
+function Variant(props: { title: string; message: MockPinMessageProps }) {
   const pin: Pin = {
     id: 1 as PinnedMessageId,
     sender: {
@@ -124,12 +132,7 @@ function Variant(props: {
       title: props.title,
       isMe: true,
     },
-    message: {
-      id: 'message-1',
-      sentAtTimestamp: 1,
-      receivedAtCounter: 1,
-      ...props.message,
-    },
+    message: mockPinMessage(1, props.message),
   };
   return <Template defaultCurrent={pin.id} pins={[pin]} />;
 }
@@ -182,6 +185,7 @@ export function Variants(): React.JSX.Element {
       <Variant title="Sticker" message={{ sticker: true }} />
       <Variant title="Contact" message={{ contact: { name: 'Tyler' } }} />
       <Variant title="Payment" message={{ payment: true }} />
+      <Variant title="View-Once Media" message={{ viewOnceMedia: true }} />
     </Stack>
   );
 }

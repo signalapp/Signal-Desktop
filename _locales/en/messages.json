@@ -1726,6 +1726,10 @@
     "messageformat": "Sticker",
     "description": "Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Symbol Accessibility Label (Sticker)"
   },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
+    "messageformat": "View-once media",
+    "description": "Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Symbol Accessibility Label (View-once media)"
+  },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Photo",
     "description": "Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Symbol Accessibility Label (Photo)"
@@ -1749,6 +1753,10 @@
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
     "messageformat": "Sticker",
     "description": "Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Text (Sticker)"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
+    "messageformat": "View-once media",
+    "description": "Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Text (View-once media)"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Pinned messages",

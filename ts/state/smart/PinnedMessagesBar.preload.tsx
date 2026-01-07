@@ -101,6 +101,10 @@ function isPinMessageSticker(props: MessagePropsType): boolean {
   return props.isSticker ?? false;
 }
 
+function isPinMessageViewOnceMedia(props: MessagePropsType): boolean {
+  return props.isTapToView ?? false;
+}
+
 function getPinMessage(
   props: MessagePropsType,
   sentAtTimestamp: number,
@@ -116,6 +120,7 @@ function getPinMessage(
     payment: isPinMessagePayment(props),
     poll: getPinMessagePoll(props),
     sticker: isPinMessageSticker(props),
+    viewOnceMedia: isPinMessageViewOnceMedia(props),
   };
 }
 
