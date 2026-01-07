@@ -94,7 +94,7 @@ export type PostalAddress = {
 };
 
 type GenericAvatar<Attachment> = {
-  avatar: Attachment;
+  avatar?: Attachment;
   isProfile: boolean;
 };
 
@@ -172,7 +172,7 @@ export function embeddedContactSelector(
         ...avatar,
         avatar: {
           ...avatar.avatar,
-          path: avatar.avatar.path
+          url: avatar.avatar.path
             ? getLocalAttachmentUrl(avatar.avatar)
             : undefined,
 

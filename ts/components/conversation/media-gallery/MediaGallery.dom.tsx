@@ -16,10 +16,14 @@ import type { LocalizerType } from '../../../types/Util.std.js';
 import type {
   MediaTabType,
   LinkPreviewMediaItemType,
+  ContactMediaItemType,
   MediaItemType,
   GenericMediaItemType,
 } from '../../../types/MediaItem.std.js';
-import type { SaveAttachmentActionCreatorType } from '../../../state/ducks/conversations.preload.js';
+import type {
+  SaveAttachmentActionCreatorType,
+  PushPanelForConversationActionType,
+} from '../../../state/ducks/conversations.preload.js';
 import { AttachmentSection } from './AttachmentSection.dom.js';
 import { EmptyState } from './EmptyState.dom.js';
 import { groupMediaItemsByDate } from './groupMediaItemsByDate.std.js';
@@ -27,6 +31,7 @@ import { missingCaseError } from '../../../util/missingCaseError.std.js';
 import { openLinkInWebBrowser } from '../../../util/openLinkInWebBrowser.dom.js';
 import { useIntersectionObserver } from '../../../hooks/useIntersectionObserver.std.js';
 import type { AttachmentForUIType } from '../../../types/Attachment.std.js';
+import { PanelType } from '../../../types/Panels.std.js';
 import { tw } from '../../../axo/tw.dom.js';
 
 export type Props = {
@@ -42,9 +47,10 @@ export type Props = {
   media: ReadonlyArray<MediaItemType>;
   audio: ReadonlyArray<MediaItemType>;
   links: ReadonlyArray<LinkPreviewMediaItemType>;
-  documents: ReadonlyArray<MediaItemType>;
+  documents: ReadonlyArray<MediaItemType | ContactMediaItemType>;
   tab: MediaTabType;
   saveAttachment: SaveAttachmentActionCreatorType;
+  pushPanelForConversation: PushPanelForConversationActionType;
   kickOffAttachmentDownload: (options: { messageId: string }) => void;
   cancelAttachmentDownload: (options: { messageId: string }) => void;
   playAudio: (attachment: MediaItemType) => void;
@@ -67,6 +73,7 @@ function MediaSection({
   tab,
   mediaItems,
   saveAttachment,
+  pushPanelForConversation,
   kickOffAttachmentDownload,
   cancelAttachmentDownload,
   showLightbox,
@@ -77,6 +84,7 @@ function MediaSection({
   | 'i18n'
   | 'loading'
   | 'saveAttachment'
+  | 'pushPanelForConversation'
   | 'kickOffAttachmentDownload'
   | 'cancelAttachmentDownload'
   | 'showLightbox'
@@ -113,11 +121,19 @@ function MediaSection({
         openLinkInWebBrowser(mediaItem.preview.url);
       } else if (mediaItem.type === 'audio') {
         playAudio(mediaItem);
+      } else if (mediaItem.type === 'contact') {
+        pushPanelForConversation({
+          type: PanelType.ContactDetails,
+          args: {
+            messageId: message.id,
+          },
+        });
       } else {
         throw missingCaseError(mediaItem.type);
       }
     },
     [
+      pushPanelForConversation,
       saveAttachment,
       showLightbox,
       cancelAttachmentDownload,
@@ -204,6 +220,7 @@ export function MediaGallery({
   documents,
   tab,
   saveAttachment,
+  pushPanelForConversation,
   kickOffAttachmentDownload,
   cancelAttachmentDownload,
   playAudio,
@@ -324,6 +341,7 @@ export function MediaGallery({
           tab={tab}
           mediaItems={mediaItems}
           saveAttachment={saveAttachment}
+          pushPanelForConversation={pushPanelForConversation}
           showLightbox={showLightbox}
           kickOffAttachmentDownload={kickOffAttachmentDownload}
           cancelAttachmentDownload={cancelAttachmentDownload}

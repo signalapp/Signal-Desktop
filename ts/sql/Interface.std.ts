@@ -59,6 +59,7 @@ import type { AttachmentBackupJobType } from '../types/AttachmentBackup.std.js';
 import type { AttachmentType } from '../types/Attachment.std.js';
 import type { MediaItemMessageType } from '../types/MediaItem.std.js';
 import type { LinkPreviewType } from '../types/message/LinkPreviews.std.js';
+import type { EmbeddedContactType } from '../types/EmbeddedContact.std.js';
 import type { GifType } from '../components/fun/panels/FunPanelGifs.dom.js';
 import type { NotificationProfileType } from '../types/NotificationProfile.std.js';
 import type { DonationReceipt } from '../types/Donations.std.js';
@@ -613,7 +614,7 @@ export type GetSortedMediaOptionsType = Readonly<{
   type: 'media' | 'audio' | 'documents';
 }>;
 
-export type GetOlderLinkPreviewsOptionsType = Readonly<{
+export type GetOlderDocumentsOptionsType = Readonly<{
   conversationId: string;
   limit: number;
   messageId?: string;
@@ -621,16 +622,37 @@ export type GetOlderLinkPreviewsOptionsType = Readonly<{
   sentAt?: number;
 }>;
 
+export type GetOlderNonAttachmentMediaOptionsType = Readonly<{
+  conversationId: string;
+  limit: number;
+  messageId?: string;
+  receivedAt?: number;
+  sentAt?: number;
+  type: 'links' | 'contacts';
+}>;
+
 export type MediaItemDBType = Readonly<{
+  type: 'mediaItem';
   attachment: AttachmentType;
   index: number;
   message: MediaItemMessageType;
 }>;
 
 export type LinkPreviewMediaItemDBType = Readonly<{
+  type: 'link';
   preview: LinkPreviewType;
   message: MediaItemMessageType;
 }>;
+
+export type ContactMediaItemDBType = Readonly<{
+  type: 'contact';
+  contact: EmbeddedContactType;
+  message: MediaItemMessageType;
+}>;
+
+export type NonAttachmentMediaItemDBType =
+  | LinkPreviewMediaItemDBType
+  | ContactMediaItemDBType;
 
 export type KyberPreKeyTripleType = Readonly<{
   id: PreKeyIdType;
@@ -864,9 +886,12 @@ type ReadableInterface = {
   getSortedMedia: (
     options: GetSortedMediaOptionsType
   ) => Array<MediaItemDBType>;
-  getOlderLinkPreviews: (
-    options: GetOlderLinkPreviewsOptionsType
-  ) => Array<LinkPreviewMediaItemDBType>;
+  getOlderNonAttachmentMedia: (
+    options: GetOlderNonAttachmentMediaOptionsType
+  ) => Array<NonAttachmentMediaItemDBType>;
+  getOlderDocuments: (
+    options: GetOlderDocumentsOptionsType
+  ) => Array<MediaItemDBType | ContactMediaItemDBType>;
   getAllStories: (options: {
     conversationId?: string;
     sourceServiceId?: ServiceIdString;

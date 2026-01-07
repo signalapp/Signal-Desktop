@@ -7,6 +7,7 @@ import type { ReadStatus } from '../messages/MessageReadStatus.std.js';
 import type { AttachmentForUIType } from './Attachment.std.js';
 import type { LinkPreviewForUIType } from './message/LinkPreviews.std.js';
 import type { ServiceIdString } from './ServiceId.std.js';
+import type { EmbeddedContactForUIType } from './EmbeddedContact.std.js';
 
 export type MediaTabType = 'media' | 'audio' | 'links' | 'documents';
 
@@ -38,4 +39,13 @@ export type LinkPreviewMediaItemType = Readonly<{
   message: MediaItemMessageType;
 }>;
 
-export type GenericMediaItemType = MediaItemType | LinkPreviewMediaItemType;
+export type ContactMediaItemType = Readonly<{
+  type: 'contact';
+  contact: EmbeddedContactForUIType;
+  message: MediaItemMessageType;
+}>;
+
+export type GenericMediaItemType =
+  | MediaItemType
+  | LinkPreviewMediaItemType
+  | ContactMediaItemType;

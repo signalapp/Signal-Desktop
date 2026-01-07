@@ -26,7 +26,7 @@ export function renderAvatar({
 }): React.JSX.Element {
   const { avatar } = contact;
 
-  const avatarUrl = avatar && avatar.avatar && avatar.avatar.path;
+  const avatarUrl = avatar && avatar.avatar && avatar.avatar.url;
   const title = getName(contact) || '';
   const fallback = (
     <Avatar

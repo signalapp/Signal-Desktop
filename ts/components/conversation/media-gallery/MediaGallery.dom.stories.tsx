@@ -43,6 +43,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   initialLoad: action('initialLoad'),
   loadMore: action('loadMore'),
   saveAttachment: action('saveAttachment'),
+  pushPanelForConversation: action('pushPanelForConversation'),
   playAudio: action('playAudio'),
   showLightbox: action('showLightbox'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),

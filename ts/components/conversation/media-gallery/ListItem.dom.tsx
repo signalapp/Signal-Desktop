@@ -44,6 +44,8 @@ export function ListItem({
 
   if (mediaItem.type === 'link') {
     attachment = mediaItem.preview.image;
+  } else if (mediaItem.type === 'contact') {
+    attachment = mediaItem.contact.avatar?.avatar;
   } else {
     ({ attachment } = mediaItem);
   }
