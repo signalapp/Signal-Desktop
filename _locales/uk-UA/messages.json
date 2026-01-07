@@ -540,7 +540,7 @@
     "messageformat": "Коли ви натиснете «Надіслати», журнал буде вивантажено в мережу на 30 днів за унікальною URL-адресою, до якої немає загального доступу. Перед надсиланням його також можна зберегти на пристрої."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "Цей журнал буде загальнодоступний онлайн для перегляду відповідними фахівцями. Ви можете завантажити його перед надсиланням."
   },
   "icu:debugLogError": {
     "messageformat": "Під час вивантаження сталася помилка! Надішліть електронний лист на адресу support@signal.org, вклавши до нього журнал налагодження як текстовий файл."
@@ -599,17 +599,8 @@
   "icu:media": {
     "messageformat": "Медіафайли"
   },
-  "icu:mediaEmptyState": {
-    "messageformat": "У цьому чаті немає медіафайлів"
-  },
   "icu:allMedia": {
     "messageformat": "Усі медіафайли"
-  },
-  "icu:documents": {
-    "messageformat": "Документи"
-  },
-  "icu:documentsEmptyState": {
-    "messageformat": "У цьому чаті немає документів"
   },
   "icu:today": {
     "messageformat": "сьогодні"
@@ -1245,16 +1236,16 @@
     "messageformat": "Закріпити"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "Замінити попереднє закріплене повідомлення?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "Нове закріплене повідомлення замінить попереднє."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Скасувати"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Продовжити"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Закріплене повідомлення} few {Закріплені повідомлення} many {Закріплені повідомлення} other {Закріплені повідомлення}}"
@@ -1301,6 +1292,9 @@
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
     "messageformat": "Стікер"
   },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Фото"
   },
@@ -1319,6 +1313,9 @@
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
     "messageformat": "Стікер"
   },
+  "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Закріплені повідомлення"
   },
@@ -1326,16 +1323,16 @@
     "messageformat": "Відкріпити всі повідомлення"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "Відкріпити всі повідомлення?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "Повідомлення буде відкріплено для учасників цього чату."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Скасувати"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "Відкріпити"
   },
   "icu:sessionEnded": {
     "messageformat": "Безпечний сеанс скинуто"
@@ -2568,10 +2565,10 @@
     "messageformat": "Ви задонатили від імені користувача {recipient}"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "Користувач {sender} закріпив повідомлення"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Ви закріпили повідомлення"
   },
   "icu:message--donation": {
     "messageformat": "Донат"
@@ -5159,6 +5156,9 @@
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "Аудіо"
   },
+  "icu:ContactListItem__subtitle": {
+    "messageformat": "Contact"
+  },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Відкрити посилання в браузері"
   },
@@ -5192,16 +5192,10 @@
   "icu:MediaGallery__EmptyState__description--links-2": {
     "messageformat": "Тут будуть ваші надіслані й отримані посилання"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Тут будуть ваші надіслані й отримані посилання"
-  },
   "icu:MediaGallery__EmptyState__title--documents": {
     "messageformat": "Файлів немає"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "Тут будуть ваші надіслані й отримані файли"
-  },
-  "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "Тут будуть ваші надіслані й отримані файли"
   },
   "icu:MediaQualitySelector--button": {
@@ -7570,13 +7564,13 @@
     "messageformat": "Зазначте всі подробиці, що стосуються проблеми. Уся інформація залишиться конфіденційною. Ми використаємо її лише для покращення викликів у Signal."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "Будь ласка, опишіть проблему"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "Продовжити"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "Виберіть проблему, щоб продовжити"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Допоможіть нам покращити Signal"
@@ -7597,16 +7591,16 @@
     "messageformat": "Надіслати"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "Надсилання відповідей…"
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "Не вдалося надіслати відгук"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "Повторити"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "Дякуємо за відгук!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ця версія містить ряд невеликих покращень і виправлень помилок для забезпечення безперебійної роботи Signal.",
@@ -7637,6 +7631,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Опитування в Signal Desktop тепер мають таку ж плавну анімацію, як і на телефоні. Нарешті можна спостерігати, як ваш варіант потихеньку виривається вперед (або відстає…)."
   }
 }

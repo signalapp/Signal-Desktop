@@ -540,7 +540,7 @@
     "messageformat": "\"Göndər\"ə kliklədiyinizdə, jurnalınızın unikal və dərc edilməmiş URL-də 30 gün ərzində onlayn paylaşılacaq. Əvvəlcə yerli yaddaşda saxlaya bilərsiniz."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "Töhfəçilərin baxması üçün bu qeyd ictimaiyyətə açıq şəkildə paylaşılacaq. Göndərməzdən əvvəl onu endirə bilərsiniz."
   },
   "icu:debugLogError": {
     "messageformat": "Yükləmə ilə bağlı nəsə səhv getdi! Zəhmət olmasa jurnalı, mətn faylı kimi əlavə edərək support@signal.org ünvanına e-poçt olaraq göndərin."
@@ -599,17 +599,8 @@
   "icu:media": {
     "messageformat": "Media"
   },
-  "icu:mediaEmptyState": {
-    "messageformat": "Bu çatda heç bir media faylınız yoxdur"
-  },
   "icu:allMedia": {
     "messageformat": "Bütün Medialar"
-  },
-  "icu:documents": {
-    "messageformat": "Sənədlər"
-  },
-  "icu:documentsEmptyState": {
-    "messageformat": "Bu çatda heç bir sənədiniz yoxdur"
   },
   "icu:today": {
     "messageformat": "Bu gün"
@@ -1245,16 +1236,16 @@
     "messageformat": "Sancaqla"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "Ən köhnə sancaqlama dəyişdirilsin?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "Bu mesajın sancaqlanması köhnəsini əvəz edəcək."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Ləğv et"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Davam et"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Sancaqlanmış mesaj} other {Sancaqlanmış mesajlar}}"
@@ -1301,6 +1292,9 @@
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
     "messageformat": "Stiker"
   },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Foto"
   },
@@ -1319,6 +1313,9 @@
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
     "messageformat": "Stiker"
   },
+  "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Sancaqlanmış mesajlar"
   },
@@ -1326,16 +1323,16 @@
     "messageformat": "Bütün mesajları sancaqlamadan çıxart"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "Bütün mesajlar sancaqlamadan çıxarılsın?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "Bu çat qrupunun üzvləri üçün mesajlar sancaqlamadan çıxarılacaq."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Ləğv et"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "Sancağı götür"
   },
   "icu:sessionEnded": {
     "messageformat": "Güvənli seansı sıfırla"
@@ -2568,10 +2565,10 @@
     "messageformat": "{recipient} adlı şəxs üçün ianə verdiniz"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} mesaj sancaqladı"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Mesaj sancaqladınız"
   },
   "icu:message--donation": {
     "messageformat": "İanə"
@@ -5159,6 +5156,9 @@
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "Səs"
   },
+  "icu:ContactListItem__subtitle": {
+    "messageformat": "Contact"
+  },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Keçidi brauzerdə aç"
   },
@@ -5192,16 +5192,10 @@
   "icu:MediaGallery__EmptyState__description--links-2": {
     "messageformat": "Göndərdiyiniz və aldığınız keçidlər burada görünəcək"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Göndərdiyiniz və aldığınız keçidlər burada görünəcək"
-  },
   "icu:MediaGallery__EmptyState__title--documents": {
     "messageformat": "Heç bir fayl yoxdur"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "Göndərdiyiniz və aldığınız keçidlər burada görünəcək"
-  },
-  "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "Göndərdiyiniz və aldığınız keçidlər burada görünəcək"
   },
   "icu:MediaQualitySelector--button": {
@@ -7570,13 +7564,13 @@
     "messageformat": "Problemə uyğun istənilən təfərrüatı seçin. Burada paylaşdığınız hər şey məxfi saxlanılır və yalnız Signal zənglərinin yaxşılaşdırılmasına kömək etmək üçün istifadə olunur."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "Problemi təsvir edin"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "Davam et"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "Davam etmək üçün seçim edin"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Təkmilləşməyimizə kömək edin"
@@ -7597,16 +7591,16 @@
     "messageformat": "Təqdim et"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "Sorğu göndərilir..."
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "Sorğunu göndərmək mümkün olmadı"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "Yenidən sına"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "Rəyiniz üçün təşəkkür edirik!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bu versiya, Signal-ın problemsiz işləməsini təmin etmək üçün kiçik düzəltmələr və xəta düzəltmələri ehtiva edir.",
@@ -7637,6 +7631,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Artıq Signal-ın Desktop tətbiqindəki səsvermələr telefonunuzda görünən eyni animasiya effektlərinə malikdir. Seçiminizin birinci olduğunu izləmək sadəcə bir səsvermə qədər yaxındır."
   }
 }

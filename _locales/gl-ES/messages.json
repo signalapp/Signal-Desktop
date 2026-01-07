@@ -540,7 +540,7 @@
     "messageformat": "Cando premes Enviar, o teu rexistro publicarase durante 30 días nunha URL única privada. Podes gardalo primeiro no teu dispositivo."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "Este rexistro publicarase en liña de forma pública para que os colaboradores poidan velo. Podes descargalo antes de envialo."
   },
   "icu:debugLogError": {
     "messageformat": "Algo saíu mal durante a subida! Envía un correo electrónico a support@signal.org e envía anexo o teu rexistro como ficheiro de texto."
@@ -599,17 +599,8 @@
   "icu:media": {
     "messageformat": "Multimedia"
   },
-  "icu:mediaEmptyState": {
-    "messageformat": "Non compartiches arquivos multimedia nesta conversa"
-  },
   "icu:allMedia": {
     "messageformat": "Contido multimedia"
-  },
-  "icu:documents": {
-    "messageformat": "Documentos"
-  },
-  "icu:documentsEmptyState": {
-    "messageformat": "Non compartiches documentos nesta conversa"
   },
   "icu:today": {
     "messageformat": "Hoxe"
@@ -1245,16 +1236,16 @@
     "messageformat": "Soltar"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "Substituír a mensaxe fixada antiga?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "Fixar esta mensaxe substituirá a máis antiga."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Cancelar"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Continuar"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Mensaxe fixada} other {Mensaxes fixadas}}"
@@ -1301,6 +1292,9 @@
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
     "messageformat": "Sticker"
   },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Fotografía"
   },
@@ -1319,6 +1313,9 @@
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
     "messageformat": "Sticker"
   },
+  "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Mensaxes fixadas"
   },
@@ -1326,16 +1323,16 @@
     "messageformat": "Soltar todas as mensaxes"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "Soltar todas as mensaxes?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "Soltaranse as mensaxes para todos os membros desta conversa."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Cancelar"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "Soltar"
   },
   "icu:sessionEnded": {
     "messageformat": "Restablecer sesión segura"
@@ -2568,10 +2565,10 @@
     "messageformat": "Doaches por {recipient}"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} fixou unha mensaxe"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Fixaches unha mensaxe"
   },
   "icu:message--donation": {
     "messageformat": "Doazón"
@@ -5159,6 +5156,9 @@
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "Son"
   },
+  "icu:ContactListItem__subtitle": {
+    "messageformat": "Contact"
+  },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Abre a ligazón nun navegador"
   },
@@ -5192,16 +5192,10 @@
   "icu:MediaGallery__EmptyState__description--links-2": {
     "messageformat": "As ligazóns que envíes e recibas aparecerán aquí"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "As ligazóns que envíes e recibas aparecerán aquí"
-  },
   "icu:MediaGallery__EmptyState__title--documents": {
     "messageformat": "Sen arquivos"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "Os arquivos que envíes e recibas aparecerán aquí"
-  },
-  "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "Os arquivos que envíes e recibas aparecerán aquí"
   },
   "icu:MediaQualitySelector--button": {
@@ -7570,13 +7564,13 @@
     "messageformat": "Inclúe toda os datos pertinentes do problema. Todo o que compartas será privado e só se empregará para mellorar as chamadas de Signal."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "Describe o problema"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "Continuar"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "Selecciona unha opción para continuar"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Axúdanos a mellorar"
@@ -7597,16 +7591,16 @@
     "messageformat": "Enviar"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "Enviando enquisa…"
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "Non se puido enviar a enquisa"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "Tentar de novo"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "Grazas pola túa observación!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Esta versión contén pequenos arranxos e reparacións que fan que Signal funcione sen problemas.",
@@ -7637,6 +7631,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Animación mellorada para as enquisas de Signal."
   }
 }

@@ -540,7 +540,7 @@
     "messageformat": "Nuair a chliceálann tú Cuir Isteach, postálfar do loga ar líne go ceann 30 lá ag URL uathúil neamhfhoilsithe. Is féidir leat é a shábháil go logánta ar dtús."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "Postálfar an loga seo go poiblí ar líne le go mbeidh rannpháirtithe in ann féachaint air. Is féidir leat é a íoslódáil sula gcuireann tú isteach é."
   },
   "icu:debugLogError": {
     "messageformat": "Chuaigh rud éigin mícheart leis an uaslódáil! Seol ríomhphost chuig support@signal.org agus cuir do loga i gceangal mar chomhad téacs."
@@ -599,17 +599,8 @@
   "icu:media": {
     "messageformat": "Meáin"
   },
-  "icu:mediaEmptyState": {
-    "messageformat": "Níl aon mheáin sa chomhrá seo agat"
-  },
   "icu:allMedia": {
     "messageformat": "Meáin"
-  },
-  "icu:documents": {
-    "messageformat": "Cáipéisí"
-  },
-  "icu:documentsEmptyState": {
-    "messageformat": "Níl aon doiciméid sa chomhrá seo agat"
   },
   "icu:today": {
     "messageformat": "Inniu"
@@ -1245,16 +1236,16 @@
     "messageformat": "Greamaigh"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "Athsholáthair an greamán is sine?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "Má ghreamaítear an teachtaireacht seo, cuirfear in ionad an chinn is sine í."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Cuir ar ceal"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Ar aghaidh"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Teachtaireacht ghreamaithe} two {Teachtaireachtaí greamaithe} few {Teachtaireachtaí greamaithe} many {Teachtaireachtaí greamaithe} other {Teachtaireachtaí greamaithe}}"
@@ -1301,6 +1292,9 @@
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
     "messageformat": "Greamán"
   },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Grianghraf"
   },
@@ -1319,6 +1313,9 @@
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
     "messageformat": "Greamán"
   },
+  "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Teachtaireachtaí greamaithe"
   },
@@ -1326,16 +1323,16 @@
     "messageformat": "Díghreamaigh gach teachtaireacht"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "Díghreamaigh gach teachtaireacht?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "Déanfar teachtaireachtaí a dhíghreamú do bhaill an chomhrá seo."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Cuir ar ceal"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "Díghreamaigh"
   },
   "icu:sessionEnded": {
     "messageformat": "Athshocraíodh seisiún slán"
@@ -2568,10 +2565,10 @@
     "messageformat": "Thug tú tabhartas ar son {recipient}"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "Ghreamaigh {sender} teachtaireacht"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Ghreamaigh tú teachtaireacht"
   },
   "icu:message--donation": {
     "messageformat": "Tabhartas"
@@ -5159,6 +5156,9 @@
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "Fuaim"
   },
+  "icu:ContactListItem__subtitle": {
+    "messageformat": "Contact"
+  },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Oscail an nasc i mbrabhsálaí"
   },
@@ -5192,16 +5192,10 @@
   "icu:MediaGallery__EmptyState__description--links-2": {
     "messageformat": "Taispeánfar anseo naisc a sheolann tú agus a fhaigheann tú"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Taispeánfar anseo naisc a sheolann tú agus a fhaigheann tú"
-  },
   "icu:MediaGallery__EmptyState__title--documents": {
     "messageformat": "Níl aon chomhad ann"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "Taispeánfar anseo comhaid a sheolann tú agus a fhaigheann tú"
-  },
-  "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "Taispeánfar anseo comhaid a sheolann tú agus a fhaigheann tú"
   },
   "icu:MediaQualitySelector--button": {
@@ -7570,13 +7564,13 @@
     "messageformat": "Cuir aon sonraí a bhaineann leis an bhfadhb san áireamh. Coinneofar aon rud a chomhroinneann tú anseo príobháideach agus ní úsáidfear é ach chun cabhrú le glaonna in Signal a fheabhsú."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "Déan cur síos ar an bhfadhb"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "Ar aghaidh"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "Déan rogha le leanúint ar aghaidh"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Cabhraigh linn feabhsú"
@@ -7597,16 +7591,16 @@
     "messageformat": "Seol isteach é"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "Suirbhé á chur isteach…"
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "Theip ar chur isteach an tsuirbhé"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "Atriail é"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "Go raibh maith agat as d'aiseolas!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Tá roinnt mionathruithe agus paistí ar fhabhtanna sa leagan seo chun Signal a choinneáil ag rith go réidh.",
@@ -7637,6 +7631,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Beochan fheabhsaithe do shuirbhéanna Signal."
   }
 }

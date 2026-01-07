@@ -540,7 +540,7 @@
     "messageformat": "Dit log bevat geen persoonlijke details zoals telefoonnummers. Als je op uploaden klikt dan wordt dit log 30 dagen lang online beschikbaar gesteld op een unieke nergens onthulde URL. Die URL kun je zelf naar de ontwikkelaars sturen. Je kunt dit log ook offline op je eigen apparaat opslaan."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "Dit log wordt online openbaar gemaakt zodat bijdragers het kunnen bekijken. Je kunt het downloaden voordat je het indient."
   },
   "icu:debugLogError": {
     "messageformat": "Er is iets misgegaan bij het uploaden. Stuur alsjeblieft een e-mail naar support@signal.org en voeg aan die e-mail je foutopsporingslog toe als een tekstbestand."
@@ -599,17 +599,8 @@
   "icu:media": {
     "messageformat": "Media"
   },
-  "icu:mediaEmptyState": {
-    "messageformat": "Deze chat bevat geen media"
-  },
   "icu:allMedia": {
     "messageformat": "Alle media"
-  },
-  "icu:documents": {
-    "messageformat": "Documenten"
-  },
-  "icu:documentsEmptyState": {
-    "messageformat": "Deze chat bevat geen documenten"
   },
   "icu:today": {
     "messageformat": "Vandaag"
@@ -1245,16 +1236,16 @@
     "messageformat": "Vastzetten"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "Oudste vastgezette bericht vervangen?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "Je oudste vastgezette bericht wordt vervangen door het nieuwe bericht"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Annuleren"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Doorgaan"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Vastgezet bericht} other {Vastgezette berichten}}"
@@ -1301,6 +1292,9 @@
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
     "messageformat": "Sticker"
   },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Afbeelding"
   },
@@ -1319,6 +1313,9 @@
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
     "messageformat": "Sticker"
   },
+  "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Vastgezette berichten"
   },
@@ -1326,16 +1323,16 @@
     "messageformat": "Alle berichten losmaken"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "Alle berichten losmaken?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "Berichten worden voor alle leden van deze chat losgemaakt."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Annuleren"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "Losmaken"
   },
   "icu:sessionEnded": {
     "messageformat": "Beveiligde sessie opnieuw ingesteld"
@@ -2568,10 +2565,10 @@
     "messageformat": "Je hebt gedoneerd namens {recipient}"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} heeft een bericht vastgezet"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Je hebt een bericht vastgezet"
   },
   "icu:message--donation": {
     "messageformat": "Donatie"
@@ -5159,6 +5156,9 @@
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "Audio"
   },
+  "icu:ContactListItem__subtitle": {
+    "messageformat": "Contact"
+  },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Link openen in een browser"
   },
@@ -5192,16 +5192,10 @@
   "icu:MediaGallery__EmptyState__description--links-2": {
     "messageformat": "Links die je verstuurt en ontvangt worden hier weergegeven"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links die je verstuurt en ontvangt worden hier weergegeven"
-  },
   "icu:MediaGallery__EmptyState__title--documents": {
     "messageformat": "Geen documenten"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "Documenten die je verstuurt en ontvangt worden hier weergegeven"
-  },
-  "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "Documenten die je verstuurt en ontvangt worden hier weergegeven"
   },
   "icu:MediaQualitySelector--button": {
@@ -7456,7 +7450,7 @@
     "messageformat": "Er is een fout opgetreden bij je donatie"
   },
   "icu:Donations__GenericError__Description": {
-    "messageformat": "Je donatie is mogelijk niet verwerkt. Klik op 'Aan Signal doneren' en vervolgens op 'Donatiebewijzen' om je betaalbewijzen te controleren en te bevestigen dat je donatie is verwerkt."
+    "messageformat": "Je donatie is mogelijk niet verwerkt. Klik op ‘Aan Signal doneren’ en vervolgens op ‘Donatiebewijzen’ om je betaalbewijzen te controleren en te bevestigen dat je donatie is verwerkt."
   },
   "icu:DonationsErrorBoundary__DonationUnexpectedError": {
     "messageformat": "Probeer het opnieuw of dien een foutopsporingslog in bij ondersteuning voor hulp bij het voltooien van je donatie. Foutopsporingslogs helpen ons het probleem op te sporen en op te lossen en bevatten geen identificeerbare informatie."
@@ -7570,13 +7564,13 @@
     "messageformat": "Vermeld alle details die relevant zijn voor het probleem. Alles wat je hier deelt, blijft vertrouwelijk en wordt uitsluitend gebruikt om oproepen in Signal te verbeteren."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "Beschrijf het probleem"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "Doorgaan"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "Maak een keuze om door te gaan"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Help ons te verbeteren"
@@ -7597,16 +7591,16 @@
     "messageformat": "Uploaden"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "Feedback indienen…"
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "Indienen is mislukt"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "Opnieuw proberen"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "Bedankt voor je feedback!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Deze versie bevat een aantal kleine foutoplossingen waardoor Signal voor nog meer mensen goed werkt.",
@@ -7637,6 +7631,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Peilingen in Signal Desktop hebben nu dezelfde subtiele animatie-effecten als op je telefoon."
   }
 }

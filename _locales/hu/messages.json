@@ -540,7 +540,7 @@
     "messageformat": "A Küldés gombra nyomva a hibanaplód egy egyedi, nem publikus online tárhelyre kerül feltöltésre, ahonnan 30 nap után törlődik. Ha gondolod, mentsd el előbb a készülékedre is."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "Ez a napló nyilvánosan elérhető lesz online, hogy a közreműködők megtekinthessék. Beküldés előtt letöltheted."
   },
   "icu:debugLogError": {
     "messageformat": "Hiba történt a feltöltés során. Küldd el a naplófájlt szöveges csatolmányként a support@signal.org címre!"
@@ -599,17 +599,8 @@
   "icu:media": {
     "messageformat": "Média"
   },
-  "icu:mediaEmptyState": {
-    "messageformat": "A csevegés nem tartalmaz médiafájlt"
-  },
   "icu:allMedia": {
     "messageformat": "Összes médiafájl"
-  },
-  "icu:documents": {
-    "messageformat": "Dokumentumok"
-  },
-  "icu:documentsEmptyState": {
-    "messageformat": "A csevegés nem tartalmaz dokumentumot"
   },
   "icu:today": {
     "messageformat": "Ma"
@@ -1245,16 +1236,16 @@
     "messageformat": "Rögzítés"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "Cseréled a legrégebbi rögzített üzenetet?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "Ez az üzenet a legrégebbi üzenet helyébe lép, amint rögzíted."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Mégse"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Folytatás"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Rögzített üzenetek} other {Rögzített üzenetek}}"
@@ -1301,6 +1292,9 @@
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
     "messageformat": "Matrica"
   },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Fotó"
   },
@@ -1319,6 +1313,9 @@
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
     "messageformat": "Matrica"
   },
+  "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Rögzített üzenetek"
   },
@@ -1326,16 +1323,16 @@
     "messageformat": "Összes üzenet rögzítésének feloldása"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "Összes üzenet rögzítésének feloldása?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "Az üzenetek rögzítését a csevegés résztvevői számára feloldjuk."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Mégse"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "Feloldás"
   },
   "icu:sessionEnded": {
     "messageformat": "A biztonságos munkamenet újra lett indítva"
@@ -2568,10 +2565,10 @@
     "messageformat": "Adományoztál {recipient} számára"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} rögzített egy üzenetet"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Rögzítettél egy üzenetet"
   },
   "icu:message--donation": {
     "messageformat": "Adományozás"
@@ -5159,6 +5156,9 @@
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "Hang"
   },
+  "icu:ContactListItem__subtitle": {
+    "messageformat": "Contact"
+  },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Hivatkozás megnyitása egy böngészőben"
   },
@@ -5192,16 +5192,10 @@
   "icu:MediaGallery__EmptyState__description--links-2": {
     "messageformat": "Itt jelennek meg az általad küldött és fogadott hivatkozások"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Itt jelennek meg az általad küldött és fogadott hivatkozások"
-  },
   "icu:MediaGallery__EmptyState__title--documents": {
     "messageformat": "Nincsenek fájlok"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "Itt jelennek meg az általad küldött és fogadott fájlok"
-  },
-  "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "Itt jelennek meg az általad küldött és fogadott fájlok"
   },
   "icu:MediaQualitySelector--button": {
@@ -7570,13 +7564,13 @@
     "messageformat": "Kérjük, add meg a problémához kapcsolódó összes részletet. Amit itt megosztottál, az bizalmas marad, és csak a Signal-hívások fejlesztésére használjuk fel."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "Kérjük, írd le, hogy mi a gondod"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "Folytatás"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "Válassz a folytatáshoz"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Segíts nekünk fejlődni"
@@ -7597,16 +7591,16 @@
     "messageformat": "Küldés"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "A felmérés elküldése..."
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "A felmérés elküldése nem sikerült"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "Újra"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "Köszönjük a visszajelzésedet!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ebbe a verzióba néhány kisebb újítás és hibajavítás került annak érdekében, hogy a Signal továbbra is gond nélkül fusson.",
@@ -7637,6 +7631,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Az Asztalon megjelenő Signal-szavazatok mostantól ugyanazokat a finom animációs effektusokat tartalmazzák, mint amelyek már eddig is megjelentek a telefonodon. Csak egy szavazásnyira vagy attól, hogy kedvenc jelölted elhúzzon a többiektől."
   }
 }

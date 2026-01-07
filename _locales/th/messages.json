@@ -540,7 +540,7 @@
     "messageformat": "เมื่อคลิกส่ง ปูมของคุณจะได้รับการโพสต์ทางออนไลน์เป็นเวลา 30 วัน ผ่าน URL เฉพาะที่ไม่มีการเผยแพร่ คุณสามารถบันทึกไว้ในเครื่องก่อนได้"
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "บันทึกนี้จะถูกโพสต์แบบสาธารณะทางออนไลน์เพื่อให้ผู้สนับสนุนสามารถดูได้ โดยคุณสามารถดาวน์โหลดบันทึกก่อนส่งข้อมูลได้"
   },
   "icu:debugLogError": {
     "messageformat": "เกิดความผิดพลาดบางอย่างกับการอัปโหลด! กรุณาอีเมลไปที่ support@signal.org พร้อมแนบปูมของคุณในรูปแบบไฟล์ข้อความ (text file)"
@@ -599,17 +599,8 @@
   "icu:media": {
     "messageformat": "สื่อ"
   },
-  "icu:mediaEmptyState": {
-    "messageformat": "คุณไม่มีไฟล์สื่อในแชทนี้"
-  },
   "icu:allMedia": {
     "messageformat": "สื่อข้อมูลทั้งหมด"
-  },
-  "icu:documents": {
-    "messageformat": "เอกสาร"
-  },
-  "icu:documentsEmptyState": {
-    "messageformat": "คุณไม่มีไฟล์เอกสารในแชทนี้"
   },
   "icu:today": {
     "messageformat": "วันนี้"
@@ -1245,16 +1236,16 @@
     "messageformat": "ปักหมุด"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "แทนที่ข้อความที่เก่าที่สุดใช่หรือไม่"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "ข้อความที่ปักหมุดนี้จะไปแทนที่ข้อความปักหมุดที่เก่าที่สุด"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "ยกเลิก"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "ดำเนินการต่อ"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, other {ข้อความที่ปักหมุด}}"
@@ -1301,6 +1292,9 @@
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
     "messageformat": "สติกเกอร์"
   },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "รูปภาพ"
   },
@@ -1319,6 +1313,9 @@
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
     "messageformat": "สติกเกอร์"
   },
+  "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "ข้อความที่ปักหมุด"
   },
@@ -1326,16 +1323,16 @@
     "messageformat": "เลิกปักหมุดข้อความทั้งหมด"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "เลิกปักหมุดข้อความทั้งหมดใช่หรือไม่"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "ระบบจะเลิกปักหมุดข้อความสำหรับสมาชิกในแชทนี้"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "ยกเลิก"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "เลิกปักหมุด"
   },
   "icu:sessionEnded": {
     "messageformat": "สมัยสนทนาที่ปลอดภัยถูกล้างเริ่มใหม่"
@@ -2568,10 +2565,10 @@
     "messageformat": "คุณบริจาคในนามของ {recipient}"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} ปักหมุดข้อความ"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "คุณปักหมุดข้อความ"
   },
   "icu:message--donation": {
     "messageformat": "การบริจาค"
@@ -5159,6 +5156,9 @@
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "เสียง"
   },
+  "icu:ContactListItem__subtitle": {
+    "messageformat": "Contact"
+  },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "เปิดลิงก์ในเบราว์เซอร์"
   },
@@ -5192,16 +5192,10 @@
   "icu:MediaGallery__EmptyState__description--links-2": {
     "messageformat": "ลิงก์ที่คุณส่งและได้รับจะปรากฏในหน้านี้"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "ลิงก์ที่คุณส่งและได้รับจะปรากฏในหน้านี้"
-  },
   "icu:MediaGallery__EmptyState__title--documents": {
     "messageformat": "ไม่มีไฟล์"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "ไฟล์ที่คุณส่งและได้รับจะปรากฏในหน้านี้"
-  },
-  "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "ไฟล์ที่คุณส่งและได้รับจะปรากฏในหน้านี้"
   },
   "icu:MediaQualitySelector--button": {
@@ -7570,13 +7564,13 @@
     "messageformat": "โปรดแจ้งรายละเอียดต่างๆ ที่เกี่ยวข้องกับปัญหาที่คุณพบ ข้อมูลทั้งหมดของคุณจะถูกรวบรวมอย่างเป็นส่วนตัว รวมถึงจะถูกนำไปใช้เพื่อจุดประสงค์ในการปรับปรุงและพัฒนาการโทรของ Signal เท่านั้น"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "โปรดอธิบายถึงปัญหาที่คุณพบ"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "ดำเนินการต่อ"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "เลือกจากรายการเพื่อดำเนินการต่อ"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "ช่วยเราปรับปรุงการใช้งาน"
@@ -7597,16 +7591,16 @@
     "messageformat": "ส่ง"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "กำลังส่งรายงาน..."
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "ส่งรายงานไม่สำเร็จ"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "ลองอีกครั้ง"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "ขอบคุณสำหรับความคิดเห็น"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "รุ่นนี้มาพร้อมการปรับเปลี่ยนเล็กๆ น้อยๆ และการแก้ไขบั๊กต่างๆ เพื่อให้ Signal ทำงานได้อย่างราบรื่นไร้ปัญหา",
@@ -7637,6 +7631,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "เพิ่มลูกเล่นภาพเคลื่อนไหวในฟีเจอร์โพลของ Signal"
   }
 }

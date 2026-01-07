@@ -540,7 +540,7 @@
     "messageformat": "ನೀವು ಸಲ್ಲಿಸಿ ಕ್ಲಿಕ್ ಮಾಡಿದಾಗ, ನಿಮ್ಮ ಲಾಗ್ ಅನ್ನು 30 ದಿನಗಳ ಕಾಲ ಅನನ್ಯ, ಅಪ್ರಕಟಿತ URL ನಲ್ಲಿ ಆನ್‌ಲೈನ್‌ನಲ್ಲಿ ಪೋಸ್ಟ್ ಮಾಡಲಾಗುತ್ತದೆ. ನೀವದನ್ನು ಮೊದಲು ಸ್ಥಳೀಯವಾಗಿ ಸೇವ್ ಮಾಡಬಹುದು."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "ಕೊಡುಗೆದಾರರು ವೀಕ್ಷಿಸಲು ಈ ಲಾಗ್ ಅನ್ನು ಆನ್‌ಲೈನ್‌ನಲ್ಲಿ ಸಾರ್ವಜನಿಕವಾಗಿ ಪೋಸ್ಟ್ ಮಾಡಲಾಗುತ್ತದೆ. ಸಲ್ಲಿಸುವ ಮೊದಲು ನೀವು ಅದನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಬಹುದು."
   },
   "icu:debugLogError": {
     "messageformat": "ಅಪ್‌ಲೋಡ್ ಮಾಡುವಲ್ಲಿ ಏನೋ ತಪ್ಪಾಗಿದೆ! ದಯವಿಟ್ಟು support@signal.org ಗೆ ಇಮೇಲ್ ಮಾಡಿ ಮತ್ತು ನಿಮ್ಮ ಲಾಗ್ ಅನ್ನು ಟೆಕ್ಸ್ಟ್ ಫೈಲ್ ಆಗಿ ಲಗತ್ತಿಸಿ."
@@ -599,17 +599,8 @@
   "icu:media": {
     "messageformat": "ಮಾಧ್ಯಮ"
   },
-  "icu:mediaEmptyState": {
-    "messageformat": "ನೀವು ಈ ಚಾಟ್‌ನಲ್ಲಿ ಯಾವುದೇ ಮೀಡಿಯಾವನ್ನು ಹೊಂದಿಲ್ಲ"
-  },
   "icu:allMedia": {
     "messageformat": "ಎಲ್ಲಾ ಮೀಡಿಯಾ"
-  },
-  "icu:documents": {
-    "messageformat": "ದಾಖಲೆಗಳು"
-  },
-  "icu:documentsEmptyState": {
-    "messageformat": "ಈ ಚಾಟ್‌ನಲ್ಲಿ ನೀವು ಯಾವುದೇ ಡಾಕ್ಯುಮೆಂಟ್‌ಗಳನ್ನು ಹೊಂದಿಲ್ಲ"
   },
   "icu:today": {
     "messageformat": "ಇಂದು"
@@ -1245,16 +1236,16 @@
     "messageformat": "PIN"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "ಹಳೆಯಪಿನ್ ಅನ್ನು ಬದಲಾಯಿಸಬೇಕೇ?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "ಈ ಮೆಸೇಜ್ ಅನ್ನು ಪಿನ್ ಮಾಡುವುದರಿಂದ ಅತಿ ಹಳೆಯ ಮೆಸೇಜ್ ಅನ್ನು ಬದಲಾಯಿಸಲಾಗುತ್ತದೆ."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "ರದ್ದುಮಾಡಿ"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "ಮುಂದುವರಿಸಿ"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {ಪಿನ್ ಮಾಡಲಾದ ಮೆಸೇಜ್} other {ಪಿನ್ ಮಾಡಲಾದ ಮೆಸೇಜ್‌ಗಳು}}"
@@ -1301,6 +1292,9 @@
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
     "messageformat": "ಸ್ಟಿಕ್ಕರ್"
   },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "ಫೋಟೋ"
   },
@@ -1319,6 +1313,9 @@
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
     "messageformat": "ಸ್ಟಿಕ್ಕರ್"
   },
+  "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "ಪಿನ್ ಮಾಡಲಾದ ಮೆಸೇಜ್‌ಗಳು"
   },
@@ -1326,16 +1323,16 @@
     "messageformat": "ಎಲ್ಲಾ ಮೆಸೇಜ್‌ಗಳನ್ನು ಅನ್‌ಪಿನ್ ಮಾಡಿ"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "ಎಲ್ಲಾ ಮೆಸೇಜ್‌ಗಳನ್ನು ಅನ್‍ಪಿನ್ ಮಾಡಬೇಕೇ?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "ಈ ಚಾಟ್‌ನ ಸದಸ್ಯರಿಗೆ ಮೆಸೇಜ್‌ಗಳನ್ನು ಅನ್‌ಪಿನ್ ಮಾಡಲಾಗುತ್ತದೆ."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "ರದ್ದುಮಾಡಿ"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "ಅನ್‌ಪಿನ್"
   },
   "icu:sessionEnded": {
     "messageformat": "ಸುರಕ್ಷಿತ ಅಧಿವೇಶನವನ್ನು ಮರುಹೊಂದಿಸಿ"
@@ -2568,10 +2565,10 @@
     "messageformat": "ನೀವು {recipient} ಅವರಿಗಾಗಿ ದೇಣಿಗೆ ನೀಡಿದ್ದೀರಿ"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} ಮೆಸೇಜ್ ಅನ್ನು ಪಿನ್ ಮಾಡಿದ್ದಾರೆ"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "ನೀವು ಒಂದು ಮೆಸೇಜ್ ಅನ್ನು ಪಿನ್ ಮಾಡಿದ್ದೀರಿ"
   },
   "icu:message--donation": {
     "messageformat": "ದೇಣಿಗೆ"
@@ -5159,6 +5156,9 @@
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "ಆಡಿಯೊ"
   },
+  "icu:ContactListItem__subtitle": {
+    "messageformat": "Contact"
+  },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಲಿಂಕ್ ತೆರೆಯಿರಿ"
   },
@@ -5192,16 +5192,10 @@
   "icu:MediaGallery__EmptyState__description--links-2": {
     "messageformat": "ನೀವು ಕಳುಹಿಸುವ ಮತ್ತು ಸ್ವೀಕರಿಸುವ ಲಿಂಕ್‌ಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "ನೀವು ಕಳುಹಿಸುವ ಮತ್ತು ಸ್ವೀಕರಿಸುವ ಲಿಂಕ್‌ಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ"
-  },
   "icu:MediaGallery__EmptyState__title--documents": {
     "messageformat": "ಫೈಲುಗಳು ಇಲ್ಲ"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "ನೀವು ಕಳುಹಿಸುವ ಮತ್ತು ಸ್ವೀಕರಿಸುವ ಲಿಂಕ್‌ಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ"
-  },
-  "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "ನೀವು ಕಳುಹಿಸುವ ಮತ್ತು ಸ್ವೀಕರಿಸುವ ಲಿಂಕ್‌ಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ"
   },
   "icu:MediaQualitySelector--button": {
@@ -7570,13 +7564,13 @@
     "messageformat": "ಸಮಸ್ಯೆಗೆ ಸಂಬಂಧಿಸಿದ ಯಾವುದೇ ವಿವರಗಳನ್ನು ಸೇರಿಸಿ. ನೀವು ಇಲ್ಲಿ ಹಂಚಿಕೊಳ್ಳುವ ಯಾವುದೇ ಸಂಗತಿಯನ್ನು ಖಾಸಗಿಯಾಗಿ ಇರಿಸಲಾಗುತ್ತದೆ ಮತ್ತು Signal ನಲ್ಲಿ ಕರೆಗಳನ್ನು ಸುಧಾರಿಸುವುದಕ್ಕೆ ಸಹಾಯ ಮಾಡಲು ಮಾತ್ರ ಬಳಸಲಾಗುತ್ತದೆ."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "ನಿಮ್ಮ ಸಮಸ್ಯೆಯನ್ನು ವಿವರಿಸಿ"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "ಮುಂದುವರಿಸಿ"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "ಮುಂದುವರಿಯಲು ಆಯ್ಕೆಯನ್ನು ಮಾಡಿ"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "ಸುಧಾರಿಸಲು ನಮಗೆ ಸಹಾಯ ಮಾಡಿ"
@@ -7597,16 +7591,16 @@
     "messageformat": "ಸಲ್ಲಿಸಿ"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "ಸಮೀಕ್ಷೆಯನ್ನು ಸಲ್ಲಿಸಲಾಗುತ್ತಿದೆ..."
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "ಸಮೀಕ್ಷೆಯನ್ನು ಸಲ್ಲಿಸಲು ವಿಫಲವಾಗಿದೆ"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "ಮರುಪ್ರಯತ್ನಿಸಿ"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "ನಿಮ್ಮ ಫೀಡ್‌ಬ್ಯಾಕ್‌ಗೆ ಧನ್ಯವಾದಗಳು!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": " Signal ಅನ್ನು ಸರಾಗವಾಗಿ ಚಾಲ್ತಿಯಲ್ಲಿಡಲು ಈ ಆವೃತ್ತಿಯು ಸಾಕಷ್ಟು ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳನ್ನು ಹೊಂದಿದೆ ಮತ್ತು ಬಗ್ ಫಿಕ್ಸ್‌ಗಳನ್ನು ಹೊಂದಿದೆ.",
@@ -7637,6 +7631,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಲ್ಲಿನ Signal ಸಮೀಕ್ಷೆಗಳು ಈಗ ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ ಈಗಾಗಲೇ ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತಿದ್ದ ಅದೇ ಸೂಕ್ಷ್ಮ ಅನಿಮೇಷನ್ ಎಫೆಕ್ಟ್‌ಗಳನ್ನು ಒಳಗೊಂಡಿವೆ. ನಿಮ್ಮ ನೆಚ್ಚಿನ ಆಯ್ಕೆಯನ್ನು ಹಿಂಪಡೆಯುವುದನ್ನು ವೀಕ್ಷಿಸುವುದು ಕೇವಲ ಒಂದು ಸಮೀಕ್ಷೆಯ ದೂರದಲ್ಲಿದೆ."
   }
 }

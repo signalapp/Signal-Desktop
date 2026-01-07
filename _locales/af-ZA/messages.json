@@ -540,7 +540,7 @@
     "messageformat": "Wanneer jy op Dien in klik, sal jou log vir 30 dae aanlyn op 'n unieke, ongepubliseerde URL geplaas word. Jy kan dit eers plaaslik stoor."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "Hierdie log sal publiek aanlyn geplaas word vir bydraers om te besigtig. Jy kan dit aflaai voordat jy dit indien."
   },
   "icu:debugLogError": {
     "messageformat": "Iets het verkeerd geloop met die oplaai! Stuur asb. 'n e-pos aan support@signal.org en heg jou log as 'n tekslêer aan."
@@ -599,17 +599,8 @@
   "icu:media": {
     "messageformat": "Media"
   },
-  "icu:mediaEmptyState": {
-    "messageformat": "Jy het geen media in hierdie klets nie"
-  },
   "icu:allMedia": {
     "messageformat": "Alle media"
-  },
-  "icu:documents": {
-    "messageformat": "Dokumente"
-  },
-  "icu:documentsEmptyState": {
-    "messageformat": "Jy het geen dokumente in hierdie klets nie"
   },
   "icu:today": {
     "messageformat": "Vandag"
@@ -1245,16 +1236,16 @@
     "messageformat": "Merk met speld"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "Vervang oudste speld?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "As jy hierdie boodskap met 'n speld merk, word die oudste gemerkte een vervang."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Kanselleer"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Gaan voort"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Boodskap met speld gemerk} other {Boodskappe met speld gemerk}}"
@@ -1301,6 +1292,9 @@
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
     "messageformat": "Plakker"
   },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Foto"
   },
@@ -1319,6 +1313,9 @@
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
     "messageformat": "Plakker"
   },
+  "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Boodskappe met speld gemerk"
   },
@@ -1326,16 +1323,16 @@
     "messageformat": "Verwyder merkspelde by alle boodskappe"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "Verwyder merkspelde by alle boodskappe?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "Merkspelde by hierdie boodskappe sal vir lede van hierdie klets verwyder word."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Kanselleer"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "Verwyder speld"
   },
   "icu:sessionEnded": {
     "messageformat": "Stel veilige sessie terug"
@@ -2568,10 +2565,10 @@
     "messageformat": "Jy het namens {recipient} 'n skenking gemaak"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} het 'n boodskap met 'n speld gemerk"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Jy het 'n boodskap met 'n speld gemerk"
   },
   "icu:message--donation": {
     "messageformat": "Skenking"
@@ -5159,6 +5156,9 @@
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "Klank"
   },
+  "icu:ContactListItem__subtitle": {
+    "messageformat": "Contact"
+  },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Maak die skakel in 'n blaaier oop"
   },
@@ -5192,16 +5192,10 @@
   "icu:MediaGallery__EmptyState__description--links-2": {
     "messageformat": "Skakels wat jy stuur en ontvang, sal hier verskyn"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Skakels wat jy stuur en ontvang, sal hier verskyn"
-  },
   "icu:MediaGallery__EmptyState__title--documents": {
     "messageformat": "Geen lêers nie"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "Lêers wat jy stuur en ontvang, sal hier verskyn"
-  },
-  "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "Lêers wat jy stuur en ontvang, sal hier verskyn"
   },
   "icu:MediaQualitySelector--button": {
@@ -7570,13 +7564,13 @@
     "messageformat": "Sluit asseblief enige besonderhede in wat met die probleem verband hou. Enigiets wat jy hier deel, sal privaat gehou word en sal slegs gebruik word om oproepe in Signal te help verbeter."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "Beskryf asseblief jou probleem"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "Gaan voort"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "Maak 'n keuse om voort te gaan"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Help ons om te verbeter"
@@ -7597,16 +7591,16 @@
     "messageformat": "Dien in"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "Besig om meningspeiling in te dien…"
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "Kon nie meningspeiling indien nie"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "Probeer weer"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "Dankie vir jou terugvoer!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Hierdie weergawe bevat ’n aantal klein aanpassings en regstellings om Signal glad te laat werk.",
@@ -7637,6 +7631,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Verbeterde animasie vir Signal-meningsopnames."
   }
 }

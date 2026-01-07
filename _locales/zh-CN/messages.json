@@ -540,7 +540,7 @@
     "messageformat": "当您点击提交后，您的日志将会在一个唯一的未发布 URL 中在线发布 30 天。您可以先将其保存在本地。"
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "此日志将会在线上公开发布，供贡献者查看。您可以先下载再提交。"
   },
   "icu:debugLogError": {
     "messageformat": "上传出现了问题！请发送电子邮件至 support@signal.org 并在附件中添加日志的文本文件。"
@@ -599,17 +599,8 @@
   "icu:media": {
     "messageformat": "媒体"
   },
-  "icu:mediaEmptyState": {
-    "messageformat": "此聊天中没有任何媒体"
-  },
   "icu:allMedia": {
     "messageformat": "全部媒体"
-  },
-  "icu:documents": {
-    "messageformat": "文档"
-  },
-  "icu:documentsEmptyState": {
-    "messageformat": "此聊天中没有任何文档"
   },
   "icu:today": {
     "messageformat": "今天"
@@ -1245,16 +1236,16 @@
     "messageformat": "置顶"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "替换最早的置顶消息？"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "置顶此消息将替换最早的置顶消息。"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "取消"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "继续"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, other {置顶的消息}}"
@@ -1301,6 +1292,9 @@
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
     "messageformat": "表情"
   },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "图片"
   },
@@ -1319,6 +1313,9 @@
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
     "messageformat": "表情"
   },
+  "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "置顶的消息"
   },
@@ -1326,16 +1323,16 @@
     "messageformat": "取消置顶所有消息"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "取消置顶所有消息？"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "消息将对此聊天中的成员取消置顶。"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "取消"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "取消置顶"
   },
   "icu:sessionEnded": {
     "messageformat": "安全会话已重置"
@@ -2568,10 +2565,10 @@
     "messageformat": "您代{recipient}捐了款"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} 置顶了一条消息"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "您置顶了一条消息"
   },
   "icu:message--donation": {
     "messageformat": "捐款"
@@ -5159,6 +5156,9 @@
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "音频"
   },
+  "icu:ContactListItem__subtitle": {
+    "messageformat": "Contact"
+  },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "在浏览器中打开链接"
   },
@@ -5192,16 +5192,10 @@
   "icu:MediaGallery__EmptyState__description--links-2": {
     "messageformat": "您收发的链接会在这里显示"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "您收发的链接会在这里显示"
-  },
   "icu:MediaGallery__EmptyState__title--documents": {
     "messageformat": "没有文件"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "您收发的文件会在这里显示"
-  },
-  "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "您收发的文件会在这里显示"
   },
   "icu:MediaQualitySelector--button": {
@@ -7570,13 +7564,13 @@
     "messageformat": "请提供与问题相关的任何详细信息。您在此分享的任何内容都将保密，并且仅会用于帮助改进 Signal 的通话质量。"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "请描述您遇到的问题"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "继续"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "请先选择问题再继续"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "帮助我们不断改进"
@@ -7597,16 +7591,16 @@
     "messageformat": "提交"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "正在提交调查..."
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "提交调查失败"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "重试"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "感谢您的反馈！"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "此版本包含多个小调整和漏洞修复，以维持 Signal 的顺畅运行。",
@@ -7637,6 +7631,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "优化了 Signal 投票功能的动画效果。"
   }
 }
