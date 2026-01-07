@@ -148,6 +148,9 @@ export async function maybeForwardMessages(
           (attachments || []).map(async item => ({
             ...(await loadAttachmentData(item)),
             path: undefined,
+            thumbnail: undefined,
+            thumbnailFromBackup: undefined,
+            screenshot: undefined,
           }))
         );
         const attachmentsToSend = attachmentsWithData.filter(
