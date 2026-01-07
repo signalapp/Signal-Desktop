@@ -332,7 +332,7 @@ export const ConversationHeader = memo(function ConversationHeader({
       >
         {measureRef => (
           <div
-            className={tw('flex flex-col shadow-elevation-1')}
+            className={tw('flex flex-col shadow-elevation-1 shadow-no-outline')}
             ref={measureRef}
           >
             <div
