@@ -324,40 +324,56 @@
  */
 /* prettier-ignore */
 @theme {
+  /* shared shadow styles */
+
+  --base-shadow-outline:
+    inset 0 0 0 0.5px var(--color-shadow-highlight),
+    0 0 0 0.5px var(--color-shadow-outline);
+  --base-shadow-elevation-0: 0  1px  2px 0 var(--color-shadow-elevation-1);
+  --base-shadow-elevation-1: 0  2px  8px 0 var(--color-shadow-elevation-2);
+  --base-shadow-elevation-2: 0  4px 12px 0 var(--color-shadow-elevation-3);
+  --base-shadow-elevation-3: 0  6px 16px 0 var(--color-shadow-elevation-4);
+  --base-shadow-elevation-4: 0 12px 56px 0 var(--color-shadow-elevation-5);
+
   /* box-shadow */
   --shadow-*: initial; /* reset defaults */
-  --shadow-elevation-0:
-    0 1px 2px 0 var(--color-shadow-elevation-1);
-  --shadow-elevation-1:
-    0 0 0 0.5px var(--color-shadow-highlight) inset,
-    0 0 0 0.5px var(--color-shadow-outline),
-    0 2px 8px 0 var(--color-shadow-elevation-2);
-  --shadow-elevation-2:
-    0 0 0 0.5px var(--color-shadow-highlight) inset,
-    0 0 0 0.5px var(--color-shadow-outline),
-    0 4px 12px 0 var(--color-shadow-elevation-3);
-  --shadow-elevation-3:
-    0 0 0 0.5px var(--color-shadow-highlight) inset,
-    0 0 0 0.5px var(--color-shadow-outline),
-    0 6px 16px 0 var(--color-shadow-elevation-4);
-  --shadow-elevation-4:
-    0 0 0 0.5px var(--color-shadow-highlight) inset,
-    0 0 0 0.5px var(--color-shadow-outline),
-    0 12px 56px 0 var(--color-shadow-elevation-5);
+  /* Note: Use 'shadow-no-outline' to remove the outline/highlight shadows */
+  --shadow-elevation-0: var(--axo-shadow-no-outline, var(--base-shadow-outline)), var(--base-shadow-elevation-0);
+  --shadow-elevation-1: var(--axo-shadow-no-outline, var(--base-shadow-outline)), var(--base-shadow-elevation-1);
+  --shadow-elevation-2: var(--axo-shadow-no-outline, var(--base-shadow-outline)), var(--base-shadow-elevation-2);
+  --shadow-elevation-3: var(--axo-shadow-no-outline, var(--base-shadow-outline)), var(--base-shadow-elevation-3);
+  --shadow-elevation-4: var(--axo-shadow-no-outline, var(--base-shadow-outline)), var(--base-shadow-elevation-4);
 
   /* box-shadow: inset */
   --inset-shadow-*: initial; /* reset defaults */
-
   --inset-shadow-on-color:
     inset 0 0.5px 1px 0 --alpha(#000 / 12%);
 
   /* filter: drop-shadow() */
   --drop-shadow-*: initial; /* reset defaults */
-  --drop-shadow-elevation-0: var(--shadow-elevation-0);
-  --drop-shadow-elevation-1: var(--shadow-elevation-1);
-  --drop-shadow-elevation-2: var(--shadow-elevation-2);
-  --drop-shadow-elevation-3: var(--shadow-elevation-3);
-  --drop-shadow-elevation-4: var(--shadow-elevation-4);
+  /* Note: Use 'drop-shadow-no-outline' to remove the outline/highlight shadows */
+  --drop-shadow-elevation-0: var(--axo-drop-shadow-no-outline, var(--base-shadow-outline)), var(--shadow-elevation-0);
+  --drop-shadow-elevation-1: var(--axo-drop-shadow-no-outline, var(--base-shadow-outline)), var(--shadow-elevation-1);
+  --drop-shadow-elevation-2: var(--axo-drop-shadow-no-outline, var(--base-shadow-outline)), var(--shadow-elevation-2);
+  --drop-shadow-elevation-3: var(--axo-drop-shadow-no-outline, var(--base-shadow-outline)), var(--shadow-elevation-3);
+  --drop-shadow-elevation-4: var(--axo-drop-shadow-no-outline, var(--base-shadow-outline)), var(--shadow-elevation-4);
+}
+
+@property --axo-shadow-no-outline {
+  syntax: '*';
+  inherits: false;
+}
+@property --axo-drop-shadow-no-outline {
+  syntax: '*';
+  inherits: false;
+}
+
+@utility shadow-no-outline {
+  --axo-shadow-no-outline: 0 0 #0000; /* invisible shadow */
+}
+
+@utility drop-shadow-no-outline {
+  --axo-drop-shadow-outline: 0 0 #0000; /* invisible shadow */
 }
 
 /**
