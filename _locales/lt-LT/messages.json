@@ -540,7 +540,7 @@
     "messageformat": "Kai spustelėsite „Pateikti“, jūsų žurnalas bus 30-čiai dienų paskelbtas internete unikaliu neskelbiamu URL adresu. Galite, iš pradžių, įsirašyti jį savo įrenginyje."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "Šis žurnalas bus viešai paskelbtas internete talkininkams peržiūrėti. Prieš pateikdami, galite jį atsisiųsti."
   },
   "icu:debugLogError": {
     "messageformat": "Kažkas nutiko su išsiuntimu! Prašome parašyti el. laišką adresu support@signal.org ir pridėti savo žurnalą kaip tekstinį failą."
@@ -599,17 +599,8 @@
   "icu:media": {
     "messageformat": "Medija"
   },
-  "icu:mediaEmptyState": {
-    "messageformat": "Šiame pokalbyje nėra jokių įrašų"
-  },
   "icu:allMedia": {
     "messageformat": "Visa medija"
-  },
-  "icu:documents": {
-    "messageformat": "Dokumentai"
-  },
-  "icu:documentsEmptyState": {
-    "messageformat": "Šiame pokalbyje nėra jokių dokumentų"
   },
   "icu:today": {
     "messageformat": "Šiandien"
@@ -1245,16 +1236,16 @@
     "messageformat": "Prisegti"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "Pakeisti seniausią prisegtą žinutę?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "Prisegus šią žinutę, ji pakeis seniausią."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Atšaukti"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Tęsti"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Prisegta žinutė} few {Prisegtos žinutės} many {Prisegtos žinutės} other {Prisegtų žinučių}}"
@@ -1301,6 +1292,9 @@
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
     "messageformat": "Lipdukas"
   },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Nuotrauka"
   },
@@ -1319,6 +1313,9 @@
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
     "messageformat": "Lipdukas"
   },
+  "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Prisegtos žinutės"
   },
@@ -1326,16 +1323,16 @@
     "messageformat": "Atsegti visas žinutes"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "Atsegti visas žinutes?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "Žinutės bus atsegtos šio pokalbio nariams."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Atšaukti"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "Atsegti"
   },
   "icu:sessionEnded": {
     "messageformat": "Saugusis seansas atstatytas"
@@ -2568,10 +2565,10 @@
     "messageformat": "Tu skyrei paramą {recipient} vardu"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} prisegė žinutę"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Prisegėte žinutę"
   },
   "icu:message--donation": {
     "messageformat": "Parama"
@@ -5159,6 +5156,9 @@
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "Garso įrašas"
   },
+  "icu:ContactListItem__subtitle": {
+    "messageformat": "Contact"
+  },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Atverti nuorodą naršyklėje"
   },
@@ -5192,16 +5192,10 @@
   "icu:MediaGallery__EmptyState__description--links-2": {
     "messageformat": "Čia bus rodomos jūsų siunčiamos ir gaunamos nuorodos"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Čia bus rodomos jūsų siunčiamos ir gaunamos nuorodos"
-  },
   "icu:MediaGallery__EmptyState__title--documents": {
     "messageformat": "Failų nėra"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "Čia bus rodomi jūsų siunčiami ir gaunami failai"
-  },
-  "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "Čia bus rodomi jūsų siunčiami ir gaunami failai"
   },
   "icu:MediaQualitySelector--button": {
@@ -7570,13 +7564,13 @@
     "messageformat": "Pateikite visą su problema susijusią informaciją. Viskas, kuo čia pasidalinsite, bus laikoma privačiai ir naudojama tik skambučiams „Signal“ sistemoje tobulinti."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "Aprašykite savo problemą"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "Tęsti"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "Pasirinkite, jei norite tęsti"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Padėkite mums tobulėti"
@@ -7597,16 +7591,16 @@
     "messageformat": "Pateikti"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "Pateikiama apklausa..."
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "Nepavyko pateikti apklausos"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "Bandyti dar kartą"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "Ačiū už atsiliepimą!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Šioje versijoje yra daug smulkių patobulinimų ir klaidų ištaisymų, kurie padės Signal sklandžiai veikti.",
@@ -7637,6 +7631,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Patobulinta „Signal“ apklausų animacija."
   }
 }

@@ -540,7 +540,7 @@
     "messageformat": "Когда вы нажмёте «Отправить», ваш журнал будет размещён в интернете на 30 дней по уникальному неопубликованному URL-адресу. Вы можете сначала сохранить его локально."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "Этот журнал будет опубликован в интернете, чтобы разработчики смогли его просмотреть. Вы можете загрузить его перед отправкой."
   },
   "icu:debugLogError": {
     "messageformat": "С загрузкой что-то пошло не так! Пожалуйста, отправьте письмо по адресу support@signal.org и прикрепите свой журнал в виде текстового файла."
@@ -599,17 +599,8 @@
   "icu:media": {
     "messageformat": "Медиа"
   },
-  "icu:mediaEmptyState": {
-    "messageformat": "У вас нет медиафайлов в этом чате"
-  },
   "icu:allMedia": {
     "messageformat": "Все медиа"
-  },
-  "icu:documents": {
-    "messageformat": "Документы"
-  },
-  "icu:documentsEmptyState": {
-    "messageformat": "У вас нет документов в этом чате"
   },
   "icu:today": {
     "messageformat": "Сегодня"
@@ -1245,16 +1236,16 @@
     "messageformat": "Прикрепить"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "Заменить самое старое закреплённое сообщение?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "При закреплении это сообщение заменит самое старое."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Отменить"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Продолжить"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Закреплённое сообщение} few {Закреплённых сообщения} many {Закреплённых сообщений} other {Закреплённых сообщения}}"
@@ -1301,6 +1292,9 @@
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
     "messageformat": "Стикер"
   },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Фото"
   },
@@ -1319,6 +1313,9 @@
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
     "messageformat": "Стикер"
   },
+  "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Закреплённые сообщения"
   },
@@ -1326,16 +1323,16 @@
     "messageformat": "Открепить все сообщения"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "Открепить все сообщения?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "Сообщения будут откреплены для всех участников этого чата."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Отменить"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "Открепить"
   },
   "icu:sessionEnded": {
     "messageformat": "Защищенный сеанс сброшен"
@@ -2568,10 +2565,10 @@
     "messageformat": "Вы пожертвовали от имени {recipient}"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} закрепил(-а) сообщение"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Вы закрепили сообщение"
   },
   "icu:message--donation": {
     "messageformat": "Пожертвование"
@@ -5159,6 +5156,9 @@
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "Аудио"
   },
+  "icu:ContactListItem__subtitle": {
+    "messageformat": "Contact"
+  },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Откройте ссылку в браузере"
   },
@@ -5192,16 +5192,10 @@
   "icu:MediaGallery__EmptyState__description--links-2": {
     "messageformat": "Ссылки, которые вы отправляете и получаете, будут отображаться здесь"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Ссылки, которые вы отправляете и получаете, будут отображаться здесь"
-  },
   "icu:MediaGallery__EmptyState__title--documents": {
     "messageformat": "Нет файлов"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "Файлы, которые вы отправляете и получаете, будут отображаться здесь"
-  },
-  "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "Файлы, которые вы отправляете и получаете, будут отображаться здесь"
   },
   "icu:MediaQualitySelector--button": {
@@ -7570,13 +7564,13 @@
     "messageformat": "Пожалуйста, укажите любую информацию, относящуюся к проблеме. Всё, чем вы здесь делитесь, сохранится в тайне и будет использовано только для улучшения качества звонков в Signal."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "Пожалуйста, опишите вашу проблему"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "Продолжить"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "Выберите, чтобы продолжить"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Помогите нам стать ещё лучше"
@@ -7597,16 +7591,16 @@
     "messageformat": "Отправить"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "Отправляем опрос…"
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "Не удалось отправить опрос"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "Повторить попытку"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "Спасибо за ваш отзыв!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Эта версия содержит несколько небольших изменений и исправлений ошибок.",
@@ -7637,6 +7631,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Опросы Signal на ПК теперь включают те же тонкие анимационные эффекты, что и на вашем телефоне. Это не волшебство — это ваш ответ на вопрос превращается в опрос."
   }
 }

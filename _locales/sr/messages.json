@@ -540,7 +540,7 @@
     "messageformat": "Када кликнете на „Пошаљи“, ваш извештај ће бити постављен онлајн 30 дана на јединственој, необјављеној URL адреси. Можете га прво сачувати локално."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "Овај извештај ће бити јавно објављен и видљив сарадницима. Можете га преузети пре отпремања."
   },
   "icu:debugLogError": {
     "messageformat": "Дошло је до грешке приликом отпремања. Пошаљите поруку на support@signal.org и приложите извештај као текстуални фајл."
@@ -599,17 +599,8 @@
   "icu:media": {
     "messageformat": "Медији"
   },
-  "icu:mediaEmptyState": {
-    "messageformat": "Нема медија у овом ћаскању"
-  },
   "icu:allMedia": {
     "messageformat": "Сви медији"
-  },
-  "icu:documents": {
-    "messageformat": "Документи"
-  },
-  "icu:documentsEmptyState": {
-    "messageformat": "Нема докумената у овом ћаскању"
   },
   "icu:today": {
     "messageformat": "Данас"
@@ -1245,16 +1236,16 @@
     "messageformat": "Закачи"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "Желите ли да замените најстарију закачену поруку?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "Качење ове поруке замениће најстаријy поруку."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Откажи"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Настави"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Закачена порука} other {Закачене поруке}}"
@@ -1301,6 +1292,9 @@
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
     "messageformat": "Налепница"
   },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Слика"
   },
@@ -1319,6 +1313,9 @@
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
     "messageformat": "Налепница"
   },
+  "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Закачене поруке"
   },
@@ -1326,16 +1323,16 @@
     "messageformat": "Откачи све поруке"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "Желите ли да откачите све поруке?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "Поруке ће бити откачене за чланове из овог ћаскања."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Откажи"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "Откачи"
   },
   "icu:sessionEnded": {
     "messageformat": "Безбедна сесија је ресетована"
@@ -2568,10 +2565,10 @@
     "messageformat": "{recipient} је особа за коју сте донирали"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} је закачио/ла поруку"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Закачили сте поруку"
   },
   "icu:message--donation": {
     "messageformat": "Донација"
@@ -5159,6 +5156,9 @@
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "Аудио"
   },
+  "icu:ContactListItem__subtitle": {
+    "messageformat": "Contact"
+  },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Отвори линк у претраживачу"
   },
@@ -5192,16 +5192,10 @@
   "icu:MediaGallery__EmptyState__description--links-2": {
     "messageformat": "Фајлови које шаљете и примате појавиће се овде"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Фајлови које шаљете и примате појавиће се овде"
-  },
   "icu:MediaGallery__EmptyState__title--documents": {
     "messageformat": "Нема фајлова"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "Фајлови које шаљете и примате појавиће се овде"
-  },
-  "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "Фајлови које шаљете и примате појавиће се овде"
   },
   "icu:MediaQualitySelector--button": {
@@ -7570,13 +7564,13 @@
     "messageformat": "Наведите све детаље релевантне за проблем. Све што овде напишете остаје приватно и користиће се само за побољшање позива у Signal-у."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "Опишите проблем"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "Настави"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "Означите за наставак"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Помозите нам да се побољшамо"
@@ -7597,16 +7591,16 @@
     "messageformat": "Пошаљи"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "Слање анкете..."
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "Слање анкете није успело"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "Пробај поново"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "Хвала вам на повратним информацијама!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ова верзија садржи низ мањих подешавања и исправки грешака како би Signal радио несметано.",
@@ -7637,6 +7631,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Побољшана анимација за Signal анкете."
   }
 }

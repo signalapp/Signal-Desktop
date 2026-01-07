@@ -540,7 +540,7 @@
     "messageformat": "Gönder'i tıkladığınızda, günlüğünüz benzersiz, yayınlanmamış bir URL'de 30 gün boyunca çevrimiçi olarak yayınlanacaktır. Önce yerel olarak kaydedebilirsiniz."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "Bu günlük katkıda bulunanların görmesi için herkese açık bir şekilde paylaşılacaktır. Göndermeden önce indirebilirsin."
   },
   "icu:debugLogError": {
     "messageformat": "Yüklemede bir şeyler ters gitti! Lütfen support@signal.org adresine günlüğünüzü bir metin dosyası olarak eklediğiniz bir e-posta gönderin."
@@ -599,17 +599,8 @@
   "icu:media": {
     "messageformat": "İçerik"
   },
-  "icu:mediaEmptyState": {
-    "messageformat": "Bu sohbette hiçbir içeriğin yok"
-  },
   "icu:allMedia": {
     "messageformat": "Tüm Medyalar"
-  },
-  "icu:documents": {
-    "messageformat": "Belgeler"
-  },
-  "icu:documentsEmptyState": {
-    "messageformat": "Bu sohbette hiçbir belgen yok"
   },
   "icu:today": {
     "messageformat": "Bugün"
@@ -1245,16 +1236,16 @@
     "messageformat": "Sabitle"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "En eski sabitleme değiştirilsin mi?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "Bu mesajın sabitlenmesi en eski mesajın yerini alacaktır."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "İptal"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Devam"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Sabitlenmiş mesaj} other {Sabitlenmiş mesajlar}}"
@@ -1301,6 +1292,9 @@
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
     "messageformat": "Çıkartma"
   },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Fotoğraf"
   },
@@ -1319,6 +1313,9 @@
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
     "messageformat": "Çıkartma"
   },
+  "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Sabitlenmiş mesajlar"
   },
@@ -1326,16 +1323,16 @@
     "messageformat": "Tüm mesajların sabitlemesini kaldır"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "Tüm mesajlardaki sabitleme kaldırılsın mı?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "Bu sohbetin üyeleri için mesajların sabitlemesi kaldırılacaktır."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "İptal"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "Sabitlemeyi kaldır"
   },
   "icu:sessionEnded": {
     "messageformat": "Güvenli oturumu sıfırla"
@@ -2568,10 +2565,10 @@
     "messageformat": "{recipient} için bağış yaptın"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} bir mesajı sabitledi"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Bir mesajı sabitledin"
   },
   "icu:message--donation": {
     "messageformat": "Bağış"
@@ -5159,6 +5156,9 @@
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "Ses"
   },
+  "icu:ContactListItem__subtitle": {
+    "messageformat": "Contact"
+  },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Bağlantıyı bir tarayıcıda aç"
   },
@@ -5192,16 +5192,10 @@
   "icu:MediaGallery__EmptyState__description--links-2": {
     "messageformat": "Gönderdiğin ve aldığın bağlantılar burada görünür"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Gönderdiğin ve aldığın bağlantılar burada görünür"
-  },
   "icu:MediaGallery__EmptyState__title--documents": {
     "messageformat": "Dosya Yok"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "Gönderdiğin ve aldığın dosyalar burada görünür"
-  },
-  "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "Gönderdiğin ve aldığın dosyalar burada görünür"
   },
   "icu:MediaQualitySelector--button": {
@@ -7570,13 +7564,13 @@
     "messageformat": "Lütfen konuyla ilgili tüm ayrıntıları ekle. Burada paylaştığın her şey gizli tutulacak ve yalnızca Signal'daki aramaların iyileştirilmesine yardımcı olmak için kullanılacaktır."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "Lütfen problemini açıkla"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "Devam"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "Devam etmek için bir seçim yap"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Gelişmemize yardımcı ol"
@@ -7597,16 +7591,16 @@
     "messageformat": "Gönder"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "Anket gönderiliyor..."
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "Anket gönderilemedi"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "Tekrar dene"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "Geri bildirimin için teşekkürler!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bu sürüm Signal'in sorunsuz çalışması için gereken bir takım küçük düzeltme ve hata gidermelerini içerir.",
@@ -7637,6 +7631,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Signal anketleri için geliştirilmiş animasyon. Hem de önceden telefonunda beliren aynı çarpıcı animasyon efektleriyle!"
   }
 }

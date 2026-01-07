@@ -540,7 +540,7 @@
     "messageformat": "Când apeși Trimite, jurnalul tău de depanare va fi postat online pentru 30 de zile cu un URL unic și nepublicat. Poți să-l salvezi local mai întâi."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "Acest jurnal va fi publicat online pentru ca toți colaboratorii să îl poată vizualiza. Îl poți descărca înainte de a trimite."
   },
   "icu:debugLogError": {
     "messageformat": "Ceva nu a funcționat în timpul încărcării! Te rugăm trimite un e-mail la support@signal.org și atașează jurnalul ca fișier text."
@@ -599,17 +599,8 @@
   "icu:media": {
     "messageformat": "Media"
   },
-  "icu:mediaEmptyState": {
-    "messageformat": "Nu ai nici un fișier media în această conversație"
-  },
   "icu:allMedia": {
     "messageformat": "Toate fișierele media"
-  },
-  "icu:documents": {
-    "messageformat": "Documente"
-  },
-  "icu:documentsEmptyState": {
-    "messageformat": "Nu ai niciun document în această conversație"
   },
   "icu:today": {
     "messageformat": "Azi"
@@ -1245,16 +1236,16 @@
     "messageformat": "Fixare"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "Înlocuiești cel mai vechi mesaj fixat?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "Fixarea acestui mesaj îl va înlocui pe cel mai vechi."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Anulează"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Continuă"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Mesaj fixate} few {Mesaje fixate} other {de Mesaje fixate}}"
@@ -1301,6 +1292,9 @@
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
     "messageformat": "Autocolant"
   },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Poză"
   },
@@ -1319,6 +1313,9 @@
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
     "messageformat": "Autocolant"
   },
+  "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Mesaje fixate"
   },
@@ -1326,16 +1323,16 @@
     "messageformat": "Anulează fixarea tuturor mesajelor"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "Anulezi fixarea tuturor mesajelor?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "Se va anula fixarea mesajelor pentru membrii acestui chat."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Anulează"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "Anulare fixare"
   },
   "icu:sessionEnded": {
     "messageformat": "Sesiune securizată resetată"
@@ -2568,10 +2565,10 @@
     "messageformat": "Ai donat pentru {recipient}"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} a fixat un mesaj"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Ai fixat un mesaj"
   },
   "icu:message--donation": {
     "messageformat": "Donație"
@@ -5159,6 +5156,9 @@
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "Audio"
   },
+  "icu:ContactListItem__subtitle": {
+    "messageformat": "Contact"
+  },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Deschide linkul într-un browser"
   },
@@ -5192,16 +5192,10 @@
   "icu:MediaGallery__EmptyState__description--links-2": {
     "messageformat": "Fișierele pe care le trimiți și le primești vor apărea aici"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Fișierele pe care le trimiți și le primești vor apărea aici"
-  },
   "icu:MediaGallery__EmptyState__title--documents": {
     "messageformat": "Fără fișiere"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "Fișierele pe care le trimiți și le primești vor apărea aici"
-  },
-  "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "Fișierele pe care le trimiți și le primești vor apărea aici"
   },
   "icu:MediaQualitySelector--button": {
@@ -7570,13 +7564,13 @@
     "messageformat": "Include orice detalii relevante pentru problemă. Orice informații trimiți aici vor rămâne private și vor fi folosite doar pentru a îmbunătăți apelurile în Signal."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "Descrie problema ta"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "Continuă"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "Fă o selecție pentru a continua"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Ajută-ne să ne îmbunătățim"
@@ -7597,16 +7591,16 @@
     "messageformat": "Trimite"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "Se trimite sondajul..."
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "Sondajul nu a fost trimis"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "Încearcă din nou"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "Mulțumesc pentru feedback!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Această versiune conține o serie de mici modificări și remedieri ale unor erori pentru ca Signal să funcționeze fără probleme.",
@@ -7637,6 +7631,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Sondajele Signal de pe desktop includ acum aceleași efecte subtile de animație care apăreau deja pe telefon. A-ți vedea alegerea preferată detașându-se este la doar un sondaj distanță."
   }
 }

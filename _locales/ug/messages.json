@@ -540,7 +540,7 @@
     "messageformat": "«تاپشۇرۇش» نى چەكسىڭىز، خاتىرىڭىز خاس، ئېلان قىلىنمىغان URL بىلەن توردا 30 كۈن ئېلان قىلىنىدۇ. ئۇنى ئاۋۋال يەرلىكتە ساقلىۋېلىش تەۋسىيە قىلىنىدۇ."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "بۇ خاتىرە تۆھپىكارلارنىڭ كۆرۈشى ئۈچۈن توردا ئاشكارا ئېلان قىلىنىدۇ. يوللاشتىن بۇرۇن چۈشۈرۈۋالسىڭىز بولىدۇ."
   },
   "icu:debugLogError": {
     "messageformat": "يۈكلەشتە خاتالىق كۆرۈلدى! support@signal.org گە ئېلخەت يوللاڭ ۋە خاتىرىڭىزنى تېكىست ھۆججىتى قىلىپ قىستۇرۇپ قويۇڭ."
@@ -599,17 +599,8 @@
   "icu:media": {
     "messageformat": "ۋاسىتە"
   },
-  "icu:mediaEmptyState": {
-    "messageformat": "بۇ پاراڭدا ھېچقانداق مېدىيا يوق"
-  },
   "icu:allMedia": {
     "messageformat": "بارلىق ۋاسىتە"
-  },
-  "icu:documents": {
-    "messageformat": "پۈتۈكلەر"
-  },
-  "icu:documentsEmptyState": {
-    "messageformat": "بۇ پاراڭدا ھېچقانداق ھۆججىتىڭىز يوق"
   },
   "icu:today": {
     "messageformat": "بۈگۈن"
@@ -1245,16 +1236,16 @@
     "messageformat": "مىخلاش"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "ئەڭ بېشىدا مىقلاپ قويغان ئۇچۇرنى ئالماشتۇرامسىز؟"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "بۇ مىقلانغان ئۇچۇر ئەڭ كونىسىنىڭ ئورنىنى ئالىدۇ."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "بىكار قىلىش"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "داۋاملاشتۇرۇش"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, other {مىقلانغان ئۇچۇرلار}}"
@@ -1301,6 +1292,9 @@
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
     "messageformat": "چىراي ئىپادە"
   },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "سۈرەت"
   },
@@ -1319,6 +1313,9 @@
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
     "messageformat": "چىراي ئىپادە"
   },
+  "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "مىقلانغان ئۇچۇرلار"
   },
@@ -1326,16 +1323,16 @@
     "messageformat": "بارلىق ئۇچۇرلارنىڭ مىقىنى ئېلىۋېتىش"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "بارلىق ئۇچۇرلارنىڭ مىقىنى ئېلىۋېتەمسىز؟"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "بۇ پاراڭدىكى بارلىق ئەزالار ئۈچۈن ئۇچۇرلارنىڭ مىقى ئېلىۋېتىلىدۇ."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "بىكار قىلىش"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "ئاجرىتىش"
   },
   "icu:sessionEnded": {
     "messageformat": "بىخەتەر سۆزلىشىش ئەسلىگە قايتۇرۇلدى"
@@ -2568,10 +2565,10 @@
     "messageformat": "«{recipient}» گە ۋاكالىتەن ئىئانە قىلدىڭىز"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} بىر ئۇچۇرنى مىقلاپ قويدى"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "سىز بىر ئۇچۇرنى مىقلاپ قويدىڭىز"
   },
   "icu:message--donation": {
     "messageformat": "ئىئانە"
@@ -5159,6 +5156,9 @@
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "ئۈن"
   },
+  "icu:ContactListItem__subtitle": {
+    "messageformat": "Contact"
+  },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "ئۇلىنىشنى توربەتتىن ئېچىڭ"
   },
@@ -5192,16 +5192,10 @@
   "icu:MediaGallery__EmptyState__description--links-2": {
     "messageformat": "سىز يوللىغان ۋە تاپشۇرۇۋالغان ئۇلانمىلار بۇ يەردە كۆرۈنىدۇ"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "سىز يوللىغان ۋە تاپشۇرۇۋالغان ئۇلانمىلار بۇ يەردە كۆرۈنىدۇ"
-  },
   "icu:MediaGallery__EmptyState__title--documents": {
     "messageformat": "ھۆججەتلەر يوق"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "سىز يوللىغان ۋە تاپشۇرۇۋالغان ھۆججەتلىرى بۇ يەردە كۆرۈنىدۇ"
-  },
-  "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "سىز يوللىغان ۋە تاپشۇرۇۋالغان ھۆججەتلىرى بۇ يەردە كۆرۈنىدۇ"
   },
   "icu:MediaQualitySelector--button": {
@@ -7570,13 +7564,13 @@
     "messageformat": "مەسىلىگە مۇناسىۋەتلىك قانداق تەپسىلاتلار بولسا قوشۇپ قويۇڭ. بۇ يەردە ھەمبەھىرلىگەن ھەر قانداق مەزمۇن شەخسىي ھالەتتە ساقلىنىدۇ ھەمدە Signalدىكى تېلېفونلىشىش سۈپىتىنى ياردەملىشىپ ياخشىلاشقا ئىشلىتىلىدۇ."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "بايقىغان مەسىلىنى تەسۋىرلەڭ"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "داۋاملاشتۇرۇش"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "داۋاملاشتۇرۇش ئۈچۈن تاللاڭ"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "بىزنىڭ تېخىمۇ ياخشىلىنىشىمىزغا ياردەم قىلىڭ"
@@ -7597,16 +7591,16 @@
     "messageformat": "تاپشۇر"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "پىڭىر توپلاش سوئالنامىسى يوللىنىۋاتىدۇ..."
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "پىڭىر توپلاش سوئالنامىسىنى تاپشۇرۇش مەغلۇپ بولدى"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "قايتا سىنا"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "ئىنكاسىڭىزغا رەھمەت!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal نىڭ راۋان ئىجرا بولۇشى ئۈچۈن بۇ نەشرىدە بىر قانچە كىچىك ئۆزگەرتىشلەر ئېلىپ بېرىلدى ۋە كاشىلىلار ئوڭشالدى.",
@@ -7637,6 +7631,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "ئۈستەل كومپيوتېرىدىكى Signal راي سىناقلىرى ھازىر تېلېفونىڭىزدا ئىلگىرى كۆرۈنگەندىكىگە ئوخشاش نازۇك كارتون ئۈنۈملىرىنى ئۆز ئىچىگە ئالىدۇ. Signal راي سىناقلىرى كارتون ئۈنۈملىرىنىڭ سۈپىتى تېخىمۇ يۇقىرى كۆتۈرۈلدى."
   }
 }

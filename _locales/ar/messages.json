@@ -540,7 +540,7 @@
     "messageformat": "‫عند النقرعلى زر \"إرسال\"، سوف يُنشَر السجلّ على الإنترنت لمدة 30 يومًا في عنوان URL فريد غير منشور. يمكنك حفظه محليًا أولًا."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "سيُنشَر هذا السّجل علنًا على الانترنت حتى يتمكّن المساهمون من الاطِّلاع عليه. يمكنك تنزيله لمراجعته أو تعديله قبل إرساله."
   },
   "icu:debugLogError": {
     "messageformat": "حدث خطأ ما بعملية التحميل! يرجى إرسال بريد إلكتروني إلى support@signal.org وإرفاق السجل الخاص بك كملفٍ نصي."
@@ -599,17 +599,8 @@
   "icu:media": {
     "messageformat": "الوسائط"
   },
-  "icu:mediaEmptyState": {
-    "messageformat": "ليس لديك أي وسائط في هذه الدردشة"
-  },
   "icu:allMedia": {
     "messageformat": "جميع الوسائط"
-  },
-  "icu:documents": {
-    "messageformat": "الوثائق"
-  },
-  "icu:documentsEmptyState": {
-    "messageformat": "ليس لديك أية وثائق في هذه الدردشة."
   },
   "icu:today": {
     "messageformat": "اليوم"
@@ -1245,16 +1236,16 @@
     "messageformat": "تثبيت"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "هل تريد استبدال التثبيت الأقدم؟"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "سَتحل الرسالة المُثبَّتة مكان الرسالة الأقدم."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "إلغاء"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "متابعة"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, zero {رسائل مُثبَّتة} one {رسالة مُثبَّتة} two {رسالتان مُثبَّتتان} few {رسائل مُثبَّتة} many {رسائل مُثبَّتة} other {رسائل مُثبَّتة}}"
@@ -1301,6 +1292,9 @@
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
     "messageformat": "مُلصَق"
   },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "صورة"
   },
@@ -1319,6 +1313,9 @@
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
     "messageformat": "مُلصَق"
   },
+  "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "المُثبَّتة"
   },
@@ -1326,16 +1323,16 @@
     "messageformat": "إلغاء تثبيت جميع الرسائل"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "هل ترغبُ بإلغاء تثبيت جميع الرسائل؟"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "سيُلغى تثبيت الرسائل لأعضاء هذه الدردشة."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "إلغاء"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "إزالة التثبيت"
   },
   "icu:sessionEnded": {
     "messageformat": "إعادة تعيين جلسة آمنة"
@@ -2568,10 +2565,10 @@
     "messageformat": "تبرَّعتَ نيابةً عن {recipient}"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "قام {sender} بتثبيت رسالة"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "قُمتَ بتثبيت رسالة"
   },
   "icu:message--donation": {
     "messageformat": "تبرُّع"
@@ -5159,6 +5156,9 @@
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "الملفات الصوتية"
   },
+  "icu:ContactListItem__subtitle": {
+    "messageformat": "Contact"
+  },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "افتح الرابط في مُتصفِّح"
   },
@@ -5192,16 +5192,10 @@
   "icu:MediaGallery__EmptyState__description--links-2": {
     "messageformat": "سَتظهر الروابط التي تُرسِلها وتستقبلها هنا"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "سَتظهر الروابط التي تُرسِلها وتستقبلها هنا"
-  },
   "icu:MediaGallery__EmptyState__title--documents": {
     "messageformat": "لا تُوجد ملفات"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "سَتظهر الملفات التي تُرسِلها وتستقبلها هنا"
-  },
-  "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "سَتظهر الملفات التي تُرسِلها وتستقبلها هنا"
   },
   "icu:MediaQualitySelector--button": {
@@ -7570,13 +7564,13 @@
     "messageformat": "يُرجى مشاركة كافة التفاصيل المتعلقة بالمشكلة. ستظل جميع المعلومات التي تشاركها هنا سرية، وسَتُستخدَم لتحسين مكالمات سيجنال فقط."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "يُرجى وصف مشكلتك"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "متابعة"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "حدِّد اختيارًا للمتابعة"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "ساعدنا على التطوير"
@@ -7597,16 +7591,16 @@
     "messageformat": "إرسال"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "جارٍ إرسال الاستطلاع…"
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "فشل إرسال الاستطلاع"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "إعادة المُحاولة"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "شكرًا على ملاحظاتك!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "يحتوي هذا الإصدار على عدد من التعديلات الصغيرة وإصلاحات الأخطاء للحفاظ على عمل سيجنال بسلاسة.",
@@ -7637,6 +7631,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "تتضمن استطلاعات سيجنال على نسخة سطح المكتب الآن نفس تأثيرات الصور المتحركة التي كانت تظهر مُسبقًا على هاتفك. تابِع تقدُّم خيارك المُفضَّل لحظة بلحظة مع كل تصويت."
   }
 }

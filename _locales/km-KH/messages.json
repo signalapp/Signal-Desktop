@@ -540,7 +540,7 @@
     "messageformat": "នៅពេលអ្នកចុច ដាក់បញ្ជូន កំណត់ហេតុរបស់អ្នកនឹងត្រូវបានបង្ហោះលើអ៊ីនធឺណិតរយៈពេល 30 ថ្ងៃនៅ URL មួយដែលខុសប្លែកពីគេ និងមិនទាន់បានផ្សព្វផ្សាយ។ អ្នកអាចរក្សាទុកវានៅក្នុងឧបករណ៍សិន។"
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "កំណត់ហេតុនេះនឹងត្រូវបានបង្ហោះជាសាធារណៈតាមអនឡាញដើម្បីឱ្យអ្នករួមចំណែកមើល។ អ្នកអាចទាញយកវាមុនពេលដាក់បញ្ជូន។"
   },
   "icu:debugLogError": {
     "messageformat": "មានអ្វីមួយមិនប្រក្រតីជាមួយការបង្ហោះនេះ! សូមផ្ញើអ៊ីមែលទៅ support@signal.org និងភ្ជាប់កំណត់ហេតុរបស់អ្នកជាឯកសារអត្ថបទ។"
@@ -599,17 +599,8 @@
   "icu:media": {
     "messageformat": "ឯកសារមេឌា"
   },
-  "icu:mediaEmptyState": {
-    "messageformat": "អ្នកមិនមានមេឌៀណាមួយនៅក្នុងការជជែកនេះទេ"
-  },
   "icu:allMedia": {
     "messageformat": "ឯកសារមេឌាទាំងអស់"
-  },
-  "icu:documents": {
-    "messageformat": "ឯកសារ"
-  },
-  "icu:documentsEmptyState": {
-    "messageformat": "អ្នកមិនមានឯកសារណាមួយនៅក្នុងការជជែកនេះទេ"
   },
   "icu:today": {
     "messageformat": "ថ្ងៃនេះ"
@@ -1245,16 +1236,16 @@
     "messageformat": "ខ្ទាស់"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "ជំនួសការខ្ទាស់ដែលយូរបំផុត?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "ការខ្ទាស់សារនេះនឹងជំនួសសារដែលយូរជាងគេបំផុត។"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "បោះបង់"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "បន្ត"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, other {សារដែលបានខ្ទាស់}}"
@@ -1301,6 +1292,9 @@
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
     "messageformat": "ស្ទីកគ័រ"
   },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "រូបភាព"
   },
@@ -1319,6 +1313,9 @@
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
     "messageformat": "ស្ទីកគ័រ"
   },
+  "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "សារដែលបានខ្ទាស់"
   },
@@ -1326,16 +1323,16 @@
     "messageformat": "ឈប់ខ្ទាស់សារទាំងអស់"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "ឈប់ខ្ទាស់សារទាំងអស់?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "សារនឹងឈប់ខ្ទាស់សម្រាប់សមាជិកនៃការជជែកនេះ។"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "បោះបង់"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "ឈប់ខ្ទាស់"
   },
   "icu:sessionEnded": {
     "messageformat": "កំណត់ការប្រើប្រាស់សុវត្ថិភាពឡើងវិញ"
@@ -2568,10 +2565,10 @@
     "messageformat": "អ្នកបានបរិច្ចាគសម្រាប់ {recipient}"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} បានខ្ទាស់សារមួយ"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "អ្នកបានខ្ទាស់សារមួយ"
   },
   "icu:message--donation": {
     "messageformat": "ការបរិច្ចាគ"
@@ -5159,6 +5156,9 @@
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "សំឡេង"
   },
+  "icu:ContactListItem__subtitle": {
+    "messageformat": "Contact"
+  },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "បើកតំណនៅក្នុងកម្មវិធីរុករក"
   },
@@ -5192,16 +5192,10 @@
   "icu:MediaGallery__EmptyState__description--links-2": {
     "messageformat": "តំណដែលអ្នកផ្ញើ និងទទួលនឹងបង្ហាញនៅទីនេះ"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "តំណដែលអ្នកផ្ញើ និងទទួលនឹងបង្ហាញនៅទីនេះ"
-  },
   "icu:MediaGallery__EmptyState__title--documents": {
     "messageformat": "គ្មានឯកសារ"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "ឯកសារដែលអ្នកផ្ញើ និងទទួលនឹងបង្ហាញនៅទីនេះ"
-  },
-  "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "ឯកសារដែលអ្នកផ្ញើ និងទទួលនឹងបង្ហាញនៅទីនេះ"
   },
   "icu:MediaQualitySelector--button": {
@@ -7570,13 +7564,13 @@
     "messageformat": "សូមបញ្ចូលព័ត៌មានលម្អិតដែលទាក់ទងនឹងបញ្ហា។ អ្វីក៏ដោយដែលអ្នកចែករំលែកនៅទីនេះនឹងត្រូវបានរក្សាទុកជាឯកជន ហើយនឹងត្រូវបានប្រើដើម្បីជួយកែលម្អការហៅទូរសព្ទនៅក្នុង Signal ប៉ុណ្ណោះ។"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "សូមពណ៌នាអំពីបញ្ហារបស់អ្នក"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "បន្ត"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "ធ្វើការជ្រើសរើសដើម្បីបន្ត"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "ជួយយើងកែលម្អ"
@@ -7597,16 +7591,16 @@
     "messageformat": "ដាក់បញ្ជូន"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "កំពុងដាក់បញ្ជូនការស្ទង់មតិ…"
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "មិនអាចដាក់បញ្ជូនការស្ទង់មតិបានទេ"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "ព្យាយាមម្តងទៀត"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "សូមអរគុណចំពោះមតិកែលម្អរបស់អ្នក!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "កំណែ​នេះ​មាន​ការ​កែ​សម្រួល និង​ការកែបញ្ហាតូចៗ​មួយ​ចំនួន ដើម្បី​ឲ្យ​ Signal បន្ត​ដំណើរការ​ដោយ​រលូន។",
@@ -7637,6 +7631,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "ការស្ទង់មតិ Signal នៅលើ Desktop ឥឡូវនេះរួមបញ្ចូលបែបផែនចលនាស្រាលៗដូចគ្នាដែលបានបង្ហាញរួចហើយនៅលើទូរសព្ទរបស់អ្នក។ ការបោះឆ្នោតរបស់អ្នកនៅក្នុងការស្ទង់មតិអាចជួយឱ្យជម្រើសដែលអ្នកចូលចិត្ត ឈ្នះគេឬអត់បាន។"
   }
 }

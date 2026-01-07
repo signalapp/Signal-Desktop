@@ -540,7 +540,7 @@
     "messageformat": "Saat mengklik Kirim, log Anda akan diposting online selama 30 hari pada URL unik yang tidak dipublikasikan. Anda dapat menyimpannya dulu di penyimpanan lokal perangkat Anda."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "Catatan ini akan diposkan online untuk umum agar para kontributor dapat melihatnya. Boleh diunduh dulu sebelum dikirim."
   },
   "icu:debugLogError": {
     "messageformat": "Terjadi kesalahan ketika mengunggah! Kirimkan email ke support@signal.org dan lampirkan log Anda dalam bentuk teks."
@@ -599,17 +599,8 @@
   "icu:media": {
     "messageformat": "Media"
   },
-  "icu:mediaEmptyState": {
-    "messageformat": "Anda tidak memiliki media apa pun dalam obrolan ini."
-  },
   "icu:allMedia": {
     "messageformat": "Semua Media"
-  },
-  "icu:documents": {
-    "messageformat": "Dokumen"
-  },
-  "icu:documentsEmptyState": {
-    "messageformat": "Anda tidak memiliki dokumen apa pun dalam obrolan ini"
   },
   "icu:today": {
     "messageformat": "Hari ini"
@@ -1245,16 +1236,16 @@
     "messageformat": "Sematkan"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "Ganti sematan terlama?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "Sematan terlama akan disingkirkan setelah pesan ini disematkan."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Batal"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Lanjutkan"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, other {Pesan disematkan}}"
@@ -1301,6 +1292,9 @@
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
     "messageformat": "Stiker"
   },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Foto"
   },
@@ -1319,6 +1313,9 @@
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
     "messageformat": "Stiker"
   },
+  "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Pesan disematkan"
   },
@@ -1326,16 +1323,16 @@
     "messageformat": "Lepas sematan semua pesan"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "Lepas sematan semua pesan?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "Semua pesan tersemat akan dilepas dan berlaku untuk semua anggota chat ini."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Batal"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "Lepas Sematan"
   },
   "icu:sessionEnded": {
     "messageformat": "Sesi aman berakhir"
@@ -2568,10 +2565,10 @@
     "messageformat": "Anda berdonasi untuk {recipient}"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} menyematkan sebuah pesan"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Anda menyematkan sebuah pesan"
   },
   "icu:message--donation": {
     "messageformat": "Donasi"
@@ -5159,6 +5156,9 @@
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "Audio"
   },
+  "icu:ContactListItem__subtitle": {
+    "messageformat": "Contact"
+  },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Buka tautan di browser"
   },
@@ -5192,17 +5192,11 @@
   "icu:MediaGallery__EmptyState__description--links-2": {
     "messageformat": "Tautan yang Anda kirim dan terima akan ditampilkan di sini"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Tautan yang Anda kirim dan terima akan ditampilkan di sini"
-  },
   "icu:MediaGallery__EmptyState__title--documents": {
     "messageformat": "Tidak Ada File"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "File yang Anda kirim dan terima akan ditampilkan di sini"
-  },
-  "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "File yang Anda kirim dan terima akan muncul di sini"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Pilih kualitas media"
@@ -7570,13 +7564,13 @@
     "messageformat": "Harap sertakan detail apa pun yang terkait dengan masalah ini. Semua informasi yang Anda bagikan akan dijaga kerahasiaannya dan hanya akan digunakan untuk meningkatkan kualitas panggilan di Signal."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "Jelaskan masalah yang dialami"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "Lanjutkan"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "Tentukan pilihan untuk melanjutkan"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Bantu kami meningkatkan layanan"
@@ -7597,16 +7591,16 @@
     "messageformat": "Kirim"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "Mengirimkan survei …"
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "Gagal mengirimkan survei"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "Coba lagi"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "Terima kasih atas masukannya!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Versi ini mengandung sejumlah perubahan kecil dan perbaikan bug agar Signal tetap berjalan lancar.",
@@ -7637,6 +7631,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Efek animasi keren untuk Polling yang tadinya hanya tersedia di ponsel, kini hadir di Desktop."
   }
 }

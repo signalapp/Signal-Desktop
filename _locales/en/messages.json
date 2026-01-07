@@ -812,21 +812,9 @@
     "messageformat": "Media",
     "description": "Header of the default pane in the media gallery, showing images and videos"
   },
-  "icu:mediaEmptyState": {
-    "messageformat": "You don’t have any media in this chat",
-    "description": "(Deleted 2025/11/19) Message shown to user in the media gallery when there are no messages with media attachments (images or video)"
-  },
   "icu:allMedia": {
     "messageformat": "All Media",
     "description": "(Deleted 2025/12/10) Header for the media gallery"
-  },
-  "icu:documents": {
-    "messageformat": "Documents",
-    "description": "(Deleted 2025/11/19) Header of the secondary pane in the media gallery, showing every non-media attachment"
-  },
-  "icu:documentsEmptyState": {
-    "messageformat": "You don’t have any documents in this chat",
-    "description": "(Deleted 2025/11/19) Message shown to user in the media gallery when there are no messages with document attachments (anything other than images or video)"
   },
   "icu:today": {
     "messageformat": "Today",
@@ -6908,10 +6896,6 @@
     "messageformat": "Links that you send and receive will appear here",
     "description": "Description of the empty state view of media gallery for links tab"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here",
-    "description": "(Deleted 2025/12/03) Description of the empty state view of media gallery for links tab"
-  },
   "icu:MediaGallery__EmptyState__title--documents": {
     "messageformat": "No Files",
     "description": "Title of the empty state view of media gallery for files tab"
@@ -6919,10 +6903,6 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "Files that you send and receive will appear here",
     "description": "Description of the empty state view of media gallery for files tab"
-  },
-  "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here",
-    "description": "(Deleted 2025/12/03) Description of the empty state view of media gallery for files tab"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Select media quality",
@@ -10163,6 +10143,6 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away.",
-    "description": "Release notes for 7.84 release"
+    "description": "(Deleted 2026/01/07) Release notes for 7.84 release"
   }
 }

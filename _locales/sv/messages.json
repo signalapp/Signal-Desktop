@@ -540,7 +540,7 @@
     "messageformat": "När du klickar på Skicka kommer din logg att läggas upp på nätet i 30 dagar på en unik, opublicerad webbadress. Du kan spara den lokalt först."
   },
   "icu:debugLogExplanation--close": {
-    "messageformat": "This log will be posted publicly online for contributors to view. You may download it before submitting."
+    "messageformat": "Denna logg kommer att publiceras offentligt online så att bidragsgivare kan se den. Du kan ladda ner den innan du skickar in den."
   },
   "icu:debugLogError": {
     "messageformat": "Något gick fel med sändningen! Skicka e-post till support@signal.org och bifoga din logg som en textfil."
@@ -599,17 +599,8 @@
   "icu:media": {
     "messageformat": "Media"
   },
-  "icu:mediaEmptyState": {
-    "messageformat": "Du har inga mediafiler i den här chatten"
-  },
   "icu:allMedia": {
     "messageformat": "Alla media"
-  },
-  "icu:documents": {
-    "messageformat": "Dokument"
-  },
-  "icu:documentsEmptyState": {
-    "messageformat": "Du har inga dokument i den här chatten"
   },
   "icu:today": {
     "messageformat": "Idag"
@@ -1245,16 +1236,16 @@
     "messageformat": "Nåla"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
-    "messageformat": "Replace oldest pin?"
+    "messageformat": "Ersätt det äldsta fästa meddelandet?"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
-    "messageformat": "Pinning this message will replace the oldest one."
+    "messageformat": "Om du fäster det här meddelandet ersätts det äldsta."
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Avbryt"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Fortsätt"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Fäst meddelande} other {Fästa meddelanden}}"
@@ -1301,6 +1292,9 @@
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
     "messageformat": "Klistermärke"
   },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Foto"
   },
@@ -1319,6 +1313,9 @@
   "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
     "messageformat": "Klistermärke"
   },
+  "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
+    "messageformat": "View-once media"
+  },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Fästa meddelanden"
   },
@@ -1326,16 +1323,16 @@
     "messageformat": "Lösgör alla meddelanden"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Unpin all messages?"
+    "messageformat": "Lösgör alla meddelanden?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
-    "messageformat": "Messages will be unpinned for members of this chat."
+    "messageformat": "Meddelanden kommer att lösgöras för medlemmar i den här chatten."
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Avbryt"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Unpin"
+    "messageformat": "Lösgör"
   },
   "icu:sessionEnded": {
     "messageformat": "Säker session har återställts"
@@ -2568,10 +2565,10 @@
     "messageformat": "Du donerade åt {recipient}"
   },
   "icu:message--pinned--preview--received": {
-    "messageformat": "{sender} pinned a message"
+    "messageformat": "{sender} fäste ett meddelande"
   },
   "icu:message--pinned--preview--sent": {
-    "messageformat": "You pinned a message"
+    "messageformat": "Du har fäst ett meddelande"
   },
   "icu:message--donation": {
     "messageformat": "Donation"
@@ -5159,6 +5156,9 @@
   "icu:AudioListItem__subtitle--audio": {
     "messageformat": "Ljud"
   },
+  "icu:ContactListItem__subtitle": {
+    "messageformat": "Contact"
+  },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Öppna länken i en webbläsare"
   },
@@ -5192,16 +5192,10 @@
   "icu:MediaGallery__EmptyState__description--links-2": {
     "messageformat": "Länkar som du skickar och tar emot kommer att visas här"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Länkar som du skickar och tar emot kommer att visas här"
-  },
   "icu:MediaGallery__EmptyState__title--documents": {
     "messageformat": "Inga filer"
   },
   "icu:MediaGallery__EmptyState__description--documents-2": {
-    "messageformat": "Filer som du skickar och tar emot kommer att visas här"
-  },
-  "icu:MediaGallery__EmptyState__description--links": {
     "messageformat": "Filer som du skickar och tar emot kommer att visas här"
   },
   "icu:MediaQualitySelector--button": {
@@ -7570,13 +7564,13 @@
     "messageformat": "Inkludera alla detaljer som är relevanta för problemet. Allt du delar här kommer att hållas privat och kommer endast att användas för att förbättra samtal i Signal."
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
-    "messageformat": "Please describe your issue"
+    "messageformat": "Beskriv ditt problem"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
     "messageformat": "Fortsätt"
   },
   "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
-    "messageformat": "Make a selection to continue"
+    "messageformat": "Gör ett val för att fortsätta"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Hjälp oss att förbättra oss"
@@ -7597,16 +7591,16 @@
     "messageformat": "Skicka"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
-    "messageformat": "Submitting survey..."
+    "messageformat": "Skickar in undersökning …"
   },
   "icu:CallQualitySurvey__SubmissionFailed": {
-    "messageformat": "Failed to submit survey"
+    "messageformat": "Det gick inte att skicka in undersökningen"
   },
   "icu:CallQualitySurvey__SubmissionFailed__Retry": {
-    "messageformat": "Retry"
+    "messageformat": "Försök igen"
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
-    "messageformat": "Thanks for your feedback!"
+    "messageformat": "Tack för din feedback!"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Den här versionen innehåller ett antal små justeringar och felrättningar för att Signal ska fungera smidigt.",
@@ -7637,6 +7631,6 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away."
+    "messageformat": "Förbättrade animeringar för Signal-omröstningar."
   }
 }
