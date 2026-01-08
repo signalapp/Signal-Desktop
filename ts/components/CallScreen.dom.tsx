@@ -979,26 +979,7 @@ export function CallScreen({
         </>
       ) : (
         <div className="module-ongoing-call__direct-call-ringing-spacer">
-          <CallBackgroundBlur avatarUrl={conversation.avatarUrl} darken>
-            <div className="module-calling-pip__video--avatar">
-              <Avatar
-                avatarPlaceholderGradient={
-                  conversation.avatarPlaceholderGradient
-                }
-                avatarUrl={conversation.avatarUrl}
-                badge={undefined}
-                color={conversation.color || AvatarColors[0]}
-                noteToSelf={false}
-                conversationType={conversation.type}
-                i18n={i18n}
-                phoneNumber={conversation.phoneNumber}
-                profileName={conversation.profileName}
-                title={conversation.title}
-                size={AvatarSize.NINETY_SIX}
-                sharedGroupNames={conversation.sharedGroupNames}
-              />
-            </div>
-          </CallBackgroundBlur>
+          <CallBackgroundBlur avatarUrl={conversation.avatarUrl} darken />
         </div>
       );
       break;
