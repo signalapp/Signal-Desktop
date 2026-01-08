@@ -60,7 +60,10 @@ export function filterAndClean(
       if ('mentionAci' in range) {
         rawMentionAci = dropNull(range.mentionAci);
       }
-      if ('mentionAciBinary' in range) {
+      if (
+        'mentionAciBinary' in range &&
+        range.mentionAciBinary instanceof Uint8Array
+      ) {
         mentionAciBinary = dropNull(range.mentionAciBinary);
       }
 
@@ -80,7 +83,6 @@ export function filterAndClean(
         }
 
         return {
-          ...restOfRange,
           start,
           length,
           mentionAci,
