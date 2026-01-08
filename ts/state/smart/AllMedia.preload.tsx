@@ -42,6 +42,7 @@ export const SmartAllMedia = memo(function SmartAllMedia({
     haveOldestDocument,
     loading,
     tab,
+    sortOrder,
   } = useSelector(getMediaGalleryState);
   const { initialLoad, loadMore } = useMediaGalleryActions();
   const {
@@ -107,6 +108,7 @@ export const SmartAllMedia = memo(function SmartAllMedia({
       links={links}
       documents={documents}
       tab={tab}
+      sortOrder={sortOrder}
       showLightbox={showLightbox}
       playAudio={playAudio}
       kickOffAttachmentDownload={kickOffAttachmentDownload}

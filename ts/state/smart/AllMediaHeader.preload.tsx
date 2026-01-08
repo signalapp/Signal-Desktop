@@ -8,9 +8,17 @@ import { getIntl } from '../selectors/user.std.js';
 import { useMediaGalleryActions } from '../ducks/mediaGallery.preload.js';
 
 export const SmartAllMediaHeader = memo(function SmartAllMediaHeader() {
-  const { tab } = useSelector(getMediaGalleryState);
-  const { setTab } = useMediaGalleryActions();
+  const { tab, sortOrder } = useSelector(getMediaGalleryState);
+  const { setTab, setSortOrder } = useMediaGalleryActions();
   const i18n = useSelector(getIntl);
 
-  return <PanelHeader i18n={i18n} tab={tab} setTab={setTab} />;
+  return (
+    <PanelHeader
+      i18n={i18n}
+      tab={tab}
+      setTab={setTab}
+      sortOrder={sortOrder}
+      setSortOrder={setSortOrder}
+    />
+  );
 });

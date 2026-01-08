@@ -44,7 +44,12 @@ export function MediaItem({
       );
     case 'media':
       return (
-        <MediaGridItem mediaItem={mediaItem} onClick={onClick} i18n={i18n} />
+        <MediaGridItem
+          mediaItem={mediaItem}
+          onClick={onClick}
+          i18n={i18n}
+          showSize={false}
+        />
       );
     case 'document':
       return (

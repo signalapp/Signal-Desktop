@@ -32,6 +32,7 @@ const createProps = (
     i18n,
     theme,
     mediaItem: overrideProps.mediaItem,
+    showSize: false,
     onClick: action('onClick'),
   };
 };
