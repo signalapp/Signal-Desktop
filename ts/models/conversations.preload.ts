@@ -4087,6 +4087,7 @@ export class ConversationModel {
       body,
       contact,
       bodyRanges,
+      isViewOnce,
       preview,
       quote,
       sticker,
@@ -4096,6 +4097,7 @@ export class ConversationModel {
       body: string | undefined;
       contact?: Array<EmbeddedContactWithHydratedAvatar>;
       bodyRanges?: DraftBodyRanges;
+      isViewOnce?: boolean;
       preview?: Array<LinkPreviewWithHydratedData>;
       quote?: QuotedMessageType;
       sticker?: StickerWithHydratedData;
@@ -4230,6 +4232,7 @@ export class ConversationModel {
       received_at_ms: now,
       expirationStartTimestamp,
       expireTimer,
+      isViewOnce,
       readStatus: ReadStatus.Read,
       seenStatus: SeenStatus.NotApplicable,
       sticker,

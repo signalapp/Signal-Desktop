@@ -613,6 +613,7 @@ function sendMultiMediaMessage(
   options: WithPreSendChecksOptions & {
     bodyRanges?: DraftBodyRanges;
     draftAttachments?: ReadonlyArray<AttachmentDraftType>;
+    isViewOnce?: boolean;
     timestamp?: number;
   }
 ): ThunkAction<
@@ -635,6 +636,7 @@ function sendMultiMediaMessage(
     const {
       draftAttachments,
       bodyRanges,
+      isViewOnce,
       message = '',
       timestamp = Date.now(),
       voiceNoteAttachment,
@@ -676,6 +678,7 @@ function sendMultiMediaMessage(
             quote,
             preview: getLinkPreviewForSend(message),
             bodyRanges,
+            isViewOnce,
           },
           {
             sendHQImages,

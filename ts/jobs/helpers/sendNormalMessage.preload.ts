@@ -86,6 +86,7 @@ import { uuidToBytes } from '../../util/uuidToBytes.std.js';
 import { fromBase64 } from '../../Bytes.std.js';
 import { MIMETypeToString } from '../../types/MIME.std.js';
 import { canReuseExistingTransitCdnPointerForEditedMessage } from '../../util/Attachment.std.js';
+import { eraseMessageContents } from '../../util/cleanup.preload.js';
 
 const { isNumber } = lodash;
 
@@ -231,6 +232,7 @@ export async function sendNormalMessage(
       contact,
       deletedForEveryoneTimestamp,
       expireTimer,
+      isViewOnce,
       bodyRanges,
       preview,
       quote,
@@ -365,6 +367,7 @@ export async function sendNormalMessage(
                 deletedForEveryoneTimestamp,
                 expireTimer,
                 groupV2: groupV2Info,
+                isViewOnce,
                 body,
                 preview,
                 profileKey,
@@ -432,6 +435,7 @@ export async function sendNormalMessage(
             deletedForEveryoneTimestamp,
             expireTimer,
             expireTimerVersion: conversation.getExpireTimerVersion(),
+            isViewOnce,
             preview,
             profileKey,
             quote,
@@ -494,6 +498,10 @@ export async function sendNormalMessage(
         );
       }
       throw new Error('message did not fully send');
+    }
+
+    if (isViewOnce) {
+      await eraseMessageContents(message, 'view-once-sent');
     }
   } catch (thrownError: unknown) {
     const errors = [thrownError, ...messageSendErrors];
@@ -626,6 +634,7 @@ async function getMessageSendData({
   deletedForEveryoneTimestamp: undefined | number;
   expireTimer: undefined | DurationInSeconds;
   bodyRanges: undefined | ReadonlyArray<RawBodyRange>;
+  isViewOnce?: boolean;
   preview: Array<OutgoingLinkPreviewType> | undefined;
   quote: OutgoingQuoteType | undefined;
   sticker: OutgoingStickerType | undefined;
@@ -753,6 +762,7 @@ async function getMessageSendData({
     contact,
     deletedForEveryoneTimestamp: message.get('deletedForEveryoneTimestamp'),
     expireTimer: message.get('expireTimer'),
+    isViewOnce: message.get('isViewOnce'),
     bodyRanges: getPropForTimestamp({
       log,
       message: message.attributes,

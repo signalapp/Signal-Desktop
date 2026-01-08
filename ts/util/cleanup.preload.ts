@@ -46,6 +46,7 @@ export async function eraseMessageContents(
     | 'view-once-viewed'
     | 'view-once-invalid'
     | 'view-once-expired'
+    | 'view-once-sent'
     | 'unsupported-message'
     | 'delete-for-everyone',
   additionalProperties = {}
