@@ -1,6 +1,7 @@
 // Copyright 2017 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { fabric } from 'fabric';
 import lodash from 'lodash';
 import { contextBridge } from 'electron';
 
@@ -31,11 +32,7 @@ import { Environment, getEnvironment } from '../../environment.std.js';
 import { isProduction } from '../../util/version.std.js';
 import { benchmarkConversationOpen } from '../../CI/benchmarkConversationOpen.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
-import { enqueuePollCreateForSend } from '../../util/enqueuePollCreateForSend.dom.js';
-import {
-  isPollSendEnabled,
-  type PollCreateType,
-} from '../../types/Polls.dom.js';
+import { IMAGE_PNG } from '../../types/MIME.std.js';
 
 const { has } = lodash;
 
@@ -120,17 +117,39 @@ if (
 
       calling._iceServerOverride = override;
     },
-    sendPollInSelectedConversation: async (poll: PollCreateType) => {
-      if (!isPollSendEnabled()) {
-        throw new Error('Poll sending is not enabled');
-      }
+    sendViewOnceImageInSelectedConversation: async () => {
       const conversationId =
         window.reduxStore.getState().conversations.selectedConversationId;
       const conversation = window.ConversationController.get(conversationId);
       if (!conversation) {
         throw new Error('No conversation selected');
       }
-      await enqueuePollCreateForSend(conversation, poll);
+
+      const canvas = new fabric.StaticCanvas(null, {
+        width: 100,
+        height: 100,
+        backgroundColor: '#3b82f6',
+      });
+      const dataURL = canvas.toDataURL({ format: 'png' });
+      const base64Data = dataURL.split(',')[1];
+      const data = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
+
+      await conversation.enqueueMessageForSend(
+        {
+          body: undefined,
+          attachments: [
+            {
+              contentType: IMAGE_PNG,
+              size: data.byteLength,
+              data,
+            },
+          ],
+          isViewOnce: true,
+        },
+        {}
+      );
+
+      log.info('Sent view-once test image');
     },
     ...(window.SignalContext.config.ciMode === 'benchmark'
       ? {

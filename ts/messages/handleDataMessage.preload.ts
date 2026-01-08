@@ -728,7 +728,7 @@ export async function handleDataMessage(
         }
 
         if (isTapToView(message.attributes) && type === 'outgoing') {
-          await eraseMessageContents(message, 'view-once-viewed');
+          await eraseMessageContents(message, 'view-once-sent');
         }
 
         if (

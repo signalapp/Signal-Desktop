@@ -212,6 +212,7 @@ export type SharedMessageOptionsType = Readonly<{
   flags?: number;
   groupCallUpdate?: GroupCallUpdateType;
   groupV2?: GroupV2InfoType;
+  isViewOnce?: boolean;
   pinMessage?: SendPinMessageType;
   pollVote?: OutgoingPollVote;
   pollCreate?: PollCreateType;
@@ -272,6 +273,8 @@ class Message {
 
   groupV2?: GroupV2InfoType;
 
+  isViewOnce?: boolean;
+
   preview?: ReadonlyArray<OutgoingLinkPreviewType>;
 
   profileKey?: Uint8Array;
@@ -314,6 +317,7 @@ class Message {
     this.expireTimerVersion = options.expireTimerVersion;
     this.flags = options.flags;
     this.groupV2 = options.groupV2;
+    this.isViewOnce = options.isViewOnce;
     this.preview = options.preview;
     this.profileKey = options.profileKey;
     this.quote = options.quote;
@@ -583,6 +587,9 @@ class Message {
     }
     if (this.profileKey) {
       proto.profileKey = this.profileKey;
+    }
+    if (this.isViewOnce) {
+      proto.isViewOnce = true;
     }
     if (this.deletedForEveryoneTimestamp) {
       proto.delete = {
@@ -1125,6 +1132,7 @@ export class MessageSender {
       flags,
       groupCallUpdate,
       groupV2,
+      isViewOnce,
       body,
       preview,
       profileKey,
@@ -1173,6 +1181,7 @@ export class MessageSender {
       flags,
       groupCallUpdate,
       groupV2,
+      isViewOnce,
       preview,
       profileKey,
       quote,
