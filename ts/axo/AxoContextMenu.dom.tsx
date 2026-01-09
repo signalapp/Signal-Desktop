@@ -232,6 +232,7 @@ export namespace AxoContextMenu {
    * Uses a portal to render the content part into the `body`.
    */
   export const Content: FC<ContentProps> = memo(props => {
+    const { open } = useStrictContext(RootContext);
     return (
       <ContextMenu.Portal>
         <ContextMenu.Content
@@ -239,6 +240,8 @@ export namespace AxoContextMenu {
           alignOffset={-6}
           collisionPadding={6}
           onCloseAutoFocus={props.onCloseAutoFocus}
+          // @ts-expect-error -- React/TS doesn't know about inert
+          inert={open ? undefined : 'true'}
         >
           {props.children}
         </ContextMenu.Content>
