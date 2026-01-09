@@ -96,7 +96,14 @@ export function MessageContextMenu({
           </AxoMenuBuilder.Item>
         )}
         {onForward && (
-          <AxoMenuBuilder.Item symbol="forward" onSelect={onForward}>
+          <AxoMenuBuilder.Item
+            symbol="forward"
+            onSelect={() => {
+              // forward modal takes focus
+              shouldReturnFocusToTrigger.current = false;
+              onForward();
+            }}
+          >
             {i18n('icu:MessageContextMenu__forward')}
           </AxoMenuBuilder.Item>
         )}
