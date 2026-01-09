@@ -264,13 +264,7 @@ export function ForwardMessagesModal({
   };
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      inputRef.current?.focus();
-    }, 100);
-
-    return () => {
-      clearTimeout(timeout);
-    };
+    inputRef.current?.focus();
   }, []);
 
   const footer = (
