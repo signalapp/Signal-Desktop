@@ -90,6 +90,20 @@ message AccountData {
     AutoDownloadOption documents = 4;
   }
 
+  enum AppTheme {
+    UNKNOWN_APP_THEME = 0; // Interpret as "System"
+    SYSTEM = 1;
+    LIGHT = 2;
+    DARK = 3;
+  }
+
+  enum CallsUseLessDataSetting {
+    UNKNOWN_CALL_DATA_SETTING = 0; // Interpret as "Never"
+    NEVER = 1;
+    MOBILE_DATA_ONLY = 2;
+    WIFI_AND_MOBILE_DATA = 3;
+  }
+
   message AccountSettings {
     bool readReceipts = 1;
     bool sealedSenderIndicators = 2;
@@ -119,6 +133,9 @@ message AccountData {
     reserved /* wifiAutoDownloadSettings */ 25;
     optional uint32 screenLockTimeoutMinutes = 26; // If unset, consider screen lock to be disabled.
     optional bool pinReminders = 27; // If unset, consider pin reminders to be enabled.
+    AppTheme appTheme = 28;  // If unset, treat the same as "Unknown" case
+    CallsUseLessDataSetting callsUseLessDataSetting = 29;  // If unset, treat the same as "Unknown" case
+    bool allowSealedSenderFromAnyone = 30;
   }
 
   message SubscriberData {
@@ -140,8 +157,15 @@ message AccountData {
   }
 
   message AndroidSpecificSettings {
+    enum NavigationBarSize {
+      UNKNOWN_BAR_SIZE = 0; // Intepret as "Normal"
+      NORMAL = 1;
+      COMPACT = 2;
+    }
+
     bool useSystemEmoji = 1;
     bool screenshotSecurity = 2;
+    NavigationBarSize navigationBarSize = 3; // If unset, treat the same as "Unknown" case
   }
 
   bytes profileKey = 1;
@@ -438,6 +462,14 @@ message ChatItem {
   message DirectionlessMessageDetails {
   }
 
+  message PinDetails {
+    uint64 pinnedAtTimestamp = 1;
+    oneof pinExpiry {
+      uint64 pinExpiresAtTimestamp = 2; // timestamp when the pin should expire
+      bool pinNeverExpires = 3;
+    }
+  }
+
   uint64 chatId = 1;   // conversation id
   uint64 authorId = 2; // recipient id
   uint64 dateSent = 3;
@@ -466,6 +498,8 @@ message ChatItem {
     DirectStoryReplyMessage directStoryReplyMessage = 19; // group story reply messages are not backed up
     Poll poll = 20;
   }
+
+  PinDetails pinDetails = 21; // only set if message is pinned
 }
 
 message SendStatus {
@@ -876,6 +910,7 @@ message ChatUpdateMessage {
     GroupCall groupCall = 8;
     LearnedProfileChatUpdate learnedProfileChange = 9;
     PollTerminateUpdate pollTerminate = 10;
+    PinMessageUpdate pinMessage = 11;
   }
 }
 
@@ -1244,6 +1279,11 @@ message GroupExpirationTimerUpdate {
 message PollTerminateUpdate {
   uint64 targetSentTimestamp = 1;
   string question = 2; // Between 1-100 characters
+}
+
+message PinMessageUpdate {
+  uint64 targetSentTimestamp = 1;
+  uint64 authorId = 2; // recipient id
 }
 
 message StickerPack {

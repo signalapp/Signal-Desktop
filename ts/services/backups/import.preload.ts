@@ -167,6 +167,9 @@ import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { ChatFolderType } from '../../types/ChatFolder.std.js';
 import type { ChatFolderId, ChatFolder } from '../../types/ChatFolder.std.js';
 import { expiresTooSoonForBackup } from './util/expiration.std.js';
+import { getPinnedMessagesLimit } from '../../util/pinnedMessages.dom.js';
+import type { PinnedMessageParams } from '../../types/PinnedMessage.std.js';
+import type { ThemeType } from '../../util/preload.preload.js';
 
 const { isNumber } = lodash;
 
@@ -277,6 +280,7 @@ export class BackupImportStream extends Writable {
   #releaseNotesRecipientId: Long | undefined;
   #releaseNotesChatId: Long | undefined;
   #pendingGroupAvatars = new Map<string, string>();
+  #pinnedMessages: Array<PinnedMessageParams> = [];
   #frameErrorCount: number = 0;
   #backupTier: BackupLevel | undefined;
 
@@ -371,6 +375,23 @@ export class BackupImportStream extends Writable {
       await this.#flushMessages();
       await this.#flushConversations();
       log.info(`${this.#logId}: flushed messages and conversations`);
+
+      // Save pinned messages after messages
+      const pinnedMessageLimit = getPinnedMessagesLimit();
+      const sortedPinnedMessages = this.#pinnedMessages.toSorted((a, b) => {
+        return a.pinnedAt - b.pinnedAt;
+      });
+      for (const params of sortedPinnedMessages) {
+        try {
+          // eslint-disable-next-line no-await-in-loop
+          await DataWriter.appendPinnedMessage(pinnedMessageLimit, params);
+        } catch (error) {
+          log.error(
+            `${this.#logId}: failed to append pinned message`,
+            Errors.toLogFormat(error)
+          );
+        }
+      }
 
       // Store sticker packs and schedule downloads
       await createPacksFromBackup(this.#stickerPacks);
@@ -868,6 +889,10 @@ export class BackupImportStream extends Writable {
       await itemStorage.put('svrPin', svrPin);
     }
 
+    await window.Events.setThemeSetting(
+      toThemeSetting(accountSettings?.appTheme)
+    );
+
     if (isTestOrMockEnvironment()) {
       // Only relevant for tests
       await itemStorage.put(
@@ -881,6 +906,15 @@ export class BackupImportStream extends Writable {
       await itemStorage.put(
         'screenLockTimeoutMinutes',
         dropNull(accountSettings?.screenLockTimeoutMinutes)
+      );
+
+      await itemStorage.put(
+        'callsUseLessDataSetting',
+        accountSettings?.callsUseLessDataSetting
+      );
+      await itemStorage.put(
+        'allowSealedSenderFromAnyone',
+        accountSettings?.allowSealedSenderFromAnyone
       );
 
       const autoDownload = accountSettings?.autoDownloadSettings;
@@ -1746,6 +1780,32 @@ export class BackupImportStream extends Writable {
       chatConvo.sentMessageCount = (chatConvo.sentMessageCount ?? 0) + 1;
     } else if (item.incoming != null) {
       chatConvo.messageCount = (chatConvo.messageCount ?? 0) + 1;
+    }
+
+    if (item.pinDetails != null) {
+      strictAssert(
+        item.pinDetails.pinnedAtTimestamp != null,
+        'pinDetails: Missing pinnedAtTimestamp'
+      );
+      const pinnedAt = item.pinDetails.pinnedAtTimestamp.toNumber();
+
+      let expiresAt: number | null;
+      if (item.pinDetails.pinExpiresAtTimestamp != null) {
+        expiresAt = item.pinDetails.pinExpiresAtTimestamp.toNumber();
+      } else {
+        strictAssert(
+          item.pinDetails.pinNeverExpires === true,
+          'pinDetails: pinNeverExpires should be true if theres no pinExpiresAtTimestamp'
+        );
+        expiresAt = null;
+      }
+
+      this.#pinnedMessages.push({
+        conversationId: chatConvo.id,
+        messageId: attributes.id,
+        pinnedAt,
+        expiresAt,
+      });
     }
 
     await this.#updateConversation(chatConvo);
@@ -2849,6 +2909,40 @@ export class BackupImportStream extends Writable {
       };
     }
 
+    if (updateMessage.pinMessage) {
+      strictAssert(
+        updateMessage.pinMessage.authorId != null,
+        'pinMessage: Missing authorId'
+      );
+      const targetAuthor = this.#recipientIdToConvo.get(
+        updateMessage.pinMessage.authorId.toNumber()
+      );
+      strictAssert(targetAuthor != null, 'pinMessage: Missing target author');
+      const targetAuthorAci = targetAuthor.serviceId;
+      strictAssert(
+        isAciString(targetAuthorAci),
+        'pinMessage: Target author missing aci'
+      );
+
+      strictAssert(
+        updateMessage.pinMessage.targetSentTimestamp != null,
+        'pinMessage: Missing targetSentTimestamp'
+      );
+      const targetSentTimestamp =
+        updateMessage.pinMessage.targetSentTimestamp.toNumber();
+
+      return {
+        message: {
+          type: 'pinned-message-notification',
+          pinMessage: {
+            targetAuthorAci,
+            targetSentTimestamp,
+          },
+        },
+        additionalMessages: [],
+      };
+    }
+
     if (updateMessage.pollTerminate) {
       // TODO (DESKTOP-9282)
       log.warn('Skipping pollTerminate update (not yet supported)');
@@ -2867,7 +2961,7 @@ export class BackupImportStream extends Writable {
     }
   ): Promise<ChatItemParseResult | undefined> {
     const { updates } = groupChange;
-    const { aboutMe, timestamp, author } = options;
+    const { aboutMe, timestamp } = options;
     const logId = `fromGroupUpdateMessage${timestamp}`;
 
     const details: Array<GroupV2ChangeDetailType> = [];
@@ -3380,13 +3474,9 @@ export class BackupImportStream extends Writable {
       if (update.groupExpirationTimerUpdate) {
         const { updaterAci, expiresInMs } = update.groupExpirationTimerUpdate;
         let sourceServiceId: AciString | undefined;
-        let source = author?.e164;
 
         if (Bytes.isNotEmpty(updaterAci)) {
           sourceServiceId = fromAciObject(Aci.fromUuidBytes(updaterAci));
-          if (sourceServiceId !== author?.serviceId) {
-            source = undefined;
-          }
         }
 
         const expireTimer = expiresInMs
@@ -3395,7 +3485,6 @@ export class BackupImportStream extends Writable {
         additionalMessages.push({
           type: 'timer-notification',
           sourceServiceId,
-          source,
           flags: SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
           expirationTimerUpdate: {
             expireTimer,
@@ -4149,4 +4238,19 @@ function fromAvatarColor(
     default:
       throw missingCaseError(color);
   }
+}
+
+function toThemeSetting(
+  theme: Backups.AccountData.AppTheme | undefined | null
+): ThemeType {
+  const ENUM = Backups.AccountData.AppTheme;
+
+  if (theme === ENUM.LIGHT) {
+    return 'light';
+  }
+  if (theme === ENUM.DARK) {
+    return 'dark';
+  }
+
+  return 'system';
 }

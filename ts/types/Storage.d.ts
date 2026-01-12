@@ -260,6 +260,8 @@ export type StorageAccessType = {
         documents: number;
       };
   androidSpecificSettings: unknown;
+  callsUseLessDataSetting: unknown;
+  allowSealedSenderFromAnyone: unknown;
 
   postRegistrationSyncsStatus: 'incomplete' | 'complete';
 

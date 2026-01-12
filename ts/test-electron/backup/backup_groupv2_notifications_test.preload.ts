@@ -2033,7 +2033,6 @@ describe('backup/groupv2/notifications', () => {
         readStatus: ReadStatus.Read,
         seenStatus: SeenStatus.Seen,
         sourceServiceId: CONTACT_A,
-        source: CONTACT_A_E164,
       };
 
       counter += 1;
@@ -2052,7 +2051,6 @@ describe('backup/groupv2/notifications', () => {
         readStatus: ReadStatus.Read,
         seenStatus: SeenStatus.Seen,
         sourceServiceId: CONTACT_A,
-        source: CONTACT_A_E164,
       };
 
       const messages: Array<MessageAttributesType> = [

@@ -68,6 +68,7 @@ import {
 } from './MessageRequestResponseNotification.dom.js';
 import type { MessageRequestState } from './MessageRequestActionsConfirmation.dom.js';
 import type { MessageInteractivity } from './Message.dom.js';
+import type { PinMessageData } from '../../model-types.js';
 
 type CallHistoryType = {
   type: 'callHistory';
@@ -206,7 +207,7 @@ type PropsLocalType = {
   isGroup: boolean;
   isNextItemCallingNotification: boolean;
   isTargeted: boolean;
-  scrollToPinnedMessage: (pinnedMessageId: string) => void;
+  scrollToPinnedMessage: (pinMessage: PinMessageData) => void;
   scrollToPollMessage: (messageId: string, conversationId: string) => unknown;
   targetMessage: (messageId: string, conversationId: string) => unknown;
   shouldRenderDateHeader: boolean;

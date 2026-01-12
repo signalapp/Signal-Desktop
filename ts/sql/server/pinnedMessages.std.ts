@@ -46,6 +46,16 @@ function _getPinnedMessagePreloadData(
   return { pinnedMessage, message };
 }
 
+export function getAllPinnedMessages(
+  db: ReadableDB
+): ReadonlyArray<PinnedMessage> {
+  const [query, params] = sql`
+    SELECT * FROM pinnedMessages;
+  `;
+
+  return db.prepare(query).all<PinnedMessage>(params);
+}
+
 export function getPinnedMessagesPreloadDataForConversation(
   db: ReadableDB,
   conversationId: string

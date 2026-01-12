@@ -5219,7 +5219,10 @@ function onPinnedMessageAdd(
     drop(pinnedMessagesCleanupService.trigger('onPinnedMessageAdd'));
 
     await targetConversation.addNotification('pinned-message-notification', {
-      pinnedMessageId: targetMessageId,
+      pinMessage: {
+        targetSentTimestamp: target.targetSentTimestamp,
+        targetAuthorAci: target.targetAuthorAci,
+      },
       sourceServiceId: itemStorage.user.getCheckedAci(),
     });
 

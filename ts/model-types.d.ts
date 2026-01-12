@@ -152,6 +152,11 @@ export type EditHistoryType = {
   unidentifiedDeliveryReceived?: boolean;
 };
 
+export type PinMessageData = Readonly<{
+  targetAuthorAci: AciString;
+  targetSentTimestamp: number;
+}>;
+
 type MessageType =
   | 'call-history'
   | 'change-number-notification'
@@ -213,7 +218,7 @@ export type MessageAttributesType = {
   payment?: AnyPaymentEvent;
   quote?: QuotedMessageType;
   reactions?: ReadonlyArray<MessageReactionType>;
-  pinnedMessageId?: string;
+  pinMessage?: PinMessageData;
   poll?: PollMessageAttribute;
   pollTerminateNotification?: {
     question: string;

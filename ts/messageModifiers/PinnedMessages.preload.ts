@@ -116,7 +116,10 @@ export async function onPinnedMessageAdd(
 
   if (result.change?.inserted) {
     await targetConversation.addNotification('pinned-message-notification', {
-      pinnedMessageId: targetMessage.id,
+      pinMessage: {
+        targetSentTimestamp: props.targetSentTimestamp,
+        targetAuthorAci: props.targetAuthorAci,
+      },
       sourceServiceId: props.pinnedByAci,
     });
   }

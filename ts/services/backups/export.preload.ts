@@ -184,6 +184,8 @@ import { KIBIBYTE } from '../../types/AttachmentSize.std.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { ChatFolderType } from '../../types/ChatFolder.std.js';
 import { expiresTooSoonForBackup } from './util/expiration.std.js';
+import type { PinnedMessage } from '../../types/PinnedMessage.std.js';
+import type { ThemeType } from '../../util/preload.preload.js';
 
 const { isNumber } = lodash;
 
@@ -222,6 +224,7 @@ type GetRecipientIdOptionsType =
 type ToChatItemOptionsType = Readonly<{
   aboutMe: AboutMe;
   callHistoryByCallId: Record<string, CallHistoryDetails>;
+  pinnedMessagesByMessageId: Record<string, PinnedMessage>;
 }>;
 
 type NonBubbleOptionsType = Pick<
@@ -752,6 +755,9 @@ export class BackupExportStream extends Readable {
     const callHistory = await DataReader.getAllCallHistory();
     const callHistoryByCallId = makeLookup(callHistory, 'callId');
 
+    const pinnedMessages = await DataReader.getAllPinnedMessages();
+    const pinnedMessagesByMessageId = makeLookup(pinnedMessages, 'messageId');
+
     const me = window.ConversationController.getOurConversationOrThrow();
     const serviceId = me.get('serviceId');
     const aci = isAciString(serviceId) ? serviceId : undefined;
@@ -779,6 +785,7 @@ export class BackupExportStream extends Readable {
             const chatItem = await this.#toChatItem(message, {
               aboutMe,
               callHistoryByCallId,
+              pinnedMessagesByMessageId,
             });
 
             if (chatItem === undefined) {
@@ -952,6 +959,9 @@ export class BackupExportStream extends Readable {
       'auto-download-attachment-primary'
     );
 
+    const themeSetting = await window.Events.getThemeSetting();
+    const appTheme = toAppTheme(themeSetting);
+
     return {
       profileKey: itemStorage.get('profileKey'),
       username: me.get('username') || null,
@@ -1017,11 +1027,19 @@ export class BackupExportStream extends Readable {
         customChatColors: this.#toCustomChatColors(),
         defaultChatStyle: this.#toDefaultChatStyle(),
         backupTier: backupTier != null ? Long.fromNumber(backupTier) : null,
+        appTheme,
+        callsUseLessDataSetting:
+          itemStorage.get('callsUseLessDataSetting') ||
+          Backups.AccountData.CallsUseLessDataSetting.MOBILE_DATA_ONLY,
+
         // Test only values
         ...(isTestOrMockEnvironment()
           ? {
               optimizeOnDeviceStorage: itemStorage.get(
                 'optimizeOnDeviceStorage'
+              ),
+              allowSealedSenderFromAnyone: itemStorage.get(
+                'allowSealedSenderFromAnyone'
               ),
               pinReminders: itemStorage.get('pinReminders'),
               screenLockTimeoutMinutes: itemStorage.get(
@@ -1325,7 +1343,11 @@ export class BackupExportStream extends Readable {
 
   async #toChatItem(
     message: MessageAttributesType,
-    { aboutMe, callHistoryByCallId }: ToChatItemOptionsType
+    {
+      aboutMe,
+      callHistoryByCallId,
+      pinnedMessagesByMessageId,
+    }: ToChatItemOptionsType
   ): Promise<Backups.IChatItem | undefined> {
     const conversation = window.ConversationController.get(
       message.conversationId
@@ -1697,6 +1719,25 @@ export class BackupExportStream extends Readable {
       result.incoming = this.#getIncomingMessageDetails(message);
     }
 
+    const pinnedMessage = pinnedMessagesByMessageId[message.id];
+    if (pinnedMessage != null) {
+      const pinnedAtTimestamp = Long.fromNumber(pinnedMessage.pinnedAt);
+
+      let pinExpiresAtTimestamp: Long | null = null;
+      let pinNeverExpires: true | null = null;
+      if (pinnedMessage.expiresAt != null) {
+        pinExpiresAtTimestamp = Long.fromNumber(pinnedMessage.expiresAt);
+      } else {
+        pinNeverExpires = true;
+      }
+
+      result.pinDetails = {
+        pinnedAtTimestamp,
+        pinExpiresAtTimestamp,
+        pinNeverExpires,
+      };
+    }
+
     return result;
   }
 
@@ -1857,6 +1898,9 @@ export class BackupExportStream extends Readable {
       const sourceServiceId = message.expirationTimerUpdate?.sourceServiceId;
 
       if (conversation && isGroup(conversation.attributes)) {
+        patch.authorId = this.#getRecipientId({
+          serviceId: options.aboutMe.aci,
+        });
         const groupChatUpdate = new Backups.GroupChangeChatUpdate();
 
         const timerUpdate = new Backups.GroupExpirationTimerUpdate();
@@ -1933,8 +1977,30 @@ export class BackupExportStream extends Readable {
     }
 
     if (isPinnedMessageNotification(message)) {
-      // TODO(jamie): Implement backups for pinned messages
-      return { kind: NonBubbleResultKind.Drop };
+      let targetAuthorId: Long | null = null;
+      let targetSentTimestamp: Long | null = null;
+
+      if (message.pinMessage == null) {
+        log.warn(
+          'toChatItemUpdate/pinnedMessageNotification: pinMessage details not found',
+          message.id
+        );
+        return { kind: NonBubbleResultKind.Drop };
+      }
+
+      targetSentTimestamp = Long.fromNumber(
+        message.pinMessage.targetSentTimestamp
+      );
+      targetAuthorId = this.#getOrPushPrivateRecipient({
+        serviceId: message.pinMessage.targetAuthorAci,
+      });
+
+      updateMessage.pinMessage = new Backups.PinMessageUpdate({
+        targetSentTimestamp,
+        authorId: targetAuthorId,
+      });
+
+      return { kind: NonBubbleResultKind.Directionless, patch };
     }
 
     if (isProfileChange(message)) {
@@ -3579,4 +3645,17 @@ function toAvatarColor(
     default:
       return undefined;
   }
+}
+
+function toAppTheme(theme: ThemeType): Backups.AccountData.AppTheme {
+  const ENUM = Backups.AccountData.AppTheme;
+
+  if (theme === 'light') {
+    return ENUM.LIGHT;
+  }
+  if (theme === 'dark') {
+    return ENUM.DARK;
+  }
+
+  return ENUM.SYSTEM;
 }
