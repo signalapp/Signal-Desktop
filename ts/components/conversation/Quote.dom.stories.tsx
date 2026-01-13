@@ -77,7 +77,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   canEditMessage: true,
   canEndPoll: false,
   canForward: true,
-  canPinMessages: true,
+  canPinMessage: true,
   canReact: true,
   canReply: true,
   canRetry: true,

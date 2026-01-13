@@ -191,7 +191,7 @@ function TabsList(props: {
   return (
     <AriaClickable.SubWidget>
       <Tabs.List className={tw('flex h-full flex-col')}>
-        {props.pins.toReversed().map((pin, pinIndex) => {
+        {props.pins.map((pin, pinIndex) => {
           return (
             <TabTrigger
               key={pin.id}
@@ -395,7 +395,39 @@ function getMessagePreview(i18n: LocalizerType, message: PinMessage): Preview {
     text ??= <MessageTextPreview i18n={i18n} text={message.text} />;
   }
 
-  // 3. And everything else...
+  // 3. Check specific types of messages (before checking attachments)
+  if (message.payment) {
+    text ??= i18n('icu:PinnedMessagesBar__MessagePreview__Text--Payment');
+    icon ??= {
+      symbol: 'creditcard',
+      label: i18n(
+        'icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment'
+      ),
+    };
+  } else if (message.poll != null) {
+    text ??= <UserText text={message.poll.question} />;
+    icon ??= {
+      symbol: 'poll',
+      label: i18n('icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Poll'),
+    };
+  } else if (message.sticker) {
+    text ??= i18n('icu:PinnedMessagesBar__MessagePreview__Text--Sticker');
+    icon ??= {
+      symbol: 'sticker',
+      label: i18n(
+        'icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker'
+      ),
+    };
+  } else if (message.contact != null) {
+    const name = message.contact.name ?? i18n('icu:unknownContact');
+    text ??= <UserText text={name} />;
+    icon ??= {
+      symbol: 'person-circle',
+      label: name,
+    };
+  }
+
+  // 4. Check attachments (make sure to check types like sticker/contact first)
   if (message.attachment != null) {
     if (message.attachment.type === 'image') {
       text ??= i18n('icu:PinnedMessagesBar__MessagePreview__Text--Photo');
@@ -426,35 +458,6 @@ function getMessagePreview(i18n: LocalizerType, message: PinMessage): Preview {
     } else {
       throw missingCaseError(message.attachment);
     }
-  } else if (message.contact != null) {
-    const name = message.contact.name ?? i18n('icu:unknownContact');
-    text ??= <UserText text={name} />;
-    icon ??= {
-      symbol: 'person-circle',
-      label: name,
-    };
-  } else if (message.payment) {
-    text ??= i18n('icu:PinnedMessagesBar__MessagePreview__Text--Payment');
-    icon ??= {
-      symbol: 'creditcard',
-      label: i18n(
-        'icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment'
-      ),
-    };
-  } else if (message.poll != null) {
-    text ??= <UserText text={message.poll.question} />;
-    icon ??= {
-      symbol: 'poll',
-      label: i18n('icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Poll'),
-    };
-  } else if (message.sticker) {
-    text ??= i18n('icu:PinnedMessagesBar__MessagePreview__Text--Sticker');
-    icon ??= {
-      symbol: 'sticker',
-      label: i18n(
-        'icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker'
-      ),
-    };
   }
 
   return { icon, text };

@@ -946,7 +946,7 @@ export const getPropsForMessage = (
     canDownload: canDownload(message, conversationSelector),
     canEndPoll: canEndPoll(message),
     canForward: canForward(message),
-    canPinMessages: canPinMessages(conversation),
+    canPinMessage: canPinMessage(conversation, message),
     canReact: canReact(message, ourConversationId, conversationSelector),
     canReply: canReply(message, ourConversationId, conversationSelector),
     canRetry: hasErrors(message),
@@ -2412,6 +2412,19 @@ export function canPinMessages(conversation: ConversationType): boolean {
     return false;
   }
   return conversation.type === 'direct' || canEditGroupInfo(conversation);
+}
+
+export function canPinMessage(
+  conversation: ConversationType,
+  message: ReadonlyMessageAttributesType
+): boolean {
+  if (!canPinMessages(conversation)) {
+    return false;
+  }
+  if (isGiftBadge(message)) {
+    return false;
+  }
+  return true;
 }
 
 function getHasMaxPinnedMessages(
