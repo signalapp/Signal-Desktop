@@ -867,6 +867,10 @@ type ReadableInterface = {
   ) => ReactionType | undefined;
   _getAllReactions: () => Array<ReactionType>;
 
+  getMessageByAuthorAciAndSentAt: (
+    authorAci: AciString,
+    sentAtTimestamp: number
+  ) => MessageType | null;
   getMessageBySender: (options: {
     source?: string;
     sourceServiceId?: ServiceIdString;
@@ -1016,6 +1020,7 @@ type ReadableInterface = {
   getAllMegaphones: () => ReadonlyArray<RemoteMegaphoneType>;
   hasMegaphone: (megaphoneId: RemoteMegaphoneId) => boolean;
 
+  getAllPinnedMessages: () => ReadonlyArray<PinnedMessage>;
   getPinnedMessagesPreloadDataForConversation: (
     conversationId: string
   ) => ReadonlyArray<PinnedMessagePreloadData>;

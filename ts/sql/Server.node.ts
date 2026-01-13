@@ -261,6 +261,7 @@ import {
   deleteExpiredChatFolders,
 } from './server/chatFolders.std.js';
 import {
+  getAllPinnedMessages,
   getPinnedMessagesPreloadDataForConversation,
   getNextExpiringPinnedMessageAcrossConversations,
   appendPinnedMessage,
@@ -447,6 +448,7 @@ export const DataReader: ServerReadableInterface = {
   countStoryReadsByConversation,
   getReactionByTimestamp,
   _getAllReactions,
+  getMessageByAuthorAciAndSentAt,
   getMessageBySender,
   getMessageById,
   getMessagesById,
@@ -497,6 +499,7 @@ export const DataReader: ServerReadableInterface = {
   getAllMegaphones,
   hasMegaphone,
 
+  getAllPinnedMessages,
   getPinnedMessagesPreloadDataForConversation,
   getNextExpiringPinnedMessageAcrossConversations,
 
@@ -3314,6 +3317,36 @@ function getAllMessageIds(db: ReadableDB): Array<string> {
     .all();
 
   return rows.map(row => row.id);
+}
+
+function getMessageByAuthorAciAndSentAt(
+  db: ReadableDB,
+  authorAci: AciString,
+  sentAtTimestamp: number
+): MessageType | null {
+  return db.transaction(() => {
+    const [query, params] = sql`
+      SELECT ${MESSAGE_COLUMNS_SELECT}
+      FROM messages
+      WHERE sourceServiceId = ${authorAci}
+        AND sent_at = ${sentAtTimestamp}
+      LIMIT 2;
+    `;
+
+    const rows = db.prepare(query).all<MessageTypeUnhydrated>(params);
+
+    if (rows.length > 1) {
+      logger.warn(
+        `getMessageByAuthorAciAndSentAt(${authorAci}, ${sentAtTimestamp}): More than one message found`
+      );
+    }
+
+    if (rows.length < 1) {
+      return null;
+    }
+
+    return hydrateMessage(db, rows[0]);
+  })();
 }
 
 function getMessageBySender(

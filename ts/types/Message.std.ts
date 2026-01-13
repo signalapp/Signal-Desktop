@@ -170,7 +170,7 @@ const messageAttrsToErase = [
   'messageTimer',
   'payment',
   'phoneNumberDiscovery',
-  'pinnedMessageId',
+  'pinMessage',
   'poll',
   'pollTerminateNotification',
   'preview',

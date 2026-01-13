@@ -1747,10 +1747,10 @@ export function getPropsForPinnedMessageNotification(
   message: MessageWithUIFieldsType,
   { conversationSelector }: GetPropsForBubbleOptions
 ): PinnedMessageNotificationData {
-  strictAssert(message.pinnedMessageId, 'Missing pinnedMessageId');
+  strictAssert(message.pinMessage, 'Missing pinMessage');
   return {
     sender: conversationSelector(message.sourceServiceId),
-    pinnedMessageId: message.pinnedMessageId,
+    pinMessage: message.pinMessage,
   };
 }
 

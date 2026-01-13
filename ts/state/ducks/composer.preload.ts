@@ -24,7 +24,10 @@ import { DataReader, DataWriter } from '../../sql/Client.preload.js';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
 import type { DraftBodyRanges } from '../../types/BodyRange.std.js';
 import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.std.js';
-import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
+import type {
+  PinMessageData,
+  ReadonlyMessageAttributesType,
+} from '../../model-types.d.ts';
 import type { NoopActionType } from './noop.std.js';
 import type { ShowToastActionType } from './toast.preload.js';
 import type { StateType as RootStateType } from '../reducer.preload.js';
@@ -384,10 +387,13 @@ function scrollToQuotedMessage({
 }
 
 function scrollToPinnedMessage(
-  pinnedMessageId: string
+  pinMessage: PinMessageData
 ): StateThunk<ShowToastActionType | ScrollToMessageActionType> {
   return async (dispatch, getState) => {
-    const pinnedMessage = await getMessageById(pinnedMessageId);
+    const pinnedMessage = await DataReader.getMessageByAuthorAciAndSentAt(
+      pinMessage.targetAuthorAci,
+      pinMessage.targetSentTimestamp
+    );
 
     if (!pinnedMessage) {
       dispatch(
@@ -399,13 +405,12 @@ function scrollToPinnedMessage(
     }
 
     const selectedConversationId = getSelectedConversationId(getState());
-    const pinnedMessageConversationId = pinnedMessage.get('conversationId');
 
-    if (selectedConversationId !== pinnedMessageConversationId) {
+    if (selectedConversationId !== pinnedMessage.conversationId) {
       return;
     }
 
-    dispatch(scrollToMessage(pinnedMessageConversationId, pinnedMessageId));
+    dispatch(scrollToMessage(pinnedMessage.conversationId, pinnedMessage.id));
   };
 }
 
