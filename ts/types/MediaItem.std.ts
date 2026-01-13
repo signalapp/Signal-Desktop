@@ -11,6 +11,8 @@ import type { EmbeddedContactForUIType } from './EmbeddedContact.std.js';
 
 export type MediaTabType = 'media' | 'audio' | 'links' | 'documents';
 
+export type MediaSortOrderType = 'date' | 'size';
+
 export type MediaItemMessageType = Readonly<{
   id: string;
   type: MessageAttributesType['type'];

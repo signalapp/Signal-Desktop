@@ -28,6 +28,7 @@ import {
 
 export type Props = Readonly<{
   mediaItem: ReadonlyDeep<MediaItemType>;
+  showSize: boolean;
   onClick?: (attachmentState: AttachmentStatusType['state']) => void;
   i18n: LocalizerType;
   theme?: ThemeType;
@@ -36,6 +37,7 @@ export type Props = Readonly<{
 export function MediaGridItem(props: Props): React.JSX.Element {
   const {
     mediaItem: { attachment },
+    showSize,
     i18n,
     theme,
     onClick,
@@ -93,7 +95,12 @@ export function MediaGridItem(props: Props): React.JSX.Element {
     >
       {imageOrBlurHash}
 
-      <MetadataOverlay i18n={i18n} status={status} attachment={attachment} />
+      <MetadataOverlay
+        i18n={i18n}
+        status={status}
+        attachment={attachment}
+        showSize={showSize}
+      />
       <SpinnerOverlay status={status} />
     </button>
   );
@@ -145,25 +152,31 @@ type MetadataOverlayProps = Readonly<{
   i18n: LocalizerType;
   status: AttachmentStatusType;
   attachment: AttachmentForUIType;
+  showSize: boolean;
 }>;
 
 function MetadataOverlay(
   props: MetadataOverlayProps
 ): React.JSX.Element | undefined {
-  const { i18n, status, attachment } = props;
+  const { i18n, status, attachment, showSize } = props;
 
   if (
     status.state === 'ReadyToShow' &&
     !isGIF([attachment]) &&
-    !isVideoAttachment(attachment)
+    !isVideoAttachment(attachment) &&
+    !showSize
   ) {
     return undefined;
   }
 
   let text: string;
-  if (isGIF([attachment]) && status.state === 'ReadyToShow') {
+  if (!showSize && isGIF([attachment]) && status.state === 'ReadyToShow') {
     text = i18n('icu:message--getNotificationText--gif');
-  } else if (isVideoAttachment(attachment) && attachment.duration != null) {
+  } else if (
+    !showSize &&
+    isVideoAttachment(attachment) &&
+    attachment.duration != null
+  ) {
     text = formatDuration(attachment.duration);
   } else {
     text = formatFileSize(attachment.size);

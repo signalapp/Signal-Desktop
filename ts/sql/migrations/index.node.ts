@@ -138,6 +138,7 @@ import updateToSchemaVersion1580 from './1580-expired-group-replies.std.js';
 import updateToSchemaVersion1590 from './1590-megaphones.std.js';
 import updateToSchemaVersion1600 from './1600-deduplicate-usernames.std.js';
 import updateToSchemaVersion1610 from './1610-has-contacts.std.js';
+import updateToSchemaVersion1620 from './1620-sort-bigger-media.std.js';
 
 import { DataWriter } from '../Server.node.js';
 
@@ -1636,6 +1637,7 @@ export const SCHEMA_VERSIONS: ReadonlyArray<SchemaUpdateType> = [
 
   { version: 1600, update: updateToSchemaVersion1600 },
   { version: 1610, update: updateToSchemaVersion1610 },
+  { version: 1620, update: updateToSchemaVersion1620 },
 ];
 
 export class DBVersionFromFutureError extends Error {

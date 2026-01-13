@@ -7,6 +7,7 @@ import React, {
   useRef,
   useCallback,
   useState,
+  useMemo,
 } from 'react';
 
 import moment from 'moment';
@@ -15,6 +16,7 @@ import type { ItemClickEvent } from './types/ItemClickEvent.std.js';
 import type { LocalizerType } from '../../../types/Util.std.js';
 import type {
   MediaTabType,
+  MediaSortOrderType,
   LinkPreviewMediaItemType,
   ContactMediaItemType,
   MediaItemType,
@@ -49,6 +51,7 @@ export type Props = {
   links: ReadonlyArray<LinkPreviewMediaItemType>;
   documents: ReadonlyArray<MediaItemType | ContactMediaItemType>;
   tab: MediaTabType;
+  sortOrder: MediaSortOrderType;
   saveAttachment: SaveAttachmentActionCreatorType;
   pushPanelForConversation: PushPanelForConversationActionType;
   kickOffAttachmentDownload: (options: { messageId: string }) => void;
@@ -71,6 +74,7 @@ function MediaSection({
   i18n,
   loading,
   tab,
+  sortOrder,
   mediaItems,
   saveAttachment,
   pushPanelForConversation,
@@ -92,6 +96,7 @@ function MediaSection({
   | 'renderMediaItem'
 > & {
   tab: MediaTabType;
+  sortOrder: MediaSortOrderType;
   mediaItems: ReadonlyArray<GenericMediaItemType>;
 }): React.JSX.Element {
   const onItemClick = useCallback(
@@ -142,6 +147,10 @@ function MediaSection({
     ]
   );
 
+  const reversedMediaItems = useMemo(() => {
+    return mediaItems.toReversed();
+  }, [mediaItems]);
+
   if (mediaItems.length === 0) {
     if (loading) {
       return <div />;
@@ -154,6 +163,20 @@ function MediaSection({
   const groupedItems = groupMediaItemsByDate(now, mediaItems);
 
   const isGrid = mediaItems.at(0)?.type === 'media';
+
+  if (sortOrder === 'size') {
+    return (
+      <div className={tw('grow', 'mx-auto', 'max-w-[660px] min-w-[360px]')}>
+        <div className={tw('flex flex-col')}>
+          <AttachmentSection
+            mediaItems={reversedMediaItems}
+            onItemClick={onItemClick}
+            renderMediaItem={renderMediaItem}
+          />
+        </div>
+      </div>
+    );
+  }
 
   const sections = groupedItems.map((section, index) => {
     const isLast = index === groupedItems.length - 1;
@@ -219,6 +242,7 @@ export function MediaGallery({
   links,
   documents,
   tab,
+  sortOrder,
   saveAttachment,
   pushPanelForConversation,
   kickOffAttachmentDownload,
@@ -266,6 +290,7 @@ export function MediaGallery({
     audio.length,
     links.length,
     documents.length,
+    sortOrder,
   ]);
 
   const [setObserverRef, observerEntry] = useIntersectionObserver();
@@ -339,6 +364,7 @@ export function MediaGallery({
           i18n={i18n}
           loading={loading}
           tab={tab}
+          sortOrder={sortOrder}
           mediaItems={mediaItems}
           saveAttachment={saveAttachment}
           pushPanelForConversation={pushPanelForConversation}

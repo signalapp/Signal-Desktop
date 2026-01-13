@@ -88,9 +88,11 @@ export function AttachmentSection({
     case 'media':
       return (
         <section className={tw('@container px-5')}>
-          <h2 className={tw('ps-1 pt-4 pb-2 type-body-medium font-semibold')}>
-            {header}
-          </h2>
+          {header != null && (
+            <h2 className={tw('ps-1 pt-4 pb-2 type-body-medium font-semibold')}>
+              {header}
+            </h2>
+          )}
           <div
             className={tw(
               'grid gap-1',
@@ -118,9 +120,13 @@ export function AttachmentSection({
     case 'link':
       return (
         <section>
-          <h2 className={tw('px-6 pt-1.5 pb-2 type-body-medium font-semibold')}>
-            {header}
-          </h2>
+          {header != null && (
+            <h2
+              className={tw('px-6 pt-1.5 pb-2 type-body-medium font-semibold')}
+            >
+              {header}
+            </h2>
+          )}
           <div>
             {verified.entries.map(mediaItem => {
               return (

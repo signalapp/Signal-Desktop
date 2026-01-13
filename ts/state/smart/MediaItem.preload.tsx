@@ -19,6 +19,7 @@ import {
   getUserConversationId,
 } from '../selectors/user.std.js';
 import { getConversationSelector } from '../selectors/conversations.dom.js';
+import { getMediaGalleryState } from '../selectors/mediaGallery.std.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
 
 export type PropsType = Readonly<{
@@ -34,6 +35,7 @@ export const MediaItem = memo(function MediaItem({
   const theme = useSelector(getTheme);
   const ourConversationId = useSelector(getUserConversationId);
   const getConversation = useSelector(getConversationSelector);
+  const { sortOrder } = useSelector(getMediaGalleryState);
 
   const { showConversation } = useConversationsActions();
 
@@ -58,6 +60,8 @@ export const MediaItem = memo(function MediaItem({
     });
   }, [message.conversationId, message.id, showConversation]);
 
+  const showSize = sortOrder === 'size';
+
   switch (mediaItem.type) {
     case 'audio':
       return (
@@ -74,6 +78,7 @@ export const MediaItem = memo(function MediaItem({
       return (
         <MediaGridItem
           mediaItem={mediaItem}
+          showSize={showSize}
           onClick={onClick}
           i18n={i18n}
           theme={theme}

@@ -610,24 +610,29 @@ export type GetSortedMediaOptionsType = Readonly<{
   messageId?: string;
   receivedAt?: number;
   sentAt?: number;
-  order: 'older' | 'newer';
+  size?: number;
+  order: 'older' | 'newer' | 'bigger';
   type: 'media' | 'audio' | 'documents';
 }>;
 
-export type GetOlderDocumentsOptionsType = Readonly<{
+export type GetSortedDocumentsOptionsType = Readonly<{
   conversationId: string;
   limit: number;
   messageId?: string;
   receivedAt?: number;
   sentAt?: number;
+  size?: number;
+  order: 'older' | 'bigger';
 }>;
 
-export type GetOlderNonAttachmentMediaOptionsType = Readonly<{
+export type GetSortedNonAttachmentMediaOptionsType = Readonly<{
   conversationId: string;
   limit: number;
   messageId?: string;
   receivedAt?: number;
   sentAt?: number;
+  size?: number;
+  order: 'older' | 'bigger';
   type: 'links' | 'contacts';
 }>;
 
@@ -886,11 +891,11 @@ type ReadableInterface = {
   getSortedMedia: (
     options: GetSortedMediaOptionsType
   ) => Array<MediaItemDBType>;
-  getOlderNonAttachmentMedia: (
-    options: GetOlderNonAttachmentMediaOptionsType
+  getSortedNonAttachmentMedia: (
+    options: GetSortedNonAttachmentMediaOptionsType
   ) => Array<NonAttachmentMediaItemDBType>;
-  getOlderDocuments: (
-    options: GetOlderDocumentsOptionsType
+  getSortedDocuments: (
+    options: GetSortedDocumentsOptionsType
   ) => Array<MediaItemDBType | ContactMediaItemDBType>;
   getAllStories: (options: {
     conversationId?: string;

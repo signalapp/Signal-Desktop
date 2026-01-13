@@ -49,7 +49,7 @@ import { isNormalNumber } from '../util/isNormalNumber.std.js';
 import { isNotNil } from '../util/isNotNil.std.js';
 import { parseIntOrThrow } from '../util/parseIntOrThrow.std.js';
 import { updateSchema } from './migrations/index.node.js';
-import type { JSONRows, QueryFragment } from './util.std.js';
+import type { JSONRows, QueryFragment, QueryTemplate } from './util.std.js';
 import {
   batchMultiVarQuery,
   bulkAdd,
@@ -136,8 +136,8 @@ import type {
   GetKnownMessageAttachmentsResultType,
   GetNearbyMessageFromDeletedSetOptionsType,
   GetSortedMediaOptionsType,
-  GetOlderNonAttachmentMediaOptionsType,
-  GetOlderDocumentsOptionsType,
+  GetSortedNonAttachmentMediaOptionsType,
+  GetSortedDocumentsOptionsType,
   GetRecentStoryRepliesOptionsType,
   GetUnreadByConversationAndMarkReadResultType,
   IdentityKeyIdType,
@@ -479,8 +479,8 @@ export const DataReader: ServerReadableInterface = {
 
   hasMedia,
   getSortedMedia,
-  getOlderNonAttachmentMedia,
-  getOlderDocuments,
+  getSortedNonAttachmentMedia,
+  getSortedDocuments,
 
   getAllNotificationProfiles,
   getNotificationProfileById,
@@ -5332,19 +5332,23 @@ function getSortedMedia(
     messageId,
     receivedAt: givenReceivedAt,
     sentAt: givenSentAt,
+    size: givenSize,
     type,
   }: GetSortedMediaOptionsType
 ): Array<MediaItemDBType> {
-  let timeFilters: {
+  let index: QueryFragment;
+  let sortFilters: {
     first: QueryFragment;
     second: QueryFragment;
+    third?: QueryFragment;
   };
-  let timeOrder: QueryFragment;
+  let orderFragment: QueryFragment;
   if (order === 'older') {
     const maxReceivedAt = givenReceivedAt ?? Number.MAX_VALUE;
     const maxSentAt = givenSentAt ?? Number.MAX_VALUE;
 
-    timeFilters = {
+    index = sqlFragment`message_attachments_getOlderMedia`;
+    sortFilters = {
       first: sqlFragment`
         message_attachments.receivedAt = ${maxReceivedAt}
         AND
@@ -5352,12 +5356,16 @@ function getSortedMedia(
       `,
       second: sqlFragment`message_attachments.receivedAt < ${maxReceivedAt}`,
     };
-    timeOrder = sqlFragment`DESC`;
+    orderFragment = sqlFragment`
+      message_attachments.receivedAt DESC,
+      message_attachments.sentAt DESC
+    `;
   } else if (order === 'newer') {
     const minReceivedAt = givenReceivedAt ?? Number.MIN_VALUE;
     const minSentAt = givenSentAt ?? Number.MIN_VALUE;
 
-    timeFilters = {
+    index = sqlFragment`message_attachments_getOlderMedia`;
+    sortFilters = {
       first: sqlFragment`
         message_attachments.receivedAt = ${minReceivedAt}
         AND
@@ -5365,7 +5373,38 @@ function getSortedMedia(
       `,
       second: sqlFragment`message_attachments.receivedAt > ${minReceivedAt}`,
     };
-    timeOrder = sqlFragment`ASC`;
+    orderFragment = sqlFragment`
+      message_attachments.receivedAt ASC,
+      message_attachments.sentAt ASC
+    `;
+  } else if (order === 'bigger') {
+    const maxSize = givenSize ?? Number.MAX_VALUE;
+    const maxReceivedAt = givenReceivedAt ?? Number.MAX_VALUE;
+    const maxSentAt = givenSentAt ?? Number.MAX_VALUE;
+
+    index = sqlFragment`message_attachments_sortBiggerMedia`;
+    sortFilters = {
+      first: sqlFragment`
+        message_attachments.size = ${maxSize}
+        AND
+        message_attachments.receivedAt = ${maxReceivedAt}
+        AND
+        message_attachments.sentAt < ${maxSentAt}
+      `,
+      second: sqlFragment`
+        message_attachments.size = ${maxSize}
+        AND
+        message_attachments.receivedAt < ${maxReceivedAt}
+      `,
+      third: sqlFragment`
+        message_attachments.size < ${maxSize}
+      `,
+    };
+    orderFragment = sqlFragment`
+      message_attachments.size DESC,
+      message_attachments.receivedAt DESC,
+      message_attachments.sentAt DESC
+    `;
   } else {
     throw missingCaseError(order);
   }
@@ -5401,7 +5440,7 @@ function getSortedMedia(
     throw missingCaseError(type);
   }
 
-  const createQuery = (timeFilter: QueryFragment): QueryFragment => sqlFragment`
+  const createQuery = (sortFilter: QueryFragment): QueryFragment => sqlFragment`
     SELECT
       message_attachments.*,
       messages.json -> '$.sendStateByConversationId' AS messageSendState,
@@ -5411,7 +5450,7 @@ function getSortedMedia(
       messages.source AS messageSource,
       messages.sourceServiceId AS messageSourceServiceId
     FROM message_attachments
-    INDEXED BY message_attachments_getOlderMedia
+    INDEXED BY ${index}
     INNER JOIN messages ON
       messages.id = message_attachments.messageId
     WHERE
@@ -5419,23 +5458,37 @@ function getSortedMedia(
       message_attachments.editHistoryIndex IS -1 AND
       message_attachments.attachmentType IS 'attachment' AND
       (
-        ${timeFilter}
+        ${sortFilter}
       ) AND
       (${contentFilter}) AND
       message_attachments.isViewOnce IS NOT 1 AND
       message_attachments.messageType IN ('incoming', 'outgoing') AND
       (${messageId ?? null} IS NULL OR message_attachments.messageId IS NOT ${messageId ?? null})
-      ORDER BY
-        message_attachments.receivedAt ${timeOrder},
-        message_attachments.sentAt ${timeOrder}
+      ORDER BY ${orderFragment}
       LIMIT ${limit}
   `;
 
-  const [query, params] = sql`
-    SELECT first.* FROM (${createQuery(timeFilters.first)}) as first
-    UNION ALL
-    SELECT second.* FROM (${createQuery(timeFilters.second)}) as second
-  `;
+  let template: QueryTemplate;
+  if (order === 'older' || order === 'newer') {
+    template = sql`
+      SELECT first.* FROM (${createQuery(sortFilters.first)}) as first
+      UNION ALL
+      SELECT second.* FROM (${createQuery(sortFilters.second)}) as second
+    `;
+  } else if (order === 'bigger') {
+    strictAssert(sortFilters.third != null, 'file size filter is required');
+    template = sql`
+      SELECT first.* FROM (${createQuery(sortFilters.first)}) as first
+      UNION ALL
+      SELECT second.* FROM (${createQuery(sortFilters.second)}) as second
+      UNION ALL
+      SELECT third.* FROM (${createQuery(sortFilters.third)}) as third
+    `;
+  } else {
+    throw missingCaseError(order);
+  }
+
+  const [query, params] = template;
 
   const results: Array<
     MessageAttachmentDBType & {
@@ -5486,7 +5539,7 @@ function getSortedMedia(
   });
 }
 
-function getOlderNonAttachmentMedia(
+function getSortedNonAttachmentMedia(
   db: ReadableDB,
   {
     conversationId,
@@ -5495,7 +5548,7 @@ function getOlderNonAttachmentMedia(
     receivedAt: maxReceivedAt = Number.MAX_VALUE,
     sentAt: maxSentAt = Number.MAX_VALUE,
     type,
-  }: GetOlderNonAttachmentMediaOptionsType
+  }: GetSortedNonAttachmentMediaOptionsType
 ): Array<NonAttachmentMediaItemDBType> {
   const timeFilters = {
     first: sqlFragment`received_at = ${maxReceivedAt} AND sent_at < ${maxSentAt}`,
@@ -5557,7 +5610,7 @@ function getOlderNonAttachmentMedia(
     if (type === 'links') {
       strictAssert(
         row.preview != null && row.preview.length >= 1,
-        `getOlderNonAttachmentMedia: got message without preview ${row.id}`
+        `getSortedNonAttachmentMedia: got message without preview ${row.id}`
       );
 
       return {
@@ -5570,7 +5623,7 @@ function getOlderNonAttachmentMedia(
     if (type === 'contacts') {
       strictAssert(
         row.contact != null && row.contact.length >= 1,
-        `getOlderNonAttachmentMedia: got message without contact ${row.id}`
+        `getSortedNonAttachmentMedia: got message without contact ${row.id}`
       );
 
       return {
@@ -5584,9 +5637,9 @@ function getOlderNonAttachmentMedia(
   });
 }
 
-function getOlderDocuments(
+function getSortedDocuments(
   db: ReadableDB,
-  options: GetOlderDocumentsOptionsType
+  options: GetSortedDocumentsOptionsType
 ): Array<MediaItemDBType | ContactMediaItemDBType> {
   return db.transaction(() => {
     const documents = getSortedMedia(db, {
@@ -5594,7 +5647,7 @@ function getOlderDocuments(
       order: 'older',
       type: 'documents',
     });
-    const contacts = getOlderNonAttachmentMedia(db, {
+    const contacts = getSortedNonAttachmentMedia(db, {
       ...options,
       type: 'contacts',
     }) as Array<ContactMediaItemDBType>;
