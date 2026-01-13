@@ -5218,12 +5218,14 @@ function onPinnedMessageAdd(
     });
     drop(pinnedMessagesCleanupService.trigger('onPinnedMessageAdd'));
 
-    await targetConversation.addNotification('pinned-message-notification', {
+    await targetConversation.addPinnedMessageNotification({
       pinMessage: {
         targetSentTimestamp: target.targetSentTimestamp,
         targetAuthorAci: target.targetAuthorAci,
       },
-      sourceServiceId: itemStorage.user.getCheckedAci(),
+      senderAci: itemStorage.user.getCheckedAci(),
+      sentAtTimestamp: pinnedAt,
+      receivedAtTimestamp: pinnedAt,
     });
 
     dispatch(onPinnedMessagesChanged(target.conversationId));

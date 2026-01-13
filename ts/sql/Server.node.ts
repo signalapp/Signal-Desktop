@@ -3462,7 +3462,7 @@ function getUnreadByConversationAndMarkRead(
       WHERE
         conversationId = ${conversationId} AND
         ${storyReplyFilter} AND
-        type IN ('incoming', 'poll-terminate') AND
+        type IS NOT 'outgoing' AND
         hasExpireTimer IS 1 AND
         received_at <= ${readMessageReceivedAt}
     `;
@@ -5901,16 +5901,11 @@ function getMessagesUnexpectedlyMissingExpirationStartTimestamp(
       INDEXED BY messages_unexpectedly_missing_expiration_start_timestamp
       WHERE
         expireTimer > 0 AND
-        expirationStartTimestamp IS NULL AND
-        (
-          type IS 'outgoing' OR
-          (type IS 'incoming' AND (
-            readStatus = ${ReadStatus.Read} OR
-            readStatus = ${ReadStatus.Viewed} OR
-            readStatus IS NULL
-          )) OR
-          (type IS 'poll-terminate')
-        );
+        expirationStartTimestamp IS NULL AND (
+          readStatus = ${ReadStatus.Read} OR
+          readStatus = ${ReadStatus.Viewed} OR
+          readStatus IS NULL
+        )
       `
       )
       .all();
