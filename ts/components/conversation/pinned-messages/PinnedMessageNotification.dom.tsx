@@ -7,26 +7,27 @@ import { I18n } from '../../I18n.dom.js';
 import { SystemMessage } from '../SystemMessage.dom.js';
 import { UserText } from '../../UserText.dom.js';
 import { Button, ButtonSize, ButtonVariant } from '../../Button.dom.js';
+import type { PinMessageData } from '../../../model-types.js';
 
 export type PinnedMessageNotificationData = Readonly<{
   sender: ConversationType;
-  pinnedMessageId: string;
+  pinMessage: PinMessageData;
 }>;
 
 export type PinnedMessageNotificationProps = PinnedMessageNotificationData &
   Readonly<{
     i18n: LocalizerType;
-    onScrollToPinnedMessage: (messageId: string) => void;
+    onScrollToPinnedMessage: (pinMessage: PinMessageData) => void;
   }>;
 
 export function PinnedMessageNotification(
   props: PinnedMessageNotificationProps
 ): React.JSX.Element {
-  const { i18n, sender, pinnedMessageId, onScrollToPinnedMessage } = props;
+  const { i18n, sender, pinMessage, onScrollToPinnedMessage } = props;
 
   const onClick = useCallback(() => {
-    onScrollToPinnedMessage(pinnedMessageId);
-  }, [onScrollToPinnedMessage, pinnedMessageId]);
+    onScrollToPinnedMessage(pinMessage);
+  }, [onScrollToPinnedMessage, pinMessage]);
 
   return (
     <SystemMessage
