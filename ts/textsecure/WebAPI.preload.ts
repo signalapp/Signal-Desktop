@@ -15,6 +15,7 @@ import { v4 as getGuid } from 'uuid';
 import { z } from 'zod';
 import type { Readable } from 'node:stream';
 import qs from 'node:querystring';
+import { LibSignalErrorBase, ErrorCode } from '@signalapp/libsignal-client';
 import type {
   KEMPublicKey,
   PublicKey,
@@ -22,6 +23,7 @@ import type {
   Pni,
 } from '@signalapp/libsignal-client';
 import { AccountAttributes } from '@signalapp/libsignal-client/dist/net.js';
+import { GroupSendFullToken } from '@signalapp/libsignal-client/zkgroup.js';
 
 import { assertDev, strictAssert } from '../util/assert.std.js';
 import * as durations from '../util/durations/index.std.js';
@@ -58,6 +60,7 @@ import {
   serviceIdSchema,
   aciSchema,
   untaggedPniSchema,
+  fromServiceIdObject,
 } from '../types/ServiceId.std.js';
 import type { BackupPresentationHeadersType } from '../types/backups.node.js';
 import { HTTPError } from '../types/HTTPError.std.js';
@@ -295,6 +298,9 @@ export const multiRecipient200ResponseSchema = z.object({
 export type MultiRecipient200ResponseType = z.infer<
   typeof multiRecipient200ResponseSchema
 >;
+export type SendMultiResponseType = {
+  uuids404: Array<ServiceIdString>;
+};
 
 export const multiRecipient409ResponseSchema = z.array(
   z.object({
@@ -642,11 +648,16 @@ async function _retry<R>(
   try {
     return await f();
   } catch (e) {
+    const httpNoNetwork = e instanceof HTTPError && e.code === -1;
+    const libsignalNoNetwork =
+      e instanceof LibSignalErrorBase &&
+      (e.code === ErrorCode.IoError ||
+        e.code === ErrorCode.ChatServiceInactive);
+
     if (
-      e instanceof HTTPError &&
-      e.code === -1 &&
       count < limit &&
-      !abortSignal?.aborted
+      !abortSignal?.aborted &&
+      (httpNoNetwork || libsignalNoNetwork)
     ) {
       return new Promise(resolve => {
         setTimeout(() => {
@@ -3583,7 +3594,51 @@ function booleanToString(value: boolean | undefined): string {
   return value ? 'true' : 'false';
 }
 
-export async function sendWithSenderKey(
+export async function sendMulti(
+  payload: Uint8Array,
+  groupSendToken: GroupSendToken | null,
+  timestamp: number,
+  {
+    online = false,
+    urgent = true,
+    story = false,
+  }: {
+    online?: boolean;
+    story?: boolean;
+    urgent?: boolean;
+  }
+): Promise<SendMultiResponseType> {
+  log.info(`send/${timestamp}/<multiple>/sendMulti`);
+
+  let auth: 'story' | GroupSendFullToken;
+  if (story) {
+    if (groupSendToken?.length) {
+      log.warn('sendMulti: story=true and groupSendToken was provided');
+    }
+    auth = 'story';
+  } else if (groupSendToken?.length) {
+    auth = new GroupSendFullToken(groupSendToken);
+  } else {
+    throw new Error('sendMulti: missing groupSendToken and story=false');
+  }
+
+  const result = await _retry(async () => {
+    const chat = await socketManager.getUnauthenticatedLibsignalApi();
+    return chat.sendMultiRecipientMessage({
+      payload,
+      timestamp,
+      auth,
+      onlineOnly: online,
+      urgent,
+    });
+  });
+
+  return {
+    uuids404: result.unregisteredIds.map(fromServiceIdObject),
+  };
+}
+
+export async function sendMultiLegacy(
   data: Uint8Array,
   accessKeys: Uint8Array | null,
   groupSendToken: GroupSendToken | null,
@@ -3602,7 +3657,7 @@ export async function sendWithSenderKey(
   const urgentParam = `&urgent=${booleanToString(urgent)}`;
   const storyParam = `&story=${booleanToString(story)}`;
 
-  log.info(`send/${timestamp}/<multiple>/sendWithSenderKey`);
+  log.info(`send/${timestamp}/<multiple>/sendMultiLegacy`);
   const response = await _ajax({
     host: 'chatService',
     call: 'multiRecipient',
@@ -3626,7 +3681,7 @@ export async function sendWithSenderKey(
   }
 
   log.error(
-    'invalid response from sendWithSenderKey',
+    'sendMultiLegacy: invalid response from server',
     toLogFormat(parseResult.error)
   );
   return response as MultiRecipient200ResponseType;

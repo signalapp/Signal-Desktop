@@ -31,6 +31,8 @@ const SemverKeys = [
   'desktop.pinnedMessages.send.prod',
   'desktop.plaintextExport.beta',
   'desktop.plaintextExport.prod',
+  'desktop.retireAccessKeyGroupSend.beta',
+  'desktop.retireAccessKeyGroupSend.prod',
 ] as const;
 
 export type SemverKeyType = (typeof SemverKeys)[number];

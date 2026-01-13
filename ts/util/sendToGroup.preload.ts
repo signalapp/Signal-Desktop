@@ -14,6 +14,10 @@ import {
   SenderCertificate,
   UnidentifiedSenderMessageContent,
 } from '@signalapp/libsignal-client';
+import type {
+  MismatchedDevicesError,
+  RateLimitedError,
+} from '@signalapp/libsignal-client';
 import {
   signalProtocolStore,
   GLOBAL_ZONE,
@@ -31,7 +35,7 @@ import * as Errors from '../types/errors.std.js';
 import { DataWriter } from '../sql/Client.preload.js';
 import { getValue } from '../RemoteConfig.dom.js';
 import type { ServiceIdString } from '../types/ServiceId.std.js';
-import { ServiceIdKind } from '../types/ServiceId.std.js';
+import { fromServiceIdObject, ServiceIdKind } from '../types/ServiceId.std.js';
 import * as Bytes from '../Bytes.std.js';
 import { isRecord } from './isRecord.std.js';
 
@@ -70,12 +74,13 @@ import { SEALED_SENDER, ZERO_ACCESS_KEY } from '../types/SealedSender.std.js';
 import { HTTPError } from '../types/HTTPError.std.js';
 import { parseIntOrThrow } from './parseIntOrThrow.std.js';
 import {
-  sendWithSenderKey,
   getKeysForServiceId as doGetKeysForServiceId,
   getKeysForServiceIdUnauth as doGetKeysForServiceIdUnauth,
   multiRecipient200ResponseSchema,
   multiRecipient409ResponseSchema,
   multiRecipient410ResponseSchema,
+  sendMulti,
+  sendMultiLegacy,
 } from '../textsecure/WebAPI.preload.js';
 import { SignalService as Proto } from '../protobuf/index.std.js';
 
@@ -91,6 +96,7 @@ import type { GroupSendToken } from '../types/GroupSendEndorsements.std.js';
 import { isAciString } from './isAciString.std.js';
 import { safeParseStrict, safeParseUnknown } from './schemas.std.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
+import { isFeaturedEnabledNoRedux } from './isFeatureEnabled.dom.js';
 
 const { differenceWith, omit } = lodash;
 
@@ -301,9 +307,14 @@ export async function sendToGroupViaSenderKey(
     urgent,
   } = options;
 
+  const isAccessKeySendRetired = isFeaturedEnabledNoRedux({
+    betaKey: 'desktop.retireAccessKeyGroupSend.beta',
+    prodKey: 'desktop.retireAccessKeyGroupSend.prod',
+  });
+
   const logId = `sendToGroupViaSenderKey/${sendTarget.idForLogging()}`;
   log.info(
-    `${logId}: Starting ${timestamp}, recursion count ${recursion.count}, reason: ${recursion.reason}...`
+    `${logId}: Starting ${timestamp}, recursion count ${recursion.count}, reason: ${recursion.reason}, accessKeyRetired: ${isAccessKeySendRetired}...`
   );
 
   if (recursion.count > MAX_RECURSION) {
@@ -537,8 +548,14 @@ export async function sendToGroupViaSenderKey(
     groupSendToken = groupSendEndorsementState.buildToken(
       new Set(senderKeyRecipients)
     );
-  } else {
+  } else if (!isAccessKeySendRetired) {
     accessKeys = getXorOfAccessKeys(devicesForSenderKey, { story });
+  }
+
+  if (isAccessKeySendRetired && !groupSendToken && !story) {
+    throw new Error(
+      'sendToGroup: missing groupSendToken and story=false. Failing over.'
+    );
   }
 
   try {
@@ -550,35 +567,50 @@ export async function sendToGroupViaSenderKey(
       groupId,
     });
 
-    const result = await sendWithSenderKey(
-      messageBuffer,
-      accessKeys,
-      groupSendToken,
-      timestamp,
-      { online, story, urgent }
-    );
-
-    const parsed = safeParseStrict(multiRecipient200ResponseSchema, result);
-    if (parsed.success) {
-      const { uuids404 } = parsed.data;
-      if (uuids404 && uuids404.length > 0) {
+    if (isAccessKeySendRetired) {
+      const result = await sendMulti(messageBuffer, groupSendToken, timestamp, {
+        online,
+        story,
+        urgent,
+      });
+      if (result.uuids404.length > 0) {
         await waitForAll({
-          tasks: uuids404.map(
+          tasks: result.uuids404.map(
             serviceId => async () => markServiceIdUnregistered(serviceId)
           ),
         });
       }
-
-      senderKeyRecipientsWithDevices = omit(
-        senderKeyRecipientsWithDevices,
-        uuids404 || []
-      );
     } else {
-      log.error(
-        `${logId}: Server returned unexpected 200 response ${JSON.stringify(
-          parsed.error.flatten()
-        )}`
+      const result = await sendMultiLegacy(
+        messageBuffer,
+        accessKeys,
+        groupSendToken,
+        timestamp,
+        { online, story, urgent }
       );
+
+      const parsed = safeParseStrict(multiRecipient200ResponseSchema, result);
+      if (parsed.success) {
+        const { uuids404 } = parsed.data;
+        if (uuids404 && uuids404.length > 0) {
+          await waitForAll({
+            tasks: uuids404.map(
+              serviceId => async () => markServiceIdUnregistered(serviceId)
+            ),
+          });
+        }
+
+        senderKeyRecipientsWithDevices = omit(
+          senderKeyRecipientsWithDevices,
+          uuids404 || []
+        );
+      } else {
+        log.error(
+          `${logId}: Server returned unexpected 200 response ${JSON.stringify(
+            parsed.error.flatten()
+          )}`
+        );
+      }
     }
 
     if (shouldSaveProto(sendType)) {
@@ -597,6 +629,126 @@ export async function sendToGroupViaSenderKey(
       );
     }
   } catch (error) {
+    if (error instanceof LibSignalErrorBase) {
+      if (error.code === ErrorCode.RequestUnauthorized) {
+        throw new HTTPError('libsignal threw RequestUnauthorized', {
+          code: 401,
+          headers: {},
+        });
+      }
+      if (error.code === ErrorCode.ChatServiceInactive) {
+        throw new HTTPError('libsignal threw ChatServiceInactive', {
+          code: -1,
+          headers: {},
+        });
+      }
+      if (error.code === ErrorCode.IoError) {
+        throw new HTTPError('libsignal threw IoError', {
+          code: -1,
+          headers: {},
+        });
+      }
+      if (error.code === ErrorCode.RateLimitedError) {
+        const rateLimitedError = error as unknown as RateLimitedError;
+        const { retryAfterSecs } = rateLimitedError;
+        throw new HTTPError(
+          `libsignal threw RateLimitedError with retryAfterSecs=${retryAfterSecs}`,
+          {
+            code: 429,
+            headers: {
+              'retry-after': retryAfterSecs?.toString(),
+            },
+          }
+        );
+      }
+      if (error.code === ErrorCode.MismatchedDevices) {
+        const mismatchedError = error as unknown as MismatchedDevicesError;
+        const { entries } = mismatchedError;
+        const staleDevices: Array<PartialDeviceType> = [];
+        log.warn(
+          `${logId}: libsignal threw MismatchedDevices, with ${entries?.length} entries`
+        );
+
+        await waitForAll({
+          maxConcurrency: 3,
+          tasks: entries.map(entry => async () => {
+            const uuid = fromServiceIdObject(entry.account);
+            const isEmpty =
+              entry.missingDevices.length === 0 &&
+              entry.extraDevices.length === 0 &&
+              entry.staleDevices.length === 0;
+
+            if (isEmpty) {
+              log.warn(
+                `${logId}/MismatchedDevices: Entry for ${uuid} was empty - fetching all keys`
+              );
+              await fetchKeysForServiceId(
+                uuid,
+                null,
+                groupSendEndorsementState
+              );
+            }
+
+            if (entry.missingDevices.length > 0) {
+              // Start new sessions; didn't have sessions before
+              await fetchKeysForServiceId(
+                uuid,
+                entry.missingDevices,
+                groupSendEndorsementState
+              );
+            }
+
+            // Clear unneeded sessions
+            await waitForAll({
+              tasks: entry.extraDevices.map(deviceId => async () => {
+                await signalProtocolStore.archiveSession(
+                  new QualifiedAddress(ourAci, Address.create(uuid, deviceId))
+                );
+              }),
+            });
+
+            await waitForAll({
+              tasks: entry.staleDevices.map(device => async () => {
+                // Save all stale devices in one list for updating senderKeyInfo
+                staleDevices.push({ serviceId: uuid, id: device });
+
+                // Clear stale sessions
+                await signalProtocolStore.archiveSession(
+                  new QualifiedAddress(ourAci, Address.create(uuid, device))
+                );
+              }),
+            });
+
+            if (entry.staleDevices.length > 0) {
+              // Start new sessions; previous session was stale
+              await fetchKeysForServiceId(
+                uuid,
+                entry.staleDevices,
+                groupSendEndorsementState
+              );
+            }
+          }),
+        });
+
+        // Update sende senderKeyInfo in one update
+        if (staleDevices.length > 0) {
+          const toUpdate = sendTarget.getSenderKeyInfo();
+          if (toUpdate) {
+            await sendTarget.saveSenderKeyInfo({
+              ...toUpdate,
+              memberDevices: differenceWith(
+                toUpdate.memberDevices,
+                staleDevices,
+                partialDeviceComparator
+              ),
+            });
+          }
+        }
+
+        return startOver('error: mismatched devices');
+      }
+    }
+
     if (error.code === UNKNOWN_RECIPIENT) {
       onFailedToSendWithEndorsements(error);
       throw new UnknownRecipientError();
@@ -974,6 +1126,7 @@ async function handle409Response(
   );
   if (parsed.success) {
     await waitForAll({
+      maxConcurrency: 10,
       tasks: parsed.data.map(item => async () => {
         const { uuid, devices } = item;
         // Start new sessions with devices we didn't know about before
@@ -998,7 +1151,6 @@ async function handle409Response(
           });
         }
       }),
-      maxConcurrency: 10,
     });
   } else {
     log.error(
@@ -1356,11 +1508,11 @@ async function fetchKeysForServiceIds(
 
   try {
     await waitForAll({
+      maxConcurrency: 50,
       tasks: serviceIds.map(
         serviceId => async () =>
           fetchKeysForServiceId(serviceId, null, groupSendEndorsementState)
       ),
-      maxConcurrency: 50,
     });
   } catch (error) {
     log.error(
