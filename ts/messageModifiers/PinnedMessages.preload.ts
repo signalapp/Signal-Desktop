@@ -27,6 +27,7 @@ export type PinnedMessageAddProps = Readonly<{
   targetAuthorAci: AciString;
   pinDuration: DurationInSeconds | null;
   pinnedByAci: AciString;
+  sentAtTimestamp: number;
   receivedAtTimestamp: number;
 }>;
 
@@ -115,12 +116,14 @@ export async function onPinnedMessageAdd(
   drop(pinnedMessagesCleanupService.trigger('onPinnedMessageAdd'));
 
   if (result.change?.inserted) {
-    await targetConversation.addNotification('pinned-message-notification', {
+    await targetConversation.addPinnedMessageNotification({
       pinMessage: {
         targetSentTimestamp: props.targetSentTimestamp,
         targetAuthorAci: props.targetAuthorAci,
       },
-      sourceServiceId: props.pinnedByAci,
+      senderAci: props.pinnedByAci,
+      sentAtTimestamp: props.sentAtTimestamp,
+      receivedAtTimestamp: props.receivedAtTimestamp,
     });
   }
 

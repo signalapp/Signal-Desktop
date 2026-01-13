@@ -12,6 +12,7 @@ import type {
   ConversationLastProfileType,
   ConversationRenderInfoType,
   MessageAttributesType,
+  PinMessageData,
   QuotedMessageType,
   SenderKeyInfoType,
   SettableConversationAttributesType,
@@ -3559,6 +3560,36 @@ export class ConversationModel {
 
     this.throttledUpdateUnread();
     await maybeNotify({ message: message.attributes, conversation: this });
+  }
+
+  async addPinnedMessageNotification(params: {
+    pinMessage: PinMessageData;
+    senderAci: AciString;
+    sentAtTimestamp: number;
+    receivedAtTimestamp: number;
+  }): Promise<void> {
+    const ourAci = itemStorage.user.getCheckedAci();
+    const senderIsMe = params.senderAci === ourAci;
+
+    const message = new MessageModel({
+      ...generateMessageId(incrementMessageCounter()),
+      conversationId: this.id,
+      type: 'pinned-message-notification',
+      sent_at: params.sentAtTimestamp,
+      received_at_ms: params.receivedAtTimestamp,
+      timestamp: params.sentAtTimestamp,
+      readStatus: senderIsMe ? ReadStatus.Read : ReadStatus.Unread,
+      seenStatus: senderIsMe ? SeenStatus.Seen : SeenStatus.Unseen,
+      sourceServiceId: params.senderAci,
+      expireTimer: this.get('expireTimer'),
+      expirationStartTimestamp: senderIsMe ? params.sentAtTimestamp : null,
+      pinMessage: params.pinMessage,
+    });
+
+    await window.MessageCache.saveMessage(message, { forceSave: true });
+    window.MessageCache.register(message);
+
+    drop(this.onNewMessage(message));
   }
 
   async addNotification(

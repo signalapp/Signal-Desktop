@@ -251,7 +251,7 @@ export const _withSchemaVersion = ({
       upgradedMessage = await upgrade(message, context);
     } catch (error) {
       logger.error(
-        `Message._withSchemaVersion: error updating message ${message.id}, 
+        `Message._withSchemaVersion: error updating message ${message.id},
         attempt ${message.schemaMigrationAttempts}:`,
         Errors.toLogFormat(error)
       );
@@ -1121,20 +1121,7 @@ export async function migrateBodyAttachmentToDisk(
 export const isUserMessage = (message: MessageAttributesType): boolean =>
   message.type === 'incoming' || message.type === 'outgoing';
 
-// NB: if adding more expiring message types, be sure to also update
-// getUnreadByConversationAndMarkRead &
-// getMessagesUnexpectedlyMissingExpirationStartTimestamp
-export const EXPIRING_MESSAGE_TYPES = new Set([
-  'incoming',
-  'outgoing',
-  'poll-terminate',
-]);
-
 export const isExpiringMessage = (message: MessageAttributesType): boolean => {
-  if (!EXPIRING_MESSAGE_TYPES.has(message.type)) {
-    return false;
-  }
-
   const { expireTimer } = message;
 
   return typeof expireTimer === 'number' && expireTimer > 0;
