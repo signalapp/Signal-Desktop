@@ -64,7 +64,7 @@ export function getPinnedMessagesPreloadDataForConversation(
     const [query, params] = sql`
       SELECT * FROM pinnedMessages
       WHERE conversationId = ${conversationId}
-      ORDER BY pinnedAt DESC
+      ORDER BY pinnedAt ASC
     `;
 
     return db

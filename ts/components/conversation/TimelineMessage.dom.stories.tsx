@@ -239,7 +239,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   canCopy: true,
   canEditMessage: true,
   canEndPoll: overrideProps.direction === 'outgoing',
-  canPinMessages: overrideProps.canPinMessages ?? true,
+  canPinMessage: overrideProps.canPinMessage ?? true,
   canReact: true,
   canReply: true,
   canDownload: true,

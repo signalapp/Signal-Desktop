@@ -54,7 +54,7 @@ export type PropsData = {
   canRetryDeleteForEveryone: boolean;
   canReact: boolean;
   canReply: boolean;
-  canPinMessages: boolean;
+  canPinMessage: boolean;
   hasMaxPinnedMessages: boolean;
   selectedReaction?: string;
   isTargeted?: boolean;
@@ -114,7 +114,7 @@ export function TimelineMessage(props: Props): React.JSX.Element {
     canReply,
     canRetry,
     canRetryDeleteForEveryone,
-    canPinMessages,
+    canPinMessage,
     containerElementRef,
     containerWidthBreakpoint,
     conversationId,
@@ -368,11 +368,9 @@ export function TimelineMessage(props: Props): React.JSX.Element {
             });
           }}
           onPinMessage={
-            canPinMessages && !isPinned ? handleOpenPinMessageDialog : null
+            canPinMessage && !isPinned ? handleOpenPinMessageDialog : null
           }
-          onUnpinMessage={
-            canPinMessages && isPinned ? handleUnpinMessage : null
-          }
+          onUnpinMessage={canPinMessage && isPinned ? handleUnpinMessage : null}
           onMoreInfo={() =>
             pushPanelForConversation({
               type: PanelType.MessageDetails,
@@ -388,7 +386,7 @@ export function TimelineMessage(props: Props): React.JSX.Element {
       canCopy,
       canEditMessage,
       canForward,
-      canPinMessages,
+      canPinMessage,
       canRetry,
       canSelect,
       canEndPoll,

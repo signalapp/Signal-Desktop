@@ -16,6 +16,7 @@ import { pinnedMessagesCleanupService } from '../services/expiring/pinnedMessage
 import { drop } from '../util/drop.std.js';
 import type { AppendPinnedMessageResult } from '../sql/server/pinnedMessages.std.js';
 import * as Errors from '../types/errors.std.js';
+import { isGiftBadge } from '../state/selectors/message.preload.js';
 
 const { AccessRequired } = Proto.AccessControl;
 const { Role } = Proto.Member;
@@ -209,12 +210,18 @@ function validatePinnedMessageTarget(
   target: MessageModifierTarget,
   sourceAci: AciString
 ): { error: string } | null {
+  const message = target.targetMessage.attributes;
+
   if (!isValidSenderAciForConversation(target.targetConversation, sourceAci)) {
     return { error: 'Sender cannot send to target conversation' };
   }
 
   if (!canSenderEditGroupAttributes(target.targetConversation, sourceAci)) {
     return { error: 'Sender does not have access to edit group attributes' };
+  }
+
+  if (isGiftBadge(message)) {
+    return { error: 'Cannot pin gift badge messages' };
   }
 
   return null;

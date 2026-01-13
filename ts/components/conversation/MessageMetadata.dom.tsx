@@ -220,12 +220,8 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
         ) : null}
         {expirationLength ? (
           <ExpireTimer
-            direction={metadataDirection}
-            isOutlineOnlyBubble={isOutlineOnlyBubble}
             expirationLength={expirationLength}
             expirationTimestamp={expirationTimestamp}
-            withImageNoCaption={withImageNoCaption}
-            withSticker={isSticker}
           />
         ) : null}
         {textPending ? (
