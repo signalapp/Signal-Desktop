@@ -4,7 +4,10 @@
 import React, { useState, useCallback } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { MediaTabType } from '../../../types/MediaItem.std.js';
+import type {
+  MediaTabType,
+  MediaSortOrderType,
+} from '../../../types/MediaItem.std.js';
 import type { Props } from './MediaGallery.dom.js';
 import { MediaGallery } from './MediaGallery.dom.js';
 import { PanelHeader } from './PanelHeader.dom.js';
@@ -39,6 +42,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   links: overrideProps.links || [],
   documents: overrideProps.documents || [],
   tab: overrideProps.tab || 'media',
+  sortOrder: overrideProps.sortOrder || 'date',
 
   initialLoad: action('initialLoad'),
   loadMore: action('loadMore'),
@@ -54,6 +58,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
 
 function Panel(props: Props): React.JSX.Element {
   const [tab, setTab] = useState<MediaTabType>(props.tab);
+  const [sortOrder, setSortOrder] = useState<MediaSortOrderType>('date');
 
   const [loading, setLoading] = useState(false);
 
@@ -71,14 +76,30 @@ function Panel(props: Props): React.JSX.Element {
   );
 
   return (
-    <div>
-      <PanelHeader i18n={i18n} tab={tab} setTab={setTab} />
-      <MediaGallery
-        {...props}
-        tab={tab}
-        loading={loading}
-        loadMore={loadMore}
-      />
+    <div className="ConversationPanel">
+      <div className="ConversationPanel__header">
+        <button
+          aria-label={i18n('icu:goBack')}
+          className="ConversationPanel__header__back-button"
+          type="button"
+        />
+        <PanelHeader
+          i18n={i18n}
+          tab={tab}
+          setTab={setTab}
+          sortOrder={sortOrder}
+          setSortOrder={setSortOrder}
+        />
+      </div>
+      <div className="ConversationPanel__body">
+        <MediaGallery
+          {...props}
+          tab={tab}
+          loading={loading}
+          loadMore={loadMore}
+          sortOrder={sortOrder}
+        />
+      </div>
     </div>
   );
 }

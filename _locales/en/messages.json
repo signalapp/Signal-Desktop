@@ -6880,6 +6880,22 @@
     "messageformat": "Links",
     "description": "Header of the links pane in the media gallery, showing links"
   },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by",
+    "description": "Accessible label of the drop down trigger for sorting media gallery"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by",
+    "description": "Header displayed on top of the drop down menu for sorting media gallery"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date",
+    "description": "Sort by date option of drop down menu in media gallery"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size",
+    "description": "Sort by file size option of drop down menu in media gallery"
+  },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "No Media",
     "description": "Title of the empty state view of media gallery for media tab"
