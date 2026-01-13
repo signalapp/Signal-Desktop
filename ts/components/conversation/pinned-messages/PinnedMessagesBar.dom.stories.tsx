@@ -182,10 +182,28 @@ export function Variants(): React.JSX.Element {
         title="Poll"
         message={{ poll: { question: `${SHORT_TEXT}?` } }}
       />
-      <Variant title="Sticker" message={{ sticker: true }} />
-      <Variant title="Contact" message={{ contact: { name: 'Tyler' } }} />
+      <Variant
+        title="Sticker"
+        message={{
+          sticker: true,
+          attachment: { type: 'image', url: IMAGE_URL },
+        }}
+      />
+      <Variant
+        title="Contact"
+        message={{
+          contact: { name: 'Tyler' },
+          attachment: { type: 'file', name: '' },
+        }}
+      />
       <Variant title="Payment" message={{ payment: true }} />
-      <Variant title="View-Once Media" message={{ viewOnceMedia: true }} />
+      <Variant
+        title="View-Once Media"
+        message={{
+          viewOnceMedia: true,
+          attachment: { type: 'image', url: IMAGE_URL },
+        }}
+      />
     </Stack>
   );
 }

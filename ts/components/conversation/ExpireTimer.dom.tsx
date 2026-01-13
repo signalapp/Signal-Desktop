@@ -6,22 +6,14 @@ import classNames from 'classnames';
 
 import { getIncrement, getTimerBucket } from '../../util/timer.std.js';
 
-export type Props = {
-  direction?: 'incoming' | 'outgoing';
+export type Props = Readonly<{
   expirationLength: number;
   expirationTimestamp?: number;
-  isOutlineOnlyBubble?: boolean;
-  withImageNoCaption?: boolean;
-  withSticker?: boolean;
-};
+}>;
 
 export function ExpireTimer({
-  direction,
   expirationLength,
   expirationTimestamp,
-  isOutlineOnlyBubble,
-  withImageNoCaption,
-  withSticker,
 }: Props): React.JSX.Element {
   const [, forceUpdate] = useReducer(() => ({}), {});
 
@@ -40,13 +32,7 @@ export function ExpireTimer({
     <div
       className={classNames(
         'module-expire-timer',
-        `module-expire-timer--${bucket}`,
-        direction ? `module-expire-timer--${direction}` : null,
-        isOutlineOnlyBubble ? 'module-expire-timer--outline-only-bubble' : null,
-        direction && withImageNoCaption
-          ? 'module-expire-timer--with-image-no-caption'
-          : null,
-        withSticker ? 'module-expire-timer--with-sticker' : null
+        `module-expire-timer--${bucket}`
       )}
     />
   );

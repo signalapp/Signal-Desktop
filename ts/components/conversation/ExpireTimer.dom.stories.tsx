@@ -11,12 +11,9 @@ export default {
 } satisfies Meta<Props>;
 
 const createProps = (overrideProps: Partial<Props> = {}): Props => ({
-  direction: overrideProps.direction || 'outgoing',
   expirationLength: overrideProps.expirationLength || 30 * 1000,
   expirationTimestamp:
     overrideProps.expirationTimestamp || Date.now() + 30 * 1000,
-  withImageNoCaption: overrideProps.withImageNoCaption || false,
-  withSticker: overrideProps.withSticker || false,
 });
 
 export const _30Seconds = (): React.JSX.Element => {
@@ -49,38 +46,6 @@ export function Expired(): React.JSX.Element {
   });
 
   return <ExpireTimer {...props} />;
-}
-
-export function Sticker(): React.JSX.Element {
-  const props = createProps({
-    withSticker: true,
-  });
-
-  return <ExpireTimer {...props} />;
-}
-
-export function ImageNoCaption(): React.JSX.Element {
-  const props = createProps({
-    withImageNoCaption: true,
-  });
-
-  return (
-    <div style={{ backgroundColor: 'darkgreen' }}>
-      <ExpireTimer {...props} />
-    </div>
-  );
-}
-
-export function Incoming(): React.JSX.Element {
-  const props = createProps({
-    direction: 'incoming',
-  });
-
-  return (
-    <div style={{ backgroundColor: 'darkgreen' }}>
-      <ExpireTimer {...props} />
-    </div>
-  );
 }
 
 export function ExpirationTooFarOut(): React.JSX.Element {

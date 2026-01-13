@@ -132,6 +132,10 @@ function getPinSender(props: MessagePropsType): PinSender {
   };
 }
 
+function getLastPinId(pins: ReadonlyArray<Pin>): PinnedMessageId | null {
+  return pins.at(-1)?.id ?? null;
+}
+
 function getPrevPinId(
   pins: ReadonlyArray<Pin>,
   pinnedMessageId: PinnedMessageId
@@ -375,26 +379,45 @@ export const SmartPinnedMessagesBar = memo(function SmartPinnedMessagesBar() {
     useConversationsActions();
 
   const [current, setCurrent] = useState(() => {
-    return pins.at(0)?.id ?? null;
+    return getLastPinId(pins);
   });
 
-  const isCurrentOutOfDate = useMemo(() => {
+  const [prevPins, setPrevPins] = useState(pins);
+  if (pins !== prevPins) {
+    // Needed for `expectedCurrent` which might update `current` in the same render
+    setPrevPins(pins);
+  }
+
+  const expectedCurrent = useMemo(() => {
+    const latestPinId = getLastPinId(pins);
+
+    // If `current` is null, use the latest pin id if we have one.
     if (current == null) {
-      if (pins.length > 0) {
-        return true;
-      }
-      return false;
+      return latestPinId;
     }
 
-    const hasMatch = pins.some(pin => {
-      return pin.id === current;
-    });
+    // If `current` is already the latest pin id, leave it.
+    if (current === latestPinId) {
+      return current;
+    }
 
-    return !hasMatch;
-  }, [current, pins]);
+    // Update `current` if it no longer exists.
+    const hasCurrent = pins.some(pin => pin.id === current);
+    if (!hasCurrent) {
+      return latestPinId;
+    }
 
-  if (isCurrentOutOfDate) {
-    setCurrent(pins.at(0)?.id ?? null);
+    // Update `current` if it was previously the latest and there's a new latest.
+    const prevLatestPinId = getLastPinId(prevPins);
+    if (prevLatestPinId === current && latestPinId != null) {
+      return latestPinId;
+    }
+
+    return current;
+  }, [current, pins, prevPins]);
+
+  if (current !== expectedCurrent) {
+    setCurrent(expectedCurrent);
   }
 
   const handleCurrentChange = useCallback(
@@ -410,9 +433,10 @@ export const SmartPinnedMessagesBar = memo(function SmartPinnedMessagesBar() {
       if (current == null) {
         return;
       }
-      const prevPinId = getPrevPinId(pins, current);
-      if (prevPinId != null) {
-        setCurrent(prevPinId);
+
+      const updatedCurrent = getPrevPinId(pins, current) ?? getLastPinId(pins);
+      if (updatedCurrent != null) {
+        setCurrent(updatedCurrent);
       }
     },
     [scrollToMessage, conversationId, pins, current]

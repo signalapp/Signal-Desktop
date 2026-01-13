@@ -1874,81 +1874,17 @@ $message-padding-horizontal: 12px;
   display: inline-block;
   margin-inline-start: 6px;
   margin-bottom: 2px;
-
-  & {
-    @include mixins.dark-theme {
-      @include mixins.color-svg(
-        '../images/icons/v3/message_timer/messagetimer-60.svg',
-        variables.$color-white-alpha-80
-      );
-    }
-  }
-  & {
-    @include mixins.light-theme {
-      @include mixins.color-svg(
-        '../images/icons/v3/message_timer/messagetimer-60.svg',
-        variables.$color-white-alpha-80
-      );
-    }
-  }
 }
 
 $timer-icons:
-  '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05', '00';
+  '60', '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05', '00';
 
 @each $timer-icon in $timer-icons {
   .module-expire-timer--#{$timer-icon} {
-    & {
-      @include mixins.dark-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/message_timer/messagetimer-#{$timer-icon}.svg',
-          variables.$color-white-alpha-80
-        );
-      }
-    }
-    & {
-      @include mixins.light-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/message_timer/messagetimer-#{$timer-icon}.svg',
-          variables.$color-white-alpha-80
-        );
-      }
-    }
-  }
-}
-
-.module-expire-timer--incoming {
-  background-color: variables.$color-white-alpha-80;
-
-  @include mixins.light-theme {
-    background-color: variables.$color-gray-60;
-  }
-  @include mixins.dark-theme {
-    background-color: variables.$color-gray-25;
-  }
-}
-.module-expire-timer--with-sticker {
-  @include mixins.light-theme {
-    background-color: variables.$color-gray-60;
-  }
-}
-
-// When status indicators are overlaid on top of an image, they use different colors
-.module-expire-timer--with-image-no-caption {
-  @include mixins.light-theme {
-    background-color: variables.$color-white;
-  }
-  @include mixins.dark-theme {
-    background-color: variables.$color-gray-02;
-  }
-}
-
-.module-expire-timer--outline-only-bubble {
-  @include mixins.light-theme {
-    background-color: variables.$color-gray-60;
-  }
-  @include mixins.dark-theme {
-    background-color: variables.$color-gray-25;
+    @include mixins.color-svg(
+      '../images/icons/v3/message_timer/messagetimer-#{$timer-icon}.svg',
+      currentColor
+    );
   }
 }
 
