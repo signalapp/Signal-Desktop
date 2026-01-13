@@ -1052,6 +1052,22 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/CallingRaisedHandsList.dom.tsx",
+    "line": "  const prevShownRaisedHandsCountRef = useRef<number>(raisedHandsCount);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-01-09T21:23:45.188Z",
+    "reasonDetail": "Maintain last shown raised hand count to prevent 0"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/CallingRaisedHandsList.dom.tsx",
+    "line": "  const prevShownSyncedLocalHandRaisedRef = useRef<boolean>(",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-01-09T21:23:45.188Z",
+    "reasonDetail": "Maintain last shown raised hands to prevent 0"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/CallingToast.dom.tsx",
     "line": "  const shownToasts = React.useRef<Set<string>>(new Set());",
     "reasonCategory": "usageTrusted",

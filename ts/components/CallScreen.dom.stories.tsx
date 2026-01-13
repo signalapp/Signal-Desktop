@@ -960,7 +960,7 @@ export function GroupCallSuggestLowerHand(): React.JSX.Element {
 // are raised
 function useHandRaiser(
   activeCall: ActiveGroupCallType,
-  frequency = 3000,
+  frequency = 2000,
   min = 0,
   max = 5
 ) {
