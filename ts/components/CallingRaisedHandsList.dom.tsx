@@ -1,7 +1,7 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 
 import { Avatar, AvatarSize } from './Avatar.dom.js';
@@ -205,9 +205,16 @@ export function CallingRaisedHandsListButton({
     syncedLocalHandRaised,
     syncedLocalHandRaised
   );
+  const prevShownRaisedHandsCountRef = useRef<number>(raisedHandsCount);
+  const prevShownSyncedLocalHandRaisedRef = useRef<boolean>(
+    syncedLocalHandRaised
+  );
 
-  React.useEffect(() => {
-    if (raisedHandsCount > prevRaisedHandsCount) {
+  useEffect(() => {
+    if (
+      raisedHandsCount > prevRaisedHandsCount ||
+      (raisedHandsCount > 0 && !isVisible)
+    ) {
       setIsVisible(true);
       opacitySpringApi.stop();
       drop(Promise.all(opacitySpringApi.start({ opacity: 1 })));
@@ -237,11 +244,24 @@ export function CallingRaisedHandsListButton({
       );
     }
   }, [
+    isVisible,
     raisedHandsCount,
     prevRaisedHandsCount,
     opacitySpringApi,
     scaleSpringApi,
     setIsVisible,
+  ]);
+
+  useEffect(() => {
+    if (isVisible && raisedHandsCount === 0 && prevRaisedHandsCount > 0) {
+      prevShownRaisedHandsCountRef.current = prevRaisedHandsCount;
+      prevShownSyncedLocalHandRaisedRef.current = prevSyncedLocalHandRaised;
+    }
+  }, [
+    isVisible,
+    prevRaisedHandsCount,
+    prevSyncedLocalHandRaised,
+    raisedHandsCount,
   ]);
 
   if (!isVisible) {
@@ -252,9 +272,14 @@ export function CallingRaisedHandsListButton({
   // abrupt label changes.
   let shownSyncedLocalHandRaised: boolean = syncedLocalHandRaised;
   let shownRaisedHandsCount: number = raisedHandsCount;
-  if (raisedHandsCount === 0 && prevRaisedHandsCount) {
-    shownRaisedHandsCount = prevRaisedHandsCount;
-    shownSyncedLocalHandRaised = prevSyncedLocalHandRaised;
+  if (raisedHandsCount === 0) {
+    if (prevRaisedHandsCount > 0) {
+      shownRaisedHandsCount = prevRaisedHandsCount;
+      shownSyncedLocalHandRaised = prevSyncedLocalHandRaised;
+    } else {
+      shownRaisedHandsCount = prevShownRaisedHandsCountRef.current;
+      shownSyncedLocalHandRaised = prevShownSyncedLocalHandRaisedRef.current;
+    }
   }
 
   return (
