@@ -2493,6 +2493,7 @@ export async function startApp(): Promise<void> {
         targetAuthorAci: data.message.pinMessage.targetAuthorAci,
         pinDuration: data.message.pinMessage.pinDuration,
         pinnedByAci: data.sourceAci,
+        sentAtTimestamp: data.timestamp,
         receivedAtTimestamp: data.receivedAtDate,
       });
       confirm();
@@ -3000,6 +3001,7 @@ export async function startApp(): Promise<void> {
         targetAuthorAci: data.message.pinMessage.targetAuthorAci,
         pinDuration: data.message.pinMessage.pinDuration,
         pinnedByAci: sourceServiceId,
+        sentAtTimestamp: data.timestamp,
         receivedAtTimestamp: data.receivedAtDate,
       });
       confirm();
