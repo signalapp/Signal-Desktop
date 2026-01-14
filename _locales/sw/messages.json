@@ -1293,7 +1293,7 @@
     "messageformat": "Kibandiko"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Media ya mtazamo-mmoja"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Picha"
@@ -1314,7 +1314,7 @@
     "messageformat": "Kibandiko"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Media ya mtazamo-mmoja"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Jumbe zilizobandikwa"
@@ -5157,7 +5157,7 @@
     "messageformat": "Sauti"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Mwasiliani"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Fungua kiungo kwenye kivinjari"

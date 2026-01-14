@@ -1293,7 +1293,7 @@
     "messageformat": "Naljepnica"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Jednom vidljiv medijski zapis"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Fotografija"
@@ -1314,7 +1314,7 @@
     "messageformat": "Naljepnica"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Jednom vidljiv medijski zapis"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Prikvačene poruke"
@@ -5157,7 +5157,7 @@
     "messageformat": "Zvuk"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Kontakt"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Otvorite poveznicu u pregledniku"

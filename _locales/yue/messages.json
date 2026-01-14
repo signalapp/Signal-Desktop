@@ -1293,7 +1293,7 @@
     "messageformat": "貼圖"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "流聲掠影多媒體檔案"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "相片"
@@ -1314,7 +1314,7 @@
     "messageformat": "貼圖"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "流聲掠影多媒體檔案"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "置頂咗嘅訊息"
@@ -5157,7 +5157,7 @@
     "messageformat": "音訊檔案"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "聯絡人"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "喺瀏覽器度打開連結"

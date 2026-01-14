@@ -1293,7 +1293,7 @@
     "messageformat": "Tarra"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Kerran katsottava media"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Kuva"
@@ -1314,7 +1314,7 @@
     "messageformat": "Tarra"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Kerran katsottava media"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Kiinnitetyt viestit"
@@ -5157,7 +5157,7 @@
     "messageformat": "Ääni"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Yhteystieto"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Avaa linkki selaimessa"

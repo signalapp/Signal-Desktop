@@ -1293,7 +1293,7 @@
     "messageformat": "Pelekat"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Media lihat sekali"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Foto"
@@ -1314,7 +1314,7 @@
     "messageformat": "Pelekat"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Media lihat sekali"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Mesej yang dipinkan"
@@ -5157,7 +5157,7 @@
     "messageformat": "Audio`"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Kenalan"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Buka pautan dalam pelayar"

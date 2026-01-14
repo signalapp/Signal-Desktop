@@ -1293,7 +1293,7 @@
     "messageformat": "ស្ទីកគ័រ"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "មេឌៀមើលបានតែម្តង"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "រូបភាព"
@@ -1314,7 +1314,7 @@
     "messageformat": "ស្ទីកគ័រ"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "មេឌៀមើលបានតែម្តង"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "សារដែលបានខ្ទាស់"
@@ -5157,7 +5157,7 @@
     "messageformat": "សំឡេង"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "ទំនាក់ទំនង"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "បើកតំណនៅក្នុងកម្មវិធីរុករក"

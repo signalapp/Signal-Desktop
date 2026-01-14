@@ -1293,7 +1293,7 @@
     "messageformat": "Uzlīme"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Vienreiz skatāms multivides fails"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Attēls"
@@ -1314,7 +1314,7 @@
     "messageformat": "Uzlīme"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Vienreiz skatāms multivides fails"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Piespraustās ziņas"
@@ -5157,7 +5157,7 @@
     "messageformat": "Audio"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Kontakts"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Atvērt saiti pārlūkā"

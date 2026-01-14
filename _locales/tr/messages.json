@@ -1293,7 +1293,7 @@
     "messageformat": "Çıkartma"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Bir kez görünür medya"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Fotoğraf"
@@ -1314,7 +1314,7 @@
     "messageformat": "Çıkartma"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Bir kez görünür medya"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Sabitlenmiş mesajlar"
@@ -5157,7 +5157,7 @@
     "messageformat": "Ses"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Kişi"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Bağlantıyı bir tarayıcıda aç"

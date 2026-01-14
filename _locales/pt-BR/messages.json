@@ -1293,7 +1293,7 @@
     "messageformat": "Figurinha"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Mídia efêmera"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Foto"
@@ -1314,7 +1314,7 @@
     "messageformat": "Figurinha"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Mídia efêmera"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Mensagens fixadas"
@@ -5157,7 +5157,7 @@
     "messageformat": "Áudio"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Contato"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Abra o link em um navegador"

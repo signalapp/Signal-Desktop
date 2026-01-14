@@ -1293,7 +1293,7 @@
     "messageformat": "ಸ್ಟಿಕ್ಕರ್"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "ಏಕ ವೀಕ್ಷಣೆ ಮೀಡಿಯಾ"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "ಫೋಟೋ"
@@ -1314,7 +1314,7 @@
     "messageformat": "ಸ್ಟಿಕ್ಕರ್"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "ಏಕ ವೀಕ್ಷಣೆ ಮೀಡಿಯಾ"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "ಪಿನ್ ಮಾಡಲಾದ ಮೆಸೇಜ್‌ಗಳು"
@@ -5157,7 +5157,7 @@
     "messageformat": "ಆಡಿಯೊ"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "ಸಂಪರ್ಕ"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಲಿಂಕ್ ತೆರೆಯಿರಿ"

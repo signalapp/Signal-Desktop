@@ -1293,7 +1293,7 @@
     "messageformat": "Стикер"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Мултимедия за еднократно гледане"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Изображение"
@@ -1314,7 +1314,7 @@
     "messageformat": "Стикер"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Мултимедия за еднократно гледане"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Закачени съобщения"
@@ -5157,7 +5157,7 @@
     "messageformat": "Аудио"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Контакт"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Отваряне на линка в браузъра"

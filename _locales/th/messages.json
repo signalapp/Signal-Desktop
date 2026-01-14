@@ -1293,7 +1293,7 @@
     "messageformat": "สติกเกอร์"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "สื่อที่ดูได้ครั้งเดียว"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "รูปภาพ"
@@ -1314,7 +1314,7 @@
     "messageformat": "สติกเกอร์"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "สื่อที่ดูได้ครั้งเดียว"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "ข้อความที่ปักหมุด"
@@ -5157,7 +5157,7 @@
     "messageformat": "เสียง"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "ผู้ติดต่อ"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "เปิดลิงก์ในเบราว์เซอร์"

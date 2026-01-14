@@ -1293,7 +1293,7 @@
     "messageformat": "چىراي ئىپادە"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "بىرلا كۆرسەت ۋاسىتە"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "سۈرەت"
@@ -1314,7 +1314,7 @@
     "messageformat": "چىراي ئىپادە"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "بىرلا كۆرسەت ۋاسىتە"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "مىقلانغان ئۇچۇرلار"
@@ -5157,7 +5157,7 @@
     "messageformat": "ئۈن"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "ئالاقىداش"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "ئۇلىنىشنى توربەتتىن ئېچىڭ"

@@ -1293,7 +1293,7 @@
     "messageformat": "Greamán"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Meán amhairc aonuaire"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Grianghraf"
@@ -1314,7 +1314,7 @@
     "messageformat": "Greamán"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Meán amhairc aonuaire"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Teachtaireachtaí greamaithe"
@@ -5157,7 +5157,7 @@
     "messageformat": "Fuaim"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Teagmhálaí"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Oscail an nasc i mbrabhsálaí"

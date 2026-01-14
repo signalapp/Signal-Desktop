@@ -1293,7 +1293,7 @@
     "messageformat": "Autocolant"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Media vizibilă o singură dată"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Poză"
@@ -1314,7 +1314,7 @@
     "messageformat": "Autocolant"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Media vizibilă o singură dată"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Mesaje fixate"

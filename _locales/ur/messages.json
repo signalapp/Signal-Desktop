@@ -1293,7 +1293,7 @@
     "messageformat": "اسٹیکر"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "صرف ایک بار دیکھنے کے قابل میڈیا"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "تصویر"
@@ -1314,7 +1314,7 @@
     "messageformat": "اسٹیکر"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "صرف ایک بار دیکھنے کے قابل میڈیا"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "پِن کردہ میسجز"
@@ -5157,7 +5157,7 @@
     "messageformat": "آڈیو"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "رابطہ"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "لنک کو براؤزر میں کھولیں"

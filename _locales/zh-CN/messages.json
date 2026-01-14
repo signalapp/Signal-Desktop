@@ -1293,7 +1293,7 @@
     "messageformat": "表情"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "一次性媒体"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "图片"
@@ -1314,7 +1314,7 @@
     "messageformat": "表情"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "一次性媒体"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "置顶的消息"
@@ -5157,7 +5157,7 @@
     "messageformat": "音频"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "联系人"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "在浏览器中打开链接"

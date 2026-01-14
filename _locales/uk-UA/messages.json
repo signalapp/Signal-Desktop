@@ -1293,7 +1293,7 @@
     "messageformat": "Стікер"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Одноразовий медіафайл"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Фото"
@@ -1314,7 +1314,7 @@
     "messageformat": "Стікер"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Одноразовий медіафайл"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Закріплені повідомлення"
@@ -5157,7 +5157,7 @@
     "messageformat": "Аудіо"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Контакт"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Відкрити посилання в браузері"

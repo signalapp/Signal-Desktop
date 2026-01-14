@@ -1293,7 +1293,7 @@
     "messageformat": "Adesivo"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Media visualizzabile una volta"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Foto"
@@ -1314,7 +1314,7 @@
     "messageformat": "Adesivo"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Media visualizzabile una volta"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Messaggi in evidenza"
@@ -5157,7 +5157,7 @@
     "messageformat": "Audio"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Contatto"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Apri il link in un browser"

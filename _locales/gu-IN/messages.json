@@ -1293,7 +1293,7 @@
     "messageformat": "સ્ટીકર"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "એકવાર મીડિયા જુઓ"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "ફોટો"
@@ -1314,7 +1314,7 @@
     "messageformat": "સ્ટીકર"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "એકવાર મીડિયા જુઓ"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "પિન કરેલા મેસેજ"
@@ -5157,7 +5157,7 @@
     "messageformat": "ઓડિયો"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "સંપર્ક"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "બ્રાઉઝરમાં લિંક ખોલો"

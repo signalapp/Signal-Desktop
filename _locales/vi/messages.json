@@ -1293,7 +1293,7 @@
     "messageformat": "Nhãn dán"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Đa phương tiện xem một lần"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Ảnh"
@@ -1314,7 +1314,7 @@
     "messageformat": "Nhãn dán"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Đa phương tiện xem một lần"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Tin nhắn đã ghim"
@@ -5157,7 +5157,7 @@
     "messageformat": "Âm thanh"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Liên hệ"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Mở đường dẫn trong trình duyệt"

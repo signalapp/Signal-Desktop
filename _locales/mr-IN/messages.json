@@ -1293,7 +1293,7 @@
     "messageformat": "स्टिकर"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "एकदा-बघा मिडिया"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "फोटो"
@@ -1314,7 +1314,7 @@
     "messageformat": "स्टिकर"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "एकदा-बघा मिडिया"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "पिन केलेला संदेश"
@@ -5157,7 +5157,7 @@
     "messageformat": "ऑडिओ"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "संपर्क"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "ब्राऊझरमध्ये लिंक उघडा"

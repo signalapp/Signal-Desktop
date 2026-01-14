@@ -1293,7 +1293,7 @@
     "messageformat": "స్టికర్"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "ఒకసారి-దృశ్యం మీడియా"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "చిత్రం"
@@ -1314,7 +1314,7 @@
     "messageformat": "స్టికర్"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "ఒకసారి-దృశ్యం మీడియా"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "పిన్ చేసిన సందేశాలు"
@@ -5157,7 +5157,7 @@
     "messageformat": "ఆడియో"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "పరిచయం"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "లింక్‌ను బ్రౌజర్‌లో తెరవండి"

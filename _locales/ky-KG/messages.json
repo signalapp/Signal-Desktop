@@ -1293,7 +1293,7 @@
     "messageformat": "Стикер"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Бир жолу көрүлүүчү MMS"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Сүрөт"
@@ -1314,7 +1314,7 @@
     "messageformat": "Стикер"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Бир жолу көрүлүүчү MMS"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Кадалган билдирүүлөр"
@@ -5157,7 +5157,7 @@
     "messageformat": "Аудио"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Байланыш"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Серепчидеги шилтемени ачуу"

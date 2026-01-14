@@ -1293,7 +1293,7 @@
     "messageformat": "Αυτοκόλλητο"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Πολυμέσο μιας μόνο προβολής"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Φωτογραφία"
@@ -1314,7 +1314,7 @@
     "messageformat": "Αυτοκόλλητο"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Πολυμέσο μιας μόνο προβολής"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Καρφιτσωμένα μηνύματα"
@@ -5157,7 +5157,7 @@
     "messageformat": "Ήχος"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Επαφή"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Άνοιγμα του συνδέσμου σε ένα πρόγραμμα περιήγησης"

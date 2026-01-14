@@ -1293,7 +1293,7 @@
     "messageformat": "Naklejka"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Multimedia jednorazowe"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Zdjęcie"
@@ -1314,7 +1314,7 @@
     "messageformat": "Naklejka"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Multimedia jednorazowe"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Przypięte wiadomości"
@@ -4596,7 +4596,7 @@
     "messageformat": "Kto może edytować informacje o grupie"
   },
   "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Wybierz, kto może edytować nazwę, zdjęcie i opis grupy, a także jaki ma być czas znikania wiadomości."
+    "messageformat": "Wybierz, kto może edytować nazwę, zdjęcie i opis tej grupy oraz ustalać czas, po którym wiadomości będą znikać."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Kto może dodawać osoby"
@@ -5157,7 +5157,7 @@
     "messageformat": "Audio"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Kontakt"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Otwórz link w przeglądarce"

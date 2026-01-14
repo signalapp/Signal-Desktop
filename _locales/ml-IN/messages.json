@@ -1293,7 +1293,7 @@
     "messageformat": "സ്റ്റിക്കർ"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "ഒരു തവണ-ദൃശ്യമാകുന്ന മീഡിയ"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "ഫോട്ടോ"
@@ -1314,7 +1314,7 @@
     "messageformat": "സ്റ്റിക്കർ"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "ഒരു തവണ-ദൃശ്യമാകുന്ന മീഡിയ"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "പിൻ ചെയ്ത സന്ദേശങ്ങൾ"
@@ -5157,7 +5157,7 @@
     "messageformat": "ഓഡിയോ"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "കോൺ‌ടാക്റ്റ്"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "ബ്രൗസറിൽ, ലിങ്ക് തുറക്കുക"

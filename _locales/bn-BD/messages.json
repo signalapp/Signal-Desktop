@@ -1293,7 +1293,7 @@
     "messageformat": "স্টিকার"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "একবার দেখা যাবে এমন মিডিয়া"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "ছবি"
@@ -1314,7 +1314,7 @@
     "messageformat": "স্টিকার"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "একবার দেখা যাবে এমন মিডিয়া"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "মেসেজ পিন করুন"
@@ -5157,7 +5157,7 @@
     "messageformat": "শব্দ"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "পরিচিতি"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "একটি ব্রাউজারে লিংকটি খুলুন"

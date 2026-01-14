@@ -1293,7 +1293,7 @@
     "messageformat": "Matrica"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Egyszer megjelenő médiafájl"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Fotó"
@@ -1314,7 +1314,7 @@
     "messageformat": "Matrica"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Egyszer megjelenő médiafájl"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Rögzített üzenetek"
@@ -5157,7 +5157,7 @@
     "messageformat": "Hang"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Névjegy"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Hivatkozás megnyitása egy böngészőben"

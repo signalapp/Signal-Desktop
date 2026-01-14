@@ -1293,7 +1293,7 @@
     "messageformat": "Nálepka"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Médiá na jedno zobrazenie"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Fotka"
@@ -1314,7 +1314,7 @@
     "messageformat": "Nálepka"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Médiá na jedno zobrazenie"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Pripnuté správy"
@@ -5157,7 +5157,7 @@
     "messageformat": "Audio"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Kontakt"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Otvoriť odkaz v prehliadači"

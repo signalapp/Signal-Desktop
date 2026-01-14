@@ -1293,7 +1293,7 @@
     "messageformat": "מדבקה"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "מדיה לצפייה חד–פעמית"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "תצלום"
@@ -1314,7 +1314,7 @@
     "messageformat": "מדבקה"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "מדיה לצפייה חד–פעמית"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "הודעות מוצמדות"
@@ -5157,7 +5157,7 @@
     "messageformat": "שמע"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "איש קשר"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "פתיחת קישור בדפדפן"

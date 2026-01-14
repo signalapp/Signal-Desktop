@@ -1293,7 +1293,7 @@
     "messageformat": "스티커"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "한 번만 볼 수 있는 미디어"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "사진"
@@ -1314,7 +1314,7 @@
     "messageformat": "스티커"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "한 번만 볼 수 있는 미디어"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "고정 메시지"
@@ -2202,34 +2202,34 @@
     "messageformat": "메시지를 보내려면 이 그룹을 차단 해제하세요."
   },
   "icu:youChangedTheTimer": {
-    "messageformat": "사라지는 메시지 시간을 {time}(으)로 설정했습니다."
+    "messageformat": "자동 삭제 메시지 시간을 {time}(으)로 설정했습니다."
   },
   "icu:timerSetOnSync": {
-    "messageformat": "사라지는 메시지 시간을 {time}(으)로 업데이트했습니다."
+    "messageformat": "자동 삭제 메시지 시간을 {time}(으)로 업데이트했습니다."
   },
   "icu:timerSetByMember": {
-    "messageformat": "멤버가 사라지는 메시지 시간을 {time}(으)로 설정했습니다."
+    "messageformat": "멤버가 자동 삭제 메시지 시간을 {time}(으)로 설정했습니다."
   },
   "icu:theyChangedTheTimer": {
-    "messageformat": "{name} 님이 사라지는 메시지 시간을 {time}(으)로 설정했습니다."
+    "messageformat": "{name} 님이 자동 삭제 메시지 시간을 {time}(으)로 설정했습니다."
   },
   "icu:disappearingMessages__off": {
     "messageformat": "꺼짐"
   },
   "icu:disappearingMessages": {
-    "messageformat": "사라지는 메시지"
+    "messageformat": "자동 삭제 메시지"
   },
   "icu:disappearingMessagesDisabled": {
-    "messageformat": "사라지는 메시지 기능 꺼짐"
+    "messageformat": "자동 삭제 메시지 기능 꺼짐"
   },
   "icu:disappearingMessagesDisabledByMember": {
-    "messageformat": "멤버가 사라지는 메시지를 비활성화했습니다."
+    "messageformat": "멤버가 자동 삭제 메시지를 비활성화했습니다."
   },
   "icu:disabledDisappearingMessages": {
-    "messageformat": "{name} 님이 사라지는 메시지를 비활성화했습니다."
+    "messageformat": "{name} 님이 자동 삭제 메시지를 비활성화했습니다."
   },
   "icu:youDisabledDisappearingMessages": {
-    "messageformat": "사라지는 메시지 기능을 비활성화했습니다."
+    "messageformat": "자동 삭제 메시지 기능을 비활성화했습니다."
   },
   "icu:timerSetTo": {
     "messageformat": "시간이 {time}(으)로 설정됨"
@@ -4566,7 +4566,7 @@
     "messageformat": "그룹 링크"
   },
   "icu:ConversationDetails--disappearing-messages-label": {
-    "messageformat": "사라지는 메시지"
+    "messageformat": "자동 삭제 메시지"
   },
   "icu:ConversationDetails--disappearing-messages-info--group": {
     "messageformat": "활성화할 경우, 이 그룹에서 주고받는 메시지는 열람 후 자동으로 삭제됩니다."
@@ -5157,7 +5157,7 @@
     "messageformat": "오디오"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "연락처"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "브라우저에서 링크를 엽니다."

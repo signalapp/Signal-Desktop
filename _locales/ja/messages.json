@@ -1293,7 +1293,7 @@
     "messageformat": "ステッカー"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "使い捨てメディア"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "写真"
@@ -1314,7 +1314,7 @@
     "messageformat": "ステッカー"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "使い捨てメディア"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "ピン留めされたメッセージ"
@@ -5157,7 +5157,7 @@
     "messageformat": "音声"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "連絡先"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "ブラウザでリンクを開く"

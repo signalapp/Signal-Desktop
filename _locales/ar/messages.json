@@ -1293,7 +1293,7 @@
     "messageformat": "مُلصَق"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "ملف وسائط للعرض لمرّة واحدة"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "صورة"
@@ -1314,7 +1314,7 @@
     "messageformat": "مُلصَق"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "ملف وسائط للعرض لمرّة واحدة"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "المُثبَّتة"
@@ -1596,7 +1596,7 @@
     "messageformat": "إضافة"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Title": {
-    "messageformat": "الرسائل غير المقروءة"
+    "messageformat": "غير المقروءة"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Description": {
     "messageformat": "الرسائل غير المقروءة من جميع الدردشات"
@@ -5157,7 +5157,7 @@
     "messageformat": "الملفات الصوتية"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "جهة الاتصال"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "افتح الرابط في مُتصفِّح"
@@ -7273,7 +7273,7 @@
     "messageformat": "التبرُّع قيد المعالجة…"
   },
   "icu:PreferencesDonations__donate-button-with-amount": {
-    "messageformat": "تبرَّع لـ {formattedCurrencyAmount}"
+    "messageformat": "تبرَّع بـ {formattedCurrencyAmount}"
   },
   "icu:PreferencesDonations__mobile-info": {
     "messageformat": "يمكن إدارة الشارات والتبرُّعات الشهرية على هاتفك المحمول."

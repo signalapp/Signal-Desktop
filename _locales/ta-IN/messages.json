@@ -1293,7 +1293,7 @@
     "messageformat": "ஒட்டிப்படம்"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "காண்க-ஒருமுறை ஊடகம் "
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "புகைப்படம்"
@@ -1314,7 +1314,7 @@
     "messageformat": "ஒட்டிப்படம்"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "காண்க-ஒருமுறை ஊடகம் "
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "பின் செய்யப்பட்ட மெசேஜ்"
@@ -5157,7 +5157,7 @@
     "messageformat": "ஒலி"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "தொடர்பு"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "இணைப்பை உலாவியில் திறக்கவும்"

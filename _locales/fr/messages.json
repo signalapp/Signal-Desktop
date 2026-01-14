@@ -1293,7 +1293,7 @@
     "messageformat": "Sticker"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Média à vue unique"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Photo"
@@ -1314,7 +1314,7 @@
     "messageformat": "Sticker"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Média à vue unique"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Messages épinglés"
