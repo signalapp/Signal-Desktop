@@ -25,6 +25,7 @@ import { itemStorage } from '../../textsecure/Storage.preload.js';
 export type SendMessageJobOptions<Data> = Readonly<{
   sendName: string; // ex: 'sendExampleMessage'
   sendType: SendTypesType;
+  isSyncOnly: (data: Data) => boolean;
   getMessageId: (data: Data) => string | null;
   getMessageOptions: (
     data: Data
@@ -43,6 +44,7 @@ export function createSendMessageJob<Data>(
     const {
       sendName,
       sendType,
+      isSyncOnly,
       getMessageId,
       getMessageOptions,
       getExpirationStartTimestamp,
@@ -60,7 +62,9 @@ export function createSendMessageJob<Data>(
       getSendRecipientLists({
         log,
         conversation,
-        conversationIds: Array.from(conversation.getMemberConversationIds()),
+        conversationIds: isSyncOnly(data)
+          ? [window.ConversationController.getOurConversationIdOrThrow()]
+          : Array.from(conversation.getMemberConversationIds()),
       });
 
     if (untrustedServiceIds.length > 0) {

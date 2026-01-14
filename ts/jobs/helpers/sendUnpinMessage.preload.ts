@@ -7,6 +7,9 @@ import { createSendMessageJob } from './createSendMessageJob.preload.js';
 export const sendUnpinMessage = createSendMessageJob<UnpinMessageJobData>({
   sendName: 'sendUnpinMessage',
   sendType: 'unpinMessage',
+  isSyncOnly(data) {
+    return data.isSyncOnly;
+  },
   getMessageId(data) {
     return data.targetMessageId;
   },

@@ -1399,7 +1399,7 @@ type WritableInterface = {
   deletePinnedMessageByMessageId: (messageId: string) => PinnedMessageId | null;
   deleteAllExpiredPinnedMessagesBefore: (
     beforeTimestamp: number
-  ) => ReadonlyArray<PinnedMessageId>;
+  ) => ReadonlyArray<PinnedMessage>;
 
   removeAll: () => void;
   removeAllConfiguration: () => void;

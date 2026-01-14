@@ -298,7 +298,7 @@ describe('sql/server/pinnedMessages', () => {
       const row3 = insertPin(getParams('c1', 'c1-m3', 3, 3)); // not expired yet
       const result = deleteAllExpiredPinnedMessagesBefore(db, 2);
       assertRows([row3]);
-      assert.deepEqual(result, [row1.id, row2.id]);
+      assert.deepEqual(result, [row1, row2]);
     });
   });
 });
