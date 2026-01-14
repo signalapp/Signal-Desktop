@@ -209,6 +209,7 @@ const pinMessageJobDataSchema = z.object({
   targetAuthorAci: aciSchema,
   targetSentTimestamp: z.number(),
   pinDurationSeconds: z.number().nullable(),
+  pinnedAt: z.number(),
 });
 export type PinMessageJobData = z.infer<typeof pinMessageJobDataSchema>;
 
@@ -290,6 +291,7 @@ const unpinMessageJobDataSchema = z.object({
   targetMessageId: z.string(),
   targetAuthorAci: aciSchema,
   targetSentTimestamp: z.number(),
+  unpinnedAt: z.number(),
 });
 export type UnpinMessageJobData = z.infer<typeof unpinMessageJobDataSchema>;
 

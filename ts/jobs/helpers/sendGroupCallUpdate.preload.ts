@@ -97,6 +97,7 @@ export async function sendGroupCallUpdate(
         ),
       sendType,
       timestamp,
+      expirationStartTimestamp: null,
     });
   } catch (error: unknown) {
     await handleMultipleSendErrors({

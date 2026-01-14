@@ -153,6 +153,7 @@ export async function sendDirectExpirationTimerUpdate(
           }),
         sendType,
         timestamp,
+        expirationStartTimestamp: null,
       });
     }
   } catch (error: unknown) {
