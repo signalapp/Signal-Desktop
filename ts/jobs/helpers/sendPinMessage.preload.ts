@@ -6,6 +6,9 @@ import { createSendMessageJob } from './createSendMessageJob.preload.js';
 export const sendPinMessage = createSendMessageJob<PinMessageJobData>({
   sendName: 'sendPinMessage',
   sendType: 'pinMessage',
+  isSyncOnly() {
+    return false;
+  },
   getMessageId(data) {
     return data.targetMessageId;
   },

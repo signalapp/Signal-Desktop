@@ -253,6 +253,7 @@ import type { StateThunk } from '../types.std.js';
 import { getPinnedMessagesLimit } from '../../util/pinnedMessages.dom.js';
 import { getPinnedMessageExpiresAt } from '../../util/pinnedMessages.std.js';
 import { pinnedMessagesCleanupService } from '../../services/expiring/pinnedMessagesCleanupService.preload.js';
+import { getPinnedMessageTarget } from '../../util/getPinMessageTarget.preload.js';
 
 const {
   chunk,
@@ -5126,41 +5127,6 @@ function startAvatarDownload(
   };
 }
 
-function getMessageAuthorAci(
-  message: ReadonlyMessageAttributesType
-): AciString {
-  if (isIncoming(message)) {
-    strictAssert(
-      isAciString(message.sourceServiceId),
-      'Message sourceServiceId must be an ACI'
-    );
-    return message.sourceServiceId;
-  }
-  return itemStorage.user.getCheckedAci();
-}
-
-type PinnedMessageTarget = ReadonlyDeep<{
-  conversationId: string;
-  targetMessageId: string;
-  targetAuthorAci: AciString;
-  targetSentTimestamp: number;
-}>;
-
-async function getPinnedMessageTarget(
-  targetMessageId: string
-): Promise<PinnedMessageTarget> {
-  const message = await DataReader.getMessageById(targetMessageId);
-  if (message == null) {
-    throw new Error('getPinnedMessageTarget: Target message not found');
-  }
-  return {
-    conversationId: message.conversationId,
-    targetMessageId: message.id,
-    targetAuthorAci: getMessageAuthorAci(message),
-    targetSentTimestamp: message.sent_at,
-  };
-}
-
 function onPinnedMessagesChanged(
   conversationId: string
 ): StateThunk<PinnedMessagesReplace> {
@@ -5194,6 +5160,10 @@ function onPinnedMessageAdd(
 ): StateThunk {
   return async dispatch => {
     const target = await getPinnedMessageTarget(targetMessageId);
+    if (target == null) {
+      throw new Error('onPinnedMessageAdd: Missing target message');
+    }
+
     const targetConversation = window.ConversationController.get(
       target.conversationId
     );
@@ -5239,10 +5209,14 @@ function onPinnedMessageAdd(
 function onPinnedMessageRemove(targetMessageId: string): StateThunk {
   return async dispatch => {
     const target = await getPinnedMessageTarget(targetMessageId);
+    if (target == null) {
+      throw new Error('onPinnedMessageRemove: Missing target message');
+    }
     await conversationJobQueue.add({
       type: conversationQueueJobEnum.enum.UnpinMessage,
       ...target,
       unpinnedAt: Date.now(),
+      isSyncOnly: false,
     });
     await DataWriter.deletePinnedMessageByMessageId(targetMessageId);
     drop(pinnedMessagesCleanupService.trigger('onPinnedMessageRemove'));
