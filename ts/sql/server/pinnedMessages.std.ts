@@ -232,11 +232,11 @@ export function getNextExpiringPinnedMessageAcrossConversations(
 export function deleteAllExpiredPinnedMessagesBefore(
   db: WritableDB,
   beforeTimestamp: number
-): ReadonlyArray<PinnedMessageId> {
+): ReadonlyArray<PinnedMessage> {
   const [query, params] = sql`
     DELETE FROM pinnedMessages
     WHERE expiresAt <= ${beforeTimestamp}
-    RETURNING id
+    RETURNING *
   `;
-  return db.prepare(query, { pluck: true }).all<PinnedMessageId>(params);
+  return db.prepare(query).all<PinnedMessage>(params);
 }

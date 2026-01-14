@@ -292,6 +292,7 @@ const unpinMessageJobDataSchema = z.object({
   targetAuthorAci: aciSchema,
   targetSentTimestamp: z.number(),
   unpinnedAt: z.number(),
+  isSyncOnly: z.boolean(),
 });
 export type UnpinMessageJobData = z.infer<typeof unpinMessageJobDataSchema>;
 

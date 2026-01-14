@@ -8,12 +8,14 @@ import { AxoRadioGroup } from '../../../axo/AxoRadioGroup.dom.js';
 import { DurationInSeconds } from '../../../util/durations/duration-in-seconds.std.js';
 import { strictAssert } from '../../../util/assert.std.js';
 import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.js';
+import { isInternalFeaturesEnabled } from '../../../util/isInternalFeaturesEnabled.dom.js';
 
 enum DurationOption {
   TIME_24_HOURS = 'TIME_24_HOURS',
   TIME_7_DAYS = 'TIME_7_DAYS',
   TIME_30_DAYS = 'TIME_30_DAYS',
   FOREVER = 'FOREVER',
+  DEBUG_10_SECONDS = 'DEBUG_10_SECONDS',
 }
 
 const DURATION_OPTIONS: Record<DurationOption, DurationInSeconds | null> = {
@@ -21,6 +23,7 @@ const DURATION_OPTIONS: Record<DurationOption, DurationInSeconds | null> = {
   [DurationOption.TIME_7_DAYS]: DurationInSeconds.fromDays(7),
   [DurationOption.TIME_30_DAYS]: DurationInSeconds.fromDays(30),
   [DurationOption.FOREVER]: null,
+  [DurationOption.DEBUG_10_SECONDS]: DurationInSeconds.fromSeconds(10),
 };
 
 function isValidDurationOption(value: string): value is DurationOption {
@@ -152,6 +155,14 @@ export const PinMessageDialog = memo(function PinMessageDialog(
                   {i18n('icu:PinMessageDialog__Option--FOREVER')}
                 </AxoRadioGroup.Label>
               </AxoRadioGroup.Item>
+              {isInternalFeaturesEnabled() && (
+                <AxoRadioGroup.Item value={DurationOption.DEBUG_10_SECONDS}>
+                  <AxoRadioGroup.Indicator />
+                  <AxoRadioGroup.Label>
+                    10 seconds (Internal)
+                  </AxoRadioGroup.Label>
+                </AxoRadioGroup.Item>
+              )}
             </AxoRadioGroup.Root>
           </AxoDialog.Body>
           <AxoDialog.Footer>
