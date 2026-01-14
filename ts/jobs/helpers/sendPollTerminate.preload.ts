@@ -133,6 +133,7 @@ export async function sendPollTerminate(
             }),
           sendType: 'pollTerminate',
           timestamp,
+          expirationStartTimestamp: null,
         });
 
         await markTerminateSuccess(pollMessage, jobLog);

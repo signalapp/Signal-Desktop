@@ -2495,6 +2495,8 @@ export async function startApp(): Promise<void> {
         pinnedByAci: data.sourceAci,
         sentAtTimestamp: data.timestamp,
         receivedAtTimestamp: data.receivedAtDate,
+        expireTimer: data.message.expireTimer,
+        expirationStartTimestamp: null,
       });
       confirm();
       return;
@@ -3003,6 +3005,8 @@ export async function startApp(): Promise<void> {
         pinnedByAci: sourceServiceId,
         sentAtTimestamp: data.timestamp,
         receivedAtTimestamp: data.receivedAtDate,
+        expireTimer: data.message.expireTimer,
+        expirationStartTimestamp: data.expirationStartTimestamp ?? null,
       });
       confirm();
       return;

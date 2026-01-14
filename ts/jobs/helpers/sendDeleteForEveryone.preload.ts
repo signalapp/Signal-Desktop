@@ -213,6 +213,7 @@ export async function sendDeleteForEveryone(
               }),
             sendType,
             timestamp,
+            expirationStartTimestamp: null,
           });
 
           await updateMessageWithSuccessfulSends(message);
@@ -252,6 +253,7 @@ export async function sendDeleteForEveryone(
               }),
             sendType,
             timestamp,
+            expirationStartTimestamp: null,
           });
 
           await updateMessageWithSuccessfulSends(message);

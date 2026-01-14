@@ -5199,15 +5199,17 @@ function onPinnedMessageAdd(
     );
     strictAssert(targetConversation != null, 'Missing target conversation');
 
+    const pinnedAt = Date.now();
+
     await conversationJobQueue.add({
       type: conversationQueueJobEnum.enum.PinMessage,
       ...target,
       pinDurationSeconds,
+      pinnedAt,
     });
 
     const pinnedMessagesLimit = getPinnedMessagesLimit();
 
-    const pinnedAt = Date.now();
     const expiresAt = getPinnedMessageExpiresAt(pinnedAt, pinDurationSeconds);
 
     await DataWriter.appendPinnedMessage(pinnedMessagesLimit, {
@@ -5226,6 +5228,8 @@ function onPinnedMessageAdd(
       senderAci: itemStorage.user.getCheckedAci(),
       sentAtTimestamp: pinnedAt,
       receivedAtTimestamp: pinnedAt,
+      expireTimer: targetConversation.get('expireTimer') ?? null,
+      expirationStartTimestamp: pinnedAt,
     });
 
     dispatch(onPinnedMessagesChanged(target.conversationId));
@@ -5238,6 +5242,7 @@ function onPinnedMessageRemove(targetMessageId: string): StateThunk {
     await conversationJobQueue.add({
       type: conversationQueueJobEnum.enum.UnpinMessage,
       ...target,
+      unpinnedAt: Date.now(),
     });
     await DataWriter.deletePinnedMessageByMessageId(targetMessageId);
     drop(pinnedMessagesCleanupService.trigger('onPinnedMessageRemove'));
