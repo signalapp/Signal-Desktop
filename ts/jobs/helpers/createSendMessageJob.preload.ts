@@ -27,9 +27,9 @@ export type SendMessageJobOptions<Data> = Readonly<{
   sendType: SendTypesType;
   getMessageId: (data: Data) => string | null;
   getMessageOptions: (
-    data: Data,
-    jobTimestamp: number
+    data: Data
   ) => Omit<SharedMessageOptionsType, 'recipients'>;
+  getExpirationStartTimestamp: (data: Data) => number | null;
 }>;
 
 export function createSendMessageJob<Data>(
@@ -40,7 +40,13 @@ export function createSendMessageJob<Data>(
     job: ConversationQueueJobBundle,
     data: Data
   ): Promise<void> {
-    const { sendName, sendType, getMessageId, getMessageOptions } = options;
+    const {
+      sendName,
+      sendType,
+      getMessageId,
+      getMessageOptions,
+      getExpirationStartTimestamp,
+    } = options;
 
     const logId = `${sendName}(${conversation.idForLogging()}/${job.timestamp})`;
     const log = job.log.child(logId);
@@ -71,7 +77,12 @@ export function createSendMessageJob<Data>(
     }
 
     const messageId = getMessageId(data);
-    const messageOptions = getMessageOptions(data, job.timestamp);
+    const messageOptions = {
+      ...getMessageOptions(data),
+      expireTimer: conversation.get('expireTimer'),
+      expireTimerVersion: conversation.getExpireTimerVersion(),
+    };
+    const expirationStartTimestamp = getExpirationStartTimestamp(data);
 
     try {
       if (recipientServiceIdsWithoutMe.length === 0) {
@@ -96,7 +107,7 @@ export function createSendMessageJob<Data>(
                 timestamp: job.timestamp,
                 destinationE164: conversation.get('e164'),
                 destinationServiceId: conversation.getServiceId(),
-                expirationStartTimestamp: null,
+                expirationStartTimestamp,
                 isUpdate: false,
                 options: sendOptions,
                 urgent: false,
@@ -128,7 +139,7 @@ export function createSendMessageJob<Data>(
               send: sender => {
                 return sender.sendMessageToServiceId({
                   serviceId: recipientServiceId,
-                  messageOptions: getMessageOptions(data, job.timestamp),
+                  messageOptions,
                   groupId: undefined,
                   contentHint: ContentHint.Resendable,
                   options: sendOptions,
@@ -138,6 +149,7 @@ export function createSendMessageJob<Data>(
               },
               sendType,
               timestamp: job.timestamp,
+              expirationStartTimestamp,
             });
           }
         );
@@ -162,8 +174,8 @@ export function createSendMessageJob<Data>(
                   abortSignal,
                   contentHint: ContentHint.Resendable,
                   groupSendOptions: {
+                    ...messageOptions,
                     groupV2: groupV2Info,
-                    ...getMessageOptions(data, job.timestamp),
                   },
                   messageId: messageId ?? undefined,
                   sendOptions,
@@ -174,6 +186,7 @@ export function createSendMessageJob<Data>(
               },
               sendType,
               timestamp: job.timestamp,
+              expirationStartTimestamp,
             });
           }
         );

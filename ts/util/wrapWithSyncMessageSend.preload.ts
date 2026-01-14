@@ -25,6 +25,7 @@ export async function wrapWithSyncMessageSend({
   send,
   sendType,
   timestamp,
+  expirationStartTimestamp,
 }: {
   conversation: ConversationModel;
   logId: string;
@@ -32,6 +33,7 @@ export async function wrapWithSyncMessageSend({
   send: (sender: MessageSender) => Promise<CallbackResultType>;
   sendType: SendTypesType;
   timestamp: number;
+  expirationStartTimestamp: number | null;
 }): Promise<void> {
   const logId = `wrapWithSyncMessageSend(${parentLogId}, ${timestamp})`;
 
@@ -84,7 +86,7 @@ export async function wrapWithSyncMessageSend({
           destinationE164: conversation.get('e164'),
           destinationServiceId: conversation.getServiceId(),
           encodedDataMessage: dataMessage,
-          expirationStartTimestamp: null,
+          expirationStartTimestamp,
           options,
           timestamp,
           urgent: false,

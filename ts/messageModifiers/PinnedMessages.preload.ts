@@ -30,6 +30,8 @@ export type PinnedMessageAddProps = Readonly<{
   pinnedByAci: AciString;
   sentAtTimestamp: number;
   receivedAtTimestamp: number;
+  expireTimer: DurationInSeconds | null;
+  expirationStartTimestamp: number | null;
 }>;
 
 export type PinnedMessageRemoveProps = Readonly<{
@@ -125,6 +127,8 @@ export async function onPinnedMessageAdd(
       senderAci: props.pinnedByAci,
       sentAtTimestamp: props.sentAtTimestamp,
       receivedAtTimestamp: props.receivedAtTimestamp,
+      expireTimer: props.expireTimer,
+      expirationStartTimestamp: props.expirationStartTimestamp,
     });
   }
 

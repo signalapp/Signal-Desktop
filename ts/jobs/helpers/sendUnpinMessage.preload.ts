@@ -10,13 +10,16 @@ export const sendUnpinMessage = createSendMessageJob<UnpinMessageJobData>({
   getMessageId(data) {
     return data.targetMessageId;
   },
-  getMessageOptions(data, jobTimestamp) {
+  getMessageOptions(data) {
     return {
-      timestamp: jobTimestamp,
+      timestamp: data.unpinnedAt,
       unpinMessage: {
         targetAuthorAci: data.targetAuthorAci,
         targetSentTimestamp: data.targetSentTimestamp,
       },
     };
+  },
+  getExpirationStartTimestamp(data) {
+    return data.unpinnedAt;
   },
 });

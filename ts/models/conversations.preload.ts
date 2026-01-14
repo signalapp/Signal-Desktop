@@ -3567,6 +3567,8 @@ export class ConversationModel {
     senderAci: AciString;
     sentAtTimestamp: number;
     receivedAtTimestamp: number;
+    expireTimer: DurationInSeconds | null;
+    expirationStartTimestamp: number | null;
   }): Promise<void> {
     const ourAci = itemStorage.user.getCheckedAci();
     const senderIsMe = params.senderAci === ourAci;
@@ -3581,8 +3583,8 @@ export class ConversationModel {
       readStatus: senderIsMe ? ReadStatus.Read : ReadStatus.Unread,
       seenStatus: senderIsMe ? SeenStatus.Seen : SeenStatus.Unseen,
       sourceServiceId: params.senderAci,
-      expireTimer: this.get('expireTimer'),
-      expirationStartTimestamp: senderIsMe ? params.sentAtTimestamp : null,
+      expireTimer: params.expireTimer ?? undefined,
+      expirationStartTimestamp: params.expirationStartTimestamp,
       pinMessage: params.pinMessage,
     });
 
