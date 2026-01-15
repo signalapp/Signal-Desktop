@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "ஊடகம்"
   },
-  "icu:allMedia": {
-    "messageformat": "அனைத்து மீடியா"
-  },
   "icu:today": {
     "messageformat": "இன்று"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "திரையைப் பகிர்தல்"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "காலிங் டெவலப்பர் கருவிகள்"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "இந்த விண்டோ டெவலப்மென்ட்டின் போது, செயலில் இருக்கும் அழைப்புகளிலிருந்து கண்டறிதல்களைக் காண்பிக்கப் பயன்படுகிறது."
   },
   "icu:speech": {
     "messageformat": "பேச்சு"
@@ -1092,10 +1083,10 @@
     "messageformat": "தகவல்"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "மெசேஜைப் பின் செய்க"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "மெசேஜின் பின்னை அகற்றுக"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "வாக்கெடுப்பை முடி"
@@ -1260,7 +1251,7 @@
     "messageformat": "மேலும் செயல்கள்"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "மெசேஜின் பின்னை அகற்றுக"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "மெசேஜுக்குச் செல்க"
@@ -1293,7 +1284,7 @@
     "messageformat": "ஒட்டிப்படம்"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "காண்க-ஒருமுறை ஊடகம் "
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "புகைப்படம்"
@@ -1314,7 +1305,7 @@
     "messageformat": "ஒட்டிப்படம்"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "காண்க-ஒருமுறை ஊடகம் "
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "பின் செய்யப்பட்ட மெசேஜ்"
@@ -5157,7 +5148,7 @@
     "messageformat": "ஒலி"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "தொடர்பு"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "இணைப்பை உலாவியில் திறக்கவும்"
@@ -5173,6 +5164,18 @@
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "இணைப்புகள்"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "ஊடகங்கள்இல்லை"
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "சிக்னல் வாக்கெடுப்புகளுக்கான மேம்படுத்தப்பட்ட அனிமேஷன்."
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }

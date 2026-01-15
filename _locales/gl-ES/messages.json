@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "Multimedia"
   },
-  "icu:allMedia": {
-    "messageformat": "Contido multimedia"
-  },
   "icu:today": {
     "messageformat": "Hoxe"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Compartir pantalla"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "Rexistro das ferramentas de desenvolvemento"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "Esta xanela emprégase durante o desenvolvemento para mostrar os diagnósticos das chamadas en curso."
   },
   "icu:speech": {
     "messageformat": "Voz"
@@ -1092,10 +1083,10 @@
     "messageformat": "Información"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Fixar mensaxe"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Soltar mensaxe"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Rematar enquisa"
@@ -1260,7 +1251,7 @@
     "messageformat": "Máis accións"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Soltar mensaxe"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Ir á mensaxe"
@@ -1293,7 +1284,7 @@
     "messageformat": "Sticker"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Multimedia dunha soa visualización"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Fotografía"
@@ -1314,7 +1305,7 @@
     "messageformat": "Sticker"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Multimedia dunha soa visualización"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Mensaxes fixadas"
@@ -5157,7 +5148,7 @@
     "messageformat": "Son"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Contacto"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Abre a ligazón nun navegador"
@@ -5173,6 +5164,18 @@
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "Ligazóns"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Sen ficheiros multimedia"
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "Animación mellorada para as enquisas de Signal."
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }

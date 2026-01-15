@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "媒體"
   },
-  "icu:allMedia": {
-    "messageformat": "所有的多媒體檔案"
-  },
   "icu:today": {
     "messageformat": "今天"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "分享畫面"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "通話中開發者工具"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "此視窗在開發過程中用於顯示正在進行之通話的診斷資訊。"
   },
   "icu:speech": {
     "messageformat": "語音"
@@ -1092,10 +1083,10 @@
     "messageformat": "資訊"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "釘選訊息"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "取消釘選訊息"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "結束投票"
@@ -1260,7 +1251,7 @@
     "messageformat": "更多操作"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "取消釘選訊息"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "前往「訊息」"
@@ -1293,7 +1284,7 @@
     "messageformat": "貼圖"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "一次性多媒體檔案"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "照片"
@@ -1314,7 +1305,7 @@
     "messageformat": "貼圖"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "一次性多媒體檔案"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "已釘選的訊息"
@@ -5157,7 +5148,7 @@
     "messageformat": "聲音"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "聯絡人"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "在瀏覽器中開啟連結"
@@ -5173,6 +5164,18 @@
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "連結"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "無媒體"
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "桌面版 Signal 的投票現已包括與手機版相同的細緻動畫效果。看著你最喜愛的選項拉開距離，只需一次投票。"
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }

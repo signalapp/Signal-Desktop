@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "Media"
   },
-  "icu:allMedia": {
-    "messageformat": "Lahat ng media"
-  },
   "icu:today": {
     "messageformat": "Ngayong araw"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Sharing screen"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "Calling Developer Tools"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "Ginagamit ang window na ito sa development para i-display ang diagnostics mula sa ongoing calls."
   },
   "icu:speech": {
     "messageformat": "Speech"
@@ -1092,10 +1083,10 @@
     "messageformat": "Info"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "I-pin ang message"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "I-unpin ang message"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Tapusin ang poll"
@@ -1260,7 +1251,7 @@
     "messageformat": "Iba pang actions"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "I-unpin ang message"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Pumunta sa message"
@@ -1293,7 +1284,7 @@
     "messageformat": "Sticker"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "View-once na media"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Larawan"
@@ -1314,7 +1305,7 @@
     "messageformat": "Sticker"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "View-once na media"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Pinned messages"
@@ -5174,6 +5165,18 @@
   "icu:MediaGallery__tab__links": {
     "messageformat": "Links"
   },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
+  },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Walang media"
   },
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "Mas pinagandang animation para sa Signal polls."
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }

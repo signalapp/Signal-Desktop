@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "Медиумски датотеки"
   },
-  "icu:allMedia": {
-    "messageformat": "Сите медиумски датотеки"
-  },
   "icu:today": {
     "messageformat": "Денес"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Споделување на екранот"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "Програмерски алатки за повици"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "Овој прозор се користи во текот на развој за приказ на дијагностика од тековни повици."
   },
   "icu:speech": {
     "messageformat": "Говор"
@@ -1092,10 +1083,10 @@
     "messageformat": "Информации"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Закачете ја пораката на врвот"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Отстранете ја пораката од врвот"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Затворете ја анкетата"
@@ -1260,7 +1251,7 @@
     "messageformat": "Повеќе дејствија"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Отстранете ја пораката од врвот"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Одете до пораката"
@@ -1293,7 +1284,7 @@
     "messageformat": "Стикер"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Еднократно видлива медиумска датотека"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Слика"
@@ -1314,7 +1305,7 @@
     "messageformat": "Стикер"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Еднократно видлива медиумска датотека"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Закачени пораки"
@@ -5157,7 +5148,7 @@
     "messageformat": "Аудио"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Контакт"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Отворете го линкот во прелистувач"
@@ -5173,6 +5164,18 @@
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "Линкови"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Нема медиумска датотека"
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "Подобрена анимација на Signal анкетите."
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }

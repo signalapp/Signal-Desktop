@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "മീഡിയ"
   },
-  "icu:allMedia": {
-    "messageformat": "എല്ലാ മീഡിയകളും"
-  },
   "icu:today": {
     "messageformat": "ഇന്ന്"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "സ്ക്രീൻ പങ്കിടൽ"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "കോളിംഗ് ഡെവലപ്പർ ടൂളുകൾ"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "നിലവിലുള്ള കോളുകളിൽ നിന്നുള്ള ഡയഗ്നോസ്റ്റിക്സ് പ്രദർശിപ്പിക്കുന്നതിന് ഈ വിൻഡോ ഡെവലപ്‌മെൻ്റ് വേളയിൽ ഉപയോഗിക്കുന്നു."
   },
   "icu:speech": {
     "messageformat": "സംസാരം"
@@ -1092,10 +1083,10 @@
     "messageformat": "വിവരം"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "സന്ദേശം പിൻ ചെയ്യുക"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "സന്ദേശം അൺപിൻ ചെയ്യുക"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "പോൾ അവസാനിപ്പിക്കുക"
@@ -1260,7 +1251,7 @@
     "messageformat": "കൂടുതൽ പ്രവർത്തനങ്ങൾ"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "സന്ദേശം അൺപിൻ ചെയ്യുക"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "സന്ദേശത്തിലേക്ക് പോകുക"
@@ -1293,7 +1284,7 @@
     "messageformat": "സ്റ്റിക്കർ"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "ഒരു തവണ-ദൃശ്യമാകുന്ന മീഡിയ"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "ഫോട്ടോ"
@@ -1314,7 +1305,7 @@
     "messageformat": "സ്റ്റിക്കർ"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "ഒരു തവണ-ദൃശ്യമാകുന്ന മീഡിയ"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "പിൻ ചെയ്ത സന്ദേശങ്ങൾ"
@@ -5157,7 +5148,7 @@
     "messageformat": "ഓഡിയോ"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "കോൺ‌ടാക്റ്റ്"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "ബ്രൗസറിൽ, ലിങ്ക് തുറക്കുക"
@@ -5173,6 +5164,18 @@
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "ലിങ്കുകൾ"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "ഒന്നുമില്ല"
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "ഡെസ്‌ക്‌ടോപ്പിലെ Signal പോളുകളിൽ ഇപ്പോൾ നിങ്ങളുടെ ഫോണിൽ ദൃശ്യമാകുന്ന അതേ സൂക്ഷ്മമായ ആനിമേഷൻ ഇഫക്റ്റുകൾ ഉൾപ്പെടുന്നു. പോളിൽ പങ്കെടുക്കുന്നതിലൂടെ നിങ്ങൾക്ക് പ്രിയപ്പട്ടവയെ മുൻനിരയിലെത്തിക്കാൻ നിങ്ങൾക്കാകും."
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }

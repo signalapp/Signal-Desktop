@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "Média"
   },
-  "icu:allMedia": {
-    "messageformat": "Všechna média"
-  },
   "icu:today": {
     "messageformat": "Dnes"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Sdílení obrazovky"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "Vývojářské nástroje pro volání"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "Toto okno slouží během vývoje k zobrazení diagnostiky probíhajících volání."
   },
   "icu:speech": {
     "messageformat": "Řeč"
@@ -1092,10 +1083,10 @@
     "messageformat": "Info"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Připnout zprávu"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Odepnout zprávu"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Ukončit anketu"
@@ -1260,7 +1251,7 @@
     "messageformat": "Další akce"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Odepnout zprávu"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Přejít na zprávu"
@@ -1293,7 +1284,7 @@
     "messageformat": "Nálepka"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Média, která lze zobrazit jen jednou"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Fotografie"
@@ -1314,7 +1305,7 @@
     "messageformat": "Nálepka"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Média, která lze zobrazit jen jednou"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Připnuté zprávy"
@@ -5157,7 +5148,7 @@
     "messageformat": "Audio"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Kontakt"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Otevřít odkaz v prohlížeči"
@@ -5173,6 +5164,18 @@
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "Odkazy"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Žádná média"
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "Vylepšená animace pro ankety Signal."
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }

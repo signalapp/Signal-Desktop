@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "Media"
   },
-  "icu:allMedia": {
-    "messageformat": "Alle mediefiler"
-  },
   "icu:today": {
     "messageformat": "I dag"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Skjermdeling"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "Utviklerverktøy for anrop"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "Dette vinduet viser utviklere diagnostikk fra pågående telefonsamtaler."
   },
   "icu:speech": {
     "messageformat": "Tale"
@@ -1092,10 +1083,10 @@
     "messageformat": "Info"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Fest melding"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Løsne melding"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Avslutt avstemningen"
@@ -1260,7 +1251,7 @@
     "messageformat": "Flere funksjoner"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Løsne melding"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Gå til meldingen"
@@ -1293,7 +1284,7 @@
     "messageformat": "Klistremerke"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Flyktig mediefil"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Bilde"
@@ -1314,7 +1305,7 @@
     "messageformat": "Klistremerke"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Flyktig mediefil"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Festede meldinger"
@@ -5157,7 +5148,7 @@
     "messageformat": "Lyd"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Kontakt"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Åpne lenken i en nettleser"
@@ -5173,6 +5164,18 @@
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "Lenker"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Ingen mediefiler"
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "Animasjonene i Signal-avstemninger har blitt forbedret."
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }

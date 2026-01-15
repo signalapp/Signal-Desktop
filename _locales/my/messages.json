@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "ရုပ်၊သံ၊ပုံ များ"
   },
-  "icu:allMedia": {
-    "messageformat": "ရုပ်/သံ/ပုံ အားလုံး"
-  },
   "icu:today": {
     "messageformat": "ယနေ့"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "စခရင် မျှဝေခြင်း"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "ဖုန်းခေါ်ဆိုမှုဆိုင်ရာ Developer Tools"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "လက်ရှိ ခေါ်ဆိုမှုများနှင့်ပတ်သက်သည့် ပြဿနာများကို ပြသရန် ဤဝင်းဒိုးကို ဖန်တီးလုပ်ဆောင်နေစဉ်အတွင်း အသုံးပြုပါသည်။"
   },
   "icu:speech": {
     "messageformat": "စကားပြော"
@@ -1092,10 +1083,10 @@
     "messageformat": "အချက်အလက်"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "မက်ဆေ့ချ်ကို ပင်တွဲရန်"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "မက်ဆေ့ချ်ကို ပင်ဖြုတ်ရန်"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "စစ်တမ်း အဆုံးသတ်"
@@ -1260,7 +1251,7 @@
     "messageformat": "နောက်ထပ် လုပ်ဆောင်မှုများ"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "မက်ဆေ့ချ်ကို ပင်ဖြုတ်ရန်"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "မက်ဆေ့ချ်သို့ သွားပါ"
@@ -1293,7 +1284,7 @@
     "messageformat": "စတစ်ကာ"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "တစ်ခါကြည့် မီဒီယာ"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "ရုပ်ပုံ"
@@ -1314,7 +1305,7 @@
     "messageformat": "စတစ်ကာ"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "တစ်ခါကြည့် မီဒီယာ"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "ပင်တွဲထားသော မက်ဆေ့ချ်များ"
@@ -5157,7 +5148,7 @@
     "messageformat": "အော်ဒီယို"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "အဆက်အသွယ်"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "လင့်ခ်ကို Browser တွင်ဖွင့်ပါ"
@@ -5173,6 +5164,18 @@
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "လင့်ခ်များ"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "မီဒီယာမရှိပါ"
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "Signal စစ်တမ်းတွင် အန်နီမေးရှင်းကို ပိုမိုကောင်းမွန်အာင်ပြုလုပ်ထားပါသည်။"
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }

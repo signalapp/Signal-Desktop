@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "ឯកសារមេឌា"
   },
-  "icu:allMedia": {
-    "messageformat": "ឯកសារមេឌាទាំងអស់"
-  },
   "icu:today": {
     "messageformat": "ថ្ងៃនេះ"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "ការចែករំលែកអេក្រង់"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "ឧបករណ៍អ្នកអភិវឌ្ឍន៍សម្រាប់ការហៅ"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "វីនដូនេះត្រូវបានប្រើក្នុងអំឡុងពេលអភិវឌ្ឍន៍ ដើម្បីបង្ហាញការវិភាគពីការហៅទូរសព្ទដែលកំពុងដំណើរការ។"
   },
   "icu:speech": {
     "messageformat": "សម្តី"
@@ -1092,10 +1083,10 @@
     "messageformat": "ព័ត៌មាន"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "ខ្ទាស់សារ"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "ឈប់ខ្ទាស់សារ"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "បញ្ចប់ការស្ទង់មតិ"
@@ -1260,7 +1251,7 @@
     "messageformat": "សកម្មភាពច្រើនទៀត"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "ឈប់ខ្ទាស់សារ"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "ចូលទៅកាន់សារ"
@@ -1293,7 +1284,7 @@
     "messageformat": "ស្ទីកគ័រ"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "មេឌៀមើលបានតែម្តង"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "រូបភាព"
@@ -1314,7 +1305,7 @@
     "messageformat": "ស្ទីកគ័រ"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "មេឌៀមើលបានតែម្តង"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "សារដែលបានខ្ទាស់"
@@ -5157,7 +5148,7 @@
     "messageformat": "សំឡេង"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "ទំនាក់ទំនង"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "បើកតំណនៅក្នុងកម្មវិធីរុករក"
@@ -5173,6 +5164,18 @@
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "តំណ"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "គ្មានមេឌៀ"
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "ការស្ទង់មតិ Signal នៅលើ Desktop ឥឡូវនេះរួមបញ្ចូលបែបផែនចលនាស្រាលៗដូចគ្នាដែលបានបង្ហាញរួចហើយនៅលើទូរសព្ទរបស់អ្នក។ ការបោះឆ្នោតរបស់អ្នកនៅក្នុងការស្ទង់មតិអាចជួយឱ្យជម្រើសដែលអ្នកចូលចិត្ត ឈ្នះគេឬអត់បាន។"
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }

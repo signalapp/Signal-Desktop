@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "Media"
   },
-  "icu:allMedia": {
-    "messageformat": "Toate fișierele media"
-  },
   "icu:today": {
     "messageformat": "Azi"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Se partajează ecranul"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "Instrumente de apelare a dezvoltatorilor"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "Această fereastră este utilizată în timpul dezvoltării pentru a afișa diagnosticele din apelurile în curs."
   },
   "icu:speech": {
     "messageformat": "Vorbire"
@@ -1092,10 +1083,10 @@
     "messageformat": "Informații"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Fixează mesajul"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Anulează fixarea mesajului"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Încheie sondajul"
@@ -1260,7 +1251,7 @@
     "messageformat": "Mai multe acțiuni"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Anulează fixarea mesajului"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Mergi la Mesaj"
@@ -1293,7 +1284,7 @@
     "messageformat": "Autocolant"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Media vizibilă o singură dată"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Poză"
@@ -1314,7 +1305,7 @@
     "messageformat": "Autocolant"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Media vizibilă o singură dată"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Mesaje fixate"
@@ -5174,6 +5165,18 @@
   "icu:MediaGallery__tab__links": {
     "messageformat": "Link-uri"
   },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
+  },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Nu ai Fișiere Media"
   },
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "Sondajele Signal de pe desktop includ acum aceleași efecte subtile de animație care apăreau deja pe telefon. A-ți vedea alegerea preferată detașându-se este la doar un sondaj distanță."
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }
