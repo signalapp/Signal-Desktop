@@ -967,7 +967,7 @@ const getDevicesResultZod = z.object({
       id: z.number(),
       name: z.string().nullish(), // primary devices may not have a name
       lastSeen: z.number().nullish(),
-      created: z.number().nullish(),
+      createdAtCiphertext: z.string(),
     })
   ),
 });

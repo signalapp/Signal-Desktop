@@ -51,7 +51,11 @@ export function RemoteMegaphone({
 
   if (isFullSize) {
     return (
-      <div className={wrapperClassName} aria-live="polite">
+      <div
+        className={wrapperClassName}
+        aria-live="polite"
+        data-testid="RemoteMegaphone"
+      >
         <div className={tw('flex items-start gap-3')}>
           {image}
           <div className={tw('w-full')}>
