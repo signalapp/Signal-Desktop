@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "Медиа"
   },
-  "icu:allMedia": {
-    "messageformat": "Бардык медиафайлдар"
-  },
   "icu:today": {
     "messageformat": "Бүгүн"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Экран бөлүшүү"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "Чалууларга байланыштуу иштеп чыгуучулардын куралдары"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "Учурда болуп жаткан чалуулардын көрүнүшүндөгү мүчүлүштүктөрдү аныктоо үчүн колдонулат."
   },
   "icu:speech": {
     "messageformat": "Сүйлөө"
@@ -1092,10 +1083,10 @@
     "messageformat": "Маалымат"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Билдирүүнү кадоо"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Билдирүүнү бошотуу"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Добуш берүүнү бүтүрүү"
@@ -1260,7 +1251,7 @@
     "messageformat": "Дагы"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Билдирүүнү бошотуу"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Билдирүүгө өтүү"
@@ -1293,7 +1284,7 @@
     "messageformat": "Стикер"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Бир жолу көрүлүүчү MMS"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Сүрөт"
@@ -1314,7 +1305,7 @@
     "messageformat": "Стикер"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Бир жолу көрүлүүчү MMS"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Кадалган билдирүүлөр"
@@ -5157,7 +5148,7 @@
     "messageformat": "Аудио"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Байланыш"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Серепчидеги шилтемени ачуу"
@@ -5173,6 +5164,18 @@
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "Шилтемелер"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Эч нерсе жок"
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "Компьютердеги Signal'дын сурамжылоолору эми телефондогудай сонун анимациялар менен коштолот. Бир добуш көп нерсени чечип коет."
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }

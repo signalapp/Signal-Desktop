@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "Media"
   },
-  "icu:allMedia": {
-    "messageformat": "Bütün Medialar"
-  },
   "icu:today": {
     "messageformat": "Bu gün"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Ekran paylaşımı"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "Zənglərlə əlaqəli tərtibatçı alətləri"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "Bu pəncərə tərtibat zamanı davam edən zənglərin diaqnostikalarını göstərmək üçün istifadə olunur."
   },
   "icu:speech": {
     "messageformat": "Danışma"
@@ -1092,10 +1083,10 @@
     "messageformat": "Məlumat"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Mesajı sancaqla"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Mesajı sancaqlamadan çıxardın"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Səsverməni bitir"
@@ -1260,7 +1251,7 @@
     "messageformat": "Daha çox əməliyyat"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Mesajı sancaqlamadan çıxardın"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Mesaja keç"
@@ -1293,7 +1284,7 @@
     "messageformat": "Stiker"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Bir dəfə baxıla bilən media"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Foto"
@@ -1314,7 +1305,7 @@
     "messageformat": "Stiker"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Bir dəfə baxıla bilən media"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Sancaqlanmış mesajlar"
@@ -5157,7 +5148,7 @@
     "messageformat": "Səs"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Əlaqə"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Keçidi brauzerdə aç"
@@ -5173,6 +5164,18 @@
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "Keçidlər"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Media yoxdur"
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "Artıq Signal-ın Desktop tətbiqindəki səsvermələr telefonunuzda görünən eyni animasiya effektlərinə malikdir. Seçiminizin birinci olduğunu izləmək sadəcə bir səsvermə qədər yaxındır."
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }

@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "Media"
   },
-  "icu:allMedia": {
-    "messageformat": "Alle media"
-  },
   "icu:today": {
     "messageformat": "Vandag"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Besig om skerm te deel"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "Skakel Ontwikkelaarhulpmiddels"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "Hierdie venster word tydens ontwikkeling gebruik om diagnostiek te vertoon van oproepe wat aan die gang is."
   },
   "icu:speech": {
     "messageformat": "Spraak"
@@ -1092,10 +1083,10 @@
     "messageformat": "Inligting"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Merk boodskap met speld"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Verwyder merkspeld by boodskap"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Beëindig meningsopname"
@@ -1260,7 +1251,7 @@
     "messageformat": "Meer aksies"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Verwyder merkspeld by boodskap"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Gaan na boodskap"
@@ -1293,7 +1284,7 @@
     "messageformat": "Plakker"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Eenkeerkyk-media"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Foto"
@@ -1314,7 +1305,7 @@
     "messageformat": "Plakker"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Eenkeerkyk-media"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Boodskappe met speld gemerk"
@@ -5157,7 +5148,7 @@
     "messageformat": "Klank"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Kontak"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Maak die skakel in 'n blaaier oop"
@@ -5173,6 +5164,18 @@
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "Skakels"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Geen media"
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "Verbeterde animasie vir Signal-meningsopnames."
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }

@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "Médias"
   },
-  "icu:allMedia": {
-    "messageformat": "Tous les médias"
-  },
   "icu:today": {
     "messageformat": "Aujourd'hui"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Écran partagé"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "Outils d’appel pour développeurs"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "En phase de développement, cette fenêtre sert à afficher les diagnostics des appels en cours."
   },
   "icu:speech": {
     "messageformat": "Énoncer à voix haute"
@@ -1092,10 +1083,10 @@
     "messageformat": "Infos"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Épingler le message"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Détacher le message"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Arrêter le sondage"
@@ -1260,7 +1251,7 @@
     "messageformat": "Autres actions"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Détacher le message"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Accéder au message"
@@ -1293,7 +1284,7 @@
     "messageformat": "Sticker"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Média à vue unique"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Photo"
@@ -1314,7 +1305,7 @@
     "messageformat": "Sticker"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Média à vue unique"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Messages épinglés"
@@ -5174,6 +5165,18 @@
   "icu:MediaGallery__tab__links": {
     "messageformat": "Liens"
   },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
+  },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Aucun média"
   },
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "Chez Signal, on vote pour l'homogénéité ! C'est pourquoi les sondages sur ordinateur incluent désormais les mêmes petits effets d'animation que sur mobile."
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }

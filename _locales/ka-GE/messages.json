@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "მედია-ფაილები"
   },
-  "icu:allMedia": {
-    "messageformat": "ყველა მედია-ფაილი"
-  },
   "icu:today": {
     "messageformat": "დღეს"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "ეკრანის გაზიარება"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "დეველიპერის ზარების ხელსაწყოები"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "ეს ფანჯარა გამოიყენება დეველოპმენტის დროს, რათა მიმდინარე ზარებიდან დიაგნოსტიკა აჩვენოს."
   },
   "icu:speech": {
     "messageformat": "მეტყველება"
@@ -1092,10 +1083,10 @@
     "messageformat": "ინფორმაცია"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "წერილის აპინვა"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "წერილზე პინის მოხსნა"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "გამოკითხვის დასრულება"
@@ -1260,7 +1251,7 @@
     "messageformat": "მეტი მოქმედება"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "წერილზე პინის მოხსნა"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "წერილზე გადასვლა"
@@ -1293,7 +1284,7 @@
     "messageformat": "სტიკერი"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "ერთხელ სანახავი მედია-ფაილი"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "ფოტო"
@@ -1314,7 +1305,7 @@
     "messageformat": "სტიკერი"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "ერთხელ სანახავი მედია-ფაილი"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "აპინული წერილები"
@@ -5157,7 +5148,7 @@
     "messageformat": "აუდიო"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "კონტაქტი"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "გახსენი ბმული ბრაუზერში"
@@ -5173,6 +5164,18 @@
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "ბმულები"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "მედია-ფაილები ვერ მოიძებნა"
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "Signal-ის გამოკითხვები დესკტოპზე ახლა უკვე შეიცავს იმავე დახვეწილ ანიმაციურ ეფექტებს, რომლებიც აქამდეც ჩანდა შენს მობილურში. შენი არჩევანის დაწინაურებას მხოლოდ ერთი გამოკითხვა გაშორებს."
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }

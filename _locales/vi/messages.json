@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "Đa phương tiện"
   },
-  "icu:allMedia": {
-    "messageformat": "Tất cả Tập tin đa phương tiện"
-  },
   "icu:today": {
     "messageformat": "Hôm nay"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Chia sẻ màn hình"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "Công cụ Nhà phát triển của Cuộc gọi"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "Cửa sổ này được sử dụng trong quá trình phát triển để hiển thị thông tin chẩn đoán từ những cuộc gọi đang diễn ra."
   },
   "icu:speech": {
     "messageformat": "Nói"
@@ -1092,10 +1083,10 @@
     "messageformat": "Thông tin"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Ghim tin nhắn"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Bỏ ghim tin nhắn"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Kết thúc"
@@ -1260,7 +1251,7 @@
     "messageformat": "Các thao tác khác"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Bỏ ghim tin nhắn"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Đến Tin nhắn"
@@ -1293,7 +1284,7 @@
     "messageformat": "Nhãn dán"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Đa phương tiện xem một lần"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Ảnh"
@@ -1314,7 +1305,7 @@
     "messageformat": "Nhãn dán"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Đa phương tiện xem một lần"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Tin nhắn đã ghim"
@@ -5157,7 +5148,7 @@
     "messageformat": "Âm thanh"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Liên hệ"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Mở đường dẫn trong trình duyệt"
@@ -5173,6 +5164,18 @@
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "Đường dẫn"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Không có đa phương tiện"
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "Cải thiện hình ảnh động của tính năng Hỏi ý kiến."
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }

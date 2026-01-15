@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "สื่อ"
   },
-  "icu:allMedia": {
-    "messageformat": "สื่อข้อมูลทั้งหมด"
-  },
   "icu:today": {
     "messageformat": "วันนี้"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "กำลังแบ่งปันหน้าจอ"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "เครื่องมือด้านการโทรสำหรับนักพัฒนา"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "ระบบจะใช้หน้าต่างนี้ในขั้นตอนการพัฒนาเพื่อแสดงผลการตรวจสอบจากการโทรที่กำลังใช้งานอยู่"
   },
   "icu:speech": {
     "messageformat": "การพูด"
@@ -1092,10 +1083,10 @@
     "messageformat": "ข้อมูล"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "ปักหมุดข้อความ"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "เลิกปักหมุดข้อความ"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "ปิดโพล"
@@ -1260,7 +1251,7 @@
     "messageformat": "การกระทำเพิ่มเติม"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "เลิกปักหมุดข้อความ"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "ไปที่ข้อความ"
@@ -1293,7 +1284,7 @@
     "messageformat": "สติกเกอร์"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "สื่อที่ดูได้ครั้งเดียว"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "รูปภาพ"
@@ -1314,7 +1305,7 @@
     "messageformat": "สติกเกอร์"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "สื่อที่ดูได้ครั้งเดียว"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "ข้อความที่ปักหมุด"
@@ -5157,7 +5148,7 @@
     "messageformat": "เสียง"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "ผู้ติดต่อ"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "เปิดลิงก์ในเบราว์เซอร์"
@@ -5173,6 +5164,18 @@
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "ลิงก์"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "ไม่มีสื่อ"
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "เพิ่มลูกเล่นภาพเคลื่อนไหวในฟีเจอร์โพลของ Signal"
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }

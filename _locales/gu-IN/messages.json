@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "મીડિયા"
   },
-  "icu:allMedia": {
-    "messageformat": "બધા મીડિયા"
-  },
   "icu:today": {
     "messageformat": "આજે"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "શેરિંગ સ્ક્રીન"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "કૉલિંગ ડેવલપર્સના ટૂલ"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "આ વિન્ડોનો ઉપયોગ વિકાસ દરમિયાન ચાલુ કૉલમાંથી ડાયગ્નોસ્ટિક્સ પ્રદર્શિત કરવા માટે થાય છે."
   },
   "icu:speech": {
     "messageformat": "સ્પીચ"
@@ -1092,10 +1083,10 @@
     "messageformat": "માહિતી"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "મેસેજને પિન કરો"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "મેસેજને અનપિન કરો"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "મતદાન સમાપ્ત કરો"
@@ -1260,7 +1251,7 @@
     "messageformat": "વધુ પગલાં"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "મેસેજને અનપિન કરો"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "મેસેજ પર જાઓ"
@@ -1293,7 +1284,7 @@
     "messageformat": "સ્ટીકર"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "એકવાર મીડિયા જુઓ"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "ફોટો"
@@ -1314,7 +1305,7 @@
     "messageformat": "સ્ટીકર"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "એકવાર મીડિયા જુઓ"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "પિન કરેલા મેસેજ"
@@ -5157,7 +5148,7 @@
     "messageformat": "ઓડિયો"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "સંપર્ક"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "બ્રાઉઝરમાં લિંક ખોલો"
@@ -5173,6 +5164,18 @@
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "લિંક"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "કોઈ મીડિયા નથી"
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "Signal મતદાન માટે એનિમેશન બહેતર બનાવ્યું."
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }

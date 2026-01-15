@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "ਮੀਡੀਆ"
   },
-  "icu:allMedia": {
-    "messageformat": "ਸਾਰੇ ਮੀਡੀਆ"
-  },
   "icu:today": {
     "messageformat": "ਅੱਜ"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "ਸਕਰੀਨ ਸਾਂਝੀ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "ਕਾਲਿੰਗ ਡਿਵੈਲਪਰ ਟੂਲਸ"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "ਇਹ ਵਿੰਡੋ ਡਿਵੈਲਪਮੈਂਟ ਦੌਰਾਨ ਚੱਲ ਰਹੀਆਂ ਕਾਲਾਂ ਤੋਂ ਡਾਇਗਨੌਸਟਿਕਸ ਦਿਖਾਉਣ ਲਈ ਵਰਤੀ ਜਾਂਦੀ ਹੈ।"
   },
   "icu:speech": {
     "messageformat": "ਬੋਲੀ"
@@ -1092,10 +1083,10 @@
     "messageformat": "ਜਾਣਕਾਰੀ"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "ਸੁਨੇਹੇ ਨੂੰ ਪਿੰਨ ਕਰੋ"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "ਸੁਨੇਹੇ ਨੂੰ ਅਨਪਿੰਨ ਕਰੋ"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "ਪੋਲ ਸਮਾਪਤ ਕਰੋ"
@@ -1260,7 +1251,7 @@
     "messageformat": "ਹੋਰ ਕਾਰਵਾਈਆਂ"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "ਸੁਨੇਹੇ ਨੂੰ ਅਨਪਿੰਨ ਕਰੋ"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "ਸੁਨੇਹੇ 'ਤੇ ਜਾਓ"
@@ -1293,7 +1284,7 @@
     "messageformat": "ਸਟਿੱਕਰ"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "ਇੱਕ ਵਾਰ ਦੇਖਿਆ ਜਾ ਸਕਣ ਵਾਲਾ ਮੀਡੀਆ"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "ਫ਼ੋਟੋ"
@@ -1314,7 +1305,7 @@
     "messageformat": "ਸਟਿੱਕਰ"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "ਇੱਕ ਵਾਰ ਦੇਖਿਆ ਜਾ ਸਕਣ ਵਾਲਾ ਮੀਡੀਆ"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "ਪਿੰਨ ਕੀਤੇ ਸੁਨੇਹੇ"
@@ -5157,7 +5148,7 @@
     "messageformat": "ਆਡੀਓ"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "ਸੰਪਰਕ"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "ਲਿੰਕ ਨੂੰ ਬ੍ਰਾਊਜ਼ਰ ਵਿੱਚ ਖੋਲ੍ਹੋ"
@@ -5173,6 +5164,18 @@
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "ਲਿੰਕ"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "ਕੋਈ ਮੀਡੀਆ ਨਹੀਂ ਹੈ"
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "Signal ਵਿੱਚ ਪੋਲ ਵਾਲੇ ਫੀਚਰ ਲਈ ਐਨੀਮੇਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ।"
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }

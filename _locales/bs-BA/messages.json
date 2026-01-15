@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "Slike"
   },
-  "icu:allMedia": {
-    "messageformat": "Sve medijske datoteke"
-  },
   "icu:today": {
     "messageformat": "Danas"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Dijeljenje ekrana"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "Alati za programere povezani s pozivima"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "Ovaj prozor se koristi tokom razvoja za prikaz dijagnostike iz odlaznih poziva."
   },
   "icu:speech": {
     "messageformat": "Govor"
@@ -1092,10 +1083,10 @@
     "messageformat": "Informacije"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Zakači poruku"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Otkači poruku"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Završi anketu"
@@ -1260,7 +1251,7 @@
     "messageformat": "Više radnji"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Otkači poruku"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Idi na poruku"
@@ -1293,7 +1284,7 @@
     "messageformat": "Naljepnica"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Jednokratni medij"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Fotografija"
@@ -1314,7 +1305,7 @@
     "messageformat": "Naljepnica"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Jednokratni medij"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Zakačene poruke"
@@ -5157,7 +5148,7 @@
     "messageformat": "Zvuk"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Kontakt"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Otvorite link u pregledniku"
@@ -5173,6 +5164,18 @@
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "Linkovi"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Nema medijskih zapisa"
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "Unaprijedili smo animacije za ankete na Signalu."
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }

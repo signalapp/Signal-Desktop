@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "মিডিয়া"
   },
-  "icu:allMedia": {
-    "messageformat": "সমস্ত মিডিয়া"
-  },
   "icu:today": {
     "messageformat": "আজ"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "স্ক্রিন শেয়ার করা"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "ডেভেলপার টুল কল করা হচ্ছে"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "চলমান কল থেকে ডায়াগনস্টিক প্রদর্শন করতে এই উইন্ডোটি ডেভেলপমেন্ট করার সময় ব্যবহার করা হয়।"
   },
   "icu:speech": {
     "messageformat": "বক্তৃতা"
@@ -1092,10 +1083,10 @@
     "messageformat": "তথ্য"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "মেসেজ পিন করুন"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "মেসেজ আনপিন করুন"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "ভোটগ্রহণ কার্যক্রমটি শেষ করুন"
@@ -1260,7 +1251,7 @@
     "messageformat": "আরও ক্রিয়া"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "মেসেজ আনপিন করুন"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "মেসেজ-এ যান"
@@ -1293,7 +1284,7 @@
     "messageformat": "স্টিকার"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "একবার দেখা যাবে এমন মিডিয়া"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "ছবি"
@@ -1314,7 +1305,7 @@
     "messageformat": "স্টিকার"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "একবার দেখা যাবে এমন মিডিয়া"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "মেসেজ পিন করুন"
@@ -5157,7 +5148,7 @@
     "messageformat": "শব্দ"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "পরিচিতি"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "একটি ব্রাউজারে লিংকটি খুলুন"
@@ -5173,6 +5164,18 @@
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "লিংকসমূহ"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "কোনো মিডিয়া নেই"
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "Signal জরিপে এখন আরো উন্নত অ্যানিমেশন।"
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }

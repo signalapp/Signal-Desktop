@@ -293,7 +293,7 @@
   },
   "icu:viewMenuOpenCallingDevTools": {
     "messageformat": "Open Calling Developer Tools",
-    "description": "View menu command to open calling developer tools window"
+    "description": "(Deleted 2026/01/15) View menu command to open calling developer tools window"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Set Up as New Device",
@@ -811,10 +811,6 @@
   "icu:media": {
     "messageformat": "Media",
     "description": "Header of the default pane in the media gallery, showing images and videos"
-  },
-  "icu:allMedia": {
-    "messageformat": "All Media",
-    "description": "(Deleted 2025/12/10) Header for the media gallery"
   },
   "icu:today": {
     "messageformat": "Today",

@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "ಮಾಧ್ಯಮ"
   },
-  "icu:allMedia": {
-    "messageformat": "ಎಲ್ಲಾ ಮೀಡಿಯಾ"
-  },
   "icu:today": {
     "messageformat": "ಇಂದು"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "ಸ್ಕ್ರೀನ್ ಹಂಚಿಕೊಳ್ಳಲಾಗುತ್ತಿದೆ"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "ಕರೆಗಳಿಗೆ ಸಂಬಂಧಿಸಿದ ಡೆವಲಪರ್ ಟೂಲ್‌ಗಳು"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "ಚಾಲ್ತಿಯಲ್ಲಿರುವ ಕರೆಗಳಿಂದ ಡಯಾಗ್ನೋಸ್ಟಿಕ್ಸ್ ಅನ್ನು ಪ್ರದರ್ಶಿಸಲು ಡೆವಲಪ್‌ಮೆಂಟ್ ಸಮಯದಲ್ಲಿ ಈ ವಿಂಡೋವನ್ನು ಬಳಸಲಾಗುತ್ತದೆ."
   },
   "icu:speech": {
     "messageformat": "ಮಾತು"
@@ -1092,10 +1083,10 @@
     "messageformat": "ಮಾಹಿತಿ"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "ಮೆಸೇಜ್ ಅನ್ನು ಪಿನ್ ಮಾಡಿ"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "ಮೆಸೇಜ್ ಅನ್ನು ಅನ್‌ಪಿನ್ ಮಾಡಿ"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "ಸಮೀಕ್ಷೆಯನ್ನು ಕೊನೆಗೊಳಿಸಿ"
@@ -1260,7 +1251,7 @@
     "messageformat": "ಇನ್ನಷ್ಟು ಕ್ರಮಗಳು"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "ಮೆಸೇಜ್ ಅನ್ನು ಅನ್‌ಪಿನ್ ಮಾಡಿ"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "ಮೆಸೇಜ್‌ಗೆ ಹೋಗಿ"
@@ -1293,7 +1284,7 @@
     "messageformat": "ಸ್ಟಿಕ್ಕರ್"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "ಏಕ ವೀಕ್ಷಣೆ ಮೀಡಿಯಾ"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "ಫೋಟೋ"
@@ -1314,7 +1305,7 @@
     "messageformat": "ಸ್ಟಿಕ್ಕರ್"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "ಏಕ ವೀಕ್ಷಣೆ ಮೀಡಿಯಾ"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "ಪಿನ್ ಮಾಡಲಾದ ಮೆಸೇಜ್‌ಗಳು"
@@ -5157,7 +5148,7 @@
     "messageformat": "ಆಡಿಯೊ"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "ಸಂಪರ್ಕ"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಲಿಂಕ್ ತೆರೆಯಿರಿ"
@@ -5173,6 +5164,18 @@
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "ಲಿಂಕ್‌ಗಳು"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "ಮೀಡಿಯಾ ಇಲ್ಲ"
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಲ್ಲಿನ Signal ಸಮೀಕ್ಷೆಗಳು ಈಗ ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ ಈಗಾಗಲೇ ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತಿದ್ದ ಅದೇ ಸೂಕ್ಷ್ಮ ಅನಿಮೇಷನ್ ಎಫೆಕ್ಟ್‌ಗಳನ್ನು ಒಳಗೊಂಡಿವೆ. ನಿಮ್ಮ ನೆಚ್ಚಿನ ಆಯ್ಕೆಯನ್ನು ಹಿಂಪಡೆಯುವುದನ್ನು ವೀಕ್ಷಿಸುವುದು ಕೇವಲ ಒಂದು ಸಮೀಕ್ಷೆಯ ದೂರದಲ್ಲಿದೆ."
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }

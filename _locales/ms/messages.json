@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "Media"
   },
-  "icu:allMedia": {
-    "messageformat": "Semua Media"
-  },
   "icu:today": {
     "messageformat": "Hari ini"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Skrin perkongsian"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "Alat Pembangun Panggilan"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "Tetingkap ini digunakan semasa pembangunan untuk memaparkan diagnostik daripada panggilan berterusan."
   },
   "icu:speech": {
     "messageformat": "Pertuturan"
@@ -1092,10 +1083,10 @@
     "messageformat": "Maklumat"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin mesej"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Nyahpin mesej"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Tamatkan Undian"
@@ -1260,7 +1251,7 @@
     "messageformat": "Lebih tindakan"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Nyahpin mesej"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Pergi ke Mesej"
@@ -1293,7 +1284,7 @@
     "messageformat": "Pelekat"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Media lihat sekali"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Foto"
@@ -1314,7 +1305,7 @@
     "messageformat": "Pelekat"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Media lihat sekali"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Mesej yang dipinkan"
@@ -5157,7 +5148,7 @@
     "messageformat": "Audio`"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Kenalan"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Buka pautan dalam pelayar"
@@ -5173,6 +5164,18 @@
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "Pautan"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Tiada media"
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "Animasi untuk undian Signal dipertingkatkan."
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }

@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "מדיה"
   },
-  "icu:allMedia": {
-    "messageformat": "כל המדיה"
-  },
   "icu:today": {
     "messageformat": "היום"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "שיתוף מסך"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "כלים למפתחים בנושא שיחות"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "החלון הזה משמש בזמן הפיתוח כדי להציג נתונים משיחות פעילות."
   },
   "icu:speech": {
     "messageformat": "דיבור"
@@ -1092,10 +1083,10 @@
     "messageformat": "מידע"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "הצמדת הודעה"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "ביטול הצמדת הודעה"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "סיום סקר"
@@ -1260,7 +1251,7 @@
     "messageformat": "פעולות נוספות"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "ביטול הצמדת הודעה"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "מעבר להודעה"
@@ -1293,7 +1284,7 @@
     "messageformat": "מדבקה"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "מדיה לצפייה חד–פעמית"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "תצלום"
@@ -1314,7 +1305,7 @@
     "messageformat": "מדבקה"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "מדיה לצפייה חד–פעמית"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "הודעות מוצמדות"
@@ -5157,7 +5148,7 @@
     "messageformat": "שמע"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "איש קשר"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "פתיחת קישור בדפדפן"
@@ -5173,6 +5164,18 @@
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "קישורים"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "אין מדיה"
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "אנימציה משופרת עבור סקרי Signal."
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }

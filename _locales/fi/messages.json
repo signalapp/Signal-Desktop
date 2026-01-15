@@ -599,9 +599,6 @@
   "icu:media": {
     "messageformat": "Media"
   },
-  "icu:allMedia": {
-    "messageformat": "Kaikki media"
-  },
   "icu:today": {
     "messageformat": "Tänään"
   },
@@ -736,12 +733,6 @@
   },
   "icu:screenShareWindow": {
     "messageformat": "Näytön jakaminen"
-  },
-  "icu:callingDeveloperTools": {
-    "messageformat": "Soittamisen kehittäjätyökalut"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "Tätä ikkunaa käytetään ohjelmistokehityksen aikana käynnissä olevien puhelujen diagnostiikkatietojen näyttämiseen."
   },
   "icu:speech": {
     "messageformat": "Puhe"
@@ -1092,10 +1083,10 @@
     "messageformat": "Tietoja"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Kiinnitä viesti"
+    "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Poista viestin kiinnitys"
+    "messageformat": "Unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Lopeta kysely"
@@ -1260,7 +1251,7 @@
     "messageformat": "Lisätoimintoja"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Poista viestin kiinnitys"
+    "messageformat": "Unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Siirry viestiin"
@@ -1293,7 +1284,7 @@
     "messageformat": "Tarra"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Kerran katsottava media"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
     "messageformat": "Kuva"
@@ -1314,7 +1305,7 @@
     "messageformat": "Tarra"
   },
   "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
-    "messageformat": "View-once media"
+    "messageformat": "Kerran katsottava media"
   },
   "icu:PinnedMessagesPanel__Title": {
     "messageformat": "Kiinnitetyt viestit"
@@ -5157,7 +5148,7 @@
     "messageformat": "Ääni"
   },
   "icu:ContactListItem__subtitle": {
-    "messageformat": "Contact"
+    "messageformat": "Yhteystieto"
   },
   "icu:LinkPreviewItem__alt": {
     "messageformat": "Avaa linkki selaimessa"
@@ -5173,6 +5164,18 @@
   },
   "icu:MediaGallery__tab__links": {
     "messageformat": "Linkit"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sort by"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Date"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Size"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Ei mediatiedostoja"
@@ -7632,5 +7635,8 @@
   },
   "icu:WhatsNew__7.84--0": {
     "messageformat": "Parannetut animaatiot kyselyissä Signal Desktopissa."
+  },
+  "icu:WhatsNew__7.86--0": {
+    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
   }
 }
