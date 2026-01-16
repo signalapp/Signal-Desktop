@@ -1401,15 +1401,27 @@ async function openArtCreator() {
 }
 
 let debugLogWindow: BrowserWindow | undefined;
+let debugLogCurrentMode: 'submit' | 'close' | undefined;
 type DebugLogWindowOptions = {
   mode?: 'submit' | 'close';
 };
 
 async function showDebugLogWindow(options: DebugLogWindowOptions = {}) {
+  const newMode = options.mode ?? 'submit';
+
   if (debugLogWindow) {
+    if (debugLogCurrentMode !== newMode) {
+      debugLogCurrentMode = newMode;
+      const url = pathToFileURL(join(__dirname, '../debug_log.html'));
+      url.searchParams.set('mode', newMode);
+      await safeLoadURL(debugLogWindow, url.href);
+    }
+
     doShowDebugLogWindow();
     return;
   }
+
+  debugLogCurrentMode = newMode;
 
   function doShowDebugLogWindow() {
     if (debugLogWindow) {
@@ -1452,6 +1464,7 @@ async function showDebugLogWindow(options: DebugLogWindowOptions = {}) {
 
   debugLogWindow.on('closed', () => {
     debugLogWindow = undefined;
+    debugLogCurrentMode = undefined;
   });
 
   debugLogWindow.once('ready-to-show', () => {
@@ -1469,6 +1482,71 @@ async function showDebugLogWindow(options: DebugLogWindowOptions = {}) {
   }
 
   await safeLoadURL(debugLogWindow, url.href);
+}
+
+let callDiagnosticWindow: BrowserWindow | undefined;
+let storedCallDiagnosticData: string | undefined;
+
+async function showCallDiagnosticWindow() {
+  if (callDiagnosticWindow) {
+    doShowCallDiagnosticWindow();
+    return;
+  }
+
+  function doShowCallDiagnosticWindow() {
+    if (callDiagnosticWindow) {
+      // Electron has [a macOS bug][0] that causes parent windows to become unresponsive
+      //   if it's fullscreen and opens a fullscreen child window. Until that's fixed, we
+      //   only set the parent on MacOS is if the mainWindow is not fullscreen
+      // [0]: https://github.com/electron/electron/issues/32374
+      if (OS.isMacOS() && mainWindow?.isFullScreen()) {
+        callDiagnosticWindow.setParentWindow(null);
+      } else {
+        callDiagnosticWindow.setParentWindow(mainWindow ?? null);
+      }
+      callDiagnosticWindow.show();
+    }
+  }
+
+  const windowOptions: Electron.BrowserWindowConstructorOptions = {
+    width: 700,
+    height: 500,
+    resizable: false,
+    title: getResolvedMessagesLocale().i18n('icu:CallDiagnosticWindow__title'),
+    titleBarStyle: nonMainTitleBarStyle,
+    autoHideMenuBar: true,
+    backgroundColor: await getBackgroundColor(),
+    show: false,
+    webPreferences: {
+      ...defaultWebPrefs,
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      sandbox: true,
+      contextIsolation: true,
+      preload: join(__dirname, '../bundles/calldiagnostic/preload.preload.js'),
+    },
+    parent: mainWindow,
+  };
+
+  callDiagnosticWindow = new BrowserWindow(windowOptions);
+
+  await handleCommonWindowEvents(callDiagnosticWindow);
+
+  callDiagnosticWindow.on('closed', () => {
+    callDiagnosticWindow = undefined;
+  });
+
+  callDiagnosticWindow.once('ready-to-show', () => {
+    if (callDiagnosticWindow) {
+      doShowCallDiagnosticWindow();
+
+      // Electron sometimes puts the window in a strange spot until it's shown.
+      callDiagnosticWindow.center();
+    }
+  });
+
+  const url = pathToFileURL(join(__dirname, '../call_diagnostic.html'));
+  await safeLoadURL(callDiagnosticWindow, url.href);
 }
 
 let permissionsPopupWindow: BrowserWindow | undefined;
@@ -2685,6 +2763,35 @@ ipc.on(
     }
   }
 );
+
+// Call Diagnostic Window-related IPC calls
+
+ipc.on('show-call-diagnostic', () => {
+  void showCallDiagnosticWindow();
+});
+
+ipc.handle('get-call-diagnostic-data', () => {
+  return storedCallDiagnosticData ?? '';
+});
+
+ipc.on('close-call-diagnostic', () => {
+  storedCallDiagnosticData = undefined;
+  callDiagnosticWindow?.close();
+});
+
+ipc.on('close-debug-log', () => {
+  if (debugLogCurrentMode === 'close') {
+    debugLogWindow?.close();
+  }
+});
+
+ipc.on('update-call-diagnostic-data', (_event, diagnosticData: string) => {
+  storedCallDiagnosticData = diagnosticData;
+
+  if (callDiagnosticWindow && !callDiagnosticWindow.isDestroyed()) {
+    callDiagnosticWindow.webContents.send('call-diagnostic-data-updated');
+  }
+});
 
 // Permissions Popup-related IPC calls
 

@@ -19,6 +19,8 @@ export function Default(): React.JSX.Element {
       open={open}
       onOpenChange={setOpen}
       onSubmit={action('onSubmit')}
+      onViewDebugLog={action('onViewDebugLog')}
+      onViewDiagnosticInfo={action('onViewDiagnosticInfo')}
     />
   );
 }
