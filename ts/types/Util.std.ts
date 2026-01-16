@@ -131,3 +131,32 @@ export type ExactKeys<T, K extends ReadonlyArray<string>> =
       ? T
       : 'Error: Array has fields not present in object type'
     : 'Error: Object type has keys not present in array';
+
+export type StripPrefix<
+  T extends string,
+  Prefix extends string,
+> = T extends `${Prefix}${infer Rest}` ? Rest : T;
+
+export type AddPrefix<
+  T extends string,
+  Prefix extends string,
+> = `${Prefix}${T}`;
+
+type Missing<A, B> = Exclude<B, A>;
+type Extra<A, B> = Exclude<A, B>;
+
+export type AssertSameMembers<Actual, Expected> = [
+  Missing<Actual, Expected>,
+] extends [never]
+  ? [Extra<Actual, Expected>] extends [never]
+    ? true
+    : {
+        error: 'Extra keys';
+        extra: Extra<Actual, Expected>;
+      }
+  : {
+      error: 'Missing keys';
+      missing: Missing<Actual, Expected>;
+    };
+
+export type ArrayValues<T extends ReadonlyArray<unknown>> = T[number];

@@ -26,7 +26,6 @@ import type {
 import { cdsLookup, getSocketStatus } from '../../textsecure/WebAPI.preload.js';
 import type { FeatureFlagType } from '../../window.d.ts';
 import type { StorageAccessType } from '../../types/Storage.d.ts';
-import { initMessageCleanup } from '../../services/messageStateCleanup.preload.js';
 import { calling } from '../../services/calling.preload.js';
 import { Environment, getEnvironment } from '../../environment.std.js';
 import { isProduction } from '../../util/version.std.js';
@@ -56,8 +55,6 @@ window.addEventListener('contextmenu', e => {
 if (window.SignalContext.config.proxyUrl) {
   log.info('Using provided proxy url');
 }
-
-initMessageCleanup();
 
 if (
   !isProduction(window.SignalContext.getVersion()) ||

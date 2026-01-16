@@ -77,7 +77,6 @@ import {
 import type { CDSAuthType, CDSResponseType } from './cds/Types.d.ts';
 import { CDSI } from './cds/CDSI.node.js';
 import { SignalService as Proto } from '../protobuf/index.std.js';
-import { isEnabled as isRemoteConfigEnabled } from '../RemoteConfig.dom.js';
 
 import type {
   WebAPICredentials,
@@ -120,6 +119,7 @@ import {
   RemoteMegaphoneCtaDataSchema,
   type RemoteMegaphoneId,
 } from '../types/Megaphone.std.js';
+import { bindRemoteConfigToLibsignalNet } from '../LibsignalNetRemoteConfig.preload.js';
 
 const { escapeRegExp, isNumber, throttle } = lodash;
 
@@ -1701,27 +1701,6 @@ const PARSE_RANGE_HEADER = /\/(\d+)$/;
 const PARSE_GROUP_LOG_RANGE_HEADER =
   /^versions\s+(\d{1,10})-(\d{1,10})\/(\d{1,10})/;
 
-const libsignalRemoteConfig = new Map();
-if (isRemoteConfigEnabled('desktop.libsignalNet.enforceMinimumTls')) {
-  log.info('libsignal net will require TLS 1.3');
-  libsignalRemoteConfig.set('enforceMinimumTls', 'true');
-}
-if (isRemoteConfigEnabled('desktop.libsignalNet.shadowUnauthChatWithNoise')) {
-  log.info('libsignal net will shadow unauth chat connections');
-  libsignalRemoteConfig.set('shadowUnauthChatWithNoise', 'true');
-}
-if (isRemoteConfigEnabled('desktop.libsignalNet.shadowAuthChatWithNoise')) {
-  log.info('libsignal net will shadow auth chat connections');
-  libsignalRemoteConfig.set('shadowAuthChatWithNoise', 'true');
-}
-const perMessageDeflateConfigKey = isProduction(version)
-  ? 'desktop.libsignalNet.chatPermessageDeflate.prod'
-  : 'desktop.libsignalNet.chatPermessageDeflate';
-if (isRemoteConfigEnabled(perMessageDeflateConfigKey)) {
-  libsignalRemoteConfig.set('chatPermessageDeflate', 'true');
-}
-libsignalNet.setRemoteConfig(libsignalRemoteConfig);
-
 const socketManager = new SocketManager(libsignalNet, {
   url: chatServiceUrl,
   certificateAuthority,
@@ -1776,6 +1755,8 @@ export async function connect({
   hasStoriesDisabled,
   hasBuildExpired,
 }: WebAPIConnectOptionsType): Promise<void> {
+  bindRemoteConfigToLibsignalNet(getLibsignalNet(), window.getVersion());
+
   username = initialUsername;
   password = initialPassword;
 
