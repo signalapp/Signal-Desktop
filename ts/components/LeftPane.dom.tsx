@@ -36,6 +36,7 @@ import * as KeyboardLayout from '../services/keyboardLayout.dom.js';
 import type { LookupConversationWithoutServiceIdActionsType } from '../util/lookupConversationWithoutServiceId.preload.js';
 import type { ShowConversationType } from '../state/ducks/conversations.preload.js';
 import type { PropsType as UnsupportedOSDialogPropsType } from '../state/smart/UnsupportedOSDialog.preload.js';
+import type { SmartPropsType as SmartToastManagerPropsType } from '../state/smart/ToastManager.preload.js';
 
 import { ConversationList } from './ConversationList.dom.js';
 import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox.dom.js';
@@ -209,9 +210,9 @@ export type PropsType = {
   ) => React.JSX.Element;
   renderLeftPaneChatFolders: () => React.JSX.Element;
   renderNotificationProfilesMenu: () => React.JSX.Element;
-  renderToastManager: (_: {
-    containerWidthBreakpoint: WidthBreakpoint;
-  }) => React.JSX.Element;
+  renderToastManager: (
+    _: Readonly<SmartToastManagerPropsType>
+  ) => React.JSX.Element;
 } & LookupConversationWithoutServiceIdActionsType;
 
 export function LeftPane({

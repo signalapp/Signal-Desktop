@@ -74,7 +74,7 @@ import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import { SmartProfileEditor } from './ProfileEditor.preload.js';
 import { useNavActions } from '../ducks/nav.std.js';
 import { NavTab } from '../../types/Nav.std.js';
-import { SmartToastManager } from './ToastManager.preload.js';
+import { renderToastManagerWithoutMegaphone } from './ToastManager.preload.js';
 import { useToastActions } from '../ducks/toast.preload.js';
 import { DataReader, DataWriter } from '../../sql/Client.preload.js';
 import { deleteAllMyStories } from '../../util/deleteAllMyStories.preload.js';
@@ -155,12 +155,6 @@ function renderProfileEditor(options: {
   contentsRef: MutableRefObject<HTMLDivElement | null>;
 }): React.JSX.Element {
   return <SmartProfileEditor contentsRef={options.contentsRef} />;
-}
-
-function renderToastManager(props: {
-  containerWidthBreakpoint: WidthBreakpoint;
-}): React.JSX.Element {
-  return <SmartToastManager disableMegaphone {...props} />;
 }
 
 function renderDonationsPane({
@@ -937,7 +931,7 @@ export function SmartPreferences(): React.JSX.Element | null {
             renderNotificationProfilesCreateFlow
           }
           renderProfileEditor={renderProfileEditor}
-          renderToastManager={renderToastManager}
+          renderToastManager={renderToastManagerWithoutMegaphone}
           renderUpdateDialog={renderUpdateDialog}
           renderPreferencesChatFoldersPage={renderPreferencesChatFoldersPage}
           renderPreferencesEditChatFolderPage={

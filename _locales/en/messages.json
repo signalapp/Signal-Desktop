@@ -10154,6 +10154,10 @@
     "messageformat": "Thanks for your feedback!",
     "description": "Toast message shown when call quality survey submission succeeds"
   },
+  "icu:Megaphone__ExpandNarrowSidebar": {
+    "messageformat": "Expand sidebar to interact with megaphone",
+    "description": "Aria label for collapsed megaphone in the narrow sidebar state. Indicates that you can click it to expand the sidebar and the megaphone."
+  },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
     "description": "Release notes for releases that only include bug fixes",

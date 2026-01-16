@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { useMove } from 'react-aria';
 import { NavTabsToggle } from './NavTabs.dom.js';
@@ -15,6 +15,7 @@ import {
 } from '../util/leftPaneWidth.std.js';
 import { WidthBreakpoint, getNavSidebarWidthBreakpoint } from './_util.std.js';
 import type { UnreadStats } from '../util/countUnreadStats.std.js';
+import type { SmartPropsType as SmartToastManagerPropsType } from '../state/smart/ToastManager.preload.js';
 
 export const NavSidebarWidthBreakpointContext =
   createContext<WidthBreakpoint | null>(null);
@@ -60,9 +61,7 @@ export type NavSidebarProps = Readonly<{
   savePreferredLeftPaneWidth: (width: number) => void;
   title: string;
   otherTabsUnreadStats: UnreadStats;
-  renderToastManager: (_: {
-    containerWidthBreakpoint: WidthBreakpoint;
-  }) => React.JSX.Element;
+  renderToastManager: (_: SmartToastManagerPropsType) => React.JSX.Element;
 }>;
 
 enum DragState {
@@ -102,6 +101,13 @@ export function NavSidebar({
   });
 
   const widthBreakpoint = getNavSidebarWidthBreakpoint(width);
+
+  const expandNarrowLeftPane = useCallback(() => {
+    if (preferredWidth < MIN_FULL_WIDTH) {
+      setPreferredWidth(MIN_FULL_WIDTH);
+      savePreferredLeftPaneWidth(MIN_FULL_WIDTH);
+    }
+  }, [preferredWidth, savePreferredLeftPaneWidth]);
 
   // `useMove` gives us keyboard and mouse dragging support.
   const { moveProps } = useMove({
@@ -229,7 +235,10 @@ export function NavSidebar({
           {...moveProps}
         />
 
-        {renderToastManager({ containerWidthBreakpoint: widthBreakpoint })}
+        {renderToastManager({
+          containerWidthBreakpoint: widthBreakpoint,
+          expandNarrowLeftPane,
+        })}
       </div>
     </NavSidebarWidthBreakpointContext.Provider>
   );

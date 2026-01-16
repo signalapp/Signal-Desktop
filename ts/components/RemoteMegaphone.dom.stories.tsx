@@ -28,6 +28,7 @@ export default {
     body: 'Signal is powered by people like you. Show your support today!',
     imagePath: '/fixtures/donate-heart.png',
     isFullSize: true,
+    onClickNarrowMegaphone: action('onClickNarrowMegaphone'),
     onInteractWithMegaphone: action('onInteractWithMegaphone'),
   },
 } satisfies ComponentMeta<PropsType>;

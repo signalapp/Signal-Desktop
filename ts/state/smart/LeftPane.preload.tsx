@@ -103,7 +103,11 @@ import { SmartCrashReportDialog } from './CrashReportDialog.preload.js';
 import { SmartMessageSearchResult } from './MessageSearchResult.preload.js';
 import { SmartNetworkStatus } from './NetworkStatus.preload.js';
 import { SmartRelinkDialog } from './RelinkDialog.dom.js';
-import { SmartToastManager } from './ToastManager.preload.js';
+import {
+  renderToastManagerWithoutMegaphone,
+  SmartToastManager,
+} from './ToastManager.preload.js';
+import type { SmartPropsType as SmartToastManagerPropsType } from './ToastManager.preload.js';
 import type { PropsType as SmartUnsupportedOSDialogPropsType } from './UnsupportedOSDialog.preload.js';
 import { SmartUnsupportedOSDialog } from './UnsupportedOSDialog.preload.js';
 import { SmartUpdateDialog } from './UpdateDialog.preload.js';
@@ -172,16 +176,10 @@ function renderUnsupportedOSDialog(
 ): React.JSX.Element {
   return <SmartUnsupportedOSDialog {...props} />;
 }
-function renderToastManagerWithMegaphone(props: {
-  containerWidthBreakpoint: WidthBreakpoint;
-}): React.JSX.Element {
+function renderToastManagerWithMegaphone(
+  props: Readonly<SmartToastManagerPropsType>
+): React.JSX.Element {
   return <SmartToastManager {...props} />;
-}
-
-function renderToastManagerWithoutMegaphone(props: {
-  containerWidthBreakpoint: WidthBreakpoint;
-}): React.JSX.Element {
-  return <SmartToastManager disableMegaphone {...props} />;
 }
 
 function renderNotificationProfilesMenu(): React.JSX.Element {
