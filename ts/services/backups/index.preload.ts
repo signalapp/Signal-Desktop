@@ -114,7 +114,7 @@ import {
   NotEnoughStorageError,
   RanOutOfStorageError,
   StoragePermissionsError,
-} from '../../types/Backups.std.js';
+} from '../../types/LocalExport.std.js';
 import { getFreeDiskSpace } from '../../util/getFreeDiskSpace.node.js';
 import { isFeaturedEnabledNoRedux } from '../../util/isFeatureEnabled.dom.js';
 
@@ -129,6 +129,8 @@ const log = createLogger('backupsService');
 const IV_LENGTH = 16;
 
 const BACKUP_REFRESH_INTERVAL = 24 * HOUR;
+
+const MIMINUM_DISK_SPACE_FOR_LOCAL_EXPORT = 200 * MEBIBYTE;
 
 export type DownloadOptionsType = Readonly<{
   onProgress?: (
@@ -337,30 +339,39 @@ export class BackupsService {
     }
   }
 
-  public async exportLocalEncryptedBackup(options: {
-    onProgress: OnProgressCallback;
-    abortSignal: AbortSignal;
+  public async exportLocalBackup(options: {
     backupsBaseDir: string;
+    abortSignal: AbortSignal;
+    onProgress: OnProgressCallback;
   }): Promise<LocalBackupExportResultType> {
     strictAssert(isLocalBackupsEnabled(), 'Local backups must be enabled');
+    const fnLog = log.child('exportLocalBackup');
+    fnLog.info('starting...');
 
     if (isOnline()) {
       await this.#waitForEmptyQueues('backups.exportLocalBackup');
     } else {
-      log.info('exportLocalBackup: Offline; skipping wait for empty queues');
+      fnLog.info('offline; skipping wait for empty queues');
     }
+
     const snapshotDir = join(
       options.backupsBaseDir,
       `signal-backup-${getTimestampForFolder()}`
     );
     await mkdir(snapshotDir, { recursive: true });
 
+    const freeSpaceBytes = await getFreeDiskSpace(snapshotDir);
+    const bytesNeeded = MIMINUM_DISK_SPACE_FOR_LOCAL_EXPORT - freeSpaceBytes;
+    if (bytesNeeded > 0) {
+      fnLog.info(
+        `Not enough storage; only ${freeSpaceBytes} available, ${MIMINUM_DISK_SPACE_FOR_LOCAL_EXPORT} is minimum needed`
+      );
+      throw new NotEnoughStorageError(bytesNeeded);
+    }
+
     const exportResult = await this.exportToDisk(join(snapshotDir, 'main'), {
       type: 'local-encrypted',
-      snapshotDir: join(
-        options.backupsBaseDir,
-        `signal-backup-${getTimestampForFolder()}`
-      ),
+      snapshotDir,
     });
 
     const metadataArgs = {
@@ -378,63 +389,6 @@ export class BackupsService {
     });
 
     return { ...exportResult, snapshotDir };
-  }
-
-  public async exportLocalPlaintextBackup(options: {
-    abortSignal: AbortSignal;
-    onProgress: OnProgressCallback;
-    shouldIncludeMedia: boolean;
-    targetDir: string;
-  }): Promise<ExportResultType> {
-    strictAssert(
-      isFeaturedEnabledNoRedux({
-        betaKey: 'desktop.plaintextExport.beta',
-        prodKey: 'desktop.plaintextExport.prod',
-      }),
-      'Plaintext export must be enabled'
-    );
-
-    if (isOnline()) {
-      await this.#waitForEmptyQueues('backups.exportLocalBackup');
-    } else {
-      log.info(
-        'exportLocalPlaintextBackup: Offline; skipping wait for empty queues'
-      );
-    }
-
-    log.info('exportLocalPlaintextBackup: starting...');
-
-    await mkdir(options.targetDir, { recursive: true });
-
-    const exportResult = await this.exportToDisk(
-      join(options.targetDir, 'main.jsonl'),
-      {
-        type: 'plaintext-export',
-      }
-    );
-
-    log.info('exportLocalPlaintextBackup: writing metadata');
-
-    const metadataPath = join(options.targetDir, 'metadata.json');
-    await writeFile(
-      metadataPath,
-      JSON.stringify({
-        version: LOCAL_BACKUP_VERSION,
-      })
-    );
-
-    if (options.shouldIncludeMedia) {
-      await this.#runLocalAttachmentBackupJobs({
-        attachmentBackupJobs: exportResult.attachmentBackupJobs,
-        baseDir: options.targetDir,
-        onProgress: options.onProgress,
-        abortSignal: options.abortSignal,
-      });
-    }
-
-    log.info('exportLocalPlaintextBackup: finished');
-
-    return exportResult;
   }
 
   async #runLocalAttachmentBackupJobs({
@@ -595,26 +549,6 @@ export class BackupsService {
     return exportResult;
   }
 
-  public async _internalExportLocalEncryptedBackup(): Promise<ValidationResultType> {
-    try {
-      const { canceled, dirPath: backupsBaseDir } = await ipcRenderer.invoke(
-        'show-open-folder-dialog'
-      );
-      if (canceled || !backupsBaseDir) {
-        return { error: 'Backups directory not selected' };
-      }
-
-      const result = await this.exportLocalEncryptedBackup({
-        backupsBaseDir,
-        abortSignal: new AbortController().signal,
-        onProgress: () => null,
-      });
-      return { result };
-    } catch (error) {
-      return { error: Errors.toLogFormat(error) };
-    }
-  }
-
   public async exportPlaintext({
     abortSignal,
     onProgress,
@@ -627,15 +561,15 @@ export class BackupsService {
     targetPath: string;
   }): Promise<LocalBackupExportResultType> {
     let exportDir: string | undefined;
+    const fnLog = log.child('exportPlaintext');
     try {
-      log.info('exportPlaintext starting...');
+      fnLog.info('starting...');
 
       const freeSpaceBytes = await getFreeDiskSpace(targetPath);
-      const minimumBytes = 200 * MEBIBYTE;
-      const bytesNeeded = minimumBytes - freeSpaceBytes;
+      const bytesNeeded = MIMINUM_DISK_SPACE_FOR_LOCAL_EXPORT - freeSpaceBytes;
       if (bytesNeeded > 0) {
-        log.info(
-          `exportPlaintext: Not enough storage; only ${freeSpaceBytes} available, ${minimumBytes} is minimum needed`
+        fnLog.info(
+          `Not enough storage; only ${freeSpaceBytes} available, ${MIMINUM_DISK_SPACE_FOR_LOCAL_EXPORT} is minimum needed`
         );
         throw new NotEnoughStorageError(bytesNeeded);
       }
@@ -644,24 +578,62 @@ export class BackupsService {
 
       await mkdir(exportDir, { recursive: true });
 
-      const result = await this.exportLocalPlaintextBackup({
-        targetDir: exportDir,
-        abortSignal,
-        onProgress,
-        shouldIncludeMedia,
-      });
+      strictAssert(
+        isFeaturedEnabledNoRedux({
+          betaKey: 'desktop.plaintextExport.beta',
+          prodKey: 'desktop.plaintextExport.prod',
+        }),
+        'Plaintext export must be enabled'
+      );
 
-      log.info('exportPlaintext complete!');
+      if (isOnline()) {
+        await this.#waitForEmptyQueues('backups.exportPlaintext');
+      } else {
+        fnLog.info('exportPlaintext: Offline; skipping wait for empty queues');
+      }
+
+      fnLog.info('exportPlaintext: starting...');
+
+      await mkdir(exportDir, { recursive: true });
+
+      const exportResult = await this.exportToDisk(
+        join(exportDir, 'main.jsonl'),
+        {
+          type: 'plaintext-export',
+        }
+      );
+
+      fnLog.info('exportPlaintext: writing metadata');
+
+      const metadataPath = join(exportDir, 'metadata.json');
+      await writeFile(
+        metadataPath,
+        JSON.stringify({
+          version: LOCAL_BACKUP_VERSION,
+        })
+      );
+
+      if (shouldIncludeMedia) {
+        await this.#runLocalAttachmentBackupJobs({
+          attachmentBackupJobs: exportResult.attachmentBackupJobs,
+          baseDir: exportDir,
+          onProgress,
+          abortSignal,
+        });
+      }
+
+      fnLog.info('finished');
+
       return {
-        ...result,
+        ...exportResult,
         snapshotDir: exportDir,
       };
     } catch (error) {
-      log.warn('exportPlaintext encountered error', Errors.toLogFormat(error));
+      fnLog.warn('encountered error', Errors.toLogFormat(error));
       if (exportDir) {
-        log.info('Deleting export directory');
+        fnLog.info('Deleting export directory');
         await rm(exportDir, { recursive: true, force: true });
-        log.info('Export directory deleted');
+        fnLog.info('Export directory deleted');
       }
 
       if (error.code === 'EPERM' || error.code === 'EACCES') {
@@ -1274,7 +1246,10 @@ export class BackupsService {
   }
 
   async #waitForEmptyQueues(
-    reason: 'backups.upload' | 'backups.exportLocalBackup'
+    reason:
+      | 'backups.upload'
+      | 'backups.exportPlaintext'
+      | 'backups.exportLocalBackup'
   ) {
     // Make sure we are up-to-date on storage service
     {

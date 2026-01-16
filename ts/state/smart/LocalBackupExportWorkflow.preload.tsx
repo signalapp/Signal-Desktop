@@ -8,52 +8,50 @@ import { createLogger } from '../../logging/log.std.js';
 import { getIntl, getUser } from '../selectors/user.std.js';
 import {
   getBackups,
-  getPlaintextWorkflow,
-  shouldShowPlaintextWorkflow,
+  getLocalBackupWorkflow,
+  shouldShowLocalBackupWorkflow,
 } from '../selectors/backups.std.js';
 import { useBackupActions } from '../ducks/backups.preload.js';
-import { PlaintextExportWorkflow } from '../../components/PlaintextExportWorkflow.dom.js';
+import { LocalBackupExportWorkflow } from '../../components/LocalBackupExportWorkflow.dom.js';
 import { useToastActions } from '../ducks/toast.preload.js';
 
-const log = createLogger('smart/PlaintextExportWorkflow');
+const log = createLogger('smart/LocalBackupExportWorkflow');
 
-export const SmartPlaintextExportWorkflow = memo(
-  function SmartPlaintextExportWorkflow() {
+export const SmartLocalBackupExportWorkflow = memo(
+  function SmartLocalBackupExportWorkflow() {
     const backups = useSelector(getBackups);
-    const workflow = useSelector(getPlaintextWorkflow);
-    const shouldWeRender = useSelector(shouldShowPlaintextWorkflow);
+    const workflow = useSelector(getLocalBackupWorkflow);
+    const shouldWeRender = useSelector(shouldShowLocalBackupWorkflow);
     const { osName } = useSelector(getUser);
 
     const i18n = useSelector(getIntl);
 
     const { openFileInFolder } = useToastActions();
-    const { cancelWorkflow, clearWorkflow, verifyWithOSForExport } =
-      useBackupActions();
+    const { cancelLocalBackupWorkflow, clearWorkflow } = useBackupActions();
 
     const containerType = backups.workflow?.type;
-    if (containerType !== 'plaintext-export') {
+    if (containerType !== 'local-backup') {
       log.error(
-        `SmartPlaintextExportWorkflow: containerType is ${containerType}!`
+        `SmartLocalBackupExportWorkflow: containerType is ${containerType}!`
       );
       return;
     }
     if (!shouldWeRender) {
-      log.error('SmartPlaintextExportWorkflow: shouldWeRender=false!');
+      log.error('SmartLocalBackupExportWorkflow: shouldWeRender=false!');
       return;
     }
     if (!workflow) {
-      log.error('SmartPlaintextExportWorkflow: no workflow!');
+      log.error('SmartLocalBackupExportWorkflow: no workflow!');
       return;
     }
 
     return (
-      <PlaintextExportWorkflow
-        cancelWorkflow={cancelWorkflow}
+      <LocalBackupExportWorkflow
+        cancelWorkflow={cancelLocalBackupWorkflow}
         clearWorkflow={clearWorkflow}
         i18n={i18n}
         openFileInFolder={openFileInFolder}
         osName={osName}
-        verifyWithOSForExport={verifyWithOSForExport}
         workflow={workflow}
       />
     );

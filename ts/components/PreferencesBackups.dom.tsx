@@ -33,6 +33,7 @@ import {
   BackupsDetailsPage,
   renderSubscriptionDetails,
 } from './PreferencesBackupDetails.dom.js';
+import type { LocalBackupExportMetadata } from '../types/LocalExport.std.js';
 
 export const SIGNAL_BACKUPS_LEARN_MORE_URL =
   'https://support.signal.org/hc/articles/360007059752-Backup-and-Restore-Messages';
@@ -61,6 +62,7 @@ export function PreferencesBackups({
   i18n,
   isLocalBackupsEnabled,
   isRemoteBackupsEnabled,
+  lastLocalBackup,
   locale,
   localBackupFolder,
   onBackupKeyViewedChange,
@@ -75,6 +77,7 @@ export function PreferencesBackups({
   refreshBackupSubscriptionStatus,
   setSettingsLocation,
   showToast,
+  startLocalBackupExport,
 }: {
   accountEntropyPool: string | undefined;
   backupFreeMediaDays: number;
@@ -86,6 +89,7 @@ export function PreferencesBackups({
   i18n: LocalizerType;
   isLocalBackupsEnabled: boolean;
   isRemoteBackupsEnabled: boolean;
+  lastLocalBackup: LocalBackupExportMetadata | undefined;
   locale: string;
   onBackupKeyViewedChange: (keyViewed: boolean) => void;
   settingsLocation: SettingsLocation;
@@ -101,6 +105,7 @@ export function PreferencesBackups({
   refreshBackupSubscriptionStatus: () => void;
   setSettingsLocation: (settingsLocation: SettingsLocation) => void;
   showToast: ShowToastAction;
+  startLocalBackupExport: () => void;
 }): React.JSX.Element | null {
   const [authError, setAuthError] =
     useState<Omit<PromptOSAuthResultType, 'success'>>();
@@ -156,6 +161,7 @@ export function PreferencesBackups({
         accountEntropyPool={accountEntropyPool}
         backupKeyViewed={backupKeyViewed}
         i18n={i18n}
+        lastLocalBackup={lastLocalBackup}
         localBackupFolder={localBackupFolder}
         onBackupKeyViewedChange={onBackupKeyViewedChange}
         settingsLocation={settingsLocation}
@@ -163,6 +169,7 @@ export function PreferencesBackups({
         promptOSAuth={promptOSAuth}
         setSettingsLocation={setSettingsLocation}
         showToast={showToast}
+        startLocalBackupExport={startLocalBackupExport}
       />
     );
   }

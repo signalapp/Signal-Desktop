@@ -1,136 +1,49 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { type ReactNode } from 'react';
 
 import {
   LocalExportErrors,
-  PlaintextExportSteps,
+  LocalBackupExportSteps,
 } from '../types/LocalExport.std.js';
 import { AxoDialog } from '../axo/AxoDialog.dom.js';
 import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.js';
 
-import type { PlaintextExportWorkflowType } from '../types/LocalExport.std.js';
+import type { LocalBackupExportWorkflowType } from '../types/LocalExport.std.js';
 import type { LocalizerType } from '../types/I18N.std.js';
-import { AxoCheckbox } from '../axo/AxoCheckbox.dom.js';
 import { formatFileSize } from '../util/formatFileSize.std.js';
 import { ProgressBar } from './ProgressBar.dom.js';
 import { missingCaseError } from '../util/missingCaseError.std.js';
 import { tw } from '../axo/tw.dom.js';
-import { I18n } from './I18n.dom.js';
+import { AxoSymbol } from '../axo/AxoSymbol.dom.js';
+import type { AxoSymbolIconName } from '../axo/_internal/AxoSymbolDefs.generated.std.js';
 
 export type PropsType = {
-  cancelWorkflow: () => unknown;
-  clearWorkflow: () => unknown;
+  cancelWorkflow: () => void;
+  clearWorkflow: () => void;
   i18n: LocalizerType;
-  openFileInFolder: (path: string) => unknown;
+  openFileInFolder: (path: string) => void;
   osName: 'linux' | 'macos' | 'windows' | undefined;
-  verifyWithOSForExport: (includeMedia: boolean) => unknown;
-  workflow: PlaintextExportWorkflowType;
+  workflow: LocalBackupExportWorkflowType;
 };
 
-function Bold(parts: Array<string | React.JSX.Element>) {
-  return <b>{parts}</b>;
-}
-function Secondary(parts: Array<string | React.JSX.Element>) {
-  return <span className={tw('text-label-secondary')}>{parts}</span>;
-}
-
-export function PlaintextExportWorkflow({
+export function LocalBackupExportWorkflow({
   cancelWorkflow,
   clearWorkflow,
   i18n,
   openFileInFolder,
   osName,
-  verifyWithOSForExport,
   workflow,
 }: PropsType): React.JSX.Element {
-  const [includeMedia, setIncludeMedia] = React.useState(true);
   const { step } = workflow;
 
   if (
-    step === PlaintextExportSteps.ConfirmingExport ||
-    step === PlaintextExportSteps.ConfirmingWithOS ||
-    step === PlaintextExportSteps.ChoosingLocation
-  ) {
-    const shouldShowSpinner = step !== PlaintextExportSteps.ConfirmingExport;
-
-    return (
-      <AxoDialog.Root open onOpenChange={clearWorkflow}>
-        <AxoDialog.Content size="md" escape="cancel-is-destructive">
-          <AxoDialog.Header>
-            <AxoDialog.Title>
-              <div className={tw('pt-[10px]')}>
-                {i18n('icu:PlaintextExport--Confirmation--Header')}
-              </div>
-            </AxoDialog.Title>
-          </AxoDialog.Header>
-          <AxoDialog.Body padding="normal">
-            <div className={tw('px-[13px]')}>
-              <div className={tw('text-label-secondary')}>
-                <I18n
-                  i18n={i18n}
-                  id="icu:PlaintextExport--Confirmation--Description"
-                  components={{
-                    bold: Bold,
-                  }}
-                />
-              </div>
-              <label
-                className={tw('mt-2 flex items-center py-[10px] ps-4')}
-                htmlFor="includeMediaCheckbox"
-              >
-                <AxoCheckbox.Root
-                  id="includeMediaCheckbox"
-                  variant="square"
-                  disabled={shouldShowSpinner}
-                  checked={includeMedia}
-                  onCheckedChange={value => setIncludeMedia(value)}
-                />
-                <div className={tw('ps-2')}>
-                  <I18n
-                    i18n={i18n}
-                    id="icu:PlaintextExport--Confirmation--IncludeMedia"
-                    components={{
-                      secondary: Secondary,
-                    }}
-                  />
-                </div>
-              </label>
-            </div>
-          </AxoDialog.Body>
-          <AxoDialog.Footer>
-            <AxoDialog.Actions>
-              <AxoDialog.Action variant="secondary" onClick={clearWorkflow}>
-                {i18n('icu:cancel')}
-              </AxoDialog.Action>
-              <AxoDialog.Action
-                variant="primary"
-                experimentalSpinner={
-                  shouldShowSpinner
-                    ? {
-                        'aria-label': i18n(
-                          'icu:PlaintextExport--Confirmation--WaitingLabel'
-                        ),
-                      }
-                    : null
-                }
-                onClick={() => verifyWithOSForExport(includeMedia)}
-              >
-                {i18n('icu:PlaintextExport--Confirmation--ContinueButton')}
-              </AxoDialog.Action>
-            </AxoDialog.Actions>
-          </AxoDialog.Footer>
-        </AxoDialog.Content>
-      </AxoDialog.Root>
-    );
-  }
-  if (
-    step === PlaintextExportSteps.ExportingMessages ||
-    step === PlaintextExportSteps.ExportingAttachments
+    step === LocalBackupExportSteps.ExportingMessages ||
+    step === LocalBackupExportSteps.ExportingAttachments
   ) {
     const progress =
-      step === PlaintextExportSteps.ExportingAttachments
+      step === LocalBackupExportSteps.ExportingAttachments
         ? workflow.progress
         : undefined;
 
@@ -175,7 +88,7 @@ export function PlaintextExportWorkflow({
           <AxoDialog.Header>
             <AxoDialog.Title>
               <div className={tw('pt-[10px]')}>
-                {i18n('icu:PlaintextExport--ProgressDialog--Header')}
+                {i18n('icu:LocalBackupExport--ProgressDialog--Header')}
               </div>
             </AxoDialog.Title>
           </AxoDialog.Header>
@@ -194,9 +107,7 @@ export function PlaintextExportWorkflow({
           <AxoDialog.Footer>
             <div
               className={tw(
-                // Unlike AxoDialog.Actions, we want these buttons centered
                 'mx-auto',
-                // Everything else is copied from AxoDialog.Action
                 'flex flex-wrap',
                 'max-w-full',
                 'items-center gap-x-2 gap-y-3'
@@ -211,7 +122,8 @@ export function PlaintextExportWorkflow({
       </AxoDialog.Root>
     );
   }
-  if (step === PlaintextExportSteps.Complete) {
+
+  if (step === LocalBackupExportSteps.Complete) {
     let showInFolderText = i18n(
       'icu:PlaintextExport--CompleteDialog--ShowFiles--Windows'
     );
@@ -229,24 +141,53 @@ export function PlaintextExportWorkflow({
       <AxoAlertDialog.Root open onOpenChange={clearWorkflow}>
         <AxoAlertDialog.Content escape="cancel-is-noop">
           <AxoAlertDialog.Body>
-            <AxoAlertDialog.Title>
-              {i18n('icu:PlaintextExport--CompleteDialog--Header')}
-            </AxoAlertDialog.Title>
-            <AxoAlertDialog.Description>
-              <I18n
-                i18n={i18n}
-                id="icu:PlaintextExport--CompleteDialog--Description"
-                components={{
-                  bold: Bold,
-                }}
+            <div className={tw('flex flex-col items-center')}>
+              <img
+                src="images/desktop-and-phone.svg"
+                className={tw('my-4')}
+                height="61"
+                width="90"
+                alt=""
               />
+              <AxoAlertDialog.Title>
+                <div className={tw('mb-3 type-title-medium')}>
+                  {i18n('icu:LocalBackupExport--CompleteDialog--Header')}
+                </div>
+              </AxoAlertDialog.Title>
+            </div>
+            <AxoAlertDialog.Description>
+              <div className={tw('mb-5 flex flex-col gap-5')}>
+                {i18n(
+                  'icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader'
+                )}
+                <ol className={tw('flex flex-col gap-5')}>
+                  <ListItemWithIcon
+                    iconName="sort-vertical"
+                    content={i18n(
+                      'icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer'
+                    )}
+                  />
+                  <ListItemWithIcon
+                    iconName="device-phone"
+                    content={i18n(
+                      'icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall'
+                    )}
+                  />
+                  <ListItemWithIcon
+                    iconName="folder"
+                    content={i18n(
+                      'icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore'
+                    )}
+                  />
+                </ol>
+              </div>
             </AxoAlertDialog.Description>
           </AxoAlertDialog.Body>
           <AxoAlertDialog.Footer>
             <AxoAlertDialog.Action
               variant="secondary"
               onClick={() => {
-                openFileInFolder(workflow.exportPath);
+                openFileInFolder(workflow.localBackupFolder);
                 clearWorkflow();
               }}
             >
@@ -260,7 +201,8 @@ export function PlaintextExportWorkflow({
       </AxoAlertDialog.Root>
     );
   }
-  if (step === PlaintextExportSteps.Error) {
+
+  if (step === LocalBackupExportSteps.Error) {
     const { type } = workflow.errorDetails;
     let title;
     let detail;
@@ -303,4 +245,25 @@ export function PlaintextExportWorkflow({
   }
 
   throw missingCaseError(step);
+}
+
+function ListItemWithIcon({
+  iconName,
+  content,
+}: {
+  iconName: AxoSymbolIconName;
+  content: ReactNode;
+}): ReactNode {
+  return (
+    <li className={tw('flex items-center gap-2')}>
+      <div
+        className={tw(
+          'flex size-8 shrink-0 items-center justify-center rounded-full bg-fill-secondary'
+        )}
+      >
+        <AxoSymbol.Icon size={20} symbol={iconName} label={null} />
+      </div>
+      <div className={tw('text-start')}>{content}</div>
+    </li>
+  );
 }

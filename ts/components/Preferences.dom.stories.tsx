@@ -58,10 +58,7 @@ import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/Pre
 import { CurrentChatFolders } from '../types/CurrentChatFolders.std.js';
 import type { ExternalProps as SmartNotificationProfilesProps } from '../state/smart/PreferencesNotificationProfiles.preload.js';
 import type { NotificationProfileIdString } from '../types/NotificationProfile.std.js';
-import type {
-  ExportResultType,
-  LocalBackupExportResultType,
-} from '../services/backups/types.std.js';
+import type { ExportResultType } from '../services/backups/types.std.js';
 import { BackupLevel } from '../services/backups/types.std.js';
 
 const { shuffle } = lodash;
@@ -133,11 +130,6 @@ const validateBackupResult: ExportResultType = {
     stickerPacks: 8,
     fixedDirectMessages: 9,
   },
-};
-
-const exportLocalBackupResult: LocalBackupExportResultType = {
-  ...validateBackupResult,
-  snapshotDir: '/home/signaluser/SignalBackups/signal-backup-1745618069169',
 };
 
 const donationAmountsConfig = {
@@ -468,6 +460,7 @@ export default {
     isContentProtectionNeeded: true,
     isMinimizeToAndStartInSystemTraySupported: true,
     isPlaintextExportEnabled: true,
+    lastLocalBackup: undefined,
     lastSyncTime: Date.now(),
     localeOverride: null,
     localBackupFolder: undefined,
@@ -538,11 +531,6 @@ export default {
     addCustomColor: action('addCustomColor'),
     doDeleteAllData: action('doDeleteAllData'),
     editCustomColor: action('editCustomColor'),
-    exportLocalBackup: async () => {
-      return {
-        result: exportLocalBackupResult,
-      };
-    },
     getMessageCountBySchemaVersion: async () => [
       { schemaVersion: 10, count: 1024 },
       { schemaVersion: 8, count: 256 },
@@ -616,6 +604,7 @@ export default {
     ),
     setSettingsLocation: action('setSettingsLocation'),
     showToast: action('showToast'),
+    startLocalBackupExport: action('startLocalBackupExport'),
     startPlaintextExport: action('startPlaintextExport'),
     validateBackup: async () => {
       return {
@@ -1210,6 +1199,21 @@ LocalBackups.args = {
   backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   backupKeyViewed: true,
+  lastLocalBackup: {
+    timestamp: Date.now() - DAY,
+    backupsFolder: 'backups',
+    snapshotDir: 'backups/snapshot',
+  },
+  localBackupFolder: '/home/signaluser/Signal Backups/',
+};
+
+export const LocalBackupsNeverBackedUp = Template.bind({});
+LocalBackupsNeverBackedUp.args = {
+  settingsLocation: { page: SettingsPage.LocalBackups },
+  backupFeatureEnabled: true,
+  backupLocalBackupsEnabled: true,
+  backupKeyViewed: true,
+  lastLocalBackup: undefined,
   localBackupFolder: '/home/signaluser/Signal Backups/',
 };
 

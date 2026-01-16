@@ -36,6 +36,8 @@ import type {
 import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
 import { AxoButton } from '../axo/AxoButton.dom.js';
 import { SECOND } from '../util/durations/constants.std.js';
+import { formatTimestamp } from '../util/formatTimestamp.dom.js';
+import type { LocalBackupExportMetadata } from '../types/LocalExport.std.js';
 
 const { noop } = lodash;
 
@@ -43,6 +45,7 @@ export function PreferencesLocalBackups({
   accountEntropyPool,
   backupKeyViewed,
   i18n,
+  lastLocalBackup,
   localBackupFolder,
   onBackupKeyViewedChange,
   settingsLocation,
@@ -50,10 +53,12 @@ export function PreferencesLocalBackups({
   promptOSAuth,
   setSettingsLocation,
   showToast,
+  startLocalBackupExport,
 }: {
   accountEntropyPool: string | undefined;
   backupKeyViewed: boolean;
   i18n: LocalizerType;
+  lastLocalBackup: LocalBackupExportMetadata | undefined;
   localBackupFolder: string | undefined;
   onBackupKeyViewedChange: (keyViewed: boolean) => void;
   settingsLocation: SettingsLocation;
@@ -63,6 +68,7 @@ export function PreferencesLocalBackups({
   ) => Promise<PromptOSAuthResultType>;
   setSettingsLocation: (settingsLocation: SettingsLocation) => void;
   showToast: ShowToastAction;
+  startLocalBackupExport: () => void;
 }): React.JSX.Element {
   const [authError, setAuthError] =
     React.useState<Omit<PromptOSAuthResultType, 'success'>>();
@@ -107,6 +113,13 @@ export function PreferencesLocalBackups({
     </a>
   );
 
+  const lastBackupText = lastLocalBackup
+    ? formatTimestamp(lastLocalBackup.timestamp, {
+        dateStyle: 'medium',
+        timeStyle: 'short',
+      })
+    : i18n('icu:Preferences__local-backups-last-backup-never');
+
   return (
     <>
       <div className="Preferences__padding">
@@ -115,6 +128,29 @@ export function PreferencesLocalBackups({
         </div>
       </div>
       <SettingsRow className="Preferences--BackupsRow">
+        <FlowingControl>
+          <div className="Preferences__two-thirds-flow">
+            <label>
+              {i18n('icu:Preferences__local-backups-last-backup')}
+              <div className="Preferences__description">{lastBackupText}</div>
+            </label>
+          </div>
+          <div
+            className={classNames(
+              'Preferences__flow-button',
+              'Preferences__one-third-flow',
+              'Preferences__one-third-flow--align-right'
+            )}
+          >
+            <AxoButton.Root
+              variant="secondary"
+              size="lg"
+              onClick={startLocalBackupExport}
+            >
+              {i18n('icu:Preferences__local-backups-backup-now')}
+            </AxoButton.Root>
+          </div>
+        </FlowingControl>
         <FlowingControl>
           <div className="Preferences__two-thirds-flow">
             <label>
