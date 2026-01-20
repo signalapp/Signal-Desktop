@@ -35,19 +35,34 @@ import { useDonationsActions } from '../ducks/donations.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { getVisibleMegaphonesForDisplay } from '../selectors/megaphones.preload.js';
 import { useMegaphonesActions } from '../ducks/megaphones.preload.js';
+import { shouldNeverBeCalled } from '../../util/shouldNeverBeCalled.std.js';
 
 export type SmartPropsType = Readonly<{
   disableMegaphone?: boolean;
   containerWidthBreakpoint: WidthBreakpoint;
+  expandNarrowLeftPane: () => void;
 }>;
 
 function handleShowDebugLog() {
   window.IPC.showDebugLog();
 }
 
+export function renderToastManagerWithoutMegaphone(props: {
+  containerWidthBreakpoint: WidthBreakpoint;
+}): React.JSX.Element {
+  return (
+    <SmartToastManager
+      disableMegaphone
+      expandNarrowLeftPane={shouldNeverBeCalled}
+      {...props}
+    />
+  );
+}
+
 export const SmartToastManager = memo(function SmartToastManager({
   disableMegaphone = false,
   containerWidthBreakpoint,
+  expandNarrowLeftPane,
 }: SmartPropsType) {
   const i18n = useSelector(getIntl);
   const hasCompletedUsernameOnboarding = useSelector(
@@ -119,6 +134,7 @@ export const SmartToastManager = memo(function SmartToastManager({
       setDidResumeDonation={setDidResume}
       centerToast={centerToast}
       containerWidthBreakpoint={containerWidthBreakpoint}
+      expandNarrowLeftPane={expandNarrowLeftPane}
       isCompositionAreaVisible={isCompositionAreaVisible}
       isInFullScreenCall={isInFullScreenCall}
     />

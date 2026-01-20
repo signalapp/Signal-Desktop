@@ -27,6 +27,7 @@ import { RemoteMegaphone } from './RemoteMegaphone.dom.js';
 
 export type PropsType = {
   changeLocation: (newLocation: Location) => unknown;
+  expandNarrowLeftPane: () => void;
   hideToast: () => unknown;
   i18n: LocalizerType;
   openFileInFolder: (target: string) => unknown;
@@ -948,6 +949,7 @@ export function renderMegaphone({
   i18n,
   megaphone,
   containerWidthBreakpoint,
+  expandNarrowLeftPane,
 }: PropsType): React.JSX.Element | null {
   if (!megaphone) {
     return null;
@@ -963,6 +965,7 @@ export function renderMegaphone({
         {...megaphone}
         i18n={i18n}
         isFullSize={containerWidthBreakpoint !== WidthBreakpoint.Narrow}
+        onClickNarrowMegaphone={expandNarrowLeftPane}
       />
     );
   }
