@@ -439,7 +439,7 @@
       "hardenedRuntime": true,
       "entitlements": "./build/entitlements.mac.plist",
       "entitlementsInherit": "./build/entitlements.mac.inherit.plist",
-      "icon": "build/icons/mac/icon.icns",
+      "icon": "./build/icons/mac/icon.icon",
       "publish": [
         {
           "provider": "generic",
