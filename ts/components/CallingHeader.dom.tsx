@@ -15,6 +15,7 @@ export type PropsType = {
   isGroupCall?: boolean;
   onCancel?: () => void;
   participantCount: number;
+  showSidebarViewOption?: boolean;
   togglePip?: () => void;
   toggleSettings: () => void;
   changeCallView?: (mode: CallViewMode) => void;
@@ -27,6 +28,7 @@ export function CallingHeader({
   isGroupCall = false,
   onCancel,
   participantCount,
+  showSidebarViewOption = false,
   togglePip,
   toggleSettings,
 }: PropsType): React.JSX.Element {
@@ -47,12 +49,16 @@ export function CallingHeader({
                   onClick: () => changeCallView(CallViewMode.Paginated),
                   value: CallViewMode.Paginated,
                 },
-                {
-                  icon: 'CallSettingsButton__Icon--SidebarView',
-                  label: i18n('icu:calling__view_mode--overflow'),
-                  onClick: () => changeCallView(CallViewMode.Sidebar),
-                  value: CallViewMode.Sidebar,
-                },
+                ...(showSidebarViewOption
+                  ? [
+                      {
+                        icon: 'CallSettingsButton__Icon--SidebarView',
+                        label: i18n('icu:calling__view_mode--overflow'),
+                        onClick: () => changeCallView(CallViewMode.Sidebar),
+                        value: CallViewMode.Sidebar,
+                      },
+                    ]
+                  : []),
                 {
                   icon: 'CallSettingsButton__Icon--SpeakerView',
                   label: i18n('icu:calling__view_mode--speaker'),
