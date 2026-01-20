@@ -70,6 +70,19 @@
       "conditionalId": "standard_donate",
       "dontShowAfterEpochSeconds": 1734616800,
       "secondaryCtaData": { "snoozeDurationDays": [5, 7, 9, 100] }
+    },
+    {
+      "primaryCtaId": "donate",
+      "secondaryCtaId": "snooze",
+      "countries": "1:1000000",
+      "desktopMinVersion": "6.7.0",
+      "priority": 100,
+      "dontShowBeforeEpochSeconds": 1732024800,
+      "uuid": "1A6FCAB5-2F4C-44D3-88B4-27140FACBF75",
+      "showForNumberOfDays": 30,
+      "conditionalId": "test",
+      "dontShowAfterEpochSeconds": 2147485547,
+      "secondaryCtaData": { "snoozeDurationDays": [5, 7, 9, 100] }
     }
   ]
 }

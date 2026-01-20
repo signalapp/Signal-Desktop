@@ -3,6 +3,7 @@
 
 import { assert } from 'chai';
 import { v4 as uuid } from 'uuid';
+import sinon from 'sinon';
 
 import {
   isMegaphoneCtaIdValid,
@@ -14,6 +15,10 @@ import type {
   RemoteMegaphoneId,
   RemoteMegaphoneType,
 } from '../../types/Megaphone.std.js';
+import { generateAci } from '../../types/ServiceId.std.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
+import type { ConversationController } from '../../ConversationController.preload.js';
+import type { ConversationModel } from '../../models/conversations.preload.js';
 
 const FAKE_MEGAPHONE: RemoteMegaphoneType = {
   id: uuid() as RemoteMegaphoneId,
@@ -22,7 +27,7 @@ const FAKE_MEGAPHONE: RemoteMegaphoneType = {
   dontShowBeforeEpochMs: Date.now() - 1 * DAY,
   dontShowAfterEpochMs: Date.now() + 14 * DAY,
   showForNumberOfDays: 30,
-  conditionalId: 'standard_donate',
+  conditionalId: 'test',
   primaryCtaId: 'donate',
   primaryCtaData: null,
   secondaryCtaId: 'snooze',
@@ -123,6 +128,78 @@ describe('megaphone service', () => {
         secondaryCtaId: 'potato',
       });
       assert.strictEqual(isMegaphoneShowable(megaphone), false);
+    });
+  });
+
+  describe('conditionals', () => {
+    let sandbox: sinon.SinonSandbox;
+    let deviceCreatedAt: number;
+    let oldConversationController: ConversationController;
+    let ourConversation: ConversationModel;
+
+    const ourAci = generateAci();
+    const createMeWithBadges = (
+      badges: Array<{
+        id: string;
+      }>
+    ): ConversationModel => {
+      const attrs = {
+        id: 'our-conversation-id',
+        serviceId: ourAci,
+        badges,
+        type: 'private',
+        sharedGroupNames: [],
+        version: 0,
+        expireTimerVersion: 1,
+      };
+      return {
+        ...attrs,
+        attributes: attrs,
+      } as unknown as ConversationModel;
+    };
+
+    beforeEach(() => {
+      sandbox = sinon.createSandbox();
+      sandbox.stub(itemStorage, 'get').callsFake(key => {
+        if (key === 'deviceCreatedAt') {
+          return deviceCreatedAt;
+        }
+        return undefined;
+      });
+
+      deviceCreatedAt = Date.now();
+      ourConversation = createMeWithBadges([]);
+
+      oldConversationController = window.ConversationController;
+      window.ConversationController = {
+        getOurConversation: () => ourConversation,
+        conversationUpdated: () => undefined,
+      } as unknown as ConversationController;
+    });
+
+    afterEach(() => {
+      window.ConversationController = oldConversationController;
+      sandbox.restore();
+    });
+
+    describe('standard_donate', async () => {
+      const megaphone = getMegaphone({
+        conditionalId: 'standard_donate',
+      });
+
+      it('true when desktop has been registered for a week and has no badges', () => {
+        deviceCreatedAt = Date.now() - 7 * DAY;
+        assert.strictEqual(isMegaphoneShowable(megaphone), true);
+      });
+
+      it('false with fresh linked desktop', () => {
+        assert.strictEqual(isMegaphoneShowable(megaphone), false);
+      });
+
+      it('false with badges', () => {
+        ourConversation = createMeWithBadges([{ id: 'cool' }]);
+        assert.strictEqual(isMegaphoneShowable(megaphone), false);
+      });
     });
   });
 });
