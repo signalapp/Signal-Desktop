@@ -245,6 +245,7 @@ export async function asymmetricRoundtripHarness(
     await backupsService.exportToDisk(targetOutputFile, {
       type: 'remote',
       level: options.backupLevel,
+      abortSignal: new AbortController().signal,
     });
 
     await updateConvoIdToTitle();

@@ -22,10 +22,7 @@ import * as Bytes from '../../Bytes.std.js';
 import { strictAssert } from '../../util/assert.std.js';
 import { drop } from '../../util/drop.std.js';
 import { TEMP_PATH } from '../../util/basePaths.preload.js';
-import {
-  getAbsoluteDownloadsPath,
-  saveAttachmentToDisk,
-} from '../../util/migrations.preload.js';
+import { getAbsoluteDownloadsPath } from '../../util/migrations.preload.js';
 import { waitForAllBatchers } from '../../util/batcher.std.js';
 import { flushAllWaitBatchers } from '../../util/waitBatcher.std.js';
 import { DelimitedStream } from '../../util/DelimitedStream.node.js';
@@ -51,7 +48,7 @@ import {
 } from '../../types/backups.node.js';
 import { HTTPError } from '../../types/HTTPError.std.js';
 import { constantTimeEqual } from '../../Crypto.node.js';
-import { measureSize } from '../../AttachmentCrypto.node.js';
+import { measureSize, safeUnlink } from '../../AttachmentCrypto.node.js';
 import { signalProtocolStore } from '../../SignalProtocolStore.preload.js';
 import { isTestOrMockEnvironment } from '../../environment.std.js';
 import { runStorageServiceSyncJob } from '../storage.preload.js';
@@ -94,6 +91,8 @@ import {
   writeLocalBackupFilesList,
   readLocalBackupFilesList,
   validateLocalBackupStructure,
+  getAllPathsInLocalBackupFilesDirectory,
+  getLocalBackupFilesDirectory,
 } from './util/localBackup.node.js';
 import {
   AttachmentPermanentlyMissingError,
@@ -327,6 +326,7 @@ export class BackupsService {
       const { totalBytes } = await this.exportToDisk(filePath, {
         type: 'remote',
         level: backupLevel,
+        abortSignal: new AbortController().signal,
       });
 
       await this.api.upload(filePath, totalBytes);
@@ -358,37 +358,78 @@ export class BackupsService {
       options.backupsBaseDir,
       `signal-backup-${getTimestampForFolder()}`
     );
-    await mkdir(snapshotDir, { recursive: true });
 
-    const freeSpaceBytes = await getFreeDiskSpace(snapshotDir);
+    const freeSpaceBytes = await getFreeDiskSpace(options.backupsBaseDir);
     const bytesNeeded = MIMINUM_DISK_SPACE_FOR_LOCAL_EXPORT - freeSpaceBytes;
     if (bytesNeeded > 0) {
       fnLog.info(
         `Not enough storage; only ${freeSpaceBytes} available, ${MIMINUM_DISK_SPACE_FOR_LOCAL_EXPORT} is minimum needed`
       );
-      throw new NotEnoughStorageError(bytesNeeded);
     }
 
-    const exportResult = await this.exportToDisk(join(snapshotDir, 'main'), {
-      type: 'local-encrypted',
-      snapshotDir,
+    const filesDir = getLocalBackupFilesDirectory({
+      backupsBaseDir: options.backupsBaseDir,
     });
 
-    const metadataArgs = {
-      snapshotDir,
-      backupId: getBackupId(),
-      metadataKey: getLocalBackupMetadataKey(),
-    };
-    await writeLocalBackupMetadata(metadataArgs);
-    await verifyLocalBackupMetadata(metadataArgs);
-    await this.#runLocalAttachmentBackupJobs({
-      attachmentBackupJobs: exportResult.attachmentBackupJobs,
-      baseDir: options.backupsBaseDir,
-      onProgress: options.onProgress,
-      abortSignal: options.abortSignal,
-    });
+    await mkdir(filesDir, { recursive: true });
 
-    return { ...exportResult, snapshotDir };
+    const attachmentPathsWrittenBeforeThisBackup =
+      await getAllPathsInLocalBackupFilesDirectory({
+        backupsBaseDir: options.backupsBaseDir,
+      });
+
+    try {
+      await mkdir(snapshotDir, { recursive: true });
+
+      const exportResult = await this.exportToDisk(join(snapshotDir, 'main'), {
+        type: 'local-encrypted',
+        snapshotDir,
+        abortSignal: options.abortSignal,
+      });
+
+      const metadataArgs = {
+        snapshotDir,
+        backupId: getBackupId(),
+        metadataKey: getLocalBackupMetadataKey(),
+      };
+      await writeLocalBackupMetadata(metadataArgs);
+      await verifyLocalBackupMetadata(metadataArgs);
+      await this.#runLocalAttachmentBackupJobs({
+        attachmentBackupJobs: exportResult.attachmentBackupJobs,
+        baseDir: options.backupsBaseDir,
+        onProgress: options.onProgress,
+        abortSignal: options.abortSignal,
+      });
+
+      return { ...exportResult, snapshotDir };
+    } catch (e) {
+      if (options.abortSignal.aborted) {
+        log.warn('exportLocalBackup aborted', Errors.toLogFormat(e));
+      } else {
+        log.error('exportLocalBackup encountered error', Errors.toLogFormat(e));
+      }
+
+      log.info('Deleting snapshot directory');
+      await rm(snapshotDir, { recursive: true, force: true });
+      log.info('Deleted Snapshot directory');
+
+      const attachmentPathsAfterBackup =
+        await getAllPathsInLocalBackupFilesDirectory({
+          backupsBaseDir: options.backupsBaseDir,
+        });
+
+      const pathsAdded = new Set(attachmentPathsAfterBackup).difference(
+        new Set(attachmentPathsWrittenBeforeThisBackup)
+      );
+
+      if (pathsAdded.size > 0) {
+        log.info(`Deleting ${pathsAdded.size} newly written files`);
+        await Promise.all([...pathsAdded].map(safeUnlink));
+        log.info(`Deleted ${pathsAdded.size} files`);
+      }
+
+      throw e;
+    }
   }
 
   async #runLocalAttachmentBackupJobs({
@@ -600,6 +641,7 @@ export class BackupsService {
         join(exportDir, 'main.jsonl'),
         {
           type: 'plaintext-export',
+          abortSignal,
         }
       );
 
@@ -667,6 +709,7 @@ export class BackupsService {
       const recordStream = new BackupExportStream({
         type: 'remote',
         level: BackupLevel.Free,
+        abortSignal: new AbortController().signal,
       });
 
       recordStream.run();
@@ -686,19 +729,6 @@ export class BackupsService {
     } catch (error) {
       return { error: Errors.toLogFormat(error) };
     }
-  }
-
-  // Test harness
-  public async exportWithDialog(): Promise<void> {
-    const { data } = await this.exportBackupData({
-      type: 'remote',
-      level: BackupLevel.Free,
-    });
-
-    await saveAttachmentToDisk({
-      name: 'backup.bin',
-      data,
-    });
   }
 
   public async importFromDisk(
@@ -1146,7 +1176,8 @@ export class BackupsService {
                 totalBytes = size;
               },
             }),
-            sink
+            sink,
+            { signal: options.abortSignal }
           );
           break;
         case 'cross-client-integration-test':
@@ -1161,7 +1192,8 @@ export class BackupsService {
                 totalBytes = size;
               },
             }),
-            sink
+            sink,
+            { signal: options.abortSignal }
           );
           break;
         case 'plaintext-export':
@@ -1172,7 +1204,8 @@ export class BackupsService {
                 totalBytes = size;
               },
             }),
-            sink
+            sink,
+            { signal: options.abortSignal }
           );
           break;
         default:
