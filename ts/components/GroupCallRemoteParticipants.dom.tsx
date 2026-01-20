@@ -68,6 +68,7 @@ type PropsType = {
   imageDataCache: React.RefObject<CallingImageDataCache>;
   isCallReconnecting: boolean;
   joinedAt: number | null;
+  onSidebarViewDiffersFromGridViewChange: (differs: boolean) => void;
   remoteParticipants: ReadonlyArray<GroupCallRemoteParticipantType>;
   setGroupCallVideoRequest: (
     _: Array<GroupCallVideoRequest>,
@@ -121,6 +122,7 @@ export function GroupCallRemoteParticipants({
   i18n,
   isCallReconnecting,
   joinedAt,
+  onSidebarViewDiffersFromGridViewChange,
   remoteParticipants,
   setGroupCallVideoRequest,
   remoteAudioLevels,
@@ -140,10 +142,7 @@ export function GroupCallRemoteParticipants({
   const { invisibleDemuxIds, onParticipantVisibilityChanged } =
     useInvisibleParticipants(remoteParticipants);
 
-  const minRenderedHeight =
-    callViewMode === CallViewMode.Paginated
-      ? SMALL_TILES_MIN_HEIGHT
-      : LARGE_TILES_MIN_HEIGHT;
+  const minRenderedHeight = getMinRenderedHeight(callViewMode);
 
   const isInSpeakerView =
     callViewMode === CallViewMode.Speaker ||
@@ -157,9 +156,7 @@ export function GroupCallRemoteParticipants({
 
   // 1. Figure out the maximum number of possible rows that could fit on the page.
   //    Could be 0 if (a) there are no participants (b) the container's height is small.
-  const maxRowsPerPage = Math.floor(
-    maxGridHeight / (minRenderedHeight + PARTICIPANT_MARGIN)
-  );
+  const maxRowsPerPage = getMaxRowsPerPage(maxGridHeight, minRenderedHeight);
 
   // 2. Sort the participants in priority order:  by `presenting` first, since presenters
   //   should be on the main grid, then by `speakerTime` so that the most recent speakers
@@ -227,6 +224,49 @@ export function GroupCallRemoteParticipants({
   ) {
     setPageIndex(gridParticipantsByPage.length - 1);
   }
+
+  // Calculate whether Sidebar view would look different from Grid (Paginated) view.
+  // They differ when Grid view would have multiple pages.
+  const minRenderedHeightForGridView = getMinRenderedHeight(
+    CallViewMode.Paginated
+  );
+  const maxRowsPerPageForGridView = getMaxRowsPerPage(
+    maxGridHeight,
+    minRenderedHeightForGridView
+  );
+  const sidebarViewDiffersFromGridView = useMemo(() => {
+    if (!prioritySortedParticipants.length || !maxRowsPerPageForGridView) {
+      return false;
+    }
+
+    // When in Grid view, we've already calculated with the right params
+    if (isInPaginationView) {
+      return gridParticipantsByPage.length > 1;
+    }
+
+    // For other views, calculate how many would fit on the first page of Grid view
+    const gridViewPages = getGridParticipantsByPage({
+      participants: prioritySortedParticipants,
+      maxRowWidth,
+      maxPages: 1,
+      maxRowsPerPage: maxRowsPerPageForGridView,
+      minRenderedHeight: minRenderedHeightForGridView,
+      maxParticipantsPerPage: MAX_PARTICIPANTS_PER_PAGE,
+    });
+
+    return gridViewPages[0].numParticipants < prioritySortedParticipants.length;
+  }, [
+    isInPaginationView,
+    gridParticipantsByPage.length,
+    maxRowWidth,
+    maxRowsPerPageForGridView,
+    minRenderedHeightForGridView,
+    prioritySortedParticipants,
+  ]);
+
+  useEffect(() => {
+    onSidebarViewDiffersFromGridViewChange(sidebarViewDiffersFromGridView);
+  }, [onSidebarViewDiffersFromGridViewChange, sidebarViewDiffersFromGridView]);
 
   const totalParticipantsInGrid = gridParticipantsByPage.reduce(
     (pageCount, { numParticipants }) => pageCount + numParticipants,
@@ -633,6 +673,19 @@ function participantWidthAtHeight(
   height: number
 ) {
   return participant.videoAspectRatio * height;
+}
+
+function getMinRenderedHeight(callViewMode: CallViewMode): number {
+  return callViewMode === CallViewMode.Paginated
+    ? SMALL_TILES_MIN_HEIGHT
+    : LARGE_TILES_MIN_HEIGHT;
+}
+
+function getMaxRowsPerPage(
+  maxGridHeight: number,
+  minRenderedHeight: number
+): number {
+  return Math.floor(maxGridHeight / (minRenderedHeight + PARTICIPANT_MARGIN));
 }
 
 function stableParticipantComparator(

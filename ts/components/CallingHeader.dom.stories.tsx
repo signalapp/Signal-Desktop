@@ -16,11 +16,13 @@ export default {
   argTypes: {
     isGroupCall: { control: { type: 'boolean' } },
     participantCount: { control: { type: 'number' } },
+    showSidebarViewOption: { control: { type: 'boolean' } },
   },
   args: {
     i18n,
     isGroupCall: false,
     participantCount: 0,
+    showSidebarViewOption: false,
     togglePip: action('toggle-pip'),
     callViewMode: CallViewMode.Paginated,
     changeCallView: action('change-call-view'),
