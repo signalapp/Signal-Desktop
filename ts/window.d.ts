@@ -55,6 +55,10 @@ export type IPCType = {
   setMediaCameraPermissions: (value: boolean) => Promise<void>;
   setMenuBarVisibility: (value: boolean) => void;
   showDebugLog: (options?: { mode?: 'submit' | 'close' }) => void;
+  showCallDiagnostic: () => void;
+  closeCallDiagnostic: () => void;
+  closeDebugLog: () => void;
+  updateCallDiagnosticData: (data: string) => void;
   showPermissionsPopup: (
     forCalling: boolean,
     forCamera: boolean
@@ -91,6 +95,11 @@ type DebugLogWindowPropsType = {
   mode: 'submit' | 'close';
 };
 
+type CallDiagnosticWindowPropsType = {
+  subscribe: (listener: () => void) => () => void;
+  getSnapshot: () => string | null;
+};
+
 type PermissionsWindowPropsType = {
   forCamera: boolean;
   forCalling: boolean;
@@ -113,6 +122,7 @@ type SettingsWindowPropsType = {
 
 export type SignalCoreType = {
   AboutWindowProps?: AboutWindowPropsType;
+  CallDiagnosticWindowProps?: CallDiagnosticWindowPropsType;
   DebugLogWindowProps?: DebugLogWindowPropsType;
   PermissionsWindowProps?: PermissionsWindowPropsType;
   ScreenShareWindowProps?: ScreenShareWindowPropsType;

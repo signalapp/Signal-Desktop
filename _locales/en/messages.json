@@ -10086,6 +10086,10 @@
     "messageformat": "This helps us learn more about calls and what is working or not working. You can view your debug log before submitting.",
     "description": "Call Quality Survey Dialog > Help us improve > Page Description"
   },
+  "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
+    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality.",
+    "description": "Call Quality Survey Dialog > Help us improve > Page Description with link to view diagnostic info"
+  },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Share debug log",
     "description": "Call Quality Survey Dialog > Help us improve > Share debug log > Label"
@@ -10097,6 +10101,14 @@
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
     "messageformat": "Debug logs contain low level app information and do not reveal any of your message contents.",
     "description": "Call Quality Survey Dialog > Help us improve > Share debug log > Help Text"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
+    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls.",
+    "description": "Call Quality Survey Dialog > Help us improve > Privacy note about what information is shared"
+  },
+  "icu:CallDiagnosticWindow__title": {
+    "messageformat": "Diagnostic information",
+    "description": "Title of the call diagnostic information window"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Submit",
