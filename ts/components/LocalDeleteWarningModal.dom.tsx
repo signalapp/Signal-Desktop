@@ -27,7 +27,7 @@ export function LocalDeleteWarningModal({
       <div className="LocalDeleteWarningModal">
         <div className="LocalDeleteWarningModal__image">
           <img
-            src="images/local-delete-sync.svg"
+            src="images/desktop-and-phone.svg"
             height="92"
             width="138"
             alt=""

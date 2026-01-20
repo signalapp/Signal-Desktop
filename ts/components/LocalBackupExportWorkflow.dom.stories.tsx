@@ -3,69 +3,42 @@
 
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { PlaintextExportWorkflow } from './PlaintextExportWorkflow.dom.js';
+import { LocalBackupExportWorkflow } from './LocalBackupExportWorkflow.dom.js';
 import {
   LocalExportErrors,
-  PlaintextExportSteps,
+  LocalBackupExportSteps,
 } from '../types/LocalExport.std.js';
 
-import type { PropsType } from './PlaintextExportWorkflow.dom.js';
+import type { PropsType } from './LocalBackupExportWorkflow.dom.js';
 import type { ComponentMeta } from '../storybook/types.std.js';
 
 const { i18n } = window.SignalContext;
 
 export default {
-  title: 'Components/PlaintextExportWorkflow',
-  component: PlaintextExportWorkflow,
+  title: 'Components/LocalBackupExportWorkflow',
+  component: LocalBackupExportWorkflow,
   args: {
     cancelWorkflow: action('cancelWorkflow'),
     clearWorkflow: action('clearWorkflow'),
     i18n,
     openFileInFolder: action('openFileInFolder'),
     osName: undefined,
-    verifyWithOSForExport: action('verifyWithOSForExport'),
     workflow: {
-      step: PlaintextExportSteps.ConfirmingExport,
+      step: LocalBackupExportSteps.ExportingMessages,
+      localBackupFolder: 'backups',
+      abortController: new AbortController(),
     },
   },
 } satisfies ComponentMeta<PropsType>;
 
-export function ConfirmingExport(args: PropsType): React.JSX.Element {
-  return <PlaintextExportWorkflow {...args} />;
-}
-
-export function ConfirmingWithOS(args: PropsType): React.JSX.Element {
-  return (
-    <PlaintextExportWorkflow
-      {...args}
-      workflow={{
-        step: PlaintextExportSteps.ConfirmingWithOS,
-        includeMedia: true,
-      }}
-    />
-  );
-}
-
-export function ChoosingLocation(args: PropsType): React.JSX.Element {
-  return (
-    <PlaintextExportWorkflow
-      {...args}
-      workflow={{
-        step: PlaintextExportSteps.ChoosingLocation,
-        includeMedia: true,
-      }}
-    />
-  );
-}
-
 export function ExportingMessages(args: PropsType): React.JSX.Element {
   return (
-    <PlaintextExportWorkflow
+    <LocalBackupExportWorkflow
       {...args}
       workflow={{
-        step: PlaintextExportSteps.ExportingMessages,
+        step: LocalBackupExportSteps.ExportingMessages,
         abortController: new AbortController(),
-        exportPath: '/somewhere',
+        localBackupFolder: '/somewhere',
       }}
     />
   );
@@ -73,12 +46,12 @@ export function ExportingMessages(args: PropsType): React.JSX.Element {
 
 export function ExportingAttachments(args: PropsType): React.JSX.Element {
   return (
-    <PlaintextExportWorkflow
+    <LocalBackupExportWorkflow
       {...args}
       workflow={{
-        step: PlaintextExportSteps.ExportingAttachments,
+        step: LocalBackupExportSteps.ExportingAttachments,
         abortController: new AbortController(),
-        exportPath: '/somewhere',
+        localBackupFolder: '/somewhere',
         progress: {
           totalBytes: 1000000,
           currentBytes: 500000,
@@ -90,12 +63,12 @@ export function ExportingAttachments(args: PropsType): React.JSX.Element {
 
 export function CompleteMac(args: PropsType): React.JSX.Element {
   return (
-    <PlaintextExportWorkflow
+    <LocalBackupExportWorkflow
       {...args}
       osName="macos"
       workflow={{
-        step: PlaintextExportSteps.Complete,
-        exportPath: '/somewhere',
+        step: LocalBackupExportSteps.Complete,
+        localBackupFolder: '/somewhere',
       }}
     />
   );
@@ -103,12 +76,12 @@ export function CompleteMac(args: PropsType): React.JSX.Element {
 
 export function CompleteLinux(args: PropsType): React.JSX.Element {
   return (
-    <PlaintextExportWorkflow
+    <LocalBackupExportWorkflow
       {...args}
       osName="windows"
       workflow={{
-        step: PlaintextExportSteps.Complete,
-        exportPath: '/somewhere',
+        step: LocalBackupExportSteps.Complete,
+        localBackupFolder: '/somewhere',
       }}
     />
   );
@@ -116,10 +89,10 @@ export function CompleteLinux(args: PropsType): React.JSX.Element {
 
 export function ErrorGeneric(args: PropsType): React.JSX.Element {
   return (
-    <PlaintextExportWorkflow
+    <LocalBackupExportWorkflow
       {...args}
       workflow={{
-        step: PlaintextExportSteps.Error,
+        step: LocalBackupExportSteps.Error,
         errorDetails: {
           type: LocalExportErrors.General,
         },
@@ -130,10 +103,10 @@ export function ErrorGeneric(args: PropsType): React.JSX.Element {
 
 export function ErrorNotEnoughStorage(args: PropsType): React.JSX.Element {
   return (
-    <PlaintextExportWorkflow
+    <LocalBackupExportWorkflow
       {...args}
       workflow={{
-        step: PlaintextExportSteps.Error,
+        step: LocalBackupExportSteps.Error,
         errorDetails: {
           type: LocalExportErrors.NotEnoughStorage,
           bytesNeeded: 12000000,
@@ -145,10 +118,10 @@ export function ErrorNotEnoughStorage(args: PropsType): React.JSX.Element {
 
 export function ErrorRanOutOfStorage(args: PropsType): React.JSX.Element {
   return (
-    <PlaintextExportWorkflow
+    <LocalBackupExportWorkflow
       {...args}
       workflow={{
-        step: PlaintextExportSteps.Error,
+        step: LocalBackupExportSteps.Error,
         errorDetails: {
           type: LocalExportErrors.RanOutOfStorage,
           bytesNeeded: 12000000,
@@ -160,10 +133,10 @@ export function ErrorRanOutOfStorage(args: PropsType): React.JSX.Element {
 
 export function ErrorStoragePermissions(args: PropsType): React.JSX.Element {
   return (
-    <PlaintextExportWorkflow
+    <LocalBackupExportWorkflow
       {...args}
       workflow={{
-        step: PlaintextExportSteps.Error,
+        step: LocalBackupExportSteps.Error,
         errorDetails: {
           type: LocalExportErrors.StoragePermissions,
         },

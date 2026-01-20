@@ -165,6 +165,9 @@ export type PropsType = {
   // PlaintextExportWorkflow
   shouldShowPlaintextExportWorkflow: boolean;
   renderPlaintextExportWorkflow: () => React.JSX.Element;
+  // LocalBackupExportWorkflow
+  shouldShowLocalBackupExportWorkflow: boolean;
+  renderLocalBackupExportWorkflow: () => React.JSX.Element;
 };
 
 export function GlobalModalContainer({
@@ -270,6 +273,9 @@ export function GlobalModalContainer({
   // PlaintextExportWorkflow
   shouldShowPlaintextExportWorkflow,
   renderPlaintextExportWorkflow,
+  // LocalBackupExportWorkflow
+  shouldShowLocalBackupExportWorkflow,
+  renderLocalBackupExportWorkflow,
 }: PropsType): React.JSX.Element | null {
   // We want the following dialogs to show in this order:
   // 0. Stateful multi-modal workflows
@@ -280,6 +286,10 @@ export function GlobalModalContainer({
 
   if (shouldShowPlaintextExportWorkflow) {
     return renderPlaintextExportWorkflow();
+  }
+
+  if (shouldShowLocalBackupExportWorkflow) {
+    return renderLocalBackupExportWorkflow();
   }
 
   // Errors

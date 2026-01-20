@@ -26,7 +26,6 @@ const log = createLogger('PreferencesInternal');
 
 export function PreferencesInternal({
   i18n,
-  exportLocalBackup: doExportLocalBackup,
   validateBackup: doValidateBackup,
   getMessageCountBySchemaVersion,
   getMessageSampleForSchemaVersion,
@@ -40,7 +39,6 @@ export function PreferencesInternal({
   setCallQualitySurveyCooldownDisabled,
 }: {
   i18n: LocalizerType;
-  exportLocalBackup: () => Promise<BackupValidationResultType>;
   validateBackup: () => Promise<BackupValidationResultType>;
   getMessageCountBySchemaVersion: () => Promise<MessageCountBySchemaVersionType>;
   getMessageSampleForSchemaVersion: (
@@ -64,11 +62,6 @@ export function PreferencesInternal({
   callQualitySurveyCooldownDisabled: boolean;
   setCallQualitySurveyCooldownDisabled: (value: boolean) => void;
 }): React.JSX.Element {
-  const [isExportPending, setIsExportPending] = useState(false);
-  const [exportResult, setExportResult] = useState<
-    BackupValidationResultType | undefined
-  >();
-
   const [messageCountBySchemaVersion, setMessageCountBySchemaVersion] =
     useState<MessageCountBySchemaVersionType>();
   const [messageSampleForVersions, setMessageSampleForVersions] = useState<{
@@ -150,18 +143,6 @@ export function PreferencesInternal({
     },
     []
   );
-
-  const exportLocalBackup = useCallback(async () => {
-    setIsExportPending(true);
-    setExportResult(undefined);
-    try {
-      setExportResult(await doExportLocalBackup());
-    } catch (error) {
-      setExportResult({ error: toLogFormat(error) });
-    } finally {
-      setIsExportPending(false);
-    }
-  }, [doExportLocalBackup]);
 
   // Donation receipt states
   const [isGeneratingReceipt, setIsGeneratingReceipt] = useState(false);
@@ -270,40 +251,6 @@ export function PreferencesInternal({
       </SettingsRow>
 
       <SettingsRow
-        className="Preferences--internal--backups"
-        title={i18n('icu:Preferences__internal__local-backups')}
-      >
-        <FlowingSettingsControl>
-          <div className="Preferences__two-thirds-flow">
-            {i18n(
-              'icu:Preferences__internal__export-local-backup--description'
-            )}
-          </div>
-          <div
-            className={classNames(
-              'Preferences__flow-button',
-              'Preferences__one-third-flow',
-              'Preferences__one-third-flow--align-right'
-            )}
-          >
-            <AxoButton.Root
-              variant="secondary"
-              size="lg"
-              onClick={exportLocalBackup}
-              disabled={isExportPending}
-              experimentalSpinner={
-                isExportPending ? { 'aria-label': i18n('icu:loading') } : null
-              }
-            >
-              {i18n('icu:Preferences__internal__export-local-backup')}
-            </AxoButton.Root>
-          </div>
-        </FlowingSettingsControl>
-
-        {renderValidationResult(exportResult)}
-      </SettingsRow>
-
-      <SettingsRow
         className="Preferences--internal--message-schemas"
         title="Message schema versions"
       >
@@ -327,7 +274,6 @@ export function PreferencesInternal({
                 );
                 setMessageSampleForVersions({});
               }}
-              disabled={isExportPending}
             >
               Fetch data
             </AxoButton.Root>
@@ -364,7 +310,6 @@ export function PreferencesInternal({
                                     [schemaVersion]: sampleMessages,
                                   });
                                 }}
-                                disabled={isExportPending}
                               >
                                 Sample
                               </button>

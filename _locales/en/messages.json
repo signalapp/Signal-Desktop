@@ -7480,6 +7480,30 @@
     "messageformat": "Your chat history can’t be exported because Signal doesn’t have permission to write files to disk. Try changing your disk's permissions or updating your system settings and then export again.",
     "description": "Detail text in dialog shown when we attempted to save a file during export but got a permissions error"
   },
+  "icu:LocalBackupExport--ProgressDialog--Header": {
+    "messageformat": "Exporting backup",
+    "description": "Title of a progress dialog that shows while exporting a local backup"
+  },
+  "icu:LocalBackupExport--CompleteDialog--Header": {
+    "messageformat": "Backup export complete",
+    "description": "Title of the dialog shown once the export is complete"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
+    "messageformat": "To restore this backup:",
+    "description": "Shown above a list of three bullet-point instructions that show users how to restore their chat history from this backup on their phone"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
+    "messageformat": "Transfer your backup folder to your phone's storage",
+    "description": "First step in instructions for users on how to restore their local chat history backup onto their phone"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
+    "messageformat": "Install a new copy of Signal on your phone",
+    "description": "Second step in instructions for users on how to restore their chat history backup onto their phone"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
+    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”",
+    "description": "Third step in instructions for users on how to restore their chat history backup onto their phone"
+  },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Moon icon",
     "description": "Screenreader description for the moon icon used to signify notification profiles"
@@ -7955,6 +7979,18 @@
   "icu:Preferences--local-backups-see-backup-key-again": {
     "messageformat": "See key again",
     "description": "Link text to return to the previous backup key page, shown when confirming the backup key for local message backups."
+  },
+  "icu:Preferences__local-backups-last-backup": {
+    "messageformat": "Last backup",
+    "description": "Label for the last backup date in local on-device backups settings."
+  },
+  "icu:Preferences__local-backups-last-backup-never": {
+    "messageformat": "Never",
+    "description": "Text shown when no local backup has been created yet."
+  },
+  "icu:Preferences__local-backups-backup-now": {
+    "messageformat": "Back up now",
+    "description": "Button to trigger a local backup immediately."
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Backup folder",

@@ -228,7 +228,7 @@ export function SmartPreferences(): React.JSX.Element | null {
   const { changeLocation } = useNavActions();
   const { showToast } = useToastActions();
   const { internalAddDonationReceipt } = useDonationsActions();
-  const { startPlaintextExport } = useBackupActions();
+  const { startPlaintextExport, startLocalBackupExport } = useBackupActions();
 
   // Selectors
 
@@ -289,8 +289,6 @@ export function SmartPreferences(): React.JSX.Element | null {
   };
 
   const validateBackup = () => backupsService._internalValidate();
-  const exportLocalBackup = () =>
-    backupsService._internalExportLocalEncryptedBackup();
   const pickLocalBackupFolder = () => backupsService.pickLocalBackupFolder();
 
   const doDeleteAllData = () => renderClearingDataView();
@@ -564,6 +562,7 @@ export function SmartPreferences(): React.JSX.Element | null {
     backupSubscriptionStatus,
     backupTier,
     cloudBackupStatus,
+    lastLocalBackup,
     localBackupFolder,
     backupMediaDownloadCompletedBytes,
     backupMediaDownloadTotalBytes,
@@ -821,7 +820,6 @@ export function SmartPreferences(): React.JSX.Element | null {
           defaultConversationColor={defaultConversationColor}
           deviceName={deviceName}
           emojiSkinToneDefault={emojiSkinToneDefault}
-          exportLocalBackup={exportLocalBackup}
           phoneNumber={phoneNumber}
           doDeleteAllData={doDeleteAllData}
           editCustomColor={editCustomColor}
@@ -874,6 +872,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           isSyncSupported={isSyncSupported}
           isSystemTraySupported={isSystemTraySupported}
           isInternalUser={isInternalUser}
+          lastLocalBackup={lastLocalBackup}
           lastSyncTime={lastSyncTime}
           localBackupFolder={localBackupFolder}
           localeOverride={localeOverride}
@@ -960,6 +959,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           setSettingsLocation={setSettingsLocation}
           shouldShowUpdateDialog={shouldShowUpdateDialog}
           showToast={showToast}
+          startLocalBackupExport={startLocalBackupExport}
           startPlaintextExport={startPlaintextExport}
           theme={theme}
           themeSetting={themeSetting}
