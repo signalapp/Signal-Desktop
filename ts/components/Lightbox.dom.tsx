@@ -67,6 +67,10 @@ const INITIAL_IMAGE_TRANSFORM = {
   scale: 1,
   translateX: 0,
   translateY: 0,
+};
+
+const IMAGE_SPRING_PROPS = {
+  from: INITIAL_IMAGE_TRANSFORM,
   config: {
     clamp: true,
     friction: 20,
@@ -368,7 +372,7 @@ export function Lightbox({
   }, [isViewOnce, isAttachmentGIF, onTimeUpdate, playVideo, videoElement]);
 
   const [{ scale, translateX, translateY }, springApi] = useSpring(
-    () => INITIAL_IMAGE_TRANSFORM
+    () => IMAGE_SPRING_PROPS
   );
 
   const thumbnailsMarginInlineStart =
