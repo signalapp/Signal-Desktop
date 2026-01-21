@@ -285,6 +285,8 @@ import {
 import { JobCancelReason } from './jobs/types.std.js';
 import { itemStorage } from './textsecure/Storage.preload.js';
 import { isPinnedMessagesReceiveEnabled } from './util/isPinnedMessagesEnabled.dom.js';
+import { initMessageCleanup } from './services/messageStateCleanup.dom.js';
+import { MessageCache } from './services/MessageCache.preload.js';
 
 const { isNumber, throttle } = lodash;
 
@@ -550,6 +552,9 @@ export async function startApp(): Promise<void> {
     restoreRemoteConfigFromStorage({
       storage: itemStorage,
     });
+
+    MessageCache.install();
+    initMessageCleanup();
 
     window.Whisper.events.on('firstEnvelope', checkFirstEnvelope);
 
