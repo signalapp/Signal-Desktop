@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { CallSummary } from '@signalapp/ringrtc';
-import { DAY, MINUTE } from './durations/index.std.js';
+import { DAY, SECOND } from './durations/index.std.js';
 import { isFeaturedEnabledNoRedux } from './isFeatureEnabled.dom.js';
 import { isMockEnvironment } from '../environment.std.js';
 import {
@@ -23,8 +23,7 @@ const FAILURE_END_REASONS: ReadonlySet<string> = new Set([
 ]);
 
 const SURVEY_COOLDOWN = DAY;
-const SHORT_CALL_THRESHOLD = MINUTE;
-const LONG_CALL_THRESHOLD = 25 * MINUTE;
+const TEST_SHORT_CALL_THRESHOLD = 30 * SECOND;
 const DEFAULT_PPM = 10000; // 1% default
 
 export function isCallFailure(callEndReasonText: string): boolean {
@@ -43,13 +42,13 @@ export function shouldShowCallQualitySurvey({
   lastSurveyTime,
   lastFailureSurveyTime,
   e164,
-  bypassCooldown,
+  cqsTestMode,
 }: {
   callSummary: CallSummary;
   lastSurveyTime: number | null;
   lastFailureSurveyTime: number | null;
   e164: string | undefined;
-  bypassCooldown?: boolean;
+  cqsTestMode?: boolean;
 }): boolean {
   if (
     isMockEnvironment() ||
@@ -63,7 +62,7 @@ export function shouldShowCallQualitySurvey({
   const isFailure = isCallFailure(callSummary.callEndReasonText);
 
   const canShowFailureSurvey =
-    bypassCooldown ||
+    cqsTestMode ||
     lastFailureSurveyTime == null ||
     now - lastFailureSurveyTime > SURVEY_COOLDOWN;
   if (isFailure && canShowFailureSurvey) {
@@ -71,7 +70,7 @@ export function shouldShowCallQualitySurvey({
   }
 
   const canShowGeneralSurvey =
-    bypassCooldown ||
+    cqsTestMode ||
     lastSurveyTime == null ||
     now - lastSurveyTime > SURVEY_COOLDOWN;
   if (!canShowGeneralSurvey) {
@@ -80,11 +79,7 @@ export function shouldShowCallQualitySurvey({
 
   const callDuration = callSummary.endTime - callSummary.startTime;
 
-  if (callDuration < SHORT_CALL_THRESHOLD) {
-    return true;
-  }
-
-  if (callDuration > LONG_CALL_THRESHOLD) {
+  if (cqsTestMode && callDuration < TEST_SHORT_CALL_THRESHOLD) {
     return true;
   }
 

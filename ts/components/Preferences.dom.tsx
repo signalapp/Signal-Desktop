@@ -331,8 +331,8 @@ type PropsFunctionType = {
   __dangerouslyRunAbitraryReadOnlySqlQuery: (
     readonlySqlQuery: string
   ) => Promise<ReadonlyArray<RowType<object>>>;
-  callQualitySurveyCooldownDisabled: boolean;
-  setCallQualitySurveyCooldownDisabled: (value: boolean) => void;
+  cqsTestMode: boolean;
+  setCqsTestMode: (value: boolean) => void;
 
   // Localization
   i18n: LocalizerType;
@@ -543,8 +543,8 @@ export function Preferences({
   generateDonationReceiptBlob,
   internalDeleteAllMegaphones,
   __dangerouslyRunAbitraryReadOnlySqlQuery,
-  callQualitySurveyCooldownDisabled,
-  setCallQualitySurveyCooldownDisabled,
+  cqsTestMode,
+  setCqsTestMode,
 }: PropsType): React.JSX.Element {
   const storiesId = useId();
   const themeSelectId = useId();
@@ -2297,12 +2297,8 @@ export function Preferences({
             __dangerouslyRunAbitraryReadOnlySqlQuery={
               __dangerouslyRunAbitraryReadOnlySqlQuery
             }
-            callQualitySurveyCooldownDisabled={
-              callQualitySurveyCooldownDisabled
-            }
-            setCallQualitySurveyCooldownDisabled={
-              setCallQualitySurveyCooldownDisabled
-            }
+            cqsTestMode={cqsTestMode}
+            setCqsTestMode={setCqsTestMode}
           />
         }
         contentsRef={settingsPaneRef}

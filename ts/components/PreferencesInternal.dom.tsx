@@ -35,8 +35,8 @@ export function PreferencesInternal({
   generateDonationReceiptBlob,
   internalDeleteAllMegaphones,
   __dangerouslyRunAbitraryReadOnlySqlQuery,
-  callQualitySurveyCooldownDisabled,
-  setCallQualitySurveyCooldownDisabled,
+  cqsTestMode,
+  setCqsTestMode,
 }: {
   i18n: LocalizerType;
   validateBackup: () => Promise<BackupValidationResultType>;
@@ -59,8 +59,8 @@ export function PreferencesInternal({
   __dangerouslyRunAbitraryReadOnlySqlQuery: (
     readonlySqlQuery: string
   ) => Promise<ReadonlyArray<RowType<object>>>;
-  callQualitySurveyCooldownDisabled: boolean;
-  setCallQualitySurveyCooldownDisabled: (value: boolean) => void;
+  cqsTestMode: boolean;
+  setCqsTestMode: (value: boolean) => void;
 }): React.JSX.Element {
   const [messageCountBySchemaVersion, setMessageCountBySchemaVersion] =
     useState<MessageCountBySchemaVersionType>();
@@ -441,12 +441,12 @@ export function PreferencesInternal({
       <SettingsRow title="Call Quality Survey Testing">
         <FlowingSettingsControl>
           <div className="Preferences__two-thirds-flow">
-            Disable 24h cooldown
+            CQS testing: disable cooldown and always show for calls under 30s
           </div>
           <div className="Preferences__one-third-flow Preferences__one-third-flow--justify-end">
             <AxoSwitch.Root
-              checked={callQualitySurveyCooldownDisabled}
-              onCheckedChange={setCallQualitySurveyCooldownDisabled}
+              checked={cqsTestMode}
+              onCheckedChange={setCqsTestMode}
             />
           </div>
         </FlowingSettingsControl>
