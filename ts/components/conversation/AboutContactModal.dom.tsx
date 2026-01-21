@@ -174,7 +174,7 @@ export function AboutContactModal({
         <i className="AboutContactModal__row__icon AboutContactModal__row__icon--profile" />
 
         {canHaveNicknameAndNote(conversation) &&
-        (conversation.nicknameGivenName || conversation.nicknameFamilyName) &&
+        conversation.titleNoNickname !== conversation.title &&
         conversation.titleNoNickname ? (
           <span>
             <I18n
