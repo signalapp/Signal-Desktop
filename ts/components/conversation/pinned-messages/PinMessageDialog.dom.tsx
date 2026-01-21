@@ -93,34 +93,34 @@ export const PinMessageDialog = memo(function PinMessageDialog(
     [onOpenChange]
   );
 
-  const submit = useCallback(() => {
-    strictAssert(
-      duration != null,
-      'Duration should not be null when submitting'
-    );
-    const durationValue = DURATION_OPTIONS[duration];
-    onPinnedMessageAdd(messageId, durationValue);
-    handleOpenChange(false);
-  }, [onPinnedMessageAdd, messageId, duration, handleOpenChange]);
+  const submit = useCallback(
+    (selectedDuration: DurationOption) => {
+      const durationValue = DURATION_OPTIONS[selectedDuration];
+      onPinnedMessageAdd(messageId, durationValue);
+      handleOpenChange(false);
+    },
+    [onPinnedMessageAdd, messageId, handleOpenChange]
+  );
 
   const handleConfirmReplaceOldestPin = useCallback(() => {
     setConfirmedReplaceOldestPin(true);
   }, []);
 
   const handleSelectDuration = useCallback(
-    (selected: DurationOption) => {
-      setDuration(selected);
+    (selectedDuration: DurationOption) => {
+      setDuration(selectedDuration);
       if (!needsConfirmDisappearingMessages) {
-        submit();
+        submit(selectedDuration);
       }
     },
     [needsConfirmDisappearingMessages, submit]
   );
 
   const handleConfirmDisappearingMessages = useCallback(() => {
+    strictAssert(duration != null, 'Duration should not be null');
     onSeenPinMessageDisappearingMessagesWarning();
-    submit();
-  }, [onSeenPinMessageDisappearingMessagesWarning, submit]);
+    submit(duration);
+  }, [onSeenPinMessageDisappearingMessagesWarning, duration, submit]);
 
   let step: Step;
   if (!props.open) {
