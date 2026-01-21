@@ -319,6 +319,13 @@ export const getConversationMessages = createSelector(
   }
 );
 
+export const getConversationIsReady: StateSelector<boolean> = createSelector(
+  getConversationMessages,
+  conversationMessages => {
+    return conversationMessages != null;
+  }
+);
+
 export const getPinnedMessages: StateSelector<ReadonlyArray<PinnedMessage>> =
   createSelector(getConversationMessages, conversationMessages => {
     return conversationMessages?.pinnedMessages ?? [];

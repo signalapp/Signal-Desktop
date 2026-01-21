@@ -103,7 +103,6 @@ const commonProps: PropsType = {
   shouldShowMiniPlayer: false,
   renderMiniPlayer,
 
-  shouldShowPinnedMessagesBar: false,
   renderPinnedMessagesBar,
 };
 
@@ -600,10 +599,7 @@ export function WithJustMiniPlayer(): React.JSX.Element {
 }
 
 export function WithJustPinnedMessagesBar(): React.JSX.Element {
-  const props: PropsType = {
-    ...commonProps,
-    shouldShowPinnedMessagesBar: true,
-  };
+  const props: PropsType = commonProps;
   const theme = useContext(StorybookThemeContext);
 
   return <ConversationHeader {...props} theme={theme} />;
@@ -613,7 +609,6 @@ export function WithMinPlayerAndPinnedMessagesBar(): React.JSX.Element {
   const props: PropsType = {
     ...commonProps,
     shouldShowMiniPlayer: true,
-    shouldShowPinnedMessagesBar: true,
   };
   const theme = useContext(StorybookThemeContext);
 
