@@ -869,7 +869,8 @@ type ReadableInterface = {
 
   getMessageByAuthorAciAndSentAt: (
     authorAci: AciString,
-    sentAtTimestamp: number
+    sentAtTimestamp: number,
+    options: { includeEdits: boolean }
   ) => MessageType | null;
   getMessageBySender: (options: {
     source?: string;

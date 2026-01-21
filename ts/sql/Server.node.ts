@@ -49,7 +49,7 @@ import { isNormalNumber } from '../util/isNormalNumber.std.js';
 import { isNotNil } from '../util/isNotNil.std.js';
 import { parseIntOrThrow } from '../util/parseIntOrThrow.std.js';
 import { updateSchema } from './migrations/index.node.js';
-import type { JSONRows, QueryFragment, QueryTemplate } from './util.std.js';
+import type { JSONRows, QueryTemplate, QueryFragment } from './util.std.js';
 import {
   batchMultiVarQuery,
   bulkAdd,
@@ -3322,16 +3322,29 @@ function getAllMessageIds(db: ReadableDB): Array<string> {
 function getMessageByAuthorAciAndSentAt(
   db: ReadableDB,
   authorAci: AciString,
-  sentAtTimestamp: number
+  sentAtTimestamp: number,
+  options: { includeEdits: boolean }
 ): MessageType | null {
   return db.transaction(() => {
-    const [query, params] = sql`
+    const editedMessagesQuery = sqlFragment`
+      SELECT ${MESSAGE_COLUMNS_SELECT}
+      FROM edited_messages
+      INNER JOIN messages ON
+        messages.id = edited_messages.messageId
+      WHERE messages.sourceServiceId = ${authorAci}
+        AND edited_messages.sentAt = ${sentAtTimestamp}
+    `;
+
+    const messagesQuery = sqlFragment`
       SELECT ${MESSAGE_COLUMNS_SELECT}
       FROM messages
-      WHERE sourceServiceId = ${authorAci}
-        AND sent_at = ${sentAtTimestamp}
-      LIMIT 2;
+      WHERE messages.sourceServiceId = ${authorAci}
+        AND messages.sent_at = ${sentAtTimestamp}
     `;
+
+    const [query, params] = options.includeEdits
+      ? sql`${editedMessagesQuery} UNION ${messagesQuery} LIMIT 2;`
+      : sql`${messagesQuery} LIMIT 2;`;
 
     const rows = db.prepare(query).all<MessageTypeUnhydrated>(params);
 
