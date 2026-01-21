@@ -1083,10 +1083,10 @@
     "messageformat": "Information"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "Fastgør"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Frigør"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Afslut afstemning"
@@ -1251,7 +1251,7 @@
     "messageformat": "Flere handlinger"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Frigør"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Gå til besked"
@@ -5166,16 +5166,16 @@
     "messageformat": "Links"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "Sortér efter"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "Sortér efter"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "Dato"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "Størrelse"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Ingen mediefiler"
@@ -7637,6 +7637,6 @@
     "messageformat": "Afstemninger i Signal på computer har nu de samme diskrete animationer som på din telefon. Det kræver kun en afstemning at se dit favoritvalg trække fra."
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "Vi kan ikke fjerne den akavede stilhed bagefter, men vi har rettet en fejl, der nogle gange gjorde, at indikatoren for oprakt hånd blev der (med en tæller på nul), hvis nogen hurtigt hævede og sænkede hånden."
   }
 }

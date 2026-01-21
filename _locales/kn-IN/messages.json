@@ -1083,10 +1083,10 @@
     "messageformat": "ಮಾಹಿತಿ"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "PIN"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "ಅನ್‌ಪಿನ್"
   },
   "icu:Poll__end-poll": {
     "messageformat": "ಸಮೀಕ್ಷೆಯನ್ನು ಕೊನೆಗೊಳಿಸಿ"
@@ -1251,7 +1251,7 @@
     "messageformat": "ಇನ್ನಷ್ಟು ಕ್ರಮಗಳು"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "ಅನ್‌ಪಿನ್"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "ಮೆಸೇಜ್‌ಗೆ ಹೋಗಿ"
@@ -5166,16 +5166,16 @@
     "messageformat": "ಲಿಂಕ್‌ಗಳು"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "ಈ ಪ್ರಕಾರ ವಿಂಗಡಿಸಿ"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "ಈ ಪ್ರಕಾರ ವಿಂಗಡಿಸಿ"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "ದಿನಾಂಕ"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "ಗಾತ್ರ"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "ಮೀಡಿಯಾ ಇಲ್ಲ"
@@ -7637,6 +7637,6 @@
     "messageformat": "ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಲ್ಲಿನ Signal ಸಮೀಕ್ಷೆಗಳು ಈಗ ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ ಈಗಾಗಲೇ ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತಿದ್ದ ಅದೇ ಸೂಕ್ಷ್ಮ ಅನಿಮೇಷನ್ ಎಫೆಕ್ಟ್‌ಗಳನ್ನು ಒಳಗೊಂಡಿವೆ. ನಿಮ್ಮ ನೆಚ್ಚಿನ ಆಯ್ಕೆಯನ್ನು ಹಿಂಪಡೆಯುವುದನ್ನು ವೀಕ್ಷಿಸುವುದು ಕೇವಲ ಒಂದು ಸಮೀಕ್ಷೆಯ ದೂರದಲ್ಲಿದೆ."
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "ನಂತರದ ವಿಚಿತ್ರವಾದ ಮೌನವನ್ನು ನಾವು ಸರಿಪಡಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ, ಆದರೆ ಯಾರಾದರೂ ನಿಜವಾಗಿಯೂ ಬೇಗನೆ ಕೈ ಎತ್ತಿ ಕೆಳಕ್ಕೆ ಇಳಿಸಿದರೆ ಕೆಲವೊಮ್ಮೆ ಎತ್ತಿದ ಕೈ ಸೂಚಕವು ಗೋಚರಿಸುವುದಕ್ಕೆ (ಶೂನ್ಯ ಎಣಿಕೆಯೊಂದಿಗೆ) ಕಾರಣವಾಗುವ ಬಗ್ ಅನ್ನು ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ."
   }
 }

@@ -1086,7 +1086,7 @@
     "messageformat": "Pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Nyahpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Tamatkan Undian"
@@ -1251,7 +1251,7 @@
     "messageformat": "Lebih tindakan"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Nyahpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Pergi ke Mesej"
@@ -5166,16 +5166,16 @@
     "messageformat": "Pautan"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "Susun mengikut"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "Susun mengikut"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "Tarikh"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "Saiz"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Tiada media"
@@ -7637,6 +7637,6 @@
     "messageformat": "Animasi untuk undian Signal dipertingkatkan."
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "Kami telah membetulkan pepijat paparan kecil pada penunjuk angkat tangan dalam panggilan kumpulan."
   }
 }

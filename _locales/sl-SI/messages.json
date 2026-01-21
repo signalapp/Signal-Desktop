@@ -1083,10 +1083,10 @@
     "messageformat": "Info"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "Pripni"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Odpni"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Zaključi anketo"
@@ -1251,7 +1251,7 @@
     "messageformat": "Več dejanj"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Odpni"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Pojdi na sporočilo"
@@ -5166,16 +5166,16 @@
     "messageformat": "Povezave"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "Razvrsti po"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "Razvrsti po"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "Datumu"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "Velikosti"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Ni multimedijskih sporočil"
@@ -7637,6 +7637,6 @@
     "messageformat": "Izboljšana animacija za Ankete Signal."
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "Odpravili smo manjšo napako v zvezi s prikazom dvignjene roke v skupinskih klicih."
   }
 }

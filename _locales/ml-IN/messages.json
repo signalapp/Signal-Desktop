@@ -1083,10 +1083,10 @@
     "messageformat": "വിവരം"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "പിൻ ചെയ്യുക"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "അൺപിൻ ചെയ്യുക"
   },
   "icu:Poll__end-poll": {
     "messageformat": "പോൾ അവസാനിപ്പിക്കുക"
@@ -1251,7 +1251,7 @@
     "messageformat": "കൂടുതൽ പ്രവർത്തനങ്ങൾ"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "അൺപിൻ ചെയ്യുക"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "സന്ദേശത്തിലേക്ക് പോകുക"
@@ -5166,16 +5166,16 @@
     "messageformat": "ലിങ്കുകൾ"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "ഇങ്ങനെ അടുക്കുക"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "ഇങ്ങനെ അടുക്കുക"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "തീയതി"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "വലുപ്പം"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "ഒന്നുമില്ല"
@@ -7637,6 +7637,6 @@
     "messageformat": "ഡെസ്‌ക്‌ടോപ്പിലെ Signal പോളുകളിൽ ഇപ്പോൾ നിങ്ങളുടെ ഫോണിൽ ദൃശ്യമാകുന്ന അതേ സൂക്ഷ്മമായ ആനിമേഷൻ ഇഫക്റ്റുകൾ ഉൾപ്പെടുന്നു. പോളിൽ പങ്കെടുക്കുന്നതിലൂടെ നിങ്ങൾക്ക് പ്രിയപ്പട്ടവയെ മുൻനിരയിലെത്തിക്കാൻ നിങ്ങൾക്കാകും."
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "തുടർന്നുണ്ടാകുന്ന അസ്വാഭാവികമായ നിശബ്ദത പരിഹരിക്കാൻ ഞങ്ങൾക്ക് കഴിയില്ല, എന്നാൽ ആരെങ്കിലും വളരെ വേഗത്തിൽ കൈ ഉയർത്തുകയും താഴ്ത്തുകയും ചെയ്താൽ ഉയർത്തിയ കൈ സൂചകം ദൃശ്യമാകുന്ന ഒരു ബഗ് (പൂജ്യം എണ്ണത്തിൽ) ഞങ്ങൾ പരിഹരിച്ചിട്ടുണ്ട്."
   }
 }

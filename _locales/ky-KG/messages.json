@@ -1083,10 +1083,10 @@
     "messageformat": "Маалымат"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "Кадоо"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Бошотуу"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Добуш берүүнү бүтүрүү"
@@ -1251,7 +1251,7 @@
     "messageformat": "Дагы"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Бошотуу"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Билдирүүгө өтүү"
@@ -5166,16 +5166,16 @@
     "messageformat": "Шилтемелер"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "Кантип иргелет:"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "Кантип иргелет:"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "Күн боюнча"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "Өлчөм боюнча"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Эч нерсе жок"
@@ -7637,6 +7637,6 @@
     "messageformat": "Компьютердеги Signal'дын сурамжылоолору эми телефондогудай сонун анимациялар менен коштолот. Бир добуш көп нерсени чечип коет."
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "Оңтойсуз тынчтыкты буза албайбыз, бирок кээде көз ачып жумгуча көтөрүлүп түшүрүлгөн кол көрүнбөй калган мүчүлүштүктү оңдоп койдук (нөл деп эсептелген)."
   }
 }

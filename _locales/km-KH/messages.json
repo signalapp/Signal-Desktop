@@ -1083,10 +1083,10 @@
     "messageformat": "ព័ត៌មាន"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "ខ្ទាស់"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "ឈប់ខ្ទាស់"
   },
   "icu:Poll__end-poll": {
     "messageformat": "បញ្ចប់ការស្ទង់មតិ"
@@ -1251,7 +1251,7 @@
     "messageformat": "សកម្មភាពច្រើនទៀត"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "ឈប់ខ្ទាស់"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "ចូលទៅកាន់សារ"
@@ -5166,16 +5166,16 @@
     "messageformat": "តំណ"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "តម្រៀបតាម"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "តម្រៀបតាម"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "កាលបរិច្ឆេទ"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "ទំហំ"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "គ្មានមេឌៀ"
@@ -7637,6 +7637,6 @@
     "messageformat": "ការស្ទង់មតិ Signal នៅលើ Desktop ឥឡូវនេះរួមបញ្ចូលបែបផែនចលនាស្រាលៗដូចគ្នាដែលបានបង្ហាញរួចហើយនៅលើទូរសព្ទរបស់អ្នក។ ការបោះឆ្នោតរបស់អ្នកនៅក្នុងការស្ទង់មតិអាចជួយឱ្យជម្រើសដែលអ្នកចូលចិត្ត ឈ្នះគេឬអត់បាន។"
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "យើងបានដោះស្រាយបញ្ហាតូចមួយទាក់ទងនឹងការបង្ហាញ ដែលពេលខ្លះរូបលើកដៃឡើងនៅតែអាចមើលឃើញ ដោយគេគ្រាន់តែលើកដៃមួយភ្លែត រួចហើយដាក់ដៃចុះភ្លាមវិញ (ទោះបីជាគ្មាននរណាលើកដៃក៏ដោយ)។"
   }
 }

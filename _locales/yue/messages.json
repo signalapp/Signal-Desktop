@@ -1083,10 +1083,10 @@
     "messageformat": "詳細"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "置頂"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "取消置頂"
   },
   "icu:Poll__end-poll": {
     "messageformat": "結束投票"
@@ -1251,7 +1251,7 @@
     "messageformat": "其他操作"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "取消置頂"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "跳去「訊息」"
@@ -5166,16 +5166,16 @@
     "messageformat": "連結"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "排序方法"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "排序方法"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "日期"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "檔案大細"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "冇任何媒體"
@@ -7637,6 +7637,6 @@
     "messageformat": "而家桌面版 Signal 嘅投票功能，同手機版一樣會有細緻嘅動畫效果。只要投票就可以睇到你嘅心水選項點樣大獲全勝。"
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "俾人見到舉錯手係有啲尷尬嘅，好彩我們整返好個錯誤 – 之前，喺谷通話嗰陣，如果有人舉手之後即刻放低手，有時個舉手指示唔會消失（而且舉手計數顯示係零）。"
   }
 }

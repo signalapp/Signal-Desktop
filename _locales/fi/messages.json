@@ -1083,10 +1083,10 @@
     "messageformat": "Tietoja"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "Kiinnitä"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Irrota"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Lopeta kysely"
@@ -1251,7 +1251,7 @@
     "messageformat": "Lisätoimintoja"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Irrota"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Siirry viestiin"
@@ -5166,16 +5166,16 @@
     "messageformat": "Linkit"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "Järjestä:"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "Järjestä:"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "Päiväys"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "Koko"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Ei mediatiedostoja"
@@ -7637,6 +7637,6 @@
     "messageformat": "Parannetut animaatiot kyselyissä Signal Desktopissa."
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "Korjasimme pienen virheen käden noston ilmaisimessa ryhmäkeskusteluissa."
   }
 }

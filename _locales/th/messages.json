@@ -1083,10 +1083,10 @@
     "messageformat": "ข้อมูล"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "ปักหมุด"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "เลิกปักหมุด"
   },
   "icu:Poll__end-poll": {
     "messageformat": "ปิดโพล"
@@ -1251,7 +1251,7 @@
     "messageformat": "การกระทำเพิ่มเติม"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "เลิกปักหมุด"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "ไปที่ข้อความ"
@@ -5166,16 +5166,16 @@
     "messageformat": "ลิงก์"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "เรียงลำดับตาม"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "เรียงลำดับตาม"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "วันที่"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "ขนาด"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "ไม่มีสื่อ"
@@ -7637,6 +7637,6 @@
     "messageformat": "เพิ่มลูกเล่นภาพเคลื่อนไหวในฟีเจอร์โพลของ Signal"
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "แก้ไขบั๊กเกี่ยวกับตัวแจ้งสถานะเมื่อมีคนยกมือในสายโทรกลุ่ม"
   }
 }

@@ -1083,10 +1083,10 @@
     "messageformat": "Részletek"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "Rögzítés"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Feloldás"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Szavazás befejezése"
@@ -1251,7 +1251,7 @@
     "messageformat": "További tevékenységek"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Feloldás"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Ugrás az Üzenetekhez"
@@ -5166,16 +5166,16 @@
     "messageformat": "Hivatkozások"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "Rendezés"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "Rendezés"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "Dátum"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "Méret"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Nincs médiafájl"
@@ -7637,6 +7637,6 @@
     "messageformat": "Az Asztalon megjelenő Signal-szavazatok mostantól ugyanazokat a finom animációs effektusokat tartalmazzák, mint amelyek már eddig is megjelentek a telefonodon. Csak egy szavazásnyira vagy attól, hogy kedvenc jelölted elhúzzon a többiektől."
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "Kijavítottunk egy kisebb megjelenítési hibát a felemelt kéz jelzőjével kapcsolatban a csoportos hívásokban."
   }
 }

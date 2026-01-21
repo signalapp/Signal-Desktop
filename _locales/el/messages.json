@@ -1083,10 +1083,10 @@
     "messageformat": "Πληροφορίες"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "Καρφίτσωμα"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Ξεκαρφίτσωμα"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Λήξη δημοσκόπησης"
@@ -1251,7 +1251,7 @@
     "messageformat": "Περισσότερες ενέργειες"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Ξεκαρφίτσωμα"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Μετάβαση στο Μήνυμα"
@@ -5166,16 +5166,16 @@
     "messageformat": "Σύνδεσμοι"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "Ταξινόμηση κατά"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "Ταξινόμηση κατά"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "Ημερομηνία"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "Μέγεθος"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Κανένα πολυμέσο"
@@ -7637,6 +7637,6 @@
     "messageformat": "Οι δημοσκοπήσεις Signal στην επιφάνεια εργασίας περιλαμβάνουν πλέον τα ίδια ανεπαίσθητα εφέ κίνησης που εμφανίζονταν ήδη στο τηλέφωνό σου."
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "Διορθώσαμε ένα μικρό σφάλμα στην οθόνη με την ένδειξη σηκωμένου χεριού στις ομαδικές κλήσεις."
   }
 }

@@ -1083,10 +1083,10 @@
     "messageformat": "Info"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "Fest"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Løsne"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Avslutt avstemningen"
@@ -1251,7 +1251,7 @@
     "messageformat": "Flere funksjoner"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Løsne"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Gå til meldingen"
@@ -5166,16 +5166,16 @@
     "messageformat": "Lenker"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "Sorter etter"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "Sorter etter"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "Dato"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "Størrelse"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Ingen mediefiler"
@@ -7637,6 +7637,6 @@
     "messageformat": "Animasjonene i Signal-avstemninger har blitt forbedret."
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "Vi rettet opp i en liten feil med indikatoren som viser at noen har rukket opp hånden i en gruppesamtale."
   }
 }

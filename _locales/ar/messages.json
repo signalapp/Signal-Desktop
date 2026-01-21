@@ -1083,10 +1083,10 @@
     "messageformat": "معلومات"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "تثبيت"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "إزالة التثبيت"
   },
   "icu:Poll__end-poll": {
     "messageformat": "إنهاء الاستطلاع"
@@ -1251,7 +1251,7 @@
     "messageformat": "إجراءات أخرى"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "إزالة التثبيت"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "انتقل إلى الرسالة"
@@ -5166,16 +5166,16 @@
     "messageformat": "الروابط"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "الترتيب بحسب"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "الترتيب بحسب"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "التاريخ"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "الحجم"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "لا يوجد ملف وسائط"
@@ -7637,6 +7637,6 @@
     "messageformat": "تتضمن استطلاعات سيجنال على نسخة سطح المكتب الآن نفس تأثيرات الصور المتحركة التي كانت تظهر مُسبقًا على هاتفك. تابِع تقدُّم خيارك المُفضَّل لحظة بلحظة مع كل تصويت."
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "أصلحنا خللًا بسيطًا في عرض أيقونة رفع اليد أثناء المكالمات الجماعية."
   }
 }

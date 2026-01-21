@@ -1083,10 +1083,10 @@
     "messageformat": "Detalles"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "Fijar"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Desfijar"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Finalizar encuesta"
@@ -1251,7 +1251,7 @@
     "messageformat": "Más acciones"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Desfijar"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Ir al mensaje"
@@ -4479,7 +4479,7 @@
     "messageformat": "Fotos y vídeos"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "Archivo"
+    "messageformat": "Documento"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
     "messageformat": "Encuesta"
@@ -5166,16 +5166,16 @@
     "messageformat": "Enlaces"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "Ordenar por"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "Ordenar por"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "Fecha"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "Tamaño"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "No hay archivos multimedia"
@@ -5589,7 +5589,7 @@
     "messageformat": "Exportación completa"
   },
   "icu:PlaintextExport--CompleteDialog--Description": {
-    "messageformat": "<bold>ATENCIÓN</bold>: Elige con cuidado dónde guardar tu archivo de exportación del chat y no lo compartas con nadie. Dependiendo de los permisos que tengas activados, otras aplicaciones pueden acceder a él. "
+    "messageformat": "<bold>ATENCIÓN</bold>: Elige con cuidado dónde guardar tu archivo de exportación del chat y no lo compartas con nadie. Dependiendo de los permisos que tengas activados, otras aplicaciones podrán acceder a él. "
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Mac": {
     "messageformat": "Mostrar en Finder"
@@ -5607,7 +5607,7 @@
     "messageformat": "Se ha producido un error y no se ha podido exportar tu historial de chat."
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Title": {
-    "messageformat": "No hay suficiente espacio de almacenamiento"
+    "messageformat": "No hay suficiente espacio disponible"
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Detail": {
     "messageformat": "No se puede exportar tu historial de chat porque tu dispositivo no tiene suficiente espacio libre de almacenamiento. Libera {bytes} de espacio y vuelve a intentarlo."
@@ -5994,7 +5994,7 @@
     "messageformat": "Clave de copia de seguridad copiada"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
-    "messageformat": "Habilitar copias de seguridad"
+    "messageformat": "habilitar copias de seguridad"
   },
   "icu:Preferences__local-backups--enable--os-prompt--windows": {
     "messageformat": "Verifica tu identidad para habilitar las copias de seguridad."
@@ -7540,7 +7540,7 @@
     "messageformat": "Otras personas oían eco"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_DROP": {
-    "messageformat": "El audio se cortaba"
+    "messageformat": "El audio se detuvo"
   },
   "icu:CallQualitySurvey__Issue--VIDEO": {
     "messageformat": "Problema de vídeo"
@@ -7637,6 +7637,6 @@
     "messageformat": "Las encuestas en Signal Desktop ahora incluyen los mismos efectos de animación que ya veías en tu teléfono. Estás a una sola encuesta de distancia de ver cómo tu opción favorita toma la delantera."
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "No podemos arreglar los silencios incómodos en las llamadas grupales, pero sí hemos corregido un error que hacía que el indicador de \"mano levantada\" quedara visible (con un conteo de cero) si alguien levantaba y bajaba la mano muy rápido."
   }
 }

@@ -1083,10 +1083,10 @@
     "messageformat": "معلومات"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "پِن کریں"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "ان پِن کریں"
   },
   "icu:Poll__end-poll": {
     "messageformat": "پول ختم کریں"
@@ -1251,7 +1251,7 @@
     "messageformat": "مزید افعال"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "ان پِن کریں"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "میسج میں جائیں"
@@ -5166,16 +5166,16 @@
     "messageformat": "لنکس"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "ترتیب دیں بلحاظ"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "ترتیب دیں بلحاظ"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "تاریخ"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "سائز"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "کوئی میڈیا نہیں ہے"
@@ -7637,6 +7637,6 @@
     "messageformat": "Signal کی رائے شماریوں کے لیے بہتر کردہ اینیمیشن۔"
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "ہم اس عجیب خاموشی کو ٹھیک نہیں کر سکتے جو اس کے بعد آتی ہے، لیکن ہم نے ایک نقص ٹھیک کیا ہے جس کی وجہ سے کبھی کبھار اگر کوئی ہاتھ تیزی سے اٹھا یا نیچے کرتا تو ہاتھ کا اشارہ نظر آتا (صفر کی گنتی کے ساتھ)۔"
   }
 }

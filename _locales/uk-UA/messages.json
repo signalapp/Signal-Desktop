@@ -1083,10 +1083,10 @@
     "messageformat": "Інформація"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "Закріпити"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Відкріпити"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Завершити опитування"
@@ -1251,7 +1251,7 @@
     "messageformat": "Інші дії"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Відкріпити"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "До повідомлення"
@@ -5166,16 +5166,16 @@
     "messageformat": "Посилання"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "Сортування"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "Сортування"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "Дата"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "Розмір"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Медіафайлів немає"
@@ -7637,6 +7637,6 @@
     "messageformat": "Опитування в Signal Desktop тепер мають таку ж плавну анімацію, як і на телефоні. Нарешті можна спостерігати, як ваш варіант потихеньку виривається вперед (або відстає…)."
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "Ми не можемо виправити незручну тишу, що виникає в такій ситуації, але ми виправили помилку, через яку індикатор піднятої руки іноді залишався видимим (з числом нуль), коли хтось дуже швидко підіймав і опускав руку."
   }
 }

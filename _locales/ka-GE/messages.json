@@ -1083,10 +1083,10 @@
     "messageformat": "ინფორმაცია"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "აპინვა"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "პინის მოხსნა"
   },
   "icu:Poll__end-poll": {
     "messageformat": "გამოკითხვის დასრულება"
@@ -1251,7 +1251,7 @@
     "messageformat": "მეტი მოქმედება"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "პინის მოხსნა"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "წერილზე გადასვლა"
@@ -5166,16 +5166,16 @@
     "messageformat": "ბმულები"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "დახარისხება"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "დახარისხება"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "თარიღი"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "ზომა"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "მედია-ფაილები ვერ მოიძებნა"
@@ -7637,6 +7637,6 @@
     "messageformat": "Signal-ის გამოკითხვები დესკტოპზე ახლა უკვე შეიცავს იმავე დახვეწილ ანიმაციურ ეფექტებს, რომლებიც აქამდეც ჩანდა შენს მობილურში. შენი არჩევანის დაწინაურებას მხოლოდ ერთი გამოკითხვა გაშორებს."
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "უხერხულ დუმილს ვერაფერს ვუშველით, თუმცა გამოვასწორეთ ბაგი, რომლის გამოც „აწეული ხელის“ ინდიკატორი ხილული რჩებოდა ხელის სწრაფი აწევა-ჩამოწევის შემდე."
   }
 }

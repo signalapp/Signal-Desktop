@@ -1083,10 +1083,10 @@
     "messageformat": "信息"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "置顶"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "取消置顶"
   },
   "icu:Poll__end-poll": {
     "messageformat": "结束投票"
@@ -1251,7 +1251,7 @@
     "messageformat": "更多操作"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "取消置顶"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "前往消息"
@@ -5166,16 +5166,16 @@
     "messageformat": "链接"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "排序方式"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "排序方式"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "日期"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "大小"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "无媒体"
@@ -7637,6 +7637,6 @@
     "messageformat": "优化了 Signal 投票功能的动画效果。"
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "我们修复了群组通话中举手指示器的一个微小显示漏洞。"
   }
 }

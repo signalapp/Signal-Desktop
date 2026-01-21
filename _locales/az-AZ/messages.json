@@ -1083,10 +1083,10 @@
     "messageformat": "Məlumat"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "Sancaqla"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Sancağı götür"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Səsverməni bitir"
@@ -1251,7 +1251,7 @@
     "messageformat": "Daha çox əməliyyat"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Sancağı götür"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Mesaja keç"
@@ -5166,16 +5166,16 @@
     "messageformat": "Keçidlər"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "Sırala"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "Sırala"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "Tarixə görə"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "Ölçüsünə görə"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Media yoxdur"
@@ -7637,6 +7637,6 @@
     "messageformat": "Artıq Signal-ın Desktop tətbiqindəki səsvermələr telefonunuzda görünən eyni animasiya effektlərinə malikdir. Seçiminizin birinci olduğunu izləmək sadəcə bir səsvermə qədər yaxındır."
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "Biz sonradan yaranan yöndəmsiz sükutu aradan qaldıra bilməsək də, bir xətanı düzəltdik: bəzən kimsə əlini çox tez qaldırıb endirdikdə, qaldırılmış əl göstəricisi (sayı sıfır olduğu halda) ekranda qalırdı."
   }
 }

@@ -1083,10 +1083,10 @@
     "messageformat": "Informació"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "Fixa"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "No ho fixis"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Finalitzar enquesta"
@@ -1251,7 +1251,7 @@
     "messageformat": "Més accions"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "No ho fixis"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Ves a Missatge"
@@ -5166,16 +5166,16 @@
     "messageformat": "Enllaços"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "Ordena per"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "Ordena per"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "Data"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "Mida"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "No hi ha cap arxiu multimèdia"
@@ -7637,6 +7637,6 @@
     "messageformat": "Millores a les animacions de les enquestes de Signal."
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "Hem corregit un petit error relacionat amb l'indicador de mà aixecada a les trucades grupals."
   }
 }

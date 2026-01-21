@@ -1083,10 +1083,10 @@
     "messageformat": "Info"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "Nåla"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Lösgör"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Avsluta omröstning"
@@ -1251,7 +1251,7 @@
     "messageformat": "Fler åtgärder"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Lösgör"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Gå till Meddelande"
@@ -5166,16 +5166,16 @@
     "messageformat": "Länkar"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "Sortera efter"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "Sortera efter"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "Datum"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "Storlek"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Inga media"
@@ -7637,6 +7637,6 @@
     "messageformat": "Förbättrade animeringar för Signal-omröstningar."
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "Vi har åtgärdat ett mindre visningsproblem med indikatorn för handuppräckning i gruppsamtal."
   }
 }

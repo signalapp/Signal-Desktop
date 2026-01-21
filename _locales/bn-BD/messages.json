@@ -1083,10 +1083,10 @@
     "messageformat": "তথ্য"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "পিন করুন"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "আনপিন করুন"
   },
   "icu:Poll__end-poll": {
     "messageformat": "ভোটগ্রহণ কার্যক্রমটি শেষ করুন"
@@ -1251,7 +1251,7 @@
     "messageformat": "আরও ক্রিয়া"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "আনপিন করুন"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "মেসেজ-এ যান"
@@ -5166,16 +5166,16 @@
     "messageformat": "লিংকসমূহ"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "এভাবে সাজান"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "এভাবে সাজান"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "তারিখ"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "আকার"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "কোনো মিডিয়া নেই"
@@ -7637,6 +7637,6 @@
     "messageformat": "Signal জরিপে এখন আরো উন্নত অ্যানিমেশন।"
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "গ্রুপ কলে হাত উঁচু করার ইন্ডিকেটরের একটি ছোট ডিসপ্লে বাগ আমরা সংশোধন করেছি।"
   }
 }

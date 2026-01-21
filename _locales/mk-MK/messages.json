@@ -1083,10 +1083,10 @@
     "messageformat": "Информации"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "Закачи"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Откачи"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Затворете ја анкетата"
@@ -1251,7 +1251,7 @@
     "messageformat": "Повеќе дејствија"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Откачи"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Одете до пораката"
@@ -5166,16 +5166,16 @@
     "messageformat": "Линкови"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "Сортирај по"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "Сортирај по"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "Датум"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "Големина"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Нема медиумска датотека"
@@ -7637,6 +7637,6 @@
     "messageformat": "Подобрена анимација на Signal анкетите."
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "Поправивме мала дисплеј грешка со индикаторот за крената рака во групните повици."
   }
 }

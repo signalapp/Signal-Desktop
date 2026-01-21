@@ -1083,10 +1083,10 @@
     "messageformat": "Informații"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "Fixare"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Anulare fixare"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Încheie sondajul"
@@ -1251,7 +1251,7 @@
     "messageformat": "Mai multe acțiuni"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Anulare fixare"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Mergi la Mesaj"
@@ -5166,16 +5166,16 @@
     "messageformat": "Link-uri"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "Sortează după"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "Sortează după"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "Data"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "Dimensiune"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Nu ai Fișiere Media"
@@ -7637,6 +7637,6 @@
     "messageformat": "Sondajele Signal de pe desktop includ acum aceleași efecte subtile de animație care apăreau deja pe telefon. A-ți vedea alegerea preferată detașându-se este la doar un sondaj distanță."
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "Nu putem remedia tăcerea stânjenitoare care urmează, dar am corectat un bug care uneori făcea ca indicatorul mâinii ridicate să rămână vizibil (cu un număr de zero) dacă cineva ridica și cobora mâna foarte repede."
   }
 }

@@ -1083,10 +1083,10 @@
     "messageformat": "தகவல்"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "பின்செய்"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "பின்னை அகற்று"
   },
   "icu:Poll__end-poll": {
     "messageformat": "வாக்கெடுப்பை முடி"
@@ -1251,7 +1251,7 @@
     "messageformat": "மேலும் செயல்கள்"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "பின்னை அகற்று"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "மெசேஜுக்குச் செல்க"
@@ -5166,16 +5166,16 @@
     "messageformat": "இணைப்புகள்"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "வரிசைப்படுத்துக"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "வரிசைப்படுத்துக"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "தேதி"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "அளவு"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "ஊடகங்கள்இல்லை"
@@ -7637,6 +7637,6 @@
     "messageformat": "சிக்னல் வாக்கெடுப்புகளுக்கான மேம்படுத்தப்பட்ட அனிமேஷன்."
   },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "தொகுப்பு அழைப்புகளில், கையை உயர்த்தும் குறியீட்டில் இருந்த ஒரு சிறிய காட்சிப் பிழையைச் சரிசெய்துள்ளோம்."
   }
 }
