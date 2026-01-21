@@ -35,6 +35,7 @@ import type { SmartDraftGifMessageSendModalProps } from '../state/smart/DraftGif
 import { CriticalIdlePrimaryDeviceModal } from './CriticalIdlePrimaryDeviceModal.dom.js';
 import { LowDiskSpaceBackupImportModal } from './LowDiskSpaceBackupImportModal.dom.js';
 import { isUsernameValid } from '../util/Username.dom.js';
+import type { PinMessageDialogData } from '../state/smart/PinMessageDialog.preload.js';
 
 // NOTE: All types should be required for this component so that the smart
 // component gives you type errors when adding/removing props.
@@ -111,6 +112,9 @@ export type PropsType = {
   // MessageRequestActionsConfirmation
   messageRequestActionsConfirmationProps: MessageRequestActionsConfirmationPropsType | null;
   renderMessageRequestActionsConfirmation: () => React.JSX.Element;
+  // PinMessageDialog
+  pinMessageDialogData: PinMessageDialogData | null;
+  renderPinMessageDialog: () => React.JSX.Element;
   // NotePreviewModal
   notePreviewModalProps: { conversationId: string } | null;
   renderNotePreviewModal: () => React.JSX.Element;
@@ -224,6 +228,9 @@ export function GlobalModalContainer({
   // NotePreviewModal
   notePreviewModalProps,
   renderNotePreviewModal,
+  // PinMessageDialog
+  pinMessageDialogData,
+  renderPinMessageDialog,
   // SafetyNumberModal
   safetyNumberModalContactId,
   renderSafetyNumber,
@@ -368,6 +375,10 @@ export function GlobalModalContainer({
 
   if (notePreviewModalProps) {
     return renderNotePreviewModal();
+  }
+
+  if (pinMessageDialogData) {
+    return renderPinMessageDialog();
   }
 
   if (isProfileNameWarningModalVisible) {

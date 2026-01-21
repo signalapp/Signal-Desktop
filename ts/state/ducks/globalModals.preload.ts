@@ -48,6 +48,7 @@ import type { MessageForwardDraft } from '../../types/ForwardDraft.std.js';
 import { hydrateRanges } from '../../util/BodyRange.node.js';
 import {
   getConversationSelector,
+  getHasMaxPinnedMessages,
   type GetConversationByIdType,
 } from '../selectors/conversations.dom.js';
 import { missingCaseError } from '../../util/missingCaseError.std.js';
@@ -62,6 +63,8 @@ import type { DataPropsType as TapToViewNotAvailablePropsType } from '../../comp
 import type { DataPropsType as BackfillFailureModalPropsType } from '../../components/BackfillFailureModal.dom.js';
 import type { SmartDraftGifMessageSendModalProps } from '../smart/DraftGifMessageSendModal.preload.js';
 import { onCriticalIdlePrimaryDeviceModalDismissed } from '../../util/handleServerAlerts.preload.js';
+import type { PinMessageDialogData } from '../smart/PinMessageDialog.preload.js';
+import type { StateThunk } from '../types.std.js';
 
 const log = createLogger('globalModals');
 
@@ -146,6 +149,7 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   } | null;
   messageRequestActionsConfirmationProps: MessageRequestActionsConfirmationPropsType | null;
   notePreviewModalProps: NotePreviewModalPropsType | null;
+  pinMessageDialogData: PinMessageDialogData | null;
   usernameOnboardingState: UsernameOnboardingState;
   mediaPermissionsModalProps?: {
     mediaType: 'camera' | 'microphone';
@@ -233,6 +237,7 @@ const SHOW_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL =
   'globalModals/SHOW_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL';
 const HIDE_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL =
   'globalModals/HIDE_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL';
+const TOGGLE_PIN_MESSAGE_DIALOG = 'globalModals/TOGGLE_PIN_MESSAGE_DIALOG';
 
 export type ContactModalStateType = ReadonlyDeep<{
   contactId: string;
@@ -500,6 +505,11 @@ type CloseEditHistoryModalActionType = ReadonlyDeep<{
   type: typeof CLOSE_EDIT_HISTORY_MODAL;
 }>;
 
+type TogglePinMessageDialogActionType = ReadonlyDeep<{
+  type: typeof TOGGLE_PIN_MESSAGE_DIALOG;
+  payload: PinMessageDialogData | null;
+}>;
+
 export type GlobalModalsActionType = ReadonlyDeep<
   | CloseEditHistoryModalActionType
   | CloseDebugLogErrorModalActionType
@@ -555,6 +565,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ToggleSafetyNumberModalActionType
   | ToggleSignalConnectionsModalActionType
   | ToggleUsernameOnboardingActionType
+  | TogglePinMessageDialogActionType
 >;
 
 // Action Creators
@@ -612,6 +623,8 @@ export const actions = {
   toggleSafetyNumberModal,
   toggleSignalConnectionsModal,
   toggleUsernameOnboarding,
+  showPinMessageDialog,
+  hidePinMessageDialog,
 };
 
 export const useGlobalModalActions = (): BoundActionCreatorsMapObject<
@@ -1335,6 +1348,30 @@ function copyOverMessageAttributesIntoForwardMessages(
   });
 }
 
+function showPinMessageDialog(
+  messageId: string,
+  isPinningDisappearingMessage: boolean
+): StateThunk<TogglePinMessageDialogActionType> {
+  return async (dispatch, getState) => {
+    const hasMaxPinnedMessages = getHasMaxPinnedMessages(getState());
+    dispatch({
+      type: TOGGLE_PIN_MESSAGE_DIALOG,
+      payload: {
+        messageId,
+        hasMaxPinnedMessages,
+        isPinningDisappearingMessage,
+      },
+    });
+  };
+}
+
+function hidePinMessageDialog(): TogglePinMessageDialogActionType {
+  return {
+    type: TOGGLE_PIN_MESSAGE_DIALOG,
+    payload: null,
+  };
+}
+
 // Reducer
 
 export function getEmptyState(): GlobalModalsStateType {
@@ -1360,6 +1397,7 @@ export function getEmptyState(): GlobalModalsStateType {
     messageRequestActionsConfirmationProps: null,
     tapToViewNotAvailableModalProps: undefined,
     notePreviewModalProps: null,
+    pinMessageDialogData: null,
   };
 }
 
@@ -1802,6 +1840,13 @@ export function reducer(
     return {
       ...state,
       lowDiskSpaceBackupImportModal: null,
+    };
+  }
+
+  if (action.type === TOGGLE_PIN_MESSAGE_DIALOG) {
+    return {
+      ...state,
+      pinMessageDialogData: action.payload,
     };
   }
 

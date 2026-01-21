@@ -98,7 +98,6 @@ const defaultMessageProps: TimelineMessagesProps = {
     'default--doubleCheckMissingQuoteReference'
   ),
   getPreferredBadge: () => undefined,
-  hasMaxPinnedMessages: false,
   i18n,
   platform: 'darwin',
   id: 'messageId',
@@ -140,7 +139,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   shouldCollapseBelow: false,
   shouldHideMetadata: false,
   showSpoiler: action('showSpoiler'),
-  onPinnedMessageAdd: action('onPinnedMessageAdd'),
+  showPinMessageDialog: action('showPinMessageDialog'),
   onPinnedMessageRemove: action('onPinnedMessageRemove'),
   pushPanelForConversation: action('default--pushPanelForConversation'),
   showContactModal: action('default--showContactModal'),

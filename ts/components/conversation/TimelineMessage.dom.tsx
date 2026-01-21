@@ -36,8 +36,6 @@ import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions
 import { isNotNil } from '../../util/isNotNil.std.js';
 import type { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.js';
 import { AxoContextMenu } from '../../axo/AxoContextMenu.dom.js';
-import { PinMessageDialog } from './pinned-messages/PinMessageDialog.dom.js';
-import type { DurationInSeconds } from '../../util/durations/duration-in-seconds.std.js';
 import { useDocumentKeyDown } from '../../hooks/useDocumentKeyDown.dom.js';
 
 const { useAxoContextMenuOutsideKeyboardTrigger } = AxoContextMenu;
@@ -55,16 +53,11 @@ export type PropsData = {
   canReact: boolean;
   canReply: boolean;
   canPinMessage: boolean;
-  hasMaxPinnedMessages: boolean;
   selectedReaction?: string;
   isTargeted?: boolean;
 } & Omit<MessagePropsData, 'renderingContext' | 'menu'>;
 
 export type PropsActions = {
-  onPinnedMessageAdd: (
-    messageId: string,
-    duration: DurationInSeconds | null
-  ) => void;
   onPinnedMessageRemove: (messageId: string) => void;
   pushPanelForConversation: PushPanelForConversationActionType;
   toggleDeleteMessagesModal: (props: DeleteMessagesPropsType) => void;
@@ -88,6 +81,10 @@ export type PropsActions = {
     messageId: string,
     shift: boolean,
     selected: boolean
+  ) => void;
+  showPinMessageDialog: (
+    messageId: string,
+    isPinningDisappearingMessage: boolean
   ) => void;
 } & Omit<MessagePropsActions, 'onToggleSelect' | 'onReplyToMessage'>;
 
@@ -119,7 +116,6 @@ export function TimelineMessage(props: Props): React.JSX.Element {
     containerWidthBreakpoint,
     conversationId,
     direction,
-    hasMaxPinnedMessages,
     i18n,
     id,
     interactivity,
@@ -128,7 +124,7 @@ export function TimelineMessage(props: Props): React.JSX.Element {
     kickOffAttachmentDownload,
     copyMessageText,
     endPoll,
-    onPinnedMessageAdd,
+    expirationLength,
     onPinnedMessageRemove,
     pushPanelForConversation,
     reactToMessage,
@@ -138,6 +134,7 @@ export function TimelineMessage(props: Props): React.JSX.Element {
     saveAttachment,
     saveAttachments,
     showAttachmentDownloadStillInProgressToast,
+    showPinMessageDialog,
     selectedReaction,
     setQuoteByMessageId,
     setMessageToEdit,
@@ -151,7 +148,6 @@ export function TimelineMessage(props: Props): React.JSX.Element {
   const [reactionPickerRoot, setReactionPickerRoot] = useState<
     HTMLDivElement | undefined
   >(undefined);
-  const [pinMessageDialogOpen, setPinMessageDialogOpen] = useState(false);
 
   const isWindowWidthNotNarrow =
     containerWidthBreakpoint !== WidthBreakpoint.Narrow;
@@ -286,17 +282,11 @@ export function TimelineMessage(props: Props): React.JSX.Element {
     }
   }, [canReact, toggleReactionPicker]);
 
-  const handleOpenPinMessageDialog = useCallback(() => {
-    setPinMessageDialogOpen(true);
-  }, []);
+  const isDisappearingMessage = expirationLength != null;
 
-  const handlePinnedMessageAdd = useCallback(
-    (messageId: string, duration: DurationInSeconds | null) => {
-      onPinnedMessageAdd(messageId, duration);
-      setPinMessageDialogOpen(false);
-    },
-    [onPinnedMessageAdd]
-  );
+  const handleOpenPinMessageDialog = useCallback(() => {
+    showPinMessageDialog(id, isDisappearingMessage);
+  }, [showPinMessageDialog, id, isDisappearingMessage]);
 
   const handleUnpinMessage = useCallback(() => {
     onPinnedMessageRemove(id);
@@ -478,27 +468,17 @@ export function TimelineMessage(props: Props): React.JSX.Element {
   const handleWrapperKeyDown = useAxoContextMenuOutsideKeyboardTrigger();
 
   return (
-    <>
-      <Message
-        {...props}
-        renderingContext="conversation/TimelineItem"
-        renderMenu={renderMenu}
-        renderMessageContextMenu={renderMessageContextMenu}
-        onToggleSelect={(selected, shift) => {
-          toggleSelectMessage(conversationId, id, shift, selected);
-        }}
-        onReplyToMessage={handleReplyToMessage}
-        onWrapperKeyDown={handleWrapperKeyDown}
-      />
-      <PinMessageDialog
-        i18n={i18n}
-        messageId={id}
-        open={pinMessageDialogOpen}
-        onOpenChange={setPinMessageDialogOpen}
-        onPinnedMessageAdd={handlePinnedMessageAdd}
-        hasMaxPinnedMessages={hasMaxPinnedMessages}
-      />
-    </>
+    <Message
+      {...props}
+      renderingContext="conversation/TimelineItem"
+      renderMenu={renderMenu}
+      renderMessageContextMenu={renderMessageContextMenu}
+      onToggleSelect={(selected, shift) => {
+        toggleSelectMessage(conversationId, id, shift, selected);
+      }}
+      onReplyToMessage={handleReplyToMessage}
+      onWrapperKeyDown={handleWrapperKeyDown}
+    />
   );
 }
 

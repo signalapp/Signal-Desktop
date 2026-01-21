@@ -1650,6 +1650,18 @@
     "messageformat": "Continue",
     "description": "Message > Context Menu > Pin Message (when at max pinned messages) > Dialog > Continue Button"
   },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
+    "messageformat": "Pinning disappearing messages",
+    "description": "Message > Context Menu > Pin Message (when pinning disappearing message) > Dialog > Title"
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
+    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat.",
+    "description": "Message > Context Menu > Pin Message (when pinning disappearing message) > Dialog > Description"
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
+    "messageformat": "Okay",
+    "description": "Message > Context Menu > Pin Message (when pinning disappearing message) > Dialog > Okay Button"
+  },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Pinned message} other {Pinned messages}}",
     "description": "Conversation > With pinned message(s) > Pinned messages bar > Accessibility label"
