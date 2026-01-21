@@ -39,6 +39,7 @@ import {
   shouldShowPlaintextWorkflow,
   shouldShowLocalBackupWorkflow,
 } from '../selectors/backups.std.js';
+import { SmartPinMessageDialog } from './PinMessageDialog.preload.js';
 
 function renderCallLinkAddNameModal(): React.JSX.Element {
   return <SmartCallLinkAddNameModal />;
@@ -98,6 +99,10 @@ function renderMessageRequestActionsConfirmation(): React.JSX.Element {
 
 function renderNotePreviewModal(): React.JSX.Element {
   return <SmartNotePreviewModal />;
+}
+
+function renderPinMessageDialog(): React.JSX.Element {
+  return <SmartPinMessageDialog />;
 }
 
 function renderPlaintextExportWorkflow(): React.JSX.Element {
@@ -160,6 +165,7 @@ export const SmartGlobalModalContainer = memo(
       mediaPermissionsModalProps,
       messageRequestActionsConfirmationProps,
       notePreviewModalProps,
+      pinMessageDialogData,
       isProfileNameWarningModalVisible,
       profileNameWarningModalConversationType,
       isShortcutGuideModalVisible,
@@ -278,6 +284,7 @@ export const SmartGlobalModalContainer = memo(
         closeMediaPermissionsModal={closeMediaPermissionsModal}
         openSystemMediaPermissions={window.IPC.openSystemMediaPermissions}
         notePreviewModalProps={notePreviewModalProps}
+        pinMessageDialogData={pinMessageDialogData}
         hasSafetyNumberChangeModal={hasSafetyNumberChangeModal}
         hideBackfillFailureModal={hideBackfillFailureModal}
         hideUserNotFoundModal={hideUserNotFoundModal}
@@ -310,6 +317,7 @@ export const SmartGlobalModalContainer = memo(
           renderMessageRequestActionsConfirmation
         }
         renderNotePreviewModal={renderNotePreviewModal}
+        renderPinMessageDialog={renderPinMessageDialog}
         renderPlaintextExportWorkflow={renderPlaintextExportWorkflow}
         renderLocalBackupExportWorkflow={renderLocalBackupExportWorkflow}
         renderProfileNameWarningModal={renderProfileNameWarningModal}

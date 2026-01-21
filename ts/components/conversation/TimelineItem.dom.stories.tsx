@@ -70,7 +70,7 @@ const getDefaultProps = () => ({
   openGiftBadge: action('openGiftBadge'),
   saveAttachment: action('saveAttachment'),
   saveAttachments: action('saveAttachments'),
-  onPinnedMessageAdd: action('onPinnedMessageAdd'),
+  showPinMessageDialog: action('showPinMessageDialog'),
   onPinnedMessageRemove: action('onPinnedMessageRemove'),
   onOpenEditNicknameAndNoteModal: action('onOpenEditNicknameAndNoteModal'),
   onOutgoingAudioCallInConversation: action(

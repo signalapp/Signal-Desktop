@@ -20,7 +20,12 @@ export function Default(): React.JSX.Element {
       onOpenChange={setOpen}
       messageId="42"
       onPinnedMessageAdd={action('onPinnedMessageAdd')}
-      hasMaxPinnedMessages={false}
+      hasMaxPinnedMessages
+      isPinningDisappearingMessage
+      seenPinMessageDisappearingMessagesWarningCount={0}
+      onSeenPinMessageDisappearingMessagesWarning={action(
+        'onSeenPinMessageDisappearingMessagesWarning'
+      )}
     />
   );
 }

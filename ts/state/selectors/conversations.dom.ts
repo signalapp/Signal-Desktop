@@ -90,6 +90,7 @@ import type { AllChatFoldersMutedStats } from '../../util/countMutedStats.std.js
 import { countAllChatFoldersMutedStats } from '../../util/countMutedStats.std.js';
 import { getActiveProfile } from './notificationProfiles.dom.js';
 import type { PinnedMessage } from '../../types/PinnedMessage.std.js';
+import { getPinnedMessagesLimit } from '../../util/pinnedMessages.dom.js';
 
 const { isNumber, pick } = lodash;
 
@@ -337,6 +338,15 @@ export const getPinnedMessagesMessageIds: StateSelector<ReadonlyArray<string>> =
       return pinnedMessage.messageId;
     });
   });
+
+export const getHasMaxPinnedMessages: StateSelector<boolean> = createSelector(
+  getPinnedMessages,
+  pinnedMessages => {
+    const pinnedMessagesLimit = getPinnedMessagesLimit();
+    const pinnedMessagesCount = pinnedMessages.length;
+    return pinnedMessagesCount >= pinnedMessagesLimit;
+  }
+);
 
 const collator = new Intl.Collator();
 

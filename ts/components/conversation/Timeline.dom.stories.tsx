@@ -58,7 +58,6 @@ function mockMessageTimelineItem(
       direction: 'incoming',
       status: 'sent',
       text: 'Hello there from the new world!',
-      hasMaxPinnedMessages: false,
       isBlocked: false,
       isMessageRequestAccepted: true,
       isPinned: false,
@@ -307,7 +306,7 @@ const actions = () => ({
   doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
 
   openGiftBadge: action('openGiftBadge'),
-  onPinnedMessageAdd: action('onPinnedMessageAdd'),
+  showPinMessageDialog: action('showPinMessageDialog'),
   onPinnedMessageRemove: action('onPinnedMessageRemove'),
   scrollToPinnedMessage: action('scrollToPinnedMessage'),
   scrollToPollMessage: action('scrollToPollMessage'),

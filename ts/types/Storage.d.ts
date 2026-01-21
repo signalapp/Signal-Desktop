@@ -117,6 +117,7 @@ export type StorageAccessType = {
   sessionResets: SessionResetsType;
   showStickerPickerHint: boolean;
   showStickersIntroduction: boolean;
+  seenPinMessageDisappearingMessagesWarningCount: number;
   signedKeyId: number;
   signedKeyIdPNI: number;
   signedKeyUpdateTime: number;

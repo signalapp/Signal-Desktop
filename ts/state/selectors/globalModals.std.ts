@@ -6,6 +6,8 @@ import { createSelector } from 'reselect';
 import type { StateType } from '../reducer.preload.js';
 import type { GlobalModalsStateType } from '../ducks/globalModals.preload.js';
 import { UsernameOnboardingState } from '../../types/globalModals.std.js';
+import type { StateSelector } from '../types.std.js';
+import type { PinMessageDialogData } from '../smart/PinMessageDialog.preload.js';
 
 export const getGlobalModalsState = (state: StateType): GlobalModalsStateType =>
   state.globalModals;
@@ -92,3 +94,9 @@ export const getNotePreviewModalProps = createSelector(
   getGlobalModalsState,
   ({ notePreviewModalProps }) => notePreviewModalProps
 );
+
+export const getPinMessageDialogData: StateSelector<PinMessageDialogData | null> =
+  createSelector(
+    getGlobalModalsState,
+    ({ pinMessageDialogData }) => pinMessageDialogData
+  );
