@@ -34,7 +34,7 @@ export type OnProgressCallback = (
   totalBytes: number
 ) => void;
 
-export type BackupExportOptions =
+export type BackupExportOptions = { abortSignal: AbortSignal } & (
   | {
       type: 'remote' | 'cross-client-integration-test';
       level: BackupLevel;
@@ -45,7 +45,8 @@ export type BackupExportOptions =
   | {
       type: 'local-encrypted';
       snapshotDir: string;
-    };
+    }
+);
 
 export type BackupImportOptions = (
   | { type: 'remote' | 'cross-client-integration-test' }

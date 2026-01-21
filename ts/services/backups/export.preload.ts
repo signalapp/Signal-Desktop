@@ -293,12 +293,27 @@ export class BackupExportStream extends Readable {
     super();
   }
 
+  async #cleanupAfterError() {
+    log.warn('Cleaning up after error...');
+    await resumeWriteAccess();
+  }
+
+  override _destroy(
+    error: Error | null,
+    callback: (error?: Error | null) => void
+  ): void {
+    if (error) {
+      drop(this.#cleanupAfterError());
+    }
+    callback(error);
+  }
+
   public run(): void {
     drop(
       (async () => {
-        log.info('BackupExportStream: starting...');
+        log.info('starting...');
         drop(AttachmentBackupManager.stop());
-        log.info('BackupExportStream: message migration starting...');
+        log.info('message migration starting...');
         await migrateAllMessages();
 
         await pauseWriteAccess();
@@ -317,7 +332,7 @@ export class BackupExportStream extends Readable {
                 this.#attachmentBackupJobs.map(job => {
                   if (job.type === 'local') {
                     log.error(
-                      "BackupExportStream: Can't enqueue local backup jobs during remote backup, skipping"
+                      "Can't enqueue local backup jobs during remote backup, skipping"
                     );
                     return Promise.resolve();
                   }
@@ -338,7 +353,7 @@ export class BackupExportStream extends Readable {
           }
           log.info('finished successfully');
         } catch (error) {
-          await resumeWriteAccess();
+          await this.#cleanupAfterError();
           log.error('errored', toLogFormat(error));
           this.emit('error', error);
         } finally {

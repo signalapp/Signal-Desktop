@@ -241,6 +241,7 @@ describe('getFilePointerForAttachment', () => {
       backupOptions: {
         type: 'remote',
         level: BackupLevel.Paid,
+        abortSignal: new AbortController().signal,
       },
       getBackupCdnInfo: notInBackupCdn,
       messageReceivedAt: 100,
@@ -271,6 +272,7 @@ describe('getFilePointerForAttachment', () => {
         backupOptions: {
           type: 'remote',
           level: BackupLevel.Paid,
+          abortSignal: new AbortController().signal,
         },
         getBackupCdnInfo: notInBackupCdn,
         messageReceivedAt: 100,
@@ -298,6 +300,7 @@ describe('getFilePointerForAttachment', () => {
         backupOptions: {
           type: 'remote',
           level: BackupLevel.Free,
+          abortSignal: new AbortController().signal,
         },
         getBackupCdnInfo: notInBackupCdn,
         messageReceivedAt: 100,
@@ -326,6 +329,7 @@ describe('getFilePointerForAttachment', () => {
         backupOptions: {
           type: 'remote',
           level: BackupLevel.Free,
+          abortSignal: new AbortController().signal,
         },
         getBackupCdnInfo: notInBackupCdn,
         messageReceivedAt: 100,
@@ -354,6 +358,7 @@ describe('getFilePointerForAttachment', () => {
         backupOptions: {
           type: 'remote',
           level: BackupLevel.Free,
+          abortSignal: new AbortController().signal,
         },
         getBackupCdnInfo: notInBackupCdn,
         messageReceivedAt: 100,
@@ -378,6 +383,7 @@ describe('getFilePointerForAttachment', () => {
         backupOptions: {
           type: 'remote',
           level: BackupLevel.Paid,
+          abortSignal: new AbortController().signal,
         },
         getBackupCdnInfo: notInBackupCdn,
         messageReceivedAt: 100,
@@ -422,6 +428,7 @@ describe('getFilePointerForAttachment', () => {
         backupOptions: {
           type: 'remote',
           level: BackupLevel.Paid,
+          abortSignal: new AbortController().signal,
         },
         getBackupCdnInfo: notInBackupCdn,
         messageReceivedAt: 100,
@@ -459,6 +466,7 @@ describe('getFilePointerForAttachment', () => {
           backupOptions: {
             type: 'local-encrypted',
             snapshotDir: '/root/backups/signal-backup-12-12-12',
+            abortSignal: new AbortController().signal,
           },
           getBackupCdnInfo: notInBackupCdn,
           messageReceivedAt: 100,
@@ -498,6 +506,7 @@ describe('getFilePointerForAttachment', () => {
           backupOptions: {
             type: 'local-encrypted',
             snapshotDir: '/root/backups/signal-backup-12-12-12',
+            abortSignal: new AbortController().signal,
           },
           getBackupCdnInfo: notInBackupCdn,
           messageReceivedAt: 100,

@@ -204,7 +204,10 @@ export class MainSQL {
 
   public resumeWriteAccess(): void {
     const pauseWaiters = this.#pauseWaiters;
-    strictAssert(pauseWaiters != null, 'Not paused');
+    if (pauseWaiters == null) {
+      return;
+    }
+
     this.#pauseWaiters = undefined;
 
     for (const waiter of pauseWaiters) {
