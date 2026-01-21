@@ -657,16 +657,9 @@ function showCallQualitySurvey(
   };
 }
 
-export function hideCallQualitySurvey(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  HideCallQualitySurveyActionType
-> {
-  return dispatch => {
-    window.IPC.closeDebugLog();
-    window.IPC.closeCallDiagnostic();
-    dispatch({ type: HIDE_CALL_QUALITY_SURVEY });
+function hideCallQualitySurvey(): HideCallQualitySurveyActionType {
+  return {
+    type: HIDE_CALL_QUALITY_SURVEY,
   };
 }
 

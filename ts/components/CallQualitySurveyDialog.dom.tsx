@@ -11,27 +11,8 @@ import { missingCaseError } from '../util/missingCaseError.std.js';
 import { AxoCheckbox } from '../axo/AxoCheckbox.dom.js';
 import { strictAssert } from '../util/assert.std.js';
 import { Tooltip, TooltipPlacement } from './Tooltip.dom.js';
-import { I18n } from './I18n.dom.js';
 
 import Issue = CallQualitySurvey.Issue;
-
-function DiagnosticInfoLink({
-  parts,
-  onClick,
-}: {
-  parts: Array<string | React.JSX.Element>;
-  onClick: () => void;
-}): React.JSX.Element {
-  return (
-    <button
-      type="button"
-      className={tw('text-color-label-primary hover:underline')}
-      onClick={onClick}
-    >
-      {parts}
-    </button>
-  );
-}
 
 enum Page {
   HOW_WAS_YOUR_CALL,
@@ -44,16 +25,14 @@ export type CallQualitySurveyDialogProps = Readonly<{
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSubmit: (form: CallQualitySurvey.Form) => void;
-  onViewDebugLog: () => void;
-  onViewDiagnosticInfo: () => void;
+  onViewDebugLog?: () => void;
   isSubmitting?: boolean;
 }>;
 
 export function CallQualitySurveyDialog(
   props: CallQualitySurveyDialogProps
 ): React.JSX.Element {
-  const { i18n, onSubmit, onViewDebugLog, onViewDiagnosticInfo, isSubmitting } =
-    props;
+  const { i18n, onSubmit, onViewDebugLog, isSubmitting } = props;
 
   const [page, setPage] = useState(Page.HOW_WAS_YOUR_CALL);
   const [userSatisfied, setUserSatisfied] = useState<boolean | null>(null);
@@ -99,20 +78,6 @@ export function CallQualitySurveyDialog(
     additionalIssuesDescription,
     shareDebugLog,
   ]);
-
-  const renderDiagnosticInfoLink = useCallback(
-    (parts: Array<string | React.JSX.Element>) => (
-      <DiagnosticInfoLink parts={parts} onClick={onViewDiagnosticInfo} />
-    ),
-    [onViewDiagnosticInfo]
-  );
-
-  const diagnosticInfoLinkComponents = useMemo(
-    () => ({
-      diagnosticInfoLink: renderDiagnosticInfoLink,
-    }),
-    [renderDiagnosticInfoLink]
-  );
 
   return (
     <AxoDialog.Root open={props.open} onOpenChange={props.onOpenChange}>
@@ -326,11 +291,9 @@ export function CallQualitySurveyDialog(
             <AxoDialog.Body>
               <p className={tw('mb-3 type-body-medium text-label-primary')}>
                 <AxoDialog.Description>
-                  <I18n
-                    i18n={i18n}
-                    id="icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink"
-                    components={diagnosticInfoLinkComponents}
-                  />
+                  {i18n(
+                    'icu:CallQualitySurvey__ConfirmSubmission__PageDescription'
+                  )}
                 </AxoDialog.Description>
               </p>
               <div className={tw('my-1.5 flex items-center gap-3')}>
@@ -351,7 +314,9 @@ export function CallQualitySurveyDialog(
                 <AxoButton.Root
                   variant="subtle-primary"
                   size="sm"
-                  onClick={onViewDebugLog}
+                  onClick={() => {
+                    onViewDebugLog?.();
+                  }}
                 >
                   {i18n(
                     'icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton'
@@ -359,7 +324,9 @@ export function CallQualitySurveyDialog(
                 </AxoButton.Root>
               </div>
               <p className={tw('mt-3 type-body-small text-label-secondary')}>
-                {i18n('icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote')}
+                {i18n(
+                  'icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText'
+                )}
               </p>
             </AxoDialog.Body>
             <AxoDialog.Footer>
