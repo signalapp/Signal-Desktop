@@ -595,6 +595,7 @@
       "permissions_popup.html",
       "debug_log.html",
       "loading.html",
+      "call_diagnostic.html",
       {
         "from": "build/compact-locales",
         "to": "_locales",
