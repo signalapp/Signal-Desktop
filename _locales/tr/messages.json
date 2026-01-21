@@ -1083,10 +1083,10 @@
     "messageformat": "Bilgi"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "Sabitle"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Sabitlemeyi kaldır"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Anketi sonlandır"
@@ -1238,6 +1238,15 @@
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
     "messageformat": "Devam"
   },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
+    "messageformat": "Pinning disappearing messages"
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
+    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
+    "messageformat": "Okay"
+  },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Sabitlenmiş mesaj} other {Sabitlenmiş mesajlar}}"
   },
@@ -1251,16 +1260,13 @@
     "messageformat": "Diğer eylemler"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Sabitlemeyi kaldır"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Mesaja git"
   },
   "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
     "messageformat": "Tüm mesajları gör"
-  },
-  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Address": {
-    "messageformat": "Adres"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
     "messageformat": "Sesli ileti"
@@ -1270,9 +1276,6 @@
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
     "messageformat": "Dosya"
-  },
-  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Contact": {
-    "messageformat": "Kişi"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
     "messageformat": "Ödeme"
@@ -5166,16 +5169,16 @@
     "messageformat": "Bağlantılar"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "Sırala"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "Sırala"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "Tarih"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "Boyut"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Medya Yok"
@@ -5624,6 +5627,24 @@
   "icu:PlaintextExport--Error--DiskPermssions--Detail": {
     "messageformat": "Signal'ın diske dosya yazma izni olmadığı için sohbet geçmişin dışa aktarılamıyor. Diskinin izinlerini değiştirmeyi veya sistem ayarlarını güncellemeyi dene ve ardından tekrar dışa aktar."
   },
+  "icu:LocalBackupExport--ProgressDialog--Header": {
+    "messageformat": "Exporting backup"
+  },
+  "icu:LocalBackupExport--CompleteDialog--Header": {
+    "messageformat": "Backup export complete"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
+    "messageformat": "To restore this backup:"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
+    "messageformat": "Transfer your backup folder to your phone's storage"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
+    "messageformat": "Install a new copy of Signal on your phone"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
+    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+  },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Ay simgesi"
   },
@@ -5980,6 +6001,15 @@
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
     "messageformat": "Anahtarı tekrar gör"
+  },
+  "icu:Preferences__local-backups-last-backup": {
+    "messageformat": "Last backup"
+  },
+  "icu:Preferences__local-backups-last-backup-never": {
+    "messageformat": "Never"
+  },
+  "icu:Preferences__local-backups-backup-now": {
+    "messageformat": "Back up now"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Yedekleme dizini"
@@ -7581,6 +7611,9 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
     "messageformat": "Bu, aramalar ve neyin işe yarayıp neyin yaramadığı hakkında daha fazla bilgi edinmemize yardımcı olur. Göndermeden önce hata ayıklama günlüğünü görüntüleyebilirsin."
   },
+  "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
+    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+  },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Hata ayıklama günlüğünü paylaş"
   },
@@ -7589,6 +7622,12 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
     "messageformat": "Hata ayıklama günlükleri, düşük düzeyde uygulama bilgisi içerir ve hiçbir mesaj içeriğini açıklamaz."
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
+    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+  },
+  "icu:CallDiagnosticWindow__title": {
+    "messageformat": "Diagnostic information"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Gönder"
@@ -7604,6 +7643,9 @@
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
     "messageformat": "Geri bildirimin için teşekkürler!"
+  },
+  "icu:Megaphone__ExpandNarrowSidebar": {
+    "messageformat": "Expand sidebar to interact with megaphone"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bu sürüm Signal'in sorunsuz çalışması için gereken bir takım küçük düzeltme ve hata gidermelerini içerir.",
@@ -7633,10 +7675,10 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal anketleri için geliştirilmiş animasyon. Hem de önceden telefonunda beliren aynı çarpıcı animasyon efektleriyle!"
-  },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "Grup görüşmelerinde kaldırılan el göstergesiyle ilgili ufak bir ekran hatasını giderdik."
+  },
+  "icu:WhatsNew__7.87--0": {
+    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
   }
 }

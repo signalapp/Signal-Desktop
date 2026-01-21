@@ -1083,10 +1083,10 @@
     "messageformat": "Detalles"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "Fijar"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Desfijar"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Finalizar encuesta"
@@ -1238,6 +1238,15 @@
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
     "messageformat": "Continuar"
   },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
+    "messageformat": "Pinning disappearing messages"
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
+    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
+    "messageformat": "Okay"
+  },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Mensaje fijado} other {Mensajes fijados}}"
   },
@@ -1251,16 +1260,13 @@
     "messageformat": "Más acciones"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Desfijar"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Ir al mensaje"
   },
   "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
     "messageformat": "Ver todos los mensajes"
-  },
-  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Address": {
-    "messageformat": "Dirección"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
     "messageformat": "Mensaje de voz"
@@ -1270,9 +1276,6 @@
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
     "messageformat": "Documento"
-  },
-  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Contact": {
-    "messageformat": "Contacto"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
     "messageformat": "Pago"
@@ -4479,7 +4482,7 @@
     "messageformat": "Fotos y vídeos"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "Archivo"
+    "messageformat": "Documento"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
     "messageformat": "Encuesta"
@@ -5166,16 +5169,16 @@
     "messageformat": "Enlaces"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "Ordenar por"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "Ordenar por"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "Fecha"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "Tamaño"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "No hay archivos multimedia"
@@ -5589,7 +5592,7 @@
     "messageformat": "Exportación completa"
   },
   "icu:PlaintextExport--CompleteDialog--Description": {
-    "messageformat": "<bold>ATENCIÓN</bold>: Elige con cuidado dónde guardar tu archivo de exportación del chat y no lo compartas con nadie. Dependiendo de los permisos que tengas activados, otras aplicaciones pueden acceder a él. "
+    "messageformat": "<bold>ATENCIÓN</bold>: Elige con cuidado dónde guardar tu archivo de exportación del chat y no lo compartas con nadie. Dependiendo de los permisos que tengas activados, otras aplicaciones podrán acceder a él. "
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Mac": {
     "messageformat": "Mostrar en Finder"
@@ -5607,7 +5610,7 @@
     "messageformat": "Se ha producido un error y no se ha podido exportar tu historial de chat."
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Title": {
-    "messageformat": "No hay suficiente espacio de almacenamiento"
+    "messageformat": "No hay suficiente espacio disponible"
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Detail": {
     "messageformat": "No se puede exportar tu historial de chat porque tu dispositivo no tiene suficiente espacio libre de almacenamiento. Libera {bytes} de espacio y vuelve a intentarlo."
@@ -5623,6 +5626,24 @@
   },
   "icu:PlaintextExport--Error--DiskPermssions--Detail": {
     "messageformat": "No se puede exportar tu historial de chat porque Signal no tiene permiso para generar archivos en tu almacenamiento. Actualiza tus ajustes del sistema para cambiar los permisos de tu almacenamiento y vuelve a intentarlo."
+  },
+  "icu:LocalBackupExport--ProgressDialog--Header": {
+    "messageformat": "Exporting backup"
+  },
+  "icu:LocalBackupExport--CompleteDialog--Header": {
+    "messageformat": "Backup export complete"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
+    "messageformat": "To restore this backup:"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
+    "messageformat": "Transfer your backup folder to your phone's storage"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
+    "messageformat": "Install a new copy of Signal on your phone"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
+    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Icono de luna"
@@ -5981,6 +6002,15 @@
   "icu:Preferences--local-backups-see-backup-key-again": {
     "messageformat": "Volver a ver la clave"
   },
+  "icu:Preferences__local-backups-last-backup": {
+    "messageformat": "Last backup"
+  },
+  "icu:Preferences__local-backups-last-backup-never": {
+    "messageformat": "Never"
+  },
+  "icu:Preferences__local-backups-backup-now": {
+    "messageformat": "Back up now"
+  },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Carpeta de copia de seguridad"
   },
@@ -5994,7 +6024,7 @@
     "messageformat": "Clave de copia de seguridad copiada"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
-    "messageformat": "Habilitar copias de seguridad"
+    "messageformat": "habilitar copias de seguridad"
   },
   "icu:Preferences__local-backups--enable--os-prompt--windows": {
     "messageformat": "Verifica tu identidad para habilitar las copias de seguridad."
@@ -7540,7 +7570,7 @@
     "messageformat": "Otras personas oían eco"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_DROP": {
-    "messageformat": "El audio se cortaba"
+    "messageformat": "El audio se detuvo"
   },
   "icu:CallQualitySurvey__Issue--VIDEO": {
     "messageformat": "Problema de vídeo"
@@ -7581,6 +7611,9 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
     "messageformat": "Tu opinión nos ayuda a saber qué funciona y qué falla durante las llamadas. Puedes ver tu registro de depuración antes de enviarlo."
   },
+  "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
+    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+  },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Compartir registro de depuración"
   },
@@ -7589,6 +7622,12 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
     "messageformat": "Los registros de depuración contienen información técnica de la aplicación y no revelan el contenido de ninguno de tus mensajes."
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
+    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+  },
+  "icu:CallDiagnosticWindow__title": {
+    "messageformat": "Diagnostic information"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Enviar"
@@ -7604,6 +7643,9 @@
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
     "messageformat": "¡Gracias por tus comentarios!"
+  },
+  "icu:Megaphone__ExpandNarrowSidebar": {
+    "messageformat": "Expand sidebar to interact with megaphone"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Esta versión incluye una series de ajustes y correcciones de errores para que Signal funcione sin problemas.",
@@ -7633,10 +7675,10 @@
     "messageformat": "Hemos hecho algunos ajustes, correcciones de errores y mejoras en el rendimiento. ¡Gracias por usar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.84--0": {
-    "messageformat": "Las encuestas en Signal Desktop ahora incluyen los mismos efectos de animación que ya veías en tu teléfono. Estás a una sola encuesta de distancia de ver cómo tu opción favorita toma la delantera."
-  },
   "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+    "messageformat": "No podemos arreglar los silencios incómodos en las llamadas grupales, pero sí hemos corregido un error que hacía que el indicador de \"mano levantada\" quedara visible (con un conteo de cero) si alguien levantaba y bajaba la mano muy rápido."
+  },
+  "icu:WhatsNew__7.87--0": {
+    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
   }
 }
