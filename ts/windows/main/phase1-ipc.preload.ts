@@ -133,6 +133,19 @@ const IPC: IPCType = {
     log.info('showDebugLog', options);
     ipc.send('show-debug-log', options);
   },
+  showCallDiagnostic: () => {
+    log.info('showCallDiagnostic');
+    ipc.send('show-call-diagnostic');
+  },
+  closeCallDiagnostic: () => {
+    ipc.send('close-call-diagnostic');
+  },
+  closeDebugLog: () => {
+    ipc.send('close-debug-log');
+  },
+  updateCallDiagnosticData: (data: string) => {
+    ipc.send('update-call-diagnostic-data', data);
+  },
   showPermissionsPopup: (forCalling, forCamera) =>
     ipc.invoke('show-permissions-popup', forCalling, forCamera),
   setMediaPermissions: (value: boolean) =>

@@ -178,6 +178,7 @@ async function sandboxedEnv() {
       mainFields: ['browser', 'main'],
       entryPoints: [
         path.join(ROOT_DIR, 'ts', 'windows', 'about', 'app.dom.tsx'),
+        path.join(ROOT_DIR, 'ts', 'windows', 'calldiagnostic', 'app.dom.tsx'),
         path.join(ROOT_DIR, 'ts', 'windows', 'debuglog', 'app.dom.tsx'),
         path.join(ROOT_DIR, 'ts', 'windows', 'loading', 'start.dom.ts'),
         path.join(ROOT_DIR, 'ts', 'windows', 'permissions', 'app.dom.tsx'),
@@ -189,6 +190,13 @@ async function sandboxedEnv() {
       mainFields: ['browser', 'main'],
       entryPoints: [
         path.join(ROOT_DIR, 'ts', 'windows', 'about', 'preload.preload.ts'),
+        path.join(
+          ROOT_DIR,
+          'ts',
+          'windows',
+          'calldiagnostic',
+          'preload.preload.ts'
+        ),
         path.join(ROOT_DIR, 'ts', 'windows', 'debuglog', 'preload.preload.ts'),
         path.join(ROOT_DIR, 'ts', 'windows', 'loading', 'preload.preload.ts'),
         path.join(
