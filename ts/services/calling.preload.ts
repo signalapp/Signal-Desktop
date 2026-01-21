@@ -337,8 +337,7 @@ function maybeShowCallQualitySurvey(
   const lastSurveyTime = itemStorage.get('lastCallQualitySurveyTime') ?? null;
   const lastFailureSurveyTime =
     itemStorage.get('lastCallQualityFailureSurveyTime') ?? null;
-  const bypassCooldown =
-    itemStorage.get('callQualitySurveyCooldownDisabled') ?? false;
+  const cqsTestMode = itemStorage.get('cqsTestMode') ?? false;
   const ourE164 = itemStorage.user.getNumber();
 
   if (
@@ -347,7 +346,7 @@ function maybeShowCallQualitySurvey(
       lastSurveyTime,
       lastFailureSurveyTime,
       e164: ourE164,
-      bypassCooldown,
+      cqsTestMode,
     })
   ) {
     return;

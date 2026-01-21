@@ -758,11 +758,10 @@ export function SmartPreferences(): React.JSX.Element | null {
     []
   );
 
-  const callQualitySurveyCooldownDisabled =
-    items.callQualitySurveyCooldownDisabled ?? false;
+  const cqsTestMode = items.cqsTestMode ?? false;
 
-  const setCallQualitySurveyCooldownDisabled = useCallback((value: boolean) => {
-    drop(itemStorage.put('callQualitySurveyCooldownDisabled', value));
+  const setCqsTestMode = useCallback((value: boolean) => {
+    drop(itemStorage.put('cqsTestMode', value));
   }, []);
 
   if (currentLocation.tab !== NavTab.Settings) {
@@ -970,10 +969,8 @@ export function SmartPreferences(): React.JSX.Element | null {
           __dangerouslyRunAbitraryReadOnlySqlQuery={
             __dangerouslyRunAbitraryReadOnlySqlQuery
           }
-          callQualitySurveyCooldownDisabled={callQualitySurveyCooldownDisabled}
-          setCallQualitySurveyCooldownDisabled={
-            setCallQualitySurveyCooldownDisabled
-          }
+          cqsTestMode={cqsTestMode}
+          setCqsTestMode={setCqsTestMode}
         />
       </AxoProvider>
     </StrictMode>

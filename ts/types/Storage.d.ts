@@ -69,7 +69,7 @@ export type StorageAccessType = {
   'call-system-notification': boolean;
   lastCallQualitySurveyTime: number;
   lastCallQualityFailureSurveyTime: number;
-  callQualitySurveyCooldownDisabled: boolean;
+  cqsTestMode: boolean;
   'hide-menu-bar': boolean;
   'incoming-call-notification': boolean;
   'notification-draw-attention': boolean;
@@ -294,6 +294,7 @@ export type StorageAccessType = {
   versionedExpirationTimer: never;
   primarySendsSms: never;
   backupMediaDownloadIdle: never;
+  callQualitySurveyCooldownDisabled: never;
 };
 
 export type StorageInterface = {
