@@ -39,7 +39,6 @@ import {
   getConversationSelector,
   getHasPanelOpen,
   isMissingRequiredProfileSharing as getIsMissingRequiredProfileSharing,
-  getPinnedMessages,
   getSelectedMessageIds,
 } from '../selectors/conversations.dom.js';
 import { getHasStoriesSelector } from '../selectors/stories2.dom.js';
@@ -137,9 +136,6 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
 
   const activeAudioPlayer = useSelector(selectAudioPlayerActive);
   const shouldShowMiniPlayer = activeAudioPlayer != null;
-
-  const pinnedMessages = useSelector(getPinnedMessages);
-  const shouldShowPinnedMessagesBar = pinnedMessages.length > 0;
 
   const {
     destroyMessages,
@@ -350,7 +346,6 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
       renderCollidingAvatars={renderCollidingAvatars}
       shouldShowMiniPlayer={shouldShowMiniPlayer}
       renderMiniPlayer={renderMiniPlayer}
-      shouldShowPinnedMessagesBar={shouldShowPinnedMessagesBar}
       renderPinnedMessagesBar={renderPinnedMessagesBar}
       acknowledgeGroupMemberNameCollisions={
         acknowledgeGroupMemberNameCollisions

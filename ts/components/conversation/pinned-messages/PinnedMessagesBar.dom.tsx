@@ -1,11 +1,11 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { ForwardedRef, ReactNode } from 'react';
-import React, { forwardRef, memo, useCallback, useMemo } from 'react';
+import React, { forwardRef, memo, useCallback, useMemo, useState } from 'react';
 import { Tabs } from 'radix-ui';
+import { AnimatePresence, motion } from 'framer-motion';
 import type { LocalizerType } from '../../../types/I18N.std.js';
 import { tw } from '../../../axo/tw.dom.js';
-import { strictAssert } from '../../../util/assert.std.js';
 import { AxoIconButton } from '../../../axo/AxoIconButton.dom.js';
 import { AxoDropdownMenu } from '../../../axo/AxoDropdownMenu.dom.js';
 import { AriaClickable } from '../../../axo/AriaClickable.dom.js';
@@ -19,6 +19,24 @@ import type { HydratedBodyRangesType } from '../../../types/BodyRange.std.js';
 import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
 import { missingCaseError } from '../../../util/missingCaseError.std.js';
 import { stripNewlinesForLeftPane } from '../../../util/stripNewlinesForLeftPane.std.js';
+
+enum Direction {
+  None = 0,
+  Backwards = -1,
+  Forwards = 1,
+}
+
+// This `usePrevious()` hook is safe in React concurrent mode and doesn't break
+// when rendered multiple times with the same values in `<StrictMode>`
+function usePrevious<T>(value: T): T | null {
+  const [current, setCurrent] = useState<T>(value);
+  const [previous, setPrevious] = useState<T | null>(null);
+  if (current !== value) {
+    setCurrent(value);
+    setPrevious(current);
+  }
+  return previous;
+}
 
 export type PinMessageText = Readonly<{
   body: string;
@@ -69,7 +87,7 @@ export type Pin = Readonly<{
 export type PinnedMessagesBarProps = Readonly<{
   i18n: LocalizerType;
   pins: ReadonlyArray<Pin>;
-  current: PinnedMessageId;
+  current: PinnedMessageId | null;
   onCurrentChange: (current: PinnedMessageId) => void;
   onPinGoTo: (messageId: string) => void;
   onPinRemove: (messageId: string) => void;
@@ -80,9 +98,43 @@ export type PinnedMessagesBarProps = Readonly<{
 export const PinnedMessagesBar = memo(function PinnedMessagesBar(
   props: PinnedMessagesBarProps
 ) {
-  const { i18n, onCurrentChange } = props;
+  const { i18n, pins, current, onCurrentChange } = props;
 
-  strictAssert(props.pins.length > 0, 'Must have at least one pin');
+  const currentEntry = useMemo(() => {
+    if (current == null) {
+      return null;
+    }
+
+    for (let index = 0; index < pins.length; index += 1) {
+      const value = pins[index];
+      if (value.id === current) {
+        return { index, value };
+      }
+    }
+
+    throw new Error(
+      `Current pin ${current} is missing from pins (${pins.length})`
+    );
+  }, [pins, current]);
+
+  const currentIndex = currentEntry?.index;
+  const previousIndex = usePrevious(currentIndex);
+
+  const direction = useMemo(() => {
+    if (previousIndex == null || currentIndex == null) {
+      return Direction.None;
+    }
+
+    if (previousIndex < currentIndex) {
+      return Direction.Forwards;
+    }
+
+    if (previousIndex > currentIndex) {
+      return Direction.Backwards;
+    }
+
+    return Direction.None;
+  }, [currentIndex, previousIndex]);
 
   const handleValueChange = useCallback(
     (value: string) => {
@@ -91,117 +143,184 @@ export const PinnedMessagesBar = memo(function PinnedMessagesBar(
     [onCurrentChange]
   );
 
-  if (props.pins.length === 1) {
-    const pin = props.pins.at(0);
-    strictAssert(pin != null, 'Missing pin');
-    return (
-      <Container i18n={i18n} pinsCount={props.pins.length}>
-        <Content
-          i18n={i18n}
-          pin={pin}
-          onPinGoTo={props.onPinGoTo}
-          onPinRemove={props.onPinRemove}
-          onPinsShowAll={props.onPinsShowAll}
-          canPinMessages={props.canPinMessages}
-        />
-      </Container>
-    );
-  }
-
   return (
-    <Tabs.Root
-      orientation="vertical"
-      value={String(props.current)}
-      onValueChange={handleValueChange}
-      asChild
-      activationMode="manual"
-    >
-      <Container i18n={i18n} pinsCount={props.pins.length}>
-        <TabsList
-          i18n={i18n}
-          pins={props.pins}
-          current={props.current}
-          onCurrentChange={props.onCurrentChange}
-        />
-        {props.pins.map(pin => {
-          return (
-            <Tabs.Content
-              key={pin.id}
-              tabIndex={-1}
-              value={String(pin.id)}
-              asChild
-            >
-              <Content
-                i18n={i18n}
-                pin={pin}
-                onPinGoTo={props.onPinGoTo}
-                onPinRemove={props.onPinRemove}
-                onPinsShowAll={props.onPinsShowAll}
-                canPinMessages={props.canPinMessages}
-              />
-            </Tabs.Content>
-          );
-        })}
-      </Container>
-    </Tabs.Root>
+    <Bar i18n={i18n} pinsCount={props.pins.length}>
+      {currentEntry != null && (
+        <Tabs.Root
+          orientation="vertical"
+          value={String(props.current)}
+          onValueChange={handleValueChange}
+          asChild
+          activationMode="manual"
+        >
+          <Row>
+            <TabsList
+              i18n={i18n}
+              pins={props.pins}
+              current={props.current}
+              onCurrentChange={props.onCurrentChange}
+            />
+            <ContentWrapper>
+              {props.pins.map(pin => {
+                return (
+                  <Tabs.Content
+                    key={pin.id}
+                    tabIndex={-1}
+                    value={String(pin.id)}
+                    asChild
+                  >
+                    <Content
+                      i18n={i18n}
+                      pin={pin}
+                      direction={direction}
+                      pinsCount={props.pins.length}
+                    />
+                  </Tabs.Content>
+                );
+              })}
+            </ContentWrapper>
+            <HiddenTrigger
+              i18n={i18n}
+              currentPin={currentEntry.value}
+              onPinGoTo={props.onPinGoTo}
+            />
+            <PinActionsMenu
+              i18n={i18n}
+              pin={currentEntry.value}
+              onPinGoTo={props.onPinGoTo}
+              onPinRemove={props.onPinRemove}
+              onPinsShowAll={props.onPinsShowAll}
+              canPinMessages={props.canPinMessages}
+            />
+          </Row>
+        </Tabs.Root>
+      )}
+    </Bar>
   );
 });
 
-function Container(props: {
+function Bar(props: {
   i18n: LocalizerType;
   pinsCount: number;
   children: ReactNode;
 }) {
   const { i18n } = props;
+  return (
+    <AnimatePresence initial={false}>
+      {props.pinsCount > 0 && (
+        <motion.section
+          aria-label={i18n('icu:PinnedMessagesBar__AccessibilityLabel', {
+            pinsCount: props.pinsCount,
+          })}
+          initial="hide"
+          animate="show"
+          variants={{
+            hide: { height: 0 },
+            show: { height: 'auto' },
+          }}
+          transition={{
+            type: 'spring',
+            stiffness: 473,
+            damping: 40,
+            mass: 1,
+            when: 'beforeChildren',
+          }}
+          className={tw(
+            'overflow-clip border-t-[0.5px] border-t-border-primary',
+            'bg-legacy-conversation-header-bg'
+          )}
+        >
+          <motion.div
+            variants={{
+              hide: { opacity: 0 },
+              show: { opacity: 1 },
+            }}
+          >
+            {props.children}
+          </motion.div>
+        </motion.section>
+      )}
+    </AnimatePresence>
+  );
+}
+
+function Row(props: { children: ReactNode }) {
+  return (
+    <AriaClickable.Root
+      className={tw(
+        'contain-strict',
+        'flex h-14 items-center pe-3 select-none',
+        'rounded-xs',
+        'outline-0 outline-border-focused',
+        'data-[focused]:outline-[2.5px]'
+      )}
+    >
+      {props.children}
+    </AriaClickable.Root>
+  );
+}
+
+function HiddenTrigger(props: {
+  i18n: LocalizerType;
+  currentPin: Pin;
+  onPinGoTo: (messageId: string) => void;
+}) {
+  const { i18n, currentPin, onPinGoTo } = props;
+
+  const handlePinGoToCurrent = useCallback(() => {
+    onPinGoTo(currentPin.message.id);
+  }, [onPinGoTo, currentPin]);
 
   return (
-    <section
-      aria-label={i18n('icu:PinnedMessagesBar__AccessibilityLabel', {
-        pinsCount: props.pinsCount,
-      })}
-    >
-      <AriaClickable.Root
-        className={tw(
-          'flex h-14 items-center py-2.5 pe-3 select-none',
-          'rounded-xs',
-          'bg-legacy-conversation-header-bg',
-          'border-t-[0.5px] border-t-border-primary',
-          'outline-0 outline-border-focused',
-          'data-[focused]:outline-[2.5px]',
-          props.pinsCount === 1 && 'ps-4'
-        )}
-      >
-        {props.children}
-      </AriaClickable.Root>
-    </section>
+    <AriaClickable.HiddenTrigger
+      aria-label={i18n(
+        'icu:PinnedMessagesBar__GoToMessageClickableArea__AccessibilityLabel'
+      )}
+      onClick={handlePinGoToCurrent}
+    />
+  );
+}
+
+function ContentWrapper(props: { children: ReactNode }) {
+  return (
+    <div className={tw('relative size-full min-w-0 flex-1')}>
+      {props.children}
+    </div>
   );
 }
 
 function TabsList(props: {
   i18n: LocalizerType;
   pins: ReadonlyArray<Pin>;
-  current: PinnedMessageId;
+  current: PinnedMessageId | null;
   onCurrentChange: (current: PinnedMessageId) => void;
 }) {
   const { i18n } = props;
 
-  strictAssert(props.pins.length >= 2, 'Too few pins for tabs');
-  strictAssert(props.pins.length <= 3, 'Too many pins for tabs');
+  if (props.pins.length < 2) {
+    return null;
+  }
 
   return (
     <AriaClickable.SubWidget>
-      <Tabs.List className={tw('flex h-full flex-col')}>
-        {props.pins.map((pin, pinIndex) => {
-          return (
-            <TabTrigger
-              key={pin.id}
-              i18n={i18n}
-              pin={pin}
-              pinNumber={pinIndex + 1}
-              pinsCount={props.pins.length}
-            />
-          );
-        })}
+      <Tabs.List asChild>
+        <motion.div
+          className={tw('flex h-full flex-col py-2.5')}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          {props.pins.map((pin, pinIndex) => {
+            return (
+              <TabTrigger
+                key={pin.id}
+                i18n={i18n}
+                pin={pin}
+                pinNumber={pinIndex + 1}
+                pinsCount={props.pins.length}
+              />
+            );
+          })}
+        </motion.div>
       </Tabs.List>
     </AriaClickable.SubWidget>
   );
@@ -241,24 +360,68 @@ function TabTrigger(props: {
 type ContentProps = Readonly<{
   i18n: LocalizerType;
   pin: Pin;
+  direction: Direction;
+  pinsCount: number;
+}>;
+
+const Content = forwardRef(function Content(
+  { i18n, pin, direction, pinsCount, ...forwardedProps }: ContentProps,
+  ref: ForwardedRef<HTMLDivElement>
+): React.JSX.Element {
+  const thumbnailUrl = useMemo(() => {
+    return getThumbnailUrl(pin.message);
+  }, [pin.message]);
+
+  return (
+    <div
+      ref={ref}
+      {...forwardedProps}
+      className={tw(
+        'absolute inset-0',
+        'flex h-full flex-row items-center py-2.5',
+        pinsCount === 1 && 'ps-4',
+        direction === Direction.Forwards &&
+          tw(
+            'data-[state=active]:animate-enter data-[state=active]:animate-translate-y-[100%]',
+            'data-[state=inactive]:animate-exit data-[state=inactive]:animate-translate-y-[-100%]',
+            // Use !important to override Radix'x logic for preventing mount animations
+            // eslint-disable-next-line better-tailwindcss/no-restricted-classes
+            'animate-duration-300!'
+          ),
+        direction === Direction.Backwards &&
+          tw(
+            'data-[state=active]:animate-enter data-[state=active]:animate-translate-y-[-100%]',
+            'data-[state=inactive]:animate-exit data-[state=inactive]:animate-translate-y-[100%]',
+            // Use !important to override Radix'x logic for preventing mount animations
+            // eslint-disable-next-line better-tailwindcss/no-restricted-classes
+            'animate-duration-300!'
+          )
+      )}
+    >
+      {thumbnailUrl != null && <ImageThumbnail url={thumbnailUrl} />}
+      <div className={tw('min-w-0 flex-1')}>
+        <h1 className={tw('type-body-small font-semibold text-label-primary')}>
+          <UserText text={pin.sender.title} />
+        </h1>
+        <p className={tw('me-2 truncate type-body-medium text-label-primary')}>
+          <MessagePreview i18n={i18n} message={pin.message} />
+        </p>
+      </div>
+    </div>
+  );
+});
+
+function PinActionsMenu(props: {
+  i18n: LocalizerType;
+  pin: Pin;
   onPinGoTo: (messageId: string) => void;
   onPinRemove: (messageId: string) => void;
   onPinsShowAll: () => void;
   canPinMessages: boolean;
-}>;
+}) {
+  const { i18n, pin, onPinGoTo, onPinRemove, onPinsShowAll, canPinMessages } =
+    props;
 
-const Content = forwardRef(function Content(
-  {
-    i18n,
-    pin,
-    onPinGoTo,
-    onPinRemove,
-    onPinsShowAll,
-    canPinMessages,
-    ...forwardedProps
-  }: ContentProps,
-  ref: ForwardedRef<HTMLDivElement>
-): React.JSX.Element {
   const handlePinGoTo = useCallback(() => {
     onPinGoTo(pin.message.id);
   }, [onPinGoTo, pin.message.id]);
@@ -271,70 +434,39 @@ const Content = forwardRef(function Content(
     onPinsShowAll();
   }, [onPinsShowAll]);
 
-  const thumbnailUrl = useMemo(() => {
-    return getThumbnailUrl(pin.message);
-  }, [pin.message]);
-
   return (
-    <div
-      ref={ref}
-      {...forwardedProps}
-      className={tw('flex min-w-0 flex-1 flex-row items-center')}
-    >
-      {thumbnailUrl != null && <ImageThumbnail url={thumbnailUrl} />}
-      <div className={tw('min-w-0 flex-1')}>
-        <h1 className={tw('type-body-small font-semibold text-label-primary')}>
-          <UserText text={pin.sender.title} />
-        </h1>
-        <p className={tw('me-2 truncate type-body-medium text-label-primary')}>
-          <MessagePreview i18n={i18n} message={pin.message} />
-        </p>
-        <AriaClickable.HiddenTrigger
-          aria-label={i18n(
-            'icu:PinnedMessagesBar__GoToMessageClickableArea__AccessibilityLabel'
-          )}
-          onClick={handlePinGoTo}
-        />
-      </div>
-      <AriaClickable.SubWidget>
-        <AxoDropdownMenu.Root>
-          <AxoDropdownMenu.Trigger>
-            <AxoIconButton.Root
-              variant="borderless-secondary"
-              size="md"
-              symbol="pin"
-              aria-label={i18n(
-                'icu:PinnedMessagesBar__ActionsMenu__Button__AccessibilityLabel'
-              )}
-            />
-          </AxoDropdownMenu.Trigger>
-          <AxoDropdownMenu.Content>
-            {canPinMessages && (
-              <AxoDropdownMenu.Item
-                symbol="pin-slash"
-                onSelect={handlePinRemove}
-              >
-                {i18n('icu:PinnedMessagesBar__ActionsMenu__UnpinMessage')}
-              </AxoDropdownMenu.Item>
+    <AriaClickable.SubWidget>
+      <AxoDropdownMenu.Root>
+        <AxoDropdownMenu.Trigger>
+          <AxoIconButton.Root
+            variant="borderless-secondary"
+            size="md"
+            symbol="pin"
+            aria-label={i18n(
+              'icu:PinnedMessagesBar__ActionsMenu__Button__AccessibilityLabel'
             )}
-            <AxoDropdownMenu.Item
-              symbol="message-arrow"
-              onSelect={handlePinGoTo}
-            >
-              {i18n('icu:PinnedMessagesBar__ActionsMenu__GoToMessage')}
+          />
+        </AxoDropdownMenu.Trigger>
+        <AxoDropdownMenu.Content>
+          {canPinMessages && (
+            <AxoDropdownMenu.Item symbol="pin-slash" onSelect={handlePinRemove}>
+              {i18n('icu:PinnedMessagesBar__ActionsMenu__UnpinMessage')}
             </AxoDropdownMenu.Item>
-            <AxoDropdownMenu.Item
-              symbol="list-bullet"
-              onSelect={handlePinsShowAll}
-            >
-              {i18n('icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages')}
-            </AxoDropdownMenu.Item>
-          </AxoDropdownMenu.Content>
-        </AxoDropdownMenu.Root>
-      </AriaClickable.SubWidget>
-    </div>
+          )}
+          <AxoDropdownMenu.Item symbol="message-arrow" onSelect={handlePinGoTo}>
+            {i18n('icu:PinnedMessagesBar__ActionsMenu__GoToMessage')}
+          </AxoDropdownMenu.Item>
+          <AxoDropdownMenu.Item
+            symbol="list-bullet"
+            onSelect={handlePinsShowAll}
+          >
+            {i18n('icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages')}
+          </AxoDropdownMenu.Item>
+        </AxoDropdownMenu.Content>
+      </AxoDropdownMenu.Root>
+    </AriaClickable.SubWidget>
   );
-});
+}
 
 function getThumbnailUrl(message: PinMessage): string | null {
   // Never render a thumbnail if its view-once media

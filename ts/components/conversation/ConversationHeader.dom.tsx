@@ -149,7 +149,6 @@ export type PropsDataType = {
   shouldShowMiniPlayer: boolean;
   renderMiniPlayer: RenderMiniPlayer;
 
-  shouldShowPinnedMessagesBar: boolean;
   renderPinnedMessagesBar: RenderPinnedMessagesBar;
 };
 
@@ -243,7 +242,6 @@ export const ConversationHeader = memo(function ConversationHeader({
   shouldShowMiniPlayer,
   renderMiniPlayer,
 
-  shouldShowPinnedMessagesBar,
   renderPinnedMessagesBar,
 }: PropsType): React.JSX.Element | null {
   // Comes from a third-party dependency
@@ -465,7 +463,6 @@ export const ConversationHeader = memo(function ConversationHeader({
               renderCollidingAvatars={renderCollidingAvatars}
               shouldShowMiniPlayer={shouldShowMiniPlayer}
               renderMiniPlayer={renderMiniPlayer}
-              shouldShowPinnedMessagesBar={shouldShowPinnedMessagesBar}
               renderPinnedMessagesBar={renderPinnedMessagesBar}
             />
           </div>
@@ -1140,8 +1137,6 @@ function ConversationSubheader(props: {
 
   shouldShowMiniPlayer: boolean;
   renderMiniPlayer: RenderMiniPlayer;
-
-  shouldShowPinnedMessagesBar: boolean;
   renderPinnedMessagesBar: RenderPinnedMessagesBar;
 }) {
   const { i18n } = props;
@@ -1194,9 +1189,7 @@ function ConversationSubheader(props: {
       )}
       {props.shouldShowMiniPlayer &&
         props.renderMiniPlayer({ shouldFlow: true })}
-      {!props.shouldShowMiniPlayer &&
-        props.shouldShowPinnedMessagesBar &&
-        props.renderPinnedMessagesBar()}
+      {!props.shouldShowMiniPlayer && props.renderPinnedMessagesBar()}
     </>
   );
 }

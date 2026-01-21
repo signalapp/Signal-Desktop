@@ -17,6 +17,7 @@ import {
   getSelectedConversationId,
   getPinnedMessages,
   getMessages,
+  getConversationIsReady,
 } from '../selectors/conversations.dom.js';
 import { strictAssert } from '../../util/assert.std.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
@@ -372,6 +373,7 @@ export const SmartPinnedMessagesBar = memo(function SmartPinnedMessagesBar() {
   const conversation = conversationSelector(conversationId);
   strictAssert(conversation != null, 'Missing conversation');
 
+  const conversationIsReady = useSelector(getConversationIsReady);
   const pins = useSelector(selectPins);
   const canPinMessages = getCanPinMessages(conversation);
 
@@ -459,8 +461,8 @@ export const SmartPinnedMessagesBar = memo(function SmartPinnedMessagesBar() {
     setCurrent(nextCurrent);
   });
 
-  if (current == null) {
-    return;
+  if (!conversationIsReady) {
+    return null;
   }
 
   return (
