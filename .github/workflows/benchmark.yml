@@ -155,10 +155,12 @@ jobs:
         pnpm install
         pnpm run build
 
-    - name: Publish to DataDog
+    - name: Publish
       working-directory: benchmark-results
       run: |
         node ./bin/publish.js ../benchmark.log desktop.ci.performance.${{ matrix.metric }}
       env:
         DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}
-        GRAFANA_API_KEY: ${{ secrets.GRAFANA_API_KEY }}
+        OTEL_EXPORTER_OTLP_ENDPOINT: ${{ secrets.OTEL_EXPORTER_OTLP_ENDPOINT }}
+        OTEL_EXPORTER_OTLP_PROTOCOL: ${{ secrets.OTEL_EXPORTER_OTLP_PROTOCOL }}
+        OTEL_EXPORTER_OTLP_HEADERS: ${{ secrets.OTEL_EXPORTER_OTLP_HEADERS }}
