@@ -6,6 +6,7 @@ import lodash from 'lodash';
 
 import type { ReadableDB, WritableDB } from './Interface.std.js';
 import type { LoggerType } from '../types/Logging.std.js';
+import { strictAssert } from '../util/assert.std.js';
 
 const { isNumber, last } = lodash;
 
@@ -103,6 +104,13 @@ export function sqlConstant(value: QueryTemplateParam): QueryFragment {
     fragment = `'${value}'`;
   }
   return new QueryFragment(fragment, []);
+}
+
+const PLAIN_SQL_IDENTIFIER = /^[a-zA-Z_][a-zA-Z0-9_]*$/;
+
+export function sqlId(name: string): QueryFragment {
+  strictAssert(PLAIN_SQL_IDENTIFIER.test(name), `Invalid identifier ${name}`);
+  return new QueryFragment(`\`${name}\``, []);
 }
 
 /**
