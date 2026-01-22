@@ -161,3 +161,4 @@ jobs:
         node ./bin/publish.js ../benchmark.log desktop.ci.performance.${{ matrix.metric }}
       env:
         DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+        GRAFANA_API_KEY: ${{ secrets.GRAFANA_API_KEY }}
