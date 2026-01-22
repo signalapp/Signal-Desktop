@@ -69,6 +69,7 @@ import {
   sqlFragment,
   sqlJoin,
   convertOptionalBooleanToInteger,
+  sqlId,
 } from './util.std.js';
 import {
   hydrateMessage,
@@ -200,8 +201,7 @@ import type {
 import {
   AttachmentDownloadSource,
   MESSAGE_COLUMNS,
-  MESSAGE_COLUMNS_FRAGMENTS,
-  MESSAGE_COLUMNS_SELECT,
+  MESSAGE_COLUMNS_FRAGMENT,
   MESSAGE_ATTACHMENT_COLUMNS,
   MESSAGE_NON_PRIMARY_KEY_COLUMNS,
 } from './Interface.std.js';
@@ -2199,10 +2199,6 @@ function searchMessages(
         .run({ conversationId, limit });
     }
 
-    const prefixedColumns = sqlJoin(
-      MESSAGE_COLUMNS_FRAGMENTS.map(name => sqlFragment`messages.${name}`)
-    );
-
     // The `MATCH` is necessary in order to for `snippet()` helper function to
     // give us the right results. We can't call `snippet()` in the query above
     // because it would bloat the temporary table with text data and we want
@@ -2210,7 +2206,7 @@ function searchMessages(
     const ftsFragment = sqlFragment`
       SELECT
         messages.rowid,
-        ${prefixedColumns},
+        ${MESSAGE_COLUMNS_FRAGMENT},
         snippet(messages_fts, -1, ${SNIPPET_LEFT_PLACEHOLDER}, ${SNIPPET_RIGHT_PLACEHOLDER}, ${SNIPPET_TRUNCATION_PLACEHOLDER}, 10) AS ftsSnippet
       FROM tmp_filtered_results
       INNER JOIN messages_fts
@@ -2231,10 +2227,13 @@ function searchMessages(
       const [sqlQuery, params] = sql`${ftsFragment};`;
       queryResult = writable.prepare(sqlQuery).all(params);
     } else {
-      const coalescedColumns = MESSAGE_COLUMNS_FRAGMENTS.map(
-        name => sqlFragment`
-          COALESCE(messages.${name}, ftsResults.${name}) AS ${name}
-        `
+      const coalescedColumns = sqlJoin(
+        MESSAGE_COLUMNS.map(name => {
+          const id = sqlId(name);
+          return sqlFragment`
+            COALESCE(messages.${id}, ftsResults.${id}) AS ${id}
+          `;
+        })
       );
 
       // If contactServiceIdsMatchingQuery is not empty, we due an OUTER JOIN
@@ -2249,7 +2248,7 @@ function searchMessages(
       const [sqlQuery, params] = sql`
         SELECT
           messages.rowid as rowid,
-          ${sqlJoin(coalescedColumns)},
+          ${coalescedColumns},
           ftsResults.ftsSnippet,
           mentionAci,
           start as mentionStart,
@@ -2369,8 +2368,7 @@ export function getMostRecentAddressableMessages(
 ): Array<MessageType> {
   return db.transaction(() => {
     const [query, parameters] = sql`
-    SELECT
-      ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
+    SELECT ${MESSAGE_COLUMNS_FRAGMENT}
     FROM messages
     INDEXED BY messages_by_date_addressable
     WHERE
@@ -2393,8 +2391,7 @@ export function getMostRecentAddressableNondisappearingMessages(
 ): Array<MessageType> {
   return db.transaction(() => {
     const [query, parameters] = sql`
-    SELECT
-      ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
+    SELECT ${MESSAGE_COLUMNS_FRAGMENT}
     FROM messages
     INDEXED BY messages_by_date_addressable_nondisappearing
     WHERE
@@ -3326,8 +3323,14 @@ function getMessageByAuthorAciAndSentAt(
   options: { includeEdits: boolean }
 ): MessageType | null {
   return db.transaction(() => {
+    // Return sentAt/readStatus from the messages table, when we edit a message
+    // we add the original message to messages.editHistory and update original
+    // message's sentAt/readStatus columns.
+    //
+    // Make sure to preserve order of SELECT columns in the UNION
+    // In SQL UNION's require that the SELECT columns are in the same order
     const editedMessagesQuery = sqlFragment`
-      SELECT ${MESSAGE_COLUMNS_SELECT}
+      SELECT ${MESSAGE_COLUMNS_FRAGMENT}
       FROM edited_messages
       INNER JOIN messages ON
         messages.id = edited_messages.messageId
@@ -3336,7 +3339,7 @@ function getMessageByAuthorAciAndSentAt(
     `;
 
     const messagesQuery = sqlFragment`
-      SELECT ${MESSAGE_COLUMNS_SELECT}
+      SELECT ${MESSAGE_COLUMNS_FRAGMENT}
       FROM messages
       WHERE messages.sourceServiceId = ${authorAci}
         AND messages.sent_at = ${sentAtTimestamp}
@@ -3832,8 +3835,7 @@ function getRecentStoryReplies(
   };
 
   const createQuery = (timeFilter: QueryFragment): QueryFragment => sqlFragment`
-    SELECT
-      ${MESSAGE_COLUMNS_SELECT}
+    SELECT ${MESSAGE_COLUMNS_FRAGMENT}
     FROM messages
     WHERE
       (${messageId ?? null} IS NULL OR id IS NOT ${messageId ?? null}) AND
@@ -3897,8 +3899,7 @@ function getAdjacentMessagesByConversation(
     requireFileAttachments;
 
   const createQuery = (timeFilter: QueryFragment): QueryFragment => sqlFragment`
-    SELECT
-      ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
+    SELECT ${MESSAGE_COLUMNS_FRAGMENT}
     FROM messages WHERE
       conversationId = ${conversationId} AND
       ${
@@ -3965,7 +3966,7 @@ function getAllStories(
 ): GetAllStoriesResultType {
   return db.transaction(() => {
     const [storiesQuery, storiesParams] = sql`
-    SELECT ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
+    SELECT ${MESSAGE_COLUMNS_FRAGMENT}
     FROM messages
     WHERE
       isStory = 1 AND
@@ -4642,7 +4643,7 @@ function getCallHistoryMessageByCallId(
 ): MessageType | undefined {
   return db.transaction(() => {
     const [query, params] = sql`
-    SELECT ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
+    SELECT ${MESSAGE_COLUMNS_FRAGMENT}
     FROM messages
     WHERE conversationId = ${options.conversationId}
       AND type = 'call-history'
@@ -5614,8 +5615,7 @@ function getSortedNonAttachmentMedia(
   }
 
   const createQuery = (timeFilter: QueryFragment): QueryFragment => sqlFragment`
-    SELECT
-      ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
+    SELECT ${MESSAGE_COLUMNS_FRAGMENT}
     FROM messages
     INDEXED BY ${index}
     WHERE
@@ -5856,22 +5856,20 @@ function getMessagesBySentAt(
   sentAt: number
 ): Array<MessageType> {
   return db.transaction(() => {
-    // Make sure to preserve order of columns
-    const editedColumns = MESSAGE_COLUMNS_FRAGMENTS.map(name => {
-      if (name.fragment === 'received_at' || name.fragment === 'sent_at') {
-        return name;
-      }
-      return sqlFragment`messages.${name}`;
-    });
-
+    // Return sentAt/readStatus from the messages table, when we edit a message
+    // we add the original message to messages.editHistory and update original
+    // message's sentAt/readStatus columns.
+    //
+    // Make sure to preserve order of SELECT columns in the UNION
+    // In SQL UNION's require that the SELECT columns are in the same order
     const [query, params] = sql`
-      SELECT ${sqlJoin(editedColumns)}
+      SELECT ${MESSAGE_COLUMNS_FRAGMENT}
       FROM edited_messages
       INNER JOIN messages ON
         messages.id = edited_messages.messageId
       WHERE edited_messages.sentAt = ${sentAt}
       UNION
-      SELECT ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
+      SELECT ${MESSAGE_COLUMNS_FRAGMENT}
       FROM messages
       WHERE sent_at = ${sentAt}
       ORDER BY messages.received_at DESC, messages.sent_at DESC;
@@ -9245,13 +9243,19 @@ function getUnreadEditedMessagesAndMarkRead(
   }
 ): GetUnreadByConversationAndMarkReadResultType {
   return db.transaction(() => {
-    const editedColumns = MESSAGE_COLUMNS_FRAGMENTS.filter(
-      name => name.fragment !== 'sent_at' && name.fragment !== 'readStatus'
-    ).map(name => sqlFragment`messages.${name}`);
+    const editedColumns = sqlJoin(
+      MESSAGE_COLUMNS.filter(name => {
+        // We want to use edited_messages.sentAt/readStatus here so that we can
+        // update these rows below.
+        return name !== 'sent_at' && name !== 'readStatus';
+      }).map(name => {
+        return sqlFragment`messages.${sqlId(name)}`;
+      })
+    );
 
     const [selectQuery, selectParams] = sql`
       SELECT
-        ${sqlJoin(editedColumns)},
+        ${editedColumns},
         edited_messages.sentAt as sent_at,
         edited_messages.readStatus
       FROM edited_messages
@@ -9260,7 +9264,7 @@ function getUnreadEditedMessagesAndMarkRead(
       WHERE
         edited_messages.readStatus = ${ReadStatus.Unread} AND
         edited_messages.conversationId = ${conversationId} AND
-        received_at <= ${readMessageReceivedAt}
+        messages.received_at <= ${readMessageReceivedAt}
       ORDER BY messages.received_at DESC, messages.sent_at DESC;
     `;
 
