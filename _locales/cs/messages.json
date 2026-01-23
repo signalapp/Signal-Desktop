@@ -1239,13 +1239,13 @@
     "messageformat": "Pokračovat"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "Připnout mizející zprávy"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "Mizející zprávy budou po vypršení časového limitu odepnuty a zpráva bude z chatu odstraněna."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "V pořádku"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {připnutá zpráva} few {připnuté zprávy} many {připnutých zpráv} other {připnutých zpráv}}"
@@ -6003,13 +6003,13 @@
     "messageformat": "Znovu zobrazit klíč"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "Poslední zálohování"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "Nikdy"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "Zálohovat nyní"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Složka pro zálohy"
@@ -7624,10 +7624,10 @@
     "messageformat": "Protokoly ladění obsahují informace o aplikaci na nízké úrovni a nesdělují žádný obsah vašich zpráv."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "Informace, které s námi sdílíte, obsahují jen základní údaje o aplikaci a nezahrnují obsah vašich hovorů."
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "Diagnostické informace"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Odeslat"

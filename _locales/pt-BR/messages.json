@@ -1239,13 +1239,13 @@
     "messageformat": "Continuar"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "Fixação de mensagens temporárias"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "Mensagens temporárias serão desafixadas quando o tempo expirar e a mensagem for removida da conversa. "
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "Ok"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Mensagem fixada} other {Mensagens fixadas}}"
@@ -6003,13 +6003,13 @@
     "messageformat": "Ver chave novamente"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "Último backup"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "Nunca"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "Fazer backup agora"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Pasta do backup"
@@ -7624,10 +7624,10 @@
     "messageformat": "Os registros de depuração contêm informações técnicas do aplicativo e não revelam o conteúdo das suas mensagens."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "As informações compartilhadas conosco contêm informações básicas do aplicativo e não incluem o conteúdo de suas chamadas."
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "Informações de diagnóstico"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Enviar"

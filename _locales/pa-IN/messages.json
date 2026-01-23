@@ -1239,13 +1239,13 @@
     "messageformat": "ਜਾਰੀ ਰੱਖੋ"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "ਗਾਇਬ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹੇ ਪਿੰਨ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "ਗਾਇਬ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹਿਆਂ ਦਾ ਟਾਈਮਰ ਸਮਾਪਤ ਹੋਣ 'ਤੇ ਉਹਨਾਂ ਨੂੰ ਅਨਪਿੰਨ ਕਰ ਦਿੱਤਾ ਜਾਵੇਗਾ ਅਤੇ ਸੁਨੇਹੇ ਨੂੰ ਚੈਟ ਵਿੱਚੋਂ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "ਠੀਕ ਹੈ"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {ਪਿੰਨ ਕੀਤਾ ਸੁਨੇਹਾ} other {ਪਿੰਨ ਕੀਤੇ ਸੁਨੇਹੇ}}"
@@ -6003,13 +6003,13 @@
     "messageformat": "ਕੁੰਜੀ ਨੂੰ ਦੁਬਾਰਾ ਦੇਖੋ"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "ਆਖਰੀ ਬੈਕਅੱਪ"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "ਕਦੇ ਨਹੀਂ"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "ਹੁਣ ਬੈਕਅੱਪ ਲਓ"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "ਬੈਕਅੱਪ ਫੋਲਡਰ"
@@ -7624,10 +7624,10 @@
     "messageformat": "ਡੀਬੱਗ ਲੌਗ ਵਿੱਚ ਘੱਟ ਪੱਧਰ ਦੀ ਐਪ ਜਾਣਕਾਰੀ ਮੌਜੂਦ ਹੁੰਦੀ ਹੈ ਅਤੇ ਤੁਹਾਡੇ ਸੁਨੇਹੇ ਦੀ ਕਿਸੇ ਵੀ ਸਮੱਗਰੀ ਦਾ ਖੁਲਾਸਾ ਨਹੀਂ ਕੀਤਾ ਜਾਂਦਾ ਹੈ।"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "ਸਾਡੇ ਨਾਲ ਸਾਂਝੀ ਕੀਤੀ ਗਈ ਜਾਣਕਾਰੀ ਵਿੱਚ ਹੇਠਲੇ ਪੱਧਰ ਦੀ ਐਪ ਜਾਣਕਾਰੀ ਸ਼ਾਮਲ ਹੁੰਦੀ ਹੈ ਅਤੇ ਇਸ ਵਿੱਚ ਤੁਹਾਡੀਆਂ ਕਾਲਾਂ ਬਾਰੇ ਜਾਣਕਾਰੀ ਸ਼ਾਮਲ ਨਹੀਂ ਹੁੰਦੀ ਹੈ।"
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "ਡਾਇਗਨੌਸਟਿਕਸ ਜਾਣਕਾਰੀ"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "ਦਰਜ ਕਰੋ"

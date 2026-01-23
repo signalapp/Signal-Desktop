@@ -1239,13 +1239,13 @@
     "messageformat": "ดำเนินการต่อ"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "การปักหมุดข้อความที่จะหายไป"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "เมื่อครบเวลาที่กำหนด ข้อความที่จะหายไปจะถูกปลดหมุดและจะถูกลบออกจากแชท"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "ตกลง"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, other {ข้อความที่ปักหมุด}}"
@@ -6003,13 +6003,13 @@
     "messageformat": "ดูกุญแจอีกครั้ง"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "การสำรองข้อมูลครั้งล่าสุด"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "ไม่เลย"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "สำรองข้อมูลเดี๋ยวนี้"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "โฟลเดอร์ข้อมูลสำรอง"
@@ -7624,10 +7624,10 @@
     "messageformat": "ภายในบันทึกดีบักจะมีข้อมูลแอประดับพื้นฐานและจะไม่เปิดเผยเนื้อหาใดๆ ในข้อความของคุณ"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "ข้อมูลที่คุณจะแชร์ให้เราเป็นข้อมูลแอประดับพื้นฐานซึ่งไม่รวมถึงเนื้อหาใดๆ ในการโทรของคุณ"
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "ข้อมูลผลการวิเคราะห์ปัญหา"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "ส่ง"

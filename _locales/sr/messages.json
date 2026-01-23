@@ -1239,13 +1239,13 @@
     "messageformat": "Настави"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "Качење нестајућих порука"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "Нестајуће поруке ће бити откачене када истекну и нестану из ћаскања."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "У реду"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Закачена порука} other {Закачене поруке}}"
@@ -6003,13 +6003,13 @@
     "messageformat": "Види кључ поново"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "Последња резервна копија"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "Никад"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "Направи резервну копију"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Фолдер резервне копије"
@@ -7624,10 +7624,10 @@
     "messageformat": "Извештаји о грешкама садрже информације о апликацији ниског нивоа и у њима се не открива садржај ваших порука."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "Информације које се деле с нама су основне информације о апликацији и не укључују садржај ваших позива."
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "Дијагностичке информације"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Пошаљи"

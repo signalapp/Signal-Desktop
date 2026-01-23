@@ -1239,13 +1239,13 @@
     "messageformat": "جاری رکھیں"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "غائب ہونے والے میسجز کو پِن کرنا"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "جب غائب ہونے والے میسجز کا ٹائمر ختم ہو جائے گا اور میسج چیٹ سے ہٹا دیا جائے گا تو وہ اَن پِن ہو جائیں گے۔"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "ٹھیک ہے"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {پِن کردہ میسج} other {پِن کردہ میسجز}}"
@@ -6003,13 +6003,13 @@
     "messageformat": "کیی کو دوبارہ دیکھیں"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "آخری بیک اپ"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "کبھی نہیں"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "اب بیک اپ کریں"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "بیک اپ فولڈر"
@@ -7624,10 +7624,10 @@
     "messageformat": "ڈی بگ لاگز کم درجے کی ایپ معلومات پر مشتمل ہوتے ہیں اور آپ کے کسی بھی میسج کے مندرجات کو ظاہر نہیں کرتے۔"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "ہمارے ساتھ شیئر کی گئی معلومات میں ایپ کی بنیادی سطح کی تفصیلات شامل ہیں اور اس میں آپ کی کالز کا مواد شامل نہیں ہے۔"
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "تشخیصی معلومات"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "جمح کریں"

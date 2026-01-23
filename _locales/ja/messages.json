@@ -1239,13 +1239,13 @@
     "messageformat": "続ける"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "消えるメッセージをピン留めする"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "消えるメッセージは、期間が過ぎてチャットから消えた時にピン留めも解除されます。"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "OK"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, other {ピン留めされたメッセージ}}"
@@ -6003,13 +6003,13 @@
     "messageformat": "キーをもう一度見る"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "最終バックアップ"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "なし"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "いますぐバックアップする"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "バックアップフォルダ"
@@ -7624,10 +7624,10 @@
     "messageformat": "デバッグログには最低限のアプリ情報のみが含まれ、メッセージ内容は一切明らかにされません。"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "私たちと共有されるのは最低限のアプリ情報であり、通話内容は含まれません。"
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "診断情報"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "送信する"

@@ -1239,13 +1239,13 @@
     "messageformat": "متابعة"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "تثبيت الرسائل المؤقَّتة"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "سيُلغى تثبيت الرسائل المؤقَّتة عند انتهاء مؤقتها وإزالتها من الدردشة."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "حسنًا"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, zero {رسائل مُثبَّتة} one {رسالة مُثبَّتة} two {رسالتان مُثبَّتتان} few {رسائل مُثبَّتة} many {رسائل مُثبَّتة} other {رسائل مُثبَّتة}}"
@@ -6003,13 +6003,13 @@
     "messageformat": "اطَّلِع على المفتاح مُجدَّدًا"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "آخِر نسخة احتياطية"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "أبدًا"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "إنشاء نسخة احتياطية الآن"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "مجلد النسخ الاحتياطية"
@@ -7624,10 +7624,10 @@
     "messageformat": "تحتوي سجلات الأخطاء على معلومات التطبيق منخفضة المستوى ولا تكشف عن أي من محتويات رسالتك."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "المعلومات التي تتم مشاركتها معنا تقتصر على بيانات تقنية منخفضة المستوى خاصة بالتطبيق، ولا تشمل محتوى مكالماتك."
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "معلومات التشخيص"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "إرسال"

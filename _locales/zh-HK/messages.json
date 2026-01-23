@@ -1239,13 +1239,13 @@
     "messageformat": "繼續"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "釘選自動銷毀訊息"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "當自動銷毀訊息時限已到和從聊天中被移除時，系統會將其解除釘選。"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "好的"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, other {已釘選的訊息}}"
@@ -6003,13 +6003,13 @@
     "messageformat": "再看一次金鑰"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "上次備份"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "永不"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "立即備份"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "備份資料夾"
@@ -7624,10 +7624,10 @@
     "messageformat": "除錯日誌包含低階應用程式資訊，不會顯示任何訊息內容。"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "與我們分享的資訊包含基礎應用程式資訊，並不包含你的通話內容。"
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "診斷資訊"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "送出"

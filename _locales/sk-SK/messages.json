@@ -1239,13 +1239,13 @@
     "messageformat": "Pokračovať"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "Pripnutie miznúcich správ"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "Miznúce správy sa po uplynutí nastaveného času odopnú a správa sa odstráni z četu."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "OK"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Pripnutá správa} few {Pripnuté správy} many {Pripnutej správy} other {Pripnutých správ}}"
@@ -6003,13 +6003,13 @@
     "messageformat": "Pozrieť si kľúč znova"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "Posledná záloha"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "Nikdy"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "Zálohovať teraz"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Priečinok pre zálohy"
@@ -7624,10 +7624,10 @@
     "messageformat": "Protokoly ladenia obsahujú informácie o aplikácii na nízkej úrovni a neodhaľujú obsah správ."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "Informácie, ktoré s nami zdieľate, obsahujú informácie o aplikácii na nízkej úrovni a nezahŕňajú obsah vašich hovorov."
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "Diagnostické údaje"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Odoslať"

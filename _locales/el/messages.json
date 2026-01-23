@@ -1239,13 +1239,13 @@
     "messageformat": "Συνέχεια"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "Καρφίτσωμα μηνυμάτων που εξαφανίζονται"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "Τα μηνύματα που εξαφανίζονται θα ξεκαρφιτσώνονται όταν λήξει ο χρόνος τους και το μήνυμα αφαιρεθεί από τη συνομιλία."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "Εντάξει"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Καρφιτσωμένo μήνυμα} other {Καρφιτσωμένα μηνύματα}}"
@@ -6003,13 +6003,13 @@
     "messageformat": "Επαναπροβολή κλειδιού"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "Τελευταίο αντίγραφο ασφαλείας"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "Ποτέ"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "Δημιουργία αντίγραφου τώρα"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Φάκελος αντίγραφου ασφαλείας"
@@ -7624,10 +7624,10 @@
     "messageformat": "Τα αρχεία καταγραφής αποσφαλμάτωσης περιέχουν πληροφορίες εφαρμογής χαμηλού επιπέδου και δεν αποκαλύπτουν κανένα από τα περιεχόμενα των μηνυμάτων σου."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "Οι πληροφορίες που κοινοποιούνται σε εμάς περιέχουν πληροφορίες χαμηλού επιπέδου της εφαρμογής και δεν περιλαμβάνουν το περιεχόμενο των κλήσεών σου."
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "Πληροφορίες διαγνωστικών"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Υποβολή"

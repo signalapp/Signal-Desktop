@@ -1239,13 +1239,13 @@
     "messageformat": "داۋاملاشتۇرۇش"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "غايىب بولۇش ئالدىدىكى ئۇچۇرلارنى مىقلاش"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "غايىب بولۇش ئالدىدىكى ئۇچۇرلار ۋاقىت خاتىرلىگۈچتىكى ۋاقتى توشقاندا مىقىدىن ئېلىۋېتىلىدۇ ھەمدە سۆھبەتتىن ئۆچۈرۈۋېتىلىدۇ."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "جەزملە"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, other {مىقلانغان ئۇچۇرلار}}"
@@ -5628,22 +5628,22 @@
     "messageformat": "سۆھبەت تارىخىڭىزنى ئېكسپورت قىلغىلى بولمايدۇ، چۈنكى Signalنىڭ ساقلاش دىسكىسىغا ھۆججەت كىرگۈزۈش ھوقۇقى يوق. دىسكىڭىزنىڭ ئىجازەتنامىسىنى ئۆزگەرتىڭ ياكى سىستېما تەڭشىكىڭىزنى يېڭىلاپ ئاندىن قايتا ئېكسپورت قىلىڭ."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "زاپاسنى ئىكسپورتلاش"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "زاپاسنى ئىكىسپورتلاش تاماملاندى"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "بۇ زاپاسنى ئەسلىگە كەلتۈرۈش ئۈچۈن:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "زاپاسلاش ھۆججەت قىسقۇچىڭىزنى تېلېفونىڭىزنىڭ ساقلاش ئامبىرىغا يۆتكەڭ"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "تېلېفونىڭىزغا Signalنىڭ يېڭى نۇسخىسىنى قاچىلاڭ"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "«ئەسلىگە كەلتۈرۈش ياكى يۆتكەش»نى چېكىڭ ۋە «ئۈسكۈنىدە زاپاسلاش»نى تاللاڭ"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "ئاي شەكىللدك سىنبەلگە"
@@ -6003,13 +6003,13 @@
     "messageformat": "ئاچقۇچنى قايتا كۆرۈڭ"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "ئالدىنقى قېتىملىق زاپاسلاش"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "ھەرگىز"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "ھازىر زاپاسلا"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "زاپاسلاش قىسقۇچى"
@@ -7612,7 +7612,7 @@
     "messageformat": "بۇ ياردەملىشىپ بىزنى تېلېفونلىشىش ۋە نېمىنىڭ ئىشلەۋاتقان ياكى ئىشلىمەيدىغانلىقى توغرىسىدا تېخىمۇ كۆپ چۈشەنچىگە ئىگە قىلىدۇ. يوللاشتىن بۇرۇن كاشىلا ھەل قىلىش خاتىرىڭىزنى كۆرەلەيسىز."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "يوللاش ئارقىلىق <diagnosticInfoLink>تېلېفونىڭىز ھەققىدىكى دىئاگنوزتىكلىق ئۇچۇرلار</diagnosticInfoLink> سىزنىڭ پىكىر-تەكلىپلىرىڭىز بىلەن بىرلىكتە ئورتاقلىشىلىدۇ. بىزگە ياردەملىشىپ تېلېفونلىشىش سۈپىتىنى ياخشىلاش ئۈچۈن، سىز ئىختىيارىي ھالدا كاشىلا ھەل قىلىش خاتىرىسىنى ئورتاقلىشالايسىز."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "كاشىلا ھەل قىلىش خاتىرىسىنى ئورتاقلىشىش"
@@ -7624,10 +7624,10 @@
     "messageformat": "كاشىلا ھەل قىلىش خاتىرىلىرى تۆۋەن دەرىجىدىكى ئەپ ئۇچۇرلىرىنى ئۆز ئىچىگە ئالغان بولۇپ، پاراڭ مەزمۇنلىرىڭىزنىڭ ھېچقايسىسىنى ئاشكارىلىمايدۇ."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "بىز بىلەن ئورتاقلاشقان ئۇچۇرلار تۆۋەن دەرىجىلىك ئەپ ئۇچۇرلىرىنى ئۆز ئىچىگە ئالىدۇ ئەمما سىز تېلېفونلاشقاندىكى مەزمۇنلارنى ئۆز ئىچىگە ئالمايدۇ."
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "دىئاگنوستىكلىق ئۇچۇر"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "تاپشۇر"
@@ -7645,7 +7645,7 @@
     "messageformat": "ئىنكاسىڭىزغا رەھمەت!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "مېگافون بىلەن ئالاقە قىلىش ئۈچۈن يان تاختىنى كېڭەيتىڭ"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal نىڭ راۋان ئىجرا بولۇشى ئۈچۈن بۇ نەشرىدە بىر قانچە كىچىك ئۆزگەرتىشلەر ئېلىپ بېرىلدى ۋە كاشىلىلار ئوڭشالدى.",
@@ -7679,6 +7679,6 @@
     "messageformat": "گۇرۇپپا چاقىرىشلىرىدا قول كۆتۈرۈش كۆرسەتكۈچىگە مۇناسىۋەتلىك كىچىك كۆرۈنۈش خاتالىقىنى تۈزەتتۇق."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "مىخلانغان ئۇچۇرلار، سىزگە ياردەملىشىپ ئۇچۇر بېتىنىڭ بېشىدا مۇھىم ئۇچۇرلارنى ئاسانلا قوللىنىشقا ياردەم بېرىدۇ. ئەڭ كۆپ سورايدىغان سوئاللىرىڭىز، كەچلىك تاماق زاكاسلار ۋە ساياھەت پىلانلىرىڭىز. ئەمدى ئۇلار ئۇچۇر بېتىڭىزنىڭ ئەڭ بېشىدىن ئورۇن ئالالايدۇ."
   }
 }

@@ -1239,13 +1239,13 @@
     "messageformat": "Davam et"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "Avtomatik yox olan mesajların sancaqlanması"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "Vaxtları bitdikdə avtomatik yox olan mesajlar sancaqdan çıxarılacaq və mesaj çatdan silinəcək."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "Oldu"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Sancaqlanmış mesaj} other {Sancaqlanmış mesajlar}}"
@@ -6003,13 +6003,13 @@
     "messageformat": "Şifrəyə yenidən bax"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "Son ehtiyat nüsxə"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "Heç vaxt"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "İndi Arxivləşdir"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Nüsxə qovluğu"
@@ -7624,10 +7624,10 @@
     "messageformat": "Sazlama jurnalları aşağı səviyyəli tətbiq məlumatlarını əhatə edir və mesaj məzmunlarınızın heç birini aşkarlamır."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "Bizimlə paylaşılan məlumat tətbiq haqqında çox az tərkibə malikdir və zənglərinizin məzmununu əks etdirmir."
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "Diaqnostik məlumat"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Təqdim et"

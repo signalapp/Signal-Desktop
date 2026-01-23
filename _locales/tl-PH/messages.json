@@ -1239,10 +1239,10 @@
     "messageformat": "Magpatuloy"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "Pag-pin ng disappearing message"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "Matatanggal ang pin ng disappearing messages kapag nag-expire ang timer nito at natanggal ang message mula sa chat."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
     "messageformat": "Okay"
@@ -6003,13 +6003,13 @@
     "messageformat": "Tingnan ulit ang key"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "Huling backup"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "Hindi kailanman"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "Mag-back up na ngayon"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Backup folder"
@@ -7624,10 +7624,10 @@
     "messageformat": "Ang debug logs ay naglalaman ng mababang level ng impormasyon ng app at hindi nagpapakita ng anumang nilalaman ng messages mo."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "Ang impormasyong ibinahagi sa amin ay naglalaman ng mababang antas ng impormasyon ng app at hindi kasama ang mga nilalaman ng iyong mga tawag."
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "Diagnostic na impormasyon"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Isumite"

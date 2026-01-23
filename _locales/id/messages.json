@@ -1239,13 +1239,13 @@
     "messageformat": "Lanjutkan"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "Menyematkan pesan terhapus otomatis"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "Pesan terhapus otomatis akan dilepas sematannya saat sudah melewati waktu timer dan pesan dihapus dari chat."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "Oke"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, other {Pesan disematkan}}"
@@ -6003,13 +6003,13 @@
     "messageformat": "Lihat kunci lagi"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "Pencadangan terakhir"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "Tidak pernah"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "Cadangkan sekarang"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Folder cadangan"
@@ -7624,10 +7624,10 @@
     "messageformat": "Catatan debug berisi informasi aplikasi tingkat rendah dan tidak mengungkapkan isi pesan Anda."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "Informasi yang dibagikan kepada kami berisi informasi aplikasi tingkat rendah dan tidak mencakup isi panggilan Anda."
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "Informasi diagnostik"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Kirim"

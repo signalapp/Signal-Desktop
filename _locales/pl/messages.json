@@ -1239,13 +1239,13 @@
     "messageformat": "Kontynuuj"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "Przypinanie znikających wiadomości"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "Gdy upłynie czas wyświetlania znikającej wiadomości, zostanie ona odpięta i usunięta z czatu."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "OK"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Przypięta wiadomość} few {Przypięte wiadomości} many {Przypięte wiadomości} other {Przypięte wiadomości}}"
@@ -6003,13 +6003,13 @@
     "messageformat": "Wyświetl kod ponownie"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "Ostatnia kopia zapasowa"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "Nigdy"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "Utwórz kopię teraz"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Folder kopii zapasowej"
@@ -7624,10 +7624,10 @@
     "messageformat": "Dzienniki debugowania to zapis szczegółowych informacji o działaniu aplikacji. Nie zawierają one treści żadnych wiadomości."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "Dane, które możesz nam udostępnić, to zapis szczegółowych informacji o działaniu aplikacji. Nie zawierają one treści Twoich rozmów."
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "Informacje diagnostyczne"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Prześlij"
