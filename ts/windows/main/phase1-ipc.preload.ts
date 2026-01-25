@@ -157,6 +157,10 @@ const IPC: IPCType = {
     log.info('show window');
     ipc.send('show-window');
   },
+  autoPlayGifs: async (value: boolean) => {
+    log.info('auto-play-gifs', value);
+    ipc.send('auto-play-gifs', value);
+  },
   showWindowsNotification: async (data: WindowsNotificationData) => {
     return ipc.invoke('windows-notifications:show', data);
   },
@@ -390,6 +394,11 @@ ipc.on('start-call-link', (_event, { key, epoch }) => {
 ipc.on('show-window', () => {
   window.IPC.showWindow();
 });
+
+// ipc.on('auto-play-gifs', (_event, value: boolean) => {
+//   console.log('later ipc', value);
+//   void window.IPC.autoPlayGifs(value);
+// });
 
 ipc.on('cancel-presenting', () => {
   window.reduxActions?.calling?.cancelPresenting();

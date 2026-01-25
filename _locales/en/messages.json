@@ -7288,6 +7288,10 @@
     "messageformat": "Voice messages and stickers are always auto-downloaded.",
     "description": "Additional clarification for how media auto-download will behave"
   },
+  "icu:Preferences--autoplaygifs": {
+    "messageformat": "Autoplay gifs",
+    "description": "Button to toggle between autoplaying gifs or not"
+  },
   "icu:Preferences__button--backups": {
     "messageformat": "Backups",
     "description": "Button to switch the settings view to control message & media backups"

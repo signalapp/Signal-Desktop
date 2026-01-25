@@ -31,8 +31,8 @@ export type Props = {
   readonly attachment: AttachmentForUIType;
   readonly size?: number;
   readonly tabIndex: number;
-  // test-only, to force reduced motion experience
-  readonly _forceTapToPlay?: boolean;
+  // also enabled if user environment wants reduced motion experience
+  readonly forceTapToPlay?: boolean;
 
   readonly i18n: LocalizerType;
   readonly theme?: ThemeType;
@@ -51,7 +51,7 @@ export function GIF(props: Props): React.JSX.Element {
     attachment,
     size,
     tabIndex,
-    _forceTapToPlay,
+    forceTapToPlay,
 
     i18n,
     theme,
@@ -63,7 +63,7 @@ export function GIF(props: Props): React.JSX.Element {
     cancelDownload,
   } = props;
 
-  const tapToPlay = useReducedMotion() || _forceTapToPlay;
+  const tapToPlay = useReducedMotion() || forceTapToPlay;
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const { height, width } = getImageDimensionsForTimeline(attachment, size);

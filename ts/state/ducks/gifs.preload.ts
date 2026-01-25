@@ -9,6 +9,7 @@ import {
   type BoundActionCreatorsMapObject,
   useBoundActions,
 } from '../../hooks/useBoundActions.std.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 const { take } = lodash;
 
@@ -22,12 +23,14 @@ type RecentGifs = ReadonlyDeep<Array<GifType>>;
 
 export type GifsStateType = ReadonlyDeep<{
   recentGifs: RecentGifs;
+  autoPlayGifs: boolean;
 }>;
 
 // Actions
 
 const GIFS_RECENT_GIFS_ADD = 'gifs/RECENT_GIFS_ADD';
 const GIFS_RECENT_GIFS_REMOVE = 'gifs/RECENT_GIFS_REMOVE';
+const GIFS_SET_AUTOPLAY = 'gifs/SET_AUTOPLAY';
 
 export type GifsRecentGifsAdd = ReadonlyDeep<{
   type: typeof GIFS_RECENT_GIFS_ADD;
@@ -39,13 +42,21 @@ export type GifsRecentGifsRemove = ReadonlyDeep<{
   payload: Pick<GifType, 'id'>;
 }>;
 
-type GifsActionType = ReadonlyDeep<GifsRecentGifsAdd | GifsRecentGifsRemove>;
+export type GifsSetAutoplay = ReadonlyDeep<{
+  type: typeof GIFS_SET_AUTOPLAY;
+  payload: boolean;
+}>;
+
+type GifsActionType = ReadonlyDeep<
+  GifsRecentGifsAdd | GifsRecentGifsRemove | GifsSetAutoplay
+>;
 
 // Action Creators
 
 export const actions = {
   onAddRecentGif,
   onRemoveRecentGif,
+  onSetAutoplay,
 };
 
 export const useGifsActions = (): BoundActionCreatorsMapObject<
@@ -70,6 +81,15 @@ function onRemoveRecentGif(
   };
 }
 
+export function onSetAutoplay(
+  payload: boolean
+): ThunkAction<void, unknown, unknown, GifsSetAutoplay> {
+  return async dispatch => {
+    await itemStorage.put('auto-play-gifs', payload);
+    dispatch({ type: GIFS_SET_AUTOPLAY, payload });
+  };
+}
+
 function filterRecentGif(
   prev: ReadonlyArray<GifType>,
   gifId: GifType['id']
@@ -88,7 +108,7 @@ function addOrMoveRecentGifToStart(prev: RecentGifs, gif: GifType): RecentGifs {
 // Reducer
 
 export function getEmptyState(): GifsStateType {
-  return { recentGifs: [] };
+  return { recentGifs: [], autoPlayGifs: true };
 }
 
 export function reducer(
@@ -108,6 +128,14 @@ export function reducer(
     return {
       ...state,
       recentGifs: filterRecentGif(state.recentGifs, payload.id),
+    };
+  }
+
+  if (action.type === GIFS_SET_AUTOPLAY) {
+    const { payload } = action;
+    return {
+      ...state,
+      autoPlayGifs: payload,
     };
   }
 
