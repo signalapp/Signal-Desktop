@@ -65,6 +65,7 @@ const ScalarKeys = [
   'desktop.pollSend.alpha',
   'desktop.pollSend.beta',
   'desktop.pollSend.prod',
+  'desktop.recentGifs.allowLegacyTenorCdnUrls',
   'global.attachments.maxBytes',
   'global.attachments.maxReceiveBytes',
   'global.backups.mediaTierFallbackCdnNumber',
