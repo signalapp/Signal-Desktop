@@ -3680,9 +3680,17 @@
     "messageformat": "Search GIFs via Tenor",
     "description": "FunPicker > GIFs Panel > Search Input > Label (Must use brand name 'Tenor')"
   },
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "Search GIFs",
+    "description": "FunPicker > GIFs Panel > Search Input > Label"
+  },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Search Tenor",
     "description": "FunPicker > GIFs Panel > Search Input > Placeholder (Must use brand name 'Tenor')"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "Search GIFs",
+    "description": "FunPicker > GIFs Panel > Search Input > Placeholder"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF Categories",
@@ -3743,6 +3751,10 @@
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "GIF Preview",
     "description": "FunPicker > Gifs Panel > Lightbox Dialog (long press on gif to see large preview) > Label"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "Powered by GIPHY",
+    "description": "FunPicker > GIFs Panel > Giphy Attribution (Must use brand name 'GIPHY' in all caps)"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Clear Search",

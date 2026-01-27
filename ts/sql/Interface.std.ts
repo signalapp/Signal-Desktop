@@ -1324,7 +1324,7 @@ type WritableInterface = {
   updateEmojiUsage: (shortName: string, timeUsed?: number) => void;
 
   addRecentGif: (gif: GifType, lastUsedAt: number, maxRecents: number) => void;
-  removeRecentGif: (gif: Pick<GifType, 'id'>) => void;
+  removeRecentGif: (gif: GifType['id']) => void;
 
   updateOrCreateBadges(badges: ReadonlyArray<BadgeType>): void;
   badgeImageFileDownloaded(url: string, localPath: string): void;

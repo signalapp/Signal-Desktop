@@ -7587,10 +7587,10 @@ function addRecentGif(
   })();
 }
 
-function removeRecentGif(db: WritableDB, gif: Pick<GifType, 'id'>): void {
+function removeRecentGif(db: WritableDB, gifId: GifType['id']): void {
   const [query, params] = sql`
     DELETE FROM recentGifs
-    WHERE id = ${gif.id}
+    WHERE id = ${gifId}
   `;
   db.prepare(query).run(params);
 }

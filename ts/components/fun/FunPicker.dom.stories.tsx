@@ -43,9 +43,10 @@ function Template(props: TemplateProps) {
       onClearStickerPickerHint={() => null}
       onSelectSticker={() => null}
       // Gifs
-      fetchGifsSearch={() => Promise.resolve(MOCK_GIFS_PAGINATED_ONE_PAGE)}
-      fetchGifsFeatured={() => Promise.resolve(MOCK_GIFS_PAGINATED_ONE_PAGE)}
-      fetchGif={() => Promise.resolve(new Blob([new Uint8Array(1)]))}
+      fetchGiphySearch={() => Promise.resolve(MOCK_GIFS_PAGINATED_ONE_PAGE)}
+      fetchGiphyTrending={() => Promise.resolve(MOCK_GIFS_PAGINATED_ONE_PAGE)}
+      fetchGiphyFile={() => Promise.resolve(new Blob([new Uint8Array(1)]))}
+      onRemoveRecentGif={() => null}
       onSelectGif={() => null}
     >
       <FunPicker {...props} open={open} onOpenChange={handleOpenChange}>
