@@ -7,6 +7,7 @@ import type { NavTabPanelProps } from './NavTabs.dom.js';
 import { WhatsNewLink } from './WhatsNewLink.dom.js';
 import type { UnreadStats } from '../util/countUnreadStats.std.js';
 import type { SmartConversationViewProps } from '../state/smart/ConversationView.preload.js';
+import { tw } from '../axo/tw.dom.js';
 
 export type ChatsTabProps = Readonly<{
   otherTabsUnreadStats: UnreadStats;
@@ -74,6 +75,9 @@ export function ChatsTab({
               <WhatsNewLink i18n={i18n} showWhatsNewModal={showWhatsNewModal} />
             </p>
             <div className="Inbox__padding" />
+            <div className={tw('absolute bottom-0 p-5 text-label-secondary')}>
+              {i18n('icu:signalNonProfit')}
+            </div>
           </div>
         )}
       </div>
