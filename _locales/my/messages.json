@@ -806,6 +806,9 @@
   "icu:whatsNew": {
     "messageformat": "ဤအပ်ဒိတ်တွင် {whatsNew} ကို ကြည့်ရန်"
   },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal is a 501c3 nonprofit"
+  },
   "icu:viewReleaseNotes": {
     "messageformat": "အသစ်များ"
   },
@@ -1239,13 +1242,13 @@
     "messageformat": "ဆက်လုပ်ရန်"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "ပျောက်သွားမည့် မက်ဆေ့ချ်များကို ပင်တွဲခြင်း"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "ပျောက်သွားမည့် မက်ဆေ့ချ်များကို ၎င်းတို့၏တိုင်မာ သက်တမ်းကုန်ဆုံးချိန်တွင် ပင်ဖြုတ်လိုက်မည်ဖြစ်ပြီး မက်ဆေ့ချ်ကို ချက်(တ်)မှ ဖယ်ရှားလိုက်ပါမည်။"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "အိုကေ"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, other {ပင်တွဲထားသော မက်ဆေ့ချ်များ}}"
@@ -2768,8 +2771,14 @@
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Tenor မှတစ်ဆင့် GIF များကို ရှာဖွေပါ"
   },
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "Search GIFs"
+  },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tenor ကို ရှာပါ"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "Search GIFs"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF အမျိုးအစားများ"
@@ -2815,6 +2824,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "GIF ကြိုတင်ကြည့်ရှုမှု"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "Powered by GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "ရှာဖွေမှုကို ရှင်းရန်"
@@ -5628,22 +5640,22 @@
     "messageformat": "Signal တွင် ဖိုင်များရေးရန် ခွင့်ပြုချက်မရှိသောကြောင့် သင့်ချက်(တ်)မှတ်တမ်းကို ထုတ်ယူ၍မရပါ။ သင့်ဒစ်ခ်၏ ခွင့်ပြုချက်များကို ပြောင်းလဲကြည့်ပါ သို့မဟုတ် သင့်စနစ်ဆက်တင်ကို အပ်ဒိတ်လုပ်ပြီး ထပ်မံထုတ်ယူကြည့်ပါ။"
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "ဘက်ခ်အပ် ထုတ်သိမ်းနေပါသည်"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "ဘက်ခ်အပ် ထုတ်သိမ်းမှု ပြီးပါပြီ"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "ဘက်ခ်အပ် ပြန်လည်ရယူရန်"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "သင့် ဘက်ခ်အပ်ဖိုင်တွဲကို ဖုန်း၏ထားသိုမှုထဲသို့ လွှဲပြောင်းပါ"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "သင့်ဖုန်းတွင် Signal အသစ်ကို ထည့်သွင်းပါ"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "“ပြန်လည်ရယူရန် သို့မဟုတ် လွှဲပြောင်းရန်” ကိုနှိပ်ပြီး “စက်ပေါ်တွင် ဘက်ခ်အပ်ပြုလုပ်ရန်” ကို ရွေးချယ်ပါ။"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "လပုံစံ အိုင်ကွန်"
@@ -6003,13 +6015,13 @@
     "messageformat": "ကီး ကိုပြန်ကြည့်ရန်"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "နောက်ဆုံး ဘက်ခ်အပ်"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "ဘယ်တော့မှ"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "ဘက်ခ်အပ် အခုလုပ်မည်"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "ဘက်ခ်အပ် ဖိုင်တွဲ"
@@ -7290,8 +7302,14 @@
   "icu:PreferencesDonations__title": {
     "messageformat": "ကိုယ်ပိုင်အချက်အလက်သည် အကျိုးအမြတ်ထက် ပိုအရေးကြီးပါသည်"
   },
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "Proudly nonprofit"
+  },
   "icu:PreferencesDonations__description": {
     "messageformat": "သင် ငွေကြေးထောက်ပံ့ထားသည့် သီးသန့် မက်ဆေ့ချ်လုပ်ဆောင်ချက်။ ကြော်ငြာများ မရှိ၊ ခြေရာခံခြင်း မရှိ၊ အပေးအယူ မရှိ။ Signal ကို ပံ့ပိုးရန် ယခုပင် လှူဒါန်းလိုက်ပါ။ <readMoreLink>ပိုမိုဖတ်ရှုရန်</readMoreLink>"
+  },
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "လှူဒါန်းရန်"
@@ -7612,7 +7630,7 @@
     "messageformat": "၎င်းက ဖုန်းခေါ်ဆိုမှုများအပြင် မည်သည့်အရာများက ကောင်းစွာ အလုပ်လုပ်သည်၊ မလုပ်သည်ကို ပိုမိုလေ့လာရန် ကူညီပေးပါသည်။ တင်သွင်းခြင်းမပြုမီ သင်၏ ပြစ်ချက်မှတ်တမ်းကို ကြည့်ရှုနိုင်ပါသည်။"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "တင်သွင်းရာတွင် သင့်တုံ့ပြန်ချက်ကို <diagnosticInfoLink>ခေါ်ဆိုမှုနှင့် ပတ်သက်သည့် ချွတ်ယွင်းချက် အချက်အလက်</diagnosticInfoLink>နှင့်အတူ မျှဝေပါမည်။ ဖုန်းခေါ်ဆိုမှု အရည်အသွေး မြှင့်တင်ရေးတွင် ကူညီပေးရန်အတွက် ပြစ်ချက်မှတ်တမ်းတစ်ခုကို ရွေးချယ်၍ မျှဝေနိုင်ပါသည်။"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "ပြစ်ချက်မှတ်တမ်း မျှဝေရန်"
@@ -7624,10 +7642,10 @@
     "messageformat": "ပြစ်ချက်ရှာဖွေပြုပြင်မှု မှတ်တမ်းများတွင် အဆင့်နိမ့် အက်ပ်အချက်အလက်များ ပါဝင်ပြီး သင်၏မက်ဆေ့ချ်တွင် ပါရှိသော မည်သည့်အကြောင်းအရာကိုမျှ ထုတ်ဖော်ခြင်းမပြုပါ။"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "ကျွန်ုပ်တို့နှင့်မျှဝေထားသော အရာများတွင် သာမန်အက်ပ်အချက်အလက်များသာပါဝင်ပြီး သင့်ဖုန်းခေါ်ဆိုမှုများ၏ အကြောင်းအရာများ မပါဝင်ပါ။"
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "ချွတ်ယွင်းချက်ဆိုင်ရာ အချက်အလက်"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "တင်မည်"
@@ -7645,7 +7663,7 @@
     "messageformat": "သင့်အကြံပြုချက်အတွက် ကျေးဇူးတင်ပါသည်။"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "မက်ဂါဖုန်းနှင့် အပြန်အလှန်ဆက်သွယ်ရန် ဘေးဘက်ဘားကို ချဲ့ပါ"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "ဤဗားရှင်းတွင် Signal အား အထစ်အငေါ့မရှိ လုပ်ဆောင်နိုင်စေရန် ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် အနေအထား ပြုပြင်မှု အသေးလေးများ ပါဝင်ပါသည်။",
@@ -7679,6 +7697,6 @@
     "messageformat": "အဖွဲ့လိုက်ခေါ်ဆိုမှုများတွင် ချွတ်ယွင်းချက်အသေးအဖွဲဖြစ်သော လက်ထောင်ထားသည့်ညွှန်ပြချက် ရုပ်ပုံကို ပြင်ဆင်ထားပါသည်။"
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "မက်ဆေ့ချ်များကို ပင်တွဲခြင်းအားဖြင့် အရေးကြီးသော အချက်အလက်များကို ချက်(တ်)၏ထိပ်တွင် အလွယ်တကူ ဝင်ရောက်ကြည့်ရှုနိုင်စေရန် ကူညီပေးပါသည်။"
   }
 }

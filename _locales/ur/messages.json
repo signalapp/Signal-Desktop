@@ -806,6 +806,9 @@
   "icu:whatsNew": {
     "messageformat": "اس اپ ڈیٹ میں {whatsNew} دیکھیں"
   },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal is a 501c3 nonprofit"
+  },
   "icu:viewReleaseNotes": {
     "messageformat": "نیا کیا ہے"
   },
@@ -1239,13 +1242,13 @@
     "messageformat": "جاری رکھیں"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "غائب ہونے والے میسجز کو پِن کرنا"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "جب غائب ہونے والے میسجز کا ٹائمر ختم ہو جائے گا اور میسج چیٹ سے ہٹا دیا جائے گا تو وہ اَن پِن ہو جائیں گے۔"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "ٹھیک ہے"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {پِن کردہ میسج} other {پِن کردہ میسجز}}"
@@ -2768,8 +2771,14 @@
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Tenor کے ذریعے GIFs کو تلاش کریں"
   },
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "Search GIFs"
+  },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tenor کو تلاش کریں"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "Search GIFs"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF کی کیٹیگریز"
@@ -2815,6 +2824,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "GIF پری ویو"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "Powered by GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "تلاش صاف کریں"
@@ -5628,22 +5640,22 @@
     "messageformat": "آپ کی چیٹ ہسٹری ایکسپورٹ نہیں ہو سکتی کیونکہ Signal کو ڈسک پر فائلز محفوظ کرنے کی اجازت نہیں ہے۔ اپنی ڈسک کی اجازتوں کو تبدیل کرنے یا اپنے سسٹم کی سیٹنگز کو اپ ڈیٹ کرنے کی کوشش کریں اور پھر دوبارہ ایکسپورٹ کریں۔"
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "بیک اپ برآمد کیا جا رہا ہے"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "بیک اپ برآمد مکمل ہو گیا ہے"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "اس بیک اپ کو بحال کرنے کے لیے:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "اپنے فون کی اسٹوریج میں اپنا بیک اپ فولڈر ٹرانسفر کریں"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "اپنے فون پر Signal کی نئی کاپی انسٹال کریں"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "\"بحال یا ٹرانسفر\" کریں پر ٹیپ کریں اور \"ڈیوائس پر بیک اپ\" کو منتخب کریں"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "چاند کا آئیکن"
@@ -6003,13 +6015,13 @@
     "messageformat": "کیی کو دوبارہ دیکھیں"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "آخری بیک اپ"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "کبھی نہیں"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "اب بیک اپ کریں"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "بیک اپ فولڈر"
@@ -7290,8 +7302,14 @@
   "icu:PreferencesDonations__title": {
     "messageformat": "پیسہ نہیں پرائیویسی"
   },
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "Proudly nonprofit"
+  },
   "icu:PreferencesDonations__description": {
     "messageformat": "آپ کی جانب سے فنڈ کردہ، نجی میسجنگ۔ کوئی اشتہارات، کوئی ٹریکنگ، کوئی سمجھوتہ نہیں۔ Signal کو سپورٹ کرنے کے لیے ابھی عطیہ کریں۔ <readMoreLink>مزید پڑھیں</readMoreLink>"
+  },
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "عطیہ کریں"
@@ -7612,7 +7630,7 @@
     "messageformat": "اس سے ہمیں کالز اور اس بارے میں مزید جاننے میں مدد ملتی ہے کہ کیا چیز کام کر رہی یا نہیں کر رہی ہے۔ آپ جمع کروانے سے پہلے اپنا ڈی بگ لاگ دیکھ سکتے ہیں۔"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "جمع کروانے پر <diagnosticInfoLink>آپ کی کال کے بارے میں تشخیصی معلومات</diagnosticInfoLink> کے علاوہ آپ کی رائے بھی شیئر کی جائے گی۔ آپ اختیاری طور پر ڈی بگ لاگ شیئر کر سکتے ہیں تاکہ ہمیں کال کے معیار کو بہتر بنانے میں مدد مل سکے۔"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "ڈی بگ لاگ شیئر کریں"
@@ -7624,10 +7642,10 @@
     "messageformat": "ڈی بگ لاگز کم درجے کی ایپ معلومات پر مشتمل ہوتے ہیں اور آپ کے کسی بھی میسج کے مندرجات کو ظاہر نہیں کرتے۔"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "ہمارے ساتھ شیئر کی گئی معلومات میں ایپ کی بنیادی سطح کی تفصیلات شامل ہیں اور اس میں آپ کی کالز کا مواد شامل نہیں ہے۔"
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "تشخیصی معلومات"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "جمح کریں"
@@ -7645,7 +7663,7 @@
     "messageformat": "آپ کی رائے کا شکریہ!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "میگافون کے ساتھ تعامل کرنے کے لیے سائیڈ بار کو بڑھائیں"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "یہ ورژن Signal کو بے خلل طور پر چلتا رکھنے کے لیے کچھ معمولی تبدیلیوں اور بگ درستگیوں پر مشتمل ہے۔",
@@ -7679,6 +7697,6 @@
     "messageformat": "ہم اس عجیب خاموشی کو ٹھیک نہیں کر سکتے جو اس کے بعد آتی ہے، لیکن ہم نے ایک نقص ٹھیک کیا ہے جس کی وجہ سے کبھی کبھار اگر کوئی ہاتھ تیزی سے اٹھا یا نیچے کرتا تو ہاتھ کا اشارہ نظر آتا (صفر کی گنتی کے ساتھ)۔"
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "پِن شدہ میسجز اہم معلومات کو چیٹ میں سب سے اوپر آسانی سے قابل رسائی رکھنے میں آپ کی مدد کر سکتے ہیں۔"
   }
 }

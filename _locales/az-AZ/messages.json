@@ -806,6 +806,9 @@
   "icu:whatsNew": {
     "messageformat": "Bu yeniləmədə {whatsNew} baxın"
   },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal is a 501c3 nonprofit"
+  },
   "icu:viewReleaseNotes": {
     "messageformat": "hansı yeniliklərin olduğuna"
   },
@@ -1239,13 +1242,13 @@
     "messageformat": "Davam et"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "Avtomatik yox olan mesajların sancaqlanması"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "Vaxtları bitdikdə avtomatik yox olan mesajlar sancaqdan çıxarılacaq və mesaj çatdan silinəcək."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "Oldu"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Sancaqlanmış mesaj} other {Sancaqlanmış mesajlar}}"
@@ -2768,8 +2771,14 @@
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Tenorda GİF-ləri axtarın"
   },
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "Search GIFs"
+  },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Axtarış Tenoru"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "Search GIFs"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GİF kateqoriyaları"
@@ -2815,6 +2824,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "GIF önbaxışı"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "Powered by GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Axtarışı təmizlə"
@@ -5628,22 +5640,22 @@
     "messageformat": "Signal faylları diskə köçürmək icazəsinə malik olmadığı üçün çat tarixçənizi ixrac etmək mümkün deyil. Disk icazələrini dəyişib və ya sistem parametrlərini yeniləyib, yenidən ixrac edin."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Ehtiyat nüsxə ixrac olunur"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Ehtiyat nüsxənin ixracı tamamlandı"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Bu ehtiyat nüsxəni bərpa etmək üçün:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Ehtiyat nüsxə qovluğunuzu telefon yaddaşına köçürün"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Telefonunuzda Signal-ın yeni kopiyasını quraşdırın"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "\"Bərpa et və ya Köçür\"ə toxunub \"Cihazdakı ehtiyat nüsxə\" seçimini edin"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Ay piktoqramı"
@@ -6003,13 +6015,13 @@
     "messageformat": "Şifrəyə yenidən bax"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "Son ehtiyat nüsxə"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "Heç vaxt"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "İndi Arxivləşdir"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Nüsxə qovluğu"
@@ -7290,8 +7302,14 @@
   "icu:PreferencesDonations__title": {
     "messageformat": "Məxfiliyiniz mənfəətimizdən daha üstündür"
   },
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "Proudly nonprofit"
+  },
   "icu:PreferencesDonations__description": {
     "messageformat": "Dəstəklərinizlə yaradılmış şəxsi mesajlaşma. Reklamsız, təqibsiz və güzəştsiz. Signal-ı dəstəkləmək üçün indi ianə verin. <readMoreLink>Daha ətraflı</readMoreLink>"
+  },
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "İanə ver"
@@ -7612,7 +7630,7 @@
     "messageformat": "Bu, bizə zənglər və işə yarayıb-yaramayan düzəlişlərimiz haqqında ətraflı məlumat əldə etməyə kömək edir. Göndərməzdən əvvəl sazlama jurnalına nəzər sala bilərsiniz."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Təqdim etməklə <diagnosticInfoLink>zənginiz haqqındakı diaqnostik məlumatla birgə</diagnosticInfoLink> rəyiniz də paylaşılır. Zəng keyfiyyətini artırmağa kömək etmək üçün əlavə olaraq sazlama jurnalını da paylaşa bilərsiniz."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Sazlama jurnalını paylaşın"
@@ -7624,10 +7642,10 @@
     "messageformat": "Sazlama jurnalları aşağı səviyyəli tətbiq məlumatlarını əhatə edir və mesaj məzmunlarınızın heç birini aşkarlamır."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "Bizimlə paylaşılan məlumat tətbiq haqqında çox az tərkibə malikdir və zənglərinizin məzmununu əks etdirmir."
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "Diaqnostik məlumat"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Təqdim et"
@@ -7645,7 +7663,7 @@
     "messageformat": "Rəyiniz üçün təşəkkür edirik!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Meqafonla qarşılıqlı əlaqə qurmaq üçün yan paneli genişləndirin"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bu versiya, Signal-ın problemsiz işləməsini təmin etmək üçün kiçik düzəltmələr və xəta düzəltmələri ehtiva edir.",
@@ -7679,6 +7697,6 @@
     "messageformat": "Biz sonradan yaranan yöndəmsiz sükutu aradan qaldıra bilməsək də, bir xətanı düzəltdik: bəzən kimsə əlini çox tez qaldırıb endirdikdə, qaldırılmış əl göstəricisi (sayı sıfır olduğu halda) ekranda qalırdı."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Vacib məlumatı əhatə edən mesajları sancaqlamaq onların asan tapılmasına kömək edir. Tez-tez verdiyiniz suallar, şam yeməyi üçün rezervasiyalar və tətil planları düşüncələrinizi ələ alıb. Artıq bu məsələləri çatda müzakirə edə bilərsiniz."
   }
 }

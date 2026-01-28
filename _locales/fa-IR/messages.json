@@ -806,6 +806,9 @@
   "icu:whatsNew": {
     "messageformat": "{whatsNew} را در این به‌روزرسانی ببینید"
   },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal is a 501c3 nonprofit"
+  },
   "icu:viewReleaseNotes": {
     "messageformat": "تازه‌ها"
   },
@@ -1239,13 +1242,13 @@
     "messageformat": "ادامه"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "سنجاق کردن پیام‌های ناپدیدشونده"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "سنجاق پیام‌های ناپدیدشونده پس از پایان زمان‌سنج آنها برداشته خواهد شد و از گفتگو حذف می‌شوند."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "خوب"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {پیام سنجاق‌شده} other {پیام‌های سنجاق‌شده}}"
@@ -2768,8 +2771,14 @@
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "جستجوی گیف‌ها در Tenor"
   },
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "Search GIFs"
+  },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "جستجو در Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "Search GIFs"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "دسته‌بندی‌های گیف"
@@ -2815,6 +2824,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "پیش‌نمایش گیف"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "Powered by GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "پاک کردن جستجو"
@@ -5628,22 +5640,22 @@
     "messageformat": "امکان صدور تاریخچه گفتگوی شما وجود ندارد زیرا سیگنال اجازه نوشتن فایل‌ها روی دیسک را ندارد. مجوزهای دیسک خود را تغییر دهید یا تنظیمات سیستم خود را به‌روزرسانی کنید و سپس دوباره صادر کنید."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "در حال خروجی گرفتن از نسخه پشتیبان"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "خروجی نسخه پشتیبان تکمیل شد"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "برای بازیابی این نسخه پشتیبان:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "پوشه پشتیبان خود را به فضای ذخیره‌سازی تلفنتان انتقال دهید"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "نسخه جدید سیگنال را در تلفنتان نصب کنید"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "روی «بازیابی یا انتقال» ضربه بزنید و «پشتیبان‌گیری در دستگاه» را انتخاب کنید"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "آیکون ماه"
@@ -6003,13 +6015,13 @@
     "messageformat": "مشاهده دوباره کلید"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "آخرین پشتیبان‌گیری"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "هرگز"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "اکنون پشتیبان‌گیری شود"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "پوشهٔ پشتیبان"
@@ -7290,8 +7302,14 @@
   "icu:PreferencesDonations__title": {
     "messageformat": "حریم خصوصی بر سود ارجحیت دارد"
   },
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "Proudly nonprofit"
+  },
   "icu:PreferencesDonations__description": {
     "messageformat": "پیام‌رسانی خصوصی، با حمایت مالی شما. بدون تبلیغات، بدون ردیابی، بدون کاستن از کیفیت. اکنون برای حمایت از سیگنال کمک مالی کنید. <readMoreLink>بیشتر بخوانید</readMoreLink>"
+  },
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "اهدای کمک مالی"
@@ -7612,7 +7630,7 @@
     "messageformat": "این به ما کمک می‌کند درباره تماس‌ها و نقاط قوت و ضعف آن‌ها بیشتر بدانیم. می‌توانید قبل از ارسال، گزارش اشکال‌زدایی خود را ببینید."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "با ارسال، بازخوردتان همراه با <diagnosticInfoLink>اطلاعات عیب‌یابی درباره تماستان</diagnosticInfoLink> هم‌رسانی خواهد شد. همچنین می‌توانید با ارسال اختیاری گزارش اشکال‌زدایی، به ما کمک کنید کیفیت تماس را بهبود دهیم."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "هم‌رسانی گزارش اشکال‌زدایی"
@@ -7624,10 +7642,10 @@
     "messageformat": "گزارش‌های عیب‌یابی حاوی اطلاعات سطح پایین برنامه هستند و هیچ‌یک از محتواهای پیام شما را افشا نمی‌کنند."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "اطلاعاتی که با ما به اشتراک گذاشته می‌شود شامل داده‌های سطح پایین برنامه است و محتوای تماس‌های شما را دربر نمی‌گیرد."
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "اطلاعات عیب‌یابی"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "ارسال"
@@ -7645,7 +7663,7 @@
     "messageformat": "از بازخورد شما متشکریم!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "گسترش نوار کناری برای تعامل با بلندگو"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "این نسخه شامل شماری از بهینه سازی های کوچک و رفع عیب برای تداوم اجرای راحت سیگنال می باشد",
@@ -7679,6 +7697,6 @@
     "messageformat": "اشکال جزئی در نمایش را برطرف کردیم که در نشانگر دست‌بالا‌بردن در تماس‌های گروهی وجود داشت."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "سنجاق کردن پیام‌ها راهی برای کمک به تسهیل دسترسی به اطلاعات مهم. پرسش‌های پرتکرار، رزروهای شام، و برنامه‌های سفرتان را می‌توانید همیشه به خاطر بسپرید. حالا می‌توانند در بالای گفتگو هم بمانند."
   }
 }
