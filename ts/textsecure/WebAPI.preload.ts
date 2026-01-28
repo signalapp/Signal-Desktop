@@ -24,6 +24,10 @@ import type {
 } from '@signalapp/libsignal-client';
 import { AccountAttributes } from '@signalapp/libsignal-client/dist/net.js';
 import { GroupSendFullToken } from '@signalapp/libsignal-client/zkgroup.js';
+import type {
+  Request as KTRequest,
+  MonitorMode as KTMonitorMode,
+} from '@signalapp/libsignal-client/dist/net/KeyTransparency.js';
 
 import { assertDev, strictAssert } from '../util/assert.std.js';
 import * as durations from '../util/durations/index.std.js';
@@ -120,6 +124,7 @@ import {
   type RemoteMegaphoneId,
 } from '../types/Megaphone.std.js';
 import { bindRemoteConfigToLibsignalNet } from '../LibsignalNetRemoteConfig.preload.js';
+import { KeyTransparencyStore } from '../LibSignalStores.preload.js';
 
 const { escapeRegExp, isNumber, throttle } = lodash;
 
@@ -2478,6 +2483,44 @@ export async function getAccountForUsername({
   });
 
   return aci ? fromAciObject(aci) : null;
+}
+
+export async function keyTransparencySearch(
+  request: KTRequest,
+  abortSignal?: AbortSignal
+): Promise<void> {
+  return _retry(async () => {
+    const chat = await socketManager.getUnauthenticatedLibsignalApi();
+    if (abortSignal?.aborted) {
+      throw new Error('Aborted');
+    }
+    const kt = chat.keyTransparencyClient();
+    const store = new KeyTransparencyStore();
+    return kt.search(request, store, { abortSignal });
+  });
+}
+
+export async function keyTransparencyMonitor(
+  request: KTRequest,
+  mode: KTMonitorMode,
+  abortSignal?: AbortSignal
+): Promise<void> {
+  return _retry(async () => {
+    const chat = await socketManager.getUnauthenticatedLibsignalApi();
+    if (abortSignal?.aborted) {
+      throw new Error('Aborted');
+    }
+    const kt = chat.keyTransparencyClient();
+    const store = new KeyTransparencyStore();
+    return kt.monitor(
+      {
+        ...request,
+        mode,
+      },
+      store,
+      { abortSignal }
+    );
+  });
 }
 
 export async function putProfile(

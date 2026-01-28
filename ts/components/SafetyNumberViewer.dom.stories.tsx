@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 import type { PropsType } from './SafetyNumberViewer.dom.js';
@@ -64,7 +64,6 @@ const contactWithNothing = getDefaultConversation({
 
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   contact: overrideProps.contact || contactWithAllData,
-  generateSafetyNumber: action('generate-safety-number'),
   i18n,
   safetyNumber:
     'safetyNumber' in overrideProps
@@ -78,15 +77,20 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     overrideProps.verificationDisabled !== undefined
       ? overrideProps.verificationDisabled
       : false,
-  onClose: action('onClose'),
+  keyTransparencyStatus: overrideProps.keyTransparencyStatus ?? 'idle',
+  isKeyTransparencyEnabled: overrideProps.isKeyTransparencyEnabled ?? true,
+  checkKeyTransparency: action('check-key-transparency'),
+  onClose: overrideProps.onClose ?? action('onClose'),
 });
 
 export default {
   title: 'Components/SafetyNumberViewer',
 } satisfies Meta<PropsType>;
 
-export function SafetyNumber(): React.JSX.Element {
-  return <SafetyNumberViewer {...createProps({})} />;
+export function SafetyNumber({
+  onClose,
+}: Partial<PropsType>): React.JSX.Element {
+  return <SafetyNumberViewer {...createProps({ onClose })} />;
 }
 
 export function SafetyNumberNotVerified(): React.JSX.Element {
@@ -100,6 +104,99 @@ export function SafetyNumberNotVerified(): React.JSX.Element {
       })}
     />
   );
+}
+
+export function SafetyNumberKeyTransparencyRunning(): React.JSX.Element {
+  return (
+    <SafetyNumberViewer
+      {...createProps({
+        contact: {
+          ...contactWithAllData,
+          isVerified: false,
+        },
+        keyTransparencyStatus: 'running',
+      })}
+    />
+  );
+}
+
+export function SafetyNumberKeyTransparencyOk(): React.JSX.Element {
+  return (
+    <SafetyNumberViewer
+      {...createProps({
+        contact: {
+          ...contactWithAllData,
+          isVerified: false,
+        },
+        keyTransparencyStatus: 'ok',
+      })}
+    />
+  );
+}
+
+export function SafetyNumberKeyTransparencyFail(): React.JSX.Element {
+  return (
+    <SafetyNumberViewer
+      {...createProps({
+        contact: {
+          ...contactWithAllData,
+          isVerified: false,
+        },
+        keyTransparencyStatus: 'fail',
+      })}
+    />
+  );
+}
+
+export function SafetyNumberKeyTransparencyUnavailable(): React.JSX.Element {
+  return (
+    <SafetyNumberViewer
+      {...createProps({
+        contact: {
+          ...contactWithAllData,
+          isVerified: false,
+        },
+        keyTransparencyStatus: 'unavailable',
+      })}
+    />
+  );
+}
+
+export function SafetyNumberKeyTransparencyAnimation(): React.JSX.Element {
+  const [status, setStatus] = useState<'idle' | 'running' | 'ok' | 'fail'>(
+    'idle'
+  );
+
+  useEffect(() => {
+    let counter = 0;
+
+    const timer = setInterval(() => {
+      setStatus(oldStatus => {
+        switch (oldStatus) {
+          case 'idle':
+            return 'running';
+          case 'running':
+            return counter === 0 ? 'ok' : 'fail';
+          default:
+            return 'idle';
+        }
+      });
+      counter = (counter + 1) % 2;
+    }, 2000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const props = useMemo(() => {
+    return createProps({
+      contact: {
+        ...contactWithAllData,
+        isVerified: false,
+      },
+    });
+  }, []);
+
+  return <SafetyNumberViewer {...props} keyTransparencyStatus={status} />;
 }
 
 export function VerificationDisabled(): React.JSX.Element {

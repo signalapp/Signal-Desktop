@@ -20,6 +20,7 @@ import type { RecipientsByConversation } from './stories.preload.js';
 import type { SafetyNumberChangeSource } from '../../types/SafetyNumberChangeSource.std.js';
 import type { StateType as RootStateType } from '../reducer.preload.js';
 import * as SingleServePromise from '../../services/singleServePromise.std.js';
+import { isKeyTransparencyAvailable } from '../../services/keyTransparency.preload.js';
 import * as Stickers from '../../types/Stickers.preload.js';
 import { UsernameOnboardingState } from '../../types/globalModals.std.js';
 import { createLogger } from '../../logging/log.std.js';
@@ -65,6 +66,7 @@ import type { SmartDraftGifMessageSendModalProps } from '../smart/DraftGifMessag
 import { onCriticalIdlePrimaryDeviceModalDismissed } from '../../util/handleServerAlerts.preload.js';
 import type { PinMessageDialogData } from '../smart/PinMessageDialog.preload.js';
 import type { StateThunk } from '../types.std.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 const log = createLogger('globalModals');
 
@@ -144,6 +146,8 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   isSignalConnectionsVisible: boolean;
   isStoriesSettingsVisible: boolean;
   isWhatsNewVisible: boolean;
+  isKeyTransparencyErrorVisible: boolean;
+  isKeyTransparencyOnboardingVisible: boolean;
   lowDiskSpaceBackupImportModal: {
     bytesNeeded: number;
   } | null;
@@ -175,6 +179,14 @@ const HIDE_CONTACT_MODAL = 'globalModals/HIDE_CONTACT_MODAL';
 const SHOW_CONTACT_MODAL = 'globalModals/SHOW_CONTACT_MODAL';
 const HIDE_WHATS_NEW_MODAL = 'globalModals/HIDE_WHATS_NEW_MODAL_MODAL';
 const SHOW_WHATS_NEW_MODAL = 'globalModals/SHOW_WHATS_NEW_MODAL_MODAL';
+const HIDE_KEY_TRANSPARENCY_ERROR_DIALOG =
+  'globalModals/HIDE_KEY_TRANSPARENCY_ERROR_DIALOG';
+const SHOW_KEY_TRANSPARENCY_ERROR_DIALOG =
+  'globalModals/SHOW_KEY_TRANSPARENCY_ERROR_DIALOG';
+const HIDE_KEY_TRANSPARENCY_ONBOARDING_DIALOG =
+  'globalModals/HIDE_KEY_TRANSPARENCY_ONBOARDING_DIALOG';
+const SHOW_KEY_TRANSPARENCY_ONBOARDING_DIALOG =
+  'globalModals/SHOW_KEY_TRANSPARENCY_ONBOARDING_DIALOG';
 const HIDE_SERVICE_ID_NOT_FOUND_MODAL =
   'globalModals/HIDE_SERVICE_ID_NOT_FOUND_MODAL';
 const SHOW_SERVICE_ID_NOT_FOUND_MODAL =
@@ -288,6 +300,22 @@ type HideWhatsNewModalActionType = ReadonlyDeep<{
 
 type ShowWhatsNewModalActionType = ReadonlyDeep<{
   type: typeof SHOW_WHATS_NEW_MODAL;
+}>;
+
+type HideKeyTransparencyErrorDialogActionType = ReadonlyDeep<{
+  type: typeof HIDE_KEY_TRANSPARENCY_ERROR_DIALOG;
+}>;
+
+type ShowKeyTransparencyErrorDialogActionType = ReadonlyDeep<{
+  type: typeof SHOW_KEY_TRANSPARENCY_ERROR_DIALOG;
+}>;
+
+type HideKeyTransparencyOnboardingDialogActionType = ReadonlyDeep<{
+  type: typeof HIDE_KEY_TRANSPARENCY_ONBOARDING_DIALOG;
+}>;
+
+type ShowKeyTransparencyOnboardingDialogActionType = ReadonlyDeep<{
+  type: typeof SHOW_KEY_TRANSPARENCY_ONBOARDING_DIALOG;
 }>;
 
 type HideUserNotFoundModalActionType = ReadonlyDeep<{
@@ -522,6 +550,8 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | HideCallQualitySurveyActionType
   | HideContactModalActionType
   | HideCriticalIdlePrimaryDeviceModalActionType
+  | HideKeyTransparencyErrorDialogActionType
+  | HideKeyTransparencyOnboardingDialogActionType
   | HideLowDiskSpaceBackupImportModalActionType
   | HideSendAnywayDialogActiontype
   | HideStoriesSettingsActionType
@@ -538,6 +568,8 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ShowDebugLogErrorModalActionType
   | ShowEditHistoryModalActionType
   | ShowErrorModalActionType
+  | ShowKeyTransparencyErrorDialogActionType
+  | ShowKeyTransparencyOnboardingDialogActionType
   | ShowLowDiskSpaceBackupImportModalActionType
   | ShowMediaPermissionsModalActionType
   | ShowSendAnywayDialogActionType
@@ -579,11 +611,14 @@ export const actions = {
   closeStickerPackPreview,
   closeMediaPermissionsModal,
   ensureSystemMediaPermissions,
+  finishKeyTransparencyOnboarding,
   hideBackfillFailureModal,
   hideBlockingSafetyNumberChangeDialog,
   hideCallQualitySurvey,
   hideContactModal,
   hideCriticalIdlePrimaryDeviceModal,
+  hideKeyTransparencyErrorDialog,
+  hideKeyTransparencyOnboardingDialog,
   hideLowDiskSpaceBackupImportModal,
   hideStoriesSettings,
   hideTapToViewNotAvailableModal,
@@ -598,6 +633,8 @@ export const actions = {
   showEditHistoryModal,
   showErrorModal,
   showGV2MigrationDialog,
+  showKeyTransparencyErrorDialog,
+  showKeyTransparencyOnboardingDialog,
   showLowDiskSpaceBackupImportModal,
   showShareCallLinkViaSignal,
   showShortcutGuideModal,
@@ -711,6 +748,30 @@ function hideWhatsNewModal(): HideWhatsNewModalActionType {
 function showWhatsNewModal(): ShowWhatsNewModalActionType {
   return {
     type: SHOW_WHATS_NEW_MODAL,
+  };
+}
+
+function hideKeyTransparencyErrorDialog(): HideKeyTransparencyErrorDialogActionType {
+  return {
+    type: HIDE_KEY_TRANSPARENCY_ERROR_DIALOG,
+  };
+}
+
+function showKeyTransparencyErrorDialog(): ShowKeyTransparencyErrorDialogActionType {
+  return {
+    type: SHOW_KEY_TRANSPARENCY_ERROR_DIALOG,
+  };
+}
+
+function hideKeyTransparencyOnboardingDialog(): HideKeyTransparencyOnboardingDialogActionType {
+  return {
+    type: HIDE_KEY_TRANSPARENCY_ONBOARDING_DIALOG,
+  };
+}
+
+function showKeyTransparencyOnboardingDialog(): ShowKeyTransparencyOnboardingDialogActionType {
+  return {
+    type: SHOW_KEY_TRANSPARENCY_ONBOARDING_DIALOG,
   };
 }
 
@@ -985,10 +1046,25 @@ function toggleProfileNameWarningModal(
 
 function toggleSafetyNumberModal(
   safetyNumberModalContactId?: string
-): ToggleSafetyNumberModalActionType {
-  return {
-    type: TOGGLE_SAFETY_NUMBER_MODAL,
-    payload: safetyNumberModalContactId,
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  | ShowKeyTransparencyOnboardingDialogActionType
+  | ToggleSafetyNumberModalActionType
+> {
+  return dispatch => {
+    if (
+      isKeyTransparencyAvailable() &&
+      safetyNumberModalContactId != null &&
+      !itemStorage.get('hasSeenKeyTransparencyOnboarding')
+    ) {
+      dispatch(showKeyTransparencyOnboardingDialog());
+    }
+    dispatch({
+      type: TOGGLE_SAFETY_NUMBER_MODAL,
+      payload: safetyNumberModalContactId,
+    });
   };
 }
 
@@ -1215,6 +1291,18 @@ export function ensureSystemMediaPermissions(
   };
 }
 
+function finishKeyTransparencyOnboarding(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  HideKeyTransparencyOnboardingDialogActionType
+> {
+  return async dispatch => {
+    await itemStorage.put('hasSeenKeyTransparencyOnboarding', true);
+    dispatch(hideKeyTransparencyOnboardingDialog());
+  };
+}
+
 function showCriticalIdlePrimaryDeviceModal(): ShowCriticalIdlePrimaryDeviceModalActionType {
   return {
     type: SHOW_CRITICAL_IDLE_PRIMARY_DEVICE_MODAL,
@@ -1399,6 +1487,8 @@ export function getEmptyState(): GlobalModalsStateType {
     isSignalConnectionsVisible: false,
     isStoriesSettingsVisible: false,
     isWhatsNewVisible: false,
+    isKeyTransparencyErrorVisible: false,
+    isKeyTransparencyOnboardingVisible: false,
     lowDiskSpaceBackupImportModal: null,
     usernameOnboardingState: UsernameOnboardingState.NeverShown,
     messageRequestActionsConfirmationProps: null,
@@ -1469,6 +1559,34 @@ export function reducer(
     return {
       ...state,
       isWhatsNewVisible: false,
+    };
+  }
+
+  if (action.type === SHOW_KEY_TRANSPARENCY_ERROR_DIALOG) {
+    return {
+      ...state,
+      isKeyTransparencyErrorVisible: true,
+    };
+  }
+
+  if (action.type === HIDE_KEY_TRANSPARENCY_ERROR_DIALOG) {
+    return {
+      ...state,
+      isKeyTransparencyErrorVisible: false,
+    };
+  }
+
+  if (action.type === SHOW_KEY_TRANSPARENCY_ONBOARDING_DIALOG) {
+    return {
+      ...state,
+      isKeyTransparencyOnboardingVisible: true,
+    };
+  }
+
+  if (action.type === HIDE_KEY_TRANSPARENCY_ONBOARDING_DIALOG) {
+    return {
+      ...state,
+      isKeyTransparencyOnboardingVisible: false,
     };
   }
 

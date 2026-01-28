@@ -15,10 +15,7 @@ import EventListener from 'node:events';
 import type { IncomingMessage } from 'node:http';
 import { setTimeout as sleep } from 'node:timers/promises';
 
-import type {
-  UnauthMessagesService,
-  UnauthUsernamesService,
-} from '@signalapp/libsignal-client/dist/net';
+import type { UnauthenticatedChatConnection } from '@signalapp/libsignal-client/dist/net/Chat.js';
 
 import { strictAssert } from '../util/assert.std.js';
 import { explodePromise } from '../util/explodePromise.std.js';
@@ -434,9 +431,7 @@ export class SocketManager extends EventListener {
     }).getResult();
   }
 
-  public async getUnauthenticatedLibsignalApi(): Promise<
-    UnauthUsernamesService & UnauthMessagesService
-  > {
+  public async getUnauthenticatedLibsignalApi(): Promise<UnauthenticatedChatConnection> {
     const resource = await this.#getUnauthenticatedResource();
     return resource.libsignalWebsocket;
   }

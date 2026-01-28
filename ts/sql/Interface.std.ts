@@ -1021,6 +1021,8 @@ type ReadableInterface = {
   getAllMegaphones: () => ReadonlyArray<RemoteMegaphoneType>;
   hasMegaphone: (megaphoneId: RemoteMegaphoneId) => boolean;
 
+  getKTAccountData: (aci: AciString) => Uint8Array | undefined;
+
   getAllPinnedMessages: () => ReadonlyArray<PinnedMessage>;
   getPinnedMessagesPreloadDataForConversation: (
     conversationId: string
@@ -1392,6 +1394,8 @@ type WritableInterface = {
   finishMegaphone: (megaphoneId: RemoteMegaphoneId) => void;
   snoozeMegaphone: (megaphoneId: RemoteMegaphoneId) => void;
   internalDeleteAllMegaphones: () => number;
+
+  setKTAccountData: (aci: AciString, data: Uint8Array) => void;
 
   appendPinnedMessage: (
     pinnedMessagesLimit: number,

@@ -34,6 +34,7 @@ import {
 import type { SmartDraftGifMessageSendModalProps } from '../state/smart/DraftGifMessageSendModal.preload.js';
 import { CriticalIdlePrimaryDeviceModal } from './CriticalIdlePrimaryDeviceModal.dom.js';
 import { LowDiskSpaceBackupImportModal } from './LowDiskSpaceBackupImportModal.dom.js';
+import { KeyTransparencyOnboardingDialog } from './KeyTransparencyOnboardingDialog.dom.js';
 import { isUsernameValid } from '../util/Username.dom.js';
 import type { PinMessageDialogData } from '../state/smart/PinMessageDialog.preload.js';
 
@@ -136,6 +137,13 @@ export type PropsType = {
   // StoriesSettings
   isStoriesSettingsVisible: boolean;
   renderStoriesSettings: () => React.JSX.Element;
+  // KeyTransparencyErrorDialog
+  isKeyTransparencyErrorVisible: boolean;
+  renderKeyTransparencyErrorDialog: () => React.JSX.Element;
+  // KeyTransparencyOnboardingDialog
+  isKeyTransparencyOnboardingVisible: boolean;
+  hideKeyTransparencyOnboardingDialog: () => void;
+  finishKeyTransparencyOnboarding: () => void;
   // SendAnywayDialog
   hasSafetyNumberChangeModal: boolean;
   safetyNumberChangedBlockingData:
@@ -249,6 +257,13 @@ export function GlobalModalContainer({
   // StoriesSettings
   isStoriesSettingsVisible,
   renderStoriesSettings,
+  // KeyTransparencyErrorDialog
+  isKeyTransparencyErrorVisible,
+  renderKeyTransparencyErrorDialog,
+  // KeyTransparencyOnboardingDialog
+  isKeyTransparencyOnboardingVisible,
+  hideKeyTransparencyOnboardingDialog,
+  finishKeyTransparencyOnboarding,
   // SendAnywayDialog
   hasSafetyNumberChangeModal,
   safetyNumberChangedBlockingData,
@@ -307,6 +322,10 @@ export function GlobalModalContainer({
   // Errors where we want them to submit a debug log
   if (debugLogErrorModalProps) {
     return renderDebugLogErrorModal(debugLogErrorModalProps);
+  }
+
+  if (isKeyTransparencyErrorVisible) {
+    return renderKeyTransparencyErrorDialog();
   }
 
   // Safety Number
@@ -394,6 +413,22 @@ export function GlobalModalContainer({
       <SignalConnectionsModal
         i18n={i18n}
         onClose={toggleSignalConnectionsModal}
+      />
+    );
+  }
+
+  // Intentionally above safety number since that causes onboarding flow
+  if (isKeyTransparencyOnboardingVisible) {
+    return (
+      <KeyTransparencyOnboardingDialog
+        i18n={i18n}
+        open
+        onOpenChange={open => {
+          if (!open) {
+            hideKeyTransparencyOnboardingDialog();
+          }
+        }}
+        onContinue={finishKeyTransparencyOnboarding}
       />
     );
   }

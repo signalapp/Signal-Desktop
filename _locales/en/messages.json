@@ -786,9 +786,65 @@
     "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code with their device.",
     "description": "Safety number viewer, text of the hint"
   },
+  "icu:SafetyNumberViewer__hint-v2": {
+    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device.",
+    "description": "Safety number viewer, text of the hint"
+  },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Learn more",
     "description": "Text of 'Learn more' button of SafetyNumberViewerModal modal"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__title": {
+    "messageformat": "Automatic key verification",
+    "description": "Title of Key Transparency section of SafetyNumberViewer"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
+    "messageformat": "Verify automatically",
+    "description": "Title of Key Transparency button in SafetyNumberViewer when check is available"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--running": {
+    "messageformat": "Verifying encryption...",
+    "description": "Title of Key Transparency button in SafetyNumberViewer when check is running"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
+    "messageformat": "Encryption verified",
+    "description": "Title of Key Transparency button in SafetyNumberViewer when check is successful"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
+    "messageformat": "Auto-verification unavailable",
+    "description": "Title of Key Transparency button in SafetyNumberViewer when check is not successful"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__hint": {
+    "messageformat": "Auto-verification is not available for all chats.",
+    "description": "Hint for Key Transparency section of SafetyNumberViewer"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
+    "messageformat": "Learn more",
+    "description": "Text of 'Learn more' button of SafetyNumberViewerModal modal's Key Transparency section"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
+    "messageformat": "Encryption was auto-verified for this chat ",
+    "description": "A title of an education modal in Key Transparency section of SafetyNumberViewer when verification was successful"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device.",
+    "description": "A body of an education modal in Key Transparency section of SafetyNumberViewer when verification was successful"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
+    "messageformat": "Auto-verification is no longer available for this chat",
+    "description": "A title of an education modal in Key Transparency section of SafetyNumberViewer when verification was unsuccessful"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
+    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because Katie Hall changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device.",
+    "description": "A body of an education modal in Key Transparency section of SafetyNumberViewer when verification was unsuccessful"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
+    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device.",
+    "description": "A body of an education modal in Key Transparency section of SafetyNumberViewer when verification is unavailable"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
+    "messageformat": "Okay",
+    "description": "A dismiss button text for an education modal in Key Transparency section"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "A safety number will be created with this person after you exchange messages with them.",
@@ -797,6 +853,58 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Learn more",
     "description": "Text of 'Learn more' button of SafetyNumberNotReady modal"
+  },
+  "icu:KeyTransparencyErrorDialog__Title": {
+    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?",
+    "description": "Key Transparency Error Dialog > Title"
+  },
+  "icu:KeyTransparencyErrorDialog__Description": {
+    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information.",
+    "description": "Key Transparency Error Dialog > Description"
+  },
+  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Close",
+    "description": "Key Transparency Error Dialog > Dialog Close Button (Accessibility Label)"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
+    "messageformat": "Share debug log",
+    "description": "Key Transparency Error Dialog > Share debug log > Label"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
+    "messageformat": "View",
+    "description": "Key Transparency Error Dialog > Share debug log > View Button"
+  },
+  "icu:KeyTransparencyErrorDialog__Submit": {
+    "messageformat": "Submit",
+    "description": "Primary button text in the dialog shown when an unexpected key transparency error occurs. Clicking it will open a support page"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "No thanks",
+    "description": "Secondary button text in the dialog shown when an unexpected key transparency error occurs. Clicking the button will dismiss the error dialog."
+  },
+  "icu:KeyTransparencyErrorDialog__Submitting": {
+    "messageformat": "Submitting...",
+    "description": "Key Transparency Error Dialog > Accessibility label for loading spinner while submitting"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Title": {
+    "messageformat": "Signal can now auto-verify key encryption",
+    "description": "Key Transparency Onboarding Dialog > Title"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number.",
+    "description": "Key Transparency Onboarding Dialog > Description"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Continue": {
+    "messageformat": "Continue",
+    "description": "Key Transparency Onboarding Dialog > Text of the primary button that takes user to safety number dialog"
+  },
+  "icu:KeyTransparencyOnboardingDialog__LearnMore": {
+    "messageformat": "Learn more",
+    "description": "Key Transparency Onboarding Dialog > Text of the secondary button that opens a support page in the browser"
+  },
+  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Close",
+    "description": "Key Transparency Onboarding Dialog > Dialog Close Button (Accessibility Label)"
   },
   "icu:verified": {
     "messageformat": "Verified"

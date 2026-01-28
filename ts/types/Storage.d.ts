@@ -92,6 +92,7 @@ export type StorageAccessType = {
   hasCompletedSafetyNumberOnboarding: boolean;
   hasSeenGroupStoryEducationSheet: boolean;
   hasSeenNotificationProfileOnboarding: boolean;
+  hasSeenKeyTransparencyOnboarding: boolean;
   hasViewedOnboardingStory: boolean;
   hasStoriesDisabled: boolean;
   storyViewReceiptsEnabled: boolean | undefined;
@@ -270,6 +271,11 @@ export type StorageAccessType = {
   postRegistrationSyncsStatus: 'incomplete' | 'complete';
 
   avatarsHaveBeenMigrated: boolean;
+
+  // Key Transparency
+  lastDistinguishedTreeHead: Uint8Array;
+  keyTransparencySelfHealth: 'ok' | 'fail';
+  lastKeyTransparencySelfCheck: number;
 
   // Test-only
   // Not used UI, stored as is when imported from backup during tests

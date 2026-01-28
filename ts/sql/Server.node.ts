@@ -279,6 +279,10 @@ import {
   getAllMegaphoneImageLocalPaths,
   hasMegaphone,
 } from './server/megaphones.std.js';
+import {
+  getKTAccountData,
+  setKTAccountData,
+} from './server/keyTransparency.std.js';
 import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer.std.js';
 import type { GifType } from '../components/fun/panels/FunPanelGifs.dom.js';
 import type { NotificationProfileType } from '../types/NotificationProfile.std.js';
@@ -498,6 +502,8 @@ export const DataReader: ServerReadableInterface = {
 
   getAllMegaphones,
   hasMegaphone,
+
+  getKTAccountData,
 
   getAllPinnedMessages,
   getPinnedMessagesPreloadDataForConversation,
@@ -764,6 +770,8 @@ export const DataWriter: ServerWritableInterface = {
   finishMegaphone,
   snoozeMegaphone,
   internalDeleteAllMegaphones,
+
+  setKTAccountData,
 
   appendPinnedMessage,
   deletePinnedMessageByMessageId,
@@ -8384,6 +8392,7 @@ function removeAll(db: WritableDB): void {
       DELETE FROM identityKeys;
       DELETE FROM items;
       DELETE FROM jobs;
+      DELETE FROM key_transparency_account_data;
       DELETE FROM kyberPreKeys;
       DELETE FROM megaphones;
       DELETE FROM message_attachments;
@@ -8444,6 +8453,7 @@ function removeAllConfiguration(db: WritableDB): void {
       DELETE FROM groupSendCombinedEndorsement;
       DELETE FROM groupSendMemberEndorsement;
       DELETE FROM jobs;
+      DELETE FROM key_transparency_account_data;
       DELETE FROM kyberPreKeys;
       DELETE FROM preKeys;
       DELETE FROM senderKeys;

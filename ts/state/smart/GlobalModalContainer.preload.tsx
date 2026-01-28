@@ -32,6 +32,7 @@ import { SmartConfirmLeaveCallModal } from './ConfirmLeaveCallModal.preload.js';
 import { SmartCallLinkPendingParticipantModal } from './CallLinkPendingParticipantModal.preload.js';
 import { SmartProfileNameWarningModal } from './ProfileNameWarningModal.preload.js';
 import { SmartDraftGifMessageSendModal } from './DraftGifMessageSendModal.preload.js';
+import { SmartKeyTransparencyErrorDialog } from './KeyTransparencyErrorDialog.preload.js';
 import { DebugLogErrorModal } from '../../components/DebugLogErrorModal.dom.js';
 import { SmartPlaintextExportWorkflow } from './PlaintextExportWorkflow.preload.js';
 import { SmartLocalBackupExportWorkflow } from './LocalBackupExportWorkflow.preload.js';
@@ -91,6 +92,10 @@ function renderDraftGifMessageSendModal(): React.JSX.Element {
 
 function renderForwardMessagesModal(): React.JSX.Element {
   return <SmartForwardMessagesModal />;
+}
+
+function renderKeyTransparencyErrorDialog(): React.JSX.Element {
+  return <SmartKeyTransparencyErrorDialog />;
 }
 
 function renderMessageRequestActionsConfirmation(): React.JSX.Element {
@@ -171,6 +176,8 @@ export const SmartGlobalModalContainer = memo(
       isShortcutGuideModalVisible,
       isSignalConnectionsVisible,
       isStoriesSettingsVisible,
+      isKeyTransparencyErrorVisible,
+      isKeyTransparencyOnboardingVisible,
       isWhatsNewVisible,
       usernameOnboardingState,
       safetyNumberChangedBlockingData,
@@ -190,6 +197,8 @@ export const SmartGlobalModalContainer = memo(
       hideUserNotFoundModal,
       hideWhatsNewModal,
       hideBackfillFailureModal,
+      hideKeyTransparencyOnboardingDialog,
+      finishKeyTransparencyOnboarding,
       toggleSignalConnectionsModal,
     } = useGlobalModalActions();
 
@@ -289,9 +298,15 @@ export const SmartGlobalModalContainer = memo(
         hideBackfillFailureModal={hideBackfillFailureModal}
         hideUserNotFoundModal={hideUserNotFoundModal}
         hideWhatsNewModal={hideWhatsNewModal}
+        hideKeyTransparencyOnboardingDialog={
+          hideKeyTransparencyOnboardingDialog
+        }
+        finishKeyTransparencyOnboarding={finishKeyTransparencyOnboarding}
         hideTapToViewNotAvailableModal={hideTapToViewNotAvailableModal}
         i18n={i18n}
         isAboutContactModalVisible={aboutContactModalContactId != null}
+        isKeyTransparencyErrorVisible={isKeyTransparencyErrorVisible}
+        isKeyTransparencyOnboardingVisible={isKeyTransparencyOnboardingVisible}
         isProfileNameWarningModalVisible={isProfileNameWarningModalVisible}
         isShortcutGuideModalVisible={isShortcutGuideModalVisible}
         isSignalConnectionsVisible={isSignalConnectionsVisible}
@@ -313,6 +328,7 @@ export const SmartGlobalModalContainer = memo(
         renderDeleteMessagesModal={renderDeleteMessagesModal}
         renderDraftGifMessageSendModal={renderDraftGifMessageSendModal}
         renderForwardMessagesModal={renderForwardMessagesModal}
+        renderKeyTransparencyErrorDialog={renderKeyTransparencyErrorDialog}
         renderMessageRequestActionsConfirmation={
           renderMessageRequestActionsConfirmation
         }

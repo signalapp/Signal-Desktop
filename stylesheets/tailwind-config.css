@@ -282,6 +282,7 @@
   --font-weight-semibold: 600;
   --font-weight-medium: 500;
   --font-weight-regular: 400;
+  --font-weight-light: 300;
   --type-font-weight-title-large: var(--font-weight-semibold);
   --type-font-weight-title-medium: var(--font-weight-semibold);
   --type-font-weight-title-small: var(--font-weight-semibold);

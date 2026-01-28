@@ -46,6 +46,7 @@ import {
   initialize as initializeExpiringMessageService,
   update as updateExpiringMessagesService,
 } from './services/expiringMessagesDeletion.preload.js';
+import { keyTransparency } from './services/keyTransparency.preload.js';
 import {
   initialize as initializeNotificationProfilesService,
   fastUpdate as updateNotificationProfileService,
@@ -477,6 +478,7 @@ export async function startApp(): Promise<void> {
     drop(itemStorage.put('postRegistrationSyncsStatus', 'incomplete'));
     registrationCompleted?.resolve();
     drop(Registration.markDone());
+    drop(keyTransparency.onRegistrationDone());
   });
 
   const cancelInitializationMessage = setAppLoadingScreenMessage(
@@ -1242,6 +1244,8 @@ export async function startApp(): Promise<void> {
         log.info('reconnecting websocket on user change');
         enqueueReconnectToWebSocket();
       }
+
+      drop(keyTransparency.onKnownIdentifierChange());
     });
 
     window.Whisper.events.on('setMenuOptions', (options: MenuOptionsType) => {
@@ -1387,6 +1391,7 @@ export async function startApp(): Promise<void> {
 
     initializeExpiringMessageService();
     initializeNotificationProfilesService();
+    keyTransparency.start();
 
     log.info('Blocked uuids cleanup: starting...');
     const blockedUuids = itemStorage.get(BLOCKED_UUIDS_ID, []);

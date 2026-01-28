@@ -131,6 +131,7 @@ import {
 } from '../types/NotificationProfile-node.node.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
 import { onHasStoriesDisabledChange } from '../textsecure/WebAPI.preload.js';
+import { keyTransparency } from './keyTransparency.preload.js';
 
 const { isEqual } = lodash;
 
@@ -1734,10 +1735,19 @@ export async function mergeAccountRecord(
   const discoverability = unlistedPhoneNumber
     ? PhoneNumberDiscoverability.NotDiscoverable
     : PhoneNumberDiscoverability.Discoverable;
+
+  // Key Transparancy parameters for self request change whenever
+  // discoverability changes. Make sure we don't do self check prematurely
+  if (discoverability !== itemStorage.get('phoneNumberDiscoverability')) {
+    drop(keyTransparency.onKnownIdentifierChange());
+  }
   await itemStorage.put('phoneNumberDiscoverability', discoverability);
 
   if (profileKey && profileKey.byteLength > 0) {
-    void ourProfileKeyService.set(profileKey);
+    // Access key is part of Key Transparency request and changing it must
+    // delay self monitoring.
+    drop(keyTransparency.onKnownIdentifierChange());
+    drop(ourProfileKeyService.set(profileKey));
   }
 
   if (pinnedConversations) {
@@ -2016,12 +2026,14 @@ export async function mergeAccountRecord(
   const oldStorageID = conversation.get('storageID');
   const oldStorageVersion = conversation.get('storageVersion');
 
-  if (
-    itemStorage.get('usernameCorrupted') &&
-    username !== conversation.get('username')
-  ) {
-    details.push('clearing username corruption');
-    await itemStorage.remove('usernameCorrupted');
+  if (username !== conversation.get('username')) {
+    // Username is part of key transparency self monitor parameters. Make sure
+    // we delay self-check until the changes fully propagate to the log.
+    drop(keyTransparency.onKnownIdentifierChange());
+    if (itemStorage.get('usernameCorrupted')) {
+      details.push('clearing username corruption');
+      await itemStorage.remove('usernameCorrupted');
+    }
   }
 
   conversation.set({

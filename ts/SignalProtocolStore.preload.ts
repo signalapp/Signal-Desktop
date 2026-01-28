@@ -6,6 +6,7 @@ import lodash from 'lodash';
 import { z } from 'zod';
 import { EventEmitter } from 'node:events';
 
+import type { Aci } from '@signalapp/libsignal-client';
 import {
   Direction,
   IdentityChange,
@@ -54,7 +55,11 @@ import type {
   PniString,
   AciString,
 } from './types/ServiceId.std.js';
-import { isServiceIdString, ServiceIdKind } from './types/ServiceId.std.js';
+import {
+  isServiceIdString,
+  ServiceIdKind,
+  fromAciObject,
+} from './types/ServiceId.std.js';
 import type { Address } from './types/Address.std.js';
 import type { QualifiedAddressStringType } from './types/QualifiedAddress.std.js';
 import { QualifiedAddress } from './types/QualifiedAddress.std.js';
@@ -2794,6 +2799,36 @@ export class SignalProtocolStore extends EventEmitter {
     } catch (error) {
       log.error(`${logId}: Error thrown from emit`, Errors.toLogFormat(error));
     }
+  }
+
+  // Key Transparency
+
+  getLastDistinguishedTreeHead(): Uint8Array | null {
+    return itemStorage.get('lastDistinguishedTreeHead') ?? null;
+  }
+
+  async setLastDistinguishedTreeHead(
+    bytes: Readonly<Uint8Array> | null
+  ): Promise<void> {
+    if (bytes == null) {
+      await itemStorage.remove('lastDistinguishedTreeHead');
+    } else {
+      await itemStorage.put('lastDistinguishedTreeHead', bytes);
+    }
+  }
+
+  async getKTAccountData(aciObject: Aci): Promise<Uint8Array | null> {
+    const aci = fromAciObject(aciObject);
+    const data = await DataReader.getKTAccountData(aci);
+    return data ?? null;
+  }
+
+  async setKTAccountData(
+    aciObject: Aci,
+    bytes: Readonly<Uint8Array>
+  ): Promise<void> {
+    const aci = fromAciObject(aciObject);
+    return DataWriter.setKTAccountData(aci, bytes);
   }
 
   //
