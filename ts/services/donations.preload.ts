@@ -20,7 +20,11 @@ import { getRandomBytes, sha256 } from '../Crypto.node.js';
 import { DataWriter } from '../sql/Client.preload.js';
 import { createLogger } from '../logging/log.std.js';
 import { getProfile } from '../util/getProfile.preload.js';
-import { donationValidationCompleteRoute } from '../util/signalRoutes.std.js';
+import {
+  donationPaypalApprovedRoute,
+  donationPaypalCanceledRoute,
+  donationValidationCompleteRoute,
+} from '../util/signalRoutes.std.js';
 import { safeParseStrict, safeParseUnknown } from '../util/schemas.std.js';
 import { missingCaseError } from '../util/missingCaseError.std.js';
 import { exponentialBackoffSleepTime } from '../util/exponentialBackoff.std.js';
@@ -32,6 +36,7 @@ import {
   donationErrorTypeSchema,
   donationStateSchema,
   donationWorkflowSchema,
+  donationProcessorSchema,
 } from '../types/Donations.std.js';
 
 import type {
@@ -52,6 +57,8 @@ import {
   createBoostReceiptCredentials,
   redeemReceipt,
   isOnline,
+  createPaypalBoostPayment,
+  confirmPaypalBoostPayment,
 } from '../textsecure/WebAPI.preload.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
 
@@ -210,6 +217,65 @@ export async function finish3dsValidation(token: string): Promise<void> {
   await _saveAndRunWorkflow(workflow);
 }
 
+export async function approvePaypalPayment({
+  payerId,
+  paymentToken,
+  returnToken,
+}: {
+  payerId: string | undefined;
+  paymentToken: string | undefined;
+  returnToken: string;
+}): Promise<void> {
+  let workflow: DonationWorkflow;
+
+  try {
+    const existing = _getWorkflowFromRedux();
+    if (!existing) {
+      throw new Error(
+        'approvePaypalPayment: Cannot finish nonexistent workflow!'
+      );
+    }
+
+    if (payerId == null || paymentToken == null) {
+      throw new Error(
+        'approvePaypalPayment: payerId or paymentToken are missing'
+      );
+    }
+
+    workflow = await _completePaypalApprovalRedirect({
+      workflow: existing,
+      returnToken,
+      payerId,
+      paymentToken,
+    });
+  } catch (error) {
+    await failDonation(donationErrorTypeSchema.Enum.GeneralError);
+    throw error;
+  }
+
+  await _saveAndRunWorkflow(workflow);
+}
+
+export async function cancelPaypalPayment(returnToken: string): Promise<void> {
+  const logId = 'cancelPaypalPayment';
+  log.info(`${logId}: Canceling workflow after user visited cancel URI`);
+
+  const existing = _getWorkflowFromRedux();
+  if (!existing) {
+    throw new Error(`${logId}: Cannot finish nonexistent workflow!`);
+  }
+
+  if (existing.type !== donationStateSchema.Enum.PAYPAL_INTENT) {
+    throw new Error(`${logId}: Workflow not type PAYPAL_INTENT`);
+  }
+
+  if (returnToken !== existing.returnToken) {
+    throw new Error(`${logId}: The provided token did not match saved token`);
+  }
+
+  await clearDonation();
+}
+
 export async function clearDonation(): Promise<void> {
   runDonationAbortController?.abort();
   await _saveWorkflow(undefined);
@@ -254,6 +320,44 @@ export async function _internalDoDonation({
     workflow = await _createPaymentMethodForIntent(workflow, paymentDetail);
     await _saveAndRunWorkflow(workflow);
   } catch (error) {
+    const errorType: string | undefined = error.response?.error?.type;
+    await failDonation(donationErrorTypeSchema.Enum.GeneralError, errorType);
+  } finally {
+    isInternalDonationInProgress = false;
+  }
+}
+
+// For testing
+
+export async function _internalDoPaypalDonation({
+  currencyType,
+  paymentAmount,
+}: {
+  currencyType: string;
+  paymentAmount: StripeDonationAmount;
+}): Promise<void> {
+  if (isInternalDonationInProgress) {
+    throw new Error("Can't proceed because a donation is in progress.");
+  }
+
+  const logId = '_internalDoPaypalDonation';
+  try {
+    isInternalDonationInProgress = true;
+
+    const workflow = await _createPaypalIntent({
+      currencyType,
+      paymentAmount,
+      workflow: undefined,
+    });
+    await _saveWorkflow(workflow);
+    if (workflow.type !== donationStateSchema.Enum.PAYPAL_INTENT) {
+      throw new Error(`${logId}: Resulting workflow not PAYPAL_INTENT`);
+    }
+
+    const { approvalUrl } = workflow;
+    log.info(`${logId}: Visit URL in browser to continue:`, approvalUrl);
+  } catch (error) {
+    log.error(logId, error);
     const errorType: string | undefined = error.response?.error?.type;
     await failDonation(donationErrorTypeSchema.Enum.GeneralError, errorType);
   } finally {
@@ -376,7 +480,18 @@ export async function _runDonationWorkflow(): Promise<void> {
             });
           }
           return;
-        } else if (type === donationStateSchema.Enum.INTENT_CONFIRMED) {
+        } else if (type === donationStateSchema.Enum.PAYPAL_INTENT) {
+          log.info(
+            `${logId}: Waiting for user to return from PayPal. Returning.`
+          );
+          return;
+        } else if (type === donationStateSchema.Enum.PAYPAL_APPROVED) {
+          log.info(`${logId}: Attempting to confirm PayPal payment`);
+          updated = await _confirmPaypalPayment(existing);
+        } else if (
+          type === donationStateSchema.Enum.INTENT_CONFIRMED ||
+          type === donationStateSchema.Enum.PAYMENT_CONFIRMED
+        ) {
           log.info(`${logId}: Attempting to get receipt`);
           updated = await _getReceipt(existing);
           // continuing
@@ -629,12 +744,60 @@ export async function _confirmPayment(
       );
     }
 
-    log.info(`${logId}: Successfully transitioned to INTENT_CONFIRMED`);
+    log.info(`${logId}: Successfully transitioned to PAYMENT_CONFIRMED`);
 
     return {
       ...workflow,
       ...receiptContext,
-      type: donationStateSchema.Enum.INTENT_CONFIRMED,
+      type: donationStateSchema.Enum.PAYMENT_CONFIRMED,
+      processor: donationProcessorSchema.Enum.STRIPE,
+      timestamp: Date.now(),
+    };
+  });
+}
+
+export async function _confirmPaypalPayment(
+  workflow: DonationWorkflow
+): Promise<DonationWorkflow> {
+  const logId = `_confirmPaypalPayment(${redactId(workflow.id)})`;
+
+  return withConcurrencyCheck(logId, async () => {
+    if (workflow.type !== donationStateSchema.Enum.PAYPAL_APPROVED) {
+      throw new Error(
+        `${logId}: workflow at type ${workflow?.type} is not at type PAYPAL_APPROVED, unable to confirm payment`
+      );
+    }
+
+    log.info(`${logId}: Starting`);
+
+    const {
+      currencyType: currency,
+      paymentAmount: amount,
+      paypalPayerId: payerId,
+      paypalPaymentId: paymentId,
+      paypalPaymentToken: paymentToken,
+    } = workflow;
+    const payload = {
+      currency,
+      amount,
+      level: 1,
+      payerId,
+      paymentId,
+      paymentToken,
+    };
+    const result = await confirmPaypalBoostPayment(payload);
+    const { paymentId: paymentIntentId } = result;
+
+    const receiptContext = getReceiptContext();
+
+    log.info(`${logId}: Successfully transitioned to PAYMENT_CONFIRMED`);
+
+    return {
+      ...workflow,
+      ...receiptContext,
+      type: donationStateSchema.Enum.PAYMENT_CONFIRMED,
+      processor: donationProcessorSchema.Enum.PAYPAL,
+      paymentIntentId,
       timestamp: Date.now(),
     };
   });
@@ -659,11 +822,103 @@ export async function _completeValidationRedirect(
       throw new Error(`${logId}: The provided token did not match saved token`);
     }
 
-    log.info(`${logId}: Successfully transitioned to INTENT_CONFIRMED`);
+    log.info(`${logId}: Successfully transitioned to PAYMENT_CONFIRMED`);
 
     return {
       ...workflow,
-      type: donationStateSchema.Enum.INTENT_CONFIRMED,
+      type: donationStateSchema.Enum.PAYMENT_CONFIRMED,
+      processor: donationProcessorSchema.Enum.STRIPE,
+      timestamp: Date.now(),
+    };
+  });
+}
+
+export async function _completePaypalApprovalRedirect({
+  workflow,
+  returnToken,
+  payerId,
+  paymentToken,
+}: {
+  workflow: DonationWorkflow;
+  returnToken: string;
+  payerId: string;
+  paymentToken: string;
+}): Promise<DonationWorkflow> {
+  const logId = `_completePaypalApprovalRedirect(${redactId(workflow.id)})`;
+
+  return withConcurrencyCheck(logId, async () => {
+    if (workflow.type !== donationStateSchema.Enum.PAYPAL_INTENT) {
+      throw new Error(
+        `${logId}: workflow at type ${workflow?.type} is not type PAYPAL_INTENT, unable to complete redirect`
+      );
+    }
+
+    log.info(`${logId}: Starting`);
+
+    if (returnToken !== workflow.returnToken) {
+      throw new Error(`${logId}: The provided token did not match saved token`);
+    }
+
+    log.info(`${logId}: Successfully transitioned to PAYPAL_APPROVED`);
+
+    return {
+      ...workflow,
+      type: donationStateSchema.Enum.PAYPAL_APPROVED,
+      paypalPayerId: payerId,
+      paypalPaymentToken: paymentToken,
+      timestamp: Date.now(),
+    };
+  });
+}
+
+export async function _createPaypalIntent({
+  currencyType,
+  paymentAmount,
+  workflow,
+}: {
+  currencyType: string;
+  paymentAmount: StripeDonationAmount;
+  workflow: DonationWorkflow | undefined;
+}): Promise<DonationWorkflow> {
+  const id = uuid();
+  const logId = `_createPaypalIntent(${redactId(id)})`;
+
+  return withConcurrencyCheck(logId, async () => {
+    if (workflow && workflow.type !== donationStateSchema.Enum.DONE) {
+      throw new Error(
+        `${logId}: existing workflow at type ${workflow.type} is not at type DONE, unable to create payment intent`
+      );
+    }
+
+    log.info(`${logId}: Creating new PayPal workflow`);
+
+    const returnToken = uuid();
+    const returnUrl = donationPaypalApprovedRoute
+      .toWebUrl({ returnToken })
+      .toString();
+    const cancelUrl = donationPaypalCanceledRoute
+      .toWebUrl({ returnToken })
+      .toString();
+    const payload = {
+      currency: currencyType,
+      amount: paymentAmount,
+      level: 1,
+      returnUrl,
+      cancelUrl,
+    };
+    const { approvalUrl, paymentId: paypalPaymentId } =
+      await createPaypalBoostPayment(payload);
+
+    log.info(`${logId}: Successfully transitioned to PAYPAL_INTENT`);
+
+    return {
+      type: donationStateSchema.Enum.PAYPAL_INTENT,
+      id: uuid(),
+      currencyType,
+      paymentAmount,
+      paypalPaymentId,
+      approvalUrl,
+      returnToken,
       timestamp: Date.now(),
     };
   });
@@ -675,12 +930,15 @@ export async function _getReceipt(
   const logId = `_getReceipt(${redactId(workflow.id)})`;
 
   return withConcurrencyCheck(logId, async () => {
-    if (workflow.type !== donationStateSchema.Enum.INTENT_CONFIRMED) {
+    const { type: workflowType } = workflow;
+    if (
+      workflowType !== donationStateSchema.Enum.INTENT_CONFIRMED &&
+      workflowType !== donationStateSchema.Enum.PAYMENT_CONFIRMED
+    ) {
       throw new Error(
-        `${logId}: workflow at type ${workflow?.type} not type INTENT_CONFIRMED, unable to get receipt`
+        `${logId}: workflow at type ${workflow?.type} not type INTENT_CONFIRMED or PAYMENT_CONFIRMED, unable to get receipt`
       );
     }
-
     log.info(`${logId}: Starting`);
 
     const {
@@ -688,10 +946,28 @@ export async function _getReceipt(
       receiptCredentialRequestBase64,
       receiptCredentialRequestContextBase64,
     } = workflow;
+
+    let processor: 'STRIPE' | 'BRAINTREE';
+    if (workflowType === donationStateSchema.Enum.INTENT_CONFIRMED) {
+      // Deprecated
+      processor = 'STRIPE';
+    } else if (workflowType === donationStateSchema.Enum.PAYMENT_CONFIRMED) {
+      const { processor: workflowProcessor } = workflow;
+      if (workflowProcessor === donationProcessorSchema.Enum.STRIPE) {
+        processor = 'STRIPE';
+      } else if (workflowProcessor === donationProcessorSchema.Enum.PAYPAL) {
+        processor = 'BRAINTREE';
+      } else {
+        throw missingCaseError(workflowProcessor);
+      }
+    } else {
+      throw missingCaseError(workflowType);
+    }
+
     const jsonPayload = {
       paymentIntentId,
       receiptCredentialRequest: receiptCredentialRequestBase64,
-      processor: 'STRIPE',
+      processor,
     };
 
     // Payment could ultimately fail here, especially with other payment types
@@ -715,7 +991,7 @@ export async function _getReceipt(
 
     if (responseWithDetails.response.status === 204) {
       log.info(
-        `${logId}: Payment is still processing, leaving workflow at INTENT_CONFIRMED`
+        `${logId}: Payment is still processing, leaving workflow at ${workflowType}`
       );
       return workflow;
     }
@@ -920,7 +1196,8 @@ export async function _saveWorkflowToStorage(
 async function saveReceipt(workflow: DonationWorkflow, logId: string) {
   if (
     workflow.type !== donationStateSchema.Enum.RECEIPT &&
-    workflow.type !== donationStateSchema.Enum.INTENT_CONFIRMED
+    workflow.type !== donationStateSchema.Enum.INTENT_CONFIRMED &&
+    workflow.type !== donationStateSchema.Enum.PAYMENT_CONFIRMED
   ) {
     throw new Error(
       `${logId}: Cannot save receipt from workflow at type ${workflow?.type}`
@@ -930,8 +1207,8 @@ async function saveReceipt(workflow: DonationWorkflow, logId: string) {
     id: workflow.id,
     currencyType: workflow.currencyType,
     paymentAmount: workflow.paymentAmount,
-    // This will be when we transitioned to INTENT_CONFIRMED, most likely. It may be close
-    // to when the user clicks the Donate button, or delayed by a bit.
+    // This will be when we transitioned to PAYMENT_CONFIRMED, most likely. It may be
+    // close to when the user clicks the Donate button, or delayed by a bit.
     timestamp: workflow.timestamp,
   };
 

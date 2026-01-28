@@ -40,6 +40,7 @@ const SignalRouteHostnames = [
   'signal.group',
   'signal.link',
   'signal.art',
+  'signaldonations.org',
 ] as const;
 
 /**
@@ -56,6 +57,8 @@ type AllHostnamePatterns =
   | 'start-call-lobby'
   | 'show-window'
   | 'cancel-presenting'
+  | 'donation-paypal-approved'
+  | 'donation-paypal-canceled'
   | 'donation-validation-complete'
   | ':captchaId(.+)'
   | '';
@@ -591,6 +594,76 @@ export const donationValidationCompleteRoute = _route(
 );
 
 /**
+ * Resume donation workflow after completing PayPal web flow.
+ * @example
+ * ```ts
+ * donationPaypalApprovedRoute.toWebURL({
+ *   returnToken: "123",
+ * })
+ * // URL { "sgnl://donation-paypal-approved?returnToken=123" }
+ * ```
+ */
+export const donationPaypalApprovedRoute = _route('donationPaypalApproved', {
+  patterns: [
+    _pattern('sgnl:', 'donation-paypal-approved', '{/}?', {
+      search: ':params',
+    }),
+  ],
+  schema: z.object({
+    payerId: paramSchema.optional(),
+    paymentToken: paramSchema.optional(),
+    returnToken: paramSchema,
+  }),
+  parse(result) {
+    const params = new URLSearchParams(result.search.groups.params);
+    return {
+      payerId: params.get('PayerID'),
+      paymentToken: params.get('token'),
+      returnToken: params.get('returnToken'),
+    };
+  },
+  toWebUrl(args) {
+    const params = new URLSearchParams({ returnToken: args.returnToken });
+    return new URL(
+      `https://signaldonations.org/redirect/donation-paypal-approved?${params.toString()}`
+    );
+  },
+});
+
+/**
+ * Resume and cancel donation workflow after canceling PayPal web flow
+ * @example
+ * ```ts
+ * donationPaypalCanceledRoute.toAppUrl({
+ *   returnToken: "123",
+ * })
+ * // URL { "sgnl://donation-paypal-canceled?returnToken=123" }
+ * ```
+ */
+export const donationPaypalCanceledRoute = _route('donationPaypalCanceled', {
+  patterns: [
+    _pattern('sgnl:', 'donation-paypal-canceled', '{/}?', {
+      search: ':params',
+    }),
+  ],
+  schema: z.object({
+    returnToken: paramSchema,
+  }),
+  parse(result) {
+    const params = new URLSearchParams(result.search.groups.params);
+    return {
+      returnToken: params.get('returnToken'),
+    };
+  },
+  toWebUrl(args) {
+    const params = new URLSearchParams({ returnToken: args.returnToken });
+    return new URL(
+      `https://signaldonations.org/redirect/donation-paypal-canceled?${params.toString()}`
+    );
+  },
+});
+
+/**
  * Should include all routes for matching purposes.
  * @internal
  */
@@ -606,6 +679,8 @@ const _allSignalRoutes = [
   startCallLobbyRoute,
   showWindowRoute,
   cancelPresentingRoute,
+  donationPaypalApprovedRoute,
+  donationPaypalCanceledRoute,
   donationValidationCompleteRoute,
 ] as const;
 

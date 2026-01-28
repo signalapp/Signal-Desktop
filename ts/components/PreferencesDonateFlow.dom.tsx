@@ -101,6 +101,7 @@ const isPaymentDetailFinalizedInWorkflow = (workflow: DonationWorkflow) => {
   const finalizedStates: Array<DonationStateType> = [
     donationStateSchema.Enum.INTENT_CONFIRMED,
     donationStateSchema.Enum.INTENT_REDIRECT,
+    donationStateSchema.Enum.PAYMENT_CONFIRMED,
     donationStateSchema.Enum.RECEIPT,
     donationStateSchema.Enum.DONE,
   ];

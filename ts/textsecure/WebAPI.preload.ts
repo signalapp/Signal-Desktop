@@ -736,6 +736,8 @@ const CHAT_CALLS = {
   challenge: 'v1/challenge',
   configV2: 'v2/config',
   createBoost: 'v1/subscription/boost/create',
+  createPaypalBoost: 'v1/subscription/boost/paypal/create',
+  confirmPaypalBoost: 'v1/subscription/boost/paypal/confirm',
   deliveryCert: 'v1/certificate/delivery',
   devices: 'v1/devices',
   directoryAuthV2: 'v2/directory/auth',
@@ -1172,7 +1174,7 @@ export type CreateBoostResultType = z.infer<typeof CreateBoostResultSchema>;
 export type CreateBoostReceiptCredentialsOptionsType = Readonly<{
   paymentIntentId: string;
   receiptCredentialRequest: string;
-  processor: string;
+  processor: 'STRIPE' | 'BRAINTREE';
 }>;
 const CreateBoostReceiptCredentialsResultSchema = z.object({
   receiptCredentialResponse: z.string(),
@@ -1226,6 +1228,36 @@ const ConfirmIntentWithStripeResultSchema = z.object({
 });
 type ConfirmIntentWithStripeResultType = z.infer<
   typeof ConfirmIntentWithStripeResultSchema
+>;
+
+export type CreatePaypalBoostOptionsType = Readonly<{
+  currency: string;
+  amount: StripeDonationAmount;
+  level: number;
+  returnUrl: string;
+  cancelUrl: string;
+}>;
+const CreatePaypalBoostResultSchema = z.object({
+  approvalUrl: z.string(),
+  paymentId: z.string(),
+});
+export type CreatePaypalBoostResultType = z.infer<
+  typeof CreatePaypalBoostResultSchema
+>;
+
+export type ConfirmPaypalBoostOptionsType = Readonly<{
+  currency: string;
+  amount: number;
+  level: number;
+  payerId: string;
+  paymentId: string;
+  paymentToken: string;
+}>;
+const ConfirmPaypalBoostResultSchema = z.object({
+  paymentId: z.string(),
+});
+export type ConfirmPaypalBoostResultType = z.infer<
+  typeof ConfirmPaypalBoostResultSchema
 >;
 
 export type RedeemReceiptOptionsType = Readonly<{
@@ -4484,6 +4516,34 @@ export function createPaymentMethodWithStripe(
     type: 'POST',
     version,
     zodSchema: CreatePaymentMethodWithStripeResultSchema,
+  });
+}
+
+export function createPaypalBoostPayment(
+  options: CreatePaypalBoostOptionsType
+): Promise<CreatePaypalBoostResultType> {
+  return _ajax({
+    unauthenticated: true,
+    host: 'chatService',
+    call: 'createPaypalBoost',
+    httpType: 'POST',
+    jsonData: options,
+    responseType: 'json',
+    zodSchema: CreatePaypalBoostResultSchema,
+  });
+}
+
+export function confirmPaypalBoostPayment(
+  options: ConfirmPaypalBoostOptionsType
+): Promise<ConfirmPaypalBoostResultType> {
+  return _ajax({
+    unauthenticated: true,
+    host: 'chatService',
+    call: 'confirmPaypalBoost',
+    httpType: 'POST',
+    jsonData: options,
+    responseType: 'json',
+    zodSchema: ConfirmPaypalBoostResultSchema,
   });
 }
 
