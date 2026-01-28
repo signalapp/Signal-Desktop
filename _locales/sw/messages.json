@@ -806,6 +806,9 @@
   "icu:whatsNew": {
     "messageformat": "Pata {whatsNew} katika sasisho hili"
   },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal is a 501c3 nonprofit"
+  },
   "icu:viewReleaseNotes": {
     "messageformat": "vitu vipya"
   },
@@ -1239,13 +1242,13 @@
     "messageformat": "Endelea"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "Kubandika jumbe za kutoweka"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "Jumbe za kutoweka zitabanduliwa kipima muda chake kitakapoisha muda na ujumbe kuondolewa kwenye gumzo."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "Sawa"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Ujumbe uliobandikwa} other {Jumbe zilizobandikwa}}"
@@ -2768,8 +2771,14 @@
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Tafuta GIFs kwa kutumia Tenor"
   },
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "Search GIFs"
+  },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tafuta Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "Search GIFs"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Aina za GIFs"
@@ -2815,6 +2824,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "Onyesho la GIF"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "Powered by GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Futa Utafutaji"
@@ -5628,22 +5640,22 @@
     "messageformat": "Historia yako ya gumzo imeshindwa kuhamishwa kwa sababu Signal haina ruhusa ya kuhifadhi faili kwenye diski. Jaribu kubadilisha ruhusa za diski yako au kusasisha mipangilio yako ya mfumo kisha uhamishe tena."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Kuhamisha nakala hifadhi"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Uhamishaji wa nakala hifadhi umekamilika"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Ili kurejesha nakala hii:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Hamisha folda yako ya hifadhi nakala kwenye simu yako"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Weka nakala mpya ya Signal kwenye simu yako"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Gusa “Rejesha au Hamisha” kisha uchague “Uhifadhi Nakala Kwenye Simu”"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Aikoni ya mwezi"
@@ -6003,13 +6015,13 @@
     "messageformat": "Angalia ufunguo tena"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "Nakala ya mwisho"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "Kamwe"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "Hifadhi nakala rudufu Sasa"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Folda ya nakala hifadhi"
@@ -7290,8 +7302,14 @@
   "icu:PreferencesDonations__title": {
     "messageformat": "Faragha ikilinganishwa na faida"
   },
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "Proudly nonprofit"
+  },
   "icu:PreferencesDonations__description": {
     "messageformat": "Utumaji jumbe wa faragha, uliofadhiliwa nawe. Hakuna matangazo, hakuna kufuatilia, hakuna kuenda dhidi ya maelewano. Changia sasa kuiunga mkono Signal. <readMoreLink>Soma zaidi</readMoreLink>"
+  },
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Changia"
@@ -7612,7 +7630,7 @@
     "messageformat": "Hii inatusaidia kupata maelezo zaidi kuhusu simu na kitu gani kimefanikiwa au hakijafanikiwa. Unaweza tazama faili la rekebisho kabla ya kuwasilisha."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Kuwasilisha kutatuma maoni yako pamoja na <diagnosticInfoLink>taarifa za uchunguzi kuhusu simu yako</diagnosticInfoLink>. Unaweza kututumia kwa hiari faili la rekebisho ili kutusaidia kuboresha ubora wa simu."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Shiriki faili la rekebisho"
@@ -7624,10 +7642,10 @@
     "messageformat": "Mafaili ya marekebisho yana taarifa za kiwango cha chini za programu na usidhihirishe maudhui ya ujumbe wako."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "Taarifa unazotutumia zina kiwango cha chini cha taarifa za programu na hazijumuishi maudhui ya simu zako."
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "Taarifa ya uchunguzi"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Tuma"
@@ -7645,7 +7663,7 @@
     "messageformat": "Asante kwa maoni yako!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Tanua utepe ili utumie megafoni"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Toleo hili lina mabadiliko kidogo na maboresho ya program kuiwezesha Signal kufanya kazi vizuri.",
@@ -7679,6 +7697,6 @@
     "messageformat": "Hatuwezi kurekebisha ukimya wa aibu unaofuata, lakini tumerekebisha hitilafu iliyokuwa ikisababisha kipengele cha mkono ulioinuliwa kuendelea kuonekana (ikiwa na hesabu ya sufuri) endapo mtu angeinua na kushusha mkono wake haraka sana."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Saidia kufanya taarifa muhimu zipatikane kwa urahisi kupitia jumbe zilizobandikwa. Maswali unayoulizwa mara kwa mara, kuweka nafasi kwa ajili ya chakula cha jioni, na ratiba za likizo tayari zimeshapewa kipaumbele. Sasa yanaweza kuwekwa juu kwenye gumzo pia."
   }
 }

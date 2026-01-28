@@ -3678,7 +3678,7 @@
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Search GIFs via Tenor",
-    "description": "FunPicker > GIFs Panel > Search Input > Label (Must use brand name 'Tenor')"
+    "description": "(Deleted 2026/01/28) FunPicker > GIFs Panel > Search Input > Label (Must use brand name 'Tenor')"
   },
   "icu:FunPanelGifs__SearchLabel": {
     "messageformat": "Search GIFs",
@@ -3686,7 +3686,7 @@
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Search Tenor",
-    "description": "FunPicker > GIFs Panel > Search Input > Placeholder (Must use brand name 'Tenor')"
+    "description": "(Deleted 2026/01/28) FunPicker > GIFs Panel > Search Input > Placeholder (Must use brand name 'Tenor')"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
     "messageformat": "Search GIFs",
@@ -9712,7 +9712,7 @@
   },
   "icu:PreferencesDonations__title": {
     "messageformat": "Privacy over Profit",
-    "description": "Title shown at the top of the donations preferences page"
+    "description": "(Deleted 2026/01/28) Title shown at the top of the donations preferences page"
   },
   "icu:PreferencesDonations__title-v2": {
     "messageformat": "Proudly nonprofit",
@@ -9720,7 +9720,7 @@
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>",
-    "description": "Description text explaining Signal's donation model with learn more link"
+    "description": "(Deleted 2026/01/28) Description text explaining Signal's donation model with learn more link"
   },
   "icu:PreferencesDonations__description-v2": {
     "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>",

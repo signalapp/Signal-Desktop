@@ -806,6 +806,9 @@
   "icu:whatsNew": {
     "messageformat": "Vegeu {whatsNew} d'aquesta actualització."
   },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal is a 501c3 nonprofit"
+  },
   "icu:viewReleaseNotes": {
     "messageformat": "les novetats"
   },
@@ -1239,13 +1242,13 @@
     "messageformat": "Continua"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "Fixar missatges a desaparèixer"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "Els missatges a desaparèixer es desenganxaran quan s'acabi el temps i el missatge s'elimini del xat."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "D'acord"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Missatge fixat} other {Missatges fixats}}"
@@ -2768,8 +2771,14 @@
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Buscar GIFs a través de Tenor"
   },
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "Search GIFs"
+  },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Buscar a Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "Search GIFs"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Categories de GIF"
@@ -2815,6 +2824,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "Vista prèvia del GIF"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "Powered by GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Neteja la cerca"
@@ -5628,22 +5640,22 @@
     "messageformat": "No es pot exportar el teu historial del xat perquè Signal no té permís per crear fitxers al disc. Prova de canviar els permisos del disc o d'actualitzar els teus ajustos del sistema i, a continuació, torna a exportar."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Exportant còpia de seguretat"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Exportació de còpia de seguretat completada"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Per restaurar aquesta còpia de seguretat:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Transfereix la carpeta de còpia de seguretat a l'emmagatzematge del teu telèfon"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Instal·la una còpia nova de Signal al teu telèfon"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Toca \"Restaurar o Transferir\" i tria \"Còpies de seguretat locals\""
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Icona de lluna"
@@ -6003,13 +6015,13 @@
     "messageformat": "Tornar a veure la clau"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "Darrera còpia de seguretat"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "Mai"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "Fes-ne una còpia de seguretat ara"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Carpeta de còpia de seguretat"
@@ -7290,8 +7302,14 @@
   "icu:PreferencesDonations__title": {
     "messageformat": "Privacitat per sobre dels beneficis"
   },
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "Proudly nonprofit"
+  },
   "icu:PreferencesDonations__description": {
     "messageformat": "Missatgeria privada, finançada per tu. Sense anuncis, ni rastrejadors, ni compromís. Fes ja una donació per ajudar a Signal. <readMoreLink>Mes informació</readMoreLink>"
+  },
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Fer donació"
@@ -7612,7 +7630,7 @@
     "messageformat": "Això ens ajuda a tenir més informació sobre què funciona (o no) durant les trucades. Pots veure el registre de depuració abans d'enviar-lo."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Si ho envies, compartiràs els teus comentaris juntament amb <diagnosticInfoLink>informació de diagnòstic sobre la teva trucada</diagnosticInfoLink>. Opcionalment, pots compartir un registre de depuració per ajudar-nos a millorar la qualitat de les trucades."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Compartir registre de depuració"
@@ -7624,10 +7642,10 @@
     "messageformat": "Els registres de depuració contenen informació de baix nivell sobre l'aplicació i no revelen cap dels continguts dels teus missatges."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "La informació que comparteixis amb nosaltres conté informació de baix nivell sobre l'aplicació i no inclou el contingut de les teves trucades."
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "Informació de diagnòstic"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Envia"
@@ -7645,7 +7663,7 @@
     "messageformat": "Gràcies pels teus comentaris!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Expandeix la barra lateral per interactuar amb el megàfon"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Aquesta versió conté una sèrie de petites modificacions i correccions d'errors per tal que el Signal funcioni sense problemes.",
@@ -7679,6 +7697,6 @@
     "messageformat": "Hem corregit un petit error relacionat amb l'indicador de mà aixecada a les trucades grupals."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Fes que la informació important sigui fàcilment accessible amb els missatges fixats. Les preguntes que més acostumes a respondre, la reserva per anar a sopar i els teus plans per les vacances ja són sempre el primer en què penses. Ara, també poden ser la primera cosa que apareix al xat."
   }
 }

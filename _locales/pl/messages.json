@@ -806,6 +806,9 @@
   "icu:whatsNew": {
     "messageformat": "Sprawdź, {whatsNew} w tej aktualizacji"
   },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal is a 501c3 nonprofit"
+  },
   "icu:viewReleaseNotes": {
     "messageformat": "co nowego"
   },
@@ -1239,13 +1242,13 @@
     "messageformat": "Kontynuuj"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "Przypinanie znikających wiadomości"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "Gdy upłynie czas wyświetlania znikającej wiadomości, zostanie ona odpięta i usunięta z czatu."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "OK"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Przypięta wiadomość} few {Przypięte wiadomości} many {Przypięte wiadomości} other {Przypięte wiadomości}}"
@@ -2768,8 +2771,14 @@
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Wyszukaj GIF-y na platformie Tenor"
   },
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "Search GIFs"
+  },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Wyszukaj na platformie Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "Search GIFs"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Kategorie GIF-ów"
@@ -2815,6 +2824,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "Podgląd GIF-a"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "Powered by GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Wyczyść wyszukiwanie"
@@ -5628,22 +5640,22 @@
     "messageformat": "Nie można wyeksportować historii czatu, ponieważ Signal nie ma uprawnień do zapisywania plików na dysku. Zmień uprawnienia dostępu do dysku lub ustawienia systemowe, a następnie spróbuj ponownie."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Eksportowanie kopii zapasowej"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Eksport kopii zapasowej zakończony"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Aby przywrócić tę kopię zapasową:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Przenieś folder z kopią zapasową do pamięci telefonu"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Zainstaluj ponownie aplikację Signal na telefonie"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Wybierz opcję „Przywróć lub przenieś”, a następnie opcję „Kopia zapasowa na urządzeniu”"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Ikona księżyca"
@@ -6003,13 +6015,13 @@
     "messageformat": "Wyświetl kod ponownie"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "Ostatnia kopia zapasowa"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "Nigdy"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "Utwórz kopię teraz"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Folder kopii zapasowej"
@@ -7290,8 +7302,14 @@
   "icu:PreferencesDonations__title": {
     "messageformat": "Prywatność ponad zyskiem"
   },
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "Proudly nonprofit"
+  },
   "icu:PreferencesDonations__description": {
     "messageformat": "Prywatny komunikator finansowany przez Ciebie. Bez reklam, bez śledzenia, bez kompromisów. Wpłać darowiznę i wesprzyj Signal. <readMoreLink>Czytaj dalej</readMoreLink>"
+  },
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Wpłać darowiznę"
@@ -7612,7 +7630,7 @@
     "messageformat": "Dzięki Twojemu dziennikowi debugowania będziemy mieć lepszy wgląd w to, jak działają połączenia i co możemy w nich poprawić. Zanim wyślesz nam dziennik debugowania, możesz go wyświetlić."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Twoja opinia zostanie do nas przesłana wraz z <diagnosticInfoLink>informacjami diagnostycznymi dotyczącymi połączenia</diagnosticInfoLink>. Opcjonalnie możesz też udostępnić dziennik debugowania, który pomoże nam poprawić jakość połączeń."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Udostępnij dziennik debugowania"
@@ -7624,10 +7642,10 @@
     "messageformat": "Dzienniki debugowania to zapis szczegółowych informacji o działaniu aplikacji. Nie zawierają one treści żadnych wiadomości."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "Dane, które możesz nam udostępnić, to zapis szczegółowych informacji o działaniu aplikacji. Nie zawierają one treści Twoich rozmów."
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "Informacje diagnostyczne"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Prześlij"
@@ -7645,7 +7663,7 @@
     "messageformat": "Dziękujemy za opinię!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Rozwiń pasek boczny, aby wejść w interakcję z megafonem"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ta wersja obejmuje wiele drobnych ulepszeń i poprawek błędów. Wszystko po to, aby aplikacja Signal działała płynnie.",
@@ -7679,6 +7697,6 @@
     "messageformat": "Zdarzało Ci się widzieć wskaźnik podniesionej ręki, choć nikt akurat się nie zgłaszał? Ten błąd pojawiał się czasem, gdy ktoś bardzo szybko podniósł i opuścił rękę. Na szczęście to już przeszłość. Teraz, gdy widzisz las rąk, znów możesz liczyć na ożywioną dyskusję."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Wracaj łatwo do ważnych informacji dzięki przypiętym wiadomościom. Link do zrzutki, wakacyjne plany czy trasa rowerowa na najbliższy weekend… Już nie musisz scrollować rozmowy w poszukiwaniu ważnych informacji. Znajdziesz je w kilka sekund."
   }
 }

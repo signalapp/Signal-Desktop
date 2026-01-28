@@ -806,6 +806,9 @@
   "icu:whatsNew": {
     "messageformat": "See {whatsNew} in this update"
   },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal is a 501c3 nonprofit"
+  },
   "icu:viewReleaseNotes": {
     "messageformat": "what's new"
   },
@@ -1239,10 +1242,10 @@
     "messageformat": "Magpatuloy"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "Pag-pin ng disappearing message"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "Matatanggal ang pin ng disappearing messages kapag nag-expire ang timer nito at natanggal ang message mula sa chat."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
     "messageformat": "Okay"
@@ -2768,8 +2771,14 @@
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Maghanap ng GIFs sa Tenor"
   },
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "Search GIFs"
+  },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Maghanap sa Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "Search GIFs"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Mga Kategorya ng GIF"
@@ -2815,6 +2824,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "Preview ng GIF"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "Powered by GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Clear Search"
@@ -5628,22 +5640,22 @@
     "messageformat": "Hindi ma-export ang chat history mo dahil ang Signal ay walang permiso para magsulat ng files sa disk. Subukang baguhin ang permissions ng iyong disk o i-update ang system settings mo at subukan ulit mag-export."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Ine-export ang backup"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Tapos na ang pag-export ng backup"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Para ma-restore ang backup na ito:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Ilipat ang backup folder mo sa storage ng iyong phone"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Mag-install ng bagong kopya ng Signal sa phone mo"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "I-tap ang \"Restore o Transfer\" at piliin ang \"Sa Backup ng Device\""
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Icon ng buwan"
@@ -6003,13 +6015,13 @@
     "messageformat": "Tingnan ulit ang key"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "Huling backup"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "Hindi kailanman"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "Mag-back up na ngayon"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Backup folder"
@@ -7290,8 +7302,14 @@
   "icu:PreferencesDonations__title": {
     "messageformat": "Privacy over Profit"
   },
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "Proudly nonprofit"
+  },
   "icu:PreferencesDonations__description": {
     "messageformat": "Private messaging na suportado mo. Walang ads, walang tracking, walang kompromiso. Mag-donate na para suportahan ang Signal. <readMoreLink>Magbasa pa</readMoreLink>"
+  },
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Mag-donate"
@@ -7612,7 +7630,7 @@
     "messageformat": "Makatutulong ito sa amin para mas mapabuti pa ang quality ng calls. Maaari mong tignan ang debug log mo bago mag-submit."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Ang pag-submit ay magbabahagi ng feedback mo kasama ang <diagnosticInfoLink>diagnostic information tungkol sa tawag mo</diagnosticInfoLink>. Maaari ka ring magbahagi ng debug log para matulungan mo kaming mapaganda ang call quality."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "I-share ang debug log"
@@ -7624,10 +7642,10 @@
     "messageformat": "Ang debug logs ay naglalaman ng mababang level ng impormasyon ng app at hindi nagpapakita ng anumang nilalaman ng messages mo."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "Ang impormasyong ibinahagi sa amin ay naglalaman ng mababang antas ng impormasyon ng app at hindi kasama ang mga nilalaman ng iyong mga tawag."
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "Diagnostic na impormasyon"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Isumite"
@@ -7645,7 +7663,7 @@
     "messageformat": "Maraming salamat sa feedback mo!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Palakihin ang sidebar para makipag-interact sa megaphone"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ang version na ito'y may small tweaks at bug fixes to keep Signal running smoothly.",
@@ -7679,6 +7697,6 @@
     "messageformat": "May inayos kaming minor display bug sa raised hand indicator sa group calls."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Pinapadali ng pinned messages ang pag-access ng importanteng impormasyon sa pamamagitan ng paglagay nito sa taas ng chat."
   }
 }

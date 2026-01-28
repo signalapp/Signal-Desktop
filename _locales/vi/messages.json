@@ -806,6 +806,9 @@
   "icu:whatsNew": {
     "messageformat": "Nhìn xem {whatsNew} trong bản cập nhật này"
   },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal is a 501c3 nonprofit"
+  },
   "icu:viewReleaseNotes": {
     "messageformat": "có gì mới"
   },
@@ -1239,13 +1242,13 @@
     "messageformat": "Tiếp tục"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "Ghim tin nhắn tự xóa"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "Tin nhắn tự xóa sẽ được bỏ ghim khi đồng hồ hết giờ và tin nhắn bị xóa khỏi cuộc trò chuyện."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "OK"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, other {Tin nhắn đã ghim}}"
@@ -2768,8 +2771,14 @@
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Tìm GIF qua Tenor"
   },
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "Search GIFs"
+  },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tìm qua Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "Search GIFs"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Danh mục GIF"
@@ -2815,6 +2824,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "Xem trước GIF"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "Powered by GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Xoá Tìm kiếm"
@@ -5628,22 +5640,22 @@
     "messageformat": "Lịch sử trò chuyện của bạn không thể được xuất vì Signal không có quyền ghi tập tin vào ổ lưu trữ. Hãy thử thay đổi quyền của ổ lưu trữ hoặc cập nhật cài đặt hệ thống của bạn và sau đó xuất lại."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Đang xuất bản sao lưu"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Hoàn tất xuất bản sao lưu"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Để khôi phục bản sao lưu này:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Chuyển thư mục sao lưu vào bộ nhớ trên điện thoại của bạn"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Cài mới Signal trên điện thoại của bạn"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Nhấn \"Khôi phục hoặc chuyển\" và chọn \"Sao lưu trên thiết bị\""
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Biểu tượng mặt trăng"
@@ -6003,13 +6015,13 @@
     "messageformat": "Xem lại mã khóa"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "Bản sao lưu gần nhất"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "Không bao giờ"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "Sao lưu Ngay"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Thư mục sao lưu"
@@ -7290,8 +7302,14 @@
   "icu:PreferencesDonations__title": {
     "messageformat": "Quyền riêng tư được đặt trên Lợi nhuận"
   },
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "Proudly nonprofit"
+  },
   "icu:PreferencesDonations__description": {
     "messageformat": "Nền tảng nhắn tin riêng tư, được tài trợ bởi chính bạn. Không quảng cáo, không trình theo dấu, không theo dõi. Ủng hộ ngay để hỗ trợ Signal. <readMoreLink>Đọc thêm</readMoreLink>"
+  },
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Ủng hộ"
@@ -7612,7 +7630,7 @@
     "messageformat": "Điều này giúp chúng tôi tìm hiểu thêm về chất lượng cuộc gọi và biết khi có vấn đề. Bạn có thể xem nhật ký gỡ lỗi trước khi gửi."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Khi gửi, bạn sẽ chia sẻ phản hồi cùng <diagnosticInfoLink>thông tin chẩn đoán về cuộc gọi của bạn</diagnosticInfoLink>. Bạn có thể chia sẻ (không bắt buộc) nhật ký gỡ lỗi để giúp chúng tôi tăng chất lượng cuộc gọi."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Chia sẻ nhật ký gỡ lỗi"
@@ -7624,10 +7642,10 @@
     "messageformat": "Nhật ký gỡ lỗi chứa thông tin ứng dụng cấp thấp và không tiết lộ bất kỳ nội dung tin nhắn nào của bạn."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "Thông tin được chia sẻ với chúng tôi chứa thông tin ứng dụng ở mức thấp và không bao gồm nội dung cuộc gọi của bạn."
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "Thông tin chẩn đoán"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Gửi"
@@ -7645,7 +7663,7 @@
     "messageformat": "Cảm ơn góp ý của bạn!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Mở rộng thanh bên để tương tác với biểu tượng loa cầm tay"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Phiên bản này có một số tinh chỉnh và sửa lỗi để giữ cho Signal hoạt động mượt mà.",
@@ -7679,6 +7697,6 @@
     "messageformat": "Chúng tôi đã sửa một lỗi nhỏ liên quan đến chỉ báo giơ tay trong cuộc gọi nhóm."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Tính năng ghim tin nhắn ở đầu cuộc trò chuyện có thể giúp dễ dàng tham khảo thông tin quan trọng."
   }
 }

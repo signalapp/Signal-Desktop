@@ -806,6 +806,9 @@
   "icu:whatsNew": {
     "messageformat": "Vaata {whatsNew} selles versioonis"
   },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal is a 501c3 nonprofit"
+  },
   "icu:viewReleaseNotes": {
     "messageformat": "mis on uut"
   },
@@ -1239,13 +1242,13 @@
     "messageformat": "Jätka"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "Kaduvate sõnumite esiletõstmine"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "Kaduvate sõnumite esiletõstud eemaldatakse, kui nende taimer aegub ja sõnum vestlusest eemaldatakse."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "Sobib"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Esiletõstetud sõnum} other {Esiletõstetud sõnumid}}"
@@ -2768,8 +2771,14 @@
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Otsi GIFe Tenori kaudu"
   },
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "Search GIFs"
+  },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Otsing: Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "Search GIFs"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIFide kategooriad"
@@ -2815,6 +2824,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "GIFi eelvaade"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "Powered by GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Tühjenda otsing"
@@ -5628,22 +5640,22 @@
     "messageformat": "Sinu vestlusajalugu ei saa eksportida, kuna Signalil pole luba kettale faile kirjutada. Proovi muuta oma ketta õigusi või värskendada süsteemi sätteid ja seejärel ekspordi uuesti."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Varukoopia eksportimine"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Varukoopia eksport on lõpule viidud"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Selle varukoopia taastamiseks toimi järgmiselt."
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Edasta oma varukoopiate kaust oma telefoni mälusse"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Paigalda telefoni uus Signali versioon"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Toksa valikut „Taasta või edasta“ ja vali „Varundamine seadmes“"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Kuu ikoon"
@@ -6003,13 +6015,13 @@
     "messageformat": "Vaata võtit veelkord"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "Viimane varukoopia"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "Mitte kunagi"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "Varunda kohe"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Varunduste kaust"
@@ -7290,8 +7302,14 @@
   "icu:PreferencesDonations__title": {
     "messageformat": "Privaatsus on meile olulisem kui tulu"
   },
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "Proudly nonprofit"
+  },
   "icu:PreferencesDonations__description": {
     "messageformat": "Privaatne sõnumiside, mida toetad sina ise. Ei mingeid reklaame, jälgijaid ega järeleandmisi. Anneta nüüd, et Signalit toetada. <readMoreLink>Loe rohkem</readMoreLink>"
+  },
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Anneta"
@@ -7612,7 +7630,7 @@
     "messageformat": "See aitab meil kõnede kohta rohkem teada saada ja mõista, mis toimib ja mis mitte. Enne esitamist saad oma silumislogi vaadata."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Esitades jagad oma tagasisidet ja <diagnosticInfoLink>diagnostilist teavet oma kõne kohta</diagnosticInfoLink>. Soovi korral saad jagada silumislogi, mis aitab meil kõnede kvaliteeti parandada."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Jaga silumislogi"
@@ -7624,10 +7642,10 @@
     "messageformat": "Silumislogid sisaldavad üldistatud teavet rakenduse kohta ega avalda sinu sõnumite sisu."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "Meiega jagatud teave sisaldab rakendusega seotud madala taseme teavet ega hõlma sinu kõnede sisu."
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "Diagnostiline teave"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Postita"
@@ -7645,7 +7663,7 @@
     "messageformat": "Täname tagasiside eest!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Megafoniga suhtlemiseks laienda külgriba"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "See versioon sisaldab paljusid väikseid parendusi, mis Signali sujuvalt käimas.",
@@ -7679,6 +7697,6 @@
     "messageformat": "Parandasime grupivestluses käe tõstmise kuvamisvea."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Esiletõstetud sõnumite abil on oluline teave hõlpsasti leitav vestluse ülaosas."
   }
 }

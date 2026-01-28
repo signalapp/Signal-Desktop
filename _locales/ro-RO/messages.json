@@ -806,6 +806,9 @@
   "icu:whatsNew": {
     "messageformat": "Vezi {whatsNew} în această actualizare"
   },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal is a 501c3 nonprofit"
+  },
   "icu:viewReleaseNotes": {
     "messageformat": "ce este nou"
   },
@@ -1239,10 +1242,10 @@
     "messageformat": "Continuă"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "Fixarea mesajelor temporare"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "Mesajele temporare vor fi anulate după expirarea cronometrului, iar mesajele vor fi eliminate din conversații."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
     "messageformat": "Okay"
@@ -2768,8 +2771,14 @@
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Caută GIF-uri prin Tenor"
   },
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "Search GIFs"
+  },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Caută Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "Search GIFs"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Categoriile GIF"
@@ -2815,6 +2824,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "Previzualizare GIF"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "Powered by GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Șterge căutarea"
@@ -5628,22 +5640,22 @@
     "messageformat": "Istoricul conversațiilor nu poate fi exportat deoarece Signal nu are permisiunea de a scrie fișiere pe disc. Încearcă să modifici permisiunile discului sau să actualizezi setările de sistem, apoi exportă din nou."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Se exportă copia de rezervă"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Exportul copiei de rezervă a fost finalizat"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Pentru a restaura această copie de rezervă:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Transferă dosarul de backup în memoria telefonului"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Instalează o nouă copie a Signal pe telefon"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Atinge „Restaurare sau transfer” și alege „Backup pe dispozitiv”"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Pictograma lună"
@@ -6003,13 +6015,13 @@
     "messageformat": "Vezi din nou codul"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "Ultimul backup"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "Niciodată"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "Faceți un backup acum"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Director backup"
@@ -7290,8 +7302,14 @@
   "icu:PreferencesDonations__title": {
     "messageformat": "Confidențialitate mai presus de Profit"
   },
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "Proudly nonprofit"
+  },
   "icu:PreferencesDonations__description": {
     "messageformat": "Mesaje private, finanțate de tine. Fără anunțuri, fără sisteme de urmărire. Donează acum ca să susții Signal. <readMoreLink>Citește mai mult</readMoreLink>"
+  },
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Donează"
@@ -7612,7 +7630,7 @@
     "messageformat": "Acest lucru ne ajută să aflăm mai multe despre apeluri și ce funcționează și ce nu funcționează. Poți vizualiza jurnalul de depanare înainte de trimitere."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Trimiterea va permite partajarea feedback-ului tău împreună cu <diagnosticInfoLink>informații de diagnostic despre apelul tău</diagnosticInfoLink>. Opțional, poți partaja un jurnal de depanare pentru a ne ajuta să îmbunătățim calitatea apelurilor."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Trimite jurnalul de depanare"
@@ -7624,10 +7642,10 @@
     "messageformat": "Jurnalele de depanare conțin informații de nivel scăzut despre aplicație și nu dezvăluie conținutul mesajelor tale."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "Informațiile partajate cu noi conțin informații de nivel inferior despre aplicație și nu includ conținutul apelurilor tale."
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "Informații de diagnostic"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Trimite"
@@ -7645,7 +7663,7 @@
     "messageformat": "Mulțumesc pentru feedback!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Extinde bara laterală, pentru a interacționa cu megafonul"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Această versiune conține o serie de mici modificări și remedieri ale unor erori pentru ca Signal să funcționeze fără probleme.",
@@ -7679,6 +7697,6 @@
     "messageformat": "Nu putem remedia tăcerea stânjenitoare care urmează, dar am corectat un bug care uneori făcea ca indicatorul mâinii ridicate să rămână vizibil (cu un număr de zero) dacă cineva ridica și cobora mâna foarte repede."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Menține informațiile importante ușor accesibile cu ajutorul mesajelor fixate. Cele mai frecvente întrebări, rezervările pentru cină și itinerariile de vacanță sunt deja în topul gândurilor tale. Acum, ele pot fi și în topul chat-ului."
   }
 }

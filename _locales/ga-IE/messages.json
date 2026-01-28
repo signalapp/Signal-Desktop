@@ -806,6 +806,9 @@
   "icu:whatsNew": {
     "messageformat": "Féach {whatsNew} sa nuashonrú seo"
   },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal is a 501c3 nonprofit"
+  },
   "icu:viewReleaseNotes": {
     "messageformat": "cad atá nua"
   },
@@ -1239,13 +1242,13 @@
     "messageformat": "Ar aghaidh"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "Pionnáil teachtaireachtaí sealadacha"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "Déanfar teachtaireachtaí sealadacha a dhíphionnáil nuair a bheidh a n-amadóir istigh agus nuair a bhainfear an teachtaireacht den chomhrá."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "Tá go maith"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Teachtaireacht ghreamaithe} two {Teachtaireachtaí greamaithe} few {Teachtaireachtaí greamaithe} many {Teachtaireachtaí greamaithe} other {Teachtaireachtaí greamaithe}}"
@@ -2768,8 +2771,14 @@
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Cuardaigh GIFanna via Tenor"
   },
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "Search GIFs"
+  },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Cuardaigh Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "Search GIFs"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Catagóirí GIFanna"
@@ -2815,6 +2824,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "Réamhamharc ar GIF"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "Powered by GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Glan an Cuardach"
@@ -5628,22 +5640,22 @@
     "messageformat": "Ní féidir do stair comhráite a easpórtáil toisc nach bhfuil cead ag Signal comhaid a scríobh chuig an diosca. Triail ceadanna do dhiosca a athrú nó socruithe do chórais a nuashonrú agus ansin déan an easpórtáil arís."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Cúltaca á easpórtáil"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Easpórtáil an chúltaca críochnaithe"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Leis an gcúltaca sin a aischur:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Aistrigh fillteán do chúltacaí chuig stóras do ghutháin"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Suiteáil cóip nua de Signal ar do ghuthán"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Tapáil \"Aischuir nó Aistrigh\" agus roghnaigh \"Cúltacaigh ar an nGléas\""
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Deilbhín na gealaí"
@@ -6003,13 +6015,13 @@
     "messageformat": "Féach ar an eochair arís"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "Cúltaca deiridh"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "Choíche"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "Déan cúltaca anois"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Fillteán cúltaca"
@@ -7290,8 +7302,14 @@
   "icu:PreferencesDonations__title": {
     "messageformat": "Príobháideachas chun tosaigh ar bhrabús"
   },
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "Proudly nonprofit"
+  },
   "icu:PreferencesDonations__description": {
     "messageformat": "Teachtaireachtaí príobháideacha, maoinithe agatsa. Gan aon fhógra, gan aon rianaire, gan aon chomhghéilleadh. Tabhair airgead do Signal anois chun tacú leis. <readMoreLink>Tuilleadh faisnéise</readMoreLink>"
+  },
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Tabhair airgead"
@@ -7612,7 +7630,7 @@
     "messageformat": "Cabhraíonn sé seo linn tuilleadh a fhoghlaim faoina bhfuil ag obair agus nach bhfuil. Is féidir leat féachaint ar do loga dífhabhtaithe sula gcuireann tú isteach é."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Trína chur isteach, comhroinnfear d'aiseolas mar aon le <diagnosticInfoLink>faisnéis dhiagnóiseach faoi do ghlao</diagnosticInfoLink>. Is féidir leat loga dífhabhtaithe a chomhroinnt le cabhrú linn cáilíocht glaonna a fheabhsú."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Comhroinn an loga dífhabhtaithe"
@@ -7624,10 +7642,10 @@
     "messageformat": "Bíonn faisnéis íseal-leibhéil aipe i logaí dífhabhtaithe agus ní nochtar ábhar aon cheann de do theachtaireachtaí iontu."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "Tá faisnéis íseal-leibhéil faoin aip san fhaisnéis a chomhroinntear linn agus ní áirítear léi ábhar do ghlaonna."
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "Faisnéis dhiagnóiseach"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Seol isteach é"
@@ -7645,7 +7663,7 @@
     "messageformat": "Go raibh maith agat as d'aiseolas!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Fairsingigh an taobh-bharra le hidirghníomhú leis an meigeafón"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Tá roinnt mionathruithe agus paistí ar fhabhtanna sa leagan seo chun Signal a choinneáil ag rith go réidh.",
@@ -7679,6 +7697,6 @@
     "messageformat": "Réitíomar fabht beag taispeána le táscaire na láimhe ardaithe i ngrúpghlaonna."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Cabhraigh le faisnéis thábhachtach a choinneáil sorochtana le teachtaireachtaí pionnáilte. Is iad do cheisteanna is mó cur, áirithintí dinnéir agus cúrsaí taistil na clocha is mó ar do phaidrín. Is féidir leo a bheith ar na cinn is mó ar do chomhrá freisin."
   }
 }

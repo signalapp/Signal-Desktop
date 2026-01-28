@@ -806,6 +806,9 @@
   "icu:whatsNew": {
     "messageformat": "មើល {whatsNew} នៅក្នុងការធ្វើបច្ចុប្បន្នភាពនេះ"
   },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal is a 501c3 nonprofit"
+  },
   "icu:viewReleaseNotes": {
     "messageformat": "អ្វីដែលថ្មី"
   },
@@ -1239,13 +1242,13 @@
     "messageformat": "បន្ត"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "ខ្ទាស់សារដែលបាត់ដោយស្វ័យប្រវត្តិ"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "សារដែលបាត់ដោយស្វ័យប្រវត្តិនឹងឈប់ខ្ទាស់ នៅពេលមុខងារកំណត់ម៉ោងរបស់វាផុតកំណត់ ហើយសារត្រូវបានដកចេញពីការជជែក។"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "យល់ព្រម"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, other {សារដែលបានខ្ទាស់}}"
@@ -2768,8 +2771,14 @@
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "ស្វែងរករូបចលនាតាមរយៈ Tenor"
   },
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "Search GIFs"
+  },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "ស្វែងរកតាម Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "Search GIFs"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "ប្រភេទរូបចលនា"
@@ -2815,6 +2824,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "ការមើលរូបចលនាជាមុន"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "Powered by GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "លុបការស្វែងរក"
@@ -5628,22 +5640,22 @@
     "messageformat": "ប្រវត្តិជជែករបស់អ្នកមិនអាចនាំចេញបានទេព្រោះ Signal មិនមានការអនុញ្ញាតឱ្យសរសេរឯកសារទៅឌីសទេ។ សាកល្បងផ្លាស់ប្តូរការអនុញ្ញាតនៃឌីសរបស់អ្នក ឬធ្វើបច្ចុប្បន្នភាពការកំណត់ប្រព័ន្ធរបស់អ្នក រួចនាំចេញម្តងទៀត។"
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "កំពុងនាំចេញការបម្រុងទុក"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "ការនាំចេញការបម្រុងទុកបានបញ្ចប់"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "ដើម្បីស្ដារការបម្រុងទុកនេះ៖"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "ផ្ទេរថតឯកសារបម្រុងទុករបស់អ្នកទៅកាន់កន្លែងផ្ទុកទិន្នន័យទូរសព្ទរបស់អ្នក"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "ដំឡើងច្បាប់ចម្លងថ្មីរបស់ Signal នៅលើទូរសព្ទរបស់អ្នក"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "ចុច “ស្តារ ឬផ្ទេរ” ហើយជ្រើសរើស ”នៅលើការបម្រុងទុកឧបករណ៍”"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "រូបព្រះចន្ទ"
@@ -6003,13 +6015,13 @@
     "messageformat": "មើលសោម្តងទៀត"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "ការបម្រុងទុកចុងក្រោយ"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "មិនធ្លាប់"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "បម្រុងទុកឥឡូវនេះ"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "ថតឯកសារបម្រុងទុក"
@@ -7290,8 +7302,14 @@
   "icu:PreferencesDonations__title": {
     "messageformat": "ឯកជនភាពធំជាងប្រាក់ចំណេញ"
   },
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "Proudly nonprofit"
+  },
   "icu:PreferencesDonations__description": {
     "messageformat": "ការផ្ញើសារលក្ខណៈឯកជនទទួលបានមូលនិធិពីអ្នក។ គ្មានការផ្សាយពាណិជ្ជកម្ម គ្មានការតាមដាន គ្មានការប៉ះពាល់។ បរិច្ចាគឥឡូវនេះដើម្បីគាំទ្រ Signal។ <readMoreLink>អានបន្ថែម</readMoreLink>"
+  },
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "បរិច្ចាគ"
@@ -7612,7 +7630,7 @@
     "messageformat": "វាជួយយើងឱ្យស្វែងយល់បន្ថែមអំពីការហៅទូរសព្ទ និងអ្វីដែលដំណើរការ ឬមិនដំណើរការ។ អ្នកអាចមើលកំណត់ត្រាបញ្ហារបស់អ្នកមុនពេលដាក់បញ្ជូន។"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "ការដាក់បញ្ជូននឹងចែករំលែកមតិកែលម្អរបស់អ្នករួមជាមួយ<diagnosticInfoLink>ព័ត៌មានវិនិច្ឆយអំពីការហៅទូរសព្ទរបស់អ្នក</diagnosticInfoLink>។ ជាជម្រើស អ្នកអាចចែករំលែកកំណត់ត្រាបញ្ហាដើម្បីជួយយើងកែលម្អគុណភាពនៃការហៅទូរសព្ទ។"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "ចែករំលែកកំណត់ត្រាបញ្ហា"
@@ -7624,10 +7642,10 @@
     "messageformat": "កំណត់ត្រាបញ្ហាមានព័ត៌មានកម្មវិធីកម្រិតទាប ហើយមិនបង្ហាញខ្លឹមសារនៃសារណាមួយរបស់អ្នកទេ។"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "ព័ត៌មានដែលបានចែករំលែកជាមួយយើងមានព័ត៌មានកម្មវិធីកម្រិតទាប ហើយមិនរាប់បញ្ចូលខ្លឹមសារនៃការហៅទូរសព្ទរបស់អ្នកទេ។"
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "ព័ត៌មានវិនិច្ឆយ"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "ដាក់បញ្ជូន"
@@ -7645,7 +7663,7 @@
     "messageformat": "សូមអរគុណចំពោះមតិកែលម្អរបស់អ្នក!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "ពង្រីករបារចំហៀងដើម្បីធ្វើអន្តរកម្មជាមួយមេហ្គាហ្វូន"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "កំណែ​នេះ​មាន​ការ​កែ​សម្រួល និង​ការកែបញ្ហាតូចៗ​មួយ​ចំនួន ដើម្បី​ឲ្យ​ Signal បន្ត​ដំណើរការ​ដោយ​រលូន។",
@@ -7679,6 +7697,6 @@
     "messageformat": "យើងបានដោះស្រាយបញ្ហាតូចមួយទាក់ទងនឹងការបង្ហាញ ដែលពេលខ្លះរូបលើកដៃឡើងនៅតែអាចមើលឃើញ ដោយគេគ្រាន់តែលើកដៃមួយភ្លែត រួចហើយដាក់ដៃចុះភ្លាមវិញ (ទោះបីជាគ្មាននរណាលើកដៃក៏ដោយ)។"
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "ងាយស្រួលស្វែងរកព័ត៌មានសំខាន់ៗជាមួយសារដែលបានខ្ទាស់។ សំណួរដែលគេច្រើនសួរបំផុត ការកក់ញ៉ាំអាហារពេលល្ងាច និងគម្រោងធ្វើដំណើរពេលវិស្សមកាលរបស់អ្នកគឺជាអ្វីដែលគេបានគិតទុករួចទៅហើយ។ ឥឡូវនេះវាក៏អាចជាប្រធានបទដែលគេនាំគ្នាជជែកច្រើនជាងគេដែរ។"
   }
 }

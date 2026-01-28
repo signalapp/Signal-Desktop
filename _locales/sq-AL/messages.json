@@ -806,6 +806,9 @@
   "icu:whatsNew": {
     "messageformat": "Shihni {whatsNew} në këtë përditësim"
   },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal is a 501c3 nonprofit"
+  },
   "icu:viewReleaseNotes": {
     "messageformat": "ç’ka të re"
   },
@@ -1239,13 +1242,13 @@
     "messageformat": "Vazhdo"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "Duke fiksuar mesazhet që zhduken"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "\"Mesazhet që zhduken\" të fiksuara do të hiqen kur të skadojë koha e tyre dhe mesazhi fshihet nga biseda."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "OK"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Mesazh i fiksuar} other {Mesazhe të fiksuara}}"
@@ -2768,8 +2771,14 @@
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Kërko GIF-et në Tenor"
   },
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "Search GIFs"
+  },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Kërko në Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "Search GIFs"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Kategoritë e GIF-eve"
@@ -2815,6 +2824,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "Shfaqje paraprake e GIF"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "Powered by GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Spastro Kërkimin"
@@ -5628,22 +5640,22 @@
     "messageformat": "Historiku i bisedës nuk mund të eksportohet sepse Signal nuk ka leje për të shkruar skedarë në disk. Provo të ndryshosh lejet e diskut ose të përditësosh parametrat e sistemit dhe pastaj eksporto përsëri."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Kopjeruajtja po eksportohet"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Eksportimi i kopjeruajtjes përfundoi"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Për të rikthyer këtë kopjeruajtje:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Transfero dosjen e kopjeruajtjeve në hapësirën ruajtëse të telefonit"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Instalo një kopje të re të Signal në telefon"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Prek te \"Rikthe ose Transfero\" dhe zgjidh \"Kopjeruajtjet në pajisje\""
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Ikona e hënës"
@@ -6003,13 +6015,13 @@
     "messageformat": "Shiko sërish kodin"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "Kopjeruajtja e fundit"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "Kurrë"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "Kopjeruaje Tani"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Dosje kopjeruajtjesh"
@@ -7290,8 +7302,14 @@
   "icu:PreferencesDonations__title": {
     "messageformat": "Privatësia mbi fitimet"
   },
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "Proudly nonprofit"
+  },
   "icu:PreferencesDonations__description": {
     "messageformat": "Mesazhe private, financuar nga ti. Pa reklama, pa gjurmim, pa kompromise. Dhuro tani për të mbështetur Signal. <readMoreLink>Lexo më shumë</readMoreLink>"
+  },
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Dhuro"
@@ -7612,7 +7630,7 @@
     "messageformat": "Kjo na ndihmon të mësojmë më shumë rreth thirrjeve dhe çfarë funksionon apo nuk funksionon. Mund ta shikosh regjistrin e diagnostikimeve përpara se të bësh dërgimin."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Dorëzimi do t'i ndajë reagimet së bashku me <diagnosticInfoLink>informacion diagnostikues rreth thirrjes sate</diagnosticInfoLink>. Mund të ndash opsionalisht një regjistër diagnostikimesh për të na ndihmuar të përmirësojmë cilësinë e thirrjeve."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Ndaj regjistrin e diagnostikimit"
@@ -7624,10 +7642,10 @@
     "messageformat": "Regjistrat e diagnostikimit përmbajnë informacione të nivelit të ulët të aplikacionit dhe nuk zbulojnë asnjë nga përmbajtjet e mesazheve."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "Informacioni i ndarë me ne përmban të dhëna të një niveli të ulët për aplikacionin dhe nuk përfshin përmbajtjen e thirrjeve."
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "Informacion diagnostikues"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Parashtrojeni"
@@ -7645,7 +7663,7 @@
     "messageformat": "Faleminderit për përshtypjet!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Zgjero shiritin anësor për të bashkëvepruar me megafonin"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ky version përmban një numër përimtimesh të vockla dhe ndreqje të metash për ta mbajtur të rrjedhshme punën e Signal-it.",
@@ -7679,6 +7697,6 @@
     "messageformat": "Nuk mund ta rregullojmë heshtjen e sikletshme që vijon, por rregulluam një gabim që ndonjëherë bënte që treguesi i dorës së ngritur të mbetej i dukshëm (me numërimin zero) nëse dikush e ngrinte dhe e ulte dorën shumë shpejt."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Ndihmo që informacioni i rëndësishëm të jetë lehtësisht i arritshëm me mesazhe të fiksuara. Pyetjet më të shpeshta, rezervimet e darkës dhe itineraret e pushimeve janë tashmë në mendje. Tani ato mund të jenë edhe në krye të bisedës."
   }
 }

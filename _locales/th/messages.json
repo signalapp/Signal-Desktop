@@ -806,6 +806,9 @@
   "icu:whatsNew": {
     "messageformat": "สัมผัส {whatsNew} ในการปรับปรุงครั้งนี้"
   },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal is a 501c3 nonprofit"
+  },
   "icu:viewReleaseNotes": {
     "messageformat": "ฟีเจอร์และบริการใหม่ๆ"
   },
@@ -1239,13 +1242,13 @@
     "messageformat": "ดำเนินการต่อ"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "การปักหมุดข้อความที่จะหายไป"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "เมื่อครบเวลาที่กำหนด ข้อความที่จะหายไปจะถูกปลดหมุดและจะถูกลบออกจากแชท"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "ตกลง"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, other {ข้อความที่ปักหมุด}}"
@@ -2768,8 +2771,14 @@
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "ค้นหาไฟล์ GIF จากใน Tenor"
   },
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "Search GIFs"
+  },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "ค้นหาใน Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "Search GIFs"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "หมวดหมู่ของ GIF"
@@ -2815,6 +2824,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "ตัวอย่าง GIF"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "Powered by GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "ล้างการค้นหา"
@@ -5628,22 +5640,22 @@
     "messageformat": "ไม่สามารถส่งออกประวัติการแชทของคุณได้เนื่องจาก Signal ไม่ได้รับสิทธิ์ในการบันทึกไฟล์ลงพื้นที่จัดเก็บ โปรดลองเปลี่ยนการอนุญาตสิทธิ์ของพื้นที่จัดเก็บในเครื่องหรืออัปเดตการตั้งค่าระบบของคุณแล้วลองส่งออกอีกครั้ง"
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "กำลังส่งออกข้อมูลสำรอง"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "ส่งออกข้อมูลสำรองเรียบร้อยแล้ว"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "วิธีกู้คืนจากข้อมูลสำรองนี้:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "ย้ายโฟลเดอร์ข้อมูลสำรองไปยังพื้นที่จัดเก็บของโทรศัพท์คุณ"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "ติดตั้ง Signal ใหม่บนโทรศัพท์"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "แตะ “กู้คืนหรือถ่ายโอน” แล้วเลือก “การสำรองข้อมูลไว้บนอุปกรณ์”"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "ไอคอนรูปพระจันทร์"
@@ -6003,13 +6015,13 @@
     "messageformat": "ดูกุญแจอีกครั้ง"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "การสำรองข้อมูลครั้งล่าสุด"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "ไม่เลย"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "สำรองข้อมูลเดี๋ยวนี้"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "โฟลเดอร์ข้อมูลสำรอง"
@@ -7290,8 +7302,14 @@
   "icu:PreferencesDonations__title": {
     "messageformat": "เพราะความเป็นส่วนตัวสำคัญกว่าผลกำไรใดๆ"
   },
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "Proudly nonprofit"
+  },
   "icu:PreferencesDonations__description": {
     "messageformat": "ส่งข้อความอย่างเป็นส่วนตัว เป็นไปได้ด้วยทุนสนับสนุนจากคุณ ไม่มีโฆษณา ไม่มีการติดตาม และไม่มีทางเปลี่ยนแปลง บริจาควันนี้เพื่อร่วมสนับสนุน Signal <readMoreLink>อ่านเพิ่มเติม</readMoreLink>"
+  },
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "บริจาค"
@@ -7612,7 +7630,7 @@
     "messageformat": "ช่วยให้เรารับทราบเกี่ยวกับประสิทธิภาพในการใช้งานและเข้าใจปัญหาของการโทรยิ่งขึ้น โดยคุณสามารถดูบันทึกดีบักก่อนส่งข้อมูลได้"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "การส่งรายงานจะเป็นการแชร์ความคิดเห็นของคุณรวมถึง<diagnosticInfoLink>ข้อมูลผลการวิเคราะห์ปัญหาเกี่ยวกับการโทรของคุณ</diagnosticInfoLink> คุณยังสามารถเลือกที่จะแชร์บันทึกดีบักเพื่อช่วยให้เราพัฒนาคุณภาพการโทรให้ดียิ่งขึ้น"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "แชร์บันทึกดีบัก"
@@ -7624,10 +7642,10 @@
     "messageformat": "ภายในบันทึกดีบักจะมีข้อมูลแอประดับพื้นฐานและจะไม่เปิดเผยเนื้อหาใดๆ ในข้อความของคุณ"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "ข้อมูลที่คุณจะแชร์ให้เราเป็นข้อมูลแอประดับพื้นฐานซึ่งไม่รวมถึงเนื้อหาใดๆ ในการโทรของคุณ"
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "ข้อมูลผลการวิเคราะห์ปัญหา"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "ส่ง"
@@ -7645,7 +7663,7 @@
     "messageformat": "ขอบคุณสำหรับความคิดเห็น"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "ขยายแถบรายการแชทเพื่อดูประกาศ"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "รุ่นนี้มาพร้อมการปรับเปลี่ยนเล็กๆ น้อยๆ และการแก้ไขบั๊กต่างๆ เพื่อให้ Signal ทำงานได้อย่างราบรื่นไร้ปัญหา",
@@ -7679,6 +7697,6 @@
     "messageformat": "แก้ไขบั๊กเกี่ยวกับตัวแจ้งสถานะเมื่อมีคนยกมือในสายโทรกลุ่ม"
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "มองเห็นข้อมูลสำคัญได้ทันทีด้วยการปักหมุดข้อความเอาไว้ให้โดดเด่นอยู่ด้านบนสุดของแชท"
   }
 }

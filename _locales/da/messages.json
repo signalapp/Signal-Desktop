@@ -806,6 +806,9 @@
   "icu:whatsNew": {
     "messageformat": "Se {whatsNew} i denne opdatering"
   },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal is a 501c3 nonprofit"
+  },
   "icu:viewReleaseNotes": {
     "messageformat": "nyheder"
   },
@@ -1239,10 +1242,10 @@
     "messageformat": "Fortsæt"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "Fastgørelse af forsvindende beskeder"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "Forsvindende beskeder vil blive frigjort, når tiden udløber, og beskeden fjernes fra chatten."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
     "messageformat": "Okay"
@@ -2768,8 +2771,14 @@
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Søg efter GIF'er i Tenor"
   },
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "Search GIFs"
+  },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Søg i Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "Search GIFs"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF-kategorier"
@@ -2815,6 +2824,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "Forhåndsvisning af GIF'er"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "Powered by GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Ryd søgning"
@@ -5628,22 +5640,22 @@
     "messageformat": "Din chathistorik kan ikke eksporteres, fordi Signal ikke har tilladelse til at gemme filer på disken. Skift dine diskrettigheder eller systemindstillinger, og prøv at eksportere igen."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Eksporterer sikkerhedskopi"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Eksport af sikkerhedskopi gennemført"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Sådan gendannes denne sikkerhedskopi:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Overfør din sikkerhedskopimappe til telefonens lagerplads"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Installér en ny kopi af Signal på din mobil"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Tryk på \"Overfør eller gendan\", og vælg “Sikkerhedskopi på enhed”"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Måneikon"
@@ -6003,13 +6015,13 @@
     "messageformat": "Se nøglen igen"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "Seneste sikkerhedskopi"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "Aldrig"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "Sikkerhedskopiér nu"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Mappe til sikkerhedskopi"
@@ -7290,8 +7302,14 @@
   "icu:PreferencesDonations__title": {
     "messageformat": "Privatliv fremfor profit"
   },
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "Proudly nonprofit"
+  },
   "icu:PreferencesDonations__description": {
     "messageformat": "Private beskeder, finansieret af dig. Ingen annoncer, ingen sporing, ingen kompromiser. Donér nu for at støtte Signal. <readMoreLink>Læs mere</readMoreLink>"
+  },
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Donér"
@@ -7612,7 +7630,7 @@
     "messageformat": "Dette hjælper os med at forstå opkald bedre og se, hvad der virker, og hvad der ikke gør. Du kan se din fejlsøgningslog, før du sender den."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Når du indsender, deles din feedback sammen med <diagnosticInfoLink>diagnostiske oplysninger om dit opkald</diagnosticInfoLink>. Du kan eventuelt dele en fejlfindingslog for at hjælpe os med at forbedre opkaldskvaliteten."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Del fejlsøgningslog"
@@ -7624,10 +7642,10 @@
     "messageformat": "Fejlsøgningslogger indeholder oplysninger om appen på lavt niveau og afslører ikke noget indhold fra dine beskeder."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "Oplysninger, der deles med os, omfatter appoplysninger på lavt niveau og inkluderer ikke indholdet af dine opkald."
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "Diagnostiske oplysninger"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Indsend"
@@ -7645,7 +7663,7 @@
     "messageformat": "Tak for din feedback!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Udvid sidebjælken for at bruge megafonen"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Denne version indeholder en række småjusteringer og fejlrettelser som sikrer, at Signal kører problemfrit.",
@@ -7679,6 +7697,6 @@
     "messageformat": "Vi kan ikke fjerne den akavede stilhed bagefter, men vi har rettet en fejl, der nogle gange gjorde, at indikatoren for oprakt hånd blev der (med en tæller på nul), hvis nogen hurtigt hævede og sænkede hånden."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Gør vigtige oplysninger nemme at finde med fastgjorte beskeder. Dine mest stillede spørgsmål, middagsreservationer og ferieplaner er allerede det, der er øverst på huskelisten. Nu kan de også ligge øverst i chatten."
   }
 }

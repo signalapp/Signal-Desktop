@@ -806,6 +806,9 @@
   "icu:whatsNew": {
     "messageformat": "Посмотрите, {whatsNew} в этом обновлении"
   },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal is a 501c3 nonprofit"
+  },
   "icu:viewReleaseNotes": {
     "messageformat": "что нового"
   },
@@ -1239,13 +1242,13 @@
     "messageformat": "Продолжить"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "Закрепление исчезающих сообщений"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "Исчезающие сообщения будут откреплены, когда истечёт таймер и сообщение будет удалено из чата."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "Хорошо"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Закреплённое сообщение} few {Закреплённых сообщения} many {Закреплённых сообщений} other {Закреплённых сообщения}}"
@@ -2768,8 +2771,14 @@
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Искать GIF-файлы в Tenor"
   },
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "Search GIFs"
+  },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Искать в Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "Search GIFs"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Категории GIF"
@@ -2815,6 +2824,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "Предпросмотр GIF"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "Powered by GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Очистить поиск"
@@ -5628,22 +5640,22 @@
     "messageformat": "Историю чата нельзя экспортировать, потому что у Signal нет разрешения на запись файлов на диск. Попробуйте изменить права доступа к диску или обновить системные настройки, а затем экспортировать ещё раз."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Экспорт резервной копии"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Экспорт резервной копии завершён"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Чтобы восстановить эту резервную копию:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Перенесите папку с резервной копией в хранилище вашего телефона"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Установите новую копию Signal на свой телефон"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Нажмите «Восстановить или перенести» и выберите «Резервное копирование на устройстве»"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Значок луны"
@@ -6003,13 +6015,13 @@
     "messageformat": "Просмотреть ключ ещё раз"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "Последняя резервная копия"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "Никогда"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "Создать резервную копию"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Папка резервных копий"
@@ -7290,8 +7302,14 @@
   "icu:PreferencesDonations__title": {
     "messageformat": "Конфиденциальность превыше прибыли"
   },
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "Proudly nonprofit"
+  },
   "icu:PreferencesDonations__description": {
     "messageformat": "Безопасный мессенджер, существующий благодаря вашей поддержке. Без рекламы, без трекеров, без компромиссов. Пожертвуйте сейчас, чтобы поддержать Signal. <readMoreLink>Читать далее</readMoreLink>"
+  },
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Пожертвовать"
@@ -7612,7 +7630,7 @@
     "messageformat": "Это помогает нам получить более подробную информацию о звонках и понять, что работает, а что нет. Вы можете просмотреть свой журнал отладки перед отправкой."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Отправьте свой отзыв вместе с <diagnosticInfoLink>диагностической информацией о вашем звонке</diagnosticInfoLink>. Вы можете, если хотите, поделиться с нами журналом отладки. Это поможет улучшить качество звонков."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Поделиться журналом отладки"
@@ -7624,10 +7642,10 @@
     "messageformat": "Журналы отладки содержат низкоуровневую информацию о приложении и не раскрывают содержание вашего сообщения."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "Предоставленная нам информация содержит низкоуровневые данные приложения и не включает содержание ваших звонков."
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "Диагностическая информация"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Отправить"
@@ -7645,7 +7663,7 @@
     "messageformat": "Спасибо за ваш отзыв!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Расширьте боковую панель для взаимодействия с мегафоном"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Эта версия содержит несколько небольших изменений и исправлений ошибок.",
@@ -7679,6 +7697,6 @@
     "messageformat": "Мы не можем исправить неловкую тишину, но зато исправили ошибку, из-за которой индикатор поднятой руки временами оставался видимым (с нулевым счётчиком), если кто-то очень быстро поднимал и опускал руку."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Помогите сохранить важную информацию легкодоступной с помощью закреплённых сообщений. Ваши самые часто задаваемые вопросы, бронь столиков и маршруты отпуска уже в центре внимания. Теперь они могут быть и в топе чата."
   }
 }

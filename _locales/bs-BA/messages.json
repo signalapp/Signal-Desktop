@@ -806,6 +806,9 @@
   "icu:whatsNew": {
     "messageformat": "Pogledajte {whatsNew} u ovom ažuriranju"
   },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal is a 501c3 nonprofit"
+  },
   "icu:viewReleaseNotes": {
     "messageformat": "šta je novo"
   },
@@ -1239,13 +1242,13 @@
     "messageformat": "Nastavi"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Pinning disappearing messages"
+    "messageformat": "Kačenje nestajućih poruka"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat."
+    "messageformat": "Nestajuće poruke bit će otkačene kada im istekne tajmer, a poruka će biti uklonjena iz chata."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Okay"
+    "messageformat": "U redu"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Zakačena poruka} few {Zakačene poruke} many {Zakačenih poruka} other {Zakačene poruke}}"
@@ -2768,8 +2771,14 @@
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Pretražujte GIF-ove putem Tenora"
   },
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "Search GIFs"
+  },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Pretraži Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "Search GIFs"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF kategorije"
@@ -2815,6 +2824,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "Pregled gifa"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "Powered by GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Obriši pretraživanje"
@@ -5628,22 +5640,22 @@
     "messageformat": "Vaša historija chata ne može biti izvezena jer Signal nema dozvolu za pisanje datoteka na disk. Pokušajte promijeniti dozvole diska ili ažurirati postavke sistema, a zatim ponovo izvezite."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Izvoz sigurnosne kopije"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Izvoz sigurnosne kopije je završen"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Da vratite ovu sigurnosnu kopiju:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Prenesite folder sigurnosne kopije u pohranu telefona"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Instalirajte novu kopiju Signala na svoj telefon"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Dodirnite \"Vrati ili prenesi\" i odaberite \"Sigurnosna kopija na uređaju\""
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Ikona mjeseca"
@@ -6003,13 +6015,13 @@
     "messageformat": "Vidi ključ ponovo"
   },
   "icu:Preferences__local-backups-last-backup": {
-    "messageformat": "Last backup"
+    "messageformat": "Posljednja rezervna kopija"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "Never"
+    "messageformat": "Nikad"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "Back up now"
+    "messageformat": "Kreiraj kopiju sada"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Direktorij za rezervne kopije"
@@ -7290,8 +7302,14 @@
   "icu:PreferencesDonations__title": {
     "messageformat": "Privatnost je važnija od zarade"
   },
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "Proudly nonprofit"
+  },
   "icu:PreferencesDonations__description": {
     "messageformat": "Privatno razmjenjivanje poruka koje finansirate vi. Bez oglasa, bez praćenja, bez kompromisa. Donirajte sada da podržite Signal. Saznaj više"
+  },
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Doniraj"
@@ -7612,7 +7630,7 @@
     "messageformat": "Ovo nam pomaže da saznamo više o pozivima i šta funkcioniše, a šta ne. Možete pregledati svoj zapisnik o otklanjanju grešaka prije slanja."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Slanjem povratnih informacija podijelit ćete ih sa <diagnosticInfoLink>dijagnostičkim informacijama o vašem pozivu</diagnosticInfoLink>. Opcionalno možete podijeliti zapisnik o otklanjanju grešaka kako biste nam pomogli da poboljšamo kvalitet poziva."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Podijeli zapisnik o otklanjanju grešaka"
@@ -7624,10 +7642,10 @@
     "messageformat": "Zapisnici o otklanjanju grešaka sadrže informacije o aplikaciji niskog nivoa i ne otkrivaju sadržaj vaših poruka."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls."
+    "messageformat": "Informacije koje se dijele s nama sadrže informacije o aplikacijama niskog nivoa i ne uključuju sadržaj vaših poziva."
   },
   "icu:CallDiagnosticWindow__title": {
-    "messageformat": "Diagnostic information"
+    "messageformat": "Dijagnostičke informacije"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Šalji"
@@ -7645,7 +7663,7 @@
     "messageformat": "Hvala na povratnim informacijama!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Proširite bočnu traku za interakciju s megafonom"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ova verzija sadrži brojna mala poboljšanja i ispravke grešaka kako bi Signal nesmetano funkcionirao.",
@@ -7679,6 +7697,6 @@
     "messageformat": "Ispravili smo manju programsku grešku u prikazu indikatora podignute ruke u grupnim pozivima."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Omogućite lak pristup važnim informacijama pomoću zakačenih poruka na vrhu chata."
   }
 }
