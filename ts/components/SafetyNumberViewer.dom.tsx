@@ -107,6 +107,7 @@ export function SafetyNumberViewer({
       <KeyTransparency
         i18n={i18n}
         status={keyTransparencyStatus}
+        contact={contact}
         checkKeyTransparency={checkKeyTransparency}
       />
     );
@@ -140,6 +141,7 @@ export function SafetyNumberViewer({
 
 type KeyTransparencyPropsType = Readonly<{
   i18n: LocalizerType;
+  contact: ConversationType;
   status: KeyTransparencyStatusType;
   checkKeyTransparency: () => unknown;
 }>;
@@ -147,6 +149,7 @@ type KeyTransparencyPropsType = Readonly<{
 function KeyTransparency({
   i18n,
   status,
+  contact,
   checkKeyTransparency,
 }: KeyTransparencyPropsType): JSX.Element {
   const [popup, setPopup] = useState<undefined | PopupPropsType['type']>();
@@ -298,18 +301,26 @@ function KeyTransparency({
         </a>
       </div>
 
-      {popup && <Popup i18n={i18n} type={popup} onClose={resetPopup} />}
+      {popup && (
+        <Popup
+          i18n={i18n}
+          contact={contact}
+          type={popup}
+          onClose={resetPopup}
+        />
+      )}
     </div>
   );
 }
 
 type PopupPropsType = Readonly<{
   i18n: LocalizerType;
+  contact: ConversationType;
   type: 'ok' | 'fail' | 'unavailable';
   onClose: () => void;
 }>;
 
-function Popup({ i18n, type, onClose }: PopupPropsType): JSX.Element {
+function Popup({ i18n, contact, type, onClose }: PopupPropsType): JSX.Element {
   let icon: 'check-circle' | 'info';
   let title: string;
   let body: string;
@@ -325,7 +336,12 @@ function Popup({ i18n, type, onClose }: PopupPropsType): JSX.Element {
       title = i18n(
         'icu:SafetyNumberViewer__KeyTransparency__popup--fail__title'
       );
-      body = i18n('icu:SafetyNumberViewer__KeyTransparency__popup--fail__body');
+      body = i18n(
+        'icu:SafetyNumberViewer__KeyTransparency__popup--fail__body',
+        {
+          name: contact.title,
+        }
+      );
       break;
     case 'unavailable':
       icon = 'info';

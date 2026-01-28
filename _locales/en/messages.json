@@ -835,7 +835,7 @@
     "description": "A title of an education modal in Key Transparency section of SafetyNumberViewer when verification was unsuccessful"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because Katie Hall changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device.",
+    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device.",
     "description": "A body of an education modal in Key Transparency section of SafetyNumberViewer when verification was unsuccessful"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
