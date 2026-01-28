@@ -5628,22 +5628,22 @@
     "messageformat": "Riwayat chat Anda tidak dapat diekspor karena Signal tidak memiliki izin untuk menulis file ke disk. Coba ubah izin disk Anda atau perbarui pengaturan sistem dan kemudian ekspor lagi."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Mengekspor cadangan"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Ekspor cadangan selesai"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Untuk memulihkan cadangan ini:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Transfer folder cadangan ke penyimpanan ponsel"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Instal Signal versi terbaru di ponsel"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Ketuk “Pulihkan atau Transfer” dan pilih “Cadangan di Perangkat”"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Ikon bulan"
@@ -7612,7 +7612,7 @@
     "messageformat": "Ini akan membantu kami mempelajari lebih lanjut kualitas panggilan serta mengetahui apa yang berfungsi dengan baik dan apa yang bermasalah. Anda dapat melihat catatan debug sebelum mengirim."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Dengan mengirim ini, Anda akan memberikan masukan lengkap dengan <diagnosticInfoLink>informasi diagnostik terkait panggilan Anda</diagnosticInfoLink>. Anda bebas menentukan ingin berbagi catatan debug atau tidak untuk membantu kami meningkatkan kualitas panggilan."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Bagikan catatan debug"
@@ -7645,7 +7645,7 @@
     "messageformat": "Terima kasih atas masukannya!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Perluas panel samping untuk berinteraksi dengan megafon"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Versi ini mengandung sejumlah perubahan kecil dan perbaikan bug agar Signal tetap berjalan lancar.",
@@ -7679,6 +7679,6 @@
     "messageformat": "Hening sejenak saat ngobrol memang tak bisa kami tanggulangi, tapi kami telah memperbaiki bug ringan yang kadang terjadi pada indikator angkat tangan selama panggilan grup."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Fitur sematkan pesan membantu memastikan informasi penting bisa diakses dengan mudah. Hal-hal yang sering ditanyakan, reservasi restoran, dan rencana liburan kadang tenggelam dalam chat grup. Sekarang Anda juga bisa menempatkannya di urutan teratas susunan chat."
   }
 }

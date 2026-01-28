@@ -5628,22 +5628,22 @@
     "messageformat": "Signal'ın diske dosya yazma izni olmadığı için sohbet geçmişin dışa aktarılamıyor. Diskinin izinlerini değiştirmeyi veya sistem ayarlarını güncellemeyi dene ve ardından tekrar dışa aktar."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Yedekleme dışa aktarılıyor"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Yedekleme dışa aktarımı tamamlandı"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Bu yedeklemeyi geri yüklemek için:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Yedekleme klasörünü telefonunun depolama alanına aktar"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Telefonuna Signal'ın yeni bir kopyasını yükle"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "\"Geri Yükle veya Aktar\"a dokun ve \"Cihazda Yedekleme\"yi seç"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Ay simgesi"
@@ -7612,7 +7612,7 @@
     "messageformat": "Bu, aramalar ve neyin işe yarayıp neyin yaramadığı hakkında daha fazla bilgi edinmemize yardımcı olur. Göndermeden önce hata ayıklama günlüğünü görüntüleyebilirsin."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Gönderdiğinde, <diagnosticInfoLink>aramanla ilgili tanılama bilgileri</diagnosticInfoLink> ile birlikte geri bildirimin de paylaşılacaktır. Arama kalitesini iyileştirmemize yardımcı olmak için, isteğe bağlı olarak bir hata ayıklama günlüğü paylaşabilirsin."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Hata ayıklama günlüğünü paylaş"
@@ -7624,7 +7624,7 @@
     "messageformat": "Hata ayıklama günlükleri, düşük düzeyde uygulama bilgisi içerir ve hiçbir mesaj içeriğini açıklamaz."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
-    "messageformat": "Bizimle paylaşılan bilgiler düşük seviyeli uygulama bilgilerini içerir ve aramalarının içeriğini içermez."
+    "messageformat": "Bizimle paylaşılan bilgiler düşük seviyeli uygulama bilgilerini içerir ve aramalarının içeriğini kapsamaz."
   },
   "icu:CallDiagnosticWindow__title": {
     "messageformat": "Tanılama bilgileri"
@@ -7645,7 +7645,7 @@
     "messageformat": "Geri bildirimin için teşekkürler!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Megafon ile etkileşim için kenar çubuğunu genişlet"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bu sürüm Signal'in sorunsuz çalışması için gereken bir takım küçük düzeltme ve hata gidermelerini içerir.",
@@ -7679,6 +7679,6 @@
     "messageformat": "Grup görüşmelerinde kaldırılan el göstergesiyle ilgili ufak bir ekran hatasını giderdik."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Sabitlenmiş mesajlar, önemli bilgilerin sohbetin üstünde kolayca erişilebilir kalmasını sağlayabilir. En sık sorulan soruların, akşam yemeği rezervasyonların ve tatil güzergahların zaten aklının bir köşesinde. Artık bunlar sohbetin de zirvesinde olabilir."
   }
 }

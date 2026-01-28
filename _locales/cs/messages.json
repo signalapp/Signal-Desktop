@@ -1239,7 +1239,7 @@
     "messageformat": "Pokračovat"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Připnout mizející zprávy"
+    "messageformat": "Připnutí mizející zprávy"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
     "messageformat": "Mizející zprávy budou po vypršení časového limitu odepnuty a zpráva bude z chatu odstraněna."
@@ -5628,22 +5628,22 @@
     "messageformat": "Historii chatů nelze exportovat, protože Signal nemá oprávnění k zápisu souborů na disk. Zkuste změnit oprávnění disku nebo aktualizovat nastavení systému a poté export zopakujte."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Exportování zálohy"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Export zálohy dokončen"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Pokud chcete tuto zálohu obnovit:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Přeneste složky se zálohou do úložiště svého telefonu"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Nainstalujte do telefonu novou verzi aplikace Signal"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Klepněte na Obnovit nebo přenést a vyberte Záloha v zařízení"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Ikona měsíce"
@@ -7612,7 +7612,7 @@
     "messageformat": "Pomáhá nám to zjistit více o hovorech a o tom, co funguje a co ne. Před odesláním si můžete protokol ladění zobrazit."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Odesláním sdílíte svou zpětnou vazbu a <diagnosticInfoLink>diagnostické informace o svém hovoru</diagnosticInfoLink>. Volitelně můžete sdílet protokol ladění a pomoci nám tak zlepšovat kvalitu hovorů."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Odeslat protokol ladění"
@@ -7645,7 +7645,7 @@
     "messageformat": "Děkujeme vám za zpětnou vazbu!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Kliknutím rozbalíte postranní panel pro interakci s megafonem"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Tato verze obsahuje řadu drobných vylepšení a oprav chyb, aby Signal fungoval bez problémů.",
@@ -7679,6 +7679,6 @@
     "messageformat": "Opravili jsme drobnou chybu v zobrazení ikony zvednuté ruky ve skupinových hovorech."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Mějte důležité informace snadno dostupné pomocí připnutých zpráv. Vaše nejčastější dotazy, rezervace večeří a plány dovolené jsou pro vás prvořadé. Teď je můžete mít na prvním místě i v chatu."
   }
 }

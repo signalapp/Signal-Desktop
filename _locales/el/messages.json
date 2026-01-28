@@ -5628,22 +5628,22 @@
     "messageformat": "Δεν είναι δυνατή η εξαγωγή του ιστορικού συνομιλιών σου επειδή το Signal δεν έχει άδεια εγγραφής αρχείων στον δίσκο. Δοκίμασε να αλλάξεις τα δικαιώματα του δίσκου σου ή να ενημερώσεις τις ρυθμίσεις του συστήματός σου και, στη συνέχεια, επανάλαβε την εξαγωγή."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Εξαγωγή αντιγράφου ασφαλείας"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Η εξαγωγή αντιγράφου ασφαλείας ολοκληρώθηκε"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Για να επαναφορά αυτού του αντίγραφου ασφαλείας:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Μετάφερε τον φάκελο αντιγράφων ασφαλείας στον χώρο αποθήκευσης του τηλεφώνου σου"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Κάνε εγκατάσταση ενός νέου αντίγραφου του Signal στο τηλέφωνό σου"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Πάτα «Επαναφορά ή Μεταφορά» και επίλεξε «Δημιουργία αντιγράφων ασφαλείας στη συσκευή»"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Εικονίδιο φεγγαριού"
@@ -7612,7 +7612,7 @@
     "messageformat": "Αυτό μας βοηθά να μάθουμε περισσότερα για τις κλήσεις και τι λειτουργεί ή δεν λειτουργεί. Μπορείς να δεις το αρχείο καταγραφής αποσφαλμάτωσης πριν από την υποβολή."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Με την υποβολή θα μοιραστείς τα σχόλιά σου μαζί με <diagnosticInfoLink>διαγνωστικές πληροφορίες σχετικά με την κλήση σου</diagnosticInfoLink>. Μπορείς προαιρετικά να κοινοποιήσεις ένα αρχείο καταγραφής αποσφαλμάτωσης για να μας βοηθήσεις να βελτιώσουμε την ποιότητα των κλήσεων."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Κοινή χρήση αρχείου καταγραφής αποσφαλμάτωσης"
@@ -7645,7 +7645,7 @@
     "messageformat": "Ευχαριστούμε για τα σχόλιά σου!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Ανάπτυξη της πλαϊνής μπάρας για αλληλεπίδραση με το μεγάφωνο"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Αυτή η έκδοση περιλαμβάνει διάφορες μικρές βελτιώσεις και αποσφαλματώσεις για να συνεχίσει το Signal να λειτουργεί ομαλά.",
@@ -7679,6 +7679,6 @@
     "messageformat": "Διορθώσαμε ένα μικρό σφάλμα στην οθόνη με την ένδειξη σηκωμένου χεριού στις ομαδικές κλήσεις."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Τα καρφιτσωμένα μηνύματα μπορούν να σε βοηθήσουν να διατηρήσεις τις σημαντικές πληροφορίες εύκολα προσβάσιμες στην κορυφή μιας συνομιλίας. Οι πιο συχνές ερωτήσεις, οι κρατήσεις για δείπνο και τα προγράμματα διακοπών σου είναι ήδη στο κεφάλι σου. Τώρα μπορούν να είναι και στην κορυφή της συζήτησης.\n\n"
   }
 }

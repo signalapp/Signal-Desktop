@@ -5628,22 +5628,22 @@
     "messageformat": "Dein Chat-Verlauf kann nicht exportiert werden, weil Signal keine Berechtigung hat, Dateien auf die Festplatte zu schreiben. Ändere die Berechtigungen deiner Festplatte oder aktualisiere deine Systemeinstellungen und versuche dann, die Daten erneut zu exportieren."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Backup wird exportiert"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Backup-Export abgeschlossen"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Um dieses Backup wiederherzustellen:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Übertrage deinen Backup-Ordner in den Speicher deines Telefons"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Installiere eine neue Kopie von Signal auf deinem Telefon"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Tippe auf »Wiederherstellen oder Übertragen« und wähle »Backup auf dem Gerät« aus"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Mondsymbol"
@@ -7612,7 +7612,7 @@
     "messageformat": "So erfahren wir mehr über Anrufe und darüber, was gut läuft und was nicht. Du kannst dein Diagnoseprotokoll ansehen, bevor du es abschickst."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Mit dem Absenden teilst du dein Feedback zusammen mit der <diagnosticInfoLink>Diagnose-Information zu deinem Anruf</diagnosticInfoLink>. Du kannst optional ein Diagnoseprotokoll mit uns teilen, um uns dabei zu helfen, die Anrufqualität zu verbessern."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Diagnoseprotokoll teilen"
@@ -7645,7 +7645,7 @@
     "messageformat": "Danke für dein Feedback!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Die Seitenleiste aufklappen, um mit dem Menü zu interagieren"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Diese Version enthält eine Reihe kleinerer Optimierungen und Fehlerbehebungen, damit Signal weiterhin reibungslos funktioniert.",
@@ -7679,6 +7679,6 @@
     "messageformat": "Wir haben einen Fehler behoben, der manchmal dazu führte, dass die „Gehobene Hand“-Ansicht sichtbar blieb (mit Zählstand Null), wenn jemand seine Hand sehr schnell hob und wieder senkte – leider war es uns nicht möglich, die peinliche Stille aufzulösen, die dabei entstehen kann."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Mit fixierten Nachrichten hast du wichtige Infos immer griffbereit. Deine am häufigsten gestellten Fragen, Tischreservierungen und Urlaubspläne stehen schon ganz oben auf deiner Liste. Jetzt kannst du sie auch ganz oben im Chat fixieren."
   }
 }

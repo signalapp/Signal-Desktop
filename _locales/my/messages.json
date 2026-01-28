@@ -5628,22 +5628,22 @@
     "messageformat": "Signal တွင် ဖိုင်များရေးရန် ခွင့်ပြုချက်မရှိသောကြောင့် သင့်ချက်(တ်)မှတ်တမ်းကို ထုတ်ယူ၍မရပါ။ သင့်ဒစ်ခ်၏ ခွင့်ပြုချက်များကို ပြောင်းလဲကြည့်ပါ သို့မဟုတ် သင့်စနစ်ဆက်တင်ကို အပ်ဒိတ်လုပ်ပြီး ထပ်မံထုတ်ယူကြည့်ပါ။"
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "ဘက်ခ်အပ် ထုတ်သိမ်းနေပါသည်"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "ဘက်ခ်အပ် ထုတ်သိမ်းမှု ပြီးပါပြီ"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "ဘက်ခ်အပ် ပြန်လည်ရယူရန်"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "သင့် ဘက်ခ်အပ်ဖိုင်တွဲကို ဖုန်း၏ထားသိုမှုထဲသို့ လွှဲပြောင်းပါ"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "သင့်ဖုန်းတွင် Signal အသစ်ကို ထည့်သွင်းပါ"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "“ပြန်လည်ရယူရန် သို့မဟုတ် လွှဲပြောင်းရန်” ကိုနှိပ်ပြီး “စက်ပေါ်တွင် ဘက်ခ်အပ်ပြုလုပ်ရန်” ကို ရွေးချယ်ပါ။"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "လပုံစံ အိုင်ကွန်"
@@ -7612,7 +7612,7 @@
     "messageformat": "၎င်းက ဖုန်းခေါ်ဆိုမှုများအပြင် မည်သည့်အရာများက ကောင်းစွာ အလုပ်လုပ်သည်၊ မလုပ်သည်ကို ပိုမိုလေ့လာရန် ကူညီပေးပါသည်။ တင်သွင်းခြင်းမပြုမီ သင်၏ ပြစ်ချက်မှတ်တမ်းကို ကြည့်ရှုနိုင်ပါသည်။"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "တင်သွင်းရာတွင် သင့်တုံ့ပြန်ချက်ကို <diagnosticInfoLink>ခေါ်ဆိုမှုနှင့် ပတ်သက်သည့် ချွတ်ယွင်းချက် အချက်အလက်</diagnosticInfoLink>နှင့်အတူ မျှဝေပါမည်။ ဖုန်းခေါ်ဆိုမှု အရည်အသွေး မြှင့်တင်ရေးတွင် ကူညီပေးရန်အတွက် ပြစ်ချက်မှတ်တမ်းတစ်ခုကို ရွေးချယ်၍ မျှဝေနိုင်ပါသည်။"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "ပြစ်ချက်မှတ်တမ်း မျှဝေရန်"
@@ -7645,7 +7645,7 @@
     "messageformat": "သင့်အကြံပြုချက်အတွက် ကျေးဇူးတင်ပါသည်။"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "မက်ဂါဖုန်းနှင့် အပြန်အလှန်ဆက်သွယ်ရန် ဘေးဘက်ဘားကို ချဲ့ပါ"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "ဤဗားရှင်းတွင် Signal အား အထစ်အငေါ့မရှိ လုပ်ဆောင်နိုင်စေရန် ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် အနေအထား ပြုပြင်မှု အသေးလေးများ ပါဝင်ပါသည်။",
@@ -7679,6 +7679,6 @@
     "messageformat": "အဖွဲ့လိုက်ခေါ်ဆိုမှုများတွင် ချွတ်ယွင်းချက်အသေးအဖွဲဖြစ်သော လက်ထောင်ထားသည့်ညွှန်ပြချက် ရုပ်ပုံကို ပြင်ဆင်ထားပါသည်။"
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "မက်ဆေ့ချ်များကို ပင်တွဲခြင်းအားဖြင့် အရေးကြီးသော အချက်အလက်များကို ချက်(တ်)၏ထိပ်တွင် အလွယ်တကူ ဝင်ရောက်ကြည့်ရှုနိုင်စေရန် ကူညီပေးပါသည်။"
   }
 }

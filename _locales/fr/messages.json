@@ -5628,22 +5628,22 @@
     "messageformat": "Impossible d'exporter l'historique de vos conversations, car vous n'avez pas autorisé Signal à enregistrer des fichiers sur votre ordinateur. Modifiez les autorisations de votre ordinateur ou les paramètres système, puis réessayez."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Exportation de la sauvegarde"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Exportation de la sauvegarde terminée"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Pour restaurer cette sauvegarde :"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Déplacez votre dossier de sauvegarde vers l'espace de stockage de votre téléphone."
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Réinstallez Signal sur votre téléphone."
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Appuyez sur \"Restaurer ou transférer le compte\", puis sélectionnez \"Sauvegarde sur l'appareil\"."
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Icône lune"
@@ -7612,7 +7612,7 @@
     "messageformat": "Vos retours nous permettent de comprendre ce qui fonctionne et ce que nous devons améliorer. Vous pouvez consulter votre journal de débogage avant de nous l'envoyer."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Lorsque vous nous envoyez vos commentaires, ceux-ci sont accompagnés d'<diagnosticInfoLink>informations de diagnostic sur votre appel</diagnosticInfoLink>. Vous pouvez également partager votre journal de débogage pour nous aider à améliorer la qualité des appels."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Partager le journal de débogage"
@@ -7645,7 +7645,7 @@
     "messageformat": "Merci pour vos commentaires !"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Développer la barre latérale pour interagir avec le mégaphone"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Dans cette version, nous avons apporté quelques ajustements et corrigé de petits bugs. Pour que votre messagerie préférée continue de fonctionner comme sur des roulettes.",
@@ -7679,6 +7679,6 @@
     "messageformat": "Lorsqu'un participant levait puis baissait la main très rapidement pendant un appel de groupe, le compteur de mains levées restait parfois visible (et affichait zéro). Un bug que nos équipes ont corrigé haut la main !"
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Grâce aux messages épinglés, les informations importantes restent facilement accessibles. L'organisation des vacances et l'ordre du jour de votre prochaine AG sont en haut de votre liste de priorités ? Ils peuvent aussi s'afficher en haut de vos conversations."
   }
 }

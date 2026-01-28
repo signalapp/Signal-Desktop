@@ -5628,22 +5628,22 @@
     "messageformat": "Lịch sử trò chuyện của bạn không thể được xuất vì Signal không có quyền ghi tập tin vào ổ lưu trữ. Hãy thử thay đổi quyền của ổ lưu trữ hoặc cập nhật cài đặt hệ thống của bạn và sau đó xuất lại."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Đang xuất bản sao lưu"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Hoàn tất xuất bản sao lưu"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Để khôi phục bản sao lưu này:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Chuyển thư mục sao lưu vào bộ nhớ trên điện thoại của bạn"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Cài mới Signal trên điện thoại của bạn"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Nhấn \"Khôi phục hoặc chuyển\" và chọn \"Sao lưu trên thiết bị\""
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Biểu tượng mặt trăng"
@@ -7612,7 +7612,7 @@
     "messageformat": "Điều này giúp chúng tôi tìm hiểu thêm về chất lượng cuộc gọi và biết khi có vấn đề. Bạn có thể xem nhật ký gỡ lỗi trước khi gửi."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Khi gửi, bạn sẽ chia sẻ phản hồi cùng <diagnosticInfoLink>thông tin chẩn đoán về cuộc gọi của bạn</diagnosticInfoLink>. Bạn có thể chia sẻ (không bắt buộc) nhật ký gỡ lỗi để giúp chúng tôi tăng chất lượng cuộc gọi."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Chia sẻ nhật ký gỡ lỗi"
@@ -7645,7 +7645,7 @@
     "messageformat": "Cảm ơn góp ý của bạn!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Mở rộng thanh bên để tương tác với biểu tượng loa cầm tay"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Phiên bản này có một số tinh chỉnh và sửa lỗi để giữ cho Signal hoạt động mượt mà.",
@@ -7679,6 +7679,6 @@
     "messageformat": "Chúng tôi đã sửa một lỗi nhỏ liên quan đến chỉ báo giơ tay trong cuộc gọi nhóm."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Tính năng ghim tin nhắn ở đầu cuộc trò chuyện có thể giúp dễ dàng tham khảo thông tin quan trọng."
   }
 }

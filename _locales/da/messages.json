@@ -5628,22 +5628,22 @@
     "messageformat": "Din chathistorik kan ikke eksporteres, fordi Signal ikke har tilladelse til at gemme filer på disken. Skift dine diskrettigheder eller systemindstillinger, og prøv at eksportere igen."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Eksporterer sikkerhedskopi"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Eksport af sikkerhedskopi gennemført"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Sådan gendannes denne sikkerhedskopi:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Overfør din sikkerhedskopimappe til telefonens lagerplads"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Installér en ny kopi af Signal på din mobil"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Tryk på \"Overfør eller gendan\", og vælg “Sikkerhedskopi på enhed”"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Måneikon"
@@ -7612,7 +7612,7 @@
     "messageformat": "Dette hjælper os med at forstå opkald bedre og se, hvad der virker, og hvad der ikke gør. Du kan se din fejlsøgningslog, før du sender den."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Når du indsender, deles din feedback sammen med <diagnosticInfoLink>diagnostiske oplysninger om dit opkald</diagnosticInfoLink>. Du kan eventuelt dele en fejlfindingslog for at hjælpe os med at forbedre opkaldskvaliteten."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Del fejlsøgningslog"
@@ -7645,7 +7645,7 @@
     "messageformat": "Tak for din feedback!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Udvid sidebjælken for at bruge megafonen"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Denne version indeholder en række småjusteringer og fejlrettelser som sikrer, at Signal kører problemfrit.",
@@ -7679,6 +7679,6 @@
     "messageformat": "Vi kan ikke fjerne den akavede stilhed bagefter, men vi har rettet en fejl, der nogle gange gjorde, at indikatoren for oprakt hånd blev der (med en tæller på nul), hvis nogen hurtigt hævede og sænkede hånden."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Gør vigtige oplysninger nemme at finde med fastgjorte beskeder. Dine mest stillede spørgsmål, middagsreservationer og ferieplaner er allerede det, der er øverst på huskelisten. Nu kan de også ligge øverst i chatten."
   }
 }

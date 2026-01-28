@@ -5628,22 +5628,22 @@
     "messageformat": "Sejarah sembang anda tidak boleh dieksport kerana Signal tidak mempunyai kebenaran untuk menulis fail ke cakera. Cuba tukar keizinan cakera anda atau kemas kini tetapan sistem anda dan kemudian eksport semula."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Mengeksport sandaran"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Eksport sandaran selesai"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Untuk memulihkan sandaran ini:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Pindahkan folder sandaran anda ke storan telefon anda"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Pasang salinan baharu Signal pada telefon anda"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Ketik \"Pulihkan atau Pindahkan\" dan pilih \"Sandaran Pada Peranti\""
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Ikon bulan"
@@ -7612,7 +7612,7 @@
     "messageformat": "Ini membantu kami mengetahui lebih lanjut tentang panggilan dan perkara yang berfungsi atau tidak berfungsi. Anda boleh melihat log nyahpepijat anda sebelum menghantar."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Penyerahan akan berkongsi maklum balas anda bersama <diagnosticInfoLink>maklumat diagnostik tentang panggilan anda</diagnosticInfoLink>. Anda boleh berkongsi log nyahpepijat secara pilihan untuk membantu kami meningkatkan kualiti panggilan."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Kongsi log nyahpepijat"
@@ -7645,7 +7645,7 @@
     "messageformat": "Terima kasih atas maklum balas anda!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Kembangkan bar sisi untuk berinteraksi dengan megafon"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Versi ini mengandungi sedikit tweak kecil dan pembetulan pepijat untuk memastikan Signal berjalan dengan lancar.",
@@ -7679,6 +7679,6 @@
     "messageformat": "Kami telah membetulkan pepijat paparan kecil pada penunjuk angkat tangan dalam panggilan kumpulan."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Mesej yang dipin boleh membantu anda memastikan maklumat penting sentiasa mudah diakses di bahagian atas sembang."
   }
 }

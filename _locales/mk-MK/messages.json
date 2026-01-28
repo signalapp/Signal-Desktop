@@ -5628,22 +5628,22 @@
     "messageformat": "Вашата историја на разговори не може да се извезе бидејќи Signal нема дозвола да зачува датотеки на вашиот диск. Обидете се да ги промените дозволите на дискот или да ги ажурирате системските поставки, а потоа повторно извезете."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Извоз на резервна копија"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Извозот на резервна копија е завршен"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "За да ја вратите оваа резервна копија:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Пренесете ја папката со резервни копии во меморијата на вашиот телефон"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Инсталирајте нова копија од Signal на вашиот телефон"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Допрете „Врати или пренеси“ и изберете „Резервна копија на уредот“"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Икона месечина"
@@ -7612,7 +7612,7 @@
     "messageformat": "Ова ни помага да дознаеме повеќе за повиците и што функционира, а што не. Можете да го видите вашиот запис за отстранување грешки пред да го испратите."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Поднесувањето ќе ги сподели вашите коментари заедно со <diagnosticInfoLink>дијагностички информации за вашиот повик</diagnosticInfoLink>. Можете исто така да споделите запис за отстранување грешки за да ни помогнете да го подобриме квалитетот на повиците."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Споделете запис за дебагирање"
@@ -7645,7 +7645,7 @@
     "messageformat": "Ви благодариме за коментарите!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Проширете ја страничната лента за интеракција со мегафонот"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Оваа верзија има некои мали подобрувања и решени багови за Signal да функционира беспрекорно.",
@@ -7679,6 +7679,6 @@
     "messageformat": "Поправивме мала дисплеј грешка со индикаторот за крената рака во групните повици."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Закачените пораки ги прават важните информации лесно достапни на врвот на разговорот. Вашите најчесто поставувани прашања, резервации за вечера и распореди за патувања веќе ви се први на мисла. Сега тие можат да бидат и на врвот на разговорот."
   }
 }

@@ -1242,7 +1242,7 @@
     "messageformat": "將過眼雲煙訊息置頂"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "當過眼雲煙訊息喺倒數完同埋喺聊天度剔走嗰陣，系統會將訊息取消置頂。"
+    "messageformat": "當時間到咗，過眼雲煙訊息會取消置頂，同埋喺聊天度消失。"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
     "messageformat": "確定"
@@ -5628,22 +5628,22 @@
     "messageformat": "匯出唔到聊天紀錄，因為 Signal 冇權限將檔案寫入磁碟。試下更改磁碟權限或者更新系統設定，然後再匯出。"
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "匯出備份"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "備份匯出完成"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "想攞返呢個備份嚟還原嘅話："
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "將備份資料夾轉移去手機嘅儲存空間"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "喺您部手機度安裝新嘅 Signal 版本"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "㩒一下「還原或者轉移」，然後揀「裝置上備份」"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "月亮圖示"
@@ -7612,7 +7612,7 @@
     "messageformat": "幫我哋了解多啲通話嘅情況，同埋做啲咩係有效、咩係冇效。你可以响提交之前睇吓除錯記錄。"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "提交會將你嘅意見，同埋<diagnosticInfoLink>關於你通話嘅診斷資訊</diagnosticInfoLink>分享俾我哋。你可以揀分享除錯記錄，幫我哋提高通話品質。"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "分享除錯記錄"
@@ -7645,7 +7645,7 @@
     "messageformat": "多謝你嘅回應！"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "展開側邊欄用大聲公溝通"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "呢個版本包含咗少少調整同埋錯誤修復，等 Signal 可以順暢運作。",
@@ -7679,6 +7679,6 @@
     "messageformat": "俾人見到舉錯手係有啲尷尬嘅，好彩我們整返好個錯誤 – 之前，喺谷通話嗰陣，如果有人舉手之後即刻放低手，有時個舉手指示唔會消失（而且舉手計數顯示係零）。"
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "用訊息置頂功能，方便睇到重要資訊。你成日問嘅問題、約咗幾點食飯同埋度假行程都喺個腦度排頭位。而家可以將呢啲重要訊息放喺聊天嘅最頂位置喇。"
   }
 }

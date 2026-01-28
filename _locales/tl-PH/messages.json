@@ -5628,22 +5628,22 @@
     "messageformat": "Hindi ma-export ang chat history mo dahil ang Signal ay walang permiso para magsulat ng files sa disk. Subukang baguhin ang permissions ng iyong disk o i-update ang system settings mo at subukan ulit mag-export."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Ine-export ang backup"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Tapos na ang pag-export ng backup"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Para ma-restore ang backup na ito:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Ilipat ang backup folder mo sa storage ng iyong phone"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Mag-install ng bagong kopya ng Signal sa phone mo"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "I-tap ang \"Restore o Transfer\" at piliin ang \"Sa Backup ng Device\""
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Icon ng buwan"
@@ -7612,7 +7612,7 @@
     "messageformat": "Makatutulong ito sa amin para mas mapabuti pa ang quality ng calls. Maaari mong tignan ang debug log mo bago mag-submit."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Ang pag-submit ay magbabahagi ng feedback mo kasama ang <diagnosticInfoLink>diagnostic information tungkol sa tawag mo</diagnosticInfoLink>. Maaari ka ring magbahagi ng debug log para matulungan mo kaming mapaganda ang call quality."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "I-share ang debug log"
@@ -7645,7 +7645,7 @@
     "messageformat": "Maraming salamat sa feedback mo!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Palakihin ang sidebar para makipag-interact sa megaphone"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ang version na ito'y may small tweaks at bug fixes to keep Signal running smoothly.",
@@ -7679,6 +7679,6 @@
     "messageformat": "May inayos kaming minor display bug sa raised hand indicator sa group calls."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Pinapadali ng pinned messages ang pag-access ng importanteng impormasyon sa pamamagitan ng paglagay nito sa taas ng chat."
   }
 }

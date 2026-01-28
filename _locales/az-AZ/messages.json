@@ -5628,22 +5628,22 @@
     "messageformat": "Signal faylları diskə köçürmək icazəsinə malik olmadığı üçün çat tarixçənizi ixrac etmək mümkün deyil. Disk icazələrini dəyişib və ya sistem parametrlərini yeniləyib, yenidən ixrac edin."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Ehtiyat nüsxə ixrac olunur"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Ehtiyat nüsxənin ixracı tamamlandı"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Bu ehtiyat nüsxəni bərpa etmək üçün:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Ehtiyat nüsxə qovluğunuzu telefon yaddaşına köçürün"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Telefonunuzda Signal-ın yeni kopiyasını quraşdırın"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "\"Bərpa et və ya Köçür\"ə toxunub \"Cihazdakı ehtiyat nüsxə\" seçimini edin"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Ay piktoqramı"
@@ -7612,7 +7612,7 @@
     "messageformat": "Bu, bizə zənglər və işə yarayıb-yaramayan düzəlişlərimiz haqqında ətraflı məlumat əldə etməyə kömək edir. Göndərməzdən əvvəl sazlama jurnalına nəzər sala bilərsiniz."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Təqdim etməklə <diagnosticInfoLink>zənginiz haqqındakı diaqnostik məlumatla birgə</diagnosticInfoLink> rəyiniz də paylaşılır. Zəng keyfiyyətini artırmağa kömək etmək üçün əlavə olaraq sazlama jurnalını da paylaşa bilərsiniz."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Sazlama jurnalını paylaşın"
@@ -7645,7 +7645,7 @@
     "messageformat": "Rəyiniz üçün təşəkkür edirik!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Meqafonla qarşılıqlı əlaqə qurmaq üçün yan paneli genişləndirin"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Bu versiya, Signal-ın problemsiz işləməsini təmin etmək üçün kiçik düzəltmələr və xəta düzəltmələri ehtiva edir.",
@@ -7679,6 +7679,6 @@
     "messageformat": "Biz sonradan yaranan yöndəmsiz sükutu aradan qaldıra bilməsək də, bir xətanı düzəltdik: bəzən kimsə əlini çox tez qaldırıb endirdikdə, qaldırılmış əl göstəricisi (sayı sıfır olduğu halda) ekranda qalırdı."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Vacib məlumatı əhatə edən mesajları sancaqlamaq onların asan tapılmasına kömək edir. Tez-tez verdiyiniz suallar, şam yeməyi üçün rezervasiyalar və tətil planları düşüncələrinizi ələ alıb. Artıq bu məsələləri çatda müzakirə edə bilərsiniz."
   }
 }

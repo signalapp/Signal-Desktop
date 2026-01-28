@@ -5628,22 +5628,22 @@
     "messageformat": "Nie można wyeksportować historii czatu, ponieważ Signal nie ma uprawnień do zapisywania plików na dysku. Zmień uprawnienia dostępu do dysku lub ustawienia systemowe, a następnie spróbuj ponownie."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Eksportowanie kopii zapasowej"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Eksport kopii zapasowej zakończony"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Aby przywrócić tę kopię zapasową:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Przenieś folder z kopią zapasową do pamięci telefonu"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Zainstaluj ponownie aplikację Signal na telefonie"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Wybierz opcję „Przywróć lub przenieś”, a następnie opcję „Kopia zapasowa na urządzeniu”"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Ikona księżyca"
@@ -7612,7 +7612,7 @@
     "messageformat": "Dzięki Twojemu dziennikowi debugowania będziemy mieć lepszy wgląd w to, jak działają połączenia i co możemy w nich poprawić. Zanim wyślesz nam dziennik debugowania, możesz go wyświetlić."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Twoja opinia zostanie do nas przesłana wraz z <diagnosticInfoLink>informacjami diagnostycznymi dotyczącymi połączenia</diagnosticInfoLink>. Opcjonalnie możesz też udostępnić dziennik debugowania, który pomoże nam poprawić jakość połączeń."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Udostępnij dziennik debugowania"
@@ -7645,7 +7645,7 @@
     "messageformat": "Dziękujemy za opinię!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Rozwiń pasek boczny, aby wejść w interakcję z megafonem"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ta wersja obejmuje wiele drobnych ulepszeń i poprawek błędów. Wszystko po to, aby aplikacja Signal działała płynnie.",
@@ -7679,6 +7679,6 @@
     "messageformat": "Zdarzało Ci się widzieć wskaźnik podniesionej ręki, choć nikt akurat się nie zgłaszał? Ten błąd pojawiał się czasem, gdy ktoś bardzo szybko podniósł i opuścił rękę. Na szczęście to już przeszłość. Teraz, gdy widzisz las rąk, znów możesz liczyć na ożywioną dyskusję."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Wracaj łatwo do ważnych informacji dzięki przypiętym wiadomościom. Link do zrzutki, wakacyjne plany czy trasa rowerowa na najbliższy weekend… Już nie musisz scrollować rozmowy w poszukiwaniu ważnych informacji. Znajdziesz je w kilka sekund."
   }
 }

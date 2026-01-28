@@ -5628,22 +5628,22 @@
     "messageformat": "Чат тарихын экспорттау мүмкін емес, себебі Signal-да файлдарды дискіге жазу рұқсаты жоқ. Диск рұқсаттарын өзгертіп немесе жүйе параметрлерін жаңартып, әрекетті қайталап көріңіз."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Сақтық көшірме экспортталып жатыр"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Сақтық көшірмені экспорттау аяқталды"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Осы сақтық көшірмені қалпына келтіру үшін:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Сақтық көшірме қалтасын телефоныңыздың жадына тасымалдаңыз"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Телефоныңызда Signal-дың жаңа нұсқасын орнатыңыз"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "\"Қалпына келтіру немесе тасымалдау\" түймесін түртіңіз және \"Сақтық көшірмені құрылғыда жасау\" опциясын таңдаңыз"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Ай белгішесі"
@@ -7612,7 +7612,7 @@
     "messageformat": "Бұл қоңыраулар сапасы туралы толық ақпарат алуға, сондай-ақ ненің дұрыс, ал ненің бұрыс екенін түсінуге көмектеседі. Жібермес бұрын ақауларды түзету журналыңызды көруіңізге болады."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "&quot;Жіберу&quot; түймесін басу арқылы пікіріңізді <diagnosticInfoLink>қоңырауыңыз туралы диагностикалық ақпаратпен</diagnosticInfoLink> бірге бөлісесіз. Сондай-ақ ақауларды түзету журналын бөлісіп, қоңырау сапасын жақсартуға көмектесе аласыз."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Ақауларды түзету журналын бөлісу"
@@ -7645,7 +7645,7 @@
     "messageformat": "Пікіріңіз үшін рақмет!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Мегафонмен әрекеттесу үшін бүйірлік жолақты кеңейтіңіз"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Бұл нұсқада Signal-дың еш кінәратсыз жұмыс істеуіне қажетті бірнеше шағын түзетпе жасалды және ақаулар түзетілді.",
@@ -7679,6 +7679,6 @@
     "messageformat": "Кейіннен туындайтын қолайсыз тыныштықты түзете алмаймыз, алайда біреу қолын өте тез көтеріп-түсірген кезде, қол көтеру белгісі (саны нөл болса да) көрсетіліп тұра беретін ақауды түзеттік."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Бекітілген хабарлардың көмегімен маңызды ақпаратты көз алдыңызда ұстаңыз. Жиі қойылатын сұрақтар, кешкі асқа алдын ала тапсырыс беру және демалыс бағдарламалары енді ойыңыздан шығып кетпейді. Олар чаттың жоғарғы жағында тұратын болады."
   }
 }

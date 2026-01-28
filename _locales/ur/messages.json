@@ -5628,22 +5628,22 @@
     "messageformat": "آپ کی چیٹ ہسٹری ایکسپورٹ نہیں ہو سکتی کیونکہ Signal کو ڈسک پر فائلز محفوظ کرنے کی اجازت نہیں ہے۔ اپنی ڈسک کی اجازتوں کو تبدیل کرنے یا اپنے سسٹم کی سیٹنگز کو اپ ڈیٹ کرنے کی کوشش کریں اور پھر دوبارہ ایکسپورٹ کریں۔"
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "بیک اپ برآمد کیا جا رہا ہے"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "بیک اپ برآمد مکمل ہو گیا ہے"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "اس بیک اپ کو بحال کرنے کے لیے:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "اپنے فون کی اسٹوریج میں اپنا بیک اپ فولڈر ٹرانسفر کریں"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "اپنے فون پر Signal کی نئی کاپی انسٹال کریں"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "\"بحال یا ٹرانسفر\" کریں پر ٹیپ کریں اور \"ڈیوائس پر بیک اپ\" کو منتخب کریں"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "چاند کا آئیکن"
@@ -7612,7 +7612,7 @@
     "messageformat": "اس سے ہمیں کالز اور اس بارے میں مزید جاننے میں مدد ملتی ہے کہ کیا چیز کام کر رہی یا نہیں کر رہی ہے۔ آپ جمع کروانے سے پہلے اپنا ڈی بگ لاگ دیکھ سکتے ہیں۔"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "جمع کروانے پر <diagnosticInfoLink>آپ کی کال کے بارے میں تشخیصی معلومات</diagnosticInfoLink> کے علاوہ آپ کی رائے بھی شیئر کی جائے گی۔ آپ اختیاری طور پر ڈی بگ لاگ شیئر کر سکتے ہیں تاکہ ہمیں کال کے معیار کو بہتر بنانے میں مدد مل سکے۔"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "ڈی بگ لاگ شیئر کریں"
@@ -7645,7 +7645,7 @@
     "messageformat": "آپ کی رائے کا شکریہ!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "میگافون کے ساتھ تعامل کرنے کے لیے سائیڈ بار کو بڑھائیں"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "یہ ورژن Signal کو بے خلل طور پر چلتا رکھنے کے لیے کچھ معمولی تبدیلیوں اور بگ درستگیوں پر مشتمل ہے۔",
@@ -7679,6 +7679,6 @@
     "messageformat": "ہم اس عجیب خاموشی کو ٹھیک نہیں کر سکتے جو اس کے بعد آتی ہے، لیکن ہم نے ایک نقص ٹھیک کیا ہے جس کی وجہ سے کبھی کبھار اگر کوئی ہاتھ تیزی سے اٹھا یا نیچے کرتا تو ہاتھ کا اشارہ نظر آتا (صفر کی گنتی کے ساتھ)۔"
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "پِن شدہ میسجز اہم معلومات کو چیٹ میں سب سے اوپر آسانی سے قابل رسائی رکھنے میں آپ کی مدد کر سکتے ہیں۔"
   }
 }

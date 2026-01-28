@@ -5628,22 +5628,22 @@
     "messageformat": "შენი ჩატის ისტორიის გადატანა შეუძლებელია, რადგან Signal-ს დისკზე ფაილების ჩაწერის ნებართვა არ აქვს. შენი დისკის ნებართვების შეცვლა ან სისტემის პარამეტრების განახლება სცადე და თავიდან გადაიტანე."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "მიმდინარეობს სათადარიგო ასლების ექსპორტირება"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "სათადარიგო ასლების ექსპორტირება დასრულებულია"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "ამ სათადარიგო ასლის აღსადგენად:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "გადაიტანე შენი სათადარიგო ასლების საქაღალდე შენი მობილურის მეხსიერებაში"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "გადმოიწერე Signal-ის ახალი ასლი შენს მობილურში"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "დააჭირე \"აღდგენა ან გადატანას\" და აირჩიე \"სათადარიგო ასლების შექმნა მოწყობილობაზე\""
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "მთვარის ხატულა"
@@ -7612,7 +7612,7 @@
     "messageformat": "ეს გვეხმარება, მეტი გავიგოთ ზარებზე და იმაზე, რა მუშაობს ან არ მუშაობს. შეგიძლია შენი გაუმართაობის რეესტრი ატვირთვამდე ნახო."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "ატვირთვა შენს უკუკავშირს <diagnosticInfoLink>შენი ზარის შესახებ დიაგნოსტიკურ ინფორმაციასთან</diagnosticInfoLink> ერთად გააზიარებს. შეგიძლია გაუმართაობის რეესტრი გაგვიზიარო, რათა ზარის ხარისხის გამოსწორებაში დაგვეხმარო."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "გაუმართაობის რეესტრის გაზიარება"
@@ -7645,7 +7645,7 @@
     "messageformat": "მადლობა უკუკავშირისთვის!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "გაადიდე გვერდით პანელი, რომ მეგაფონთან ინტერაქცია შეძლო"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "ეს ვერსია შეიცავს უამრავ მცირე შესწორებას და ბაგების გამოსწორებებს Signal-ის შეუფერხებლად მუშაობის შესანარჩუნებლად.",
@@ -7679,6 +7679,6 @@
     "messageformat": "უხერხულ დუმილს ვერაფერს ვუშველით, თუმცა გამოვასწორეთ ბაგი, რომლის გამოც „აწეული ხელის“ ინდიკატორი ხილული რჩებოდა ხელის სწრაფი აწევა-ჩამოწევის შემდე."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "გახადე მნიშვნელოვანი ინფორმაცია მარტივად ხელმისაწვდომი აპინული წერილების საშუალებით. შენი ყველაზე ხშირად დასმული კითხვები, დაჯავშნილი რესტორნები და მოგზაურობის გეგმები ისედაც შენი ფიქრების სათავეშია. ახლა კი შეგიძლია ისინი ჩატის სათავეშიც მოაქციო."
   }
 }

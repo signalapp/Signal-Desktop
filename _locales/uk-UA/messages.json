@@ -5628,22 +5628,22 @@
     "messageformat": "Неможливо експортувати історію чатів, оскільки Signal не має дозволу зберігати файли на диску. Змініть дозволи для диска або оновіть налаштування системи й спробуйте знову."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Експортування резервної копії"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Резервну копію експортовано"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Щоб відновити дані з резервної копії:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Перенесіть папку резервної копії у сховище телефона"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Заново встановіть Signal на телефоні"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Натисніть «Відновлення або перенесення акаунту» й виберіть «Резервна копія на пристрої»"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Значок місяця"
@@ -7612,7 +7612,7 @@
     "messageformat": "Так ви допоможете нам більше дізнатися про те, як проходять виклики, і можливі проблеми. Ви можете переглянути журнал налагодження, перш ніж надіслати його."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Надсилаючи свій відгук, ви також ділитеся <diagnosticInfoLink>діагностичною інформацією про виклик</diagnosticInfoLink>. Якщо хочете, то можете поділитися журналом налагодження — це допоможе нам покращити якість викликів."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Надіслати журнал налагодження"
@@ -7645,7 +7645,7 @@
     "messageformat": "Дякуємо за відгук!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Розгорніть бічну панель, щоб побачити оголошення"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ця версія містить ряд невеликих покращень і виправлень помилок для забезпечення безперебійної роботи Signal.",
@@ -7679,6 +7679,6 @@
     "messageformat": "Ми не можемо виправити незручну тишу, що виникає в такій ситуації, але ми виправили помилку, через яку індикатор піднятої руки іноді залишався видимим (з числом нуль), коли хтось дуже швидко підіймав і опускав руку."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Тримайте важливу інформацію під рукою завдяки закріпленим повідомленням. Часті запитання, бронювання й маршрути для відпустки й без того постійно крутяться в голові. Добре, що тепер їх можна закріпити вгорі чату."
   }
 }

@@ -5628,22 +5628,22 @@
     "messageformat": "Históriu četov sa nepodarilo exportovať, pretože Signal nemá povolenie na zapisovanie súborov na disk. Skúste zmeniť povolenia disku alebo aktualizovať systémové nastavenia a potom exportujte znova."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Exportuje sa záloha"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Export zálohy bol úspešne dokončený"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Ak chcete obnoviť túto zálohu:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Preneste priečinok so zálohou do úložiska telefónu"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Nainštalujte si novú kópiu aplikácie Signal do telefónu"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Ťuknite na „Obnoviť alebo preniesť“ a vyberte „Záloha na zariadení“"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Ikona mesiaca"
@@ -7612,7 +7612,7 @@
     "messageformat": "Pomáha nám to dozvedieť sa viac o hovoroch a o tom, čo funguje alebo naopak nefunguje. Pred odoslaním si môžete zobraziť protokol ladenia."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Odoslaním sa vaša spätná väzba zdieľa spolu s <diagnosticInfoLink>diagnostickými údajmi o vašom hovore</diagnosticInfoLink>. Môžete tiež zdieľať protokol ladenia, ktorý nám pomôže zlepšiť kvalitu hovoru."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Zdieľať protokol ladenia"
@@ -7645,7 +7645,7 @@
     "messageformat": "Ďakujeme za vašu spätnú väzbu!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Rozbaľte bočný panel pre interakciu s megafónom"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Táto verzia obsahuje množstvo drobných vylepšení a opráv chýb, ktoré zaisťujú bezproblémový chod systému Signal.",
@@ -7679,6 +7679,6 @@
     "messageformat": "Opravili sme menšiu chybu zobrazenia indikátora zdvihnutej ruky v skupinových hovoroch."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Pripnuté správy vám pomôžu sprístupniť dôležité informácie v hornej časti četu."
   }
 }

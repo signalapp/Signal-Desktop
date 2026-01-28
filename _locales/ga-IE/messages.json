@@ -1239,10 +1239,10 @@
     "messageformat": "Ar aghaidh"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
-    "messageformat": "Greamú teachtaireachtaí sealadacha"
+    "messageformat": "Pionnáil teachtaireachtaí sealadacha"
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
-    "messageformat": "Déanfar teachtaireachtaí sealadacha a dhíghreamú nuair a bheidh a n-amadóir istigh agus nuair a bhainfear an teachtaireacht den chomhrá."
+    "messageformat": "Déanfar teachtaireachtaí sealadacha a dhíphionnáil nuair a bheidh a n-amadóir istigh agus nuair a bhainfear an teachtaireacht den chomhrá."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
     "messageformat": "Tá go maith"
@@ -5628,22 +5628,22 @@
     "messageformat": "Ní féidir do stair comhráite a easpórtáil toisc nach bhfuil cead ag Signal comhaid a scríobh chuig an diosca. Triail ceadanna do dhiosca a athrú nó socruithe do chórais a nuashonrú agus ansin déan an easpórtáil arís."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Cúltaca á easpórtáil"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Easpórtáil an chúltaca críochnaithe"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Leis an gcúltaca sin a aischur:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Aistrigh fillteán do chúltacaí chuig stóras do ghutháin"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Suiteáil cóip nua de Signal ar do ghuthán"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Tapáil \"Aischuir nó Aistrigh\" agus roghnaigh \"Cúltacaigh ar an nGléas\""
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Deilbhín na gealaí"
@@ -7612,7 +7612,7 @@
     "messageformat": "Cabhraíonn sé seo linn tuilleadh a fhoghlaim faoina bhfuil ag obair agus nach bhfuil. Is féidir leat féachaint ar do loga dífhabhtaithe sula gcuireann tú isteach é."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Trína chur isteach, comhroinnfear d'aiseolas mar aon le <diagnosticInfoLink>faisnéis dhiagnóiseach faoi do ghlao</diagnosticInfoLink>. Is féidir leat loga dífhabhtaithe a chomhroinnt le cabhrú linn cáilíocht glaonna a fheabhsú."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Comhroinn an loga dífhabhtaithe"
@@ -7645,7 +7645,7 @@
     "messageformat": "Go raibh maith agat as d'aiseolas!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Fairsingigh an taobh-bharra le hidirghníomhú leis an meigeafón"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Tá roinnt mionathruithe agus paistí ar fhabhtanna sa leagan seo chun Signal a choinneáil ag rith go réidh.",
@@ -7679,6 +7679,6 @@
     "messageformat": "Réitíomar fabht beag taispeána le táscaire na láimhe ardaithe i ngrúpghlaonna."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Cabhraigh le faisnéis thábhachtach a choinneáil sorochtana le teachtaireachtaí pionnáilte. Is iad do cheisteanna is mó cur, áirithintí dinnéir agus cúrsaí taistil na clocha is mó ar do phaidrín. Is féidir leo a bheith ar na cinn is mó ar do chomhrá freisin."
   }
 }

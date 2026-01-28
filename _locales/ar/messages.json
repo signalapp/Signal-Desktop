@@ -5628,22 +5628,22 @@
     "messageformat": "يتعذَّر تصدير سجل الدردشة الخاص بك لأن سيجنال ليس لديه الإذن لكتابة الملفات على القرص. حاوِل تغيير أذونات قرصك أو حدِّث إعدادات نظامك ثم حاوِل التصدير من جديد."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "جارٍ تصدير النسخة الاحتياطية"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "اِكتمل تصدير النسخة الاحتياطية"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "لاستعادة هذه النسخة الاحتياطية:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "انقل مجلد النسخة الاحتياطية إلى مساحة تخزين هاتفك"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "ثبِّت نسخة جديدة من سيجنال على هاتفك"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "انقر على \"الاستعادة أو النقل\" واختر \"النسخة الاحتياطية على الجهاز\""
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "أيقونة القمر"
@@ -7612,7 +7612,7 @@
     "messageformat": "يساعدنا هذا على معرفة المزيد بخصوص الاتصالات وما يعمل وما لا يعمل. يمكنك عرض سِجل الأخطاء الخاص بك قبل الإرسال."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "بإرسال السِجل، سيتم مشاركة ملاحظاتك مع <diagnosticInfoLink>معلومات التشخيص المتعلقة باتصالك</diagnosticInfoLink>. يمكنك اختياريًا مشاركة سِجل تصحيح الأخطاء لمساعدتنا في تحسين جودة المكالمات."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "مشاركة سجل الأخطاء"
@@ -7645,7 +7645,7 @@
     "messageformat": "شكرًا على ملاحظاتك!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "افتح الشريط الجانبي للتفاعُل مع مُكبِّر الصوت"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "يحتوي هذا الإصدار على عدد من التعديلات الصغيرة وإصلاحات الأخطاء للحفاظ على عمل سيجنال بسلاسة.",
@@ -7679,6 +7679,6 @@
     "messageformat": "أصلحنا خللًا بسيطًا في عرض أيقونة رفع اليد أثناء المكالمات الجماعية."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "تُسهّل الرسائل المُثبَّتة الوصول إلى المعلومات المهمة في أعلى الدردشة. أبقِ أسئلتك الأكثر شيوعًا، وحجوزات المطاعم، وخطط عطلاتك حاضرة دائمًا. الآن أصبحت حاضرة كلها في صدارة دردشاتك أيضًا."
   }
 }

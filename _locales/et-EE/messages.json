@@ -5628,22 +5628,22 @@
     "messageformat": "Sinu vestlusajalugu ei saa eksportida, kuna Signalil pole luba kettale faile kirjutada. Proovi muuta oma ketta õigusi või värskendada süsteemi sätteid ja seejärel ekspordi uuesti."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Varukoopia eksportimine"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Varukoopia eksport on lõpule viidud"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Selle varukoopia taastamiseks toimi järgmiselt."
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Edasta oma varukoopiate kaust oma telefoni mälusse"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Paigalda telefoni uus Signali versioon"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Toksa valikut „Taasta või edasta“ ja vali „Varundamine seadmes“"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Kuu ikoon"
@@ -7612,7 +7612,7 @@
     "messageformat": "See aitab meil kõnede kohta rohkem teada saada ja mõista, mis toimib ja mis mitte. Enne esitamist saad oma silumislogi vaadata."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Esitades jagad oma tagasisidet ja <diagnosticInfoLink>diagnostilist teavet oma kõne kohta</diagnosticInfoLink>. Soovi korral saad jagada silumislogi, mis aitab meil kõnede kvaliteeti parandada."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Jaga silumislogi"
@@ -7645,7 +7645,7 @@
     "messageformat": "Täname tagasiside eest!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Megafoniga suhtlemiseks laienda külgriba"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "See versioon sisaldab paljusid väikseid parendusi, mis Signali sujuvalt käimas.",
@@ -7679,6 +7679,6 @@
     "messageformat": "Parandasime grupivestluses käe tõstmise kuvamisvea."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Esiletõstetud sõnumite abil on oluline teave hõlpsasti leitav vestluse ülaosas."
   }
 }

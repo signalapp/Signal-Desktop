@@ -5628,22 +5628,22 @@
     "messageformat": "আপনার চ্যাট-এর ইতিহাস এক্সপোর্ট করা যাচ্ছে না, কারণ Signal-এর ডিস্কে ফাইল রাইট করার অনুমতি নেই। আপনার ডিস্কের অনুমতি পরিবর্তন করার চেষ্টা করুন অথবা আপনার সিস্টেম সেটিংস আপডেট করুন এবং তারপর আবার এক্সপোর্ট করুন।"
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "ব্যাকআপ এক্সপোর্ট করা হচ্ছে"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "ব্যাকআপ এক্সপোর্ট সম্পন্ন হয়েছে"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "এই ব্যাকআপটি পুনর্বহাল করতে:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "আপনার ব্যাকআপ ফোল্ডারটি আপনার ফোনের স্টোরেজে ট্রান্সফার করুন"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "আপনার ফোনে Signal-এর একটি নতুন কপি ইনস্টল করুন"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "\"পুনর্বহাল বা ট্রান্সফার করুন\"-এ ট্যাপ করুন এবং \"ডিভাইস ব্যাকআপ\" বেছে নিন"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "চাঁদের আইকন"
@@ -7612,7 +7612,7 @@
     "messageformat": "এটি আমাদের কলের ব্যাপারে, কী কী কাজ করছে বা কী কী করছে না সে সম্পর্কে আরো জানতে সাহায্য করে। জমা দেওয়ার আগে আপনি আপনার ডিবাগ লগ দেখতে পারেন।"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "জমা দিলে <diagnosticInfoLink>আপনার কল সম্পর্কিত ডায়াগনস্টিক তথ্য</diagnosticInfoLink> সহ আপনার মতামত শেয়ার করা হবে। কলের মান উন্নত করতে আমাদের সাহায্য করার জন্য ইচ্ছা হলে আপনি একটি ডিবাগ লগ শেয়ার করতে পারেন।"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "ডিবাগ লগ শেয়ার করুন"
@@ -7645,7 +7645,7 @@
     "messageformat": "আপনার ফিডব্যাকের জন্য ধন্যবাদ!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "মেগাফোনের সাথে ইন্টারঅ্যাক্ট করতে সাইডবারটি সম্প্রসারিত করুন"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "সিগন্যালকে মসৃণভাবে চলমান রাখতে এই সংস্করণে অনেকগুলি ছোটখাট পরিবর্তন রয়েছে এবং বাগ সংশোধন করা হয়েছে।",
@@ -7679,6 +7679,6 @@
     "messageformat": "গ্রুপ কলে হাত উঁচু করার ইন্ডিকেটরের একটি ছোট ডিসপ্লে বাগ আমরা সংশোধন করেছি।"
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "মেসেজ পিন করার মাধ্যমে গুরুত্বপূর্ণ তথ্য সহজে অ্যাক্সেসযোগ্য রাখতে সাহায্য করুন। আপনি প্রায়শই জিজ্ঞাসা করেন এমন প্রশ্ন, রাতের খাবারের রিজার্ভেশন এবং ছুটিতে ঘুরতে যাবার বৃত্তান্ত ইতোমধ্যেই আপনার মনে সবার আগে স্থান নিয়ে আছে। এখন সেগুলো চ্যাটের শীর্ষেও থাকতে পারে।"
   }
 }

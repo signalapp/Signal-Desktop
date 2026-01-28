@@ -1245,7 +1245,7 @@
     "messageformat": "ગાયબ થતાં મેસેજનું ટાઇમર સમાપ્ત થઈ ગયા પછી તે અનપિન થઈ જશે અને મેસેજ ચેટમાંથી દૂર થઈ જશે."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "બરાબર"
+    "messageformat": "ઓકે"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {પિન કરેલો મેસેજ} other {પિન કરેલા મેસેજ}}"
@@ -5628,22 +5628,22 @@
     "messageformat": "તમારી ચેટ હિસ્ટ્રી નિકાસ કરી શકાતી નથી કારણ કે Signal પાસે ડિસ્ક પર ફાઇલો લખવાની પરવાનગી નથી. તમારી ડિસ્કની પરવાનગીઓ બદલવાનો અથવા તમારી સિસ્ટમ સેટિંગ્સ અપડેટ કરવાનો પ્રયાસ કરો અને પછી ફરીથી નિકાસ કરો."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "બેકઅપ એક્સપોર્ટ કરી રહ્યાં છીએ"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "બેકઅપ એક્સપોર્ટ પૂર્ણ"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "આ બેકઅપ રિસ્ટોર કરવા:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "તમારા બેકઅપ ફોલ્ડરને તમારા ફોનના સ્ટોરેજમાં ટ્રાન્સફર કરો"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "તમારા ફોન પર Signalની નવી કૉપિ ઇન્સ્ટોલ કરો"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "\"રિસ્ટોર અથવા ટ્રાન્સફર કરો\" પર ટેપ કરો અને \"ડિવાઇસ પર બેકઅપ\" પસંદ કરો"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "ચંદ્રનો આઇકન"
@@ -6006,7 +6006,7 @@
     "messageformat": "છેલ્લું બેકઅપ"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "ક્યારેય નહિ"
+    "messageformat": "ક્યારેય નહીં"
   },
   "icu:Preferences__local-backups-backup-now": {
     "messageformat": "હમણાં બેકઅપ લો"
@@ -7612,7 +7612,7 @@
     "messageformat": "આનાથી અમને કૉલ અને શું કામ કરી રહ્યું છે અને શું નથી કરી રહ્યું તે વિશે વધુ જાણવામાં મદદ મળે છે. સબમિટ કરતા પહેલાં તમે તમારો ડીબગ લૉગ જોઈ શકો છો."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "સબમિટ કરવાથી <diagnosticInfoLink>તમારા કૉલ વિશે ડાયગ્નોસ્ટિક માહિતી</diagnosticInfoLink>ની સાથે તમારો પ્રતિસાદ શેર કરવામાં આવશે. કૉલ ગુણવત્તા સુધારવામાં અમારી સહાય માટે તમે વૈકલ્પિક રીતે ડીબગ લૉગ શેર કરી શકો છો."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "ડીબગ લૉગ શેર કરો"
@@ -7645,7 +7645,7 @@
     "messageformat": "તમારા પ્રતિભાવ બદલ આભાર!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "મેગાફોન સાથે ક્રિયાપ્રતિક્રિયા કરવા માટે સાઇડબાર મોટું કરો"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "આ વર્ઝનમાં Signalને સરસ રીતે ચાલતું રાખવા માટે નાના ફેરફારો અને ભૂલ સુધાર શામેલ છે.",
@@ -7679,6 +7679,6 @@
     "messageformat": "અમે ગ્રૂપ કૉલમાં હાથ ઊંચા કરવાના સૂચક સાથે એક નાના ડિસ્પ્લે બગને સુધાર્યો છે."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "પિન કરેલા મેસેજ તમને ચેટની ટોચ પર મહત્ત્વપૂર્ણ માહિતીને સરળતાથી સુલભ રાખવામાં મદદ કરી શકે છે."
   }
 }

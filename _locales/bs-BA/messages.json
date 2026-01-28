@@ -1245,7 +1245,7 @@
     "messageformat": "Nestajuće poruke bit će otkačene kada im istekne tajmer, a poruka će biti uklonjena iz chata."
   },
   "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
-    "messageformat": "Uredu"
+    "messageformat": "U redu"
   },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Zakačena poruka} few {Zakačene poruke} many {Zakačenih poruka} other {Zakačene poruke}}"
@@ -5628,22 +5628,22 @@
     "messageformat": "Vaša historija chata ne može biti izvezena jer Signal nema dozvolu za pisanje datoteka na disk. Pokušajte promijeniti dozvole diska ili ažurirati postavke sistema, a zatim ponovo izvezite."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Izvoz sigurnosne kopije"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Izvoz sigurnosne kopije je završen"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Da vratite ovu sigurnosnu kopiju:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Prenesite folder sigurnosne kopije u pohranu telefona"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Instalirajte novu kopiju Signala na svoj telefon"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Dodirnite \"Vrati ili prenesi\" i odaberite \"Sigurnosna kopija na uređaju\""
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Ikona mjeseca"
@@ -7612,7 +7612,7 @@
     "messageformat": "Ovo nam pomaže da saznamo više o pozivima i šta funkcioniše, a šta ne. Možete pregledati svoj zapisnik o otklanjanju grešaka prije slanja."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Slanjem povratnih informacija podijelit ćete ih sa <diagnosticInfoLink>dijagnostičkim informacijama o vašem pozivu</diagnosticInfoLink>. Opcionalno možete podijeliti zapisnik o otklanjanju grešaka kako biste nam pomogli da poboljšamo kvalitet poziva."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Podijeli zapisnik o otklanjanju grešaka"
@@ -7645,7 +7645,7 @@
     "messageformat": "Hvala na povratnim informacijama!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Proširite bočnu traku za interakciju s megafonom"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ova verzija sadrži brojna mala poboljšanja i ispravke grešaka kako bi Signal nesmetano funkcionirao.",
@@ -7679,6 +7679,6 @@
     "messageformat": "Ispravili smo manju programsku grešku u prikazu indikatora podignute ruke u grupnim pozivima."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Omogućite lak pristup važnim informacijama pomoću zakačenih poruka na vrhu chata."
   }
 }

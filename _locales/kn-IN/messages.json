@@ -5628,22 +5628,22 @@
     "messageformat": "Signal ಡಿಸ್ಕ್‌ಗೆ ಫೈಲ್‌ಗಳನ್ನು ಬರೆಯಲು ಅನುಮತಿ ಹೊಂದಿಲ್ಲದ ಕಾರಣ ನಿಮ್ಮ ಚಾಟ್ ಇತಿಹಾಸವನ್ನು ಎಕ್ಸ್‌ಪೋರ್ಟ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. ನಿಮ್ಮ ಡಿಸ್ಕ್‌ನ ಅನುಮತಿಗಳನ್ನು ಬದಲಾಯಿಸಲು ಅಥವಾ ನಿಮ್ಮ ಸಿಸ್ಟಂ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡಲು ಪ್ರಯತ್ನಿಸಿ ಮತ್ತು ನಂತರ ಮತ್ತೆ ಎಕ್ಸ್‌ಪೋರ್ಟ್ ಮಾಡಿ."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "ಬ್ಯಾಕಪ್ ಅನ್ನು ಎಕ್ಸ್‌ಪೋರ್ಟ್ ಮಾಡಲಾಗುತ್ತಿದೆ"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "ಬ್ಯಾಕಪ್ ಅನ್ನು ಎಕ್ಸ್‌ಪೋರ್ಟ್ ಮಾಡುವುದು ಪೂರ್ಣಗೊಂಡಿದೆ"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "ಈ ಬ್ಯಾಕಪ್ ಅನ್ನು ರಿಸ್ಟೋರ್ ಮಾಡಲು:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "ನಿಮ್ಮ ಬ್ಯಾಕಪ್ ಫೋಲ್ಡರ್ ಅನ್ನು ನಿಮ್ಮ ಫೋನ್‌ನ ಸಂಗ್ರಹಣೆಗೆ ವರ್ಗಾಯಿಸಿ"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ Signal ನ ಕಾಪಿಯನ್ನು ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಿ"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "\"ರಿಸ್ಟೋರ್ ಅಥವಾ ವರ್ಗಾಯಿಸಿ\" ಅನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ ಮತ್ತು \"ಆನ್ ಡಿವೈಸ್ ಬ್ಯಾಕಪ್\" ಅನ್ನು ಆಯ್ಕೆಮಾಡಿ"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "ಮೂನ್ ಐಕಾನ್"
@@ -7612,7 +7612,7 @@
     "messageformat": "ಇದು ಕರೆಗಳ ಬಗ್ಗೆ ಮತ್ತು ಯಾವುದು ಕೆಲಸ ಮಾಡುತ್ತಿದೆ ಅಥವಾ ಯಾವುದು ಕೆಲಸ ಮಾಡುತ್ತಿಲ್ಲ ಎಂಬುದರ ಕುರಿತು ಇನ್ನಷ್ಟು ತಿಳಿದುಕೊಳ್ಳಲು ನಮಗೆ ಸಹಾಯ ಮಾಡುತ್ತದೆ. ಸಲ್ಲಿಸುವ ಮೊದಲು ನಿಮ್ಮ ಡೀಬಗ್ ಲಾಗ್ ಅನ್ನು ನೀವು ವೀಕ್ಷಿಸಬಹುದು."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "ಸಲ್ಲಿಸುವುದರಿಂದ <diagnosticInfoLink>ನಿಮ್ಮ ಕರೆಯ ಕುರಿತ ಡಯಾಗ್ನಾಸ್ಟಿಕ್ ಮಾಹಿತಿ</diagnosticInfoLink> ಜೊತೆಗೆ ನಿಮ್ಮ ಪ್ರತಿಕ್ರಿಯೆಯನ್ನು ಹಂಚಿಕೊಳ್ಳಲಾಗುತ್ತದೆ . ಕರೆಯ ಗುಣಮಟ್ಟವನ್ನು ಸುಧಾರಿಸಲು ನಮಗೆ ಸಹಾಯ ಮಾಡುವುದಕ್ಕೆ ನೀವು ಐಚ್ಛಿಕವಾಗಿ ಡೀಬಗ್ ಲಾಗ್ ಅನ್ನು ಹಂಚಿಕೊಳ್ಳಬಹುದು."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "ಡೀಬಗ್ ಲಾಗ್ ಹಂಚಿಕೊಳ್ಳಿ"
@@ -7645,7 +7645,7 @@
     "messageformat": "ನಿಮ್ಮ ಫೀಡ್‌ಬ್ಯಾಕ್‌ಗೆ ಧನ್ಯವಾದಗಳು!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "ಮೆಗಾಫೋನ್‌ನೊಂದಿಗೆ ಸಂವಹನ ನಡೆಸಲು ಸೈಡ್‌ಬಾರ್ ಅನ್ನು ವಿಸ್ತರಿಸಿ"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": " Signal ಅನ್ನು ಸರಾಗವಾಗಿ ಚಾಲ್ತಿಯಲ್ಲಿಡಲು ಈ ಆವೃತ್ತಿಯು ಸಾಕಷ್ಟು ಸಣ್ಣ ಟ್ವೀಕ್‌ಗಳನ್ನು ಹೊಂದಿದೆ ಮತ್ತು ಬಗ್ ಫಿಕ್ಸ್‌ಗಳನ್ನು ಹೊಂದಿದೆ.",
@@ -7679,6 +7679,6 @@
     "messageformat": "ನಂತರದ ವಿಚಿತ್ರವಾದ ಮೌನವನ್ನು ನಾವು ಸರಿಪಡಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ, ಆದರೆ ಯಾರಾದರೂ ನಿಜವಾಗಿಯೂ ಬೇಗನೆ ಕೈ ಎತ್ತಿ ಕೆಳಕ್ಕೆ ಇಳಿಸಿದರೆ ಕೆಲವೊಮ್ಮೆ ಎತ್ತಿದ ಕೈ ಸೂಚಕವು ಗೋಚರಿಸುವುದಕ್ಕೆ (ಶೂನ್ಯ ಎಣಿಕೆಯೊಂದಿಗೆ) ಕಾರಣವಾಗುವ ಬಗ್ ಅನ್ನು ನಾವು ಸರಿಪಡಿಸಿದ್ದೇವೆ."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "ಪಿನ್ ಮಾಡಿದ ಮೆಸೇಜ್‌ಗಳ ಮೂಲಕ ಪ್ರಮುಖ ಮಾಹಿತಿಯನ್ನು ಸುಲಭವಾಗಿ ಆ್ಯಕ್ಸೆಸ್ ಮಾಡಲು ಸಹಾಯ ಮಾಡಿ. ನಿಮ್ಮ ಪದೇ ಪದೇ ಕೇಳಲಾಗುವ ಪ್ರಶ್ನೆಗಳು, ಡಿನ್ನರ್ ಕಾಯ್ದಿರಿಸುವಿಕೆಗಳು ಮತ್ತು ರಜೆಯ ಪ್ರಯಾಣದ ವಿವರಗಳು ಈಗಾಗಲೇ ನಿಮ್ಮ ಮನಸ್ಸಿನಲ್ಲಿವೆ. ಈಗ ಅವುಗಳು ಚಾಟ್‍ನ ಟಾಪ್‍ನಲ್ಲೂ ಇರಬಹುದು."
   }
 }

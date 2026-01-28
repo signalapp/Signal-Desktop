@@ -5628,22 +5628,22 @@
     "messageformat": "Signal'га файлдарды дискке жазганга уруксат берилбегендиктен, маек таржымалын экспорттой албайсыз. Уруксат берип же системанын параметрлерин өзгөртүп, кайра экспорттоп көрүңүз."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Камдык көчүрмө экспорттолууда"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Камдык көчүрмө экспорттолуп бүттү"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Бул камдык көчүрмөнү калыбына келтирүү үчүн:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Камдык көчүрмөлөрүңүздүн папкасын телефонуңуздун сактагычына ташыңыз"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Signal'дын жаңы көчүрмөсүн телефонуңузга орнотуңуз"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "\"Калыбына келтирүү же өткөрүү\" дегенди басып, \"Түзмөктүн камдык көчүрмөлөрүнө\" дегенди тандаңыз"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Айдын сүрөтчөсү"
@@ -7612,7 +7612,7 @@
     "messageformat": "Чалуулар тууралуу кененирээк маалымат алып, эмнелер иштеп же иштебей жатканын биле алабыз. Жөнөтөрдөн мурун аныкталган мүчүлүштүктөрдү карап көрсөңүз болот."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Пикириңиз чалууңуздагы <diagnosticInfoLink>мүчүлүштүктөр тууралуу маалымат</diagnosticInfoLink> менен кошо жөнөтүлөт. Чалуунун сапатын жакшыртуу үчүн мүчүлүштүктөр журналын да бөлүшсөңүз болот."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Мүчүлүштүктөр журналын бөлүшүү"
@@ -7645,7 +7645,7 @@
     "messageformat": "Пикириңиз үчүн чоң рахмат!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Мегафонду колдонуу үчүн капталдагы тилкени кеңейтиңиз"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Бул версия бир нече майда өзгөртүүлөрдү жана мүчүлүштүктөрдү оңдоолорду камтыйт.",
@@ -7679,6 +7679,6 @@
     "messageformat": "Оңтойсуз тынчтыкты буза албайбыз, бирок кээде көз ачып жумгуча көтөрүлүп түшүрүлгөн кол көрүнбөй калган мүчүлүштүктү оңдоп койдук (нөл деп эсептелген)."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Маанилүү маалымат дароо көрүнүп турушу үчүн билдирүүлөрдү кадаңыз. Эң көп сураган суроолоруңуз, ресторанда ээлеп койгон орундарыңыз жана өргүүлөрүңүз ар дайым көңүл чордонунда болот. Эми алар маектин жогору жагында да көрүнөт.\n\n"
   }
 }

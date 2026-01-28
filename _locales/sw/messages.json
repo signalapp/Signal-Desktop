@@ -5628,22 +5628,22 @@
     "messageformat": "Historia yako ya gumzo imeshindwa kuhamishwa kwa sababu Signal haina ruhusa ya kuhifadhi faili kwenye diski. Jaribu kubadilisha ruhusa za diski yako au kusasisha mipangilio yako ya mfumo kisha uhamishe tena."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Kuhamisha nakala hifadhi"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Uhamishaji wa nakala hifadhi umekamilika"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Ili kurejesha nakala hii:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Hamisha folda yako ya hifadhi nakala kwenye simu yako"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Weka nakala mpya ya Signal kwenye simu yako"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Gusa “Rejesha au Hamisha” kisha uchague “Uhifadhi Nakala Kwenye Simu”"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Aikoni ya mwezi"
@@ -7612,7 +7612,7 @@
     "messageformat": "Hii inatusaidia kupata maelezo zaidi kuhusu simu na kitu gani kimefanikiwa au hakijafanikiwa. Unaweza tazama faili la rekebisho kabla ya kuwasilisha."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Kuwasilisha kutatuma maoni yako pamoja na <diagnosticInfoLink>taarifa za uchunguzi kuhusu simu yako</diagnosticInfoLink>. Unaweza kututumia kwa hiari faili la rekebisho ili kutusaidia kuboresha ubora wa simu."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Shiriki faili la rekebisho"
@@ -7645,7 +7645,7 @@
     "messageformat": "Asante kwa maoni yako!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Tanua utepe ili utumie megafoni"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Toleo hili lina mabadiliko kidogo na maboresho ya program kuiwezesha Signal kufanya kazi vizuri.",
@@ -7679,6 +7679,6 @@
     "messageformat": "Hatuwezi kurekebisha ukimya wa aibu unaofuata, lakini tumerekebisha hitilafu iliyokuwa ikisababisha kipengele cha mkono ulioinuliwa kuendelea kuonekana (ikiwa na hesabu ya sufuri) endapo mtu angeinua na kushusha mkono wake haraka sana."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Saidia kufanya taarifa muhimu zipatikane kwa urahisi kupitia jumbe zilizobandikwa. Maswali unayoulizwa mara kwa mara, kuweka nafasi kwa ajili ya chakula cha jioni, na ratiba za likizo tayari zimeshapewa kipaumbele. Sasa yanaweza kuwekwa juu kwenye gumzo pia."
   }
 }

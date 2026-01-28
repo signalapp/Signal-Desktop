@@ -5628,22 +5628,22 @@
     "messageformat": "तुमचा चॅट इतिहास एक्सपोर्ट करता येत नाही कारण Signal कडे फाईल्स डिस्कवर राइट करण्याची अनुमती नाही. तुमच्या डिस्कच्या परवानग्या बदलून पाहा किंवा तुमच्या सिस्टीमच्या सेटिंग्ज अद्ययावत करा आणि मग पुन्हा एक्सपोर्ट करा."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "बॅकअप एक्सपोर्ट होत आहे"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "बॅकअप एक्सपोर्ट पूर्ण झाला"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "हे बॅकअप रीस्टोर करण्यासाठी:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "तुमच्या बॅकअपचा फोल्डर तुमच्या फोनच्या साठवणीमध्ये हस्तांतरित करा"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "तुमच्या फोनवर Signal ची एक नवी प्रत इन्स्टॉल करा"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "\"रीस्टोर किंवा हस्तांतरण करा\" वर टॅप करा आणि \"डिव्हाईस बॅकअपवर\" निवडा"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "चंद्राचा आयकन"
@@ -7612,7 +7612,7 @@
     "messageformat": "यामुळे आम्हाला कॉल्सविषयी अधिक जाणून घेण्यास मदत होते आणि काय काम करत आहे व काय करत नाही हे समजून घेता येते. तुम्ही सबमिट करण्यापूर्वी तुमचा डीबग लॉग पाहू शकता."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "सबमिट केल्याने तुमचा प्रतिसाद <diagnosticInfoLink>तुमच्या कॉलबद्दलच्या निदानात्मक माहितीसह शेअर केला जाईल</diagnosticInfoLink>. तुम्ही पर्याय म्हणून आम्हाला कॉलची गुणवत्ता सुधारण्यास मदत करण्यासाठी डीबग लॉग शेअर करू शकता."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "डीबग लॉग शेअर करा"
@@ -7645,7 +7645,7 @@
     "messageformat": "तुमच्या प्रतिसादाबद्दल धन्यवाद!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "मेगाफोनसह संवाद साधण्यासाठी साईडबार मोठा करा"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal निर्विघ्नपणे चालत ठेवण्यासाठी या आवृत्तीत अनेक लहान समन्वय आणि त्रुटी दुरुस्त्या समाविष्ट आहेत",
@@ -7679,6 +7679,6 @@
     "messageformat": "आम्ही गट कॉल्समधील एक छोटा डिस्प्ले बग दुरुस्त केला ज्यामुळे हात उचलल्याचा इंडिकेटर काम झाल्यावरही दिसत राहायचा (शून्य मोजणीसह)."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "पिन केलेल्या संदेशांच्या मदतीने महत्त्वाची माहिती सहजपणे मिळवणे सोपे करा. तुम्हाला वारंवार पडणारे प्रश्न, बाहेर जेवायच्या ठरलेल्या वेळा आणि सहलीचे ठरलेले कार्यक्रम नेहमीच तुमच्या मनात सर्वोच्च स्थानी असतात. आता ते चॅटमध्येही सर्वोच्च स्थानी असू शकतात."
   }
 }

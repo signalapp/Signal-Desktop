@@ -5628,22 +5628,22 @@
     "messageformat": "לא ניתן לייצא את היסטוריית הצ'אט כי ל–Signal אין הרשאה לכתוב קבצים לדיסק. כדאי לשנות את הרשאות הדיסק או לעדכן את הגדרות המערכת שלך ולנסות לייצא שוב."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "ייצוא גיבוי"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "ייצוא הגיבוי הושלם"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "לשחזור גיבוי זה:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "העברת תיקיית הגיבוי לאחסון המכשיר"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "התקנת עותק חדש של Signal במכשיר"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "לחץ/י על ״שחזור או העברה״ ובחר/י ״גיבוי במכשיר״"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "סמל ירח"
@@ -7612,7 +7612,7 @@
     "messageformat": "זה עוזר לנו להבין טוב יותר שיחות ומה עובד או לא עובד. אפשר לראות את יומן ניפוי הבאגים שלך לפני ההגשה."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "שליחה תשתף משוב יחד עם <diagnosticInfoLink>מידע טכני על השיחה</diagnosticInfoLink>. ניתן לשתף יומן ניפוי באגים כדי לסייע בשיפור איכות השיחה."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "שיתוף יומן ניפוי באגים"
@@ -7645,7 +7645,7 @@
     "messageformat": "תודה על המשוב!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "יש להרחיב את הסרגל הצדדי לאינטראקציה עם המגפון"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "גרסה זו מכילה מספר של שפצורים קטנים ותיקוני תקלים כדי לשמור על Signal שירוץ באופן חלק.",
@@ -7679,6 +7679,6 @@
     "messageformat": "תיקנו באג קטן בתצוגה של מחוון היד המורמת בשיחות קבוצתיות."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "הודעות מוצמדות מסייעות לשמור על מידע חשוב נגיש בקלות בראש הצ׳אט."
   }
 }

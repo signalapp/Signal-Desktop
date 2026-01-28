@@ -5628,22 +5628,22 @@
     "messageformat": "Je chatgeschiedenis kan niet worden geëxporteerd omdat Signal geen toestemming heeft om bestanden naar de schijf te schrijven. Probeer de rechten van je schijf te wijzigen of je systeeminstellingen bij te werken en exporteer dan opnieuw."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Back-up exporteren"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Back-up exporteren voltooid"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Om deze back-up te herstellen:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Zet je back-upmap over naar de opslag van je telefoon"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Installeer Signal opnieuw op je telefoon"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Tik op ‘Herstellen of overzetten’ en kies ‘Lokale back-up’"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Maanpictogram"
@@ -7612,7 +7612,7 @@
     "messageformat": "Dit helpt ons om oproepen in Signal te verbeteren. Je kunt je foutopsporingslog bekijken voordat je het indient."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Door te versturen ontvangen we jouw feedback samen met <diagnosticInfoLink>diagnostische informatie over je oproep</diagnosticInfoLink>. Optioneel kun je een foutopsporingslog delen om ons te helpen de gesprekskwaliteit te verbeteren."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Foutopsporingslog delen"
@@ -7645,7 +7645,7 @@
     "messageformat": "Bedankt voor je feedback!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Zijbalk uitklappen om megafoon te bekijken"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Deze versie bevat een aantal kleine foutoplossingen waardoor Signal voor nog meer mensen goed werkt.",
@@ -7679,6 +7679,6 @@
     "messageformat": "We kunnen de ongemakkelijke stilte die daarop volgt niet verhelpen, maar we hebben wel een bug opgelost die er soms voor zorgde dat de opgestoken handindicator zichtbaar bleef (met een telling van nul) als iemand zijn hand heel snel opstak en weer liet zakken."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Zorg voor gemakkelijke toegang tot belangrijke informatie met vastgezette berichten. Je meestgestelde vragen, restaurantreserveringen en vakantieplannen staan al bovenaan je prioriteitenlijst. Ze kunnen nu ook bovenaan een chat staan."
   }
 }

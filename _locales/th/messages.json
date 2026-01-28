@@ -5628,22 +5628,22 @@
     "messageformat": "ไม่สามารถส่งออกประวัติการแชทของคุณได้เนื่องจาก Signal ไม่ได้รับสิทธิ์ในการบันทึกไฟล์ลงพื้นที่จัดเก็บ โปรดลองเปลี่ยนการอนุญาตสิทธิ์ของพื้นที่จัดเก็บในเครื่องหรืออัปเดตการตั้งค่าระบบของคุณแล้วลองส่งออกอีกครั้ง"
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "กำลังส่งออกข้อมูลสำรอง"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "ส่งออกข้อมูลสำรองเรียบร้อยแล้ว"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "วิธีกู้คืนจากข้อมูลสำรองนี้:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "ย้ายโฟลเดอร์ข้อมูลสำรองไปยังพื้นที่จัดเก็บของโทรศัพท์คุณ"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "ติดตั้ง Signal ใหม่บนโทรศัพท์"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "แตะ “กู้คืนหรือถ่ายโอน” แล้วเลือก “การสำรองข้อมูลไว้บนอุปกรณ์”"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "ไอคอนรูปพระจันทร์"
@@ -7612,7 +7612,7 @@
     "messageformat": "ช่วยให้เรารับทราบเกี่ยวกับประสิทธิภาพในการใช้งานและเข้าใจปัญหาของการโทรยิ่งขึ้น โดยคุณสามารถดูบันทึกดีบักก่อนส่งข้อมูลได้"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "การส่งรายงานจะเป็นการแชร์ความคิดเห็นของคุณรวมถึง<diagnosticInfoLink>ข้อมูลผลการวิเคราะห์ปัญหาเกี่ยวกับการโทรของคุณ</diagnosticInfoLink> คุณยังสามารถเลือกที่จะแชร์บันทึกดีบักเพื่อช่วยให้เราพัฒนาคุณภาพการโทรให้ดียิ่งขึ้น"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "แชร์บันทึกดีบัก"
@@ -7645,7 +7645,7 @@
     "messageformat": "ขอบคุณสำหรับความคิดเห็น"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "ขยายแถบรายการแชทเพื่อดูประกาศ"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "รุ่นนี้มาพร้อมการปรับเปลี่ยนเล็กๆ น้อยๆ และการแก้ไขบั๊กต่างๆ เพื่อให้ Signal ทำงานได้อย่างราบรื่นไร้ปัญหา",
@@ -7679,6 +7679,6 @@
     "messageformat": "แก้ไขบั๊กเกี่ยวกับตัวแจ้งสถานะเมื่อมีคนยกมือในสายโทรกลุ่ม"
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "มองเห็นข้อมูลสำคัญได้ทันทีด้วยการปักหมุดข้อความเอาไว้ให้โดดเด่นอยู่ด้านบนสุดของแชท"
   }
 }

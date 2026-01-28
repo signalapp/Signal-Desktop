@@ -5628,22 +5628,22 @@
     "messageformat": "امکان صدور تاریخچه گفتگوی شما وجود ندارد زیرا سیگنال اجازه نوشتن فایل‌ها روی دیسک را ندارد. مجوزهای دیسک خود را تغییر دهید یا تنظیمات سیستم خود را به‌روزرسانی کنید و سپس دوباره صادر کنید."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "در حال خروجی گرفتن از نسخه پشتیبان"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "خروجی نسخه پشتیبان تکمیل شد"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "برای بازیابی این نسخه پشتیبان:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "پوشه پشتیبان خود را به فضای ذخیره‌سازی تلفنتان انتقال دهید"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "نسخه جدید سیگنال را در تلفنتان نصب کنید"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "روی «بازیابی یا انتقال» ضربه بزنید و «پشتیبان‌گیری در دستگاه» را انتخاب کنید"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "آیکون ماه"
@@ -7612,7 +7612,7 @@
     "messageformat": "این به ما کمک می‌کند درباره تماس‌ها و نقاط قوت و ضعف آن‌ها بیشتر بدانیم. می‌توانید قبل از ارسال، گزارش اشکال‌زدایی خود را ببینید."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "با ارسال، بازخوردتان همراه با <diagnosticInfoLink>اطلاعات عیب‌یابی درباره تماستان</diagnosticInfoLink> هم‌رسانی خواهد شد. همچنین می‌توانید با ارسال اختیاری گزارش اشکال‌زدایی، به ما کمک کنید کیفیت تماس را بهبود دهیم."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "هم‌رسانی گزارش اشکال‌زدایی"
@@ -7645,7 +7645,7 @@
     "messageformat": "از بازخورد شما متشکریم!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "گسترش نوار کناری برای تعامل با بلندگو"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "این نسخه شامل شماری از بهینه سازی های کوچک و رفع عیب برای تداوم اجرای راحت سیگنال می باشد",
@@ -7679,6 +7679,6 @@
     "messageformat": "اشکال جزئی در نمایش را برطرف کردیم که در نشانگر دست‌بالا‌بردن در تماس‌های گروهی وجود داشت."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "سنجاق کردن پیام‌ها راهی برای کمک به تسهیل دسترسی به اطلاعات مهم. پرسش‌های پرتکرار، رزروهای شام، و برنامه‌های سفرتان را می‌توانید همیشه به خاطر بسپرید. حالا می‌توانند در بالای گفتگو هم بمانند."
   }
 }

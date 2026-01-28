@@ -5628,22 +5628,22 @@
     "messageformat": "சிக்னலுக்கு டிஸ்க்கில் கோப்புகளை எழுத அனுமதி இல்லாததால், உங்கள் சாட் வரலாற்றை ஏற்றுமதி செய்ய முடியாது. உங்கள் டிஸ்க்கின் அனுமதிகளை மாற்றி அல்லது உங்கள் சிஸ்டம் அமைப்புகளைப் புதுப்பித்து, பிறகு மீண்டும் ஏற்றுமதி செய்ய முயற்சிக்கவும்."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "காப்புப்பிரதியை ஏற்றுமதி செய்கிறது"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "காப்புப்பிரதியை ஏற்றுமதி செய்வது முடிந்தது"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "காப்புப்பிரதியை மீட்டமைக்க:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "உங்கள் காப்புப் பிரதி கோப்புறையை உங்கள் ஃபோனின் சேமிப்பகத்திற்கு இடமாற்றவும்"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "உங்கள் ஃபோனில் சிக்னலின் புதிய நகலை நிறுவவும்"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "\"மீட்டமை அல்லது இடமாற்றுக\" என்பதைத் தட்டி, \"சாதனத்தில் உள்ள காப்புப்பிரதி\" என்பதைத் தேர்ந்தெடுக்கவும்"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "மூன் ஐகான்"
@@ -7612,7 +7612,7 @@
     "messageformat": "இது அழைப்புகள் பற்றியும், எவை பயனளிக்கிறது அல்லது பயனளிக்கவில்லை என்பதைப் பற்றி மேலும் அறிய உதவுகிறது. சமர்ப்பிக்கும் முன் உங்கள் பிழைத்திருத்தப் பதிவை நீங்கள் பார்க்கலாம்."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "இதைச் சமர்ப்பிப்பதன் மூலம், உங்கள் கருத்துக்களுடன் <diagnosticInfoLink>உங்கள் அழைப்பைப் பற்றிய கண்டறியும் தகவலைப் பகிரும்</diagnosticInfoLink>. அழைப்பின் தரத்தை மேம்படுத்த எங்களுக்கு உதவ, நீங்கள் விரும்பினால் பிழைத் திருத்தப் பதிவைப் பகிரலாம்."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "பிழைத்திருத்தப் பதிவைப் பகிருங்கள்"
@@ -7645,7 +7645,7 @@
     "messageformat": "நீங்கள் வழங்கிய கருத்துக்கு நன்றி!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "மெகாஃபோனுடன் தொடர்பு கொள்ள பக்கப்பட்டியை விரிவாக்குங்கள்"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "இந்த பதிப்பில் சிக்னலை சீராக இயங்க வைக்க பல சிறிய மாற்றங்கள் மற்றும் பிழை திருத்தங்கள் உள்ளன.",
@@ -7679,6 +7679,6 @@
     "messageformat": "தொகுப்பு அழைப்புகளில், கையை உயர்த்தும் குறியீட்டில் இருந்த ஒரு சிறிய காட்சிப் பிழையைச் சரிசெய்துள்ளோம்."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "பின் செய்யப்பட்ட மெசேஜ்கள், அரட்டையின் மேற்பகுதியில் முக்கியமான தகவல்களை எளிதில் அணுகக்கூடியதாக வைத்திருக்க உதவும்."
   }
 }

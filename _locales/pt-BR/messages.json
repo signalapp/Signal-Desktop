@@ -5628,22 +5628,22 @@
     "messageformat": "Seu histórico de conversas não pode ser exportado porque o Signal não tem permissão para gravar arquivos no disco. Tente ajustar as permissões do disco ou atualizar as configurações do sistema e, depois, exporte novamente. "
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Exportando backup"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Exportação de backup concluída"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Para restaurar este backup:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Transfira sua pasta de backup para o armazenamento do seu telefone"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Instale uma cópia nova do Signal no seu telefone"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Toque em “Restaurar ou Transferir” e escolha “Backup no dispositivo”."
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Ícone da lua"
@@ -7612,7 +7612,7 @@
     "messageformat": "Isso nos ajuda a saber mais sobre as chamadas e a compreender o que está funcionando ou não. Você pode ver seu registro de depuração antes de enviar."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Ao enviar, você compartilhará seu feedback juntamente com <diagnosticInfoLink>informações de diagnóstico sobre sua chamada</diagnosticInfoLink>. Você pode compartilhar, se quiser, um registro de depuração para nos ajudar a melhorar a qualidade da chamada."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Compartilhar registro de depuração"
@@ -7645,7 +7645,7 @@
     "messageformat": "Agradecemos seu feedback!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Expanda a barra lateral para interagir com o megafone"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Essa versão contém pequenos retoques e consertos no Signal para ele continuar funcionando confortavelmente.",
@@ -7679,6 +7679,6 @@
     "messageformat": "Corrigimos um erro que às vezes fazia o indicador de mão levantada continuar visível (com contagem zero) quando alguém levantava e abaixava a mão muito rápido. "
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Mantenha informações importantes facilmente acessíveis com mensagens fixadas. Agora você pode fixar até três mensagens no topo de qualquer conversa individual ou em grupo para compartilhar informações importantes. \n\n"
   }
 }

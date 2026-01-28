@@ -5628,22 +5628,22 @@
     "messageformat": "Sarunu vēsturi nevar eksportēt, jo Signal nav atļaujas ierakstīt failus diskā. Mēģiniet mainīt diska atļaujas vai atjaunināt sistēmas iestatījumus un pēc tam eksportējiet vēlreiz."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Rezerves kopiju eksportēšana"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Rezerves kopiju eksportēšana pabeigta"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Lai atjaunotu šo rezerves kopiju:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "pārsūtiet savu rezerves kopiju mapi uz tālruņa krātuvi;"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "instalējiet jaunu Signal kopiju savā tālrunī;"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "pieskarieties pie \"Atjaunot vai pārsūtīt\" un izvēlieties \"Rezerves kopijas ierīcē\"."
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Mēness ikona"
@@ -7612,7 +7612,7 @@
     "messageformat": "Tas palīdz mums uzlabot zvanus un saprast, kas darbojas vai nedarbojas. Pirms iesniegšanas varat apskatīt atkļūdošanas žurnālu."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Iesniedzot atsauksmi, jūsu atsauksmei tiks pievienota arī <diagnosticInfoLink>diagnostikas informācija par zvanu</diagnosticInfoLink>. Varat izvēlēties kopīgot arī atkļūdošanas žurnālu, lai palīdzētu mums uzlabot zvanu kvalitāti."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Kopīgot atkļūdošanas žurnālu"
@@ -7645,7 +7645,7 @@
     "messageformat": "Paldies par atsauksmēm!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Izvērsiet sānjoslu, lai mijiedarbotos ar megafonu"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Šī versija ietver vairākus nelielus uzlabojumus un kļūdu labojumus, lai Signal darbotos bez problēmām.",
@@ -7679,6 +7679,6 @@
     "messageformat": "Mēs nevaram novērst neveiklu klusumu, toties mēs novērsām kļūdu, kuras dēļ paceltas rokas indikators reizēm vēl aizvien palika redzams, kad kāds strauji pacēla un nolaida roku."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Padariet svarīgu informāciju viegli pieejamu, izmantojot piespraustās ziņas. Jūsu biežāk uzdotie jautājumi, vakariņu rezervācijas un atvaļinājuma plāni ir būtiski. Tagad tos var piespraust arī sarunas augšdaļā."
   }
 }

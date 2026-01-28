@@ -1191,7 +1191,7 @@
     "messageformat": "Abbandona"
   },
   "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
-    "messageformat": "Prima di abbandonare il gruppo, devi scegliere almeno un nuovo amministratore."
+    "messageformat": "Prima di abbandonare il gruppo, devi scegliere almeno un nuovo admin."
   },
   "icu:PinnedMessageNotification__Message--You": {
     "messageformat": "Hai messo in evidenza un messaggio"
@@ -1314,10 +1314,10 @@
     "messageformat": "Messaggi in evidenza"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages": {
-    "messageformat": "Rimuovi tutti i messaggi in evidenza"
+    "messageformat": "Rimuovi i messaggi in evidenza"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Rimuovere tutti i messaggi in evidenza?"
+    "messageformat": "Rimuovere i messaggi in evidenza?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
     "messageformat": "I messaggi non appariranno più in evidenza per i membri di questa chat."
@@ -1596,10 +1596,10 @@
     "messageformat": "Messaggi non letti da tutte le chat"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Title": {
-    "messageformat": "Chat singole"
+    "messageformat": "Chat individuali"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Description": {
-    "messageformat": "Solo messaggi da chat singole"
+    "messageformat": "Solo messaggi da chat individuali"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__GroupChatsFolder__Title": {
     "messageformat": "Gruppi"
@@ -1626,7 +1626,7 @@
     "messageformat": "Scegli le chat che vuoi vedere in questa cartella"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__DirectChats": {
-    "messageformat": "Chat singole"
+    "messageformat": "Chat individuali"
   },
   "icu:Preferences__EditChatFolderPage__IncludedChatsSection__GroupChats": {
     "messageformat": "Chat di gruppo"
@@ -1647,7 +1647,7 @@
     "messageformat": "Tipi di chat"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__DirectChats": {
-    "messageformat": "Chat singole"
+    "messageformat": "Chat individuali"
   },
   "icu:Preferences__EditChatFolderPage__SelectChatsDialog__ChatTypesSection__GroupChats": {
     "messageformat": "Gruppi"
@@ -2196,31 +2196,31 @@
     "messageformat": "Per inviare un messaggio, sblocca questo gruppo."
   },
   "icu:youChangedTheTimer": {
-    "messageformat": "Hai impostato il timer dei messaggi a scomparsa a {time}."
+    "messageformat": "Hai impostato il timer dei messaggi temporanei a {time}."
   },
   "icu:timerSetOnSync": {
-    "messageformat": "Timer dei messaggi a scomparsa aggiornato a {time}."
+    "messageformat": "Timer dei messaggi temporanei aggiornato a {time}."
   },
   "icu:timerSetByMember": {
-    "messageformat": "Un membro ha impostato il timer dei messaggi a scomparsa a {time}."
+    "messageformat": "Un utente ha impostato il timer dei messaggi temporanei a {time}."
   },
   "icu:theyChangedTheTimer": {
-    "messageformat": "{name} ha impostato il timer dei messaggi a scomparsa a {time}."
+    "messageformat": "{name} ha impostato il timer dei messaggi temporanei a {time}."
   },
   "icu:disappearingMessages__off": {
     "messageformat": "spento"
   },
   "icu:disappearingMessages": {
-    "messageformat": "Messaggi a scomparsa"
+    "messageformat": "Messaggi temporanei"
   },
   "icu:disappearingMessagesDisabled": {
-    "messageformat": "Messaggi a scomparsa disabilitati"
+    "messageformat": "Messaggi temporanei disabilitati"
   },
   "icu:disappearingMessagesDisabledByMember": {
-    "messageformat": "Un membro ha disabilitato i messaggi a scomparsa."
+    "messageformat": "Un utente ha disabilitato i messaggi temporanei."
   },
   "icu:disabledDisappearingMessages": {
-    "messageformat": "{name} ha disabilitato i messaggi a scomparsa."
+    "messageformat": "{name} ha disabilitato i messaggi temporanei."
   },
   "icu:youDisabledDisappearingMessages": {
     "messageformat": "Hai disabilitato la scomparsa dei messaggi."
@@ -2928,10 +2928,10 @@
     "messageformat": "Prossima chat"
   },
   "icu:Keyboard--previous-unread-conversation": {
-    "messageformat": "Chat non letta precedente"
+    "messageformat": "Chat da leggere precedente"
   },
   "icu:Keyboard--next-unread-conversation": {
-    "messageformat": "Prossima chat non letta"
+    "messageformat": "Prossima chat da leggere"
   },
   "icu:Keyboard--preferences": {
     "messageformat": "Preferenze"
@@ -3144,7 +3144,7 @@
     "messageformat": "Chat tornata fra le chat attive"
   },
   "icu:conversationMarkedUnread": {
-    "messageformat": "Chat segnata come non letta"
+    "messageformat": "Chat segnata come da leggere"
   },
   "icu:ArtCreator--Authentication--error": {
     "messageformat": "Installa Signal sul tuo telefono e sul desktop per usare il creatore di pacchetti di adesivi"
@@ -3747,7 +3747,7 @@
     "messageformat": "Non puoi inviare messaggi a quel gruppo."
   },
   "icu:GroupV2--cannot-start-group-call": {
-    "messageformat": "Solo gli amministratori del gruppo possono iniziare una chiamata."
+    "messageformat": "Solo gli admin del gruppo possono iniziare una chiamata."
   },
   "icu:GroupV2--join--invalid-link--title": {
     "messageformat": "Link non valido"
@@ -3783,7 +3783,7 @@
     "messageformat": "Non puoi unirti a questo gruppo tramite l'apposito link perché un admin ti ha rimosso. Contatta un admin per farti aggiungere di nuovo nel gruppo."
   },
   "icu:GroupV2--join--prompt-with-approval": {
-    "messageformat": "Un admin deve approvare la tua richiesta prima che tu possa unirti a questo gruppo. Quando invii la richiesta, il tuo nome e la tua foto verranno condivisi con i membri del gruppo."
+    "messageformat": "Un admin deve approvare la tua richiesta prima che tu possa unirti a questo gruppo. Quando invii la richiesta, il tuo nome e la tua foto verranno condivisi con gli utenti del gruppo."
   },
   "icu:GroupV2--join--join-button": {
     "messageformat": "Unisciti"
@@ -3807,7 +3807,7 @@
     "messageformat": "{memberCount, plural, one {Gruppo · {memberCount,number} persona} other {Gruppo · {memberCount,number} persone}}"
   },
   "icu:GroupV2--join--requested": {
-    "messageformat": "La tua richiesta di unirti è stata inviata agli amministratori del gruppo. Riceverai una notifica quando interverranno."
+    "messageformat": "La tua richiesta di unirti è stata inviata agli admin del gruppo. Riceverai una notifica quando interverranno."
   },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Errore link"
@@ -3816,10 +3816,10 @@
     "messageformat": "Impossibile unirsi al gruppo. Riprova più tardi."
   },
   "icu:GroupV2--admin": {
-    "messageformat": "Amministratore"
+    "messageformat": "Admin"
   },
   "icu:GroupV2--only-admins": {
-    "messageformat": "Solo gli amministratori"
+    "messageformat": "Solo gli admin"
   },
   "icu:GroupV2--all-members": {
     "messageformat": "Tutti i membri"
@@ -3873,10 +3873,10 @@
     "messageformat": "Un membro ha rimosso l'avatar del gruppo."
   },
   "icu:GroupV2--access-attributes--admins--other": {
-    "messageformat": "{adminName} ha cambiato chi può modificare le informazioni del gruppo in \"Solo gli amministratori.\""
+    "messageformat": "{adminName} ha cambiato chi può modificare le informazioni del gruppo in \"Solo gli admin.\""
   },
   "icu:GroupV2--access-attributes--admins--you": {
-    "messageformat": "Hai cambiato chi può modificare le informazioni del gruppo in \"Solo gli amministratori.\""
+    "messageformat": "Hai cambiato chi può modificare le informazioni del gruppo in \"Solo gli admin.\""
   },
   "icu:GroupV2--access-attributes--admins--unknown": {
     "messageformat": "Un admin ha cambiato chi può modificare le informazioni del gruppo in \"Solo gli admin.\""
@@ -3888,16 +3888,16 @@
     "messageformat": "Hai cambiato chi può modificare le informazioni del gruppo in \"Tutti i membri.\""
   },
   "icu:GroupV2--access-attributes--all--unknown": {
-    "messageformat": "Un admin ha cambiato chi può modificare le informazioni del gruppo in \"Tutti i membri.\""
+    "messageformat": "Un admin ha cambiato chi può modificare le informazioni del gruppo in \"Tutti gli utenti.\""
   },
   "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} ha cambiato chi può modificare l'appartenenza al gruppo in \"Solo gli amministratori.\""
+    "messageformat": "{adminName} ha cambiato chi può modificare l'appartenenza al gruppo in \"Solo gli admin.\""
   },
   "icu:GroupV2--access-members--admins--you": {
-    "messageformat": "Hai cambiato chi può modificare l'appartenenza al gruppo in \"Solo gli amministratori.\""
+    "messageformat": "Hai cambiato chi può modificare l'appartenenza al gruppo in \"Solo gli admin.\""
   },
   "icu:GroupV2--access-members--admins--unknown": {
-    "messageformat": "Un admin ha cambiato chi può modificare l'appartenenza al gruppo in \"Solo gli amministratori.\""
+    "messageformat": "Un admin ha cambiato chi può modificare l'appartenenza al gruppo in \"Solo gli admin.\""
   },
   "icu:GroupV2--access-members--all--other": {
     "messageformat": "{adminName} ha cambiato chi può modificare l'appartenenza al gruppo in \"Tutti i membri.\""
@@ -3906,25 +3906,25 @@
     "messageformat": "Hai cambiato chi può modificare l'appartenenza al gruppo in \"Tutti i membri.\""
   },
   "icu:GroupV2--access-members--all--unknown": {
-    "messageformat": "Un admin ha cambiato chi può modificare l'appartenenza al gruppo in \"Tutti i membri.\""
+    "messageformat": "Un admin ha cambiato chi può modificare l'appartenenza al gruppo in \"Tutti gli utenti.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
-    "messageformat": "Hai disabilitato l'approvazione degli amministratori per il link del gruppo."
+    "messageformat": "Hai disabilitato l'approvazione degli admin per il link del gruppo."
   },
   "icu:GroupV2--access-invite-link--disabled--other": {
-    "messageformat": "{adminName} ha disabilitato l'approvazione degli amministratori per il link del gruppo."
+    "messageformat": "{adminName} ha disabilitato l'approvazione degli admin per il link del gruppo."
   },
   "icu:GroupV2--access-invite-link--disabled--unknown": {
-    "messageformat": "L'approvazione degli amministratori per il link del gruppo è stata disabilitata."
+    "messageformat": "L'approvazione degli admin per il link del gruppo è stata disabilitata."
   },
   "icu:GroupV2--access-invite-link--enabled--you": {
-    "messageformat": "Hai abilitato l'approvazione degli amministratori per il link del gruppo."
+    "messageformat": "Hai abilitato l'approvazione degli admin per il link del gruppo."
   },
   "icu:GroupV2--access-invite-link--enabled--other": {
-    "messageformat": "{adminName} ha abilitato l'approvazione degli amministratori per il link del gruppo."
+    "messageformat": "{adminName} ha abilitato l'approvazione degli admin per il link del gruppo."
   },
   "icu:GroupV2--access-invite-link--enabled--unknown": {
-    "messageformat": "L'approvazione degli amministratori per il link del gruppo è stata abilitata."
+    "messageformat": "L'approvazione degli admin per il link del gruppo è stata abilitata."
   },
   "icu:GroupV2--member-add--invited--you": {
     "messageformat": "Hai aggiunto il membro invitato {inviteeName}."
@@ -4011,34 +4011,34 @@
     "messageformat": "Sei stato rimosso dal gruppo."
   },
   "icu:GroupV2--member-privilege--promote--other--other": {
-    "messageformat": "{adminName} ha reso {memberName} un amministratore."
+    "messageformat": "{adminName} ha reso {memberName} un admin."
   },
   "icu:GroupV2--member-privilege--promote--other--you": {
-    "messageformat": "Hai reso {memberName} un amministratore."
+    "messageformat": "Hai reso {memberName} un admin."
   },
   "icu:GroupV2--member-privilege--promote--other--unknown": {
     "messageformat": "Un admin ha reso {memberName} un admin."
   },
   "icu:GroupV2--member-privilege--promote--you--other": {
-    "messageformat": "{adminName} ti ha reso un amministratore."
+    "messageformat": "{adminName} ti ha reso un admin."
   },
   "icu:GroupV2--member-privilege--promote--you--unknown": {
     "messageformat": "Un admin ti ha reso un admin."
   },
   "icu:GroupV2--member-privilege--demote--other--other": {
-    "messageformat": "{adminName} ha revocato i privilegi di amministrazione da {memberName}."
+    "messageformat": "{adminName} ha revocato i privilegi di admin da {memberName}."
   },
   "icu:GroupV2--member-privilege--demote--other--you": {
-    "messageformat": "Hai revocato i privilegi di amministrazione da {memberName}."
+    "messageformat": "Hai revocato i privilegi di admin da {memberName}."
   },
   "icu:GroupV2--member-privilege--demote--other--unknown": {
-    "messageformat": "Un admin ha revocato i privilegi di amministrazione da {memberName}."
+    "messageformat": "Un admin ha revocato i privilegi di admin da {memberName}."
   },
   "icu:GroupV2--member-privilege--demote--you--other": {
-    "messageformat": "{adminName} ha revocato i tuoi privilegi di amministrazione."
+    "messageformat": "{adminName} ha revocato i tuoi privilegi di admin."
   },
   "icu:GroupV2--member-privilege--demote--you--unknown": {
-    "messageformat": "Un admin ha revocato i tuoi privilegi di amministrazione."
+    "messageformat": "Un admin ha revocato i tuoi privilegi di admin."
   },
   "icu:GroupV2--pending-add--one--other--other": {
     "messageformat": "{memberName} ha invitato 1 persona ad entrare nel gruppo."
@@ -4146,7 +4146,7 @@
     "messageformat": "Hai annullato la tua richiesta di unirti al gruppo."
   },
   "icu:GroupV2--admin-approval-remove-one--you--unknown": {
-    "messageformat": "La tua richiesta di unirti al gruppo è stata rifiutata da un amministratore."
+    "messageformat": "La tua richiesta di unirti al gruppo è stata rifiutata da un admin."
   },
   "icu:GroupV2--admin-approval-remove-one--other--you": {
     "messageformat": "Hai rifiutato una richiesta di unirsi al gruppo da {joinerName}."
@@ -4164,22 +4164,22 @@
     "messageformat": "{numberOfRequests, plural, one {{joinerName} ha richiesto e annullato la sua richiesta di unirsi al gruppo tramite il link} other {{joinerName} ha richiesto e annullato {numberOfRequests,number} richieste di unirsi al gruppo tramite il link}}"
   },
   "icu:GroupV2--group-link-add--disabled--you": {
-    "messageformat": "Hai attivato il link del gruppo senza l'approvazione degli amministratori."
+    "messageformat": "Hai attivato il link del gruppo senza l'approvazione degli admin."
   },
   "icu:GroupV2--group-link-add--disabled--other": {
-    "messageformat": "{adminName} ha attivato il link del gruppo senza l'approvazione degli amministratori."
+    "messageformat": "{adminName} ha attivato il link del gruppo senza l'approvazione degli admin."
   },
   "icu:GroupV2--group-link-add--disabled--unknown": {
-    "messageformat": "Il link del gruppo è stato attivato senza l'approvazione degli amministratori."
+    "messageformat": "Il link del gruppo è stato attivato senza l'approvazione degli admin."
   },
   "icu:GroupV2--group-link-add--enabled--you": {
-    "messageformat": "Hai attivato il link del gruppo con l'approvazione degli amministratori."
+    "messageformat": "Hai attivato il link del gruppo con l'approvazione degli admin."
   },
   "icu:GroupV2--group-link-add--enabled--other": {
-    "messageformat": "{adminName} ha attivato il link del gruppo con l'approvazione degli amministratori."
+    "messageformat": "{adminName} ha attivato il link del gruppo con l'approvazione degli admin."
   },
   "icu:GroupV2--group-link-add--enabled--unknown": {
-    "messageformat": "Il link del gruppo è stato attivato con l'approvazione degli amministratori."
+    "messageformat": "Il link del gruppo è stato attivato con l'approvazione degli admin."
   },
   "icu:GroupV2--group-link-remove--you": {
     "messageformat": "Hai disattivato il link del gruppo."
@@ -4218,13 +4218,13 @@
     "messageformat": "La descrizione del gruppo è stata cambiata."
   },
   "icu:GroupV2--announcements--admin--you": {
-    "messageformat": "Hai modificato le impostazioni del gruppo per consentire solo agli amministratori di inviare messaggi."
+    "messageformat": "Hai modificato le impostazioni del gruppo per consentire solo agli admin di inviare messaggi."
   },
   "icu:GroupV2--announcements--admin--other": {
-    "messageformat": "{memberName} ha modificato le impostazioni del gruppo per consentire solo agli amministratori di inviare messaggi."
+    "messageformat": "{memberName} ha modificato le impostazioni del gruppo per consentire solo agli admin di inviare messaggi."
   },
   "icu:GroupV2--announcements--admin--unknown": {
-    "messageformat": "Il gruppo è stato modificato per consentire solo agli amministratori di inviare messaggi."
+    "messageformat": "Il gruppo è stato modificato per consentire solo agli admin di inviare messaggi."
   },
   "icu:GroupV2--announcements--member--you": {
     "messageformat": "Hai modificato le impostazioni del gruppo per consentire a tutti i membri di inviare messaggi."
@@ -4239,7 +4239,7 @@
     "messageformat": "L'elenco di persone o le impostazioni del gruppo sono state cambiate."
   },
   "icu:GroupV1--Migration--disabled--link": {
-    "messageformat": "Aggiorna questo gruppo per attivare nuove funzioni come le @menzioni e i ruoli da amministratore. Le persone che non hanno condiviso il proprio nome o la foto del profilo con il gruppo riceveranno l'invito a unirsi. <learnMoreLink>Scopri di più.</learnMoreLink>"
+    "messageformat": "Aggiorna questo gruppo per attivare nuove funzioni come le @menzioni e i ruoli da admin. Le persone che non hanno condiviso il proprio nome o la foto del profilo con il gruppo riceveranno l'invito a unirsi. <learnMoreLink>Scopri di più.</learnMoreLink>"
   },
   "icu:GroupV1--Migration--was-upgraded": {
     "messageformat": "Questo gruppo è stato aggiornato a un Nuovo Gruppo."
@@ -4257,7 +4257,7 @@
     "messageformat": "Aggiorna a Nuovo Gruppo"
   },
   "icu:GroupV1--Migration--info--summary": {
-    "messageformat": "I Nuovi Gruppi hanno funzionalità come @menzioni e amministratori del gruppo e supporteranno più funzionalità in futuro."
+    "messageformat": "I Nuovi Gruppi hanno funzioni come le @menzioni e gli admin del gruppo e supporteranno più funzioni in futuro."
   },
   "icu:GroupV1--Migration--info--keep-history": {
     "messageformat": "Tutta la cronologia dei messaggi e i contenuti multimediali sono stati conservati da prima dell'aggiornamento."
@@ -4524,10 +4524,10 @@
     "messageformat": "Soprannome"
   },
   "icu:ContactModal--rm-admin": {
-    "messageformat": "Rimuovi come amministratore"
+    "messageformat": "Rimuovi da ruolo di admin"
   },
   "icu:ContactModal--make-admin": {
-    "messageformat": "Rendi amministratore"
+    "messageformat": "Rendi admin"
   },
   "icu:ContactModal--make-admin-info": {
     "messageformat": "{contact} potrà modificare questo gruppo e i suoi membri."
@@ -4560,7 +4560,7 @@
     "messageformat": "Link del gruppo"
   },
   "icu:ConversationDetails--disappearing-messages-label": {
-    "messageformat": "Messaggi a scomparsa"
+    "messageformat": "Messaggi temporanei"
   },
   "icu:ConversationDetails--disappearing-messages-info--group": {
     "messageformat": "Una volta abilitati, i messaggi inviati e ricevuti in questo gruppo spariranno dopo essere stati visti."
@@ -4590,7 +4590,7 @@
     "messageformat": "Chi può modificare le informazioni del gruppo"
   },
   "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Scegli chi può modificare il nome del gruppo, la foto, la descrizione e il timer dei messaggi a scomparsa."
+    "messageformat": "Scegli chi può modificare il nome del gruppo, la foto, la descrizione e il timer dei messaggi temporanei."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Chi può aggiungere membri"
@@ -4611,13 +4611,13 @@
     "messageformat": "Abbandona il gruppo"
   },
   "icu:ConversationDetailsActions--block-group": {
-    "messageformat": "Blocca gruppo"
+    "messageformat": "Blocca il gruppo"
   },
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Sblocca il gruppo"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
-    "messageformat": "Prima di abbandonarlo, devi scegliere almeno un nuovo admin per questo gruppo."
+    "messageformat": "Prima di abbandonare il gruppo, devi scegliere almeno un nuovo admin."
   },
   "icu:ConversationDetailsActions--leave-group-modal-title": {
     "messageformat": "Vuoi davvero abbandonare?"
@@ -5100,7 +5100,7 @@
     "messageformat": "Tempo personalizzato"
   },
   "icu:DisappearingTimeDialog__body": {
-    "messageformat": "Scegli un tempo personalizzato per i messaggi a scomparsa."
+    "messageformat": "Scegli un tempo personalizzato per i messaggi temporanei."
   },
   "icu:DisappearingTimeDialog__set": {
     "messageformat": "Imposta"
@@ -5409,13 +5409,13 @@
     "messageformat": "Condivisione"
   },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
-    "messageformat": "Invia un messaggio a un amministratore"
+    "messageformat": "Invia un messaggio a un admin"
   },
   "icu:AnnouncementsOnlyGroupBanner--announcements-only": {
     "messageformat": "Solo gli {admins} possono inviare messaggi"
   },
   "icu:AnnouncementsOnlyGroupBanner--admins": {
-    "messageformat": "amministratori"
+    "messageformat": "admin"
   },
   "icu:AvatarEditor--choose": {
     "messageformat": "Seleziona un avatar"
@@ -5628,22 +5628,22 @@
     "messageformat": "La tua cronologia chat non può essere esportata perché Signal non ha le autorizzazioni necessarie per sovrascrivere i file sullo spazio di archiviazione. Prova a cambiare le autorizzazioni per lo spazio di archiviazione oppure ad aggiornare le impostazioni di sistema, poi riprova l'esportazione."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Esportazione backup in corso"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Esportazione backup completata"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Per ripristinare questo backup:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Trasferisci la cartella del tuo backup nelll'archivio del tuo telefono"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Installa una nuova copia di Signal sul tuo telefono"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Tocca su \"Ripristina o trasferisci\" e scegli \"Sul backup del dispositivo\""
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Icona della luna"
@@ -5661,10 +5661,10 @@
     "messageformat": ":"
   },
   "icu:NotificationProfileMenuItem": {
-    "messageformat": "Profilo di notifica"
+    "messageformat": "Profilo per le notifiche"
   },
   "icu:NotificationProfileMenu--header": {
-    "messageformat": "Profilo di notifica"
+    "messageformat": "Profilo per le notifiche"
   },
   "icu:NotificationProfileMenu--on": {
     "messageformat": "Sì"
@@ -5694,13 +5694,13 @@
     "messageformat": "Profilo per le notifiche ora disattivato"
   },
   "icu:NotificationProfiles--setting": {
-    "messageformat": "Profili di notifica"
+    "messageformat": "Profili per le notifiche"
   },
   "icu:NotificationProfiles--setup": {
     "messageformat": "Imposta"
   },
   "icu:NotificationProfiles--title": {
-    "messageformat": "Profili di notifica"
+    "messageformat": "Profili per le notifiche"
   },
   "icu:NotificationProfiles--setup-description": {
     "messageformat": "Crea un profilo per ricevere notifiche e chiamate solo dalle persone e dai gruppi da te scelti"
@@ -5808,7 +5808,7 @@
     "messageformat": "Profilo creato"
   },
   "icu:NotificationProfiles--done-description": {
-    "messageformat": "Se hai aggiornato una programmazione, il tuo profilo si attiverà e disattiverà in automatico. Puoi anche cliccare sull'icona ··· nella parte superiore dell'elenco delle chat per attivarla o disattivarla manualmente."
+    "messageformat": "Se hai aggiunto una programmazione, il tuo profilo si attiverà e disattiverà in automatico. Puoi anche cliccare sull'icona ··· nella parte superiore dell'elenco delle chat per attivarlo o disattivarlo manualmente."
   },
   "icu:NotificationProfiles--schedule-sunday-short": {
     "messageformat": "Dom"
@@ -5847,7 +5847,7 @@
     "messageformat": "Profili"
   },
   "icu:NotificationProfiles--list--sync": {
-    "messageformat": "Sincronizza tutti i dispositivi"
+    "messageformat": "Sincronizza tra tutti i dispositivi"
   },
   "icu:NotificationProfiles--list--sync--description": {
     "messageformat": "I tuoi profili verranno sincronizzati sui tuoi dispositivi. Attivare un profilo per un dispositivo comporterà l'attivazione anche per gli altri."
@@ -7612,7 +7612,7 @@
     "messageformat": "Ciò ci aiuta a monitorare la qualità e il corretto funzionamento delle chiamate. Puoi vedere il tuo log di debug prima di inviarlo."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Se procedi con l'invio, il tuo feedback verrà condiviso insieme ai <diagnosticInfoLink>dati diagnostici relativi alla tua chiamata</diagnosticInfoLink>. Se lo desideri, puoi condividere un log di debug per aiutarci a migliorare la qualità delle chiamate."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Condividi log di debug"
@@ -7645,7 +7645,7 @@
     "messageformat": "Grazie per il tuo feedback!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Espandi la barra laterale per interagire con il megafono."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Questa versione contiene una serie di piccole modifiche e correzioni di bug per far funzionare Signal senza problemi.",
@@ -7679,6 +7679,6 @@
     "messageformat": "Beh, colpa nostra, ma esisteva un bug dove l'indicatore delle mani alzate rimaneva visibile (con un conteggio pari a 0) se una persona alzava e poi abbassava la mano velocemente."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Da ora diventa più semplice ricordarsi delle cose importanti: basta usare i messaggi in evidenza! Le tue domande più frequenti, i piani per il weekend e gli itinerari di viaggio sono già in cima ai tuoi pensieri… beh, d'ora in poi saranno anche in cima alle tue chat!"
   }
 }

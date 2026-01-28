@@ -5628,22 +5628,22 @@
     "messageformat": "Zgodovine klepeta ni mogoče izvoziti, ker Signal nima dovoljenja za zapisovanje datotek na disk. Poskusite spremeniti dovoljenja diska ali posodobiti sistemske nastavitve in nato znova izvozite."
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "Izvoz varnostne kopije"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "Izvoz varnostne kopije je končan"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "Če želite obnoviti to varnostno kopijo:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "Prenesite mapo z varnostnimi kopijami v pomnilnik telefona"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "Namestite novo kopijo Signala v telefon"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "Tapnite »Obnovi ali prenesi« in izberite »Varnostno kopiranje v napravi«"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Ikona lune"
@@ -7612,7 +7612,7 @@
     "messageformat": "To nam pomaga izvedeti več o klicih in o tem, kaj deluje oziroma ne deluje. Pred oddajo si lahko ogledate dnevnik sistemskih zabeležb."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "Z oddajo boste delili svoje povratne informacije skupaj z <diagnosticInfoLink>diagnostičnimi informacijami o vašem klicu</diagnosticInfoLink>. Po želji lahko delite dnevnik sistemskih zabeležb, da nam pomagate izboljšati kakovost klicev."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Delite sistemske zabeležbe"
@@ -7645,7 +7645,7 @@
     "messageformat": "Hvala za vaše povratne informacije!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "Razširite stransko vrstico za interakcijo z megafonom"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ta različica vsebuje majhne spremembe in popravke, ki omogočajo, da Signal teče brez težav.",
@@ -7679,6 +7679,6 @@
     "messageformat": "Odpravili smo manjšo napako v zvezi s prikazom dvignjene roke v skupinskih klicih."
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "Pomembne informacije naj bodo vedno enostavno dostopne s pripetimi sporočili. Vaša najpogostejša vprašanja, rezervacije večerij in načrti potovanj so že v vaših mislih. Zdaj so lahko tudi na vrhu klepeta."
   }
 }

@@ -5628,22 +5628,22 @@
     "messageformat": "無法匯出聊天紀錄，因為 Signal 沒有權限將檔案寫入磁碟。請嘗試變更磁碟權限或更新系統設定，然後再匯出。"
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "匯出備份"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "備份匯出完成"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "要還原此備份："
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "將備份資料夾轉移至手機的儲存空間"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "在手機上安裝新的 Signal 副本"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "輕按「還原或轉移」，然後選擇「裝置上備份」"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "月亮圖示"
@@ -7612,7 +7612,7 @@
     "messageformat": "這有助於我們深入了解通話的情況，以及哪些做法真正有效。你可在提交前檢視除錯日誌。"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "提交將分享你的意見回饋，以及<diagnosticInfoLink>關於你通話的診斷資訊</diagnosticInfoLink>。你可以選擇分享除錯日誌，協助我們改善通話品質。"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "分享除錯日誌"
@@ -7645,7 +7645,7 @@
     "messageformat": "感謝你的意見！"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "展開側邊欄用擴音器開始互動"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "此版本包含許多小調整和錯誤修復，以維持 Signal 穩定運作。",
@@ -7679,6 +7679,6 @@
     "messageformat": "我們修正了一個群組通話中舉手指示器的錯誤：如果有人非常快速地舉起和放下手，有時舉手指示器會持續顯示（且計數為零）。"
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "使用已釘選訊息功能，讓重要資訊隨時觸手可及。你最常詢問的問題、晚餐預約以及度假行程都是首要事項。現在也可以將它們放到聊天的頂端。"
   }
 }

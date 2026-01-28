@@ -5628,22 +5628,22 @@
     "messageformat": "आपकी पुरानी चैट एक्सपोर्ट नहीं की जा सकी, क्योंकि Signal के पास फ़ाइलों को डिस्क पर सेव करने की अनुमति नहीं है। अपने डिस्क की अनुमतियां बदलकर या सिस्टम सेटिंग अपडेट करके फिर से एक्सपोर्ट करने की कोशिश करें।"
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "बैकअप एक्सपोर्ट किया जा रहा है"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "बैकअप एक्सपोर्ट पूरा हुआ"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "इस बैकअप को रीस्टोर करने के लिए:"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "अपने बैकअप फ़ोल्डर को अपने फ़ोन के स्टोरेज में ट्रांसफ़र करें"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "अपने फ़ोन पर Signal की एक नई कॉपी इंस्टॉल करें"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "'रीस्टोर या ट्रांसफ़र करें' पर टैप करें और 'ऑन-डिवाइस बैकअप' चुनें"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "चंद्रमा वाला आइकन"
@@ -6009,7 +6009,7 @@
     "messageformat": "कभी नहीं"
   },
   "icu:Preferences__local-backups-backup-now": {
-    "messageformat": "अभी बैकअप लें।"
+    "messageformat": "अभी बैकअप लें"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "बैकअप फ़ोल्डर"
@@ -7612,7 +7612,7 @@
     "messageformat": "इससे हमें कॉल के बारे में ज़्यादा जानकारी पाने और यह समझने में मदद मिलती है कि क्या काम कर रहा है और क्या नहीं। सबमिट करने से पहले आपके पास अपना डीबग लॉग देखने का विकल्प होता है।"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "सबमिट करने पर आपका फ़ीडबैक और <diagnosticInfoLink>आपकी कॉल से जुड़ी समस्या की जानकारी</diagnosticInfoLink> भी शेयर हो जाएगी। कॉल की क्वालिटी को बेहतर बनाने में हमारी मदद करने के लिए, आप चाहें तो डीबग लॉग भी शेयर करें।"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "डीबग लॉग शेयर करें"
@@ -7645,7 +7645,7 @@
     "messageformat": "आपके फ़ीडबैक के लिए शुक्रिया!"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "मेगाफ़ोन इस्तेमाल करने के लिए साइडबार को बड़ा करें"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "इस वर्ज़न में बग ठीक करने के साथ-साथ कई छोटे-छोटे बदलाव किए गए हैं, जिससे Signal की परफ़ॉर्मेंस और बेहतर हो सके।",
@@ -7679,6 +7679,6 @@
     "messageformat": "मीटिंग में हाथ उठते ही अचानक पैदा होने वाली खामोशी को तो हम ठीक नहीं कर सकते, लेकिन हमने एक गड़बड़ी ज़रूर ठीक कर दी है। इसमें कोई अगर बहुत जल्दी हाथ उठाकर नीचे कर देता था, तब भी हाथ उठाने का संकेत स्क्रीन पर मौजूद रहता था और उसकी गिनती शून्य दिखाई देती थी।"
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "ज़रूरी जानकारी तक तुरंत व आसान पहुंच के लिए मैसेज पिन करके रखें। आपके ज़रूरी सवाल, डिनर की बुकिंग, और ट्रिप के प्लान जैसी बातें हमेशा आपके मन में टॉप पर रहती हैं। अब इन्हें चैट में भी टॉप पर देखने का विकल्प आपके पास है।"
   }
 }

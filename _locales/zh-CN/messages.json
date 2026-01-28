@@ -5628,22 +5628,22 @@
     "messageformat": "无法导出您的聊天记录，因为 Signal 没有向磁盘写入文件的权限。请尝试更改磁盘权限或更新系统设置，然后再导出。"
   },
   "icu:LocalBackupExport--ProgressDialog--Header": {
-    "messageformat": "Exporting backup"
+    "messageformat": "正在导出备份"
   },
   "icu:LocalBackupExport--CompleteDialog--Header": {
-    "messageformat": "Backup export complete"
+    "messageformat": "备份导出完成"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
-    "messageformat": "To restore this backup:"
+    "messageformat": "要恢复此备份："
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
-    "messageformat": "Transfer your backup folder to your phone's storage"
+    "messageformat": "将您的备份文件夹转移到您的手机存储空间"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
-    "messageformat": "Install a new copy of Signal on your phone"
+    "messageformat": "在您的手机上安装新的 Signal 版本"
   },
   "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
-    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”"
+    "messageformat": "点击“恢复或转移”，然后选择“设备本地备份”"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "月亮图标"
@@ -6006,7 +6006,7 @@
     "messageformat": "上次备份"
   },
   "icu:Preferences__local-backups-last-backup-never": {
-    "messageformat": "永不"
+    "messageformat": "从未"
   },
   "icu:Preferences__local-backups-backup-now": {
     "messageformat": "现在备份"
@@ -7612,7 +7612,7 @@
     "messageformat": "这有助于我们进一步了解通话情况，以及哪些功能正常，哪些存在问题。您可以先查看您的调试日志再提交。"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality."
+    "messageformat": "提交日志将共享您的反馈以及<diagnosticInfoLink>有关您通话的诊断信息</diagnosticInfoLink>。您可以选择共享调试日志，帮助我们改进通话质量。"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "分享调试日志"
@@ -7645,7 +7645,7 @@
     "messageformat": "感谢您的反馈！"
   },
   "icu:Megaphone__ExpandNarrowSidebar": {
-    "messageformat": "Expand sidebar to interact with megaphone"
+    "messageformat": "展开侧边栏与扩音器交互"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "此版本包含多个小调整和漏洞修复，以维持 Signal 的顺畅运行。",
@@ -7679,6 +7679,6 @@
     "messageformat": "我们修复了群组通话中举手指示器的一个微小显示漏洞。"
   },
   "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well."
+    "messageformat": "置顶消息功能可让重要消息固定在聊天顶部，方便快速查看。"
   }
 }
