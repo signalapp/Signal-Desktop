@@ -3052,6 +3052,12 @@ function handleSignalRoute(route: ParsedSignalRoute) {
   } else if (route.key === 'donationValidationComplete') {
     log.info('donationValidationComplete route handled');
     mainWindow.webContents.send('donation-validation-complete', route.args);
+  } else if (route.key === 'donationPaypalApproved') {
+    log.info('donationPaypalApproved route handled');
+    mainWindow.webContents.send('donation-paypal-approved', route.args);
+  } else if (route.key === 'donationPaypalCanceled') {
+    log.info('donationPaypalCanceled route handled');
+    mainWindow.webContents.send('donation-paypal-canceled', route.args);
   } else {
     log.info('handleSignalRoute: Unknown signal route:', route.key);
     mainWindow.webContents.send('unknown-sgnl-link');

@@ -591,6 +591,7 @@ export function PreferencesDonations({
 
     if (
       workflow?.type === donationStateSchema.Enum.INTENT_CONFIRMED ||
+      workflow?.type === donationStateSchema.Enum.PAYMENT_CONFIRMED ||
       workflow?.type === donationStateSchema.Enum.RECEIPT ||
       workflow?.type === donationStateSchema.Enum.DONE
     ) {
@@ -693,6 +694,7 @@ export function PreferencesDonations({
     settingsLocation.page === SettingsPage.DonationsDonateFlow &&
     (isSubmitted ||
       workflow?.type === donationStateSchema.Enum.INTENT_CONFIRMED ||
+      workflow?.type === donationStateSchema.Enum.PAYMENT_CONFIRMED ||
       workflow?.type === donationStateSchema.Enum.RECEIPT)
   ) {
     // We can't transition away from the payment screen until that payment information
@@ -700,6 +702,7 @@ export function PreferencesDonations({
     if (
       hasProcessingExpired &&
       (workflow?.type === donationStateSchema.Enum.INTENT_CONFIRMED ||
+        workflow?.type === donationStateSchema.Enum.PAYMENT_CONFIRMED ||
         workflow?.type === donationStateSchema.Enum.RECEIPT)
     ) {
       dialog = (
