@@ -189,7 +189,7 @@ function DonationHero({
         />
       </div>
       <div className="PreferencesDonations__title">
-        {i18n('icu:PreferencesDonations__title')}
+        {i18n('icu:PreferencesDonations__title-v2')}
       </div>
       <div className="PreferencesDonations__description">
         <I18n
@@ -197,7 +197,7 @@ function DonationHero({
             readMoreLink: privacyReadMoreLink,
           }}
           i18n={i18n}
-          id="icu:PreferencesDonations__description"
+          id="icu:PreferencesDonations__description-v2"
         />
       </div>
     </>

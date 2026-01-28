@@ -1086,6 +1086,10 @@
     "messageformat": "See {whatsNew} in this update",
     "description": "Shown in the main window"
   },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal is a 501c3 nonprofit",
+    "description": "Shown at the bottom of the main window when a chat is not selected"
+  },
   "icu:viewReleaseNotes": {
     "messageformat": "what's new",
     "description": "Clickable link that displays the latest release notes"
@@ -9710,8 +9714,16 @@
     "messageformat": "Privacy over Profit",
     "description": "Title shown at the top of the donations preferences page"
   },
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "Proudly nonprofit",
+    "description": "Title shown at the top of the donations preferences page"
+  },
   "icu:PreferencesDonations__description": {
     "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>",
+    "description": "Description text explaining Signal's donation model with learn more link"
+  },
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>",
     "description": "Description text explaining Signal's donation model with learn more link"
   },
   "icu:PreferencesDonations__donate-button": {

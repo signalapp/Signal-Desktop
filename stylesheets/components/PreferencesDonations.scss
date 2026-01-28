@@ -438,30 +438,6 @@
   }
 }
 
-.DonationPrivacyInformationModal {
-  @include donations-modal;
-
-  &__footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 16px;
-  }
-
-  &__faqs-link {
-    @include mixins.button-reset;
-
-    & {
-      color: variables.$color-ultramarine;
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
-}
-
 .PreferencesDonations__badge-list {
   width: 100%;
   margin-block: 4px 8px;
