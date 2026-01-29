@@ -9,3 +9,7 @@ export const selectGifs = (state: StateType): GifsStateType => state.gifs;
 export const getRecentGifs = createSelector(selectGifs, gifs => {
   return gifs.recentGifs;
 });
+
+export const getGifAutoplay = createSelector(selectGifs, gifs => {
+  return gifs.autoPlayGifs;
+});

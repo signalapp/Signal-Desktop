@@ -111,6 +111,7 @@ window.testUtilities = {
       chatFolders: [],
       gifs: {
         recentGifs: [],
+        autoPlayGifs: true,
       },
       mainWindowStats: {
         isFullScreen: false,

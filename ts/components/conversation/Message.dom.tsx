@@ -351,8 +351,8 @@ export type PropsData = {
   ) => React.JSX.Element;
 
   item?: never;
-  // test-only, to force GIF's reduced motion experience
-  _forceTapToPlay?: boolean;
+  // force GIF's reduced motion experience
+  forceTapToPlay?: boolean;
 };
 
 export type PropsHousekeeping = {
@@ -1158,7 +1158,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public renderAttachment(): React.JSX.Element | null {
     const {
-      _forceTapToPlay,
+      forceTapToPlay,
       attachmentDroppedDueToSize,
       attachments,
       cancelAttachmentDownload,
@@ -1236,7 +1236,7 @@ export class Message extends React.PureComponent<Props, State> {
               attachment={firstAttachment}
               size={GIF_SIZE}
               tabIndex={0}
-              _forceTapToPlay={_forceTapToPlay}
+              forceTapToPlay={forceTapToPlay}
               theme={theme}
               i18n={i18n}
               onError={this.handleImageError}
