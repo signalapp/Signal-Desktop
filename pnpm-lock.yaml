@@ -141,8 +141,8 @@ importers:
         specifier: 2.1.2
         version: 2.1.2
       '@signalapp/ringrtc':
-        specifier: 2.62.0
-        version: 2.62.0
+        specifier: 2.63.0
+        version: 2.63.0
       '@signalapp/sqlcipher':
         specifier: 2.4.4
         version: 2.4.4
@@ -3511,8 +3511,8 @@ packages:
     resolution: {integrity: sha512-y2sgqdivlrG41J4Zvt/82xtH/PZjDlgItqlD2g/Cv3ZbjlR6cGhTNXbfNygCJB8nXj+C7I28pjt1Zm3k0pv2mg==}
     engines: {npm: '>=8.2.3'}
 
-  '@signalapp/ringrtc@2.62.0':
-    resolution: {integrity: sha512-peFkgzQV4fkr7EftSUr4voBZAQ8FNzj+0Qsri1AmrY/zY/mjr4mIlb0Lrn2BGPPHg1NwvkCUWPT8bS5SscRmKQ==}
+  '@signalapp/ringrtc@2.63.0':
+    resolution: {integrity: sha512-cV6ag9oTqTUNNTmWbxYeiHUHTJToFjZuQhiFHbFIKjzZawwznoXCDOyAhuIzJ5VwHBBuspD28b7xkf8JfhJSCQ==}
     hasBin: true
 
   '@signalapp/sqlcipher@2.4.4':
@@ -10130,6 +10130,7 @@ packages:
   tar@7.5.2:
     resolution: {integrity: sha512-7NyxrTE4Anh8km8iEy7o0QYPs+0JKBTj5ZaqHg6B39erLg0qYXN3BijtShwbsNSvQ+LN75+KV+C4QR/f6Gwnpg==}
     engines: {node: '>=18'}
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exhorbitant rates) by contacting i@izs.me
 
   telejson@7.2.0:
     resolution: {integrity: sha512-1QTEcJkJEhc8OnStBx/ILRu5J2p0GjvWsBx56bmZRqnrkdBMUe+nX92jxV+p3dB4CP6PZCdJMQJwCggkNBMzkQ==}
@@ -14327,7 +14328,7 @@ snapshots:
       lodash: 4.17.21
       quill-delta: 5.1.0
 
-  '@signalapp/ringrtc@2.62.0':
+  '@signalapp/ringrtc@2.63.0':
     dependencies:
       https-proxy-agent: 7.0.6
       tar: 7.5.2
@@ -16155,7 +16156,7 @@ snapshots:
       minipass-pipeline: 1.2.4
       p-map: 7.0.3
       ssri: 12.0.0
-      tar: 7.4.3
+      tar: 7.5.2
       unique-filename: 4.0.0
 
   cacheable-lookup@5.0.4: {}
