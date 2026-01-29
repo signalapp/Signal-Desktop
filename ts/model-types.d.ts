@@ -420,7 +420,6 @@ export type ConversationAttributesType = {
    */
   sealedSender?: SEALED_SENDER;
   sentMessageCount?: number;
-  sharedGroupNames?: ReadonlyArray<string>;
   voiceNotePlaybackRate?: number;
 
   id: string;

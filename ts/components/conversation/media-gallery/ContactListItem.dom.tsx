@@ -40,7 +40,6 @@ export function ContactListItem({
       conversationType="direct"
       i18n={i18n}
       title={name}
-      sharedGroupNames={[]}
       size={AvatarSize.THIRTY_SIX}
     />
   );

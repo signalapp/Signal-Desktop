@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import type { ReactNode } from 'react';
 
 import type {
@@ -63,7 +63,6 @@ type PropsActionType = {
   togglePip: () => void;
   toggleSafetyNumberModal: (conversationId: string) => unknown;
   toggleAddUserToAnotherGroupModal: (conversationId: string) => void;
-  updateConversationModelSharedGroups: (conversationId: string) => void;
   viewUserStories: ViewUserStoriesActionCreatorType;
 };
 
@@ -108,7 +107,6 @@ export function ContactModal({
   toggleAdmin,
   togglePip,
   toggleSafetyNumberModal,
-  updateConversationModelSharedGroups,
   viewUserStories,
 }: PropsType): React.JSX.Element {
   if (!contact) {
@@ -120,13 +118,6 @@ export function ContactModal({
     SubModalState.None
   );
   const modalTheme = getThemeByThemeType(theme);
-
-  useEffect(() => {
-    if (contact?.id) {
-      // Kick off the expensive hydration of the current sharedGroupNames
-      updateConversationModelSharedGroups(contact.id);
-    }
-  }, [contact?.id, updateConversationModelSharedGroups]);
 
   const renderQuickActions = React.useCallback(
     (conversationId: string) => {
@@ -343,7 +334,6 @@ export function ContactModal({
               }}
               onClickBadge={() => setView(ContactModalView.ShowingBadges)}
               profileName={contact.profileName}
-              sharedGroupNames={contact.sharedGroupNames}
               size={AvatarSize.EIGHTY}
               storyRing={hasStories}
               theme={theme}

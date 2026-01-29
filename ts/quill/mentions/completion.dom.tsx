@@ -300,7 +300,6 @@ export class MentionCompletion {
                     conversationType="direct"
                     hasAvatar={member.hasAvatar}
                     i18n={this.options.i18n}
-                    sharedGroupNames={member.sharedGroupNames}
                     size={AvatarSize.TWENTY_EIGHT}
                     theme={theme}
                     title={member.title}

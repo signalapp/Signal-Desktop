@@ -51,7 +51,6 @@ export const SmartContactModal = memo(function SmartContactModal() {
   const {
     removeMemberFromGroup,
     showConversation,
-    updateConversationModelSharedGroups,
     toggleAdmin,
     blockConversation,
     startAvatarDownload,
@@ -102,7 +101,6 @@ export const SmartContactModal = memo(function SmartContactModal() {
       toggleAdmin={toggleAdmin}
       togglePip={togglePip}
       toggleSafetyNumberModal={toggleSafetyNumberModal}
-      updateConversationModelSharedGroups={updateConversationModelSharedGroups}
       viewUserStories={viewUserStories}
     />
   );

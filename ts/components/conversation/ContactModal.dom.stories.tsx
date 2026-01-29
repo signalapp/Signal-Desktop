@@ -58,9 +58,6 @@ export default {
     toggleAboutContactModal: action('AboutContactModal'),
     toggleAdmin: action('toggleAdmin'),
     toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
-    updateConversationModelSharedGroups: action(
-      'updateConversationModelSharedGroups'
-    ),
     viewUserStories: action('viewUserStories'),
   },
 } satisfies Meta<PropsType>;

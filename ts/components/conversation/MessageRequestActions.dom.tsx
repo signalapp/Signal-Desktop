@@ -12,11 +12,15 @@ import {
 import { I18n } from '../I18n.dom.js';
 import type { LocalizerType } from '../../types/Util.std.js';
 import { strictAssert } from '../../util/assert.std.js';
+import {
+  useSharedGroupNamesOnMount,
+  type GetSharedGroupNamesType,
+} from '../../util/sharedGroupNames.dom.js';
 
 export type Props = {
   i18n: LocalizerType;
   isHidden: boolean | null;
-  sharedGroupNames?: ReadonlyArray<string>;
+  getSharedGroupNames: GetSharedGroupNamesType;
 } & Omit<
   MessageRequestActionsConfirmationProps,
   'i18n' | 'state' | 'onChangeState'
@@ -27,11 +31,11 @@ export function MessageRequestActions({
   conversationId,
   conversationType,
   conversationName,
+  getSharedGroupNames,
   i18n,
   isBlocked,
   isHidden,
   isReported,
-  sharedGroupNames = [],
   acceptConversation,
   blockAndReportSpam,
   blockConversation,
@@ -39,6 +43,10 @@ export function MessageRequestActions({
   deleteConversation,
 }: Props): React.JSX.Element {
   const [mrState, setMrState] = React.useState(MessageRequestState.default);
+  const sharedGroupNames = useSharedGroupNamesOnMount(
+    conversationId,
+    getSharedGroupNames
+  );
 
   const nameValue =
     conversationType === 'direct' ? conversationName : addedByName;

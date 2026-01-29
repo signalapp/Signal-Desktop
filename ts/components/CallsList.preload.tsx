@@ -915,7 +915,6 @@ export function CallsList({
                 hasAvatar={conversation.hasAvatar}
                 i18n={i18n}
                 title={conversation.title}
-                sharedGroupNames={[]}
                 size={AvatarSize.THIRTY_SIX}
                 badge={undefined}
                 className="CallsList__ItemAvatar"

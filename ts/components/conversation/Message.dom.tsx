@@ -284,7 +284,6 @@ export type PropsData = {
     | 'isMe'
     | 'phoneNumber'
     | 'profileName'
-    | 'sharedGroupNames'
     | 'title'
   >;
   conversationType: ConversationTypeType;
@@ -1705,7 +1704,6 @@ export class Message extends React.PureComponent<Props, State> {
                 color={getColorForCallLink(getKeyFromCallLink(first.url))}
                 conversationType="callLink"
                 i18n={i18n}
-                sharedGroupNames={[]}
                 size={64}
                 title={title ?? i18n('icu:calling__call-link-default-title')}
               />
@@ -2327,7 +2325,6 @@ export class Message extends React.PureComponent<Props, State> {
             }}
             phoneNumber={author.phoneNumber}
             profileName={author.profileName}
-            sharedGroupNames={author.sharedGroupNames}
             size={GROUP_AVATAR_SIZE}
             theme={theme}
             title={author.title}

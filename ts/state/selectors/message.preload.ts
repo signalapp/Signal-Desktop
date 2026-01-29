@@ -182,12 +182,7 @@ const linkify = new LinkifyIt();
 type FormattedContact = Partial<ConversationType> &
   Pick<
     ConversationType,
-    | 'acceptedMessageRequest'
-    | 'id'
-    | 'isMe'
-    | 'sharedGroupNames'
-    | 'title'
-    | 'type'
+    'acceptedMessageRequest' | 'id' | 'isMe' | 'title' | 'type'
   >;
 export type PropsForMessage = Omit<TimelineMessagePropsData, 'interactionMode'>;
 export type MessagePropsType = Omit<
@@ -383,7 +378,6 @@ const getAuthorForMessage = (
     name,
     phoneNumber,
     profileName,
-    sharedGroupNames,
     title,
   } = getContact(message, options);
 
@@ -400,7 +394,6 @@ const getAuthorForMessage = (
     name,
     phoneNumber,
     profileName,
-    sharedGroupNames,
     title,
   };
 
@@ -456,7 +449,6 @@ const getReactionsForMessage = (
       name,
       phoneNumber,
       profileName,
-      sharedGroupNames,
       title,
     } = c;
 
@@ -470,7 +462,6 @@ const getReactionsForMessage = (
       name,
       phoneNumber,
       profileName,
-      sharedGroupNames,
       title,
     };
 
@@ -503,7 +494,6 @@ export type PollVoteWithUserType = {
     | 'name'
     | 'phoneNumber'
     | 'profileName'
-    | 'sharedGroupNames'
     | 'title'
   >;
 };
@@ -612,7 +602,6 @@ const getPollForMessage = (
       name: voter.name,
       phoneNumber: voter.phoneNumber,
       profileName: voter.profileName,
-      sharedGroupNames: voter.sharedGroupNames,
       title: voter.title,
     };
 
@@ -1956,13 +1945,12 @@ export function getPropsForPhoneNumberDiscovery(
 
   const conversation = getConversation(message, conversationSelector);
   const conversationTitle = conversation.title;
-  const sharedGroup = conversation.sharedGroupNames[0];
   const { e164 } = phoneNumberDiscovery;
 
   return {
+    conversationId: conversation.id,
     conversationTitle,
     phoneNumber: renderNumber(e164) ?? e164,
-    sharedGroup,
   };
 }
 

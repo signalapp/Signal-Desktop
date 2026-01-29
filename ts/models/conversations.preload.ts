@@ -350,8 +350,6 @@ export class ConversationModel {
 
   lastSuccessfulGroupFetch?: number;
 
-  throttledUpdateSharedGroups?: () => Promise<void>;
-
   #cachedIdenticon?: CachedIdenticon;
 
   public isFetchingUUID?: boolean;
@@ -509,10 +507,6 @@ export class ConversationModel {
 
     this.throttledBumpTyping = throttle(this.bumpTyping, 300);
     this.throttledUpdateUnread = throttle(this.#updateUnread, 300);
-    this.throttledUpdateSharedGroups = throttle(
-      this.updateSharedGroups.bind(this),
-      FIVE_MINUTES
-    );
     this.throttledFetchSMSOnlyUUID = throttle(
       this.fetchSMSOnlyUUID.bind(this),
       FIVE_MINUTES
@@ -5019,22 +5013,6 @@ export class ConversationModel {
         (left, right) =>
           (right.get('timestamp') || 0) - (left.get('timestamp') || 0)
       );
-  }
-
-  // This is an expensive operation we use to populate the message request hero row. It
-  //   shows groups the current user has in common with this potential new contact.
-  async updateSharedGroups(): Promise<void> {
-    const sharedGroups = await this.#getSharedGroups();
-
-    if (sharedGroups == null) {
-      return;
-    }
-
-    const sharedGroupNames = sharedGroups.map(conversation =>
-      conversation.getTitle()
-    );
-
-    this.set({ sharedGroupNames });
   }
 
   onChangeProfileKey(): void {

@@ -668,8 +668,6 @@ export function CallScreen({
           phoneNumber={me.phoneNumber}
           profileName={me.profileName}
           title={me.title}
-          // See comment above about `sharedGroupNames`.
-          sharedGroupNames={[]}
           size={AvatarSize.FORTY}
         />
       </CallBackgroundBlur>
@@ -978,7 +976,6 @@ export function CallScreen({
                 profileName={conversation.profileName}
                 title={conversation.title}
                 size={AvatarSize.EIGHTY}
-                sharedGroupNames={conversation.sharedGroupNames}
               />
             </div>
           </CallBackgroundBlur>

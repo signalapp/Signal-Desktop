@@ -340,7 +340,6 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
       onViewUserStories={onViewUserStories}
       outgoingCallButtonStyle={outgoingCallButtonStyle}
       setLocalDeleteWarningShown={setLocalDeleteWarningShown}
-      sharedGroupNames={conversation.sharedGroupNames}
       theme={theme}
       contactSpoofingWarning={contactSpoofingWarning}
       renderCollidingAvatars={renderCollidingAvatars}

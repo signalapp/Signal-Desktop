@@ -118,7 +118,6 @@ export function ConversationDetailsHeader({
         }
         setActiveModal(ConversationDetailsHeaderActiveModal.ShowingBadges);
       }}
-      sharedGroupNames={[]}
       theme={theme}
     />
   );

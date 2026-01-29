@@ -27,6 +27,30 @@ const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
 const DAY = 24 * 3600;
 
+function isProfileKeyUpdate(flags: number | null | undefined): boolean {
+  if (flags == null) {
+    return false;
+  }
+  // eslint-disable-next-line no-bitwise
+  return (flags & Proto.DataMessage.Flags.PROFILE_KEY_UPDATE) !== 0;
+}
+
+async function waitForNonProfileKeyUpdateMessage(
+  device: PrimaryDevice
+): Promise<{ body: string; dataMessage: Proto.IDataMessage }> {
+  const maxAttempts = 5;
+  for (let i = 0; i < maxAttempts; i += 1) {
+    // eslint-disable-next-line no-await-in-loop
+    const message = await device.waitForMessage();
+    if (isProfileKeyUpdate(message.dataMessage.flags)) {
+      debug('Skipping profile key update');
+      continue;
+    }
+    return message;
+  }
+  throw new Error(`No message with body after ${maxAttempts} attempts`);
+}
+
 describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
 
@@ -255,7 +279,8 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
       }
 
       debug('Getting message to contact');
-      const { body, dataMessage } = await stranger.waitForMessage();
+      const { body, dataMessage } =
+        await waitForNonProfileKeyUpdateMessage(stranger);
 
       assert.strictEqual(body, 'Hello');
       assert.strictEqual(dataMessage.expireTimer, scenario.finalTimer);

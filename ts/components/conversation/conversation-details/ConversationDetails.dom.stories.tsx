@@ -33,7 +33,6 @@ const conversation: ConversationType = getDefaultConversation({
   title: 'Some Conversation',
   groupDescription: 'Hello World!',
   type: 'group',
-  sharedGroupNames: [],
   conversationColor: 'ultramarine' as const,
 });
 

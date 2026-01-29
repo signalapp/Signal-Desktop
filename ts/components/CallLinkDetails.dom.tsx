@@ -111,7 +111,6 @@ export function CallLinkDetails({
           color={getColorForCallLink(callLink.rootKey)}
           conversationType="callLink"
           size={AvatarSize.SIXTY_FOUR}
-          sharedGroupNames={[]}
           title={callLink.name ?? i18n('icu:calling__call-link-default-title')}
         />
         <div className="CallLinkDetails__HeaderDetails">
@@ -279,7 +278,6 @@ function renderMissingCallLink({
           badge={undefined}
           conversationType="callLink"
           size={AvatarSize.SIXTY_FOUR}
-          sharedGroupNames={[]}
           title={i18n('icu:calling__call-link-default-title')}
         />
         <div className="CallLinkDetails__HeaderDetails">

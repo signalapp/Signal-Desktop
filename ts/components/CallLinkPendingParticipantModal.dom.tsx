@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Modal } from './Modal.dom.js';
 import type { LocalizerType } from '../types/I18N.std.js';
 import { Avatar, AvatarSize } from './Avatar.dom.js';
@@ -20,8 +20,8 @@ export type CallLinkPendingParticipantModalProps = {
   readonly approveUser: (payload: PendingUserActionPayloadType) => void;
   readonly denyUser: (payload: PendingUserActionPayloadType) => void;
   readonly onClose: () => void;
+  readonly sharedGroupNames: ReadonlyArray<string>;
   readonly toggleAboutContactModal: (conversationId: string) => void;
-  readonly updateSharedGroups: (conversationId: string) => void;
 };
 
 export function CallLinkPendingParticipantModal({
@@ -30,14 +30,9 @@ export function CallLinkPendingParticipantModal({
   approveUser,
   denyUser,
   onClose,
+  sharedGroupNames,
   toggleAboutContactModal,
-  updateSharedGroups,
 }: CallLinkPendingParticipantModalProps): React.JSX.Element {
-  useEffect(() => {
-    // Kick off the expensive hydration of the current sharedGroupNames
-    updateSharedGroups(conversation.id);
-  }, [conversation.id, updateSharedGroups]);
-
   const serviceId = useMemo(() => {
     return conversation.serviceId;
   }, [conversation]);
@@ -70,7 +65,6 @@ export function CallLinkPendingParticipantModal({
         hasAvatar={conversation.hasAvatar}
         i18n={i18n}
         profileName={conversation.profileName}
-        sharedGroupNames={conversation.sharedGroupNames}
         size={AvatarSize.EIGHTY}
         title={conversation.title}
         theme={ThemeType.dark}
@@ -101,11 +95,8 @@ export function CallLinkPendingParticipantModal({
       </button>
 
       <div className="CallLinkPendingParticipantModal__SharedGroupInfo">
-        {conversation.sharedGroupNames?.length ? (
-          <SharedGroupNames
-            i18n={i18n}
-            sharedGroupNames={conversation.sharedGroupNames || []}
-          />
+        {sharedGroupNames.length > 0 ? (
+          <SharedGroupNames i18n={i18n} sharedGroupNames={sharedGroupNames} />
         ) : (
           i18n('icu:no-groups-in-common-warning')
         )}

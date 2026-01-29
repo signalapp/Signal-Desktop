@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { type ReactNode, useEffect, useState } from 'react';
+import React, { type ReactNode, useState } from 'react';
 import classNames from 'classnames';
 import type { Props as AvatarProps } from '../Avatar.dom.js';
 import { Avatar, AvatarSize, AvatarBlur } from '../Avatar.dom.js';
@@ -39,7 +39,6 @@ export type Props = {
   phoneNumber?: string;
   sharedGroupNames?: ReadonlyArray<string>;
   startAvatarDownload: () => void;
-  updateSharedGroups: (conversationId: string) => unknown;
   theme: ThemeType;
   viewUserStories: ViewUserStoriesActionCreatorType;
   toggleAboutContactModal: (conversationId: string) => unknown;
@@ -74,11 +73,11 @@ const renderExtraInformation = ({
   | 'memberships'
   | 'openConversationDetails'
   | 'phoneNumber'
-> &
-  Required<Pick<Props, 'sharedGroupNames'>> & {
-    onClickProfileNameWarning: () => void;
-    onToggleSafetyTips: (showSafetyTips: boolean) => void;
-  }) => {
+  | 'sharedGroupNames'
+> & {
+  onClickProfileNameWarning: () => void;
+  onToggleSafetyTips: (showSafetyTips: boolean) => void;
+}) => {
   if (conversationType !== 'direct' && conversationType !== 'group') {
     return null;
   }
@@ -107,7 +106,7 @@ const renderExtraInformation = ({
 
   const shouldShowReviewCarefully =
     !acceptedMessageRequest &&
-    (conversationType === 'group' || sharedGroupNames.length <= 1);
+    (conversationType === 'group' || (sharedGroupNames?.length ?? 0) <= 1);
 
   const reviewCarefullyLabel = shouldShowReviewCarefully ? (
     <div className="module-conversation-hero__review-carefully">
@@ -123,7 +122,7 @@ const renderExtraInformation = ({
         <SharedGroupNames
           i18n={i18n}
           nameClassName="module-conversation-hero__membership__name"
-          sharedGroupNames={sharedGroupNames}
+          sharedGroupNames={sharedGroupNames ?? []}
         />
       </div>
     ) : null;
@@ -180,7 +179,7 @@ const renderExtraInformation = ({
 
   if (
     conversationType === 'direct' &&
-    sharedGroupNames.length === 0 &&
+    (sharedGroupNames?.length ?? 0) === 0 &&
     acceptedMessageRequest &&
     phoneNumber
   ) {
@@ -257,17 +256,11 @@ export function ConversationHero({
   startAvatarDownload,
   theme,
   title,
-  updateSharedGroups,
   viewUserStories,
   toggleAboutContactModal,
   toggleProfileNameWarningModal,
 }: Props): React.JSX.Element {
   const [isShowingSafetyTips, setIsShowingSafetyTips] = useState(false);
-
-  useEffect(() => {
-    // Kick off the expensive hydration of the current sharedGroupNames
-    updateSharedGroups(id);
-  }, [id, updateSharedGroups]);
 
   let avatarBlur: AvatarBlur = AvatarBlur.NoBlur;
   let avatarOnClick: undefined | (() => void);
@@ -339,7 +332,6 @@ export function ConversationHero({
           noteToSelf={isMe}
           onClick={avatarOnClick}
           profileName={profileName}
-          sharedGroupNames={sharedGroupNames}
           size={AvatarSize.EIGHTY}
           // user may have stories, but we don't show that on Note to Self conversation
           storyRing={isMe ? undefined : hasStories}
@@ -380,7 +372,7 @@ export function ConversationHero({
             },
             openConversationDetails,
             phoneNumber,
-            sharedGroupNames,
+            sharedGroupNames: sharedGroupNames ?? [],
           })}
         {isSignalConversation && <ReleaseNotesExtraInformation i18n={i18n} />}
       </div>

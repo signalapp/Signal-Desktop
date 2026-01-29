@@ -182,7 +182,6 @@ export function LeftPaneSearchInput({
               hasAvatar={searchConversation.hasAvatar}
               i18n={i18n}
               noteToSelf={searchConversation.isMe}
-              sharedGroupNames={searchConversation.sharedGroupNames}
               size={AvatarSize.TWENTY}
               title={searchConversation.title}
             />

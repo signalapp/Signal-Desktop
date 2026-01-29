@@ -183,7 +183,6 @@ function DonationHero({
           conversationType="direct"
           title={firstName ?? ''}
           i18n={i18n}
-          sharedGroupNames={[]}
           size={AvatarSize.SEVENTY_TWO}
           theme={theme}
         />

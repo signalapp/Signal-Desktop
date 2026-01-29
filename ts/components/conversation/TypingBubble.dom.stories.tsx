@@ -34,7 +34,6 @@ const CONTACTS = times(10, index => {
     phoneNumber: '(202) 555-0001',
     profileName: `${letter} ${letter}`,
     isMe: false,
-    sharedGroupNames: [],
     title: `${letter} ${letter}`,
   });
 });

@@ -67,7 +67,6 @@ export function GroupListItem({
           hasAvatar={group.hasAvatar}
           i18n={i18n}
           title={group.title}
-          sharedGroupNames={[]}
           size={AvatarSize.THIRTY_TWO}
           badge={undefined}
         />

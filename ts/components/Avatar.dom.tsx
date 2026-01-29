@@ -67,7 +67,6 @@ export type Props = {
   noteToSelf?: boolean;
   phoneNumber?: string;
   profileName?: string;
-  sharedGroupNames: ReadonlyArray<string>;
   size: AvatarSize;
   title: string;
   searchResult?: boolean;

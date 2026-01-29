@@ -98,7 +98,6 @@ export const PhoneNumberCheckbox: FunctionComponent<PropsType> = React.memo(
         i18n={i18n}
         phoneNumber={phoneNumber.userInput}
         title={phoneNumber.userInput}
-        sharedGroupNames={[]}
         size={AvatarSize.THIRTY_TWO}
         badge={undefined}
       />

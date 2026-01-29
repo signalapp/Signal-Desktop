@@ -50,7 +50,7 @@ export default {
     i18n,
     isDirectConvoAndHasNickname: false,
     theme: ThemeType.light,
-    updateSharedGroups: action('updateSharedGroups'),
+    sharedGroupNames: [],
     viewUserStories: action('viewUserStories'),
     toggleAboutContactModal: action('toggleAboutContactModal'),
     toggleProfileNameWarningModal: action('toggleProfileNameWarningModal'),

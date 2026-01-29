@@ -781,7 +781,6 @@ Quote.args = {
     id: '',
     isMe: false,
     title: 'Quoter Dude',
-    sharedGroupNames: [],
     acceptedMessageRequest: true,
     badges: [],
   },
@@ -2006,7 +2005,6 @@ function getStableVoter(optionIndex: number, voterIndex: number) {
     name,
     phoneNumber: undefined,
     profileName: undefined,
-    sharedGroupNames: [],
     title: name,
   };
 }
@@ -2065,7 +2063,6 @@ function createMockPollWithVoteCounts(
             name: 'You',
             phoneNumber: undefined,
             profileName: undefined,
-            sharedGroupNames: [],
             title: 'You',
           },
         },
@@ -2114,7 +2111,6 @@ function createMockPollWithVoters(
           name,
           phoneNumber: undefined,
           profileName: undefined,
-          sharedGroupNames: [],
           title: name,
         },
       };

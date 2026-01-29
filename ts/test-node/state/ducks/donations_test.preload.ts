@@ -76,7 +76,6 @@ describe('donations duck', () => {
       title: 'Me',
       acceptedMessageRequest: true,
       isMe: true,
-      sharedGroupNames: [],
     });
 
     const createRootState = (me: ConversationType): StateType => {

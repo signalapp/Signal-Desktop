@@ -75,7 +75,6 @@ export type PropsType = {
     | 'id'
     | 'name'
     | 'profileName'
-    | 'sharedGroupNames'
     | 'sortedGroupMembers'
     | 'title'
     | 'left'
@@ -192,15 +191,8 @@ export function StoryViewer({
     sendState,
     timestamp,
   } = story;
-  const {
-    avatarUrl,
-    color,
-    isMe,
-    firstName,
-    profileName,
-    sharedGroupNames,
-    title,
-  } = story.sender;
+  const { avatarUrl, color, isMe, firstName, profileName, title } =
+    story.sender;
 
   const conversationId = group?.id || story.sender.id;
 
@@ -729,7 +721,6 @@ export function StoryViewer({
                   conversationType="direct"
                   i18n={i18n}
                   profileName={profileName}
-                  sharedGroupNames={sharedGroupNames}
                   size={AvatarSize.TWENTY_EIGHT}
                   title={title}
                 />
@@ -742,7 +733,6 @@ export function StoryViewer({
                     conversationType="group"
                     i18n={i18n}
                     profileName={group.profileName}
-                    sharedGroupNames={group.sharedGroupNames}
                     size={AvatarSize.TWENTY_EIGHT}
                     title={group.title}
                   />

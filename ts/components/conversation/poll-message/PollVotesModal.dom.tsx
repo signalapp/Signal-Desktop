@@ -119,7 +119,6 @@ export function PollVotesModal({
                           noteToSelf={false}
                           phoneNumber={vote.from.phoneNumber}
                           profileName={vote.from.profileName}
-                          sharedGroupNames={vote.from.sharedGroupNames}
                           size={AvatarSize.THIRTY_SIX}
                           title={vote.from.title}
                         />

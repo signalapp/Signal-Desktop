@@ -434,7 +434,6 @@ export type ConversationType = ReadonlyDeep<
     draftPreview?: DraftPreviewType;
     draftTimestamp?: number;
 
-    sharedGroupNames: ReadonlyArray<string>;
     groupDescription?: string;
     groupVersion?: 1 | 2;
     groupId?: string;
@@ -1341,11 +1340,9 @@ export const actions = {
   toggleHideStories,
   toggleSelectMessage,
   toggleSelectMode,
-  updateConversationModelSharedGroups,
   updateGroupAttributes,
   updateLastMessage,
   updateNicknameAndNote,
-  updateSharedGroups,
   verifyConversationsStoppingSend,
 };
 
@@ -1636,20 +1633,6 @@ function removeMember(
     name: 'removeMember',
     task: () => conversation.removeFromGroupV2(memberConversationId),
   });
-
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
-}
-
-function updateSharedGroups(conversationId: string): NoopActionType {
-  const conversation = window.ConversationController.get(conversationId);
-  if (!conversation) {
-    throw new Error('updateSharedGroups: Conversation not found!');
-  }
-
-  void conversation.throttledUpdateSharedGroups?.();
 
   return {
     type: 'NOOP',
@@ -4752,21 +4735,6 @@ function toggleAdmin(
     const conversationModel = window.ConversationController.get(conversationId);
     if (conversationModel) {
       void conversationModel.toggleAdmin(contactId);
-    }
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
-  };
-}
-
-function updateConversationModelSharedGroups(
-  conversationId: string
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
-  return dispatch => {
-    const conversation = window.ConversationController.get(conversationId);
-    if (conversation && conversation.throttledUpdateSharedGroups) {
-      void conversation.throttledUpdateSharedGroups();
     }
     dispatch({
       type: 'NOOP',

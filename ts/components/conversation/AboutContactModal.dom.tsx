@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { type ReactNode, useCallback, useEffect, useMemo } from 'react';
+import React, { type ReactNode, useCallback, useMemo } from 'react';
 import type { ConversationType } from '../../state/ducks/conversations.preload.js';
 import type { LocalizerType } from '../../types/Util.std.js';
 import { isInSystemContacts } from '../../util/isInSystemContacts.std.js';
@@ -28,11 +28,11 @@ export type PropsType = Readonly<{
   fromOrAddedByTrustedContact?: boolean;
   isSignalConnection: boolean;
   pendingAvatarDownload?: boolean;
+  sharedGroupNames: ReadonlyArray<string>;
   startAvatarDownload?: (id: string) => unknown;
   toggleSignalConnectionsModal: () => void;
   toggleSafetyNumberModal: (id: string) => void;
   toggleProfileNameWarningModal: () => void;
-  updateSharedGroups: (id: string) => void;
 }>;
 
 export function AboutContactModal({
@@ -41,20 +41,15 @@ export function AboutContactModal({
   fromOrAddedByTrustedContact,
   isSignalConnection,
   pendingAvatarDownload,
+  sharedGroupNames,
   startAvatarDownload,
   toggleSignalConnectionsModal,
   toggleSafetyNumberModal,
   toggleProfileNameWarningModal,
-  updateSharedGroups,
   onClose,
   onOpenNotePreviewModal,
 }: PropsType): React.JSX.Element {
   const { avatarUrl, hasAvatar, isMe } = conversation;
-
-  useEffect(() => {
-    // Kick off the expensive hydration of the current sharedGroupNames
-    updateSharedGroups(conversation.id);
-  }, [conversation.id, updateSharedGroups]);
 
   // If hasAvatar is true, we show the download button instead of blur
   const enableClickToLoad = !avatarUrl && !isMe && hasAvatar;
@@ -156,7 +151,6 @@ export function AboutContactModal({
           i18n={i18n}
           loading={pendingAvatarDownload && !conversation.avatarUrl}
           profileName={conversation.profileName}
-          sharedGroupNames={[]}
           size={AvatarSize.TWO_HUNDRED_SIXTEEN}
           title={conversation.title}
         />
@@ -296,10 +290,7 @@ export function AboutContactModal({
         <div className="AboutContactModal__row">
           <i className="AboutContactModal__row__icon AboutContactModal__row__icon--group" />
           <div>
-            <SharedGroupNames
-              i18n={i18n}
-              sharedGroupNames={conversation.sharedGroupNames || []}
-            />
+            <SharedGroupNames i18n={i18n} sharedGroupNames={sharedGroupNames} />
           </div>
         </div>
       )}

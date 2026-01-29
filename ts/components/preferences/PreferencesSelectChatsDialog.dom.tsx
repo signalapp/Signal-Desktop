@@ -235,7 +235,6 @@ export function PreferencesSelectChatsDialog(
                 isMe={conversation.isMe}
                 phoneNumber={conversation.phoneNumber}
                 profileName={conversation.profileName}
-                sharedGroupNames={conversation.sharedGroupNames}
                 title={conversation.title}
                 onClickRemove={handleToggleSelectedConversation}
               />

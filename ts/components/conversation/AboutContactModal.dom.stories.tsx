@@ -40,7 +40,6 @@ const conversationWithSharedGroups = getDefaultConversation({
   acceptedMessageRequest: true,
   aboutText: 'likes to chat',
   hasMessages: true,
-  sharedGroupNames: ['Axolotl lovers'],
 });
 const systemContact = getDefaultConversation({
   acceptedMessageRequest: true,
@@ -67,10 +66,10 @@ export default {
     toggleSignalConnectionsModal: action('toggleSignalConnections'),
     toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
     toggleProfileNameWarningModal: action('toggleProfileNameWarningModal'),
-    updateSharedGroups: action('updateSharedGroups'),
     startAvatarDownload: action('startAvatarDownload'),
     pendingAvatarDownload: false,
     conversation,
+    sharedGroupNames: [],
     fromOrAddedByTrustedContact: false,
     isSignalConnection: false,
   },
@@ -123,6 +122,7 @@ export function WithSharedGroups(args: PropsType): React.JSX.Element {
     <AboutContactModal
       {...args}
       conversation={conversationWithSharedGroups}
+      sharedGroupNames={['Axolotl lovers']}
       isSignalConnection
     />
   );

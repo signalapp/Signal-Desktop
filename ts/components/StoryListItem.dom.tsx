@@ -45,17 +45,11 @@ function StoryListItemAvatar({
   getPreferredBadge,
   i18n,
   profileName,
-  sharedGroupNames,
   title,
   theme,
 }: Pick<
   ConversationType,
-  | 'avatarPlaceholderGradient'
-  | 'avatarUrl'
-  | 'color'
-  | 'profileName'
-  | 'sharedGroupNames'
-  | 'title'
+  'avatarPlaceholderGradient' | 'avatarUrl' | 'color' | 'profileName' | 'title'
 > & {
   avatarStoryRing?: HasStories;
   badges?: ConversationType['badges'];
@@ -72,7 +66,6 @@ function StoryListItemAvatar({
       conversationType="direct"
       i18n={i18n}
       profileName={profileName}
-      sharedGroupNames={sharedGroupNames}
       size={AvatarSize.FORTY_EIGHT}
       storyRing={avatarStoryRing}
       theme={theme}

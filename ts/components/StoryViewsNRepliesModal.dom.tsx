@@ -399,7 +399,6 @@ export function StoryViewsNRepliesModal({
                 conversationType="direct"
                 i18n={i18n}
                 profileName={view.recipient.profileName}
-                sharedGroupNames={view.recipient.sharedGroupNames || []}
                 size={AvatarSize.TWENTY_EIGHT}
                 title={view.recipient.title}
               />
@@ -631,7 +630,6 @@ function ReplyOrReactionMessage({
             conversationType="direct"
             i18n={i18n}
             profileName={reply.author.profileName}
-            sharedGroupNames={reply.author.sharedGroupNames || []}
             size={AvatarSize.TWENTY_EIGHT}
             theme={ThemeType.dark}
             title={reply.author.title}

@@ -10,6 +10,7 @@ import {
   getConversationSelector,
   getPendingAvatarDownloadSelector,
 } from '../selectors/conversations.dom.js';
+import { useSharedGroupNamesOnMount } from '../../util/sharedGroupNames.dom.js';
 import type { ConversationType } from '../ducks/conversations.preload.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
@@ -39,8 +40,9 @@ export const SmartAboutContactModal = memo(function SmartAboutContactModal() {
   const { aboutContactModalContactId: contactId } = globalModals;
   const getConversation = useSelector(getConversationSelector);
   const isPendingAvatarDownload = useSelector(getPendingAvatarDownloadSelector);
+  const sharedGroupNames = useSharedGroupNamesOnMount(contactId ?? '');
 
-  const { startAvatarDownload, updateSharedGroups } = useConversationsActions();
+  const { startAvatarDownload } = useConversationsActions();
 
   const conversation = getConversation(contactId);
   const { id: conversationId } = conversation ?? {};
@@ -66,7 +68,7 @@ export const SmartAboutContactModal = memo(function SmartAboutContactModal() {
     <AboutContactModal
       i18n={i18n}
       conversation={conversation}
-      updateSharedGroups={updateSharedGroups}
+      sharedGroupNames={sharedGroupNames}
       toggleSignalConnectionsModal={toggleSignalConnectionsModal}
       toggleSafetyNumberModal={toggleSafetyNumberModal}
       isSignalConnection={isSignalConnection(conversation)}

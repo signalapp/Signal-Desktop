@@ -22,7 +22,6 @@ const conversation: ConversationType = getDefaultConversation({
   pendingMemberships: Array(16).fill({ member: getDefaultConversation({}) }),
   title: 'Some Conversation',
   type: 'group',
-  sharedGroupNames: [],
   announcementsOnlyReady: true,
   areWeAdmin: true,
 });

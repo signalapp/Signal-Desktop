@@ -262,14 +262,12 @@ export function getConversation(model: ConversationModel): ConversationType {
     ...(isDirectConversation(attributes)
       ? {
           type: 'direct' as const,
-          sharedGroupNames: attributes.sharedGroupNames || EMPTY_ARRAY,
         }
       : {
           type: 'group' as const,
           acknowledgedGroupNameCollisions:
             attributes.acknowledgedGroupNameCollisions ||
             EMPTY_GROUP_COLLISIONS,
-          sharedGroupNames: EMPTY_ARRAY,
           storySendMode: attributes.storySendMode ?? StorySendMode.IfActive,
         }),
     voiceNotePlaybackRate: attributes.voiceNotePlaybackRate,

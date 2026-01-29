@@ -95,6 +95,7 @@ export default {
     blockAndReportSpam: action('blockAndReportSpam'),
     deleteConversation: action('deleteConversation'),
     conversationName: getDefaultConversation(),
+    getSharedGroupNames: () => [],
     // GroupV1 Disabled Actions
     showGV2MigrationDialog: action('showGV2MigrationDialog'),
     // GroupV2

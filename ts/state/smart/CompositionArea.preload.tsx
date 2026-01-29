@@ -31,6 +31,7 @@ import {
   getSelectedMessageIds,
   isMissingRequiredProfileSharing,
 } from '../selectors/conversations.dom.js';
+import { getSharedGroupNames } from '../../util/sharedGroupNames.dom.js';
 import {
   getDefaultConversationColor,
   getEmojiSkinToneDefault,
@@ -307,7 +308,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       blockConversation={blockConversation}
       reportSpam={reportSpam}
       deleteConversation={deleteConversation}
-      sharedGroupNames={conversation.sharedGroupNames}
+      getSharedGroupNames={getSharedGroupNames}
       // Signal Conversation
       isSignalConversation={isSignalConversation(conversation)}
       isMuted={isConversationMuted(conversation)}

@@ -38,7 +38,6 @@ export type PropsType = {
     | 'name'
     | 'phoneNumber'
     | 'profileName'
-    | 'sharedGroupNames'
     | 'title'
     | 'type'
   >;
@@ -200,7 +199,6 @@ export function IncomingCallBar(props: PropsType): React.JSX.Element | null {
     color,
     phoneNumber,
     profileName,
-    sharedGroupNames,
     title,
     type: conversationType,
   } = conversation;
@@ -284,7 +282,6 @@ export function IncomingCallBar(props: PropsType): React.JSX.Element | null {
               phoneNumber={phoneNumber}
               profileName={profileName}
               title={title}
-              sharedGroupNames={sharedGroupNames}
               size={AvatarSize.FORTY_EIGHT}
             />
           </div>

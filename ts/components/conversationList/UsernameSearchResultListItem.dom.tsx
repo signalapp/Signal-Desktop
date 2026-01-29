@@ -67,7 +67,6 @@ export function UsernameSearchResultListItem({
           title={username}
           size={AvatarSize.THIRTY_TWO}
           badge={undefined}
-          sharedGroupNames={[]}
         />
       }
       title={username}

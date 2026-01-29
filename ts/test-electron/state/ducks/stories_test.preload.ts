@@ -80,7 +80,6 @@ describe('both/state/ducks/stories', () => {
         id: conversationId,
         serviceId,
         isMe: false,
-        sharedGroupNames: [],
         title: title || casual.username,
         type: 'direct' as const,
       };

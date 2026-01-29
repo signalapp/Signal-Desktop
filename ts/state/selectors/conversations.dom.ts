@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import memoizee from 'memoizee';
+import { memoize } from '@indutny/sneequals';
 import lodash from 'lodash';
 import { createSelector } from 'reselect';
 import type { StateType } from '../reducer.preload.js';
@@ -114,7 +115,6 @@ export const getPlaceholderContact = (): ConversationType => {
     type: 'direct',
     title: window.SignalContext.i18n('icu:unknownContact'),
     isMe: false,
-    sharedGroupNames: [],
   };
   return placeholderContact;
 };
@@ -658,14 +658,44 @@ export const getHasContactSpoofingReview = createSelector(
   }
 );
 
-function isTrusted(conversation: ConversationType): boolean {
+/**
+ * Builds a Set of service IDs that appear in any group's memberships.
+ * Used to efficiently check if a contact shares groups with us.
+ * Memoized with sneequals to only recompute when group memberships change.
+ */
+const getServiceIdsInGroups = memoize(
+  (conversationLookup: ConversationLookupType): Set<string> => {
+    const serviceIds = new Set<string>();
+    for (const conversation of Object.values(conversationLookup)) {
+      if (
+        conversation.type === 'group' &&
+        !conversation.left &&
+        conversation.memberships
+      ) {
+        for (const membership of conversation.memberships) {
+          serviceIds.add(membership.aci);
+        }
+      }
+    }
+    return serviceIds;
+  }
+);
+
+function isTrusted(
+  conversation: ConversationType,
+  serviceIdsInGroups: Set<string>
+): boolean {
   if (conversation.type === 'group') {
     return true;
   }
 
+  const hasSharedGroups =
+    conversation.serviceId != null &&
+    serviceIdsInGroups.has(conversation.serviceId);
+
   return Boolean(
     isInSystemContacts(conversation) ||
-    conversation.sharedGroupNames.length > 0 ||
+    hasSharedGroups ||
     conversation.profileSharing ||
     conversation.isMe
   );
@@ -684,7 +714,10 @@ function hasDisplayInfo(conversation: ConversationType): boolean {
   );
 }
 
-function canComposeConversation(conversation: ConversationType): boolean {
+function canComposeConversation(
+  conversation: ConversationType,
+  serviceIdsInGroups: Set<string>
+): boolean {
   return Boolean(
     !isSignalConversation(conversation) &&
     !conversation.isBlocked &&
@@ -692,7 +725,7 @@ function canComposeConversation(conversation: ConversationType): boolean {
     ((isGroupV2(conversation) && !conversation.left) ||
       !isConversationUnregistered(conversation)) &&
     hasDisplayInfo(conversation) &&
-    isTrusted(conversation)
+    isTrusted(conversation, serviceIdsInGroups)
   );
 }
 
@@ -793,31 +826,39 @@ export const getAllChatFoldersMutedStats: StateSelector<AllChatFoldersMutedStats
  */
 export const getComposableContacts = createSelector(
   getConversationLookup,
-  (conversationLookup: ConversationLookupType): Array<ConversationType> =>
-    Object.values(conversationLookup).filter(
+  (conversationLookup: ConversationLookupType): Array<ConversationType> => {
+    const serviceIdsInGroups = getServiceIdsInGroups(conversationLookup);
+    return Object.values(conversationLookup).filter(
       conversation =>
-        conversation.type === 'direct' && canComposeConversation(conversation)
-    )
+        conversation.type === 'direct' &&
+        canComposeConversation(conversation, serviceIdsInGroups)
+    );
+  }
 );
 
 export const getCandidateContactsForNewGroup = createSelector(
   getConversationLookup,
-  (conversationLookup: ConversationLookupType): Array<ConversationType> =>
-    Object.values(conversationLookup).filter(
+  (conversationLookup: ConversationLookupType): Array<ConversationType> => {
+    const serviceIdsInGroups = getServiceIdsInGroups(conversationLookup);
+    return Object.values(conversationLookup).filter(
       conversation =>
         conversation.type === 'direct' &&
         !conversation.isMe &&
-        canComposeConversation(conversation)
-    )
+        canComposeConversation(conversation, serviceIdsInGroups)
+    );
+  }
 );
 
 export const getComposableGroups = createSelector(
   getConversationLookup,
-  (conversationLookup: ConversationLookupType): Array<ConversationType> =>
-    Object.values(conversationLookup).filter(
+  (conversationLookup: ConversationLookupType): Array<ConversationType> => {
+    const serviceIdsInGroups = getServiceIdsInGroups(conversationLookup);
+    return Object.values(conversationLookup).filter(
       conversation =>
-        conversation.type === 'group' && canComposeConversation(conversation)
-    )
+        conversation.type === 'group' &&
+        canComposeConversation(conversation, serviceIdsInGroups)
+    );
+  }
 );
 
 const getConversationIdsWithStories = createSelector(
