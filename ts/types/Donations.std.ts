@@ -31,7 +31,12 @@ export const donationStateSchema = z.enum([
 
 export type DonationStateType = z.infer<typeof donationStateSchema>;
 
-export const donationProcessorSchema = z.enum(['PAYPAL', 'STRIPE']);
+export enum DonationProcessor {
+  Paypal = 'PAYPAL',
+  Stripe = 'STRIPE',
+}
+
+export const donationProcessorSchema = z.nativeEnum(DonationProcessor);
 
 export const donationErrorTypeSchema = z.enum([
   // Used if the user is redirected back from validation, but continuing forward fails
@@ -40,6 +45,12 @@ export const donationErrorTypeSchema = z.enum([
   'GeneralError',
   // Any 4xx error when adding payment method or confirming intent
   'PaymentDeclined',
+  // When the user approves PayPal payment but they canceled it in-app, so we lost the
+  // Paypal state. The user will not be charged, because they are only charged when we
+  // confirm with the server.
+  'PaypalError',
+  // When the user cancels PayPal payment.
+  'PaypalCanceled',
   // When it's been too long since the last step of the donation, and card wasn't charged
   'TimedOut',
   // When donation succeeds but badge application fails

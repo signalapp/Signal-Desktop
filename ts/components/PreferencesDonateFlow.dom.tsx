@@ -14,6 +14,8 @@ import classNames from 'classnames';
 import type { LocalizerType } from '../types/Util.std.js';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.js';
 import {
+  donationErrorTypeSchema,
+  DonationProcessor,
   donationStateSchema,
   ONE_TIME_DONATION_CONFIG_ID,
 } from '../types/Donations.std.js';
@@ -41,11 +43,13 @@ import {
 } from '../types/DonationsCardForm.std.js';
 import {
   brandHumanDonationAmount,
+  brandStripeDonationAmount,
   type CurrencyFormatResult,
   getCurrencyFormat,
   getMaximumStripeAmount,
   parseCurrencyString,
   toHumanCurrencyString,
+  toHumanDonationAmount,
   toStripeDonationAmount,
 } from '../util/currency.dom.js';
 import { PreferencesContent } from './Preferences.dom.js';
@@ -70,12 +74,17 @@ import { DonateInputAmount } from './preferences/donations/DonateInputAmount.dom
 import { Tooltip, TooltipPlacement } from './Tooltip.dom.js';
 import { offsetDistanceModifier } from '../util/popperUtil.std.js';
 import { AxoButton } from '../axo/AxoButton.dom.js';
+import { missingCaseError } from '../util/missingCaseError.std.js';
+import { openLinkInWebBrowser } from '../util/openLinkInWebBrowser.dom.js';
+import { usePrevious } from '../hooks/usePrevious.std.js';
+import { tw } from '../axo/tw.dom.js';
 
 const SUPPORT_URL = 'https://support.signal.org/hc/requests/new?desktop';
 
 export type PropsDataType = {
   i18n: LocalizerType;
   initialCurrency: string;
+  isDonationPaypalEnabled: boolean;
   isOnline: boolean;
   donationAmountsConfig: OneTimeDonationHumanAmounts | undefined;
   lastError: DonationErrorType | undefined;
@@ -101,6 +110,7 @@ const isPaymentDetailFinalizedInWorkflow = (workflow: DonationWorkflow) => {
   const finalizedStates: Array<DonationStateType> = [
     donationStateSchema.Enum.INTENT_CONFIRMED,
     donationStateSchema.Enum.INTENT_REDIRECT,
+    donationStateSchema.Enum.PAYPAL_APPROVED,
     donationStateSchema.Enum.PAYMENT_CONFIRMED,
     donationStateSchema.Enum.RECEIPT,
     donationStateSchema.Enum.DONE,
@@ -112,6 +122,7 @@ export function PreferencesDonateFlow({
   contentsRef,
   i18n,
   initialCurrency,
+  isDonationPaypalEnabled,
   isOnline,
   donationAmountsConfig,
   lastError,
@@ -124,22 +135,46 @@ export function PreferencesDonateFlow({
   onBack,
 }: PropsType): React.JSX.Element {
   const tryClose = useRef<() => void | undefined>();
-  const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
-    i18n,
-    bodyText: i18n('icu:DonateFlow__discard-dialog-body'),
-    discardText: i18n('icu:DonateFlow__discard-dialog-remove-info'),
-    name: 'PreferencesDonateFlow',
-    tryClose,
-  });
 
-  const [step, setStep] = useState<'amount' | 'paymentDetails'>('amount');
+  // When returning to the donate flow with a pending PayPal payment, load the pending
+  // amount in case the user wants to go back and choose a different payment processor.
+  const { initialStep, initialAmount } = useMemo((): {
+    initialStep: 'amount' | 'paypal';
+    initialAmount: HumanDonationAmount | undefined;
+  } => {
+    if (
+      workflow?.type === donationStateSchema.Enum.PAYPAL_INTENT ||
+      workflow?.type === donationStateSchema.Enum.PAYPAL_APPROVED
+    ) {
+      const savedAmount = brandStripeDonationAmount(workflow.paymentAmount);
+      const humanAmount = toHumanDonationAmount({
+        amount: savedAmount,
+        currency: workflow.currencyType,
+      });
+      return { initialStep: 'paypal', initialAmount: humanAmount };
+    }
 
-  const [amount, setAmount] = useState<HumanDonationAmount>();
+    return {
+      initialStep: 'amount',
+      initialAmount: undefined,
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const [step, setStep] = useState<
+    'amount' | 'paymentProcessor' | 'stripePaymentDetails' | 'paypal'
+  >(initialStep);
+
+  const [amount, setAmount] = useState<HumanDonationAmount | undefined>(
+    initialAmount
+  );
   const [currency, setCurrency] = useState<string>(initialCurrency);
   const [isCardFormDisabled, setIsCardFormDisabled] = useState(false);
   const [cardFormValues, setCardFormValues] = useState<
     CardFormValues | undefined
   >();
+
+  const prevStep = usePrevious(step, step);
 
   const hasCardFormData = useMemo(() => {
     if (!cardFormValues) {
@@ -158,40 +193,125 @@ export function PreferencesDonateFlow({
     setCurrency(value);
   }, []);
 
-  const handleAmountPickerResult = useCallback((result: AmountPickerResult) => {
-    const { currency: pickedCurrency, amount: pickedAmount } = result;
-    setAmount(pickedAmount);
-    setCurrency(pickedCurrency);
-    setStep('paymentDetails');
-  }, []);
+  const handleAmountPickerResult = useCallback(
+    (result: AmountPickerResult) => {
+      const { currency: pickedCurrency, amount: pickedAmount } = result;
+      setAmount(pickedAmount);
+      setCurrency(pickedCurrency);
+      if (isDonationPaypalEnabled) {
+        setStep('paymentProcessor');
+      } else {
+        setStep('stripePaymentDetails');
+      }
+    },
+    [isDonationPaypalEnabled]
+  );
 
   const handleCardFormChanged = useCallback((values: CardFormValues) => {
     setCardFormValues(values);
   }, []);
 
   const handleSubmitDonation = useCallback(
-    (cardDetail: CardDetail) => {
+    ({
+      processor,
+      cardDetail,
+    }: {
+      processor: DonationProcessor;
+      cardDetail?: CardDetail;
+    }): boolean => {
       if (amount == null || currency == null) {
-        return;
+        return false;
       }
 
       const paymentAmount = toStripeDonationAmount({ amount, currency });
 
-      setIsCardFormDisabled(true);
-      submitDonation({
-        currencyType: currency,
-        paymentAmount,
-        paymentDetail: cardDetail,
-      });
+      if (processor === DonationProcessor.Stripe) {
+        strictAssert(cardDetail, 'cardDetail is required for Stripe');
+        submitDonation({
+          currencyType: currency,
+          paymentAmount,
+          processor: DonationProcessor.Stripe,
+          paymentDetail: cardDetail,
+        });
+      } else if (processor === DonationProcessor.Paypal) {
+        submitDonation({
+          currencyType: currency,
+          paymentAmount,
+          processor: DonationProcessor.Paypal,
+        });
+      } else {
+        throw missingCaseError(processor);
+      }
+
+      return true;
     },
-    [amount, currency, setIsCardFormDisabled, submitDonation]
+    [amount, currency, submitDonation]
   );
+
+  const handleSubmitStripeDonation = useCallback(
+    (cardDetail: CardDetail) => {
+      if (
+        handleSubmitDonation({
+          processor: DonationProcessor.Stripe,
+          cardDetail,
+        })
+      ) {
+        setIsCardFormDisabled(true);
+      }
+    },
+    [handleSubmitDonation]
+  );
+
+  const handleSubmitPaypalDonation = useCallback(() => {
+    handleSubmitDonation({ processor: DonationProcessor.Paypal });
+    // An effect will transition step to paypal after chat server confirmation
+  }, [handleSubmitDonation]);
+
+  const handleBackFromCardForm = useCallback(() => {
+    if (isDonationPaypalEnabled) {
+      setStep('paymentProcessor');
+    } else {
+      setStep('amount');
+    }
+  }, [isDonationPaypalEnabled]);
 
   useEffect(() => {
     if (!workflow || lastError) {
       setIsCardFormDisabled(false);
     }
   }, [lastError, setIsCardFormDisabled, workflow]);
+
+  useEffect(() => {
+    // When starting a Paypal payment, we create a workflow in the PAYPAL_INTENT state
+    // which contains the approvalUrl.
+    if (
+      prevStep === 'paymentProcessor' &&
+      workflow?.type === donationStateSchema.Enum.PAYPAL_INTENT
+    ) {
+      setStep('paypal');
+      openLinkInWebBrowser(workflow.approvalUrl);
+    }
+  }, [prevStep, workflow]);
+
+  const discardModalBodyText = useMemo(() => {
+    if (step === 'stripePaymentDetails') {
+      return i18n('icu:DonateFlow__discard-dialog-body');
+    }
+
+    if (step === 'paypal') {
+      return i18n('icu:DonateFlow__discard-paypal-dialog-body');
+    }
+
+    return undefined;
+  }, [i18n, step]);
+
+  const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
+    i18n,
+    bodyText: discardModalBodyText,
+    discardText: i18n('icu:DonateFlow__discard-dialog-remove-info'),
+    name: 'PreferencesDonateFlow',
+    tryClose,
+  });
 
   const onTryClose = useCallback(() => {
     const onDiscard = () => {
@@ -202,8 +322,9 @@ export function PreferencesDonateFlow({
       }
     };
     const isConfirmationNeeded =
-      hasCardFormData &&
-      !isCardFormDisabled &&
+      ((hasCardFormData && !isCardFormDisabled) ||
+        (step === 'paypal' &&
+          lastError !== donationErrorTypeSchema.Enum.PaypalCanceled)) &&
       (!workflow || !isPaymentDetailFinalizedInWorkflow(workflow));
 
     confirmDiscardIf(isConfirmationNeeded, onDiscard);
@@ -212,6 +333,8 @@ export function PreferencesDonateFlow({
     confirmDiscardIf,
     hasCardFormData,
     isCardFormDisabled,
+    lastError,
+    step,
     workflow,
   ]);
   tryClose.current = onTryClose;
@@ -238,7 +361,52 @@ export function PreferencesDonateFlow({
     );
     // Dismiss DonateFlow and return to Donations home
     handleBack = () => onBack();
-  } else {
+  } else if (step === 'paymentProcessor') {
+    strictAssert(amount, 'Amount is required for payment processor form');
+    innerContent = (
+      <>
+        <CardFormHero i18n={i18n} amount={amount} currency={currency} />
+        <button
+          className={tw(
+            'flex',
+            'bg-color-fill-primary pressed:bg-color-fill-primary-pressed',
+            'rounded-md',
+            'justify-center type-body-medium text-label-primary-on-color',
+            'mt-6 mb-3 h-[36px] w-[280px] py-2'
+          )}
+          onClick={() => setStep('stripePaymentDetails')}
+          type="button"
+        >
+          <span
+            className="PreferencesDonations__payment-icon"
+            aria-label={i18n(
+              'icu:DonateFlow__PaymentCardIcon__AccessibilityLabel'
+            )}
+          />
+          <span
+            className={tw(
+              'ms-3 flex type-body-medium text-label-primary-on-color'
+            )}
+          >
+            {i18n('icu:DonateFlow__CreditOrDebitCard')}
+          </span>
+        </button>
+        <button
+          className="PreferencesDonations__paypal-button"
+          onClick={handleSubmitPaypalDonation}
+          type="button"
+        >
+          <img
+            src="images/paypal.svg"
+            aria-label={i18n('icu:DonateFlow__Paypal__AccessibilityLabel')}
+          />
+        </button>
+      </>
+    );
+    handleBack = () => {
+      setStep('amount');
+    };
+  } else if (step === 'stripePaymentDetails') {
     strictAssert(amount, 'Amount is required for payment card form');
     innerContent = (
       <>
@@ -252,15 +420,64 @@ export function PreferencesDonateFlow({
           initialValues={cardFormValues}
           isOnline={isOnline}
           onChange={handleCardFormChanged}
-          onSubmit={handleSubmitDonation}
+          onSubmit={handleSubmitStripeDonation}
           showPrivacyModal={showPrivacyModal}
         />
         <HelpFooter i18n={i18n} />
       </>
     );
+    handleBack = handleBackFromCardForm;
+  } else if (step === 'paypal') {
+    strictAssert(amount, 'Amount is required for Paypal page');
+    const isDisabled =
+      workflow?.type !== donationStateSchema.Enum.PAYPAL_INTENT;
+    innerContent = (
+      <>
+        <CardFormHero i18n={i18n} amount={amount} currency={currency} />
+        <hr className="PreferencesDonations__separator PreferencesDonations__separator--card-form" />
+        <div className={tw('my-4 flex min-w-[400px] py-4 type-body-large')}>
+          <div className={tw('flex flex-grow items-center')}>
+            {i18n('icu:Donations__PaymentMethod')}
+          </div>
+          <img
+            className={tw('flex')}
+            src="images/paypal.svg"
+            aria-label={i18n('icu:DonateFlow__Paypal__AccessibilityLabel')}
+          />
+        </div>
+        <div
+          className={tw('flex min-w-[400px] justify-end gap-3 type-body-large')}
+        >
+          <AxoButton.Root
+            variant="secondary"
+            size="lg"
+            disabled={isDisabled}
+            onClick={onBack}
+          >
+            {i18n('icu:DonateFlow__Paypal__Cancel')}
+          </AxoButton.Root>
+          <AxoButton.Root
+            variant="primary"
+            size="lg"
+            disabled={isDisabled}
+            onClick={() => {
+              if (workflow?.type === donationStateSchema.Enum.PAYPAL_INTENT) {
+                openLinkInWebBrowser(workflow.approvalUrl);
+              }
+            }}
+          >
+            {i18n('icu:DonateFlow__Paypal__CompleteDonation')}
+          </AxoButton.Root>
+        </div>
+      </>
+    );
     handleBack = () => {
+      clearWorkflow();
       setStep('amount');
+      setIsCardFormDisabled(false);
     };
+  } else {
+    throw missingCaseError(step);
   }
 
   const backButton = (

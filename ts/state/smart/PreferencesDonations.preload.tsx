@@ -6,7 +6,12 @@ import { useSelector } from 'react-redux';
 
 import type { MutableRefObject } from 'react';
 
-import { getIntl, getTheme, getUserNumber } from '../selectors/user.std.js';
+import {
+  getIntl,
+  getTheme,
+  getUserNumber,
+  getVersion,
+} from '../selectors/user.std.js';
 import { getMe } from '../selectors/conversations.dom.js';
 import { PreferencesDonations } from '../../components/PreferencesDonations.dom.js';
 import type { SettingsLocation } from '../../types/Nav.std.js';
@@ -35,6 +40,8 @@ import { parseBoostBadgeListFromServer } from '../../badges/parseBadgesFromServe
 import { createLogger } from '../../logging/log.std.js';
 import { useBadgesActions } from '../ducks/badges.preload.js';
 import { getNetworkIsOnline } from '../selectors/network.preload.js';
+import { getItems } from '../selectors/items.dom.js';
+import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.js';
 
 const log = createLogger('SmartPreferencesDonations');
 
@@ -58,6 +65,7 @@ export const SmartPreferencesDonations = memo(
 
     const isOnline = useSelector(getNetworkIsOnline);
     const i18n = useSelector(getIntl);
+    const items = useSelector(getItems);
     const theme = useSelector(getTheme);
 
     const donationsState = useSelector((state: StateType) => state.donations);
@@ -80,6 +88,15 @@ export const SmartPreferencesDonations = memo(
     const donationReceipts = useSelector(
       (state: StateType) => state.donations.receipts
     );
+
+    const version = useSelector(getVersion);
+
+    const isDonationPaypalEnabled = isFeaturedEnabledSelector({
+      currentVersion: version,
+      remoteConfig: items.remoteConfig,
+      betaKey: 'desktop.donationPaypal.beta',
+      prodKey: 'desktop.donationPaypal.prod',
+    });
 
     const { updateOrCreate } = useBadgesActions();
 
@@ -141,6 +158,7 @@ export const SmartPreferencesDonations = memo(
         showToast={showToast}
         contentsRef={contentsRef}
         initialCurrency={initialCurrency}
+        isDonationPaypalEnabled={isDonationPaypalEnabled}
         isOnline={isOnline}
         settingsLocation={settingsLocation}
         didResumeWorkflowAtStartup={donationsState.didResumeWorkflowAtStartup}

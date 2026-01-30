@@ -255,6 +255,7 @@ function renderDonationsPane(props: {
       clearWorkflow={action('clearWorkflow')}
       initialCurrency="usd"
       resumeWorkflow={action('resumeWorkflow')}
+      isDonationPaypalEnabled
       isOnline
       settingsLocation={props.settingsLocation}
       setSettingsLocation={props.setSettingsLocation}
@@ -945,6 +946,43 @@ DonationsHomeWithInProgressDonation.args = {
       },
     }),
 };
+
+export const DonationsPaypalInProgress = Template.bind({});
+DonationsPaypalInProgress.args = {
+  settingsLocation: { page: SettingsPage.DonationsDonateFlow },
+  renderDonationsPane: ({
+    contentsRef,
+  }: {
+    contentsRef: MutableRefObject<HTMLDivElement | null>;
+  }) =>
+    renderDonationsPane({
+      contentsRef,
+      me,
+      donationReceipts: [],
+      settingsLocation: { page: SettingsPage.DonationsDonateFlow },
+      setSettingsLocation: action('setSettingsLocation'),
+      saveAttachmentToDisk: async () => {
+        action('saveAttachmentToDisk')();
+        return { fullPath: '/mock/path/to/file.png', name: 'file.png' };
+      },
+      generateDonationReceiptBlob: async () => {
+        action('generateDonationReceiptBlob')();
+        return new Blob();
+      },
+      showToast: action('showToast'),
+      workflow: {
+        type: 'PAYPAL_INTENT',
+        timestamp: Date.now() - 60,
+        paypalPaymentId: 'a',
+        paymentAmount: 500,
+        currencyType: 'USD',
+        id: 'a',
+        returnToken: 'a',
+        approvalUrl: 'https://www.signal.org',
+      },
+    }),
+};
+
 export const Internal = Template.bind({});
 Internal.args = {
   settingsLocation: { page: SettingsPage.Internal },

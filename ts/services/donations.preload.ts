@@ -120,10 +120,13 @@ export async function initialize(): Promise<void> {
     return;
   }
 
-  if (workflow.type === donationStateSchema.Enum.INTENT_METHOD) {
+  if (
+    workflow.type === donationStateSchema.Enum.INTENT_METHOD ||
+    workflow.type === donationStateSchema.Enum.PAYPAL_INTENT
+  ) {
     if (shouldShowToast) {
       log.info(
-        'initialize: Showing confirmation toast, workflow is at INTENT_METHOD.'
+        `initialize: Showing confirmation toast, workflow is at ${workflow.type}.`
       );
       window.reduxActions.toast.showToast({
         toastType: ToastType.DonationConfirmationNeeded,
@@ -149,7 +152,7 @@ export async function initialize(): Promise<void> {
 // These are the five moments the user provides input to the donation workflow. So,
 // UI calls these methods directly; everything else happens automatically.
 
-export async function startDonation({
+export async function startStripeDonation({
   currencyType,
   paymentAmount,
 }: {
@@ -163,6 +166,24 @@ export async function startDonation({
   });
 
   // We don't run the workflow, because there's nothing else to do after this first step
+  await _saveWorkflow(workflow);
+}
+
+export async function startPaypalDonation({
+  currencyType,
+  paymentAmount,
+}: {
+  currencyType: string;
+  paymentAmount: StripeDonationAmount;
+}): Promise<void> {
+  const workflow = await _createPaypalIntent({
+    currencyType,
+    paymentAmount,
+    workflow: _getWorkflowFromRedux(),
+  });
+
+  // We don't run the workflow. The next step is to wait for the user to approve the
+  // PayPal payment, and then they will be redirected to the app.
   await _saveWorkflow(workflow);
 }
 
@@ -249,7 +270,7 @@ export async function approvePaypalPayment({
       paymentToken,
     });
   } catch (error) {
-    await failDonation(donationErrorTypeSchema.Enum.GeneralError);
+    await failDonation(donationErrorTypeSchema.Enum.PaypalError);
     throw error;
   }
 
@@ -269,11 +290,25 @@ export async function cancelPaypalPayment(returnToken: string): Promise<void> {
     throw new Error(`${logId}: Workflow not type PAYPAL_INTENT`);
   }
 
+  // This case will happen if the user initiated 2 PayPal requests but cancels the
+  // older one. We interpret this case as an intention to cancel. If the user then
+  // approves the more recent payment, we will show an error and ask them to try again.
   if (returnToken !== existing.returnToken) {
-    throw new Error(`${logId}: The provided token did not match saved token`);
+    log.warn(
+      `${logId}: The provided token did not match saved token. Canceling anyway.`
+    );
   }
 
-  await clearDonation();
+  await failDonation(donationErrorTypeSchema.Enum.PaypalCanceled);
+
+  if (isDonationsDonateFlowVisible()) {
+    window.reduxActions.nav.changeLocation({
+      tab: NavTab.Settings,
+      details: {
+        page: SettingsPage.Donations,
+      },
+    });
+  }
 }
 
 export async function clearDonation(): Promise<void> {
@@ -750,7 +785,7 @@ export async function _confirmPayment(
       ...workflow,
       ...receiptContext,
       type: donationStateSchema.Enum.PAYMENT_CONFIRMED,
-      processor: donationProcessorSchema.Enum.STRIPE,
+      processor: donationProcessorSchema.enum.Stripe,
       timestamp: Date.now(),
     };
   });
@@ -796,7 +831,7 @@ export async function _confirmPaypalPayment(
       ...workflow,
       ...receiptContext,
       type: donationStateSchema.Enum.PAYMENT_CONFIRMED,
-      processor: donationProcessorSchema.Enum.PAYPAL,
+      processor: donationProcessorSchema.enum.Paypal,
       paymentIntentId,
       timestamp: Date.now(),
     };
@@ -827,7 +862,7 @@ export async function _completeValidationRedirect(
     return {
       ...workflow,
       type: donationStateSchema.Enum.PAYMENT_CONFIRMED,
-      processor: donationProcessorSchema.Enum.STRIPE,
+      processor: donationProcessorSchema.enum.Stripe,
       timestamp: Date.now(),
     };
   });
@@ -953,9 +988,9 @@ export async function _getReceipt(
       processor = 'STRIPE';
     } else if (workflowType === donationStateSchema.Enum.PAYMENT_CONFIRMED) {
       const { processor: workflowProcessor } = workflow;
-      if (workflowProcessor === donationProcessorSchema.Enum.STRIPE) {
+      if (workflowProcessor === donationProcessorSchema.enum.Stripe) {
         processor = 'STRIPE';
-      } else if (workflowProcessor === donationProcessorSchema.Enum.PAYPAL) {
+      } else if (workflowProcessor === donationProcessorSchema.enum.Paypal) {
         processor = 'BRAINTREE';
       } else {
         throw missingCaseError(workflowProcessor);
@@ -1116,6 +1151,20 @@ async function failDonation(
       );
       window.reduxActions.toast.showToast({
         toastType: ToastType.DonationCanceledWithView,
+      });
+    } else if (errorType === donationErrorTypeSchema.Enum.PaypalCanceled) {
+      log.info(
+        `${logId}: Donation page not visible. Showing 'Paypal canceled' toast.`
+      );
+      window.reduxActions.toast.showToast({
+        toastType: ToastType.DonationPaypalCanceled,
+      });
+    } else if (errorType === donationErrorTypeSchema.Enum.PaypalError) {
+      log.info(
+        `${logId}: Donation page not visible. Showing 'Paypal approval unknown' toast.`
+      );
+      window.reduxActions.toast.showToast({
+        toastType: ToastType.DonationPaypalError,
       });
     } else {
       log.info(

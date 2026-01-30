@@ -99,6 +99,7 @@ import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/Prefer
 import { AxoButton } from '../axo/AxoButton.dom.js';
 import type { ExternalProps as SmartNotificationProfilesProps } from '../state/smart/PreferencesNotificationProfiles.preload.js';
 import type { LocalBackupExportMetadata } from '../types/LocalExport.std.js';
+import { isDonationsPage } from './PreferencesDonations.dom.js';
 
 const { isNumber, noop, partition } = lodash;
 
@@ -341,14 +342,6 @@ type PropsFunctionType = {
 export type PropsType = PropsDataType & PropsFunctionType;
 
 export type PropsPreloadType = Omit<PropsType, 'i18n'>;
-
-function isDonationsPage(page: SettingsPage): boolean {
-  return (
-    page === SettingsPage.Donations ||
-    page === SettingsPage.DonationsDonateFlow ||
-    page === SettingsPage.DonationsReceiptList
-  );
-}
 
 enum LanguageDialog {
   Selection,

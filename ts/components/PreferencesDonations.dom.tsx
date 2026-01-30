@@ -69,6 +69,7 @@ type PropsExternalType = {
 export type PropsDataType = {
   i18n: LocalizerType;
   initialCurrency: string;
+  isDonationPaypalEnabled: boolean;
   isOnline: boolean;
   settingsLocation: SettingsLocation;
   didResumeWorkflowAtStartup: boolean;
@@ -134,7 +135,7 @@ type PreferencesHomeProps = Pick<
   renderDonationHero: () => React.JSX.Element;
 };
 
-function isDonationPage(page: SettingsPage): page is DonationPage {
+export function isDonationsPage(page: SettingsPage): page is DonationPage {
   return (
     page === SettingsPage.Donations ||
     page === SettingsPage.DonationsDonateFlow ||
@@ -238,7 +239,7 @@ function DonationsHome({
     <span className={tw('mb-8')}>
       <AxoButton.Root
         variant={isOnline ? 'primary' : 'secondary'}
-        size="md"
+        size="lg"
         disabled={!isOnline}
         onClick={handleDonateButtonClicked}
       >
@@ -542,6 +543,7 @@ export function PreferencesDonations({
   contentsRef,
   i18n,
   initialCurrency,
+  isDonationPaypalEnabled,
   isOnline,
   settingsLocation,
   workflow,
@@ -613,7 +615,7 @@ export function PreferencesDonations({
     [badge, color, firstName, i18n, profileAvatarUrl, theme]
   );
 
-  if (!isDonationPage(settingsLocation.page)) {
+  if (!isDonationsPage(settingsLocation.page)) {
     return null;
   }
 
@@ -715,6 +717,9 @@ export function PreferencesDonations({
           }}
         />
       );
+    } else if (workflow?.type === donationStateSchema.Enum.PAYPAL_INTENT) {
+      // No need to show the dialog here because PreferencesDonateFlow already
+      // initiates a dialog when redirecting to PayPal.
     } else {
       dialog = (
         <DonationProgressModal
@@ -742,13 +747,17 @@ export function PreferencesDonations({
         <PreferencesDonateFlow
           contentsRef={contentsRef}
           i18n={i18n}
+          isDonationPaypalEnabled={isDonationPaypalEnabled}
           isOnline={isOnline}
           initialCurrency={initialCurrency}
           donationAmountsConfig={donationAmountsConfig}
           lastError={lastError}
           validCurrencies={validCurrencies}
           workflow={workflow}
-          clearWorkflow={clearWorkflow}
+          clearWorkflow={() => {
+            clearWorkflow();
+            setIsSubmitted(false);
+          }}
           renderDonationHero={renderDonationHero}
           submitDonation={details => {
             setIsSubmitted(true);
