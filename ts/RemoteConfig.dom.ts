@@ -84,9 +84,7 @@ const ScalarKeys = [
 // These keys should always match those in Net.REMOTE_CONFIG_KEYS, prefixed by
 // `desktop.libsignalNet`
 const KnownDesktopLibsignalNetKeys = [
-  'desktop.libsignalNet.chatPermessageDeflate.beta',
   'desktop.libsignalNet.chatPermessageDeflate.prod',
-  'desktop.libsignalNet.chatPermessageDeflate',
   'desktop.libsignalNet.chatRequestConnectionCheckTimeoutMillis.beta',
   'desktop.libsignalNet.chatRequestConnectionCheckTimeoutMillis',
   'desktop.libsignalNet.disableNagleAlgorithm.beta',

@@ -24,9 +24,6 @@ patchedDependencies:
   '@types/node-fetch@2.6.12':
     hash: bc43fb8cfed85fb4f7917b5bd3b47644ae15a000c26a6fe23078b2f5217efaf0
     path: patches/@types+node-fetch+2.6.12.patch
-  '@types/websocket@1.0.0':
-    hash: 53fdd65a6b35f379eb8f5807d315f00c66e9bfe9741f4859a0fa21026bdb30fa
-    path: patches/@types+websocket+1.0.0.patch
   '@vitest/expect@2.0.5':
     hash: e8a96f71e52bf903c9f1eadba4740489a0beb48da33db52354adca484fe1f495
     path: patches/@vitest+expect+2.0.5.patch
@@ -66,9 +63,6 @@ patchedDependencies:
   qrcode-generator@1.4.4:
     hash: 1f10c592d849ed4cfc9f81301196d39857b79240997ef5772138218cb3717e80
     path: patches/qrcode-generator+1.4.4.patch
-  websocket@1.0.34:
-    hash: b8d361a6a73e44000bb51102dea0d841c22d2bb455dd6c54de566d0e0bd86355
-    path: patches/websocket+1.0.34.patch
   zod@3.23.8:
     hash: 239818e5d88990616205c8cdc1de1660bf5e18b157d00c4a5f726dde6094af4d
     path: patches/zod+3.23.8.patch
@@ -129,8 +123,8 @@ importers:
         specifier: 3.27.0
         version: 3.27.0(react@18.3.1)
       '@signalapp/libsignal-client':
-        specifier: 0.86.12
-        version: 0.86.12
+        specifier: 0.86.16
+        version: 0.86.16
       '@signalapp/minimask':
         specifier: 1.0.1
         version: 1.0.1
@@ -389,9 +383,6 @@ importers:
       uuid:
         specifier: 11.0.2
         version: 11.0.2
-      websocket:
-        specifier: 1.0.34
-        version: 1.0.34(patch_hash=b8d361a6a73e44000bb51102dea0d841c22d2bb455dd6c54de566d0e0bd86355)
       write-file-atomic:
         specifier: 6.0.0
         version: 6.0.0
@@ -600,9 +591,6 @@ importers:
       '@types/uuid':
         specifier: 10.0.0
         version: 10.0.0
-      '@types/websocket':
-        specifier: 1.0.0
-        version: 1.0.0(patch_hash=53fdd65a6b35f379eb8f5807d315f00c66e9bfe9741f4859a0fa21026bdb30fa)
       '@types/write-file-atomic':
         specifier: 4.0.3
         version: 4.0.3
@@ -3495,8 +3483,8 @@ packages:
   '@signalapp/libsignal-client@0.76.7':
     resolution: {integrity: sha512-iGWTlFkko7IKlm96Iy91Wz5sIN089nj02ifOk6BWtLzeVi0kFaNj+jK26Sl1JRXy/VfXevcYtiOivOg43BPqpg==}
 
-  '@signalapp/libsignal-client@0.86.12':
-    resolution: {integrity: sha512-GJYT0uSfDv6hsu4uqFlUK/pS43/mCJ86rRODS8RNDdQ1XioGyFE0JT4etHF27f5n+xNkpd4XKYhiquZfxazOgA==}
+  '@signalapp/libsignal-client@0.86.16':
+    resolution: {integrity: sha512-oQqslL2GM+1Mr9uhSqQjKtBcxdP5ngOG+L17K7ohD01uD5IHwgzc3hH1W2pt0D8VN2cIsBhemNqRgtNgVR3prA==}
 
   '@signalapp/minimask@1.0.1':
     resolution: {integrity: sha512-QAwo0joA60urTNbW9RIz6vLKQjy+jdVtH7cvY0wD9PVooD46MAjE40MLssp4xUJrph91n2XvtJ3pbEUDrmT2AA==}
@@ -4259,9 +4247,6 @@ packages:
 
   '@types/wait-on@5.3.4':
     resolution: {integrity: sha512-EBsPjFMrFlMbbUFf9D1Fp+PAB2TwmUn7a3YtHyD9RLuTIk1jDd8SxXVAoez2Ciy+8Jsceo2MYEYZzJ/DvorOKw==}
-
-  '@types/websocket@1.0.0':
-    resolution: {integrity: sha512-MLr8hDM8y7vvdAdnoDEP5LotRoYJj7wgT6mWzCUQH/gHqzS4qcnOT/K4dhC0WimWIUiA3Arj9QAJGGKNRiRZKA==}
 
   '@types/write-file-atomic@4.0.3':
     resolution: {integrity: sha512-qdo+vZRchyJIHNeuI1nrpsLw+hnkgqP/8mlaN6Wle/NKhydHmUN9l4p3ZE8yP90AJNJW4uB8HQhedb4f1vNayQ==}
@@ -10711,10 +10696,6 @@ packages:
     resolution: {integrity: sha512-OqedPIGOfsDlo31UNwYbCFMSaO9m9G/0faIHj5/dZFDMFqPTcx6UwqyOy3COEaEOg/9VsGIpdqn62W5KhoKSpg==}
     engines: {node: '>=0.8.0'}
 
-  websocket@1.0.34:
-    resolution: {integrity: sha512-PRDso2sGwF6kM75QykIesBijKSVceR6jL2G8NGYyq2XrItNC2P5/qL5XeR056GhA+Ly7JMFvJb9I312mJfmqnQ==}
-    engines: {node: '>=4.0.0'}
-
   whatwg-encoding@2.0.0:
     resolution: {integrity: sha512-p41ogyeMUrw3jWclHWTQg1k05DSVXPLcVxRTYsXUk+ZooOCZLcoYgPZ/HL/D/N+uQPOtcp1me1WhBEaX02mhWg==}
     engines: {node: '>=12'}
@@ -10866,11 +10847,6 @@ packages:
   y18n@5.0.8:
     resolution: {integrity: sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==}
     engines: {node: '>=10'}
-
-  yaeti@0.0.6:
-    resolution: {integrity: sha512-MvQa//+KcZCUkBTIC9blM+CU9J2GzuTytsOUwf2lidtvkx/6gnEp1QvJv34t9vdjhFmha/mUiNDbN0D0mJWdug==}
-    engines: {node: '>=0.10.32'}
-    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   yallist@2.1.2:
     resolution: {integrity: sha512-ncTzHV7NvsQZkYe1DW7cbDLm0YpzHmZF5r/iyP3ZnQtMiJ+pjzisCiMNI+Sj+xQF5pXhSHxSB3uDbsBTzY/c2A==}
@@ -14288,7 +14264,7 @@ snapshots:
       type-fest: 4.26.1
       uuid: 11.0.2
 
-  '@signalapp/libsignal-client@0.86.12':
+  '@signalapp/libsignal-client@0.86.16':
     dependencies:
       node-gyp-build: 4.8.4
       type-fest: 4.26.1
@@ -15226,10 +15202,6 @@ snapshots:
     dependencies:
       '@types/node': 20.17.6
 
-  '@types/websocket@1.0.0(patch_hash=53fdd65a6b35f379eb8f5807d315f00c66e9bfe9741f4859a0fa21026bdb30fa)':
-    dependencies:
-      '@types/node': 20.17.6
-
   '@types/write-file-atomic@4.0.3':
     dependencies:
       '@types/node': 20.17.6
@@ -16083,6 +16055,7 @@ snapshots:
   bufferutil@4.0.9:
     dependencies:
       node-gyp-build: 4.8.4
+    optional: true
 
   builder-util-runtime@9.3.2:
     dependencies:
@@ -22785,6 +22758,7 @@ snapshots:
   utf-8-validate@5.0.10:
     dependencies:
       node-gyp-build: 4.8.4
+    optional: true
 
   utf8-byte-length@1.0.5: {}
 
@@ -23028,17 +23002,6 @@ snapshots:
 
   websocket-extensions@0.1.4: {}
 
-  websocket@1.0.34(patch_hash=b8d361a6a73e44000bb51102dea0d841c22d2bb455dd6c54de566d0e0bd86355):
-    dependencies:
-      bufferutil: 4.0.9
-      debug: 2.6.9
-      es5-ext: 0.10.64
-      typedarray-to-buffer: 3.1.5
-      utf-8-validate: 5.0.10
-      yaeti: 0.0.6
-    transitivePeerDependencies:
-      - supports-color
-
   whatwg-encoding@2.0.0:
     dependencies:
       iconv-lite: 0.6.3
@@ -23205,8 +23168,6 @@ snapshots:
   y18n@4.0.3: {}
 
   y18n@5.0.8: {}
-
-  yaeti@0.0.6: {}
 
   yallist@2.1.2: {}
 
