@@ -890,7 +890,7 @@ export type GetGroupLogOptionsType = Readonly<{
 }>;
 export type GroupLogResponseType = {
   changes: Proto.GroupChanges;
-  groupSendEndorsementResponse: Uint8Array | null;
+  groupSendEndorsementsResponse: Uint8Array | null;
 } & (
   | {
       paginated: false;
@@ -4757,7 +4757,7 @@ export async function getGroupLog(
   });
   const { data, response } = withDetails;
   const changes = Proto.GroupChanges.decode(data);
-  const { groupSendEndorsementResponse } = changes;
+  const { groupSendEndorsementsResponse } = changes;
 
   if (response && response.status === 206) {
     const range = response.headers.get('Content-Range');
@@ -4779,7 +4779,7 @@ export async function getGroupLog(
         start,
         end,
         currentRevision,
-        groupSendEndorsementResponse,
+        groupSendEndorsementsResponse,
       };
     }
   }
@@ -4787,7 +4787,7 @@ export async function getGroupLog(
   return {
     paginated: false,
     changes,
-    groupSendEndorsementResponse,
+    groupSendEndorsementsResponse,
   };
 }
 
