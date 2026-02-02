@@ -1361,10 +1361,15 @@ export function isMissingRequiredProfileSharing(
   );
 }
 
+export type AdminMembershipType = {
+  member: ConversationType;
+  labelEmoji: string | undefined;
+  labelString: string | undefined;
+};
 export const getGroupAdminsSelector = createSelector(
   getConversationSelector,
   (conversationSelector: GetConversationByIdType) => {
-    return (conversationId: string): Array<ConversationType> => {
+    return (conversationId: string): Array<AdminMembershipType> => {
       const {
         groupId,
         groupVersion,
@@ -1380,11 +1385,15 @@ export const getGroupAdminsSelector = createSelector(
         return [];
       }
 
-      const admins: Array<ConversationType> = [];
+      const admins: Array<AdminMembershipType> = [];
       memberships.forEach(membership => {
         if (membership.isAdmin) {
           const admin = conversationSelector(membership.aci);
-          admins.push(admin);
+          admins.push({
+            member: admin,
+            labelEmoji: membership.labelEmoji,
+            labelString: membership.labelString,
+          });
         }
       });
       return admins;

@@ -34,6 +34,8 @@ const SemverKeys = [
   'desktop.callQualitySurvey.prod',
   'desktop.donationPaypal.beta',
   'desktop.donationPaypal.prod',
+  'desktop.groupMemberLabels.edit.beta',
+  'desktop.groupMemberLabels.edit.prod',
   'desktop.pinnedMessages.receive.beta',
   'desktop.pinnedMessages.receive.prod',
   'desktop.pinnedMessages.send.beta',

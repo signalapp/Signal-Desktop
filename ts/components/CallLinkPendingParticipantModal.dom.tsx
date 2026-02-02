@@ -13,6 +13,7 @@ import { ThemeType } from '../types/Util.std.js';
 import { Theme } from '../util/theme.std.js';
 import { UserText } from './UserText.dom.js';
 import { SharedGroupNames } from './SharedGroupNames.dom.js';
+import type { ContactModalStateType } from '../state/ducks/globalModals.preload.js';
 
 export type CallLinkPendingParticipantModalProps = {
   readonly i18n: LocalizerType;
@@ -21,7 +22,7 @@ export type CallLinkPendingParticipantModalProps = {
   readonly denyUser: (payload: PendingUserActionPayloadType) => void;
   readonly onClose: () => void;
   readonly sharedGroupNames: ReadonlyArray<string>;
-  readonly toggleAboutContactModal: (conversationId: string) => void;
+  readonly toggleAboutContactModal: (options: ContactModalStateType) => void;
 };
 
 export function CallLinkPendingParticipantModal({
@@ -75,7 +76,7 @@ export function CallLinkPendingParticipantModal({
         onClick={ev => {
           ev.preventDefault();
           ev.stopPropagation();
-          toggleAboutContactModal(conversation.id);
+          toggleAboutContactModal({ contactId: conversation.id });
         }}
         className="CallLinkPendingParticipantModal__NameButton"
       >

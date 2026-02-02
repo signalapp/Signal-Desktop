@@ -116,7 +116,7 @@ export type CallQualitySurveyPropsType = ReadonlyDeep<{
 
 export type GlobalModalsStateType = ReadonlyDeep<{
   addUserToAnotherGroupModalContactId?: string;
-  aboutContactModalContactId?: string;
+  aboutContactModalState?: ContactModalStateType;
   backfillFailureModalProps: BackfillFailureModalPropsType | undefined;
   callLinkAddNameModalRoomId: string | null;
   callLinkEditModalRoomId: string | null;
@@ -395,7 +395,7 @@ export type HideCallQualitySurveyActionType = ReadonlyDeep<{
 
 type ToggleAboutContactModalActionType = ReadonlyDeep<{
   type: typeof TOGGLE_ABOUT_MODAL;
-  payload: string | undefined;
+  payload: ContactModalStateType | undefined;
 }>;
 
 type ToggleSignalConnectionsModalActionType = ReadonlyDeep<{
@@ -1105,11 +1105,11 @@ function toggleCallLinkPendingParticipantModal(
 }
 
 function toggleAboutContactModal(
-  contactId?: string
+  payload?: ContactModalStateType
 ): ToggleAboutContactModalActionType {
   return {
     type: TOGGLE_ABOUT_MODAL,
-    payload: contactId,
+    payload,
   };
 }
 
@@ -1505,7 +1505,7 @@ export function reducer(
   if (action.type === TOGGLE_ABOUT_MODAL) {
     return {
       ...state,
-      aboutContactModalContactId: action.payload,
+      aboutContactModalState: action.payload,
     };
   }
 
@@ -1639,7 +1639,7 @@ export function reducer(
     if (action.payload.contactId === ourId) {
       return {
         ...state,
-        aboutContactModalContactId: ourId,
+        aboutContactModalState: action.payload,
       };
     }
 

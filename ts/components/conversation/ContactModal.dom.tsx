@@ -31,6 +31,8 @@ import {
   InAnotherCallTooltip,
   getTooltipContent,
 } from './InAnotherCallTooltip.dom.js';
+import type { ContactModalStateType } from '../../state/ducks/globalModals.preload.js';
+import { GroupMemberLabel } from './ContactName.dom.js';
 
 const log = createLogger('ContactModal');
 
@@ -39,6 +41,9 @@ export type PropsDataType = {
   areWeAdmin: boolean;
   badges: ReadonlyArray<BadgeType>;
   contact?: ConversationType;
+  contactLabelEmoji: string | undefined;
+  contactLabelString: string | undefined;
+  contactNameColor: string | undefined;
   conversation?: ConversationType;
   hasStories?: HasStories;
   readonly i18n: LocalizerType;
@@ -59,7 +64,7 @@ type PropsActionType = {
   showConversation: ShowConversationType;
   startAvatarDownload: () => void;
   toggleAdmin: (conversationId: string, contactId: string) => void;
-  toggleAboutContactModal: (conversationId: string) => unknown;
+  toggleAboutContactModal: (options: ContactModalStateType) => unknown;
   togglePip: () => void;
   toggleSafetyNumberModal: (conversationId: string) => unknown;
   toggleAddUserToAnotherGroupModal: (conversationId: string) => void;
@@ -87,6 +92,9 @@ export function ContactModal({
   badges,
   blockConversation,
   contact,
+  contactLabelEmoji,
+  contactLabelString,
+  contactNameColor,
   conversation,
   hasActiveCall,
   hasStories,
@@ -344,7 +352,7 @@ export function ContactModal({
               className="ContactModal__name"
               onClick={ev => {
                 ev.preventDefault();
-                toggleAboutContactModal(contact.id);
+                toggleAboutContactModal({ contactId: contact.id });
               }}
             >
               <div className="ContactModal__name__text">
@@ -361,6 +369,19 @@ export function ContactModal({
               </div>
               <i className="ContactModal__name__chevron" />
             </button>
+            {contactLabelString && contactNameColor && (
+              <div className="ContactModal__member-label">
+                <GroupMemberLabel
+                  emojiSize={14}
+                  contactLabel={{
+                    labelEmoji: contactLabelEmoji,
+                    labelString: contactLabelString,
+                  }}
+                  contactNameColor={contactNameColor}
+                  context="list"
+                />
+              </div>
+            )}
             {!contact.isMe && renderQuickActions(contact.id)}
             <div className="ContactModal__divider" />
             <div className="ContactModal__button-container">

@@ -12,12 +12,46 @@ import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.st
 import { fakeDraftAttachment } from '../test-helpers/fakeAttachment.std.js';
 import { landscapeGreenUrl } from '../storybook/Fixtures.std.js';
 import { RecordingState } from '../types/AudioRecorder.std.js';
-import { ConversationColors } from '../types/Colors.std.js';
+import { ContactNameColors, ConversationColors } from '../types/Colors.std.js';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
 import { PaymentEventKind } from '../types/Payment.std.js';
 import { EmojiSkinTone } from './fun/data/emojis.std.js';
+import { isNotNil } from '../util/isNotNil.std.js';
 
 const { i18n } = window.SignalContext;
+
+const groupAdmins = [
+  {
+    member: getDefaultConversation(),
+    labelEmoji: undefined,
+    labelString: undefined,
+  },
+  {
+    member: getDefaultConversation(),
+    labelEmoji: '✅',
+    labelString: 'Planner',
+  },
+  {
+    member: getDefaultConversation(),
+    labelEmoji: '#',
+    labelString: 'Invalid Emoji',
+  },
+  {
+    member: getDefaultConversation(),
+    labelEmoji: undefined,
+    labelString: 'No Emoji',
+  },
+];
+const memberColors = new Map(
+  groupAdmins
+    .map((admin, i): [string, string] | null => {
+      if (!admin.member.id) {
+        return null;
+      }
+      return [admin.member.id?.toString(), ContactNameColors[i]];
+    })
+    .filter(isNotNil)
+);
 
 export default {
   title: 'Components/CompositionArea',
@@ -102,7 +136,8 @@ export default {
     announcementsOnly: false,
     areWeAdmin: false,
     areWePendingApproval: false,
-    groupAdmins: [],
+    groupAdmins,
+    memberColors,
     cancelJoinRequest: action('cancelJoinRequest'),
     showConversation: action('showConversation'),
     isSmsOnlyOrUnregistered: false,

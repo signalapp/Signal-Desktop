@@ -50,6 +50,11 @@ export const getConfirmLeaveCallModalState = createSelector(
   ({ confirmLeaveCallModalState }) => confirmLeaveCallModalState
 );
 
+export const getAboutContactModalState = createSelector(
+  getGlobalModalsState,
+  ({ aboutContactModalState }) => aboutContactModalState
+);
+
 export const getContactModalState = createSelector(
   getGlobalModalsState,
   ({ contactModalState }) => contactModalState

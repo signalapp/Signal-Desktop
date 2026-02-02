@@ -558,7 +558,7 @@ export function NotificationProfilesHome({
             i18n={i18n}
             isEditing
             onBack={() => setPage(HomePage.Edit)}
-            onNext={() => setPage(HomePage.Edit)} // TODO: probably don't show Next button?
+            onNext={() => setPage(HomePage.Edit)}
             onSetIsEnabled={(scheduleEnabled: boolean) => {
               const newProfile = {
                 ...profile,

@@ -211,7 +211,7 @@ const GROUP_DESC_MAX_ENCRYPTED_BYTES = 8192;
 const TEMPORAL_AUTH_REJECTED_CODE = 401;
 const GROUP_ACCESS_DENIED_CODE = 403;
 const GROUP_NONEXISTENT_CODE = 404;
-const SUPPORTED_CHANGE_EPOCH = 5;
+const SUPPORTED_CHANGE_EPOCH = 6; // support for ModifyMemberLabelAction
 export const LINK_VERSION_ERROR = 'LINK_VERSION_ERROR';
 const GROUP_INVITE_LINK_PASSWORD_LENGTH = 16;
 
@@ -849,15 +849,58 @@ export function buildAnnouncementsOnlyChange(
 
 export function buildAccessControlAttributesChange(
   group: ConversationAttributesType,
-  value: AccessRequiredEnum
+  newValue: AccessRequiredEnum
 ): Proto.GroupChange.Actions {
+  const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
+  const ROLE_ENUM = Proto.Member.Role;
+
   const accessControlAction =
     new Proto.GroupChange.Actions.ModifyAttributesAccessControlAction();
-  accessControlAction.attributesAccess = value;
+  accessControlAction.attributesAccess = newValue;
+
+  if (!group.secretParams) {
+    throw new Error(
+      'buildAccessControlAttributesChange: group was missing secretParams!'
+    );
+  }
 
   const actions = new Proto.GroupChange.Actions();
   actions.version = (group.revision || 0) + 1;
   actions.modifyAttributesAccess = accessControlAction;
+
+  // Clear out all non-admin labels
+  const previousValue = group.accessControl?.attributes;
+  if (
+    previousValue !== ACCESS_ENUM.ADMINISTRATOR &&
+    newValue === ACCESS_ENUM.ADMINISTRATOR
+  ) {
+    const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
+
+    const modifyLabelActions = (group.membersV2 || [])
+      .map(member => {
+        if (member.role === ROLE_ENUM.ADMINISTRATOR) {
+          return undefined;
+        }
+
+        if (!member.labelString && !member.labelEmoji) {
+          return undefined;
+        }
+
+        const modifyLabel =
+          new Proto.GroupChange.Actions.ModifyMemberLabelAction();
+        modifyLabel.userId = encryptServiceId(clientZkGroupCipher, member.aci);
+
+        return modifyLabel;
+      })
+      .filter(isNotNil);
+
+    if (modifyLabelActions.length) {
+      log.info(
+        `buildAccessControlAttributesChange: Found ${modifyLabelActions.length} non-admins with labels. Clearing.`
+      );
+      actions.modifyMemberLabels = modifyLabelActions;
+    }
+  }
 
   return actions;
 }
@@ -1207,7 +1250,9 @@ export function buildModifyMemberRoleChange({
   const actions = new Proto.GroupChange.Actions();
 
   if (!group.secretParams) {
-    throw new Error('buildMakeAdminChange: group was missing secretParams!');
+    throw new Error(
+      'buildModifyMemberRoleChange: group was missing secretParams!'
+    );
   }
 
   const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
@@ -1219,6 +1264,49 @@ export function buildModifyMemberRoleChange({
 
   actions.version = (group.revision || 0) + 1;
   actions.modifyMemberRoles = [toggleAdmin];
+
+  return actions;
+}
+
+export function buildModifyMemberLabelChange({
+  serviceId,
+  group,
+  labelEmoji,
+  labelString,
+}: {
+  serviceId: ServiceIdString;
+  group: ConversationAttributesType;
+  labelEmoji: string | undefined;
+  labelString: string | undefined;
+}): Proto.GroupChange.Actions {
+  const actions = new Proto.GroupChange.Actions();
+
+  if (!group.secretParams) {
+    throw new Error(
+      'buildModifyMemberLabelChange: group was missing secretParams!'
+    );
+  }
+
+  const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
+  const userIdCipherText = encryptServiceId(clientZkGroupCipher, serviceId);
+
+  const modifyLabel = new Proto.GroupChange.Actions.ModifyMemberLabelAction();
+  modifyLabel.userId = userIdCipherText;
+  if (labelEmoji) {
+    modifyLabel.labelEmoji = encryptGroupBlob(
+      clientZkGroupCipher,
+      Bytes.fromString(labelEmoji)
+    );
+  }
+  if (labelString) {
+    modifyLabel.labelString = encryptGroupBlob(
+      clientZkGroupCipher,
+      Bytes.fromString(labelString)
+    );
+  }
+
+  actions.version = (group.revision || 0) + 1;
+  actions.modifyMemberLabels = [modifyLabel];
 
   return actions;
 }
@@ -5128,6 +5216,28 @@ async function applyGroupChange({
     }
   });
 
+  // modifyMemberLabels?: Array<GroupChange.Actions.ModifyMemberLabelAction>;
+  (actions.modifyMemberLabels || []).forEach(modifyMemberLabel => {
+    const { userId, labelEmoji, labelString } = modifyMemberLabel;
+    if (!userId) {
+      throw new Error(
+        'applyGroupChange: modifyMemberLabel had a missing userId'
+      );
+    }
+
+    if (members[userId]) {
+      members[userId] = {
+        ...members[userId],
+        labelEmoji,
+        labelString,
+      };
+    } else {
+      throw new Error(
+        'applyGroupChange: modifyMemberLabel tried to modify nonexistent member'
+      );
+    }
+  });
+
   // modifyMemberProfileKeys?:
   // Array<GroupChange.Actions.ModifyMemberProfileKeyAction>;
   (actions.modifyMemberProfileKeys || []).forEach(modifyMemberProfileKey => {
@@ -5848,6 +5958,8 @@ async function applyGroupState({
         role: member.role || MEMBER_ROLE_ENUM.DEFAULT,
         joinedAtVersion: member.joinedAtVersion,
         aci: member.userId,
+        labelEmoji: member.labelEmoji,
+        labelString: member.labelString,
       };
     });
   }
@@ -6051,6 +6163,12 @@ function normalizeTimestamp(timestamp: Long | null | undefined): number {
   return asNumber;
 }
 
+type DecryptedModifyMemberLabelAction = {
+  userId: AciString;
+  labelEmoji?: string;
+  labelString?: string;
+};
+
 type DecryptedGroupChangeActions = {
   version?: number;
   sourceServiceId?: ServiceIdString;
@@ -6065,6 +6183,7 @@ type DecryptedGroupChangeActions = {
     userId: AciString;
     role: Proto.Member.Role;
   }>;
+  modifyMemberLabels?: ReadonlyArray<DecryptedModifyMemberLabelAction>;
   modifyMemberProfileKeys?: ReadonlyArray<{
     profileKey: Uint8Array;
     aci: AciString;
@@ -6234,6 +6353,17 @@ function decryptGroupChange(
         userId,
       };
     })
+  );
+
+  // modifyMemberLabels?: Array<GroupChange.Actions.ModifyMemberLabelAction>
+  result.modifyMemberLabels = compact(
+    (actions.modifyMemberLabels || []).map(modifyMemberLabel =>
+      decryptModifyMemberLabelAction(
+        clientZkGroupCipher,
+        modifyMemberLabel,
+        logId
+      )
+    )
   );
 
   // modifyMemberProfileKeys?: Array<
@@ -6785,6 +6915,67 @@ export function decryptGroupDescription(
   return undefined;
 }
 
+function decryptModifyMemberLabelAction(
+  clientZkGroupCipher: ClientZkGroupCipher,
+  modifyMember: Readonly<Proto.GroupChange.Actions.IModifyMemberLabelAction>,
+  logId: string
+): DecryptedModifyMemberLabelAction | undefined {
+  const { userId, labelEmoji, labelString } = modifyMember;
+
+  // userId
+  strictAssert(
+    Bytes.isNotEmpty(userId),
+    'decryptModifyMemberLabelAction: Missing userId'
+  );
+
+  let decryptedUserId: AciString;
+  try {
+    decryptedUserId = decryptAci(clientZkGroupCipher, userId);
+  } catch (error) {
+    log.warn(
+      `decryptModifyMemberLabelAction/${logId}: Unable to decrypt pending member userId. Dropping member.`,
+      Errors.toLogFormat(error)
+    );
+    return undefined;
+  }
+
+  // labelEmoji
+  let decryptedLabelEmoji: string | undefined;
+  if (Bytes.isNotEmpty(labelEmoji)) {
+    try {
+      decryptedLabelEmoji = Bytes.toString(
+        decryptGroupBlob(clientZkGroupCipher, labelEmoji)
+      );
+    } catch (error) {
+      log.warn(
+        `decryptMemberPendingAdminApproval/${logId}: Unable to decrypt labelEmoji. Dropping it.`,
+        Errors.toLogFormat(error)
+      );
+    }
+  }
+
+  // labelString
+  let decryptedLabelString: string | undefined;
+  if (Bytes.isNotEmpty(labelString)) {
+    try {
+      decryptedLabelString = Bytes.toString(
+        decryptGroupBlob(clientZkGroupCipher, labelString)
+      );
+    } catch (error) {
+      log.warn(
+        `decryptMemberPendingAdminApproval/${logId}: Unable to decrypt labelString. Dropping it.`,
+        Errors.toLogFormat(error)
+      );
+    }
+  }
+
+  return {
+    userId: decryptedUserId,
+    labelEmoji: decryptedLabelEmoji,
+    labelString: decryptedLabelString,
+  };
+}
+
 type DecryptedGroupState = {
   title?: Proto.GroupAttributeBlob;
   disappearingMessagesTimer?: Proto.GroupAttributeBlob;
@@ -6973,6 +7164,8 @@ type DecryptedMember = Readonly<{
   profileKey: Uint8Array;
   role: Proto.Member.Role;
   joinedAtVersion: number;
+  labelEmoji?: string;
+  labelString?: string;
 }>;
 
 function decryptMember(
@@ -7019,11 +7212,43 @@ function decryptMember(
     throw new Error(`decryptMember: Member had invalid role ${member.role}`);
   }
 
+  // labelEmoji
+  let decryptedLabelEmoji: string | undefined;
+  if (Bytes.isNotEmpty(member.labelEmoji)) {
+    try {
+      decryptedLabelEmoji = Bytes.toString(
+        decryptGroupBlob(clientZkGroupCipher, member.labelEmoji)
+      );
+    } catch (error) {
+      log.warn(
+        `decryptMemberPendingAdminApproval/${logId}: Unable to decrypt labelEmoji. Dropping it.`,
+        Errors.toLogFormat(error)
+      );
+    }
+  }
+
+  // labelString
+  let decryptedLabelString: string | undefined;
+  if (Bytes.isNotEmpty(member.labelString)) {
+    try {
+      decryptedLabelString = Bytes.toString(
+        decryptGroupBlob(clientZkGroupCipher, member.labelString)
+      );
+    } catch (error) {
+      log.warn(
+        `decryptMemberPendingAdminApproval/${logId}: Unable to decrypt labelString. Dropping it.`,
+        Errors.toLogFormat(error)
+      );
+    }
+  }
+
   return {
     userId,
     profileKey,
     role,
     joinedAtVersion: dropNull(member.joinedAtVersion) ?? 0,
+    labelEmoji: decryptedLabelEmoji,
+    labelString: decryptedLabelString,
   };
 }
 

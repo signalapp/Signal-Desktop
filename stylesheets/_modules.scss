@@ -559,7 +559,6 @@ $message-padding-horizontal: 12px;
   margin-block-start: 0;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-  margin-top: -7px;
 }
 .module-message__attachment-too-big--content-below {
   border-bottom-left-radius: 0;
@@ -1071,28 +1070,16 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__author {
-  @include mixins.font-body-2-bold;
+  @include mixins.font-body-small-bold;
 
-  height: 18px;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  min-height: 18px;
   user-select: none;
 }
 
-.module-message__author--with-quote {
-  margin-bottom: 4px;
-}
-
 .module-message__author_with_sticker {
-  @include mixins.font-body-2-bold;
+  @include mixins.font-body-small-bold;
 
-  height: 18px;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  min-height: 18px;
 
   // Stickers are pretty narrow, so we allow this one element of a sticker
   //   message to go wider than normal.
@@ -6345,6 +6332,10 @@ button.module-calling-participants-list__contact {
   &--deleted-for-everyone {
     font-style: italic;
   }
+}
+
+.module-message__container--sticker-like {
+  overflow: initial;
 }
 
 .module-message__context {

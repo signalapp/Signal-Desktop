@@ -41,6 +41,7 @@ import { useReducedMotion } from '../../hooks/useReducedMotion.dom.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { SmartPinnedMessagesPanel } from './PinnedMessagesPanel.preload.js';
 import { SmartMiniPlayer } from './MiniPlayer.preload.js';
+import { SmartGroupMemberLabelEditor } from './SmartGroupMemberLabelEditor.preload.js';
 
 const log = createLogger('ConversationPanel');
 
@@ -383,6 +384,10 @@ function PanelElement({
     return <SmartGroupLinkManagement conversationId={conversationId} />;
   }
 
+  if (panel.type === PanelType.GroupMemberLabelEditor) {
+    return <SmartGroupMemberLabelEditor conversationId={conversationId} />;
+  }
+
   if (panel.type === PanelType.GroupPermissions) {
     return <SmartGroupV2Permissions conversationId={conversationId} />;
   }
@@ -422,6 +427,7 @@ function getPanelKey(panel: PanelRenderType): string {
     case PanelType.GroupLinkManagement:
     case PanelType.GroupPermissions:
     case PanelType.GroupV1Members:
+    case PanelType.GroupMemberLabelEditor:
     case PanelType.NotificationSettings:
     case PanelType.PinnedMessages:
     case PanelType.StickerManager:

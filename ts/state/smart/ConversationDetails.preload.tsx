@@ -21,6 +21,7 @@ import {
 import { getActiveCallState } from '../selectors/calling.std.js';
 import {
   getAllComposableConversations,
+  getCachedConversationMemberColorsSelector,
   getConversationByIdSelector,
   getConversationByServiceIdSelector,
   getPendingAvatarDownloadSelector,
@@ -28,9 +29,10 @@ import {
 import {
   getAreWeASubscriber,
   getDefaultConversationColor,
+  getItems,
 } from '../selectors/items.dom.js';
 import { getSelectedNavTab } from '../selectors/nav.preload.js';
-import { getIntl, getTheme } from '../selectors/user.std.js';
+import { getIntl, getTheme, getVersion } from '../selectors/user.std.js';
 import type { SmartChooseGroupMembersModalPropsType } from './ChooseGroupMembersModal.preload.js';
 import { SmartChooseGroupMembersModal } from './ChooseGroupMembersModal.preload.js';
 import type { SmartConfirmAdditionsModalPropsType } from './ConfirmAdditionsModal.dom.js';
@@ -43,6 +45,7 @@ import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
 import { drop } from '../../util/drop.std.js';
 import { DataReader } from '../../sql/Client.preload.js';
+import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.js';
 
 const { sortBy } = lodash;
 
@@ -93,6 +96,8 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
   const i18n = useSelector(getIntl);
   const theme = useSelector(getTheme);
   const activeCall = useSelector(getActiveCallState);
+  const version = useSelector(getVersion);
+  const items = useSelector(getItems);
   const allComposableConversations = useSelector(getAllComposableConversations);
   const areWeASubscriber = useSelector(getAreWeASubscriber);
   const badgesSelector = useSelector(getBadgesSelector);
@@ -104,6 +109,9 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
   const getPreferredBadge = useSelector(getPreferredBadgeSelector);
   const isPendingAvatarDownload = useSelector(getPendingAvatarDownloadSelector);
   const selectedNavTab = useSelector(getSelectedNavTab);
+  const getCachedConversationMemberColors = useSelector(
+    getCachedConversationMemberColorsSelector
+  );
 
   const {
     acceptConversation,
@@ -155,6 +163,13 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
   const badges = badgesSelector(conversation.badges);
   const canAddNewMembers = conversation.canAddNewMembers ?? false;
   const canEditGroupInfo = conversation.canEditGroupInfo ?? false;
+  const isEditMemberLabelEnabled = isFeaturedEnabledSelector({
+    betaKey: 'desktop.groupMemberLabels.edit.beta',
+    currentVersion: version,
+    remoteConfig: items.remoteConfig,
+    prodKey: 'desktop.groupMemberLabels.edit.prod',
+  });
+
   const groupsInCommon = getGroupsInCommonSorted(
     conversation,
     allComposableConversations
@@ -169,6 +184,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
   const maxGroupSize = getGroupSizeHardLimit(1001);
   const maxRecommendedGroupSize = getGroupSizeRecommendedLimit(151);
   const userAvatarData = conversation.avatars ?? [];
+  const memberColors = getCachedConversationMemberColors(conversationId);
 
   const handleDeleteNicknameAndNote = useCallback(() => {
     updateNicknameAndNote(conversationId, { nickname: null, note: null });
@@ -217,12 +233,14 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
       hasGroupLink={hasGroupLink}
       i18n={i18n}
       isAdmin={isAdmin}
+      isEditMemberLabelEnabled={isEditMemberLabelEnabled}
       isGroup={isGroup}
       isSignalConversation={isSignalConversation(conversation)}
       leaveGroup={leaveGroup}
       hasMedia={hasMedia}
       maxGroupSize={maxGroupSize}
       maxRecommendedGroupSize={maxRecommendedGroupSize}
+      memberColors={memberColors}
       memberships={memberships}
       onDeleteNicknameAndNote={handleDeleteNicknameAndNote}
       onOpenEditNicknameAndNoteModal={handleOpenEditNicknameAndNoteModal}

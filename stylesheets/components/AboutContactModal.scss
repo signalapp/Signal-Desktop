@@ -115,6 +115,16 @@
         '../images/icons/v3/person/person-questionmark-compact.svg'
       );
     }
+
+    &--label {
+      @include about-modal-icon('../images/icons/v3/tag/tag.svg');
+    }
+  }
+
+  &__label-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
 
   &__button {

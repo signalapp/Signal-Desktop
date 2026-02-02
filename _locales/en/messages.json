@@ -1486,6 +1486,10 @@
     "messageformat": "{name} is in your system contacts",
     "description": "Text of a row in the About modal describing that the contact is in system contacts"
   },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Add a member label",
+    "description": "Text for a row on the about contact modal, allowing user to add a label for themselves in the current group"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Note",
     "description": "Title of Note Preview modal"
@@ -6183,6 +6187,22 @@
   "icu:ConversationDetails--group-link": {
     "messageformat": "Group link",
     "description": "This is the label for the group link management panel"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Member label",
+    "description": "This is the label describing the member label editor screen"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Enter your member label",
+    "description": "Shown on the member label editor screen as a placeholder in the text box"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Set a member label to describe yourself or your role in this group. Member labels are only visible within this group.",
+    "description": "Summary explaining what a member label is and how it will be shown to other users. Shown below the text box to edit it."
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Saving changes...",
+    "description": "Accessibility label for button with spinner as we save changes."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Disappearing messages",

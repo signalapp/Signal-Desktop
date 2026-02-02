@@ -14,6 +14,7 @@ export enum PanelType {
   GroupLinkManagement = 'GroupLinkManagement',
   GroupPermissions = 'GroupPermissions',
   GroupV1Members = 'GroupV1Members',
+  GroupMemberLabelEditor = 'GroupMemberLabelEditor',
   MessageDetails = 'MessageDetails',
   NotificationSettings = 'NotificationSettings',
   PinnedMessages = 'PinnedMessages',
@@ -34,6 +35,7 @@ export type PanelRequestType = ReadonlyDeep<
   | { type: PanelType.GroupLinkManagement }
   | { type: PanelType.GroupPermissions }
   | { type: PanelType.GroupV1Members }
+  | { type: PanelType.GroupMemberLabelEditor }
   | { type: PanelType.MessageDetails; args: { messageId: string } }
   | { type: PanelType.NotificationSettings }
   | { type: PanelType.PinnedMessages }
@@ -54,6 +56,7 @@ export type PanelRenderType = ReadonlyDeep<
   | { type: PanelType.GroupLinkManagement }
   | { type: PanelType.GroupPermissions }
   | { type: PanelType.GroupV1Members }
+  | { type: PanelType.GroupMemberLabelEditor }
   | {
       type: PanelType.MessageDetails;
       args: { message: ReadonlyMessageAttributesType };

@@ -71,6 +71,8 @@ export function getDefaultGroup(
   const memberships = Array.from(Array(casual.integer(1, 20)), () => ({
     aci: generateAci(),
     isAdmin: Boolean(casual.coin_flip),
+    labelEmoji: undefined,
+    labelString: undefined,
   }));
 
   return {

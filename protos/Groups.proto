@@ -1,11 +1,11 @@
-syntax = "proto3";
-
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+syntax = "proto3";
 
 package signalservice;
 
-option java_package        = "org.whispersystems.signalservice.protos.groups";
+option java_package = "org.signal.storageservice.storage.protos.groups";
+option java_outer_classname = "GroupProtos";
 option java_multiple_files = true;
 
 message AvatarUploadAttributes {
@@ -27,11 +27,14 @@ message Member {
     ADMINISTRATOR = 2;
   }
 
-  bytes userId = 1;
+  bytes user_id = 1;
   Role role = 2;
   bytes profileKey = 3;
   bytes presentation = 4;
   uint32 joinedAtVersion = 5;
+  // These two fields each decrypt to a UTF8 string
+  bytes label_emoji = 6;
+  bytes label_string = 7;
 }
 
 message MemberPendingProfileKey {
@@ -41,14 +44,14 @@ message MemberPendingProfileKey {
 }
 
 message MemberPendingAdminApproval {
-  bytes userId = 1;
+  bytes user_id = 1;
   bytes profileKey = 2;
   bytes presentation = 3;
   uint64 timestamp = 4;  // ms since epoch
 }
 
 message MemberBanned {
-  bytes userId = 1;
+  bytes user_id = 1;
   uint64 timestamp = 2;  // ms since epoch
 }
 
@@ -134,8 +137,15 @@ message GroupChange {
     }
 
     message ModifyMemberRoleAction {
-      bytes userId = 1;
+      bytes user_id = 1;
       Member.Role role = 2;
+    }
+
+    message ModifyMemberLabelAction {
+      bytes user_id = 1;
+      // These two fields each decrypt to a UTF8 string
+      bytes label_emoji = 2;
+      bytes label_string = 3;
     }
 
     message ModifyMemberProfileKeyAction {
@@ -174,7 +184,7 @@ message GroupChange {
     }
 
     message PromoteMemberPendingAdminApprovalAction {
-      bytes userId = 1;
+      bytes user_id = 1;
       Member.Role role = 2;
     }
 
@@ -231,6 +241,7 @@ message GroupChange {
     repeated AddMemberAction addMembers = 3;
     repeated DeleteMemberAction deleteMembers = 4;
     repeated ModifyMemberRoleAction modifyMemberRoles = 5;
+    repeated ModifyMemberLabelAction modifyMemberLabels = 26; // change epoch = 6;
     repeated ModifyMemberProfileKeyAction modifyMemberProfileKeys = 6;
     repeated AddMemberPendingProfileKeyAction addMembersPendingProfileKey = 7;
     repeated DeleteMemberPendingProfileKeyAction deleteMembersPendingProfileKey = 8;

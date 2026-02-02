@@ -285,6 +285,12 @@
           @include details-icon('../images/icons/v3/heart/heart.svg');
         }
       }
+
+      &--tag {
+        &::after {
+          @include details-icon('../images/icons/v3/tag/tag.svg');
+        }
+      }
     }
   }
 
@@ -519,4 +525,9 @@
     '../images/icons/v3/trash/trash.svg',
     light-dark(variables.$color-black, variables.$color-white)
   );
+}
+
+.Input__input--textarea.GroupMemberLabelEditor__input--textarea {
+  line-height: 32px;
+  margin-top: 0px;
 }

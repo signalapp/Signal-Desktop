@@ -396,6 +396,8 @@ export type ConversationType = ReadonlyDeep<
     memberships?: ReadonlyArray<{
       aci: AciString;
       isAdmin: boolean;
+      labelEmoji: string | undefined;
+      labelString: string | undefined;
     }>;
     pendingMemberships?: ReadonlyArray<{
       serviceId: ServiceIdString;
@@ -1341,6 +1343,7 @@ export const actions = {
   toggleSelectMessage,
   toggleSelectMode,
   updateGroupAttributes,
+  updateGroupMemberLabel,
   updateLastMessage,
   updateNicknameAndNote,
   verifyConversationsStoppingSend,
@@ -4636,6 +4639,14 @@ function addMembersToGroup(
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ActionCreator<T extends (...params: Array<any>) => any> = ReadonlyDeep<
+  (...params: Parameters<T>) => void
+>;
+
+export type UpdateGroupAttributesType = ReadonlyDeep<
+  ActionCreator<typeof updateGroupAttributes>
+>;
 function updateGroupAttributes(
   conversationId: string,
   attributes: Readonly<{
@@ -4670,6 +4681,47 @@ function updateGroupAttributes(
             { id, publicParams, revision, secretParams },
             attributes
           ),
+      });
+      onSuccess?.();
+    } catch {
+      onFailure?.();
+    }
+  };
+}
+
+export type UpdateGroupMemberLabelType = ReadonlyDeep<
+  ActionCreator<typeof updateGroupMemberLabel>
+>;
+function updateGroupMemberLabel(
+  {
+    conversationId,
+    labelEmoji,
+    labelString,
+  }: {
+    conversationId: string;
+    labelEmoji: string | undefined;
+    labelString: string | undefined;
+  },
+  {
+    onSuccess,
+    onFailure,
+  }: {
+    onSuccess?: () => unknown;
+    onFailure?: () => unknown;
+  } = {}
+): ThunkAction<void, RootStateType, unknown, never> {
+  return async () => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('updateGroupMemberLabel: No conversation found');
+    }
+
+    try {
+      await longRunningTaskWrapper({
+        name: 'updateGroupMemberLabel',
+        idForLogging: conversation.idForLogging(),
+        task: async () =>
+          conversation.updateGroupMemberLabel({ labelEmoji, labelString }),
       });
       onSuccess?.();
     } catch {

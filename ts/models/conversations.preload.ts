@@ -246,6 +246,7 @@ import {
   buildDisappearingMessagesTimerChange,
   buildGroupLink,
   buildInviteLinkPasswordChange,
+  buildModifyMemberLabelChange,
   buildModifyMemberRoleChange,
   buildNewGroupLinkChange,
   buildPromoteMemberChange,
@@ -4577,6 +4578,34 @@ export class ConversationModel {
       this.set({ messagesDeleted: false });
       await DataWriter.updateConversation(this.attributes);
     }
+  }
+
+  async updateGroupMemberLabel({
+    labelEmoji,
+    labelString,
+  }: {
+    labelEmoji: string | undefined;
+    labelString: string | undefined;
+  }): Promise<void> {
+    if (!isGroupV2(this.attributes)) {
+      return;
+    }
+
+    log.info('updateGroupMemberLabel for conversation', this.idForLogging());
+
+    const ourServiceId = itemStorage.user.getCheckedAci();
+
+    await this.modifyGroupV2({
+      name: 'updateGroupMemberLabel',
+      usingCredentialsFrom: [],
+      createGroupChange: async () =>
+        buildModifyMemberLabelChange({
+          serviceId: ourServiceId,
+          group: this.attributes,
+          labelEmoji,
+          labelString,
+        }),
+    });
   }
 
   async refreshGroupLink(): Promise<void> {

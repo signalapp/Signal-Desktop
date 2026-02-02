@@ -247,6 +247,7 @@ export type PropsData = {
   id: string;
   renderingContext: RenderingContextType;
   contactNameColor?: ContactNameColorType;
+  contactLabel?: { labelString: string; labelEmoji: string | undefined };
   conversationColor: ConversationColorType;
   conversationTitle: string;
   customColor?: CustomColorType;
@@ -1135,7 +1136,8 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   #renderAuthor(): ReactNode {
-    const { author, contactNameColor, i18n, isSticker, quote } = this.props;
+    const { author, contactLabel, contactNameColor, i18n, isSticker, quote } =
+      this.props;
 
     if (!this.#shouldRenderAuthor()) {
       return null;
@@ -1153,6 +1155,7 @@ export class Message extends React.PureComponent<Props, State> {
       >
         <ContactName
           contactNameColor={contactNameColor}
+          contactLabel={contactLabel}
           title={author.isMe ? i18n('icu:you') : author.title}
           module={moduleName}
         />
@@ -3244,6 +3247,7 @@ export class Message extends React.PureComponent<Props, State> {
         : null,
       isTargeted ? 'module-message__container--targeted' : null,
       lighterSelect ? 'module-message__container--targeted-lighter' : null,
+      isStickerLike ? 'module-message__container--sticker-like' : null,
       !isStickerLike ? `module-message__container--${direction}` : null,
       isEmojiOnly ? 'module-message__container--emoji' : null,
       !isStickerLike && direction === 'outgoing'

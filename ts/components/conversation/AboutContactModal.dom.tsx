@@ -13,6 +13,14 @@ import { About } from './About.dom.js';
 import { I18n } from '../I18n.dom.js';
 import { canHaveNicknameAndNote } from '../../util/nicknames.dom.js';
 import { Tooltip, TooltipPlacement } from '../Tooltip.dom.js';
+import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.dom.js';
+import {
+  getEmojiVariantByKey,
+  getEmojiVariantKeyByValue,
+  isEmojiVariantValue,
+} from '../fun/data/emojis.std.js';
+import { FunStaticEmoji } from '../fun/FunEmoji.dom.js';
+import { missingEmojiPlaceholder } from './ContactName.dom.js';
 
 function muted(parts: Array<string | React.JSX.Element>) {
   return (
@@ -22,11 +30,16 @@ function muted(parts: Array<string | React.JSX.Element>) {
 
 export type PropsType = Readonly<{
   i18n: LocalizerType;
+  canAddLabel: boolean;
+  contact: ConversationType;
+  contactLabelEmoji: string | undefined;
+  contactLabelString: string | undefined;
+  contactNameColor: string | undefined;
+  fromOrAddedByTrustedContact?: boolean;
+  isEditMemberLabelEnabled: boolean;
+  isSignalConnection: boolean;
   onClose: () => void;
   onOpenNotePreviewModal: () => void;
-  conversation: ConversationType;
-  fromOrAddedByTrustedContact?: boolean;
-  isSignalConnection: boolean;
   pendingAvatarDownload?: boolean;
   sharedGroupNames: ReadonlyArray<string>;
   startAvatarDownload?: (id: string) => unknown;
@@ -37,8 +50,13 @@ export type PropsType = Readonly<{
 
 export function AboutContactModal({
   i18n,
-  conversation,
+  canAddLabel,
+  contact,
+  contactLabelEmoji,
+  contactLabelString,
+  contactNameColor,
   fromOrAddedByTrustedContact,
+  isEditMemberLabelEnabled,
   isSignalConnection,
   pendingAvatarDownload,
   sharedGroupNames,
@@ -49,7 +67,7 @@ export function AboutContactModal({
   onClose,
   onOpenNotePreviewModal,
 }: PropsType): React.JSX.Element {
-  const { avatarUrl, hasAvatar, isMe } = conversation;
+  const { avatarUrl, hasAvatar, isMe } = contact;
 
   // If hasAvatar is true, we show the download button instead of blur
   const enableClickToLoad = !avatarUrl && !isMe && hasAvatar;
@@ -64,11 +82,11 @@ export function AboutContactModal({
     }
     return () => {
       if (!pendingAvatarDownload && startAvatarDownload) {
-        startAvatarDownload(conversation.id);
+        startAvatarDownload(contact.id);
       }
     };
   }, [
-    conversation.id,
+    contact.id,
     startAvatarDownload,
     enableClickToLoad,
     pendingAvatarDownload,
@@ -85,9 +103,9 @@ export function AboutContactModal({
   const onVerifiedClick = useCallback(
     (ev: React.MouseEvent) => {
       ev.preventDefault();
-      toggleSafetyNumberModal(conversation.id);
+      toggleSafetyNumberModal(contact.id);
     },
-    [toggleSafetyNumberModal, conversation.id]
+    [toggleSafetyNumberModal, contact.id]
   );
 
   const onProfileNameWarningClick = useCallback(
@@ -99,31 +117,58 @@ export function AboutContactModal({
   );
 
   let statusRow: React.JSX.Element | undefined;
+  const hasLabel = contactNameColor && contactLabelString;
+  const shouldShowLabel = isMe && hasLabel;
+  const shouldShowAddLabel =
+    isMe && !hasLabel && canAddLabel && isEditMemberLabelEnabled;
+  const emojiLocalizer = useFunEmojiLocalizer();
+
+  let labelEmojiElement;
+  if (
+    shouldShowLabel &&
+    contactLabelEmoji &&
+    isEmojiVariantValue(contactLabelEmoji)
+  ) {
+    const emojiKey = getEmojiVariantKeyByValue(contactLabelEmoji);
+    const labelEmojiData = getEmojiVariantByKey(emojiKey);
+    labelEmojiElement = (
+      <>
+        <FunStaticEmoji
+          role="img"
+          aria-label={emojiLocalizer.getLocaleShortName(labelEmojiData.key)}
+          size={16}
+          emoji={labelEmojiData}
+        />{' '}
+      </>
+    );
+  } else if (shouldShowLabel && contactLabelEmoji) {
+    labelEmojiElement = `${missingEmojiPlaceholder} `;
+  }
 
   if (isMe) {
     // No status for ourselves
-  } else if (conversation.isBlocked) {
+  } else if (contact.isBlocked) {
     statusRow = (
       <div className="AboutContactModal__row">
         <i className="AboutContactModal__row__icon AboutContactModal__row__icon--blocked" />
         {i18n('icu:AboutContactModal__blocked', {
-          name: conversation.title,
+          name: contact.title,
         })}
       </div>
     );
-  } else if (!conversation.acceptedMessageRequest) {
+  } else if (!contact.acceptedMessageRequest) {
     statusRow = (
       <div className="AboutContactModal__row">
         <i className="AboutContactModal__row__icon AboutContactModal__row__icon--message-request" />
         {i18n('icu:AboutContactModal__message-request')}
       </div>
     );
-  } else if (!conversation.hasMessages && !conversation.profileSharing) {
+  } else if (!contact.hasMessages && !contact.profileSharing) {
     statusRow = (
       <div className="AboutContactModal__row">
         <i className="AboutContactModal__row__icon AboutContactModal__row__icon--no-dms" />
         {i18n('icu:AboutContactModal__no-dms', {
-          name: conversation.title,
+          name: contact.title,
         })}
       </div>
     );
@@ -140,22 +185,21 @@ export function AboutContactModal({
     >
       <div className="AboutContactModal__row AboutContactModal__row--centered">
         <Avatar
-          avatarPlaceholderGradient={conversation.avatarPlaceholderGradient}
-          avatarUrl={conversation.avatarUrl}
+          avatarPlaceholderGradient={contact.avatarPlaceholderGradient}
+          avatarUrl={contact.avatarUrl}
           blur={avatarBlur}
           onClick={avatarOnClick}
           badge={undefined}
-          color={conversation.color}
+          color={contact.color}
           conversationType="direct"
-          hasAvatar={conversation.hasAvatar}
+          hasAvatar={contact.hasAvatar}
           i18n={i18n}
-          loading={pendingAvatarDownload && !conversation.avatarUrl}
-          profileName={conversation.profileName}
+          loading={pendingAvatarDownload && !contact.avatarUrl}
+          profileName={contact.profileName}
           size={AvatarSize.TWO_HUNDRED_SIXTEEN}
-          title={conversation.title}
+          title={contact.title}
         />
       </div>
-
       <div className="AboutContactModal__row">
         <h3 className="AboutContactModal__title">
           {isMe
@@ -163,19 +207,18 @@ export function AboutContactModal({
             : i18n('icu:AboutContactModal__title')}
         </h3>
       </div>
-
       <div className="AboutContactModal__row">
         <i className="AboutContactModal__row__icon AboutContactModal__row__icon--profile" />
 
-        {canHaveNicknameAndNote(conversation) &&
-        conversation.titleNoNickname !== conversation.title &&
-        conversation.titleNoNickname ? (
+        {canHaveNicknameAndNote(contact) &&
+        contact.titleNoNickname !== contact.title &&
+        contact.titleNoNickname ? (
           <span>
             <I18n
               i18n={i18n}
               id="icu:AboutContactModal__TitleAndTitleWithoutNickname"
               components={{
-                nickname: <UserText text={conversation.title} />,
+                nickname: <UserText text={contact.title} />,
                 titleNoNickname: (
                   <Tooltip
                     className="AboutContactModal__TitleWithoutNickname__Tooltip"
@@ -185,15 +228,13 @@ export function AboutContactModal({
                         i18n={i18n}
                         id="icu:AboutContactModal__TitleWithoutNickname__Tooltip"
                         components={{
-                          title: (
-                            <UserText text={conversation.titleNoNickname} />
-                          ),
+                          title: <UserText text={contact.titleNoNickname} />,
                         }}
                       />
                     }
                     delay={0}
                   >
-                    <UserText text={conversation.titleNoNickname} />
+                    <UserText text={contact.titleNoNickname} />
                   </Tooltip>
                 ),
                 muted,
@@ -201,14 +242,13 @@ export function AboutContactModal({
             />
           </span>
         ) : (
-          <UserText text={conversation.title} />
+          <UserText text={contact.title} />
         )}
       </div>
-
       {!isMe && !fromOrAddedByTrustedContact ? (
         <div className="AboutContactModal__row">
           <i
-            className={`AboutContactModal__row__icon AboutContactModal__row__icon--${conversation.type === 'group' ? 'group' : 'direct'}-question`}
+            className={`AboutContactModal__row__icon AboutContactModal__row__icon--${contact.type === 'group' ? 'group' : 'direct'}-question`}
           />
           <button
             type="button"
@@ -222,7 +262,7 @@ export function AboutContactModal({
               }}
               i18n={i18n}
               id={
-                conversation.type === 'group'
+                contact.type === 'group'
                   ? 'icu:ConversationHero--group-names'
                   : 'icu:ConversationHero--profile-names'
               }
@@ -230,8 +270,7 @@ export function AboutContactModal({
           </button>
         </div>
       ) : null}
-
-      {!isMe && conversation.isVerified ? (
+      {!isMe && contact.isVerified ? (
         <div className="AboutContactModal__row">
           <i className="AboutContactModal__row__icon AboutContactModal__row__icon--verified" />
           <button
@@ -243,17 +282,12 @@ export function AboutContactModal({
           </button>
         </div>
       ) : null}
-
-      {!isMe && conversation.about ? (
+      {!isMe && contact.about ? (
         <div className="AboutContactModal__row">
           <i className="AboutContactModal__row__icon AboutContactModal__row__icon--about" />
-          <About
-            className="AboutContactModal__about"
-            text={conversation.about}
-          />
+          <About className="AboutContactModal__about" text={contact.about} />
         </div>
       ) : null}
-
       {!isMe && isSignalConnection ? (
         <div className="AboutContactModal__row">
           <i className="AboutContactModal__row__icon AboutContactModal__row__icon--connections" />
@@ -266,23 +300,35 @@ export function AboutContactModal({
           </button>
         </div>
       ) : null}
-
-      {!isMe && isInSystemContacts(conversation) ? (
+      {!isMe && isInSystemContacts(contact) ? (
         <div className="AboutContactModal__row">
           <i className="AboutContactModal__row__icon AboutContactModal__row__icon--person" />
           {i18n('icu:AboutContactModal__system-contact', {
-            name:
-              conversation.systemGivenName ||
-              conversation.firstName ||
-              conversation.title,
+            name: contact.systemGivenName || contact.firstName || contact.title,
           })}
         </div>
       ) : null}
 
-      {conversation.phoneNumber ? (
+      {shouldShowLabel && (
+        <div className="AboutContactModal__row">
+          <i className="AboutContactModal__row__icon AboutContactModal__row__icon--label" />
+          <div className="AboutContactModal__label-container">
+            {labelEmojiElement}
+            {contactLabelString}
+          </div>
+        </div>
+      )}
+      {shouldShowAddLabel && (
+        <div className="AboutContactModal__row">
+          <i className="AboutContactModal__row__icon AboutContactModal__row__icon--label" />
+          {i18n('icu:AboutContactModal__add-member-label')}
+        </div>
+      )}
+
+      {contact.phoneNumber ? (
         <div className="AboutContactModal__row">
           <i className="AboutContactModal__row__icon AboutContactModal__row__icon--phone" />
-          <UserText text={conversation.phoneNumber} />
+          <UserText text={contact.phoneNumber} />
         </div>
       ) : null}
 
@@ -294,8 +340,7 @@ export function AboutContactModal({
           </div>
         </div>
       )}
-
-      {conversation.note && (
+      {contact.note && (
         <div className="AboutContactModal__row">
           <i className="AboutContactModal__row__icon AboutContactModal__row__icon--note" />
           <button
@@ -304,12 +349,11 @@ export function AboutContactModal({
             onClick={onOpenNotePreviewModal}
           >
             <div className="AboutContactModal__OneLineEllipsis">
-              <UserText text={conversation.note} />
+              <UserText text={contact.note} />
             </div>
           </button>
         </div>
       )}
-
       {statusRow}
     </Modal>
   );

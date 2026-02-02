@@ -177,6 +177,8 @@ export function getMemberships(
 ): ReadonlyArray<{
   aci: AciString;
   isAdmin: boolean;
+  labelEmoji: string | undefined;
+  labelString: string | undefined;
 }> {
   if (!isGroupV2(conversationAttrs)) {
     return EMPTY_ARRAY;
@@ -186,6 +188,8 @@ export function getMemberships(
   return members.map(member => ({
     isAdmin: member.role === Proto.Member.Role.ADMINISTRATOR,
     aci: member.aci,
+    labelEmoji: member.labelEmoji,
+    labelString: member.labelString,
   }));
 }
 

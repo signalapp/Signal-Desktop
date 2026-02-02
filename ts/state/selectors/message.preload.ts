@@ -905,6 +905,17 @@ export const getPropsForMessage = (
     ourAci,
   });
   const contactNameColor = getContactNameColor(contactNameColors, authorId);
+  const sourceServiceId = getSourceServiceId(message, ourAci);
+  // TODO: DESKTOP-9698
+  const sourceMember = conversation.memberships?.find(
+    membership => membership.aci === sourceServiceId
+  );
+  const contactLabel = sourceMember?.labelString
+    ? {
+        labelString: sourceMember.labelString,
+        labelEmoji: sourceMember.labelEmoji,
+      }
+    : undefined;
 
   const { conversationColor, customColor } = getConversationColorAttributes(
     conversation,
@@ -940,6 +951,7 @@ export const getPropsForMessage = (
     canRetry: hasErrors(message),
     canRetryDeleteForEveryone: canRetryDeleteForEveryone(message),
     contact: getPropsForEmbeddedContact(message, regionCode, accountSelector),
+    contactLabel,
     contactNameColor,
     conversationColor,
     conversationId,

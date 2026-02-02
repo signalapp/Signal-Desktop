@@ -149,7 +149,7 @@ export const SmartGlobalModalContainer = memo(
     const hasSafetyNumberChangeModal = conversationsStoppingSend.length > 0;
 
     const {
-      aboutContactModalContactId,
+      aboutContactModalState,
       addUserToAnotherGroupModalContactId,
       backfillFailureModalProps,
       callLinkAddNameModalRoomId,
@@ -304,7 +304,7 @@ export const SmartGlobalModalContainer = memo(
         finishKeyTransparencyOnboarding={finishKeyTransparencyOnboarding}
         hideTapToViewNotAvailableModal={hideTapToViewNotAvailableModal}
         i18n={i18n}
-        isAboutContactModalVisible={aboutContactModalContactId != null}
+        isAboutContactModalVisible={aboutContactModalState != null}
         isKeyTransparencyErrorVisible={isKeyTransparencyErrorVisible}
         isKeyTransparencyOnboardingVisible={isKeyTransparencyOnboardingVisible}
         isProfileNameWarningModalVisible={isProfileNameWarningModalVisible}

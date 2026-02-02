@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 @use 'sass:map';
+@use 'sass:color';
 
 @use '../mixins';
 
@@ -277,11 +278,60 @@ $contact-colors: (
 );
 
 .module-contact-name {
+  &--label-pill {
+    font-weight: 400;
+    display: inline-block;
+    padding-inline: 6px;
+    padding-block: 1px;
+    border-radius: 9px;
+    white-space: nowrap;
+  }
+
+  &--label-pill--inner {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  &--label-pill--bubble {
+    margin-top: -2px;
+    margin-bottom: 2px;
+  }
+
+  &--label-pill--emoji {
+    display: inline-block;
+    padding-block: 2px;
+    padding-inline-end: 3px;
+    line-height: 12px;
+  }
+
+  &--label-pill--text {
+    display: inline-block;
+  }
+
   @each $name, $value in $contact-colors {
     &--#{map.get($value, 'name')} {
       color: map.get($value, 'light');
       @include mixins.dark-theme() {
         color: map.get($value, 'dark');
+      }
+
+      &--label-pill--bubble {
+        color: color.mix(map.get($value, 'light'), #000000, 70%);
+        background-color: rgba(map.get($value, 'light'), 0.14);
+        @include mixins.dark-theme() {
+          color: color.mix(map.get($value, 'dark'), #ffffff, 68%);
+          background-color: rgba(map.get($value, 'dark'), 0.32);
+        }
+      }
+
+      &--label-pill--list {
+        color: color.mix(map.get($value, 'light'), #000000, 70%);
+        background-color: rgba(map.get($value, 'light'), 0.1);
+        @include mixins.dark-theme() {
+          color: color.mix(map.get($value, 'dark'), #ffffff, 75%);
+          background-color: rgba(map.get($value, 'dark'), 0.32);
+        }
       }
     }
   }

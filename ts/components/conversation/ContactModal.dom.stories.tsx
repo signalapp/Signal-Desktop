@@ -39,6 +39,9 @@ export default {
     badges: [],
     blockConversation: action('blockConversation'),
     contact: defaultContact,
+    contactLabelEmoji: undefined,
+    contactLabelString: undefined,
+    contactNameColor: undefined,
     conversation: defaultGroup,
     hasActiveCall: false,
     hasStories: undefined,
@@ -70,6 +73,29 @@ AsNonAdmin.args = {
   areWeAdmin: false,
 };
 
+export const WithLabel = Template.bind({});
+WithLabel.args = {
+  areWeAdmin: false,
+  contactLabelEmoji: '💪🏼',
+  contactLabelString: 'Strong',
+  contactNameColor: '180',
+};
+
+export const WithLabelNoEmoji = Template.bind({});
+WithLabelNoEmoji.args = {
+  areWeAdmin: false,
+  contactLabelString: 'Strong',
+  contactNameColor: '220',
+};
+
+export const WithLabelInvalidEmoji = Template.bind({});
+WithLabelInvalidEmoji.args = {
+  areWeAdmin: false,
+  contactLabelEmoji: '%',
+  contactLabelString: 'Strong',
+  contactNameColor: '220',
+};
+
 export const AsAdmin = Template.bind({});
 AsAdmin.args = {
   areWeAdmin: true,
@@ -94,14 +120,6 @@ WithoutPhoneNumber.args = {
   contact: {
     ...defaultContact,
     phoneNumber: undefined,
-  },
-};
-
-export const ViewingSelf = Template.bind({});
-ViewingSelf.args = {
-  contact: {
-    ...defaultContact,
-    isMe: true,
   },
 };
 

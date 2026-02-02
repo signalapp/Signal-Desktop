@@ -18,6 +18,7 @@ import { StoryViewModeType } from '../../types/Stories.std.js';
 import { Button, ButtonVariant } from '../Button.dom.js';
 import { SafetyTipsModal } from '../SafetyTipsModal.dom.js';
 import { I18n } from '../I18n.dom.js';
+import type { ContactModalStateType } from '../../state/ducks/globalModals.preload.js';
 
 export type Props = {
   about?: string;
@@ -41,7 +42,7 @@ export type Props = {
   startAvatarDownload: () => void;
   theme: ThemeType;
   viewUserStories: ViewUserStoriesActionCreatorType;
-  toggleAboutContactModal: (conversationId: string) => unknown;
+  toggleAboutContactModal: (options: ContactModalStateType) => unknown;
   toggleProfileNameWarningModal: (conversationType?: string) => unknown;
 } & Omit<AvatarProps, 'onClick' | 'size' | 'noteToSelf'>;
 
@@ -306,7 +307,7 @@ export function ConversationHero({
         className="module-conversation-hero__title"
         onClick={ev => {
           ev.preventDefault();
-          toggleAboutContactModal(id);
+          toggleAboutContactModal({ contactId: id });
         }}
       >
         <ContactName title={title} />

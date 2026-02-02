@@ -8,7 +8,7 @@ import { SafetyNumberViewer } from '../../components/SafetyNumberViewer.dom.js';
 import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog.dom.js';
 import { getContactSafetyNumberSelector } from '../selectors/safetyNumber.std.js';
 import { getConversationSelector } from '../selectors/conversations.dom.js';
-import { getIntl } from '../selectors/user.std.js';
+import { getIntl, getVersion } from '../selectors/user.std.js';
 import { getItems } from '../selectors/items.dom.js';
 import { useSafetyNumberActions } from '../ducks/safetyNumber.preload.js';
 import { keyTransparency } from '../../services/keyTransparency.preload.js';
@@ -31,7 +31,7 @@ export const SmartSafetyNumberViewer = memo(function SmartSafetyNumberViewer({
   const contact = conversationSelector(contactID);
   const items = useSelector(getItems);
 
-  const version = window.SignalContext.getVersion();
+  const version = useSelector(getVersion);
   const isKeyTransparencyEnabled = isFeaturedEnabledSelector({
     betaKey: 'desktop.keyTransparency.beta',
     prodKey: 'desktop.keyTransparency.prod',
