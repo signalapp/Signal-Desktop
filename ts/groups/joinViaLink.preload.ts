@@ -150,7 +150,7 @@ export async function joinViaLink(value: string): Promise<void> {
     decryptGroupTitle(dropNull(result.title), secretParams) ||
     i18n('icu:unknownGroup');
   const groupDescription = decryptGroupDescription(
-    dropNull(result.descriptionBytes),
+    dropNull(result.description),
     secretParams
   );
 
