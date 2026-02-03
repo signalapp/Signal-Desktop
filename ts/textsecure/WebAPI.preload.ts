@@ -23,6 +23,10 @@ import type {
   Pni,
 } from '@signalapp/libsignal-client';
 import { AccountAttributes } from '@signalapp/libsignal-client/dist/net.js';
+import type {
+  ProvisioningConnection,
+  ProvisioningConnectionListener,
+} from '@signalapp/libsignal-client/dist/net.js';
 import { GroupSendFullToken } from '@signalapp/libsignal-client/zkgroup.js';
 import type {
   Request as KTRequest,
@@ -93,7 +97,6 @@ import { createLogger } from '../logging/log.std.js';
 import { maybeParseUrl, urlPathFromComponents } from '../util/url.std.js';
 import { HOUR, MINUTE, SECOND } from '../util/durations/index.std.js';
 import { safeParseNumber } from '../util/numbers.std.js';
-import type { IWebSocketResource } from './WebsocketResources.preload.js';
 import { getLibsignalNet } from './preconnect.preload.js';
 import type { GroupSendToken } from '../types/GroupSendEndorsements.std.js';
 import {
@@ -1738,12 +1741,7 @@ const PARSE_RANGE_HEADER = /\/(\d+)$/;
 const PARSE_GROUP_LOG_RANGE_HEADER =
   /^versions\s+(\d{1,10})-(\d{1,10})\/(\d{1,10})/;
 
-const socketManager = new SocketManager(libsignalNet, {
-  url: chatServiceUrl,
-  certificateAuthority,
-  version,
-  proxyUrl,
-});
+const socketManager = new SocketManager(libsignalNet);
 
 socketManager.on('statusChange', () => {
   window.Whisper.events.emit('socketStatusChange');
@@ -2478,7 +2476,7 @@ export async function getAccountForUsername({
   hash,
 }: GetAccountForUsernameOptionsType): Promise<GetAccountForUsernameResultType> {
   const aci = await _retry(async () => {
-    const chat = await socketManager.getUnauthenticatedLibsignalApi();
+    const chat = await socketManager.getUnauthenticatedApi();
     return chat.lookUpUsernameHash({ hash });
   });
 
@@ -2490,7 +2488,7 @@ export async function keyTransparencySearch(
   abortSignal?: AbortSignal
 ): Promise<void> {
   return _retry(async () => {
-    const chat = await socketManager.getUnauthenticatedLibsignalApi();
+    const chat = await socketManager.getUnauthenticatedApi();
     if (abortSignal?.aborted) {
       throw new Error('Aborted');
     }
@@ -2506,7 +2504,7 @@ export async function keyTransparencyMonitor(
   abortSignal?: AbortSignal
 ): Promise<void> {
   return _retry(async () => {
-    const chat = await socketManager.getUnauthenticatedLibsignalApi();
+    const chat = await socketManager.getUnauthenticatedApi();
     if (abortSignal?.aborted) {
       throw new Error('Aborted');
     }
@@ -2731,7 +2729,7 @@ export async function resolveUsernameLink({
   uuid,
 }: ResolveUsernameByLinkOptionsType): Promise<ResolveUsernameLinkResultType> {
   return _retry(async () => {
-    const chat = await socketManager.getUnauthenticatedLibsignalApi();
+    const chat = await socketManager.getUnauthenticatedApi();
     return chat.lookUpUsernameLink({ uuid, entropy });
   });
 }
@@ -3679,7 +3677,7 @@ export async function sendMulti(
   }
 
   const result = await _retry(async () => {
-    const chat = await socketManager.getUnauthenticatedLibsignalApi();
+    const chat = await socketManager.getUnauthenticatedApi();
     return chat.sendMultiRecipientMessage({
       payload,
       timestamp,
@@ -4819,11 +4817,11 @@ export async function getHasSubscription(
   return data.subscription.active;
 }
 
-export function getProvisioningResource(
-  handler: IRequestHandler,
-  timeout?: number
-): Promise<IWebSocketResource> {
-  return socketManager.getProvisioningResource(handler, timeout);
+export function getProvisioningConnection(
+  listener: ProvisioningConnectionListener,
+  timeout: number
+): Promise<ProvisioningConnection> {
+  return socketManager.getProvisioningConnection(listener, timeout);
 }
 
 export async function cdsLookup({
