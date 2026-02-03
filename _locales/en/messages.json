@@ -6248,6 +6248,10 @@
     "messageformat": "Choose who can edit group name, photo, description, and disappearing messages timer.",
     "description": "This is the additional info for the 'who can edit the group' panel"
   },
+  "icu:ConversationDetails--group-info-info-v2": {
+    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages.",
+    "description": "This is the additional info for the 'who can edit the group' panel"
+  },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Who can add members",
     "description": "This is the label for the 'who can add members' panel"
