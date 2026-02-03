@@ -1,6 +1,8 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+@use 'sass:map';
+
 @use '../mixins';
 
 button.module-contact-name {
@@ -19,256 +21,268 @@ button.module-contact-name {
   }
 }
 
+$contact-000: (
+  name: '000',
+  light: #d00b0b,
+  dark: #ff7070,
+);
+
+$contact-010: (
+  name: '010',
+  light: #c13215,
+  dark: #ff6f52,
+);
+
+$contact-020: (
+  name: '020',
+  light: #b34209,
+  dark: #f57a3d,
+);
+
+$contact-030: (
+  name: '030',
+  light: #9c5711,
+  dark: #d5920b,
+);
+
+$contact-040: (
+  name: '040',
+  light: #866118,
+  dark: #d68f00,
+);
+
+$contact-050: (
+  name: '050',
+  light: #76681e,
+  dark: #b89b0a,
+);
+
+$contact-060: (
+  name: '060',
+  light: #6b6b24,
+  dark: #a4a437,
+);
+
+$contact-070: (
+  name: '070',
+  light: #5e6e0c,
+  dark: #8faa09,
+);
+
+$contact-080: (
+  name: '080',
+  light: #4b7000,
+  dark: #74ad00,
+);
+
+$contact-090: (
+  name: '090',
+  light: #3d7406,
+  dark: #5eb309,
+);
+
+$contact-100: (
+  name: '100',
+  light: #2d7906,
+  dark: #42b309,
+);
+
+$contact-110: (
+  name: '110',
+  light: #2d761e,
+  dark: #43b42d,
+);
+
+$contact-120: (
+  name: '120',
+  light: #067906,
+  dark: #0ab80a,
+);
+
+$contact-130: (
+  name: '130',
+  light: #32763e,
+  dark: #4baf5c,
+);
+
+$contact-140: (
+  name: '140',
+  light: #06792d,
+  dark: #0ab844,
+);
+
+$contact-150: (
+  name: '150',
+  light: #007a3d,
+  dark: #00b85c,
+);
+
+$contact-160: (
+  name: '160',
+  light: #067953,
+  dark: #00b87a,
+);
+
+$contact-170: (
+  name: '170',
+  light: #067462,
+  dark: #09b397,
+);
+
+$contact-180: (
+  name: '180',
+  light: #007575,
+  dark: #00b2b2,
+);
+
+$contact-190: (
+  name: '190',
+  light: #077288,
+  dark: #00aed1,
+);
+
+$contact-200: (
+  name: '200',
+  light: #006da3,
+  dark: #00a7fa,
+);
+
+$contact-210: (
+  name: '210',
+  light: #5b6976,
+  dark: #8ba1b6,
+);
+
+$contact-220: (
+  name: '220',
+  light: #2662d9,
+  dark: #7da1e8,
+);
+
+$contact-230: (
+  name: '230',
+  light: #2e51ff,
+  dark: #8599ff,
+);
+
+$contact-240: (
+  name: '240',
+  light: #5151f6,
+  dark: #9494ff,
+);
+
+$contact-250: (
+  name: '250',
+  light: #6447f5,
+  dark: #a18ff9,
+);
+
+$contact-260: (
+  name: '260',
+  light: #7a3df5,
+  dark: #af8af9,
+);
+
+$contact-270: (
+  name: '270',
+  light: #8f2af4,
+  dark: #bf80ff,
+);
+
+$contact-280: (
+  name: '280',
+  light: #a20ced,
+  dark: #cf7cf8,
+);
+
+$contact-290: (
+  name: '290',
+  light: #af0bd0,
+  dark: #e06ef7,
+);
+
+$contact-300: (
+  name: '300',
+  light: #b814b8,
+  dark: #f65af6,
+);
+
+$contact-310: (
+  name: '310',
+  light: #c20aa3,
+  dark: #f75fdd,
+);
+
+$contact-320: (
+  name: '320',
+  light: #c70a88,
+  dark: #f76ec9,
+);
+
+$contact-330: (
+  name: '330',
+  light: #cc0066,
+  dark: #f76eb2,
+);
+
+$contact-340: (
+  name: '340',
+  light: #d00b4d,
+  dark: #ff6b9c,
+);
+
+$contact-350: (
+  name: '350',
+  light: #d00b2c,
+  dark: #f77389,
+);
+
+$contact-colors: (
+  C000: $contact-000,
+  C010: $contact-010,
+  C020: $contact-020,
+  C030: $contact-030,
+  C040: $contact-040,
+  C050: $contact-050,
+  C060: $contact-060,
+  C070: $contact-070,
+  C080: $contact-080,
+  C090: $contact-090,
+  C100: $contact-100,
+  C110: $contact-110,
+  C120: $contact-120,
+  C130: $contact-130,
+  C140: $contact-140,
+  C150: $contact-150,
+  C160: $contact-160,
+  C170: $contact-170,
+  C180: $contact-180,
+  C190: $contact-190,
+  C200: $contact-200,
+  C210: $contact-210,
+  C220: $contact-220,
+  C230: $contact-230,
+  C240: $contact-240,
+  C250: $contact-250,
+  C260: $contact-260,
+  C270: $contact-270,
+  C280: $contact-280,
+  C290: $contact-290,
+  C300: $contact-300,
+  C310: $contact-310,
+  C320: $contact-320,
+  C330: $contact-330,
+  C340: $contact-340,
+  C350: $contact-350,
+);
+
 .module-contact-name {
-  &--000 {
-    color: #d00b0b;
-    @include mixins.dark-theme {
-      color: #ff7070;
-    }
-  }
-
-  &--010 {
-    color: #c13215;
-    @include mixins.dark-theme {
-      color: #ff6f52;
-    }
-  }
-
-  &--020 {
-    color: #b34209;
-    @include mixins.dark-theme {
-      color: #f57a3d;
-    }
-  }
-
-  &--030 {
-    color: #9c5711;
-    @include mixins.dark-theme {
-      color: #d5920b;
-    }
-  }
-
-  &--040 {
-    color: #866118;
-    @include mixins.dark-theme {
-      color: #d68f00;
-    }
-  }
-
-  &--050 {
-    color: #76681e;
-    @include mixins.dark-theme {
-      color: #b89b0a;
-    }
-  }
-
-  &--060 {
-    color: #6b6b24;
-    @include mixins.dark-theme {
-      color: #a4a437;
-    }
-  }
-
-  &--070 {
-    color: #5e6e0c;
-    @include mixins.dark-theme {
-      color: #8faa09;
-    }
-  }
-
-  &--080 {
-    color: #4b7000;
-    @include mixins.dark-theme {
-      color: #74ad00;
-    }
-  }
-
-  &--090 {
-    color: #3d7406;
-    @include mixins.dark-theme {
-      color: #5eb309;
-    }
-  }
-
-  &--100 {
-    color: #2d7906;
-    @include mixins.dark-theme {
-      color: #42b309;
-    }
-  }
-
-  &--110 {
-    color: #2d761e;
-    @include mixins.dark-theme {
-      color: #43b42d;
-    }
-  }
-
-  &--120 {
-    color: #067906;
-    @include mixins.dark-theme {
-      color: #0ab80a;
-    }
-  }
-
-  &--130 {
-    color: #067919;
-    @include mixins.dark-theme {
-      color: #0ab827;
-    }
-  }
-
-  &--140 {
-    color: #06792d;
-    @include mixins.dark-theme {
-      color: #0ab844;
-    }
-  }
-
-  &--150 {
-    color: #007a3d;
-    @include mixins.dark-theme {
-      color: #00b85c;
-    }
-  }
-
-  &--160 {
-    color: #067953;
-    @include mixins.dark-theme {
-      color: #00b87a;
-    }
-  }
-
-  &--170 {
-    color: #067462;
-    @include mixins.dark-theme {
-      color: #09b397;
-    }
-  }
-
-  &--180 {
-    color: #007575;
-    @include mixins.dark-theme {
-      color: #00b2b2;
-    }
-  }
-
-  &--190 {
-    color: #077288;
-    @include mixins.dark-theme {
-      color: #00aed1;
-    }
-  }
-
-  &--200 {
-    color: #006da3;
-    @include mixins.dark-theme {
-      color: #00a7fa;
-    }
-  }
-
-  &--210 {
-    color: #5b6976;
-    @include mixins.dark-theme {
-      color: #8ba1b6;
-    }
-  }
-
-  &--220 {
-    color: #2662d9;
-    @include mixins.dark-theme {
-      color: #7da1e8;
-    }
-  }
-
-  &--230 {
-    color: #2e51ff;
-    @include mixins.dark-theme {
-      color: #8599ff;
-    }
-  }
-
-  &--240 {
-    color: #5151f6;
-    @include mixins.dark-theme {
-      color: #9494ff;
-    }
-  }
-
-  &--250 {
-    color: #6447f5;
-    @include mixins.dark-theme {
-      color: #a18ff9;
-    }
-  }
-
-  &--260 {
-    color: #7a3df5;
-    @include mixins.dark-theme {
-      color: #af8af9;
-    }
-  }
-
-  &--270 {
-    color: #8f2af4;
-    @include mixins.dark-theme {
-      color: #bf80ff;
-    }
-  }
-
-  &--280 {
-    color: #a20ced;
-    @include mixins.dark-theme {
-      color: #cf7cf8;
-    }
-  }
-
-  &--290 {
-    color: #af0bd0;
-    @include mixins.dark-theme {
-      color: #e06ef7;
-    }
-  }
-
-  &--300 {
-    color: #b814b8;
-    @include mixins.dark-theme {
-      color: #f65af6;
-    }
-  }
-
-  &--310 {
-    color: #c20aa3;
-    @include mixins.dark-theme {
-      color: #f75fdd;
-    }
-  }
-
-  &--320 {
-    color: #c70a88;
-    @include mixins.dark-theme {
-      color: #f76ec9;
-    }
-  }
-
-  &--330 {
-    color: #cc0066;
-    @include mixins.dark-theme {
-      color: #f76eb2;
-    }
-  }
-
-  &--340 {
-    color: #d00b4d;
-    @include mixins.dark-theme {
-      color: #ff6b9c;
-    }
-  }
-
-  &--350 {
-    color: #d00b2c;
-    @include mixins.dark-theme {
-      color: #f77389;
+  @each $name, $value in $contact-colors {
+    &--#{map.get($value, 'name')} {
+      color: map.get($value, 'light');
+      @include mixins.dark-theme() {
+        color: map.get($value, 'dark');
+      }
     }
   }
 }

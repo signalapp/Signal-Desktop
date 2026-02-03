@@ -52,6 +52,7 @@ const me = getDefaultConversation({
   isMe: true,
   acceptedMessageRequest: true,
   hasMessages: true,
+  phoneNumber: '(111) 231-2132',
 });
 
 export default {

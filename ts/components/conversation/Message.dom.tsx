@@ -1136,7 +1136,7 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   #renderAuthor(): ReactNode {
-    const { author, contactNameColor, i18n, isSticker } = this.props;
+    const { author, contactNameColor, i18n, isSticker, quote } = this.props;
 
     if (!this.#shouldRenderAuthor()) {
       return null;
@@ -1146,7 +1146,12 @@ export class Message extends React.PureComponent<Props, State> {
     const moduleName = `module-message__author${stickerSuffix}`;
 
     return (
-      <div className={moduleName}>
+      <div
+        className={classNames(
+          moduleName,
+          quote ? 'module-message__author--with-quote' : undefined
+        )}
+      >
         <ContactName
           contactNameColor={contactNameColor}
           title={author.isMe ? i18n('icu:you') : author.title}
@@ -1202,8 +1207,7 @@ export class Message extends React.PureComponent<Props, State> {
     // For attachments which aren't full-frame
     const withContentBelow = Boolean(text || attachmentDroppedDueToSize);
     const withContentAbove = Boolean(quote) || this.#shouldRenderAuthor();
-    const displayImage =
-      canDisplayImage(attachments) && !attachmentDroppedDueToSize;
+    const displayImage = canDisplayImage(attachments);
 
     // attachmentDroppedDueToSize is handled in renderAttachmentTooBig
     const isAttachmentNotAvailable =

@@ -257,6 +257,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   conversationType: overrideProps.conversationType || 'direct',
   contact: overrideProps.contact,
   // disableMenu: overrideProps.disableMenu,
+  deletedForEveryone: overrideProps.deletedForEveryone,
   disableScroll: overrideProps.disableScroll,
   direction: overrideProps.direction || 'incoming',
   showLightboxForViewOnceMedia: action('showLightboxForViewOnceMedia'),
@@ -397,6 +398,20 @@ const renderBothDirections = (props: Props) => (
       direction: 'outgoing',
       canEndPoll: true,
     })}
+  </>
+);
+
+const renderOneInBothDirections = (props: Props) => (
+  <>
+    <TimelineMessage {...props} />
+    <TimelineMessage
+      {...props}
+      {...{
+        author: { ...props.author, id: getDefaultConversation().id },
+        direction: 'outgoing',
+        canEndPoll: true,
+      }}
+    />
   </>
 );
 
@@ -581,156 +596,162 @@ Older.args = {
   timestamp: Date.now() - 180 * 24 * 60 * 60 * 1000,
 };
 
-export const ReactionsWiderMessage = Template.bind({});
-ReactionsWiderMessage.args = {
-  text: 'Hello there from a pal!',
-  timestamp: Date.now() - 180 * 24 * 60 * 60 * 1000,
-  reactions: [
-    {
-      emoji: '👍',
-      from: getDefaultConversation({
-        isMe: true,
-        id: '+14155552672',
-        phoneNumber: '+14155552672',
-        name: 'Me',
-        title: 'Me',
-      }),
-      timestamp: Date.now() - 10,
-    },
-    {
-      emoji: '👍',
-      from: getDefaultConversation({
-        id: '+14155552672',
-        phoneNumber: '+14155552672',
-        name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now() - 10,
-    },
-    {
-      emoji: '👍',
-      from: getDefaultConversation({
-        id: '+14155552673',
-        phoneNumber: '+14155552673',
-        name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now() - 10,
-    },
-    {
-      emoji: '😂',
-      from: getDefaultConversation({
-        id: '+14155552674',
-        phoneNumber: '+14155552674',
-        name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now() - 10,
-    },
-    {
-      emoji: '😡',
-      from: getDefaultConversation({
-        id: '+14155552677',
-        phoneNumber: '+14155552677',
-        name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now() - 10,
-    },
-    {
-      emoji: '👎',
-      from: getDefaultConversation({
-        id: '+14155552678',
-        phoneNumber: '+14155552678',
-        name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now() - 10,
-    },
-    {
-      emoji: '❤️',
-      from: getDefaultConversation({
-        id: '+14155552679',
-        phoneNumber: '+14155552679',
-        name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now() - 10,
-    },
-  ],
-};
+// Render only one message, because reactions break up clusters of messages
+export function ReactionsWiderMessage(): JSX.Element {
+  const props = createProps({
+    text: 'Hello there from a pal!',
+    timestamp: Date.now() - 180 * 24 * 60 * 60 * 1000,
+    reactions: [
+      {
+        emoji: '👍',
+        from: getDefaultConversation({
+          isMe: true,
+          id: '+14155552672',
+          phoneNumber: '+14155552672',
+          name: 'Me',
+          title: 'Me',
+        }),
+        timestamp: Date.now() - 10,
+      },
+      {
+        emoji: '👍',
+        from: getDefaultConversation({
+          id: '+14155552672',
+          phoneNumber: '+14155552672',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        }),
+        timestamp: Date.now() - 10,
+      },
+      {
+        emoji: '👍',
+        from: getDefaultConversation({
+          id: '+14155552673',
+          phoneNumber: '+14155552673',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        }),
+        timestamp: Date.now() - 10,
+      },
+      {
+        emoji: '😂',
+        from: getDefaultConversation({
+          id: '+14155552674',
+          phoneNumber: '+14155552674',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        }),
+        timestamp: Date.now() - 10,
+      },
+      {
+        emoji: '😡',
+        from: getDefaultConversation({
+          id: '+14155552677',
+          phoneNumber: '+14155552677',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        }),
+        timestamp: Date.now() - 10,
+      },
+      {
+        emoji: '👎',
+        from: getDefaultConversation({
+          id: '+14155552678',
+          phoneNumber: '+14155552678',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        }),
+        timestamp: Date.now() - 10,
+      },
+      {
+        emoji: '❤️',
+        from: getDefaultConversation({
+          id: '+14155552679',
+          phoneNumber: '+14155552679',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        }),
+        timestamp: Date.now() - 10,
+      },
+    ],
+  });
+  return renderOneInBothDirections(props);
+}
 
 const joyReactions = Array.from({ length: 52 }, () => getJoyReaction());
 
-export const ReactionsShortMessage = Template.bind({});
-ReactionsShortMessage.args = {
-  text: 'h',
-  timestamp: Date.now(),
-  reactions: [
-    ...joyReactions,
-    {
-      emoji: '👍',
-      from: getDefaultConversation({
-        isMe: true,
-        id: '+14155552672',
-        phoneNumber: '+14155552672',
-        name: 'Me',
-        title: 'Me',
-      }),
-      timestamp: Date.now(),
-    },
-    {
-      emoji: '👍',
-      from: getDefaultConversation({
-        id: '+14155552672',
-        phoneNumber: '+14155552672',
-        name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now(),
-    },
-    {
-      emoji: '👍',
-      from: getDefaultConversation({
-        id: '+14155552673',
-        phoneNumber: '+14155552673',
-        name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now(),
-    },
-    {
-      emoji: '😡',
-      from: getDefaultConversation({
-        id: '+14155552677',
-        phoneNumber: '+14155552677',
-        name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now(),
-    },
-    {
-      emoji: '👎',
-      from: getDefaultConversation({
-        id: '+14155552678',
-        phoneNumber: '+14155552678',
-        name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now(),
-    },
-    {
-      emoji: '❤️',
-      from: getDefaultConversation({
-        id: '+14155552679',
-        phoneNumber: '+14155552679',
-        name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now(),
-    },
-  ],
-};
+// Render only one message, because reactions break up clusters of messages
+export function ReactionsShortMessage(): JSX.Element {
+  const props = createProps({
+    text: 'h',
+    timestamp: Date.now(),
+    reactions: [
+      ...joyReactions,
+      {
+        emoji: '👍',
+        from: getDefaultConversation({
+          isMe: true,
+          id: '+14155552672',
+          phoneNumber: '+14155552672',
+          name: 'Me',
+          title: 'Me',
+        }),
+        timestamp: Date.now(),
+      },
+      {
+        emoji: '👍',
+        from: getDefaultConversation({
+          id: '+14155552672',
+          phoneNumber: '+14155552672',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        }),
+        timestamp: Date.now(),
+      },
+      {
+        emoji: '👍',
+        from: getDefaultConversation({
+          id: '+14155552673',
+          phoneNumber: '+14155552673',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        }),
+        timestamp: Date.now(),
+      },
+      {
+        emoji: '😡',
+        from: getDefaultConversation({
+          id: '+14155552677',
+          phoneNumber: '+14155552677',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        }),
+        timestamp: Date.now(),
+      },
+      {
+        emoji: '👎',
+        from: getDefaultConversation({
+          id: '+14155552678',
+          phoneNumber: '+14155552678',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        }),
+        timestamp: Date.now(),
+      },
+      {
+        emoji: '❤️',
+        from: getDefaultConversation({
+          id: '+14155552679',
+          phoneNumber: '+14155552679',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        }),
+        timestamp: Date.now(),
+      },
+    ],
+  });
+  return renderOneInBothDirections(props);
+}
 
 export const AvatarInGroup = Template.bind({});
 AvatarInGroup.args = {
@@ -855,65 +876,60 @@ CanDeleteForEveryone.args = {
   direction: 'outgoing',
 };
 
-const bigAttachment = {
-  contentType: stringToMIMEType('text/plain'),
-  fileName: 'why-i-love-birds.txt',
-  size: 100000000000,
-  width: undefined,
-  height: undefined,
-  path: undefined,
-  key: undefined,
-  id: undefined,
-  error: true,
-  wasTooBig: true,
-  isPermanentlyUndownloadable: true,
-};
-
+// Too-large attachments don't get to the component
 export function AttachmentTooBig(): React.JSX.Element {
   const propsSent = createProps({
     conversationType: 'direct',
     attachmentDroppedDueToSize: true,
-    attachments: [bigAttachment],
   });
 
   return <>{renderBothDirections(propsSent)}</>;
 }
 
+// Too-large attachments don't get to the component
 export function AttachmentTooBigWithText(): React.JSX.Element {
   const propsSent = createProps({
     conversationType: 'direct',
     attachmentDroppedDueToSize: true,
-    attachments: [bigAttachment],
     text: 'Check out this file!',
   });
 
   return <>{renderBothDirections(propsSent)}</>;
 }
 
-const bigImageAttachment = {
-  ...bigAttachment,
-  contentType: IMAGE_JPEG,
-  fileName: 'bird.jpg',
-  blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
-  width: 1000,
-  height: 1000,
-};
-
-export function AttachmentTooBigImage(): React.JSX.Element {
+// Too-large attachments don't get to the component
+export function AttachmentTooBigWithImage(): React.JSX.Element {
   const propsSent = createProps({
     conversationType: 'direct',
     attachmentDroppedDueToSize: true,
-    attachments: [bigImageAttachment],
+    attachments: [
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'the-sax.png',
+        height: 240,
+        url: pngUrl,
+        width: 320,
+      }),
+    ],
   });
 
   return <>{renderBothDirections(propsSent)}</>;
 }
 
-export function AttachmentTooBigImageWithText(): React.JSX.Element {
+// Too-large attachments don't get to the component
+export function AttachmentTooBigWithImageAndText(): React.JSX.Element {
   const propsSent = createProps({
     conversationType: 'direct',
     attachmentDroppedDueToSize: true,
-    attachments: [bigImageAttachment],
+    attachments: [
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'the-sax.png',
+        height: 240,
+        url: pngUrl,
+        width: 320,
+      }),
+    ],
     text: 'Check out this file!',
   });
 
