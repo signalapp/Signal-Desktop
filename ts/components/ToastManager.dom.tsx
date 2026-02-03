@@ -413,6 +413,7 @@ export function renderToast({
     toastType === ToastType.DonationConfirmationNeeded ||
     toastType === ToastType.DonationError ||
     toastType === ToastType.DonationPaypalCanceled ||
+    toastType === ToastType.DonationPaypalConfirmationNeeded ||
     toastType === ToastType.DonationPaypalError ||
     toastType === ToastType.DonationVerificationFailed ||
     toastType === ToastType.DonationVerificationNeeded
@@ -428,6 +429,9 @@ export function renderToast({
       [ToastType.DonationPaypalCanceled]: i18n(
         'icu:Donations__Toast__PaypalCanceled'
       ),
+      [ToastType.DonationPaypalConfirmationNeeded]: i18n(
+        'icu:Donations__Toast__PaypalConfirmationNeeded'
+      ),
       [ToastType.DonationPaypalError]: i18n(
         'icu:Donations__Toast__PaypalError'
       ),
@@ -438,6 +442,11 @@ export function renderToast({
         'icu:Donations__Toast__VerificationNeeded'
       ),
     };
+
+    const pageRedirect =
+      toastType === ToastType.DonationPaypalConfirmationNeeded
+        ? SettingsPage.DonationsDonateFlow
+        : SettingsPage.Donations;
 
     const text = mapping[toastType];
 
@@ -451,7 +460,7 @@ export function renderToast({
             changeLocation({
               tab: NavTab.Settings,
               details: {
-                page: SettingsPage.Donations,
+                page: pageRedirect,
               },
             });
           },

@@ -10050,6 +10050,10 @@
     "messageformat": "You have a donation in progress that requires confirmation.",
     "description": "Shown when the user is not on the Preferences/Donations screen, and donation verification is needed. Like when resuming from startup."
   },
+  "icu:Donations__Toast__PaypalConfirmationNeeded": {
+    "messageformat": "You have a donation in progress that requires confirmation.",
+    "description": "Shown when the user is not on the Preferences/Donations screen, and donation verification of a PayPal donation is needed. Like when resuming from startup."
+  },
   "icu:Donations__Toast__PaypalCanceled": {
     "messageformat": "PayPal donation canceled",
     "description": "Shown when the user cancels a PayPal payment and they are not on the Preferences/Donations screen."

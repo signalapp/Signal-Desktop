@@ -120,16 +120,27 @@ export async function initialize(): Promise<void> {
     return;
   }
 
-  if (
-    workflow.type === donationStateSchema.Enum.INTENT_METHOD ||
-    workflow.type === donationStateSchema.Enum.PAYPAL_INTENT
-  ) {
+  if (workflow.type === donationStateSchema.Enum.INTENT_METHOD) {
     if (shouldShowToast) {
       log.info(
-        `initialize: Showing confirmation toast, workflow is at ${workflow.type}.`
+        'initialize: Showing confirmation toast, workflow is at INTENT_METHOD.'
       );
       window.reduxActions.toast.showToast({
         toastType: ToastType.DonationConfirmationNeeded,
+      });
+    }
+
+    // Note that we are not starting the workflow here
+    return;
+  }
+
+  if (workflow.type === donationStateSchema.Enum.PAYPAL_INTENT) {
+    if (shouldShowToast) {
+      log.info(
+        'initialize: Showing confirmation toast, workflow is at PAYPAL_INTENT.'
+      );
+      window.reduxActions.toast.showToast({
+        toastType: ToastType.DonationPaypalConfirmationNeeded,
       });
     }
 
@@ -277,35 +288,18 @@ export async function approvePaypalPayment({
   await _saveAndRunWorkflow(workflow);
 }
 
-export async function cancelPaypalPayment(returnToken: string): Promise<void> {
+// The cancel flow happens when the user views the PayPal payment form and clicks the
+// link "Return to Signal". We handle this by focusing the app donations PayPal page,
+// where the user can take action to abandon the flow.
+export async function cancelPaypalPayment(_returnToken: string): Promise<void> {
   const logId = 'cancelPaypalPayment';
-  log.info(`${logId}: Canceling workflow after user visited cancel URI`);
+  log.info(`${logId}: User visited PayPal cancel URI, showing donate flow`);
 
-  const existing = _getWorkflowFromRedux();
-  if (!existing) {
-    throw new Error(`${logId}: Cannot finish nonexistent workflow!`);
-  }
-
-  if (existing.type !== donationStateSchema.Enum.PAYPAL_INTENT) {
-    throw new Error(`${logId}: Workflow not type PAYPAL_INTENT`);
-  }
-
-  // This case will happen if the user initiated 2 PayPal requests but cancels the
-  // older one. We interpret this case as an intention to cancel. If the user then
-  // approves the more recent payment, we will show an error and ask them to try again.
-  if (returnToken !== existing.returnToken) {
-    log.warn(
-      `${logId}: The provided token did not match saved token. Canceling anyway.`
-    );
-  }
-
-  await failDonation(donationErrorTypeSchema.Enum.PaypalCanceled);
-
-  if (isDonationsDonateFlowVisible()) {
+  if (!isDonationPageVisible()) {
     window.reduxActions.nav.changeLocation({
       tab: NavTab.Settings,
       details: {
-        page: SettingsPage.Donations,
+        page: SettingsPage.DonationsDonateFlow,
       },
     });
   }
