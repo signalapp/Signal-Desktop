@@ -134,6 +134,8 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.DonationCompleted };
     case ToastType.DonationConfirmationNeeded:
       return { toastType: ToastType.DonationConfirmationNeeded };
+    case ToastType.DonationPaypalConfirmationNeeded:
+      return { toastType: ToastType.DonationPaypalConfirmationNeeded };
     case ToastType.DonationError:
       return { toastType: ToastType.DonationError };
     case ToastType.DonationPaypalCanceled:

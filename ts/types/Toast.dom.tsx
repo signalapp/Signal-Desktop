@@ -42,6 +42,7 @@ export enum ToastType {
   DonationConfirmationNeeded = 'DonationConfirmationNeeded',
   DonationError = 'DonationError',
   DonationPaypalCanceled = 'DonationPaypalCanceled',
+  DonationPaypalConfirmationNeeded = 'DonationPaypalConfirmationNeeded',
   DonationPaypalError = 'DonationPaypalError',
   DonationProcessing = 'DonationProcessing',
   DonationVerificationNeeded = 'DonationVerificationNeeded',
@@ -163,6 +164,7 @@ export type AnyToast =
   | { toastType: ToastType.DonationConfirmationNeeded }
   | { toastType: ToastType.DonationError }
   | { toastType: ToastType.DonationPaypalCanceled }
+  | { toastType: ToastType.DonationPaypalConfirmationNeeded }
   | { toastType: ToastType.DonationPaypalError }
   | { toastType: ToastType.DonationProcessing }
   | { toastType: ToastType.DonationVerificationFailed }
