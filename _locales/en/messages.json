@@ -9986,6 +9986,10 @@
     "messageformat": "Remove info",
     "description": "While making a donation and after entering payment details, if you try to navigate away then a dialog shows and its primary button has this text to confirm cancellation of the donation."
   },
+  "icu:DonateFlow__discard-paypal-dialog-body": {
+    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?",
+    "description": "While making a donation and after selecting Paypal, if you try to navigate away then a dialog shows with this body text."
+  },
   "icu:DonateFlow__continue": {
     "messageformat": "Continue",
     "description": "While making a donation and selecting the donation amount, this is the primary button to move to the next step."
@@ -10046,6 +10050,14 @@
     "messageformat": "You have a donation in progress that requires confirmation.",
     "description": "Shown when the user is not on the Preferences/Donations screen, and donation verification is needed. Like when resuming from startup."
   },
+  "icu:Donations__Toast__PaypalCanceled": {
+    "messageformat": "PayPal donation canceled",
+    "description": "Shown when the user cancels a PayPal payment and they are not on the Preferences/Donations screen."
+  },
+  "icu:Donations__Toast__PaypalError": {
+    "messageformat": "Error processing PayPal donation. You have not been charged.",
+    "description": "Shown when the user approves a PayPal payment, but we are unable to process it. The most likely cause is because the user canceled a pending PayPal payment within the app, then approved it on the PayPal website anyway."
+  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donation succeeded, but we could not update your badge settings",
     "description": "Modal title shown when donation completes successfully but badge application fails"
@@ -10066,6 +10078,10 @@
     "messageformat": "Try again",
     "description": "The button in the 'donation interrupted' dialog which allows the user to move forward with the donation."
   },
+  "icu:Donations__PaymentMethod": {
+    "messageformat": "Payment method",
+    "description": "Label for payment method when making a donation and choosing a payment method."
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Payment method declined",
     "description": "Title of the dialog shown with the user's provided payment method has not worked"
@@ -10073,6 +10089,42 @@
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "Try another payment method or contact your bank for more information.",
     "description": "An explanation for the 'payment declined' dialog"
+  },
+  "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
+    "messageformat": "Payment card icon",
+    "description": "Aria label for credit or debit card when making a donation and selecting a payment method."
+  },
+  "icu:DonateFlow__CreditOrDebitCard": {
+    "messageformat": "Credit or Debit Card",
+    "description": "Label for credit or debit card when making a donation and selecting a payment method."
+  },
+  "icu:DonateFlow__Paypal__AccessibilityLabel": {
+    "messageformat": "PayPal",
+    "description": "Aria label for PayPal when making a donation and selecting a payment method."
+  },
+  "icu:DonateFlow__Paypal__Cancel": {
+    "messageformat": "Cancel",
+    "description": "Label for cancel button when making a donation with PayPal."
+  },
+  "icu:DonateFlow__Paypal__CompleteDonation": {
+    "messageformat": "Complete Donation",
+    "description": "Label to complete donation when making a donation with PayPal."
+  },
+  "icu:Donations__PaypalCanceled": {
+    "messageformat": "PayPal donation canceled",
+    "description": "Title of the dialog shown when the user cancels a PayPal payment."
+  },
+  "icu:Donations__PaypalCanceled__Description": {
+    "messageformat": "You have not been charged. Try again or use another payment method.",
+    "description": "An explanation for the dialog shown when the user cancels a PayPal payment."
+  },
+  "icu:Donations__PaypalError": {
+    "messageformat": "Error processing PayPal donation",
+    "description": "Title of the dialog shown when the user approves a PayPal payment, but we are unable to process it. The most likely cause is because the user canceled a pending PayPal payment within the app, then approved it on the PayPal website anyway."
+  },
+  "icu:Donations__PaypalError__Description": {
+    "messageformat": "You have not been charged. Try again or use another payment method.",
+    "description": "An explanation for the 'Error processing PayPal payment' dialog when the user approves a PayPal payment, but we are unable to process it."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Verification Failed",

@@ -103,7 +103,7 @@ export const getTheme = createSelector(
   }
 );
 
-const getVersion = createSelector(
+export const getVersion = createSelector(
   getUser,
   (state: UserStateType) => state.version
 );

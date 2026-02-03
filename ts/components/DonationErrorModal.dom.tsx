@@ -40,6 +40,16 @@ export function DonationErrorModal(props: PropsType): React.JSX.Element {
       body = i18n('icu:Donations__PaymentMethodDeclined__Description');
       break;
     }
+    case donationErrorTypeSchema.Enum.PaypalCanceled: {
+      title = i18n('icu:Donations__PaypalCanceled');
+      body = i18n('icu:Donations__PaypalCanceled__Description');
+      break;
+    }
+    case donationErrorTypeSchema.Enum.PaypalError: {
+      title = i18n('icu:Donations__PaypalError');
+      body = i18n('icu:Donations__PaypalError__Description');
+      break;
+    }
     case donationErrorTypeSchema.Enum.TimedOut: {
       title = i18n('icu:Donations__TimedOut');
       body = i18n('icu:Donations__TimedOut__Description');

@@ -48,6 +48,24 @@ export function PaymentDeclined(): React.JSX.Element {
   );
 }
 
+export function PaypalCanceled(): React.JSX.Element {
+  return (
+    <DonationErrorModal
+      {...defaultProps}
+      errorType={donationErrorTypeSchema.Enum.PaypalCanceled}
+    />
+  );
+}
+
+export function PaypalError(): React.JSX.Element {
+  return (
+    <DonationErrorModal
+      {...defaultProps}
+      errorType={donationErrorTypeSchema.Enum.PaypalError}
+    />
+  );
+}
+
 export function TimedOut(): React.JSX.Element {
   return (
     <DonationErrorModal

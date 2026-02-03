@@ -412,6 +412,8 @@ export function renderToast({
     toastType === ToastType.DonationCanceledWithView ||
     toastType === ToastType.DonationConfirmationNeeded ||
     toastType === ToastType.DonationError ||
+    toastType === ToastType.DonationPaypalCanceled ||
+    toastType === ToastType.DonationPaypalError ||
     toastType === ToastType.DonationVerificationFailed ||
     toastType === ToastType.DonationVerificationNeeded
   ) {
@@ -423,6 +425,12 @@ export function renderToast({
         'icu:Donations__Toast__ConfirmationNeeded'
       ),
       [ToastType.DonationError]: i18n('icu:Donations__Toast__Error'),
+      [ToastType.DonationPaypalCanceled]: i18n(
+        'icu:Donations__Toast__PaypalCanceled'
+      ),
+      [ToastType.DonationPaypalError]: i18n(
+        'icu:Donations__Toast__PaypalError'
+      ),
       [ToastType.DonationVerificationFailed]: i18n(
         'icu:Donations__Toast__VerificationFailed'
       ),
