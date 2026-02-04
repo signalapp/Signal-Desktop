@@ -245,10 +245,10 @@ export function StoryViewsNRepliesModal({
         <ReactionPicker
           i18n={i18n}
           onPick={emoji => {
-            if (!group) {
+            onReact(emoji);
+            if (!group && messageBodyText.length === 0) {
               onClose();
             }
-            onReact(emoji);
           }}
           preferredReactionEmoji={preferredReactionEmoji}
           theme={ThemeType.dark}
