@@ -942,7 +942,7 @@ export async function _createPaypalIntent({
 
     return {
       type: donationStateSchema.Enum.PAYPAL_INTENT,
-      id: uuid(),
+      id,
       currencyType,
       paymentAmount,
       paypalPaymentId,
