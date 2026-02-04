@@ -938,7 +938,6 @@ export function StoryViewer({
             onReact={emoji => {
               onReactToStory(emoji, story);
               if (!isGroupStory) {
-                setCurrentViewTarget(null);
                 showToast({ toastType: ToastType.StoryReact });
               }
               setReactionEmoji(emoji);
