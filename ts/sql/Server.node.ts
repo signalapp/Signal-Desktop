@@ -270,6 +270,7 @@ import {
 } from './server/pinnedMessages.std.js';
 import {
   getAllMegaphones,
+  getAllMegaphoneIds,
   createMegaphone,
   updateMegaphone,
   deleteMegaphone,
@@ -501,6 +502,7 @@ export const DataReader: ServerReadableInterface = {
   getOldestDeletedChatFolder,
 
   getAllMegaphones,
+  getAllMegaphoneIds,
   hasMegaphone,
 
   getKTAccountData,
