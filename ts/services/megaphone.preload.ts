@@ -13,16 +13,13 @@ import {
 import { DAY, HOUR } from '../util/durations/index.std.js';
 import { DataReader, DataWriter } from '../sql/Client.preload.js';
 import { drop } from '../util/drop.std.js';
-import {
-  Environment,
-  getEnvironment,
-  isMockEnvironment,
-} from '../environment.std.js';
+import { isMockEnvironment } from '../environment.std.js';
 import { isEnabled } from '../RemoteConfig.dom.js';
 import { safeSetTimeout } from '../util/timeout.std.js';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
 import { isMoreRecentThan } from '../util/timestamp.std.js';
+import { isFeaturedEnabledNoRedux } from '../util/isFeatureEnabled.dom.js';
 
 const log = createLogger('megaphoneService');
 
@@ -79,19 +76,10 @@ export async function runMegaphoneCheck(): Promise<void> {
 }
 
 export function isRemoteMegaphoneEnabled(): boolean {
-  const env = getEnvironment();
-
-  if (
-    env === Environment.Development ||
-    env === Environment.Test ||
-    env === Environment.Staging ||
-    isMockEnvironment() ||
-    isEnabled('desktop.internalUser')
-  ) {
-    return true;
-  }
-
-  return false;
+  return isFeaturedEnabledNoRedux({
+    betaKey: 'desktop.remoteMegaphone.beta',
+    prodKey: 'desktop.remoteMegaphone.prod',
+  });
 }
 
 export function isConditionalActive(conditionalId: string | null): boolean {
