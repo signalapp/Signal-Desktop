@@ -784,7 +784,7 @@
   },
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code with their device.",
-    "description": "Safety number viewer, text of the hint"
+    "description": "(Deleted 2026/02/04) Safety number viewer, text of the hint"
   },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device.",
@@ -864,7 +864,7 @@
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
     "messageformat": "Close",
-    "description": "Key Transparency Error Dialog > Dialog Close Button (Accessibility Label)"
+    "description": "(Deleted 2026/02/04) Key Transparency Error Dialog > Dialog Close Button (Accessibility Label)"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Share debug log",
@@ -880,7 +880,7 @@
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
     "messageformat": "No thanks",
-    "description": "Secondary button text in the dialog shown when an unexpected key transparency error occurs. Clicking the button will dismiss the error dialog."
+    "description": "(Deleted 2026/02/04) Secondary button text in the dialog shown when an unexpected key transparency error occurs. Clicking the button will dismiss the error dialog."
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Submitting...",
@@ -6238,7 +6238,7 @@
   },
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "Choose who can edit group name, photo, description, and disappearing messages timer.",
-    "description": "This is the additional info for the 'who can edit the group' panel"
+    "description": "(Deleted 2026/02/04) This is the additional info for the 'who can edit the group' panel"
   },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages.",
