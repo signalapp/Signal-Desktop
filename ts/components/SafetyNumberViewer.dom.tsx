@@ -272,7 +272,7 @@ function KeyTransparency({
               },
             }}
           >
-            <span className={tw('me-3 size-5 font-regular', extraIconStyles)}>
+            <span className={tw('me-3 size-5 font-semibold', extraIconStyles)}>
               {spinner ?? (
                 <AxoSymbol.Icon size={20} symbol={icon} label={null} />
               )}

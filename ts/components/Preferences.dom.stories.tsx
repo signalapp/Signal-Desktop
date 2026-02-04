@@ -434,6 +434,7 @@ export default {
     hasFailedStorySends: false,
     hasHideMenuBar: false,
     hasIncomingCallNotifications: true,
+    hasKeyTransparencyDisabled: false,
     hasLinkPreviews: true,
     hasMediaCameraPermissions: true,
     hasMediaPermissions: true,
@@ -553,6 +554,9 @@ export default {
     onContentProtectionChange: action('onContentProtectionChange'),
     onCountMutedConversationsChange: action('onCountMutedConversationsChange'),
     onEmojiSkinToneDefaultChange: action('onEmojiSkinToneDefaultChange'),
+    onHasKeyTransparencyDisabledChanged: action(
+      'onHasKeyTransparencyDisabledChanged'
+    ),
     onHasStoriesDisabledChanged: action('onHasStoriesDisabledChanged'),
     onHideMenuBarChange: action('onHideMenuBarChange'),
     onIncomingCallNotificationsChange: action(

@@ -752,6 +752,7 @@ export class BackupImportStream extends Writable {
     androidSpecificSettings,
     bioText,
     bioEmoji,
+    keyTransparencyData,
   }: Backups.IAccountData): Promise<void> {
     strictAssert(this.#ourConversation === undefined, 'Duplicate AccountData');
     const me = {
@@ -792,6 +793,15 @@ export class BackupImportStream extends Writable {
     }
     if (bioEmoji != null) {
       me.aboutEmoji = bioEmoji;
+    }
+    if (Bytes.isNotEmpty(keyTransparencyData)) {
+      const ourAci = this.#ourConversation?.serviceId;
+      strictAssert(
+        isAciString(ourAci),
+        'Must have our aci for Key Transparency data'
+      );
+
+      await DataWriter.setKTAccountData(ourAci, keyTransparencyData);
     }
     if (avatarUrlPath != null) {
       await itemStorage.put('avatarUrl', avatarUrlPath);
@@ -864,6 +874,10 @@ export class BackupImportStream extends Writable {
     await itemStorage.put(
       'hasStoriesDisabled',
       accountSettings?.storiesDisabled === true
+    );
+    await itemStorage.put(
+      'hasKeyTransparencyDisabled',
+      accountSettings?.allowAutomaticKeyVerification !== true
     );
 
     // an undefined value for storyViewReceiptsEnabled is semantically different from
@@ -1130,6 +1144,15 @@ export class BackupImportStream extends Writable {
       if (e164) {
         await itemStorage.blocked.addBlockedNumber(e164);
       }
+    }
+
+    if (Bytes.isNotEmpty(contact.keyTransparencyData)) {
+      strictAssert(
+        isAciString(serviceId),
+        'Must have contact aci for Key Transparency data'
+      );
+
+      await DataWriter.setKTAccountData(serviceId, contact.keyTransparencyData);
     }
 
     return attrs;

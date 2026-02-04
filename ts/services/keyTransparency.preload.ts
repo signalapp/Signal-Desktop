@@ -12,6 +12,7 @@ import type {
   E164Info,
 } from '@signalapp/libsignal-client/dist/net/KeyTransparency.js';
 import { MonitorMode } from '@signalapp/libsignal-client/dist/net/KeyTransparency.js';
+import pTimeout from 'p-timeout';
 
 import {
   keyTransparencySearch,
@@ -22,15 +23,20 @@ import { itemStorage } from '../textsecure/Storage.preload.js';
 import { fromAciObject } from '../types/ServiceId.std.js';
 import { toLogFormat } from '../types/errors.std.js';
 import { toAciObject } from '../util/ServiceId.node.js';
+import { TaskDeduplicator } from '../util/TaskDeduplicator.std.js';
 import { BackOff, FIBONACCI_TIMEOUTS } from '../util/BackOff.std.js';
 import { sleep } from '../util/sleep.std.js';
-import { SECOND, MINUTE, WEEK } from '../util/durations/constants.std.js';
+import { SECOND, MINUTE, DAY, WEEK } from '../util/durations/constants.std.js';
 import { CheckScheduler } from '../util/CheckScheduler.preload.js';
 import { strictAssert } from '../util/assert.std.js';
 import { isFeaturedEnabledNoRedux } from '../util/isFeatureEnabled.dom.js';
+import { explodePromise } from '../util/explodePromise.std.js';
 import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.js';
 import * as Bytes from '../Bytes.std.js';
 import { createLogger } from '../logging/log.std.js';
+import { isEnabled } from '../RemoteConfig.dom.js';
+import { DataWriter } from '../sql/Client.preload.js';
+import { runStorageServiceSyncJob } from './storage.preload.js';
 
 const log = createLogger('KeyTransparency');
 
@@ -39,7 +45,14 @@ const KEY_TRANSPARENCY_TIMEOUTS = FIBONACCI_TIMEOUTS.slice(3);
 
 const KNOWN_IDENTIFIER_CHANGE_DELAY = 5 * MINUTE;
 
+const INTERMITTENT_ERROR_RETRY_DELAY = 1 * DAY;
+
+const STORAGE_SERVICE_TIMEOUT = 1 * MINUTE;
+
 export function isKeyTransparencyAvailable(): boolean {
+  if (itemStorage.get('hasKeyTransparencyDisabled')) {
+    return false;
+  }
   return isFeaturedEnabledNoRedux({
     betaKey: 'desktop.keyTransparency.beta',
     prodKey: 'desktop.keyTransparency.prod',
@@ -62,6 +75,20 @@ export class KeyTransparency {
       }
     },
   });
+
+  #selfCheckDedup = new TaskDeduplicator(
+    'KeyTransparency.selfCheck',
+    abortSignal => this.#selfCheck(abortSignal)
+  );
+
+  public async disable(): Promise<void> {
+    await Promise.all([
+      DataWriter.removeAllKTAccountData(),
+      itemStorage.remove('lastDistinguishedTreeHead'),
+      itemStorage.remove('keyTransparencySelfHealth'),
+      itemStorage.remove('lastKeyTransparencySelfCheck'),
+    ]);
+  }
 
   public start(): void {
     strictAssert(!this.#isRunning, 'Already running');
@@ -143,6 +170,10 @@ export class KeyTransparency {
   }
 
   async selfCheck(abortSignal?: AbortSignal): Promise<void> {
+    return this.#selfCheckDedup.run(abortSignal);
+  }
+
+  async #selfCheck(abortSignal: AbortSignal): Promise<void> {
     if (!isKeyTransparencyAvailable()) {
       log.info('not running, feature disabled');
       return;
@@ -185,8 +216,22 @@ export class KeyTransparency {
     let usernameHash: Uint8Array | undefined;
 
     const username = me.get('username');
-    if (username != null) {
+    if (username != null && !itemStorage.get('usernameCorrupted')) {
       usernameHash = usernames.hash(username);
+    }
+
+    if (itemStorage.get('keyTransparencySelfHealth') === 'intermittent') {
+      runStorageServiceSyncJob({ reason: 'keyTransparency' });
+
+      const { promise: once, resolve } = explodePromise<void>();
+
+      // This makes sure that we are both on empty websocket queue and fully
+      // up-to-date on storage service.
+      window.Whisper.events.once('storageService:syncComplete', () =>
+        resolve()
+      );
+
+      await pTimeout(once, STORAGE_SERVICE_TIMEOUT);
     }
 
     try {
@@ -213,10 +258,55 @@ export class KeyTransparency {
         throw new Error('Aborted');
       }
 
-      log.warn('failed to check our own records', toLogFormat(error));
-      await itemStorage.put('keyTransparencySelfHealth', 'fail');
+      const oldResult = itemStorage.get('keyTransparencySelfHealth');
+      let newResult: 'fail' | 'intermittent' | undefined;
 
-      window.reduxActions.globalModals.showKeyTransparencyErrorDialog();
+      if (error instanceof LibSignalErrorBase) {
+        if (error.is(ErrorCode.KeyTransparencyVerificationFailed)) {
+          if (oldResult === 'intermittent' || oldResult === 'fail') {
+            newResult = 'fail';
+          } else {
+            newResult = 'intermittent';
+          }
+        } else if (
+          error.is(ErrorCode.KeyTransparencyError) ||
+          error.is(ErrorCode.ChatServiceInactive) ||
+          error.is(ErrorCode.IoError) ||
+          error.is(ErrorCode.RateLimitedError)
+        ) {
+          if (oldResult === 'intermittent' || oldResult === 'fail') {
+            // Keep failed state until successful retry
+            newResult = oldResult;
+          } else {
+            // Update status to "unknown"
+            newResult = undefined;
+          }
+        } else {
+          // Unknown error
+          newResult = 'fail';
+        }
+      }
+
+      log.warn(
+        'failed to check our own records',
+        toLogFormat(error),
+        'changing state to',
+        newResult
+      );
+
+      await itemStorage.put('keyTransparencySelfHealth', newResult);
+      if (
+        (oldResult !== 'fail' || isEnabled('desktop.internalUser')) &&
+        newResult === 'fail'
+      ) {
+        window.reduxActions.globalModals.showKeyTransparencyErrorDialog();
+      }
+
+      if (newResult === 'intermittent') {
+        await this.#scheduler.runAt(
+          Date.now() + INTERMITTENT_ERROR_RETRY_DELAY
+        );
+      }
 
       throw error;
     }
@@ -268,6 +358,10 @@ export class KeyTransparency {
         throw error;
       }
 
+      log.warn(
+        `retriable error error=${toLogFormat(error)} retrying in ` +
+          `${timeout}ms`
+      );
       await sleep(timeout, abortSignal);
 
       if (abortSignal?.aborted) {

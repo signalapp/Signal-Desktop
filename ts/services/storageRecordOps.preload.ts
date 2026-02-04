@@ -591,6 +591,12 @@ export function toAccountRecord(
       hasSeenGroupStoryEducationSheet;
   }
 
+  const hasKeyTransparencyDisabled = itemStorage.get(
+    'hasKeyTransparencyDisabled'
+  );
+  accountRecord.automaticKeyVerificationDisabled =
+    hasKeyTransparencyDisabled === true;
+
   const hasStoriesDisabled = itemStorage.get('hasStoriesDisabled');
   accountRecord.storiesDisabled = hasStoriesDisabled === true;
 
@@ -1652,6 +1658,7 @@ export async function mergeAccountRecord(
     usernameLink,
     notificationProfileManualOverride,
     notificationProfileSyncDisabled,
+    automaticKeyVerificationDisabled,
   } = accountRecord;
 
   const conversation =
@@ -1921,6 +1928,18 @@ export async function mergeAccountRecord(
       'hasSeenGroupStoryEducationSheet',
       hasCompletedUsernameOnboardingBool
     );
+  }
+  {
+    const hasKeyTransparencyDisabled = Boolean(
+      automaticKeyVerificationDisabled
+    );
+    await itemStorage.put(
+      'hasKeyTransparencyDisabled',
+      hasKeyTransparencyDisabled
+    );
+    if (hasKeyTransparencyDisabled) {
+      await keyTransparency.disable();
+    }
   }
   {
     const hasStoriesDisabled = Boolean(storiesDisabled);
