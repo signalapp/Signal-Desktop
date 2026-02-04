@@ -363,13 +363,17 @@ function PreferencesReceiptList({
     [donationReceipts]
   );
 
-  const receiptsByYear = useMemo(() => {
+  const receiptsByYearEntries = useMemo(() => {
     const sortedReceipts = sortBy(
       donationReceipts,
       receipt => -receipt.timestamp
     );
-    return groupBy(sortedReceipts, receipt =>
+    const yearToReceipts = groupBy(sortedReceipts, receipt =>
       new Date(receipt.timestamp).getFullYear()
+    );
+
+    return Object.entries(yearToReceipts).sort(
+      ([yearA], [yearB]) => parseInt(yearB, 10) - parseInt(yearA, 10)
     );
   }, [donationReceipts]);
 
@@ -427,7 +431,7 @@ function PreferencesReceiptList({
             </div>
           </div>
 
-          {Object.entries(receiptsByYear).map(([year, receipts]) => (
+          {receiptsByYearEntries.map(([year, receipts]) => (
             <div
               key={year}
               className="PreferencesDonations--receiptList-yearContainer"
