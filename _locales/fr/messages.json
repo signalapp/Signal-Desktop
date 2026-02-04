@@ -807,7 +807,7 @@
     "messageformat": "Consulter {whatsNew} de cette mise à jour"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal est un organisme à but non lucratif"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "les nouveautés"
@@ -2772,13 +2772,13 @@
     "messageformat": "Rechercher des GIF via Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Rechercher des GIF"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Rechercher dans Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Rechercher des GIF"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Catégories de GIF"
@@ -2826,7 +2826,7 @@
     "messageformat": "Aperçu du GIF"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Proposé par GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Effacer la recherche"
@@ -7303,13 +7303,13 @@
     "messageformat": "La vie privée avant le profit"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Sans but lucratif et fiers de l'être"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Une messagerie privée, financée par des personnes comme vous. Aucune publicité, aucun cookie de suivi, zéro compromis. Faites un don pour soutenir Signal. <readMoreLink>En savoir plus</readMoreLink>."
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Faites un don pour soutenir le droit à la vie privée. Aidez Signal à rester indépendant et sans publicité. <readMoreLink>En savoir plus</readMoreLink>."
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Faire un don"
@@ -7630,7 +7630,7 @@
     "messageformat": "Vos retours nous permettent de comprendre ce qui fonctionne et ce que nous devons améliorer. Vous pouvez consulter votre journal de débogage avant de nous l'envoyer."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Lorsque vous nous envoyez vos commentaires, ceux-ci sont accompagnés d'<diagnosticInfoLink>informations de diagnostic sur votre appel</diagnosticInfoLink>. Vous pouvez également partager votre journal de débogage pour nous aider à améliorer la qualité des appels."
+    "messageformat": "Lorsque vous nous envoyez vos commentaires, ceux-ci sont accompagnés d'<diagnosticInfoLink>informations de diagnostic sur votre appel</diagnosticInfoLink>. Vous pouvez aussi partager votre journal de débogage pour nous aider à améliorer la qualité des appels."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Partager le journal de débogage"

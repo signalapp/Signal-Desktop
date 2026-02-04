@@ -807,7 +807,7 @@
     "messageformat": "இந்த புதுப்பிப்பில் {whatsNew} -ஐப் பார்க்கவும்"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "சிக்னல் ஓர் இலாப நோக்கற்ற அமைப்பாகும்"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "புதிதாக என்ன உள்ளது"
@@ -2772,13 +2772,13 @@
     "messageformat": "Tenor வழியே GIFகள்"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "நகரும் படங்களைத் GIF தேடுங்கள்"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tenorஐத் தேடுக"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "நகரும் படங்களைத் GIF தேடுங்கள்"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF வகைகள்"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIF முன்னோட்டம்"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "GIPHY மூலம் வழங்கப்படுகிறது"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "தேடலை நீக்கு"
@@ -7303,13 +7303,13 @@
     "messageformat": "லாபத்தை விட தனியுரிமை"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "பெருமைமிகு இலாப நோக்கற்ற அமைப்பு"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "தனிப்பட்ட மெசேஜிங், உங்களால் நிதியளிக்கப்பட்டது. விளம்பரம் இல்லை, கண்காணிப்பு இல்லை, சமரசம் இல்லை. சிக்னலை ஆதரிக்க இப்போதே நன்கொடை அளித்திடுங்கள். <readMoreLink>மேலும் அறிக</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "தனிப்பட்ட மெசேஜிங் சேவையை ஆதரிக்க நன்கொடை அளியுங்கள். சிக்னலை சார்பற்றதாகவும் விளம்பரமின்றியும் வைத்திருக்க உதவுங்கள். <readMoreLink>மேலும் அறிக</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "நன்கொடை அளி"

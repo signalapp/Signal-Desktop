@@ -807,7 +807,7 @@
     "messageformat": "{whatsNew} in dieser Aktualisierung"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal ist eine Non-Profit-Organisation"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "Was ist neu?"
@@ -2772,13 +2772,13 @@
     "messageformat": "Bei Tenor nach GIFs suchen"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIFs suchen"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tenor durchsuchen"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIFs suchen"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF-Kategorien"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIF-Vorschau"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Unterstützt von GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Suche zurücksetzen"
@@ -7303,13 +7303,13 @@
     "messageformat": "Datenschutz statt Gewinn"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Mit Stolz gemeinnützig"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Vertrauliche Nachrichten. Von dir finanziert. Keine Werbung, kein Tracking, keine Kompromisse. Jetzt Signal unterstützen und spenden. <readMoreLink>Weiterlesen</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Mit deiner Spende unterstützt du sichere Nachrichten. Hilf mit, Signal unabhängig und werbefrei zu halten. <readMoreLink>Weiterlesen</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Spenden"
@@ -7561,7 +7561,7 @@
     "messageformat": "Wie war dein Anruf?"
   },
   "icu:CallQualitySurvey__HowWasYourCall__PageDescription": {
-    "messageformat": "Das hilft uns, Anrufe in Signal zu verbessern. Es werden keine personenbezogenen Daten gespeichert."
+    "messageformat": "Deine Rückmeldung hilft uns, Anrufe in Signal zu verbessern. Es werden keine personenbezogenen Daten gespeichert."
   },
   "icu:CallQualitySurvey__HowWasYourCall__Response__HadIssues": {
     "messageformat": "Gab Probleme"
@@ -7630,7 +7630,7 @@
     "messageformat": "So erfahren wir mehr über Anrufe und darüber, was gut läuft und was nicht. Du kannst dein Diagnoseprotokoll ansehen, bevor du es abschickst."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Mit dem Absenden teilst du dein Feedback zusammen mit der <diagnosticInfoLink>Diagnose-Information zu deinem Anruf</diagnosticInfoLink>. Du kannst optional ein Diagnoseprotokoll mit uns teilen, um uns dabei zu helfen, die Anrufqualität zu verbessern."
+    "messageformat": "Mit dem Absenden werden dein Feedback zusammen mit der <diagnosticInfoLink>Diagnose-Information zu deinem Anruf</diagnosticInfoLink> an uns übermittelt. Du kannst optional ein Diagnoseprotokoll mit uns teilen, um uns dabei zu helfen, die Anrufqualität zu verbessern."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Diagnoseprotokoll teilen"

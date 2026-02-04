@@ -342,7 +342,7 @@
     "messageformat": "Ops, qualcosa è andato storto…"
   },
   "icu:NavTabs__ItemIconLabel--UnreadCount": {
-    "messageformat": "{count,number} non letti"
+    "messageformat": "{count,number} da leggere"
   },
   "icu:NavTabs__ItemIconLabel--MarkedUnread": {
     "messageformat": "Segnato come non letto"
@@ -471,7 +471,7 @@
     "messageformat": "Nuove menzioni in basso"
   },
   "icu:unreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} messaggio non letto} other {{count,number} messaggi non letti}}"
+    "messageformat": "{count, plural, one {{count,number} messaggio da leggere} other {{count,number} messaggi da leggere}}"
   },
   "icu:youMarkedAsVerified": {
     "messageformat": "Hai segnato il numero di sicurezza con {name} come verificato"
@@ -807,7 +807,7 @@
     "messageformat": "Vedi {whatsNew} in questo aggiornamento"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal è una società non-profit"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "cosa c'è di nuovo"
@@ -1089,7 +1089,7 @@
     "messageformat": "Metti in evidenza"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Rimuovi elemento in evidenza"
+    "messageformat": "Togli da in evidenza"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Termina sondaggio"
@@ -1263,7 +1263,7 @@
     "messageformat": "Più azioni"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Rimuovi elemento in evidenza"
+    "messageformat": "Togli da in evidenza"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Vai al messaggio"
@@ -1329,7 +1329,7 @@
     "messageformat": "Annulla"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Rimuovi elemento in evidenza"
+    "messageformat": "Togli da in evidenza"
   },
   "icu:sessionEnded": {
     "messageformat": "Ripristina la sessione sicura"
@@ -1596,7 +1596,7 @@
     "messageformat": "Non lette"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Description": {
-    "messageformat": "Messaggi non letti da tutte le chat"
+    "messageformat": "Messaggi da leggere in tutte le chat"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Title": {
     "messageformat": "Chat individuali"
@@ -1674,7 +1674,7 @@
     "messageformat": "Mostra solo chat non lette"
   },
   "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Description": {
-    "messageformat": "In questa cartella vedrai solo chat con messaggi non letti."
+    "messageformat": "In questa cartella vedrai solo chat con messaggi da leggere."
   },
   "icu:Preferences__EditChatFolderPage__IncludeMutedChatsCheckbox__Label": {
     "messageformat": "Includi chat silenziate"
@@ -2772,13 +2772,13 @@
     "messageformat": "Cerca le GIF via Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Cerca GIF"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Cerca su Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Cerca GIF"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Categorie delle GIF"
@@ -2826,7 +2826,7 @@
     "messageformat": "Anteprima GIF"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Fornito da GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Cancella ricerca"
@@ -7303,13 +7303,13 @@
     "messageformat": "La privacy prima di tutto"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Non-profit per scelta"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Messaggi privati e sicuri, sostenuti proprio da te. Niente pubblicità, cookie o tracciamenti. Dona ora a Signal per supportare il nostro lavoro. <readMoreLink>Leggi di più</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Fai una donazione per supportare la privacy delle comunicazioni. Aiutaci a tenere Signal indipendente e senza pubblicità. <readMoreLink>Leggi di più</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Dona"

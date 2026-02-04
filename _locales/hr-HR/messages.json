@@ -807,7 +807,7 @@
     "messageformat": "Pogledajte {whatsNew} u ovom ažuriranju"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal je neprofitna organizacija"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "novosti"
@@ -2772,13 +2772,13 @@
     "messageformat": "Pretraži GIF-ove putem Tenora"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Pretraži GIF-ove"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Pretraži Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Pretraži GIF-ove"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Kategorije GIF-ova"
@@ -2826,7 +2826,7 @@
     "messageformat": "Pregled GIF-a"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Uslugu pruža GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Očisti pretragu"
@@ -7303,13 +7303,13 @@
     "messageformat": "Privatnost prije profita"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Ponosno neprofitna organizacija"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Privatna razmjena poruka koju financirate vi. Bez oglasa, bez praćenja, bez kompromisa. Donirajte odmah i podržite Signal. <readMoreLink>Pročitajte više</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Podržite privatnu razmjenu poruka donacijom kako bi Signal ostao nezavisan i bez oglasa. <readMoreLink>Pročitajte više</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Doniraj odmah"

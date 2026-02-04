@@ -807,7 +807,7 @@
     "messageformat": "Descubre {whatsNew} de esta actualización"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal es una organización sin ánimo de lucro"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "las novedades"
@@ -1500,7 +1500,7 @@
     "messageformat": "<paragraph>Se ha producido un error inesperado.</paragraph><paragraph> Inténtalo de nuevo.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal no puede vincular este dispositivo utilizando tu red actual."
+    "messageformat": "Signal no puede vincular este dispositivo usando tu red actual."
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Reintentar"
@@ -2772,13 +2772,13 @@
     "messageformat": "Buscar GIF en Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Buscar GIF"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Buscar en Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Buscar GIF"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Categorías de GIF"
@@ -2826,7 +2826,7 @@
     "messageformat": "Vista previa del GIF"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Con la tecnología de GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Borrar búsqueda"
@@ -7303,13 +7303,13 @@
     "messageformat": "Privacidad sin ánimo de lucro"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Orgullosamente sin ánimo de lucro"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Mensajería privada, financiada por ti. Sin anuncios, sin seguimiento, sin comprometer tu privacidad. Haz una donación ahora para apoyar a Signal. <readMoreLink>Más información</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Haz una donación para apoyar la mensajería privada. Ayuda a Signal a seguir siendo independiente y sin anuncios. <readMoreLink>Más información</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Donar"

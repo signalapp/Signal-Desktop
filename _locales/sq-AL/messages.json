@@ -807,7 +807,7 @@
     "messageformat": "Shihni {whatsNew} në këtë përditësim"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal është një ent jofitimprurës"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "ç’ka të re"
@@ -2772,13 +2772,13 @@
     "messageformat": "Kërko GIF-et në Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Kërko për GIF-e"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Kërko në Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Kërko për GIF-e"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Kategoritë e GIF-eve"
@@ -2826,7 +2826,7 @@
     "messageformat": "Shfaqje paraprake e GIF"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Mundësuar nga GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Spastro Kërkimin"
@@ -7303,13 +7303,13 @@
     "messageformat": "Privatësia mbi fitimet"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Me krenari, enti jofitimprurës"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Mesazhe private, financuar nga ti. Pa reklama, pa gjurmim, pa kompromise. Dhuro tani për të mbështetur Signal. <readMoreLink>Lexo më shumë</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Dhuro për të mbështetur mesazhet private. Mbaj Signal të pavarur dhe pa reklama. <readMoreLink>Lexo më shumë</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Dhuro"

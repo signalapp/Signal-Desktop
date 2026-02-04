@@ -807,7 +807,7 @@
     "messageformat": "สัมผัส {whatsNew} ในการปรับปรุงครั้งนี้"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal เป็นแอปไม่แสวงหาผลกำไร"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "ฟีเจอร์และบริการใหม่ๆ"
@@ -2772,13 +2772,13 @@
     "messageformat": "ค้นหาไฟล์ GIF จากใน Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "ค้นหาภาพ GIF"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "ค้นหาใน Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "ค้นหาภาพ GIF"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "หมวดหมู่ของ GIF"
@@ -2826,7 +2826,7 @@
     "messageformat": "ตัวอย่าง GIF"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "ขับเคลื่อนโดย GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "ล้างการค้นหา"
@@ -7303,13 +7303,13 @@
     "messageformat": "เพราะความเป็นส่วนตัวสำคัญกว่าผลกำไรใดๆ"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "แอปที่ไม่แสวงกำไรคือความภูมิใจของเรา"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "ส่งข้อความอย่างเป็นส่วนตัว เป็นไปได้ด้วยทุนสนับสนุนจากคุณ ไม่มีโฆษณา ไม่มีการติดตาม และไม่มีทางเปลี่ยนแปลง บริจาควันนี้เพื่อร่วมสนับสนุน Signal <readMoreLink>อ่านเพิ่มเติม</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "ร่วมบริจาคเพื่อสนับสนุนการส่งข้อความอย่างเป็นส่วนตัว ช่วยให้ Signal ยังคงเป็นแอปอิสระที่ไม่มีโฆษณา <readMoreLink>อ่านเพิ่มเติม</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "บริจาค"

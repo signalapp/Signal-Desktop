@@ -807,7 +807,7 @@
     "messageformat": "Бул жаңыртуудагы {whatsNew} көрүңүз"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal категориясындагы коммерциялык эмес уюм"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "жаңылыктар"
@@ -2772,13 +2772,13 @@
     "messageformat": "Tenor'до GIF издөө"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF'терди издөө"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tenor сайтын издөө"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF'терди издөө"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF категориялары"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIF'ти алдын ала карап көрүү"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "GIPHY сунуштайт"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Издөөнү тазалоо"
@@ -7303,13 +7303,13 @@
     "messageformat": "Кирешеге караганда коопсуздукту жогору коебуз"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Коммерциялык эмес уюмбуз деп сыймыктануу менен айтабыз"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Өзүңүз каржылаган купуя жазышуу мүмкүнчүлүгү. Жарнамалар жок, эч ким көз салбайт, эч ким ачыктабайт. Signal'ды колдоо үчүн азыр салым кошуңуз. <readMoreLink>Дагы</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Салым кошуп, купуя жазышууга колдоо көрсөтүп, Signal'га жарнамага көзкаранды болбогонго жардам бериңиз. <readMoreLink>Дагы</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Колдоо көрсөтүү"

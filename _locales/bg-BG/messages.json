@@ -807,7 +807,7 @@
     "messageformat": "Вижте {whatsNew} в тази актуализация"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal е организация с нестопанска цел"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "какво ново има"
@@ -2772,13 +2772,13 @@
     "messageformat": "Търсене на GIF-ове в Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Търсете GIF-ове"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Търсене в Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Търсете GIF-ове"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Категории GIF-ове"
@@ -2826,7 +2826,7 @@
     "messageformat": "Преглед на GIF"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Осигурено от GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Изчистете търсенето"
@@ -7303,13 +7303,13 @@
     "messageformat": "Поверителността е по-важна от печалбата"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Гордеем се, че сме организация с нестопанска цел"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Поверителни съобщения, финансирани от Вас. Без реклами, без следене, без компромис. Дарете сега, за да подкрепите Signal. <readMoreLink>Прочетете повече</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Дарете на Signal, за да подкрепите поверителните съобщения. Поддържайте приложението Signal независимо и без реклами. <readMoreLink>Прочетете повече</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Дарете"

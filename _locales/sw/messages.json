@@ -807,7 +807,7 @@
     "messageformat": "Pata {whatsNew} katika sasisho hili"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal ni shirika lilisilo la faida"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "vitu vipya"
@@ -2772,13 +2772,13 @@
     "messageformat": "Tafuta GIFs kwa kutumia Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Tafuta GIF"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tafuta Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Tafuta GIF"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Aina za GIFs"
@@ -2826,7 +2826,7 @@
     "messageformat": "Onyesho la GIF"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Imewezeshwa na GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Futa Utafutaji"
@@ -7303,13 +7303,13 @@
     "messageformat": "Faragha ikilinganishwa na faida"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Tunajivunia kuwa shirika lisilo la faida"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Utumaji jumbe wa faragha, uliofadhiliwa nawe. Hakuna matangazo, hakuna kufuatilia, hakuna kuenda dhidi ya maelewano. Changia sasa kuiunga mkono Signal. <readMoreLink>Soma zaidi</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Changia ili kuunga mkono utumaji ujumbe ulio na faragha. Saidia Signal iendelee kujitegemea bila matangazo. <readMoreLink>Soma zaidi</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Changia"

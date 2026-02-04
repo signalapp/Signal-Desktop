@@ -807,7 +807,7 @@
     "messageformat": "このアップデートの{whatsNew}をご覧ください"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signalは非営利団体です"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "更新情報"
@@ -2772,13 +2772,13 @@
     "messageformat": "Tenor内でGIFを検索"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GiFを検索"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tenorを検索"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GiFを検索"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIFカテゴリー"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIFプレビュー"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "この機能はGIPHYにより提供されています"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "検索テキストを消去"
@@ -7303,13 +7303,13 @@
     "messageformat": "利益よりもプライバシーを"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "非営利が理念です"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "あなたが資金提供するプライベートメッセージ。広告なし、トラッキングなし、不正アクセスなし。Signalをサポートするための寄付を今すぐお願いします。<readMoreLink>続きを読む</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "メッセージのやりとりをプライベートに保つためにご寄付をお願いします。Signalが独立性を保ち、広告なしで運営するためには皆様のご協力が必要です。<readMoreLink>続きを読む</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "寄付する"

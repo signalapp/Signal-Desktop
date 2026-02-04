@@ -39,7 +39,7 @@
     "messageformat": "Kvalitet poslatih zapisa"
   },
   "icu:Preferences__sent-media-quality__description": {
-    "messageformat": "Slanje visokokvalitetnih zapisa kreirat će veći protok."
+    "messageformat": "Slanje visokokvalitetnih zapisa kreirat će veću potrošnju podataka."
   },
   "icu:Preferences__DonateTitle": {
     "messageformat": "Donirajte za Signal"
@@ -807,7 +807,7 @@
     "messageformat": "Pogledajte {whatsNew} u ovom ažuriranju"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal je neprofitna organizacija"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "šta je novo"
@@ -2772,13 +2772,13 @@
     "messageformat": "Pretražujte GIF-ove putem Tenora"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Pretraži GIF-animacije"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Pretraži Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Pretraži GIF-animacije"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF kategorije"
@@ -2826,7 +2826,7 @@
     "messageformat": "Pregled gifa"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Pokreće GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Obriši pretraživanje"
@@ -7303,13 +7303,13 @@
     "messageformat": "Privatnost je važnija od zarade"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Ponosno neprofitna organizacija"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Privatno razmjenjivanje poruka koje finansirate vi. Bez oglasa, bez praćenja, bez kompromisa. Donirajte sada da podržite Signal. Saznaj više"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Donirajte za podršku privatnim porukama. Održavajte Signal nezavisnim i bez reklama. <readMoreLink>Saznajte više</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Doniraj"

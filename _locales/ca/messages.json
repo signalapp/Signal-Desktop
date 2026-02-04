@@ -807,7 +807,7 @@
     "messageformat": "Vegeu {whatsNew} d'aquesta actualització."
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal és una organització sense ànim de lucre"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "les novetats"
@@ -2772,13 +2772,13 @@
     "messageformat": "Buscar GIFs a través de Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Cerca de GIF"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Buscar a Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Cerca de GIF"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Categories de GIF"
@@ -2826,7 +2826,7 @@
     "messageformat": "Vista prèvia del GIF"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Amb la tecnologia de GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Neteja la cerca"
@@ -7303,13 +7303,13 @@
     "messageformat": "Privacitat per sobre dels beneficis"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Estem orgullosos de ser sense ànim de lucre"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Missatgeria privada, finançada per tu. Sense anuncis, ni rastrejadors, ni compromís. Fes ja una donació per ajudar a Signal. <readMoreLink>Mes informació</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Fes una donació per donar suport a la missatgeria privada. Ajuda a Signal a seguir sent independent i sense anuncis. <readMoreLink>Mes informació</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Fer donació"

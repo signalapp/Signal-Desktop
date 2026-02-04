@@ -807,7 +807,7 @@
     "messageformat": "Bu yeniləmədə {whatsNew} baxın"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal qeyri-kommersiya təşkilatıdır"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "hansı yeniliklərin olduğuna"
@@ -2772,13 +2772,13 @@
     "messageformat": "Tenorda GİF-ləri axtarın"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF-ləri axtar"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Axtarış Tenoru"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF-ləri axtar"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GİF kateqoriyaları"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIF önbaxışı"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "GIPHY tərəfindən dəstəklənir"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Axtarışı təmizlə"
@@ -7303,13 +7303,13 @@
     "messageformat": "Məxfiliyiniz mənfəətimizdən daha üstündür"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Qeyri-kommersiya təşkilatı qürurla təqdim edir"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Dəstəklərinizlə yaradılmış şəxsi mesajlaşma. Reklamsız, təqibsiz və güzəştsiz. Signal-ı dəstəkləmək üçün indi ianə verin. <readMoreLink>Daha ətraflı</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Məxfi mesajlaşmanı dəstəkləmək üçün ianə ver. Signal-ın yoluna müstəqil və reklamsız davam etməsinə kömək et. <readMoreLink>Daha ətraflı</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "İanə ver"

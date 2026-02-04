@@ -807,7 +807,7 @@
     "messageformat": "ഈ അപ്‌ഡേറ്റിൽ {whatsNew} കാണുക"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal ഒരു ലാഭേച്ഛയില്ലാത്ത സ്ഥാപനമാണ്"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "പുതിയതായി എന്തുണ്ട്"
@@ -2772,13 +2772,13 @@
     "messageformat": "Tenor വഴി GIF-കൾ തിരയുക"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF-കൾ തിരയുക"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tenor തിരയുക"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF-കൾ തിരയുക"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF വിഭാഗങ്ങൾ"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIF പ്രിവ്യൂ"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "GIPHY നൽകുന്നത്"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "തിരച്ചിലുകൾ മായ്‌ക്കുക"
@@ -7303,13 +7303,13 @@
     "messageformat": "ലാഭത്തേക്കാൾ മുഖ്യം സ്വകാര്യത"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "അഭിമാനത്തോടെ, ലാഭേച്ഛയില്ലാതെ"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "നിങ്ങൾ ധനസഹായം നൽകുന്ന, സ്വകാര്യ സന്ദേശമയയ്ക്കൽ. പരസ്യങ്ങളില്ല, ട്രാക്കിംഗില്ല, വിട്ടുവീഴ്‌ചയില്ല. Signal-നെ പിന്തുണയ്ക്കാൻ ഇപ്പോൾ സംഭാവന നൽകൂ. <readMoreLink>കൂടുതൽ വായിക്കുക</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "സ്വകാര്യ സന്ദേശമയയ്ക്കലിനെ പിന്തുണയ്ക്കാൻ സംഭാവന നൽകുക. Signal-നെ സ്വതന്ത്രമായും പരസ്യരഹിതമായും നിലനിർത്തുക. <readMoreLink>കൂടുതൽ വായിക്കുക</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "സംഭാവന നൽകുക"

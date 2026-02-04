@@ -807,7 +807,7 @@
     "messageformat": "See {whatsNew} in this update"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Ang Signal ay isang nonprofit"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "what's new"
@@ -2772,13 +2772,13 @@
     "messageformat": "Maghanap ng GIFs sa Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Mag-search ng GIFs"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Maghanap sa Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Mag-search ng GIFs"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Mga Kategorya ng GIF"
@@ -7303,13 +7303,13 @@
     "messageformat": "Privacy over Profit"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Proudly Nonprofit"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Private messaging na suportado mo. Walang ads, walang tracking, walang kompromiso. Mag-donate na para suportahan ang Signal. <readMoreLink>Magbasa pa</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Mag-donate para suportahan ang private messaging. Panatilihing malaya at ad-free ang Signal. <readMoreLink>Magbasa pa</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Mag-donate"

@@ -807,7 +807,7 @@
     "messageformat": "Conheça as {whatsNew} dessa atualização"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "O Signal é uma organização sem fins lucrativos"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "novidades"
@@ -2772,13 +2772,13 @@
     "messageformat": "Pesquise GIFs via Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Pesquisar GIFs"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Pesquisar no Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Pesquisar GIFs"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Categorias de GIF"
@@ -2826,7 +2826,7 @@
     "messageformat": "Prévia do GIF"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Com tecnologia GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Limpar os resultados da pesquisa"
@@ -7303,13 +7303,13 @@
     "messageformat": "Privacidade acima do lucro"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Organização sem fins lucrativos (com orgulho)"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Mensagens privadas, financiadas por você. Sem anúncios, sem rastreamento, sem vigilância. Faça uma doação agora para apoiar o Signal. <readMoreLink>Leia mais</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Faça uma doação para apoiar o envio de mensagens privadas. Mantenha o Signal independente e sem anúncios. <readMoreLink>Leia mais</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Doar"

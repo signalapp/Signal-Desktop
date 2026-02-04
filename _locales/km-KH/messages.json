@@ -807,7 +807,7 @@
     "messageformat": "មើល {whatsNew} នៅក្នុងការធ្វើបច្ចុប្បន្នភាពនេះ"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal គឺជាអង្គការមិនស្វែងរកប្រាក់ចំណេញ"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "អ្វីដែលថ្មី"
@@ -2772,13 +2772,13 @@
     "messageformat": "ស្វែងរករូបចលនាតាមរយៈ Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "ស្វែងរក GIFs"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "ស្វែងរកតាម Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "ស្វែងរក GIFs"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "ប្រភេទរូបចលនា"
@@ -2826,7 +2826,7 @@
     "messageformat": "ការមើលរូបចលនាជាមុន"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "ដំណើរការដោយ GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "លុបការស្វែងរក"
@@ -7303,13 +7303,13 @@
     "messageformat": "ឯកជនភាពធំជាងប្រាក់ចំណេញ"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "មោទនភាពជាស្ថាប័នមិនរកប្រាក់ចំណេញ"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "ការផ្ញើសារលក្ខណៈឯកជនទទួលបានមូលនិធិពីអ្នក។ គ្មានការផ្សាយពាណិជ្ជកម្ម គ្មានការតាមដាន គ្មានការប៉ះពាល់។ បរិច្ចាគឥឡូវនេះដើម្បីគាំទ្រ Signal។ <readMoreLink>អានបន្ថែម</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "បរិច្ចាគដើម្បីគាំទ្រការផ្ញើសារឯកជន។ រក្សា Signal ឱ្យឯករាជ្យ និងគ្មានការផ្សាយពាណិជ្ជកម្ម។ <readMoreLink>អានបន្ថែម</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "បរិច្ចាគ"

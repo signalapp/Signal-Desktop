@@ -807,7 +807,7 @@
     "messageformat": "Nhìn xem {whatsNew} trong bản cập nhật này"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal là một tổ chức phi lợi nhuận"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "có gì mới"
@@ -2772,13 +2772,13 @@
     "messageformat": "Tìm GIF qua Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Tìm GIF"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tìm qua Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Tìm GIF"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Danh mục GIF"
@@ -2826,7 +2826,7 @@
     "messageformat": "Xem trước GIF"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Được cung cấp bởi GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Xoá Tìm kiếm"
@@ -7303,13 +7303,13 @@
     "messageformat": "Quyền riêng tư được đặt trên Lợi nhuận"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Tự hào là một tổ chức phi lợi nhuận"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Nền tảng nhắn tin riêng tư, được tài trợ bởi chính bạn. Không quảng cáo, không trình theo dấu, không theo dõi. Ủng hộ ngay để hỗ trợ Signal. <readMoreLink>Đọc thêm</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Ủng hộ để hỗ trợ cho nền tảng nhắn tin riêng tư. Giúp Signal duy trì trạng thái độc lập, không quảng cáo. <readMoreLink>Đọc thêm</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Ủng hộ"

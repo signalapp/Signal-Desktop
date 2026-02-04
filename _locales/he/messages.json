@@ -807,7 +807,7 @@
     "messageformat": "ראה {whatsNew} בעדכון זה"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal היא עמותה ללא מטרות רווח."
   },
   "icu:viewReleaseNotes": {
     "messageformat": "מה חדש"
@@ -2772,13 +2772,13 @@
     "messageformat": "חיפוש קובצי GIF באמצעות Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "חפש תמונות GIF"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "חיפוש ב–Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "חפש תמונות GIF"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "קטגוריות קובצי GIF"
@@ -2826,7 +2826,7 @@
     "messageformat": "תצוגה מקדימה של GIF"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "מופעל באמצעות GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "נקה חיפוש"
@@ -7303,13 +7303,13 @@
     "messageformat": "פרטיות לפני רווחים"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "גאים להיות עמותה ללא מטרות רווח"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "שליחת הודעות פרטית, ממומנת על ידך. בלי מודעות, בלי מעקב, בלי פשרות. תורמים עכשיו ותומכים ב–Signal. <readMoreLink>למידע נוסף</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "ניתן לתרום כדי לתמוך בהודעות פרטיות זה עוזר לשמור על Signal עצמאית וללא פרסומות. <readMoreLink>למידע נוסף</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "לתרומה"

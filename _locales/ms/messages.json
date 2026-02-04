@@ -807,7 +807,7 @@
     "messageformat": "Lihat {whatsNew} dalam kemas kini ini"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal ialah organisasi bukan untung"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "apakah yang baharu"
@@ -2772,13 +2772,13 @@
     "messageformat": "Cari GIF melalui Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Cari GIF"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Cari dalam Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Cari GIF"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Kategori GIF"
@@ -2826,7 +2826,7 @@
     "messageformat": "Pratonton GIF"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Dikuasakan oleh GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Kosongkan Hasil"
@@ -7303,13 +7303,13 @@
     "messageformat": "Privasi dan bukan keuntungan"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Bangga sebagai organisasi bukan untung"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Pemesejan peribadi, dibiayai oleh anda. Tiada iklan, tiada penjejakan, tiada kompromi. Derma sekarang untuk menyokong Signal. <readMoreLink>Baca lagi</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Derma untuk menyokong pemesejan peribadi. Pastikan Signal bebas dan tanpa iklan. <readMoreLink>Baca lagi</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Derma"

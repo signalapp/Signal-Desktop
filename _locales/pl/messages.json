@@ -807,7 +807,7 @@
     "messageformat": "Sprawdź, {whatsNew} w tej aktualizacji"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal to organizacja non profit"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "co nowego"
@@ -2772,13 +2772,13 @@
     "messageformat": "Wyszukaj GIF-y na platformie Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Wyszukaj GIF"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Wyszukaj na platformie Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Wyszukaj GIF"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Kategorie GIF-ów"
@@ -7303,13 +7303,13 @@
     "messageformat": "Prywatność ponad zyskiem"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Jesteśmy non profit"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Prywatny komunikator finansowany przez Ciebie. Bez reklam, bez śledzenia, bez kompromisów. Wpłać darowiznę i wesprzyj Signal. <readMoreLink>Czytaj dalej</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Wpłać darowiznę i wesprzyj nasz prywatny komunikator. To właśnie dzięki darowiznom aplikacja Signal pozostaje niezależna i nie wyświetla reklam. <readMoreLink>Czytaj dalej</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Wpłać darowiznę"

@@ -807,7 +807,7 @@
     "messageformat": "ဤအပ်ဒိတ်တွင် {whatsNew} ကို ကြည့်ရန်"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal သည် အကျိုးအမြတ်မယူပါ"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "အသစ်များ"
@@ -2772,13 +2772,13 @@
     "messageformat": "Tenor မှတစ်ဆင့် GIF များကို ရှာဖွေပါ"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF များရှာဖွေမယ်"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tenor ကို ရှာပါ"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF များရှာဖွေမယ်"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF အမျိုးအစားများ"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIF ကြိုတင်ကြည့်ရှုမှု"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "GIPHY မှ ပံ့ပိုးပေးသည်"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "ရှာဖွေမှုကို ရှင်းရန်"
@@ -7303,13 +7303,13 @@
     "messageformat": "ကိုယ်ပိုင်အချက်အလက်သည် အကျိုးအမြတ်ထက် ပိုအရေးကြီးပါသည်"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "ဂုဏ်ယူစွာဖြင့် အကျိုးအမြတ်မယူသောအဖွဲ့"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "သင် ငွေကြေးထောက်ပံ့ထားသည့် သီးသန့် မက်ဆေ့ချ်လုပ်ဆောင်ချက်။ ကြော်ငြာများ မရှိ၊ ခြေရာခံခြင်း မရှိ၊ အပေးအယူ မရှိ။ Signal ကို ပံ့ပိုးရန် ယခုပင် လှူဒါန်းလိုက်ပါ။ <readMoreLink>ပိုမိုဖတ်ရှုရန်</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "သီးသန့်မက်ဆေ့ချ်ပေးပို့ခြင်းကို ပံ့ပိုးရန် လှူဒါန်းပါ။ Signal ကို အမှီအခိုနှင့် ကြော်ငြာကင်းစင်စွာထားပါ။ <readMoreLink>ပိုမိုဖတ်ရှုရန်</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "လှူဒါန်းရန်"

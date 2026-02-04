@@ -807,7 +807,7 @@
     "messageformat": "이 업데이트의 {whatsNew} 보기"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal은 비영리단체입니다"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "새로운 기능"
@@ -2271,7 +2271,7 @@
     "messageformat": "도움말"
   },
   "icu:ConversationDetails--support-center": {
-    "messageformat": "지원 센터"
+    "messageformat": "고객 지원"
   },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "안전 번호 보기"
@@ -2772,13 +2772,13 @@
     "messageformat": "Tenor를 통해 GIF 검색"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF 검색"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tenor 검색"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF 검색"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF 카테고리"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIF 미리 보기"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "GIPHY 제공"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "검색 기록 삭제"
@@ -7303,13 +7303,13 @@
     "messageformat": "이익보다 개인정보보호를 우선시하는 Signal"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "비영리의 원칙을 지킵니다"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Signal은 사용자의 후원으로 운영되는 개인정보 보호 메신저입니다. 그래서 광고와 트래킹, 타협에서 자유롭죠. 이 가치를 지지하신다면 후원을 통해 Signal을 응원해 주세요. <readMoreLink>자세히 알아보기</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "후원을 통해 개인정보를 보호하는 Signal 메시지 서비스를 지지하고, 독립적인 운영과 광고 없는 환경을 유지할 수 있도록 도와주세요. <readMoreLink>자세히 알아보기</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "기부"

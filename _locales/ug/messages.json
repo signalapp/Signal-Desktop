@@ -807,7 +807,7 @@
     "messageformat": "بۇ يېڭىلاشتىكى «{whatsNew}» نى كۆرۈش"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal پايدا ئالمايدىغان بىر تەشكىلات"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "يېڭىلىقلار"
@@ -2772,13 +2772,13 @@
     "messageformat": "Tenor ئارقىلىق GIF لارنى ئىزدەڭ"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "‫GIF ئىزدە"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tenor دىن ئىزدەڭ"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "‫GIF ئىزدە"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF كاتېگورىيەلىرى"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIF نى ئالدىن كۆرۈش"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "GIPHY قوللىغان"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "ئىزدەشنى تازىلاش"
@@ -7303,13 +7303,13 @@
     "messageformat": "پايدا ئەمەس، مەخپىيەتلىك مۇھىم"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "پايدا ئالمايدىغان تەشكىلات بولغانلىقىمىزدىن پەخىرلىنىمىز"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "بىخەتەر ئۇچۇرلىشىشنى سىز مەبلەغ بىلەن تەمىنلىگەن. ئېلان يوق ، ئىز قوغلاش يوق ، مۇرەسسە قىلىش يوق. Signalنى قوللاش ئۈچۈن ھازىرلا ئىئانە قىلىڭ. <readMoreLink>تەپسىلاتى</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "شەخسىي ئۇچۇرلىشىشنى قوللاش ئۈچۈن ئىئانە قىلىڭ. Signalنى مۇستەقىل ۋە ئېلاندىن خالىي قىلىشقا ياردەملىشىڭ. <readMoreLink>تەپسىلاتى</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "ئىئانە قىلىڭ"

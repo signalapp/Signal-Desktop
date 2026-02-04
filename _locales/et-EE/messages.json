@@ -807,7 +807,7 @@
     "messageformat": "Vaata {whatsNew} selles versioonis"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal on mittetulundusühing"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "mis on uut"
@@ -2772,13 +2772,13 @@
     "messageformat": "Otsi GIFe Tenori kaudu"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Otsi GIFe"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Otsing: Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Otsi GIFe"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIFide kategooriad"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIFi eelvaade"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "GIPHY poolt"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Tühjenda otsing"
@@ -7303,13 +7303,13 @@
     "messageformat": "Privaatsus on meile olulisem kui tulu"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Uhked, et oleme mittetulundusühing"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Privaatne sõnumiside, mida toetad sina ise. Ei mingeid reklaame, jälgijaid ega järeleandmisi. Anneta nüüd, et Signalit toetada. <readMoreLink>Loe rohkem</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Anneta privaatse sõnumivahetuse toetuseks. Aita hoida Signal sõltumatu ja reklaamivaba. <readMoreLink>Loe rohkem</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Anneta"

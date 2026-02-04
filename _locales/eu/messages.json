@@ -807,7 +807,7 @@
     "messageformat": "Ikusi eguneratze honen {whatsNew}"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal irabazi-asmorik gabeko erakunde bat da"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "berritasunak"
@@ -2772,13 +2772,13 @@
     "messageformat": "Bilatu GIFak Tenor bidez"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Bilatu GIFak"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Bilatu Tenor-en"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Bilatu GIFak"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF kategoriak"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIFaren aurrebista"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "GIPHY-ren eskutik"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Garbitu Bilaketa"
@@ -7303,13 +7303,13 @@
     "messageformat": "Pribatutasuna irabazien gainetik"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Irabazi-asmorik ez izateaz harro"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Mezularitza pribatua, zuk finantzatua. Iragarkirik gabe, jarraipen-tresnarik gabe, konpromisorik gabe. Egin dohaintza bat orain Signal-i laguntzeko. <readMoreLink>Irakurri gehiago</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Egin dohanitza mezularitza pribatuari laguntzeko. Mantendu Signal independente eta iragarkirik gabe. <readMoreLink>Irakurri gehiago</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Egin dohaintza"

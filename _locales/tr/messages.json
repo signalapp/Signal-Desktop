@@ -807,7 +807,7 @@
     "messageformat": "Bu güncellemede {whatsNew} olduğunu görün"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal kâr amacı gütmeyen bir kuruluştur"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "nelerin yeni"
@@ -2772,13 +2772,13 @@
     "messageformat": "GIF'leri Tenor aracılığıyla ara"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF Arama"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tenor'da ara"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF Arama"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF Kategorileri"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIF Ön İzlemesi"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "GIPHY tarafından desteklenmektedir"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Aramayı Temizle"
@@ -7303,13 +7303,13 @@
     "messageformat": "Gizlilik kârlılıktan önce gelir"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Gururla Kâr Amacı Gütmeyen"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Senin tarafından desteklenen, gizli mesajlaşma. Reklam yok, takip yok, taviz yok. Signal'ı desteklemek için şimdi bağış yap. <readMoreLink>Devamını oku</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Özel mesajlaşmayı desteklemek için bağış yap. Signal'ı bağımsız ve reklamsız tut. <readMoreLink>Devamını oku</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Bağış yap"

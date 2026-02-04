@@ -807,7 +807,7 @@
     "messageformat": "睇吓今次更新有咩{whatsNew}"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal 係一間非牟利機構"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "最新消息"
@@ -2772,13 +2772,13 @@
     "messageformat": "經 Tenor 搜尋 GIF"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "搵 GIF"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "喺 Tenor 度搜尋"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "搵 GIF"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF 種類"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIF 預覽"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "由 GIPHY 提供"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "清除搜尋"
@@ -7303,13 +7303,13 @@
     "messageformat": "重視私隱多過利潤"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "堅守非牟利宗旨"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "由你贊助嘅私密通訊軟件。冇廣告、冇追蹤、絕不妥協。請立即捐款支持 Signal。<readMoreLink>睇多啲</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "捐款支持私密通訊。令 Signal 保持獨立營運同埋冇廣告。<readMoreLink>睇多啲</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "立即捐款"
@@ -7630,7 +7630,7 @@
     "messageformat": "幫我哋了解多啲通話嘅情況，同埋做啲咩係有效、咩係冇效。你可以响提交之前睇吓除錯記錄。"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "提交會將你嘅意見，同埋<diagnosticInfoLink>關於你通話嘅診斷資訊</diagnosticInfoLink>分享俾我哋。你可以揀分享除錯記錄，幫我哋提高通話品質。"
+    "messageformat": "提交會將你嘅意見，同埋<diagnosticInfoLink>關於你通話嘅診斷資訊</diagnosticInfoLink>分享俾我哋。你可以選擇分享除錯記錄，幫我哋提高通話品質。"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "分享除錯記錄"

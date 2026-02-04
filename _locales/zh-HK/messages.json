@@ -807,7 +807,7 @@
     "messageformat": "在此更新中查看{whatsNew}"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal 是一個非營利組織"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "有什麼更新"
@@ -2772,13 +2772,13 @@
     "messageformat": "透過 Tenor 搜尋 GIF"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "搜尋 GIF"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "搜尋 Tenor 內容"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "搜尋 GIF"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF 類別"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIF 預覽"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "由 GIPHY 提供技術支援"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "清除搜尋"
@@ -7303,13 +7303,13 @@
     "messageformat": "隱私比盈利更重要"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "以非營利為榮"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "我們是由你贊助的私密通訊軟體。無廣告、無追蹤、而且絕不妥協。請立即捐款支持 Signal。<readMoreLink>閱讀全文</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "捐款以支持私密訊息功能。讓 Signal 保持獨立且無廣告。<readMoreLink>閱讀全文</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "捐款"

@@ -807,7 +807,7 @@
     "messageformat": "देखें कि इस अपडेट {whatsNew} में क्या है"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal एक गैर-लाभकारी संस्था है"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "नया क्या है"
@@ -2772,13 +2772,13 @@
     "messageformat": "Tenor के ज़रिए GIF खोजें"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF खोजें"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tenor खोजें"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF खोजें"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF कैटेगरीज़"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIF प्रीव्यू"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "GIPHY के सहयोग से संचालित"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "सर्च को साफ करें"
@@ -7303,13 +7303,13 @@
     "messageformat": "मुनाफ़े से ज़्यादा निजता को वरीयता"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "गैर-लाभकारी संस्था होने पर हमें गर्व है"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "आपकी फ़ंडिंग पर चल रही प्राइवेट मैसेजिंग सेवा। न कोई विज्ञापन, न ट्रैकिंग, न ही समझौता। Signal को सहयोग करने के लिए अभी डोनेट करें।<readMoreLink>ज़्यादा पढ़ें</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "निजी मैसेजिंग सेवा को सहयोग करने के लिए डोनेट करें। Signal को स्वतंत्र और विज्ञापन-मुक्त बनाए रखें। <readMoreLink>ज़्यादा पढ़ें</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "डोनेट करें"

@@ -807,7 +807,7 @@
     "messageformat": "Se {whatsNew} i den här uppdateringen"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal är en ideell organisation"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "vad som är nytt"
@@ -2772,13 +2772,13 @@
     "messageformat": "Sök GIF-filer via Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Sök GIF-bilder"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Sök på Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Sök GIF-bilder"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF-kategorier"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIF-förhandsvisning"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Drivs av GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Rensa sökning"
@@ -7303,13 +7303,13 @@
     "messageformat": "Integritet före profit"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Stolt ideell organisation"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Privata meddelanden, finansierade av dig. Inga annonser, ingen spårning, ingen kompromiss. Donera nu för att stödja Signal. <readMoreLink>Läs mer</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Donera för att stödja privata meddelanden. Håll Signal oberoende och reklamfritt. <readMoreLink>Läs mer</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Donera"

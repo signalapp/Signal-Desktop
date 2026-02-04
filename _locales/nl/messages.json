@@ -807,7 +807,7 @@
     "messageformat": "Lees hier {whatsNew} in deze versie"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal is een non-profitorganisatie"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "wat er nieuw is"
@@ -2772,13 +2772,13 @@
     "messageformat": "GIF's zoeken via Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF's zoeken"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Zoeken in Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF's zoeken"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF-categorieën"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIF-voorbeeld"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Mogelijk gemaakt door GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Zoekopdracht wissen"
@@ -7303,13 +7303,13 @@
     "messageformat": "Privacy boven winst"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Non-profit met een missie"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Privéberichten, gefinancierd door jou. Geen advertenties, geen tracking, geen compromissen. Doneer nu om Signal te steunen. <readMoreLink>Meer lezen</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Doneer om veilige privécommunicatie te ondersteunen. Houd Signal onafhankelijk en advertentievrij. <readMoreLink>Meer lezen</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Doneren"

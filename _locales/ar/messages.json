@@ -807,7 +807,7 @@
     "messageformat": "اطَّلِع على {whatsNew} في هذا التحديث"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "سيجنال شركة غير ربحية"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "ما هو جديد"
@@ -2772,13 +2772,13 @@
     "messageformat": "البحث عن الصور المُتحركة (GIFs) في Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "البحث في الصور المتحركة"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "البحث في Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "البحث في الصور المتحركة"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "فئات الصور المُتحركة (GIFs)"
@@ -2826,7 +2826,7 @@
     "messageformat": "معاينة صورة GIF"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "مدعوم من طرف GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "مسح مُدخلات البحث"
@@ -7303,13 +7303,13 @@
     "messageformat": "نفضِّل الخصوصية على الربح"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "شركة غير ربحية بالفعل"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "تراسُل خاص، مُموَّل من طرفك. دون إعلانات، دون مُتعقِّبات، دون مساومة. تبرَّع الآن لدعم سيجنال. <readMoreLink>اقرأ المزيد</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "تبرَّع لدعم المراسلة الخصوصية. ساعِد في إبقاء سيجنال مستقلًا وخاليًا من الإعلانات. <readMoreLink>اقرأ المزيد</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "التبرُّع"

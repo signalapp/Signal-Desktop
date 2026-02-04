@@ -807,7 +807,7 @@
     "messageformat": "Посмотрите, {whatsNew} в этом обновлении"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal — некоммерческая организация"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "что нового"
@@ -2772,13 +2772,13 @@
     "messageformat": "Искать GIF-файлы в Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Искать GIFы"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Искать в Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Искать GIFы"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Категории GIF"
@@ -2826,7 +2826,7 @@
     "messageformat": "Предпросмотр GIF"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "На платформе GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Очистить поиск"
@@ -7303,13 +7303,13 @@
     "messageformat": "Конфиденциальность превыше прибыли"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Некоммерческая организация — с гордостью"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Безопасный мессенджер, существующий благодаря вашей поддержке. Без рекламы, без трекеров, без компромиссов. Пожертвуйте сейчас, чтобы поддержать Signal. <readMoreLink>Читать далее</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Пожертвуйте для поддержки приватного обмена сообщениями. Поддержите Signal, чтобы он оставался независимым и свободным от рекламы. <readMoreLink>Читать далее</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Пожертвовать"

@@ -807,7 +807,7 @@
     "messageformat": "在此更新中查看{whatsNew}"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal 是一个非营利组织"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "更新"
@@ -2772,13 +2772,13 @@
     "messageformat": "通过 Tonor 网站搜索 GIF"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "搜索 GIF 图片"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "搜索 Tenor 网站"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "搜索 GIF 图片"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF 类别"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIF 预览"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "由 GIPHY 提供支持"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "清空搜索"
@@ -7303,13 +7303,13 @@
     "messageformat": "我们坚信隐私高于营利"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "以非营利为荣"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "私密通信平台，依用户而生。无广告，无跟踪，服务不打折。立即捐款赞助 Signal。<readMoreLink>阅读更多</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "欢迎捐款以支持私密消息传递。让 Signal 保持独立且无广告干扰。<readMoreLink>阅读更多</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "捐款"

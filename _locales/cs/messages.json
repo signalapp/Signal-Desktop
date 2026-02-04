@@ -807,7 +807,7 @@
     "messageformat": "Prohlédněte si {whatsNew} v této aktualizaci"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal je nezisková organizace"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "co je nového"
@@ -2772,13 +2772,13 @@
     "messageformat": "Hledat soubory GIF na webu Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Hledat GIFy"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Prohledat web Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Hledat GIFy"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Kategorie souborů GIF"
@@ -2826,7 +2826,7 @@
     "messageformat": "Náhled GIFu"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Poháněno GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Vymazat hledání"
@@ -7303,13 +7303,13 @@
     "messageformat": "Soukromí má přednost před ziskem"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Hrdě se hlásíme k neziskovosti"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Soukromé zasílání zpráv financované vámi. Žádné reklamy, žádné sledování, žádné kompromisy. Přispějte nyní na podporu služby Signal. <readMoreLink>Číst dále</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Přispějte na podporu soukromých zpráv. Pomozte zachovat službu Signal nezávislou a bez reklam. <readMoreLink>Číst dále</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Přispět"

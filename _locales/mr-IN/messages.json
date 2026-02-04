@@ -807,7 +807,7 @@
     "messageformat": "या अपडेट मध्ये See {whatsNew} पहा"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal एक ना-नफा संस्था आहे"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "नवीन काय आहे"
@@ -2772,13 +2772,13 @@
     "messageformat": "Tenor वर GIFs शोधा"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF शोधा"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tenor वर शोधा"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF शोधा"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF प्रवर्ग"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIF चे पूर्वावलोकन करा"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "GIPHY द्वारे समर्थित"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "शोध साफ करा"
@@ -7303,13 +7303,13 @@
     "messageformat": "फायद्यापेक्षा गोपनीयता"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "अभिमानाने ना-नफा"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "तुमच्या अर्थसाहाय्याने चालणारी, खासगी संदेश सेवा. कोणत्याही जाहिराती नाहीत, कोणतेही ट्रॅकिंग नाही, कोणतीही तडजोड नाही. Signalला सपोर्ट देण्यासाठी आता देणगी द्या. <readMoreLink>आणखी वाचा</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "गोपनीय संदेशवहनाला सपोर्ट करण्यासाठी देणगी द्या. Signal स्वतंत्र आणि जाहिरातमुक्त ठेवा. <readMoreLink>आणखी वाचा</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "देणगी द्या"

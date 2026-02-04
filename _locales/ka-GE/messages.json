@@ -807,7 +807,7 @@
     "messageformat": "ნახე {whatsNew} ამ განახლებაში"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal-ი არაკომერციული ორგანიზაციაა"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "რა არის ახალი"
@@ -2772,13 +2772,13 @@
     "messageformat": "მოძებნე GIF-ები Tenor-ზე"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "მოძებნე GIF-ები"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "ძებნა Tenor-ზე"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "მოძებნე GIF-ები"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF-ების კატეგორიები"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIF-ის წინასწარ ნახვა"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "GIPHY-ის მხარდაჭერით"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "ძიების გასუფთავება"
@@ -7303,13 +7303,13 @@
     "messageformat": "ჩვენთვის კონფიდენციალურობა მოგებაზე მაღლა დგას"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "ამაყად არაკომერციული"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "კონფიდენციალური მიმოწერა, რომელსაც შენ აფინანსებ. არანაირი რეკლამა, არანაირი ტრეკერები, არანაირი კომპრომისი. გააკეთე დონაცია ახლა, რათა მხარი დაუჭირო Signal-ს. <readMoreLink>წაიკითხე მეტი</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "გააკეთე დონაცია და დაუჭირე მხარი კონფიდენციალურ მიმოწერას. დაგვეხმარე Signal-ის დამოუკიდებლობის შენარჩუნებაში რეკლამების გარეშე. <readMoreLink>წაიკითხე მეტი</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "გააკეთე დონაცია"

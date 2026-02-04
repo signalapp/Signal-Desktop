@@ -807,7 +807,7 @@
     "messageformat": "{whatsNew} ebben a frissítésben"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "A Signal egy nonprofit szervezet"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "Újdonságok"
@@ -2772,13 +2772,13 @@
     "messageformat": "Keress GIF-eket a Tenoron keresztül"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF-ek keresése"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tenor keresése"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF-ek keresése"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF-kategóriák"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIF előnézet"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Üzemeltető: GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Keresés törlése"
@@ -7303,13 +7303,13 @@
     "messageformat": "Az adatok védelme fontosabb a profitnál"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Büszkén nonprofit"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Privát üzenetküldés, általad támogatva. Nincsenek hirdetések, nincs nyomon követés, nincsenek kompromisszumok. Adományozz most és támogasd a Signalt! <readMoreLink>További információk</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Adományozz és támogasd a privát üzeneteket. Tartsd meg a Signal függetlenségét és hirdetésmentességét. <readMoreLink>További információk</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Adományozás"

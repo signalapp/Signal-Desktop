@@ -807,7 +807,7 @@
     "messageformat": "Tutustu tämän version {whatsNew}"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal on voittoa tavoittelematon organisaatio."
   },
   "icu:viewReleaseNotes": {
     "messageformat": "uusiin ominaisuuksiin"
@@ -2772,13 +2772,13 @@
     "messageformat": "Etsi GIF-tiedostoja Tenorista"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Hae GIFfejä"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Hae Tenorista"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Hae GIFfejä"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF-tiedostojen luokat"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIF-esikatselu"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Tuottajana GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Tyhjennä haku"
@@ -7303,13 +7303,13 @@
     "messageformat": "Yksityisyys voiton sijaan"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Voittoa tavoittelematon ja ylpeä siitä"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Yksityistä viestintää – sinun rahoittamanasi. Ei mainoksia, seurantaa tai kompromisseja. Tue Signalia lahjoittamalla nyt. <readMoreLink>Lue lisää</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Lahjoita tukeaksesi yksityistä viestinvaihtoa. Auta pitämään Signal itsenäisenä ja mainoksettomana. <readMoreLink>Lue lisää</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Lahjoita"

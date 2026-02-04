@@ -807,7 +807,7 @@
     "messageformat": "Осы жаңа нұсқадағы {whatsNew} тізімін көру"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal – коммерциялық емес жоба"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "жаңалықтар"
@@ -2772,13 +2772,13 @@
     "messageformat": "Tenor арқылы GIF файлдарын іздеу"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF файлдарын іздеу"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tenor деп іздеу"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF файлдарын іздеу"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF санаттары"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIF файлын алдын ала көру"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "GIPHY ұсынған"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Ізделген сөзді өшіру"
@@ -7303,13 +7303,13 @@
     "messageformat": "Пайдадан гөрі құпиялылыққа мән береміз"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Мақтан тұтарлық коммерциялық емес жоба"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Сіз демеушілік жасаған қауіпсіз хабар алмасу қолданбасы. Жарнамасыз, бақылаусыз, ымырасыз. Signal-ға қазір демеушілік жасаңыз. <readMoreLink>Толық ақпарат</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Жеке хабар алмасуға қаржылай қолдау көрсетіңіз. Signal-дың тәуелсіз әрі жарнамасыз болуына атсалысыңыз. <readMoreLink>Толық ақпарат</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Демеу"

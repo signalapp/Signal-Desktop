@@ -807,7 +807,7 @@
     "messageformat": "Atraskite, {whatsNew} šiame atnaujinime"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "„Signal“ yra ne pelno organizacija"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "kas naujo"
@@ -2772,13 +2772,13 @@
     "messageformat": "Ieškoti GIF „Tenor“"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Ieškoti GIF"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Ieškoti „Tenor“"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Ieškoti GIF"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF kategorijos"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIF peržiūra"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Sukurta naudojant GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Išvalyti paiešką"
@@ -7303,13 +7303,13 @@
     "messageformat": "Privatumas svarbesnis už pelną"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Didžiuojamės būdami ne pelno organizacija"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Privačios žinutės – jūsų remiama paslauga. Jokių reklamų, jokio sekimo, jokių kompromisų. Skirkite paramą dabar ir palaikykite „Signal“. <readMoreLink>Skaityti daugiau</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Paremkite privačių žinučių programėlę. Kad „Signal“ išliktų nepriklausoma ir be reklamų. <readMoreLink>Skaityti daugiau</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Skirti paramą"

@@ -807,7 +807,7 @@
     "messageformat": "Kyk {whatsNew} in hierdie bywerking"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal is 'n niewinsgewende organisasie"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "wat is nuut"
@@ -2772,13 +2772,13 @@
     "messageformat": "Soek GIF's via Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Soek deur GIFs"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Soek in Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Soek deur GIFs"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF-kategorieë"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIF-voorskou"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Aangedryf deur GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Vee Soek uit"
@@ -7303,13 +7303,13 @@
     "messageformat": "Privaatheid bo Wins"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Trots niewinsgewend"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Private boodskappe, befonds deur jou. Geen advertensies, geen nasporing, geen kompromis nie. Maak nou 'n skenking om Signal te ondersteun. <readMoreLink>Lees meer</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Skenk om private boodskappe te ondersteun. Hou Signal onafhanklik en advertensievry. <readMoreLink>Lees meer</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Skenk"

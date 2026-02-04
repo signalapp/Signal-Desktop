@@ -807,7 +807,7 @@
     "messageformat": "ఈ అప్‌డేట్‌లో {whatsNew} చూడండి"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "సిగ్నల్ ఒక లాభాపేక్ష లేని సంస్థ"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "కొత్తవి ఏమిటి"
@@ -2772,13 +2772,13 @@
     "messageformat": "Tenor ద్వారా GIFలను శోధించండి"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIFలను వెతకండి"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tenor లో శోధించండి"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIFలను వెతకండి"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF వర్గాలు"
@@ -2826,7 +2826,7 @@
     "messageformat": "GIF ప్రివ్యూ"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "GIPHY ద్వారా శక్తివంతం చేయబడింది"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "శోధనను క్లియర్ చేయండి"
@@ -7303,13 +7303,13 @@
     "messageformat": "లాభం కంటే గోప్యత ముఖ్యం"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "లాభాపేక్షలేనిదని గర్వంగా చెప్పుకుంటున్నాము"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "ప్రైవేట్ మెసేజింగ్, మీ ద్వారా నిధులు సమకూర్చబడినది. ప్రకటనలు లేవు, ట్రాకింగ్ లేదు, రాజీ లేదు. Signal కు మద్దతు ఇవ్వడానికి ఇప్పుడే విరాళం ఇవ్వండి. <readMoreLink>మరింత చదవండి</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "ప్రైవేట్ సందేశాలు పంపేందుకు మద్దతు ఇవ్వడానికి విరాళం ఇవ్వండి. Signal ను స్వతంత్రంగా మరియు ప్రకటనలు లేకుండా ఉంచండి. <readMoreLink>మరింత చదవండి</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "విరాళమివ్వండి"

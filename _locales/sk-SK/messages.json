@@ -807,7 +807,7 @@
     "messageformat": "Pozrite sa na {whatsNew} v tejto aktualizácii"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal je nezisková organizácia"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "čo je nové"
@@ -2772,13 +2772,13 @@
     "messageformat": "Vyhľadať GIFy v službe Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Hľadať GIFy"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Vyhľadať v službe Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Hľadať GIFy"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Kategórie GIF"
@@ -2826,7 +2826,7 @@
     "messageformat": "Ukážka GIF"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Používa vyhľadávač GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Vymazať vyhľadávanie"
@@ -7303,13 +7303,13 @@
     "messageformat": "Súkromie je dôležitejšie než zisk"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Sme hrdí, že sme neziskovou organizáciou"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Súkromné posielanie správ, ktoré financujete vy. Žiadne reklamy, žiadne sledovanie, žiadne kompromisy. Prispejte teraz a podporte Signal. <readMoreLink>Viac informácii</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Prispejte a podporte posielanie súkromných správ. Pomôžte nám k tomu, aby bol Signal aj naďalej nezávislou aplikáciou bez reklám. <readMoreLink>Viac informácii</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Prispieť"
