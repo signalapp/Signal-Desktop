@@ -342,7 +342,7 @@
     "messageformat": "Ops, qualcosa è andato storto…"
   },
   "icu:NavTabs__ItemIconLabel--UnreadCount": {
-    "messageformat": "{count,number} non letti"
+    "messageformat": "{count,number} da leggere"
   },
   "icu:NavTabs__ItemIconLabel--MarkedUnread": {
     "messageformat": "Segnato come non letto"
@@ -471,7 +471,7 @@
     "messageformat": "Nuove menzioni in basso"
   },
   "icu:unreadMessages": {
-    "messageformat": "{count, plural, one {{count,number} messaggio non letto} other {{count,number} messaggi non letti}}"
+    "messageformat": "{count, plural, one {{count,number} messaggio da leggere} other {{count,number} messaggi da leggere}}"
   },
   "icu:youMarkedAsVerified": {
     "messageformat": "Hai segnato il numero di sicurezza con {name} come verificato"
@@ -578,14 +578,95 @@
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "Per verificare la sicurezza della tua crittografia end-to-end con {name}, confronta i numeri qui in alto con quelli sul dispositivo dell'altra persona. È possibile scansionare il tuo codice qui sopra per velocizzare il processo."
   },
+  "icu:SafetyNumberViewer__hint-v2": {
+    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+  },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Scopri di più"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__title": {
+    "messageformat": "Automatic key verification"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
+    "messageformat": "Verify automatically"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--running": {
+    "messageformat": "Verifying encryption..."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
+    "messageformat": "Encryption verified"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
+    "messageformat": "Auto-verification unavailable"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__hint": {
+    "messageformat": "Auto-verification is not available for all chats."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
+    "messageformat": "Learn more"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
+    "messageformat": "Encryption was auto-verified for this chat "
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
+    "messageformat": "Auto-verification is no longer available for this chat"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
+    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
+    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
+    "messageformat": "Okay"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Verrà creato un codice di sicurezza per questa persona dopo che avrai inviato dei messaggi in chat."
   },
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Scopri di più"
+  },
+  "icu:KeyTransparencyErrorDialog__Title": {
+    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+  },
+  "icu:KeyTransparencyErrorDialog__Description": {
+    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+  },
+  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Close"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
+    "messageformat": "Share debug log"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
+    "messageformat": "View"
+  },
+  "icu:KeyTransparencyErrorDialog__Submit": {
+    "messageformat": "Submit"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "No thanks"
+  },
+  "icu:KeyTransparencyErrorDialog__Submitting": {
+    "messageformat": "Submitting..."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Title": {
+    "messageformat": "Signal can now auto-verify key encryption"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Continue": {
+    "messageformat": "Continue"
+  },
+  "icu:KeyTransparencyOnboardingDialog__LearnMore": {
+    "messageformat": "Learn more"
+  },
+  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Close"
   },
   "icu:verified": {
     "messageformat": "Verificato"
@@ -807,7 +888,7 @@
     "messageformat": "Vedi {whatsNew} in questo aggiornamento"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal è una società non-profit"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "cosa c'è di nuovo"
@@ -1089,7 +1170,7 @@
     "messageformat": "Metti in evidenza"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Rimuovi elemento in evidenza"
+    "messageformat": "Togli da in evidenza"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Termina sondaggio"
@@ -1263,7 +1344,7 @@
     "messageformat": "Più azioni"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Rimuovi elemento in evidenza"
+    "messageformat": "Togli da in evidenza"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Vai al messaggio"
@@ -1329,7 +1410,7 @@
     "messageformat": "Annulla"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Rimuovi elemento in evidenza"
+    "messageformat": "Togli da in evidenza"
   },
   "icu:sessionEnded": {
     "messageformat": "Ripristina la sessione sicura"
@@ -1596,7 +1677,7 @@
     "messageformat": "Non lette"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__UnreadFolder__Description": {
-    "messageformat": "Messaggi non letti da tutte le chat"
+    "messageformat": "Messaggi da leggere in tutte le chat"
   },
   "icu:Preferences__ChatFoldersPage__SuggestedFoldersSection__DirectChatsFolder__Title": {
     "messageformat": "Chat individuali"
@@ -1674,7 +1755,7 @@
     "messageformat": "Mostra solo chat non lette"
   },
   "icu:Preferences__EditChatFolderPage__OnlyShowUnreadChatsCheckbox__Description": {
-    "messageformat": "In questa cartella vedrai solo chat con messaggi non letti."
+    "messageformat": "In questa cartella vedrai solo chat con messaggi da leggere."
   },
   "icu:Preferences__EditChatFolderPage__IncludeMutedChatsCheckbox__Label": {
     "messageformat": "Includi chat silenziate"
@@ -1711,6 +1792,15 @@
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Annulla"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
+    "messageformat": "Automatic key verification"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
+    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
+    "messageformat": "Learn More"
   },
   "icu:initialSync": {
     "messageformat": "Sincronizzazione contatti e gruppi"
@@ -2772,13 +2862,13 @@
     "messageformat": "Cerca le GIF via Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Cerca GIF"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Cerca su Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Cerca GIF"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Categorie delle GIF"
@@ -2826,7 +2916,7 @@
     "messageformat": "Anteprima GIF"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Fornito da GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Cancella ricerca"
@@ -4603,6 +4693,9 @@
   },
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "Scegli chi può modificare il nome del gruppo, la foto, la descrizione e il timer dei messaggi temporanei."
+  },
+  "icu:ConversationDetails--group-info-info-v2": {
+    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Chi può aggiungere membri"
@@ -7303,13 +7396,13 @@
     "messageformat": "La privacy prima di tutto"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Non-profit per scelta"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Messaggi privati e sicuri, sostenuti proprio da te. Niente pubblicità, cookie o tracciamenti. Dona ora a Signal per supportare il nostro lavoro. <readMoreLink>Leggi di più</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Fai una donazione per supportare la privacy delle comunicazioni. Aiutaci a tenere Signal indipendente e senza pubblicità. <readMoreLink>Leggi di più</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Dona"
@@ -7425,6 +7518,9 @@
   "icu:DonateFlow__discard-dialog-remove-info": {
     "messageformat": "Rimuovi le informazioni"
   },
+  "icu:DonateFlow__discard-paypal-dialog-body": {
+    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+  },
   "icu:DonateFlow__continue": {
     "messageformat": "Continua"
   },
@@ -7470,6 +7566,15 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Hai una donazione in corso che devi confermare."
   },
+  "icu:Donations__Toast__PaypalConfirmationNeeded": {
+    "messageformat": "You have a donation in progress that requires confirmation."
+  },
+  "icu:Donations__Toast__PaypalCanceled": {
+    "messageformat": "PayPal donation canceled"
+  },
+  "icu:Donations__Toast__PaypalError": {
+    "messageformat": "Error processing PayPal donation. You have not been charged."
+  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donazione effettuata, ma non siamo riusciti ad aggiornare le impostazioni del tuo badge"
   },
@@ -7485,11 +7590,41 @@
   "icu:Donations__DonationInterrupted__RetryButton": {
     "messageformat": "Riprova"
   },
+  "icu:Donations__PaymentMethod": {
+    "messageformat": "Payment method"
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Metodo di pagamento rifiutato"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "Prova un altro metodo di pagamento o contatta la tua banca per maggiori informazioni."
+  },
+  "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
+    "messageformat": "Payment card icon"
+  },
+  "icu:DonateFlow__CreditOrDebitCard": {
+    "messageformat": "Credit or Debit Card"
+  },
+  "icu:DonateFlow__Paypal__AccessibilityLabel": {
+    "messageformat": "PayPal"
+  },
+  "icu:DonateFlow__Paypal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:DonateFlow__Paypal__CompleteDonation": {
+    "messageformat": "Complete Donation"
+  },
+  "icu:Donations__PaypalCanceled": {
+    "messageformat": "PayPal donation canceled"
+  },
+  "icu:Donations__PaypalCanceled__Description": {
+    "messageformat": "You have not been charged. Try again or use another payment method."
+  },
+  "icu:Donations__PaypalError": {
+    "messageformat": "Error processing PayPal donation"
+  },
+  "icu:Donations__PaypalError__Description": {
+    "messageformat": "You have not been charged. Try again or use another payment method."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Verifica non riuscita"
@@ -7693,10 +7828,10 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.86--0": {
-    "messageformat": "Beh, colpa nostra, ma esisteva un bug dove l'indicatore delle mani alzate rimaneva visibile (con un conteggio pari a 0) se una persona alzava e poi abbassava la mano velocemente."
+  "icu:WhatsNew__7.89--0": {
+    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
   },
-  "icu:WhatsNew__7.87--0": {
-    "messageformat": "Da ora diventa più semplice ricordarsi delle cose importanti: basta usare i messaggi in evidenza! Le tue domande più frequenti, i piani per il weekend e gli itinerari di viaggio sono già in cima ai tuoi pensieri… beh, d'ora in poi saranno anche in cima alle tue chat!"
+  "icu:WhatsNew__7.89--1": {
+    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
   }
 }

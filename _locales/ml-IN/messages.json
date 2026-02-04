@@ -578,14 +578,95 @@
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "{name} എന്നയാളുമായി ആദ്യവസാനം എൻക്രിപ്റ്റ് ചെയ്യൽ പരിശോധിച്ചുറപ്പിക്കാൻ അവരുടെ ഉപകരണവുമായി മുകളിലുള്ള അക്കങ്ങൾ താരതമ്യം ചെയ്യുക. അവരുടെ ഉപകരണം ഉപയോഗിച്ച് നിങ്ങളുടെ കോഡ് സ്‌കാൻ ചെയ്യുകയും ചെയ്യാം."
   },
+  "icu:SafetyNumberViewer__hint-v2": {
+    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+  },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "കൂടുതൽ അറിയുക"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__title": {
+    "messageformat": "Automatic key verification"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
+    "messageformat": "Verify automatically"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--running": {
+    "messageformat": "Verifying encryption..."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
+    "messageformat": "Encryption verified"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
+    "messageformat": "Auto-verification unavailable"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__hint": {
+    "messageformat": "Auto-verification is not available for all chats."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
+    "messageformat": "Learn more"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
+    "messageformat": "Encryption was auto-verified for this chat "
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
+    "messageformat": "Auto-verification is no longer available for this chat"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
+    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
+    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
+    "messageformat": "Okay"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "നിങ്ങൾ ഈ വ്യക്തിയുമായി സന്ദേശങ്ങൾ കൈമാറി കഴിയുമ്പോൾ സുരക്ഷാ നമ്പർ സൃഷ്ടിക്കപ്പെടും."
   },
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "കൂടുതൽ അറിയുക"
+  },
+  "icu:KeyTransparencyErrorDialog__Title": {
+    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+  },
+  "icu:KeyTransparencyErrorDialog__Description": {
+    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+  },
+  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Close"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
+    "messageformat": "Share debug log"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
+    "messageformat": "View"
+  },
+  "icu:KeyTransparencyErrorDialog__Submit": {
+    "messageformat": "Submit"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "No thanks"
+  },
+  "icu:KeyTransparencyErrorDialog__Submitting": {
+    "messageformat": "Submitting..."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Title": {
+    "messageformat": "Signal can now auto-verify key encryption"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Continue": {
+    "messageformat": "Continue"
+  },
+  "icu:KeyTransparencyOnboardingDialog__LearnMore": {
+    "messageformat": "Learn more"
+  },
+  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Close"
   },
   "icu:verified": {
     "messageformat": "പരിശോധിച്ചു"
@@ -807,7 +888,7 @@
     "messageformat": "ഈ അപ്‌ഡേറ്റിൽ {whatsNew} കാണുക"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal ഒരു ലാഭേച്ഛയില്ലാത്ത സ്ഥാപനമാണ്"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "പുതിയതായി എന്തുണ്ട്"
@@ -1711,6 +1792,15 @@
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "റദ്ദാക്കുക"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
+    "messageformat": "Automatic key verification"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
+    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
+    "messageformat": "Learn More"
   },
   "icu:initialSync": {
     "messageformat": "കോൺ‌ടാക്റ്റുകളും ഗ്രൂപ്പുകളും സമന്വയിപ്പിക്കുന്നു"
@@ -2772,13 +2862,13 @@
     "messageformat": "Tenor വഴി GIF-കൾ തിരയുക"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF-കൾ തിരയുക"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tenor തിരയുക"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF-കൾ തിരയുക"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF വിഭാഗങ്ങൾ"
@@ -2826,7 +2916,7 @@
     "messageformat": "GIF പ്രിവ്യൂ"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "GIPHY നൽകുന്നത്"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "തിരച്ചിലുകൾ മായ്‌ക്കുക"
@@ -4603,6 +4693,9 @@
   },
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "ഗ്രൂപ്പ് പേര്, ഫോട്ടോ, വിവരണം, അപ്രത്യക്ഷമാകുന്ന സന്ദേശങ്ങള്‍ ടൈമർ എന്നിവ എഡിറ്റുചെയ്യാൻ ആർക്കാണ് കഴിയുകഎന്ന് തിരഞ്ഞെടുക്കുക."
+  },
+  "icu:ConversationDetails--group-info-info-v2": {
+    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "ആർക്കാണ് അംഗങ്ങളെ ചേർക്കാൻ കഴിയുക"
@@ -7303,13 +7396,13 @@
     "messageformat": "ലാഭത്തേക്കാൾ മുഖ്യം സ്വകാര്യത"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "അഭിമാനത്തോടെ, ലാഭേച്ഛയില്ലാതെ"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "നിങ്ങൾ ധനസഹായം നൽകുന്ന, സ്വകാര്യ സന്ദേശമയയ്ക്കൽ. പരസ്യങ്ങളില്ല, ട്രാക്കിംഗില്ല, വിട്ടുവീഴ്‌ചയില്ല. Signal-നെ പിന്തുണയ്ക്കാൻ ഇപ്പോൾ സംഭാവന നൽകൂ. <readMoreLink>കൂടുതൽ വായിക്കുക</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "സ്വകാര്യ സന്ദേശമയയ്ക്കലിനെ പിന്തുണയ്ക്കാൻ സംഭാവന നൽകുക. Signal-നെ സ്വതന്ത്രമായും പരസ്യരഹിതമായും നിലനിർത്തുക. <readMoreLink>കൂടുതൽ വായിക്കുക</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "സംഭാവന നൽകുക"
@@ -7425,6 +7518,9 @@
   "icu:DonateFlow__discard-dialog-remove-info": {
     "messageformat": "വിവരങ്ങൾ നീക്കം ചെയ്യുക"
   },
+  "icu:DonateFlow__discard-paypal-dialog-body": {
+    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+  },
   "icu:DonateFlow__continue": {
     "messageformat": "തുടരുക"
   },
@@ -7470,6 +7566,15 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "നിങ്ങൾക്ക്, സ്ഥിരീകരണം ആവശ്യമുള്ള ഒരു സംഭാവന പുരോഗതിയിലാണ്."
   },
+  "icu:Donations__Toast__PaypalConfirmationNeeded": {
+    "messageformat": "You have a donation in progress that requires confirmation."
+  },
+  "icu:Donations__Toast__PaypalCanceled": {
+    "messageformat": "PayPal donation canceled"
+  },
+  "icu:Donations__Toast__PaypalError": {
+    "messageformat": "Error processing PayPal donation. You have not been charged."
+  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "സംഭാവന വിജയകരമായി നൽകി, പക്ഷേ നിങ്ങളുടെ ബാഡ്ജ് ക്രമീകരണങ്ങൾ അപ്ഡേറ്റ് ചെയ്യാൻ ഞങ്ങൾക്ക് കഴിഞ്ഞില്ല"
   },
@@ -7485,11 +7590,41 @@
   "icu:Donations__DonationInterrupted__RetryButton": {
     "messageformat": "വീണ്ടും ശ്രമിക്കുക"
   },
+  "icu:Donations__PaymentMethod": {
+    "messageformat": "Payment method"
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "പേയ്‌മെന്റ് രീതി നിരസിച്ചു"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "മറ്റൊരു പേയ്മെന്റ് രീതി പരീക്ഷിക്കുക അല്ലെങ്കിൽ കൂടുതൽ വിവരങ്ങൾക്ക് നിങ്ങളുടെ ബാങ്കുമായി ബന്ധപ്പെടുക."
+  },
+  "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
+    "messageformat": "Payment card icon"
+  },
+  "icu:DonateFlow__CreditOrDebitCard": {
+    "messageformat": "Credit or Debit Card"
+  },
+  "icu:DonateFlow__Paypal__AccessibilityLabel": {
+    "messageformat": "PayPal"
+  },
+  "icu:DonateFlow__Paypal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:DonateFlow__Paypal__CompleteDonation": {
+    "messageformat": "Complete Donation"
+  },
+  "icu:Donations__PaypalCanceled": {
+    "messageformat": "PayPal donation canceled"
+  },
+  "icu:Donations__PaypalCanceled__Description": {
+    "messageformat": "You have not been charged. Try again or use another payment method."
+  },
+  "icu:Donations__PaypalError": {
+    "messageformat": "Error processing PayPal donation"
+  },
+  "icu:Donations__PaypalError__Description": {
+    "messageformat": "You have not been charged. Try again or use another payment method."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "പരിശോധിച്ചുറപ്പിക്കൽ പരാജയപ്പെട്ടു"
@@ -7693,10 +7828,10 @@
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.86--0": {
-    "messageformat": "തുടർന്നുണ്ടാകുന്ന അസ്വാഭാവികമായ നിശബ്ദത പരിഹരിക്കാൻ ഞങ്ങൾക്ക് കഴിയില്ല, എന്നാൽ ആരെങ്കിലും വളരെ വേഗത്തിൽ കൈ ഉയർത്തുകയും താഴ്ത്തുകയും ചെയ്താൽ ഉയർത്തിയ കൈ സൂചകം ദൃശ്യമാകുന്ന ഒരു ബഗ് (പൂജ്യം എണ്ണത്തിൽ) ഞങ്ങൾ പരിഹരിച്ചിട്ടുണ്ട്."
+  "icu:WhatsNew__7.89--0": {
+    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
   },
-  "icu:WhatsNew__7.87--0": {
-    "messageformat": "പിൻ ചെയ്‌ത സന്ദേശങ്ങൾ ഉപയോഗിച്ച് പ്രധാനപ്പെട്ട വിവരങ്ങൾ എളുപ്പത്തിൽ ആക്‌സസ് ചെയ്യാൻ സഹായിക്കുക. നിങ്ങളുടെ പതിവ് ചോദ്യങ്ങൾ, അത്താഴ റിസർവേഷനുകൾ, അവധിക്കാല യാത്രാ പദ്ധതികൾ എന്നിവ ഇതിനകം തന്നെ നിങ്ങളുടെ മനസ്സിലെ പ്രധാന കാര്യങ്ങളാണ്. അവയെ ചാറ്റിലെയും പ്രധാന കാര്യങ്ങളാക്കാം."
+  "icu:WhatsNew__7.89--1": {
+    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
   }
 }

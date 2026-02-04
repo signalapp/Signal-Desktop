@@ -578,14 +578,95 @@
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "如果想驗證你同 {name} 之間嘅端對端加密設定，你可以對吓上面嘅號碼同佢部機入面嘅號碼。佢亦可以用佢部機掃你嘅二維碼。"
   },
+  "icu:SafetyNumberViewer__hint-v2": {
+    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+  },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "了解多啲"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__title": {
+    "messageformat": "Automatic key verification"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
+    "messageformat": "Verify automatically"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--running": {
+    "messageformat": "Verifying encryption..."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
+    "messageformat": "Encryption verified"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
+    "messageformat": "Auto-verification unavailable"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__hint": {
+    "messageformat": "Auto-verification is not available for all chats."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
+    "messageformat": "Learn more"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
+    "messageformat": "Encryption was auto-verified for this chat "
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
+    "messageformat": "Auto-verification is no longer available for this chat"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
+    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
+    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
+    "messageformat": "Okay"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "你同對方互相傳送訊息之後，系統就會幫你建立一個同佢嘅安全碼。"
   },
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "了解多啲"
+  },
+  "icu:KeyTransparencyErrorDialog__Title": {
+    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+  },
+  "icu:KeyTransparencyErrorDialog__Description": {
+    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+  },
+  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Close"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
+    "messageformat": "Share debug log"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
+    "messageformat": "View"
+  },
+  "icu:KeyTransparencyErrorDialog__Submit": {
+    "messageformat": "Submit"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "No thanks"
+  },
+  "icu:KeyTransparencyErrorDialog__Submitting": {
+    "messageformat": "Submitting..."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Title": {
+    "messageformat": "Signal can now auto-verify key encryption"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Continue": {
+    "messageformat": "Continue"
+  },
+  "icu:KeyTransparencyOnboardingDialog__LearnMore": {
+    "messageformat": "Learn more"
+  },
+  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Close"
   },
   "icu:verified": {
     "messageformat": "已驗證"
@@ -807,7 +888,7 @@
     "messageformat": "睇吓今次更新有咩{whatsNew}"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal 係一間非牟利機構"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "最新消息"
@@ -1711,6 +1792,15 @@
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "取消"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
+    "messageformat": "Automatic key verification"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
+    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
+    "messageformat": "Learn More"
   },
   "icu:initialSync": {
     "messageformat": "同步緊聯絡人同群組"
@@ -2772,13 +2862,13 @@
     "messageformat": "經 Tenor 搜尋 GIF"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "搵 GIF"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "喺 Tenor 度搜尋"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "搵 GIF"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF 種類"
@@ -2826,7 +2916,7 @@
     "messageformat": "GIF 預覽"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "由 GIPHY 提供"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "清除搜尋"
@@ -4603,6 +4693,9 @@
   },
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "揀選邊個可以編輯群組個名、相、描述同埋自動銷毀訊息嘅時限。"
+  },
+  "icu:ConversationDetails--group-info-info-v2": {
+    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "邊個可以加新成員"
@@ -7303,13 +7396,13 @@
     "messageformat": "重視私隱多過利潤"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "堅守非牟利宗旨"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "由你贊助嘅私密通訊軟件。冇廣告、冇追蹤、絕不妥協。請立即捐款支持 Signal。<readMoreLink>睇多啲</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "捐款支持私密通訊。令 Signal 保持獨立營運同埋冇廣告。<readMoreLink>睇多啲</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "立即捐款"
@@ -7425,6 +7518,9 @@
   "icu:DonateFlow__discard-dialog-remove-info": {
     "messageformat": "移除資訊"
   },
+  "icu:DonateFlow__discard-paypal-dialog-body": {
+    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+  },
   "icu:DonateFlow__continue": {
     "messageformat": "繼續"
   },
@@ -7470,6 +7566,15 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "你有一筆處理緊嘅捐贈需要確認。"
   },
+  "icu:Donations__Toast__PaypalConfirmationNeeded": {
+    "messageformat": "You have a donation in progress that requires confirmation."
+  },
+  "icu:Donations__Toast__PaypalCanceled": {
+    "messageformat": "PayPal donation canceled"
+  },
+  "icu:Donations__Toast__PaypalError": {
+    "messageformat": "Error processing PayPal donation. You have not been charged."
+  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "成功捐款，但係我哋更新唔到你嘅徽章設定"
   },
@@ -7485,11 +7590,41 @@
   "icu:Donations__DonationInterrupted__RetryButton": {
     "messageformat": "再試一次"
   },
+  "icu:Donations__PaymentMethod": {
+    "messageformat": "Payment method"
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "唔接受呢個付款方法"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "試下轉用另一種付款方式，又或者聯絡返你間銀行問清楚。"
+  },
+  "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
+    "messageformat": "Payment card icon"
+  },
+  "icu:DonateFlow__CreditOrDebitCard": {
+    "messageformat": "Credit or Debit Card"
+  },
+  "icu:DonateFlow__Paypal__AccessibilityLabel": {
+    "messageformat": "PayPal"
+  },
+  "icu:DonateFlow__Paypal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:DonateFlow__Paypal__CompleteDonation": {
+    "messageformat": "Complete Donation"
+  },
+  "icu:Donations__PaypalCanceled": {
+    "messageformat": "PayPal donation canceled"
+  },
+  "icu:Donations__PaypalCanceled__Description": {
+    "messageformat": "You have not been charged. Try again or use another payment method."
+  },
+  "icu:Donations__PaypalError": {
+    "messageformat": "Error processing PayPal donation"
+  },
+  "icu:Donations__PaypalError__Description": {
+    "messageformat": "You have not been charged. Try again or use another payment method."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "驗證失敗"
@@ -7630,7 +7765,7 @@
     "messageformat": "幫我哋了解多啲通話嘅情況，同埋做啲咩係有效、咩係冇效。你可以响提交之前睇吓除錯記錄。"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "提交會將你嘅意見，同埋<diagnosticInfoLink>關於你通話嘅診斷資訊</diagnosticInfoLink>分享俾我哋。你可以揀分享除錯記錄，幫我哋提高通話品質。"
+    "messageformat": "提交會將你嘅意見，同埋<diagnosticInfoLink>關於你通話嘅診斷資訊</diagnosticInfoLink>分享俾我哋。你可以選擇分享除錯記錄，幫我哋提高通話品質。"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "分享除錯記錄"
@@ -7693,10 +7828,10 @@
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.86--0": {
-    "messageformat": "俾人見到舉錯手係有啲尷尬嘅，好彩我們整返好個錯誤 – 之前，喺谷通話嗰陣，如果有人舉手之後即刻放低手，有時個舉手指示唔會消失（而且舉手計數顯示係零）。"
+  "icu:WhatsNew__7.89--0": {
+    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
   },
-  "icu:WhatsNew__7.87--0": {
-    "messageformat": "用訊息置頂功能，方便睇到重要資訊。你成日問嘅問題、約咗幾點食飯同埋度假行程都喺個腦度排頭位。而家可以將呢啲重要訊息放喺聊天嘅最頂位置喇。"
+  "icu:WhatsNew__7.89--1": {
+    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
   }
 }
