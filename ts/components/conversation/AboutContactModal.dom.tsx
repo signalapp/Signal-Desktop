@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { type ReactNode, useCallback, useMemo } from 'react';
-import type { ConversationType } from '../../state/ducks/conversations.preload.js';
-import type { LocalizerType } from '../../types/Util.std.js';
+
 import { isInSystemContacts } from '../../util/isInSystemContacts.std.js';
 import { Avatar, AvatarBlur, AvatarSize } from '../Avatar.dom.js';
 import { Modal } from '../Modal.dom.js';
@@ -20,7 +19,10 @@ import {
   isEmojiVariantValue,
 } from '../fun/data/emojis.std.js';
 import { FunStaticEmoji } from '../fun/FunEmoji.dom.js';
-import { missingEmojiPlaceholder } from './ContactName.dom.js';
+import { missingEmojiPlaceholder } from '../../types/GroupMemberLabels.std.js';
+
+import type { ConversationType } from '../../state/ducks/conversations.preload.js';
+import type { LocalizerType } from '../../types/Util.std.js';
 
 function muted(parts: Array<string | React.JSX.Element>) {
   return (

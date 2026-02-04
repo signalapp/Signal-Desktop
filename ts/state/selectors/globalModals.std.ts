@@ -55,6 +55,11 @@ export const getAboutContactModalState = createSelector(
   ({ aboutContactModalState }) => aboutContactModalState
 );
 
+export const getGroupMemberLabelInfoModalState = createSelector(
+  getGlobalModalsState,
+  ({ groupMemberLabelInfoModalState }) => groupMemberLabelInfoModalState
+);
+
 export const getContactModalState = createSelector(
   getGlobalModalsState,
   ({ contactModalState }) => contactModalState

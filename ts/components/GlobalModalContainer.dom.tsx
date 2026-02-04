@@ -9,6 +9,7 @@ import type {
   EditHistoryMessagesType,
   EditNicknameAndNoteModalPropsType,
   ForwardMessagesPropsType,
+  GroupMemberLabelInfoPropsType,
   MessageRequestActionsConfirmationPropsType,
   SafetyNumberChangedBlockingDataType,
   UserNotFoundModalStateType,
@@ -101,6 +102,9 @@ export type PropsType = {
   // ForwardMessageModal
   forwardMessagesProps: ForwardMessagesPropsType | undefined;
   renderForwardMessagesModal: () => React.JSX.Element;
+  // GroupMemberLabelInfoModal
+  groupMemberLabelInfoModalState: GroupMemberLabelInfoPropsType | undefined;
+  renderGroupMemberLabelInfoModal: () => React.JSX.Element;
   // MediaPermissionsModal
   mediaPermissionsModalProps:
     | {
@@ -226,6 +230,9 @@ export function GlobalModalContainer({
   // ForwardMessageModal
   forwardMessagesProps,
   renderForwardMessagesModal,
+  // GroupMemberLabelInfoModal
+  groupMemberLabelInfoModalState,
+  renderGroupMemberLabelInfoModal,
   // MediaPermissionsModal
   mediaPermissionsModalProps,
   closeMediaPermissionsModal,
@@ -439,6 +446,11 @@ export function GlobalModalContainer({
 
   if (isAboutContactModalVisible) {
     return renderAboutContactModal();
+  }
+
+  // This needs to be before the contact modal, which opens it
+  if (groupMemberLabelInfoModalState) {
+    return renderGroupMemberLabelInfoModal();
   }
 
   if (contactModalState) {

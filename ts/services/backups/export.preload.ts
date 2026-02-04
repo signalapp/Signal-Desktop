@@ -1340,9 +1340,11 @@ export class BackupExportStream extends Readable {
           version: convo.revision || 0,
           members: convo.membersV2?.map(member => {
             return {
-              userId: this.#aciToBytes(member.aci),
-              role: member.role,
               joinedAtVersion: member.joinedAtVersion,
+              labelEmoji: member.labelEmoji,
+              labelString: member.labelString,
+              role: member.role,
+              userId: this.#aciToBytes(member.aci),
             };
           }),
           membersPendingProfileKey: convo.pendingMembersV2?.map(member => {

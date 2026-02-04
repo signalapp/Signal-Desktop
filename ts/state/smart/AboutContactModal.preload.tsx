@@ -18,9 +18,12 @@ import { useConversationsActions } from '../ducks/conversations.preload.js';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
 import { strictAssert } from '../../util/assert.std.js';
 import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation.preload.js';
-import { SignalService as Proto } from '../../protobuf/index.std.js';
 import { getItems } from '../selectors/items.dom.js';
 import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.js';
+import { getCanAddLabel } from '../../types/GroupMemberLabels.std.js';
+import { createLogger } from '../../logging/log.std.js';
+
+const log = createLogger('SmartAboutContactModal');
 
 function isFromOrAddedByTrustedContact(
   conversation: ConversationType
@@ -54,6 +57,10 @@ export const SmartAboutContactModal = memo(function SmartAboutContactModal() {
     remoteConfig: items.remoteConfig,
     prodKey: 'desktop.groupMemberLabels.edit.prod',
   });
+  // TODO: DESKTOP-9711
+  log.info(
+    `Not using feature flag of ${isEditMemberLabelEnabled}; hardcoding to false`
+  );
 
   const sharedGroupNames = useSharedGroupNamesOnMount(contactId ?? '');
 
@@ -67,17 +74,12 @@ export const SmartAboutContactModal = memo(function SmartAboutContactModal() {
   );
   const memberColors = getMemberColors(conversationId);
   const contactNameColor = memberColors?.get(contact.id);
-  // TODO: DESKTOP-9698
   const contactMembership = conversation.memberships?.find(
     membership => contact.serviceId && membership.aci === contact.serviceId
   );
   const { labelEmoji: contactLabelEmoji, labelString: contactLabelString } =
     contactMembership || {};
-  const canAddLabel =
-    conversation.type === 'group' &&
-    (contactMembership?.isAdmin ||
-      conversation.accessControlAttributes ===
-        Proto.AccessControl.AccessRequired.MEMBER);
+  const canAddLabel = getCanAddLabel(conversation, contactMembership);
 
   const {
     toggleAboutContactModal,
@@ -105,7 +107,7 @@ export const SmartAboutContactModal = memo(function SmartAboutContactModal() {
       contactLabelString={contactLabelString}
       contactNameColor={contactNameColor}
       fromOrAddedByTrustedContact={isFromOrAddedByTrustedContact(contact)}
-      isEditMemberLabelEnabled={isEditMemberLabelEnabled}
+      isEditMemberLabelEnabled={false}
       isSignalConnection={isSignalConnection(contact)}
       onClose={toggleAboutContactModal}
       onOpenNotePreviewModal={handleOpenNotePreviewModal}

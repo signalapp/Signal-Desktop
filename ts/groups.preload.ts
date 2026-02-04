@@ -127,6 +127,12 @@ import {
   isTrustedContact,
 } from './util/isConversationAccepted.preload.js';
 import { itemStorage } from './textsecure/Storage.preload.js';
+import {
+  EMOJI_OUTGOING_BYTE_LIMIT,
+  SERVER_EMOJI_BYTE_LIMIT,
+  SERVER_STRING_BYTE_LIMIT,
+} from './types/GroupMemberLabels.std.js';
+import { getConversationIdForLogging } from './util/idForLogging.preload.js';
 
 const { compact, difference, flatten, fromPairs, isNumber, omit, values } =
   lodash;
@@ -1280,11 +1286,10 @@ export function buildModifyMemberLabelChange({
   labelString: string | undefined;
 }): Proto.GroupChange.Actions {
   const actions = new Proto.GroupChange.Actions();
+  const logId = `buildModifyMemberLabelChange(${getConversationIdForLogging(group)})`;
 
   if (!group.secretParams) {
-    throw new Error(
-      'buildModifyMemberLabelChange: group was missing secretParams!'
-    );
+    throw new Error(`${logId}: group was missing secretParams!`);
   }
 
   const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
@@ -1293,16 +1298,38 @@ export function buildModifyMemberLabelChange({
   const modifyLabel = new Proto.GroupChange.Actions.ModifyMemberLabelAction();
   modifyLabel.userId = userIdCipherText;
   if (labelEmoji) {
+    const labelEmojiBytes = Bytes.fromString(labelEmoji);
+
+    if (labelEmojiBytes.byteLength > EMOJI_OUTGOING_BYTE_LIMIT) {
+      throw new Error(
+        `${logId}: plaintext label emoji length (${labelEmojiBytes.byteLength}) is larger than limit (${EMOJI_OUTGOING_BYTE_LIMIT})!`
+      );
+    }
+
     modifyLabel.labelEmoji = encryptGroupBlob(
       clientZkGroupCipher,
-      Bytes.fromString(labelEmoji)
+      labelEmojiBytes
     );
+    if (modifyLabel.labelEmoji.byteLength > SERVER_EMOJI_BYTE_LIMIT) {
+      throw new Error(
+        `${logId}: encrypted label emoji length (${modifyLabel.labelEmoji.length}) is larger than limit (${SERVER_EMOJI_BYTE_LIMIT})!`
+      );
+    }
   }
   if (labelString) {
     modifyLabel.labelString = encryptGroupBlob(
       clientZkGroupCipher,
       Bytes.fromString(labelString)
     );
+    if (modifyLabel.labelString.byteLength > SERVER_STRING_BYTE_LIMIT) {
+      throw new Error(
+        `${logId} encrypted label string length (${modifyLabel.labelString.length}) is larger than limit (${SERVER_STRING_BYTE_LIMIT})!`
+      );
+    }
+  }
+
+  if (modifyLabel.labelEmoji && !modifyLabel.labelString) {
+    throw new Error(`${logId} labelEmoji was provided, but not labelString!`);
   }
 
   actions.version = (group.revision || 0) + 1;

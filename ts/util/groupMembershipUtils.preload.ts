@@ -10,6 +10,11 @@ import {
   isGroupV2,
 } from './whatTypeOfConversation.dom.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
+import { truncateString } from './truncateString.std.js';
+import {
+  STRING_BYTE_LIMIT,
+  STRING_GRAPHEME_LIMIT,
+} from '../types/GroupMemberLabels.std.js';
 
 export function isMemberPending(
   conversationAttrs: Pick<
@@ -189,7 +194,12 @@ export function getMemberships(
     isAdmin: member.role === Proto.Member.Role.ADMINISTRATOR,
     aci: member.aci,
     labelEmoji: member.labelEmoji,
-    labelString: member.labelString,
+    labelString: member.labelString
+      ? truncateString(member.labelString, {
+          byteLimit: STRING_BYTE_LIMIT,
+          graphemeLimit: STRING_GRAPHEME_LIMIT,
+        })
+      : undefined,
   }));
 }
 

@@ -41,6 +41,7 @@ import {
   shouldShowLocalBackupWorkflow,
 } from '../selectors/backups.std.js';
 import { SmartPinMessageDialog } from './PinMessageDialog.preload.js';
+import { SmartGroupMemberLabelInfoModal } from './GroupMemberLabelInfoModal.preload.js';
 
 function renderCallLinkAddNameModal(): React.JSX.Element {
   return <SmartCallLinkAddNameModal />;
@@ -92,6 +93,10 @@ function renderDraftGifMessageSendModal(): React.JSX.Element {
 
 function renderForwardMessagesModal(): React.JSX.Element {
   return <SmartForwardMessagesModal />;
+}
+
+function renderGroupMemberLabelInfoModal(): React.JSX.Element {
+  return <SmartGroupMemberLabelInfoModal />;
 }
 
 function renderKeyTransparencyErrorDialog(): React.JSX.Element {
@@ -166,6 +171,7 @@ export const SmartGlobalModalContainer = memo(
       editNicknameAndNoteModalProps,
       errorModalProps,
       forwardMessagesProps,
+      groupMemberLabelInfoModalState,
       lowDiskSpaceBackupImportModal,
       mediaPermissionsModalProps,
       messageRequestActionsConfirmationProps,
@@ -283,6 +289,7 @@ export const SmartGlobalModalContainer = memo(
         deleteMessagesProps={deleteMessagesProps}
         draftGifMessageSendModalProps={draftGifMessageSendModalProps}
         forwardMessagesProps={forwardMessagesProps}
+        groupMemberLabelInfoModalState={groupMemberLabelInfoModalState}
         hideCriticalIdlePrimaryDeviceModal={hideCriticalIdlePrimaryDeviceModal}
         hideLowDiskSpaceBackupImportModal={hideLowDiskSpaceBackupImportModal}
         lowDiskSpaceBackupImportModal={lowDiskSpaceBackupImportModal}
@@ -328,6 +335,7 @@ export const SmartGlobalModalContainer = memo(
         renderDeleteMessagesModal={renderDeleteMessagesModal}
         renderDraftGifMessageSendModal={renderDraftGifMessageSendModal}
         renderForwardMessagesModal={renderForwardMessagesModal}
+        renderGroupMemberLabelInfoModal={renderGroupMemberLabelInfoModal}
         renderKeyTransparencyErrorDialog={renderKeyTransparencyErrorDialog}
         renderMessageRequestActionsConfirmation={
           renderMessageRequestActionsConfirmation

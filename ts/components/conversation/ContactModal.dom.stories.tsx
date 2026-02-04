@@ -60,6 +60,7 @@ export default {
     theme: ThemeType.light,
     toggleAboutContactModal: action('AboutContactModal'),
     toggleAdmin: action('toggleAdmin'),
+    toggleGroupMemberLabelInfoModal: action('toggleGroupMemberLabelInfoModal'),
     toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
     viewUserStories: action('viewUserStories'),
   },

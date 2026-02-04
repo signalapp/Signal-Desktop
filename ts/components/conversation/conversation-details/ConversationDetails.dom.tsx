@@ -82,6 +82,7 @@ export type StateProps = {
   badges?: ReadonlyArray<BadgeType>;
   callHistoryGroup?: CallHistoryGroup | null;
   canEditGroupInfo: boolean;
+  canAddLabel: boolean;
   canAddNewMembers: boolean;
   conversation?: ConversationType;
   hasGroupLink: boolean;
@@ -124,7 +125,6 @@ type ActionProps = {
     }
   ) => unknown;
   blockConversation: (id: string) => void;
-
   deleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
   getProfilesForConversation: (id: string) => unknown;
   leaveGroup: (conversationId: string) => void;
@@ -170,6 +170,7 @@ export function ConversationDetails({
   blockConversation,
   callHistoryGroup,
   canEditGroupInfo,
+  canAddLabel,
   canAddNewMembers,
   conversation,
   deleteAvatarFromDisk,
@@ -755,7 +756,7 @@ export function ConversationDetails({
               right={hasGroupLink ? i18n('icu:on') : i18n('icu:off')}
             />
           ) : null}
-          {canEditGroupInfo && isEditMemberLabelEnabled ? (
+          {canAddLabel && isEditMemberLabelEnabled ? (
             <PanelRow
               icon={
                 <ConversationDetailsIcon

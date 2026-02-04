@@ -11,6 +11,7 @@ import type {
   ReadonlyMessageAttributesType,
 } from '../../model-types.d.ts';
 import type {
+  ActionCreator,
   MessageChangedActionType,
   MessageDeletedActionType,
   MessageExpiredActionType,
@@ -114,6 +115,10 @@ export type CallQualitySurveyPropsType = ReadonlyDeep<{
   callType: CallQualitySurvey.CallType;
 }>;
 
+export type GroupMemberLabelInfoPropsType = ReadonlyDeep<{
+  conversationId: string;
+}>;
+
 export type GlobalModalsStateType = ReadonlyDeep<{
   addUserToAnotherGroupModalContactId?: string;
   aboutContactModalState?: ContactModalStateType;
@@ -139,6 +144,7 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   };
   forwardMessagesProps?: ForwardMessagesPropsType;
   gv2MigrationProps?: MigrateToGV2PropsType;
+  groupMemberLabelInfoModalState?: GroupMemberLabelInfoPropsType;
   hasConfirmationModal: boolean;
   isProfileNameWarningModalVisible: boolean;
   profileNameWarningModalConversationType?: string;
@@ -227,6 +233,8 @@ const CLOSE_DEBUG_LOG_ERROR_MODAL = 'globalModals/CLOSE_DEBUG_LOG_ERROR_MODAL';
 const SHOW_DEBUG_LOG_ERROR_MODAL = 'globalModals/SHOW_DEBUG_LOG_ERROR_MODAL';
 const TOGGLE_EDIT_NICKNAME_AND_NOTE_MODAL =
   'globalModals/TOGGLE_EDIT_NICKNAME_AND_NOTE_MODAL';
+const TOGGLE_GROUP_MEMBER_LABEL_INFO_MODAL =
+  'globalModals/TOGGLE_GROUP_MEMBER_LABEL_INFO_MODAL';
 const TOGGLE_MESSAGE_REQUEST_ACTIONS_CONFIRMATION =
   'globalModals/TOGGLE_MESSAGE_REQUEST_ACTIONS_CONFIRMATION';
 const CLOSE_SHORTCUT_GUIDE_MODAL = 'globalModals/CLOSE_SHORTCUT_GUIDE_MODAL';
@@ -509,6 +517,11 @@ type ToggleEditNicknameAndNoteModalActionType = ReadonlyDeep<{
   payload: EditNicknameAndNoteModalPropsType | null;
 }>;
 
+type ToggleGroupMemberLabelInfoModalActionType = ReadonlyDeep<{
+  type: typeof TOGGLE_GROUP_MEMBER_LABEL_INFO_MODAL;
+  payload: GroupMemberLabelInfoPropsType | undefined;
+}>;
+
 type ToggleMessageRequestActionsConfirmationActionType = ReadonlyDeep<{
   type: typeof TOGGLE_MESSAGE_REQUEST_ACTIONS_CONFIRMATION;
   payload: MessageRequestActionsConfirmationPropsType | null;
@@ -591,6 +604,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ToggleDraftGifMessageSendModalActionType
   | ToggleEditNicknameAndNoteModalActionType
   | ToggleForwardMessagesModalActionType
+  | ToggleGroupMemberLabelInfoModalActionType
   | ToggleMessageRequestActionsConfirmationActionType
   | ToggleNotePreviewModalActionType
   | ToggleProfileNameWarningModalActionType
@@ -654,6 +668,7 @@ export const actions = {
   toggleDraftGifMessageSendModal,
   toggleEditNicknameAndNoteModal,
   toggleForwardMessagesModal,
+  toggleGroupMemberLabelInfoModal,
   toggleMessageRequestActionsConfirmation,
   toggleNotePreviewModal,
   toggleProfileNameWarningModal,
@@ -1349,6 +1364,18 @@ function toggleEditNicknameAndNoteModal(
   };
 }
 
+export type ToggleGroupMemberLabelInfoModalType = ReadonlyDeep<
+  ActionCreator<typeof toggleGroupMemberLabelInfoModal>
+>;
+function toggleGroupMemberLabelInfoModal(
+  payload: GroupMemberLabelInfoPropsType | undefined
+): ToggleGroupMemberLabelInfoModalActionType {
+  return {
+    type: TOGGLE_GROUP_MEMBER_LABEL_INFO_MODAL,
+    payload,
+  };
+}
+
 function toggleMessageRequestActionsConfirmation(
   payload: {
     conversationId: string;
@@ -1815,6 +1842,13 @@ export function reducer(
     return {
       ...state,
       editNicknameAndNoteModalProps: action.payload,
+    };
+  }
+
+  if (action.type === TOGGLE_GROUP_MEMBER_LABEL_INFO_MODAL) {
+    return {
+      ...state,
+      groupMemberLabelInfoModalState: action.payload,
     };
   }
 

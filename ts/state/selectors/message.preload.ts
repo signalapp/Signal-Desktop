@@ -905,7 +905,6 @@ export const getPropsForMessage = (
   });
   const contactNameColor = getContactNameColor(contactNameColors, authorId);
   const sourceServiceId = getSourceServiceId(message, ourAci);
-  // TODO: DESKTOP-9698
   const sourceMember = conversation.memberships?.find(
     membership => membership.aci === sourceServiceId
   );

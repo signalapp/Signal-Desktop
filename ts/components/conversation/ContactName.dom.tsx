@@ -16,12 +16,11 @@ import {
 } from '../fun/data/emojis.std.js';
 import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.dom.js';
 import { FunStaticEmoji } from '../fun/FunEmoji.dom.js';
+import { missingEmojiPlaceholder } from '../../types/GroupMemberLabels.std.js';
 
 import type { ConversationType } from '../../state/ducks/conversations.preload.js';
 import type { ContactNameColorType } from '../../types/Colors.std.js';
 import type { FunStaticEmojiSize } from '../fun/FunEmoji.dom.js';
-
-export const missingEmojiPlaceholder = '⍰';
 
 export type ContactNameData = {
   contactNameColor?: ContactNameColorType;

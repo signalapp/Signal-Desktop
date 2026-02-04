@@ -32,7 +32,12 @@ import {
   getItems,
 } from '../selectors/items.dom.js';
 import { getSelectedNavTab } from '../selectors/nav.preload.js';
-import { getIntl, getTheme, getVersion } from '../selectors/user.std.js';
+import {
+  getIntl,
+  getTheme,
+  getUserACI,
+  getVersion,
+} from '../selectors/user.std.js';
 import type { SmartChooseGroupMembersModalPropsType } from './ChooseGroupMembersModal.preload.js';
 import { SmartChooseGroupMembersModal } from './ChooseGroupMembersModal.preload.js';
 import type { SmartConfirmAdditionsModalPropsType } from './ConfirmAdditionsModal.dom.js';
@@ -46,6 +51,7 @@ import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
 import { drop } from '../../util/drop.std.js';
 import { DataReader } from '../../sql/Client.preload.js';
 import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.js';
+import { getCanAddLabel } from '../../types/GroupMemberLabels.std.js';
 
 const { sortBy } = lodash;
 
@@ -95,6 +101,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
 }: SmartConversationDetailsProps) {
   const i18n = useSelector(getIntl);
   const theme = useSelector(getTheme);
+  const ourAci = useSelector(getUserACI);
   const activeCall = useSelector(getActiveCallState);
   const version = useSelector(getVersion);
   const items = useSelector(getItems);
@@ -186,6 +193,11 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
   const userAvatarData = conversation.avatars ?? [];
   const memberColors = getCachedConversationMemberColors(conversationId);
 
+  const ourMembership = conversation.memberships?.find(
+    membership => membership?.aci === ourAci
+  );
+  const canAddLabel = getCanAddLabel(conversation, ourMembership);
+
   const handleDeleteNicknameAndNote = useCallback(() => {
     updateNicknameAndNote(conversationId, { nickname: null, note: null });
   }, [conversationId, updateNicknameAndNote]);
@@ -222,6 +234,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
       badges={badges}
       blockConversation={blockConversation}
       callHistoryGroup={callHistoryGroup}
+      canAddLabel={canAddLabel}
       canAddNewMembers={canAddNewMembers}
       canEditGroupInfo={canEditGroupInfo}
       conversation={conversationWithColorAttributes}

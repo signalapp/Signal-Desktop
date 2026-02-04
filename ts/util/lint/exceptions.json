@@ -1881,6 +1881,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/conversation/MessageContextMenu.dom.tsx",
+    "line": "  const shouldReturnFocusToTrigger = useRef(true);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-12-19T16:03:53.849Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/conversation/MessageDetail.dom.tsx",
     "line": "  const messageDetailRef = useRef<HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",
@@ -1945,6 +1952,14 @@
     "reasonCategory": "usageTrusted",
     "updated": "2025-05-19T23:20:52.448Z",
     "reasonDetail": "Holding on to a close function"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/conversation/conversation-details/GroupMemberLabelEditor.dom.tsx",
+    "line": "  const messageContainer = useRef<HTMLDivElement | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-02-03T20:48:35.470Z",
+    "reasonDetail": "A container passed to <Message/>"
   },
   {
     "rule": "React-useRef",
@@ -2386,12 +2401,5 @@
     "line": "  message.innerHTML = window.SignalContext.i18n('icu:optimizingApplication');",
     "reasonCategory": "usageTrusted",
     "updated": "2021-09-17T21:02:59.414Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "ts/components/conversation/MessageContextMenu.dom.tsx",
-    "line": "  const shouldReturnFocusToTrigger = useRef(true);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2025-12-19T16:03:53.849Z"
   }
 ]

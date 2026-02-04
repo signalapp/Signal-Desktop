@@ -43,7 +43,6 @@ export const SmartContactModal = memo(function SmartContactModal() {
   const areWeAdmin = conversation?.areWeAdmin ?? false;
 
   const contactMembership = useMemo(() => {
-    // TODO: DESKTOP-9698
     return conversation?.memberships?.find(membership => {
       return membership.aci === contact.serviceId;
     });
@@ -68,11 +67,12 @@ export const SmartContactModal = memo(function SmartContactModal() {
   } = useConversationsActions();
   const { viewUserStories } = useStoriesActions();
   const {
+    hideContactModal,
     toggleAboutContactModal,
     toggleAddUserToAnotherGroupModal,
-    toggleSafetyNumberModal,
-    hideContactModal,
     toggleEditNicknameAndNoteModal,
+    toggleGroupMemberLabelInfoModal,
+    toggleSafetyNumberModal,
   } = useGlobalModalActions();
   const {
     onOutgoingVideoCallInConversation,
@@ -113,6 +113,7 @@ export const SmartContactModal = memo(function SmartContactModal() {
       toggleAboutContactModal={toggleAboutContactModal}
       toggleAddUserToAnotherGroupModal={toggleAddUserToAnotherGroupModal}
       toggleAdmin={toggleAdmin}
+      toggleGroupMemberLabelInfoModal={toggleGroupMemberLabelInfoModal}
       togglePip={togglePip}
       toggleSafetyNumberModal={toggleSafetyNumberModal}
       viewUserStories={viewUserStories}

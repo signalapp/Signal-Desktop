@@ -1241,18 +1241,22 @@ export class BackupImportStream extends Writable {
               SignalService.AccessControl.AccessRequired.UNKNOWN,
           }
         : undefined,
-      membersV2: members?.map(({ userId, role, joinedAtVersion }) => {
-        strictAssert(Bytes.isNotEmpty(userId), 'Empty gv2 member userId');
+      membersV2: members?.map(
+        ({ joinedAtVersion, labelEmoji, labelString, role, userId }) => {
+          strictAssert(Bytes.isNotEmpty(userId), 'Empty gv2 member userId');
 
-        // Note that we deliberately ignore profile key since it has to be
-        // in the Contact frame
+          // Note that we deliberately ignore profile key since it has to be
+          // in the Contact frame
 
-        return {
-          aci: fromAciObject(Aci.fromUuidBytes(userId)),
-          role: dropNull(role) ?? SignalService.Member.Role.UNKNOWN,
-          joinedAtVersion: dropNull(joinedAtVersion) ?? 0,
-        };
-      }),
+          return {
+            aci: fromAciObject(Aci.fromUuidBytes(userId)),
+            joinedAtVersion: dropNull(joinedAtVersion) ?? 0,
+            labelEmoji: dropNull(labelEmoji),
+            labelString: dropNull(labelString),
+            role: dropNull(role) ?? SignalService.Member.Role.UNKNOWN,
+          };
+        }
+      ),
       pendingMembersV2: membersPendingProfileKey?.map(
         ({ member, addedByUserId, timestamp }) => {
           strictAssert(member != null, 'Missing gv2 pending member');

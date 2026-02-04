@@ -74,6 +74,7 @@ const createProps = (
     areWeASubscriber: false,
     blockConversation: action('blockConversation'),
     canEditGroupInfo: false,
+    canAddLabel: true,
     canAddNewMembers: false,
     conversation: expireTimer
       ? {

@@ -325,6 +325,13 @@ export type ConversationRemovalStage = ReadonlyDeep<
   'justNotification' | 'messageRequest'
 >;
 
+export type MembershipType = ReadonlyDeep<{
+  aci: AciString;
+  isAdmin: boolean;
+  labelEmoji: string | undefined;
+  labelString: string | undefined;
+}>;
+
 export type ConversationType = ReadonlyDeep<
   {
     id: string;
@@ -393,12 +400,7 @@ export type ConversationType = ReadonlyDeep<
     announcementsOnly?: boolean;
     announcementsOnlyReady?: boolean;
     expireTimer?: DurationInSeconds;
-    memberships?: ReadonlyArray<{
-      aci: AciString;
-      isAdmin: boolean;
-      labelEmoji: string | undefined;
-      labelString: string | undefined;
-    }>;
+    memberships?: ReadonlyArray<MembershipType>;
     pendingMemberships?: ReadonlyArray<{
       serviceId: ServiceIdString;
       addedByUserId?: AciString;
@@ -4640,9 +4642,8 @@ function addMembersToGroup(
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type ActionCreator<T extends (...params: Array<any>) => any> = ReadonlyDeep<
-  (...params: Parameters<T>) => void
->;
+export type ActionCreator<T extends (...params: Array<any>) => any> =
+  ReadonlyDeep<(...params: Parameters<T>) => void>;
 
 export type UpdateGroupAttributesType = ReadonlyDeep<
   ActionCreator<typeof updateGroupAttributes>

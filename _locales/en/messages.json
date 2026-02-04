@@ -6180,6 +6180,22 @@
     "messageformat": "Voice",
     "description": "Text for button to start a new voice call in the Contact Details modal"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Member labels",
+    "description": "Title of explainer dialog you see when clicking member label in Contact Modal"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Use a member label to describe yourself or your role in this group. Member labels are only visible within this group.",
+    "description": "Detail text in explainer dialog you see when clicking member label in Contact Modal"
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Set a label",
+    "description": "Button to go to label screen in member label explainer dialog, if user has no label"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Edit your label",
+    "description": "Button to go to label screen in member label explainer dialog, if user already has a label"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Chat color",
     "description": "This is a button in the conversation context menu to show the chat color editor"
@@ -6212,9 +6228,17 @@
     "messageformat": "Set a member label to describe yourself or your role in this group. Member labels are only visible within this group.",
     "description": "Summary explaining what a member label is and how it will be shown to other users. Shown below the text box to edit it."
   },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Preview",
+    "description": "Header for preview area, showing what user's member label will look like on their sent messages"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Hello!",
+    "description": "Text of message bubble showing preview of user's member label"
+  },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "Saving changes...",
-    "description": "Accessibility label for button with spinner as we save changes."
+    "description": "Accessibility label for button with spinner as we save the user's member label."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Disappearing messages",
