@@ -2394,6 +2394,18 @@
     "messageformat": "Cancel",
     "description": "Preferences > Edit Chat Folder Page > Cancel Button"
   },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
+    "messageformat": "Automatic key verification",
+    "description": "Preferences > Privacy Page > Key Transparency Checkbox > Label"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
+    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats.",
+    "description": "Preferences > Privacy Page > Key Transparency Checkbox > Description"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
+    "messageformat": "Learn More",
+    "description": "Preferences > Privacy Page > Key Transparency Checkbox > Learn More"
+  },
   "icu:initialSync": {
     "messageformat": "Syncing contacts and groups",
     "description": "Shown during initial link while contacts and groups are being pulled from mobile device"

@@ -204,6 +204,11 @@ const REPORTING_THRESHOLD = SECOND;
 const MAX_BACKUP_MESSAGE_BODY_BYTE_LENGTH = 128 * KIBIBYTE;
 const BACKUP_QUOTE_BODY_LIMIT = 2048;
 
+type ToRecipientOptionsType = Readonly<{
+  identityKeysById: ReadonlyMap<IdentityKeyType['id'], IdentityKeyType>;
+  keyTransparencyData: Uint8Array | undefined;
+}>;
+
 type GetRecipientIdOptionsType =
   | Readonly<{
       serviceId: ServiceIdString;
@@ -407,15 +412,28 @@ export class BackupExportStream extends Readable {
       })
     );
 
+    const ktAcis = new Set(await DataReader.getAllKTAcis());
+
     const skippedConversationIds = new Set<string>();
     for (const { attributes } of window.ConversationController.getAll()) {
       const recipientId = this.#getRecipientId(attributes);
 
-      const recipient = this.#toRecipient(
-        recipientId,
-        attributes,
-        identityKeysById
-      );
+      let keyTransparencyData: Uint8Array | undefined;
+      if (
+        isDirectConversation(attributes) &&
+        isAciString(attributes.serviceId) &&
+        ktAcis.has(attributes.serviceId)
+      ) {
+        // eslint-disable-next-line no-await-in-loop
+        keyTransparencyData = await DataReader.getKTAccountData(
+          attributes.serviceId
+        );
+      }
+
+      const recipient = this.#toRecipient(recipientId, attributes, {
+        identityKeysById,
+        keyTransparencyData,
+      });
       if (recipient === undefined) {
         skippedConversationIds.add(attributes.id);
         // Can't be backed up.
@@ -977,6 +995,10 @@ export class BackupExportStream extends Readable {
     const themeSetting = await window.Events.getThemeSetting();
     const appTheme = toAppTheme(themeSetting);
 
+    const keyTransparencyData = await DataReader.getKTAccountData(
+      me.getCheckedAci('Backup export: key transparency data')
+    );
+
     return {
       profileKey: itemStorage.get('profileKey'),
       username: me.get('username') || null,
@@ -1006,6 +1028,7 @@ export class BackupExportStream extends Readable {
       svrPin: itemStorage.get('svrPin'),
       bioText: me.get('about'),
       bioEmoji: me.get('aboutEmoji'),
+      keyTransparencyData,
       // Test only values
       ...(isTestOrMockEnvironment()
         ? {
@@ -1029,6 +1052,9 @@ export class BackupExportStream extends Readable {
         hasSetMyStoriesPrivacy: itemStorage.get('hasSetMyStoriesPrivacy'),
         hasViewedOnboardingStory: itemStorage.get('hasViewedOnboardingStory'),
         storiesDisabled: itemStorage.get('hasStoriesDisabled'),
+        allowAutomaticKeyVerification: !itemStorage.get(
+          'hasKeyTransparencyDisabled'
+        ),
         storyViewReceiptsEnabled: itemStorage.get('storyViewReceiptsEnabled'),
         hasCompletedUsernameOnboarding: itemStorage.get(
           'hasCompletedUsernameOnboarding'
@@ -1155,7 +1181,7 @@ export class BackupExportStream extends Readable {
       ConversationAttributesType,
       'id' | 'version' | 'expireTimerVersion'
     >,
-    identityKeysById?: ReadonlyMap<IdentityKeyType['id'], IdentityKeyType>
+    options?: ToRecipientOptionsType
   ): Backups.IRecipient | undefined {
     const res: Backups.IRecipient = {
       id: recipientId,
@@ -1200,8 +1226,8 @@ export class BackupExportStream extends Readable {
       }
 
       let identityKey: IdentityKeyType | undefined;
-      if (identityKeysById != null && convo.serviceId != null) {
-        identityKey = identityKeysById.get(convo.serviceId);
+      if (options != null && convo.serviceId != null) {
+        identityKey = options.identityKeysById.get(convo.serviceId);
       }
 
       const { nicknameGivenName, nicknameFamilyName, note } = convo;
@@ -1253,6 +1279,7 @@ export class BackupExportStream extends Readable {
         hideStory: convo.hideStory === true,
         identityKey: identityKey?.publicKey || null,
         avatarColor: toAvatarColor(convo.color),
+        keyTransparencyData: options?.keyTransparencyData,
 
         // Integer values match so we can use it as is
         identityState: identityKey?.verified ?? 0,

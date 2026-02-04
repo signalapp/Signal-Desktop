@@ -2140,7 +2140,7 @@ export class ConversationModel {
     this.set({ e164: e164 || undefined });
 
     // This user changed their phone number
-    if (oldValue && e164 && this.get('sharingPhoneNumber')) {
+    if (oldValue && e164) {
       void this.addChangeNumberNotification(oldValue, e164);
     }
 

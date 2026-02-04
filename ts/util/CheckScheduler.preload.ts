@@ -9,6 +9,7 @@ import { itemStorage } from '../textsecure/Storage.preload.js';
 import { createLogger } from '../logging/log.std.js';
 import { LongTimeout } from './timeout.std.js';
 import { drop } from './drop.std.js';
+import { strictAssert } from './assert.std.js';
 import { BackOff, FIBONACCI_TIMEOUTS } from './BackOff.std.js';
 
 const log = createLogger('CheckScheduler');
@@ -43,24 +44,36 @@ export class CheckScheduler {
   }
 
   async runAt(timestamp: number): Promise<void> {
+    log.info(`Updating next run to ${new Date(timestamp).toISOString()}`);
+
     await itemStorage.put(
       this.#options.storageKey,
       timestamp - this.#options.interval
     );
 
-    this.#scheduleCheck();
+    // Restart the timer if running
+    if (this.#timer != null) {
+      this.#scheduleCheck();
+    }
   }
 
   async delayBy(ms: number): Promise<void> {
     const earliestCheck = Date.now() + ms;
 
     const lastCheckTimestamp = itemStorage.get(this.#options.storageKey, 0);
-    await itemStorage.put(
-      this.#options.storageKey,
-      Math.max(lastCheckTimestamp, earliestCheck - this.#options.interval)
+    const newTimestamp = Math.max(
+      lastCheckTimestamp,
+      earliestCheck - this.#options.interval
     );
 
-    this.#scheduleCheck();
+    log.info(`Delaying next run until ${new Date(newTimestamp).toISOString()}`);
+
+    await itemStorage.put(this.#options.storageKey, newTimestamp);
+
+    // Restart the timer if running
+    if (this.#timer != null) {
+      this.#scheduleCheck();
+    }
   }
 
   #scheduleCheck(): void {
@@ -70,18 +83,30 @@ export class CheckScheduler {
       // Gracefully rollout when polling initially
       now - this.#options.interval * Math.random()
     );
-    const delay = Math.max(
-      0,
-      lastCheckTimestamp + this.#options.interval - now
-    );
-    this.#timer?.clear();
+    const targetTimestamp = lastCheckTimestamp + this.#options.interval;
+    const delay = Math.max(0, targetTimestamp - now);
+    if (this.#timer != null) {
+      this.#timer.clear();
+      this.#log.info('clearing previous timer');
+    }
     this.#timer = undefined;
     if (delay === 0) {
       this.#log.info('running the check immediately');
       drop(this.#safeCheck());
     } else {
-      this.#log.info(`running the check in ${delay}ms`);
-      this.#timer = new LongTimeout(() => drop(this.#safeCheck()), delay);
+      this.#log.info(
+        'running the check at',
+        new Date(targetTimestamp).toISOString()
+      );
+      const timer = new LongTimeout(() => {
+        strictAssert(
+          this.#timer === timer,
+          'Timer was canceled without clearing first'
+        );
+        this.#timer = undefined;
+        drop(this.#safeCheck());
+      }, delay);
+      this.#timer = timer;
     }
   }
 
@@ -89,8 +114,13 @@ export class CheckScheduler {
     backOff = new BackOff(this.#options.backOffTimeouts ?? FIBONACCI_TIMEOUTS)
   ): Promise<void> {
     try {
+      const oldTimestamp = itemStorage.get(this.#options.storageKey);
       await this.#options.callback();
-      await itemStorage.put(this.#options.storageKey, Date.now());
+
+      // Allow callback to update the next scheduled time
+      if (oldTimestamp === itemStorage.get(this.#options.storageKey)) {
+        await itemStorage.put(this.#options.storageKey, Date.now());
+      }
 
       this.#scheduleCheck();
     } catch (error) {

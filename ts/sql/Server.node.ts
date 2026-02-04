@@ -281,8 +281,10 @@ import {
   hasMegaphone,
 } from './server/megaphones.std.js';
 import {
+  getAllKTAcis,
   getKTAccountData,
   setKTAccountData,
+  removeAllKTAccountData,
 } from './server/keyTransparency.std.js';
 import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer.std.js';
 import type { GifType } from '../components/fun/panels/FunPanelGifs.dom.js';
@@ -505,6 +507,7 @@ export const DataReader: ServerReadableInterface = {
   getAllMegaphoneIds,
   hasMegaphone,
 
+  getAllKTAcis,
   getKTAccountData,
 
   getAllPinnedMessages,
@@ -774,6 +777,7 @@ export const DataWriter: ServerWritableInterface = {
   internalDeleteAllMegaphones,
 
   setKTAccountData,
+  removeAllKTAccountData,
 
   appendPinnedMessage,
   deletePinnedMessageByMessageId,
