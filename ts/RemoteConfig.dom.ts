@@ -40,6 +40,8 @@ const SemverKeys = [
   'desktop.pinnedMessages.send.prod',
   'desktop.plaintextExport.beta',
   'desktop.plaintextExport.prod',
+  'desktop.remoteMegaphone.beta',
+  'desktop.remoteMegaphone.prod',
   'desktop.retireAccessKeyGroupSend.beta',
   'desktop.retireAccessKeyGroupSend.prod',
   'desktop.keyTransparency.beta',
