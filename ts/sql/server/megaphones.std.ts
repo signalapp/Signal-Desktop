@@ -75,6 +75,15 @@ export function getAllMegaphones(
     .map(row => rowToMegaphone(row));
 }
 
+export function getAllMegaphoneIds(
+  db: ReadableDB
+): ReadonlyArray<RemoteMegaphoneId> {
+  const [query, params] = sql`
+    SELECT id FROM megaphones
+  `;
+  return db.prepare(query, { pluck: true }).all<RemoteMegaphoneId>(params);
+}
+
 function _insertMegaphone(
   db: WritableDB,
   megaphone: RemoteMegaphoneType

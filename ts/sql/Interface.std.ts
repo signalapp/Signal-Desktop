@@ -1019,6 +1019,7 @@ type ReadableInterface = {
   getOldestDeletedChatFolder: () => ChatFolder | null;
 
   getAllMegaphones: () => ReadonlyArray<RemoteMegaphoneType>;
+  getAllMegaphoneIds: () => ReadonlyArray<RemoteMegaphoneId>;
   hasMegaphone: (megaphoneId: RemoteMegaphoneId) => boolean;
 
   getAllKTAcis: () => ReadonlyArray<AciString>;
