@@ -24,7 +24,7 @@ import { strictAssert } from '../../util/assert.std.js';
 import { isValidAttachmentKey } from '../../types/Crypto.std.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { getAbsoluteAttachmentPath } from '../../util/migrations.preload.js';
-import { getPath } from '../../../app/attachments.node.js';
+import { getAttachmentsPath } from '../../../app/attachments.node.js';
 import { sha256 } from '../../Crypto.node.js';
 
 describe('convertFilePointerToAttachment', () => {
@@ -232,7 +232,9 @@ describe('getFilePointerForAttachment', () => {
 
   afterEach(async () => {
     sandbox.restore();
-    await emptyDir(getPath(window.SignalContext.config.userDataPath));
+    await emptyDir(
+      getAttachmentsPath(window.SignalContext.config.userDataPath)
+    );
   });
 
   it('if missing key, generates a new one and removes transit info & digest', async () => {

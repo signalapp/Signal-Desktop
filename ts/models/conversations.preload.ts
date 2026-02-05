@@ -21,7 +21,7 @@ import { DataReader, DataWriter } from '../sql/Client.preload.js';
 import { getConversation } from '../util/getConversation.preload.js';
 import {
   copyAttachmentIntoTempDirectory,
-  deleteAttachmentData,
+  maybeDeleteAttachmentFile,
   doesAttachmentExist,
   getAbsoluteAttachmentPath,
   getAbsoluteTempPath,
@@ -3691,7 +3691,7 @@ export class ConversationModel {
 
     const message = window.MessageCache.getById(notificationId);
     if (message) {
-      await DataWriter.removeMessage(message.id, {
+      await DataWriter.removeMessageById(message.id, {
         cleanupMessages,
       });
     }
@@ -3734,7 +3734,7 @@ export class ConversationModel {
 
     const message = window.MessageCache.getById(notificationId);
     if (message) {
-      await DataWriter.removeMessage(message.id, {
+      await DataWriter.removeMessageById(message.id, {
         cleanupMessages,
       });
     }
@@ -4214,7 +4214,7 @@ export class ConversationModel {
     if (preview && preview.length && !isForwarding) {
       attachments.forEach(attachment => {
         if (attachment.path) {
-          void deleteAttachmentData(attachment.path);
+          drop(maybeDeleteAttachmentFile(attachment.path));
         }
       });
     }
@@ -4238,7 +4238,7 @@ export class ConversationModel {
           const downscaledAttachment =
             await downscaleOutgoingAttachment(attachment);
           if (downscaledAttachment !== attachment && attachment.path) {
-            drop(deleteAttachmentData(attachment.path));
+            drop(maybeDeleteAttachmentFile(attachment.path));
           }
           return downscaledAttachment;
         })
@@ -5156,7 +5156,7 @@ export class ConversationModel {
         {
           data: decrypted,
           writeNewAttachmentData,
-          deleteAttachmentData,
+          deleteAttachmentData: maybeDeleteAttachmentFile,
           doesAttachmentExist,
         }
       );
@@ -5689,7 +5689,7 @@ export class ConversationModel {
       );
       return getAbsoluteTempPath(tempPath);
     } finally {
-      await deleteAttachmentData(plaintextPath);
+      await maybeDeleteAttachmentFile(plaintextPath);
     }
   }
 

@@ -27,7 +27,7 @@ import {
 } from '../groups.preload.js';
 import { createGroupV2JoinModal } from '../state/roots/createGroupV2JoinModal.dom.js';
 import { explodePromise } from '../util/explodePromise.std.js';
-import { deleteAttachmentData } from '../util/migrations.preload.js';
+import { maybeDeleteAttachmentFile } from '../util/migrations.preload.js';
 import { isAccessControlEnabled } from './util.std.js';
 import { isGroupV1 } from '../util/whatTypeOfConversation.dom.js';
 import { longRunningTaskWrapper } from '../util/longRunningTaskWrapper.dom.js';
@@ -224,7 +224,7 @@ export async function joinViaLink(value: string): Promise<void> {
         localAvatar?.loadingState === LoadingState.Loaded &&
         localAvatar.value?.path
       ) {
-        await deleteAttachmentData(localAvatar.value.path);
+        await maybeDeleteAttachmentFile(localAvatar.value.path);
       }
       resolve();
     } catch (error) {
@@ -428,7 +428,7 @@ export async function joinViaLink(value: string): Promise<void> {
 
         // Dialog has been dismissed; we'll delete the unneeeded avatar
         if (!groupV2InfoRoot) {
-          await deleteAttachmentData(attributes.avatar.path);
+          await maybeDeleteAttachmentFile(attributes.avatar.path);
           return;
         }
       } else {

@@ -48,7 +48,7 @@ import { sleep } from '../ts/util/sleep.std.js';
 import { toWebStream } from '../ts/util/toWebStream.node.js';
 import { createLogger } from '../ts/logging/log.std.js';
 import {
-  deleteAll as deleteAllAttachments,
+  deleteAllAttachments,
   deleteAllBadges,
   deleteAllDownloads,
   deleteAllDraftAttachments,
@@ -62,7 +62,7 @@ import {
   getAvatarsPath,
   getDownloadsPath,
   getDraftPath,
-  getPath,
+  getAttachmentsPath,
   getStickersPath,
   getTempPath,
 } from './attachments.node.js';
@@ -450,6 +450,14 @@ function deleteOrphanedAttachments({
         await sql.sqlRead('finishGetKnownMessageAttachments', cursor);
       }
     }
+
+    const protectedAttachments = await sql.sqlRead(
+      'getAllProtectedAttachmentPaths'
+    );
+    for (const protectedAttachment of protectedAttachments) {
+      orphanedAttachments.delete(protectedAttachment);
+    }
+
     log.info(
       `cleanupOrphanedAttachments: ${totalAttachmentsFound} attachments and \
       ${totalDownloadsFound} downloads found on disk`
@@ -514,7 +522,7 @@ export function initialize({
   }
   initialized = true;
 
-  attachmentsDir = getPath(configDir);
+  attachmentsDir = getAttachmentsPath(configDir);
   stickersDir = getStickersPath(configDir);
   tempDir = getTempPath(configDir);
   draftDir = getDraftPath(configDir);

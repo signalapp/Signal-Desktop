@@ -5,8 +5,10 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import * as sinon from 'sinon';
 import { assert } from 'chai';
-import lodash from 'lodash';
-import type { StatsFs } from 'node:fs';
+import lodash, { pick } from 'lodash';
+import { type StatsFs } from 'node:fs';
+import { v7 } from 'uuid';
+import { emptyDir, ensureFile } from 'fs-extra';
 
 import * as MIME from '../../types/MIME.std.js';
 import {
@@ -33,8 +35,7 @@ import { generateAttachmentKeys } from '../../AttachmentCrypto.node.js';
 import { getAttachmentCiphertextSize } from '../../util/AttachmentCrypto.std.js';
 import { MEBIBYTE } from '../../types/AttachmentSize.std.js';
 import { generateAci } from '../../types/ServiceId.std.js';
-import { toBase64, toHex } from '../../Bytes.std.js';
-import { getRandomBytes } from '../../Crypto.node.js';
+import { toBase64 } from '../../Bytes.std.js';
 import { JobCancelReason } from '../../jobs/types.std.js';
 import {
   explodePromise,
@@ -44,6 +45,15 @@ import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { composeAttachment } from '../../test-node/util/queueAttachmentDownloads_test.preload.js';
 import { MessageCache } from '../../services/MessageCache.preload.js';
 import { AttachmentNotNeededForMessageError } from '../../messageModifiers/AttachmentDownloads.preload.js';
+import {
+  testAttachmentDigest,
+  testAttachmentKey,
+  testAttachmentLocalKey,
+  testPlaintextHash,
+} from '../../test-helpers/attachments.node.js';
+import type { MessageAttributesType } from '../../model-types.js';
+import { getAttachmentsPath } from '../../../app/attachments.node.js';
+import { getAbsoluteAttachmentPath } from '../../util/migrations.preload.js';
 
 const { omit } = lodash;
 
@@ -57,7 +67,7 @@ function composeJob({
   jobOverrides?: Partial<AttachmentDownloadJobType>;
 }): AttachmentDownloadJobType {
   const digest = `digestFor${messageId}`;
-  const plaintextHash = toHex(getRandomBytes(32));
+  const plaintextHash = testPlaintextHash();
   const size = 128;
   const contentType = MIME.IMAGE_PNG;
   return {
@@ -83,7 +93,7 @@ function composeJob({
       size,
       digest,
       plaintextHash,
-      key: toBase64(generateAttachmentKeys()),
+      key: testAttachmentKey(),
       ...attachmentOverrides,
     },
     ...jobOverrides,
@@ -630,9 +640,10 @@ describe('AttachmentDownloadManager', () => {
                   downloadStarted.resolve();
                 });
               }),
-            deleteAttachmentData: sandbox.stub(),
-            deleteDownloadData: sandbox.stub(),
+            cleanupAttachmentFiles: sandbox.stub(),
+            deleteDownloadFile: sandbox.stub(),
             processNewAttachment: sandbox.stub(),
+            maybeDeleteAttachmentFile: sandbox.stub(),
             runDownloadAttachmentJobInner,
           },
         })
@@ -749,8 +760,9 @@ describe('AttachmentDownloadManager', () => {
 });
 describe('AttachmentDownloadManager.runDownloadAttachmentJob', () => {
   let sandbox: sinon.SinonSandbox;
-  let deleteAttachmentData: sinon.SinonStub;
-  let deleteDownloadData: sinon.SinonStub;
+  let cleanupAttachmentFiles: sinon.SinonStub;
+  let maybeDeleteAttachmentFile: sinon.SinonStub;
+  let deleteDownloadFile: sinon.SinonStub;
   let downloadAttachment: sinon.SinonStub;
   let processNewAttachment: sinon.SinonStub;
 
@@ -771,8 +783,9 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJob', () => {
     downloadAttachment = sandbox
       .stub()
       .returns(Promise.resolve(downloadedAttachment));
-    deleteAttachmentData = sandbox.stub();
-    deleteDownloadData = sandbox.stub();
+    cleanupAttachmentFiles = sandbox.stub();
+    maybeDeleteAttachmentFile = sandbox.stub();
+    deleteDownloadFile = sandbox.stub();
 
     processNewAttachment = sandbox.stub().callsFake(attachment => attachment);
   });
@@ -818,8 +831,9 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJob', () => {
       },
       dependencies: {
         downloadAttachment,
-        deleteAttachmentData,
-        deleteDownloadData,
+        maybeDeleteAttachmentFile,
+        cleanupAttachmentFiles,
+        deleteDownloadFile,
         processNewAttachment,
         runDownloadAttachmentJobInner: sandbox.stub().throws(
           new AttachmentNotNeededForMessageError({
@@ -838,28 +852,31 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJob', () => {
     });
 
     assert.strictEqual(result.status, 'finished');
-    assert.deepStrictEqual(
-      deleteAttachmentData
-        .getCalls()
-        .map(call => call.args[0])
-        .flat(),
-      ['main/path', 'thumbnail/path']
-    );
-    assert.deepStrictEqual(
-      deleteDownloadData
-        .getCalls()
-        .map(call => call.args[0])
-        .flat(),
-      ['/downloadPath']
-    );
+    assert.strictEqual(cleanupAttachmentFiles.callCount, 1);
+    assert.deepStrictEqual(cleanupAttachmentFiles.getCall(0).args[0], {
+      contentType: MIME.IMAGE_PNG,
+      size: 128,
+      path: 'main/path',
+      downloadPath: '/downloadPath',
+      thumbnail: {
+        contentType: MIME.IMAGE_PNG,
+        size: 128,
+        path: 'thumbnail/path',
+      },
+    });
   });
 });
 
 describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
   let sandbox: sinon.SinonSandbox;
-  let deleteAttachmentData: sinon.SinonStub;
-  let deleteDownloadData: sinon.SinonStub;
-  let downloadAttachment: sinon.SinonStub;
+  let cleanupAttachmentFiles: sinon.SinonStub;
+  let maybeDeleteAttachmentFile: sinon.SinonStub;
+  let deleteDownloadFile: sinon.SinonStub;
+  let downloadAttachment: sinon.SinonStub<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    any,
+    ReturnType<typeof downloadAttachmentUtil>
+  >;
   let processNewAttachment: sinon.SinonStub;
   const abortController = new AbortController();
 
@@ -882,7 +899,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
     downloadAttachment = sandbox
       .stub()
       .returns(Promise.resolve(downloadedAttachment));
-
+    cleanupAttachmentFiles = sandbox.stub();
+    maybeDeleteAttachmentFile = sandbox.stub();
     processNewAttachment = sandbox.stub().callsFake(attachment => attachment);
   });
 
@@ -909,8 +927,9 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
         messageExpiresAt: null,
         dependencies: {
-          deleteAttachmentData,
-          deleteDownloadData,
+          cleanupAttachmentFiles,
+          maybeDeleteAttachmentFile,
+          deleteDownloadFile,
           downloadAttachment,
           processNewAttachment,
         },
@@ -949,8 +968,9 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
         messageExpiresAt: null,
         dependencies: {
-          deleteAttachmentData,
-          deleteDownloadData,
+          cleanupAttachmentFiles,
+          maybeDeleteAttachmentFile,
+          deleteDownloadFile,
           downloadAttachment,
           processNewAttachment,
         },
@@ -1006,8 +1026,9 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
         messageExpiresAt: null,
         dependencies: {
-          deleteAttachmentData,
-          deleteDownloadData,
+          cleanupAttachmentFiles,
+          maybeDeleteAttachmentFile,
+          deleteDownloadFile,
           downloadAttachment,
           processNewAttachment,
         },
@@ -1045,8 +1066,9 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
         messageExpiresAt: null,
         dependencies: {
-          deleteAttachmentData,
-          deleteDownloadData,
+          cleanupAttachmentFiles,
+          maybeDeleteAttachmentFile,
+          deleteDownloadFile,
           downloadAttachment,
           processNewAttachment,
         },
@@ -1085,8 +1107,9 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
         messageExpiresAt: null,
         dependencies: {
-          deleteAttachmentData,
-          deleteDownloadData,
+          cleanupAttachmentFiles,
+          maybeDeleteAttachmentFile,
+          deleteDownloadFile,
           downloadAttachment,
           processNewAttachment,
         },
@@ -1123,8 +1146,9 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
         messageExpiresAt: null,
         dependencies: {
-          deleteAttachmentData,
-          deleteDownloadData,
+          cleanupAttachmentFiles,
+          maybeDeleteAttachmentFile,
+          deleteDownloadFile,
           downloadAttachment,
           processNewAttachment,
         },
@@ -1180,8 +1204,9 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
           maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
           messageExpiresAt: null,
           dependencies: {
-            deleteAttachmentData,
-            deleteDownloadData,
+            cleanupAttachmentFiles,
+            maybeDeleteAttachmentFile,
+            deleteDownloadFile,
             downloadAttachment,
             processNewAttachment,
           },
@@ -1196,6 +1221,388 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         downloadCallArgs.options.variant,
         AttachmentVariant.Default
       );
+    });
+  });
+  describe('deduplicates attachment if one exists on disk', () => {
+    const existingAttachment = {
+      size: 128,
+      contentType: MIME.VIDEO_MP4,
+      version: 2,
+      plaintextHash: testPlaintextHash(),
+      path: 'existingPath',
+      localKey: testAttachmentLocalKey(),
+      thumbnail: {
+        path: 'existingThumbnailPath',
+        version: 2,
+        localKey: testAttachmentLocalKey(),
+        contentType: MIME.IMAGE_BMP,
+        size: 256,
+      },
+      screenshot: {
+        path: 'existingScreenshotPath',
+        version: 2,
+        localKey: testAttachmentLocalKey(),
+        contentType: MIME.IMAGE_JPEG,
+        size: 512,
+      },
+      thumbnailFromBackup: {
+        path: 'shouldbeignored',
+        contentType: MIME.IMAGE_JPEG,
+        size: 1024,
+      },
+    } as const satisfies AttachmentType;
+
+    function composeMessage(): MessageAttributesType {
+      return {
+        id: v7(),
+        type: 'incoming',
+        sent_at: Date.now(),
+        timestamp: Date.now(),
+        received_at: Date.now(),
+        conversationId: v7(),
+      };
+    }
+    const existingMessageWithDownloadedAttachment = {
+      ...composeMessage(),
+      attachments: [existingAttachment],
+    };
+
+    const undownloadedAttachment = {
+      cdnKey: 'cdnKey',
+      cdnNumber: 3,
+      version: 2,
+      key: testAttachmentKey(),
+      size: 128,
+      digest: testAttachmentDigest(),
+      plaintextHash: undefined,
+      contentType: MIME.VIDEO_MP4,
+      fileName: 'new filename',
+    } as const;
+
+    const newMessage = {
+      ...composeMessage(),
+      attachments: [undownloadedAttachment],
+    };
+
+    async function writeAttachmentFile(path: string) {
+      await ensureFile(getAbsoluteAttachmentPath(path));
+    }
+    beforeEach(async () => {
+      await DataWriter.saveMessages(
+        [existingMessageWithDownloadedAttachment, newMessage],
+        {
+          forceSave: true,
+          ourAci: generateAci(),
+          postSaveUpdates: async () => Promise.resolve(),
+        }
+      );
+    });
+    afterEach(async () => {
+      await emptyDir(
+        getAttachmentsPath(window.SignalContext.config.userDataPath)
+      );
+    });
+
+    it('reuses existing attachment based on plaintextHash, version, and contentType', async () => {
+      await writeAttachmentFile('existingPath');
+      await writeAttachmentFile('existingThumbnailPath');
+      await writeAttachmentFile('existingScreenshotPath');
+
+      downloadAttachment.callsFake(async ({ attachment }) => {
+        return {
+          path: 'newlyDownloadedPath',
+          plaintextHash: existingAttachment.plaintextHash,
+          version: existingAttachment.version,
+          localKey: testAttachmentLocalKey(),
+          size: existingAttachment.size,
+          digest: attachment.digest,
+        };
+      });
+      const job = composeJob({
+        messageId: newMessage.id,
+        receivedAt: newMessage.received_at,
+        attachmentOverrides: undownloadedAttachment,
+      });
+
+      await runDownloadAttachmentJobInner({
+        job,
+        isForCurrentlyVisibleMessage: false,
+        hasMediaBackups: false,
+        abortSignal: abortController.signal,
+        maxAttachmentSizeInKib: 100 * MEBIBYTE,
+        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        messageExpiresAt: null,
+        dependencies: {
+          cleanupAttachmentFiles,
+          maybeDeleteAttachmentFile,
+          deleteDownloadFile,
+          downloadAttachment,
+          processNewAttachment,
+        },
+      });
+
+      // Cleans up newly downloaded path
+      assert.equal(maybeDeleteAttachmentFile.callCount, 1);
+      assert.isTrue(
+        maybeDeleteAttachmentFile.calledWith('newlyDownloadedPath')
+      );
+
+      const updatedMessage = window.MessageCache.getById(newMessage.id);
+      const attachment = updatedMessage?.attributes.attachments?.[0];
+      const propsThatShouldBeTransferred = [
+        'path',
+        'localKey',
+        'version',
+        'thumbnail.path',
+        'thumbnail.localKey',
+        'thumbnail.size',
+        'thumbnail.version',
+        'thumbnail.contentType',
+        'screenshot.path',
+        'screenshot.localKey',
+        'screenshot.size',
+        'screenshot.version',
+        'screenshot.contentType',
+      ];
+
+      assert.strictEqual(attachment?.path, existingAttachment.path);
+      assert.deepStrictEqual(
+        pick(attachment, propsThatShouldBeTransferred),
+        pick(existingAttachment, propsThatShouldBeTransferred)
+      );
+    });
+
+    it('does not reuse files if contentType differs', async () => {
+      await writeAttachmentFile('existingPath');
+      await writeAttachmentFile('existingThumbnailPath');
+      await writeAttachmentFile('existingScreenshotPath');
+
+      downloadAttachment.callsFake(async ({ attachment }) => {
+        return {
+          path: 'newlyDownloadedPath',
+          plaintextHash: existingAttachment.plaintextHash,
+          version: existingAttachment.version,
+          localKey: testAttachmentLocalKey(),
+          size: existingAttachment.size,
+          digest: attachment.digest,
+        };
+      });
+      const job = composeJob({
+        messageId: newMessage.id,
+        receivedAt: newMessage.received_at,
+        attachmentOverrides: {
+          ...undownloadedAttachment,
+          contentType: MIME.VIDEO_QUICKTIME,
+        },
+      });
+
+      await runDownloadAttachmentJobInner({
+        job,
+        isForCurrentlyVisibleMessage: false,
+        hasMediaBackups: false,
+        abortSignal: abortController.signal,
+        maxAttachmentSizeInKib: 100 * MEBIBYTE,
+        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        messageExpiresAt: null,
+        dependencies: {
+          cleanupAttachmentFiles,
+          maybeDeleteAttachmentFile,
+          deleteDownloadFile,
+          downloadAttachment,
+          processNewAttachment,
+        },
+      });
+
+      assert.equal(maybeDeleteAttachmentFile.callCount, 0);
+
+      const updatedMessage = window.MessageCache.getById(newMessage.id);
+      const attachment = updatedMessage?.attributes.attachments?.[0];
+
+      assert.strictEqual(attachment.contentType, MIME.VIDEO_QUICKTIME);
+      assert.strictEqual(attachment.path, 'newlyDownloadedPath');
+    });
+
+    it('does not reuse derived files if version differs', async () => {
+      await writeAttachmentFile('existingPath');
+      await writeAttachmentFile('existingThumbnailPath');
+      await writeAttachmentFile('existingScreenshotPath');
+
+      // @ts-expect-error new attachment version
+      downloadAttachment.callsFake(async ({ attachment }) => {
+        return {
+          path: 'newlyDownloadedPath',
+          plaintextHash: existingAttachment.plaintextHash,
+          version: existingAttachment.version + 1,
+          localKey: testAttachmentLocalKey(),
+          size: existingAttachment.size,
+          digest: attachment.digest,
+        };
+      });
+      const job = composeJob({
+        messageId: newMessage.id,
+        receivedAt: newMessage.received_at,
+        attachmentOverrides: undownloadedAttachment,
+      });
+
+      await runDownloadAttachmentJobInner({
+        job,
+        isForCurrentlyVisibleMessage: false,
+        hasMediaBackups: false,
+        abortSignal: abortController.signal,
+        maxAttachmentSizeInKib: 100 * MEBIBYTE,
+        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        messageExpiresAt: null,
+        dependencies: {
+          cleanupAttachmentFiles,
+          maybeDeleteAttachmentFile,
+          deleteDownloadFile,
+          downloadAttachment,
+          processNewAttachment,
+        },
+      });
+
+      assert.equal(maybeDeleteAttachmentFile.callCount, 0);
+
+      const updatedMessage = window.MessageCache.getById(newMessage.id);
+      const attachment = updatedMessage?.attributes.attachments?.[0];
+
+      assert.strictEqual(attachment.path, 'newlyDownloadedPath');
+    });
+
+    it('does not reuse attachment if it does not exist on disk', async () => {
+      downloadAttachment.callsFake(async ({ attachment }) => {
+        return {
+          path: 'newlyDownloadedPath',
+          plaintextHash: existingAttachment.plaintextHash,
+          version: existingAttachment.version,
+          localKey: testAttachmentLocalKey(),
+          size: existingAttachment.size,
+          digest: attachment.digest,
+        };
+      });
+      const job = composeJob({
+        messageId: newMessage.id,
+        receivedAt: newMessage.received_at,
+        attachmentOverrides: undownloadedAttachment,
+      });
+
+      await runDownloadAttachmentJobInner({
+        job,
+        isForCurrentlyVisibleMessage: false,
+        hasMediaBackups: false,
+        abortSignal: abortController.signal,
+        maxAttachmentSizeInKib: 100 * MEBIBYTE,
+        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        messageExpiresAt: null,
+        dependencies: {
+          cleanupAttachmentFiles,
+          maybeDeleteAttachmentFile,
+          deleteDownloadFile,
+          downloadAttachment,
+          processNewAttachment,
+        },
+      });
+
+      // Cleans up newly downloaded path
+      assert.equal(maybeDeleteAttachmentFile.callCount, 0);
+
+      const updatedMessage = window.MessageCache.getById(newMessage.id);
+      const attachment = updatedMessage?.attributes.attachments?.[0];
+      assert.strictEqual(attachment?.path, 'newlyDownloadedPath');
+    });
+
+    it('does not reuse thumbnail if it does not exist on disk', async () => {
+      await writeAttachmentFile('existingPath');
+      downloadAttachment.callsFake(async ({ attachment }) => {
+        return {
+          path: 'newlyDownloadedPath',
+          plaintextHash: existingAttachment.plaintextHash,
+          version: existingAttachment.version,
+          localKey: testAttachmentLocalKey(),
+          size: existingAttachment.size,
+          digest: attachment.digest,
+        };
+      });
+      const job = composeJob({
+        messageId: newMessage.id,
+        receivedAt: newMessage.received_at,
+        attachmentOverrides: undownloadedAttachment,
+      });
+
+      await runDownloadAttachmentJobInner({
+        job,
+        isForCurrentlyVisibleMessage: false,
+        hasMediaBackups: false,
+        abortSignal: abortController.signal,
+        maxAttachmentSizeInKib: 100 * MEBIBYTE,
+        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        messageExpiresAt: null,
+        dependencies: {
+          cleanupAttachmentFiles,
+          maybeDeleteAttachmentFile,
+          deleteDownloadFile,
+          downloadAttachment,
+          processNewAttachment: sandbox.stub().callsFake(attachment => ({
+            ...attachment,
+            thumbnail: { path: 'newThumbnailPath' },
+          })),
+        },
+      });
+
+      // Cleans up newly downloaded path
+      assert.equal(maybeDeleteAttachmentFile.callCount, 1);
+
+      const updatedMessage = window.MessageCache.getById(newMessage.id);
+      const attachment = updatedMessage?.attributes.attachments?.[0];
+      assert.strictEqual(attachment?.path, 'existingPath');
+      assert.strictEqual(attachment?.thumbnail?.path, 'newThumbnailPath');
+    });
+
+    it('does not reuse attachment if version is not the same as requested version', async () => {
+      await writeAttachmentFile('existingPath');
+      await writeAttachmentFile('existingThumbnailPath');
+      await writeAttachmentFile('existingScreenshotPath');
+
+      // @ts-expect-error version is wrong
+      downloadAttachment.callsFake(async ({ attachment }) => {
+        return {
+          path: 'newlyDownloadedPath',
+          plaintextHash: existingAttachment.plaintextHash,
+          version: existingAttachment.version + 1, // Newer version!
+          localKey: testAttachmentLocalKey(),
+          size: existingAttachment.size,
+          digest: attachment.digest,
+        };
+      });
+      const job = composeJob({
+        messageId: newMessage.id,
+        receivedAt: newMessage.received_at,
+        attachmentOverrides: undownloadedAttachment,
+      });
+
+      await runDownloadAttachmentJobInner({
+        job,
+        isForCurrentlyVisibleMessage: false,
+        hasMediaBackups: false,
+        abortSignal: abortController.signal,
+        maxAttachmentSizeInKib: 100 * MEBIBYTE,
+        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
+        messageExpiresAt: null,
+        dependencies: {
+          cleanupAttachmentFiles,
+          maybeDeleteAttachmentFile,
+          deleteDownloadFile,
+          downloadAttachment,
+          processNewAttachment,
+        },
+      });
+
+      // Cleans up newly downloaded path
+      assert.equal(maybeDeleteAttachmentFile.callCount, 0);
+
+      const updatedMessage = window.MessageCache.getById(newMessage.id);
+      const attachment = updatedMessage?.attributes.attachments?.[0];
+      assert.strictEqual(attachment?.path, 'newlyDownloadedPath');
     });
   });
 });

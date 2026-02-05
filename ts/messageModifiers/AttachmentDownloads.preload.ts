@@ -12,7 +12,7 @@ import {
 } from '../util/Attachment.std.js';
 import {
   loadAttachmentData,
-  deleteAttachmentData,
+  maybeDeleteAttachmentFile,
 } from '../util/migrations.preload.js';
 import { getMessageById } from '../messages/getMessageById.preload.js';
 import { trimMessageWhitespace } from '../types/BodyRange.std.js';
@@ -170,7 +170,7 @@ export async function addAttachmentToMessage(
       });
     } finally {
       if (attachment.path) {
-        await deleteAttachmentData(attachment.path);
+        await maybeDeleteAttachmentFile(attachment.path);
       }
       if (!handledAnywhere) {
         // eslint-disable-next-line no-unsafe-finally

@@ -1198,7 +1198,7 @@ async function saveCallHistory({
 
   if (isDeleted) {
     if (prevMessage != null) {
-      await DataWriter.removeMessage(prevMessage.id, {
+      await DataWriter.removeMessageById(prevMessage.id, {
         fromSync: true,
         cleanupMessages,
       });

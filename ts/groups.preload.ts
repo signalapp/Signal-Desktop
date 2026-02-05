@@ -27,7 +27,7 @@ import { dropNull } from './util/dropNull.std.js';
 import {
   writeNewAttachmentData,
   readAttachmentData,
-  deleteAttachmentData,
+  maybeDeleteAttachmentFile,
 } from './util/migrations.preload.js';
 import type {
   ConversationAttributesType,
@@ -5749,7 +5749,7 @@ export async function applyNewAvatar(
     // Avatar has been dropped
     if (!newAvatarUrl && attributes.avatar) {
       if (attributes.avatar.path) {
-        await deleteAttachmentData(attributes.avatar.path);
+        await maybeDeleteAttachmentFile(attributes.avatar.path);
       }
       result.avatar = undefined;
     }
@@ -5796,7 +5796,7 @@ export async function applyNewAvatar(
       }
 
       if (attributes.avatar?.path) {
-        await deleteAttachmentData(attributes.avatar.path);
+        await maybeDeleteAttachmentFile(attributes.avatar.path);
       }
       const local = await writeNewAttachmentData(data);
       result.avatar = {
@@ -5811,7 +5811,7 @@ export async function applyNewAvatar(
       Errors.toLogFormat(error)
     );
     if (result.avatar && result.avatar.path) {
-      await deleteAttachmentData(result.avatar.path);
+      await maybeDeleteAttachmentFile(result.avatar.path);
     }
     result.avatar = undefined;
   }
