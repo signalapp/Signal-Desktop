@@ -168,6 +168,7 @@ const defaultMessageProps: TimelineMessagesProps = {
 
 const renderInMessage = ({
   authorTitle,
+  authorLabel,
   conversationColor,
   isFromMe,
   rawAttachment,
@@ -182,6 +183,7 @@ const renderInMessage = ({
     quote: {
       authorId: 'an-author',
       authorTitle,
+      authorLabel,
       conversationColor,
       conversationTitle: getDefaultConversation().title,
       isFromMe,
@@ -223,6 +225,16 @@ IncomingByAnotherAuthor.args = {
   isIncoming: true,
 };
 
+export const IncomingByAnotherWithLabel = Template.bind({});
+IncomingByAnotherWithLabel.args = {
+  authorTitle: getDefaultConversation().title,
+  isIncoming: true,
+  authorLabel: {
+    labelEmoji: '1️⃣',
+    labelString: 'First',
+  },
+};
+
 export const IncomingByMe = Template.bind({});
 IncomingByMe.args = {
   isFromMe: true,
@@ -233,7 +245,14 @@ export function IncomingOutgoingColors(args: Props): React.JSX.Element {
   return (
     <>
       {ConversationColors.map(color =>
-        renderInMessage({ ...args, conversationColor: color })
+        renderInMessage({
+          ...args,
+          conversationColor: color,
+          authorLabel: {
+            labelEmoji: '1️⃣',
+            labelString: 'First',
+          },
+        })
       )}
     </>
   );

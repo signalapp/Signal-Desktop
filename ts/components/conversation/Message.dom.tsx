@@ -127,6 +127,7 @@ import {
 import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.dom.js';
 import type { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.js';
 import type { RenderAudioAttachmentProps } from '../../state/smart/renderAudioAttachment.preload.js';
+import type { MemberLabelType } from '../../types/GroupMemberLabels.std.js';
 
 const { drop, take, unescape } = lodash;
 
@@ -247,7 +248,7 @@ export type PropsData = {
   id: string;
   renderingContext: RenderingContextType;
   contactNameColor?: ContactNameColorType;
-  contactLabel?: { labelString: string; labelEmoji: string | undefined };
+  contactLabel?: MemberLabelType;
   conversationColor: ConversationColorType;
   conversationTitle: string;
   customColor?: CustomColorType;
@@ -305,6 +306,7 @@ export type PropsData = {
     authorPhoneNumber?: string;
     authorProfileName?: string;
     authorTitle: string;
+    authorLabel?: MemberLabelType;
     authorName?: string;
     bodyRanges?: HydratedBodyRangesType;
     referencedMessageNotFound: boolean;
@@ -2120,6 +2122,7 @@ export class Message extends React.PureComponent<Props, State> {
         payment={quote.payment}
         isIncoming={isIncoming}
         authorTitle={quote.authorTitle}
+        authorLabel={quote.authorLabel}
         bodyRanges={quote.bodyRanges}
         conversationColor={conversationColor}
         conversationTitle={conversationTitle}

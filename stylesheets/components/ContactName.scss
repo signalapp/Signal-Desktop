@@ -4,6 +4,7 @@
 @use 'sass:map';
 @use 'sass:color';
 
+@use '../variables';
 @use '../mixins';
 
 button.module-contact-name {
@@ -303,6 +304,18 @@ $contact-colors: (
     padding-block: 2px;
     padding-inline-end: 3px;
     line-height: 12px;
+  }
+
+  &--label-pill--quote {
+    margin-bottom: 2px;
+    @include mixins.font-body-small;
+
+    color: variables.$color-gray-90;
+    background-color: variables.$color-white-alpha-36;
+    @include mixins.dark-theme() {
+      color: variables.$color-gray-05;
+      background-color: variables.$color-white-alpha-20;
+    }
   }
 
   &--label-pill--text {

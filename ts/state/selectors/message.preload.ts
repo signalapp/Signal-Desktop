@@ -728,6 +728,16 @@ export const getPropsForQuote = (
 
   const firstAttachment = quote.attachments && quote.attachments[0];
   const conversation = getConversation(message, conversationSelector);
+  const authorMembership = conversation.memberships?.find(
+    membership => membership.aci === contact.serviceId
+  );
+  const authorLabel =
+    authorMembership && authorMembership.labelString
+      ? {
+          labelEmoji: authorMembership.labelEmoji,
+          labelString: authorMembership.labelString,
+        }
+      : undefined;
 
   const { conversationColor, customColor } = getConversationColorAttributes(
     conversation,
@@ -736,6 +746,7 @@ export const getPropsForQuote = (
 
   return {
     authorId,
+    authorLabel,
     authorName,
     authorPhoneNumber,
     authorProfileName,

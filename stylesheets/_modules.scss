@@ -1095,6 +1095,10 @@ $message-padding-horizontal: 12px;
   }
 }
 
+.module-message__author--with-quote {
+  margin-bottom: 3px;
+}
+
 .module-message__text {
   @include mixins.font-body-1;
 
