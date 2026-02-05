@@ -185,6 +185,10 @@
 .module-quote__primary__author {
   @include mixins.font-body-2-bold;
 
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -201,6 +205,10 @@
   @include mixins.dark-theme {
     color: variables.$color-gray-05;
   }
+}
+
+.module-quote__primary__author--with-label {
+  margin-top: -3px;
 }
 
 .module-quote__primary__text {

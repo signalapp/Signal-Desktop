@@ -125,7 +125,7 @@ export function GroupMemberLabelEditor({
               setLabelEmoji(undefined);
             }
 
-            // Remove trailing/leading whitespace, replace all whitespace with basic space
+            // Replace all whitespace with basic space
             setLabelString(value.replace(/\s/g, ' '));
           }}
           ref={undefined}

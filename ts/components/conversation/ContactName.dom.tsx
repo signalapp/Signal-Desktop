@@ -18,6 +18,7 @@ import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.dom.js';
 import { FunStaticEmoji } from '../fun/FunEmoji.dom.js';
 import { missingEmojiPlaceholder } from '../../types/GroupMemberLabels.std.js';
 
+import type { MemberLabelType } from '../../types/GroupMemberLabels.std.js';
 import type { ConversationType } from '../../state/ducks/conversations.preload.js';
 import type { ContactNameColorType } from '../../types/Colors.std.js';
 import type { FunStaticEmojiSize } from '../fun/FunEmoji.dom.js';
@@ -113,7 +114,7 @@ export function ContactName({
   );
 }
 
-export type Context = 'bubble' | 'list';
+export type Context = 'bubble' | 'list' | 'quote';
 
 export function GroupMemberLabel({
   emojiSize = 12,
@@ -123,7 +124,7 @@ export function GroupMemberLabel({
   module,
 }: {
   emojiSize?: FunStaticEmojiSize;
-  contactLabel?: { labelString: string; labelEmoji: string | undefined };
+  contactLabel?: MemberLabelType;
   contactNameColor?: ContactNameColorType;
   context: Context;
   module?: string;
