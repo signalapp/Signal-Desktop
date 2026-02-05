@@ -305,10 +305,22 @@ export function PreferencesDonateFlow({
     return undefined;
   }, [i18n, step]);
 
+  const discardModalDiscardText = useMemo(() => {
+    if (step === 'stripePaymentDetails') {
+      return i18n('icu:DonateFlow__discard-dialog-remove-info');
+    }
+
+    if (step === 'paypal') {
+      return i18n('icu:DonateFlow__discard-paypal-dialog-discard');
+    }
+
+    return undefined;
+  }, [i18n, step]);
+
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,
     bodyText: discardModalBodyText,
-    discardText: i18n('icu:DonateFlow__discard-dialog-remove-info'),
+    discardText: discardModalDiscardText,
     name: 'PreferencesDonateFlow',
     tryClose,
   });
