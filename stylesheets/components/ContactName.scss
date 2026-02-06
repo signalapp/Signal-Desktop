@@ -286,17 +286,25 @@ $contact-colors: (
     padding-block: 1px;
     border-radius: 9px;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
   }
 
   &--label-pill--inner {
     display: flex;
     align-items: center;
     white-space: nowrap;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
   }
 
   &--label-pill--bubble {
-    margin-top: -2px;
-    margin-bottom: 2px;
+    margin-inline-start: 2px;
+    margin-bottom: -4px;
+    max-width: calc(100% - 2px);
   }
 
   &--label-pill--emoji {
@@ -318,8 +326,14 @@ $contact-colors: (
     }
   }
 
+  &--label-pill--list {
+    margin-bottom: -5px;
+  }
+
   &--label-pill--text {
     display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   @each $name, $value in $contact-colors {

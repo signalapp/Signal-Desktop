@@ -45,6 +45,10 @@
     }
   }
 
+  &-membership-list--member-label {
+    @include mixins.font-body-small;
+  }
+
   &__block-group {
     color: variables.$color-accent-red;
   }
@@ -350,6 +354,7 @@
       flex-grow: 1;
       text-align: start;
       margin-inline-end: 12px;
+      min-width: 0;
     }
 
     &__info {
@@ -367,7 +372,7 @@
     &__right {
       position: relative;
       color: variables.$color-gray-45;
-      min-width: 143px;
+      min-width: 100px;
     }
 
     &__actions {

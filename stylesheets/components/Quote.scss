@@ -180,6 +180,8 @@
   min-height: 54px;
   border-style: solid;
   border-width: 0 0 0 4px;
+
+  max-width: 100%;
 }
 
 .module-quote__primary__author {
@@ -189,6 +191,7 @@
   align-items: center;
   gap: 4px;
 
+  max-width: 100%;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
