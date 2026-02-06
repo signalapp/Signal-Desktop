@@ -10047,12 +10047,16 @@
     "description": "While making a donation and after entering payment details, if you try to navigate away then a dialog shows and its primary button has this text to confirm cancellation of the donation."
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "If you leave this page, you will need to start over to complete a donation. Do you want to proceed?",
+    "messageformat": "Leaving will cancel your donation.",
     "description": "While making a donation and after selecting Paypal, if you try to navigate away then a dialog shows with this body text."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Start over",
-    "description": "While making a donation and after entering payment details, if you try to navigate away then a dialog shows and its primary button has this text to confirm cancellation of the donation."
+    "messageformat": "Leave",
+    "description": "While making a donation and after selecting PayPal, if you try to navigate away then a dialog shows and its primary button has this text to confirm cancellation of the donation."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Stay on page",
+    "description": "While making a donation and after selecting PayPal, if you try to navigate away then a dialog shows and its secondary button has this text. The user will remain on the page and they can complete a donation as previously intended."
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Continue",

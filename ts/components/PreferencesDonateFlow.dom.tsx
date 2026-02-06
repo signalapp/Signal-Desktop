@@ -305,6 +305,15 @@ export function PreferencesDonateFlow({
     return undefined;
   }, [i18n, step]);
 
+  const discardModalCancelText = useMemo(() => {
+    if (step === 'paypal') {
+      return i18n('icu:DonateFlow__discard-paypal-dialog-cancel');
+    }
+
+    // Use default text "Cancel"
+    return undefined;
+  }, [i18n, step]);
+
   const discardModalDiscardText = useMemo(() => {
     if (step === 'stripePaymentDetails') {
       return i18n('icu:DonateFlow__discard-dialog-remove-info');
@@ -320,6 +329,7 @@ export function PreferencesDonateFlow({
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,
     bodyText: discardModalBodyText,
+    cancelText: discardModalCancelText,
     discardText: discardModalDiscardText,
     name: 'PreferencesDonateFlow',
     tryClose,
