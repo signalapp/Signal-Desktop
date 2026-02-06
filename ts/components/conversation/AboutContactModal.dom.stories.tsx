@@ -103,6 +103,34 @@ export function MeWithLabel(args: PropsType): React.JSX.Element {
   );
 }
 
+export function LongLabel(args: PropsType): React.JSX.Element {
+  return (
+    <AboutContactModal
+      {...{
+        ...args,
+        contactLabelEmoji: '🐝',
+        contactLabelString: '𒐫 𒐫 𒐫 𒐫 𒐫 𒐫 𒐫 𒐫 𒐫 𒐫 𒐫 𒐫 𒐫',
+        contactNameColor: '270',
+      }}
+      contact={me}
+    />
+  );
+}
+
+export function LongLabelAllEmoji(args: PropsType): React.JSX.Element {
+  return (
+    <AboutContactModal
+      {...{
+        ...args,
+        contactLabelEmoji: '🐝',
+        contactLabelString: '🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝',
+        contactNameColor: '270',
+      }}
+      contact={me}
+    />
+  );
+}
+
 export function MeWithInvalidLabelEmoji(args: PropsType): React.JSX.Element {
   return (
     <AboutContactModal

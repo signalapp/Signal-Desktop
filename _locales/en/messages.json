@@ -6304,6 +6304,18 @@
     "messageformat": "Choose who can send messages to the group.",
     "description": "This is the additional info for the 'who can send messages' panel"
   },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Member labels will be cleared",
+    "description": "When the user changes the 'edit group info' permission to 'Admins only', this dialog shows. Title of dialog."
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group.",
+    "description": "When the user changes the 'edit group info' permission to 'Admins only', this dialog shows. Description text of dialog."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Continue",
+    "description": "When the user changes the 'edit group info' permission to 'Admins only', this dialog shows. Button to continue making the change."
+  },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Requests & Invites",
     "description": "This is a button to display which members have been invited but have not joined yet"

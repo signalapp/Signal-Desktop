@@ -195,7 +195,7 @@ export function getMemberships(
     aci: member.aci,
     labelEmoji: member.labelEmoji,
     labelString: member.labelString
-      ? truncateString(member.labelString, {
+      ? truncateString(member.labelString.trim(), {
           byteLimit: STRING_BYTE_LIMIT,
           graphemeLimit: STRING_GRAPHEME_LIMIT,
         })
