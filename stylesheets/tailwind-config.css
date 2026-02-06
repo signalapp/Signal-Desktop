@@ -1,7 +1,13 @@
+/**
+ * Copyright 2026 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 @import 'tailwindcss' source(none);
 @import './tailwind-plugins/animate-general.css';
 @import './tailwind-plugins/animate-enter-exit.css';
 @import './tailwind-plugins/scrollbar.css';
+@import './tailwind-plugins/superellipse.css';
 
 @import '../ts/axo/_styles.css';
 
