@@ -138,7 +138,7 @@ export function AboutContactModal({
         <FunStaticEmoji
           role="img"
           aria-label={emojiLocalizer.getLocaleShortName(labelEmojiData.key)}
-          size={16}
+          size={14}
           emoji={labelEmojiData}
         />{' '}
       </>
@@ -316,7 +316,16 @@ export function AboutContactModal({
           <i className="AboutContactModal__row__icon AboutContactModal__row__icon--label" />
           <div className="AboutContactModal__label-container">
             {labelEmojiElement}
-            {contactLabelString}
+            <span className="AboutContactModal__label-container__string">
+              <UserText
+                fontSizeOverride={14}
+                style={{
+                  verticalAlign: 'top',
+                  marginTop: '3px',
+                }}
+                text={contactLabelString}
+              />
+            </span>
           </div>
         </div>
       )}
