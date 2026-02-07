@@ -146,6 +146,27 @@ describe('Settings', () => {
     });
   });
 
+  describe('isMonochromeIconSupported', () => {
+    it('returns false on macOS', () => {
+      sandbox.stub(process, 'platform').value('darwin');
+      const OS = getOSFunctions(os.release());
+      assert.isFalse(Settings.isMonochromeIconSupported(OS));
+    });
+
+    it('returns true on Windows', () => {
+      sandbox.stub(process, 'platform').value('win32');
+      sandbox.stub(os, 'release').returns('8.0.0');
+      const OS = getOSFunctions(os.release());
+      assert.isTrue(Settings.isMonochromeIconSupported(OS));
+    });
+
+    it('returns true on Linux', () => {
+      sandbox.stub(process, 'platform').value('linux');
+      const OS = getOSFunctions(os.release());
+      assert.isTrue(Settings.isMonochromeIconSupported(OS));
+    });
+  });
+
   describe('getDefaultSystemTraySetting', () => {
     it('returns DoNotUseSystemTray is unsupported OS', () => {
       sandbox.stub(process, 'platform').value('darwin');

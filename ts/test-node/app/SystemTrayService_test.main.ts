@@ -249,6 +249,26 @@ describe('SystemTrayService', function (this: Mocha.Suite) {
     sinon.assert.calledWith(setImageStub, sinon.match.instanceOf(NativeImage));
   });
 
+  it('updates the icon when monochrome mode is toggled', () => {
+    const service = newService();
+    service.setEnabled(true);
+    service.setMainWindow(new BrowserWindow({ show: false }));
+
+    const tray = service._getTray();
+    if (!tray) {
+      throw new Error('Test setup failed: expected a tray');
+    }
+
+    const setImageSpy = sandbox.spy(tray, 'setImage');
+
+    service.setMonochromeIcon(true);
+    assert.strictEqual(setImageSpy.callCount, 1);
+    service.setMonochromeIcon(true);
+    assert.strictEqual(setImageSpy.callCount, 1);
+    service.setMonochromeIcon(false);
+    assert.strictEqual(setImageSpy.callCount, 2);
+  });
+
   it('should not create new Tray after markShouldQuit', () => {
     const createTrayInstance = sandbox.stub();
 

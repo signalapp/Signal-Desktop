@@ -30,6 +30,7 @@ export class SystemTrayService {
   readonly #i18n: LocalizerType;
   #tray?: Tray;
   #isEnabled = false;
+  #isMonochrome = false;
   #isQuitting = false;
   #unreadCount = 0;
   #createTrayInstance: (icon: NativeImage) => Tray;
@@ -39,7 +40,13 @@ export class SystemTrayService {
     this.#i18n = i18n;
     this.#createTrayInstance = createTrayInstance || (icon => new Tray(icon));
 
-    nativeTheme.on('updated', this.#render);
+    nativeTheme.on('updated', () => {
+      if (!this.#isMonochrome) {
+        return;
+      }
+      clearIconCache();
+      this.#render();
+    });
   }
 
   /**
@@ -103,6 +110,22 @@ export class SystemTrayService {
   }
 
   /**
+   * Enable or disable monochrome tray icon mode.
+   */
+  setMonochromeIcon(isMonochrome: boolean): void {
+    if (this.#isMonochrome === isMonochrome) {
+      return;
+    }
+
+    log.info(
+      `System tray service: ${isMonochrome ? 'enabling' : 'disabling'} monochrome icon`
+    );
+    this.#isMonochrome = isMonochrome;
+    clearIconCache();
+    this.#render();
+  }
+
+  /**
    * Workaround for: https://github.com/electron/electron/issues/32581#issuecomment-1020359931
    *
    * Tray is automatically destroyed when app quits so we shouldn't destroy it
@@ -140,12 +163,12 @@ export class SystemTrayService {
     const browserWindow = this.#browserWindow;
 
     try {
-      tray.setImage(getIcon(this.#unreadCount));
+      tray.setImage(getIcon(this.#unreadCount, this.#isMonochrome));
     } catch (err: unknown) {
       log.warn(
         'System tray service: failed to set preferred image. Falling back...'
       );
-      tray.setImage(getDefaultIcon());
+      tray.setImage(getDefaultIcon(this.#isMonochrome));
     }
 
     // NOTE: we want to have the show/hide entry available in the tray icon
@@ -210,7 +233,7 @@ export class SystemTrayService {
     log.info('System tray service: creating the tray');
 
     // This icon may be swiftly overwritten.
-    const result = this.#createTrayInstance(getDefaultIcon());
+    const result = this.#createTrayInstance(getDefaultIcon(this.#isMonochrome));
 
     // Note: "When app indicator is used on Linux, the click event is ignored." This
     //   doesn't mean that the click event is always ignored on Linux; it depends on how
@@ -269,19 +292,34 @@ function getVariantForScaleFactor(scaleFactor: number) {
   return match ?? Variant.Size32;
 }
 
-function getTrayIconImagePath(size: number, unreadCount: number): string {
+function getMonoTheme(): string {
+  return nativeTheme.shouldUseDarkColors ? 'dark' : 'light';
+}
+
+function getTrayIconImagePath(
+  size: number,
+  unreadCount: number,
+  monochrome: boolean
+): string {
+  const theme = monochrome ? getMonoTheme() : null;
   let dirName: string;
   let fileName: string;
 
   if (unreadCount === 0) {
     dirName = 'base';
-    fileName = `signal-tray-icon-${size}x${size}-base.png`;
+    fileName = theme
+      ? `signal-tray-icon-${size}x${size}-${theme}-base.png`
+      : `signal-tray-icon-${size}x${size}-base.png`;
   } else if (unreadCount < 10) {
     dirName = 'alert';
-    fileName = `signal-tray-icon-${size}x${size}-alert-${unreadCount}.png`;
+    fileName = theme
+      ? `signal-tray-icon-${size}x${size}-${theme}-alert-${unreadCount}.png`
+      : `signal-tray-icon-${size}x${size}-alert-${unreadCount}.png`;
   } else {
     dirName = 'alert';
-    fileName = `signal-tray-icon-${size}x${size}-alert-9+.png`;
+    fileName = theme
+      ? `signal-tray-icon-${size}x${size}-${theme}-alert-9+.png`
+      : `signal-tray-icon-${size}x${size}-alert-9+.png`;
   }
 
   const iconPath = join(
@@ -298,8 +336,14 @@ function getTrayIconImagePath(size: number, unreadCount: number): string {
 
 const TrayIconCache = new Map<string, NativeImage>();
 
-function getIcon(unreadCount: number) {
-  const cacheKey = `${Math.min(unreadCount, 10)}`;
+function clearIconCache(): void {
+  TrayIconCache.clear();
+  defaultIcon = undefined;
+}
+
+function getIcon(unreadCount: number, monochrome = false) {
+  const theme = monochrome ? getMonoTheme() : '';
+  const cacheKey = `${theme}-${Math.min(unreadCount, 10)}`;
 
   const cached = TrayIconCache.get(cacheKey);
   if (cached != null) {
@@ -312,11 +356,16 @@ function getIcon(unreadCount: number) {
 
   if (platform === 'linux') {
     // Linux: Static tray icons
-    // Use a single tray icon for Linux, as it does not support scale factors.
-    // We choose the best icon based on the highest display scale factor.
+    // Use a single tray icon for Linux, as it does not support
+    // scale factors. We choose the best icon based on the
+    // highest display scale factor.
     const scaleFactor = getDisplaysMaxScaleFactor();
     const variant = getVariantForScaleFactor(scaleFactor);
-    const iconPath = getTrayIconImagePath(variant.size, unreadCount);
+    const iconPath = getTrayIconImagePath(
+      variant.size,
+      unreadCount,
+      monochrome
+    );
     const buffer = readFileSync(iconPath);
     image = nativeImage.createFromBuffer(buffer, {
       scaleFactor: 1.0, // Must be 1.0 for Linux
@@ -328,7 +377,11 @@ function getIcon(unreadCount: number) {
     image = nativeImage.createEmpty();
 
     for (const variant of Variants) {
-      const iconPath = getTrayIconImagePath(variant.size, unreadCount);
+      const iconPath = getTrayIconImagePath(
+        variant.size,
+        unreadCount,
+        monochrome
+      );
       const buffer = readFileSync(iconPath);
       image.addRepresentation({
         buffer,
@@ -345,8 +398,12 @@ function getIcon(unreadCount: number) {
 }
 
 let defaultIcon: undefined | NativeImage;
-function getDefaultIcon(): NativeImage {
-  defaultIcon ??= getIcon(0);
+function getDefaultIcon(monochrome = false): NativeImage {
+  if (monochrome) {
+    // Don't cache monochrome default separately in the module-level var
+    return getIcon(0, true);
+  }
+  defaultIcon ??= getIcon(0, false);
   return defaultIcon;
 }
 

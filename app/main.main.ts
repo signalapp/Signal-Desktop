@@ -2375,6 +2375,11 @@ app.on('ready', async () => {
     shouldMinimizeToSystemTray(await systemTraySettingCache.get())
   );
 
+  const monochromeIcon = ephemeralConfig.get('monochrome-icon');
+  if (typeof monochromeIcon === 'boolean') {
+    systemTrayService.setMonochromeIcon(monochromeIcon);
+  }
+
   await ensureFilePermissions([
     'config.json',
     'sql/db.sqlite',
@@ -2977,15 +2982,20 @@ const sendPreferencesChangedEventToWindows = () => {
 ipc.on('preferences-changed', sendPreferencesChangedEventToWindows);
 
 const onEphemeralSettingChanged = (name: string) => {
-  if (name !== 'contentProtection') {
-    return;
+  if (name === 'contentProtection') {
+    const contentProtection = ephemeralConfig.get('contentProtection');
+
+    for (const window of activeWindows) {
+      if (typeof contentProtection === 'boolean') {
+        window.setContentProtection(contentProtection);
+      }
+    }
   }
 
-  const contentProtection = ephemeralConfig.get('contentProtection');
-
-  for (const window of activeWindows) {
-    if (typeof contentProtection === 'boolean') {
-      window.setContentProtection(contentProtection);
+  if (name === 'monochromeIcon') {
+    const monochromeIcon = ephemeralConfig.get('monochrome-icon');
+    if (systemTrayService && typeof monochromeIcon === 'boolean') {
+      systemTrayService.setMonochromeIcon(monochromeIcon);
     }
   }
 };

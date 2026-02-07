@@ -88,6 +88,7 @@ type ValuesWithGetters = Omit<
   | 'localeOverride'
   | 'mediaPermissions'
   | 'mediaCameraPermissions'
+  | 'monochromeIcon'
   | 'spellCheck'
   | 'contentProtection'
   | 'systemTraySetting'
@@ -124,6 +125,7 @@ export type IPCEventsGettersType = {
   getMediaCameraPermissions: () => Promise<boolean>;
   getSpellCheck: () => Promise<boolean>;
   getContentProtection: () => Promise<boolean>;
+  getMonochromeIcon: () => Promise<boolean>;
   getSystemTraySetting: () => Promise<SystemTraySetting>;
   getThemeSetting: () => Promise<ThemeType>;
   getZoomFactor: () => Promise<ZoomFactorType>;
@@ -214,6 +216,12 @@ export function createIPCEvents(
     },
     setContentProtection: async (value: boolean) => {
       await setEphemeralSetting('contentProtection', value);
+    },
+    getMonochromeIcon: async () => {
+      return (await getEphemeralSetting('monochromeIcon')) ?? false;
+    },
+    setMonochromeIcon: async (value: boolean) => {
+      await setEphemeralSetting('monochromeIcon', value);
     },
     getSpellCheck: async () => {
       return (await getEphemeralSetting('spellCheck')) ?? false;

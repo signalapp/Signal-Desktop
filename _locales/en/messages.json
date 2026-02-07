@@ -2881,6 +2881,10 @@
     "messageformat": "Start minimized to tray",
     "description": "In the settings, shown next to the checkbox option for starting in the system tray"
   },
+  "icu:Preferences__monochrome-icon": {
+    "messageformat": "Use monochrome icon",
+    "description": "In the settings, shown next to the checkbox option for using a monochrome (single-color) tray icon"
+  },
   "icu:autoLaunchDescription": {
     "messageformat": "Open at computer login",
     "description": "Description for the automatic launch setting"

@@ -149,6 +149,7 @@ export type PropsDataType = {
   hasMessageAudio: boolean;
   hasMinimizeToAndStartInSystemTray: boolean | undefined;
   hasMinimizeToSystemTray: boolean | undefined;
+  hasMonochromeIcon: boolean | undefined;
   hasNotificationAttention: boolean;
   hasNotifications: boolean;
   hasReadReceipts: boolean;
@@ -201,6 +202,7 @@ export type PropsDataType = {
   isSyncSupported: boolean;
   isSystemTraySupported: boolean;
   isMinimizeToAndStartInSystemTraySupported: boolean;
+  isMonochromeIconSupported: boolean;
   isInternalUser: boolean;
 
   // Devices
@@ -315,6 +317,7 @@ type PropsFunctionType = {
   onMessageAudioChange: CheckboxChangeHandlerType;
   onMinimizeToAndStartInSystemTrayChange: CheckboxChangeHandlerType;
   onMinimizeToSystemTrayChange: CheckboxChangeHandlerType;
+  onMonochromeIconChange: CheckboxChangeHandlerType;
   onNotificationAttentionChange: CheckboxChangeHandlerType;
   onNotificationContentChange: SelectChangeHandlerType<NotificationSettingType>;
   onNotificationsChange: CheckboxChangeHandlerType;
@@ -425,6 +428,7 @@ export function Preferences({
   hasMessageAudio,
   hasMinimizeToAndStartInSystemTray,
   hasMinimizeToSystemTray,
+  hasMonochromeIcon,
   hasNotificationAttention,
   hasNotifications,
   hasReadReceipts,
@@ -446,6 +450,7 @@ export function Preferences({
   isSyncSupported,
   isSystemTraySupported,
   isMinimizeToAndStartInSystemTraySupported,
+  isMonochromeIconSupported,
   isInternalUser,
   lastLocalBackup,
   lastSyncTime,
@@ -478,6 +483,7 @@ export function Preferences({
   onMessageAudioChange,
   onMinimizeToAndStartInSystemTrayChange,
   onMinimizeToSystemTrayChange,
+  onMonochromeIconChange,
   onNotificationAttentionChange,
   onNotificationContentChange,
   onNotificationsChange,
@@ -844,6 +850,18 @@ export function Preferences({
                   moduleClassName="Preferences__checkbox"
                   name="system-tray-setting-minimize-to-and-start-in-system-tray"
                   onChange={onMinimizeToAndStartInSystemTrayChange}
+                />
+              )}
+              {isMonochromeIconSupported && (
+                <Checkbox
+                  checked={hasMonochromeIcon}
+                  disabled={
+                    !hasMinimizeToSystemTray || hasMonochromeIcon === undefined
+                  }
+                  label={i18n('icu:Preferences__monochrome-icon')}
+                  moduleClassName="Preferences__checkbox"
+                  name="monochrome-icon"
+                  onChange={onMonochromeIconChange}
                 />
               )}
             </>

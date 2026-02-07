@@ -441,6 +441,7 @@ export default {
     hasMessageAudio: true,
     hasMinimizeToAndStartInSystemTray: true,
     hasMinimizeToSystemTray: true,
+    hasMonochromeIcon: false,
     hasNotificationAttention: false,
     hasNotifications: true,
     hasReadReceipts: true,
@@ -457,6 +458,7 @@ export default {
     isNotificationAttentionSupported: true,
     isSyncSupported: true,
     isSystemTraySupported: true,
+    isMonochromeIconSupported: true,
     isInternalUser: false,
     isContentProtectionSupported: true,
     isContentProtectionNeeded: true,
@@ -572,6 +574,7 @@ export default {
       'onMinimizeToAndStartInSystemTrayChange'
     ),
     onMinimizeToSystemTrayChange: action('onMinimizeToSystemTrayChange'),
+    onMonochromeIconChange: action('onMonochromeIconChange'),
     onNotificationAttentionChange: action('onNotificationAttentionChange'),
     onNotificationContentChange: action('onNotificationContentChange'),
     onNotificationsChange: action('onNotificationsChange'),

@@ -16,6 +16,7 @@ import type { EphemeralSettings } from '../util/preload.preload.js';
 const log = createLogger('settingsChannel');
 
 const EPHEMERAL_NAME_MAP = new Map([
+  ['monochromeIcon', 'monochrome-icon'],
   ['spellCheck', 'spell-check'],
   ['systemTraySetting', 'system-tray-setting'],
   ['themeSetting', 'theme-setting'],
@@ -44,6 +45,7 @@ export class SettingsChannel extends EventEmitter {
   }
 
   public install(): void {
+    this.#installEphemeralSetting('monochromeIcon');
     this.#installEphemeralSetting('themeSetting');
     this.#installEphemeralSetting('systemTraySetting');
     this.#installEphemeralSetting('localeOverride');

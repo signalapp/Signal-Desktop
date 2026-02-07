@@ -312,6 +312,7 @@ export function SmartPreferences(): React.JSX.Element | null {
     Settings.isMinimizeToAndStartInSystemTraySupported(OS);
   const isNotificationAttentionSupported =
     Settings.isDrawAttentionSupported(OS);
+  const isMonochromeIconSupported = Settings.isMonochromeIconSupported(OS);
   const isSystemTraySupported = Settings.isSystemTraySupported(OS);
 
   // Textsecure - user can change number and change this device's name
@@ -384,6 +385,7 @@ export function SmartPreferences(): React.JSX.Element | null {
     React.useState<SystemTraySetting>();
   const [hasContentProtection, setContentProtection] =
     React.useState<boolean>();
+  const [hasMonochromeIcon, setMonochromeIcon] = React.useState<boolean>();
   const [hasSpellCheck, setSpellCheck] = React.useState<boolean>();
   const [themeSetting, setThemeSetting] = React.useState<ThemeType>();
 
@@ -422,6 +424,15 @@ export function SmartPreferences(): React.JSX.Element | null {
       setContentProtection(value);
     };
     drop(loadContentProtection());
+
+    const loadMonochromeIcon = async () => {
+      const value = await window.Events.getMonochromeIcon();
+      if (canceled) {
+        return;
+      }
+      setMonochromeIcon(value);
+    };
+    drop(loadMonochromeIcon());
 
     const loadThemeSetting = async () => {
       const value = await window.Events.getThemeSetting();
@@ -466,6 +477,10 @@ export function SmartPreferences(): React.JSX.Element | null {
   const onContentProtectionChange = async (value: boolean) => {
     setContentProtection(value);
     await window.Events.setContentProtection(value);
+  };
+  const onMonochromeIconChange = async (value: boolean) => {
+    setMonochromeIcon(value);
+    await window.Events.setMonochromeIcon(value);
   };
   const onThemeChange = (value: ThemeType) => {
     setThemeSetting(value);
@@ -852,6 +867,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           hasMessageAudio={hasMessageAudio}
           hasMinimizeToAndStartInSystemTray={hasMinimizeToAndStartInSystemTray}
           hasMinimizeToSystemTray={hasMinimizeToSystemTray}
+          hasMonochromeIcon={hasMonochromeIcon}
           hasNotificationAttention={hasNotificationAttention}
           hasNotifications={hasNotifications}
           hasReadReceipts={hasReadReceipts}
@@ -870,6 +886,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           isMinimizeToAndStartInSystemTraySupported={
             isMinimizeToAndStartInSystemTraySupported
           }
+          isMonochromeIconSupported={isMonochromeIconSupported}
           isNotificationAttentionSupported={isNotificationAttentionSupported}
           isPlaintextExportEnabled={isPlaintextExportEnabled}
           isSyncSupported={isSyncSupported}
@@ -911,6 +928,7 @@ export function SmartPreferences(): React.JSX.Element | null {
             onMinimizeToAndStartInSystemTrayChange
           }
           onMinimizeToSystemTrayChange={onMinimizeToSystemTrayChange}
+          onMonochromeIconChange={onMonochromeIconChange}
           onNotificationAttentionChange={onNotificationAttentionChange}
           onNotificationContentChange={onNotificationContentChange}
           onNotificationsChange={onNotificationsChange}

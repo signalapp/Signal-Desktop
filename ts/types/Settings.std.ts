@@ -33,6 +33,9 @@ export const isDrawAttentionSupported = (OS: OSType): boolean => !OS.isMacOS();
 export const isSystemTraySupported = (OS: OSType): boolean =>
   OS.isWindows() || OS.isLinux();
 
+export const isMonochromeIconSupported = (OS: OSType): boolean =>
+  OS.isWindows() || OS.isLinux();
+
 export const isContentProtectionSupported = (OS: OSType): boolean =>
   OS.isWindows();
 
