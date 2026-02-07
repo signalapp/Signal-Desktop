@@ -153,6 +153,7 @@ export type FunInlineEmojiProps = FunImageAriaProps &
   Readonly<{
     size?: number | null;
     emoji: EmojiVariantData;
+    style?: CSSProperties;
   }>;
 
 export function FunInlineEmoji(props: FunInlineEmojiProps): React.JSX.Element {
@@ -175,6 +176,7 @@ export function FunInlineEmoji(props: FunInlineEmojiProps): React.JSX.Element {
         {
           '--fun-inline-emoji-size':
             props.size != null ? `${props.size}px` : null,
+          ...props.style,
         } as CSSProperties
       }
     >

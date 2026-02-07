@@ -1072,8 +1072,10 @@ $message-padding-horizontal: 12px;
 .module-message__author {
   @include mixins.font-body-small-bold;
 
-  min-height: 18px;
   user-select: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 3px;
 }
 
 .module-message__author_with_sticker {

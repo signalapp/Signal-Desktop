@@ -141,7 +141,7 @@ export function ConversationDetailsMembershipList({
                     />
                   </div>
                   {labelString && contactNameColor && (
-                    <div>
+                    <div className="ConversationDetails-membership-list--member-label">
                       <GroupMemberLabel
                         contactNameColor={contactNameColor}
                         contactLabel={{
