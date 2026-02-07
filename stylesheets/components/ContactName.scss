@@ -295,10 +295,14 @@ $contact-colors: (
     display: flex;
     align-items: center;
     white-space: nowrap;
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
+  }
+
+  &--label-pill--inner--contact-modal {
+    align-items: start;
+    white-space: normal;
   }
 
   &--label-pill--bubble {
@@ -326,7 +330,7 @@ $contact-colors: (
     }
   }
 
-  &--label-pill--list {
+  &--label-pill--contact-modal {
     margin-bottom: -5px;
   }
 
@@ -352,7 +356,8 @@ $contact-colors: (
         }
       }
 
-      &--label-pill--list {
+      &--label-pill--list,
+      &--label-pill--contact-modal {
         color: color.mix(map.get($value, 'light'), #000000, 70%);
         background-color: rgba(map.get($value, 'light'), 0.1);
         @include mixins.dark-theme() {

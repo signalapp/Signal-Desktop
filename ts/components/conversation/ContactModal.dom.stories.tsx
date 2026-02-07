@@ -97,6 +97,27 @@ WithLabelInvalidEmoji.args = {
   contactNameColor: '220',
 };
 
+export const LongLabel = Template.bind({});
+LongLabel.args = {
+  contactLabelEmoji: '🐝',
+  contactLabelString: '𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫',
+  contactNameColor: '270',
+};
+
+export const LongLabel2 = Template.bind({});
+LongLabel2.args = {
+  contactLabelEmoji: '🐝',
+  contactLabelString: '﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽',
+  contactNameColor: '270',
+};
+
+export const LongLabelAllEmoji = Template.bind({});
+LongLabelAllEmoji.args = {
+  contactLabelEmoji: '🐝',
+  contactLabelString: '🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝',
+  contactNameColor: '270',
+};
+
 export const AsAdmin = Template.bind({});
 AsAdmin.args = {
   areWeAdmin: true,

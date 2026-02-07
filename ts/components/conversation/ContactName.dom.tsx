@@ -115,7 +115,7 @@ export function ContactName({
   );
 }
 
-export type Context = 'bubble' | 'list' | 'quote';
+export type Context = 'bubble' | 'list' | 'quote' | 'contact-modal';
 
 export function GroupMemberLabel({
   emojiSize = 12,
@@ -180,7 +180,12 @@ export function GroupMemberLabel({
         getClassName(`--${contactNameColor}--label-pill--${context}`)
       )}
     >
-      <span className={getClassName('--label-pill--inner')}>
+      <span
+        className={classNames(
+          getClassName('--label-pill--inner'),
+          getClassName(`--label-pill--inner--${context}`)
+        )}
+      >
         {emojiElement}
         <span
           className={classNames(
