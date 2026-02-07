@@ -393,7 +393,7 @@ export function ContactModal({
                     labelString: contactLabelString,
                   }}
                   contactNameColor={contactNameColor}
-                  context="list"
+                  context="contact-modal"
                 />
               </button>
             )}
