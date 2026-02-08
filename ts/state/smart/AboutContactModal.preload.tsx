@@ -2,19 +2,28 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
+
 import { AboutContactModal } from '../../components/conversation/AboutContactModal.dom.js';
 import { isSignalConnection } from '../../util/getSignalConnections.preload.js';
-import { getIntl } from '../selectors/user.std.js';
-import { getGlobalModalsState } from '../selectors/globalModals.std.js';
+import { getIntl, getVersion } from '../selectors/user.std.js';
+import { getAboutContactModalState } from '../selectors/globalModals.std.js';
 import {
+  getCachedConversationMemberColorsSelector,
   getConversationSelector,
   getPendingAvatarDownloadSelector,
 } from '../selectors/conversations.dom.js';
+import { useSharedGroupNamesOnMount } from '../../util/sharedGroupNames.dom.js';
 import type { ConversationType } from '../ducks/conversations.preload.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
 import { strictAssert } from '../../util/assert.std.js';
 import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation.preload.js';
+import { getItems } from '../selectors/items.dom.js';
+import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.js';
+import { getCanAddLabel } from '../../types/GroupMemberLabels.std.js';
+import { createLogger } from '../../logging/log.std.js';
+
+const log = createLogger('SmartAboutContactModal');
 
 function isFromOrAddedByTrustedContact(
   conversation: ConversationType
@@ -35,15 +44,42 @@ function isFromOrAddedByTrustedContact(
 
 export const SmartAboutContactModal = memo(function SmartAboutContactModal() {
   const i18n = useSelector(getIntl);
-  const globalModals = useSelector(getGlobalModalsState);
-  const { aboutContactModalContactId: contactId } = globalModals;
+  const version = useSelector(getVersion);
+  const items = useSelector(getItems);
+  const { conversationId, contactId } =
+    useSelector(getAboutContactModalState) ?? {};
   const getConversation = useSelector(getConversationSelector);
   const isPendingAvatarDownload = useSelector(getPendingAvatarDownloadSelector);
 
-  const { startAvatarDownload, updateSharedGroups } = useConversationsActions();
+  const isEditMemberLabelEnabled = isFeaturedEnabledSelector({
+    betaKey: 'desktop.groupMemberLabels.edit.beta',
+    currentVersion: version,
+    remoteConfig: items.remoteConfig,
+    prodKey: 'desktop.groupMemberLabels.edit.prod',
+  });
+  // TODO: DESKTOP-9711
+  log.info(
+    `Not using feature flag of ${isEditMemberLabelEnabled}; hardcoding to false`
+  );
 
-  const conversation = getConversation(contactId);
-  const { id: conversationId } = conversation ?? {};
+  const sharedGroupNames = useSharedGroupNamesOnMount(contactId ?? '');
+
+  const { startAvatarDownload } = useConversationsActions();
+
+  const contact = getConversation(contactId);
+  const conversation = getConversation(conversationId);
+
+  const getMemberColors = useSelector(
+    getCachedConversationMemberColorsSelector
+  );
+  const memberColors = getMemberColors(conversationId);
+  const contactNameColor = memberColors?.get(contact.id);
+  const contactMembership = conversation.memberships?.find(
+    membership => contact.serviceId && membership.aci === contact.serviceId
+  );
+  const { labelEmoji: contactLabelEmoji, labelString: contactLabelString } =
+    contactMembership || {};
+  const canAddLabel = getCanAddLabel(conversation, contactMembership);
 
   const {
     toggleAboutContactModal,
@@ -54,32 +90,37 @@ export const SmartAboutContactModal = memo(function SmartAboutContactModal() {
   } = useGlobalModalActions();
 
   const handleOpenNotePreviewModal = useCallback(() => {
-    strictAssert(conversationId != null, 'conversationId is required');
-    toggleNotePreviewModal({ conversationId });
-  }, [toggleNotePreviewModal, conversationId]);
+    strictAssert(contactId != null, 'contactId is required');
+    toggleNotePreviewModal({ conversationId: contactId });
+  }, [toggleNotePreviewModal, contactId]);
 
-  if (conversation == null) {
+  if (contact == null) {
     return null;
   }
 
   return (
     <AboutContactModal
       i18n={i18n}
-      conversation={conversation}
-      updateSharedGroups={updateSharedGroups}
-      toggleSignalConnectionsModal={toggleSignalConnectionsModal}
-      toggleSafetyNumberModal={toggleSafetyNumberModal}
-      isSignalConnection={isSignalConnection(conversation)}
-      fromOrAddedByTrustedContact={isFromOrAddedByTrustedContact(conversation)}
+      canAddLabel={canAddLabel}
+      contact={contact}
+      contactLabelEmoji={contactLabelEmoji}
+      contactLabelString={contactLabelString}
+      contactNameColor={contactNameColor}
+      fromOrAddedByTrustedContact={isFromOrAddedByTrustedContact(contact)}
+      isEditMemberLabelEnabled={false}
+      isSignalConnection={isSignalConnection(contact)}
       onClose={toggleAboutContactModal}
       onOpenNotePreviewModal={handleOpenNotePreviewModal}
-      toggleProfileNameWarningModal={toggleProfileNameWarningModal}
       pendingAvatarDownload={
         conversationId ? isPendingAvatarDownload(conversationId) : false
       }
+      sharedGroupNames={sharedGroupNames}
       startAvatarDownload={
         conversationId ? () => startAvatarDownload(conversationId) : undefined
       }
+      toggleProfileNameWarningModal={toggleProfileNameWarningModal}
+      toggleSafetyNumberModal={toggleSafetyNumberModal}
+      toggleSignalConnectionsModal={toggleSignalConnectionsModal}
     />
   );
 });

@@ -23,7 +23,15 @@ import type {
   Pni,
 } from '@signalapp/libsignal-client';
 import { AccountAttributes } from '@signalapp/libsignal-client/dist/net.js';
+import type {
+  ProvisioningConnection,
+  ProvisioningConnectionListener,
+} from '@signalapp/libsignal-client/dist/net.js';
 import { GroupSendFullToken } from '@signalapp/libsignal-client/zkgroup.js';
+import type {
+  Request as KTRequest,
+  MonitorMode as KTMonitorMode,
+} from '@signalapp/libsignal-client/dist/net/KeyTransparency.js';
 
 import { assertDev, strictAssert } from '../util/assert.std.js';
 import * as durations from '../util/durations/index.std.js';
@@ -77,7 +85,6 @@ import {
 import type { CDSAuthType, CDSResponseType } from './cds/Types.d.ts';
 import { CDSI } from './cds/CDSI.node.js';
 import { SignalService as Proto } from '../protobuf/index.std.js';
-import { isEnabled as isRemoteConfigEnabled } from '../RemoteConfig.dom.js';
 
 import type {
   WebAPICredentials,
@@ -90,7 +97,6 @@ import { createLogger } from '../logging/log.std.js';
 import { maybeParseUrl, urlPathFromComponents } from '../util/url.std.js';
 import { HOUR, MINUTE, SECOND } from '../util/durations/index.std.js';
 import { safeParseNumber } from '../util/numbers.std.js';
-import type { IWebSocketResource } from './WebsocketResources.preload.js';
 import { getLibsignalNet } from './preconnect.preload.js';
 import type { GroupSendToken } from '../types/GroupSendEndorsements.std.js';
 import {
@@ -120,6 +126,8 @@ import {
   RemoteMegaphoneCtaDataSchema,
   type RemoteMegaphoneId,
 } from '../types/Megaphone.std.js';
+import { bindRemoteConfigToLibsignalNet } from '../LibsignalNetRemoteConfig.preload.js';
+import { KeyTransparencyStore } from '../LibSignalStores.preload.js';
 
 const { escapeRegExp, isNumber, throttle } = lodash;
 
@@ -736,6 +744,8 @@ const CHAT_CALLS = {
   challenge: 'v1/challenge',
   configV2: 'v2/config',
   createBoost: 'v1/subscription/boost/create',
+  createPaypalBoost: 'v1/subscription/boost/paypal/create',
+  confirmPaypalBoost: 'v1/subscription/boost/paypal/confirm',
   deliveryCert: 'v1/certificate/delivery',
   devices: 'v1/devices',
   directoryAuthV2: 'v2/directory/auth',
@@ -883,7 +893,7 @@ export type GetGroupLogOptionsType = Readonly<{
 }>;
 export type GroupLogResponseType = {
   changes: Proto.GroupChanges;
-  groupSendEndorsementResponse: Uint8Array | null;
+  groupSendEndorsementsResponse: Uint8Array | null;
 } & (
   | {
       paginated: false;
@@ -967,7 +977,7 @@ const getDevicesResultZod = z.object({
       id: z.number(),
       name: z.string().nullish(), // primary devices may not have a name
       lastSeen: z.number().nullish(),
-      created: z.number().nullish(),
+      createdAtCiphertext: z.string(),
     })
   ),
 });
@@ -1172,7 +1182,7 @@ export type CreateBoostResultType = z.infer<typeof CreateBoostResultSchema>;
 export type CreateBoostReceiptCredentialsOptionsType = Readonly<{
   paymentIntentId: string;
   receiptCredentialRequest: string;
-  processor: string;
+  processor: 'STRIPE' | 'BRAINTREE';
 }>;
 const CreateBoostReceiptCredentialsResultSchema = z.object({
   receiptCredentialResponse: z.string(),
@@ -1226,6 +1236,36 @@ const ConfirmIntentWithStripeResultSchema = z.object({
 });
 type ConfirmIntentWithStripeResultType = z.infer<
   typeof ConfirmIntentWithStripeResultSchema
+>;
+
+export type CreatePaypalBoostOptionsType = Readonly<{
+  currency: string;
+  amount: StripeDonationAmount;
+  level: number;
+  returnUrl: string;
+  cancelUrl: string;
+}>;
+const CreatePaypalBoostResultSchema = z.object({
+  approvalUrl: z.string(),
+  paymentId: z.string(),
+});
+export type CreatePaypalBoostResultType = z.infer<
+  typeof CreatePaypalBoostResultSchema
+>;
+
+export type ConfirmPaypalBoostOptionsType = Readonly<{
+  currency: string;
+  amount: number;
+  level: number;
+  payerId: string;
+  paymentId: string;
+  paymentToken: string;
+}>;
+const ConfirmPaypalBoostResultSchema = z.object({
+  paymentId: z.string(),
+});
+export type ConfirmPaypalBoostResultType = z.infer<
+  typeof ConfirmPaypalBoostResultSchema
 >;
 
 export type RedeemReceiptOptionsType = Readonly<{
@@ -1701,33 +1741,7 @@ const PARSE_RANGE_HEADER = /\/(\d+)$/;
 const PARSE_GROUP_LOG_RANGE_HEADER =
   /^versions\s+(\d{1,10})-(\d{1,10})\/(\d{1,10})/;
 
-const libsignalRemoteConfig = new Map();
-if (isRemoteConfigEnabled('desktop.libsignalNet.enforceMinimumTls')) {
-  log.info('libsignal net will require TLS 1.3');
-  libsignalRemoteConfig.set('enforceMinimumTls', 'true');
-}
-if (isRemoteConfigEnabled('desktop.libsignalNet.shadowUnauthChatWithNoise')) {
-  log.info('libsignal net will shadow unauth chat connections');
-  libsignalRemoteConfig.set('shadowUnauthChatWithNoise', 'true');
-}
-if (isRemoteConfigEnabled('desktop.libsignalNet.shadowAuthChatWithNoise')) {
-  log.info('libsignal net will shadow auth chat connections');
-  libsignalRemoteConfig.set('shadowAuthChatWithNoise', 'true');
-}
-const perMessageDeflateConfigKey = isProduction(version)
-  ? 'desktop.libsignalNet.chatPermessageDeflate.prod'
-  : 'desktop.libsignalNet.chatPermessageDeflate';
-if (isRemoteConfigEnabled(perMessageDeflateConfigKey)) {
-  libsignalRemoteConfig.set('chatPermessageDeflate', 'true');
-}
-libsignalNet.setRemoteConfig(libsignalRemoteConfig);
-
-const socketManager = new SocketManager(libsignalNet, {
-  url: chatServiceUrl,
-  certificateAuthority,
-  version,
-  proxyUrl,
-});
+const socketManager = new SocketManager(libsignalNet);
 
 socketManager.on('statusChange', () => {
   window.Whisper.events.emit('socketStatusChange');
@@ -1776,6 +1790,8 @@ export async function connect({
   hasStoriesDisabled,
   hasBuildExpired,
 }: WebAPIConnectOptionsType): Promise<void> {
+  bindRemoteConfigToLibsignalNet(getLibsignalNet(), window.getVersion());
+
   username = initialUsername;
   password = initialPassword;
 
@@ -2460,11 +2476,49 @@ export async function getAccountForUsername({
   hash,
 }: GetAccountForUsernameOptionsType): Promise<GetAccountForUsernameResultType> {
   const aci = await _retry(async () => {
-    const chat = await socketManager.getUnauthenticatedLibsignalApi();
+    const chat = await socketManager.getUnauthenticatedApi();
     return chat.lookUpUsernameHash({ hash });
   });
 
   return aci ? fromAciObject(aci) : null;
+}
+
+export async function keyTransparencySearch(
+  request: KTRequest,
+  abortSignal?: AbortSignal
+): Promise<void> {
+  return _retry(async () => {
+    const chat = await socketManager.getUnauthenticatedApi();
+    if (abortSignal?.aborted) {
+      throw new Error('Aborted');
+    }
+    const kt = chat.keyTransparencyClient();
+    const store = new KeyTransparencyStore();
+    return kt.search(request, store, { abortSignal });
+  });
+}
+
+export async function keyTransparencyMonitor(
+  request: KTRequest,
+  mode: KTMonitorMode,
+  abortSignal?: AbortSignal
+): Promise<void> {
+  return _retry(async () => {
+    const chat = await socketManager.getUnauthenticatedApi();
+    if (abortSignal?.aborted) {
+      throw new Error('Aborted');
+    }
+    const kt = chat.keyTransparencyClient();
+    const store = new KeyTransparencyStore();
+    return kt.monitor(
+      {
+        ...request,
+        mode,
+      },
+      store,
+      { abortSignal }
+    );
+  });
 }
 
 export async function putProfile(
@@ -2675,7 +2729,7 @@ export async function resolveUsernameLink({
   uuid,
 }: ResolveUsernameByLinkOptionsType): Promise<ResolveUsernameLinkResultType> {
   return _retry(async () => {
-    const chat = await socketManager.getUnauthenticatedLibsignalApi();
+    const chat = await socketManager.getUnauthenticatedApi();
     return chat.lookUpUsernameLink({ uuid, entropy });
   });
 }
@@ -3623,7 +3677,7 @@ export async function sendMulti(
   }
 
   const result = await _retry(async () => {
-    const chat = await socketManager.getUnauthenticatedLibsignalApi();
+    const chat = await socketManager.getUnauthenticatedApi();
     return chat.sendMultiRecipientMessage({
       payload,
       timestamp,
@@ -4506,6 +4560,34 @@ export function createPaymentMethodWithStripe(
   });
 }
 
+export function createPaypalBoostPayment(
+  options: CreatePaypalBoostOptionsType
+): Promise<CreatePaypalBoostResultType> {
+  return _ajax({
+    unauthenticated: true,
+    host: 'chatService',
+    call: 'createPaypalBoost',
+    httpType: 'POST',
+    jsonData: options,
+    responseType: 'json',
+    zodSchema: CreatePaypalBoostResultSchema,
+  });
+}
+
+export function confirmPaypalBoostPayment(
+  options: ConfirmPaypalBoostOptionsType
+): Promise<ConfirmPaypalBoostResultType> {
+  return _ajax({
+    unauthenticated: true,
+    host: 'chatService',
+    call: 'confirmPaypalBoost',
+    httpType: 'POST',
+    jsonData: options,
+    responseType: 'json',
+    zodSchema: ConfirmPaypalBoostResultSchema,
+  });
+}
+
 export async function createGroup(
   group: Proto.IGroup,
   options: GroupCredentialsType
@@ -4673,7 +4755,7 @@ export async function getGroupLog(
   });
   const { data, response } = withDetails;
   const changes = Proto.GroupChanges.decode(data);
-  const { groupSendEndorsementResponse } = changes;
+  const { groupSendEndorsementsResponse } = changes;
 
   if (response && response.status === 206) {
     const range = response.headers.get('Content-Range');
@@ -4695,7 +4777,7 @@ export async function getGroupLog(
         start,
         end,
         currentRevision,
-        groupSendEndorsementResponse,
+        groupSendEndorsementsResponse,
       };
     }
   }
@@ -4703,7 +4785,7 @@ export async function getGroupLog(
   return {
     paginated: false,
     changes,
-    groupSendEndorsementResponse,
+    groupSendEndorsementsResponse,
   };
 }
 
@@ -4735,11 +4817,11 @@ export async function getHasSubscription(
   return data.subscription.active;
 }
 
-export function getProvisioningResource(
-  handler: IRequestHandler,
-  timeout?: number
-): Promise<IWebSocketResource> {
-  return socketManager.getProvisioningResource(handler, timeout);
+export function getProvisioningConnection(
+  listener: ProvisioningConnectionListener,
+  timeout: number
+): Promise<ProvisioningConnection> {
+  return socketManager.getProvisioningConnection(listener, timeout);
 }
 
 export async function cdsLookup({

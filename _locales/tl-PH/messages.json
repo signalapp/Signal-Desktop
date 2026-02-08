@@ -578,14 +578,95 @@
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "Para i-verify ang end-to-end encryption n'yo ni {name}, pagkumparahin ang numbers sa itaas ng device n'ya. Pwede rin n'yang i-scan ang code mo sa device n'ya."
   },
+  "icu:SafetyNumberViewer__hint-v2": {
+    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+  },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Matuto pa"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__title": {
+    "messageformat": "Automatic key verification"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
+    "messageformat": "Verify automatically"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--running": {
+    "messageformat": "Verifying encryption..."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
+    "messageformat": "Encryption verified"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
+    "messageformat": "Auto-verification unavailable"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__hint": {
+    "messageformat": "Auto-verification is not available for all chats."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
+    "messageformat": "Learn more"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
+    "messageformat": "Encryption was auto-verified for this chat "
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
+    "messageformat": "Auto-verification is no longer available for this chat"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
+    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
+    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
+    "messageformat": "Okay"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Gagawa ng safety number para sa taong ito pagkatapos n'yong magpalitan ng messages."
   },
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Matuto pa"
+  },
+  "icu:KeyTransparencyErrorDialog__Title": {
+    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+  },
+  "icu:KeyTransparencyErrorDialog__Description": {
+    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+  },
+  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Close"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
+    "messageformat": "Share debug log"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
+    "messageformat": "View"
+  },
+  "icu:KeyTransparencyErrorDialog__Submit": {
+    "messageformat": "Submit"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "No thanks"
+  },
+  "icu:KeyTransparencyErrorDialog__Submitting": {
+    "messageformat": "Submitting..."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Title": {
+    "messageformat": "Signal can now auto-verify key encryption"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Continue": {
+    "messageformat": "Continue"
+  },
+  "icu:KeyTransparencyOnboardingDialog__LearnMore": {
+    "messageformat": "Learn more"
+  },
+  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Close"
   },
   "icu:verified": {
     "messageformat": "Beripikado"
@@ -805,6 +886,9 @@
   },
   "icu:whatsNew": {
     "messageformat": "See {whatsNew} in this update"
+  },
+  "icu:signalNonProfit": {
+    "messageformat": "Ang Signal ay isang nonprofit"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "what's new"
@@ -1083,10 +1167,10 @@
     "messageformat": "Info"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "I-pin"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "I-unpin"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Tapusin ang poll"
@@ -1238,6 +1322,15 @@
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
     "messageformat": "Magpatuloy"
   },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
+    "messageformat": "Pag-pin ng disappearing message"
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
+    "messageformat": "Matatanggal ang pin ng disappearing messages kapag nag-expire ang timer nito at natanggal ang message mula sa chat."
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
+    "messageformat": "Okay"
+  },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Pinned message} other {Pinned messages}}"
   },
@@ -1251,16 +1344,13 @@
     "messageformat": "Iba pang actions"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "I-unpin"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Pumunta sa message"
   },
   "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
     "messageformat": "Tignan ang lahat ng messages"
-  },
-  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Address": {
-    "messageformat": "Address"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
     "messageformat": "Voice message"
@@ -1270,9 +1360,6 @@
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
     "messageformat": "File"
-  },
-  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Contact": {
-    "messageformat": "Contact"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
     "messageformat": "Payment"
@@ -1705,6 +1792,15 @@
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "I-cancel"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
+    "messageformat": "Automatic key verification"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
+    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
+    "messageformat": "Learn More"
   },
   "icu:initialSync": {
     "messageformat": "Syncing contacts and groups"
@@ -2765,8 +2861,14 @@
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Maghanap ng GIFs sa Tenor"
   },
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "Mag-search ng GIFs"
+  },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Maghanap sa Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "Mag-search ng GIFs"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Mga Kategorya ng GIF"
@@ -2812,6 +2914,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "Preview ng GIF"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "Powered by GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Clear Search"
@@ -4589,6 +4694,9 @@
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "Piliin kung sinong pwedeng mag-edit ng group name, photo, description, at disappearing messages timer."
   },
+  "icu:ConversationDetails--group-info-info-v2": {
+    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+  },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Sinong pwedeng mag-add ng members"
   },
@@ -5166,16 +5274,16 @@
     "messageformat": "Links"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "Pagsunod-sunurin ayon sa"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "Pagsunod-sunurin ayon sa"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "Petsa"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "Laki"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "Walang media"
@@ -5624,6 +5732,24 @@
   "icu:PlaintextExport--Error--DiskPermssions--Detail": {
     "messageformat": "Hindi ma-export ang chat history mo dahil ang Signal ay walang permiso para magsulat ng files sa disk. Subukang baguhin ang permissions ng iyong disk o i-update ang system settings mo at subukan ulit mag-export."
   },
+  "icu:LocalBackupExport--ProgressDialog--Header": {
+    "messageformat": "Ine-export ang backup"
+  },
+  "icu:LocalBackupExport--CompleteDialog--Header": {
+    "messageformat": "Tapos na ang pag-export ng backup"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
+    "messageformat": "Para ma-restore ang backup na ito:"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
+    "messageformat": "Ilipat ang backup folder mo sa storage ng iyong phone"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
+    "messageformat": "Mag-install ng bagong kopya ng Signal sa phone mo"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
+    "messageformat": "I-tap ang \"Restore o Transfer\" at piliin ang \"Sa Backup ng Device\""
+  },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Icon ng buwan"
   },
@@ -5980,6 +6106,15 @@
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
     "messageformat": "Tingnan ulit ang key"
+  },
+  "icu:Preferences__local-backups-last-backup": {
+    "messageformat": "Huling backup"
+  },
+  "icu:Preferences__local-backups-last-backup-never": {
+    "messageformat": "Hindi kailanman"
+  },
+  "icu:Preferences__local-backups-backup-now": {
+    "messageformat": "Mag-back up na ngayon"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Backup folder"
@@ -7260,8 +7395,14 @@
   "icu:PreferencesDonations__title": {
     "messageformat": "Privacy over Profit"
   },
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "Proudly Nonprofit"
+  },
   "icu:PreferencesDonations__description": {
     "messageformat": "Private messaging na suportado mo. Walang ads, walang tracking, walang kompromiso. Mag-donate na para suportahan ang Signal. <readMoreLink>Magbasa pa</readMoreLink>"
+  },
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "Mag-donate para suportahan ang private messaging. Panatilihing malaya at ad-free ang Signal. <readMoreLink>Magbasa pa</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Mag-donate"
@@ -7377,6 +7518,9 @@
   "icu:DonateFlow__discard-dialog-remove-info": {
     "messageformat": "Tanggalin ang info"
   },
+  "icu:DonateFlow__discard-paypal-dialog-body": {
+    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+  },
   "icu:DonateFlow__continue": {
     "messageformat": "Magpatuloy"
   },
@@ -7422,6 +7566,15 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Mayroon kang kasalukuyang donation na nangangailangan ng confirmation."
   },
+  "icu:Donations__Toast__PaypalConfirmationNeeded": {
+    "messageformat": "You have a donation in progress that requires confirmation."
+  },
+  "icu:Donations__Toast__PaypalCanceled": {
+    "messageformat": "PayPal donation canceled"
+  },
+  "icu:Donations__Toast__PaypalError": {
+    "messageformat": "Error processing PayPal donation. You have not been charged."
+  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Pumasok ang donation, pero hindi namin ma-update ang iyong badge settings"
   },
@@ -7437,11 +7590,41 @@
   "icu:Donations__DonationInterrupted__RetryButton": {
     "messageformat": "Subukang muli"
   },
+  "icu:Donations__PaymentMethod": {
+    "messageformat": "Payment method"
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Declined ang payment method"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "Sumubok ng ibang payment method o tawagan ang iyong bangko para sa karagdagang impormasyon."
+  },
+  "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
+    "messageformat": "Payment card icon"
+  },
+  "icu:DonateFlow__CreditOrDebitCard": {
+    "messageformat": "Credit or Debit Card"
+  },
+  "icu:DonateFlow__Paypal__AccessibilityLabel": {
+    "messageformat": "PayPal"
+  },
+  "icu:DonateFlow__Paypal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:DonateFlow__Paypal__CompleteDonation": {
+    "messageformat": "Complete Donation"
+  },
+  "icu:Donations__PaypalCanceled": {
+    "messageformat": "PayPal donation canceled"
+  },
+  "icu:Donations__PaypalCanceled__Description": {
+    "messageformat": "You have not been charged. Try again or use another payment method."
+  },
+  "icu:Donations__PaypalError": {
+    "messageformat": "Error processing PayPal donation"
+  },
+  "icu:Donations__PaypalError__Description": {
+    "messageformat": "You have not been charged. Try again or use another payment method."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Failed ang Verification"
@@ -7581,6 +7764,9 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
     "messageformat": "Makatutulong ito sa amin para mas mapabuti pa ang quality ng calls. Maaari mong tignan ang debug log mo bago mag-submit."
   },
+  "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
+    "messageformat": "Ang pag-submit ay magbabahagi ng feedback mo kasama ang <diagnosticInfoLink>diagnostic information tungkol sa tawag mo</diagnosticInfoLink>. Maaari ka ring magbahagi ng debug log para matulungan mo kaming mapaganda ang call quality."
+  },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "I-share ang debug log"
   },
@@ -7589,6 +7775,12 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
     "messageformat": "Ang debug logs ay naglalaman ng mababang level ng impormasyon ng app at hindi nagpapakita ng anumang nilalaman ng messages mo."
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
+    "messageformat": "Ang impormasyong ibinahagi sa amin ay naglalaman ng mababang antas ng impormasyon ng app at hindi kasama ang mga nilalaman ng iyong mga tawag."
+  },
+  "icu:CallDiagnosticWindow__title": {
+    "messageformat": "Diagnostic na impormasyon"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Isumite"
@@ -7604,6 +7796,9 @@
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
     "messageformat": "Maraming salamat sa feedback mo!"
+  },
+  "icu:Megaphone__ExpandNarrowSidebar": {
+    "messageformat": "Palakihin ang sidebar para makipag-interact sa megaphone"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Ang version na ito'y may small tweaks at bug fixes to keep Signal running smoothly.",
@@ -7633,10 +7828,10 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.84--0": {
-    "messageformat": "Mas pinagandang animation para sa Signal polls."
+  "icu:WhatsNew__7.89--0": {
+    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
   },
-  "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+  "icu:WhatsNew__7.89--1": {
+    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
   }
 }

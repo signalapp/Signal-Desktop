@@ -98,7 +98,6 @@ export const StartNewConversation: FunctionComponent<Props> = React.memo(
               title={phoneNumber.userInput}
               size={AvatarSize.THIRTY_TWO}
               badge={undefined}
-              sharedGroupNames={[]}
             />
           }
           title={phoneNumber.userInput}

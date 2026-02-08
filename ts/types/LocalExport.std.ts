@@ -2,46 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 /* eslint-disable max-classes-per-file */
 
-export enum PlaintextExportSteps {
-  ConfirmingExport = 'ConfirmingExport',
-  ChoosingLocation = 'ChoosingLocation',
-  ConfirmingWithOS = 'ConfirmingWithOS',
-  ExportingMessages = 'ExportingMessages',
-  ExportingAttachments = 'ExportingAttachments',
-  Complete = 'Complete',
-
-  Error = 'Error',
-}
-
-export type ExportProgress =
-  | {
-      totalBytes: number;
-      currentBytes: number;
-    }
-  | undefined;
-
-export enum PlaintextExportErrors {
+/**
+ * Shared types/errors (plaintext & encrypted)
+ */
+export enum LocalExportErrors {
   General = 'General',
   NotEnoughStorage = 'NotEnoughStorage',
   RanOutOfStorage = 'RanOutOfStorage',
   StoragePermissions = 'StoragePermissions',
 }
-
-export type PlaintextExportErrorDetails =
-  | {
-      type: PlaintextExportErrors.General;
-    }
-  | {
-      type: PlaintextExportErrors.NotEnoughStorage;
-      bytesNeeded: number;
-    }
-  | {
-      type: PlaintextExportErrors.RanOutOfStorage;
-      bytesNeeded: number;
-    }
-  | {
-      type: PlaintextExportErrors.StoragePermissions;
-    };
 
 export class NotEnoughStorageError extends Error {
   constructor(public readonly bytesNeeded: number) {
@@ -59,6 +28,98 @@ export class StoragePermissionsError extends Error {
   }
 }
 
+export type LocalExportErrorDetails =
+  | {
+      type: LocalExportErrors.General;
+    }
+  | {
+      type: LocalExportErrors.NotEnoughStorage;
+      bytesNeeded: number;
+    }
+  | {
+      type: LocalExportErrors.RanOutOfStorage;
+      bytesNeeded: number;
+    }
+  | {
+      type: LocalExportErrors.StoragePermissions;
+    };
+
+export type LocalExportProgress =
+  | {
+      totalBytes: number;
+      currentBytes: number;
+    }
+  | undefined;
+
+/**
+ *  LocalBackupExport types
+ */
+export enum LocalBackupExportSteps {
+  ExportingMessages = 'ExportingMessages',
+  ExportingAttachments = 'ExportingAttachments',
+  Complete = 'Complete',
+  Error = 'Error',
+}
+
+export type LocalBackupExportMetadata = {
+  timestamp: number;
+  backupsFolder: string;
+  snapshotDir: string;
+};
+
+export type LocalBackupExportWorkflowType =
+  | {
+      step: LocalBackupExportSteps.ExportingMessages;
+      abortController: AbortController;
+      localBackupFolder: string;
+    }
+  | {
+      step: LocalBackupExportSteps.ExportingAttachments;
+      abortController: AbortController;
+      progress: LocalExportProgress;
+      localBackupFolder: string;
+    }
+  | {
+      step: LocalBackupExportSteps.Complete;
+      localBackupFolder: string;
+    }
+  | {
+      step: LocalBackupExportSteps.Error;
+      errorDetails: LocalExportErrorDetails;
+    };
+
+export const localBackupExportValidTransitions: {
+  [key in LocalBackupExportSteps]: Set<LocalBackupExportSteps>;
+} = {
+  [LocalBackupExportSteps.ExportingMessages]: new Set([
+    LocalBackupExportSteps.Complete,
+    LocalBackupExportSteps.Error,
+    LocalBackupExportSteps.ExportingAttachments,
+  ]),
+  [LocalBackupExportSteps.ExportingAttachments]: new Set([
+    // When updating progress, we transition to the same step with new progress
+    LocalBackupExportSteps.ExportingAttachments,
+    LocalBackupExportSteps.Complete,
+    LocalBackupExportSteps.Error,
+  ]),
+  // Terminal states
+  [LocalBackupExportSteps.Complete]: new Set([]),
+  [LocalBackupExportSteps.Error]: new Set([]),
+};
+
+/**
+ *  PlaintextExport types
+ */
+export enum PlaintextExportSteps {
+  ConfirmingExport = 'ConfirmingExport',
+  ChoosingLocation = 'ChoosingLocation',
+  ConfirmingWithOS = 'ConfirmingWithOS',
+  ExportingMessages = 'ExportingMessages',
+  ExportingAttachments = 'ExportingAttachments',
+  Complete = 'Complete',
+  Error = 'Error',
+}
+
 export type PlaintextExportWorkflowType =
   | {
       step: PlaintextExportSteps.ConfirmingExport;
@@ -74,7 +135,6 @@ export type PlaintextExportWorkflowType =
   | {
       step: PlaintextExportSteps.ExportingMessages;
       abortController: AbortController;
-      exportInBackground: boolean;
       exportPath: string;
     }
   | {
@@ -82,8 +142,7 @@ export type PlaintextExportWorkflowType =
       // our onProgress callback is first called.
       step: PlaintextExportSteps.ExportingAttachments;
       abortController: AbortController;
-      exportInBackground: boolean;
-      progress: ExportProgress;
+      progress: LocalExportProgress;
       exportPath: string;
     }
   | {
@@ -93,11 +152,11 @@ export type PlaintextExportWorkflowType =
   | {
       // Not a normal step: Something went wrong, and we need to show error to the user
       step: PlaintextExportSteps.Error;
-      errorDetails: PlaintextExportErrorDetails;
+      errorDetails: LocalExportErrorDetails;
     };
 
 // We can cancel in all states, but only need Canceling when we were actively exporting
-export const validTransitions: {
+export const plaintextExportValidTransitions: {
   [key in PlaintextExportSteps]: Set<PlaintextExportSteps>;
 } = {
   [PlaintextExportSteps.ConfirmingExport]: new Set([

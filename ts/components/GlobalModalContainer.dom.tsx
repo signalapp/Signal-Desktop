@@ -9,6 +9,7 @@ import type {
   EditHistoryMessagesType,
   EditNicknameAndNoteModalPropsType,
   ForwardMessagesPropsType,
+  GroupMemberLabelInfoPropsType,
   MessageRequestActionsConfirmationPropsType,
   SafetyNumberChangedBlockingDataType,
   UserNotFoundModalStateType,
@@ -34,7 +35,9 @@ import {
 import type { SmartDraftGifMessageSendModalProps } from '../state/smart/DraftGifMessageSendModal.preload.js';
 import { CriticalIdlePrimaryDeviceModal } from './CriticalIdlePrimaryDeviceModal.dom.js';
 import { LowDiskSpaceBackupImportModal } from './LowDiskSpaceBackupImportModal.dom.js';
+import { KeyTransparencyOnboardingDialog } from './KeyTransparencyOnboardingDialog.dom.js';
 import { isUsernameValid } from '../util/Username.dom.js';
+import type { PinMessageDialogData } from '../state/smart/PinMessageDialog.preload.js';
 
 // NOTE: All types should be required for this component so that the smart
 // component gives you type errors when adding/removing props.
@@ -99,6 +102,9 @@ export type PropsType = {
   // ForwardMessageModal
   forwardMessagesProps: ForwardMessagesPropsType | undefined;
   renderForwardMessagesModal: () => React.JSX.Element;
+  // GroupMemberLabelInfoModal
+  groupMemberLabelInfoModalState: GroupMemberLabelInfoPropsType | undefined;
+  renderGroupMemberLabelInfoModal: () => React.JSX.Element;
   // MediaPermissionsModal
   mediaPermissionsModalProps:
     | {
@@ -111,6 +117,9 @@ export type PropsType = {
   // MessageRequestActionsConfirmation
   messageRequestActionsConfirmationProps: MessageRequestActionsConfirmationPropsType | null;
   renderMessageRequestActionsConfirmation: () => React.JSX.Element;
+  // PinMessageDialog
+  pinMessageDialogData: PinMessageDialogData | null;
+  renderPinMessageDialog: () => React.JSX.Element;
   // NotePreviewModal
   notePreviewModalProps: { conversationId: string } | null;
   renderNotePreviewModal: () => React.JSX.Element;
@@ -132,6 +141,13 @@ export type PropsType = {
   // StoriesSettings
   isStoriesSettingsVisible: boolean;
   renderStoriesSettings: () => React.JSX.Element;
+  // KeyTransparencyErrorDialog
+  isKeyTransparencyErrorVisible: boolean;
+  renderKeyTransparencyErrorDialog: () => React.JSX.Element;
+  // KeyTransparencyOnboardingDialog
+  isKeyTransparencyOnboardingVisible: boolean;
+  hideKeyTransparencyOnboardingDialog: () => void;
+  finishKeyTransparencyOnboarding: () => void;
   // SendAnywayDialog
   hasSafetyNumberChangeModal: boolean;
   safetyNumberChangedBlockingData:
@@ -165,6 +181,9 @@ export type PropsType = {
   // PlaintextExportWorkflow
   shouldShowPlaintextExportWorkflow: boolean;
   renderPlaintextExportWorkflow: () => React.JSX.Element;
+  // LocalBackupExportWorkflow
+  shouldShowLocalBackupExportWorkflow: boolean;
+  renderLocalBackupExportWorkflow: () => React.JSX.Element;
 };
 
 export function GlobalModalContainer({
@@ -211,6 +230,9 @@ export function GlobalModalContainer({
   // ForwardMessageModal
   forwardMessagesProps,
   renderForwardMessagesModal,
+  // GroupMemberLabelInfoModal
+  groupMemberLabelInfoModalState,
+  renderGroupMemberLabelInfoModal,
   // MediaPermissionsModal
   mediaPermissionsModalProps,
   closeMediaPermissionsModal,
@@ -221,6 +243,9 @@ export function GlobalModalContainer({
   // NotePreviewModal
   notePreviewModalProps,
   renderNotePreviewModal,
+  // PinMessageDialog
+  pinMessageDialogData,
+  renderPinMessageDialog,
   // SafetyNumberModal
   safetyNumberModalContactId,
   renderSafetyNumber,
@@ -239,6 +264,13 @@ export function GlobalModalContainer({
   // StoriesSettings
   isStoriesSettingsVisible,
   renderStoriesSettings,
+  // KeyTransparencyErrorDialog
+  isKeyTransparencyErrorVisible,
+  renderKeyTransparencyErrorDialog,
+  // KeyTransparencyOnboardingDialog
+  isKeyTransparencyOnboardingVisible,
+  hideKeyTransparencyOnboardingDialog,
+  finishKeyTransparencyOnboarding,
   // SendAnywayDialog
   hasSafetyNumberChangeModal,
   safetyNumberChangedBlockingData,
@@ -270,6 +302,9 @@ export function GlobalModalContainer({
   // PlaintextExportWorkflow
   shouldShowPlaintextExportWorkflow,
   renderPlaintextExportWorkflow,
+  // LocalBackupExportWorkflow
+  shouldShowLocalBackupExportWorkflow,
+  renderLocalBackupExportWorkflow,
 }: PropsType): React.JSX.Element | null {
   // We want the following dialogs to show in this order:
   // 0. Stateful multi-modal workflows
@@ -282,6 +317,10 @@ export function GlobalModalContainer({
     return renderPlaintextExportWorkflow();
   }
 
+  if (shouldShowLocalBackupExportWorkflow) {
+    return renderLocalBackupExportWorkflow();
+  }
+
   // Errors
   if (errorModalProps) {
     return renderErrorModal(errorModalProps);
@@ -290,6 +329,10 @@ export function GlobalModalContainer({
   // Errors where we want them to submit a debug log
   if (debugLogErrorModalProps) {
     return renderDebugLogErrorModal(debugLogErrorModalProps);
+  }
+
+  if (isKeyTransparencyErrorVisible) {
+    return renderKeyTransparencyErrorDialog();
   }
 
   // Safety Number
@@ -360,6 +403,10 @@ export function GlobalModalContainer({
     return renderNotePreviewModal();
   }
 
+  if (pinMessageDialogData) {
+    return renderPinMessageDialog();
+  }
+
   if (isProfileNameWarningModalVisible) {
     return renderProfileNameWarningModal();
   }
@@ -377,12 +424,33 @@ export function GlobalModalContainer({
     );
   }
 
+  // Intentionally above safety number since that causes onboarding flow
+  if (isKeyTransparencyOnboardingVisible) {
+    return (
+      <KeyTransparencyOnboardingDialog
+        i18n={i18n}
+        open
+        onOpenChange={open => {
+          if (!open) {
+            hideKeyTransparencyOnboardingDialog();
+          }
+        }}
+        onContinue={finishKeyTransparencyOnboarding}
+      />
+    );
+  }
+
   if (safetyNumberModalContactId) {
     return renderSafetyNumber();
   }
 
   if (isAboutContactModalVisible) {
     return renderAboutContactModal();
+  }
+
+  // This needs to be before the contact modal, which opens it
+  if (groupMemberLabelInfoModalState) {
+    return renderGroupMemberLabelInfoModal();
   }
 
   if (contactModalState) {

@@ -23,6 +23,7 @@ import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
 import { DisappearingTimeDialog } from './DisappearingTimeDialog.dom.js';
 import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.js';
 import { PhoneNumberSharingMode } from '../types/PhoneNumberSharingMode.std.js';
+import { KEY_TRANSPARENCY_URL } from '../types/support.std.js';
 import { Select } from './Select.dom.js';
 import { getCustomColorStyle } from '../util/getCustomColorStyle.dom.js';
 import {
@@ -98,6 +99,8 @@ import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/Pre
 import type { SmartPreferencesChatFoldersPageProps } from '../state/smart/PreferencesChatFoldersPage.preload.js';
 import { AxoButton } from '../axo/AxoButton.dom.js';
 import type { ExternalProps as SmartNotificationProfilesProps } from '../state/smart/PreferencesNotificationProfiles.preload.js';
+import type { LocalBackupExportMetadata } from '../types/LocalExport.std.js';
+import { isDonationsPage } from './PreferencesDonations.dom.js';
 
 const { isNumber, noop, partition } = lodash;
 
@@ -113,6 +116,7 @@ export type PropsDataType = {
   backupKeyViewed: boolean;
   backupLocalBackupsEnabled: boolean;
   backupTier: BackupLevel | null;
+  lastLocalBackup: LocalBackupExportMetadata | undefined;
   localBackupFolder: string | undefined;
   chatFoldersFeatureEnabled: boolean;
   currentChatFoldersCount: number;
@@ -138,6 +142,7 @@ export type PropsDataType = {
   hasCountMutedConversations: boolean;
   hasHideMenuBar?: boolean;
   hasIncomingCallNotifications: boolean;
+  hasKeyTransparencyDisabled: boolean;
   hasLinkPreviews: boolean;
   hasMediaCameraPermissions: boolean | undefined;
   hasMediaPermissions: boolean | undefined;
@@ -240,7 +245,6 @@ type PropsFunctionType = {
   addCustomColor: (color: CustomColorType) => unknown;
   doDeleteAllData: () => unknown;
   editCustomColor: (colorId: string, color: CustomColorType) => unknown;
-  exportLocalBackup: () => Promise<BackupValidationResultType>;
   getMessageCountBySchemaVersion: () => Promise<MessageCountBySchemaVersionType>;
   getMessageSampleForSchemaVersion: (
     version: number
@@ -270,6 +274,7 @@ type PropsFunctionType = {
   ) => unknown;
   setSettingsLocation: (settingsLocation: SettingsLocation) => unknown;
   showToast: (toast: AnyToast) => unknown;
+  startLocalBackupExport: () => void;
   startPlaintextExport: () => unknown;
   validateBackup: () => Promise<BackupValidationResultType>;
 
@@ -298,6 +303,7 @@ type PropsFunctionType = {
   onContentProtectionChange: CheckboxChangeHandlerType;
   onCountMutedConversationsChange: CheckboxChangeHandlerType;
   onEmojiSkinToneDefaultChange: (emojiSkinTone: EmojiSkinTone) => void;
+  onHasKeyTransparencyDisabledChanged: SelectChangeHandlerType<boolean>;
   onHasStoriesDisabledChanged: SelectChangeHandlerType<boolean>;
   onHideMenuBarChange: CheckboxChangeHandlerType;
   onIncomingCallNotificationsChange: CheckboxChangeHandlerType;
@@ -329,8 +335,8 @@ type PropsFunctionType = {
   __dangerouslyRunAbitraryReadOnlySqlQuery: (
     readonlySqlQuery: string
   ) => Promise<ReadonlyArray<RowType<object>>>;
-  callQualitySurveyCooldownDisabled: boolean;
-  setCallQualitySurveyCooldownDisabled: (value: boolean) => void;
+  cqsTestMode: boolean;
+  setCqsTestMode: (value: boolean) => void;
 
   // Localization
   i18n: LocalizerType;
@@ -339,14 +345,6 @@ type PropsFunctionType = {
 export type PropsType = PropsDataType & PropsFunctionType;
 
 export type PropsPreloadType = Omit<PropsType, 'i18n'>;
-
-function isDonationsPage(page: SettingsPage): boolean {
-  return (
-    page === SettingsPage.Donations ||
-    page === SettingsPage.DonationsDonateFlow ||
-    page === SettingsPage.DonationsReceiptList
-  );
-}
 
 enum LanguageDialog {
   Selection,
@@ -405,7 +403,6 @@ export function Preferences({
   doDeleteAllData,
   editCustomColor,
   emojiSkinToneDefault,
-  exportLocalBackup,
   getConversationsWithCustomColor,
   getMessageCountBySchemaVersion,
   getMessageSampleForSchemaVersion,
@@ -421,6 +418,7 @@ export function Preferences({
   hasFailedStorySends,
   hasHideMenuBar,
   hasIncomingCallNotifications,
+  hasKeyTransparencyDisabled,
   hasLinkPreviews,
   hasMediaCameraPermissions,
   hasMediaPermissions,
@@ -449,6 +447,7 @@ export function Preferences({
   isSystemTraySupported,
   isMinimizeToAndStartInSystemTraySupported,
   isInternalUser,
+  lastLocalBackup,
   lastSyncTime,
   localBackupFolder,
   makeSyncRequest,
@@ -467,6 +466,7 @@ export function Preferences({
   onContentProtectionChange,
   onCountMutedConversationsChange,
   onEmojiSkinToneDefaultChange,
+  onHasKeyTransparencyDisabledChanged,
   onHasStoriesDisabledChanged,
   onHideMenuBarChange,
   onIncomingCallNotificationsChange,
@@ -525,6 +525,7 @@ export function Preferences({
   setSettingsLocation,
   shouldShowUpdateDialog,
   showToast,
+  startLocalBackupExport,
   startPlaintextExport,
   localeOverride,
   theme,
@@ -540,8 +541,8 @@ export function Preferences({
   generateDonationReceiptBlob,
   internalDeleteAllMegaphones,
   __dangerouslyRunAbitraryReadOnlySqlQuery,
-  callQualitySurveyCooldownDisabled,
-  setCallQualitySurveyCooldownDisabled,
+  cqsTestMode,
+  setCqsTestMode,
 }: PropsType): React.JSX.Element {
   const storiesId = useId();
   const themeSelectId = useId();
@@ -1820,6 +1821,36 @@ export function Preferences({
           </FlowingControl>
         </SettingsRow>
         <SettingsRow>
+          <Checkbox
+            checked={!hasKeyTransparencyDisabled}
+            label={i18n('icu:Preferences__PrivacyPage__KeyTransparency__Label')}
+            moduleClassName="Preferences__checkbox"
+            name="keyTransparency"
+            onChange={() =>
+              onHasKeyTransparencyDisabledChanged(!hasKeyTransparencyDisabled)
+            }
+          />
+          <div className="Preferences__padding">
+            <div className="Preferences__description">
+              {i18n(
+                'icu:Preferences__PrivacyPage__KeyTransparency__Description'
+              )}
+              &ensp;
+              <a
+                href={KEY_TRANSPARENCY_URL}
+                rel="noreferrer"
+                target="_blank"
+                className={tw('text-label-primary')}
+              >
+                <I18n
+                  i18n={i18n}
+                  id="icu:Preferences__PrivacyPage__KeyTransparency__LearnMore"
+                />
+              </a>
+            </div>
+          </div>
+        </SettingsRow>
+        <SettingsRow>
           <FlowingControl>
             <div
               className={classNames(
@@ -2243,6 +2274,7 @@ export function Preferences({
         i18n={i18n}
         isLocalBackupsEnabled={backupLocalBackupsEnabled}
         isRemoteBackupsEnabled={backupFeatureEnabled}
+        lastLocalBackup={lastLocalBackup}
         locale={resolvedLocale}
         localBackupFolder={localBackupFolder}
         onBackupKeyViewedChange={onBackupKeyViewedChange}
@@ -2253,6 +2285,7 @@ export function Preferences({
         refreshBackupSubscriptionStatus={refreshBackupSubscriptionStatus}
         setSettingsLocation={setSettingsLocation}
         showToast={showToast}
+        startLocalBackupExport={startLocalBackupExport}
       />
     );
     content = (
@@ -2281,7 +2314,6 @@ export function Preferences({
         contents={
           <PreferencesInternal
             i18n={i18n}
-            exportLocalBackup={exportLocalBackup}
             validateBackup={validateBackup}
             getMessageCountBySchemaVersion={getMessageCountBySchemaVersion}
             getMessageSampleForSchemaVersion={getMessageSampleForSchemaVersion}
@@ -2293,12 +2325,8 @@ export function Preferences({
             __dangerouslyRunAbitraryReadOnlySqlQuery={
               __dangerouslyRunAbitraryReadOnlySqlQuery
             }
-            callQualitySurveyCooldownDisabled={
-              callQualitySurveyCooldownDisabled
-            }
-            setCallQualitySurveyCooldownDisabled={
-              setCallQualitySurveyCooldownDisabled
-            }
+            cqsTestMode={cqsTestMode}
+            setCqsTestMode={setCqsTestMode}
           />
         }
         contentsRef={settingsPaneRef}
@@ -2351,9 +2379,6 @@ export function Preferences({
                     profileName={me.profileName}
                     theme={theme}
                     title={me.title}
-                    // `sharedGroupNames` makes no sense for yourself, but
-                    // `<Avatar>` needs it to determine blurring.
-                    sharedGroupNames={[]}
                     size={AvatarSize.FORTY_EIGHT}
                   />
                 </div>

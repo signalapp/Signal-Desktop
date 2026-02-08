@@ -38,6 +38,8 @@ import {
   decryptAttachmentV1,
   padAndEncryptAttachment,
   CipherType,
+  encryptDeviceCreatedAt,
+  decryptDeviceCreatedAt,
 } from '../Crypto.node.js';
 import {
   _generateAttachmentIv,
@@ -386,6 +388,30 @@ describe('Crypto', () => {
           'decryptDeviceName: synthetic IV did not match'
         );
       }
+    });
+  });
+
+  describe('encrypted device createdAt', () => {
+    it('roundtrips', () => {
+      const deviceId = 2;
+      const registrationId = 123;
+      const identityKey = Curve.generateKeyPair();
+      const createdAt = new Date().getTime();
+
+      const encrypted = encryptDeviceCreatedAt(
+        createdAt,
+        deviceId,
+        registrationId,
+        identityKey.publicKey
+      );
+      const decrypted = decryptDeviceCreatedAt(
+        encrypted,
+        deviceId,
+        registrationId,
+        identityKey.privateKey
+      );
+
+      assert.strictEqual(decrypted, createdAt);
     });
   });
 

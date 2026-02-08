@@ -36,3 +36,57 @@ export function Colors(): React.JSX.Element {
     </>
   );
 }
+
+export function ColorsWithLabels(): React.JSX.Element {
+  return (
+    <>
+      {ContactNameColors.map(color => (
+        <div key={color}>
+          <ContactName
+            title={`Hello ${color}`}
+            contactNameColor={color}
+            contactLabel={{ labelEmoji: '✅', labelString: 'Task Wrangler' }}
+          />
+        </div>
+      ))}
+    </>
+  );
+}
+
+export function ColorsWithNoLabelEmoji(): React.JSX.Element {
+  return (
+    <>
+      {ContactNameColors.map(color => (
+        <div key={color}>
+          <ContactName
+            title={`Hello ${color}`}
+            contactNameColor={color}
+            contactLabel={{
+              labelEmoji: undefined,
+              labelString: 'Task Wrangler',
+            }}
+          />
+        </div>
+      ))}
+    </>
+  );
+}
+
+export function ColorsWithInvalidLabelEmoji(): React.JSX.Element {
+  return (
+    <>
+      {ContactNameColors.map(color => (
+        <div key={color}>
+          <ContactName
+            title={`Hello ${color}`}
+            contactNameColor={color}
+            contactLabel={{
+              labelEmoji: '&',
+              labelString: 'Task Wrangler',
+            }}
+          />
+        </div>
+      ))}
+    </>
+  );
+}

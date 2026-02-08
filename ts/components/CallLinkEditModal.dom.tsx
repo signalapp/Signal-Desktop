@@ -132,7 +132,6 @@ export function CallLinkEditModal({
           color={getColorForCallLink(callLink.rootKey)}
           conversationType="callLink"
           size={AvatarSize.SIXTY_FOUR}
-          sharedGroupNames={[]}
           title={
             callLink.name === ''
               ? i18n('icu:calling__call-link-default-title')

@@ -29,6 +29,8 @@ const createMemberships = ({
   return Array.from(new Array(count)).map(
     (_, i): GroupV2Membership => ({
       isAdmin: i % 3 === 0,
+      labelEmoji: i % 6 === 0 ? '🟢' : undefined,
+      labelString: i % 3 === 0 ? `Task Wrangler ${i}` : undefined,
       member: unknownContactIndices.includes(i)
         ? getDefaultConversation({
             isMe: includeMe && i === 0,
@@ -50,7 +52,7 @@ export default {
     i18n,
     isDirectConvoAndHasNickname: false,
     theme: ThemeType.light,
-    updateSharedGroups: action('updateSharedGroups'),
+    sharedGroupNames: [],
     viewUserStories: action('viewUserStories'),
     toggleAboutContactModal: action('toggleAboutContactModal'),
     toggleProfileNameWarningModal: action('toggleProfileNameWarningModal'),

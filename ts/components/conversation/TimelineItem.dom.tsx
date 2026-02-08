@@ -5,6 +5,7 @@ import type { ReactNode, RefObject } from 'react';
 import React, { memo } from 'react';
 
 import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
+import type { GetSharedGroupNamesType } from '../../util/sharedGroupNames.dom.js';
 
 import type { InteractionModeType } from '../../state/ducks/conversations.preload.js';
 import { TimelineDateHeader } from './TimelineDateHeader.dom.js';
@@ -200,6 +201,7 @@ export type TimelineItemType = (
 type PropsLocalType = {
   containerElementRef: RefObject<HTMLElement>;
   conversationId: string;
+  getSharedGroupNames: GetSharedGroupNamesType;
   item?: TimelineItemType;
   id: string;
   interactivity: MessageInteractivity;
@@ -243,6 +245,7 @@ export const TimelineItem = memo(function TimelineItem({
   containerElementRef,
   conversationId,
   getPreferredBadge,
+  getSharedGroupNames,
   i18n,
   id,
   interactivity,
@@ -416,6 +419,7 @@ export const TimelineItem = memo(function TimelineItem({
         <PhoneNumberDiscoveryNotification
           {...reducedProps}
           {...item.data}
+          getSharedGroupNames={getSharedGroupNames}
           i18n={i18n}
         />
       );

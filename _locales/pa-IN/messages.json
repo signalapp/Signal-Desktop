@@ -578,14 +578,95 @@
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "{name} ਦੇ ਨਾਲ ਸਿਰੇ-ਤੋਂ-ਸਿਰੇ ਤੱਕ ਇਨਕ੍ਰਿਪਸ਼ਨ ਦੀ ਤਸਦੀਕ ਕਰਨ ਲਈ, ਉੱਪਰ ਦਿੱਤੇ ਨੰਬਰਾਂ ਨੂੰ ਉਹਨਾਂ ਦੇ ਡਿਵਾਈਸ ਵਿੱਚ ਦਿਖਾਏ ਨੰਬਰਾਂ ਦੇ ਨਾਲ ਮਿਲਾਓ। ਉਹ ਆਪਣੇ ਡਿਵਾਈਸ ਨਾਲ ਤੁਹਾਡੇ ਕੋਡ ਨੂੰ ਵੀ ਸਕੈਨ ਕਰ ਸਕਦੇ ਹਨ।"
   },
+  "icu:SafetyNumberViewer__hint-v2": {
+    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+  },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "ਹੋਰ ਜਾਣੋ"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__title": {
+    "messageformat": "Automatic key verification"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
+    "messageformat": "Verify automatically"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--running": {
+    "messageformat": "Verifying encryption..."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
+    "messageformat": "Encryption verified"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
+    "messageformat": "Auto-verification unavailable"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__hint": {
+    "messageformat": "Auto-verification is not available for all chats."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
+    "messageformat": "Learn more"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
+    "messageformat": "Encryption was auto-verified for this chat "
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
+    "messageformat": "Auto-verification is no longer available for this chat"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
+    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
+    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
+    "messageformat": "Okay"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "ਜਦੋਂ ਤੁਸੀਂ ਇਸ ਵਿਅਕਤੀ ਨੂੰ ਸੁਨੇਹੇ ਭੇਜੋਗੇ ਜਾਂ ਪ੍ਰਾਪਤ ਕਰੋਗੇ ਤਾਂ ਇਹਨਾਂ ਨਾਲ ਇੱਕ ਸੁਰੱਖਿਆ ਨੰਬਰ ਬਣਾਇਆ ਜਾਵੇਗਾ।"
   },
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "ਹੋਰ ਜਾਣੋ"
+  },
+  "icu:KeyTransparencyErrorDialog__Title": {
+    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+  },
+  "icu:KeyTransparencyErrorDialog__Description": {
+    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+  },
+  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Close"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
+    "messageformat": "Share debug log"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
+    "messageformat": "View"
+  },
+  "icu:KeyTransparencyErrorDialog__Submit": {
+    "messageformat": "Submit"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "No thanks"
+  },
+  "icu:KeyTransparencyErrorDialog__Submitting": {
+    "messageformat": "Submitting..."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Title": {
+    "messageformat": "Signal can now auto-verify key encryption"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Continue": {
+    "messageformat": "Continue"
+  },
+  "icu:KeyTransparencyOnboardingDialog__LearnMore": {
+    "messageformat": "Learn more"
+  },
+  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Close"
   },
   "icu:verified": {
     "messageformat": "ਪ੍ਰਮਾਣਿਤ"
@@ -805,6 +886,9 @@
   },
   "icu:whatsNew": {
     "messageformat": "ਇਸ ਅੱਪਡੇਟ ਲਈ {whatsNew}ਨੂੰ ਵੇਖੋ"
+  },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal ਇੱਕ ਗੈਰ-ਲਾਭਕਾਰੀ ਸੰਸਥਾ ਹੈ"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "ਨਵਾਂ ਕੀ ਹੈ"
@@ -1083,10 +1167,10 @@
     "messageformat": "ਜਾਣਕਾਰੀ"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "ਪਿੰਨ ਕਰੋ"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "ਅਨਪਿੰਨ ਕਰੋ"
   },
   "icu:Poll__end-poll": {
     "messageformat": "ਪੋਲ ਸਮਾਪਤ ਕਰੋ"
@@ -1238,6 +1322,15 @@
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
     "messageformat": "ਜਾਰੀ ਰੱਖੋ"
   },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
+    "messageformat": "ਗਾਇਬ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹੇ ਪਿੰਨ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ"
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
+    "messageformat": "ਗਾਇਬ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹਿਆਂ ਦਾ ਟਾਈਮਰ ਸਮਾਪਤ ਹੋਣ 'ਤੇ ਉਹਨਾਂ ਨੂੰ ਅਨਪਿੰਨ ਕਰ ਦਿੱਤਾ ਜਾਵੇਗਾ ਅਤੇ ਸੁਨੇਹੇ ਨੂੰ ਚੈਟ ਵਿੱਚੋਂ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।"
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
+    "messageformat": "ਠੀਕ ਹੈ"
+  },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {ਪਿੰਨ ਕੀਤਾ ਸੁਨੇਹਾ} other {ਪਿੰਨ ਕੀਤੇ ਸੁਨੇਹੇ}}"
   },
@@ -1251,16 +1344,13 @@
     "messageformat": "ਹੋਰ ਕਾਰਵਾਈਆਂ"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "ਅਨਪਿੰਨ ਕਰੋ"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "ਸੁਨੇਹੇ 'ਤੇ ਜਾਓ"
   },
   "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
     "messageformat": "ਸਾਰੇ ਸੁਨੇਹੇ ਦੇਖੋ"
-  },
-  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Address": {
-    "messageformat": "ਪਤਾ"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
     "messageformat": "ਵੌਇਸ ਸੁਨੇਹਾ"
@@ -1270,9 +1360,6 @@
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
     "messageformat": "ਫ਼ਾਈਲ"
-  },
-  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Contact": {
-    "messageformat": "ਸੰਪਰਕ"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
     "messageformat": "ਭੁਗਤਾਨ"
@@ -1705,6 +1792,15 @@
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "ਰੱਦ ਕਰੋ"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
+    "messageformat": "Automatic key verification"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
+    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
+    "messageformat": "Learn More"
   },
   "icu:initialSync": {
     "messageformat": "ਸੰਪਰਕ ਅਤੇ ਗਰੁੱਪ ਸਮਕਾਲੀ ਬਣਾਏ ਜਾ ਰਹੇ ਹਨ"
@@ -2765,8 +2861,14 @@
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Tenor ਰਾਹੀਂ GIF ਖੋਜੋ"
   },
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "GIFs ਖੋਜੋ"
+  },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tenor ਵਿੱਚ ਖੋਜੋ"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "GIFs ਖੋਜੋ"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF ਦੀਆਂ ਸ਼੍ਰੇਣੀਆਂ"
@@ -2812,6 +2914,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "GIF ਦੀ ਝਲਕ"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "GIPHY ਦੁਆਰਾ ਸੰਚਾਲਿਤ"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "ਖੋਜ ਨੂੰ ਮਿਟਾਓ"
@@ -4589,6 +4694,9 @@
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "ਇਸਦੀ ਚੋਣ ਕਰੋ ਗਰੁੱਪ ਦੇ ਨਾਂ, ਫ਼ੋਟੋ, ਵੇਰਵੇ ਅਤੇ ਅਲੋਪ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹਿਆਂ ਦੇ ਟਾਈਮਰ ਵਿੱਚ ਕੌਣ ਸੋਧ ਕਰ ਸਕਦਾ ਹੈ।"
   },
+  "icu:ConversationDetails--group-info-info-v2": {
+    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+  },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "ਮੈਂਬਰਾਂ ਨੂੰ ਕੌਣ ਸ਼ਾਮਲ ਕਰ ਸਕਦਾ ਹੈ"
   },
@@ -5166,16 +5274,16 @@
     "messageformat": "ਲਿੰਕ"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "ਇੰਝ ਕ੍ਰਮ ਵਿੱਚ ਲਗਾਓ"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "ਇੰਝ ਕ੍ਰਮ ਵਿੱਚ ਲਗਾਓ"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "ਮਿਤੀ"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "ਆਕਾਰ"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "ਕੋਈ ਮੀਡੀਆ ਨਹੀਂ ਹੈ"
@@ -5624,6 +5732,24 @@
   "icu:PlaintextExport--Error--DiskPermssions--Detail": {
     "messageformat": "ਤੁਹਾਡੀ ਪੁਰਾਣੀ ਚੈਟ ਨੂੰ ਐਕਸਪੋਰਟ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਕਿਉਂਕਿ Signal ਕੋਲ ਡਿਸਕ 'ਤੇ ਫਾਈਲਾਂ ਲਿਖਣ ਦੀ ਇਜਾਜ਼ਤ ਨਹੀਂ ਹੈ। ਆਪਣੀ ਡਿਸਕ ਦੀਆਂ ਇਜਾਜ਼ਤਾਂ ਬਦਲਣ ਜਾਂ ਆਪਣੀਆਂ ਸਿਸਟਮ ਸੈਟਿੰਗਾਂ ਨੂੰ ਅੱਪਡੇਟ ਕਰੋ ਅਤੇ ਫਿਰ ਦੁਬਾਰਾ ਐਕਸਪੋਰਟ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
   },
+  "icu:LocalBackupExport--ProgressDialog--Header": {
+    "messageformat": "ਬੈਕਅੱਪ ਐਕਸਪੋਰਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
+  },
+  "icu:LocalBackupExport--CompleteDialog--Header": {
+    "messageformat": "ਬੈਕਅੱਪ ਐਕਸਪੋਰਟ ਪੂਰਾ ਹੋਇਆ"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
+    "messageformat": "ਇਸ ਬੈਕਅੱਪ ਨੂੰ ਰੀਸਟੋਰ ਕਰਨ ਲਈ:"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
+    "messageformat": "ਆਪਣੇ ਬੈਕਅੱਪ ਫੋਲਡਰ ਨੂੰ ਆਪਣੇ ਫ਼ੋਨ ਦੀ ਸਟੋਰੇਜ ਵਿੱਚ ਟ੍ਰਾਂਸਫਰ ਕਰੋ"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
+    "messageformat": "ਆਪਣੇ ਫ਼ੋਨ 'ਤੇ Signal ਦੀ ਇੱਕ ਨਵੀਂ ਕਾਪੀ ਇੰਸਟਾਲ ਕਰੋ"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
+    "messageformat": "\"ਰੀਸਟੋਰ ਕਰੋ ਜਾਂ ਟ੍ਰਾਂਸਫਰ ਕਰੋ\" 'ਤੇ ਟੈਪ ਕਰੋ ਅਤੇ \"ਡਿਵਾਈਸ-ਉੱਤੇ ਬੈਕਅੱਪ\" ਨੂੰ ਚੁਣੋ"
+  },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "ਚੰਦਰਮਾ ਦਾ ਆਈਕਾਨ"
   },
@@ -5980,6 +6106,15 @@
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
     "messageformat": "ਕੁੰਜੀ ਨੂੰ ਦੁਬਾਰਾ ਦੇਖੋ"
+  },
+  "icu:Preferences__local-backups-last-backup": {
+    "messageformat": "ਆਖਰੀ ਬੈਕਅੱਪ"
+  },
+  "icu:Preferences__local-backups-last-backup-never": {
+    "messageformat": "ਕਦੇ ਨਹੀਂ"
+  },
+  "icu:Preferences__local-backups-backup-now": {
+    "messageformat": "ਹੁਣ ਬੈਕਅੱਪ ਲਓ"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "ਬੈਕਅੱਪ ਫੋਲਡਰ"
@@ -7260,8 +7395,14 @@
   "icu:PreferencesDonations__title": {
     "messageformat": "ਸਾਡੇ ਲਈ ਤੁਹਾਡੀ ਪਰਦੇਦਾਰੀ, ਮੁਨਾਫੇ ਤੋਂ ਵੱਧ ਅਹਿਮ ਹੈ"
   },
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "ਮਾਣ ਨਾਲ ਗੈਰ-ਲਾਭਕਾਰੀ"
+  },
   "icu:PreferencesDonations__description": {
     "messageformat": "ਪ੍ਰਾਈਵੇਟ ਮੈਸੇਜਿੰਗ, ਜੋ ਤੁਹਾਡੇ ਸਹਿਯੋਗ ਨਾਲ ਚਲਦੀ ਹੈ। ਕੋਈ ਇਸ਼ਤਿਹਾਰ ਨਹੀਂ, ਕੋਈ ਟ੍ਰੈਕਰ ਨਹੀਂ, ਕੋਈ ਸਮਝੌਤਾ ਨਹੀਂ। ਹੁਣੇ ਦਾਨ ਦੇ ਕੇ Signal ਨੂੰ ਆਪਣਾ ਸਹਿਯੋਗ ਦਿਓ। <readMoreLink>ਹੋਰ ਪੜ੍ਹੋ</readMoreLink>"
+  },
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "ਪ੍ਰਾਈਵੇਟ ਮੈਸੇਜਿੰਗ ਨੂੰ ਸਹਿਯੋਗ ਦੇਣ ਲਈ ਦਾਨ ਦਿਓ। Signal ਨੂੰ ਸੁਤੰਤਰ ਅਤੇ ਇਸ਼ਤਿਹਾਰ-ਮੁਕਤ ਰੱਖੋ। <readMoreLink>ਹੋਰ ਪੜ੍ਹੋ</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "ਦਾਨ ਦਿਓ"
@@ -7377,6 +7518,9 @@
   "icu:DonateFlow__discard-dialog-remove-info": {
     "messageformat": "ਜਾਣਕਾਰੀ ਹਟਾਓ"
   },
+  "icu:DonateFlow__discard-paypal-dialog-body": {
+    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+  },
   "icu:DonateFlow__continue": {
     "messageformat": "ਜਾਰੀ ਰੱਖੋ"
   },
@@ -7422,6 +7566,15 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "ਤੁਹਾਡਾ ਇੱਕ ਦਾਨ ਪ੍ਰਗਤੀ ਅਧੀਨ ਹੈ ਜਿਸਦੀ ਪੁਸ਼ਟੀ ਕਰਨ ਦੀ ਲੋੜ ਹੈ।"
   },
+  "icu:Donations__Toast__PaypalConfirmationNeeded": {
+    "messageformat": "You have a donation in progress that requires confirmation."
+  },
+  "icu:Donations__Toast__PaypalCanceled": {
+    "messageformat": "PayPal donation canceled"
+  },
+  "icu:Donations__Toast__PaypalError": {
+    "messageformat": "Error processing PayPal donation. You have not been charged."
+  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "ਦਾਨ ਸਫਲ ਰਿਹਾ, ਪਰ ਅਸੀਂ ਤੁਹਾਡੀਆਂ ਬੈਜ ਸੰਬੰਧੀ ਸੈਟਿੰਗਾਂ ਨੂੰ ਅੱਪਡੇਟ ਨਹੀਂ ਕਰ ਸਕੇ"
   },
@@ -7437,11 +7590,41 @@
   "icu:Donations__DonationInterrupted__RetryButton": {
     "messageformat": "ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
   },
+  "icu:Donations__PaymentMethod": {
+    "messageformat": "Payment method"
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "ਭੁਗਤਾਨ ਵਿਧੀ ਅਸਵੀਕਾਰ ਕੀਤੀ ਗਈ"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "ਕਿਸੇ ਹੋਰ ਭੁਗਤਾਨ ਵਿਧੀ ਦੀ ਵਰਤੋਂ ਕਰੋ ਜਾਂ ਹੋਰ ਜਾਣਕਾਰੀ ਲੈਣ ਲਈ ਆਪਣੇ ਬੈਂਕ ਨਾਲ ਸੰਪਰਕ ਕਰੋ।"
+  },
+  "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
+    "messageformat": "Payment card icon"
+  },
+  "icu:DonateFlow__CreditOrDebitCard": {
+    "messageformat": "Credit or Debit Card"
+  },
+  "icu:DonateFlow__Paypal__AccessibilityLabel": {
+    "messageformat": "PayPal"
+  },
+  "icu:DonateFlow__Paypal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:DonateFlow__Paypal__CompleteDonation": {
+    "messageformat": "Complete Donation"
+  },
+  "icu:Donations__PaypalCanceled": {
+    "messageformat": "PayPal donation canceled"
+  },
+  "icu:Donations__PaypalCanceled__Description": {
+    "messageformat": "You have not been charged. Try again or use another payment method."
+  },
+  "icu:Donations__PaypalError": {
+    "messageformat": "Error processing PayPal donation"
+  },
+  "icu:Donations__PaypalError__Description": {
+    "messageformat": "You have not been charged. Try again or use another payment method."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "ਤਸਦੀਕ ਅਸਫਲ ਰਹੀ"
@@ -7581,6 +7764,9 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
     "messageformat": "ਇਹ ਸਾਨੂੰ ਕਾਲਾਂ ਬਾਰੇ ਜਾਣਨ ਅਤੇ ਕੀ ਕੰਮ ਕਰ ਰਿਹਾ ਹੈ ਅਤੇ ਕੀ ਨਹੀਂ, ਇਸ ਬਾਰੇ ਹੋਰ ਜਾਣਨ ਵਿੱਚ ਮਦਦ ਮਿਲਦੀ ਹੈ। ਤੁਸੀਂ ਦਰਜ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਆਪਣਾ ਡੀਬੱਗ ਲੌਗ ਦੇਖ ਸਕਦੇ ਹੋ।"
   },
+  "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
+    "messageformat": "ਦਰਜ ਕਰਨ ਨਾਲ ਤੁਹਾਡਾ ਫੀਡਬੈਕ <diagnosticInfoLink>ਤੁਹਾਡੀ ਕਾਲ ਬਾਰੇ ਡਾਇਗਨੌਸਟਿਕਸ ਜਾਣਕਾਰੀ</diagnosticInfoLink> ਦੇ ਨਾਲ ਸਾਂਝਾ ਕੀਤਾ ਜਾਵੇਗਾ। ਕਾਲ ਦੀ ਗੁਣਵੱਤਾ ਨੂੰ ਬਿਹਤਰ ਬਣਾਉਣ ਵਿੱਚ ਸਾਡੀ ਮਦਦ ਕਰਨ ਲਈ ਜੇ ਤੁਸੀਂ ਚਾਹੋ ਤਾਂ ਡੀਬੱਗ ਲੌਗ ਵੀ ਸਾਂਝਾ ਕਰ ਸਕਦੇ ਹੋ।"
+  },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "ਡੀਬੱਗ ਲੌਗ ਸਾਂਝਾ ਕਰੋ"
   },
@@ -7589,6 +7775,12 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
     "messageformat": "ਡੀਬੱਗ ਲੌਗ ਵਿੱਚ ਘੱਟ ਪੱਧਰ ਦੀ ਐਪ ਜਾਣਕਾਰੀ ਮੌਜੂਦ ਹੁੰਦੀ ਹੈ ਅਤੇ ਤੁਹਾਡੇ ਸੁਨੇਹੇ ਦੀ ਕਿਸੇ ਵੀ ਸਮੱਗਰੀ ਦਾ ਖੁਲਾਸਾ ਨਹੀਂ ਕੀਤਾ ਜਾਂਦਾ ਹੈ।"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
+    "messageformat": "ਸਾਡੇ ਨਾਲ ਸਾਂਝੀ ਕੀਤੀ ਗਈ ਜਾਣਕਾਰੀ ਵਿੱਚ ਹੇਠਲੇ ਪੱਧਰ ਦੀ ਐਪ ਜਾਣਕਾਰੀ ਸ਼ਾਮਲ ਹੁੰਦੀ ਹੈ ਅਤੇ ਇਸ ਵਿੱਚ ਤੁਹਾਡੀਆਂ ਕਾਲਾਂ ਬਾਰੇ ਜਾਣਕਾਰੀ ਸ਼ਾਮਲ ਨਹੀਂ ਹੁੰਦੀ ਹੈ।"
+  },
+  "icu:CallDiagnosticWindow__title": {
+    "messageformat": "ਡਾਇਗਨੌਸਟਿਕਸ ਜਾਣਕਾਰੀ"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "ਦਰਜ ਕਰੋ"
@@ -7604,6 +7796,9 @@
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
     "messageformat": "ਫੀਡਬੈਕ ਦੇਣ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!"
+  },
+  "icu:Megaphone__ExpandNarrowSidebar": {
+    "messageformat": "ਮੈਗਾਫੋਨ ਨਾਲ ਇੰਟਰੈਕਟ ਕਰਨ ਲਈ ਸਾਈਡਬਾਰ ਨੂੰ ਵੱਡਾ ਕਰੋ"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal ਨੂੰ ਸੁਚਾਰੂ ਢੰਗ ਨਾਲ ਚੱਲਦਾ ਰੱਖਣ ਲਈ ਇਸ ਵਰਜ਼ਨ ਵਿੱਚ ਨਿੱਕੇ-ਮੋਟੇ ਸੁਧਾਰ ਅਤੇ ਬੱਗ ਠੀਕ ਕੀਤੇ ਗਏ ਹਨ।",
@@ -7633,10 +7828,10 @@
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal ਵਿੱਚ ਪੋਲ ਵਾਲੇ ਫੀਚਰ ਲਈ ਐਨੀਮੇਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ।"
+  "icu:WhatsNew__7.89--0": {
+    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
   },
-  "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+  "icu:WhatsNew__7.89--1": {
+    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
   }
 }

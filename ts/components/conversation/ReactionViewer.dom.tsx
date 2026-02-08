@@ -46,7 +46,6 @@ export type Reaction = {
     | 'isMe'
     | 'phoneNumber'
     | 'profileName'
-    | 'sharedGroupNames'
     | 'title'
   >;
 };
@@ -272,7 +271,6 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
                   avatarUrl={from.avatarUrl}
                   badge={getPreferredBadge(from.badges)}
                   conversationType="direct"
-                  sharedGroupNames={from.sharedGroupNames}
                   size={32}
                   color={from.color}
                   profileName={from.profileName}

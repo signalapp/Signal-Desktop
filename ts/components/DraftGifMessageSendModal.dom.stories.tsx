@@ -18,7 +18,9 @@ import { drop } from '../util/drop.std.js';
 const { i18n } = window.SignalContext;
 
 const MOCK_GIF_URL =
-  'https://media.tenor.com/ihqN6a3iiYEAAAPo/pikachu-shocked-face-stunned.mp4';
+  'https://media2.giphy.com/media/v1.Y2lkPTZhNGNmY2JhaXFlbXZxcHVjNXlmaGdlYWs1dTlwYnNrb2I5aGttbXViYjh4Z2hqbyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3kzJvEciJa94SMW3hN/giphy.mp4';
+const MOCK_GIF_WIDTH = 480;
+const MOCK_GIF_HEIGHT = 418;
 
 export default {
   title: 'components/DraftGifMessageSendModal',
@@ -86,14 +88,14 @@ export function Default(): React.JSX.Element {
           title: '',
           description: '',
           previewMedia: {
-            url: '',
-            width: 640,
-            height: 640,
+            url: MOCK_GIF_URL,
+            width: MOCK_GIF_WIDTH,
+            height: MOCK_GIF_HEIGHT,
           },
           attachmentMedia: {
-            url: '',
-            width: 640,
-            height: 640,
+            url: MOCK_GIF_URL,
+            width: MOCK_GIF_WIDTH,
+            height: MOCK_GIF_HEIGHT,
           },
         },
       }}

@@ -8,7 +8,7 @@ import { createLogger } from '../../logging/log.std.js';
 import { getIntl, getUser } from '../selectors/user.std.js';
 import {
   getBackups,
-  getWorkflow,
+  getPlaintextWorkflow,
   shouldShowPlaintextWorkflow,
 } from '../selectors/backups.std.js';
 import { useBackupActions } from '../ducks/backups.preload.js';
@@ -20,7 +20,7 @@ const log = createLogger('smart/PlaintextExportWorkflow');
 export const SmartPlaintextExportWorkflow = memo(
   function SmartPlaintextExportWorkflow() {
     const backups = useSelector(getBackups);
-    const workflow = useSelector(getWorkflow);
+    const workflow = useSelector(getPlaintextWorkflow);
     const shouldWeRender = useSelector(shouldShowPlaintextWorkflow);
     const { osName } = useSelector(getUser);
 

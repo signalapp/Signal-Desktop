@@ -69,6 +69,7 @@ type PropsExternalType = {
 export type PropsDataType = {
   i18n: LocalizerType;
   initialCurrency: string;
+  isDonationPaypalEnabled: boolean;
   isOnline: boolean;
   settingsLocation: SettingsLocation;
   didResumeWorkflowAtStartup: boolean;
@@ -134,7 +135,7 @@ type PreferencesHomeProps = Pick<
   renderDonationHero: () => React.JSX.Element;
 };
 
-function isDonationPage(page: SettingsPage): page is DonationPage {
+export function isDonationsPage(page: SettingsPage): page is DonationPage {
   return (
     page === SettingsPage.Donations ||
     page === SettingsPage.DonationsDonateFlow ||
@@ -183,13 +184,12 @@ function DonationHero({
           conversationType="direct"
           title={firstName ?? ''}
           i18n={i18n}
-          sharedGroupNames={[]}
           size={AvatarSize.SEVENTY_TWO}
           theme={theme}
         />
       </div>
       <div className="PreferencesDonations__title">
-        {i18n('icu:PreferencesDonations__title')}
+        {i18n('icu:PreferencesDonations__title-v2')}
       </div>
       <div className="PreferencesDonations__description">
         <I18n
@@ -197,7 +197,7 @@ function DonationHero({
             readMoreLink: privacyReadMoreLink,
           }}
           i18n={i18n}
-          id="icu:PreferencesDonations__description"
+          id="icu:PreferencesDonations__description-v2"
         />
       </div>
     </>
@@ -239,7 +239,7 @@ function DonationsHome({
     <span className={tw('mb-8')}>
       <AxoButton.Root
         variant={isOnline ? 'primary' : 'secondary'}
-        size="md"
+        size="lg"
         disabled={!isOnline}
         onClick={handleDonateButtonClicked}
       >
@@ -363,13 +363,17 @@ function PreferencesReceiptList({
     [donationReceipts]
   );
 
-  const receiptsByYear = useMemo(() => {
+  const receiptsByYearEntries = useMemo(() => {
     const sortedReceipts = sortBy(
       donationReceipts,
       receipt => -receipt.timestamp
     );
-    return groupBy(sortedReceipts, receipt =>
+    const yearToReceipts = groupBy(sortedReceipts, receipt =>
       new Date(receipt.timestamp).getFullYear()
+    );
+
+    return Object.entries(yearToReceipts).sort(
+      ([yearA], [yearB]) => parseInt(yearB, 10) - parseInt(yearA, 10)
     );
   }, [donationReceipts]);
 
@@ -427,7 +431,7 @@ function PreferencesReceiptList({
             </div>
           </div>
 
-          {Object.entries(receiptsByYear).map(([year, receipts]) => (
+          {receiptsByYearEntries.map(([year, receipts]) => (
             <div
               key={year}
               className="PreferencesDonations--receiptList-yearContainer"
@@ -543,6 +547,7 @@ export function PreferencesDonations({
   contentsRef,
   i18n,
   initialCurrency,
+  isDonationPaypalEnabled,
   isOnline,
   settingsLocation,
   workflow,
@@ -591,6 +596,7 @@ export function PreferencesDonations({
 
     if (
       workflow?.type === donationStateSchema.Enum.INTENT_CONFIRMED ||
+      workflow?.type === donationStateSchema.Enum.PAYMENT_CONFIRMED ||
       workflow?.type === donationStateSchema.Enum.RECEIPT ||
       workflow?.type === donationStateSchema.Enum.DONE
     ) {
@@ -613,7 +619,7 @@ export function PreferencesDonations({
     [badge, color, firstName, i18n, profileAvatarUrl, theme]
   );
 
-  if (!isDonationPage(settingsLocation.page)) {
+  if (!isDonationsPage(settingsLocation.page)) {
     return null;
   }
 
@@ -693,6 +699,7 @@ export function PreferencesDonations({
     settingsLocation.page === SettingsPage.DonationsDonateFlow &&
     (isSubmitted ||
       workflow?.type === donationStateSchema.Enum.INTENT_CONFIRMED ||
+      workflow?.type === donationStateSchema.Enum.PAYMENT_CONFIRMED ||
       workflow?.type === donationStateSchema.Enum.RECEIPT)
   ) {
     // We can't transition away from the payment screen until that payment information
@@ -700,6 +707,7 @@ export function PreferencesDonations({
     if (
       hasProcessingExpired &&
       (workflow?.type === donationStateSchema.Enum.INTENT_CONFIRMED ||
+        workflow?.type === donationStateSchema.Enum.PAYMENT_CONFIRMED ||
         workflow?.type === donationStateSchema.Enum.RECEIPT)
     ) {
       dialog = (
@@ -713,6 +721,9 @@ export function PreferencesDonations({
           }}
         />
       );
+    } else if (workflow?.type === donationStateSchema.Enum.PAYPAL_INTENT) {
+      // No need to show the dialog here because PreferencesDonateFlow already
+      // initiates a dialog when redirecting to PayPal.
     } else {
       dialog = (
         <DonationProgressModal
@@ -740,13 +751,17 @@ export function PreferencesDonations({
         <PreferencesDonateFlow
           contentsRef={contentsRef}
           i18n={i18n}
+          isDonationPaypalEnabled={isDonationPaypalEnabled}
           isOnline={isOnline}
           initialCurrency={initialCurrency}
           donationAmountsConfig={donationAmountsConfig}
           lastError={lastError}
           validCurrencies={validCurrencies}
           workflow={workflow}
-          clearWorkflow={clearWorkflow}
+          clearWorkflow={() => {
+            clearWorkflow();
+            setIsSubmitted(false);
+          }}
           renderDonationHero={renderDonationHero}
           submitDonation={details => {
             setIsSubmitted(true);

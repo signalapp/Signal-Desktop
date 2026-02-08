@@ -256,7 +256,10 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   conversationId: overrideProps.conversationId ?? '',
   conversationType: overrideProps.conversationType || 'direct',
   contact: overrideProps.contact,
+  contactNameColor: overrideProps.contactNameColor,
+  contactLabel: overrideProps.contactLabel,
   // disableMenu: overrideProps.disableMenu,
+  deletedForEveryone: overrideProps.deletedForEveryone,
   disableScroll: overrideProps.disableScroll,
   direction: overrideProps.direction || 'incoming',
   showLightboxForViewOnceMedia: action('showLightboxForViewOnceMedia'),
@@ -265,7 +268,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   expirationTimestamp: overrideProps.expirationTimestamp ?? 0,
   getPreferredBadge: overrideProps.getPreferredBadge || (() => undefined),
   giftBadge: overrideProps.giftBadge,
-  hasMaxPinnedMessages: false,
   i18n,
   platform: 'darwin',
   id: overrideProps.id ?? 'random-message-id',
@@ -300,7 +302,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   messageExpanded: action('messageExpanded'),
   showConversation: action('showConversation'),
   openGiftBadge: action('openGiftBadge'),
-  onPinnedMessageAdd: action('onPinnedMessageAdd'),
+  showPinMessageDialog: action('showPinMessageDialog'),
   onPinnedMessageRemove: action('onPinnedMessageRemove'),
   previews: overrideProps.previews || [],
   quote: overrideProps.quote || undefined,
@@ -370,7 +372,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
 });
 
 const renderMany = (propsArray: ReadonlyArray<Props>) => (
-  <>
+  <div className="module-timeline--width-wide">
     {propsArray.map((message, index) => (
       <TimelineMessage
         key={`${message.text}_${index}_${message.direction}`}
@@ -379,7 +381,7 @@ const renderMany = (propsArray: ReadonlyArray<Props>) => (
         shouldCollapseBelow={Boolean(propsArray[index + 1])}
       />
     ))}
-  </>
+  </div>
 );
 
 const renderThree = (props: Props) =>
@@ -399,6 +401,20 @@ const renderBothDirections = (props: Props) => (
       canEndPoll: true,
     })}
   </>
+);
+
+const renderOneInBothDirections = (props: Props) => (
+  <div className="module-timeline--width-wide">
+    <TimelineMessage {...props} />
+    <TimelineMessage
+      {...props}
+      {...{
+        author: { ...props.author, id: getDefaultConversation().id },
+        direction: 'outgoing',
+        canEndPoll: true,
+      }}
+    />
+  </div>
 );
 
 export const PlainMessage = Template.bind({});
@@ -582,161 +598,168 @@ Older.args = {
   timestamp: Date.now() - 180 * 24 * 60 * 60 * 1000,
 };
 
-export const ReactionsWiderMessage = Template.bind({});
-ReactionsWiderMessage.args = {
-  text: 'Hello there from a pal!',
-  timestamp: Date.now() - 180 * 24 * 60 * 60 * 1000,
-  reactions: [
-    {
-      emoji: '👍',
-      from: getDefaultConversation({
-        isMe: true,
-        id: '+14155552672',
-        phoneNumber: '+14155552672',
-        name: 'Me',
-        title: 'Me',
-      }),
-      timestamp: Date.now() - 10,
-    },
-    {
-      emoji: '👍',
-      from: getDefaultConversation({
-        id: '+14155552672',
-        phoneNumber: '+14155552672',
-        name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now() - 10,
-    },
-    {
-      emoji: '👍',
-      from: getDefaultConversation({
-        id: '+14155552673',
-        phoneNumber: '+14155552673',
-        name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now() - 10,
-    },
-    {
-      emoji: '😂',
-      from: getDefaultConversation({
-        id: '+14155552674',
-        phoneNumber: '+14155552674',
-        name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now() - 10,
-    },
-    {
-      emoji: '😡',
-      from: getDefaultConversation({
-        id: '+14155552677',
-        phoneNumber: '+14155552677',
-        name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now() - 10,
-    },
-    {
-      emoji: '👎',
-      from: getDefaultConversation({
-        id: '+14155552678',
-        phoneNumber: '+14155552678',
-        name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now() - 10,
-    },
-    {
-      emoji: '❤️',
-      from: getDefaultConversation({
-        id: '+14155552679',
-        phoneNumber: '+14155552679',
-        name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now() - 10,
-    },
-  ],
-};
+// Render only one message, because reactions break up clusters of messages
+export function ReactionsWiderMessage(): JSX.Element {
+  const props = createProps({
+    text: 'Hello there from a pal!',
+    timestamp: Date.now() - 180 * 24 * 60 * 60 * 1000,
+    reactions: [
+      {
+        emoji: '👍',
+        from: getDefaultConversation({
+          isMe: true,
+          id: '+14155552672',
+          phoneNumber: '+14155552672',
+          name: 'Me',
+          title: 'Me',
+        }),
+        timestamp: Date.now() - 10,
+      },
+      {
+        emoji: '👍',
+        from: getDefaultConversation({
+          id: '+14155552672',
+          phoneNumber: '+14155552672',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        }),
+        timestamp: Date.now() - 10,
+      },
+      {
+        emoji: '👍',
+        from: getDefaultConversation({
+          id: '+14155552673',
+          phoneNumber: '+14155552673',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        }),
+        timestamp: Date.now() - 10,
+      },
+      {
+        emoji: '😂',
+        from: getDefaultConversation({
+          id: '+14155552674',
+          phoneNumber: '+14155552674',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        }),
+        timestamp: Date.now() - 10,
+      },
+      {
+        emoji: '😡',
+        from: getDefaultConversation({
+          id: '+14155552677',
+          phoneNumber: '+14155552677',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        }),
+        timestamp: Date.now() - 10,
+      },
+      {
+        emoji: '👎',
+        from: getDefaultConversation({
+          id: '+14155552678',
+          phoneNumber: '+14155552678',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        }),
+        timestamp: Date.now() - 10,
+      },
+      {
+        emoji: '❤️',
+        from: getDefaultConversation({
+          id: '+14155552679',
+          phoneNumber: '+14155552679',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        }),
+        timestamp: Date.now() - 10,
+      },
+    ],
+  });
+  return renderOneInBothDirections(props);
+}
 
 const joyReactions = Array.from({ length: 52 }, () => getJoyReaction());
 
-export const ReactionsShortMessage = Template.bind({});
-ReactionsShortMessage.args = {
-  text: 'h',
-  timestamp: Date.now(),
-  reactions: [
-    ...joyReactions,
-    {
-      emoji: '👍',
-      from: getDefaultConversation({
-        isMe: true,
-        id: '+14155552672',
-        phoneNumber: '+14155552672',
-        name: 'Me',
-        title: 'Me',
-      }),
-      timestamp: Date.now(),
-    },
-    {
-      emoji: '👍',
-      from: getDefaultConversation({
-        id: '+14155552672',
-        phoneNumber: '+14155552672',
-        name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now(),
-    },
-    {
-      emoji: '👍',
-      from: getDefaultConversation({
-        id: '+14155552673',
-        phoneNumber: '+14155552673',
-        name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now(),
-    },
-    {
-      emoji: '😡',
-      from: getDefaultConversation({
-        id: '+14155552677',
-        phoneNumber: '+14155552677',
-        name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now(),
-    },
-    {
-      emoji: '👎',
-      from: getDefaultConversation({
-        id: '+14155552678',
-        phoneNumber: '+14155552678',
-        name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now(),
-    },
-    {
-      emoji: '❤️',
-      from: getDefaultConversation({
-        id: '+14155552679',
-        phoneNumber: '+14155552679',
-        name: 'Amelia Briggs',
-        title: 'Amelia',
-      }),
-      timestamp: Date.now(),
-    },
-  ],
-};
+// Render only one message, because reactions break up clusters of messages
+export function ReactionsShortMessage(): JSX.Element {
+  const props = createProps({
+    text: 'h',
+    timestamp: Date.now(),
+    reactions: [
+      ...joyReactions,
+      {
+        emoji: '👍',
+        from: getDefaultConversation({
+          isMe: true,
+          id: '+14155552672',
+          phoneNumber: '+14155552672',
+          name: 'Me',
+          title: 'Me',
+        }),
+        timestamp: Date.now(),
+      },
+      {
+        emoji: '👍',
+        from: getDefaultConversation({
+          id: '+14155552672',
+          phoneNumber: '+14155552672',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        }),
+        timestamp: Date.now(),
+      },
+      {
+        emoji: '👍',
+        from: getDefaultConversation({
+          id: '+14155552673',
+          phoneNumber: '+14155552673',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        }),
+        timestamp: Date.now(),
+      },
+      {
+        emoji: '😡',
+        from: getDefaultConversation({
+          id: '+14155552677',
+          phoneNumber: '+14155552677',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        }),
+        timestamp: Date.now(),
+      },
+      {
+        emoji: '👎',
+        from: getDefaultConversation({
+          id: '+14155552678',
+          phoneNumber: '+14155552678',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        }),
+        timestamp: Date.now(),
+      },
+      {
+        emoji: '❤️',
+        from: getDefaultConversation({
+          id: '+14155552679',
+          phoneNumber: '+14155552679',
+          name: 'Amelia Briggs',
+          title: 'Amelia',
+        }),
+        timestamp: Date.now(),
+      },
+    ],
+  });
+  return renderOneInBothDirections(props);
+}
 
 export const AvatarInGroup = Template.bind({});
 AvatarInGroup.args = {
   author: getDefaultConversation({ avatarUrl: pngUrl }),
   conversationType: 'group',
+  contactNameColor: '100',
   status: 'sent',
   text: 'Hello it is me, the saxophone.',
 };
@@ -745,8 +768,53 @@ export const BadgeInGroup = Template.bind({});
 BadgeInGroup.args = {
   conversationType: 'group',
   getPreferredBadge: () => getFakeBadge(),
+  contactNameColor: '300',
   status: 'sent',
   text: 'Hello it is me, the saxophone.',
+};
+
+export const LabelInGroup = Template.bind({});
+LabelInGroup.args = {
+  conversationType: 'group',
+  status: 'sent',
+  text: 'Hello it is me, the saxophone.',
+  contactNameColor: '260',
+  contactLabel: {
+    labelEmoji: '🍗',
+    labelString: 'Chicken Taster',
+  },
+};
+
+export const LabelInGroupWithLongName = Template.bind({});
+LabelInGroupWithLongName.args = {
+  conversationType: 'group',
+  status: 'sent',
+  text: 'Hello it is me, the saxophone.',
+  author: {
+    ...getDefaultConversation(),
+    title: 'Long long long long long long long long long long long name',
+  },
+  contactNameColor: '260',
+  contactLabel: {
+    labelEmoji: '🍗',
+    labelString: 'Chicken Taster',
+  },
+};
+
+export const LabelInGroupWithLongNameAndLongMessage = Template.bind({});
+LabelInGroupWithLongNameAndLongMessage.args = {
+  conversationType: 'group',
+  status: 'sent',
+  text: 'Hello it is me, the saxophone. I am a good friend of yours. Do you remember? A long long long long long long long time ago.',
+  author: {
+    ...getDefaultConversation(),
+    title: 'Long long long long long long long long long long long name',
+  },
+  contactNameColor: '260',
+  contactLabel: {
+    labelEmoji: '🍗',
+    labelString: 'Chicken Taster',
+  },
 };
 
 export const Sticker = Template.bind({});
@@ -762,6 +830,69 @@ Sticker.args = {
   ],
   isSticker: true,
   status: 'sent',
+};
+
+export const StickerInGroup = Template.bind({});
+StickerInGroup.args = {
+  attachments: [
+    fakeAttachment({
+      url: '/fixtures/512x515-thumbs-up-lincoln.webp',
+      fileName: '512x515-thumbs-up-lincoln.webp',
+      contentType: IMAGE_WEBP,
+      width: 128,
+      height: 128,
+    }),
+  ],
+  conversationType: 'group',
+  contactNameColor: '180',
+  isSticker: true,
+  status: 'sent',
+};
+
+export const StickerWithLabelInGroup = Template.bind({});
+StickerWithLabelInGroup.args = {
+  attachments: [
+    fakeAttachment({
+      url: '/fixtures/512x515-thumbs-up-lincoln.webp',
+      fileName: '512x515-thumbs-up-lincoln.webp',
+      contentType: IMAGE_WEBP,
+      width: 128,
+      height: 128,
+    }),
+  ],
+  conversationType: 'group',
+  isSticker: true,
+  status: 'sent',
+  contactNameColor: '260',
+  contactLabel: {
+    labelEmoji: '🍗',
+    labelString: 'Chicken Taster',
+  },
+};
+
+export const StickerWithLongNameAndLabelInGroup = Template.bind({});
+StickerWithLongNameAndLabelInGroup.args = {
+  attachments: [
+    fakeAttachment({
+      url: '/fixtures/512x515-thumbs-up-lincoln.webp',
+      fileName: '512x515-thumbs-up-lincoln.webp',
+      contentType: IMAGE_WEBP,
+      width: 128,
+      height: 128,
+    }),
+  ],
+  conversationType: 'group',
+  isSticker: true,
+  status: 'sent',
+  author: {
+    ...getDefaultConversation(),
+    title: 'Long long long long long long long long long long long name',
+  },
+  contactNameColor: '280',
+  contactLabel: {
+    labelEmoji: '🍗',
+    labelString: 'Chicken Taster',
+  },
 };
 
 export const Quote = Template.bind({});
@@ -782,11 +913,11 @@ Quote.args = {
     id: '',
     isMe: false,
     title: 'Quoter Dude',
-    sharedGroupNames: [],
     acceptedMessageRequest: true,
     badges: [],
   },
   conversationType: 'group',
+  contactNameColor: '100',
 };
 
 export function Deleted(): React.JSX.Element {
@@ -815,6 +946,7 @@ export const DeletedWithExpireTimer = Template.bind({});
 DeletedWithExpireTimer.args = {
   timestamp: Date.now() - 60 * 1000,
   conversationType: 'group',
+  contactNameColor: '100',
   deletedForEveryone: true,
   canForward: false,
   expirationLength: 5 * 60 * 1000,
@@ -827,6 +959,7 @@ export function DeletedWithError(): React.JSX.Element {
     timestamp: Date.now() - 60 * 1000,
     // canDeleteForEveryone: true,
     conversationType: 'group',
+    contactNameColor: '100',
     deletedForEveryone: true,
     status: 'partial-sent',
     direction: 'outgoing',
@@ -835,6 +968,7 @@ export function DeletedWithError(): React.JSX.Element {
     timestamp: Date.now() - 60 * 1000,
     // canDeleteForEveryone: true,
     conversationType: 'group',
+    contactNameColor: '100',
     deletedForEveryone: true,
     status: 'error',
     direction: 'outgoing',
@@ -856,65 +990,60 @@ CanDeleteForEveryone.args = {
   direction: 'outgoing',
 };
 
-const bigAttachment = {
-  contentType: stringToMIMEType('text/plain'),
-  fileName: 'why-i-love-birds.txt',
-  size: 100000000000,
-  width: undefined,
-  height: undefined,
-  path: undefined,
-  key: undefined,
-  id: undefined,
-  error: true,
-  wasTooBig: true,
-  isPermanentlyUndownloadable: true,
-};
-
+// Too-large attachments don't get to the component
 export function AttachmentTooBig(): React.JSX.Element {
   const propsSent = createProps({
     conversationType: 'direct',
     attachmentDroppedDueToSize: true,
-    attachments: [bigAttachment],
   });
 
   return <>{renderBothDirections(propsSent)}</>;
 }
 
+// Too-large attachments don't get to the component
 export function AttachmentTooBigWithText(): React.JSX.Element {
   const propsSent = createProps({
     conversationType: 'direct',
     attachmentDroppedDueToSize: true,
-    attachments: [bigAttachment],
     text: 'Check out this file!',
   });
 
   return <>{renderBothDirections(propsSent)}</>;
 }
 
-const bigImageAttachment = {
-  ...bigAttachment,
-  contentType: IMAGE_JPEG,
-  fileName: 'bird.jpg',
-  blurHash: 'LDA,FDBnm+I=p{tkIUI;~UkpELV]',
-  width: 1000,
-  height: 1000,
-};
-
-export function AttachmentTooBigImage(): React.JSX.Element {
+// Too-large attachments don't get to the component
+export function AttachmentTooBigWithImage(): React.JSX.Element {
   const propsSent = createProps({
     conversationType: 'direct',
     attachmentDroppedDueToSize: true,
-    attachments: [bigImageAttachment],
+    attachments: [
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'the-sax.png',
+        height: 240,
+        url: pngUrl,
+        width: 320,
+      }),
+    ],
   });
 
   return <>{renderBothDirections(propsSent)}</>;
 }
 
-export function AttachmentTooBigImageWithText(): React.JSX.Element {
+// Too-large attachments don't get to the component
+export function AttachmentTooBigWithImageAndText(): React.JSX.Element {
   const propsSent = createProps({
     conversationType: 'direct',
     attachmentDroppedDueToSize: true,
-    attachments: [bigImageAttachment],
+    attachments: [
+      fakeAttachment({
+        contentType: IMAGE_PNG,
+        fileName: 'the-sax.png',
+        height: 240,
+        url: pngUrl,
+        width: 320,
+      }),
+    ],
     text: 'Check out this file!',
   });
 
@@ -971,6 +1100,7 @@ LinkPreviewInGroup.args = {
   status: 'sent',
   text: 'Be sure to look at https://www.signal.org',
   conversationType: 'group',
+  contactNameColor: '100',
 };
 
 export const LinkPreviewWithLongWord = Template.bind({});
@@ -996,6 +1126,7 @@ LinkPreviewWithLongWord.args = {
   status: 'sent',
   text: 'Be sure to look at https://www.signal.org',
   conversationType: 'group',
+  contactNameColor: '100',
 };
 
 export const LinkPreviewWithQuote = Template.bind({});
@@ -1034,6 +1165,7 @@ LinkPreviewWithQuote.args = {
   status: 'sent',
   text: 'Be sure to look at https://www.signal.org',
   conversationType: 'group',
+  contactNameColor: '100',
 };
 
 export const LinkPreviewWithSmallImage = Template.bind({});
@@ -1837,6 +1969,7 @@ GifInAGroup.args = {
     }),
   ],
   conversationType: 'group',
+  contactNameColor: '100',
   status: 'sent',
 };
 
@@ -2007,7 +2140,6 @@ function getStableVoter(optionIndex: number, voterIndex: number) {
     name,
     phoneNumber: undefined,
     profileName: undefined,
-    sharedGroupNames: [],
     title: name,
   };
 }
@@ -2066,7 +2198,6 @@ function createMockPollWithVoteCounts(
             name: 'You',
             phoneNumber: undefined,
             profileName: undefined,
-            sharedGroupNames: [],
             title: 'You',
           },
         },
@@ -2115,7 +2246,6 @@ function createMockPollWithVoters(
           name,
           phoneNumber: undefined,
           profileName: undefined,
-          sharedGroupNames: [],
           title: name,
         },
       };
@@ -2157,6 +2287,7 @@ function createMockPollWithVoters(
 export const Poll = Template.bind({});
 Poll.args = {
   conversationType: 'group',
+  contactNameColor: '100',
   poll: {
     question: 'What should we have for lunch?',
     options: ['Pizza 🍕', 'Sushi 🍱', 'Tacos 🌮', 'Salad 🥗'],
@@ -2171,6 +2302,7 @@ Poll.args = {
 export const PollMultipleChoice = Template.bind({});
 PollMultipleChoice.args = {
   conversationType: 'group',
+  contactNameColor: '100',
   poll: {
     question: 'Which features would you like to see in the next update?',
     options: ['Dark mode', 'Video calls', 'File sharing', 'Reactions', 'Polls'],
@@ -2185,6 +2317,7 @@ PollMultipleChoice.args = {
 export const PollWithVotes = Template.bind({});
 PollWithVotes.args = {
   conversationType: 'group',
+  contactNameColor: '100',
   poll: createMockPollWithVoters(
     'Best day for the team meeting?',
     ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
@@ -2209,6 +2342,7 @@ PollWithVotes.args = {
 export const PollWithPendingVotes = Template.bind({});
 PollWithPendingVotes.args = {
   conversationType: 'group',
+  contactNameColor: '100',
   poll: createMockPollWithVoters(
     'Best day for the team meeting?',
     ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
@@ -2237,6 +2371,7 @@ PollWithPendingVotes.args = {
 export const PollTerminated = Template.bind({});
 PollTerminated.args = {
   conversationType: 'group',
+  contactNameColor: '100',
   poll: createMockPollWithVoters(
     'Quick poll: Coffee or tea?',
     ['Coffee ☕', 'Tea 🍵'],
@@ -2263,6 +2398,7 @@ PollTerminated.args = {
 export const PollLongText = Template.bind({});
 PollLongText.args = {
   conversationType: 'group',
+  contactNameColor: '100',
   poll: createMockPollWithVoters(
     'Given the current situation with remote work becoming more prevalent, what would be your preferred working arrangement for the future once everything stabilizes?',
     [
@@ -2288,6 +2424,7 @@ PollLongText.args = {
 export const PollMultipleChoiceWithVotes = Template.bind({});
 PollMultipleChoiceWithVotes.args = {
   conversationType: 'group',
+  contactNameColor: '100',
   poll: createMockPollWithVoters(
     'Which toppings do you want on the pizza?',
     [
@@ -2403,6 +2540,7 @@ export function PollAnimationPlayground(): React.JSX.Element {
 
   const props = createProps({
     conversationType: 'group',
+    contactNameColor: '100',
     poll,
     status: 'sent',
     sendPollVote: handleSendPollVote,
@@ -2649,6 +2787,7 @@ TapToViewImageInGroup.args = {
   isTapToView: true,
   status: 'sent',
   conversationType: 'group',
+  contactNameColor: '100',
 };
 
 export const TapToViewVideo = Template.bind({});
@@ -2743,7 +2882,7 @@ export function Colors(): React.JSX.Element {
     <>
       {ConversationColors.map(color => (
         <div key={color}>
-          {renderBothDirections(
+          {renderOneInBothDirections(
             createProps({
               conversationColor: color,
               text: `Here is a preview of the chat color: ${color}. The color is visible to only you.`,
@@ -2886,18 +3025,21 @@ export const CollapsingTextOnlyGroupMessages = (): React.JSX.Element => {
     createProps({
       author,
       conversationType: 'group',
+      contactNameColor: '100',
       text: 'One',
       timestamp: Date.now() - 2 * MINUTE,
     }),
     createProps({
       author,
       conversationType: 'group',
+      contactNameColor: '100',
       text: 'Two',
       timestamp: Date.now() - MINUTE,
     }),
     createProps({
       author,
       conversationType: 'group',
+      contactNameColor: '100',
       text: 'Three',
     }),
   ]);

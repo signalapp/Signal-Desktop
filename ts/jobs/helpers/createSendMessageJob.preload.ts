@@ -20,7 +20,6 @@ import {
   handleMultipleSendErrors,
   maybeExpandErrors,
 } from './handleMultipleSendErrors.std.js';
-import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 export type SendMessageJobOptions<Data> = Readonly<{
   sendName: string; // ex: 'sendExampleMessage'
@@ -58,14 +57,17 @@ export function createSendMessageJob<Data>(
       return;
     }
 
-    const { recipientServiceIdsWithoutMe, untrustedServiceIds } =
-      getSendRecipientLists({
-        log,
-        conversation,
-        conversationIds: isSyncOnly(data)
-          ? [window.ConversationController.getOurConversationIdOrThrow()]
-          : Array.from(conversation.getMemberConversationIds()),
-      });
+    const {
+      allRecipientServiceIds,
+      recipientServiceIdsWithoutMe,
+      untrustedServiceIds,
+    } = getSendRecipientLists({
+      log,
+      conversation,
+      conversationIds: isSyncOnly(data)
+        ? [window.ConversationController.getOurConversationIdOrThrow()]
+        : Array.from(conversation.getMemberConversationIds()),
+    });
 
     if (untrustedServiceIds.length > 0) {
       window.reduxActions.conversations.conversationStoppedByMissingVerification(
@@ -90,25 +92,29 @@ export function createSendMessageJob<Data>(
 
     try {
       if (recipientServiceIdsWithoutMe.length === 0) {
-        const sendOptions = await getSendOptions(conversation.attributes, {
+        const ourConversation =
+          window.ConversationController.getOurConversationOrThrow();
+        const sendOptions = await getSendOptions(ourConversation.attributes, {
           syncMessage: true,
         });
         // Only sending a sync to ourselves
         await conversation.queueJob(
           `conversationQueue/${sendName}/sync`,
           async () => {
-            const ourAci = itemStorage.user.getCheckedAci();
             const encodedDataMessage = await job.messaging.getDataOrEditMessage(
               {
                 ...messageOptions,
-                recipients: [ourAci],
+                groupV2: conversation.getGroupV2Info({
+                  members: recipientServiceIdsWithoutMe,
+                }),
+                recipients: allRecipientServiceIds,
               }
             );
 
             return handleMessageSend(
               job.messaging.sendSyncMessage({
                 encodedDataMessage,
-                timestamp: job.timestamp,
+                timestamp: messageOptions.timestamp,
                 destinationE164: conversation.get('e164'),
                 destinationServiceId: conversation.getServiceId(),
                 expirationStartTimestamp,
@@ -152,7 +158,7 @@ export function createSendMessageJob<Data>(
                 });
               },
               sendType,
-              timestamp: job.timestamp,
+              timestamp: messageOptions.timestamp,
               expirationStartTimestamp,
             });
           }
@@ -189,7 +195,7 @@ export function createSendMessageJob<Data>(
                 });
               },
               sendType,
-              timestamp: job.timestamp,
+              timestamp: messageOptions.timestamp,
               expirationStartTimestamp,
             });
           }

@@ -23,7 +23,6 @@ export type PropsType = {
   | 'isMe'
   | 'phoneNumber'
   | 'profileName'
-  | 'sharedGroupNames'
   | 'title'
 >;
 
@@ -37,7 +36,6 @@ export function ContactPill({
   id,
   phoneNumber,
   profileName,
-  sharedGroupNames,
   title,
   onClickRemove,
 }: PropsType): React.JSX.Element {
@@ -57,7 +55,6 @@ export function ContactPill({
         phoneNumber={phoneNumber}
         profileName={profileName}
         title={title}
-        sharedGroupNames={sharedGroupNames}
         size={AvatarSize.TWENTY}
       />
       <ContactName

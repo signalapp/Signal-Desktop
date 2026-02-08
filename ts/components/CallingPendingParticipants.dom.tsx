@@ -320,7 +320,6 @@ export function CallingPendingParticipants({
                   i18n={i18n}
                   profileName={participant.profileName}
                   title={participant.title}
-                  sharedGroupNames={participant.sharedGroupNames}
                   size={AvatarSize.THIRTY_SIX}
                 />
                 <ContactName
@@ -407,7 +406,6 @@ export function CallingPendingParticipants({
             i18n={i18n}
             profileName={participant.profileName}
             title={participant.title}
-            sharedGroupNames={participant.sharedGroupNames}
             size={AvatarSize.FORTY_EIGHT}
           />
           <div className="CallingPendingParticipants__CompactParticipantNameColumn">

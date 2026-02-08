@@ -14,12 +14,13 @@ import chaiAsPromised from 'chai-as-promised';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { reporters, type MochaOptions } from 'mocha';
 
-import { initMessageCleanup } from '../../services/messageStateCleanup.preload.js';
 import { initializeMessageCounter } from '../../util/incrementMessageCounter.preload.js';
 import { initializeRedux } from '../../state/initializeRedux.preload.js';
 import * as Stickers from '../../types/Stickers.preload.js';
 import { ThemeType } from '../../types/Util.std.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { MessageCache } from '../../services/MessageCache.preload.js';
+import { updateRemoteConfig } from '../../test-helpers/RemoteConfigStub.dom.js';
 
 chai.use(chaiAsPromised);
 
@@ -95,7 +96,10 @@ window.testUtilities = {
   },
 
   async initialize() {
-    initMessageCleanup();
+    // Since background.preload.ts is not loaded in tests, we need to do some minimal
+    // setup
+    MessageCache.install();
+    await updateRemoteConfig([]);
     await initializeMessageCounter();
     await Stickers.load();
 

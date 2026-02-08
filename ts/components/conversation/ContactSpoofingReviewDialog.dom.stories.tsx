@@ -32,7 +32,6 @@ const getCommonProps = () => ({
   onClose: action('onClose'),
   showContactModal: action('showContactModal'),
   toggleSignalConnectionsModal: action('toggleSignalConnectionsModal'),
-  updateSharedGroups: action('updateSharedGroups'),
   removeMember: action('removeMember'),
   theme: ThemeType.light,
 });
@@ -45,10 +44,12 @@ export function DirectConversationsWithSameTitle(): React.JSX.Element {
       possiblyUnsafe={{
         conversation: getDefaultConversation(),
         isSignalConnection: false,
+        sharedGroupNames: [],
       }}
       safe={{
         conversation: getDefaultConversation(),
         isSignalConnection: true,
+        sharedGroupNames: [],
       }}
     />
   );
@@ -68,14 +69,17 @@ export function NotAdminMany(): React.JSX.Element {
           oldName: 'Alicia',
           isSignalConnection: false,
           conversation: getDefaultConversation({ title: 'Alice' }),
+          sharedGroupNames: [],
         })),
         Bob: times(3, () => ({
           isSignalConnection: false,
           conversation: getDefaultConversation({ title: 'Bob' }),
+          sharedGroupNames: [],
         })),
         Charlie: times(5, () => ({
           isSignalConnection: false,
           conversation: getDefaultConversation({ title: 'Charlie' }),
+          sharedGroupNames: [],
         })),
       }}
     />
@@ -97,11 +101,13 @@ export function NotAdminOne(): React.JSX.Element {
             oldName: 'Alicia',
             isSignalConnection: false,
             conversation: getDefaultConversation({ title: 'Alice' }),
+            sharedGroupNames: [],
           },
           {
             oldName: 'Alice',
             isSignalConnection: true,
             conversation: getDefaultConversation({ title: 'Alice' }),
+            sharedGroupNames: [],
           },
         ],
       }}
@@ -123,14 +129,17 @@ export function AdminMany(): React.JSX.Element {
           oldName: 'Alicia',
           isSignalConnection: false,
           conversation: getDefaultConversation({ title: 'Alice' }),
+          sharedGroupNames: [],
         })),
         Bob: times(3, () => ({
           isSignalConnection: false,
           conversation: getDefaultConversation({ title: 'Bob' }),
+          sharedGroupNames: [],
         })),
         Charlie: times(5, () => ({
           isSignalConnection: false,
           conversation: getDefaultConversation({ title: 'Charlie' }),
+          sharedGroupNames: [],
         })),
       }}
     />
@@ -152,10 +161,12 @@ export function AdminOne(): React.JSX.Element {
             oldName: 'Alicia',
             isSignalConnection: false,
             conversation: getDefaultConversation({ title: 'Alice' }),
+            sharedGroupNames: [],
           },
           {
             isSignalConnection: true,
             conversation: getDefaultConversation({ title: 'Alice' }),
+            sharedGroupNames: [],
           },
         ],
       }}

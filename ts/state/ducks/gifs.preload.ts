@@ -36,7 +36,7 @@ export type GifsRecentGifsAdd = ReadonlyDeep<{
 
 export type GifsRecentGifsRemove = ReadonlyDeep<{
   type: typeof GIFS_RECENT_GIFS_REMOVE;
-  payload: Pick<GifType, 'id'>;
+  payload: { gifId: GifType['id'] };
 }>;
 
 type GifsActionType = ReadonlyDeep<GifsRecentGifsAdd | GifsRecentGifsRemove>;
@@ -62,11 +62,11 @@ function onAddRecentGif(
 }
 
 function onRemoveRecentGif(
-  payload: Pick<GifType, 'id'>
+  gifId: GifType['id']
 ): ThunkAction<void, unknown, unknown, GifsRecentGifsRemove> {
   return async dispatch => {
-    await removeRecentGif(payload);
-    dispatch({ type: GIFS_RECENT_GIFS_REMOVE, payload });
+    await removeRecentGif(gifId);
+    dispatch({ type: GIFS_RECENT_GIFS_REMOVE, payload: { gifId } });
   };
 }
 
@@ -107,7 +107,7 @@ export function reducer(
     const { payload } = action;
     return {
       ...state,
-      recentGifs: filterRecentGif(state.recentGifs, payload.id),
+      recentGifs: filterRecentGif(state.recentGifs, payload.gifId),
     };
   }
 

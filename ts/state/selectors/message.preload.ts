@@ -168,9 +168,7 @@ import { getCallIdFromEra } from '../../util/callDisposition.preload.js';
 import { LONG_MESSAGE } from '../../types/MIME.std.js';
 import type { MessageRequestResponseNotificationData } from '../../components/conversation/MessageRequestResponseNotification.dom.js';
 import type { PinnedMessageNotificationData } from '../../components/conversation/pinned-messages/PinnedMessageNotification.dom.js';
-import { canEditGroupInfo } from '../../util/canEditGroupInfo.preload.js';
 import { isPinnedMessagesSendEnabled } from '../../util/isPinnedMessagesEnabled.dom.js';
-import { getPinnedMessagesLimit } from '../../util/pinnedMessages.dom.js';
 
 const { groupBy, isEmpty, isNumber, isObject, map } = lodash;
 
@@ -183,12 +181,7 @@ const linkify = new LinkifyIt();
 type FormattedContact = Partial<ConversationType> &
   Pick<
     ConversationType,
-    | 'acceptedMessageRequest'
-    | 'id'
-    | 'isMe'
-    | 'sharedGroupNames'
-    | 'title'
-    | 'type'
+    'acceptedMessageRequest' | 'id' | 'isMe' | 'title' | 'type'
   >;
 export type PropsForMessage = Omit<TimelineMessagePropsData, 'interactionMode'>;
 export type MessagePropsType = Omit<
@@ -384,7 +377,6 @@ const getAuthorForMessage = (
     name,
     phoneNumber,
     profileName,
-    sharedGroupNames,
     title,
   } = getContact(message, options);
 
@@ -401,7 +393,6 @@ const getAuthorForMessage = (
     name,
     phoneNumber,
     profileName,
-    sharedGroupNames,
     title,
   };
 
@@ -457,7 +448,6 @@ const getReactionsForMessage = (
       name,
       phoneNumber,
       profileName,
-      sharedGroupNames,
       title,
     } = c;
 
@@ -471,7 +461,6 @@ const getReactionsForMessage = (
       name,
       phoneNumber,
       profileName,
-      sharedGroupNames,
       title,
     };
 
@@ -504,7 +493,6 @@ export type PollVoteWithUserType = {
     | 'name'
     | 'phoneNumber'
     | 'profileName'
-    | 'sharedGroupNames'
     | 'title'
   >;
 };
@@ -613,7 +601,6 @@ const getPollForMessage = (
       name: voter.name,
       phoneNumber: voter.phoneNumber,
       profileName: voter.profileName,
-      sharedGroupNames: voter.sharedGroupNames,
       title: voter.title,
     };
 
@@ -917,6 +904,16 @@ export const getPropsForMessage = (
     ourAci,
   });
   const contactNameColor = getContactNameColor(contactNameColors, authorId);
+  const sourceServiceId = getSourceServiceId(message, ourAci);
+  const sourceMember = conversation.memberships?.find(
+    membership => membership.aci === sourceServiceId
+  );
+  const contactLabel = sourceMember?.labelString
+    ? {
+        labelString: sourceMember.labelString,
+        labelEmoji: sourceMember.labelEmoji,
+      }
+    : undefined;
 
   const { conversationColor, customColor } = getConversationColorAttributes(
     conversation,
@@ -952,6 +949,7 @@ export const getPropsForMessage = (
     canRetry: hasErrors(message),
     canRetryDeleteForEveryone: canRetryDeleteForEveryone(message),
     contact: getPropsForEmbeddedContact(message, regionCode, accountSelector),
+    contactLabel,
     contactNameColor,
     conversationColor,
     conversationId,
@@ -967,9 +965,6 @@ export const getPropsForMessage = (
       expirationStartTimestamp,
     }),
     giftBadge: message.giftBadge,
-    hasMaxPinnedMessages: getHasMaxPinnedMessages(
-      options.pinnedMessagesMessageIds ?? []
-    ),
     poll: getPollForMessage(message, {
       conversationSelector: options.conversationSelector,
       ourConversationId,
@@ -1960,13 +1955,12 @@ export function getPropsForPhoneNumberDiscovery(
 
   const conversation = getConversation(message, conversationSelector);
   const conversationTitle = conversation.title;
-  const sharedGroup = conversation.sharedGroupNames[0];
   const { e164 } = phoneNumberDiscovery;
 
   return {
+    conversationId: conversation.id,
     conversationTitle,
     phoneNumber: renderNumber(e164) ?? e164,
-    sharedGroup,
   };
 }
 
@@ -2411,7 +2405,9 @@ export function canPinMessages(conversation: ConversationType): boolean {
   if (!isPinnedMessagesSendEnabled()) {
     return false;
   }
-  return conversation.type === 'direct' || canEditGroupInfo(conversation);
+  return (
+    conversation.type === 'direct' || conversation.canEditGroupInfo === true
+  );
 }
 
 export function canPinMessage(
@@ -2425,14 +2421,6 @@ export function canPinMessage(
     return false;
   }
   return true;
-}
-
-function getHasMaxPinnedMessages(
-  pinnedMessagesMessageIds: ReadonlyArray<string>
-) {
-  const pinnedMessagesLimit = getPinnedMessagesLimit();
-  const pinnedMessagesCount = pinnedMessagesMessageIds.length;
-  return pinnedMessagesCount >= pinnedMessagesLimit;
 }
 
 export function getLastChallengeError(

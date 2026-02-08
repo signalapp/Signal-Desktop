@@ -113,7 +113,6 @@ export function CallingRaisedHandsList({
                   i18n={i18n}
                   profileName={participant.profileName}
                   title={participant.title}
-                  sharedGroupNames={participant.sharedGroupNames}
                   size={AvatarSize.THIRTY_TWO}
                 />
                 {ourServiceId && participant.serviceId === ourServiceId ? (

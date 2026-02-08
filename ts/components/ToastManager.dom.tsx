@@ -27,6 +27,7 @@ import { RemoteMegaphone } from './RemoteMegaphone.dom.js';
 
 export type PropsType = {
   changeLocation: (newLocation: Location) => unknown;
+  expandNarrowLeftPane: () => void;
   hideToast: () => unknown;
   i18n: LocalizerType;
   openFileInFolder: (target: string) => unknown;
@@ -411,6 +412,9 @@ export function renderToast({
     toastType === ToastType.DonationCanceledWithView ||
     toastType === ToastType.DonationConfirmationNeeded ||
     toastType === ToastType.DonationError ||
+    toastType === ToastType.DonationPaypalCanceled ||
+    toastType === ToastType.DonationPaypalConfirmationNeeded ||
+    toastType === ToastType.DonationPaypalError ||
     toastType === ToastType.DonationVerificationFailed ||
     toastType === ToastType.DonationVerificationNeeded
   ) {
@@ -422,6 +426,15 @@ export function renderToast({
         'icu:Donations__Toast__ConfirmationNeeded'
       ),
       [ToastType.DonationError]: i18n('icu:Donations__Toast__Error'),
+      [ToastType.DonationPaypalCanceled]: i18n(
+        'icu:Donations__Toast__PaypalCanceled'
+      ),
+      [ToastType.DonationPaypalConfirmationNeeded]: i18n(
+        'icu:Donations__Toast__PaypalConfirmationNeeded'
+      ),
+      [ToastType.DonationPaypalError]: i18n(
+        'icu:Donations__Toast__PaypalError'
+      ),
       [ToastType.DonationVerificationFailed]: i18n(
         'icu:Donations__Toast__VerificationFailed'
       ),
@@ -429,6 +442,11 @@ export function renderToast({
         'icu:Donations__Toast__VerificationNeeded'
       ),
     };
+
+    const pageRedirect =
+      toastType === ToastType.DonationPaypalConfirmationNeeded
+        ? SettingsPage.DonationsDonateFlow
+        : SettingsPage.Donations;
 
     const text = mapping[toastType];
 
@@ -442,7 +460,7 @@ export function renderToast({
             changeLocation({
               tab: NavTab.Settings,
               details: {
-                page: SettingsPage.Donations,
+                page: pageRedirect,
               },
             });
           },
@@ -948,6 +966,7 @@ export function renderMegaphone({
   i18n,
   megaphone,
   containerWidthBreakpoint,
+  expandNarrowLeftPane,
 }: PropsType): React.JSX.Element | null {
   if (!megaphone) {
     return null;
@@ -963,6 +982,7 @@ export function renderMegaphone({
         {...megaphone}
         i18n={i18n}
         isFullSize={containerWidthBreakpoint !== WidthBreakpoint.Narrow}
+        onClickNarrowMegaphone={expandNarrowLeftPane}
       />
     );
   }

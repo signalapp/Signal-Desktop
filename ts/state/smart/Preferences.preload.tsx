@@ -57,6 +57,7 @@ import { DurationInSeconds } from '../../util/durations/duration-in-seconds.std.
 import { PhoneNumberDiscoverability } from '../../util/phoneNumberDiscoverability.std.js';
 import { PhoneNumberSharingMode } from '../../types/PhoneNumberSharingMode.std.js';
 import { writeProfile } from '../../services/writeProfile.preload.js';
+import { keyTransparency } from '../../services/keyTransparency.preload.js';
 import { getConversation } from '../../util/getConversation.preload.js';
 import { waitForEvent } from '../../shims/events.dom.js';
 import { DAY, MINUTE } from '../../util/durations/index.std.js';
@@ -74,7 +75,7 @@ import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import { SmartProfileEditor } from './ProfileEditor.preload.js';
 import { useNavActions } from '../ducks/nav.std.js';
 import { NavTab } from '../../types/Nav.std.js';
-import { SmartToastManager } from './ToastManager.preload.js';
+import { renderToastManagerWithoutMegaphone } from './ToastManager.preload.js';
 import { useToastActions } from '../ducks/toast.preload.js';
 import { DataReader, DataWriter } from '../../sql/Client.preload.js';
 import { deleteAllMyStories } from '../../util/deleteAllMyStories.preload.js';
@@ -157,12 +158,6 @@ function renderProfileEditor(options: {
   return <SmartProfileEditor contentsRef={options.contentsRef} />;
 }
 
-function renderToastManager(props: {
-  containerWidthBreakpoint: WidthBreakpoint;
-}): React.JSX.Element {
-  return <SmartToastManager disableMegaphone {...props} />;
-}
-
 function renderDonationsPane({
   contentsRef,
   settingsLocation,
@@ -228,7 +223,7 @@ export function SmartPreferences(): React.JSX.Element | null {
   const { changeLocation } = useNavActions();
   const { showToast } = useToastActions();
   const { internalAddDonationReceipt } = useDonationsActions();
-  const { startPlaintextExport } = useBackupActions();
+  const { startPlaintextExport, startLocalBackupExport } = useBackupActions();
 
   // Selectors
 
@@ -289,8 +284,6 @@ export function SmartPreferences(): React.JSX.Element | null {
   };
 
   const validateBackup = () => backupsService._internalValidate();
-  const exportLocalBackup = () =>
-    backupsService._internalExportLocalEncryptedBackup();
   const pickLocalBackupFolder = () => backupsService.pickLocalBackupFolder();
 
   const doDeleteAllData = () => renderClearingDataView();
@@ -564,6 +557,7 @@ export function SmartPreferences(): React.JSX.Element | null {
     backupSubscriptionStatus,
     backupTier,
     cloudBackupStatus,
+    lastLocalBackup,
     localBackupFolder,
     backupMediaDownloadCompletedBytes,
     backupMediaDownloadTotalBytes,
@@ -694,6 +688,14 @@ export function SmartPreferences(): React.JSX.Element | null {
       }
     }
   );
+  const [hasKeyTransparencyDisabled, onHasKeyTransparencyDisabledChanged] =
+    createItemsAccess('hasKeyTransparencyDisabled', false, async value => {
+      const account = window.ConversationController.getOurConversationOrThrow();
+      account.captureChange('hasKeyTransparencyDisabled');
+      if (value) {
+        await keyTransparency.disable();
+      }
+    });
   const [hasTextFormatting, onTextFormattingChange] = createItemsAccess(
     'textFormatting',
     true
@@ -765,11 +767,10 @@ export function SmartPreferences(): React.JSX.Element | null {
     []
   );
 
-  const callQualitySurveyCooldownDisabled =
-    items.callQualitySurveyCooldownDisabled ?? false;
+  const cqsTestMode = items.cqsTestMode ?? false;
 
-  const setCallQualitySurveyCooldownDisabled = useCallback((value: boolean) => {
-    drop(itemStorage.put('callQualitySurveyCooldownDisabled', value));
+  const setCqsTestMode = useCallback((value: boolean) => {
+    drop(itemStorage.put('cqsTestMode', value));
   }, []);
 
   if (currentLocation.tab !== NavTab.Settings) {
@@ -821,7 +822,6 @@ export function SmartPreferences(): React.JSX.Element | null {
           defaultConversationColor={defaultConversationColor}
           deviceName={deviceName}
           emojiSkinToneDefault={emojiSkinToneDefault}
-          exportLocalBackup={exportLocalBackup}
           phoneNumber={phoneNumber}
           doDeleteAllData={doDeleteAllData}
           editCustomColor={editCustomColor}
@@ -845,6 +845,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           hasFailedStorySends={hasFailedStorySends}
           hasHideMenuBar={hasHideMenuBar}
           hasIncomingCallNotifications={hasIncomingCallNotifications}
+          hasKeyTransparencyDisabled={hasKeyTransparencyDisabled}
           hasLinkPreviews={hasLinkPreviews}
           hasMediaCameraPermissions={hasMediaCameraPermissions}
           hasMediaPermissions={hasMediaPermissions}
@@ -874,6 +875,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           isSyncSupported={isSyncSupported}
           isSystemTraySupported={isSystemTraySupported}
           isInternalUser={isInternalUser}
+          lastLocalBackup={lastLocalBackup}
           lastSyncTime={lastSyncTime}
           localBackupFolder={localBackupFolder}
           localeOverride={localeOverride}
@@ -893,6 +895,9 @@ export function SmartPreferences(): React.JSX.Element | null {
           onContentProtectionChange={onContentProtectionChange}
           onCountMutedConversationsChange={onCountMutedConversationsChange}
           onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
+          onHasKeyTransparencyDisabledChanged={
+            onHasKeyTransparencyDisabledChanged
+          }
           onHasStoriesDisabledChanged={onHasStoriesDisabledChanged}
           onHideMenuBarChange={onHideMenuBarChange}
           onIncomingCallNotificationsChange={onIncomingCallNotificationsChange}
@@ -938,7 +943,7 @@ export function SmartPreferences(): React.JSX.Element | null {
             renderNotificationProfilesCreateFlow
           }
           renderProfileEditor={renderProfileEditor}
-          renderToastManager={renderToastManager}
+          renderToastManager={renderToastManagerWithoutMegaphone}
           renderUpdateDialog={renderUpdateDialog}
           renderPreferencesChatFoldersPage={renderPreferencesChatFoldersPage}
           renderPreferencesEditChatFolderPage={
@@ -960,6 +965,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           setSettingsLocation={setSettingsLocation}
           shouldShowUpdateDialog={shouldShowUpdateDialog}
           showToast={showToast}
+          startLocalBackupExport={startLocalBackupExport}
           startPlaintextExport={startPlaintextExport}
           theme={theme}
           themeSetting={themeSetting}
@@ -976,10 +982,8 @@ export function SmartPreferences(): React.JSX.Element | null {
           __dangerouslyRunAbitraryReadOnlySqlQuery={
             __dangerouslyRunAbitraryReadOnlySqlQuery
           }
-          callQualitySurveyCooldownDisabled={callQualitySurveyCooldownDisabled}
-          setCallQualitySurveyCooldownDisabled={
-            setCallQualitySurveyCooldownDisabled
-          }
+          cqsTestMode={cqsTestMode}
+          setCqsTestMode={setCqsTestMode}
         />
       </AxoProvider>
     </StrictMode>

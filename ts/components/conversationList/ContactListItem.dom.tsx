@@ -32,7 +32,6 @@ export type ContactListItemConversationType = Pick<
   | 'isMe'
   | 'phoneNumber'
   | 'profileName'
-  | 'sharedGroupNames'
   | 'systemGivenName'
   | 'systemFamilyName'
   | 'title'
@@ -77,7 +76,6 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
     onBlock,
     phoneNumber,
     profileName,
-    sharedGroupNames,
     systemGivenName,
     systemFamilyName,
     theme,
@@ -269,7 +267,6 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
               phoneNumber={phoneNumber}
               profileName={profileName}
               title={title}
-              sharedGroupNames={sharedGroupNames}
               size={AvatarSize.THIRTY_TWO}
               // This is here to appease the type checker.
               {...(badge ? { badge, theme } : { badge: undefined })}

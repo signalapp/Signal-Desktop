@@ -85,7 +85,7 @@ export function GroupV2Permissions({
             {i18n('icu:ConversationDetails--group-info-label')}
           </label>
         }
-        info={i18n('icu:ConversationDetails--group-info-info')}
+        info={i18n('icu:ConversationDetails--group-info-info-v2')}
         right={
           <Select
             id={groupInfoSelectId}

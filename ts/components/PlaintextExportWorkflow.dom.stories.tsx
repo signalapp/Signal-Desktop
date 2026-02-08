@@ -5,9 +5,9 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import { PlaintextExportWorkflow } from './PlaintextExportWorkflow.dom.js';
 import {
-  PlaintextExportErrors,
+  LocalExportErrors,
   PlaintextExportSteps,
-} from '../types/Backups.std.js';
+} from '../types/LocalExport.std.js';
 
 import type { PropsType } from './PlaintextExportWorkflow.dom.js';
 import type { ComponentMeta } from '../storybook/types.std.js';
@@ -65,7 +65,6 @@ export function ExportingMessages(args: PropsType): React.JSX.Element {
       workflow={{
         step: PlaintextExportSteps.ExportingMessages,
         abortController: new AbortController(),
-        exportInBackground: false,
         exportPath: '/somewhere',
       }}
     />
@@ -79,7 +78,6 @@ export function ExportingAttachments(args: PropsType): React.JSX.Element {
       workflow={{
         step: PlaintextExportSteps.ExportingAttachments,
         abortController: new AbortController(),
-        exportInBackground: false,
         exportPath: '/somewhere',
         progress: {
           totalBytes: 1000000,
@@ -123,7 +121,7 @@ export function ErrorGeneric(args: PropsType): React.JSX.Element {
       workflow={{
         step: PlaintextExportSteps.Error,
         errorDetails: {
-          type: PlaintextExportErrors.General,
+          type: LocalExportErrors.General,
         },
       }}
     />
@@ -137,7 +135,7 @@ export function ErrorNotEnoughStorage(args: PropsType): React.JSX.Element {
       workflow={{
         step: PlaintextExportSteps.Error,
         errorDetails: {
-          type: PlaintextExportErrors.NotEnoughStorage,
+          type: LocalExportErrors.NotEnoughStorage,
           bytesNeeded: 12000000,
         },
       }}
@@ -152,7 +150,7 @@ export function ErrorRanOutOfStorage(args: PropsType): React.JSX.Element {
       workflow={{
         step: PlaintextExportSteps.Error,
         errorDetails: {
-          type: PlaintextExportErrors.RanOutOfStorage,
+          type: LocalExportErrors.RanOutOfStorage,
           bytesNeeded: 12000000,
         },
       }}
@@ -167,7 +165,7 @@ export function ErrorStoragePermissions(args: PropsType): React.JSX.Element {
       workflow={{
         step: PlaintextExportSteps.Error,
         errorDetails: {
-          type: PlaintextExportErrors.StoragePermissions,
+          type: LocalExportErrors.StoragePermissions,
         },
       }}
     />

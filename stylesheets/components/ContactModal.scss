@@ -67,6 +67,20 @@
     }
   }
 
+  &__member-label {
+    @include mixins.button-reset;
+    @include mixins.button-focus-outline;
+
+    & {
+      border: 1px solid transparent;
+      // Note: matches the border radius in ContactName.scss, for --label-pill
+      border-radius: 9px;
+
+      margin-top: 6px;
+      margin-bottom: 4px;
+    }
+  }
+
   &__info {
     text-align: center;
     max-width: 248px;

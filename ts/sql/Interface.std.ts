@@ -77,7 +77,7 @@ import type {
   RemoteMegaphoneId,
   RemoteMegaphoneType,
 } from '../types/Megaphone.std.js';
-import { QueryFragment, sqlJoin } from './util.std.js';
+import { sqlFragment, sqlId, sqlJoin } from './util.std.js';
 
 export type ReadableDB = Database & { __readable_db: never };
 export type WritableDB = ReadableDB & { __writable_db: never };
@@ -194,11 +194,11 @@ export const MESSAGE_COLUMNS = [
   ...MESSAGE_NON_PRIMARY_KEY_COLUMNS,
 ] as const;
 
-export const MESSAGE_COLUMNS_FRAGMENTS = MESSAGE_COLUMNS.map(
-  column => new QueryFragment(column, [])
+export const MESSAGE_COLUMNS_FRAGMENT = sqlJoin(
+  MESSAGE_COLUMNS.map(column => {
+    return sqlFragment`messages.${sqlId(column)}`;
+  })
 );
-
-export const MESSAGE_COLUMNS_SELECT = sqlJoin(MESSAGE_COLUMNS_FRAGMENTS);
 
 export type MessageTypeUnhydrated = {
   json: string;
@@ -869,7 +869,8 @@ type ReadableInterface = {
 
   getMessageByAuthorAciAndSentAt: (
     authorAci: AciString,
-    sentAtTimestamp: number
+    sentAtTimestamp: number,
+    options: { includeEdits: boolean }
   ) => MessageType | null;
   getMessageBySender: (options: {
     source?: string;
@@ -1018,7 +1019,11 @@ type ReadableInterface = {
   getOldestDeletedChatFolder: () => ChatFolder | null;
 
   getAllMegaphones: () => ReadonlyArray<RemoteMegaphoneType>;
+  getAllMegaphoneIds: () => ReadonlyArray<RemoteMegaphoneId>;
   hasMegaphone: (megaphoneId: RemoteMegaphoneId) => boolean;
+
+  getAllKTAcis: () => ReadonlyArray<AciString>;
+  getKTAccountData: (aci: AciString) => Uint8Array | undefined;
 
   getAllPinnedMessages: () => ReadonlyArray<PinnedMessage>;
   getPinnedMessagesPreloadDataForConversation: (
@@ -1323,7 +1328,7 @@ type WritableInterface = {
   updateEmojiUsage: (shortName: string, timeUsed?: number) => void;
 
   addRecentGif: (gif: GifType, lastUsedAt: number, maxRecents: number) => void;
-  removeRecentGif: (gif: Pick<GifType, 'id'>) => void;
+  removeRecentGif: (gif: GifType['id']) => void;
 
   updateOrCreateBadges(badges: ReadonlyArray<BadgeType>): void;
   badgeImageFileDownloaded(url: string, localPath: string): void;
@@ -1391,6 +1396,9 @@ type WritableInterface = {
   finishMegaphone: (megaphoneId: RemoteMegaphoneId) => void;
   snoozeMegaphone: (megaphoneId: RemoteMegaphoneId) => void;
   internalDeleteAllMegaphones: () => number;
+
+  removeAllKTAccountData: () => void;
+  setKTAccountData: (aci: AciString, data: Uint8Array) => void;
 
   appendPinnedMessage: (
     pinnedMessagesLimit: number,

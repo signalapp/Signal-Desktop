@@ -28,7 +28,7 @@ import {
 import { missingCaseError } from './missingCaseError.std.js';
 import { uuidToBytes } from './uuidToBytes.std.js';
 import { DAY } from './durations/index.std.js';
-import { isVisualMedia } from './Attachment.std.js';
+import { isImageAttachment, isVideoAttachment } from './Attachment.std.js';
 import { getAbsoluteAttachmentPath } from './migrations.preload.js';
 import { isMoreRecentThan } from './timestamp.std.js';
 
@@ -90,8 +90,10 @@ export async function uploadAttachment(
 
   const { blurHash, caption, clientUuid, flags, height, width } = attachment;
 
-  // Strip filename for visual media (images and videos) to prevent metadata leakage
-  const fileName = isVisualMedia(attachment) ? undefined : attachment.fileName;
+  // Strip filename only for renderable visual media to prevent metadata leakage
+  const shouldStripFilename =
+    isImageAttachment(attachment) || isVideoAttachment(attachment);
+  const fileName = shouldStripFilename ? undefined : attachment.fileName;
 
   return {
     cdnKey,

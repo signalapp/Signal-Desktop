@@ -131,6 +131,7 @@ import {
 } from '../types/NotificationProfile-node.node.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
 import { onHasStoriesDisabledChange } from '../textsecure/WebAPI.preload.js';
+import { keyTransparency } from './keyTransparency.preload.js';
 
 const { isEqual } = lodash;
 
@@ -590,6 +591,12 @@ export function toAccountRecord(
       hasSeenGroupStoryEducationSheet;
   }
 
+  const hasKeyTransparencyDisabled = itemStorage.get(
+    'hasKeyTransparencyDisabled'
+  );
+  accountRecord.automaticKeyVerificationDisabled =
+    hasKeyTransparencyDisabled === true;
+
   const hasStoriesDisabled = itemStorage.get('hasStoriesDisabled');
   accountRecord.storiesDisabled = hasStoriesDisabled === true;
 
@@ -846,11 +853,14 @@ export function toDefunctOrPendingCallLinkRecord(
 function toRecipient(
   conversationId: string,
   logPrefix: string
-): Proto.Recipient {
+): Proto.Recipient | undefined {
   const conversation = window.ConversationController.get(conversationId);
 
   if (conversation == null) {
-    throw new Error(`${logPrefix}/toRecipient: Missing conversation`);
+    log.error(
+      `${logPrefix}/toRecipient: Missing conversation with id ${conversationId}`
+    );
+    return undefined;
   }
 
   const logId = `${logPrefix}/toRecipient(${conversation.idForLogging()})`;
@@ -896,9 +906,11 @@ function toRecipients(
   conversationIds: ReadonlyArray<string>,
   logPrefix: string
 ): Array<Proto.Recipient> {
-  return conversationIds.map(conversationId => {
-    return toRecipient(conversationId, logPrefix);
-  });
+  return conversationIds
+    .map(conversationId => {
+      return toRecipient(conversationId, logPrefix);
+    })
+    .filter(isNotNil);
 }
 
 function toChatFolderRecordFolderType(
@@ -1651,6 +1663,7 @@ export async function mergeAccountRecord(
     usernameLink,
     notificationProfileManualOverride,
     notificationProfileSyncDisabled,
+    automaticKeyVerificationDisabled,
   } = accountRecord;
 
   const conversation =
@@ -1734,10 +1747,19 @@ export async function mergeAccountRecord(
   const discoverability = unlistedPhoneNumber
     ? PhoneNumberDiscoverability.NotDiscoverable
     : PhoneNumberDiscoverability.Discoverable;
+
+  // Key Transparancy parameters for self request change whenever
+  // discoverability changes. Make sure we don't do self check prematurely
+  if (discoverability !== itemStorage.get('phoneNumberDiscoverability')) {
+    drop(keyTransparency.onKnownIdentifierChange());
+  }
   await itemStorage.put('phoneNumberDiscoverability', discoverability);
 
   if (profileKey && profileKey.byteLength > 0) {
-    void ourProfileKeyService.set(profileKey);
+    // Access key is part of Key Transparency request and changing it must
+    // delay self monitoring.
+    drop(keyTransparency.onKnownIdentifierChange());
+    drop(ourProfileKeyService.set(profileKey));
   }
 
   if (pinnedConversations) {
@@ -1913,6 +1935,18 @@ export async function mergeAccountRecord(
     );
   }
   {
+    const hasKeyTransparencyDisabled = Boolean(
+      automaticKeyVerificationDisabled
+    );
+    await itemStorage.put(
+      'hasKeyTransparencyDisabled',
+      hasKeyTransparencyDisabled
+    );
+    if (hasKeyTransparencyDisabled) {
+      await keyTransparency.disable();
+    }
+  }
+  {
     const hasStoriesDisabled = Boolean(storiesDisabled);
     await itemStorage.put('hasStoriesDisabled', hasStoriesDisabled);
     onHasStoriesDisabledChange(hasStoriesDisabled);
@@ -2016,12 +2050,14 @@ export async function mergeAccountRecord(
   const oldStorageID = conversation.get('storageID');
   const oldStorageVersion = conversation.get('storageVersion');
 
-  if (
-    itemStorage.get('usernameCorrupted') &&
-    username !== conversation.get('username')
-  ) {
-    details.push('clearing username corruption');
-    await itemStorage.remove('usernameCorrupted');
+  if (username !== conversation.get('username')) {
+    // Username is part of key transparency self monitor parameters. Make sure
+    // we delay self-check until the changes fully propagate to the log.
+    drop(keyTransparency.onKnownIdentifierChange());
+    if (itemStorage.get('usernameCorrupted')) {
+      details.push('clearing username corruption');
+      await itemStorage.remove('usernameCorrupted');
+    }
   }
 
   conversation.set({

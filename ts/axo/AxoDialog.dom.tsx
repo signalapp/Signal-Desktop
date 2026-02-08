@@ -63,12 +63,13 @@ export namespace AxoDialog {
   }>;
 
   const ContentSizes: Record<ContentSize, ContentSizeConfig> = {
+    xs: { width: 300, minWidth: 300 },
     sm: { width: 360, minWidth: 360 },
     md: { width: 420, minWidth: 360 },
     lg: { width: 720, minWidth: 360 },
   };
 
-  export type ContentSize = 'sm' | 'md' | 'lg';
+  export type ContentSize = 'xs' | 'sm' | 'md' | 'lg';
   export type ContentEscape = AxoBaseDialog.ContentEscape;
   export type ContentProps = Readonly<{
     size: ContentSize;
@@ -235,11 +236,12 @@ export namespace AxoDialog {
 
   export type BodyProps = Readonly<{
     padding?: BodyPadding;
+    maxHeight?: number;
     children: ReactNode;
   }>;
 
   export const Body: FC<BodyProps> = memo(props => {
-    const { padding = 'normal' } = props;
+    const { padding = 'normal', maxHeight = 440 } = props;
 
     const style = useMemo((): CSSProperties | undefined => {
       if (padding === 'only-scrollbar-gutter') {
@@ -253,7 +255,7 @@ export namespace AxoDialog {
 
     return (
       <AxoScrollArea.Root
-        maxHeight={440}
+        maxHeight={maxHeight}
         scrollbarWidth="thin"
         scrollbarVisibility="as-needed"
       >

@@ -34,6 +34,14 @@ export function ExternalLink(props: {
   );
 }
 
+function DGrothePhD() {
+  return (
+    <ExternalLink href="https://github.com/DGrothe-PhD">
+      @DGrothe-PhD
+    </ExternalLink>
+  );
+}
+
 export function WhatsNewModal({
   i18n,
   hideWhatsNewModal,
@@ -43,7 +51,16 @@ export function WhatsNewModal({
   const releaseNotes: ReleaseNotesType = {
     date: new Date(window.getBuildCreation?.() || Date.now()),
     version: window.getVersion?.(),
-    features: [<I18n i18n={i18n} id="icu:WhatsNew__7.86--0" />],
+    features: [
+      <I18n
+        i18n={i18n}
+        id="icu:WhatsNew__7.89--0"
+        components={{
+          DGrothePhD,
+        }}
+      />,
+      <I18n i18n={i18n} id="icu:WhatsNew__7.89--1" />,
+    ],
   };
 
   if (releaseNotes.features.length === 1 && !releaseNotes.header) {

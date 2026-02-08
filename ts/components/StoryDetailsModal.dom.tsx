@@ -138,7 +138,6 @@ export function StoryDetailsModal({
                       i18n={i18n}
                       phoneNumber={contact.phoneNumber}
                       profileName={contact.profileName}
-                      sharedGroupNames={contact.sharedGroupNames}
                       size={AvatarSize.THIRTY_TWO}
                       theme={ThemeType.dark}
                       title={contact.title}
@@ -178,7 +177,6 @@ export function StoryDetailsModal({
               conversationType="direct"
               i18n={i18n}
               profileName={sender.profileName}
-              sharedGroupNames={sender.sharedGroupNames}
               size={AvatarSize.THIRTY_TWO}
               theme={ThemeType.dark}
               title={sender.title}

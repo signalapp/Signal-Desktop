@@ -325,6 +325,13 @@ export type ConversationRemovalStage = ReadonlyDeep<
   'justNotification' | 'messageRequest'
 >;
 
+export type MembershipType = ReadonlyDeep<{
+  aci: AciString;
+  isAdmin: boolean;
+  labelEmoji: string | undefined;
+  labelString: string | undefined;
+}>;
+
 export type ConversationType = ReadonlyDeep<
   {
     id: string;
@@ -393,10 +400,7 @@ export type ConversationType = ReadonlyDeep<
     announcementsOnly?: boolean;
     announcementsOnlyReady?: boolean;
     expireTimer?: DurationInSeconds;
-    memberships?: ReadonlyArray<{
-      aci: AciString;
-      isAdmin: boolean;
-    }>;
+    memberships?: ReadonlyArray<MembershipType>;
     pendingMemberships?: ReadonlyArray<{
       serviceId: ServiceIdString;
       addedByUserId?: AciString;
@@ -434,7 +438,6 @@ export type ConversationType = ReadonlyDeep<
     draftPreview?: DraftPreviewType;
     draftTimestamp?: number;
 
-    sharedGroupNames: ReadonlyArray<string>;
     groupDescription?: string;
     groupVersion?: 1 | 2;
     groupId?: string;
@@ -1341,11 +1344,10 @@ export const actions = {
   toggleHideStories,
   toggleSelectMessage,
   toggleSelectMode,
-  updateConversationModelSharedGroups,
   updateGroupAttributes,
+  updateGroupMemberLabel,
   updateLastMessage,
   updateNicknameAndNote,
-  updateSharedGroups,
   verifyConversationsStoppingSend,
 };
 
@@ -1636,20 +1638,6 @@ function removeMember(
     name: 'removeMember',
     task: () => conversation.removeFromGroupV2(memberConversationId),
   });
-
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
-}
-
-function updateSharedGroups(conversationId: string): NoopActionType {
-  const conversation = window.ConversationController.get(conversationId);
-  if (!conversation) {
-    throw new Error('updateSharedGroups: Conversation not found!');
-  }
-
-  void conversation.throttledUpdateSharedGroups?.();
 
   return {
     type: 'NOOP',
@@ -4653,6 +4641,13 @@ function addMembersToGroup(
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ActionCreator<T extends (...params: Array<any>) => any> =
+  ReadonlyDeep<(...params: Parameters<T>) => void>;
+
+export type UpdateGroupAttributesType = ReadonlyDeep<
+  ActionCreator<typeof updateGroupAttributes>
+>;
 function updateGroupAttributes(
   conversationId: string,
   attributes: Readonly<{
@@ -4687,6 +4682,47 @@ function updateGroupAttributes(
             { id, publicParams, revision, secretParams },
             attributes
           ),
+      });
+      onSuccess?.();
+    } catch {
+      onFailure?.();
+    }
+  };
+}
+
+export type UpdateGroupMemberLabelType = ReadonlyDeep<
+  ActionCreator<typeof updateGroupMemberLabel>
+>;
+function updateGroupMemberLabel(
+  {
+    conversationId,
+    labelEmoji,
+    labelString,
+  }: {
+    conversationId: string;
+    labelEmoji: string | undefined;
+    labelString: string | undefined;
+  },
+  {
+    onSuccess,
+    onFailure,
+  }: {
+    onSuccess?: () => unknown;
+    onFailure?: () => unknown;
+  } = {}
+): ThunkAction<void, RootStateType, unknown, never> {
+  return async () => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('updateGroupMemberLabel: No conversation found');
+    }
+
+    try {
+      await longRunningTaskWrapper({
+        name: 'updateGroupMemberLabel',
+        idForLogging: conversation.idForLogging(),
+        task: async () =>
+          conversation.updateGroupMemberLabel({ labelEmoji, labelString }),
       });
       onSuccess?.();
     } catch {
@@ -4752,21 +4788,6 @@ function toggleAdmin(
     const conversationModel = window.ConversationController.get(conversationId);
     if (conversationModel) {
       void conversationModel.toggleAdmin(contactId);
-    }
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
-  };
-}
-
-function updateConversationModelSharedGroups(
-  conversationId: string
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
-  return dispatch => {
-    const conversation = window.ConversationController.get(conversationId);
-    if (conversation && conversation.throttledUpdateSharedGroups) {
-      void conversation.throttledUpdateSharedGroups();
     }
     dispatch({
       type: 'NOOP',

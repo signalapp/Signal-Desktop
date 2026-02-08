@@ -301,6 +301,7 @@ message AccountRecord {
   optional AvatarColor avatarColor = 42;
   NotificationProfileManualOverride notificationProfileManualOverride = 44;
   bool notificationProfileSyncDisabled = 45;
+  bool automaticKeyVerificationDisabled = 46;
 }
 
 message StoryDistributionListRecord {

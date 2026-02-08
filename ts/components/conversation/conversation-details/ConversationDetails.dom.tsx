@@ -9,6 +9,7 @@ import type {
   ConversationType,
   PushPanelForConversationActionType,
   ShowConversationType,
+  UpdateGroupAttributesType,
 } from '../../../state/ducks/conversations.preload.js';
 import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.preload.js';
 import type { SmartChooseGroupMembersModalPropsType } from '../../../state/smart/ChooseGroupMembersModal.preload.js';
@@ -63,6 +64,7 @@ import {
   getTooltipContent,
 } from '../InAnotherCallTooltip.dom.js';
 import { BadgeSustainerInstructionsDialog } from '../../BadgeSustainerInstructionsDialog.dom.js';
+import type { ContactModalStateType } from '../../../state/ducks/globalModals.preload.js';
 
 enum ModalState {
   AddingGroupMembers,
@@ -80,6 +82,7 @@ export type StateProps = {
   badges?: ReadonlyArray<BadgeType>;
   callHistoryGroup?: CallHistoryGroup | null;
   canEditGroupInfo: boolean;
+  canAddLabel: boolean;
   canAddNewMembers: boolean;
   conversation?: ConversationType;
   hasGroupLink: boolean;
@@ -88,12 +91,14 @@ export type StateProps = {
   hasActiveCall: boolean;
   i18n: LocalizerType;
   isAdmin: boolean;
+  isEditMemberLabelEnabled: boolean;
   isGroup: boolean;
   isSignalConversation: boolean;
   groupsInCommon: ReadonlyArray<ConversationType>;
   maxGroupSize: number;
   maxRecommendedGroupSize: number;
   memberships: ReadonlyArray<GroupV2Membership>;
+  memberColors: Map<string, string>;
   pendingApprovalMemberships: ReadonlyArray<GroupV2RequestingMembership>;
   pendingAvatarDownload?: boolean;
   pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
@@ -120,7 +125,6 @@ type ActionProps = {
     }
   ) => unknown;
   blockConversation: (id: string) => void;
-
   deleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
   getProfilesForConversation: (id: string) => unknown;
   leaveGroup: (conversationId: string) => void;
@@ -136,21 +140,10 @@ type ActionProps = {
   setMuteExpiration: (id: string, muteExpiresAt: undefined | number) => unknown;
   showContactModal: (contactId: string, conversationId?: string) => void;
   showConversation: ShowConversationType;
-  toggleAboutContactModal: (contactId: string) => void;
+  toggleAboutContactModal: (options: ContactModalStateType) => void;
   toggleAddUserToAnotherGroupModal: (contactId?: string) => void;
   toggleSafetyNumberModal: (conversationId: string) => unknown;
-  updateGroupAttributes: (
-    conversationId: string,
-    _: Readonly<{
-      avatar?: undefined | Uint8Array;
-      description?: string;
-      title?: string;
-    }>,
-    opts: {
-      onSuccess?: () => unknown;
-      onFailure?: () => unknown;
-    }
-  ) => unknown;
+  updateGroupAttributes: UpdateGroupAttributesType;
 };
 
 export type Props = StateProps & ActionProps;
@@ -177,6 +170,7 @@ export function ConversationDetails({
   blockConversation,
   callHistoryGroup,
   canEditGroupInfo,
+  canAddLabel,
   canAddNewMembers,
   conversation,
   deleteAvatarFromDisk,
@@ -188,10 +182,12 @@ export function ConversationDetails({
   hasActiveCall,
   i18n,
   isAdmin,
+  isEditMemberLabelEnabled,
   isGroup,
   isSignalConversation,
   leaveGroup,
   memberships,
+  memberColors,
   maxGroupSize,
   maxRecommendedGroupSize,
   onDeleteNicknameAndNote,
@@ -732,6 +728,7 @@ export function ConversationDetails({
           getPreferredBadge={getPreferredBadge}
           i18n={i18n}
           memberships={memberships}
+          memberColors={memberColors}
           showContactModal={showContactModal}
           startAddingNewMembers={() => {
             setModalState(ModalState.AddingGroupMembers);
@@ -757,6 +754,22 @@ export function ConversationDetails({
                 })
               }
               right={hasGroupLink ? i18n('icu:on') : i18n('icu:off')}
+            />
+          ) : null}
+          {canAddLabel && isEditMemberLabelEnabled ? (
+            <PanelRow
+              icon={
+                <ConversationDetailsIcon
+                  ariaLabel={i18n('icu:ConversationDetails--member-label')}
+                  icon={IconType.tag}
+                />
+              }
+              label={i18n('icu:ConversationDetails--member-label')}
+              onClick={() =>
+                pushPanelForConversation({
+                  type: PanelType.GroupMemberLabelEditor,
+                })
+              }
             />
           ) : null}
           <PanelRow

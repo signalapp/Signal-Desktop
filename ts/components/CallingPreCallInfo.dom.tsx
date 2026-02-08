@@ -40,7 +40,6 @@ export type PropsType = {
     | 'isMe'
     | 'phoneNumber'
     | 'profileName'
-    | 'sharedGroupNames'
     | 'systemGivenName'
     | 'systemNickname'
     | 'title'
@@ -228,7 +227,6 @@ export function CallingPreCallInfo({
         noteToSelf={false}
         phoneNumber={conversation.phoneNumber}
         profileName={conversation.profileName}
-        sharedGroupNames={conversation.sharedGroupNames}
         size={AvatarSize.SIXTY_FOUR}
         title={conversation.title}
         i18n={i18n}

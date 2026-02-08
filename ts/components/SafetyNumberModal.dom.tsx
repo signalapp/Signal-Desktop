@@ -4,22 +4,25 @@
 import React from 'react';
 
 import { isSafetyNumberNotAvailable } from '../util/isSafetyNumberNotAvailable.std.js';
-import { Modal } from './Modal.dom.js';
-import type { PropsType as SafetyNumberViewerPropsType } from './SafetyNumberViewer.dom.js';
-import { SafetyNumberViewer } from './SafetyNumberViewer.dom.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
+import type { LocalizerType } from '../types/Util.std.js';
+import { AxoDialog } from '../axo/AxoDialog.dom.js';
+import type { SafetyNumberProps as SafetyNumberViewerPropsType } from './SafetyNumberChangeDialog.dom.js';
 import { SafetyNumberNotReady } from './SafetyNumberNotReady.dom.js';
 
-type PropsType = {
+export type PropsType = Readonly<{
+  i18n: LocalizerType;
+  contact: ConversationType;
   toggleSafetyNumberModal: () => unknown;
-} & Omit<SafetyNumberViewerPropsType, 'onClose'>;
+  renderSafetyNumberViewer: (props: SafetyNumberViewerPropsType) => JSX.Element;
+}>;
 
 export function SafetyNumberModal({
   i18n,
+  contact,
   toggleSafetyNumberModal,
-  ...safetyNumberViewerProps
+  renderSafetyNumberViewer,
 }: PropsType): React.JSX.Element | null {
-  const { contact } = safetyNumberViewerProps;
-
   let title: string | undefined;
   let content: React.JSX.Element;
   let hasXButton = true;
@@ -34,25 +37,28 @@ export function SafetyNumberModal({
   } else {
     title = i18n('icu:SafetyNumberModal__title');
 
-    content = (
-      <SafetyNumberViewer
-        i18n={i18n}
-        onClose={toggleSafetyNumberModal}
-        {...safetyNumberViewerProps}
-      />
-    );
+    content = renderSafetyNumberViewer({
+      contactID: contact.id,
+      onClose: toggleSafetyNumberModal,
+    });
   }
 
   return (
-    <Modal
-      modalName="SafetyNumberModal"
-      hasXButton={hasXButton}
-      i18n={i18n}
-      moduleClassName="module-SafetyNumberViewer__modal"
-      onClose={toggleSafetyNumberModal}
-      title={title}
+    <AxoDialog.Root
+      open
+      onOpenChange={open => {
+        if (!open) {
+          toggleSafetyNumberModal();
+        }
+      }}
     >
-      {content}
-    </Modal>
+      <AxoDialog.Content size="sm" escape="cancel-is-noop">
+        <AxoDialog.Header>
+          <AxoDialog.Title>{title}</AxoDialog.Title>
+          {hasXButton && <AxoDialog.Close aria-label={i18n('icu:close')} />}
+        </AxoDialog.Header>
+        <AxoDialog.Body maxHeight={560}>{content}</AxoDialog.Body>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
   );
 }

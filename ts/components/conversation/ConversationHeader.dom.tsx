@@ -140,7 +140,6 @@ export type PropsDataType = {
   isSignalConversation?: boolean;
   isSmsOnlyOrUnregistered?: boolean;
   outgoingCallButtonStyle: OutgoingCallButtonStyle;
-  sharedGroupNames: ReadonlyArray<string>;
   theme: ThemeType;
 
   contactSpoofingWarning: ContactSpoofingWarning | null;
@@ -149,7 +148,6 @@ export type PropsDataType = {
   shouldShowMiniPlayer: boolean;
   renderMiniPlayer: RenderMiniPlayer;
 
-  shouldShowPinnedMessagesBar: boolean;
   renderPinnedMessagesBar: RenderPinnedMessagesBar;
 };
 
@@ -232,7 +230,6 @@ export const ConversationHeader = memo(function ConversationHeader({
   onViewUserStories,
   outgoingCallButtonStyle,
   setLocalDeleteWarningShown,
-  sharedGroupNames,
   theme,
 
   contactSpoofingWarning,
@@ -243,7 +240,6 @@ export const ConversationHeader = memo(function ConversationHeader({
   shouldShowMiniPlayer,
   renderMiniPlayer,
 
-  shouldShowPinnedMessagesBar,
   renderPinnedMessagesBar,
 }: PropsType): React.JSX.Element | null {
   // Comes from a third-party dependency
@@ -346,7 +342,6 @@ export const ConversationHeader = memo(function ConversationHeader({
                 hasStories={hasStories ?? null}
                 headerRef={headerRef}
                 i18n={i18n}
-                sharedGroupNames={sharedGroupNames}
                 theme={theme}
                 onViewUserStories={onViewUserStories}
                 onViewConversationDetails={onViewConversationDetails}
@@ -465,7 +460,6 @@ export const ConversationHeader = memo(function ConversationHeader({
               renderCollidingAvatars={renderCollidingAvatars}
               shouldShowMiniPlayer={shouldShowMiniPlayer}
               renderMiniPlayer={renderMiniPlayer}
-              shouldShowPinnedMessagesBar={shouldShowPinnedMessagesBar}
               renderPinnedMessagesBar={renderPinnedMessagesBar}
             />
           </div>
@@ -481,7 +475,6 @@ function HeaderContent({
   hasStories,
   headerRef,
   i18n,
-  sharedGroupNames,
   theme,
   isSignalConversation,
   onViewUserStories,
@@ -492,7 +485,6 @@ function HeaderContent({
   hasStories: HasStories | null;
   headerRef: RefObject<HTMLDivElement>;
   i18n: LocalizerType;
-  sharedGroupNames: ReadonlyArray<string>;
   theme: ThemeType;
   isSignalConversation: boolean;
   onViewUserStories: () => void;
@@ -531,7 +523,6 @@ function HeaderContent({
         onClick={hasStories ? onViewUserStories : onClick}
         phoneNumber={conversation.phoneNumber ?? undefined}
         profileName={conversation.profileName ?? undefined}
-        sharedGroupNames={sharedGroupNames}
         size={AvatarSize.THIRTY_TWO}
         // user may have stories, but we don't show that on Note to Self conversation
         storyRing={conversation.isMe ? undefined : (hasStories ?? undefined)}
@@ -1140,8 +1131,6 @@ function ConversationSubheader(props: {
 
   shouldShowMiniPlayer: boolean;
   renderMiniPlayer: RenderMiniPlayer;
-
-  shouldShowPinnedMessagesBar: boolean;
   renderPinnedMessagesBar: RenderPinnedMessagesBar;
 }) {
   const { i18n } = props;
@@ -1194,9 +1183,7 @@ function ConversationSubheader(props: {
       )}
       {props.shouldShowMiniPlayer &&
         props.renderMiniPlayer({ shouldFlow: true })}
-      {!props.shouldShowMiniPlayer &&
-        props.shouldShowPinnedMessagesBar &&
-        props.renderPinnedMessagesBar()}
+      {!props.shouldShowMiniPlayer && props.renderPinnedMessagesBar()}
     </>
   );
 }

@@ -9,7 +9,6 @@ import {
   getPreferredLeftPaneWidth,
 } from '../selectors/items.dom.js';
 import { getIntl, getRegionCode } from '../selectors/user.std.js';
-import type { WidthBreakpoint } from '../../components/_util.std.js';
 import { CallsTab } from '../../components/CallsTab.preload.js';
 import {
   getAllConversations,
@@ -24,7 +23,7 @@ import type {
 } from '../../types/CallDisposition.std.js';
 import type { ConversationType } from '../ducks/conversations.preload.js';
 import { SmartConversationDetails } from './ConversationDetails.preload.js';
-import { SmartToastManager } from './ToastManager.preload.js';
+import { renderToastManagerWithoutMegaphone } from './ToastManager.preload.js';
 import { useCallingActions } from '../ducks/calling.preload.js';
 import {
   getActiveCallState,
@@ -129,12 +128,6 @@ function renderConversationDetails(
       callHistoryGroup={callHistoryGroup}
     />
   );
-}
-
-function renderToastManager(props: {
-  containerWidthBreakpoint: WidthBreakpoint;
-}): React.JSX.Element {
-  return <SmartToastManager disableMegaphone {...props} />;
 }
 
 export const SmartCallsTab = memo(function SmartCallsTab() {
@@ -253,7 +246,7 @@ export const SmartCallsTab = memo(function SmartCallsTab() {
       preferredLeftPaneWidth={preferredLeftPaneWidth}
       renderCallLinkDetails={renderCallLinkDetails}
       renderConversationDetails={renderConversationDetails}
-      renderToastManager={renderToastManager}
+      renderToastManager={renderToastManagerWithoutMegaphone}
       regionCode={regionCode}
       savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
       startCallLinkLobbyByRoomId={startCallLinkLobbyByRoomId}

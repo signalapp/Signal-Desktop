@@ -27,10 +27,12 @@ export type ReviewPropsType = Readonly<
       possiblyUnsafe: {
         conversation: ConversationType;
         isSignalConnection: boolean;
+        sharedGroupNames: ReadonlyArray<string>;
       };
       safe: {
         conversation: ConversationType;
         isSignalConnection: boolean;
+        sharedGroupNames: ReadonlyArray<string>;
       };
     }
   | {
@@ -42,6 +44,7 @@ export type ReviewPropsType = Readonly<
           oldName?: string;
           isSignalConnection: boolean;
           conversation: ConversationType;
+          sharedGroupNames: ReadonlyArray<string>;
         }>
       >;
     }
@@ -55,7 +58,6 @@ export type PropsType = {
   blockConversation: (conversationId: string) => unknown;
   deleteConversation: (conversationId: string) => unknown;
   toggleSignalConnectionsModal: () => void;
-  updateSharedGroups: (conversationId: string) => void;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   onClose: () => void;
@@ -84,7 +86,6 @@ export function ContactSpoofingReviewDialog(
     conversationId,
     deleteConversation,
     toggleSignalConnectionsModal,
-    updateSharedGroups,
     getPreferredBadge,
     i18n,
     onClose,
@@ -212,7 +213,7 @@ export function ContactSpoofingReviewDialog(
             conversation={possiblyUnsafe.conversation}
             getPreferredBadge={getPreferredBadge}
             toggleSignalConnectionsModal={toggleSignalConnectionsModal}
-            updateSharedGroups={updateSharedGroups}
+            sharedGroupNames={possiblyUnsafe.sharedGroupNames}
             i18n={i18n}
             theme={theme}
             isSignalConnection={possiblyUnsafe.isSignalConnection}
@@ -249,7 +250,7 @@ export function ContactSpoofingReviewDialog(
             conversation={safe.conversation}
             getPreferredBadge={getPreferredBadge}
             toggleSignalConnectionsModal={toggleSignalConnectionsModal}
-            updateSharedGroups={updateSharedGroups}
+            sharedGroupNames={safe.sharedGroupNames}
             i18n={i18n}
             onClick={() => {
               showContactModal(safe.conversation.id);
@@ -343,7 +344,7 @@ export function ContactSpoofingReviewDialog(
                       toggleSignalConnectionsModal={
                         toggleSignalConnectionsModal
                       }
-                      updateSharedGroups={updateSharedGroups}
+                      sharedGroupNames={conversationInfo.sharedGroupNames}
                       getPreferredBadge={getPreferredBadge}
                       i18n={i18n}
                       theme={theme}

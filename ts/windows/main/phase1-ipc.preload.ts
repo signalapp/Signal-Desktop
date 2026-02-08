@@ -21,7 +21,11 @@ import { drop } from '../../util/drop.std.js';
 import { explodePromise } from '../../util/explodePromise.std.js';
 import { DataReader } from '../../sql/Client.preload.js';
 import type { WindowsNotificationData } from '../../types/notifications.std.js';
-import { finish3dsValidation } from '../../services/donations.preload.js';
+import {
+  approvePaypalPayment,
+  cancelPaypalPayment,
+  finish3dsValidation,
+} from '../../services/donations.preload.js';
 import { AggregatedStats } from '../../textsecure/WebsocketResources.preload.js';
 import { UNAUTHENTICATED_CHANNEL_NAME } from '../../textsecure/SocketManager.preload.js';
 import { isProduction } from '../../util/version.std.js';
@@ -132,6 +136,19 @@ const IPC: IPCType = {
   showDebugLog: (options?: { mode?: 'submit' | 'close' }) => {
     log.info('showDebugLog', options);
     ipc.send('show-debug-log', options);
+  },
+  showCallDiagnostic: () => {
+    log.info('showCallDiagnostic');
+    ipc.send('show-call-diagnostic');
+  },
+  closeCallDiagnostic: () => {
+    ipc.send('close-call-diagnostic');
+  },
+  closeDebugLog: () => {
+    ipc.send('close-debug-log');
+  },
+  updateCallDiagnosticData: (data: string) => {
+    ipc.send('update-call-diagnostic-data', data);
   },
   showPermissionsPopup: (forCalling, forCamera) =>
     ipc.invoke('show-permissions-popup', forCalling, forCamera),
@@ -384,6 +401,17 @@ ipc.on('cancel-presenting', () => {
 
 ipc.on('donation-validation-complete', (_event, { token }) => {
   drop(finish3dsValidation(token));
+});
+
+ipc.on(
+  'donation-paypal-approved',
+  (_event, { payerId, paymentToken, returnToken }) => {
+    drop(approvePaypalPayment({ payerId, paymentToken, returnToken }));
+  }
+);
+
+ipc.on('donation-paypal-canceled', (_event, { returnToken }) => {
+  drop(cancelPaypalPayment(returnToken));
 });
 
 ipc.on('show-conversation-via-token', (_event, token: string) => {

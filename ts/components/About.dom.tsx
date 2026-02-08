@@ -5,6 +5,7 @@ import React from 'react';
 
 import type { LocalizerType } from '../types/Util.std.js';
 import { useEscapeHandling } from '../hooks/useEscapeHandling.dom.js';
+import { tw } from '../axo/tw.dom.js';
 
 export type AboutProps = Readonly<{
   closeAbout: () => unknown;
@@ -62,6 +63,9 @@ export function About({
           <a className="privacy" href="https://signal.org/legal">
             {i18n('icu:privacyPolicy')}
           </a>
+        </div>
+        <div className={tw('text-label-secondary')}>
+          {i18n('icu:signalNonProfit')}
         </div>
       </div>
     </div>

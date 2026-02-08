@@ -116,6 +116,10 @@
   line-height: 16px;
   letter-spacing: 0px;
 }
+@mixin font-body-small-bold {
+  @include font-body-small;
+  font-weight: 600;
+}
 
 @mixin font-subtitle {
   font-size: 12px;

@@ -204,6 +204,11 @@ const REPORTING_THRESHOLD = SECOND;
 const MAX_BACKUP_MESSAGE_BODY_BYTE_LENGTH = 128 * KIBIBYTE;
 const BACKUP_QUOTE_BODY_LIMIT = 2048;
 
+type ToRecipientOptionsType = Readonly<{
+  identityKeysById: ReadonlyMap<IdentityKeyType['id'], IdentityKeyType>;
+  keyTransparencyData: Uint8Array | undefined;
+}>;
+
 type GetRecipientIdOptionsType =
   | Readonly<{
       serviceId: ServiceIdString;
@@ -293,12 +298,27 @@ export class BackupExportStream extends Readable {
     super();
   }
 
+  async #cleanupAfterError() {
+    log.warn('Cleaning up after error...');
+    await resumeWriteAccess();
+  }
+
+  override _destroy(
+    error: Error | null,
+    callback: (error?: Error | null) => void
+  ): void {
+    if (error) {
+      drop(this.#cleanupAfterError());
+    }
+    callback(error);
+  }
+
   public run(): void {
     drop(
       (async () => {
-        log.info('BackupExportStream: starting...');
+        log.info('starting...');
         drop(AttachmentBackupManager.stop());
-        log.info('BackupExportStream: message migration starting...');
+        log.info('message migration starting...');
         await migrateAllMessages();
 
         await pauseWriteAccess();
@@ -317,7 +337,7 @@ export class BackupExportStream extends Readable {
                 this.#attachmentBackupJobs.map(job => {
                   if (job.type === 'local') {
                     log.error(
-                      "BackupExportStream: Can't enqueue local backup jobs during remote backup, skipping"
+                      "Can't enqueue local backup jobs during remote backup, skipping"
                     );
                     return Promise.resolve();
                   }
@@ -338,7 +358,7 @@ export class BackupExportStream extends Readable {
           }
           log.info('finished successfully');
         } catch (error) {
-          await resumeWriteAccess();
+          await this.#cleanupAfterError();
           log.error('errored', toLogFormat(error));
           this.emit('error', error);
         } finally {
@@ -392,15 +412,28 @@ export class BackupExportStream extends Readable {
       })
     );
 
+    const ktAcis = new Set(await DataReader.getAllKTAcis());
+
     const skippedConversationIds = new Set<string>();
     for (const { attributes } of window.ConversationController.getAll()) {
       const recipientId = this.#getRecipientId(attributes);
 
-      const recipient = this.#toRecipient(
-        recipientId,
-        attributes,
-        identityKeysById
-      );
+      let keyTransparencyData: Uint8Array | undefined;
+      if (
+        isDirectConversation(attributes) &&
+        isAciString(attributes.serviceId) &&
+        ktAcis.has(attributes.serviceId)
+      ) {
+        // eslint-disable-next-line no-await-in-loop
+        keyTransparencyData = await DataReader.getKTAccountData(
+          attributes.serviceId
+        );
+      }
+
+      const recipient = this.#toRecipient(recipientId, attributes, {
+        identityKeysById,
+        keyTransparencyData,
+      });
       if (recipient === undefined) {
         skippedConversationIds.add(attributes.id);
         // Can't be backed up.
@@ -962,6 +995,10 @@ export class BackupExportStream extends Readable {
     const themeSetting = await window.Events.getThemeSetting();
     const appTheme = toAppTheme(themeSetting);
 
+    const keyTransparencyData = await DataReader.getKTAccountData(
+      me.getCheckedAci('Backup export: key transparency data')
+    );
+
     return {
       profileKey: itemStorage.get('profileKey'),
       username: me.get('username') || null,
@@ -991,6 +1028,7 @@ export class BackupExportStream extends Readable {
       svrPin: itemStorage.get('svrPin'),
       bioText: me.get('about'),
       bioEmoji: me.get('aboutEmoji'),
+      keyTransparencyData,
       // Test only values
       ...(isTestOrMockEnvironment()
         ? {
@@ -1014,6 +1052,9 @@ export class BackupExportStream extends Readable {
         hasSetMyStoriesPrivacy: itemStorage.get('hasSetMyStoriesPrivacy'),
         hasViewedOnboardingStory: itemStorage.get('hasViewedOnboardingStory'),
         storiesDisabled: itemStorage.get('hasStoriesDisabled'),
+        allowAutomaticKeyVerification: !itemStorage.get(
+          'hasKeyTransparencyDisabled'
+        ),
         storyViewReceiptsEnabled: itemStorage.get('storyViewReceiptsEnabled'),
         hasCompletedUsernameOnboarding: itemStorage.get(
           'hasCompletedUsernameOnboarding'
@@ -1140,7 +1181,7 @@ export class BackupExportStream extends Readable {
       ConversationAttributesType,
       'id' | 'version' | 'expireTimerVersion'
     >,
-    identityKeysById?: ReadonlyMap<IdentityKeyType['id'], IdentityKeyType>
+    options?: ToRecipientOptionsType
   ): Backups.IRecipient | undefined {
     const res: Backups.IRecipient = {
       id: recipientId,
@@ -1185,8 +1226,8 @@ export class BackupExportStream extends Readable {
       }
 
       let identityKey: IdentityKeyType | undefined;
-      if (identityKeysById != null && convo.serviceId != null) {
-        identityKey = identityKeysById.get(convo.serviceId);
+      if (options != null && convo.serviceId != null) {
+        identityKey = options.identityKeysById.get(convo.serviceId);
       }
 
       const { nicknameGivenName, nicknameFamilyName, note } = convo;
@@ -1238,6 +1279,7 @@ export class BackupExportStream extends Readable {
         hideStory: convo.hideStory === true,
         identityKey: identityKey?.publicKey || null,
         avatarColor: toAvatarColor(convo.color),
+        keyTransparencyData: options?.keyTransparencyData,
 
         // Integer values match so we can use it as is
         identityState: identityKey?.verified ?? 0,
@@ -1298,9 +1340,11 @@ export class BackupExportStream extends Readable {
           version: convo.revision || 0,
           members: convo.membersV2?.map(member => {
             return {
-              userId: this.#aciToBytes(member.aci),
-              role: member.role,
               joinedAtVersion: member.joinedAtVersion,
+              labelEmoji: member.labelEmoji,
+              labelString: member.labelString,
+              role: member.role,
+              userId: this.#aciToBytes(member.aci),
             };
           }),
           membersPendingProfileKey: convo.pendingMembersV2?.map(member => {

@@ -784,11 +784,67 @@
   },
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code with their device.",
+    "description": "(Deleted 2026/02/04) Safety number viewer, text of the hint"
+  },
+  "icu:SafetyNumberViewer__hint-v2": {
+    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device.",
     "description": "Safety number viewer, text of the hint"
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Learn more",
     "description": "Text of 'Learn more' button of SafetyNumberViewerModal modal"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__title": {
+    "messageformat": "Automatic key verification",
+    "description": "Title of Key Transparency section of SafetyNumberViewer"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
+    "messageformat": "Verify automatically",
+    "description": "Title of Key Transparency button in SafetyNumberViewer when check is available"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--running": {
+    "messageformat": "Verifying encryption...",
+    "description": "Title of Key Transparency button in SafetyNumberViewer when check is running"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
+    "messageformat": "Encryption verified",
+    "description": "Title of Key Transparency button in SafetyNumberViewer when check is successful"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
+    "messageformat": "Auto-verification unavailable",
+    "description": "Title of Key Transparency button in SafetyNumberViewer when check is not successful"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__hint": {
+    "messageformat": "Auto-verification is not available for all chats.",
+    "description": "Hint for Key Transparency section of SafetyNumberViewer"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
+    "messageformat": "Learn more",
+    "description": "Text of 'Learn more' button of SafetyNumberViewerModal modal's Key Transparency section"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
+    "messageformat": "Encryption was auto-verified for this chat ",
+    "description": "A title of an education modal in Key Transparency section of SafetyNumberViewer when verification was successful"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device.",
+    "description": "A body of an education modal in Key Transparency section of SafetyNumberViewer when verification was successful"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
+    "messageformat": "Auto-verification is no longer available for this chat",
+    "description": "A title of an education modal in Key Transparency section of SafetyNumberViewer when verification was unsuccessful"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
+    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device.",
+    "description": "A body of an education modal in Key Transparency section of SafetyNumberViewer when verification was unsuccessful"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
+    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device.",
+    "description": "A body of an education modal in Key Transparency section of SafetyNumberViewer when verification is unavailable"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
+    "messageformat": "Okay",
+    "description": "A dismiss button text for an education modal in Key Transparency section"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "A safety number will be created with this person after you exchange messages with them.",
@@ -797,6 +853,58 @@
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Learn more",
     "description": "Text of 'Learn more' button of SafetyNumberNotReady modal"
+  },
+  "icu:KeyTransparencyErrorDialog__Title": {
+    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?",
+    "description": "Key Transparency Error Dialog > Title"
+  },
+  "icu:KeyTransparencyErrorDialog__Description": {
+    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information.",
+    "description": "Key Transparency Error Dialog > Description"
+  },
+  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Close",
+    "description": "(Deleted 2026/02/04) Key Transparency Error Dialog > Dialog Close Button (Accessibility Label)"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
+    "messageformat": "Share debug log",
+    "description": "Key Transparency Error Dialog > Share debug log > Label"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
+    "messageformat": "View",
+    "description": "Key Transparency Error Dialog > Share debug log > View Button"
+  },
+  "icu:KeyTransparencyErrorDialog__Submit": {
+    "messageformat": "Submit",
+    "description": "Primary button text in the dialog shown when an unexpected key transparency error occurs. Clicking it will open a support page"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "No thanks",
+    "description": "(Deleted 2026/02/04) Secondary button text in the dialog shown when an unexpected key transparency error occurs. Clicking the button will dismiss the error dialog."
+  },
+  "icu:KeyTransparencyErrorDialog__Submitting": {
+    "messageformat": "Submitting...",
+    "description": "Key Transparency Error Dialog > Accessibility label for loading spinner while submitting"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Title": {
+    "messageformat": "Signal can now auto-verify key encryption",
+    "description": "Key Transparency Onboarding Dialog > Title"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number.",
+    "description": "Key Transparency Onboarding Dialog > Description"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Continue": {
+    "messageformat": "Continue",
+    "description": "Key Transparency Onboarding Dialog > Text of the primary button that takes user to safety number dialog"
+  },
+  "icu:KeyTransparencyOnboardingDialog__LearnMore": {
+    "messageformat": "Learn more",
+    "description": "Key Transparency Onboarding Dialog > Text of the secondary button that opens a support page in the browser"
+  },
+  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Close",
+    "description": "Key Transparency Onboarding Dialog > Dialog Close Button (Accessibility Label)"
   },
   "icu:verified": {
     "messageformat": "Verified"
@@ -1086,6 +1194,10 @@
     "messageformat": "See {whatsNew} in this update",
     "description": "Shown in the main window"
   },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal is a 501c3 nonprofit",
+    "description": "Shown at the bottom of the main window when a chat is not selected"
+  },
   "icu:viewReleaseNotes": {
     "messageformat": "what's new",
     "description": "Clickable link that displays the latest release notes"
@@ -1374,6 +1486,10 @@
     "messageformat": "{name} is in your system contacts",
     "description": "Text of a row in the About modal describing that the contact is in system contacts"
   },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Add a member label",
+    "description": "Text for a row on the about contact modal, allowing user to add a label for themselves in the current group"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Note",
     "description": "Title of Note Preview modal"
@@ -1650,6 +1766,18 @@
     "messageformat": "Continue",
     "description": "Message > Context Menu > Pin Message (when at max pinned messages) > Dialog > Continue Button"
   },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
+    "messageformat": "Pinning disappearing messages",
+    "description": "Message > Context Menu > Pin Message (when pinning disappearing message) > Dialog > Title"
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
+    "messageformat": "Disappearing messages will be unpinned when their timer expires and the message is removed from the chat.",
+    "description": "Message > Context Menu > Pin Message (when pinning disappearing message) > Dialog > Description"
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
+    "messageformat": "Okay",
+    "description": "Message > Context Menu > Pin Message (when pinning disappearing message) > Dialog > Okay Button"
+  },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Pinned message} other {Pinned messages}}",
     "description": "Conversation > With pinned message(s) > Pinned messages bar > Accessibility label"
@@ -1678,10 +1806,6 @@
     "messageformat": "See all messages",
     "description": "Conversation > With pinned message(s) > Pinned messages bar > More actions menu > See all messages"
   },
-  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Address": {
-    "messageformat": "Address",
-    "description": "(Deleted 2025/12/18) Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Symbol Accessibility Label (Address)"
-  },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
     "messageformat": "Voice message",
     "description": "Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Symbol Accessibility Label (Voice message)"
@@ -1693,10 +1817,6 @@
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
     "messageformat": "File",
     "description": "Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Symbol Accessibility Label (File)"
-  },
-  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Contact": {
-    "messageformat": "Contact",
-    "description": "(Deleted 2025/12/18) Conversation > With pinned message(s) > Pinned messages bar > Message Preview > Symbol Accessibility Label (Contact)"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
     "messageformat": "Payment",
@@ -2273,6 +2393,18 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Cancel",
     "description": "Preferences > Edit Chat Folder Page > Cancel Button"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
+    "messageformat": "Automatic key verification",
+    "description": "Preferences > Privacy Page > Key Transparency Checkbox > Label"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
+    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats.",
+    "description": "Preferences > Privacy Page > Key Transparency Checkbox > Description"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
+    "messageformat": "Learn More",
+    "description": "Preferences > Privacy Page > Key Transparency Checkbox > Learn More"
   },
   "icu:initialSync": {
     "messageformat": "Syncing contacts and groups",
@@ -3670,11 +3802,19 @@
   },
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Search GIFs via Tenor",
-    "description": "FunPicker > GIFs Panel > Search Input > Label (Must use brand name 'Tenor')"
+    "description": "(Deleted 2026/01/28) FunPicker > GIFs Panel > Search Input > Label (Must use brand name 'Tenor')"
+  },
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "Search GIFs",
+    "description": "FunPicker > GIFs Panel > Search Input > Label"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Search Tenor",
-    "description": "FunPicker > GIFs Panel > Search Input > Placeholder (Must use brand name 'Tenor')"
+    "description": "(Deleted 2026/01/28) FunPicker > GIFs Panel > Search Input > Placeholder (Must use brand name 'Tenor')"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "Search GIFs",
+    "description": "FunPicker > GIFs Panel > Search Input > Placeholder"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF Categories",
@@ -3735,6 +3875,10 @@
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "GIF Preview",
     "description": "FunPicker > Gifs Panel > Lightbox Dialog (long press on gif to see large preview) > Label"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "Powered by GIPHY",
+    "description": "FunPicker > GIFs Panel > Giphy Attribution (Must use brand name 'GIPHY' in all caps)"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Clear Search",
@@ -6036,6 +6180,22 @@
     "messageformat": "Voice",
     "description": "Text for button to start a new voice call in the Contact Details modal"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Member labels",
+    "description": "Title of explainer dialog you see when clicking member label in Contact Modal"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Use a member label to describe yourself or your role in this group. Member labels are only visible within this group.",
+    "description": "Detail text in explainer dialog you see when clicking member label in Contact Modal"
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Set a label",
+    "description": "Button to go to label screen in member label explainer dialog, if user has no label"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Edit your label",
+    "description": "Button to go to label screen in member label explainer dialog, if user already has a label"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Chat color",
     "description": "This is a button in the conversation context menu to show the chat color editor"
@@ -6055,6 +6215,30 @@
   "icu:ConversationDetails--group-link": {
     "messageformat": "Group link",
     "description": "This is the label for the group link management panel"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Member label",
+    "description": "This is the label describing the member label editor screen"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Enter your member label",
+    "description": "Shown on the member label editor screen as a placeholder in the text box"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Set a member label to describe yourself or your role in this group. Member labels are only visible within this group.",
+    "description": "Summary explaining what a member label is and how it will be shown to other users. Shown below the text box to edit it."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Preview",
+    "description": "Header for preview area, showing what user's member label will look like on their sent messages"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Hello!",
+    "description": "Text of message bubble showing preview of user's member label"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Saving changes...",
+    "description": "Accessibility label for button with spinner as we save the user's member label."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Disappearing messages",
@@ -6098,6 +6282,10 @@
   },
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "Choose who can edit group name, photo, description, and disappearing messages timer.",
+    "description": "(Deleted 2026/02/04) This is the additional info for the 'who can edit the group' panel"
+  },
+  "icu:ConversationDetails--group-info-info-v2": {
+    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages.",
     "description": "This is the additional info for the 'who can edit the group' panel"
   },
   "icu:ConversationDetails--add-members-label": {
@@ -7306,15 +7494,15 @@
   },
   "icu:Preferences__internal__local-backups": {
     "messageformat": "Local backups",
-    "description": "Text header for internal local backup tools"
+    "description": "(Deleted 2026/01/21) Text header for internal local backup tools"
   },
   "icu:Preferences__internal__export-local-backup": {
     "messageformat": "Export…",
-    "description": "Button to run internal local backup export tool"
+    "description": "(Deleted 2026/01/21) Button to run internal local backup export tool"
   },
   "icu:Preferences__internal__export-local-backup--description": {
     "messageformat": "Export local encrypted backup to a folder and validate it",
-    "description": "Description of the internal local backup export tool"
+    "description": "(Deleted 2026/01/21) Description of the internal local backup export tool"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Export encrypted backup to memory and run validation suite on it",
@@ -7479,6 +7667,30 @@
   "icu:PlaintextExport--Error--DiskPermssions--Detail": {
     "messageformat": "Your chat history can’t be exported because Signal doesn’t have permission to write files to disk. Try changing your disk's permissions or updating your system settings and then export again.",
     "description": "Detail text in dialog shown when we attempted to save a file during export but got a permissions error"
+  },
+  "icu:LocalBackupExport--ProgressDialog--Header": {
+    "messageformat": "Exporting backup",
+    "description": "Title of a progress dialog that shows while exporting a local backup"
+  },
+  "icu:LocalBackupExport--CompleteDialog--Header": {
+    "messageformat": "Backup export complete",
+    "description": "Title of the dialog shown once the export is complete"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
+    "messageformat": "To restore this backup:",
+    "description": "Shown above a list of three bullet-point instructions that show users how to restore their chat history from this backup on their phone"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
+    "messageformat": "Transfer your backup folder to your phone's storage",
+    "description": "First step in instructions for users on how to restore their local chat history backup onto their phone"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
+    "messageformat": "Install a new copy of Signal on your phone",
+    "description": "Second step in instructions for users on how to restore their chat history backup onto their phone"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
+    "messageformat": "Tap “Restore or Transfer” and choose “On Device Backup”",
+    "description": "Third step in instructions for users on how to restore their chat history backup onto their phone"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Moon icon",
@@ -7955,6 +8167,18 @@
   "icu:Preferences--local-backups-see-backup-key-again": {
     "messageformat": "See key again",
     "description": "Link text to return to the previous backup key page, shown when confirming the backup key for local message backups."
+  },
+  "icu:Preferences__local-backups-last-backup": {
+    "messageformat": "Last backup",
+    "description": "Label for the last backup date in local on-device backups settings."
+  },
+  "icu:Preferences__local-backups-last-backup-never": {
+    "messageformat": "Never",
+    "description": "Text shown when no local backup has been created yet."
+  },
+  "icu:Preferences__local-backups-backup-now": {
+    "messageformat": "Back up now",
+    "description": "Button to trigger a local backup immediately."
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Backup folder",
@@ -9656,10 +9880,18 @@
   },
   "icu:PreferencesDonations__title": {
     "messageformat": "Privacy over Profit",
+    "description": "(Deleted 2026/01/28) Title shown at the top of the donations preferences page"
+  },
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "Proudly nonprofit",
     "description": "Title shown at the top of the donations preferences page"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>",
+    "description": "(Deleted 2026/01/28) Description text explaining Signal's donation model with learn more link"
+  },
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>",
     "description": "Description text explaining Signal's donation model with learn more link"
   },
   "icu:PreferencesDonations__donate-button": {
@@ -9814,6 +10046,10 @@
     "messageformat": "Remove info",
     "description": "While making a donation and after entering payment details, if you try to navigate away then a dialog shows and its primary button has this text to confirm cancellation of the donation."
   },
+  "icu:DonateFlow__discard-paypal-dialog-body": {
+    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?",
+    "description": "While making a donation and after selecting Paypal, if you try to navigate away then a dialog shows with this body text."
+  },
   "icu:DonateFlow__continue": {
     "messageformat": "Continue",
     "description": "While making a donation and selecting the donation amount, this is the primary button to move to the next step."
@@ -9874,6 +10110,18 @@
     "messageformat": "You have a donation in progress that requires confirmation.",
     "description": "Shown when the user is not on the Preferences/Donations screen, and donation verification is needed. Like when resuming from startup."
   },
+  "icu:Donations__Toast__PaypalConfirmationNeeded": {
+    "messageformat": "You have a donation in progress that requires confirmation.",
+    "description": "Shown when the user is not on the Preferences/Donations screen, and donation verification of a PayPal donation is needed. Like when resuming from startup."
+  },
+  "icu:Donations__Toast__PaypalCanceled": {
+    "messageformat": "PayPal donation canceled",
+    "description": "Shown when the user cancels a PayPal payment and they are not on the Preferences/Donations screen."
+  },
+  "icu:Donations__Toast__PaypalError": {
+    "messageformat": "Error processing PayPal donation. You have not been charged.",
+    "description": "Shown when the user approves a PayPal payment, but we are unable to process it. The most likely cause is because the user canceled a pending PayPal payment within the app, then approved it on the PayPal website anyway."
+  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donation succeeded, but we could not update your badge settings",
     "description": "Modal title shown when donation completes successfully but badge application fails"
@@ -9894,6 +10142,10 @@
     "messageformat": "Try again",
     "description": "The button in the 'donation interrupted' dialog which allows the user to move forward with the donation."
   },
+  "icu:Donations__PaymentMethod": {
+    "messageformat": "Payment method",
+    "description": "Label for payment method when making a donation and choosing a payment method."
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Payment method declined",
     "description": "Title of the dialog shown with the user's provided payment method has not worked"
@@ -9901,6 +10153,42 @@
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "Try another payment method or contact your bank for more information.",
     "description": "An explanation for the 'payment declined' dialog"
+  },
+  "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
+    "messageformat": "Payment card icon",
+    "description": "Aria label for credit or debit card when making a donation and selecting a payment method."
+  },
+  "icu:DonateFlow__CreditOrDebitCard": {
+    "messageformat": "Credit or Debit Card",
+    "description": "Label for credit or debit card when making a donation and selecting a payment method."
+  },
+  "icu:DonateFlow__Paypal__AccessibilityLabel": {
+    "messageformat": "PayPal",
+    "description": "Aria label for PayPal when making a donation and selecting a payment method."
+  },
+  "icu:DonateFlow__Paypal__Cancel": {
+    "messageformat": "Cancel",
+    "description": "Label for cancel button when making a donation with PayPal."
+  },
+  "icu:DonateFlow__Paypal__CompleteDonation": {
+    "messageformat": "Complete Donation",
+    "description": "Label to complete donation when making a donation with PayPal."
+  },
+  "icu:Donations__PaypalCanceled": {
+    "messageformat": "PayPal donation canceled",
+    "description": "Title of the dialog shown when the user cancels a PayPal payment."
+  },
+  "icu:Donations__PaypalCanceled__Description": {
+    "messageformat": "You have not been charged. Try again or use another payment method.",
+    "description": "An explanation for the dialog shown when the user cancels a PayPal payment."
+  },
+  "icu:Donations__PaypalError": {
+    "messageformat": "Error processing PayPal donation",
+    "description": "Title of the dialog shown when the user approves a PayPal payment, but we are unable to process it. The most likely cause is because the user canceled a pending PayPal payment within the app, then approved it on the PayPal website anyway."
+  },
+  "icu:Donations__PaypalError__Description": {
+    "messageformat": "You have not been charged. Try again or use another payment method.",
+    "description": "An explanation for the 'Error processing PayPal payment' dialog when the user approves a PayPal payment, but we are unable to process it."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Verification Failed",
@@ -10084,7 +10372,11 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
     "messageformat": "This helps us learn more about calls and what is working or not working. You can view your debug log before submitting.",
-    "description": "Call Quality Survey Dialog > Help us improve > Page Description"
+    "description": "(Deleted 2026/01/21) Call Quality Survey Dialog > Help us improve > Page Description"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
+    "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality.",
+    "description": "Call Quality Survey Dialog > Help us improve > Page Description with link to view diagnostic info"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Share debug log",
@@ -10096,7 +10388,15 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
     "messageformat": "Debug logs contain low level app information and do not reveal any of your message contents.",
-    "description": "Call Quality Survey Dialog > Help us improve > Share debug log > Help Text"
+    "description": "(Deleted 2026/01/21) Call Quality Survey Dialog > Help us improve > Share debug log > Help Text"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
+    "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls.",
+    "description": "Call Quality Survey Dialog > Help us improve > Privacy note about what information is shared"
+  },
+  "icu:CallDiagnosticWindow__title": {
+    "messageformat": "Diagnostic information",
+    "description": "Title of the call diagnostic information window"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Submit",
@@ -10117,6 +10417,10 @@
   "icu:CallQualitySurvey__SubmissionSuccess": {
     "messageformat": "Thanks for your feedback!",
     "description": "Toast message shown when call quality survey submission succeeds"
+  },
+  "icu:Megaphone__ExpandNarrowSidebar": {
+    "messageformat": "Expand sidebar to interact with megaphone",
+    "description": "Aria label for collapsed megaphone in the narrow sidebar state. Indicates that you can click it to expand the sidebar and the megaphone."
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "This version contains a number of small tweaks and bug fixes to keep Signal running smoothly.",
@@ -10153,12 +10457,12 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.84--0": {
-    "messageformat": "Signal polls on Desktop now include the same subtle animation effects that were already appearing on your phone. Watching your favorite choice pull away is just a poll away.",
-    "description": "(Deleted 2026/01/07) Release notes for 7.84 release"
+  "icu:WhatsNew__7.89--0": {
+    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!",
+    "description": "Release notes for 7.89 release"
   },
-  "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly.",
-    "description": "Release notes for 7.86 release"
+  "icu:WhatsNew__7.89--1": {
+    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop.",
+    "description": "Release notes for 7.89 release"
   }
 }

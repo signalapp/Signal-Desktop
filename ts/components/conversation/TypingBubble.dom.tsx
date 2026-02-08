@@ -27,7 +27,6 @@ type TypingContactType = Pick<
   | 'isMe'
   | 'phoneNumber'
   | 'profileName'
-  | 'sharedGroupNames'
   | 'title'
 >;
 
@@ -137,7 +136,6 @@ function TypingBubbleAvatar({
         profileName={contact.profileName}
         theme={theme}
         title={contact.title}
-        sharedGroupNames={contact.sharedGroupNames}
         size={28}
       />
     </animated.div>

@@ -318,6 +318,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
         toast={undefined}
         megaphone={undefined}
         containerWidthBreakpoint={containerWidthBreakpoint}
+        expandNarrowLeftPane={action('expandNarrowLeftPane')}
         isInFullScreenCall={false}
       />
     ),

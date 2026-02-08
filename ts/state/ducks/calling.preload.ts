@@ -103,10 +103,10 @@ import type {
   ToggleConfirmLeaveCallModalActionType,
 } from './globalModals.preload.js';
 import {
-  HIDE_CALL_QUALITY_SURVEY,
   SHOW_CALL_QUALITY_SURVEY,
   SHOW_ERROR_MODAL,
   toggleConfirmLeaveCallModal,
+  hideCallQualitySurvey,
 } from './globalModals.preload.js';
 import { CallQualitySurvey } from '../../types/CallQualitySurvey.std.js';
 import { isCallFailure } from '../../util/callQualitySurvey.dom.js';
@@ -2935,6 +2935,9 @@ function showCallQualitySurvey(
   return dispatch => {
     dispatch({ type: RESET_CQS_SUBMISSION_STATE });
     dispatch({ type: SHOW_CALL_QUALITY_SURVEY, payload });
+
+    const diagnosticData = JSON.stringify(payload.callSummary);
+    window.IPC.updateCallDiagnosticData(diagnosticData);
   };
 }
 
@@ -2988,7 +2991,7 @@ function submitCallQualitySurvey(
         callType,
         success: !isCallFailure(callSummary.callEndReasonText),
         callEndReason: callSummary.callEndReasonText,
-        connectionRttMedian: qualityStats.rttMedianConnection,
+        connectionRttMedian: qualityStats.rttMedianConnectionMillis,
         audioRttMedian: audioStats.rttMedianMillis,
         videoRttMedian: videoStats.rttMedianMillis,
         audioRecvJitterMedian: audioStats.jitterMedianRecvMillis,
@@ -3031,7 +3034,7 @@ function submitCallQualitySurvey(
         },
       });
     } finally {
-      dispatch({ type: HIDE_CALL_QUALITY_SURVEY });
+      dispatch(hideCallQualitySurvey());
     }
   };
 }

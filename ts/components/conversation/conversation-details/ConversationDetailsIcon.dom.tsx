@@ -31,6 +31,7 @@ export enum IconType {
   'reset' = 'reset',
   'share' = 'share',
   'spinner' = 'spinner',
+  'tag' = 'tag',
   'timer' = 'timer',
   'trash' = 'trash',
   'verify' = 'verify',

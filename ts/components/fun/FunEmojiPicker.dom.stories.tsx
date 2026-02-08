@@ -58,9 +58,10 @@ function Template(props: TemplateProps): React.JSX.Element {
       onClearStickerPickerHint={() => null}
       onSelectSticker={() => null}
       // Gifs
-      fetchGifsSearch={() => Promise.reject()}
-      fetchGifsFeatured={() => Promise.reject()}
-      fetchGif={() => Promise.reject()}
+      fetchGiphySearch={() => Promise.reject()}
+      fetchGiphyTrending={() => Promise.reject()}
+      fetchGiphyFile={() => Promise.reject()}
+      onRemoveRecentGif={() => null}
       onSelectGif={() => null}
     >
       <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem' }}>

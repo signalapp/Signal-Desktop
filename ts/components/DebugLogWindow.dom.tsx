@@ -164,6 +164,7 @@ export function DebugLogWindow({
           setDidResumeDonation={shouldNeverBeCalled}
           toast={toast}
           containerWidthBreakpoint={null}
+          expandNarrowLeftPane={shouldNeverBeCalled}
           isInFullScreenCall={false}
         />
       </div>
@@ -230,6 +231,7 @@ export function DebugLogWindow({
         setDidResumeDonation={shouldNeverBeCalled}
         toast={toast}
         containerWidthBreakpoint={null}
+        expandNarrowLeftPane={shouldNeverBeCalled}
         isInFullScreenCall={false}
       />
     </div>

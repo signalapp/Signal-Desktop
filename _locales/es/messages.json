@@ -578,14 +578,95 @@
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "Para confirmar que tu comunicación con {name} está cifrada, compara los números que aparecen arriba con los de su dispositivo o escanea el código que se muestra en su dispositivo."
   },
+  "icu:SafetyNumberViewer__hint-v2": {
+    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+  },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Más información"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__title": {
+    "messageformat": "Automatic key verification"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
+    "messageformat": "Verify automatically"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--running": {
+    "messageformat": "Verifying encryption..."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
+    "messageformat": "Encryption verified"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
+    "messageformat": "Auto-verification unavailable"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__hint": {
+    "messageformat": "Auto-verification is not available for all chats."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
+    "messageformat": "Learn more"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
+    "messageformat": "Encryption was auto-verified for this chat "
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
+    "messageformat": "Auto-verification is no longer available for this chat"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
+    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
+    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
+    "messageformat": "Okay"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Se creará un número de seguridad con esta persona una vez que se intercambien mensajes."
   },
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Más información"
+  },
+  "icu:KeyTransparencyErrorDialog__Title": {
+    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+  },
+  "icu:KeyTransparencyErrorDialog__Description": {
+    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+  },
+  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Close"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
+    "messageformat": "Share debug log"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
+    "messageformat": "View"
+  },
+  "icu:KeyTransparencyErrorDialog__Submit": {
+    "messageformat": "Submit"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "No thanks"
+  },
+  "icu:KeyTransparencyErrorDialog__Submitting": {
+    "messageformat": "Submitting..."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Title": {
+    "messageformat": "Signal can now auto-verify key encryption"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Continue": {
+    "messageformat": "Continue"
+  },
+  "icu:KeyTransparencyOnboardingDialog__LearnMore": {
+    "messageformat": "Learn more"
+  },
+  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Close"
   },
   "icu:verified": {
     "messageformat": "Identidad verificada"
@@ -805,6 +886,9 @@
   },
   "icu:whatsNew": {
     "messageformat": "Descubre {whatsNew} de esta actualización"
+  },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal es una organización sin ánimo de lucro"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "las novedades"
@@ -1083,10 +1167,10 @@
     "messageformat": "Detalles"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "Fijar"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Desfijar"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Finalizar encuesta"
@@ -1238,6 +1322,15 @@
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
     "messageformat": "Continuar"
   },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
+    "messageformat": "Fijar mensajes temporales"
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
+    "messageformat": "Los mensajes temporales permanecerán fijados hasta que la duración establecida finalice y el mensaje desaparezca del chat."
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
+    "messageformat": "Aceptar"
+  },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, one {Mensaje fijado} other {Mensajes fijados}}"
   },
@@ -1251,16 +1344,13 @@
     "messageformat": "Más acciones"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "Desfijar"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Ir al mensaje"
   },
   "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
     "messageformat": "Ver todos los mensajes"
-  },
-  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Address": {
-    "messageformat": "Dirección"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
     "messageformat": "Mensaje de voz"
@@ -1270,9 +1360,6 @@
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
     "messageformat": "Documento"
-  },
-  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Contact": {
-    "messageformat": "Contacto"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
     "messageformat": "Pago"
@@ -1494,7 +1581,7 @@
     "messageformat": "<paragraph>Se ha producido un error inesperado.</paragraph><paragraph> Inténtalo de nuevo.</paragraph>"
   },
   "icu:Install__qr-failed-load__error--network": {
-    "messageformat": "Signal no puede vincular este dispositivo utilizando tu red actual."
+    "messageformat": "Signal no puede vincular este dispositivo usando tu red actual."
   },
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Reintentar"
@@ -1705,6 +1792,15 @@
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Cancelar"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
+    "messageformat": "Automatic key verification"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
+    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
+    "messageformat": "Learn More"
   },
   "icu:initialSync": {
     "messageformat": "Sincronizando contactos y grupos"
@@ -2765,8 +2861,14 @@
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Buscar GIF en Tenor"
   },
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "Buscar GIF"
+  },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Buscar en Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "Buscar GIF"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Categorías de GIF"
@@ -2812,6 +2914,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "Vista previa del GIF"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "Con la tecnología de GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Borrar búsqueda"
@@ -4479,7 +4584,7 @@
     "messageformat": "Fotos y vídeos"
   },
   "icu:CompositionArea__AttachMenu__File": {
-    "messageformat": "Archivo"
+    "messageformat": "Documento"
   },
   "icu:CompositionArea__AttachMenu__Poll": {
     "messageformat": "Encuesta"
@@ -4588,6 +4693,9 @@
   },
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "Elige quién puede modificar el nombre, descripción e imagen del grupo y la duración de los mensajes temporales."
+  },
+  "icu:ConversationDetails--group-info-info-v2": {
+    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Quién puede añadir participantes"
@@ -5166,16 +5274,16 @@
     "messageformat": "Enlaces"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "Ordenar por"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "Ordenar por"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "Fecha"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "Tamaño"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "No hay archivos multimedia"
@@ -5589,7 +5697,7 @@
     "messageformat": "Exportación completa"
   },
   "icu:PlaintextExport--CompleteDialog--Description": {
-    "messageformat": "<bold>ATENCIÓN</bold>: Elige con cuidado dónde guardar tu archivo de exportación del chat y no lo compartas con nadie. Dependiendo de los permisos que tengas activados, otras aplicaciones pueden acceder a él. "
+    "messageformat": "<bold>ATENCIÓN</bold>: Elige con cuidado dónde guardar tu archivo de exportación del chat y no lo compartas con nadie. Dependiendo de los permisos que tengas activados, otras aplicaciones podrán acceder a él. "
   },
   "icu:PlaintextExport--CompleteDialog--ShowFiles--Mac": {
     "messageformat": "Mostrar en Finder"
@@ -5607,7 +5715,7 @@
     "messageformat": "Se ha producido un error y no se ha podido exportar tu historial de chat."
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Title": {
-    "messageformat": "No hay suficiente espacio de almacenamiento"
+    "messageformat": "No hay suficiente espacio disponible"
   },
   "icu:PlaintextExport--Error--NotEnoughStorage--Detail": {
     "messageformat": "No se puede exportar tu historial de chat porque tu dispositivo no tiene suficiente espacio libre de almacenamiento. Libera {bytes} de espacio y vuelve a intentarlo."
@@ -5623,6 +5731,24 @@
   },
   "icu:PlaintextExport--Error--DiskPermssions--Detail": {
     "messageformat": "No se puede exportar tu historial de chat porque Signal no tiene permiso para generar archivos en tu almacenamiento. Actualiza tus ajustes del sistema para cambiar los permisos de tu almacenamiento y vuelve a intentarlo."
+  },
+  "icu:LocalBackupExport--ProgressDialog--Header": {
+    "messageformat": "Exportando copia de seguridad"
+  },
+  "icu:LocalBackupExport--CompleteDialog--Header": {
+    "messageformat": "Exportación de copia de seguridad completada"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
+    "messageformat": "Para restaurar esta copia de seguridad:"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
+    "messageformat": "Transfiere tu carpeta de copia de seguridad al almacenamiento de tu teléfono."
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
+    "messageformat": "Vuelve a instalar Signal en tu teléfono."
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
+    "messageformat": "Toca \"Restaurar o transferir\" y elige \"Copias de seguridad locales\"."
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Icono de luna"
@@ -5981,6 +6107,15 @@
   "icu:Preferences--local-backups-see-backup-key-again": {
     "messageformat": "Volver a ver la clave"
   },
+  "icu:Preferences__local-backups-last-backup": {
+    "messageformat": "Última copia de seguridad"
+  },
+  "icu:Preferences__local-backups-last-backup-never": {
+    "messageformat": "Nunca"
+  },
+  "icu:Preferences__local-backups-backup-now": {
+    "messageformat": "Iniciar copia"
+  },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Carpeta de copia de seguridad"
   },
@@ -5994,7 +6129,7 @@
     "messageformat": "Clave de copia de seguridad copiada"
   },
   "icu:Preferences__local-backups--enable--os-prompt--mac": {
-    "messageformat": "Habilitar copias de seguridad"
+    "messageformat": "habilitar copias de seguridad"
   },
   "icu:Preferences__local-backups--enable--os-prompt--windows": {
     "messageformat": "Verifica tu identidad para habilitar las copias de seguridad."
@@ -7260,8 +7395,14 @@
   "icu:PreferencesDonations__title": {
     "messageformat": "Privacidad sin ánimo de lucro"
   },
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "Orgullosamente sin ánimo de lucro"
+  },
   "icu:PreferencesDonations__description": {
     "messageformat": "Mensajería privada, financiada por ti. Sin anuncios, sin seguimiento, sin comprometer tu privacidad. Haz una donación ahora para apoyar a Signal. <readMoreLink>Más información</readMoreLink>"
+  },
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "Haz una donación para apoyar la mensajería privada. Ayuda a Signal a seguir siendo independiente y sin anuncios. <readMoreLink>Más información</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Donar"
@@ -7377,6 +7518,9 @@
   "icu:DonateFlow__discard-dialog-remove-info": {
     "messageformat": "Eliminar datos"
   },
+  "icu:DonateFlow__discard-paypal-dialog-body": {
+    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+  },
   "icu:DonateFlow__continue": {
     "messageformat": "Continuar"
   },
@@ -7422,6 +7566,15 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Tienes una donación en curso pendiente de confirmación."
   },
+  "icu:Donations__Toast__PaypalConfirmationNeeded": {
+    "messageformat": "You have a donation in progress that requires confirmation."
+  },
+  "icu:Donations__Toast__PaypalCanceled": {
+    "messageformat": "PayPal donation canceled"
+  },
+  "icu:Donations__Toast__PaypalError": {
+    "messageformat": "Error processing PayPal donation. You have not been charged."
+  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "La donación se completó correctamente, pero no pudimos actualizar tu insignia"
   },
@@ -7437,11 +7590,41 @@
   "icu:Donations__DonationInterrupted__RetryButton": {
     "messageformat": "Reintentar"
   },
+  "icu:Donations__PaymentMethod": {
+    "messageformat": "Payment method"
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Método de pago rechazado"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "Selecciona otro método de pago o contacta con tu banco para obtener más información."
+  },
+  "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
+    "messageformat": "Payment card icon"
+  },
+  "icu:DonateFlow__CreditOrDebitCard": {
+    "messageformat": "Credit or Debit Card"
+  },
+  "icu:DonateFlow__Paypal__AccessibilityLabel": {
+    "messageformat": "PayPal"
+  },
+  "icu:DonateFlow__Paypal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:DonateFlow__Paypal__CompleteDonation": {
+    "messageformat": "Complete Donation"
+  },
+  "icu:Donations__PaypalCanceled": {
+    "messageformat": "PayPal donation canceled"
+  },
+  "icu:Donations__PaypalCanceled__Description": {
+    "messageformat": "You have not been charged. Try again or use another payment method."
+  },
+  "icu:Donations__PaypalError": {
+    "messageformat": "Error processing PayPal donation"
+  },
+  "icu:Donations__PaypalError__Description": {
+    "messageformat": "You have not been charged. Try again or use another payment method."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Error en la verificación"
@@ -7540,7 +7723,7 @@
     "messageformat": "Otras personas oían eco"
   },
   "icu:CallQualitySurvey__Issue--AUDIO_DROP": {
-    "messageformat": "El audio se cortaba"
+    "messageformat": "El audio se detuvo"
   },
   "icu:CallQualitySurvey__Issue--VIDEO": {
     "messageformat": "Problema de vídeo"
@@ -7581,6 +7764,9 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
     "messageformat": "Tu opinión nos ayuda a saber qué funciona y qué falla durante las llamadas. Puedes ver tu registro de depuración antes de enviarlo."
   },
+  "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
+    "messageformat": "Si seleccionas Enviar, se compartirán tus comentarios junto con <diagnosticInfoLink>la información de diagnóstico de tu llamada</diagnosticInfoLink>. De manera opcional, puedes compartir tu registro de depuración para ayudarnos a mejorar la calidad de las llamadas."
+  },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Compartir registro de depuración"
   },
@@ -7589,6 +7775,12 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
     "messageformat": "Los registros de depuración contienen información técnica de la aplicación y no revelan el contenido de ninguno de tus mensajes."
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
+    "messageformat": "La información que compartes con nosotros contiene únicamente datos técnicos de la aplicación y nunca incluye el contenido de tus llamadas."
+  },
+  "icu:CallDiagnosticWindow__title": {
+    "messageformat": "Información de diagnóstico"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "Enviar"
@@ -7604,6 +7796,9 @@
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
     "messageformat": "¡Gracias por tus comentarios!"
+  },
+  "icu:Megaphone__ExpandNarrowSidebar": {
+    "messageformat": "Expande la barra lateral para interactuar con el megáfono"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Esta versión incluye una series de ajustes y correcciones de errores para que Signal funcione sin problemas.",
@@ -7633,10 +7828,10 @@
     "messageformat": "Hemos hecho algunos ajustes, correcciones de errores y mejoras en el rendimiento. ¡Gracias por usar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.84--0": {
-    "messageformat": "Las encuestas en Signal Desktop ahora incluyen los mismos efectos de animación que ya veías en tu teléfono. Estás a una sola encuesta de distancia de ver cómo tu opción favorita toma la delantera."
+  "icu:WhatsNew__7.89--0": {
+    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
   },
-  "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+  "icu:WhatsNew__7.89--1": {
+    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
   }
 }

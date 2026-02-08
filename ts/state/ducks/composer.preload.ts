@@ -392,7 +392,8 @@ function scrollToPinnedMessage(
   return async (dispatch, getState) => {
     const pinnedMessage = await DataReader.getMessageByAuthorAciAndSentAt(
       pinMessage.targetAuthorAci,
-      pinMessage.targetSentTimestamp
+      pinMessage.targetSentTimestamp,
+      { includeEdits: true }
     );
 
     if (!pinnedMessage) {

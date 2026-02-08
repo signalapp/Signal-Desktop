@@ -8,6 +8,7 @@ import { ConversationDetailsMembershipList } from '../../components/conversation
 import { assertDev } from '../../util/assert.std.js';
 import { getGroupMemberships } from '../../util/getGroupMemberships.dom.js';
 import {
+  getCachedConversationMemberColorsSelector,
   getConversationByIdSelector,
   getConversationByServiceIdSelector,
 } from '../selectors/conversations.dom.js';
@@ -31,6 +32,10 @@ export const SmartGV1Members = memo(function SmartGV1Members({
   const conversationByServiceIdSelector = useSelector(
     getConversationByServiceIdSelector
   );
+  const getMemberColors = useSelector(
+    getCachedConversationMemberColorsSelector
+  );
+  const memberColors = getMemberColors(conversationId);
 
   const conversation = conversationSelector(conversationId);
   assertDev(
@@ -50,6 +55,7 @@ export const SmartGV1Members = memo(function SmartGV1Members({
       i18n={i18n}
       getPreferredBadge={getPreferredBadge}
       maxShownMemberCount={32}
+      memberColors={memberColors}
       memberships={memberships}
       showContactModal={showContactModal}
       theme={theme}

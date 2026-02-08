@@ -26,6 +26,7 @@ import type { RegisteredChallengeType } from '../challenge.dom.js';
 import type { ServerAlertsType } from '../util/handleServerAlerts.preload.js';
 import type { NotificationProfileOverride } from './NotificationProfile.std.js';
 import type { PhoneNumberSharingMode } from './PhoneNumberSharingMode.std.js';
+import type { LocalBackupExportMetadata } from './LocalExport.std.js';
 
 export type AutoDownloadAttachmentType = {
   photos: boolean;
@@ -68,7 +69,7 @@ export type StorageAccessType = {
   'call-system-notification': boolean;
   lastCallQualitySurveyTime: number;
   lastCallQualityFailureSurveyTime: number;
-  callQualitySurveyCooldownDisabled: boolean;
+  cqsTestMode: boolean;
   'hide-menu-bar': boolean;
   'incoming-call-notification': boolean;
   'notification-draw-attention': boolean;
@@ -83,6 +84,7 @@ export type StorageAccessType = {
 
   customColors: CustomColorsItemType;
   device_name: string;
+  deviceCreatedAt: number;
   existingOnboardingStoryMessageIds: ReadonlyArray<string> | undefined;
   hasSetMyStoriesPrivacy: boolean;
   hasCompletedUsernameOnboarding: boolean;
@@ -90,8 +92,10 @@ export type StorageAccessType = {
   hasCompletedSafetyNumberOnboarding: boolean;
   hasSeenGroupStoryEducationSheet: boolean;
   hasSeenNotificationProfileOnboarding: boolean;
+  hasSeenKeyTransparencyOnboarding: boolean;
   hasViewedOnboardingStory: boolean;
   hasStoriesDisabled: boolean;
+  hasKeyTransparencyDisabled: boolean;
   storyViewReceiptsEnabled: boolean | undefined;
   identityKeyMap: IdentityKeyMap;
   lastAttemptedToRefreshProfilesAt: number;
@@ -115,6 +119,7 @@ export type StorageAccessType = {
   sessionResets: SessionResetsType;
   showStickerPickerHint: boolean;
   showStickersIntroduction: boolean;
+  seenPinMessageDisappearingMessagesWarningCount: number;
   signedKeyId: number;
   signedKeyIdPNI: number;
   signedKeyUpdateTime: number;
@@ -238,6 +243,7 @@ export type StorageAccessType = {
   backupSubscriptionStatus: BackupsSubscriptionType | undefined;
 
   backupKeyViewed: boolean;
+  lastLocalBackup: LocalBackupExportMetadata;
   localBackupFolder: string | undefined;
 
   // If true Desktop message history was restored from backup
@@ -267,6 +273,17 @@ export type StorageAccessType = {
 
   avatarsHaveBeenMigrated: boolean;
 
+  // Key Transparency
+  lastDistinguishedTreeHead: Uint8Array;
+  // Meaning of values:
+  //
+  // - undefined - status unknown or uninitialized
+  // - 'ok' - last check passed
+  // - 'intermittent' - last check failed, but we haven't retried yet
+  // - 'fail' - last check failed after retry
+  keyTransparencySelfHealth: undefined | 'ok' | 'intermittent' | 'fail';
+  lastKeyTransparencySelfCheck: number;
+
   // Test-only
   // Not used UI, stored as is when imported from backup during tests
   defaultWallpaperPhotoPointer: Uint8Array;
@@ -290,6 +307,7 @@ export type StorageAccessType = {
   versionedExpirationTimer: never;
   primarySendsSms: never;
   backupMediaDownloadIdle: never;
+  callQualitySurveyCooldownDisabled: never;
 };
 
 export type StorageInterface = {

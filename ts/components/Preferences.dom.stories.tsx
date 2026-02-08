@@ -58,10 +58,7 @@ import type { SmartPreferencesEditChatFolderPageProps } from '../state/smart/Pre
 import { CurrentChatFolders } from '../types/CurrentChatFolders.std.js';
 import type { ExternalProps as SmartNotificationProfilesProps } from '../state/smart/PreferencesNotificationProfiles.preload.js';
 import type { NotificationProfileIdString } from '../types/NotificationProfile.std.js';
-import type {
-  ExportResultType,
-  LocalBackupExportResultType,
-} from '../services/backups/types.std.js';
+import type { ExportResultType } from '../services/backups/types.std.js';
 import { BackupLevel } from '../services/backups/types.std.js';
 
 const { shuffle } = lodash;
@@ -133,11 +130,6 @@ const validateBackupResult: ExportResultType = {
     stickerPacks: 8,
     fixedDirectMessages: 9,
   },
-};
-
-const exportLocalBackupResult: LocalBackupExportResultType = {
-  ...validateBackupResult,
-  snapshotDir: '/home/signaluser/SignalBackups/signal-backup-1745618069169',
 };
 
 const donationAmountsConfig = {
@@ -263,6 +255,7 @@ function renderDonationsPane(props: {
       clearWorkflow={action('clearWorkflow')}
       initialCurrency="usd"
       resumeWorkflow={action('resumeWorkflow')}
+      isDonationPaypalEnabled
       isOnline
       settingsLocation={props.settingsLocation}
       setSettingsLocation={props.setSettingsLocation}
@@ -441,6 +434,7 @@ export default {
     hasFailedStorySends: false,
     hasHideMenuBar: false,
     hasIncomingCallNotifications: true,
+    hasKeyTransparencyDisabled: false,
     hasLinkPreviews: true,
     hasMediaCameraPermissions: true,
     hasMediaPermissions: true,
@@ -468,6 +462,7 @@ export default {
     isContentProtectionNeeded: true,
     isMinimizeToAndStartInSystemTraySupported: true,
     isPlaintextExportEnabled: true,
+    lastLocalBackup: undefined,
     lastSyncTime: Date.now(),
     localeOverride: null,
     localBackupFolder: undefined,
@@ -538,11 +533,6 @@ export default {
     addCustomColor: action('addCustomColor'),
     doDeleteAllData: action('doDeleteAllData'),
     editCustomColor: action('editCustomColor'),
-    exportLocalBackup: async () => {
-      return {
-        result: exportLocalBackupResult,
-      };
-    },
     getMessageCountBySchemaVersion: async () => [
       { schemaVersion: 10, count: 1024 },
       { schemaVersion: 8, count: 256 },
@@ -564,6 +554,9 @@ export default {
     onContentProtectionChange: action('onContentProtectionChange'),
     onCountMutedConversationsChange: action('onCountMutedConversationsChange'),
     onEmojiSkinToneDefaultChange: action('onEmojiSkinToneDefaultChange'),
+    onHasKeyTransparencyDisabledChanged: action(
+      'onHasKeyTransparencyDisabledChanged'
+    ),
     onHasStoriesDisabledChanged: action('onHasStoriesDisabledChanged'),
     onHideMenuBarChange: action('onHideMenuBarChange'),
     onIncomingCallNotificationsChange: action(
@@ -616,6 +609,7 @@ export default {
     ),
     setSettingsLocation: action('setSettingsLocation'),
     showToast: action('showToast'),
+    startLocalBackupExport: action('startLocalBackupExport'),
     startPlaintextExport: action('startPlaintextExport'),
     validateBackup: async () => {
       return {
@@ -638,10 +632,8 @@ export default {
     __dangerouslyRunAbitraryReadOnlySqlQuery: async () => {
       return Promise.resolve([]);
     },
-    callQualitySurveyCooldownDisabled: false,
-    setCallQualitySurveyCooldownDisabled: action(
-      'setCallQualitySurveyCooldownDisabled'
-    ),
+    cqsTestMode: false,
+    setCqsTestMode: action('setCqsTestMode'),
   } satisfies PropsType,
 } satisfies Meta<PropsType>;
 
@@ -958,6 +950,43 @@ DonationsHomeWithInProgressDonation.args = {
       },
     }),
 };
+
+export const DonationsPaypalInProgress = Template.bind({});
+DonationsPaypalInProgress.args = {
+  settingsLocation: { page: SettingsPage.DonationsDonateFlow },
+  renderDonationsPane: ({
+    contentsRef,
+  }: {
+    contentsRef: MutableRefObject<HTMLDivElement | null>;
+  }) =>
+    renderDonationsPane({
+      contentsRef,
+      me,
+      donationReceipts: [],
+      settingsLocation: { page: SettingsPage.DonationsDonateFlow },
+      setSettingsLocation: action('setSettingsLocation'),
+      saveAttachmentToDisk: async () => {
+        action('saveAttachmentToDisk')();
+        return { fullPath: '/mock/path/to/file.png', name: 'file.png' };
+      },
+      generateDonationReceiptBlob: async () => {
+        action('generateDonationReceiptBlob')();
+        return new Blob();
+      },
+      showToast: action('showToast'),
+      workflow: {
+        type: 'PAYPAL_INTENT',
+        timestamp: Date.now() - 60,
+        paypalPaymentId: 'a',
+        paymentAmount: 500,
+        currencyType: 'USD',
+        id: 'a',
+        returnToken: 'a',
+        approvalUrl: 'https://www.signal.org',
+      },
+    }),
+};
+
 export const Internal = Template.bind({});
 Internal.args = {
   settingsLocation: { page: SettingsPage.Internal },
@@ -1210,6 +1239,21 @@ LocalBackups.args = {
   backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   backupKeyViewed: true,
+  lastLocalBackup: {
+    timestamp: Date.now() - DAY,
+    backupsFolder: 'backups',
+    snapshotDir: 'backups/snapshot',
+  },
+  localBackupFolder: '/home/signaluser/Signal Backups/',
+};
+
+export const LocalBackupsNeverBackedUp = Template.bind({});
+LocalBackupsNeverBackedUp.args = {
+  settingsLocation: { page: SettingsPage.LocalBackups },
+  backupFeatureEnabled: true,
+  backupLocalBackupsEnabled: true,
+  backupKeyViewed: true,
+  lastLocalBackup: undefined,
   localBackupFolder: '/home/signaluser/Signal Backups/',
 };
 

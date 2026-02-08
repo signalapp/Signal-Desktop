@@ -3,11 +3,12 @@
 
 import { createSelector } from 'reselect';
 
-import { PlaintextExportSteps } from '../../types/Backups.std.js';
-
 import type { StateType } from '../reducer.preload.js';
 import type { BackupsStateType } from '../ducks/backups.preload.js';
-import type { PlaintextExportWorkflowType } from '../../types/Backups.std.js';
+import type {
+  PlaintextExportWorkflowType,
+  LocalBackupExportWorkflowType,
+} from '../../types/LocalExport.std.js';
 
 export const getBackups = (state: StateType): BackupsStateType => state.backups;
 
@@ -21,21 +22,33 @@ export const shouldShowPlaintextWorkflow = createSelector(
       return false;
     }
 
-    if (
-      (workflow.step === PlaintextExportSteps.ExportingAttachments ||
-        workflow.step === PlaintextExportSteps.ExportingMessages) &&
-      workflow.exportInBackground === true
-    ) {
-      return false;
-    }
-
     return true;
   }
 );
 
-export const getWorkflow = createSelector(
+export const getPlaintextWorkflow = createSelector(
   getBackups,
   (backups: BackupsStateType): PlaintextExportWorkflowType | undefined => {
-    return backups.workflow?.workflow;
+    if (backups.workflow?.type !== 'plaintext-export') {
+      return undefined;
+    }
+    return backups.workflow.workflow;
+  }
+);
+
+export const shouldShowLocalBackupWorkflow = createSelector(
+  getBackups,
+  (backups: BackupsStateType): boolean => {
+    return backups.workflow?.type === 'local-backup';
+  }
+);
+
+export const getLocalBackupWorkflow = createSelector(
+  getBackups,
+  (backups: BackupsStateType): LocalBackupExportWorkflowType | undefined => {
+    if (backups.workflow?.type !== 'local-backup') {
+      return undefined;
+    }
+    return backups.workflow.workflow;
   }
 );

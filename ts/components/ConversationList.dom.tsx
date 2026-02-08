@@ -493,7 +493,6 @@ export function ConversationList({
             'phoneNumber',
             'profileName',
             'removalStage',
-            'sharedGroupNames',
             'shouldShowDraft',
             'title',
             'type',

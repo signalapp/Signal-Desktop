@@ -59,6 +59,7 @@ describe('backup/integration', () => {
       const { data: exported } = await backupsService.exportBackupData({
         type: 'cross-client-integration-test',
         level: BackupLevel.Paid,
+        abortSignal: new AbortController().signal,
       });
 
       const actualStream = new MemoryStream(Buffer.from(exported));

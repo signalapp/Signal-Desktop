@@ -10,21 +10,21 @@ import {
   type RemoteMegaphoneType,
   type VisibleRemoteMegaphoneType,
 } from '../types/Megaphone.std.js';
-import { HOUR } from '../util/durations/index.std.js';
+import { DAY, HOUR } from '../util/durations/index.std.js';
 import { DataReader, DataWriter } from '../sql/Client.preload.js';
 import { drop } from '../util/drop.std.js';
-import {
-  Environment,
-  getEnvironment,
-  isMockEnvironment,
-} from '../environment.std.js';
+import { isMockEnvironment } from '../environment.std.js';
 import { isEnabled } from '../RemoteConfig.dom.js';
 import { safeSetTimeout } from '../util/timeout.std.js';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
+import { isMoreRecentThan } from '../util/timestamp.std.js';
+import { isFeaturedEnabledNoRedux } from '../util/isFeatureEnabled.dom.js';
 
 const log = createLogger('megaphoneService');
 
 const CHECK_INTERVAL = 12 * HOUR;
+const CONDITIONAL_STANDARD_DONATE_DEVICE_AGE = 7 * DAY;
 
 let nextCheckTimeout: NodeJS.Timeout | null;
 
@@ -76,18 +76,47 @@ export async function runMegaphoneCheck(): Promise<void> {
 }
 
 export function isRemoteMegaphoneEnabled(): boolean {
-  const env = getEnvironment();
+  return isFeaturedEnabledNoRedux({
+    betaKey: 'desktop.remoteMegaphone.beta',
+    prodKey: 'desktop.remoteMegaphone.prod',
+  });
+}
 
-  if (
-    env === Environment.Development ||
-    env === Environment.Test ||
-    env === Environment.Staging ||
-    isMockEnvironment() ||
-    isEnabled('desktop.internalUser')
-  ) {
+export function isConditionalActive(conditionalId: string | null): boolean {
+  if (conditionalId == null) {
     return true;
   }
 
+  if (conditionalId === 'standard_donate') {
+    const deviceCreatedAt = itemStorage.user.getDeviceCreatedAt();
+    if (
+      !deviceCreatedAt ||
+      isMoreRecentThan(deviceCreatedAt, CONDITIONAL_STANDARD_DONATE_DEVICE_AGE)
+    ) {
+      return false;
+    }
+
+    const me = window.ConversationController.getOurConversation();
+    if (!me) {
+      log.error(
+        "isConditionalActive: Can't check badges because our conversation not available"
+      );
+      return false;
+    }
+
+    const hasBadges = me.attributes.badges && me.attributes.badges.length > 0;
+    return !hasBadges;
+  }
+
+  if (conditionalId === 'internal_user') {
+    return isEnabled('desktop.internalUser');
+  }
+
+  if (conditionalId === 'test') {
+    return isMockEnvironment();
+  }
+
+  log.error(`isConditionalActive: Invalid value ${conditionalId}`);
   return false;
 }
 
@@ -147,6 +176,10 @@ export function isMegaphoneShowable(
       primaryCtaId,
       secondaryCtaId
     );
+    return false;
+  }
+
+  if (!isConditionalActive(megaphone.conditionalId)) {
     return false;
   }
 

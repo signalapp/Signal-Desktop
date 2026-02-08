@@ -25,6 +25,7 @@ import {
   getTargetedMessage,
   getTargetedMessageSource,
 } from '../selectors/conversations.dom.js';
+import { getSharedGroupNames } from '../../util/sharedGroupNames.dom.js';
 import { useTimelineItem } from '../selectors/timeline.preload.js';
 import {
   areMessagesInSameGroup,
@@ -131,7 +132,6 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     kickOffAttachmentDownload,
     markAttachmentAsCorrupted,
     messageExpanded,
-    onPinnedMessageAdd,
     onPinnedMessageRemove,
     openGiftBadge,
     pushPanelForConversation,
@@ -164,6 +164,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
   const {
     showContactModal,
     showEditHistoryModal,
+    showPinMessageDialog,
     showTapToViewNotAvailableModal,
     toggleMessageRequestActionsConfirmation,
     toggleDeleteMessagesModal,
@@ -202,6 +203,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       containerWidthBreakpoint={containerWidthBreakpoint}
       conversationId={conversationId}
       getPreferredBadge={getPreferredBadge}
+      getSharedGroupNames={getSharedGroupNames}
       isNextItemCallingNotification={isNextItemCallingNotification}
       isTargeted={isTargeted}
       renderAudioAttachment={renderAudioAttachment}
@@ -239,7 +241,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       }
       onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
       onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
-      onPinnedMessageAdd={onPinnedMessageAdd}
+      showPinMessageDialog={showPinMessageDialog}
       onPinnedMessageRemove={onPinnedMessageRemove}
       scrollToPinnedMessage={scrollToPinnedMessage}
       retryDeleteForEveryone={retryDeleteForEveryone}

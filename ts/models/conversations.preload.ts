@@ -246,6 +246,7 @@ import {
   buildDisappearingMessagesTimerChange,
   buildGroupLink,
   buildInviteLinkPasswordChange,
+  buildModifyMemberLabelChange,
   buildModifyMemberRoleChange,
   buildNewGroupLinkChange,
   buildPromoteMemberChange,
@@ -349,8 +350,6 @@ export class ConversationModel {
   intlCollator = new Intl.Collator(undefined, { sensitivity: 'base' });
 
   lastSuccessfulGroupFetch?: number;
-
-  throttledUpdateSharedGroups?: () => Promise<void>;
 
   #cachedIdenticon?: CachedIdenticon;
 
@@ -509,10 +508,6 @@ export class ConversationModel {
 
     this.throttledBumpTyping = throttle(this.bumpTyping, 300);
     this.throttledUpdateUnread = throttle(this.#updateUnread, 300);
-    this.throttledUpdateSharedGroups = throttle(
-      this.updateSharedGroups.bind(this),
-      FIVE_MINUTES
-    );
     this.throttledFetchSMSOnlyUUID = throttle(
       this.fetchSMSOnlyUUID.bind(this),
       FIVE_MINUTES
@@ -2145,7 +2140,7 @@ export class ConversationModel {
     this.set({ e164: e164 || undefined });
 
     // This user changed their phone number
-    if (oldValue && e164 && this.get('sharingPhoneNumber')) {
+    if (oldValue && e164) {
       void this.addChangeNumberNotification(oldValue, e164);
     }
 
@@ -4585,6 +4580,34 @@ export class ConversationModel {
     }
   }
 
+  async updateGroupMemberLabel({
+    labelEmoji,
+    labelString,
+  }: {
+    labelEmoji: string | undefined;
+    labelString: string | undefined;
+  }): Promise<void> {
+    if (!isGroupV2(this.attributes)) {
+      return;
+    }
+
+    log.info('updateGroupMemberLabel for conversation', this.idForLogging());
+
+    const ourServiceId = itemStorage.user.getCheckedAci();
+
+    await this.modifyGroupV2({
+      name: 'updateGroupMemberLabel',
+      usingCredentialsFrom: [],
+      createGroupChange: async () =>
+        buildModifyMemberLabelChange({
+          serviceId: ourServiceId,
+          group: this.attributes,
+          labelEmoji,
+          labelString,
+        }),
+    });
+  }
+
   async refreshGroupLink(): Promise<void> {
     if (!isGroupV2(this.attributes)) {
       return;
@@ -5019,22 +5042,6 @@ export class ConversationModel {
         (left, right) =>
           (right.get('timestamp') || 0) - (left.get('timestamp') || 0)
       );
-  }
-
-  // This is an expensive operation we use to populate the message request hero row. It
-  //   shows groups the current user has in common with this potential new contact.
-  async updateSharedGroups(): Promise<void> {
-    const sharedGroups = await this.#getSharedGroups();
-
-    if (sharedGroups == null) {
-      return;
-    }
-
-    const sharedGroupNames = sharedGroups.map(conversation =>
-      conversation.getTitle()
-    );
-
-    this.set({ sharedGroupNames });
   }
 
   onChangeProfileKey(): void {

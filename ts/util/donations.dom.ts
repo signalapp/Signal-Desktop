@@ -30,6 +30,8 @@ export function getInProgressDonation(workflow: DonationWorkflow | undefined):
     case donationStateSchema.Enum.INTENT_METHOD:
     case donationStateSchema.Enum.INTENT_REDIRECT:
     case donationStateSchema.Enum.INTENT_CONFIRMED:
+    case donationStateSchema.Enum.PAYPAL_APPROVED:
+    case donationStateSchema.Enum.PAYMENT_CONFIRMED:
     case donationStateSchema.Enum.RECEIPT: {
       const { currencyType: currency, paymentAmount } = workflow;
       const amount = brandStripeDonationAmount(paymentAmount);
@@ -39,6 +41,7 @@ export function getInProgressDonation(workflow: DonationWorkflow | undefined):
       };
     }
     case donationStateSchema.Enum.INTENT:
+    case donationStateSchema.Enum.PAYPAL_INTENT:
     case donationStateSchema.Enum.DONE:
       return;
     default:

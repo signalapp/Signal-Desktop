@@ -29,9 +29,6 @@ export default {
   args: {},
 } satisfies Meta<PropsType>;
 
-// eslint-disable-next-line
-const noop = () => {};
-
 function mockMessageTimelineItem(
   id: string,
   data: Partial<TimelineMessageProps>
@@ -58,7 +55,6 @@ function mockMessageTimelineItem(
       direction: 'incoming',
       status: 'sent',
       text: 'Hello there from the new world!',
-      hasMaxPinnedMessages: false,
       isBlocked: false,
       isMessageRequestAccepted: true,
       isPinned: false,
@@ -281,7 +277,6 @@ const actions = () => ({
   targetMessage: action('targetMessage'),
   scrollToOldestUnreadMention: action('scrollToOldestUnreadMention'),
   clearTargetedMessage: action('clearTargetedMessage'),
-  updateSharedGroups: action('updateSharedGroups'),
 
   endPoll: action('endPoll'),
   reactToMessage: action('reactToMessage'),
@@ -307,7 +302,7 @@ const actions = () => ({
   doubleCheckMissingQuoteReference: action('doubleCheckMissingQuoteReference'),
 
   openGiftBadge: action('openGiftBadge'),
-  onPinnedMessageAdd: action('onPinnedMessageAdd'),
+  showPinMessageDialog: action('showPinMessageDialog'),
   onPinnedMessageRemove: action('onPinnedMessageRemove'),
   scrollToPinnedMessage: action('scrollToPinnedMessage'),
   scrollToPollMessage: action('scrollToPollMessage'),
@@ -364,6 +359,7 @@ const renderItem = ({
 }) => (
   <TimelineItem
     getPreferredBadge={() => undefined}
+    getSharedGroupNames={() => []}
     id=""
     isTargeted={false}
     isBlocked={false}
@@ -424,7 +420,6 @@ const renderHeroRow = () => {
         title={getTitle()}
         startAvatarDownload={action('startAvatarDownload')}
         pendingAvatarDownload={false}
-        updateSharedGroups={noop}
         viewUserStories={action('viewUserStories')}
         toggleAboutContactModal={action('toggleAboutContactModal')}
         toggleProfileNameWarningModal={action('toggleProfileNameWarningModal')}

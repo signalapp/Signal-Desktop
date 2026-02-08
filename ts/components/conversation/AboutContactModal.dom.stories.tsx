@@ -40,7 +40,6 @@ const conversationWithSharedGroups = getDefaultConversation({
   acceptedMessageRequest: true,
   aboutText: 'likes to chat',
   hasMessages: true,
-  sharedGroupNames: ['Axolotl lovers'],
 });
 const systemContact = getDefaultConversation({
   acceptedMessageRequest: true,
@@ -52,6 +51,7 @@ const me = getDefaultConversation({
   isMe: true,
   acceptedMessageRequest: true,
   hasMessages: true,
+  phoneNumber: '(111) 231-2132',
 });
 
 export default {
@@ -61,18 +61,23 @@ export default {
     isSignalConnection: { control: { type: 'boolean' } },
   },
   args: {
+    canAddLabel: false,
+    contact: conversation,
+    contactLabelEmoji: undefined,
+    contactLabelString: undefined,
+    contactNameColor: undefined,
+    fromOrAddedByTrustedContact: false,
     i18n,
+    isSignalConnection: false,
+    isEditMemberLabelEnabled: true,
     onClose: action('onClose'),
     onOpenNotePreviewModal: action('onOpenNotePreviewModal'),
-    toggleSignalConnectionsModal: action('toggleSignalConnections'),
-    toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
-    toggleProfileNameWarningModal: action('toggleProfileNameWarningModal'),
-    updateSharedGroups: action('updateSharedGroups'),
-    startAvatarDownload: action('startAvatarDownload'),
     pendingAvatarDownload: false,
-    conversation,
-    fromOrAddedByTrustedContact: false,
-    isSignalConnection: false,
+    sharedGroupNames: [],
+    startAvatarDownload: action('startAvatarDownload'),
+    toggleProfileNameWarningModal: action('toggleProfileNameWarningModal'),
+    toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
+    toggleSignalConnectionsModal: action('toggleSignalConnections'),
   },
 } satisfies ComponentMeta<PropsType>;
 
@@ -81,27 +86,80 @@ export function Defaults(args: PropsType): React.JSX.Element {
 }
 
 export function Me(args: PropsType): React.JSX.Element {
-  return <AboutContactModal {...args} conversation={me} />;
+  return <AboutContactModal {...args} contact={me} />;
+}
+
+export function MeWithLabel(args: PropsType): React.JSX.Element {
+  return (
+    <AboutContactModal
+      {...{
+        ...args,
+        contactLabelEmoji: '🐝',
+        contactLabelString: 'Worker Bee',
+        contactNameColor: '270',
+      }}
+      contact={me}
+    />
+  );
+}
+
+export function MeWithInvalidLabelEmoji(args: PropsType): React.JSX.Element {
+  return (
+    <AboutContactModal
+      {...{
+        ...args,
+        contactLabelEmoji: '@',
+        contactLabelString: 'Worker Bee',
+        contactNameColor: '270',
+      }}
+      contact={me}
+    />
+  );
+}
+
+export function MeWithAddLabel(args: PropsType): React.JSX.Element {
+  return (
+    <AboutContactModal
+      {...{
+        ...args,
+        canAddLabel: true,
+      }}
+      contact={me}
+    />
+  );
+}
+
+export function MeWithAddLabelEditDisabled(args: PropsType): React.JSX.Element {
+  return (
+    <AboutContactModal
+      {...{
+        ...args,
+        canAddLabel: true,
+      }}
+      contact={me}
+      isEditMemberLabelEnabled={false}
+    />
+  );
 }
 
 export function Verified(args: PropsType): React.JSX.Element {
-  return <AboutContactModal {...args} conversation={verifiedConversation} />;
+  return <AboutContactModal {...args} contact={verifiedConversation} />;
 }
 
 export function Blocked(args: PropsType): React.JSX.Element {
-  return <AboutContactModal {...args} conversation={blockedConversation} />;
+  return <AboutContactModal {...args} contact={blockedConversation} />;
 }
 
 export function Pending(args: PropsType): React.JSX.Element {
-  return <AboutContactModal {...args} conversation={pendingConversation} />;
+  return <AboutContactModal {...args} contact={pendingConversation} />;
 }
 
 export function NoMessages(args: PropsType): React.JSX.Element {
-  return <AboutContactModal {...args} conversation={noMessages} />;
+  return <AboutContactModal {...args} contact={noMessages} />;
 }
 
 export function WithAbout(args: PropsType): React.JSX.Element {
-  return <AboutContactModal {...args} conversation={conversationWithAbout} />;
+  return <AboutContactModal {...args} contact={conversationWithAbout} />;
 }
 
 export function SignalConnection(args: PropsType): React.JSX.Element {
@@ -110,11 +168,7 @@ export function SignalConnection(args: PropsType): React.JSX.Element {
 
 export function SystemContact(args: PropsType): React.JSX.Element {
   return (
-    <AboutContactModal
-      {...args}
-      conversation={systemContact}
-      isSignalConnection
-    />
+    <AboutContactModal {...args} contact={systemContact} isSignalConnection />
   );
 }
 
@@ -122,7 +176,8 @@ export function WithSharedGroups(args: PropsType): React.JSX.Element {
   return (
     <AboutContactModal
       {...args}
-      conversation={conversationWithSharedGroups}
+      contact={conversationWithSharedGroups}
+      sharedGroupNames={['Axolotl lovers']}
       isSignalConnection
     />
   );
@@ -132,7 +187,7 @@ export function DirectFromTrustedContact(args: PropsType): React.JSX.Element {
   return (
     <AboutContactModal
       {...args}
-      conversation={conversation}
+      contact={conversation}
       fromOrAddedByTrustedContact
     />
   );

@@ -578,14 +578,95 @@
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "«{name}» بىلەن ئۇچتىن ئۇچقا مەخپىيلەشتۈرۈشنى جەزىملەشتۈرۈش ئۈچۈن، يۇقىرىدىكى نومۇرلارنى ئۇلارنىڭ ئەسۋاپلىرىدىكىلەر بىلەن سېلىشتۇرۇڭ. ئۇلارمۇ سىزنىڭ كودىڭىزنى ئۆزلىرىنىڭ ئەسۋاپلىرى بىلەن سكاننېرلىيالايدۇ."
   },
+  "icu:SafetyNumberViewer__hint-v2": {
+    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+  },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "تەپسىلاتى"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__title": {
+    "messageformat": "Automatic key verification"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
+    "messageformat": "Verify automatically"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--running": {
+    "messageformat": "Verifying encryption..."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
+    "messageformat": "Encryption verified"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
+    "messageformat": "Auto-verification unavailable"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__hint": {
+    "messageformat": "Auto-verification is not available for all chats."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
+    "messageformat": "Learn more"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
+    "messageformat": "Encryption was auto-verified for this chat "
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
+    "messageformat": "Auto-verification is no longer available for this chat"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
+    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
+    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
+    "messageformat": "Okay"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "بۇ كىشى بىلەن ئۇچۇرلاشقاندىن كېيىن بىر بىخەتەرلىك نومۇرى شەكىللىنىدۇ."
   },
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "كۆپرەك ئۆگىنىش"
+  },
+  "icu:KeyTransparencyErrorDialog__Title": {
+    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+  },
+  "icu:KeyTransparencyErrorDialog__Description": {
+    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+  },
+  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Close"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
+    "messageformat": "Share debug log"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
+    "messageformat": "View"
+  },
+  "icu:KeyTransparencyErrorDialog__Submit": {
+    "messageformat": "Submit"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "No thanks"
+  },
+  "icu:KeyTransparencyErrorDialog__Submitting": {
+    "messageformat": "Submitting..."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Title": {
+    "messageformat": "Signal can now auto-verify key encryption"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Continue": {
+    "messageformat": "Continue"
+  },
+  "icu:KeyTransparencyOnboardingDialog__LearnMore": {
+    "messageformat": "Learn more"
+  },
+  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Close"
   },
   "icu:verified": {
     "messageformat": "دەلىللەندى"
@@ -805,6 +886,9 @@
   },
   "icu:whatsNew": {
     "messageformat": "بۇ يېڭىلاشتىكى «{whatsNew}» نى كۆرۈش"
+  },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal پايدا ئالمايدىغان بىر تەشكىلات"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "يېڭىلىقلار"
@@ -1083,10 +1167,10 @@
     "messageformat": "ئۇچۇر"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "مىخلاش"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "ئاجرىتىش"
   },
   "icu:Poll__end-poll": {
     "messageformat": "راي سىناشنى توختىتىش"
@@ -1238,6 +1322,15 @@
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
     "messageformat": "داۋاملاشتۇرۇش"
   },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
+    "messageformat": "غايىب بولۇش ئالدىدىكى ئۇچۇرلارنى مىقلاش"
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
+    "messageformat": "غايىب بولۇش ئالدىدىكى ئۇچۇرلار ۋاقىت خاتىرلىگۈچتىكى ۋاقتى توشقاندا مىقىدىن ئېلىۋېتىلىدۇ ھەمدە سۆھبەتتىن ئۆچۈرۈۋېتىلىدۇ."
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
+    "messageformat": "جەزملە"
+  },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, other {مىقلانغان ئۇچۇرلار}}"
   },
@@ -1251,16 +1344,13 @@
     "messageformat": "تېخىمۇ كۆپ مەشغۇلات"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "ئاجرىتىش"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "«ئۇچۇر»غا ئۆتۈڭ"
   },
   "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
     "messageformat": "بارلىق ئۇچۇرلارنى كۆرۈش"
-  },
-  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Address": {
-    "messageformat": "ئادرېس"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
     "messageformat": "ئۈن ئۇچۇر"
@@ -1270,9 +1360,6 @@
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
     "messageformat": "ھۆججەت"
-  },
-  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Contact": {
-    "messageformat": "ئالاقىداش"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
     "messageformat": "چىقىم"
@@ -1705,6 +1792,15 @@
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "بىكار قىلىش"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
+    "messageformat": "Automatic key verification"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
+    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
+    "messageformat": "Learn More"
   },
   "icu:initialSync": {
     "messageformat": "ئالاقىداش ۋە گۇرۇپپىلارنى ماسقەدەملەۋاتىدۇ"
@@ -2765,8 +2861,14 @@
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "Tenor ئارقىلىق GIF لارنى ئىزدەڭ"
   },
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "‫GIF ئىزدە"
+  },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tenor دىن ئىزدەڭ"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "‫GIF ئىزدە"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF كاتېگورىيەلىرى"
@@ -2812,6 +2914,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "GIF نى ئالدىن كۆرۈش"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "GIPHY قوللىغان"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "ئىزدەشنى تازىلاش"
@@ -4589,6 +4694,9 @@
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "گۇرۇپپا نامى، گۇرۇپپا سۈرىتى، گۇرۇپپا چۈشەندۈرۈشى ۋە ئۇچۇرنىڭ ئۆچۈرۈلۈش ۋاقتىنى تەھرىرلىسە بولىدىغانلارنى تاللاڭ."
   },
+  "icu:ConversationDetails--group-info-info-v2": {
+    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+  },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "كىم ئەزا قوشالايدۇ"
   },
@@ -5166,16 +5274,16 @@
     "messageformat": "ئۇلانمىلار"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "بويىچە رەتلەش"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "بويىچە رەتلەش"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "ۋاقت"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "ھەجىمى"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "مېدىيا يوق"
@@ -5624,6 +5732,24 @@
   "icu:PlaintextExport--Error--DiskPermssions--Detail": {
     "messageformat": "سۆھبەت تارىخىڭىزنى ئېكسپورت قىلغىلى بولمايدۇ، چۈنكى Signalنىڭ ساقلاش دىسكىسىغا ھۆججەت كىرگۈزۈش ھوقۇقى يوق. دىسكىڭىزنىڭ ئىجازەتنامىسىنى ئۆزگەرتىڭ ياكى سىستېما تەڭشىكىڭىزنى يېڭىلاپ ئاندىن قايتا ئېكسپورت قىلىڭ."
   },
+  "icu:LocalBackupExport--ProgressDialog--Header": {
+    "messageformat": "زاپاسنى ئىكسپورتلاش"
+  },
+  "icu:LocalBackupExport--CompleteDialog--Header": {
+    "messageformat": "زاپاسنى ئىكىسپورتلاش تاماملاندى"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
+    "messageformat": "بۇ زاپاسنى ئەسلىگە كەلتۈرۈش ئۈچۈن:"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
+    "messageformat": "زاپاسلاش ھۆججەت قىسقۇچىڭىزنى تېلېفونىڭىزنىڭ ساقلاش ئامبىرىغا يۆتكەڭ"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
+    "messageformat": "تېلېفونىڭىزغا Signalنىڭ يېڭى نۇسخىسىنى قاچىلاڭ"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
+    "messageformat": "«ئەسلىگە كەلتۈرۈش ياكى يۆتكەش»نى چېكىڭ ۋە «ئۈسكۈنىدە زاپاسلاش»نى تاللاڭ"
+  },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "ئاي شەكىللدك سىنبەلگە"
   },
@@ -5980,6 +6106,15 @@
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
     "messageformat": "ئاچقۇچنى قايتا كۆرۈڭ"
+  },
+  "icu:Preferences__local-backups-last-backup": {
+    "messageformat": "ئالدىنقى قېتىملىق زاپاسلاش"
+  },
+  "icu:Preferences__local-backups-last-backup-never": {
+    "messageformat": "ھەرگىز"
+  },
+  "icu:Preferences__local-backups-backup-now": {
+    "messageformat": "ھازىر زاپاسلا"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "زاپاسلاش قىسقۇچى"
@@ -7260,8 +7395,14 @@
   "icu:PreferencesDonations__title": {
     "messageformat": "پايدا ئەمەس، مەخپىيەتلىك مۇھىم"
   },
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "پايدا ئالمايدىغان تەشكىلات بولغانلىقىمىزدىن پەخىرلىنىمىز"
+  },
   "icu:PreferencesDonations__description": {
     "messageformat": "بىخەتەر ئۇچۇرلىشىشنى سىز مەبلەغ بىلەن تەمىنلىگەن. ئېلان يوق ، ئىز قوغلاش يوق ، مۇرەسسە قىلىش يوق. Signalنى قوللاش ئۈچۈن ھازىرلا ئىئانە قىلىڭ. <readMoreLink>تەپسىلاتى</readMoreLink>"
+  },
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "شەخسىي ئۇچۇرلىشىشنى قوللاش ئۈچۈن ئىئانە قىلىڭ. Signalنى مۇستەقىل ۋە ئېلاندىن خالىي قىلىشقا ياردەملىشىڭ. <readMoreLink>تەپسىلاتى</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "ئىئانە قىلىڭ"
@@ -7377,6 +7518,9 @@
   "icu:DonateFlow__discard-dialog-remove-info": {
     "messageformat": "ئۇچۇرنى ئۆچۈرۈش"
   },
+  "icu:DonateFlow__discard-paypal-dialog-body": {
+    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+  },
   "icu:DonateFlow__continue": {
     "messageformat": "داۋاملاشتۇرۇش"
   },
@@ -7422,6 +7566,15 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "دەلىللەشكە ئېھتىياجلىق بىر ئىئانىڭىز بار."
   },
+  "icu:Donations__Toast__PaypalConfirmationNeeded": {
+    "messageformat": "You have a donation in progress that requires confirmation."
+  },
+  "icu:Donations__Toast__PaypalCanceled": {
+    "messageformat": "PayPal donation canceled"
+  },
+  "icu:Donations__Toast__PaypalError": {
+    "messageformat": "Error processing PayPal donation. You have not been charged."
+  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "ئىئانە مۇۋەپپەقىيەتلىك بولدى، ئەمما ئىزنەك تەڭشىكىڭىزنى يېڭىلىيالمىدۇق"
   },
@@ -7437,11 +7590,41 @@
   "icu:Donations__DonationInterrupted__RetryButton": {
     "messageformat": "قايتا سىناڭ"
   },
+  "icu:Donations__PaymentMethod": {
+    "messageformat": "Payment method"
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "پۇل تۆلەش ئۇسۇلى رەت قىلىندى"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "باشقا پۇل تۆلەش ئۇسۇلىنى سىناپ بېقىڭ ياكى تەپسىلاتى ئۈچۈن بانكا بىلەن ئالاقىلىشىڭ."
+  },
+  "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
+    "messageformat": "Payment card icon"
+  },
+  "icu:DonateFlow__CreditOrDebitCard": {
+    "messageformat": "Credit or Debit Card"
+  },
+  "icu:DonateFlow__Paypal__AccessibilityLabel": {
+    "messageformat": "PayPal"
+  },
+  "icu:DonateFlow__Paypal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:DonateFlow__Paypal__CompleteDonation": {
+    "messageformat": "Complete Donation"
+  },
+  "icu:Donations__PaypalCanceled": {
+    "messageformat": "PayPal donation canceled"
+  },
+  "icu:Donations__PaypalCanceled__Description": {
+    "messageformat": "You have not been charged. Try again or use another payment method."
+  },
+  "icu:Donations__PaypalError": {
+    "messageformat": "Error processing PayPal donation"
+  },
+  "icu:Donations__PaypalError__Description": {
+    "messageformat": "You have not been charged. Try again or use another payment method."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "دەلىللىيەلمىدى"
@@ -7581,6 +7764,9 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
     "messageformat": "بۇ ياردەملىشىپ بىزنى تېلېفونلىشىش ۋە نېمىنىڭ ئىشلەۋاتقان ياكى ئىشلىمەيدىغانلىقى توغرىسىدا تېخىمۇ كۆپ چۈشەنچىگە ئىگە قىلىدۇ. يوللاشتىن بۇرۇن كاشىلا ھەل قىلىش خاتىرىڭىزنى كۆرەلەيسىز."
   },
+  "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
+    "messageformat": "يوللاش ئارقىلىق <diagnosticInfoLink>تېلېفونىڭىز ھەققىدىكى دىئاگنوزتىكلىق ئۇچۇرلار</diagnosticInfoLink> سىزنىڭ پىكىر-تەكلىپلىرىڭىز بىلەن بىرلىكتە ئورتاقلىشىلىدۇ. بىزگە ياردەملىشىپ تېلېفونلىشىش سۈپىتىنى ياخشىلاش ئۈچۈن، سىز ئىختىيارىي ھالدا كاشىلا ھەل قىلىش خاتىرىسىنى ئورتاقلىشالايسىز."
+  },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "كاشىلا ھەل قىلىش خاتىرىسىنى ئورتاقلىشىش"
   },
@@ -7589,6 +7775,12 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
     "messageformat": "كاشىلا ھەل قىلىش خاتىرىلىرى تۆۋەن دەرىجىدىكى ئەپ ئۇچۇرلىرىنى ئۆز ئىچىگە ئالغان بولۇپ، پاراڭ مەزمۇنلىرىڭىزنىڭ ھېچقايسىسىنى ئاشكارىلىمايدۇ."
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
+    "messageformat": "بىز بىلەن ئورتاقلاشقان ئۇچۇرلار تۆۋەن دەرىجىلىك ئەپ ئۇچۇرلىرىنى ئۆز ئىچىگە ئالىدۇ ئەمما سىز تېلېفونلاشقاندىكى مەزمۇنلارنى ئۆز ئىچىگە ئالمايدۇ."
+  },
+  "icu:CallDiagnosticWindow__title": {
+    "messageformat": "دىئاگنوستىكلىق ئۇچۇر"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "تاپشۇر"
@@ -7604,6 +7796,9 @@
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
     "messageformat": "ئىنكاسىڭىزغا رەھمەت!"
+  },
+  "icu:Megaphone__ExpandNarrowSidebar": {
+    "messageformat": "مېگافون بىلەن ئالاقە قىلىش ئۈچۈن يان تاختىنى كېڭەيتىڭ"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Signal نىڭ راۋان ئىجرا بولۇشى ئۈچۈن بۇ نەشرىدە بىر قانچە كىچىك ئۆزگەرتىشلەر ئېلىپ بېرىلدى ۋە كاشىلىلار ئوڭشالدى.",
@@ -7633,10 +7828,10 @@
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.84--0": {
-    "messageformat": "ئۈستەل كومپيوتېرىدىكى Signal راي سىناقلىرى ھازىر تېلېفونىڭىزدا ئىلگىرى كۆرۈنگەندىكىگە ئوخشاش نازۇك كارتون ئۈنۈملىرىنى ئۆز ئىچىگە ئالىدۇ. Signal راي سىناقلىرى كارتون ئۈنۈملىرىنىڭ سۈپىتى تېخىمۇ يۇقىرى كۆتۈرۈلدى."
+  "icu:WhatsNew__7.89--0": {
+    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
   },
-  "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+  "icu:WhatsNew__7.89--1": {
+    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
   }
 }

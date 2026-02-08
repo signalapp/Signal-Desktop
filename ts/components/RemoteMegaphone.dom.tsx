@@ -12,6 +12,7 @@ import { offsetDistanceModifier } from '../util/popperUtil.std.js';
 export type PropsType = Omit<RemoteActionableMegaphoneType, 'type'> & {
   isFullSize: boolean;
   i18n: LocalizerType;
+  onClickNarrowMegaphone: () => void;
 };
 
 export function RemoteMegaphone({
@@ -25,6 +26,7 @@ export function RemoteMegaphone({
   secondaryCtaText,
   remoteMegaphoneId,
   isFullSize,
+  onClickNarrowMegaphone,
   onInteractWithMegaphone,
 }: PropsType): React.JSX.Element {
   const isRTL = i18n.getLocaleDirection() === 'rtl';
@@ -37,7 +39,12 @@ export function RemoteMegaphone({
     'bg-elevated-background-primary dark:bg-elevated-background-tertiary'
   );
   const image: React.JSX.Element = (
-    <div className={tw('size-[48px] shrink-0 @min-[88px]:size-[64px]')}>
+    <div
+      className={tw(
+        'size-[48px] shrink-0',
+        isFullSize ? 'size-[64px]' : 'm-auto'
+      )}
+    >
       <img
         alt=""
         className={tw('object-cover')}
@@ -51,7 +58,11 @@ export function RemoteMegaphone({
 
   if (isFullSize) {
     return (
-      <div className={wrapperClassName} aria-live="polite">
+      <div
+        className={wrapperClassName}
+        aria-live="polite"
+        data-testid="RemoteMegaphone"
+      >
         <div className={tw('flex items-start gap-3')}>
           {image}
           <div className={tw('w-full')}>
@@ -96,7 +107,6 @@ export function RemoteMegaphone({
   }
 
   // Narrow collapsed sidebar
-  // TODO: DESKTOP-9540
   const tooltipContent: React.JSX.Element = (
     <div className={tw('text-start text-label-primary')}>
       <h2 className={tw('mt-1 type-body-medium font-semibold')}>{title}</h2>
@@ -108,11 +118,17 @@ export function RemoteMegaphone({
     <Tooltip
       content={tooltipContent}
       className="RemoteMegaphoneTooltip"
-      wrapperClassName={wrapperClassName}
       direction={isRTL ? TooltipPlacement.Left : TooltipPlacement.Right}
       popperModifiers={[offsetDistanceModifier(15)]}
     >
-      <div className={tw('m-auto')}>{image}</div>
+      <button
+        aria-label={i18n('icu:Megaphone__ExpandNarrowSidebar')}
+        className={wrapperClassName}
+        onClick={onClickNarrowMegaphone}
+        type="button"
+      >
+        {image}
+      </button>
     </Tooltip>
   );
 }

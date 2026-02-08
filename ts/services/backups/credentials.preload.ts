@@ -15,7 +15,6 @@ import lodashFp from 'lodash/fp.js';
 import * as Bytes from '../../Bytes.std.js';
 import { createLogger } from '../../logging/log.std.js';
 import { strictAssert } from '../../util/assert.std.js';
-import { drop } from '../../util/drop.std.js';
 import { isMoreRecentThan, toDayMillis } from '../../util/timestamp.std.js';
 import {
   DAY,
@@ -23,7 +22,6 @@ import {
   HOUR,
   MINUTE,
 } from '../../util/durations/index.std.js';
-import { BackOff, FIBONACCI_TIMEOUTS } from '../../util/BackOff.std.js';
 import { missingCaseError } from '../../util/missingCaseError.std.js';
 import {
   type BackupCdnReadCredentialType,
@@ -32,7 +30,6 @@ import {
   type BackupSignedPresentationType,
   BackupCredentialType,
 } from '../../types/backups.node.js';
-import { toLogFormat } from '../../types/errors.std.js';
 import { HTTPError } from '../../types/HTTPError.std.js';
 import type {
   GetBackupCredentialsResponseType,
@@ -55,19 +52,27 @@ import {
   areRemoteBackupsTurnedOn,
   canAttemptRemoteBackupDownload,
 } from '../../util/isBackupEnabled.preload.js';
+import { CheckScheduler } from '../../util/CheckScheduler.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 const { throttle } = lodashFp;
 
 const log = createLogger('Backup.Credentials');
 
-const FETCH_INTERVAL = 3 * DAY;
-
 //  Credentials should be good for 24 hours, but let's play it safe.
 const BACKUP_CDN_READ_CREDENTIALS_VALID_DURATION = 12 * HOUR;
 
 export class BackupCredentials {
   #activeFetch: Promise<ReadonlyArray<BackupCredentialWrapperType>> | undefined;
+
+  #scheduler = new CheckScheduler({
+    name: 'BackupCredentials',
+    interval: 3 * DAY,
+    storageKey: 'backupCombinedCredentialsLastRequestTime',
+    callback: async () => {
+      await this.#fetch();
+    },
+  });
 
   #cachedCdnReadCredentials: Record<
     BackupCredentialType,
@@ -77,8 +82,6 @@ export class BackupCredentials {
     [BackupCredentialType.Messages]: {},
   };
 
-  readonly #fetchBackoff = new BackOff(FIBONACCI_TIMEOUTS);
-
   // Throttle credential clearing to avoid loops
   public readonly onCdnCredentialError = throttle(5 * MINUTE, () => {
     log.warn('onCdnCredentialError: clearing cache');
@@ -86,7 +89,7 @@ export class BackupCredentials {
   });
 
   public start(): void {
-    this.#scheduleFetch();
+    this.#scheduler.start();
   }
 
   public async getForToday(
@@ -199,38 +202,6 @@ export class BackupCredentials {
     };
 
     return newCredentials;
-  }
-
-  #scheduleFetch(): void {
-    const lastFetchAt = itemStorage.get(
-      'backupCombinedCredentialsLastRequestTime',
-      0
-    );
-    const nextFetchAt = lastFetchAt + FETCH_INTERVAL;
-    const delay = Math.max(0, nextFetchAt - Date.now());
-
-    log.info(`scheduling fetch in ${delay}ms`);
-    setTimeout(() => drop(this.#runPeriodicFetch()), delay);
-  }
-
-  async #runPeriodicFetch(): Promise<void> {
-    try {
-      log.info('running periodic fetch');
-      await this.#fetch();
-
-      const now = Date.now();
-      await itemStorage.put('backupCombinedCredentialsLastRequestTime', now);
-
-      this.#fetchBackoff.reset();
-      this.#scheduleFetch();
-    } catch (error) {
-      const delay = this.#fetchBackoff.getAndIncrement();
-      log.error(
-        'periodic fetch failed with ' +
-          `error: ${toLogFormat(error)}, retrying in ${delay}ms`
-      );
-      setTimeout(() => this.#scheduleFetch(), delay);
-    }
   }
 
   async #fetch(): Promise<ReadonlyArray<BackupCredentialWrapperType>> {

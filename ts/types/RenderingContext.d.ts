@@ -6,5 +6,6 @@ export type RenderingContextType =
   | 'StoryViewsNRepliesModal'
   | 'conversation/MessageDetail'
   | 'conversation/TimelineItem'
+  | 'ConversationDetails/GroupMemberLabelEditor'
   | 'AllMedia'
   | 'storybook';

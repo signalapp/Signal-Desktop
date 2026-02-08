@@ -74,7 +74,6 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   onClickBadge: action('onClickBadge'),
   phoneNumber: overrideProps.phoneNumber || '',
   searchResult: Boolean(overrideProps.searchResult),
-  sharedGroupNames: [],
   size: 80,
   title: overrideProps.title || '',
   theme: overrideProps.theme || ThemeType.light,

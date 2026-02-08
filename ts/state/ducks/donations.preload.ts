@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReadonlyDeep } from 'type-fest';
+import type { ReadonlyDeep, Simplify } from 'type-fest';
 import type { ThunkAction } from 'redux-thunk';
 
 import { useBoundActions } from '../../hooks/useBoundActions.std.js';
@@ -10,7 +10,10 @@ import * as Errors from '../../types/errors.std.js';
 import { isStagingServer } from '../../util/isStagingServer.dom.js';
 import { DataWriter } from '../../sql/Client.preload.js';
 import * as donations from '../../services/donations.preload.js';
-import { donationStateSchema } from '../../types/Donations.std.js';
+import {
+  donationStateSchema,
+  DonationProcessor,
+} from '../../types/Donations.std.js';
 import { drop } from '../../util/drop.std.js';
 import { storageServiceUploadJob } from '../../services/storage.preload.js';
 import { getMe } from '../selectors/conversations.dom.js';
@@ -31,6 +34,7 @@ import type {
 import type { BadgeType } from '../../badges/types.std.js';
 import type { StateType as RootStateType } from '../reducer.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { missingCaseError } from '../../util/missingCaseError.std.js';
 
 const log = createLogger('donations');
 
@@ -144,17 +148,58 @@ function resumeWorkflow(): ThunkAction<
   };
 }
 
-export type SubmitDonationType = ReadonlyDeep<{
+type SubmitDonationData = ReadonlyDeep<{
   currencyType: string;
   paymentAmount: StripeDonationAmount;
-  paymentDetail: CardDetail;
 }>;
 
-function submitDonation({
+type SubmitStripeDonationData = ReadonlyDeep<
+  SubmitDonationData & {
+    paymentDetail: CardDetail;
+  }
+>;
+
+export type SubmitDonationType = Simplify<
+  ReadonlyDeep<
+    | ({ processor: DonationProcessor.Stripe } & SubmitStripeDonationData)
+    | ({ processor: DonationProcessor.Paypal } & SubmitDonationData)
+  >
+>;
+
+function submitDonation(
+  data: SubmitDonationType
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  UpdateWorkflowAction | UpdateLastErrorAction
+> {
+  const { currencyType, paymentAmount, processor } = data;
+
+  if (processor === DonationProcessor.Stripe) {
+    const { paymentDetail } = data;
+    return _submitStripeDonation({
+      currencyType,
+      paymentAmount,
+      paymentDetail,
+    });
+  }
+
+  if (processor === DonationProcessor.Paypal) {
+    return _submitPaypalDonation({
+      currencyType,
+      paymentAmount,
+    });
+  }
+
+  throw missingCaseError(processor);
+}
+
+function _submitStripeDonation({
   currencyType,
   paymentAmount,
   paymentDetail,
-}: SubmitDonationType): ThunkAction<
+}: SubmitStripeDonationData): ThunkAction<
   void,
   RootStateType,
   unknown,
@@ -171,7 +216,7 @@ function submitDonation({
         // we can proceed without starting afresh
       } else {
         await donations.clearDonation();
-        await donations.startDonation({
+        await donations.startStripeDonation({
           currencyType,
           paymentAmount,
         });
@@ -179,7 +224,33 @@ function submitDonation({
 
       await donations.finishDonationWithCard(paymentDetail);
     } catch (error) {
-      log.error('submitDonation failed', Errors.toLogFormat(error));
+      log.error('_submitStripeDonation failed', Errors.toLogFormat(error));
+      dispatch({
+        type: UPDATE_LAST_ERROR,
+        payload: { lastError: 'GeneralError' },
+      });
+    }
+  };
+}
+
+function _submitPaypalDonation({
+  currencyType,
+  paymentAmount,
+}: SubmitDonationData): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  UpdateWorkflowAction | UpdateLastErrorAction
+> {
+  return async dispatch => {
+    try {
+      await donations.clearDonation();
+      await donations.startPaypalDonation({
+        currencyType,
+        paymentAmount,
+      });
+    } catch (error) {
+      log.error('_submitPaypalDonation failed', Errors.toLogFormat(error));
       dispatch({
         type: UPDATE_LAST_ERROR,
         payload: { lastError: 'GeneralError' },

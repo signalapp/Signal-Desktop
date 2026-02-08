@@ -578,14 +578,95 @@
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "ដើម្បីផ្ទៀងផ្ទាត់ការអ៊ីនគ្រីបទាំងសងខាងជាមួយ {name} សូមប្រៀបធៀបលេខខាងលើជាមួយឧបករណ៍របស់ពួកគេ។ ពួកគេក៏អាចស្គែនកូដរបស់អ្នកដោយប្រើឧបករណ៍របស់ពួកគេផងដែរ។"
   },
+  "icu:SafetyNumberViewer__hint-v2": {
+    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+  },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "ស្វែងយល់បន្ថែម"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__title": {
+    "messageformat": "Automatic key verification"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
+    "messageformat": "Verify automatically"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--running": {
+    "messageformat": "Verifying encryption..."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
+    "messageformat": "Encryption verified"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
+    "messageformat": "Auto-verification unavailable"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__hint": {
+    "messageformat": "Auto-verification is not available for all chats."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
+    "messageformat": "Learn more"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
+    "messageformat": "Encryption was auto-verified for this chat "
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
+    "messageformat": "Auto-verification is no longer available for this chat"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
+    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
+    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
+    "messageformat": "Okay"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "លេខសុវត្ថិភាពមួយនឹងត្រូវបានបង្កើតឡើងជាមួយបុគ្គលនេះ បន្ទាប់ពីអ្នកផ្ញើសារទៅវិញទៅមកជាមួយគេ។"
   },
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "សិក្សាបន្ថែម"
+  },
+  "icu:KeyTransparencyErrorDialog__Title": {
+    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+  },
+  "icu:KeyTransparencyErrorDialog__Description": {
+    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+  },
+  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Close"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
+    "messageformat": "Share debug log"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
+    "messageformat": "View"
+  },
+  "icu:KeyTransparencyErrorDialog__Submit": {
+    "messageformat": "Submit"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "No thanks"
+  },
+  "icu:KeyTransparencyErrorDialog__Submitting": {
+    "messageformat": "Submitting..."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Title": {
+    "messageformat": "Signal can now auto-verify key encryption"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Continue": {
+    "messageformat": "Continue"
+  },
+  "icu:KeyTransparencyOnboardingDialog__LearnMore": {
+    "messageformat": "Learn more"
+  },
+  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Close"
   },
   "icu:verified": {
     "messageformat": "បានផ្ទៀងផ្ទាត់"
@@ -805,6 +886,9 @@
   },
   "icu:whatsNew": {
     "messageformat": "មើល {whatsNew} នៅក្នុងការធ្វើបច្ចុប្បន្នភាពនេះ"
+  },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal គឺជាអង្គការមិនស្វែងរកប្រាក់ចំណេញ"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "អ្វីដែលថ្មី"
@@ -1083,10 +1167,10 @@
     "messageformat": "ព័ត៌មាន"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Pin"
+    "messageformat": "ខ្ទាស់"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "ឈប់ខ្ទាស់"
   },
   "icu:Poll__end-poll": {
     "messageformat": "បញ្ចប់ការស្ទង់មតិ"
@@ -1238,6 +1322,15 @@
   "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
     "messageformat": "បន្ត"
   },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
+    "messageformat": "ខ្ទាស់សារដែលបាត់ដោយស្វ័យប្រវត្តិ"
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
+    "messageformat": "សារដែលបាត់ដោយស្វ័យប្រវត្តិនឹងឈប់ខ្ទាស់ នៅពេលមុខងារកំណត់ម៉ោងរបស់វាផុតកំណត់ ហើយសារត្រូវបានដកចេញពីការជជែក។"
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
+    "messageformat": "យល់ព្រម"
+  },
   "icu:PinnedMessagesBar__AccessibilityLabel": {
     "messageformat": "{pinsCount, plural, other {សារដែលបានខ្ទាស់}}"
   },
@@ -1251,16 +1344,13 @@
     "messageformat": "សកម្មភាពច្រើនទៀត"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Unpin"
+    "messageformat": "ឈប់ខ្ទាស់"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "ចូលទៅកាន់សារ"
   },
   "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
     "messageformat": "មើលសារទាំងអស់"
-  },
-  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Address": {
-    "messageformat": "អាសយដ្ឋាន"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
     "messageformat": "សារសំឡេង"
@@ -1270,9 +1360,6 @@
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
     "messageformat": "ឯកសារ"
-  },
-  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Contact": {
-    "messageformat": "ទំនាក់ទំនង"
   },
   "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
     "messageformat": "ការបង់ប្រាក់"
@@ -1705,6 +1792,15 @@
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "បោះបង់"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
+    "messageformat": "Automatic key verification"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
+    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
+    "messageformat": "Learn More"
   },
   "icu:initialSync": {
     "messageformat": "កំពុងចម្លងបញ្ជីទំនាក់ទំនង និងក្រុម"
@@ -2765,8 +2861,14 @@
   "icu:FunPanelGifs__SearchLabel--Tenor": {
     "messageformat": "ស្វែងរករូបចលនាតាមរយៈ Tenor"
   },
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "ស្វែងរក GIFs"
+  },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "ស្វែងរកតាម Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "ស្វែងរក GIFs"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "ប្រភេទរូបចលនា"
@@ -2812,6 +2914,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "ការមើលរូបចលនាជាមុន"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "ដំណើរការដោយ GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "លុបការស្វែងរក"
@@ -4589,6 +4694,9 @@
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "ជ្រើសរើសអ្នកដែលអាចកែឈ្មោះ រូបថត ការពណ៌នារបស់ក្រុម និងកម្មវិធីកំណត់ពេលសារដែលបាត់ដោយស្វ័យប្រវត្តិ។"
   },
+  "icu:ConversationDetails--group-info-info-v2": {
+    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+  },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "អ្នកដែលអាចបញ្ចូលសមាជិក"
   },
@@ -5166,16 +5274,16 @@
     "messageformat": "តំណ"
   },
   "icu:MediaGallery__sort": {
-    "messageformat": "Sort by"
+    "messageformat": "តម្រៀបតាម"
   },
   "icu:MediaGallery__sort--header": {
-    "messageformat": "Sort by"
+    "messageformat": "តម្រៀបតាម"
   },
   "icu:MediaGallery__sort__date": {
-    "messageformat": "Date"
+    "messageformat": "កាលបរិច្ឆេទ"
   },
   "icu:MediaGallery__sort__size": {
-    "messageformat": "Size"
+    "messageformat": "ទំហំ"
   },
   "icu:MediaGallery__EmptyState__title--media": {
     "messageformat": "គ្មានមេឌៀ"
@@ -5624,6 +5732,24 @@
   "icu:PlaintextExport--Error--DiskPermssions--Detail": {
     "messageformat": "ប្រវត្តិជជែករបស់អ្នកមិនអាចនាំចេញបានទេព្រោះ Signal មិនមានការអនុញ្ញាតឱ្យសរសេរឯកសារទៅឌីសទេ។ សាកល្បងផ្លាស់ប្តូរការអនុញ្ញាតនៃឌីសរបស់អ្នក ឬធ្វើបច្ចុប្បន្នភាពការកំណត់ប្រព័ន្ធរបស់អ្នក រួចនាំចេញម្តងទៀត។"
   },
+  "icu:LocalBackupExport--ProgressDialog--Header": {
+    "messageformat": "កំពុងនាំចេញការបម្រុងទុក"
+  },
+  "icu:LocalBackupExport--CompleteDialog--Header": {
+    "messageformat": "ការនាំចេញការបម្រុងទុកបានបញ្ចប់"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
+    "messageformat": "ដើម្បីស្ដារការបម្រុងទុកនេះ៖"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
+    "messageformat": "ផ្ទេរថតឯកសារបម្រុងទុករបស់អ្នកទៅកាន់កន្លែងផ្ទុកទិន្នន័យទូរសព្ទរបស់អ្នក"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
+    "messageformat": "ដំឡើងច្បាប់ចម្លងថ្មីរបស់ Signal នៅលើទូរសព្ទរបស់អ្នក"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
+    "messageformat": "ចុច “ស្តារ ឬផ្ទេរ” ហើយជ្រើសរើស ”នៅលើការបម្រុងទុកឧបករណ៍”"
+  },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "រូបព្រះចន្ទ"
   },
@@ -5980,6 +6106,15 @@
   },
   "icu:Preferences--local-backups-see-backup-key-again": {
     "messageformat": "មើលសោម្តងទៀត"
+  },
+  "icu:Preferences__local-backups-last-backup": {
+    "messageformat": "ការបម្រុងទុកចុងក្រោយ"
+  },
+  "icu:Preferences__local-backups-last-backup-never": {
+    "messageformat": "មិនធ្លាប់"
+  },
+  "icu:Preferences__local-backups-backup-now": {
+    "messageformat": "បម្រុងទុកឥឡូវនេះ"
   },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "ថតឯកសារបម្រុងទុក"
@@ -7260,8 +7395,14 @@
   "icu:PreferencesDonations__title": {
     "messageformat": "ឯកជនភាពធំជាងប្រាក់ចំណេញ"
   },
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "មោទនភាពជាស្ថាប័នមិនរកប្រាក់ចំណេញ"
+  },
   "icu:PreferencesDonations__description": {
     "messageformat": "ការផ្ញើសារលក្ខណៈឯកជនទទួលបានមូលនិធិពីអ្នក។ គ្មានការផ្សាយពាណិជ្ជកម្ម គ្មានការតាមដាន គ្មានការប៉ះពាល់។ បរិច្ចាគឥឡូវនេះដើម្បីគាំទ្រ Signal។ <readMoreLink>អានបន្ថែម</readMoreLink>"
+  },
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "បរិច្ចាគដើម្បីគាំទ្រការផ្ញើសារឯកជន។ រក្សា Signal ឱ្យឯករាជ្យ និងគ្មានការផ្សាយពាណិជ្ជកម្ម។ <readMoreLink>អានបន្ថែម</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "បរិច្ចាគ"
@@ -7377,6 +7518,9 @@
   "icu:DonateFlow__discard-dialog-remove-info": {
     "messageformat": "លុបព័ត៌មាន"
   },
+  "icu:DonateFlow__discard-paypal-dialog-body": {
+    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+  },
   "icu:DonateFlow__continue": {
     "messageformat": "បន្ត"
   },
@@ -7422,6 +7566,15 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "អ្នកមានការបរិច្ចាគមួយដែលកំពុងដំណើរការដែលត្រូវការការបញ្ជាក់។"
   },
+  "icu:Donations__Toast__PaypalConfirmationNeeded": {
+    "messageformat": "You have a donation in progress that requires confirmation."
+  },
+  "icu:Donations__Toast__PaypalCanceled": {
+    "messageformat": "PayPal donation canceled"
+  },
+  "icu:Donations__Toast__PaypalError": {
+    "messageformat": "Error processing PayPal donation. You have not been charged."
+  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "ការបរិច្ចាគបានជោគជ័យ ប៉ុន្តែយើងមិនអាចធ្វើបច្ចុប្បន្នភាពការកំណត់ស្លាករបស់អ្នកបានទេ"
   },
@@ -7437,11 +7590,41 @@
   "icu:Donations__DonationInterrupted__RetryButton": {
     "messageformat": "ព្យាយាមម្តងទៀត"
   },
+  "icu:Donations__PaymentMethod": {
+    "messageformat": "Payment method"
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "វិធីទូទាត់ត្រូវបានបដិសេធ"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "សូមសាកល្បងវិធីទូទាត់មួយផ្សេងទៀត ឬទាក់ទងធនាគាររបស់អ្នកសម្រាប់ព័ត៌មានបន្ថែម។"
+  },
+  "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
+    "messageformat": "Payment card icon"
+  },
+  "icu:DonateFlow__CreditOrDebitCard": {
+    "messageformat": "Credit or Debit Card"
+  },
+  "icu:DonateFlow__Paypal__AccessibilityLabel": {
+    "messageformat": "PayPal"
+  },
+  "icu:DonateFlow__Paypal__Cancel": {
+    "messageformat": "Cancel"
+  },
+  "icu:DonateFlow__Paypal__CompleteDonation": {
+    "messageformat": "Complete Donation"
+  },
+  "icu:Donations__PaypalCanceled": {
+    "messageformat": "PayPal donation canceled"
+  },
+  "icu:Donations__PaypalCanceled__Description": {
+    "messageformat": "You have not been charged. Try again or use another payment method."
+  },
+  "icu:Donations__PaypalError": {
+    "messageformat": "Error processing PayPal donation"
+  },
+  "icu:Donations__PaypalError__Description": {
+    "messageformat": "You have not been charged. Try again or use another payment method."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "ការផ្ទៀងផ្ទាត់មិនបានជោគជ័យ"
@@ -7581,6 +7764,9 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
     "messageformat": "វាជួយយើងឱ្យស្វែងយល់បន្ថែមអំពីការហៅទូរសព្ទ និងអ្វីដែលដំណើរការ ឬមិនដំណើរការ។ អ្នកអាចមើលកំណត់ត្រាបញ្ហារបស់អ្នកមុនពេលដាក់បញ្ជូន។"
   },
+  "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
+    "messageformat": "ការដាក់បញ្ជូននឹងចែករំលែកមតិកែលម្អរបស់អ្នករួមជាមួយ<diagnosticInfoLink>ព័ត៌មានវិនិច្ឆយអំពីការហៅទូរសព្ទរបស់អ្នក</diagnosticInfoLink>។ ជាជម្រើស អ្នកអាចចែករំលែកកំណត់ត្រាបញ្ហាដើម្បីជួយយើងកែលម្អគុណភាពនៃការហៅទូរសព្ទ។"
+  },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "ចែករំលែកកំណត់ត្រាបញ្ហា"
   },
@@ -7589,6 +7775,12 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
     "messageformat": "កំណត់ត្រាបញ្ហាមានព័ត៌មានកម្មវិធីកម្រិតទាប ហើយមិនបង្ហាញខ្លឹមសារនៃសារណាមួយរបស់អ្នកទេ។"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
+    "messageformat": "ព័ត៌មានដែលបានចែករំលែកជាមួយយើងមានព័ត៌មានកម្មវិធីកម្រិតទាប ហើយមិនរាប់បញ្ចូលខ្លឹមសារនៃការហៅទូរសព្ទរបស់អ្នកទេ។"
+  },
+  "icu:CallDiagnosticWindow__title": {
+    "messageformat": "ព័ត៌មានវិនិច្ឆយ"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
     "messageformat": "ដាក់បញ្ជូន"
@@ -7604,6 +7796,9 @@
   },
   "icu:CallQualitySurvey__SubmissionSuccess": {
     "messageformat": "សូមអរគុណចំពោះមតិកែលម្អរបស់អ្នក!"
+  },
+  "icu:Megaphone__ExpandNarrowSidebar": {
+    "messageformat": "ពង្រីករបារចំហៀងដើម្បីធ្វើអន្តរកម្មជាមួយមេហ្គាហ្វូន"
   },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "កំណែ​នេះ​មាន​ការ​កែ​សម្រួល និង​ការកែបញ្ហាតូចៗ​មួយ​ចំនួន ដើម្បី​ឲ្យ​ Signal បន្ត​ដំណើរការ​ដោយ​រលូន។",
@@ -7633,10 +7828,10 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.84--0": {
-    "messageformat": "ការស្ទង់មតិ Signal នៅលើ Desktop ឥឡូវនេះរួមបញ្ចូលបែបផែនចលនាស្រាលៗដូចគ្នាដែលបានបង្ហាញរួចហើយនៅលើទូរសព្ទរបស់អ្នក។ ការបោះឆ្នោតរបស់អ្នកនៅក្នុងការស្ទង់មតិអាចជួយឱ្យជម្រើសដែលអ្នកចូលចិត្ត ឈ្នះគេឬអត់បាន។"
+  "icu:WhatsNew__7.89--0": {
+    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
   },
-  "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly."
+  "icu:WhatsNew__7.89--1": {
+    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
   }
 }

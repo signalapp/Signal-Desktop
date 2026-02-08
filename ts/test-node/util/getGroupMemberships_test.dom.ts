@@ -56,6 +56,8 @@ describe('getGroupMemberships', () => {
           {
             aci: generateAci(),
             isAdmin: true,
+            labelEmoji: undefined,
+            labelString: undefined,
           },
         ],
       };
@@ -74,6 +76,8 @@ describe('getGroupMemberships', () => {
           {
             aci: normalizeAci(unregisteredConversation.serviceId, 'test'),
             isAdmin: true,
+            labelEmoji: undefined,
+            labelString: 'Task Wrangler',
           },
         ],
       };
@@ -87,6 +91,8 @@ describe('getGroupMemberships', () => {
       assert.deepEqual(result[0], {
         isAdmin: true,
         member: unregisteredConversation,
+        labelEmoji: undefined,
+        labelString: 'Task Wrangler',
       });
     });
 
@@ -96,10 +102,14 @@ describe('getGroupMemberships', () => {
           {
             aci: normalizeAci(normalConversation2.serviceId, 'test'),
             isAdmin: false,
+            labelEmoji: undefined,
+            labelString: undefined,
           },
           {
             aci: normalizeAci(normalConversation1.serviceId, 'test'),
             isAdmin: true,
+            labelEmoji: '✅',
+            labelString: 'Task Wrangler',
           },
         ],
       };
@@ -113,10 +123,14 @@ describe('getGroupMemberships', () => {
       assert.deepEqual(result[0], {
         isAdmin: false,
         member: normalConversation2,
+        labelEmoji: undefined,
+        labelString: undefined,
       });
       assert.deepEqual(result[1], {
         isAdmin: true,
         member: normalConversation1,
+        labelEmoji: '✅',
+        labelString: 'Task Wrangler',
       });
     });
   });

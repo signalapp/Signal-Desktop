@@ -16,10 +16,13 @@ import type { ConversationType } from '../../../state/ducks/conversations.preloa
 import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.preload.js';
 import { PanelRow } from './PanelRow.dom.js';
 import { PanelSection } from './PanelSection.dom.js';
+import { GroupMemberLabel } from '../ContactName.dom.js';
 
 export type GroupV2Membership = {
   isAdmin: boolean;
   member: ConversationType;
+  labelEmoji: string | undefined;
+  labelString: string | undefined;
 };
 
 export type Props = {
@@ -29,6 +32,7 @@ export type Props = {
   i18n: LocalizerType;
   maxShownMemberCount?: number;
   memberships: ReadonlyArray<GroupV2Membership>;
+  memberColors: Map<string, string>;
   showContactModal: (contactId: string, conversationId?: string) => void;
   startAddingNewMembers?: () => void;
   theme: ThemeType;
@@ -79,6 +83,7 @@ export function ConversationDetailsMembershipList({
   getPreferredBadge,
   i18n,
   maxShownMemberCount = 5,
+  memberColors,
   memberships,
   showContactModal,
   startAddingNewMembers,
@@ -109,26 +114,50 @@ export function ConversationDetailsMembershipList({
           onClick={() => startAddingNewMembers?.()}
         />
       )}
-      {sortedMemberships.slice(0, membersToShow).map(({ isAdmin, member }) => (
-        <PanelRow
-          key={member.id}
-          onClick={() => showContactModal(member.id, conversationId)}
-          icon={
-            <Avatar
-              conversationType="direct"
-              badge={getPreferredBadge(member.badges)}
-              i18n={i18n}
-              size={AvatarSize.THIRTY_TWO}
-              theme={theme}
-              {...member}
+      {sortedMemberships
+        .slice(0, membersToShow)
+        .map(({ isAdmin, member, labelEmoji, labelString }) => {
+          const contactNameColor = memberColors.get(member.id);
+
+          return (
+            <PanelRow
+              key={member.id}
+              onClick={() => showContactModal(member.id, conversationId)}
+              icon={
+                <Avatar
+                  conversationType="direct"
+                  badge={getPreferredBadge(member.badges)}
+                  i18n={i18n}
+                  size={AvatarSize.THIRTY_SIX}
+                  theme={theme}
+                  {...member}
+                />
+              }
+              label={
+                <div>
+                  <div>
+                    <Emojify
+                      text={member.isMe ? i18n('icu:you') : member.title}
+                    />
+                  </div>
+                  {labelString && contactNameColor && (
+                    <div>
+                      <GroupMemberLabel
+                        contactNameColor={contactNameColor}
+                        contactLabel={{
+                          labelEmoji,
+                          labelString,
+                        }}
+                        context="list"
+                      />
+                    </div>
+                  )}
+                </div>
+              }
+              right={isAdmin ? i18n('icu:GroupV2--admin') : ''}
             />
-          }
-          label={
-            <Emojify text={member.isMe ? i18n('icu:you') : member.title} />
-          }
-          right={isAdmin ? i18n('icu:GroupV2--admin') : ''}
-        />
-      ))}
+          );
+        })}
       {showAllMembers === false && shouldHideRestMembers && (
         <PanelRow
           className="ConversationDetails-membership-list--show-all"
