@@ -19,12 +19,14 @@ import type { LocalizerType } from '../types/Util.std.js';
 export function useConfirmDiscard({
   i18n,
   bodyText,
+  cancelText,
   discardText,
   name,
   tryClose,
 }: {
   i18n: LocalizerType;
   bodyText?: string;
+  cancelText?: string;
   discardText?: string;
   name: string;
   tryClose?: React.MutableRefObject<(() => void) | undefined>;
@@ -34,12 +36,13 @@ export function useConfirmDiscard({
 ] {
   const [props, setProps] = useState<Omit<
     ConfirmDialogProps,
-    'i18n' | 'bodyText' | 'discardText'
+    'i18n' | 'bodyText' | 'cancelText' | 'discardText'
   > | null>(null);
   const confirmElement = props ? (
     <ConfirmDiscardDialog
       i18n={i18n}
       bodyText={bodyText}
+      cancelText={cancelText}
       discardText={discardText}
       {...props}
     />
