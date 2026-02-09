@@ -3,13 +3,14 @@
 
 import { Dialog } from 'radix-ui';
 import type { CSSProperties, FC, ReactNode } from 'react';
-import React, { memo, useMemo } from 'react';
+import React, { memo, useMemo, useState } from 'react';
 import { AxoBaseDialog } from './_internal/AxoBaseDialog.dom.js';
 import type { AxoSymbol } from './AxoSymbol.dom.js';
 import { tw } from './tw.dom.js';
 import { AxoScrollArea } from './AxoScrollArea.dom.js';
 import { AxoButton } from './AxoButton.dom.js';
 import { AxoIconButton } from './AxoIconButton.dom.js';
+import { AxoTooltip } from './AxoTooltip.dom.js';
 
 const Namespace = 'AxoDialog';
 
@@ -81,6 +82,7 @@ export namespace AxoDialog {
   export const Content: FC<ContentProps> = memo(props => {
     const sizeConfig = ContentSizes[props.size];
     const handleContentEscapeEvent = useContentEscapeBehavior(props.escape);
+    const [boundary, setBoundary] = useState<Element | null>(null);
 
     const descriptionProps = useMemo((): Dialog.DialogContentProps => {
       if (props.disableMissingAriaDescriptionWarning) {
@@ -95,18 +97,21 @@ export namespace AxoDialog {
     return (
       <Dialog.Portal>
         <Dialog.Overlay className={AxoBaseDialog.overlayStyles}>
-          <Dialog.Content
-            className={AxoBaseDialog.contentStyles}
-            onEscapeKeyDown={handleContentEscapeEvent}
-            onInteractOutside={handleContentEscapeEvent}
-            style={{
-              width: sizeConfig.width,
-              minWidth: 320,
-            }}
-            {...descriptionProps}
-          >
-            {props.children}
-          </Dialog.Content>
+          <AxoTooltip.CollisionBoundary boundary={boundary} padding={4}>
+            <Dialog.Content
+              ref={setBoundary}
+              className={AxoBaseDialog.contentStyles}
+              onEscapeKeyDown={handleContentEscapeEvent}
+              onInteractOutside={handleContentEscapeEvent}
+              style={{
+                width: sizeConfig.width,
+                minWidth: 320,
+              }}
+              {...descriptionProps}
+            >
+              {props.children}
+            </Dialog.Content>
+          </AxoTooltip.CollisionBoundary>
         </Dialog.Overlay>
       </Dialog.Portal>
     );
@@ -182,7 +187,8 @@ export namespace AxoDialog {
           size="sm"
           variant="borderless-secondary"
           symbol="chevron-[start]"
-          aria-label={props['aria-label']}
+          label={props['aria-label']}
+          tooltip={false}
           onClick={props.onClick}
         />
       </div>
@@ -208,7 +214,8 @@ export namespace AxoDialog {
             size="sm"
             variant="borderless-secondary"
             symbol="x"
-            aria-label={props['aria-label']}
+            label={props['aria-label']}
+            tooltip={false}
           />
         </Dialog.Close>
       </div>
@@ -409,7 +416,7 @@ export namespace AxoDialog {
   export type IconActionVariant = 'primary' | 'destructive' | 'secondary';
 
   export type IconActionProps = Readonly<{
-    'aria-label': string;
+    label: string;
     variant: ActionVariant;
     symbol: AxoSymbol.IconName;
     onClick: () => void;
@@ -418,7 +425,7 @@ export namespace AxoDialog {
   export const IconAction: FC<IconActionProps> = memo(props => {
     return (
       <AxoIconButton.Root
-        aria-label={props['aria-label']}
+        label={props.label}
         variant={props.variant}
         size="md"
         symbol={props.symbol}

@@ -61,7 +61,6 @@ export namespace ExperimentalAxoBadge {
 
   let cachedNumberFormat: Intl.NumberFormat;
 
-  // eslint-disable-next-line no-inner-declarations
   function formatBadgeCount(
     value: number,
     max: number,

@@ -72,7 +72,7 @@ function Template(props: {
           <AxoDialog.Actions>
             {props.iconAction ? (
               <AxoDialog.IconAction
-                aria-label="Send"
+                label="Send message"
                 variant="primary"
                 symbol="send-fill"
                 onClick={action('onSend')}
@@ -121,7 +121,7 @@ export function Large(): React.JSX.Element {
 export function IconAction(): React.JSX.Element {
   return (
     <Template contentSize="sm" iconAction>
-      {TEXT_SHORT}
+      {TEXT_LONG}
     </Template>
   );
 }
