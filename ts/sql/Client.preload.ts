@@ -17,7 +17,7 @@ import { deleteExternalFiles } from '../types/Conversation.node.js';
 import { createBatcher } from '../util/batcher.std.js';
 import { assertDev, softAssert } from '../util/assert.std.js';
 import { mapObjectWithSpec } from '../util/mapObjectWithSpec.std.js';
-import { deleteAttachmentData } from '../util/migrations.preload.js';
+import { maybeDeleteAttachmentFile } from '../util/migrations.preload.js';
 import { cleanDataForIpc } from './cleanDataForIpc.std.js';
 import createTaskWithTimeout from '../textsecure/TaskWithTimeout.std.js';
 import { isValidUuid, isValidUuidV7 } from '../util/isValidUuid.std.js';
@@ -66,6 +66,7 @@ import type {
   StoredKyberPreKeyType,
   ClientOnlyReadableInterface,
   ClientOnlyWritableInterface,
+  RemoveMessageOptions,
 } from './Interface.std.js';
 import { AttachmentDownloadSource } from './Interface.std.js';
 import type { MessageAttributesType } from '../model-types.d.ts';
@@ -132,8 +133,8 @@ const clientOnlyWritable: ClientOnlyWritableInterface = {
   updateConversation,
   removeConversation,
 
-  removeMessage,
-  removeMessages,
+  removeMessageById,
+  removeMessagesById,
 
   saveMessage,
   saveMessages,
@@ -560,7 +561,7 @@ async function removeConversation(id: string): Promise<void> {
   if (existing) {
     await writableChannel.removeConversation(id);
     await deleteExternalFiles(existing, {
-      deleteAttachmentData,
+      deleteAttachmentData: maybeDeleteAttachmentFile,
     });
   }
 }
@@ -691,67 +692,30 @@ async function saveMessagesIndividually(
   return result;
 }
 
-async function removeMessage(
-  id: string,
-  options: {
-    cleanupMessages: (
-      messages: ReadonlyArray<MessageAttributesType>,
-      options: { fromSync?: boolean }
-    ) => Promise<void>;
-    fromSync?: boolean;
-  }
-): Promise<void> {
-  const message = await readableChannel.getMessageById(id);
-
-  // Note: It's important to have a fully database-hydrated model to delete here because
-  //   it needs to delete all associated on-disk files along with the database delete.
-  if (message) {
-    await writableChannel.removeMessage(id);
-    await options.cleanupMessages([message], {
-      fromSync: options.fromSync,
-    });
-  }
+async function removeMessageById(
+  messageId: string,
+  options: RemoveMessageOptions
+) {
+  return removeMessagesById([messageId], options);
 }
 
-export async function deleteAndCleanup(
-  messages: Array<MessageAttributesType>,
-  logId: string,
-  options: {
-    fromSync?: boolean;
-    cleanupMessages: (
-      messages: ReadonlyArray<MessageAttributesType>,
-      options: { fromSync?: boolean }
-    ) => Promise<void>;
-  }
-): Promise<void> {
-  const ids = messages.map(message => message.id);
-
-  log.info(`deleteAndCleanup/${logId}: Deleting ${ids.length} messages...`);
-  await writableChannel.removeMessages(ids);
-
-  log.info(`deleteAndCleanup/${logId}: Cleanup for ${ids.length} messages...`);
-  await options.cleanupMessages(messages, {
-    fromSync: Boolean(options.fromSync),
-  });
-
-  log.info(`deleteAndCleanup/${logId}: Complete`);
-}
-
-async function removeMessages(
+async function removeMessagesById(
   messageIds: ReadonlyArray<string>,
-  options: {
-    fromSync?: boolean;
-    cleanupMessages: (
-      messages: ReadonlyArray<MessageAttributesType>,
-      options: { fromSync?: boolean }
-    ) => Promise<void>;
-  }
+  options: RemoveMessageOptions
 ): Promise<void> {
   const messages = await readableChannel.getMessagesById(messageIds);
+  return removeMessages(messages, options);
+}
+
+export async function removeMessages(
+  messages: ReadonlyArray<MessageAttributesType>,
+  options: RemoveMessageOptions
+): Promise<void> {
+  const messageIds = messages.map(msg => msg.id);
+  await writableChannel.removeMessages(messageIds);
   await options.cleanupMessages(messages, {
     fromSync: Boolean(options.fromSync),
   });
-  await writableChannel.removeMessages(messageIds);
 }
 
 async function getNewerMessagesByConversation(
@@ -832,7 +796,7 @@ async function removeMessagesInConversation(
     }
 
     // eslint-disable-next-line no-await-in-loop
-    await deleteAndCleanup(messages, logId, { fromSync, cleanupMessages });
+    await removeMessages(messages, { fromSync, cleanupMessages });
   } while (messages.length > 0);
 }
 

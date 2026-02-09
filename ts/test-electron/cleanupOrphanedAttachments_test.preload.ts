@@ -18,7 +18,7 @@ import {
 import {
   getDownloadsPath,
   getDraftPath,
-  getPath,
+  getAttachmentsPath,
 } from '../windows/main/attachments.preload.js';
 
 import { generateAci } from '../types/ServiceId.std.js';
@@ -70,13 +70,17 @@ describe('cleanupOrphanedAttachments', () => {
 
     attachmentIndex = 0;
     downloadIndex = 0;
-    await emptyDir(getPath(window.SignalContext.config.userDataPath));
+    await emptyDir(
+      getAttachmentsPath(window.SignalContext.config.userDataPath)
+    );
     await emptyDir(getDownloadsPath(window.SignalContext.config.userDataPath));
     await emptyDir(getDraftPath(window.SignalContext.config.userDataPath));
   });
 
   afterEach(async () => {
-    await emptyDir(getPath(window.SignalContext.config.userDataPath));
+    await emptyDir(
+      getAttachmentsPath(window.SignalContext.config.userDataPath)
+    );
     await emptyDir(getDownloadsPath(window.SignalContext.config.userDataPath));
     await emptyDir(getDraftPath(window.SignalContext.config.userDataPath));
   });
@@ -256,6 +260,37 @@ describe('cleanupOrphanedAttachments', () => {
         new Array(downloadIndex)
           .fill(null)
           .map((_, idx) => `download${idx + 1}`)
+      );
+    });
+
+    it('does not delete any protected attachment paths', async () => {
+      await writeFiles(NUM_ATTACHMENT_FILES_IN_MESSAGE + 5, 'attachment');
+      await writeFiles(NUM_DOWNLOAD_FILES_IN_MESSAGE + 5, 'download');
+
+      await DataWriter.saveMessage(composeMessageWithAllAttachments(), {
+        ourAci: generateAci(),
+        forceSave: true,
+        postSaveUpdates: () => Promise.resolve(),
+      });
+
+      await DataWriter._protectAttachmentPathFromDeletion(
+        `attachment${attachmentIndex + 1}`
+      );
+      await DataWriter.cleanupOrphanedAttachments({ _block: true });
+
+      assert.strictEqual(attachmentIndex, NUM_ATTACHMENT_FILES_IN_MESSAGE);
+
+      const attachmentFiles = listFiles('attachment');
+
+      assert.strictEqual(
+        attachmentFiles.length,
+        NUM_ATTACHMENT_FILES_IN_MESSAGE + 1
+      );
+      assert.sameDeepMembers(
+        attachmentFiles,
+        new Array(attachmentIndex + 1)
+          .fill(null)
+          .map((_, idx) => `attachment${idx + 1}`)
       );
     });
 

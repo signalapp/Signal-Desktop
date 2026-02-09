@@ -13,7 +13,7 @@ import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.preload.js';
 import { strictAssert } from '../util/assert.std.js';
 import {
   writeNewAttachmentData,
-  deleteAttachmentData,
+  maybeDeleteAttachmentFile,
 } from '../util/migrations.preload.js';
 import { isWhitespace } from '../util/whitespaceStringUtil.std.js';
 import { imagePathToBytes } from '../util/imagePathToBytes.dom.js';
@@ -117,7 +117,7 @@ export async function writeProfile(
       log.info('removing old avatar and saving the new one');
       const [local] = await Promise.all([
         writeNewAttachmentData(newAvatar),
-        rawAvatarPath ? deleteAttachmentData(rawAvatarPath) : undefined,
+        rawAvatarPath ? maybeDeleteAttachmentFile(rawAvatarPath) : undefined,
       ]);
       maybeProfileAvatarUpdate = {
         profileAvatar: { hash, ...local },
@@ -128,7 +128,7 @@ export async function writeProfile(
   } else if (rawAvatarPath) {
     log.info('removing avatar');
     await Promise.all([
-      deleteAttachmentData(rawAvatarPath),
+      maybeDeleteAttachmentFile(rawAvatarPath),
       itemStorage.put('avatarUrl', undefined),
     ]);
 

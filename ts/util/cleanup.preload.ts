@@ -26,12 +26,12 @@ import { getMessageIdForLogging } from './idForLogging.preload.js';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.preload.js';
 import { MINUTE } from './durations/index.std.js';
 import { drop } from './drop.std.js';
-import { deleteExternalMessageFiles } from './migrations.preload.js';
 import { hydrateStoryContext } from './hydrateStoryContext.preload.js';
 import { update as updateExpiringMessagesService } from '../services/expiringMessagesDeletion.preload.js';
 import { tapToViewMessagesDeletionService } from '../services/tapToViewMessagesDeletionService.preload.js';
 import { throttledUpdateBackupMediaDownloadProgress } from './updateBackupMediaDownloadProgress.preload.js';
 import { messageAttrsToPreserveAfterErase } from '../types/Message.std.js';
+import { cleanupAllMessageAttachmentFiles } from '../types/Message2.preload.js';
 
 const log = createLogger('cleanup');
 
@@ -59,7 +59,7 @@ export async function eraseMessageContents(
   //   a viewed (or outgoing) View-Once message is deleted for everyone.
 
   try {
-    await deleteMessageData(message.attributes);
+    await cleanupFilesAndReferencesToMessage(message.attributes);
   } catch (error) {
     log.error(
       `Error erasing data for message ${getMessageIdForLogging(message.attributes)}:`,
@@ -118,7 +118,7 @@ export async function cleanupMessages(
   drop(
     unloadedQueue.addAll(
       messages.map((message: MessageAttributesType) => async () => {
-        await deleteMessageData(message);
+        await cleanupFilesAndReferencesToMessage(message);
       })
     )
   );
@@ -184,7 +184,7 @@ async function cleanupStoryReplies(
 
   if (isGroupConversation) {
     // Delete all group replies
-    await DataWriter.removeMessages(
+    await DataWriter.removeMessagesById(
       replies.map(reply => reply.id),
       { cleanupMessages }
     );
@@ -208,10 +208,10 @@ async function cleanupStoryReplies(
   });
 }
 
-export async function deleteMessageData(
+export async function cleanupFilesAndReferencesToMessage(
   message: MessageAttributesType
 ): Promise<void> {
-  await deleteExternalMessageFiles(message);
+  await cleanupAllMessageAttachmentFiles(message);
 
   if (isStory(message)) {
     await cleanupStoryReplies(message);

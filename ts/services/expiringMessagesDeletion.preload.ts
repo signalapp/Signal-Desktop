@@ -45,7 +45,7 @@ class ExpiringMessagesDeletionService {
         inMemoryMessages.push(message);
       });
 
-      await DataWriter.removeMessages(messageIds, {
+      await DataWriter.removeMessagesById(messageIds, {
         cleanupMessages,
       });
 

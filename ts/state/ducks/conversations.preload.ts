@@ -1982,7 +1982,7 @@ function deleteMessages({
       }
     }
 
-    await DataWriter.removeMessages(messageIds, {
+    await DataWriter.removeMessagesById(messageIds, {
       cleanupMessages,
     });
 

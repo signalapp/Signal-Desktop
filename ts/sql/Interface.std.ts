@@ -78,6 +78,7 @@ import type {
   RemoteMegaphoneType,
 } from '../types/Megaphone.std.js';
 import { sqlFragment, sqlId, sqlJoin } from './util.std.js';
+import type { MIMEType } from '../types/MIME.std.js';
 
 export type ReadableDB = Database & { __readable_db: never };
 export type WritableDB = ReadableDB & { __writable_db: never };
@@ -803,6 +804,30 @@ strictAssert(
   'attachment_columns must match DB fields type'
 );
 
+export type ExistingAttachmentData = Pick<
+  MessageAttachmentDBType,
+  | 'version'
+  | 'path'
+  | 'localKey'
+  | 'thumbnailPath'
+  | 'thumbnailLocalKey'
+  | 'thumbnailVersion'
+  | 'thumbnailContentType'
+  | 'thumbnailSize'
+  | 'screenshotPath'
+  | 'screenshotLocalKey'
+  | 'screenshotVersion'
+  | 'screenshotContentType'
+  | 'screenshotSize'
+>;
+
+export type RemoveMessageOptions = {
+  cleanupMessages: (
+    messages: ReadonlyArray<MessageAttributesType>,
+    options: { fromSync?: boolean }
+  ) => Promise<void>;
+  fromSync?: boolean;
+};
 type ReadableInterface = {
   close: () => void;
 
@@ -963,6 +988,7 @@ type ReadableInterface = {
     conversationId: string,
     limit?: number
   ) => Array<MessageType>;
+  getAllProtectedAttachmentPaths: () => Array<string>;
 
   getUnprocessedCount: () => number;
 
@@ -1048,6 +1074,8 @@ type ReadableInterface = {
   getAttachmentReferencesForMessages: (
     messageIds: Array<string>
   ) => Array<MessageAttachmentDBType>;
+
+  isAttachmentSafeToDelete: (path: string) => boolean;
 
   getMessageCountBySchemaVersion: () => MessageCountBySchemaVersionType;
   getMessageSampleForSchemaVersion: (
@@ -1409,6 +1437,18 @@ type WritableInterface = {
     beforeTimestamp: number
   ) => ReadonlyArray<PinnedMessage>;
 
+  getAndProtectExistingAttachmentPath: ({
+    plaintextHash,
+    version,
+    contentType,
+  }: {
+    plaintextHash: string;
+    version: number;
+    contentType: MIMEType;
+  }) => ExistingAttachmentData | undefined;
+  _protectAttachmentPathFromDeletion: (path: string) => void;
+  resetProtectedAttachmentPaths: () => void;
+
   removeAll: () => void;
   removeAllConfiguration: () => void;
   eraseStorageServiceState: () => void;
@@ -1647,25 +1687,10 @@ export type ClientOnlyWritableInterface = ClientInterfaceWrap<{
       postSaveUpdates: () => Promise<void>;
     }
   ) => { failedIndices: Array<number> };
-  removeMessage: (
-    id: string,
-    options: {
-      fromSync?: boolean;
-      cleanupMessages: (
-        messages: ReadonlyArray<MessageAttributesType>,
-        options: { fromSync?: boolean | undefined }
-      ) => Promise<void>;
-    }
-  ) => void;
-  removeMessages: (
+  removeMessageById: (id: string, options: RemoveMessageOptions) => void;
+  removeMessagesById: (
     ids: ReadonlyArray<string>,
-    options: {
-      fromSync?: boolean;
-      cleanupMessages: (
-        messages: ReadonlyArray<MessageAttributesType>,
-        options: { fromSync?: boolean | undefined }
-      ) => Promise<void>;
-    }
+    options: RemoveMessageOptions
   ) => void;
 
   createOrUpdateIdentityKey: (data: IdentityKeyType) => void;
