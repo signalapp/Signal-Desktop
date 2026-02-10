@@ -19,7 +19,7 @@ Reproducible builds for macOS and Windows are not available yet.
 
 > [!IMPORTANT]
 > We are in the process of rolling out and verifying reproducible builds. As such, reproducibility is still
-> experimental and may not work on public releases yet. If you notice any inconsistencies then please file an issue [on the Github Issues page](https://github.com/signalapp/Signal-Desktop/issues). Thanks for your patience while we set it up!
+> experimental and may not work on public releases yet. If you notice any inconsistencies then please file an issue [on the GitHub Issues page](https://github.com/signalapp/Signal-Desktop/issues). Thanks for your patience while we set it up!
 
 ### Pre-requisites
 
@@ -89,7 +89,7 @@ This will automatically download the `.deb` package into the shell's working dir
 
 #### Comparing your build against the official build
 
-To verify the official `.deb` package against your build, make sure that your version is the same as the official version, and use `sha256sum` on both files to calculate the SHA-256 digest. Then compare/verify the output and verify that they match.
+To verify the official `.deb` package against your build, make sure that your version is the same as the official version, and use `sha256sum` on both files to calculate the SHA-256 digest. Then compare the output and verify that they match.
 
 If the checksums from the official build and your own build match, then the two builds are exactly the same, and you have successfully reproduced Signal Desktop!
 
@@ -111,4 +111,4 @@ $ sha256sum ../release/signal-desktop_7.45.0_amd64-OUR_BUILD.deb signal-desktop_
 - Double check you have followed the instructions correctly and are comparing the right versions.
 - Are you working from a previous checkout of Signal-Desktop? Some generated files might be inadvertently included in the build. Try to delete them before building:
   - `rm -rf bundles`
-- File an issue [on the Github Issues page](https://github.com/signalapp/Signal-Desktop/issues).
+- File an issue [on the GitHub Issues page](https://github.com/signalapp/Signal-Desktop/issues).
