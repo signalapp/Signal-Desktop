@@ -700,7 +700,7 @@ export function normalizeShortNameCompletionDisplay(shortName: string): string {
 export function normalizeShortNameCompletionQuery(query: string): string {
   return removeDiacritics(query)
     .normalize('NFD')
-    .replaceAll(/[\s,_-]+/gi, ' ')
+    .replaceAll(/(?<!^)[\s,_-]+/gi, ' ')
     .toLowerCase();
 }
 
