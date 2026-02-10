@@ -47,6 +47,7 @@ import { type RemoteMegaphoneType } from '../types/Megaphone.std.js';
 import { isCountryPpmCsvBucketEnabled } from '../RemoteConfig.dom.js';
 import type { AciString } from '../types/ServiceId.std.js';
 import {
+  deleteMegaphoneAndRemoveFromRedux,
   isRemoteMegaphoneEnabled,
   runMegaphoneCheck,
 } from './megaphone.preload.js';
@@ -238,7 +239,7 @@ export class ReleaseNoteAndMegaphoneFetcher {
         `deleteUnknownMegaphones: Found local megaphone missing in manifest, deleting: ${id}`
       );
       // eslint-disable-next-line no-await-in-loop
-      await DataWriter.deleteMegaphone(id);
+      await deleteMegaphoneAndRemoveFromRedux(id);
     }
   }
 

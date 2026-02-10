@@ -7,6 +7,7 @@ import {
   getMegaphoneLastSnoozeDurationMs,
   MegaphoneCtaId,
   SNOOZE_DEFAULT_DURATION,
+  type RemoteMegaphoneId,
   type RemoteMegaphoneType,
   type VisibleRemoteMegaphoneType,
 } from '../types/Megaphone.std.js';
@@ -120,6 +121,13 @@ export function isConditionalActive(conditionalId: string | null): boolean {
   return false;
 }
 
+export async function deleteMegaphoneAndRemoveFromRedux(
+  id: RemoteMegaphoneId
+): Promise<void> {
+  await DataWriter.deleteMegaphone(id);
+  window.reduxActions.megaphones.removeVisibleMegaphone(id);
+}
+
 // Private
 
 async function processMegaphone(megaphone: RemoteMegaphoneType): Promise<void> {
@@ -127,8 +135,7 @@ async function processMegaphone(megaphone: RemoteMegaphoneType): Promise<void> {
 
   if (isMegaphoneDeletable(megaphone)) {
     log.info(`processMegaphone: Deleting ${id}`);
-    await DataWriter.deleteMegaphone(id);
-    window.reduxActions.megaphones.removeVisibleMegaphone(id);
+    await deleteMegaphoneAndRemoveFromRedux(id);
     return;
   }
 
