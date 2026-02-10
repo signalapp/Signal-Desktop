@@ -21,6 +21,7 @@ import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.js'
 import { itemStorage } from '../textsecure/Storage.preload.js';
 import { isMoreRecentThan } from '../util/timestamp.std.js';
 import { isFeaturedEnabledNoRedux } from '../util/isFeatureEnabled.dom.js';
+import { maybeHydrateDonationConfigCache } from '../util/subscriptionConfiguration.preload.js';
 
 const log = createLogger('megaphoneService');
 
@@ -140,6 +141,16 @@ async function processMegaphone(megaphone: RemoteMegaphoneType): Promise<void> {
   }
 
   if (isMegaphoneShowable(megaphone)) {
+    if (
+      megaphone.primaryCtaId === 'donate' ||
+      megaphone.secondaryCtaId === 'donate'
+    ) {
+      log.info(
+        'processMegaphone: Megaphone ctaId donate, prefetching donation amount config'
+      );
+      drop(maybeHydrateDonationConfigCache());
+    }
+
     log.info(`processMegaphone: Showing ${id}`);
     window.reduxActions.megaphones.addVisibleMegaphone(megaphone);
   }
