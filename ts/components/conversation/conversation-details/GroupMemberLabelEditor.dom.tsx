@@ -1,7 +1,7 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { noop } from 'lodash';
 
 import { Input } from '../../Input.dom.js';
@@ -26,6 +26,8 @@ import {
 } from '../Message.dom.js';
 import { ConversationColors } from '../../../types/Colors.std.js';
 import { WidthBreakpoint } from '../../_util.std.js';
+import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.js';
+import { SignalService as Proto } from '../../../protobuf/index.std.js';
 
 import type { EmojiVariantKey } from '../../fun/data/emojis.std.js';
 import type {
@@ -71,6 +73,11 @@ export function GroupMemberLabelEditor({
   theme,
   updateGroupMemberLabel,
 }: PropsType): React.JSX.Element {
+  const [isShowingGeneralError, setIsShowingGeneralError] =
+    React.useState(false);
+  const [isShowingPermissionsError, setIsShowingPermissionsError] =
+    React.useState(false);
+
   const messageContainer = useRef<HTMLDivElement | null>(null);
 
   const [labelEmoji, setLabelEmoji] = useState(existingLabelEmoji);
@@ -93,6 +100,17 @@ export function GroupMemberLabelEditor({
   const contactLabelForMessage = labelString?.trim()
     ? { labelEmoji, labelString: labelString.trim() }
     : undefined;
+
+  useEffect(() => {
+    if (
+      !group.areWeAdmin &&
+      group.accessControlAttributes ===
+        Proto.AccessControl.AccessRequired.ADMINISTRATOR &&
+      !isShowingPermissionsError
+    ) {
+      setIsShowingPermissionsError(true);
+    }
+  }, [group, isShowingPermissionsError, setIsShowingPermissionsError]);
 
   return (
     <div className={tw('mx-auto flex h-full max-w-[640px] flex-col')}>
@@ -245,7 +263,8 @@ export function GroupMemberLabelEditor({
                   popPanelForConversation();
                 },
                 onFailure() {
-                  // TODO: DESKTOP-9710
+                  setIsSaving(false);
+                  setIsShowingGeneralError(true);
                 },
               }
             );
@@ -254,6 +273,68 @@ export function GroupMemberLabelEditor({
           {i18n('icu:save')}
         </AxoButton.Root>
       </div>
+      <AxoAlertDialog.Root
+        open={isShowingGeneralError}
+        onOpenChange={value => {
+          if (!value) {
+            setIsShowingGeneralError(false);
+          }
+        }}
+      >
+        <AxoAlertDialog.Content escape="cancel-is-noop">
+          <AxoAlertDialog.Body>
+            <AxoAlertDialog.Title>
+              {i18n('icu:ConversationDetails--member-label--error-title')}
+            </AxoAlertDialog.Title>
+            <AxoAlertDialog.Description>
+              {i18n('icu:ConversationDetails--member-label--error-generic')}
+            </AxoAlertDialog.Description>
+          </AxoAlertDialog.Body>
+          <AxoAlertDialog.Footer>
+            <AxoAlertDialog.Action
+              variant="primary"
+              arrow={false}
+              onClick={() => {
+                setIsShowingGeneralError(false);
+              }}
+            >
+              {i18n('icu:ok')}
+            </AxoAlertDialog.Action>
+          </AxoAlertDialog.Footer>
+        </AxoAlertDialog.Content>
+      </AxoAlertDialog.Root>
+      <AxoAlertDialog.Root
+        open={isShowingPermissionsError}
+        onOpenChange={value => {
+          if (!value) {
+            setIsShowingPermissionsError(false);
+            popPanelForConversation();
+          }
+        }}
+      >
+        <AxoAlertDialog.Content escape="cancel-is-noop">
+          <AxoAlertDialog.Body>
+            <AxoAlertDialog.Title>
+              {i18n('icu:ConversationDetails--member-label--error-title')}
+            </AxoAlertDialog.Title>
+            <AxoAlertDialog.Description>
+              {i18n('icu:ConversationDetails--member-label--error-permissions')}
+            </AxoAlertDialog.Description>
+          </AxoAlertDialog.Body>
+          <AxoAlertDialog.Footer>
+            <AxoAlertDialog.Action
+              variant="primary"
+              arrow={false}
+              onClick={() => {
+                popPanelForConversation();
+                setIsShowingPermissionsError(false);
+              }}
+            >
+              {i18n('icu:ok')}
+            </AxoAlertDialog.Action>
+          </AxoAlertDialog.Footer>
+        </AxoAlertDialog.Content>
+      </AxoAlertDialog.Root>
     </div>
   );
 }

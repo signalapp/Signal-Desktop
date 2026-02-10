@@ -9,6 +9,9 @@ import { GroupMemberLabelEditor } from './GroupMemberLabelEditor.dom.js';
 import { getDefaultConversation } from '../../../test-helpers/getDefaultConversation.std.js';
 import { ThemeType } from '../../../types/Util.std.js';
 import { getFakeBadge } from '../../../test-helpers/getFakeBadge.std.js';
+import { SECOND } from '../../../util/durations/constants.std.js';
+import { sleep } from '../../../util/sleep.std.js';
+import { SignalService as Proto } from '../../../protobuf/index.std.js';
 
 const { i18n } = window.SignalContext;
 
@@ -26,7 +29,14 @@ const createProps = (): PropsType => ({
   ourColor: '160',
   popPanelForConversation: action('popPanelForConversation'),
   theme: ThemeType.light,
-  updateGroupMemberLabel: action('changeHasGroupLink'),
+  updateGroupMemberLabel: async (
+    options,
+    callbacks?: { onSuccess?: () => unknown }
+  ) => {
+    action('updateGroupMemberLabel')(options);
+    await sleep(SECOND);
+    callbacks?.onSuccess?.();
+  },
 });
 
 export function NoExistingLabel(): React.JSX.Element {
@@ -61,4 +71,52 @@ export function WithBadge(): React.JSX.Element {
   };
 
   return <GroupMemberLabelEditor {...props} />;
+}
+
+export function ThrowsErrorOnSave(): React.JSX.Element {
+  const props: PropsType = {
+    ...createProps(),
+    updateGroupMemberLabel: async (
+      options,
+      callbacks?: { onFailure?: () => unknown }
+    ) => {
+      action('updateGroupMemberLabel')(options);
+      await sleep(SECOND);
+      callbacks?.onFailure?.();
+    },
+  };
+
+  return <GroupMemberLabelEditor {...props} />;
+}
+
+export function PermissionsError(): React.JSX.Element {
+  const props: PropsType = createProps();
+
+  return (
+    <GroupMemberLabelEditor
+      {...props}
+      group={{
+        ...props.group,
+        areWeAdmin: false,
+        accessControlAttributes:
+          Proto.AccessControl.AccessRequired.ADMINISTRATOR,
+      }}
+    />
+  );
+}
+
+export function PermissionsRestrictedButAdmin(): React.JSX.Element {
+  const props: PropsType = createProps();
+
+  return (
+    <GroupMemberLabelEditor
+      {...props}
+      group={{
+        ...props.group,
+        areWeAdmin: true,
+        accessControlAttributes:
+          Proto.AccessControl.AccessRequired.ADMINISTRATOR,
+      }}
+    />
+  );
 }

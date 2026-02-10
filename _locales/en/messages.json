@@ -6240,6 +6240,18 @@
     "messageformat": "Saving changes...",
     "description": "Accessibility label for button with spinner as we save the user's member label."
   },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Can’t save member label",
+    "description": "If save of member label failed, a dialog shows. Title of dialog."
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Check your connection and try again.",
+    "description": "If save of member label failed, a dialog shows. Description of dialog."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Only admins can set member labels in this group.",
+    "description": "If Desktop discovers that permissions have changed since entering the screen, it will show this in an error dialog and exit the pane."
+  },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Disappearing messages",
     "description": "This is the label for the disappearing messages setting panel"
