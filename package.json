@@ -133,7 +133,7 @@
     "@react-aria/utils": "3.25.3",
     "@react-spring/web": "10.0.3",
     "@react-types/shared": "3.27.0",
-    "@signalapp/libsignal-client": "0.86.16",
+    "@signalapp/libsignal-client": "0.87.1",
     "@signalapp/minimask": "1.0.1",
     "@signalapp/mute-state-change": "workspace:1.0.0",
     "@signalapp/quill-cjs": "2.1.2",
