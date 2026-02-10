@@ -18,6 +18,7 @@ import {
   DonationProcessor,
   donationStateSchema,
   ONE_TIME_DONATION_CONFIG_ID,
+  PaymentMethod,
 } from '../types/Donations.std.js';
 import type {
   CardDetail,
@@ -193,18 +194,35 @@ export function PreferencesDonateFlow({
     setCurrency(value);
   }, []);
 
+  const isPaymentProcessorStepEnabled = useMemo(() => {
+    if (
+      donationAmountsConfig == null ||
+      donationAmountsConfig[currency] == null
+    ) {
+      return false;
+    }
+
+    return (
+      isDonationPaypalEnabled &&
+      donationAmountsConfig[currency].supportedPaymentMethods.includes(
+        PaymentMethod.Paypal
+      )
+    );
+  }, [isDonationPaypalEnabled, donationAmountsConfig, currency]);
+
   const handleAmountPickerResult = useCallback(
     (result: AmountPickerResult) => {
       const { currency: pickedCurrency, amount: pickedAmount } = result;
       setAmount(pickedAmount);
       setCurrency(pickedCurrency);
-      if (isDonationPaypalEnabled) {
+
+      if (isPaymentProcessorStepEnabled) {
         setStep('paymentProcessor');
       } else {
         setStep('stripePaymentDetails');
       }
     },
-    [isDonationPaypalEnabled]
+    [isPaymentProcessorStepEnabled]
   );
 
   const handleCardFormChanged = useCallback((values: CardFormValues) => {
@@ -268,12 +286,12 @@ export function PreferencesDonateFlow({
   }, [handleSubmitDonation]);
 
   const handleBackFromCardForm = useCallback(() => {
-    if (isDonationPaypalEnabled) {
+    if (isPaymentProcessorStepEnabled) {
       setStep('paymentProcessor');
     } else {
       setStep('amount');
     }
-  }, [isDonationPaypalEnabled]);
+  }, [isPaymentProcessorStepEnabled]);
 
   useEffect(() => {
     if (!workflow || lastError) {
