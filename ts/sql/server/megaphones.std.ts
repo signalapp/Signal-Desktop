@@ -216,6 +216,8 @@ export function snoozeMegaphone(
   );
 }
 
+// Note: When deleting megaphones, ensure megaphones are removed from redux also.
+// See: deleteMegaphoneAndRemoveFromRedux()
 export function deleteMegaphone(
   db: WritableDB,
   megaphoneId: RemoteMegaphoneId
