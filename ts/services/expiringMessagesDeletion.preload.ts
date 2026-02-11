@@ -1,7 +1,5 @@
 // Copyright 2016 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
-import { batch } from 'react-redux';
 import lodash from 'lodash';
 
 import * as Errors from '../types/errors.std.js';
@@ -49,14 +47,9 @@ class ExpiringMessagesDeletionService {
         cleanupMessages,
       });
 
-      batch(() => {
-        inMemoryMessages.forEach(message => {
-          log.info('Message expired', {
-            sentAt: message.get('sent_at'),
-          });
-
-          // We do this to update the UI, if this message is being displayed somewhere
-          window.reduxActions.conversations.messageExpired(message.id);
+      inMemoryMessages.forEach(message => {
+        log.info('Message expired', {
+          sentAt: message.get('sent_at'),
         });
       });
     } catch (error) {

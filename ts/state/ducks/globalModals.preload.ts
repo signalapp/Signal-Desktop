@@ -14,7 +14,6 @@ import type {
   ActionCreator,
   MessageChangedActionType,
   MessageDeletedActionType,
-  MessageExpiredActionType,
 } from './conversations.preload.js';
 import type { MessagePropsType } from '../selectors/message.preload.js';
 import type { RecipientsByConversation } from './stories.preload.js';
@@ -39,7 +38,6 @@ import { getGroupMigrationMembers } from '../../groups.preload.js';
 import {
   MESSAGE_CHANGED,
   MESSAGE_DELETED,
-  MESSAGE_EXPIRED,
   actions as conversationsActions,
 } from './conversations.preload.js';
 import { isDownloaded } from '../../util/Attachment.std.js';
@@ -573,7 +571,6 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | HideWhatsNewModalActionType
   | MessageChangedActionType
   | MessageDeletedActionType
-  | MessageExpiredActionType
   | ShowBackfillFailureModalActionType
   | ShowCallQualitySurveyActionType
   | ShowCriticalIdlePrimaryDeviceModalActionType
@@ -1911,12 +1908,8 @@ export function reducer(
   }
 
   if (state.editHistoryMessages != null) {
-    if (
-      action.type === MESSAGE_CHANGED ||
-      action.type === MESSAGE_DELETED ||
-      action.type === MESSAGE_EXPIRED
-    ) {
-      if (action.type === MESSAGE_DELETED || action.type === MESSAGE_EXPIRED) {
+    if (action.type === MESSAGE_CHANGED || action.type === MESSAGE_DELETED) {
+      if (action.type === MESSAGE_DELETED) {
         const hasMessageId = state.editHistoryMessages.some(
           edit => edit.id === action.payload.id
         );

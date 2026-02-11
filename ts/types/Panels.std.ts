@@ -3,8 +3,6 @@
 
 import type { ReadonlyDeep } from 'type-fest';
 
-import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
-
 export enum PanelType {
   AllMedia = 'AllMedia',
   ChatColorEditor = 'ChatColorEditor',
@@ -21,47 +19,15 @@ export enum PanelType {
   StickerManager = 'StickerManager',
 }
 
-export type PanelRequestType = ReadonlyDeep<
-  | { type: PanelType.AllMedia }
-  | { type: PanelType.ChatColorEditor }
-  | {
-      type: PanelType.ContactDetails;
-      args: {
-        messageId: string;
-      };
-    }
-  | { type: PanelType.ConversationDetails }
-  | { type: PanelType.GroupInvites }
-  | { type: PanelType.GroupLinkManagement }
-  | { type: PanelType.GroupPermissions }
-  | { type: PanelType.GroupV1Members }
-  | { type: PanelType.GroupMemberLabelEditor }
+type PanelsWithArgs = ReadonlyDeep<
+  | { type: PanelType.ContactDetails; args: { messageId: string } }
   | { type: PanelType.MessageDetails; args: { messageId: string } }
-  | { type: PanelType.NotificationSettings }
-  | { type: PanelType.PinnedMessages }
-  | { type: PanelType.StickerManager }
 >;
 
-export type PanelRenderType = ReadonlyDeep<
-  | { type: PanelType.AllMedia }
-  | { type: PanelType.ChatColorEditor }
-  | {
-      type: PanelType.ContactDetails;
-      args: {
-        messageId: string;
-      };
-    }
-  | { type: PanelType.ConversationDetails }
-  | { type: PanelType.GroupInvites }
-  | { type: PanelType.GroupLinkManagement }
-  | { type: PanelType.GroupPermissions }
-  | { type: PanelType.GroupV1Members }
-  | { type: PanelType.GroupMemberLabelEditor }
-  | {
-      type: PanelType.MessageDetails;
-      args: { message: ReadonlyMessageAttributesType };
-    }
-  | { type: PanelType.NotificationSettings }
-  | { type: PanelType.PinnedMessages }
-  | { type: PanelType.StickerManager }
->;
+type PanelsWithoutArgs = Readonly<{
+  type: Exclude<PanelType, PanelsWithArgs['type']>;
+  // To catch mistakes if args are accientally provided
+  args?: never;
+}>;
+
+export type PanelArgsType = PanelsWithArgs | PanelsWithoutArgs;

@@ -6,14 +6,17 @@ import { useSelector } from 'react-redux';
 
 import type { Props as MessageDetailProps } from '../../components/conversation/MessageDetail.dom.js';
 import { MessageDetail } from '../../components/conversation/MessageDetail.dom.js';
-import { getContactNameColorSelector } from '../selectors/conversations.dom.js';
+import {
+  getActivePanel,
+  getContactNameColorSelector,
+} from '../selectors/conversations.dom.js';
 import {
   getIntl,
   getInteractionMode,
   getTheme,
   getPlatform,
 } from '../selectors/user.std.js';
-import { getMessageDetails } from '../selectors/message.preload.js';
+import { getMessageDetailsSelector } from '../selectors/message.preload.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import { renderAudioAttachment } from './renderAudioAttachment.preload.js';
 import { useAccountsActions } from '../ducks/accounts.preload.js';
@@ -22,6 +25,8 @@ import { useConversationsActions } from '../ducks/conversations.preload.js';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
 import { useLightboxActions } from '../ducks/lightbox.preload.js';
 import { useStoriesActions } from '../ducks/stories.preload.js';
+import { PanelType } from '../../types/Panels.std.js';
+import { createLogger } from '../../logging/log.std.js';
 
 export type { Contact } from '../../components/conversation/MessageDetail.dom.js';
 export type OwnProps = Pick<
@@ -29,14 +34,17 @@ export type OwnProps = Pick<
   'contacts' | 'errors' | 'message' | 'receivedAt'
 >;
 
+const log = createLogger('SmartMessageDetail');
+
 export const SmartMessageDetail = memo(
   function SmartMessageDetail(): React.JSX.Element | null {
+    const activePanel = useSelector(getActivePanel);
+    const getMessageDetails = useSelector(getMessageDetailsSelector);
     const getContactNameColor = useSelector(getContactNameColorSelector);
     const getPreferredBadge = useSelector(getPreferredBadgeSelector);
     const i18n = useSelector(getIntl);
     const platform = useSelector(getPlatform);
     const interactionMode = useSelector(getInteractionMode);
-    const messageDetails = useSelector(getMessageDetails);
     const theme = useSelector(getTheme);
     const { checkForAccount } = useAccountsActions();
     const { endPoll } = useComposerActions();
@@ -71,6 +79,16 @@ export const SmartMessageDetail = memo(
     const { showLightbox, showLightboxForViewOnceMedia } = useLightboxActions();
     const { viewStory } = useStoriesActions();
 
+    let messageId: string | null = null;
+
+    if (activePanel?.type === PanelType.MessageDetails) {
+      messageId = activePanel.args.messageId;
+    } else {
+      log.error(`Rendering, but current panel is ${activePanel?.type}`);
+    }
+
+    const messageDetails = messageId ? getMessageDetails(messageId) : undefined;
+
     useEffect(() => {
       if (!messageDetails) {
         popPanelForConversation();
@@ -78,6 +96,10 @@ export const SmartMessageDetail = memo(
     }, [messageDetails, popPanelForConversation]);
 
     if (!messageDetails) {
+      log.error(
+        `No message details found for message ${messageId}, leaving this screen.`
+      );
+      popPanelForConversation();
       return null;
     }
 
