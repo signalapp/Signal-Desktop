@@ -590,6 +590,13 @@ export function SmartPreferences(): React.JSX.Element | null {
     prodKey: 'desktop.plaintextExport.prod',
   });
 
+  const isKeyTransparencyAvailable = isFeaturedEnabledSelector({
+    betaKey: 'desktop.keyTransparency.beta',
+    prodKey: 'desktop.keyTransparency.prod',
+    currentVersion: version,
+    remoteConfig: items.remoteConfig,
+  });
+
   // Two-way items
 
   function createItemsAccess<K extends keyof StorageAccessType>(
@@ -867,6 +874,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           isContentProtectionNeeded={isContentProtectionNeeded}
           isContentProtectionSupported={isContentProtectionSupported}
           isHideMenuBarSupported={isHideMenuBarSupported}
+          isKeyTransparencyAvailable={isKeyTransparencyAvailable}
           isMinimizeToAndStartInSystemTraySupported={
             isMinimizeToAndStartInSystemTraySupported
           }
