@@ -895,6 +895,7 @@ type ReadableInterface = {
   _getAllReactions: () => Array<ReactionType>;
 
   getMessageByAuthorAciAndSentAt: (
+    ourAci: AciString,
     authorAci: AciString,
     sentAtTimestamp: number,
     options: { includeEdits: boolean }
