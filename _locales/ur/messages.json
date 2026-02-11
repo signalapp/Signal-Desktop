@@ -579,49 +579,49 @@
     "messageformat": "{name} کے ساتھ اینڈ ٹو اینڈ انکرپشن کی تصدیق کرنے کے لیے، اوپر موجود نمبرز کے ساتھ ان کی ڈیوائس کا موازنہ کریں۔ وہ اپنی ڈیوائس کے ساتھ آپ کے کوڈ کو اسکین بھی کر سکتے ہیں۔"
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "{name} کے ساتھ اینڈ ٹو اینڈ انکرپشن کی تصدیق کرنے کے لیے، اوپر موجود نمبرز کے ساتھ ان کی ڈیوائس کا موازنہ کریں۔ وہ اپنی ڈیوائس پر آپ کے کوڈ کو اسکین بھی کر سکتے ہیں۔"
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "مزید جانیں"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "خودکار کیی کی تصدیق"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "خود کار طور پر تصدیق کریں"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "انکرپشن کی تصدیق کی جا رہی ہے..."
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "انکرپشن کی تصدیق ہو گئی"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "خود کار تصدیق دستیاب نہیں ہے"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "تمام چیٹس کے لیے خود کار تصدیق دستیاب نہیں ہے۔"
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "مزید جانیں"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "اس چیٹ کے لیے انکرپشن خودکار طور پر تصدیق شدہ تھی "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "ان رابطوں کے لیے جن کے ساتھ آپ فون نمبر کے ذریعے مربوط ہیں، Signal خود کار طور پر کیی ٹرانسپیرینسی کا طریقہ کار استعمال کرتے ہوئے یہ تصدیق کر سکتا ہے کہ آیا کنیکشن محفوظ ہے۔ اضافی سیکیورٹی کے لیے، پچھلی اسکرین پر موجود نمبرز کا موازنہ کر کے یا ان کی ڈیوائس پر کوڈ اسکین کر کے دستی طور پر آخر سے آخر تک انکرپشن کی تصدیق کریں۔"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "اس چیٹ کے لیے خود کار تصدیق مزید دستیاب نہیں ہے"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal اب اس چیٹ کے لیے انکرپشن کی خودکار تصدیق نہیں کر سکتا۔ ایسا اس لیے ہے کیونکہ {name} نے اپنا فون نمبر تبدیل کر لیا ہے۔ پچھلی اسکرین پر موجود نمبرز کا موازنہ کر کے یا ان کی ڈیوائس پر کوڈ اسکین کر کے دستی طور پر آخر سے آخر تک انکرپشن کی تصدیق کریں۔"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal چیٹس میں انکرپشن کی خودکار تصدیق صرف اس وقت کر سکتا ہے جب آپ کسی کے ساتھ فون نمبر کے ذریعے مربوط ہوں۔ اگر چیٹ کسی یوزر نیم کے ساتھ یا کسی مشترکہ گروپ میں شروع کی گئی تھی، تو پچھلی اسکرین پر موجود نمبرز کا موازنہ کر کے یا ان کی ڈیوائس پر کوڈ اسکین کر کے آخر سے آخر تک انکرپشن کی تصدیق کریں۔"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "ٹھیک ہے"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "اس شخص کے ساتھ میسجز کا تبادلہ کرنے کے بعد اس کے ساتھ ایک حفاظتی نمبر تخلیق کیا جائے گا۔"
@@ -630,43 +630,43 @@
     "messageformat": "مزید پڑھیں"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "آپ کی ڈیوائس پر خودکار کیی کی تصدیق فی الحال دستیاب نہیں ہے۔ ڈی بگ لاگ جمع کروائیں؟"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "ڈی بگ لاگز مسئلے کی نشاندہی کرنے اور اسے حل کرنے میں ہماری مدد کرتے ہیں، اور اس میں شناخت کرنے والی معلومات شامل نہیں ہوتی ہیں۔"
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "بند کریں"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "ڈی بگ لاگ شیئر کریں"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "ویو"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "جمح کریں"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "نہیں شکریہ"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "جمع کیا جا رہا ہے..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "اب Signal خودکار طور پر کیی انکرپشن کی تصدیق کر سکتا ہے"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "ان رابطوں کے لیے جن کے ساتھ آپ فون نمبر کے ذریعے مربوط ہیں، Signal خود کار طور پر کیی ٹرانسپیرینسی نامی طریقہ کار استعمال کرتے ہوئے یہ تصدیق کر سکتا ہے کہ آیا کنیکشن محفوظ ہے۔ اضافی تحفظ کے لیے، آپ اب بھی کنیکشنز کی دستی طور پر QR کوڈ یا نمبر کے ذریعے تصدیق کر سکتے ہیں۔"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "جاری رکھیں"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "مزید جانیں"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "بند کریں"
   },
   "icu:verified": {
     "messageformat": "تصدیق شدہ"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} آپ کے سسٹم کانٹیکٹس میں موجود ہے"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "ایک ممبر لیبل شامل کریں"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "نوٹ"
@@ -1794,13 +1797,13 @@
     "messageformat": "منسوخ کریں"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "خودکار کیی کی تصدیق"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "فعال ہونے پر، Signal خودکار طور پر 1:1 چیٹس کی انکرپشن کی تصدیق کرنے کی کوشش کرے گا۔"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "مزید سیکھیں"
   },
   "icu:initialSync": {
     "messageformat": "گروپس اور رابطے ہم آہنگ ہو رہے ہیں "
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "آواز"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "ممبر لیبلز"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "اس گروپ میں خود کو یا اپنے کردار کو بیان کرنے کے لیے ایک ممبر لیبل استعمال کریں۔ ممبر لیبلز صرف اس گروپ میں ہی نظر آتے ہیں۔"
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "لیبل سیٹ کریں"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "اپنے لیبل میں ترمیم کریں"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "چیٹ کا رنگ"
   },
@@ -4660,6 +4675,24 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "گروپ لنک"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "ممبر لیبل"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "اپنا ممبر لیبل درج کریں"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "اس گروپ میں خود کو یا اپنے کردار کو بیان کرنے کے لیے ایک ممبر لیبل سیٹ کریں۔ ممبر لیبلز صرف اس گروپ میں ہی نظر آتے ہیں۔"
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "پیش نظارہ"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "ہیلو!"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "تبدیلیاں محفوظ کی جا رہی ہیں..."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "پیغامات غائب ہو رہے ہیں"
@@ -4695,7 +4728,7 @@
     "messageformat": "منتخب کریں کہ کون گروپ کے نام ، تصویر ، وضاحت اور غائب پیغامات کے ٹائمر میں ترمیم کرسکتا ہے۔"
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "منتخب کریں کہ کون گروپ کا نام، تصویر، وضاحت، غائب ہونے والے میسجز کا ٹائمر، اور پِن شدہ میسجز میں ترمیم کر سکتا ہے۔"
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "کون ممبر شامل کرسکتا ہے"
@@ -7519,7 +7552,10 @@
     "messageformat": "معلومات ہٹائیں"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "اگر آپ اس صفحہ کو چھوڑتے ہیں، تو عطیہ مکمل کرنے کے لیے آپ کو دوبارہ آغاز کرنا ہو گا۔ کیا آپ جاری رکھنا چاہتے ہیں؟"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "دوبارہ آغاز کریں"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "جاری رکھیں"
@@ -7567,13 +7603,13 @@
     "messageformat": "آپ کے ایک عطیے پر پیش رفت کے لیے تصدیق درکار ہے۔"
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "آپ کے ایک عطیے پر پیش رفت کے لیے تصدیق درکار ہے۔"
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPal کے ذریعے عطیہ منسوخ کر دیا گیا ہے"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "PayPal کے ذریعے عطیہ میں خرابی پیش آئی۔ آپ سے پیسے نہیں لیے گئے۔"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "عطیہ کامیابی سے مکمل ہو گیا ہے، لیکن ہم آپ کی بیج سیٹنگز کو اپ ڈیٹ نہیں کر سکے"
@@ -7591,7 +7627,7 @@
     "messageformat": "دوبارہ کوشش کریں"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "پیمنٹ کا طریقہ"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "پیمنٹ کا طریقہ مسترد کر دیا گیا"
@@ -7600,31 +7636,31 @@
     "messageformat": "پیمنٹ کا کوئی دوسرا طریقہ آزمائیں یا مزید معلومات کے لیے اپنے بینک سے رابطہ کریں۔"
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "پیمنٹ کارڈ کا آئیکن"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "کریڈٹ یا ڈیبٹ کارڈ"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "منسوخ کریں"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "عطیہ مکمل کریں"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPal کے ذریعے عطیہ منسوخ کر دیا گیا ہے"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "آپ سے پیسے نہیں لیے گئے۔ دوبارہ کوشش کریں یا کوئی دوسرا پیمنٹ کا طریقہ استعمال کریں۔"
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "PayPal کے ذریعے عطیہ کی کارروائی میں خرابی پیش آئی"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "آپ سے پیسے نہیں لیے گئے۔ دوبارہ کوشش کریں یا کوئی دوسرا پیمنٹ کا طریقہ استعمال کریں۔"
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "توثیق ناکام ہوگئی"
@@ -7829,9 +7865,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "اس اپ ڈیٹ میں متن کی فارمیٹنگ کے اس نقص کو ٹھیک کیا گیا ہے جو کیپس لاک فعال ہونے پر پیش آتی تھی جب کیپس لاک آن ہوتا تھا، لہذا آپ بولڈ ہیں تو بولڈ (یا اٹالک) کرنا اب آسان ہو گا۔ شکریہ، <DGrothePhD></DGrothePhD>"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "Signal ایک 501c3 غیر منافع بخش ادارہ ہے جو آپ کی سپورٹ کے بغیر ممکن نہ ہوتا، اور اب آپ Signal ڈیسک ٹاپ میں PayPal کے ذریعے عطیہ کر سکتے ہیں۔"
   }
 }

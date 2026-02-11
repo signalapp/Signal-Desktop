@@ -579,46 +579,46 @@
     "messageformat": "Para i-verify ang end-to-end encryption n'yo ni {name}, pagkumparahin ang numbers sa itaas ng device n'ya. Pwede rin n'yang i-scan ang code mo sa device n'ya."
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "Para i-verify ang end-to-end encryption niyo ni {name}, pagkumparahin ang numbers sa itaas ng mga device ninyo. Pwede niya ring i-scan ang code mo sa device niya."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Matuto pa"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Automatic Key Verification"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "I-verify automatically"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "Vine-verify ang encryption..."
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "Verified ang encryption"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "Hindi available ang auto-verification"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "Ang auto-verification ay hindi available para sa lahat ng chats."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "Matuto pa"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "Ang encryption ay auto-verified para sa chat na ito "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Para sa contacts na naka-connect sa 'yo via phone number, automatic na makukumpirma ng Signal kung ang connection ay secure sa pamamagitan ng prosesong key transparency. Para sa karagdagang security, i-verify ang end-to-end encryption manually sa pamamagitan ng pagkumpara ng numbers sa previous screen o sa pag-scan ng code sa kanilang device."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "Ang auto-verification ay hindi na available para sa chat na ito"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Hindi na automatic na mave-verify ng Signal ang encryption para sa chat na ito. Maaaring ito ay dahil sa pagpalit ni {name} ng kanyang phone number. I-verify ang end-to-end encryption manually sa pamamagitan ng pagkumpara ng numbers sa previous screen o sa pag-scan ng code sa kanilang device."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Kaya lamang i-verify automatically ng Signal ang encryption sa chats kapag connected ka sa isang tao gamit ang kanilang phone number. Kung ang chat ay nagsimula sa isang username o sa isang group in common, i-verify ang end-to-end encryption sa pamamagitan ng pagkumpara ng numbers sa previous screen o sa pag-scan ng code sa kanilang device."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
     "messageformat": "Okay"
@@ -630,43 +630,43 @@
     "messageformat": "Matuto pa"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "Ang Automatic Key Verification ay kasalukuyang hindi available para sa device mo. Gusto mo bang mag-submit ng debug log?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Ang debug logs ay makatutulong sa amin para ma-diagnose at maayos ang issue, at wala itong nilalaman na identifying information."
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Isara"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "I-share ang debug log"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "Tingnan"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "Isumite"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Ayaw ko, salamat na lang"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "Sina-submit..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Kaya nang i-auto verify ng Signal ang key encryption"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "Para sa contacts na naka-connect sa 'yo via phone number, automatic na makukumpirma ng Signal kung ang connection ay secure sa pamamagitan ng prosesong tinatawag na key transparency. Para sa karagdagang security, maaari mo pa ring i-verify ang connections manually gamit ang QR code o number."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Magpatuloy"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Matuto pa"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Isara"
   },
   "icu:verified": {
     "messageformat": "Beripikado"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "Si {name} ay nasa system contacts mo"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Maglagay ng member label"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Note"
@@ -1794,13 +1797,13 @@
     "messageformat": "I-cancel"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Automatic Key Verification"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "Kapag naka-enable ito, susubukan ng Signal na i-verify automatically ang encryption ng 1:1 chats."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "Matuto pa"
   },
   "icu:initialSync": {
     "messageformat": "Syncing contacts and groups"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "Voice"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Member labels"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Gumamit ng member label para ilarawan ang sarili o ang role mo sa group na ito. Ang member labels ay visible lamang sa group na ito."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Mag-set ng label"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "I-edit ang label mo"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Chat color"
   },
@@ -4660,6 +4675,24 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Link ng group"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Member label"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Ilagay ang member label mo"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Mag-set ng member label para ilarawan ang sarili o ang role mo sa group na ito. Ang member labels ay visible lamang sa group na ito."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Preview"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Hello!"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Saving changes..."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Mga naglalahong mensahe"
@@ -4695,7 +4728,7 @@
     "messageformat": "Piliin kung sinong pwedeng mag-edit ng group name, photo, description, at disappearing messages timer."
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "Piliin kung sino ang maaaring mag-edit ng pangalan ng group, photo, description, disappearing messages timer, at pinned messages."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Sinong pwedeng mag-add ng members"
@@ -7519,7 +7552,10 @@
     "messageformat": "Tanggalin ang info"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "Kapag umalis ka sa page na ito, kailangan mong magsimula ulit para kumpletuhin ang donasyon. Gusto mo bang magpatuloy?"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Magsimula ulit"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Magpatuloy"
@@ -7567,13 +7603,13 @@
     "messageformat": "Mayroon kang kasalukuyang donation na nangangailangan ng confirmation."
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Mayroon kang kasalukuyang donation na nangangailangan ng confirmation."
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "Canceled ang PayPal donation"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "Nagkaroon ng error sa pagproseso ng PayPal donation. Hindi ka na-charge dito."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Pumasok ang donation, pero hindi namin ma-update ang iyong badge settings"
@@ -7603,28 +7639,28 @@
     "messageformat": "Payment card icon"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Credit o debit card"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "I-cancel"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "Kumpletuhin ang Donation"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "Canceled ang PayPal donation"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Hindi ka na-charge dito. Subukan ulit o gumamit ng ibang payment method."
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "Nagkaroon ng error sa pagproseso ng PayPal donation"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Hindi ka na-charge dito. Subukan ulit o gumamit ng ibang payment method."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Failed ang Verification"
@@ -7829,9 +7865,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "Inayos ng update na ito ang bug kapag naka-enable ang Caps Lock. Maraming salamat, <DGrothePhD>@DGrothe-PhD</DGrothePhD>!"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "Ang Signal ay isang nonprofit na hindi magiging posible kung wala ang suporta mo, at ngayon ay maaari ka nang magbigay ng donation via PayPal sa Signal Desktop."
   }
 }

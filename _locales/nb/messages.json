@@ -579,49 +579,49 @@
     "messageformat": "Hvis du vil sjekke ende-til-ende-krypteringen du har med {name}, sammenligner du tallene ovenfor med tallene på enheten hens. Hen kan også skanne koden din med enheten sin."
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "Hvis du vil sjekke ende-til-ende-krypteringen du har med {name}, sammenligner du tallene ovenfor med tallene på enheten hens. Hen kan også skanne koden din med enheten sin."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Les mer"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Automatisk kodebekreftelse"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "Bekreft automatisk"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "Bekrefter krypteringen …"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "Krypteringen er bekreftet"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "Automatisk bekreftelse er ikke tilgjengelig"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "Automatisk bekreftelse er ikke tilgjengelig for alle samtaler."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "Les mer"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "Krypteringen i denne samtalen ble automatisk bekreftet "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Når du har lagt til en kontakt med telefonnummer, kan Signal automatisk bekrefte om forbindelsen er sikker via noe som kalles «key transparency». Hvis du ønsker mer sikkerhet, kan du bekrefte ende-til-ende-krypteringen manuelt ved å sammenligne tallene på forrige side eller skanne koden på enheten til personen du chatter med."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "Automatisk bekreftelse er ikke lenger tilgjengelig for denne samtalen"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal kan ikke bekrefte krypteringen i denne samtalen automatisk. Dette skyldes sannsynligvis at {name} har byttet telefonnummer. Du kan bekrefte ende-til-ende-krypteringen manuelt ved å sammenligne tallene på forrige side eller skanne koden på enheten til personen du chatter med."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal kan ikke bekrefte krypteringen i samtalen automatisk med mindre du har lagt til kontakten via et telefonnummer. Hvis du la til kontakten via et brukernavn eller en gruppe, må du bekrefte ende-til-ende-krypteringen manuelt. Dette gjør du ved å sammenligne tallene på den forrige siden eller skanne koden på enheten til personen du chatter med."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "Greit"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Samtalen vil få et eget sikkerhetsnummer når dere begynner å sende meldinger til hverandre."
@@ -630,43 +630,43 @@
     "messageformat": "Lær mer"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "Automatisk kodebekreftelse er ikke tilgjengelig for øyeblikket. Vil du sende inn en feilsøkingslogg?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Feilsøkingslogger gjør det lettere for oss å løse problemet. De inneholder ikke opplysninger som kan brukes til å identifisere deg."
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Lukk"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "Del feilsøkingslogg"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "Vis"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "Send inn"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Nei takk"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "Sender inn …"
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Signal bekrefter nå krypteringer automatisk"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "Når du har lagt til en kontakt med telefonnummer, kan Signal automatisk bekrefte om forbindelsen er sikker via noe som kalles «key transparency». Du kan også bekrefte tilkoblingene manuelt med en QR-kode eller et nummer."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Fortsett"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Les mer"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Lukk"
   },
   "icu:verified": {
     "messageformat": "Bekreftet"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} står i kontaktlisten på enheten din"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Legg til et medlemsmerke"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Notat"
@@ -1794,13 +1797,13 @@
     "messageformat": "Avbryt"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Automatisk kodebekreftelse"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "Når dette er aktivert, vil Signal forsøke å bekrefte krypteringen i personlige samtaler automatisk."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "Les mer"
   },
   "icu:initialSync": {
     "messageformat": "Synkroniserer kontakter og grupper"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "Tale"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Medlemsmerker"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Bruk medlemsmerker som beskriver deg eller rollen din i denne gruppen. Medlemsmerker vises kun i denne gruppen."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Velg et merke"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Rediger merket ditt"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Samtalefarge"
   },
@@ -4660,6 +4675,24 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Gruppelenke"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Medlemsmerke"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Skriv her"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Velg et medlemsmerke som beskriver deg eller rollen din i denne gruppen. Medlemsmerker vises kun i denne gruppen."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Forhåndsvisning"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Hei!"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Lagrer endringene …"
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Tidsavgrensede meldinger"
@@ -4695,7 +4728,7 @@
     "messageformat": "Velg hvem som kan redigere gruppenavnet, gruppeavataren og når meldinger forsvinner."
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "Velg hvem som kan redigere gruppenavnet, gruppebildet, gruppebeskrivelsen, festede meldinger og nedtellingen for tidsbegrensede meldinger."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Hvem kan legge til medlemmer"
@@ -7519,7 +7552,10 @@
     "messageformat": "Forlat siden"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "Du må starte prosessen på nytt dersom du forlater denne siden. Vil du gå videre?"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Begynn på nytt"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Fortsett"
@@ -7567,13 +7603,13 @@
     "messageformat": "Du har en pengegave som krever bekreftelse."
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Du har en pengegave som krever bekreftelse."
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPal-pengegaven ble avbrutt"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "Kunne ikke behandle PayPal-pengegaven. Ingenting har blitt trukket fra kontoen."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Gaven ble gitt, men vi kunne ikke endre innstillingene dine for merker."
@@ -7591,7 +7627,7 @@
     "messageformat": "Prøv igjen"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "Betalingsmåte"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Betalingsmåten ble avvist"
@@ -7600,31 +7636,31 @@
     "messageformat": "Prøv en annen betalingsmåte, eller ta kontakt med banken din for å få mer informasjon."
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "Betalingskort-ikon"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Kreditt- eller debetkort"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Avbryt"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "Fullfør pengegaven"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPal-pengegaven ble avbrutt"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Ingenting har blitt trukket fra kontoen. Prøv igjen, eller bruk en annen betalingsmåte."
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "Kunne ikke behandle PayPal-pengegaven"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Ingenting har blitt trukket fra kontoen. Prøv igjen, eller bruk en annen betalingsmåte."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Bekreftelse mislyktes"
@@ -7829,9 +7865,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "Denne oppdateringen fikser et problem knyttet til tekstformatering og caps lock-tasten. Takk, <DGrothePhD></DGrothePhD>!"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "Signal er en ideell organisasjon som er helt avhengig av støtte fra brukerne. Nå er det også mulig å gi en pengegave via PayPal i Signal Desktop."
   }
 }

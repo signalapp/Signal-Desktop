@@ -579,49 +579,49 @@
     "messageformat": "Per verificar el xifrat amb {name}, compara les xifres de dalt amb les del dispositiu d'aquella persona. També poden escanejar el teu codi amb el seu dispositiu."
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "Per verificar el xifrat amb {name}, compara les xifres de dalt amb les del dispositiu d'aquella persona. També poden escanejar el teu codi al el seu dispositiu."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Més informació"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Verificació automàtica de clau"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "Verificar automàticament"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "Verificant codificació…"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "Codificació verificada"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "La verificació automàtica no està disponible"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "La verificació automàtica no està disponible per a tots els xats."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "Més informació"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "La codificació d'aquest xat s'ha verificat automàticament "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Per als contactes amb qui hagis connectat a través d'un número de telèfon, Signal pot confirmar automàticament si la connexió és segura mitjançant un procés anomenat transparència de claus. Per a més seguretat, verifica la codificació d'extrem a extrem manualment comparant els números de la pantalla anterior o escanejant el codi al dispositiu de l'altra persona."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "La verificació automàtica ja no està disponible per a aquest xat"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal ja no pot verificar automàticament la codificació d'aquest xat. Probablement, això passa perquè {name} ha canviat el seu número de telèfon. Verifica manualment la codificació d'extrem a extrem comparant els números de la pantalla anterior o escanejant el codi al dispositiu de l'altra persona."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal només pot verificar automàticament la codificació en xats on hagis connectat a través del número de telèfon. Si has iniciat el xat a través d'un àlies o un grup en comú, verifica la codificació d'extrem a extrem comparant els números de la pantalla anterior o escanejant el codi al dispositiu de l'altra persona."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "D'acord"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Es crearà un número de seguretat amb aquesta persona després d'intercanviar missatges amb ella."
@@ -630,43 +630,43 @@
     "messageformat": "Més informació"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "Actualment, la verificació automàtica de claus no està disponible al teu dispositiu. Vols enviar un registre de depuració?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Els registres de depuració ens ajuden a diagnosticar i solucionar el problema i no contenen informació que pugui identificar-te."
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Tanca"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "Compartir registre de depuració"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "Mostra"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "Envia"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "No, gràcies."
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "Enviant…"
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Ara, Signal pot verificar automàticament la codificació de les claus"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "Per als contactes amb qui hagis connectat a través d'un número de telèfon, Signal pot confirmar automàticament si la connexió és segura mitjançant un procés anomenat transparència de claus. Per a més seguretat, pots continuar verificant manualment les teves connexions mitjançant un codi QR o un número."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Continua"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Més informació"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Tanca"
   },
   "icu:verified": {
     "messageformat": "Verificat"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} és als contactes del teu sistema"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Afegir categoria de membre"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Nota"
@@ -1794,13 +1797,13 @@
     "messageformat": "Cancel·la"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Verificació automàtica de clau"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "Quan aquesta opció està habilitada, Signal intentarà verificar automàticament la codificació dels xats individuals."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "Més informació"
   },
   "icu:initialSync": {
     "messageformat": "Sincronització de contactes i grups"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "Veu"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Categories de membres"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Fes servir una categoria de membre per descriure't a tu o al teu rol dins d'aquest grup. Les categories dels membres només són visibles dins d'aquest grup."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Defineix una categoria"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Editar la teva categoria"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Color del xat"
   },
@@ -4660,6 +4675,24 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Enllaç del grup"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Categoria de membre"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Introdueix la teva categoria de membre"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Defineix una categoria de membre per descriure't a tu o al teu rol dins d'aquest grup. Les categories dels membres només són visibles dins d'aquest grup."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Previsualitza"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Hola!"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Guardant canvis…"
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Missatges efímers"
@@ -4695,7 +4728,7 @@
     "messageformat": "Trieu qui pot editar el nom del grup, la fotografia, la descripció i el temporitzador dels missatges efímers."
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "Tria qui pot editar el nom, la imatge i la descripció del grup, el temporitzador dels missatges a desaparèixer i els missatges fixats."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Qui pot afegir membres"
@@ -7519,7 +7552,10 @@
     "messageformat": "Eliminar informació"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "Si surts d'aquesta pàgina, hauràs de començar de nou per completar una donació. Vols continuar?"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Tornar a començar"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Continua"
@@ -7567,13 +7603,13 @@
     "messageformat": "Tens una donació en curs que necessita confirmació."
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Tens una donació en curs que necessita confirmació."
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "Donació a través de PayPal cancel·lada"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "S'ha produït un error en processar la donació a través de PayPal. No se t'ha efectuat el càrrec."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "La donació s'ha realitzat correctament, però no hem pogut actualitzar els ajustos de la teva insígnia"
@@ -7591,7 +7627,7 @@
     "messageformat": "Torna a provar-ho"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "Mètode de pagament"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Mètode de pagament rebutjat"
@@ -7600,31 +7636,31 @@
     "messageformat": "Prova un altre mètode de pagament o posa't en contacte amb el banc per obtenir-ne més informació."
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "Icona de tarjeta de pagament"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Targeta de crèdit o dèbit"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Cancel·la"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "Completar donació"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "Donació a través de PayPal cancel·lada"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "No se t'ha efectuat el càrrec. Torna-ho a provar o utilitza un altre mètode de pagament."
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "S'ha produït un error en processar la donació a través de PayPal"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "No se t'ha efectuat el càrrec. Torna-ho a provar o utilitza un altre mètode de pagament."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "La verificació ha fallat"
@@ -7829,9 +7865,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "Aquesta actualització corregeix un error en el format de text mentre les majúscules estaven activades. Gràcies, <DGrothePhD></DGrothePhD>!"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "Signal és una organització sense ànim de lucre que no podria sostenir-se sense la teva ajuda. Ara, a Signal Desktop, pots fer donacions a través de PayPal."
   }
 }

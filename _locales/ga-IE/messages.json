@@ -579,49 +579,49 @@
     "messageformat": "Chun criptiú ó cheann ceann le {name} a fhíorú, cuir na huimhreacha thuas i gcomparáid le gléas an duine sin. Is féidir leis an duine eile do chód a scanadh leis an ngléas aige/aici freisin."
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "Chun criptiú ó cheann ceann le {name} a fhíorú, cuir na huimhreacha thuas i gcomparáid le gléas an duine sin. Is féidir leis an duine eile do chód a scanadh ar an ngléas aige/aici freisin."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Tuilleadh faisnéise"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Uathfhíorú eochrach"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "Fíoraigh go huathoibríoch"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "Criptiú á fhíorú..."
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "Criptiú fíoraithe"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "Níl an t-uathfhíorú ar fáil"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "Níl an t-uathfhíorú ar fáil i gcás gach comhrá."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "Tuilleadh faisnéise"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "Uathfhíoraíodh an criptiú don chomhrá seo "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "I gcás teagmhálaithe lena bhfuil tú nasctha le huimhir ghutháin, is féidir le Signal slánú an naisc a dheimhniú go huathoibríoch agus próiseas ar a dtugtar trédhearcacht eochracha in úsáid. Ar mhaithe le slándáil bhreise, fíoraigh an criptiú ó cheann ceann de láimh ach na huimhreacha ar an scáileán roimhe a chur i gcomparáid lena chéile nó an cód ar ghléas an duine a scanadh."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "Níl an t-uathfhíorú ar fáil don chomhrá seo a thuilleadh"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Ní féidir le Signal an criptiú a uathfhíorú don chomhrá seo a thuilleadh. Is dócha gur athraigh {name} a (h)uimhir ghutháin. Fíoraigh an criptiú ó cheann ceann de láimh ach na huimhreacha ar an scáileán roimhe a chur i gcomparáid le chéile nó an cód ar ghléas an duine a scanadh."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Níl Signal in ann an criptiú i gcomhráite a uathfhíorú ach amháin nuair a bhíonn tú nasctha le duine éigin eile agus uimhir ghutháin in úsáid. I gcás gur tosaíodh comhrá agus ainm úsáideora nó grúpa i bpáirt, fíoraigh an criptiú ó cheann ceann ach na huimhreacha ar an scáileán roimhe a chur i gcomparáid lena chéile nó an cód ar ghléas an duine a scanadh."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "Tá go maith"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Cruthófar uimhir sábháilteachta leis an duine sin tar éis duit teachtaireachtaí a sheoladh idir a chéile."
@@ -630,43 +630,43 @@
     "messageformat": "Foghlaim tuilleadh"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "Níl Uathfhíorú Eochracha ar fáil faoi láthair do do ghléas. Cuir isteach loga dífhabhtaithe?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Cabhraíonn logaí dífhabhtaithe linn an fhadhb a dhiagnóisiú agus a réiteach, agus ní bhíonn faisnéis aitheantais iontu."
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Dún"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "Comhroinn an loga dífhabhtaithe"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "Féach air"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "Seol isteach é"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Níl, go raibh maith agat"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "Á chur isteach..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Tá Signal in ann criptiú eochracha a uathfhíorú anois"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "I gcás teagmhálaithe lena bhfuil tú nasctha le huimhir ghutháin, is féidir le Signal slánú an naisc a dheimhniú go huathoibríoch agus próiseas ar a dtugtar trédhearcacht eochracha in úsáid. Mar shlánú sa bhreis, is féidir leat naisc a fhíorú de láimh fós le cód QR nó uimhir."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Ar aghaidh"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Tuilleadh faisnéise"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Dún"
   },
   "icu:verified": {
     "messageformat": "Deimhnithe"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "Tá {name} i dteagmhálaithe do chórais"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Cuir lipéad baill leis"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Nóta"
@@ -1794,13 +1797,13 @@
     "messageformat": "Cuir ar ceal"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Uathfhíorú eochrach"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "Agus é cumasaithe, déanfaidh Signal iarracht criptiú comhráite 1:1 a fhíorú go huathoibríoch."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "Tuilleadh Faisnéise"
   },
   "icu:initialSync": {
     "messageformat": "Teagmhálaithe agus grúpaí á sioncronú"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "Guthghlao"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Lipéid na mball"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Úsáid lipéad baill le cur síos a dhéanamh ort féin nó ar do ról sa ghrúpa seo. Níl lipéad na mball infheicthe ach sa ghrúpa seo."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Socraigh lipéad"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Cuir do lipéad in eagar"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Dath an chomhrá"
   },
@@ -4660,6 +4675,24 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Group Link"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Lipéad baill"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Cuir isteach do lipéad baill"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Socraigh lipéad baill le cur síos a dhéanamh ort féin nó ar do ról sa ghrúpa seo. Níl lipéad na mball infheicthe ach sa ghrúpa seo."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Réamhamharc"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Haigh!"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Athruithe á sábháil..."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Teachtaireachtaí a imíonn as amharc"
@@ -4695,7 +4728,7 @@
     "messageformat": "Roghnaigh cé atá in ann ainm an ghrúpa, grianghraf, cur síos agus amadóir na dteachtaireachtaí sealadacha a chur in eagar."
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "Roghnaigh cé atá in ann ainm, grianghraf, cur síos, amadóir teachtaireachtaí sealadacha agus teachtaireachtaí pionnáilte an ghrúpa a chur in eagar."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Daoine atá in ann baill a chur leis"
@@ -7519,7 +7552,10 @@
     "messageformat": "Bain an fhaisnéis"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "Má imíonn tú ón leathanach seo, beidh ort tosú as an nua le tabhartas a chríochnú. An mian leat leanúint leis?"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Tosaigh as an nua"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Ar aghaidh"
@@ -7567,13 +7603,13 @@
     "messageformat": "Tá tabhartas ar bun agat a éilíonn fíorú."
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Tá tabhartas ar bun agat a éilíonn fíorú."
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "Tabhartas PayPal curtha ar ceal"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "Earráid le próiseáil thabhartas PayPal. Níor gearradh aon airgead ort."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "D'éirigh leis an tabhartas, ach ní rabhamar in ann socruithe do shuaitheantais a nuashonrú"
@@ -7591,7 +7627,7 @@
     "messageformat": "Triail arís é"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "Modh íocaíochta"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Diúltaíodh don mhodh íocaíochta"
@@ -7600,31 +7636,31 @@
     "messageformat": "Triail modh íocaíochta eile nó déan teagmháil le do bhanc le tuilleadh faisnéise a fháil."
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "Deilbhín an chárta íocaíochta"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Cárta Creidmheasa nó Dochair"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Cuir ar ceal"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "Cuir an Tabhartas i gCrích"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "Tabhartas PayPal curtha ar ceal"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Níor gearradh aon airgead ort. Triail arís nó úsáid modh íocaíochta eile."
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "Earráid le próiseáil thabhartas PayPal"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Níor gearradh aon airgead ort. Triail arís nó úsáid modh íocaíochta eile."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Theip ar Dheimhniú"
@@ -7829,9 +7865,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "Réitíonn an nuashonrú seo fabht le formáidiú téacs agus CAPS LOCK cumasaithe. Go raibh maith agat, <DGrothePhD></DGrothePhD>!"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "Eagraíocht neamhbhrabúis is ea é Signal nach mbeadh ann dó gan do thacaíocht, agus is féidir leat airgead a thabhairt anois trí PayPal in Signal Desktop."
   }
 }

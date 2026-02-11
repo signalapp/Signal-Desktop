@@ -579,49 +579,49 @@
     "messageformat": "如果想驗證你同 {name} 之間嘅端對端加密設定，你可以對吓上面嘅號碼同佢部機入面嘅號碼。佢亦可以用佢部機掃你嘅二維碼。"
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "如果想驗證你同 {name} 之間嘅端對端加密設定，你可以對吓上面嘅號碼同佢部機入面嘅號碼。佢亦可以用佢部機掃你嘅二維碼。"
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "了解多啲"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "自動金鑰驗證"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "自動驗證"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "加密驗證緊……"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "加密驗證已經攪掂"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "冇得用自動驗證功能"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "所有聊天都冇得用自動驗證功能。"
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "了解多啲"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "系統已經為呢個聊天做緊自動加密驗證 "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "對於用電話冧把聯絡嘅聯絡人，Signal 會進行一個叫「金鑰透明度」嘅程序，自動確認聯絡對象係咪安全。如果想更加保險，你可以比較上一個畫面嘅數字，或者掃瞄佢部機嘅二維碼嚟手動驗證端對端加密。"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "呢個聊天已經冇咗自動驗證功能"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal 唔可以再自動驗證呢個聊天嘅加密。原因可能係 {name} 轉咗新電話冧把。如果想手動驗證端對端加密，你可以比較上一個畫面嘅數字，或者掃瞄佢部機嘅二維碼。"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "只有用電話冧把同對方聯絡嘅聊天，Signal 先可以自動做加密驗證。如果個聊天係由用戶名稱或者經聊天谷建立，你可以比較上一個畫面嘅數字，或者掃瞄佢部機嘅二維碼嚟驗證端對端加密。"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "確定"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "你同對方互相傳送訊息之後，系統就會幫你建立一個同佢嘅安全碼。"
@@ -630,43 +630,43 @@
     "messageformat": "了解多啲"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "你嘅裝置而家冇得用「自動金鑰驗證」。係咪要提交除錯記錄？"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "除錯紀錄可以幫我哋診斷同修正問題，當中唔會包含任何識別資料。"
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "關閉"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "分享除錯記錄"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "睇吓"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "提交"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "唔使喇，唔該"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "提交緊……"
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Signal 而家可以自動驗證加密"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "對於用電話冧把聯絡嘅聯絡人，Signal 會進行一個叫「金鑰透明度」嘅程序，自動確認聯絡對象係咪安全。如果想更加保險，你可以繼續用返二維碼或者安全碼人手驗證聯絡人。"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "繼續"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "了解多啲"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "關閉"
   },
   "icu:verified": {
     "messageformat": "已驗證"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} 係你嘅聯絡人"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "加成員標籤"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "備註"
@@ -1794,13 +1797,13 @@
     "messageformat": "取消"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "自動金鑰驗證"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "啟用嗰陣，Signal 會嘗試自動驗證 1 對 1 聊天嘅加密。"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "了解詳情"
   },
   "icu:initialSync": {
     "messageformat": "同步緊聯絡人同群組"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "語音"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "成員標籤"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "用一個成員標籤嚟形容你自己或你喺呢個谷入面嘅角色。成員標籤只會喺呢嗰谷度見到。"
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "設定標籤"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "編輯你嘅標籤"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "聊天色彩"
   },
@@ -4660,6 +4675,24 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "群組連結"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "成員標籤"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "輸入你嘅成員標籤"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "設定一個成員標籤嚟形容你自己或你喺呢個谷入面嘅角色。成員標籤只會喺呢嗰谷度見到。"
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "試嚟睇下"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "歡迎！"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "變更儲存緊……"
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "過眼雲煙訊息"
@@ -4695,7 +4728,7 @@
     "messageformat": "揀選邊個可以編輯群組個名、相、描述同埋自動銷毀訊息嘅時限。"
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "揀選邊個可以編輯個谷名、相、描述、自動銷毀訊息計時器同埋置頂訊息。"
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "邊個可以加新成員"
@@ -7519,7 +7552,10 @@
     "messageformat": "移除資訊"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "如果離開呢頁，你就要重新開始先可以完成捐款。係咪要繼續？"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "重新開始"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "繼續"
@@ -7567,13 +7603,13 @@
     "messageformat": "你有一筆處理緊嘅捐贈需要確認。"
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "你有一筆處理緊嘅捐贈需要確認。"
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "取消咗 PayPal 捐款"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "處理 PayPal 捐款時發生錯誤。你冇被扣款。"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "成功捐款，但係我哋更新唔到你嘅徽章設定"
@@ -7591,7 +7627,7 @@
     "messageformat": "再試一次"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "付款方法"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "唔接受呢個付款方法"
@@ -7600,31 +7636,31 @@
     "messageformat": "試下轉用另一種付款方式，又或者聯絡返你間銀行問清楚。"
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "付款卡圖示"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "信用卡或扣帳卡"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "取消"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "捐款已經攪掂"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "取消咗 PayPal 捐款"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "你冇被扣款。請再試一次或者用其他付款方法。"
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "處理 PayPal 捐款時發生錯誤"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "你冇被扣款。請再試一次或者用其他付款方法。"
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "驗證失敗"
@@ -7829,9 +7865,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "呢次更新攪好咗當「大寫鎖定」功能啟用嗰陣文字格式嘅錯誤，你而家可以隨時膽粗粗咁將文字變粗（或者斜體）。唔該晒，<DGrothePhD></DGrothePhD>！"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "Signal 係一個非牟利機構，冇你嘅支持就唔可能有今日嘅成果。而家你可以透過 PayPal 喺 Signal 桌面版捐款。"
   }
 }

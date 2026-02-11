@@ -579,49 +579,49 @@
     "messageformat": "{name}-თან ბოლომდე დაშიფვრის დასადასტურებლად, შეედარე მის მოწყობილობაში მოცემული ციფრებს. მას ასევე შეუძლია შენი კოდი თავისი მოწყობილობით დაასკანიროს."
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "{name}-თან ბოლომდე დაშიფვრის დასადასტურებლად, შეადარე მის მოწყობილობაში მოცემულ ციფრებს. მას ასევე შეუძლია შენი კოდი თავისი მოწყობილობით დაასკანეროს."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "გაიგე მეტი"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "ავტომატური ვერიფიკაცია გასაღებით"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "გაიარე ვერიფიკაცია ავტომატურად"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "მიმდინარეობს დაშიფვრის ვერიფიკაცია..."
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "ვერიფიცირებული დაშიფვრა"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "ავტომატური ვერიფიკაცია ხელმისაწვდომი არაა"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "ავტომატური ვერიფიკაცია ყველა ჩატისთვის ხელმისაწვდომი არაა."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "გაიგე მეტი"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "ამ ჩატის დაშიფვრა ავტომატურად ვერიფიცირებულია "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal-ს შეუძლია კონტაქტებისთვის, რომლებთანაც მობილურის ნომრით ხარ დაკავშირებული, კავშირის უსაფრთხოება ავტომატურად დაადასტუროს პროცესის დახმარებით, რომელსაც გასაღების გამჭვირვალობა ჰქვია. დამატებითი უსაფრთხოებისთვის, ბოლომდე დაშიფვრის ვერიფიკაცია წინა ეკრანზე არსებული რიცხვების შედარებით ან მის მოწყობილობაზე კოდის სკანირებით შეგიძლია."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "ამ ჩატისთვის ავტომატური ვერიფიკაცია ხელმისაწვდომი არაა"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal-ი ამ ჩატის დაშიფვრის ავტომატურ ვერიფიკაციას ვეღარ შეძლებს. ალბათ, ეს იმიტომ მოხდა, რომ {name}-მ(ა) მობილურის ნომერი შეცვალა. ხელით გადაამოწმე ბოლომდე დაშიფვრა წინა ეკრანზე არსებული რიცხვების შედარებით ან მის მოწყობილობაზე კოდის სკანირებით."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal-ს მხოლოდ იმ ჩატების დაშიფვრის ავტომატური ვერიფიკაცია შეუძლია, რომლებშიც ვინმესთან მობილურის ნომრით ხარ დაკავშირებული. თუ ჩატი მომხმარებლის სახელით ან საერთო ჯგუფით წამოიწყო, ბოლომდე დაშიფვრის ვერიფიკაციას წინა ეკრანზე არსებული რიცხვების შედარებით ან მის მოწყობილობაზე კოდის სკანირებით შეძლებ."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "კარგი"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "უსაფრთხოების ნომერი შეიქმნება ამ ადამიანთან მიმოწერის შემდეგ."
@@ -630,40 +630,40 @@
     "messageformat": "გაიგე მეტი"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "შენს მოწყობილობაზე გასაღების ავტომატური ვერიფიკაცია ამჟამად ხელმისაწვდომი არაა. გსურს გაუმართაობის რეესტრის ატვირთვა?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "გაუმართაობის რეესტრი პრობლემის დიაგნოსტიკასა და გამოსწორებაში გვეხმარება და საიდენტიფიკაციო ინფორმაციას არ შეიცავს."
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
     "messageformat": "Close"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "გაუმართაობის რეესტრის გაზიარება"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "ნახვა"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "დადასტურება"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "არა, მადლობა"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "იტვირთება..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "ახლა უკვე Signal-ს გასაღების დაშიფვრის ავტომატური ვერიფიკაცია შეუძლია"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "Signal-ს შეუძლია კონტაქტებისთვის, რომლებთანაც მობილურის ნომრით ხარ დაკავშირებული, კავშირის უსაფრთხოება ავტომატურად დაადასტუროს პროცესის დახმარებით, რომელსაც გასაღების გამჭვირვალობა ჰქვია. დამატებითი უსაფრთხოებისთვის, კავშირების ვერიფიკაცია ხელითაც შეგიძლია, QR კოდის ან ნომრის გამოყენებით."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "გაგრძელება"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "გაიგე მეტი"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
     "messageformat": "Close"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} შენი სისტემის კონტაქტებშია"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "დაამატე წევრის იარლიყი"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "ჩანიშვნა"
@@ -1794,13 +1797,13 @@
     "messageformat": "გაუქმება"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "ავტომატური ვერიფიკაცია გასაღებით"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "თუ ეს ჩართული იქნება, Signal-ი ერთი ერთზე ჩატების დაშიფვრის ავტომატურ ვერიფიკაციას ცდის."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "გაიგე მეტი"
   },
   "icu:initialSync": {
     "messageformat": "მიმდინარეობს კონტაქტებისა და ჯგუფების სინქრონიზაცია"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "ხმოვანი ზარი"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "წევრის იარლიყი"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "გამოიყენე წევრის იარლიყი შენი თავის ან ჯგუფში შენი როლის აღსაწერად. წევრის იარლიყები მხოლოდ ამ ჯგუფში ჩანს."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "დააყენე იარლიყი"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "დაარედაქტირე შენი იარლიყი"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "ჩატის ფერი"
   },
@@ -4660,6 +4675,24 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "ჯგუფის ბმული"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "წევრის იარლიყი"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "შეიყვანე შენი წევრის იარლიყი"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "გამოიყენე წევრის იარლიყი შენი თავის ან ჯგუფში შენი როლის აღსაწერად. წევრის იარლიყები მხოლოდ ამ ჯგუფში ჩანს."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "წინასწარი ნახვა"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "გამარჯობა!"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "ცვლილებები ინახება..."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "გაქრობადი შეტყობინებები"
@@ -4695,7 +4728,7 @@
     "messageformat": "აირჩიე, ვის შეუძლია ჯგუფის სახელის, ფოტოს, აღწეროლობის და გაქრობადი შეტყობინებების ტაიმერის რედაქტირება."
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "აირჩიე, ვინ შეძლებს ჯგუფის სახელის, ფოტოს, აღწერის, გაქრობადი შეტყობინებების წამზომისა და აპინული წერილების რედაქტირებას."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "ვის შეუძლია წევრების დამატება"
@@ -7519,7 +7552,10 @@
     "messageformat": "ინფორმაციის წაშლა"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "თუ ამ გვერდიდან გახვალ, დონაციის გასაკეთებლად ყველაფრის თავიდან დაწყება მოგიწევს. გსურს, გააგრძელო?"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "თავიდან დაწყება"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "გაგრძელება"
@@ -7567,13 +7603,13 @@
     "messageformat": "თქვენ გაქვთ განუხორციელებელი დონაცია, რომელიც საჭიროებს დადასტურებას."
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "თქვენ გაქვთ განუხორციელებელი დონაცია, რომელიც საჭიროებს დადასტურებას."
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPal-ის დონაცია გაუქმდა"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "PayPal-ის დონაციის დამუშავება ვერ მოხერხდა. საფასური არ ჩამოგჭრია."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "დონაცია წარმატებით განხორციელდა, მაგრამ შენი ემბლემის პარამეტრების განახლება ვერ მოხერხდა"
@@ -7591,7 +7627,7 @@
     "messageformat": "სცადეთ ახლიდან"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "გადახდის მეთოდი"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "გადახდის მეთოდი უარყოფილია"
@@ -7600,31 +7636,31 @@
     "messageformat": "სცადე გადახდის სხვა მეთოდი ან დამატებითი ინფორმაციისთვის შენს ბანკს დაუკავშირდი."
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "გადახდის ბარათის ხატულა"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "საკრედიტო ან სადებეტო ბარათი"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "გაუქმება"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "დონაციის დასრულება"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPal-ის დონაცია გაუქმდა"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "საფასური არ ჩამოგჭრია. თავიდან სცადე ან გადახდის სხვა მეთოდი სცადე."
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "PayPal-ის დონაციის დამუშავებისას ხარვეზი დაფიქსირდა"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "საფასური არ ჩამოგჭრია. თავიდან სცადე ან გადახდის სხვა მეთოდი სცადე."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "ვერიფიკაცია ვერ მოხერხდა"
@@ -7829,9 +7865,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "ამ განახლებაში ტექსტის ფორმატირების ხარვეზი გამოვასწორეთ, რომელიც Caps Lock-ის ჩართვისას (ან კურსივის ჩართვისას) ფიქსირდებოდა. მადლობა, <DGrothePhD></DGrothePhD>!"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "Signal-ი არაკომერციული ორგანიზაციაა, რომელიც შენი მხარდაჭერის გარეშე ვერ იარსებებდა. ახლა უკვე Signal Desktop-ზე PayPal-ით დონაცია შეგიძლია."
   }
 }

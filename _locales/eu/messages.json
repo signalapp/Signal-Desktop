@@ -579,49 +579,49 @@
     "messageformat": "{name} erabiltzailearekin muturretik muturrerako enkriptatzea egiaztatzeko, alderatu goiko zenbakiak haren gailukoekin. Halaber, zure kodea eskanea dezake bere gailuarekin."
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "{name} erabiltzailearekin muturretik muturrerako enkriptatzea egiaztatzeko, alderatu goiko zenbakiak haren gailukoekin. Halaber, zure kodea bere gailuarekin eskanea dezake."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Informazio gehiago"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Gakoen egiaztapen automatikoa"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "Egiaztatu automatikoki"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "Enkriptatzea egiaztatzen…"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "Egiaztatu da enkriptatzea"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "Egiaztapen automatikoa ez dago eskuragarri"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "Egiaztapen automatikoa ez dago eskuragarri txat guztietan."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "Informazio gehiago"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "Enkriptatzea automatikoki egiaztatu da txat honetan "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Zurekin telefono-zenbaki bidez konektatuta dauden kontakuei dagokienez, Signal-ek \"gako-gardentasuna\" izeneko prozesu baten bidez egiazta dezake konexioa seguruan den. Segurtasun gehiago izateko, egiaztatu muturretik muturrerako enkriptatzea eskuz, aurreko pantailako zenbakiak alderatuz edo gailuko kodea eskaneatuz."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "Egiaztapen automatikoa ez dago eskuragarri dagoeneko txat honetarako"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal-ek dagoeneko ezin du txat honen enkriptatzea automatikoki egiaztatu. Baliteke {name}(e)k telefonoa aldatu duelako izatea. Egiaztatu muturretik muturrerako enkriptatzea eskuz, aurreko pantailako zenbakiak alderatuz edo gailuko kodea eskaneatuz."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal-ek enkriptatzea automatikoki egiaztatu ahal izateko, zurekin telefono-zenbaki bidez konektatuta dauden pertsonekin izan behar dituzu txatak. Txata erabiltzaile-izen batekin edo talde komun batekin hasi bada, egiaztatu muturretik muturrerako enkriptatzea, aurreko pantailako zenbakiak alderatuz edo gailuko kodea eskaneatuz."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "Ados"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Segurtasun-zenbaki bat sortuko da pertsona honekin mezuak trukatu ondoren."
@@ -630,43 +630,43 @@
     "messageformat": "Gehiago jakin"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "Une honetan, gako-egiaztapen automatikoa ez dago erabilgarri zure gailuan. Arazketa-erregistroa bidali nahi duzu?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Arazketa-erregistroak arazoa diagnostikatzen eta konpontzen laguntzen digu, eta ez dute identifikazio-informaziorik."
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Itxi"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "Partekatu arazketa-erregistroa"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "Ikusi"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "Bidali"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Ez eskerrik asko"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "Bidaltzen…"
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Orain, Signal-ek automatikoki egiazta dezake gakoen enkriptatzea"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "Zurekin telefono-zenbaki bidez konektatuta dauden kontakuei dagokienez, Signal-ek \"gako-gardentasuna\" izeneko prozesu baten bidez egiazta dezake konexioa seguruan den. Segurtasun gehigarria emateko, konexioak eskuz egiazta ditzakezu oraindik ere, QR kode edo zenbaki bat erabilita."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Jarraitu"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Informazio gehiago"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Itxi"
   },
   "icu:verified": {
     "messageformat": "Egiaztatuta"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} zure sistemako kontaktuetan dago"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Gehitu kide-etiketa bat"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Oharra"
@@ -1794,13 +1797,13 @@
     "messageformat": "Utzi"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Gakoen egiaztapen automatikoa"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "Gaitzen baduzu, Signal automatikoki saiatuko da banakako txaten enkriptatzea egiaztatzen."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "Informazio gehiago"
   },
   "icu:initialSync": {
     "messageformat": "Kontaktuak eta taldeak sinkronizatzen"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "Ahotsa"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Kide-etiketak"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Erabili kide-etiketak zeure burua edo taldean duzun funtzioa deskribatzeko. Kide-etiketak talde barruan bakarrik egongo dira ikusgai."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Ezarri etiketa bat"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Editatu etiketa"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Txat-kolorea"
   },
@@ -4660,6 +4675,24 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Talderako esteka"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Kide-etiketa"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Idatzi kide-etiketa"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Ezarri kide-etiketa bat zeure burua edo taldean duzun funtzioa deskribatzeko. Kide-etiketak talde barruan bakarrik egongo dira ikusgai."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Aurrebista"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Kaixo!"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Aldaketak gordetzen…"
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Mezuen desagerpena"
@@ -4695,7 +4728,7 @@
     "messageformat": "Aukeratu nork edita ditzakeen taldearen izena, argazkia, deskribapena eta desagertzen diren mezuen tenporizadorea."
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "Aukeratu nork edita ditzakeen taldearen izena, argazkia, azalpena, desagertzen diren mezuen tenporizadoreak eta ainguratutako mezuak."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Nork gehitu ditzake kide berriak"
@@ -7519,7 +7552,10 @@
     "messageformat": "Kendu informazioa"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "Orri honetatik irteten bazara, berriro hasi beharko duzu dohaintza osatzeko. Aurrera egin nahi duzu?"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Hasi berriro"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Jarraitu"
@@ -7567,13 +7603,13 @@
     "messageformat": "Berretsi beharreko dohaintza bat duzu abian."
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Berretsi beharreko dohaintza bat duzu abian."
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "Bertan behera utzi da PayPal bidezko dohaintza"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "Errore bat gertatu da PayPal bidezko dohaintza prozesatzean. Ez zaizu ezer kobratu."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Egin da dohaintza, baina ezin izan ditugu eguneratu bereizgarrien ezarpenak"
@@ -7591,7 +7627,7 @@
     "messageformat": "Saiatu berriro"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "Ordainketa-metodoa"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Ordainketa-metodo baztertu egin da"
@@ -7600,31 +7636,31 @@
     "messageformat": "Saiatu berriro beste ordainketa-metodo batekin edo jarri harremanetan zure bankuarekin informazio gehiago lortzeko."
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "Ordainketa-txartelaren ikonoa"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Kreditu- edo zordunketa-txartela"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Utzi"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "Osatu dohaintza"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "Bertan behera utzi da PayPal bidezko dohaintza"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Ez zaizu ezer kobratu. Saiatu berriro edo erabili beste ordainketa-metodo bat."
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "Errore bat gertatu da PayPal bidezko dohaintza prozesatzean"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Ez zaizu ezer kobratu. Saiatu berriro edo erabili beste ordainketa-metodo bat."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Egiaztapenak huts egin du"
@@ -7829,9 +7865,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "Eguneratze honen bidez, Blok Maius gaitzean testuaren formatuari eragiten zion akats bat konpondu da. Aupa zu, <DGrothePhD></DGrothePhD>!"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "Signal irabazi-asmorik gabeko erakunde bat da, eta ez litzateke posible izango zure babesa gabe. Orain, Signal Desktop-en, PayPal bidez egin ditzakezu dohaintzak."
   }
 }

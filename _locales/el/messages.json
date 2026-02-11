@@ -579,49 +579,49 @@
     "messageformat": "Για να επαληθεύσεις την κρυπτογράφηση από άκρο σε άκρο με τον χρήστη {name}, σύγκρινε τους παραπάνω αριθμούς με αυτούς στη συσκευή του. Μπορεί επίσης να σκανάρει τον κωδικό σου με τη συσκευή του."
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "Για να επαληθεύσεις την κρυπτογράφηση από άκρο σε άκρο με τον χρήστη {name}, σύγκρινε τους παραπάνω αριθμούς με αυτούς στη συσκευή του. Μπορεί επίσης να σκανάρει τον κωδικό σου με τη συσκευή του."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Μάθε περισσότερα"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Αυτόματη επαλήθευση κλειδιού"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "Αυτόματη επαλήθευση"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "Επαλήθευση κρυπτογράφησης..."
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "Η κρυπτογράφηση επαληθεύτηκε"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "Η αυτόματη επαλήθευση δεν είναι διαθέσιμη"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "Η αυτόματη επαλήθευση δεν είναι διαθέσιμη για όλες τις συνομιλίες."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "Μάθε περισσότερα"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "Η κρυπτογράφηση επαληθεύτηκε αυτόματα για αυτήν τη συνομιλία "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Για τις επαφές με τις οποίες έχεις συνδεθεί μέσω αριθμού τηλεφώνου, το Signal μπορεί να επιβεβαιώσει αυτόματα εάν η σύνδεση είναι ασφαλής χρησιμοποιώντας μια διαδικασία που ονομάζεται διαφάνεια κλειδιού. Για πρόσθετη ασφάλεια, επαλήθευσε την κρυπτογράφηση από άκρο σε άκρο χειροκίνητα συγκρίνοντας τους αριθμούς στην προηγούμενη οθόνη ή σαρώνοντας τον κωδικό στη συσκευή τους."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "Η αυτόματη επαλήθευση δεν είναι πλέον διαθέσιμη για αυτήν τη συνομιλία"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Το Signal δεν μπορεί πλέον να επαληθεύσει αυτόματα την κρυπτογράφηση για αυτήν τη συνομιλία. Αυτό πιθανότατα οφείλεται στο γεγονός ότι ο χρήστης {name} άλλαξε τον αριθμό τηλεφώνου του. Επαλήθευσε την κρυπτογράφηση από άκρο σε άκρο χειροκίνητα συγκρίνοντας τους αριθμούς στην προηγούμενη οθόνη ή σαρώνοντας τον κωδικό στη συσκευή τους."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Το Signal μπορεί να επαληθεύσει αυτόματα την κρυπτογράφηση μόνο σε συνομιλίες όπου έχεις συνδεθεί με κάποιον χρήστη μέσω ενός αριθμού τηλεφώνου. Εάν η συνομιλία ξεκίνησε με όνομα χρήστη ή μια κοινή ομάδα, επαλήθευσε την κρυπτογράφηση από άκρο σε άκρο συγκρίνοντας τους αριθμούς στην προηγούμενη οθόνη ή σαρώνοντας τον κωδικό στη συσκευή τους."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "Εντάξει"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Θα δημιουργηθεί ένας αριθμός ασφαλείας με αυτό το άτομο αφού ανταλλάξετε μηνύματα μεταξύ σας."
@@ -630,43 +630,43 @@
     "messageformat": "Μάθε περισσότερα"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "Η Αυτόματη Επαλήθευση Κλειδιού δεν είναι διαθέσιμη προς το παρόν για τη συσκευή σου. Αποστολή αρχείου καταγραφής αποσφαλμάτωσης;"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Τα αρχεία καταγραφής αποσφαλμάτωσης βοηθούν να διαγνώσουμε και να διορθώσουμε το πρόβλημα και δεν περιλαμβάνουν πληροφορίες ταυτοποίησης."
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Κλείσιμο"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "Κοινή χρήση αρχείου καταγραφής αποσφαλμάτωσης"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "Εμφάνιση"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "Υποβολή"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Όχι, ευχαριστώ"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "Υποβολή..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Το Signal μπορεί πλέον να επαληθεύσει αυτόματα την κρυπτογράφηση κλειδιού"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "Για τις επαφές με τις οποίες έχεις συνδεθεί μέσω αριθμού τηλεφώνου, το Signal μπορεί να επιβεβαιώσει αυτόματα εάν η σύνδεση είναι ασφαλής χρησιμοποιώντας μια διαδικασία που ονομάζεται διαφάνεια κλειδιού. Για επιπλέον ασφάλεια, μπορείς ακόμα να επαληθεύσεις τις συνδέσεις χειροκίνητα χρησιμοποιώντας έναν κωδικό QR ή έναν αριθμό."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Συνέχεια"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Μάθε περισσότερα"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Κλείσιμο"
   },
   "icu:verified": {
     "messageformat": "Επιβεβαιωμένο"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "Ο χρήστης {name} βρίσκεται στις επαφές του συστήματός σου"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Προσθήκη ετικέτας μέλους"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Σημείωση"
@@ -1794,13 +1797,13 @@
     "messageformat": "Ακύρωση"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Αυτόματη επαλήθευση κλειδιού"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "Όταν είναι ενεργοποιημένο, το Signal θα επιχειρήσει να επαληθεύσει αυτόματα την κρυπτογράφηση των προσωπικών συνομιλιών."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "Μάθε περισσότερα"
   },
   "icu:initialSync": {
     "messageformat": "Συγχρονισμός ομάδων και επαφών"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "Φωνή"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Ετικέτες μέλους"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Χρησιμοποίησε μια ετικέτα μέλους για να περιγράψεις τον εαυτό σου ή τον ρόλο σου σε αυτήν την ομάδα. Οι ετικέτες μέλους είναι ορατές μόνο εντός αυτής της ομάδας."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Ορισμός ετικέτας"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Επεξεργασία της ετικέτας σου"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Χρώμα συνομιλίας"
   },
@@ -4660,6 +4675,24 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Σύνδεσμος ομάδας"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Ετικέτα μέλους"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Γράψε την ετικέτα μέλους σου"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Όρισε μια ετικέτα μέλους για να περιγράψεις τον εαυτό σου ή τον ρόλο σου σε αυτήν την ομάδα. Οι ετικέτες μέλους είναι ορατές μόνο εντός αυτής της ομάδας."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Προεπισκόπηση"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Γεια σου!"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Αποθήκευση αλλαγών..."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Μηνύματα που εξαφανίζονται"
@@ -4695,7 +4728,7 @@
     "messageformat": "Επέλεξε ποιοι θα μπορούν να επεξεργαστούν το όνομα της ομάδας, την περιγραφή της και το χρόνο εξαφάνισης μηνυμάτων."
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "Διάλεξε ποιοι θα μπορούν να επεξεργάζονται το όνομα της ομάδας, τη φωτογραφία, τη περιγραφή, τον χρόνο εξαφάνισης μηνυμάτων και τα καρφιτσωμένα μηνύματα."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Ποιοί μπορούν να προσθέσουν μέλη"
@@ -7519,7 +7552,10 @@
     "messageformat": "Κατάργηση πληροφοριών"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "Αν αποχωρήσεις από αυτήν τη σελίδα, θα πρέπει να ξεκινήσεις από την αρχή για να ολοκληρώσεις μια δωρεά. Θέλεις να συνεχίσεις;"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Ξεκίνα από την αρχή"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Συνέχεια"
@@ -7567,13 +7603,13 @@
     "messageformat": "Έχεις μια δωρεά σε εξέλιξη που χρειάζεται επιβεβαιώση."
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Έχεις μια δωρεά σε εξέλιξη που χρειάζεται επιβεβαιώση."
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "Η δωρεά μέσω PayPal ακυρώθηκε"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "Σφάλμα κατά την επεξεργασία της δωρεάς μέσω PayPal. Δεν έχεις χρεωθεί."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Η δωρεά ήταν επιτυχής, αλλά δεν μπορέσαμε να ενημερώσουμε τις ρυθμίσεις του σήματος σου"
@@ -7591,7 +7627,7 @@
     "messageformat": "Ξαναπροσπάθησε"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "Τρόπος πληρωμής"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Η μέθοδος πληρωμής απορρίφθηκε"
@@ -7600,31 +7636,31 @@
     "messageformat": "Δοκίμασε άλλο τρόπο πληρωμής ή επικοινώνησε με την τράπεζά σου για περισσότερες πληροφορίες."
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "Εικονίδιο κάρτας πληρωμής"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Πιστωτική ή χρεωστική κάρτα"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Ακύρωση"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "Ολοκλήρωση δωρεάς"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "Η δωρεά μέσω PayPal ακυρώθηκε"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Δεν έχεις χρεωθεί. Δοκίμασε ξανά ή χρησιμοποίησε άλλη μέθοδο πληρωμής."
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "Σφάλμα κατά την επεξεργασία της δωρεάς μέσω PayPal"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Δεν έχεις χρεωθεί. Δοκίμασε ξανά ή χρησιμοποίησε άλλη μέθοδο πληρωμής."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Η επαλήθευση απέτυχε"
@@ -7829,9 +7865,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "Αυτή η ενημέρωση διορθώνει ένα σφάλμα με τη μορφοποίηση κειμένου ενώ ήταν ενεργοποιημένο το Caps Lock. Ευχαριστούμε, <DGrothePhD></DGrothePhD>!"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "Το Signal είναι ένας μη κερδοσκοπικός οργανισμός που δεν θα μπορούσε να λειτουργήσει χωρίς την υποστήριξή σου. Τώρα μπορείς να κάνεις δωρεές μέσω PayPal στο Signal Desktop."
   }
 }

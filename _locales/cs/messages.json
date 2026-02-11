@@ -579,49 +579,49 @@
     "messageformat": "Chcete-li ověřit koncové šifrování s uživatelem {name}, porovnejte výše uvedená čísla s jeho zařízením. Váš kód může také naskenovat svým zařízením."
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "Pokud chcete ověřit koncové šifrování s uživatelem {name}, porovnejte výše uvedená čísla s jeho/jejím zařízením. Také může naskenovat váš kód na svém zařízení."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Zjistit více"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Automatické ověření klíče"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "Ověřovat automaticky"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "Ověřuji šifrování…"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "Šifrování ověřeno"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "Automatické ověření není k dispozici"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "Automatické ověření není k dispozici u všech chatů."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "Zjistit více"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "Šifrování pro tento chat bylo automaticky ověřeno "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "U kontaktů, se kterými jste propojeni pomocí telefonního čísla, může aplikace Signal automaticky potvrdit, zda je připojení zabezpečené, pomocí procesu zvaného transparentnost klíče. Pro lepší zabezpečení ověřte koncové šifrování ručně porovnáním čísel na předchozí obrazovce nebo naskenováním kódu na zařízení účastníků."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "Automatické ověření již není pro tento chat k dispozici"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Aplikace Signal již nemůže automaticky ověřit šifrování tohoto chatu. Je to nejspíše proto, že {name} změnil/a své telefonní číslo. Koncové šifrování můžete ověřit ručně porovnáním čísel na předchozí obrazovce nebo naskenováním kódu na jeho/jejím zařízení."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Aplikace Signal může automaticky ověřit šifrování pouze v chatech, kde jste s někým propojeni prostřednictvím telefonního čísla. Pokud byl chat zahájen se společným uživatelským jménem nebo skupinou, ověřte koncové šifrování porovnáním čísel na předchozí obrazovce nebo naskenováním kódu na jejich zařízení."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "V pořádku"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Jakmile si s někým vyměníte zprávy, bude pro daného člověka vytvořeno bezpečnostní číslo."
@@ -630,43 +630,43 @@
     "messageformat": "Zjistit více"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "Automatické ověření klíče není momentálně na vašem zařízení k dispozici. Odeslat protokol ladění?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Protokoly ladění nám pomáhají diagnostikovat a opravit problém a neobsahují identifikační informace."
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Zavřít"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "Odeslat protokol ladění"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "Zobrazit"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "Odeslat"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Ne, díky"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "Odeslání…"
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Signal nyní podporuje automatické ověření šifrování klíčů"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "U kontaktů, se kterými jste propojeni pomocí telefonního čísla, může aplikace Signal automaticky potvrdit, zda je připojení zabezpečené, pomocí procesu zvaného transparentnost klíče. Pro větší bezpečnost můžete připojení i nadále ověřovat ručně pomocí QR kódu nebo bezpečnostního čísla."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Pokračovat"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Zjistit více"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Zavřít"
   },
   "icu:verified": {
     "messageformat": "Ověřeno"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} je v kontaktech na vašem zařízení"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Přidat štítek člena"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Poznámka"
@@ -1794,13 +1797,13 @@
     "messageformat": "Zrušit"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Automatické ověření klíče"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "Pokud je tato funkce povolena, služba Signal se pokusí automaticky ověřit šifrování 1:1 chatů."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "Zjistit více"
   },
   "icu:initialSync": {
     "messageformat": "Synchronizuji kontakty a skupiny"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "Hlasový"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Štítky členů"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Použijte štítek člena k popsání sebe nebo své role ve skupině. Štítky členů jsou viditelné pouze v rámci této skupiny."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Nastavit štítek"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Upravit štítek"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Barva chatu"
   },
@@ -4660,6 +4675,24 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Odkaz skupiny"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Štítek člena"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Zadejte štítek člena"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Nastavte si štítek člena, kterým popíšete sebe nebo svou roli ve skupině. Štítky členů jsou viditelné pouze v rámci této skupiny."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Náhled"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Ahoj!"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Ukládám změny…"
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Mizející zprávy"
@@ -4695,7 +4728,7 @@
     "messageformat": "Vyberte, kdo může upravovat název, fotografii a popis skupiny a časovač zmizení zpráv."
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "Vyberte, kdo může upravovat název skupiny, fotografii, popis, časovač mizení zpráv a připnuté zprávy."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Kdo může přidávat členy"
@@ -7519,7 +7552,10 @@
     "messageformat": "Odebrat informace"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "Pokud opustíte tuto stránku, budete muset proces příspěvku zahájit znovu. Chcete pokračovat?"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Začít znovu"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Pokračovat"
@@ -7567,13 +7603,13 @@
     "messageformat": "Váš příspěvek se zpracovává a je třeba jej potvrdit."
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Váš příspěvek se zpracovává a je třeba jej potvrdit."
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "Příspěvek přes PayPal byl zrušen"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "Chyba při zpracování příspěvku přes PayPal. Platba vám nebyla odečtena."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Váš příspěvek byl úspěšně přijat, ale nepodařilo se nám aktualizovat nastavení vašeho odznaku"
@@ -7591,7 +7627,7 @@
     "messageformat": "Zkusit znovu"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "Platební metoda"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Platební metoda byla zamítnuta"
@@ -7600,31 +7636,31 @@
     "messageformat": "Zkuste jiný způsob platby, nebo se obraťte na svou banku a požádejte o další informace."
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "Ikona platební karty"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Kreditní nebo debetní karta"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Zrušit"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "Přispět"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "Příspěvek přes PayPal byl zrušen"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Platba vám nebyla odečtena. Zkuste to znovu nebo použijte jinou platební metodu."
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "Chyba při zpracování příspěvku přes PayPal"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Platba vám nebyla odečtena. Zkuste to znovu nebo použijte jinou platební metodu."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Ověření selhalo"
@@ -7829,9 +7865,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "Tato aktualizace opravuje chybu s formátováním textu při zapnutém Caps Lock. Díky, @DGrothe-PhD!"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "Signal je nezisková organizace, která by nefungovala bez vaší podpory. Nyní můžete přispět prostřednictvím služby PayPal v aplikaci Signal Desktop."
   }
 }

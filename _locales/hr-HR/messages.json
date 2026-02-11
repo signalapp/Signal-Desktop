@@ -579,49 +579,49 @@
     "messageformat": "Za provjeru sveobuhvatne enkripcije s kontaktom {name}, usporedite gore navedene brojeve s uređajem vašeg sugovornika. Također, vaš kontakt može skenirati vaš kôd svojim uređajem."
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "Za provjeru sveobuhvatne enkripcije s kontaktom {name}, usporedite gore navedene brojeve s uređajem vašeg sugovornika. Također, vaš kontakt može skenirati vaš kôd svojim uređajem."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Saznajte više"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Automatska provjera ključa"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "Automatski provjeri"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "Provjera šifriranja…"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "Šifriranje je potvrđeno"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "Automatska provjera nije dostupna"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "Automatska provjera nije dostupna za sve razgovore."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "Saznajte više"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "Šifriranje je automatski provjereno za ovaj razgovor "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Za kontakte s kojima ste povezani putem broja telefona, Signal može automatski potvrditi je li veza sigurna pomoću postupka koji se naziva transparentnost ključa. Radi dodatne sigurnosti, ručno provjerite sveobuhvatno šifriranje usporedbom brojeva na prethodnom zaslonu ili skeniranjem koda na uređaju određenog korisnika."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "Automatska provjera nije više dostupna za ovaj razgovor"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal ne može više automatski provjeriti šifriranje ovog razgovora. Razlog tome je vjerojatno to što je {name} promijenio/la svoj broj telefona. Sveobuhvatno šifriranje može se provjeriti ručno, usporedbom brojeva na prethodnom zaslonu, ili skeniranjem koda na uređaju tog korisnika."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal može automatski provjeriti šifriranje samo za razgovore u kojima ste povezani s nekim putem broja telefona. Ako je razgovor započet s korisničkim imenom ili zajedničkom grupom, provjerite sveobuhvatno šifriranje usporedbom brojeva na prethodnom zaslonu ili skeniranjem koda na uređaju tog korisnika."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "U redu"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Nakon što razmijenite poruke s ovom osobom, stvorit će se vaš sigurnosni broj."
@@ -630,43 +630,43 @@
     "messageformat": "Saznajte više"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "Automatska provjera ključa trenutno nije dostupna za vaš uređaj. Želite li poslati zapisnik otklanjanja pogreške?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Zapisi pogrešaka pomažu nam pri dijagnosticiranju i rješavanju problema i ne sadrže podatke za identifikaciju."
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Zatvori"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "Podijeli zapisnik otklanjanja pogreške"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "Pregled"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "Pošalji"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Ne, hvala"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "Slanje…"
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Signal sada može automatski provjeriti sveobuhvatno šifriranje"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "Za kontakte s kojima ste povezani putem broja telefona, Signal može automatski potvrditi je li veza sigurna pomoću postupka koji se naziva transparentnost ključa. Radi dodatne sigurnosti, veze i dalje možete provjeriti ručno pomoću QR koda ili broja."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Nastavi"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Saznajte više"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Zatvori"
   },
   "icu:verified": {
     "messageformat": "Provjeren/a"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} je u kontaktima vašeg sustava"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Dodaj ulogu člana"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Bilješka"
@@ -1794,13 +1797,13 @@
     "messageformat": "Odustani"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Automatska provjera ključa"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "Ako omogućite ovu postavku, Signal će pokušati automatski provjeriti šifriranje privatnih razgovora."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "Saznajte više"
   },
   "icu:initialSync": {
     "messageformat": "Sinkroniziranje kontakata i grupa"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "Glasovni poziv"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Uloge članova"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Postavite ulogu člana kako biste opisali sebe ili svoju ulogu u ovoj grupi. Uloge članova vidljive su samo unutar ove grupe."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Postavi ulogu"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Uredite svoju ulogu"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Boja razgovora"
   },
@@ -4660,6 +4675,24 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Poveznica grupe"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Uloga člana"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Unesite svoju ulogu"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Postavite ulogu člana kako biste opisali sebe ili svoju ulogu u ovoj grupi. Uloge članova vidljive su samo unutar ove grupe."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Pregled"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Bok!"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Spremanje promjena…"
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Poruke koje nestaju"
@@ -4695,7 +4728,7 @@
     "messageformat": "Odaberite tko može promijeniti naziv grupe, sliku, opis i vremenski period poruka koje nestaju."
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "Odaberite tko može izmijeniti naziv grupe, fotografiju, opis, vremenski period poruka koje nestaju i prikvačene poruke."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Tko može dodati članove"
@@ -7519,7 +7552,10 @@
     "messageformat": "Ukloni podatke"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "Ako napustite ovu stranicu, morat ćete ponovno započeti donaciju. Želite li nastaviti?"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Započni ispočetka"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Nastavi"
@@ -7567,13 +7603,13 @@
     "messageformat": "Imate donaciju koja je u obradi i zahtijeva dodatnu potvrdu."
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Imate donaciju koja je u obradi i zahtijeva dodatnu potvrdu."
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "Donacija putem PayPal-a je otkazana"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "Pogreška pri obradi PayPal donacije. Vaš račun nije terećen."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donacija je uspjela, ali nismo uspjeli ažurirati postavke vaše značke"
@@ -7591,7 +7627,7 @@
     "messageformat": "Pokušajte ponovo"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "Način plaćanja"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Odabrani način plaćanja je odbijen"
@@ -7600,31 +7636,31 @@
     "messageformat": "Promijenite način plaćanja ili se obratite svojoj banci za više informacija."
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "Ikona kartice"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Kreditna ili debitna kartica"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Odustani"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "Potvrdi donaciju"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "Donacija putem PayPal-a je otkazana"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Vaš račun nije terećen. Pokušajte ponovno ili upotrijebite drugi način plaćanja."
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "Pogreška pri obradi PayPal donacije"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Vaš račun nije terećen. Pokušajte ponovno ili upotrijebite drugi način plaćanja."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Provjera nije uspjela"
@@ -7829,9 +7865,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "Ovo ažuriranje ispravlja programsku pogrešku s formatiranjem teksta kad je Caps Lock uključen. Hvala ti, <DGrothePhD></DGrothePhD>!"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "Signal je neprofitna organizacija čiji rad ne bi bio moguć bez vaše podrške, a sada nas možete podržati donacijom putem PayPal-a u Signalu za Desktop."
   }
 }

@@ -579,49 +579,49 @@
     "messageformat": "«{name}» بىلەن ئۇچتىن ئۇچقا مەخپىيلەشتۈرۈشنى جەزىملەشتۈرۈش ئۈچۈن، يۇقىرىدىكى نومۇرلارنى ئۇلارنىڭ ئەسۋاپلىرىدىكىلەر بىلەن سېلىشتۇرۇڭ. ئۇلارمۇ سىزنىڭ كودىڭىزنى ئۆزلىرىنىڭ ئەسۋاپلىرى بىلەن سكاننېرلىيالايدۇ."
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "{name} بىلەن ئاخىرىغىچە شىفىرلاشنى دەلىللەش ئۈچۈن يۇقىرىدىكى سانلارنى ئۇلارنىڭ ئۈسكۈنىسى بىلەن سېلىشتۇرۇڭ. ئۇلارمۇ سىزنىڭ كودىڭىزنى ئۈسكۈنىلىرىدە سكاننېرلىيالايدۇ."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "تەپسىلاتى"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "ئاپتوماتىك ئاچقۇچ دەلىللەش"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "ئاپتوماتىك دەلىللەش"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "شىفىرلاشتۇرۇش دەلىللەنمەكتە..."
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "شىفىرلاشتۇرۇش دەلىللەندى"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "ئاپتوماتىك دەلىللەشنى ئىشلەتكىلى بولمايدۇ"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "ئاپتوماتىك دەلىللەشنى ھېچقانداق پاراڭغا ئىشلەتكىلى بولمايدۇ."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "تەپسىلاتى"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "بۇ سۆھبەت ئۈچۈن شىفىرلاشتۇرۇش ئاپتوماتىك دەلىللەندى "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "تېلېفون نومۇرى ئارقىلىق باغلانغان ئالاقىلاشقۇچىلىرىڭىز ئۈچۈن، Signal، ئاچقۇچ ئاشكارىلىقى دەپ ئاتىلىدىغان جەريان ئارقىلىق ئۇلىنىشنىڭ بىخەتەر ياكى ئەمەسلىكىنى ئاپتوماتىك جەزملەشتۈرەلەيدۇ. بىخەتەرلىكنى ئاشۇرۇش ئۈچۈن، ئالدىنقى ئېكراندىكى سانلارنى سېلىشتۇرۇش ياكى ئۇلارنىڭ ئۈسكۈنىسىدىكى كودنى سىكانىرلاش ئارقىلىق ئاخىرغىچە شىفىرلاشنى قولدا دەلىللەڭ."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "بۇ سۆھبەت ئۈچۈن ئاپتوماتىك دەلىللەشنى ئەمدى ئىشلەتكىلى بولمايدۇ"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal ئەمدى بۇ سۆھبەتنىڭ شىفىرلاشتۇرۇلىشىنى ئاپتوماتىك دەلىللىيەلمەيدۇ. بۇنىڭ سەۋەبى {name} نىڭ تېلېفون نومۇرىنى ئۆزگەرتكەنلىكى بولۇشى مۇمكىن. ئالدىنقى ئېكراندىكى نۇمۇرلارنى سېلىشتۇرۇش ياكى ئۈسكۈنىدىكى كودنى سىكانىرلاش ئارقىلىق ئاخىرغىچە شىفىرلاشتۇرۇشنى قولدا دەلىللەڭ."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal پەقەت تېلېفون نومۇرى ئارقىلىق بىرەيلەن بىلەن باغلىنىشلىق بولغان پاراڭلاردىلا شىفىرلاشتۇرۇشنى ئاپتوماتىك دەلىللىيەلەيدۇ. ئەگەر پاراڭ، ئىشلەتكۈچى نامى ياكى ئورتاق بىر گۇرۇپپىدىكى بىىرى بىلەن باشلانغان بولسا، ئالدىنقى ئېكراندىكى سانلارنى سېلىشتۇرۇش ياكى ئۇلارنىڭ ئۈسكۈنىسىدىكى كودنى سىكانىرلاش ئارقىلىق ئاخىرغىچە شىفىرلاشتۇرۇشنى دەلىللەڭ."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "جەزملە"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "بۇ كىشى بىلەن ئۇچۇرلاشقاندىن كېيىن بىر بىخەتەرلىك نومۇرى شەكىللىنىدۇ."
@@ -630,43 +630,43 @@
     "messageformat": "كۆپرەك ئۆگىنىش"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "ئاپتوماتىك ئاچقۇچ دەلىللەشنى ھازىرچە ئۈسكۈنىڭىزدە ئىشلەتكىلى بولمايدۇ. كاشىلا ھەل قىلىش خاتىرىسىنى يوللامسىز؟"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "كاشىلا ھەل قىلىش خاتىرىلىرى بىزنىڭ مەسىلىگە دىئاگنوز قويۇشىمىز ۋە ھەل قىلىشىمىزغا ياردەم بېرىدۇ، ھەمدە تونىتىش ئۇچۇرلىرىنى ئۆز ئىچىگە ئالمايدۇ."
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "تاقا"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "كاشىلا ھەل قىلىش خاتىرىسىنى ئورتاقلىشىش"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "كۆرسەت"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "تاپشۇر"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "ياق، رەھمەت"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "يوللىنىۋاتىدۇ..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Signal ھازىر ئاچقۇچ شىفىرلاشتۇرۇشنى ئاپتوماتىك دەلىللىيەلەيدۇ"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "تېلېفون نومۇرى ئارقىلىق باغلانغان ئالاقىلاشقۇچىلىرىڭىز ئۈچۈن، Signal، ئاچقۇچ ئاشكارىلىقى دەپ ئاتىلىدىغان جەريان ئارقىلىق ئۇلىنىشنىڭ بىخەتەر ياكى ئەمەسلىكىنى ئاپتوماتىك جەزملەشتۈرەلەيدۇ. بىخەتەرلىكنى ئاشۇرۇش ئۈچۈن، سىز يەنىلا QR كودى ياكى نومۇر ئارقىلىق ئۇلىنىشلارنى قولدا دەلىللىيەلەيسىز."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "داۋاملاشتۇرۇش"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "تەپسىلاتى"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "تاقا"
   },
   "icu:verified": {
     "messageformat": "دەلىللەندى"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} سىزنىڭ سىستېما ئالاقىداش تىزىملىكىڭىزدە"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "ئەزا بەلگىسى قوشۇش"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "خاتىرە"
@@ -1794,13 +1797,13 @@
     "messageformat": "بىكار قىلىش"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "ئاپتوماتىك ئاچقۇچ دەلىللەش"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "قوزغىتىلغاندا، Signal، ئىككى كىشى ئوتتۇرىسىدىكى(1:1) سۆھبەتلىرىنىڭ شىفىرلىنىشىنى ئاپتوماتىك دەلىللەشنى سىنايدۇ."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "تەپسىلات"
   },
   "icu:initialSync": {
     "messageformat": "ئالاقىداش ۋە گۇرۇپپىلارنى ماسقەدەملەۋاتىدۇ"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "ئاۋازلىق"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "ئەزا بەلگىلىرى"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "بۇ گۇرۇپپىدا ئۆزىڭىزنى ياكى رولىڭىزنى تەسۋىرلەش ئۈچۈن ئەزا بەلگىسىنى تەڭشەڭ. ئەزا بەلگىلىرى پەقەت بۇ گۇرۇپپىدىلا كۆرۈنىدۇ."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "بەلگىدىن بىرنى تەڭشەڭ"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "بەلگىڭىزنى تەھرىرلەڭ"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "پاراڭ رەڭگى"
   },
@@ -4660,6 +4675,24 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "گۇرۇپپا ئۇلانمىسى"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "ئەزا بەلگىسى"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "ئەزا بەلگىڭىزنى كىرگۈزۈڭ"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "بۇ گۇرۇپپىدا ئۆزىڭىزنى ياكى رولىڭىزنى تەسۋىرلەش ئۈچۈن ئەزا بەلگىسىنى تەڭشەڭ. ئەزا بەلگىلىرى پەقەت بۇ گۇرۇپپىدىلا كۆرۈنىدۇ."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "ئالدىن كۆر"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "ياخشىمۇسىز!"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "ئۆزگەرتىشلەر ساقلىنىۋاتىدۇ..."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "غايىب ئۇچۇرلار"
@@ -4695,7 +4728,7 @@
     "messageformat": "گۇرۇپپا نامى، گۇرۇپپا سۈرىتى، گۇرۇپپا چۈشەندۈرۈشى ۋە ئۇچۇرنىڭ ئۆچۈرۈلۈش ۋاقتىنى تەھرىرلىسە بولىدىغانلارنى تاللاڭ."
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "گۇرۇپپا نامى، رەسىم، چۈشەندۈرۈش، غايىب بولىدىغان ئۇچۇرلار ۋاقىت خاتىرلىگۈچى ۋە مىخلانغان ئۇچۇرلارنى كىمنىڭ تەھرىرلەيدىغانلىقىنى تاللاڭ."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "كىم ئەزا قوشالايدۇ"
@@ -7519,7 +7552,10 @@
     "messageformat": "ئۇچۇرنى ئۆچۈرۈش"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "ئەگەر بۇ بەتتىن ئايرىلسىڭىز، بىرئىئانىنى تاماملاش ئۈچۈن قايتىدىن باشلىشىڭىزغا توغرا كېلىدۇ. داۋاملاشتۇرامسىز؟"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "قايتىدىن باشلاش"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "داۋاملاشتۇرۇش"
@@ -7567,13 +7603,13 @@
     "messageformat": "دەلىللەشكە ئېھتىياجلىق بىر ئىئانىڭىز بار."
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "دەلىللەشكە ئېھتىياجلىق بىر ئىئانىڭىز بار."
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPal ئىئانىسى بىكار قىلىندى"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "PayPal ئىئانىسىنى بىر تەرەپ قىلىشتا خاتالىق كۆرۈلدى. سىزدىن پۇل تۇتۇلمىدى."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "ئىئانە مۇۋەپپەقىيەتلىك بولدى، ئەمما ئىزنەك تەڭشىكىڭىزنى يېڭىلىيالمىدۇق"
@@ -7591,7 +7627,7 @@
     "messageformat": "قايتا سىناڭ"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "پۇل تۆلەش ئۇسۇلى"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "پۇل تۆلەش ئۇسۇلى رەت قىلىندى"
@@ -7600,31 +7636,31 @@
     "messageformat": "باشقا پۇل تۆلەش ئۇسۇلىنى سىناپ بېقىڭ ياكى تەپسىلاتى ئۈچۈن بانكا بىلەن ئالاقىلىشىڭ."
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "چىقىم كارتا سىمۋول بەلگىسى"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "ئىناۋەتلىك كارتا ياكى بانكا كارتىسى"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "بىكار قىلىش"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "ئىئانە قىلىشنى تاماملاش"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPal ئىئانىسى بىكار قىلىندى"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "سىزدىن پۇل تۇتۇلمىدى. قايتا سىناپ بېقىڭ ياكى باشقا پۇل تۆلەش ئۇسۇلىنى ئىشلىتىڭ."
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "PayPal ئىئانىسىنى بىر تەرەپ قىلىشتا خاتالىق كۆرۈلدى"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "سىزدىن پۇل تۇتۇلمىدى. قايتا سىناپ بېقىڭ ياكى باشقا پۇل تۆلەش ئۇسۇلىنى ئىشلىتىڭ."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "دەلىللىيەلمىدى"
@@ -7829,9 +7865,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "بۇ قېتىملىق يېڭىلانمىدا، چوڭ ھەرپلەرنى ئىشلىتىش ئىقتىدارى قوزغىتىلغاندا تېكىست فورماتىدا كۆرۈلىدىغان بىر خاتالىق تۈزىتىلدى. رەھمەت سىزگە <DGrothePhD></DGrothePhD>!"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "Signal سىزنىڭ قوللىشىڭىز بولمىسا مەۋجۇت بولمايدىغان، پايدا ئالمايدىغان بىر تەشكىلات، بۇنىڭغا ھازىر سىز Signal ئۈستەليۈزى نۇسخىسىدا PayPal ئارقىلىق ئىئانە قىلالايسىز."
   }
 }

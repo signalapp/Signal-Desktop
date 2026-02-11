@@ -579,49 +579,49 @@
     "messageformat": "Kasutajaga {name} otspunktkrüpteerimise kontrollimiseks võrdle ülalpool olevaid numbreid tema seadmes olevatega. Võid ka paluda tal skannida oma seadmega sinu koodi."
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "Kasutajaga {name} otspunktkrüpteerimise kontrollimiseks võrdle ülalpool olevaid numbreid tema seadmes olevatega. Võid ka paluda tal skannida oma seadmega sinu koodi."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Rohkem infot"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Võtme automaatne kontroll"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "Kontrolli automaatselt"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "Krüpteeringu kontrollimine …"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "Krüpteering kontrollitud"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "Automaatkontroll pole saadaval"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "Automaatkontroll pole kõigi vestluste puhul saadaval."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "Rohkem infot"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "Selle vestluse krüpteering kontrolliti automaatselt "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Kontaktide puhul, kellega lõid ühenduse telefoninumbri kaudu, kinnitab Signal automaatselt, kas ühendus on turvaline, kasutades protsessi nimega võtme läbipaistvus. Täiendava turvalisuse jaoks võrdle otspunktkrüpteeringu kontrollimiseks eelmisel kuval olevaid numbreid seadmes olevatega või skanni teise inimese seadmes olevat koodi."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "Selle vestluse puhul pole automaatne kontrollimine enam saadaval"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal ei saa selle vestluse krüpteeringut enam automaatselt kontrollida. See on tõenäoliselt tingitud asjaolust, et {name} muutis oma telefoninumbrit. Otspunktkrüpteeringu kontrollimiseks võrdle eelmisel kuval olevaid numbreid seadmes olevatega või skanni tema seadmes olevat koodi."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal saab krüpteeringut automaatselt kontrollida ainult vestlustes, kus oled kellegagi telefoninumbri kaudu ühendatud. Kui vestlust alustati ühise kasutajanime või grupiga, kontrolli otspunktkrüpteeringut, võrreldes eelmisel kuval olevaid numbreid või skannides tema seadmes kuvatavat koodi."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "Sobib"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Pärast seda, kui te omavahel sõnumeid vahetate, luuakse selle isikuga turvanumber."
@@ -630,43 +630,43 @@
     "messageformat": "Rohkem infot"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "Automaatne võtme kinnitamine pole sinu seadme jaoks praegu saadaval. Kas saata silumislogi?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Silumislogid aitavad meil probleemi diagnoosida ja lahendada ega sisalda isikuandmeid."
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Sulge"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "Jaga silumislogi"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "Vaata"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "Postita"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Tänan, ei"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "Saatmine …"
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Signal saab nüüd võtme krüptimist automaatselt kontrollida"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "Kontaktide puhul, kellega lõid ühenduse telefoninumbri kaudu, kinnitab Signal automaatselt, kas ühendus on turvaline, kasutades protsessi nimega võtme läbipaistvus. Täiendava turvalisuse eesmärgil saab ühendusi endiselt kinnitada ka käsitsi QR-koodi või numbri abil."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Jätka"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Rohkem infot"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Sulge"
   },
   "icu:verified": {
     "messageformat": "Kontrollitud"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} on sinu süsteemi kontaktide hulgas"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Lisa liikmesilt"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Märkus"
@@ -1794,13 +1797,13 @@
     "messageformat": "Loobu"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Võtme automaatne kontroll"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "Kui see on lubatud, proovib Signal automaatselt kontrollida üks-ühele vestluste krüptimist."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "Uuri lähemalt"
   },
   "icu:initialSync": {
     "messageformat": "Kontaktide ja gruppide sünkimine"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "Hääl"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Liikmesildid"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Kasuta liikmesilti, et kirjeldada ennast või oma rolli selles grupis. Liikmesildid on nähtavad ainult selle grupi sees."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Määra silt"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Muuda oma silti"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Vestluse värv"
   },
@@ -4660,6 +4675,24 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Grupilink"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Liikmesilt"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Sisesta oma liikmesilt"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Määra liikmesilt, et kirjeldada ennast või oma rolli selles grupis. Liikmesildid on nähtavad ainult selle grupi sees."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Eelvaade"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Tere!"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Muudatuste salvestamine …"
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Kaduvad sõnumid"
@@ -4695,7 +4728,7 @@
     "messageformat": "Vali, kes saavad muuta grupi nime, fotot, kirjeldust ja kaduvate sõnumite kestust."
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "Vali, kes saavad muuta grupi nime, fotot, kirjeldust, kaduvate sõnumite kestust ja esiletõstetud sõnumeid."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Kes saavad liikmeid lisada"
@@ -7519,7 +7552,10 @@
     "messageformat": "Eemalda info"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "Kui sellelt lehelt lahkud, pead annetuse lõpuleviimiseks uuesti alustama. Kas soovid jätkata?"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Alusta uuesti"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Jätka"
@@ -7567,13 +7603,13 @@
     "messageformat": "Sul on pooleli annetus, mis vajab kinnitust."
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Sul on pooleli annetus, mis vajab kinnitust."
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPali annetus on tühistatud"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "Tõrge PayPali annetuse töötlemisel. Sinu kontolt ei võetud raha."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Annetamine õnnestus, aga me ei saanud sinu märgi sätteid uuendada"
@@ -7591,7 +7627,7 @@
     "messageformat": "Proovi uuesti"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "Maksemeetod"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Maksemeetod on tagasi lükatud"
@@ -7600,31 +7636,31 @@
     "messageformat": "Proovi teist maksemeetodit või võta lisainfo saamiseks ühendust oma pangaga."
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "Maksekaardi ikoon"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Krediit- või deebetkaart"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Loobu"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "Vii annetus lõpule"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPali annetus on tühistatud"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Sinu kontolt ei võetud raha. Proovi uuesti või kasuta mõnda muud maksemeetodit."
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "Tõrge PayPali annetuse töötlemisel"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Sinu kontolt ei võetud raha. Proovi uuesti või kasuta mõnda muud maksemeetodit."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Kinnitamine nurjus"
@@ -7829,9 +7865,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "See värskendus parandab teksti vormindamise vea, kui Caps Lock on sisse lülitatud. Aitäh, <DGrothePhD></DGrothePhD>!"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "Signal on mittetulundusühing, mis ei oleks ilma sinu toetuseta võimalik ja nüüd saad annetada Signal Desktopis PayPali kaudu."
   }
 }

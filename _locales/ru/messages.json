@@ -579,49 +579,49 @@
     "messageformat": "Чтобы подтвердить ваше сквозное шифрование с {name}, сравните цифры, указанные выше, с устройством собеседника. Он также может отсканировать код на вашем устройстве."
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "Чтобы подтвердить ваше сквозное шифрование с {name}, сравните цифры, указанные выше, с устройством собеседника. Он также может отсканировать код на вашем устройстве."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Узнать больше"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Автоматическое подтверждение ключа"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "Подтвердить автоматически"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "Подтверждение шифрования..."
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "Шифрование подтверждено"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "Автоподтверждение недоступно"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "Автоподтверждение доступно не для всех чатов."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "Узнать больше"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "Шифрование для этого чата было автоматически подтверждено "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Для контактов, к которым вы подключены по номеру телефона, Signal может автоматически подтвердить, что соединение защищено с помощью процесса под названием «прозрачность ключа». Для дополнительной безопасности подтвердите сквозное шифрование вручную, сравнив номера на предыдущем экране или отсканировав код на устройстве контакта."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "Автоподтверждение этого чата больше недоступно"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal больше не может автоматически подтверждать шифрование этого чата. Скорее всего, это связано с тем, что {name} сменил(а) свой номер телефона. Подтвердите сквозное шифрование вручную, сравнив цифры на предыдущем экране или отсканировав код на устройстве контакта."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal может автоматически подтверждать шифрование только в тех чатах, где вы установили контакт с человеком по номеру телефона. Если чат начался с имени пользователя или общей группы, проверьте сквозное шифрование, сравнив цифры на предыдущем экране или отсканировав код на устройстве контакта."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "Хорошо"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Код безопасности будет создан после обмена сообщениями с этим человеком."
@@ -630,43 +630,43 @@
     "messageformat": "Узнать больше"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "Автоматическое подтверждение ключа в настоящее время недоступно для вашего устройства. Отправить журналы отладки?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Журналы отладки помогают нам диагностировать и устранять проблему и не содержат идентифицирующей информации."
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Закрыть"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "Поделиться журналом отладки"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "Просмотреть"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "Отправить"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Нет, спасибо"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "Отправка..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Теперь Signal может автоматически подтверждать шифрование ключа"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "Для контактов, к которым вы подключены по номеру телефона, Signal может автоматически подтвердить, что соединение защищено с помощью процесса под названием «прозрачность ключа». Для дополнительной безопасности вы всё равно сможете подтверждать соединения вручную с помощью QR-кода или кода безопасности."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Продолжить"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Узнать больше"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Закрыть"
   },
   "icu:verified": {
     "messageformat": "Подтверждён"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} есть в ваших системных контактах"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Добавить значок участника"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Заметка"
@@ -1794,13 +1797,13 @@
     "messageformat": "Отменить"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Автоматическое подтверждение ключа"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "При включении Signal попытается автоматически подтвердить шифрование личных чатов."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "Узнать больше"
   },
   "icu:initialSync": {
     "messageformat": "Синхронизация контактов и групп"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "Аудио"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Значки участника"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Используйте значок участника, чтобы описать себя или свою роль в этой группе. Значки участников видны только в этой группе."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Установите значок"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Измените свой значок"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Цвет чата"
   },
@@ -4660,6 +4675,24 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Ссылка на группу"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Значок участника"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Введите свой значок участника"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Установите значок участника, чтобы описать себя или свою роль в этой группе. Значки участников видны только в этой группе."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Предпросмотр"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Привет!"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Сохранение изменений..."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Исчезающие сообщения"
@@ -4695,7 +4728,7 @@
     "messageformat": "Выберите, кто может редактировать имя, фото, описание и время исчезновения сообщений группы."
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "Выберите, кто может редактировать имя, фото, описание, таймер исчезающих сообщений и закреплённые сообщения группы."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Кто может добавлять участников"
@@ -7519,7 +7552,10 @@
     "messageformat": "Удалить информацию"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "Если вы покинете эту страницу, вам придётся начать заново, чтобы завершить пожертвование. Хотите продолжить?"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Начать заново"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Продолжить"
@@ -7567,13 +7603,13 @@
     "messageformat": "У вас есть незавершённое пожертвование, требующее подтверждения."
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "У вас есть незавершённое пожертвование, требующее подтверждения."
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "Пожертвование через PayPal отменено"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "Ошибка обработки пожертвования через PayPal. Средства не были списаны."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Пожертвование прошло успешно, но мы не смогли обновить настройки вашего значка"
@@ -7591,7 +7627,7 @@
     "messageformat": "Попробовать ещё раз"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "Способ оплаты"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Способ оплаты отклонён"
@@ -7600,31 +7636,31 @@
     "messageformat": "Попробуйте другой способ оплаты или свяжитесь со своим банком для получения дополнительной информации."
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "Значок платёжной карты"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Кредитная или дебетовая карта"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Отменить"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "Завершить пожертвование"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "Пожертвование через PayPal отменено"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Средства не были списаны. Попробуйте ещё раз или используйте другой способ оплаты."
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "Ошибка обработки пожертвования через PayPal"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Средства не были списаны. Попробуйте ещё раз или используйте другой способ оплаты."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Проверка не пройдена"
@@ -7829,9 +7865,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "Это обновление исправляет ошибку с форматированием текста при включённой функции Caps Lock, поэтому теперь будет проще делать текст полужирным (или выделять курсивом). Спасибо, <DGrothePhD></DGrothePhD>!"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "Signal — это некоммерческая организация, существование которой было бы невозможно без вашей поддержки, и теперь вы можете делать пожертвования через PayPal в Signal Desktop."
   }
 }

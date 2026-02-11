@@ -579,49 +579,49 @@
     "messageformat": "{name}-এর সাথে এন্ড-টু-এন্ড এনক্রিপশন যাচাই করতে, তাদের ডিভাইসের সাথে উপরের নম্বরগুলো তুলনা করুন। তারাও তাদের ডিভাইস দিয়ে আপনার কোড স্ক্যান করতে পারবেন।"
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "{name}-এর সাথে এন্ড-টু-এন্ড এনক্রিপশন যাচাই করতে, তাদের ডিভাইসের সাথে উপরের নম্বরগুলো তুলনা করুন। তারাও তাদের ডিভাইস দিয়ে আপনার কোড স্ক্যান করতে পারবেন।"
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "আরো জানুন"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "স্বয়ংক্রিয় 'কি' যাচাইকরণ"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "স্বয়ংক্রিয়ভাবে যাচাই করুন"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "এনক্রিপশন যাচাই করা হচ্ছে..."
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "এনক্রিপশন যাচাই করা হয়েছে"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "স্বয়ংক্রিয়-যাচাইকরণের সুবিধা নেই"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "সব চ্যাটের ক্ষেত্রে স্বয়ংক্রিয়-যাচাইকরণ সুবিধা নেই।"
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "আরো জানুন"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "এই চ্যাটের ক্ষেত্রে এনক্রিপশন স্বয়ংক্রিয়ভাবে যাচাই করা হয়েছে "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "ফোন নম্বরের মাধ্যমে আপনি যেসব কন্টাক্টের সাথে সংযুক্ত আছেন, তাদের জন্য Signal স্বয়ংক্রিয়ভাবে 'কি' ট্রান্সপারেন্সি নামক একটি প্রক্রিয়া ব্যবহার করে সংযোগটি সুরক্ষিত কিনা তা নিশ্চিত করতে পারে। বাড়তি নিরাপত্তার জন্য, আগের স্ক্রিনে থাকা নম্বর তুলনা করে বা তাদের ডিভাইসে কোড স্ক্যান করে ম্যানুয়ালি এন্ড-টু-এন্ড এনক্রিপশন যাচাই করুন।"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "এই চ্যাটের ক্ষেত্রে আর স্বয়ংক্রিয়-যাচাইকরণের সুবিধা নেই"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal আর এই চ্যাটের এনক্রিপশন স্বয়ংক্রিয়ভাবে যাচাই করতে পারবে না। এটি ঘটার কারণ সম্ভবত {name} তার ফোন নম্বর পরিবর্তন করেছেন। আগের স্ক্রিনে থাকা নম্বর তুলনা করে অথবা তাদের ডিভাইসে কোড স্ক্যান করে ম্যানুয়ালি এন্ড-টু-এন্ড এনক্রিপশন যাচাই করুন।"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal কেবলমাত্র সেইসব চ্যাটের এনক্রিপশন স্বয়ংক্রিয়ভাবে যাচাই করতে পারে যাদের সাথে আপনি ফোন নম্বরের মাধ্যমে সংযুক্ত আছেন। যদি চ্যাটটি একটি ব্যবহারকারীর নাম বা একটি সাধারণ গ্ৰুপ দিয়ে শুরু হয়ে থাকে, তাহলে আগের স্ক্রিনে থাকা নম্বর তুলনা করে বা তাদের ডিভাইসে কোড স্ক্যান করে এন্ড-টু-এন্ড এনক্রিপশন যাচাই করুন।"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "ঠিক আছে"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "আপনি এই ব্যক্তির সাথে মেসেজ বিনিময় করার পরে একটি নিরাপত্তা নম্বর তৈরি করা হবে।"
@@ -630,43 +630,43 @@
     "messageformat": "আরও জানুন"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "আপনার ডিভাইসের জন্য বর্তমানে স্বয়ংক্রিয় 'কি' যাচাইকরণ পাওয়া যাচ্ছে না। ডিবাগ লগ জমা দেবেন?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "ডিবাগ লগ আমাদের সমস্যা নির্ণয় ও সমাধান করতে সাহায্য করে এবং শনাক্তকরণের তথ্য ধারণ করে না।"
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "বন্ধ"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "ডিবাগ লগ শেয়ার করুন"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "দেখান"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "সাবমিট"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "না ধন্যবাদ"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "জমা দেওয়া হচ্ছে..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Signal এখন 'কি' এনক্রিপশন স্বয়ংক্রিয়ভাবে যাচাই করতে পারে"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "ফোন নম্বরের মাধ্যমে আপনি যেসব কন্টাক্টের সাথে সংযুক্ত আছেন, তাদের জন্য Signal স্বয়ংক্রিয়ভাবে 'কি' ট্রান্সপারেন্সি নামক একটি প্রক্রিয়া ব্যবহার করে সংযোগটি সুরক্ষিত কিনা তা নিশ্চিত করতে পারে। বাড়তি নিরাপত্তার জন্য, আপনি এখনো একটি QR কোড বা নম্বর ব্যবহার করে সংযোগগুলো ম্যানুয়ালি যাচাই করতে পারবেন।"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "চালিয়ে যান"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "আরো জানুন"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "বন্ধ"
   },
   "icu:verified": {
     "messageformat": "যাচাইকৃত"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} আপনার সিস্টেমের কন্টাক্টে আছেন"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "একটি সদস্য লেবেল যোগ করুন"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "নোট"
@@ -1794,13 +1797,13 @@
     "messageformat": "বাতিল করুন"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "স্বয়ংক্রিয় 'কি' যাচাইকরণ"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "সক্রিয় করা হলে, Signal 1:1 চ্যাটের এনক্রিপশন স্বয়ংক্রিয়ভাবে যাচাই করার চেষ্টা করবে।"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "আরো জানুন"
   },
   "icu:initialSync": {
     "messageformat": "গ্রুপ এবং পরিচিতিসমূহ সমন্বয় করা হচ্ছে"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "ভয়েস"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "সদস্য লেবেল"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "এই গ্রুপে নিজেকে বা আপনার ভূমিকা বর্ণনা করার জন্য একটি সদস্য লেবেল নির্ধারণ করুন। সদস্য লেবেল শুধুমাত্র এই গ্রুপের মধ্যেই দৃশ্যমান।"
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "একটি লেবেল নির্ধারণ করুন"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "আপনার লেবেল এডিট করুন"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "চ্যাট-এর রং"
   },
@@ -4660,6 +4675,24 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "গ্রুপের লিংক"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "সদস্য লেবেল"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "আপনার সদস্য লেবেল লিখুন"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "এই গ্রুপে নিজেকে বা আপনার ভূমিকা বর্ণনা করার জন্য একটি সদস্য লেবেল নির্ধারণ করুন। সদস্য লেবেল শুধুমাত্র এই গ্রুপের মধ্যেই দৃশ্যমান।"
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "প্রিভিউ"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "হ্যালো!"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "পরিবর্তনগুলো সেভ করা হচ্ছে..."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "মেসেজ অদৃশ্য হওয়া"
@@ -4695,7 +4728,7 @@
     "messageformat": "গ্রুপের নাম, ফটো, বিবরণ ও মেসেজ অদৃশ্য হওয়ার সময় কারা সম্পাদনা করতে পারবেন তা বেছে নিন।"
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "গ্ৰুপের নাম, ছবি, বিবরণ, অদৃশ্য হতে যাওয়া মেসেজের টাইমার ও পিনকৃত মেসেজ কে এডিট করতে পারবেন তা বেছে নিন।"
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "যারা সদস্যদের যোগ করতে পারবেন"
@@ -7519,7 +7552,10 @@
     "messageformat": "তথ্য মুছে ফেলুন"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "আপনি যদি এই পেইজটি ছেড়ে যান, তাহলে ডোনেশন সম্পন্ন করার জন্য আপনাকে নতুন করে শুরু করতে হবে। আপনি কি এগিয়ে যেতে চান?"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "আবারো শুরু করুন"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "চালিয়ে যান"
@@ -7567,13 +7603,13 @@
     "messageformat": "আপনার একটি ডোনেশন প্রক্রিয়াধীন আছে, যার নিশ্চিতকরণ প্রয়োজন।"
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "আপনার একটি ডোনেশন প্রক্রিয়াধীন আছে, যার নিশ্চিতকরণ প্রয়োজন।"
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPal ডোনেশন বাতিল করা হয়েছে"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "PayPal ডোনেশন প্রক্রিয়াকরণে ত্রুটি দেখা দিয়েছে। আপনার কাছ থেকে অর্থ কেটে নেওয়া হয়নি।"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "ডোনেশন সফল হয়েছে, কিন্তু আমরা আপনার ব্যাজ সেটিংস আপডেট করতে পারিনি"
@@ -7591,7 +7627,7 @@
     "messageformat": "আবার চেষ্টা করুন"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "পেমেন্ট পদ্ধতি"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "পেমেন্ট পদ্ধতি প্রত্যাখ্যান করা হয়েছে"
@@ -7600,31 +7636,31 @@
     "messageformat": "আরেকটি পেমেন্ট পদ্ধতি ব্যবহার করে দেখুন বা আরো তথ্যের জন্য আপনার ব্যাংকের সাথে যোগাযোগ করুন।"
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "পেমেন্ট কার্ড আইকন"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "ক্রেডিট বা ডেবিট কার্ড"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "বাতিল করুন"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "ডোনেশন সম্পন্ন করুন"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPal ডোনেশন বাতিল করা হয়েছে"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "আপনার কাছ থেকে অর্থ কেটে নেওয়া হয়নি। আবার চেষ্টা করুন অথবা অন্য পেমেন্ট পদ্ধতি ব্যবহার করুন।"
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "PayPal ডোনেশন প্রক্রিয়াকরণে ত্রুটি দেখা দিয়েছে"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "আপনার কাছ থেকে অর্থ কেটে নেওয়া হয়নি। আবার চেষ্টা করুন অথবা অন্য পেমেন্ট পদ্ধতি ব্যবহার করুন।"
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "যাচাইকরন ব্যর্থ"
@@ -7829,9 +7865,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "এই আপডেটটি ক্যাপস লক সক্রিয় থাকাকালীন একটি টেক্সট ফরম্যাটিং বাগ সংশোধন করে। ধন্যবাদ, <DGrothePhD></DGrothePhD>!"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "Signal একটি অলাভজনক প্রতিষ্ঠান যা আপনার সমর্থন ছাড়া চালিয়ে যাওয়া সম্ভব হতো না, এবং এখন আপনি Signal Desktop-এ PayPal-এর মাধ্যমে ডোনেট করতে পারবেন।"
   }
 }

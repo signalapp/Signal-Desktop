@@ -579,49 +579,49 @@
     "messageformat": "Ili kuthibitisha usimbaji fiche wa mwanzo hadi mwisho na {name}, linganisha nambari zilizo hapo juu na kifaa chao. Pia, wanaweza kupiga skani msimbo wako na kifaa chao."
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "Ili kuthibitisha usimbaji fiche wa mwanzo hadi mwisho ukitumia {name}, linganisha namba zilizo hapo juu na kifaa chake. Pia, wanaweza kuskani msimbo wako na kifaa chao."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Jifunze zaidi"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Uthibitishaji wa Kiotomatiki wa Ufunguo"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "Thibitisha kiotomatiki"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "Inathibitisha usimbaji fiche..."
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "Usimbaji fiche umethibitishwa"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "Uthibitishaji wa kiotomatiki haupatikani"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "Uthibitishaji wa kiotomatiki haupatikani kwa magumzo yote."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "Jifunze zaidi"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "Usimbaji fiche umethibitishwa kiotomatiki kwa gumzo hili "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Kwa wawasiliani uliounganisha nao moja kwa moja kupitia namba ya simu, Signal inaweza kuthibitisha kiotomatiki iwapo muunganisho huo ni salama kwa kutumia mchakato unaoitwa uwazi wa funguo. Ili uimarishe usalama, thibitisha mwenyewe usimbaji fiche wa mwanzo hadi mwisho kwa kulinganisha namba kwenye skrini iliyotangulia au kuchanganua msimbo kwenye kifaa chako."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "Hakuna uthibitishaji wa kiotomatiki kwa gumzo hili"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal haiwezi tena kuthibitisha kiotomatiki usimbaji fiche wa gumzo hili. Huenda hii ni kutokana na {name} kubadilisha namba yake ya simu. Thibitisha usimbaji fiche wa mwanzo hadi mwisho kwa kulinganisha mwenyewe namba kwenye skrini iliyotangulia au kuchanganua msimbo kwenye kifaa hiki."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal inaweza tu kuthibitisha kiotomatiki usimbaji fiche kwenye magumzo unapounganishwa na mtu kupitia namba ya simu. Ikiwa gumzo lilianzishwa na jina la mtumiaji au kikundi cha pamoja, thibitisha usimbaji fiche wa mwanzo hadi mwisho kwa kulinganisha namba kwenye skrini iliyotangulia au kuchanganua msimbo kwenye kifaa chake."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "Sawa"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Nambari ya usalama itaundwa na mtu huyu baada ya kubadilishana nao jumbe."
@@ -630,43 +630,43 @@
     "messageformat": "Jifunze zaidi"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "Uthibitishaji Kiotomatiki wa Funguo kwa sasa haupatikani kwenye kifaa chako. Ungependa kuwasilisha kumbukumbu za utatuzi?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Kumbukumbu za utatuzi zinatusaidia kutambua na kurekebisha tatizo, na hazina maelezo ya utambulisho."
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Funga"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "Shiriki faili la rekebisho"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "Tazama"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "Tuma"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Hapana nashukuru"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "Inawasilisha..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Sasa Signal inaweza kuthibitsha kiotomatiki usimbaji fiche wa ufunguo"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "Kwa wawasiliani uliounganisha nao moja kwa moja kupitia namba ya simu, Signal inaweza kuthibitisha kiotomatiki iwapo muunganisho huo ni salama kwa kutumia mchakato unaoitwa uwazi wa funguo. Kwa usalama wa ziada, bado unaweza kuthibitisha miunganisho yako mwenyewe ukitumia kodi ya QR au namba."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Endelea"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Jifunze zaidi"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Funga"
   },
   "icu:verified": {
     "messageformat": "Imehakikishwa"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} yupo kwenye wawasiliani wako wa kwenye simu"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Ongeza lebo ya mwanachama"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Kidokezo"
@@ -1794,13 +1797,13 @@
     "messageformat": "Ghairi"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Uthibitishaji wa Kiotomatiki wa Ufunguo"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "Ikiwezeshwa, Signal itajaribu kuthibitisha kiotomatiki usimbaji fiche wa magumzo ya 1:1."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "Jifunze Zaidi"
   },
   "icu:initialSync": {
     "messageformat": "Unganisha wawasiliani na vikundi"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "Sauti"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Lebo za Wanachama"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Tumia lebo ya mwanachama kujielezea wewe au jukumu lako kwenye klikundi hiki. Lebo za wanachama zinaonekana kwenye kundi hili."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Weka lebo"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Hariri lebo yako"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Rangi ya gumzo"
   },
@@ -4660,6 +4675,24 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Kiungo cha kikundi"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Lebo ya Mwanachama"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Weka lebo yako ya mwanachama"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Weka lebo ya mwanachama kujielezea wewe au jukumu lako kwenye klikundi hiki. Lebo za wanachama zinaonekana kwenye kikundi hiki tu."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Hakiki"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Habari!"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Inahifadhi mabadiliko..."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Jumbe zinazotoweka"
@@ -4695,7 +4728,7 @@
     "messageformat": "Chagua ni nani anayeweza kubadilisha jina la kikundi, picha, maelezo, na kipima muda cha ujumbe unaotoweka."
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "Chagua nani anaweza kuhariri jina la kikundi, picha, maelezo, kipima muda cha jumbe zinazotoweka na jumbe zilizobandikwa."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Nani anayeweza kuongeza wanachama"
@@ -7519,7 +7552,10 @@
     "messageformat": "Ondoa taarifa"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "Ikiwa utaondoka kwenye ukurasa huu, utahitaji kuanza upya ili kukamilisha mchango. Ungependa kuendelea?"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Anza tena"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Endelea"
@@ -7567,13 +7603,13 @@
     "messageformat": "Una mchango ambao haujakamilika unaohitaji uthibitishaji."
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Una mchango ambao haujakamilika unaohitaji uthibitishaji."
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "Michango kupitia PayPal imesitishwa"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "Hitilafu imetokea wakati wa kuchakata michango kupitia PayPal. Hujatozwa."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Umefanikiwa kuchangia, lakini tumeshindwa kusasisha mipangilio ya beji yako"
@@ -7591,7 +7627,7 @@
     "messageformat": "Jaribu tena"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "Njia ya malipo"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Njia ya malipo imekataliwa"
@@ -7600,31 +7636,31 @@
     "messageformat": "Jaribu njia nyingine ya malipo au wasiliana na benki unayotumia kwa maelezo zaidi."
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "Aikoni ya kadi ya malipo"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Kadi ya mkopo au fedha taslimu"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Ghairi"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "Kamilisha Mchango"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "Michango kupitia PayPal imesitishwa"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Hujatozwa. Jaribu tena au utumie njia nyingine ya malipo."
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "Hitilafu imetokea wakati wa kuchakata michango kupitia PayPal"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Hujatozwa. Jaribu tena au utumie njia nyingine ya malipo."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Imeshindwa Kuthibitisha"
@@ -7829,9 +7865,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "Sasisho hili linarekebisha hitilafu katika muundo wa maandishi huku Herufi Kubwa zikiruhusiwa ili iwe rahisi kukooza (au kufanya iwe mlalo) HUKU UKIJIAMINI. Asante, <DGrothePhD></DGrothePhD>!"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "Taasisi ya Signal ni shirika lisilo la biashara chini ya kanuni ya 501c3 ambalo lisingekwepo bila usaidizi wako na sasa unaweza kuchangia kupitia PayPal katika Signal Desktop."
   }
 }

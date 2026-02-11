@@ -579,46 +579,46 @@
     "messageformat": "Untuk mengesahkan keselamatan penyulitan hujung ke hujung dengan {name}, bandingkan nombor di atas dengan peranti mereka. Mereka juga boleh mengimbas kod anda dengan peranti mereka."
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "Untuk mengesahkan keselamatan penyulitan hujung ke hujung dengan {name}, bandingkan nombor di atas dengan peranti mereka. Mereka juga boleh mengimbas kod anda dengan peranti mereka."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Ketahui lebih lanjut"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Pengesahan Kunci Automatik"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "Sahkan secara automatik"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "Mengesahkan penyulitan..."
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "Penyulitan disahkan"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "Pengesahan automatik tidak tersedia"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "Pengesahan automatik tidak tersedia untuk semua sembang."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "Ketahui lebih lanjut"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "Penyulitan telah disahkan secara automatik untuk sembang ini "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Bagi kenalan yang anda sambungkan melalui nombor telefon, Signal boleh mengesahkan secara automatik sama ada sambungan itu selamat menggunakan proses yang dipanggil ketelusan kunci. Untuk keselamatan tambahan, sahkan penyulitan hujung ke hujung secara manual dengan membandingkan nombor pada skrin sebelumnya atau mengimbas kod pada peranti mereka."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "Pengesahan automatik tidak lagi tersedia untuk sembang ini"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal tidak lagi boleh mengesahkan penyulitan untuk sembang ini secara automatik. Ini mungkin kerana {name} menukar nombor telefon mereka. Sahkan penyulitan hujung ke hujung secara manual dengan membandingkan nombor pada skrin sebelumnya atau mengimbas kod pada peranti mereka."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal hanya boleh mengesahkan penyulitan secara automatik dalam sembang apabila anda disambungkan dengan seseorang melalui nombor telefon. Jika sembang dimulakan dengan nama pengguna atau melalui kumpulan yang sama, sahkan penyulitan hujung ke hujung dengan membandingkan nombor pada skrin sebelumnya atau mengimbas kod pada peranti mereka."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
     "messageformat": "Okay"
@@ -630,43 +630,43 @@
     "messageformat": "Ketahui lebih lanjut"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "Pengesahan Kunci Automatik pada masa ini tidak tersedia untuk peranti anda. Hantar log nyahpepijat?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Log nyahpepijat membantu kami mengenal pasti dan membetulkan isu ini, dan tidak mengandungi maklumat pengenalan diri."
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Tutup"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "Kongsi log nyahpepijat"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "Lihat"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "Hantar"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Tidak, terima kasih"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "Menyerahkan..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Signal kini boleh mengesahkan penyulitan kunci secara automatik"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "Bagi kenalan yang anda sambungkan melalui nombor telefon, Signal boleh mengesahkan secara automatik sama ada sambungan itu selamat menggunakan proses yang dipanggil ketelusan kunci. Untuk keselamatan tambahan, anda masih boleh mengesahkan sambungan secara manual menggunakan kod atau nombor QR."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Teruskan"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Ketahui lebih lanjut"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Tutup"
   },
   "icu:verified": {
     "messageformat": "Disahkan"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} berada dalam kenalan sistem anda"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Tambah Label Ahli"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Nota"
@@ -1794,13 +1797,13 @@
     "messageformat": "Batal"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Pengesahan Kunci Automatik"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "Apabila didayakan, Signal akan cuba mengesahkan penyulitan sembang 1:1 secara automatik."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "Ketahui Lebih Lanjut"
   },
   "icu:initialSync": {
     "messageformat": "Menyegerakkan kenalan dan kumpulan"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "Suara"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Label ahli"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Gunakan label ahli untuk menerangkan diri anda atau peranan anda dalam kumpulan ini. Label ahli hanya boleh dilihat dalam kumpulan ini."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Tetapkan label"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Edit label anda"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Warna sembang"
   },
@@ -4660,6 +4675,24 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Pautan kumpulan"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Label Ahli"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Masukkan label ahli anda"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Tetapkan label ahli untuk menerangkan diri anda atau peranan anda dalam kumpulan ini. Label ahli hanya boleh dilihat dalam kumpulan ini."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Pratonton"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Helo!"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Menyimpan perubahan..."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Mesej hilang"
@@ -4695,7 +4728,7 @@
     "messageformat": "Pilih orang yang dapat mengedit nama, foto, penerangan dan pemasa mesej hilang kumpulan."
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "Pilih orang yang boleh mengedit nama kumpulan, foto, perihalan, pemasa mesej menghilang dan mesej yang dipinkan."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Orang yang boleh menambah ahli"
@@ -7519,7 +7552,10 @@
     "messageformat": "Alih keluar maklumat"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "Jika anda meninggalkan halaman ini, anda perlu memulakan semula untuk melengkapkan derma. Adakah anda mahu meneruskan?"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Mulakan semula"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Teruskan"
@@ -7567,13 +7603,13 @@
     "messageformat": "Anda mempunyai derma yang sedang diproses dan memerlukan pengesahan."
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Anda mempunyai derma yang sedang diproses dan memerlukan pengesahan."
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "Derma PayPal dibatalkan"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "Ralat memproses derma PayPal. Anda belum dicaj."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Derma berjaya, tetapi kami tidak dapat mengemas kini tetapan lencana anda"
@@ -7591,7 +7627,7 @@
     "messageformat": "Cuba lagi"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "Kaedah Pembayaran"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Kaedah pembayaran ditolak"
@@ -7600,31 +7636,31 @@
     "messageformat": "Cuba kaedah pembayaran lain atau hubungi bank anda untuk maklumat lanjut."
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "Ikon kad pembayaran"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Kad kredit atau debit"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Batal"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "Lengkapkan Derma"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "Derma PayPal dibatalkan"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Anda belum dicaj. Cuba lagi atau gunakan kaedah pembayaran lain."
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "Ralat memproses derma PayPal"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Anda belum dicaj. Cuba lagi atau gunakan kaedah pembayaran lain."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Pengesahan Gagal"
@@ -7829,9 +7865,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "Kemas kini ini membaiki pepijat pemformatan teks semasa Caps Lock didayakan. Terima kasih, <DGrothePhD></DGrothePhD>!"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "Signal ialah organisasi bukan untung yang tidak mungkin wujud tanpa sokongan anda, dan kini anda boleh menderma melalui PayPal di Signal Desktop."
   }
 }

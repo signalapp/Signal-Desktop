@@ -579,49 +579,49 @@
     "messageformat": "{name} менен баштан аяк шифрлөөнү ырастоо үчүн жогорудагы коддорду анын түзмөгүнө дал келтириңиз. Кааласаңыз, анын түзмөгү менен кодуңузду скандасаңыз болот."
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "{name} менен баштан аяк шифрлөөнү ырастоо үчүн жогорудагы коддорду анын түзмөгүнө дал келтириңиз. Кааласаңыз, анын түзмөгү менен кодуңузду скандасаңыз болот."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Кененирээк маалымат"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Ачкычтарды автотекшерүү"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "Автотекшерүү"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "Шифрлөө текшерилүүдө..."
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "Шифрлөө текшерилди"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "Авто текшерүү жок"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "Бардык маектерде авто текшерүү жок."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "Кененирээк маалымат"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "Бул маектин шифрлөөсү автоматтык түрдө текшерилди "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Телефон номери аркылуу байланышкан адамдар үчүн Signal байланыштын коопсуздугун \"ачкычтын ачык-айкындыгы\" деген процесс менен текшерет. Коопсуздукту бекемдөө максатында баштан аяк шифрлөөнү буга чейинки экранда номерлерди салыштыруу же түзмөктөгү кодду скандоо менен текшериңиз."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "Бул маекте автотекшерүү жок"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal бул маектин шифрин автоматтык түрдө текшере албайт. {name} телефон номерин өзгөрткөн окшойт. Буга чейинки экранда номерлерди салыштырып же түзмөгүндөгү кодду скандап баштан аяк шифрлөөнү кол менен текшерсеңиз болот."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal маектерде шифрлөөнү кимдир-бирөөгө телефон аркылуу байланышып турсаңыз гана автоматтык түрдө текшере алат. Эгер маек колдонуучу ат же жалпы топ менен башталса, баштан аяк шифрлөө буга чейинки экранда номерлерди салыштыруу же түзмөктөгү кодду скандоо менен текшерилет."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "Макул"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Бул адамдын коопсуздук коду аны менен жазышкандан кийин түзүлөт."
@@ -630,43 +630,43 @@
     "messageformat": "Кененирээк маалымат"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "Түзмөгүңүздө ачкыч автоматтык түрдө текшерилбейт. Мүчүлүштүктөр журналын жөнөтөсүзбү?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Мүчүлүштүктөр журналдары аркылуу маселени аныктап, чече алабыз. Аларда сизди аныктаган маалымат болбойт."
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Жабуу"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "Мүчүлүштүктөр журналын бөлүшүү"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "Карап көрүү"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "Тапшыруу"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Жок, рахмат"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "Жөнөтүлүүдө..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Signal эми шифрлөө ачкычтарын автоматтык түрдө текшерет"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "Телефон номери аркылуу байланышкан адамдар үчүн Signal байланыштын коопсуздугун \"ачкычтын ачык-айкындыгы\" деген процесс менен текшерет. Кааласаңыз, байланыштарды QR код же номер аркылуу кол менен текшерсеңиз болот."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Улантуу"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Кененирээк маалымат"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Жабуу"
   },
   "icu:verified": {
     "messageformat": "Ырасталды"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} системаңыздагы байланыштар тизмесинде"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Катышуучунун энбелгисин кошуу"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Эскертме"
@@ -1794,13 +1797,13 @@
     "messageformat": "Жок"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Ачкычтарды автотекшерүү"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "Күйгүзүлгөндө, Signal 1:1 маектеринин шифрлерин автоматтык түрдө текшергенге аракет кылат."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "Кененирээк маалымат"
   },
   "icu:initialSync": {
     "messageformat": "Байланыштарды жана топторду шайкештирүү"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "Аудио"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Катышуучунун энбелгилери"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Катышуучунун энбелгиси аркылуу бул топто өзүңүз же ролуңуз тууралуу учкай маалымат бериңиз. Катышуучунун энбелгиси ушул топтогуларга гана көрүнөт."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Коюу"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Энбелгини оңдоо"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Маектин түсү"
   },
@@ -4660,6 +4675,24 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Топтун шилтемеси"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Катышуучунун энбелгиси"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Катышуучунун энбелгисин кошуңуз"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Катышуучунун энбелгиси аркылуу бул топто өзүңүз же ролуңуз тууралуу учкай маалымат бериңиз. Катышуучунун энбелгиси ушул топтогуларга гана көрүнөт."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Алдын ала көрүү"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Салам!"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Өзгөрүүлөр сакталууда..."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Жоголуп кетүүчү билдирүүлөр"
@@ -4695,7 +4728,7 @@
     "messageformat": "Топтун атын, сүрөтүн, сүрөттөмөсүн жана жок болуп кетүүчү билдирүүлөрдүн таймерин ким түзөтө аларын тандаңыз."
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "Тобуңуздун аталышын, сүрөтүн, учкай маалыматын, билдирүүлөр өчүүчү убакытты жана кадалган билдирүүлөрдү ким оңдой аларын тандайсыз."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Мүчөлөрдү ким кошо алат"
@@ -7519,7 +7552,10 @@
     "messageformat": "Ооба"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "Бул беттен кетсеңиз, салымыңызды кайра баштан башташыңыз керек болот. Улантасызбы?"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Кайра баштоо"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Улантуу"
@@ -7567,13 +7603,13 @@
     "messageformat": "Ырастоону талап кылган салымыңыз ишке ашууда."
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Ырастоону талап кылган салымыңыз ишке ашууда."
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPal аркылуу салым жокко чыгарылды"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "PayPal аркылуу салымды иштетүүдө ката кетти. Сизден акы алынган жок."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Салымыңыз кошулду, бирок төшбелгиңиздин параметрлерин өзгөртө алган жокпуз"
@@ -7591,7 +7627,7 @@
     "messageformat": "Кайталап көрүңүз"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "Төлөм ыкмасы"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Төлөм ыкмасы четке кагылды"
@@ -7600,31 +7636,31 @@
     "messageformat": "Башка төлөм ыкмасын колдонуп көрүңүз же көбүрөөк маалымат алуу үчүн банкыңызга кайрылыңыз."
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "Төлөм карточкасынын сүрөтчөсү"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Насыя же дебет картасы"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Жок"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "Салымды бүтүрүү"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPal аркылуу салым жокко чыгарылды"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Сизден акы алынган жок. Кайталап көрүңүз же башка төлөм ыкмасын колдонуңуз."
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "PayPal аркылуу салымды иштетүүдө ката кетти"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Сизден акы алынган жок. Кайталап көрүңүз же башка төлөм ыкмасын колдонуңуз."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Ырасталбай калды"
@@ -7829,9 +7865,9 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "Бул жаңы версияда Caps Lock баскычы күйүп калганда текстти форматтоо катасы оңдолду. Эми БАШ ТАМГАЛАР МЕНЕН ЖАЗЫП ЖАТСАҢЫЗ ДА, текстти оңой жоонойтосуз (же кыйгачтатасыз). Чоң рахмат, <DGrothePhD></DGrothePhD>!"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "Signal — сиздин колдооңуз менен иштеген коммерциялык эмес уюм (501c3). Эми салымыңызды компьютериңиздеги Signal колдонмосундагы PayPal аркылуу кошо аласыз."
   }
 }
