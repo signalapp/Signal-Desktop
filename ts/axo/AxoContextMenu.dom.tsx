@@ -115,7 +115,6 @@ export namespace AxoContextMenu {
 
   type TriggerElementGetter = (event: KeyboardEvent) => Element;
 
-  // eslint-disable-next-line no-inner-declarations
   function useContextMenuTriggerKeyboardEventHandler(
     getTriggerElement: TriggerElementGetter
   ) {

@@ -16,7 +16,7 @@ export function Basic(): React.JSX.Element {
       variant="secondary"
       size="lg"
       symbol="more"
-      aria-label="More"
+      label="More actions"
     />
   );
 }
@@ -80,7 +80,7 @@ export function Variants(): React.JSX.Element {
                     variant={variant}
                     size="lg"
                     symbol="more"
-                    aria-label="More"
+                    label="More actions"
                   />
                 </div>
               );
@@ -121,7 +121,7 @@ export function Sizes(): React.JSX.Element {
                     variant={variant}
                     size={size}
                     symbol="more"
-                    aria-label="More"
+                    label="More actions"
                   />
                 </div>
               );
@@ -168,7 +168,7 @@ export function States(): React.JSX.Element {
                     variant={variant}
                     size="lg"
                     symbol="more"
-                    aria-label="More"
+                    label="More actions"
                     {...AllStates[state]}
                   />
                 </div>
@@ -210,7 +210,7 @@ export function Spinners(): React.JSX.Element {
                     variant={variant}
                     size={size}
                     symbol="more"
-                    aria-label="More"
+                    label="More actions"
                     experimentalSpinner={{ 'aria-label': 'Loading' }}
                   />
                 </div>

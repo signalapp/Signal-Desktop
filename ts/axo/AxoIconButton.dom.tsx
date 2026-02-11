@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ButtonHTMLAttributes, FC, ForwardedRef } from 'react';
-import React, { forwardRef, memo } from 'react';
+import React, { forwardRef, memo, useMemo } from 'react';
 import { AxoSymbol } from './AxoSymbol.dom.js';
 import type { TailwindStyles } from './tw.dom.js';
 import { tw } from './tw.dom.js';
 import type { SpinnerVariant } from '../components/SpinnerV2.dom.js';
 import { SpinnerV2 } from '../components/SpinnerV2.dom.js';
+import { AxoTooltip } from './AxoTooltip.dom.js';
 
 const Namespace = 'AxoIconButton';
 
@@ -15,7 +16,7 @@ type GenericButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
 export namespace AxoIconButton {
   const baseStyles = tw(
-    'relative rounded-full select-none',
+    'relative rounded-full leading-none select-none',
     'outline-border-focused not-forced-colors:outline-0 not-forced-colors:focused:outline-[2.5px]',
     'forced-colors:border forced-colors:border-[ButtonBorder] forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText]',
     'forced-colors:disabled:text-[GrayText]',
@@ -105,7 +106,8 @@ export namespace AxoIconButton {
 
   export type RootProps = Readonly<{
     // required: Should describe the purpose of the button, not the icon.
-    'aria-label': string;
+    label: string;
+    tooltip?: boolean | AxoTooltip.RootConfigProps;
 
     variant: Variant;
     size: Size;
@@ -122,12 +124,31 @@ export namespace AxoIconButton {
 
   export const Root: FC<RootProps> = memo(
     forwardRef((props, ref: ForwardedRef<HTMLButtonElement>) => {
-      const { variant, size, symbol, experimentalSpinner, ...rest } = props;
+      const {
+        label,
+        tooltip = true,
+        variant,
+        size,
+        symbol,
+        experimentalSpinner,
+        ...rest
+      } = props;
 
-      return (
+      const tooltipConfig = useMemo(() => {
+        if (!tooltip) {
+          return null;
+        }
+        if (typeof tooltip === 'object') {
+          return tooltip;
+        }
+        return { label };
+      }, [tooltip, label]);
+
+      const button = (
         <button
           ref={ref}
           {...rest}
+          aria-label={label}
           type="button"
           className={tw(
             baseStyles,
@@ -137,7 +158,7 @@ export namespace AxoIconButton {
         >
           <span
             className={tw(
-              'align-top leading-none forced-color-adjust-none',
+              'align-top forced-color-adjust-none',
               experimentalSpinner != null ? 'opacity-0' : null
             )}
           >
@@ -156,6 +177,19 @@ export namespace AxoIconButton {
           )}
         </button>
       );
+
+      if (tooltipConfig != null) {
+        return (
+          <AxoTooltip.Root
+            {...tooltipConfig}
+            tooltipRepeatsTriggerAccessibleName={label === tooltipConfig.label}
+          >
+            {button}
+          </AxoTooltip.Root>
+        );
+      }
+
+      return button;
     })
   );
 
@@ -184,7 +218,6 @@ export namespace AxoIconButton {
     'aria-label': string;
   }>;
 
-  // eslint-disable-next-line no-inner-declarations
   function Spinner(props: SpinnerProps): React.JSX.Element {
     const variant = SpinnerVariants[props.buttonVariant];
     const sizeConfig = SpinnerSizes[props.buttonSize];

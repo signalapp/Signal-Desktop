@@ -841,6 +841,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/axo/AxoTooltip.dom.tsx",
+    "line": "    const triggerRef = useRef<HTMLButtonElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-02-09T21:54:48.020Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/calling/useGetCallingFrameBuffer.std.ts",
     "line": "  const ref = useRef<Uint8Array | null>(null);",
     "reasonCategory": "usageTrusted",

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import type { FC, ReactNode } from 'react';
 import React, { memo, useInsertionEffect } from 'react';
-import { Direction } from 'radix-ui';
+import { Direction, Tooltip } from 'radix-ui';
 import { createScrollbarGutterCssProperties } from './_internal/scrollbars.dom.js';
 
 type AxoProviderProps = Readonly<{
@@ -27,7 +27,9 @@ export const AxoProvider: FC<AxoProviderProps> = memo(props => {
     };
   });
   return (
-    <Direction.Provider dir={props.dir}>{props.children}</Direction.Provider>
+    <Direction.Provider dir={props.dir}>
+      <Tooltip.Provider>{props.children}</Tooltip.Provider>
+    </Direction.Provider>
   );
 });
 

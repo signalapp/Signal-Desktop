@@ -127,7 +127,7 @@ export function PanelHeader({
             variant={isNonDefaultSorting ? 'primary' : 'borderless-secondary'}
             size="md"
             symbol="sort-vertical"
-            aria-label={i18n('icu:MediaGallery__sort')}
+            label={i18n('icu:MediaGallery__sort')}
           />
         </AxoDropdownMenu.Trigger>
         <AxoDropdownMenu.Content>
