@@ -102,7 +102,7 @@ describe('storage service', function (this: Mocha.Suite) {
       );
       assert.strictEqual(
         stickerPack?.record.stickerPack?.position,
-        6,
+        11,
         'Wrong sticker pack position'
       );
     }
@@ -242,7 +242,7 @@ describe('storage service', function (this: Mocha.Suite) {
       );
       assert.strictEqual(
         stickerPack?.record.stickerPack?.position,
-        7,
+        12,
         'Wrong sticker pack position'
       );
     }
