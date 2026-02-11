@@ -139,6 +139,7 @@ window.testUtilities = {
         lastError: undefined,
         lastReturnToken: undefined,
         receipts: [],
+        configCache: undefined,
       },
       stickers: {
         installedPack: null,

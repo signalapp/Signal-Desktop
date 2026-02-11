@@ -11,6 +11,7 @@ import React, {
 } from 'react';
 
 import classNames from 'classnames';
+import type { ReadonlyDeep } from 'type-fest';
 import type { LocalizerType } from '../types/Util.std.js';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.js';
 import {
@@ -86,7 +87,7 @@ export type PropsDataType = {
   initialCurrency: string;
   isDonationPaypalEnabled: boolean;
   isOnline: boolean;
-  donationAmountsConfig: OneTimeDonationHumanAmounts | undefined;
+  donationAmountsConfig: ReadonlyDeep<OneTimeDonationHumanAmounts> | undefined;
   lastError: DonationErrorType | undefined;
   validCurrencies: ReadonlyArray<string>;
   workflow: DonationWorkflow | undefined;
@@ -537,7 +538,7 @@ type AmountPickerProps = {
   initialAmount: HumanDonationAmount | undefined;
   initialCurrency: string | undefined;
   isOnline: boolean;
-  donationAmountsConfig: OneTimeDonationHumanAmounts | undefined;
+  donationAmountsConfig: ReadonlyDeep<OneTimeDonationHumanAmounts> | undefined;
   validCurrencies: ReadonlyArray<string>;
   onChangeCurrency: (value: string) => void;
   onSubmit: (result: AmountPickerResult) => void;

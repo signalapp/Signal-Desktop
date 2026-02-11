@@ -6,6 +6,7 @@ import lodash from 'lodash';
 
 import type { MutableRefObject, ReactNode } from 'react';
 import { ListBox, ListBoxItem } from 'react-aria-components';
+import type { ReadonlyDeep } from 'type-fest';
 import { getDateTimeFormatter } from '../util/formatTimestamp.dom.js';
 
 import type { LocalizerType, ThemeType } from '../types/Util.std.js';
@@ -79,7 +80,7 @@ export type PropsDataType = {
   color: AvatarColorType | undefined;
   firstName: string | undefined;
   profileAvatarUrl?: string;
-  donationAmountsConfig: OneTimeDonationHumanAmounts | undefined;
+  donationAmountsConfig: ReadonlyDeep<OneTimeDonationHumanAmounts> | undefined;
   validCurrencies: ReadonlyArray<string>;
   donationReceipts: ReadonlyArray<DonationReceipt>;
   theme: ThemeType;

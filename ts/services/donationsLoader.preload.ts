@@ -28,5 +28,6 @@ export function getDonationsForRedux(): DonationsStateType {
     lastError: undefined,
     lastReturnToken: undefined,
     receipts: donationReceipts,
+    configCache: undefined,
   };
 }

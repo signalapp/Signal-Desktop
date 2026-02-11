@@ -29,6 +29,7 @@ import type {
   DonationErrorType,
   DonationReceipt,
   DonationWorkflow,
+  OneTimeDonationHumanAmounts,
   StripeDonationAmount,
 } from '../../types/Donations.std.js';
 import type { BadgeType } from '../../badges/types.std.js';
@@ -46,11 +47,13 @@ export type DonationsStateType = ReadonlyDeep<{
   lastError: DonationErrorType | undefined;
   lastReturnToken: string | undefined;
   receipts: Array<DonationReceipt>;
+  configCache: OneTimeDonationHumanAmounts | undefined;
 }>;
 
 // Actions
 
 export const ADD_RECEIPT = 'donations/ADD_RECEIPT';
+export const HYDRATE_CONFIG_CACHE = 'donations/HYDRATE_CONFIG_CACHE';
 export const SUBMIT_DONATION = 'donations/SUBMIT_DONATION';
 export const UPDATE_WORKFLOW = 'donations/UPDATE_WORKFLOW';
 export const UPDATE_LAST_ERROR = 'donations/UPDATE_LAST_ERROR';
@@ -59,6 +62,11 @@ export const SET_DID_RESUME = 'donations/SET_DID_RESUME';
 export type AddReceiptAction = ReadonlyDeep<{
   type: typeof ADD_RECEIPT;
   payload: { receipt: DonationReceipt };
+}>;
+
+export type HydrateConfigCacheAction = ReadonlyDeep<{
+  type: typeof HYDRATE_CONFIG_CACHE;
+  payload: { configCache: OneTimeDonationHumanAmounts };
 }>;
 
 export type SetDidResumeAction = ReadonlyDeep<{
@@ -83,6 +91,7 @@ export type UpdateWorkflowAction = ReadonlyDeep<{
 
 export type DonationsActionType = ReadonlyDeep<
   | AddReceiptAction
+  | HydrateConfigCacheAction
   | SetDidResumeAction
   | SubmitDonationAction
   | UpdateLastErrorAction
@@ -118,6 +127,15 @@ function internalAddDonationReceipt(
       log.error('Error adding donation receipt', Errors.toLogFormat(error));
       throw error;
     }
+  };
+}
+
+function hydrateConfigCache(
+  configCache: OneTimeDonationHumanAmounts
+): HydrateConfigCacheAction {
+  return {
+    type: HYDRATE_CONFIG_CACHE,
+    payload: { configCache },
   };
 }
 
@@ -399,6 +417,7 @@ export const actions = {
   applyDonationBadge,
   clearWorkflow,
   internalAddDonationReceipt,
+  hydrateConfigCache,
   setDidResume,
   resumeWorkflow,
   submitDonation,
@@ -419,6 +438,7 @@ export function getEmptyState(): DonationsStateType {
     lastError: undefined,
     lastReturnToken: undefined,
     receipts: [],
+    configCache: undefined,
   };
 }
 
@@ -430,6 +450,13 @@ export function reducer(
     return {
       ...state,
       receipts: [...state.receipts, action.payload.receipt],
+    };
+  }
+
+  if (action.type === HYDRATE_CONFIG_CACHE) {
+    return {
+      ...state,
+      configCache: action.payload.configCache,
     };
   }
 
