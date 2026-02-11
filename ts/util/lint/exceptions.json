@@ -1030,14 +1030,6 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/CallingPendingParticipants.dom.tsx",
-    "line": "  const lastParticipantRef = React.useRef<ConversationType | undefined>();",
-    "reasonCategory": "usageTrusted",
-    "updated": "2024-09-20T02:11:27.851Z",
-    "reasonDetail": "For fading out, to keep showing the last known participant"
-  },
-  {
-    "rule": "React-useRef",
     "path": "ts/components/CallingPip.dom.tsx",
     "line": "  const videoContainerRef = React.useRef<null | HTMLDivElement>(null);",
     "reasonCategory": "usageTrusted",

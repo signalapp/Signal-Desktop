@@ -6,7 +6,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import lodash from 'lodash';
 import classNames from 'classnames';
-import { animated, useSpring } from '@react-spring/web';
+import { AnimatePresence, motion } from 'framer-motion';
+
 import { Avatar, AvatarSize } from './Avatar.dom.js';
 import { ContactName } from './conversation/ContactName.dom.js';
 import { InContactsIcon } from './InContactsIcon.dom.js';
@@ -22,9 +23,7 @@ import type { ServiceIdString } from '../types/ServiceId.std.js';
 import { handleOutsideClick } from '../util/handleOutsideClick.dom.js';
 import { Theme } from '../util/theme.std.js';
 import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
-import { usePrevious } from '../hooks/usePrevious.std.js';
 import { useReducedMotion } from '../hooks/useReducedMotion.dom.js';
-import { drop } from '../util/drop.std.js';
 
 const { noop } = lodash;
 
@@ -58,25 +57,7 @@ export function CallingPendingParticipants({
 }: PropsType): React.JSX.Element | null {
   const reducedMotion = useReducedMotion();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const [opacitySpringProps, opacitySpringApi] = useSpring(
-    {
-      from: { opacity: 0 },
-      to: { opacity: 1 },
-      config: { clamp: true, friction: 22, tension: 360 },
-      immediate: reducedMotion,
-    },
-    []
-  );
-
-  // We show the first pending participant. Save this participant, so if all requests
-  // are resolved then we can keep showing the participant while fading out.
-  const lastParticipantRef = React.useRef<ConversationType | undefined>();
-  lastParticipantRef.current = participants[0] ?? lastParticipantRef.current;
   const participantCount = participants.length;
-  const prevParticipantCount = usePrevious(participantCount, participantCount);
-
-  const [isVisible, setIsVisible] = useState(participantCount > 0);
   const [isExpanded, setIsExpanded] = useState(defaultIsExpanded ?? false);
   const [confirmDialogState, setConfirmDialogState] =
     useState<ConfirmDialogState>(ConfirmDialogState.None);
@@ -193,32 +174,6 @@ export function CallingPendingParticipants({
       }
     );
   }, [isExpanded, handleHideAllRequests]);
-
-  useEffect(() => {
-    if (participantCount > prevParticipantCount) {
-      setIsVisible(true);
-      opacitySpringApi.stop();
-      drop(Promise.all(opacitySpringApi.start({ opacity: 1 })));
-    } else if (participantCount === 0) {
-      opacitySpringApi.stop();
-      drop(
-        Promise.all(
-          opacitySpringApi.start({
-            to: { opacity: 0 },
-            onRest: () => {
-              if (!participantCount) {
-                setIsVisible(false);
-              }
-            },
-          })
-        )
-      );
-    }
-  }, [opacitySpringApi, participantCount, prevParticipantCount, setIsVisible]);
-
-  if (!isVisible) {
-    return null;
-  }
 
   if (confirmDialogState === ConfirmDialogState.ApproveAll) {
     return (
@@ -366,79 +321,90 @@ export function CallingPendingParticipants({
     );
   }
 
-  const participant = lastParticipantRef.current;
-  if (!participant) {
-    return null;
-  }
-
+  const isVisible = participantCount > 0;
+  const participant = participants[0];
   const isExpandable = participantCount > 1;
-  return (
-    <animated.div
-      className={classNames(
-        'CallingPendingParticipants',
-        'CallingPendingParticipants--Compact',
-        'module-calling-participants-list',
-        isExpandable && 'CallingPendingParticipants--Expandable'
-      )}
-      style={opacitySpringProps}
-      aria-hidden={participantCount === 0}
-    >
-      <div className="CallingPendingParticipants__CompactParticipant">
-        <button
-          type="button"
-          onClick={ev => {
-            ev.preventDefault();
-            ev.stopPropagation();
-            if (participantCount === 0) {
-              return;
-            }
 
-            toggleCallLinkPendingParticipantModal(participant.id);
+  return (
+    <AnimatePresence>
+      {isVisible && participant ? (
+        <motion.div
+          className={classNames(
+            'CallingPendingParticipants',
+            'CallingPendingParticipants--Compact',
+            'module-calling-participants-list',
+            isExpandable && 'CallingPendingParticipants--Expandable'
+          )}
+          initial={{ opacity: reducedMotion ? 1 : 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: reducedMotion ? 1 : 0 }}
+          transition={{
+            type: 'spring',
+            stiffness: 322,
+            damping: 22,
           }}
-          className="module-calling-participants-list__avatar-and-name CallingPendingParticipants__ParticipantButton"
+          aria-hidden={!isVisible}
         >
-          <Avatar
-            avatarPlaceholderGradient={participant.avatarPlaceholderGradient}
-            avatarUrl={participant.avatarUrl}
-            badge={undefined}
-            color={participant.color}
-            conversationType="direct"
-            i18n={i18n}
-            profileName={participant.profileName}
-            title={participant.title}
-            size={AvatarSize.FORTY_EIGHT}
-          />
-          <div className="CallingPendingParticipants__CompactParticipantNameColumn">
-            <div className="CallingPendingParticipants__ParticipantName">
-              <ContactName title={participant.title} />
-              {isInSystemContacts(participant) ? (
-                <InContactsIcon
-                  className="module-calling-participants-list__contact-icon"
-                  i18n={i18n}
-                />
-              ) : null}
-              <span className="CallingPendingParticipants__ParticipantAboutIcon" />
-            </div>
-            <div className="CallingPendingParticipants__WouldLikeToJoin">
-              {i18n('icu:CallingPendingParticipants__WouldLikeToJoin')}
-            </div>
+          <div className="CallingPendingParticipants__CompactParticipant">
+            <button
+              type="button"
+              onClick={ev => {
+                ev.preventDefault();
+                ev.stopPropagation();
+                if (participantCount === 0) {
+                  return;
+                }
+
+                toggleCallLinkPendingParticipantModal(participant.id);
+              }}
+              className="module-calling-participants-list__avatar-and-name CallingPendingParticipants__ParticipantButton"
+            >
+              <Avatar
+                avatarPlaceholderGradient={
+                  participant.avatarPlaceholderGradient
+                }
+                avatarUrl={participant.avatarUrl}
+                badge={undefined}
+                color={participant.color}
+                conversationType="direct"
+                i18n={i18n}
+                profileName={participant.profileName}
+                title={participant.title}
+                size={AvatarSize.FORTY_EIGHT}
+              />
+              <div className="CallingPendingParticipants__CompactParticipantNameColumn">
+                <div className="CallingPendingParticipants__ParticipantName">
+                  <ContactName title={participant.title} />
+                  {isInSystemContacts(participant) ? (
+                    <InContactsIcon
+                      className="module-calling-participants-list__contact-icon"
+                      i18n={i18n}
+                    />
+                  ) : null}
+                  <span className="CallingPendingParticipants__ParticipantAboutIcon" />
+                </div>
+                <div className="CallingPendingParticipants__WouldLikeToJoin">
+                  {i18n('icu:CallingPendingParticipants__WouldLikeToJoin')}
+                </div>
+              </div>
+            </button>
+            {renderApprovalButtons(participant, participantCount > 0)}
           </div>
-        </button>
-        {renderApprovalButtons(participant, participantCount > 0)}
-      </div>
-      {isExpandable && (
-        <div className="CallingPendingParticipants__ShowAllRequestsButtonContainer">
-          <button
-            className="CallingPendingParticipants__ShowAllRequestsButton"
-            onClick={() => setIsExpanded(true)}
-            type="button"
-          >
-            {i18n('icu:CallingPendingParticipants__AdditionalRequests', {
-              count: participantCount - 1,
-            })}
-          </button>
-        </div>
-      )}
-    </animated.div>
+          {isExpandable && (
+            <div className="CallingPendingParticipants__ShowAllRequestsButtonContainer">
+              <button
+                className="CallingPendingParticipants__ShowAllRequestsButton"
+                onClick={() => setIsExpanded(true)}
+                type="button"
+              >
+                {i18n('icu:CallingPendingParticipants__AdditionalRequests', {
+                  count: participantCount - 1,
+                })}
+              </button>
+            </div>
+          )}
+        </motion.div>
+      ) : null}
+    </AnimatePresence>
   );
 }
