@@ -3332,11 +3332,18 @@ function getAllMessageIds(db: ReadableDB): Array<string> {
 
 function getMessageByAuthorAciAndSentAt(
   db: ReadableDB,
+  ourAci: AciString,
   authorAci: AciString,
   sentAtTimestamp: number,
   options: { includeEdits: boolean }
 ): MessageType | null {
   return db.transaction(() => {
+    const isSentByUs = ourAci === authorAci;
+
+    const senderPredicate = isSentByUs
+      ? sqlFragment`(messages.sourceServiceId = ${authorAci} OR messages.type IS 'outgoing')`
+      : sqlFragment`(messages.sourceServiceId = ${authorAci})`;
+
     // Return sentAt/readStatus from the messages table, when we edit a message
     // we add the original message to messages.editHistory and update original
     // message's sentAt/readStatus columns.
@@ -3348,14 +3355,14 @@ function getMessageByAuthorAciAndSentAt(
       FROM edited_messages
       INNER JOIN messages ON
         messages.id = edited_messages.messageId
-      WHERE messages.sourceServiceId = ${authorAci}
+      WHERE ${senderPredicate}
         AND edited_messages.sentAt = ${sentAtTimestamp}
     `;
 
     const messagesQuery = sqlFragment`
       SELECT ${MESSAGE_COLUMNS_FRAGMENT}
       FROM messages
-      WHERE messages.sourceServiceId = ${authorAci}
+      WHERE ${senderPredicate}
         AND messages.sent_at = ${sentAtTimestamp}
     `;
 
