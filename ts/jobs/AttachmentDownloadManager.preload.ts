@@ -1059,7 +1059,13 @@ function _markAttachmentAsTransientlyErrored(
 type AttachmentDataToBeReused = WithRequiredProperties<
   Pick<
     AttachmentType,
-    'path' | 'localKey' | 'version' | 'thumbnail' | 'screenshot'
+    | 'path'
+    | 'localKey'
+    | 'version'
+    | 'thumbnail'
+    | 'screenshot'
+    | 'width'
+    | 'height'
   >,
   'path' | 'localKey' | 'version'
 >;
@@ -1107,6 +1113,8 @@ async function getExistingAttachmentDataForReuse({
     path: existingAttachmentData.path,
     localKey: existingAttachmentData.localKey,
     version: existingAttachmentData.version,
+    width: existingAttachmentData.width ?? undefined,
+    height: existingAttachmentData.height ?? undefined,
   };
   const { thumbnailPath, thumbnailSize, thumbnailContentType } =
     existingAttachmentData;

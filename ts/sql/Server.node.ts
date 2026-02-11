@@ -2951,6 +2951,8 @@ function getAndProtectExistingAttachmentPath(
       path,
       version,
       localKey,
+      width,
+      height,
       thumbnailPath,
       thumbnailLocalKey,
       thumbnailVersion,
