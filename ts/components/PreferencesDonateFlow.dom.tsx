@@ -440,6 +440,7 @@ export function PreferencesDonateFlow({
           <img
             src="images/paypal.svg"
             aria-label={i18n('icu:DonateFlow__Paypal__AccessibilityLabel')}
+            draggable={false}
           />
         </button>
       </>
@@ -484,6 +485,7 @@ export function PreferencesDonateFlow({
             className={tw('flex')}
             src="images/paypal.svg"
             aria-label={i18n('icu:DonateFlow__Paypal__AccessibilityLabel')}
+            draggable={false}
           />
         </div>
         <div
