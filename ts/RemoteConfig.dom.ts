@@ -95,6 +95,8 @@ const KnownDesktopLibsignalNetKeys = [
   'desktop.libsignalNet.chatRequestConnectionCheckTimeoutMillis',
   'desktop.libsignalNet.disableNagleAlgorithm.beta',
   'desktop.libsignalNet.disableNagleAlgorithm',
+  'desktop.libsignalNet.grpc.AccountsAnonymousLookupUsernameHash.beta',
+  'desktop.libsignalNet.grpc.AccountsAnonymousLookupUsernameHash',
   'desktop.libsignalNet.useH2ForUnauthChat.beta',
   'desktop.libsignalNet.useH2ForUnauthChat',
 ] as const;
