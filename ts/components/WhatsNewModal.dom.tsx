@@ -59,7 +59,6 @@ export function WhatsNewModal({
           DGrothePhD,
         }}
       />,
-      <I18n i18n={i18n} id="icu:WhatsNew__7.89--1" />,
     ],
   };
 
