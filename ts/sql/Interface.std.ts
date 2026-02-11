@@ -809,6 +809,8 @@ export type ExistingAttachmentData = Pick<
   | 'version'
   | 'path'
   | 'localKey'
+  | 'width'
+  | 'height'
   | 'thumbnailPath'
   | 'thumbnailLocalKey'
   | 'thumbnailVersion'

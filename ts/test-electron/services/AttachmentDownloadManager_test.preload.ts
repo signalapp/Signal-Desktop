@@ -1228,6 +1228,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
       size: 128,
       contentType: MIME.VIDEO_MP4,
       version: 2,
+      width: 1123,
+      height: 5811,
       plaintextHash: testPlaintextHash(),
       path: 'existingPath',
       localKey: testAttachmentLocalKey(),
@@ -1353,6 +1355,8 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
         'path',
         'localKey',
         'version',
+        'width',
+        'height',
         'thumbnail.path',
         'thumbnail.localKey',
         'thumbnail.size',
@@ -1366,6 +1370,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
       ];
 
       assert.strictEqual(attachment?.path, existingAttachment.path);
+      assert.strictEqual(attachment?.width, existingAttachment.width);
       assert.deepStrictEqual(
         pick(attachment, propsThatShouldBeTransferred),
         pick(existingAttachment, propsThatShouldBeTransferred)
