@@ -44,6 +44,7 @@ export type DonationsStateType = ReadonlyDeep<{
   currentWorkflow: DonationWorkflow | undefined;
   didResumeWorkflowAtStartup: boolean;
   lastError: DonationErrorType | undefined;
+  lastReturnToken: string | undefined;
   receipts: Array<DonationReceipt>;
 }>;
 
@@ -416,6 +417,7 @@ export function getEmptyState(): DonationsStateType {
     currentWorkflow: undefined,
     didResumeWorkflowAtStartup: false,
     lastError: undefined,
+    lastReturnToken: undefined,
     receipts: [],
   };
 }
@@ -448,6 +450,14 @@ export function reducer(
   if (action.type === UPDATE_WORKFLOW) {
     const { nextWorkflow } = action.payload;
 
+    let lastReturnToken: string | undefined;
+    const { currentWorkflow } = state;
+    if (currentWorkflow && 'returnToken' in currentWorkflow) {
+      lastReturnToken = currentWorkflow.returnToken;
+    } else {
+      lastReturnToken = state.lastReturnToken;
+    }
+
     // If we've cleared the workflow or are starting afresh, we clear the startup flag
     const didResumeWorkflowAtStartup =
       !nextWorkflow || nextWorkflow.type === donationStateSchema.Enum.INTENT
@@ -458,6 +468,7 @@ export function reducer(
       ...state,
       didResumeWorkflowAtStartup,
       currentWorkflow: nextWorkflow,
+      lastReturnToken,
     };
   }
 

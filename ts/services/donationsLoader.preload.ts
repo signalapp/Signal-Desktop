@@ -26,6 +26,7 @@ export function getDonationsForRedux(): DonationsStateType {
     currentWorkflow,
     didResumeWorkflowAtStartup: Boolean(currentWorkflow),
     lastError: undefined,
+    lastReturnToken: undefined,
     receipts: donationReceipts,
   };
 }
