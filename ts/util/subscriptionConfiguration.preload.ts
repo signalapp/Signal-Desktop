@@ -1,9 +1,13 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { pickBy } from 'lodash';
 import type { SubscriptionConfigurationResultType } from '../textsecure/WebAPI.preload.js';
 import { getSubscriptionConfiguration } from '../textsecure/WebAPI.preload.js';
-import type { OneTimeDonationHumanAmounts } from '../types/Donations.std.js';
+import {
+  PaymentMethod,
+  type OneTimeDonationHumanAmounts,
+} from '../types/Donations.std.js';
 import { HOUR } from './durations/index.std.js';
 import { isInPast } from './timestamp.std.js';
 import { createLogger } from '../logging/log.std.js';
@@ -58,7 +62,13 @@ export function getCachedSubscriptionConfigExpiresAt(): number | undefined {
 
 export async function getCachedDonationHumanAmounts(): Promise<OneTimeDonationHumanAmounts> {
   const { currencies } = await getCachedSubscriptionConfiguration();
-  return currencies;
+  // pickBy returns a Partial so we need to cast it
+  return pickBy(
+    currencies,
+    ({ supportedPaymentMethods }) =>
+      supportedPaymentMethods.includes(PaymentMethod.Card) ||
+      supportedPaymentMethods.includes(PaymentMethod.Paypal)
+  ) as unknown as OneTimeDonationHumanAmounts;
 }
 
 export async function maybeHydrateDonationConfigCache(): Promise<void> {

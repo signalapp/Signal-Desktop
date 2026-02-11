@@ -36,6 +36,11 @@ export enum DonationProcessor {
   Stripe = 'STRIPE',
 }
 
+export enum PaymentMethod {
+  Card = 'CARD',
+  Paypal = 'PAYPAL',
+}
+
 export const donationProcessorSchema = z.nativeEnum(DonationProcessor);
 
 export const donationErrorTypeSchema = z.enum([
@@ -262,6 +267,7 @@ export type StripeDonationAmount = z.infer<typeof stripeDonationAmountSchema>;
 export const subscriptionConfigurationCurrencyZod = z.object({
   minimum: humanDonationAmountSchema,
   oneTime: z.record(z.string(), humanDonationAmountSchema.array()),
+  supportedPaymentMethods: z.array(z.string()),
 });
 
 export const oneTimeDonationAmountsZod = z.record(
