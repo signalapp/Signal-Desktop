@@ -11,6 +11,8 @@ import type { JOB_STATUS } from './JobQueue.std.js';
 import { JobQueue } from './JobQueue.std.js';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore.preload.js';
 import { parseUnknown } from '../util/schemas.std.js';
+import { waitForOnline } from '../util/waitForOnline.dom.js';
+import { isOnline } from '../textsecure/WebAPI.preload.js';
 
 const groupAvatarJobDataSchema = z.object({
   conversationId: z.string(),
@@ -29,6 +31,8 @@ export class GroupAvatarJobQueue extends JobQueue<GroupAvatarJobData> {
     { attempt, log }: Readonly<{ attempt: number; log: LoggerType }>
   ): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
     const { conversationId, newAvatarUrl } = data;
+    await waitForOnline({ server: { isOnline } });
+
     const logId = `groupAvatarJobQueue(${conversationId}, attempt=${attempt})`;
 
     const convo = window.ConversationController.get(conversationId);
@@ -43,15 +47,21 @@ export class GroupAvatarJobQueue extends JobQueue<GroupAvatarJobData> {
       return undefined;
     }
 
-    // Generate correct attributes patch
-    const patch = await applyNewAvatar({
-      newAvatarUrl,
-      attributes,
-      logId,
-    });
+    await convo.queueJob('GroupAvatarJobQueue', async () => {
+      if (convo.attributes.remoteAvatarUrl !== newAvatarUrl) {
+        return;
+      }
 
-    convo.set(patch);
-    await DataWriter.updateConversation(convo.attributes);
+      // Generate correct attributes patch
+      const patch = await applyNewAvatar({
+        newAvatarUrl,
+        attributes,
+        logId,
+      });
+
+      convo.set(patch);
+      await DataWriter.updateConversation(convo.attributes);
+    });
 
     return undefined;
   }
@@ -60,5 +70,5 @@ export class GroupAvatarJobQueue extends JobQueue<GroupAvatarJobData> {
 export const groupAvatarJobQueue = new GroupAvatarJobQueue({
   store: jobQueueDatabaseStore,
   queueType: 'groupAvatar',
-  maxAttempts: 25,
+  maxAttempts: 5,
 });
