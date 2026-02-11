@@ -2354,6 +2354,7 @@ export async function postBatchIdentityCheck(
     data: JSON.stringify({ elements }),
     call: 'batchIdentityCheck',
     httpType: 'POST',
+    unauthenticated: true,
     responseType: 'json',
     // TODO DESKTOP-8719
     zodSchema: z.unknown(),
