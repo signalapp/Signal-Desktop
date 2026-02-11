@@ -454,6 +454,7 @@ export default {
     isAutoDownloadUpdatesSupported: true,
     isAutoLaunchSupported: true,
     isHideMenuBarSupported: true,
+    isKeyTransparencyAvailable: true,
     isNotificationAttentionSupported: true,
     isSyncSupported: true,
     isSystemTraySupported: true,

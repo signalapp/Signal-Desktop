@@ -196,6 +196,7 @@ export type PropsDataType = {
   isContentProtectionNeeded: boolean;
   isContentProtectionSupported: boolean;
   isHideMenuBarSupported: boolean;
+  isKeyTransparencyAvailable: boolean;
   isNotificationAttentionSupported: boolean;
   isPlaintextExportEnabled: boolean;
   isSyncSupported: boolean;
@@ -441,6 +442,7 @@ export function Preferences({
   isContentProtectionNeeded,
   isContentProtectionSupported,
   isHideMenuBarSupported,
+  isKeyTransparencyAvailable,
   isNotificationAttentionSupported,
   isPlaintextExportEnabled,
   isSyncSupported,
@@ -1820,36 +1822,40 @@ export function Preferences({
             </div>
           </FlowingControl>
         </SettingsRow>
-        <SettingsRow>
-          <Checkbox
-            checked={!hasKeyTransparencyDisabled}
-            label={i18n('icu:Preferences__PrivacyPage__KeyTransparency__Label')}
-            moduleClassName="Preferences__checkbox"
-            name="keyTransparency"
-            onChange={() =>
-              onHasKeyTransparencyDisabledChanged(!hasKeyTransparencyDisabled)
-            }
-          />
-          <div className="Preferences__padding">
-            <div className="Preferences__description">
-              {i18n(
-                'icu:Preferences__PrivacyPage__KeyTransparency__Description'
+        {isKeyTransparencyAvailable && (
+          <SettingsRow>
+            <Checkbox
+              checked={!hasKeyTransparencyDisabled}
+              label={i18n(
+                'icu:Preferences__PrivacyPage__KeyTransparency__Label'
               )}
-              &ensp;
-              <a
-                href={KEY_TRANSPARENCY_URL}
-                rel="noreferrer"
-                target="_blank"
-                className={tw('text-label-primary')}
-              >
-                <I18n
-                  i18n={i18n}
-                  id="icu:Preferences__PrivacyPage__KeyTransparency__LearnMore"
-                />
-              </a>
+              moduleClassName="Preferences__checkbox"
+              name="keyTransparency"
+              onChange={() =>
+                onHasKeyTransparencyDisabledChanged(!hasKeyTransparencyDisabled)
+              }
+            />
+            <div className="Preferences__padding">
+              <div className="Preferences__description">
+                {i18n(
+                  'icu:Preferences__PrivacyPage__KeyTransparency__Description'
+                )}
+                &ensp;
+                <a
+                  href={KEY_TRANSPARENCY_URL}
+                  rel="noreferrer"
+                  target="_blank"
+                  className={tw('text-label-primary')}
+                >
+                  <I18n
+                    i18n={i18n}
+                    id="icu:Preferences__PrivacyPage__KeyTransparency__LearnMore"
+                  />
+                </a>
+              </div>
             </div>
-          </div>
-        </SettingsRow>
+          </SettingsRow>
+        )}
         <SettingsRow>
           <FlowingControl>
             <div
