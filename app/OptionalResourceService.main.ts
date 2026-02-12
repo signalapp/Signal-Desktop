@@ -77,7 +77,7 @@ export class OptionalResourceService {
           timingSafeEqual(digest, Buffer.from(decl.digest, 'base64')) &&
           onDisk.length === decl.size
         ) {
-          log.warn(`loaded ${name} from disk`);
+          log.info(`loaded ${name} from disk`);
           this.#cache.set(name, onDisk);
           return onDisk;
         }
@@ -174,6 +174,16 @@ export class OptionalResourceService {
     destPath: string
   ): Promise<Buffer> {
     const result = await got(decl.url, await getGotOptions()).buffer();
+
+    const digest = createHash('sha512').update(result).digest();
+
+    // Same digest and size
+    if (
+      !timingSafeEqual(digest, Buffer.from(decl.digest, 'base64')) ||
+      result.length !== decl.size
+    ) {
+      throw new Error(`Invalid remote resource for ${name}`);
+    }
 
     this.#cache.set(name, result);
 
