@@ -137,12 +137,6 @@ export const getAbsoluteStickerPath = createAbsolutePathGetter(STICKERS_PATH);
 export const writeNewStickerData = createEncryptedWriterForNew(STICKERS_PATH);
 export const deleteSticker = createDeleter(STICKERS_PATH);
 export const readStickerData = createEncryptedReader(STICKERS_PATH);
-export const copyStickerIntoAttachmentsDirectory = copyIntoAttachmentsDirectory(
-  {
-    sourceDir: STICKERS_PATH,
-    targetDir: ATTACHMENTS_PATH,
-  }
-);
 
 export const getAbsoluteBadgeImageFilePath =
   createAbsolutePathGetter(BADGES_PATH);

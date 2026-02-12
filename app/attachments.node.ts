@@ -316,6 +316,7 @@ export const readAndDecryptDataFromDisk = async ({
   return Buffer.concat(chunks);
 };
 
+export const CURRENT_ATTACHMENT_VERSION = 2;
 export const writeNewAttachmentData = async ({
   data,
   getAbsoluteAttachmentPath,
@@ -333,7 +334,7 @@ export const writeNewAttachmentData = async ({
   });
 
   return {
-    version: 2,
+    version: CURRENT_ATTACHMENT_VERSION,
     plaintextHash,
     size: data.byteLength,
     path,

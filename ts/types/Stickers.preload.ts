@@ -13,7 +13,7 @@ import { getMessagesById } from '../messages/getMessagesById.preload.js';
 import * as Bytes from '../Bytes.std.js';
 import * as Errors from './errors.std.js';
 import { deriveStickerPackKey, decryptAttachmentV1 } from '../Crypto.node.js';
-import { IMAGE_WEBP } from './MIME.std.js';
+import { IMAGE_WEBP, type MIMEType } from './MIME.std.js';
 import { sniffImageMimeType } from '../util/sniffImageMimeType.std.js';
 import type {
   AttachmentType,
@@ -34,12 +34,10 @@ import {
   processNewEphemeralSticker,
   processNewSticker,
   deleteTempFile,
-  getAbsoluteStickerPath,
-  copyStickerIntoAttachmentsDirectory,
-  readAttachmentData,
   deleteSticker,
   readStickerData,
   writeNewStickerData,
+  writeNewAttachmentData,
 } from '../util/migrations.preload.js';
 import { drop } from '../util/drop.std.js';
 import { isNotNil } from '../util/isNotNil.std.js';
@@ -52,6 +50,7 @@ import {
   getSticker as doGetSticker,
   getStickerPackManifest,
 } from '../textsecure/WebAPI.preload.js';
+import { getExistingAttachmentDataForReuse } from '../util/attachments/deduplicateAttachment.preload.js';
 
 const { isNumber, reject, groupBy, values, chunk } = lodash;
 
@@ -1106,33 +1105,46 @@ export async function copyStickerToAttachments(
     );
   }
 
-  const { path: stickerPath } = sticker;
-  const absolutePath = getAbsoluteStickerPath(stickerPath);
-  const { path, size } =
-    await copyStickerIntoAttachmentsDirectory(absolutePath);
+  const data = await readStickerData(sticker);
+  const size = data.byteLength;
+  const plaintextHash = getPlaintextHashForInMemoryAttachment(data);
 
-  const newSticker: AttachmentType = {
-    ...sticker,
-    path,
-    size,
-
-    // Fall-back
-    contentType: IMAGE_WEBP,
-  };
-  const data = await readAttachmentData(newSticker);
-
+  let contentType: MIMEType;
   const sniffedMimeType = sniffImageMimeType(data);
   if (sniffedMimeType) {
-    newSticker.contentType = sniffedMimeType;
+    contentType = sniffedMimeType;
   } else {
     log.warn(
       'copyStickerToAttachments: Unable to sniff sticker MIME type; falling back to WebP'
     );
+    contentType = IMAGE_WEBP;
   }
 
-  newSticker.plaintextHash = getPlaintextHashForInMemoryAttachment(data);
+  const newSticker: AttachmentType = {
+    width: sticker.width,
+    height: sticker.height,
+    version: sticker.version,
+    size,
+    contentType,
+    plaintextHash,
+  };
 
-  return newSticker;
+  const existingAttachmentData = await getExistingAttachmentDataForReuse({
+    plaintextHash,
+    contentType,
+    logId: 'copyStickerToAttachments',
+  });
+
+  if (existingAttachmentData) {
+    return {
+      ...newSticker,
+      ...existingAttachmentData,
+    };
+  }
+
+  const newAttachmentData = await writeNewAttachmentData(data);
+
+  return { ...newSticker, ...newAttachmentData };
 }
 
 // In the case where a sticker pack is uninstalled, we want to delete it if there are no
