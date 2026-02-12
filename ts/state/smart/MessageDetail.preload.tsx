@@ -19,6 +19,7 @@ import {
 import { getMessageDetailsSelector } from '../selectors/message.preload.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import { renderAudioAttachment } from './renderAudioAttachment.preload.js';
+import { startConversation } from '../../util/startConversation.dom.js';
 import { useAccountsActions } from '../ducks/accounts.preload.js';
 import { useComposerActions } from '../ducks/composer.preload.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
@@ -68,7 +69,6 @@ export const SmartMessageDetail = memo(
       showExpiredOutgoingTapToViewToast,
       showMediaNoLongerAvailableToast,
       showSpoiler,
-      startConversation,
     } = useConversationsActions();
     const {
       showContactModal,

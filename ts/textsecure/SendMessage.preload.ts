@@ -23,6 +23,7 @@ import { DataWriter } from '../sql/Client.preload.js';
 import type { ConversationModel } from '../models/conversations.preload.js';
 import { assertDev, strictAssert } from '../util/assert.std.js';
 import { parseIntOrThrow } from '../util/parseIntOrThrow.std.js';
+import { uuidToBytes } from '../util/uuidToBytes.std.js';
 import { Address } from '../types/Address.std.js';
 import { QualifiedAddress } from '../types/QualifiedAddress.std.js';
 import { SenderKeys } from '../LibSignalStores.preload.js';
@@ -1746,9 +1747,24 @@ export class MessageSender {
           conversation,
         });
       } else if (item.type === 'delete-single-attachment') {
-        throw new Error(
-          "getDeleteForMeSyncMessage: Desktop currently does not support sending 'delete-single-attachment' messages"
-        );
+        const conversation = toConversationIdentifier(item.conversation);
+        const targetMessage = toAddressableMessage(item.message);
+
+        deleteForMe.attachmentDeletes = deleteForMe.attachmentDeletes || [];
+        deleteForMe.attachmentDeletes.push({
+          conversation,
+          targetMessage,
+          clientUuid:
+            item.clientUuid == null ? undefined : uuidToBytes(item.clientUuid),
+          fallbackDigest:
+            item.fallbackDigest == null
+              ? undefined
+              : Bytes.fromBase64(item.fallbackDigest),
+          fallbackPlaintextHash:
+            item.fallbackPlaintextHash == null
+              ? undefined
+              : Bytes.fromHex(item.fallbackPlaintextHash),
+        });
       } else {
         throw missingCaseError(item);
       }

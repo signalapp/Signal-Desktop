@@ -162,7 +162,6 @@ import type { ConversationQueueJobData } from '../../jobs/conversationJobQueue.p
 import { isOlderThan } from '../../util/timestamp.std.js';
 import { DAY } from '../../util/durations/index.std.js';
 import { isNotNil } from '../../util/isNotNil.std.js';
-import { startConversation } from '../../util/startConversation.dom.js';
 import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp.std.js';
 import { removeLinkPreview } from '../../services/LinkPreview.preload.js';
 import type {
@@ -1320,7 +1319,6 @@ export const actions = {
   showInbox,
   showMediaNoLongerAvailableToast,
   startComposing,
-  startConversation,
   startSettingGroupMetadata,
   toggleAdmin,
   toggleComposeEditingAvatar,

@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo, useCallback } from 'react';
+import React, { memo, useCallback, type ReactNode } from 'react';
 import { useSelector } from 'react-redux';
 import { LinkPreviewItem } from '../../components/conversation/media-gallery/LinkPreviewItem.dom.js';
 import { MediaGridItem } from '../../components/conversation/media-gallery/MediaGridItem.dom.js';
@@ -21,11 +21,23 @@ import {
 import { getConversationSelector } from '../selectors/conversations.dom.js';
 import { getMediaGalleryState } from '../selectors/mediaGallery.std.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
+import { SmartMediaContextMenu } from './MediaContextMenu.preload.js';
 
 export type PropsType = Readonly<{
   onItemClick: (event: ItemClickEvent) => unknown;
   mediaItem: GenericMediaItemType;
 }>;
+
+function renderContextMenu(
+  mediaItem: GenericMediaItemType,
+  children: ReactNode
+): JSX.Element {
+  return (
+    <SmartMediaContextMenu mediaItem={mediaItem}>
+      {children}
+    </SmartMediaContextMenu>
+  );
+}
 
 export const MediaItem = memo(function MediaItem({
   mediaItem,
@@ -46,19 +58,19 @@ export const MediaItem = memo(function MediaItem({
       ? i18n('icu:you')
       : getConversation(message.sourceServiceId ?? message.source).title;
 
+  const showMessage = useCallback(() => {
+    showConversation({
+      conversationId: message.conversationId,
+      messageId: message.id,
+    });
+  }, [message.conversationId, message.id, showConversation]);
+
   const onClick = useCallback(
     (state: AttachmentStatusType['state']) => {
       onItemClick({ mediaItem, state });
     },
     [mediaItem, onItemClick]
   );
-
-  const onShowMessage = useCallback(() => {
-    showConversation({
-      conversationId: message.conversationId,
-      messageId: message.id,
-    });
-  }, [message.conversationId, message.id, showConversation]);
 
   const showSize = sortOrder === 'size';
 
@@ -71,7 +83,8 @@ export const MediaItem = memo(function MediaItem({
           isPlayed={isVoiceMessagePlayed(mediaItem.message, ourConversationId)}
           mediaItem={mediaItem}
           onClick={onClick}
-          onShowMessage={onShowMessage}
+          showMessage={showMessage}
+          renderContextMenu={renderContextMenu}
         />
       );
     case 'media':
@@ -80,6 +93,7 @@ export const MediaItem = memo(function MediaItem({
           mediaItem={mediaItem}
           showSize={showSize}
           onClick={onClick}
+          renderContextMenu={renderContextMenu}
           i18n={i18n}
           theme={theme}
         />
@@ -91,7 +105,8 @@ export const MediaItem = memo(function MediaItem({
           authorTitle={authorTitle}
           mediaItem={mediaItem}
           onClick={onClick}
-          onShowMessage={onShowMessage}
+          showMessage={showMessage}
+          renderContextMenu={renderContextMenu}
         />
       );
     case 'contact':
@@ -101,7 +116,8 @@ export const MediaItem = memo(function MediaItem({
           authorTitle={authorTitle}
           mediaItem={mediaItem}
           onClick={onClick}
-          onShowMessage={onShowMessage}
+          showMessage={showMessage}
+          renderContextMenu={renderContextMenu}
         />
       );
     case 'link': {
@@ -120,7 +136,8 @@ export const MediaItem = memo(function MediaItem({
           authorTitle={authorTitle}
           mediaItem={hydratedMediaItem}
           onClick={onClick}
-          onShowMessage={onShowMessage}
+          showMessage={showMessage}
+          renderContextMenu={renderContextMenu}
         />
       );
     }

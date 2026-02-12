@@ -6640,6 +6640,26 @@
     "messageformat": "You can only select up to {count, plural, one {# message} other {# messages}} to delete for everyone",
     "description": "delete selected messages > confirmation modal > deleted for everyone (disabled) > toast > too many messages to 'delete for everyone'"
   },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Delete item?",
+    "description": "Title of confirmation modal when deleting an attachment from media gallery"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted.",
+    "description": "Body of confirmation modal when deleting an attachment from media gallery"
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Close",
+    "description": "Accessibility label of close button in confirmation modal when deleting an attachment from media gallery"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Delete",
+    "description": "Text of a button in confirmation modal when deleting an attachment from media gallery"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Cancel",
+    "description": "Text of a button in confirmation modal when deleting an attachment from media gallery"
+  },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "You can only forward up to 30 messages",
     "description": "conversation > in select mode > composition area actions > forward selected messages (disabled) > toast message when too many messages"
@@ -7135,6 +7155,30 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "Files that you send and receive will appear here",
     "description": "Description of the empty state view of media gallery for files tab"
+  },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "View in chat",
+    "description": "Title of context menu action for media gallery item for showing the attachment in the chat"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Forward",
+    "description": "Title of context menu action for media gallery item for forwarding attachment to a different user"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Save",
+    "description": "Title of context menu action for media gallery item for saving the attachment to disk"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Send message",
+    "description": "Title of context menu action for media gallery item for sending a message to the contact"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Copy link",
+    "description": "Title of context menu action for media gallery item for copying link url into clipboard"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Delete",
+    "description": "Title of context menu action for media gallery item for deleting the attachment on disk"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Select media quality",

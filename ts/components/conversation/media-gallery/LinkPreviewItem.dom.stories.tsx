@@ -29,7 +29,8 @@ export function Multiple(): React.JSX.Element {
           authorTitle="Alice"
           mediaItem={mediaItem}
           onClick={action('onClick')}
-          onShowMessage={action('onShowMessage')}
+          showMessage={action('showMessage')}
+          renderContextMenu={(_item, children) => <>{children}</>}
         />
       ))}
     </>

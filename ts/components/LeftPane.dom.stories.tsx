@@ -353,8 +353,6 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
         onDelete={action('onDelete')}
         onChatFolderOpenCreatePage={action('onChatFolderOpenCreatePage')}
         onChatFolderToggleChat={action('onChatFolderToggleChat')}
-        localDeleteWarningShown={false}
-        setLocalDeleteWarningShown={action('setLocalDeleteWarningShown')}
       >
         {props.children}
       </LeftPaneConversationListItemContextMenu>
