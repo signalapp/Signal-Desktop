@@ -579,49 +579,49 @@
     "messageformat": "{name} ile uçtan uca şifrelemeyi doğrulamak için yukarıdaki sayıları onun cihazlarındakilerle karşılaştır. Cihazlarıyla kodunu da tarayabilirler."
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "{name} ile uçtan uca şifrelemeyi doğrulamak için yukarıdaki rakamları onun cihazlarındakilerle karşılaştır. Cihazlarıyla kodunu da tarayabilirler."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Daha fazla bilgi"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Otomatik anahtar doğrulama"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "Otomatik doğrula"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "Şifreleme doğrulanıyor..."
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "Şifreleme doğrulandı"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "Otomatik doğrulama kullanılamıyor"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "Otomatik doğrulama tüm sohbetler için kullanılamıyor."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "Daha fazla bilgi"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "Şifreleme bu sohbet için otomatik olarak doğrulandı "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Telefon numarasıyla bağlandığın kişiler için Signal, anahtar şeffaflığı adı verilen bir süreç kullanarak bağlantının güvenli olup olmadığını otomatik olarak onaylayabilir. İlave güvenlik için önceki ekrandaki rakamları karşılaştırarak veya cihazındaki kodu tarayarak, uçtan uca şifrelemeyi manuel olarak doğrula."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "Bu sohbet için otomatik doğrulama artık kullanılamıyor"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal bu sohbet için şifrelemeyi artık otomatik olarak doğrulayamıyor. Bunun sebebi muhtemelen {name} kişisinin telefon numarasını değiştirmiş olmasıdır. Önceki ekrandaki rakamları karşılaştırarak veya cihazındaki kodu tarayarak, uçtan uca şifrelemeyi manuel olarak doğrula."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal, sadece telefon numarası ile bağlı olduğun sohbetlerdeki şifrelemeyi otomatik olarak doğrulayabilir. Sohbet bir kullanıcı adı veya ortak bir grupla başlatılmışsa, önceki ekrandaki rakamları karşılaştırarak veya cihazındaki kodu tarayarak uçtan uca şifrelemeyi doğrula."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "Tamam"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Bu kişiyle mesaj alışverişinde bulunmanın ardından, bu kişi için bir güvenlik numarası oluşturulacaktır."
@@ -630,43 +630,43 @@
     "messageformat": "Dahasını öğrenin"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "Otomatik Anahtar Doğrulama şu anda cihazında kullanılamıyor. Hata ayıklama günlüğü gönderilsin mi?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Hata ayıklama günlükleri, sorunu teşhis etmemize ve düzeltmemize yardımcı olur ve tanımlayıcı bilgiler içermezler."
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Kapat"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "Hata ayıklama günlüğünü paylaş"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "Görüntüle"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "Gönder"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Hayır teşekkürler"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "Gönderiliyor..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Signal can now auto-verify encryption"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Devam"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Daha fazla bilgi"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Kapat"
   },
   "icu:verified": {
     "messageformat": "Doğrulandı"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} sistem kişilerin arasında"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Bir üye etiketi ekle"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Not"
@@ -1794,13 +1797,13 @@
     "messageformat": "İptal"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Otomatik anahtar doğrulama"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "Etkinleştirildiğinde, Signal bire bir sohbetlerin şifrelemesini otomatik olarak doğrulamaya çalışacaktır."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "Daha Fazlasını Öğren"
   },
   "icu:initialSync": {
     "messageformat": "Kişiler ve gruplar senkronize ediliyor"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "Sesli"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Üye etiketleri"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Kendini veya bu gruptaki rolünü tanımlamak için bir üye etiketi kullan. Üye etiketleri yalnızca bu grup içinde görülebilir."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Bir etiket oluştur"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Etiketini düzenle"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Sohbet rengi"
   },
@@ -4660,6 +4675,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Grup bağlantısı"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Üye etiketi"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Üye etiketini gir"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Kendini veya bu gruptaki rolünü tanımlamak için bir üye etiketi oluştur. Üye etiketleri yalnızca bu grup içinde görülebilir."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Ön izleme"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Merhaba!"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Group members with labels"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "No other members have labels"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Değişiklikler kaydediliyor..."
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Can’t save member label"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Check your connection and try again."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Only admins can set member labels in this group."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Kaybolan iletiler"
@@ -4695,7 +4743,7 @@
     "messageformat": "Grup adını, fotoğrafını, açıklamasını ve kaybolan ileti zamanlayıcısını kimlerin düzenleyebileceğini seçin."
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "Grup adını, fotoğrafını, açıklamasını, kaybolan mesaj zamanlayıcısını ve sabitlenmiş mesajları kimin düzenleyebileceğini seç."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Kimler üye ekleyebilir"
@@ -4708,6 +4756,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Gruba kimlerin ileti gönderebileceğini seçin."
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Member labels will be cleared"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Continue"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "İstekler ve Davetler"
@@ -7428,6 +7485,21 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal, bağış yaptığında kişisel bilgilerini toplamaz veya saklamaz.</paragraph><paragraph>Bağışlarını almak için, ödeme işlemcimiz olarak Stripe'ı kullanıyoruz. Onlara sağladığın bilgilerin hiçbirine erişmiyoruz. Bilgilerini saklamıyor veya kaydetmiyoruz.</paragraph><paragraph>Signal, yaptığın bağışı ve buna dair bilgileri Signal hesabın ile bağlamaz, bağlayamaz.</paragraph><paragraph>Desteğin için teşekkürler!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Get an optional badge on your profile when you donate"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "Your privacy is our mission"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Heart icon in the style of the Signal logo"
+  },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "TAMAM"
   },
@@ -7519,7 +7591,13 @@
     "messageformat": "Bilgileri kaldır"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "Leaving will cancel your donation."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Leave"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Stay on page"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Devam"
@@ -7567,13 +7645,13 @@
     "messageformat": "Onaylanması gereken bir bağış işlemin var."
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Onaylanması gereken bir bağış işlemin var."
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPal bağışı iptal edildi"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "PayPal bağışı işlenirken hata oluştu. Ödemen alınamadı."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Bağış başarılı oldu ancak rozet ayarlarını güncelleyemedik"
@@ -7591,7 +7669,7 @@
     "messageformat": "Tekrar dene"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "Ödeme yöntemi"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Ödeme yöntemi reddedildi"
@@ -7600,31 +7678,31 @@
     "messageformat": "Başka bir ödeme yöntemi dene veya daha fazla bilgi için bankanla iletişime geç."
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "Ödeme kartı simgesi"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Kredi veya Banka Kartı"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "İptal"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "Bağışı Tamamla"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPal bağışı iptal edildi"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Ödemen alınamadı. Tekrar dene veya başka bir ödeme yöntemi kullan."
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "PayPal bağışı işlenirken hata oluştu"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Ödemen alınamadı. Tekrar dene veya başka bir ödeme yöntemi kullan."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Doğrulama Başarısız Oldu"
@@ -7829,9 +7907,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "Bu güncelleme, Büyük Harf Kilidi etkinken metin biçimlendirmeyle ilgili bir hatayı düzeltir. Teşekkürler, <DGrothePhD>DGrothe-PhD</DGrothePhD>!"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "Signal, desteğin olmadan var olamayacak kâr amacı gütmeyen bir kuruluştur. Artık Signal Desktop'ta PayPal aracılığıyla bağış yapabilirsin."
+  },
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
   }
 }
