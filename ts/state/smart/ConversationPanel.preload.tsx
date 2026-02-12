@@ -41,7 +41,7 @@ import { useReducedMotion } from '../../hooks/useReducedMotion.dom.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { SmartPinnedMessagesPanel } from './PinnedMessagesPanel.preload.js';
 import { SmartMiniPlayer } from './MiniPlayer.preload.js';
-import { SmartGroupMemberLabelEditor } from './SmartGroupMemberLabelEditor.preload.js';
+import { SmartGroupMemberLabelEditor } from './GroupMemberLabelEditor.preload.js';
 
 const log = createLogger('ConversationPanel');
 
@@ -339,6 +339,7 @@ const PanelContainer = forwardRef<
           'ConversationPanel__body',
           panel.type !== PanelType.PinnedMessages &&
             panel.type !== PanelType.AllMedia &&
+            panel.type !== PanelType.GroupMemberLabelEditor &&
             'ConversationPanel__body--padding'
         )}
         ref={focusRef}

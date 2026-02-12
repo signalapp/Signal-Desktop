@@ -6236,6 +6236,14 @@
     "messageformat": "Hello!",
     "description": "Text of message bubble showing preview of user's member label"
   },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Group members with labels",
+    "description": "Title for section with all the other members in the group with labels"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "No other members have labels",
+    "description": "Placeholder for 'other members with labels' section when there are zero other members with labels"
+  },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "Saving changes...",
     "description": "Accessibility label for button with spinner as we save the user's member label."

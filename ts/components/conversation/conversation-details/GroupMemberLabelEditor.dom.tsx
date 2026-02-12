@@ -36,6 +36,9 @@ import type {
 } from '../../../state/ducks/conversations.preload.js';
 import type { LocalizerType, ThemeType } from '../../../types/Util.std.js';
 import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.preload.js';
+import { Avatar, AvatarSize } from '../../Avatar.dom.js';
+import { UserText } from '../../UserText.dom.js';
+import { GroupMemberLabel } from '../ContactName.dom.js';
 
 export type PropsDataType = {
   existingLabelEmoji: string | undefined;
@@ -43,6 +46,13 @@ export type PropsDataType = {
   group: ConversationType;
   i18n: LocalizerType;
   me: ConversationType;
+  membersWithLabel: Array<{
+    contactNameColor: string;
+    isAdmin: boolean;
+    labelEmoji: string | undefined;
+    labelString: string;
+    member: ConversationType;
+  }>;
   ourColor: string | undefined;
   theme: ThemeType;
 };
@@ -68,6 +78,7 @@ export function GroupMemberLabelEditor({
   existingLabelString,
   getPreferredBadge,
   i18n,
+  membersWithLabel,
   ourColor,
   popPanelForConversation,
   theme,
@@ -113,127 +124,207 @@ export function GroupMemberLabelEditor({
   }, [group, isShowingPermissionsError, setIsShowingPermissionsError]);
 
   return (
-    <div className={tw('mx-auto flex h-full max-w-[640px] flex-col')}>
-      <div>
-        <Input
-          autoFocus
-          hasClearButton
-          i18n={i18n}
-          icon={
-            <FunEmojiPicker
-              open={emojiPickerOpen}
-              onOpenChange={(open: boolean) => setEmojiPickerOpen(open)}
-              placement="bottom"
-              onSelectEmoji={data => {
-                const newEmoji = getEmojiVariantByKey(data.variantKey)?.value;
+    <div className={tw('flex size-full flex-col')}>
+      <div className={tw('grow flex-col overflow-y-scroll')}>
+        <div className={tw('mx-auto max-w-[680px] px-5')}>
+          <Input
+            autoFocus
+            hasClearButton
+            i18n={i18n}
+            icon={
+              <FunEmojiPicker
+                open={emojiPickerOpen}
+                onOpenChange={(open: boolean) => setEmojiPickerOpen(open)}
+                placement="bottom"
+                onSelectEmoji={data => {
+                  const newEmoji = getEmojiVariantByKey(data.variantKey)?.value;
 
-                setLabelEmoji(newEmoji);
-              }}
-              closeOnSelect
-              theme={theme}
-            >
-              <FunEmojiPickerButton i18n={i18n} selectedEmoji={emojiKey} />
-            </FunEmojiPicker>
-          }
-          maxLengthCount={STRING_GRAPHEME_LIMIT}
-          maxByteCount={STRING_BYTE_LIMIT}
-          moduleClassName="GroupMemberLabelEditor"
-          onChange={value => {
-            if (!value) {
-              setLabelEmoji(undefined);
+                  setLabelEmoji(newEmoji);
+                }}
+                closeOnSelect
+                theme={theme}
+              >
+                <FunEmojiPickerButton i18n={i18n} selectedEmoji={emojiKey} />
+              </FunEmojiPicker>
             }
+            maxLengthCount={STRING_GRAPHEME_LIMIT}
+            maxByteCount={STRING_BYTE_LIMIT}
+            moduleClassName="GroupMemberLabelEditor"
+            onChange={value => {
+              if (!value) {
+                setLabelEmoji(undefined);
+              }
 
-            // Replace all whitespace with basic space
-            setLabelString(value.replace(/\s/g, ' '));
-          }}
-          ref={undefined}
-          placeholder={i18n(
-            'icu:ConversationDetails--member-label--placeholder'
-          )}
-          value={labelString}
-          whenToShowRemainingCount={20}
-        />
-      </div>
-      <div className={tw('type-body-small text-label-secondary')}>
-        {i18n('icu:ConversationDetails--member-label--description')}
-      </div>
-      <div className={tw('mt-[30px] type-body-medium font-semibold')}>
-        {i18n('icu:ConversationDetails--member-label--preview')}
+              // Replace all whitespace with basic space
+              setLabelString(value.replace(/\s/g, ' '));
+            }}
+            ref={undefined}
+            placeholder={i18n(
+              'icu:ConversationDetails--member-label--placeholder'
+            )}
+            value={labelString}
+            whenToShowRemainingCount={20}
+          />
+          <div className={tw('type-body-small text-label-secondary')}>
+            {i18n('icu:ConversationDetails--member-label--description')}
+          </div>
+          <div className={tw('mt-[30px] type-body-medium font-semibold')}>
+            {i18n('icu:ConversationDetails--member-label--preview')}
+          </div>
+          <div
+            className={tw(
+              'mt-5 rounded-[27px] bg-fill-primary-pressed px-2 pt-[47px] pb-6'
+            )}
+            ref={messageContainer}
+          >
+            <Message
+              text={i18n('icu:ConversationDetails--member-label--hello')}
+              author={{ ...me }}
+              contactLabel={contactLabelForMessage}
+              contactNameColor={ourColor}
+              renderingContext="ConversationDetails/GroupMemberLabelEditor"
+              theme={theme}
+              id="fake-id"
+              conversationColor={
+                group.conversationColor ?? ConversationColors[0]
+              }
+              conversationTitle={group.title}
+              conversationId={group.id}
+              textDirection={TextDirection.LeftToRight}
+              isSelected={false}
+              isSelectMode={false}
+              isSMS={false}
+              isVoiceMessagePlayed={false}
+              direction="incoming"
+              timestamp={Date.now()}
+              conversationType="group"
+              previews={[]}
+              isPinned={false}
+              canDeleteForEveryone={false}
+              isBlocked={false}
+              isMessageRequestAccepted={false}
+              containerElementRef={messageContainer}
+              containerWidthBreakpoint={WidthBreakpoint.Wide}
+              i18n={i18n}
+              interactivity={MessageInteractivity.Static}
+              interactionMode="mouse"
+              platform="unused"
+              shouldCollapseAbove={false}
+              shouldCollapseBelow={false}
+              shouldHideMetadata={false}
+              clearTargetedMessage={noop}
+              getPreferredBadge={getPreferredBadge}
+              renderAudioAttachment={() => <div />}
+              doubleCheckMissingQuoteReference={noop}
+              messageExpanded={noop}
+              checkForAccount={noop}
+              startConversation={noop}
+              showConversation={noop}
+              openGiftBadge={noop}
+              pushPanelForConversation={noop}
+              retryMessageSend={noop}
+              sendPollVote={noop}
+              endPoll={noop}
+              showContactModal={noop}
+              showSpoiler={noop}
+              cancelAttachmentDownload={noop}
+              kickOffAttachmentDownload={noop}
+              markAttachmentAsCorrupted={noop}
+              saveAttachment={noop}
+              saveAttachments={noop}
+              showLightbox={noop}
+              showLightboxForViewOnceMedia={noop}
+              scrollToQuotedMessage={noop}
+              showAttachmentDownloadStillInProgressToast={noop}
+              showExpiredIncomingTapToViewToast={noop}
+              showExpiredOutgoingTapToViewToast={noop}
+              showMediaNoLongerAvailableToast={noop}
+              showTapToViewNotAvailableModal={noop}
+              viewStory={noop}
+              onToggleSelect={noop}
+              onReplyToMessage={noop}
+            />
+          </div>
+          <div
+            className={tw('mt-[30px] mb-2.5 type-body-medium font-semibold')}
+          >
+            {i18n('icu:ConversationDetails--member-label--list-header')}
+          </div>
+          <div>
+            {membersWithLabel.length === 0 && (
+              <div className={tw('mt-2 type-body-medium text-label-secondary')}>
+                {i18n('icu:ConversationDetails--member-label--no-members')}
+              </div>
+            )}
+            {membersWithLabel.map(membership => {
+              const {
+                contactNameColor,
+                isAdmin,
+                labelEmoji: memberLabelEmoji,
+                labelString: memberLabelString,
+                member,
+              } = membership;
+
+              return (
+                <div
+                  className={tw(
+                    'flex w-full flex-row items-center overflow-hidden py-2'
+                  )}
+                  key={member.serviceId}
+                >
+                  <div className={tw('pe-3')}>
+                    <Avatar
+                      conversationType="direct"
+                      badge={getPreferredBadge(member.badges)}
+                      i18n={i18n}
+                      size={AvatarSize.THIRTY_SIX}
+                      theme={theme}
+                      {...member}
+                    />
+                  </div>
+                  <div
+                    className={tw(
+                      'flex grow flex-col items-start overflow-hidden'
+                    )}
+                  >
+                    <div>
+                      <UserText
+                        text={member.isMe ? i18n('icu:you') : member.title}
+                      />
+                    </div>
+                    {memberLabelString && contactNameColor && (
+                      <div
+                        className={tw(
+                          'max-w-full min-w-0 overflow-hidden type-body-small'
+                        )}
+                      >
+                        <GroupMemberLabel
+                          contactNameColor={contactNameColor}
+                          contactLabel={{
+                            labelEmoji: memberLabelEmoji,
+                            labelString: memberLabelString,
+                          }}
+                          context="list"
+                        />
+                      </div>
+                    )}
+                  </div>
+                  {isAdmin && (
+                    <div className={tw('ms-2 text-label-secondary')}>
+                      {i18n('icu:GroupV2--admin')}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
       <div
         className={tw(
-          'mt-5 rounded-[27px] bg-fill-primary-pressed px-2 pt-[47px] pb-6'
+          'mx-auto flex w-full max-w-[680px] shrink-0 grow-0 justify-end gap-2 px-5 py-3 pe-6.5'
         )}
-        ref={messageContainer}
       >
-        <Message
-          text={i18n('icu:ConversationDetails--member-label--hello')}
-          author={{ ...me }}
-          contactLabel={contactLabelForMessage}
-          contactNameColor={ourColor}
-          renderingContext="ConversationDetails/GroupMemberLabelEditor"
-          theme={theme}
-          id="fake-id"
-          conversationColor={group.conversationColor ?? ConversationColors[0]}
-          conversationTitle={group.title}
-          conversationId={group.id}
-          textDirection={TextDirection.LeftToRight}
-          isSelected={false}
-          isSelectMode={false}
-          isSMS={false}
-          isVoiceMessagePlayed={false}
-          direction="incoming"
-          timestamp={Date.now()}
-          conversationType="group"
-          previews={[]}
-          isPinned={false}
-          canDeleteForEveryone={false}
-          isBlocked={false}
-          isMessageRequestAccepted={false}
-          containerElementRef={messageContainer}
-          containerWidthBreakpoint={WidthBreakpoint.Wide}
-          i18n={i18n}
-          interactivity={MessageInteractivity.Static}
-          interactionMode="mouse"
-          platform="unused"
-          shouldCollapseAbove={false}
-          shouldCollapseBelow={false}
-          shouldHideMetadata={false}
-          clearTargetedMessage={noop}
-          getPreferredBadge={getPreferredBadge}
-          renderAudioAttachment={() => <div />}
-          doubleCheckMissingQuoteReference={noop}
-          messageExpanded={noop}
-          checkForAccount={noop}
-          startConversation={noop}
-          showConversation={noop}
-          openGiftBadge={noop}
-          pushPanelForConversation={noop}
-          retryMessageSend={noop}
-          sendPollVote={noop}
-          endPoll={noop}
-          showContactModal={noop}
-          showSpoiler={noop}
-          cancelAttachmentDownload={noop}
-          kickOffAttachmentDownload={noop}
-          markAttachmentAsCorrupted={noop}
-          saveAttachment={noop}
-          saveAttachments={noop}
-          showLightbox={noop}
-          showLightboxForViewOnceMedia={noop}
-          scrollToQuotedMessage={noop}
-          showAttachmentDownloadStillInProgressToast={noop}
-          showExpiredIncomingTapToViewToast={noop}
-          showExpiredOutgoingTapToViewToast={noop}
-          showMediaNoLongerAvailableToast={noop}
-          showTapToViewNotAvailableModal={noop}
-          viewStory={noop}
-          onToggleSelect={noop}
-          onReplyToMessage={noop}
-        />
-      </div>
-
-      <div className={tw('mt-14 mb-3 flex w-full justify-end gap-2')}>
         <AxoButton.Root
           variant="secondary"
           size="md"
