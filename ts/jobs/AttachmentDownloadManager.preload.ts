@@ -21,7 +21,6 @@ import {
 import {
   maybeDeleteAttachmentFile,
   deleteDownloadFile,
-  doesAttachmentExist,
   processNewAttachment,
 } from '../util/migrations.preload.js';
 import { DataReader, DataWriter } from '../sql/Client.preload.js';
@@ -62,11 +61,7 @@ import {
   type JobManagerJobResultType,
   type JobManagerJobType,
 } from './JobManager.std.js';
-import {
-  IMAGE_WEBP,
-  type MIMEType,
-  stringToMIMEType,
-} from '../types/MIME.std.js';
+import { IMAGE_WEBP } from '../types/MIME.std.js';
 import { AttachmentDownloadSource } from '../sql/Interface.std.js';
 import { drop } from '../util/drop.std.js';
 import { type ReencryptedAttachmentV2 } from '../AttachmentCrypto.node.js';
@@ -92,7 +87,7 @@ import { isAbortError } from '../util/isAbortError.std.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
 import { calculateExpirationTimestamp } from '../util/expirationTimer.std.js';
 import { cleanupAttachmentFiles } from '../types/Message2.preload.js';
-import type { WithRequiredProperties } from '../types/Util.std.js';
+import { getExistingAttachmentDataForReuse } from '../util/attachments/deduplicateAttachment.preload.js';
 
 const { noop, omit, throttle } = lodash;
 
@@ -862,14 +857,19 @@ export async function runDownloadAttachmentJobInner({
       },
     });
 
+    const existingAttachmentData = await getExistingAttachmentDataForReuse({
+      plaintextHash: downloadedAttachment.plaintextHash,
+      contentType: attachment.contentType,
+      logId,
+    });
+
+    if (existingAttachmentData) {
+      await dependencies.maybeDeleteAttachmentFile(downloadedAttachment.path);
+    }
+
     const attachmentDataToUse: Partial<AttachmentType> = {
       ...downloadedAttachment,
-      ...(await getExistingAttachmentDataForReuse({
-        downloadedAttachment,
-        contentType: attachment.contentType,
-        logId,
-        dependencies,
-      })),
+      ...existingAttachmentData,
     };
 
     const upgradedAttachment = await dependencies.processNewAttachment(
@@ -1054,101 +1054,4 @@ function _markAttachmentAsTransientlyErrored(
   attachment: AttachmentType
 ): AttachmentType {
   return { ...attachment, pending: false, error: true };
-}
-
-type AttachmentDataToBeReused = WithRequiredProperties<
-  Pick<
-    AttachmentType,
-    | 'path'
-    | 'localKey'
-    | 'version'
-    | 'thumbnail'
-    | 'screenshot'
-    | 'width'
-    | 'height'
-  >,
-  'path' | 'localKey' | 'version'
->;
-async function getExistingAttachmentDataForReuse({
-  downloadedAttachment,
-  contentType,
-  logId,
-  dependencies,
-}: {
-  downloadedAttachment: ReencryptedAttachmentV2;
-  contentType: MIMEType;
-  logId: string;
-  dependencies: Pick<DependenciesType, 'maybeDeleteAttachmentFile'>;
-}): Promise<AttachmentDataToBeReused | null> {
-  const existingAttachmentData =
-    await DataWriter.getAndProtectExistingAttachmentPath({
-      plaintextHash: downloadedAttachment.plaintextHash,
-      version: downloadedAttachment.version,
-      contentType,
-    });
-
-  if (!existingAttachmentData) {
-    return null;
-  }
-
-  strictAssert(existingAttachmentData.path, 'path must exist for reuse');
-  strictAssert(
-    existingAttachmentData.version === downloadedAttachment.version,
-    'version mismatch'
-  );
-  strictAssert(existingAttachmentData.localKey, 'localKey must exist');
-
-  if (!(await doesAttachmentExist(existingAttachmentData.path))) {
-    log.warn(
-      `${logId}: Existing attachment no longer exists, using newly downloaded one`
-    );
-    return null;
-  }
-
-  log.info(`${logId}: Reusing existing attachment`);
-
-  await dependencies.maybeDeleteAttachmentFile(downloadedAttachment.path);
-
-  const dataToReuse: AttachmentDataToBeReused = {
-    path: existingAttachmentData.path,
-    localKey: existingAttachmentData.localKey,
-    version: existingAttachmentData.version,
-    width: existingAttachmentData.width ?? undefined,
-    height: existingAttachmentData.height ?? undefined,
-  };
-  const { thumbnailPath, thumbnailSize, thumbnailContentType } =
-    existingAttachmentData;
-
-  if (
-    thumbnailPath &&
-    thumbnailSize &&
-    thumbnailContentType &&
-    (await doesAttachmentExist(thumbnailPath))
-  ) {
-    dataToReuse.thumbnail = {
-      path: thumbnailPath,
-      localKey: existingAttachmentData.thumbnailLocalKey ?? undefined,
-      version: existingAttachmentData.thumbnailVersion ?? undefined,
-      size: thumbnailSize,
-      contentType: stringToMIMEType(thumbnailContentType),
-    };
-  }
-
-  const { screenshotPath, screenshotSize, screenshotContentType } =
-    existingAttachmentData;
-  if (
-    screenshotPath &&
-    screenshotSize &&
-    screenshotContentType &&
-    (await doesAttachmentExist(screenshotPath))
-  ) {
-    dataToReuse.screenshot = {
-      path: screenshotPath,
-      localKey: existingAttachmentData.screenshotLocalKey ?? undefined,
-      version: existingAttachmentData.screenshotVersion ?? undefined,
-      size: screenshotSize,
-      contentType: stringToMIMEType(screenshotContentType),
-    };
-  }
-  return dataToReuse;
 }

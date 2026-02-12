@@ -1432,12 +1432,24 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
       await writeAttachmentFile('existingThumbnailPath');
       await writeAttachmentFile('existingScreenshotPath');
 
-      // @ts-expect-error new attachment version
+      await DataWriter.saveMessages(
+        [
+          {
+            ...existingMessageWithDownloadedAttachment,
+            attachments: [{ ...existingAttachment, version: 1 }],
+          },
+        ],
+        {
+          ourAci: generateAci(),
+          postSaveUpdates: () => Promise.resolve(),
+        }
+      );
+
       downloadAttachment.callsFake(async ({ attachment }) => {
         return {
           path: 'newlyDownloadedPath',
           plaintextHash: existingAttachment.plaintextHash,
-          version: existingAttachment.version + 1,
+          version: 2,
           localKey: testAttachmentLocalKey(),
           size: existingAttachment.size,
           digest: attachment.digest,
@@ -1561,53 +1573,6 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
       const attachment = updatedMessage?.attributes.attachments?.[0];
       assert.strictEqual(attachment?.path, 'existingPath');
       assert.strictEqual(attachment?.thumbnail?.path, 'newThumbnailPath');
-    });
-
-    it('does not reuse attachment if version is not the same as requested version', async () => {
-      await writeAttachmentFile('existingPath');
-      await writeAttachmentFile('existingThumbnailPath');
-      await writeAttachmentFile('existingScreenshotPath');
-
-      // @ts-expect-error version is wrong
-      downloadAttachment.callsFake(async ({ attachment }) => {
-        return {
-          path: 'newlyDownloadedPath',
-          plaintextHash: existingAttachment.plaintextHash,
-          version: existingAttachment.version + 1, // Newer version!
-          localKey: testAttachmentLocalKey(),
-          size: existingAttachment.size,
-          digest: attachment.digest,
-        };
-      });
-      const job = composeJob({
-        messageId: newMessage.id,
-        receivedAt: newMessage.received_at,
-        attachmentOverrides: undownloadedAttachment,
-      });
-
-      await runDownloadAttachmentJobInner({
-        job,
-        isForCurrentlyVisibleMessage: false,
-        hasMediaBackups: false,
-        abortSignal: abortController.signal,
-        maxAttachmentSizeInKib: 100 * MEBIBYTE,
-        maxTextAttachmentSizeInKib: 2 * MEBIBYTE,
-        messageExpiresAt: null,
-        dependencies: {
-          cleanupAttachmentFiles,
-          maybeDeleteAttachmentFile,
-          deleteDownloadFile,
-          downloadAttachment,
-          processNewAttachment,
-        },
-      });
-
-      // Cleans up newly downloaded path
-      assert.equal(maybeDeleteAttachmentFile.callCount, 0);
-
-      const updatedMessage = window.MessageCache.getById(newMessage.id);
-      const attachment = updatedMessage?.attributes.attachments?.[0];
-      assert.strictEqual(attachment?.path, 'newlyDownloadedPath');
     });
   });
 });
