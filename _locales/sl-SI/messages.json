@@ -579,49 +579,49 @@
     "messageformat": "Če želite preveriti šifriranje od-konca-do-konca z uporabnikom_co {name}, primerjajte zgornje številke s tistimi na njegovi/njeni napravi. S svojo napravo lahko tudi skenira vašo kodo."
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "Če želite preveriti celovito šifriranje z uporabnikom_co {name}, primerjajte zgornje številke s tistimi v njegovi/-ni napravi. S svojo napravo lahko tudi skenira vašo kodo."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Preberite več"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Samodejno preverjanje ključa"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "Samodejno preveri"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "Preverjanje šifriranja ..."
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "Šifriranje je potrjeno"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "Samodejno preverjanje ni na voljo"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "Samodejno preverjanje ni na voljo za vse klepete."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "Več o tem"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "Šifriranje je bilo za ta klepet samodejno preverjeno "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Za stike, s katerimi ste povezani prek telefonske številke, lahko Signal samodejno potrdi, ali je povezava varna, z uporabo postopka, imenovanega preglednost ključa. Za dodatno varnost ročno preverite celovito šifriranje, tako da primerjate številke na prejšnjem zaslonu ali skenirate kodo na njegovi/-ni napravi."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "Samodejno preverjanje ni več na voljo za ta klepet"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal ne more več samodejno preveriti šifriranja za ta klepet. To je verjetno zato, ker je {name} spremenil/-a svojo telefonsko številko. Ročno preverite celovito šifriranje, tako da primerjate številke na prejšnjem zaslonu ali skenirate kodo na njegovi/-ni napravi."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal lahko samodejno preveri šifriranje le v klepetih, kjer ste z nekom povezani prek telefonske številke. Če je bil klepet začet z uporabniškim imenom ali skupno skupino, preverite šifriranje od konca do konca tako, da primerjate številke na prejšnjem zaslonu ali skenirate kodo na njegovi/-ni napravi."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "Okej"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Varnostna številka s to osebo bo ustvarjena, potem ko bo z vami izmenjala sporočila."
@@ -630,43 +630,43 @@
     "messageformat": "Preberite več"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "Samodejno preverjanje ključa trenutno ni na voljo za vašo napravo. Želite poslati sistemsko zabeležbo?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Sistemske zabeležbe nam pomagajo diagnosticirati in odpraviti težavo ter ne vsebujejo identifikacijskih podatkov."
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Zapri"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "Delite sistemske zabeležbe"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "Prikaz"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "Objavi"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Ne, hvala"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "Pošiljanje ..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Signal can now auto-verify encryption"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Nadaljuj"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Več o tem"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Zapri"
   },
   "icu:verified": {
     "messageformat": "Potrjeno"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} je med vašimi sistemskimi stiki"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Dodaj vlogo člana"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Zaznamek"
@@ -1794,13 +1797,13 @@
     "messageformat": "Prekliči"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Samodejno preverjanje ključa"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "Ko je omogočeno, bo Signal poskušal samodejno preveriti šifriranje klepetov 1:1."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "Več o tem"
   },
   "icu:initialSync": {
     "messageformat": "Usklajujem stike in skupine"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "Zvočni klic"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Vloge člana"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Za opis sebe ali svoje vloge v tej skupini uporabite vlogo člana. Vloge članov so vidne samo znotraj te skupine."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Nastavi vlogo"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Uredi vlogo"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Barva klepeta"
   },
@@ -4660,6 +4675,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Povezava do skupine"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Vloga člana"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Vnesi vlogo člana"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Nastavite vlogo člana, ki opisuje vas ali vašo vlogo v tej skupini. Vloge članov so vidne samo znotraj te skupine."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Predogled"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Živjo!"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Group members with labels"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "No other members have labels"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Shranjevanje sprememb ..."
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Can’t save member label"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Check your connection and try again."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Only admins can set member labels in this group."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Izginjajoča sporočila"
@@ -4695,7 +4743,7 @@
     "messageformat": "Izberite, kdo lahko ureja ime skupine, fotografijo, opis in čas poteka sporočil."
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "Izberite, kdo lahko ureja ime skupine, fotografijo, opis, časovnik izginjajočih sporočil in pripeta sporočila."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Kdo lahko dodaja člane_ice"
@@ -4708,6 +4756,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Izberite kdo lahko pošilja sporočila skupini."
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Member labels will be cleared"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Continue"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Prošnje in vabila"
@@ -7428,6 +7485,21 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal ne zbira ali shranjuje nobenih vaših osebnih podatkov, ko naredite donacijo.</paragraph><paragraph>Za prejemanje vaših donacij uporabljamo plačilni sistem Stripe. Ne dostopamo do nobenih podatkov, ki jih posredujete temu sistemu, niti jih ne shranjujemo ali hranimo.</paragraph><paragraph>Signal ne povezuje in ne more povezati vaše donacije z vašim Signal računom.</paragraph><paragraph>Hvala za vašo podporo!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Get an optional badge on your profile when you donate"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "Your privacy is our mission"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Heart icon in the style of the Signal logo"
+  },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "OK"
   },
@@ -7519,7 +7591,13 @@
     "messageformat": "Odstrani informacije"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "Leaving will cancel your donation."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Leave"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Stay on page"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Nadaljuj"
@@ -7567,13 +7645,13 @@
     "messageformat": "V teku imate donacijo, ki zahteva potrditev."
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "V teku imate donacijo, ki zahteva potrditev."
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "Donacija prek PayPala preklicana"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "Napaka pri obdelavi donacije prek PayPala. Nismo vam zaračunali."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donacija je uspela, vendar nismo mogli posodobiti nastavitev vaše značke"
@@ -7591,7 +7669,7 @@
     "messageformat": "Poskusi znova"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "Način plačila"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Način plačila je zavrnjen"
@@ -7600,31 +7678,31 @@
     "messageformat": "Poskusite z drugim načinom plačila ali preverite pri svoji banki."
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "Ikona plačilne kartice"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Kreditna ali debetna kartica"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Prekliči"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "Dokončaj donacijo"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "Donacija prek PayPala preklicana"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Nismo vam zaračunali. Poskusite znova ali uporabite drug način plačila."
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "Napaka pri obdelavi donacije prek PayPala"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Nismo vam zaračunali. Poskusite znova ali uporabite drug način plačila."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Preverjanje ni uspelo"
@@ -7829,9 +7907,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "Ta posodobitev odpravlja napako pri oblikovanju besedila, ko je omogočena funkcija Caps Lock. Hvala, <DGrothePhD>!</DGrothePhD>"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "Signal je neprofitna organizacija 501c3, ki ne bi bila mogoča brez vaše podpore, zdaj pa lahko v Signal Desktopu donirate prek PayPala."
+  },
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
   }
 }

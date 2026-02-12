@@ -579,49 +579,49 @@
     "messageformat": "A végpontok közötti titkosítás ellenőrzéséhez {name} felhasználóval, hasonlítsd össze a fent látható számokat az ő készülékén megjelenő számokkal. A kódodat akár az ő készülékével is beolvashatja."
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "A végpontok közötti titkosítás ellenőrzéséhez {name} felhasználóval, hasonlítsd össze a fent látható számokat az ő eszközén megjelenő számokkal. A kódodat akár az ő eszközével is beolvashatja."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Tudj meg többet!"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Automatikus kulcsellenőrzés"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "Automatikus ellenőrzés"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "Titkosítás ellenőrzése..."
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "Titkosítás ellenőrizve"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "Az automatikus ellenőrzés nem érhető el"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "Az automatikus ellenőrzés nem minden csevegésnél érhető el."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "Tudj meg többet!"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "A titkosítás ellenőrzése automatikus ennél a csevegésnél. "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Azoknál a névjegyeknél, amelyekhez telefonszámon keresztül kapcsolódsz, a Signal egy kulcsátláthatóságnak nevezett folyamat segítségével automatikusan megerősítheti, hogy a kapcsolat biztonságos-e. A fokozott biztonság érdekében ellenőrizd manuálisan a végpontok közötti titkosítást az előző képernyőn látható számok összehasonlításával vagy az eszközön található kód beolvasásával."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "Az automatikus ellenőrzés már nem érhető el ehhez a csevegéshez"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "A Signal már nem tudja automatikusan ellenőrizni a titkosítást ennél a csevegésnél. Ez valószínűleg azért van, mert {name} megváltoztatta a telefonszámát. Ellenőrizd manuálisan a végpontok közötti titkosítást az előző képernyőn látható számok összehasonlításával vagy az eszközön található kód beolvasásával."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "A Signal csak azokban a csevegésekben tudja automatikusan ellenőrizni a titkosítást, ahol telefonszámon keresztül vagy kapcsolatban valakivel. Ha a csevegést közös felhasználónévvel vagy csoporttal indították, ellenőrizd a végpontok közötti titkosítást az előző képernyőn látható számok összehasonlításával vagy az eszközön található kód beolvasásával."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "OK"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "A rendszer létrehoz egy biztonsági számot ezzel a személlyel, miután üzenetet váltott vele."
@@ -630,43 +630,43 @@
     "messageformat": "Tudj meg többet!"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "Az automatikus kulcsellenőrzés jelenleg nem érhető el az eszközödön. Hibanapló küldése?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "A hibanaplók segítenek diagnosztizálni és kijavítani a problémát, és nem tartalmaznak azonosító információkat."
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Bezárás"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "Hibanapló megosztása"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "Megtekintés"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "Küldés"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Nem, köszönöm"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "Beküldés..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Signal can now auto-verify encryption"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Folytatás"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Tudj meg többet!"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Bezárás"
   },
   "icu:verified": {
     "messageformat": "Ellenőrzött"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} szerepel a rendszernévjegyeid között"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Tagsági címke hozzáadása"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Megjegyzés"
@@ -1794,13 +1797,13 @@
     "messageformat": "Mégse"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Automatikus kulcsellenőrzés"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "Ha engedélyezve van, a Signal megpróbálja automatikusan ellenőrizni az egyéni csevegések titkosítását."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "Tudj meg többet"
   },
   "icu:initialSync": {
     "messageformat": "Kontaktok és csoportok szinkronizálása"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "Hang"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Tagsági címke"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Használj olyan tagsági címkét, amely jellemez téged vagy a csoportban betöltött szerepedet. A tagsági címkék csak ezen a csoporton belül láthatók."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Címke beállítása"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Címke szerkesztése"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Csevegés színe"
   },
@@ -4660,6 +4675,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Csoporthivatkozás"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Tagsági címke"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Add meg a tagsági címkédet"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Állíts be egy tagsági címkét, amely jellemez téged vagy a csoportban betöltött szerepedet. A tagsági címkék csak ezen a csoporton belül láthatók."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Előnézet"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Szia!"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Group members with labels"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "No other members have labels"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Változtatások mentése..."
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Can’t save member label"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Check your connection and try again."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Only admins can set member labels in this group."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Eltűnő üzenetek"
@@ -4695,7 +4743,7 @@
     "messageformat": "Add meg, hogy ki változtathatja meg a csoport nevét, képét, leírását, valamint az eltűnő üzenetekkel kapcsolatos beállításokat!"
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "Válaszd ki, hogy kik szerkeszthetik a csoport nevét, fotóját, leírását, az eltűnő üzenetek időzítőjét és a rögzített üzeneteket."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Jogosultság új tag felvételéhez"
@@ -4708,6 +4756,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Add meg, hogy ki küldhet üzenetet a csoportba!"
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Member labels will be cleared"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Continue"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Kérelmek és meghívók"
@@ -7428,6 +7485,21 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>A Signal nem gyűjti és nem tárolja a személyes adataidat, amikor adományozol.</paragraph><paragraph>A Stripe-ot használjuk fizetésfeldolgozóként az adományok fogadására. Nem férünk hozzá, nem tárolunk és nem mentünk el semmilyen információt, amelyet megadsz számukra.</paragraph><paragraph>A Signal nem fogja és nem is tudja összekapcsolni az adományodat a Signal-fiókoddal.</paragraph><paragraph>Köszönjük a támogatásodat!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Get an optional badge on your profile when you donate"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "Your privacy is our mission"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Heart icon in the style of the Signal logo"
+  },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "OK"
   },
@@ -7519,7 +7591,13 @@
     "messageformat": "Információ eltávolítása"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "Leaving will cancel your donation."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Leave"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Stay on page"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Folytatás"
@@ -7567,13 +7645,13 @@
     "messageformat": "Van egy folyamatban lévő adományozásod, amely megerősítést igényel."
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Van egy folyamatban lévő adományozásod, amely megerősítést igényel."
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPal-adomány törölve"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "Hiba a PayPal-adomány feldolgozása során. A számládat nem terhelték meg."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Az adományozás sikeres volt, de nem tudtuk frissíteni a jelvényed beállításait."
@@ -7591,7 +7669,7 @@
     "messageformat": "Újra"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "Kifizetési mód"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Fizetési mód elutasítva"
@@ -7600,31 +7678,31 @@
     "messageformat": "Próbáld újra egy másik fizetési móddal, vagy keresd fel a bankodat további információért!"
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "Fizetési kártya ikon"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Hitel- vagy betéti kártya"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Mégse"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "Adományozás kész"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPal-adomány törölve"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "A számládat nem terhelték meg. Próbáld újra, vagy használj másik fizetési módot."
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "Hiba a PayPal-adomány feldolgozása során"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "A számládat nem terhelték meg. Próbáld újra, vagy használj másik fizetési módot."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Visszaellenőrzés sikertelen"
@@ -7829,9 +7907,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "Ez a frissítés kijavít egy szövegformázási hibát, amely a Caps Lock engedélyezése esetén merült fel. Köszönjük, @DGrothe-PhD! Köszönjük, <DGrothePhD></DGrothePhD>!"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "A Signal egy nonprofit szervezet, amely nem működhetne a támogatásod nélkül, és mostantól adományozhatsz PayPalon keresztül is a Signal Desktopban."
+  },
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
   }
 }

@@ -579,49 +579,49 @@
     "messageformat": "{name} સાથે તમારા એન્ડ-ટૂ-એન્ડ એન્ક્રિપ્શનની ખાતરી કરવા, ઉપર દર્શાવેલા નંબર તેમના ડિવાઇસ સાથે સરખાવો. તેઓ તેમના ડિવાઇસથી પણ તમારો કોડ સ્કેન કરી શકે છે."
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "{name} સાથે તમારા એન્ડ-ટુ-એન્ડ એન્ક્રિપ્શનની ખાતરી કરવા, ઉપર દર્શાવેલા નંબર તેમના ડિવાઇસ સાથે સરખાવો. તેઓ તેમના ડિવાઇસથી પણ તમારો કોડ સ્કેન કરી શકે છે."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "વધુ શીખો"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "ઓટોમેટિક કી વેરિફિકેશન"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "આપમેળે વેરિફાય કરો"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "એન્ક્રિપ્શન વેરિફાય કરી રહ્યા છે..."
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "એન્ક્રિપ્શન વેરિફાય કર્યું"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "ઓટો-વેરિફિકેશન ઉપલબ્ધ નથી"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "બધી ચેટ માટે ઓટો-વેરિફિકેશન ઉપલબ્ધ નથી."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "વધુ જાણો"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "આ ચેટ માટે એન્ક્રિપ્શન ઓટો-વેરિફાય થયું હતું. "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "ફોન નંબર દ્વારા તમે જે સંપર્કો સાથે જોડાયેલા છો, તેમના માટે Signal કી ટ્રાન્સપરન્સી નામની પ્રક્રિયાનો ઉપયોગ કરીને કનેક્શન સુરક્ષિત છે કે નહીં તેની ખાતરી આપમેળે કરી શકે છે. વધારાની સુરક્ષા માટે, પાછલી સ્ક્રીન પરના નંબરોની તુલના કરીને અથવા તેમના ડિવાઇસ પર કોડ સ્કેન કરીને એન્ડ-ટુ-એન્ડ એન્ક્રિપ્શન મેન્યુઅલી વેરિફાય કરો."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "આ ચેટ માટે હવે ઓટો-વેરિફિકેશન ઉપલબ્ધ નથી."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal હવે આ ચેટ માટે એન્ક્રિપ્શન આપમેળે વેરિફાય કરી શકતું નથી. આ કદાચ એટલા માટે છે કારણ કે {name} એ તેમનો ફોન નંબર બદલ્યો છે. પાછલી સ્ક્રીન પરના નંબરોની તુલના કરીને અથવા તેમના ડિવાઇસ પર કોડ સ્કેન કરીને એન્ડ-ટુ-એન્ડ એન્ક્રિપ્શન મેન્યુઅલી વેરિફાય કરો."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal ફક્ત તે ચેટમાં એન્ક્રિપ્શનને આપમેળે વેરિફાય કરી શકે છે જ્યાં તમે ફોન નંબર દ્વારા કોઈની સાથે જોડાયેલા છો. જો ચેટ કોઈ યુઝરનેમ અથવા કોમન ગ્રૂપથી શરૂ થઈ હોય, તો પાછલી સ્ક્રીન પરના નંબરોની તુલના કરીને અથવા તેમના ડિવાઇસ પર કોડ સ્કેન કરીને એન્ડ-ટુ-એન્ડ એન્ક્રિપ્શન વેરિફાય કરો."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "ઓકે"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "તમે આ વ્યક્તિ સાથે મેસેજની આપ-લે કર્યા પછી તેની સાથે એક સેફ્ટી નંબર બનાવવામાં આવશે."
@@ -630,43 +630,43 @@
     "messageformat": "વધુ શીખો"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "તમારા ડિવાઇસ માટે હાલમાં ઓટોમેટિક કી વેરિફિકેશન ઉપલબ્ધ નથી. ડીબગ લૉગ સબમિટ કરવો છે?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "ડીબગ લૉગ અમને સમસ્યાને ઉકેલવામાં અને તેને ઠીક કરવામાં મદદ કરે છે અને તેમાં ઓળખ થઈ શકે તેવી માહિતી શામેલ હોતી નથી."
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "બંધ"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "ડીબગ લૉગ શેર કરો"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "જુઓ"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "સબમિટ કરો"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "ના, આભાર"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "સબમિટ કરી રહ્યા છે..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Signal can now auto-verify encryption"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "ચાલુ રાખો"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "વધુ જાણો"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "બંધ"
   },
   "icu:verified": {
     "messageformat": "ચકાસણી"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} તમારા સિસ્ટમના સંપર્કોમાં છે"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "સભ્ય લેબલ ઉમેરો"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "નોંધ"
@@ -1794,13 +1797,13 @@
     "messageformat": "રદ કરો"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "ઓટોમેટિક કી વેરિફિકેશન"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "જ્યારે સક્ષમ હશે, ત્યારે Signal 1:1 ચેટના એન્ક્રિપ્શનને આપમેળે વેરિફાય કરવાનો પ્રયાસ કરશે."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "વધુ જાણો"
   },
   "icu:initialSync": {
     "messageformat": "સંપર્કો અને ગ્રુપનું સિંક કરી રહ્યું છે"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "વૉઇસ"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "સભ્યના લેબલ"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "આ ગ્રૂપમાં તમારું અથવા તમારી ભૂમિકાનું વર્ણન કરવા માટે સભ્ય લેબલનો ઉપયોગ કરો. સભ્ય લેબલ ફક્ત આ ગ્રૂપમાં જ દેખાય છે."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "લેબલ સેટ કરો"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "તમારા લેબલમાં ફેરફાર કરો"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "ચેટ કલર"
   },
@@ -4660,6 +4675,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "ગ્રુપ લિંક"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "સભ્યનું લેબલ"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "તમારું સભ્ય લેબલ દાખલ કરો"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "આ ગ્રૂપમાં તમારું અથવા તમારી ભૂમિકાનું વર્ણન કરવા માટે સભ્ય લેબલ સેટ કરો. સભ્ય લેબલ ફક્ત આ ગ્રૂપમાં જ દેખાય છે."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "પ્રિવ્યૂ કરો"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "નમસ્તે!"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Group members with labels"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "No other members have labels"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "ફેરફારો સેવ કરી રહ્યાં છીએ..."
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Can’t save member label"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Check your connection and try again."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Only admins can set member labels in this group."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "અદૃશ્ય થઈ રહેલા મેસેજ"
@@ -4695,7 +4743,7 @@
     "messageformat": "ગ્રુપનું નામ, ફોટો, વર્ણન અને અદૃશ્ય થઈ રહેલા મેસેજ ટાઈમર કોણ સંપાદિત કરી શકે તે પસંદ કરો."
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "ગ્રૂપનું નામ, ફોટો, વર્ણન, ગાયબ થતાં મેસેજ ટાઇમર અને પિન કરેલા મેસેજમાં કોણ ફેરફાર કરી શકે તે પસંદ કરો."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "કોણ મેમ્બર્સ ઉમેરી શકે છે"
@@ -4708,6 +4756,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "ગ્રુપમાં મેસેજ કોણ મોકલી શકે તે પસંદ કરો."
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Member labels will be cleared"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Continue"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "વિનંતીઓ અને આમંત્રણો"
@@ -7428,6 +7485,21 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>તમે દાન કરો છો ત્યારે Signal તમારી કોઈ પણ અંગત માહિતી એકત્રિત કે સંગ્રહિત કરતું નથી.</paragraph><paragraph>અમે તમારા દાન મેળવવા માટે અમારા પેમેન્ટ પ્રોસેસર તરીકે Stripeનો ઉપયોગ કરીએ છીએ.તમે તેમને પ્રદાન કરો છો તે કોઈ પણ માહિતી અમે ઍક્સેસ, સ્ટોર કે સેવ કરતાં નથી.</paragraph><paragraph>Signal તમારા દાનને તમારા Signal એકાઉન્ટ સાથે કનેક્ટ કરતું નથી અને કરી શકતું નથી.</paragraph><paragraph>તમારા સપોર્ટ બદલ તમારો આભાર!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Get an optional badge on your profile when you donate"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "Your privacy is our mission"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Heart icon in the style of the Signal logo"
+  },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "ઓકે"
   },
@@ -7519,7 +7591,13 @@
     "messageformat": "માહિતી દૂર કરો"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "Leaving will cancel your donation."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Leave"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Stay on page"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "ચાલુ રાખો"
@@ -7567,13 +7645,13 @@
     "messageformat": "તમારા એક દાનની પ્રક્રિયા ચાલુ છે જેની ખાતરી કરવી જરૂરી છે."
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "તમારા એક દાનની પ્રક્રિયા ચાલુ છે જેની ખાતરી કરવી જરૂરી છે."
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPal દાન રદ કર્યું"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "PayPal દાનની પ્રક્રિયા કરવામાં એરર આવી. તમારી પાસેથી પૈસા લેવામાં આવ્યા નથી."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "દાન સફળ રહ્યું, પણ અમે તમારા બૅજ સેટિંગ્સ અપડેટ કરી શક્યા નહીં"
@@ -7591,7 +7669,7 @@
     "messageformat": "ફરીથી પ્રયત્ન કરો"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "ચુકવણી પદ્ધતિ"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "ચુકવણી પદ્ધતિ નકારવામાં આવી"
@@ -7600,31 +7678,31 @@
     "messageformat": "અન્ય ચુકવણી પદ્ધતિ અજમાવો અથવા વધુ માહિતી માટે તમારી બેંકનો સંપર્ક કરો."
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "ચુકવણી કાર્ડનું આઇકન"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "ક્રેડિટ અથવા ડેબિટ કાર્ડ"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "રદ કરો"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "દાન પૂર્ણ કરો"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPal દાન રદ કર્યું"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "તમારી પાસેથી પૈસા લેવામાં આવ્યા નથી. ફરી પ્રયાસ કરો અથવા બીજી ચુકવણી પદ્ધતિનો ઉપયોગ કરો."
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "PayPal દાનની પ્રક્રિયા કરવામાં એરર આવી"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "તમારી પાસેથી પૈસા લેવામાં આવ્યા નથી. ફરી પ્રયાસ કરો અથવા બીજી ચુકવણી પદ્ધતિનો ઉપયોગ કરો."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "ચકાસણી નિષ્ફળ"
@@ -7829,9 +7907,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "આ અપડેટ કેપ્સ લોક ચાલુ હોય ત્યારે આવતા ટેક્સ્ટ ફોર્મેટિંગના બગને સુધારે છેે. આભાર, <DGrothePhD></DGrothePhD>!"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "Signal એક બિનનફાકારક સંસ્થા છે જે તમારા સમર્થન વિના શક્ય ન હોત અને હવે તમે Signal ડેસ્કટોપમાં PayPal દ્વારા દાન કરી શકો છો."
+  },
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
   }
 }

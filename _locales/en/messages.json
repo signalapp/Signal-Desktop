@@ -9956,7 +9956,7 @@
   },
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>",
-    "description": "Content for the modal that explains donation privacy information"
+    "description": "(Deleted 2026/02/12) Content for the modal that explains donation privacy information"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
     "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal.",
@@ -10519,11 +10519,11 @@
   },
   "icu:WhatsNew__7.89--0": {
     "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!",
-    "description": "Release notes for 7.89 release"
+    "description": "(Deleted 2026/02/12) Release notes for 7.89 release"
   },
   "icu:WhatsNew__7.89--1": {
     "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop.",
-    "description": "Release notes for 7.89 release"
+    "description": "(Deleted 2026/02/12) Release notes for 7.89 release"
   },
   "icu:WhatsNew__7.90--0": {
     "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay.",

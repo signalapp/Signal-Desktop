@@ -579,49 +579,49 @@
     "messageformat": "Jei nori patikrinti, ar pokalbis su {name} yra visiškai užšifruotas, palygink skaičius viršuje ir pašnekovo įrenginyje. Pašnekovas taip pat gali nuskaityti tavo kodą savo įrenginiu."
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "Jei norite patikrinti, ar pokalbis su {name} yra visiškai užšifruotas, palyginkite skaičius viršuje ir pašnekovo įrenginyje. Pašnekovas taip pat gali nuskaityti tavo kodą savo įrenginiu."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Sužinoti daugiau"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Automatinis rakto patvirtinimas"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "Patvirtinti automatiškai"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "Tikrinamas šifravimas…"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "Šifravimas patvirtintas"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "Automatinis patvirtinimas nepasiekiamas"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "Automatinis patvirtinimas pasiekiamas ne visiems pokalbiams."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "Sužinoti daugiau"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "Šio pokalbio šifravimas buvo automatiškai patvirtintas "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Jei su kontaktais bendraujate naudodami telefono numerius, „Signal“ automatiškai patvirtins, ar ryšys saugus, pagal rakto skaidrumo procesą. Jei pageidaujate papildomo saugumo, patvirtinkite ištisinį šifravimą rankiniu būdu, palygindami ankstesniame ekrane pateiktus skaičius arba nuskaitydami kodą jų įrenginyje."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "Automatinis patvirtinimas šiam pokalbiui nebepasiekiamas"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "„Signal“ nebegali automatiškai patvirtinti šio pokalbio šifravimo. Tikėtina, kad taip yra todėl, jog {name} pasikeitė telefono numerį. Patvirtinkite ištisinį šifravimą rankiniu būdu, palygindami ankstesniame ekrane pateiktus skaičius arba nuskaitydami kodą jų įrenginyje."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "„Signal“ gali automatiškai patvirtinti šifravimą tik tuose pokalbiuose, kur su asmeniu bendraujate turėdami telefono numerį. Jei pokalbis pradėtas turint naudotojo vardą arba bendroje grupėje, patvirtinkite ištisinį šifravimą rankiniu būdu, palygindami ankstesniame ekrane pateiktus skaičius arba nuskaitydami kodą jų įrenginyje."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "Gerai"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Saugumo numeris su šiuo asmeniu bus sukurtas tada, kai vienas kitam parašysite žinutes."
@@ -630,43 +630,43 @@
     "messageformat": "Sužinoti daugiau"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "Automatinis rakto patvirtinimas jūsų įrenginyje šiuo metu negalimas. Pateikti derinimo žurnalą?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Derinimo žurnalai padeda mums diagnozuoti ir išspręsti problemą, juose nėra identifikavimo informacijos."
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Užverti"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "Bendrinti derinimo žurnalą"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "Žiūrėti"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "Pateikti"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Ne, ačiū"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "Pateikiama..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Signal can now auto-verify encryption"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Tęsti"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Sužinoti daugiau"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Užverti"
   },
   "icu:verified": {
     "messageformat": "Patvirtinta(s)"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} yra jūsų sistemos kontaktuose"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Pridėti nario kategoriją"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Pastaba"
@@ -1794,13 +1797,13 @@
     "messageformat": "Atšaukti"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Automatinis rakto patvirtinimas"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "Įjungus, „Signal“ bandys automatiškai patvirtinti asmeninių pokalbių šifravimą."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "Sužinoti daugiau"
   },
   "icu:initialSync": {
     "messageformat": "Sinchronizuojami adresatai ir grupės"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "Skambutis"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Narių kategorijos"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Apibūdinkite save arba savo vaidmenį šioje grupėje naudodami nario kategoriją. Narių kategorijos matomos tik šioje grupėje."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Nustatyti kategoriją"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Redaguoti savo kategoriją"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Pokalbio spalva"
   },
@@ -4660,6 +4675,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Grupės nuoroda"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Nario kategorija"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Įrašykite savo nario kategoriją"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Apibūdinkite save arba savo vaidmenį šioje grupėje nustatydami nario kategoriją. Narių kategorijos matomos tik šioje grupėje."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Peržiūra"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Sveiki!"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Group members with labels"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "No other members have labels"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Išsaugomi pakeitimai..."
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Can’t save member label"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Check your connection and try again."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Only admins can set member labels in this group."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Išnykstančios žinutės"
@@ -4695,7 +4743,7 @@
     "messageformat": "Pasirinkite, kas gali taisyti grupės pavadinimą, nuotrauką, aprašą bei išnykstančių žinučių laikmatį."
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "Pasirinkite, kas gali taisyti grupės pavadinimą, nuotrauką, aprašą, išnykstančių žinučių laikmatį ir prisegtas žinutes."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Kas gali pridėti narius"
@@ -4708,6 +4756,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Pasirinkite, kas gali siųsti žinutes į grupę."
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Member labels will be cleared"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Continue"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Prašymai ir pakvietimai"
@@ -7428,6 +7485,21 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>„Signal“ nerenka ir nesaugo jokios jūsų asmeninės informacijos, kai skiriate paramą.</paragraph><paragraph>Jūsų paramai gauti kaip mokėjimų tvarkytoją naudojame „Stripe“. Mes nepasiekiame, nelaikome ir neišsaugome jokios jūsų jiems pateiktos informacijos.</paragraph><paragraph>„Signal“ nesusieja ir negali susieti jūsų paramos su jūsų „Signal“ paskyra.</paragraph><paragraph>Dėkojame už jūsų paramą!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Get an optional badge on your profile when you donate"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "Your privacy is our mission"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Heart icon in the style of the Signal logo"
+  },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "Gerai"
   },
@@ -7519,7 +7591,13 @@
     "messageformat": "Pašalinti informaciją"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "Leaving will cancel your donation."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Leave"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Stay on page"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Tęsti"
@@ -7567,13 +7645,13 @@
     "messageformat": "Jūsų parama yra apdorojama ir ją reikia patvirtinti."
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Jūsų parama yra apdorojama ir ją reikia patvirtinti."
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "„PayPal“ parama atšaukta"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "Apdorojant „PayPal“ paramą įvyko klaida. Pinigai nenuskaičiuoti."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Parama suteikta sėkmingai, tačiau nepavyko atnaujinti jūsų ženklelio nustatymų"
@@ -7591,7 +7669,7 @@
     "messageformat": "Bandykite dar kartą"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "Mokėjimo būdas"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Mokėjimo būdas atmestas"
@@ -7600,31 +7678,31 @@
     "messageformat": "Bandyk kitą mokėjimo būdą arba kreipkis į savo banką, jei reikia daugiau informacijos."
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "Mokėjimo kortelės piktograma"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Kredito arba debeto kortelė"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Atšaukti"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "Užbaigti paramos teikimą"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "„PayPal“ parama atšaukta"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Pinigai nenuskaičiuoti. Bandykite dar kartą arba naudokite kitą mokėjimo būdą."
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "Apdorojant „PayPal“ paramą įvyko klaida"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Pinigai nenuskaičiuoti. Bandykite dar kartą arba naudokite kitą mokėjimo būdą."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Patvirtinimas nepavyko"
@@ -7829,9 +7907,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "Šiuo atnaujinimu ištaisoma teksto formatavimo klaida, kai įjungtas „Caps Lock“. Ačiū, <DGrothePhD></DGrothePhD>!"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "„Signal“ yra ne pelno siekianti organizacija, kurios veikla nebūtų įmanoma be jūsų paramos. Dabar galite mus paremti naudodami „PayPal“ programoje „Signal Desktop“."
+  },
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
   }
 }
