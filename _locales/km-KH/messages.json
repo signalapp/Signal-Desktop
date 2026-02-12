@@ -579,49 +579,49 @@
     "messageformat": "ដើម្បីផ្ទៀងផ្ទាត់ការអ៊ីនគ្រីបទាំងសងខាងជាមួយ {name} សូមប្រៀបធៀបលេខខាងលើជាមួយឧបករណ៍របស់ពួកគេ។ ពួកគេក៏អាចស្គែនកូដរបស់អ្នកដោយប្រើឧបករណ៍របស់ពួកគេផងដែរ។"
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "ដើម្បីផ្ទៀងផ្ទាត់ការអ៊ីនគ្រីបទាំងសងខាងជាមួយ {name} សូមប្រៀបធៀបលេខខាងលើជាមួយឧបករណ៍របស់ពួកគេ។ ពួកគេក៏អាចស្គែនកូដរបស់អ្នកដោយប្រើឧបករណ៍របស់ពួកគេផងដែរ។"
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "ស្វែងយល់បន្ថែម"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "ការផ្ទៀងផ្ទាត់សោដោយស្វ័យប្រវត្តិ"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "ផ្ទៀងផ្ទាត់ដោយស្វ័យប្រវត្តិ"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "កំពុងផ្ទៀងផ្ទាត់ការអ៊ីនគ្រីប..."
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "ការអ៊ីនគ្រីបត្រូវបានផ្ទៀងផ្ទាត់"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "ការផ្ទៀងផ្ទាត់ដោយស្វ័យប្រវត្តិមិនអាចប្រើបានទេ"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "ការផ្ទៀងផ្ទាត់ដោយស្វ័យប្រវត្តិមិនមានសម្រាប់ការជជែកទាំងអស់ទេ។"
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "ស្វែងយល់បន្ថែម"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "ការអ៊ីនគ្រីបត្រូវបានផ្ទៀងផ្ទាត់ដោយស្វ័យប្រវត្តិសម្រាប់ការជជែកនេះ "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "សម្រាប់ទំនាក់ទំនងដែលអ្នកបានភ្ជាប់ជាមួយតាមរយៈលេខទូរសព្ទ Signal អាចបញ្ជាក់ដោយស្វ័យប្រវត្តិថាតើការភ្ជាប់នោះមានសុវត្ថិភាពឬអត់ ដោយប្រើដំណើរការមួយដែលហៅថា តម្លាភាពកូនសោ។ ដើម្បីសុវត្ថិភាពបន្ថែម សូមផ្ទៀងផ្ទាត់ការអ៊ីនគ្រីបទាំងសងខាងដោយដៃដោយប្រៀបធៀបលេខនៅលើអេក្រង់មុន ឬស្គែនកូដនៅលើឧបករណ៍របស់ពួកគេ។"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "ការផ្ទៀងផ្ទាត់ដោយស្វ័យប្រវត្តិមិនអាចធ្វើបានសម្រាប់ការជជែកនេះទៀតទេ"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal លែងអាចផ្ទៀងផ្ទាត់ការអ៊ីនគ្រីបសម្រាប់ការជជែកនេះដោយស្វ័យប្រវត្តិទៀតហើយ។ នេះទំនងជាដោយសារតែ {name} បានប្តូរលេខទូរសព្ទរបស់គាត់។ ផ្ទៀងផ្ទាត់ការអ៊ីនគ្រីបទាំងសងខាងដោយដៃដោយប្រៀបធៀបលេខនៅលើអេក្រង់មុន ឬស្គែនកូដនៅលើឧបករណ៍របស់ពួកគេ។"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal អាចផ្ទៀងផ្ទាត់ការអ៊ីនគ្រីបដោយស្វ័យប្រវត្តិបានតែនៅក្នុងការជជែកដែលអ្នកបានភ្ជាប់ជាមួយនរណាម្នាក់តាមរយៈលេខទូរសព្ទប៉ុណ្ណោះ។ ប្រសិនបើការជជែកត្រូវបានចាប់ផ្តើមជាមួយឈ្មោះអ្នកប្រើ ឬក្រុមដែលមានឈ្មោះដូចគ្នា សូមផ្ទៀងផ្ទាត់ការអ៊ីនគ្រីបទាំងសងខាងដោយប្រៀបធៀបលេខនៅលើអេក្រង់មុន ឬស្គែនកូដនៅលើឧបករណ៍របស់ពួកគេ។"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "យល់ព្រម"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "លេខសុវត្ថិភាពមួយនឹងត្រូវបានបង្កើតឡើងជាមួយបុគ្គលនេះ បន្ទាប់ពីអ្នកផ្ញើសារទៅវិញទៅមកជាមួយគេ។"
@@ -630,43 +630,43 @@
     "messageformat": "សិក្សាបន្ថែម"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "ការផ្ទៀងផ្ទាត់សោដោយស្វ័យប្រវត្តិមិនអាចធ្វើបានទេនៅពេលនេះសម្រាប់ឧបករណ៍របស់អ្នក។ ដាក់បញ្ជូនកំណត់ត្រាបញ្ហាទេ?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "កំណត់ត្រាបញ្ហាជួយឱ្យយើងវិភាគ និងដោះស្រាយបញ្ហានេះ ហើយមិនមានព័ត៌មានកំណត់អត្តសញ្ញាណទេ។"
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "បិទ"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "ចែករំលែកកំណត់ត្រាបញ្ហា"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "មើល"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "ដាក់បញ្ជូន"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "ទេ អរគុណ"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "កំពុងដាក់បញ្ជូន…"
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Signal can now auto-verify encryption"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "បន្ត"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "ស្វែងយល់បន្ថែម"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "បិទ"
   },
   "icu:verified": {
     "messageformat": "បានផ្ទៀងផ្ទាត់"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} ស្ថិតនៅក្នុងប្រព័ន្ធទំនាក់ទំនងរបស់អ្នក"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "បញ្ចូលស្លាកសមាជិក"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "កំណត់ចំណាំ"
@@ -1794,13 +1797,13 @@
     "messageformat": "បោះបង់"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "ការផ្ទៀងផ្ទាត់សោដោយស្វ័យប្រវត្តិ"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "នៅពេលបើកដំណើរការ Signal នឹងព្យាយាមផ្ទៀងផ្ទាត់ដោយស្វ័យប្រវត្តិនូវការអ៊ីនគ្រីបការជជែកមួយទល់មួយ។"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "ស្វែងយល់បន្ថែម"
   },
   "icu:initialSync": {
     "messageformat": "កំពុងចម្លងបញ្ជីទំនាក់ទំនង និងក្រុម"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "សំឡេង"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "ស្លាកសមាជិក"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "ប្រើស្លាកសមាជិកដើម្បីពណ៌នាអំពីខ្លួនអ្នក ឬតួនាទីរបស់អ្នកនៅក្នុងក្រុមនេះ។ ស្លាកសមាជិកអាចមើលឃើញតែនៅក្នុងក្រុមនេះទេ។"
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "កំណត់ស្លាក"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "កែស្លាករបស់អ្នក"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "ពណ៌ការជជែក"
   },
@@ -4660,6 +4675,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "តំណក្រុម"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "ស្លាកសមាជិក"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "បញ្ចូលស្លាកសមាជិករបស់អ្នក"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "កំណត់ស្លាកសមាជិកដើម្បីពណ៌នាអំពីខ្លួនអ្នក ឬតួនាទីរបស់អ្នកនៅក្នុងក្រុមនេះ។ ស្លាកសមាជិកអាចមើលឃើញតែនៅក្នុងក្រុមនេះទេ។"
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "មើលជាមុន"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "សួស្តី!"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Group members with labels"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "No other members have labels"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "កំពុងរក្សាទុកការផ្លាស់ប្តូរ..."
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Can’t save member label"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Check your connection and try again."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Only admins can set member labels in this group."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "សារបាត់ទៅវិញ"
@@ -4695,7 +4743,7 @@
     "messageformat": "ជ្រើសរើសអ្នកដែលអាចកែឈ្មោះ រូបថត ការពណ៌នារបស់ក្រុម និងកម្មវិធីកំណត់ពេលសារដែលបាត់ដោយស្វ័យប្រវត្តិ។"
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "ជ្រើសរើសថាតើនរណាដែលអាចកែឈ្មោះក្រុម រូបថត ការពណ៌នា មុខងារកំណត់ម៉ោងសម្រាប់សារដែលបាត់ដោយស្វ័យប្រវត្តិ និងសារដែលបានខ្ទាស់។"
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "អ្នកដែលអាចបញ្ចូលសមាជិក"
@@ -4708,6 +4756,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "ជ្រើសរើសអ្នកដែលអាចផ្ញើសារទៅក្រុមនេះ។"
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Member labels will be cleared"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Continue"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "សំណើ និងការបបួល"
@@ -7428,6 +7485,21 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal មិនប្រមូល ឬរក្សាទុកព័ត៌មានផ្ទាល់ខ្លួនណាមួយរបស់អ្នកទេ នៅពេលអ្នកធ្វើការបរិច្ចាគ។</paragraph><paragraph>យើងប្រើ Stripe ជាអ្នកដំណើរការទូទាត់របស់យើង ដើម្បីទទួលបានការបរិច្ចាគរបស់អ្នក។ យើងមិនចូលប្រើ រក្សា ឬរក្សាទុកព័ត៌មានណាមួយដែលអ្នកផ្តល់ឱ្យពួកគេទេ។</paragraph><paragraph>Signal មិនមាន និងមិនអាចភ្ជាប់ការបរិច្ចាគរបស់អ្នកជាមួយគណនី Signal របស់អ្នកបានទេ។</paragraph><paragraph>សូមអរគុណចំពោះការគាំទ្ររបស់អ្នក!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Get an optional badge on your profile when you donate"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "Your privacy is our mission"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Heart icon in the style of the Signal logo"
+  },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "យល់ព្រម"
   },
@@ -7519,7 +7591,13 @@
     "messageformat": "លុបព័ត៌មាន"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "Leaving will cancel your donation."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Leave"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Stay on page"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "បន្ត"
@@ -7567,13 +7645,13 @@
     "messageformat": "អ្នកមានការបរិច្ចាគមួយដែលកំពុងដំណើរការដែលត្រូវការការបញ្ជាក់។"
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "អ្នកមានការបរិច្ចាគមួយដែលកំពុងដំណើរការដែលត្រូវការការបញ្ជាក់។"
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "ការបរិច្ចាគតាម PayPal ត្រូវបានបោះបង់"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "មានបញ្ហាក្នុងការដំណើរការនូវការបរិច្ចាគតាម PayPal។ អ្នកមិនត្រូវបានគិតប្រាក់ទេ។"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "ការបរិច្ចាគបានជោគជ័យ ប៉ុន្តែយើងមិនអាចធ្វើបច្ចុប្បន្នភាពការកំណត់ស្លាករបស់អ្នកបានទេ"
@@ -7591,7 +7669,7 @@
     "messageformat": "ព្យាយាមម្តងទៀត"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "វិធីទូទាត់"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "វិធីទូទាត់ត្រូវបានបដិសេធ"
@@ -7600,31 +7678,31 @@
     "messageformat": "សូមសាកល្បងវិធីទូទាត់មួយផ្សេងទៀត ឬទាក់ទងធនាគាររបស់អ្នកសម្រាប់ព័ត៌មានបន្ថែម។"
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "រូបកាតទូទាត់"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "កាតឥណទាន ឬឥណពន្ធ"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "បោះបង់"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "បញ្ចប់ការបរិច្ចាគ"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "ការបរិច្ចាគតាម PayPal ត្រូវបានបោះបង់"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "អ្នកមិនត្រូវបានគិតប្រាក់ទេ។ ព្យាយាមម្តងទៀត ឬប្រើវិធីទូទាត់ផ្សេងទៀត។"
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "មានបញ្ហាក្នុងការដំណើរការនូវការបរិច្ចាគតាម PayPal"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "អ្នកមិនត្រូវបានគិតប្រាក់ទេ។ ព្យាយាមម្តងទៀត ឬប្រើវិធីទូទាត់ផ្សេងទៀត។"
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "ការផ្ទៀងផ្ទាត់មិនបានជោគជ័យ"
@@ -7829,9 +7907,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "កំណែថ្មីនេះដោះស្រាយបញ្ហាមួយជាមួយការរៀបចំទម្រង់អក្សរ ខណៈពេលបើកប្រើមុខងារអក្សរធំទាំងអស់ (Caps Lock) ដើម្បីឱ្យកាន់តែស្រួលធ្វើអក្សរឱ្យដិត (ឬទ្រេត) ពេលដែលវាដិតស្រាប់។ អរគុណ <DGrothePhD></DGrothePhD>!"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "Signal គឺជាអង្គការមិនស្វែងរកប្រាក់ចំណេញដែលយើងមិនអាចដំណើរការទៅបានទេបើគ្មានការគាំទ្រពីអ្នក ហើយឥឡូវនេះអ្នកអាចធ្វើការបរិច្ចាគបានតាមរយៈ PayPal នៅក្នុង Signal Desktop។"
+  },
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
   }
 }

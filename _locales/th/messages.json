@@ -579,49 +579,49 @@
     "messageformat": "เพื่อยืนยันว่าการติดต่อสื่อสารกับ {name} ถูกเข้ารหัสตั้งแต่ต้นทางถึงปลายทาง ให้เปรียบเทียบหมายเลขด้านบนนี้กับหมายเลขบนอุปกรณ์ของคนคนนั้นว่าตรงกันหรือไม่ หรืออาจให้ผู้ติดต่อใช้อุปกรณ์ในการสแกนรหัสของคุณก็ได้"
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "เพื่อยืนยันว่าการติดต่อสื่อสารกับ {name} ถูกเข้ารหัสตั้งแต่ต้นทางถึงปลายทาง ให้เปรียบเทียบหมายเลขด้านบนนี้กับหมายเลขบนอุปกรณ์ของคนคนนั้นว่าตรงกันหรือไม่ หรืออาจให้ผู้ติดต่อใช้อุปกรณ์ในการสแกนรหัสของคุณก็ได้"
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "เรียนรู้เพิ่มเติม"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "การตรวจยืนยันโดยอัตโนมัติ"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "ตรวจยืนยันอัตโนมัติ"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "กำลังตรวจยืนยันการเข้ารหัส..."
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "ตรวจยืนยันการเข้ารหัสแล้ว"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "ไม่สามารถใช้การตรวจยืนยันอัตโนมัติได้"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "การตรวจยืนยันอัตโนมัติไม่สามารถใช้ได้กับแชททุกประเภท"
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "เรียนรู้เพิ่มเติม"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "การเข้ารหัสของแชทนี้ได้รับการตรวจยืนยันโดยอัตโนมัติแล้ว "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "หากคุณและผู้ติดต่อเชื่อมโยงกันผ่านทางหมายเลขโทรศัพท์ Signal จะสามารถใช้ขั้นตอนที่เรียกว่า Key Transparency ในการยืนยันความปลอดภัยของเครือข่ายโดยอัตโนมัติ เพื่อความปลอดภัยยิ่งขึ้น คุณยังสามารถตรวจยืนยันการเข้ารหัสตั้งแต่ต้นทางถึงปลายทางด้วยตนเองโดยเทียบหมายเลขซึ่งแสดงในหน้าที่แล้วหรือสแกนคิวอาร์โค้ดบนอุปกรณ์ของผู้ติดต่อ"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "ไม่สามารถใช้การตรวจยืนยันอัตโนมัติกับแชทนี้ได้แล้ว"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal ไม่สามารถตรวจยืนยันการเข้ารหัสของแชทนี้โดยอัตโนมัติได้อีกต่อไป นี่น่าจะเป็นเพราะ {name} เปลี่ยนหมายเลขโทรศัพท์ คุณยังสามารถตรวจยืนยันการเข้ารหัสตั้งแต่ต้นทางถึงปลายทางด้วยตนเองโดยเทียบหมายเลขซึ่งแสดงในหน้าที่แล้วหรือสแกนคิวอาร์โค้ดบนอุปกรณ์ของผู้ติดต่อ"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal จะสามารถตรวจยืนยันการเข้ารหัสโดยอัตโนมัติได้เฉพาะในแชทที่คุณและผู้ติดต่อเชื่อมโยงกันผ่านทางหมายเลขโทรศัพท์เท่านั้น ในกรณีของแชทที่เริ่มต้นผ่านทางชื่อผู้ใช้หรือการมีกลุ่มร่วมกัน คุณสามารถตรวจยืนยันการเข้ารหัสตั้งแต่ต้นทางถึงปลายทางโดยเทียบหมายเลขซึ่งแสดงในหน้าที่แล้วหรือสแกนคิวอาร์โค้ดบนอุปกรณ์ของผู้ติดต่อ"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "ตกลง"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "ระบบจะสร้างหมายเลขความปลอดภัยสำหรับผู้ติดต่อหลังจากที่คุณส่งหรือรับข้อความจากคนคนนี้"
@@ -630,43 +630,43 @@
     "messageformat": "เรียนรู้เพิ่มเติม"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "ไม่สามารถใช้การตรวจยืนยันโดยอัตโนมัติได้บนอุปกรณ์ของคุณ คุณต้องการส่งบันทึกดีบักหรือไม่"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "บันทึกดีบักจะช่วยให้เราสามารถตรวจสอบและแก้ไขปัญหาได้ โดยที่ในบันทึกจะไม่มีข้อมูลที่ใช้ระบุตัวตน"
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "ปิด"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "แชร์บันทึกดีบัก"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "ดู"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "ส่ง"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "ไม่ ขอบคุณ"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "กำลังส่ง..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Signal can now auto-verify encryption"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "ดำเนินการต่อ"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "เรียนรู้เพิ่มเติม"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "ปิด"
   },
   "icu:verified": {
     "messageformat": "ตรวจยืนยันแล้ว"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} อยู่ในรายชื่อผู้ติดต่อของระบบคุณ"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "เพิ่มป้ายกำกับสมาชิก"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "โน้ต"
@@ -1794,13 +1797,13 @@
     "messageformat": "ยกเลิก"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "การตรวจยืนยันโดยอัตโนมัติ"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "หากเปิดใช้งาน Signal จะพยายามตรวจยืนยันการเข้ารหัสของแชทส่วนตัวโดยอัตโนมัติ"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "เรียนรู้เพิ่มเติม"
   },
   "icu:initialSync": {
     "messageformat": "กำลังปรับประสานรายชื่อผู้ติดต่อและกลุ่ม"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "เสียง"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "ป้ายกำกับสมาชิก"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "ใช้ป้ายกำกับสมาชิกเพื่อบรรยายตัวเองหรือระบุบทบาทของคุณในกลุ่มนี้ โดยระบบจะแสดงป้ายกำกับสมาชิกให้เห็นเฉพาะภายในกลุ่มนี้เท่านั้น"
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "กำหนดป้ายกำกับ"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "แก้ไขป้ายกำกับของคุณ"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "สีแชท"
   },
@@ -4660,6 +4675,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "ลิงก์กลุ่ม"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "ป้ายกำกับสมาชิก"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "ใส่ป้ายกำกับสมาชิกของคุณ"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "กำหนดป้ายกำกับสมาชิกเพื่อบรรยายตัวเองหรือระบุบทบาทของคุณในกลุ่มนี้ โดยระบบจะแสดงป้ายกำกับสมาชิกให้เห็นเฉพาะภายในกลุ่มนี้เท่านั้น"
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "ดูตัวอย่าง"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "สวัสดี!"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Group members with labels"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "No other members have labels"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "กำลังบันทึกการเปลี่ยนแปลง..."
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Can’t save member label"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Check your connection and try again."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Only admins can set member labels in this group."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "ข้อความที่ลบตัวเอง"
@@ -4695,7 +4743,7 @@
     "messageformat": "เลือกว่าใครสามารถแก้ไขชื่อกลุ่ม รูปภาพ และตั้งเวลาให้ข้อความหายไป"
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "เลือกว่าใครสามารถแก้ไขชื่อกลุ่ม รูปภาพ คำอธิบาย รวมถึงตั้งเวลาให้ข้อความหายไปและข้อความที่ปักหมุดไว้"
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "ใครสามารถเพิ่มสมาชิกได้"
@@ -4708,6 +4756,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "เลือกว่าใครสามารถส่งข้อความไปยังกลุ่มได้"
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Member labels will be cleared"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Continue"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "คำขอและคำเชิญ"
@@ -7428,6 +7485,21 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>เมื่อคุณบริจาคเงิน Signal ไม่ได้รวบรวมหรือจัดเก็บข้อมูลส่วนบุคคลใดๆ ของคุณ</paragraph><paragraph>เราใช้ Stripe เป็นผู้ให้บริการการชำระเงินในการรับเงินบริจาคของคุณโดยเราจะไม่เข้าถึง จัดเก็บ หรือบันทึกข้อมูลใดๆ ที่คุณกรอกระหว่างทำธุรกรรม</paragraph><paragraph>Signal จะไม่เชื่อมโยงการบริจาคของคุณเข้ากับบัญชี Signal ของคุณ (และนี่เป็นสิ่งที่เราไม่สามารถทำได้อีกด้วย)</paragraph><paragraph>ขอบคุณสำหรับการสนับสนุนของคุณ!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Get an optional badge on your profile when you donate"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "Your privacy is our mission"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Heart icon in the style of the Signal logo"
+  },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "ตกลง"
   },
@@ -7519,7 +7591,13 @@
     "messageformat": "ลบข้อมูล"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "Leaving will cancel your donation."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Leave"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Stay on page"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "ดำเนินการต่อ"
@@ -7567,13 +7645,13 @@
     "messageformat": "คุณมีการบริจาคที่ยังรอการยืนยันตัวตน"
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "คุณมีการบริจาคที่ยังรอการยืนยันตัวตน"
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "ยกเลิกการบริจาคผ่าน PayPal แล้ว"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "การดำเนินการบริจาคผ่าน PayPal มีข้อผิดพลาด โดยคุณยังไม่ถูกเรียกเก็บเงินในกรณีนี้"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "การบริจาคสำเร็จแล้ว แต่เราไม่สามารถอัปเดตการตั้งค่าโล่ของคุณได้"
@@ -7591,7 +7669,7 @@
     "messageformat": "ลองอีกครั้ง"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "วิธีการชำระเงิน"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "วิธีการชำระเงินถูกปฏิเสธ"
@@ -7600,31 +7678,31 @@
     "messageformat": "ลองชำระเงินด้วยวิธีอื่น หรือติดต่อธนาคารเพื่อขอข้อมูลเพิ่มเติม"
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "ไอคอนการชำระเงินด้วยบัตร"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "บัตรเครดิตหรือบัตรเดบิต"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "ยกเลิก"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "ยืนยันการบริจาค"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "ยกเลิกการบริจาคผ่าน PayPal แล้ว"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "โดยคุณยังไม่ถูกเรียกเก็บเงินในกรณีนี้ โปรดลองอีกครั้งหรือชำระเงินด้วยวิธีอื่น"
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "การดำเนินการบริจาคผ่าน PayPal มีข้อผิดพลาด"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "โดยคุณยังไม่ถูกเรียกเก็บเงินในกรณีนี้ โปรดลองอีกครั้งหรือชำระเงินด้วยวิธีอื่น"
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "การตรวจยืนยันล้มเหลว"
@@ -7829,9 +7907,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "แก้ไขบั๊กเกี่ยวกับรูปแบบตัวอักษรเมื่อใช้งานปุ่ม Caps Lock ขอขอบคุณ <DGrothePhD></DGrothePhD>!"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "Signal เป็นแอปไม่แสวงหาผลกำไรที่คงไม่สามารถให้บริการได้หากขาดแรงสนับสนุนจากคุณ ร่วมบริจาคผ่าน PayPal บน Signal เดสก์ท็อปได้แล้ววันนี้"
+  },
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
   }
 }

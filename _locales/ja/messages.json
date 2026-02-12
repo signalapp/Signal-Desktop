@@ -579,49 +579,49 @@
     "messageformat": "{name} とのやりとりがエンドツーエンドで暗号化されているかを検証するには、お互いの端末で、上記の番号が相手端末上の番号と同じか確認してください。相手の端末であなたのコードをスキャンしてもらう方法もあります。"
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "{name} とのやりとりがエンドツーエンドで暗号化されているかを確認するには、お互いの端末で、上記の番号が相手端末上の番号と同じか見比べてください。相手の端末であなたのコードをスキャンしてもらう方法もあります。"
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "さらに詳しく"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "自動キー確認"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "自動で確認"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "暗号化を確認中…"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "暗号化が確認されました"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "自動確認できません"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "すべてのチャットが自動確認できるわけではありません。"
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "さらに詳しく"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "このチャットの暗号化は自動確認されました "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "電話番号を通じて接続している連絡先の場合、Signalはkey transparencyと呼ばれるプロセスを使用して、接続の安全性を自動的に確認します。安全性を強化するには、前の画面の番号を相手と比較するか、相手の端末のコードをスキャンして、エンドツーエンドの暗号化を手動で確認してください。"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "このチャットで自動確認ができなくなりました"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signalは、このチャットの暗号化を自動で確認できなくなりました。{name}が電話番号を変更した可能性があります。前の画面の番号を相手と比較するか、相手の端末のコードをスキャンして、エンドツーエンドの暗号化を手動で確認してください。"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signalが暗号化を自動で確認できるのは、相手の電話番号を通じて接続しているチャットのみです。ユーザーネームまたは共通のグループを通じてチャットが開始された場合は、前の画面の番号を相手と比較するか、相手の端末のコードをスキャンして、エンドツーエンドの暗号化を確認してください。"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "OK"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "メッセージ交換をすると、相手との間に安全番号が作成されます。"
@@ -630,43 +630,43 @@
     "messageformat": "さらに詳しく"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "お使いの端末では、キーの自動確認は現在ご利用いただけません。デバッグログを送信しますか？"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "デバッグログは、問題の診断と修正に役立てられます。個人を特定する情報は含まれません。"
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "閉じる"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "デバッグログを共有する"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "表示"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "送信"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "今はしない"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "送信中..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Signal can now auto-verify encryption"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "続ける"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "さらに詳しく"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "閉じる"
   },
   "icu:verified": {
     "messageformat": "検証済み"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} はシステムの連絡先に含まれています"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "メンバーラベルを追加"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "メモ"
@@ -1794,13 +1797,13 @@
     "messageformat": "キャンセル"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "自動キー確認"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "有効にすると、Signalは1対1のチャットの暗号化を自動的に確認します。"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "詳しく見る"
   },
   "icu:initialSync": {
     "messageformat": "連絡先とグループを同期しています"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "音声通話"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "メンバーラベル"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "自分自身や、このグループ内での自分の役割を説明するメンバーラベルを使いましょう。メンバーラベルはこのグループ内でのみ表示されます。"
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "ラベルを設定"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "ラベルを編集"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "チャットの色"
   },
@@ -4660,6 +4675,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "グループリンク"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "メンバーラベル"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "メンバーラベルを入力"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "自分自身や、このグループ内での自分の役割を説明するメンバーラベルを設定します。メンバーラベルはこのグループ内でのみ表示されます。"
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "プレビュー"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "ハロー！"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Group members with labels"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "No other members have labels"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "変更を保存中..."
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Can’t save member label"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Check your connection and try again."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Only admins can set member labels in this group."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "消えるメッセージ"
@@ -4695,7 +4743,7 @@
     "messageformat": "グループ名、アイコン、説明、消えるメッセージのタイマーを編集できるユーザーを選択してください。"
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "グループ名、写真、説明、消えるメッセージのタイマー、ピン留めされたメッセージなどの編集権限を設定します。"
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "メンバーを追加できるユーザー"
@@ -4708,6 +4756,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "このグループにメッセージを送信できるユーザーを選択してください。"
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Member labels will be cleared"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Continue"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "申請と招待"
@@ -7428,6 +7485,21 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signalは、寄付を受ける際に、お客様のいかなる個人情報も収集したり保存したりすることはありません。</paragraph><paragraph>Signalでは寄付を受け取る決済処理にStripeを使用しています。Signalは、お客様から提供されたいかなる情報にもアクセスすることはありません。また保管・保存したりすることもありません。</paragraph><paragraph>Signalは、寄付からお客様のSignalアカウントを特定することはありません。特定はできない仕組みになっています。</paragraph><paragraph>ご支援ありがとうございます！</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Get an optional badge on your profile when you donate"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "Your privacy is our mission"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Heart icon in the style of the Signal logo"
+  },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "OK"
   },
@@ -7519,7 +7591,13 @@
     "messageformat": "情報を削除する"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "Leaving will cancel your donation."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Leave"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Stay on page"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "続ける"
@@ -7567,13 +7645,13 @@
     "messageformat": "確認が必要な寄付のお手続き中です。"
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "確認が必要な寄付のお手続き中です。"
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPalでの寄付はキャンセルされました"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "PayPalでの寄付の処理中にエラーが発生しました。課金はされていません。"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "寄付は完了しましたが、バッジの設定をアップデートできませんでした"
@@ -7591,7 +7669,7 @@
     "messageformat": "もう一度試す"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "決済方法"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "支払い方法が承認されませんでした"
@@ -7600,31 +7678,31 @@
     "messageformat": "別の決済方法をお試しいただくか、取引先の銀行にお問い合わせください。"
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "支払いカードアイコン"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "クレジットカードまたはデビットカード"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "キャンセル"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "寄付をする"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPalでの寄付はキャンセルされました"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "課金はされていません。もう一度お試しいただくか、他の決済方法をお試しください。"
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "PayPalでの寄付の処理中にエラーが発生しました"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "課金はされていません。もう一度お試しいただくか、他の決済方法をお試しください。"
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "認証失敗"
@@ -7829,9 +7907,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "このアップデートでは、Caps Lockが有効になっているときにテキストの書式設定で発生するバグを修正しました。ありがとうございます、@DGrothe-PhD!さん<DGrothePhD></DGrothePhD>！"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "Signalは、皆様のご支援で支えられている非営利団体です。Signal Desktop版で、PayPal経由の寄付ができるようになりました。"
+  },
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
   }
 }

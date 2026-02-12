@@ -579,49 +579,49 @@
     "messageformat": "Lai pārbaudītu pilnīgu šifrēšanu sarunai ar {name}, salīdziniet augstāk redzamos ciparus ar šīs personas ierīcē redzamajiem. Šis sarunu biedrs var arī skenēt jūsu kodu ar savu ierīci."
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "Lai pārbaudītu pilnīgu šifrēšanu sarunai ar {name}, salīdziniet augstāk redzamos ciparus ar šīs personas ierīcē redzamajiem cipariem. Šī persona var arī skenēt jūsu kodu ar savu ierīci."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Uzzināt vairāk"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Automātiskā atslēgas verifikācija"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "Verificēt automātiski"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "Verificē šifrēšanu..."
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "Šifrēšana verificēta"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "Automātiskā verifikācija nav pieejama"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "Automātiskā verifikācija nav pieejama visu veidu sarunām."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "Uzzināt vairāk"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "Šifrēšana šai sarunai tika pārbaudīta automātiski "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal automātiski pārbaudīs savienojuma drošību kontaktpersonām, kas pievienotas ar tālruņa numuru, izmantojot procesu, ko sauc par atslēgu caurskatāmību. Papildu drošībai manuāli pārbaudiet pilnīgo šifrēšanu, salīdzinot iepriekšējā ekrānā redzamos ciparus vai skenējot kodu otras personas ierīcē."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "Automātiskā verifikācija šai sarunai vairs nav pieejama"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal vairs nevar automātiski pārbaudīt šīs sarunas šifrēšanu. Iespējams, tas ir tāpēc, ka {name} nomainīja savu tālruņa numuru. Pārbaudiet pilnīgo šifrēšanu manuāli, salīdzinot iepriekšējā ekrānā redzamos ciparus vai skenējot kodu otras personas ierīcē."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal var automātiski pārbaudīt šifrēšanu tikai tajās sarunās, kurās esat savienoti ar kādu personu, izmantojot tālruņa numuru. Ja saruna tika sākta ar kopīgu lietotājvārdu vai grupu, pārbaudiet pilnīgo šifrēšanu, salīdzinot iepriekšējā ekrānā redzamos ciparus vai skenējot kodu otras personas ierīcē."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "Labi"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Drošības numurs ar šo personu tiks izveidots pēc tam, kad būsiet nosūtījuši viens otram ziņas."
@@ -630,43 +630,43 @@
     "messageformat": "Lasīt vairāk"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "Automātiskā atslēgu verifikācija jūsu ierīcei pašlaik nav pieejama. Vai iesniegt atkļūdošanas žurnālu?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Atkļūdošanas žurnāli palīdz mums diagnosticēt un novērst problēmu, un tie nesatur identificējošu informāciju."
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Aizvērt"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "Kopīgot atkļūdošanas žurnālu"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "Skatīt"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "Iesniegt"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Nē, paldies"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "Notiek iesniegšana..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Signal can now auto-verify encryption"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Turpināt"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Uzzināt vairāk"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Aizvērt"
   },
   "icu:verified": {
     "messageformat": "Pārbaudīts(verificēts)"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} ir jūsu kontaktpersona sistēmā"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Pievienot lietotāja emblēmu"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Piezīme"
@@ -1794,13 +1797,13 @@
     "messageformat": "Atcelt"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Automātiskā atslēgas verifikācija"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "Pēc tās iespējošanas Signal mēģinās automātiski verificēt 1:1 sarunu šifrēšanu."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "Uzzināt vairāk"
   },
   "icu:initialSync": {
     "messageformat": "Sinhronizē kontaktpersonas un grupas"
@@ -4646,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "Balss"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Lietotāja emblēmas"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Lietotāja emblēmas ļauj raksturot sevi vai savu lomu šajā grupā. Lietotāja emblēmas ir redzamas tikai šajā grupā."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Iestatīt emblēmu"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Rediģēt emblēmu"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Sarunas krāsa"
   },
@@ -4660,6 +4675,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Grupas saite"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Lietotāja emblēma"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Ievadiet savu lietotāja emblēmu"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Iestatiet lietotāja emblēmu, lai raksturotu sevi vai savu lomu šajā grupā. Lietotāja emblēmas ir redzamas tikai šajā grupā."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Priekšskatīt"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Sveiki!"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Group members with labels"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "No other members have labels"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Saglabā izmaiņas..."
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Can’t save member label"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Check your connection and try again."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Only admins can set member labels in this group."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Gaistošās ziņas"
@@ -4695,7 +4743,7 @@
     "messageformat": "Izvēlieties, kurš drīkst rediģēt grupas nosaukumu, fotoattēlu, aprakstu un ziņu dzēšanas taimeri."
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "Izvēlieties, kurš var rediģēt grupas nosaukumu, fotoattēlu, aprakstu, gaistošo ziņu taimeri un atzīmētās ziņas."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Kurš var pievienot dalībniekus"
@@ -4708,6 +4756,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Izvēlieties, kurš šai grupai var sūtīt ziņas."
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Member labels will be cleared"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Continue"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Pieprasījumi un uzaicinājumi"
@@ -7428,6 +7485,21 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Veicot ziedojumu, Signal nevāc un neuzglabā jūsu personas informāciju.</paragraph><paragraph>Mēs izmantojam Stripe kā maksājumu apstrādātāju ziedojumu saņemšanai. Mēs nepiekļūstam, neuzglabājam un nesaglabājam nekādu informāciju, ko jūs tam sniedzat.</paragraph><paragraph>Signal nesaista un nevar sasaistīt jūsu ziedojumu ar jūsu Signal kontu.</paragraph><paragraph>Paldies par jūsu atbalstu!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Get an optional badge on your profile when you donate"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "Your privacy is our mission"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Heart icon in the style of the Signal logo"
+  },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "Ok"
   },
@@ -7519,7 +7591,13 @@
     "messageformat": "Dzēst informāciju"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "Leaving will cancel your donation."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Leave"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Stay on page"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Turpināt"
@@ -7567,13 +7645,13 @@
     "messageformat": "Jums ir nepabeigts ziedojums, kuram nepieciešams apstiprinājums."
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Jums ir nepabeigts ziedojums, kuram nepieciešams apstiprinājums."
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPal ziedojums atcelts"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "Apstrādājot Paypal ziedojumu, radās kļūda. No jums netika ieturēta maksa."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Ziedojums izdevās, taču mēs nevarējām atjaunināt jūsu nozīmītes iestatījumus"
@@ -7591,7 +7669,7 @@
     "messageformat": "Mēģiniet vēlreiz"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "Maksājuma veids"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Maksājuma veids noraidīts"
@@ -7600,31 +7678,31 @@
     "messageformat": "Mēģiniet izmantot citu maksājuma veidu vai sazinieties ar savu banku, lai iegūtu vairāk informācijas."
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "Maksājumu kartes ikona"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Kredītkarte vai debetkarte"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Atcelt"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "Veikt ziedojumu"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPal ziedojums atcelts"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "No jums netika ieturēta maksa. Mēģiniet vēlreiz vai izmantojiet citu maksājuma veidu."
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "Apstrādājot Paypal ziedojumu, radās kļūda"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "No jums netika ieturēta maksa. Mēģiniet vēlreiz vai izmantojiet citu maksājuma veidu."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Verifikācija neizdevās"
@@ -7829,9 +7907,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+    "messageformat": "Šis atjauninājums novērš kļūdu teksta formatēšanā, kad Caps Lock ir ieslēgts. Tagad varat rakstīt treknrakstā vai slīprakstā AR LIELAJIEM BURTIEM. Paldies, <DGrothePhD></DGrothePhD>!"
   },
   "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+    "messageformat": "Signal ir bezpeļņas organizācija, kas nebūtu iespējama bez jūsu atbalsta, un tagad jūs varat ziedot, izmantojot PayPal Signal Desktop platformā."
+  },
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
   }
 }
