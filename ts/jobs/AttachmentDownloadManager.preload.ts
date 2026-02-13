@@ -865,6 +865,7 @@ export async function runDownloadAttachmentJobInner({
     const attachmentDataToUse: Partial<AttachmentType> = {
       ...downloadedAttachment,
       ...(await getExistingAttachmentDataForReuse({
+        messageId,
         downloadedAttachment,
         contentType: attachment.contentType,
         logId,
@@ -1070,11 +1071,13 @@ type AttachmentDataToBeReused = WithRequiredProperties<
   'path' | 'localKey' | 'version'
 >;
 async function getExistingAttachmentDataForReuse({
+  messageId,
   downloadedAttachment,
   contentType,
   logId,
   dependencies,
 }: {
+  messageId: string;
   downloadedAttachment: ReencryptedAttachmentV2;
   contentType: MIMEType;
   logId: string;
@@ -1082,6 +1085,7 @@ async function getExistingAttachmentDataForReuse({
 }): Promise<AttachmentDataToBeReused | null> {
   const existingAttachmentData =
     await DataWriter.getAndProtectExistingAttachmentPath({
+      messageId,
       plaintextHash: downloadedAttachment.plaintextHash,
       version: downloadedAttachment.version,
       contentType,
