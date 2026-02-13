@@ -18,7 +18,7 @@ import type {
 import { AxoSymbol } from './AxoSymbol.dom.js';
 import { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.js';
 import { tw } from './tw.dom.js';
-import { assert } from './_internal/assert.dom.js';
+import { assert } from './_internal/assert.std.js';
 import {
   createStrictContext,
   useStrictContext,

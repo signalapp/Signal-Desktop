@@ -5,7 +5,7 @@ import React, { memo, useMemo } from 'react';
 import { AxoSymbol } from './AxoSymbol.dom.js';
 import type { TailwindStyles } from './tw.dom.js';
 import { tw } from './tw.dom.js';
-import { unreachable } from './_internal/assert.dom.js';
+import { unreachable } from './_internal/assert.std.js';
 
 const Namespace = 'AxoBadge';
 

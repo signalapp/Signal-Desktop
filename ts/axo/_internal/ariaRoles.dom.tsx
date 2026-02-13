@@ -3,7 +3,7 @@
 
 import type { AriaRole as ReactAriaRole } from 'react';
 import { getRole } from 'dom-accessibility-api';
-import { assert } from './assert.dom.js';
+import { assert } from './assert.std.js';
 
 const AbstractRoles = {
   /** Abstract Roles: https://www.w3.org/TR/wai-aria-1.2/#abstract_roles */
