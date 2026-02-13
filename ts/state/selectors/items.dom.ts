@@ -282,12 +282,6 @@ export const getHasUnidentifiedDeliveryIndicators = createSelector(
   }
 );
 
-export const getLocalDeleteWarningShown = createSelector(
-  getItems,
-  (state: ItemsStateType): boolean =>
-    Boolean(state.localDeleteWarningShown ?? false)
-);
-
 export const getBackupMediaDownloadProgress = createSelector(
   getItems,
   (

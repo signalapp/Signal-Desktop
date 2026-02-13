@@ -26,6 +26,7 @@ import {
   getTargetedMessageSource,
 } from '../selectors/conversations.dom.js';
 import { getSharedGroupNames } from '../../util/sharedGroupNames.dom.js';
+import { startConversation } from '../../util/startConversation.dom.js';
 import { useTimelineItem } from '../selectors/timeline.preload.js';
 import {
   areMessagesInSameGroup,
@@ -149,7 +150,6 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     showExpiredOutgoingTapToViewToast,
     showMediaNoLongerAvailableToast,
     showSpoiler,
-    startConversation,
     targetMessage,
     toggleSelectMessage,
   } = useConversationsActions();

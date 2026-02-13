@@ -900,7 +900,9 @@ export type ForwardMessagesPayload = ReadonlyDeep<
       messageIds: ReadonlyArray<string>;
     }
   | {
-      type: ForwardMessagesModalType.ShareCallLink;
+      type:
+        | ForwardMessagesModalType.ForwardAttachment
+        | ForwardMessagesModalType.ShareCallLink;
       draft: MessageForwardDraft;
     }
 >;
@@ -975,10 +977,13 @@ function toggleForwardMessagesModal(
           return messageDraft;
         })
       );
-    } else if (payload.type === ForwardMessagesModalType.ShareCallLink) {
+    } else if (
+      payload.type === ForwardMessagesModalType.ForwardAttachment ||
+      payload.type === ForwardMessagesModalType.ShareCallLink
+    ) {
       messageDrafts = [payload.draft];
     } else {
-      throw missingCaseError(payload);
+      throw missingCaseError(payload.type);
     }
 
     dispatch({

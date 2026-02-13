@@ -48,6 +48,7 @@ import { EmojiSkinTone } from './fun/data/emojis.std.js';
 
 export enum ForwardMessagesModalType {
   Forward,
+  ForwardAttachment,
   ShareCallLink,
 }
 
@@ -300,7 +301,10 @@ export function ForwardMessagesModal({
   );
 
   let title: string;
-  if (type === ForwardMessagesModalType.Forward) {
+  if (
+    type === ForwardMessagesModalType.Forward ||
+    type === ForwardMessagesModalType.ForwardAttachment
+  ) {
     title = i18n('icu:ForwardMessageModal__title');
   } else if (type === ForwardMessagesModalType.ShareCallLink) {
     title = i18n('icu:ForwardMessageModal__ShareCallLink');

@@ -11,8 +11,6 @@ import { LeftPaneConversationListItemContextMenu } from '../../components/leftPa
 import { strictAssert } from '../../util/assert.std.js';
 import type { RenderConversationListItemContextMenuProps } from '../../components/conversationList/BaseConversationListItem.dom.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
-import { getLocalDeleteWarningShown } from '../selectors/items.dom.js';
-import { useItemsActions } from '../ducks/items.preload.js';
 import {
   getCurrentChatFolders,
   getSelectedChatFolder,
@@ -28,7 +26,6 @@ export const SmartLeftPaneConversationListItemContextMenu: FC<RenderConversation
   memo(function SmartLeftPaneConversationListItemContextMenu(props) {
     const i18n = useSelector(getIntl);
     const conversationByIdSelector = useSelector(getConversationByIdSelector);
-    const localDeleteWarningShown = useSelector(getLocalDeleteWarningShown);
     const location = useSelector(getSelectedLocation);
     const isActivelySearching = useSelector(getIsActivelySearching);
     const selectedChatFolder = useSelector(getSelectedChatFolder);
@@ -44,12 +41,7 @@ export const SmartLeftPaneConversationListItemContextMenu: FC<RenderConversation
       setMuteExpiration,
     } = useConversationsActions();
     const { updateChatFolderToggleChat } = useChatFolderActions();
-    const { putItem } = useItemsActions();
     const { changeLocation } = useNavActions();
-
-    const setLocalDeleteWarningShown = useCallback(() => {
-      putItem('localDeleteWarningShown', true);
-    }, [putItem]);
 
     const conversation = conversationByIdSelector(props.conversationId);
     strictAssert(conversation, 'Missing conversation');
@@ -107,8 +99,6 @@ export const SmartLeftPaneConversationListItemContextMenu: FC<RenderConversation
         onDelete={deleteConversation}
         onChatFolderOpenCreatePage={handleChatFolderOpenCreatePage}
         onChatFolderToggleChat={handleChatFolderToggleChat}
-        localDeleteWarningShown={localDeleteWarningShown}
-        setLocalDeleteWarningShown={setLocalDeleteWarningShown}
       >
         {props.children}
       </LeftPaneConversationListItemContextMenu>

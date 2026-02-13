@@ -16,9 +16,6 @@ import {
   getLastSelectedMessage,
 } from '../selectors/conversations.dom.js';
 import { getDeleteMessagesProps } from '../selectors/globalModals.std.js';
-import { useItemsActions } from '../ducks/items.preload.js';
-import { getLocalDeleteWarningShown } from '../selectors/items.dom.js';
-import { LocalDeleteWarningModal } from '../../components/LocalDeleteWarningModal.dom.js';
 
 export const SmartDeleteMessagesModal = memo(
   function SmartDeleteMessagesModal() {
@@ -71,19 +68,6 @@ export const SmartDeleteMessagesModal = memo(
       deleteMessagesForEveryone(messageIds);
       onDelete?.();
     }, [deleteMessagesForEveryone, messageIds, onDelete]);
-
-    const localDeleteWarningShown = useSelector(getLocalDeleteWarningShown);
-    const { putItem } = useItemsActions();
-    if (!localDeleteWarningShown) {
-      return (
-        <LocalDeleteWarningModal
-          i18n={i18n}
-          onClose={() => {
-            putItem('localDeleteWarningShown', true);
-          }}
-        />
-      );
-    }
 
     return (
       <DeleteMessagesModal

@@ -1,9 +1,9 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback } from 'react';
-
+import React, { useCallback, type ReactNode } from 'react';
 import type { ReadonlyDeep } from 'type-fest';
+
 import { formatFileSize } from '../../../util/formatFileSize.std.js';
 import { formatDuration } from '../../../util/formatDuration.std.js';
 import { missingCaseError } from '../../../util/missingCaseError.std.js';
@@ -32,6 +32,10 @@ export type Props = Readonly<{
   onClick?: (attachmentState: AttachmentStatusType['state']) => void;
   i18n: LocalizerType;
   theme?: ThemeType;
+  renderContextMenu: (
+    mediaItem: ReadonlyDeep<MediaItemType>,
+    children: ReactNode
+  ) => JSX.Element;
 }>;
 
 export function MediaGridItem(props: Props): React.JSX.Element {
@@ -41,6 +45,7 @@ export function MediaGridItem(props: Props): React.JSX.Element {
     i18n,
     theme,
     onClick,
+    renderContextMenu,
   } = props;
 
   const resolvedBlurHash = attachment.blurHash || defaultBlurHash(theme);
@@ -80,7 +85,8 @@ export function MediaGridItem(props: Props): React.JSX.Element {
     [onClick, status.state]
   );
 
-  return (
+  return renderContextMenu(
+    props.mediaItem,
     <button
       type="button"
       className={tw(

@@ -1,19 +1,25 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
-import { noop } from 'lodash';
+import React, { type ReactNode } from 'react';
+import lodash from 'lodash';
 import type { Transition } from 'framer-motion';
 import { motion } from 'framer-motion';
+import type { ReadonlyDeep } from 'type-fest';
 
 import { tw } from '../../../axo/tw.dom.js';
 import { formatFileSize } from '../../../util/formatFileSize.std.js';
 import { durationToPlaybackText } from '../../../util/durationToPlaybackText.std.js';
-import type { MediaItemType } from '../../../types/MediaItem.std.js';
+import type {
+  GenericMediaItemType,
+  MediaItemType,
+} from '../../../types/MediaItem.std.js';
 import type { LocalizerType, ThemeType } from '../../../types/Util.std.js';
 import { type AttachmentStatusType } from '../../../hooks/useAttachmentStatus.std.js';
 import { useComputePeaks } from '../../../hooks/useComputePeaks.dom.js';
 import { ListItem } from './ListItem.dom.js';
+
+const { noop } = lodash;
 
 const BAR_COUNT = 7;
 const MAX_PEAK_HEIGHT = 22;
@@ -29,7 +35,11 @@ const DOT_TRANSITION: Transition = {
 export type DataProps = Readonly<{
   mediaItem: MediaItemType;
   onClick: (status: AttachmentStatusType['state']) => void;
-  onShowMessage: () => void;
+  showMessage: () => void;
+  renderContextMenu: (
+    mediaItem: ReadonlyDeep<GenericMediaItemType>,
+    children: ReactNode
+  ) => JSX.Element;
 }>;
 
 // Provided by smart layer
@@ -47,7 +57,8 @@ export function AudioListItem({
   authorTitle,
   isPlayed,
   onClick,
-  onShowMessage,
+  showMessage,
+  renderContextMenu,
 }: Props): React.JSX.Element {
   const { attachment } = mediaItem;
 
@@ -131,7 +142,8 @@ export function AudioListItem({
       }
       readyLabel={i18n('icu:startDownload')}
       onClick={onClick}
-      onShowMessage={onShowMessage}
+      showMessage={showMessage}
+      renderContextMenu={renderContextMenu}
     />
   );
 }
