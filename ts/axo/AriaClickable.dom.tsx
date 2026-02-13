@@ -5,7 +5,7 @@ import type { ReactNode, MouseEvent, FC } from 'react';
 import { useLayoutEffect } from '@react-aria/utils';
 import { computeAccessibleName } from 'dom-accessibility-api';
 import { tw } from './tw.dom.js';
-import { assert } from './_internal/assert.dom.js';
+import { assert } from './_internal/assert.std.js';
 import {
   createStrictContext,
   useStrictContext,

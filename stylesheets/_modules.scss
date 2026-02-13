@@ -6189,14 +6189,6 @@ button.module-calling-participants-list__contact {
   }
 }
 
-.module-background-color {
-  &__default {
-    background-color: variables.$color-black-alpha-40;
-  }
-
-  @include mixins.avatar-colors();
-}
-
 .module-tooltip {
   --tooltip-text-color: #{variables.$color-gray-75};
   --tooltip-background-color: #{variables.$color-gray-02};
