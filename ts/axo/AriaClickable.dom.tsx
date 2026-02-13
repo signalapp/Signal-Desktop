@@ -109,6 +109,26 @@ export namespace AriaClickable {
   export const SubWidget: FC<SubWidgetProps> = memo(props => {
     return (
       <div
+        // Here we use `display: contents` so that components don't need to
+        // deal with an extra element affecting layout.
+        //
+        // However, we need to apply `z-index: 20` to all of the children in
+        // order to force them above the HiddenTrigger.
+        //
+        // In order to get `z-index` to work, the child also needs to have a
+        // `position` other than `static`.
+        //
+        // But if that doesn't work (like if you have an absolutely positioned
+        // element that is breaking because of the `position: relative`
+        // establishing a new containing block) you can set the child back to
+        // `position: static` and do either:
+        //
+        // 1. Add z-index's further down where you need them.
+        // 2. Wrap the children with a flex container to get z-index working.
+        //
+        // [css-position-3: Painting Order and Stacking Contexts]: https://drafts.csswg.org/css-position-3/#stacking
+        // [css-flexbox-1: Flex Item Z-Ordering]: https://drafts.csswg.org/css-flexbox-1/#painting
+        //
         // eslint-disable-next-line better-tailwindcss/no-restricted-classes
         className={tw('contents *:relative *:z-20')}
       >

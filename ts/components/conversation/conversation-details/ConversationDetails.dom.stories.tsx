@@ -118,6 +118,7 @@ const createProps = (
     replaceAvatar: action('replaceAvatar'),
     saveAvatarToDisk: action('saveAvatarToDisk'),
     setMuteExpiration: action('setMuteExpiration'),
+    showToast: action('showToast'),
     userAvatarData: [],
     toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
     toggleAboutContactModal: action('toggleAboutContactModal'),
@@ -161,6 +162,18 @@ export function Basic(): React.JSX.Element {
   const props = createProps();
 
   return <ConversationDetails {...props} />;
+}
+
+export function MemberLabelsEditDisabled(): React.JSX.Element {
+  const props = createProps();
+
+  return <ConversationDetails {...props} isEditMemberLabelEnabled={false} />;
+}
+
+export function MemberLabelsCannotBeAdded(): React.JSX.Element {
+  const props = createProps();
+
+  return <ConversationDetails {...props} canAddLabel={false} />;
 }
 
 export function SystemContact(): React.JSX.Element {

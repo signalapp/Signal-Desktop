@@ -3236,6 +3236,10 @@
     "messageformat": "Attachment missing from backup CDN",
     "description": "Shown for internal users for debugging backup attachments."
   },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Only admins can add member labels in this group.",
+    "description": "Shown when the user clicks on Member Label row in conversation details but they don't have permission to add a member label"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Edits can only be applied within 24 hours from the time you sent this message.",
     "description": "Error message when you try to send an edit after message becomes too old"
@@ -6156,6 +6160,10 @@
     "messageformat": "Remove as admin",
     "description": "Button text for removing as admin button in Group Contact Details modal"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "This will also clear their member label.",
+    "description": "Additional description shown in dialog when removing someone as an admin when they have a label"
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "Make admin",
     "description": "Button text for make admin button in Group Contact Details modal"
@@ -6406,6 +6414,10 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Add members",
+    "description": "The button that you can click to add new members"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Add member label",
     "description": "The button that you can click to add new members"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
