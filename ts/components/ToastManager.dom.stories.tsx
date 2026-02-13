@@ -56,6 +56,8 @@ function getToast(toastType: ToastType): AnyToast {
       };
     case ToastType.CallQualitySurveySuccess:
       return { toastType: ToastType.CallQualitySurveySuccess };
+    case ToastType.CannotAddMemberLabel:
+      return { toastType: ToastType.CannotAddMemberLabel };
     case ToastType.CannotEditMessage:
       return { toastType: ToastType.CannotEditMessage };
     case ToastType.CannotForwardEmptyMessage:

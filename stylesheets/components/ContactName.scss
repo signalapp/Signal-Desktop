@@ -280,11 +280,15 @@ $contact-colors: (
 
 .module-contact-name {
   &--label-pill {
+    @include mixins.font-body-small;
+    // Because of the font-size, it will be height=18px
+    border-radius: 9px;
+
     font-weight: 400;
     display: inline-block;
     padding-inline: 6px;
     padding-block: 1px;
-    border-radius: 9px;
+
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -301,6 +305,10 @@ $contact-colors: (
   }
 
   &--label-pill--inner--contact-modal {
+    @include mixins.font-body-1;
+    // Because of font size, it will be height=22px
+    border-radius: 11px;
+
     align-items: start;
     white-space: normal;
   }
@@ -319,7 +327,7 @@ $contact-colors: (
   }
 
   &--label-pill--quote {
-    margin-bottom: 2px;
+    margin-top: 1px;
     @include mixins.font-body-small;
 
     color: variables.$color-gray-90;

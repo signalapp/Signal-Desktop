@@ -292,7 +292,7 @@ describe('storage service', function (this: Mocha.Suite) {
     await window.getByText('Fun link').click();
     await window
       .locator('.CallsTab__ConversationCallDetails')
-      .getByText('Delete link')
+      .getByRole('button', { name: 'Delete link' })
       .click();
 
     const confirmModal = await window.getByTestId(

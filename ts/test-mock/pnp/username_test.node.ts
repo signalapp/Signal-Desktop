@@ -195,7 +195,7 @@ describe('pnp/username', function (this: Mocha.Suite) {
 
     debug('opening username editor');
     const profileEditor = window.locator('.ProfileEditor');
-    await profileEditor.locator('.ProfileEditor__row >> "Username"').click();
+    await profileEditor.getByRole('button', { name: 'Username' }).click();
 
     debug('entering new username');
     const usernameField = profileEditor.locator('.Input__input');
@@ -218,9 +218,7 @@ describe('pnp/username', function (this: Mocha.Suite) {
 
     debug('checking the username is saved');
     {
-      await profileEditor
-        .locator(`.ProfileEditor__row >> "${username}"`)
-        .waitFor();
+      await profileEditor.getByRole('button', { name: username }).waitFor();
 
       const uuid = await server.lookupByUsername(username);
       assert.strictEqual(uuid, phone.device.aci);
@@ -269,7 +267,7 @@ describe('pnp/username', function (this: Mocha.Suite) {
     await window
       .locator('.module-Modal .module-Modal__button-footer button >> "Delete"')
       .click();
-    await profileEditor.locator('.ProfileEditor__row >> "Username"').waitFor();
+    await profileEditor.getByRole('button', { name: 'Username' }).waitFor();
 
     debug('confirming username deletion');
     {

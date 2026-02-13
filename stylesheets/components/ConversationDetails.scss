@@ -45,8 +45,31 @@
     }
   }
 
-  &-membership-list--member-label {
+  &-membership-list__member-label {
     @include mixins.font-body-small;
+  }
+
+  &-membership-list__member-label-button {
+    @include mixins.font-body-small;
+    display: flex;
+    align-items: center;
+    color: light-dark(
+      rgba(variables.$color-black, 0.55),
+      rgba(variables.$color-white, 0.55)
+    );
+
+    &__chevron-icon {
+      height: 16px;
+      width: 16px;
+      margin-bottom: 1px;
+      margin-block-start: -2px;
+
+      @include mixins.color-svg-themed(
+        '../images/icons/v3/chevron/chevron-right.svg',
+        rgba(variables.$color-black, 0.55),
+        rgba(variables.$color-white, 0.55)
+      );
+    }
   }
 
   &__block-group {
@@ -294,6 +317,10 @@
         &::after {
           @include details-icon('../images/icons/v3/tag/tag.svg');
         }
+
+        &--disabled {
+          opacity: 0.5;
+        }
       }
     }
   }
@@ -301,21 +328,18 @@
   &-panel-row {
     $row-root-selector: '#{&}__root';
     &__root {
-      align-items: center;
       border-radius: 5px;
       border: 2px solid transparent;
-      display: flex;
       padding-block: 8px;
       padding-inline: 24px;
       user-select: none;
-      width: 100%;
       @include mixins.font-body-2;
 
       &--button {
         color: inherit;
         background: none;
 
-        &:hover:not(:disabled) {
+        &[data-hovered]:not(:disabled) {
           background-color: light-dark(
             variables.$color-gray-02,
             variables.$color-gray-90
@@ -332,7 +356,7 @@
       }
 
       @mixin keyboard-focus-state($color) {
-        &:focus {
+        &[data-focused='true'] {
           border-color: $color;
         }
       }
@@ -343,6 +367,12 @@
       @include mixins.dark-keyboard-mode {
         @include keyboard-focus-state(variables.$color-ultramarine-light);
       }
+    }
+
+    &__inner {
+      align-items: center;
+      display: flex;
+      width: 100%;
     }
 
     &__icon {
@@ -376,6 +406,7 @@
     }
 
     &__actions {
+      position: static;
       margin-inline-start: 12px;
       overflow: hidden;
       opacity: 0;
@@ -449,6 +480,10 @@
 
 .ConversationDetails__MemberName {
   user-select: text;
+}
+
+.ConversationDetails__MemberLabel--disabled {
+  opacity: 0.5;
 }
 
 .ConversationDetails__CallHistoryGroup__List {

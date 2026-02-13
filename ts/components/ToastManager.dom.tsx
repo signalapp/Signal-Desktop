@@ -165,6 +165,14 @@ export function renderToast({
     );
   }
 
+  if (toastType === ToastType.CannotAddMemberLabel) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:ToastManager__CannotAddMemberLabel')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.CannotEditMessage) {
     return (
       <Toast onClose={hideToast}>

@@ -17,6 +17,7 @@ import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges
 import { PanelRow } from './PanelRow.dom.js';
 import { PanelSection } from './PanelSection.dom.js';
 import { GroupMemberLabel } from '../ContactName.dom.js';
+import { AriaClickable } from '../../../axo/AriaClickable.dom.js';
 
 export type GroupV2Membership = {
   isAdmin: boolean;
@@ -26,14 +27,17 @@ export type GroupV2Membership = {
 };
 
 export type Props = {
+  canAddLabel: boolean;
   canAddNewMembers: boolean;
   conversationId: string;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
+  isEditMemberLabelEnabled: boolean;
   maxShownMemberCount?: number;
   memberships: ReadonlyArray<GroupV2Membership>;
   memberColors: Map<string, string>;
   showContactModal: (contactId: string, conversationId?: string) => void;
+  showLabelEditor: () => void;
   startAddingNewMembers?: () => void;
   theme: ThemeType;
 };
@@ -79,13 +83,16 @@ function sortMemberships(
 
 export function ConversationDetailsMembershipList({
   canAddNewMembers,
+  canAddLabel,
   conversationId,
   getPreferredBadge,
   i18n,
+  isEditMemberLabelEnabled,
   maxShownMemberCount = 5,
   memberColors,
   memberships,
   showContactModal,
+  showLabelEditor,
   startAddingNewMembers,
   theme,
 }: Props): React.JSX.Element {
@@ -141,7 +148,7 @@ export function ConversationDetailsMembershipList({
                     />
                   </div>
                   {labelString && contactNameColor && (
-                    <div className="ConversationDetails-membership-list--member-label">
+                    <div className="ConversationDetails-membership-list__member-label">
                       <GroupMemberLabel
                         contactNameColor={contactNameColor}
                         contactLabel={{
@@ -152,6 +159,29 @@ export function ConversationDetailsMembershipList({
                       />
                     </div>
                   )}
+                  {canAddLabel &&
+                    isEditMemberLabelEnabled &&
+                    member.isMe &&
+                    (!labelString || !contactNameColor) && (
+                      <AriaClickable.SubWidget>
+                        <button
+                          className="ConversationDetails-membership-list__member-label-button"
+                          type="button"
+                          onClick={event => {
+                            showLabelEditor();
+                            event.preventDefault();
+                            event.stopPropagation();
+                          }}
+                        >
+                          <div>
+                            {i18n(
+                              'icu:ConversationDetailsMembershipList--add-member-label'
+                            )}
+                          </div>
+                          <div className="ConversationDetails-membership-list__member-label-button__chevron-icon" />
+                        </button>
+                      </AriaClickable.SubWidget>
+                    )}
                 </div>
               }
               right={isAdmin ? i18n('icu:GroupV2--admin') : ''}

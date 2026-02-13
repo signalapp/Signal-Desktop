@@ -1271,6 +1271,25 @@ export function buildModifyMemberRoleChange({
   actions.version = (group.revision || 0) + 1;
   actions.modifyMemberRoles = [toggleAdmin];
 
+  const membership = group.membersV2?.find(member => member.aci === serviceId);
+  const onlyAdminsCanChangeAttributes =
+    group.accessControl?.attributes ===
+    Proto.AccessControl.AccessRequired.ADMINISTRATOR;
+  const wasPreviouslyAnAdmin =
+    membership?.role === Proto.Member.Role.ADMINISTRATOR;
+  const nowNotAnAdmin = role !== Proto.Member.Role.ADMINISTRATOR;
+
+  if (
+    membership?.labelString &&
+    onlyAdminsCanChangeAttributes &&
+    wasPreviouslyAnAdmin &&
+    nowNotAnAdmin
+  ) {
+    const modifyLabel = new Proto.GroupChange.Actions.ModifyMemberLabelAction();
+    modifyLabel.userId = userIdCipherText;
+    actions.modifyMemberLabels = [modifyLabel];
+  }
+
   return actions;
 }
 

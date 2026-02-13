@@ -101,7 +101,7 @@ export function GroupMemberLabelEditor({
 
   const isDirty =
     labelEmoji !== existingLabelEmoji || labelString !== existingLabelString;
-  const canSave = Boolean(isDirty && labelString);
+  const canSave = isDirty;
   const spinner = isSaving
     ? {
         'aria-label': i18n('icu:ConversationDetails--member-label--saving'),

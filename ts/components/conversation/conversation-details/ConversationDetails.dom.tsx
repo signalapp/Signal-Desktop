@@ -3,6 +3,7 @@
 
 import type { ReactNode } from 'react';
 import React, { useEffect, useState, useCallback } from 'react';
+import classNames from 'classnames';
 
 import { Button, ButtonIconType, ButtonVariant } from '../../Button.dom.js';
 import type {
@@ -65,6 +66,8 @@ import {
 } from '../InAnotherCallTooltip.dom.js';
 import { BadgeSustainerInstructionsDialog } from '../../BadgeSustainerInstructionsDialog.dom.js';
 import type { ContactModalStateType } from '../../../state/ducks/globalModals.preload.js';
+import type { ShowToastAction } from '../../../state/ducks/toast.preload.js';
+import { ToastType } from '../../../types/Toast.dom.js';
 
 enum ModalState {
   AddingGroupMembers,
@@ -102,6 +105,7 @@ export type StateProps = {
   pendingApprovalMemberships: ReadonlyArray<GroupV2RequestingMembership>;
   pendingAvatarDownload?: boolean;
   pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;
+  showToast: ShowToastAction;
   selectedNavTab: NavTab;
   startAvatarDownload: () => void;
   theme: ThemeType;
@@ -208,6 +212,7 @@ export function ConversationDetails({
   setMuteExpiration,
   showContactModal,
   showConversation,
+  showToast,
   startAvatarDownload,
   theme,
   toggleAboutContactModal,
@@ -723,13 +728,20 @@ export function ConversationDetails({
       )}
       {isGroup && (
         <ConversationDetailsMembershipList
+          canAddLabel={canAddLabel}
           canAddNewMembers={canAddNewMembers}
           conversationId={conversation.id}
           getPreferredBadge={getPreferredBadge}
           i18n={i18n}
+          isEditMemberLabelEnabled={isEditMemberLabelEnabled}
           memberships={memberships}
           memberColors={memberColors}
           showContactModal={showContactModal}
+          showLabelEditor={() => {
+            pushPanelForConversation({
+              type: PanelType.GroupMemberLabelEditor,
+            });
+          }}
           startAddingNewMembers={() => {
             setModalState(ModalState.AddingGroupMembers);
           }}
@@ -756,20 +768,36 @@ export function ConversationDetails({
               right={hasGroupLink ? i18n('icu:on') : i18n('icu:off')}
             />
           ) : null}
-          {canAddLabel && isEditMemberLabelEnabled ? (
+          {isEditMemberLabelEnabled ? (
             <PanelRow
               icon={
                 <ConversationDetailsIcon
                   ariaLabel={i18n('icu:ConversationDetails--member-label')}
                   icon={IconType.tag}
+                  disabled={!canAddLabel}
                 />
               }
-              label={i18n('icu:ConversationDetails--member-label')}
-              onClick={() =>
+              label={
+                <div
+                  className={classNames(
+                    !canAddLabel
+                      ? 'ConversationDetails__MemberLabel--disabled'
+                      : null
+                  )}
+                >
+                  {i18n('icu:ConversationDetails--member-label')}
+                </div>
+              }
+              onClick={() => {
+                if (!canAddLabel) {
+                  showToast({ toastType: ToastType.CannotAddMemberLabel });
+                  return;
+                }
+
                 pushPanelForConversation({
                   type: PanelType.GroupMemberLabelEditor,
-                })
-              }
+                });
+              }}
             />
           ) : null}
           <PanelRow
