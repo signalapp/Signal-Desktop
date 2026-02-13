@@ -86,6 +86,7 @@ export type PropsActions = {
     messageId: string,
     isPinningDisappearingMessage: boolean
   ) => void;
+  handleDebugMessage: () => void;
 } & Omit<MessagePropsActions, 'onToggleSelect' | 'onReplyToMessage'>;
 
 export type Props = PropsData &
@@ -125,6 +126,7 @@ export function TimelineMessage(props: Props): React.JSX.Element {
     copyMessageText,
     endPoll,
     expirationLength,
+    handleDebugMessage,
     onPinnedMessageRemove,
     pushPanelForConversation,
     reactToMessage,
@@ -367,6 +369,7 @@ export function TimelineMessage(props: Props): React.JSX.Element {
               args: { messageId: id },
             })
           }
+          onDebugMessage={handleDebugMessage}
         >
           {children}
         </MessageContextMenu>
@@ -383,6 +386,7 @@ export function TimelineMessage(props: Props): React.JSX.Element {
       canRetryDeleteForEveryone,
       conversationId,
       copyMessageText,
+      handleDebugMessage,
       handleDownload,
       handleReact,
       handleOpenPinMessageDialog,

@@ -41,6 +41,8 @@ import { renderReactionPicker } from './renderReactionPicker.dom.js';
 import type { MessageRequestState } from '../../components/conversation/MessageRequestActionsConfirmation.dom.js';
 import { TargetedMessageSource } from '../ducks/conversationsEnums.std.js';
 import type { MessageInteractivity } from '../../components/conversation/Message.dom.js';
+import { DataReader } from '../../sql/Client.preload.js';
+import { isInternalFeaturesEnabled } from '../../util/isInternalFeaturesEnabled.dom.js';
 
 export type SmartTimelineItemProps = {
   containerElementRef: RefObject<HTMLElement>;
@@ -195,6 +197,18 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     [conversationId, toggleMessageRequestActionsConfirmation]
   );
 
+  const handleDebugMessage = useCallback(async () => {
+    if (!isInternalFeaturesEnabled()) {
+      return;
+    }
+    const message = await DataReader.getMessageById(messageId);
+    // eslint-disable-next-line no-console
+    console.debug(message);
+    await window.navigator.clipboard.writeText(
+      JSON.stringify(message, null, 2)
+    );
+  }, [messageId]);
+
   return (
     <TimelineItem
       item={item}
@@ -235,6 +249,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       endPoll={endPoll}
       reactToMessage={reactToMessage}
       copyMessageText={copyMessageText}
+      handleDebugMessage={handleDebugMessage}
       onOpenEditNicknameAndNoteModal={onOpenEditNicknameAndNoteModal}
       onOpenMessageRequestActionsConfirmation={
         onOpenMessageRequestActionsConfirmation

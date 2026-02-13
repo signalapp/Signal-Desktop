@@ -374,6 +374,7 @@ const renderItem = ({
     containerWidthBreakpoint={containerWidthBreakpoint}
     conversationId=""
     item={items[messageId]}
+    handleDebugMessage={action('handleDebugMessage')}
     renderAudioAttachment={() => <div>*AudioAttachment*</div>}
     renderContact={() => <div>*ContactName*</div>}
     renderReactionPicker={() => <div />}
