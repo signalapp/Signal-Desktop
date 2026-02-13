@@ -4704,7 +4704,7 @@
     "messageformat": "Can’t save member label"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "請檢查網路連線，然後再試一次。"
   },
   "icu:ConversationDetails--member-label--error-permissions": {
     "messageformat": "Only admins can set member labels in this group."
@@ -4764,7 +4764,7 @@
     "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "繼續"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "請求 & 邀請"
@@ -7486,16 +7486,16 @@
     "messageformat": "<paragraph>當你捐款時，Signal 不會收集或儲存任何個人資料。</paragraph><paragraph>我們使用 Stripe 作為接收捐款的付款處理商。我們不會存取、保存或儲存你向他們提供的任何資料。</paragraph><paragraph>Signal 不會也無法將你的捐款連結到你的 Signal 帳戶。</paragraph><paragraph>感謝你的支持！</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "作為一個獨立的非營利組織， Signal 致力於提供私密訊息和通話。無廣告、無追蹤、無監控。請立即捐款支持 Signal。"
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "當你捐款後，你可獲得一個自選徽章並顯示在個人資料上"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "保障你的隱私是我們的使命"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signal 是一個非營利組織。"
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
     "messageformat": "Heart icon in the style of the Signal logo"
@@ -7594,7 +7594,7 @@
     "messageformat": "Leaving will cancel your donation."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "離開"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
     "messageformat": "Stay on page"

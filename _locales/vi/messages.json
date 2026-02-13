@@ -4704,7 +4704,7 @@
     "messageformat": "Can’t save member label"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "Kiểm tra kết nối của bạn và thử lại."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
     "messageformat": "Only admins can set member labels in this group."
@@ -4764,7 +4764,7 @@
     "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "Tiếp tục"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Yêu cầu & Lời mời"
@@ -7486,16 +7486,16 @@
     "messageformat": "<paragraph>Signal không thu thập hay lưu trữ thông tin cá nhân của bạn khi bạn gửi khoản ủng hộ.</paragraph><paragraph>Chúng tôi sử dụng Stripe làm hệ thống xử lý thanh toán để nhận các khoản ủng hộ. Chúng tôi không truy cập, lưu trữ, hoặc lưu bất kỳ thông tin nào bạn cung cấp cho phía hệ thống.</paragraph><paragraph>Signal không và không thể liên kết thông tin thanh toán với tài khoản Signal của bạn.</paragraph><paragraph>Cảm ơn sự đóng góp của bạn!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "Là một tổ chức phi lợi nhuận độc lập, Signal cam kết cung cấp dịch vụ nhắn tin và cuộc gọi riêng tư. Không quảng cáo, không trình theo dấu, không theo dõi. Ủng hộ ngay hôm nay để hỗ trợ Signal."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "Nhận huy hiệu (không bắt buộc) trên hồ sơ của bạn khi bạn ủng hộ"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "Quyền riêng tư của bạn là sứ mệnh của chúng tôi"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signal là một tổ chức phi lợi nhuận."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
     "messageformat": "Heart icon in the style of the Signal logo"
@@ -7594,7 +7594,7 @@
     "messageformat": "Leaving will cancel your donation."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "Rời"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
     "messageformat": "Stay on page"

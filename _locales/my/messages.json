@@ -4704,7 +4704,7 @@
     "messageformat": "Can’t save member label"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "သင့်အင်တာနက်ချိတ်ဆက်မှုကို ပြန်စစ်ဆေးပြီး ထပ်ကြိုးစားကြည့်ပါ။"
   },
   "icu:ConversationDetails--member-label--error-permissions": {
     "messageformat": "Only admins can set member labels in this group."
@@ -4764,7 +4764,7 @@
     "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "ဆက်လုပ်ရန်"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "တောင်းဆိုမှုများ နှင့် ဖိတ်ခေါ်မှုများ"
@@ -7489,13 +7489,13 @@
     "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "လှူဒါန်းသည့်အခါ သင့်ပရိုဖိုင်တွင် ဘဲ့ဂျ်တစ်ခုရယူရန် ရွေးချယ်နိုင်သည်"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "သင့် ကိုယ််ရေးလုံခြုံမှုသည် ကျွန်ုပ်တို့၏ ရည်မှန်းချက်ဖြစ်ပါသည်"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signal သည် အကျိုးအမြတ်မယူပါ။"
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
     "messageformat": "Heart icon in the style of the Signal logo"
@@ -7594,7 +7594,7 @@
     "messageformat": "Leaving will cancel your donation."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "ထွက်မည်"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
     "messageformat": "Stay on page"

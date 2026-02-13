@@ -4704,7 +4704,7 @@
     "messageformat": "Can’t save member label"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "インターネット接続を確認して再度試してください。"
   },
   "icu:ConversationDetails--member-label--error-permissions": {
     "messageformat": "Only admins can set member labels in this group."
@@ -4764,7 +4764,7 @@
     "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "続ける"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "申請と招待"
@@ -7486,16 +7486,16 @@
     "messageformat": "<paragraph>Signalは、寄付を受ける際に、お客様のいかなる個人情報も収集したり保存したりすることはありません。</paragraph><paragraph>Signalでは寄付を受け取る決済処理にStripeを使用しています。Signalは、お客様から提供されたいかなる情報にもアクセスすることはありません。また保管・保存したりすることもありません。</paragraph><paragraph>Signalは、寄付からお客様のSignalアカウントを特定することはありません。特定はできない仕組みになっています。</paragraph><paragraph>ご支援ありがとうございます！</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "Signalは、独立した非営利団体としてメッセージと通話のプライバシーを守ることに取り組んでいます。広告なし、トラッキングなし、監視なし。Signalのこの取り組みのために、ご支援をお願いします。"
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "寄付をすると、プロフィールにバッジが表示（任意）されます"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "皆さんのプライバシーを守ることが私たちの使命です"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signalは非営利団体です。"
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
     "messageformat": "Heart icon in the style of the Signal logo"
@@ -7594,7 +7594,7 @@
     "messageformat": "Leaving will cancel your donation."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "退出"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
     "messageformat": "Stay on page"

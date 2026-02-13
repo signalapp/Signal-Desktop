@@ -654,10 +654,10 @@
     "messageformat": "يوللىنىۋاتىدۇ..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify encryption"
+    "messageformat": "Signal ھازىر شىفىرلاشتۇرۇشنى ئاپتوماتىك دەلىللىيەلەيدۇ"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+    "messageformat": "تېلېفون نومۇرى ئارقىلىق باغلانغان ئالاقىلاشقۇچىلىرىڭىز ئۈچۈن، Signal، ئاچقۇچ ئاشكارىلىقى دەپ ئاتىلىدىغان جەريان ئارقىلىق ئۇلىنىشنىڭ بىخەتەر ياكى ئەمەسلىكىنى ئاپتوماتىك جەزملەشتۈرەلەيدۇ. بىخەتەرلىكنى ئاشۇرۇش ئۈچۈن، سىز يەنىلا QR كودى ياكى بىخەتەرلىك نومۇرلىرىنى سېلىشتۇرۇش ئارقىلىق ئۇلىنىشلارنى قولدا دەلىللىيەلەيسىز."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "داۋاملاشتۇرۇش"
@@ -4692,22 +4692,22 @@
     "messageformat": "ياخشىمۇسىز!"
   },
   "icu:ConversationDetails--member-label--list-header": {
-    "messageformat": "Group members with labels"
+    "messageformat": "بەلگىلىرى بار گۇرۇپپا ئەزالىرى"
   },
   "icu:ConversationDetails--member-label--no-members": {
-    "messageformat": "No other members have labels"
+    "messageformat": "باشقا ئەزالارنىڭ بەلگىسى يوق"
   },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "ئۆزگەرتىشلەر ساقلىنىۋاتىدۇ..."
   },
   "icu:ConversationDetails--member-label--error-title": {
-    "messageformat": "Can’t save member label"
+    "messageformat": "ئەزا بەلگىسىنى ساقلىغىلى بولمىدى"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "تور ئۇلىنىشىڭىزنى تەكشۈرۈپ قايتا سىناڭ."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "Only admins can set member labels in this group."
+    "messageformat": "بۇ گۇرۇپپىدا، پەقەت باشقۇرغۇچىلارلا ئەزا بەلگىلىرىنى تەڭشىيەلەيدۇ."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "غايىب ئۇچۇرلار"
@@ -4758,13 +4758,13 @@
     "messageformat": "گۇرۇپپىغا ئۇچۇر يوللىسا بولىدىغان كىشىلەرنى تاللاڭ."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
-    "messageformat": "Member labels will be cleared"
+    "messageformat": "ئەزا بەلگىلىرى ئۆچۈرۈلىدۇ"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+    "messageformat": "بۇ ئىجازەتنى «پەقەت باشقۇرغۇچىلارلا» قىلىپ ئۆزگەرتسىڭىز، بۇ گۇرۇپپىدىكى باشقۇرغۇچى ئەمەس كىشىلەر تەرىپىدىن تەڭشەلگەن ئەزا بەلگىلىرى ئۆچۈرۈلىدۇ."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "داۋاملاشتۇرۇش"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "ئىلتىماس ۋە تەكلىپ"
@@ -7486,19 +7486,19 @@
     "messageformat": "<paragraph>سىز ئىئانە قىلغاندا Signal شەخسىي ئۇچۇرلىرىڭىزنى توپلىمايدۇ ياكى ساقلىمايدۇ.</paragraph> <paragraph>ئىئانىڭىزنى تاپشۇرۇۋېلىش ئۈچۈن Stripe نى پۇل تۆلەش بىر تەرەپ قىلغۇچىسى ئورنىدا ئىشلىتىمىز.سىز ئۇلارغا تەمىنلىگەن ئۇچۇرلارنى بىز كۆرەلمەيمىز ياكى ساقلىيالمايمىز</paragraph>.<paragraph>Signal سىزنىڭ ئىئانىڭىزنى Signal ھېساباتىڭىزغا باغلىمايدۇ ۋە ئۇنداقمۇ قىلالمايدۇ.</paragraph><paragraph>قوللىغىنىڭىزغا رەھمەت!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "مۇستەقىل پايدا ئالمايدىغان تەشكىلات بولۇش سۈپىتى بىلەن،   Signal شەخسىي ئۇچۇر ۋە تېلېفونلىشىشقا كاپالەتلىك قىلىدۇ. ئېلان، ئىز قوغلاش، نازارەت قىلىنىشتىن خالىي. Signalنى قوللاش ئۈچۈن بۈگۈنلا ئىئانە قىلىڭ."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "ئىئانە قىلىش ئارقىلىق قوشۇمچە بىر ئىزنەك تاپشۇرۇۋالىسىز"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "سىزنىڭ مەخپىيەتلىكىڭىزنى قوغداش بىزنىڭ ۋەزىپىمىز"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signal پايدا ئالمايدىغان بىر تەشكىلات. Signal پايدا ئالمايدىغان بىر تەشكىلات."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
-    "messageformat": "Heart icon in the style of the Signal logo"
+    "messageformat": "Signal لوگوسى ئۇسلۇبىدىكى يۈرەك سىنبەلگىسى"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "بولىدۇ"
@@ -7591,13 +7591,13 @@
     "messageformat": "ئۇچۇرنى ئۆچۈرۈش"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving will cancel your donation."
+    "messageformat": "ئايرىلسىڭىز، ئىئانىڭىز بىكار قىلىنىىپ كېتىدۇ."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "ئايرىلىش"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
-    "messageformat": "Stay on page"
+    "messageformat": "بۇ بەتتىن ئايرىلماڭ"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "داۋاملاشتۇرۇش"
@@ -7913,6 +7913,6 @@
     "messageformat": "Signal سىزنىڭ قوللىشىڭىز بولمىسا مەۋجۇت بولمايدىغان، پايدا ئالمايدىغان بىر تەشكىلات، بۇنىڭغا ھازىر سىز Signal ئۈستەليۈزى نۇسخىسىدا PayPal ئارقىلىق ئىئانە قىلالايسىز."
   },
   "icu:WhatsNew__7.90--0": {
-    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
+    "messageformat": "Signal تەرىپىدىن تارقىتىلغان، بەش يۈرۈش يېڭى «سەنئەتكار چاپلاق بولىقىartist sticker packs»."
   }
 }

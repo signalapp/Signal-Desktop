@@ -4704,7 +4704,7 @@
     "messageformat": "Can’t save member label"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "تحقّق من اتصالك بالشبكة ثم حاوِل مُجدَّدًا."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
     "messageformat": "Only admins can set member labels in this group."
@@ -4764,7 +4764,7 @@
     "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "متابعة"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "الطلبات والدعوات"
@@ -7486,16 +7486,16 @@
     "messageformat": "<paragraph>لا يقوم سيجنال بجمع أو تخزين معلوماتك الشخصية عند قيامك بتبرُّع.</paragraph><paragraph>نستخدم Stripe كمعالج عمليات الدفع الخاصة بنا لتلقي تبرُّعاتك. لا يُمكننا الوصول إلى أو تخزين أو حفظ أي من المعلومات التي تُقدمها.</paragraph><paragraph>لا يقوم تطبيق سيجنال ولا يمكنه ربط تبرُّعاتك بحسابك على سيجنال.</paragraph><paragraph>شكرًا لدعمك!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "بصفتها شركة غير ربحية،  سيجنال مُلتزمة بتقديم مراسلة ومكالمات خاصة. بدون إعلانات، وبدون تعقُّب، وبدون مراقبة. تبرَّع اليوم لدعم سيجنال."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "احصل على شارة اختيارية على حسابك الشخصي عند التبرُّع."
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "خصوصيتك هي مهمتنا"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "سيجنال شركة غير ربحية."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
     "messageformat": "Heart icon in the style of the Signal logo"
@@ -7594,7 +7594,7 @@
     "messageformat": "Leaving will cancel your donation."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "مغادرة"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
     "messageformat": "Stay on page"

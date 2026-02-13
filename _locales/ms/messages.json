@@ -4704,7 +4704,7 @@
     "messageformat": "Can’t save member label"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "Periksa sambungan anda dan cuba lagi."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
     "messageformat": "Only admins can set member labels in this group."
@@ -4764,7 +4764,7 @@
     "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "Teruskan"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Permintaan & Jemputan"
@@ -7486,16 +7486,16 @@
     "messageformat": "<paragraph>Signal tidak mengumpul atau menyimpan sebarang maklumat peribadi anda semasa anda menderma.</paragraph><paragraph>Kami menggunakan Stripe sebagai pemproses pembayaran untuk menerima derma anda. Kami tidak mengakses atau menyimpan sebarang maklumat yang anda berikan kepada mereka.</paragraph><paragraph>Signal tidak akan dan tidak boleh menyambung derma anda kepada akaun Signal anda.</paragraph><paragraph>Terima kasih atas sokongan anda!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "Sebagai organisasi bukan untung yang bebas, Signal komited terhadap pemesejan dan panggilan peribadi. Tiada iklan, tiada penjejak, tiada pengawasan. Derma hari ini untuk menyokong Signal."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "Dapatkan lencana pilihan pada profil anda apabila anda menderma"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "Privasi anda adalah misi kami"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signal ialah organisasi bukan untung."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
     "messageformat": "Heart icon in the style of the Signal logo"
@@ -7594,7 +7594,7 @@
     "messageformat": "Leaving will cancel your donation."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "Tinggalkan"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
     "messageformat": "Stay on page"

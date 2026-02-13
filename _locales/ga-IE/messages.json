@@ -1170,10 +1170,10 @@
     "messageformat": "Eolas"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Greamaigh"
+    "messageformat": "Pionnáil"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Díghreamaigh"
+    "messageformat": "Díphionnáil"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Cuir deireadh leis an suirbhé"
@@ -1290,7 +1290,7 @@
     "messageformat": "Téigh chuig an teachtaireacht"
   },
   "icu:PinMessageDialog__Title": {
-    "messageformat": "Greamaigh an teachtaireacht go ceann..."
+    "messageformat": "Pionnáil an teachtaireacht go ceann..."
   },
   "icu:PinMessageDialog__Close": {
     "messageformat": "Dún"
@@ -1311,7 +1311,7 @@
     "messageformat": "Cuir ar ceal"
   },
   "icu:PinMessageDialog__Pin": {
-    "messageformat": "Greamaigh"
+    "messageformat": "Pionnáil"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
     "messageformat": "Athsholáthair an greamán is sine?"
@@ -1347,7 +1347,7 @@
     "messageformat": "Tuilleadh gníomhartha"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Díghreamaigh"
+    "messageformat": "Díphionnáil"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Téigh chuig an teachtaireacht"
@@ -1401,10 +1401,10 @@
     "messageformat": "Teachtaireachtaí greamaithe"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages": {
-    "messageformat": "Díghreamaigh gach teachtaireacht"
+    "messageformat": "Díphionnáil gach teachtaireacht"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Díghreamaigh gach teachtaireacht?"
+    "messageformat": "Díphionnáil gach teachtaireacht?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
     "messageformat": "Déanfar teachtaireachtaí a dhíghreamú do bhaill an chomhrá seo."
@@ -1413,7 +1413,7 @@
     "messageformat": "Cuir ar ceal"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Díghreamaigh"
+    "messageformat": "Díphionnáil"
   },
   "icu:sessionEnded": {
     "messageformat": "Athshocraíodh seisiún slán"
@@ -4704,7 +4704,7 @@
     "messageformat": "Can’t save member label"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "Seiceáil do nasc agus triail arís é."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
     "messageformat": "Only admins can set member labels in this group."
@@ -4764,7 +4764,7 @@
     "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "Ar aghaidh"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Requests & Invites"
@@ -7486,16 +7486,16 @@
     "messageformat": "<paragraph>Ní dhéanann Signal d'fhaisnéis phearsanta a bhailiú ná a stóráil nuair a thugann tú tabhartas.</paragraph><paragraph>Úsáidimid Stripe mar ár bpróiseálaí íocaíochtaí chun do thabhartais a fháil. Ní dhéanaimid aon fhaisnéis a thugann tú dóibh a rochtain, a stóráil ná a shábháil.</paragraph><paragraph>Níl cead ag Signal do thabhartas a cheangal le do chuntas Signal agus ní déanann sé amhlaidh.</paragraph><paragraph>Go raibh maith agat as do thacaíocht!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "Mar eagraíocht neamhbhrabúis neamhspleách, tá Signal tiomanta do theachtaireachtaí agus do ghlaonna príobháideacha. Gan aon fhógraí, gan aon rianairí, gan aon fhaireachas. Tabhair airgead inniu chun tacú le Signal."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "Faigh suaitheantas roghnach ar do phróifíl nuair a thugann tú airgead"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "Ár misean; do phríobháideacht"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Eagraíocht neamhbhrabúis is ea é Signal."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
     "messageformat": "Heart icon in the style of the Signal logo"
@@ -7594,7 +7594,7 @@
     "messageformat": "Leaving will cancel your donation."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "Imigh as"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
     "messageformat": "Stay on page"

@@ -4704,7 +4704,7 @@
     "messageformat": "Can’t save member label"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "Verifique a sua ligação e tente novamente."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
     "messageformat": "Only admins can set member labels in this group."
@@ -4764,7 +4764,7 @@
     "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "Continuar"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Pedidos e convites"
@@ -7486,16 +7486,16 @@
     "messageformat": "<paragraph>O Signal não recolhe nem armazena nenhuma das suas informações pessoais quando faz um donativo.</paragraph><paragraph>Usamos o Stripe como o nosso processador de pagamentos para receber os seus donativos. Não acedemos, armazenamos ou guardamos quaisquer informações que lhes seja fornecida por si.</paragraph><paragraph>O Signal não liga nem consegue ligar o seu donativo à sua conta do Signal.</paragraph><paragraph>Obrigado pelo seu apoio!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "Como uma organização sem fins lucrativos independente, o Signal compromete-se a defender a privacidade de mensagens e chamadas. Sem anúncios, sem rastreadores, sem vigilância. Faça um donativo hoje para apoiar o Signal."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "Receba um crachá opcional no seu perfil ao fazer um donativo"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "A sua privacidade é a nossa missão"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "O Signal é uma organização sem fins lucrativos."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
     "messageformat": "Heart icon in the style of the Signal logo"
@@ -7594,7 +7594,7 @@
     "messageformat": "Leaving will cancel your donation."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "Sair"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
     "messageformat": "Stay on page"

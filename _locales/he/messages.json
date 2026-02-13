@@ -4704,7 +4704,7 @@
     "messageformat": "Can’t save member label"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "כדאי לבדוק את החיבור שלך ולנסות שוב."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
     "messageformat": "Only admins can set member labels in this group."
@@ -4764,7 +4764,7 @@
     "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "המשך"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "בקשות והזמנות"
@@ -7486,16 +7486,16 @@
     "messageformat": "<paragraph>Signal לא אוספת או מאחסנת את המידע האישי שלך בעת ביצוע תרומה.</paragraph><paragraph>אנחנו משתמשים ב–Stripe בתור מעבד התשלומים שלנו כדי לקבל את התרומות שלך. אנחנו לא ניגשים לשום מידע שהם מקבלים ממך ולא מאחסנים או שומרים אותו.</paragraph><paragraph>Signal אינה מקשרת את התרומה שלך לחשבון Signal שלך ואין לה אפשרות לעשות זאת.</paragraph><paragraph>תודה על התמיכה שלך!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "כעמותה עצמאית ללא מטרות רווח, Signal מחויבת להודעות ולשיחות פרטיות. בלי פרסומות, בלי מעקב, בלי ריגול. תרמו היום כדי לתמוך ב-Signal."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "ניתן לקבל תג לפרופיל בעת תרומה"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "הפרטיות שלך היא המשימה שלנו"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signal היא עמותה ללא מטרות רווח."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
     "messageformat": "Heart icon in the style of the Signal logo"
@@ -7594,7 +7594,7 @@
     "messageformat": "Leaving will cancel your donation."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "עזיבה"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
     "messageformat": "Stay on page"

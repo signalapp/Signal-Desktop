@@ -4704,7 +4704,7 @@
     "messageformat": "Can’t save member label"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "연결을 확인하고 다시 시도하세요."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
     "messageformat": "Only admins can set member labels in this group."
@@ -4764,7 +4764,7 @@
     "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "계속"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "요청 & 초대"
@@ -7486,16 +7486,16 @@
     "messageformat": "<paragraph>Signal은 기부할 때 사용자의 개인 정보를 수집하거나 저장하지 않습니다.</paragraph><paragraph>Signal은 기부를 받을 때 Stripe를 결제 처리자로 사용합니다. Signal은 사용자가 Stripe에 제공하는 어떠한 정보에도 액세스하지 않으며, 이를 보관하거나 저장하지 않습니다.</paragraph><paragraph>Signal은 사용자의 기부를 Signal 계정에 연결하거나 연결을 시도하지 않습니다.</paragraph><paragraph>Signal을 지지해 주셔서 감사합니다!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "Signal은 독립적인 비영리단체로, 메시지와 통화의 프라이버시 보호를 핵심 가치로 삼고 있습니다. 광고도, 추적도, 감시도 없습니다. Signal의 사명을 지지하신다면 지금 후원해 보세요."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "후원하면 프로필에 표시되는 배지를 받을 수 있어요"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "개인정보 보호는 Signal의 사명입니다"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signal은 비영리단체입니다."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
     "messageformat": "Heart icon in the style of the Signal logo"
@@ -7594,7 +7594,7 @@
     "messageformat": "Leaving will cancel your donation."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "나가기"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
     "messageformat": "Stay on page"
