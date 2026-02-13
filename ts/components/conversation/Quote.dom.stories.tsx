@@ -112,6 +112,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   isSMS: false,
   isSpoilerExpanded: {},
   isVoiceMessagePlayed: false,
+  handleDebugMessage: action('debugMessage'),
   toggleSelectMessage: action('toggleSelectMessage'),
   cancelAttachmentDownload: action('default--cancelAttachmentDownload'),
   kickOffAttachmentDownload: action('default--kickOffAttachmentDownload'),
