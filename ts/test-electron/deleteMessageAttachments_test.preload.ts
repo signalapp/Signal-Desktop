@@ -302,46 +302,98 @@ describe('deleteMessageAttachments', () => {
     });
 
     it('is not safe to delete if the file is protected, even if no references', async () => {
-      const attachment = {
-        size: 1,
-        version: 2,
-        contentType: IMAGE_JPEG,
-        plaintextHash: testPlaintextHash(),
+      await DataWriter._protectAttachmentPathFromDeletion({
         path: 'attachment0',
-        thumbnail: { size: 1, contentType: IMAGE_JPEG, path: 'attachment1' },
-        screenshot: { size: 1, contentType: IMAGE_JPEG, path: 'attachment2' },
-        // thumbnailFromBackup is not protected
-        thumbnailFromBackup: {
-          size: 1,
-          contentType: IMAGE_JPEG,
-          path: 'attachment3',
-        },
-      } as const;
-      const message = { ...composeMessage(), attachments: [attachment] };
+        messageId: 'messageId',
+      });
 
-      await DataWriter.saveMessage(message, {
-        ourAci: generateAci(),
+      assert.isFalse(await DataReader.isAttachmentSafeToDelete('attachment0'));
+      assert.isTrue(await DataReader.isAttachmentSafeToDelete('attachment1'));
+      assert.isTrue(await DataReader.isAttachmentSafeToDelete('attachment2'));
+      assert.isTrue(await DataReader.isAttachmentSafeToDelete('attachment3'));
+      assert.isTrue(await DataReader.isAttachmentSafeToDelete('attachment4'));
+    });
+
+    it('properly counts attachment references', async () => {
+      const attachment1 = {
+        size: 1200,
+        contentType: IMAGE_JPEG,
+        path: 'attachment1',
+        localKey: testAttachmentLocalKey(),
+        plaintextHash: testPlaintextHash(),
+        version: 2,
+      } as const;
+
+      const message1: MessageAttributesType = {
+        id: generateUuid(),
+        timestamp: Date.now(),
+        sent_at: Date.now(),
+        received_at: Date.now(),
+        type: 'incoming',
+        conversationId: 'convoId',
+        attachments: [attachment1],
+      };
+      const message2 = { ...message1, id: generateUuid() };
+      const message3 = { ...message1, id: generateUuid() };
+
+      assert.isTrue(await DataReader.isAttachmentSafeToDelete('attachment1'));
+
+      await DataWriter.saveMessage(message1, {
         forceSave: true,
+        ourAci: generateAci(),
         postSaveUpdates: () => Promise.resolve(),
       });
 
-      await DataWriter.getAndProtectExistingAttachmentPath({
-        plaintextHash: attachment.plaintextHash,
-        version: 2,
-        contentType: attachment.contentType,
-      });
-
-      await DataWriter.removeMessageById(message.id, {
-        cleanupMessages: () => Promise.resolve(),
-      });
-
-      assert.isUndefined(await DataReader.getMessageById(message.id));
-
-      assert.isFalse(await DataReader.isAttachmentSafeToDelete('attachment0'));
       assert.isFalse(await DataReader.isAttachmentSafeToDelete('attachment1'));
-      assert.isFalse(await DataReader.isAttachmentSafeToDelete('attachment2'));
-      assert.isTrue(await DataReader.isAttachmentSafeToDelete('attachment3'));
-      assert.isTrue(await DataReader.isAttachmentSafeToDelete('attachment4'));
+      // Protect it twice
+      await DataWriter.getAndProtectExistingAttachmentPath({
+        plaintextHash: attachment1.plaintextHash,
+        version: 2,
+        contentType: IMAGE_JPEG,
+        messageId: message2.id,
+      });
+
+      await DataWriter.getAndProtectExistingAttachmentPath({
+        plaintextHash: attachment1.plaintextHash,
+        version: 2,
+        contentType: IMAGE_JPEG,
+        messageId: message3.id,
+      });
+
+      // Delete the original message
+      await DataWriter.removeMessageById(message1.id, {
+        cleanupMessages,
+      });
+      assert.isFalse(await DataReader.isAttachmentSafeToDelete('attachment1'));
+
+      // Save message2
+      await DataWriter.saveMessage(message2, {
+        forceSave: true,
+        ourAci: generateAci(),
+        postSaveUpdates: () => Promise.resolve(),
+      });
+
+      // Delete message2
+      await DataWriter.removeMessageById(message2.id, {
+        cleanupMessages,
+      });
+
+      assert.isFalse(await DataReader.isAttachmentSafeToDelete('attachment1'));
+
+      // Save message3
+      await DataWriter.saveMessage(message3, {
+        forceSave: true,
+        ourAci: generateAci(),
+        postSaveUpdates: () => Promise.resolve(),
+      });
+
+      assert.isFalse(await DataReader.isAttachmentSafeToDelete('attachment1'));
+
+      // Delete message3
+      await DataWriter.removeMessageById(message3.id, {
+        cleanupMessages,
+      });
+      assert.isTrue(await DataReader.isAttachmentSafeToDelete('attachment1'));
     });
   });
 
@@ -424,7 +476,6 @@ describe('deleteMessageAttachments', () => {
       await writeFiles(NUM_DOWNLOAD_FILES_IN_MESSAGE, 'download');
       const message1 = composeMessageWithAllAttachments();
       const attachment1: AttachmentType = message1.attachments?.[0];
-      const message2 = { ...composeMessage() };
 
       assert.strictEqual(attachmentIndex, NUM_ATTACHMENT_FILES_IN_MESSAGE);
       assert.strictEqual(downloadIndex, NUM_DOWNLOAD_FILES_IN_MESSAGE);
@@ -443,6 +494,7 @@ describe('deleteMessageAttachments', () => {
           plaintextHash: attachment1.plaintextHash,
           version: attachment1.version,
           contentType: attachment1.contentType,
+          messageId: 'newmessage',
         });
 
       assert.strictEqual(existingAttachment?.path, attachment1.path);
@@ -460,8 +512,6 @@ describe('deleteMessageAttachments', () => {
         attachment1.screenshot?.path,
       ]);
       assert.strictEqual(listFiles('download').length, 0);
-      await DataWriter.removeMessageById(message2.id, { cleanupMessages });
-      await cleanupAllMessageAttachmentFiles(message2);
     });
   });
 
@@ -552,7 +602,10 @@ describe('deleteMessageAttachments', () => {
         },
       };
 
-      await DataWriter._protectAttachmentPathFromDeletion('attachment0');
+      await DataWriter._protectAttachmentPathFromDeletion({
+        path: 'attachment0',
+        messageId: 'messageId',
+      });
       await cleanupAttachmentFiles(attachment);
       assert.sameDeepMembers(listFiles('attachment'), [
         'attachment0',

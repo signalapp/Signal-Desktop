@@ -2932,12 +2932,19 @@ function getAndProtectExistingAttachmentPath(
     plaintextHash,
     version,
     contentType,
-  }: { plaintextHash: string; version: number; contentType: string }
+    messageId,
+  }: {
+    plaintextHash: string;
+    version: number;
+    contentType: string;
+    messageId: string;
+  }
 ): ExistingAttachmentData | undefined {
   if (!isValidPlaintextHash(plaintextHash)) {
     logger.error('getAndProtectExistingAttachmentPath: Invalid plaintextHash');
     return;
   }
+
   if (version < 2) {
     logger.error(
       'getAndProtectExistingAttachmentPath: Invalid version',
@@ -2985,8 +2992,8 @@ function getAndProtectExistingAttachmentPath(
           (${existingData.thumbnailPath}),
           (${existingData.screenshotPath})
       )
-      INSERT OR REPLACE INTO attachments_protected_from_deletion(path)
-      SELECT path
+      INSERT OR REPLACE INTO attachments_protected_from_deletion(path, messageId)
+      SELECT path, ${messageId}
       FROM existingMessageAttachmentPaths
       WHERE path IS NOT NULL;
     `;
@@ -2997,11 +3004,13 @@ function getAndProtectExistingAttachmentPath(
 
 function _protectAttachmentPathFromDeletion(
   db: WritableDB,
-  path: string
+  { path, messageId }: { path: string; messageId: string }
 ): void {
   const [protectQuery, protectParams] = sql`
-    INSERT OR REPLACE INTO attachments_protected_from_deletion(path)
-    VALUES (${path});
+    INSERT OR REPLACE INTO attachments_protected_from_deletion
+      (path, messageId)
+    VALUES 
+      (${path}, ${messageId});
   `;
   db.prepare(protectQuery).run(protectParams);
 }
