@@ -105,8 +105,8 @@ describe('signalRoutes', () => {
       args: { uuid: foo, pubKey: foo, capabilities: [] },
     };
     const check = createCheck({ hasWebUrl: false });
-    check(`sgnl://linkdevice/?uuid=${foo}&pub_key=${foo}`, result);
-    check(`sgnl://linkdevice?uuid=${foo}&pub_key=${foo}`, result);
+    check(`kylith://linkdevice/?uuid=${foo}&pub_key=${foo}`, result);
+    check(`kylith://linkdevice?uuid=${foo}&pub_key=${foo}`, result);
   });
 
   it('linkDevice with one capability', () => {
@@ -116,7 +116,7 @@ describe('signalRoutes', () => {
     };
     const check = createCheck({ hasWebUrl: false });
     check(
-      `sgnl://linkdevice/?uuid=${foo}&pub_key=${foo}&capabilities=backup`,
+      `kylith://linkdevice/?uuid=${foo}&pub_key=${foo}&capabilities=backup`,
       result
     );
   });
@@ -128,7 +128,7 @@ describe('signalRoutes', () => {
     };
     const check = createCheck({ hasWebUrl: false });
     check(
-      `sgnl://linkdevice/?uuid=${foo}&pub_key=${foo}&capabilities=a%2Cb`,
+      `kylith://linkdevice/?uuid=${foo}&pub_key=${foo}&capabilities=a%2Cb`,
       result
     );
   });

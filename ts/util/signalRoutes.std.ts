@@ -29,7 +29,7 @@ function toUrl(input: URL | string): URL | null {
 /**
  * List of protocols that are used by Signal routes.
  */
-const SignalRouteProtocols = ['https:', 'sgnl:', 'signalcaptcha:'] as const;
+const SignalRouteProtocols = ['https:', 'sgnl:', 'kylith:', 'signalcaptcha:'] as const;
 
 /**
  * List of hostnames that are used by Signal routes.
@@ -324,11 +324,11 @@ export const groupInvitesRoute = _route('groupInvites', {
  *   pubKey: "abc",
  *   capabilities: "backuo"
  * })
- * // URL { "sgnl://linkdevice?uuid=123&pub_key=abc&capabilities=backup" }
+ * // URL { "kylith://linkdevice?uuid=123&pub_key=abc&capabilities=backup" }
  * ```
  */
 export const linkDeviceRoute = _route('linkDevice', {
-  patterns: [_pattern('sgnl:', 'linkdevice', '{/}?', { search: ':params' })],
+  patterns: [_pattern('kylith:', 'linkdevice', '{/}?', { search: ':params' })],
   schema: z.object({
     uuid: paramSchema, // base64url?
     pubKey: paramSchema, // percent-encoded base64 (with padding) of PublicKey with type byte included
@@ -348,7 +348,7 @@ export const linkDeviceRoute = _route('linkDevice', {
       pub_key: args.pubKey,
       capabilities: args.capabilities.join(','),
     });
-    return new URL(`sgnl://linkdevice?${params.toString()}`);
+    return new URL(`kylith://linkdevice?${params.toString()}`);
   },
 });
 

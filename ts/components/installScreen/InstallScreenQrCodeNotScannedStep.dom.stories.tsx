@@ -16,7 +16,7 @@ const { i18n } = window.SignalContext;
 const LOADED_URL = {
   loadingState: LoadingState.Loaded as const,
   value:
-    'sgnl://linkdevice?uuid=b33f6338-aaf1-4853-9aff-6652369f6b52&pub_key=BTpRKRtFeJGga1M3Na4PzZevMvVIWmTWQIpn0BJI3x10',
+    'kylith://linkdevice?uuid=b33f6338-aaf1-4853-9aff-6652369f6b52&pub_key=BTpRKRtFeJGga1M3Na4PzZevMvVIWmTWQIpn0BJI3x10',
 };
 
 const DEFAULT_UPDATES = {

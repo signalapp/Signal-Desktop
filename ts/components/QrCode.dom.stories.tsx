@@ -14,7 +14,7 @@ export function Default(): React.JSX.Element {
   return (
     <QrCode
       alt="Scan this little code!"
-      data="sgnl://linkdevice?uuid=gCkj0T2xiSUaPRhMYiF24w&pub_key=7RshtQrb3UTMowITe79uW9dgw_CLTGWenj0OT80i0HpH"
+      data="kylith://linkdevice?uuid=gCkj0T2xiSUaPRhMYiF24w&pub_key=7RshtQrb3UTMowITe79uW9dgw_CLTGWenj0OT80i0HpH"
     />
   );
 }
