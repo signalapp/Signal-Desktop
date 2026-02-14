@@ -50,7 +50,6 @@ type AllHostnamePatterns =
   | (typeof SignalRouteHostnames)[number]
   | 'verify'
   | 'linkdevice'
-  | 'linkDevice'
   | 'addstickers'
   | 'art-auth'
   | 'joingroup'
@@ -325,14 +324,11 @@ export const groupInvitesRoute = _route('groupInvites', {
  *   pubKey: "abc",
  *   capabilities: "backuo"
  * })
- * // URL { "kylith://linkDevice?uuid=123&pub_key=abc&capabilities=backup" }
+ * // URL { "kylith://linkdevice?uuid=123&pub_key=abc&capabilities=backup" }
  * ```
  */
 export const linkDeviceRoute = _route('linkDevice', {
-  patterns: [
-    _pattern('kylith:', 'linkdevice', '{/}?', { search: ':params' }),
-    _pattern('kylith:', 'linkDevice', '{/}?', { search: ':params' }),
-  ],
+  patterns: [_pattern('kylith:', 'linkdevice', '{/}?', { search: ':params' })],
   schema: z.object({
     uuid: paramSchema, // base64url?
     pubKey: paramSchema, // percent-encoded base64 (with padding) of PublicKey with type byte included
@@ -352,7 +348,7 @@ export const linkDeviceRoute = _route('linkDevice', {
       pub_key: args.pubKey,
       capabilities: args.capabilities.join(','),
     });
-    return new URL(`kylith://linkDevice?${params.toString()}`);
+    return new URL(`kylith://linkdevice?${params.toString()}`);
   },
 });
 
