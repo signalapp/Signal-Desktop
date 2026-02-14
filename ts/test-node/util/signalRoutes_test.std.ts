@@ -105,6 +105,7 @@ describe('signalRoutes', () => {
       args: { uuid: foo, pubKey: foo, capabilities: [] },
     };
     const check = createCheck({ hasWebUrl: false });
+    check(`kylith://linkDevice/?uuid=${foo}&pub_key=${foo}`, result);
     check(`kylith://linkdevice/?uuid=${foo}&pub_key=${foo}`, result);
     check(`kylith://linkdevice?uuid=${foo}&pub_key=${foo}`, result);
   });
@@ -115,6 +116,10 @@ describe('signalRoutes', () => {
       args: { uuid: foo, pubKey: foo, capabilities: ['backup'] },
     };
     const check = createCheck({ hasWebUrl: false });
+    check(
+      `kylith://linkDevice/?uuid=${foo}&pub_key=${foo}&capabilities=backup`,
+      result
+    );
     check(
       `kylith://linkdevice/?uuid=${foo}&pub_key=${foo}&capabilities=backup`,
       result
@@ -127,6 +132,10 @@ describe('signalRoutes', () => {
       args: { uuid: foo, pubKey: foo, capabilities: ['a', 'b'] },
     };
     const check = createCheck({ hasWebUrl: false });
+    check(
+      `kylith://linkDevice/?uuid=${foo}&pub_key=${foo}&capabilities=a%2Cb`,
+      result
+    );
     check(
       `kylith://linkdevice/?uuid=${foo}&pub_key=${foo}&capabilities=a%2Cb`,
       result
