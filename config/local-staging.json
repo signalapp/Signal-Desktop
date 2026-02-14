@@ -1,0 +1,13 @@
+{
+  "storageProfile": "staging",
+  "serverUrl": "https://chat-staging.beforeve.com",
+  "storageUrl": "https://storage-staging.beforeve.com",
+  "cdn": {
+    "0": "https://cdn-staging.beforeve.com",
+    "2": "https://cdn2-staging.beforeve.com",
+    "3": "https://cdn3-staging.beforeve.com"
+  },
+  "sfuUrl": "https://sfu-staging.beforeve.com/",
+  "openDevTools": true,
+  "updatesEnabled": false
+}

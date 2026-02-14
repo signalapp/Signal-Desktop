@@ -1,0 +1,11 @@
+{
+  "serverUrl": "https://chat.beforeve.com",
+  "storageUrl": "https://storage.beforeve.com",
+  "cdn": {
+    "0": "https://cdn.beforeve.com",
+    "2": "https://cdn2.beforeve.com",
+    "3": "https://cdn3.beforeve.com"
+  },
+  "sfuUrl": "https://sfu.beforeve.com/",
+  "updatesEnabled": false
+}
