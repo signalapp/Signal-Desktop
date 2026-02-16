@@ -652,8 +652,8 @@ importers:
         specifier: 4.3.7
         version: 4.3.7(supports-color@8.1.1)
       electron:
-        specifier: 40.1.0
-        version: 40.1.0
+        specifier: 40.4.1
+        version: 40.4.1
       electron-builder:
         specifier: 26.0.14
         version: 26.0.14(electron-builder-squirrel-windows@26.0.14)
@@ -4144,11 +4144,8 @@ packages:
   '@types/node@22.13.4':
     resolution: {integrity: sha512-ywP2X0DYtX3y08eFVx5fNIw7/uIv8hYUKgXoK8oayJlLnKcRfEYCxWMVE1XagUdVtCJlZT1AU4LXEABW+L1Peg==}
 
-  '@types/node@22.19.1':
-    resolution: {integrity: sha512-LCCV0HdSZZZb34qifBsyWlUmok6W7ouER+oQIGBScS8EsZsQbrtFTUrDX4hOl+CS6p7cnNC4td+qrSVGSCTUfQ==}
-
-  '@types/node@24.10.9':
-    resolution: {integrity: sha512-ne4A0IpG3+2ETuREInjPNhUGis1SFjv1d5asp8MzEAGtOZeTeHVDOYqOgqfhvseqg/iXty2hjBf1zAOb7RNiNw==}
+  '@types/node@24.10.11':
+    resolution: {integrity: sha512-/Af7O8r1frCVgOz0I62jWUtMohJ0/ZQU/ZoketltOJPZpnb17yoNc9BSoVuV9qlaIXJiPNOpsfq4ByFajSArNQ==}
 
   '@types/normalize-path@3.0.2':
     resolution: {integrity: sha512-DO++toKYPaFn0Z8hQ7Tx+3iT9t77IJo/nDiqTXilgEP+kPNIYdpS9kh3fXuc53ugqwp9pxC1PVjCpV1tQDyqMA==}
@@ -5848,8 +5845,8 @@ packages:
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
-  electron@40.1.0:
-    resolution: {integrity: sha512-2j/kvw7uF0H1PnzYBzw2k2Q6q16J8ToKrtQzZfsAoXbbMY0l5gQi2DLOauIZLzwp4O01n8Wt/74JhSRwG0yj9A==}
+  electron@40.4.1:
+    resolution: {integrity: sha512-N1ZXybQZL8kYemO8vAeh9nrk4mSvqlAO8xs0QCHkXIvRnuB/7VGwEehjvQbsU5/f4bmTKpG+2GQERe/zmKpudQ==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -6644,16 +6641,17 @@ packages:
 
   glob@10.4.5:
     resolution: {integrity: sha512-7Bv8RF0k6xjo7d4A/PxYLbUCfb6c+Vpd2/mB2yRDlew7Jb5hEXiCD9ibfO7wpk8i4sevK6DFny9h7EYbM3/sHg==}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
-    deprecated: Glob versions prior to v9 are no longer supported
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   glob@8.1.0:
     resolution: {integrity: sha512-r8hpEjiQEYlF2QU0df3dS+nxxSIreXQS1qRhMJM0Q5NDdR386C7jb7Hwwod8Fgiuex+k0GFjgft18yvxm5XoCQ==}
     engines: {node: '>=12'}
-    deprecated: Glob versions prior to v9 are no longer supported
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   global-agent@3.0.0:
     resolution: {integrity: sha512-PT6XReJ+D07JvGoxQMkT6qji/jVNfX/h364XHZOWeRzy64sSFr+xJ5OX7LI3b4MPQzdL4H8Y8M0xzPpsVMwA8Q==}
@@ -10397,9 +10395,6 @@ packages:
 
   undici-types@6.20.0:
     resolution: {integrity: sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==}
-
-  undici-types@6.21.0:
-    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
   undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
@@ -14420,7 +14415,7 @@ snapshots:
   '@storybook/builder-webpack5@8.4.4(@swc/core@1.10.16(@swc/helpers@0.5.15))(esbuild@0.25.9)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))(typescript@5.6.3)(webpack-cli@5.1.4)':
     dependencies:
       '@storybook/core-webpack': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
-      '@types/node': 22.19.1
+      '@types/node': 22.13.4
       '@types/semver': 7.5.8
       browser-assert: 1.2.1
       case-sensitive-paths-webpack-plugin: 2.4.0
@@ -14477,7 +14472,7 @@ snapshots:
 
   '@storybook/core-webpack@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))':
     dependencies:
-      '@types/node': 22.19.1
+      '@types/node': 22.13.4
       storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
       ts-dedent: 2.2.0
 
@@ -14522,7 +14517,7 @@ snapshots:
       '@storybook/core-webpack': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
       '@storybook/react': 8.4.4(@storybook/test@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))(typescript@5.6.3)
       '@storybook/react-docgen-typescript-plugin': 1.0.6--canary.9.0c3f3b7.0(typescript@5.6.3)(webpack@5.96.1)
-      '@types/node': 22.19.1
+      '@types/node': 22.13.4
       '@types/semver': 7.5.8
       find-up: 5.0.0
       magic-string: 0.30.17
@@ -15092,11 +15087,7 @@ snapshots:
     dependencies:
       undici-types: 6.20.0
 
-  '@types/node@22.19.1':
-    dependencies:
-      undici-types: 6.21.0
-
-  '@types/node@24.10.9':
+  '@types/node@24.10.11':
     dependencies:
       undici-types: 7.16.0
 
@@ -15227,7 +15218,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 22.19.1
+      '@types/node': 20.17.6
     optional: true
 
   '@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.56.0)(typescript@5.6.3))(eslint@8.56.0)(typescript@5.6.3)':
@@ -17086,10 +17077,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  electron@40.1.0:
+  electron@40.4.1:
     dependencies:
       '@electron/get': 2.0.3
-      '@types/node': 24.10.9
+      '@types/node': 24.10.11
       extract-zip: 2.0.1
     transitivePeerDependencies:
       - supports-color
@@ -22623,8 +22614,6 @@ snapshots:
   undici-types@6.19.8: {}
 
   undici-types@6.20.0: {}
-
-  undici-types@6.21.0: {}
 
   undici-types@7.16.0: {}
 
