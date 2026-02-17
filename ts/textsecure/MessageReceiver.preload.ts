@@ -1796,6 +1796,17 @@ export default class MessageReceiver
       address,
       () => {
         if (message instanceof PreKeySignalMessage) {
+          log.info(
+            '222 this is x3dh receive? probably',
+            message,
+            protocolAddress,
+            sessionStore,
+            identityKeyStore,
+            signalProtocolStore,
+            preKeyStore,
+            signedPreKeyStore,
+            kyberPreKeyStore
+          );
           return signalDecryptPreKey(
             message,
             protocolAddress,
