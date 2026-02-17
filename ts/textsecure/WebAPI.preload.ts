@@ -385,7 +385,9 @@ async function getFetchOptions<Type extends ResponseType, OutputShape>(
     method: options.type,
     body: typeof options.data === 'function' ? options.data() : options.data,
     headers: {
-      'User-Agent': getUserAgent(options.version),
+      'User-Agent': options.socketManager
+        ? undefined
+        : getUserAgent(options.version),
       'X-Signal-Agent': 'OWD',
       ...options.headers,
     } as FetchHeaderListType,
