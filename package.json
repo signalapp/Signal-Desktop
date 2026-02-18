@@ -133,7 +133,7 @@
     "@react-aria/utils": "3.25.3",
     "@react-spring/web": "10.0.3",
     "@react-types/shared": "3.27.0",
-    "@signalapp/libsignal-client": "0.86.12",
+    "@signalapp/libsignal-client": "file:../libsignal/node",
     "@signalapp/minimask": "1.0.1",
     "@signalapp/mute-state-change": "workspace:1.0.0",
     "@signalapp/quill-cjs": "2.1.2",
@@ -385,7 +385,6 @@
     "patchedDependencies": {
       "casual@1.6.2": "patches/casual+1.6.2.patch",
       "protobufjs@7.3.2": "patches/protobufjs+7.3.2.patch",
-      "@types/express@4.17.21": "patches/@types+express+4.17.21.patch",
       "protobufjs-cli@1.1.1": "patches/protobufjs-cli+1.1.1.patch",
       "@types/fabric@4.5.3": "patches/@types+fabric+4.5.3.patch",
       "qrcode-generator@1.4.4": "patches/qrcode-generator+1.4.4.patch",

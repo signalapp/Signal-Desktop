@@ -1,6 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 // import { contextBridge } from 'electron';
+
 import {
   ErrorCode,
   KEMPublicKey,
@@ -218,6 +219,7 @@ async function handleServerKeys(
         );
         const temp = await sessionStore.getSession(protocolAddress);
         log.info('got session', temp);
+        log.info('SAS value', temp?.getSAS?.());
         // below stuff doesnt really work feel free to try
         // contextBridge.exposeInMainWorld('preKeyBundle', preKeyBundle);
         // contextBridge.exposeInMainWorld('protocolAddress', protocolAddress);
