@@ -14,8 +14,9 @@ import type { CIType } from '../../CI.preload.js';
 import type { ConversationModel } from '../../models/conversations.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { DataReader, DataWriter } from '../../sql/Client.preload.js';
+import type { RemoteMegaphoneId } from '../../types/Megaphone.std.js';
 
-const { getAllMegaphones } = DataReader;
+const { getAllMegaphones, hasMegaphone } = DataReader;
 
 const waitUntil = (
   condition: () => boolean,
@@ -36,6 +37,30 @@ const waitUntil = (
     }, intervalMs);
   });
 };
+
+const testMegaphone = {
+  id: 'banana' as RemoteMegaphoneId,
+  desktopMinVersion: '1.0.0',
+  priority: 1,
+  dontShowBeforeEpochMs: 0,
+  dontShowAfterEpochMs: Date.now() + 9001,
+  showForNumberOfDays: 7,
+  primaryCtaId: null,
+  secondaryCtaId: null,
+  primaryCtaData: null,
+  secondaryCtaData: null,
+  conditionalId: null,
+  title: 'a',
+  body: 'b',
+  primaryCtaText: null,
+  secondaryCtaText: null,
+  imagePath: 'megaphone0',
+  localeFetched: 'en',
+  shownAt: null,
+  snoozedAt: null,
+  snoozeCount: 0,
+  isFinished: false,
+} as const;
 
 describe('ReleaseNoteAndMegaphoneFetcher', () => {
   const NEXT_FETCH_TIME_STORAGE_KEY = 'releaseNotesNextFetchTime';
@@ -566,5 +591,53 @@ describe('ReleaseNoteAndMegaphoneFetcher', () => {
       assert.strictEqual(dbMegaphones[0].id, megaphoneForMyCountry.uuid);
       assert.strictEqual(dbMegaphones[1].id, wildcardMegaphone.uuid);
     });
+  });
+
+  it('deletes saved megaphones which were removed from the manifest', async () => {
+    await DataWriter.createMegaphone(testMegaphone);
+    const isOldMegaphonePresentBeforeRun = await hasMegaphone(testMegaphone.id);
+    assert.isTrue(isOldMegaphonePresentBeforeRun, 'saved during setup');
+
+    const { setupStorage, runFetcherAndWaitForCompletion } = await setupTest({
+      storedPreviousManifestHash: 'old-hash',
+      manifestHash: 'new-hash-123',
+      currentVersion: 'v1.37.0',
+      noteVersion: 'v1.37.0',
+      storedVersionWatermark: 'v1.36.0',
+      isNewVersion: true,
+    });
+
+    await setupStorage();
+    await runFetcherAndWaitForCompletion();
+
+    const isOldMegaphonePresentAfterRun = await hasMegaphone(testMegaphone.id);
+    assert.isFalse(isOldMegaphonePresentAfterRun, 'deleted after run');
+
+    const dbMegaphones = await getAllMegaphones();
+    assert.strictEqual(dbMegaphones.length, 1);
+    const dbMegaphone = dbMegaphones[0];
+    assert.strictEqual(dbMegaphone.id, fakeMegaphoneUuid);
+  });
+
+  it('deletes saved megaphones if the manifest has empty megaphones', async () => {
+    await DataWriter.createMegaphone(testMegaphone);
+    const isOldMegaphonePresentBeforeRun = await hasMegaphone(testMegaphone.id);
+    assert.isTrue(isOldMegaphonePresentBeforeRun, 'saved during setup');
+
+    const { setupStorage, runFetcherAndWaitForCompletion } = await setupTest({
+      storedPreviousManifestHash: 'old-hash',
+      manifestHash: 'new-hash-123',
+      currentVersion: 'v1.37.0',
+      noteVersion: 'v1.37.0',
+      storedVersionWatermark: 'v1.36.0',
+      isNewVersion: true,
+      manifestMegaphones: [],
+    });
+
+    await setupStorage();
+    await runFetcherAndWaitForCompletion();
+
+    const dbMegaphones = await getAllMegaphones();
+    assert.strictEqual(dbMegaphones.length, 0);
   });
 });

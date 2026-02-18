@@ -578,14 +578,95 @@
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "Pentru a verifica criptarea integrală cu {name}, compară numerele de mai sus cu cele de pe dispozitivul lor. Ei pot, de asemenea, să scaneze codul tău cu dispozitivul lor."
   },
+  "icu:SafetyNumberViewer__hint-v2": {
+    "messageformat": "Pentru a verifica criptarea integrală cu {name}, compară numerele de mai sus cu cele de pe dispozitivul său. Acesta poate și să scaneze codul tău cu dispozitivul său."
+  },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Află mai multe"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__title": {
+    "messageformat": "Verificare automată a codului"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
+    "messageformat": "Verifică automat"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--running": {
+    "messageformat": "Se verifică criptarea..."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
+    "messageformat": "Criptare verificată"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
+    "messageformat": "Verificarea automată nu este disponibilă"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__hint": {
+    "messageformat": "Verificarea automată nu este disponibilă pentru toate conversațiile."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
+    "messageformat": "Află mai multe"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
+    "messageformat": "Criptarea a fost verificată automat pentru acest chat "
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+    "messageformat": "Pentru contactele la care ești conectat prin numărul de telefon, Signal poate confirma automat dacă conexiunea este sigură folosind un proces numit transparență a cheilor. Pentru o securitate sporită, verifică manual criptarea end-to-end comparând numerele de pe ecranul anterior sau scanând codul de pe dispozitivul utilizatorului."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
+    "messageformat": "Verificarea automată nu mai este disponibilă pentru acest chat"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
+    "messageformat": "Signal nu mai poate verifica automat criptarea pentru acest chat. Probabil acest lucru se datorează faptului că {name} și-a schimbat numărul de telefon. Verifică manual criptarea end-to-end comparând numerele de pe ecranul anterior sau scanând codul de pe dispozitivul său."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
+    "messageformat": "Signal poate verifica automat criptarea doar în conversațiile în care ești conectat cu cineva prin intermediul unui număr de telefon. Dacă chatul a fost inițiat cu un nume de utilizator sau un grup comun, verifică criptarea end-to-end comparând numerele de pe ecranul anterior sau scanând codul pe dispozitivul utilizatorului."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
+    "messageformat": "Okay"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Un număr de siguranță va fi creat cu această persoană după ce schimbi mesaje cu ea."
   },
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Află mai multe"
+  },
+  "icu:KeyTransparencyErrorDialog__Title": {
+    "messageformat": "Verificarea automată a codului nu este disponibilă în prezent pentru dispozitivul tău. Trimiți jurnalul de depanare?"
+  },
+  "icu:KeyTransparencyErrorDialog__Description": {
+    "messageformat": "Jurnalele de depanare ne ajută să diagnosticăm și să remediem problema și nu conțin informații de identificare."
+  },
+  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Închide"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
+    "messageformat": "Trimite jurnalul de depanare"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
+    "messageformat": "Vizualizare"
+  },
+  "icu:KeyTransparencyErrorDialog__Submit": {
+    "messageformat": "Trimite"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "Nu, mulțumesc"
+  },
+  "icu:KeyTransparencyErrorDialog__Submitting": {
+    "messageformat": "Se trimite..."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Title": {
+    "messageformat": "Signal can now auto-verify encryption"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Continue": {
+    "messageformat": "Continuă"
+  },
+  "icu:KeyTransparencyOnboardingDialog__LearnMore": {
+    "messageformat": "Află mai multe"
+  },
+  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Închide"
   },
   "icu:verified": {
     "messageformat": "Verificat"
@@ -807,7 +888,7 @@
     "messageformat": "Vezi {whatsNew} în această actualizare"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal este o organizație non-profit"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "ce este nou"
@@ -1033,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} este în contactele tale de sistem"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Adaugă o etichetă de membru"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Notă"
@@ -1711,6 +1795,15 @@
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Anulează"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
+    "messageformat": "Verificare automată a codului"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
+    "messageformat": "Când este activat, Signal va încerca să verifice automat criptarea conversațiilor 1:1."
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
+    "messageformat": "Află mai multe"
   },
   "icu:initialSync": {
     "messageformat": "Sincronizare contacte și grupuri"
@@ -2772,13 +2865,13 @@
     "messageformat": "Caută GIF-uri prin Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Căutare GIF-uri"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Caută Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Căutare GIF-uri"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Categoriile GIF"
@@ -2826,7 +2919,7 @@
     "messageformat": "Previzualizare GIF"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Susținut de GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Șterge căutarea"
@@ -4556,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "Voce"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Roluri de membri"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Setează un rol de membru ca să te descrii pe tine sau rolul tău în acest grup. Rolurile membrilor sunt vizibile doar în cadrul acestui grup."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Setează un rol"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Editează rolul"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Culoare conversație"
   },
@@ -4570,6 +4675,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Link grup"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Etichetă de membru"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Introdu rolul de membru"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Setează o etichetă de membru ca să te descrii sau rolul tău în acest grup. Etichetele membrilor sunt vizibile doar în cadrul acestui grup."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Previzualizare"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Bună!"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Group members with labels"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "No other members have labels"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Se salvează modificările..."
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Can’t save member label"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Check your connection and try again."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Only admins can set member labels in this group."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Dispariție mesaje"
@@ -4604,6 +4742,9 @@
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "Alege cine poate edita numele grupului, poza, descrierea și perioada pentru dispariția mesajelor."
   },
+  "icu:ConversationDetails--group-info-info-v2": {
+    "messageformat": "Alege cine poate edita numele grupului, fotografia, descrierea, cronometrul pentru mesajele care dispar și mesajele fixate."
+  },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Cine poate adăuga membri"
   },
@@ -4615,6 +4756,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Alege cine poate trimite mesaje în acest grup."
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Member labels will be cleared"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Continue"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Solicitări și invitații"
@@ -7303,13 +7453,13 @@
     "messageformat": "Confidențialitate mai presus de Profit"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Mândri să fim organizație non-profit"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Mesaje private, finanțate de tine. Fără anunțuri, fără sisteme de urmărire. Donează acum ca să susții Signal. <readMoreLink>Citește mai mult</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Donează și susține confidențialitatea mesajelor. Ajută Signal să rămână independent și fără reclame. <readMoreLink>Citește mai mult</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Donează"
@@ -7334,6 +7484,21 @@
   },
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal nu colectează sau stochează informațiile personale când faci o donație.</paragraph><paragraph>Folosim Stripe ca procesator de plăți ca să primim donațiile tale. Nu accesăm, stocăm sau salvăm niciuna dintre informațiile pe care le oferi către ei.</paragraph><paragraph>Signal nu conectează donația ta cu contul Signal și nici nu poate să o facă.</paragraph><paragraph>Îți mulțumim pentru sprijinul tău!</paragraph>"
+  },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Get an optional badge on your profile when you donate"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "Your privacy is our mission"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Heart icon in the style of the Signal logo"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "OK"
@@ -7425,6 +7590,15 @@
   "icu:DonateFlow__discard-dialog-remove-info": {
     "messageformat": "Elimină informațiile"
   },
+  "icu:DonateFlow__discard-paypal-dialog-body": {
+    "messageformat": "Leaving will cancel your donation."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Leave"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Stay on page"
+  },
   "icu:DonateFlow__continue": {
     "messageformat": "Continuă"
   },
@@ -7470,6 +7644,15 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Ai o donație în curs de desfășurare care necesită confirmare."
   },
+  "icu:Donations__Toast__PaypalConfirmationNeeded": {
+    "messageformat": "Ai o donație în curs de desfășurare care necesită confirmare."
+  },
+  "icu:Donations__Toast__PaypalCanceled": {
+    "messageformat": "Donație PayPal anulată"
+  },
+  "icu:Donations__Toast__PaypalError": {
+    "messageformat": "Eroare la procesarea donației PayPal. Nu ai fost taxat/ă."
+  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donația a reușit, dar nu am putut actualiza setările insignei tale"
   },
@@ -7485,11 +7668,41 @@
   "icu:Donations__DonationInterrupted__RetryButton": {
     "messageformat": "Încearcă din nou"
   },
+  "icu:Donations__PaymentMethod": {
+    "messageformat": "Metodă de Plată"
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Metoda de plată a fost refuzată"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "Încearcă o altă metodă de plată sau ia legătura cu banca ta pentru mai multe informații."
+  },
+  "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
+    "messageformat": "Pictograma cardului de plată"
+  },
+  "icu:DonateFlow__CreditOrDebitCard": {
+    "messageformat": "Card de credit sau debit"
+  },
+  "icu:DonateFlow__Paypal__AccessibilityLabel": {
+    "messageformat": "PayPal"
+  },
+  "icu:DonateFlow__Paypal__Cancel": {
+    "messageformat": "Anulează"
+  },
+  "icu:DonateFlow__Paypal__CompleteDonation": {
+    "messageformat": "Finalizează Donația"
+  },
+  "icu:Donations__PaypalCanceled": {
+    "messageformat": "Donație PayPal anulată"
+  },
+  "icu:Donations__PaypalCanceled__Description": {
+    "messageformat": "Nu ai fost taxat/ă. Încearcă din nou sau folosește o altă metodă de plată."
+  },
+  "icu:Donations__PaypalError": {
+    "messageformat": "Eroare la procesarea donației PayPal"
+  },
+  "icu:Donations__PaypalError__Description": {
+    "messageformat": "Nu ai fost taxat/ă. Încearcă din nou sau folosește o altă metodă de plată."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Verificarea a Eșuat"
@@ -7693,10 +7906,13 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.86--0": {
-    "messageformat": "Nu putem remedia tăcerea stânjenitoare care urmează, dar am corectat un bug care uneori făcea ca indicatorul mâinii ridicate să rămână vizibil (cu un număr de zero) dacă cineva ridica și cobora mâna foarte repede."
+  "icu:WhatsNew__7.89--0": {
+    "messageformat": "Această actualizare remediază o eroare de formatare a textului în timp ce tasta Majuscule (Caps Lock) era activată, astfel încât va fi mai ușor să scrii textul cu caractere aldine (sau cursive) ÎN TIMP CE PUI PUNCTUL PE I. Mulțumesc, <DGrothePhD></DGrothePhD>!"
   },
-  "icu:WhatsNew__7.87--0": {
-    "messageformat": "Menține informațiile importante ușor accesibile cu ajutorul mesajelor fixate. Cele mai frecvente întrebări, rezervările pentru cină și itinerariile de vacanță sunt deja în topul gândurilor tale. Acum, ele pot fi și în topul chat-ului."
+  "icu:WhatsNew__7.89--1": {
+    "messageformat": "Signal este o organizație non-profit care nu ar fi posibilă fără sprijinul tău, iar acum poți dona prin PayPal în Signal Desktop."
+  },
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
   }
 }

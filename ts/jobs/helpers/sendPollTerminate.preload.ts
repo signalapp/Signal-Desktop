@@ -199,7 +199,7 @@ async function markTerminateFailed(
 
     if (notificationMessage) {
       log.info('markTerminateFailed: Deleting poll-terminate notification');
-      await DataWriter.removeMessage(notificationMessage.id, {
+      await DataWriter.removeMessageById(notificationMessage.id, {
         cleanupMessages,
       });
     }

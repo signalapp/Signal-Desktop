@@ -25,6 +25,17 @@ const basePath = join(__dirname, '../../..');
 
 const searchPattern = normalizePath(join(basePath, '**/*.{js,ts,tsx}'));
 
+const THIRD_PARTY_PATHS = ['node_modules/', 'js/', 'components/'];
+
+function pathStartsWithOneOf(
+  filePath: string,
+  pathPrefixes: ReadonlyArray<string>
+): boolean {
+  return pathPrefixes.some(pathPrefix => {
+    return filePath.startsWith(pathPrefix);
+  });
+}
+
 const excludedFilesRegexp = RegExp(
   [
     '^release/',
@@ -399,8 +410,15 @@ async function main(argv: ReadonlyArray<string>): Promise<void> {
       const lines = (await fs.promises.readFile(file, ENCODING)).split(/\r?\n/);
 
       rules.forEach((rule: RuleType) => {
+        if (
+          rule.excludeOurCode &&
+          !pathStartsWithOneOf(relativePath, THIRD_PARTY_PATHS)
+        ) {
+          return;
+        }
+
         const excludedModules = rule.excludedModules || [];
-        if (excludedModules.some(module => relativePath.startsWith(module))) {
+        if (pathStartsWithOneOf(relativePath, excludedModules)) {
           return;
         }
 

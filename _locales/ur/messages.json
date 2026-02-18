@@ -578,14 +578,95 @@
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "{name} کے ساتھ اینڈ ٹو اینڈ انکرپشن کی تصدیق کرنے کے لیے، اوپر موجود نمبرز کے ساتھ ان کی ڈیوائس کا موازنہ کریں۔ وہ اپنی ڈیوائس کے ساتھ آپ کے کوڈ کو اسکین بھی کر سکتے ہیں۔"
   },
+  "icu:SafetyNumberViewer__hint-v2": {
+    "messageformat": "{name} کے ساتھ اینڈ ٹو اینڈ انکرپشن کی تصدیق کرنے کے لیے، اوپر موجود نمبرز کے ساتھ ان کی ڈیوائس کا موازنہ کریں۔ وہ اپنی ڈیوائس پر آپ کے کوڈ کو اسکین بھی کر سکتے ہیں۔"
+  },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "مزید جانیں"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__title": {
+    "messageformat": "خودکار کیی کی تصدیق"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
+    "messageformat": "خود کار طور پر تصدیق کریں"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--running": {
+    "messageformat": "انکرپشن کی تصدیق کی جا رہی ہے..."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
+    "messageformat": "انکرپشن کی تصدیق ہو گئی"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
+    "messageformat": "خود کار تصدیق دستیاب نہیں ہے"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__hint": {
+    "messageformat": "تمام چیٹس کے لیے خود کار تصدیق دستیاب نہیں ہے۔"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
+    "messageformat": "مزید جانیں"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
+    "messageformat": "اس چیٹ کے لیے انکرپشن خودکار طور پر تصدیق شدہ تھی "
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+    "messageformat": "ان رابطوں کے لیے جن کے ساتھ آپ فون نمبر کے ذریعے مربوط ہیں، Signal خود کار طور پر کیی ٹرانسپیرینسی کا طریقہ کار استعمال کرتے ہوئے یہ تصدیق کر سکتا ہے کہ آیا کنیکشن محفوظ ہے۔ اضافی سیکیورٹی کے لیے، پچھلی اسکرین پر موجود نمبرز کا موازنہ کر کے یا ان کی ڈیوائس پر کوڈ اسکین کر کے دستی طور پر آخر سے آخر تک انکرپشن کی تصدیق کریں۔"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
+    "messageformat": "اس چیٹ کے لیے خود کار تصدیق مزید دستیاب نہیں ہے"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
+    "messageformat": "Signal اب اس چیٹ کے لیے انکرپشن کی خودکار تصدیق نہیں کر سکتا۔ ایسا اس لیے ہے کیونکہ {name} نے اپنا فون نمبر تبدیل کر لیا ہے۔ پچھلی اسکرین پر موجود نمبرز کا موازنہ کر کے یا ان کی ڈیوائس پر کوڈ اسکین کر کے دستی طور پر آخر سے آخر تک انکرپشن کی تصدیق کریں۔"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
+    "messageformat": "Signal چیٹس میں انکرپشن کی خودکار تصدیق صرف اس وقت کر سکتا ہے جب آپ کسی کے ساتھ فون نمبر کے ذریعے مربوط ہوں۔ اگر چیٹ کسی یوزر نیم کے ساتھ یا کسی مشترکہ گروپ میں شروع کی گئی تھی، تو پچھلی اسکرین پر موجود نمبرز کا موازنہ کر کے یا ان کی ڈیوائس پر کوڈ اسکین کر کے آخر سے آخر تک انکرپشن کی تصدیق کریں۔"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
+    "messageformat": "ٹھیک ہے"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "اس شخص کے ساتھ میسجز کا تبادلہ کرنے کے بعد اس کے ساتھ ایک حفاظتی نمبر تخلیق کیا جائے گا۔"
   },
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "مزید پڑھیں"
+  },
+  "icu:KeyTransparencyErrorDialog__Title": {
+    "messageformat": "آپ کی ڈیوائس پر خودکار کیی کی تصدیق فی الحال دستیاب نہیں ہے۔ ڈی بگ لاگ جمع کروائیں؟"
+  },
+  "icu:KeyTransparencyErrorDialog__Description": {
+    "messageformat": "ڈی بگ لاگز مسئلے کی نشاندہی کرنے اور اسے حل کرنے میں ہماری مدد کرتے ہیں، اور اس میں شناخت کرنے والی معلومات شامل نہیں ہوتی ہیں۔"
+  },
+  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "بند کریں"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
+    "messageformat": "ڈی بگ لاگ شیئر کریں"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
+    "messageformat": "ویو"
+  },
+  "icu:KeyTransparencyErrorDialog__Submit": {
+    "messageformat": "جمح کریں"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "نہیں شکریہ"
+  },
+  "icu:KeyTransparencyErrorDialog__Submitting": {
+    "messageformat": "جمع کیا جا رہا ہے..."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Title": {
+    "messageformat": "Signal can now auto-verify encryption"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Continue": {
+    "messageformat": "جاری رکھیں"
+  },
+  "icu:KeyTransparencyOnboardingDialog__LearnMore": {
+    "messageformat": "مزید جانیں"
+  },
+  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "بند کریں"
   },
   "icu:verified": {
     "messageformat": "تصدیق شدہ"
@@ -807,7 +888,7 @@
     "messageformat": "اس اپ ڈیٹ میں {whatsNew} دیکھیں"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal ایک غیر منافع بخش ایپ ہے"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "نیا کیا ہے"
@@ -1033,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} آپ کے سسٹم کانٹیکٹس میں موجود ہے"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "ایک ممبر لیبل شامل کریں"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "نوٹ"
@@ -1711,6 +1795,15 @@
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "منسوخ کریں"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
+    "messageformat": "خودکار کیی کی تصدیق"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
+    "messageformat": "فعال ہونے پر، Signal خودکار طور پر 1:1 چیٹس کی انکرپشن کی تصدیق کرنے کی کوشش کرے گا۔"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
+    "messageformat": "مزید سیکھیں"
   },
   "icu:initialSync": {
     "messageformat": "گروپس اور رابطے ہم آہنگ ہو رہے ہیں "
@@ -2772,13 +2865,13 @@
     "messageformat": "Tenor کے ذریعے GIFs کو تلاش کریں"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIFs تلاش کریں"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tenor کو تلاش کریں"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIFs تلاش کریں"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF کی کیٹیگریز"
@@ -2826,7 +2919,7 @@
     "messageformat": "GIF پری ویو"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "GIPHY کی جانب سے معاون یافتہ"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "تلاش صاف کریں"
@@ -4556,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "آواز"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "ممبر لیبلز"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "اس گروپ میں خود کو یا اپنے کردار کو بیان کرنے کے لیے ایک ممبر لیبل استعمال کریں۔ ممبر لیبلز صرف اس گروپ میں ہی نظر آتے ہیں۔"
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "لیبل سیٹ کریں"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "اپنے لیبل میں ترمیم کریں"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "چیٹ کا رنگ"
   },
@@ -4570,6 +4675,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "گروپ لنک"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "ممبر لیبل"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "اپنا ممبر لیبل درج کریں"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "اس گروپ میں خود کو یا اپنے کردار کو بیان کرنے کے لیے ایک ممبر لیبل سیٹ کریں۔ ممبر لیبلز صرف اس گروپ میں ہی نظر آتے ہیں۔"
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "پیش نظارہ"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "ہیلو!"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Group members with labels"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "No other members have labels"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "تبدیلیاں محفوظ کی جا رہی ہیں..."
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Can’t save member label"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Check your connection and try again."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Only admins can set member labels in this group."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "پیغامات غائب ہو رہے ہیں"
@@ -4604,6 +4742,9 @@
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "منتخب کریں کہ کون گروپ کے نام ، تصویر ، وضاحت اور غائب پیغامات کے ٹائمر میں ترمیم کرسکتا ہے۔"
   },
+  "icu:ConversationDetails--group-info-info-v2": {
+    "messageformat": "منتخب کریں کہ کون گروپ کا نام، تصویر، وضاحت، غائب ہونے والے میسجز کا ٹائمر، اور پِن شدہ میسجز میں ترمیم کر سکتا ہے۔"
+  },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "کون ممبر شامل کرسکتا ہے"
   },
@@ -4615,6 +4756,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "منتخب کریں کہ کون گروپ کو پیغام بھیج سکتا ہے۔"
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Member labels will be cleared"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Continue"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "درخواستیں اور دعوت نامے"
@@ -7303,13 +7453,13 @@
     "messageformat": "پیسہ نہیں پرائیویسی"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "فخر کے ساتھ غیر منافع بخش"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "آپ کی جانب سے فنڈ کردہ، نجی میسجنگ۔ کوئی اشتہارات، کوئی ٹریکنگ، کوئی سمجھوتہ نہیں۔ Signal کو سپورٹ کرنے کے لیے ابھی عطیہ کریں۔ <readMoreLink>مزید پڑھیں</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "نجی طور پر میسجنگ کو سپورٹ کرنے کے لیے عطیہ کریں۔ Signal کو خود مختار اور اشتہارات سے پاک رکھیں۔ <readMoreLink>مزید پڑھیں</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "عطیہ کریں"
@@ -7334,6 +7484,21 @@
   },
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>جب آپ عطیہ کرتے ہیں تو Signal آپ کی کوئی بھی ذاتی معلومات جمع یا محفوظ نہیں کرتا۔</paragraph><paragraph>ہم آپ کے عطیات موصول کرنے کے لیے Stripe کو اپنی پیمنٹس کے پروسیسر کے طور پر استعمال کرتے ہیں۔ آپ وہاں جو بھی معلومات فراہم کرتے ہیں ہم ان تک رسائی نہیں رکھتے، اسٹور، یا محفوظ نہیں کرتے۔</paragraph><paragraph>Signal آپ کے عطیے کو آپ کے Signal کے اکاؤنٹ کے ساتھ منسلک نہیں کرتا اور نہ ہی کر سکتا ہے۔</paragraph><paragraph>آپ کی سپورٹ کے لیے آپ کا شکریہ!</paragraph>"
+  },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Get an optional badge on your profile when you donate"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "Your privacy is our mission"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Heart icon in the style of the Signal logo"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "ٹھیک ہے"
@@ -7425,6 +7590,15 @@
   "icu:DonateFlow__discard-dialog-remove-info": {
     "messageformat": "معلومات ہٹائیں"
   },
+  "icu:DonateFlow__discard-paypal-dialog-body": {
+    "messageformat": "Leaving will cancel your donation."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Leave"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Stay on page"
+  },
   "icu:DonateFlow__continue": {
     "messageformat": "جاری رکھیں"
   },
@@ -7470,6 +7644,15 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "آپ کے ایک عطیے پر پیش رفت کے لیے تصدیق درکار ہے۔"
   },
+  "icu:Donations__Toast__PaypalConfirmationNeeded": {
+    "messageformat": "آپ کے ایک عطیے پر پیش رفت کے لیے تصدیق درکار ہے۔"
+  },
+  "icu:Donations__Toast__PaypalCanceled": {
+    "messageformat": "PayPal کے ذریعے عطیہ منسوخ کر دیا گیا ہے"
+  },
+  "icu:Donations__Toast__PaypalError": {
+    "messageformat": "PayPal کے ذریعے عطیہ میں خرابی پیش آئی۔ آپ سے پیسے نہیں لیے گئے۔"
+  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "عطیہ کامیابی سے مکمل ہو گیا ہے، لیکن ہم آپ کی بیج سیٹنگز کو اپ ڈیٹ نہیں کر سکے"
   },
@@ -7485,11 +7668,41 @@
   "icu:Donations__DonationInterrupted__RetryButton": {
     "messageformat": "دوبارہ کوشش کریں"
   },
+  "icu:Donations__PaymentMethod": {
+    "messageformat": "پیمنٹ کا طریقہ"
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "پیمنٹ کا طریقہ مسترد کر دیا گیا"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "پیمنٹ کا کوئی دوسرا طریقہ آزمائیں یا مزید معلومات کے لیے اپنے بینک سے رابطہ کریں۔"
+  },
+  "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
+    "messageformat": "پیمنٹ کارڈ کا آئیکن"
+  },
+  "icu:DonateFlow__CreditOrDebitCard": {
+    "messageformat": "کریڈٹ یا ڈیبٹ کارڈ"
+  },
+  "icu:DonateFlow__Paypal__AccessibilityLabel": {
+    "messageformat": "PayPal"
+  },
+  "icu:DonateFlow__Paypal__Cancel": {
+    "messageformat": "منسوخ کریں"
+  },
+  "icu:DonateFlow__Paypal__CompleteDonation": {
+    "messageformat": "عطیہ مکمل کریں"
+  },
+  "icu:Donations__PaypalCanceled": {
+    "messageformat": "PayPal کے ذریعے عطیہ منسوخ کر دیا گیا ہے"
+  },
+  "icu:Donations__PaypalCanceled__Description": {
+    "messageformat": "آپ سے پیسے نہیں لیے گئے۔ دوبارہ کوشش کریں یا کوئی دوسرا پیمنٹ کا طریقہ استعمال کریں۔"
+  },
+  "icu:Donations__PaypalError": {
+    "messageformat": "PayPal کے ذریعے عطیہ کی کارروائی میں خرابی پیش آئی"
+  },
+  "icu:Donations__PaypalError__Description": {
+    "messageformat": "آپ سے پیسے نہیں لیے گئے۔ دوبارہ کوشش کریں یا کوئی دوسرا پیمنٹ کا طریقہ استعمال کریں۔"
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "توثیق ناکام ہوگئی"
@@ -7693,10 +7906,13 @@
     "messageformat": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.86--0": {
-    "messageformat": "ہم اس عجیب خاموشی کو ٹھیک نہیں کر سکتے جو اس کے بعد آتی ہے، لیکن ہم نے ایک نقص ٹھیک کیا ہے جس کی وجہ سے کبھی کبھار اگر کوئی ہاتھ تیزی سے اٹھا یا نیچے کرتا تو ہاتھ کا اشارہ نظر آتا (صفر کی گنتی کے ساتھ)۔"
+  "icu:WhatsNew__7.89--0": {
+    "messageformat": "اس اپ ڈیٹ میں متن کی فارمیٹنگ کے اس نقص کو ٹھیک کیا گیا ہے جو کیپس لاک فعال ہونے پر پیش آتی تھی جب کیپس لاک آن ہوتا تھا، لہذا آپ بولڈ ہیں تو بولڈ (یا اٹالک) کرنا اب آسان ہو گا۔ شکریہ، <DGrothePhD></DGrothePhD>"
   },
-  "icu:WhatsNew__7.87--0": {
-    "messageformat": "پِن شدہ میسجز اہم معلومات کو چیٹ میں سب سے اوپر آسانی سے قابل رسائی رکھنے میں آپ کی مدد کر سکتے ہیں۔"
+  "icu:WhatsNew__7.89--1": {
+    "messageformat": "Signal ایک 501c3 غیر منافع بخش ادارہ ہے جو آپ کی سپورٹ کے بغیر ممکن نہ ہوتا، اور اب آپ Signal ڈیسک ٹاپ میں PayPal کے ذریعے عطیہ کر سکتے ہیں۔"
+  },
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
   }
 }

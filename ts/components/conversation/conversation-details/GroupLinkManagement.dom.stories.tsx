@@ -29,7 +29,6 @@ function getConversation(
     pendingMemberships: Array(16).fill({ member: getDefaultConversation({}) }),
     title: 'Some Conversation',
     type: 'group',
-    sharedGroupNames: [],
     groupLink,
     accessControlAddFromInviteLink:
       accessControlAddFromInviteLink !== undefined

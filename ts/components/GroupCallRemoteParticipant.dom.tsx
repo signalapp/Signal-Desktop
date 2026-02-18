@@ -104,7 +104,6 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
       isBlocked,
       mediaKeysReceived,
       profileName,
-      sharedGroupNames,
       sharingScreen,
       title,
       titleNoDefault,
@@ -474,7 +473,6 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
             i18n={i18n}
             profileName={profileName}
             title={title}
-            sharedGroupNames={sharedGroupNames}
             size={avatarSize}
           />
         );

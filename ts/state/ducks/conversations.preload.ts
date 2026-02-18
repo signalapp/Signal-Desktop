@@ -157,15 +157,11 @@ import {
   initiateMigrationToGroupV2 as doInitiateMigrationToGroupV2,
 } from '../../groups.preload.js';
 import { getMessageById } from '../../messages/getMessageById.preload.js';
-import type {
-  PanelRenderType,
-  PanelRequestType,
-} from '../../types/Panels.std.js';
+import type { PanelArgsType } from '../../types/Panels.std.js';
 import type { ConversationQueueJobData } from '../../jobs/conversationJobQueue.preload.js';
 import { isOlderThan } from '../../util/timestamp.std.js';
 import { DAY } from '../../util/durations/index.std.js';
 import { isNotNil } from '../../util/isNotNil.std.js';
-import { PanelType } from '../../types/Panels.std.js';
 import { startConversation } from '../../util/startConversation.dom.js';
 import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp.std.js';
 import { removeLinkPreview } from '../../services/LinkPreview.preload.js';
@@ -325,6 +321,13 @@ export type ConversationRemovalStage = ReadonlyDeep<
   'justNotification' | 'messageRequest'
 >;
 
+export type MembershipType = ReadonlyDeep<{
+  aci: AciString;
+  isAdmin: boolean;
+  labelEmoji: string | undefined;
+  labelString: string | undefined;
+}>;
+
 export type ConversationType = ReadonlyDeep<
   {
     id: string;
@@ -393,10 +396,7 @@ export type ConversationType = ReadonlyDeep<
     announcementsOnly?: boolean;
     announcementsOnlyReady?: boolean;
     expireTimer?: DurationInSeconds;
-    memberships?: ReadonlyArray<{
-      aci: AciString;
-      isAdmin: boolean;
-    }>;
+    memberships?: ReadonlyArray<MembershipType>;
     pendingMemberships?: ReadonlyArray<{
       serviceId: ServiceIdString;
       addedByUserId?: AciString;
@@ -434,7 +434,6 @@ export type ConversationType = ReadonlyDeep<
     draftPreview?: DraftPreviewType;
     draftTimestamp?: number;
 
-    sharedGroupNames: ReadonlyArray<string>;
     groupDescription?: string;
     groupVersion?: 1 | 2;
     groupId?: string;
@@ -627,10 +626,9 @@ export type ConversationsStateType = ReadonlyDeep<{
     isAnimating: boolean;
     wasAnimated: boolean;
     direction: 'push' | 'pop' | undefined;
-    stack: ReadonlyArray<PanelRenderType>;
+    stack: ReadonlyArray<PanelArgsType>;
     watermark: number;
   };
-  targetedMessageForDetails?: ReadonlyMessageAttributesType;
 
   lastSelectedMessage: MessageTimestamps | undefined;
   selectedMessageIds: ReadonlyArray<string> | undefined;
@@ -713,7 +711,6 @@ const PANEL_ANIMATION_STARTED = 'conversations/PANEL_ANIMATION_STARTED';
 export const MARK_READ = 'conversations/MARK_READ';
 export const MESSAGE_CHANGED = 'MESSAGE_CHANGED';
 export const MESSAGE_DELETED = 'MESSAGE_DELETED';
-export const MESSAGE_EXPIRED = 'conversations/MESSAGE_EXPIRED';
 export const SET_VOICE_NOTE_PLAYBACK_RATE =
   'conversations/SET_VOICE_NOTE_PLAYBACK_RATE';
 export const CONVERSATION_UNLOADED = 'CONVERSATION_UNLOADED';
@@ -941,13 +938,6 @@ export type MessagesAddedActionType = ReadonlyDeep<{
   };
 }>;
 
-export type MessageExpiredActionType = ReadonlyDeep<{
-  type: typeof MESSAGE_EXPIRED;
-  payload: {
-    id: string;
-  };
-}>;
-
 export type RepairNewestMessageActionType = ReadonlyDeep<{
   type: 'REPAIR_NEWEST_MESSAGE';
   payload: {
@@ -1084,7 +1074,7 @@ export type ToggleConversationInChooseMembersActionType = ReadonlyDeep<{
 
 type PushPanelActionType = ReadonlyDeep<{
   type: typeof PUSH_PANEL;
-  payload: PanelRenderType;
+  payload: PanelArgsType;
 }>;
 type PopPanelActionType = ReadonlyDeep<{
   type: typeof POP_PANEL;
@@ -1157,7 +1147,6 @@ export type ConversationActionType =
   | MessageChangedActionType
   | MessageDeletedActionType
   | MessageExpandedActionType
-  | MessageExpiredActionType
   | MessageTargetedActionType
   | MessagesAddedActionType
   | MessagesResetActionType
@@ -1258,7 +1247,6 @@ export const actions = {
   messageChanged,
   messageDeleted,
   messageExpanded,
-  messageExpired,
   messagesAdded,
   messagesReset,
   myProfileChanged,
@@ -1341,11 +1329,10 @@ export const actions = {
   toggleHideStories,
   toggleSelectMessage,
   toggleSelectMode,
-  updateConversationModelSharedGroups,
   updateGroupAttributes,
+  updateGroupMemberLabel,
   updateLastMessage,
   updateNicknameAndNote,
-  updateSharedGroups,
   verifyConversationsStoppingSend,
 };
 
@@ -1636,20 +1623,6 @@ function removeMember(
     name: 'removeMember',
     task: () => conversation.removeFromGroupV2(memberConversationId),
   });
-
-  return {
-    type: 'NOOP',
-    payload: null,
-  };
-}
-
-function updateSharedGroups(conversationId: string): NoopActionType {
-  const conversation = window.ConversationController.get(conversationId);
-  if (!conversation) {
-    throw new Error('updateSharedGroups: Conversation not found!');
-  }
-
-  void conversation.throttledUpdateSharedGroups?.();
 
   return {
     type: 'NOOP',
@@ -1994,7 +1967,7 @@ function deleteMessages({
       }
     }
 
-    await DataWriter.removeMessages(messageIds, {
+    await DataWriter.removeMessagesById(messageIds, {
       cleanupMessages,
     });
 
@@ -3326,15 +3299,6 @@ function showSpoiler(
   };
 }
 
-function messageExpired(id: string): MessageExpiredActionType {
-  return {
-    type: MESSAGE_EXPIRED,
-    payload: {
-      id,
-    },
-  };
-}
-
 function messagesAdded({
   conversationId,
   isActive,
@@ -3516,11 +3480,11 @@ function setProfileUpdateError(
 }
 
 export type PushPanelForConversationActionType = ReadonlyDeep<
-  (panel: PanelRequestType) => unknown
+  (panel: PanelArgsType) => unknown
 >;
 
 function pushPanelForConversation(
-  panel: PanelRequestType
+  panel: PanelArgsType
 ): ThunkAction<void, RootStateType, unknown, PushPanelActionType> {
   return async (dispatch, getState) => {
     const { conversations } = getState();
@@ -3528,29 +3492,6 @@ function pushPanelForConversation(
     const activePanel =
       targetedConversationPanels.stack[targetedConversationPanels.watermark];
     if (panel.type === activePanel?.type && isEqual(panel, activePanel)) {
-      return;
-    }
-
-    if (panel.type === PanelType.MessageDetails) {
-      const { messageId } = panel.args;
-
-      const message =
-        conversations.messagesLookup[messageId] ||
-        (await getMessageById(messageId))?.attributes;
-      if (!message) {
-        throw new Error(
-          'pushPanelForConversation: could not find message for MessageDetails'
-        );
-      }
-      dispatch({
-        type: PUSH_PANEL,
-        payload: {
-          type: PanelType.MessageDetails,
-          args: {
-            message,
-          },
-        },
-      });
       return;
     }
 
@@ -4653,6 +4594,13 @@ function addMembersToGroup(
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ActionCreator<T extends (...params: Array<any>) => any> =
+  ReadonlyDeep<(...params: Parameters<T>) => void>;
+
+export type UpdateGroupAttributesType = ReadonlyDeep<
+  ActionCreator<typeof updateGroupAttributes>
+>;
 function updateGroupAttributes(
   conversationId: string,
   attributes: Readonly<{
@@ -4687,6 +4635,47 @@ function updateGroupAttributes(
             { id, publicParams, revision, secretParams },
             attributes
           ),
+      });
+      onSuccess?.();
+    } catch {
+      onFailure?.();
+    }
+  };
+}
+
+export type UpdateGroupMemberLabelType = ReadonlyDeep<
+  ActionCreator<typeof updateGroupMemberLabel>
+>;
+function updateGroupMemberLabel(
+  {
+    conversationId,
+    labelEmoji,
+    labelString,
+  }: {
+    conversationId: string;
+    labelEmoji: string | undefined;
+    labelString: string | undefined;
+  },
+  {
+    onSuccess,
+    onFailure,
+  }: {
+    onSuccess?: () => unknown;
+    onFailure?: () => unknown;
+  } = {}
+): ThunkAction<void, RootStateType, unknown, never> {
+  return async () => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('updateGroupMemberLabel: No conversation found');
+    }
+
+    try {
+      await longRunningTaskWrapper({
+        name: 'updateGroupMemberLabel',
+        idForLogging: conversation.idForLogging(),
+        task: async () =>
+          conversation.updateGroupMemberLabel({ labelEmoji, labelString }),
       });
       onSuccess?.();
     } catch {
@@ -4760,21 +4749,6 @@ function toggleAdmin(
   };
 }
 
-function updateConversationModelSharedGroups(
-  conversationId: string
-): ThunkAction<void, RootStateType, unknown, NoopActionType> {
-  return dispatch => {
-    const conversation = window.ConversationController.get(conversationId);
-    if (conversation && conversation.throttledUpdateSharedGroups) {
-      void conversation.throttledUpdateSharedGroups();
-    }
-    dispatch({
-      type: 'NOOP',
-      payload: null,
-    });
-  };
-}
-
 function showExpiredIncomingTapToViewToast(): ShowToastActionType {
   log.info(
     'showExpiredIncomingTapToViewToastShowing expired tap-to-view toast for an incoming message'
@@ -4834,7 +4808,11 @@ function showConversation({
     const { conversations, nav } = getState();
 
     if (nav.selectedLocation.tab !== NavTab.Chats) {
-      dispatch(navActions.changeLocation({ tab: NavTab.Chats }));
+      dispatch(
+        navActions.changeLocation({
+          tab: NavTab.Chats,
+        })
+      );
       const conversation = window.ConversationController.get(conversationId);
       conversation?.setMarkedUnread(false);
     }
@@ -5559,30 +5537,6 @@ function visitListsInVerificationData(
   });
 
   return result;
-}
-
-function maybeUpdateSelectedMessageForDetails(
-  {
-    messageId,
-    targetedMessageForDetails,
-  }: {
-    messageId: string;
-    targetedMessageForDetails: ReadonlyMessageAttributesType | undefined;
-  },
-  state: ConversationsStateType
-): ConversationsStateType {
-  if (!state.targetedMessageForDetails) {
-    return state;
-  }
-
-  if (state.targetedMessageForDetails.id !== messageId) {
-    return state;
-  }
-
-  return {
-    ...state,
-    targetedMessageForDetails,
-  };
 }
 
 export function updateLastMessage(
@@ -6402,19 +6356,13 @@ export function reducer(
 
     // We don't keep track of messages unless their conversation is loaded...
     if (!existingConversation) {
-      return maybeUpdateSelectedMessageForDetails(
-        { messageId: id, targetedMessageForDetails: data },
-        dropPreloadData(state)
-      );
+      return state;
     }
 
     // ...and we've already loaded that message once
     const existingMessage = getOwn(state.messagesLookup, id);
     if (!existingMessage) {
-      return maybeUpdateSelectedMessageForDetails(
-        { messageId: id, targetedMessageForDetails: data },
-        dropPreloadData(state)
-      );
+      return state;
     }
 
     const conversationAttrs = state.conversationLookup[conversationId];
@@ -6436,13 +6384,7 @@ export function reducer(
     const wasDeletedForEveryone = updatedMessage.deletedForEveryone;
 
     return {
-      ...maybeUpdateSelectedMessageForDetails(
-        {
-          messageId: id,
-          targetedMessageForDetails: updatedMessage,
-        },
-        state
-      ),
+      ...state,
       preloadData: undefined,
       messagesLookup: {
         ...state.messagesLookup,
@@ -6456,13 +6398,6 @@ export function reducer(
             id
           ),
     };
-  }
-
-  if (action.type === MESSAGE_EXPIRED) {
-    return maybeUpdateSelectedMessageForDetails(
-      { messageId: action.payload.id, targetedMessageForDetails: undefined },
-      dropPreloadData(state)
-    );
   }
 
   if (action.type === 'MESSAGE_EXPANDED') {
@@ -6480,13 +6415,6 @@ export function reducer(
 
     return {
       ...state,
-      ...maybeUpdateSelectedMessageForDetails(
-        {
-          messageId: id,
-          targetedMessageForDetails: updatedMessage,
-        },
-        state
-      ),
       messagesLookup: {
         ...state.messagesLookup,
         [id]: updatedMessage,
@@ -6508,13 +6436,6 @@ export function reducer(
 
     return {
       ...state,
-      ...maybeUpdateSelectedMessageForDetails(
-        {
-          messageId: id,
-          targetedMessageForDetails: updatedMessage,
-        },
-        state
-      ),
       messagesLookup: {
         ...state.messagesLookup,
         [id]: updatedMessage,
@@ -6661,10 +6582,7 @@ export function reducer(
 
     const existingConversation = messagesByConversation[conversationId];
     if (!existingConversation) {
-      return maybeUpdateSelectedMessageForDetails(
-        { messageId: id, targetedMessageForDetails: undefined },
-        dropPreloadData(state)
-      );
+      return state;
     }
 
     // Assuming that we always have contiguous groups of messages in memory, the removal
@@ -6714,10 +6632,7 @@ export function reducer(
     );
 
     return {
-      ...maybeUpdateSelectedMessageForDetails(
-        { messageId: id, targetedMessageForDetails: undefined },
-        state
-      ),
+      ...state,
       preloadData: undefined,
       messagesLookup: maybeDropMessageIdsFromMessagesLookup(
         messagesLookup,
@@ -7036,14 +6951,6 @@ export function reducer(
       watermark,
     };
 
-    if (action.payload.type === PanelType.MessageDetails) {
-      return {
-        ...state,
-        targetedConversationPanels,
-        targetedMessageForDetails: action.payload.args.message,
-      };
-    }
-
     return {
       ...state,
       targetedConversationPanels,
@@ -7076,14 +6983,6 @@ export function reducer(
       stack: state.targetedConversationPanels.stack,
       watermark,
     };
-
-    if (poppedPanel.type === PanelType.MessageDetails) {
-      return {
-        ...state,
-        targetedConversationPanels,
-        targetedMessageForDetails: undefined,
-      };
-    }
 
     return {
       ...state,

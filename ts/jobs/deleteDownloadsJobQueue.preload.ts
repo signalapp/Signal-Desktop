@@ -7,7 +7,7 @@ import lodash from 'lodash';
 import { JobQueue } from './JobQueue.std.js';
 import { jobQueueDatabaseStore } from './JobQueueDatabaseStore.preload.js';
 import { parseUnknown } from '../util/schemas.std.js';
-import { deleteDownloadData } from '../util/migrations.preload.js';
+import { deleteDownloadFile } from '../util/migrations.preload.js';
 import { DataReader } from '../sql/Client.preload.js';
 
 import type { JOB_STATUS } from './JobQueue.std.js';
@@ -63,7 +63,7 @@ export class DeleteDownloadsJobQueue extends JobQueue<DeleteDownloadsJobData> {
     const message = await DataReader.getMessageById(messageId);
     if (!message) {
       log?.warn('Message not found; attempting to delete download path.');
-      await deleteDownloadData(downloadPath);
+      await deleteDownloadFile(downloadPath);
 
       return undefined;
     }
@@ -86,7 +86,7 @@ export class DeleteDownloadsJobQueue extends JobQueue<DeleteDownloadsJobData> {
       log?.warn(
         'Target attachment not found; attempting to delete download path.'
       );
-      await deleteDownloadData(downloadPath);
+      await deleteDownloadFile(downloadPath);
       return undefined;
     }
 
@@ -97,7 +97,7 @@ export class DeleteDownloadsJobQueue extends JobQueue<DeleteDownloadsJobData> {
       throw new Error('Attachment still downloading');
     }
 
-    await deleteDownloadData(downloadPath);
+    await deleteDownloadFile(downloadPath);
 
     const updatedMessage = {
       ...message,

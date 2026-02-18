@@ -47,7 +47,6 @@ export type PropsDataType = {
     | 'isMe'
     | 'phoneNumber'
     | 'profileName'
-    | 'sharedGroupNames'
     | 'title'
     | 'type'
   >;
@@ -200,7 +199,6 @@ export const MessageSearchResult: FunctionComponent<PropsType> = React.memo(
         onClick={onClickItem}
         phoneNumber={from.phoneNumber}
         profileName={from.profileName}
-        sharedGroupNames={from.sharedGroupNames}
         theme={theme}
         title={from.title}
       />

@@ -141,6 +141,7 @@ import updateToSchemaVersion1610 from './1610-has-contacts.std.js';
 import updateToSchemaVersion1620 from './1620-sort-bigger-media.std.js';
 import updateToSchemaVersion1630 from './1630-message-pin-message-data.std.js';
 import updateToSchemaVersion1640 from './1640-key-transparency.std.js';
+import updateToSchemaVersion1650 from './1650-protected-attachments.std.js';
 
 import { DataWriter } from '../Server.node.js';
 
@@ -1642,6 +1643,7 @@ export const SCHEMA_VERSIONS: ReadonlyArray<SchemaUpdateType> = [
   { version: 1620, update: updateToSchemaVersion1620 },
   { version: 1630, update: updateToSchemaVersion1630 },
   { version: 1640, update: updateToSchemaVersion1640 },
+  { version: 1650, update: updateToSchemaVersion1650 },
 ];
 
 export class DBVersionFromFutureError extends Error {

@@ -60,6 +60,7 @@ function Example(args: Args): React.JSX.Element {
       isBlocked={args.isBlocked}
       isHidden={args.isHidden}
       isReported={args.isReported}
+      getSharedGroupNames={() => []}
       acceptConversation={action('acceptConversation')}
       blockAndReportSpam={action('blockAndReportSpam')}
       blockConversation={action('blockConversation')}

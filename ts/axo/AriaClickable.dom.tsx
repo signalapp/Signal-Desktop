@@ -10,6 +10,7 @@ import {
   createStrictContext,
   useStrictContext,
 } from './_internal/StrictContext.dom.js';
+import { isTestOrMockEnvironment } from '../environment.std.js';
 
 const Namespace = 'AriaClickable';
 
@@ -229,7 +230,7 @@ export namespace AriaClickable {
     }, []);
 
     useEffect(() => {
-      if (process.env.NODE_ENV === 'development') {
+      if (isTestOrMockEnvironment()) {
         assert(
           computeAccessibleName(assert(ref.current)) !== '',
           `${hiddenTriggerDisplayName} child must have an accessible name`

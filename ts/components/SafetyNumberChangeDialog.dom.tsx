@@ -457,7 +457,6 @@ function ContactRow({
         profileName={contact.profileName}
         theme={theme}
         title={contact.title}
-        sharedGroupNames={contact.sharedGroupNames}
         size={AvatarSize.THIRTY_TWO}
       />
       <div className="module-SafetyNumberChangeDialog__row--wrapper">

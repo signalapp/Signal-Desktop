@@ -8,7 +8,6 @@ import emojiRegex from 'emoji-regex';
 import LinkifyIt from 'linkify-it';
 import type { ReadonlyDeep } from 'type-fest';
 
-import type { StateType } from '../reducer.preload.js';
 import type {
   LastMessageStatus,
   ReadonlyMessageAttributesType,
@@ -168,7 +167,6 @@ import { getCallIdFromEra } from '../../util/callDisposition.preload.js';
 import { LONG_MESSAGE } from '../../types/MIME.std.js';
 import type { MessageRequestResponseNotificationData } from '../../components/conversation/MessageRequestResponseNotification.dom.js';
 import type { PinnedMessageNotificationData } from '../../components/conversation/pinned-messages/PinnedMessageNotification.dom.js';
-import { canEditGroupInfo } from '../../util/canEditGroupInfo.preload.js';
 import { isPinnedMessagesSendEnabled } from '../../util/isPinnedMessagesEnabled.dom.js';
 
 const { groupBy, isEmpty, isNumber, isObject, map } = lodash;
@@ -182,12 +180,7 @@ const linkify = new LinkifyIt();
 type FormattedContact = Partial<ConversationType> &
   Pick<
     ConversationType,
-    | 'acceptedMessageRequest'
-    | 'id'
-    | 'isMe'
-    | 'sharedGroupNames'
-    | 'title'
-    | 'type'
+    'acceptedMessageRequest' | 'id' | 'isMe' | 'title' | 'type'
   >;
 export type PropsForMessage = Omit<TimelineMessagePropsData, 'interactionMode'>;
 export type MessagePropsType = Omit<
@@ -383,7 +376,6 @@ const getAuthorForMessage = (
     name,
     phoneNumber,
     profileName,
-    sharedGroupNames,
     title,
   } = getContact(message, options);
 
@@ -400,7 +392,6 @@ const getAuthorForMessage = (
     name,
     phoneNumber,
     profileName,
-    sharedGroupNames,
     title,
   };
 
@@ -456,7 +447,6 @@ const getReactionsForMessage = (
       name,
       phoneNumber,
       profileName,
-      sharedGroupNames,
       title,
     } = c;
 
@@ -470,7 +460,6 @@ const getReactionsForMessage = (
       name,
       phoneNumber,
       profileName,
-      sharedGroupNames,
       title,
     };
 
@@ -503,7 +492,6 @@ export type PollVoteWithUserType = {
     | 'name'
     | 'phoneNumber'
     | 'profileName'
-    | 'sharedGroupNames'
     | 'title'
   >;
 };
@@ -612,7 +600,6 @@ const getPollForMessage = (
       name: voter.name,
       phoneNumber: voter.phoneNumber,
       profileName: voter.profileName,
-      sharedGroupNames: voter.sharedGroupNames,
       title: voter.title,
     };
 
@@ -740,6 +727,16 @@ export const getPropsForQuote = (
 
   const firstAttachment = quote.attachments && quote.attachments[0];
   const conversation = getConversation(message, conversationSelector);
+  const authorMembership = conversation.memberships?.find(
+    membership => membership.aci === contact.serviceId
+  );
+  const authorLabel =
+    authorMembership && authorMembership.labelString
+      ? {
+          labelEmoji: authorMembership.labelEmoji,
+          labelString: authorMembership.labelString,
+        }
+      : undefined;
 
   const { conversationColor, customColor } = getConversationColorAttributes(
     conversation,
@@ -748,6 +745,7 @@ export const getPropsForQuote = (
 
   return {
     authorId,
+    authorLabel,
     authorName,
     authorPhoneNumber,
     authorProfileName,
@@ -916,6 +914,16 @@ export const getPropsForMessage = (
     ourAci,
   });
   const contactNameColor = getContactNameColor(contactNameColors, authorId);
+  const sourceServiceId = getSourceServiceId(message, ourAci);
+  const sourceMember = conversation.memberships?.find(
+    membership => membership.aci === sourceServiceId
+  );
+  const contactLabel = sourceMember?.labelString
+    ? {
+        labelString: sourceMember.labelString,
+        labelEmoji: sourceMember.labelEmoji,
+      }
+    : undefined;
 
   const { conversationColor, customColor } = getConversationColorAttributes(
     conversation,
@@ -951,6 +959,7 @@ export const getPropsForMessage = (
     canRetry: hasErrors(message),
     canRetryDeleteForEveryone: canRetryDeleteForEveryone(message),
     contact: getPropsForEmbeddedContact(message, regionCode, accountSelector),
+    contactLabel,
     contactNameColor,
     conversationColor,
     conversationId,
@@ -1956,13 +1965,12 @@ export function getPropsForPhoneNumberDiscovery(
 
   const conversation = getConversation(message, conversationSelector);
   const conversationTitle = conversation.title;
-  const sharedGroup = conversation.sharedGroupNames[0];
   const { e164 } = phoneNumberDiscovery;
 
   return {
+    conversationId: conversation.id,
     conversationTitle,
     phoneNumber: renderNumber(e164) ?? e164,
-    sharedGroup,
   };
 }
 
@@ -2407,7 +2415,9 @@ export function canPinMessages(conversation: ConversationType): boolean {
   if (!isPinnedMessagesSendEnabled()) {
     return false;
   }
-  return conversation.type === 'direct' || canEditGroupInfo(conversation);
+  return (
+    conversation.type === 'direct' || conversation.canEditGroupInfo === true
+  );
 }
 
 export function canPinMessage(
@@ -2444,20 +2454,15 @@ export function getLastChallengeError(
   return challengeErrors.pop();
 }
 
-const getTargetedMessageForDetails = (
-  state: StateType
-): ReadonlyMessageAttributesType | undefined =>
-  state.conversations.targetedMessageForDetails;
-
 const OUTGOING_KEY_ERROR = 'OutgoingIdentityKeyError';
 
-export const getMessageDetails = createSelector(
+export const getMessageDetailsSelector = createSelector(
   getAccountSelector,
   getCachedConversationMemberColorsSelector,
   getConversationSelector,
   getIntl,
   getRegionCode,
-  getTargetedMessageForDetails,
+  getMessages,
   getUserACI,
   getUserPNI,
   getUserConversationId,
@@ -2472,7 +2477,7 @@ export const getMessageDetails = createSelector(
     conversationSelector,
     i18n,
     regionCode,
-    message,
+    messageLookup,
     ourAci,
     ourPni,
     ourConversationId,
@@ -2481,142 +2486,152 @@ export const getMessageDetails = createSelector(
     selectedMessageIds,
     defaultConversationColor,
     hasUnidentifiedDeliveryIndicators
-  ): SmartMessageDetailPropsType | undefined => {
-    if (!message || !ourConversationId) {
-      return;
-    }
-
-    const {
-      errors: messageErrors = [],
-      sendStateByConversationId = {},
-      unidentifiedDeliveries = [],
-      unidentifiedDeliveryReceived,
-    } = message;
-
-    const unidentifiedDeliveriesSet = new Set(
-      map(
-        unidentifiedDeliveries,
-        identifier =>
-          window.ConversationController.getConversationId(identifier) as string
-      )
-    );
-
-    let conversationIds: Array<string>;
-    if (isIncoming(message)) {
-      conversationIds = [
-        getAuthorId(message, {
-          conversationSelector,
-          ourConversationId,
-          ourNumber,
-          ourAci,
-        }),
-      ].filter(isNotNil);
-    } else if (!isEmpty(sendStateByConversationId)) {
-      if (isMessageJustForMe(sendStateByConversationId, ourConversationId)) {
-        conversationIds = [ourConversationId];
-      } else {
-        conversationIds = Object.keys(sendStateByConversationId).filter(
-          id => id !== ourConversationId
-        );
+  ): ((messageId: string) => SmartMessageDetailPropsType | undefined) =>
+    (messageId: string) => {
+      if (!messageLookup || !ourConversationId) {
+        return;
       }
-    } else {
-      const messageConversation = window.ConversationController.get(
-        message.conversationId
-      );
-      const conversationRecipients = messageConversation
-        ? getRecipients(messageConversation.attributes) || []
-        : [];
-      // Older messages don't have the recipients included on the message, so we fall back
-      //   to the conversation's current recipients
-      conversationIds = conversationRecipients
-        .map((id: string) =>
-          window.ConversationController.getConversationId(id)
+
+      const message = messageLookup[messageId];
+      if (!message) {
+        return;
+      }
+
+      const {
+        errors: messageErrors = [],
+        sendStateByConversationId = {},
+        unidentifiedDeliveries = [],
+        unidentifiedDeliveryReceived,
+      } = message;
+
+      const unidentifiedDeliveriesSet = new Set(
+        map(
+          unidentifiedDeliveries,
+          identifier =>
+            window.ConversationController.getConversationId(
+              identifier
+            ) as string
         )
-        .filter(isNotNil);
-    }
+      );
 
-    // This will make the error message for outgoing key errors a bit nicer
-    const allErrors = messageErrors.map(error => {
-      if (error.name === OUTGOING_KEY_ERROR) {
-        return {
-          ...error,
-          message: i18n('icu:newIdentity'),
-        };
-      }
-
-      return error;
-    });
-
-    // If an error has a specific number it's associated with, we'll show it next to
-    //   that contact. Otherwise, it will be a standalone entry.
-    const errors = allErrors.filter(error =>
-      Boolean(error.serviceId || error.number)
-    );
-    const errorsGroupedById = groupBy(allErrors, error => {
-      const serviceId = error.serviceId || error.number;
-      if (!serviceId) {
-        return null;
-      }
-
-      return window.ConversationController.getConversationId(serviceId);
-    });
-
-    const contacts: ReadonlyArray<SmartMessageDetailContact> =
-      conversationIds.map(id => {
-        const errorsForContact = getOwn(errorsGroupedById, id);
-        const isOutgoingKeyError = Boolean(
-          errorsForContact?.some(error => error.name === OUTGOING_KEY_ERROR)
+      let conversationIds: Array<string>;
+      if (isIncoming(message)) {
+        conversationIds = [
+          getAuthorId(message, {
+            conversationSelector,
+            ourConversationId,
+            ourNumber,
+            ourAci,
+          }),
+        ].filter(isNotNil);
+      } else if (!isEmpty(sendStateByConversationId)) {
+        if (isMessageJustForMe(sendStateByConversationId, ourConversationId)) {
+          conversationIds = [ourConversationId];
+        } else {
+          conversationIds = Object.keys(sendStateByConversationId).filter(
+            id => id !== ourConversationId
+          );
+        }
+      } else {
+        const messageConversation = window.ConversationController.get(
+          message.conversationId
         );
+        const conversationRecipients = messageConversation
+          ? getRecipients(messageConversation.attributes) || []
+          : [];
+        // Older messages don't have the recipients included on the message, so we fall
+        //   back to the conversation's current recipients
+        conversationIds = conversationRecipients
+          .map((id: string) =>
+            window.ConversationController.getConversationId(id)
+          )
+          .filter(isNotNil);
+      }
 
-        let isUnidentifiedDelivery = false;
-        if (hasUnidentifiedDeliveryIndicators) {
-          isUnidentifiedDelivery = isIncoming(message)
-            ? Boolean(unidentifiedDeliveryReceived)
-            : unidentifiedDeliveriesSet.has(id);
+      // This will make the error message for outgoing key errors a bit nicer
+      const allErrors = messageErrors.map(error => {
+        if (error.name === OUTGOING_KEY_ERROR) {
+          return {
+            ...error,
+            message: i18n('icu:newIdentity'),
+          };
         }
 
-        const sendState = getOwn(sendStateByConversationId, id);
-
-        let status = sendState?.status;
-
-        // If a message was only sent to yourself (Note to Self or a lonely group), it
-        //   is shown read.
-        if (id === ourConversationId && status && isSent(status)) {
-          status = SendStatus.Read;
-        }
-
-        const statusTimestamp = sendState?.updatedAt;
-
-        return {
-          ...conversationSelector(id),
-          errors: errorsForContact,
-          isOutgoingKeyError,
-          isUnidentifiedDelivery,
-          status,
-          statusTimestamp:
-            statusTimestamp === message.timestamp ? undefined : statusTimestamp,
-        };
+        return error;
       });
 
-    return {
-      contacts,
-      errors,
-      message: getPropsForMessage(message, {
-        accountSelector,
-        contactNameColors: cachedConversationMemberColorsSelector(
-          message.conversationId
-        ),
-        conversationSelector,
-        ourAci,
-        ourPni,
-        ourConversationId,
-        ourNumber,
-        regionCode,
-        pinnedMessagesMessageIds,
-        selectedMessageIds,
-        defaultConversationColor,
-      }),
-      receivedAt: Number(message.received_at_ms || message.received_at),
-    };
-  }
+      // If an error has a specific number it's associated with, we'll show it next to
+      //   that contact. Otherwise, it will be a standalone entry.
+      const errors = allErrors.filter(error =>
+        Boolean(error.serviceId || error.number)
+      );
+      const errorsGroupedById = groupBy(allErrors, error => {
+        const serviceId = error.serviceId || error.number;
+        if (!serviceId) {
+          return null;
+        }
+
+        return window.ConversationController.getConversationId(serviceId);
+      });
+
+      const contacts: ReadonlyArray<SmartMessageDetailContact> =
+        conversationIds.map(id => {
+          const errorsForContact = getOwn(errorsGroupedById, id);
+          const isOutgoingKeyError = Boolean(
+            errorsForContact?.some(error => error.name === OUTGOING_KEY_ERROR)
+          );
+
+          let isUnidentifiedDelivery = false;
+          if (hasUnidentifiedDeliveryIndicators) {
+            isUnidentifiedDelivery = isIncoming(message)
+              ? Boolean(unidentifiedDeliveryReceived)
+              : unidentifiedDeliveriesSet.has(id);
+          }
+
+          const sendState = getOwn(sendStateByConversationId, id);
+
+          let status = sendState?.status;
+
+          // If a message was only sent to yourself (Note to Self or a lonely group), it
+          //   is shown read.
+          if (id === ourConversationId && status && isSent(status)) {
+            status = SendStatus.Read;
+          }
+
+          const statusTimestamp = sendState?.updatedAt;
+
+          return {
+            ...conversationSelector(id),
+            errors: errorsForContact,
+            isOutgoingKeyError,
+            isUnidentifiedDelivery,
+            status,
+            statusTimestamp:
+              statusTimestamp === message.timestamp
+                ? undefined
+                : statusTimestamp,
+          };
+        });
+
+      return {
+        contacts,
+        errors,
+        message: getPropsForMessage(message, {
+          accountSelector,
+          contactNameColors: cachedConversationMemberColorsSelector(
+            message.conversationId
+          ),
+          conversationSelector,
+          ourAci,
+          ourPni,
+          ourConversationId,
+          ourNumber,
+          regionCode,
+          pinnedMessagesMessageIds,
+          selectedMessageIds,
+          defaultConversationColor,
+        }),
+        receivedAt: Number(message.received_at_ms || message.received_at),
+      };
+    }
 );

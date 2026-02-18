@@ -23,6 +23,7 @@ import {
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import { getComposerStateForConversationIdSelector } from '../selectors/composer.preload.js';
 import {
+  getCachedConversationMemberColorsSelector,
   getConversationSelector,
   getGroupAdminsSelector,
   getHasPanelOpen,
@@ -31,6 +32,7 @@ import {
   getSelectedMessageIds,
   isMissingRequiredProfileSharing,
 } from '../selectors/conversations.dom.js';
+import { getSharedGroupNames } from '../../util/sharedGroupNames.dom.js';
 import {
   getDefaultConversationColor,
   getEmojiSkinToneDefault,
@@ -130,6 +132,10 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
   const groupAdmins = useMemo(() => {
     return getGroupAdmins(id);
   }, [getGroupAdmins, id]);
+  const getMemberColors = useSelector(
+    getCachedConversationMemberColorsSelector
+  );
+  const memberColors = getMemberColors(id);
 
   const addedBy = useMemo(() => {
     if (conversation.type === 'group') {
@@ -228,7 +234,9 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
     <CompositionArea
       // Base
       conversationId={id}
+      draftBodyRanges={hydratedDraftBodyRanges ?? null}
       draftEditMessage={draftEditMessage ?? null}
+      draftText={conversation.draftText ?? null}
       focusCounter={focusCounter}
       getPreferredBadge={getPreferredBadge}
       i18n={i18n}
@@ -307,7 +315,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       blockConversation={blockConversation}
       reportSpam={reportSpam}
       deleteConversation={deleteConversation}
-      sharedGroupNames={conversation.sharedGroupNames}
+      getSharedGroupNames={getSharedGroupNames}
       // Signal Conversation
       isSignalConversation={isSignalConversation(conversation)}
       isMuted={isConversationMuted(conversation)}
@@ -321,8 +329,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       areWePending={conversation.areWePending ?? null}
       areWePendingApproval={conversation.areWePendingApproval ?? null}
       groupAdmins={groupAdmins}
-      draftText={conversation.draftText ?? null}
-      draftBodyRanges={hydratedDraftBodyRanges ?? null}
+      memberColors={memberColors}
       renderSmartCompositionRecording={renderSmartCompositionRecording}
       renderSmartCompositionRecordingDraft={
         renderSmartCompositionRecordingDraft

@@ -47,6 +47,7 @@ import { type RemoteMegaphoneType } from '../types/Megaphone.std.js';
 import { isCountryPpmCsvBucketEnabled } from '../RemoteConfig.dom.js';
 import type { AciString } from '../types/ServiceId.std.js';
 import {
+  deleteMegaphoneAndRemoveFromRedux,
   isRemoteMegaphoneEnabled,
   runMegaphoneCheck,
 } from './megaphone.preload.js';
@@ -171,7 +172,7 @@ export class ReleaseNoteAndMegaphoneFetcher {
       const localeMegaphone = await this.#server.getMegaphone({ uuid, locale });
       if (localeMegaphone == null) {
         log.warn(
-          `processMegaphones could not fetch locale megaphone for ${uuid}, skipping`
+          `saveNewMegaphones could not fetch locale megaphone for ${uuid}, skipping`
         );
         continue;
       }
@@ -222,7 +223,27 @@ export class ReleaseNoteAndMegaphoneFetcher {
     );
   }
 
-  async #processMegaphones(
+  async #deleteUnknownMegaphones(
+    manifestMegaphones: ReadonlyArray<ManifestMegaphoneType>
+  ): Promise<void> {
+    const manifestMegaphoneIds = new Set(
+      manifestMegaphones.map(({ uuid }) => uuid)
+    );
+    const localMegaphoneIds = await DataReader.getAllMegaphoneIds();
+    for (const id of localMegaphoneIds) {
+      if (manifestMegaphoneIds.has(id)) {
+        continue;
+      }
+
+      log.warn(
+        `deleteUnknownMegaphones: Found local megaphone missing in manifest, deleting: ${id}`
+      );
+      // eslint-disable-next-line no-await-in-loop
+      await deleteMegaphoneAndRemoveFromRedux(id);
+    }
+  }
+
+  async #saveNewMegaphones(
     megaphones: ReadonlyArray<ManifestMegaphoneType>
   ): Promise<number> {
     const nowSeconds = Math.round(Date.now() / 1000);
@@ -251,7 +272,7 @@ export class ReleaseNoteAndMegaphoneFetcher {
         const localeDetail = await this.#maybeGetLocaleMegaphone(uuid, locales);
         if (localeDetail == null) {
           log.warn(
-            `processMegaphones: could not fetch locale megaphone for ${uuid}, skipping`
+            `saveNewMegaphones: could not fetch locale megaphone for ${uuid}, skipping`
           );
           continue;
         }
@@ -259,13 +280,13 @@ export class ReleaseNoteAndMegaphoneFetcher {
         // API allows for empty imagePath, but we require it for desktop
         if (localeDetail.imagePath == null) {
           log.error(
-            `processMegaphones: megaphone ${uuid} ${localeDetail.localeFetched} missing imagePath, skipping`
+            `saveNewMegaphones: megaphone ${uuid} ${localeDetail.localeFetched} missing imagePath, skipping`
           );
           continue;
         }
 
         // Create the megaphone
-        log.info(`processMegaphones: saving megaphone ${uuid}`);
+        log.info(`saveNewMegaphones: saving megaphone ${uuid}`);
         const hydratedMegaphone: RemoteMegaphoneType = {
           id: uuid,
           desktopMinVersion: megaphone.desktopMinVersion,
@@ -295,7 +316,7 @@ export class ReleaseNoteAndMegaphoneFetcher {
       } catch (error) {
         // Don't add it, we'll try again later
         log.warn(
-          `processMegaphones: failed for ${uuid}`,
+          `saveNewMegaphones: failed for ${uuid}`,
           Errors.toLogFormat(error)
         );
       }
@@ -556,7 +577,8 @@ export class ReleaseNoteAndMegaphoneFetcher {
             (megaphone): megaphone is ManifestMegaphoneType =>
               megaphone.desktopMinVersion != null
           );
-          const savedCount = await this.#processMegaphones(validMegaphones);
+          await this.#deleteUnknownMegaphones(validMegaphones);
+          const savedCount = await this.#saveNewMegaphones(validMegaphones);
           if (savedCount > 0) {
             drop(runMegaphoneCheck());
           }

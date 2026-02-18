@@ -12,7 +12,7 @@ const log = createLogger('Conversation');
 export type BuildAvatarUpdaterOptions = Readonly<{
   data?: Uint8Array;
   newAvatar?: ContactAvatarType;
-  deleteAttachmentData: (path: string) => Promise<void>;
+  deleteAttachmentData: (path: string) => Promise<{ wasDeleted: boolean }>;
   doesAttachmentExist: (path: string) => Promise<boolean>;
   writeNewAttachmentData: (data: Uint8Array) => Promise<LocalAttachmentV2Type>;
 }>;

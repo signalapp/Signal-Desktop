@@ -1,0 +1,14 @@
+diff --git a/binding.gyp b/binding.gyp
+index 9e8d3b65824078700ffe324787e46853ab6faf9e..6072c86e7658bb506a444f3ea807d5338787bf17 100644
+--- a/binding.gyp
++++ b/binding.gyp
+@@ -1,6 +1,9 @@
+ {
+   "targets": [
+     {
++      'xcode_settings': {
++        'MACOSX_DEPLOYMENT_TARGET': '10.15',
++      },
+       "target_name": "xattr",
+       "sources": [
+         "src/async.c",

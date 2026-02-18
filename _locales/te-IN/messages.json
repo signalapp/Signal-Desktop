@@ -578,14 +578,95 @@
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "{name}‌తో పూర్తి స్థాయి ఎన్‌క్రిప్షన్‌ను ధృవీకరించడానికి, పైన ఉన్న సంఖ్యలను వాటి పరికరంతో పోల్చండి. వారు మీ కోడ్‌ను వారి పరికరంతో కూడా స్కాన్ చేయవచ్చు."
   },
+  "icu:SafetyNumberViewer__hint-v2": {
+    "messageformat": "{name}‌తో ఎండ్-టు-ఎండ్ గుప్తీకరణను ధృవీకరించడానికి, పైన ఉన్న సంఖ్యలను వాటి పరికరంతో పోల్చండి. వారు మీ కోడ్‌ను వారి పరికరంలో కూడా స్కాన్ చేయవచ్చు."
+  },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "మరింత నేర్చుకోండి"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__title": {
+    "messageformat": "ఆటోమేటిక్ కీ ధృవీకరణ"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
+    "messageformat": "ఆటోమేటిక్‌గా ధృవీకరించండి"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--running": {
+    "messageformat": "గుప్తీకరణను ధృవీకరిస్తోంది..."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
+    "messageformat": "గుప్తీకరణ ధృవీకరించబడింది"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
+    "messageformat": "ఆటో-ధృవీకరణ అందుబాటులో లేదు"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__hint": {
+    "messageformat": "అన్ని చాట్‌లకు ఆటో-ధృవీకరణ అందుబాటులో లేదు."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
+    "messageformat": "మరింత నేర్చుకోండి"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
+    "messageformat": "ఈ చాట్ కోసం గుప్తీకరణ ఆటోమేటిక్‌గా ధృవీకరించబడింది "
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+    "messageformat": "ఫోన్ నంబర్ ద్వారా మీరు కనెక్ట్ అయిన పరిచయాల కోసం, Signal కీ పారదర్శకత అనే ప్రక్రియను ఉపయోగించి కనెక్షన్ సురక్షితంగా ఉందో లేదో ఆటోమేటిక్‌గా నిర్ధారించగలదు. అదనపు భద్రత కోసం, మునుపటి స్క్రీన్‌పై ఉన్న నంబర్‌లను సరిపోల్చడం ద్వారా లేదా వారి పరికరంలోని కోడ్‌ను స్కాన్ చేయడం ద్వారా ఎండ్-టు-ఎండ్ గుప్తీకరణను మాన్యువల్‌గా ధృవీకరించండి."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
+    "messageformat": "ఈ చాట్ కోసం ఆటో-ధృవీకరణ ఇప్పుడు అందుబాటులో లేదు"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
+    "messageformat": "Signal ఇకపై ఈ చాట్ కోసం గుప్తీకరణను ఆటోమేటిక్‌గా ధృవీకరించలేదు. దీనికి కారణం బహుశా {name} తమ ఫోన్ నంబర్‌ను మార్చి ఉండటమే కావచ్చు. మునుపటి స్క్రీన్‌పై ఉన్న నంబర్‌లను సరిపోల్చడం ద్వారా లేదా వారి పరికరంలోని కోడ్‌ను స్కాన్ చేయడం ద్వారా ఎండ్-టు-ఎండ్ గుప్తీకరణను మాన్యువల్‌గా ధృవీకరించండి."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
+    "messageformat": "మీరు ఒకరితో ఫోన్ నంబర్ ద్వారా కనెక్ట్ అయినప్పుడు మాత్రమే Signal చాట్‌లలోని గుప్తీకరణను ఆటోమేటిక్‌గా ధృవీకరించగలదు. చాట్ ఒక యూజర్ నేమ్ లేదా ఉమ్మడి గ్రూప్‌తో ప్రారంభించబడి ఉంటే, మునుపటి స్క్రీన్‌లోని నంబర్‌లను పోల్చడం ద్వారా లేదా వారి పరికరంలోని కోడ్‌ను స్కాన్ చేయడం ద్వారా ఎండ్-టు-ఎండ్ గుప్తీకరణను ధృవీకరించండి."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
+    "messageformat": "సరే"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "మీరు ఈ వ్యక్తితో సందేశాలను మార్పిడి చేసిన తర్వాత వారితో భద్రతా సంఖ్య సృష్టించబడుతుంది."
   },
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "ఇంకా నేర్చుకో"
+  },
+  "icu:KeyTransparencyErrorDialog__Title": {
+    "messageformat": "మీ పరికరానికి ఆటోమేటిక్ కీ ధృవీకరణ ప్రస్తుతం అందుబాటులో లేదు. డీబగ్ లాగ్‌ను సమర్పించేదా?"
+  },
+  "icu:KeyTransparencyErrorDialog__Description": {
+    "messageformat": "సమస్యను గుర్తించడానికి మరియు పరిష్కరించడానికి డీబగ్ లాగ్‌లు మాకు సహాయపడతాయి, మరియు గుర్తించే సమాచారం కలిగి ఉండవు."
+  },
+  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "మూసివెయ్యి"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
+    "messageformat": "డీబగ్ లాగ్‌ను పంచుకోండి"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
+    "messageformat": "వీక్షించండి"
+  },
+  "icu:KeyTransparencyErrorDialog__Submit": {
+    "messageformat": "సమర్పించండి"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "వద్దు ధన్యవాదాలు"
+  },
+  "icu:KeyTransparencyErrorDialog__Submitting": {
+    "messageformat": "సమర్పిస్తోంది..."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Title": {
+    "messageformat": "Signal can now auto-verify encryption"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Continue": {
+    "messageformat": "కొనసాగించండి"
+  },
+  "icu:KeyTransparencyOnboardingDialog__LearnMore": {
+    "messageformat": "మరింత నేర్చుకోండి"
+  },
+  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "మూసివెయ్యి"
   },
   "icu:verified": {
     "messageformat": "నిర్థారించబడింది"
@@ -807,7 +888,7 @@
     "messageformat": "ఈ అప్‌డేట్‌లో {whatsNew} చూడండి"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "సిగ్నల్ ఒక లాభాపేక్ష లేని సంస్థ"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "కొత్తవి ఏమిటి"
@@ -1033,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} మీ సిస్టమ్ కాంటాక్ట్‌లలో ఉన్నారు"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "సభ్యుడి లేబుల్‌ను జోడించండి"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "గమనిక"
@@ -1711,6 +1795,15 @@
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "రద్దు చేయండి"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
+    "messageformat": "ఆటోమేటిక్ కీ ధృవీకరణ"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
+    "messageformat": "ప్రారంభించబడినప్పుడు, Signal 1:1 చాట్‌ల గుప్తీకరణను స్వయంచాలకంగా ధృవీకరించడానికి ప్రయత్నిస్తుంది."
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
+    "messageformat": "మరింత తెలుసుకోండి"
   },
   "icu:initialSync": {
     "messageformat": "పరిచయాలు మరియు సమూహాలను సమకాలీకరిస్తోంది"
@@ -2772,13 +2865,13 @@
     "messageformat": "Tenor ద్వారా GIFలను శోధించండి"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIFలను వెతకండి"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tenor లో శోధించండి"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIFలను వెతకండి"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF వర్గాలు"
@@ -2826,7 +2919,7 @@
     "messageformat": "GIF ప్రివ్యూ"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "GIPHY ద్వారా శక్తివంతం చేయబడింది"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "శోధనను క్లియర్ చేయండి"
@@ -4556,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "స్వరం"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "సభ్యుడి లేబుల్‌లు"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "ఈ గ్రూప్‌లో మిమ్మల్ని లేదా మీ పాత్రను వివరించడానికి సభ్యుడి లేబుల్‌ని ఉపయోగించండి. సభ్యుడి లేబుల్‌లు ఈ గ్రూప్‌లో మాత్రమే కనిపిస్తాయి."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "లేబుల్‌ను సెట్ చేయండి"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "మీ లేబుల్‌ను సవరించండి"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "చాట్ రంగు"
   },
@@ -4570,6 +4675,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "సమూహ లింక్"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "సభ్యుడి లేబుల్"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "మీ సభ్యుడి లేబుల్‌ను ఎంటర్ చేయండి"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "ఈ గ్రూప్‌లో మిమ్మల్ని లేదా మీ పాత్రను వివరించడానికి సభ్యుడి లేబుల్‌ను సెట్ చేయండి. సభ్యుడి లేబుల్‌లు ఈ గ్రూప్‌లో మాత్రమే కనిపిస్తాయి."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "పూర్వప్రదర్శన"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "హలో!"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Group members with labels"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "No other members have labels"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "మార్పులను సేవ్ చేస్తోంది..."
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Can’t save member label"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Check your connection and try again."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Only admins can set member labels in this group."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "అదృశ్యమవుతున్న  సందేశాలు"
@@ -4604,6 +4742,9 @@
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "సమూహ పేరు, ఫోటో, వివరణ మరియు అదృశ్యమగు సందేశాల టైమర్‌ను ఎవరు సవరించవచ్చో ఎంచుకోండి."
   },
+  "icu:ConversationDetails--group-info-info-v2": {
+    "messageformat": "గ్రూప్ పేరు, ఫోటో, వివరణ, అదృశ్యమయ్యే సందేశాల టైమర్ మరియు పిన్ చేసిన సందేశాలను ఎవరు సవరించవచ్చో ఎంచుకోండి."
+  },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "సభ్యులను ఎవరు చేర్చగలరు"
   },
@@ -4615,6 +4756,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "గ్రూపుకు ఎవరు సందేశాలు పంపాలనేది ఎంచుకోండి."
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Member labels will be cleared"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Continue"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "అభ్యర్థనలు & ఆహ్వానాలు"
@@ -7303,13 +7453,13 @@
     "messageformat": "లాభం కంటే గోప్యత ముఖ్యం"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "లాభాపేక్షలేనిదని గర్వంగా చెప్పుకుంటున్నాము"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "ప్రైవేట్ మెసేజింగ్, మీ ద్వారా నిధులు సమకూర్చబడినది. ప్రకటనలు లేవు, ట్రాకింగ్ లేదు, రాజీ లేదు. Signal కు మద్దతు ఇవ్వడానికి ఇప్పుడే విరాళం ఇవ్వండి. <readMoreLink>మరింత చదవండి</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "ప్రైవేట్ సందేశాలు పంపేందుకు మద్దతు ఇవ్వడానికి విరాళం ఇవ్వండి. Signal ను స్వతంత్రంగా మరియు ప్రకటనలు లేకుండా ఉంచండి. <readMoreLink>మరింత చదవండి</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "విరాళమివ్వండి"
@@ -7334,6 +7484,21 @@
   },
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>మీరు విరాళం ఇచ్చినప్పుడు Signal మీ వ్యక్తిగత సమాచారంలో దేనినీ సేకరించదు లేదా నిల్వ చేయదు.</paragraph><paragraph>మీ విరాళాలను అందుకోవడానికి మేము Stripe ను మా చెల్లింపు ప్రాసెసర్‌గా ఉపయోగిస్తాము. మీరు వారికి అందించే ఏ సమాచారాన్ని మేము యాక్సెస్ చేయము, నిల్వ చేయము లేదా సేవ్ చేయము.</paragraph><paragraph>Signal మీ విరాళాన్ని మీ Signal ఖాతాకు కనెక్ట్ చేయదు మరియు చేయలేదు.</paragraph><paragraph>మీ మద్దతుకు ధన్యవాదాలు!</paragraph>"
+  },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Get an optional badge on your profile when you donate"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "Your privacy is our mission"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Heart icon in the style of the Signal logo"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "అలాగే"
@@ -7425,6 +7590,15 @@
   "icu:DonateFlow__discard-dialog-remove-info": {
     "messageformat": "సమాచారాన్ని తొలగించండి"
   },
+  "icu:DonateFlow__discard-paypal-dialog-body": {
+    "messageformat": "Leaving will cancel your donation."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Leave"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Stay on page"
+  },
   "icu:DonateFlow__continue": {
     "messageformat": "కొనసాగించండి"
   },
@@ -7470,6 +7644,15 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "నిర్ధారణ అవసరమయ్యే విరాళం మీ వద్ద పురోగతిలో ఉంది."
   },
+  "icu:Donations__Toast__PaypalConfirmationNeeded": {
+    "messageformat": "నిర్ధారణ అవసరమయ్యే విరాళం మీ వద్ద పురోగతిలో ఉంది."
+  },
+  "icu:Donations__Toast__PaypalCanceled": {
+    "messageformat": "PayPal విరాళం రద్దు చేయబడింది"
+  },
+  "icu:Donations__Toast__PaypalError": {
+    "messageformat": "PayPal విరాళాన్ని ప్రాసెస్ చేయడంలో లోపం. మీకు ఛార్జీ విధించబడలేదు."
+  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "విరాళం వియజవంతమైంది, కానీ మేము మీ బ్యాడ్జ్ సెట్టింగ్‌లను అప్‌డేట్ చేయలేకపోయాము"
   },
@@ -7485,11 +7668,41 @@
   "icu:Donations__DonationInterrupted__RetryButton": {
     "messageformat": "మళ్ళీ ప్రయత్నించండి"
   },
+  "icu:Donations__PaymentMethod": {
+    "messageformat": "చెల్లింపు పద్ధతి"
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "చెల్లింపు విధానం తిరస్కరించబడింది"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "మరో చెల్లింపు విధానాన్ని ప్రయత్నించండి లేదా మరింత సమాచారం కొరకు మీ బ్యాంక్‌ను సంప్రదించండి."
+  },
+  "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
+    "messageformat": "చెల్లింపు కార్డ్ చిహ్నం"
+  },
+  "icu:DonateFlow__CreditOrDebitCard": {
+    "messageformat": "క్రెడిట్ లేదా డెబిట్ కార్డు"
+  },
+  "icu:DonateFlow__Paypal__AccessibilityLabel": {
+    "messageformat": "PayPal"
+  },
+  "icu:DonateFlow__Paypal__Cancel": {
+    "messageformat": "రద్దు చేయండి"
+  },
+  "icu:DonateFlow__Paypal__CompleteDonation": {
+    "messageformat": "విరాళాన్ని పూర్తి చేయండి"
+  },
+  "icu:Donations__PaypalCanceled": {
+    "messageformat": "PayPal విరాళం రద్దు చేయబడింది"
+  },
+  "icu:Donations__PaypalCanceled__Description": {
+    "messageformat": "మీకు ఛార్జీ విధించబడలేదు. మళ్ళీ ప్రయత్నించండి లేదా మరొక చెల్లింపు పద్ధతిని ఉపయోగించండి."
+  },
+  "icu:Donations__PaypalError": {
+    "messageformat": "PayPal విరాళాన్ని ప్రాసెస్ చేయడంలో లోపం"
+  },
+  "icu:Donations__PaypalError__Description": {
+    "messageformat": "మీకు ఛార్జీ విధించబడలేదు. మళ్ళీ ప్రయత్నించండి లేదా మరొక చెల్లింపు పద్ధతిని ఉపయోగించండి."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "ధృవీకరణ విఫలమైంది"
@@ -7693,10 +7906,13 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.86--0": {
-    "messageformat": "మేము గ్రూప్ కాల్‌లలో పైకెత్తిన చేయి సూచికకు సంబంధించిన ఒక చిన్న డిస్‌ప్లే బగ్‌ను పరిష్కరించాము."
+  "icu:WhatsNew__7.89--0": {
+    "messageformat": "Caps Lock ప్రారంభించబడినప్పుడు టెక్స్ట్ ఫార్మాటింగ్‌లో ఉన్న బగ్‌ను ఈ అప్‌డేట్ పరిష్కరిస్తుంది. ధన్యవాదాలు, <DGrothePhD></DGrothePhD>!"
   },
-  "icu:WhatsNew__7.87--0": {
-    "messageformat": "ముఖ్యమైన సమాచారాన్ని చాట్ పైభాగంలో సులభంగా అందుబాటులో ఉంచడానికి పిన్ చేసిన సందేశాలు మీకు సహాయపడతాయి."
+  "icu:WhatsNew__7.89--1": {
+    "messageformat": "Signal అనేది లాభాపేక్షలేని సంస్థ, మీ మద్దతు లేకుండా ఇది సాధ్యం కాదు మరియు ఇప్పుడు మీరు Signal డెస్క్‌టాప్‌లో Paypal ద్వారా విరాళం ఇవ్వవచ్చు."
+  },
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
   }
 }

@@ -45,6 +45,10 @@
     }
   }
 
+  &-membership-list--member-label {
+    @include mixins.font-body-small;
+  }
+
   &__block-group {
     color: variables.$color-accent-red;
   }
@@ -285,6 +289,12 @@
           @include details-icon('../images/icons/v3/heart/heart.svg');
         }
       }
+
+      &--tag {
+        &::after {
+          @include details-icon('../images/icons/v3/tag/tag.svg');
+        }
+      }
     }
   }
 
@@ -344,6 +354,7 @@
       flex-grow: 1;
       text-align: start;
       margin-inline-end: 12px;
+      min-width: 0;
     }
 
     &__info {
@@ -361,7 +372,7 @@
     &__right {
       position: relative;
       color: variables.$color-gray-45;
-      min-width: 143px;
+      min-width: 100px;
     }
 
     &__actions {
@@ -519,4 +530,9 @@
     '../images/icons/v3/trash/trash.svg',
     light-dark(variables.$color-black, variables.$color-white)
   );
+}
+
+.Input__input--textarea.GroupMemberLabelEditor__input--textarea {
+  line-height: 32px;
+  margin-top: 0px;
 }

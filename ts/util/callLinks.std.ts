@@ -69,7 +69,6 @@ export function callLinkToConversation(
     color: getColorForCallLink(rootKey),
     isMe: false,
     title: name || i18n('icu:calling__call-link-default-title'),
-    sharedGroupNames: [],
     acceptedMessageRequest: true,
     badges: [],
   };
@@ -84,7 +83,6 @@ export function getPlaceholderCallLinkConversation(
     type: 'callLink',
     isMe: false,
     title: i18n('icu:calling__call-link-default-title'),
-    sharedGroupNames: [],
     acceptedMessageRequest: true,
     badges: [],
   };

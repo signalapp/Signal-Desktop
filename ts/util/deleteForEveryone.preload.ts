@@ -102,7 +102,7 @@ export async function handleDeleteForEveryone(
     if (shouldPersist) {
       // We delete the message first, before re-saving it -- this causes any foreign key
       // ON DELETE CASCADE and messages_on_delete triggers to run, which is important
-      await DataWriter.removeMessage(message.attributes.id, {
+      await DataWriter.removeMessageById(message.attributes.id, {
         cleanupMessages: async () => {
           // We don't actually want to remove this message up from in-memory caches
         },

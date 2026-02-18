@@ -23,6 +23,7 @@
     "name": "React-ref",
     "expression": "\\bref(\\s)*=\\b",
     "reason": "Potential XSS",
+    "excludeOurCode": true,
     "excludedModules": [
       "node_modules/react-dom",
       "node_modules/tslint-microsoft-contrib",
@@ -33,6 +34,7 @@
     "name": "React-createRef",
     "expression": "\\bcreateRef\\(",
     "reason": "Potential XSS",
+    "excludeOurCode": true,
     "excludedModules": [
       "node_modules/react/",
       "node_modules/react-dom",
@@ -44,6 +46,7 @@
     "name": "React-useRef",
     "expression": "\\buseRef(\\(|<)",
     "reason": "Potential XSS",
+    "excludeOurCode": true,
     "excludedModules": ["node_modules/react/", "node_modules/react-dom"]
   },
   {

@@ -97,7 +97,9 @@ describe('Message', () => {
         localKey: '123',
         plaintextHash: 'hash',
       }),
-      deleteAttachmentOnDisk: async (_path: string) => undefined,
+      maybeDeleteAttachmentFile: async (_path: string) => ({
+        wasDeleted: true,
+      }),
       ...props,
     };
   }

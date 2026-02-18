@@ -7,7 +7,10 @@ import { ContactModal } from '../../components/conversation/ContactModal.dom.js'
 import { getAreWeASubscriber } from '../selectors/items.dom.js';
 import { getIntl, getTheme } from '../selectors/user.std.js';
 import { getBadgesSelector } from '../selectors/badges.preload.js';
-import { getConversationSelector } from '../selectors/conversations.dom.js';
+import {
+  getCachedConversationMemberColorsSelector,
+  getConversationSelector,
+} from '../selectors/conversations.dom.js';
 import { getHasStoriesSelector } from '../selectors/stories2.dom.js';
 import {
   getActiveCallState,
@@ -39,30 +42,37 @@ export const SmartContactModal = memo(function SmartContactModal() {
 
   const areWeAdmin = conversation?.areWeAdmin ?? false;
 
-  const ourMembership = useMemo(() => {
+  const contactMembership = useMemo(() => {
     return conversation?.memberships?.find(membership => {
       return membership.aci === contact.serviceId;
     });
   }, [conversation?.memberships, contact]);
 
-  const isMember = ourMembership != null;
-  const isAdmin = ourMembership?.isAdmin ?? false;
+  const isMember = contactMembership != null;
+  const isAdmin = contactMembership?.isAdmin ?? false;
+  const getMemberColors = useSelector(
+    getCachedConversationMemberColorsSelector
+  );
+  const memberColors = getMemberColors(conversationId);
+  const { labelEmoji: contactLabelEmoji, labelString: contactLabelString } =
+    contactMembership || {};
+  const contactNameColor = contactId ? memberColors.get(contactId) : undefined;
 
   const {
     removeMemberFromGroup,
     showConversation,
-    updateConversationModelSharedGroups,
     toggleAdmin,
     blockConversation,
     startAvatarDownload,
   } = useConversationsActions();
   const { viewUserStories } = useStoriesActions();
   const {
+    hideContactModal,
     toggleAboutContactModal,
     toggleAddUserToAnotherGroupModal,
-    toggleSafetyNumberModal,
-    hideContactModal,
     toggleEditNicknameAndNoteModal,
+    toggleGroupMemberLabelInfoModal,
+    toggleSafetyNumberModal,
   } = useGlobalModalActions();
   const {
     onOutgoingVideoCallInConversation,
@@ -82,6 +92,9 @@ export const SmartContactModal = memo(function SmartContactModal() {
       badges={badges}
       blockConversation={blockConversation}
       contact={contact}
+      contactLabelEmoji={contactLabelEmoji}
+      contactLabelString={contactLabelString}
+      contactNameColor={contactNameColor}
       conversation={conversation}
       hasActiveCall={hasActiveCall}
       hasStories={hasStories}
@@ -100,9 +113,9 @@ export const SmartContactModal = memo(function SmartContactModal() {
       toggleAboutContactModal={toggleAboutContactModal}
       toggleAddUserToAnotherGroupModal={toggleAddUserToAnotherGroupModal}
       toggleAdmin={toggleAdmin}
+      toggleGroupMemberLabelInfoModal={toggleGroupMemberLabelInfoModal}
       togglePip={togglePip}
       toggleSafetyNumberModal={toggleSafetyNumberModal}
-      updateConversationModelSharedGroups={updateConversationModelSharedGroups}
       viewUserStories={viewUserStories}
     />
   );

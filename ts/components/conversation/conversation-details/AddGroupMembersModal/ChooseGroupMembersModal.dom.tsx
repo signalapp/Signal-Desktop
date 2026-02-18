@@ -423,7 +423,6 @@ export function ChooseGroupMembersModal({
                 id={contact.id}
                 phoneNumber={contact.phoneNumber}
                 profileName={contact.profileName}
-                sharedGroupNames={contact.sharedGroupNames}
                 title={contact.title}
                 onClickRemove={() => {
                   removeSelectedContact(contact.id);

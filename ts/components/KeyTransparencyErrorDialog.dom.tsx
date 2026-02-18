@@ -33,17 +33,10 @@ export function KeyTransparencyErrorDialog(
   return (
     <AxoDialog.Root open={open} onOpenChange={onOpenChange}>
       <AxoDialog.Content escape="cancel-is-noop" size="md">
-        <AxoDialog.Header>
-          <AxoDialog.Title>
-            {i18n('icu:KeyTransparencyErrorDialog__Title')}
-          </AxoDialog.Title>
-          <AxoDialog.Close
-            aria-label={i18n(
-              'icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel'
-            )}
-          />
-        </AxoDialog.Header>
         <AxoDialog.Body>
+          <h3 className={tw('mt-6 mb-2 type-title-small')}>
+            {i18n('icu:KeyTransparencyErrorDialog__Title')}
+          </h3>
           <p className={tw('mb-3 type-body-medium text-label-primary')}>
             <AxoDialog.Description>
               <I18n
@@ -52,7 +45,7 @@ export function KeyTransparencyErrorDialog(
               />
             </AxoDialog.Description>
           </p>
-          <div className={tw('my-1.5 flex items-center gap-3')}>
+          <div className={tw('mt-1.5 mb-4.5 flex items-center gap-3')}>
             <AxoCheckbox.Root
               variant="square"
               id={debugLogCheckboxId}

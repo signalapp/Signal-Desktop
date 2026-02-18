@@ -57,7 +57,7 @@ import {
   getAesCbcCiphertextSize,
   getAttachmentCiphertextSize,
 } from '../util/AttachmentCrypto.std.js';
-import { getPath } from '../windows/main/attachments.preload.js';
+import { getAttachmentsPath } from '../windows/main/attachments.preload.js';
 import { MediaTier } from '../types/AttachmentDownload.std.js';
 import { deriveAccessKeyFromProfileKey } from '../util/zkgroup.node.js';
 
@@ -645,7 +645,9 @@ describe('Crypto', () => {
 
     describe('decryptAttachmentV2ToSink', () => {
       afterEach(async () => {
-        await emptyDir(getPath(window.SignalContext.config.userDataPath));
+        await emptyDir(
+          getAttachmentsPath(window.SignalContext.config.userDataPath)
+        );
       });
 
       it('throws if digest is wrong', async () => {

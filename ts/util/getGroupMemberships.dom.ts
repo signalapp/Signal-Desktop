@@ -39,7 +39,15 @@ export const getGroupMemberships = (
       if (!member) {
         return result;
       }
-      return [...result, { isAdmin: membership.isAdmin, member }];
+      return [
+        ...result,
+        {
+          isAdmin: membership.isAdmin,
+          labelEmoji: membership.labelEmoji,
+          labelString: membership.labelString,
+          member,
+        },
+      ];
     },
     []
   ),

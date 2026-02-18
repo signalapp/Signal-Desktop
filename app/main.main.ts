@@ -1662,6 +1662,11 @@ function getSQLKey(): string {
     ? safeStorage.getSelectedStorageBackend()
     : undefined;
   const isEncryptionAvailable =
+    // Don't use safeStorage if not packaged and building preload cache or
+    // running test-electron to avoid blocking prompt on macOS CI.
+    (app.isPackaged ||
+      (!process.env.GENERATE_PRELOAD_CACHE &&
+        !isTestEnvironment(getEnvironment()))) &&
     safeStorage.isEncryptionAvailable() &&
     (!isLinux || safeStorageBackend !== 'basic_text');
 

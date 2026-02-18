@@ -32,12 +32,18 @@ const log = createLogger('RemoteConfig');
 const SemverKeys = [
   'desktop.callQualitySurvey.beta',
   'desktop.callQualitySurvey.prod',
+  'desktop.donationPaypal.beta',
+  'desktop.donationPaypal.prod',
+  'desktop.groupMemberLabels.edit.beta',
+  'desktop.groupMemberLabels.edit.prod',
   'desktop.pinnedMessages.receive.beta',
   'desktop.pinnedMessages.receive.prod',
   'desktop.pinnedMessages.send.beta',
   'desktop.pinnedMessages.send.prod',
   'desktop.plaintextExport.beta',
   'desktop.plaintextExport.prod',
+  'desktop.remoteMegaphone.beta',
+  'desktop.remoteMegaphone.prod',
   'desktop.retireAccessKeyGroupSend.beta',
   'desktop.retireAccessKeyGroupSend.prod',
   'desktop.keyTransparency.beta',
@@ -84,13 +90,13 @@ const ScalarKeys = [
 // These keys should always match those in Net.REMOTE_CONFIG_KEYS, prefixed by
 // `desktop.libsignalNet`
 const KnownDesktopLibsignalNetKeys = [
-  'desktop.libsignalNet.chatPermessageDeflate.beta',
   'desktop.libsignalNet.chatPermessageDeflate.prod',
-  'desktop.libsignalNet.chatPermessageDeflate',
   'desktop.libsignalNet.chatRequestConnectionCheckTimeoutMillis.beta',
   'desktop.libsignalNet.chatRequestConnectionCheckTimeoutMillis',
   'desktop.libsignalNet.disableNagleAlgorithm.beta',
   'desktop.libsignalNet.disableNagleAlgorithm',
+  'desktop.libsignalNet.grpc.AccountsAnonymousLookupUsernameHash.beta',
+  'desktop.libsignalNet.grpc.AccountsAnonymousLookupUsernameHash',
   'desktop.libsignalNet.useH2ForUnauthChat.beta',
   'desktop.libsignalNet.useH2ForUnauthChat',
 ] as const;

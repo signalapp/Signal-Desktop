@@ -197,6 +197,7 @@ import type {
   BackupAttachmentDownloadProgress,
   GetMessagesBetweenOptions,
   MaybeStaleCallHistory,
+  ExistingAttachmentData,
 } from './Interface.std.js';
 import {
   AttachmentDownloadSource,
@@ -270,6 +271,7 @@ import {
 } from './server/pinnedMessages.std.js';
 import {
   getAllMegaphones,
+  getAllMegaphoneIds,
   createMegaphone,
   updateMegaphone,
   deleteMegaphone,
@@ -280,8 +282,10 @@ import {
   hasMegaphone,
 } from './server/megaphones.std.js';
 import {
+  getAllKTAcis,
   getKTAccountData,
   setKTAccountData,
+  removeAllKTAccountData,
 } from './server/keyTransparency.std.js';
 import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer.std.js';
 import type { GifType } from '../components/fun/panels/FunPanelGifs.dom.js';
@@ -296,8 +300,9 @@ import type {
 } from '../types/Colors.std.js';
 import { sqlLogger } from './sqlLogger.node.js';
 import { permissiveMessageAttachmentSchema } from './server/messageAttachments.std.js';
-import { getFilePathsOwnedByMessage } from '../util/messageFilePaths.std.js';
+import { getFilePathsReferencedByMessage } from '../util/messageFilePaths.std.js';
 import { createMessagesOnInsertTrigger } from './migrations/1500-search-polls.std.js';
+import { isValidPlaintextHash } from '../types/Crypto.std.js';
 
 const {
   forEach,
@@ -501,8 +506,10 @@ export const DataReader: ServerReadableInterface = {
   getOldestDeletedChatFolder,
 
   getAllMegaphones,
+  getAllMegaphoneIds,
   hasMegaphone,
 
+  getAllKTAcis,
   getKTAccountData,
 
   getAllPinnedMessages,
@@ -558,6 +565,8 @@ export const DataReader: ServerReadableInterface = {
   getAttachmentReferencesForMessages,
   getMessageCountBySchemaVersion,
   getMessageSampleForSchemaVersion,
+  isAttachmentSafeToDelete,
+  getAllProtectedAttachmentPaths,
 
   // Server-only
   getKnownMessageAttachments,
@@ -698,6 +707,10 @@ export const DataWriter: ServerWritableInterface = {
   removeAllBackupAttachmentDownloadJobs,
   resetBackupAttachmentDownloadStats,
 
+  getAndProtectExistingAttachmentPath,
+  _protectAttachmentPathFromDeletion,
+  resetProtectedAttachmentPaths,
+
   getNextAttachmentBackupJobs,
   saveAttachmentBackupJob,
   markAllAttachmentBackupJobsInactive,
@@ -772,6 +785,7 @@ export const DataWriter: ServerWritableInterface = {
   internalDeleteAllMegaphones,
 
   setKTAccountData,
+  removeAllKTAccountData,
 
   appendPinnedMessage,
   deletePinnedMessageByMessageId,
@@ -2912,6 +2926,116 @@ function saveMessageAttachment({
   }
 }
 
+function getAndProtectExistingAttachmentPath(
+  db: WritableDB,
+  {
+    plaintextHash,
+    version,
+    contentType,
+  }: { plaintextHash: string; version: number; contentType: string }
+): ExistingAttachmentData | undefined {
+  if (!isValidPlaintextHash(plaintextHash)) {
+    logger.error('getAndProtectExistingAttachmentPath: Invalid plaintextHash');
+    return;
+  }
+  if (version < 2) {
+    logger.error(
+      'getAndProtectExistingAttachmentPath: Invalid version',
+      version
+    );
+    return;
+  }
+
+  const [query, params] = sql`
+    SELECT
+      path,
+      version,
+      localKey,
+      width,
+      height,
+      thumbnailPath,
+      thumbnailLocalKey,
+      thumbnailVersion,
+      thumbnailContentType,
+      thumbnailSize,
+      screenshotPath,
+      screenshotLocalKey,
+      screenshotVersion,
+      screenshotContentType,
+      screenshotSize
+    FROM message_attachments 
+    WHERE 
+      plaintextHash = ${plaintextHash} AND 
+      path IS NOT NULL AND
+      version = ${version} AND
+      contentType = ${contentType}
+    LIMIT 1;
+  `;
+
+  const existingData = db.prepare(query).get<ExistingAttachmentData>(params);
+
+  if (!existingData) {
+    return undefined;
+  }
+
+  const [protectQuery, protectParams] = sql`
+      WITH existingMessageAttachmentPaths(path) AS (
+        VALUES
+          (${existingData.path}),
+          (${existingData.thumbnailPath}),
+          (${existingData.screenshotPath})
+      )
+      INSERT OR REPLACE INTO attachments_protected_from_deletion(path)
+      SELECT path
+      FROM existingMessageAttachmentPaths
+      WHERE path IS NOT NULL;
+    `;
+  db.prepare(protectQuery).run(protectParams);
+
+  return existingData;
+}
+
+function _protectAttachmentPathFromDeletion(
+  db: WritableDB,
+  path: string
+): void {
+  const [protectQuery, protectParams] = sql`
+    INSERT OR REPLACE INTO attachments_protected_from_deletion(path)
+    VALUES (${path});
+  `;
+  db.prepare(protectQuery).run(protectParams);
+}
+
+function resetProtectedAttachmentPaths(db: WritableDB): void {
+  db.prepare('DELETE FROM attachments_protected_from_deletion').run();
+}
+
+function getAllProtectedAttachmentPaths(db: ReadableDB): Array<string> {
+  return db
+    .prepare('SELECT path FROM attachments_protected_from_deletion', {
+      pluck: true,
+    })
+    .all<string>();
+}
+
+function isAttachmentSafeToDelete(db: ReadableDB, path: string): boolean {
+  const [query, params] = sql`
+    SELECT EXISTS (
+      SELECT 1 FROM attachments_protected_from_deletion 
+        WHERE path = ${path}
+      UNION ALL
+        SELECT 1 FROM message_attachments 
+          WHERE 
+            path = ${path} OR
+            thumbnailPath = ${path} OR
+            screenshotPath = ${path} OR
+            backupThumbnailPath = ${path}
+    );
+  `;
+
+  return db.prepare(query, { pluck: true }).get(params) === 0;
+}
+
 function _testOnlyRemoveMessageAttachments(
   db: WritableDB,
   timestamp: number
@@ -3326,11 +3450,18 @@ function getAllMessageIds(db: ReadableDB): Array<string> {
 
 function getMessageByAuthorAciAndSentAt(
   db: ReadableDB,
+  ourAci: AciString,
   authorAci: AciString,
   sentAtTimestamp: number,
   options: { includeEdits: boolean }
 ): MessageType | null {
   return db.transaction(() => {
+    const isSentByUs = ourAci === authorAci;
+
+    const senderPredicate = isSentByUs
+      ? sqlFragment`(messages.sourceServiceId = ${authorAci} OR messages.type IS 'outgoing')`
+      : sqlFragment`(messages.sourceServiceId = ${authorAci})`;
+
     // Return sentAt/readStatus from the messages table, when we edit a message
     // we add the original message to messages.editHistory and update original
     // message's sentAt/readStatus columns.
@@ -3342,14 +3473,14 @@ function getMessageByAuthorAciAndSentAt(
       FROM edited_messages
       INNER JOIN messages ON
         messages.id = edited_messages.messageId
-      WHERE messages.sourceServiceId = ${authorAci}
+      WHERE ${senderPredicate}
         AND edited_messages.sentAt = ${sentAtTimestamp}
     `;
 
     const messagesQuery = sqlFragment`
       SELECT ${MESSAGE_COLUMNS_FRAGMENT}
       FROM messages
-      WHERE messages.sourceServiceId = ${authorAci}
+      WHERE ${senderPredicate}
         AND messages.sent_at = ${sentAtTimestamp}
     `;
 
@@ -8376,6 +8507,7 @@ function removeAll(db: WritableDB): void {
       DELETE FROM attachment_downloads;
       DELETE FROM attachment_backup_jobs;
       DELETE FROM attachment_downloads_backup_stats;
+      DELETE FROM attachments_protected_from_deletion;
       DELETE FROM backup_cdn_object_metadata;
       DELETE FROM badgeImageFiles;
       DELETE FROM badges;
@@ -8697,7 +8829,7 @@ function getKnownMessageAttachments(
   const { messages, cursor: newCursor } = pageMessages(db, innerCursor);
   for (const message of messages) {
     const { externalAttachments, externalDownloads } =
-      getFilePathsOwnedByMessage(message);
+      getFilePathsReferencedByMessage(message);
     externalAttachments.forEach(file => attachments.add(file));
     externalDownloads.forEach(file => downloads.add(file));
   }

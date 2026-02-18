@@ -13,6 +13,7 @@ import {
   getConversationSelector,
   getPendingAvatarDownloadSelector,
 } from '../selectors/conversations.dom.js';
+import { useSharedGroupNamesOnMount } from '../../util/sharedGroupNames.dom.js';
 import {
   type ConversationType,
   useConversationsActions,
@@ -55,6 +56,7 @@ export const SmartHeroRow = memo(function SmartHeroRow({
     getConversationByServiceIdSelector
   );
   const isPendingAvatarDownload = useSelector(getPendingAvatarDownloadSelector);
+  const sharedGroupNames = useSharedGroupNamesOnMount(id);
   const conversation = conversationSelector(id);
   if (conversation == null) {
     throw new Error(`Did not find conversation ${id} in state!`);
@@ -70,7 +72,7 @@ export const SmartHeroRow = memo(function SmartHeroRow({
   const isSignalConversationValue = isSignalConversation(conversation);
   const fromOrAddedByTrustedContact =
     isFromOrAddedByTrustedContact(conversation);
-  const { pushPanelForConversation, startAvatarDownload, updateSharedGroups } =
+  const { pushPanelForConversation, startAvatarDownload } =
     useConversationsActions();
   const { toggleAboutContactModal, toggleProfileNameWarningModal } =
     useGlobalModalActions();
@@ -92,7 +94,6 @@ export const SmartHeroRow = memo(function SmartHeroRow({
     nicknameFamilyName,
     phoneNumber,
     profileName,
-    sharedGroupNames,
     title,
     type,
   } = conversation;
@@ -134,7 +135,6 @@ export const SmartHeroRow = memo(function SmartHeroRow({
       title={title}
       toggleAboutContactModal={toggleAboutContactModal}
       toggleProfileNameWarningModal={toggleProfileNameWarningModal}
-      updateSharedGroups={updateSharedGroups}
       viewUserStories={viewUserStories}
     />
   );

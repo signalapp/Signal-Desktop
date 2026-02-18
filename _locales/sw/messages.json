@@ -578,14 +578,95 @@
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "Ili kuthibitisha usimbaji fiche wa mwanzo hadi mwisho na {name}, linganisha nambari zilizo hapo juu na kifaa chao. Pia, wanaweza kupiga skani msimbo wako na kifaa chao."
   },
+  "icu:SafetyNumberViewer__hint-v2": {
+    "messageformat": "Ili kuthibitisha usimbaji fiche wa mwanzo hadi mwisho ukitumia {name}, linganisha namba zilizo hapo juu na kifaa chake. Pia, wanaweza kuskani msimbo wako na kifaa chao."
+  },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Jifunze zaidi"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__title": {
+    "messageformat": "Uthibitishaji wa Kiotomatiki wa Ufunguo"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
+    "messageformat": "Thibitisha kiotomatiki"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--running": {
+    "messageformat": "Inathibitisha usimbaji fiche..."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
+    "messageformat": "Usimbaji fiche umethibitishwa"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
+    "messageformat": "Uthibitishaji wa kiotomatiki haupatikani"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__hint": {
+    "messageformat": "Uthibitishaji wa kiotomatiki haupatikani kwa magumzo yote."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
+    "messageformat": "Jifunze zaidi"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
+    "messageformat": "Usimbaji fiche umethibitishwa kiotomatiki kwa gumzo hili "
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+    "messageformat": "Kwa wawasiliani uliounganisha nao moja kwa moja kupitia namba ya simu, Signal inaweza kuthibitisha kiotomatiki iwapo muunganisho huo ni salama kwa kutumia mchakato unaoitwa uwazi wa funguo. Ili uimarishe usalama, thibitisha mwenyewe usimbaji fiche wa mwanzo hadi mwisho kwa kulinganisha namba kwenye skrini iliyotangulia au kuchanganua msimbo kwenye kifaa chako."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
+    "messageformat": "Hakuna uthibitishaji wa kiotomatiki kwa gumzo hili"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
+    "messageformat": "Signal haiwezi tena kuthibitisha kiotomatiki usimbaji fiche wa gumzo hili. Huenda hii ni kutokana na {name} kubadilisha namba yake ya simu. Thibitisha usimbaji fiche wa mwanzo hadi mwisho kwa kulinganisha mwenyewe namba kwenye skrini iliyotangulia au kuchanganua msimbo kwenye kifaa hiki."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
+    "messageformat": "Signal inaweza tu kuthibitisha kiotomatiki usimbaji fiche kwenye magumzo unapounganishwa na mtu kupitia namba ya simu. Ikiwa gumzo lilianzishwa na jina la mtumiaji au kikundi cha pamoja, thibitisha usimbaji fiche wa mwanzo hadi mwisho kwa kulinganisha namba kwenye skrini iliyotangulia au kuchanganua msimbo kwenye kifaa chake."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
+    "messageformat": "Sawa"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Nambari ya usalama itaundwa na mtu huyu baada ya kubadilishana nao jumbe."
   },
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Jifunze zaidi"
+  },
+  "icu:KeyTransparencyErrorDialog__Title": {
+    "messageformat": "Uthibitishaji Kiotomatiki wa Funguo kwa sasa haupatikani kwenye kifaa chako. Ungependa kuwasilisha kumbukumbu za utatuzi?"
+  },
+  "icu:KeyTransparencyErrorDialog__Description": {
+    "messageformat": "Kumbukumbu za utatuzi zinatusaidia kutambua na kurekebisha tatizo, na hazina maelezo ya utambulisho."
+  },
+  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Funga"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
+    "messageformat": "Shiriki faili la rekebisho"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
+    "messageformat": "Tazama"
+  },
+  "icu:KeyTransparencyErrorDialog__Submit": {
+    "messageformat": "Tuma"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "Hapana nashukuru"
+  },
+  "icu:KeyTransparencyErrorDialog__Submitting": {
+    "messageformat": "Inawasilisha..."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Title": {
+    "messageformat": "Signal can now auto-verify encryption"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Continue": {
+    "messageformat": "Endelea"
+  },
+  "icu:KeyTransparencyOnboardingDialog__LearnMore": {
+    "messageformat": "Jifunze zaidi"
+  },
+  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Funga"
   },
   "icu:verified": {
     "messageformat": "Imehakikishwa"
@@ -807,7 +888,7 @@
     "messageformat": "Pata {whatsNew} katika sasisho hili"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal ni shirika lilisilo la faida"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "vitu vipya"
@@ -1033,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} yupo kwenye wawasiliani wako wa kwenye simu"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Ongeza lebo ya mwanachama"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Kidokezo"
@@ -1711,6 +1795,15 @@
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Ghairi"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
+    "messageformat": "Uthibitishaji wa Kiotomatiki wa Ufunguo"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
+    "messageformat": "Ikiwezeshwa, Signal itajaribu kuthibitisha kiotomatiki usimbaji fiche wa magumzo ya 1:1."
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
+    "messageformat": "Jifunze Zaidi"
   },
   "icu:initialSync": {
     "messageformat": "Unganisha wawasiliani na vikundi"
@@ -2772,13 +2865,13 @@
     "messageformat": "Tafuta GIFs kwa kutumia Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Tafuta GIF"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tafuta Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Tafuta GIF"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Aina za GIFs"
@@ -2826,7 +2919,7 @@
     "messageformat": "Onyesho la GIF"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Imewezeshwa na GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Futa Utafutaji"
@@ -4556,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "Sauti"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Lebo za Wanachama"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Tumia lebo ya mwanachama kujielezea wewe au jukumu lako kwenye klikundi hiki. Lebo za wanachama zinaonekana kwenye kundi hili."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Weka lebo"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Hariri lebo yako"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Rangi ya gumzo"
   },
@@ -4570,6 +4675,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Kiungo cha kikundi"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Lebo ya Mwanachama"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Weka lebo yako ya mwanachama"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Weka lebo ya mwanachama kujielezea wewe au jukumu lako kwenye klikundi hiki. Lebo za wanachama zinaonekana kwenye kikundi hiki tu."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Hakiki"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Habari!"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Group members with labels"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "No other members have labels"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Inahifadhi mabadiliko..."
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Can’t save member label"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Check your connection and try again."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Only admins can set member labels in this group."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Jumbe zinazotoweka"
@@ -4604,6 +4742,9 @@
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "Chagua ni nani anayeweza kubadilisha jina la kikundi, picha, maelezo, na kipima muda cha ujumbe unaotoweka."
   },
+  "icu:ConversationDetails--group-info-info-v2": {
+    "messageformat": "Chagua nani anaweza kuhariri jina la kikundi, picha, maelezo, kipima muda cha jumbe zinazotoweka na jumbe zilizobandikwa."
+  },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Nani anayeweza kuongeza wanachama"
   },
@@ -4615,6 +4756,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Chagua ni nani anayeweza kutuma ujumbe kwenye kikundi."
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Member labels will be cleared"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Continue"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Maombi na Mialiko"
@@ -7303,13 +7453,13 @@
     "messageformat": "Faragha ikilinganishwa na faida"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Tunajivunia kuwa shirika lisilo la faida"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Utumaji jumbe wa faragha, uliofadhiliwa nawe. Hakuna matangazo, hakuna kufuatilia, hakuna kuenda dhidi ya maelewano. Changia sasa kuiunga mkono Signal. <readMoreLink>Soma zaidi</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Changia ili kuunga mkono utumaji ujumbe ulio na faragha. Saidia Signal iendelee kujitegemea bila matangazo. <readMoreLink>Soma zaidi</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Changia"
@@ -7334,6 +7484,21 @@
   },
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal haikusanyi wala kuhifadhi taarifa zako zozote binafsi unapotoa mchango.</paragraph><paragraph>Tunatumia Stripe kama kichakataji chetu cha malipo ili kupokea michango yako. Hatufikii, hatuweki au kuhifadhi maelezo yoyote unayowapa</paragraph><paragraph>Signal haina na haiwezi kuunganisha mchango wako kwenye akaunti yako ya Signal.</paragraph><paragraph>Asante kwa kutuunga mkono!</paragraph>"
+  },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Get an optional badge on your profile when you donate"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "Your privacy is our mission"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Heart icon in the style of the Signal logo"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "Sawa"
@@ -7425,6 +7590,15 @@
   "icu:DonateFlow__discard-dialog-remove-info": {
     "messageformat": "Ondoa taarifa"
   },
+  "icu:DonateFlow__discard-paypal-dialog-body": {
+    "messageformat": "Leaving will cancel your donation."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Leave"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Stay on page"
+  },
   "icu:DonateFlow__continue": {
     "messageformat": "Endelea"
   },
@@ -7470,6 +7644,15 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Una mchango ambao haujakamilika unaohitaji uthibitishaji."
   },
+  "icu:Donations__Toast__PaypalConfirmationNeeded": {
+    "messageformat": "Una mchango ambao haujakamilika unaohitaji uthibitishaji."
+  },
+  "icu:Donations__Toast__PaypalCanceled": {
+    "messageformat": "Michango kupitia PayPal imesitishwa"
+  },
+  "icu:Donations__Toast__PaypalError": {
+    "messageformat": "Hitilafu imetokea wakati wa kuchakata michango kupitia PayPal. Hujatozwa."
+  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Umefanikiwa kuchangia, lakini tumeshindwa kusasisha mipangilio ya beji yako"
   },
@@ -7485,11 +7668,41 @@
   "icu:Donations__DonationInterrupted__RetryButton": {
     "messageformat": "Jaribu tena"
   },
+  "icu:Donations__PaymentMethod": {
+    "messageformat": "Njia ya malipo"
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Njia ya malipo imekataliwa"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "Jaribu njia nyingine ya malipo au wasiliana na benki unayotumia kwa maelezo zaidi."
+  },
+  "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
+    "messageformat": "Aikoni ya kadi ya malipo"
+  },
+  "icu:DonateFlow__CreditOrDebitCard": {
+    "messageformat": "Kadi ya mkopo au fedha taslimu"
+  },
+  "icu:DonateFlow__Paypal__AccessibilityLabel": {
+    "messageformat": "PayPal"
+  },
+  "icu:DonateFlow__Paypal__Cancel": {
+    "messageformat": "Ghairi"
+  },
+  "icu:DonateFlow__Paypal__CompleteDonation": {
+    "messageformat": "Kamilisha Mchango"
+  },
+  "icu:Donations__PaypalCanceled": {
+    "messageformat": "Michango kupitia PayPal imesitishwa"
+  },
+  "icu:Donations__PaypalCanceled__Description": {
+    "messageformat": "Hujatozwa. Jaribu tena au utumie njia nyingine ya malipo."
+  },
+  "icu:Donations__PaypalError": {
+    "messageformat": "Hitilafu imetokea wakati wa kuchakata michango kupitia PayPal"
+  },
+  "icu:Donations__PaypalError__Description": {
+    "messageformat": "Hujatozwa. Jaribu tena au utumie njia nyingine ya malipo."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Imeshindwa Kuthibitisha"
@@ -7693,10 +7906,13 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.86--0": {
-    "messageformat": "Hatuwezi kurekebisha ukimya wa aibu unaofuata, lakini tumerekebisha hitilafu iliyokuwa ikisababisha kipengele cha mkono ulioinuliwa kuendelea kuonekana (ikiwa na hesabu ya sufuri) endapo mtu angeinua na kushusha mkono wake haraka sana."
+  "icu:WhatsNew__7.89--0": {
+    "messageformat": "Sasisho hili linarekebisha hitilafu katika muundo wa maandishi huku Herufi Kubwa zikiruhusiwa ili iwe rahisi kukooza (au kufanya iwe mlalo) HUKU UKIJIAMINI. Asante, <DGrothePhD></DGrothePhD>!"
   },
-  "icu:WhatsNew__7.87--0": {
-    "messageformat": "Saidia kufanya taarifa muhimu zipatikane kwa urahisi kupitia jumbe zilizobandikwa. Maswali unayoulizwa mara kwa mara, kuweka nafasi kwa ajili ya chakula cha jioni, na ratiba za likizo tayari zimeshapewa kipaumbele. Sasa yanaweza kuwekwa juu kwenye gumzo pia."
+  "icu:WhatsNew__7.89--1": {
+    "messageformat": "Taasisi ya Signal ni shirika lisilo la biashara chini ya kanuni ya 501c3 ambalo lisingekwepo bila usaidizi wako na sasa unaweza kuchangia kupitia PayPal katika Signal Desktop."
+  },
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
   }
 }

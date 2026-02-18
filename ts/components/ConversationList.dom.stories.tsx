@@ -290,7 +290,6 @@ const createConversation = (
     deletedForEveryone: false,
   },
   lastUpdated: overrideProps.lastUpdated ?? Date.now() - 5 * 60 * 1000,
-  sharedGroupNames: [],
 });
 
 const renderConversation = (

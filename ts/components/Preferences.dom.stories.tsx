@@ -139,6 +139,7 @@ const donationAmountsConfig = {
       1: [7, 15, 30, 40, 70, 140],
       100: [7],
     },
+    supportedPaymentMethods: ['CARD, PAYPAL'],
   },
   jpy: {
     minimum: 400,
@@ -146,6 +147,7 @@ const donationAmountsConfig = {
       '1': [500, 1000, 2000, 3000, 5000, 10000],
       '100': [500],
     },
+    supportedPaymentMethods: ['CARD, PAYPAL'],
   },
   usd: {
     minimum: 3,
@@ -153,6 +155,7 @@ const donationAmountsConfig = {
       1: [5, 10, 20, 30, 50, 100],
       100: [5],
     },
+    supportedPaymentMethods: ['CARD, PAYPAL'],
   },
   ugx: {
     minimum: 8000,
@@ -160,6 +163,7 @@ const donationAmountsConfig = {
       1: [15000, 35000, 70000, 100000, 150000, 300000],
       100: [15000],
     },
+    supportedPaymentMethods: ['CARD'],
   },
 } as unknown as OneTimeDonationHumanAmounts;
 
@@ -255,6 +259,7 @@ function renderDonationsPane(props: {
       clearWorkflow={action('clearWorkflow')}
       initialCurrency="usd"
       resumeWorkflow={action('resumeWorkflow')}
+      isDonationPaypalEnabled
       isOnline
       settingsLocation={props.settingsLocation}
       setSettingsLocation={props.setSettingsLocation}
@@ -433,6 +438,7 @@ export default {
     hasFailedStorySends: false,
     hasHideMenuBar: false,
     hasIncomingCallNotifications: true,
+    hasKeyTransparencyDisabled: false,
     hasLinkPreviews: true,
     hasMediaCameraPermissions: true,
     hasMediaPermissions: true,
@@ -452,6 +458,7 @@ export default {
     isAutoDownloadUpdatesSupported: true,
     isAutoLaunchSupported: true,
     isHideMenuBarSupported: true,
+    isKeyTransparencyAvailable: true,
     isNotificationAttentionSupported: true,
     isSyncSupported: true,
     isSystemTraySupported: true,
@@ -552,6 +559,9 @@ export default {
     onContentProtectionChange: action('onContentProtectionChange'),
     onCountMutedConversationsChange: action('onCountMutedConversationsChange'),
     onEmojiSkinToneDefaultChange: action('onEmojiSkinToneDefaultChange'),
+    onHasKeyTransparencyDisabledChanged: action(
+      'onHasKeyTransparencyDisabledChanged'
+    ),
     onHasStoriesDisabledChanged: action('onHasStoriesDisabledChanged'),
     onHideMenuBarChange: action('onHideMenuBarChange'),
     onIncomingCallNotificationsChange: action(
@@ -945,6 +955,43 @@ DonationsHomeWithInProgressDonation.args = {
       },
     }),
 };
+
+export const DonationsPaypalInProgress = Template.bind({});
+DonationsPaypalInProgress.args = {
+  settingsLocation: { page: SettingsPage.DonationsDonateFlow },
+  renderDonationsPane: ({
+    contentsRef,
+  }: {
+    contentsRef: MutableRefObject<HTMLDivElement | null>;
+  }) =>
+    renderDonationsPane({
+      contentsRef,
+      me,
+      donationReceipts: [],
+      settingsLocation: { page: SettingsPage.DonationsDonateFlow },
+      setSettingsLocation: action('setSettingsLocation'),
+      saveAttachmentToDisk: async () => {
+        action('saveAttachmentToDisk')();
+        return { fullPath: '/mock/path/to/file.png', name: 'file.png' };
+      },
+      generateDonationReceiptBlob: async () => {
+        action('generateDonationReceiptBlob')();
+        return new Blob();
+      },
+      showToast: action('showToast'),
+      workflow: {
+        type: 'PAYPAL_INTENT',
+        timestamp: Date.now() - 60,
+        paypalPaymentId: 'a',
+        paymentAmount: 500,
+        currencyType: 'USD',
+        id: 'a',
+        returnToken: 'a',
+        approvalUrl: 'https://www.signal.org',
+      },
+    }),
+};
+
 export const Internal = Template.bind({});
 Internal.args = {
   settingsLocation: { page: SettingsPage.Internal },

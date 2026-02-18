@@ -91,7 +91,6 @@ function UnknownContacts({
           i18n={i18n}
           profileName={participant.profileName}
           title={participant.title}
-          sharedGroupNames={participant.sharedGroupNames}
           size={size}
         />
       );
@@ -219,7 +218,6 @@ export function CallingAdhocCallInfo({
             i18n={i18n}
             profileName={participant.profileName}
             title={participant.title}
-            sharedGroupNames={participant.sharedGroupNames}
             size={AvatarSize.THIRTY_SIX}
           />
           {ourServiceId && participant.serviceId === ourServiceId ? (

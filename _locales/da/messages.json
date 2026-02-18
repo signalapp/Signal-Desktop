@@ -578,14 +578,95 @@
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "For at verificere E2E-krypteringen med {name}, skal du sammenligne ovenstående tal med vedkommendes enhed. De kan også scanne koden på vedkommendes enhed."
   },
+  "icu:SafetyNumberViewer__hint-v2": {
+    "messageformat": "For at verificere E2E-krypteringen med {name} skal du sammenligne ovenstående tal med vedkommendes enhed. De kan også scanne koden på vedkommendes enhed."
+  },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Læs mere"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__title": {
+    "messageformat": "Automatisk nøgleverifikation"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
+    "messageformat": "Verificér automatisk"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--running": {
+    "messageformat": "Verificerer kryptering…"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
+    "messageformat": "Kryptering bekræftet"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
+    "messageformat": "Automatisk verifikation ikke tilgængelig"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__hint": {
+    "messageformat": "Automatisk verifikation er ikke tilgængelig for alle chats."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
+    "messageformat": "Læs mere"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
+    "messageformat": "Kryptering blev automatisk verificeret i denne chat "
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+    "messageformat": "For kontakter, som du er forbundet med via telefonnummer, kan Signal automatisk bekræfte, om forbindelsen er sikker, ved hjælp af en proces kaldet nøgletransparens. For øget sikkerhed skal du verificere end-to-end-kryptering manuelt ved at sammenligne tallene på den forrige skærm eller scanne koden på vedkommendes enhed."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
+    "messageformat": "Automatisk verifikation er ikke længere tilgængelig for denne chat"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
+    "messageformat": "Signal kan ikke længere automatisk verificere krypteringen for denne chat. Dette skyldes sandsynligvis, at {name} har ændret sit telefonnummer. Verificér end-to-end-kryptering manuelt ved at sammenligne tallene på den forrige skærm eller ved at scanne koden på deres enhed."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
+    "messageformat": "Signal kan kun automatisk verificere krypteringen i chats, hvor du er forbundet med nogen via et telefonnummer. Hvis chatten blev startet med et brugernavn eller en fælles gruppe, skal du verificere end-to-end-krypteringen ved at sammenligne tallene på den forrige skærm eller scanne koden på deres enhed."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
+    "messageformat": "Okay"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Der oprettes et sikkerhedsnummer med denne person, når du har udvekslet beskeder med dem."
   },
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Læs mere"
+  },
+  "icu:KeyTransparencyErrorDialog__Title": {
+    "messageformat": "Automatisk nøgleverifikation er i øjeblikket ikke tilgængelig på din enhed. Vil du indsende fejlsøgningslog?"
+  },
+  "icu:KeyTransparencyErrorDialog__Description": {
+    "messageformat": "Fejlfindingslogfiler hjælper os med at diagnosticere og løse problemet og indeholder ikke identificerende oplysninger."
+  },
+  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Luk"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
+    "messageformat": "Del fejlsøgningslog"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
+    "messageformat": "Vis"
+  },
+  "icu:KeyTransparencyErrorDialog__Submit": {
+    "messageformat": "Indsend"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "Nej tak"
+  },
+  "icu:KeyTransparencyErrorDialog__Submitting": {
+    "messageformat": "Indsender..."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Title": {
+    "messageformat": "Signal can now auto-verify encryption"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Continue": {
+    "messageformat": "Fortsæt"
+  },
+  "icu:KeyTransparencyOnboardingDialog__LearnMore": {
+    "messageformat": "Læs mere"
+  },
+  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Luk"
   },
   "icu:verified": {
     "messageformat": "Verificeret"
@@ -807,7 +888,7 @@
     "messageformat": "Se {whatsNew} i denne opdatering"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal er en nonprofitorganisation"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "nyheder"
@@ -1033,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} er i dine systemkontakter"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Tilføj en medlemsetiket"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Note"
@@ -1711,6 +1795,15 @@
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Annullér"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
+    "messageformat": "Automatisk nøgleverifikation"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
+    "messageformat": "Når dette er aktiveret, vil Signal forsøge automatisk at verificere krypteringen af direkte chats."
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
+    "messageformat": "Lær mere"
   },
   "icu:initialSync": {
     "messageformat": "Synkroniserer kontakter og grupper"
@@ -2772,13 +2865,13 @@
     "messageformat": "Søg efter GIF'er i Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Søg i GIF'er"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Søg i Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Søg i GIF'er"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF-kategorier"
@@ -2826,7 +2919,7 @@
     "messageformat": "Forhåndsvisning af GIF'er"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Drevet af GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Ryd søgning"
@@ -4556,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "Stemme"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Medlemstitel"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Angiv en medlemstitel for at beskrive dig selv eller din rolle i gruppen. Medlemstitler vises kun i denne gruppe."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Opret en titel"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Rediger din titel"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Chatfarve"
   },
@@ -4570,6 +4675,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Gruppelink"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Medlemsetiket"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Angiv din medlemstitel"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Angiv en medlemsetiket for at beskrive dig selv eller din rolle i gruppen. Medlemsetiketter vises kun i denne gruppe."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Forhåndsvisning"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Hej!"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Group members with labels"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "No other members have labels"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Gemmer ændringer..."
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Can’t save member label"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Check your connection and try again."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Only admins can set member labels in this group."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Forsvindende beskeder"
@@ -4604,6 +4742,9 @@
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "Vælg hvem som kan redigere gruppens navn, foto, beskrivelse og udløbstiden for forsvindende beskeder."
   },
+  "icu:ConversationDetails--group-info-info-v2": {
+    "messageformat": "Vælg, hvem som kan redigere gruppens navn, billede, beskrivelse, udløbstiden for forsvindende beskeder og fastgjorte beskeder."
+  },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Hvem kan tilføje medlemmer"
   },
@@ -4615,6 +4756,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Vælg hvem der kan sende beskeder til gruppen."
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Member labels will be cleared"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Continue"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Anmodninger & invitationer"
@@ -7303,13 +7453,13 @@
     "messageformat": "Privatliv fremfor profit"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Vi er en stolt nonprofit"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Private beskeder, finansieret af dig. Ingen annoncer, ingen sporing, ingen kompromiser. Donér nu for at støtte Signal. <readMoreLink>Læs mere</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Donér for at støtte private beskeder. Hold Signal uafhængig og annoncefri. <readMoreLink>Læs mere</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Donér"
@@ -7334,6 +7484,21 @@
   },
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal indsamler eller opbevarer ingen af dine personlige oplysninger, når du donerer.</paragraph><paragraph>Vi bruger Stripe som vores betalingssystem til at modtage dine donationer. Vi tilgår, opbevarer eller gemmer ikke nogen af de oplysninger, du giver dem.</paragraph><paragraph>Signal kan ikke og forbinder ikke din donation til din Signal-konto.</paragraph><paragraph>Tak for din støtte!</paragraph>"
+  },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Get an optional badge on your profile when you donate"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "Your privacy is our mission"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Heart icon in the style of the Signal logo"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "Ok"
@@ -7425,6 +7590,15 @@
   "icu:DonateFlow__discard-dialog-remove-info": {
     "messageformat": "Fjern oplysninger"
   },
+  "icu:DonateFlow__discard-paypal-dialog-body": {
+    "messageformat": "Leaving will cancel your donation."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Leave"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Stay on page"
+  },
   "icu:DonateFlow__continue": {
     "messageformat": "Fortsæt"
   },
@@ -7470,6 +7644,15 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Du har en igangværende donation, der kræver bekræftelse."
   },
+  "icu:Donations__Toast__PaypalConfirmationNeeded": {
+    "messageformat": "Du har en igangværende donation, der kræver bekræftelse."
+  },
+  "icu:Donations__Toast__PaypalCanceled": {
+    "messageformat": "PayPal-donationen er annulleret"
+  },
+  "icu:Donations__Toast__PaypalError": {
+    "messageformat": "Kunne ikke behandle PayPal-donationen. Du er ikke blevet opkrævet."
+  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donationen lykkedes, men vi kunne ikke opdatere dine badgeindstillinger"
   },
@@ -7485,11 +7668,41 @@
   "icu:Donations__DonationInterrupted__RetryButton": {
     "messageformat": "Prøv igen"
   },
+  "icu:Donations__PaymentMethod": {
+    "messageformat": "Betalingsmetode"
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Betalingsmetode blev afvist"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "Prøv en anden betalingsmetode, eller kontakt din bank for at få flere oplysninger."
+  },
+  "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
+    "messageformat": "Kreditkortikon"
+  },
+  "icu:DonateFlow__CreditOrDebitCard": {
+    "messageformat": "Kredit- eller debetkort"
+  },
+  "icu:DonateFlow__Paypal__AccessibilityLabel": {
+    "messageformat": "PayPal"
+  },
+  "icu:DonateFlow__Paypal__Cancel": {
+    "messageformat": "Annullér"
+  },
+  "icu:DonateFlow__Paypal__CompleteDonation": {
+    "messageformat": "Fuldfør donation"
+  },
+  "icu:Donations__PaypalCanceled": {
+    "messageformat": "PayPal-donationen er annulleret"
+  },
+  "icu:Donations__PaypalCanceled__Description": {
+    "messageformat": "Du er ikke blevet opkrævet. Prøv igen, eller brug en anden betalingsmetode."
+  },
+  "icu:Donations__PaypalError": {
+    "messageformat": "Fejl ved behandling af PayPal-donationen"
+  },
+  "icu:Donations__PaypalError__Description": {
+    "messageformat": "Du er ikke blevet opkrævet. Prøv igen, eller brug en anden betalingsmetode."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Verifikation mislykkedes"
@@ -7693,10 +7906,13 @@
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.86--0": {
-    "messageformat": "Vi kan ikke fjerne den akavede stilhed bagefter, men vi har rettet en fejl, der nogle gange gjorde, at indikatoren for oprakt hånd blev der (med en tæller på nul), hvis nogen hurtigt hævede og sænkede hånden."
+  "icu:WhatsNew__7.89--0": {
+    "messageformat": "Denne opdatering retter en fejl med tekstformatering, når caps lock var aktiveret, så det bliver nemmere at lave fed (eller kursiv) tekst, SELV NÅR TEKSTEN ALLEREDE ER I FED. Tak, <DGrothePhD></DGrothePhD>!"
   },
-  "icu:WhatsNew__7.87--0": {
-    "messageformat": "Gør vigtige oplysninger nemme at finde med fastgjorte beskeder. Dine mest stillede spørgsmål, middagsreservationer og ferieplaner er allerede det, der er øverst på huskelisten. Nu kan de også ligge øverst i chatten."
+  "icu:WhatsNew__7.89--1": {
+    "messageformat": "Signal er en nonprofitorganisation (501c3), der ikke ville være mulig uden din støtte, og nu kan du donere via PayPal i Signal Desktop."
+  },
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
   }
 }

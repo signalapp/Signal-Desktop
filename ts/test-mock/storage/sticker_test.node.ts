@@ -14,10 +14,15 @@ import {
   getStickerPackRecordPredicate,
   getStickerPackLink,
 } from './fixtures.node.js';
+import {
+  getMessageInTimelineByTimestamp,
+  sendTextMessage,
+} from '../helpers.node.js';
+import { strictAssert } from '../../util/assert.std.js';
 
 const { StickerPackOperation } = Proto.SyncMessage;
 
-describe('storage service', function (this: Mocha.Suite) {
+describe('stickers', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
 
   let bootstrap: Bootstrap;
@@ -102,7 +107,7 @@ describe('storage service', function (this: Mocha.Suite) {
       );
       assert.strictEqual(
         stickerPack?.record.stickerPack?.position,
-        6,
+        11,
         'Wrong sticker pack position'
       );
     }
@@ -242,7 +247,7 @@ describe('storage service', function (this: Mocha.Suite) {
       );
       assert.strictEqual(
         stickerPack?.record.stickerPack?.position,
-        7,
+        12,
         'Wrong sticker pack position'
       );
     }
@@ -251,5 +256,56 @@ describe('storage service', function (this: Mocha.Suite) {
     const finalState = await phone.expectStorageState('consistency check');
 
     assert.strictEqual(finalState.version, 5);
+
+    debug(
+      'verifying that stickers from packs can be received and paths are deduplicated'
+    );
+    const firstTimestamp = bootstrap.getTimestamp();
+    const secondTimestamp = bootstrap.getTimestamp();
+    await sendTextMessage({
+      from: firstContact,
+      to: desktop,
+      desktop,
+      text: undefined,
+      sticker: {
+        packId: STICKER_PACKS[0].id,
+        packKey: STICKER_PACKS[0].key,
+        stickerId: 0,
+      },
+      timestamp: firstTimestamp,
+    });
+
+    await sendTextMessage({
+      from: firstContact,
+      to: desktop,
+      desktop,
+      text: undefined,
+      sticker: {
+        packId: STICKER_PACKS[0].id,
+        packKey: STICKER_PACKS[0].key,
+        stickerId: 0,
+      },
+      timestamp: secondTimestamp,
+    });
+
+    await window.getByRole('button', { name: 'Go back' }).click();
+    await getMessageInTimelineByTimestamp(window, firstTimestamp)
+      .locator('.module-image--loaded')
+      .waitFor();
+
+    await getMessageInTimelineByTimestamp(window, secondTimestamp)
+      .locator('.module-image--loaded')
+      .waitFor();
+
+    const firstStickerData = (await app.getMessagesBySentAt(firstTimestamp))[0]
+      .sticker?.data;
+    const secondStickerData = (
+      await app.getMessagesBySentAt(secondTimestamp)
+    )[0].sticker?.data;
+
+    strictAssert(firstStickerData?.path, 'path exists');
+    strictAssert(firstStickerData?.localKey, 'localKey exists');
+    assert.strictEqual(firstStickerData.path, secondStickerData?.path);
+    assert.strictEqual(firstStickerData.localKey, secondStickerData?.localKey);
   });
 });

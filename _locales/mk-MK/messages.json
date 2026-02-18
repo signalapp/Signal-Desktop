@@ -578,14 +578,95 @@
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "За да ја проверите безбедноста на целосното шифрирање со {name}, споредете ги бројките горе со уредот на {name}. Исто така може да го скенираат вашиот код со нивниот уред."
   },
+  "icu:SafetyNumberViewer__hint-v2": {
+    "messageformat": "За да ја проверите безбедноста на целосното шифрирање со {name}, споредете ги бројките горе со нивниот уред. Исто така може да го скенираат вашиот код на нивниот уред."
+  },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Дознајте повеќе"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__title": {
+    "messageformat": "Автоматска верификација на клучот"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
+    "messageformat": "Верифицирајте автоматски"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--running": {
+    "messageformat": "Шифрирањето се верифицира…"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
+    "messageformat": "Шифрирањето е верифицирано"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
+    "messageformat": "Автоматската верификација не е достапна"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__hint": {
+    "messageformat": "Автоматската верификација не е достапна за сите разговори."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
+    "messageformat": "Дознајте повеќе"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
+    "messageformat": "Шифрирањето беше автоматски верифицирано за овој разговор "
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+    "messageformat": "За контактите со кои сте поврзани со телефонски број, Signal може автоматски да потврди дали врската е безбедна користејќи процес наречен транспарентност на клучеви. За дополнителна безбедност, верифицирајте го целосното шифрирање со тоа што рачно ќе ги споредите бројките на претходниот екран или со скенирање на кодот на нивниот уред."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
+    "messageformat": "Автоматската верификација повеќе не е достапна за овој разговор"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
+    "messageformat": "Signal повеќе не може автоматски да го верифицира шифрирањето на овој разговор. Ова е најверојатно зашто {name} го смени телефонскиот број. Верифицирајте го целосното шифрирање со тоа што рачно ќе ги споредите бројките на претходниот екран или со скенирање на кодот на нивниот уред."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
+    "messageformat": "Signal може автоматски да го верифицира шифрирањето само на разговори со лица со кои сте поврзани со телефонски број. Доколку разговорот е започнат со корисничко име или заедничка група, потврдете го шифрирањето со споредување на броевите на претходниот екран или скенирање на кодот на нивниот уред."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
+    "messageformat": "Во ред"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Ќе се создаде безбедносен број за оваа личност откако ќе размените пораки."
   },
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Дознајте повеќе"
+  },
+  "icu:KeyTransparencyErrorDialog__Title": {
+    "messageformat": "Автоматската верификација на клучот моментално не е достапна за вашиот уред. Сакате да испратите запис за отстранување грешки?"
+  },
+  "icu:KeyTransparencyErrorDialog__Description": {
+    "messageformat": "Записите за дебагирање ни помагаат при дијагностицирање и отстранување на грешката и не содржат лични податоци."
+  },
+  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Затвори"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
+    "messageformat": "Споделете запис за дебагирање"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
+    "messageformat": "Прегледај"
+  },
+  "icu:KeyTransparencyErrorDialog__Submit": {
+    "messageformat": "Испрати"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "Не, благодарам"
+  },
+  "icu:KeyTransparencyErrorDialog__Submitting": {
+    "messageformat": "Се поднесува…"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Title": {
+    "messageformat": "Signal can now auto-verify encryption"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Continue": {
+    "messageformat": "Продолжи"
+  },
+  "icu:KeyTransparencyOnboardingDialog__LearnMore": {
+    "messageformat": "Дознајте повеќе"
+  },
+  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Затвори"
   },
   "icu:verified": {
     "messageformat": "Проверено"
@@ -807,7 +888,7 @@
     "messageformat": "Видете {whatsNew}во оваа верзија"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal е непрофитна организација"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "што има ново"
@@ -1033,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} е во вашите системски контакти"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Додај ознака на член"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Белешка"
@@ -1711,6 +1795,15 @@
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Откажи"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
+    "messageformat": "Автоматска верификација на клучот"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
+    "messageformat": "Кога е овозможено, Signal ќе се обиде автоматски да го потврди шифрирањето на разговорите еден на еден."
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
+    "messageformat": "Дознајте повеќе"
   },
   "icu:initialSync": {
     "messageformat": "Синхронизација на контакти и групи"
@@ -2772,13 +2865,13 @@
     "messageformat": "Пребарајте GIF-ови во Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Пребарај GIF-ови"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Пребарајте во Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Пребарај GIF-ови"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Категории на GIF-ови"
@@ -2826,7 +2919,7 @@
     "messageformat": "Преглед на GIF"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Овозможено од GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Исчисти пребарување"
@@ -4556,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "Гласовен повик"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Ознаки на членови"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Употреби ознака на член за да се опишеш себеси или твојата улога во оваа група. Ознаките на членовите се видливи само во оваа група."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Постави ознака на член"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Измени ја твојата ознака"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Боја на разговор"
   },
@@ -4570,6 +4675,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Групен линк"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Ознака на член"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Внеси ја твојата ознака"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Употреби ознака на член за да се опишеш себеси или твојата улога во оваа група. Ознаките на членовите се видливи само во оваа група."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Преглед"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Здраво!"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Group members with labels"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "No other members have labels"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Се зачувуваат промените…"
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Can’t save member label"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Check your connection and try again."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Only admins can set member labels in this group."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Пораки што исчезнуваат"
@@ -4604,6 +4742,9 @@
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "Одберете кој може да ги менува името на групата, сликата, описот и тајмерот за исчезнувачки пораки."
   },
+  "icu:ConversationDetails--group-info-info-v2": {
+    "messageformat": "Изберете кој може да го менува името на групата, фотографијата, описот, тајмерот за исчезнување на пораките и закачените пораки."
+  },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Кој може да додава членови"
   },
@@ -4615,6 +4756,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Одберете кој може да испраќа пораки во групата."
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Member labels will be cleared"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Continue"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Барања и покани"
@@ -7303,13 +7453,13 @@
     "messageformat": "Приватност пред профит"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Со гордост непрофитна организација"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Приватно допишување, финансирано од вас. Без реклами, без тракери, без компромис. Донирајте сега за да го поддржите Signal. <readMoreLink>Прочитајте повеќе</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Донирајте за поддршка на приватни пораки. За Signal да остане независен и без реклами. <readMoreLink>Прочитајте повеќе</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Донирајте"
@@ -7334,6 +7484,21 @@
   },
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal не ги собира ниту сочувува вашите лични податоци кога донирате.</paragraph><paragraph>Го користиме Stripe како наш платен систем за примање на вашите донации. Немаме пристап и не ги сочувуваме податоците кои им ги обезбедувате.</paragraph><paragraph>Signal не ја поврзува и не може да ја поврзе вашата донација со вашата корисничка сметка на Signal.</paragraph><paragraph>Ви благодариме за поддршката!</paragraph>"
+  },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Get an optional badge on your profile when you donate"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "Your privacy is our mission"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Heart icon in the style of the Signal logo"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "Во ред"
@@ -7425,6 +7590,15 @@
   "icu:DonateFlow__discard-dialog-remove-info": {
     "messageformat": "Отстрани информации"
   },
+  "icu:DonateFlow__discard-paypal-dialog-body": {
+    "messageformat": "Leaving will cancel your donation."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Leave"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Stay on page"
+  },
   "icu:DonateFlow__continue": {
     "messageformat": "Продолжи"
   },
@@ -7470,6 +7644,15 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Имате донација во тек која бара потврда."
   },
+  "icu:Donations__Toast__PaypalConfirmationNeeded": {
+    "messageformat": "Имате донација во тек која бара потврда."
+  },
+  "icu:Donations__Toast__PaypalCanceled": {
+    "messageformat": "PayPal донацијата е откажана"
+  },
+  "icu:Donations__Toast__PaypalError": {
+    "messageformat": "Грешка при обработката на PayPal донацијата. Не ви е наплатено."
+  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Донацијата беше успешна, но не можевме да ги ажурираме поставувањата на вашиот беџ"
   },
@@ -7485,11 +7668,41 @@
   "icu:Donations__DonationInterrupted__RetryButton": {
     "messageformat": "Обиди се повторно"
   },
+  "icu:Donations__PaymentMethod": {
+    "messageformat": "Начин на плаќање"
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Начинот на плаќање е одбиен"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "Обидете се со друг начин на плаќање или контактирајте со вашата банка за повеќе информации."
+  },
+  "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
+    "messageformat": "Икона за платежна картичка"
+  },
+  "icu:DonateFlow__CreditOrDebitCard": {
+    "messageformat": "Кредитна или дебитна картичка"
+  },
+  "icu:DonateFlow__Paypal__AccessibilityLabel": {
+    "messageformat": "PayPal"
+  },
+  "icu:DonateFlow__Paypal__Cancel": {
+    "messageformat": "Откажи"
+  },
+  "icu:DonateFlow__Paypal__CompleteDonation": {
+    "messageformat": "Завршете ја донацијата"
+  },
+  "icu:Donations__PaypalCanceled": {
+    "messageformat": "PayPal донацијата е откажана"
+  },
+  "icu:Donations__PaypalCanceled__Description": {
+    "messageformat": "Не ви е наплатено. Обидете се повторно или користете друг начин на плаќање."
+  },
+  "icu:Donations__PaypalError": {
+    "messageformat": "Грешка при обработката на PayPal донацијата"
+  },
+  "icu:Donations__PaypalError__Description": {
+    "messageformat": "Не ви е наплатено. Обидете се повторно или користете друг начин на плаќање."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Верификацијата не успеа"
@@ -7693,10 +7906,13 @@
     "messageformat": "Mали подобрувања, решени багови и подобрувања на перформансот. Ви благодариме што користите Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.86--0": {
-    "messageformat": "Поправивме мала дисплеј грешка со индикаторот за крената рака во групните повици."
+  "icu:WhatsNew__7.89--0": {
+    "messageformat": "Ова ажурирање поправа грешка со форматирањето на текстот додека се овозможени големи букви (Caps Lock). Благодариме, <DGrothePhD></DGrothePhD>!"
   },
-  "icu:WhatsNew__7.87--0": {
-    "messageformat": "Закачените пораки ги прават важните информации лесно достапни на врвот на разговорот. Вашите најчесто поставувани прашања, резервации за вечера и распореди за патувања веќе ви се први на мисла. Сега тие можат да бидат и на врвот на разговорот."
+  "icu:WhatsNew__7.89--1": {
+    "messageformat": "Signal е непрофитна организација што не би било можно без вашата поддршка, а сега можете да донирате преку PayPal во Signal Desktop."
+  },
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
   }
 }

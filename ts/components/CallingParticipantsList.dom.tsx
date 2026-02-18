@@ -135,7 +135,6 @@ export const CallingParticipantsList = React.memo(
                         i18n={i18n}
                         profileName={participant.profileName}
                         title={participant.title}
-                        sharedGroupNames={participant.sharedGroupNames}
                         size={AvatarSize.THIRTY_TWO}
                       />
                       {ourServiceId &&

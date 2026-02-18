@@ -54,7 +54,6 @@ function BlurredBackground({
     type: conversationType,
     phoneNumber,
     profileName,
-    sharedGroupNames,
     title,
   } = activeCall.conversation;
   const avatarUrl =
@@ -75,7 +74,6 @@ function BlurredBackground({
           profileName={profileName}
           title={title}
           size={avatarSize}
-          sharedGroupNames={sharedGroupNames}
         />
       </div>
     </CallBackgroundBlur>

@@ -45,7 +45,6 @@ export type PropsType = {
     | 'name'
     | 'phoneNumber'
     | 'profileName'
-    | 'sharedGroupNames'
     | 'systemGivenName'
     | 'systemNickname'
     | 'title'

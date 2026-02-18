@@ -73,15 +73,12 @@ const bundleDefaults = {
     'fsevents',
     'mac-screen-capture-permissions',
     'sass',
-    'bufferutil',
-    'utf-8-validate',
 
     // Things that don't bundle well
     'got',
     'node-fetch',
     'pino',
     'proxy-agent',
-    'websocket',
 
     // Large libraries (3.7mb total)
     // See: https://esbuild.github.io/api/#analyze

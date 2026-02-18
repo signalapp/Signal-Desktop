@@ -49,7 +49,7 @@ export namespace AxoBaseDialog {
   export const contentStyles = tw(
     'relative',
     'max-h-full min-h-fit max-w-full min-w-fit',
-    'rounded-3xl bg-elevated-background-primary shadow-elevation-3 select-none',
+    'curved-3xl bg-elevated-background-primary shadow-elevation-3 select-none',
     'outline-border-focused not-forced-colors:outline-0 not-forced-colors:focused:outline-[2.5px]',
     'data-[state=closed]:animate-exit data-[state=open]:animate-enter',
     'animate-scale-98 animate-translate-y-1',

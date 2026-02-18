@@ -21,7 +21,7 @@ import * as Bytes from '../Bytes.std.js';
 import * as Errors from '../types/errors.std.js';
 import {
   getAbsoluteAttachmentPath,
-  deleteAttachmentData,
+  maybeDeleteAttachmentFile,
   readAttachmentData,
 } from '../util/migrations.preload.js';
 import { APPLICATION_OCTET_STREAM } from '../types/MIME.std.js';
@@ -83,7 +83,7 @@ describe('ContactsParser', () => {
         await Promise.all(contacts.map(contact => verifyContact(contact)));
       } finally {
         if (path) {
-          await deleteAttachmentData(path);
+          await maybeDeleteAttachmentFile(path);
         }
       }
     });
@@ -236,7 +236,7 @@ async function verifyContact(
   strictAssert(contact.avatar?.path, 'Avatar needs path');
 
   const avatarBytes = await readAttachmentData(contact.avatar);
-  await deleteAttachmentData(contact.avatar.path);
+  await maybeDeleteAttachmentFile(contact.avatar.path);
 
   for (let j = 0; j < 255; j += 1) {
     assert.strictEqual(avatarBytes[j], j);

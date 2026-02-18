@@ -578,14 +578,95 @@
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "如果想驗證你同 {name} 之間嘅端對端加密設定，你可以對吓上面嘅號碼同佢部機入面嘅號碼。佢亦可以用佢部機掃你嘅二維碼。"
   },
+  "icu:SafetyNumberViewer__hint-v2": {
+    "messageformat": "如果想驗證你同 {name} 之間嘅端對端加密設定，你可以對吓上面嘅號碼同佢部機入面嘅號碼。佢亦可以用佢部機掃你嘅二維碼。"
+  },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "了解多啲"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__title": {
+    "messageformat": "自動金鑰驗證"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
+    "messageformat": "自動驗證"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--running": {
+    "messageformat": "加密驗證緊……"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
+    "messageformat": "加密驗證已經攪掂"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
+    "messageformat": "冇得用自動驗證功能"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__hint": {
+    "messageformat": "所有聊天都冇得用自動驗證功能。"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
+    "messageformat": "了解多啲"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
+    "messageformat": "系統已經為呢個聊天做緊自動加密驗證 "
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+    "messageformat": "對於用電話冧把聯絡嘅聯絡人，Signal 會進行一個叫「金鑰透明度」嘅程序，自動確認聯絡對象係咪安全。如果想更加保險，你可以比較上一個畫面嘅數字，或者掃瞄佢部機嘅二維碼嚟手動驗證端對端加密。"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
+    "messageformat": "呢個聊天已經冇咗自動驗證功能"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
+    "messageformat": "Signal 唔可以再自動驗證呢個聊天嘅加密。原因可能係 {name} 轉咗新電話冧把。如果想手動驗證端對端加密，你可以比較上一個畫面嘅數字，或者掃瞄佢部機嘅二維碼。"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
+    "messageformat": "只有用電話冧把同對方聯絡嘅聊天，Signal 先可以自動做加密驗證。如果個聊天係由用戶名稱或者經聊天谷建立，你可以比較上一個畫面嘅數字，或者掃瞄佢部機嘅二維碼嚟驗證端對端加密。"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
+    "messageformat": "確定"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "你同對方互相傳送訊息之後，系統就會幫你建立一個同佢嘅安全碼。"
   },
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "了解多啲"
+  },
+  "icu:KeyTransparencyErrorDialog__Title": {
+    "messageformat": "你嘅裝置而家冇得用「自動金鑰驗證」。係咪要提交除錯記錄？"
+  },
+  "icu:KeyTransparencyErrorDialog__Description": {
+    "messageformat": "除錯紀錄可以幫我哋診斷同修正問題，當中唔會包含任何識別資料。"
+  },
+  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "關閉"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
+    "messageformat": "分享除錯記錄"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
+    "messageformat": "睇吓"
+  },
+  "icu:KeyTransparencyErrorDialog__Submit": {
+    "messageformat": "提交"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "唔使喇，唔該"
+  },
+  "icu:KeyTransparencyErrorDialog__Submitting": {
+    "messageformat": "提交緊……"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Title": {
+    "messageformat": "Signal can now auto-verify encryption"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Continue": {
+    "messageformat": "繼續"
+  },
+  "icu:KeyTransparencyOnboardingDialog__LearnMore": {
+    "messageformat": "了解多啲"
+  },
+  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "關閉"
   },
   "icu:verified": {
     "messageformat": "已驗證"
@@ -807,7 +888,7 @@
     "messageformat": "睇吓今次更新有咩{whatsNew}"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal 係一間非牟利機構"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "最新消息"
@@ -1033,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} 係你嘅聯絡人"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "加成員標籤"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "備註"
@@ -1711,6 +1795,15 @@
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "取消"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
+    "messageformat": "自動金鑰驗證"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
+    "messageformat": "啟用嗰陣，Signal 會嘗試自動驗證 1 對 1 聊天嘅加密。"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
+    "messageformat": "了解詳情"
   },
   "icu:initialSync": {
     "messageformat": "同步緊聯絡人同群組"
@@ -2772,13 +2865,13 @@
     "messageformat": "經 Tenor 搜尋 GIF"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "搵 GIF"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "喺 Tenor 度搜尋"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "搵 GIF"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF 種類"
@@ -2826,7 +2919,7 @@
     "messageformat": "GIF 預覽"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "由 GIPHY 提供"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "清除搜尋"
@@ -4556,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "語音"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "成員標籤"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "用一個成員標籤嚟形容你自己或你喺呢個谷入面嘅角色。成員標籤只會喺呢嗰谷度見到。"
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "設定標籤"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "編輯你嘅標籤"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "聊天色彩"
   },
@@ -4570,6 +4675,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "群組連結"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "成員標籤"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "輸入你嘅成員標籤"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "設定一個成員標籤嚟形容你自己或你喺呢個谷入面嘅角色。成員標籤只會喺呢嗰谷度見到。"
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "試嚟睇下"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "歡迎！"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Group members with labels"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "No other members have labels"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "變更儲存緊……"
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Can’t save member label"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Check your connection and try again."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Only admins can set member labels in this group."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "過眼雲煙訊息"
@@ -4604,6 +4742,9 @@
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "揀選邊個可以編輯群組個名、相、描述同埋自動銷毀訊息嘅時限。"
   },
+  "icu:ConversationDetails--group-info-info-v2": {
+    "messageformat": "揀選邊個可以編輯個谷名、相、描述、自動銷毀訊息計時器同埋置頂訊息。"
+  },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "邊個可以加新成員"
   },
@@ -4615,6 +4756,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "揀選邊個可以傳送訊息去群組"
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Member labels will be cleared"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Continue"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "請求同邀請"
@@ -7303,13 +7453,13 @@
     "messageformat": "重視私隱多過利潤"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "堅守非牟利宗旨"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "由你贊助嘅私密通訊軟件。冇廣告、冇追蹤、絕不妥協。請立即捐款支持 Signal。<readMoreLink>睇多啲</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "捐款支持私密通訊。令 Signal 保持獨立營運同埋冇廣告。<readMoreLink>睇多啲</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "立即捐款"
@@ -7334,6 +7484,21 @@
   },
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal 唔會喺你捐款嗰陣收集或者儲存任何個人資料。</paragraph><paragraph>我哋用 Stripe 作為接收捐款嘅付款處理商。我哋唔會存取、保存或者儲存你向佢哋提供嘅任何資料。</paragraph><paragraph>Signal 唔會亦冇辦法將你嘅捐款連結至你嘅 Signal 帳戶。</paragraph><paragraph>多謝你嘅支持！</paragraph>"
+  },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Get an optional badge on your profile when you donate"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "Your privacy is our mission"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Heart icon in the style of the Signal logo"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "確定"
@@ -7425,6 +7590,15 @@
   "icu:DonateFlow__discard-dialog-remove-info": {
     "messageformat": "移除資訊"
   },
+  "icu:DonateFlow__discard-paypal-dialog-body": {
+    "messageformat": "Leaving will cancel your donation."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Leave"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Stay on page"
+  },
   "icu:DonateFlow__continue": {
     "messageformat": "繼續"
   },
@@ -7470,6 +7644,15 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "你有一筆處理緊嘅捐贈需要確認。"
   },
+  "icu:Donations__Toast__PaypalConfirmationNeeded": {
+    "messageformat": "你有一筆處理緊嘅捐贈需要確認。"
+  },
+  "icu:Donations__Toast__PaypalCanceled": {
+    "messageformat": "取消咗 PayPal 捐款"
+  },
+  "icu:Donations__Toast__PaypalError": {
+    "messageformat": "處理 PayPal 捐款時發生錯誤。你冇被扣款。"
+  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "成功捐款，但係我哋更新唔到你嘅徽章設定"
   },
@@ -7485,11 +7668,41 @@
   "icu:Donations__DonationInterrupted__RetryButton": {
     "messageformat": "再試一次"
   },
+  "icu:Donations__PaymentMethod": {
+    "messageformat": "付款方法"
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "唔接受呢個付款方法"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "試下轉用另一種付款方式，又或者聯絡返你間銀行問清楚。"
+  },
+  "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
+    "messageformat": "付款卡圖示"
+  },
+  "icu:DonateFlow__CreditOrDebitCard": {
+    "messageformat": "信用卡或扣帳卡"
+  },
+  "icu:DonateFlow__Paypal__AccessibilityLabel": {
+    "messageformat": "PayPal"
+  },
+  "icu:DonateFlow__Paypal__Cancel": {
+    "messageformat": "取消"
+  },
+  "icu:DonateFlow__Paypal__CompleteDonation": {
+    "messageformat": "捐款已經攪掂"
+  },
+  "icu:Donations__PaypalCanceled": {
+    "messageformat": "取消咗 PayPal 捐款"
+  },
+  "icu:Donations__PaypalCanceled__Description": {
+    "messageformat": "你冇被扣款。請再試一次或者用其他付款方法。"
+  },
+  "icu:Donations__PaypalError": {
+    "messageformat": "處理 PayPal 捐款時發生錯誤"
+  },
+  "icu:Donations__PaypalError__Description": {
+    "messageformat": "你冇被扣款。請再試一次或者用其他付款方法。"
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "驗證失敗"
@@ -7630,7 +7843,7 @@
     "messageformat": "幫我哋了解多啲通話嘅情況，同埋做啲咩係有效、咩係冇效。你可以响提交之前睇吓除錯記錄。"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "提交會將你嘅意見，同埋<diagnosticInfoLink>關於你通話嘅診斷資訊</diagnosticInfoLink>分享俾我哋。你可以揀分享除錯記錄，幫我哋提高通話品質。"
+    "messageformat": "提交會將你嘅意見，同埋<diagnosticInfoLink>關於你通話嘅診斷資訊</diagnosticInfoLink>分享俾我哋。你可以選擇分享除錯記錄，幫我哋提高通話品質。"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "分享除錯記錄"
@@ -7693,10 +7906,13 @@
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.86--0": {
-    "messageformat": "俾人見到舉錯手係有啲尷尬嘅，好彩我們整返好個錯誤 – 之前，喺谷通話嗰陣，如果有人舉手之後即刻放低手，有時個舉手指示唔會消失（而且舉手計數顯示係零）。"
+  "icu:WhatsNew__7.89--0": {
+    "messageformat": "呢次更新攪好咗當「大寫鎖定」功能啟用嗰陣文字格式嘅錯誤，你而家可以隨時膽粗粗咁將文字變粗（或者斜體）。唔該晒，<DGrothePhD></DGrothePhD>！"
   },
-  "icu:WhatsNew__7.87--0": {
-    "messageformat": "用訊息置頂功能，方便睇到重要資訊。你成日問嘅問題、約咗幾點食飯同埋度假行程都喺個腦度排頭位。而家可以將呢啲重要訊息放喺聊天嘅最頂位置喇。"
+  "icu:WhatsNew__7.89--1": {
+    "messageformat": "Signal 係一個非牟利機構，冇你嘅支持就唔可能有今日嘅成果。而家你可以透過 PayPal 喺 Signal 桌面版捐款。"
+  },
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
   }
 }

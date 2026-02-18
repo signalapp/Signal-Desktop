@@ -144,6 +144,11 @@ export const getStoriesEnabled = createSelector(
   (state: ItemsStateType): boolean => !state.hasStoriesDisabled
 );
 
+export const getKeyTransparencyEnabled = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => !state.hasKeyTransparencyDisabled
+);
+
 export const getDefaultConversationColor = createSelector(
   getItems,
   (

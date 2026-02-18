@@ -140,7 +140,6 @@ export type PropsDataType = {
   isSignalConversation?: boolean;
   isSmsOnlyOrUnregistered?: boolean;
   outgoingCallButtonStyle: OutgoingCallButtonStyle;
-  sharedGroupNames: ReadonlyArray<string>;
   theme: ThemeType;
 
   contactSpoofingWarning: ContactSpoofingWarning | null;
@@ -231,7 +230,6 @@ export const ConversationHeader = memo(function ConversationHeader({
   onViewUserStories,
   outgoingCallButtonStyle,
   setLocalDeleteWarningShown,
-  sharedGroupNames,
   theme,
 
   contactSpoofingWarning,
@@ -344,7 +342,6 @@ export const ConversationHeader = memo(function ConversationHeader({
                 hasStories={hasStories ?? null}
                 headerRef={headerRef}
                 i18n={i18n}
-                sharedGroupNames={sharedGroupNames}
                 theme={theme}
                 onViewUserStories={onViewUserStories}
                 onViewConversationDetails={onViewConversationDetails}
@@ -478,7 +475,6 @@ function HeaderContent({
   hasStories,
   headerRef,
   i18n,
-  sharedGroupNames,
   theme,
   isSignalConversation,
   onViewUserStories,
@@ -489,7 +485,6 @@ function HeaderContent({
   hasStories: HasStories | null;
   headerRef: RefObject<HTMLDivElement>;
   i18n: LocalizerType;
-  sharedGroupNames: ReadonlyArray<string>;
   theme: ThemeType;
   isSignalConversation: boolean;
   onViewUserStories: () => void;
@@ -528,7 +523,6 @@ function HeaderContent({
         onClick={hasStories ? onViewUserStories : onClick}
         phoneNumber={conversation.phoneNumber ?? undefined}
         profileName={conversation.profileName ?? undefined}
-        sharedGroupNames={sharedGroupNames}
         size={AvatarSize.THIRTY_TWO}
         // user may have stories, but we don't show that on Note to Self conversation
         storyRing={conversation.isMe ? undefined : (hasStories ?? undefined)}

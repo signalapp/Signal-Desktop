@@ -21,7 +21,6 @@ export type Props = {
     | 'name'
     | 'phoneNumber'
     | 'profileName'
-    | 'sharedGroupNames'
     | 'title'
   >;
   i18n: LocalizerType;
@@ -57,7 +56,6 @@ export function CallNeedPermissionScreen({
         phoneNumber={conversation.phoneNumber}
         profileName={conversation.profileName}
         title={conversation.title}
-        sharedGroupNames={conversation.sharedGroupNames}
         size={AvatarSize.EIGHTY}
       />
 

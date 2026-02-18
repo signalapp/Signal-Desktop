@@ -97,13 +97,10 @@ export function DonationThanksModal({
         <div className="DonationThanksModal__toggle-section">
           <Checkbox
             checked={applyBadgeIsChecked}
-            label=""
+            label={i18n('icu:Donations__badge-modal--display-on-profile')}
             name="donation-badge-display"
             onChange={handleToggleBadge}
           />
-          <span className="DonationThanksModal__toggle-text">
-            {i18n('icu:Donations__badge-modal--display-on-profile')}
-          </span>
         </div>
 
         <div className="DonationThanksModal__help-text">

@@ -35,6 +35,10 @@ export function getConversationTitleForPanelType(
     return i18n('icu:ConversationDetails--requests-and-invites');
   }
 
+  if (panelType === PanelType.GroupMemberLabelEditor) {
+    return i18n('icu:ConversationDetails--member-label');
+  }
+
   if (panelType === PanelType.GroupLinkManagement) {
     return i18n('icu:ConversationDetails--group-link');
   }

@@ -95,6 +95,7 @@ export type StorageAccessType = {
   hasSeenKeyTransparencyOnboarding: boolean;
   hasViewedOnboardingStory: boolean;
   hasStoriesDisabled: boolean;
+  hasKeyTransparencyDisabled: boolean;
   storyViewReceiptsEnabled: boolean | undefined;
   identityKeyMap: IdentityKeyMap;
   lastAttemptedToRefreshProfilesAt: number;
@@ -274,7 +275,13 @@ export type StorageAccessType = {
 
   // Key Transparency
   lastDistinguishedTreeHead: Uint8Array;
-  keyTransparencySelfHealth: 'ok' | 'fail';
+  // Meaning of values:
+  //
+  // - undefined - status unknown or uninitialized
+  // - 'ok' - last check passed
+  // - 'intermittent' - last check failed, but we haven't retried yet
+  // - 'fail' - last check failed after retry
+  keyTransparencySelfHealth: undefined | 'ok' | 'intermittent' | 'fail';
   lastKeyTransparencySelfCheck: number;
 
   // Test-only

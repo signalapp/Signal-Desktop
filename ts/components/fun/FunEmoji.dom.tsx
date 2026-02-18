@@ -39,6 +39,7 @@ function getEmojiJumboBackground(
 
 export type FunStaticEmojiSize =
   | 12
+  | 14
   | 16
   | 18
   | 20
@@ -62,6 +63,7 @@ export enum FunJumboEmojiSize {
 
 const funStaticEmojiSizeClasses = {
   12: 'FunStaticEmoji--Size12',
+  14: 'FunStaticEmoji--Size14',
   16: 'FunStaticEmoji--Size16',
   18: 'FunStaticEmoji--Size18',
   20: 'FunStaticEmoji--Size20',
@@ -151,6 +153,7 @@ export type FunInlineEmojiProps = FunImageAriaProps &
   Readonly<{
     size?: number | null;
     emoji: EmojiVariantData;
+    style?: CSSProperties;
   }>;
 
 export function FunInlineEmoji(props: FunInlineEmojiProps): React.JSX.Element {
@@ -173,6 +176,7 @@ export function FunInlineEmoji(props: FunInlineEmojiProps): React.JSX.Element {
         {
           '--fun-inline-emoji-size':
             props.size != null ? `${props.size}px` : null,
+          ...props.style,
         } as CSSProperties
       }
     >

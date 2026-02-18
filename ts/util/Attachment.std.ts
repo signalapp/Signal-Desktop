@@ -33,7 +33,6 @@ import {
 } from '../types/Crypto.std.js';
 import { missingCaseError } from './missingCaseError.std.js';
 import type { MessageAttachmentType } from '../types/AttachmentDownload.std.js';
-import { getFilePathsOwnedByAttachment } from './messageFilePaths.std.js';
 
 const {
   isNumber,
@@ -200,32 +199,6 @@ export function loadData(
 
     const data = await readAttachmentV2Data(attachment);
     return { ...attachment, data, size: data.byteLength };
-  };
-}
-
-export function deleteAllAttachmentFilesOnDisk({
-  deleteAttachmentOnDisk,
-  deleteDownloadOnDisk,
-}: {
-  deleteAttachmentOnDisk: (path: string) => Promise<void>;
-  deleteDownloadOnDisk: (path: string) => Promise<void>;
-}): (attachment?: AttachmentType) => Promise<void> {
-  if (!isFunction(deleteAttachmentOnDisk)) {
-    throw new TypeError(
-      'deleteAttachmentOnDisk: deleteAttachmentOnDisk must be a function'
-    );
-  }
-
-  return async (attachment?: AttachmentType): Promise<void> => {
-    if (!isValid(attachment)) {
-      throw new TypeError('deleteData: attachment is not valid');
-    }
-
-    const result = getFilePathsOwnedByAttachment(attachment);
-    await Promise.all(
-      [...result.externalAttachments].map(deleteAttachmentOnDisk)
-    );
-    await Promise.all([...result.externalDownloads].map(deleteDownloadOnDisk));
   };
 }
 

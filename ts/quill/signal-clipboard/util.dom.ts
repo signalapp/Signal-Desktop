@@ -47,7 +47,7 @@ export function createEventHandler({
     //   clipboardData at all, all other data is reset.
     event.clipboardData?.setData('text/plain', plaintext);
 
-    event.clipboardData?.setData('text/signal', container.innerHTML);
+    event.clipboardData?.setData('text/signal', container.getHTML());
 
     if (deleteSelection) {
       selection.deleteFromDocument();

@@ -610,8 +610,8 @@ export const donationPaypalApprovedRoute = _route('donationPaypalApproved', {
     }),
   ],
   schema: z.object({
-    payerId: paramSchema.optional(),
-    paymentToken: paramSchema.optional(),
+    payerId: paramSchema.nullable().optional(),
+    paymentToken: paramSchema.nullable().optional(),
     returnToken: paramSchema,
   }),
   parse(result) {

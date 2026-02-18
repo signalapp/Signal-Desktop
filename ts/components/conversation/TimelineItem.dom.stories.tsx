@@ -39,6 +39,7 @@ const getDefaultProps = () => ({
   containerWidthBreakpoint: WidthBreakpoint.Wide,
   conversationId: 'conversation-id',
   getPreferredBadge: () => undefined,
+  getSharedGroupNames: () => [],
   id: 'asdf',
   isNextItemCallingNotification: false,
   isPinned: false,

@@ -139,7 +139,6 @@ function getAvatarData(
   | 'id'
   | 'name'
   | 'profileName'
-  | 'sharedGroupNames'
   | 'title'
 > {
   return pick(conversation, [
@@ -151,7 +150,6 @@ function getAvatarData(
     'id',
     'name',
     'profileName',
-    'sharedGroupNames',
     'title',
   ]);
 }
@@ -183,7 +181,6 @@ export function getStoryView(
       'isMe',
       'name',
       'profileName',
-      'sharedGroupNames',
       'title',
       'serviceId',
     ]
@@ -281,7 +278,6 @@ export function getConversationStory(
     'id',
     'name',
     'profileName',
-    'sharedGroupNames',
     'sortedGroupMembers',
     'title',
     'left',

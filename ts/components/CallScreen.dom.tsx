@@ -327,20 +327,6 @@ export function CallScreen({
     setShowRaisedHandsList(prevValue => !prevValue);
   }, []);
 
-  const [sidebarViewDiffersFromGridView, setSidebarViewDiffersFromGridView] =
-    useState(false);
-
-  // If the user is in Sidebar view but it's no longer different from Grid view,
-  // automatically switch to Grid view.
-  useEffect(() => {
-    if (
-      !sidebarViewDiffersFromGridView &&
-      activeCall.viewMode === CallViewMode.Sidebar
-    ) {
-      changeCallView(CallViewMode.Paginated);
-    }
-  }, [sidebarViewDiffersFromGridView, activeCall.viewMode, changeCallView]);
-
   const [controlsHover, setControlsHover] = useState(false);
   const onControlsMouseEnter = useCallback(() => {
     setControlsHover(true);
@@ -459,7 +445,7 @@ export function CallScreen({
   }, [showReactionPicker]);
 
   useScreenSharingStoppedToast({ activeCall, i18n });
-  useViewModeChangedToast({ activeCall, i18n, sidebarViewDiffersFromGridView });
+  useViewModeChangedToast({ activeCall, i18n });
 
   const currentPresenter = remoteParticipants.find(
     participant => participant.presenting
@@ -668,8 +654,6 @@ export function CallScreen({
           phoneNumber={me.phoneNumber}
           profileName={me.profileName}
           title={me.title}
-          // See comment above about `sharedGroupNames`.
-          sharedGroupNames={[]}
           size={AvatarSize.FORTY}
         />
       </CallBackgroundBlur>
@@ -978,7 +962,6 @@ export function CallScreen({
                 profileName={conversation.profileName}
                 title={conversation.title}
                 size={AvatarSize.EIGHTY}
-                sharedGroupNames={conversation.sharedGroupNames}
               />
             </div>
           </CallBackgroundBlur>
@@ -1007,9 +990,6 @@ export function CallScreen({
           imageDataCache={imageDataCache}
           i18n={i18n}
           joinedAt={activeCall.joinedAt}
-          onSidebarViewDiffersFromGridViewChange={
-            setSidebarViewDiffersFromGridView
-          }
           remoteParticipants={activeCall.remoteParticipants}
           setGroupCallVideoRequest={setGroupCallVideoRequest}
           remoteAudioLevels={activeCall.remoteAudioLevels}
@@ -1090,7 +1070,6 @@ export function CallScreen({
           i18n={i18n}
           isGroupCall={isGroupCall}
           participantCount={participantCount}
-          showSidebarViewOption={sidebarViewDiffersFromGridView}
           togglePip={togglePip}
           toggleSettings={toggleSettings}
         />
@@ -1338,11 +1317,9 @@ function renderDuration(ms: number): string {
 function useViewModeChangedToast({
   activeCall,
   i18n,
-  sidebarViewDiffersFromGridView,
 }: {
   activeCall: ActiveCallType;
   i18n: LocalizerType;
-  sidebarViewDiffersFromGridView: boolean;
 }): void {
   const { viewMode } = activeCall;
   const previousViewMode = usePrevious(viewMode, viewMode);
@@ -1358,14 +1335,6 @@ function useViewModeChangedToast({
         viewMode === CallViewMode.Presentation ||
         // if this is an automated change away from presentation mode, don't show toast
         (previousViewMode === CallViewMode.Presentation && !presenterAci)
-      ) {
-        return;
-      }
-
-      if (
-        !sidebarViewDiffersFromGridView &&
-        previousViewMode === CallViewMode.Sidebar &&
-        viewMode === CallViewMode.Paginated
       ) {
         return;
       }
@@ -1392,7 +1361,6 @@ function useViewModeChangedToast({
     hideToast,
     i18n,
     activeCall,
-    sidebarViewDiffersFromGridView,
     viewMode,
     previousViewMode,
     presenterAci,

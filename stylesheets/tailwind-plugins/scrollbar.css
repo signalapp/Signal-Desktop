@@ -4,8 +4,8 @@
  */
 
 /**
-  * Theme
-  */
+ * Theme
+ */
 
 @theme {
   --default-scrollbar-width: auto;
@@ -14,8 +14,8 @@
 }
 
 /**
-  * Properties
-  */
+ * Properties
+ */
 
 @property --tw-scrollbar-track {
   syntax: '*';
@@ -27,8 +27,8 @@
 }
 
 /**
-  * Utilities
-  */
+ * Utilities
+ */
 
 @utility scrollbar-track-* {
   /* prettier-ignore */

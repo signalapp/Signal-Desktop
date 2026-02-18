@@ -272,7 +272,6 @@ describe('state/selectors/messages', () => {
       type: 'direct',
       title: 'Test conversation',
       isMe: false,
-      sharedGroupNames: [],
       acceptedMessageRequest: true,
       badges: [],
     };

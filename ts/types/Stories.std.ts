@@ -23,7 +23,6 @@ export type ReplyType = {
     | 'isMe'
     | 'name'
     | 'profileName'
-    | 'sharedGroupNames'
     | 'title'
   >;
   body?: string;
@@ -54,7 +53,6 @@ export type ConversationStoryType = {
     | 'id'
     | 'name'
     | 'profileName'
-    | 'sharedGroupNames'
     | 'sortedGroupMembers'
     | 'title'
     | 'left'
@@ -94,7 +92,6 @@ export type StoryViewType = {
     | 'isMe'
     | 'name'
     | 'profileName'
-    | 'sharedGroupNames'
     | 'title'
     | 'serviceId'
   >;

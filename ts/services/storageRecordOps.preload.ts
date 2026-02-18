@@ -591,6 +591,12 @@ export function toAccountRecord(
       hasSeenGroupStoryEducationSheet;
   }
 
+  const hasKeyTransparencyDisabled = itemStorage.get(
+    'hasKeyTransparencyDisabled'
+  );
+  accountRecord.automaticKeyVerificationDisabled =
+    hasKeyTransparencyDisabled === true;
+
   const hasStoriesDisabled = itemStorage.get('hasStoriesDisabled');
   accountRecord.storiesDisabled = hasStoriesDisabled === true;
 
@@ -847,11 +853,14 @@ export function toDefunctOrPendingCallLinkRecord(
 function toRecipient(
   conversationId: string,
   logPrefix: string
-): Proto.Recipient {
+): Proto.Recipient | undefined {
   const conversation = window.ConversationController.get(conversationId);
 
   if (conversation == null) {
-    throw new Error(`${logPrefix}/toRecipient: Missing conversation`);
+    log.error(
+      `${logPrefix}/toRecipient: Missing conversation with id ${conversationId}`
+    );
+    return undefined;
   }
 
   const logId = `${logPrefix}/toRecipient(${conversation.idForLogging()})`;
@@ -897,9 +906,11 @@ function toRecipients(
   conversationIds: ReadonlyArray<string>,
   logPrefix: string
 ): Array<Proto.Recipient> {
-  return conversationIds.map(conversationId => {
-    return toRecipient(conversationId, logPrefix);
-  });
+  return conversationIds
+    .map(conversationId => {
+      return toRecipient(conversationId, logPrefix);
+    })
+    .filter(isNotNil);
 }
 
 function toChatFolderRecordFolderType(
@@ -1652,6 +1663,7 @@ export async function mergeAccountRecord(
     usernameLink,
     notificationProfileManualOverride,
     notificationProfileSyncDisabled,
+    automaticKeyVerificationDisabled,
   } = accountRecord;
 
   const conversation =
@@ -1921,6 +1933,18 @@ export async function mergeAccountRecord(
       'hasSeenGroupStoryEducationSheet',
       hasCompletedUsernameOnboardingBool
     );
+  }
+  {
+    const hasKeyTransparencyDisabled = Boolean(
+      automaticKeyVerificationDisabled
+    );
+    await itemStorage.put(
+      'hasKeyTransparencyDisabled',
+      hasKeyTransparencyDisabled
+    );
+    if (hasKeyTransparencyDisabled) {
+      await keyTransparency.disable();
+    }
   }
   {
     const hasStoriesDisabled = Boolean(storiesDisabled);

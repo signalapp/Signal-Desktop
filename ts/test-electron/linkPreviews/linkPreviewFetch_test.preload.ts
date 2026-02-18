@@ -1319,32 +1319,6 @@ describe('link preview fetching', () => {
       );
     });
 
-    it('returns null if the response is too large', async () => {
-      const fakeFetch = stub().resolves(
-        new Response(await readFixtureImage('kitten-1-64-64.jpg'), {
-          headers: {
-            'Content-Type': 'image/jpeg',
-            'Content-Length': '123456789',
-          },
-        })
-      );
-
-      assert.isNull(
-        await fetchLinkPreviewImage(
-          fakeFetch,
-          'https://example.com/img',
-          new AbortController().signal,
-          logger
-        )
-      );
-
-      sinon.assert.calledOnce(warn);
-      sinon.assert.calledWith(
-        warn,
-        'fetchLinkPreviewImage: Content-Length is too large or is unset; bailing'
-      );
-    });
-
     it('returns null if the Content-Type is not a valid image', async () => {
       const fixture = await readFixtureImage('kitten-1-64-64.jpg');
 

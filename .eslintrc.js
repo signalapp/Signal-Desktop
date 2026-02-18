@@ -454,6 +454,8 @@ module.exports = {
     {
       files: ['ts/axo/**/*.tsx'],
       rules: {
+        // Rule doesn't understand TypeScript namespaces
+        'no-inner-declarations': 'off',
         '@typescript-eslint/no-namespace': 'off',
         '@typescript-eslint/no-redeclare': [
           'error',

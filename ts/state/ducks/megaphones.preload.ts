@@ -105,7 +105,7 @@ function interactWithMegaphone(
         navActions.changeLocation({
           tab: NavTab.Settings,
           details: {
-            page: SettingsPage.Donations,
+            page: SettingsPage.DonationsDonateFlow,
           },
         })
       );

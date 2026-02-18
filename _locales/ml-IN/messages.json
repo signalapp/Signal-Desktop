@@ -578,14 +578,95 @@
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "{name} എന്നയാളുമായി ആദ്യവസാനം എൻക്രിപ്റ്റ് ചെയ്യൽ പരിശോധിച്ചുറപ്പിക്കാൻ അവരുടെ ഉപകരണവുമായി മുകളിലുള്ള അക്കങ്ങൾ താരതമ്യം ചെയ്യുക. അവരുടെ ഉപകരണം ഉപയോഗിച്ച് നിങ്ങളുടെ കോഡ് സ്‌കാൻ ചെയ്യുകയും ചെയ്യാം."
   },
+  "icu:SafetyNumberViewer__hint-v2": {
+    "messageformat": "{name} എന്നയാളുമായുള്ള എന്‍ഡ്-ടു-എന്‍ഡ് എൻക്രിപ്ക്ഷൻ പരിശോധിച്ചുറപ്പിക്കാൻ, അവരുടെ ഉപകരണവുമായി മുകളിലുള്ള നമ്പരുകള്‍ താരതമ്യം ചെയ്യുക. അവർക്ക് നിങ്ങളുടെ കോഡ് അവരുടെ ഉപകരണത്തിൽ സ്കാൻ ചെയ്യാനും കഴിയും."
+  },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "കൂടുതൽ അറിയുക"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__title": {
+    "messageformat": "ഓട്ടോമാറ്റിക്ക് കീ വെരിഫിക്കേഷന്‍"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
+    "messageformat": "ഓട്ടോമാറ്റിക്കായി പരിശോധിച്ചുറപ്പിക്കുക"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--running": {
+    "messageformat": "എൻക്രിപ്ഷൻ പരിശോധിച്ചുറപ്പിക്കുന്നു..."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
+    "messageformat": "എൻക്രിപ്ഷൻ പരിശോധിച്ചുറപ്പിച്ചു"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
+    "messageformat": "സ്വയമേവയുള്ള പരിശോധിച്ചുറപ്പിക്കല്‍ ലഭ്യമല്ല"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__hint": {
+    "messageformat": "എല്ലാ ചാറ്റുകൾക്കും സ്വയമേവയുള്ള പരിശോധിച്ചുറപ്പിക്കല്‍ ലഭ്യമല്ല."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
+    "messageformat": "കൂടുതൽ അറിയുക"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
+    "messageformat": "ഈ ചാറ്റിനായി എൻക്രിപ്ഷൻ സ്വയമേവ പരിശോധിച്ചുറപ്പിച്ചു "
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+    "messageformat": "ഫോൺ നമ്പർ വഴി നിങ്ങൾ കണക്റ്റുചെയ്‌തിരിക്കുന്ന കോൺടാക്‌റ്റുകൾക്ക്, കീ ട്രാൻസ്പരൻസി എന്ന പ്രക്രിയ ഉപയോഗിച്ച് കണക്ഷൻ സുരക്ഷിതമാണോ എന്ന് Signal-ന് ഓട്ടോമാറ്റിക്കായി സ്ഥിരീകരിക്കാൻ കഴിയും. അധിക സുരക്ഷയ്ക്കായി, മുമ്പത്തെ സ്ക്രീനിലെ നമ്പറുകൾ താരതമ്യം ചെയ്തുകൊണ്ടോ അവരുടെ ഉപകരണത്തിലെ കോഡ് സ്കാൻ ചെയ്തുകൊണ്ടോ എൻഡ്-ടു-എൻഡ് എൻക്രിപ്ഷൻ നേരിട്ട് പരിശോധിച്ചുറപ്പിക്കുക."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
+    "messageformat": "ഈ ചാറ്റിന് ഇനി സ്വയമേവയുള്ള പരിശോധിച്ചുറപ്പിക്കല്‍ ലഭ്യമല്ല"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
+    "messageformat": "ഈ ചാറ്റിനുള്ള എൻക്രിപ്ഷൻ ഇനി Signal-ന് ഓട്ടോമാറ്റിക്കായി പരിശോധിച്ചുറപ്പിക്കാൻ കഴിയില്ല. ഇത് {name} അവരുടെ ഫോൺ നമ്പർ മാറ്റിയതിനാലാകാം. മുമ്പത്തെ സ്ക്രീനിലെ നമ്പറുകൾ താരതമ്യം ചെയ്തുകൊണ്ടോ അവരുടെ ഉപകരണത്തിലെ കോഡ് സ്കാൻ ചെയ്തുകൊണ്ടോ എൻഡ്-ടു-എൻഡ് എൻക്രിപ്ഷൻ നേരിട്ട് പരിശോധിച്ചുറപ്പിക്കുക."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
+    "messageformat": "ഒരു ഫോൺ നമ്പർ വഴി നിങ്ങൾ ഒരാളുമായി ബന്ധപ്പെട്ടിരിക്കുന്ന ചാറ്റുകളിലെ എൻക്രിപ്ഷൻ മാത്രമേ Signal-ന് ഓട്ടോമാറ്റിക്കായി പരിശോധിച്ചുറപ്പിക്കാൻ കഴിയൂ. ഒരു ഉപയോക്തൃനാമം അല്ലെങ്കിൽ പൊതുവായ ഒരു ഗ്രൂപ്പ് ഉപയോഗിച്ചാണ് ചാറ്റ് ആരംഭിച്ചതെങ്കിൽ, മുമ്പത്തെ സ്ക്രീനിലെ നമ്പറുകൾ താരതമ്യം ചെയ്തുകൊണ്ടോ അവരുടെ ഉപകരണത്തിലെ കോഡ് സ്കാൻ ചെയ്തുകൊണ്ടോ എൻഡ്-ടു-എൻഡ് എൻക്രിപ്ഷൻ പരിശോധിച്ചുറപ്പിക്കുക."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
+    "messageformat": "ശരി"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "നിങ്ങൾ ഈ വ്യക്തിയുമായി സന്ദേശങ്ങൾ കൈമാറി കഴിയുമ്പോൾ സുരക്ഷാ നമ്പർ സൃഷ്ടിക്കപ്പെടും."
   },
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "കൂടുതൽ അറിയുക"
+  },
+  "icu:KeyTransparencyErrorDialog__Title": {
+    "messageformat": "നിങ്ങളുടെ ഉപകരണത്തിന് നിലവിൽ ഓട്ടോമാറ്റിക്ക് കീ വെരിഫിക്കേഷന്‍ ലഭ്യമല്ല. ഡീബഗ് ലോഗ് സമർപ്പിക്കണോ?"
+  },
+  "icu:KeyTransparencyErrorDialog__Description": {
+    "messageformat": "പ്രശ്‌നം നിർണ്ണയിക്കാനും പരിഹരിക്കാനും ഡീബഗ് ലോഗുകൾ ഞങ്ങളെ സഹായിക്കുന്നു, അവയിൽ തിരിച്ചറിയാനാകുന്ന വിവരങ്ങൾ ഉൾപ്പെടുന്നുമില്ല."
+  },
+  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "അടയ്ക്കുക"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
+    "messageformat": "ഡീബഗ് ലോഗ് പങ്കിടുക"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
+    "messageformat": "കാണുക"
+  },
+  "icu:KeyTransparencyErrorDialog__Submit": {
+    "messageformat": "സമർപ്പിക്കുക"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "വേണ്ട"
+  },
+  "icu:KeyTransparencyErrorDialog__Submitting": {
+    "messageformat": "സമർപ്പിക്കുന്നു..."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Title": {
+    "messageformat": "Signal can now auto-verify encryption"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Continue": {
+    "messageformat": "തുടരുക"
+  },
+  "icu:KeyTransparencyOnboardingDialog__LearnMore": {
+    "messageformat": "കൂടുതൽ അറിയുക"
+  },
+  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "അടയ്ക്കുക"
   },
   "icu:verified": {
     "messageformat": "പരിശോധിച്ചു"
@@ -807,7 +888,7 @@
     "messageformat": "ഈ അപ്‌ഡേറ്റിൽ {whatsNew} കാണുക"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal ഒരു ലാഭേച്ഛയില്ലാത്ത സ്ഥാപനമാണ്"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "പുതിയതായി എന്തുണ്ട്"
@@ -1033,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} നിങ്ങളുടെ സിസ്റ്റം കോൺടാക്റ്റുകളിൽ ഉണ്ട്"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "ഒരു മെമ്പര്‍ ലേബൽ ചേർക്കുക"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "കുറിപ്പ്"
@@ -1711,6 +1795,15 @@
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "റദ്ദാക്കുക"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
+    "messageformat": "ഓട്ടോമാറ്റിക്ക് കീ വെരിഫിക്കേഷന്‍"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
+    "messageformat": "പ്രവർത്തനക്ഷമമാക്കുമ്പോൾ, 1:1 ചാറ്റുകളുടെ എൻക്രിപ്ഷൻ ഓട്ടോമാറ്റിയ്ക്കായി പരിശോധിച്ചുറപ്പിക്കാന്‍ Signal ശ്രമിക്കും."
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
+    "messageformat": "കൂടുതലറിയുക"
   },
   "icu:initialSync": {
     "messageformat": "കോൺ‌ടാക്റ്റുകളും ഗ്രൂപ്പുകളും സമന്വയിപ്പിക്കുന്നു"
@@ -2772,13 +2865,13 @@
     "messageformat": "Tenor വഴി GIF-കൾ തിരയുക"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF-കൾ തിരയുക"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Tenor തിരയുക"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "GIF-കൾ തിരയുക"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF വിഭാഗങ്ങൾ"
@@ -2826,7 +2919,7 @@
     "messageformat": "GIF പ്രിവ്യൂ"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "GIPHY നൽകുന്നത്"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "തിരച്ചിലുകൾ മായ്‌ക്കുക"
@@ -4556,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "ശബ്ദം"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "മെമ്പര്‍ ലേബലുകൾ"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "നിങ്ങളെക്കുറിച്ചോ ഈ ഗ്രൂപ്പിലെ നിങ്ങളുടെ പങ്കിനെക്കുറിച്ചോ വിവരിക്കാൻ ഒരു മെമ്പര്‍ ലേബൽ ഉപയോഗിക്കുക. ഈ ഗ്രൂപ്പിനുള്ളിൽ മാത്രമേ മെമ്പര്‍ ലേബലുകൾ ദൃശ്യമാകൂ."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "ഒരു ലേബൽ സജ്ജമാക്കുക"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "നിങ്ങളുടെ ലേബൽ എഡിറ്റ് ചെയ്യുക"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "ചാറ്റ് നിറം"
   },
@@ -4570,6 +4675,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "ഗ്രൂപ്പിന്റെ ലിങ്ക്"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "മെമ്പര്‍ ലേബൽ"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "നിങ്ങളുടെ മെമ്പര്‍ ലേബൽ നൽകുക"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "നിങ്ങളെയോ ഈ ഗ്രൂപ്പിലെ നിങ്ങളുടെ പങ്കിനെയോ വിവരിക്കുന്നതിന് ഒരു മെമ്പര്‍ ലേബൽ സജ്ജമാക്കുക. ഈ ഗ്രൂപ്പിനുള്ളിൽ മാത്രമേ മെമ്പര്‍ ലേബലുകൾ ദൃശ്യമാകൂ."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "പ്രിവ്യൂ"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "ഹലോ!"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Group members with labels"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "No other members have labels"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "മാറ്റങ്ങൾ സംരക്ഷിക്കുന്നു..."
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Can’t save member label"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Check your connection and try again."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Only admins can set member labels in this group."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "അപ്രത്യക്ഷമാകുന്ന സന്ദേശങ്ങൾ"
@@ -4604,6 +4742,9 @@
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "ഗ്രൂപ്പ് പേര്, ഫോട്ടോ, വിവരണം, അപ്രത്യക്ഷമാകുന്ന സന്ദേശങ്ങള്‍ ടൈമർ എന്നിവ എഡിറ്റുചെയ്യാൻ ആർക്കാണ് കഴിയുകഎന്ന് തിരഞ്ഞെടുക്കുക."
   },
+  "icu:ConversationDetails--group-info-info-v2": {
+    "messageformat": "ഗ്രൂപ്പിന്റെ പേര്, ഫോട്ടോ, വിവരണം, അപ്രത്യക്ഷമാകുന്ന സന്ദേശങ്ങളുടെ ടൈ‌മർ, പിൻ ചെയ്ത സന്ദേശങ്ങൾ എന്നിവ ആർക്കൊക്കെ എഡിറ്റ് ചെയ്യാനാകുമെന്ന് തിരഞ്ഞെടുക്കുക."
+  },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "ആർക്കാണ് അംഗങ്ങളെ ചേർക്കാൻ കഴിയുക"
   },
@@ -4615,6 +4756,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "ഗ്രൂപ്പിലേക്ക് ആർക്കൊക്കെ സന്ദേശങ്ങള്‍ അയയ്ക്കാനാകുമെന്ന് തിരഞ്ഞെടുക്കുക."
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Member labels will be cleared"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Continue"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "അഭ്യർത്ഥനകളും ക്ഷണങ്ങളും"
@@ -7303,13 +7453,13 @@
     "messageformat": "ലാഭത്തേക്കാൾ മുഖ്യം സ്വകാര്യത"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "അഭിമാനത്തോടെ, ലാഭേച്ഛയില്ലാതെ"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "നിങ്ങൾ ധനസഹായം നൽകുന്ന, സ്വകാര്യ സന്ദേശമയയ്ക്കൽ. പരസ്യങ്ങളില്ല, ട്രാക്കിംഗില്ല, വിട്ടുവീഴ്‌ചയില്ല. Signal-നെ പിന്തുണയ്ക്കാൻ ഇപ്പോൾ സംഭാവന നൽകൂ. <readMoreLink>കൂടുതൽ വായിക്കുക</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "സ്വകാര്യ സന്ദേശമയയ്ക്കലിനെ പിന്തുണയ്ക്കാൻ സംഭാവന നൽകുക. Signal-നെ സ്വതന്ത്രമായും പരസ്യരഹിതമായും നിലനിർത്തുക. <readMoreLink>കൂടുതൽ വായിക്കുക</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "സംഭാവന നൽകുക"
@@ -7334,6 +7484,21 @@
   },
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>നിങ്ങൾ ഒരു സംഭാവന നൽകുമ്പോൾ Signal നിങ്ങളുടെ സ്വകാര്യ വിവരങ്ങളൊന്നും ശേഖരിക്കുകയോ സൂക്ഷിക്കുകയോ ചെയ്യുന്നില്ല.</paragraph><paragraph>നിങ്ങളുടെ സംഭാവനകൾ സ്വീകരിക്കുന്നതിന് ഞങ്ങൾ Stripe പേയ്‌മെന്റ് പ്രോസസ്സറായി ഉപയോഗിക്കുന്നു. നിങ്ങൾ അവർക്ക് നൽകുന്ന ഒരു വിവരവും ഞങ്ങൾ ആക്‌സസ് ചെയ്യുകയോ സംഭരിക്കുകയോ സംരക്ഷിക്കുകയോ ചെയ്യുന്നില്ല.</paragraph><paragraph>Signal നിങ്ങളുടെ സംഭാവന നിങ്ങളുടെ Signal അക്കൗണ്ടുമായി ബന്ധിപ്പിക്കുന്നില്ല, ബന്ധിപ്പിക്കാനും കഴിയില്ല.</paragraph><paragraph>നിങ്ങളുടെ പിന്തുണയ്ക്ക് നന്ദി!</paragraph>"
+  },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Get an optional badge on your profile when you donate"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "Your privacy is our mission"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Heart icon in the style of the Signal logo"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "ഓകെ"
@@ -7425,6 +7590,15 @@
   "icu:DonateFlow__discard-dialog-remove-info": {
     "messageformat": "വിവരങ്ങൾ നീക്കം ചെയ്യുക"
   },
+  "icu:DonateFlow__discard-paypal-dialog-body": {
+    "messageformat": "Leaving will cancel your donation."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Leave"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Stay on page"
+  },
   "icu:DonateFlow__continue": {
     "messageformat": "തുടരുക"
   },
@@ -7470,6 +7644,15 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "നിങ്ങൾക്ക്, സ്ഥിരീകരണം ആവശ്യമുള്ള ഒരു സംഭാവന പുരോഗതിയിലാണ്."
   },
+  "icu:Donations__Toast__PaypalConfirmationNeeded": {
+    "messageformat": "നിങ്ങൾക്ക്, സ്ഥിരീകരണം ആവശ്യമുള്ള ഒരു സംഭാവന പുരോഗതിയിലാണ്."
+  },
+  "icu:Donations__Toast__PaypalCanceled": {
+    "messageformat": "PayPal സംഭാവന റദ്ദാക്കി"
+  },
+  "icu:Donations__Toast__PaypalError": {
+    "messageformat": "PayPal സംഭാവന പ്രോസസ്സ് ചെയ്യുന്നതിൽ പിശക്. നിങ്ങളിൽ നിന്ന് നിരക്ക് ഈടാക്കിയിട്ടില്ല."
+  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "സംഭാവന വിജയകരമായി നൽകി, പക്ഷേ നിങ്ങളുടെ ബാഡ്ജ് ക്രമീകരണങ്ങൾ അപ്ഡേറ്റ് ചെയ്യാൻ ഞങ്ങൾക്ക് കഴിഞ്ഞില്ല"
   },
@@ -7485,11 +7668,41 @@
   "icu:Donations__DonationInterrupted__RetryButton": {
     "messageformat": "വീണ്ടും ശ്രമിക്കുക"
   },
+  "icu:Donations__PaymentMethod": {
+    "messageformat": "പേയ്‌മെന്റ് രീതി"
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "പേയ്‌മെന്റ് രീതി നിരസിച്ചു"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "മറ്റൊരു പേയ്മെന്റ് രീതി പരീക്ഷിക്കുക അല്ലെങ്കിൽ കൂടുതൽ വിവരങ്ങൾക്ക് നിങ്ങളുടെ ബാങ്കുമായി ബന്ധപ്പെടുക."
+  },
+  "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
+    "messageformat": "പേയ്‌മെന്റ് കാർഡ് ഐക്കൺ"
+  },
+  "icu:DonateFlow__CreditOrDebitCard": {
+    "messageformat": "ക്രെഡിറ്റ് കാർഡ് അല്ലെങ്കിൽ ഡെബിറ്റ് കാർഡ്"
+  },
+  "icu:DonateFlow__Paypal__AccessibilityLabel": {
+    "messageformat": "PayPal"
+  },
+  "icu:DonateFlow__Paypal__Cancel": {
+    "messageformat": "റദ്ദാക്കുക"
+  },
+  "icu:DonateFlow__Paypal__CompleteDonation": {
+    "messageformat": "സംഭാവന പൂർത്തിയാക്കുക"
+  },
+  "icu:Donations__PaypalCanceled": {
+    "messageformat": "PayPal സംഭാവന റദ്ദാക്കി"
+  },
+  "icu:Donations__PaypalCanceled__Description": {
+    "messageformat": "നിങ്ങളിൽ നിന്ന് നിരക്ക് ഈടാക്കിയിട്ടില്ല. വീണ്ടും ശ്രമിക്കുക അല്ലെങ്കിൽ മറ്റൊരു പേയ്‌മെന്റ് രീതി ഉപയോഗിക്കുക."
+  },
+  "icu:Donations__PaypalError": {
+    "messageformat": "PayPal സംഭാവന പ്രോസസ്സ് ചെയ്യുന്നതിൽ പിശക്"
+  },
+  "icu:Donations__PaypalError__Description": {
+    "messageformat": "നിങ്ങളിൽ നിന്ന് നിരക്ക് ഈടാക്കിയിട്ടില്ല. വീണ്ടും ശ്രമിക്കുക അല്ലെങ്കിൽ മറ്റൊരു പേയ്‌മെന്റ് രീതി ഉപയോഗിക്കുക."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "പരിശോധിച്ചുറപ്പിക്കൽ പരാജയപ്പെട്ടു"
@@ -7693,10 +7906,13 @@
     "messageformat": "ചെറിയ മാറ്റങ്ങളും ബഗ് പരിഹരിക്കലുകളും പ്രകടന മെച്ചപ്പെടുത്തലുകളും. Signal ഉപയോഗിക്കുന്നതിന് നന്ദി!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.86--0": {
-    "messageformat": "തുടർന്നുണ്ടാകുന്ന അസ്വാഭാവികമായ നിശബ്ദത പരിഹരിക്കാൻ ഞങ്ങൾക്ക് കഴിയില്ല, എന്നാൽ ആരെങ്കിലും വളരെ വേഗത്തിൽ കൈ ഉയർത്തുകയും താഴ്ത്തുകയും ചെയ്താൽ ഉയർത്തിയ കൈ സൂചകം ദൃശ്യമാകുന്ന ഒരു ബഗ് (പൂജ്യം എണ്ണത്തിൽ) ഞങ്ങൾ പരിഹരിച്ചിട്ടുണ്ട്."
+  "icu:WhatsNew__7.89--0": {
+    "messageformat": "ക്യാപ്‌സ് ലോക്ക് പ്രവർത്തനക്ഷമമാക്കിയിരുന്നപ്പോൾ ടെക്സ്റ്റ് ഫോർമാറ്റിംഗിൽ ഉണ്ടായിരുന്ന ഒരു ബഗ് ഈ അപ്‌ഡേറ്റ് പരിഹരിക്കുന്നു, അതിനാൽ ബോൾഡ് ആയിരിക്കുമ്പോൾ കാര്യങ്ങൾ ബോൾഡ് (അല്ലെങ്കിൽ ഇറ്റാലിക്) ആക്കുന്നത് എളുപ്പമാകും. നന്ദി, <DGrothePhD></DGrothePhD>!"
   },
-  "icu:WhatsNew__7.87--0": {
-    "messageformat": "പിൻ ചെയ്‌ത സന്ദേശങ്ങൾ ഉപയോഗിച്ച് പ്രധാനപ്പെട്ട വിവരങ്ങൾ എളുപ്പത്തിൽ ആക്‌സസ് ചെയ്യാൻ സഹായിക്കുക. നിങ്ങളുടെ പതിവ് ചോദ്യങ്ങൾ, അത്താഴ റിസർവേഷനുകൾ, അവധിക്കാല യാത്രാ പദ്ധതികൾ എന്നിവ ഇതിനകം തന്നെ നിങ്ങളുടെ മനസ്സിലെ പ്രധാന കാര്യങ്ങളാണ്. അവയെ ചാറ്റിലെയും പ്രധാന കാര്യങ്ങളാക്കാം."
+  "icu:WhatsNew__7.89--1": {
+    "messageformat": "Signal ലാഭേച്ഛയില്ലാത്ത സ്ഥാപനമാണ്, നിങ്ങളുടെ പിന്തുണയില്ലാതെ അത് സാധ്യമാകുമായിരുന്നില്ല, ഇപ്പോൾ നിങ്ങൾക്ക് Signal ഡെസ്ക്ടോപ്പിൽ PayPal വഴി സംഭാവന നൽകാം."
+  },
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
   }
 }

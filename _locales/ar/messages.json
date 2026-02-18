@@ -578,14 +578,95 @@
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "للتحقُّق من أمان التشفير من طرف لِطرف مع {name}، قارِن الأرقام أعلاه بأجهزته. يُمكنه أيضًا مسح الكود الخاص بك باستخدام جهازه."
   },
+  "icu:SafetyNumberViewer__hint-v2": {
+    "messageformat": "للتحقُّق من أمان التشفير من طرف لِطرف مع {name}، قارِن الأرقام أعلاه بجهازه(ا). يُمكنه أيضًا مسح رمزك باستخدام جهازه(ا)."
+  },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "اعرف المزيد"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__title": {
+    "messageformat": "التحقُّق التلقائي من المفاتيح"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
+    "messageformat": "التحقُّق تلقائيًا"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--running": {
+    "messageformat": "جارٍ التحقُّق من التشفير…"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
+    "messageformat": "تمَّ التحقُّق من التشفير"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
+    "messageformat": "التحقُّق التلقائي غير متوفر"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__hint": {
+    "messageformat": "التحقُّق التلقائي غير متوفر لكل الدردشات."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
+    "messageformat": "اعرف المزيد"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
+    "messageformat": "تمَّ التحقُّق من التشفير تلقائيًا لهذه الدردشة. "
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+    "messageformat": "بالنسبة لجهات الاتصال المرتبطين بك عبر رقم الهاتف، يمكن لتطبيق سيجنال التحقُّق تلقائيًا من أمان الاتصال باستخدام عملية تُسمّى شفافية المفاتيح. للمزيد من الأمان، تحقَّق من التشفير من طرف لطرف يدويًا من خلال مقارنة الأرقام على الشاشة السابقة أو مسح الكود على جهازه(ا)."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
+    "messageformat": "التحقُّق التلقائي غير متوفِّر لهذه الدردشة."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
+    "messageformat": "لم يعد سيجنال قادرًا على التحقُّق تلقائيًا من التشفير لهذه الدردشة. هذا على الأرجح لأن {name} غيَّر رقم هاتفه. التحقُّق من التشفير من طرف لطرف يدويًا عن طريق مقارنة الأرقام على الشاشة السابقة أو مسح الكود على جهازه(ا)."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
+    "messageformat": "يمكن لسيجنال التحقُّق تلقائيًا من التشفير في الدردشات التي تكون متصلًا فيها بشخص ما عبر رقم الهاتف. إذا تمَّ بدء الدردشة باسم مُستخدِم أو مجموعة مشتركة، تحقَّق من التشفير من طرف لطرف من خلال مقارنة الأرقام على الشاشة السابقة أو مسح الكود على جهازه(ا)."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
+    "messageformat": "حسنًا"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "سيتمُّ إنشاء رقم أمان مع هذا الشخص بعد تبادل الرسائل معه."
   },
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "اعرف المزيد"
+  },
+  "icu:KeyTransparencyErrorDialog__Title": {
+    "messageformat": "التحقُّق التلقائي من المفاتيح غير متاح حاليًا على جهازك. هل ترغبُ بإرسال سجل الأخطاء؟"
+  },
+  "icu:KeyTransparencyErrorDialog__Description": {
+    "messageformat": "تساعدنا سِجلات الأخطاء في تشخيص المشكلة وإصلاحها، وهي لا تحتوي على معلومات تعريفية عن المُستخدِم."
+  },
+  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "إغلاق"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
+    "messageformat": "مشاركة سجل الأخطاء"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
+    "messageformat": "عرض"
+  },
+  "icu:KeyTransparencyErrorDialog__Submit": {
+    "messageformat": "إرسال"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "لا، شكرًا"
+  },
+  "icu:KeyTransparencyErrorDialog__Submitting": {
+    "messageformat": "جارٍ الإرسال…"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Title": {
+    "messageformat": "Signal can now auto-verify encryption"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Continue": {
+    "messageformat": "متابعة"
+  },
+  "icu:KeyTransparencyOnboardingDialog__LearnMore": {
+    "messageformat": "اعرف المزيد"
+  },
+  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "إغلاق"
   },
   "icu:verified": {
     "messageformat": "مُتحقَّق منه"
@@ -807,7 +888,7 @@
     "messageformat": "اطَّلِع على {whatsNew} في هذا التحديث"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "سيجنال شركة غير ربحية"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "ما هو جديد"
@@ -1033,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} موجود في جهات اتصال نظامك"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "أضِف دور للعضو"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "مُلاحظة"
@@ -1711,6 +1795,15 @@
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "إلغاء"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
+    "messageformat": "التحقُّق التلقائي من المفاتيح"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
+    "messageformat": "عند التفعيل، سيحاول سيجنال التحقُّق تلقائيًا من تشفير المحاثات الفردية."
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
+    "messageformat": "اعرف المزيد"
   },
   "icu:initialSync": {
     "messageformat": "تجري مزامنة جهات الاتصال والمجموعات"
@@ -2772,13 +2865,13 @@
     "messageformat": "البحث عن الصور المُتحركة (GIFs) في Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "البحث في الصور المتحركة"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "البحث في Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "البحث في الصور المتحركة"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "فئات الصور المُتحركة (GIFs)"
@@ -2826,7 +2919,7 @@
     "messageformat": "معاينة صورة GIF"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "مدعوم من طرف GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "مسح مُدخلات البحث"
@@ -4556,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "مكالمة صوتية"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "دور العضو"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "حدِّد دور عضو لتصف نفسك أو دورك في هذه المجموعة. أدوار العضو مرئية فقط داخل هذه المجموعة."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "حدّد دورًا"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "تعديل دورك"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "لون الدردشة"
   },
@@ -4570,6 +4675,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "رابط المجموعة"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "دور العضو"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "أدخِل دور العضو الخاص بك."
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "حدِّد دور عضو لتصف نفسك أو دورك في هذه المجموعة. أدوار العضو مرئية فقط داخل هذه المجموعة."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "مُعاينة"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "مرحبًا!"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Group members with labels"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "No other members have labels"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "جارٍ حفظ التغييرات…"
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Can’t save member label"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Check your connection and try again."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Only admins can set member labels in this group."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "ميزة اختفاء الرسائل"
@@ -4604,6 +4742,9 @@
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "اختر الأعضاء الذين يمكنهم تحرير اسم وصورة ووصف المجموعة وكذلك مؤقِّت اختفاء الرسائل."
   },
+  "icu:ConversationDetails--group-info-info-v2": {
+    "messageformat": "اختَر من يمكنه تعديل اسم وصورة المجموعة ووصفها ومؤقِّت اختفاء الرسائل وكذلك الرسائل المُثبَّتة."
+  },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "اﻷشخاص الذين يمكنهم إضافة الأعضاء"
   },
@@ -4615,6 +4756,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "اختر الأشخاص الذين يمكنهم إرسال الرسائل إلى المجموعة."
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Member labels will be cleared"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Continue"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "الطلبات والدعوات"
@@ -7303,13 +7453,13 @@
     "messageformat": "نفضِّل الخصوصية على الربح"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "شركة غير ربحية بالفعل"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "تراسُل خاص، مُموَّل من طرفك. دون إعلانات، دون مُتعقِّبات، دون مساومة. تبرَّع الآن لدعم سيجنال. <readMoreLink>اقرأ المزيد</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "تبرَّع لدعم المراسلة الخصوصية. ساعِد في إبقاء سيجنال مستقلًا وخاليًا من الإعلانات. <readMoreLink>اقرأ المزيد</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "التبرُّع"
@@ -7334,6 +7484,21 @@
   },
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>لا يقوم سيجنال بجمع أو تخزين معلوماتك الشخصية عند قيامك بتبرُّع.</paragraph><paragraph>نستخدم Stripe كمعالج عمليات الدفع الخاصة بنا لتلقي تبرُّعاتك. لا يُمكننا الوصول إلى أو تخزين أو حفظ أي من المعلومات التي تُقدمها.</paragraph><paragraph>لا يقوم تطبيق سيجنال ولا يمكنه ربط تبرُّعاتك بحسابك على سيجنال.</paragraph><paragraph>شكرًا لدعمك!</paragraph>"
+  },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Get an optional badge on your profile when you donate"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "Your privacy is our mission"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Heart icon in the style of the Signal logo"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "موافق"
@@ -7425,6 +7590,15 @@
   "icu:DonateFlow__discard-dialog-remove-info": {
     "messageformat": "إزالة المعلومات"
   },
+  "icu:DonateFlow__discard-paypal-dialog-body": {
+    "messageformat": "Leaving will cancel your donation."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Leave"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Stay on page"
+  },
   "icu:DonateFlow__continue": {
     "messageformat": "متابعة"
   },
@@ -7444,7 +7618,7 @@
     "messageformat": "مرّة واحدة"
   },
   "icu:DonationReceipt__footer-text": {
-    "messageformat": "شكرًا لك على دعم سيجنال. تساعدنا مساهمتكم على دعم مهمة حماية حرية التعبير وتمكين التواصل العالمي الآمن لملايين الأشخاص حول العالم، وذلك من خلال تقنية الخصوصية مفتوحة المصدر. إذا كُنتَ من المقيمين بالولايات المتحدة الأمريكية، يُرجى الاحتفاظ بهذا الإيصال لتقديمه إلى مصلحة الضرائب. مؤسسة تكنولوجيا سيجنال‬ هي منظمة غير ربحية معفاة من الضرائب في الولايات المتحدة بموجب الفقرة 501c3 من قانون الإيرادات الداخلية. مُعرِّفنا الضريبي هو 4506840-82."
+    "messageformat": "شكرًا لك على دعم سيجنال. تساعدنا مساهمتكم على دعم مهمة حماية حرية التعبير وتمكين التواصل العالمي الآمن لملايين الأشخاص حول العالم، وذلك من خلال تقنية الخصوصية مفتوحة المصدر. إذا كُنتَ من المقيمين بالولايات المتحدة الأمريكية، يُرجى الاحتفاظ بهذا الإيصال لتقديمه إلى مصلحة الضرائب. مؤسسة تكنولوجيا سيجنال‬ هي منظمة غير ربحية معفاة من الضرائب في الولايات المتحدة. مُعرِّفنا الضريبي هو 4506840-82."
   },
   "icu:Donations__OfflineTooltip": {
     "messageformat": "أنت غير متصل بالإنترنت. يُرجى الاتصال بالإنترنت لإكمال التبرُّع."
@@ -7470,6 +7644,15 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "لديك تبرُّع قيد المعالجة يتطلب تأكيدًا."
   },
+  "icu:Donations__Toast__PaypalConfirmationNeeded": {
+    "messageformat": "لديك تبرُّع قيد المعالجة يتطلب تأكيدًا."
+  },
+  "icu:Donations__Toast__PaypalCanceled": {
+    "messageformat": "تمَّ إلغاء تبرُّع PayPal"
+  },
+  "icu:Donations__Toast__PaypalError": {
+    "messageformat": "حدث خطأ أثناء معالجة تبرُّع PayPal. لم تُحصَّل أي رسوم منك."
+  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "تبرَّعتَ بنجاح، لكن تعذَّر علينا تحديث إعدادات شارتك."
   },
@@ -7485,11 +7668,41 @@
   "icu:Donations__DonationInterrupted__RetryButton": {
     "messageformat": "حاوِل مُجدَّدًا"
   },
+  "icu:Donations__PaymentMethod": {
+    "messageformat": "طريقة الدفع"
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "طريقة الدفع مرفوضة."
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "جرِّب طريقة دفع أخرى أو تواصَل مع المصرف الذي تتعامل معه للمزيد من المعلومات."
+  },
+  "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
+    "messageformat": "أيقونة بطاقة الدفع"
+  },
+  "icu:DonateFlow__CreditOrDebitCard": {
+    "messageformat": "بطاقة الائتمان أو الخصم"
+  },
+  "icu:DonateFlow__Paypal__AccessibilityLabel": {
+    "messageformat": "PayPal"
+  },
+  "icu:DonateFlow__Paypal__Cancel": {
+    "messageformat": "إلغاء"
+  },
+  "icu:DonateFlow__Paypal__CompleteDonation": {
+    "messageformat": "إكمال التبرُّع"
+  },
+  "icu:Donations__PaypalCanceled": {
+    "messageformat": "تمَّ إلغاء تبرُّع PayPal"
+  },
+  "icu:Donations__PaypalCanceled__Description": {
+    "messageformat": "لم تُحصَّل أي رسوم منك. حاوِل مرّة أخرى أو استخدِم طريقة دفع مختلفة."
+  },
+  "icu:Donations__PaypalError": {
+    "messageformat": "حدث خطأ أثناء معالجة تبرُّع PayPal."
+  },
+  "icu:Donations__PaypalError__Description": {
+    "messageformat": "لم تُحصَّل أي رسوم منك. حاوِل مرّة أخرى أو استخدِم طريقة دفع مختلفة."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "فشل التحقُّق"
@@ -7693,10 +7906,13 @@
     "messageformat": "تعديلات صغيرة، وإصلاح أعطال، وتحسينات للأداء. شكرًا على استخدامك سيجنال!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.86--0": {
-    "messageformat": "أصلحنا خللًا بسيطًا في عرض أيقونة رفع اليد أثناء المكالمات الجماعية."
+  "icu:WhatsNew__7.89--0": {
+    "messageformat": "يُصلِح هذا التحديث خطأ في تنسيق النصّ عند تفعيل قفل الأحرف الكبيرة لكي يُصبح من السهل إضفاء التنسيق الغامق أو المائل على نصّ ما. شكرًا، <DGrothePhD></DGrothePhD>!"
   },
-  "icu:WhatsNew__7.87--0": {
-    "messageformat": "تُسهّل الرسائل المُثبَّتة الوصول إلى المعلومات المهمة في أعلى الدردشة. أبقِ أسئلتك الأكثر شيوعًا، وحجوزات المطاعم، وخطط عطلاتك حاضرة دائمًا. الآن أصبحت حاضرة كلها في صدارة دردشاتك أيضًا."
+  "icu:WhatsNew__7.89--1": {
+    "messageformat": "سيجنال شركة غير ربحية، ولم تكن لتوجد دون دعمكم، ويمكنكم الآن التبرُّع من خلال PayPal على سيجنال Desktop."
+  },
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
   }
 }

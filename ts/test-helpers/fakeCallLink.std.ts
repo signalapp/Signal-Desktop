@@ -84,7 +84,6 @@ export function getDefaultCallLinkConversation(
     type: 'callLink',
     isMe: false,
     title,
-    sharedGroupNames: [],
     acceptedMessageRequest: true,
     badges: [],
   };

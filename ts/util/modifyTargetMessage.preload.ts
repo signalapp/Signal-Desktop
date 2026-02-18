@@ -34,10 +34,6 @@ import { missingCaseError } from './missingCaseError.std.js';
 import { reduce } from './iterables.std.js';
 import { strictAssert } from './assert.std.js';
 import {
-  deleteAttachmentData,
-  deleteDownloadData,
-} from './migrations.preload.js';
-import {
   applyDeleteAttachmentFromMessage,
   applyDeleteMessage,
 } from './deleteForMe.preload.js';
@@ -87,7 +83,7 @@ export async function modifyTargetMessage(
 
     if (isFullDelete) {
       if (!isFirstRun) {
-        await applyDeleteMessage(message.attributes, logId);
+        await applyDeleteMessage(message.attributes);
       }
 
       return ModifyTargetMessageResult.Deleted;
@@ -111,8 +107,6 @@ export async function modifyTargetMessage(
           {
             logId,
             shouldSave: false,
-            deleteAttachmentOnDisk: deleteAttachmentData,
-            deleteDownloadOnDisk: deleteDownloadData,
           }
         );
         if (result) {

@@ -57,7 +57,6 @@ const placeHolderContact: ConversationType = {
   type: 'direct',
   title: i18n('icu:unknownContact'),
   isMe: false,
-  sharedGroupNames: [],
 };
 
 const getUnknownContact = (): ConversationType => ({

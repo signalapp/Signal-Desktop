@@ -83,7 +83,6 @@ export type PropsType = {
       | 'phoneNumber'
       | 'profileName'
       | 'title'
-      | 'sharedGroupNames'
     >
   >;
   setGroupCallVideoRequest: (
@@ -535,7 +534,6 @@ export function CallingPip({
                 profileName={me.profileName}
                 title={me.title}
                 size={avatarSize}
-                sharedGroupNames={[]}
               />
             </div>
           </CallBackgroundBlur>

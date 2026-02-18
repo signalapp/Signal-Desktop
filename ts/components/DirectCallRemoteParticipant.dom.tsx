@@ -60,7 +60,6 @@ function renderAvatar(
     hasAvatar,
     phoneNumber,
     profileName,
-    sharedGroupNames,
     title,
   }: Pick<
     ConversationType,
@@ -72,7 +71,6 @@ function renderAvatar(
     | 'isMe'
     | 'phoneNumber'
     | 'profileName'
-    | 'sharedGroupNames'
     | 'title'
   >
 ): React.JSX.Element {
@@ -91,7 +89,6 @@ function renderAvatar(
           phoneNumber={phoneNumber}
           profileName={profileName}
           title={title}
-          sharedGroupNames={sharedGroupNames}
           size={AvatarSize.NINETY_SIX}
         />
       </CallBackgroundBlur>

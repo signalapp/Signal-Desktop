@@ -48,7 +48,7 @@ export function MyStoryButton({
     ? getNewestMyStory(myStories[0])
     : undefined;
 
-  const { avatarUrl, color, profileName, sharedGroupNames, title } = me;
+  const { avatarUrl, color, profileName, title } = me;
 
   if (!newestStory) {
     return (
@@ -67,7 +67,6 @@ export function MyStoryButton({
             conversationType="direct"
             i18n={i18n}
             profileName={profileName}
-            sharedGroupNames={sharedGroupNames}
             size={AvatarSize.FORTY_EIGHT}
             title={title}
           />
@@ -118,7 +117,6 @@ export function MyStoryButton({
             conversationType="direct"
             i18n={i18n}
             profileName={profileName}
-            sharedGroupNames={sharedGroupNames}
             size={AvatarSize.FORTY_EIGHT}
             storyRing={HasStories.Read}
             title={title}

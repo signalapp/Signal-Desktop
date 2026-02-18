@@ -1025,6 +1025,10 @@ export async function startApp(): Promise<void> {
 
     setAppLoadingScreenMessage(i18n('icu:optimizingApplication'), i18n);
 
+    // These paths are protected while they are referenced in memory but not in
+    // message_attachments, so we can safely clear them at app start
+    await DataWriter.resetProtectedAttachmentPaths();
+
     if (newVersion || itemStorage.get('needOrphanedAttachmentCheck')) {
       await itemStorage.remove('needOrphanedAttachmentCheck');
       await DataWriter.cleanupOrphanedAttachments();

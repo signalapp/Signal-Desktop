@@ -784,7 +784,7 @@
   },
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code with their device.",
-    "description": "Safety number viewer, text of the hint"
+    "description": "(Deleted 2026/02/04) Safety number viewer, text of the hint"
   },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device.",
@@ -864,7 +864,7 @@
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
     "messageformat": "Close",
-    "description": "Key Transparency Error Dialog > Dialog Close Button (Accessibility Label)"
+    "description": "(Deleted 2026/02/04) Key Transparency Error Dialog > Dialog Close Button (Accessibility Label)"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Share debug log",
@@ -880,18 +880,18 @@
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
     "messageformat": "No thanks",
-    "description": "Secondary button text in the dialog shown when an unexpected key transparency error occurs. Clicking the button will dismiss the error dialog."
+    "description": "(Deleted 2026/02/04) Secondary button text in the dialog shown when an unexpected key transparency error occurs. Clicking the button will dismiss the error dialog."
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Submitting...",
     "description": "Key Transparency Error Dialog > Accessibility label for loading spinner while submitting"
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption",
+    "messageformat": "Signal can now auto-verify encryption",
     "description": "Key Transparency Onboarding Dialog > Title"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number.",
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers.",
     "description": "Key Transparency Onboarding Dialog > Description"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
@@ -1485,6 +1485,10 @@
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} is in your system contacts",
     "description": "Text of a row in the About modal describing that the contact is in system contacts"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Add a member label",
+    "description": "Text for a row on the about contact modal, allowing user to add a label for themselves in the current group"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Note",
@@ -2389,6 +2393,18 @@
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Cancel",
     "description": "Preferences > Edit Chat Folder Page > Cancel Button"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
+    "messageformat": "Automatic key verification",
+    "description": "Preferences > Privacy Page > Key Transparency Checkbox > Label"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
+    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats.",
+    "description": "Preferences > Privacy Page > Key Transparency Checkbox > Description"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
+    "messageformat": "Learn More",
+    "description": "Preferences > Privacy Page > Key Transparency Checkbox > Learn More"
   },
   "icu:initialSync": {
     "messageformat": "Syncing contacts and groups",
@@ -6164,6 +6180,22 @@
     "messageformat": "Voice",
     "description": "Text for button to start a new voice call in the Contact Details modal"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Member labels",
+    "description": "Title of explainer dialog you see when clicking member label in Contact Modal"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Use a member label to describe yourself or your role in this group. Member labels are only visible within this group.",
+    "description": "Detail text in explainer dialog you see when clicking member label in Contact Modal"
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Set a label",
+    "description": "Button to go to label screen in member label explainer dialog, if user has no label"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Edit your label",
+    "description": "Button to go to label screen in member label explainer dialog, if user already has a label"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Chat color",
     "description": "This is a button in the conversation context menu to show the chat color editor"
@@ -6183,6 +6215,50 @@
   "icu:ConversationDetails--group-link": {
     "messageformat": "Group link",
     "description": "This is the label for the group link management panel"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Member label",
+    "description": "This is the label describing the member label editor screen"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Enter your member label",
+    "description": "Shown on the member label editor screen as a placeholder in the text box"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Set a member label to describe yourself or your role in this group. Member labels are only visible within this group.",
+    "description": "Summary explaining what a member label is and how it will be shown to other users. Shown below the text box to edit it."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Preview",
+    "description": "Header for preview area, showing what user's member label will look like on their sent messages"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Hello!",
+    "description": "Text of message bubble showing preview of user's member label"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Group members with labels",
+    "description": "Title for section with all the other members in the group with labels"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "No other members have labels",
+    "description": "Placeholder for 'other members with labels' section when there are zero other members with labels"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Saving changes...",
+    "description": "Accessibility label for button with spinner as we save the user's member label."
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Can’t save member label",
+    "description": "If save of member label failed, a dialog shows. Title of dialog."
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Check your connection and try again.",
+    "description": "If save of member label failed, a dialog shows. Description of dialog."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Only admins can set member labels in this group.",
+    "description": "If Desktop discovers that permissions have changed since entering the screen, it will show this in an error dialog and exit the pane."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Disappearing messages",
@@ -6226,6 +6302,10 @@
   },
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "Choose who can edit group name, photo, description, and disappearing messages timer.",
+    "description": "(Deleted 2026/02/04) This is the additional info for the 'who can edit the group' panel"
+  },
+  "icu:ConversationDetails--group-info-info-v2": {
+    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages.",
     "description": "This is the additional info for the 'who can edit the group' panel"
   },
   "icu:ConversationDetails--add-members-label": {
@@ -6243,6 +6323,18 @@
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Choose who can send messages to the group.",
     "description": "This is the additional info for the 'who can send messages' panel"
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Member labels will be cleared",
+    "description": "When the user changes the 'edit group info' permission to 'Admins only', this dialog shows. Title of dialog."
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group.",
+    "description": "When the user changes the 'edit group info' permission to 'Admins only', this dialog shows. Description text of dialog."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Continue",
+    "description": "When the user changes the 'edit group info' permission to 'Admins only', this dialog shows. Button to continue making the change."
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Requests & Invites",
@@ -9864,7 +9956,27 @@
   },
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>",
-    "description": "Content for the modal that explains donation privacy information"
+    "description": "(Deleted 2026/02/12) Content for the modal that explains donation privacy information"
+  },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal.",
+    "description": "Content for the modal that explains donation information"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Get an optional badge on your profile when you donate",
+    "description": "List content item for the modal that explains donation information"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "Your privacy is our mission",
+    "description": "List content item for the modal that explains donation information"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible.",
+    "description": "List content item for the modal that explains donation information"
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Heart icon in the style of the Signal logo",
+    "description": "Accessibility label for the icon showed at the top of the modal that explains donation information"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "OK",
@@ -9986,6 +10098,18 @@
     "messageformat": "Remove info",
     "description": "While making a donation and after entering payment details, if you try to navigate away then a dialog shows and its primary button has this text to confirm cancellation of the donation."
   },
+  "icu:DonateFlow__discard-paypal-dialog-body": {
+    "messageformat": "Leaving will cancel your donation.",
+    "description": "While making a donation and after selecting Paypal, if you try to navigate away then a dialog shows with this body text."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Leave",
+    "description": "While making a donation and after selecting PayPal, if you try to navigate away then a dialog shows and its primary button has this text to confirm cancellation of the donation."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Stay on page",
+    "description": "While making a donation and after selecting PayPal, if you try to navigate away then a dialog shows and its secondary button has this text. The user will remain on the page and they can complete a donation as previously intended."
+  },
   "icu:DonateFlow__continue": {
     "messageformat": "Continue",
     "description": "While making a donation and selecting the donation amount, this is the primary button to move to the next step."
@@ -10046,6 +10170,18 @@
     "messageformat": "You have a donation in progress that requires confirmation.",
     "description": "Shown when the user is not on the Preferences/Donations screen, and donation verification is needed. Like when resuming from startup."
   },
+  "icu:Donations__Toast__PaypalConfirmationNeeded": {
+    "messageformat": "You have a donation in progress that requires confirmation.",
+    "description": "Shown when the user is not on the Preferences/Donations screen, and donation verification of a PayPal donation is needed. Like when resuming from startup."
+  },
+  "icu:Donations__Toast__PaypalCanceled": {
+    "messageformat": "PayPal donation canceled",
+    "description": "Shown when the user cancels a PayPal payment and they are not on the Preferences/Donations screen."
+  },
+  "icu:Donations__Toast__PaypalError": {
+    "messageformat": "Error processing PayPal donation. You have not been charged.",
+    "description": "Shown when the user approves a PayPal payment, but we are unable to process it. The most likely cause is because the user canceled a pending PayPal payment within the app, then approved it on the PayPal website anyway."
+  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donation succeeded, but we could not update your badge settings",
     "description": "Modal title shown when donation completes successfully but badge application fails"
@@ -10066,6 +10202,10 @@
     "messageformat": "Try again",
     "description": "The button in the 'donation interrupted' dialog which allows the user to move forward with the donation."
   },
+  "icu:Donations__PaymentMethod": {
+    "messageformat": "Payment method",
+    "description": "Label for payment method when making a donation and choosing a payment method."
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Payment method declined",
     "description": "Title of the dialog shown with the user's provided payment method has not worked"
@@ -10073,6 +10213,42 @@
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "Try another payment method or contact your bank for more information.",
     "description": "An explanation for the 'payment declined' dialog"
+  },
+  "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
+    "messageformat": "Payment card icon",
+    "description": "Aria label for credit or debit card when making a donation and selecting a payment method."
+  },
+  "icu:DonateFlow__CreditOrDebitCard": {
+    "messageformat": "Credit or Debit Card",
+    "description": "Label for credit or debit card when making a donation and selecting a payment method."
+  },
+  "icu:DonateFlow__Paypal__AccessibilityLabel": {
+    "messageformat": "PayPal",
+    "description": "Aria label for PayPal when making a donation and selecting a payment method."
+  },
+  "icu:DonateFlow__Paypal__Cancel": {
+    "messageformat": "Cancel",
+    "description": "Label for cancel button when making a donation with PayPal."
+  },
+  "icu:DonateFlow__Paypal__CompleteDonation": {
+    "messageformat": "Complete Donation",
+    "description": "Label to complete donation when making a donation with PayPal."
+  },
+  "icu:Donations__PaypalCanceled": {
+    "messageformat": "PayPal donation canceled",
+    "description": "Title of the dialog shown when the user cancels a PayPal payment."
+  },
+  "icu:Donations__PaypalCanceled__Description": {
+    "messageformat": "You have not been charged. Try again or use another payment method.",
+    "description": "An explanation for the dialog shown when the user cancels a PayPal payment."
+  },
+  "icu:Donations__PaypalError": {
+    "messageformat": "Error processing PayPal donation",
+    "description": "Title of the dialog shown when the user approves a PayPal payment, but we are unable to process it. The most likely cause is because the user canceled a pending PayPal payment within the app, then approved it on the PayPal website anyway."
+  },
+  "icu:Donations__PaypalError__Description": {
+    "messageformat": "You have not been charged. Try again or use another payment method.",
+    "description": "An explanation for the 'Error processing PayPal payment' dialog when the user approves a PayPal payment, but we are unable to process it."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Verification Failed",
@@ -10341,12 +10517,16 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.86--0": {
-    "messageformat": "We can't fix the awkward silence that follows, but we fixed a bug that sometimes caused the raised hand indicator to remain visible (with a count of zero) if someone raised and lowered their hand really quickly.",
-    "description": "(Deleted 2026/01/21) Release notes for 7.86 release"
+  "icu:WhatsNew__7.89--0": {
+    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!",
+    "description": "(Deleted 2026/02/12) Release notes for 7.89 release"
   },
-  "icu:WhatsNew__7.87--0": {
-    "messageformat": "Help keep important information easily accessible with pinned messages. Your most frequently asked questions, dinner reservations, and vacation itineraries are already top of mind. Now they can be top of chat as well.",
-    "description": "Release notes for 7.87 release"
+  "icu:WhatsNew__7.89--1": {
+    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop.",
+    "description": "(Deleted 2026/02/12) Release notes for 7.89 release"
+  },
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay.",
+    "description": "Release notes for 7.90 release"
   }
 }

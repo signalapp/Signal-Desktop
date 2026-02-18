@@ -7,22 +7,21 @@ import {
   getMegaphoneLastSnoozeDurationMs,
   MegaphoneCtaId,
   SNOOZE_DEFAULT_DURATION,
+  type RemoteMegaphoneId,
   type RemoteMegaphoneType,
   type VisibleRemoteMegaphoneType,
 } from '../types/Megaphone.std.js';
 import { DAY, HOUR } from '../util/durations/index.std.js';
 import { DataReader, DataWriter } from '../sql/Client.preload.js';
 import { drop } from '../util/drop.std.js';
-import {
-  Environment,
-  getEnvironment,
-  isMockEnvironment,
-} from '../environment.std.js';
+import { isMockEnvironment } from '../environment.std.js';
 import { isEnabled } from '../RemoteConfig.dom.js';
 import { safeSetTimeout } from '../util/timeout.std.js';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
 import { isMoreRecentThan } from '../util/timestamp.std.js';
+import { isFeaturedEnabledNoRedux } from '../util/isFeatureEnabled.dom.js';
+import { maybeHydrateDonationConfigCache } from '../util/subscriptionConfiguration.preload.js';
 
 const log = createLogger('megaphoneService');
 
@@ -79,19 +78,10 @@ export async function runMegaphoneCheck(): Promise<void> {
 }
 
 export function isRemoteMegaphoneEnabled(): boolean {
-  const env = getEnvironment();
-
-  if (
-    env === Environment.Development ||
-    env === Environment.Test ||
-    env === Environment.Staging ||
-    isMockEnvironment() ||
-    isEnabled('desktop.internalUser')
-  ) {
-    return true;
-  }
-
-  return false;
+  return isFeaturedEnabledNoRedux({
+    betaKey: 'desktop.remoteMegaphone.beta',
+    prodKey: 'desktop.remoteMegaphone.prod',
+  });
 }
 
 export function isConditionalActive(conditionalId: string | null): boolean {
@@ -132,6 +122,13 @@ export function isConditionalActive(conditionalId: string | null): boolean {
   return false;
 }
 
+export async function deleteMegaphoneAndRemoveFromRedux(
+  id: RemoteMegaphoneId
+): Promise<void> {
+  await DataWriter.deleteMegaphone(id);
+  window.reduxActions.megaphones.removeVisibleMegaphone(id);
+}
+
 // Private
 
 async function processMegaphone(megaphone: RemoteMegaphoneType): Promise<void> {
@@ -139,12 +136,21 @@ async function processMegaphone(megaphone: RemoteMegaphoneType): Promise<void> {
 
   if (isMegaphoneDeletable(megaphone)) {
     log.info(`processMegaphone: Deleting ${id}`);
-    await DataWriter.deleteMegaphone(id);
-    window.reduxActions.megaphones.removeVisibleMegaphone(id);
+    await deleteMegaphoneAndRemoveFromRedux(id);
     return;
   }
 
   if (isMegaphoneShowable(megaphone)) {
+    if (
+      megaphone.primaryCtaId === 'donate' ||
+      megaphone.secondaryCtaId === 'donate'
+    ) {
+      log.info(
+        'processMegaphone: Megaphone ctaId donate, prefetching donation amount config'
+      );
+      drop(maybeHydrateDonationConfigCache());
+    }
+
     log.info(`processMegaphone: Showing ${id}`);
     window.reduxActions.megaphones.addVisibleMegaphone(megaphone);
   }

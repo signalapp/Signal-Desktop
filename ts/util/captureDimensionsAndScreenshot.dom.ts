@@ -81,8 +81,7 @@ export async function captureDimensionsAndScreenshot(
   const localUrl = getLocalAttachmentUrl(attachment);
 
   if (isImageTypeSupported(contentType)) {
-    if (attachment.thumbnail?.path) {
-      // Already generated thumbnail / width / height
+    if (attachment.height && attachment.width && attachment.thumbnail?.path) {
       return attachment;
     }
 
@@ -133,8 +132,7 @@ export async function captureDimensionsAndScreenshot(
 
   strictAssert(isVideoTypeSupported(contentType), 'enforced by early return');
 
-  if (attachment.screenshot?.path) {
-    // Already generated screenshot / width / height
+  if (attachment.height && attachment.width && attachment.screenshot?.path) {
     return attachment;
   }
 

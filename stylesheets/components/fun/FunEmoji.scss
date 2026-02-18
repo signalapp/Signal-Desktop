@@ -57,6 +57,13 @@ $emoji-sprite-sheet-grid-item-count: 62;
   @include emoji-sprite($sheet: 32, $margin: 1px, $scale: calc(12 / 32));
 }
 
+.FunStaticEmoji--Size14 {
+  width: 14px;
+  height: 14px;
+  // Use 32px variant even on smaller sizes to avoid shipping the 16px sheet
+  @include emoji-sprite($sheet: 32, $margin: 1px, $scale: calc(14 / 32));
+}
+
 .FunStaticEmoji--Size16 {
   width: 16px;
   height: 16px;

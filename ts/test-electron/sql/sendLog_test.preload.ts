@@ -25,7 +25,7 @@ const {
   insertProtoRecipients,
   insertSentProto,
   removeAllSentProtos,
-  removeMessage,
+  removeMessageById,
   saveMessage,
 } = DataWriter;
 
@@ -155,7 +155,7 @@ describe('sql/sendLog', () => {
 
     assert.strictEqual(actual.timestamp, proto.timestamp);
 
-    await removeMessage(id, { cleanupMessages });
+    await removeMessageById(id, { cleanupMessages });
 
     assert.lengthOf(await getAllSentProtos(), 0);
   });

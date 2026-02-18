@@ -35,6 +35,8 @@ const MAX_CONTENT_TYPE_LENGTH_TO_PARSE = 100;
 //   this, we won't waste space.
 const MAX_HTML_BYTES_TO_LOAD = 1000 * 1024;
 
+const MAX_IMAGE_BYTES_TO_LOAD = 1024 * 1024;
+
 // `<title>x` is 8 bytes. Nothing else (meta tags, etc) will even fit, so we can ignore
 //   it. This is mostly to protect us against empty response bodies.
 const MIN_HTML_CONTENT_LENGTH = 8;
@@ -42,7 +44,6 @@ const MIN_HTML_CONTENT_LENGTH = 8;
 // Similar to the above. We don't want to show tiny images (even though the more likely
 //   case is that the Content-Length is 0).
 const MIN_IMAGE_CONTENT_LENGTH = 8;
-const MAX_IMAGE_CONTENT_LENGTH = 1024 * 1024;
 const VALID_IMAGE_MIME_TYPES: Set<MIMEType> = new Set([
   IMAGE_GIF,
   IMAGE_ICO,
@@ -455,6 +456,7 @@ export async function fetchLinkPreviewMetadata(
           'User-Agent': USER_AGENT,
         },
         signal: abortSignal,
+        size: Math.max(MAX_HTML_BYTES_TO_LOAD, MAX_IMAGE_BYTES_TO_LOAD),
       },
       logger
     );
@@ -567,7 +569,7 @@ export async function fetchLinkPreviewImage(
         headers: {
           'User-Agent': USER_AGENT,
         },
-        size: MAX_IMAGE_CONTENT_LENGTH,
+        size: MAX_IMAGE_BYTES_TO_LOAD,
         signal: abortSignal,
       },
       logger
@@ -601,12 +603,6 @@ async function processImageResponse(
   );
   if (contentLength < MIN_IMAGE_CONTENT_LENGTH) {
     logger.warn('fetchLinkPreviewImage: Content-Length is too short; bailing');
-    return null;
-  }
-  if (contentLength > MAX_IMAGE_CONTENT_LENGTH) {
-    logger.warn(
-      'fetchLinkPreviewImage: Content-Length is too large or is unset; bailing'
-    );
     return null;
   }
 

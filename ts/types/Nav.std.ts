@@ -3,6 +3,26 @@
 
 import type { ReadonlyDeep } from 'type-fest';
 import type { ChatFolderId, ChatFolderParams } from './ChatFolder.std.js';
+import type { PanelArgsType } from './Panels.std.js';
+
+export type Location = ReadonlyDeep<
+  | {
+      tab: NavTab.Settings;
+      details: SettingsLocation;
+    }
+  | { tab: Exclude<NavTab, NavTab.Settings> }
+>;
+
+export type ChatDetails = ReadonlyDeep<{
+  conversationId?: string;
+  panels?: {
+    isAnimating: boolean;
+    wasAnimated: boolean;
+    direction: 'push' | 'pop' | undefined;
+    stack: ReadonlyArray<PanelArgsType>;
+    watermark: number;
+  };
+}>;
 
 export type SettingsLocation = ReadonlyDeep<
   | {
@@ -27,14 +47,6 @@ export type SettingsLocation = ReadonlyDeep<
         | SettingsPage.EditChatFolder
       >;
     }
->;
-
-export type Location = ReadonlyDeep<
-  | {
-      tab: NavTab.Settings;
-      details: SettingsLocation;
-    }
-  | { tab: Exclude<NavTab, NavTab.Settings> }
 >;
 
 export enum NavTab {

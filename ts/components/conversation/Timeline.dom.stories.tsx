@@ -29,9 +29,6 @@ export default {
   args: {},
 } satisfies Meta<PropsType>;
 
-// eslint-disable-next-line
-const noop = () => {};
-
 function mockMessageTimelineItem(
   id: string,
   data: Partial<TimelineMessageProps>
@@ -280,7 +277,6 @@ const actions = () => ({
   targetMessage: action('targetMessage'),
   scrollToOldestUnreadMention: action('scrollToOldestUnreadMention'),
   clearTargetedMessage: action('clearTargetedMessage'),
-  updateSharedGroups: action('updateSharedGroups'),
 
   endPoll: action('endPoll'),
   reactToMessage: action('reactToMessage'),
@@ -363,6 +359,7 @@ const renderItem = ({
 }) => (
   <TimelineItem
     getPreferredBadge={() => undefined}
+    getSharedGroupNames={() => []}
     id=""
     isTargeted={false}
     isBlocked={false}
@@ -423,7 +420,6 @@ const renderHeroRow = () => {
         title={getTitle()}
         startAvatarDownload={action('startAvatarDownload')}
         pendingAvatarDownload={false}
-        updateSharedGroups={noop}
         viewUserStories={action('viewUserStories')}
         toggleAboutContactModal={action('toggleAboutContactModal')}
         toggleProfileNameWarningModal={action('toggleProfileNameWarningModal')}

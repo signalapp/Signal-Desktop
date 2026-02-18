@@ -578,14 +578,95 @@
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "Pour vérifier le chiffrement de bout en bout de vos communications avec {name}, comparez les chiffres ci-dessus avec ceux de son appareil. Vous pouvez aussi scanner le code QR qui s’affiche sur son appareil."
   },
+  "icu:SafetyNumberViewer__hint-v2": {
+    "messageformat": "Pour vérifier le chiffrement de bout en bout de vos communications avec {name}, comparez les chiffres ci-dessus avec ceux qui s'affichent sur son appareil. S'il le souhaite, votre contact peut aussi scanner votre code QR avec son appareil."
+  },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "En savoir plus"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__title": {
+    "messageformat": "Vérification automatique de la clé"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
+    "messageformat": "Vérifier automatiquement"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--running": {
+    "messageformat": "Vérification du chiffrement..."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
+    "messageformat": "Chiffrement vérifié"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
+    "messageformat": "Vérification automatique indisponible"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__hint": {
+    "messageformat": "La vérification automatique n'est pas disponible pour toutes les conversations."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
+    "messageformat": "En savoir plus"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
+    "messageformat": "Le chiffrement de cette conversation a été vérifié automatiquement "
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+    "messageformat": "Lorsque vous avez pris contact avec quelqu'un via un numéro de téléphone, Signal peut vérifier automatiquement si la connexion est sécurisée grâce à un processus appelé transparence des clés. Pour une sécurité renforcée, vérifiez le chiffrement de bout en bout manuellement. Il vous suffit de scanner le code QR qui s'affiche sur l'appareil de votre contact ou de comparer les chiffres de l'écran précédent avec ceux qui s'affichent sur le sien."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
+    "messageformat": "La vérification automatique n'est plus disponible pour cette conversation"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
+    "messageformat": "Signal ne peut plus vérifier automatiquement le chiffrement de cette conversation. {name} a probablement changé de numéro de téléphone. Pour vérifier le chiffrement de bout en bout manuellement, il vous suffit de scanner le code QR qui s'affiche sur l'appareil de votre contact ou de comparer les chiffres de l'écran précédent avec ceux qui s'affichent sur le sien."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
+    "messageformat": "Signal ne peut vérifier automatiquement le chiffrement que lorsque vous avez initié la conversation via un numéro de téléphone. Si vous l'avez fait via un nom d'utilisateur ou un groupe en commun, vous devez vérifier le chiffrement de bout en bout manuellement. Il vous suffit de scanner le code QR qui s'affiche sur l'appareil de votre contact ou de comparer les chiffres de l'écran précédent avec ceux qui s'affichent sur le sien."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
+    "messageformat": "OK"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Un numéro de sécurité sera associé à cet utilisateur une fois que vous aurez échangé des messages."
   },
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "En savoir plus"
+  },
+  "icu:KeyTransparencyErrorDialog__Title": {
+    "messageformat": "La vérification automatique des clés est actuellement indisponible pour cet appareil. Envoyer un journal de débogage ?"
+  },
+  "icu:KeyTransparencyErrorDialog__Description": {
+    "messageformat": "Les journaux de débogage nous permettent de diagnostiquer et de résoudre les problèmes. Ils ne contiennent aucune donnée d'identification."
+  },
+  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Fermer"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
+    "messageformat": "Partager le journal de débogage"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
+    "messageformat": "Afficher"
+  },
+  "icu:KeyTransparencyErrorDialog__Submit": {
+    "messageformat": "Envoyer"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "Non merci"
+  },
+  "icu:KeyTransparencyErrorDialog__Submitting": {
+    "messageformat": "Envoi en cours..."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Title": {
+    "messageformat": "Signal can now auto-verify encryption"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description": {
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Continue": {
+    "messageformat": "Continuer"
+  },
+  "icu:KeyTransparencyOnboardingDialog__LearnMore": {
+    "messageformat": "En savoir plus"
+  },
+  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Fermer"
   },
   "icu:verified": {
     "messageformat": "Confirmé"
@@ -807,7 +888,7 @@
     "messageformat": "Consulter {whatsNew} de cette mise à jour"
   },
   "icu:signalNonProfit": {
-    "messageformat": "Signal is a 501c3 nonprofit"
+    "messageformat": "Signal est un organisme à but non lucratif"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "les nouveautés"
@@ -1033,6 +1114,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} fait partie de vos contacts système"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Ajouter une étiquette de membre"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Notes"
@@ -1711,6 +1795,15 @@
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Annuler"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
+    "messageformat": "Vérification automatique de la clé"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
+    "messageformat": "Lorsque cette option est activée, Signal tente de vérifier automatiquement le chiffrement des conversations individuelles."
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
+    "messageformat": "En savoir plus"
   },
   "icu:initialSync": {
     "messageformat": "Synchronisation des contacts et des groupes"
@@ -2772,13 +2865,13 @@
     "messageformat": "Rechercher des GIF via Tenor"
   },
   "icu:FunPanelGifs__SearchLabel": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Rechercher des GIF"
   },
   "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
     "messageformat": "Rechercher dans Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
-    "messageformat": "Search GIFs"
+    "messageformat": "Rechercher des GIF"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Catégories de GIF"
@@ -2826,7 +2919,7 @@
     "messageformat": "Aperçu du GIF"
   },
   "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
-    "messageformat": "Powered by GIPHY"
+    "messageformat": "Proposé par GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Effacer la recherche"
@@ -4556,6 +4649,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "Audio"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Étiquettes de membres"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Ajoutez une étiquette de membre pour vous décrire ou indiquer votre rôle dans ce groupe. Votre étiquette ne s'affichera que dans ce groupe."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Ajouter une étiquette"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Modifier mon étiquette"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Couleur des bulles"
   },
@@ -4570,6 +4675,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Lien de groupe"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Étiquette de membre"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Saisissez votre étiquette de membre"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Ajoutez une étiquette de membre pour vous décrire ou indiquer votre rôle dans ce groupe. Votre étiquette ne s'affichera que dans ce groupe."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Aperçu"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Salut !"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Group members with labels"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "No other members have labels"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Enregistrement des modifications..."
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Can’t save member label"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Check your connection and try again."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Only admins can set member labels in this group."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Messages éphémères"
@@ -4604,6 +4742,9 @@
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "Choisissez qui peut modifier le nom, la photo et la présentation du groupe, ou encore le délai avant disparition des messages éphémères."
   },
+  "icu:ConversationDetails--group-info-info-v2": {
+    "messageformat": "Choisissez qui peut modifier le nom, la photo et la présentation du groupe, ainsi que les messages épinglés et le délai avant disparition des messages éphémères."
+  },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Qui peut ajouter des membres"
   },
@@ -4615,6 +4756,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Choisissez qui peut envoyer des messages au groupe."
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Member labels will be cleared"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Continue"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Demandes d'adhésion et invitations"
@@ -7303,13 +7453,13 @@
     "messageformat": "La vie privée avant le profit"
   },
   "icu:PreferencesDonations__title-v2": {
-    "messageformat": "Proudly nonprofit"
+    "messageformat": "Sans but lucratif et fiers de l'être"
   },
   "icu:PreferencesDonations__description": {
     "messageformat": "Une messagerie privée, financée par des personnes comme vous. Aucune publicité, aucun cookie de suivi, zéro compromis. Faites un don pour soutenir Signal. <readMoreLink>En savoir plus</readMoreLink>."
   },
   "icu:PreferencesDonations__description-v2": {
-    "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>"
+    "messageformat": "Faites un don pour soutenir le droit à la vie privée. Aidez Signal à rester indépendant et sans publicité. <readMoreLink>En savoir plus</readMoreLink>."
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Faire un don"
@@ -7334,6 +7484,21 @@
   },
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Lorsque vous faites un don à Signal, nous ne collectons, ni n'enregistrons aucune de vos informations personnelles.</paragraph><paragraph>Pour recevoir vos dons, nous utilisons le processeur de paiement Stripe. Nous n'avons pas accès aux informations que vous fournissez à Stripe, ne les stockons pas et ne les enregistrons pas.</paragraph><paragraph>De plus, Signal ne peut établir aucun lien entre votre don et votre compte Signal.</paragraph><paragraph>Merci pour votre soutien.</paragraph>"
+  },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Get an optional badge on your profile when you donate"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "Your privacy is our mission"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Heart icon in the style of the Signal logo"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "OK"
@@ -7425,6 +7590,15 @@
   "icu:DonateFlow__discard-dialog-remove-info": {
     "messageformat": "Supprimer les infos"
   },
+  "icu:DonateFlow__discard-paypal-dialog-body": {
+    "messageformat": "Leaving will cancel your donation."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Leave"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Stay on page"
+  },
   "icu:DonateFlow__continue": {
     "messageformat": "Continuer"
   },
@@ -7470,6 +7644,15 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Un don en cours de traitement nécessite une vérification."
   },
+  "icu:Donations__Toast__PaypalConfirmationNeeded": {
+    "messageformat": "Un don en cours de traitement nécessite une vérification."
+  },
+  "icu:Donations__Toast__PaypalCanceled": {
+    "messageformat": "Don PayPal annulé"
+  },
+  "icu:Donations__Toast__PaypalError": {
+    "messageformat": "Erreur de traitement du don via PayPal. Vous n'avez pas été débité."
+  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Nous avons bien traité votre don, mais n'avons pas pu mettre à jour votre macaron"
   },
@@ -7485,11 +7668,41 @@
   "icu:Donations__DonationInterrupted__RetryButton": {
     "messageformat": "Réessayer"
   },
+  "icu:Donations__PaymentMethod": {
+    "messageformat": "Mode de paiement"
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Mode de paiement refusé"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "Veuillez choisir un autre mode de paiement ou contacter votre banque pour en savoir plus."
+  },
+  "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
+    "messageformat": "Icône carte bancaire"
+  },
+  "icu:DonateFlow__CreditOrDebitCard": {
+    "messageformat": "Carte de crédit ou de débit"
+  },
+  "icu:DonateFlow__Paypal__AccessibilityLabel": {
+    "messageformat": "PayPal"
+  },
+  "icu:DonateFlow__Paypal__Cancel": {
+    "messageformat": "Annuler"
+  },
+  "icu:DonateFlow__Paypal__CompleteDonation": {
+    "messageformat": "Finaliser le don"
+  },
+  "icu:Donations__PaypalCanceled": {
+    "messageformat": "Don PayPal annulé"
+  },
+  "icu:Donations__PaypalCanceled__Description": {
+    "messageformat": "Vous n'avez pas été débité. Veuillez réessayer ou utiliser un autre mode de paiement."
+  },
+  "icu:Donations__PaypalError": {
+    "messageformat": "Erreur de traitement du don via PayPal"
+  },
+  "icu:Donations__PaypalError__Description": {
+    "messageformat": "Vous n'avez pas été débité. Veuillez réessayer ou utiliser un autre mode de paiement."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Échec de la vérification"
@@ -7630,7 +7843,7 @@
     "messageformat": "Vos retours nous permettent de comprendre ce qui fonctionne et ce que nous devons améliorer. Vous pouvez consulter votre journal de débogage avant de nous l'envoyer."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
-    "messageformat": "Lorsque vous nous envoyez vos commentaires, ceux-ci sont accompagnés d'<diagnosticInfoLink>informations de diagnostic sur votre appel</diagnosticInfoLink>. Vous pouvez également partager votre journal de débogage pour nous aider à améliorer la qualité des appels."
+    "messageformat": "Lorsque vous nous envoyez vos commentaires, ceux-ci sont accompagnés d'<diagnosticInfoLink>informations de diagnostic sur votre appel</diagnosticInfoLink>. Vous pouvez aussi partager votre journal de débogage pour nous aider à améliorer la qualité des appels."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
     "messageformat": "Partager le journal de débogage"
@@ -7693,10 +7906,13 @@
     "messageformat": "Au menu de cette version : quelques ajustements de plus, quelques petits bugs en moins et des gains de performance. Merci d'utiliser Signal !",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.86--0": {
-    "messageformat": "Lorsqu'un participant levait puis baissait la main très rapidement pendant un appel de groupe, le compteur de mains levées restait parfois visible (et affichait zéro). Un bug que nos équipes ont corrigé haut la main !"
+  "icu:WhatsNew__7.89--0": {
+    "messageformat": "Vous aviez du mal à mettre en forme du texte lorsque le verrouillage des majuscules était activé ? Maintenant que nous avons corrigé ce bug, vous pouvez facilement appliquer du gras ou des italiques, SANS QUE VOTRE CLAVIER VOUS TAPE SUR LE SYSTÈME. Merci, <DGrothePhD></DGrothePhD> !"
   },
-  "icu:WhatsNew__7.87--0": {
-    "messageformat": "Grâce aux messages épinglés, les informations importantes restent facilement accessibles. L'organisation des vacances et l'ordre du jour de votre prochaine AG sont en haut de votre liste de priorités ? Ils peuvent aussi s'afficher en haut de vos conversations."
+  "icu:WhatsNew__7.89--1": {
+    "messageformat": "Parce que Signal est un organisme à but non lucratif qui ne pourrait pas exister sans votre soutien, vous pouvez maintenant nous faire des dons via PayPal dans Signal Desktop."
+  },
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
   }
 }

@@ -26,16 +26,12 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 /* eslint-disable @typescript-eslint/brace-style */
 
-import type { connection as WebSocket, IMessage } from 'websocket';
-import Long from 'long';
 import pTimeout from 'p-timeout';
 import { Response } from 'node-fetch';
-import net from 'node:net';
 import { z } from 'zod';
 
 import type { LibSignalError, Net } from '@signalapp/libsignal-client';
 import { ErrorCode } from '@signalapp/libsignal-client';
-import { Buffer } from 'node:buffer';
 import type {
   AuthenticatedChatConnection,
   ChatServerMessageAck,
@@ -47,15 +43,11 @@ import type { EventHandler } from './EventTarget.std.js';
 import EventTarget from './EventTarget.std.js';
 
 import * as durations from '../util/durations/index.std.js';
-import { dropNull } from '../util/dropNull.std.js';
 import { drop } from '../util/drop.std.js';
 import { isOlderThan } from '../util/timestamp.std.js';
-import { strictAssert } from '../util/assert.std.js';
 import * as Errors from '../types/errors.std.js';
-import { SignalService as Proto } from '../protobuf/index.std.js';
 import { createLogger } from '../logging/log.std.js';
 import * as Timers from '../Timers.preload.js';
-import type { IResource } from './WebSocket.preload.js';
 
 import { AbortableProcess } from '../util/AbortableProcess.std.js';
 import type { WebAPICredentials } from './Types.d.ts';
@@ -65,10 +57,6 @@ import { parseServerAlertsFromHeader } from '../util/handleServerAlerts.preload.
 import type { ServerAlert } from '../types/ServerAlert.std.js';
 
 const log = createLogger('WebsocketResources');
-
-const THIRTY_SECONDS = 30 * durations.SECOND;
-
-const MAX_MESSAGE_SIZE = 512 * 1024;
 
 const AGGREGATED_STATS_KEY = 'websocketStats';
 
@@ -166,87 +154,17 @@ export enum ServerRequestType {
   Unknown = 'unknown',
 }
 
-export type IncomingWebSocketRequest = {
-  readonly requestType: ServerRequestType;
-  readonly body: Uint8Array | undefined;
-  readonly timestamp: number | undefined;
-
-  respond(status: number, message: string): void;
-};
-
-export class IncomingWebSocketRequestLibsignal implements IncomingWebSocketRequest {
+export class IncomingWebSocketRequest {
   constructor(
     readonly requestType: ServerRequestType,
     readonly body: Uint8Array | undefined,
     readonly timestamp: number | undefined,
-    private readonly ack: ChatServerMessageAck | undefined
+    private readonly ack: Pick<ChatServerMessageAck, 'send'> | undefined
   ) {}
 
   respond(status: number, _message: string): void {
     this.ack?.send(status);
   }
-}
-
-export class IncomingWebSocketRequestLegacy implements IncomingWebSocketRequest {
-  readonly #id: Long;
-
-  public readonly requestType: ServerRequestType;
-
-  public readonly body: Uint8Array | undefined;
-
-  public readonly timestamp: number | undefined;
-
-  constructor(
-    request: Proto.IWebSocketRequestMessage,
-    private readonly sendBytes: (bytes: Buffer) => void
-  ) {
-    strictAssert(request.id, 'request without id');
-    strictAssert(request.verb, 'request without verb');
-    strictAssert(request.path, 'request without path');
-
-    this.#id = request.id;
-    this.requestType = resolveType(request.path, request.verb);
-    this.body = dropNull(request.body);
-    this.timestamp = resolveTimestamp(request.headers || []);
-  }
-
-  public respond(status: number, message: string): void {
-    const bytes = Proto.WebSocketMessage.encode({
-      type: Proto.WebSocketMessage.Type.RESPONSE,
-      response: { id: this.#id, message, status },
-    }).finish();
-
-    this.sendBytes(Buffer.from(bytes));
-  }
-}
-
-function resolveType(path: string, verb: string): ServerRequestType {
-  if (path === ServerRequestType.ApiMessage) {
-    return ServerRequestType.ApiMessage;
-  }
-  if (path === ServerRequestType.ApiEmptyQueue && verb === 'PUT') {
-    return ServerRequestType.ApiEmptyQueue;
-  }
-  if (path === ServerRequestType.ProvisioningAddress && verb === 'PUT') {
-    return ServerRequestType.ProvisioningAddress;
-  }
-  if (path === ServerRequestType.ProvisioningMessage && verb === 'PUT') {
-    return ServerRequestType.ProvisioningMessage;
-  }
-  return ServerRequestType.Unknown;
-}
-
-function resolveTimestamp(headers: ReadonlyArray<string>): number | undefined {
-  // The 'X-Signal-Timestamp' is usually the last item, so start there.
-  let it = headers.length;
-  // eslint-disable-next-line no-plusplus
-  while (--it >= 0) {
-    const match = headers[it].match(/^X-Signal-Timestamp:\s*(\d+)\s*$/i);
-    if (match && match.length === 2) {
-      return Number(match[1]);
-    }
-  }
-  return undefined;
 }
 
 export type SendRequestOptions = Readonly<{
@@ -281,12 +199,12 @@ export class CloseEvent extends Event {
 
 export type ChatKind = 'auth' | 'unauth';
 
-type LibsignalChatConnection<Kind extends ChatKind> = Kind extends 'auth'
+type ChatConnection<Kind extends ChatKind> = Kind extends 'auth'
   ? AuthenticatedChatConnection
   : UnauthenticatedChatConnection;
 
 // eslint-disable-next-line no-restricted-syntax
-export interface IWebSocketResource extends IResource {
+export interface IWebSocketResource {
   sendRequest(options: SendRequestOptions): Promise<Response>;
 
   addEventListener(name: 'close', handler: (ev: CloseEvent) => void): void;
@@ -301,16 +219,16 @@ export interface IWebSocketResource extends IResource {
 }
 
 export type IChatConnection<Chat extends ChatKind> = IWebSocketResource & {
-  get libsignalWebsocket(): LibsignalChatConnection<Chat>;
+  get libsignalWebsocket(): ChatConnection<Chat>;
 };
 
-type LibsignalWebSocketResourceHolder<Chat extends ChatKind> = {
-  resource: LibsignalWebSocketResource<Chat> | undefined;
+type WebSocketResourceHandler<Chat extends ChatKind> = {
+  resource: WebSocketResource<Chat> | undefined;
 };
 
 const UNEXPECTED_DISCONNECT_CODE = 3001;
 
-export function connectUnauthenticatedLibsignal({
+export function connectUnauthenticated({
   libsignalNet,
   name,
   userLanguages,
@@ -320,9 +238,9 @@ export function connectUnauthenticatedLibsignal({
   name: string;
   userLanguages: ReadonlyArray<string>;
   keepalive: KeepAliveOptionsType;
-}): AbortableProcess<LibsignalWebSocketResource<'unauth'>> {
-  const logId = `LibsignalWebSocketResource(${name})`;
-  const listener: LibsignalWebSocketResourceHolder<'unauth'> &
+}): AbortableProcess<WebSocketResource<'unauth'>> {
+  const logId = `WebSocketResource(${name})`;
+  const listener: WebSocketResourceHandler<'unauth'> &
     ConnectionEventsListener = {
     resource: undefined,
     onConnectionInterrupted(cause: LibSignalError | null): void {
@@ -334,7 +252,7 @@ export function connectUnauthenticatedLibsignal({
       this.resource = undefined;
     },
   };
-  return connectLibsignal(
+  return connect(
     abortSignal =>
       libsignalNet.connectUnauthenticatedChat(listener, {
         abortSignal,
@@ -346,7 +264,7 @@ export function connectUnauthenticatedLibsignal({
   );
 }
 
-export function connectAuthenticatedLibsignal({
+export function connectAuthenticated({
   libsignalNet,
   name,
   credentials,
@@ -364,10 +282,9 @@ export function connectAuthenticatedLibsignal({
   receiveStories: boolean;
   userLanguages: ReadonlyArray<string>;
   keepalive: KeepAliveOptionsType;
-}): AbortableProcess<LibsignalWebSocketResource<'auth'>> {
-  const logId = `LibsignalWebSocketResource(${name})`;
-  const listener: LibsignalWebSocketResourceHolder<'auth'> &
-    ChatServiceListener = {
+}): AbortableProcess<WebSocketResource<'auth'>> {
+  const logId = `WebSocketResource(${name})`;
+  const listener: WebSocketResourceHandler<'auth'> & ChatServiceListener = {
     resource: undefined,
     onIncomingMessage(
       envelope: Uint8Array,
@@ -375,7 +292,7 @@ export function connectAuthenticatedLibsignal({
       ack: ChatServerMessageAck
     ): void {
       // Handle incoming messages even if we've disconnected.
-      const request = new IncomingWebSocketRequestLibsignal(
+      const request = new IncomingWebSocketRequest(
         ServerRequestType.ApiMessage,
         envelope,
         timestamp,
@@ -388,7 +305,7 @@ export function connectAuthenticatedLibsignal({
         logDisconnectedListenerWarn(logId, 'onQueueEmpty');
         return;
       }
-      const request = new IncomingWebSocketRequestLibsignal(
+      const request = new IncomingWebSocketRequest(
         ServerRequestType.ApiEmptyQueue,
         undefined,
         undefined,
@@ -408,7 +325,7 @@ export function connectAuthenticatedLibsignal({
       onReceivedAlerts(alerts.map(parseServerAlertsFromHeader).flat());
     },
   };
-  return connectLibsignal(
+  return connect(
     (abortSignal: AbortSignal) =>
       libsignalNet.connectAuthenticatedChat(
         credentials.username,
@@ -427,21 +344,19 @@ function logDisconnectedListenerWarn(logId: string, method: string): void {
   log.warn(`${logId} received ${method}, but listener already disconnected`);
 }
 
-function connectLibsignal<Chat extends ChatKind>(
-  makeConnection: (
-    abortSignal: AbortSignal
-  ) => Promise<LibsignalChatConnection<Chat>>,
-  resourceHolder: LibsignalWebSocketResourceHolder<Chat>,
+function connect<Chat extends ChatKind>(
+  makeConnection: (abortSignal: AbortSignal) => Promise<ChatConnection<Chat>>,
+  resourceHolder: WebSocketResourceHandler<Chat>,
   logId: string,
   keepalive: KeepAliveOptionsType
-): AbortableProcess<LibsignalWebSocketResource<Chat>> {
+): AbortableProcess<WebSocketResource<Chat>> {
   const abortController = new AbortController();
   const connectAsync = async () => {
     try {
       const service = await makeConnection(abortController.signal);
       log.info(`${logId} connected`);
       const connectionInfo = service.connectionInfo();
-      const resource = new LibsignalWebSocketResource(
+      const resource = new WebSocketResource(
         service,
         IpVersion[connectionInfo.ipVersion],
         connectionInfo.localPort,
@@ -461,7 +376,7 @@ function connectLibsignal<Chat extends ChatKind>(
       throw error;
     }
   };
-  return new AbortableProcess<LibsignalWebSocketResource<Chat>>(
+  return new AbortableProcess<WebSocketResource<Chat>>(
     `${logId}.connect`,
     {
       abort() {
@@ -477,7 +392,7 @@ function connectLibsignal<Chat extends ChatKind>(
   );
 }
 
-export class LibsignalWebSocketResource<Chat extends ChatKind>
+export class WebSocketResource<Chat extends ChatKind>
   extends EventTarget
   implements IChatConnection<Chat>
 {
@@ -494,7 +409,7 @@ export class LibsignalWebSocketResource<Chat extends ChatKind>
   #keepalive: KeepAlive;
 
   constructor(
-    private readonly chatService: LibsignalChatConnection<Chat>,
+    private readonly chatService: ChatConnection<Chat>,
     private readonly socketIpVersion: IpVersion,
     private readonly localPortNumber: number,
     private readonly logId: string,
@@ -583,7 +498,7 @@ export class LibsignalWebSocketResource<Chat extends ChatKind>
     return response;
   }
 
-  get libsignalWebsocket(): LibsignalChatConnection<Chat> {
+  get libsignalWebsocket(): ChatConnection<Chat> {
     return this.chatService;
   }
 
@@ -601,338 +516,6 @@ export class LibsignalWebSocketResource<Chat extends ChatKind>
       status: response.status,
       statusText: response.message,
       headers: [...response.headers],
-    });
-  }
-}
-
-export default class WebSocketResource
-  extends EventTarget
-  implements IWebSocketResource
-{
-  #outgoingId = Long.fromNumber(1, true);
-  #closed = false;
-
-  readonly #outgoingMap = new Map<
-    string,
-    (result: SendRequestResult) => void
-  >();
-
-  readonly #boundOnMessage: (message: IMessage) => void;
-  #activeRequests = new Set<IncomingWebSocketRequest | string>();
-  #shuttingDown = false;
-  #shutdownTimer?: Timers.Timeout;
-  readonly #logId: string;
-  readonly #localSocketPort: number | undefined;
-  readonly #socketIpVersion: IpVersion | undefined;
-
-  // Public for tests
-  public readonly keepalive?: KeepAlive;
-
-  constructor(
-    private readonly socket: WebSocket,
-    private readonly options: WebSocketResourceOptions
-  ) {
-    super();
-
-    this.#logId = `WebSocketResource(${options.name})`;
-    this.#localSocketPort = socket.socket.localPort;
-
-    if (!socket.socket.localAddress) {
-      this.#socketIpVersion = undefined;
-    }
-    if (socket.socket.localAddress == null) {
-      this.#socketIpVersion = undefined;
-    } else if (net.isIPv4(socket.socket.localAddress)) {
-      this.#socketIpVersion = IpVersion.IPv4;
-    } else if (net.isIPv6(socket.socket.localAddress)) {
-      this.#socketIpVersion = IpVersion.IPv6;
-    } else {
-      this.#socketIpVersion = undefined;
-    }
-
-    this.#boundOnMessage = this.#onMessage.bind(this);
-
-    socket.on('message', this.#boundOnMessage);
-
-    if (options.keepalive) {
-      const keepalive = new KeepAlive(
-        this,
-        options.name,
-        options.keepalive ?? {}
-      );
-      this.keepalive = keepalive;
-
-      keepalive.reset();
-      socket.on('close', () => this.keepalive?.stop());
-      socket.on('error', (error: Error) => {
-        log.warn(`${this.#logId}: WebSocket error`, Errors.toLogFormat(error));
-      });
-    }
-
-    socket.on('close', (code, reason) => {
-      this.#closed = true;
-
-      log.warn(`${this.#logId}: Socket closed`);
-      this.dispatchEvent(new CloseEvent(code, reason || 'normal'));
-    });
-
-    this.addEventListener('close', () => this.#onClose());
-  }
-
-  public ipVersion(): IpVersion | undefined {
-    return this.#socketIpVersion;
-  }
-
-  public localPort(): number | undefined {
-    return this.#localSocketPort;
-  }
-
-  public override addEventListener(
-    name: 'close',
-    handler: (ev: CloseEvent) => void
-  ): void;
-
-  public override addEventListener(name: string, handler: EventHandler): void {
-    return super.addEventListener(name, handler);
-  }
-
-  public async sendRequest(options: SendRequestOptions): Promise<Response> {
-    const id = this.#outgoingId;
-    const idString = id.toString();
-    strictAssert(
-      !this.#outgoingMap.has(idString),
-      'Duplicate outgoing request'
-    );
-
-    // Note that this automatically wraps
-    this.#outgoingId = this.#outgoingId.add(1);
-
-    const bytes = Proto.WebSocketMessage.encode({
-      type: Proto.WebSocketMessage.Type.REQUEST,
-      request: {
-        verb: options.verb,
-        path: options.path,
-        body: options.body,
-        headers: options.headers
-          ? options.headers
-              .map(([key, value]) => {
-                return `${key}:${value}`;
-              })
-              .slice()
-          : undefined,
-        id,
-      },
-    }).finish();
-    strictAssert(
-      bytes.length <= MAX_MESSAGE_SIZE,
-      'WebSocket request byte size exceeded'
-    );
-
-    strictAssert(!this.#shuttingDown, 'Cannot send request, shutting down');
-    this.#addActive(idString);
-    const promise = new Promise<SendRequestResult>((resolve, reject) => {
-      let timer = options.timeout
-        ? Timers.setTimeout(() => {
-            this.#removeActive(idString);
-            this.close(UNEXPECTED_DISCONNECT_CODE, 'Request timed out');
-            reject(new Error(`Request timed out; id: [${idString}]`));
-          }, options.timeout)
-        : undefined;
-
-      this.#outgoingMap.set(idString, result => {
-        if (timer !== undefined) {
-          Timers.clearTimeout(timer);
-          timer = undefined;
-        }
-
-        this.keepalive?.reset();
-        this.#removeActive(idString);
-        resolve(result);
-      });
-    });
-
-    this.socket.sendBytes(Buffer.from(bytes));
-
-    const requestResult = await promise;
-    return WebSocketResource.intoResponse(requestResult);
-  }
-
-  public forceKeepAlive(timeout?: number): void {
-    if (!this.keepalive) {
-      return;
-    }
-    drop(this.keepalive.send(timeout));
-  }
-
-  public close(code = NORMAL_DISCONNECT_CODE, reason?: string): void {
-    if (this.#closed) {
-      log.info(`${this.#logId}.close: Already closed! ${code}/${reason}`);
-      return;
-    }
-
-    log.info(`${this.#logId}.close(${code})`);
-    if (this.keepalive) {
-      this.keepalive.stop();
-    }
-
-    this.socket.close(code, reason);
-
-    this.socket.removeListener('message', this.#boundOnMessage);
-
-    // On linux the socket can wait a long time to emit its close event if we've
-    //   lost the internet connection. On the order of minutes. This speeds that
-    //   process up.
-    Timers.setTimeout(() => {
-      if (this.#closed) {
-        return;
-      }
-
-      log.warn(`${this.#logId}.close: Dispatching our own socket close event`);
-      this.dispatchEvent(new CloseEvent(code, reason || 'normal'));
-    }, 5 * durations.SECOND);
-  }
-
-  public shutdown(): void {
-    if (this.#closed) {
-      return;
-    }
-
-    if (this.#activeRequests.size === 0) {
-      log.info(`${this.#logId}.shutdown: no active requests, closing`);
-      this.close(NORMAL_DISCONNECT_CODE, 'Shutdown');
-      return;
-    }
-
-    this.#shuttingDown = true;
-
-    log.info(`${this.#logId}.shutdown: shutting down`);
-    this.#shutdownTimer = Timers.setTimeout(() => {
-      if (this.#closed) {
-        return;
-      }
-
-      log.warn(`${this.#logId}.shutdown: Failed to shutdown gracefully`);
-      this.close(NORMAL_DISCONNECT_CODE, 'Shutdown');
-    }, THIRTY_SECONDS);
-  }
-
-  #onMessage({ type, binaryData }: IMessage): void {
-    if (type !== 'binary' || !binaryData) {
-      throw new Error(`Unsupported websocket message type: ${type}`);
-    }
-
-    const message = Proto.WebSocketMessage.decode(binaryData);
-    if (
-      message.type === Proto.WebSocketMessage.Type.REQUEST &&
-      message.request
-    ) {
-      const handleRequest =
-        this.options.handleRequest ||
-        (request => request.respond(404, 'Not found'));
-
-      const incomingRequest = new IncomingWebSocketRequestLegacy(
-        message.request,
-        (bytes: Buffer): void => {
-          this.#removeActive(incomingRequest);
-
-          strictAssert(
-            bytes.length <= MAX_MESSAGE_SIZE,
-            'WebSocket response byte size exceeded'
-          );
-          this.socket.sendBytes(bytes);
-        }
-      );
-
-      if (this.#shuttingDown) {
-        incomingRequest.respond(-1, 'Shutting down');
-        return;
-      }
-
-      this.#addActive(incomingRequest);
-      handleRequest(incomingRequest);
-    } else if (
-      message.type === Proto.WebSocketMessage.Type.RESPONSE &&
-      message.response
-    ) {
-      const { response } = message;
-      strictAssert(response.id, 'response without id');
-
-      const responseIdString = response.id.toString();
-      const resolve = this.#outgoingMap.get(responseIdString);
-      this.#outgoingMap.delete(responseIdString);
-
-      if (!resolve) {
-        throw new Error(`Received response for unknown request ${response.id}`);
-      }
-
-      resolve({
-        status: response.status ?? -1,
-        message: response.message ?? '',
-        response: dropNull(response.body),
-        headers: response.headers ?? [],
-      });
-    }
-  }
-
-  #onClose(): void {
-    const outgoing = new Map(this.#outgoingMap);
-    this.#outgoingMap.clear();
-
-    for (const resolve of outgoing.values()) {
-      resolve({
-        status: -1,
-        message: 'Connection closed',
-        response: undefined,
-        headers: [],
-      });
-    }
-  }
-
-  #addActive(request: IncomingWebSocketRequest | string): void {
-    this.#activeRequests.add(request);
-  }
-
-  #removeActive(request: IncomingWebSocketRequest | string): void {
-    if (!this.#activeRequests.has(request)) {
-      log.warn(`${this.#logId}.removeActive: removing unknown request`);
-      return;
-    }
-
-    this.#activeRequests.delete(request);
-    if (this.#activeRequests.size !== 0) {
-      return;
-    }
-    if (!this.#shuttingDown) {
-      return;
-    }
-
-    if (this.#shutdownTimer) {
-      Timers.clearTimeout(this.#shutdownTimer);
-      this.#shutdownTimer = undefined;
-    }
-
-    log.info(`${this.#logId}.removeActive: shutdown complete`);
-    this.close(NORMAL_DISCONNECT_CODE, 'Shutdown');
-  }
-
-  private static intoResponse(sendRequestResult: SendRequestResult): Response {
-    const {
-      status,
-      message: statusText,
-      response,
-      headers: flatResponseHeaders,
-    } = sendRequestResult;
-
-    const headers: Array<[string, string]> = flatResponseHeaders.map(header => {
-      const [key, value] = header.split(':', 2);
-      strictAssert(value !== undefined, 'Invalid header!');
-      return [key, value];
-    });
-
-    return new Response(response, {
-      status,
-      statusText,
-      headers,
     });
   }
 }

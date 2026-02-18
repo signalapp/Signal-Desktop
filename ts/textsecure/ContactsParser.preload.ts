@@ -10,7 +10,7 @@ import { DurationInSeconds } from '../util/durations/index.std.js';
 import {
   getAbsoluteAttachmentPath,
   writeNewAttachmentData,
-  deleteAttachmentData,
+  maybeDeleteAttachmentFile,
 } from '../util/migrations.preload.js';
 import type { ContactAvatarType } from '../types/Avatar.std.js';
 import type { AttachmentType } from '../types/Attachment.std.js';
@@ -173,7 +173,7 @@ export class ParseContactsTransform extends Transform {
             this.contacts.push(prepared);
           } else {
             // eslint-disable-next-line no-await-in-loop
-            await deleteAttachmentData(local.path);
+            await maybeDeleteAttachmentFile(local.path);
           }
           this.activeContact = undefined;
 

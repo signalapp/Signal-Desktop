@@ -120,7 +120,6 @@ function Contacts({
             noteToSelf={contact.isMe}
             theme={theme}
             title={contact.title}
-            sharedGroupNames={contact.sharedGroupNames}
             size={AvatarSize.TWENTY_EIGHT}
             i18n={i18n}
           />

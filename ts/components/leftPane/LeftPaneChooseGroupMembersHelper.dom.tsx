@@ -225,7 +225,6 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
                 isMe={contact.isMe}
                 phoneNumber={contact.phoneNumber}
                 profileName={contact.profileName}
-                sharedGroupNames={contact.sharedGroupNames}
                 title={contact.title}
                 onClickRemove={removeSelectedContact}
               />

@@ -19,6 +19,8 @@ import z from 'zod';
 import GrowingFile from 'growing-file';
 import lodash from 'lodash';
 import { pathExists } from 'fs-extra';
+import pMap from 'p-map';
+import { access } from 'node:fs/promises';
 
 import {
   type DecryptAttachmentToSinkOptionsType,
@@ -48,7 +50,7 @@ import { sleep } from '../ts/util/sleep.std.js';
 import { toWebStream } from '../ts/util/toWebStream.node.js';
 import { createLogger } from '../ts/logging/log.std.js';
 import {
-  deleteAll as deleteAllAttachments,
+  deleteAllAttachments,
   deleteAllBadges,
   deleteAllDownloads,
   deleteAllDraftAttachments,
@@ -62,7 +64,7 @@ import {
   getAvatarsPath,
   getDownloadsPath,
   getDraftPath,
-  getPath,
+  getAttachmentsPath,
   getStickersPath,
   getTempPath,
 } from './attachments.node.js';
@@ -450,9 +452,33 @@ function deleteOrphanedAttachments({
         await sql.sqlRead('finishGetKnownMessageAttachments', cursor);
       }
     }
+
+    const protectedAttachments = await sql.sqlRead(
+      'getAllProtectedAttachmentPaths'
+    );
+    for (const protectedAttachment of protectedAttachments) {
+      orphanedAttachments.delete(protectedAttachment);
+    }
+
     log.info(
       `cleanupOrphanedAttachments: ${totalAttachmentsFound} attachments and \
       ${totalDownloadsFound} downloads found on disk`
+    );
+    const attachmentsFolder = getAttachmentsPath(userDataPath);
+
+    // It's possible that messages and attachments have been deleted since we first
+    // checked the contents of the attachments folder, so for better accounting, we
+    // check once more that they still exist.
+    await pMap(
+      orphanedAttachments,
+      async path => {
+        try {
+          await access(join(attachmentsFolder, path));
+        } catch (e) {
+          orphanedAttachments.delete(path);
+        }
+      },
+      { concurrency: 20 }
     );
 
     if (orphanedAttachments.size > 0) {
@@ -514,7 +540,7 @@ export function initialize({
   }
   initialized = true;
 
-  attachmentsDir = getPath(configDir);
+  attachmentsDir = getAttachmentsPath(configDir);
   stickersDir = getStickersPath(configDir);
   tempDir = getTempPath(configDir);
   draftDir = getDraftPath(configDir);

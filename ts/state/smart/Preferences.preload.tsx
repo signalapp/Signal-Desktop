@@ -57,6 +57,7 @@ import { DurationInSeconds } from '../../util/durations/duration-in-seconds.std.
 import { PhoneNumberDiscoverability } from '../../util/phoneNumberDiscoverability.std.js';
 import { PhoneNumberSharingMode } from '../../types/PhoneNumberSharingMode.std.js';
 import { writeProfile } from '../../services/writeProfile.preload.js';
+import { keyTransparency } from '../../services/keyTransparency.preload.js';
 import { getConversation } from '../../util/getConversation.preload.js';
 import { waitForEvent } from '../../shims/events.dom.js';
 import { DAY, MINUTE } from '../../util/durations/index.std.js';
@@ -589,6 +590,13 @@ export function SmartPreferences(): React.JSX.Element | null {
     prodKey: 'desktop.plaintextExport.prod',
   });
 
+  const isKeyTransparencyAvailable = isFeaturedEnabledSelector({
+    betaKey: 'desktop.keyTransparency.beta',
+    prodKey: 'desktop.keyTransparency.prod',
+    currentVersion: version,
+    remoteConfig: items.remoteConfig,
+  });
+
   // Two-way items
 
   function createItemsAccess<K extends keyof StorageAccessType>(
@@ -687,6 +695,14 @@ export function SmartPreferences(): React.JSX.Element | null {
       }
     }
   );
+  const [hasKeyTransparencyDisabled, onHasKeyTransparencyDisabledChanged] =
+    createItemsAccess('hasKeyTransparencyDisabled', false, async value => {
+      const account = window.ConversationController.getOurConversationOrThrow();
+      account.captureChange('hasKeyTransparencyDisabled');
+      if (value) {
+        await keyTransparency.disable();
+      }
+    });
   const [hasTextFormatting, onTextFormattingChange] = createItemsAccess(
     'textFormatting',
     true
@@ -836,6 +852,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           hasFailedStorySends={hasFailedStorySends}
           hasHideMenuBar={hasHideMenuBar}
           hasIncomingCallNotifications={hasIncomingCallNotifications}
+          hasKeyTransparencyDisabled={hasKeyTransparencyDisabled}
           hasLinkPreviews={hasLinkPreviews}
           hasMediaCameraPermissions={hasMediaCameraPermissions}
           hasMediaPermissions={hasMediaPermissions}
@@ -857,6 +874,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           isContentProtectionNeeded={isContentProtectionNeeded}
           isContentProtectionSupported={isContentProtectionSupported}
           isHideMenuBarSupported={isHideMenuBarSupported}
+          isKeyTransparencyAvailable={isKeyTransparencyAvailable}
           isMinimizeToAndStartInSystemTraySupported={
             isMinimizeToAndStartInSystemTraySupported
           }
@@ -885,6 +903,9 @@ export function SmartPreferences(): React.JSX.Element | null {
           onContentProtectionChange={onContentProtectionChange}
           onCountMutedConversationsChange={onCountMutedConversationsChange}
           onEmojiSkinToneDefaultChange={onEmojiSkinToneDefaultChange}
+          onHasKeyTransparencyDisabledChanged={
+            onHasKeyTransparencyDisabledChanged
+          }
           onHasStoriesDisabledChanged={onHasStoriesDisabledChanged}
           onHideMenuBarChange={onHideMenuBarChange}
           onIncomingCallNotificationsChange={onIncomingCallNotificationsChange}

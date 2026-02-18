@@ -25,6 +25,7 @@ import {
   getTargetedMessage,
   getTargetedMessageSource,
 } from '../selectors/conversations.dom.js';
+import { getSharedGroupNames } from '../../util/sharedGroupNames.dom.js';
 import { useTimelineItem } from '../selectors/timeline.preload.js';
 import {
   areMessagesInSameGroup,
@@ -202,6 +203,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       containerWidthBreakpoint={containerWidthBreakpoint}
       conversationId={conversationId}
       getPreferredBadge={getPreferredBadge}
+      getSharedGroupNames={getSharedGroupNames}
       isNextItemCallingNotification={isNextItemCallingNotification}
       isTargeted={isTargeted}
       renderAudioAttachment={renderAudioAttachment}

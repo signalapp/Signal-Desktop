@@ -103,8 +103,11 @@ export class FormattingMenu {
     // We want to be sure that we're the only handler for this charCode.
     this.quill.keyboard.bindings[boldCharCode] = [];
     this.quill.keyboard.addBinding({
-      key: BOLD_CHAR,
+      // Match both lower and upper case (as given by CapsLock state), but only
+      // when Shift is NOT pressed.
+      key: [BOLD_CHAR, BOLD_CHAR.toUpperCase()],
       shortKey: true,
+      shiftKey: false,
       handler: (_range, context) =>
         this.toggleForStyle(QuillFormattingStyle.bold, context),
     });
@@ -113,8 +116,9 @@ export class FormattingMenu {
     // No other handlers for this charCode!
     this.quill.keyboard.bindings[italicCharCode] = [];
     this.quill.keyboard.addBinding({
-      key: ITALIC_CHAR,
+      key: [ITALIC_CHAR, ITALIC_CHAR.toUpperCase()],
       shortKey: true,
+      shiftKey: false,
       handler: (_range, context) =>
         this.toggleForStyle(QuillFormattingStyle.italic, context),
     });
@@ -122,13 +126,14 @@ export class FormattingMenu {
     // No need for changing priority for these totally new keybindings
 
     this.quill.keyboard.addBinding({
-      key: MONOSPACE_CHAR,
+      key: [MONOSPACE_CHAR, MONOSPACE_CHAR.toUpperCase()],
       shortKey: true,
+      shiftKey: false,
       handler: (_range, context) =>
         this.toggleForStyle(QuillFormattingStyle.monospace, context),
     });
     this.quill.keyboard.addBinding({
-      // We need to hook both because of windows/linux and the shift keu
+      // We need to hook both because of windows/linux and the shift key
       key: [STRIKETHROUGH_CHAR, STRIKETHROUGH_CHAR.toUpperCase()],
       shortKey: true,
       shiftKey: true,
@@ -136,7 +141,7 @@ export class FormattingMenu {
         this.toggleForStyle(QuillFormattingStyle.strike, context),
     });
     this.quill.keyboard.addBinding({
-      // We need to hook both because of windows/linux and the shift keu
+      // We need to hook both because of windows/linux and the shift key
       key: [SPOILER_CHAR, SPOILER_CHAR.toUpperCase()],
       shortKey: true,
       shiftKey: true,

@@ -32,7 +32,6 @@ const getUnknownContact = (): ConversationType => ({
   type: 'direct',
   title: i18n('icu:unknownContact'),
   isMe: false,
-  sharedGroupNames: [],
   serviceId: generateAci(),
 });
 

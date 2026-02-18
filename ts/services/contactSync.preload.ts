@@ -22,7 +22,7 @@ import type { ConversationModel } from '../models/conversations.preload.js';
 import { validateConversation } from '../util/validateConversation.dom.js';
 import {
   writeNewAttachmentData,
-  deleteAttachmentData,
+  maybeDeleteAttachmentFile,
   doesAttachmentExist,
 } from '../util/migrations.preload.js';
 import {
@@ -77,7 +77,7 @@ async function updateConversationFromContactSync(
       {
         newAvatar: avatar,
         writeNewAttachmentData,
-        deleteAttachmentData,
+        deleteAttachmentData: maybeDeleteAttachmentFile,
         doesAttachmentExist,
       }
     );
@@ -85,7 +85,7 @@ async function updateConversationFromContactSync(
   } else {
     const { attributes } = conversation;
     if (attributes.avatar && attributes.avatar.path) {
-      await deleteAttachmentData(attributes.avatar.path);
+      await maybeDeleteAttachmentFile(attributes.avatar.path);
     }
     conversation.set({ avatar: null });
   }
@@ -143,7 +143,7 @@ async function downloadAndParseContactAttachment(
     });
   } finally {
     if (downloaded?.path) {
-      await deleteAttachmentData(downloaded.path);
+      await maybeDeleteAttachmentFile(downloaded.path);
     }
   }
 }

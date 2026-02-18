@@ -42,7 +42,6 @@ export function getDefaultConversation(
     isMe: false,
     lastUpdated: casual.unix_time,
     markedUnread: Boolean(overrideProps.markedUnread),
-    sharedGroupNames: [],
     title: `${firstName} ${lastName}`,
     titleNoDefault: `${firstName} ${lastName}`,
     titleShortNoDefault: firstName,
@@ -72,6 +71,8 @@ export function getDefaultGroup(
   const memberships = Array.from(Array(casual.integer(1, 20)), () => ({
     aci: generateAci(),
     isAdmin: Boolean(casual.coin_flip),
+    labelEmoji: undefined,
+    labelString: undefined,
   }));
 
   return {
@@ -91,7 +92,6 @@ export function getDefaultGroup(
     markedUnread: Boolean(overrideProps.markedUnread),
     membersCount: memberships.length,
     memberships,
-    sharedGroupNames: [],
     title: casual.title,
     serviceId: generateAci(),
     acknowledgedGroupNameCollisions: {},

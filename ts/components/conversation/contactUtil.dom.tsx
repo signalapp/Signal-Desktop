@@ -37,7 +37,6 @@ export function renderAvatar({
       conversationType="direct"
       i18n={i18n}
       title={title}
-      sharedGroupNames={[]}
       size={size}
     />
   );
