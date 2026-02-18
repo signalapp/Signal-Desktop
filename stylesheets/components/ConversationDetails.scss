@@ -51,6 +51,20 @@
 
   &-membership-list__member-label-button {
     @include mixins.font-body-small;
+    @include mixins.button-focus-outline(2px);
+
+    @include mixins.mouse-mode {
+      &:hover {
+        background-color: light-dark(
+          variables.$color-gray-02,
+          variables.$color-gray-90
+        );
+      }
+    }
+    font-weight: 500;
+    outline: none;
+    border-radius: 5px;
+
     display: flex;
     align-items: center;
     color: light-dark(
@@ -62,7 +76,6 @@
       height: 16px;
       width: 16px;
       margin-bottom: 1px;
-      margin-block-start: -2px;
 
       @include mixins.color-svg-themed(
         '../images/icons/v3/chevron/chevron-right.svg',
