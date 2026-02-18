@@ -99,17 +99,20 @@ export function GroupMemberLabelEditor({
   const emojiKey = labelEmoji ? getEmojiVariantKey(labelEmoji) : null;
   const [isSaving, setIsSaving] = useState(false);
 
+  const labelStringForSave = labelString ? labelString.trim() : labelString;
   const isDirty =
-    labelEmoji !== existingLabelEmoji || labelString !== existingLabelString;
-  const canSave = isDirty;
+    labelEmoji !== existingLabelEmoji ||
+    labelStringForSave !== existingLabelString;
+  const canSave =
+    isDirty && ((!labelEmoji && !labelStringForSave) || labelStringForSave);
   const spinner = isSaving
     ? {
         'aria-label': i18n('icu:ConversationDetails--member-label--saving'),
       }
     : undefined;
 
-  const contactLabelForMessage = labelString?.trim()
-    ? { labelEmoji, labelString: labelString.trim() }
+  const contactLabelForMessage = labelStringForSave
+    ? { labelEmoji, labelString: labelStringForSave }
     : undefined;
 
   useEffect(() => {
@@ -173,7 +176,7 @@ export function GroupMemberLabelEditor({
           </div>
           <div
             className={tw(
-              'mt-5 rounded-[27px] bg-fill-primary-pressed px-2 pt-[47px] pb-6'
+              'mt-2.5 rounded-[27px] bg-fill-primary-pressed px-2 py-6'
             )}
             ref={messageContainer}
           >
@@ -252,7 +255,7 @@ export function GroupMemberLabelEditor({
           </div>
           <div>
             {membersWithLabel.length === 0 && (
-              <div className={tw('mt-2 type-body-medium text-label-secondary')}>
+              <div className={tw('type-body-medium text-label-secondary')}>
                 {i18n('icu:ConversationDetails--member-label--no-members')}
               </div>
             )}
@@ -346,7 +349,7 @@ export function GroupMemberLabelEditor({
               {
                 conversationId: group.id,
                 labelEmoji,
-                labelString: labelString?.trim(),
+                labelString: labelStringForSave,
               },
               {
                 onSuccess() {
