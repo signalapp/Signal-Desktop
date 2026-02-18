@@ -654,10 +654,10 @@
     "messageformat": "တင်သွင်းနေသည်..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify encryption"
+    "messageformat": "Signal သည် ကုဒ်ပြောင်းဝှက်ခြင်းကို အလိုအလျောက် အတည်ပြုနိုင်ပါပြီ"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+    "messageformat": "ဖုန်းနံပါတ်ဖြင့် ချိတ်ဆက်ထားသော အဆက်အသွယ်များအတွက် Signal သည် ကီး ပွင့်လင်းမြင်သာမှုဟုခေါ်သော လုပ်ငန်းစဉ်ကို အသုံးပြု၍ ချိတ်ဆက်မှု လုံခြုံခြင်းရှိမရှိကို အလိုအလျောက် အတည်ပြုနိုင်သည်။ လုံခြုံရေးပိုမိုရရှိစေရန်အတွက် QR ကုဒ်ကို အသုံးပြု၍ သို့မဟုတ် လုံခြုံရေးနံပါတ်များကို နှိုင်းယှဉ်ခြင်းဖြင့် ချိတ်ဆက်မှုများကို ကိုယ်တိုင်အတည်ပြုနိုင်ပါသည်။"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "ဆက်လုပ်ရန်"
@@ -4692,22 +4692,22 @@
     "messageformat": "မင်္ဂလာပါ။"
   },
   "icu:ConversationDetails--member-label--list-header": {
-    "messageformat": "Group members with labels"
+    "messageformat": "အမှတ်တံဆိပ်ပါသော အဖွဲ့ဝင်များ"
   },
   "icu:ConversationDetails--member-label--no-members": {
-    "messageformat": "No other members have labels"
+    "messageformat": "အခြားအဖွဲ့ဝင်များတွင် အမှတ်တံဆိပ်များ မရှိပါ"
   },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "ပြောင်းလဲမှုများကို သိမ်းဆည်းနေသည်..."
   },
   "icu:ConversationDetails--member-label--error-title": {
-    "messageformat": "Can’t save member label"
+    "messageformat": "အဖွဲ့ဝင်အမှတ်တံဆိပ်ကို သိမ်းဆည်း၍မရပါ"
   },
   "icu:ConversationDetails--member-label--error-generic": {
     "messageformat": "သင့်အင်တာနက်ချိတ်ဆက်မှုကို ပြန်စစ်ဆေးပြီး ထပ်ကြိုးစားကြည့်ပါ။"
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "Only admins can set member labels in this group."
+    "messageformat": "ဤအဖွဲ့တွင် အက်ဒမင်များသာ အဖွဲ့ဝင်အမှတ်တံဆိပ် သတ်မှတ်နိုင်သည်။"
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "စာများအား ပျောက်သွားစေခြင်း"
@@ -4758,10 +4758,10 @@
     "messageformat": "အဖွဲ့သို့ မက်ဆေ့ချ်များ ပို့ခွင့်ရှိသူကို ရွေးချယ်ပါ။"
   },
   "icu:ConversationDetails--label-clear-warning--title": {
-    "messageformat": "Member labels will be cleared"
+    "messageformat": "အဖွဲ့ဝင်တံဆိပ်များကို ဖယ်ရှားပါမည်"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+    "messageformat": "ဤခွင့်ပြုချက်ကို \"အက်ဒ်မင်များသာ\" သို့ ပြောင်းလဲခြင်းဖြင့် ဤအဖွဲ့ရှိ အက်ဒ်မင်မဟုတ်သူများမှ သတ်မှတ်ထားသော အဖွဲ့ဝင်အမှတ်တံဆိပ်များကို ဖယ်ရှားပေးပါမည်။"
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
     "messageformat": "ဆက်လုပ်ရန်"
@@ -7486,7 +7486,7 @@
     "messageformat": "<paragraph>Signal သည် သင်လှူဒါန်းသည့်အခါတွင် သင့်ကိုယ်ရေးကိုယ်တာအချက်အလက်များကို စုဆောင်းခြင်း သို့မဟုတ် သိမ်းဆည်းထားခြင်းမရှိပါ။</paragraph><paragraph>သင်၏လှူဒါန်းမှုများကို လက်ခံရရှိရန် ကျွန်ုပ်တို့၏ ငွေပေးချေမှု စီမံဆောင်ရွက်သူအဖြစ် Stripe ကို အသုံးပြုပါသည်။ ကျွန်ုပ်တို့သည် ၎င်းတို့အား သင်ပေးထားသော အချက်အလက်များကို အသုံးပြုခြင်း၊ ထားသိုခြင်း သို့မဟုတ် သိမ်းဆည်းခြင်းမပြုပါ။</paragraph><paragraph>Signal သည် သင်၏လှူဒါန်းမှုကို သင်၏ Signal အကောင့်နှင့် ချိတ်ဆက်၍မရပါ။</paragraph><paragraph>သင်၏ပံ့ပိုးမှုအတွက် ကျေးဇူးတင်ပါသည်။</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "မှီခိုမှုကင်းသည့် အကျိုးအမြတ်မယူသော အဖွဲ့အစည်းတစ်ခုအနေဖြင့်  Signal သည် သီးသန့်မက်ဆေ့ချ်ပေးပို့ခြင်းနှင့် ဖုန်းခေါ်ဆိုမှုများကို အလေးအနက်ထားပါသည်။ ကြော်ငြာများ မရှိ၊ ခြေရာခံခြင်း မရှိ၊ စောင့်ကြည့်ခြင်း မရှိ။ Signal ကို ပံ့ပိုးရန် ယနေ့ပင် လှူဒါန်းလိုက်ပါ။"
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
     "messageformat": "လှူဒါန်းသည့်အခါ သင့်ပရိုဖိုင်တွင် ဘဲ့ဂျ်တစ်ခုရယူရန် ရွေးချယ်နိုင်သည်"
@@ -7498,7 +7498,7 @@
     "messageformat": "Signal သည် အကျိုးအမြတ်မယူပါ။"
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
-    "messageformat": "Heart icon in the style of the Signal logo"
+    "messageformat": "Signal လိုဂိုပုံစံဖြင့် အသဲပုံအိုင်ကွန်"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "အိုကေ"
@@ -7591,13 +7591,13 @@
     "messageformat": "အချက်အလက်ကို ဖယ်ရှားပါ"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving will cancel your donation."
+    "messageformat": "ထွက်ခွာသွားခြင်းက သင့်လှူဒါန်းမှုကို ပယ်ဖျက်လိုက်ပါမည်။"
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
     "messageformat": "ထွက်မည်"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
-    "messageformat": "Stay on page"
+    "messageformat": "စာမျက်နှာတွင် ဆက်လက်ရှိနေမည်"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "ဆက်လုပ်ရန်"
@@ -7913,6 +7913,6 @@
     "messageformat": "Signal သည် သင့် ပံ့ပိုးမှုမပါလျှင် မဖြစ်နိုင်သော အကျိုးအမြတ်မယူသည့် အဖွဲ့အစည်းတစ်ခုဖြစ်ပြီး ယခုဆိုလျှင် Signal Desktop တွင် PayPal ဖြင့်လှူဒါန်းနိုင်ပါပြီ။"
   },
   "icu:WhatsNew__7.90--0": {
-    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
+    "messageformat": "တရားဝင်ဖန်တီးသူများ၏ စတစ်ကာတွဲအသစ် ငါးခု။"
   }
 }

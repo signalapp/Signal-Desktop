@@ -654,10 +654,10 @@
     "messageformat": "सबमिट होत आहे..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify encryption"
+    "messageformat": "Signal आता एन्क्रिप्शन आपोआप पडताळू शकते"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+    "messageformat": "तुम्ही ज्या संंपर्कांशी फोन नंबरद्वारे जोडलेले आहात, त्यांच्याशी असलेली जोडणी सुरक्षित आहे की नाही याची निश्चिती Signal की पारदर्शकता नावाची प्रक्रिया वापरून आपोआप करू शकते. अधिक सुरक्षेसाठी, तुम्ही तरीही स्वतः QR कोड किंवा सुरक्षितता क्रमांकांची तुलना जोडण्यांची पडताळणी करू शकता."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "सुरू ठेवा"
@@ -4692,22 +4692,22 @@
     "messageformat": "नमस्कार!"
   },
   "icu:ConversationDetails--member-label--list-header": {
-    "messageformat": "Group members with labels"
+    "messageformat": "लेबल्स असणारे गट सदस्य"
   },
   "icu:ConversationDetails--member-label--no-members": {
-    "messageformat": "No other members have labels"
+    "messageformat": "इतर कोणत्याही सदस्यांना लेबल्स नाहीत"
   },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "बदल जतन होत आहेत..."
   },
   "icu:ConversationDetails--member-label--error-title": {
-    "messageformat": "Can’t save member label"
+    "messageformat": "सदस्य लेबल जतन करता येत नाही"
   },
   "icu:ConversationDetails--member-label--error-generic": {
     "messageformat": "आपले कनेक्शन तपासा आणि पुन्हा प्रयत्न करा."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "Only admins can set member labels in this group."
+    "messageformat": "या गटात फक्त अ‍ॅडमिनच सदस्य लेबल सेट करू शकतात."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "हरवणारे संदेश"
@@ -4758,10 +4758,10 @@
     "messageformat": "गटात कोण संदेश पाठवू शकतो ते निवडा."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
-    "messageformat": "Member labels will be cleared"
+    "messageformat": "सदस्य लेबल्स नाहीशी होतील"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+    "messageformat": "ही अनुमती बदलून \"केवळ अ‍ॅडमिन्स\" केल्याने या गटात अ‍ॅडमिन नसणाऱ्यांनी सेट केलेली सदस्य लेबल्स नाहीशी होतील."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
     "messageformat": "सुरू ठेवा"
@@ -7498,7 +7498,7 @@
     "messageformat": "Signal एक ना-नफा संस्था आहे."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
-    "messageformat": "Heart icon in the style of the Signal logo"
+    "messageformat": "Signal लोगोच्या शैलीत हार्ट आयकन"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "ठीक"
@@ -7591,13 +7591,13 @@
     "messageformat": "माहिती हटवून टाका"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving will cancel your donation."
+    "messageformat": "तुम्ही गेलात तर तुमची देणगी रद्द होईल."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
     "messageformat": "सोडा"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
-    "messageformat": "Stay on page"
+    "messageformat": "पानावर राहा"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "सुरू ठेवा"
@@ -7913,6 +7913,6 @@
     "messageformat": "Signal एक ना-नफा संस्था आहे जिचे अस्तित्व तुमच्या सपोर्टशिवाय शक्यच नाही, आणि आता तुम्ही Signal डेस्कटॉप मध्ये PayPal वरून देणगी देऊ शकता."
   },
   "icu:WhatsNew__7.90--0": {
-    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
+    "messageformat": "• पाच नवीन अधिकृत आर्टिस्ट स्टिकर पॅक्स."
   }
 }

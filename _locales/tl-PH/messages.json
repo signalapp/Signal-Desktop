@@ -654,10 +654,10 @@
     "messageformat": "Sina-submit..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify encryption"
+    "messageformat": "Kaya nang i-auto verify ng Signal ang key encryption"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+    "messageformat": "Para sa contacts na naka-connect sa 'yo via phone number, automatic na makukumpirma ng Signal kung ang connection ay secure sa pamamagitan ng prosesong tinatawag na key transparency. Para sa karagdagang security, maaari mo pa ring i-verify ang connections manually gamit ang QR code o sa pagkumpara ng safety number."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Magpatuloy"
@@ -4692,22 +4692,22 @@
     "messageformat": "Hello!"
   },
   "icu:ConversationDetails--member-label--list-header": {
-    "messageformat": "Group members with labels"
+    "messageformat": "Group members na may labels"
   },
   "icu:ConversationDetails--member-label--no-members": {
-    "messageformat": "No other members have labels"
+    "messageformat": "Walang ibang members ang mayroong labels"
   },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "Saving changes..."
   },
   "icu:ConversationDetails--member-label--error-title": {
-    "messageformat": "Can’t save member label"
+    "messageformat": "Hindi ma-save ang member label"
   },
   "icu:ConversationDetails--member-label--error-generic": {
     "messageformat": "I-check ang iyong connection at subukan ulit."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "Only admins can set member labels in this group."
+    "messageformat": "Admins lamang ang makakapaglagay ng member labels sa group na ito."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Mga naglalahong mensahe"
@@ -4758,10 +4758,10 @@
     "messageformat": "Piliin kung sinong pwedeng mag-send ng messages sa group na ito."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
-    "messageformat": "Member labels will be cleared"
+    "messageformat": "Tatanggalin ang member labels"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+    "messageformat": "Kapag ginawa mong para sa admin lang ang permission na ito, matatanggal ang member labels na inilagay ng non-admins sa group na ito."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
     "messageformat": "Magpatuloy"
@@ -7486,7 +7486,7 @@
     "messageformat": "<paragraph>Hindi kinokolekta o sine-save ng Signal ang anumang personal na impormasyon mo kapag nag-donate ka.</paragraph><paragraph>Ginagamit namin ang Stripe bilang aming tagaproseso ng pagbabayad upang matanggap ang mga donasyon mo. Hindi namin ina-access, itinatago, o sine-save ang anumang impormasyong ibinibigay mo sa kanila.</paragraph><paragraph>Hindi kinokonekta at hindi maikokonekta ng Signal ang iyong donasyon sa Signal account mo.</paragraph><paragraph>Maraming salamat sa iyong suporta!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "Bilang isang independent nonprofit, ang Signal ay committed sa private messaging and calls. Walang ads, walang trackers, at walang surveillance. Mag-donate ngayon para suportahan ang Signal."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
     "messageformat": "Makakakuha ka ng optional badge sa profile mo kapag nag-donate ka"
@@ -7498,7 +7498,7 @@
     "messageformat": "Ang Signal ay isang nonprofit."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
-    "messageformat": "Heart icon in the style of the Signal logo"
+    "messageformat": "Heart icon sa style ng Signal logo"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "OK"
@@ -7591,13 +7591,13 @@
     "messageformat": "Tanggalin ang info"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving will cancel your donation."
+    "messageformat": "Makakansela ang donation mo kapag umalis ka dito."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
     "messageformat": "Umalis"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
-    "messageformat": "Stay on page"
+    "messageformat": "Manatili sa page"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Magpatuloy"
@@ -7913,6 +7913,6 @@
     "messageformat": "Ang Signal ay isang nonprofit na hindi magiging posible kung wala ang suporta mo, at ngayon ay maaari ka nang magbigay ng donation via PayPal sa Signal Desktop."
   },
   "icu:WhatsNew__7.90--0": {
-    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
+    "messageformat": "Limang bagong official artist sticker packs."
   }
 }
