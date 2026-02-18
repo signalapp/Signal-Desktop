@@ -6,11 +6,7 @@
       {
         "path": "*/messageformat",
         "key": "{*}/messageformat",
-        "instruction": "*/description"
-      },
-      {
-        "key": "{*}/message",
-        "path": "*/message",
+        "character_limit": "*/limit",
         "instruction": "*/description"
       }
     ]
@@ -7475,6 +7471,11 @@
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "admins",
     "description": "Clickable text describing administrators of a group, used in the message an admin label"
+  },
+  "icu:Avatar__View": {
+    "messageformat": "View",
+    "limit": 7,
+    "description": "Used as a label on a button allowing user to see the unblurred avatar of a contact"
   },
   "icu:AvatarEditor--choose": {
     "messageformat": "Select an avatar",
