@@ -26,6 +26,7 @@ import {
   acceptConversation,
   expectSystemMessages,
   typeIntoInput,
+  waitForNonProfileKeyUpdateMessage,
   waitForEnabledComposer,
 } from '../helpers.node.js';
 
@@ -376,7 +377,8 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
 
     debug('Wait for a ACI message');
     {
-      const { source, body, serviceIdKind } = await stranger.waitForMessage();
+      const { source, body, serviceIdKind } =
+        await waitForNonProfileKeyUpdateMessage(stranger);
 
       assert.strictEqual(source, desktop, 'ACI message has valid source');
       assert.strictEqual(body, 'Hello ACI', 'ACI message has valid body');
