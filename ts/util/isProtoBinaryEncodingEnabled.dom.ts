@@ -3,7 +3,6 @@
 
 import { isTestOrMockEnvironment } from '../environment.std.js';
 import { isStagingServer } from './isStagingServer.dom.js';
-import { isFeaturedEnabledNoRedux } from './isFeatureEnabled.dom.js';
 
 export function isProtoBinaryEncodingEnabled(): boolean {
   if (isTestOrMockEnvironment()) {
@@ -14,8 +13,6 @@ export function isProtoBinaryEncodingEnabled(): boolean {
     return true;
   }
 
-  return isFeaturedEnabledNoRedux({
-    betaKey: 'desktop.binaryServiceId.beta',
-    prodKey: 'desktop.binaryServiceId.prod',
-  });
+  // TODO: DESKTOP-8938
+  return false;
 }

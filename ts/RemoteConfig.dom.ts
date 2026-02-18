@@ -48,8 +48,6 @@ const SemverKeys = [
   'desktop.retireAccessKeyGroupSend.prod',
   'desktop.keyTransparency.beta',
   'desktop.keyTransparency.prod',
-  'desktop.binaryServiceId.beta',
-  'desktop.binaryServiceId.prod',
 ] as const;
 
 export type SemverKeyType = ArrayValues<typeof SemverKeys>;
