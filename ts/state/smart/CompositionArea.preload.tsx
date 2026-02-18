@@ -37,6 +37,7 @@ import {
   getDefaultConversationColor,
   getEmojiSkinToneDefault,
   getTextFormattingEnabled,
+  getTypingAutoFocus,
 } from '../selectors/items.dom.js';
 import { canForward, getPropsForQuote } from '../selectors/message.preload.js';
 import {
@@ -85,6 +86,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
   const selectedMessageIds = useSelector(getSelectedMessageIds);
   const messageLookup = useSelector(getMessages);
   const isFormattingEnabled = useSelector(getTextFormattingEnabled);
+  const isTypingAutoFocusEnabled = useSelector(getTypingAutoFocus);
   const lastEditableMessageId = useSelector(getLastEditableMessageId);
   const platform = useSelector(getPlatform);
   const shouldHidePopovers = useSelector(getHasPanelOpen);
@@ -242,6 +244,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       i18n={i18n}
       isDisabled={isDisabled}
       isFormattingEnabled={isFormattingEnabled}
+      isTypingAutoFocusEnabled={isTypingAutoFocusEnabled}
       isActive={isActive}
       lastEditableMessageId={lastEditableMessageId ?? null}
       messageCompositionId={messageCompositionId}

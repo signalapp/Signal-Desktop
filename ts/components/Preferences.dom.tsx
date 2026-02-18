@@ -156,6 +156,7 @@ export type PropsDataType = {
   hasSpellCheck: boolean | undefined;
   hasStoriesDisabled: boolean;
   hasTextFormatting: boolean;
+  hasTypingAutoFocus: boolean;
   hasTypingIndicators: boolean;
   hasKeepMutedChatsArchived: boolean;
   settingsLocation: SettingsLocation;
@@ -326,6 +327,7 @@ type PropsFunctionType = {
   onSentMediaQualityChange: SelectChangeHandlerType<SentMediaQualityType>;
   onSpellCheckChange: CheckboxChangeHandlerType;
   onTextFormattingChange: CheckboxChangeHandlerType;
+  onTypingAutoFocusChange: CheckboxChangeHandlerType;
   onThemeChange: SelectChangeHandlerType<ThemeType>;
   onToggleNavTabsCollapse: (navTabsCollapsed: boolean) => void;
   onUniversalExpireTimerChange: SelectChangeHandlerType<number>;
@@ -433,6 +435,7 @@ export function Preferences({
   hasSpellCheck,
   hasStoriesDisabled,
   hasTextFormatting,
+  hasTypingAutoFocus,
   hasTypingIndicators,
   hasKeepMutedChatsArchived,
   i18n,
@@ -490,6 +493,7 @@ export function Preferences({
   onSentMediaQualityChange,
   onSpellCheckChange,
   onTextFormattingChange,
+  onTypingAutoFocusChange,
   onThemeChange,
   onToggleNavTabsCollapse,
   onUniversalExpireTimerChange,
@@ -1148,6 +1152,16 @@ export function Preferences({
             moduleClassName="Preferences__checkbox"
             name="textFormatting"
             onChange={onTextFormattingChange}
+          />
+          <Checkbox
+            checked={hasTypingAutoFocus}
+            description={i18n(
+              'icu:Preferences__typing-auto-focus--description'
+            )}
+            label={i18n('icu:Preferences__typing-auto-focus--title')}
+            moduleClassName="Preferences__checkbox"
+            name="typingAutoFocus"
+            onChange={onTypingAutoFocusChange}
           />
           <Checkbox
             checked={hasLinkPreviews}

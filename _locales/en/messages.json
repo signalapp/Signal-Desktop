@@ -2865,6 +2865,14 @@
     "messageformat": "Show text formatting popover when text is selected",
     "description": "Description of the text-formatting popover menu setting"
   },
+  "icu:Preferences__typing-auto-focus--title": {
+    "messageformat": "Auto-focus message input when typing",
+    "description": "Title for the setting that automatically focuses the message composition area when a key is pressed"
+  },
+  "icu:Preferences__typing-auto-focus--description": {
+    "messageformat": "Automatically focus the message input field when you start typing, even if it isn't currently focused.",
+    "description": "Description for the auto-focus typing setting"
+  },
   "icu:spellCheckWillBeEnabled": {
     "messageformat": "Spell check will be enabled the next time Signal starts.",
     "description": "Shown when the user enables spellcheck to indicate that they must restart Signal."
