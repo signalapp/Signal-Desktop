@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "ਡਿਵੈਲਪਰ ਟੂਲ ਲਈ ਬਦਲੋ"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "ਕਾਲਿੰਗ ਡਿਵੈਲਪਰ ਟੂਲਸ ਨੂੰ ਖੋਲ੍ਹੋ"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "ਨਵੇਂ ਡਿਵਾਈਸ ਵਜੋਂ ਸੈਟ ਅੱਪ ਕਰੋ"
   },
@@ -654,10 +651,10 @@
     "messageformat": "ਦਰਜ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify encryption"
+    "messageformat": "Signal ਹੁਣ ਇਨਕ੍ਰਿਪਸ਼ਨ ਦੀ ਸਵੈ-ਤਸਦੀਕ ਕਰ ਸਕਦਾ ਹੈ"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+    "messageformat": "ਜਿਹਨਾਂ ਸੰਪਰਕਾਂ ਨਾਲ ਤੁਸੀਂ ਫ਼ੋਨ ਨੰਬਰ ਨਾਲ ਜੁੜੇ ਹੋ, Signal ਆਪਣੇ-ਆਪ ਕੀ ਟ੍ਰਾਂਸਪੇਰੈਂਸੀ ਪ੍ਰਕਿਰਿਆ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਪੁਸ਼ਟੀ ਕਰੇਗਾ ਕਿ ਕਨੈਕਸ਼ਨ ਸੁਰੱਖਿਅਤ ਹੈ ਜਾਂ ਨਹੀਂ। ਵਾਧੂ ਸੁਰੱਖਿਆ ਲਈ, ਤੁਸੀਂ ਅਜੇ ਵੀ QR ਕੋਡ ਜਾਂ ਸੁਰੱਖਿਆ ਨੰਬਰ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਖੁਦ ਵੀ ਕਨੈਕਸ਼ਨਾਂ ਦੀ ਤਸਦੀਕ ਕਰ ਸਕਦੇ ਹੋ।"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "ਜਾਰੀ ਰੱਖੋ"
@@ -2431,6 +2428,9 @@
   },
   "icu:Toast--unable-download-from-backup-tier": {
     "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Only admins can add member labels in this group."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ਇਸ ਸੁਨੇਹੇ ਨੂੰ ਭੇਜੇ ਜਾਣ ਤੋਂ 24 ਘੰਟੇ ਦੇ ਅੰਦਰ-ਅੰਦਰ ਹੀ ਇਸਨੂੰ ਸੋਧਿਆ ਜਾ ਸਕਦਾ ਹੈ।"
@@ -4631,6 +4631,9 @@
   "icu:ContactModal--rm-admin": {
     "messageformat": "ਐਡਮਿਨ ਦੇ ਅਹੁਦੇ ਤੋਂ ਹਟਾਓ"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "This will also clear their member label."
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "ਐਡਮਿਨ ਬਣਾਓ"
   },
@@ -4692,22 +4695,22 @@
     "messageformat": "ਹੈਲੋ!"
   },
   "icu:ConversationDetails--member-label--list-header": {
-    "messageformat": "Group members with labels"
+    "messageformat": "ਲੇਬਲਾਂ ਵਾਲੇ ਗਰੁੱਪ ਮੈਂਬਰ"
   },
   "icu:ConversationDetails--member-label--no-members": {
-    "messageformat": "No other members have labels"
+    "messageformat": "ਕਿਸੇ ਹੋਰ ਮੈਂਬਰ ਕੋਲ ਲੇਬਲ ਨਹੀਂ ਹਨ"
   },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "ਤਬਦੀਲੀਆਂ ਨੂੰ ਸੇਵ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ..."
   },
   "icu:ConversationDetails--member-label--error-title": {
-    "messageformat": "Can’t save member label"
+    "messageformat": "ਮੈਂਬਰ ਲੇਬਲ ਨੂੰ ਸੇਵ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "ਆਪਣੇ ਕਨੈਕਸ਼ਨ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "Only admins can set member labels in this group."
+    "messageformat": "ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਸਿਰਫ਼ ਐਡਮਿਨ ਹੀ ਮੈਂਬਰ ਲੇਬਲ ਸੈੱਟ ਕਰ ਸਕਦੇ ਹਨ।"
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "ਅਲੋਪ ਹੋਣ ਵਾਲੇ ਸੁਨੇਹੇ"
@@ -4758,13 +4761,13 @@
     "messageformat": "ਚੋਣ ਕਰੋ ਕਿ ਕੌਣ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਸੁਨੇਹੇ ਭੇਜ ਸਕਦਾ ਹੈ।"
   },
   "icu:ConversationDetails--label-clear-warning--title": {
-    "messageformat": "Member labels will be cleared"
+    "messageformat": "ਮੈਂਬਰ ਲੇਬਲ ਸਾਫ਼ ਕਰ ਦਿੱਤੇ ਜਾਣਗੇ"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+    "messageformat": "ਇਸ ਇਜਾਜ਼ਤ ਨੂੰ \"ਸਿਰਫ਼ ਐਡਮਿਨ\" ਵਿੱਚ ਬਦਲਣ ਨਾਲ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਉਹਨਾਂ ਮੈਂਬਰਾਂ ਦੁਆਰਾ ਸੈੱਟ ਕੀਤੇ ਮੈਂਬਰ ਲੇਬਲ ਹਟਾ ਦਿੱਤੇ ਜਾਣਗੇ ਜੋ ਮੈਂਬਰ ਨਹੀਂ ਹਨ।"
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "ਜਾਰੀ ਰੱਖੋ"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "ਬੇਨਤੀਆਂ ਤੇ ਸੱਦੇ"
@@ -4819,6 +4822,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "ਮੈਂਬਰ ਸ਼ਾਮਲ ਕਰੋ"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Add member label"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "ਸਾਰੇ ਵੇਖੋ"
@@ -4993,6 +4999,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {ਤੁਸੀਂ ਹਰੇਕ ਲਈ ਮਿਟਾਉਣ ਵਾਸਤੇ ਵੱਧ ਤੋਂ ਵੱਧ {count,number} ਸੁਨੇਹਾ ਚੁਣ ਸਕਦੇ ਹੋ} other {ਤੁਸੀਂ ਹਰੇਕ ਲਈ ਮਿਟਾਉਣ ਵਾਸਤੇ ਵੱਧ ਤੋਂ ਵੱਧ {count,number} ਸੁਨੇਹੇ ਚੁਣ ਸਕਦੇ ਹੋ}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Delete item?"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Close"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Delete"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Cancel"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "ਤੁਸੀਂ ਵੱਧ ਤੋਂ ਵੱਧ ਸਿਰਫ਼ 30 ਸੁਨੇਹੇ ਅੱਗੇ ਭੇਜ ਸਕਦੇ ਹੋ"
@@ -5366,6 +5387,24 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "ਤੁਹਾਡੇ ਵੱਲੋਂ ਭੇਜੀਆਂ ਅਤੇ ਪ੍ਰਾਪਤ ਹੋਈਆਂ ਫ਼ਾਈਲਾਂ ਨੂੰ ਇੱਥੇ ਦਿਖਾਇਆ ਜਾਵੇਗਾ"
   },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "View in chat"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Forward"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Save"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Send message"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Copy link"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Delete"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "ਮੀਡੀਆ ਕੁਆਲਿਟੀ ਚੁਣੋ"
   },
@@ -5578,6 +5617,10 @@
   },
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "ਐਡਮਿਨਜ਼"
+  },
+  "icu:Avatar__View": {
+    "messageformat": "View",
+    "limit": 7
   },
   "icu:AvatarEditor--choose": {
     "messageformat": "ਕੋਈ ਅਵਤਾਰ ਚੁਣੋ"
@@ -7486,19 +7529,19 @@
     "messageformat": "<paragraph>ਜਦੋਂ ਤੁਸੀਂ ਦਾਨ ਦਿੰਦੇ ਹੋ ਤਾਂ Signal ਤੁਹਾਡੀ ਕੋਈ ਵੀ ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਇਕੱਠੀ ਜਾਂ ਸਟੋਰ ਨਹੀਂ ਕਰਦਾ ਹੈ।</paragraph><paragraph>ਤੁਹਾਡਾ ਦਾਨ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ ਅਸੀਂ Stripe ਨੂੰ ਆਪਣੇ ਪੇਮੈਂਟ ਪ੍ਰੋਸੈਸਰ ਦੇ ਤੌਰ 'ਤੇ ਵਰਤਦੇ ਹਾਂ। ਅਸੀਂ ਤੁਹਾਡੇ ਦੁਆਰਾ ਉਹਨਾਂ ਨੂੰ ਪ੍ਰਦਾਨ ਕੀਤੀ ਕਿਸੇ ਵੀ ਜਾਣਕਾਰੀ ਦੀ ਵਰਤੋਂ, ਉਸ ਨੂੰ ਸਟੋਰ ਜਾਂ ਸੁਰੱਖਿਅਤ ਨਹੀਂ ਕਰਦੇ ਹਾਂ।</paragraph><paragraph>Signal ਤੁਹਾਡੇ ਦਾਨ ਨੂੰ ਤੁਹਾਡੇ Signal ਖਾਤੇ ਨਾਲ ਨਾ ਹੀ ਕਨੈਕਟ ਕਰਦਾ ਹੈ ਅਤੇ ਨਾ ਹੀ ਕਨੈਕਟ ਕਰ ਸਕਦਾ ਹੈ।</paragraph><paragraph>ਸਹਿਯੋਗ ਦੇਣ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ! </paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "ਇੱਕ ਸੁਤੰਤਰ ਗੈਰ-ਲਾਭਕਾਰੀ ਸੰਸਥਾ ਹੋਣ ਦੇ ਨਾਤੇ, Signal ਸੁਨੇਹਿਆਂ ਅਤੇ ਕਾਲਾਂ ਨੂੰ ਪ੍ਰਾਈਵੇਟ ਰੱਖਣ ਲਈ ਵਚਨਬੱਧ ਹੈ। ਕੋਈ ਇਸ਼ਤਿਹਾਰ ਨਹੀਂ, ਕੋਈ ਟ੍ਰੈਕਰ ਨਹੀਂ, ਕੋਈ ਜਸੂਸੀ ਨਹੀਂ। ਅੱਜ ਹੀ ਦਾਨ ਦੇ ਕੇ Signal ਨੂੰ ਸਹਿਯੋਗ ਦਿਓ।"
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "ਦਾਨ ਦੇ ਕੇ ਆਪਣੀ ਪ੍ਰੋਫਾਈਲ 'ਤੇ ਇੱਕ ਵਿਕਲਪਿਕ ਬੈਜ ਪ੍ਰਾਪਤ ਕਰੋ"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "ਤੁਹਾਡੀ ਪਰਦੇਦਾਰੀ ਸਾਡਾ ਮਿਸ਼ਨ ਹੈ"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signal ਇੱਕ ਗੈਰ-ਲਾਭਕਾਰੀ ਸੰਸਥਾ ਹੈ।"
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
-    "messageformat": "Heart icon in the style of the Signal logo"
+    "messageformat": "Signal ਲੋਗੋ ਦੀ ਸ਼ੈਲੀ ਵਿੱਚ ਦਿਲ ਦਾ ਆਈਕਨ"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "ਠੀਕ ਹੈ"
@@ -7591,13 +7634,13 @@
     "messageformat": "ਜਾਣਕਾਰੀ ਹਟਾਓ"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving will cancel your donation."
+    "messageformat": "ਜੇ ਤੁਸੀਂ ਇੱਥੇ ਛੱਡ ਜਾਂਦੇ ਹੋ ਤਾਂ ਤੁਹਾਡਾ ਦਾਨ ਰੱਦ ਹੋ ਜਾਵੇਗਾ।"
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "ਛੱਡੋ"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
-    "messageformat": "Stay on page"
+    "messageformat": "ਪੇਜ 'ਤੇ ਰਹੋ"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "ਜਾਰੀ ਰੱਖੋ"
@@ -7906,13 +7949,10 @@
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.89--0": {
-    "messageformat": "ਇਹ ਅੱਪਡੇਟ ਕੈਪਸ ਲੌਕ ਦੇ ਸਮਰੱਥ ਹੋਣ 'ਤੇ ਟੈਕਸਟ ਫਾਰਮੈਟਿੰਗ ਦੀ ਖਰਾਬੀ ਨੂੰ ਠੀਕ ਕਰਦਾ ਹੈ। ਧੰਨਵਾਦ, <DGrothePhD></DGrothePhD>!"
-  },
-  "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal ਇੱਕ ਗੈਰ-ਲਾਭਕਾਰੀ ਸੰਸਥਾ ਹੈ, ਅਤੇ ਤੁਹਾਡੇ ਸਹਿਯੋਗ ਤੋਂ ਬਿਨਾਂ ਇਹ ਸੰਭਵ ਨਹੀਂ ਹੈ। ਇਸ ਲਈ ਹੁਣ ਤੁਸੀਂ Signal Desktop ਵਿੱਚ PayPal ਰਾਹੀਂ ਵੀ ਦਾਨ ਦੇ ਸਕਦੇ ਹੋ।"
-  },
   "icu:WhatsNew__7.90--0": {
-    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
+    "messageformat": "ਪੰਜ ਨਵੇਂ ਅਧਿਕਾਰਤ ਕਲਾਕਾਰ ਸਟਿੱਕਰ ਪੈਕ।"
+  },
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
   }
 }

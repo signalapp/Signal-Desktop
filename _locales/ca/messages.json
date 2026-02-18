@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Activa o desactiva les eines de desenvolupament"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Obrir Eines de desenvolupament de trucada"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Configura'l com a dispositiu nou"
   },
@@ -654,10 +651,10 @@
     "messageformat": "Enviant…"
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify encryption"
+    "messageformat": "Ara, Signal pot verificar automàticament la codificació"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+    "messageformat": "Pels contactes amb qui hagis connectat a través d'un número de telèfon, Signal pot confirmar automàticament si la connexió és segura mitjançant un procés anomenat transparència de claus. Per a més seguretat, pots continuar verificant manualment les teves connexions mitjançant un codi QR o comparant els números de seguretat."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Continua"
@@ -2431,6 +2428,9 @@
   },
   "icu:Toast--unable-download-from-backup-tier": {
     "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Only admins can add member labels in this group."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Els canvis només es poden realitzar fins 24 hores després d'enviar el missatge."
@@ -4631,6 +4631,9 @@
   "icu:ContactModal--rm-admin": {
     "messageformat": "Esborra com a administrador"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "This will also clear their member label."
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "Fes adminstrador"
   },
@@ -4692,22 +4695,22 @@
     "messageformat": "Hola!"
   },
   "icu:ConversationDetails--member-label--list-header": {
-    "messageformat": "Group members with labels"
+    "messageformat": "Membres del grup amb categories"
   },
   "icu:ConversationDetails--member-label--no-members": {
-    "messageformat": "No other members have labels"
+    "messageformat": "Cap altre membre té categoria"
   },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "Guardant canvis…"
   },
   "icu:ConversationDetails--member-label--error-title": {
-    "messageformat": "Can’t save member label"
+    "messageformat": "No es pot guardar la categoria de membre"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "Comprova la connexió i torna-ho a provar."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "Only admins can set member labels in this group."
+    "messageformat": "Només els admins poden definir categories de membres en aquest grup."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Missatges efímers"
@@ -4758,13 +4761,13 @@
     "messageformat": "Qui pot enviar missatges al grup"
   },
   "icu:ConversationDetails--label-clear-warning--title": {
-    "messageformat": "Member labels will be cleared"
+    "messageformat": "S'eliminaran les categories de membres"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+    "messageformat": "Si canvies aquest permís a \"Només admins\", s'eliminaran les categories de membres establertes pels no administradors d'aquest grup."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "Continua"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Sol·licituds i invitacions"
@@ -4819,6 +4822,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Afegeix-hi membres"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Add member label"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Mostra-ho tot"
@@ -4993,6 +4999,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Només pots seleccionar {count,number} missatge per eliminar per a tothom} other {Només pots seleccionar {count,number} missatges per eliminar per a tothom}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Delete item?"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Close"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Delete"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Cancel"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Només pots reenviar fins a 30 missatges"
@@ -5366,6 +5387,24 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "Els arxius que enviïs i rebis apareixeran aquí"
   },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "View in chat"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Forward"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Save"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Send message"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Copy link"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Delete"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Seleccioneu la qualitat dels mitjans"
   },
@@ -5578,6 +5617,10 @@
   },
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "administradors"
+  },
+  "icu:Avatar__View": {
+    "messageformat": "View",
+    "limit": 7
   },
   "icu:AvatarEditor--choose": {
     "messageformat": "Seleccioneu un avatar"
@@ -7486,19 +7529,19 @@
     "messageformat": "<paragraph>Signal no recopila ni emmagatzema la teva informació personal quan fas una donació.</paragraph><paragraph>Utilitzem Stripe com a processador de pagaments per rebre les teves donacions. No accedim, emmagatzemem ni desem la informació que els proporciones.</paragraph><paragraph>Signal no connecta i no pot connectar la teva donació al teu compte de Signal.</paragraph><paragraph>Gràcies per comptar amb nosaltres!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "Com a organització independent sense ànim de lucre, Signal té un compromís amb la privacitat en missatges i trucades. Sense anuncis, ni rastrejadors, ni vigilància. Fes avui una donació per ajudar a Signal."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "Aconsegueix una insígnia opcional al teu perfil quan facis una donació"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "La teva privacitat és la nostra missió"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signal és una organització sense ànim de lucre."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
-    "messageformat": "Heart icon in the style of the Signal logo"
+    "messageformat": "Icona de cor a l'estil del logo de Signal"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "D'acord"
@@ -7591,13 +7634,13 @@
     "messageformat": "Eliminar informació"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving will cancel your donation."
+    "messageformat": "Si surts, es cancel·larà la teva donació."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "Surt"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
-    "messageformat": "Stay on page"
+    "messageformat": "Quedar-me a la pàgina"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Continua"
@@ -7906,13 +7949,10 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.89--0": {
-    "messageformat": "Aquesta actualització corregeix un error en el format de text mentre les majúscules estaven activades. Gràcies, <DGrothePhD></DGrothePhD>!"
-  },
-  "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal és una organització sense ànim de lucre que no podria sostenir-se sense la teva ajuda. Ara, a Signal Desktop, pots fer donacions a través de PayPal."
-  },
   "icu:WhatsNew__7.90--0": {
-    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
+    "messageformat": "Cinc nous paquets d'adhesius d'artistes oficials."
+  },
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
   }
 }

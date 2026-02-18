@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "ئاچقۇچىلار قوراللىرىغا ئالماشتۇرۇش"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "چاقىرىق ئاچقۇچىلار قوراللىرىنى ئېچىش"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "يېڭى ئۈسكۈنە قىلىپ سەپلەش"
   },
@@ -654,10 +651,10 @@
     "messageformat": "يوللىنىۋاتىدۇ..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify encryption"
+    "messageformat": "Signal ھازىر شىفىرلاشتۇرۇشنى ئاپتوماتىك دەلىللىيەلەيدۇ"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+    "messageformat": "تېلېفون نومۇرى ئارقىلىق باغلانغان ئالاقىلاشقۇچىلىرىڭىز ئۈچۈن، Signal، ئاچقۇچ ئاشكارىلىقى دەپ ئاتىلىدىغان جەريان ئارقىلىق ئۇلىنىشنىڭ بىخەتەر ياكى ئەمەسلىكىنى ئاپتوماتىك جەزملەشتۈرەلەيدۇ. بىخەتەرلىكنى ئاشۇرۇش ئۈچۈن، سىز يەنىلا QR كودى ياكى بىخەتەرلىك نومۇرلىرىنى سېلىشتۇرۇش ئارقىلىق ئۇلىنىشلارنى قولدا دەلىللىيەلەيسىز."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "داۋاملاشتۇرۇش"
@@ -2431,6 +2428,9 @@
   },
   "icu:Toast--unable-download-from-backup-tier": {
     "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Only admins can add member labels in this group."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "بۇ ئۇچۇرنى يوللاپ 24 سائەت ئىچىدىلا تەھرىرلەشكە بولىدۇ."
@@ -4631,6 +4631,9 @@
   "icu:ContactModal--rm-admin": {
     "messageformat": "گۇرۇپپا باشلىقلىقىدىن چىقار"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "This will also clear their member label."
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "باشقۇرغۇچىغا تەڭشە"
   },
@@ -4692,22 +4695,22 @@
     "messageformat": "ياخشىمۇسىز!"
   },
   "icu:ConversationDetails--member-label--list-header": {
-    "messageformat": "Group members with labels"
+    "messageformat": "بەلگىلىرى بار گۇرۇپپا ئەزالىرى"
   },
   "icu:ConversationDetails--member-label--no-members": {
-    "messageformat": "No other members have labels"
+    "messageformat": "باشقا ئەزالارنىڭ بەلگىسى يوق"
   },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "ئۆزگەرتىشلەر ساقلىنىۋاتىدۇ..."
   },
   "icu:ConversationDetails--member-label--error-title": {
-    "messageformat": "Can’t save member label"
+    "messageformat": "ئەزا بەلگىسىنى ساقلىغىلى بولمىدى"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "تور ئۇلىنىشىڭىزنى تەكشۈرۈپ قايتا سىناڭ."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "Only admins can set member labels in this group."
+    "messageformat": "بۇ گۇرۇپپىدا، پەقەت باشقۇرغۇچىلارلا ئەزا بەلگىلىرىنى تەڭشىيەلەيدۇ."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "غايىب ئۇچۇرلار"
@@ -4758,13 +4761,13 @@
     "messageformat": "گۇرۇپپىغا ئۇچۇر يوللىسا بولىدىغان كىشىلەرنى تاللاڭ."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
-    "messageformat": "Member labels will be cleared"
+    "messageformat": "ئەزا بەلگىلىرى ئۆچۈرۈلىدۇ"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+    "messageformat": "بۇ ئىجازەتنى «پەقەت باشقۇرغۇچىلارلا» قىلىپ ئۆزگەرتسىڭىز، بۇ گۇرۇپپىدىكى باشقۇرغۇچى ئەمەس كىشىلەر تەرىپىدىن تەڭشەلگەن ئەزا بەلگىلىرى ئۆچۈرۈلىدۇ."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "داۋاملاشتۇرۇش"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "ئىلتىماس ۋە تەكلىپ"
@@ -4819,6 +4822,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "ئەزا قوشۇش"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Add member label"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "ھەممىنى كۆرسەت"
@@ -4993,6 +4999,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {ھەممەيلەن ئۈچۈن ئۆچۈرۈشكە كۆپ بولغاندا {count,number} ئۇچۇرنى تاللىيالايسىز}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Delete item?"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Close"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Delete"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Cancel"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "كۆپ بولغاندە 30 ئۇچۇرنى ئۇلاپ يوللىيالايسىز"
@@ -5366,6 +5387,24 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "سىز يوللىغان ۋە تاپشۇرۇۋالغان ھۆججەتلىرى بۇ يەردە كۆرۈنىدۇ"
   },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "View in chat"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Forward"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Save"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Send message"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Copy link"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Delete"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "مېدىيا سۈپىتىنى تاللاش"
   },
@@ -5578,6 +5617,10 @@
   },
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "باشقۇرغۇچىلار"
+  },
+  "icu:Avatar__View": {
+    "messageformat": "View",
+    "limit": 7
   },
   "icu:AvatarEditor--choose": {
     "messageformat": "بىر سىما تاللا"
@@ -7486,19 +7529,19 @@
     "messageformat": "<paragraph>سىز ئىئانە قىلغاندا Signal شەخسىي ئۇچۇرلىرىڭىزنى توپلىمايدۇ ياكى ساقلىمايدۇ.</paragraph> <paragraph>ئىئانىڭىزنى تاپشۇرۇۋېلىش ئۈچۈن Stripe نى پۇل تۆلەش بىر تەرەپ قىلغۇچىسى ئورنىدا ئىشلىتىمىز.سىز ئۇلارغا تەمىنلىگەن ئۇچۇرلارنى بىز كۆرەلمەيمىز ياكى ساقلىيالمايمىز</paragraph>.<paragraph>Signal سىزنىڭ ئىئانىڭىزنى Signal ھېساباتىڭىزغا باغلىمايدۇ ۋە ئۇنداقمۇ قىلالمايدۇ.</paragraph><paragraph>قوللىغىنىڭىزغا رەھمەت!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "مۇستەقىل پايدا ئالمايدىغان تەشكىلات بولۇش سۈپىتى بىلەن،   Signal شەخسىي ئۇچۇر ۋە تېلېفونلىشىشقا كاپالەتلىك قىلىدۇ. ئېلان، ئىز قوغلاش، نازارەت قىلىنىشتىن خالىي. Signalنى قوللاش ئۈچۈن بۈگۈنلا ئىئانە قىلىڭ."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "ئىئانە قىلىش ئارقىلىق قوشۇمچە بىر ئىزنەك تاپشۇرۇۋالىسىز"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "سىزنىڭ مەخپىيەتلىكىڭىزنى قوغداش بىزنىڭ ۋەزىپىمىز"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signal پايدا ئالمايدىغان بىر تەشكىلات. Signal پايدا ئالمايدىغان بىر تەشكىلات."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
-    "messageformat": "Heart icon in the style of the Signal logo"
+    "messageformat": "Signal لوگوسى ئۇسلۇبىدىكى يۈرەك سىنبەلگىسى"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "بولىدۇ"
@@ -7591,13 +7634,13 @@
     "messageformat": "ئۇچۇرنى ئۆچۈرۈش"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving will cancel your donation."
+    "messageformat": "ئايرىلسىڭىز، ئىئانىڭىز بىكار قىلىنىىپ كېتىدۇ."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "ئايرىلىش"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
-    "messageformat": "Stay on page"
+    "messageformat": "بۇ بەتتىن ئايرىلماڭ"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "داۋاملاشتۇرۇش"
@@ -7906,13 +7949,10 @@
     "messageformat": "كىچىك ئۆزگەرتىشلەر كىرگۈزۈلدى، كاشىلا ھەل قىلىندى ۋە ئىقتىدار ئەلالاشتۇرۇلدى. Signal نى ئىشلەتكەنلىكىڭىزگە رەھمەت!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.89--0": {
-    "messageformat": "بۇ قېتىملىق يېڭىلانمىدا، چوڭ ھەرپلەرنى ئىشلىتىش ئىقتىدارى قوزغىتىلغاندا تېكىست فورماتىدا كۆرۈلىدىغان بىر خاتالىق تۈزىتىلدى. رەھمەت سىزگە <DGrothePhD></DGrothePhD>!"
-  },
-  "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal سىزنىڭ قوللىشىڭىز بولمىسا مەۋجۇت بولمايدىغان، پايدا ئالمايدىغان بىر تەشكىلات، بۇنىڭغا ھازىر سىز Signal ئۈستەليۈزى نۇسخىسىدا PayPal ئارقىلىق ئىئانە قىلالايسىز."
-  },
   "icu:WhatsNew__7.90--0": {
-    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
+    "messageformat": "Signal تەرىپىدىن تارقىتىلغان، بەش يۈرۈش يېڭى «سەنئەتكار چاپلاق بولىقىartist sticker packs»."
+  },
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
   }
 }

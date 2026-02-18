@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Превключи уреди за разработчици"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Отваряне на инструментите за разговори за разработчици"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Инсталиране като ново устройство"
   },
@@ -654,10 +651,10 @@
     "messageformat": "Изпращане…"
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify encryption"
+    "messageformat": "Signal вече може автоматично да потвърждава криптирането"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+    "messageformat": "При контактите, с които сте свързани чрез телефонен номер, Signal може автоматично да потвърди дали връзката е сигурна, като използва процес, наречен „прозрачност на ключа“. За повече сигурност все пак можете да проверявате връзките ръчно с QR код или като сравните номерата за сигурност."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Продължаване"
@@ -2431,6 +2428,9 @@
   },
   "icu:Toast--unable-download-from-backup-tier": {
     "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Only admins can add member labels in this group."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Редакциите могат да се прилагат само в рамките на 24 часа от момента на изпращане на това съобщение."
@@ -4631,6 +4631,9 @@
   "icu:ContactModal--rm-admin": {
     "messageformat": "Премахване като администратор"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "This will also clear their member label."
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "Направи администратор"
   },
@@ -4692,22 +4695,22 @@
     "messageformat": "Здравейте!"
   },
   "icu:ConversationDetails--member-label--list-header": {
-    "messageformat": "Group members with labels"
+    "messageformat": "Членове на групата с етикети"
   },
   "icu:ConversationDetails--member-label--no-members": {
-    "messageformat": "No other members have labels"
+    "messageformat": "Няма други членове с етикети"
   },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "Запазване на промените…"
   },
   "icu:ConversationDetails--member-label--error-title": {
-    "messageformat": "Can’t save member label"
+    "messageformat": "Неуспешно запазване на етикет на член"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "Проверете връзката си и опитайте отново."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "Only admins can set member labels in this group."
+    "messageformat": "Само администраторите могат да задават етикети на членове в тази група."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Изчезващи съобщения"
@@ -4758,13 +4761,13 @@
     "messageformat": "Изберете кой може да изпраща съобщения в групата."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
-    "messageformat": "Member labels will be cleared"
+    "messageformat": "Етикетите на членовете ще бъдат изчистени"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+    "messageformat": "Ако промените това разрешение на „Само администратори“, етикетите на членове, зададени от членовете, които не са администратори в тази група, ще бъдат изчистени."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "Продължаване"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Заявки и покани"
@@ -4819,6 +4822,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Добави членове"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Add member label"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Виж всички"
@@ -4993,6 +4999,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Можете да изберете само до {count,number} съобщение за изтриване за всички} other {Можете да изберете само до {count,number} съобщения за изтриване за всички}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Delete item?"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Close"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Delete"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Cancel"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Можете да препратите само до 30 съобщения"
@@ -5366,6 +5387,24 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "Файловете, които изпращате и получавате, ще се показват тук"
   },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "View in chat"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Forward"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Save"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Send message"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Copy link"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Delete"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Изберете качество на мултимедията"
   },
@@ -5578,6 +5617,10 @@
   },
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "администратори"
+  },
+  "icu:Avatar__View": {
+    "messageformat": "View",
+    "limit": 7
   },
   "icu:AvatarEditor--choose": {
     "messageformat": "Избери аватар"
@@ -7486,19 +7529,19 @@
     "messageformat": "<paragraph>Signal не събира и не съхранява никаква лична информация, когато правите дарение.</paragraph><paragraph>Използваме Stripe за обработване на плащанията и за да получим вашите дарения. Ние не упражняваме достъп до, не съхраняваме и не запазваме никаква информация, която им предоставите.</paragraph><paragraph>Signal не свързва и не може да свърже вашето дарение с акаунта ви в Signal.</paragraph><paragraph>Благодарим Ви за подкрепата!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "Като независима организация с нестопанска цел, Signal се ангажира да предоставя поверителни съобщения и разговори. Без реклами, без тракери, без следене. Дарете днес, за да подкрепите Signal."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "Получете значка, която може да се показва на профила ви по желание, когато дарите"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "Вашата поверителност е нашата мисия"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signal е организация с нестопанска цел."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
-    "messageformat": "Heart icon in the style of the Signal logo"
+    "messageformat": "Икона на сърце в стила на логото на Signal"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "Добре"
@@ -7591,13 +7634,13 @@
     "messageformat": "Премахване на информацията"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving will cancel your donation."
+    "messageformat": "Ако напуснете, дарението ви ще бъде отменено."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "Напускане"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
-    "messageformat": "Stay on page"
+    "messageformat": "Останете на страницата"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Продължаване"
@@ -7906,13 +7949,10 @@
     "messageformat": "Дребни корекции, поправки на бъгове и подобрения на работата. Благодарим ви, че използвате Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.89--0": {
-    "messageformat": "С тази актуализация се отстранява бъг при форматирането на текст, когато е активиран Caps Lock. Благодарим, <DGrothePhD></DGrothePhD>!"
-  },
-  "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal е организация с нестопанска цел, която не би могла да съществува без вашата подкрепа, а вече можете да дарявате чрез PayPal в Signal Desktop."
-  },
   "icu:WhatsNew__7.90--0": {
-    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
+    "messageformat": "Пет нови официални пакета със стикери."
+  },
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
   }
 }

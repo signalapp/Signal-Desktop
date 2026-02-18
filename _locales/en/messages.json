@@ -287,10 +287,6 @@
     "messageformat": "Toggle Developer Tools",
     "description": "View menu command to show or hide the developer tools"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools",
-    "description": "(Deleted 2026/01/15) View menu command to open calling developer tools window"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Set Up as New Device",
     "description": "When the application is not yet set up, menu option to start up the set up as fresh device"
@@ -8881,15 +8877,15 @@
   },
   "icu:LocalDeleteWarningModal__header": {
     "messageformat": "Deleting is synced across your devices",
-    "description": "Emphasized text at the top of the explainer dialog you get when you first delete a message or conversation"
+    "description": "(Deleted 2026/02/18) Emphasized text at the top of the explainer dialog you get when you first delete a message or conversation"
   },
   "icu:LocalDeleteWarningModal__description": {
     "messageformat": "When you delete messages or chats, they will be deleted from all of your devices.",
-    "description": "More detailed description of new delete behavior shown in explainer dialog"
+    "description": "(Deleted 2026/02/18) More detailed description of new delete behavior shown in explainer dialog"
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "Got it",
-    "description": "Button to dismiss the dialog explaining that 'delete for me' now syncs between devices"
+    "description": "(Deleted 2026/02/18) Button to dismiss the dialog explaining that 'delete for me' now syncs between devices"
   },
   "icu:Stories__title": {
     "messageformat": "Stories",
@@ -10576,7 +10572,7 @@
   },
   "icu:WhatsNew__7.90--0": {
     "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay.",
-    "description": "Release notes for 7.90 release"
+    "description": "(Deleted 2026/02/18) Release notes for 7.90 release"
   },
   "icu:WhatsNew__8.0--0": {
     "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!",

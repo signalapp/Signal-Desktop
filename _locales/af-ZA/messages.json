@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Wissel ontwikkelaarsnutsgoed"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Maak Skakel Ontwikkelaarhulpmiddels oop"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Stel op as 'n nuwe toestel"
   },
@@ -654,10 +651,10 @@
     "messageformat": "Dien tans in…"
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify encryption"
+    "messageformat": "Signal kan nou enkriptering outoverifieer"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+    "messageformat": "Vir kontakte waarmee jy deur 'n telefoonnommer verbind is, kan Signal outomaties bevestig of die verbinding veilig is deur 'n proses genaamd sleuteldeursigtigheid te gebruik. Vir bykomende sekuriteit kan jy steeds verbindings handmatig verifieer deur 'n QR-kode te gebruik of deur veiligheidsnommer te vergelyk."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Gaan voort"
@@ -2431,6 +2428,9 @@
   },
   "icu:Toast--unable-download-from-backup-tier": {
     "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Only admins can add member labels in this group."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Wysigings kan slegs aangebring word binne 24 uur vanaf die tyd wat jy hierdie boodskap gestuur het."
@@ -4631,6 +4631,9 @@
   "icu:ContactModal--rm-admin": {
     "messageformat": "Verwyder as admin"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "This will also clear their member label."
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "Maak admin"
   },
@@ -4692,22 +4695,22 @@
     "messageformat": "Hallo!"
   },
   "icu:ConversationDetails--member-label--list-header": {
-    "messageformat": "Group members with labels"
+    "messageformat": "Groeplede met lidfunksie-etikette"
   },
   "icu:ConversationDetails--member-label--no-members": {
-    "messageformat": "No other members have labels"
+    "messageformat": "Geen ander lede het lidfunksie-etikette nie"
   },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "Stoor tans veranderinge…"
   },
   "icu:ConversationDetails--member-label--error-title": {
-    "messageformat": "Can’t save member label"
+    "messageformat": "Kan nie lidfunksie-etiket stoor nie"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "Gaan jou verbinding na en probeer weer."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "Only admins can set member labels in this group."
+    "messageformat": "Slegs admins kan lidfunksie-etikette in hierdie groep stel."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Verdwynboodskappe"
@@ -4758,13 +4761,13 @@
     "messageformat": "Kies wie boodskappe na die groep mag stuur."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
-    "messageformat": "Member labels will be cleared"
+    "messageformat": "Lidfunksie-etikette sal uitgevee word"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+    "messageformat": "Deur hierdie toestemming na \"Slegs admins\" te verander, sal lidfunksie-etikette wat deur nie-admins in hierdie groep gestel is, uitgevee word."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "Gaan voort"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Versoeke & uitnodigings"
@@ -4819,6 +4822,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Voeg lede by"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Add member label"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Sien alle"
@@ -4993,6 +4999,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Jy kan slegs tot {count,number} boodskap kies om vir almal uit te vee} other {Jy kan slegs tot {count,number} boodskappe kies om vir almal uit te vee}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Delete item?"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Close"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Delete"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Cancel"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Jy kan slegs tot 30 boodskappe aanstuur"
@@ -5366,6 +5387,24 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "Lêers wat jy stuur en ontvang, sal hier verskyn"
   },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "View in chat"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Forward"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Save"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Send message"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Copy link"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Delete"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Kies mediakwaliteit"
   },
@@ -5578,6 +5617,10 @@
   },
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "admins"
+  },
+  "icu:Avatar__View": {
+    "messageformat": "View",
+    "limit": 7
   },
   "icu:AvatarEditor--choose": {
     "messageformat": "Kies ’n avatar"
@@ -7486,19 +7529,19 @@
     "messageformat": "<paragraph>Signal versamel of stoor geen van jou persoonlike inligting wanneer jy 'n skenking maak nie.</paragraph><paragraph>Ons gebruik Stripe as ons betalingsverwerker om jou skenkings te ontvang. Ons verkry nie toegang tot, bewaar of stoor enige van die inligting wat jy aan hulle verskaf nie.</paragraph><paragraph>Signal koppel nie jou skenking aan jou Signal-rekening nie, en kan dit ook nie doen nie.</paragraph><paragraph>Dankie vir jou ondersteuning!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "As 'n onafhanklike niewinsgewende organisasie is Signal verbind tot privaat boodskappe en oproepe. Geen advertensies, geen naspoorders, geen observasie nie. Maak vandag 'n skenking om Signal te ondersteun."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "Kry 'n opsionele wapen op jou profiel wanneer jy skenk"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "Jou privaatheid is ons missie"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signal is 'n niewinsgewende organisasie."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
-    "messageformat": "Heart icon in the style of the Signal logo"
+    "messageformat": "Hart-ikoon in die styl van die Signal-logo"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "Goed"
@@ -7591,13 +7634,13 @@
     "messageformat": "Verwyder inligting"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving will cancel your donation."
+    "messageformat": "As jy hier uitgaan, sal jou skenking gekanselleer word."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "Verlaat"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
-    "messageformat": "Stay on page"
+    "messageformat": "Bly op bladsy"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Gaan voort"
@@ -7906,13 +7949,10 @@
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.89--0": {
-    "messageformat": "Hierdie opdatering doen 'n regstelling van 'n teksformateringsfout terwyl Caps Lock aan was. Dankie, <DGrothePhD></DGrothePhD>!"
-  },
-  "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is 'n niewinsgewende organisasie wat nie moontlik sou wees sonder jou ondersteuning nie, en nou kan jy via PayPal in Signal Desktop 'n skenking maak."
-  },
   "icu:WhatsNew__7.90--0": {
-    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
+    "messageformat": "Laat privaatheid in die koppe vassteek met vyf nuwe amptelike plakkerpakkette in die Signal Kunstenaar-reeks: \"Chug the Mouse\" deur Amanda Cotan, \"Cozy Season\" deur Miguel Ángel Camprubí, \"Croco's Feelings\" deur Tiffany Beucher, \"My Daily Life 2\" deur Plastic Thing, en \"Rocky Talk\" deur Lexi Vay."
+  },
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
   }
 }

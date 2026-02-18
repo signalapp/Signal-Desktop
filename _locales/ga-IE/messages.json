@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Scoránaigh Uirlisí Forbróirí"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Oscail Uirlisí Forbróra um Ghlaoch"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Socraigh mar Ghléas Nua"
   },
@@ -654,10 +651,10 @@
     "messageformat": "Á chur isteach..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify encryption"
+    "messageformat": "Tá Signal in ann criptiú a uathfhíorú anois"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+    "messageformat": "I gcás teagmhálaithe lena bhfuil tú nasctha le huimhir ghutháin, is féidir le Signal slánú an naisc a dheimhniú go huathoibríoch agus próiseas ar a dtugtar trédhearcacht eochracha in úsáid. Mar shlánú sa bhreis, is féidir leat naisc a fhíorú de láimh fós agus cód QR in úsáid nó trí uimhreacha sábháilteachta a chur i gcomparáid le chéile."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Ar aghaidh"
@@ -1170,10 +1167,10 @@
     "messageformat": "Eolas"
   },
   "icu:MessageContextMenu__PinMessage": {
-    "messageformat": "Greamaigh"
+    "messageformat": "Pionnáil"
   },
   "icu:MessageContextMenu__UnpinMessage": {
-    "messageformat": "Díghreamaigh"
+    "messageformat": "Díphionnáil"
   },
   "icu:Poll__end-poll": {
     "messageformat": "Cuir deireadh leis an suirbhé"
@@ -1290,7 +1287,7 @@
     "messageformat": "Téigh chuig an teachtaireacht"
   },
   "icu:PinMessageDialog__Title": {
-    "messageformat": "Greamaigh an teachtaireacht go ceann..."
+    "messageformat": "Pionnáil an teachtaireacht go ceann..."
   },
   "icu:PinMessageDialog__Close": {
     "messageformat": "Dún"
@@ -1311,7 +1308,7 @@
     "messageformat": "Cuir ar ceal"
   },
   "icu:PinMessageDialog__Pin": {
-    "messageformat": "Greamaigh"
+    "messageformat": "Pionnáil"
   },
   "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
     "messageformat": "Athsholáthair an greamán is sine?"
@@ -1347,7 +1344,7 @@
     "messageformat": "Tuilleadh gníomhartha"
   },
   "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
-    "messageformat": "Díghreamaigh"
+    "messageformat": "Díphionnáil"
   },
   "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
     "messageformat": "Téigh chuig an teachtaireacht"
@@ -1401,10 +1398,10 @@
     "messageformat": "Teachtaireachtaí greamaithe"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages": {
-    "messageformat": "Díghreamaigh gach teachtaireacht"
+    "messageformat": "Díphionnáil gach teachtaireacht"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
-    "messageformat": "Díghreamaigh gach teachtaireacht?"
+    "messageformat": "Díphionnáil gach teachtaireacht?"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
     "messageformat": "Déanfar teachtaireachtaí a dhíghreamú do bhaill an chomhrá seo."
@@ -1413,7 +1410,7 @@
     "messageformat": "Cuir ar ceal"
   },
   "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
-    "messageformat": "Díghreamaigh"
+    "messageformat": "Díphionnáil"
   },
   "icu:sessionEnded": {
     "messageformat": "Athshocraíodh seisiún slán"
@@ -2431,6 +2428,9 @@
   },
   "icu:Toast--unable-download-from-backup-tier": {
     "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Only admins can add member labels in this group."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Ní féidir eagarthóireacht a chur i bhfeidhm ach amháin laistigh de 24 uair an chloig ón uair a sheol tú an teachtaireacht seo."
@@ -4631,6 +4631,9 @@
   "icu:ContactModal--rm-admin": {
     "messageformat": "Bain mar riarthóir"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "This will also clear their member label."
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "Déan Riarthóir De/Di"
   },
@@ -4692,22 +4695,22 @@
     "messageformat": "Haigh!"
   },
   "icu:ConversationDetails--member-label--list-header": {
-    "messageformat": "Group members with labels"
+    "messageformat": "Baill den ghrúpa a bhfuil lipéad acu"
   },
   "icu:ConversationDetails--member-label--no-members": {
-    "messageformat": "No other members have labels"
+    "messageformat": "Níl lipéad ag aon bhaill eile"
   },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "Athruithe á sábháil..."
   },
   "icu:ConversationDetails--member-label--error-title": {
-    "messageformat": "Can’t save member label"
+    "messageformat": "Ní féidir an lipéad baill a shábháil"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "Seiceáil do nasc agus triail arís é."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "Only admins can set member labels in this group."
+    "messageformat": "Ní féidir ach le riarthóirí lipéid na mball a shocrú sa ghrúpa seo."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Teachtaireachtaí a imíonn as amharc"
@@ -4758,13 +4761,13 @@
     "messageformat": "Roghnaigh daoine atá in ann teachtaireachtaí a sheoladh chuig an ngrúpa."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
-    "messageformat": "Member labels will be cleared"
+    "messageformat": "Glanfar lipéid na mball"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+    "messageformat": "Glanfar lipéid na mball a shocraigh baill nach riarthóirí iad má athraítear an cead seo chuig \"Riarthóirí amháin\"."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "Ar aghaidh"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Requests & Invites"
@@ -4819,6 +4822,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Cuir baill leis"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Add member label"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "See All"
@@ -4993,6 +4999,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Ní féidir leat ach {count,number} teachtaireacht a roghnú lena scriosadh do chách} two {Ní féidir leat ach {count,number} theachtaireacht a roghnú lena scriosadh do chách} few {Ní féidir leat ach {count,number} theachtaireacht a roghnú lena scriosadh do chách} many {Ní féidir leat ach {count,number} dteachtaireacht a roghnú lena scriosadh do chách} other {Ní féidir leat ach {count,number} teachtaireacht a roghnú lena scriosadh do chách}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Delete item?"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Close"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Delete"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Cancel"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Ní féidir leat ach 30 teachtaireacht nó níos lú a sheoladh ar aghaidh"
@@ -5366,6 +5387,24 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "Taispeánfar anseo comhaid a sheolann tú agus a fhaigheann tú"
   },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "View in chat"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Forward"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Save"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Send message"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Copy link"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Delete"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Roghnaigh caighdeán na meán"
   },
@@ -5578,6 +5617,10 @@
   },
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "riarthóirí"
+  },
+  "icu:Avatar__View": {
+    "messageformat": "View",
+    "limit": 7
   },
   "icu:AvatarEditor--choose": {
     "messageformat": "Select an Avatar"
@@ -7486,19 +7529,19 @@
     "messageformat": "<paragraph>Ní dhéanann Signal d'fhaisnéis phearsanta a bhailiú ná a stóráil nuair a thugann tú tabhartas.</paragraph><paragraph>Úsáidimid Stripe mar ár bpróiseálaí íocaíochtaí chun do thabhartais a fháil. Ní dhéanaimid aon fhaisnéis a thugann tú dóibh a rochtain, a stóráil ná a shábháil.</paragraph><paragraph>Níl cead ag Signal do thabhartas a cheangal le do chuntas Signal agus ní déanann sé amhlaidh.</paragraph><paragraph>Go raibh maith agat as do thacaíocht!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "Mar eagraíocht neamhbhrabúis neamhspleách, tá Signal tiomanta do theachtaireachtaí agus do ghlaonna príobháideacha. Gan aon fhógraí, gan aon rianairí, gan aon fhaireachas. Tabhair airgead inniu chun tacú le Signal."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "Faigh suaitheantas roghnach ar do phróifíl nuair a thugann tú airgead"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "Ár misean; do phríobháideacht"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Eagraíocht neamhbhrabúis is ea é Signal."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
-    "messageformat": "Heart icon in the style of the Signal logo"
+    "messageformat": "Deilbhín croí i stíl lógó Signal"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "OK"
@@ -7591,13 +7634,13 @@
     "messageformat": "Bain an fhaisnéis"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving will cancel your donation."
+    "messageformat": "Cuirfear do thabhartas ar ceal má imíonn tú."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "Imigh as"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
-    "messageformat": "Stay on page"
+    "messageformat": "Fan ar an leathanach"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Ar aghaidh"
@@ -7906,13 +7949,10 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.89--0": {
-    "messageformat": "Réitíonn an nuashonrú seo fabht le formáidiú téacs agus CAPS LOCK cumasaithe. Go raibh maith agat, <DGrothePhD></DGrothePhD>!"
-  },
-  "icu:WhatsNew__7.89--1": {
-    "messageformat": "Eagraíocht neamhbhrabúis is ea é Signal nach mbeadh ann dó gan do thacaíocht, agus is féidir leat airgead a thabhairt anois trí PayPal in Signal Desktop."
-  },
   "icu:WhatsNew__7.90--0": {
-    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
+    "messageformat": "Cúig bheart greamán nua le healaíontóirí oifigiúla."
+  },
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
   }
 }

@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "დეველოპერის ინსტრუმენტებზე გადართვა"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "დეველიპერის ზარების ხელსაწყოების გახსნა"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "ახალ მოწყობილობად დაყენება"
   },
@@ -654,10 +651,10 @@
     "messageformat": "იტვირთება..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify encryption"
+    "messageformat": "ახლა უკვე Signal-ს დაშიფვრის ავტომატური ვერიფიკაცია შეუძლია"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+    "messageformat": "Signal-ს შეუძლია კონტაქტებისთვის, რომლებთანაც მობილურის ნომრით ხარ დაკავშირებული, კავშირის უსაფრთხოება ავტომატურად დაადასტუროს პროცესის დახმარებით, რომელსაც გასაღების გამჭვირვალობა ჰქვია. დამატებითი უსაფრთხოებისთვის, კავშირების ვერიფიკაცია ხელითაც შეგიძლია, QR კოდის ან ნომრის გამოყენებით."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "გაგრძელება"
@@ -2431,6 +2428,9 @@
   },
   "icu:Toast--unable-download-from-backup-tier": {
     "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Only admins can add member labels in this group."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "შეტყობინების რედაქტირება მისი გაგზავნიდან მხოლოდ 24 საათის განმავლობაშია შესაძლებელი."
@@ -4631,6 +4631,9 @@
   "icu:ContactModal--rm-admin": {
     "messageformat": "ადმინობის ჩამორთმევა"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "This will also clear their member label."
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "ადმინად დანიშნვა"
   },
@@ -4692,22 +4695,22 @@
     "messageformat": "გამარჯობა!"
   },
   "icu:ConversationDetails--member-label--list-header": {
-    "messageformat": "Group members with labels"
+    "messageformat": "ჯგუფის წევრები იარლიყებით"
   },
   "icu:ConversationDetails--member-label--no-members": {
-    "messageformat": "No other members have labels"
+    "messageformat": "სხვა წევრებს იარლიყები არ აქვთ"
   },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "ცვლილებები ინახება..."
   },
   "icu:ConversationDetails--member-label--error-title": {
-    "messageformat": "Can’t save member label"
+    "messageformat": "წევრის იარლიყის შენახვა შეუძლებელია"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "შეამოწმე შენი კავშირი და თავიდან სცადე."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "Only admins can set member labels in this group."
+    "messageformat": "ამ ჯგუფში წევრის იარლიყების დაყენება მხოლოდ ადმინისტრატორებს შეუძლიათ."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "გაქრობადი შეტყობინებები"
@@ -4758,13 +4761,13 @@
     "messageformat": "აირჩიე, ვის შეუძლია ჯგუფში შეტყობინებების გაგზავნა"
   },
   "icu:ConversationDetails--label-clear-warning--title": {
-    "messageformat": "Member labels will be cleared"
+    "messageformat": "წევრის იარლიყები წაიშლება"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+    "messageformat": "ნებართვის \"მხოლოდ ადმინისტრატორზე\" გადაყვანა ამ ჯგუფში არაადმინისტრატორების მიერ დაყენებულ წევრის იარლიყებს წაშლის."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "გაგრძელება"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "მოთხოვნები & მოწვევები"
@@ -4819,6 +4822,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "წევრების დამატება"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Add member label"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "ყველას ნახვა"
@@ -4993,6 +4999,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {ყველასთვის წასაშლელად მხოლოდ {count,number} შეტყობინების არჩევა შეგიძლია} other {ყველასთვის წასაშლელად მხოლოდ {count,number}-მდე შეტყობინების არჩევა შეგიძლია}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Delete item?"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Close"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Delete"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Cancel"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "მხოლოდ 30-მდე შეტყობინების გადაგზავნა შეგიძლია"
@@ -5366,6 +5387,24 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "ფაილები, რომელსაც აგზავნი და იღებ, აქ გამოჩნდება"
   },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "View in chat"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Forward"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Save"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Send message"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Copy link"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Delete"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "მედია-ფაილის ხარისხის არჩევა"
   },
@@ -5578,6 +5617,10 @@
   },
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "ადმინები"
+  },
+  "icu:Avatar__View": {
+    "messageformat": "View",
+    "limit": 7
   },
   "icu:AvatarEditor--choose": {
     "messageformat": "ავატარის არჩევა"
@@ -7486,19 +7529,19 @@
     "messageformat": "<paragraph>Signal-ი არ აგროვებს და არ ინახავს შენს პირად ინფორმაციას, როცა დონაციას აკეთებ.</paragraph><paragraph>შენი დონაციების მისაღებად Stripe-ს ვიყენებთ, როგორც გადახდის დამმუშავებელს. ჩვენ არ გვაქვს წვდომა შენ მიერ მათთვის მიწოდებულ ინფორმაციაზე და მას არ ვინახავთ.</paragraph><paragraph>Signal-ი არ და ვერ აკავშირებს შენს დონაციას შენს Signal-ის ანგარიშთან.</paragraph><paragraph>მადლობა მხარდაჭერისთვის!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "როგორც დამოუკიდებელი არაკომერციული ორგანიზაცია, Signal-ი კონფიდენციალურ მიმოწერასა და ზარებს უზრუნველყოფს. არანაირი რეკლამა, არანაირი ტრეკერები, არანაირი თვალთვალი. გააკეთე დონაცია დღეს, რომ Signal-ს მხარი დაუჭირო."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "მიიღე არჩევითი ემბლემა შენს პროფილზე, როცა დონაციას გააკეთებ"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "შენი კონფიდენციალურობა ჩვენი მისიაა"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signal-ი არაკომერციული ორგანიზაციაა. Signal-ი არაკომერციული ორგანიზაციაა."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
-    "messageformat": "Heart icon in the style of the Signal logo"
+    "messageformat": "გულის ხატულა Signal-ის ლოგოს სტილში"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "OK"
@@ -7591,13 +7634,13 @@
     "messageformat": "ინფორმაციის წაშლა"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving will cancel your donation."
+    "messageformat": "გამოსვლა შენს დონაციას გააუქმებს."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "დატოვება"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
-    "messageformat": "Stay on page"
+    "messageformat": "გვერდზე დარჩენა"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "გაგრძელება"
@@ -7906,13 +7949,10 @@
     "messageformat": "მცირე შესწორებები, ბაგების გამოსწორება და წარმადობის გაუმჯობესება. მადლობას გიხდით სიგნალის გამოყენებისთვის!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.89--0": {
-    "messageformat": "ამ განახლებაში ტექსტის ფორმატირების ხარვეზი გამოვასწორეთ, რომელიც Caps Lock-ის ჩართვისას (ან კურსივის ჩართვისას) ფიქსირდებოდა. მადლობა, <DGrothePhD></DGrothePhD>!"
-  },
-  "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal-ი არაკომერციული ორგანიზაციაა, რომელიც შენი მხარდაჭერის გარეშე ვერ იარსებებდა. ახლა უკვე Signal Desktop-ზე PayPal-ით დონაცია შეგიძლია."
-  },
   "icu:WhatsNew__7.90--0": {
-    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
+    "messageformat": "5 ახალი ოფიციალური არტისტის სტიკერების ნაკრები: Amanda Cotan-ის \"Chug the Mouse\", Miguel Ángel Camprubí-ის \"Cozy Season\", Tiffany Beucher \"Croco's Feelings\", Plastic Thing-ის \"My Daily Life 2\", და Lexi Vay-ის \"Rocky Talk\"."
+  },
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
   }
 }

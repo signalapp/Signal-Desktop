@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "បិទបើកមុខងារអ្នកអភិវឌ្ឍន៍"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "បើកឧបករណ៍អ្នកអភិវឌ្ឍន៍សម្រាប់ការហៅ"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "ដំឡើង ជាឧបករណ៍ថ្មី"
   },
@@ -654,10 +651,10 @@
     "messageformat": "កំពុងដាក់បញ្ជូន…"
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify encryption"
+    "messageformat": "ឥឡូវនេះ Signal អាចផ្ទៀងផ្ទាត់ការអ៊ីនគ្រីបដោយស្វ័យប្រវត្តិបាន"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+    "messageformat": "សម្រាប់ទំនាក់ទំនងដែលអ្នកបានភ្ជាប់ជាមួយតាមរយៈលេខទូរសព្ទ Signal អាចបញ្ជាក់ដោយស្វ័យប្រវត្តិថាតើការភ្ជាប់នោះមានសុវត្ថិភាពឬអត់ ដោយប្រើដំណើរការមួយដែលហៅថា តម្លាភាពកូនសោ។ ដើម្បីសុវត្ថិភាពបន្ថែម អ្នកនៅតែអាចផ្ទៀងផ្ទាត់ការភ្ជាប់ដោយដៃបាន ដោយប្រើកូដ QR ឬដោយប្រៀបធៀបលេខសុវត្ថិភាព។"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "បន្ត"
@@ -2431,6 +2428,9 @@
   },
   "icu:Toast--unable-download-from-backup-tier": {
     "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Only admins can add member labels in this group."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ការកែសារអាចធ្វើបានតែក្នុងរយៈពេល 24 ម៉ោងគិតចាប់ពីពេលដែលអ្នកបានផ្ញើសារនេះប៉ុណ្ណោះ។"
@@ -4631,6 +4631,9 @@
   "icu:ContactModal--rm-admin": {
     "messageformat": "ដកចេញពីសិទ្ធិជាអ្នកគ្រប់គ្រង"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "This will also clear their member label."
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "តម្លើងជាអ្នកគ្រប់គ្រងក្រុម"
   },
@@ -4692,22 +4695,22 @@
     "messageformat": "សួស្តី!"
   },
   "icu:ConversationDetails--member-label--list-header": {
-    "messageformat": "Group members with labels"
+    "messageformat": "សមាជិកក្រុមដែលមានស្លាក"
   },
   "icu:ConversationDetails--member-label--no-members": {
-    "messageformat": "No other members have labels"
+    "messageformat": "គ្មានសមាជិកផ្សេងទៀតដែលមានស្លាកទេ"
   },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "កំពុងរក្សាទុកការផ្លាស់ប្តូរ..."
   },
   "icu:ConversationDetails--member-label--error-title": {
-    "messageformat": "Can’t save member label"
+    "messageformat": "មិនអាចរក្សាទុកស្លាកសមាជិកបានទេ"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "សូមពិនិត្យមើលសេវាអ៊ីនធឺណិតរបស់អ្នក រួចព្យាយាមម្តងទៀត។"
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "Only admins can set member labels in this group."
+    "messageformat": "មានតែអ្នកគ្រប់គ្រងទេដែលអាចកំណត់ស្លាកសមាជិកនៅក្នុងក្រុមនេះបាន។"
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "សារបាត់ទៅវិញ"
@@ -4758,13 +4761,13 @@
     "messageformat": "ជ្រើសរើសអ្នកដែលអាចផ្ញើសារទៅក្រុមនេះ។"
   },
   "icu:ConversationDetails--label-clear-warning--title": {
-    "messageformat": "Member labels will be cleared"
+    "messageformat": "ស្លាកសមាជិកនឹងត្រូវបានលុបចោល"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+    "messageformat": "ការផ្លាស់ប្តូរការអនុញ្ញាតនេះទៅ “តែអ្នកគ្រប់គ្រងប៉ុណ្ណោះ” នឹងលុបស្លាកសមាជិកដែលកំណត់ដោយបុគ្គលដែលមិនមែនជាអ្នកគ្រប់គ្រងនៅក្នុងក្រុមនេះ។"
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "បន្ត"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "សំណើ និងការបបួល"
@@ -4819,6 +4822,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "បន្ថែមសមាជិក"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Add member label"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "មើលទាំងអស់"
@@ -4993,6 +4999,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {អ្នកអាចជ្រើសរើសបានរហូតដល់ {count,number} សារប៉ុណ្ណោះដើម្បីលុបសម្រាប់អ្នករាល់គ្នា}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Delete item?"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Close"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Delete"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Cancel"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "អ្នកអាចបញ្ជូនបន្តបានត្រឹមតែ 30 សារប៉ុណ្ណោះ"
@@ -5366,6 +5387,24 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "ឯកសារដែលអ្នកផ្ញើ និងទទួលនឹងបង្ហាញនៅទីនេះ"
   },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "View in chat"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Forward"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Save"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Send message"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Copy link"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Delete"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "ជ្រើសរើសគុណភាពមេឌៀ"
   },
@@ -5578,6 +5617,10 @@
   },
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "អភិបាល"
+  },
+  "icu:Avatar__View": {
+    "messageformat": "View",
+    "limit": 7
   },
   "icu:AvatarEditor--choose": {
     "messageformat": "ជ្រើសរើសរូបតំណាង"
@@ -7486,19 +7529,19 @@
     "messageformat": "<paragraph>Signal មិនប្រមូល ឬរក្សាទុកព័ត៌មានផ្ទាល់ខ្លួនណាមួយរបស់អ្នកទេ នៅពេលអ្នកធ្វើការបរិច្ចាគ។</paragraph><paragraph>យើងប្រើ Stripe ជាអ្នកដំណើរការទូទាត់របស់យើង ដើម្បីទទួលបានការបរិច្ចាគរបស់អ្នក។ យើងមិនចូលប្រើ រក្សា ឬរក្សាទុកព័ត៌មានណាមួយដែលអ្នកផ្តល់ឱ្យពួកគេទេ។</paragraph><paragraph>Signal មិនមាន និងមិនអាចភ្ជាប់ការបរិច្ចាគរបស់អ្នកជាមួយគណនី Signal របស់អ្នកបានទេ។</paragraph><paragraph>សូមអរគុណចំពោះការគាំទ្ររបស់អ្នក!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "ក្នុងនាមជាអង្គការមិនស្វែងរកប្រាក់ចំណេញឯករាជ្យមួយ Signal ប្តេជ្ញាចិត្តផ្តល់នូវការផ្ញើសារ និងការហៅទូរសព្ទឯកជន។ គ្មានការផ្សាយពាណិជ្ជកម្ម គ្មានកម្មវិធីតាមដាន គ្មានការឃ្លាំមើល។ បរិច្ចាគថ្ងៃនេះដើម្បីឧបត្ថម្ភគាំទ្រដល់ Signal។"
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "ទទួលបានស្លាកជាជម្រើសនៅលើប្រូហ្វាល់របស់អ្នកនៅពេលអ្នកបរិច្ចាគ"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "ឯកជនភាពរបស់អ្នកគឺជាបេសកកម្មរបស់យើង"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signal គឺជាអង្គការមិនស្វែងរកប្រាក់ចំណេញ អំណោយរបស់សហរដ្ឋអាមេរិកអាចកាត់ពន្ធបាន។"
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
-    "messageformat": "Heart icon in the style of the Signal logo"
+    "messageformat": "រូបបេះដូងក្នុងរចនាប័ទ្មនៃឡូហ្គោ Signal"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "យល់ព្រម"
@@ -7591,13 +7634,13 @@
     "messageformat": "លុបព័ត៌មាន"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving will cancel your donation."
+    "messageformat": "ការចាកចេញនឹងបោះបង់ការបរិច្ចាគរបស់អ្នក។"
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "ចាកចេញ"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
-    "messageformat": "Stay on page"
+    "messageformat": "បន្តនៅលើទំព័រ"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "បន្ត"
@@ -7906,13 +7949,10 @@
     "messageformat": "ការកែប្រែបន្តិចបន្តួច ការដោះស្រាយបញ្ហា និងការបង្កើនប្រតិបត្តិការ។ សូមអរគុណចំពោះការប្រើប្រាស់ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.89--0": {
-    "messageformat": "កំណែថ្មីនេះដោះស្រាយបញ្ហាមួយជាមួយការរៀបចំទម្រង់អក្សរ ខណៈពេលបើកប្រើមុខងារអក្សរធំទាំងអស់ (Caps Lock) ដើម្បីឱ្យកាន់តែស្រួលធ្វើអក្សរឱ្យដិត (ឬទ្រេត) ពេលដែលវាដិតស្រាប់។ អរគុណ <DGrothePhD></DGrothePhD>!"
-  },
-  "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal គឺជាអង្គការមិនស្វែងរកប្រាក់ចំណេញដែលយើងមិនអាចដំណើរការទៅបានទេបើគ្មានការគាំទ្រពីអ្នក ហើយឥឡូវនេះអ្នកអាចធ្វើការបរិច្ចាគបានតាមរយៈ PayPal នៅក្នុង Signal Desktop។"
-  },
   "icu:WhatsNew__7.90--0": {
-    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
+    "messageformat": "រក្សាឯកជនភាពជាមួយកញ្ចប់ស្ទីកគ័រផ្លូវការថ្មីចំនួនប្រាំនៅក្នុងស៊េរី Signal Artist Series៖ \"Chug the Mouse\" ដោយ Amanda Cotan, \"Cozy Season\" ដោយ Miguel Ángel Camprubí, \"Croco's Feelings\" ដោយ Tiffany Beucher, \"My Daily Life 2\" ដោយ Plastic Thing និង \"Rocky Talk\" ដោយ Lexi Vay។"
+  },
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
   }
 }

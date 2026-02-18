@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Geliştirici Araçlarını Aç/Kapat"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Arama Geliştirici Araçlarını Aç"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Yeni Cihaz olarak kur"
   },
@@ -654,10 +651,10 @@
     "messageformat": "Gönderiliyor..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify encryption"
+    "messageformat": "Signal artık şifrelemeyi otomatik olarak doğrulayabiliyor"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+    "messageformat": "Telefon numarasıyla bağlandığın kişiler için Signal, anahtar şeffaflığı adı verilen bir süreç kullanarak bağlantının güvenli olup olmadığını otomatik olarak onaylayabilir. İlave güvenlik için kare kod kullanarak veya güvenlik numaralarını karşılaştırarak bağlantıları manuel olarak doğrulamaya devam edebilirsin."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Devam"
@@ -2431,6 +2428,9 @@
   },
   "icu:Toast--unable-download-from-backup-tier": {
     "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Only admins can add member labels in this group."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Düzenlemeler yalnızca bu mesajı gönderdikten sonraki 24 saat içinde uygulanabilir."
@@ -4631,6 +4631,9 @@
   "icu:ContactModal--rm-admin": {
     "messageformat": "Grup yöneticiliğinden çıkart"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "This will also clear their member label."
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "Yönetici Yap"
   },
@@ -4692,22 +4695,22 @@
     "messageformat": "Merhaba!"
   },
   "icu:ConversationDetails--member-label--list-header": {
-    "messageformat": "Group members with labels"
+    "messageformat": "Etiketli grup üyeleri"
   },
   "icu:ConversationDetails--member-label--no-members": {
-    "messageformat": "No other members have labels"
+    "messageformat": "Başka hiçbir üyenin etiketi yok"
   },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "Değişiklikler kaydediliyor..."
   },
   "icu:ConversationDetails--member-label--error-title": {
-    "messageformat": "Can’t save member label"
+    "messageformat": "Üye etiketi kaydedilemiyor"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "Bağlantını kontrol edip tekrar dene."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "Only admins can set member labels in this group."
+    "messageformat": "Bu gruptaki üye etiketlerini yalnızca yöneticiler ayarlayabilir."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Kaybolan iletiler"
@@ -4758,13 +4761,13 @@
     "messageformat": "Gruba kimlerin ileti gönderebileceğini seçin."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
-    "messageformat": "Member labels will be cleared"
+    "messageformat": "Üye etiketleri silinecektir"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+    "messageformat": "Bu iznin \"Sadece yöneticiler\" olarak değiştirilmesi, bu grupta yönetici olmayanlar tarafından ayarlanan üye etiketlerini temizleyecektir."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "Devam"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "İstekler ve Davetler"
@@ -4819,6 +4822,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Üye ekle"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Add member label"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Tümünü gör"
@@ -4993,6 +4999,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Herkesten silmek için en fazla {count,number} mesaj seçebilirsin} other {Herkesten silmek için en fazla {count,number} mesaj seçebilirsin}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Delete item?"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Close"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Delete"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Cancel"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "En fazla 30 mesaj iletebilirsin"
@@ -5366,6 +5387,24 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "Gönderdiğin ve aldığın dosyalar burada görünür"
   },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "View in chat"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Forward"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Save"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Send message"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Copy link"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Delete"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "İçerik kalitesini seç"
   },
@@ -5578,6 +5617,10 @@
   },
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "yöneticiler"
+  },
+  "icu:Avatar__View": {
+    "messageformat": "View",
+    "limit": 7
   },
   "icu:AvatarEditor--choose": {
     "messageformat": "Avatar seçin"
@@ -7486,19 +7529,19 @@
     "messageformat": "<paragraph>Signal, bağış yaptığında kişisel bilgilerini toplamaz veya saklamaz.</paragraph><paragraph>Bağışlarını almak için, ödeme işlemcimiz olarak Stripe'ı kullanıyoruz. Onlara sağladığın bilgilerin hiçbirine erişmiyoruz. Bilgilerini saklamıyor veya kaydetmiyoruz.</paragraph><paragraph>Signal, yaptığın bağışı ve buna dair bilgileri Signal hesabın ile bağlamaz, bağlayamaz.</paragraph><paragraph>Desteğin için teşekkürler!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "Kâr amacı gütmeyen, bağımsız bir kuruluş olan Signal, özel mesajlaşma ve aramalara önem verir. Reklam yok, takip yok, gözetleme yok. Signal'ı desteklemek için bugün bağış yap."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "Bağış yaptığında profilinde isteğe bağlı bir rozet al"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "Gizliliğin görevimizdir"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signal kâr amacı gütmeyen bir kuruluştur."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
-    "messageformat": "Heart icon in the style of the Signal logo"
+    "messageformat": "Signal logosu tarzında kalp simgesi"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "TAMAM"
@@ -7591,13 +7634,13 @@
     "messageformat": "Bilgileri kaldır"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving will cancel your donation."
+    "messageformat": "Ayrılmak bağışını iptal edecektir."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "Ayrıl"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
-    "messageformat": "Stay on page"
+    "messageformat": "Sayfada kal"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Devam"
@@ -7906,13 +7949,10 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.89--0": {
-    "messageformat": "Bu güncelleme, Büyük Harf Kilidi etkinken metin biçimlendirmeyle ilgili bir hatayı düzeltir. Teşekkürler, <DGrothePhD>DGrothe-PhD</DGrothePhD>!"
-  },
-  "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal, desteğin olmadan var olamayacak kâr amacı gütmeyen bir kuruluştur. Artık Signal Desktop'ta PayPal aracılığıyla bağış yapabilirsin."
-  },
   "icu:WhatsNew__7.90--0": {
-    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
+    "messageformat": "Beş yeni resmi sanatçı çıkartma paketi: \"Amanda Cotan'dan \"Chug the Mouse\", Miguel Ángel Camprubí'den \"Cozy Season\", Tiffany Beucher'dan \"Croco's Feelings\", Plastic Thing'den \"My Daily Life 2\" ve Lexi Vay'den \"Rocky Talk\"."
+  },
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
   }
 }
