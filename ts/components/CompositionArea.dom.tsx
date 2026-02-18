@@ -123,6 +123,7 @@ export type OwnProps = Readonly<{
   isDisabled: boolean;
   isFetchingUUID: boolean | null;
   isFormattingEnabled: boolean;
+  isTypingAutoFocusEnabled: boolean;
   isGroupV1AndDisabled: boolean | null;
   isMissingMandatoryProfileSharing: boolean | null;
   isSignalConversation: boolean | null;
@@ -290,6 +291,7 @@ export const CompositionArea = memo(function CompositionArea({
   draftText,
   getPreferredBadge,
   isFormattingEnabled,
+  isTypingAutoFocusEnabled,
   onEditorStateChange,
   onTextTooLong,
   ourConversationId,
@@ -495,6 +497,53 @@ export const CompositionArea = memo(function CompositionArea({
       editLastMessageSent(event);
     }
   });
+
+  // Auto-focus composer when user presses a printable key
+  useDocumentKeyDown(
+    useCallback(
+      (event: KeyboardEvent) => {
+        if (!isTypingAutoFocusEnabled) {
+          return;
+        }
+
+        if (inputApiRef.current?.hasFocus()) {
+          return;
+        }
+
+        // Printable keys have a single-char `key` value
+        if (event.key.length !== 1) {
+          return;
+        }
+
+        // Don't hijack keyboard shortcuts
+        if (event.ctrlKey || event.metaKey || event.altKey) {
+          return;
+        }
+
+        // Don't steal focus from other input elements
+        const active = document.activeElement;
+        if (active) {
+          const tag = active.tagName.toLowerCase();
+          if (
+            tag === 'input' ||
+            tag === 'textarea' ||
+            tag === 'select'
+          ) {
+            return;
+          }
+          if (
+            active.getAttribute('contenteditable') === 'true' ||
+            active.getAttribute('role') === 'textbox'
+          ) {
+            return;
+          }
+        }
+
+        inputApiRef.current?.focus();
+      },
+      [isTypingAutoFocusEnabled]
+    )
+  );
 
   // Focus input on first mount
   const previousFocusCounter = usePrevious<number | undefined>(
