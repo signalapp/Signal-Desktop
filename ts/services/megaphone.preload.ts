@@ -194,6 +194,7 @@ export function isMegaphoneShowable(
 ): megaphone is VisibleRemoteMegaphoneType {
   const nowMs = Date.now();
   const {
+    dontShowBeforeEpochMs,
     dontShowAfterEpochMs,
     isFinished,
     snoozedAt,
@@ -201,7 +202,11 @@ export function isMegaphoneShowable(
     secondaryCtaId,
   } = megaphone;
 
-  if (isFinished || nowMs > dontShowAfterEpochMs) {
+  if (
+    isFinished ||
+    nowMs < dontShowBeforeEpochMs ||
+    nowMs > dontShowAfterEpochMs
+  ) {
     return false;
   }
 

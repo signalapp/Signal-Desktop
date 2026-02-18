@@ -109,6 +109,13 @@ describe('megaphone service', () => {
       assert.strictEqual(isMegaphoneShowable(megaphone), true);
     });
 
+    it('handles megaphone with dontShowBeforeEpochMs in the future', () => {
+      const megaphone = getMegaphone({
+        dontShowBeforeEpochMs: Date.now() + 1 * DAY,
+      });
+      assert.strictEqual(isMegaphoneShowable(megaphone), false);
+    });
+
     it('handles megaphone expired past dontShowAfterEpochMs', () => {
       const megaphone = getMegaphone({
         dontShowAfterEpochMs: Date.now() - 1 * DAY,
