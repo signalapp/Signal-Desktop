@@ -352,6 +352,8 @@
     },
     "patchedDependencies": {
       "casual@1.6.2": "patches/casual+1.6.2.patch",
+      "protobufjs@7.3.2": "patches/protobufjs+7.3.2.patch",
+      "protobufjs-cli@1.1.1": "patches/protobufjs-cli+1.1.1.patch",
       "@types/fabric@4.5.3": "patches/@types+fabric+4.5.3.patch",
       "qrcode-generator": "patches/qrcode-generator.patch",
       "fabric@4.6.0": "patches/fabric+4.6.0.patch",
