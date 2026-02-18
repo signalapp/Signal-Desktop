@@ -54,6 +54,7 @@ export async function runMegaphoneCheck(): Promise<void> {
     }
 
     const megaphones = await DataReader.getAllMegaphones();
+    const shownIds: Set<RemoteMegaphoneId> = new Set();
 
     log.info(
       `runMegaphoneCheck: Checking ${megaphones.length} locally saved megaphones`
@@ -61,12 +62,26 @@ export async function runMegaphoneCheck(): Promise<void> {
     for (const megaphone of megaphones) {
       try {
         // eslint-disable-next-line no-await-in-loop
-        await processMegaphone(megaphone);
+        const result = await processMegaphone(megaphone);
+        if (result === 'shown') {
+          shownIds.add(megaphone.id);
+        }
       } catch (error) {
         log.error(
           `runMegaphoneCheck: Error processing ${megaphone.id}`,
           Errors.toLogFormat(error)
         );
+      }
+    }
+
+    // Hide megaphones which are visible but should no longer be shown
+    // Example: standard_donate, then you donated on primary and got a badge
+    const { visibleMegaphones } = window.reduxStore.getState().megaphones;
+    for (const visibleMegaphone of visibleMegaphones) {
+      const { id } = visibleMegaphone;
+      if (!shownIds.has(id)) {
+        log.info(`runMegaphoneCheck: Hiding ${id}`);
+        window.reduxActions.megaphones.removeVisibleMegaphone(id);
       }
     }
   } finally {
@@ -131,13 +146,15 @@ export async function deleteMegaphoneAndRemoveFromRedux(
 
 // Private
 
-async function processMegaphone(megaphone: RemoteMegaphoneType): Promise<void> {
+async function processMegaphone(
+  megaphone: RemoteMegaphoneType
+): Promise<'shown' | 'not-shown'> {
   const { id } = megaphone;
 
   if (isMegaphoneDeletable(megaphone)) {
     log.info(`processMegaphone: Deleting ${id}`);
     await deleteMegaphoneAndRemoveFromRedux(id);
-    return;
+    return 'not-shown';
   }
 
   if (isMegaphoneShowable(megaphone)) {
@@ -153,7 +170,10 @@ async function processMegaphone(megaphone: RemoteMegaphoneType): Promise<void> {
 
     log.info(`processMegaphone: Showing ${id}`);
     window.reduxActions.megaphones.addVisibleMegaphone(megaphone);
+    return 'shown';
   }
+
+  return 'not-shown';
 }
 
 export function isMegaphoneDeletable(megaphone: RemoteMegaphoneType): boolean {
