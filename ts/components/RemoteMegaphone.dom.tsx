@@ -34,23 +34,24 @@ export function RemoteMegaphone({
   // We need to provide this to <Tooltip> to render correctly
   const wrapperClassName = tw(
     '@container flex flex-col',
-    'max-w-[500px] rounded-lg border-1 border-border-primary p-3',
-    isFullSize ? 'pe-2 pb-1.5' : 'size-[76px]',
-    'bg-elevated-background-primary dark:bg-elevated-background-tertiary'
+    'max-w-[500px] curved-3xl p-3',
+    'bg-elevated-background-primary dark:bg-elevated-background-tertiary',
+    'shadow-elevation-1',
+    isFullSize ? '' : 'size-[76px]'
   );
   const image: React.JSX.Element = (
     <div
       className={tw(
         'size-[48px] shrink-0',
-        isFullSize ? 'size-[64px]' : 'm-auto'
+        isFullSize ? 'size-[56px]' : 'm-auto'
       )}
     >
       <img
         alt=""
         className={tw('object-cover')}
         src={imagePath}
-        width={64}
-        height={64}
+        width={56}
+        height={56}
         draggable={false}
       />
     </div>
@@ -66,41 +67,49 @@ export function RemoteMegaphone({
         <div className={tw('flex items-start gap-3')}>
           {image}
           <div className={tw('w-full')}>
-            <h2 className={tw('mt-[3px] type-body-large font-semibold')}>
+            <h2
+              className={tw(
+                'mt-[2px] type-body-medium font-semibold text-label-primary select-none'
+              )}
+            >
               {title}
             </h2>
             <p
               className={tw(
-                'mt-[1px] mb-2 type-body-medium text-label-secondary'
+                'mt-[2px] type-body-small text-label-secondary select-none'
               )}
             >
               {body}
             </p>
           </div>
         </div>
-        <div className={tw('flex justify-end')}>
-          {secondaryCtaId && (
-            <AxoButton.Root
-              size="md"
-              variant="borderless-primary"
-              onClick={() =>
-                onInteractWithMegaphone(remoteMegaphoneId, secondaryCtaId)
-              }
-            >
-              {secondaryCtaText}
-            </AxoButton.Root>
-          )}
-          {primaryCtaId && (
-            <AxoButton.Root
-              size="md"
-              variant="borderless-primary"
-              onClick={() =>
-                onInteractWithMegaphone(remoteMegaphoneId, primaryCtaId)
-              }
-            >
-              {primaryCtaText}
-            </AxoButton.Root>
-          )}
+        <div className={tw('mt-3 flex justify-end')}>
+          <div className={tw('flex flex-wrap-reverse gap-1.5')}>
+            {secondaryCtaId && (
+              <AxoButton.Root
+                size="md"
+                variant="secondary"
+                onClick={() =>
+                  onInteractWithMegaphone(remoteMegaphoneId, secondaryCtaId)
+                }
+                width="grow"
+              >
+                {secondaryCtaText}
+              </AxoButton.Root>
+            )}
+            {primaryCtaId && (
+              <AxoButton.Root
+                size="md"
+                variant="primary"
+                onClick={() =>
+                  onInteractWithMegaphone(remoteMegaphoneId, primaryCtaId)
+                }
+                width="grow"
+              >
+                {primaryCtaText}
+              </AxoButton.Root>
+            )}
+          </div>
         </div>
       </div>
     );
