@@ -193,7 +193,7 @@ async function handleServerKeys(
 
       try {
         log.info(
-          'this is x3dh receive probably',
+          'this is x3dh SEND probably',
           preKeyBundle,
           protocolAddress,
           sessionStore,
