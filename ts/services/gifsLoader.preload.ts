@@ -3,13 +3,15 @@
 import { DataReader } from '../sql/Client.preload.js';
 import type { GifsStateType } from '../state/ducks/gifs.preload.js';
 import { MAX_RECENT_GIFS } from '../state/ducks/gifs.preload.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 import { strictAssert } from '../util/assert.std.js';
 
 let state: GifsStateType;
 
 export async function loadGifsState(): Promise<void> {
   const recentGifs = await DataReader.getRecentGifs(MAX_RECENT_GIFS);
-  state = { recentGifs };
+  const autoPlayGifs = itemStorage.get('auto-play-gifs', true);
+  state = { recentGifs, autoPlayGifs };
 }
 
 export function getGifsStateForRedux(): GifsStateType {

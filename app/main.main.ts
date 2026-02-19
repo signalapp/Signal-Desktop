@@ -2743,6 +2743,10 @@ ipc.on('update-tray-icon', (_event: Electron.Event, unreadCount: number) => {
   }
 });
 
+ipc.on('auto-play-gifs', (_event: Electron.Event, value: boolean) => {
+  console.log('ipc auto-play-gifs', value);
+});
+
 // Debug Log-related IPC calls
 
 ipc.on(

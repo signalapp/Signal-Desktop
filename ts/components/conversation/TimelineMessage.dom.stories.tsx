@@ -1954,7 +1954,7 @@ GifReducedMotion.args = {
     }),
   ],
   status: 'sent',
-  _forceTapToPlay: true,
+  forceTapToPlay: true,
 };
 
 export const GifInAGroup = Template.bind({});
