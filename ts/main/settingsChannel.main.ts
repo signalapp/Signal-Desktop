@@ -49,6 +49,7 @@ export class SettingsChannel extends EventEmitter {
     this.#installEphemeralSetting('localeOverride');
     this.#installEphemeralSetting('spellCheck');
     this.#installEphemeralSetting('contentProtection');
+    this.#installEphemeralSetting('hourCyclePreference');
 
     installPermissionsHandler({ session: session.defaultSession, userConfig });
 

@@ -24,12 +24,15 @@ export type SettingType<Value> = Readonly<{
 
 export type ThemeType = 'light' | 'dark' | 'system';
 
+export type HourCycleSettingType = 'system' | '12' | '24';
+
 export type EphemeralSettings = {
   localeOverride: string | null;
   spellCheck: boolean;
   contentProtection: boolean;
   systemTraySetting: SystemTraySetting;
   themeSetting: ThemeType;
+  hourCyclePreference: HourCycleSettingType;
 };
 
 export type SettingsValuesType = IPCEventsValuesType & EphemeralSettings;
