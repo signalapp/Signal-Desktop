@@ -112,6 +112,8 @@ import type {
 
 const log = createLogger('SendMessage');
 
+const MAX_EMBEDDED_GROUP_CHANGE_BYTES = 2048;
+
 export type SendIdentifierData =
   | {
       accessKey: string;
@@ -416,7 +418,19 @@ class Message {
       proto.groupV2 = new Proto.GroupContextV2();
       proto.groupV2.masterKey = this.groupV2.masterKey;
       proto.groupV2.revision = this.groupV2.revision;
-      proto.groupV2.groupChange = this.groupV2.groupChange || null;
+
+      const { groupChange } = this.groupV2;
+      if (groupChange) {
+        if (groupChange.byteLength <= MAX_EMBEDDED_GROUP_CHANGE_BYTES) {
+          proto.groupV2.groupChange = groupChange;
+        } else {
+          // As a message-size optimization, we do not embed large updates and receiving
+          // devices fetch them from the group server instead
+          log.info(
+            `Discarding oversized group change proto (${groupChange.byteLength} bytes)`
+          );
+        }
+      }
     }
     if (this.sticker) {
       proto.sticker = new Proto.DataMessage.Sticker();
