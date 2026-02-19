@@ -1352,6 +1352,7 @@ export function isMissingRequiredProfileSharing(
     !conversation.isMe &&
     !conversation.left &&
     !conversation.removalStage &&
+    !isInSystemContacts(conversation) &&
     (isGroupV1(conversation) || isDirectConversation(conversation));
 
   return Boolean(

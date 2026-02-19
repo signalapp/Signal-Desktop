@@ -322,9 +322,6 @@ describe('editing', function (this: Mocha.Suite) {
       debug('checking for message');
       await window.locator('.module-message__text >> "hello"').waitFor();
 
-      debug('accepting conversation');
-      await window.getByRole('button', { name: 'Continue' }).click();
-
       const { dataMessage: profileKeyMsg } = await friend.waitForMessage();
       assert(profileKeyMsg.profileKey != null, 'Profile key message');
 
@@ -539,9 +536,6 @@ describe('editing', function (this: Mocha.Suite) {
         .first()
         .click();
       await page.locator('.module-conversation-hero').waitFor();
-
-      debug('accepting conversation');
-      await page.getByRole('button', { name: 'Continue' }).click();
 
       const { dataMessage: profileKeyMsg } = await friend.waitForMessage();
       assert(profileKeyMsg.profileKey != null, 'Profile key message');

@@ -2323,16 +2323,12 @@ export async function startApp(): Promise<void> {
     processBatch(batch) {
       const deduped = new Set(batch);
       deduped.forEach(async sender => {
-        try {
-          if (!(await shouldRespondWithProfileKey(sender))) {
-            return;
-          }
-        } catch (error) {
-          log.error(
-            'respondWithProfileKeyBatcher error',
-            Errors.toLogFormat(error)
-          );
+        if (!shouldRespondWithProfileKey(sender)) {
+          return;
         }
+        sender.enableProfileSharing({
+          reason: 'shouldRespondWithProfileKey',
+        });
 
         drop(
           sender.queueJob('sendProfileKeyUpdate', () =>

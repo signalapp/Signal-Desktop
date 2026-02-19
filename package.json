@@ -239,7 +239,7 @@
     "@indutny/parallel-prettier": "3.0.0",
     "@indutny/rezip-electron": "3.0.2",
     "@napi-rs/canvas": "0.1.61",
-    "@signalapp/mock-server": "15.2.0",
+    "@signalapp/mock-server": "15.2.3",
     "@storybook/addon-a11y": "8.4.4",
     "@storybook/addon-actions": "8.4.4",
     "@storybook/addon-controls": "8.4.4",
