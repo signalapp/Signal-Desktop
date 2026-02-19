@@ -10,7 +10,7 @@ Remember, you can preview this before saving it.
 ### First time contributor checklist:
 
 - [ ] I have read the [README](https://github.com/signalapp/Signal-Desktop/blob/main/README.md) and [Contributor Guidelines](https://github.com/signalapp/Signal-Desktop/blob/main/CONTRIBUTING.md)
-- [ ] I have signed the [Contributor Licence Agreement](https://signal.org/cla/)
+- [ ] I have signed the [Contributor License Agreement](https://signal.org/cla/)
 
 ### Contributor checklist:
 

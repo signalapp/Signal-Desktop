@@ -1,6 +1,6 @@
 # Acknowledgments
 
-muted-state-change makes use of the following open source projects.
+mute-state-change makes use of the following open source projects.
 
 ## bindings
 
