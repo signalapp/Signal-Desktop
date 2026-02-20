@@ -311,7 +311,7 @@
     "danger": "12.3.3",
     "debug": "4.3.7",
     "electron": "40.4.1",
-    "electron-builder": "26.0.14",
+    "electron-builder": "26.4.0",
     "electron-mocha": "13.0.1",
     "endanger": "7.0.4",
     "enhanced-resolve": "5.18.3",
@@ -434,7 +434,7 @@
       "hardenedRuntime": true,
       "entitlements": "./build/entitlements.mac.plist",
       "entitlementsInherit": "./build/entitlements.mac.inherit.plist",
-      "icon": "build/icons/mac/icon.icns",
+      "icon": "./build/icons/mac/icon.icon",
       "publish": [
         {
           "provider": "generic",
