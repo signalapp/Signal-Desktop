@@ -342,9 +342,12 @@ export async function queueAttachmentDownloads(
       try {
         log.info(`${logId}: Copying sticker from installed pack`);
         copiedSticker = true;
-        count += 1;
-        const data = await copyStickerToAttachments(packId, stickerId);
 
+        const data = await copyStickerToAttachments({
+          packId,
+          stickerId,
+          messageId,
+        });
         // Refresh sticker attachment since we had to await above
         const freshSticker = message.get('sticker');
         strictAssert(freshSticker != null, 'Sticker is gone while copying');
@@ -460,13 +463,16 @@ export async function queueAttachmentDownloads(
     message.set({ editHistory });
   }
 
-  if (count <= 0) {
-    return false;
+  if (count > 0) {
+    log.info(`${logId}: Queued ${count} total attachment downloads`);
+    return true;
   }
 
-  log.info(`${logId}: Queued ${count} total attachment downloads`);
+  if (copiedSticker) {
+    return true;
+  }
 
-  return true;
+  return false;
 }
 
 export async function queueNormalAttachments({

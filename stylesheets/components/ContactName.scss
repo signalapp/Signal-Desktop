@@ -4,6 +4,7 @@
 @use 'sass:map';
 @use 'sass:color';
 
+@use '../variables';
 @use '../mixins';
 
 button.module-contact-name {
@@ -279,23 +280,43 @@ $contact-colors: (
 
 .module-contact-name {
   &--label-pill {
+    @include mixins.font-body-small;
+    // Because of the font-size, it will be height=18px
+    border-radius: 9px;
+
     font-weight: 400;
     display: inline-block;
     padding-inline: 6px;
     padding-block: 1px;
-    border-radius: 9px;
+
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
   }
 
   &--label-pill--inner {
     display: flex;
     align-items: center;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  &--label-pill--inner--contact-modal {
+    @include mixins.font-body-1;
+    // Because of font size, it will be height=22px
+    border-radius: 11px;
+
+    align-items: start;
+    white-space: normal;
   }
 
   &--label-pill--bubble {
-    margin-top: -2px;
-    margin-bottom: 2px;
+    margin-inline-start: 2px;
+    margin-bottom: -4px;
+    max-width: calc(100% - 2px);
   }
 
   &--label-pill--emoji {
@@ -305,8 +326,26 @@ $contact-colors: (
     line-height: 12px;
   }
 
+  &--label-pill--quote {
+    margin-top: 1px;
+    @include mixins.font-body-small;
+
+    color: variables.$color-gray-90;
+    background-color: variables.$color-white-alpha-36;
+    @include mixins.dark-theme() {
+      color: variables.$color-gray-05;
+      background-color: variables.$color-white-alpha-20;
+    }
+  }
+
+  &--label-pill--contact-modal {
+    margin-bottom: -5px;
+  }
+
   &--label-pill--text {
     display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   @each $name, $value in $contact-colors {
@@ -325,7 +364,8 @@ $contact-colors: (
         }
       }
 
-      &--label-pill--list {
+      &--label-pill--list,
+      &--label-pill--contact-modal {
         color: color.mix(map.get($value, 'light'), #000000, 70%);
         background-color: rgba(map.get($value, 'light'), 0.1);
         @include mixins.dark-theme() {

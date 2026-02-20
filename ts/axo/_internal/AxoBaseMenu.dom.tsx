@@ -16,7 +16,7 @@ export namespace AxoBaseMenu {
     LEGACY_CONTEXT_MENU_Z_INDEX,
     'max-w-[300px] min-w-[200px]',
     'select-none',
-    'rounded-xl bg-elevated-background-tertiary shadow-elevation-3',
+    'curved-xl bg-elevated-background-tertiary shadow-elevation-3',
     isTestOrMockEnvironment() ||
       'animate-opacity-0 data-[state=closed]:animate-exit',
     'forced-colors:border',
@@ -40,7 +40,7 @@ export namespace AxoBaseMenu {
   // <Item/RadioItem/CheckboxItem/SubTrigger> (not Label/Separator)
   const navigableItemStyles = tw(
     labeledItemStyles,
-    'rounded-md type-body-medium',
+    'curved-md type-body-medium',
     'outline-0 data-[highlighted]:bg-fill-secondary-pressed',
     'data-[disabled]:text-label-disabled',
     'outline-0 outline-border-focused focused:outline-[2.5px]',

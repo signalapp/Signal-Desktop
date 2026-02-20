@@ -6,7 +6,6 @@ import classNames from 'classnames';
 
 import type { ReactNode } from 'react';
 
-import { Emojify } from './Emojify.dom.js';
 import { getClassNamesFor } from '../../util/getClassNamesFor.std.js';
 import { isSignalConversation as getIsSignalConversation } from '../../util/isSignalConversation.dom.js';
 import {
@@ -18,9 +17,11 @@ import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.dom.js';
 import { FunStaticEmoji } from '../fun/FunEmoji.dom.js';
 import { missingEmojiPlaceholder } from '../../types/GroupMemberLabels.std.js';
 
+import type { MemberLabelType } from '../../types/GroupMemberLabels.std.js';
 import type { ConversationType } from '../../state/ducks/conversations.preload.js';
 import type { ContactNameColorType } from '../../types/Colors.std.js';
 import type { FunStaticEmojiSize } from '../fun/FunEmoji.dom.js';
+import { UserText } from '../UserText.dom.js';
 
 export type ContactNameData = {
   contactNameColor?: ContactNameColorType;
@@ -53,6 +54,7 @@ export function useContactNameData(
 }
 
 export type PropsType = ContactNameData & {
+  fontSizeOverride?: number;
   module?: string;
   preferFirstName?: boolean;
   onClick?: VoidFunction;
@@ -89,7 +91,7 @@ export function ContactName({
       dir="auto"
       onClick={onClick}
     >
-      <Emojify text={text} />
+      <UserText text={text} />
       {(isSignalConversation || isMe) && (
         <span
           className={
@@ -113,7 +115,7 @@ export function ContactName({
   );
 }
 
-export type Context = 'bubble' | 'list';
+export type Context = 'bubble' | 'list' | 'quote' | 'contact-modal';
 
 export function GroupMemberLabel({
   emojiSize = 12,
@@ -123,7 +125,7 @@ export function GroupMemberLabel({
   module,
 }: {
   emojiSize?: FunStaticEmojiSize;
-  contactLabel?: { labelString: string; labelEmoji: string | undefined };
+  contactLabel?: MemberLabelType;
   contactNameColor?: ContactNameColorType;
   context: Context;
   module?: string;
@@ -178,7 +180,12 @@ export function GroupMemberLabel({
         getClassName(`--${contactNameColor}--label-pill--${context}`)
       )}
     >
-      <span className={getClassName('--label-pill--inner')}>
+      <span
+        className={classNames(
+          getClassName('--label-pill--inner'),
+          getClassName(`--label-pill--inner--${context}`)
+        )}
+      >
         {emojiElement}
         <span
           className={classNames(
@@ -186,7 +193,14 @@ export function GroupMemberLabel({
             getClassName(`--label-pill--${context}--text`)
           )}
         >
-          <Emojify text={labelString} />
+          <UserText
+            fontSizeOverride={emojiSize}
+            style={{
+              verticalAlign: 'top',
+              marginTop: emojiSize / 6,
+            }}
+            text={labelString}
+          />
         </span>
       </span>
     </span>

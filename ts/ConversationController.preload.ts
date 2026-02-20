@@ -20,7 +20,7 @@ import {
 } from './util/whatTypeOfConversation.dom.js';
 import {
   doesAttachmentExist,
-  deleteAttachmentData,
+  maybeDeleteAttachmentFile,
 } from './util/migrations.preload.js';
 import {
   isServiceIdString,
@@ -1640,14 +1640,14 @@ export class ConversationController {
           drop(
             (async () => {
               if (avatarPath && (await doesAttachmentExist(avatarPath))) {
-                await deleteAttachmentData(avatarPath);
+                await maybeDeleteAttachmentFile(avatarPath);
               }
 
               if (
                 profileAvatarPath &&
                 (await doesAttachmentExist(profileAvatarPath))
               ) {
-                await deleteAttachmentData(profileAvatarPath);
+                await maybeDeleteAttachmentFile(profileAvatarPath);
               }
             })()
           );

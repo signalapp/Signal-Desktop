@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Wissel ontwikkelaarsnutsgoed"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Maak Skakel Ontwikkelaarhulpmiddels oop"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Stel op as 'n nuwe toestel"
   },
@@ -579,49 +576,49 @@
     "messageformat": "Om end-tot-end-enkriptering met {name} te verifieer, vergelyk die nommers hierbo met hul toestel. Hulle kan ook jou kode met hul toestel skandeer."
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "Om end-tot-end-enkriptering met {name} te verifieer, vergelyk die nommers hierbo met hul toestel. Hulle kan ook jou kode op hul toestel skandeer."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Vind meer uit"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Outomatiese sleutelverifiëring"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "Verifieer outomaties"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "Verifieer tans enkriptering…"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "Enkriptering geverifieer"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "Outoverifiëring nie beskikbaar nie"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "Outoverifiëring is nie vir alle kletse beskikbaar nie."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "Vind meer uit"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "Enkriptering vir hierdie klets is geoutoverifieer "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Vir kontakte waarmee jy deur 'n telefoonnommer verbind is, kan Signal outomaties bevestig of die verbinding veilig is deur 'n proses genaamd sleuteldeursigtigheid te gebruik. Vir bykomende sekuriteit, verifieer end-tot-end-enkriptering handmatig deur vergelyking van die nommers op die vorige skerm of deur die kode op hul toestel te skandeer."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "Outoverifiëring is nie meer vir hierdie klets beskikbaar nie"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal kan nie meer die enkriptering vir hierdie klets outomaties verifieer nie. Dit is waarskynlik omdat {name} hul telefoonnommer verander het. Verifieer end-tot-end-enkriptering handmatig deur vergelyking van die nommers op die vorige skerm of deur die kode op hul toestel te skandeer."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal kan slegs die enkripsie in kletse outomaties verifieer indien jy via 'n telefoonnommer met iemand verbind is. Indien die klets met 'n gemeenskaplike gebruikersnaam of groep begin is, verifieer end-tot-end-enkriptering deur vergelyking van die nommers op die vorige skerm of deur die kode op hul toestel te skandeer."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "Goed"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "'n Veiligheidsnommer sal met hierdie persoon geskep word nadat jy boodskappe met hulle uitgeruil het."
@@ -630,43 +627,43 @@
     "messageformat": "Vind meer uit"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "Outomatiese Sleutelverifiëring is tans nie vir jou toestel beskikbaar nie. Dien ontfout-log in?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Ontfout-logs help ons om die probleem te diagnoseer en reg te stel, en bevat nie identifiserende inligting nie."
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Maak toe"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "Deel ontfout-log"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "Bekyk"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "Dien in"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Nee dankie"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "Dien tans in…"
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Signal kan nou enkriptering outoverifieer"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "Vir kontakte waarmee jy deur 'n telefoonnommer verbind is, kan Signal outomaties bevestig of die verbinding veilig is deur 'n proses genaamd sleuteldeursigtigheid te gebruik. Vir bykomende sekuriteit kan jy steeds verbindings handmatig verifieer deur 'n QR-kode te gebruik of deur veiligheidsnommer te vergelyk."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Gaan voort"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Vind meer uit"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Maak toe"
   },
   "icu:verified": {
     "messageformat": "Geverifieer"
@@ -1114,6 +1111,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} is in jou stelselkontakte"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Voeg 'n lidfunksie-etiket by"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Nota"
@@ -1794,13 +1794,13 @@
     "messageformat": "Kanselleer"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Outomatiese sleutelverifiëring"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "Wanneer dit geaktiveer is, sal Signal probeer om die enkriptering van 1:1-kletsgesprekke outomaties te verifieer."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "Vind meer uit"
   },
   "icu:initialSync": {
     "messageformat": "Sinkroniseer kontakte en groepe"
@@ -2428,6 +2428,9 @@
   },
   "icu:Toast--unable-download-from-backup-tier": {
     "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Only admins can add member labels in this group."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Wysigings kan slegs aangebring word binne 24 uur vanaf die tyd wat jy hierdie boodskap gestuur het."
@@ -4628,6 +4631,9 @@
   "icu:ContactModal--rm-admin": {
     "messageformat": "Verwyder as admin"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "This will also clear their member label."
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "Maak admin"
   },
@@ -4646,6 +4652,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "Stem"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Lidfunksie-etikette"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Gebruik 'n lidfunksie-etiket om jouself of jou rol in hierdie groep te beskryf. Lidfunksie-etikette is slegs binne hierdie groep sigbaar."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Stel 'n etiket op"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Wysig jou etiket"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Kletskleur"
   },
@@ -4660,6 +4678,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Groepskakel"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Lidfunksie-etiket"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Voer jou lidfunksie-etiket in"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Stel 'n lidfunksie-etiket op om jouself of jou rol in hierdie groep te beskryf. Lidfunksie-etikette is slegs binne hierdie groep sigbaar."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Voorskou"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Hallo!"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Groeplede met lidfunksie-etikette"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "Geen ander lede het lidfunksie-etikette nie"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Stoor tans veranderinge…"
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Kan nie lidfunksie-etiket stoor nie"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Gaan jou verbinding na en probeer weer."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Slegs admins kan lidfunksie-etikette in hierdie groep stel."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Verdwynboodskappe"
@@ -4695,7 +4746,7 @@
     "messageformat": "Kies wie die groepnaam, -foto, -beskrywing en verdwynboodskap-afteller kan wysig."
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "Kies wie die groepnaam, -foto, -beskrywing en verdwynboodskap-tydhouer en boodskappe met 'n speld gemerk, kan wysig."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Wie kan lede toevoeg"
@@ -4708,6 +4759,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Kies wie boodskappe na die groep mag stuur."
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Lidfunksie-etikette sal uitgevee word"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Deur hierdie toestemming na \"Slegs admins\" te verander, sal lidfunksie-etikette wat deur nie-admins in hierdie groep gestel is, uitgevee word."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Gaan voort"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Versoeke & uitnodigings"
@@ -4762,6 +4822,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Voeg lede by"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Add member label"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Sien alle"
@@ -4936,6 +4999,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Jy kan slegs tot {count,number} boodskap kies om vir almal uit te vee} other {Jy kan slegs tot {count,number} boodskappe kies om vir almal uit te vee}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Delete item?"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Close"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Delete"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Cancel"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Jy kan slegs tot 30 boodskappe aanstuur"
@@ -5309,6 +5387,24 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "Lêers wat jy stuur en ontvang, sal hier verskyn"
   },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "View in chat"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Forward"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Save"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Send message"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Copy link"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Delete"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Kies mediakwaliteit"
   },
@@ -5521,6 +5617,10 @@
   },
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "admins"
+  },
+  "icu:Avatar__View": {
+    "messageformat": "View",
+    "limit": 7
   },
   "icu:AvatarEditor--choose": {
     "messageformat": "Kies ’n avatar"
@@ -7428,6 +7528,21 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal versamel of stoor geen van jou persoonlike inligting wanneer jy 'n skenking maak nie.</paragraph><paragraph>Ons gebruik Stripe as ons betalingsverwerker om jou skenkings te ontvang. Ons verkry nie toegang tot, bewaar of stoor enige van die inligting wat jy aan hulle verskaf nie.</paragraph><paragraph>Signal koppel nie jou skenking aan jou Signal-rekening nie, en kan dit ook nie doen nie.</paragraph><paragraph>Dankie vir jou ondersteuning!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "As 'n onafhanklike niewinsgewende organisasie is Signal verbind tot privaat boodskappe en oproepe. Geen advertensies, geen naspoorders, geen observasie nie. Maak vandag 'n skenking om Signal te ondersteun."
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Kry 'n opsionele wapen op jou profiel wanneer jy skenk"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "Jou privaatheid is ons missie"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal is 'n niewinsgewende organisasie."
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Hart-ikoon in die styl van die Signal-logo"
+  },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "Goed"
   },
@@ -7519,7 +7634,13 @@
     "messageformat": "Verwyder inligting"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "As jy hier uitgaan, sal jou skenking gekanselleer word."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Verlaat"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Bly op bladsy"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Gaan voort"
@@ -7567,13 +7688,13 @@
     "messageformat": "Jy het 'n skenking wat in proses is en bykomende bevestiging benodig."
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Jy het 'n skenking wat in proses is en bykomende bevestiging benodig."
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPal-skenking gekanselleer"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "Fout tydens verwerking van PayPal-skenking. Daar is nie koste van jou verhaal nie."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Skenking was suksesvol, maar ons kon nie jou wapeninstellings opdateer nie"
@@ -7591,7 +7712,7 @@
     "messageformat": "Probeer weer"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "Betalingsmetode"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Betalingsmetode geweier"
@@ -7600,31 +7721,31 @@
     "messageformat": "Probeer ’n ander betaalmetode of kontak jou bank vir meer inligting."
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "Betalingskaart-ikoon"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Krediet- of debietkaart"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Kanselleer"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "Voltooi skenking"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "PayPal-skenking gekanselleer"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Daar is nie koste van jou verhaal nie. Probeer weer of gebruik 'n ander betalingsmetode."
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "Fout tydens verwerking van PayPal-skenking"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Daar is nie koste van jou verhaal nie. Probeer weer of gebruik 'n ander betalingsmetode."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Verifiëring het misluk"
@@ -7828,10 +7949,10 @@
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "Laat privaatheid in die koppe vassteek met vyf nuwe amptelike plakkerpakkette in die Signal Kunstenaar-reeks: \"Chug the Mouse\" deur Amanda Cotan, \"Cozy Season\" deur Miguel Ángel Camprubí, \"Croco's Feelings\" deur Tiffany Beucher, \"My Daily Life 2\" deur Plastic Thing, en \"Rocky Talk\" deur Lexi Vay."
   },
-  "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
   }
 }

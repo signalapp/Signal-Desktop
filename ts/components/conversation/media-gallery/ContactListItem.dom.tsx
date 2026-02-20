@@ -1,9 +1,13 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { type ReactNode } from 'react';
+import type { ReadonlyDeep } from 'type-fest';
 
-import type { ContactMediaItemType } from '../../../types/MediaItem.std.js';
+import type {
+  GenericMediaItemType,
+  ContactMediaItemType,
+} from '../../../types/MediaItem.std.js';
 import type { LocalizerType } from '../../../types/Util.std.js';
 import { getName } from '../../../types/EmbeddedContact.std.js';
 import { AvatarColors } from '../../../types/Colors.std.js';
@@ -16,7 +20,11 @@ export type Props = {
   mediaItem: ContactMediaItemType;
   authorTitle: string;
   onClick: (status: AttachmentStatusType['state']) => void;
-  onShowMessage: () => void;
+  showMessage: () => void;
+  renderContextMenu: (
+    mediaItem: ReadonlyDeep<GenericMediaItemType>,
+    children: ReactNode
+  ) => JSX.Element;
 };
 
 export function ContactListItem({
@@ -24,7 +32,8 @@ export function ContactListItem({
   mediaItem,
   authorTitle,
   onClick,
-  onShowMessage,
+  showMessage,
+  renderContextMenu,
 }: Props): React.JSX.Element {
   const { contact } = mediaItem;
   const { avatar } = contact;
@@ -58,7 +67,8 @@ export function ContactListItem({
       subtitle={subtitle}
       readyLabel={i18n('icu:startDownload')}
       onClick={onClick}
-      onShowMessage={onShowMessage}
+      showMessage={showMessage}
+      renderContextMenu={renderContextMenu}
     />
   );
 }

@@ -6,6 +6,15 @@
 
 ManifestDPIAware true
 
+# See https://github.com/electron-userland/electron-builder/blob/9c67fd31ce982d11c82aae71263ba1f0055a77cc/packages/app-builder-lib/src/targets/nsis/nsisScriptGenerator.ts#L33
+# See https://nsis.sourceforge.io/LogicLib#FileExists
+!macro _isWindowsStore _a _b _t _f
+  ${StdUtils.TestParameter} $R9 "windows-store"
+  StrCmp "$R9" "true" `${_t}` `${_f}`
+!macroend
+!define isWindowsStore `"" isWindowsStore ""`
+
+
 !macro preInit
   Var /Global OLD_SIGNAL_VERSION
 
@@ -57,5 +66,9 @@ ManifestDPIAware true
     # Signal modification: '--start-in-tray' added
     ${StdUtils.ExecShellAsUser} $0 "$launchLink" "open" \
         "--updated --start-in-tray"
+  ${ElseIf} ${Silent}
+  ${AndIf} ${isWindowsStore}
+    HideWindow
+    ${StdUtils.ExecShellAsUser} $0 "$launchLink" "open" ""
   ${EndIf}
 !macroend

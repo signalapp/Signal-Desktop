@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "开发者工具开关"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "打开调用开发者工具"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "设置为新设备"
   },
@@ -579,49 +576,49 @@
     "messageformat": "如要验证您与{name}的端对端加密功能，请将上方的数字与对方的设备进行比对。对方也可以使用自己的设备扫描您的二维码。"
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "如要验证您与{name}的端对端加密，请将上方的数字与对方的设备进行比对。对方也可以在自己的设备上扫描您的二维码。"
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "了解更多"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "自动密钥验证"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "自动验证"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "正在验证加密..."
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "加密已验证"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "自动验证不可用"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "自动验证并非对所有聊天均可用。"
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "了解更多"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "此聊天加密已自动验证 "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "对于通过手机号码连接的联系人，Signal 可以使用一个名为“密钥透明度”的流程自动确认连接是否安全。如要提高安全性，您可以比对前一个屏幕上的数字或扫描对方设备上的二维码以手动验证端对端加密。"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "此聊天已无法使用自动验证"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal 已无法自动验证此聊天的加密。这可能是因为 {name} 更改了手机号码。请通过比对前一个屏幕上的数字或扫描对方设备上的二维码手动验证端对端加密。"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal 只能对通过手机号码连接的联系人的聊天进行自动加密验证。如果使用用户名或在共同群组中发起聊天，请通过比对前一个屏幕上的数字或扫描对方设备上的二维码验证端对端加密。"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "好"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "在您与对方互发消息后，系统将针对其生成一个安全码。"
@@ -630,43 +627,43 @@
     "messageformat": "了解更多"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "您的设备目前无法使用自动密钥验证功能。要提交调试日志吗？"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "调试日志能帮助我们诊断和解决问题，并且不包含任何可识别身份的信息。"
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "关闭"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "分享调试日志"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "查看"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "提交"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "不，谢谢。"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "正在提交..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Signal 现在可以自动验证加密"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "对于通过手机号码连接的联系人，Signal 可以使用一个名为“密钥透明度”的流程自动确认连接是否安全。如要提高安全性，您还可以使用二维码或比对安全码手动验证连接。"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "继续"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "了解更多"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "关闭"
   },
   "icu:verified": {
     "messageformat": "已验证"
@@ -1114,6 +1111,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name}在您的系统通讯录中"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "添加成员标签"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "备注"
@@ -1794,13 +1794,13 @@
     "messageformat": "取消"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "自动密钥验证"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "如果启用此功能，Signal 会尝试自动验证一对一聊天加密。"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "了解更多"
   },
   "icu:initialSync": {
     "messageformat": "正在同步联系人和群组"
@@ -2428,6 +2428,9 @@
   },
   "icu:Toast--unable-download-from-backup-tier": {
     "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Only admins can add member labels in this group."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "您只能在发送此消息后的 24 小时以内进行编辑。"
@@ -4628,6 +4631,9 @@
   "icu:ContactModal--rm-admin": {
     "messageformat": "取消其管理员身份"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "This will also clear their member label."
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "设为管理员"
   },
@@ -4646,6 +4652,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "语音"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "成员标签"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "您可以设置成员标签来描述您自己或您在此群组中的角色。成员标签仅在此群组内可见。"
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "设置标签"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "编辑您的标签"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "聊天颜色"
   },
@@ -4660,6 +4678,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "群组链接"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "成员标签"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "请输入您的成员标签"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "设置一个成员标签来描述您自己或您在此群组中的角色。成员标签仅在此群组内可见。"
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "预览"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "你好！"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "有标签的群组成员"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "没有其他成员有标签"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "正在保存更改..."
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "无法保存成员标签"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "请检查您的网络连接并重试。"
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "只有管理员能够设置此群组的成员标签。"
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "限时消息"
@@ -4695,7 +4746,7 @@
     "messageformat": "选择谁可以编辑群组名称、图片、描述和限时消息计时器。"
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "请选择谁可以编辑群组名称、图片、描述、限时消息定时器和置顶消息。"
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "谁可以添加成员"
@@ -4708,6 +4759,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "选择谁可以给群组发送消息。"
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "成员标签将会被清除"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "将此权限更改为“仅限管理员”将会清除此群组中由非管理员设置的成员标签。"
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "继续"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "请求与邀请"
@@ -4762,6 +4822,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "添加成员"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Add member label"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "查看全部"
@@ -4936,6 +4999,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {您至多只能选择对所有人删除 {count,number} 条消息}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Delete item?"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Close"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Delete"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Cancel"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "您至多只能转发 30 条消息"
@@ -5309,6 +5387,24 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "您收发的文件会在这里显示"
   },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "View in chat"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Forward"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Save"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Send message"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Copy link"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Delete"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "选择媒体质量"
   },
@@ -5521,6 +5617,10 @@
   },
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "管理员"
+  },
+  "icu:Avatar__View": {
+    "messageformat": "View",
+    "limit": 7
   },
   "icu:AvatarEditor--choose": {
     "messageformat": "选择一个头像"
@@ -7428,6 +7528,21 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>当您捐款时，Signal 不会收集或储存您的任何个人信息。</paragraph><paragraph>我们使用 Stripe 作为接收捐款的付款处理方。我们不会访问、储存或保存您向 Stripe 提供的任何信息。</paragraph><paragraph>Signal 不会也无法关联您的捐款至您的 Signal 账户。</paragraph><paragraph>感谢您的赞助！</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "作为独立的非营利组织， Signal 致力于保护消息和通话的私密性。这里无广告，无跟踪，无监视。立即捐款支持 Signal 吧。"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "捐款后可在个人资料上显示一个可选徽章"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "保护您的隐私是我们的使命"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal 是一个非营利组织。"
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Signal 徽标风格的心形图标"
+  },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "好"
   },
@@ -7519,7 +7634,13 @@
     "messageformat": "删除信息"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "离开会取消您的捐款操作。"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "离开"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "留在本页"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "继续"
@@ -7567,13 +7688,13 @@
     "messageformat": "您正在进行的捐款需要确认。"
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "您正在进行的捐款需要确认。"
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "已取消使用 Paypal 捐款"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "使用 Paypal 捐款发生错误。您尚未被扣款。"
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "捐款成功，但我们无法更新您的徽章设置"
@@ -7591,7 +7712,7 @@
     "messageformat": "重试"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "付款方式"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "付款方式被拒绝"
@@ -7600,31 +7721,31 @@
     "messageformat": "请尝试另一种付款方式或联系您的银行了解详情。"
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "付款卡图标"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "信用卡或借记卡"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "取消"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "完成捐款"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "已取消使用 Paypal 捐款"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "您尚未被扣款。请重试或使用其他付款方式。"
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "使用 Paypal 捐款发生错误"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "您尚未被扣款。请重试或使用其他付款方式。"
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "验证失败"
@@ -7828,10 +7949,10 @@
     "messageformat": "我们进行了功能微调、漏洞修复和性能强化。感谢使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "五款全新官方艺术家贴纸包。"
   },
-  "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
   }
 }

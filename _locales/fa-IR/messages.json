@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "نمایش ابزارهای توسعه"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "باز کردن ابزارهای توسعه‌دهنده تماس"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "تنظیم به عنوان دستگاه جدید"
   },
@@ -579,49 +576,49 @@
     "messageformat": "برای بررسی رمزگذاری سرتاسری با {name}، شماره‌های بالا را با دستگاه او مقایسه کنید. او همچنین می‌تواند کد شما را با دستگاه خود اسکن کند."
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "برای تأیید رمزگذاری سرتاسری با {name}، شماره‌های بالا را با دستگاه او مقایسه کنید. او همچنین می‌تواند کد شما را با دستگاه خود اسکن کند."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "بیشتر بدانید"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "تأیید رمز خودکار"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "تأیید خودکار"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "در حال تأیید رمزگذاری..."
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "رمزگذاری تأیید شد"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "تأیید خودکار در دسترس نیست"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "تأیید خودکار برای همه گفتگوها در دسترس نیست."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "بیشتر بدانید"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "رمزگذاری برای این گفتگو تأیید خودکار شده است "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "برای مخاطبانی که از طریق شماره تلفن به آن‌ها متصل هستید، سیگنال می‌تواند با استفاده از فرایندی به نام «شفافیت کلید» به‌طور خودکار تأیید کند که اتصال امن است. برای امنیت بیشتر، رمزگذاری سرتاسری را به‌صورت دستی با مقایسه اعداد در صفحه قبلی یا اسکن کردن کد روی دستگاه او تأیید کنید."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "تأیید خودکار دیگر برای این گفتگو در دسترس نیست"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "سیگنال دیگر نمی‌تواند رمزگذاری این گفتگو را به‌صورت خودکار تأیید کند. احتمالاً به این دلیل است که {name} شماره تلفن خود را تغییر داده است. با مقایسه اعداد در صفحه قبلی یا اسکن کردن کد روی دستگاه او، رمزگذاری سرتاسری را به‌صورت دستی تأیید کنید."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "سیگنال فقط در گفتگوهایی می‌تواند رمزگذاری را به‌صورت خودکار تأیید کند که از طریق شماره تلفن به فرد مقابل متصل هستید. اگر گفتگو با یک نام کاربری یا از طریق گروه مشترکی شروع شده است، رمزگذاری سرتاسری را با مقایسه اعداد در صفحه قبلی یا اسکن کردن کد روی دستگاه او تأیید کنید."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "خوب"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "بعد از اینکه با این فرد پیامی رد و بدل کنید، یک شماره ایمنی برای او ایجاد خواهد شد."
@@ -630,43 +627,43 @@
     "messageformat": "بیشتر یاد بگیرید"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "تأیید خودکار رمز در حال حاضر برای دستگاه شما در دسترس نیست. گزارش اشکال‌زدایی ارسال شود؟"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "گزارش‌های اشکال‌زدایی به ما کمک می‌کنند که مشکل را شناسایی و رفع کنیم و حاوی اطلاعاتی که منجر به شناسایی افراد شود نیست."
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "بستن"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "هم‌رسانی گزارش اشکال‌زدایی"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "مشاهده"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "ارسال"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "نه ممنون"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "در حال ارسال..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "سیگنال اکنون می‌تواند رمزگذاری را به‌طور خودکار تأیید کند"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "برای مخاطبانی که از طریق شماره تلفن به آن‌ها متصل هستید، سیگنال می‌تواند با استفاده از فرایندی به نام «شفافیت کلید» به‌طور خودکار تأیید کند که اتصال امن است. برای امنیت بیشتر، همچنان می‌توانید مخاطبان را به‌صورت دستی و با استفاده از کد QR یا مقایسه شماره ایمنی تأیید کنید."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "ادامه"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "بیشتر بدانید"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "بستن"
   },
   "icu:verified": {
     "messageformat": "تایید شده"
@@ -1114,6 +1111,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "‏{name} در مخاطبان سیستم شما است"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "افزودن برچسب عضو"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "یادداشت"
@@ -1794,13 +1794,13 @@
     "messageformat": "لغو"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "تأیید رمز خودکار"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "در صورت فعال بودن، سیگنال تلاش می‌کند رمزگذاری گفتگوهای فرد به فرد را به‌صورت خودکار تأیید کند."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "بیشتر بدانید"
   },
   "icu:initialSync": {
     "messageformat": "هماهنگ سازی مخاطبین و گروه ها"
@@ -2428,6 +2428,9 @@
   },
   "icu:Toast--unable-download-from-backup-tier": {
     "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Only admins can add member labels in this group."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ویرایش‌ها فقط تا ۲۴ ساعت بعد از ارسال این پیام قابل اعمال هستند."
@@ -4628,6 +4631,9 @@
   "icu:ContactModal--rm-admin": {
     "messageformat": "حذف از مدیریت"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "This will also clear their member label."
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "ارتقا به مدیر"
   },
@@ -4646,6 +4652,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "صوتی"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "برچسب‌های عضو"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "برای توصیف خود و نقشتان در این گروه، از برچسب عضو استفاده کنید. برچسب اعضا فقط در این گروه قابل‌مشاهده هستند."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "تنظیم برچسب"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "برچسب خود را ویرایش کنید"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "رنگ گفتگو"
   },
@@ -4660,6 +4678,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "پیوند گروه"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "برچسب عضو"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "برچسب عضوتان را وارد کنید"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "برای توصیف خود و نقشتان در این گروه، برچسب عضو تنظیم کنید. برچسب اعضا فقط در این گروه قابل‌مشاهده هستند."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "پیش‌نمایش"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "سلام!"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "اعضای گروه دارنده برچسب"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "عضو دیگری برچسب ندارد"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "در حال ذخیره کردن تغییرات..."
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "برچسب عضو ذخیره نشد"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "اتصال خود را بررسی و دوباره تلاش کنید."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "فقط مدیران می‌توانند برچسب‌های عضو را در این گروه تنظیم کنند."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "پیام‌های ناپدید شونده"
@@ -4695,7 +4746,7 @@
     "messageformat": "انتخاب کنید چه کسانی می‌توانند نام، عکس، توضیحات و زمان‌سنج پیام‌های ناپدید شوندهٔ گروه را ویرایش کنند."
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "انتخاب کنید چه کسانی بتوانند نام گروه، عکس، توضیحات، زمان‌سنج پیام‌های ناپدید شونده گروه و پیام‌های سنجاق‌شده را ویرایش کنند."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "چه کسی می‌تواند اعضای جدید اضافه کند؟"
@@ -4708,6 +4759,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "انتخاب کنید چه کسی می‌تواند به گروه پیام ارسال کند."
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "برچسب‌های عضو پاک خواهند شد"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "تغییر دادن این مجوز به «فقط مدیران» موجب پاک شدن برچسب‌های عضو که افراد غیرمدیر در این گروه تنظیم کرده‌اند می‌شود."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "ادامه"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "درخواست‌ها و دعوتنامه‌ها"
@@ -4762,6 +4822,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "افزودن اعضا"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Add member label"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "مشاهدهٔ همه"
@@ -4936,6 +4999,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {فقط می‌توانید حداکثر {count,number} پیام را به‌منظور پاک کردن برای همه انتخاب کنید} other {فقط می‌توانید حداکثر {count,number} پیام را به‌منظور پاک کردن برای همه انتخاب کنید}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Delete item?"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Close"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Delete"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Cancel"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "فقط تا حداکثر ۳۰ پیام را می‌توانید بازارسال کنید"
@@ -5309,6 +5387,24 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "فایل‌های ارسالی و دریافتی‌تان اینجا ظاهر خواهند شد"
   },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "View in chat"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Forward"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Save"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Send message"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Copy link"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Delete"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "انتخاب کیفیت رسانه"
   },
@@ -5521,6 +5617,10 @@
   },
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "مدیران"
+  },
+  "icu:Avatar__View": {
+    "messageformat": "View",
+    "limit": 7
   },
   "icu:AvatarEditor--choose": {
     "messageformat": "یک آواتار انتخاب کنید"
@@ -7428,6 +7528,21 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>سیگنال هیچ‌گونه اطلاعات شخصی شما را هنگام اهدای کمک مالی جمع آوری یا ذخیره نمی‌کند.</paragraph><paragraph>ما برای دریافت کمک‌های مالی شما از Stripe به‌عنوان پردازش‌گر پرداخت خود استفاده می‌کنیم. به هیچ‌گونه اطلاعاتی که در اختیار آن‌ها قرار می‌دهید دسترسی نداریم، آن‌ها را نگه نمی‌داریم یا ذخیره نمی‌کنیم.</paragraph><paragraph>سیگنال کمک مالی‌تان را به حساب سیگنال شما متصل نمی‌کند و امکان انجام این کار را هم ندارد.</paragraph><paragraph>سپاس از حمایت شما!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "سیگنال به‌عنوان شرکت مستقل و غیرانتفاعی، متعهد به پیام‌رسانی و تماس خصوصی است. بدون تبلیغات، بدون ردیاب، بدون نظارت. همین امروز برای حمایت از سیگنال، کمک مالی اهدا کنید."
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "با اهدای کمک مالی، یک نشان اختیاری در نمایه‌تان دریافت کنید"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "حفظ حریم خصوصی شما مأموریت ما است"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "سیگنال یک شرکت غیرانتفاعی است. اهداهای داخل ایالات متحده مالیات‌پذیر هستند."
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "آیکون قلب به‌سبک لوگوی سیگنال"
+  },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "باشه"
   },
@@ -7519,7 +7634,13 @@
     "messageformat": "حذف اطلاعات"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "ترک صفحه موجب لغو کمک مالی شما خواهد شد."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "ترک"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "ماندن در صفحه"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "ادامه"
@@ -7567,13 +7688,13 @@
     "messageformat": "شما یک کمک مالی در حال انجام دارید که نیاز به تأیید دارد."
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "شما یک کمک مالی در حال انجام دارید که نیاز به تأیید دارد."
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "کمک مالی PayPal لغو شد"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "خطا در پردازش کمک مالی PayPal. هزینه‌ای از شما کسر نشده است."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "اهدای مالی باموفقیت انجام شد، اما نتوانستیم تنظیمات نشان شما را به‌روزرسانی کنیم"
@@ -7591,7 +7712,7 @@
     "messageformat": "دوباره تلاش کنید"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "روش پرداخت"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "روش پرداخت رد شد"
@@ -7600,31 +7721,31 @@
     "messageformat": "روش پرداخت دیگری را امتحان کنید یا با بانک خود برای اطلاعات بیشتر تماس بگیرید."
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "آیکون کارت پرداخت"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "کارت اعتباری یا دبیت کارت"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "لغو"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "تکمیل کردن اهدا"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "کمک مالی PayPal لغو شد"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "هزینه‌ای از شما کسر نشده است. دوباره تلاش کنید یا از روش پرداخت دیگری استفاده کنید."
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "خطا در پردازش کمک مالی PayPal"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "هزینه‌ای از شما کسر نشده است. دوباره تلاش کنید یا از روش پرداخت دیگری استفاده کنید."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "خطا در تأیید"
@@ -7828,10 +7949,10 @@
     "messageformat": "تغییرات کوچک، رفع اشکالات و بهبود عملکرد. بابت استفاده از سیگنال سپاسگزاریم!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "پنج بسته استیکر جدید از هنرمند رسمی."
   },
-  "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
   }
 }

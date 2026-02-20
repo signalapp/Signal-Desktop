@@ -11,6 +11,7 @@ import React, {
 } from 'react';
 
 import classNames from 'classnames';
+import type { ReadonlyDeep } from 'type-fest';
 import type { LocalizerType } from '../types/Util.std.js';
 import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.js';
 import {
@@ -18,6 +19,7 @@ import {
   DonationProcessor,
   donationStateSchema,
   ONE_TIME_DONATION_CONFIG_ID,
+  PaymentMethod,
 } from '../types/Donations.std.js';
 import type {
   CardDetail,
@@ -86,7 +88,7 @@ export type PropsDataType = {
   initialCurrency: string;
   isDonationPaypalEnabled: boolean;
   isOnline: boolean;
-  donationAmountsConfig: OneTimeDonationHumanAmounts | undefined;
+  donationAmountsConfig: ReadonlyDeep<OneTimeDonationHumanAmounts> | undefined;
   lastError: DonationErrorType | undefined;
   validCurrencies: ReadonlyArray<string>;
   workflow: DonationWorkflow | undefined;
@@ -193,18 +195,35 @@ export function PreferencesDonateFlow({
     setCurrency(value);
   }, []);
 
+  const isPaymentProcessorStepEnabled = useMemo(() => {
+    if (
+      donationAmountsConfig == null ||
+      donationAmountsConfig[currency] == null
+    ) {
+      return false;
+    }
+
+    return (
+      isDonationPaypalEnabled &&
+      donationAmountsConfig[currency].supportedPaymentMethods.includes(
+        PaymentMethod.Paypal
+      )
+    );
+  }, [isDonationPaypalEnabled, donationAmountsConfig, currency]);
+
   const handleAmountPickerResult = useCallback(
     (result: AmountPickerResult) => {
       const { currency: pickedCurrency, amount: pickedAmount } = result;
       setAmount(pickedAmount);
       setCurrency(pickedCurrency);
-      if (isDonationPaypalEnabled) {
+
+      if (isPaymentProcessorStepEnabled) {
         setStep('paymentProcessor');
       } else {
         setStep('stripePaymentDetails');
       }
     },
-    [isDonationPaypalEnabled]
+    [isPaymentProcessorStepEnabled]
   );
 
   const handleCardFormChanged = useCallback((values: CardFormValues) => {
@@ -268,12 +287,12 @@ export function PreferencesDonateFlow({
   }, [handleSubmitDonation]);
 
   const handleBackFromCardForm = useCallback(() => {
-    if (isDonationPaypalEnabled) {
+    if (isPaymentProcessorStepEnabled) {
       setStep('paymentProcessor');
     } else {
       setStep('amount');
     }
-  }, [isDonationPaypalEnabled]);
+  }, [isPaymentProcessorStepEnabled]);
 
   useEffect(() => {
     if (!workflow || lastError) {
@@ -305,10 +324,32 @@ export function PreferencesDonateFlow({
     return undefined;
   }, [i18n, step]);
 
+  const discardModalCancelText = useMemo(() => {
+    if (step === 'paypal') {
+      return i18n('icu:DonateFlow__discard-paypal-dialog-cancel');
+    }
+
+    // Use default text "Cancel"
+    return undefined;
+  }, [i18n, step]);
+
+  const discardModalDiscardText = useMemo(() => {
+    if (step === 'stripePaymentDetails') {
+      return i18n('icu:DonateFlow__discard-dialog-remove-info');
+    }
+
+    if (step === 'paypal') {
+      return i18n('icu:DonateFlow__discard-paypal-dialog-discard');
+    }
+
+    return undefined;
+  }, [i18n, step]);
+
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,
     bodyText: discardModalBodyText,
-    discardText: i18n('icu:DonateFlow__discard-dialog-remove-info'),
+    cancelText: discardModalCancelText,
+    discardText: discardModalDiscardText,
     name: 'PreferencesDonateFlow',
     tryClose,
   });
@@ -399,6 +440,7 @@ export function PreferencesDonateFlow({
           <img
             src="images/paypal.svg"
             aria-label={i18n('icu:DonateFlow__Paypal__AccessibilityLabel')}
+            draggable={false}
           />
         </button>
       </>
@@ -443,6 +485,7 @@ export function PreferencesDonateFlow({
             className={tw('flex')}
             src="images/paypal.svg"
             aria-label={i18n('icu:DonateFlow__Paypal__AccessibilityLabel')}
+            draggable={false}
           />
         </div>
         <div
@@ -515,7 +558,7 @@ type AmountPickerProps = {
   initialAmount: HumanDonationAmount | undefined;
   initialCurrency: string | undefined;
   isOnline: boolean;
-  donationAmountsConfig: OneTimeDonationHumanAmounts | undefined;
+  donationAmountsConfig: ReadonlyDeep<OneTimeDonationHumanAmounts> | undefined;
   validCurrencies: ReadonlyArray<string>;
   onChangeCurrency: (value: string) => void;
   onSubmit: (result: AmountPickerResult) => void;

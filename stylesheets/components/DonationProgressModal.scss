@@ -18,6 +18,7 @@
 .DonationProgressModal__text {
   margin-top: 20px;
   color: light-dark(variables.$color-gray-60, variables.$color-gray-25);
+  user-select: none;
   @include mixins.font-body-2;
 }
 

@@ -442,7 +442,7 @@ function PinActionsMenu(props: {
             variant="borderless-secondary"
             size="md"
             symbol="pin"
-            aria-label={i18n(
+            label={i18n(
               'icu:PinnedMessagesBar__ActionsMenu__Button__AccessibilityLabel'
             )}
           />

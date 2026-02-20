@@ -134,7 +134,6 @@ export type PropsDataType = {
   hasPanelShowing?: boolean;
   hasStories?: HasStories;
   hasActiveCall?: boolean;
-  localDeleteWarningShown: boolean;
   isMissingMandatoryProfileSharing?: boolean;
   isSelectMode: boolean;
   isSignalConversation?: boolean;
@@ -152,8 +151,6 @@ export type PropsDataType = {
 };
 
 export type PropsActionsType = {
-  setLocalDeleteWarningShown: () => void;
-
   onConversationAccept: () => void;
   onConversationArchive: () => void;
   onConversationBlock: () => void;
@@ -205,7 +202,6 @@ export const ConversationHeader = memo(function ConversationHeader({
   isSelectMode,
   isSignalConversation,
   isSmsOnlyOrUnregistered,
-  localDeleteWarningShown,
   onConversationAccept,
   onConversationArchive,
   onConversationBlock,
@@ -229,7 +225,6 @@ export const ConversationHeader = memo(function ConversationHeader({
   onViewConversationDetails,
   onViewUserStories,
   outgoingCallButtonStyle,
-  setLocalDeleteWarningShown,
   theme,
 
   contactSpoofingWarning,
@@ -284,7 +279,6 @@ export const ConversationHeader = memo(function ConversationHeader({
       {hasDeleteMessagesConfirmation && (
         <DeleteMessagesConfirmationDialog
           i18n={i18n}
-          localDeleteWarningShown={localDeleteWarningShown}
           onDestroyMessages={() => {
             setHasDeleteMessagesConfirmation(false);
             onConversationDeleteMessages();
@@ -292,7 +286,6 @@ export const ConversationHeader = memo(function ConversationHeader({
           onClose={() => {
             setHasDeleteMessagesConfirmation(false);
           }}
-          setLocalDeleteWarningShown={setLocalDeleteWarningShown}
         />
       )}
       {hasLeaveGroupConfirmation && (

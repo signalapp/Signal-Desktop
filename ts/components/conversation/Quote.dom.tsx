@@ -1,15 +1,25 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactNode } from 'react';
 import React, { useRef, useState, useEffect } from 'react';
 import lodash from 'lodash';
 import classNames from 'classnames';
 
+import type { ReactNode } from 'react';
+
 import * as MIME from '../../types/MIME.std.js';
 import * as GoogleChrome from '../../util/GoogleChrome.std.js';
-
 import { MessageBody } from './MessageBody.dom.js';
+import { ContactName, GroupMemberLabel } from './ContactName.dom.js';
+import { Emojify } from './Emojify.dom.js';
+import { TextAttachment } from '../TextAttachment.dom.js';
+import { getClassNamesFor } from '../../util/getClassNamesFor.std.js';
+import { getCustomColorStyle } from '../../util/getCustomColorStyle.dom.js';
+import { PaymentEventKind } from '../../types/Payment.std.js';
+import { getPaymentEventNotificationText } from '../../messages/payments.std.js';
+import { shouldTryToCopyFromQuotedMessage } from '../../messages/helpers.std.js';
+import { RenderLocation } from './MessageTextRenderer.dom.js';
+
 import type {
   AttachmentType,
   ThumbnailType,
@@ -20,17 +30,9 @@ import type {
   ConversationColorType,
   CustomColorType,
 } from '../../types/Colors.std.js';
-import { ContactName } from './ContactName.dom.js';
-import { Emojify } from './Emojify.dom.js';
-import { TextAttachment } from '../TextAttachment.dom.js';
-import { getClassNamesFor } from '../../util/getClassNamesFor.std.js';
-import { getCustomColorStyle } from '../../util/getCustomColorStyle.dom.js';
 import type { AnyPaymentEvent } from '../../types/Payment.std.js';
-import { PaymentEventKind } from '../../types/Payment.std.js';
-import { getPaymentEventNotificationText } from '../../messages/payments.std.js';
-import { shouldTryToCopyFromQuotedMessage } from '../../messages/helpers.std.js';
-import { RenderLocation } from './MessageTextRenderer.dom.js';
 import type { QuotedAttachmentType } from '../../model-types.d.ts';
+import type { MemberLabelType } from '../../types/GroupMemberLabels.std.js';
 
 const { noop } = lodash;
 
@@ -44,6 +46,7 @@ export type QuotedAttachmentForUIType = Pick<
 
 export type Props = {
   authorTitle: string;
+  authorLabel?: MemberLabelType;
   conversationColor: ConversationColorType;
   conversationTitle: string;
   customColor?: CustomColorType;
@@ -157,6 +160,7 @@ export function Quote(props: Props): React.JSX.Element | null {
     text,
     bodyRanges,
     authorTitle,
+    authorLabel,
     conversationTitle,
     isFromMe,
     i18n,
@@ -471,7 +475,15 @@ export function Quote(props: Props): React.JSX.Element | null {
         {title} &middot; {i18n('icu:Quote__story')}
       </>
     ) : (
-      title
+      <>
+        {title}
+        {authorLabel && !isFromMe ? (
+          <>
+            {' '}
+            <GroupMemberLabel context="quote" contactLabel={authorLabel} />
+          </>
+        ) : undefined}
+      </>
     );
 
     return (

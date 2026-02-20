@@ -17,6 +17,11 @@ export const EMOJI_OUTGOING_BYTE_LIMIT = 48;
 export const SERVER_STRING_BYTE_LIMIT = 512;
 export const SERVER_EMOJI_BYTE_LIMIT = 64;
 
+export type MemberLabelType = {
+  labelString: string;
+  labelEmoji: string | undefined;
+};
+
 export function getCanAddLabel(
   conversation: ConversationType,
   membership: MembershipType | undefined

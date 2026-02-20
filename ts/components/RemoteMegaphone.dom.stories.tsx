@@ -61,6 +61,18 @@ export function LongText(args: PropsType): React.JSX.Element {
   );
 }
 
+export function LongButtons(args: PropsType): React.JSX.Element {
+  return (
+    <RemoteMegaphone
+      {...args}
+      title="Donate Today"
+      body="As a nonprofit, Signal needs your support. As a nonprofit, Signal needs your support. As a nonprofit, Signal needs your support. As a nonprofit, Signal needs your support."
+      primaryCtaText="Donate Donate Donate Donate"
+      secondaryCtaText="Remind me later Remind me later"
+    />
+  );
+}
+
 export function NarrowSidebar(args: PropsType): React.JSX.Element {
   return <RemoteMegaphone {...args} isFullSize={false} />;
 }

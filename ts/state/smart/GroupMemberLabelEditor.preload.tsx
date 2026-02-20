@@ -13,6 +13,7 @@ import { getIntl, getTheme, getUser } from '../selectors/user.std.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
 import { createLogger } from '../../logging/log.std.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
+import { isNotNil } from '../../util/isNotNil.std.js';
 
 const log = createLogger('SmartGroupMemberLabelEditor');
 
@@ -53,6 +54,43 @@ export const SmartGroupMemberLabelEditor = memo(
     const { labelEmoji: existingLabelEmoji, labelString: existingLabelString } =
       ourMembership;
 
+    const membersWithLabel = (conversation.memberships || [])
+      .map(membership => {
+        const { aci, isAdmin, labelEmoji, labelString } = membership;
+
+        if (aci === me.serviceId) {
+          return;
+        }
+
+        if (!labelString) {
+          return;
+        }
+
+        const member = conversationSelector(aci);
+        if (!member) {
+          log.warn(
+            'Group member was not found, excluding from members with labels'
+          );
+          return;
+        }
+        const contactNameColor = memberColors.get(member.id);
+        if (!contactNameColor) {
+          log.warn(
+            'Color not found for group member, excluding from members with labels'
+          );
+          return;
+        }
+
+        return {
+          contactNameColor,
+          isAdmin,
+          labelEmoji,
+          labelString,
+          member,
+        };
+      })
+      .filter(isNotNil);
+
     return (
       <GroupMemberLabelEditor
         existingLabelEmoji={existingLabelEmoji}
@@ -61,6 +99,7 @@ export const SmartGroupMemberLabelEditor = memo(
         group={conversation}
         i18n={i18n}
         me={me}
+        membersWithLabel={membersWithLabel}
         ourColor={ourColor}
         popPanelForConversation={popPanelForConversation}
         theme={theme}

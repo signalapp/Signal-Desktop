@@ -45,6 +45,46 @@
     }
   }
 
+  &-membership-list__member-label {
+    @include mixins.font-body-small;
+  }
+
+  &-membership-list__member-label-button {
+    @include mixins.font-body-small;
+    @include mixins.button-focus-outline(2px);
+
+    @include mixins.mouse-mode {
+      &:hover {
+        background-color: light-dark(
+          variables.$color-gray-02,
+          variables.$color-gray-90
+        );
+      }
+    }
+    font-weight: 500;
+    outline: none;
+    border-radius: 5px;
+
+    display: flex;
+    align-items: center;
+    color: light-dark(
+      rgba(variables.$color-black, 0.55),
+      rgba(variables.$color-white, 0.55)
+    );
+
+    &__chevron-icon {
+      height: 16px;
+      width: 16px;
+      margin-bottom: 1px;
+
+      @include mixins.color-svg-themed(
+        '../images/icons/v3/chevron/chevron-right.svg',
+        rgba(variables.$color-black, 0.55),
+        rgba(variables.$color-white, 0.55)
+      );
+    }
+  }
+
   &__block-group {
     color: variables.$color-accent-red;
   }
@@ -290,6 +330,10 @@
         &::after {
           @include details-icon('../images/icons/v3/tag/tag.svg');
         }
+
+        &--disabled {
+          opacity: 0.5;
+        }
       }
     }
   }
@@ -297,21 +341,18 @@
   &-panel-row {
     $row-root-selector: '#{&}__root';
     &__root {
-      align-items: center;
       border-radius: 5px;
       border: 2px solid transparent;
-      display: flex;
       padding-block: 8px;
       padding-inline: 24px;
       user-select: none;
-      width: 100%;
       @include mixins.font-body-2;
 
       &--button {
         color: inherit;
         background: none;
 
-        &:hover:not(:disabled) {
+        &[data-hovered]:not(:disabled) {
           background-color: light-dark(
             variables.$color-gray-02,
             variables.$color-gray-90
@@ -328,7 +369,7 @@
       }
 
       @mixin keyboard-focus-state($color) {
-        &:focus {
+        &[data-focused='true'] {
           border-color: $color;
         }
       }
@@ -341,6 +382,12 @@
       }
     }
 
+    &__inner {
+      align-items: center;
+      display: flex;
+      width: 100%;
+    }
+
     &__icon {
       margin-inline-end: 12px;
       flex-shrink: 0;
@@ -350,6 +397,7 @@
       flex-grow: 1;
       text-align: start;
       margin-inline-end: 12px;
+      min-width: 0;
     }
 
     &__info {
@@ -367,10 +415,11 @@
     &__right {
       position: relative;
       color: variables.$color-gray-45;
-      min-width: 143px;
+      min-width: 100px;
     }
 
     &__actions {
+      position: static;
       margin-inline-start: 12px;
       overflow: hidden;
       opacity: 0;
@@ -444,6 +493,10 @@
 
 .ConversationDetails__MemberName {
   user-select: text;
+}
+
+.ConversationDetails__MemberLabel--disabled {
+  opacity: 0.5;
 }
 
 .ConversationDetails__CallHistoryGroup__List {

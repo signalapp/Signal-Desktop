@@ -72,7 +72,7 @@ export function AnnouncementsOnlyGroupBanner({
                       />
                     </div>
                     {labelString && contactNameColor && (
-                      <div>
+                      <div className={tw('type-body-small')}>
                         <GroupMemberLabel
                           contactNameColor={contactNameColor}
                           contactLabel={{

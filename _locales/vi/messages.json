@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Bật tắt Công cụ Nhà phát triển"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Mở Công cụ Nhà phát triển của Cuộc gọi"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Thiết lập như Thiết bị Mới"
   },
@@ -579,49 +576,49 @@
     "messageformat": "Để xác minh bảo mật đầu cuối với {name}, hãy so sánh các số ở trên với thiết bị của họ. Người đó cũng có thể quét mã của bạn với thiết bị của họ."
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device."
+    "messageformat": "Để xác minh mã hóa đầu cuối với {name}, hãy so sánh các số ở trên với thiết bị của họ. Người đó cũng có thể quét mã của bạn trên thiết bị của họ."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Tìm hiểu thêm"
   },
   "icu:SafetyNumberViewer__KeyTransparency__title": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Xác minh mã khóa tự động"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
-    "messageformat": "Verify automatically"
+    "messageformat": "Xác minh tự động"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--running": {
-    "messageformat": "Verifying encryption..."
+    "messageformat": "Đang xác minh mã hóa..."
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
-    "messageformat": "Encryption verified"
+    "messageformat": "Mã hóa đã được xác minh"
   },
   "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
-    "messageformat": "Auto-verification unavailable"
+    "messageformat": "Không thể tự động xác minh"
   },
   "icu:SafetyNumberViewer__KeyTransparency__hint": {
-    "messageformat": "Auto-verification is not available for all chats."
+    "messageformat": "Tính năng tự động xác minh không còn khả dụng cho tất cả cuộc trò chuyện."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Learn more"
+    "messageformat": "Tìm hiểu thêm"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
-    "messageformat": "Encryption was auto-verified for this chat "
+    "messageformat": "Mã hóa đã được tự động xác minh cho cuộc trò chuyện này "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Đối với các liên hệ bạn đã kết nối thông qua số điện thoại, Signal có thể tự động xác nhận xem kết nối có an toàn hay không bằng cách sử dụng quy trình gọi là độ minh bạch của mã khóa. Để tăng cường bảo mật, hãy xác minh thủ công mã hóa đầu cuối bằng cách so sánh các số trên màn hình trước đó hoặc quét mã trên thiết bị của họ."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
-    "messageformat": "Auto-verification is no longer available for this chat"
+    "messageformat": "Tính năng tự động xác minh không còn khả dụng cho cuộc trò chuyện này"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal can no longer automatically verify the encryption for this chat. This is likely because {name} changed their phone number. Verify end-to-end encryption manually by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal không còn khả năng tự động xác minh mã hóa cho cuộc trò chuyện này. Điều này có thể là vì {name} đã đổi số điện thoại của họ. Xác minh thủ công mã hóa đầu cuối bằng cách so sánh các số trên màn hình trước đó hoặc quét mã trên thiết bị của họ."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal can only automatically verify the encryption in chats where you’re connected to someone via a phone number. If the chat was started with a username or a group in common, verify end-to-end encryption by comparing the numbers on the previous screen or scanning the code on their device."
+    "messageformat": "Signal chỉ có thể tự động xác minh mã hóa trong các cuộc trò chuyện mà bạn được kết nối với ai đó thông qua số điện thoại. Nếu cuộc trò chuyện được bắt đầu với tên người dùng hoặc một nhóm chung, hãy xác minh mã hóa đầu cuối bằng cách so sánh các số trên màn hình trước đó hoặc quét mã trên thiết bị của họ."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
-    "messageformat": "Okay"
+    "messageformat": "OK"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Một mã số an toàn sẽ được tạo với người này sau khi hai bạn nhắn tin."
@@ -630,43 +627,43 @@
     "messageformat": "Tìm hiểu thêm"
   },
   "icu:KeyTransparencyErrorDialog__Title": {
-    "messageformat": "Automatic Key Verification is currently unavailable for your device. Submit debug log?"
+    "messageformat": "Xác minh mã khóa tự động hiện không khả dụng cho thiết bị của bạn. Gửi nhật ký gỡ lỗi?"
   },
   "icu:KeyTransparencyErrorDialog__Description": {
-    "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information."
+    "messageformat": "Nhật ký gỡ lỗi giúp chúng tôi xác định và khắc phục vấn đề, và không chứa thông tin nhận dạng."
   },
   "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Đóng"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
-    "messageformat": "Share debug log"
+    "messageformat": "Chia sẻ nhật ký gỡ lỗi"
   },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
-    "messageformat": "View"
+    "messageformat": "Xem"
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
-    "messageformat": "Submit"
+    "messageformat": "Gửi"
   },
   "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks"
+    "messageformat": "Không, cảm ơn"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
-    "messageformat": "Submitting..."
+    "messageformat": "Đang gửi..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption"
+    "messageformat": "Signal nay có thể tự động xác minh mã hóa"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number."
+    "messageformat": "Đối với các liên hệ bạn đã kết nối thông qua số điện thoại, Signal có thể tự động xác nhận xem kết nối có an toàn hay không bằng cách sử dụng quy trình được gọi là độ minh bạch của mã khóa. Để tăng độ bảo mật, bạn vẫn có thể xác minh thủ công các kết nối bằng mã QR hoặc bằng cách so sánh mã số an toàn."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
-    "messageformat": "Continue"
+    "messageformat": "Tiếp tục"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Learn more"
+    "messageformat": "Tìm hiểu thêm"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
+    "messageformat": "Đóng"
   },
   "icu:verified": {
     "messageformat": "Đã xác minh"
@@ -1114,6 +1111,9 @@
   },
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} có trong danh bạ của thiết bị"
+  },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Thêm Nhãn thành viên"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Ghi chú"
@@ -1794,13 +1794,13 @@
     "messageformat": "Hủy"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
-    "messageformat": "Automatic key verification"
+    "messageformat": "Xác minh mã khóa tự động"
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
-    "messageformat": "When enabled, Signal will attempt to automatically verify the encryption of 1:1 chats."
+    "messageformat": "Khi được bật, Signal sẽ cố gắng tự động xác minh mã hóa của các cuộc trò chuyện 1:1."
   },
   "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
-    "messageformat": "Learn More"
+    "messageformat": "Tìm hiểu thêm"
   },
   "icu:initialSync": {
     "messageformat": "Đồng bộ các liên lạc và nhóm"
@@ -2428,6 +2428,9 @@
   },
   "icu:Toast--unable-download-from-backup-tier": {
     "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Only admins can add member labels in this group."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Các chỉnh sửa chỉ có thể được thực hiện trong vòng 24 giờ kể từ lúc bạn gửi tin nhắn này."
@@ -4628,6 +4631,9 @@
   "icu:ContactModal--rm-admin": {
     "messageformat": "Xóa với tư cách quản trị viên"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "This will also clear their member label."
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "Đặt admin"
   },
@@ -4646,6 +4652,18 @@
   "icu:ContactModal--voice": {
     "messageformat": "Thoại"
   },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Nhãn thành viên"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Sử dụng nhãn thành viên để mô tả bản thân hoặc vai trò của bạn trong nhóm này. Nhãn thành viên chỉ hiển thị trong nhóm này."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Đặt nhãn"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Chỉnh sửa nhãn"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Màu cuộc trò chuyện"
   },
@@ -4660,6 +4678,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Đường dẫn nhóm"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Nhãn thành viên"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Nhập nhãn thành viên của bạn"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Đặt nhãn thành viên để mô tả bản thân hoặc vai trò của bạn trong nhóm này. Nhãn thành viên chỉ hiển thị trong nhóm này."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Xem trước"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Xin chào!"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Thành viên nhóm có nhãn"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "Không có thành viên nào khác có nhãn"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Đang lưu các thay đổi..."
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Không thể lưu nhãn thành viên"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Kiểm tra kết nối của bạn và thử lại."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Chỉ quản trị viên mới có thể đặt nhãn thành viên trong nhóm này."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Tin nhắn tự hủy"
@@ -4695,7 +4746,7 @@
     "messageformat": "Chọn ai có thể tuỳ chỉnh tên nhóm, ảnh, miêu tả, và đồng hồ đếm tin nhắn biến mất."
   },
   "icu:ConversationDetails--group-info-info-v2": {
-    "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages."
+    "messageformat": "Chọn ai có thể chỉnh sửa tên nhóm, ảnh, miêu tả, và đồng hồ đếm tin nhắn tự xóa và tin nhắn ghim."
   },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Ai có thể thêm thành viên"
@@ -4708,6 +4759,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Chọn người có thể gửi tin nhắn cho nhóm."
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Nhãn thành viên sẽ được xóa"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Việc thay đổi quyền này thành \"Chỉ quản trị viên\" sẽ xóa nhãn thành viên được đặt bởi những người không phải quản trị viên trong nhóm này."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Tiếp tục"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Yêu cầu & Lời mời"
@@ -4762,6 +4822,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Thêm thành viên"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Add member label"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Xem tất cả"
@@ -4936,6 +4999,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {Bạn chỉ có thể chọn tối đa {count,number} tin nhắn để xóa cho mọi người}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Delete item?"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Close"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Delete"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Cancel"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Bạn chỉ có thể chuyển tiếp tối đa 30 tin nhắn"
@@ -5309,6 +5387,24 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "Tập tin bạn gửi và nhận sẽ hiển thị ở đây"
   },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "View in chat"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Forward"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Save"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Send message"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Copy link"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Delete"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Chọn chất lượng đa phương tiện"
   },
@@ -5521,6 +5617,10 @@
   },
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "người quản trị"
+  },
+  "icu:Avatar__View": {
+    "messageformat": "View",
+    "limit": 7
   },
   "icu:AvatarEditor--choose": {
     "messageformat": "Chọn Anhr đại diện"
@@ -7428,6 +7528,21 @@
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal không thu thập hay lưu trữ thông tin cá nhân của bạn khi bạn gửi khoản ủng hộ.</paragraph><paragraph>Chúng tôi sử dụng Stripe làm hệ thống xử lý thanh toán để nhận các khoản ủng hộ. Chúng tôi không truy cập, lưu trữ, hoặc lưu bất kỳ thông tin nào bạn cung cấp cho phía hệ thống.</paragraph><paragraph>Signal không và không thể liên kết thông tin thanh toán với tài khoản Signal của bạn.</paragraph><paragraph>Cảm ơn sự đóng góp của bạn!</paragraph>"
   },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "Là một tổ chức phi lợi nhuận độc lập, Signal cam kết cung cấp dịch vụ nhắn tin và cuộc gọi riêng tư. Không quảng cáo, không trình theo dấu, không theo dõi. Ủng hộ ngay hôm nay để hỗ trợ Signal."
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Nhận huy hiệu (không bắt buộc) trên hồ sơ của bạn khi bạn ủng hộ"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "Quyền riêng tư của bạn là sứ mệnh của chúng tôi"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal là một tổ chức phi lợi nhuận."
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Biểu tượng trái tim theo phong cách của logo Signal"
+  },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "OK"
   },
@@ -7519,7 +7634,13 @@
     "messageformat": "Xóa thông tin"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?"
+    "messageformat": "Thao tác rời đi sẽ hủy khoản ủng hộ của bạn."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Rời"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Ở lại trang"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Tiếp tục"
@@ -7567,13 +7688,13 @@
     "messageformat": "Bạn có một khoản ủng hộ đang tiến hành cần được xác nhận."
   },
   "icu:Donations__Toast__PaypalConfirmationNeeded": {
-    "messageformat": "You have a donation in progress that requires confirmation."
+    "messageformat": "Bạn có một khoản ủng hộ đang tiến hành cần được xác nhận."
   },
   "icu:Donations__Toast__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "Đã hủy khoản ủng hộ qua PayPal"
   },
   "icu:Donations__Toast__PaypalError": {
-    "messageformat": "Error processing PayPal donation. You have not been charged."
+    "messageformat": "Có lỗi khi xử lý khoản ủng hộ qua PayPal. Bạn chưa bị trừ tiền."
   },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Bạn đã ủng hộ thành công, nhưng chúng tôi không thể cập nhật cài đặt huy hiệu của bạn"
@@ -7591,7 +7712,7 @@
     "messageformat": "Thử lại"
   },
   "icu:Donations__PaymentMethod": {
-    "messageformat": "Payment method"
+    "messageformat": "Phương thức Thanh toán"
   },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Phương thức thanh toán bị từ chối"
@@ -7600,31 +7721,31 @@
     "messageformat": "Hãy thử một phương thức thanh toán khác hoặc liên hệ với ngân hàng của bạn để biết thêm thông tin."
   },
   "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
-    "messageformat": "Payment card icon"
+    "messageformat": "Biểu tượng thẻ thanh toán"
   },
   "icu:DonateFlow__CreditOrDebitCard": {
-    "messageformat": "Credit or Debit Card"
+    "messageformat": "Thẻ tín dụng hoặc ghi nợ"
   },
   "icu:DonateFlow__Paypal__AccessibilityLabel": {
     "messageformat": "PayPal"
   },
   "icu:DonateFlow__Paypal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Hủy"
   },
   "icu:DonateFlow__Paypal__CompleteDonation": {
-    "messageformat": "Complete Donation"
+    "messageformat": "Hoàn tất Ủng hộ"
   },
   "icu:Donations__PaypalCanceled": {
-    "messageformat": "PayPal donation canceled"
+    "messageformat": "Đã hủy khoản ủng hộ qua PayPal"
   },
   "icu:Donations__PaypalCanceled__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Bạn chưa bị trừ tiền. Hãy thử lại hoặc sử dụng phương thức thanh toán khác."
   },
   "icu:Donations__PaypalError": {
-    "messageformat": "Error processing PayPal donation"
+    "messageformat": "Có lỗi khi xử lý khoản ủng hộ qua PayPal"
   },
   "icu:Donations__PaypalError__Description": {
-    "messageformat": "You have not been charged. Try again or use another payment method."
+    "messageformat": "Bạn chưa bị trừ tiền. Hãy thử lại hoặc sử dụng phương thức thanh toán khác."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Xác minh không thành công"
@@ -7828,10 +7949,10 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!"
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "5 bộ nhãn dán chính thức mới của các nghệ sĩ."
   },
-  "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop."
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
   }
 }

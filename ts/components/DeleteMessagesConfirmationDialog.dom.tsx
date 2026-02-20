@@ -3,30 +3,16 @@
 import React from 'react';
 import type { LocalizerType } from '../types/I18N.std.js';
 import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
-import { LocalDeleteWarningModal } from './LocalDeleteWarningModal.dom.js';
 
 export function DeleteMessagesConfirmationDialog({
   i18n,
-  localDeleteWarningShown,
   onDestroyMessages,
   onClose,
-  setLocalDeleteWarningShown,
 }: {
   i18n: LocalizerType;
-  localDeleteWarningShown: boolean;
   onDestroyMessages: () => void;
   onClose: () => void;
-  setLocalDeleteWarningShown: () => void;
 }): React.JSX.Element {
-  if (!localDeleteWarningShown) {
-    return (
-      <LocalDeleteWarningModal
-        i18n={i18n}
-        onClose={setLocalDeleteWarningShown}
-      />
-    );
-  }
-
   const dialogBody = i18n(
     'icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync'
   );

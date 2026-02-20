@@ -139,6 +139,7 @@ const donationAmountsConfig = {
       1: [7, 15, 30, 40, 70, 140],
       100: [7],
     },
+    supportedPaymentMethods: ['CARD, PAYPAL'],
   },
   jpy: {
     minimum: 400,
@@ -146,6 +147,7 @@ const donationAmountsConfig = {
       '1': [500, 1000, 2000, 3000, 5000, 10000],
       '100': [500],
     },
+    supportedPaymentMethods: ['CARD, PAYPAL'],
   },
   usd: {
     minimum: 3,
@@ -153,6 +155,7 @@ const donationAmountsConfig = {
       1: [5, 10, 20, 30, 50, 100],
       100: [5],
     },
+    supportedPaymentMethods: ['CARD, PAYPAL'],
   },
   ugx: {
     minimum: 8000,
@@ -160,6 +163,7 @@ const donationAmountsConfig = {
       1: [15000, 35000, 70000, 100000, 150000, 300000],
       100: [15000],
     },
+    supportedPaymentMethods: ['CARD'],
   },
 } as unknown as OneTimeDonationHumanAmounts;
 
@@ -454,6 +458,7 @@ export default {
     isAutoDownloadUpdatesSupported: true,
     isAutoLaunchSupported: true,
     isHideMenuBarSupported: true,
+    isKeyTransparencyAvailable: true,
     isNotificationAttentionSupported: true,
     isSyncSupported: true,
     isSystemTraySupported: true,

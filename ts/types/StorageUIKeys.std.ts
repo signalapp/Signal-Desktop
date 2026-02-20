@@ -23,7 +23,6 @@ export const STORAGE_UI_KEYS: ReadonlyArray<keyof StorageAccessType> = [
   'hasCompletedSafetyNumberOnboarding',
   'hasCompletedUsernameLinkOnboarding',
   'hide-menu-bar',
-  'localDeleteWarningShown',
   'incoming-call-notification',
   'navTabsCollapsed',
   'notification-draw-attention',

@@ -1,22 +1,44 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { pickBy } from 'lodash';
 import type { SubscriptionConfigurationResultType } from '../textsecure/WebAPI.preload.js';
 import { getSubscriptionConfiguration } from '../textsecure/WebAPI.preload.js';
-import type { OneTimeDonationHumanAmounts } from '../types/Donations.std.js';
+import {
+  PaymentMethod,
+  type OneTimeDonationHumanAmounts,
+} from '../types/Donations.std.js';
 import { HOUR } from './durations/index.std.js';
 import { isInPast } from './timestamp.std.js';
+import { createLogger } from '../logging/log.std.js';
+import { TaskDeduplicator } from './TaskDeduplicator.std.js';
+
+const log = createLogger('subscriptionConfiguration');
 
 const SUBSCRIPTION_CONFIG_CACHE_TIME = HOUR;
 
 let cachedSubscriptionConfig: SubscriptionConfigurationResultType | undefined;
 let cachedSubscriptionConfigExpiresAt: number | undefined;
 
-export async function getCachedSubscriptionConfiguration(): Promise<SubscriptionConfigurationResultType> {
-  if (
-    cachedSubscriptionConfigExpiresAt != null &&
+function isCacheRefreshNeeded(): boolean {
+  return (
+    cachedSubscriptionConfig == null ||
+    cachedSubscriptionConfigExpiresAt == null ||
     isInPast(cachedSubscriptionConfigExpiresAt)
-  ) {
+  );
+}
+
+export async function getCachedSubscriptionConfiguration(): Promise<SubscriptionConfigurationResultType> {
+  return getCachedSubscriptionConfigurationDedup.run();
+}
+
+const getCachedSubscriptionConfigurationDedup = new TaskDeduplicator(
+  'getCachedSubscriptionConfiguration',
+  () => _getCachedSubscriptionConfiguration()
+);
+
+export async function _getCachedSubscriptionConfiguration(): Promise<SubscriptionConfigurationResultType> {
+  if (isCacheRefreshNeeded()) {
     cachedSubscriptionConfig = undefined;
   }
 
@@ -24,6 +46,7 @@ export async function getCachedSubscriptionConfiguration(): Promise<Subscription
     return cachedSubscriptionConfig;
   }
 
+  log.info('Refreshing config cache');
   const response = await getSubscriptionConfiguration();
 
   cachedSubscriptionConfig = response;
@@ -33,7 +56,26 @@ export async function getCachedSubscriptionConfiguration(): Promise<Subscription
   return response;
 }
 
-export async function getDonationHumanAmounts(): Promise<OneTimeDonationHumanAmounts> {
+export function getCachedSubscriptionConfigExpiresAt(): number | undefined {
+  return cachedSubscriptionConfigExpiresAt;
+}
+
+export async function getCachedDonationHumanAmounts(): Promise<OneTimeDonationHumanAmounts> {
   const { currencies } = await getCachedSubscriptionConfiguration();
-  return currencies;
+  // pickBy returns a Partial so we need to cast it
+  return pickBy(
+    currencies,
+    ({ supportedPaymentMethods }) =>
+      supportedPaymentMethods.includes(PaymentMethod.Card) ||
+      supportedPaymentMethods.includes(PaymentMethod.Paypal)
+  ) as unknown as OneTimeDonationHumanAmounts;
+}
+
+export async function maybeHydrateDonationConfigCache(): Promise<void> {
+  if (!isCacheRefreshNeeded()) {
+    return;
+  }
+
+  const amounts = await getCachedDonationHumanAmounts();
+  window.reduxActions.donations.hydrateConfigCache(amounts);
 }

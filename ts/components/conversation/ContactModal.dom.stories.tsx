@@ -12,6 +12,9 @@ import { HasStories } from '../../types/Stories.std.js';
 import { ThemeType } from '../../types/Util.std.js';
 import { getDefaultConversation } from '../../test-helpers/getDefaultConversation.std.js';
 import { getFakeBadges } from '../../test-helpers/getFakeBadge.std.js';
+import { SignalService as Proto } from '../../protobuf/index.std.js';
+
+const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
 
 const { i18n } = window.SignalContext;
 
@@ -97,9 +100,47 @@ WithLabelInvalidEmoji.args = {
   contactNameColor: '220',
 };
 
+export const LongLabel = Template.bind({});
+LongLabel.args = {
+  contactLabelEmoji: '🐝',
+  contactLabelString: '𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫𒐫',
+  contactNameColor: '270',
+};
+
+export const LongLabel2 = Template.bind({});
+LongLabel2.args = {
+  contactLabelEmoji: '🐝',
+  contactLabelString: '﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽﷽',
+  contactNameColor: '270',
+};
+
+export const LongLabelAllEmoji = Template.bind({});
+LongLabelAllEmoji.args = {
+  contactLabelEmoji: '🐝',
+  contactLabelString: '🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝',
+  contactNameColor: '270',
+};
+
 export const AsAdmin = Template.bind({});
 AsAdmin.args = {
   areWeAdmin: true,
+};
+
+export const AsAdminViewingAdmin = Template.bind({});
+AsAdminViewingAdmin.args = {
+  areWeAdmin: true,
+  isAdmin: true,
+};
+
+export const AsAdminViewingAdminWithLabel = Template.bind({});
+AsAdminViewingAdminWithLabel.args = {
+  areWeAdmin: true,
+  isAdmin: true,
+  conversation: {
+    ...defaultGroup,
+    accessControlAttributes: ACCESS_ENUM.ADMINISTRATOR,
+  },
+  contactLabelString: 'Contact Label',
 };
 
 export const AsAdminWithNoGroupLink = Template.bind({});

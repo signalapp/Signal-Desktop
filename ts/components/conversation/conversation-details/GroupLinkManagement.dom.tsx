@@ -149,7 +149,6 @@ export function GroupLinkManagement({
                 />
               }
               label={i18n('icu:GroupLinkManagement--share')}
-              ref={!isAdmin ? focusRef : undefined}
               onClick={() => {
                 if (conversation.groupLink) {
                   drop(copyGroupLink(conversation.groupLink));

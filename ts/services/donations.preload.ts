@@ -109,7 +109,8 @@ export async function initialize(): Promise<void> {
   if (
     isTooOld &&
     (workflow.type === donationStateSchema.Enum.INTENT_METHOD ||
-      workflow.type === donationStateSchema.Enum.INTENT_REDIRECT)
+      workflow.type === donationStateSchema.Enum.INTENT_REDIRECT ||
+      workflow.type === donationStateSchema.Enum.PAYPAL_INTENT)
   ) {
     log.info(
       `initialize: Workflow at ${workflow.type} is too old, canceling donation.`
@@ -262,10 +263,32 @@ export async function approvePaypalPayment({
 
   try {
     const existing = _getWorkflowFromRedux();
+    const lastReturnToken = _getLastReturnTokenFromRedux();
+
     if (!existing) {
+      // This can happen if after you finished a Paypal donation, but you go back to
+      // the Paypal website and click Return to Signal again.
+      if (returnToken === lastReturnToken) {
+        if (!isDonationPageVisible()) {
+          redirectToPage(SettingsPage.Donations);
+        }
+        return;
+      }
+
       throw new Error(
         'approvePaypalPayment: Cannot finish nonexistent workflow!'
       );
+    }
+
+    // If you visit the approval link twice in succession, this can happen
+    if (isPaypalAlreadyApproved(existing)) {
+      log.warn(
+        'approvePaypalPayment: Existing workflow already approved, not trying to approve again'
+      );
+      if (!isDonationPageVisible()) {
+        redirectToPage(SettingsPage.Donations);
+      }
+      return;
     }
 
     if (payerId == null || paymentToken == null) {
@@ -296,13 +319,18 @@ export async function cancelPaypalPayment(_returnToken: string): Promise<void> {
   log.info(`${logId}: User visited PayPal cancel URI, showing donate flow`);
 
   if (!isDonationPageVisible()) {
-    window.reduxActions.nav.changeLocation({
-      tab: NavTab.Settings,
-      details: {
-        page: SettingsPage.DonationsDonateFlow,
-      },
-    });
+    redirectToPage(SettingsPage.DonationsDonateFlow);
   }
+}
+
+function isPaypalAlreadyApproved(workflow: DonationWorkflow): boolean {
+  const { type } = workflow;
+  return (
+    type === donationStateSchema.Enum.PAYPAL_APPROVED ||
+    type === donationStateSchema.Enum.PAYMENT_CONFIRMED ||
+    type === donationStateSchema.Enum.RECEIPT ||
+    type === donationStateSchema.Enum.DONE
+  );
 }
 
 export async function clearDonation(): Promise<void> {
@@ -531,12 +559,7 @@ export async function _runDonationWorkflow(): Promise<void> {
         } else if (type === donationStateSchema.Enum.DONE) {
           if (isDonationPageVisible()) {
             if (isDonationsDonateFlowVisible()) {
-              window.reduxActions.nav.changeLocation({
-                tab: NavTab.Settings,
-                details: {
-                  page: SettingsPage.Donations,
-                },
-              });
+              redirectToPage(SettingsPage.Donations);
             }
           } else {
             log.info(
@@ -942,7 +965,7 @@ export async function _createPaypalIntent({
 
     return {
       type: donationStateSchema.Enum.PAYPAL_INTENT,
-      id: uuid(),
+      id,
       currencyType,
       paymentAmount,
       paypalPaymentId,
@@ -1178,6 +1201,9 @@ async function _saveWorkflow(
   await _saveWorkflowToStorage(workflow);
   _saveWorkflowToRedux(workflow);
 }
+export function _getLastReturnTokenFromRedux(): string | undefined {
+  return window.reduxStore.getState().donations.lastReturnToken;
+}
 export function _getWorkflowFromRedux(): DonationWorkflow | undefined {
   return window.reduxStore.getState().donations.currentWorkflow;
 }
@@ -1281,6 +1307,20 @@ function isDonationsDonateFlowVisible() {
     selectedLocation.tab === NavTab.Settings &&
     selectedLocation.details.page === SettingsPage.DonationsDonateFlow
   );
+}
+
+function redirectToPage(
+  page:
+    | SettingsPage.Donations
+    | SettingsPage.DonationsDonateFlow
+    | SettingsPage.DonationsReceiptList
+) {
+  window.reduxActions.nav.changeLocation({
+    tab: NavTab.Settings,
+    details: {
+      page,
+    },
+  });
 }
 
 // Working with zkgroup receipts

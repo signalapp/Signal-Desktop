@@ -1,15 +1,23 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
-import type { ReactNode, MouseEvent, FC } from 'react';
-import { useLayoutEffect } from '@react-aria/utils';
+import React, {
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  forwardRef,
+} from 'react';
+import type { ReactNode, MouseEvent, FC, ForwardedRef } from 'react';
+import { useLayoutEffect, mergeRefs } from '@react-aria/utils';
 import { computeAccessibleName } from 'dom-accessibility-api';
 import { tw } from './tw.dom.js';
-import { assert } from './_internal/assert.dom.js';
+import { assert } from './_internal/assert.std.js';
 import {
   createStrictContext,
   useStrictContext,
 } from './_internal/StrictContext.dom.js';
+import { isTestOrMockEnvironment } from '../environment.std.js';
 
 const Namespace = 'AriaClickable';
 
@@ -108,6 +116,26 @@ export namespace AriaClickable {
   export const SubWidget: FC<SubWidgetProps> = memo(props => {
     return (
       <div
+        // Here we use `display: contents` so that components don't need to
+        // deal with an extra element affecting layout.
+        //
+        // However, we need to apply `z-index: 20` to all of the children in
+        // order to force them above the HiddenTrigger.
+        //
+        // In order to get `z-index` to work, the child also needs to have a
+        // `position` other than `static`.
+        //
+        // But if that doesn't work (like if you have an absolutely positioned
+        // element that is breaking because of the `position: relative`
+        // establishing a new containing block) you can set the child back to
+        // `position: static` and do either:
+        //
+        // 1. Add z-index's further down where you need them.
+        // 2. Wrap the children with a flex container to get z-index working.
+        //
+        // [css-position-3: Painting Order and Stacking Contexts]: https://drafts.csswg.org/css-position-3/#stacking
+        // [css-flexbox-1: Flex Item Z-Ordering]: https://drafts.csswg.org/css-flexbox-1/#painting
+        //
         // eslint-disable-next-line better-tailwindcss/no-restricted-classes
         className={tw('contents *:relative *:z-20')}
       >
@@ -163,6 +191,8 @@ export namespace AriaClickable {
      */
     'aria-labelledby'?: string;
     onClick: (event: MouseEvent) => void;
+    // Note: Technically we forward all props for Radix, but we restrict the
+    // props that the type accepts
   }>;
 
   const hiddenTriggerDisplayName = `${Namespace}.HiddenTrigger`;
@@ -176,78 +206,82 @@ export namespace AriaClickable {
    * - This should be inserted in the expected focus order, which is likely
    *   before any <AriaClickable.SubWidget>.
    */
-  export const HiddenTrigger: FC<HiddenTriggerProps> = memo(props => {
-    const ref = useRef<HTMLButtonElement>(null);
-    const onTriggerStateUpdate = useStrictContext(TriggerStateUpdateContext);
+  export const HiddenTrigger = memo(
+    forwardRef(
+      (props: HiddenTriggerProps, ref: ForwardedRef<HTMLButtonElement>) => {
+        const innerRef = useRef<HTMLButtonElement>(null);
+        const onTriggerStateUpdate = useStrictContext(
+          TriggerStateUpdateContext
+        );
 
-    const onTriggerStateUpdateRef = useRef(onTriggerStateUpdate);
-    useLayoutEffect(() => {
-      onTriggerStateUpdateRef.current = onTriggerStateUpdate;
-    }, [onTriggerStateUpdate]);
+        const onTriggerStateUpdateRef = useRef(onTriggerStateUpdate);
+        useLayoutEffect(() => {
+          onTriggerStateUpdateRef.current = onTriggerStateUpdate;
+        }, [onTriggerStateUpdate]);
 
-    useLayoutEffect(() => {
-      const button = assert(ref.current, 'Missing ref');
-      let timer: ReturnType<typeof setTimeout>;
+        useLayoutEffect(() => {
+          const button = assert(innerRef.current, 'Missing ref');
+          let timer: ReturnType<typeof setTimeout>;
 
-      function update() {
-        onTriggerStateUpdateRef.current({
-          hovered: button.matches(':hover:not(:disabled)'),
-          pressed: button.matches(':active:not(:disabled)'),
-          focused: button.matches('.keyboard-mode :focus'),
+          function update() {
+            onTriggerStateUpdateRef.current({
+              hovered: button.matches(':hover:not(:disabled)'),
+              pressed: button.matches(':active:not(:disabled)'),
+              focused: button.matches('.keyboard-mode :focus'),
+            });
+          }
+
+          function delayedUpdate() {
+            clearTimeout(timer);
+            timer = setTimeout(update, 1);
+          }
+
+          update();
+          button.addEventListener('pointerenter', update);
+          button.addEventListener('pointerleave', update);
+          button.addEventListener('pointerdown', update);
+          button.addEventListener('pointerup', update);
+          button.addEventListener('focus', update);
+          button.addEventListener('blur', update);
+          // need delay
+          button.addEventListener('keydown', delayedUpdate);
+          button.addEventListener('keyup', delayedUpdate);
+
+          return () => {
+            clearTimeout(timer);
+            onTriggerStateUpdateRef.current(INITIAL_TRIGGER_STATE);
+            button.removeEventListener('pointerenter', update);
+            button.removeEventListener('pointerleave', update);
+            button.removeEventListener('pointerdown', update);
+            button.removeEventListener('pointerup', update);
+            button.removeEventListener('focus', update);
+            button.removeEventListener('blur', update);
+            // need delay
+            button.removeEventListener('keydown', delayedUpdate);
+            button.removeEventListener('keyup', delayedUpdate);
+          };
+        }, []);
+
+        useEffect(() => {
+          if (isTestOrMockEnvironment()) {
+            assert(
+              computeAccessibleName(assert(innerRef.current)) !== '',
+              `${hiddenTriggerDisplayName} child must have an accessible name`
+            );
+          }
         });
-      }
 
-      function delayedUpdate() {
-        clearTimeout(timer);
-        timer = setTimeout(update, 1);
-      }
-
-      update();
-      button.addEventListener('pointerenter', update);
-      button.addEventListener('pointerleave', update);
-      button.addEventListener('pointerdown', update);
-      button.addEventListener('pointerup', update);
-      button.addEventListener('focus', update);
-      button.addEventListener('blur', update);
-      // need delay
-      button.addEventListener('keydown', delayedUpdate);
-      button.addEventListener('keyup', delayedUpdate);
-
-      return () => {
-        clearTimeout(timer);
-        onTriggerStateUpdateRef.current(INITIAL_TRIGGER_STATE);
-        button.removeEventListener('pointerenter', update);
-        button.removeEventListener('pointerleave', update);
-        button.removeEventListener('pointerdown', update);
-        button.removeEventListener('pointerup', update);
-        button.removeEventListener('focus', update);
-        button.removeEventListener('blur', update);
-        // need delay
-        button.removeEventListener('keydown', delayedUpdate);
-        button.removeEventListener('keyup', delayedUpdate);
-      };
-    }, []);
-
-    useEffect(() => {
-      if (process.env.NODE_ENV === 'development') {
-        assert(
-          computeAccessibleName(assert(ref.current)) !== '',
-          `${hiddenTriggerDisplayName} child must have an accessible name`
+        return (
+          <button
+            ref={mergeRefs(ref, innerRef)}
+            {...props}
+            type="button"
+            className={tw('absolute inset-0 z-10 outline-0')}
+          />
         );
       }
-    });
-
-    return (
-      <button
-        ref={ref}
-        type="button"
-        className={tw('absolute inset-0 z-10 outline-0')}
-        aria-label={props['aria-label']}
-        aria-labelledby={props['aria-labelledby']}
-        onClick={props.onClick}
-      />
-    );
-  });
+    )
+  );
 
   HiddenTrigger.displayName = hiddenTriggerDisplayName;
 }

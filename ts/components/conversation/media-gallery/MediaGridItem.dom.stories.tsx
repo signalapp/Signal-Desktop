@@ -34,6 +34,7 @@ const createProps = (
     mediaItem: overrideProps.mediaItem,
     showSize: false,
     onClick: action('onClick'),
+    renderContextMenu: (_item, children) => <>{children}</>,
   };
 };
 

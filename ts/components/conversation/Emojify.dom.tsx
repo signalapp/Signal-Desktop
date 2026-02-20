@@ -1,6 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import React from 'react';
+import type { CSSProperties } from 'react';
 import type { RenderTextCallbackType } from '../../types/Util.std.js';
 import { splitByEmoji } from '../../util/emoji.std.js';
 import { missingCaseError } from '../../util/missingCaseError.std.js';
@@ -23,6 +24,7 @@ export type Props = {
   isInvisible?: boolean;
   /** Allows you to customize now non-newlines are rendered. Simplest is just a <span>. */
   renderNonEmoji?: RenderTextCallbackType;
+  style?: CSSProperties;
 };
 
 const defaultRenderNonEmoji: RenderTextCallbackType = ({ text }) => text;
@@ -31,6 +33,7 @@ export function Emojify({
   fontSizeOverride,
   text,
   renderNonEmoji = defaultRenderNonEmoji,
+  style,
 }: Props): React.JSX.Element {
   const emojiLocalizer = useFunEmojiLocalizer();
   return (
@@ -59,6 +62,7 @@ export function Emojify({
               aria-label={emojiLocalizer.getLocaleShortName(variantKey)}
               emoji={variant}
               size={fontSizeOverride}
+              style={style}
             />
           );
         }

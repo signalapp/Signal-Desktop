@@ -30,7 +30,8 @@ export function Multiple(): React.JSX.Element {
           isPlayed={Math.random() > 0.5}
           authorTitle="Alice"
           onClick={action('onClick')}
-          onShowMessage={action('onShowMessage')}
+          showMessage={action('showMessage')}
+          renderContextMenu={(_item, children) => <>{children}</>}
         />
       ))}
     </>

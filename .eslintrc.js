@@ -268,7 +268,7 @@ const typescriptRules = {
       zones: [
         {
           target: ['ts/util', 'ts/types'],
-          from: ['ts/components', 'ts/axo'],
+          from: ['ts/components/**', 'ts/axo/**/*.dom.*'],
           message: 'Importing components is forbidden from ts/{util,types}',
         },
       ],
@@ -452,8 +452,10 @@ module.exports = {
       },
     },
     {
-      files: ['ts/axo/**/*.tsx'],
+      files: ['ts/axo/**/*.{ts,tsx}'],
       rules: {
+        // Rule doesn't understand TypeScript namespaces
+        'no-inner-declarations': 'off',
         '@typescript-eslint/no-namespace': 'off',
         '@typescript-eslint/no-redeclare': [
           'error',

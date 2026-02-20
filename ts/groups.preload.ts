@@ -27,7 +27,7 @@ import { dropNull } from './util/dropNull.std.js';
 import {
   writeNewAttachmentData,
   readAttachmentData,
-  deleteAttachmentData,
+  maybeDeleteAttachmentFile,
 } from './util/migrations.preload.js';
 import type {
   ConversationAttributesType,
@@ -1270,6 +1270,25 @@ export function buildModifyMemberRoleChange({
 
   actions.version = (group.revision || 0) + 1;
   actions.modifyMemberRoles = [toggleAdmin];
+
+  const membership = group.membersV2?.find(member => member.aci === serviceId);
+  const onlyAdminsCanChangeAttributes =
+    group.accessControl?.attributes ===
+    Proto.AccessControl.AccessRequired.ADMINISTRATOR;
+  const wasPreviouslyAnAdmin =
+    membership?.role === Proto.Member.Role.ADMINISTRATOR;
+  const nowNotAnAdmin = role !== Proto.Member.Role.ADMINISTRATOR;
+
+  if (
+    membership?.labelString &&
+    onlyAdminsCanChangeAttributes &&
+    wasPreviouslyAnAdmin &&
+    nowNotAnAdmin
+  ) {
+    const modifyLabel = new Proto.GroupChange.Actions.ModifyMemberLabelAction();
+    modifyLabel.userId = userIdCipherText;
+    actions.modifyMemberLabels = [modifyLabel];
+  }
 
   return actions;
 }
@@ -5749,7 +5768,7 @@ export async function applyNewAvatar(
     // Avatar has been dropped
     if (!newAvatarUrl && attributes.avatar) {
       if (attributes.avatar.path) {
-        await deleteAttachmentData(attributes.avatar.path);
+        await maybeDeleteAttachmentFile(attributes.avatar.path);
       }
       result.avatar = undefined;
     }
@@ -5796,7 +5815,7 @@ export async function applyNewAvatar(
       }
 
       if (attributes.avatar?.path) {
-        await deleteAttachmentData(attributes.avatar.path);
+        await maybeDeleteAttachmentFile(attributes.avatar.path);
       }
       const local = await writeNewAttachmentData(data);
       result.avatar = {
@@ -5811,7 +5830,7 @@ export async function applyNewAvatar(
       Errors.toLogFormat(error)
     );
     if (result.avatar && result.avatar.path) {
-      await deleteAttachmentData(result.avatar.path);
+      await maybeDeleteAttachmentFile(result.avatar.path);
     }
     result.avatar = undefined;
   }

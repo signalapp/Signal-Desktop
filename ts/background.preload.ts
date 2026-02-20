@@ -1021,9 +1021,19 @@ export async function startApp(): Promise<void> {
           });
         }
       }
+
+      if (window.isBeforeVersion(lastVersion, 'v7.91.0-beta.1')) {
+        await itemStorage.remove('versionedExpirationTimer');
+        await itemStorage.remove('callQualitySurveyCooldownDisabled');
+        await itemStorage.remove('localDeleteWarningShown');
+      }
     }
 
     setAppLoadingScreenMessage(i18n('icu:optimizingApplication'), i18n);
+
+    // These paths are protected while they are referenced in memory but not in
+    // message_attachments, so we can safely clear them at app start
+    await DataWriter.resetProtectedAttachmentPaths();
 
     if (newVersion || itemStorage.get('needOrphanedAttachmentCheck')) {
       await itemStorage.remove('needOrphanedAttachmentCheck');
@@ -3878,9 +3888,6 @@ export async function startApp(): Promise<void> {
   async function onDeleteForMeSync(ev: DeleteForMeSyncEvent) {
     const { confirm, timestamp, envelopeId, deleteForMeSync } = ev;
     const logId = `onDeleteForMeSync(${timestamp})`;
-
-    // The user clearly knows about this feature; they did it on another device!
-    drop(itemStorage.put('localDeleteWarningShown', true));
 
     log.info(`${logId}: Saving ${deleteForMeSync.length} sync tasks`);
 

@@ -64,7 +64,7 @@ import { createLogger } from '../../logging/log.std.js';
 import { TimelineMessageLoadingState } from '../../util/timelineUtil.std.js';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
 import { reduce } from '../../util/iterables.std.js';
-import type { PanelRenderType } from '../../types/Panels.std.js';
+import type { PanelArgsType } from '../../types/Panels.std.js';
 import type { HasStories } from '../../types/Stories.std.js';
 import { getHasStoriesSelector } from './stories2.dom.js';
 import { canEditMessage } from '../../util/canEditMessage.dom.js';
@@ -1470,16 +1470,16 @@ export const getHideStoryConversationIds = createSelector(
 
 export const getActivePanel = createSelector(
   getConversations,
-  (conversations): PanelRenderType | undefined =>
+  (conversations): PanelArgsType | undefined =>
     conversations.targetedConversationPanels.stack[
       conversations.targetedConversationPanels.watermark
     ]
 );
 
 type PanelInformationType = {
-  currPanel: PanelRenderType | undefined;
+  currPanel: PanelArgsType | undefined;
   direction: 'push' | 'pop';
-  prevPanel: PanelRenderType | undefined;
+  prevPanel: PanelArgsType | undefined;
 };
 
 export const getPanelInformation = createSelector(

@@ -52,6 +52,7 @@ export type RuleType = {
   expression?: string;
   reason: string;
   regex: RegExp;
+  excludeOurCode?: boolean;
   excludedModules?: Array<string>;
 };
 

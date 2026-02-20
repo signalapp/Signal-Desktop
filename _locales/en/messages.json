@@ -6,11 +6,7 @@
       {
         "path": "*/messageformat",
         "key": "{*}/messageformat",
-        "instruction": "*/description"
-      },
-      {
-        "key": "{*}/message",
-        "path": "*/message",
+        "character_limit": "*/limit",
         "instruction": "*/description"
       }
     ]
@@ -290,10 +286,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Toggle Developer Tools",
     "description": "View menu command to show or hide the developer tools"
-  },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Open Calling Developer Tools",
-    "description": "(Deleted 2026/01/15) View menu command to open calling developer tools window"
   },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Set Up as New Device",
@@ -887,11 +879,11 @@
     "description": "Key Transparency Error Dialog > Accessibility label for loading spinner while submitting"
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify key encryption",
+    "messageformat": "Signal can now auto-verify encryption",
     "description": "Key Transparency Onboarding Dialog > Title"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or number.",
+    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers.",
     "description": "Key Transparency Onboarding Dialog > Description"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
@@ -3235,6 +3227,10 @@
   "icu:Toast--unable-download-from-backup-tier": {
     "messageformat": "Attachment missing from backup CDN",
     "description": "Shown for internal users for debugging backup attachments."
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Only admins can add member labels in this group.",
+    "description": "Shown when the user clicks on Member Label row in conversation details but they don't have permission to add a member label"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Edits can only be applied within 24 hours from the time you sent this message.",
@@ -6156,6 +6152,10 @@
     "messageformat": "Remove as admin",
     "description": "Button text for removing as admin button in Group Contact Details modal"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "This will also clear their member label.",
+    "description": "Additional description shown in dialog when removing someone as an admin when they have a label"
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "Make admin",
     "description": "Button text for make admin button in Group Contact Details modal"
@@ -6236,9 +6236,29 @@
     "messageformat": "Hello!",
     "description": "Text of message bubble showing preview of user's member label"
   },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Group members with labels",
+    "description": "Title for section with all the other members in the group with labels"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "No other members have labels",
+    "description": "Placeholder for 'other members with labels' section when there are zero other members with labels"
+  },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "Saving changes...",
     "description": "Accessibility label for button with spinner as we save the user's member label."
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Can’t save member label",
+    "description": "If save of member label failed, a dialog shows. Title of dialog."
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Check your connection and try again.",
+    "description": "If save of member label failed, a dialog shows. Description of dialog."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Only admins can set member labels in this group.",
+    "description": "If Desktop discovers that permissions have changed since entering the screen, it will show this in an error dialog and exit the pane."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Disappearing messages",
@@ -6303,6 +6323,18 @@
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Choose who can send messages to the group.",
     "description": "This is the additional info for the 'who can send messages' panel"
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Member labels will be cleared",
+    "description": "When the user changes the 'edit group info' permission to 'Admins only', this dialog shows. Title of dialog."
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group.",
+    "description": "When the user changes the 'edit group info' permission to 'Admins only', this dialog shows. Description text of dialog."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Continue",
+    "description": "When the user changes the 'edit group info' permission to 'Admins only', this dialog shows. Button to continue making the change."
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Requests & Invites",
@@ -6374,6 +6406,10 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Add members",
+    "description": "The button that you can click to add new members"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Add member label",
     "description": "The button that you can click to add new members"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
@@ -6607,6 +6643,26 @@
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "You can only select up to {count, plural, one {# message} other {# messages}} to delete for everyone",
     "description": "delete selected messages > confirmation modal > deleted for everyone (disabled) > toast > too many messages to 'delete for everyone'"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Delete item?",
+    "description": "Title of confirmation modal when deleting an attachment from media gallery"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted.",
+    "description": "Body of confirmation modal when deleting an attachment from media gallery"
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Close",
+    "description": "Accessibility label of close button in confirmation modal when deleting an attachment from media gallery"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Delete",
+    "description": "Text of a button in confirmation modal when deleting an attachment from media gallery"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Cancel",
+    "description": "Text of a button in confirmation modal when deleting an attachment from media gallery"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "You can only forward up to 30 messages",
@@ -7104,6 +7160,30 @@
     "messageformat": "Files that you send and receive will appear here",
     "description": "Description of the empty state view of media gallery for files tab"
   },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "View in chat",
+    "description": "Title of context menu action for media gallery item for showing the attachment in the chat"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Forward",
+    "description": "Title of context menu action for media gallery item for forwarding attachment to a different user"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Save",
+    "description": "Title of context menu action for media gallery item for saving the attachment to disk"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Send message",
+    "description": "Title of context menu action for media gallery item for sending a message to the contact"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Copy link",
+    "description": "Title of context menu action for media gallery item for copying link url into clipboard"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Delete",
+    "description": "Title of context menu action for media gallery item for deleting the attachment on disk"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Select media quality",
     "description": "aria-label for the media quality selector button"
@@ -7387,6 +7467,11 @@
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "admins",
     "description": "Clickable text describing administrators of a group, used in the message an admin label"
+  },
+  "icu:Avatar__View": {
+    "messageformat": "View",
+    "limit": 7,
+    "description": "Used as a label on a button allowing user to see the unblurred avatar of a contact"
   },
   "icu:AvatarEditor--choose": {
     "messageformat": "Select an avatar",
@@ -8792,15 +8877,15 @@
   },
   "icu:LocalDeleteWarningModal__header": {
     "messageformat": "Deleting is synced across your devices",
-    "description": "Emphasized text at the top of the explainer dialog you get when you first delete a message or conversation"
+    "description": "(Deleted 2026/02/18) Emphasized text at the top of the explainer dialog you get when you first delete a message or conversation"
   },
   "icu:LocalDeleteWarningModal__description": {
     "messageformat": "When you delete messages or chats, they will be deleted from all of your devices.",
-    "description": "More detailed description of new delete behavior shown in explainer dialog"
+    "description": "(Deleted 2026/02/18) More detailed description of new delete behavior shown in explainer dialog"
   },
   "icu:LocalDeleteWarningModal__confirm": {
     "messageformat": "Got it",
-    "description": "Button to dismiss the dialog explaining that 'delete for me' now syncs between devices"
+    "description": "(Deleted 2026/02/18) Button to dismiss the dialog explaining that 'delete for me' now syncs between devices"
   },
   "icu:Stories__title": {
     "messageformat": "Stories",
@@ -9924,7 +10009,27 @@
   },
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal does not collect or store any of your personal information when you make a donation.</paragraph><paragraph>We use Stripe as our payment processor to receive your donations. We don't access, store, or save any of the information you provide to them.</paragraph><paragraph>Signal does not and cannot connect your donation to your Signal account.</paragraph><paragraph>Thank you for your support!</paragraph>",
-    "description": "Content for the modal that explains donation privacy information"
+    "description": "(Deleted 2026/02/12) Content for the modal that explains donation privacy information"
+  },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal.",
+    "description": "Content for the modal that explains donation information"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Get an optional badge on your profile when you donate",
+    "description": "List content item for the modal that explains donation information"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "Your privacy is our mission",
+    "description": "List content item for the modal that explains donation information"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible.",
+    "description": "List content item for the modal that explains donation information"
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Heart icon in the style of the Signal logo",
+    "description": "Accessibility label for the icon showed at the top of the modal that explains donation information"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "OK",
@@ -10047,8 +10152,16 @@
     "description": "While making a donation and after entering payment details, if you try to navigate away then a dialog shows and its primary button has this text to confirm cancellation of the donation."
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving this page will remove your PayPal information. Do you want to proceed?",
+    "messageformat": "Leaving will cancel your donation.",
     "description": "While making a donation and after selecting Paypal, if you try to navigate away then a dialog shows with this body text."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Leave",
+    "description": "While making a donation and after selecting PayPal, if you try to navigate away then a dialog shows and its primary button has this text to confirm cancellation of the donation."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Stay on page",
+    "description": "While making a donation and after selecting PayPal, if you try to navigate away then a dialog shows and its secondary button has this text. The user will remain on the page and they can complete a donation as previously intended."
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Continue",
@@ -10457,12 +10570,12 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.89--0": {
-    "messageformat": "This update fixes a bug with text formatting while Caps Lock was enabled so it will be easier to make things bold (or italic) WHILE BEING BOLD. Thanks, <DGrothePhD></DGrothePhD>!",
-    "description": "Release notes for 7.89 release"
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay.",
+    "description": "(Deleted 2026/02/18) Release notes for 7.90 release"
   },
-  "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal is a 501c3 nonprofit that wouldn't be possible without your support, and now you can donate via PayPal in Signal Desktop.",
-    "description": "Release notes for 7.89 release"
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!",
+    "description": "Release notes for 8.0 release"
   }
 }

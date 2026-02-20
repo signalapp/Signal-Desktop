@@ -12,7 +12,7 @@ import React, {
 } from 'react';
 import { useSelector } from 'react-redux';
 import classNames from 'classnames';
-import type { PanelRenderType } from '../../types/Panels.std.js';
+import type { PanelArgsType } from '../../types/Panels.std.js';
 import { createLogger } from '../../logging/log.std.js';
 import { PanelType } from '../../types/Panels.std.js';
 import { toLogFormat } from '../../types/errors.std.js';
@@ -41,7 +41,7 @@ import { useReducedMotion } from '../../hooks/useReducedMotion.dom.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { SmartPinnedMessagesPanel } from './PinnedMessagesPanel.preload.js';
 import { SmartMiniPlayer } from './MiniPlayer.preload.js';
-import { SmartGroupMemberLabelEditor } from './SmartGroupMemberLabelEditor.preload.js';
+import { SmartGroupMemberLabelEditor } from './GroupMemberLabelEditor.preload.js';
 
 const log = createLogger('ConversationPanel');
 
@@ -119,7 +119,7 @@ export const ConversationPanel = memo(function ConversationPanel({
   const wasAnimated = useSelector(getWasPanelAnimated);
 
   const [lastPanelDoneAnimating, setLastPanelDoneAnimating] =
-    useState<PanelRenderType | null>(null);
+    useState<PanelArgsType | null>(null);
 
   const wasAnimatedRef = useRef(wasAnimated);
   useEffect(() => {
@@ -131,7 +131,7 @@ export const ConversationPanel = memo(function ConversationPanel({
   }, [panelInformation?.prevPanel]);
 
   const onAnimationDone = useCallback(
-    (panel: PanelRenderType | null) => {
+    (panel: PanelArgsType | null) => {
       setLastPanelDoneAnimating(panel);
       panelAnimationDone();
     },
@@ -277,7 +277,7 @@ export const ConversationPanel = memo(function ConversationPanel({
 
 type PanelPropsType = {
   conversationId: string;
-  panel: PanelRenderType;
+  panel: PanelArgsType;
 };
 
 const PanelContainer = forwardRef<
@@ -339,6 +339,7 @@ const PanelContainer = forwardRef<
           'ConversationPanel__body',
           panel.type !== PanelType.PinnedMessages &&
             panel.type !== PanelType.AllMedia &&
+            panel.type !== PanelType.GroupMemberLabelEditor &&
             'ConversationPanel__body--padding'
         )}
         ref={focusRef}
@@ -414,11 +415,11 @@ function PanelElement({
     return <SmartStickerManager />;
   }
 
-  log.warn(toLogFormat(missingCaseError(panel)));
+  log.warn(toLogFormat(missingCaseError(panel.type)));
   return null;
 }
 
-function getPanelKey(panel: PanelRenderType): string {
+function getPanelKey(panel: PanelArgsType): string {
   switch (panel.type) {
     case PanelType.AllMedia:
     case PanelType.ChatColorEditor:
@@ -433,7 +434,6 @@ function getPanelKey(panel: PanelRenderType): string {
     case PanelType.StickerManager:
       return panel.type;
     case PanelType.MessageDetails:
-      return `${panel.type}:${panel.args.message.id}`;
     case PanelType.ContactDetails:
       return `${panel.type}:${panel.args.messageId}`;
     default:

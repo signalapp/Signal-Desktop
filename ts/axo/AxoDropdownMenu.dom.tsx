@@ -20,7 +20,7 @@ import {
   useAriaLabellingContext,
   useCreateAriaLabellingContext,
 } from './_internal/AriaLabellingContext.dom.js';
-import { assert } from './_internal/assert.dom.js';
+import { assert } from './_internal/assert.std.js';
 import {
   getElementAriaRole,
   isAriaWidgetRole,
@@ -29,6 +29,7 @@ import {
   createStrictContext,
   useStrictContext,
 } from './_internal/StrictContext.dom.js';
+import { isTestOrMockEnvironment } from '../environment.std.js';
 
 const Namespace = 'AxoDropdownMenu';
 
@@ -146,7 +147,7 @@ export namespace AxoDropdownMenu {
     const ref = useRef<HTMLButtonElement>(null);
 
     useEffect(() => {
-      if (process.env.NODE_ENV === 'development') {
+      if (isTestOrMockEnvironment()) {
         assert(
           ref.current instanceof HTMLElement,
           `${triggerDisplayName} child must forward ref`

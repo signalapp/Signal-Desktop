@@ -50,6 +50,7 @@ const getDefaultProps = () => ({
   interactionMode: 'keyboard' as const,
   theme: ThemeType.light,
   platform: 'darwin',
+  handleDebugMessage: action('handleDebugMessage'),
   targetMessage: action('targetMessage'),
   toggleSelectMessage: action('toggleSelectMessage'),
   endPoll: action('endPoll'),

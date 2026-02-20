@@ -22,7 +22,6 @@ export namespace AxoSymbol {
   const symbolStyles = tw('font-symbols select-none');
   const labelStyles = tw('select-none');
 
-  // eslint-disable-next-line no-inner-declarations
   function useRenderSymbol(
     glyph: string,
     label: string | null

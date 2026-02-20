@@ -43,6 +43,7 @@ export function BadgeImage({
         width: size,
         height: size,
       }}
+      draggable={false}
     />
   );
 }

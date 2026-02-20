@@ -43,8 +43,6 @@ import {
 } from '../selectors/conversations.dom.js';
 import { getHasStoriesSelector } from '../selectors/stories2.dom.js';
 import { getIntl, getTheme, getUserACI } from '../selectors/user.std.js';
-import { useItemsActions } from '../ducks/items.preload.js';
-import { getLocalDeleteWarningShown } from '../selectors/items.dom.js';
 import { isConversationEverUnregistered } from '../../util/isConversationUnregistered.dom.js';
 import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.js';
 import type { DurationInSeconds } from '../../util/durations/index.std.js';
@@ -289,11 +287,6 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
 
   const minimalConversation = useMinimalConversation(conversation);
 
-  const localDeleteWarningShown = useSelector(getLocalDeleteWarningShown);
-  const { putItem } = useItemsActions();
-  const setLocalDeleteWarningShown = () =>
-    putItem('localDeleteWarningShown', true);
-
   return (
     <ConversationHeader
       addedByName={addedByName}
@@ -305,7 +298,6 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
       hasPanelShowing={hasPanelShowing}
       hasStories={hasStories}
       i18n={i18n}
-      localDeleteWarningShown={localDeleteWarningShown}
       isMissingMandatoryProfileSharing={isMissingMandatoryProfileSharing}
       isSelectMode={isSelectMode}
       isSignalConversation={isSignalConversation(conversation)}
@@ -339,7 +331,6 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
       onViewAllMedia={onViewAllMedia}
       onViewUserStories={onViewUserStories}
       outgoingCallButtonStyle={outgoingCallButtonStyle}
-      setLocalDeleteWarningShown={setLocalDeleteWarningShown}
       theme={theme}
       contactSpoofingWarning={contactSpoofingWarning}
       renderCollidingAvatars={renderCollidingAvatars}

@@ -137,7 +137,9 @@ window.testUtilities = {
         currentWorkflow: undefined,
         didResumeWorkflowAtStartup: false,
         lastError: undefined,
+        lastReturnToken: undefined,
         receipts: [],
+        configCache: undefined,
       },
       stickers: {
         installedPack: null,

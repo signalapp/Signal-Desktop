@@ -1072,8 +1072,10 @@ $message-padding-horizontal: 12px;
 .module-message__author {
   @include mixins.font-body-small-bold;
 
-  min-height: 18px;
   user-select: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 3px;
 }
 
 .module-message__author_with_sticker {
@@ -1093,6 +1095,10 @@ $message-padding-horizontal: 12px;
   @include mixins.dark-theme {
     color: variables.$color-gray-05;
   }
+}
+
+.module-message__author--with-quote {
+  margin-bottom: 3px;
 }
 
 .module-message__text {
@@ -6181,14 +6187,6 @@ button.module-calling-participants-list__contact {
       padding-inline: 12px;
     }
   }
-}
-
-.module-background-color {
-  &__default {
-    background-color: variables.$color-black-alpha-40;
-  }
-
-  @include mixins.avatar-colors();
 }
 
 .module-tooltip {

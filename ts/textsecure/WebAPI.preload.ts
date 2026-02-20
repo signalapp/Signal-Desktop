@@ -15,12 +15,14 @@ import { v4 as getGuid } from 'uuid';
 import { z } from 'zod';
 import type { Readable } from 'node:stream';
 import qs from 'node:querystring';
-import { LibSignalErrorBase, ErrorCode } from '@signalapp/libsignal-client';
-import type {
-  KEMPublicKey,
-  PublicKey,
-  Aci,
-  Pni,
+import {
+  LibSignalErrorBase,
+  ErrorCode,
+  ServiceId,
+  type KEMPublicKey,
+  type PublicKey,
+  type Aci,
+  type Pni,
 } from '@signalapp/libsignal-client';
 import { AccountAttributes } from '@signalapp/libsignal-client/dist/net.js';
 import type {
@@ -383,7 +385,9 @@ async function getFetchOptions<Type extends ResponseType, OutputShape>(
     method: options.type,
     body: typeof options.data === 'function' ? options.data() : options.data,
     headers: {
-      'User-Agent': getUserAgent(options.version),
+      'User-Agent': options.socketManager
+        ? undefined
+        : getUserAgent(options.version),
       'X-Signal-Agent': 'OWD',
       ...options.headers,
     } as FetchHeaderListType,
@@ -736,7 +740,6 @@ export function makeKeysLowercase<V>(
 }
 
 const CHAT_CALLS = {
-  accountExistence: 'v1/accounts/account',
   attachmentUploadForm: 'v4/attachments/form/upload',
   attestation: 'v1/attestation',
   batchIdentityCheck: 'v1/profile/identity_check/batch',
@@ -2354,6 +2357,7 @@ export async function postBatchIdentityCheck(
     data: JSON.stringify({ elements }),
     call: 'batchIdentityCheck',
     httpType: 'POST',
+    unauthenticated: true,
     responseType: 'json',
     // TODO DESKTOP-8719
     zodSchema: z.unknown(),
@@ -2783,24 +2787,12 @@ export async function requestVerification(
 export async function checkAccountExistence(
   serviceId: ServiceIdString
 ): Promise<boolean> {
-  try {
-    await _ajax({
-      host: 'chatService',
-      httpType: 'HEAD',
-      call: 'accountExistence',
-      urlParameters: `/${serviceId}`,
-      unauthenticated: true,
-      accessKey: undefined,
-      groupSendToken: undefined,
+  return _retry(async () => {
+    const chat = await socketManager.getUnauthenticatedApi();
+    return chat.accountExists({
+      account: ServiceId.parseFromServiceIdString(serviceId),
     });
-    return true;
-  } catch (error) {
-    if (error instanceof HTTPError && error.code === 404) {
-      return false;
-    }
-
-    throw error;
-  }
+  });
 }
 
 export function startRegistration(): unknown {
