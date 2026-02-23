@@ -50,7 +50,6 @@ import {
 import { getDraftPreview } from '../util/getDraftPreview.preload.js';
 import { hasDraft } from '../util/hasDraft.std.js';
 import { hydrateStoryContext } from '../util/hydrateStoryContext.preload.js';
-import * as Conversation from '../types/Conversation.node.js';
 import type {
   StickerType,
   StickerWithHydratedData,
@@ -5131,6 +5130,16 @@ export class ConversationModel {
       return;
     }
 
+    const existingProfileAvatar = this.get('profileAvatar');
+
+    if (
+      existingProfileAvatar?.path &&
+      (await doesAttachmentExist(existingProfileAvatar.path)) &&
+      existingProfileAvatar.url === avatarUrl
+    ) {
+      return;
+    }
+
     const avatar = await doGetAvatar(avatarUrl);
 
     // If decryptionKey isn't provided, use the one from the model
@@ -5149,18 +5158,16 @@ export class ConversationModel {
     // decrypt
     const decrypted = decryptProfile(avatar, updatedDecryptionKey);
 
-    // update the conversation avatar only if hash differs
-    if (decrypted) {
-      const newAttributes = await Conversation.maybeUpdateProfileAvatar(
-        this.attributes,
-        {
-          data: decrypted,
-          writeNewAttachmentData,
-          deleteAttachmentData: maybeDeleteAttachmentFile,
-          doesAttachmentExist,
-        }
-      );
-      this.set(newAttributes);
+    const newAttachment = await writeNewAttachmentData(decrypted);
+    this.set({
+      profileAvatar: {
+        url: avatarUrl,
+        ...newAttachment,
+      },
+    });
+
+    if (existingProfileAvatar?.path) {
+      await maybeDeleteAttachmentFile(existingProfileAvatar.path);
     }
   }
 
