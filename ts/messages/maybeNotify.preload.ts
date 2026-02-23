@@ -23,6 +23,7 @@ import {
 } from '../messageModifiers/Polls.preload.js';
 import { shouldStoryReplyNotifyUser } from '../util/shouldStoryReplyNotifyUser.preload.js';
 import { ReactionSource } from '../reactions/ReactionSource.std.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const log = createLogger('maybeNotify');
 
@@ -44,11 +45,21 @@ type MaybeNotifyArgs = {
     }
 );
 
-function isMention(args: MaybeNotifyArgs): boolean {
+function isMentionOrReply(args: MaybeNotifyArgs): boolean {
   if ('reaction' in args || 'pollVote' in args) {
     return false;
   }
-  return Boolean(args.message.mentionsMe);
+
+  if (args.message.mentionsMe) {
+    return true;
+  }
+
+  const quoteAuthorAci = args.message.quote?.authorAci;
+  if (quoteAuthorAci && itemStorage.user.isOurServiceId(quoteAuthorAci)) {
+    return true;
+  }
+
+  return false;
 }
 
 export async function maybeNotify(args: MaybeNotifyArgs): Promise<void> {
@@ -95,7 +106,7 @@ export async function maybeNotify(args: MaybeNotifyArgs): Promise<void> {
       activeProfile,
       conversationId: conversation.id,
       isCall: false,
-      isMention: isMention(args),
+      isMentionOrReply: isMentionOrReply(args),
     })
   ) {
     log.info('Would notify for message, but notification profile prevented it');
@@ -220,5 +231,5 @@ function isAllowedByConversation(args: MaybeNotifyArgs): boolean {
     return false;
   }
 
-  return isMention(args);
+  return isMentionOrReply(args);
 }
