@@ -477,7 +477,7 @@ export function Quote(props: Props): React.JSX.Element | null {
     ) : (
       <>
         {title}
-        {authorLabel && !isFromMe ? (
+        {authorLabel ? (
           <>
             {' '}
             <GroupMemberLabel context="quote" contactLabel={authorLabel} />
