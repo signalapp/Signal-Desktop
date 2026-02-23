@@ -120,6 +120,7 @@ import { DonationsErrorBoundary } from '../../components/DonationsErrorBoundary.
 import type { SmartPreferencesChatFoldersPageProps } from './PreferencesChatFoldersPage.preload.js';
 import type { SmartPreferencesEditChatFolderPageProps } from './PreferencesEditChatFolderPage.preload.js';
 import type { ExternalProps as SmartNotificationProfilesProps } from './PreferencesNotificationProfiles.preload.js';
+import { useMegaphonesActions } from '../ducks/megaphones.preload.js';
 
 const DEFAULT_NOTIFICATION_SETTING = 'message';
 
@@ -225,6 +226,7 @@ export function SmartPreferences(): React.JSX.Element | null {
   const { showToast } = useToastActions();
   const { internalAddDonationReceipt } = useDonationsActions();
   const { startPlaintextExport, startLocalBackupExport } = useBackupActions();
+  const { addVisibleMegaphone } = useMegaphonesActions();
 
   // Selectors
 
@@ -986,6 +988,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           internalAddDonationReceipt={internalAddDonationReceipt}
           saveAttachmentToDisk={saveAttachmentToDisk}
           generateDonationReceiptBlob={generateDonationReceiptBlob}
+          addVisibleMegaphone={addVisibleMegaphone}
           internalDeleteAllMegaphones={internalDeleteAllMegaphones}
           __dangerouslyRunAbitraryReadOnlySqlQuery={
             __dangerouslyRunAbitraryReadOnlySqlQuery

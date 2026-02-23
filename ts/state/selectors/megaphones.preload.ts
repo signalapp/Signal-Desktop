@@ -11,6 +11,10 @@ import {
   type VisibleRemoteMegaphoneType,
 } from '../../types/Megaphone.std.js';
 import type { StateSelector } from '../types.std.js';
+import {
+  isTestMegaphone,
+  TEST_MEGAPHONE_IMAGE,
+} from '../../util/getTestMegaphone.std.js';
 
 export function getMegaphonesState(
   state: Readonly<StateType>
@@ -36,6 +40,8 @@ export const getVisibleMegaphonesForDisplay: StateSelector<
     secondaryCtaText: megaphone.secondaryCtaText,
     title: megaphone.title,
     body: megaphone.body,
-    imagePath: getAbsoluteMegaphoneImageFilePath(megaphone.imagePath),
+    imagePath: isTestMegaphone(megaphone)
+      ? TEST_MEGAPHONE_IMAGE
+      : getAbsoluteMegaphoneImageFilePath(megaphone.imagePath),
   }))
 );

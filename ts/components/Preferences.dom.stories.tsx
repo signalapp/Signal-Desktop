@@ -631,6 +631,7 @@ export default {
       action('generateDonationReceiptBlob')();
       return new Blob();
     },
+    addVisibleMegaphone: async () => Promise.resolve(),
     internalDeleteAllMegaphones: async () => {
       return Promise.resolve(0);
     },

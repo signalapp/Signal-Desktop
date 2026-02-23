@@ -26,7 +26,7 @@ export default {
     secondaryCtaText: 'Not now',
     title: 'Donate to Signal',
     body: 'Signal is powered by people like you. Show your support today!',
-    imagePath: '/fixtures/donate-heart.png',
+    imagePath: 'images/donate-heart.png',
     isFullSize: true,
     onClickNarrowMegaphone: action('onClickNarrowMegaphone'),
     onInteractWithMegaphone: action('onInteractWithMegaphone'),

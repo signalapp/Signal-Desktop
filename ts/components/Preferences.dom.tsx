@@ -101,6 +101,7 @@ import { AxoButton } from '../axo/AxoButton.dom.js';
 import type { ExternalProps as SmartNotificationProfilesProps } from '../state/smart/PreferencesNotificationProfiles.preload.js';
 import type { LocalBackupExportMetadata } from '../types/LocalExport.std.js';
 import { isDonationsPage } from './PreferencesDonations.dom.js';
+import type { VisibleRemoteMegaphoneType } from '../types/Megaphone.std.js';
 
 const { isNumber, noop, partition } = lodash;
 
@@ -289,6 +290,7 @@ type PropsFunctionType = {
     receipt: DonationReceipt,
     i18n: LocalizerType
   ) => Promise<Blob>;
+  addVisibleMegaphone: (megaphone: VisibleRemoteMegaphoneType) => void;
 
   // Change handlers
   onAudioNotificationsChange: CheckboxChangeHandlerType;
@@ -541,6 +543,7 @@ export function Preferences({
   internalAddDonationReceipt,
   saveAttachmentToDisk,
   generateDonationReceiptBlob,
+  addVisibleMegaphone,
   internalDeleteAllMegaphones,
   __dangerouslyRunAbitraryReadOnlySqlQuery,
   cqsTestMode,
@@ -2327,6 +2330,7 @@ export function Preferences({
             internalAddDonationReceipt={internalAddDonationReceipt}
             saveAttachmentToDisk={saveAttachmentToDisk}
             generateDonationReceiptBlob={generateDonationReceiptBlob}
+            addVisibleMegaphone={addVisibleMegaphone}
             internalDeleteAllMegaphones={internalDeleteAllMegaphones}
             __dangerouslyRunAbitraryReadOnlySqlQuery={
               __dangerouslyRunAbitraryReadOnlySqlQuery

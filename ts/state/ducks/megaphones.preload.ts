@@ -17,6 +17,7 @@ import type {
 import type { ChangeLocationAction } from './nav.std.js';
 import { actions as navActions } from './nav.std.js';
 import { NavTab, SettingsPage } from '../../types/Nav.std.js';
+import { isTestMegaphoneId } from '../../util/getTestMegaphone.std.js';
 
 const log = createLogger('megaphones');
 
@@ -88,10 +89,14 @@ function interactWithMegaphone(
   RemoveVisibleMegaphoneAction | ChangeLocationAction
 > {
   return async dispatch => {
+    const isTest = isTestMegaphoneId(megaphoneId);
+
     if (ctaId === 'donate' || ctaId === 'finish') {
       try {
         log.info(`Finishing megaphone ${megaphoneId}, ctaId=${ctaId}`);
-        await DataWriter.finishMegaphone(megaphoneId);
+        if (!isTest) {
+          await DataWriter.finishMegaphone(megaphoneId);
+        }
       } catch (error) {
         log.error(
           `Failed to finish megaphone ${megaphoneId}`,
@@ -112,7 +117,9 @@ function interactWithMegaphone(
     } else if (ctaId === 'snooze') {
       try {
         log.info(`Snoozing megaphone ${megaphoneId}`);
-        await DataWriter.snoozeMegaphone(megaphoneId);
+        if (!isTest) {
+          await DataWriter.snoozeMegaphone(megaphoneId);
+        }
       } catch (error) {
         log.error(
           `Failed to snooze megaphone ${megaphoneId}`,

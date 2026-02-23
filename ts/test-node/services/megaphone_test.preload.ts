@@ -35,7 +35,7 @@ const FAKE_MEGAPHONE: RemoteMegaphoneType = {
   localeFetched: 'en',
   title: 'megaphone',
   body: 'cats',
-  imagePath: '../../../fixtures/donate-heart.png',
+  imagePath: '../../../images/donate-heart.png',
   primaryCtaText: 'donate',
   secondaryCtaText: 'snooze',
   snoozeCount: 0,
