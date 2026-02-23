@@ -59,12 +59,12 @@ import {
 import {
   getBadgeCountMutedConversations,
   getPinnedConversationIds,
+  getStoriesEnabled,
 } from './items.dom.js';
 import { createLogger } from '../../logging/log.std.js';
 import { TimelineMessageLoadingState } from '../../util/timelineUtil.std.js';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
 import { reduce } from '../../util/iterables.std.js';
-import type { PanelArgsType } from '../../types/Panels.std.js';
 import type { HasStories } from '../../types/Stories.std.js';
 import { getHasStoriesSelector } from './stories2.dom.js';
 import { canEditMessage } from '../../util/canEditMessage.dom.js';
@@ -92,6 +92,10 @@ import { countAllChatFoldersMutedStats } from '../../util/countMutedStats.std.js
 import { getActiveProfile } from './notificationProfiles.dom.js';
 import type { PinnedMessage } from '../../types/PinnedMessage.std.js';
 import { getPinnedMessagesLimit } from '../../util/pinnedMessages.dom.js';
+import { getSelectedConversationId, getSelectedNavTab } from './nav.std.js';
+import { getCallHistoryUnreadCount } from './callHistory.std.js';
+import { NavTab } from '../../types/Nav.std.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
 
 const { isNumber, pick } = lodash;
 
@@ -155,12 +159,7 @@ export const getConversationsByGroupId = createSelector(
     return state.conversationsByGroupId;
   }
 );
-export const getHasPanelOpen = createSelector(
-  getConversations,
-  (state: ConversationsStateType): boolean => {
-    return state.targetedConversationPanels.watermark > 0;
-  }
-);
+
 export const getConversationsByUsername = createSelector(
   getConversations,
   (state: ConversationsStateType): ConversationLookupType => {
@@ -200,13 +199,6 @@ export const getSafeConversationWithSameTitle = createSelector(
     );
 
     return safeConversation;
-  }
-);
-
-export const getSelectedConversationId = createSelector(
-  getConversations,
-  (state: ConversationsStateType): string | undefined => {
-    return state.selectedConversationId;
   }
 );
 
@@ -1469,54 +1461,74 @@ export const getHideStoryConversationIds = createSelector(
     )
 );
 
-export const getActivePanel = createSelector(
-  getConversations,
-  (conversations): PanelArgsType | undefined =>
-    conversations.targetedConversationPanels.stack[
-      conversations.targetedConversationPanels.watermark
-    ]
-);
+export const getStoriesState = (state: StateType): StoriesStateType =>
+  state.stories;
 
-type PanelInformationType = {
-  currPanel: PanelArgsType | undefined;
-  direction: 'push' | 'pop';
-  prevPanel: PanelArgsType | undefined;
-};
-
-export const getPanelInformation = createSelector(
-  getConversations,
-  getActivePanel,
-  (conversations, currPanel): PanelInformationType | undefined => {
-    const { direction, watermark } = conversations.targetedConversationPanels;
-
-    if (!direction) {
-      return;
+export const getStoriesNotificationCount = createSelector(
+  getStoriesEnabled,
+  getHideStoryConversationIds,
+  getStoriesState,
+  (
+    storiesEnabled,
+    hideStoryConversationIds,
+    { lastOpenedAtTimestamp, stories }
+  ): number => {
+    if (!storiesEnabled) {
+      return 0;
     }
 
-    const watermarkDirection =
-      direction === 'push' ? watermark - 1 : watermark + 1;
-    const prevPanel =
-      conversations.targetedConversationPanels.stack[watermarkDirection];
+    const hiddenConversationIds = new Set(hideStoryConversationIds);
+
+    return new Set(
+      stories
+        .filter(
+          story =>
+            story.readStatus === ReadStatus.Unread &&
+            !story.deletedForEveryone &&
+            story.timestamp > (lastOpenedAtTimestamp || 0) &&
+            !hiddenConversationIds.has(story.conversationId)
+        )
+        .map(story => story.conversationId)
+    ).size;
+  }
+);
+
+export const getOtherTabsUnreadStats = createSelector(
+  getSelectedNavTab,
+  getAllConversationsUnreadStats,
+  getCallHistoryUnreadCount,
+  getStoriesNotificationCount,
+  (
+    selectedNavTab,
+    conversationsUnreadStats,
+    callHistoryUnreadCount,
+    storiesNotificationCount
+  ): UnreadStats => {
+    let unreadCount = 0;
+    let unreadMentionsCount = 0;
+    let readChatsMarkedUnreadCount = 0;
+
+    if (selectedNavTab !== NavTab.Chats) {
+      unreadCount += conversationsUnreadStats.unreadCount;
+      unreadMentionsCount += conversationsUnreadStats.unreadMentionsCount;
+      readChatsMarkedUnreadCount +=
+        conversationsUnreadStats.readChatsMarkedUnreadCount;
+    }
+
+    // Note: Conversation unread stats includes the call history unread count.
+    if (selectedNavTab !== NavTab.Calls) {
+      unreadCount += callHistoryUnreadCount;
+    }
+
+    if (selectedNavTab !== NavTab.Stories) {
+      unreadCount += storiesNotificationCount;
+    }
 
     return {
-      currPanel,
-      direction,
-      prevPanel,
+      unreadCount,
+      unreadMentionsCount,
+      readChatsMarkedUnreadCount,
     };
-  }
-);
-
-export const getIsPanelAnimating = createSelector(
-  getConversations,
-  (conversations): boolean => {
-    return conversations.targetedConversationPanels.isAnimating;
-  }
-);
-
-export const getWasPanelAnimated = createSelector(
-  getConversations,
-  (conversations): boolean => {
-    return conversations.targetedConversationPanels.wasAnimated;
   }
 );
 

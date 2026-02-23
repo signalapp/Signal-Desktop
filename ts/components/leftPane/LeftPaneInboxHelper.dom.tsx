@@ -151,10 +151,12 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
     i18n,
     selectedChatFolder,
     changeLocation,
+    selectedLocation,
   }: Readonly<{
     i18n: LocalizerType;
     selectedChatFolder: ChatFolder | null;
     changeLocation: (location: Location) => void;
+    selectedLocation: Location | undefined;
   }>): ReactNode | null {
     if (this.getRowCount() === 0) {
       if (selectedChatFolder?.folderType === ChatFolderType.CUSTOM) {
@@ -173,9 +175,7 @@ export class LeftPaneInboxHelper extends LeftPaneHelper<LeftPaneInboxPropsType> 
                     page: SettingsPage.EditChatFolder,
                     chatFolderId: selectedChatFolder.id,
                     initChatFolderParams: null,
-                    previousLocation: {
-                      tab: NavTab.Chats,
-                    },
+                    previousLocation: selectedLocation ?? null,
                   },
                 });
               }}

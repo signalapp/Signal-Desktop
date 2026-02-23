@@ -19,6 +19,7 @@ import type { MessageAttributesType } from '../model-types.d.ts';
 import type { SendStateByConversationId } from '../messages/MessageSendState.std.js';
 import type { StoredJob } from '../jobs/types.std.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
+import { getSelectedConversationId } from '../state/selectors/nav.std.js';
 
 const { throttle } = lodash;
 
@@ -136,8 +137,9 @@ export class MessageCache {
       const timeLastAccessed = this.#state.lastAccessedAt.get(messageId) ?? 0;
       const conversation = getMessageConversation(message.attributes);
 
-      const state = window.reduxStore.getState();
-      const selectedId = state?.conversations?.selectedConversationId;
+      const selectedId = getSelectedConversationId(
+        window.reduxStore.getState()
+      );
       const inActiveConversation =
         conversation && selectedId && conversation.id === selectedId;
 

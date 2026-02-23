@@ -13,7 +13,6 @@ import {
   getConversationByIdSelector,
   getConversations,
   getConversationSelector,
-  getSelectedConversationId,
 } from './conversations.dom.js';
 import type { StateType } from '../reducer.preload.js';
 import { createLogger } from '../../logging/log.std.js';
@@ -24,6 +23,7 @@ import * as Attachment from '../../util/Attachment.std.js';
 import type { ActiveAudioPlayerStateType } from '../ducks/audioPlayer.preload.js';
 import { isVoiceMessagePlayed } from '../../util/isVoiceMessagePlayed.std.js';
 import type { ServiceIdString } from '../../types/ServiceId.std.js';
+import { getSelectedConversationId } from './nav.std.js';
 
 const log = createLogger('audioPlayer');
 

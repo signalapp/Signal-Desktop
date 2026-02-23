@@ -359,6 +359,7 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     ),
     selectedChatFolder: null,
     selectedConversationId: undefined,
+    selectedLocation: undefined,
     targetedMessageId: undefined,
     openUsernameReservationModal: action('openUsernameReservationModal'),
     saveAlerts: async () => action('saveAlerts')(),

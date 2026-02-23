@@ -42,6 +42,7 @@ import { renderReactionPicker } from './renderReactionPicker.dom.js';
 import type { MessageRequestState } from '../../components/conversation/MessageRequestActionsConfirmation.dom.js';
 import { TargetedMessageSource } from '../ducks/conversationsEnums.std.js';
 import type { MessageInteractivity } from '../../components/conversation/Message.dom.js';
+import { useNavActions } from '../ducks/nav.std.js';
 import { DataReader } from '../../sql/Client.preload.js';
 import { isInternalFeaturesEnabled } from '../../util/isInternalFeaturesEnabled.dom.js';
 
@@ -137,7 +138,6 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     messageExpanded,
     onPinnedMessageRemove,
     openGiftBadge,
-    pushPanelForConversation,
     retryDeleteForEveryone,
     retryMessageSend,
     saveAttachment,
@@ -153,6 +153,8 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
     targetMessage,
     toggleSelectMessage,
   } = useConversationsActions();
+
+  const { pushPanelForConversation } = useNavActions();
 
   const {
     endPoll,

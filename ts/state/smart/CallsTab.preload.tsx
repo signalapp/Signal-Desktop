@@ -13,6 +13,7 @@ import { CallsTab } from '../../components/CallsTab.preload.js';
 import {
   getAllConversations,
   getConversationSelector,
+  getOtherTabsUnreadStats,
 } from '../selectors/conversations.dom.js';
 import { filterAndSortConversations } from '../../util/filterAndSortConversations.std.js';
 import type {
@@ -37,7 +38,6 @@ import { useCallHistoryActions } from '../ducks/callHistory.preload.js';
 import { getCallHistoryEdition } from '../selectors/callHistory.std.js';
 import { getHasPendingUpdate } from '../selectors/updates.std.js';
 import { getHasAnyFailedStorySends } from '../selectors/stories.preload.js';
-import { getOtherTabsUnreadStats } from '../selectors/nav.preload.js';
 import { SmartCallLinkDetails } from './CallLinkDetails.preload.js';
 import type { CallLinkType } from '../../types/CallLink.std.js';
 import { filterCallLinks } from '../../util/filterCallLinks.dom.js';

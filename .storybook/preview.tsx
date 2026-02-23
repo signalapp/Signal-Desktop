@@ -30,6 +30,7 @@ import { LocaleEmojiListSchema } from '../ts/types/emoji.std.js';
 import { FunProvider } from '../ts/components/fun/FunProvider.dom.js';
 import { EmojiSkinTone } from '../ts/components/fun/data/emojis.std.js';
 import { MOCK_GIFS_PAGINATED_ONE_PAGE } from '../ts/components/fun/mocks.dom.js';
+import { NavTab } from '../ts/types/Nav.std.js';
 
 import type { FunEmojiSelection } from '../ts/components/fun/panels/FunPanelEmojis.dom.js';
 import type { FunGifSelection } from '../ts/components/fun/panels/FunPanelGifs.dom.js';
@@ -78,6 +79,16 @@ export const globalTypes = {
 const mockStore: Store<StateType> = createStore(
   combineReducers({
     calling: (state = {}) => state,
+    nav: (
+      state = {
+        selectedLocation: {
+          tab: NavTab.Chats,
+          details: {
+            conversationId: undefined,
+          },
+        },
+      }
+    ) => state,
     conversations: (
       state = {
         conversationLookup: {},

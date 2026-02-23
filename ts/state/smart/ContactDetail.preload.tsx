@@ -17,6 +17,7 @@ import type {
   EmbeddedContactForUIType,
 } from '../../types/EmbeddedContact.std.js';
 import { getAccountSelector } from '../selectors/accounts.std.js';
+import { useNavActions } from '../ducks/nav.std.js';
 
 export type OwnProps = Pick<ContactDetailProps, 'messageId'>;
 
@@ -67,11 +68,9 @@ export const SmartContactDetail = memo(function SmartContactDetail({
 }: OwnProps): React.JSX.Element | null {
   const i18n = useSelector(getIntl);
   const messageLookup = useSelector(getMessages);
-  const {
-    cancelAttachmentDownload,
-    kickOffAttachmentDownload,
-    popPanelForConversation,
-  } = useConversationsActions();
+  const { cancelAttachmentDownload, kickOffAttachmentDownload } =
+    useConversationsActions();
+  const { popPanelForConversation } = useNavActions();
 
   const contact = useLookupContact(messageLookup[messageId]?.contact?.[0]);
 

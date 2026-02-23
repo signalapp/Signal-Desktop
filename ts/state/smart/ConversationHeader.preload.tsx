@@ -37,10 +37,10 @@ import {
 import {
   getConversationByServiceIdSelector,
   getConversationSelector,
-  getHasPanelOpen,
   isMissingRequiredProfileSharing as getIsMissingRequiredProfileSharing,
   getSelectedMessageIds,
 } from '../selectors/conversations.dom.js';
+import { getHasPanelOpen } from '../selectors/nav.std.js';
 import { getHasStoriesSelector } from '../selectors/stories2.dom.js';
 import { getIntl, getTheme, getUserACI } from '../selectors/user.std.js';
 import { isConversationEverUnregistered } from '../../util/isConversationUnregistered.dom.js';
@@ -53,6 +53,7 @@ import type { SmartMiniPlayerProps } from './MiniPlayer.preload.js';
 import { SmartMiniPlayer } from './MiniPlayer.preload.js';
 import { SmartPinnedMessagesBar } from './PinnedMessagesBar.preload.js';
 import { getContactSpoofingWarningSelector } from '../selectors/timeline.preload.js';
+import { useNavActions } from '../ducks/nav.std.js';
 
 function renderCollidingAvatars(
   props: SmartCollidingAvatarsProps
@@ -141,7 +142,6 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
     onArchive,
     onMarkUnread,
     onMoveToInbox,
-    pushPanelForConversation,
     setDisappearingMessages,
     setMuteExpiration,
     setPinned,
@@ -154,6 +154,7 @@ export const SmartConversationHeader = memo(function SmartConversationHeader({
     acknowledgeGroupMemberNameCollisions,
     reviewConversationNameCollision,
   } = useConversationsActions();
+  const { pushPanelForConversation } = useNavActions();
   const {
     onOutgoingAudioCallInConversation,
     onOutgoingVideoCallInConversation,

@@ -26,12 +26,12 @@ import {
   getCachedConversationMemberColorsSelector,
   getConversationSelector,
   getGroupAdminsSelector,
-  getHasPanelOpen,
   getLastEditableMessageId,
   getMessages,
   getSelectedMessageIds,
   isMissingRequiredProfileSharing,
 } from '../selectors/conversations.dom.js';
+import { getHasPanelOpen } from '../selectors/nav.std.js';
 import { getSharedGroupNames } from '../../util/sharedGroupNames.dom.js';
 import {
   getDefaultConversationColor,
@@ -59,6 +59,7 @@ import { isConversationEverUnregistered } from '../../util/isConversationUnregis
 import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.js';
 import { isConversationMuted } from '../../util/isConversationMuted.std.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { useNavActions } from '../ducks/nav.std.js';
 
 function renderSmartCompositionRecording() {
   return <SmartCompositionRecording />;
@@ -204,7 +205,6 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
     setComposerFocus,
   } = useComposerActions();
   const {
-    pushPanelForConversation,
     discardEditMessage,
     acceptConversation,
     blockAndReportSpam,
@@ -217,6 +217,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
     setMuteExpiration,
     showConversation,
   } = useConversationsActions();
+  const { pushPanelForConversation } = useNavActions();
   const { cancelRecording, completeRecording, startRecording, errorRecording } =
     useAudioRecorderActions();
   const { onUseEmoji } = useEmojisActions();

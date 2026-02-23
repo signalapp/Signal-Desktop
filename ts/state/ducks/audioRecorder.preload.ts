@@ -21,6 +21,7 @@ import {
   ErrorDialogAudioRecorderType,
   RecordingState,
 } from '../../types/AudioRecorder.std.js';
+import { getSelectedConversationId } from '../selectors/nav.std.js';
 
 const log = createLogger('audioRecorder');
 
@@ -155,7 +156,7 @@ export function completeRecording(
     const state = getState();
 
     const isSelectedConversation =
-      state.conversations.selectedConversationId === conversationId;
+      getSelectedConversationId(state) === conversationId;
 
     if (!isSelectedConversation) {
       log.warn(

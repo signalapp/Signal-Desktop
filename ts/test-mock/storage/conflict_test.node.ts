@@ -110,9 +110,11 @@ describe('storage service', function (this: Mocha.Suite) {
       await app.waitForManifestVersion(archivedVersion);
 
       debug('waiting for archived chats to appear again');
-      await leftPane.getByLabel('Archived Chats').waitFor();
+      await leftPane.getByLabel('Archived Chats').click();
 
-      // Conversation should be still open
+      // Conversation was closed on re-archive - need to open it again
+      await leftPane.locator(`[data-testid="${testid}"]`).click();
+
       await conversationStack
         .getByRole('button', { name: 'More Info' })
         .click();

@@ -4,10 +4,8 @@ import React, { memo, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { ContactName } from '../../components/conversation/ContactName.dom.js';
 import { getIntl } from '../selectors/user.std.js';
-import {
-  getConversationSelector,
-  getSelectedConversationId,
-} from '../selectors/conversations.dom.js';
+import { getConversationSelector } from '../selectors/conversations.dom.js';
+import { getSelectedConversationId } from '../selectors/nav.std.js';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
 
 type ExternalProps = {

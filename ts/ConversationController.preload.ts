@@ -65,6 +65,7 @@ import type {
   PniString,
 } from './types/ServiceId.std.js';
 import { itemStorage } from './textsecure/Storage.preload.js';
+import { getSelectedConversationId } from './state/selectors/nav.std.js';
 
 const { debounce, pick, uniq, without } = lodash;
 
@@ -1455,8 +1456,7 @@ export class ConversationController {
     await migrateConversationMessages(obsoleteId, currentId);
 
     if (
-      window.reduxStore.getState().conversations.selectedConversationId ===
-      obsoleteId
+      getSelectedConversationId(window.reduxStore.getState()) === obsoleteId
     ) {
       log.warn(`${logId}: opening new conversation`);
       window.reduxActions.conversations.showConversation({
@@ -1473,8 +1473,7 @@ export class ConversationController {
     drop(current.updateLastMessage());
 
     if (
-      window.reduxStore.getState().conversations.selectedConversationId ===
-      current.id
+      getSelectedConversationId(window.reduxStore.getState()) === current.id
     ) {
       // TODO: DESKTOP-4807
       drop(current.loadNewestMessages(undefined, undefined));

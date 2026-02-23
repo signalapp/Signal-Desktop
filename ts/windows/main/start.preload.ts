@@ -32,6 +32,7 @@ import { isProduction } from '../../util/version.std.js';
 import { benchmarkConversationOpen } from '../../CI/benchmarkConversationOpen.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { IMAGE_PNG } from '../../types/MIME.std.js';
+import { getSelectedConversationId } from '../../state/selectors/nav.std.js';
 
 const { has } = lodash;
 
@@ -63,13 +64,15 @@ if (
   const SignalDebug = {
     cdsLookup: (options: CdsLookupOptionsType) => cdsLookup(options),
     getSelectedConversation: () => {
-      const conversationId =
-        window.reduxStore.getState().conversations.selectedConversationId;
+      const conversationId = getSelectedConversationId(
+        window.reduxStore.getState()
+      );
       return window.ConversationController.get(conversationId)?.attributes;
     },
     archiveSessionsForCurrentConversation: async () => {
-      const conversationId =
-        window.reduxStore.getState().conversations.selectedConversationId;
+      const conversationId = getSelectedConversationId(
+        window.reduxStore.getState()
+      );
       await window.ConversationController.archiveSessionsForConversation(
         conversationId
       );
@@ -115,8 +118,9 @@ if (
       calling._iceServerOverride = override;
     },
     sendViewOnceImageInSelectedConversation: async () => {
-      const conversationId =
-        window.reduxStore.getState().conversations.selectedConversationId;
+      const conversationId = getSelectedConversationId(
+        window.reduxStore.getState()
+      );
       const conversation = window.ConversationController.get(conversationId);
       if (!conversation) {
         throw new Error('No conversation selected');

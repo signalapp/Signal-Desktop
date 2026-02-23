@@ -476,52 +476,7 @@ describe('both/state/ducks/conversations', () => {
     }
 
     describe('showConversation', () => {
-      it('does not select a conversation if it does not exist', () => {
-        const state = {
-          ...getEmptyState(),
-        };
-        const dispatch = sinon.spy();
-        showConversation({ conversationId: 'abc123' })(
-          dispatch,
-          getEmptyRootState,
-          null
-        );
-        const action = dispatch.getCall(0).args[0];
-        const nextState = reducer(state, action);
-
-        assert.isUndefined(nextState.selectedConversationId);
-        assert.isUndefined(nextState.targetedMessage);
-      });
-
-      it('selects a conversation id', () => {
-        const conversation = getDefaultConversation({
-          id: 'abc123',
-        });
-        const state = {
-          ...getEmptyState(),
-          conversationLookup: {
-            [conversation.id]: conversation,
-          },
-        };
-        const dispatch = sinon.spy();
-        showConversation({ conversationId: 'abc123' })(
-          dispatch,
-          getEmptyRootState,
-          null
-        );
-        const action = dispatch
-          .getCalls()
-          .map(call => call.args[0])
-          .find(a => {
-            return a.type === TARGETED_CONVERSATION_CHANGED;
-          });
-        const nextState = reducer(state, action);
-
-        assert.equal(nextState.selectedConversationId, 'abc123');
-        assert.isUndefined(nextState.targetedMessage);
-      });
-
-      it('selects a conversation and a message', () => {
+      it('selects a conversation and a message', async () => {
         const conversation = getDefaultConversation({
           id: 'abc123',
         });
@@ -533,7 +488,7 @@ describe('both/state/ducks/conversations', () => {
         };
 
         const dispatch = sinon.spy();
-        showConversation({
+        await showConversation({
           conversationId: 'abc123',
           messageId: 'xyz987',
         })(dispatch, getEmptyRootState, null);
@@ -543,16 +498,15 @@ describe('both/state/ducks/conversations', () => {
           .find(a => a.type === TARGETED_CONVERSATION_CHANGED);
         const nextState = reducer(state, action);
 
-        assert.equal(nextState.selectedConversationId, 'abc123');
         assert.equal(nextState.targetedMessage, 'xyz987');
       });
 
       describe('showConversation switchToAssociatedView=true', () => {
         let action: TargetedConversationChangedActionType;
 
-        beforeEach(() => {
+        beforeEach(async () => {
           const dispatch = sinon.spy();
-          showConversation({
+          await showConversation({
             conversationId: 'fake-conversation-id',
             switchToAssociatedView: true,
           })(dispatch, getEmptyRootState, null);
@@ -2688,68 +2642,6 @@ describe('both/state/ducks/conversations', () => {
             [conversation1.serviceId]: updatedConversation1,
             [conversation2.serviceId]: updatedConversation2Again,
             [newConversation.serviceId]: newConversation,
-          },
-        };
-        assert.deepEqual(actual, expected);
-      });
-
-      it('updates root state if conversation is selected', () => {
-        const conversation1 = getDefaultConversation({ isArchived: true });
-        const conversation2 = getDefaultConversation();
-        strictAssert(conversation1.serviceId, 'must exist');
-        strictAssert(conversation1.e164, 'must exist');
-        strictAssert(conversation2.serviceId, 'must exist');
-        strictAssert(conversation2.e164, 'must exist');
-
-        const state: ConversationsStateType = {
-          ...getEmptyState(),
-          selectedConversationId: conversation1.id,
-          showArchived: true,
-          conversationLookup: {
-            [conversation1.id]: conversation1,
-            [conversation2.id]: conversation2,
-          },
-          conversationsByE164: {
-            [conversation1.e164]: conversation1,
-            [conversation2.e164]: conversation2,
-          },
-          conversationsByServiceId: {
-            [conversation1.serviceId]: conversation1,
-            [conversation2.serviceId]: conversation2,
-          },
-        };
-
-        const updatedConversation1 = {
-          ...conversation1,
-          isArchived: false,
-        };
-        const updatedConversation2 = {
-          ...conversation2,
-          active_at: 12345,
-        };
-
-        const action: ConversationsUpdatedActionType = {
-          type: 'CONVERSATIONS_UPDATED',
-          payload: {
-            data: [updatedConversation1, updatedConversation2],
-          },
-        };
-
-        const actual = reducer(state, action);
-        const expected: ConversationsStateType = {
-          ...state,
-          showArchived: false,
-          conversationLookup: {
-            [conversation1.id]: updatedConversation1,
-            [conversation2.id]: updatedConversation2,
-          },
-          conversationsByE164: {
-            [conversation1.e164]: updatedConversation1,
-            [conversation2.e164]: updatedConversation2,
-          },
-          conversationsByServiceId: {
-            [conversation1.serviceId]: updatedConversation1,
-            [conversation2.serviceId]: updatedConversation2,
           },
         };
         assert.deepEqual(actual, expected);

@@ -33,15 +33,15 @@ import { getIntl } from '../selectors/user.std.js';
 import {
   getPanelInformation,
   getWasPanelAnimated,
-} from '../selectors/conversations.dom.js';
+} from '../selectors/nav.std.js';
 import { focusableSelector } from '../../util/focusableSelectors.std.js';
 import { missingCaseError } from '../../util/missingCaseError.std.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
 import { useReducedMotion } from '../../hooks/useReducedMotion.dom.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { SmartPinnedMessagesPanel } from './PinnedMessagesPanel.preload.js';
 import { SmartMiniPlayer } from './MiniPlayer.preload.js';
 import { SmartGroupMemberLabelEditor } from './GroupMemberLabelEditor.preload.js';
+import { useNavActions } from '../ducks/nav.std.js';
 
 const log = createLogger('ConversationPanel');
 
@@ -106,8 +106,7 @@ export const ConversationPanel = memo(function ConversationPanel({
   conversationId: string;
 }) {
   const panelInformation = useSelector(getPanelInformation);
-  const { panelAnimationDone, panelAnimationStarted } =
-    useConversationsActions();
+  const { panelAnimationDone, panelAnimationStarted } = useNavActions();
 
   const animateRef = useRef<HTMLDivElement | null>(null);
   const overlayRef = useRef<HTMLDivElement | null>(null);
@@ -288,7 +287,7 @@ const PanelContainer = forwardRef<
   ref
 ): React.JSX.Element {
   const i18n = useSelector(getIntl);
-  const { popPanelForConversation } = useConversationsActions();
+  const { popPanelForConversation } = useNavActions();
   const conversationTitle = getConversationTitleForPanelType(i18n, panel.type);
 
   let info: React.JSX.Element | undefined;
@@ -398,7 +397,9 @@ function PanelElement({
   }
 
   if (panel.type === PanelType.MessageDetails) {
-    return <SmartMessageDetail />;
+    const { messageId } = panel.args;
+
+    return <SmartMessageDetail messageId={messageId} />;
   }
 
   if (panel.type === PanelType.NotificationSettings) {
