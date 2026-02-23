@@ -60,6 +60,7 @@ export const getActivePanel = createSelector(
 
 type PanelInformationType = {
   currPanel: PanelArgsType | undefined;
+  leafPanelOnly?: boolean;
   direction: 'push' | 'pop';
   prevPanel: PanelArgsType | undefined;
 };
@@ -72,7 +73,7 @@ export const getPanelInformation = createSelector(
       return;
     }
 
-    const { direction, watermark } = panels;
+    const { direction, watermark, leafPanelOnly } = panels;
 
     if (!direction) {
       return;
@@ -86,6 +87,7 @@ export const getPanelInformation = createSelector(
       currPanel,
       direction,
       prevPanel,
+      leafPanelOnly,
     };
   }
 );

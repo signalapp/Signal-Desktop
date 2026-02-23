@@ -23,10 +23,12 @@ export type ChatDetails = ReadonlyDeep<{
 }>;
 
 export type PanelInfo = {
-  isAnimating: boolean;
-  wasAnimated: boolean;
   direction: 'push' | 'pop' | undefined;
+  isAnimating: boolean;
+  // When navigating deep into a panel stack, we only want to render the leaf panel
+  leafPanelOnly?: boolean;
   stack: ReadonlyArray<PanelArgsType>;
+  wasAnimated: boolean;
   watermark: number;
 };
 

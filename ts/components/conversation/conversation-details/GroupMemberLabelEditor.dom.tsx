@@ -12,7 +12,6 @@ import {
   isEmojiVariantValue,
 } from '../../fun/data/emojis.std.js';
 import { FunEmojiPickerButton } from '../../fun/FunButton.dom.js';
-
 import { tw } from '../../../axo/tw.dom.js';
 import { AxoButton } from '../../../axo/AxoButton.dom.js';
 import {
@@ -28,6 +27,12 @@ import { ConversationColors } from '../../../types/Colors.std.js';
 import { WidthBreakpoint } from '../../_util.std.js';
 import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.js';
 import { SignalService as Proto } from '../../../protobuf/index.std.js';
+import { Avatar, AvatarSize } from '../../Avatar.dom.js';
+import { UserText } from '../../UserText.dom.js';
+import { GroupMemberLabel } from '../ContactName.dom.js';
+import { useConfirmDiscard } from '../../../hooks/useConfirmDiscard.dom.js';
+import { NavTab } from '../../../types/Nav.std.js';
+import { PanelType } from '../../../types/Panels.std.js';
 
 import type { EmojiVariantKey } from '../../fun/data/emojis.std.js';
 import type {
@@ -36,9 +41,7 @@ import type {
 } from '../../../state/ducks/conversations.preload.js';
 import type { LocalizerType, ThemeType } from '../../../types/Util.std.js';
 import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.preload.js';
-import { Avatar, AvatarSize } from '../../Avatar.dom.js';
-import { UserText } from '../../UserText.dom.js';
-import { GroupMemberLabel } from '../ContactName.dom.js';
+import type { Location } from '../../../types/Nav.std.js';
 
 export type PropsDataType = {
   existingLabelEmoji: string | undefined;
@@ -62,6 +65,21 @@ export type PropsType = PropsDataType & {
   popPanelForConversation: () => void;
   updateGroupMemberLabel: UpdateGroupMemberLabelType;
 };
+
+// We don't want to render any panel behind it as we animate it in, if we weren't already
+// showing the ConversationDetails pane.
+export function getLeafPanelOnly(
+  location: Location,
+  conversationId: string | undefined
+): boolean {
+  return (
+    !conversationId ||
+    location.tab !== NavTab.Chats ||
+    location.details.conversationId !== conversationId ||
+    location.details.panels?.watermark === -1 ||
+    location.details.panels?.stack[0]?.type !== PanelType.ConversationDetails
+  );
+}
 
 function getEmojiVariantKey(value: string): EmojiVariantKey | undefined {
   if (isEmojiVariantValue(value)) {
@@ -125,6 +143,19 @@ export function GroupMemberLabelEditor({
       setIsShowingPermissionsError(true);
     }
   }, [group, isShowingPermissionsError, setIsShowingPermissionsError]);
+
+  const tryClose = React.useRef<() => void | undefined>();
+  const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
+    i18n,
+    name: 'GroupMemberLabelEditor',
+    tryClose,
+  });
+
+  const onTryClose = React.useCallback(() => {
+    const discardChanges = noop;
+    confirmDiscardIf(isDirty, discardChanges);
+  }, [confirmDiscardIf, isDirty]);
+  tryClose.current = onTryClose;
 
   return (
     <div className={tw('flex size-full flex-col')}>
@@ -367,6 +398,7 @@ export function GroupMemberLabelEditor({
           {i18n('icu:save')}
         </AxoButton.Root>
       </div>
+      {confirmDiscardModal}
       <AxoAlertDialog.Root
         open={isShowingGeneralError}
         onOpenChange={value => {

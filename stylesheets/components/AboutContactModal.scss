@@ -119,6 +119,10 @@
     &--label {
       @include about-modal-icon('../images/icons/v3/tag/tag.svg');
     }
+
+    &--qr-code {
+      @include about-modal-icon('../images/icons/v3/qr_code/qr_code.svg');
+    }
   }
 
   &__label-container {
@@ -128,14 +132,14 @@
 
     max-width: 100%;
     white-space: nowrap;
-    overflow: hidden;
+    overflow-x: hidden;
     text-overflow: ellipsis;
   }
 
   &__label-container__string {
     min-width: 0px;
     white-space: nowrap;
-    overflow: hidden;
+    overflow-x: hidden;
     text-overflow: ellipsis;
   }
 
@@ -146,7 +150,11 @@
     min-width: 0;
 
     @include mixins.button-reset();
+    @include mixins.button-focus-outline;
+
     & {
+      border-radius: 3px;
+      padding: 1px;
       cursor: pointer;
     }
 
@@ -178,7 +186,7 @@
 
 .AboutContactModal__OneLineEllipsis {
   white-space: nowrap;
-  overflow: hidden;
+  overflow-x: hidden;
   text-overflow: ellipsis;
 }
 

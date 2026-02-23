@@ -1482,6 +1482,10 @@
     "messageformat": "Add a member label",
     "description": "Text for a row on the about contact modal, allowing user to add a label for themselves in the current group"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code",
+    "description": "Text for a row on the about contact modal, allowing user to add a label for themselves in the current group"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Note",
     "description": "Title of Note Preview modal"

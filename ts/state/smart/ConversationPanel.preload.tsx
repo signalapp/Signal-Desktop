@@ -209,7 +209,12 @@ export const ConversationPanel = memo(function ConversationPanel({
     return null;
   }
 
-  const { currPanel: activePanel, direction, prevPanel } = panelInformation;
+  const {
+    currPanel: activePanel,
+    direction,
+    leafPanelOnly,
+    prevPanel,
+  } = panelInformation;
 
   if (!direction) {
     return null;
@@ -248,13 +253,15 @@ export const ConversationPanel = memo(function ConversationPanel({
   if (direction === 'push' && activePanel) {
     return (
       <>
-        {lastPanelDoneAnimating !== prevPanel && prevPanel && (
-          <PanelContainer
-            conversationId={conversationId}
-            panel={prevPanel}
-            key={getPanelKey(prevPanel)}
-          />
-        )}
+        {!leafPanelOnly &&
+          lastPanelDoneAnimating !== prevPanel &&
+          prevPanel && (
+            <PanelContainer
+              conversationId={conversationId}
+              panel={prevPanel}
+              key={getPanelKey(prevPanel)}
+            />
+          )}
         <div
           key="overlay"
           className="ConversationPanel__overlay"

@@ -21,9 +21,15 @@ import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPe
 import { getItems } from '../selectors/items.dom.js';
 import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.js';
 import { getCanAddLabel } from '../../types/GroupMemberLabels.std.js';
-import { createLogger } from '../../logging/log.std.js';
-
-const log = createLogger('SmartAboutContactModal');
+import { useNavActions } from '../ducks/nav.std.js';
+import { PanelType } from '../../types/Panels.std.js';
+import {
+  NavTab,
+  ProfileEditorPage,
+  SettingsPage,
+} from '../../types/Nav.std.js';
+import { getSelectedLocation } from '../selectors/nav.std.js';
+import { getLeafPanelOnly } from '../../components/conversation/conversation-details/GroupMemberLabelEditor.dom.js';
 
 function isFromOrAddedByTrustedContact(
   conversation: ConversationType
@@ -57,10 +63,6 @@ export const SmartAboutContactModal = memo(function SmartAboutContactModal() {
     remoteConfig: items.remoteConfig,
     prodKey: 'desktop.groupMemberLabels.edit.prod',
   });
-  // TODO: DESKTOP-9711
-  log.info(
-    `Not using feature flag of ${isEditMemberLabelEnabled}; hardcoding to false`
-  );
 
   const sharedGroupNames = useSharedGroupNamesOnMount(contactId ?? '');
 
@@ -88,6 +90,10 @@ export const SmartAboutContactModal = memo(function SmartAboutContactModal() {
     toggleNotePreviewModal,
     toggleProfileNameWarningModal,
   } = useGlobalModalActions();
+  const { changeLocation } = useNavActions();
+
+  const selectedLocation = useSelector(getSelectedLocation);
+  const leafPanelOnly = getLeafPanelOnly(selectedLocation, conversationId);
 
   const handleOpenNotePreviewModal = useCallback(() => {
     strictAssert(contactId != null, 'contactId is required');
@@ -107,7 +113,7 @@ export const SmartAboutContactModal = memo(function SmartAboutContactModal() {
       contactLabelString={contactLabelString}
       contactNameColor={contactNameColor}
       fromOrAddedByTrustedContact={isFromOrAddedByTrustedContact(contact)}
-      isEditMemberLabelEnabled={false}
+      isEditMemberLabelEnabled={isEditMemberLabelEnabled}
       isSignalConnection={isSignalConnection(contact)}
       onClose={toggleAboutContactModal}
       onOpenNotePreviewModal={handleOpenNotePreviewModal}
@@ -115,6 +121,46 @@ export const SmartAboutContactModal = memo(function SmartAboutContactModal() {
         conversationId ? isPendingAvatarDownload(conversationId) : false
       }
       sharedGroupNames={sharedGroupNames}
+      showProfileEditor={() => {
+        changeLocation({
+          tab: NavTab.Settings,
+          details: {
+            page: SettingsPage.Profile,
+            state: ProfileEditorPage.ProfileName,
+          },
+        });
+        toggleAboutContactModal(undefined);
+      }}
+      showQRCodeScreen={() => {
+        changeLocation({
+          tab: NavTab.Settings,
+          details: {
+            page: SettingsPage.Profile,
+            state: ProfileEditorPage.UsernameLink,
+          },
+        });
+        toggleAboutContactModal(undefined);
+      }}
+      showEditMemberLabelScreen={() => {
+        changeLocation({
+          tab: NavTab.Chats,
+          details: {
+            conversationId,
+            panels: {
+              direction: 'push' as const,
+              isAnimating: false,
+              leafPanelOnly,
+              stack: [
+                { type: PanelType.ConversationDetails },
+                { type: PanelType.GroupMemberLabelEditor },
+              ],
+              wasAnimated: false,
+              watermark: 1,
+            },
+          },
+        });
+        toggleAboutContactModal(undefined);
+      }}
       startAvatarDownload={
         conversationId ? () => startAvatarDownload(conversationId) : undefined
       }

@@ -350,6 +350,7 @@ export function reducer(
             ...state.selectedLocation.details.panels,
             isAnimating: false,
             wasAnimated: true,
+            leafPanelOnly: false,
           },
         },
       },
