@@ -330,7 +330,7 @@ export namespace AxoAvatar {
           'outline-0 outline-border-focused focused:outline-[2.5px]'
         )}
       >
-        <AxoSymbol.Icon size={24} symbol="raisehand" label={null} />
+        <AxoSymbol.Icon size={24} symbol="press" label={null} />
         <span className={tw('type-body-medium')}>{props.label}</span>
       </div>
     );
