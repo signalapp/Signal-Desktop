@@ -125,6 +125,7 @@ export type OwnProps = Readonly<{
   isFormattingEnabled: boolean;
   isGroupV1AndDisabled: boolean | null;
   isMissingMandatoryProfileSharing: boolean | null;
+  isPollSend1to1Enabled: boolean;
   isSignalConversation: boolean | null;
   isActive: boolean;
   lastEditableMessageId: string | null;
@@ -246,6 +247,7 @@ export const CompositionArea = memo(function CompositionArea({
   i18n,
   imageToBlurHash,
   isDisabled,
+  isPollSend1to1Enabled,
   isSignalConversation,
   isMuted,
   isActive,
@@ -776,7 +778,7 @@ export const CompositionArea = memo(function CompositionArea({
             <AxoDropdownMenu.Item symbol="file" onSelect={launchFilePicker}>
               {i18n('icu:CompositionArea__AttachMenu__File')}
             </AxoDropdownMenu.Item>
-            {conversationType === 'group' && (
+            {(conversationType === 'group' || isPollSend1to1Enabled) && (
               <AxoDropdownMenu.Item
                 symbol="poll"
                 onSelect={handleOpenPollModal}

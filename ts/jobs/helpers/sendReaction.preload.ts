@@ -35,13 +35,12 @@ import type {
   ConversationQueueJobBundle,
   ReactionJobData,
 } from '../conversationJobQueue.preload.js';
-import { isConversationAccepted } from '../../util/isConversationAccepted.preload.js';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.js';
 import { sendToGroup } from '../../util/sendToGroup.preload.js';
 import { hydrateStoryContext } from '../../util/hydrateStoryContext.preload.js';
 import { send, sendSyncMessageOnly } from '../../messages/send.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { getSendRecipientLists } from './getSendRecipientLists.dom.js';
+import { shouldSendToDirectConversation } from './shouldSendToConversation.preload.js';
 
 const { isNumber } = lodash;
 
@@ -223,24 +222,9 @@ export async function sendReaction(
 
       let promise: Promise<CallbackResultType>;
       if (isDirectConversation(conversation.attributes)) {
-        if (!isConversationAccepted(conversation.attributes)) {
-          log.info(
-            `conversation ${conversation.idForLogging()} is not accepted; refusing to send`
-          );
-          markReactionFailed(message, pendingReaction);
-          return;
-        }
-        if (isConversationUnregistered(conversation.attributes)) {
-          log.info(
-            `conversation ${conversation.idForLogging()} is unregistered; refusing to send`
-          );
-          markReactionFailed(message, pendingReaction);
-          return;
-        }
-        if (conversation.isBlocked()) {
-          log.info(
-            `conversation ${conversation.idForLogging()} is blocked; refusing to send`
-          );
+        const [ok, refusal] = shouldSendToDirectConversation(conversation);
+        if (!ok) {
+          log.info(refusal.logLine);
           markReactionFailed(message, pendingReaction);
           return;
         }

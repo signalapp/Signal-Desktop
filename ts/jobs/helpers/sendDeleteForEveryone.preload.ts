@@ -26,8 +26,6 @@ import type {
 } from '../conversationJobQueue.preload.js';
 import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds.dom.js';
 import { handleMessageSend } from '../../util/handleMessageSend.preload.js';
-import { isConversationAccepted } from '../../util/isConversationAccepted.preload.js';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.js';
 import { getMessageById } from '../../messages/getMessageById.preload.js';
 import { isNotNil } from '../../util/isNotNil.std.js';
 import type { CallbackResultType } from '../../textsecure/Types.d.ts';
@@ -38,6 +36,7 @@ import type { LoggerType } from '../../types/Logging.std.js';
 import type { ServiceIdString } from '../../types/ServiceId.std.js';
 import { isStory } from '../../messages/helpers.std.js';
 import { sendToGroup } from '../../util/sendToGroup.preload.js';
+import { shouldSendToDirectConversation } from './shouldSendToConversation.preload.js';
 
 const { isNumber } = lodash;
 
@@ -157,37 +156,10 @@ export async function sendDeleteForEveryone(
           );
           await updateMessageWithSuccessfulSends(message);
         } else if (isDirectConversation(conversation.attributes)) {
-          if (!isConversationAccepted(conversation.attributes)) {
-            log.info(
-              `conversation ${conversation.idForLogging()} is not accepted; refusing to send`
-            );
-            void updateMessageWithFailure(
-              message,
-              [new Error('Message request was not accepted')],
-              log
-            );
-            return;
-          }
-          if (isConversationUnregistered(conversation.attributes)) {
-            log.info(
-              `conversation ${conversation.idForLogging()} is unregistered; refusing to send`
-            );
-            void updateMessageWithFailure(
-              message,
-              [new Error('Contact no longer has a Signal account')],
-              log
-            );
-            return;
-          }
-          if (conversation.isBlocked()) {
-            log.info(
-              `conversation ${conversation.idForLogging()} is blocked; refusing to send`
-            );
-            void updateMessageWithFailure(
-              message,
-              [new Error('Contact is blocked')],
-              log
-            );
+          const [ok, refusal] = shouldSendToDirectConversation(conversation);
+          if (!ok) {
+            log.info(refusal.logLine);
+            void updateMessageWithFailure(message, [refusal.error], log);
             return;
           }
 

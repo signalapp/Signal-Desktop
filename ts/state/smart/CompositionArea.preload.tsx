@@ -36,6 +36,7 @@ import { getSharedGroupNames } from '../../util/sharedGroupNames.dom.js';
 import {
   getDefaultConversationColor,
   getEmojiSkinToneDefault,
+  getItems,
   getTextFormattingEnabled,
 } from '../selectors/items.dom.js';
 import { canForward, getPropsForQuote } from '../selectors/message.preload.js';
@@ -44,6 +45,7 @@ import {
   getPlatform,
   getTheme,
   getUserConversationId,
+  getVersion,
 } from '../selectors/user.std.js';
 import { SmartCompositionRecording } from './CompositionRecording.preload.js';
 import type { SmartCompositionRecordingDraftProps } from './CompositionRecordingDraft.preload.js';
@@ -60,6 +62,7 @@ import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.js';
 import { isConversationMuted } from '../../util/isConversationMuted.std.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { useNavActions } from '../ducks/nav.std.js';
+import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.js';
 
 function renderSmartCompositionRecording() {
   return <SmartCompositionRecording />;
@@ -86,6 +89,8 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
   const selectedMessageIds = useSelector(getSelectedMessageIds);
   const messageLookup = useSelector(getMessages);
   const isFormattingEnabled = useSelector(getTextFormattingEnabled);
+  const items = useSelector(getItems);
+  const version = useSelector(getVersion);
   const lastEditableMessageId = useSelector(getLastEditableMessageId);
   const platform = useSelector(getPlatform);
   const shouldHidePopovers = useSelector(getHasPanelOpen);
@@ -243,6 +248,12 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       i18n={i18n}
       isDisabled={isDisabled}
       isFormattingEnabled={isFormattingEnabled}
+      isPollSend1to1Enabled={isFeaturedEnabledSelector({
+        betaKey: 'desktop.pollSend1to1.beta',
+        prodKey: 'desktop.pollSend1to1.prod',
+        currentVersion: version,
+        remoteConfig: items.remoteConfig,
+      })}
       isActive={isActive}
       lastEditableMessageId={lastEditableMessageId ?? null}
       messageCompositionId={messageCompositionId}

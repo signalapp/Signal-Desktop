@@ -50,6 +50,8 @@ const SemverKeys = [
   'desktop.keyTransparency.prod',
   'desktop.binaryServiceId.beta',
   'desktop.binaryServiceId.prod',
+  'desktop.pollSend1to1.beta',
+  'desktop.pollSend1to1.prod',
 ] as const;
 
 export type SemverKeyType = ArrayValues<typeof SemverKeys>;

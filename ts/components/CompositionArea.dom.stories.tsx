@@ -79,6 +79,7 @@ export default {
     i18n,
     isDisabled: false,
     isFormattingEnabled: true,
+    isPollSend1to1Enabled: true,
     messageCompositionId: '456',
     sendEditedMessage: action('sendEditedMessage'),
     sendMultiMediaMessage: action('sendMultiMediaMessage'),

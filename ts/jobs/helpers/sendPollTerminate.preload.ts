@@ -15,7 +15,12 @@ import { sendContentMessageToGroup } from '../../util/sendToGroup.preload.js';
 import { getMessageById } from '../../messages/getMessageById.preload.js';
 import { ourProfileKeyService } from '../../services/ourProfileKey.std.js';
 import { getSendOptions } from '../../util/getSendOptions.preload.js';
-import { isGroupV2 } from '../../util/whatTypeOfConversation.dom.js';
+import {
+  isGroupV2,
+  isDirectConversation,
+  isMe,
+} from '../../util/whatTypeOfConversation.dom.js';
+import { SignalService as Proto } from '../../protobuf/index.std.js';
 import {
   handleMultipleSendErrors,
   maybeExpandErrors,
@@ -26,6 +31,9 @@ import type { LoggerType } from '../../types/Logging.std.js';
 import { strictAssert } from '../../util/assert.std.js';
 import { DataWriter } from '../../sql/Client.preload.js';
 import { cleanupMessages } from '../../util/cleanup.preload.js';
+import { addPniSignatureMessageToProto } from '../../textsecure/SendMessage.preload.js';
+import { shouldSendToDirectConversation } from './shouldSendToConversation.preload.js';
+import { handleMessageSend } from '../../util/handleMessageSend.preload.js';
 
 const { isNumber } = lodash;
 
@@ -57,11 +65,6 @@ export async function sendPollTerminate(
     return;
   }
 
-  if (!isGroupV2(conversation.attributes)) {
-    jobLog.error(`${logId}: Non-GroupV2 conversation. Failing job.`);
-    return;
-  }
-
   if (!shouldContinue) {
     jobLog.info(`${logId}: Ran out of time. Giving up on sending`);
     await markTerminateFailed(pollMessage, jobLog);
@@ -70,86 +73,195 @@ export async function sendPollTerminate(
 
   const recipients = getRecipients(conversation.attributes);
 
-  await conversation.queueJob(
-    'conversationQueue/sendPollTerminate',
-    async abortSignal => {
+  const profileKey = conversation.get('profileSharing')
+    ? await ourProfileKeyService.get()
+    : undefined;
+
+  const sendOptions = await getSendOptions(conversation.attributes);
+  const timestamp = Date.now();
+  const expireTimer = conversation.get('expireTimer');
+
+  try {
+    const isGroupV2Conversation = isGroupV2(conversation.attributes);
+    const shouldSendSyncOnly =
+      (isDirectConversation(conversation.attributes) &&
+        isMe(conversation.attributes)) ||
+      (isGroupV2Conversation && recipients.length === 0);
+
+    if (shouldSendSyncOnly) {
       jobLog.info(
-        `${logId}: Sending poll terminate for poll timestamp ${targetTimestamp}`
+        `${logId}: Sending poll terminate for poll timestamp ${targetTimestamp} (sync only)`
       );
 
-      const profileKey = conversation.get('profileSharing')
-        ? await ourProfileKeyService.get()
+      const groupV2Info = isGroupV2Conversation
+        ? conversation.getGroupV2Info({
+            members: recipients,
+          })
         : undefined;
-
-      const sendOptions = await getSendOptions(conversation.attributes);
-
-      try {
-        if (isGroupV2(conversation.attributes) && !isNumber(revision)) {
-          jobLog.error('No revision provided, but conversation is GroupV2');
-        }
-
-        const groupV2Info = conversation.getGroupV2Info({
-          members: recipients,
-        });
-        if (groupV2Info && isNumber(revision)) {
-          groupV2Info.revision = revision;
-        }
-
-        strictAssert(groupV2Info, 'could not get group info from conversation');
-
-        const timestamp = Date.now();
-        const expireTimer = conversation.get('expireTimer');
-
-        const contentMessage = await messaging.getPollTerminateContentMessage({
-          groupV2: groupV2Info,
-          timestamp,
-          profileKey,
-          expireTimer,
-          expireTimerVersion: conversation.getExpireTimerVersion(),
-          pollTerminate: {
-            targetTimestamp,
-          },
-        });
-
-        if (abortSignal?.aborted) {
-          throw new Error('sendPollTerminate was aborted');
-        }
-
-        await wrapWithSyncMessageSend({
-          conversation,
-          logId,
-          messageIds: [pollMessageId],
-          send: async () =>
-            sendContentMessageToGroup({
-              contentHint: ContentHint.Resendable,
-              contentMessage,
-              messageId: pollMessageId,
-              recipients,
-              sendOptions,
-              sendTarget: conversation.toSenderKeyTarget(),
-              sendType: 'pollTerminate',
-              timestamp,
-              urgent: true,
-            }),
-          sendType: 'pollTerminate',
-          timestamp,
-          expirationStartTimestamp: null,
-        });
-
-        await markTerminateSuccess(pollMessage, jobLog);
-      } catch (error: unknown) {
-        const errors = maybeExpandErrors(error);
-        await handleMultipleSendErrors({
-          errors,
-          isFinalAttempt,
-          log: jobLog,
-          markFailed: () => markTerminateFailed(pollMessage, jobLog),
-          timeRemaining,
-          toThrow: error,
-        });
+      if (isGroupV2Conversation) {
+        strictAssert(
+          groupV2Info,
+          `${logId}: missing groupV2 info for sync-only poll terminate`
+        );
       }
+
+      const dataMessage = messaging.createDataMessageProtoForPollTerminate({
+        groupV2: groupV2Info,
+        timestamp,
+        profileKey,
+        expireTimer,
+        expireTimerVersion: conversation.getExpireTimerVersion(),
+        pollTerminate: {
+          targetTimestamp,
+        },
+      });
+
+      await handleMessageSend(
+        messaging.sendSyncMessage({
+          encodedDataMessage: Proto.DataMessage.encode(dataMessage).finish(),
+          destinationE164: conversation.get('e164'),
+          destinationServiceId: conversation.getServiceId(),
+          expirationStartTimestamp: null,
+          options: sendOptions,
+          timestamp,
+          urgent: false,
+        }),
+        { messageIds: [pollMessageId], sendType: 'pollTerminate' }
+      );
+
+      await markTerminateSuccess(pollMessage, jobLog);
+    } else if (isDirectConversation(conversation.attributes)) {
+      const [ok, refusal] = shouldSendToDirectConversation(conversation);
+      if (!ok) {
+        jobLog.info(`${logId}: ${refusal.logLine}`);
+        return;
+      }
+
+      const recipientServiceId = recipients[0];
+
+      jobLog.info(
+        `${logId}: Sending direct poll terminate for poll timestamp ${targetTimestamp}`
+      );
+
+      const contentMessage = await messaging.getPollTerminateContentMessage({
+        groupV2: undefined,
+        timestamp,
+        profileKey,
+        expireTimer,
+        expireTimerVersion: conversation.getExpireTimerVersion(),
+        pollTerminate: {
+          targetTimestamp,
+        },
+      });
+
+      addPniSignatureMessageToProto({
+        conversation,
+        proto: contentMessage,
+        reason: `sendPollTerminate(${timestamp})`,
+      });
+
+      await wrapWithSyncMessageSend({
+        conversation,
+        logId,
+        messageIds: [pollMessageId],
+        send: async () =>
+          messaging.sendMessageProtoAndWait({
+            timestamp,
+            recipients: [recipientServiceId],
+            proto: contentMessage,
+            contentHint: ContentHint.Resendable,
+            groupId: undefined,
+            options: sendOptions,
+            urgent: true,
+          }),
+        sendType: 'pollTerminate',
+        timestamp,
+        expirationStartTimestamp: null,
+      });
+
+      await markTerminateSuccess(pollMessage, jobLog);
+    } else {
+      strictAssert(
+        isGroupV2Conversation,
+        `${logId}: expected GroupV2 conversation when not direct`
+      );
+
+      await conversation.queueJob(
+        'conversationQueue/sendPollTerminate',
+        async abortSignal => {
+          jobLog.info(
+            `${logId}: Sending group poll terminate for poll timestamp ${targetTimestamp}`
+          );
+
+          if (!isNumber(revision)) {
+            jobLog.error('No revision provided, but conversation is GroupV2');
+          }
+
+          const groupV2Info = conversation.getGroupV2Info({
+            members: recipients,
+          });
+          if (groupV2Info && isNumber(revision)) {
+            groupV2Info.revision = revision;
+          }
+
+          strictAssert(
+            groupV2Info,
+            'could not get group info from conversation'
+          );
+
+          const contentMessage = await messaging.getPollTerminateContentMessage(
+            {
+              groupV2: groupV2Info,
+              timestamp,
+              profileKey,
+              expireTimer,
+              expireTimerVersion: conversation.getExpireTimerVersion(),
+              pollTerminate: {
+                targetTimestamp,
+              },
+            }
+          );
+
+          if (abortSignal?.aborted) {
+            throw new Error('sendPollTerminate was aborted');
+          }
+
+          await wrapWithSyncMessageSend({
+            conversation,
+            logId,
+            messageIds: [pollMessageId],
+            send: async () =>
+              sendContentMessageToGroup({
+                contentHint: ContentHint.Resendable,
+                contentMessage,
+                messageId: pollMessageId,
+                recipients,
+                sendOptions,
+                sendTarget: conversation.toSenderKeyTarget(),
+                sendType: 'pollTerminate',
+                timestamp,
+                urgent: true,
+              }),
+            sendType: 'pollTerminate',
+            timestamp,
+            expirationStartTimestamp: null,
+          });
+
+          await markTerminateSuccess(pollMessage, jobLog);
+        }
+      );
     }
-  );
+  } catch (error: unknown) {
+    const errors = maybeExpandErrors(error);
+    await handleMultipleSendErrors({
+      errors,
+      isFinalAttempt,
+      log: jobLog,
+      markFailed: () => markTerminateFailed(pollMessage, jobLog),
+      timeRemaining,
+      toThrow: error,
+    });
+  }
 }
 
 async function markTerminateSuccess(

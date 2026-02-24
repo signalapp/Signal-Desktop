@@ -55,8 +55,6 @@ import type { QuotedMessageType } from '../../model-types.d.ts';
 
 import { handleMultipleSendErrors } from './handleMultipleSendErrors.std.js';
 import { ourProfileKeyService } from '../../services/ourProfileKey.std.js';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.js';
-import { isConversationAccepted } from '../../util/isConversationAccepted.preload.js';
 import { sendToGroup } from '../../util/sendToGroup.preload.js';
 import type { DurationInSeconds } from '../../util/durations/index.std.js';
 import type { ServiceIdString } from '../../types/ServiceId.std.js';
@@ -81,6 +79,7 @@ import { getMessageIdForLogging } from '../../util/idForLogging.preload.js';
 import { send, sendSyncMessageOnly } from '../../messages/send.preload.js';
 import type { SignalService } from '../../protobuf/index.std.js';
 import { eraseMessageContents } from '../../util/cleanup.preload.js';
+import { shouldSendToDirectConversation } from './shouldSendToConversation.preload.js';
 
 const { isNumber } = lodash;
 
@@ -383,35 +382,12 @@ export async function sendNormalMessage(
             })
         );
       } else {
-        if (!isConversationAccepted(conversation.attributes)) {
-          log.info(
-            `conversation ${conversation.idForLogging()} is not accepted; refusing to send`
-          );
+        const [ok, refusal] = shouldSendToDirectConversation(conversation);
+        if (!ok) {
+          log.info(refusal.logLine);
           void markMessageFailed({
             message,
-            errors: [new Error('Message request was not accepted')],
-            targetTimestamp,
-          });
-          return;
-        }
-        if (isConversationUnregistered(conversation.attributes)) {
-          log.info(
-            `conversation ${conversation.idForLogging()} is unregistered; refusing to send`
-          );
-          void markMessageFailed({
-            message,
-            errors: [new Error('Contact no longer has a Signal account')],
-            targetTimestamp,
-          });
-          return;
-        }
-        if (conversation.isBlocked()) {
-          log.info(
-            `conversation ${conversation.idForLogging()} is blocked; refusing to send`
-          );
-          void markMessageFailed({
-            message,
-            errors: [new Error('Contact is blocked')],
+            errors: [refusal.error],
             targetTimestamp,
           });
           return;
@@ -438,6 +414,7 @@ export async function sendNormalMessage(
             targetTimestampForEdit: editedMessageTimestamp
               ? targetOfThisEditTimestamp
               : undefined,
+            pollCreate: poll,
             timestamp: targetTimestamp,
           },
           contentHint: ContentHint.Resendable,

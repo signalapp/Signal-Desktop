@@ -10,6 +10,7 @@ import {
 } from '../environment.std.js';
 import * as RemoteConfig from '../RemoteConfig.dom.js';
 import { isAlpha, isBeta, isProduction } from '../util/version.std.js';
+import { isFeaturedEnabledNoRedux } from '../util/isFeatureEnabled.dom.js';
 import type { SendStateByConversationId } from '../messages/MessageSendState.std.js';
 import { aciSchema } from './ServiceId.std.js';
 import { MAX_MESSAGE_BODY_BYTE_LENGTH } from '../util/longAttachment.std.js';
@@ -172,4 +173,11 @@ export function isPollSendEnabled(): boolean {
   }
 
   return false;
+}
+
+export function isPollSend1to1Enabled(): boolean {
+  return isFeaturedEnabledNoRedux({
+    betaKey: 'desktop.pollSend1to1.beta',
+    prodKey: 'desktop.pollSend1to1.prod',
+  });
 }

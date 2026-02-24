@@ -7,14 +7,13 @@ import type { Receipt } from '../types/Receipt.std.js';
 import { ReceiptType } from '../types/Receipt.std.js';
 import { getSendOptions } from './getSendOptions.preload.js';
 import { handleMessageSend } from './handleMessageSend.preload.js';
-import { isConversationAccepted } from './isConversationAccepted.preload.js';
-import { isConversationUnregistered } from './isConversationUnregistered.dom.js';
 import { missingCaseError } from './missingCaseError.std.js';
 import type { ConversationModel } from '../models/conversations.preload.js';
 import { mapEmplace } from './mapEmplace.std.js';
 import { isSignalConversation } from './isSignalConversation.dom.js';
 import { messageSender } from '../textsecure/SendMessage.preload.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
+import { shouldSendToDirectConversation } from '../jobs/helpers/shouldSendToConversation.preload.js';
 
 const { chunk, map } = lodash;
 
@@ -106,22 +105,9 @@ export async function sendReceipts({
     Array.from(allGroups.values(), async group => {
       const { conversationId, sender, receipts: receiptsForSender } = group;
 
-      if (!isConversationAccepted(sender.attributes)) {
-        log.info(
-          `conversation ${sender.idForLogging()} is not accepted; refusing to send`
-        );
-        return;
-      }
-      if (isConversationUnregistered(sender.attributes)) {
-        log.info(
-          `conversation ${sender.idForLogging()} is unregistered; refusing to send`
-        );
-        return;
-      }
-      if (sender.isBlocked()) {
-        log.info(
-          `conversation ${sender.idForLogging()} is blocked; refusing to send`
-        );
+      const [ok, refusal] = shouldSendToDirectConversation(sender);
+      if (!ok) {
+        log.info(refusal.logLine);
         return;
       }
       if (isSignalConversation(sender.attributes)) {

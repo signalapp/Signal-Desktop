@@ -255,9 +255,12 @@ export type PollVoteBuildOptions = Required<
   >;
 
 export type PollTerminateBuildOptions = Required<
-  Pick<MessageOptionsType, 'groupV2' | 'timestamp' | 'pollTerminate'>
+  Pick<MessageOptionsType, 'timestamp' | 'pollTerminate'>
 > &
-  Pick<MessageOptionsType, 'profileKey' | 'expireTimer' | 'expireTimerVersion'>;
+  Pick<
+    MessageOptionsType,
+    'groupV2' | 'profileKey' | 'expireTimer' | 'expireTimerVersion'
+  >;
 
 class Message {
   attachments: ReadonlyArray<Proto.IAttachmentPointer>;
@@ -943,10 +946,12 @@ export class MessageSender {
     const dataMessage = new Proto.DataMessage();
     dataMessage.timestamp = Long.fromNumber(timestamp);
 
-    const groupContext = new Proto.GroupContextV2();
-    groupContext.masterKey = groupV2.masterKey;
-    groupContext.revision = groupV2.revision;
-    dataMessage.groupV2 = groupContext;
+    if (groupV2) {
+      const groupContext = new Proto.GroupContextV2();
+      groupContext.masterKey = groupV2.masterKey;
+      groupContext.revision = groupV2.revision;
+      dataMessage.groupV2 = groupContext;
+    }
 
     if (typeof expireTimer !== 'undefined') {
       dataMessage.expireTimer = expireTimer;

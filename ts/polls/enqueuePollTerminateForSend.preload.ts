@@ -12,7 +12,7 @@ import {
   PollSource,
   type PollTerminateAttributesType,
 } from '../messageModifiers/Polls.preload.js';
-import { isGroup } from '../util/whatTypeOfConversation.dom.js';
+import { isGroupV1 } from '../util/whatTypeOfConversation.dom.js';
 import { strictAssert } from '../util/assert.std.js';
 import { createLogger } from '../logging/log.std.js';
 
@@ -33,10 +33,12 @@ export async function enqueuePollTerminateForSend({
     conversation,
     'enqueuePollTerminateForSend: No conversation extracted from target message'
   );
-  strictAssert(
-    isGroup(conversation.attributes),
-    'enqueuePollTerminateForSend: conversation must be a group'
-  );
+  if (isGroupV1(conversation.attributes)) {
+    log.info(
+      'enqueuePollTerminateForSend: refusing to send poll terminate to GroupV1'
+    );
+    return;
+  }
 
   const ourId = window.ConversationController.getOurConversationIdOrThrow();
   const timestamp = Date.now();
