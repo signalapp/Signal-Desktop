@@ -58,15 +58,7 @@ export async function eraseMessageContents(
   // Note: There are cases where we want to re-erase a given message. For example, when
   //   a viewed (or outgoing) View-Once message is deleted for everyone.
 
-  try {
-    await cleanupFilesAndReferencesToMessage(message.attributes);
-  } catch (error) {
-    log.error(
-      `Error erasing data for message ${getMessageIdForLogging(message.attributes)}:`,
-      Errors.toLogFormat(error)
-    );
-  }
-
+  const originalAttributes = message.attributes;
   const preservedAttributes = pick(
     message.attributes,
     ...messageAttrsToPreserveAfterErase
@@ -83,6 +75,17 @@ export async function eraseMessageContents(
   )?.debouncedUpdateLastMessage();
 
   await window.MessageCache.saveMessage(message.attributes);
+
+  // Cleanup files only after saving message so any files only referenced by that message
+  // are properly deleted
+  try {
+    await cleanupFilesAndReferencesToMessage(originalAttributes);
+  } catch (error) {
+    log.error(
+      `Error erasing data for message ${getMessageIdForLogging(message.attributes)}:`,
+      Errors.toLogFormat(error)
+    );
+  }
 
   await DataWriter.deleteSentProtoByMessageId(message.id);
 }
