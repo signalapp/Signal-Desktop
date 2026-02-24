@@ -213,7 +213,7 @@ export function GroupMemberLabelEditor({
           >
             <Message
               text={i18n('icu:ConversationDetails--member-label--hello')}
-              author={{ ...me }}
+              author={{ ...me, isMe: false }}
               contactLabel={contactLabelForMessage}
               contactNameColor={ourColor}
               renderingContext="ConversationDetails/GroupMemberLabelEditor"
