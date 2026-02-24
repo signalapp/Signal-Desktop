@@ -7,6 +7,8 @@ import { expect } from 'playwright/test';
 import { type PrimaryDevice, StorageState } from '@signalapp/mock-server';
 import { join } from 'node:path';
 import { access, readFile } from 'node:fs/promises';
+import Long from 'long';
+import { v4 } from 'uuid';
 
 import type { App } from '../playwright.node.js';
 import { Bootstrap } from '../bootstrap.node.js';
@@ -18,9 +20,10 @@ import {
 } from '../helpers.node.js';
 import * as durations from '../../util/durations/index.std.js';
 import { strictAssert } from '../../util/assert.std.js';
-import { VIDEO_MP4 } from '../../types/MIME.std.js';
+import { IMAGE_PNG, VIDEO_MP4 } from '../../types/MIME.std.js';
 import { toBase64 } from '../../Bytes.std.js';
 import type { AttachmentType } from '../../types/Attachment.std.js';
+import type { SignalService } from '../../protobuf/index.std.js';
 
 export const debug = createDebug('mock:test:attachments');
 
@@ -396,5 +399,90 @@ describe('attachments', function (this: Mocha.Suite) {
       firstAttachment.thumbnail?.path,
       secondAttachment.thumbnail?.path
     );
+  });
+
+  it('reuses recent CDN upload info', async () => {
+    const { desktop } = bootstrap;
+    const page = await app.getWindow();
+
+    await page.getByTestId(pinned.device.aci).click();
+
+    const plaintextVideo = await readFile(VIDEO_PATH);
+    const recentPointer: SignalService.IAttachmentPointer = {
+      ...(await bootstrap.encryptAndStoreAttachmentOnCDN(
+        plaintextVideo,
+        VIDEO_MP4
+      )),
+      clientUuid: Buffer.from(v4(), 'utf8'),
+      uploadTimestamp: Long.fromNumber(Date.now() - 2 * durations.DAY),
+      fileName: 'incoming filename',
+    };
+
+    const plaintextCat = await readFile(CAT_PATH);
+    const stalePointer: SignalService.IAttachmentPointer = {
+      ...(await bootstrap.encryptAndStoreAttachmentOnCDN(
+        plaintextCat,
+        IMAGE_PNG
+      )),
+      uploadTimestamp: Long.fromNumber(Date.now() - 4 * durations.DAY),
+    };
+
+    const incomingVideoTimestamp = bootstrap.getTimestamp();
+    await sendTextMessage({
+      from: pinned,
+      to: desktop,
+      desktop,
+      text: 'incoming video',
+      attachments: [recentPointer],
+      timestamp: incomingVideoTimestamp,
+    });
+
+    const incomingCatTimestamp = bootstrap.getTimestamp();
+    await sendTextMessage({
+      from: pinned,
+      to: desktop,
+      desktop,
+      text: 'incoming cat',
+      attachments: [stalePointer],
+      timestamp: incomingCatTimestamp,
+    });
+
+    await expect(
+      getMessageInTimelineByTimestamp(page, incomingVideoTimestamp).locator(
+        'img.module-image__image'
+      )
+    ).toBeVisible();
+    await expect(
+      getMessageInTimelineByTimestamp(page, incomingCatTimestamp).locator(
+        'img.module-image__image'
+      )
+    ).toBeVisible();
+
+    const { attachments: sentVideoAttachments } =
+      await sendMessageWithAttachments(page, pinned, 'sending same video', [
+        VIDEO_PATH,
+      ]);
+    const { attachments: sentCatAttachments } =
+      await sendMessageWithAttachments(page, pinned, 'sending same cat', [
+        CAT_PATH,
+      ]);
+
+    const sentVideo = sentVideoAttachments[0];
+    assert.deepStrictEqual(sentVideo.cdnKey, recentPointer.cdnKey);
+    assert.deepStrictEqual(sentVideo.cdnNumber, recentPointer.cdnNumber);
+    assert.deepStrictEqual(sentVideo.key, recentPointer.key);
+    assert.deepStrictEqual(sentVideo.digest, recentPointer.digest);
+    assert.deepStrictEqual(
+      sentVideo.incrementalMac,
+      recentPointer.incrementalMac
+    );
+    assert.deepStrictEqual(sentVideo.chunkSize, recentPointer.chunkSize);
+    assert.notDeepEqual(sentVideo.clientUuid, recentPointer.clientUuid);
+    assert.notDeepEqual(sentVideo.fileName, recentPointer.fileName);
+
+    const sentCat = sentCatAttachments[0];
+    assert.notDeepEqual(sentCat.cdnKey, stalePointer.cdnKey);
+    assert.notDeepEqual(sentCat.key, stalePointer.key);
+    assert.notDeepEqual(sentCat.digest, stalePointer.digest);
   });
 });
