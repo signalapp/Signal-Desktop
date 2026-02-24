@@ -814,12 +814,6 @@ async function doGetProfile(
     } else {
       log.warn(`${logId}: No key to decrypt 'name' field; skipping`);
     }
-  } else {
-    log.warn(`${logId}: 'name' field missing; clearing profile name`);
-    c.set({
-      profileName: undefined,
-      profileFamilyName: undefined,
-    });
   }
 
   try {
