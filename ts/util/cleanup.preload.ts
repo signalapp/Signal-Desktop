@@ -132,6 +132,12 @@ export async function cleanupMessages(
       DataReader.getBackupAttachmentDownloadProgress
     )
   );
+
+  if (window.SignalCI) {
+    messages.forEach(msg => {
+      window.SignalCI?.handleEvent(`message:cleaned-up:${msg.id}`, null);
+    });
+  }
 }
 
 /** Removes a message from redux caches & MessageCache, but does NOT delete files on disk,

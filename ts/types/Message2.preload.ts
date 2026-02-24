@@ -64,6 +64,8 @@ import {
   deleteDownloadFile,
   maybeDeleteAttachmentFile,
 } from '../util/migrations.preload.js';
+import type { getExistingAttachmentDataForReuse } from '../util/attachments/deduplicateAttachment.preload.js';
+import type { getPlaintextHashForInMemoryAttachment } from '../AttachmentCrypto.node.js';
 
 const { isFunction, isObject, identity } = lodash;
 
@@ -79,6 +81,7 @@ export type ContextType = {
     width: number;
     height: number;
   }>;
+  getPlaintextHashForInMemoryAttachment: typeof getPlaintextHashForInMemoryAttachment;
   getRegionCode: () => string | undefined;
   logger: LoggerType;
   makeImageThumbnail: (params: {
@@ -104,6 +107,7 @@ export type ContextType = {
   writeNewAttachmentData: (data: Uint8Array) => Promise<LocalAttachmentV2Type>;
   writeNewStickerData: (data: Uint8Array) => Promise<LocalAttachmentV2Type>;
   maybeDeleteAttachmentFile: (path: string) => Promise<{ wasDeleted: boolean }>;
+  getExistingAttachmentDataForReuse: typeof getExistingAttachmentDataForReuse;
 };
 
 // Schema version history
@@ -540,7 +544,11 @@ const toVersion10 = _withSchemaVersion({
           ...stickerMessage,
           sticker: {
             ...sticker,
-            data: await migrateDataToFileSystem(sticker.data, stickerContext),
+            data: await migrateDataToFileSystem(
+              sticker.data,
+              stickerContext,
+              stickerMessage
+            ),
           },
         };
       }

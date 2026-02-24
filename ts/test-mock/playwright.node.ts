@@ -125,6 +125,11 @@ export class App extends EventEmitter {
   public async waitForMessageSend(): Promise<MessageSendInfoType> {
     return this.#waitForEvent('message:send-complete');
   }
+  public async waitForMessageToBeCleanedUp(
+    messageId: string
+  ): Promise<Array<string>> {
+    return this.#waitForEvent(`message:cleaned-up:${messageId}`);
+  }
 
   public async waitForConversationOpen(): Promise<ConversationOpenInfoType> {
     return this.#waitForEvent('conversation:open');

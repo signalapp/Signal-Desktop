@@ -17,6 +17,7 @@ import type {
   LocalAttachmentV2Type,
 } from '../../types/Attachment.std.js';
 import type { LoggerType } from '../../types/Logging.std.js';
+import { testPlaintextHash } from '../../test-helpers/attachments.node.js';
 
 const FAKE_LOCAL_ATTACHMENT: LocalAttachmentV2Type = {
   version: 2,
@@ -55,6 +56,7 @@ describe('Message', () => {
     props?: Partial<Message.ContextType>
   ): Message.ContextType {
     return {
+      getExistingAttachmentDataForReuse: () => Promise.resolve(null),
       getImageDimensions: async (_params: {
         objectUrl: string;
         logger: LoggerType;
@@ -62,6 +64,7 @@ describe('Message', () => {
         width: 10,
         height: 20,
       }),
+      getPlaintextHashForInMemoryAttachment: () => testPlaintextHash(),
       doesAttachmentExist: async () => true,
       getRegionCode: () => 'region-code',
       logger,
