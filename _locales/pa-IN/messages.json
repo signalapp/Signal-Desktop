@@ -2430,7 +2430,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਸਿਰਫ਼ ਐਡਮਿਨ ਹੀ ਮੈਂਬਰ ਲੇਬਲ ਸ਼ਾਮਲ ਕਰ ਸਕਦੇ ਹਨ।"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ਇਸ ਸੁਨੇਹੇ ਨੂੰ ਭੇਜੇ ਜਾਣ ਤੋਂ 24 ਘੰਟੇ ਦੇ ਅੰਦਰ-ਅੰਦਰ ਹੀ ਇਸਨੂੰ ਸੋਧਿਆ ਜਾ ਸਕਦਾ ਹੈ।"
@@ -4632,7 +4632,7 @@
     "messageformat": "ਐਡਮਿਨ ਦੇ ਅਹੁਦੇ ਤੋਂ ਹਟਾਓ"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "ਅਜਿਹਾ ਕਰਨ ਨਾਲ ਉਹਨਾਂ ਦਾ ਮੈਂਬਰ ਲੇਬਲ ਵੀ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।"
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "ਐਡਮਿਨ ਬਣਾਓ"
@@ -4824,7 +4824,7 @@
     "messageformat": "ਮੈਂਬਰ ਸ਼ਾਮਲ ਕਰੋ"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "ਮੈਂਬਰ ਲੇਬਲ ਸ਼ਾਮਲ ਕਰੋ"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "ਸਾਰੇ ਵੇਖੋ"
@@ -5001,19 +5001,19 @@
     "messageformat": "{count, plural, one {ਤੁਸੀਂ ਹਰੇਕ ਲਈ ਮਿਟਾਉਣ ਵਾਸਤੇ ਵੱਧ ਤੋਂ ਵੱਧ {count,number} ਸੁਨੇਹਾ ਚੁਣ ਸਕਦੇ ਹੋ} other {ਤੁਸੀਂ ਹਰੇਕ ਲਈ ਮਿਟਾਉਣ ਵਾਸਤੇ ਵੱਧ ਤੋਂ ਵੱਧ {count,number} ਸੁਨੇਹੇ ਚੁਣ ਸਕਦੇ ਹੋ}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "ਕੀ ਆਈਟਮ ਮਿਟਾਉਣੀ ਹੈ?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "ਅਜਿਹਾ ਕਰਨ ਨਾਲ ਆਈਟਮ ਨੂੰ ਸਥਾਈ ਤੌਰ 'ਤੇ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ। ਇਸ ਆਈਟਮ ਨਾਲ ਸੰਬੰਧਿਤ ਕੋਈ ਵੀ ਸੁਨੇਹਾ ਟੈਕਸਟ ਵੀ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।"
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "ਬੰਦ ਕਰੋ"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "ਮਿਟਾਓ"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "ਰੱਦ ਕਰੋ"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "ਤੁਸੀਂ ਵੱਧ ਤੋਂ ਵੱਧ ਸਿਰਫ਼ 30 ਸੁਨੇਹੇ ਅੱਗੇ ਭੇਜ ਸਕਦੇ ਹੋ"
@@ -5388,22 +5388,22 @@
     "messageformat": "ਤੁਹਾਡੇ ਵੱਲੋਂ ਭੇਜੀਆਂ ਅਤੇ ਪ੍ਰਾਪਤ ਹੋਈਆਂ ਫ਼ਾਈਲਾਂ ਨੂੰ ਇੱਥੇ ਦਿਖਾਇਆ ਜਾਵੇਗਾ"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "ਚੈਟ ਵਿੱਚ ਦੇਖੋ"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "ਅੱਗੇ ਭੇਜੋ"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "ਸੇਵ ਕਰੋ"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "ਸੁਨੇਹਾ ਭੇਜੋ"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "ਲਿੰਕ ਕਾਪੀ ਕਰੋ"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "ਮਿਟਾਓ"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "ਮੀਡੀਆ ਕੁਆਲਿਟੀ ਚੁਣੋ"
@@ -5619,7 +5619,7 @@
     "messageformat": "ਐਡਮਿਨਜ਼"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "ਦੇਖੋ",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -7953,6 +7953,6 @@
     "messageformat": "ਪੰਜ ਨਵੇਂ ਅਧਿਕਾਰਤ ਕਲਾਕਾਰ ਸਟਿੱਕਰ ਪੈਕ।"
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Signal ਸਿਕਿਓਰ ਬੈਕਅੱਪ ਹੁਣ ਉਪਲਬਧ ਹੈ! ਹੁਣ ਤੁਸੀਂ ਆਪਣੇ-ਆਪ ਸਿਰੇ-ਤੋਂ-ਸਿਰੇ ਤੱਕ ਇਨਕ੍ਰਿਪਟਡ ਬੈਕਅੱਪ ਨੂੰ ਸਮਰੱਥ ਬਣਾਉਣ ਦੀ ਚੋਣ ਕਰ ਸਕਦੇ ਹੋ ਤਾਂ ਜੋ ਨਵਾਂ ਫ਼ੋਨ ਲੈਣ 'ਤੇ ਜਾਂ Signal ਨੂੰ ਮੁੜ ਇੰਸਟਾਲ ਕਰਨ 'ਤੇ ਤੁਸੀਂ ਕਦੇ ਵੀ ਕੋਈ ਸੁਨੇਹਾ ਨਾ ਗੁਆਓ। ਤੁਸੀਂ ਆਪਣੇ ਸਾਰੇ ਸੁਨੇਹਿਆਂ ਅਤੇ ਪਿਛਲੇ 45 ਦਿਨਾਂ ਦੇ ਮੀਡੀਆ ਦਾ ਮੁਫ਼ਤ ਵਿੱਚ ਬੈਕਅੱਪ ਲੈ ਸਕਦੇ ਹੋ, ਜਾਂ ਤੁਸੀਂ ਹਰੇਕ ਅਟੈਚਮੈਂਟ ਦਾ ਬੈਕਅੱਪ ਲੈਣ ਲਈ 100 GB ਸਟੋਰੇਜ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ ਇੱਕ ਛੋਟੀ ਜਿਹੀ ਮਹੀਨਾਵਾਰ ਫੀਸ ਦੇ ਸਕਦੇ ਹੋ। ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਆਪਣੀਆਂ Signal ਸੈਟਿੰਗਾਂ ਵਿੱਚ ਬੈਕਅੱਪ 'ਤੇ ਟੈਪ ਕਰੋ। ਬੀਟਾ ਪੀਰੀਅਡ ਦੌਰਾਨ ਇਸ ਫੀਚਰ ਦੀ ਜਾਂਚ ਕਰਨ ਵਿੱਚ ਮਦਦ ਕਰਨ ਵਾਲੇ ਸਾਰਿਆਂ ਦਾ ਧੰਨਵਾਦ!"
   }
 }

@@ -2430,7 +2430,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "只有管理员能够在此群组中添加成员标签。"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "您只能在发送此消息后的 24 小时以内进行编辑。"
@@ -4632,7 +4632,7 @@
     "messageformat": "取消其管理员身份"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "此操作会同时清除其成员标签。"
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "设为管理员"
@@ -4824,7 +4824,7 @@
     "messageformat": "添加成员"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "添加成员标签"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "查看全部"
@@ -5001,19 +5001,19 @@
     "messageformat": "{count, plural, other {您至多只能选择对所有人删除 {count,number} 条消息}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "要删除项目吗？"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "此操作会永久删除此项目。与之关联的所有消息也将会被删除。"
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "关闭"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "删除"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "取消"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "您至多只能转发 30 条消息"
@@ -5388,22 +5388,22 @@
     "messageformat": "您收发的文件会在这里显示"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "在聊天中查看"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "转发"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "保存"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "发送消息"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "复制链接"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "删除"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "选择媒体质量"
@@ -5619,7 +5619,7 @@
     "messageformat": "管理员"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "查看",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -7953,6 +7953,6 @@
     "messageformat": "五款全新官方艺术家贴纸包。"
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Signal 安全备份现已上线！现在您可以选择启用自动端对端加密备份功能，以防在换手机或重装 Signal 时丢失消息记录。您可以免费备份所有消息和 45 天内的媒体，也可以支付小额月费获取 100 GB 存储空间，备份每个附件。在 Signal 设置中点击备份即可开始。感谢在测试阶段帮助测试此功能的每一位用户！"
   }
 }

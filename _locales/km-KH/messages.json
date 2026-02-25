@@ -2430,7 +2430,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "មានតែអ្នកគ្រប់គ្រងទេដែលអាចបញ្ចូលស្លាកសមាជិកនៅក្នុងក្រុមនេះបាន។"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ការកែសារអាចធ្វើបានតែក្នុងរយៈពេល 24 ម៉ោងគិតចាប់ពីពេលដែលអ្នកបានផ្ញើសារនេះប៉ុណ្ណោះ។"
@@ -4632,7 +4632,7 @@
     "messageformat": "ដកចេញពីសិទ្ធិជាអ្នកគ្រប់គ្រង"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "វាក៏នឹងលុបស្លាកសមាជិករបស់ពួកគេផងដែរ។"
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "តម្លើងជាអ្នកគ្រប់គ្រងក្រុម"
@@ -4824,7 +4824,7 @@
     "messageformat": "បន្ថែមសមាជិក"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "បញ្ចូលស្លាកសមាជិក"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "មើលទាំងអស់"
@@ -5001,19 +5001,19 @@
     "messageformat": "{count, plural, other {អ្នកអាចជ្រើសរើសបានរហូតដល់ {count,number} សារប៉ុណ្ណោះដើម្បីលុបសម្រាប់អ្នករាល់គ្នា}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "លុបធាតុ?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "វានឹងលុបធាតុនេះជារៀងរហូត។ សារជាអក្សរណាមួយដែលភ្ជាប់ជាមួយធាតុនេះក៏នឹងត្រូវបានលុបផងដែរ។"
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "បិទ"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "លុប"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "បោះបង់"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "អ្នកអាចបញ្ជូនបន្តបានត្រឹមតែ 30 សារប៉ុណ្ណោះ"
@@ -5388,22 +5388,22 @@
     "messageformat": "ឯកសារដែលអ្នកផ្ញើ និងទទួលនឹងបង្ហាញនៅទីនេះ"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "មើលក្នុងការជជែក"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "បញ្ជូនបន្ត"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "រក្សាទុក"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "ផ្ញើសារ"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "ចម្លងតំណ"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "លុប"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "ជ្រើសរើសគុណភាពមេឌៀ"
@@ -5619,7 +5619,7 @@
     "messageformat": "អភិបាល"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "មើល",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -7953,6 +7953,6 @@
     "messageformat": "រក្សាឯកជនភាពជាមួយកញ្ចប់ស្ទីកគ័រផ្លូវការថ្មីចំនួនប្រាំនៅក្នុងស៊េរី Signal Artist Series៖ \"Chug the Mouse\" ដោយ Amanda Cotan, \"Cozy Season\" ដោយ Miguel Ángel Camprubí, \"Croco's Feelings\" ដោយ Tiffany Beucher, \"My Daily Life 2\" ដោយ Plastic Thing និង \"Rocky Talk\" ដោយ Lexi Vay។"
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "ការបម្រុងទុកសុវត្ថិភាព Signal បានមកដល់ហើយ! ឥឡូវនេះ អ្នកអាចជ្រើសរើសបើកការបម្រុងទុកដែលបានអ៊ីនគ្រីបដោយស្វ័យប្រវត្តិទាំងសងខាង ដូច្នេះអ្នកនឹងមិនបាត់បង់សារណាមួយឡើយ នៅពេលអ្នកមានទូរសព្ទថ្មី ឬដំឡើង Signal ឡើងវិញ។ អ្នកអាចបម្រុងទុកសាររបស់អ្នកទាំងអស់ និងមេឌៀរយៈពេល 45 ថ្ងៃចុងក្រោយដោយឥតគិតថ្លៃ ឬអ្នកអាចបង់ថ្លៃសេវាប្រចាំខែតិចតួច ដើម្បីទទួលបានទំហំផ្ទុក 100 GB ដើម្បីបម្រុងទុករាល់ឯកសារភ្ជាប់។ ចុចលើការបម្រុងទុកនៅក្នុងការកំណត់ Signal របស់អ្នកដើម្បីចាប់ផ្តើម។ សូមអរគុណដល់អ្នកទាំងអស់គ្នាដែលបានជួយសាកល្បងមុខងារនេះក្នុងអំឡុងពេលបេតា!"
   }
 }

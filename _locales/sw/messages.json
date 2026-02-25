@@ -2430,7 +2430,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "Admins pekee ndio wanaweza kuongeza vyeo vya wanachama katika kikundi."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Mabadiliko yanaweza kufanywa ndani ya saa 3 kutoka muda uliotuma ujumbe huu."
@@ -4632,7 +4632,7 @@
     "messageformat": "Ondoa kama admin"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "Hii pia itafuta cheo cha Mwanachama."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Mteue kuwa msimamizi"
@@ -4824,7 +4824,7 @@
     "messageformat": "Ongeza wanachama"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Ongeza cheo cha mwanachama"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Tazama zote"
@@ -5001,19 +5001,19 @@
     "messageformat": "{count, plural, one {Unaweza kuchagua hadi ujumbe {count,number} wa kufuta kwa kila mtu} other {Unaweza kuchagua hadi jumbe {count,number} za kufuta kwa kila mtu}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Futa kipengee?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "Hii itafuta kabisa kipengee. Ujumbe wowote ule unaohusiana na kipengee hiki pia utafutwa."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Funga"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Futa"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Ghairi"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Unaweza kusambaza jumbe hadi30 pekee"
@@ -5388,22 +5388,22 @@
     "messageformat": "Sauti unazotuma na kupokea zitaonekana hapa"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Tazama kwenye gumzo"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Shiriki kwa"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "Hifadhi"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Tuma ujumbe"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Nakili kiungo"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Futa"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Chagua ubora wa media"
@@ -5619,7 +5619,7 @@
     "messageformat": "wasimamizi"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Tazama",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -7953,6 +7953,6 @@
     "messageformat": "Jihakikishie faragha kwa kutumia pakiti ya vibandiko vipya vitano katika Mfululizo wa Kazi za Wasanii wa Signal: \"Chug the Mouse\" ya Amanda Cotan, \"Cozy Season\" ya Miguel Ángel Camprubí, \"Croco's Feelings\" ya Tiffany Beucher, \"My Daily Life 2\" ya Plastic Thing na \"Rocky Talk\" ya Lexi Vay."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Tunakuletea hifadhi nakala salama! Sasa unaweza kuchagua kuwezesha uhifadhi nakala wa kiotomatiki uliosimbwa fiche kuanzia mwanzo hadi mwisho, ili usipoteze ujumbe wowote unapopata simu mpya au kusakinisha upya Signal. Unaweza kuhifadhi nakala za jumbe zako zote na picha na video za siku 45 zilizopita bila malipo au unaweza kulipa ada ndogo ya kila mwezi ili upate hifadhi ya GB 100 kwa ajili ya kuhifadhi kila kiambatisho. Gusa sehemu ya kuhifadhi nakala kwenye mipangilio ya Signal ili uanze. Asante kwa kila mtu aliyesaidia kujaribu kipengele hiki wakati wa kipindi cha beta!"
   }
 }

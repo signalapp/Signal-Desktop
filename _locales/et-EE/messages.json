@@ -2430,7 +2430,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "Ainult administraatorid saavad selles grupis liikmesilte lisada."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Muutmine on võimalik vaid 24 tunni jooksul alates sõnumi saatmisest."
@@ -4632,7 +4632,7 @@
     "messageformat": "Eemaldada administraatoriõigused"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "See kustutab ka tema liikmesildi."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Tee administraatoriks"
@@ -4824,7 +4824,7 @@
     "messageformat": "Lisa liikmed"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Lisa liikmesilt"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Näita kõiki"
@@ -5001,19 +5001,19 @@
     "messageformat": "{count, plural, one {Saad valida kõigi jaoks kustutamiseks vaid kuni {count,number} sõnumi} other {Saad valida kõigi jaoks kustutamiseks vaid kuni {count,number} sõnumit}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Kas kustutada üksus?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "See kustutab jäädavalt valitud üksuse. Mis tahes selle üksusega seonduv sõnumitekst kustutatakse samuti."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Sulge"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Kustuta"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Loobu"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Saad edastada vaid kuni 30 sõnumit"
@@ -5388,22 +5388,22 @@
     "messageformat": "Siin kuvatakse sinu saadetud ja vastuvõetud failid"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Kuva vestluses"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Edasta"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "Salvesta"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Saada sõnum"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Kopeeri link"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Kustuta"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Vali meedia kvaliteet"
@@ -5619,7 +5619,7 @@
     "messageformat": "administraatorid"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Vaata",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -7953,6 +7953,6 @@
     "messageformat": "Viis uut ametlikku kleebisekomplekti: „Chug the Mouse“ (Amanda Cotan), „Cozy Season“ (Miguel Ángel Camprubí), „Croco's Feelings“ (Tiffany Beucher), „My Daily Life 2“ (Plastic Thing), ja „Rocky Talk“ (Lexi Vay)."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Signali turvalised varukoopiad on kohal! Nüüd saad lubada automaatsed otspunktkrüptitud varukoopiad, et kunagi ükski sõnum kaotsi ei läheks, kui sa uue telefoni saad või Signali uuesti paigaldad. Saad tasuta varundada kõik oma sõnumid ja viimase 45 päeva meediafailid või maksta väikese kuutasu, mille eest anname sulle 100 GB salvestusruumi kõigi manuste varundamiseks. Alustamiseks vali oma Signali sätete alt varukoopiad. Aitäh kõigile, kes aitasid seda funktsiooni beetaperioodil testida!"
   }
 }

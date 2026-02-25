@@ -2430,7 +2430,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "இந்தத் தொகுப்பில் நிர்வாகிகள் மட்டுமே உறுப்பினரின் பதவி நிலையைச் சேர்க்க முடியும்."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "நீங்கள் இந்த மெசேஜை அனுப்பியதிலிருந்து 24 மணிநேரத்திற்குள் மட்டுமே திருத்தங்களைச் செய்ய முடியும்."
@@ -4632,7 +4632,7 @@
     "messageformat": "நிர்வாகி நிலையிலிருந்து அகற்று"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "இது அவர்களின் உறுப்பினரின் பதிவி நிலையை அழிக்கும்."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "நிர்வாகியை உருவாக்குங்கள்"
@@ -4824,7 +4824,7 @@
     "messageformat": "உறுப்பினர்களைச் சேர்க்கவும்"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "உறுப்பினரின் பதவி நிலையைச் சேர்"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "அனைத்தையும் பார்"
@@ -5001,19 +5001,19 @@
     "messageformat": "{count, plural, one {அனைவருக்கும் நீக்க {count,number} மெசேஜை மட்டுமே நீங்கள் தேர்ந்தெடுக்க முடியும்} other {அனைவருக்கும் நீக்க {count,number} மெசேஜ்களை மட்டுமே நீங்கள் தேர்ந்தெடுக்க முடியும்}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "உருப்படியை நீக்கவா?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "இது இந்த உருப்படியை நிரந்தரமாக நீக்கும். இந்த உருப்படியுடன் தொடர்புடைய எந்தவொரு மெசேஜ் உரையும் நீக்கப்படும்."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "நெருக்கமான"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "நீக்கு"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "ரத்துசெய்"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "நீங்கள் 30 மெசேஜ்கள் வரை மட்டுமே முன்னனுப்ப முடியும்"
@@ -5388,22 +5388,22 @@
     "messageformat": "நீங்கள் அனுப்பக்கூடிய மற்றும் பெறக்கூடிய இணைப்புகள் இங்கே தோன்றும்"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "அரட்டையில் காண்க"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "முன்னனுப்புக"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "சேமி"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "அனுப்பு செய்தி"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "இணைப்பை நகலெடு"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "நீக்கு"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "தேர்ந்தெடு மீடியா தரம்"
@@ -5619,7 +5619,7 @@
     "messageformat": "நிர்வாகிகள்"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "காண்க",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -7953,6 +7953,6 @@
     "messageformat": "ஐந்து புதிய அதிகாரப்பூர்வ ஆர்ட்டிஸ்ட் ஸ்டிக்கர் தொகுப்புகள்."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "சிக்னலின் பாதுகாப்பு காப்புப்பிரதிகள் இதோ! இப்போது நீங்கள் தானியங்கு எண்டு-டூ-எண்டு மறைகுறியாக்கம் செய்யப்பட்ட காப்புப்பிரதிகளைச் செயல்படுத்திக்கொள்ளலாம், எனவே நீங்கள் புதிய தொலைபேசியை வாங்கும்போதோ அல்லது சிக்னலை மீண்டும் நிறுவும்போதோ எந்தவொரு மெசேஜையும் இழக்க மாட்டீர்கள். உங்களின் அனைத்து மெசேஜ்களையும் கடந்த 45 நாட்களுக்கான ஊடகங்களையும் நீங்கள் இலவசமாகக் காப்புப்பிரதி எடுத்துக்கொள்ளலாம், அல்லது சிறிய மாதாந்திரக் கட்டணத்தைச் செலுத்தி 100 GB சேமிப்பகத்தைப் பெற்று ஒவ்வொரு இணைப்பையும் காப்புப்பிரதி எடுத்துக்கொள்ளலாம். தொடங்க, உங்கள் சிக்னல் அமைப்புகளில் உள்ள காப்புப்பிரதிகளைத் தட்டவும். பீட்டா காலகட்டத்தில் இந்த அம்சத்தைச் சோதிக்க உதவிய அனைவருக்கும் நன்றி தெரிவித்துக்கொள்கிறோம்!"
   }
 }

@@ -2430,7 +2430,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "Samo administratori mogu postavljati uloge članova u ovoj grupi."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Poruke je moguće uređivati samo u roku od 24 sata od trenutka slanja."
@@ -4632,7 +4632,7 @@
     "messageformat": "Ukloni kao administratora"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "Time će se također izbrisati uloga člana."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Postavi za administratora"
@@ -4824,7 +4824,7 @@
     "messageformat": "Dodaj članove"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Dodaj ulogu člana"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Prikaži sve"
@@ -5001,19 +5001,19 @@
     "messageformat": "{count, plural, one {Možete odabrati najviše {count,number} poruku za brisanje za sve} few {Možete odabrati najviše {count,number} poruke za brisanje za sve} many {Možete odabrati najviše {count,number} poruka za brisanje za sve} other {Možete odabrati najviše {count,number} poruka za brisanje za sve}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Izbrisati stavku?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "Time ćete trajno izbrisati ovu stavku. Sve tekstualne poruke povezane s ovom datotekom također će biti izbrisane."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Zatvori"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Izbriši"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Odustani"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Možete proslijediti do 30 poruka"
@@ -5388,22 +5388,22 @@
     "messageformat": "Ovdje će se pojaviti datoteke koje šaljete i primate"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Prikaži u razgovoru"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Proslijedi"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "Spremi"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Pošalji poruku"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Kopiraj poveznicu"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Izbriši"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Odaberite kvalitetu medija"
@@ -5619,7 +5619,7 @@
     "messageformat": "Administratori"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Pregled",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -7953,6 +7953,6 @@
     "messageformat": "• Pet novih službenih autorskih paketa naljepnica."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Zaštićene sigurnosne kopije podataka stigle su na Signal! Sada možete omogućiti automatsko sigurnosno kopiranje, koje štiti vaše podatke sveobuhvatnim šifriranjem, kako nikada ne biste izgubili svoje poruke prilikom kupnje novog telefona ili ponovnog instaliranja Signal aplikacije. Možete besplatno izraditi sigurnosnu kopiju svih svojih razgovora i medijskih zapisa iz posljednjih 45 dana ili možete platiti malu mjesečnu naknadu kako biste dobili 100 GB prostora za pohranu za sigurnosno kopiranje svakog privitka. Dodirnite „Sigurnosne kopije“ u postavkama Signala za postavljanje. Hvala svima koji su pomogli u testiranju ove značajke tijekom razdoblja beta testiranja!"
   }
 }

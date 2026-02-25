@@ -2430,7 +2430,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "Csak az adminisztrátorok állíthatnak be tagsági címkéket ebben a csoportban."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "A módosításokat csak az üzenet elküldésétől számított 24 órán belül lehet alkalmazni."
@@ -4632,7 +4632,7 @@
     "messageformat": "Admin jogosultság elvétele"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "Ez a tagsági címkét is törli."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Admin jogosultság adás"
@@ -4824,7 +4824,7 @@
     "messageformat": "Tagok hozzáadása"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Tagsági címke hozzáadása"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Összes megtekintése"
@@ -5001,19 +5001,19 @@
     "messageformat": "{count, plural, one {Maximum {count,number} üzenetet választhatsz ki, ha mindenki számára szeretnéd törölni} other {Maximum {count,number} üzenetet választhatsz ki, ha mindenki számára szeretnéd törölni}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Elem törlése?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "Ez véglegesen törli az elemet. A fájlokhoz tartozó szöveges üzenetek is törlődnek."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Bezárás"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Törlés"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Mégse"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Maximálisan 30 üzenetet továbbíthatsz"
@@ -5388,22 +5388,22 @@
     "messageformat": "Itt jelennek meg az általad küldött és fogadott fájlok"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Megtekintés a csevegésben"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Továbbítás"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "Mentés"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Üzenet küldése"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Hivatkozás másolása"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Törlés"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Médiafájl minőségének kiválasztása"
@@ -5619,7 +5619,7 @@
     "messageformat": "adminok"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Megnéz",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -7953,6 +7953,6 @@
     "messageformat": "• Gondoskodj adataid védelméről öt új hivatalos matricacsomaggal a Signal Artist sorozatból: „Chug the Mouse” Amanda Cotantól, „Cozy Season” Miguel Ángel Camprubítól, „Croco's Feelings” Tiffany Beuchertől, „My Daily Life 2” Plastic Thingtől és „Rocky Talk” Lexi Vaytől."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Itt a Signal biztonsági mentés funkciója! Mostantól engedélyezheted az automatikus, végponttól végpontig titkosított biztonsági mentéseket, így soha nem veszítesz el egy üzenetet sem! Ingyen biztonsági másolatot készíthetsz az üzeneteidről és az elmúlt 45 nap médiatartalmairól, vagy egy kisebb havi díjért 100 GB tárhelyet kapsz minden melléklet biztonsági mentéséhez. Koppints a biztonsági mentésekre a Signal beállításaiban. Köszönjük mindenkinek, aki segített tesztelni a funkciót!"
   }
 }

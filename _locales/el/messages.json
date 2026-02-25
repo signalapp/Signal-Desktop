@@ -2430,7 +2430,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "Μόνο οι διαχειριστές μπορούν να προσθέσουν ετικέτες μελών σε αυτήν την ομάδα."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Οι τροποποιήσεις μπορούν να εφαρμοστούν μόνο εντός 24 ωρών από τη στιγμή που έστειλες αυτό το μήνυμα."
@@ -4632,7 +4632,7 @@
     "messageformat": "Αφαίρεση διαχειριστή"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "Αυτό θα διαγράψει επίσης την ετικέτα μέλους τους."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Ορισμός ως διαχειριστή"
@@ -4824,7 +4824,7 @@
     "messageformat": "Προσθήκη μελών"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Προσθήκη ετικέτας μέλους"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Προβολή όλων"
@@ -5001,19 +5001,19 @@
     "messageformat": "{count, plural, one {Μπορείς να επιλέξεις έως {count,number} μήνυμα για να διαγραφεί για όλους} other {Μπορείς να επιλέξεις έως {count,number} μηνύματα για να διαγραφούν για όλους}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Διαγραφή αντικειμένου;"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "Αυτό θα διαγράψει οριστικά το αντικείμενο. Οποιοδήποτε κείμενο μηνύματος σχετίζεται με αυτό το στοιχείο θα διαγραφεί επίσης."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Κλείσιμο"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Διαγραφή"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Ακύρωση"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Μπορείς να προωθήσεις μόνο έως και 30 μηνύματα"
@@ -5388,22 +5388,22 @@
     "messageformat": "Τα αρχεία που στέλνεις και λαμβάνεις θα εμφανίζονται εδώ"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Προβολή στη συνομιλία"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Προώθηση"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "Αποθήκευση"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Αποστολή μηνύματος"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Αντιγραφή συνδέσμου"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Διαγραφή"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Επιλογή ποιότητας πολυμέσων"
@@ -5619,7 +5619,7 @@
     "messageformat": "διαχειριστές"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Προβολή",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -7953,6 +7953,6 @@
     "messageformat": "Πέντε νέα επίσημα πακέτα αυτοκόλλητων καλλιτεχνών."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Τα ασφαλή αντίγραφα Signal είναι εδώ! Τώρα μπορείς να δημιουργείς αυτόματα αντίγραφα, ώστε να μην χάσεις μήνυμα αν αλλάξεις τηλέφωνο ή επανεγκαταστήσεις το Signal. Μπορείς να αποθηκεύεις τα μηνύματα και τα πολυμέσα των τελευταίων 45 ημερών δωρεάν ή να πληρώσεις μια μηνιαία χρέωση για 100 GB αποθηκευτικού χώρου για να έχεις αντίγραφα κάθε συνημμένου. Πάτα στα αντίγραφα ασφαλείας στις ρυθμίσεις Signal για έναρξη. Ευχαριστούμε για τη βοήθεια στη δοκιμή της λειτουργίας κατά την περίοδο beta!"
   }
 }

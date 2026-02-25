@@ -2430,7 +2430,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "Додавати ролі учасників у цій групі можуть тільки адміністратори."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Редагувати повідомлення можна лише протягом 24 годин з моменту надсилання."
@@ -4632,7 +4632,7 @@
     "messageformat": "Забрати права адміністратора"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "Також буде видалено роль цього учасника."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Зробити адміністратором"
@@ -4824,7 +4824,7 @@
     "messageformat": "Додати учасників"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Додати роль учасника"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Показати всіх"
@@ -5001,19 +5001,19 @@
     "messageformat": "{count, plural, one {Ви можете видалити для всіх максимум {count,number} повідомлення} few {Ви можете видалити для всіх максимум {count,number} повідомлення} many {Ви можете видалити для всіх максимум {count,number} повідомлень} other {Ви можете видалити для всіх максимум {count,number} повідомлення}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Видалити файл?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "Файл буде видалено остаточно. Текст повідомлення, пов'язаного з цим файлом, також буде видалено."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Закрити"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Видалити"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Скасувати"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Пересилати можна до 30 повідомлень"
@@ -5388,22 +5388,22 @@
     "messageformat": "Тут будуть ваші надіслані й отримані файли"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Переглянути в чаті"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Переслати"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "Зберегти"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Надіслати повідомлення"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Копіювати посилання"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Видалити"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Оберіть якість медіафайлів"
@@ -5619,7 +5619,7 @@
     "messageformat": "адміністратори"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Показ",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -7953,6 +7953,6 @@
     "messageformat": "П'ять нових офіційних наборів стікерів від художників Signal."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Представляємо надійне резервне копіювання від Signal! Тепер ви можете ввімкнути автоматичне резервне копіювання з наскрізним шифруванням і бути впевненими, що не втратите повідомлення, навіть якщо зміните телефон або перевстановите Signal. Ви можете безплатно зберігати повідомлення й медіафайли за минулі 45 днів, а за невеликий місячний внесок ви отримаєте сховище для всіх вкладень на 100 ГБ. Щоб почати, перейдіть у «Резервні копії» в налаштуваннях Signal. Дякуємо всім, хто допомагав тестувати цю функцію!"
   }
 }

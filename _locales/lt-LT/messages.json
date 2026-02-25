@@ -2430,7 +2430,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "Šioje grupėje narių kategorijas gali pridėti tik administratoriai."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Redaguoti galima ne vėliau kaip per 24 val. nuo šios žinutės išsiuntimo."
@@ -4632,7 +4632,7 @@
     "messageformat": "Pašalinti iš administratorių"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "Tai taip pat išvalys jų nario kategoriją."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Paskirti administratoriumi"
@@ -4824,7 +4824,7 @@
     "messageformat": "Pridėti narius"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Pridėti nario kategoriją"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Rodyti visus"
@@ -5001,19 +5001,19 @@
     "messageformat": "{count, plural, one {Gali pasirinkti ištrinti visiems ne daugiau kaip {count,number} žinutę} few {Gali pasirinkti ištrinti visiems ne daugiau kaip {count,number} žinutes} many {Gali pasirinkti ištrinti visiems ne daugiau kaip {count,number} žinutės} other {Gali pasirinkti ištrinti visiems ne daugiau kaip {count,number} žinučių}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Ištrinti elementą?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "Tai negrįžtamai ištrins elementą. Visos su šiuo elementu susietos žinutės taip pat bus ištrintos."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Užverti"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Ištrinti"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Atšaukti"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Galima persiųsti ne daugiau kaip 30 žinučių"
@@ -5388,22 +5388,22 @@
     "messageformat": "Čia bus rodomi jūsų siunčiami ir gaunami failai"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Peržiūrėti pokalbyje"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Persiųsti"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "Įrašyti"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Siųsti žinutę"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Kopijuoti nuorodą"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Ištrinti"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Pasirinkti medijos kokybę"
@@ -5619,7 +5619,7 @@
     "messageformat": "administratoriai"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Žiūrėti",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -7953,6 +7953,6 @@
     "messageformat": "Penki nauji oficialūs lipdukų paketai iš „Signal“ menininkų serijos: Amandos Cotan „Chug the Mouse“, Miguelio Ángelio Camprubí „Cozy Season“, Tiffany Beucher „Croco's Feelings“, „Plastic Thing“ „My Daily Life 2“ ir Lexi Vay „Rocky Talk“."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "„Signal“ atsarginės kopijos jau čia! Jau galite įjungti automatines užšifruotas atsargines kopijas, kad neprarastumėte žinučių įsigiję naują telefoną arba iš naujo įdiegę „Signal“. Galite nemokamai kurti visų žinučių ir paskutinių 45 d. įrašų atsargines kopijas arba sumokėti nedidelį mėnesinį mokestį ir gauti 100 GB saugyklos vietos kurti priedų atsargines kopijas. Norėdami pradėti „Signal“ nustatymuose palieskite atsargines kopijas. Dėkojame visiems, padėjusiems išbandyti šią funkciją!"
   }
 }

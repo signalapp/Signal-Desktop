@@ -2430,7 +2430,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "In dieser Gruppe können nur Administratoren Mitgliedslabels hinzufügen."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Bearbeitungen können nur innerhalb von 24 Stunden ab dem Senden dieser Nachricht vorgenommen werden."
@@ -4632,7 +4632,7 @@
     "messageformat": "Als Admin entfernen"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "Dadurch wird auch das Mitgliedslabel gelöscht."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Zum Admin machen"
@@ -4824,7 +4824,7 @@
     "messageformat": "Mitglieder hinzufügen"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Mitgliedslabel hinzufügen"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Alle anzeigen"
@@ -5001,19 +5001,19 @@
     "messageformat": "{count, plural, one {Du kannst nur bis zu {count,number} Nachricht zum Löschen für alle auswählen} other {Du kannst nur bis zu {count,number} Nachrichten zum Löschen für alle auswählen}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Element löschen?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "Dadurch wird das Element unwiderruflich gelöscht. Jeder Nachrichtentext, der zu diesem Element gehört, wird ebenfalls gelöscht."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Schließen"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Löschen"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Abbrechen"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Du kannst maximal 30 Nachrichten weiterleiten"
@@ -5388,22 +5388,22 @@
     "messageformat": "Dateien, die du sendest und erhältst, werden hier angezeigt"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Im Chat ansehen"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Weiterleiten"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "Speichern"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Nachricht senden"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Link kopieren"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Löschen"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Medienqualität auswählen"
@@ -5619,7 +5619,7 @@
     "messageformat": "Admins"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Ansehen",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -7953,6 +7953,6 @@
     "messageformat": "Mit den fünf neuen offiziellen Sticker-Sets aus der Signal Artist Series macht Datenschutz noch mehr Spaß: »Chug the Mouse« von Amanda Cotan, »Cozy Season« von Miguel Ángel Camprubí, »Croco's Feelings« von Tiffany Beucher, »My Daily Life 2« von Plastic Thing und »Rocky Talk« von Lexi Vay."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Signal Secure Backups ist da! Jetzt kannst du automatische Ende-zu-Ende-verschlüsselte Backups aktivieren, damit du nie wieder eine Nachricht verlierst, wenn du dir ein neues Telefon zulegst oder Signal neu installierst. Du kannst all deine Nachrichten und die Medien der letzten 45 Tage kostenlos sichern oder dir gegen eine geringe monatliche Gebühr 100 GB Speicherplatz holen und all deine Anhänge sichern. Tippe in deinen Signal-Einstellungen einfach auf »Backups«, um loszulegen. Danke an alle, die während der Beta-Phase beim Testen dieser Funktion mitgeholfen haben!"
   }
 }

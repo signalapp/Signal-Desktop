@@ -2430,7 +2430,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "Chỉ quản trị viên mới có thể thêm nhãn thành viên trong nhóm này."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Các chỉnh sửa chỉ có thể được thực hiện trong vòng 24 giờ kể từ lúc bạn gửi tin nhắn này."
@@ -4632,7 +4632,7 @@
     "messageformat": "Xóa với tư cách quản trị viên"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "Thao tác này cũng sẽ xóa nhãn của thành viên này."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Đặt admin"
@@ -4824,7 +4824,7 @@
     "messageformat": "Thêm thành viên"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Thêm nhãn thành viên"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Xem tất cả"
@@ -5001,19 +5001,19 @@
     "messageformat": "{count, plural, other {Bạn chỉ có thể chọn tối đa {count,number} tin nhắn để xóa cho mọi người}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Xóa mục này?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "Thao tác này sẽ xóa vĩnh viễn mục đã chọn. Các tin nhắn có liên kết với mục này cũng sẽ bị xóa."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Đóng"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Xóa"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Hủy"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Bạn chỉ có thể chuyển tiếp tối đa 30 tin nhắn"
@@ -5388,22 +5388,22 @@
     "messageformat": "Tập tin bạn gửi và nhận sẽ hiển thị ở đây"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Xem trong cuộc trò chuyện"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Chuyển tiếp"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "Lưu"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Gửi tin nhắn"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Sao chép đường dẫn"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Xóa"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Chọn chất lượng đa phương tiện"
@@ -5619,7 +5619,7 @@
     "messageformat": "người quản trị"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Xem",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -7953,6 +7953,6 @@
     "messageformat": "5 bộ nhãn dán chính thức mới của các nghệ sĩ."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Ra mắt Sao lưu bảo mật Signal! Giờ đây, bạn có thể chọn kích hoạt sao lưu mã hóa đầu cuối tự động để không bao giờ mất tin nhắn khi sử dụng điện thoại mới hoặc cài lại Signal. Bạn có thể sao lưu tất cả tin nhắn của mình và tập tin đa phương tiện của 45 ngày gần nhất miễn phí, hoặc trả một khoản phí nhỏ mỗi tháng để nhận 100 GB để sao lưu mọi tập tin đính kèm. Nhấn vào sao lưu trong cài đặt Signal để bắt đầu. Cảm ơn tất đã giúp chúng tôi thử nghiệm tính năng này trong giai đoạn beta!"
   }
 }

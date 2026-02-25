@@ -2430,7 +2430,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "এই গ্রুপে শুধুমাত্র অ্যাডমিনরাই সদস্যদের লেবেল যোগ করতে পারবেন।"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "এই ম্যাসেজটি পাঠানোর পর শুধুমাত্র পরবর্তী 24 ঘন্টার মধ্যে এটি এডিট করা যাবে।"
@@ -4632,7 +4632,7 @@
     "messageformat": "অ্যাডমিন হিসেবে সরিয়ে ফেলুন"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "এটি তাদের সদস্য লেবেলও মুছে ফেলবে।"
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "অ্যাডমিন বানান"
@@ -4824,7 +4824,7 @@
     "messageformat": "সদস্যকে যোগ করুন"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "সদস্য লেবেল যোগ করুন"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "সব দেখুন"
@@ -5001,19 +5001,19 @@
     "messageformat": "{count, plural, one {আপনি সবার জন্য মুছে ফেলতে শুধু {count,number}টি পর্যন্ত ম্যাসেজ নির্বাচন করতে পারবেন} other {আপনি সবার জন্য মুছে ফেলতে শুধু {count,number}টি পর্যন্ত ম্যাসেজ নির্বাচন করতে পারবেন}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "আইটেমটি মুছে ফেলবেন?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "এটি আইটেমটি স্থায়ীভাবে মুছে ফেলবে। এই আইটেমটির সাথে সম্পৃক্ত কোনো মেসেজ টেক্সটও মুছে ফেলা হবে।"
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "বন্ধ"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "মুছে ফেলুন"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "বাতিল করুন"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "আপনি সর্বোচ্চ 30টি ম্যাসেজ ফরোয়ার্ড করতে পারবেন"
@@ -5388,22 +5388,22 @@
     "messageformat": "আপনার পাঠানো এবং পাওয়া ফাইলগুলো এখানে প্রদর্শিত হবে"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "চ্যাটে দেখুন"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "ফরওয়ার্ড"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "সংরক্ষণ"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "মেসেজ পাঠান"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "লিংক কপি করুন"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "মুছে ফেলুন"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "মিডিয়ার মান নির্বাচন করুন"
@@ -5619,7 +5619,7 @@
     "messageformat": "অ্যাডমিন"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "দেখান",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -7953,6 +7953,6 @@
     "messageformat": "পাঁচটি নতুন অফিসিয়াল আর্টিস্ট স্টিকার প্যাক: Amanda Cotan-এর \"Chug the Mouse\", Miguel Ángel Camprubí-এর \"Cozy Season\", Tiffany Beucher-এর \"Croco's Feelings\", Plastic Thing-এর \"My Daily Life 2\", এবং Lexi Vay-এর \"Rocky Talk\"।"
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "চলে এলো Signal নিরাপদ ব্যাকআপ! এখন আপনি স্বয়ংক্রিয় এন্ড-টু-এন্ড এনক্রিপ্ট করা ব্যাকআপ সচল করতে পারবেন যাতে আপনি কোনো নতুন ফোন নিলে বা Signal পুনরায় ইনস্টল করলে কোনো মেসেজ হারাবেন না। আপনি আপনার সব মেসেজ এবং গত 45 দিনের মিডিয়া বিনামূল্যে ব্যাকআপ করতে পারবেন, অথবা প্রতিটি সংযুক্তির ব্যাকআপ নেওয়ার জন্য 100 GB স্টোরেজ পেতে আপনি একটি ছোট মাসিক ফি দিতে পারবেন। চালু করতে আপনার Signal সেটিংসে ব্যাকআপ-এ ট্যাপ করুন। বিটা পিরিয়ডের সময় এই ফিচারটি পরীক্ষা করতে সাহায্য করেছেন এমন সবাইকে ধন্যবাদ!"
   }
 }

@@ -2430,7 +2430,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "Bu qrupa üzv etiketlərini yalnız adminlər əlavə edə bilər."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Redaktələr yalnız siz bu mesajı göndərdikdən sonra 24 saat ərzində tətbiq oluna bilər."
@@ -4632,7 +4632,7 @@
     "messageformat": "Adminlikdən çıxart"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "Bu, həmçinin üzv etiketlərinin silinməsinə da şamil olunur."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Admin et"
@@ -4824,7 +4824,7 @@
     "messageformat": "Üzv əlavə et"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Üzv etiketi əlavə et"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Hamısına bax"
@@ -5001,19 +5001,19 @@
     "messageformat": "{count, plural, one {Hər kəsdən silmək üçün maksimum {count,number} mesaj seçə bilərsiniz} other {Hər kəsdən silmək üçün maksimum {count,number} mesaj seçə bilərsiniz}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Element silinsin?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "Bu addım elementi daimi olaraq silir. Bu elementlə əlaqələndirilmiş istənilən mesaj mətni də silinəcək."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Bağla"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Sil"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Ləğv et"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Yalnız 30-a qədər mesaj yönləndirə bilərsiniz"
@@ -5388,22 +5388,22 @@
     "messageformat": "Göndərdiyiniz və aldığınız keçidlər burada görünəcək"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Çatda baxın"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Yönləndir"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "Saxla"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Mesaj göndər"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Keçidi kopyala"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Sil"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Media keyfiyyətini seçin"
@@ -5619,7 +5619,7 @@
     "messageformat": "adminlər"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Baxış",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -7953,6 +7953,6 @@
     "messageformat": "Signal Artist Seriyasından beş yeni rəsmi stiker paketi ilə məxfiliyinizi qoruyun: Amanda Cotan tərəfindən \"Chug the Mouse\", Miguel Ángel Camprubí tərəfindən \"Cozy Season\", Tiffany Beucher tərəfindən \"Croco's Feelings\", Plastic Thing tərəfindən \"My Daily Life 2\" və Lexi Vay tərəfindən \"Rocky Talk\"."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Signal təhlükəsiz ehtiyat nüsxələri burada! Artıq yeni telefon aldıqda və ya Signal-ı təkrar quraşdırdıqda avtomatik ucdan-uca şifrələnən ehtiyat nüsxələri aktivləşdirsəniz mesajlar silinməz. Bütün mesajlar və son 45 günlük media faylların ehtiyat nüsxəsini pulsuz çıxara və ya hər bir qoşmanın ehtiyat nüsxəsi üçün aylıq kiçik bir ödənişlə 100 GB yaddaş qazana bilərsiniz. Signal parametrlərində ehtiyat nüsxələrə toxunun. Beta mərhələsində bu xüsusiyyətin sınağına kömək edənlərə təşəkkürlər!"
   }
 }
