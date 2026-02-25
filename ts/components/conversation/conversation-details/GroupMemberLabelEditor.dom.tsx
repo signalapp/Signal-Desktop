@@ -42,6 +42,7 @@ import type {
 import type { LocalizerType, ThemeType } from '../../../types/Util.std.js';
 import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.preload.js';
 import type { Location } from '../../../types/Nav.std.js';
+import { usePrevious } from '../../../hooks/usePrevious.std.js';
 
 export type PropsDataType = {
   existingLabelEmoji: string | undefined;
@@ -119,8 +120,8 @@ export function GroupMemberLabelEditor({
 
   const labelStringForSave = labelString ? labelString.trim() : labelString;
   const isDirty =
-    labelEmoji !== existingLabelEmoji ||
-    labelStringForSave !== existingLabelString;
+    (labelEmoji || undefined) !== (existingLabelEmoji || undefined) ||
+    (labelStringForSave || undefined) !== (existingLabelString || undefined);
   const canSave =
     isDirty && ((!labelEmoji && !labelStringForSave) || labelStringForSave);
   const spinner = isSaving
@@ -156,6 +157,15 @@ export function GroupMemberLabelEditor({
     confirmDiscardIf(isDirty, discardChanges);
   }, [confirmDiscardIf, isDirty]);
   tryClose.current = onTryClose;
+
+  // Popping the panel here after a save is far safer; we may not have re-rendered with
+  // the new existing values yet when the onSuccess callback down-file is called.
+  const previousIsSaving = usePrevious(isSaving, isSaving);
+  useEffect(() => {
+    if (isSaving === false && previousIsSaving !== isSaving && !isDirty) {
+      popPanelForConversation();
+    }
+  }, [isDirty, isSaving, popPanelForConversation, previousIsSaving]);
 
   return (
     <div className={tw('flex size-full flex-col')}>
@@ -385,7 +395,6 @@ export function GroupMemberLabelEditor({
               {
                 onSuccess() {
                   setIsSaving(false);
-                  popPanelForConversation();
                 },
                 onFailure() {
                   setIsSaving(false);
