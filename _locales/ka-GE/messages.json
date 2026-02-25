@@ -1115,6 +1115,9 @@
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "დაამატე წევრის იარლიყი"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "ჩანიშვნა"
   },
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "ამ ჯგუფში წევრის იარლიყების დაყენება მხოლოდ ადმინისტრატორებს შეუძლიათ."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "შეტყობინების რედაქტირება მისი გაგზავნიდან მხოლოდ 24 საათის განმავლობაშია შესაძლებელი."
@@ -4632,7 +4635,7 @@
     "messageformat": "ადმინობის ჩამორთმევა"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "ეს მის წევრის იარლიყსაც წაშლის."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "ადმინად დანიშნვა"
@@ -4824,7 +4827,7 @@
     "messageformat": "წევრების დამატება"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "წევრის იარლიყის დამატება"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "ყველას ნახვა"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, one {ყველასთვის წასაშლელად მხოლოდ {count,number} შეტყობინების არჩევა შეგიძლია} other {ყველასთვის წასაშლელად მხოლოდ {count,number}-მდე შეტყობინების არჩევა შეგიძლია}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "გსურს ელემენტი წაშალო?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "ეს ამ ელემენტს სამუდამოდ წაშლის. ამ ელემენტთან დაკავშირებული ნებისმიერი შეტყობინებაც წაიშლება."
   },
   "icu:DeleteAttachmentModal__Close": {
     "messageformat": "Close"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "წაშლა"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "გაუქმება"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "მხოლოდ 30-მდე შეტყობინების გადაგზავნა შეგიძლია"
@@ -5388,22 +5391,22 @@
     "messageformat": "ფაილები, რომელსაც აგზავნი და იღებ, აქ გამოჩნდება"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "ჩატის ნახვა"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "გადაგზავნა"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "შენახვა"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "შეტყობინების გაგზავნა"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "ბმულის დაკოპირება"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "წაშლა"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "მედია-ფაილის ხარისხის არჩევა"
@@ -5619,7 +5622,7 @@
     "messageformat": "ადმინები"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "ნახვა",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "დაყენება"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "ადგილობრივი სათადარიგო ასლები"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "ექსპორტი…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "ადგილობრივი დაშიფრული სათადარიგო ასლის საქაღალდეში ექსპორტირება და მისი დადასტურება"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "გადაიტანე დაშიფრული სათადარიგო ასლი მეხსიერებაში და გაუშვი მასზე დადასტურების ნაკრები"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "დაგვეხმარე გაუმჯობესებაში"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "ეს გვეხმარება, მეტი გავიგოთ ზარებზე და იმაზე, რა მუშაობს ან არ მუშაობს. შეგიძლია შენი გაუმართაობის რეესტრი ატვირთვამდე ნახო."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "ატვირთვა შენს უკუკავშირს <diagnosticInfoLink>შენი ზარის შესახებ დიაგნოსტიკურ ინფორმაციასთან</diagnosticInfoLink> ერთად გააზიარებს. შეგიძლია გაუმართაობის რეესტრი გაგვიზიარო, რათა ზარის ხარისხის გამოსწორებაში დაგვეხმარო."
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "ნახვა"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "გაუმართაობის რეესტრი აპის ქვედა დონის ინფორმაციას შეიცავს და შენი არც ერთი წერილის შინაარს არ ავლენს."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "ჩვენთან გაზიარებული ინფორმაცია აპის ტექნიკურ ინფორმაციას მოიცავს და არა შენი ზარების შინაარსს."
@@ -7953,6 +7941,9 @@
     "messageformat": "5 ახალი ოფიციალური არტისტის სტიკერების ნაკრები: Amanda Cotan-ის \"Chug the Mouse\", Miguel Ángel Camprubí-ის \"Cozy Season\", Tiffany Beucher \"Croco's Feelings\", Plastic Thing-ის \"My Daily Life 2\", და Lexi Vay-ის \"Rocky Talk\"."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Signal-ის უსაფრთხო სათადარიგო ასლები უკვე აქაა! ახლა უკვე შეგიძლია ავტომატური, ბოლომდე დაშიფრული სათადარიგო ასლები ჩართო, რათა აღარასდროს დაკარგო შეტყობინება, თუ ახალი მობილური გექნება, ან Signal-ს თავიდან გადმოიწერ. შეგიძლია შენი ყველა წერილისა და ბოლო 45 დღის მედია ფაილების სათადარიგო ასლები უფასოდ შექმნა, ან მცირე ყოველთვიური გადასახადი გადაიხადო 100გბ მეხსიერებისთვის და ყველა დანართის სათადარიგო ასლი გააკეთო. დასაწყებად შენი Signal-ის პარამეტრებში სათადარიგო ასლებს დააჭირე. მადლობა ყველას, ვინც ბეტა პერიოდში ამ ფუნქციის ტესტირებაში დაგვეხმარა!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

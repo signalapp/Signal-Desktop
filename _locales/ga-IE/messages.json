@@ -1115,6 +1115,9 @@
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Cuir lipéad baill leis"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Nóta"
   },
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "Ní féidir ach le riarthóirí lipéid na mball a chur leis sa ghrúpa seo."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Ní féidir eagarthóireacht a chur i bhfeidhm ach amháin laistigh de 24 uair an chloig ón uair a sheol tú an teachtaireacht seo."
@@ -4632,7 +4635,7 @@
     "messageformat": "Bain mar riarthóir"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "Glanfar lipéad an bhaill sin leis sin freisin."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Déan Riarthóir De/Di"
@@ -4824,7 +4827,7 @@
     "messageformat": "Cuir baill leis"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Cuir lipéad baill leis"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "See All"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, one {Ní féidir leat ach {count,number} teachtaireacht a roghnú lena scriosadh do chách} two {Ní féidir leat ach {count,number} theachtaireacht a roghnú lena scriosadh do chách} few {Ní féidir leat ach {count,number} theachtaireacht a roghnú lena scriosadh do chách} many {Ní féidir leat ach {count,number} dteachtaireacht a roghnú lena scriosadh do chách} other {Ní féidir leat ach {count,number} teachtaireacht a roghnú lena scriosadh do chách}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Scrios an mhír?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "Scriosfar an mhír go buan leis sin. Scriosfar aon téacs teachtaireachta a bhaineann leis an mír sin freisin."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Dún"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Scrios"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Cuir ar ceal"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Ní féidir leat ach 30 teachtaireacht nó níos lú a sheoladh ar aghaidh"
@@ -5388,22 +5391,22 @@
     "messageformat": "Taispeánfar anseo comhaid a sheolann tú agus a fhaigheann tú"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Féach air sa chomhrá"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Cuir ar aghaidh"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "Sábháil"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Seol teachtaireacht"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Cóipeáil an nasc"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Scrios"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Roghnaigh caighdeán na meán"
@@ -5619,7 +5622,7 @@
     "messageformat": "riarthóirí"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Amharc",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "Socraigh"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Cúltacaí logánta"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Easpórtáil…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Easpórtáil cúltaca criptithe logánta chuig fillteán agus bailíochtaigh é"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Easpórtáil cúltaca criptithe chuig cuimhne agus rith sraith bhailíochtaithe air"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Cabhraigh linn feabhsú"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "Cabhraíonn sé seo linn tuilleadh a fhoghlaim faoina bhfuil ag obair agus nach bhfuil. Is féidir leat féachaint ar do loga dífhabhtaithe sula gcuireann tú isteach é."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Trína chur isteach, comhroinnfear d'aiseolas mar aon le <diagnosticInfoLink>faisnéis dhiagnóiseach faoi do ghlao</diagnosticInfoLink>. Is féidir leat loga dífhabhtaithe a chomhroinnt le cabhrú linn cáilíocht glaonna a fheabhsú."
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Féach air"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Bíonn faisnéis íseal-leibhéil aipe i logaí dífhabhtaithe agus ní nochtar ábhar aon cheann de do theachtaireachtaí iontu."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "Tá faisnéis íseal-leibhéil faoin aip san fhaisnéis a chomhroinntear linn agus ní áirítear léi ábhar do ghlaonna."
@@ -7953,6 +7941,9 @@
     "messageformat": "Cúig bheart greamán nua le healaíontóirí oifigiúla."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Tá cúltacaí slána Signal anseo! Anois is féidir leat cumasú cúltacaí criptithe ó cheann ceann go huathoibríoch a roghnú ionas nach gcaillfidh tú teachtaireacht choíche nuair a fhaigheann tú guthán nua nó nuair a athshuiteálann tú Signal. Is féidir leat do theachtaireachtaí uile agus na 45 lá anuas de mheáin a chúltacú saor in aisce, nó is féidir leat táille bheag a íoc gach mí le 100 GB de stóras a fháil chun gach ceangaltán a chúltacú. Tapáil ar chúltacaí i do shocruithe Signal le tosú air. Buíochas le gach duine a chabhraigh le tástáil na gné seo le linn na tréimhse béite!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

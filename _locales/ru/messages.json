@@ -1115,6 +1115,9 @@
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Добавить значок участника"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Заметка"
   },
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "Только администраторы могут добавлять значки участников в этой группе."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Изменения могут быть внесены только в течение 24 часов с момента отправки этого сообщения."
@@ -4632,7 +4635,7 @@
     "messageformat": "Удалить как администратора"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "Это также удалит его/её значок участника."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Сделать администратором"
@@ -4824,7 +4827,7 @@
     "messageformat": "Добавить участников"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Добавить значок участника"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Просмотреть все"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, one {Вы можете выбрать не более {count,number} сообщения для удаления для всех} few {Вы можете выбрать не более {count,number} сообщений для удаления для всех} many {Вы можете выбрать не более {count,number} сообщений для удаления для всех} other {Вы можете выбрать не более {count,number} сообщения для удаления для всех}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Удалить медиафайл?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "Это навсегда удалит медиафайл. Текст сообщений, связанных с этим медиафайлом, также будет удалён."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Закрыть"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Удалить"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Отменить"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Вы можете пересылать только до 30 сообщений"
@@ -5388,22 +5391,22 @@
     "messageformat": "Файлы, которые вы отправляете и получаете, будут отображаться здесь"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Показать в чате"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Переслать"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "Сохранить"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Отправить сообщение"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Копировать ссылку"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Удалить"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Выбрать качество медиа"
@@ -5619,7 +5622,7 @@
     "messageformat": "администраторы"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Просм.",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "Настроить"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Локальные резервные копии"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Экспорт…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Экспортируйте зашифрованную резервную копию в папку и проверьте её"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Экспортируйте зашифрованную резервную копию в память и запустите для нее набор проверок"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Помогите нам стать ещё лучше"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "Это помогает нам получить более подробную информацию о звонках и понять, что работает, а что нет. Вы можете просмотреть свой журнал отладки перед отправкой."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Отправьте свой отзыв вместе с <diagnosticInfoLink>диагностической информацией о вашем звонке</diagnosticInfoLink>. Вы можете, если хотите, поделиться с нами журналом отладки. Это поможет улучшить качество звонков."
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Просмотреть"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Журналы отладки содержат низкоуровневую информацию о приложении и не раскрывают содержание вашего сообщения."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "Предоставленная нам информация содержит низкоуровневые данные приложения и не включает содержание ваших звонков."
@@ -7953,6 +7941,9 @@
     "messageformat": "Закрепите конфиденциальность с помощью пяти новых официальных наборов стикеров из серии Signal Artist: «Chug the Mouse» Аманды Котан, «Cozy Season» Мигеля Анхеля Кампруби, «Croco's Feelings» Тиффани Бойчер, «My Everyday Life 2» Plastic Thing и «Rocky Talk» Лекси Вэй."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Безопасное резервное копирование уже здесь! Теперь вам доступно резервное копирование со сквозным автошифрованием, и вы не потеряете ни одно сообщение при покупке нового телефона или переустановке Signal. Бесплатно создавайте резервные копии всех ваших сообщений, а также медиафайлов за последние 45 дней или за небольшую ежемесячную плату получите 100 ГБ для всех вложений. Нажмите на резервное копирование в настройках Signal, чтобы начать. Спасибо всем, кто помогал тестировать эту функцию!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

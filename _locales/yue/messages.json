@@ -1115,6 +1115,9 @@
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "加成員標籤"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "備註"
   },
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "只有管理員先可以喺呢個谷度加成員標籤。"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "你只可以喺傳送訊息後 24 個鐘內套用編輯。"
@@ -4632,7 +4635,7 @@
     "messageformat": "撤銷管理員身份"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "咁樣做亦都會剷走埋佢哋嘅成員標籤。"
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "設定做管理員"
@@ -4824,7 +4827,7 @@
     "messageformat": "加入成員"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "加成員標籤"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "全部睇晒"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, other {你最多只可以揀 {count,number} 個訊息嚟喺所有人部機度刪除}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "係咪刪除呢個項目呀？"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "咁做嘅話，項目就會永久刪除㗎喇。任何相關嘅訊息文字都會被刪除。"
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "關閉"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "刪除"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "取消"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "你最多只可以轉寄 30 個訊息"
@@ -5388,22 +5391,22 @@
     "messageformat": "你收發嘅檔案會喺呢度顯示"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "喺聊天度睇下"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "轉寄"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "儲存"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "傳送訊息"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "複製連結"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "刪除"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "揀選媒體品質"
@@ -5619,7 +5622,7 @@
     "messageformat": "管理員"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "睇下",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "設定"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "本機備份"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "匯出…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "將本機加密備份匯出去資料夾同埋驗證"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "將加密備份匯出去內建記憶體同埋執行驗證套件"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "幫我哋改進"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "幫我哋了解多啲通話嘅情況，同埋做啲咩係有效、咩係冇效。你可以响提交之前睇吓除錯記錄。"
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "提交會將你嘅意見，同埋<diagnosticInfoLink>關於你通話嘅診斷資訊</diagnosticInfoLink>分享俾我哋。你可以選擇分享除錯記錄，幫我哋提高通話品質。"
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "睇吓"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "除錯記錄只包括 APP 嘅基本資訊，唔會顯示任何訊息內容。"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "分享俾我哋嘅資料只會包括基礎 APP 資訊，同埋唔會包括你嘅通話內容。"
@@ -7953,6 +7941,9 @@
     "messageformat": "• Signal Artist 系列新出五款官方貼圖包，等你嘅私隱保護更貼心，包括：Amanda Cotan 創作嘅「Chug the Mouse」；Miguel Ángel Camprubí 創作嘅「Cozy Season」；Tiffany Beucher 創作嘅「Croco's Feelings」；Plastic Thing 創作嘅「My Daily Life 2」同埋 Lexi Vay 創作嘅「Rocky Talk」。"
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "• Signal 安全備份嚟咗啦！而家你可以揀啟用自動端對端加密備份功能，咁樣當你換新手機或者重新安裝 Signal 嗰陣，就唔會冇晒啲訊息。你可以免費備份全部訊息同最近 45 日嘅媒體，或者可以俾少少月費就有 100 GB 儲存空間嚟備份全部附件。㩒一下 Signal 設定入面嘅備份就可以即刻開始。多謝每個喺測試期間幫手測試呢個功能嘅用家！"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

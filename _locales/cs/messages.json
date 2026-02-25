@@ -1115,6 +1115,9 @@
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Přidat štítek člena"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Poznámka"
   },
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "V této skupině mohou štítky členů přidávat pouze správci."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Úpravy lze provádět pouze do 24 hodin od odeslání této zprávy."
@@ -4632,7 +4635,7 @@
     "messageformat": "Odebrat jako správce"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "Tím se také vymaže jeho/její štítek člena."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Udělit práva správce"
@@ -4824,7 +4827,7 @@
     "messageformat": "Přidat členy"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Přidat štítek člena"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Zobrazit vše"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, one {Můžete vybrat pouze {count,number} zprávu, kterou chcete odstranit pro všechny.} few {Můžete vybrat pouze {count,number} zprávy, které chcete odstranit pro všechny.} many {Můžete vybrat pouze {count,number} zpráv, které chcete odstranit pro všechny.} other {Můžete vybrat pouze {count,number} zpráv, které chcete odstranit pro všechny.}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Odstranit položku?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "Tímto položku trvale odstraníte. Odstraní se i jakýkoli text zprávy spojený s touto položkou."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Zavřít"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Odstranit"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Zrušit"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Přeposlat můžete maximálně 30 zpráv"
@@ -5388,22 +5391,22 @@
     "messageformat": "Soubory, které odešlete nebo obdržíte, se zobrazí zde"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Zobrazit v chatu"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Přeposlat"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "Uložit"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Odeslat zprávu"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Zkopírovat odkaz"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Odstranit"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Vyberte kvalitu médií"
@@ -5619,7 +5622,7 @@
     "messageformat": "správci"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Zobraz",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "Nastavit"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Místní zálohy"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Exportovat…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Exportujte místní šifrovanou zálohu do složky a ověřte ji"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Exportuje šifrovanou zálohu do paměti a spustí ověřovací sadu"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Pomozte nám s vylepšováním"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "Pomáhá nám to zjistit více o hovorech a o tom, co funguje a co ne. Před odesláním si můžete protokol ladění zobrazit."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Odesláním sdílíte svou zpětnou vazbu a <diagnosticInfoLink>diagnostické informace o svém hovoru</diagnosticInfoLink>. Volitelně můžete sdílet protokol ladění a pomoci nám tak zlepšovat kvalitu hovorů."
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Zobrazit"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Protokoly ladění obsahují informace o aplikaci na nízké úrovni a nesdělují žádný obsah vašich zpráv."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "Informace, které s námi sdílíte, obsahují jen základní údaje o aplikaci a nezahrnují obsah vašich hovorů."
@@ -7953,6 +7941,9 @@
     "messageformat": "Pět nových oficiálních balíčků nálepek od známých umělců."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Zabezpečené zálohování Signal je tu! Nyní můžete povolit automatické koncově šifrované zálohování, abyste při pořízení nového telefonu nebo přeinstalování aplikace Signal nepřišli o žádné zprávy. Všechny zprávy a média za posledních 45 dní můžete zálohovat zdarma, nebo můžete za malý měsíční poplatek získat 100GB úložiště pro zálohování každé přílohy. Klepněte na zálohování v nastavení aplikace Signal a můžete začít. Děkujeme všem, kteří se podíleli na testování této funkce ve fázi beta verze!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

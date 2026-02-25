@@ -1115,6 +1115,9 @@
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Maglagay ng member label"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Note"
   },
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "Admins lang ang makakapaglagay ng member labels sa group na ito."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "May 3 oras ka lang para i-edit ang message pagkatapos mo itong i-send."
@@ -4632,7 +4635,7 @@
     "messageformat": "Tanggalin bilang admin"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "Mawawala rin ang member label nila."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Make admin"
@@ -4824,7 +4827,7 @@
     "messageformat": "Magdagdag ng mga kasapi"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Maglagay ng member label"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Ipakita lahat"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, one {Pwede kang pumili ng {count,number} message para burahin sa lahat} other {Pwede kang pumili ng {count,number} messages para burahin sa lahat}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Burahin ang item?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "Permanenteng mabubura ang item. Anumang text na kasama ng item ay mabubura rin."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Isara"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Burahin"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "I-cancel"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Hanggang 30 messages lang ang pwede mong i-forward"
@@ -5388,22 +5391,22 @@
     "messageformat": "Lalabas dito ang files na ipinapadala at natatanggap mo"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Tignan sa chat"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Ipasa"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "I-save"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Mag-send ng message"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Kopyahin ang link"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Burahin"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Pumili ng media quality"
@@ -5619,7 +5622,7 @@
     "messageformat": "admins"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Tingnan",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "I-set up"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "I-export…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "I-export ang local na encrypted backup sa isang folder at i-validate ito"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "I-export ang encrypted backup sa memory at magpatakbo ng validation suite dito"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Tulungan kaming mag-improve"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "Makatutulong ito sa amin para mas mapabuti pa ang quality ng calls. Maaari mong tignan ang debug log mo bago mag-submit."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Ang pag-submit ay magbabahagi ng feedback mo kasama ang <diagnosticInfoLink>diagnostic information tungkol sa tawag mo</diagnosticInfoLink>. Maaari ka ring magbahagi ng debug log para matulungan mo kaming mapaganda ang call quality."
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Tingnan"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Ang debug logs ay naglalaman ng mababang level ng impormasyon ng app at hindi nagpapakita ng anumang nilalaman ng messages mo."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "Ang impormasyong ibinahagi sa amin ay naglalaman ng mababang antas ng impormasyon ng app at hindi kasama ang mga nilalaman ng iyong mga tawag."
@@ -7953,6 +7941,9 @@
     "messageformat": "Limang bagong official artist sticker packs."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Narito na ang Signal secure backups! Maaari mo nang i-enable ang automatic end-to-end encrypted backups para walang mawawalang message kapag nagpalit ka ng phone o nag-reinstall ka ng Signal. Maaari mong i-back up nang libre ang lahat ng messages mo at ang huling 45 araw ng iyong media, o maaari kang magbayad nang maliit na monthly fee para makakuha ng 100 GB storage para ma-back up mo ng bawat attachment. I-tap ang backups sa Signal settings mo para magsimula. Maraming salamat sa lahat ng taong tumulong sa pag-test ng feature na ito noong beta period!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

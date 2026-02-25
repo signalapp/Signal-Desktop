@@ -1115,6 +1115,9 @@
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "افزودن برچسب عضو"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "یادداشت"
   },
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "فقط مدیران می‌توانند برچسب‌های عضو را به این گروه اضافه کنند."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ویرایش‌ها فقط تا ۲۴ ساعت بعد از ارسال این پیام قابل اعمال هستند."
@@ -4632,7 +4635,7 @@
     "messageformat": "حذف از مدیریت"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "این کار همچنین موجب پاک شدن برچسب عضو او خواهد شد."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "ارتقا به مدیر"
@@ -4824,7 +4827,7 @@
     "messageformat": "افزودن اعضا"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "افزودن برچسب عضو"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "مشاهدهٔ همه"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, one {فقط می‌توانید حداکثر {count,number} پیام را به‌منظور پاک کردن برای همه انتخاب کنید} other {فقط می‌توانید حداکثر {count,number} پیام را به‌منظور پاک کردن برای همه انتخاب کنید}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "مورد حذف شود؟"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "با این کار، این مورد برای همیشه حذف خواهد شد. هر پیام متنی مرتبط با این مورد هم حذف خواهد شد."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "بستن"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "پاک کردن"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "لغو"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "فقط تا حداکثر ۳۰ پیام را می‌توانید بازارسال کنید"
@@ -5388,22 +5391,22 @@
     "messageformat": "فایل‌های ارسالی و دریافتی‌تان اینجا ظاهر خواهند شد"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "مشاهده در گفتگو"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "بازارسال"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "ذخیره"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "ارسال پیام"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "کپی کردن پیوند"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "پاک کردن"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "انتخاب کیفیت رسانه"
@@ -5619,7 +5622,7 @@
     "messageformat": "مدیران"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "مشاهده",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "راه‌اندازی"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "پشتیبان‌های محلی"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "صادر کردن…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "نسخه پشتیبان رمزگذاری‌شده محلی را به یک پوشه صادر کنید و آن را اعتبارسنجی کنید"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "نسخه پشتیبان رمزگذاری‌شده را به حافظه صادر کنید و مجموعه اعتبارسنجی را روی آن اجرا کنید"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "کمک کنید بهتر شویم"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "این به ما کمک می‌کند درباره تماس‌ها و نقاط قوت و ضعف آن‌ها بیشتر بدانیم. می‌توانید قبل از ارسال، گزارش اشکال‌زدایی خود را ببینید."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "با ارسال، بازخوردتان همراه با <diagnosticInfoLink>اطلاعات عیب‌یابی درباره تماستان</diagnosticInfoLink> هم‌رسانی خواهد شد. همچنین می‌توانید با ارسال اختیاری گزارش اشکال‌زدایی، به ما کمک کنید کیفیت تماس را بهبود دهیم."
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "مشاهده"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "گزارش‌های عیب‌یابی حاوی اطلاعات سطح پایین برنامه هستند و هیچ‌یک از محتواهای پیام شما را افشا نمی‌کنند."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "اطلاعاتی که با ما به اشتراک گذاشته می‌شود شامل داده‌های سطح پایین برنامه است و محتوای تماس‌های شما را دربر نمی‌گیرد."
@@ -7953,6 +7941,9 @@
     "messageformat": "پنج بسته استیکر جدید از هنرمند رسمی."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "• پشتیبان‌گیری امن سیگنال اینجاست! اکنون می‌توانید پشتیبان‌گیری‌های رمزگذاری‌شده سرتاسری خودکار را فعال کنید تا هنگام دریافت تلفن جدید یا نصب مجدد سیگنال، هیچ‌وقت پیامی را از دست ندهید. می‌توانید رایگان از همه پیام‌ها و ۴۵ روز اخیر فایل‌های رسانه‌ای خود پشتیبان بگیرید، یا با پرداخت مبلغ اندک ماهانه‌ای ۱۰۰ گیگابایت فضای ذخیره‌سازی برای پشتیبان‌گیری از همه پیوست‌ها دریافت کنید. برای شروع، در «تنظیمات سیگنال» روی پشتیبان‌گیری ضربه بزنید. با تشکر از همه کسانی که در دوره بتا به آزمایش این قابلیت کمک کردند!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

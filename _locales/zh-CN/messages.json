@@ -1115,6 +1115,9 @@
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "添加成员标签"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "备注"
   },
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "只有管理员能够在此群组中添加成员标签。"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "您只能在发送此消息后的 24 小时以内进行编辑。"
@@ -4632,7 +4635,7 @@
     "messageformat": "取消其管理员身份"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "此操作会同时清除其成员标签。"
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "设为管理员"
@@ -4824,7 +4827,7 @@
     "messageformat": "添加成员"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "添加成员标签"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "查看全部"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, other {您至多只能选择对所有人删除 {count,number} 条消息}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "要删除项目吗？"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "此操作会永久删除此项目。与之关联的所有消息也将会被删除。"
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "关闭"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "删除"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "取消"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "您至多只能转发 30 条消息"
@@ -5388,22 +5391,22 @@
     "messageformat": "您收发的文件会在这里显示"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "在聊天中查看"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "转发"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "保存"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "发送消息"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "复制链接"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "删除"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "选择媒体质量"
@@ -5619,7 +5622,7 @@
     "messageformat": "管理员"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "查看",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "设置"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "本地备份"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "导出…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "将本地加密备份导出到一个文件夹并对其进行验证"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "将加密备份导出到内存并对其运行验证套件"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "帮助我们不断改进"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "这有助于我们进一步了解通话情况，以及哪些功能正常，哪些存在问题。您可以先查看您的调试日志再提交。"
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "提交日志将共享您的反馈以及<diagnosticInfoLink>有关您通话的诊断信息</diagnosticInfoLink>。您可以选择共享调试日志，帮助我们改进通话质量。"
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "查看"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "调试日志包含低级应用程序信息，不会显示任何消息内容。"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "与我们共享的信息包含应用程序的低等级信息，不包含您的通话内容。"
@@ -7953,6 +7941,9 @@
     "messageformat": "五款全新官方艺术家贴纸包。"
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Signal 安全备份现已上线！现在您可以选择启用自动端对端加密备份功能，以防在换手机或重装 Signal 时丢失消息记录。您可以免费备份所有消息和 45 天内的媒体，也可以支付小额月费获取 100 GB 存储空间，备份每个附件。在 Signal 设置中点击备份即可开始。感谢在测试阶段帮助测试此功能的每一位用户！"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

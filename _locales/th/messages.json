@@ -1115,6 +1115,9 @@
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "เพิ่มป้ายกำกับสมาชิก"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "โน้ต"
   },
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "มีแค่ผู้ดูแลกลุ่มเท่านั้นที่จะสามารถเพิ่มป้ายกำกับสมาชิกในกลุ่มนี้"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "สามารถแก้ไขข้อความนี้ได้ภายใน 24 ชั่วโมงนับจากเวลาที่คุณส่ง"
@@ -4632,7 +4635,7 @@
     "messageformat": "ปลดจากการเป็นผู้ดูแล"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "ป้ายกำกับสมาชิกของผู้ใช้คนนี้จะถูกล้างด้วยเช่นกัน"
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "แต่งตั้งเป็นผู้ดูแล"
@@ -4824,7 +4827,7 @@
     "messageformat": "เพิ่มสมาชิก"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "เพิ่มป้ายกำกับสมาชิก"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "ดูทั้งหมด"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, other {คุณสามารถเลือกลบข้อความสำหรับทุกคนได้สูงสุด {count,number} ข้อความ}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "ลบรายการนี้ใช่หรือไม่"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "รายการนี้จะถูกลบอย่างถาวร โดยข้อความที่เกี่ยวข้องกับรายการนี้จะถูกลบด้วย"
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "ปิด"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "ลบ"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "ยกเลิก"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "ส่งต่อข้อความได้สูงสุด 30 รายการเท่านั้น"
@@ -5388,22 +5391,22 @@
     "messageformat": "ไฟล์ที่คุณส่งและได้รับจะปรากฏในหน้านี้"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "ดูในแชท"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "ส่งต่อ"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "บันทึก"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "ส่งข้อความ"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "คัดลอกลิงก์"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "ลบ"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "เลือกคุณภาพสื่อ"
@@ -5619,7 +5622,7 @@
     "messageformat": "ผู้ดูแล"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "ดู",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "ตั้งค่า"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "ข้อมูลสำรองในเครื่อง"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "ส่งออก…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "ส่งออกข้อมูลสำรองที่เข้ารหัสในเครื่องไปยังโฟลเดอร์และตรวจสอบความถูกต้อง"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "ส่งออกข้อมูลสำรองที่เข้ารหัสไปยังหน่วยความจำและดำเนินการตรวจสอบความถูกต้อง"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "ช่วยเราปรับปรุงการใช้งาน"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "ช่วยให้เรารับทราบเกี่ยวกับประสิทธิภาพในการใช้งานและเข้าใจปัญหาของการโทรยิ่งขึ้น โดยคุณสามารถดูบันทึกดีบักก่อนส่งข้อมูลได้"
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "การส่งรายงานจะเป็นการแชร์ความคิดเห็นของคุณรวมถึง<diagnosticInfoLink>ข้อมูลผลการวิเคราะห์ปัญหาเกี่ยวกับการโทรของคุณ</diagnosticInfoLink> คุณยังสามารถเลือกที่จะแชร์บันทึกดีบักเพื่อช่วยให้เราพัฒนาคุณภาพการโทรให้ดียิ่งขึ้น"
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "ดู"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "ภายในบันทึกดีบักจะมีข้อมูลแอประดับพื้นฐานและจะไม่เปิดเผยเนื้อหาใดๆ ในข้อความของคุณ"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "ข้อมูลที่คุณจะแชร์ให้เราเป็นข้อมูลแอประดับพื้นฐานซึ่งไม่รวมถึงเนื้อหาใดๆ ในการโทรของคุณ"
@@ -7953,6 +7941,9 @@
     "messageformat": "สนุกไปกับชุดสติกเกอร์อย่างเป็นทางการห้าเซตใหม่ที่ออกแบบโดยศิลปินของ Signal"
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "การสำรองข้อมูลที่ปลอดภัยของ Signal พร้อมให้บริการแล้ว! ขอแนะนำแพ็กเกจสำรองข้อมูลแบบอัตโนมัติที่ถูกเข้ารหัสตั้งแต่ต้นทางถึงปลายทาง ตัวเลือกใหม่ซึ่งจะช่วยคุณเก็บรักษาทุกข้อความแม้ในกรณีที่เปลี่ยนโทรศัพท์เครื่องใหม่หรือติดตั้ง Signal อีกครั้ง เปิดใช้งานการสำรองข้อความทั้งหมดและไฟล์สื่อของ 45 วันล่าสุดได้ฟรี หรือเลือกชำระค่าบริการรายเดือนสุดคุ้มเพื่อสำรองข้อความรวมถึงไฟล์ทั้งหมดได้ถึง 100 GB เริ่มใช้งานได้แล้ววันนี้ เพียงไปที่การตั้งค่า Signal แล้วแตะข้อมูลสำรอง ขอขอบคุณผู้ใช้ที่ร่วมทดสอบรุ่นเบต้าของฟีเจอร์นี้!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

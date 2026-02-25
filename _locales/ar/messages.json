@@ -1115,6 +1115,9 @@
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "أضِف دور للعضو"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "مُلاحظة"
   },
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "فقط المُشرِفون هم من يمكنهم تحديد أدوار الأعضاء في هذه المجموعة."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "لا يُمكن إحداث التعديلات إلاّ في غضون 24 ساعة من وقت إرسال هذه الرسالة."
@@ -4632,7 +4635,7 @@
     "messageformat": "إزالة ميزة الإشراف"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "سيُؤدي هذا أيضًا إلى مسح دور العضو الخاص به."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "اجعله مُشرِفًا"
@@ -4824,7 +4827,7 @@
     "messageformat": "إضافة أعضاء"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "إضافة دور العضو"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "مشاهدة الكل"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, zero {يمكنك اختيار فقط ما يصل إلى {count,number} رسائل لتحذفها بالنسبة للجميع} one {يمكنك اختيار فقط ما يصل إلى {count,number} رسالة لتحذفها بالنسبة للجميع} two {يمكنك اختيار فقط ما يصل إلى {count,number} رسالتين لتحذفهما بالنسبة للجميع} few {يمكنك اختيار فقط ما يصل إلى {count,number} رسائل لتحذفها بالنسبة للجميع} many {يمكنك اختيار فقط ما يصل إلى {count,number} رسالة لتحذفها بالنسبة للجميع} other {يمكنك اختيار فقط ما يصل إلى {count,number} رسالة لتحذفها بالنسبة للجميع}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "هل ترغبُ بحذف الملف المُرفَق؟"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "سيُؤدي هذا إلى حذف الملف المُرفَق بشكل نهائي. سيتمُّ حذف أي نص رسالة مُقترِنة بهذا العنصر أيضًا."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "إغلاق"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "حذف"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "إلغاء"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "يمكنك إعادة توجيه فقط ما يصل إلى 30 رسالة."
@@ -5388,22 +5391,22 @@
     "messageformat": "سَتظهر الملفات التي تُرسِلها وتستقبلها هنا"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "العرض في الدردشة"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "إعادة التوجيه"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "حفظ"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "إرسال الرسالة"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "نسخ الرابط"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "حذف"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "تحديد جودة الوسائط"
@@ -5619,7 +5622,7 @@
     "messageformat": "المُشرِفون"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "عرض",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "إعداد"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "النسخ الاحتياطية المحلية"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "تصدير…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "تصدير نسخة احتياطية محلية مُشفَّرة إلى مجلد والتحقُّق من صحتها"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "تصدير نسخة احتياطية مُشفَّرة إلى الذاكرة وتشغيل مجموعة اختبارات التحقُّق عليها"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "ساعدنا على التطوير"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "يساعدنا هذا على معرفة المزيد بخصوص الاتصالات وما يعمل وما لا يعمل. يمكنك عرض سِجل الأخطاء الخاص بك قبل الإرسال."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "بإرسال السِجل، سيتم مشاركة ملاحظاتك مع <diagnosticInfoLink>معلومات التشخيص المتعلقة باتصالك</diagnosticInfoLink>. يمكنك اختياريًا مشاركة سِجل تصحيح الأخطاء لمساعدتنا في تحسين جودة المكالمات."
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "عرض"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "تحتوي سجلات الأخطاء على معلومات التطبيق منخفضة المستوى ولا تكشف عن أي من محتويات رسالتك."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "المعلومات التي تتم مشاركتها معنا تقتصر على بيانات تقنية منخفضة المستوى خاصة بالتطبيق، ولا تشمل محتوى مكالماتك."
@@ -7953,6 +7941,9 @@
     "messageformat": "• خمس حزم مُلصَقات رسمية جديدة للفنانين."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "النسخ الاحتياطية الآمنة لسيجنال أصبحت متوفِّرة الآن! يُمكنك الآن اختيار تفعيل النسخ الاحتياطي التلقائي والمُشفَّر تمامًا من طرف إلى طرف، لِضمان عدم فقدان أي رسالة عند اقتناء هاتف جديد أو إعادة تثبيت سيجنال. يُمكنك إجراء نسخ احتياطي لجميع رسائلك وللوسائط الخاصة بآخر 45 يومًا مجانًا، أو يمكنك دفع رسوم شهرية بسيطة للحصول على مساحة 100 جيجابايت لنسخ كافة الملفات المُرفَقة. انقر على النسخ الاحتياطية في إعدادات سيجنال للبدء. شكرًا لِكل من ساهم في اختبار هذه الميزة خلال الفترة التجريبية!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

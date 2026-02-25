@@ -1115,6 +1115,9 @@
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Lisää jäsentunniste"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Huomautus"
   },
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "Vain ylläpitäjät voivat määrittää ryhmän jäsenroolit."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Muokkauksia voidaan tehdä vain 24 tunnin kuluessa tämän viestin lähettämisestä."
@@ -4632,7 +4635,7 @@
     "messageformat": "Poista ylläpitäjän oikeudet"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "Tämä poistaa myös heidän jäsenroolinsa."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Nimitä ylläpitäjäksi"
@@ -4824,7 +4827,7 @@
     "messageformat": "Lisää jäseniä"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Lisää jäsenrooli"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Näytä kaikki"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, one {Voit valita enintään {count,number} viestin poistettavaksi kaikilta} other {Voit valita enintään {count,number} viestiä poistettavaksi kaikilta}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Poistetaanko kohde?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "Tämä poistaa kohteen pysyvästi. Myös kaikki kohteeseen liittyvä viestiteksti poistetaan."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Sulje"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Poista"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Peruuta"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Voit välittää enintään 30 viestiä"
@@ -5388,22 +5391,22 @@
     "messageformat": "Lähettämäsi ja vastaanottamasi tiedostot näkyvät täällä"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Näytä keskustelussa"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Välitä"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "Tallenna"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Lähetä viesti"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Kopioi linkki"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Poista"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Valitse median laatu"
@@ -5619,7 +5622,7 @@
     "messageformat": "ylläpitäjät"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Näytä",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "Määritä"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Paikalliset varmuuskopiot"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Vie…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Vie paikallinen salattu varmuuskopio kansioon ja vahvista se"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Vie salattu varmuuskopio muistiin ja suorita sille vahvistuspaketti"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Auta meitä parantamaan"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "Tämä auttaa meitä oppimaan lisää puheluista ja siitä, mikä toimii tai ei toimi. Voit tarkastella virheenkorjauslokia ennen lähettämistä."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Lähettämällä jaat palautteesi sekä <diagnosticInfoLink>puhelusi diagnostiikkatietoja</diagnosticInfoLink>. Voit halutessasi jakaa vianetsintälokin, joka auttaa meitä parantamaan puheluiden laatua."
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Näytä"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Vianetsintäloki sisältää matalan tason sovellustietoja eivätkä paljasta viestiesi sisältöä."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "Meille jaetut tiedot sisältävät matalan tason sovellustietoja, eivätkä ne sisällä puheluidesi sisältöä."
@@ -7953,6 +7941,9 @@
     "messageformat": "• Suojaa yksityisyyttäsi Signal Artist -sarjan viidellä uudella virallisella tarrapakkauksella: ”Chug the Mouse” Amanda Cotanilta, ”Cozy Season” Miguel Ángel Camprubílta, ”Croco's Feelings” Tiffany Beucherilta, ”My Daily Life 2” Plastic Thingilta ja ”Rocky Talk” Lexi Vaylta."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Signal Secure -varmuuskopiointi on nyt saatavilla! Nyt voit ottaa käyttöön automaattisen, päästä päähän salatun varmuuskopioinnin. Näin et koskaan menetä viestejä, kun hankit uuden puhelimen tai asennat Signalin uudelleen. Voit varmuuskopioida kaikki viestisi ja viimeisten 45 päivän mediasisällön veloituksetta. Pienellä kuukausimaksulla saat 100 Gt tallennustilaa kaikkien liitteiden varmuuskopiointiin. Aloita napauttamalla Varmuuskopiointi Signal-asetuksissa. Kiitos beta-vaiheen testaajille!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

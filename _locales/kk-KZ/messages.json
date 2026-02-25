@@ -1115,6 +1115,9 @@
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Қатысушы белгішесін қосу"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Ескертпе"
   },
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "Бұл топта қатысушы белгішелерін тек әкімшілер қоса алады."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Бұл хатты жіберген соң, оны 24 сағаттың ішінде ғана өзгертуге болады."
@@ -4632,7 +4635,7 @@
     "messageformat": "Әкімші ретінде өшіру"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "Бұл оның қатысушы белгішесін де өшіреді."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Әкімші деп тағайындау"
@@ -4824,7 +4827,7 @@
     "messageformat": "Мүшелерді қосу"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Қатысушы белгішесін қосу"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Барлығын көру"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, one {Барлығында {count,number} хатқа дейін ғана жоюға болады} other {Барлығында {count,number} хатқа дейін ғана жоюға болады}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Элементті жою керек пе?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "Бұл элементті біржола жояды. Осы элементке байланысты хабар мәтіні де жойылады."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Жабу"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Жою"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Бас тарту"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Максимум 30 хатты басқа біреуге жібере аласыз"
@@ -5388,22 +5391,22 @@
     "messageformat": "Сіз жіберген және алған файлдар осы жерде пайда болады"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Чатта көру"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Алға"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "Сақтау"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Хат жіберу"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Сілтемені көшіру"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Жою"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Мультимедиа сапасын таңдау"
@@ -5619,7 +5622,7 @@
     "messageformat": "әкімшілер"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Көру",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "Параметрлерді реттеу"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Жергілікті сақтық көшірмелер"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Экспорттау…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Жергілікті шифрланған сақтық көшірмені қалтаға экспорттаңыз және жарамдылығын растаңыз"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Шифрланған сақтық көшірмені жадқа экспорттаңыз және оның жарамдылығын тексеріңіз"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Сапаны жақсартуға көмектесіңіз"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "Бұл қоңыраулар сапасы туралы толық ақпарат алуға, сондай-ақ ненің дұрыс, ал ненің бұрыс екенін түсінуге көмектеседі. Жібермес бұрын ақауларды түзету журналыңызды көруіңізге болады."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "&quot;Жіберу&quot; түймесін басу арқылы пікіріңізді <diagnosticInfoLink>қоңырауыңыз туралы диагностикалық ақпаратпен</diagnosticInfoLink> бірге бөлісесіз. Сондай-ақ ақауларды түзету журналын бөлісіп, қоңырау сапасын жақсартуға көмектесе аласыз."
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Көру"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Ақауларды түзету журналында төмен деңгейлі қолданба туралы ақпарат болады. Хабардағы контентті ешкімге көрсетпеңіз."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "Бізбен бөліскен ақпарат төмен деңгейлі қолданба туралы ақпаратты қамтиды және онда қоңырауларыңыздың контенті болмайды."
@@ -7953,6 +7941,9 @@
     "messageformat": "Signal Artist Series топтамасындағы бес жаңа ресми стикерлер жинағымен құпиялықты күнделікті өміріңіздің бір бөлігіне айналдырыңыз. Стикерлер жинағы: Аманда Котан ұсынған \"Chug the Mouse\", Мигель Анхель Кампруби ұсынған \"Cozy Season\", Тиффани Бьючер ұсынған \"Croco's Feelings\", Пластик Тинг ұсынған \"My Daily Life 2\" және Лекси Вэй ұсынған \"Rocky Talk\"."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Signal қауіпсіз сақтық көшірмесі шықты! Автоматты тура шифрланған сақтық көшірмелерді іске қосу арқылы енді жаңа телефон алғанда не Signal-ды қайта орнатқанда, хабарларды мүлдем жоғалтпайсыз. Барлық хабардың және соңғы 45 күндегі мультимедиа файлдарының сақтық көшірмесін тегін жасауға немесе ай сайын азғантай ақша төлеп, 100 ГБ алуға болады. Бастау үшін Signal параметрлеріндегі сақтық көшірмелерді басыңыз. Бета кезеңінде бұл функцияны сынақтан өткізген пайдаланушыларға алғысымыз шексіз!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

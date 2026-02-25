@@ -1115,6 +1115,9 @@
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "ئەزا بەلگىسى قوشۇش"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "خاتىرە"
   },
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "بۇ گۇرۇپپىدا، پەقەت باشقۇرغۇچىلارلا ئەزا بەلگىلىرىنى قوشالايدۇ."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "بۇ ئۇچۇرنى يوللاپ 24 سائەت ئىچىدىلا تەھرىرلەشكە بولىدۇ."
@@ -4632,7 +4635,7 @@
     "messageformat": "گۇرۇپپا باشلىقلىقىدىن چىقار"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "ئۇلارنىڭ ئەزا بەلگىسىمۇ ئۆچۈرۈلىدۇ."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "باشقۇرغۇچىغا تەڭشە"
@@ -4824,7 +4827,7 @@
     "messageformat": "ئەزا قوشۇش"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "ئەزا بەلگىسى قوشۇش"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "ھەممىنى كۆرسەت"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, other {ھەممەيلەن ئۈچۈن ئۆچۈرۈشكە كۆپ بولغاندا {count,number} ئۇچۇرنى تاللىيالايسىز}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "بۇ قوشۇمچە ھۆججەتنى ئۆچۈرەمسىز؟"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "بۇنداق قىلغاندا بۇ ھۆججەت مەڭگۈلۈك ئۆچۈرۈلىدۇ. بۇ ھۆججەت بىلەن مۇناسىۋەتلىك بارلىق ئۇچۇر مەزمۇنلىرىمۇ ئۆچۈرۈلىدۇ."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "تاقا"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "ئۆچۈر"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "بىكار قىلىش"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "كۆپ بولغاندە 30 ئۇچۇرنى ئۇلاپ يوللىيالايسىز"
@@ -5388,22 +5391,22 @@
     "messageformat": "سىز يوللىغان ۋە تاپشۇرۇۋالغان ھۆججەتلىرى بۇ يەردە كۆرۈنىدۇ"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "پاراڭدا كۆرۈش"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "ئۇلاپ يوللا"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "ساقلا"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "ئۇچۇر ئەۋەت"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "ئۇلانما كۆچۈر"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "ئۆچۈر"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "مېدىيا سۈپىتىنى تاللاش"
@@ -5619,7 +5622,7 @@
     "messageformat": "باشقۇرغۇچىلار"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "كۆرسەت",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "بەلگىلەش"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "يەرلىك زاپاسلاشلار"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "ئېكىسپورت…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "مەخپىيلەشتۈرۈلگەن يەرلىك زاپاسلاشنى ھۆججەت قىسقۇچقا چىقىرىپ دەلىللەڭ"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "مەخپىيلەشتۈرۈلگەن زاپاسلاشنى ئىچكى ساقلىغۇچقا ئېكسپورت قىلىڭ ۋە ئۇنىڭدا دەلىللەشنى ئىجرا قىلىڭ"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "بىزنىڭ تېخىمۇ ياخشىلىنىشىمىزغا ياردەم قىلىڭ"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "بۇ ياردەملىشىپ بىزنى تېلېفونلىشىش ۋە نېمىنىڭ ئىشلەۋاتقان ياكى ئىشلىمەيدىغانلىقى توغرىسىدا تېخىمۇ كۆپ چۈشەنچىگە ئىگە قىلىدۇ. يوللاشتىن بۇرۇن كاشىلا ھەل قىلىش خاتىرىڭىزنى كۆرەلەيسىز."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "يوللاش ئارقىلىق <diagnosticInfoLink>تېلېفونىڭىز ھەققىدىكى دىئاگنوزتىكلىق ئۇچۇرلار</diagnosticInfoLink> سىزنىڭ پىكىر-تەكلىپلىرىڭىز بىلەن بىرلىكتە ئورتاقلىشىلىدۇ. بىزگە ياردەملىشىپ تېلېفونلىشىش سۈپىتىنى ياخشىلاش ئۈچۈن، سىز ئىختىيارىي ھالدا كاشىلا ھەل قىلىش خاتىرىسىنى ئورتاقلىشالايسىز."
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "كۆرسەت"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "كاشىلا ھەل قىلىش خاتىرىلىرى تۆۋەن دەرىجىدىكى ئەپ ئۇچۇرلىرىنى ئۆز ئىچىگە ئالغان بولۇپ، پاراڭ مەزمۇنلىرىڭىزنىڭ ھېچقايسىسىنى ئاشكارىلىمايدۇ."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "بىز بىلەن ئورتاقلاشقان ئۇچۇرلار تۆۋەن دەرىجىلىك ئەپ ئۇچۇرلىرىنى ئۆز ئىچىگە ئالىدۇ ئەمما سىز تېلېفونلاشقاندىكى مەزمۇنلارنى ئۆز ئىچىگە ئالمايدۇ."
@@ -7953,6 +7941,9 @@
     "messageformat": "Signal تەرىپىدىن تارقىتىلغان، بەش يۈرۈش يېڭى «سەنئەتكار چاپلاق بولىقىartist sticker packs»."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "• Signal بىخەتەر زاپاسلانمىللىرى بۇ يەردە! ئەمدى سىز يېڭى تېلېفون ئالغاندا ياكى Signalنى قايتا قاچىلىغاندا، ھېچقانداق ئۇچۇرنى يوقاتماسلىق ئۈچۈن، ئاخىرىغىچە مەخپىيلەشتۈرۈلگەن ئاپتوماتىك زاپاسلاشنى قوزغىتىشنى تاللىيالايسىز. بارلىق ئۇچۇرلىرىڭىزنى ۋە ئاخىرقى 45 كۈنلۈك مېدىيانى ھەقسىز زاپاسلىسىڭىز بولىدۇ، ياكى ھەر بىر قوشۇمچە ھۆججەتنى زاپاسلاش ئۈچۈن 100 گىگابايتلىق(GB) ساقلاش بوشلۇقىغا ئېرىشىش ئۈچۈن ئاز مىقداردا ئايلىق ھەق تۆلىسىڭىزمۇ بولىدۇ. باشلاش ئۈچۈن Signal تەڭشەكلىرىڭىزدىكى زاپاسلاشلارنى چېكىڭ. سىناق مەزگىلىدە بۇ ئىقتىدارنى سىناق قىلىشقا ياردەم قىلغان ھەممەيلەنگە رەھمەت!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

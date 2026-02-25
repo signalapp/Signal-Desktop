@@ -1115,6 +1115,9 @@
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "ایک ممبر لیبل شامل کریں"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "نوٹ"
   },
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "اس گروپ میں صرف ایڈمنز ہی ممبر لیبلز شامل کر سکتے ہیں۔"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "آپ کی طرف سے اس میسج کو بھیجنے کے بعد ترامیم کا اطلاق محض 24 گھنٹوں کے اندر کیا جا سکتا ہے۔"
@@ -4632,7 +4635,7 @@
     "messageformat": "منتظم کی حیثیت سے ہٹائیں"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "اس سے ان کا ممبر لیبل بھی ختم ہو جائے گا۔"
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "منتظم بنائیں"
@@ -4824,7 +4827,7 @@
     "messageformat": "ممبران شامل کریں"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "ممبر لیبل شامل کریں"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "تمام دیکھیں"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, one {آپ سب کے لیے حذف کرنے کی خاطر محض {count,number} تک میسج منتخب کر سکتے ہیں} other {آپ سب کے لیے حذف کرنے کی خاطر محض {count,number} تک میسجز منتخب کر سکتے ہیں}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "آئٹم حذف کریں؟"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "اس سے آئٹم مستقل طور پر حذف ہو جائے گا۔ اس آئٹم سے منسلک کوئی میسج ٹیکسٹ بھی حذف ہو جائے گا۔"
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "بند کریں"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "حذف کریں"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "منسوخ کریں"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "آپ صرف 30 میسجز تک فارورڈ کر سکتے ہیں"
@@ -5388,22 +5391,22 @@
     "messageformat": "وہ فائلز جو آپ بھیجتے اور موصول کرتے ہیں یہاں ظاہر ہوں گی"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "چیٹ میں دیکھیں"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "آگے"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "محفوظ کریں"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "پیغام بھیجیں"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "لنک کاپی کریں"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "حذف کریں"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "میڈیا کے معیار کو منتخب کریں"
@@ -5619,7 +5622,7 @@
     "messageformat": "منتظمین"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "ویو",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "سیٹ اپ"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "مقامی بیک اپس"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "برآمد کریں…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "مقامی انکرپٹ کردہ بیک اپ کو فولڈر میں برآمد کریں اور اس کی توثیق کریں"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "انکرپٹ کردہ بیک اپ کو میموری میں ایکسپورٹ کریں اور اس پر تصدیقی سوئٹ چلائیں"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "بہتر بننے میں ہماری مدد کریں"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "اس سے ہمیں کالز اور اس بارے میں مزید جاننے میں مدد ملتی ہے کہ کیا چیز کام کر رہی یا نہیں کر رہی ہے۔ آپ جمع کروانے سے پہلے اپنا ڈی بگ لاگ دیکھ سکتے ہیں۔"
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "جمع کروانے پر <diagnosticInfoLink>آپ کی کال کے بارے میں تشخیصی معلومات</diagnosticInfoLink> کے علاوہ آپ کی رائے بھی شیئر کی جائے گی۔ آپ اختیاری طور پر ڈی بگ لاگ شیئر کر سکتے ہیں تاکہ ہمیں کال کے معیار کو بہتر بنانے میں مدد مل سکے۔"
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "ویو"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "ڈی بگ لاگز کم درجے کی ایپ معلومات پر مشتمل ہوتے ہیں اور آپ کے کسی بھی میسج کے مندرجات کو ظاہر نہیں کرتے۔"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "ہمارے ساتھ شیئر کی گئی معلومات میں ایپ کی بنیادی سطح کی تفصیلات شامل ہیں اور اس میں آپ کی کالز کا مواد شامل نہیں ہے۔"
@@ -7953,6 +7941,9 @@
     "messageformat": "پانچ نئے آفیشل آرٹسٹ اسٹیکر پیکس کے ساتھ نئے پرائیویسی سٹک بنائیں: \"Chug the Mouse\" از امانڈا کوٹان، \"Cozy Season\" از میگوئل اینجل کیمپروبی، \"Croco's Feelings\" از ٹفنی بیوچر، \"My Daily Life 2\" از پلاسٹک تھنگ، اور \"Rocky Talk\" از لیکسی وے۔"
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Signal محفوظ بیک اپس یہاں ہیں! اب آپ خودکار آخر سے آخر تک انکرپٹ کردہ بیک اپس کو فعال کرنے کا انتخاب کر سکتے ہیں تاکہ جب آپ نیا فون لیں یا Signal ری انسٹال کریں تو آپ کا میسج کبھی غائب نہ ہو۔ آپ اپنے تمام میسجز اور پچھلے 45 دنوں کا میڈیا مفت میں بیک اپ کر سکتے ہیں، یا آپ ہر منسلکہ کے بیک اپ کیلیے 100 GB کی اسٹوریج حاصل کرنے کے لیے مختصر ماہانہ فیس ادا کر سکتے ہیں۔ آغاز کے لیے اپنے Signal کی سیٹنگز میں بیک اپس پر ٹیپ کریں۔ ہر کسی کا شکریہ جنہوں نے بیٹا پیریڈ کے دوران اس فیچر کو ٹیسٹ کرنے میں مدد کی!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

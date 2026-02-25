@@ -1115,6 +1115,9 @@
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Dodajte oznaku člana"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Napomena"
   },
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "Samo administratori mogu dodavati oznake članova u ovoj grupi."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Izmjene se mogu primijeniti samo u roku od 24 sata od trenutka kada ste poslali ovu poruku."
@@ -4632,7 +4635,7 @@
     "messageformat": "Ukloni administratorske ovlasti"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "Ovim će se također obrisati njihova oznaka člana."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Odredi za administratora"
@@ -4824,7 +4827,7 @@
     "messageformat": "Uvrštavanje članova"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Dodaj oznaku člana"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Vidi sve"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, one {Možete odabrati da izbrišete najviše {count,number} poruku za sve korisnike} few {Možete odabrati da izbrišete najviše {count,number} poruke za sve korisnike} many {Možete odabrati da izbrišete najviše {count,number} poruka za sve korisnike} other {Možete odabrati da izbrišete najviše {count,number} poruka za sve korisnike}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Izbrisati stavku?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "Ovim ćete trajno izbrisati stavku. Svaka tekstualna poruka povezana s ovom stavkom također će biti izbrisana."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Zatvori"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Izbriši"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Otkaži"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Možete proslijediti najviše 30 poruka"
@@ -5388,22 +5391,22 @@
     "messageformat": "Datoteke koje šaljete i primate će se ovdje pojaviti"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Prikaži u chatu"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Proslijedi"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "Pohrani"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Pošalji poruku"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Kopiraj link"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Izbriši"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Odaberite kvalitet medija"
@@ -5619,7 +5622,7 @@
     "messageformat": "administratori"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Pregled",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "Postavi"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Lokalne sigurnosne kopije"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Izvoz…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Izvezite lokalnu šifriranu sigurnosnu kopiju u mapu i provjerite je"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Izvezite šifriranu sigurnosnu kopiju u memoriju i pokrenite paket za provjeru valjanosti na njoj"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Pomozite nam da se poboljšamo"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "Ovo nam pomaže da saznamo više o pozivima i šta funkcioniše, a šta ne. Možete pregledati svoj zapisnik o otklanjanju grešaka prije slanja."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Slanjem povratnih informacija podijelit ćete ih sa <diagnosticInfoLink>dijagnostičkim informacijama o vašem pozivu</diagnosticInfoLink>. Opcionalno možete podijeliti zapisnik o otklanjanju grešaka kako biste nam pomogli da poboljšamo kvalitet poziva."
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Pregled"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Zapisnici o otklanjanju grešaka sadrže informacije o aplikaciji niskog nivoa i ne otkrivaju sadržaj vaših poruka."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "Informacije koje se dijele s nama sadrže informacije o aplikacijama niskog nivoa i ne uključuju sadržaj vaših poziva."
@@ -7953,6 +7941,9 @@
     "messageformat": "Zaštitite privatnost uz pet novih službenih paketa naljepnica u seriji Signal Artist: \"Chug the Mouse\" od Amande Cotan, \"Cozy Season\" od Miguela Ángela Camprubíja, \"Croco's Feelings\" od Tiffany Beucher, \"My Daily Life 2\" od Plastic Thing i \"Rocky Talk\" od Lexi Vay."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Zaštićene kopije podataka su stigle! Sada možete odabrati da omogućite automatske sigurnosne kopije sa sveobuhvatnim šifriranjem kako nikada ne biste izgubili poruku kada dobijete novi telefon ili ponovo instalirate Signal. Možete besplatno napraviti sigurnosnu kopiju svih svojih poruka i medijskih sadržaja za posljednjih 45 dana ili možete platiti malu mjesečnu naknadu da biste dobili 100 GB prostora za pohranu za sigurnosno kopiranje svakog priloga. Dodirnite sigurnosne kopije u postavkama Signala da počnete. Hvala svima koji su pomogli u testiranju ove funkcije tokom beta perioda!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

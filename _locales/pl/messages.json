@@ -654,7 +654,7 @@
     "messageformat": "Signal może teraz automatycznie weryfikować szyfrowanie"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "W przypadku osób, z którymi kontakt został nawiązany za pomocą numeru telefonu, Signal może automatycznie potwierdzić, czy połączenie jest bezpieczne – robi to za pomocą mechanizmu przejrzystości kluczy. Jeśli chcesz mieć absolutną pewność, że komunikujesz się z właściwą osobą, możesz dodatkowo weryfikować kontakty ręcznie za pomocą kodu QR lub poprzez porównanie numerów bezpieczeństwa."
+    "messageformat": "W przypadku osób, z którymi kontakt został nawiązany za pomocą numeru telefonu, Signal może automatycznie potwierdzić, czy połączenie jest bezpieczne – robi to za pomocą mechanizmu przejrzystości kluczy. Jeśli chcesz mieć absolutną pewność, że komunikujesz się z właściwą osobą, możesz dodatkowo weryfikować kontakty ręcznie za pomocą kodu QR lub przez porównanie numerów bezpieczeństwa."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Kontynuuj"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Podaj rolę w grupie"
+  },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Notatka"
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "W tej grupie role mogą ustawiać tylko administratorzy."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Wiadomość można edytować tylko w ciągu 24 godzin od jej wysłania."
@@ -4632,7 +4635,7 @@
     "messageformat": "Usuń uprawnienia administratora"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "Usunięta zostanie także aktualna rola tej osoby w grupie."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Mianuj administratorem"
@@ -4710,7 +4713,7 @@
     "messageformat": "Sprawdź, czy masz dostęp do internetu, i spróbuj ponownie."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "Tylko administratorzy mogą ustawiać role w tej grupie."
+    "messageformat": "W tej grupie role mogą ustawiać tylko administratorzy."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Znikające wiadomości"
@@ -4764,7 +4767,7 @@
     "messageformat": "Role w grupie zostaną usunięte"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "Zmiana tego uprawnienia na „Tylko administratorzy” spowoduje usunięcie ról w grupie ustawionych przez osoby niebędące administratorami."
+    "messageformat": "Jeśli zmienisz to uprawnienie na „Tylko administratorzy”, role w grupie ustawione przez osoby niebędące administratorami zostaną usunięte."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
     "messageformat": "Kontynuuj"
@@ -4824,7 +4827,7 @@
     "messageformat": "Dodaj osoby"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Podaj rolę w grupie"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Wyświetl wszystkich"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, one {Możesz usunąć u wszystkich maksymalnie {count,number} wiadomość naraz} few {Możesz usunąć u wszystkich maksymalnie {count,number} wiadomości naraz} many {Możesz usunąć u wszystkich maksymalnie {count,number} wiadomości naraz} other {Możesz usunąć u wszystkich maksymalnie {count,number} wiadomości naraz}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Usunąć plik?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "Spowoduje to trwałe usunięcie pliku. Wszystkie wiadomości powiązane z tym plikiem również zostaną usunięte."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Zamknij"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Usuń"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Anuluj"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Możesz przekazać maksymalnie 30 wiadomości"
@@ -5388,22 +5391,22 @@
     "messageformat": "Tutaj pojawią się pliki, które wyślesz lub otrzymasz"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Wyświetl w czacie"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Przekaż"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "Zapisz"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Wyślij wiadomość"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Skopiuj link"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Usuń"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Wybierz jakość multimediów"
@@ -5619,7 +5622,7 @@
     "messageformat": "administratorzy"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Pokaż",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "Ustaw"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Lokalne kopie zapasowe"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Wyeksportuj…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Wyeksportuj zaszyfrowaną kopię zapasową do folderu i uruchom testy"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Eksportuj zaszyfrowaną kopię zapasową do pamięci i uruchom testy weryfikacyjne"
@@ -6661,7 +6655,7 @@
     "messageformat": "Kontakty Signal"
   },
   "icu:SignalConnectionsModal__header": {
-    "messageformat": "{connections} to osoby, które zostały uznane za zaufane z jednego z tych powodów:"
+    "messageformat": "{connections} to osoby uznane za zaufane z jednego z tych powodów:"
   },
   "icu:SignalConnectionsModal__bullet--1": {
     "messageformat": "Został przez Ciebie rozpoczęty z nimi czat"
@@ -7634,7 +7628,7 @@
     "messageformat": "Usuń dane"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Jeśli opuścisz tę stronę, anulujesz swoją darowiznę."
+    "messageformat": "Jeśli zamkniesz tę stronę, anulujesz swoją darowiznę."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
     "messageformat": "Wyjdź"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Pomóż nam ulepszyć Signal"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "Dzięki Twojemu dziennikowi debugowania będziemy mieć lepszy wgląd w to, jak działają połączenia i co możemy w nich poprawić. Zanim wyślesz nam dziennik debugowania, możesz go wyświetlić."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Twoja opinia zostanie do nas przesłana wraz z <diagnosticInfoLink>informacjami diagnostycznymi dotyczącymi połączenia</diagnosticInfoLink>. Opcjonalnie możesz też udostępnić dziennik debugowania, który pomoże nam poprawić jakość połączeń."
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Wyświetl"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Dzienniki debugowania to zapis szczegółowych informacji o działaniu aplikacji. Nie zawierają one treści żadnych wiadomości."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "Dane, które możesz nam udostępnić, to zapis szczegółowych informacji o działaniu aplikacji. Nie zawierają one treści Twoich rozmów."
@@ -7950,9 +7938,12 @@
     "ignoreUnused": true
   },
   "icu:WhatsNew__7.90--0": {
-    "messageformat": "Do naszej galerii Signal Artist Series dołączyło właśnie pięć nowych zestawów naklejek: „Chug the Mouse” autorstwa Amandy Cotan, „Cozy Season” Miguela Ángela Camprubíego, „Croco's Feelings” Tiffany Beucher, „My Daily Life 2” od Plastic Thing oraz „Rocky Talk” stworzony przez Lexi Vay."
+    "messageformat": "Do naszej galerii „Sztuka w aplikacji Signal” dołączyło właśnie pięć nowych zestawów naklejek: „Chug the Mouse” autorstwa Amandy Cotan, „Cozy Season” Miguela Ángela Camprubíego, „Croco's Feelings” Tiffany Beucher, „My Daily Life 2” Plastic Thing oraz „Rocky Talk” stworzony przez Lexi Vay."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Bezpieczne kopie zapasowe Signal są już dostępne. Teraz możesz włączyć automatyczne tworzenie kopii zapasowych szyfrowanych metodą end-to-end. Dzięki temu nie stracisz historii wiadomości, nawet gdy zmienisz telefon czy ponownie zainstalujesz Signal. W trybie bezpłatnym możesz tworzyć kopie zapasowe wszystkich wiadomości, w tym multimediów z ostatnich 45 dni. Za niewielką miesięczną opłatą zyskasz 100 GB miejsca na kopię zapasową wszystkich plików. Aby włączyć tworzenie kopii zapasowych, dotknij opcji „Kopie zapasowe” w ustawieniach aplikacji Signal. Dziękujemy wszystkim, którzy pomogli nam testować tę funkcję w wersji beta."
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

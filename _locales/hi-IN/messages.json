@@ -1115,6 +1115,9 @@
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "कोई मेंबर लेबल जोड़ें"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "नोट"
   },
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "इस ग्रुप में सिर्फ़ ऐडमिन ही मेंबर लेबल जोड़ सकते हैं।"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "आपके द्वारा इस संदेश को भेजे जाने के 24 घंटे के भीतर ही संपादन लागू किए जा सकते हैं।"
@@ -4632,7 +4635,7 @@
     "messageformat": "ऐडमिन से हटाएं"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "इससे उनका मेंबर लेबल भी हट जाएगा।"
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "ऐडमिन बनाएं"
@@ -4824,7 +4827,7 @@
     "messageformat": "सदस्य जोड़ें"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "मेंबर लेबल जोड़ें"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "सभी को देखें"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, one {आप सभी के लिए डिलीट करें के लिए केवल {count,number} संदेश तक का चयन कर सकते हैं} other {आप सभी के लिए डिलीट करें के लिए केवल {count,number} संदेश तक का चयन कर सकते हैं}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "आइटम डिलीट करना है?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "इससे यह आइटम हमेशा के लिए डिलीट हो जाएगा। इस आइटम से जुड़े मैसेज का हर एक टेक्स्ट भी डिलीट हो जाएगा।"
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "बंद करें"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "डिलीट करें"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "कैंसिल करें"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "आप केवल 30 संदेशों तक ही अग्रेषित कर सकते हैं"
@@ -5388,22 +5391,22 @@
     "messageformat": "आपने जो फ़ाइलें भेजी हैं या जो आपको मिली हैं वे यहां दिखेंगी"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "चैट में देखें"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "फ़ॉरवर्ड करें"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "सेव करें"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "मैसेज भेजें"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "लिंक कॉपी करें"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "डिलीट करें"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "मीडिया की क्वालिटी चुनें"
@@ -5619,7 +5622,7 @@
     "messageformat": "ऐडमिन"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "देखें",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "सेटअप करें"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "स्थानीय बैकअप"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "एक्सपोर्ट करें…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "स्थानीय एनक्रिप्टेड बैकअप को एक फ़ोल्डर में एक्सपोर्ट करके वैलिडेट करें"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "एनक्रिप्टेड बैकअप को मेमोरी में एक्सपोर्ट करें और इस पर वैलिडेशन सुइट चलाएँ"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Signal को बेहतर बनाने में हमारी मदद करें"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "इससे हमें कॉल के बारे में ज़्यादा जानकारी पाने और यह समझने में मदद मिलती है कि क्या काम कर रहा है और क्या नहीं। सबमिट करने से पहले आपके पास अपना डीबग लॉग देखने का विकल्प होता है।"
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "सबमिट करने पर आपका फ़ीडबैक और <diagnosticInfoLink>आपकी कॉल से जुड़ी समस्या की जानकारी</diagnosticInfoLink> भी शेयर हो जाएगी। कॉल की क्वालिटी को बेहतर बनाने में हमारी मदद करने के लिए, आप चाहें तो डीबग लॉग भी शेयर करें।"
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "देखें"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "डीबग लॉग में ऐप की थोड़ी-बहुत तकनीकी जानकारी शामिल होती है, लेकिन इनसे आपके मैसेज के कॉन्टेंट का पता नहीं चलता।"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "हमारे साथ ऐप से जुड़ी सिर्फ़ सामान्य जानकारी शेयर की जाती है। इसमें कॉल पर होने वाली आपकी बातचीत या निजी डेटा शामिल नहीं होता है।"
@@ -7953,6 +7941,9 @@
     "messageformat": "अपनी प्राइवेसी को बनाएं और मज़ेदार! पेश है Signal आर्टिस्ट सीरीज़ के पांच नए आधिकारिक स्टिकर पैक: अमांडा कोतान का \"Chug the Mouse\", मिगेल एंजेल काम्प्रुबी का \"Cozy Season\", टिफ़नी बुशेर का \"Croco's Feelings\", प्लास्टिक थिंग का \"My Daily Life 2\", और लेक्सी वे का \"Rocky Talk\"."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "पेश है Signal सिक्योर बैकअप! ऑटोमैटिक एंड-टू-एंड एनक्रिप्टेड बैकअप चालू करने की सहूलियत पाएं, ताकि नया फ़ोन लेने या Signal फिर से इंस्टॉल करने पर आपका एक भी मैसेज गायब न हो। अपने सारे मैसेज और पिछले 45 दिनों के मीडिया का बैकअप मुफ़्त में लें, या अगर हर अटैचमेंट का बैकअप लेने के लिए 100 GB स्टोरेज पाना है, तो हर महीने एक मामूली राशि का पेमेंट करें। शुरू करने के लिए अपनी Signal सेटिंग में जाकर बैकअप पर टैप करें। बीटा पीरियड में यह फ़ीचर टेस्ट करके हमारी मदद करने वाले सभी लोगों का धन्यवाद!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

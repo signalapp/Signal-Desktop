@@ -1115,6 +1115,9 @@
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Afegir categoria de membre"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Nota"
   },
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "Només els admins poden definir categories de membres en aquest grup."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Els canvis només es poden realitzar fins 24 hores després d'enviar el missatge."
@@ -4632,7 +4635,7 @@
     "messageformat": "Esborra com a administrador"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "Això també eliminarà la seva categoria de membre."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Fes adminstrador"
@@ -4824,7 +4827,7 @@
     "messageformat": "Afegeix-hi membres"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Afegir categoria de membre"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Mostra-ho tot"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, one {Només pots seleccionar {count,number} missatge per eliminar per a tothom} other {Només pots seleccionar {count,number} missatges per eliminar per a tothom}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Eliminar element?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "Aquesta acció esborrarà permanentment aquest element. Qualsevol missatge de text que hi estigui associat també s'esborrarà."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Tanca"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Suprimeix"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Cancel·la"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Només pots reenviar fins a 30 missatges"
@@ -5388,22 +5391,22 @@
     "messageformat": "Els arxius que enviïs i rebis apareixeran aquí"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Veure al xat"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Reenvia"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "Desa"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Envia el missatge"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Copiar l'enllaç"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Suprimeix"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Seleccioneu la qualitat dels mitjans"
@@ -5619,7 +5622,7 @@
     "messageformat": "administradors"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Mostra",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "Configurar"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Còpies de seguretat locals"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Exportar…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Exportar còpia de seguretat local xifrada a una carpeta i validar-la"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Exportar còpia de seguretat xifrada a la memòria i executar-hi la suite de validació"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Ajuda'ns a millorar"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "Això ens ajuda a tenir més informació sobre què funciona (o no) durant les trucades. Pots veure el registre de depuració abans d'enviar-lo."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Si ho envies, compartiràs els teus comentaris juntament amb <diagnosticInfoLink>informació de diagnòstic sobre la teva trucada</diagnosticInfoLink>. Opcionalment, pots compartir un registre de depuració per ajudar-nos a millorar la qualitat de les trucades."
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Mostra"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Els registres de depuració contenen informació de baix nivell sobre l'aplicació i no revelen cap dels continguts dels teus missatges."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "La informació que comparteixis amb nosaltres conté informació de baix nivell sobre l'aplicació i no inclou el contingut de les teves trucades."
@@ -7953,6 +7941,9 @@
     "messageformat": "Cinc nous paquets d'adhesius d'artistes oficials."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Ja són aquí les còpies de seguretat segures de Signal! Ara pots activar còpies de seguretat automàtiques amb xifratge d’extrem a extrem per no perdre cap missatge quan canviïs de telèfon o reinstal·lis l’aplicació. Pots fer còpies de seguretat gratuïtes de tots els teus missatges i dels darrers 45 dies de contingut multimèdia, o bé pagar una petita quota mensual per disposar de 100 GB d’emmagatzematge i desar tots els teus fitxers adjunts. Per començar, ves als ajustos de Signal i toca Còpies de seguretat. Gràcies a tothom que ha ajudat a provar aquesta funció durant el període beta!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

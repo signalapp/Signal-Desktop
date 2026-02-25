@@ -1115,6 +1115,9 @@
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Tambahkan label anggota"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Catatan"
   },
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "Hanya admin yang bisa menambahkan label anggota di grup ini."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Pengeditan hanya dapat diterapkan dalam rentang waktu 24 jam sejak Anda mengirimkan pesan ini."
@@ -4632,7 +4635,7 @@
     "messageformat": "Hapus dari peran admin"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "Tindakan ini juga akan menghapus label anggota mereka."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Jadikan admin"
@@ -4824,7 +4827,7 @@
     "messageformat": "Tambahkan anggota"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Tambahkan label anggota"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Lihat semua"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, other {Anda hanya bisa memilih maksimal {count,number} pesan untuk dihapus bagi semua orang}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Hapus item?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "Tindakan ini akan menghapus item secara permanen. Semua pesan yang berkaitan dengan item ini juga akan dihapus."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Tutup"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Hapus"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Batal"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Anda hanya dapat meneruskan hingga 30 pesan"
@@ -5388,22 +5391,22 @@
     "messageformat": "File yang Anda kirim dan terima akan ditampilkan di sini"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Lihat di chat"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Teruskan"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "Simpan"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Kirim pesan"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Salin tautan"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Hapus"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Pilih kualitas media"
@@ -5619,7 +5622,7 @@
     "messageformat": "admin"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Lihat",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "Siapkan"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Pencadangan lokal"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Ekspor …"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Ekspor cadangan terenkripsi lokal ke sebuah folder dan lakukan validasi"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Ekspor cadangan terenkripsi ke memori perangkat dan jalankan rangkaian validasi pada cadangan tersebut"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Bantu kami meningkatkan layanan"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "Ini akan membantu kami mempelajari lebih lanjut kualitas panggilan serta mengetahui apa yang berfungsi dengan baik dan apa yang bermasalah. Anda dapat melihat catatan debug sebelum mengirim."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Dengan mengirim ini, Anda akan memberikan masukan lengkap dengan <diagnosticInfoLink>informasi diagnostik terkait panggilan Anda</diagnosticInfoLink>. Anda bebas menentukan ingin berbagi catatan debug atau tidak untuk membantu kami meningkatkan kualitas panggilan."
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Lihat"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Catatan debug berisi informasi aplikasi tingkat rendah dan tidak mengungkapkan isi pesan Anda."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "Informasi yang dibagikan kepada kami berisi informasi aplikasi tingkat rendah dan tidak mencakup isi panggilan Anda."
@@ -7953,6 +7941,9 @@
     "messageformat": "Buat privasi makin melekat dengan lima paket stiker resmi baru dari Signal Artist Series: \"Chug the Mouse\" oleh Amanda Cotan, \"Cozy Season\" oleh Miguel Ángel Camprubí, \"Croco's Feelings\" oleh Tiffany Beucher, \"My Daily Life 2\" oleh Plastic Thing, dan \"Rocky Talk\" oleh Lexi Vay."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Signal Secure Backups telah hadir! Sekarang Anda bisa mengaktifkan pencadangan otomatis yang terenkripsi secara menyeluruh, jadi pesan tidak akan hilang saat Anda memakai ponsel baru atau setelah menginstal ulang aplikasi Signal. Anda bisa mencadangkan semua pesan dan media hingga 45 hari terakhir secara gratis, atau bayar biaya bulanan yang murah untuk mendapatkan penyimpanan 100 GB agar bisa mencadangkan setiap lampiran. Ketuk Cadangan di pengaturan Signal untuk memulai. Terima kasih untuk semua pengguna yang telah membantu menguji fitur ini selama periode beta!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

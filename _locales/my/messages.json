@@ -1115,6 +1115,9 @@
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "အဖွဲ့ဝင်အမှတ်တံဆိပ် ထည့်ရန်"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "မှတ်ချက်"
   },
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "ဤအဖွဲ့တွင် အက်ဒ်မင်များသာ အဖွဲ့ဝင်အမှတ်တံဆိပ် သတ်မှတ်နိုင်သည်။"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ထိုမက်ဆေ့ချ်ကို ပေးပို့ခဲ့ချိန်မှ 24 နာရီအတွင်း၌သာ တည်းဖြတ်မှု လုပ်နိုင်ပါသည်။"
@@ -4632,7 +4635,7 @@
     "messageformat": "အက်မင်အဖြစ်မှ ဖယ်ရှားရန်"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "ဤအရာသည် ၎င်းတို့၏ အဖွဲ့ဝင်အမှတ်တံဆိပ်ကိုလည်း ဖယ်ရှားပေးပါလိမ့်မည်။"
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "အက်ဒ်မင် လုပ်ရန်"
@@ -4824,7 +4827,7 @@
     "messageformat": "အဖွဲ့ဝင်များ ထည့်ပါ။"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "အဖွဲ့ဝင်အမှတ်တံဆိပ် ထည့်သွင်းရန်"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "အားလုံးကြည့်မည်"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, other {လူတိုင်းအတွက် ဖျက်ရန် မက်ဆေ့ချ် {count,number} စောင်အထိသာ ရွေးချယ်နိုင်သည်}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "ဤအရာကို ဖျက်မည်လား။"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "၎င်းက ဤအရာကို အပြီးတိုင်ဖျက်ပစ်ပါမည်။ ဤအရာနှင့် ဆက်စပ်နေသော မည်သည့်မက်ဆေ့ချ်စာသားကိုမဆို ဖျက်ပစ်ပါမည်။"
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "ပိတ်မယ်"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "ဖျက်ရန်"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "မလုပ်တော့ပါ"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "မက်ဆေ့ချ်အစောင် 30 အထိသာ ထပ်ဆင့်ပို့နိုင်သည်"
@@ -5388,22 +5391,22 @@
     "messageformat": "သင် ပေးပို့၊ လက်ခံခဲ့သော ဖိုင်များ ဤနေရာတွင် ပေါ်လာပါမည်"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "ချက်(တ်)တွင်ကြည့်ရန်"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "ထပ်ဆင့် ပေးပို့မယ်"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "သိမ်းမယ်"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "မက်ဆေ့ချ် ပို့ရန်"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "လင့်ခ် ကူးရန်"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "ဖျက်ရန်"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "မီဒီယာ အရည်အသွေး ရွေးချယ်ရန်"
@@ -5619,7 +5622,7 @@
     "messageformat": "အက်ဒ်မင်များ"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "ကြည့်ပါ",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "သတ်မှတ်ရန်"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "စက်အတွင်း ဘက်ခ်အပ်"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "ထုတ်ယူရန်..."
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "စက်တွင်းကုဒ်ဝှက်ထားသော ဘက်ခ်အပ်ကို ဖိုင်တွဲတစ်ခုသို့ ထုတ်ယူပြီး ၎င်းကို အတည်ပြုပါ"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "ကုဒ်ပြောင်းဝှက်ထားသော ဘက်ခ်အပ်ကို မန်မိုရီသို့ပို့ပြီး ၎င်းတွင် မှန်ကန်ကြောင်းအတည်ပြုပါ"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "ပိုမိုကောင်းမွန်စေရန် ကူညီပေးပါ"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "၎င်းက ဖုန်းခေါ်ဆိုမှုများအပြင် မည်သည့်အရာများက ကောင်းစွာ အလုပ်လုပ်သည်၊ မလုပ်သည်ကို ပိုမိုလေ့လာရန် ကူညီပေးပါသည်။ တင်သွင်းခြင်းမပြုမီ သင်၏ ပြစ်ချက်မှတ်တမ်းကို ကြည့်ရှုနိုင်ပါသည်။"
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "တင်သွင်းရာတွင် သင့်တုံ့ပြန်ချက်ကို <diagnosticInfoLink>ခေါ်ဆိုမှုနှင့် ပတ်သက်သည့် ချွတ်ယွင်းချက် အချက်အလက်</diagnosticInfoLink>နှင့်အတူ မျှဝေပါမည်။ ဖုန်းခေါ်ဆိုမှု အရည်အသွေး မြှင့်တင်ရေးတွင် ကူညီပေးရန်အတွက် ပြစ်ချက်မှတ်တမ်းတစ်ခုကို ရွေးချယ်၍ မျှဝေနိုင်ပါသည်။"
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "ကြည့်ရန်"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "ပြစ်ချက်ရှာဖွေပြုပြင်မှု မှတ်တမ်းများတွင် အဆင့်နိမ့် အက်ပ်အချက်အလက်များ ပါဝင်ပြီး သင်၏မက်ဆေ့ချ်တွင် ပါရှိသော မည်သည့်အကြောင်းအရာကိုမျှ ထုတ်ဖော်ခြင်းမပြုပါ။"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "ကျွန်ုပ်တို့နှင့်မျှဝေထားသော အရာများတွင် သာမန်အက်ပ်အချက်အလက်များသာပါဝင်ပြီး သင့်ဖုန်းခေါ်ဆိုမှုများ၏ အကြောင်းအရာများ မပါဝင်ပါ။"
@@ -7953,6 +7941,9 @@
     "messageformat": "တရားဝင်ဖန်တီးသူများ၏ စတစ်ကာတွဲအသစ် ငါးခု။"
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Signal လုံခြုံရေးဘက်ခ်အပ် ဤတွင်ရှိသည်။ ယခု ဖုန်းသစ်ဝယ်လျှင် သို့မဟုတ် Signal ကိုပြန်ထည့်သွင်းလျှင် မက်ဆေ့ချ်တစ်ခုမျှမဆုံးရှုံးအောင် အလိုအလျောက် ဟိုဘက်သည်ဘက်ကုဒ်ပြောင်းဝှက်သည့် ဘက်ခ်အပ်ကို ဖွင့်နိုင်ပါပြီ။ မက်ဆေ့ချ်အားလုံးနှင့် နောက်ဆုံး ၄၅ ရက်စာမီဒီယာကို အခမဲ့ဘက်ခ်အပ်လုပ်နိုင်သည် သို့မဟုတ် ပူးတွဲဖိုင်တိုင်းကို ဘက်ခ်အပ်လုပ်ရန် ထားသိုမှု 100 GB ကို လစဉ်ကြေးအနည်းငယ်ဖြင့် ရယူနိုင်သည်။ စတင်ရန် Signal ဆက်တင်တွင် ဘက်ခ်အပ်ကိုနှိပ်ပါ။ Beta ကာလအတွင်း ဤအင်္ဂါရပ်ကိုစမ်းသပ်ရန် ကူညီသူအားလုံးကို ကျေးဇူးတင်ပါသည်။"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

@@ -654,7 +654,7 @@
     "messageformat": "Agora, o Signal pode verificar automaticamente a criptografia"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "Para contatos com os quais você se conecta por número de telefone, o Signal pode confirmar automaticamente se a conexão é segura usando um processo chamado transparência de chave. Para maior segurança, você ainda pode verificar as conexões manualmente usando um código QR ou comparando números de segurança."
+    "messageformat": "Para contatos conectados ao seu número de telefone, o Signal pode confirmar automaticamente se a conexão é segura usando um processo chamado transparência de chaves. Para uma camada extra de segurança, você ainda pode verificar as conexões manualmente usando um código QR ou comparando os números de segurança. "
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Continuar"
@@ -1114,6 +1114,9 @@
   },
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Adicionar um rótulo de membro"
+  },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Nota"
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "Somente administradores podem adicionar rótulos de membros neste grupo."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Só é possível fazer edições no período de 24 horas após enviar esta mensagem."
@@ -4632,7 +4635,7 @@
     "messageformat": "Remover da lista de admins"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "Isso também removerá o rótulo de membro deles."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Promover a admin"
@@ -4824,7 +4827,7 @@
     "messageformat": "Adicionar membros"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Adicionar rótulo de membro"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Ver todos"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, one {Você só pode selecionar até {count,number} mensagem para excluir para todos} other {Você só pode selecionar até {count,number} mensagens para excluir para todos}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Excluir item?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "Isso excluirá o item permanentemente. Qualquer mensagem de texto associada a estes itens também será excluída."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Fechar"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Excluir"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Cancelar"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Você só pode fixar até 30 mensagens"
@@ -5388,22 +5391,22 @@
     "messageformat": "Os arquivos que você envia e recebe aparecerão aqui"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Ver na conversa"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Encaminhar"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "Salvar"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Enviar mensagem"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Copiar link"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Excluir"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Selecionar a qualidade da foto"
@@ -5619,7 +5622,7 @@
     "messageformat": "admins"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Exibir",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "Configurar"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Backups locais"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Exportar…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Exporte o backup criptografado local para uma pasta e faça a validação"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Exporte o backup criptografado para a memória e execute o pacote de validação"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Ajude-nos a melhorar"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "Isso nos ajuda a saber mais sobre as chamadas e a compreender o que está funcionando ou não. Você pode ver seu registro de depuração antes de enviar."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Ao enviar, você compartilhará seu feedback juntamente com <diagnosticInfoLink>informações de diagnóstico sobre sua chamada</diagnosticInfoLink>. Você pode compartilhar, se quiser, um registro de depuração para nos ajudar a melhorar a qualidade da chamada."
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Exibir"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Os registros de depuração contêm informações técnicas do aplicativo e não revelam o conteúdo das suas mensagens."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "As informações compartilhadas conosco contêm informações básicas do aplicativo e não incluem o conteúdo de suas chamadas."
@@ -7953,6 +7941,9 @@
     "messageformat": "Chegaram 5 novos pacotes oficiais de figurinhas na Série de Artistas do Signal: “Chug the Mouse” (Amanda Cotan), “Cozy Season” (Miguel Ángel Camprubí), “Croco’s Feelings” (Tiffany Beucher), “My Daily Life 2” (Plastic Thing) e “Rocky Talk” (Lexi Vay). "
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Os backups seguros do Signal chegaram! Agora você pode optar por ativar backups automáticos criptografados de ponta a ponta para nunca perder uma mensagem ao trocar de celular ou reinstalar o Signal. Você pode fazer backup de todas as suas mensagens e dos últimos 45 dias de arquivos de mídia gratuitamente, ou pode pagar uma pequena taxa mensal para obter 100 GB de armazenamento e fazer backup de todos os seus anexos. Toque em Backups nas configurações do Signal para começar. Agradecemos a todos que ajudaram a testar este recurso durante o período beta!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

@@ -7581,18 +7581,6 @@
     "messageformat": "Set up",
     "description": "Button in the settings view to initially setup a feature or setting."
   },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Local backups",
-    "description": "(Deleted 2026/01/21) Text header for internal local backup tools"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Export…",
-    "description": "(Deleted 2026/01/21) Button to run internal local backup export tool"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Export local encrypted backup to a folder and validate it",
-    "description": "(Deleted 2026/01/21) Description of the internal local backup export tool"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Export encrypted backup to memory and run validation suite on it",
     "description": "Description of the internal backup validation tool"
@@ -10487,10 +10475,6 @@
     "messageformat": "Help us improve",
     "description": "Call Quality Survey Dialog > Help us improve > Page Title"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "This helps us learn more about calls and what is working or not working. You can view your debug log before submitting.",
-    "description": "(Deleted 2026/01/21) Call Quality Survey Dialog > Help us improve > Page Description"
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Submitting will share your feedback along with <diagnosticInfoLink>diagnostic information about your call</diagnosticInfoLink>. You can optionally share a debug log to help us improve call quality.",
     "description": "Call Quality Survey Dialog > Help us improve > Page Description with link to view diagnostic info"
@@ -10502,10 +10486,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "View",
     "description": "Call Quality Survey Dialog > Help us improve > Share debug log > View Button"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Debug logs contain low level app information and do not reveal any of your message contents.",
-    "description": "(Deleted 2026/01/21) Call Quality Survey Dialog > Help us improve > Share debug log > Help Text"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "Information shared with us contains low level app information and does not include the contents of your calls.",
@@ -10580,7 +10560,7 @@
   },
   "icu:WhatsNew__8.0--0": {
     "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!",
-    "description": "Release notes for 8.0 release"
+    "description": "(Deleted 2026/02/25) Release notes for 8.0 release"
   },
   "icu:WhatsNew__8.1--0": {
     "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",

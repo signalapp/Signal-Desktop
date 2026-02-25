@@ -1115,6 +1115,9 @@
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Thêm Nhãn thành viên"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Ghi chú"
   },
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "Chỉ quản trị viên mới có thể thêm nhãn thành viên trong nhóm này."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Các chỉnh sửa chỉ có thể được thực hiện trong vòng 24 giờ kể từ lúc bạn gửi tin nhắn này."
@@ -4632,7 +4635,7 @@
     "messageformat": "Xóa với tư cách quản trị viên"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "Thao tác này cũng sẽ xóa nhãn của thành viên này."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Đặt admin"
@@ -4824,7 +4827,7 @@
     "messageformat": "Thêm thành viên"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Thêm nhãn thành viên"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Xem tất cả"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, other {Bạn chỉ có thể chọn tối đa {count,number} tin nhắn để xóa cho mọi người}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Xóa mục này?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "Thao tác này sẽ xóa vĩnh viễn mục đã chọn. Các tin nhắn có liên kết với mục này cũng sẽ bị xóa."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Đóng"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Xóa"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Hủy"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Bạn chỉ có thể chuyển tiếp tối đa 30 tin nhắn"
@@ -5388,22 +5391,22 @@
     "messageformat": "Tập tin bạn gửi và nhận sẽ hiển thị ở đây"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Xem trong cuộc trò chuyện"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Chuyển tiếp"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "Lưu"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Gửi tin nhắn"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Sao chép đường dẫn"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Xóa"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Chọn chất lượng đa phương tiện"
@@ -5619,7 +5622,7 @@
     "messageformat": "người quản trị"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Xem",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "Thiết Lập"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Bản sao lưu cục bộ"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Xuất…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Xuất bản sao lưu được mã hóa cục bộ vào một thư mục và xác thực nó"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Xuất bản sao lưu được mã hóa vào bộ nhớ và chạy bộ xác thực trên đó"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Giúp chúng tôi cải thiện"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "Điều này giúp chúng tôi tìm hiểu thêm về chất lượng cuộc gọi và biết khi có vấn đề. Bạn có thể xem nhật ký gỡ lỗi trước khi gửi."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Khi gửi, bạn sẽ chia sẻ phản hồi cùng <diagnosticInfoLink>thông tin chẩn đoán về cuộc gọi của bạn</diagnosticInfoLink>. Bạn có thể chia sẻ (không bắt buộc) nhật ký gỡ lỗi để giúp chúng tôi tăng chất lượng cuộc gọi."
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Xem"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Nhật ký gỡ lỗi chứa thông tin ứng dụng cấp thấp và không tiết lộ bất kỳ nội dung tin nhắn nào của bạn."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "Thông tin được chia sẻ với chúng tôi chứa thông tin ứng dụng ở mức thấp và không bao gồm nội dung cuộc gọi của bạn."
@@ -7953,6 +7941,9 @@
     "messageformat": "5 bộ nhãn dán chính thức mới của các nghệ sĩ."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Ra mắt Sao lưu bảo mật Signal! Giờ đây, bạn có thể chọn kích hoạt sao lưu mã hóa đầu cuối tự động để không bao giờ mất tin nhắn khi sử dụng điện thoại mới hoặc cài lại Signal. Bạn có thể sao lưu tất cả tin nhắn của mình và tập tin đa phương tiện của 45 ngày gần nhất miễn phí, hoặc trả một khoản phí nhỏ mỗi tháng để nhận 100 GB để sao lưu mọi tập tin đính kèm. Nhấn vào sao lưu trong cài đặt Signal để bắt đầu. Cảm ơn tất đã giúp chúng tôi thử nghiệm tính năng này trong giai đoạn beta!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

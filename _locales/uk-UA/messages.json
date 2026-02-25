@@ -1115,6 +1115,9 @@
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Додати роль учасника"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Примітка"
   },
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "Додавати ролі учасників у цій групі можуть тільки адміністратори."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Редагувати повідомлення можна лише протягом 24 годин з моменту надсилання."
@@ -4632,7 +4635,7 @@
     "messageformat": "Забрати права адміністратора"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "Також буде видалено роль цього учасника."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Зробити адміністратором"
@@ -4824,7 +4827,7 @@
     "messageformat": "Додати учасників"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Додати роль учасника"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Показати всіх"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, one {Ви можете видалити для всіх максимум {count,number} повідомлення} few {Ви можете видалити для всіх максимум {count,number} повідомлення} many {Ви можете видалити для всіх максимум {count,number} повідомлень} other {Ви можете видалити для всіх максимум {count,number} повідомлення}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Видалити файл?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "Файл буде видалено остаточно. Текст повідомлення, пов'язаного з цим файлом, також буде видалено."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Закрити"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Видалити"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Скасувати"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Пересилати можна до 30 повідомлень"
@@ -5388,22 +5391,22 @@
     "messageformat": "Тут будуть ваші надіслані й отримані файли"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Переглянути в чаті"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Переслати"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "Зберегти"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Надіслати повідомлення"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Копіювати посилання"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Видалити"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Оберіть якість медіафайлів"
@@ -5619,7 +5622,7 @@
     "messageformat": "адміністратори"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Показ",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "Налаштувати"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Локальне резервне копіювання"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Експортувати"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Експортувати локальну зашифровану резервну копію в папку і перевірити її"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Експортувати зашифровану резервну копію в пам'ять і запустити програму перевірки"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Допоможіть нам покращити Signal"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "Так ви допоможете нам більше дізнатися про те, як проходять виклики, і можливі проблеми. Ви можете переглянути журнал налагодження, перш ніж надіслати його."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Надсилаючи свій відгук, ви також ділитеся <diagnosticInfoLink>діагностичною інформацією про виклик</diagnosticInfoLink>. Якщо хочете, то можете поділитися журналом налагодження — це допоможе нам покращити якість викликів."
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Переглянути"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Журнали налагодження містять інформацію нижнього рівня про застосунок і не розкривають вмісту ваших повідомлень."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "Дані, які ви нам передаєте, містять інформацію нижнього рівня про застосунок; ми не отримуємо доступу до вмісту ваших викликів."
@@ -7953,6 +7941,9 @@
     "messageformat": "П'ять нових офіційних наборів стікерів від художників Signal."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Представляємо надійне резервне копіювання від Signal! Тепер ви можете ввімкнути автоматичне резервне копіювання з наскрізним шифруванням і бути впевненими, що не втратите повідомлення, навіть якщо зміните телефон або перевстановите Signal. Ви можете безплатно зберігати повідомлення й медіафайли за минулі 45 днів, а за невеликий місячний внесок ви отримаєте сховище для всіх вкладень на 100 ГБ. Щоб почати, перейдіть у «Резервні копії» в налаштуваннях Signal. Дякуємо всім, хто допомагав тестувати цю функцію!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

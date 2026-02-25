@@ -1115,6 +1115,9 @@
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Shto emërtimin e anëtarit"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Shënim"
   },
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "Vetëm administratorët mund të caktojnë emërtimet e anëtarëve në këtë grup."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Përpunimet mund të zbatohen vetëm brenda 24 orëve nga momenti që dërgove këtë mesazh."
@@ -4632,7 +4635,7 @@
     "messageformat": "Hiqe nga përgjegjës"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "Kjo do të fshijë edhe emërtimin e tyre të anëtarit."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Bëje përgjegjës"
@@ -4824,7 +4827,7 @@
     "messageformat": "Shtoni anëtarë"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Shto emërtimin e anëtarit"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Shihi të gjithë"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, one {Mund të zgjedhësh vetëm deri në {count,number} mesazh për të fshirë për të gjithë} other {Mund të zgjedhësh vetëm deri në {count,number} mesazhe për të fshirë për të gjithë}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Të fshihet materiali?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "Kjo do ta fshijë përgjithmonë artikullin. Çdo mesazh i lidhur me këtë artikull do të fshihet gjithashtu."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Mbylle"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Fshije"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Anulo"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Mund të përcjellësh deri në 30 mesazhe"
@@ -5388,22 +5391,22 @@
     "messageformat": "Skedarët që dërgon dhe merr do të shfaqen këtu"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Shiko në bisedë"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Përcjellje"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "Ruaje"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Dërgoni mesazh"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Kopjo linkun"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Fshije"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Përzgjidhni cilësi media"
@@ -5619,7 +5622,7 @@
     "messageformat": "përgjegjësit"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Shih",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "Konfiguro"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Kopjeruajtjet lokale"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Eksporto…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Eksporto kopjeruajtjet lokale të koduara në një dosje dhe verifikoje atë"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Eksporto kopjeruajtjet e koduara në memorie dhe ekzekuto paketën e verifikimit në të"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Na ndihmo të përmirësohemi"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "Kjo na ndihmon të mësojmë më shumë rreth thirrjeve dhe çfarë funksionon apo nuk funksionon. Mund ta shikosh regjistrin e diagnostikimeve përpara se të bësh dërgimin."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Dorëzimi do t'i ndajë reagimet së bashku me <diagnosticInfoLink>informacion diagnostikues rreth thirrjes sate</diagnosticInfoLink>. Mund të ndash opsionalisht një regjistër diagnostikimesh për të na ndihmuar të përmirësojmë cilësinë e thirrjeve."
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Shih"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Regjistrat e diagnostikimit përmbajnë informacione të nivelit të ulët të aplikacionit dhe nuk zbulojnë asnjë nga përmbajtjet e mesazheve."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "Informacioni i ndarë me ne përmban të dhëna të një niveli të ulët për aplikacionin dhe nuk përfshin përmbajtjen e thirrjeve."
@@ -7953,6 +7941,9 @@
     "messageformat": "Ruaj privatësinë me pesë pako të reja zyrtare ngjitësesh në serinë Signal Artist: \"Chug the Mouse\" nga Amanda Cotan, \"Cozy Season\" nga Miguel Ángel Camprubí, \"Croco's Feelings\" nga Tiffany Beucher, \"My Daily Life 2\" nga Plastic Thing dhe \"Rocky Talk\" nga Lexi Vay."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Kopjeruajtjet e sigurta erdhën! Mund të aktivizosh kopjeruajtjet automatike të koduara nga skaji në skaj, që të mos humbisësh asnjë mesazh kur merr telefon të ri ose riinstalo Signal. Mund të krijosh falas kopjeruajtje të gjitha mesazheve dhe medias të 45 ditëve të fundit, ose të paguash një tarifë mujore për të marrë 100 GB hapësirë për të ruajtur çdo bashkëngjitje. Kliko te kopjeruajtjet te parametrat e Signal për të nisur. Faleminderit atyre që testuan veçorinë gjatë periudhës beta!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

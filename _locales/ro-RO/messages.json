@@ -1115,6 +1115,9 @@
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Adaugă o etichetă de membru"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Notă"
   },
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "Doar administratorii pot seta roluri de membru în acest grup."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Editările pot fi făcute numai în termen de 24 de ore de la trimiterea acestui mesaj."
@@ -4632,7 +4635,7 @@
     "messageformat": "Elimină ca administrator"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "Acest lucru va șterge și rolul lor de membru."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Fă administrator"
@@ -4824,7 +4827,7 @@
     "messageformat": "Adăugare membri"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Adaugă un rol de membru"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Vezi tot"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, one {Poți selecta până la {count,number} mesaj de șters pentru toată lumea} few {Poți selecta până la {count,number} mesaje de șters pentru toată lumea} other {Poți selecta până la {count,number} de mesaje de șters pentru toată lumea}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Elimini elementul?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "Prin această acțiune, vei elimina permanent acest element. Orice mesaj text asociat cu acest element va fi și el eliminat."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Închide"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Șterge"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Anulează"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Poți să redirecționezi până la 30 de mesaje"
@@ -5388,22 +5391,22 @@
     "messageformat": "Fișierele pe care le trimiți și le primești vor apărea aici"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Vizualizare în chat"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Redirecționează"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "Salvează"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Trimite mesaj"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Copiază linkul"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Șterge"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Selectează calitatea fișierelor media"
@@ -5619,7 +5622,7 @@
     "messageformat": "administratori"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Vezi",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "Stabilește"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Copii de rezervă locale"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Exportă…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Exportă o copie de rezervă criptată locală într-un folder și valideaz-o"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Exportă backup-ul criptat în memorie și rulează suita de validare pe acesta"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Ajută-ne să ne îmbunătățim"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "Acest lucru ne ajută să aflăm mai multe despre apeluri și ce funcționează și ce nu funcționează. Poți vizualiza jurnalul de depanare înainte de trimitere."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Trimiterea va permite partajarea feedback-ului tău împreună cu <diagnosticInfoLink>informații de diagnostic despre apelul tău</diagnosticInfoLink>. Opțional, poți partaja un jurnal de depanare pentru a ne ajuta să îmbunătățim calitatea apelurilor."
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Vizualizare"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Jurnalele de depanare conțin informații de nivel scăzut despre aplicație și nu dezvăluie conținutul mesajelor tale."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "Informațiile partajate cu noi conțin informații de nivel inferior despre aplicație și nu includ conținutul apelurilor tale."
@@ -7953,6 +7941,9 @@
     "messageformat": "Păstrează-ți intimitatea cu cinci noi pachete oficiale de autocolante din seria Signal Artist: „Chug the Mouse” de Amanda Cotan, „Cozy Season” de Miguel Ángel Camprubí, „Croco's Feelings” de Tiffany Beucher, „My Daily Life 2” de Plastic Thing și „Rocky Talk” de Lexi Vay."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "S-au lansat backup-urile securizate Signal! Acum poți alege să activezi backup-urile criptate automate end-to-end, ca să nu pierzi niciun mesaj când ai un telefon nou sau reinstalezi Signal. Poți face backup-uri gratuite pentru toate mesajele și fișierele media din ultimele 45 de zile sau poți plăti o mică taxă lunară ca să obții 100 GB de stocare pentru backup-uri la fiecare atașament. Apasă pe backup-uri în setările Signal pentru a începe. Mulțumim celor care au testat funcția în beta!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

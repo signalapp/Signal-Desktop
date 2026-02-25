@@ -1115,6 +1115,9 @@
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "સભ્ય લેબલ ઉમેરો"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "નોંધ"
   },
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "આ ગ્રૂપમાં ફક્ત એડમિન જ સભ્યના લેબલ ઉમેરી શકે છે."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "તમે આ મેસેજ મોકલ્યો હોય ત્યારથી માત્ર 24 કલાકની અંદર જ ફેરફારો લાગુ કરી શકાય છે."
@@ -4632,7 +4635,7 @@
     "messageformat": "એડમિન તરીકેથી દૂર કરો"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "આનાથી તેમનું સભ્યનું લેબલ પણ સાફ થઈ જશે."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "એડમિન બનાવો"
@@ -4824,7 +4827,7 @@
     "messageformat": "સભ્યો ઉમેરો"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "સભ્યનું લેબલ ઉમેરો"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "બધા જુઓ"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, one {તમે બધા માટે ડિલીટ કરવા માટે માત્ર {count,number} મેસેજ સુધી જ પસંદ કરી શકો છો} other {તમે બધા માટે ડિલીટ કરવા માટે માત્ર {count,number} જેટલા મેસેજ પસંદ કરી શકો છો}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "આઇટમ ડિલીટ કરવી છે?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "આ આઇટમને કાયમ માટે ડિલીટ કરશે. આ આઇટમ સાથે સંકળાયેલ કોઈ પણ લખેલો મેસેજ પણ ડિલીટ થઈ જશે."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "બંધ કરો"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "ડિલીટ કરો"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "રદ કરો"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "તમે માત્ર 30 જેટલા મેસેજ ફોરવર્ડ કરી શકો છો"
@@ -5388,22 +5391,22 @@
     "messageformat": "તમારા દ્વારા મોકલવામાં અને મેળવવામાં આવતી ફાઈલો અહીં દેખાશે"
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "ચેટમાં જુઓ"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "ફોરવર્ડ કરો"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "સેવ કરો"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "મેસેજ મોકલો"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "લિંક કૉપિ કરો"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "ડિલીટ કરો"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "મીડિયા ગુણવત્તા પસંદ કરો"
@@ -5619,7 +5622,7 @@
     "messageformat": "એડમિન્સ"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "જુઓ",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "સેટ કરો"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "સ્થાનિક બેકઅપ"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "એક્સપોર્ટ કરો…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "સ્થાનિક એન્ક્રિપ્ટેડ બેકઅપને ફોલ્ડરમાં એક્સપોર્ટ કરો અને તેને માન્ય કરો"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "એન્ક્રિપ્ટેડ બેકઅપને મેમરી પર નિકાસ કરો અને તેના પર વેલિડેશન સ્યુટ ચલાવો"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "અમને બહેતર બનાવવામાં મદદ કરો"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "આનાથી અમને કૉલ અને શું કામ કરી રહ્યું છે અને શું નથી કરી રહ્યું તે વિશે વધુ જાણવામાં મદદ મળે છે. સબમિટ કરતા પહેલાં તમે તમારો ડીબગ લૉગ જોઈ શકો છો."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "સબમિટ કરવાથી <diagnosticInfoLink>તમારા કૉલ વિશે ડાયગ્નોસ્ટિક માહિતી</diagnosticInfoLink>ની સાથે તમારો પ્રતિસાદ શેર કરવામાં આવશે. કૉલ ગુણવત્તા સુધારવામાં અમારી સહાય માટે તમે વૈકલ્પિક રીતે ડીબગ લૉગ શેર કરી શકો છો."
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "જુઓ"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "ડીબગ લૉગમાં ઓછા સ્તરની ઍપ માહિતી હોય છે અને તે તમારા મેસેજનું કોઈ પણ કન્ટેન્ટ જાહેર કરતું નથી."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "અમારી સાથે શેર કરવામાં આવેલી માહિતીમાં નીચલા સ્તરની ઍપ માહિતી શામેલ છે અને તેમાં તમારા કૉલનું કન્ટેન્ટ શામેલ નથી."
@@ -7953,6 +7941,9 @@
     "messageformat": "• પાંચ નવા ઓફિશિયલ આર્ટિસ્ટ સ્ટિકર પેક."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Signal સુરક્ષિત બેકઅપ આવી ગયું છે! હવે તમે ઓટોમેટિક એન્ડ-ટૂ-એન્ડ એન્ક્રિપ્ટેડ બેકઅપને સક્ષમ કરવાનું પસંદ કરી શકો છો જેથી જ્યારે તમે નવો ફોન બદલો કે Signal ફરીથી ઇન્સ્ટોલ કરો ત્યારે તમે ક્યારેય મેસેજ ગુમાવશો નહીં. તમે તમારા બધા મેસેજ અને છેલ્લા 45 દિવસના મીડિયાનો મફતમાં બેકઅપ લઈ શકો છો, અથવા તમે દરેક જોડાણનો બેકઅપ લેવા માટે 100 GB સ્ટોરેજ મેળવવા માટે એક નાની માસિક ફી ચૂકવી શકો છો. શરૂ કરવા માટે તમારા Signal સેટિંગ્સમાં બેકઅપ પર ટેપ કરો. બીટા સમયગાળા દરમિયાન આ ફીચરનું પરીક્ષણ કરવામાં મદદ કરનાર દરેકનો આભાર!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

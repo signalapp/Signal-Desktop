@@ -1115,6 +1115,9 @@
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Ajouter une étiquette de membre"
   },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Notes"
   },
@@ -2430,7 +2433,7 @@
     "messageformat": "Attachment missing from backup CDN"
   },
   "icu:ToastManager__CannotAddMemberLabel": {
-    "messageformat": "Only admins can add member labels in this group."
+    "messageformat": "Dans ce groupe, seuls les admins peuvent créer des étiquettes de membre."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Une fois envoyés, les messages ne peuvent être modifiés que pendant 24 heures."
@@ -4632,7 +4635,7 @@
     "messageformat": "Révoquer les droits d'admin"
   },
   "icu:ContactModal--rm-admin--clear-label": {
-    "messageformat": "This will also clear their member label."
+    "messageformat": "Cela supprimera également son étiquette de membre."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Accorder des droits d'admin"
@@ -4824,7 +4827,7 @@
     "messageformat": "Ajouter des membres"
   },
   "icu:ConversationDetailsMembershipList--add-member-label": {
-    "messageformat": "Add member label"
+    "messageformat": "Créer une étiquette de membre"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Tout afficher"
@@ -5001,19 +5004,19 @@
     "messageformat": "{count, plural, one {Vous ne pouvez sélectionner que {count,number} message à supprimer pour tout le monde.} other {Vous ne pouvez sélectionner qu'un maximum de {count,number} messages à supprimer pour tout le monde.}}"
   },
   "icu:DeleteAttachmentModal__Title": {
-    "messageformat": "Delete item?"
+    "messageformat": "Supprimer cet élément ?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "This will permanently delete the item. Any message text associated with this item will also be deleted."
+    "messageformat": "Cet élément sera définitivement supprimé. Les messages qui lui sont associés seront aussi supprimés."
   },
   "icu:DeleteAttachmentModal__Close": {
-    "messageformat": "Close"
+    "messageformat": "Fermer"
   },
   "icu:DeleteAttachmentModal__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Supprimer"
   },
   "icu:DeleteAttachmentModal__Cancel": {
-    "messageformat": "Cancel"
+    "messageformat": "Annuler"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Vous ne pouvez pas transférer plus de 30 messages"
@@ -5388,22 +5391,22 @@
     "messageformat": "Les fichiers que vous envoyez et recevez s'afficheront ici."
   },
   "icu:MediaGallery__ContextMenu__ViewInChat": {
-    "messageformat": "View in chat"
+    "messageformat": "Afficher dans la conversation"
   },
   "icu:MediaGallery__ContextMenu__Forward": {
-    "messageformat": "Forward"
+    "messageformat": "Transférer"
   },
   "icu:MediaGallery__ContextMenu__Save": {
-    "messageformat": "Save"
+    "messageformat": "Enregistrer"
   },
   "icu:MediaGallery__ContextMenu__Send": {
-    "messageformat": "Send message"
+    "messageformat": "Envoyer un message"
   },
   "icu:MediaGallery__ContextMenu__Copy": {
-    "messageformat": "Copy link"
+    "messageformat": "Copier le lien"
   },
   "icu:MediaGallery__ContextMenu__Delete": {
-    "messageformat": "Delete"
+    "messageformat": "Supprimer"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Sélectionner la qualité des médias"
@@ -5619,7 +5622,7 @@
     "messageformat": "admins"
   },
   "icu:Avatar__View": {
-    "messageformat": "View",
+    "messageformat": "Afficher",
     "limit": 7
   },
   "icu:AvatarEditor--choose": {
@@ -5699,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "Configurer"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Sauvegardes locales"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Exporter…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Exporter la sauvegarde locale chiffrée vers un dossier et la valider"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Exporter la sauvegarde chiffrée vers la mémoire interne et exécuter les tests de validation"
@@ -7882,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Aidez-nous à améliorer Signal"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "Vos retours nous permettent de comprendre ce qui fonctionne et ce que nous devons améliorer. Vous pouvez consulter votre journal de débogage avant de nous l'envoyer."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Lorsque vous nous envoyez vos commentaires, ceux-ci sont accompagnés d'<diagnosticInfoLink>informations de diagnostic sur votre appel</diagnosticInfoLink>. Vous pouvez aussi partager votre journal de débogage pour nous aider à améliorer la qualité des appels."
   },
@@ -7893,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Afficher"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Les journaux de débogage ne contiennent que des informations techniques relatives à l'application et ne révèlent en aucun cas le contenu de vos messages."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "Les journaux de débogage ne contiennent que des informations techniques relatives à l'application et ne révèlent en aucun cas le contenu de vos appels."
@@ -7953,6 +7941,9 @@
     "messageformat": "Artiste dans l'âme ? Vous allez adorer nos cinq nouveaux packs de stickers, que des artistes ont spécialement créés pour Signal. Et comme tout ce que nous faisons, ils sont chiffrés dans les règles de l'art. Signal, c'est la confidentialité à 360° – même pour les stickers."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!"
+    "messageformat": "Les sauvegardes sécurisées Signal sont là ! Chiffrées de bout en bout, les sauvegardes sécurisées permettent de sauvegarder tous vos messages automatiquement. Besoin de changer de téléphone ou de réinstaller Signal ? Vos contenus restent à portée de main. Vous pouvez sauvegarder gratuitement tous vos messages ainsi que vos médias des 45 derniers jours. Ou opter pour le forfait payant et stocker jusqu'à 100 Go de médias en contrepartie d'un petit montant mensuel. Prêt à vous lancer ? Cliquez sur \"Sauvegardes\" dans les paramètres Signal. Merci à toutes celles et ceux qui nous ont aidés à tester la version bêta !"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }
