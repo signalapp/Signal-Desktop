@@ -233,7 +233,7 @@ function showLightboxForViewOnceMedia(
           isErased: !!message.get('isErased'),
           readStatus: message.get('readStatus'),
           sendStateByConversationId: message.get('sendStateByConversationId'),
-          errors: message.get('errors'),
+          errors: message.get('errors') ?? undefined,
         },
       },
     ];
@@ -340,7 +340,7 @@ function showLightbox(opts: {
           sourceServiceId: message.get('sourceServiceId'),
           sentAt,
           isErased: !!message.get('isErased'),
-          errors: message.get('errors'),
+          errors: message.get('errors') ?? undefined,
           readStatus: message.get('readStatus'),
           sendStateByConversationId: message.get('sendStateByConversationId'),
         },
