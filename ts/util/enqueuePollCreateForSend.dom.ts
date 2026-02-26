@@ -5,7 +5,6 @@ import type { ConversationModel } from '../models/conversations.preload.js';
 import { isDirectConversation } from './whatTypeOfConversation.dom.js';
 import {
   isPollSend1to1Enabled,
-  isPollSendEnabled,
   type PollCreateType,
 } from '../types/Polls.dom.js';
 
@@ -13,10 +12,6 @@ export async function enqueuePollCreateForSend(
   conversation: ConversationModel,
   poll: PollCreateType
 ): Promise<void> {
-  if (!isPollSendEnabled()) {
-    throw new Error('enqueuePollCreateForSend: poll sending is not enabled');
-  }
-
   if (
     isDirectConversation(conversation.attributes) &&
     !isPollSend1to1Enabled()

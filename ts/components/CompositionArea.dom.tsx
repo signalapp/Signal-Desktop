@@ -87,7 +87,7 @@ import { FunPickerButton } from './fun/FunButton.dom.js';
 import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.js';
 import { AxoIconButton } from '../axo/AxoIconButton.dom.js';
 import { tw } from '../axo/tw.dom.js';
-import { isPollSendEnabled, type PollCreateType } from '../types/Polls.dom.js';
+import type { PollCreateType } from '../types/Polls.dom.js';
 import { PollCreateModal } from './PollCreateModal.dom.js';
 import { useDocumentKeyDown } from '../hooks/useDocumentKeyDown.dom.js';
 
@@ -823,11 +823,8 @@ export const CompositionArea = memo(function CompositionArea({
     'flex size-8 shrink-0 items-center justify-center'
   );
 
-  let attButton;
-  if (draftEditMessage || linkPreviewResult || isRecording) {
-    attButton = undefined;
-  } else if (isPollSendEnabled()) {
-    attButton = (
+  const composerAddMenuButton =
+    draftEditMessage || linkPreviewResult || isRecording ? null : (
       <div className="CompositionArea__button-cell">
         <AxoDropdownMenu.Root>
           <div className={actionSlotClassName}>
@@ -860,18 +857,6 @@ export const CompositionArea = memo(function CompositionArea({
         </AxoDropdownMenu.Root>
       </div>
     );
-  } else {
-    attButton = (
-      <div className="CompositionArea__button-cell">
-        <button
-          type="button"
-          className="CompositionArea__attach-file"
-          onClick={launchFilePicker}
-          aria-label={i18n('icu:CompositionArea--attach-file')}
-        />
-      </div>
-    );
-  }
 
   const sendButtonFragment = !draftEditMessage ? (
     <>
@@ -1304,7 +1289,7 @@ export const CompositionArea = memo(function CompositionArea({
           <>
             {!dirty ? micButtonFragment : null}
             {editMessageFragment}
-            {attButton}
+            {composerAddMenuButton}
           </>
         )}
       </div>
@@ -1316,7 +1301,7 @@ export const CompositionArea = memo(function CompositionArea({
           )}
         >
           {leftHandSideButtonsFragment}
-          {attButton}
+          {composerAddMenuButton}
           {!dirty ? micButtonFragment : null}
           {editMessageFragment}
           {dirty || !shouldShowMicrophone ? sendButtonFragment : null}

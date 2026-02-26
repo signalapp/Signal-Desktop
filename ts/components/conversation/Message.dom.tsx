@@ -98,7 +98,6 @@ import { isPaymentNotificationEvent } from '../../types/Payment.std.js';
 import type { AnyPaymentEvent } from '../../types/Payment.std.js';
 import { getPaymentEventDescription } from '../../messages/payments.std.js';
 import { PanelType } from '../../types/Panels.std.js';
-import { isPollReceiveEnabled } from '../../types/Polls.dom.js';
 import type { PollWithResolvedVotersType } from '../../state/selectors/message.preload.js';
 import { PollMessageContents } from './poll-message/PollMessageContents.dom.js';
 import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser.dom.js';
@@ -2062,7 +2061,7 @@ export class Message extends React.PureComponent<Props, State> {
 
   public renderPoll(): React.JSX.Element | null {
     const { poll, direction, i18n, id, endPoll, canEndPoll } = this.props;
-    if (!poll || !isPollReceiveEnabled()) {
+    if (!poll) {
       return null;
     }
     return (

@@ -67,11 +67,7 @@ import { RoutineProfileRefresher } from './routineProfileRefresh.preload.js';
 import { isOlderThan } from './util/timestamp.std.js';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji.std.js';
 import { safeParsePartial } from './util/schemas.std.js';
-import {
-  PollVoteSchema,
-  PollTerminateSchema,
-  isPollReceiveEnabled,
-} from './types/Polls.dom.js';
+import { PollVoteSchema, PollTerminateSchema } from './types/Polls.dom.js';
 import type { ConversationModel } from './models/conversations.preload.js';
 import { isIncoming } from './messages/helpers.std.js';
 import { getAuthor } from './messages/sources.preload.js';
@@ -2519,11 +2515,6 @@ export async function startApp(): Promise<void> {
     }
 
     if (data.message.pollVote) {
-      if (!isPollReceiveEnabled()) {
-        log.warn('Dropping PollVote because the flag is disabled');
-        confirm();
-        return;
-      }
       const { pollVote, timestamp } = data.message;
 
       const parsed = safeParsePartial(PollVoteSchema, pollVote);
@@ -2561,11 +2552,6 @@ export async function startApp(): Promise<void> {
     }
 
     if (data.message.pollTerminate) {
-      if (!isPollReceiveEnabled()) {
-        log.warn('Dropping PollTerminate because the flag is disabled');
-        confirm();
-        return;
-      }
       const { pollTerminate, timestamp, expireTimer } = data.message;
 
       const parsedTerm = safeParsePartial(PollTerminateSchema, pollTerminate);
@@ -3029,11 +3015,6 @@ export async function startApp(): Promise<void> {
     }
 
     if (data.message.pollVote) {
-      if (!isPollReceiveEnabled()) {
-        log.warn('Dropping PollVote because the flag is disabled');
-        confirm();
-        return;
-      }
       const { pollVote, timestamp } = data.message;
 
       const parsed = safeParsePartial(PollVoteSchema, pollVote);
@@ -3074,11 +3055,6 @@ export async function startApp(): Promise<void> {
     }
 
     if (data.message.pollTerminate) {
-      if (!isPollReceiveEnabled()) {
-        log.warn('Dropping PollTerminate because the flag is disabled');
-        confirm();
-        return;
-      }
       const { pollTerminate, timestamp, expireTimer } = data.message;
 
       const parsedTerm = safeParsePartial(PollTerminateSchema, pollTerminate);
