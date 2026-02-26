@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Pārslēgt uz izstrādātāja rīkiem"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Atvērt zvanīšanas rīkus izstrādātājiem"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Iestatīt kā jaunu ierīci"
   },
@@ -654,10 +651,10 @@
     "messageformat": "Notiek iesniegšana..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify encryption"
+    "messageformat": "Signal tagad var automātiski verificēt šifrēšanu"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+    "messageformat": "Signal automātiski pārbaudīs savienojuma drošību kontaktpersonām, kas pievienotas ar tālruņa numuru, izmantojot procesu, ko sauc par atslēgu caurskatāmību. Papildu drošībai savienojumus joprojām varat verificēt manuāli, izmantojot QR kodu vai salīdzinot drošības numurus."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Turpināt"
@@ -1117,6 +1114,9 @@
   },
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Pievienot lietotāja emblēmu"
+  },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Piezīme"
@@ -2431,6 +2431,9 @@
   },
   "icu:Toast--unable-download-from-backup-tier": {
     "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Šajā grupā lietotāja emblēmas var pievienot tikai administratori."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Labojumus var veikt tikai 24 stundu laikā pēc šīs ziņas nosūtīšanas."
@@ -4631,6 +4634,9 @@
   "icu:ContactModal--rm-admin": {
     "messageformat": "Noņemt grupas administratoru"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "Veicot šo darbību, tiks dzēsta arī lietotāja emblēma."
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "Izveidot administratoru"
   },
@@ -4692,22 +4698,22 @@
     "messageformat": "Sveiki!"
   },
   "icu:ConversationDetails--member-label--list-header": {
-    "messageformat": "Group members with labels"
+    "messageformat": "Grupas biedri ar emblēmām"
   },
   "icu:ConversationDetails--member-label--no-members": {
-    "messageformat": "No other members have labels"
+    "messageformat": "Citiem lietotājiem nav emblēmu"
   },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "Saglabā izmaiņas..."
   },
   "icu:ConversationDetails--member-label--error-title": {
-    "messageformat": "Can’t save member label"
+    "messageformat": "Nevar saglabāt lietotāja emblēmu"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "Pārbaudiet savienojumu un mēģiniet vēlreiz."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "Only admins can set member labels in this group."
+    "messageformat": "Šajā grupā lietotāja emblēmas var iestatīt tikai administratori."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Gaistošās ziņas"
@@ -4758,13 +4764,13 @@
     "messageformat": "Izvēlieties, kurš šai grupai var sūtīt ziņas."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
-    "messageformat": "Member labels will be cleared"
+    "messageformat": "Lietotāja emblēmas tiks dzēstas"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+    "messageformat": "Mainot šo atļauju uz \"Tikai administratori\", tiks dzēstas lietotāja emblēmas, ko šajā grupā iestatījušas personas, kas nav administratori."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "Turpināt"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Pieprasījumi un uzaicinājumi"
@@ -4819,6 +4825,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Pievienot dalībniekus"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Pievienot lietotāja emblēmu"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Skatīt visus"
@@ -4993,6 +5002,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, zero {Varat atlasīt ne vairāk kā {count,number} ziņas, ko dzēst visiem} one {Varat atlasīt ne vairāk kā {count,number} ziņu, ko dzēst visiem} other {Varat atlasīt ne vairāk kā {count,number} ziņas, ko dzēst visiem}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Dzēst vienumu?"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "Tādējādi vienums tiks neatgriezeniski dzēsts. Tiks dzēsts arī jebkurš ar šo vienumu saistītais ziņas teksts."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Aizvērt"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Dzēst"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Atcelt"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Iespējams pārsūtīt ne vairāk kā 30 ziņas"
@@ -5366,6 +5390,24 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "Nosūtītie un saņemtie faili tiks rādīti šeit"
   },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "Skatīt sarunā"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Pārsūtīt"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Saglabāt"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Nosūtīt ziņu"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Kopēt saiti"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Dzēst"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Atlasīt multivides kvalitāti"
   },
@@ -5579,6 +5621,10 @@
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "administratori"
   },
+  "icu:Avatar__View": {
+    "messageformat": "Skatīt",
+    "limit": 7
+  },
   "icu:AvatarEditor--choose": {
     "messageformat": "Atlasīt avatāru"
   },
@@ -5656,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "Iestatīt"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Vietējās rezerves kopijas"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Eksportēt…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Eksportēt lokāli šifrētu rezerves kopiju uz mapi un validēt to"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Eksportējiet šifrētu rezerves kopiju atmiņā un palaidiet tās validācijas komplektu"
@@ -7486,19 +7523,19 @@
     "messageformat": "<paragraph>Veicot ziedojumu, Signal nevāc un neuzglabā jūsu personas informāciju.</paragraph><paragraph>Mēs izmantojam Stripe kā maksājumu apstrādātāju ziedojumu saņemšanai. Mēs nepiekļūstam, neuzglabājam un nesaglabājam nekādu informāciju, ko jūs tam sniedzat.</paragraph><paragraph>Signal nesaista un nevar sasaistīt jūsu ziedojumu ar jūsu Signal kontu.</paragraph><paragraph>Paldies par jūsu atbalstu!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "Signal ir neatkarīga bezpeļņas organizācija, kas ir apņēmusies nodrošināt privātu ziņojumapmaiņu un zvanu pakalpojumu. Bez reklāmām, bez izsekotājiem, bez novērošanas. Ziedojiet šodien, lai atbalstītu Signal."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "Ziedojot saņemsiet nozīmīti, ko pēc izvēles varat rādīt profilā"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "Jūsu privātums — mūsu misija"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signal ir bezpeļņas organizācija. Par ziedojumiem tiek piemēroti nodokļu atvieglojumi."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
-    "messageformat": "Heart icon in the style of the Signal logo"
+    "messageformat": "Sirds ikona Signal logotipa stilā"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "Ok"
@@ -7591,13 +7628,13 @@
     "messageformat": "Dzēst informāciju"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving will cancel your donation."
+    "messageformat": "Ja pametīsiet lapu, ziedojums tiks atcelts."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "Pamest"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
-    "messageformat": "Stay on page"
+    "messageformat": "Palikt lapā"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Turpināt"
@@ -7839,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Palīdziet mums veikt uzlabojumus"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "Tas palīdz mums uzlabot zvanus un saprast, kas darbojas vai nedarbojas. Pirms iesniegšanas varat apskatīt atkļūdošanas žurnālu."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Iesniedzot atsauksmi, jūsu atsauksmei tiks pievienota arī <diagnosticInfoLink>diagnostikas informācija par zvanu</diagnosticInfoLink>. Varat izvēlēties kopīgot arī atkļūdošanas žurnālu, lai palīdzētu mums uzlabot zvanu kvalitāti."
   },
@@ -7850,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Skatīt"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Atkļūdošanas žurnāli satur tikai tehnisku informāciju par lietotni un neatklāj jūsu ziņu saturu."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "Ar mums kopīgotā informācija ietver tikai tehnisku informāciju par lietotni un neietver jūsu zvanu saturu."
@@ -7906,13 +7937,13 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.89--0": {
-    "messageformat": "Šis atjauninājums novērš kļūdu teksta formatēšanā, kad Caps Lock ir ieslēgts. Tagad varat rakstīt treknrakstā vai slīprakstā AR LIELAJIEM BURTIEM. Paldies, <DGrothePhD></DGrothePhD>!"
-  },
-  "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal ir bezpeļņas organizācija, kas nebūtu iespējama bez jūsu atbalsta, un tagad jūs varat ziedot, izmantojot PayPal Signal Desktop platformā."
-  },
   "icu:WhatsNew__7.90--0": {
-    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
+    "messageformat": "Piedāvājam piecus jaunus oficiālos uzlīmju komplektus no Signal Artist sērijas: \"Chug the Mouse\", autore Amanda Cotan, \"Cozy Season\", autors Miguel Ángel Camprubí, \"Croco's Feelings\", autore Tiffany Beucher, \"My Daily Life 2\", autors Plastic Thing, un \"Rocky Talk\", autore Lexi Vay."
+  },
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Signal drošās rezerves kopijas ir klāt! Tagad varat ieslēgt automātisku pilnīgi šifrētu rezerves kopiju veidošanu, lai nekad nezaudētu nevienu ziņu ar jaunu tālruni vai pārinstalējot Signal. Bez maksas varat izveidot rezerves kopijas visām ziņām un pēdējo 45 dienu radītajai multividei, vai arī maksāt nelielu mēneša maksu, lai saņemtu 100 GB krātuves, kurā iespējams dublēt katru pielikumu. Lai sāktu, Signal iestatījumos pieskarieties pie Rezerves kopijas. Paldies ikvienam, kas veica funkcijas pārbaudi beta versijā!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

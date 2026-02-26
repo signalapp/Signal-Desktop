@@ -1,9 +1,10 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useId } from 'react';
 import classNames from 'classnames';
 import { bemGenerator } from './util.std.js';
+import { AriaClickable } from '../../../axo/AriaClickable.dom.js';
 
 export type Props = {
   alwaysShowActions?: boolean;
@@ -19,55 +20,61 @@ export type Props = {
 
 const bem = bemGenerator('ConversationDetails-panel-row');
 
-export const PanelRow = React.forwardRef<HTMLButtonElement, Props>(
-  function PanelRowInner(
-    {
-      alwaysShowActions,
-      className,
-      disabled,
-      icon,
-      label,
-      info,
-      right,
-      actions,
-      onClick,
-    }: Props,
-    ref: React.Ref<HTMLButtonElement>
-  ) {
-    const content = (
-      <>
-        {icon !== undefined ? <div className={bem('icon')}>{icon}</div> : null}
-        <div className={bem('label')}>
-          <div>{label}</div>
-          {info !== undefined ? (
-            <div className={bem('info')}>{info}</div>
-          ) : null}
-        </div>
-        {right !== undefined ? (
-          <div className={bem('right')}>{right}</div>
-        ) : null}
-        {actions !== undefined ? (
-          <div className={alwaysShowActions ? '' : bem('actions')}>
-            {actions}
-          </div>
-        ) : null}
-      </>
-    );
+export function PanelRow({
+  alwaysShowActions,
+  className,
+  disabled,
+  icon,
+  label,
+  info,
+  right,
+  actions,
+  onClick,
+}: Props): React.ReactNode {
+  const labelId = useId();
+  const subWidget =
+    actions !== undefined ? (
+      <div className={alwaysShowActions ? '' : bem('actions')}>{actions}</div>
+    ) : null;
 
-    if (onClick) {
-      return (
-        <button
-          disabled={disabled}
-          type="button"
-          className={classNames(bem('root', 'button'), className)}
-          onClick={onClick}
-          ref={ref}
-        >
+  const content = (
+    <>
+      {icon !== undefined ? <div className={bem('icon')}>{icon}</div> : null}
+      <div className={bem('label')}>
+        <div id={labelId}>{label}</div>
+        {info !== undefined ? <div className={bem('info')}>{info}</div> : null}
+      </div>
+      {right !== undefined ? <div className={bem('right')}>{right}</div> : null}
+    </>
+  );
+
+  if (onClick) {
+    return (
+      <AriaClickable.Root
+        className={classNames(bem('root', 'button'), className)}
+      >
+        {!disabled && (
+          <AriaClickable.HiddenTrigger
+            onClick={onClick}
+            aria-labelledby={labelId}
+          />
+        )}
+        <div className={bem('inner')}>
           {content}
-        </button>
-      );
-    }
-
-    return <div className={classNames(bem('root'), className)}>{content}</div>;
+          {subWidget && (
+            <AriaClickable.SubWidget>{subWidget}</AriaClickable.SubWidget>
+          )}
+        </div>
+      </AriaClickable.Root>
+    );
   }
-);
+
+  return (
+    <div className={classNames(bem('root'), className)}>
+      <div className={bem('inner')}>
+        {content}
+        {subWidget}
+      </div>
+    </div>
+  );
+}

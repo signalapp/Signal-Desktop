@@ -2,8 +2,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ConversationModel } from '../models/conversations.preload.js';
-import { isGroupV2 } from './whatTypeOfConversation.dom.js';
-import { isPollSendEnabled, type PollCreateType } from '../types/Polls.dom.js';
+import { isDirectConversation } from './whatTypeOfConversation.dom.js';
+import {
+  isPollSend1to1Enabled,
+  isPollSendEnabled,
+  type PollCreateType,
+} from '../types/Polls.dom.js';
 
 export async function enqueuePollCreateForSend(
   conversation: ConversationModel,
@@ -13,9 +17,12 @@ export async function enqueuePollCreateForSend(
     throw new Error('enqueuePollCreateForSend: poll sending is not enabled');
   }
 
-  if (!isGroupV2(conversation.attributes)) {
+  if (
+    isDirectConversation(conversation.attributes) &&
+    !isPollSend1to1Enabled()
+  ) {
     throw new Error(
-      'enqueuePollCreateForSend: polls are group-only. Conversation is not GroupV2.'
+      'enqueuePollCreateForSend: 1:1 poll sending is not enabled'
     );
   }
 

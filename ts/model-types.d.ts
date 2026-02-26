@@ -382,6 +382,7 @@ export type ConversationAttributesType = {
   draftChanged?: boolean;
   draftAttachments?: ReadonlyArray<AttachmentDraftType>;
   draftBodyRanges?: DraftBodyRanges;
+  draftIsViewOnce?: boolean;
   draftTimestamp?: number | null;
   hideStory?: boolean;
   inbox_position?: number;

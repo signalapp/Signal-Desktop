@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "切換開發者工具"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "打開通話開發者工具"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "設定做新裝置"
   },
@@ -654,10 +651,10 @@
     "messageformat": "提交緊……"
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify encryption"
+    "messageformat": "Signal 而家可以自動驗證加密"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+    "messageformat": "對於用電話冧把聯絡嘅聯絡人，Signal 會進行一個叫「金鑰透明度」嘅程序，自動確認聯絡對象係咪安全。如果想更加保險，你可以繼續用返二維碼或者比較安全碼人手驗證聯絡人。"
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "繼續"
@@ -1117,6 +1114,9 @@
   },
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "加成員標籤"
+  },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "備註"
@@ -2431,6 +2431,9 @@
   },
   "icu:Toast--unable-download-from-backup-tier": {
     "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "只有管理員先可以喺呢個谷度加成員標籤。"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "你只可以喺傳送訊息後 24 個鐘內套用編輯。"
@@ -4631,6 +4634,9 @@
   "icu:ContactModal--rm-admin": {
     "messageformat": "撤銷管理員身份"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "咁樣做亦都會剷走埋佢哋嘅成員標籤。"
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "設定做管理員"
   },
@@ -4692,22 +4698,22 @@
     "messageformat": "歡迎！"
   },
   "icu:ConversationDetails--member-label--list-header": {
-    "messageformat": "Group members with labels"
+    "messageformat": "有標籤嘅谷友"
   },
   "icu:ConversationDetails--member-label--no-members": {
-    "messageformat": "No other members have labels"
+    "messageformat": "其他谷友冇標籤"
   },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "變更儲存緊……"
   },
   "icu:ConversationDetails--member-label--error-title": {
-    "messageformat": "Can’t save member label"
+    "messageformat": "儲存唔到成員標籤"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "請檢查你嘅連線，然後再試多次。"
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "Only admins can set member labels in this group."
+    "messageformat": "只有管理員先可以喺呢個谷度設定成員標籤。"
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "過眼雲煙訊息"
@@ -4758,13 +4764,13 @@
     "messageformat": "揀選邊個可以傳送訊息去群組"
   },
   "icu:ConversationDetails--label-clear-warning--title": {
-    "messageformat": "Member labels will be cleared"
+    "messageformat": "成員標籤將會被清走"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+    "messageformat": "將呢個權限改為「淨係得管理員」之後，呢個谷入面唔係由管理員設定嘅成員標籤將會被清走。"
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "繼續"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "請求同邀請"
@@ -4819,6 +4825,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "加入成員"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "加成員標籤"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "全部睇晒"
@@ -4993,6 +5002,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {你最多只可以揀 {count,number} 個訊息嚟喺所有人部機度刪除}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "係咪刪除呢個項目呀？"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "咁做嘅話，項目就會永久刪除㗎喇。任何相關嘅訊息文字都會被刪除。"
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "關閉"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "刪除"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "取消"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "你最多只可以轉寄 30 個訊息"
@@ -5366,6 +5390,24 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "你收發嘅檔案會喺呢度顯示"
   },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "喺聊天度睇下"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "轉寄"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "儲存"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "傳送訊息"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "複製連結"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "刪除"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "揀選媒體品質"
   },
@@ -5579,6 +5621,10 @@
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "管理員"
   },
+  "icu:Avatar__View": {
+    "messageformat": "睇下",
+    "limit": 7
+  },
   "icu:AvatarEditor--choose": {
     "messageformat": "揀個頭像"
   },
@@ -5656,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "設定"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "本機備份"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "匯出…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "將本機加密備份匯出去資料夾同埋驗證"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "將加密備份匯出去內建記憶體同埋執行驗證套件"
@@ -7486,19 +7523,19 @@
     "messageformat": "<paragraph>Signal 唔會喺你捐款嗰陣收集或者儲存任何個人資料。</paragraph><paragraph>我哋用 Stripe 作為接收捐款嘅付款處理商。我哋唔會存取、保存或者儲存你向佢哋提供嘅任何資料。</paragraph><paragraph>Signal 唔會亦冇辦法將你嘅捐款連結至你嘅 Signal 帳戶。</paragraph><paragraph>多謝你嘅支持！</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "作為一個獨立嘅非牟利機構， Signal 致力提供私密訊息同通話。冇廣告、冇追蹤、冇監控。請即刻捐款支持 Signal。"
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "捐款之後你就會獲得徽章，仲可以選擇喺你嘅個人檔案度展示"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "保障你嘅私隱係我哋嘅使命"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signal 係一間非牟利機構。"
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
-    "messageformat": "Heart icon in the style of the Signal logo"
+    "messageformat": "Signal 標誌風格嘅心形圖示"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "確定"
@@ -7591,13 +7628,13 @@
     "messageformat": "移除資訊"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving will cancel your donation."
+    "messageformat": "如果而家離開，你嘅捐款就會取消。"
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "離開"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
-    "messageformat": "Stay on page"
+    "messageformat": "留喺呢頁"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "繼續"
@@ -7839,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "幫我哋改進"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "幫我哋了解多啲通話嘅情況，同埋做啲咩係有效、咩係冇效。你可以响提交之前睇吓除錯記錄。"
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "提交會將你嘅意見，同埋<diagnosticInfoLink>關於你通話嘅診斷資訊</diagnosticInfoLink>分享俾我哋。你可以選擇分享除錯記錄，幫我哋提高通話品質。"
   },
@@ -7850,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "睇吓"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "除錯記錄只包括 APP 嘅基本資訊，唔會顯示任何訊息內容。"
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "分享俾我哋嘅資料只會包括基礎 APP 資訊，同埋唔會包括你嘅通話內容。"
@@ -7906,13 +7937,13 @@
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.89--0": {
-    "messageformat": "呢次更新攪好咗當「大寫鎖定」功能啟用嗰陣文字格式嘅錯誤，你而家可以隨時膽粗粗咁將文字變粗（或者斜體）。唔該晒，<DGrothePhD></DGrothePhD>！"
-  },
-  "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal 係一個非牟利機構，冇你嘅支持就唔可能有今日嘅成果。而家你可以透過 PayPal 喺 Signal 桌面版捐款。"
-  },
   "icu:WhatsNew__7.90--0": {
-    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
+    "messageformat": "• Signal Artist 系列新出五款官方貼圖包，等你嘅私隱保護更貼心，包括：Amanda Cotan 創作嘅「Chug the Mouse」；Miguel Ángel Camprubí 創作嘅「Cozy Season」；Tiffany Beucher 創作嘅「Croco's Feelings」；Plastic Thing 創作嘅「My Daily Life 2」同埋 Lexi Vay 創作嘅「Rocky Talk」。"
+  },
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "• Signal 安全備份嚟咗啦！而家你可以揀啟用自動端對端加密備份功能，咁樣當你換新手機或者重新安裝 Signal 嗰陣，就唔會冇晒啲訊息。你可以免費備份全部訊息同最近 45 日嘅媒體，或者可以俾少少月費就有 100 GB 儲存空間嚟備份全部附件。㩒一下 Signal 設定入面嘅備份就可以即刻開始。多謝每個喺測試期間幫手測試呢個功能嘅用家！"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

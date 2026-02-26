@@ -1021,6 +1021,12 @@ export async function startApp(): Promise<void> {
           });
         }
       }
+
+      if (window.isBeforeVersion(lastVersion, 'v7.91.0-beta.1')) {
+        await itemStorage.remove('versionedExpirationTimer');
+        await itemStorage.remove('callQualitySurveyCooldownDisabled');
+        await itemStorage.remove('localDeleteWarningShown');
+      }
     }
 
     setAppLoadingScreenMessage(i18n('icu:optimizingApplication'), i18n);
@@ -2317,16 +2323,12 @@ export async function startApp(): Promise<void> {
     processBatch(batch) {
       const deduped = new Set(batch);
       deduped.forEach(async sender => {
-        try {
-          if (!(await shouldRespondWithProfileKey(sender))) {
-            return;
-          }
-        } catch (error) {
-          log.error(
-            'respondWithProfileKeyBatcher error',
-            Errors.toLogFormat(error)
-          );
+        if (!shouldRespondWithProfileKey(sender)) {
+          return;
         }
+        sender.enableProfileSharing({
+          reason: 'shouldRespondWithProfileKey',
+        });
 
         drop(
           sender.queueJob('sendProfileKeyUpdate', () =>
@@ -3882,9 +3884,6 @@ export async function startApp(): Promise<void> {
   async function onDeleteForMeSync(ev: DeleteForMeSyncEvent) {
     const { confirm, timestamp, envelopeId, deleteForMeSync } = ev;
     const logId = `onDeleteForMeSync(${timestamp})`;
-
-    // The user clearly knows about this feature; they did it on another device!
-    drop(itemStorage.put('localDeleteWarningShown', true));
 
     log.info(`${logId}: Saving ${deleteForMeSync.length} sync tasks`);
 

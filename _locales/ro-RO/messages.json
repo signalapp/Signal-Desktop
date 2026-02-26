@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Comutare unelte dezvoltator"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Deschide instrumentele de apelare a dezvoltatorilor"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Setează ca dispozitiv nou"
   },
@@ -654,10 +651,10 @@
     "messageformat": "Se trimite..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify encryption"
+    "messageformat": "Signal poate acum verifica automat criptarea codului"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+    "messageformat": "Pentru contactele la care ești conectat prin numărul de telefon, Signal poate confirma automat dacă conexiunea este sigură folosind un proces numit transparență privind codurile. Pentru o securitate sporită, poți verifica în continuare conexiunile manual folosind un cod QR sau comparând numerele de siguranță."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Continuă"
@@ -1117,6 +1114,9 @@
   },
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Adaugă o etichetă de membru"
+  },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Notă"
@@ -2431,6 +2431,9 @@
   },
   "icu:Toast--unable-download-from-backup-tier": {
     "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Doar administratorii pot seta roluri de membru în acest grup."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Editările pot fi făcute numai în termen de 24 de ore de la trimiterea acestui mesaj."
@@ -4631,6 +4634,9 @@
   "icu:ContactModal--rm-admin": {
     "messageformat": "Elimină ca administrator"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "Acest lucru va șterge și rolul lor de membru."
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "Fă administrator"
   },
@@ -4692,22 +4698,22 @@
     "messageformat": "Bună!"
   },
   "icu:ConversationDetails--member-label--list-header": {
-    "messageformat": "Group members with labels"
+    "messageformat": "Membrii grupului cu roluri"
   },
   "icu:ConversationDetails--member-label--no-members": {
-    "messageformat": "No other members have labels"
+    "messageformat": "Nu există membri cu roluri"
   },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "Se salvează modificările..."
   },
   "icu:ConversationDetails--member-label--error-title": {
-    "messageformat": "Can’t save member label"
+    "messageformat": "Nu se poate salva rolul de membru"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "Verifică-ți conexiunea și încearcă din nou."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "Only admins can set member labels in this group."
+    "messageformat": "Doar administratorii pot seta roluri de membru în acest grup."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Dispariție mesaje"
@@ -4758,13 +4764,13 @@
     "messageformat": "Alege cine poate trimite mesaje în acest grup."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
-    "messageformat": "Member labels will be cleared"
+    "messageformat": "Rolurile de membru vor fi șterse"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+    "messageformat": "Schimbarea acestei permisiuni la „Numai administratori” va șterge rolurile de membru setate de persoanele care nu au drept de administrator în acest grup."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "Continuă"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Solicitări și invitații"
@@ -4819,6 +4825,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Adăugare membri"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Adaugă un rol de membru"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Vezi tot"
@@ -4993,6 +5002,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Poți selecta până la {count,number} mesaj de șters pentru toată lumea} few {Poți selecta până la {count,number} mesaje de șters pentru toată lumea} other {Poți selecta până la {count,number} de mesaje de șters pentru toată lumea}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Elimini elementul?"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "Prin această acțiune, vei elimina permanent acest element. Orice mesaj text asociat cu acest element va fi și el eliminat."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Închide"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Șterge"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Anulează"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Poți să redirecționezi până la 30 de mesaje"
@@ -5366,6 +5390,24 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "Fișierele pe care le trimiți și le primești vor apărea aici"
   },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "Vizualizare în chat"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Redirecționează"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Salvează"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Trimite mesaj"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Copiază linkul"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Șterge"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Selectează calitatea fișierelor media"
   },
@@ -5579,6 +5621,10 @@
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "administratori"
   },
+  "icu:Avatar__View": {
+    "messageformat": "Vezi",
+    "limit": 7
+  },
   "icu:AvatarEditor--choose": {
     "messageformat": "Selectează un avatar"
   },
@@ -5656,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "Stabilește"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Copii de rezervă locale"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Exportă…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Exportă o copie de rezervă criptată locală într-un folder și valideaz-o"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Exportă backup-ul criptat în memorie și rulează suita de validare pe acesta"
@@ -7486,19 +7523,19 @@
     "messageformat": "<paragraph>Signal nu colectează sau stochează informațiile personale când faci o donație.</paragraph><paragraph>Folosim Stripe ca procesator de plăți ca să primim donațiile tale. Nu accesăm, stocăm sau salvăm niciuna dintre informațiile pe care le oferi către ei.</paragraph><paragraph>Signal nu conectează donația ta cu contul Signal și nici nu poate să o facă.</paragraph><paragraph>Îți mulțumim pentru sprijinul tău!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "Ca organizație non-profit independentă, Signal se angajează să ofere mesaje și apeluri private. Fără reclame, fără sisteme de urmărire. Donează astăzi și susține Signal."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "Obține o insignă opțională pe profilul tău atunci când donezi"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "Confidențialitatea ta este misiunea noastră"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signal este o organizație non-profit."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
-    "messageformat": "Heart icon in the style of the Signal logo"
+    "messageformat": "Pictogramă inimă în stilul logo-ului Signal"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "OK"
@@ -7591,13 +7628,13 @@
     "messageformat": "Elimină informațiile"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving will cancel your donation."
+    "messageformat": "Ieșirea îți va anula donația."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "Părăsește"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
-    "messageformat": "Stay on page"
+    "messageformat": "Rămâi pe pagină"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Continuă"
@@ -7839,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Ajută-ne să ne îmbunătățim"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "Acest lucru ne ajută să aflăm mai multe despre apeluri și ce funcționează și ce nu funcționează. Poți vizualiza jurnalul de depanare înainte de trimitere."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Trimiterea va permite partajarea feedback-ului tău împreună cu <diagnosticInfoLink>informații de diagnostic despre apelul tău</diagnosticInfoLink>. Opțional, poți partaja un jurnal de depanare pentru a ne ajuta să îmbunătățim calitatea apelurilor."
   },
@@ -7850,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Vizualizare"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Jurnalele de depanare conțin informații de nivel scăzut despre aplicație și nu dezvăluie conținutul mesajelor tale."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "Informațiile partajate cu noi conțin informații de nivel inferior despre aplicație și nu includ conținutul apelurilor tale."
@@ -7906,13 +7937,13 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.89--0": {
-    "messageformat": "Această actualizare remediază o eroare de formatare a textului în timp ce tasta Majuscule (Caps Lock) era activată, astfel încât va fi mai ușor să scrii textul cu caractere aldine (sau cursive) ÎN TIMP CE PUI PUNCTUL PE I. Mulțumesc, <DGrothePhD></DGrothePhD>!"
-  },
-  "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal este o organizație non-profit care nu ar fi posibilă fără sprijinul tău, iar acum poți dona prin PayPal în Signal Desktop."
-  },
   "icu:WhatsNew__7.90--0": {
-    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
+    "messageformat": "Păstrează-ți intimitatea cu cinci noi pachete oficiale de autocolante din seria Signal Artist: „Chug the Mouse” de Amanda Cotan, „Cozy Season” de Miguel Ángel Camprubí, „Croco's Feelings” de Tiffany Beucher, „My Daily Life 2” de Plastic Thing și „Rocky Talk” de Lexi Vay."
+  },
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "S-au lansat backup-urile securizate Signal! Acum poți alege să activezi backup-urile criptate automate end-to-end, ca să nu pierzi niciun mesaj când ai un telefon nou sau reinstalezi Signal. Poți face backup-uri gratuite pentru toate mesajele și fișierele media din ultimele 45 de zile sau poți plăti o mică taxă lunară ca să obții 100 GB de stocare pentru backup-uri la fiecare atașament. Apasă pe backup-uri în setările Signal pentru a începe. Mulțumim celor care au testat funcția în beta!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

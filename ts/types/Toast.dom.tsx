@@ -15,6 +15,7 @@ export enum ToastType {
   CallQualitySurveySuccess = 'CallQualitySurveySuccess',
   CaptchaFailed = 'CaptchaFailed',
   CaptchaSolved = 'CaptchaSolved',
+  CannotAddMemberLabel = 'CannotAddMemberLabel',
   CannotEditMessage = 'CannotEditMessage',
   CannotForwardEmptyMessage = 'CannotForwardEmptyMessage',
   CannotMixMultiAndNonMultiAttachments = 'CannotMixMultiAndNonMultiAttachments',
@@ -95,6 +96,8 @@ export enum ToastType {
   UnsupportedOS = 'UnsupportedOS',
   UserAddedToGroup = 'UserAddedToGroup',
   UsernameRecovered = 'UsernameRecovered',
+  ViewOnceDisabled = 'ViewOnceDisabled',
+  ViewOnceEnabled = 'ViewOnceEnabled',
   VoiceNoteLimit = 'VoiceNoteLimit',
   VoiceNoteMustBeTheOnlyAttachment = 'VoiceNoteMustBeTheOnlyAttachment',
   WhoCanFindMeReadOnly = 'WhoCanFindMeReadOnly',
@@ -124,6 +127,7 @@ export type AnyToast =
       parameters: { canRetry: boolean };
     }
   | { toastType: ToastType.CallQualitySurveySuccess }
+  | { toastType: ToastType.CannotAddMemberLabel }
   | { toastType: ToastType.CannotEditMessage }
   | { toastType: ToastType.CannotForwardEmptyMessage }
   | { toastType: ToastType.CannotMixMultiAndNonMultiAttachments }
@@ -248,6 +252,8 @@ export type AnyToast =
       toastType: ToastType.UsernameRecovered;
       parameters: { username: string };
     }
+  | { toastType: ToastType.ViewOnceDisabled }
+  | { toastType: ToastType.ViewOnceEnabled }
   | { toastType: ToastType.VoiceNoteLimit }
   | { toastType: ToastType.VoiceNoteMustBeTheOnlyAttachment }
   | { toastType: ToastType.WhoCanFindMeReadOnly };

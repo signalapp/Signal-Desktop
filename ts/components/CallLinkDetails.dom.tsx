@@ -70,7 +70,6 @@ export function CallLinkDetails({
 
   const webUrl = linkCallRoute.toWebUrl({
     key: callLink.rootKey,
-    epoch: callLink.epoch,
   });
   const joinButton = (
     <Button

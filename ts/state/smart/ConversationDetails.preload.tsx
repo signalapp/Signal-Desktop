@@ -31,7 +31,7 @@ import {
   getDefaultConversationColor,
   getItems,
 } from '../selectors/items.dom.js';
-import { getSelectedNavTab } from '../selectors/nav.preload.js';
+import { getSelectedNavTab } from '../selectors/nav.std.js';
 import {
   getIntl,
   getTheme,
@@ -52,6 +52,8 @@ import { drop } from '../../util/drop.std.js';
 import { DataReader } from '../../sql/Client.preload.js';
 import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.js';
 import { getCanAddLabel } from '../../types/GroupMemberLabels.std.js';
+import { useToastActions } from '../ducks/toast.preload.js';
+import { useNavActions } from '../ducks/nav.std.js';
 
 const { sortBy } = lodash;
 
@@ -127,7 +129,6 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
     deleteAvatarFromDisk,
     getProfilesForConversation,
     leaveGroup,
-    pushPanelForConversation,
     replaceAvatar,
     saveAvatarToDisk,
     setDisappearingMessages,
@@ -137,6 +138,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
     updateGroupAttributes,
     updateNicknameAndNote,
   } = useConversationsActions();
+  const { pushPanelForConversation } = useNavActions();
   const {
     onOutgoingAudioCallInConversation,
     onOutgoingVideoCallInConversation,
@@ -149,6 +151,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
     toggleEditNicknameAndNoteModal,
     toggleSafetyNumberModal,
   } = useGlobalModalActions();
+  const { showToast } = useToastActions();
 
   const conversation = conversationSelector(conversationId);
   assertDev(
@@ -273,6 +276,7 @@ export const SmartConversationDetails = memo(function SmartConversationDetails({
       setMuteExpiration={setMuteExpiration}
       showContactModal={showContactModal}
       showConversation={showConversation}
+      showToast={showToast}
       startAvatarDownload={() => startAvatarDownload(conversationId)}
       theme={theme}
       toggleAboutContactModal={toggleAboutContactModal}

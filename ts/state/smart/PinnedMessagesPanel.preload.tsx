@@ -14,6 +14,7 @@ import type { SmartTimelineItemProps } from './TimelineItem.preload.js';
 import { SmartTimelineItem } from './TimelineItem.preload.js';
 import { canPinMessages as getCanPinMessages } from '../selectors/message.preload.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
+import { useNavActions } from '../ducks/nav.std.js';
 
 export type SmartPinnedMessagesPanelProps = Readonly<{
   conversationId: string;
@@ -29,8 +30,8 @@ export const SmartPinnedMessagesPanel = memo(function SmartPinnedMessagesPanel(
   const i18n = useSelector(getIntl);
   const conversationSelector = useSelector(getConversationByIdSelector);
   const conversation = conversationSelector(props.conversationId);
-  const { onPinnedMessageRemove, popPanelForConversation } =
-    useConversationsActions();
+  const { onPinnedMessageRemove } = useConversationsActions();
+  const { popPanelForConversation } = useNavActions();
 
   strictAssert(
     conversation,

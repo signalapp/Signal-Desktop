@@ -19,6 +19,7 @@ import type { MessageAttributesType } from '../model-types.d.ts';
 import { createLogger } from '../logging/log.std.js';
 import { postSaveUpdates } from '../util/cleanup.preload.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
+import { getSelectedConversationId } from '../state/selectors/nav.std.js';
 
 const log = createLogger('benchmarkConversationOpen');
 
@@ -123,8 +124,7 @@ export async function benchmarkConversationOpen({
 
   // eslint-disable-next-line no-param-reassign
   conversationId =
-    conversationId ||
-    window.reduxStore.getState().conversations.selectedConversationId;
+    conversationId || getSelectedConversationId(window.reduxStore.getState());
 
   strictAssert(conversationId, 'Must open a conversation for benchmarking');
 
@@ -224,7 +224,7 @@ async function showEmptyInbox() {
     window.SignalCI,
     'CI not enabled; ensure this is a staging build'
   );
-  if (!window.reduxStore.getState().conversations.selectedConversationId) {
+  if (!getSelectedConversationId(window.reduxStore.getState())) {
     return;
   }
   const promise = window.SignalCI.waitForEvent('empty-inbox:rendered', {

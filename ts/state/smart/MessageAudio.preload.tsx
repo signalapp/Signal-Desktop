@@ -15,12 +15,10 @@ import {
   selectAudioPlayerActive,
   selectVoiceNoteAndConsecutive,
 } from '../selectors/audioPlayer.preload.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
 import { createLogger } from '../../logging/log.std.js';
-import {
-  getConversationByIdSelector,
-  getSelectedConversationId,
-} from '../selectors/conversations.dom.js';
+import { getConversationByIdSelector } from '../selectors/conversations.dom.js';
+import { getSelectedConversationId } from '../selectors/nav.std.js';
+import { useNavActions } from '../ducks/nav.std.js';
 
 const log = createLogger('MessageAudio');
 
@@ -35,7 +33,7 @@ export const SmartMessageAudio = memo(function SmartMessageAudio({
   const active = useSelector(selectAudioPlayerActive);
   const { loadVoiceNoteAudio, setIsPlaying, setPlaybackRate, setPosition } =
     useAudioPlayerActions();
-  const { pushPanelForConversation } = useConversationsActions();
+  const { pushPanelForConversation } = useNavActions();
 
   const getVoiceNoteData = useSelector(selectVoiceNoteAndConsecutive);
   const getConversationById = useSelector(getConversationByIdSelector);

@@ -405,13 +405,13 @@ $rtl-icon-map: (
 
 // Individual traits
 
-@mixin button-focus-outline {
+@mixin button-focus-outline($width: 3px) {
   &:focus {
     @include keyboard-mode {
-      box-shadow: 0px 0px 0px 3px variables.$color-ultramarine;
+      box-shadow: 0px 0px 0px $width variables.$color-ultramarine;
     }
     @include dark-keyboard-mode {
-      box-shadow: 0px 0px 0px 3px variables.$color-ultramarine-light;
+      box-shadow: 0px 0px 0px $width variables.$color-ultramarine-light;
     }
   }
 }

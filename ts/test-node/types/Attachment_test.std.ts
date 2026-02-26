@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import * as sinon from 'sinon';
 
 import * as Attachment from '../../util/Attachment.std.js';
 import type {
@@ -28,6 +29,13 @@ const FAKE_LOCAL_ATTACHMENT: LocalAttachmentV2Type = {
 };
 
 describe('Attachment', () => {
+  let sandbox: sinon.SinonSandbox;
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+  afterEach(() => {
+    sandbox.restore();
+  });
   describe('getFileExtension', () => {
     it('should return file extension from content type', () => {
       const input: AttachmentType = fakeAttachment({
@@ -443,10 +451,16 @@ describe('Attachment', () => {
         return FAKE_LOCAL_ATTACHMENT;
       };
 
-      const actual = await migrateDataToFileSystem(input, {
-        writeNewAttachmentData,
-        logger,
-      });
+      const actual = await migrateDataToFileSystem(
+        input,
+        {
+          writeNewAttachmentData,
+          getExistingAttachmentDataForReuse: async () => null,
+          getPlaintextHashForInMemoryAttachment: () => 'fakeplaintextHash',
+          logger,
+        },
+        { id: 'messageId' }
+      );
       assert.deepEqual(actual, expected);
     });
 
@@ -465,10 +479,16 @@ describe('Attachment', () => {
 
       const writeNewAttachmentData = async () => FAKE_LOCAL_ATTACHMENT;
 
-      const actual = await migrateDataToFileSystem(input, {
-        writeNewAttachmentData,
-        logger,
-      });
+      const actual = await migrateDataToFileSystem(
+        input,
+        {
+          writeNewAttachmentData,
+          getExistingAttachmentDataForReuse: async () => null,
+          getPlaintextHashForInMemoryAttachment: () => 'fakeplaintextHash',
+          logger,
+        },
+        { id: 'messageId' }
+      );
       assert.deepEqual(actual, expected);
     });
 
@@ -483,12 +503,60 @@ describe('Attachment', () => {
 
       const writeNewAttachmentData = async () => FAKE_LOCAL_ATTACHMENT;
 
-      const actual = await migrateDataToFileSystem(input, {
-        writeNewAttachmentData,
-        logger,
-      });
+      const actual = await migrateDataToFileSystem(
+        input,
+        {
+          writeNewAttachmentData,
+          getExistingAttachmentDataForReuse: async () => null,
+          getPlaintextHashForInMemoryAttachment: () => 'fakeplaintextHash',
+          logger,
+        },
+        { id: 'messageId' }
+      );
 
       assert.isUndefined(actual.data);
+    });
+    it('should reuse existing data if exists', async () => {
+      const input = {
+        contentType: MIME.IMAGE_JPEG,
+        data: Bytes.fromString('Above us only sky'),
+        fileName: 'foo.jpg',
+        size: 1111,
+      };
+
+      const writeNewAttachmentData = sandbox.stub();
+
+      const actual = await migrateDataToFileSystem(
+        input,
+        {
+          writeNewAttachmentData,
+          getExistingAttachmentDataForReuse: async ({
+            plaintextHash,
+            contentType,
+          }) => {
+            assert.strictEqual(plaintextHash, 'somePlaintextHash');
+            assert.strictEqual(contentType, MIME.IMAGE_JPEG);
+            return {
+              path: 'new-path',
+              version: 2,
+              localKey: 'new-local-key',
+            };
+          },
+          getPlaintextHashForInMemoryAttachment: () => 'somePlaintextHash',
+          logger,
+        },
+        { id: 'messageId' }
+      );
+      assert.strictEqual(writeNewAttachmentData.callCount, 0);
+      assert.deepEqual(actual, {
+        version: 2,
+        size: 1111,
+        plaintextHash: 'somePlaintextHash',
+        contentType: MIME.IMAGE_JPEG,
+        path: 'new-path',
+        localKey: 'new-local-key',
+        fileName: 'foo.jpg',
+      });
     });
   });
 });

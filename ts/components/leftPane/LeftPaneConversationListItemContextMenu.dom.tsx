@@ -47,8 +47,6 @@ export type LeftPaneConversationListItemContextMenuProps = Readonly<{
   onDelete: (conversationId: string) => void;
   onChatFolderOpenCreatePage: (initChatFolderParams: ChatFolderParams) => void;
   onChatFolderToggleChat: ChatFolderToggleChat;
-  localDeleteWarningShown: boolean;
-  setLocalDeleteWarningShown: () => void;
   children: ReactNode;
 }>;
 
@@ -290,10 +288,8 @@ export const LeftPaneConversationListItemContextMenu: FC<LeftPaneConversationLis
         {showConfirmDeleteDialog && (
           <DeleteMessagesConfirmationDialog
             i18n={i18n}
-            localDeleteWarningShown={props.localDeleteWarningShown}
             onDestroyMessages={handleDelete}
             onClose={handleCloseConfirmDeleteDialog}
-            setLocalDeleteWarningShown={props.setLocalDeleteWarningShown}
           />
         )}
       </>

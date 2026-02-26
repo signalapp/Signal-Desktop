@@ -165,6 +165,14 @@ export function renderToast({
     );
   }
 
+  if (toastType === ToastType.CannotAddMemberLabel) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:ToastManager__CannotAddMemberLabel')}
+      </Toast>
+    );
+  }
+
   if (toastType === ToastType.CannotEditMessage) {
     return (
       <Toast onClose={hideToast}>
@@ -956,6 +964,22 @@ export function renderToast({
   if (toastType === ToastType.WhoCanFindMeReadOnly) {
     return (
       <Toast onClose={hideToast}>{i18n('icu:WhoCanFindMeReadOnlyToast')}</Toast>
+    );
+  }
+
+  if (toastType === ToastType.ViewOnceEnabled) {
+    return (
+      <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>
+        {i18n('icu:Toast--viewOnceEnabled')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.ViewOnceDisabled) {
+    return (
+      <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>
+        {i18n('icu:Toast--viewOnceDisabled')}
+      </Toast>
     );
   }
 

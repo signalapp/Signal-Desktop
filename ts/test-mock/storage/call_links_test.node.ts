@@ -114,7 +114,9 @@ describe('storage service', function (this: Mocha.Suite) {
       '.CallsTab__ConversationCallDetails'
     );
     await callLinkDetails.waitFor();
-    const deleteButton = await window.getByText('Delete link');
+    const deleteButton = await window.getByRole('button', {
+      name: 'Delete link',
+    });
     await deleteButton.click();
     const confirmModal = await window.getByTestId(
       'ConfirmationDialog.CallLinkDetails__DeleteLinkModal'

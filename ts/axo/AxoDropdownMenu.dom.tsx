@@ -20,7 +20,7 @@ import {
   useAriaLabellingContext,
   useCreateAriaLabellingContext,
 } from './_internal/AriaLabellingContext.dom.js';
-import { assert } from './_internal/assert.dom.js';
+import { assert } from './_internal/assert.std.js';
 import {
   getElementAriaRole,
   isAriaWidgetRole,

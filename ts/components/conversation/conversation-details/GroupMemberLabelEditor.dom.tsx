@@ -12,7 +12,6 @@ import {
   isEmojiVariantValue,
 } from '../../fun/data/emojis.std.js';
 import { FunEmojiPickerButton } from '../../fun/FunButton.dom.js';
-
 import { tw } from '../../../axo/tw.dom.js';
 import { AxoButton } from '../../../axo/AxoButton.dom.js';
 import {
@@ -28,6 +27,12 @@ import { ConversationColors } from '../../../types/Colors.std.js';
 import { WidthBreakpoint } from '../../_util.std.js';
 import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.js';
 import { SignalService as Proto } from '../../../protobuf/index.std.js';
+import { Avatar, AvatarSize } from '../../Avatar.dom.js';
+import { UserText } from '../../UserText.dom.js';
+import { GroupMemberLabel } from '../ContactName.dom.js';
+import { useConfirmDiscard } from '../../../hooks/useConfirmDiscard.dom.js';
+import { NavTab } from '../../../types/Nav.std.js';
+import { PanelType } from '../../../types/Panels.std.js';
 
 import type { EmojiVariantKey } from '../../fun/data/emojis.std.js';
 import type {
@@ -36,9 +41,8 @@ import type {
 } from '../../../state/ducks/conversations.preload.js';
 import type { LocalizerType, ThemeType } from '../../../types/Util.std.js';
 import type { PreferredBadgeSelectorType } from '../../../state/selectors/badges.preload.js';
-import { Avatar, AvatarSize } from '../../Avatar.dom.js';
-import { UserText } from '../../UserText.dom.js';
-import { GroupMemberLabel } from '../ContactName.dom.js';
+import type { Location } from '../../../types/Nav.std.js';
+import { usePrevious } from '../../../hooks/usePrevious.std.js';
 
 export type PropsDataType = {
   existingLabelEmoji: string | undefined;
@@ -62,6 +66,21 @@ export type PropsType = PropsDataType & {
   popPanelForConversation: () => void;
   updateGroupMemberLabel: UpdateGroupMemberLabelType;
 };
+
+// We don't want to render any panel behind it as we animate it in, if we weren't already
+// showing the ConversationDetails pane.
+export function getLeafPanelOnly(
+  location: Location,
+  conversationId: string | undefined
+): boolean {
+  return (
+    !conversationId ||
+    location.tab !== NavTab.Chats ||
+    location.details.conversationId !== conversationId ||
+    location.details.panels?.watermark === -1 ||
+    location.details.panels?.stack[0]?.type !== PanelType.ConversationDetails
+  );
+}
 
 function getEmojiVariantKey(value: string): EmojiVariantKey | undefined {
   if (isEmojiVariantValue(value)) {
@@ -99,17 +118,20 @@ export function GroupMemberLabelEditor({
   const emojiKey = labelEmoji ? getEmojiVariantKey(labelEmoji) : null;
   const [isSaving, setIsSaving] = useState(false);
 
+  const labelStringForSave = labelString ? labelString.trim() : labelString;
   const isDirty =
-    labelEmoji !== existingLabelEmoji || labelString !== existingLabelString;
-  const canSave = Boolean(isDirty && labelString);
+    (labelEmoji || undefined) !== (existingLabelEmoji || undefined) ||
+    (labelStringForSave || undefined) !== (existingLabelString || undefined);
+  const canSave =
+    isDirty && ((!labelEmoji && !labelStringForSave) || labelStringForSave);
   const spinner = isSaving
     ? {
         'aria-label': i18n('icu:ConversationDetails--member-label--saving'),
       }
     : undefined;
 
-  const contactLabelForMessage = labelString?.trim()
-    ? { labelEmoji, labelString: labelString.trim() }
+  const contactLabelForMessage = labelStringForSave
+    ? { labelEmoji, labelString: labelStringForSave }
     : undefined;
 
   useEffect(() => {
@@ -122,6 +144,28 @@ export function GroupMemberLabelEditor({
       setIsShowingPermissionsError(true);
     }
   }, [group, isShowingPermissionsError, setIsShowingPermissionsError]);
+
+  const tryClose = React.useRef<() => void | undefined>();
+  const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
+    i18n,
+    name: 'GroupMemberLabelEditor',
+    tryClose,
+  });
+
+  const onTryClose = React.useCallback(() => {
+    const discardChanges = noop;
+    confirmDiscardIf(isDirty, discardChanges);
+  }, [confirmDiscardIf, isDirty]);
+  tryClose.current = onTryClose;
+
+  // Popping the panel here after a save is far safer; we may not have re-rendered with
+  // the new existing values yet when the onSuccess callback down-file is called.
+  const previousIsSaving = usePrevious(isSaving, isSaving);
+  useEffect(() => {
+    if (isSaving === false && previousIsSaving !== isSaving && !isDirty) {
+      popPanelForConversation();
+    }
+  }, [isDirty, isSaving, popPanelForConversation, previousIsSaving]);
 
   return (
     <div className={tw('flex size-full flex-col')}>
@@ -173,13 +217,13 @@ export function GroupMemberLabelEditor({
           </div>
           <div
             className={tw(
-              'mt-5 rounded-[27px] bg-fill-primary-pressed px-2 pt-[47px] pb-6'
+              'mt-2.5 rounded-[27px] bg-fill-primary-pressed px-2 py-6'
             )}
             ref={messageContainer}
           >
             <Message
               text={i18n('icu:ConversationDetails--member-label--hello')}
-              author={{ ...me }}
+              author={{ ...me, isMe: false }}
               contactLabel={contactLabelForMessage}
               contactNameColor={ourColor}
               renderingContext="ConversationDetails/GroupMemberLabelEditor"
@@ -252,7 +296,7 @@ export function GroupMemberLabelEditor({
           </div>
           <div>
             {membersWithLabel.length === 0 && (
-              <div className={tw('mt-2 type-body-medium text-label-secondary')}>
+              <div className={tw('type-body-medium text-label-secondary')}>
                 {i18n('icu:ConversationDetails--member-label--no-members')}
               </div>
             )}
@@ -346,12 +390,11 @@ export function GroupMemberLabelEditor({
               {
                 conversationId: group.id,
                 labelEmoji,
-                labelString: labelString?.trim(),
+                labelString: labelStringForSave,
               },
               {
                 onSuccess() {
                   setIsSaving(false);
-                  popPanelForConversation();
                 },
                 onFailure() {
                   setIsSaving(false);
@@ -364,6 +407,7 @@ export function GroupMemberLabelEditor({
           {i18n('icu:save')}
         </AxoButton.Root>
       </div>
+      {confirmDiscardModal}
       <AxoAlertDialog.Root
         open={isShowingGeneralError}
         onOpenChange={value => {

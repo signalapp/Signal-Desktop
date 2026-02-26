@@ -20,7 +20,6 @@ import {
   callLinkFromRecord,
   defunctCallLinkToRecord,
   defunctCallLinkFromRecord,
-  toEpochBytes,
 } from '../../util/callLinksRingrtc.node.js';
 import type { ReadableDB, WritableDB } from '../Interface.std.js';
 import { sql } from '../util.std.js';
@@ -95,7 +94,6 @@ function _insertCallLink(db: WritableDB, callLink: CallLinkType): void {
     INSERT INTO callLinks (
       roomId,
       rootKey,
-      epoch,
       adminKey,
       name,
       restrictions,
@@ -108,7 +106,6 @@ function _insertCallLink(db: WritableDB, callLink: CallLinkType): void {
     ) VALUES (
       $roomId,
       $rootKey,
-      $epoch,
       $adminKey,
       $name,
       $restrictions,
@@ -137,17 +134,14 @@ export function insertOrUpdateCallLinkFromSync(
   db: WritableDB,
   callLink: CallLinkType
 ): InsertOrUpdateCallLinkFromSyncResult {
-  const { roomId, epoch, adminKey } = callLink;
+  const { roomId, adminKey } = callLink;
   return db.transaction(() => {
     const existingCallLink = getCallLinkByRoomId(db, roomId);
     if (existingCallLink) {
-      if (
-        (adminKey && adminKey !== existingCallLink.adminKey) ||
-        epoch !== existingCallLink.epoch
-      ) {
-        updateCallLinkEpochAndAdminKeyByRoomId(db, roomId, epoch, adminKey);
+      if (adminKey && adminKey !== existingCallLink.adminKey) {
+        updateCallLinkAdminKeyByRoomId(db, roomId, adminKey);
         return {
-          callLink: { ...existingCallLink, adminKey, epoch },
+          callLink: { ...existingCallLink, adminKey },
           inserted: false,
           updated: true,
         };
@@ -175,7 +169,6 @@ export function updateCallLink(db: WritableDB, callLink: CallLinkType): void {
     `
     UPDATE callLinks
     SET
-      epoch = $epoch,
       adminKey = $adminKey,
       name = $name,
       restrictions = $restrictions,
@@ -215,59 +208,19 @@ export function updateCallLinkState(
   return callLinkFromRecord(parseUnknown(callLinkRecordSchema, row));
 }
 
-export function updateCallLinkStateAndEpoch(
+export function updateCallLinkAdminKeyByRoomId(
   db: WritableDB,
   roomId: string,
-  callLinkState: CallLinkStateType,
-  epoch: string | null
-): CallLinkType {
-  const { name, restrictions, expiration, revoked } = callLinkState;
-  const restrictionsValue = parseStrict(
-    callLinkRestrictionsSchema,
-    restrictions
-  );
-  const epochBytes = epoch ? toEpochBytes(epoch) : null;
-  const [query, params] = sql`
-    UPDATE callLinks
-    SET
-      name = ${name},
-      epoch = ${epochBytes},
-      restrictions = ${restrictionsValue},
-      expiration = ${expiration},
-      revoked = ${revoked ? 1 : 0}
-    WHERE roomId = ${roomId}
-    RETURNING *;
-  `;
-  const row: unknown = db.prepare(query).get(params);
-  strictAssert(row, 'Expected row to be returned');
-  return callLinkFromRecord(parseUnknown(callLinkRecordSchema, row));
-}
-
-export function updateCallLinkEpochAndAdminKeyByRoomId(
-  db: WritableDB,
-  roomId: string,
-  epoch: string | null,
-  adminKey: string | null
+  adminKey: string
 ): void {
-  const epochBytes = epoch ? toEpochBytes(epoch) : null;
-  if (adminKey) {
-    const adminKeyBytes = toAdminKeyBytes(adminKey);
-    db.prepare(
-      `
-      UPDATE callLinks
-      SET adminKey = $adminKeyBytes, epoch = $epochBytes
-      WHERE roomId = $roomId;
-      `
-    ).run({ roomId, epochBytes, adminKeyBytes });
-  } else {
-    db.prepare(
-      `
-      UPDATE callLinks
-      SET epoch = $epochBytes
-      WHERE roomId = $roomId;
-      `
-    ).run({ roomId, epochBytes });
-  }
+  const adminKeyBytes = toAdminKeyBytes(adminKey);
+  db.prepare(
+    `
+     UPDATE callLinks
+     SET adminKey = $adminKeyBytes
+     WHERE roomId = $roomId;
+     `
+  ).run({ roomId, adminKeyBytes });
 }
 
 function assertRoomIdMatchesRootKey(roomId: string, rootKey: string): void {
@@ -515,7 +468,6 @@ export function insertDefunctCallLink(
     INSERT INTO defunctCallLinks (
       roomId,
       rootKey,
-      epoch,
       adminKey,
       storageID,
       storageVersion,
@@ -524,7 +476,6 @@ export function insertDefunctCallLink(
     ) VALUES (
       $roomId,
       $rootKey,
-      $epoch,
       $adminKey,
       $storageID,
       $storageVersion,

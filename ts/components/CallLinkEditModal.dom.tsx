@@ -93,10 +93,8 @@ export function CallLinkEditModal({
   const [restrictionsId] = useState(() => generateUuid());
 
   const callLinkWebUrl = useMemo(() => {
-    return linkCallRoute
-      .toWebUrl({ key: callLink.rootKey, epoch: callLink.epoch })
-      .toString();
-  }, [callLink.rootKey, callLink.epoch]);
+    return linkCallRoute.toWebUrl({ key: callLink.rootKey }).toString();
+  }, [callLink.rootKey]);
 
   const joinButton = (
     <Button

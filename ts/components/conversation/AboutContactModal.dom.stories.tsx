@@ -74,6 +74,9 @@ export default {
     onOpenNotePreviewModal: action('onOpenNotePreviewModal'),
     pendingAvatarDownload: false,
     sharedGroupNames: [],
+    showProfileEditor: action('showProfileEditor'),
+    showQRCodeScreen: action('showQRCodeScreen'),
+    showEditMemberLabelScreen: action('showEditMemberLabelScreen'),
     startAvatarDownload: action('startAvatarDownload'),
     toggleProfileNameWarningModal: action('toggleProfileNameWarningModal'),
     toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
@@ -87,6 +90,15 @@ export function Defaults(args: PropsType): React.JSX.Element {
 
 export function Me(args: PropsType): React.JSX.Element {
   return <AboutContactModal {...args} contact={me} />;
+}
+
+export function MeWithUsername(args: PropsType): React.JSX.Element {
+  return (
+    <AboutContactModal
+      {...args}
+      contact={{ ...me, username: 'myusername.04' }}
+    />
+  );
 }
 
 export function MeWithLabel(args: PropsType): React.JSX.Element {

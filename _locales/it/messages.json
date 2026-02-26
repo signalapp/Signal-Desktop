@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Apri strumenti di sviluppo"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Apri gli strumenti di sviluppo"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Configura come nuovo dispositivo"
   },
@@ -654,10 +651,10 @@
     "messageformat": "Invio in corso…"
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify encryption"
+    "messageformat": "Signal ora può verificare automaticamente la crittografia delle chiavi"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+    "messageformat": "Per i contatti con cui hai iniziato una chat usando il loro numero di telefono, Signal può confermare automaticamente se la connessione è sicura tramite un processo chiamato \"key transparency\". Per maggiore sicurezza, puoi comunque verificare manualmente le connessioni usando un codice QR o confrontando i numeri di sicurezza."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Continua"
@@ -1117,6 +1114,9 @@
   },
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Aggiungi un ruolo dell'utente"
+  },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Appunti"
@@ -2431,6 +2431,9 @@
   },
   "icu:Toast--unable-download-from-backup-tier": {
     "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Solo gli admin possono aggiungere i ruoli degli utenti in questo gruppo."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Puoi modificare questo messaggio solo entro 24 ore dall'invio."
@@ -4631,6 +4634,9 @@
   "icu:ContactModal--rm-admin": {
     "messageformat": "Rimuovi da ruolo di admin"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "Quest'azione rimuoverà anche il suo ruolo utente."
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "Rendi admin"
   },
@@ -4692,22 +4698,22 @@
     "messageformat": "Ciao!"
   },
   "icu:ConversationDetails--member-label--list-header": {
-    "messageformat": "Group members with labels"
+    "messageformat": "Utenti del gruppo con ruoli"
   },
   "icu:ConversationDetails--member-label--no-members": {
-    "messageformat": "No other members have labels"
+    "messageformat": "Nessun altro utente ha dei ruoli"
   },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "Salvataggio in corso…"
   },
   "icu:ConversationDetails--member-label--error-title": {
-    "messageformat": "Can’t save member label"
+    "messageformat": "Impossibile salvare il ruolo dell'utente"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "Controlla la tua connessione e riprova."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "Only admins can set member labels in this group."
+    "messageformat": "Solo gli admin possono impostare i ruoli degli utenti in questo gruppo."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Messaggi temporanei"
@@ -4758,13 +4764,13 @@
     "messageformat": "Scegli chi può inviare messaggi al gruppo."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
-    "messageformat": "Member labels will be cleared"
+    "messageformat": "I ruoli degli utenti verranno rimossi"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+    "messageformat": "Cambiare questa autorizzazione a \"Solo admin\" comporterà la rimozione di tutti i ruoli degli utenti in questo gruppo impostati da utenti che non erano admin."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "Continua"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Richieste e inviti"
@@ -4819,6 +4825,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Aggiungi membri"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Aggiungi un ruolo dell'utente"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Vedi tutti"
@@ -4993,6 +5002,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Puoi selezionare fino a {count,number} messaggio da eliminare per tutti} other {Puoi selezionare fino a {count,number} messaggi da eliminare per tutti}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Eliminare l'elemento?"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "Quest'azione eliminerà definitivamente questo elemento. Verrà eliminato anche ogni messaggio di testo associato a questo elemento."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Chiudi"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Elimina"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Annulla"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Puoi inoltrare fino a 30 messaggi"
@@ -5366,6 +5390,24 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "Qui vedrai i file che invii e ricevi"
   },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "Vedi in chat"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Inoltra"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Salva"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Invia messaggio"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Copia link"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Elimina"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Seleziona qualità media"
   },
@@ -5579,6 +5621,10 @@
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "admin"
   },
+  "icu:Avatar__View": {
+    "messageformat": "Mostra",
+    "limit": 7
+  },
   "icu:AvatarEditor--choose": {
     "messageformat": "Seleziona un avatar"
   },
@@ -5656,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "Imposta"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Backup locali"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Esporta…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Esporta il backup crittografato locale in una cartella per poi validarlo"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Esporta backup crittografati sul tuo spazio di archiviazione ed esegui una validation suite sul backup"
@@ -7486,19 +7523,19 @@
     "messageformat": "<paragraph>Signal non archivia né salva le tue informazioni personali quando fai una donazione.</paragraph><paragraph>Usiamo Stripe per elaborare i pagamenti e ricevere le tue donazioni. Non abbiamo accesso, né archiviamo o salviamo le informazioni che fornisci a Stripe per le transazioni.</paragraph><paragraph>Signal non assocerà mai (né è in grado di farlo) le informazioni legate alla donazione al tuo account.</paragraph><paragraph>Grazie per il tuo supporto!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "In quanto non-profit indipendente, Signal supporta la privacy delle comunicazioni, dalle chiamate ai messaggi di testo. Niente pubblicità, cookie o tracciamenti. Dona ora per supportare il lavoro di Signal."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "Dona e ricevi un badge aggiuntivo opzionale per il tuo profilo"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "La tua privacy, la nostra missione"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signal è una società non-profit. Per nostra scelta."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
-    "messageformat": "Heart icon in the style of the Signal logo"
+    "messageformat": "Icona a forma di cuore con lo stesso stile del logo di Signal"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "OK"
@@ -7591,13 +7628,13 @@
     "messageformat": "Rimuovi le informazioni"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving will cancel your donation."
+    "messageformat": "Lasciare questa pagina annullerà la tua donazione."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "Abbandona"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
-    "messageformat": "Stay on page"
+    "messageformat": "Rimani"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Continua"
@@ -7839,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Aiutaci a migliorare"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "Ciò ci aiuta a monitorare la qualità e il corretto funzionamento delle chiamate. Puoi vedere il tuo log di debug prima di inviarlo."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Se procedi con l'invio, il tuo feedback verrà condiviso insieme ai <diagnosticInfoLink>dati diagnostici relativi alla tua chiamata</diagnosticInfoLink>. Se lo desideri, puoi condividere un log di debug per aiutarci a migliorare la qualità delle chiamate."
   },
@@ -7850,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Mostra"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "I log di debug contengono informazioni di basso profilo sull'app e non rivelano in alcun modo il contenuto dei tuoi messaggi."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "Le informazioni condivise con noi contengono dati di basso livello sull'app e non includono il contenuto delle tue chiamate."
@@ -7906,13 +7937,13 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.89--0": {
-    "messageformat": "Questo aggiornamento risolve un bug legato alla formattazione del testo quando il tasto CAPS LOCK è attivo, così diventerà più semplice URLARE in corsivo o in grassetto. Grazie, <DGrothePhD></DGrothePhD>!"
-  },
-  "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal è un'organizzazione non-profit che esiste solo grazie al tuo supporto: ora puoi donare tramite PayPal anche su Signal Desktop."
-  },
   "icu:WhatsNew__7.90--0": {
-    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
+    "messageformat": "Da oggi la privacy diventa ancora più divertente con cinque nuovi pacchetti di sticker della serie Signal Artist: \"Chug the Mouse\" di Amanda Cotan, \"Cozy Season\" di Miguel Ángel Camprubí, \"Croco's Feelings\" di Tiffany Beucher, \"My Daily Life 2\" di Plastic Thing e \"Rocky Talk\" di Lexi Vay."
+  },
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "I backup sicuri di Signal sono arrivati! Da ora puoi scegliere di abilitare i backup automatici crittografati end-to-end così non perderai neanche un messaggio se cambi telefono o reinstalli Signal. Puoi salvare sul backup tutti i tuoi messaggi e gli ultimi 45 giorni di media gratuitamente. Oppure, per un piccolo costo mensile, puoi ricevere 100 GB di archiviazione per il backup di tutti gli allegati. Tocca sull'opzione backup nelle Impostazioni di Signal per cominciare. Grazie a tutti gli utenti che ci hanno aiutato a testare questa funzione nel periodo di beta!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

@@ -101,7 +101,6 @@ export type StorageAccessType = {
   lastAttemptedToRefreshProfilesAt: number;
   lastResortKeyUpdateTime: number;
   lastResortKeyUpdateTimePNI: number;
-  localDeleteWarningShown: boolean;
   accountEntropyPool: string;
   masterKey: string;
 
@@ -309,6 +308,7 @@ export type StorageAccessType = {
   primarySendsSms: never;
   backupMediaDownloadIdle: never;
   callQualitySurveyCooldownDisabled: never;
+  localDeleteWarningShown: never;
 };
 
 export type StorageInterface = {

@@ -11,14 +11,13 @@ import { SignalService as Proto } from '../protobuf/index.std.js';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.preload.js';
 import { MessageSender } from '../textsecure/SendMessage.preload.js';
 import { toAdminKeyBytes } from './callLinks.std.js';
-import { toEpochBytes, toRootKeyBytes } from './callLinksRingrtc.node.js';
+import { toRootKeyBytes } from './callLinksRingrtc.node.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const log = createLogger('sendCallLinkUpdateSync');
 
 export type sendCallLinkUpdateSyncCallLinkType = {
   rootKey: string;
-  epoch: string | null;
   adminKey: string | null;
 };
 
@@ -47,7 +46,6 @@ async function _sendCallLinkUpdateSync(
     const callLinkUpdate = new Proto.SyncMessage.CallLinkUpdate({
       type: protoType,
       rootKey: toRootKeyBytes(callLink.rootKey),
-      epoch: callLink.epoch ? toEpochBytes(callLink.epoch) : null,
       adminPasskey: callLink.adminKey
         ? toAdminKeyBytes(callLink.adminKey)
         : null,

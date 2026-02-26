@@ -22,6 +22,7 @@ import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
 import { useStoriesActions } from '../ducks/stories.preload.js';
 import { getAddedByForOurPendingInvitation } from '../../util/getAddedByForOurPendingInvitation.preload.js';
 import { getGroupMemberships } from '../../util/getGroupMemberships.dom.js';
+import { useNavActions } from '../ducks/nav.std.js';
 
 type SmartHeroRowProps = Readonly<{
   id: string;
@@ -72,8 +73,8 @@ export const SmartHeroRow = memo(function SmartHeroRow({
   const isSignalConversationValue = isSignalConversation(conversation);
   const fromOrAddedByTrustedContact =
     isFromOrAddedByTrustedContact(conversation);
-  const { pushPanelForConversation, startAvatarDownload } =
-    useConversationsActions();
+  const { startAvatarDownload } = useConversationsActions();
+  const { pushPanelForConversation } = useNavActions();
   const { toggleAboutContactModal, toggleProfileNameWarningModal } =
     useGlobalModalActions();
   const openConversationDetails = useCallback(() => {

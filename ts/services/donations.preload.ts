@@ -109,7 +109,8 @@ export async function initialize(): Promise<void> {
   if (
     isTooOld &&
     (workflow.type === donationStateSchema.Enum.INTENT_METHOD ||
-      workflow.type === donationStateSchema.Enum.INTENT_REDIRECT)
+      workflow.type === donationStateSchema.Enum.INTENT_REDIRECT ||
+      workflow.type === donationStateSchema.Enum.PAYPAL_INTENT)
   ) {
     log.info(
       `initialize: Workflow at ${workflow.type} is too old, canceling donation.`

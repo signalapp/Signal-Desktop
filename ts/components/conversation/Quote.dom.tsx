@@ -477,7 +477,7 @@ export function Quote(props: Props): React.JSX.Element | null {
     ) : (
       <>
         {title}
-        {authorLabel && !isFromMe ? (
+        {authorLabel ? (
           <>
             {' '}
             <GroupMemberLabel context="quote" contactLabel={authorLabel} />
@@ -491,8 +491,7 @@ export function Quote(props: Props): React.JSX.Element | null {
         dir="auto"
         className={classNames(
           getClassName('__primary__author'),
-          isIncoming ? getClassName('__primary__author--incoming') : null,
-          authorLabel ? getClassName('__primary__author--with-label') : null
+          isIncoming ? getClassName('__primary__author--incoming') : null
         )}
       >
         {author}

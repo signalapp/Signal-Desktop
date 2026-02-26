@@ -97,12 +97,12 @@ export const NOTIFICATION_PROFILE_ID_LENGTH = 16;
 
 export function shouldNotify({
   isCall,
-  isMention,
+  isMentionOrReply,
   conversationId,
   activeProfile,
 }: {
   isCall: boolean;
-  isMention: boolean;
+  isMentionOrReply: boolean;
   conversationId: string;
   activeProfile: NotificationProfileType | undefined;
 }): boolean {
@@ -114,7 +114,7 @@ export function shouldNotify({
     return true;
   }
 
-  if (isMention && activeProfile.allowAllMentions) {
+  if (isMentionOrReply && activeProfile.allowAllMentions) {
     return true;
   }
 

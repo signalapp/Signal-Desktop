@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Εναλλαγή εργαλείων προγραμματιστή"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Άνοιγμα κλήσης εργαλείων προγραμματιστή"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Παραμετροποίηση ως νέα συσκευή"
   },
@@ -654,10 +651,10 @@
     "messageformat": "Υποβολή..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify encryption"
+    "messageformat": "Το Signal μπορεί πλέον να επαληθεύσει αυτόματα την κρυπτογράφηση"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+    "messageformat": "Για τις επαφές με τις οποίες έχεις συνδεθεί μέσω αριθμού τηλεφώνου, το Signal μπορεί να επιβεβαιώσει αυτόματα εάν η σύνδεση είναι ασφαλής χρησιμοποιώντας μια διαδικασία που ονομάζεται διαφάνεια κλειδιού. Για επιπλέον ασφάλεια, μπορείς ακόμα να επαληθεύσεις τις συνδέσεις χειροκίνητα χρησιμοποιώντας έναν κωδικό QR ή ή συγκρίνοντας τους αριθμούς ασφαλείας."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Συνέχεια"
@@ -1117,6 +1114,9 @@
   },
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Προσθήκη ετικέτας μέλους"
+  },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Σημείωση"
@@ -2431,6 +2431,9 @@
   },
   "icu:Toast--unable-download-from-backup-tier": {
     "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Μόνο οι διαχειριστές μπορούν να προσθέσουν ετικέτες μελών σε αυτήν την ομάδα."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Οι τροποποιήσεις μπορούν να εφαρμοστούν μόνο εντός 24 ωρών από τη στιγμή που έστειλες αυτό το μήνυμα."
@@ -4631,6 +4634,9 @@
   "icu:ContactModal--rm-admin": {
     "messageformat": "Αφαίρεση διαχειριστή"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "Αυτό θα διαγράψει επίσης την ετικέτα μέλους τους."
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "Ορισμός ως διαχειριστή"
   },
@@ -4692,22 +4698,22 @@
     "messageformat": "Γεια σου!"
   },
   "icu:ConversationDetails--member-label--list-header": {
-    "messageformat": "Group members with labels"
+    "messageformat": "Μέλη ομάδας με ετικέτες"
   },
   "icu:ConversationDetails--member-label--no-members": {
-    "messageformat": "No other members have labels"
+    "messageformat": "Κανένα άλλο μέλος δεν έχει ετικέτες"
   },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "Αποθήκευση αλλαγών..."
   },
   "icu:ConversationDetails--member-label--error-title": {
-    "messageformat": "Can’t save member label"
+    "messageformat": "Δεν είναι δυνατή η αποθήκευση της ετικέτας μέλους"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "Έλεγξε τη σύνδεσή σου και δοκίμασε πάλι."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "Only admins can set member labels in this group."
+    "messageformat": "Μόνο οι διαχειριστές μπορούν να ορίσουν ετικέτες μελών σε αυτήν την ομάδα."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Μηνύματα που εξαφανίζονται"
@@ -4758,13 +4764,13 @@
     "messageformat": "Επέλεξε ποιοί μπορούν να στέλνουν μηνύματα στην ομάδα."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
-    "messageformat": "Member labels will be cleared"
+    "messageformat": "Οι ετικέτες μελών θα διαγραφούν"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+    "messageformat": "Η αλλαγή αυτού του δικαιώματος σε \"Μόνο Διαχειριστές\" θα διαγράψει τις ετικέτες μελών που ορίστηκαν από άτομα που δεν είναι διαχειριστές σε αυτήν την ομάδα."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "Συνέχεια"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Αιτήματα & Προσκλήσεις"
@@ -4819,6 +4825,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Προσθήκη μελών"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Προσθήκη ετικέτας μέλους"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Προβολή όλων"
@@ -4993,6 +5002,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Μπορείς να επιλέξεις έως {count,number} μήνυμα για να διαγραφεί για όλους} other {Μπορείς να επιλέξεις έως {count,number} μηνύματα για να διαγραφούν για όλους}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Διαγραφή αντικειμένου;"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "Αυτό θα διαγράψει οριστικά το αντικείμενο. Οποιοδήποτε κείμενο μηνύματος σχετίζεται με αυτό το στοιχείο θα διαγραφεί επίσης."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Κλείσιμο"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Διαγραφή"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Ακύρωση"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Μπορείς να προωθήσεις μόνο έως και 30 μηνύματα"
@@ -5366,6 +5390,24 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "Τα αρχεία που στέλνεις και λαμβάνεις θα εμφανίζονται εδώ"
   },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "Προβολή στη συνομιλία"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Προώθηση"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Αποθήκευση"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Αποστολή μηνύματος"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Αντιγραφή συνδέσμου"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Διαγραφή"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Επιλογή ποιότητας πολυμέσων"
   },
@@ -5579,6 +5621,10 @@
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "διαχειριστές"
   },
+  "icu:Avatar__View": {
+    "messageformat": "Προβολή",
+    "limit": 7
+  },
   "icu:AvatarEditor--choose": {
     "messageformat": "Επιλογή εικόνας προφίλ"
   },
@@ -5656,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "Ρύθμιση"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Τοπικά αντίγραφα ασφαλείας"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Εξαγωγή…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Εξαγωγή τοπικού κρυπτογραφημένου αντιγράφου ασφαλείας σε έναν φάκελο και επικύρωσή"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Εξαγωγή αποκρυπτογραφημένου αντιγράφου ασφαλείας και εκτέλεση σουίτας επικύρωσης σε αυτό"
@@ -7486,19 +7523,19 @@
     "messageformat": "<paragraph>Το Signal δεν συλλέγει ούτε αποθηκεύει τα προσωπικά στοιχεία σου όταν κάνεις δωρεά.</paragraph><paragraph>Χρησιμοποιούμε τη Stripe για την επεξεργασία πληρωμών, ώστε να λαμβάνουμε τις δωρεές μας. Δεν επεξεργαζόμαστε ούτε αποθηκεύουμε κανένα από τα στοιχεία που της παρέχεις.</paragraph><paragraph>Το Signal δεν μπορεί να συνδέσει τη δωρεά με τον λογαριασμό σου στο Signal.</paragraph><paragraph>Ευχαριστούμε για την υποστήριξή σου!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "Ως ανεξάρτητος μη κερδοσκοπικός οργανισμός, το Signal έχει δεσμευτεί για ιδιωτικά μηνύματα και κλήσεις. Χωρίς διαφημίσεις, παρακολούθηση, επιτήρηση. Κάνε σήμερα μια δωρεά για να στηρίξεις το Signal."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "Απόκτησε ένα προαιρετικό σήμα στο προφίλ σου όταν κάνεις δωρεά"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "Η ιδιωτικότητά σου είναι η αποστολή μας"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Το Signal είναι ένας μη κερδοσκοπικός οργανισμός."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
-    "messageformat": "Heart icon in the style of the Signal logo"
+    "messageformat": "Εικονίδιο καρδιάς στο στυλ του λογότυπου Signal"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "OK"
@@ -7591,13 +7628,13 @@
     "messageformat": "Κατάργηση πληροφοριών"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving will cancel your donation."
+    "messageformat": "Η αποχώρηση θα ακυρώσει τη δωρεά σου."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "Αποχώρηση"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
-    "messageformat": "Stay on page"
+    "messageformat": "Παραμονή στη σελίδα"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Συνέχεια"
@@ -7839,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Βοήθησέ μας να βελτιωθούμε"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "Αυτό μας βοηθά να μάθουμε περισσότερα για τις κλήσεις και τι λειτουργεί ή δεν λειτουργεί. Μπορείς να δεις το αρχείο καταγραφής αποσφαλμάτωσης πριν από την υποβολή."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Με την υποβολή θα μοιραστείς τα σχόλιά σου μαζί με <diagnosticInfoLink>διαγνωστικές πληροφορίες σχετικά με την κλήση σου</diagnosticInfoLink>. Μπορείς προαιρετικά να κοινοποιήσεις ένα αρχείο καταγραφής αποσφαλμάτωσης για να μας βοηθήσεις να βελτιώσουμε την ποιότητα των κλήσεων."
   },
@@ -7850,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Εμφάνιση"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Τα αρχεία καταγραφής αποσφαλμάτωσης περιέχουν πληροφορίες εφαρμογής χαμηλού επιπέδου και δεν αποκαλύπτουν κανένα από τα περιεχόμενα των μηνυμάτων σου."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "Οι πληροφορίες που κοινοποιούνται σε εμάς περιέχουν πληροφορίες χαμηλού επιπέδου της εφαρμογής και δεν περιλαμβάνουν το περιεχόμενο των κλήσεών σου."
@@ -7906,13 +7937,13 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.89--0": {
-    "messageformat": "Αυτή η ενημέρωση διορθώνει ένα σφάλμα με τη μορφοποίηση κειμένου ενώ ήταν ενεργοποιημένο το Caps Lock. Ευχαριστούμε, <DGrothePhD></DGrothePhD>!"
-  },
-  "icu:WhatsNew__7.89--1": {
-    "messageformat": "Το Signal είναι ένας μη κερδοσκοπικός οργανισμός που δεν θα μπορούσε να λειτουργήσει χωρίς την υποστήριξή σου. Τώρα μπορείς να κάνεις δωρεές μέσω PayPal στο Signal Desktop."
-  },
   "icu:WhatsNew__7.90--0": {
-    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
+    "messageformat": "Πέντε νέα επίσημα πακέτα αυτοκόλλητων καλλιτεχνών."
+  },
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Τα ασφαλή αντίγραφα Signal είναι εδώ! Τώρα μπορείς να δημιουργείς αυτόματα αντίγραφα, ώστε να μην χάσεις μήνυμα αν αλλάξεις τηλέφωνο ή επανεγκαταστήσεις το Signal. Μπορείς να αποθηκεύεις τα μηνύματα και τα πολυμέσα των τελευταίων 45 ημερών δωρεάν ή να πληρώσεις μια μηνιαία χρέωση για 100 GB αποθηκευτικού χώρου για να έχεις αντίγραφα κάθε συνημμένου. Πάτα στα αντίγραφα ασφαλείας στις ρυθμίσεις Signal για έναρξη. Ευχαριστούμε για τη βοήθεια στη δοκιμή της λειτουργίας κατά την περίοδο beta!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

@@ -73,6 +73,7 @@ export const CallingNotification: React.FC<PropsType> = React.memo(
           });
         }}
         shouldShowAdditional={false}
+        onDebugMessage={null}
         onDownload={null}
         onEdit={null}
         onReplyToMessage={null}

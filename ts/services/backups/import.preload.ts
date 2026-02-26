@@ -134,10 +134,7 @@ import {
   fromAdminKeyBytes,
   toCallHistoryFromUnusedCallLink,
 } from '../../util/callLinks.std.js';
-import {
-  getRoomIdFromRootKey,
-  fromEpochBytes,
-} from '../../util/callLinksRingrtc.node.js';
+import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc.node.js';
 import { loadAllAndReinitializeRedux } from '../allLoaders.preload.js';
 import {
   startBackupMediaDownload,
@@ -1451,7 +1448,6 @@ export class BackupImportStream extends Writable {
   ): Promise<void> {
     const {
       rootKey: rootKeyBytes,
-      epoch,
       adminKey,
       name,
       restrictions,
@@ -1466,7 +1462,6 @@ export class BackupImportStream extends Writable {
     const callLink: CallLinkType = {
       roomId: getRoomIdFromRootKey(rootKey),
       rootKey: rootKey.toString(),
-      epoch: epoch?.length ? fromEpochBytes(epoch) : null,
       adminKey: adminKey?.length ? fromAdminKeyBytes(adminKey) : null,
       name,
       restrictions: fromCallLinkRestrictionsProto(restrictions),

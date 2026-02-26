@@ -53,6 +53,9 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => {
     inputApi: null,
     shouldHidePopovers: null,
     linkPreviewResult: null,
+    showViewOnceButton: false,
+    isViewOnceActive: false,
+    onToggleViewOnce: action('onToggleViewOnce'),
   };
 };
 
@@ -141,4 +144,31 @@ export function Mentions(): React.JSX.Element {
 
 export function NoFormattingMenu(): React.JSX.Element {
   return <CompositionInput {...useProps({ isFormattingEnabled: false })} />;
+}
+
+export function ViewOnceButton(): React.JSX.Element {
+  const [isActive, setIsActive] = React.useState(false);
+  const props = useProps();
+
+  return (
+    <CompositionInput
+      {...props}
+      showViewOnceButton
+      isViewOnceActive={isActive}
+      onToggleViewOnce={() => setIsActive(!isActive)}
+    />
+  );
+}
+
+export function ViewOnceButtonActive(): React.JSX.Element {
+  const props = useProps();
+
+  return (
+    <CompositionInput
+      {...props}
+      showViewOnceButton
+      isViewOnceActive
+      onToggleViewOnce={action('onToggleViewOnce')}
+    />
+  );
 }

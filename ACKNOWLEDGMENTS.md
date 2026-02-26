@@ -14461,7 +14461,7 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 ```
 
-## libsignal-account-keys 0.1.0, libsignal-core 0.1.0, mrp 2.64.1, protobuf 2.64.1, ringrtc 2.64.1, regex-aot 0.1.0, partial-default-derive 0.1.0, partial-default 0.1.0
+## libsignal-account-keys 0.1.0, libsignal-core 0.1.0, mrp 2.65.2, protobuf 2.65.2, ringrtc 2.65.2, regex-aot 0.1.0, partial-default-derive 0.1.0, partial-default 0.1.0
 
 ```
 GNU AFFERO GENERAL PUBLIC LICENSE
@@ -14702,7 +14702,7 @@ You should also get your employer (if you work as a programmer) or school, if an
 
 ```
 
-## pulldown-cmark-to-cmark 21.1.0
+## pulldown-cmark-to-cmark 22.0.0
 
 ```
                                  Apache License
@@ -15116,7 +15116,7 @@ You should also get your employer (if you work as a programmer) or school, if an
 
 ```
 
-## prost-build 0.14.1, prost-derive 0.14.1, prost-types 0.14.1, prost 0.14.1
+## prost-build 0.14.3, prost-derive 0.14.3, prost-types 0.14.3, prost 0.14.3
 
 ```
                               Apache License
@@ -15692,7 +15692,7 @@ SOFTWARE.
 
 ```
 
-## cc 1.2.51, cfg-if 1.0.4, cmake 0.1.57, find-msvc-tools 0.1.6, pkg-config 0.3.32
+## cc 1.2.54, cfg-if 1.0.4, cmake 0.1.57, find-msvc-tools 0.1.8, pkg-config 0.3.32
 
 ```
 Copyright (c) 2014 Alex Crichton
@@ -15754,7 +15754,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## base64ct 1.8.2
+## base64ct 1.8.3
 
 ```
 Copyright (c) 2014 Steve "Sc00bz" Thomas (steve at tobtu dot com)
@@ -15817,7 +15817,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## uuid 1.19.0
+## uuid 1.20.0
 
 ```
 Copyright (c) 2014 The Rust Project Developers
@@ -15849,7 +15849,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## libc 0.2.179
+## libc 0.2.180
 
 ```
 Copyright (c) 2014-2020 The Rust Project Developers
@@ -15906,7 +15906,7 @@ THE SOFTWARE.
 
 ```
 
-## either 1.15.0, itertools 0.14.0, petgraph 0.7.1, serde_with 3.16.1, serde_with_macros 3.16.1
+## either 1.15.0, itertools 0.14.0, petgraph 0.8.3, serde_with 3.16.1, serde_with_macros 3.16.1
 
 ```
 Copyright (c) 2015
@@ -16194,7 +16194,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## hashbrown 0.16.1
+## hashbrown 0.15.5, hashbrown 0.16.1
 
 ```
 Copyright (c) 2016 Amanieu d'Antras
@@ -16629,7 +16629,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## getrandom 0.2.16
+## getrandom 0.2.17
 
 ```
 Copyright (c) 2018-2024 The rust-random Project Developers
@@ -17111,7 +17111,7 @@ SOFTWARE.
 
 ```
 
-## rand 0.8.5, rand 0.9.2, rand_chacha 0.3.1, rand_chacha 0.9.0, rand_core 0.6.4, rand_core 0.9.3
+## rand 0.8.5, rand 0.9.2, rand_chacha 0.3.1, rand_chacha 0.9.0, rand_core 0.6.4, rand_core 0.9.5
 
 ```
 Copyright 2018 Developers of the Rand project
@@ -17143,7 +17143,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## zerocopy-derive 0.8.33, zerocopy 0.8.33
+## zerocopy-derive 0.8.34, zerocopy 0.8.34
 
 ```
 Copyright 2023 The Fuchsia Authors
@@ -17310,7 +17310,7 @@ SOFTWARE.
 
 ```
 
-## const-str 0.6.4
+## const-str 1.0.0
 
 ```
 MIT License
@@ -17413,7 +17413,7 @@ SOFTWARE.
 
 ```
 
-## curve25519-dalek-derive 0.1.1, anyhow 1.0.100, displaydoc 0.2.5, fastrand 2.3.0, home 0.5.12, itoa 1.0.17, linkme-impl 0.3.35, linkme 0.3.35, linux-raw-sys 0.11.0, linux-raw-sys 0.4.15, num_enum 0.7.5, num_enum_derive 0.7.5, once_cell 1.21.3, prettyplease 0.2.37, proc-macro-crate 3.4.0, proc-macro2 1.0.105, quote 1.0.43, rustix 0.38.44, rustix 1.1.3, rustversion 1.0.22, semver 1.0.27, send_wrapper 0.6.0, serde 1.0.228, serde_core 1.0.228, serde_derive 1.0.228, serde_json 1.0.149, syn 2.0.114, thiserror-impl 1.0.69, thiserror-impl 2.0.17, thiserror 1.0.69, thiserror 2.0.17, unicode-ident 1.0.22, zmij 1.0.12
+## curve25519-dalek-derive 0.1.1, anyhow 1.0.100, displaydoc 0.2.5, fastrand 2.3.0, home 0.5.12, itoa 1.0.17, linkme-impl 0.3.35, linkme 0.3.35, linux-raw-sys 0.11.0, linux-raw-sys 0.4.15, num_enum 0.7.5, num_enum_derive 0.7.5, once_cell 1.21.3, prettyplease 0.2.37, proc-macro-crate 3.4.0, proc-macro2 1.0.106, quote 1.0.44, rustix 0.38.44, rustix 1.1.3, rustversion 1.0.22, semver 1.0.27, send_wrapper 0.6.0, serde 1.0.228, serde_core 1.0.228, serde_derive 1.0.228, serde_json 1.0.149, syn 2.0.114, thiserror-impl 1.0.69, thiserror-impl 2.0.18, thiserror 1.0.69, thiserror 2.0.18, unicode-ident 1.0.22, zmij 1.0.17
 
 ```
 Permission is hereby granted, free of charge, to any
@@ -17901,7 +17901,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## hpke-rs-crypto 0.3.0, hpke-rs 0.4.0
+## hpke-rs-crypto 0.4.0, hpke-rs 0.5.0
 
 ```
 Mozilla Public License Version 2.0
@@ -18323,6 +18323,30 @@ not be used in advertising or otherwise to promote the sale, use or other
 dealings in these Data Files or Software without prior written
 authorization of the copyright holder.
 
+```
+
+## foldhash 0.1.5
+
+```
+Copyright (c) 2024 Orson Peters
+
+This software is provided 'as-is', without any express or implied warranty. In
+no event will the authors be held liable for any damages arising from the use of
+this software.
+
+Permission is granted to anyone to use this software for any purpose, including
+commercial applications, and to alter it and redistribute it freely, subject to
+the following restrictions:
+
+1. The origin of this software must not be misrepresented; you must not claim
+    that you wrote the original software. If you use this software in a product,
+    an acknowledgment in the product documentation would be appreciated but is
+    not required.
+
+2. Altered source versions must be plainly marked as such, and must not be
+    misrepresented as being the original software.
+
+3. This notice may not be removed or altered from any source distribution.
 ```
 
 ## webrtc

@@ -21,7 +21,7 @@ import {
   getProfileMovedModalNeeded,
   getStoriesEnabled,
 } from '../selectors/items.dom.js';
-import { getSelectedNavTab } from '../selectors/nav.preload.js';
+import { getSelectedNavTab } from '../selectors/nav.std.js';
 import { useNavActions } from '../ducks/nav.std.js';
 import { getHasPendingUpdate } from '../selectors/updates.std.js';
 import { getCallHistoryUnreadCount } from '../selectors/callHistory.std.js';

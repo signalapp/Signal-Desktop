@@ -187,6 +187,9 @@ export function CompositionTextArea({
         linkPreviewResult={null}
         // Panels appear behind this modal
         shouldHidePopovers={null}
+        showViewOnceButton={false}
+        isViewOnceActive={false}
+        onToggleViewOnce={() => undefined}
       />
       <div className="CompositionTextArea__emoji">
         <FunEmojiPicker

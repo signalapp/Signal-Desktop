@@ -860,6 +860,7 @@ export async function runDownloadAttachmentJobInner({
     const existingAttachmentData = await getExistingAttachmentDataForReuse({
       plaintextHash: downloadedAttachment.plaintextHash,
       contentType: attachment.contentType,
+      messageId,
       logId,
     });
 

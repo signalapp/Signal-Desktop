@@ -1,10 +1,14 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { type ReactNode } from 'react';
+import type { ReadonlyDeep } from 'type-fest';
 
 import { formatFileSize } from '../../../util/formatFileSize.std.js';
-import type { MediaItemType } from '../../../types/MediaItem.std.js';
+import type {
+  GenericMediaItemType,
+  MediaItemType,
+} from '../../../types/MediaItem.std.js';
 import type { LocalizerType } from '../../../types/Util.std.js';
 import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
 import { FileThumbnail } from '../../FileThumbnail.dom.js';
@@ -19,7 +23,11 @@ export type Props = {
   mediaItem: MediaItemType;
   authorTitle: string;
   onClick: (status: AttachmentStatusType['state']) => void;
-  onShowMessage: () => void;
+  showMessage: () => void;
+  renderContextMenu: (
+    mediaItem: ReadonlyDeep<GenericMediaItemType>,
+    children: ReactNode
+  ) => JSX.Element;
 };
 
 export function DocumentListItem({
@@ -27,7 +35,8 @@ export function DocumentListItem({
   mediaItem,
   authorTitle,
   onClick,
-  onShowMessage,
+  showMessage,
+  renderContextMenu,
 }: Props): React.JSX.Element {
   const { attachment } = mediaItem;
 
@@ -67,7 +76,8 @@ export function DocumentListItem({
       subtitle={subtitle}
       readyLabel={i18n('icu:startDownload')}
       onClick={onClick}
-      onShowMessage={onShowMessage}
+      showMessage={showMessage}
+      renderContextMenu={renderContextMenu}
     />
   );
 }

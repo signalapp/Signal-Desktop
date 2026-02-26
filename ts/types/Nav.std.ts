@@ -7,22 +7,30 @@ import type { PanelArgsType } from './Panels.std.js';
 
 export type Location = ReadonlyDeep<
   | {
+      tab: NavTab.Chats;
+      details: ChatDetails;
+    }
+  | {
       tab: NavTab.Settings;
       details: SettingsLocation;
     }
-  | { tab: Exclude<NavTab, NavTab.Settings> }
+  | { tab: Exclude<NavTab, NavTab.Chats | NavTab.Settings> }
 >;
 
 export type ChatDetails = ReadonlyDeep<{
   conversationId?: string;
-  panels?: {
-    isAnimating: boolean;
-    wasAnimated: boolean;
-    direction: 'push' | 'pop' | undefined;
-    stack: ReadonlyArray<PanelArgsType>;
-    watermark: number;
-  };
+  panels?: PanelInfo;
 }>;
+
+export type PanelInfo = {
+  direction: 'push' | 'pop' | undefined;
+  isAnimating: boolean;
+  // When navigating deep into a panel stack, we only want to render the leaf panel
+  leafPanelOnly?: boolean;
+  stack: ReadonlyArray<PanelArgsType>;
+  wasAnimated: boolean;
+  watermark: number;
+};
 
 export type SettingsLocation = ReadonlyDeep<
   | {

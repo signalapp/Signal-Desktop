@@ -1008,7 +1008,8 @@ async function resolveReferences(packId: string): Promise<void> {
           try {
             attachments = await pMap(
               messageIds,
-              () => copyStickerToAttachments(packId, stickerId),
+              messageId =>
+                copyStickerToAttachments({ packId, stickerId, messageId }),
               { concurrency: 3 }
             );
           } catch (error) {
@@ -1094,10 +1095,15 @@ export function getSticker(
   return pack.stickers[stickerId];
 }
 
-export async function copyStickerToAttachments(
-  packId: string,
-  stickerId: number
-): Promise<AttachmentType> {
+export async function copyStickerToAttachments({
+  packId,
+  stickerId,
+  messageId,
+}: {
+  packId: string;
+  stickerId: number;
+  messageId: string;
+}): Promise<AttachmentType> {
   const sticker = getSticker(packId, stickerId);
   if (!sticker) {
     throw new Error(
@@ -1132,6 +1138,7 @@ export async function copyStickerToAttachments(
   const existingAttachmentData = await getExistingAttachmentDataForReuse({
     plaintextHash,
     contentType,
+    messageId,
     logId: 'copyStickerToAttachments',
   });
 

@@ -15,13 +15,11 @@ import {
   getAttachment,
   getAttachmentFromBackupTier,
 } from '../textsecure/WebAPI.preload.js';
-import * as Conversation from '../types/Conversation.node.js';
 import * as Errors from '../types/errors.std.js';
 import type { ValidateConversationType } from '../model-types.d.ts';
 import type { ConversationModel } from '../models/conversations.preload.js';
 import { validateConversation } from '../util/validateConversation.dom.js';
 import {
-  writeNewAttachmentData,
   maybeDeleteAttachmentFile,
   doesAttachmentExist,
 } from '../util/migrations.preload.js';
@@ -70,24 +68,19 @@ async function updateConversationFromContactSync(
   });
 
   // Update the conversation avatar only if new avatar exists and hash differs
-  const { avatar } = details;
-  if (avatar && avatar.path) {
-    const newAttributes = await Conversation.maybeUpdateAvatar(
-      conversation.attributes,
-      {
-        newAvatar: avatar,
-        writeNewAttachmentData,
-        deleteAttachmentData: maybeDeleteAttachmentFile,
-        doesAttachmentExist,
-      }
-    );
-    conversation.set(newAttributes);
-  } else {
-    const { attributes } = conversation;
-    if (attributes.avatar && attributes.avatar.path) {
-      await maybeDeleteAttachmentFile(attributes.avatar.path);
+  const { avatar: newAvatar } = details;
+  const oldAvatar = conversation.get('avatar');
+  const avatarHasChanged = newAvatar?.hash !== oldAvatar?.hash;
+  const oldAvatarExistsOnDisk =
+    oldAvatar?.path && (await doesAttachmentExist(oldAvatar.path));
+
+  if (avatarHasChanged || !oldAvatarExistsOnDisk) {
+    conversation.set({ avatar: newAvatar });
+    if (oldAvatar?.path) {
+      await maybeDeleteAttachmentFile(oldAvatar.path);
     }
-    conversation.set({ avatar: null });
+  } else if (newAvatar?.path) {
+    await maybeDeleteAttachmentFile(newAvatar.path);
   }
 
   if (isInitialSync) {

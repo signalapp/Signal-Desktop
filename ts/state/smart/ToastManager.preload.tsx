@@ -16,11 +16,11 @@ import {
 import { hasSelectedStoryData } from '../selectors/stories.preload.js';
 import { shouldShowLightbox } from '../selectors/lightbox.std.js';
 import { isInFullScreenCall as getIsInFullScreenCall } from '../selectors/calling.std.js';
-import { getSelectedNavTab } from '../selectors/nav.preload.js';
 import {
-  getMe,
   getSelectedConversationId,
-} from '../selectors/conversations.dom.js';
+  getSelectedNavTab,
+} from '../selectors/nav.std.js';
+import { getMe } from '../selectors/conversations.dom.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
 import { useCallingActions } from '../ducks/calling.preload.js';
 import { useToastActions } from '../ducks/toast.preload.js';

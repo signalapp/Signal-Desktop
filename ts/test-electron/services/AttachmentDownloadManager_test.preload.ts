@@ -669,7 +669,7 @@ describe('AttachmentDownloadManager', () => {
       );
       assert.strictEqual(runJob.callCount, 1);
     });
-    it('will not retry a job if manually cancelled', async () => {
+    it('will not retry a job if manually canceled', async () => {
       const jobs = await addJobs(1);
       const jobAttempts = getPromisesForAttempts(jobs[0], 2);
 
@@ -679,7 +679,7 @@ describe('AttachmentDownloadManager', () => {
       await jobAttempts[0].started;
       await downloadStarted.promise;
 
-      // user-cancelled behavior
+      // user-canceled behavior
       downloadManager?.cancelJobs(JobCancelReason.UserInitiated, () => true);
 
       await assert.isRejected(jobAttempts[0].completed as Promise<void>);

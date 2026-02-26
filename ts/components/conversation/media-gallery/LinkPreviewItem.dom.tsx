@@ -1,14 +1,18 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { type ReactNode } from 'react';
+import type { ReadonlyDeep } from 'type-fest';
 
 import {
   getAlt,
   getUrl,
   defaultBlurHash,
 } from '../../../util/Attachment.std.js';
-import type { LinkPreviewMediaItemType } from '../../../types/MediaItem.std.js';
+import type {
+  GenericMediaItemType,
+  LinkPreviewMediaItemType,
+} from '../../../types/MediaItem.std.js';
 import type { LocalizerType, ThemeType } from '../../../types/Util.std.js';
 import { tw } from '../../../axo/tw.dom.js';
 import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
@@ -19,7 +23,11 @@ import { ListItem } from './ListItem.dom.js';
 export type DataProps = Readonly<{
   mediaItem: LinkPreviewMediaItemType;
   onClick: (status: AttachmentStatusType['state']) => void;
-  onShowMessage: () => void;
+  showMessage: () => void;
+  renderContextMenu: (
+    mediaItem: ReadonlyDeep<GenericMediaItemType>,
+    children: ReactNode
+  ) => JSX.Element;
 }>;
 
 // Provided by smart layer
@@ -36,7 +44,8 @@ export function LinkPreviewItem({
   mediaItem,
   authorTitle,
   onClick,
-  onShowMessage,
+  showMessage,
+  renderContextMenu,
 }: Props): React.JSX.Element {
   const { preview } = mediaItem;
 
@@ -97,7 +106,8 @@ export function LinkPreviewItem({
       subtitle={subtitle}
       readyLabel={i18n('icu:LinkPreviewItem__alt')}
       onClick={onClick}
-      onShowMessage={onShowMessage}
+      showMessage={showMessage}
+      renderContextMenu={renderContextMenu}
     />
   );
 }

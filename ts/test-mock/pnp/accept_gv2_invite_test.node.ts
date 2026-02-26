@@ -161,7 +161,8 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
     debug('Leave the group through settings');
 
     await conversationStack
-      .locator('.conversation-details-panel >> "Leave group"')
+      .locator('.conversation-details-panel')
+      .getByRole('button', { name: 'Leave group' })
       .click();
 
     await window
@@ -277,10 +278,7 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
       .locator('.module-ConversationHeader__header__info__title')
       .click();
     await conversationStack
-      .locator(
-        '.ConversationDetails-panel-row__root--button >> ' +
-          'text=Requests & Invites'
-      )
+      .getByRole('button', { name: 'Requests & Invites' })
       .click();
     await conversationStack
       .locator('.ConversationDetails__tabs__tab >> text=Invites (1)')

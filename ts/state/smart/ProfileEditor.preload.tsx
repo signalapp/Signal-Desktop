@@ -27,7 +27,7 @@ import {
   getUsernameLinkState,
 } from '../selectors/username.std.js';
 import { SmartUsernameEditor } from './UsernameEditor.preload.js';
-import { getSelectedLocation } from '../selectors/nav.preload.js';
+import { getSelectedLocation } from '../selectors/nav.std.js';
 import { useNavActions } from '../ducks/nav.std.js';
 import { NavTab, SettingsPage } from '../../types/Nav.std.js';
 

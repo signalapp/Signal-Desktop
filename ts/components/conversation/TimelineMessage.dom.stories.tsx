@@ -268,6 +268,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   expirationTimestamp: overrideProps.expirationTimestamp ?? 0,
   getPreferredBadge: overrideProps.getPreferredBadge || (() => undefined),
   giftBadge: overrideProps.giftBadge,
+  handleDebugMessage: action('handleDebugMessage'),
   i18n,
   platform: 'darwin',
   id: overrideProps.id ?? 'random-message-id',

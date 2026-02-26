@@ -131,6 +131,7 @@ export type PropsType = {
   preferredWidthFromStorage: number;
   selectedChatFolder: ChatFolder | null;
   selectedConversationId: undefined | string;
+  selectedLocation: Location | undefined;
   targetedMessageId: undefined | string;
   challengeStatus: 'idle' | 'required' | 'pending';
   setChallengeStatus: (status: 'idle') => void;
@@ -281,6 +282,7 @@ export function LeftPane({
   selectedConversationId,
   targetedMessageId,
   toggleNavTabsCollapse,
+  selectedLocation,
   setChallengeStatus,
   setComposeGroupAvatar,
   setComposeGroupExpireTimer,
@@ -909,6 +911,7 @@ export function LeftPane({
             helper.getEmptyViewNode({
               i18n,
               selectedChatFolder,
+              selectedLocation,
               changeLocation,
             })}
           {!isEmpty && (

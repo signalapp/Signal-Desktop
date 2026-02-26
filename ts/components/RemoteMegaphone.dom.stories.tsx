@@ -26,7 +26,7 @@ export default {
     secondaryCtaText: 'Not now',
     title: 'Donate to Signal',
     body: 'Signal is powered by people like you. Show your support today!',
-    imagePath: '/fixtures/donate-heart.png',
+    imagePath: 'images/donate-heart.png',
     isFullSize: true,
     onClickNarrowMegaphone: action('onClickNarrowMegaphone'),
     onInteractWithMegaphone: action('onInteractWithMegaphone'),
@@ -57,6 +57,18 @@ export function LongText(args: PropsType): React.JSX.Element {
       {...args}
       title="We Need Your Help, Donate to Signal Today"
       body="As a nonprofit, Signal is powered by people like you. Show your support today!"
+    />
+  );
+}
+
+export function LongButtons(args: PropsType): React.JSX.Element {
+  return (
+    <RemoteMegaphone
+      {...args}
+      title="Donate Today"
+      body="As a nonprofit, Signal needs your support. As a nonprofit, Signal needs your support. As a nonprofit, Signal needs your support. As a nonprofit, Signal needs your support."
+      primaryCtaText="Donate Donate Donate Donate"
+      secondaryCtaText="Remind me later Remind me later"
     />
   );
 }

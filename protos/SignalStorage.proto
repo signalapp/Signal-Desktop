@@ -340,7 +340,7 @@ message CallLinkRecord {
   bytes adminPasskey = 2; // Non-empty when the current user is an admin
   uint64 deletedAtTimestampMs = 3; // When present and non-zero, `adminPasskey`
                                    // should be cleared
-  optional bytes epoch = 4;
+  reserved 4; // was epoch, never used
 }
 
 message Recipient {

@@ -13,7 +13,7 @@ import * as Bytes from '../Bytes.std.js';
 import { createLogger } from '../logging/log.std.js';
 import * as Errors from '../types/errors.std.js';
 
-import { deleteExternalFiles } from '../types/Conversation.node.js';
+import { deleteExternalFiles } from '../types/Conversation.std.js';
 import { createBatcher } from '../util/batcher.std.js';
 import { assertDev, softAssert } from '../util/assert.std.js';
 import { mapObjectWithSpec } from '../util/mapObjectWithSpec.std.js';
@@ -561,7 +561,7 @@ async function removeConversation(id: string): Promise<void> {
   if (existing) {
     await writableChannel.removeConversation(id);
     await deleteExternalFiles(existing, {
-      deleteAttachmentData: maybeDeleteAttachmentFile,
+      maybeDeleteAttachmentFile,
     });
   }
 }

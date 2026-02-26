@@ -14,6 +14,7 @@ import { useConversationsActions } from '../ducks/conversations.preload.js';
 import { createLogger } from '../../logging/log.std.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import { isNotNil } from '../../util/isNotNil.std.js';
+import { useNavActions } from '../ducks/nav.std.js';
 
 const log = createLogger('SmartGroupMemberLabelEditor');
 
@@ -33,8 +34,8 @@ export const SmartGroupMemberLabelEditor = memo(
     const conversation = conversationSelector(conversationId);
     const me = conversationSelector(user.ourAci);
 
-    const { updateGroupMemberLabel, popPanelForConversation } =
-      useConversationsActions();
+    const { updateGroupMemberLabel } = useConversationsActions();
+    const { popPanelForConversation } = useNavActions();
     const getMemberColors = useSelector(
       getCachedConversationMemberColorsSelector
     );

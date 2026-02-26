@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Afficher ou masquer les outils pour développeurs"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Afficher les outils d’appel pour développeurs"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Configurer comme nouvel appareil"
   },
@@ -654,10 +651,10 @@
     "messageformat": "Envoi en cours..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify encryption"
+    "messageformat": "Vérification automatique du chiffrement"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+    "messageformat": "Lorsque vous avez pris contact avec quelqu'un via un numéro de téléphone, Signal peut vérifier automatiquement si la connexion est sécurisée grâce à un processus appelé transparence des clés. Pour une sécurité renforcée, vous pouvez aussi le vérifier manuellement en scannant un code QR ou en comparant des numéros de sécurité."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Continuer"
@@ -1117,6 +1114,9 @@
   },
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Ajouter une étiquette de membre"
+  },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Notes"
@@ -2431,6 +2431,9 @@
   },
   "icu:Toast--unable-download-from-backup-tier": {
     "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Dans ce groupe, seuls les admins peuvent créer des étiquettes de membre."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Une fois envoyés, les messages ne peuvent être modifiés que pendant 24 heures."
@@ -4631,6 +4634,9 @@
   "icu:ContactModal--rm-admin": {
     "messageformat": "Révoquer les droits d'admin"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "Cela supprimera également son étiquette de membre."
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "Accorder des droits d'admin"
   },
@@ -4650,7 +4656,7 @@
     "messageformat": "Audio"
   },
   "icu:GroupMemberLabelInfoModal--title": {
-    "messageformat": "Étiquettes de membres"
+    "messageformat": "Étiquettes de membre"
   },
   "icu:GroupMemberLabelInfoModal--description": {
     "messageformat": "Ajoutez une étiquette de membre pour vous décrire ou indiquer votre rôle dans ce groupe. Votre étiquette ne s'affichera que dans ce groupe."
@@ -4692,22 +4698,22 @@
     "messageformat": "Salut !"
   },
   "icu:ConversationDetails--member-label--list-header": {
-    "messageformat": "Group members with labels"
+    "messageformat": "Étiquettes associées aux membres de ce groupe"
   },
   "icu:ConversationDetails--member-label--no-members": {
-    "messageformat": "No other members have labels"
+    "messageformat": "Aucune étiquette à afficher pour les autres membres"
   },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "Enregistrement des modifications..."
   },
   "icu:ConversationDetails--member-label--error-title": {
-    "messageformat": "Can’t save member label"
+    "messageformat": "Impossible d'enregistrer l'étiquette"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "Vérifiez votre connexion et réessayez."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "Only admins can set member labels in this group."
+    "messageformat": "Dans ce groupe, seuls les admins peuvent ajouter des étiquettes de membre."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Messages éphémères"
@@ -4758,13 +4764,13 @@
     "messageformat": "Choisissez qui peut envoyer des messages au groupe."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
-    "messageformat": "Member labels will be cleared"
+    "messageformat": "Les étiquettes de membre seront supprimées"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+    "messageformat": "Si vous définissez cette autorisation sur \"Les administrateurs\", toutes les étiquettes ajoutées par d'autres membres que les admins seront supprimées de ce groupe."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "Continuer"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Demandes d'adhésion et invitations"
@@ -4819,6 +4825,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Ajouter des membres"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Créer une étiquette de membre"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Tout afficher"
@@ -4993,6 +5002,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Vous ne pouvez sélectionner que {count,number} message à supprimer pour tout le monde.} other {Vous ne pouvez sélectionner qu'un maximum de {count,number} messages à supprimer pour tout le monde.}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Supprimer cet élément ?"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "Cet élément sera définitivement supprimé. Les messages qui lui sont associés seront aussi supprimés."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Fermer"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Supprimer"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Annuler"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Vous ne pouvez pas transférer plus de 30 messages"
@@ -5366,6 +5390,24 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "Les fichiers que vous envoyez et recevez s'afficheront ici."
   },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "Afficher dans la conversation"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Transférer"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Enregistrer"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Envoyer un message"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Copier le lien"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Supprimer"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Sélectionner la qualité des médias"
   },
@@ -5579,6 +5621,10 @@
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "admins"
   },
+  "icu:Avatar__View": {
+    "messageformat": "Afficher",
+    "limit": 7
+  },
   "icu:AvatarEditor--choose": {
     "messageformat": "Sélectionner une photo de profil"
   },
@@ -5656,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "Configurer"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Sauvegardes locales"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Exporter…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Exporter la sauvegarde locale chiffrée vers un dossier et la valider"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Exporter la sauvegarde chiffrée vers la mémoire interne et exécuter les tests de validation"
@@ -7486,19 +7523,19 @@
     "messageformat": "<paragraph>Lorsque vous faites un don à Signal, nous ne collectons, ni n'enregistrons aucune de vos informations personnelles.</paragraph><paragraph>Pour recevoir vos dons, nous utilisons le processeur de paiement Stripe. Nous n'avons pas accès aux informations que vous fournissez à Stripe, ne les stockons pas et ne les enregistrons pas.</paragraph><paragraph>De plus, Signal ne peut établir aucun lien entre votre don et votre compte Signal.</paragraph><paragraph>Merci pour votre soutien.</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "Signal est un organisme indépendant à but non lucratif, qui s'engage à protéger la confidentialité de vos communications. Ici, aucune publicité, aucun cookie de suivi, aucune surveillance. Faites un don pour soutenir Signal."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "Lorsque vous faites un don, vous pouvez afficher un macaron sur votre profil."
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "Notre mission : protéger votre vie privée."
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signal est un organisme à but non lucratif."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
-    "messageformat": "Heart icon in the style of the Signal logo"
+    "messageformat": "Icône cœur ressemblant au logo Signal"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "OK"
@@ -7591,13 +7628,13 @@
     "messageformat": "Supprimer les infos"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving will cancel your donation."
+    "messageformat": "Si vous quittez cette page, cela annulera le don en cours."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "Quitter"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
-    "messageformat": "Stay on page"
+    "messageformat": "Rester sur la page"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Continuer"
@@ -7839,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Aidez-nous à améliorer Signal"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "Vos retours nous permettent de comprendre ce qui fonctionne et ce que nous devons améliorer. Vous pouvez consulter votre journal de débogage avant de nous l'envoyer."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Lorsque vous nous envoyez vos commentaires, ceux-ci sont accompagnés d'<diagnosticInfoLink>informations de diagnostic sur votre appel</diagnosticInfoLink>. Vous pouvez aussi partager votre journal de débogage pour nous aider à améliorer la qualité des appels."
   },
@@ -7850,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Afficher"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Les journaux de débogage ne contiennent que des informations techniques relatives à l'application et ne révèlent en aucun cas le contenu de vos messages."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "Les journaux de débogage ne contiennent que des informations techniques relatives à l'application et ne révèlent en aucun cas le contenu de vos appels."
@@ -7906,13 +7937,13 @@
     "messageformat": "Au menu de cette version : quelques ajustements de plus, quelques petits bugs en moins et des gains de performance. Merci d'utiliser Signal !",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.89--0": {
-    "messageformat": "Vous aviez du mal à mettre en forme du texte lorsque le verrouillage des majuscules était activé ? Maintenant que nous avons corrigé ce bug, vous pouvez facilement appliquer du gras ou des italiques, SANS QUE VOTRE CLAVIER VOUS TAPE SUR LE SYSTÈME. Merci, <DGrothePhD></DGrothePhD> !"
-  },
-  "icu:WhatsNew__7.89--1": {
-    "messageformat": "Parce que Signal est un organisme à but non lucratif qui ne pourrait pas exister sans votre soutien, vous pouvez maintenant nous faire des dons via PayPal dans Signal Desktop."
-  },
   "icu:WhatsNew__7.90--0": {
-    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
+    "messageformat": "Artiste dans l'âme ? Vous allez adorer nos cinq nouveaux packs de stickers, que des artistes ont spécialement créés pour Signal. Et comme tout ce que nous faisons, ils sont chiffrés dans les règles de l'art. Signal, c'est la confidentialité à 360° – même pour les stickers."
+  },
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Les sauvegardes sécurisées Signal sont là ! Chiffrées de bout en bout, les sauvegardes sécurisées permettent de sauvegarder tous vos messages automatiquement. Besoin de changer de téléphone ou de réinstaller Signal ? Vos contenus restent à portée de main. Vous pouvez sauvegarder gratuitement tous vos messages ainsi que vos médias des 45 derniers jours. Ou opter pour le forfait payant et stocker jusqu'à 100 Go de médias en contrepartie d'un petit montant mensuel. Prêt à vous lancer ? Cliquez sur \"Sauvegardes\" dans les paramètres Signal. Merci à toutes celles et ceux qui nous ont aidés à tester la version bêta !"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

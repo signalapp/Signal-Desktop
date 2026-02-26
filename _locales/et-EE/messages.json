@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Lülita arendusvahendid sisse/välja"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Ava kõne arendusvahendid"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Seadista uue seadmena"
   },
@@ -654,10 +651,10 @@
     "messageformat": "Saatmine …"
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify encryption"
+    "messageformat": "Signal saab nüüd krüptimist automaatselt kontrollida"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+    "messageformat": "Kontaktide puhul, kellega lõid ühenduse telefoninumbri kaudu, kinnitab Signal automaatselt, kas ühendus on turvaline, kasutades protsessi nimega võtme läbipaistvus. Täiendava turvalisuse eesmärgil saab ühendusi endiselt kinnitada ka käsitsi QR-koodi abil või turvanumbreid võrreldes."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Jätka"
@@ -1117,6 +1114,9 @@
   },
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Lisa liikmesilt"
+  },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Märkus"
@@ -2431,6 +2431,9 @@
   },
   "icu:Toast--unable-download-from-backup-tier": {
     "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Ainult administraatorid saavad selles grupis liikmesilte lisada."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Muutmine on võimalik vaid 24 tunni jooksul alates sõnumi saatmisest."
@@ -4631,6 +4634,9 @@
   "icu:ContactModal--rm-admin": {
     "messageformat": "Eemaldada administraatoriõigused"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "See kustutab ka tema liikmesildi."
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "Tee administraatoriks"
   },
@@ -4692,22 +4698,22 @@
     "messageformat": "Tere!"
   },
   "icu:ConversationDetails--member-label--list-header": {
-    "messageformat": "Group members with labels"
+    "messageformat": "Siltidega grupiliikmed"
   },
   "icu:ConversationDetails--member-label--no-members": {
-    "messageformat": "No other members have labels"
+    "messageformat": "Ühelgi teisel liikmel pole silte"
   },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "Muudatuste salvestamine …"
   },
   "icu:ConversationDetails--member-label--error-title": {
-    "messageformat": "Can’t save member label"
+    "messageformat": "Liikme silti ei saa salvestada"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "Kontrolli oma ühendust ja proovi uuesti."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "Only admins can set member labels in this group."
+    "messageformat": "Ainult administraatorid saavad selles grupis liikmete silte määrata."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Kaduvad sõnumid"
@@ -4758,13 +4764,13 @@
     "messageformat": "Vali, kes saavad gruppi sõnumeid saata."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
-    "messageformat": "Member labels will be cleared"
+    "messageformat": "Liikmete sildid kustutatakse"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+    "messageformat": "Selle loa muutmine valikule „Ainult administraatorid” eemaldab selles grupis mitte-administraatorite määratud liikmete sildid."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "Jätka"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Taotlused ja kutsed"
@@ -4819,6 +4825,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Lisa liikmed"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Lisa liikmesilt"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Näita kõiki"
@@ -4993,6 +5002,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Saad valida kõigi jaoks kustutamiseks vaid kuni {count,number} sõnumi} other {Saad valida kõigi jaoks kustutamiseks vaid kuni {count,number} sõnumit}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Kas kustutada üksus?"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "See kustutab jäädavalt valitud üksuse. Mis tahes selle üksusega seonduv sõnumitekst kustutatakse samuti."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Sulge"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Kustuta"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Loobu"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Saad edastada vaid kuni 30 sõnumit"
@@ -5366,6 +5390,24 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "Siin kuvatakse sinu saadetud ja vastuvõetud failid"
   },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "Kuva vestluses"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Edasta"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Salvesta"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Saada sõnum"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Kopeeri link"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Kustuta"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Vali meedia kvaliteet"
   },
@@ -5579,6 +5621,10 @@
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "administraatorid"
   },
+  "icu:Avatar__View": {
+    "messageformat": "Vaata",
+    "limit": 7
+  },
   "icu:AvatarEditor--choose": {
     "messageformat": "Vali profiilipilt"
   },
@@ -5656,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "Seadista"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Kohalikud varukoopiad"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Ekspordi …"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Ekspordi kohalik krüptitud varukoopia kausta ja valideeri see"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Ekspordi krüptitud varukoopia mälusse ja käivita sellel valideerimisprotsess"
@@ -7486,19 +7523,19 @@
     "messageformat": "<paragraph>Signal ei kogu ega salvesta annetuse tegemisel sinu isikuandmeid.</paragraph><paragraph>Kasutame sinu annetuse vastuvõtmisel makse töötlemiseks Stripe'i. Meil ei ole ligipääsu andmetele, mida sa nendega jagad; me ei kogu ega salvesta neid andmeid.</paragraph><paragraph>Signal ei saa ega soovi seostada sinu annetust sinu Signali kontoga.</paragraph><paragraph>Täname sind toetuse eest!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "Sõltumatu mittetulundusühinguna  on Signal pühendunud privaatsõnumitele ja kõnedele. Ei mingeid reklaame, jälgijaid ega järelevalvet. Anneta nüüd, et Signalit toetada."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "Kui annetad, saad oma profiilil kuvada vastavat märki"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "SInu privaatsus on meie missioon"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signal on mittetulundusühing"
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
-    "messageformat": "Heart icon in the style of the Signal logo"
+    "messageformat": "Signali logo stiilis südameikoon"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "Sobib"
@@ -7591,13 +7628,13 @@
     "messageformat": "Eemalda info"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving will cancel your donation."
+    "messageformat": "Lahkumine tühistab sinu annetuse."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "Lahku"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
-    "messageformat": "Stay on page"
+    "messageformat": "Jää sellele lehele"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Jätka"
@@ -7839,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Aita meil paremaks muutuda"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "See aitab meil kõnede kohta rohkem teada saada ja mõista, mis toimib ja mis mitte. Enne esitamist saad oma silumislogi vaadata."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Esitades jagad oma tagasisidet ja <diagnosticInfoLink>diagnostilist teavet oma kõne kohta</diagnosticInfoLink>. Soovi korral saad jagada silumislogi, mis aitab meil kõnede kvaliteeti parandada."
   },
@@ -7850,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Vaata"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Silumislogid sisaldavad üldistatud teavet rakenduse kohta ega avalda sinu sõnumite sisu."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "Meiega jagatud teave sisaldab rakendusega seotud madala taseme teavet ega hõlma sinu kõnede sisu."
@@ -7906,13 +7937,13 @@
     "messageformat": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.89--0": {
-    "messageformat": "See värskendus parandab teksti vormindamise vea, kui Caps Lock on sisse lülitatud. Aitäh, <DGrothePhD></DGrothePhD>!"
-  },
-  "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal on mittetulundusühing, mis ei oleks ilma sinu toetuseta võimalik ja nüüd saad annetada Signal Desktopis PayPali kaudu."
-  },
   "icu:WhatsNew__7.90--0": {
-    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
+    "messageformat": "Viis uut ametlikku kleebisekomplekti: „Chug the Mouse“ (Amanda Cotan), „Cozy Season“ (Miguel Ángel Camprubí), „Croco's Feelings“ (Tiffany Beucher), „My Daily Life 2“ (Plastic Thing), ja „Rocky Talk“ (Lexi Vay)."
+  },
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Signali turvalised varukoopiad on kohal! Nüüd saad lubada automaatsed otspunktkrüptitud varukoopiad, et kunagi ükski sõnum kaotsi ei läheks, kui sa uue telefoni saad või Signali uuesti paigaldad. Saad tasuta varundada kõik oma sõnumid ja viimase 45 päeva meediafailid või maksta väikese kuutasu, mille eest anname sulle 100 GB salvestusruumi kõigi manuste varundamiseks. Alustamiseks vali oma Signali sätete alt varukoopiad. Aitäh kõigile, kes aitasid seda funktsiooni beetaperioodil testida!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

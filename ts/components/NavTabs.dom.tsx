@@ -252,6 +252,13 @@ export function NavTabs({
           state: ProfileEditorPage.None,
         },
       });
+    } else if (tab === NavTab.Chats) {
+      onChangeLocation({
+        tab: NavTab.Chats,
+        details: {
+          conversationId: undefined,
+        },
+      });
     } else {
       onChangeLocation({ tab });
     }

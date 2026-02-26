@@ -21,6 +21,8 @@ import { getHumanDonationAmount } from '../util/currency.dom.js';
 import { AutoSizeTextArea } from './AutoSizeTextArea.dom.js';
 import { AxoButton } from '../axo/AxoButton.dom.js';
 import { AxoSwitch } from '../axo/AxoSwitch.dom.js';
+import type { VisibleRemoteMegaphoneType } from '../types/Megaphone.std.js';
+import { internalGetTestMegaphone } from '../util/getTestMegaphone.std.js';
 
 const log = createLogger('PreferencesInternal');
 
@@ -33,6 +35,7 @@ export function PreferencesInternal({
   internalAddDonationReceipt,
   saveAttachmentToDisk,
   generateDonationReceiptBlob,
+  addVisibleMegaphone,
   internalDeleteAllMegaphones,
   __dangerouslyRunAbitraryReadOnlySqlQuery,
   cqsTestMode,
@@ -55,6 +58,7 @@ export function PreferencesInternal({
     receipt: DonationReceipt,
     i18n: LocalizerType
   ) => Promise<Blob>;
+  addVisibleMegaphone: (megaphone: VisibleRemoteMegaphoneType) => void;
   internalDeleteAllMegaphones: () => Promise<number>;
   __dangerouslyRunAbitraryReadOnlySqlQuery: (
     readonlySqlQuery: string
@@ -73,6 +77,9 @@ export function PreferencesInternal({
     BackupValidationResultType | undefined
   >();
 
+  const [showMegaphoneResult, setShowMegaphoneResult] = useState<
+    string | undefined
+  >();
   const [deleteAllMegaphonesResult, setDeleteAllMegaphonesResult] = useState<
     number | undefined
   >();
@@ -482,6 +489,42 @@ export function PreferencesInternal({
       </SettingsRow>
 
       <SettingsRow title="Megaphones">
+        <FlowingSettingsControl>
+          <div className="Preferences__two-thirds-flow">
+            Show a test megaphone in memory. Disappears on restart.
+          </div>
+          <div
+            className={classNames(
+              'Preferences__flow-button',
+              'Preferences__one-third-flow',
+              'Preferences__one-third-flow--align-right'
+            )}
+          >
+            <AxoButton.Root
+              variant="secondary"
+              size="lg"
+              onClick={async () => {
+                const megaphone = internalGetTestMegaphone();
+                addVisibleMegaphone(megaphone);
+                setShowMegaphoneResult(
+                  `Megaphone shown. Go to Chats tab to view.\n${JSON.stringify(megaphone, null, 2)}`
+                );
+              }}
+            >
+              Show megaphone
+            </AxoButton.Root>
+          </div>
+          {showMegaphoneResult != null && (
+            <AutoSizeTextArea
+              i18n={i18n}
+              value={showMegaphoneResult}
+              onChange={() => null}
+              readOnly
+              placeholder=""
+              moduleClassName="Preferences__ReadonlySqlPlayground__Textarea"
+            />
+          )}
+        </FlowingSettingsControl>
         <FlowingSettingsControl>
           <div className="Preferences__two-thirds-flow">
             Delete local records of remote megaphones

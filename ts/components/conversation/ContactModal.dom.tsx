@@ -36,6 +36,9 @@ import type {
   ToggleGroupMemberLabelInfoModalType,
 } from '../../state/ducks/globalModals.preload.js';
 import { GroupMemberLabel } from './ContactName.dom.js';
+import { SignalService as Proto } from '../../protobuf/index.std.js';
+
+const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
 
 const log = createLogger('ContactModal');
 
@@ -227,6 +230,35 @@ export function ContactModal({
         break;
       }
 
+      if (
+        isAdmin &&
+        contactLabelString &&
+        conversation.accessControlAttributes === ACCESS_ENUM.ADMINISTRATOR
+      ) {
+        modalNode = (
+          <ConfirmationDialog
+            dialogName="ContactModal.toggleAdmin"
+            actions={[
+              {
+                action: () => toggleAdmin(conversation.id, contact.id),
+                text: isAdmin
+                  ? i18n('icu:ContactModal--rm-admin')
+                  : i18n('icu:ContactModal--make-admin'),
+                style: 'affirmative',
+              },
+            ]}
+            i18n={i18n}
+            onClose={() => setSubModalState(SubModalState.None)}
+            title={i18n('icu:ContactModal--rm-admin-info', {
+              contact: contact.title,
+            })}
+          >
+            {i18n('icu:ContactModal--rm-admin--clear-label')}
+          </ConfirmationDialog>
+        );
+        break;
+      }
+
       modalNode = (
         <ConfirmationDialog
           dialogName="ContactModal.toggleAdmin"
@@ -236,6 +268,7 @@ export function ContactModal({
               text: isAdmin
                 ? i18n('icu:ContactModal--rm-admin')
                 : i18n('icu:ContactModal--make-admin'),
+              style: 'affirmative',
             },
           ]}
           i18n={i18n}

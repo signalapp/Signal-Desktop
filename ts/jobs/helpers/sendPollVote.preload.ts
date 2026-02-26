@@ -28,10 +28,9 @@ import * as pollVoteUtil from '../../polls/util.std.js';
 import { strictAssert } from '../../util/assert.std.js';
 import { getSendRecipientLists } from './getSendRecipientLists.dom.js';
 import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.js';
-import { isConversationAccepted } from '../../util/isConversationAccepted.preload.js';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.js';
 import type { CallbackResultType } from '../../textsecure/Types.d.ts';
 import { addPniSignatureMessageToProto } from '../../textsecure/SendMessage.preload.js';
+import { shouldSendToDirectConversation } from './shouldSendToConversation.preload.js';
 
 export async function sendPollVote(
   conversation: ConversationModel,
@@ -214,22 +213,9 @@ export async function sendPollVote(
       let promise: Promise<CallbackResultType>;
 
       if (isDirectConversation(conversation.attributes)) {
-        if (!isConversationAccepted(conversation.attributes)) {
-          jobLog.info(
-            `conversation ${conversation.idForLogging()} is not accepted; refusing to send`
-          );
-          return;
-        }
-        if (isConversationUnregistered(conversation.attributes)) {
-          jobLog.info(
-            `conversation ${conversation.idForLogging()} is unregistered; refusing to send`
-          );
-          return;
-        }
-        if (conversation.isBlocked()) {
-          jobLog.info(
-            `conversation ${conversation.idForLogging()} is blocked; refusing to send`
-          );
+        const [ok, refusal] = shouldSendToDirectConversation(conversation);
+        if (!ok) {
+          jobLog.info(refusal.logLine);
           return;
         }
 

@@ -155,10 +155,7 @@ import {
   isCallHistoryForUnusedCallLink,
   toAdminKeyBytes,
 } from '../../util/callLinks.std.js';
-import {
-  getRoomIdFromRootKey,
-  toEpochBytes,
-} from '../../util/callLinksRingrtc.node.js';
+import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc.node.js';
 import { SeenStatus } from '../../MessageSeenStatus.std.js';
 import { migrateAllMessages } from '../../messages/migrateMessageData.preload.js';
 import {
@@ -511,7 +508,6 @@ export class BackupExportStream extends Readable {
     for (const link of callLinks) {
       const {
         rootKey: rootKeyString,
-        epoch,
         adminKey,
         name,
         restrictions,
@@ -534,7 +530,6 @@ export class BackupExportStream extends Readable {
           id: Long.fromNumber(id),
           callLink: {
             rootKey: rootKey.bytes,
-            epoch: epoch ? toEpochBytes(epoch) : null,
             adminKey: adminKey ? toAdminKeyBytes(adminKey) : null,
             name,
             restrictions: toCallLinkRestrictionsProto(restrictions),

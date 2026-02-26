@@ -190,7 +190,9 @@ export function Avatar({
           }}
         />
         {blur === AvatarBlur.BlurPictureWithClickToView && (
-          <div className="module-Avatar__click-to-view">{i18n('icu:view')}</div>
+          <div className="module-Avatar__click-to-view">
+            {i18n('icu:Avatar__View')}
+          </div>
         )}
       </>
     );
@@ -222,7 +224,9 @@ export function Avatar({
           }}
         />
         {blur === AvatarBlur.BlurPictureWithClickToView && (
-          <div className="module-Avatar__click-to-view">{i18n('icu:view')}</div>
+          <div className="module-Avatar__click-to-view">
+            {i18n('icu:Avatar__View')}
+          </div>
         )}
       </>
     );

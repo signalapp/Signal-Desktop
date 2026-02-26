@@ -353,14 +353,13 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
         onDelete={action('onDelete')}
         onChatFolderOpenCreatePage={action('onChatFolderOpenCreatePage')}
         onChatFolderToggleChat={action('onChatFolderToggleChat')}
-        localDeleteWarningShown={false}
-        setLocalDeleteWarningShown={action('setLocalDeleteWarningShown')}
       >
         {props.children}
       </LeftPaneConversationListItemContextMenu>
     ),
     selectedChatFolder: null,
     selectedConversationId: undefined,
+    selectedLocation: undefined,
     targetedMessageId: undefined,
     openUsernameReservationModal: action('openUsernameReservationModal'),
     saveAlerts: async () => action('saveAlerts')(),

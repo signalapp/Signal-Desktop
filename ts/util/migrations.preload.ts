@@ -51,6 +51,8 @@ import {
   MEGAPHONES_PATH,
 } from './basePaths.preload.js';
 import { DataReader } from '../sql/Client.preload.js';
+import { getExistingAttachmentDataForReuse } from './attachments/deduplicateAttachment.preload.js';
+import { getPlaintextHashForInMemoryAttachment } from '../AttachmentCrypto.node.js';
 
 const logger = createLogger('migrations');
 
@@ -215,7 +217,9 @@ export const upgradeMessageSchema = (
   return upgradeSchema(message, {
     maybeDeleteAttachmentFile,
     doesAttachmentExist,
+    getExistingAttachmentDataForReuse,
     getImageDimensions,
+    getPlaintextHashForInMemoryAttachment,
     getRegionCode: () => itemStorage.get('regionCode'),
     makeImageThumbnail,
     makeObjectUrl,

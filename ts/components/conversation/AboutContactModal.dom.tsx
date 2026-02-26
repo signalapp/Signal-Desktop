@@ -44,6 +44,9 @@ export type PropsType = Readonly<{
   onOpenNotePreviewModal: () => void;
   pendingAvatarDownload?: boolean;
   sharedGroupNames: ReadonlyArray<string>;
+  showEditMemberLabelScreen: () => unknown;
+  showProfileEditor: () => unknown;
+  showQRCodeScreen: () => unknown;
   startAvatarDownload?: (id: string) => unknown;
   toggleSignalConnectionsModal: () => void;
   toggleSafetyNumberModal: (id: string) => void;
@@ -62,6 +65,9 @@ export function AboutContactModal({
   isSignalConnection,
   pendingAvatarDownload,
   sharedGroupNames,
+  showEditMemberLabelScreen,
+  showProfileEditor,
+  showQRCodeScreen,
   startAvatarDownload,
   toggleSignalConnectionsModal,
   toggleSafetyNumberModal,
@@ -176,6 +182,42 @@ export function AboutContactModal({
     );
   }
 
+  const nameElement =
+    canHaveNicknameAndNote(contact) &&
+    contact.titleNoNickname !== contact.title &&
+    contact.titleNoNickname ? (
+      <span>
+        <I18n
+          i18n={i18n}
+          id="icu:AboutContactModal__TitleAndTitleWithoutNickname"
+          components={{
+            nickname: <UserText text={contact.title} />,
+            titleNoNickname: (
+              <Tooltip
+                className="AboutContactModal__TitleWithoutNickname__Tooltip"
+                direction={TooltipPlacement.Top}
+                content={
+                  <I18n
+                    i18n={i18n}
+                    id="icu:AboutContactModal__TitleWithoutNickname__Tooltip"
+                    components={{
+                      title: <UserText text={contact.titleNoNickname} />,
+                    }}
+                  />
+                }
+                delay={0}
+              >
+                <UserText text={contact.titleNoNickname} />
+              </Tooltip>
+            ),
+            muted,
+          }}
+        />
+      </span>
+    ) : (
+      <UserText text={contact.title} />
+    );
+
   return (
     <Modal
       key="main"
@@ -211,40 +253,16 @@ export function AboutContactModal({
       </div>
       <div className="AboutContactModal__row">
         <i className="AboutContactModal__row__icon AboutContactModal__row__icon--profile" />
-
-        {canHaveNicknameAndNote(contact) &&
-        contact.titleNoNickname !== contact.title &&
-        contact.titleNoNickname ? (
-          <span>
-            <I18n
-              i18n={i18n}
-              id="icu:AboutContactModal__TitleAndTitleWithoutNickname"
-              components={{
-                nickname: <UserText text={contact.title} />,
-                titleNoNickname: (
-                  <Tooltip
-                    className="AboutContactModal__TitleWithoutNickname__Tooltip"
-                    direction={TooltipPlacement.Top}
-                    content={
-                      <I18n
-                        i18n={i18n}
-                        id="icu:AboutContactModal__TitleWithoutNickname__Tooltip"
-                        components={{
-                          title: <UserText text={contact.titleNoNickname} />,
-                        }}
-                      />
-                    }
-                    delay={0}
-                  >
-                    <UserText text={contact.titleNoNickname} />
-                  </Tooltip>
-                ),
-                muted,
-              }}
-            />
-          </span>
+        {isMe ? (
+          <button
+            className="AboutContactModal__button"
+            type="button"
+            onClick={showProfileEditor}
+          >
+            {nameElement}
+          </button>
         ) : (
-          <UserText text={contact.title} />
+          nameElement
         )}
       </div>
       {!isMe && !fromOrAddedByTrustedContact ? (
@@ -314,29 +332,53 @@ export function AboutContactModal({
       {shouldShowLabel && (
         <div className="AboutContactModal__row">
           <i className="AboutContactModal__row__icon AboutContactModal__row__icon--label" />
-          <div className="AboutContactModal__label-container">
-            {labelEmojiElement}
-            <span className="AboutContactModal__label-container__string">
-              <UserText
-                fontSizeOverride={14}
-                style={{
-                  verticalAlign: 'top',
-                  marginTop: '3px',
-                }}
-                text={contactLabelString}
-              />
-            </span>
-          </div>
+          <button
+            className="AboutContactModal__button"
+            type="button"
+            onClick={showEditMemberLabelScreen}
+          >
+            <div className="AboutContactModal__label-container">
+              {labelEmojiElement}
+              <span className="AboutContactModal__label-container__string">
+                <UserText
+                  fontSizeOverride={14}
+                  style={{
+                    verticalAlign: 'top',
+                    marginTop: '3px',
+                  }}
+                  text={contactLabelString}
+                />
+              </span>
+            </div>
+          </button>
         </div>
       )}
       {shouldShowAddLabel && (
         <div className="AboutContactModal__row">
           <i className="AboutContactModal__row__icon AboutContactModal__row__icon--label" />
-          {i18n('icu:AboutContactModal__add-member-label')}
+          <button
+            className="AboutContactModal__button"
+            type="button"
+            onClick={showEditMemberLabelScreen}
+          >
+            {i18n('icu:AboutContactModal__add-member-label')}
+          </button>
+        </div>
+      )}
+      {isMe && contact.username && (
+        <div className="AboutContactModal__row">
+          <i className="AboutContactModal__row__icon AboutContactModal__row__icon--qr-code" />
+          <button
+            className="AboutContactModal__button"
+            type="button"
+            onClick={showQRCodeScreen}
+          >
+            {i18n('icu:AboutContactModal__your-qr-code')}
+          </button>
         </div>
       )}
 
-      {contact.phoneNumber ? (
+      {!isMe && contact.phoneNumber ? (
         <div className="AboutContactModal__row">
           <i className="AboutContactModal__row__icon AboutContactModal__row__icon--phone" />
           <UserText text={contact.phoneNumber} />

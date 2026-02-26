@@ -1467,7 +1467,7 @@ describe('calling duck', () => {
     });
 
     describe('handleCallLinkUpdate', () => {
-      const { roomId, rootKey, epoch, adminKey } = FAKE_CALL_LINK;
+      const { roomId, rootKey, adminKey } = FAKE_CALL_LINK;
 
       beforeEach(async function (this: Mocha.Context) {
         await DataWriter.removeAll();
@@ -1488,7 +1488,7 @@ describe('calling duck', () => {
       };
 
       it('queues call link refresh', async function (this: Mocha.Context) {
-        await doAction({ rootKey, epoch, adminKey: null });
+        await doAction({ rootKey, adminKey: null });
 
         sinon.assert.calledOnce(this.callLinkRefreshJobQueueAdd);
       });
@@ -1496,7 +1496,6 @@ describe('calling duck', () => {
       it('dispatches HANDLE_CALL_LINK_UPDATE', async () => {
         const { dispatch } = await doAction({
           rootKey,
-          epoch,
           adminKey: null,
         });
 
@@ -1507,7 +1506,6 @@ describe('calling duck', () => {
             callLink: {
               ...CALL_LINK_DEFAULT_STATE,
               roomId,
-              epoch,
               rootKey,
               adminKey,
               storageNeedsSync: false,
@@ -1519,7 +1517,6 @@ describe('calling duck', () => {
       it('can save adminKey', async () => {
         const { dispatch } = await doAction({
           rootKey,
-          epoch: null,
           adminKey: 'banana',
         });
 
@@ -1531,7 +1528,6 @@ describe('calling duck', () => {
               callLink: {
                 ...CALL_LINK_DEFAULT_STATE,
                 roomId,
-                epoch,
                 rootKey,
                 adminKey: 'banana',
                 storageNeedsSync: false,
@@ -1596,8 +1592,8 @@ describe('calling duck', () => {
       };
 
       it('reads the link and dispatches START_CALL_LINK_LOBBY', async function (this: Mocha.Context) {
-        const { roomId, epoch, rootKey } = FAKE_CALL_LINK;
-        const { dispatch } = await doAction({ rootKey, epoch });
+        const { roomId, rootKey } = FAKE_CALL_LINK;
+        const { dispatch } = await doAction({ rootKey });
 
         sinon.assert.calledTwice(dispatch);
         sinon.assert.calledWith(dispatch, {
@@ -1613,7 +1609,6 @@ describe('calling duck', () => {
             callLinkState,
             callLinkRoomId: roomId,
             callLinkRootKey: rootKey,
-            callLinkEpoch: epoch,
             conversationId: roomId,
             isConversationTooBigToRing: false,
           },
@@ -1622,14 +1617,12 @@ describe('calling duck', () => {
 
       it('preserves adminKey', () => {
         const { startCallLinkLobby } = actions;
-        const { roomId, rootKey, epoch, adminKey } =
-          FAKE_CALL_LINK_WITH_ADMIN_KEY;
+        const { roomId, rootKey, adminKey } = FAKE_CALL_LINK_WITH_ADMIN_KEY;
         const dispatch = sinon.spy();
         const result = reducer(
           getStateWithAdminKey().calling,
           startCallLinkLobby({
             rootKey,
-            epoch,
           })(
             dispatch,
             getStateWithAdminKey,
@@ -1658,7 +1651,7 @@ describe('calling duck', () => {
 
       it('fails', async function (this: Mocha.Context) {
         const { roomId, rootKey } = FAKE_CALL_LINK;
-        const { dispatch } = await doAction({ rootKey, epoch: null });
+        const { dispatch } = await doAction({ rootKey });
 
         sinon.assert.calledTwice(dispatch);
         sinon.assert.calledWith(dispatch, {

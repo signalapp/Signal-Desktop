@@ -22,9 +22,8 @@ import type {
   ConversationQueueJobBundle,
 } from '../conversationJobQueue.preload.js';
 import { handleMessageSend } from '../../util/handleMessageSend.preload.js';
-import { isConversationAccepted } from '../../util/isConversationAccepted.preload.js';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.js';
 import { DurationInSeconds } from '../../util/durations/index.std.js';
+import { shouldSendToDirectConversation } from './shouldSendToConversation.preload.js';
 
 export async function sendDirectExpirationTimerUpdate(
   conversation: ConversationModel,
@@ -119,22 +118,9 @@ export async function sendDirectExpirationTimerUpdate(
         { messageIds: [], sendType }
       );
     } else if (isDirectConversation(conversation.attributes)) {
-      if (!isConversationAccepted(conversation.attributes)) {
-        log.info(
-          `conversation ${conversation.idForLogging()} is not accepted; refusing to send`
-        );
-        return;
-      }
-      if (isConversationUnregistered(conversation.attributes)) {
-        log.info(
-          `conversation ${conversation.idForLogging()} is unregistered; refusing to send`
-        );
-        return;
-      }
-      if (conversation.isBlocked()) {
-        log.info(
-          `conversation ${conversation.idForLogging()} is blocked; refusing to send`
-        );
+      const [ok, refusal] = shouldSendToDirectConversation(conversation);
+      if (!ok) {
+        log.info(refusal.logLine);
         return;
       }
 

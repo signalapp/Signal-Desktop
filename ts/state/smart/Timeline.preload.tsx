@@ -13,9 +13,9 @@ import {
   getHasContactSpoofingReview,
   getInvitedContactsForNewlyCreatedGroup,
   getMessages,
-  getSelectedConversationId,
   getTargetedMessage,
 } from '../selectors/conversations.dom.js';
+import { getSelectedConversationId } from '../selectors/nav.std.js';
 import { getIntl, getTheme } from '../selectors/user.std.js';
 import type { PropsType as SmartContactSpoofingReviewDialogPropsType } from './ContactSpoofingReviewDialog.preload.js';
 import { SmartContactSpoofingReviewDialog } from './ContactSpoofingReviewDialog.preload.js';

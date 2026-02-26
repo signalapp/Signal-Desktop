@@ -54,13 +54,16 @@ import {
   getMaximumGroupSizeModalState,
   getMe,
   getRecommendedGroupSizeModalState,
-  getSelectedConversationId,
   getShowArchived,
   getTargetedMessage,
   hasGroupCreationError,
   isCreatingGroup,
   isEditingAvatar,
 } from '../selectors/conversations.dom.js';
+import {
+  getSelectedConversationId,
+  getSelectedLocation,
+} from '../selectors/nav.std.js';
 import { getCrashReportCount } from '../selectors/crashReports.std.js';
 import { hasExpired } from '../selectors/expiration.dom.js';
 import {
@@ -341,6 +344,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
     getBackupMediaDownloadProgress
   );
   const isOnline = useSelector(getNetworkIsOnline);
+  const selectedLocation = useSelector(getSelectedLocation);
 
   const serverAlerts = useSelector(getServerAlerts);
 
@@ -397,12 +401,10 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       tab: NavTab.Settings,
       details: {
         page: SettingsPage.ChatFolders,
-        previousLocation: {
-          tab: NavTab.Chats,
-        },
+        previousLocation: selectedLocation,
       },
     });
-  }, [changeLocation]);
+  }, [changeLocation, selectedLocation]);
 
   const maybePreloadConversation = useCallback(
     (conversationId: string) => {
@@ -513,6 +515,7 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       setComposeGroupName={setComposeGroupName}
       setComposeSearchTerm={setComposeSearchTerm}
       setComposeSelectedRegion={setComposeSelectedRegion}
+      selectedLocation={selectedLocation}
       setIsFetchingUUID={setIsFetchingUUID}
       showArchivedConversations={showArchivedConversations}
       showChooseGroupMembers={showChooseGroupMembers}

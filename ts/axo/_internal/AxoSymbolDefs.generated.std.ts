@@ -15,6 +15,10 @@ export type AxoSymbolIconName =
   | 'archive-down-fill'
   | 'archive-up'
   | 'archive-up-fill'
+  | 'archive-alt-down'
+  | 'archive-alt-down-fill'
+  | 'archive-alt-up'
+  | 'archive-alt-up-fill'
   | 'arrow-[start]'
   | 'arrow-[end]'
   | 'arrow-up'
@@ -65,6 +69,10 @@ export type AxoSymbolIconName =
   | 'audio'
   | 'audio-rectangle'
   | 'audio-rectangle-fill'
+  | 'backspace'
+  | 'backspace-rtl'
+  | 'backspace-fill'
+  | 'backspace-fill-rtl'
   | 'backup'
   | 'backup-error'
   | 'badge'
@@ -72,8 +80,13 @@ export type AxoSymbolIconName =
   | 'badge-set'
   | 'badge-set-fill'
   | 'bell'
+  | 'bell-fill'
   | 'bell-slash'
+  | 'bell-slash-fill'
   | 'bell-ring'
+  | 'bell-ring-fill'
+  | 'bell-sleep'
+  | 'bell-sleep-fill'
   | 'block'
   | 'blur'
   | 'blur-light'
@@ -82,6 +95,7 @@ export type AxoSymbolIconName =
   | 'bolt'
   | 'bolt-fill'
   | 'boost'
+  | 'boost-fill'
   | 'brushsize-thin'
   | 'brushsize-regular'
   | 'brushsize-medium'
@@ -145,6 +159,7 @@ export type AxoSymbolIconName =
   | 'compose'
   | 'connections'
   | 'connections-fill'
+  | 'contrast'
   | 'copy'
   | 'copy-alt'
   | 'creditcard'
@@ -189,6 +204,12 @@ export type AxoSymbolIconName =
   | 'filter'
   | 'filter-circle'
   | 'filter-circle-fill'
+  | 'flash'
+  | 'flash-fill'
+  | 'flash-slash'
+  | 'flash-slash-fill'
+  | 'flash-auto'
+  | 'flash-auto-fill'
   | 'flip'
   | 'folder'
   | 'folder-plus'
@@ -212,6 +233,8 @@ export type AxoSymbolIconName =
   | 'grid-sidebar-fill'
   | 'group'
   | 'group-fill'
+  | 'hd'
+  | 'hd-slash'
   | 'headphones'
   | 'headphones-fill'
   | 'heart'
@@ -226,6 +249,10 @@ export type AxoSymbolIconName =
   | 'key'
   | 'key-fill'
   | 'key-slash'
+  | 'key-slash-fill'
+  | 'keyboard'
+  | 'label'
+  | 'label-fill'
   | 'leave'
   | 'leave-rtl'
   | 'link'
@@ -281,9 +308,11 @@ export type AxoSymbolIconName =
   | 'more-circle-fill'
   | 'note'
   | 'note-rtl'
+  | 'nothing'
   | 'number'
   | 'number-square'
   | 'number-square-fill'
+  | 'numberpad'
   | 'officialbadge'
   | 'officialbadge-fill'
   | 'open'
@@ -338,6 +367,8 @@ export type AxoSymbolIconName =
   | 'poll-rtl'
   | 'poll-fill'
   | 'poll-fill-rtl'
+  | 'press'
+  | 'press-fill'
   | 'qrcode'
   | 'raisehand'
   | 'raisehand-fill'
@@ -360,6 +391,9 @@ export type AxoSymbolIconName =
   | 'send-fill'
   | 'settings'
   | 'settings-fill'
+  | 'settings-alt'
+  | 'share'
+  | 'share-alt'
   | 'shield-check'
   | 'shield-check-fill'
   | 'sidebar'
@@ -379,6 +413,8 @@ export type AxoSymbolIconName =
   | 'square-dash'
   | 'star'
   | 'star-fill'
+  | 'star-slash'
+  | 'star-slash-fill'
   | 'sticker'
   | 'sticker-smiley'
   | 'sticker-slash'
@@ -412,7 +448,9 @@ export type AxoSymbolIconName =
   | 'textformat-monospace'
   | 'textformat-spoiler'
   | 'thumbsdown'
+  | 'thumbsdown-fill'
   | 'thumbsup'
+  | 'thumbsup-fill'
   | 'ticks'
   | 'timer'
   | 'timer-fill'
@@ -447,6 +485,9 @@ export type AxoSymbolIconName =
   | 'videocamera-slash-fill'
   | 'viewonce'
   | 'viewonce-dash'
+  | 'viewonce-slash'
+  | 'visible'
+  | 'visible-slash'
   | 'wifi'
   | 'wifi-error'
   | 'x'
@@ -454,7 +495,9 @@ export type AxoSymbolIconName =
   | 'x-circle-fill'
   | 'x-circle-dash'
   | 'x-square'
-  | 'x-square-fill';
+  | 'x-square-fill'
+  | 'zoom-in'
+  | 'zoom-out';
 
 // Symbols that can only be used in <AxoSymbol.InlineGlyph>
 type AxoSymbolInlineGlyphOnlyName =
@@ -494,6 +537,7 @@ type AxoSymbolInlineGlyphOverrideName =
   | 'group'
   | 'group-fill'
   | 'invite'
+  | 'keyboard'
   | 'leave'
   | 'leave-rtl'
   | 'person-rectangle'
@@ -536,6 +580,10 @@ const IconDefs: Record<string, SymbolDef> = {
   'archive-down-fill': '\u{E206}',
   'archive-up': '\u{E09C}',
   'archive-up-fill': '\u{E166}',
+  'archive-alt-down': '\u{E09D}',
+  'archive-alt-down-fill': '\u{E167}',
+  'archive-alt-up': '\u{E09E}',
+  'archive-alt-up-fill': '\u{E168}',
   'arrow-[start]': { ltr: '\u{E169}', rtl: '\u{E16A}' },
   'arrow-[end]': { ltr: '\u{E16A}', rtl: '\u{E169}' },
   'arrow-up': '\u{E16B}',
@@ -586,6 +634,10 @@ const IconDefs: Record<string, SymbolDef> = {
   audio: '\u{E01C}',
   'audio-rectangle': '\u{E178}',
   'audio-rectangle-fill': '\u{E179}',
+  backspace: '\u{E203}',
+  'backspace-rtl': '\u{E17B}',
+  'backspace-fill': '\u{E20F}',
+  'backspace-fill-rtl': '\u{E210}',
   backup: '\u{E09F}',
   'backup-error': '\u{E0A0}',
   badge: '\u{E099}',
@@ -593,8 +645,13 @@ const IconDefs: Record<string, SymbolDef> = {
   'badge-set': '\u{E0DA}',
   'badge-set-fill': '\u{E17D}',
   bell: '\u{E01E}',
+  'bell-fill': '\u{E248}',
   'bell-slash': '\u{E01F}',
+  'bell-slash-fill': '\u{E249}',
   'bell-ring': '\u{E020}',
+  'bell-ring-fill': '\u{E24A}',
+  'bell-sleep': '\u{E0A1}',
+  'bell-sleep-fill': '\u{E24B}',
   block: '\u{E002}',
   blur: '\u{E0DB}',
   'blur-light': '\u{E211}',
@@ -603,6 +660,7 @@ const IconDefs: Record<string, SymbolDef> = {
   bolt: '\u{E0B8}',
   'bolt-fill': '\u{E218}',
   boost: '\u{E0E2}',
+  'boost-fill': '\u{E219}',
   'brushsize-thin': '\u{E0E1}',
   'brushsize-regular': '\u{E0E0}',
   'brushsize-medium': '\u{E0DF}',
@@ -666,6 +724,7 @@ const IconDefs: Record<string, SymbolDef> = {
   compose: '\u{E0EA}',
   connections: '\u{E0AD}',
   'connections-fill': '\u{E185}',
+  contrast: '\u{E281}',
   copy: '\u{E0EB}',
   'copy-alt': '\u{E0EC}',
   creditcard: '\u{E127}',
@@ -710,6 +769,12 @@ const IconDefs: Record<string, SymbolDef> = {
   filter: '\u{E107}',
   'filter-circle': '\u{E108}',
   'filter-circle-fill': '\u{E1FA}',
+  flash: '\u{E109}',
+  'flash-fill': '\u{E192}',
+  'flash-slash': '\u{E10A}',
+  'flash-slash-fill': '\u{E193}',
+  'flash-auto': '\u{E10B}',
+  'flash-auto-fill': '\u{E194}',
   flip: '\u{E10C}',
   folder: '\u{E0B2}',
   'folder-plus': '\u{E0B3}',
@@ -733,6 +798,8 @@ const IconDefs: Record<string, SymbolDef> = {
   'grid-sidebar-fill': '\u{E23C}',
   group: '\u{E19B}',
   'group-fill': '\u{E19D}',
+  hd: '\u{E132}',
+  'hd-slash': '\u{E133}',
   headphones: '\u{E110}',
   'headphones-fill': '\u{E1A3}',
   heart: '\u{E039}',
@@ -747,6 +814,10 @@ const IconDefs: Record<string, SymbolDef> = {
   key: '\u{E0BA}',
   'key-fill': '\u{E245}',
   'key-slash': '\u{E0BB}',
+  'key-slash-fill': '\u{E246}',
+  keyboard: '\u{E111}',
+  label: '\u{E27F}',
+  'label-fill': '\u{E280}',
   leave: '\u{E1AA}',
   'leave-rtl': '\u{E1AB}',
   link: '\u{E03E}',
@@ -802,9 +873,11 @@ const IconDefs: Record<string, SymbolDef> = {
   'more-circle-fill': '\u{E208}',
   note: '\u{E095}',
   'note-rtl': '\u{E096}',
+  nothing: '\u{E189}',
   number: '\u{E0BF}',
   'number-square': '\u{E0C0}',
   'number-square-fill': '\u{E1BC}',
+  numberpad: '\u{E123}',
   officialbadge: '\u{E086}',
   'officialbadge-fill': '\u{E087}',
   open: '\u{E0C1}',
@@ -859,6 +932,8 @@ const IconDefs: Record<string, SymbolDef> = {
   'poll-rtl': '\u{E272}',
   'poll-fill': '\u{E083}',
   'poll-fill-rtl': '\u{E273}',
+  press: '\u{E14A}',
+  'press-fill': '\u{E14B}',
   qrcode: '\u{E0C2}',
   raisehand: '\u{E07E}',
   'raisehand-fill': '\u{E084}',
@@ -881,6 +956,9 @@ const IconDefs: Record<string, SymbolDef> = {
   'send-fill': '\u{E0C9}',
   settings: '\u{E0CA}',
   'settings-fill': '\u{E0CB}',
+  'settings-alt': '\u{E0CC}',
+  share: '\u{E139}',
+  'share-alt': '\u{E13A}',
   'shield-check': '\u{E06F}',
   'shield-check-fill': '\u{E1D8}',
   sidebar: '\u{E13C}',
@@ -900,6 +978,8 @@ const IconDefs: Record<string, SymbolDef> = {
   'square-dash': '\u{E17C}',
   star: '\u{E0AF}',
   'star-fill': '\u{E0B0}',
+  'star-slash': '\u{E276}',
+  'star-slash-fill': '\u{E277}',
   sticker: '\u{E070}',
   'sticker-smiley': '\u{E143}',
   'sticker-slash': '\u{E144}',
@@ -933,7 +1013,9 @@ const IconDefs: Record<string, SymbolDef> = {
   'textformat-monospace': '\u{E157}',
   'textformat-spoiler': '\u{E158}',
   thumbsdown: '\u{E262}',
+  'thumbsdown-fill': '\u{E263}',
   thumbsup: '\u{E0FC}',
+  'thumbsup-fill': '\u{E264}',
   ticks: '\u{E044}',
   timer: '\u{E073}',
   'timer-fill': '\u{E1E0}',
@@ -968,6 +1050,9 @@ const IconDefs: Record<string, SymbolDef> = {
   'videocamera-slash-fill': '\u{E1EB}',
   viewonce: '\u{E078}',
   'viewonce-dash': '\u{E079}',
+  'viewonce-slash': '\u{E204}',
+  visible: '\u{E15B}',
+  'visible-slash': '\u{E15C}',
   wifi: '\u{E15D}',
   'wifi-error': '\u{E15E}',
   x: '\u{E1ED}',
@@ -976,6 +1061,8 @@ const IconDefs: Record<string, SymbolDef> = {
   'x-circle-dash': '\u{E15F}',
   'x-square': '\u{E1EF}',
   'x-square-fill': '\u{E1F1}',
+  'zoom-in': '\u{E282}',
+  'zoom-out': '\u{E283}',
 } satisfies Record<IconDefsName, SymbolDef>;
 
 const InlineDefs: Record<string, SymbolDef> = {
@@ -1002,6 +1089,7 @@ const InlineDefs: Record<string, SymbolDef> = {
   'group-x': '\u{E0AE}',
   'group-x-fill': '\u{E1A0}',
   invite: '\u{E1A8}',
+  keyboard: '\u{E1A9}',
   leave: '\u{E03C}',
   'leave-rtl': '\u{E03D}',
   'person-check': '\u{E05F}',

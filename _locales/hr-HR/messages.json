@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Alati za razvojne programere"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Otvori razvojne alate za pozive"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Postavi kao novi uređaj"
   },
@@ -654,10 +651,10 @@
     "messageformat": "Slanje…"
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify encryption"
+    "messageformat": "Signal sada može automatski provjeriti sveobuhvatno šifriranje"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+    "messageformat": "Za kontakte s kojima ste povezani putem broja telefona, Signal može automatski potvrditi je li veza sigurna pomoću postupka koji se naziva transparentnost ključa. Radi dodatne sigurnosti, veze i dalje možete provjeriti ručno pomoću QR koda ili usporedbom sigurnosnih brojeva."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Nastavi"
@@ -1117,6 +1114,9 @@
   },
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Dodaj ulogu člana"
+  },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Bilješka"
@@ -2431,6 +2431,9 @@
   },
   "icu:Toast--unable-download-from-backup-tier": {
     "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Samo administratori mogu postavljati uloge članova u ovoj grupi."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Poruke je moguće uređivati samo u roku od 24 sata od trenutka slanja."
@@ -4631,6 +4634,9 @@
   "icu:ContactModal--rm-admin": {
     "messageformat": "Ukloni kao administratora"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "Time će se također izbrisati uloga člana."
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "Postavi za administratora"
   },
@@ -4692,22 +4698,22 @@
     "messageformat": "Bok!"
   },
   "icu:ConversationDetails--member-label--list-header": {
-    "messageformat": "Group members with labels"
+    "messageformat": "Članovi grupe s ulogama"
   },
   "icu:ConversationDetails--member-label--no-members": {
-    "messageformat": "No other members have labels"
+    "messageformat": "Nijedan drugi član nema ulogu"
   },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "Spremanje promjena…"
   },
   "icu:ConversationDetails--member-label--error-title": {
-    "messageformat": "Can’t save member label"
+    "messageformat": "Spremanje uloge člana nije uspjelo"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "Provjerite internetsku vezu i pokušajte ponovno."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "Only admins can set member labels in this group."
+    "messageformat": "Samo administratori mogu postavljati uloge članova u ovoj grupi."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Poruke koje nestaju"
@@ -4758,13 +4764,13 @@
     "messageformat": "Izaberite tko smije slati poruke u ovu grupu."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
-    "messageformat": "Member labels will be cleared"
+    "messageformat": "Uloge članova bit će poništene"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+    "messageformat": "Promjenom ovog dopuštenja na „Samo administratori“ izbrisat će se uloge članova koje su postavili članovi grupe koji nisu administratori."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "Nastavi"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Zahtjevi za članove i pozivnice"
@@ -4819,6 +4825,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Dodaj članove"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Dodaj ulogu člana"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Prikaži sve"
@@ -4993,6 +5002,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Možete odabrati najviše {count,number} poruku za brisanje za sve} few {Možete odabrati najviše {count,number} poruke za brisanje za sve} many {Možete odabrati najviše {count,number} poruka za brisanje za sve} other {Možete odabrati najviše {count,number} poruka za brisanje za sve}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Izbrisati stavku?"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "Time ćete trajno izbrisati ovu stavku. Sve tekstualne poruke povezane s ovom datotekom također će biti izbrisane."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Zatvori"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Izbriši"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Odustani"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Možete proslijediti do 30 poruka"
@@ -5366,6 +5390,24 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "Ovdje će se pojaviti datoteke koje šaljete i primate"
   },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "Prikaži u razgovoru"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Proslijedi"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Spremi"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Pošalji poruku"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Kopiraj poveznicu"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Izbriši"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Odaberite kvalitetu medija"
   },
@@ -5579,6 +5621,10 @@
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "Administratori"
   },
+  "icu:Avatar__View": {
+    "messageformat": "Pregled",
+    "limit": 7
+  },
   "icu:AvatarEditor--choose": {
     "messageformat": "Odaberite svog Avatara"
   },
@@ -5656,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "Postavi"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Lokalne sigurnosne kopije"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Izvoz"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Izvezite šifriranu lokalnu sigurnosnu kopiju u mapu i potvrdite njenu ispravnost"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Izvoz šifrirane sigurnosne kopije u memoriju i pokretanje paketa za njezinu provjeru valjanosti"
@@ -7486,19 +7523,19 @@
     "messageformat": "<paragraph>Signal ne prikuplja niti pohranjuje vaše osobne podatke kada izvršite donaciju.</paragraph><paragraph>Kao procesor plaćanja za primanje vaših donacija koristimo Stripe. Ne pristupamo informacijama koje dijelite s njima, ne pohranjujemo ih niti spremamo.</paragraph><paragraph>Signal ne povezuje i ne može povezati vašu donaciju s vašim Signal računom.</paragraph><paragraph>Hvala vam na podršci!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "Kao nezavisna neprofitna organizacija, Signal garantira privatnost vaših poruka i poziva. Bez oglasa, bez pratitelja i bez nadzora. Donirajte već danas i podržite Signal."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "Nakon donacije možete zakačiti značku podrške na svoj profil"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "Vaša privatnost je naša misija"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signal je neprofitna organizacija."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
-    "messageformat": "Heart icon in the style of the Signal logo"
+    "messageformat": "Ikona srca u stilu logotipa Signala"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "U redu"
@@ -7591,13 +7628,13 @@
     "messageformat": "Ukloni podatke"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving will cancel your donation."
+    "messageformat": "Napuštanjem ove stranice ćete otkazati svoju donaciju."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "Napusti"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
-    "messageformat": "Stay on page"
+    "messageformat": "Ostani na stranici"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Nastavi"
@@ -7839,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Pomozite nam poboljšati Signal"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "Vaše povratne informacije pomažu nam poboljšati pozive na Signalu. Možete pregledati zapisnik otklanjanja pogreške prije slanja."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Slanjem ćete podijeliti svoje povratne informacije zajedno s <diagnosticInfoLink>dijagnostičkim informacijama o vašem pozivu</diagnosticInfoLink>. Po želji možete podijeliti zapisnik otklanjanja pogreške kako biste nam pomogli poboljšati kvalitetu poziva."
   },
@@ -7850,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Pregled"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Zapisnici otklanjanja pogrešaka sadrže informacije o aplikaciji niske razine i ne otkrivaju sadržaj vaših poruka."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "Informacije koje se dijele s nama sadrže informacije niske razine o aplikacijama i ne uključuju sadržaj vaših poziva."
@@ -7906,13 +7937,13 @@
     "messageformat": "Manja podešavanja, ispravci grešaka i poboljšanje rada aplikacije. Hvala vam što koristite Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.89--0": {
-    "messageformat": "Ovo ažuriranje ispravlja programsku pogrešku s formatiranjem teksta kad je Caps Lock uključen. Hvala ti, <DGrothePhD></DGrothePhD>!"
-  },
-  "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal je neprofitna organizacija čiji rad ne bi bio moguć bez vaše podrške, a sada nas možete podržati donacijom putem PayPal-a u Signalu za Desktop."
-  },
   "icu:WhatsNew__7.90--0": {
-    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
+    "messageformat": "• Pet novih službenih autorskih paketa naljepnica."
+  },
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Zaštićene sigurnosne kopije podataka stigle su na Signal! Sada možete omogućiti automatsko sigurnosno kopiranje, koje štiti vaše podatke sveobuhvatnim šifriranjem, kako nikada ne biste izgubili svoje poruke prilikom kupnje novog telefona ili ponovnog instaliranja Signal aplikacije. Možete besplatno izraditi sigurnosnu kopiju svih svojih razgovora i medijskih zapisa iz posljednjih 45 dana ili možete platiti malu mjesečnu naknadu kako biste dobili 100 GB prostora za pohranu za sigurnosno kopiranje svakog privitka. Dodirnite „Sigurnosne kopije“ u postavkama Signala za postavljanje. Hvala svima koji su pomogli u testiranju ove značajke tijekom razdoblja beta testiranja!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

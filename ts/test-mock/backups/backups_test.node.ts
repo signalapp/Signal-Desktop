@@ -179,7 +179,7 @@ describe('backups', function (this: Mocha.Suite) {
       await window.getByRole('menuitem', { name: 'Chat settings' }).click();
 
       await conversationStack
-        .locator('.ConversationDetails__chat-color')
+        .getByRole('button', { name: 'Chat color' })
         .click();
       await conversationStack
         .locator('.ChatColorPicker__bubble--infrared')

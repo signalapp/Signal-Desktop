@@ -273,9 +273,10 @@ describe('cleanupOrphanedAttachments', () => {
         postSaveUpdates: () => Promise.resolve(),
       });
 
-      await DataWriter._protectAttachmentPathFromDeletion(
-        `attachment${attachmentIndex + 1}`
-      );
+      await DataWriter._protectAttachmentPathFromDeletion({
+        path: `attachment${attachmentIndex + 1}`,
+        messageId: 'messageId',
+      });
       await DataWriter.cleanupOrphanedAttachments({ _block: true });
 
       assert.strictEqual(attachmentIndex, NUM_ATTACHMENT_FILES_IN_MESSAGE);

@@ -83,6 +83,9 @@ import type { EmojiCompletionOptions } from '../quill/emoji/completion.dom.js';
 import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer.dom.js';
 import { MAX_BODY_ATTACHMENT_BYTE_LENGTH } from '../util/longAttachment.std.js';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.js';
+import { AxoSymbol } from '../axo/AxoSymbol.dom.js';
+import { AxoTooltip } from '../axo/AxoTooltip.dom.js';
+import { tw } from '../axo/tw.dom.js';
 
 const log = createLogger('CompositionInput');
 
@@ -159,6 +162,9 @@ export type Props = Readonly<{
   linkPreviewLoading?: boolean;
   linkPreviewResult: LinkPreviewForUIType | null;
   onCloseLinkPreview?(conversationId: string): unknown;
+  showViewOnceButton: boolean;
+  isViewOnceActive: boolean;
+  onToggleViewOnce: () => void;
 }>;
 
 const BASE_CLASS_NAME = 'module-composition-input';
@@ -195,6 +201,9 @@ export function CompositionInput(props: Props): React.ReactElement {
     sendCounter,
     sortedGroupMembers,
     theme,
+    showViewOnceButton,
+    isViewOnceActive,
+    onToggleViewOnce,
   } = props;
 
   const [emojiCompletionElement, setEmojiCompletionElement] =
@@ -876,7 +885,7 @@ export function CompositionInput(props: Props): React.ReactElement {
           }}
           formats={getQuillFormats()}
           placeholder={placeholder || i18n('icu:sendMessage')}
-          readOnly={disabled}
+          readOnly={disabled || isViewOnceActive}
           ref={element => {
             if (!element) {
               return;
@@ -988,16 +997,22 @@ export function CompositionInput(props: Props): React.ReactElement {
     };
   }, [isMouseDown]);
 
+  const isInputEnabled = !disabled && !isViewOnceActive;
+
   return (
     <Manager>
       <Reference>
         {({ ref }) => (
           <div
-            className={getClassName('__input')}
+            className={classNames(
+              getClassName('__input'),
+              showViewOnceButton && getClassName('__input--with-view-once'),
+              isViewOnceActive && getClassName('__input--view-once-active')
+            )}
             data-supertab
             ref={ref}
             data-testid="CompositionInput"
-            data-enabled={disabled ? 'false' : 'true'}
+            data-enabled={isInputEnabled ? 'true' : 'false'}
             onMouseDown={onMouseDown}
           >
             {draftEditMessage && (
@@ -1024,6 +1039,11 @@ export function CompositionInput(props: Props): React.ReactElement {
               />
             )}
             {children}
+            {isViewOnceActive && (
+              <div className={getClassName('__view-once-placeholder')}>
+                {i18n('icu:CompositionArea--viewOnceMediaPlaceholder')}
+              </div>
+            )}
             <div
               onClick={focus}
               onScroll={onScroll}
@@ -1045,6 +1065,31 @@ export function CompositionInput(props: Props): React.ReactElement {
                 </>
               )}
             </div>
+            {showViewOnceButton && (
+              <div className={getClassName('__view-once-button')}>
+                <AxoTooltip.Root
+                  label={i18n('icu:CompositionArea--viewOnceToggle')}
+                  tooltipRepeatsTriggerAccessibleName
+                >
+                  <button
+                    type="button"
+                    aria-label={i18n('icu:CompositionArea--viewOnceToggle')}
+                    onClick={onToggleViewOnce}
+                    className={tw(
+                      'flex cursor-default items-center justify-center rounded-full',
+                      'outline-border-focused not-forced-colors:outline-0 not-forced-colors:focused:outline-[2.5px]',
+                      'forced-colors:border forced-colors:border-[ButtonBorder]'
+                    )}
+                  >
+                    <AxoSymbol.Icon
+                      size={20}
+                      symbol={isViewOnceActive ? 'viewonce' : 'viewonce-slash'}
+                      label={null}
+                    />
+                  </button>
+                </AxoTooltip.Root>
+              </div>
+            )}
           </div>
         )}
       </Reference>

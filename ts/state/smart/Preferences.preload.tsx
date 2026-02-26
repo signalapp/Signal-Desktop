@@ -12,6 +12,7 @@ import { useConversationsActions } from '../ducks/conversations.preload.js';
 import {
   getConversationsWithCustomColorSelector,
   getMe,
+  getOtherTabsUnreadStats,
 } from '../selectors/conversations.dom.js';
 import {
   getCustomColors,
@@ -68,9 +69,9 @@ import { useUpdatesActions } from '../ducks/updates.preload.js';
 import { getUpdateDialogType } from '../selectors/updates.std.js';
 import { getHasAnyFailedStorySends } from '../selectors/stories.preload.js';
 import {
-  getOtherTabsUnreadStats,
+  getSelectedConversationId,
   getSelectedLocation,
-} from '../selectors/nav.preload.js';
+} from '../selectors/nav.std.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import { SmartProfileEditor } from './ProfileEditor.preload.js';
 import { useNavActions } from '../ducks/nav.std.js';
@@ -119,6 +120,7 @@ import { DonationsErrorBoundary } from '../../components/DonationsErrorBoundary.
 import type { SmartPreferencesChatFoldersPageProps } from './PreferencesChatFoldersPage.preload.js';
 import type { SmartPreferencesEditChatFolderPageProps } from './PreferencesEditChatFolderPage.preload.js';
 import type { ExternalProps as SmartNotificationProfilesProps } from './PreferencesNotificationProfiles.preload.js';
+import { useMegaphonesActions } from '../ducks/megaphones.preload.js';
 
 const DEFAULT_NOTIFICATION_SETTING = 'message';
 
@@ -224,6 +226,7 @@ export function SmartPreferences(): React.JSX.Element | null {
   const { showToast } = useToastActions();
   const { internalAddDonationReceipt } = useDonationsActions();
   const { startPlaintextExport, startLocalBackupExport } = useBackupActions();
+  const { addVisibleMegaphone } = useMegaphonesActions();
 
   // Selectors
 
@@ -273,8 +276,7 @@ export function SmartPreferences(): React.JSX.Element | null {
     account.captureChange('universalExpireTimer');
 
     // Add a notification to the currently open conversation
-    const state = window.reduxStore.getState();
-    const selectedId = state.conversations.selectedConversationId;
+    const selectedId = getSelectedConversationId(window.reduxStore.getState());
     if (selectedId) {
       const conversation = window.ConversationController.get(selectedId);
       assertDev(conversation, "Conversation wasn't found");
@@ -992,6 +994,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           internalAddDonationReceipt={internalAddDonationReceipt}
           saveAttachmentToDisk={saveAttachmentToDisk}
           generateDonationReceiptBlob={generateDonationReceiptBlob}
+          addVisibleMegaphone={addVisibleMegaphone}
           internalDeleteAllMegaphones={internalDeleteAllMegaphones}
           __dangerouslyRunAbitraryReadOnlySqlQuery={
             __dangerouslyRunAbitraryReadOnlySqlQuery

@@ -10,6 +10,7 @@ import { matchOrQueryFocusable } from '../util/focusableSelectors.std.js';
 import { getQuotedMessageSelector } from '../state/selectors/composer.preload.js';
 import { removeLinkPreview } from './LinkPreview.preload.js';
 import { ForwardMessagesModalType } from '../components/ForwardMessagesModal.dom.js';
+import { getSelectedConversationId } from '../state/selectors/nav.std.js';
 
 const log = createLogger('addGlobalKeyboardShortcuts');
 
@@ -24,7 +25,7 @@ export function addGlobalKeyboardShortcuts(): void {
     const commandOrCtrl = commandKey || controlKey;
 
     const state = window.reduxStore.getState();
-    const { selectedConversationId } = state.conversations;
+    const selectedConversationId = getSelectedConversationId(state);
     const conversation = window.ConversationController.get(
       selectedConversationId
     );
@@ -205,7 +206,7 @@ export function addGlobalKeyboardShortcuts(): void {
 
     // Send Escape to active conversation so it can close panels
     if (conversation && key === 'Escape') {
-      window.reduxActions.conversations.popPanelForConversation();
+      window.reduxActions.nav.popPanelForConversation();
       event.preventDefault();
       event.stopPropagation();
       return;
@@ -296,7 +297,7 @@ export function addGlobalKeyboardShortcuts(): void {
       shiftKey &&
       (key === 'm' || key === 'M')
     ) {
-      window.reduxActions.conversations.pushPanelForConversation({
+      window.reduxActions.nav.pushPanelForConversation({
         type: PanelType.AllMedia,
       });
       event.preventDefault();
@@ -394,7 +395,7 @@ export function addGlobalKeyboardShortcuts(): void {
         return;
       }
 
-      window.reduxActions.conversations.pushPanelForConversation({
+      window.reduxActions.nav.pushPanelForConversation({
         type: PanelType.MessageDetails,
         args: {
           messageId: targetedMessage,

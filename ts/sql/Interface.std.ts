@@ -804,6 +804,16 @@ strictAssert(
   'attachment_columns must match DB fields type'
 );
 
+export type ExistingAttachmentUploadData = {
+  cdnKey: string;
+  cdnNumber: number;
+  digest: string;
+  key: string;
+  uploadTimestamp: number;
+  incrementalMac: string | null;
+  chunkSize: number | null;
+};
+
 export type ExistingAttachmentData = Pick<
   MessageAttachmentDBType,
   | 'version'
@@ -1085,6 +1095,10 @@ type ReadableInterface = {
     version: number
   ) => Array<MessageAttributesType>;
 
+  getMostRecentAttachmentUploadData: (
+    plaintextHash: string
+  ) => ExistingAttachmentUploadData | undefined;
+
   __dangerouslyRunAbitraryReadOnlySqlQuery: (
     readOnlySqlQuery: string
   ) => ReadonlyArray<RowType<object>>;
@@ -1243,11 +1257,6 @@ type WritableInterface = {
   updateCallLinkState(
     roomId: string,
     callLinkState: CallLinkStateType
-  ): CallLinkType;
-  updateCallLinkStateAndEpoch(
-    roomId: string,
-    callLinkState: CallLinkStateType,
-    epoch: string | null
   ): CallLinkType;
   beginDeleteAllCallLinks(): boolean;
   beginDeleteCallLink(roomId: string): boolean;
@@ -1444,12 +1453,20 @@ type WritableInterface = {
     plaintextHash,
     version,
     contentType,
+    messageId,
   }: {
     plaintextHash: string;
     version: number;
     contentType: MIMEType;
+    messageId: string;
   }) => ExistingAttachmentData | undefined;
-  _protectAttachmentPathFromDeletion: (path: string) => void;
+  _protectAttachmentPathFromDeletion: ({
+    path,
+    messageId,
+  }: {
+    path: string;
+    messageId: string;
+  }) => void;
   resetProtectedAttachmentPaths: () => void;
 
   removeAll: () => void;

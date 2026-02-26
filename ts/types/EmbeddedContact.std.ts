@@ -16,14 +16,13 @@ import type {
   AttachmentType,
   AttachmentForUIType,
   AttachmentWithHydratedData,
-  LocalAttachmentV2Type,
   UploadedAttachmentType,
 } from './Attachment.std.js';
 import { toLogFormat } from './errors.std.js';
-import type { LoggerType } from './Logging.std.js';
 import type { ServiceIdString } from './ServiceId.std.js';
 import type { migrateDataToFileSystem } from '../util/attachments/migrateDataToFilesystem.std.js';
 import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl.std.js';
+import type { ContextType } from './Message2.preload.js';
 
 const { omit } = lodash;
 
@@ -231,13 +230,14 @@ export function parseAndWriteAvatar(
 ) {
   return async (
     contact: EmbeddedContactType,
-    context: {
-      getRegionCode: () => string | undefined;
-      logger: LoggerType;
-      writeNewAttachmentData: (
-        data: Uint8Array
-      ) => Promise<LocalAttachmentV2Type>;
-    },
+    context: Pick<
+      ContextType,
+      | 'getRegionCode'
+      | 'logger'
+      | 'writeNewAttachmentData'
+      | 'getExistingAttachmentDataForReuse'
+      | 'getPlaintextHashForInMemoryAttachment'
+    >,
     message: ReadonlyMessageAttributesType
   ): Promise<EmbeddedContactType> => {
     const { getRegionCode, logger } = context;
@@ -249,7 +249,7 @@ export function parseAndWriteAvatar(
             ...contact,
             avatar: {
               ...avatar,
-              avatar: await upgradeAttachment(avatar.avatar, context),
+              avatar: await upgradeAttachment(avatar.avatar, context, message),
             },
           }
         : omit(contact, ['avatar']);

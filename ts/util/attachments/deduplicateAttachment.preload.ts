@@ -30,10 +30,12 @@ type AttachmentDataToBeReused = WithRequiredProperties<
 export async function getExistingAttachmentDataForReuse({
   plaintextHash,
   contentType,
+  messageId,
   logId,
 }: {
   plaintextHash: string;
   contentType: MIMEType;
+  messageId: string;
   logId?: string;
 }): Promise<AttachmentDataToBeReused | null> {
   const existingAttachmentData =
@@ -41,6 +43,7 @@ export async function getExistingAttachmentDataForReuse({
       plaintextHash,
       version: CURRENT_ATTACHMENT_VERSION,
       contentType,
+      messageId,
     });
 
   if (!existingAttachmentData) {

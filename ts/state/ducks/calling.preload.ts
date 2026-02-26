@@ -7,7 +7,6 @@ import lodash from 'lodash';
 import Long from 'long';
 import type { ReadonlyDeep } from 'type-fest';
 import {
-  CallLinkEpoch,
   CallLinkRootKey,
   CallEndReason,
   type Reaction as CallReaction,
@@ -328,7 +327,6 @@ type HangUpActionPayloadType = ReadonlyDeep<{
 
 export type HandleCallLinkUpdateType = ReadonlyDeep<{
   rootKey: string;
-  epoch: string | null;
   adminKey: string | null;
 }>;
 
@@ -444,7 +442,6 @@ export type StartCallingLobbyType = ReadonlyDeep<{
 
 export type StartCallLinkLobbyType = ReadonlyDeep<{
   rootKey: string;
-  epoch: string | null;
 }>;
 
 export type StartCallLinkLobbyByRoomIdType = ReadonlyDeep<{
@@ -493,7 +490,6 @@ type StartCallLinkLobbyPayloadType = {
   remoteParticipants: Array<GroupCallParticipantInfoType>;
   callLinkState: CallLinkStateType;
   callLinkRoomId: string;
-  callLinkEpoch: string | null;
   callLinkRootKey: string;
 };
 
@@ -618,12 +614,7 @@ const doGroupCallPeek = ({
         // For adhoc calls, conversationId is actually a roomId.
         const callLink = getOwn(state.calling.callLinks, conversationId);
         const rootKey = callLink?.rootKey;
-        const epoch = callLink?.epoch ?? undefined;
-        peekInfo = await calling.peekCallLinkCall(
-          conversationId,
-          rootKey,
-          epoch
-        );
+        peekInfo = await calling.peekCallLinkCall(conversationId, rootKey);
       }
     } catch (err) {
       log.error('Group call peeking failed', Errors.toLogFormat(err));
@@ -1662,7 +1653,7 @@ function handleCallLinkUpdate(
   HandleCallLinkUpdateActionType | CallHistoryAdd
 > {
   return async dispatch => {
-    const { rootKey, epoch, adminKey } = payload;
+    const { rootKey, adminKey } = payload;
     const callLinkRootKey = CallLinkRootKey.parse(rootKey);
     const roomId = getRoomIdFromRootKey(callLinkRootKey);
     const logId = `handleCallLinkUpdate(${roomId})`;
@@ -1672,7 +1663,6 @@ function handleCallLinkUpdate(
       storageNeedsSync: false,
       roomId,
       rootKey,
-      epoch,
       adminKey,
     };
 
@@ -1706,7 +1696,6 @@ function handleCallLinkUpdate(
     drop(
       callLinkRefreshJobQueue.add({
         rootKey,
-        epoch,
         source: 'handleCallLinkUpdate',
       })
     );
@@ -2432,28 +2421,25 @@ function startCallLinkLobbyByRoomId({
       `startCallLinkLobbyByRoomId(${roomId}): call link not found`
     );
 
-    const { rootKey, epoch } = callLink;
-    await _startCallLinkLobby({ rootKey, epoch, dispatch, getState });
+    const { rootKey } = callLink;
+    await _startCallLinkLobby({ rootKey, dispatch, getState });
   };
 }
 
 function startCallLinkLobby({
   rootKey,
-  epoch,
 }: StartCallLinkLobbyType): StartCallLinkLobbyThunkActionType {
   return async (dispatch, getState) => {
-    await _startCallLinkLobby({ rootKey, epoch, dispatch, getState });
+    await _startCallLinkLobby({ rootKey, dispatch, getState });
   };
 }
 
 const _startCallLinkLobby = async ({
   rootKey,
-  epoch,
   dispatch,
   getState,
 }: {
   rootKey: string;
-  epoch: string | null;
   dispatch: ThunkDispatch<
     RootStateType,
     unknown,
@@ -2467,7 +2453,6 @@ const _startCallLinkLobby = async ({
   getState: () => RootStateType;
 }) => {
   const callLinkRootKey = CallLinkRootKey.parse(rootKey);
-  const callLinkEpoch = epoch ? CallLinkEpoch.parse(epoch) : undefined;
   const roomId = getRoomIdFromRootKey(callLinkRootKey);
   const state = getState();
 
@@ -2495,7 +2480,6 @@ const _startCallLinkLobby = async ({
       toggleConfirmLeaveCallModal({
         type: 'adhoc-rootKey',
         rootKey,
-        epoch,
       })
     );
     return;
@@ -2511,7 +2495,7 @@ const _startCallLinkLobby = async ({
     });
 
     let callLinkState: CallLinkStateType | null = null;
-    callLinkState = await calling.readCallLink(callLinkRootKey, callLinkEpoch);
+    callLinkState = await calling.readCallLink(callLinkRootKey);
 
     if (callLinkState == null) {
       const i18n = getIntl(getState());
@@ -2545,27 +2529,13 @@ const _startCallLinkLobby = async ({
 
     const callLink = await DataReader.getCallLinkByRoomId(roomId);
     if (callLink) {
-      await DataWriter.updateCallLinkStateAndEpoch(
-        roomId,
-        callLinkState,
-        epoch
-      );
+      await DataWriter.updateCallLinkState(roomId, callLinkState);
       log.info(`${logId}: Updated existing call link`);
-      if (epoch !== callLink.epoch) {
-        drop(
-          sendCallLinkUpdateSync({
-            rootKey,
-            epoch,
-            adminKey: callLink.adminKey,
-          })
-        );
-      }
     } else {
       const { name, restrictions, expiration, revoked } = callLinkState;
       await DataWriter.insertCallLink({
         roomId,
         rootKey,
-        epoch: epoch ?? null,
         adminKey: null,
         name,
         restrictions,
@@ -2587,7 +2557,6 @@ const _startCallLinkLobby = async ({
 
     const callLobbyData = await calling.startCallLinkLobby({
       callLinkRootKey,
-      callLinkEpoch,
       adminPasskey,
       hasLocalAudio:
         groupCallDeviceCount < MAX_CALL_PARTICIPANTS_FOR_DEFAULT_MUTE,
@@ -2603,7 +2572,6 @@ const _startCallLinkLobby = async ({
         callLinkState,
         callLinkRoomId: roomId,
         callLinkRootKey: rootKey,
-        callLinkEpoch: epoch,
         conversationId: roomId,
         isConversationTooBigToRing: false,
       },
@@ -2650,8 +2618,8 @@ function leaveCurrentCallAndStartCallingLobby(
       const { roomId } = data;
       startCallLinkLobbyByRoomId({ roomId })(dispatch, getState, undefined);
     } else if (type === 'adhoc-rootKey') {
-      const { rootKey, epoch } = data;
-      startCallLinkLobby({ rootKey, epoch })(dispatch, getState, undefined);
+      const { rootKey } = data;
+      startCallLinkLobby({ rootKey })(dispatch, getState, undefined);
     } else {
       throw missingCaseError(type);
     }
@@ -2842,7 +2810,6 @@ function startCall(
         await calling.joinCallLinkCall({
           roomId: conversationId,
           rootKey: callLink.rootKey,
-          epoch: callLink.epoch ?? undefined,
           adminKey: callLink.adminKey ?? undefined,
           hasLocalAudio,
           hasLocalVideo,
@@ -3412,9 +3379,6 @@ export function reducer(
                 rootKey:
                   callLinks[conversationId]?.rootKey ??
                   action.payload.callLinkRootKey,
-                epoch:
-                  callLinks[conversationId]?.epoch ??
-                  action.payload.callLinkEpoch,
                 adminKey: callLinks[conversationId]?.adminKey,
                 storageNeedsSync: false,
               },

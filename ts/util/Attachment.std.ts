@@ -24,8 +24,6 @@ import {
 } from './GoogleChrome.std.js';
 import type { LocalizerType } from '../types/Util.std.js';
 import { ThemeType } from '../types/Util.std.js';
-import { isMoreRecentThan } from './timestamp.std.js';
-import { DAY } from './durations/index.std.js';
 import {
   isValidAttachmentKey,
   isValidDigest,
@@ -53,8 +51,6 @@ const MIN_TIMELINE_IMAGE_HEIGHT = 50;
 
 const MAX_DISPLAYABLE_IMAGE_WIDTH = 8192;
 const MAX_DISPLAYABLE_IMAGE_HEIGHT = 8192;
-
-const MAX_DURATION_TO_REUSE_ATTACHMENT_CDN_POINTER = 3 * DAY;
 
 // // Incoming message attachment fields
 // {
@@ -934,23 +930,6 @@ export function partitionBodyAndNormalAttachments<
     bodyAttachment: existingBodyAttachment ?? bodyAttachments[0],
     attachments: normalAttachments,
   };
-}
-
-export function canReuseExistingTransitCdnPointerForEditedMessage(
-  attachment: AttachmentType
-): attachment is AttachmentDownloadableFromTransitTier {
-  // In practice, this should always return true, since the timeframe for editing a
-  // message is less than MAX_DURATION_TO_REUSE_ATTACHMENT_CDN_POINTER
-  return (
-    isValidDigest(attachment.digest) &&
-    isValidAttachmentKey(attachment.key) &&
-    attachment.cdnKey != null &&
-    attachment.cdnNumber != null &&
-    isMoreRecentThan(
-      attachment.uploadTimestamp ?? 0,
-      MAX_DURATION_TO_REUSE_ATTACHMENT_CDN_POINTER
-    )
-  );
 }
 
 const MESSAGE_ATTACHMENT_TYPES_NEEDING_THUMBNAILS: Set<MessageAttachmentType> =

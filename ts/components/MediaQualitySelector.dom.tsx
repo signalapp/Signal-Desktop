@@ -2,16 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { KeyboardEvent } from 'react';
-import React, { useCallback, useEffect, useState } from 'react';
-import lodash from 'lodash';
-import { createPortal } from 'react-dom';
+import React, { useCallback, useRef, useState } from 'react';
 import classNames from 'classnames';
-import { Manager, Popper, Reference } from 'react-popper';
+import { Popover } from 'radix-ui';
 import type { LocalizerType } from '../types/Util.std.js';
-import { useRefMerger } from '../hooks/useRefMerger.std.js';
-import { handleOutsideClick } from '../util/handleOutsideClick.dom.js';
-
-const { noop } = lodash;
+import { AxoIconButton } from '../axo/AxoIconButton.dom.js';
 
 export type PropsType = {
   conversationId: string;
@@ -26,182 +21,115 @@ export function MediaQualitySelector({
   isHighQuality,
   onSelectQuality,
 }: PropsType): React.JSX.Element {
-  const [menuShowing, setMenuShowing] = useState(false);
-  const [popperRoot, setPopperRoot] = useState<HTMLElement | null>(null);
-  const [focusedOption, setFocusedOption] = useState<0 | 1 | undefined>(
-    undefined
+  const [open, setOpen] = useState(false);
+  const standardRef = useRef<HTMLButtonElement>(null);
+  const highRef = useRef<HTMLButtonElement>(null);
+
+  const handleOpenAutoFocus = useCallback(
+    (e: Event) => {
+      e.preventDefault();
+      if (isHighQuality) {
+        highRef.current?.focus();
+      } else {
+        standardRef.current?.focus();
+      }
+    },
+    [isHighQuality]
   );
 
-  const buttonRef = React.useRef<HTMLButtonElement | null>(null);
-  const refMerger = useRefMerger();
-
-  const handleClick = () => {
-    setMenuShowing(true);
-  };
-
-  const handleKeyDown = (ev: KeyboardEvent) => {
-    if (!popperRoot) {
-      if (ev.key === 'Enter') {
-        setFocusedOption(isHighQuality ? 1 : 0);
-      }
-      return;
-    }
-
+  const handleContentKeyDown = useCallback((ev: KeyboardEvent) => {
     if (ev.key === 'ArrowDown' || ev.key === 'ArrowUp') {
-      setFocusedOption(oldFocusedOption => (oldFocusedOption === 1 ? 0 : 1));
-      ev.stopPropagation();
-      ev.preventDefault();
-    }
-
-    if (ev.key === 'Enter') {
-      onSelectQuality(conversationId, Boolean(focusedOption));
-      setMenuShowing(false);
-      ev.stopPropagation();
-      ev.preventDefault();
-    }
-  };
-
-  const handleClose = useCallback(() => {
-    setMenuShowing(false);
-    setFocusedOption(undefined);
-  }, [setMenuShowing]);
-
-  useEffect(() => {
-    if (menuShowing) {
-      const root = document.createElement('div');
-      setPopperRoot(root);
-      document.body.appendChild(root);
-
-      return () => {
-        document.body.removeChild(root);
-        setPopperRoot(null);
-      };
-    }
-
-    return noop;
-  }, [menuShowing, setPopperRoot, handleClose]);
-
-  useEffect(() => {
-    if (!menuShowing) {
-      return noop;
-    }
-
-    return handleOutsideClick(
-      () => {
-        handleClose();
-        return true;
-      },
-      {
-        containerElements: [popperRoot, buttonRef],
-        name: 'MediaQualitySelector',
+      if (document.activeElement === standardRef.current) {
+        highRef.current?.focus();
+      } else {
+        standardRef.current?.focus();
       }
-    );
-  }, [menuShowing, popperRoot, handleClose]);
+      ev.stopPropagation();
+      ev.preventDefault();
+    }
+  }, []);
 
   return (
-    <Manager>
-      <Reference>
-        {({ ref }) => (
-          <button
-            aria-label={i18n('icu:MediaQualitySelector--button')}
-            className={classNames({
-              MediaQualitySelector__button: true,
-              'MediaQualitySelector__button--hq': isHighQuality,
-              'MediaQualitySelector__button--active': menuShowing,
-            })}
-            onClick={handleClick}
-            onKeyDown={handleKeyDown}
-            ref={refMerger(buttonRef, ref)}
-            type="button"
-          />
-        )}
-      </Reference>
-      {menuShowing && popperRoot
-        ? createPortal(
-            <Popper placement="top-start" strategy="fixed">
-              {({ ref, style, placement }) => (
-                <div
-                  className="MediaQualitySelector__popper"
-                  data-placement={placement}
-                  ref={ref}
-                  style={style}
-                >
-                  <div className="MediaQualitySelector__title">
-                    {i18n('icu:MediaQualitySelector--title')}
-                  </div>
-                  <button
-                    aria-label={i18n(
-                      'icu:MediaQualitySelector--standard-quality-title'
-                    )}
-                    className={classNames({
-                      MediaQualitySelector__option: true,
-                      'MediaQualitySelector__option--focused':
-                        focusedOption === 0,
-                    })}
-                    type="button"
-                    onClick={() => {
-                      onSelectQuality(conversationId, false);
-                      setMenuShowing(false);
-                    }}
-                  >
-                    <div
-                      className={classNames({
-                        'MediaQualitySelector__option--checkmark': true,
-                        'MediaQualitySelector__option--selected':
-                          !isHighQuality,
-                      })}
-                    />
-                    <div>
-                      <div className="MediaQualitySelector__option--title">
-                        {i18n(
-                          'icu:MediaQualitySelector--standard-quality-title'
-                        )}
-                      </div>
-                      <div className="MediaQualitySelector__option--description">
-                        {i18n(
-                          'icu:MediaQualitySelector--standard-quality-description'
-                        )}
-                      </div>
-                    </div>
-                  </button>
-                  <button
-                    aria-label={i18n(
-                      'icu:MediaQualitySelector--high-quality-title'
-                    )}
-                    className={classNames({
-                      MediaQualitySelector__option: true,
-                      'MediaQualitySelector__option--focused':
-                        focusedOption === 1,
-                    })}
-                    type="button"
-                    onClick={() => {
-                      onSelectQuality(conversationId, true);
-                      setMenuShowing(false);
-                    }}
-                  >
-                    <div
-                      className={classNames({
-                        'MediaQualitySelector__option--checkmark': true,
-                        'MediaQualitySelector__option--selected': isHighQuality,
-                      })}
-                    />
-                    <div>
-                      <div className="MediaQualitySelector__option--title">
-                        {i18n('icu:MediaQualitySelector--high-quality-title')}
-                      </div>
-                      <div className="MediaQualitySelector__option--description">
-                        {i18n(
-                          'icu:MediaQualitySelector--high-quality-description'
-                        )}
-                      </div>
-                    </div>
-                  </button>
-                </div>
+    <Popover.Root open={open} onOpenChange={setOpen}>
+      <Popover.Trigger asChild>
+        <AxoIconButton.Root
+          variant="borderless-secondary"
+          size="md"
+          symbol={isHighQuality ? 'hd' : 'hd-slash'}
+          label={i18n('icu:MediaQualitySelector--button')}
+          tooltip={false}
+        />
+      </Popover.Trigger>
+      {open && (
+        <Popover.Portal>
+          <Popover.Content
+            className="MediaQualitySelector__popper"
+            side="top"
+            align="start"
+            sideOffset={4}
+            onOpenAutoFocus={handleOpenAutoFocus}
+            onKeyDown={handleContentKeyDown}
+          >
+            <div className="MediaQualitySelector__title">
+              {i18n('icu:MediaQualitySelector--title')}
+            </div>
+            <button
+              ref={standardRef}
+              aria-label={i18n(
+                'icu:MediaQualitySelector--standard-quality-title'
               )}
-            </Popper>,
-            popperRoot
-          )
-        : null}
-    </Manager>
+              className="MediaQualitySelector__option"
+              type="button"
+              onClick={() => {
+                onSelectQuality(conversationId, false);
+                setOpen(false);
+              }}
+            >
+              <div
+                className={classNames({
+                  'MediaQualitySelector__option--checkmark': true,
+                  'MediaQualitySelector__option--selected': !isHighQuality,
+                })}
+              />
+              <div>
+                <div className="MediaQualitySelector__option--title">
+                  {i18n('icu:MediaQualitySelector--standard-quality-title')}
+                </div>
+                <div className="MediaQualitySelector__option--description">
+                  {i18n(
+                    'icu:MediaQualitySelector--standard-quality-description'
+                  )}
+                </div>
+              </div>
+            </button>
+            <button
+              ref={highRef}
+              aria-label={i18n('icu:MediaQualitySelector--high-quality-title')}
+              className="MediaQualitySelector__option"
+              type="button"
+              onClick={() => {
+                onSelectQuality(conversationId, true);
+                setOpen(false);
+              }}
+            >
+              <div
+                className={classNames({
+                  'MediaQualitySelector__option--checkmark': true,
+                  'MediaQualitySelector__option--selected': isHighQuality,
+                })}
+              />
+              <div>
+                <div className="MediaQualitySelector__option--title">
+                  {i18n('icu:MediaQualitySelector--high-quality-title')}
+                </div>
+                <div className="MediaQualitySelector__option--description">
+                  {i18n('icu:MediaQualitySelector--high-quality-description')}
+                </div>
+              </div>
+            </button>
+          </Popover.Content>
+        </Popover.Portal>
+      )}
+    </Popover.Root>
   );
 }

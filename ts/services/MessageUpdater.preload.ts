@@ -14,11 +14,19 @@ import * as Errors from '../types/errors.std.js';
 import { createLogger } from '../logging/log.std.js';
 import { isValidTapToView } from '../util/isValidTapToView.std.js';
 import { getMessageIdForLogging } from '../util/idForLogging.preload.js';
+import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.std.js';
 import { eraseMessageContents } from '../util/cleanup.preload.js';
 import { getSource, getSourceServiceId } from '../messages/sources.preload.js';
 import { isAciString } from '../util/isAciString.std.js';
 import { viewOnceOpenJobQueue } from '../jobs/viewOnceOpenJobQueue.preload.js';
 import { drop } from '../util/drop.std.js';
+import { isIncoming } from '../messages/helpers.std.js';
+import {
+  conversationJobQueue,
+  conversationQueueJobEnum,
+} from '../jobs/conversationJobQueue.preload.js';
+import { ReceiptType } from '../types/Receipt.std.js';
+import { isDirectConversation } from '../util/whatTypeOfConversation.dom.js';
 
 const log = createLogger('MessageUpdater');
 
@@ -99,10 +107,37 @@ export async function markViewOnceMessageViewed(
   if (!fromSync) {
     const senderE164 = getSource(message.attributes);
     const senderAci = getSourceServiceId(message.attributes);
-    const timestamp = message.get('sent_at');
+    const timestamp = getMessageSentTimestamp(message.attributes, { log });
 
     if (senderAci === undefined || !isAciString(senderAci)) {
       throw new Error('markViewOnceMessageViewed: senderAci is undefined');
+    }
+
+    // Send viewed receipt to sender for incoming view-once messages
+    if (isIncoming(message.attributes)) {
+      const conversationId = message.get('conversationId');
+      const conversation = window.ConversationController.get(conversationId);
+      const isDirectConversationValue = conversation
+        ? isDirectConversation(conversation.attributes)
+        : true;
+
+      drop(
+        conversationJobQueue.add({
+          type: conversationQueueJobEnum.enum.Receipts,
+          conversationId,
+          receiptsType: ReceiptType.Viewed,
+          receipts: [
+            {
+              messageId: message.id,
+              conversationId,
+              senderE164,
+              senderAci,
+              timestamp,
+              isDirectConversation: isDirectConversationValue,
+            },
+          ],
+        })
+      );
     }
 
     if (window.ConversationController.areWePrimaryDevice()) {

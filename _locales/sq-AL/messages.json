@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Shfaq/Fshih Mjete Zhvilluesi"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Hap mjetet e zhvillimit të thirrjeve"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Rregulloje si Pajisje të Re"
   },
@@ -654,10 +651,10 @@
     "messageformat": "Po dërgohet..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify encryption"
+    "messageformat": "Signal tani mund ta verifikojë automatikisht kodimin"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+    "messageformat": "Për kontaktet me të cilët je lidhur me anë të numrit të telefonit, Signal mund të konfirmojë automatikisht nëse lidhja është e sigurt duke përdorur një proces të quajtur kod transparence. Për siguri të shtuar, mund t’i verifikosh lidhjet manualisht duke përdorur kod QR ose duke krahasuar numrat e sigurisë."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Vazhdo"
@@ -1117,6 +1114,9 @@
   },
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Shto emërtimin e anëtarit"
+  },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Shënim"
@@ -2431,6 +2431,9 @@
   },
   "icu:Toast--unable-download-from-backup-tier": {
     "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Vetëm administratorët mund të caktojnë emërtimet e anëtarëve në këtë grup."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Përpunimet mund të zbatohen vetëm brenda 24 orëve nga momenti që dërgove këtë mesazh."
@@ -4631,6 +4634,9 @@
   "icu:ContactModal--rm-admin": {
     "messageformat": "Hiqe nga përgjegjës"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "Kjo do të fshijë edhe emërtimin e tyre të anëtarit."
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "Bëje përgjegjës"
   },
@@ -4692,22 +4698,22 @@
     "messageformat": "Përshëndetje!"
   },
   "icu:ConversationDetails--member-label--list-header": {
-    "messageformat": "Group members with labels"
+    "messageformat": "Anëtarët e grupit me emërtime"
   },
   "icu:ConversationDetails--member-label--no-members": {
-    "messageformat": "No other members have labels"
+    "messageformat": "Asnjë anëtar tjetër nuk ka emërtime"
   },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "Ndryshimet po ruhen..."
   },
   "icu:ConversationDetails--member-label--error-title": {
-    "messageformat": "Can’t save member label"
+    "messageformat": "Nuk mund të ruhet emërtimi i anëtarit"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "Kontrollo lidhjen e internetit dhe riprovo."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "Only admins can set member labels in this group."
+    "messageformat": "Vetëm administratorët mund të caktojnë emërtimet e anëtarëve në këtë grup."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Zhdukje mesazhesh"
@@ -4758,13 +4764,13 @@
     "messageformat": "Zgjidhni cilët mund të dërgojnë mesazhe te grupi."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
-    "messageformat": "Member labels will be cleared"
+    "messageformat": "Emërtimet e anëtarëve do të fshihen"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+    "messageformat": "Ndryshimi i kësaj lejeje në \"Vetëm administratorët\" do të fshijë emërtimet e anëtarëve të vendosur nga jo-administratorët në këtë grup."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "Vazhdo"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Kërkesa & Ftesa"
@@ -4819,6 +4825,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Shtoni anëtarë"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Shto emërtimin e anëtarit"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Shihi të gjithë"
@@ -4993,6 +5002,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Mund të zgjedhësh vetëm deri në {count,number} mesazh për të fshirë për të gjithë} other {Mund të zgjedhësh vetëm deri në {count,number} mesazhe për të fshirë për të gjithë}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Të fshihet materiali?"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "Kjo do ta fshijë përgjithmonë artikullin. Çdo mesazh i lidhur me këtë artikull do të fshihet gjithashtu."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Mbylle"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Fshije"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Anulo"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Mund të përcjellësh deri në 30 mesazhe"
@@ -5366,6 +5390,24 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "Skedarët që dërgon dhe merr do të shfaqen këtu"
   },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "Shiko në bisedë"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Përcjellje"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Ruaje"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Dërgoni mesazh"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Kopjo linkun"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Fshije"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Përzgjidhni cilësi media"
   },
@@ -5579,6 +5621,10 @@
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "përgjegjësit"
   },
+  "icu:Avatar__View": {
+    "messageformat": "Shih",
+    "limit": 7
+  },
   "icu:AvatarEditor--choose": {
     "messageformat": "Përzgjidhni një avatar"
   },
@@ -5656,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "Konfiguro"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Kopjeruajtjet lokale"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Eksporto…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Eksporto kopjeruajtjet lokale të koduara në një dosje dhe verifikoje atë"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Eksporto kopjeruajtjet e koduara në memorie dhe ekzekuto paketën e verifikimit në të"
@@ -7486,19 +7523,19 @@
     "messageformat": "<paragraph>Signal nuk mbledh apo ruan asnjë nga të dhënat e tua personale kur bën një dhurim.</paragraph><paragraph>Ne përdorim Stripe si përpunues të pagesave për të marrë dhurimet. Nuk kemi qasje, nuk mbledhim apo ruajmë asnjë nga informacionet që ti u jep atyre.</paragraph><paragraph>Signal nuk e lidh dhe nuk mund ta lidhë dhurimin tënd me llogarinë Signal.</paragraph><paragraph>Faleminderit për mbështetjen!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "Si një ent jofitimprurës i pavarur, Signal është i përkushtuar ndaj mesazheve dhe thirrjeve private. Pa reklama, pa gjurmues, pa mbikëqyrje. Dhuro sot për të mbështetur Signal."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "Merr distinktivin opsional në profil kur dhuron"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "Privatësia jote është misioni ynë"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signal është një ent jofitimprurës. Signal është një ent jofitimprurës."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
-    "messageformat": "Heart icon in the style of the Signal logo"
+    "messageformat": "Ikonë zemre në stilin e logos së Signal"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "OK"
@@ -7591,13 +7628,13 @@
     "messageformat": "Hiq informacionin"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving will cancel your donation."
+    "messageformat": "Largimi do ta anulojë dhurimin."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "Largohu"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
-    "messageformat": "Stay on page"
+    "messageformat": "Qëndro në faqe"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Vazhdo"
@@ -7839,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Na ndihmo të përmirësohemi"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "Kjo na ndihmon të mësojmë më shumë rreth thirrjeve dhe çfarë funksionon apo nuk funksionon. Mund ta shikosh regjistrin e diagnostikimeve përpara se të bësh dërgimin."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Dorëzimi do t'i ndajë reagimet së bashku me <diagnosticInfoLink>informacion diagnostikues rreth thirrjes sate</diagnosticInfoLink>. Mund të ndash opsionalisht një regjistër diagnostikimesh për të na ndihmuar të përmirësojmë cilësinë e thirrjeve."
   },
@@ -7850,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Shih"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Regjistrat e diagnostikimit përmbajnë informacione të nivelit të ulët të aplikacionit dhe nuk zbulojnë asnjë nga përmbajtjet e mesazheve."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "Informacioni i ndarë me ne përmban të dhëna të një niveli të ulët për aplikacionin dhe nuk përfshin përmbajtjen e thirrjeve."
@@ -7906,13 +7937,13 @@
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.89--0": {
-    "messageformat": "Përditësimi rregullon gabimin e formatimit të tekstit ndërsa Caps Lock ishte i aktivizuar, kështu që do të jetë më e lehtë t'i bësh shkronjat më të zeza (ose me shkrim italik) NDËRSA JE ME SHKRONJA TË ZEZA. Faleminderit, <DGrothePhD></DGrothePhD>!"
-  },
-  "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal është një ent jofitimprurës që nuk do të ishte i mundur pa mbështetjen tënde dhe tani mund të dhurosh përmes PayPal në Signal Desktop."
-  },
   "icu:WhatsNew__7.90--0": {
-    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
+    "messageformat": "Ruaj privatësinë me pesë pako të reja zyrtare ngjitësesh në serinë Signal Artist: \"Chug the Mouse\" nga Amanda Cotan, \"Cozy Season\" nga Miguel Ángel Camprubí, \"Croco's Feelings\" nga Tiffany Beucher, \"My Daily Life 2\" nga Plastic Thing dhe \"Rocky Talk\" nga Lexi Vay."
+  },
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Kopjeruajtjet e sigurta erdhën! Mund të aktivizosh kopjeruajtjet automatike të koduara nga skaji në skaj, që të mos humbisësh asnjë mesazh kur merr telefon të ri ose riinstalo Signal. Mund të krijosh falas kopjeruajtje të gjitha mesazheve dhe medias të 45 ditëve të fundit, ose të paguash një tarifë mujore për të marrë 100 GB hapësirë për të ruajtur çdo bashkëngjitje. Kliko te kopjeruajtjet te parametrat e Signal për të nisur. Faleminderit atyre që testuan veçorinë gjatë periudhës beta!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

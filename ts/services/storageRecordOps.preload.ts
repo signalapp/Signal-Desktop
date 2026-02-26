@@ -73,11 +73,9 @@ import type {
 } from '../types/CallLink.std.js';
 import {
   callLinkFromRecord,
-  fromEpochBytes,
   fromRootKeyBytes,
   getRoomIdFromRootKeyString,
   toRootKeyBytes,
-  toEpochBytes,
 } from '../util/callLinksRingrtc.node.js';
 import { fromAdminKeyBytes, toAdminKeyBytes } from '../util/callLinks.std.js';
 import { isOlderThan } from '../util/timestamp.std.js';
@@ -806,9 +804,6 @@ export function toCallLinkRecord(
       'toCallLinkRecord: no adminPasskey'
     );
     callLinkRecord.adminPasskey = callLinkDbRecord.adminKey;
-    if (callLinkDbRecord.epoch) {
-      callLinkRecord.epoch = callLinkDbRecord.epoch;
-    }
   }
 
   if (callLinkDbRecord.storageUnknownFields) {
@@ -827,7 +822,6 @@ export function toDefunctOrPendingCallLinkRecord(
   const adminKey = callLink.adminKey
     ? toAdminKeyBytes(callLink.adminKey)
     : null;
-  const epoch = callLink.epoch ? toEpochBytes(callLink.epoch) : null;
 
   strictAssert(rootKey, 'toDefunctOrPendingCallLinkRecord: no rootKey');
   strictAssert(adminKey, 'toDefunctOrPendingCallLinkRecord: no adminPasskey');
@@ -836,10 +830,6 @@ export function toDefunctOrPendingCallLinkRecord(
 
   callLinkRecord.rootKey = rootKey;
   callLinkRecord.adminPasskey = adminKey;
-
-  if (epoch) {
-    callLinkRecord.epoch = epoch;
-  }
 
   if (callLink.storageUnknownFields) {
     callLinkRecord.$unknownFields = fromStorageUnknownFields(
@@ -2397,9 +2387,6 @@ export async function mergeCallLinkRecord(
   }
 
   const rootKeyString = fromRootKeyBytes(callLinkRecord.rootKey);
-  const epochString = callLinkRecord.epoch
-    ? fromEpochBytes(callLinkRecord.epoch)
-    : null;
   const adminKeyString = callLinkRecord.adminPasskey
     ? fromAdminKeyBytes(callLinkRecord.adminPasskey)
     : null;
@@ -2432,7 +2419,6 @@ export async function mergeCallLinkRecord(
   const callLinkDbRecord: CallLinkRecord = {
     roomId,
     rootKey: callLinkRecord.rootKey,
-    epoch: callLinkRecord.epoch ?? null,
     adminKey: callLinkRecord.adminPasskey ?? null,
     name: localCallLinkDbRecord?.name ?? '',
     restrictions: localCallLinkDbRecord?.restrictions ?? 0,
@@ -2476,7 +2462,6 @@ export async function mergeCallLinkRecord(
         callLinkRefreshJobQueue.add({
           rootKey: callLink.rootKey,
           adminKey: callLink.adminKey,
-          epoch: callLink.epoch,
           storageID: callLink.storageID,
           storageVersion: callLink.storageVersion,
           storageUnknownFields: callLink.storageUnknownFields,
@@ -2528,7 +2513,6 @@ export async function mergeCallLinkRecord(
   } else {
     window.reduxActions.calling.handleCallLinkUpdate({
       rootKey: rootKeyString,
-      epoch: epochString,
       adminKey: adminKeyString,
     });
   }

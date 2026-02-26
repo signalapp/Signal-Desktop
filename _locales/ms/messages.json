@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Togol Alat Pembangunan"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Buka Alat Pembangun Panggilan"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Pasang sebagai Peranti Baru"
   },
@@ -654,10 +651,10 @@
     "messageformat": "Menyerahkan..."
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify encryption"
+    "messageformat": "Signal kini boleh mengesahkan penyulitan secara automatik"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+    "messageformat": "Bagi kenalan yang anda sambungkan melalui nombor telefon, Signal boleh mengesahkan secara automatik sama ada sambungan itu selamat menggunakan proses yang dipanggil ketelusan kunci. Untuk keselamatan tambahan, anda masih boleh mengesahkan sambungan secara manual menggunakan kod QR atau dengan membandingkan nombor keselamatan."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Teruskan"
@@ -1117,6 +1114,9 @@
   },
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Tambah Label Ahli"
+  },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Nota"
@@ -2431,6 +2431,9 @@
   },
   "icu:Toast--unable-download-from-backup-tier": {
     "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Hanya pentadbir boleh menambah label ahli dalam kumpulan ini."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Edit hanya boleh digunakan dalam masa 24 jam dari masa anda menghantar mesej ini."
@@ -4631,6 +4634,9 @@
   "icu:ContactModal--rm-admin": {
     "messageformat": "Alih keluar sebagai pentadbir"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "Ini juga akan mengosongkan label ahli mereka."
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "Jadikan sebagai pentadbir"
   },
@@ -4692,22 +4698,22 @@
     "messageformat": "Helo!"
   },
   "icu:ConversationDetails--member-label--list-header": {
-    "messageformat": "Group members with labels"
+    "messageformat": "Ahli kumpulan dengan label"
   },
   "icu:ConversationDetails--member-label--no-members": {
-    "messageformat": "No other members have labels"
+    "messageformat": "Tiada ahli lain mempunyai label"
   },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "Menyimpan perubahan..."
   },
   "icu:ConversationDetails--member-label--error-title": {
-    "messageformat": "Can’t save member label"
+    "messageformat": "Tidak dapat menyimpan label ahli"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "Periksa sambungan anda dan cuba lagi."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "Only admins can set member labels in this group."
+    "messageformat": "Hanya pentadbir boleh menetapkan label ahli dalam kumpulan ini."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Mesej hilang"
@@ -4758,13 +4764,13 @@
     "messageformat": "Pilih orang yang boleh menghantar mesej ke kumpulan."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
-    "messageformat": "Member labels will be cleared"
+    "messageformat": "Label ahli akan dikosongkan"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+    "messageformat": "Menukar keizinan ini kepada \"Pentadbir Sahaja\" akan mengosongkan label ahli yang ditetapkan oleh bukan pentadbir dalam kumpulan ini."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "Teruskan"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Permintaan & Jemputan"
@@ -4819,6 +4825,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Tambah ahli"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Tambah label ahli"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Lihat semua"
@@ -4993,6 +5002,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {Anda hanya boleh memilih sehingga {count,number} mesej untuk dipadamkan untuk semua orang}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Padam item?"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "Ini akan memadamkan item secara kekal. Sebarang teks mesej yang dikaitkan dengan item ini juga akan dipadamkan."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Tutup"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Padam"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Batal"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Anda boleh majukan sehingga 30 mesej"
@@ -5366,6 +5390,24 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "Fail yang anda hantar dan terima akan dipaparkan di sini"
   },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "Lihat dalam sembang"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Majukan"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Simpan"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Menghantar mesej"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Salin pautan"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Padam"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Pilih kualiti media"
   },
@@ -5579,6 +5621,10 @@
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "pentadbir"
   },
+  "icu:Avatar__View": {
+    "messageformat": "Lihat",
+    "limit": 7
+  },
   "icu:AvatarEditor--choose": {
     "messageformat": "Pilih avatar"
   },
@@ -5656,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "Tetapkan"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Sandaran setempat"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Eksport…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Eksport sandaran disulitkan tempatan ke folder dan sahkannya"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Eksport sandaran yang disulitkan ke memori dan jalankan set pengesahan ke atasnya"
@@ -7486,19 +7523,19 @@
     "messageformat": "<paragraph>Signal tidak mengumpul atau menyimpan sebarang maklumat peribadi anda semasa anda menderma.</paragraph><paragraph>Kami menggunakan Stripe sebagai pemproses pembayaran untuk menerima derma anda. Kami tidak mengakses atau menyimpan sebarang maklumat yang anda berikan kepada mereka.</paragraph><paragraph>Signal tidak akan dan tidak boleh menyambung derma anda kepada akaun Signal anda.</paragraph><paragraph>Terima kasih atas sokongan anda!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "Sebagai organisasi bukan untung yang bebas, Signal komited terhadap pemesejan dan panggilan peribadi. Tiada iklan, tiada penjejak, tiada pengawasan. Derma hari ini untuk menyokong Signal."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "Dapatkan lencana pilihan pada profil anda apabila anda menderma"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "Privasi anda adalah misi kami"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signal ialah organisasi bukan untung."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
-    "messageformat": "Heart icon in the style of the Signal logo"
+    "messageformat": "Ikon hati dalam gaya logo Signal"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "OK"
@@ -7591,13 +7628,13 @@
     "messageformat": "Alih keluar maklumat"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving will cancel your donation."
+    "messageformat": "Meninggalkan akan membatalkan sumbangan anda."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "Tinggalkan"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
-    "messageformat": "Stay on page"
+    "messageformat": "Kekal di halaman"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Teruskan"
@@ -7839,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Bantu kami menjadi lebih baik"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "Ini membantu kami mengetahui lebih lanjut tentang panggilan dan perkara yang berfungsi atau tidak berfungsi. Anda boleh melihat log nyahpepijat anda sebelum menghantar."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Penyerahan akan berkongsi maklum balas anda bersama <diagnosticInfoLink>maklumat diagnostik tentang panggilan anda</diagnosticInfoLink>. Anda boleh berkongsi log nyahpepijat secara pilihan untuk membantu kami meningkatkan kualiti panggilan."
   },
@@ -7850,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Lihat"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Log nyahpepijat mengandungi maklumat aplikasi tahap rendah dan tidak mendedahkan sebarang kandungan mesej anda."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "Maklumat yang dikongsi dengan kami mengandungi maklumat aplikasi peringkat rendah dan tidak termasuk kandungan panggilan anda."
@@ -7906,13 +7937,13 @@
     "messageformat": "Sedikit pengubahsuaian, pembaikan pepijat dan peningkatan prestasi. Terima kasih kerana menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.89--0": {
-    "messageformat": "Kemas kini ini membaiki pepijat pemformatan teks semasa Caps Lock didayakan. Terima kasih, <DGrothePhD></DGrothePhD>!"
-  },
-  "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal ialah organisasi bukan untung yang tidak mungkin wujud tanpa sokongan anda, dan kini anda boleh menderma melalui PayPal di Signal Desktop."
-  },
   "icu:WhatsNew__7.90--0": {
-    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
+    "messageformat": "Jadikan privasi kekal dengan lima pek pelekat rasmi baharu dalam Siri Artis Signal: \"Chug the Mouse\" oleh Amanda Cotan, \"Cozy Season\" oleh Miguel Ángel Camprubí, \"Croco's Feelings\" oleh Tiffany Beucher, \"My Daily Life 2\" oleh Plastic Thing dan \"Rocky Talk\" oleh Lexi Vay."
+  },
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Sandaran selamat Signal telah tiba! Kini anda boleh memilih untuk mendayakan sandaran automatik yang disulitkan hujung ke hujung, supaya anda tidak akan kehilangan mesej apabila mendapat telefon baharu atau memasang semula Signal. Anda boleh menyandarkan semua mesej anda dan media bagi 45 hari terakhir secara percuma, atau membayar yuran bulanan yang kecil untuk mendapatkan storan 100 GB bagi menyandarkan setiap lampiran. Ketik pada sandaran dalam tetapan Signal untuk mula. Terima kasih kepada semua yang membantu menguji ciri ini sepanjang tempoh beta!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

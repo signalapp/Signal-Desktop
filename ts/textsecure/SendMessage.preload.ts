@@ -23,6 +23,7 @@ import { DataWriter } from '../sql/Client.preload.js';
 import type { ConversationModel } from '../models/conversations.preload.js';
 import { assertDev, strictAssert } from '../util/assert.std.js';
 import { parseIntOrThrow } from '../util/parseIntOrThrow.std.js';
+import { uuidToBytes } from '../util/uuidToBytes.std.js';
 import { Address } from '../types/Address.std.js';
 import { QualifiedAddress } from '../types/QualifiedAddress.std.js';
 import { SenderKeys } from '../LibSignalStores.preload.js';
@@ -110,6 +111,8 @@ import type {
 } from '../types/PinnedMessage.std.js';
 
 const log = createLogger('SendMessage');
+
+const MAX_EMBEDDED_GROUP_CHANGE_BYTES = 2048;
 
 export type SendIdentifierData =
   | {
@@ -252,9 +255,12 @@ export type PollVoteBuildOptions = Required<
   >;
 
 export type PollTerminateBuildOptions = Required<
-  Pick<MessageOptionsType, 'groupV2' | 'timestamp' | 'pollTerminate'>
+  Pick<MessageOptionsType, 'timestamp' | 'pollTerminate'>
 > &
-  Pick<MessageOptionsType, 'profileKey' | 'expireTimer' | 'expireTimerVersion'>;
+  Pick<
+    MessageOptionsType,
+    'groupV2' | 'profileKey' | 'expireTimer' | 'expireTimerVersion'
+  >;
 
 class Message {
   attachments: ReadonlyArray<Proto.IAttachmentPointer>;
@@ -415,7 +421,19 @@ class Message {
       proto.groupV2 = new Proto.GroupContextV2();
       proto.groupV2.masterKey = this.groupV2.masterKey;
       proto.groupV2.revision = this.groupV2.revision;
-      proto.groupV2.groupChange = this.groupV2.groupChange || null;
+
+      const { groupChange } = this.groupV2;
+      if (groupChange) {
+        if (groupChange.byteLength <= MAX_EMBEDDED_GROUP_CHANGE_BYTES) {
+          proto.groupV2.groupChange = groupChange;
+        } else {
+          // As a message-size optimization, we do not embed large updates and receiving
+          // devices fetch them from the group server instead
+          log.info(
+            `Discarding oversized group change proto (${groupChange.byteLength} bytes)`
+          );
+        }
+      }
     }
     if (this.sticker) {
       proto.sticker = new Proto.DataMessage.Sticker();
@@ -928,10 +946,12 @@ export class MessageSender {
     const dataMessage = new Proto.DataMessage();
     dataMessage.timestamp = Long.fromNumber(timestamp);
 
-    const groupContext = new Proto.GroupContextV2();
-    groupContext.masterKey = groupV2.masterKey;
-    groupContext.revision = groupV2.revision;
-    dataMessage.groupV2 = groupContext;
+    if (groupV2) {
+      const groupContext = new Proto.GroupContextV2();
+      groupContext.masterKey = groupV2.masterKey;
+      groupContext.revision = groupV2.revision;
+      dataMessage.groupV2 = groupContext;
+    }
 
     if (typeof expireTimer !== 'undefined') {
       dataMessage.expireTimer = expireTimer;
@@ -1746,9 +1766,24 @@ export class MessageSender {
           conversation,
         });
       } else if (item.type === 'delete-single-attachment') {
-        throw new Error(
-          "getDeleteForMeSyncMessage: Desktop currently does not support sending 'delete-single-attachment' messages"
-        );
+        const conversation = toConversationIdentifier(item.conversation);
+        const targetMessage = toAddressableMessage(item.message);
+
+        deleteForMe.attachmentDeletes = deleteForMe.attachmentDeletes || [];
+        deleteForMe.attachmentDeletes.push({
+          conversation,
+          targetMessage,
+          clientUuid:
+            item.clientUuid == null ? undefined : uuidToBytes(item.clientUuid),
+          fallbackDigest:
+            item.fallbackDigest == null
+              ? undefined
+              : Bytes.fromBase64(item.fallbackDigest),
+          fallbackPlaintextHash:
+            item.fallbackPlaintextHash == null
+              ? undefined
+              : Bytes.fromHex(item.fallbackPlaintextHash),
+        });
       } else {
         throw missingCaseError(item);
       }

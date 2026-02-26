@@ -4,7 +4,7 @@
 import type { FC } from 'react';
 import React, { memo } from 'react';
 import type { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.js';
-import { unreachable } from './_internal/assert.dom.js';
+import { unreachable } from './_internal/assert.std.js';
 import { AxoDropdownMenu } from './AxoDropdownMenu.dom.js';
 import { AxoContextMenu } from './AxoContextMenu.dom.js';
 import {

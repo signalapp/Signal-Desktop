@@ -96,8 +96,6 @@ import {
   getMessagesByConversation,
   getPendingAvatarDownloadSelector,
   getAllConversations,
-  getActivePanel,
-  getSelectedConversationId,
 } from '../selectors/conversations.dom.js';
 import { getIntl } from '../selectors/user.std.js';
 import type {
@@ -162,7 +160,6 @@ import type { ConversationQueueJobData } from '../../jobs/conversationJobQueue.p
 import { isOlderThan } from '../../util/timestamp.std.js';
 import { DAY } from '../../util/durations/index.std.js';
 import { isNotNil } from '../../util/isNotNil.std.js';
-import { startConversation } from '../../util/startConversation.dom.js';
 import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp.std.js';
 import { removeLinkPreview } from '../../services/LinkPreview.preload.js';
 import type {
@@ -170,6 +167,7 @@ import type {
   ResetComposerActionType,
   SetFocusActionType,
   SetQuotedMessageActionType,
+  SetViewOnceActionType,
 } from './composer.preload.js';
 import {
   SET_FOCUS,
@@ -178,6 +176,7 @@ import {
   setQuoteByMessageId,
   resetComposer,
   saveDraftRecordingIfNeeded,
+  setViewOnce,
 } from './composer.preload.js';
 import { ReceiptType } from '../../types/Receipt.std.js';
 import { Sound, SoundType } from '../../util/Sound.std.js';
@@ -186,12 +185,7 @@ import {
   isWithinMaxEdits,
   MESSAGE_MAX_EDIT_COUNT,
 } from '../../util/canEditMessage.dom.js';
-import type { ChangeLocationAction } from './nav.std.js';
-import {
-  CHANGE_LOCATION,
-  changeLocation,
-  actions as navActions,
-} from './nav.std.js';
+import { changeLocation, popPanelForConversation } from './nav.std.js';
 import {
   NavTab,
   ProfileEditorPage,
@@ -217,7 +211,10 @@ import {
 import { MAX_MESSAGE_COUNT } from '../../util/deleteForMe.types.std.js';
 import { markCallHistoryReadInConversation } from './callHistory.preload.js';
 import type { CapabilitiesType } from '../../types/Capabilities.d.ts';
-import { actions as searchActions } from './search.preload.js';
+import {
+  updateSearchResultsOnConversationUpdate,
+  maybeRemoveReadConversations,
+} from './search.preload.js';
 import type { SearchActionType } from './search.preload.js';
 import { getNotificationTextForMessage } from '../../util/getNotificationTextForMessage.preload.js';
 import { doubleCheckMissingQuoteReference as doDoubleCheckMissingQuoteReference } from '../../util/doubleCheckMissingQuoteReference.preload.js';
@@ -250,18 +247,13 @@ import { getPinnedMessagesLimit } from '../../util/pinnedMessages.dom.js';
 import { getPinnedMessageExpiresAt } from '../../util/pinnedMessages.std.js';
 import { pinnedMessagesCleanupService } from '../../services/expiring/pinnedMessagesCleanupService.preload.js';
 import { getPinnedMessageTarget } from '../../util/getPinMessageTarget.preload.js';
+import {
+  getActivePanel,
+  getSelectedConversationId,
+} from '../selectors/nav.std.js';
 
-const {
-  chunk,
-  difference,
-  fromPairs,
-  isEqual,
-  omit,
-  orderBy,
-  pick,
-  values,
-  without,
-} = lodash;
+const { chunk, difference, fromPairs, omit, orderBy, pick, values, without } =
+  lodash;
 
 const log = createLogger('conversations');
 
@@ -522,11 +514,12 @@ export type ConversationPreloadDataType = ReadonlyDeep<{
 export type MessagesResetDataType = ReadonlyDeep<
   ConversationPreloadDataType & {
     scrollToMessageId?: string;
+    selectedConversationId: string | undefined;
   }
 >;
 
 export type MessagesResetOptionsType = SetOptional<
-  MessagesResetDataType,
+  Omit<MessagesResetDataType, 'selectedConversationId'>,
   'unboundedFetch'
 >;
 
@@ -618,17 +611,10 @@ export type ConversationsStateType = ReadonlyDeep<{
   conversationsByServiceId: ConversationLookupType;
   conversationsByGroupId: ConversationLookupType;
   conversationsByUsername: ConversationLookupType;
-  selectedConversationId?: string;
+
   targetedMessage: string | undefined;
   targetedMessageCounter: number;
   targetedMessageSource: TargetedMessageSource | undefined;
-  targetedConversationPanels: {
-    isAnimating: boolean;
-    wasAnimated: boolean;
-    direction: 'push' | 'pop' | undefined;
-    stack: ReadonlyArray<PanelArgsType>;
-    watermark: number;
-  };
 
   lastSelectedMessage: MessageTimestamps | undefined;
   selectedMessageIds: ReadonlyArray<string> | undefined;
@@ -704,10 +690,6 @@ const DISCARD_MESSAGES = 'conversations/DISCARD_MESSAGES';
 const REPLACE_AVATARS = 'conversations/REPLACE_AVATARS';
 export const TARGETED_CONVERSATION_CHANGED =
   'conversations/TARGETED_CONVERSATION_CHANGED';
-const PUSH_PANEL = 'conversations/PUSH_PANEL';
-const POP_PANEL = 'conversations/POP_PANEL';
-const PANEL_ANIMATION_DONE = 'conversations/PANEL_ANIMATION_DONE';
-const PANEL_ANIMATION_STARTED = 'conversations/PANEL_ANIMATION_STARTED';
 export const MARK_READ = 'conversations/MARK_READ';
 export const MESSAGE_CHANGED = 'MESSAGE_CHANGED';
 export const MESSAGE_DELETED = 'MESSAGE_DELETED';
@@ -852,7 +834,6 @@ export type MessageTargetedActionType = ReadonlyDeep<{
   type: 'MESSAGE_TARGETED';
   payload: {
     messageId: string;
-    conversationId: string;
   };
 }>;
 export type ToggleSelectMessagesActionType = ReadonlyDeep<{
@@ -1072,28 +1053,12 @@ export type ToggleConversationInChooseMembersActionType = ReadonlyDeep<{
   };
 }>;
 
-type PushPanelActionType = ReadonlyDeep<{
-  type: typeof PUSH_PANEL;
-  payload: PanelArgsType;
-}>;
-type PopPanelActionType = ReadonlyDeep<{
-  type: typeof POP_PANEL;
-  payload: null;
-}>;
-type PanelAnimationDoneActionType = ReadonlyDeep<{
-  type: typeof PANEL_ANIMATION_DONE;
-  payload: null;
-}>;
-type PanelAnimationStartedActionType = ReadonlyDeep<{
-  type: typeof PANEL_ANIMATION_STARTED;
-  payload: null;
-}>;
-
 type PinnedMessagesReplace = ReadonlyDeep<{
   type: typeof PINNED_MESSAGES_REPLACE;
   payload: {
     conversationId: string;
     pinnedMessagesPreloadData: ReadonlyArray<PinnedMessagePreloadData>;
+    selectedConversationId: string | undefined;
   };
 }>;
 
@@ -1112,6 +1077,7 @@ export type ConsumePreloadDataActionType = ReadonlyDeep<{
   type: typeof CONSUME_PRELOAD_DATA;
   payload: {
     conversationId: string;
+    selectedConversationId: string | undefined;
   };
 }>;
 
@@ -1150,10 +1116,6 @@ export type ConversationActionType =
   | MessageTargetedActionType
   | MessagesAddedActionType
   | MessagesResetActionType
-  | PanelAnimationStartedActionType
-  | PanelAnimationDoneActionType
-  | PopPanelActionType
-  | PushPanelActionType
   | PinnedMessagesReplace
   | RemoveAllConversationsActionType
   | RepairNewestMessageActionType
@@ -1258,10 +1220,6 @@ export const actions = {
   onPinnedMessageAdd,
   onPinnedMessageRemove,
   openGiftBadge,
-  popPanelForConversation,
-  pushPanelForConversation,
-  panelAnimationDone,
-  panelAnimationStarted,
   removeAllConversations,
   removeConversation,
   removeCustomColorOnConversations,
@@ -1320,7 +1278,6 @@ export const actions = {
   showInbox,
   showMediaNoLongerAvailableToast,
   startComposing,
-  startConversation,
   startSettingGroupMetadata,
   toggleAdmin,
   toggleComposeEditingAvatar,
@@ -2026,11 +1983,10 @@ function destroyMessages(
 
         await conversation.destroyMessages({ source: 'local-delete' });
 
-        // Deselect the conversation
-        if (
-          getState().conversations.selectedConversationId === conversationId
-        ) {
-          showConversation({ conversationId: undefined });
+        // Deselect the conversation if it's cusrrently showing
+        const selectedConversationId = getSelectedConversationId(getState());
+        if (selectedConversationId === conversationId) {
+          dispatch(showConversation({ conversationId: undefined }));
         }
 
         // Clear search state, in case it's showing in search
@@ -3011,14 +2967,58 @@ function setPreJoinConversation(
 
 function conversationsUpdated(
   data: Array<ConversationType>
-): ThunkAction<void, RootStateType, unknown, ConversationsUpdatedActionType> {
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  | CloseContactSpoofingReviewActionType
+  | ConversationsUpdatedActionType
+  | ShowInboxActionType
+> {
   return (dispatch, getState) => {
+    const state = getState();
+    const selectedConversationId = getSelectedConversationId(state);
     for (const conversation of data) {
       calling.groupMembersChanged(conversation.id);
     }
 
-    const { conversationLookup: oldConversationLookup } =
-      getState().conversations;
+    const conversationState = state.conversations;
+    const { conversationLookup: oldConversationLookup } = conversationState;
+
+    if (selectedConversationId) {
+      const newSelectedConversation = data.findLast(
+        convo => convo.id === selectedConversationId
+      );
+      const previousSelectedConversation =
+        oldConversationLookup[selectedConversationId];
+
+      if (newSelectedConversation && previousSelectedConversation) {
+        // Archived -> Inbox: we go back to the normal inbox view
+        if (
+          previousSelectedConversation.isArchived &&
+          !newSelectedConversation.isArchived
+        ) {
+          dispatch(showInbox());
+        }
+        // Inbox -> Archived: no conversation is selected
+        if (
+          !previousSelectedConversation.isArchived &&
+          newSelectedConversation.isArchived
+        ) {
+          // Note: With today's stacked conversations architecture, this can result in
+          // weird behavior - no selected conversation in the left pane, but a
+          // conversation showing in the right pane.
+          dispatch(showConversation({ conversationId: undefined }));
+        }
+        // Not Blocked -> Blocked: No need for contact spoofing review
+        if (
+          !previousSelectedConversation.isBlocked &&
+          newSelectedConversation.isBlocked
+        ) {
+          dispatch(closeContactSpoofingReview());
+        }
+      }
+    }
 
     dispatch({
       type: 'CONVERSATIONS_UPDATED',
@@ -3028,20 +3028,23 @@ function conversationsUpdated(
     });
 
     dispatch(
-      searchActions.updateSearchResultsOnConversationUpdate(
-        oldConversationLookup,
-        data
-      )
+      updateSearchResultsOnConversationUpdate(oldConversationLookup, data)
     );
   };
 }
 
-function conversationRemoved(id: string): ConversationRemovedActionType {
-  return {
-    type: 'CONVERSATION_REMOVED',
-    payload: {
-      id,
-    },
+function conversationRemoved(
+  id: string
+): ThunkAction<void, RootStateType, unknown, ConversationRemovedActionType> {
+  return dispatch => {
+    dispatch(onConversationClosed(id, 'removed'));
+
+    dispatch({
+      type: 'CONVERSATION_REMOVED',
+      payload: {
+        id,
+      },
+    });
   };
 }
 
@@ -3086,7 +3089,7 @@ function createGroup(
           ),
         },
       });
-      showConversation({
+      await showConversation({
         conversationId: conversation.id,
         switchToAssociatedView: true,
       })(dispatch, getState, null);
@@ -3107,13 +3110,23 @@ function removeAllConversations(): RemoveAllConversationsActionType {
 function targetMessage(
   messageId: string,
   conversationId: string
-): MessageTargetedActionType {
-  return {
-    type: 'MESSAGE_TARGETED',
-    payload: {
-      messageId,
-      conversationId,
-    },
+): ThunkAction<void, RootStateType, unknown, MessageTargetedActionType> {
+  return async (dispatch, getState) => {
+    const selectedConversationId = getSelectedConversationId(getState());
+
+    if (conversationId !== selectedConversationId) {
+      log.warn(
+        "targetMessage: Provided conversationId didn't match selected conversation"
+      );
+      return;
+    }
+
+    dispatch({
+      type: 'MESSAGE_TARGETED',
+      payload: {
+        messageId,
+      },
+    });
   };
 }
 
@@ -3125,11 +3138,19 @@ function toggleSelectMessage(
 ): ThunkAction<void, RootStateType, unknown, ToggleSelectMessagesActionType> {
   return async (dispatch, getState) => {
     const state = getState();
-    const { conversations } = state;
+    const { conversations, nav } = state;
+    const { selectedLocation } = nav;
+
+    if (selectedLocation.tab !== NavTab.Chats) {
+      log.warn('toggleSelectMessage: Not on chats tab');
+      return;
+    }
+
+    const selectedConversationId = getSelectedConversationId(state);
 
     let toggledMessageIds: ReadonlyArray<string>;
     if (shift && conversations.lastSelectedMessage != null) {
-      if (conversationId !== conversations.selectedConversationId) {
+      if (conversationId !== selectedConversationId) {
         throw new Error("toggleSelectMessage: conversationId doesn't match");
       }
 
@@ -3314,10 +3335,20 @@ function messagesAdded({
 }): ThunkAction<void, RootStateType, unknown, MessagesAddedActionType> {
   return (dispatch, getState) => {
     const state = getState();
+    const { nav } = state;
+    const { selectedLocation } = nav;
+
+    if (selectedLocation.tab !== NavTab.Chats) {
+      log.warn('messagesAdded: Not on chats tab');
+      return;
+    }
+
+    const selectedConversationId = getSelectedConversationId(state);
+
     if (
       isNewMessage &&
       state.items.audioMessage &&
-      conversationId === state.conversations.selectedConversationId &&
+      conversationId === selectedConversationId &&
       isActive &&
       !isJustSent &&
       messages.some(isIncoming)
@@ -3372,25 +3403,35 @@ function messagesReset({
   pinnedMessagesPreloadData,
   scrollToMessageId,
   unboundedFetch,
-}: MessagesResetOptionsType): MessagesResetActionType {
-  for (const message of messages) {
-    strictAssert(
-      message.conversationId === conversationId,
-      `messagesReset(${conversationId}): invalid message conversationId ` +
-        `${message.conversationId}`
-    );
-  }
+}: MessagesResetOptionsType): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  MessagesResetActionType
+> {
+  return (dispatch, getState) => {
+    const selectedConversationId = getSelectedConversationId(getState());
 
-  return {
-    type: MESSAGES_RESET,
-    payload: {
-      unboundedFetch: unboundedFetch ?? false,
-      conversationId,
-      messages,
-      metrics,
-      pinnedMessagesPreloadData,
-      scrollToMessageId,
-    },
+    for (const message of messages) {
+      strictAssert(
+        message.conversationId === conversationId,
+        `messagesReset(${conversationId}): invalid message conversationId ` +
+          `${message.conversationId}`
+      );
+    }
+
+    dispatch({
+      type: MESSAGES_RESET,
+      payload: {
+        unboundedFetch: unboundedFetch ?? false,
+        conversationId,
+        messages,
+        metrics,
+        pinnedMessagesPreloadData,
+        selectedConversationId,
+        scrollToMessageId,
+      },
+    });
   };
 }
 function addPreloadData(
@@ -3412,12 +3453,17 @@ function addPreloadData(
 }
 function consumePreloadData(
   conversationId: string
-): ConsumePreloadDataActionType {
-  return {
-    type: CONSUME_PRELOAD_DATA,
-    payload: {
-      conversationId,
-    },
+): ThunkAction<void, RootStateType, unknown, ConsumePreloadDataActionType> {
+  return async (dispatch, getState) => {
+    const selectedConversationId = getSelectedConversationId(getState());
+
+    dispatch({
+      type: CONSUME_PRELOAD_DATA,
+      payload: {
+        selectedConversationId,
+        conversationId,
+      },
+    });
   };
 }
 function setMessageLoadingState(
@@ -3482,62 +3528,6 @@ function setProfileUpdateError(
 export type PushPanelForConversationActionType = ReadonlyDeep<
   (panel: PanelArgsType) => unknown
 >;
-
-function pushPanelForConversation(
-  panel: PanelArgsType
-): ThunkAction<void, RootStateType, unknown, PushPanelActionType> {
-  return async (dispatch, getState) => {
-    const { conversations } = getState();
-    const { targetedConversationPanels } = conversations;
-    const activePanel =
-      targetedConversationPanels.stack[targetedConversationPanels.watermark];
-    if (panel.type === activePanel?.type && isEqual(panel, activePanel)) {
-      return;
-    }
-
-    dispatch({
-      type: PUSH_PANEL,
-      payload: panel,
-    });
-  };
-}
-
-export type PopPanelForConversationActionType = ReadonlyDeep<() => unknown>;
-
-function popPanelForConversation(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  PopPanelActionType
-> {
-  return (dispatch, getState) => {
-    const { conversations } = getState();
-    const { targetedConversationPanels } = conversations;
-
-    if (!targetedConversationPanels.stack.length) {
-      return;
-    }
-
-    dispatch({
-      type: POP_PANEL,
-      payload: null,
-    });
-  };
-}
-
-function panelAnimationStarted(): PanelAnimationStartedActionType {
-  return {
-    type: PANEL_ANIMATION_STARTED,
-    payload: null,
-  };
-}
-
-function panelAnimationDone(): PanelAnimationDoneActionType {
-  return {
-    type: PANEL_ANIMATION_DONE,
-    payload: null,
-  };
-}
 
 function deleteMessagesForEveryone(
   messageIds: ReadonlyArray<string>
@@ -4802,24 +4792,58 @@ function showConversation({
   void,
   RootStateType,
   unknown,
-  TargetedConversationChangedActionType | ChangeLocationAction
+  TargetedConversationChangedActionType
 > {
-  return (dispatch, getState) => {
-    const { conversations, nav } = getState();
+  return async (dispatch, getState) => {
+    const logId = `showConversation/${conversationId}`;
+    const { nav } = getState();
+    const { selectedLocation: originalLocation } = nav;
 
-    if (nav.selectedLocation.tab !== NavTab.Chats) {
-      dispatch(
-        navActions.changeLocation({
-          tab: NavTab.Chats,
-        })
-      );
+    window.ConversationController.get(conversationId)?.onOpenStart();
+
+    // Optimistically update state to prepare for this load
+    dispatch({
+      type: TARGETED_CONVERSATION_CHANGED,
+      payload: {
+        conversationId,
+        messageId,
+        switchToAssociatedView,
+      },
+    });
+
+    // Attempt to change the location - note that this might be canceled
+    await changeLocation({
+      tab: NavTab.Chats,
+      details: {
+        conversationId,
+      },
+    })(dispatch, getState, undefined);
+
+    const { selectedLocation: newLocation } = getState().nav;
+    if (
+      newLocation.tab !== NavTab.Chats ||
+      newLocation.details.conversationId !== conversationId
+    ) {
+      log.warn(`${logId}: navigation was canceled`);
+      return;
+    }
+
+    if (originalLocation.tab !== NavTab.Chats) {
       const conversation = window.ConversationController.get(conversationId);
-      conversation?.setMarkedUnread(false);
+      if (!conversation) {
+        log.warn(`${logId}: Conversation does not exist!`);
+        return;
+      }
+
+      conversation.setMarkedUnread(false);
     }
 
     dispatch(updateChatFolderStateOnTargetConversationChanged(conversationId));
 
-    if (conversationId === conversations.selectedConversationId) {
+    if (
+      originalLocation.tab === NavTab.Chats &&
+      originalLocation.details.conversationId === conversationId
+    ) {
       if (!conversationId) {
         return;
       }
@@ -4833,25 +4857,19 @@ function showConversation({
     }
 
     // notify composer in case we need to stop recording a voice note
-    if (conversations.selectedConversationId) {
+    if (
+      originalLocation.tab === NavTab.Chats &&
+      originalLocation.details.conversationId &&
+      originalLocation.details.conversationId !== conversationId
+    ) {
       dispatch(saveDraftRecordingIfNeeded());
       dispatch(
         onConversationClosed(
-          conversations.selectedConversationId,
+          originalLocation.details.conversationId,
           'showConversation'
         )
       );
     }
-    window.ConversationController.get(conversationId)?.onOpenStart();
-
-    dispatch({
-      type: TARGETED_CONVERSATION_CHANGED,
-      payload: {
-        conversationId,
-        messageId,
-        switchToAssociatedView,
-      },
-    });
   };
 }
 
@@ -4867,6 +4885,7 @@ function onConversationOpened(
   | ResetComposerActionType
   | SetFocusActionType
   | SetQuotedMessageActionType
+  | SetViewOnceActionType
 > {
   return async dispatch => {
     const promises: Array<Promise<void>> = [];
@@ -4958,6 +4977,13 @@ function onConversationOpened(
       )
     );
     dispatch(resetComposer(conversationId));
+    dispatch(
+      setViewOnce({
+        conversationId,
+        value: conversation.get('draftIsViewOnce') ?? false,
+        toastNotify: false,
+      })
+    );
 
     await Promise.all(promises);
     if (window.SignalCI) {
@@ -4970,7 +4996,7 @@ function onConversationClosed(
   conversationId: string,
   reason: string
 ): ThunkAction<void, RootStateType, unknown, ConversationUnloadedActionType> {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     const conversation = window.ConversationController.get(conversationId);
     // Conversation was removed due to the merge
     if (!conversation) {
@@ -4980,6 +5006,19 @@ function onConversationClosed(
     }
 
     const logId = `onConversationClosed/${conversation?.idForLogging() ?? conversationId}`;
+    const state = getState();
+    const selectedConversationId = getSelectedConversationId(state);
+
+    // If we're still on this conversation, but we want to close it, go to splash screen
+    if (selectedConversationId === conversationId) {
+      await changeLocation({
+        tab: NavTab.Chats,
+        details: {
+          conversationId: undefined,
+        },
+      })(dispatch, getState, null);
+    }
+
     log.info(`${logId}: unloading due to ${reason}`);
 
     if (conversation?.get('draftChanged')) {
@@ -5015,7 +5054,7 @@ function onConversationClosed(
       },
     });
 
-    dispatch(searchActions.maybeRemoveReadConversations([conversationId]));
+    dispatch(maybeRemoveReadConversations([conversationId]));
   };
 }
 
@@ -5127,6 +5166,7 @@ function onPinnedMessagesChanged(
       payload: {
         conversationId,
         pinnedMessagesPreloadData,
+        selectedConversationId,
       },
     });
   };
@@ -5223,13 +5263,6 @@ export function getEmptyState(): ConversationsStateType {
     showArchived: false,
     hasContactSpoofingReview: false,
     pendingRequestedAvatarDownload: {},
-    targetedConversationPanels: {
-      isAnimating: false,
-      wasAnimated: false,
-      direction: undefined,
-      stack: [],
-      watermark: -1,
-    },
   };
 }
 
@@ -5340,45 +5373,6 @@ export function updateConversationLookups(
   }
 
   return result;
-}
-
-function updateRootStateDueToConversationUpdate(
-  state: ConversationsStateType,
-  conversation: ConversationType
-): ConversationsStateType {
-  if (state.selectedConversationId !== conversation.id) {
-    return state;
-  }
-
-  let { showArchived } = state;
-  const { selectedConversationId, conversationLookup } = state;
-  const existing = conversationLookup[conversation.id];
-
-  const keysToOmit: Array<keyof ConversationsStateType> = [];
-  const keyValuesToAdd: { hasContactSpoofingReview?: false } = {};
-
-  // Archived -> Inbox: we go back to the normal inbox view
-  if (existing.isArchived && !conversation.isArchived) {
-    showArchived = false;
-  }
-  // Inbox -> Archived: no conversation is selected
-  // Note: With today's stacked conversations architecture, this can result in weird
-  //   behavior - no selected conversation in the left pane, but a conversation show
-  //   in the right pane.
-  if (!existing.isArchived && conversation.isArchived) {
-    keysToOmit.push('selectedConversationId');
-  }
-
-  if (!existing.isBlocked && conversation.isBlocked) {
-    keyValuesToAdd.hasContactSpoofingReview = false;
-  }
-
-  return {
-    ...omit(state, keysToOmit),
-    ...keyValuesToAdd,
-    selectedConversationId,
-    showArchived,
-  };
 }
 
 function closeComposerModal(
@@ -5597,6 +5591,7 @@ function updateMessageLookup(
     conversationId,
     messages,
     metrics,
+    selectedConversationId,
     scrollToMessageId,
     unboundedFetch,
     pinnedMessagesPreloadData,
@@ -5643,7 +5638,7 @@ function updateMessageLookup(
   return {
     ...state,
     preloadData: undefined,
-    ...(state.selectedConversationId === conversationId
+    ...(selectedConversationId === conversationId
       ? {
           targetedMessage: scrollToMessageId,
           targetedMessageCounter: state.targetedMessageCounter + 1,
@@ -5743,11 +5738,7 @@ function dropPreloadData(
 
 export function reducer(
   state: Readonly<ConversationsStateType> = getEmptyState(),
-  action: Readonly<
-    | ConversationActionType
-    | StoryDistributionListsActionType
-    | ChangeLocationAction
-  >
+  action: Readonly<ConversationActionType | StoryDistributionListsActionType>
 ): ConversationsStateType {
   if (action.type === CLEAR_CONVERSATIONS_PENDING_VERIFICATION) {
     return {
@@ -5950,25 +5941,11 @@ export function reducer(
       hasProfileUpdateError: newErrorState,
     };
   }
+
   if (action.type === 'CONVERSATIONS_UPDATED') {
     const { payload } = action;
     const { data: conversations } = payload;
     const { conversationLookup } = state;
-
-    const { selectedConversationId } = state;
-
-    const selectedConversation = conversations.find(
-      convo => convo.id === selectedConversationId
-    );
-
-    let updatedState = state;
-
-    if (selectedConversation) {
-      updatedState = updateRootStateDueToConversationUpdate(
-        state,
-        selectedConversation
-      );
-    }
 
     const existingConversations = conversations
       .map(conversation => conversationLookup[conversation.id])
@@ -5980,7 +5957,7 @@ export function reducer(
     }
 
     return {
-      ...updatedState,
+      ...state,
       conversationLookup: newConversationLookup,
       ...updateConversationLookups(conversations, existingConversations, state),
     };
@@ -5991,7 +5968,6 @@ export function reducer(
     const { conversationLookup } = state;
     const existing = getOwn(conversationLookup, id);
 
-    onConversationClosed(id, 'removed');
     // No need to make a change if we didn't have a record of this conversation!
     if (!existing) {
       return state;
@@ -6012,22 +5988,10 @@ export function reducer(
     }
 
     const { messageIds } = existingConversation;
-    const selectedConversationId =
-      state.selectedConversationId !== conversationId
-        ? state.selectedConversationId
-        : undefined;
 
     return {
       ...state,
       hasContactSpoofingReview: false,
-      selectedConversationId,
-      targetedConversationPanels: {
-        isAnimating: false,
-        wasAnimated: false,
-        direction: undefined,
-        stack: [],
-        watermark: -1,
-      },
       messagesLookup: maybeDropMessageIdsFromMessagesLookup(
         state.messagesLookup,
         [...messageIds],
@@ -6082,11 +6046,7 @@ export function reducer(
     };
   }
   if (action.type === 'MESSAGE_TARGETED') {
-    const { messageId, conversationId } = action.payload;
-
-    if (state.selectedConversationId !== conversationId) {
-      return state;
-    }
+    const { messageId } = action.payload;
 
     return {
       ...state,
@@ -6453,8 +6413,8 @@ export function reducer(
     };
   }
   if (action.type === CONSUME_PRELOAD_DATA) {
-    const { preloadData, selectedConversationId } = state;
-    const { conversationId } = action.payload;
+    const { preloadData } = state;
+    const { conversationId, selectedConversationId } = action.payload;
     if (!preloadData) {
       return state;
     }
@@ -6465,7 +6425,10 @@ export function reducer(
       return dropPreloadData(state);
     }
 
-    return updateMessageLookup(state, preloadData);
+    return updateMessageLookup(state, {
+      ...preloadData,
+      selectedConversationId,
+    });
   }
   if (action.type === 'SET_MESSAGE_LOADING_STATE') {
     const { payload } = action;
@@ -6569,10 +6532,6 @@ export function reducer(
           scrollToMessageCounter:
             existingConversation.scrollToMessageCounter + 1,
         },
-      },
-      targetedConversationPanels: {
-        ...state.targetedConversationPanels,
-        watermark: -1,
       },
     };
   }
@@ -6899,14 +6858,13 @@ export function reducer(
       }
     }
 
-    const nextState = {
+    const nextState: ConversationsStateType = {
       ...state,
       preloadData:
         state.preloadData?.conversationId === conversationId
           ? state.preloadData
           : undefined,
       hasContactSpoofingReview: false,
-      selectedConversationId: conversationId,
       targetedMessage: messageId ?? lastCenterMessageId,
       targetedMessageSource: messageId
         ? TargetedMessageSource.NavigateToMessage
@@ -6932,82 +6890,6 @@ export function reducer(
     return {
       ...omit(state, 'composer'),
       showArchived: true,
-    };
-  }
-
-  if (action.type === PUSH_PANEL) {
-    const currentStack = state.targetedConversationPanels.stack;
-    const watermark = Math.min(
-      state.targetedConversationPanels.watermark + 1,
-      currentStack.length
-    );
-    const stack = [...currentStack.slice(0, watermark), action.payload];
-
-    const targetedConversationPanels = {
-      isAnimating: false,
-      wasAnimated: false,
-      direction: 'push' as const,
-      stack,
-      watermark,
-    };
-
-    return {
-      ...state,
-      targetedConversationPanels,
-    };
-  }
-
-  if (action.type === POP_PANEL) {
-    if (state.targetedConversationPanels.watermark === -1) {
-      return state;
-    }
-
-    const poppedPanel =
-      state.targetedConversationPanels.stack[
-        state.targetedConversationPanels.watermark
-      ];
-
-    if (!poppedPanel) {
-      return state;
-    }
-
-    const watermark = Math.max(
-      state.targetedConversationPanels.watermark - 1,
-      -1
-    );
-
-    const targetedConversationPanels = {
-      isAnimating: false,
-      wasAnimated: false,
-      direction: 'pop' as const,
-      stack: state.targetedConversationPanels.stack,
-      watermark,
-    };
-
-    return {
-      ...state,
-      targetedConversationPanels,
-    };
-  }
-
-  if (action.type === PANEL_ANIMATION_STARTED) {
-    return {
-      ...state,
-      targetedConversationPanels: {
-        ...state.targetedConversationPanels,
-        isAnimating: true,
-      },
-    };
-  }
-
-  if (action.type === PANEL_ANIMATION_DONE) {
-    return {
-      ...state,
-      targetedConversationPanels: {
-        ...state.targetedConversationPanels,
-        isAnimating: false,
-        wasAnimated: true,
-      },
     };
   }
 
@@ -7594,32 +7476,6 @@ export function reducer(
     };
   }
 
-  if (
-    action.type === CHANGE_LOCATION &&
-    action.payload.selectedLocation.tab === NavTab.Chats
-  ) {
-    const { messagesByConversation, selectedConversationId } = state;
-    if (selectedConversationId == null) {
-      return state;
-    }
-
-    const existingConversation = messagesByConversation[selectedConversationId];
-    if (existingConversation == null) {
-      return state;
-    }
-
-    return {
-      ...state,
-      messagesByConversation: {
-        ...messagesByConversation,
-        [selectedConversationId]: {
-          ...existingConversation,
-          isNearBottom: true,
-        },
-      },
-    };
-  }
-
   if (action.type === SET_PENDING_REQUESTED_AVATAR_DOWNLOAD) {
     const { conversationId, value } = action.payload;
 
@@ -7633,7 +7489,11 @@ export function reducer(
   }
 
   if (action.type === PINNED_MESSAGES_REPLACE) {
-    const { conversationId, pinnedMessagesPreloadData } = action.payload;
+    const {
+      conversationId,
+      pinnedMessagesPreloadData,
+      selectedConversationId,
+    } = action.payload;
 
     const extraMessagesLookup: Record<string, MessageAttributesType> = {};
     const pinnedMessages: Array<PinnedMessage> = [];
@@ -7647,7 +7507,7 @@ export function reducer(
     return {
       ...state,
       messagesLookup:
-        state.selectedConversationId !== conversationId
+        selectedConversationId !== conversationId
           ? state.messagesLookup
           : {
               ...state.messagesLookup,

@@ -343,7 +343,11 @@ export async function queueAttachmentDownloads(
         log.info(`${logId}: Copying sticker from installed pack`);
         copiedSticker = true;
 
-        const data = await copyStickerToAttachments(packId, stickerId);
+        const data = await copyStickerToAttachments({
+          packId,
+          stickerId,
+          messageId,
+        });
         // Refresh sticker attachment since we had to await above
         const freshSticker = message.get('sticker');
         strictAssert(freshSticker != null, 'Sticker is gone while copying');

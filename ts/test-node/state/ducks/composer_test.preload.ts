@@ -19,6 +19,7 @@ import { reducer as rootReducer } from '../../../state/reducer.preload.js';
 import { IMAGE_JPEG } from '../../../types/MIME.std.js';
 import type { AttachmentDraftType } from '../../../types/Attachment.std.js';
 import { fakeDraftAttachment } from '../../../test-helpers/fakeAttachment.std.js';
+import { NavTab } from '../../../types/Nav.std.js';
 
 const { noop } = lodash;
 
@@ -36,13 +37,20 @@ describe('both/state/ducks/composer', () => {
     },
   };
 
-  function getRootStateFunction(selectedConversationId?: string) {
+  function getRootStateFunction(conversationId?: string) {
     const state = rootReducer(undefined, noopAction());
     return () => ({
       ...state,
+      nav: {
+        selectedLocation: {
+          tab: NavTab.Chats as const,
+          details: {
+            conversationId,
+          },
+        },
+      },
       conversations: {
         ...state.conversations,
-        selectedConversationId,
       },
     });
   }

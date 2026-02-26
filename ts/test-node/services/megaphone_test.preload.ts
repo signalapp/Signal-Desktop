@@ -35,7 +35,7 @@ const FAKE_MEGAPHONE: RemoteMegaphoneType = {
   localeFetched: 'en',
   title: 'megaphone',
   body: 'cats',
-  imagePath: '../../../fixtures/donate-heart.png',
+  imagePath: '../../../images/donate-heart.png',
   primaryCtaText: 'donate',
   secondaryCtaText: 'snooze',
   snoozeCount: 0,
@@ -107,6 +107,13 @@ describe('megaphone service', () => {
         snoozedAt: Date.now() - 7 * DAY,
       });
       assert.strictEqual(isMegaphoneShowable(megaphone), true);
+    });
+
+    it('handles megaphone with dontShowBeforeEpochMs in the future', () => {
+      const megaphone = getMegaphone({
+        dontShowBeforeEpochMs: Date.now() + 1 * DAY,
+      });
+      assert.strictEqual(isMegaphoneShowable(megaphone), false);
     });
 
     it('handles megaphone expired past dontShowAfterEpochMs', () => {

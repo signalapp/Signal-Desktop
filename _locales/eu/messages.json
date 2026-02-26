@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Aktibatu/Desaktibatu Garatzaileen Tresnak"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Ireki deietarako garatzaile-tresnak"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Ezarri Gailu Berri Gisa"
   },
@@ -654,10 +651,10 @@
     "messageformat": "Bidaltzen…"
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Signal can now auto-verify encryption"
+    "messageformat": "Orain, Signal-ek automatikoki egiazta dezake enkriptatzea"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "For contacts you’re connected to by phone number, Signal can automatically confirm whether the connection is secure using a process called key transparency. For added security, you can still verify connections manually using a QR code or by comparing safety numbers."
+    "messageformat": "Zurekin telefono-zenbaki bidez konektatuta dauden kontakuei dagokienez, Signal-ek \"gako-gardentasuna\" izeneko prozesu baten bidez egiazta dezake konexioa seguruan den. Segurtasun gehigarria emateko, konexioak eskuz egiazta ditzakezu oraindik ere, QR kode bat erabilita edo segurtasun-zenbakiak konparatuta."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Jarraitu"
@@ -1117,6 +1114,9 @@
   },
   "icu:AboutContactModal__add-member-label": {
     "messageformat": "Gehitu kide-etiketa bat"
+  },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Your QR code"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Oharra"
@@ -2431,6 +2431,9 @@
   },
   "icu:Toast--unable-download-from-backup-tier": {
     "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Adminek bakarrik ezar ditzakete kide-etiketak talde honetan."
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Mezu hau bidali eta 24 orduko epean soilik aplika daitezke aldaketak."
@@ -4631,6 +4634,9 @@
   "icu:ContactModal--rm-admin": {
     "messageformat": "Kendu administratzaile-maila"
   },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "Haren kide-etiketa ere ezabatuko da."
+  },
   "icu:ContactModal--make-admin": {
     "messageformat": "Bihurtu administratzaile"
   },
@@ -4692,22 +4698,22 @@
     "messageformat": "Kaixo!"
   },
   "icu:ConversationDetails--member-label--list-header": {
-    "messageformat": "Group members with labels"
+    "messageformat": "Etiketak dituzten taldeko kideak"
   },
   "icu:ConversationDetails--member-label--no-members": {
-    "messageformat": "No other members have labels"
+    "messageformat": "Ez dago etiketak dituen beste kiderik"
   },
   "icu:ConversationDetails--member-label--saving": {
     "messageformat": "Aldaketak gordetzen…"
   },
   "icu:ConversationDetails--member-label--error-title": {
-    "messageformat": "Can’t save member label"
+    "messageformat": "Ezin da gorde kide-etiketa"
   },
   "icu:ConversationDetails--member-label--error-generic": {
-    "messageformat": "Check your connection and try again."
+    "messageformat": "Egiaztatu Internetera konektatuta zaudela eta saiatu berriro."
   },
   "icu:ConversationDetails--member-label--error-permissions": {
-    "messageformat": "Only admins can set member labels in this group."
+    "messageformat": "Adminek bakarrik ezar ditzakete kide-etiketak talde honetan."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Mezuen desagerpena"
@@ -4758,13 +4764,13 @@
     "messageformat": "Aukeratu nork bidal ditzakeen mezuak taldera."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
-    "messageformat": "Member labels will be cleared"
+    "messageformat": "Kide-etiketak garbitu egingo dira"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group."
+    "messageformat": "Baimen honetan \"Adminak bakarrik\" aukeratzen baduzu, taldeko adminak ez diren pertsonek ezarri dituzten kide-etiketak kendu egingo dira."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
-    "messageformat": "Continue"
+    "messageformat": "Jarraitu"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Eskaerak & Gonbidapenak"
@@ -4819,6 +4825,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Gehitu kideak"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Gehitu kide-etiketa"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Ikusi denak"
@@ -4993,6 +5002,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Gehienez {count,number} mezu hauta dezakezu guztientzat ezabatzeko} other {Gehienez {count,number} mezu hauta ditzakezu guztientzat ezabatzeko}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Elementua ezabatu nahi duzu?"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "Betiko ezabatuko da elementua. Elementuarekin lotutako testu-mezuak ere ezabatuko dira."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Itxi"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Ezabatu"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Utzi"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Gehienez 30 mezu bidal ditzakezu"
@@ -5366,6 +5390,24 @@
   "icu:MediaGallery__EmptyState__description--documents-2": {
     "messageformat": "Bidaltzen eta jasotzen dituzun fitxategiak hemen agertuko dira"
   },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "Ikusi txatean"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Birbidali"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Gorde"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Bidali mezua"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Kopiatu esteka"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Ezabatu"
+  },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Hautatu multimedia-edukiaren kalitatea"
   },
@@ -5579,6 +5621,10 @@
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "Administratzaileak"
   },
+  "icu:Avatar__View": {
+    "messageformat": "Ikusi",
+    "limit": 7
+  },
   "icu:AvatarEditor--choose": {
     "messageformat": "Hautatu abatar bat"
   },
@@ -5656,15 +5702,6 @@
   },
   "icu:Preferences__button--set-up": {
     "messageformat": "Konfiguratu"
-  },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Babeskopia lokalak"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Esportatu…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Esportatu enkriptatutako babeskopia lokala karpeta batera eta baliozko ezazu"
   },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Esportatu segurtasun-kopia enkriptatua memoriara eta exekutatu baliozkotze-paketea bertan"
@@ -7486,19 +7523,19 @@
     "messageformat": "<paragraph>Signal-ek ez du zure informazio pertsonalik biltzen edo gordetzen dohaintza bat egiten duzunean.</paragraph><paragraph>Stripe erabiltzen dugu ordainketa-prozesadore gisa zure dohaintzak jasotzeko. Ez dugu ematen diezun informaziorik atzitzen edo gordetzen.</paragraph><paragraph>Signal-ek ez du zure dohaintza zure Signal kontuarekin lotzen eta ezin du lotu.</paragraph><paragraph>Eskerrik asko zure babesagatik!</paragraph>"
   },
   "icu:PreferencesDonations__privacy-modal-intro": {
-    "messageformat": "As an independent nonprofit, Signal is committed to private messaging and calls. No ads, no trackers, no surveillance. Donate today to support Signal."
+    "messageformat": "Irabazi asmorik gabeko erakunde independente gisa, Signal-ek konpromisoa du mezu pribatuekiko. Iragarkirik gabe, jarraipen-tresnarik gabe, zaintzarik gabe. Egin dohaintza bat gaur Signal-i laguntzeko."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "Get an optional badge on your profile when you donate"
+    "messageformat": "Lortu profilerako aukerako bereizgarri bat dohaintza egitean"
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "Your privacy is our mission"
+    "messageformat": "Zure pribatutasuna da gure misioa"
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
-    "messageformat": "Signal is a 501c3 nonprofit. US donations are tax deductible."
+    "messageformat": "Signal irabazi-asmorik gabeko erakundea da. US donations are tax deductible."
   },
   "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
-    "messageformat": "Heart icon in the style of the Signal logo"
+    "messageformat": "Signal-en logoaren estiloko bihotz-ikono bat"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "Ados"
@@ -7591,13 +7628,13 @@
     "messageformat": "Kendu informazioa"
   },
   "icu:DonateFlow__discard-paypal-dialog-body": {
-    "messageformat": "Leaving will cancel your donation."
+    "messageformat": "Orain irteten bazara, bertan behera utziko da dohaintza."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Leave"
+    "messageformat": "Irten"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
-    "messageformat": "Stay on page"
+    "messageformat": "Geratu orrian"
   },
   "icu:DonateFlow__continue": {
     "messageformat": "Jarraitu"
@@ -7839,9 +7876,6 @@
   "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
     "messageformat": "Lagun iezaguzu hobetzen"
   },
-  "icu:CallQualitySurvey__ConfirmSubmission__PageDescription": {
-    "messageformat": "Horrela, deiei buruzko informazio gehiago lortu, eta zerk funtzionatzen duen eta zerk funtzionatzen ez duen jakingo dugu. Bidali aurretik, arazketa-erregistroa ikusi ahalko duzu."
-  },
   "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
     "messageformat": "Bidaliz gero, iritzia eta <diagnosticInfoLink>deiari buruzko diagnostiko-informazioa</diagnosticInfoLink> bidaliko dira. Nahi baduzu, arazketa-erregistro bat parteka dezakezu, deien kalitatea hobetzen lagun diezagun."
   },
@@ -7850,9 +7884,6 @@
   },
   "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
     "messageformat": "Ikusi"
-  },
-  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__HelpText": {
-    "messageformat": "Arazketa-erregistroek aplikazioari buruzko maila baxuko informazioa dute, eta ez dute mezuetako edukirik."
   },
   "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
     "messageformat": "Gurekin partekatutako informazioaren artean, aplikazioaren maila baxuko informazioa dago, eta ez deien edukia."
@@ -7906,13 +7937,13 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.89--0": {
-    "messageformat": "Eguneratze honen bidez, Blok Maius gaitzean testuaren formatuari eragiten zion akats bat konpondu da. Aupa zu, <DGrothePhD></DGrothePhD>!"
-  },
-  "icu:WhatsNew__7.89--1": {
-    "messageformat": "Signal irabazi-asmorik gabeko erakunde bat da, eta ez litzateke posible izango zure babesa gabe. Orain, Signal Desktop-en, PayPal bidez egin ditzakezu dohaintzak."
-  },
   "icu:WhatsNew__7.90--0": {
-    "messageformat": "Make privacy stick with five new official sticker packs in the Signal Artist Series: \"Chug the Mouse\" by Amanda Cotan, \"Cozy Season\" by Miguel Ángel Camprubí, \"Croco's Feelings\" by Tiffany Beucher, \"My Daily Life 2\" by Plastic Thing, and \"Rocky Talk\" by Lexi Vay."
+    "messageformat": "Artista ofizialen bost eranskailu-pakete berri."
+  },
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Hemen dira Babeskopia seguruak! Orain, muturretik muturrera enkriptatutako babeskopia automatikoak gai ditzakezu, telefonoz aldatzean edo Signal berriro instalatzean mezurik ez galtzeko. Mezu guztien eta azken 45 egunetako multimedia-edukien babeskopiak egin ditzakezu doan, edo hilean kuota txiki bat ordain dezakezu 100 GB lortzeko eta den-denaren babeskopiak egiteko, eranskinak barne. Hasteko, sakatu \"Babeskopiak\" Signal-en ezarpenetan. Eskerrik asko beta-eginbidea probatu duzuenoi!"
+  },
+  "icu:WhatsNew__8.1--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
   }
 }

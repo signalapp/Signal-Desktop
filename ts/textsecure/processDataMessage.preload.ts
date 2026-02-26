@@ -39,7 +39,11 @@ import {
   APPLICATION_OCTET_STREAM,
   stringToMIMEType,
 } from '../types/MIME.std.js';
-import { SECOND, DurationInSeconds } from '../util/durations/index.std.js';
+import {
+  SECOND,
+  DurationInSeconds,
+  HOUR,
+} from '../util/durations/index.std.js';
 import type { AnyPaymentEvent } from '../types/Payment.std.js';
 import { PaymentEventKind } from '../types/Payment.std.js';
 import { filterAndClean } from '../util/BodyRange.node.js';
@@ -47,8 +51,11 @@ import { bytesToUuid } from '../util/uuidToBytes.std.js';
 import { createName } from '../util/attachmentPath.node.js';
 import { partitionBodyAndNormalAttachments } from '../util/Attachment.std.js';
 import { isNotNil } from '../util/isNotNil.std.js';
+import { createLogger } from '../logging/log.std.js';
 
 const { isNumber } = lodash;
+
+const log = createLogger('processDataMessage');
 
 const FLAGS = Proto.DataMessage.Flags;
 export const ATTACHMENT_MAX = 32;
@@ -85,13 +92,21 @@ export function processAttachment(
     height,
     caption,
     blurHash,
-    uploadTimestamp,
   } = attachmentWithoutNulls;
 
   const hasCdnId = Long.isLong(cdnId) ? !cdnId.isZero() : Boolean(cdnId);
 
   if (!isNumber(size)) {
     throw new Error('Missing size on incoming attachment!');
+  }
+
+  let uploadTimestamp = attachmentWithoutNulls.uploadTimestamp?.toNumber();
+
+  // Make sure uploadTimestamp is not set to an obviously wrong future value (we use
+  // uploadTimestamp to determine whether to re-use CDN pointers)
+  if (uploadTimestamp && uploadTimestamp > Date.now() + 12 * HOUR) {
+    log.warn('uploadTimestamp is in the future, dropping');
+    uploadTimestamp = undefined;
   }
 
   return {
@@ -104,7 +119,7 @@ export function processAttachment(
     height,
     caption,
     blurHash,
-    uploadTimestamp: uploadTimestamp?.toNumber(),
+    uploadTimestamp,
     cdnId: hasCdnId ? String(cdnId) : undefined,
     clientUuid: Bytes.isNotEmpty(clientUuid)
       ? bytesToUuid(clientUuid)

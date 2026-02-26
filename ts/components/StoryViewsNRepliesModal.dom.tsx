@@ -294,6 +294,9 @@ export function StoryViewsNRepliesModal({
               large={null}
               shouldHidePopovers={null}
               linkPreviewResult={null}
+              showViewOnceButton={false}
+              isViewOnceActive={false}
+              onToggleViewOnce={noop}
             >
               <FunEmojiPicker
                 open={emojiPickerOpen}

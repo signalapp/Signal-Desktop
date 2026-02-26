@@ -57,11 +57,18 @@ type AllHostnamePatterns =
   | 'start-call-lobby'
   | 'show-window'
   | 'cancel-presenting'
-  | 'donation-paypal-approved'
-  | 'donation-paypal-canceled'
   | 'donation-validation-complete'
+  | 'paypal'
   | ':captchaId(.+)'
   | '';
+
+/**
+ * Valid actions for sgnl://paypal
+ */
+enum PaypalAction {
+  Approve = 'approve',
+  Cancel = 'cancel',
+}
 
 /**
  * Uses the `URLPattern` syntax to match URLs.
@@ -210,7 +217,6 @@ function _route<Key extends string, Args extends object>(
 }
 
 const paramSchema = z.string().min(1);
-const paramEpoch = z.nullable(z.string().min(1));
 
 /**
  * signal.me by phone number
@@ -394,25 +400,19 @@ export const linkCallRoute = _route('linkCall', {
   ],
   schema: z.object({
     key: paramSchema, // ConsonantBase16
-    epoch: paramEpoch, // ConsonantBase16
   }),
   parse(result) {
     const params = new URLSearchParams(result.hash.groups.params);
     return {
       key: params.get('key'),
-      epoch: params.get('epoch'),
     };
   },
   toWebUrl(args) {
-    const params = new URLSearchParams(
-      args.epoch ? { key: args.key, epoch: args.epoch } : { key: args.key }
-    );
+    const params = new URLSearchParams({ key: args.key });
     return new URL(`https://signal.link/call/#${params.toString()}`);
   },
   toAppUrl(args) {
-    const params = new URLSearchParams(
-      args.epoch ? { key: args.key, epoch: args.epoch } : { key: args.key }
-    );
+    const params = new URLSearchParams({ key: args.key });
     return new URL(`sgnl://signal.link/call/#${params.toString()}`);
   },
 });
@@ -600,13 +600,13 @@ export const donationValidationCompleteRoute = _route(
  * donationPaypalApprovedRoute.toWebURL({
  *   returnToken: "123",
  * })
- * // URL { "sgnl://donation-paypal-approved?returnToken=123" }
+ * // URL { "sgnl://paypal?action=approve&returnToken=123" }
  * ```
  */
 export const donationPaypalApprovedRoute = _route('donationPaypalApproved', {
   patterns: [
-    _pattern('sgnl:', 'donation-paypal-approved', '{/}?', {
-      search: ':params',
+    _pattern('sgnl:', 'paypal', '{/}?', {
+      search: `action=${PaypalAction.Approve}:params*`,
     }),
   ],
   schema: z.object({
@@ -616,6 +616,7 @@ export const donationPaypalApprovedRoute = _route('donationPaypalApproved', {
   }),
   parse(result) {
     const params = new URLSearchParams(result.search.groups.params);
+    // additional params from PayPal
     return {
       payerId: params.get('PayerID'),
       paymentToken: params.get('token'),
@@ -623,9 +624,13 @@ export const donationPaypalApprovedRoute = _route('donationPaypalApproved', {
     };
   },
   toWebUrl(args) {
-    const params = new URLSearchParams({ returnToken: args.returnToken });
+    const params = new URLSearchParams({
+      action: PaypalAction.Approve,
+      returnToken: args.returnToken,
+    });
+    // Redirects to sgnl://paypal?{params}
     return new URL(
-      `https://signaldonations.org/redirect/donation-paypal-approved?${params.toString()}`
+      `https://signaldonations.org/desktop/paypal?${params.toString()}`
     );
   },
 });
@@ -637,13 +642,13 @@ export const donationPaypalApprovedRoute = _route('donationPaypalApproved', {
  * donationPaypalCanceledRoute.toAppUrl({
  *   returnToken: "123",
  * })
- * // URL { "sgnl://donation-paypal-canceled?returnToken=123" }
+ * // URL { "sgnl://paypal?action=cancel&returnToken=123" }
  * ```
  */
 export const donationPaypalCanceledRoute = _route('donationPaypalCanceled', {
   patterns: [
-    _pattern('sgnl:', 'donation-paypal-canceled', '{/}?', {
-      search: ':params',
+    _pattern('sgnl:', 'paypal', '{/}?', {
+      search: `action=${PaypalAction.Cancel}:params*`,
     }),
   ],
   schema: z.object({
@@ -656,9 +661,13 @@ export const donationPaypalCanceledRoute = _route('donationPaypalCanceled', {
     };
   },
   toWebUrl(args) {
-    const params = new URLSearchParams({ returnToken: args.returnToken });
+    const params = new URLSearchParams({
+      action: PaypalAction.Cancel,
+      returnToken: args.returnToken,
+    });
+    // Redirects to sgnl://paypal?{params}
     return new URL(
-      `https://signaldonations.org/redirect/donation-paypal-canceled?${params.toString()}`
+      `https://signaldonations.org/desktop/paypal?${params.toString()}`
     );
   },
 });

@@ -411,7 +411,7 @@ message CallLink {
   string name = 3;
   Restrictions restrictions = 4;
   uint64 expirationMs = 5;
-  optional bytes epoch = 6; // May be absent/empty for older links
+  reserved 6; // was epoch, never used
 }
 
 message AdHocCall {

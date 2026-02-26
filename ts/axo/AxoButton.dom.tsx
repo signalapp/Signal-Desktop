@@ -5,7 +5,7 @@ import type { ButtonHTMLAttributes, FC, ForwardedRef, ReactNode } from 'react';
 import type { TailwindStyles } from './tw.dom.js';
 import { tw } from './tw.dom.js';
 import { AxoSymbol } from './AxoSymbol.dom.js';
-import { assert } from './_internal/assert.dom.js';
+import { assert } from './_internal/assert.std.js';
 import type { SpinnerVariant } from '../components/SpinnerV2.dom.js';
 import { SpinnerV2 } from '../components/SpinnerV2.dom.js';
 

@@ -17,6 +17,7 @@ import {
   MediaItem,
   type PropsType as MediaItemPropsType,
 } from './MediaItem.preload.js';
+import { useNavActions } from '../ducks/nav.std.js';
 
 const log = createLogger('AllMedia');
 
@@ -47,10 +48,10 @@ export const SmartAllMedia = memo(function SmartAllMedia({
   const { initialLoad, loadMore } = useMediaGalleryActions();
   const {
     saveAttachment,
-    pushPanelForConversation,
     kickOffAttachmentDownload,
     cancelAttachmentDownload,
   } = useConversationsActions();
+  const { pushPanelForConversation } = useNavActions();
   const { showLightbox } = useLightboxActions();
   const { loadVoiceNoteAudio } = useAudioPlayerActions();
   const i18n = useSelector(getIntl);

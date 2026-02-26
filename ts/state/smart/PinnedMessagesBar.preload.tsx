@@ -14,11 +14,11 @@ import { orderBy } from 'lodash';
 import { getIntl } from '../selectors/user.std.js';
 import {
   getConversationSelector,
-  getSelectedConversationId,
   getPinnedMessages,
   getMessages,
   getConversationIsReady,
 } from '../selectors/conversations.dom.js';
+import { getSelectedConversationId } from '../selectors/nav.std.js';
 import { strictAssert } from '../../util/assert.std.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
 import type {
@@ -42,6 +42,7 @@ import * as Attachment from '../../util/Attachment.std.js';
 import * as MIME from '../../types/MIME.std.js';
 import * as EmbeddedContact from '../../types/EmbeddedContact.std.js';
 import type { StateSelector } from '../types.std.js';
+import { useNavActions } from '../ducks/nav.std.js';
 
 function getPinMessageAttachment(
   props: MessagePropsType
@@ -377,8 +378,8 @@ export const SmartPinnedMessagesBar = memo(function SmartPinnedMessagesBar() {
   const pins = useSelector(selectPins);
   const canPinMessages = getCanPinMessages(conversation);
 
-  const { onPinnedMessageRemove, pushPanelForConversation, scrollToMessage } =
-    useConversationsActions();
+  const { onPinnedMessageRemove, scrollToMessage } = useConversationsActions();
+  const { pushPanelForConversation } = useNavActions();
 
   const [current, setCurrent] = useState(() => {
     return getLastPinId(pins);

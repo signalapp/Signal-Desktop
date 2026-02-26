@@ -198,6 +198,7 @@ import type {
   GetMessagesBetweenOptions,
   MaybeStaleCallHistory,
   ExistingAttachmentData,
+  ExistingAttachmentUploadData,
 } from './Interface.std.js';
 import {
   AttachmentDownloadSource,
@@ -228,7 +229,6 @@ import {
   insertOrUpdateCallLinkFromSync,
   updateCallLink,
   updateCallLinkState,
-  updateCallLinkStateAndEpoch,
   updateDefunctCallLink,
 } from './server/callLinks.node.js';
 import {
@@ -560,6 +560,7 @@ export const DataReader: ServerReadableInterface = {
 
   getStatisticsForLogging,
 
+  getMostRecentAttachmentUploadData,
   getBackupCdnObjectMetadata,
   getBackupAttachmentDownloadProgress,
   getAttachmentReferencesForMessages,
@@ -671,7 +672,6 @@ export const DataWriter: ServerWritableInterface = {
   insertOrUpdateCallLinkFromSync,
   updateCallLink,
   updateCallLinkState,
-  updateCallLinkStateAndEpoch,
   beginDeleteAllCallLinks,
   beginDeleteCallLink,
   deleteCallHistoryByRoomId,
@@ -2932,12 +2932,19 @@ function getAndProtectExistingAttachmentPath(
     plaintextHash,
     version,
     contentType,
-  }: { plaintextHash: string; version: number; contentType: string }
+    messageId,
+  }: {
+    plaintextHash: string;
+    version: number;
+    contentType: string;
+    messageId: string;
+  }
 ): ExistingAttachmentData | undefined {
   if (!isValidPlaintextHash(plaintextHash)) {
     logger.error('getAndProtectExistingAttachmentPath: Invalid plaintextHash');
     return;
   }
+
   if (version < 2) {
     logger.error(
       'getAndProtectExistingAttachmentPath: Invalid version',
@@ -2985,8 +2992,8 @@ function getAndProtectExistingAttachmentPath(
           (${existingData.thumbnailPath}),
           (${existingData.screenshotPath})
       )
-      INSERT OR REPLACE INTO attachments_protected_from_deletion(path)
-      SELECT path
+      INSERT OR REPLACE INTO attachments_protected_from_deletion(path, messageId)
+      SELECT path, ${messageId}
       FROM existingMessageAttachmentPaths
       WHERE path IS NOT NULL;
     `;
@@ -2997,11 +3004,13 @@ function getAndProtectExistingAttachmentPath(
 
 function _protectAttachmentPathFromDeletion(
   db: WritableDB,
-  path: string
+  { path, messageId }: { path: string; messageId: string }
 ): void {
   const [protectQuery, protectParams] = sql`
-    INSERT OR REPLACE INTO attachments_protected_from_deletion(path)
-    VALUES (${path});
+    INSERT OR REPLACE INTO attachments_protected_from_deletion
+      (path, messageId)
+    VALUES 
+      (${path}, ${messageId});
   `;
   db.prepare(protectQuery).run(protectParams);
 }
@@ -3034,6 +3043,35 @@ function isAttachmentSafeToDelete(db: ReadableDB, path: string): boolean {
   `;
 
   return db.prepare(query, { pluck: true }).get(params) === 0;
+}
+
+function getMostRecentAttachmentUploadData(
+  db: ReadableDB,
+  plaintextHash: string
+): ExistingAttachmentUploadData | undefined {
+  const [query, params] = sql`
+    SELECT 
+      key,
+      digest,
+      transitCdnKey AS cdnKey,
+      transitCdnNumber AS cdnNumber,
+      transitCdnUploadTimestamp AS uploadTimestamp,
+      incrementalMac,
+      incrementalMacChunkSize as chunkSize
+    FROM message_attachments
+    INDEXED BY message_attachments_plaintextHash
+    WHERE 
+      plaintextHash = ${plaintextHash} AND
+      key IS NOT NULL AND
+      digest IS NOT NULL AND
+      transitCdnKey IS NOT NULL AND
+      transitCdnNumber IS NOT NULL AND
+      transitCdnUploadTimestamp IS NOT NULL
+    ORDER BY transitCdnUploadTimestamp DESC
+    LIMIT 1
+  `;
+
+  return db.prepare(query).get<ExistingAttachmentUploadData>(params);
 }
 
 function _testOnlyRemoveMessageAttachments(

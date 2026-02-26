@@ -44,7 +44,6 @@ import { ContextMenu } from './ContextMenu.dom.js';
 import { IMAGE_PNG } from '../types/MIME.std.js';
 import { SizeObserver } from '../hooks/useSizeObserver.dom.js';
 import { Slider } from './Slider.dom.js';
-import { Spinner } from './Spinner.dom.js';
 import { Theme } from '../util/theme.std.js';
 import { ThemeType } from '../types/Util.std.js';
 import { arrow } from '../util/keyboard.dom.js';
@@ -62,6 +61,9 @@ import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.js';
 import { FunStickerPicker } from './fun/FunStickerPicker.dom.js';
 import type { FunStickerSelection } from './fun/panels/FunPanelStickers.dom.js';
 import { drop } from '../util/drop.std.js';
+import { MediaQualitySelector } from './MediaQualitySelector.dom.js';
+import { AxoButton } from '../axo/AxoButton.dom.js';
+import { tw } from '../axo/tw.dom.js';
 import type { FunTimeStickerStyle } from './fun/constants.dom.js';
 import * as Errors from '../types/errors.std.js';
 
@@ -75,6 +77,8 @@ export type MediaEditorResultType = Readonly<{
   blurHash: string;
   caption?: string;
   captionBodyRanges?: DraftBodyRanges;
+  isViewOnce?: boolean;
+  isHighQuality?: boolean;
 }>;
 
 export type PropsType = {
@@ -89,6 +93,9 @@ export type PropsType = {
   convertDraftBodyRangesIntoHydrated: (
     bodyRanges: DraftBodyRanges | undefined
   ) => HydratedBodyRangesType | undefined;
+  isHighQuality?: boolean;
+  isViewOnce?: boolean;
+  showViewOnceToggle?: boolean;
 } & Pick<
   CompositionInputProps,
   | 'draftText'
@@ -159,6 +166,9 @@ export function MediaEditor({
   isSending,
   onClose,
   onDone,
+  isHighQuality,
+  isViewOnce,
+  showViewOnceToggle = false,
 
   // CompositionInput
   draftText,
@@ -182,6 +192,15 @@ export function MediaEditor({
   const [caption, setCaption] = useState(draftText ?? '');
   const [captionBodyRanges, setCaptionBodyRanges] =
     useState<DraftBodyRanges | null>(draftBodyRanges);
+  const [localIsViewOnce, setLocalIsViewOnce] = useState(isViewOnce ?? false);
+  const hasViewOnceChange = localIsViewOnce !== (isViewOnce ?? false);
+  const [localIsHighQuality, setLocalIsHighQuality] = useState(
+    isHighQuality ?? false
+  );
+  const hasHighQualityChange =
+    typeof isHighQuality === 'boolean' && localIsHighQuality !== isHighQuality;
+  const showMediaQualitySelector = typeof isHighQuality === 'boolean';
+  const pickerTheme = ThemeType.dark;
 
   const hydratedBodyRanges = useMemo(
     () => convertDraftBodyRangesIntoHydrated(captionBodyRanges ?? undefined),
@@ -207,6 +226,10 @@ export function MediaEditor({
     if (inputApiRef.current) {
       inputApiRef.current.insertEmoji(emojiSelection);
     }
+  }, []);
+
+  const handleSelectQuality = useCallback((_id: string, isHQ: boolean) => {
+    setLocalIsHighQuality(isHQ);
   }, []);
 
   const handlePickSticker = useCallback(
@@ -362,8 +385,18 @@ export function MediaEditor({
   });
 
   const onTryClose = useCallback(() => {
-    confirmDiscardIf(canUndo || isCreatingStory, onClose);
-  }, [confirmDiscardIf, canUndo, isCreatingStory, onClose]);
+    confirmDiscardIf(
+      canUndo || isCreatingStory || hasViewOnceChange || hasHighQualityChange,
+      onClose
+    );
+  }, [
+    confirmDiscardIf,
+    canUndo,
+    isCreatingStory,
+    hasViewOnceChange,
+    hasHighQualityChange,
+    onClose,
+  ]);
   tryClose.current = onTryClose;
 
   // Keyboard support
@@ -1317,13 +1350,40 @@ export function MediaEditor({
                 showTimeStickers
                 onSelectTimeSticker={handlePickTimeSticker}
                 placement="top"
-                theme={ThemeType.dark}
+                theme={pickerTheme}
               >
                 <FunStickerPickerButton i18n={i18n} />
               </FunStickerPicker>
             </div>
             <div className="MediaEditor__tools-row-2">
-              <div className="MediaEditor__tools--input dark-theme">
+              <div
+                className={classNames(
+                  tw('mx-1 flex items-center justify-center'),
+                  localIsViewOnce ? tw('invisible') : null
+                )}
+              >
+                <FunEmojiPicker
+                  open={emojiPickerOpen}
+                  onOpenChange={handleEmojiPickerOpenChange}
+                  onSelectEmoji={handleSelectEmoji}
+                  placement="top"
+                  theme={pickerTheme}
+                  closeOnSelect={false}
+                >
+                  <FunEmojiPickerButton i18n={i18n} />
+                </FunEmojiPicker>
+              </div>
+              {showMediaQualitySelector && (
+                <div className={tw('mx-1 flex items-center justify-center')}>
+                  <MediaQualitySelector
+                    conversationId=""
+                    i18n={i18n}
+                    isHighQuality={localIsHighQuality}
+                    onSelectQuality={handleSelectQuality}
+                  />
+                </div>
+              )}
+              <div className="MediaEditor__tools--input">
                 <CompositionInput
                   draftText={caption}
                   draftBodyRanges={hydratedBodyRanges ?? null}
@@ -1348,7 +1408,7 @@ export function MediaEditor({
                   quotedMessageId={null}
                   sendCounter={0}
                   sortedGroupMembers={sortedGroupMembers}
-                  theme={ThemeType.dark}
+                  theme={pickerTheme}
                   // Only needed for state updates and we need to override those
                   conversationId={null}
                   // Cannot enter media editor while editing
@@ -1359,21 +1419,26 @@ export function MediaEditor({
                   shouldHidePopovers={null}
                   // link previews not displayed with media
                   linkPreviewResult={null}
-                >
-                  <FunEmojiPicker
-                    open={emojiPickerOpen}
-                    onOpenChange={handleEmojiPickerOpenChange}
-                    onSelectEmoji={handleSelectEmoji}
-                    placement="top"
-                    theme={ThemeType.dark}
-                    closeOnSelect={false}
-                  >
-                    <FunEmojiPickerButton i18n={i18n} />
-                  </FunEmojiPicker>
-                </CompositionInput>
+                  showViewOnceButton={showViewOnceToggle}
+                  isViewOnceActive={localIsViewOnce}
+                  onToggleViewOnce={() => {
+                    const newValue = !localIsViewOnce;
+                    setLocalIsViewOnce(newValue);
+                    if (newValue) {
+                      setEmojiPickerOpen(false);
+                    }
+                  }}
+                />
               </div>
-              <Button
+              <AxoButton.Root
                 disabled={!image || isSaving || isSending}
+                variant="primary"
+                size="md"
+                experimentalSpinner={
+                  isSending
+                    ? { 'aria-label': doneButtonLabel || i18n('icu:save') }
+                    : null
+                }
                 onClick={async () => {
                   if (!fabricCanvas) {
                     return;
@@ -1438,17 +1503,13 @@ export function MediaEditor({
                     caption: caption !== '' ? caption : undefined,
                     captionBodyRanges: captionBodyRanges ?? undefined,
                     blurHash,
+                    isViewOnce: localIsViewOnce,
+                    isHighQuality: localIsHighQuality,
                   });
                 }}
-                theme={Theme.Dark}
-                variant={ButtonVariant.Primary}
               >
-                {isSending ? (
-                  <Spinner svgSize="small" />
-                ) : (
-                  doneButtonLabel || i18n('icu:save')
-                )}
-              </Button>
+                {doneButtonLabel || i18n('icu:save')}
+              </AxoButton.Root>
             </div>
           </>
         )}

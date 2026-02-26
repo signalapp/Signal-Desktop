@@ -1,12 +1,12 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
+import pTimeout from 'p-timeout';
 import createDebug from 'debug';
 import {
   type Device,
   type Group,
   PrimaryDevice,
-  type Proto,
+  Proto,
   StorageState,
 } from '@signalapp/mock-server';
 import { assert } from 'chai';
@@ -15,6 +15,7 @@ import type { Locator, Page } from 'playwright';
 import { expect } from 'playwright/test';
 import type { SignalService } from '../protobuf/index.std.js';
 import { strictAssert } from '../util/assert.std.js';
+import { SECOND } from '../util/durations/constants.std.js';
 
 const debug = createDebug('mock:test:helpers');
 
@@ -28,6 +29,30 @@ export function bufferToUuid(buffer: Buffer): string {
     hex.substring(16, 20),
     hex.substring(20),
   ].join('-');
+}
+
+function isProfileKeyUpdate(flags: number | null | undefined): boolean {
+  if (flags == null) {
+    return false;
+  }
+  // eslint-disable-next-line no-bitwise
+  return (flags & Proto.DataMessage.Flags.PROFILE_KEY_UPDATE) !== 0;
+}
+
+export async function waitForNonProfileKeyUpdateMessage(
+  device: PrimaryDevice,
+  { maxAttempts = 5 }: { maxAttempts?: number } = {}
+): Promise<Awaited<ReturnType<PrimaryDevice['waitForMessage']>>> {
+  for (let i = 0; i < maxAttempts; i += 1) {
+    // eslint-disable-next-line no-await-in-loop
+    const message = await device.waitForMessage();
+    if (isProfileKeyUpdate(message.dataMessage.flags)) {
+      debug('Skipping profile key update');
+      continue;
+    }
+    return message;
+  }
+  throw new Error(`No message with body after ${maxAttempts} attempts`);
 }
 
 export async function typeIntoInput(
@@ -327,7 +352,7 @@ export function getTimelineMessageWithText(page: Page, text: string): Locator {
   return getTimeline(page).locator('.module-message').filter({ hasText: text });
 }
 
-export async function composerAttachImages(
+export async function composerAttachFiles(
   page: Page,
   filePaths: ReadonlyArray<string>
 ): Promise<void> {
@@ -339,6 +364,12 @@ export async function composerAttachImages(
   );
 
   debug('setting input files');
+  await page
+    .getByRole('button', {
+      name: 'Add attachment or poll',
+    })
+    .click();
+  await page.getByRole('menuitem', { name: 'File' }).click();
   await AttachmentInput.setInputFiles(filePaths);
 
   debug(`waiting for ${filePaths.length} items`);
@@ -359,9 +390,11 @@ export async function sendMessageWithAttachments(
   receiver: PrimaryDevice,
   text: string,
   filePaths: Array<string>
-): Promise<Array<SignalService.IAttachmentPointer>> {
-  await composerAttachImages(page, filePaths);
-
+): Promise<{
+  attachments: Array<SignalService.IAttachmentPointer>;
+  timestamp: number;
+}> {
+  await composerAttachFiles(page, filePaths);
   debug('sending message');
   const input = await waitForEnabledComposer(page);
   await typeIntoInput(input, text, '');
@@ -382,14 +415,32 @@ export async function sendMessageWithAttachments(
   );
 
   debug('get received message data');
-  const receivedMessage = await receiver.waitForMessage();
-  const attachments = receivedMessage.dataMessage.attachments ?? [];
-  strictAssert(
-    attachments.length === filePaths.length,
-    'attachments must exist'
-  );
 
-  return attachments;
+  return pTimeout(
+    (async () => {
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
+        // eslint-disable-next-line no-await-in-loop
+        const receivedMessage = await receiver.waitForMessage();
+        const attachments = receivedMessage.dataMessage.attachments ?? [];
+        if (
+          attachments.length === filePaths.length &&
+          receivedMessage.body === text
+        ) {
+          strictAssert(
+            receivedMessage.dataMessage.timestamp,
+            'timestamp exists'
+          );
+          return {
+            attachments,
+            timestamp: receivedMessage.dataMessage.timestamp.toNumber(),
+          };
+        }
+      }
+    })(),
+    10 * SECOND,
+    'Timed out waiting to detect message send with attached files'
+  );
 }
 
 export async function waitForEnabledComposer(page: Page): Promise<Locator> {

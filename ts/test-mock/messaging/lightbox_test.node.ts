@@ -100,17 +100,15 @@ describe('lightbox', function (this: Mocha.Suite) {
       'koushik-chowdavarapu-105425-unsplash.jpg'
     );
 
-    const [attachmentCat] = await sendMessageWithAttachments(
-      page,
-      pinned,
-      'Message1',
-      [imageCat]
-    );
-    const [attachmentSnow, attachmentWaterfall] =
-      await sendMessageWithAttachments(page, pinned, 'Message2', [
-        imageSnow,
-        imageWaterfall,
-      ]);
+    const {
+      attachments: [attachmentCat],
+    } = await sendMessageWithAttachments(page, pinned, 'Message1', [imageCat]);
+    const {
+      attachments: [attachmentSnow, attachmentWaterfall],
+    } = await sendMessageWithAttachments(page, pinned, 'Message2', [
+      imageSnow,
+      imageWaterfall,
+    ]);
 
     await sendAttachmentsBack('Message3', [attachmentCat]);
     await sendAttachmentsBack('Message4', [

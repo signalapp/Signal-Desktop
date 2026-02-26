@@ -157,7 +157,7 @@ export function createExpiringEntityCleanupService(
       log.info('scheduled timer fired, running');
     } catch (error: unknown) {
       log.warn(
-        'scheduled timer was cancelled, not running',
+        'scheduled timer was canceled, not running',
         Errors.toLogFormat(error)
       );
       return true;

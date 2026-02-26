@@ -11,9 +11,11 @@ import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
 import { getItems } from '../selectors/items.dom.js';
 import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.js';
 import { getCanAddLabel } from '../../types/GroupMemberLabels.std.js';
-import { createLogger } from '../../logging/log.std.js';
-
-const log = createLogger('SmartGroupMemberLabelInfoModal');
+import { useNavActions } from '../ducks/nav.std.js';
+import { NavTab } from '../../types/Nav.std.js';
+import { PanelType } from '../../types/Panels.std.js';
+import { getSelectedLocation } from '../selectors/nav.std.js';
+import { getLeafPanelOnly } from '../../components/conversation/conversation-details/GroupMemberLabelEditor.dom.js';
 
 export const SmartGroupMemberLabelInfoModal = memo(
   function SmartGroupMemberLabelInfoModal() {
@@ -25,18 +27,19 @@ export const SmartGroupMemberLabelInfoModal = memo(
       useSelector(getGroupMemberLabelInfoModalState) ?? {};
     const getConversation = useSelector(getConversationSelector);
 
+    const { changeLocation } = useNavActions();
+
     const isEditMemberLabelEnabled = isFeaturedEnabledSelector({
       betaKey: 'desktop.groupMemberLabels.edit.beta',
       currentVersion: version,
       remoteConfig: items.remoteConfig,
       prodKey: 'desktop.groupMemberLabels.edit.prod',
     });
-    // TODO: DESKTOP-9711
-    log.info(
-      `Not using feature flag of ${isEditMemberLabelEnabled}; hardcoding to false`
-    );
 
     const conversation = getConversation(conversationId);
+
+    const selectedLocation = useSelector(getSelectedLocation);
+    const leafPanelOnly = getLeafPanelOnly(selectedLocation, conversationId);
 
     const contactMembership = conversation.memberships?.find(
       membership => user.ourAci && membership.aci === user.ourAci
@@ -44,18 +47,36 @@ export const SmartGroupMemberLabelInfoModal = memo(
     const hasLabel = Boolean(contactMembership?.labelString);
     const canAddLabel = getCanAddLabel(conversation, contactMembership);
 
-    const { toggleGroupMemberLabelInfoModal } = useGlobalModalActions();
+    const { toggleGroupMemberLabelInfoModal, hideContactModal } =
+      useGlobalModalActions();
 
     return (
       <GroupMemberLabelInfoModal
         i18n={i18n}
         canAddLabel={canAddLabel}
         hasLabel={hasLabel}
-        isEditMemberLabelEnabled={false}
+        isEditMemberLabelEnabled={isEditMemberLabelEnabled}
         onClose={() => toggleGroupMemberLabelInfoModal(undefined)}
         showEditMemberLabelScreen={() => {
-          // TODO: DESKTOP-9711
-          throw new Error('Not yet implemented');
+          changeLocation({
+            tab: NavTab.Chats,
+            details: {
+              conversationId,
+              panels: {
+                direction: 'push' as const,
+                isAnimating: false,
+                leafPanelOnly,
+                stack: [
+                  { type: PanelType.ConversationDetails },
+                  { type: PanelType.GroupMemberLabelEditor },
+                ],
+                wasAnimated: false,
+                watermark: 1,
+              },
+            },
+          });
+          toggleGroupMemberLabelInfoModal(undefined);
+          hideContactModal();
         }}
       />
     );
