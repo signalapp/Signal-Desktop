@@ -47,7 +47,7 @@ export function PollCreateModal({
     { id: generateUuid(), value: '' },
     { id: generateUuid(), value: '' },
   ]);
-  const [allowMultiple, setAllowMultiple] = useState(false);
+  const [allowMultiple, setAllowMultiple] = useState(true);
   const [emojiPickerOpenForOption, setEmojiPickerOpenForOption] = useState<
     string | null
   >(null);
