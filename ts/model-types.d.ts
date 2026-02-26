@@ -195,7 +195,7 @@ export type MessageAttributesType = {
   decrypted_at?: number;
   deletedForEveryone?: boolean;
   deletedForEveryoneTimestamp?: number;
-  errors?: ReadonlyArray<CustomError>;
+  errors?: ReadonlyArray<CustomError> | null;
   expirationStartTimestamp?: number | null;
   expireTimer?: DurationInSeconds;
   groupMigration?: GroupMigrationType;

@@ -2498,7 +2498,7 @@ export const getMessageDetailsSelector = createSelector(
       }
 
       const {
-        errors: messageErrors = [],
+        errors: messageErrors,
         sendStateByConversationId = {},
         unidentifiedDeliveries = [],
         unidentifiedDeliveryReceived,
@@ -2549,7 +2549,7 @@ export const getMessageDetailsSelector = createSelector(
       }
 
       // This will make the error message for outgoing key errors a bit nicer
-      const allErrors = messageErrors.map(error => {
+      const allErrors = (messageErrors ?? []).map(error => {
         if (error.name === OUTGOING_KEY_ERROR) {
           return {
             ...error,

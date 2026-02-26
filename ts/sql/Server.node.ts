@@ -5824,7 +5824,7 @@ function getSortedNonAttachmentMedia(
       receivedAt: row.received_at,
       receivedAtMs: row.received_at_ms ?? undefined,
       sentAt: row.sent_at,
-      errors: row.errors,
+      errors: dropNull(row.errors),
       sendStateByConversationId: row.sendStateByConversationId,
       readStatus: row.readStatus,
       isErased: !!row.isErased,
