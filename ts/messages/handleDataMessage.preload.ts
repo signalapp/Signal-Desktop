@@ -68,7 +68,7 @@ import {
 import { saveAndNotify } from './saveAndNotify.preload.js';
 import { MessageModel } from '../models/messages.preload.js';
 import { safeParsePartial } from '../util/schemas.std.js';
-import { PollCreateSchema, isPollReceiveEnabled } from '../types/Polls.dom.js';
+import { PollCreateSchema } from '../types/Polls.dom.js';
 
 import type { SentEventData } from '../textsecure/messageReceiverEvents.std.js';
 import type {
@@ -472,11 +472,6 @@ export async function handleDataMessage(
 
     let validatedPollCreate: z.infer<typeof PollCreateSchema> | undefined;
     if (initialMessage.pollCreate) {
-      if (!isPollReceiveEnabled()) {
-        log.warn(`${idLog}: Dropping PollCreate because flag is not enabled`);
-        confirm();
-        return;
-      }
       const result = safeParsePartial(
         PollCreateSchema,
         initialMessage.pollCreate
