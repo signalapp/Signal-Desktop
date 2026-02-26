@@ -237,7 +237,7 @@ function _cleanMessage(
     receivedAtMs: message.received_at_ms,
     sentAt: message.sent_at,
     isErased: !!message.isErased,
-    errors: message.errors,
+    errors: message.errors ?? undefined,
     readStatus: message.readStatus,
     sendStateByConversationId: message.sendStateByConversationId,
   };

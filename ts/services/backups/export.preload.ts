@@ -2979,7 +2979,7 @@ export class BackupExportStream extends Readable {
   ): Backups.ChatItem.IOutgoingMessageDetails {
     const sealedSenderServiceIds = new Set(unidentifiedDeliveries);
     const errorMap = new Map(
-      errors.map(({ serviceId, name }) => {
+      errors?.map(({ serviceId, name }) => {
         return [serviceId, name];
       })
     );
