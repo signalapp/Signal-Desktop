@@ -6,10 +6,13 @@ import { chmod } from 'fs-extra';
 
 import config from 'config';
 import { app } from 'electron';
+import { coerce, lt } from 'semver';
 
+import type { JSONVendorSchema } from './common.main.js';
 import { Updater } from './common.main.js';
 import { appRelaunch } from '../util/relaunch.main.js';
 import { hexToBinary } from './signature.node.js';
+import { DialogType } from '../types/Dialogs.std.js';
 
 export class LinuxAppImageUpdater extends Updater {
   #installing = false;
@@ -70,5 +73,50 @@ export class LinuxAppImageUpdater extends Updater {
     await unlink(appImageFile);
     await copyFile(updateFilePath, appImageFile);
     await chmod(appImageFile, 0o700);
+  }
+
+  override checkSystemRequirements(vendor: JSONVendorSchema): boolean {
+    const { minGlibcVersion } = vendor;
+    if (minGlibcVersion) {
+      const parsedMinGlibcVersion = coerce(minGlibcVersion);
+      if (!parsedMinGlibcVersion) {
+        this.logger.warn(
+          'checkSystemRequirements: yaml had unparseable minGlibcVersion, ignoring. ' +
+            `yaml value: ${minGlibcVersion}`
+        );
+        return true;
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const sysReport = process.report.getReport() as any;
+      const glibcVersion = sysReport?.header?.glibcVersionRuntime;
+      const parsedGlibcVersion = glibcVersion ? coerce(glibcVersion) : null;
+      if (!parsedGlibcVersion) {
+        this.logger.warn(
+          'checkSystemRequirements: yaml had minGlibcVersion but unable to' +
+            'get OS glibc version from system report, blocking update. ' +
+            `system value: ${glibcVersion}`
+        );
+        this.markCannotUpdate(
+          new Error('system glibc version missing or unparseable'),
+          DialogType.UnsupportedOS
+        );
+        return false;
+      }
+
+      if (lt(parsedGlibcVersion, parsedMinGlibcVersion)) {
+        this.logger.warn(
+          `checkSystemRequirements: OS glibc ${glibcVersion} is less than the ` +
+            `minimum supported version ${minGlibcVersion}`
+        );
+        this.markCannotUpdate(
+          new Error('yaml file has unsatisfied minGlibcVersion value'),
+          DialogType.UnsupportedOS
+        );
+        return false;
+      }
+    }
+
+    return true;
   }
 }

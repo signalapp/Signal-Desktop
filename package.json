@@ -536,6 +536,11 @@
           "url": ""
         }
       ],
+      "releaseInfo": {
+        "vendor": {
+          "minGlibcVersion": "2.31"
+        }
+      },
       "extraResources": [
         {
           "from": "build",
