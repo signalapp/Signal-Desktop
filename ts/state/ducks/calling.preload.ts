@@ -130,6 +130,7 @@ import {
 } from '../../textsecure/WebAPI.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import type { SizeCallbackType } from '../../calling/VideoSupport.preload.js';
+import type { NoopActionType } from './noop.std.js';
 
 const { omit } = lodash;
 
@@ -1284,6 +1285,27 @@ function blockClient(
 
     calling.blockClient(activeCall.conversationId, payload.demuxId);
     dispatch({ type: BLOCK_CLIENT });
+  };
+}
+
+function sendRemoteMute(
+  demuxId: number
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return (dispatch, getState) => {
+    const state = getState();
+    const activeCall = getActiveCall(state.calling);
+    if (!isGroupOrAdhocCallState(activeCall)) {
+      log.warn(
+        'sendRemoteMute: Trying to remote mute without active group or adhoc call'
+      );
+      return;
+    }
+
+    calling.sendRemoteMute(activeCall.conversationId, demuxId);
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
   };
 }
 
@@ -3071,6 +3093,7 @@ export const actions = {
   returnToActiveCall,
   sendGroupCallRaiseHand,
   sendGroupCallReaction,
+  sendRemoteMute,
   selectPresentingSource,
   setGroupCallVideoRequest,
   setIsCallActive,

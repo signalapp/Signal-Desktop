@@ -53,6 +53,7 @@ import { arrow } from '../util/keyboard.dom.js';
 import { StoryProgressSegment } from './StoryProgressSegment.dom.js';
 import type { EmojiSkinTone } from './fun/data/emojis.std.js';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.js';
+import type { ContactModalStateType } from '../types/globalModals.std.js';
 
 const log = createLogger('StoryViewer');
 
@@ -110,7 +111,7 @@ export type PropsType = {
   retryMessageSend: (messageId: string) => unknown;
   saveAttachment: SaveAttachmentActionCreatorType;
   setHasAllStoriesUnmuted: (isUnmuted: boolean) => unknown;
-  showContactModal: (contactId: string, conversationId?: string) => void;
+  showContactModal: (payload: ContactModalStateType) => void;
   showToast: ShowToastAction;
   emojiSkinToneDefault: EmojiSkinTone | null;
   story: StoryViewType;

@@ -65,7 +65,7 @@ import {
   getTooltipContent,
 } from '../InAnotherCallTooltip.dom.js';
 import { BadgeSustainerInstructionsDialog } from '../../BadgeSustainerInstructionsDialog.dom.js';
-import type { ContactModalStateType } from '../../../state/ducks/globalModals.preload.js';
+import type { ContactModalStateType } from '../../../types/globalModals.std.js';
 import type { ShowToastAction } from '../../../state/ducks/toast.preload.js';
 import { ToastType } from '../../../types/Toast.dom.js';
 
@@ -142,7 +142,7 @@ type ActionProps = {
   searchInConversation: (id: string) => unknown;
   setDisappearingMessages: (id: string, seconds: DurationInSeconds) => void;
   setMuteExpiration: (id: string, muteExpiresAt: undefined | number) => unknown;
-  showContactModal: (contactId: string, conversationId?: string) => void;
+  showContactModal: (payload: ContactModalStateType) => void;
   showConversation: ShowConversationType;
   toggleAboutContactModal: (options: ContactModalStateType) => void;
   toggleAddUserToAnotherGroupModal: (contactId?: string) => void;

@@ -22,6 +22,7 @@ import type { StateType as RootStateType } from '../reducer.preload.js';
 import * as SingleServePromise from '../../services/singleServePromise.std.js';
 import { isKeyTransparencyAvailable } from '../../services/keyTransparency.preload.js';
 import * as Stickers from '../../types/Stickers.preload.js';
+import type { ContactModalStateType } from '../../types/globalModals.std.js';
 import { UsernameOnboardingState } from '../../types/globalModals.std.js';
 import { createLogger } from '../../logging/log.std.js';
 import {
@@ -256,11 +257,6 @@ const SHOW_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL =
 const HIDE_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL =
   'globalModals/HIDE_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL';
 const TOGGLE_PIN_MESSAGE_DIALOG = 'globalModals/TOGGLE_PIN_MESSAGE_DIALOG';
-
-export type ContactModalStateType = ReadonlyDeep<{
-  contactId: string;
-  conversationId?: string;
-}>;
 
 export type UserNotFoundModalStateType = ReadonlyDeep<
   | {
@@ -738,13 +734,19 @@ function hideContactModal(): HideContactModalActionType {
   };
 }
 
-function showContactModal(
-  contactId: string,
-  conversationId?: string
-): ShowContactModalActionType {
+function showContactModal({
+  activeCallDemuxId,
+  contactId,
+  conversationId,
+}: {
+  contactId: string;
+  conversationId?: string;
+  activeCallDemuxId?: number;
+}): ShowContactModalActionType {
   return {
     type: SHOW_CONTACT_MODAL,
     payload: {
+      activeCallDemuxId,
       contactId,
       conversationId,
     },

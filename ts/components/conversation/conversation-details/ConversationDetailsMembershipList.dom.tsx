@@ -18,6 +18,7 @@ import { PanelRow } from './PanelRow.dom.js';
 import { PanelSection } from './PanelSection.dom.js';
 import { GroupMemberLabel } from '../ContactName.dom.js';
 import { AriaClickable } from '../../../axo/AriaClickable.dom.js';
+import type { ContactModalStateType } from '../../../types/globalModals.std.js';
 
 export type GroupV2Membership = {
   isAdmin: boolean;
@@ -36,7 +37,7 @@ export type Props = {
   maxShownMemberCount?: number;
   memberships: ReadonlyArray<GroupV2Membership>;
   memberColors: Map<string, string>;
-  showContactModal: (contactId: string, conversationId?: string) => void;
+  showContactModal: (payload: ContactModalStateType) => void;
   showLabelEditor: () => void;
   startAddingNewMembers?: () => void;
   theme: ThemeType;
@@ -129,7 +130,9 @@ export function ConversationDetailsMembershipList({
           return (
             <PanelRow
               key={member.id}
-              onClick={() => showContactModal(member.id, conversationId)}
+              onClick={() =>
+                showContactModal({ contactId: member.id, conversationId })
+              }
               icon={
                 <Avatar
                   conversationType="direct"

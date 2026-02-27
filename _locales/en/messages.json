@@ -6200,6 +6200,18 @@
     "messageformat": "Voice",
     "description": "Text for button to start a new voice call in the Contact Details modal"
   },
+  "icu:ContactModal--mute-audio": {
+    "messageformat": "Mute audio",
+    "description": "Button text to mute another call participant's audio from the Contact Details modal when in a group or call link call"
+  },
+  "icu:ContactModal--confirm-mute-body": {
+    "messageformat": "Are you sure you want to mute {contact}?",
+    "description": "Confirm dialog body when muting another call participant's audio from the Contact Details modal in a group or call link call"
+  },
+  "icu:ContactModal--confirm-mute-primary-button": {
+    "messageformat": "Mute",
+    "description": "Confirm dialog primary button text when muting another call participant's audio from the Contact Details modal in a group or call link call"
+  },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Member labels",
     "description": "Title of explainer dialog you see when clicking member label in Contact Modal"

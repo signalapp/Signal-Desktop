@@ -13,7 +13,7 @@ import { ThemeType } from '../types/Util.std.js';
 import { Theme } from '../util/theme.std.js';
 import { UserText } from './UserText.dom.js';
 import { SharedGroupNames } from './SharedGroupNames.dom.js';
-import type { ContactModalStateType } from '../state/ducks/globalModals.preload.js';
+import type { ContactModalStateType } from '../types/globalModals.std.js';
 
 export type CallLinkPendingParticipantModalProps = {
   readonly i18n: LocalizerType;

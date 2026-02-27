@@ -14,6 +14,7 @@ import type { ConversationType } from '../../state/ducks/conversations.preload.j
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
 import { drop } from '../../util/drop.std.js';
 import { useReducedMotion } from '../../hooks/useReducedMotion.dom.js';
+import type { ContactModalStateType } from '../../types/globalModals.std.js';
 
 const MAX_AVATARS_COUNT = 3;
 
@@ -38,7 +39,7 @@ export type TypingBubblePropsType = {
   lastItemTimestamp: number | undefined;
   getConversation: (id: string) => ConversationType;
   getPreferredBadge: PreferredBadgeSelectorType;
-  showContactModal: (contactId: string, conversationId?: string) => void;
+  showContactModal: (payload: ContactModalStateType) => void;
   i18n: LocalizerType;
   theme: ThemeType;
 };
@@ -83,7 +84,7 @@ function TypingBubbleAvatar({
   shouldAnimate: boolean;
   getPreferredBadge: PreferredBadgeSelectorType;
   onContactExit: (id: string | undefined) => void;
-  showContactModal: (contactId: string, conversationId?: string) => void;
+  showContactModal: (payload: ContactModalStateType) => void;
   i18n: LocalizerType;
   theme: ThemeType;
 }): ReactElement | null {
@@ -130,7 +131,7 @@ function TypingBubbleAvatar({
         onClick={event => {
           event.stopPropagation();
           event.preventDefault();
-          showContactModal(contact.id, conversationId);
+          showContactModal({ contactId: contact.id, conversationId });
         }}
         phoneNumber={contact.phoneNumber}
         profileName={contact.profileName}

@@ -4,7 +4,6 @@
 import React from 'react';
 import type {
   CallQualitySurveyPropsType,
-  ContactModalStateType,
   DeleteMessagesPropsType,
   EditHistoryMessagesType,
   EditNicknameAndNoteModalPropsType,
@@ -15,7 +14,10 @@ import type {
   UserNotFoundModalStateType,
 } from '../state/ducks/globalModals.preload.js';
 import type { LocalizerType, ThemeType } from '../types/Util.std.js';
-import { UsernameOnboardingState } from '../types/globalModals.std.js';
+import {
+  type ContactModalStateType,
+  UsernameOnboardingState,
+} from '../types/globalModals.std.js';
 import { missingCaseError } from '../util/missingCaseError.std.js';
 
 import { ButtonVariant } from './Button.dom.js';

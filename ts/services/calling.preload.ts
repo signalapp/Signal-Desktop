@@ -1973,6 +1973,15 @@ export class CallingClass {
     groupCall.blockClient(demuxId);
   }
 
+  public sendRemoteMute(conversationId: string, demuxId: number): void {
+    const groupCall = this.#getGroupCall(conversationId);
+    if (!groupCall) {
+      throw new Error('Could not find matching call');
+    }
+
+    groupCall.sendRemoteMuteRequest(demuxId);
+  }
+
   // See the comment in types/Calling.ts to explain why we have to do this conversion.
   #convertRingRtcConnectionState(
     connectionState: ConnectionState

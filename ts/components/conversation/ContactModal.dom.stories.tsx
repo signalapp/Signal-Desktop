@@ -37,6 +37,7 @@ export default {
   },
   args: {
     i18n,
+    activeCallDemuxId: undefined,
     areWeASubscriber: false,
     areWeAdmin: false,
     badges: [],
@@ -51,6 +52,8 @@ export default {
     hideContactModal: action('hideContactModal'),
     isAdmin: false,
     isMember: true,
+    isMuted: false,
+    isRemoteMuteVisible: false,
     onOutgoingAudioCallInConversation: action(
       'onOutgoingAudioCallInConversation'
     ),
@@ -58,6 +61,7 @@ export default {
       'onOutgoingVideoCallInConversation'
     ),
     removeMemberFromGroup: action('removeMemberFromGroup'),
+    sendRemoteMute: action('sendRemoteMute'),
     showConversation: action('showConversation'),
     startAvatarDownload: action('startAvatarDownload'),
     theme: ThemeType.light,
@@ -187,4 +191,20 @@ InSystemContacts.args = {
 export const InAnotherCall = Template.bind({});
 InAnotherCall.args = {
   hasActiveCall: true,
+};
+
+export const InCallTogether = Template.bind({});
+InCallTogether.args = {
+  activeCallDemuxId: 123,
+  hasActiveCall: true,
+  isMuted: false,
+  isRemoteMuteVisible: true,
+};
+
+export const InCallTogetherMuted = Template.bind({});
+InCallTogetherMuted.args = {
+  activeCallDemuxId: 123,
+  hasActiveCall: true,
+  isMuted: true,
+  isRemoteMuteVisible: true,
 };

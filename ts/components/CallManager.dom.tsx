@@ -60,6 +60,7 @@ import {
 import type { NotificationProfileType } from '../types/NotificationProfile.std.js';
 import { strictAssert } from '../util/assert.std.js';
 import type { SetLocalPreviewContainerType } from '../services/calling.preload.js';
+import type { ContactModalStateType } from '../types/globalModals.std.js';
 
 const { noop } = lodash;
 
@@ -107,7 +108,7 @@ export type PropsType = {
   renderReactionPicker: (
     props: React.ComponentProps<typeof SmartReactionPicker>
   ) => React.JSX.Element;
-  showContactModal: (contactId: string, conversationId?: string) => void;
+  showContactModal: (payload: ContactModalStateType) => void;
   startCall: (payload: StartCallType) => void;
   toggleParticipants: () => void;
   acceptCall: (_: AcceptCallType) => void;

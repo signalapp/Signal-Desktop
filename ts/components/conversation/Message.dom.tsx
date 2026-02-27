@@ -127,6 +127,7 @@ import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions
 import type { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.js';
 import type { RenderAudioAttachmentProps } from '../../state/smart/renderAudioAttachment.preload.js';
 import type { MemberLabelType } from '../../types/GroupMemberLabels.std.js';
+import type { ContactModalStateType } from '../../types/globalModals.std.js';
 
 const { drop, take, unescape } = lodash;
 
@@ -391,7 +392,7 @@ export type PropsActions = {
     optionIndexes: ReadonlyArray<number>;
   }) => void;
   endPoll: (messageId: string) => void;
-  showContactModal: (contactId: string, conversationId?: string) => void;
+  showContactModal: (payload: ContactModalStateType) => void;
   showSpoiler: (messageId: string, data: Record<number, boolean>) => void;
 
   cancelAttachmentDownload: (options: { messageId: string }) => void;
@@ -2330,7 +2331,7 @@ export class Message extends React.PureComponent<Props, State> {
               event.stopPropagation();
               event.preventDefault();
 
-              showContactModal(author.id, conversationId);
+              showContactModal({ contactId: author.id, conversationId });
             }}
             phoneNumber={author.phoneNumber}
             profileName={author.profileName}

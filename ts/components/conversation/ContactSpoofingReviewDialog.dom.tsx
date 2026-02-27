@@ -20,6 +20,7 @@ import { Button, ButtonVariant } from '../Button.dom.js';
 import { assertDev } from '../../util/assert.std.js';
 import { missingCaseError } from '../../util/missingCaseError.std.js';
 import { isInSystemContacts } from '../../util/isInSystemContacts.std.js';
+import type { ContactModalStateType } from '../../types/globalModals.std.js';
 
 export type ReviewPropsType = Readonly<
   | {
@@ -61,7 +62,7 @@ export type PropsType = {
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   onClose: () => void;
-  showContactModal: (contactId: string, conversationId?: string) => unknown;
+  showContactModal: (payload: ContactModalStateType) => unknown;
   removeMember: (
     conversationId: string,
     memberConversationId: string
@@ -253,7 +254,7 @@ export function ContactSpoofingReviewDialog(
             sharedGroupNames={safe.sharedGroupNames}
             i18n={i18n}
             onClick={() => {
-              showContactModal(safe.conversation.id);
+              showContactModal({ contactId: safe.conversation.id });
             }}
             theme={theme}
             isSignalConnection={safe.isSignalConnection}
@@ -350,7 +351,9 @@ export function ContactSpoofingReviewDialog(
                       theme={theme}
                       oldName={oldName}
                       onClick={() => {
-                        showContactModal(conversationInfo.conversation.id);
+                        showContactModal({
+                          contactId: conversationInfo.conversation.id,
+                        });
                       }}
                       isSignalConnection={isSignalConnection}
                     >

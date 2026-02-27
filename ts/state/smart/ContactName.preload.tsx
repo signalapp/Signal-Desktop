@@ -17,7 +17,7 @@ export const SmartContactName = memo(function SmartContactName({
 }: ExternalProps) {
   const i18n = useSelector(getIntl);
   const getConversation = useSelector(getConversationSelector);
-  const currentConversationId = useSelector(getSelectedConversationId);
+  const conversationId = useSelector(getSelectedConversationId);
 
   const { showContactModal } = useGlobalModalActions();
 
@@ -26,8 +26,8 @@ export const SmartContactName = memo(function SmartContactName({
   }, [getConversation, contactId]);
 
   const handleClick = useCallback(() => {
-    showContactModal(contactId, currentConversationId);
-  }, [showContactModal, contactId, currentConversationId]);
+    showContactModal({ contactId, conversationId });
+  }, [showContactModal, contactId, conversationId]);
 
   return (
     <ContactName
