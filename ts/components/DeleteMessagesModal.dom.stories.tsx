@@ -1,63 +1,97 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
-import type { Meta, StoryFn } from '@storybook/react';
+import React, { useCallback, useState } from 'react';
+import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import DeleteMessagesModal from './DeleteMessagesModal.dom.js';
 import type { DeleteMessagesModalProps } from './DeleteMessagesModal.dom.js';
+import { AxoButton } from '../axo/AxoButton.dom.js';
 
 const { i18n } = window.SignalContext;
 
 export default {
   title: 'Components/DeleteMessagesModal',
-  component: DeleteMessagesModal,
-  args: {
-    i18n,
-    isMe: false,
-    canDeleteForEveryone: true,
-    messageCount: 1,
-    onClose: action('onClose'),
-    onDeleteForMe: action('onDeleteForMe'),
-    onDeleteForEveryone: action('onDeleteForEveryone'),
-    showToast: action('showToast'),
-  },
-} satisfies Meta<DeleteMessagesModalProps>;
+} satisfies Meta;
 
-function createProps(args: Partial<DeleteMessagesModalProps>) {
-  return {
-    i18n,
-    isMe: false,
-    canDeleteForEveryone: true,
-    messageCount: 1,
-    onClose: action('onClose'),
-    onDeleteForMe: action('onDeleteForMe'),
-    onDeleteForEveryone: action('onDeleteForEveryone'),
-    showToast: action('showToast'),
-    ...args,
-  };
+function Template(props: Partial<DeleteMessagesModalProps>): React.JSX.Element {
+  const [open, setOpen] = useState(true);
+
+  const handleOpen = useCallback(() => {
+    setOpen(true);
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setOpen(false);
+  }, []);
+
+  return (
+    <>
+      <AxoButton.Root size="md" variant="secondary" onClick={handleOpen}>
+        Open Dialog
+      </AxoButton.Root>
+      {open && (
+        <DeleteMessagesModal
+          isMe={false}
+          canDeleteForEveryone={false}
+          needsAdminDelete={false}
+          isDeletingOwnMessages={false}
+          hasSeenAdminDeleteEducationDialog={false}
+          i18n={i18n}
+          messageCount={1}
+          onClose={handleClose}
+          onDeleteForMe={action('onDeleteForMe')}
+          onDeleteForEveryone={action('onDeleteForEveryone')}
+          onSeenAdminDeleteEducationDialog={action(
+            'onSeenAdminDeleteEducationDialog'
+          )}
+          showToast={action('showToast')}
+          {...props}
+        />
+      )}
+    </>
+  );
 }
 
-// eslint-disable-next-line react/function-component-definition
-const Template: StoryFn<DeleteMessagesModalProps> = args => {
-  return <DeleteMessagesModal {...args} />;
-};
+export function DeleteForMeOnly(): React.JSX.Element {
+  return <Template />;
+}
 
-export const OneMessage = Template.bind({});
+export function DeleteForEveryone(): React.JSX.Element {
+  return <Template canDeleteForEveryone />;
+}
 
-export const ThreeMessages = Template.bind({});
-ThreeMessages.args = createProps({
-  messageCount: 3,
-});
+export function DeleteForEveryoneMultiple(): React.JSX.Element {
+  return <Template canDeleteForEveryone messageCount={3} />;
+}
 
-export const IsMe = Template.bind({});
-IsMe.args = createProps({
-  isMe: true,
-});
+export function AdminDelete(): React.JSX.Element {
+  return <Template canDeleteForEveryone needsAdminDelete />;
+}
 
-export const IsMeThreeMessages = Template.bind({});
-IsMeThreeMessages.args = createProps({
-  isMe: true,
-  messageCount: 3,
-});
+export function AdminDeleteMultiple(): React.JSX.Element {
+  return <Template canDeleteForEveryone needsAdminDelete messageCount={3} />;
+}
+
+export function AdminDeleteAfterOnboarding(): React.JSX.Element {
+  return (
+    <Template
+      canDeleteForEveryone
+      needsAdminDelete
+      hasSeenAdminDeleteEducationDialog
+    />
+  );
+}
+
+export function NoteToSelf(): React.JSX.Element {
+  return <Template isMe />;
+}
+
+export function NoteToSelfMultiple(): React.JSX.Element {
+  return <Template isMe messageCount={3} />;
+}
+
+export function TooManyMessagesForDeleteForEveryone(): React.JSX.Element {
+  return <Template canDeleteForEveryone messageCount={31} />;
+}

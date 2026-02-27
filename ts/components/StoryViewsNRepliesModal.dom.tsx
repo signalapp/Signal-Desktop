@@ -54,6 +54,8 @@ const { noop, orderBy } = lodash;
 // text messages and reactions.
 const MESSAGE_DEFAULT_PROPS = {
   canDeleteForEveryone: false,
+  canRetryDeleteForEveryone: false,
+  retryDeleteForEveryone: shouldNeverBeCalled,
   checkForAccount: shouldNeverBeCalled,
   clearTargetedMessage: shouldNeverBeCalled,
   containerWidthBreakpoint: WidthBreakpoint.Medium,

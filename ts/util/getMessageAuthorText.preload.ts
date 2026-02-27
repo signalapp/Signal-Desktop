@@ -5,8 +5,11 @@ import type {
   ConversationAttributesType,
   ReadonlyMessageAttributesType,
 } from '../model-types.d.ts';
+import type { AciString } from '../types/ServiceId.std.js';
 import { isIncoming, isOutgoing } from '../state/selectors/message.preload.js';
+import { isAciString } from './isAciString.std.js';
 import { getTitle } from './getTitle.preload.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 
 function getIncomingContact(
   messageAttributes: ReadonlyMessageAttributesType
@@ -23,6 +26,7 @@ function getIncomingContact(
     .attributes;
 }
 
+/** @deprecated Use getMessageAuthorAci instead */
 export function getMessageAuthorText(
   messageAttributes?: ReadonlyMessageAttributesType
 ): string | undefined {
@@ -47,4 +51,19 @@ export function getMessageAuthorText(
   // if it's not selfAuthor and there's no incoming contact,
   // it might be a group notification, so we return undefined
   return undefined;
+}
+
+export function getMessageAuthorAci(
+  messageAttributes: ReadonlyMessageAttributesType
+): AciString | null {
+  if (isOutgoing(messageAttributes)) {
+    return itemStorage.user.getCheckedAci();
+  }
+  if (isIncoming(messageAttributes)) {
+    const { sourceServiceId } = messageAttributes;
+    if (isAciString(sourceServiceId)) {
+      return sourceServiceId;
+    }
+  }
+  return null;
 }

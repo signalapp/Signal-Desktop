@@ -170,15 +170,27 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
       );
       headerDate = draftTimestamp;
     } else if (lastMessage?.deletedForEveryone) {
+      let deletedText: string;
+      if (lastMessage.deletedByAdminName != null) {
+        deletedText = i18n('icu:message--deletedByAdmin', {
+          admin: lastMessage.deletedByAdminName,
+        });
+      } else if (lastMessage.isOutgoing) {
+        deletedText = i18n('icu:message--deletedForEveryone--outgoing');
+      } else {
+        deletedText = i18n('icu:message--deletedForEveryone--incoming', {
+          name: lastMessage.authorName ?? '',
+        });
+      }
       messageText = (
         <span className={`${MESSAGE_TEXT_CLASS_NAME}__deleted-for-everyone`}>
-          {i18n('icu:message--deletedForEveryone')}
+          {deletedText}
         </span>
       );
     } else if (lastMessage) {
       messageText = (
         <MessageBody
-          author={type === 'group' ? lastMessage.author : undefined}
+          author={type === 'group' ? lastMessage.author : null}
           bodyRanges={lastMessage.bodyRanges}
           disableJumbomoji
           disableLinks

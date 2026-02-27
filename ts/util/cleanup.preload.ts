@@ -49,7 +49,7 @@ export async function eraseMessageContents(
     | 'view-once-sent'
     | 'unsupported-message'
     | 'delete-for-everyone',
-  additionalProperties = {}
+  additionalProperties: Partial<MessageAttributesType> = {}
 ): Promise<void> {
   log.info(
     `Erasing data for message ${getMessageIdForLogging(message.attributes)}: ${reason}`

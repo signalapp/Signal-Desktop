@@ -194,6 +194,7 @@ export type MessageAttributesType = {
   dataMessage?: Uint8Array | null;
   decrypted_at?: number;
   deletedForEveryone?: boolean;
+  deletedForEveryoneByAdminAci?: AciString;
   deletedForEveryoneTimestamp?: number;
   errors?: ReadonlyArray<CustomError> | null;
   expirationStartTimestamp?: number | null;
@@ -394,9 +395,12 @@ export type ConversationAttributesType = {
   removalStage?: 'justNotification' | 'messageRequest';
   isPinned?: boolean;
   lastMessageDeletedForEveryone?: boolean;
+  lastMessageDeletedForEveryoneByAdminAci?: AciString;
+  lastMessageAuthorAci?: AciString | null;
   lastMessage?: string | null;
   lastMessageBodyRanges?: ReadonlyArray<RawBodyRange>;
   lastMessagePrefix?: string;
+  /** @deprecated Use lastMessageAuthorAci instead */
   lastMessageAuthor?: string | null;
   lastMessageStatus?: LastMessageStatus | null;
   lastMessageReceivedAt?: number;

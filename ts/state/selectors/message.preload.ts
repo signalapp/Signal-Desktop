@@ -11,6 +11,7 @@ import type { ReadonlyDeep } from 'type-fest';
 import type {
   LastMessageStatus,
   ReadonlyMessageAttributesType,
+  CustomError,
   MessageReactionType,
   QuotedAttachmentType,
   ShallowChallengeError,
@@ -57,7 +58,7 @@ import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact.std.j
 import { embeddedContactSelector } from '../../types/EmbeddedContact.std.js';
 import type { HydratedBodyRangesType } from '../../types/BodyRange.std.js';
 import { hydrateRanges } from '../../util/BodyRange.node.js';
-import type { AssertProps } from '../../types/Util.std.js';
+import type { AssertProps, LocalizerType } from '../../types/Util.std.js';
 import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.std.js';
 import { getMentionsRegex } from '../../types/Message.std.js';
 import { SignalService as Proto } from '../../protobuf/index.std.js';
@@ -78,7 +79,13 @@ import type { CallingNotificationType } from '../../util/callingNotification.std
 import { getRecipients } from '../../util/getRecipients.dom.js';
 import { getOwn } from '../../util/getOwn.std.js';
 import { isNotNil } from '../../util/isNotNil.std.js';
-import { isMoreRecentThan } from '../../util/timestamp.std.js';
+import {
+  canSendDeleteForEveryone,
+  canRetrySendDeleteForEveryone,
+} from '../../util/canDeleteForEveryone.preload.js';
+import { isAdminDeleteSendEnabled } from '../../util/isAdminDeleteEnabled.dom.js';
+import { isAciString } from '../../util/isAciString.std.js';
+import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
 import * as iterables from '../../util/iterables.std.js';
 import { strictAssert } from '../../util/assert.std.js';
 import { canEditMessage } from '../../util/canEditMessage.dom.js';
@@ -135,7 +142,7 @@ import {
 } from '../../messages/MessageSendState.std.js';
 import { createLogger } from '../../logging/log.std.js';
 import { getConversationColorAttributes } from '../../util/getConversationColorAttributes.std.js';
-import { DAY, DurationInSeconds } from '../../util/durations/index.std.js';
+import { DurationInSeconds } from '../../util/durations/index.std.js';
 import { getStoryReplyText } from '../../util/getStoryReplyText.std.js';
 import type { MessageAttributesWithPaymentEvent } from '../../messages/payments.std.js';
 import {
@@ -147,7 +154,6 @@ import {
 import { messageHasPaymentEvent } from '../../messages/payments.std.js';
 
 import { calculateExpirationTimestamp } from '../../util/expirationTimer.std.js';
-import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
 import type { AnyPaymentEvent } from '../../types/Payment.std.js';
 import { isPaymentNotificationEvent } from '../../types/Payment.std.js';
 import type {
@@ -174,7 +180,6 @@ const { groupBy, isEmpty, isNumber, isObject, map } = lodash;
 const log = createLogger('message');
 
 export { isIncoming, isOutgoing, isStory };
-
 const linkify = new LinkifyIt();
 
 type FormattedContact = Partial<ConversationType> &
@@ -949,7 +954,10 @@ export const getPropsForMessage = (
     payment,
     canCopy: canCopy(message),
     canEditMessage: canEditMessage(message),
-    canDeleteForEveryone: canDeleteForEveryone(message, conversation.isMe),
+    canDeleteForEveryone: canDeleteForEveryoneInSelector(message, {
+      conversation,
+      ourAci,
+    }),
     canDownload: canDownload(message, conversationSelector),
     canEndPoll: canEndPoll(message),
     canForward: canForward(message),
@@ -957,7 +965,10 @@ export const getPropsForMessage = (
     canReact: canReact(message, ourConversationId, conversationSelector),
     canReply: canReply(message, ourConversationId, conversationSelector),
     canRetry: hasErrors(message),
-    canRetryDeleteForEveryone: canRetryDeleteForEveryone(message),
+    canRetryDeleteForEveryone: canRetryDeleteForEveryone(message, {
+      conversation,
+      ourAci,
+    }),
     contact: getPropsForEmbeddedContact(message, regionCode, accountSelector),
     contactLabel,
     contactNameColor,
@@ -967,6 +978,11 @@ export const getPropsForMessage = (
     conversationType: isGroup ? 'group' : 'direct',
     customColor,
     deletedForEveryone: message.deletedForEveryone || false,
+    deletedForEveryoneByAdmin: getDeletedForEveryoneByAdmin(message, {
+      conversationSelector,
+      contactNameColors,
+      ourAci,
+    }),
     direction: isIncoming(message) ? 'incoming' : 'outgoing',
     displayLimit: message.displayLimit,
     expirationLength,
@@ -2016,14 +2032,6 @@ export function getMessagePropStatus(
   >,
   ourConversationId: string | undefined
 ): LastMessageStatus | undefined {
-  if (!isOutgoing(message)) {
-    return hasErrors(message) ? 'error' : undefined;
-  }
-
-  if (getLastChallengeError(message)) {
-    return 'paused';
-  }
-
   const {
     deletedForEveryone,
     deletedForEveryoneFailed,
@@ -2047,6 +2055,14 @@ export function getMessagePropStatus(
     if (missingSends) {
       return 'sending';
     }
+  }
+
+  if (!isOutgoing(message)) {
+    return hasErrors(message) ? 'error' : undefined;
+  }
+
+  if (getLastChallengeError(message)) {
+    return 'paused';
   }
 
   if (
@@ -2090,6 +2106,38 @@ export function getMessagePropStatus(
     return 'sent';
   }
   return 'sending';
+}
+
+function getDeletedForEveryoneByAdmin(
+  message: MessageWithUIFieldsType,
+  options: {
+    conversationSelector: GetConversationByIdType;
+    contactNameColors: Map<string, string>;
+    ourAci: AciString | undefined;
+  }
+): PropsData['deletedForEveryoneByAdmin'] {
+  const { deletedForEveryoneByAdminAci } = message;
+  if (deletedForEveryoneByAdminAci == null) {
+    return undefined;
+  }
+  // If the admin deleted their own message, display it like a normal delete
+  const messageAuthorAci = getSourceServiceId(message, options.ourAci);
+  if (deletedForEveryoneByAdminAci === messageAuthorAci) {
+    return undefined;
+  }
+  const adminConversationId =
+    window.ConversationController.getConversationId(
+      deletedForEveryoneByAdminAci
+    ) ?? '';
+  const adminConversation = options.conversationSelector(adminConversationId);
+  return {
+    conversationId: adminConversationId,
+    title: adminConversation?.title ?? '',
+    contactNameColor: getContactNameColor(
+      options.contactNameColors,
+      adminConversationId
+    ),
+  };
 }
 
 export function getPropsForEmbeddedContact(
@@ -2300,57 +2348,201 @@ export function canCopy(
   return !message.deletedForEveryone && Boolean(message.body);
 }
 
-export function canDeleteForEveryone(
+type CanDeleteForEveryoneConversation = Pick<
+  ConversationType,
+  'id' | 'e164' | 'serviceId' | 'groupId' | 'groupVersion' | 'areWeAdmin'
+>;
+
+type MessageCanDeleteForEveryoneResult = Readonly<{
+  canDeleteForEveryone: boolean;
+  needsAdminDelete: boolean;
+  isDeletingOwnMessage: boolean;
+}>;
+
+function getMessageCanDeleteForEveryone(
   message: Pick<
     MessageWithUIFieldsType,
     | 'type'
     | 'deletedForEveryone'
     | 'sent_at'
+    | 'serverTimestamp'
     | 'sendStateByConversationId'
+    | 'sourceServiceId'
     | 'sms'
   >,
-  isMe: boolean
-): boolean {
-  return (
-    // Is this an SMS restored from backup?
-    !message.sms &&
-    // Is this a message I sent?
-    isOutgoing(message) &&
-    // Has the message already been deleted?
-    !message.deletedForEveryone &&
-    // Is it too old to delete? (we relax that requirement in Note to Self)
-    (isMoreRecentThan(message.sent_at, DAY) || isMe) &&
-    // Is it sent to anyone?
-    someSendStatus(message.sendStateByConversationId ?? {}, isSent)
-  );
+  options: {
+    conversation: CanDeleteForEveryoneConversation;
+    ourAci: AciString | undefined;
+  }
+): MessageCanDeleteForEveryoneResult {
+  const { conversation, ourAci } = options;
+  const isDeletingOwnMessage = isOutgoing(message);
+
+  if (!ourAci) {
+    return {
+      canDeleteForEveryone: false,
+      needsAdminDelete: false,
+      isDeletingOwnMessage,
+    };
+  }
+
+  // For outgoing messages, we must have actually sent to someone
+  if (
+    isDeletingOwnMessage &&
+    !someSendStatus(message.sendStateByConversationId ?? {}, isSent)
+  ) {
+    return {
+      canDeleteForEveryone: false,
+      needsAdminDelete: false,
+      isDeletingOwnMessage,
+    };
+  }
+
+  const messageAuthorAci = isDeletingOwnMessage
+    ? ourAci
+    : message.sourceServiceId;
+  if (!messageAuthorAci || !isAciString(messageAuthorAci)) {
+    return {
+      canDeleteForEveryone: false,
+      needsAdminDelete: false,
+      isDeletingOwnMessage,
+    };
+  }
+
+  const result = canSendDeleteForEveryone({
+    targetMessage: message,
+    targetConversation: conversation,
+    ourAci,
+    isDeleterGroupAdmin: Boolean(conversation.areWeAdmin),
+  });
+
+  if (!result.ok) {
+    return {
+      canDeleteForEveryone: false,
+      needsAdminDelete: false,
+      isDeletingOwnMessage,
+    };
+  }
+
+  if (result.needsAdminDelete) {
+    if (!isAdminDeleteSendEnabled()) {
+      return {
+        canDeleteForEveryone: false,
+        needsAdminDelete: false,
+        isDeletingOwnMessage,
+      };
+    }
+    return {
+      canDeleteForEveryone: true,
+      needsAdminDelete: true,
+      isDeletingOwnMessage,
+    };
+  }
+
+  return {
+    canDeleteForEveryone: true,
+    needsAdminDelete: false,
+    isDeletingOwnMessage,
+  };
 }
 
-export const canDeleteMessagesForEveryone = createSelector(
+function canDeleteForEveryoneInSelector(
+  message: Pick<
+    MessageWithUIFieldsType,
+    | 'type'
+    | 'deletedForEveryone'
+    | 'sent_at'
+    | 'serverTimestamp'
+    | 'sendStateByConversationId'
+    | 'sourceServiceId'
+    | 'sms'
+  >,
+  options: {
+    conversation: CanDeleteForEveryoneConversation;
+    ourAci: AciString | undefined;
+  }
+): boolean {
+  return getMessageCanDeleteForEveryone(message, options).canDeleteForEveryone;
+}
+
+export type MessagesCanDeleteForEveryoneResult = Readonly<{
+  canDeleteForEveryone: boolean;
+  needsAdminDelete: boolean;
+  isDeletingOwnMessages: boolean;
+}>;
+
+export const getMessagesCanDeleteForEveryone = createSelector(
   [
     getMessages,
-    (_state, options: { messageIds: ReadonlyArray<string>; isMe: boolean }) =>
-      options,
+    (
+      _state,
+      options: {
+        messageIds: ReadonlyArray<string>;
+        conversation: CanDeleteForEveryoneConversation;
+        ourAci: AciString | undefined;
+      }
+    ) => options,
   ],
-  (messagesLookup, options) => {
-    return options.messageIds.every(messageId => {
+  (messagesLookup, options): MessagesCanDeleteForEveryoneResult => {
+    let canDeleteForEveryone = true;
+    let needsAdminDelete = false;
+    let isDeletingOwnMessages = true;
+
+    for (const messageId of options.messageIds) {
       const message = getOwn(messagesLookup, messageId);
-      return message != null && canDeleteForEveryone(message, options.isMe);
-    });
+      if (message == null) {
+        log.warn(`Message ${messageId} not found, maybe it was deleted`);
+        continue;
+      }
+      const messageResult = getMessageCanDeleteForEveryone(message, options);
+      if (!messageResult.canDeleteForEveryone) {
+        canDeleteForEveryone = false;
+      } else if (messageResult.needsAdminDelete) {
+        needsAdminDelete = true;
+      }
+      if (!messageResult.isDeletingOwnMessage) {
+        isDeletingOwnMessages = false;
+      }
+    }
+
+    if (!canDeleteForEveryone) {
+      needsAdminDelete = false;
+    }
+
+    return { canDeleteForEveryone, needsAdminDelete, isDeletingOwnMessages };
   }
 );
 
 export function canRetryDeleteForEveryone(
   message: Pick<
     MessageWithUIFieldsType,
-    'deletedForEveryone' | 'deletedForEveryoneFailed' | 'sent_at'
-  >
+    | 'type'
+    | 'sourceServiceId'
+    | 'deletedForEveryone'
+    | 'deletedForEveryoneByAdminAci'
+    | 'deletedForEveryoneFailed'
+    | 'sent_at'
+    | 'serverTimestamp'
+    | 'sms'
+  >,
+  options: {
+    conversation: CanDeleteForEveryoneConversation;
+    ourAci: AciString | undefined;
+  }
 ): boolean {
-  return Boolean(
-    message.deletedForEveryone &&
-    message.deletedForEveryoneFailed &&
-    // Is it too old to delete?
-    isMoreRecentThan(message.sent_at, DAY)
-  );
+  const { conversation, ourAci } = options;
+  if (!ourAci) {
+    return false;
+  }
+  const isAdminDelete = message.deletedForEveryoneByAdminAci != null;
+  const result = canRetrySendDeleteForEveryone({
+    targetMessage: message,
+    targetConversation: conversation,
+    isAdminDelete,
+    isDeleterGroupAdmin: Boolean(conversation.areWeAdmin),
+    ourAci,
+  });
+  return result.ok;
 }
 
 export function canEndPoll(
@@ -2456,6 +2648,159 @@ export function getLastChallengeError(
 
 const OUTGOING_KEY_ERROR = 'OutgoingIdentityKeyError';
 
+function getMessageDetailErrors(
+  message: MessageWithUIFieldsType,
+  i18n: LocalizerType
+): ReadonlyArray<CustomError> {
+  const messageErrors = message.errors ?? [];
+
+  // This will make the error message for outgoing key errors a bit nicer
+  return messageErrors.map(error => {
+    if (error.name === OUTGOING_KEY_ERROR) {
+      return { ...error, message: i18n('icu:newIdentity') };
+    }
+    return error;
+  });
+}
+
+function getDeleteDetailRecipients(
+  message: MessageWithUIFieldsType,
+  options: { conversationSelector: GetConversationByIdType }
+): ReadonlyArray<SmartMessageDetailContact> {
+  const { deletedForEveryoneSendStatus = {} } = message;
+  const { conversationSelector } = options;
+
+  return Object.keys(deletedForEveryoneSendStatus).map(conversationId => {
+    const isSentToRecipient = deletedForEveryoneSendStatus[conversationId];
+    let status: SendStatus;
+    if (isSentToRecipient) {
+      status = SendStatus.Sent;
+    } else if (message.deletedForEveryoneFailed) {
+      status = SendStatus.Failed;
+    } else {
+      status = SendStatus.Pending;
+    }
+
+    return {
+      ...conversationSelector(conversationId),
+      status,
+      errors: [],
+      isOutgoingKeyError: false,
+      isUnidentifiedDelivery: false,
+    };
+  });
+}
+
+function getMessageDetailRecipients(
+  message: MessageWithUIFieldsType,
+  allErrors: ReadonlyArray<CustomError>,
+  options: {
+    conversationSelector: GetConversationByIdType;
+    hasUnidentifiedDeliveryIndicators: boolean;
+    ourAci: AciString | undefined;
+    ourConversationId: string;
+    ourNumber: string | undefined;
+  }
+): ReadonlyArray<SmartMessageDetailContact> {
+  const {
+    conversationSelector,
+    hasUnidentifiedDeliveryIndicators,
+    ourAci,
+    ourConversationId,
+    ourNumber,
+  } = options;
+
+  const {
+    sendStateByConversationId = {},
+    unidentifiedDeliveries = [],
+    unidentifiedDeliveryReceived,
+  } = message;
+
+  const unidentifiedDeliveriesSet = new Set(
+    unidentifiedDeliveries.map(identifier =>
+      window.ConversationController.getConversationId(identifier)
+    )
+  );
+
+  let conversationIds: Array<string>;
+  if (isIncoming(message)) {
+    conversationIds = [
+      getAuthorId(message, {
+        conversationSelector,
+        ourConversationId,
+        ourNumber,
+        ourAci,
+      }),
+    ].filter(isNotNil);
+  } else if (!isEmpty(sendStateByConversationId)) {
+    if (isMessageJustForMe(sendStateByConversationId, ourConversationId)) {
+      conversationIds = [ourConversationId];
+    } else {
+      conversationIds = Object.keys(sendStateByConversationId).filter(
+        id => id !== ourConversationId
+      );
+    }
+  } else {
+    const messageConversation = window.ConversationController.get(
+      message.conversationId
+    );
+    const conversationRecipients = messageConversation
+      ? getRecipients(messageConversation.attributes) || []
+      : [];
+    // Older messages don't have the recipients included on the message, so we fall
+    //    back to the conversation's current recipients
+    conversationIds = conversationRecipients
+      .map((id: string) => window.ConversationController.getConversationId(id))
+      .filter(isNotNil);
+  }
+
+  const errorsGroupedById = groupBy(allErrors, error => {
+    const serviceId = error.serviceId || error.number;
+    if (!serviceId) {
+      return null;
+    }
+
+    return window.ConversationController.getConversationId(serviceId);
+  });
+
+  return conversationIds.map(id => {
+    const errorsForContact = getOwn(errorsGroupedById, id);
+    const isOutgoingKeyError = Boolean(
+      errorsForContact?.some(error => error.name === OUTGOING_KEY_ERROR)
+    );
+
+    let isUnidentifiedDelivery = false;
+    if (hasUnidentifiedDeliveryIndicators) {
+      isUnidentifiedDelivery = isIncoming(message)
+        ? Boolean(unidentifiedDeliveryReceived)
+        : unidentifiedDeliveriesSet.has(id);
+    }
+
+    const sendState = getOwn(sendStateByConversationId, id);
+
+    let status = sendState?.status;
+
+    // If a message was only sent to yourself (Note to Self or a lonely group), it
+    // is shown read.
+    if (id === ourConversationId && status && isSent(status)) {
+      status = SendStatus.Read;
+    }
+
+    const statusUpdatedAt = sendState?.updatedAt;
+    const statusTimestamp =
+      statusUpdatedAt === message.timestamp ? undefined : statusUpdatedAt;
+
+    return {
+      ...conversationSelector(id),
+      errors: errorsForContact,
+      isOutgoingKeyError,
+      isUnidentifiedDelivery,
+      status,
+      statusTimestamp,
+    };
+  });
+}
+
 export const getMessageDetailsSelector = createSelector(
   getAccountSelector,
   getCachedConversationMemberColorsSelector,
@@ -2497,121 +2842,29 @@ export const getMessageDetailsSelector = createSelector(
         return;
       }
 
-      const {
-        errors: messageErrors,
-        sendStateByConversationId = {},
-        unidentifiedDeliveries = [],
-        unidentifiedDeliveryReceived,
-      } = message;
+      let errors: ReadonlyArray<CustomError>;
+      let contacts: ReadonlyArray<SmartMessageDetailContact>;
 
-      const unidentifiedDeliveriesSet = new Set(
-        map(
-          unidentifiedDeliveries,
-          identifier =>
-            window.ConversationController.getConversationId(
-              identifier
-            ) as string
-        )
-      );
-
-      let conversationIds: Array<string>;
-      if (isIncoming(message)) {
-        conversationIds = [
-          getAuthorId(message, {
-            conversationSelector,
-            ourConversationId,
-            ourNumber,
-            ourAci,
-          }),
-        ].filter(isNotNil);
-      } else if (!isEmpty(sendStateByConversationId)) {
-        if (isMessageJustForMe(sendStateByConversationId, ourConversationId)) {
-          conversationIds = [ourConversationId];
-        } else {
-          conversationIds = Object.keys(sendStateByConversationId).filter(
-            id => id !== ourConversationId
-          );
-        }
-      } else {
-        const messageConversation = window.ConversationController.get(
-          message.conversationId
-        );
-        const conversationRecipients = messageConversation
-          ? getRecipients(messageConversation.attributes) || []
-          : [];
-        // Older messages don't have the recipients included on the message, so we fall
-        //   back to the conversation's current recipients
-        conversationIds = conversationRecipients
-          .map((id: string) =>
-            window.ConversationController.getConversationId(id)
-          )
-          .filter(isNotNil);
-      }
-
-      // This will make the error message for outgoing key errors a bit nicer
-      const allErrors = (messageErrors ?? []).map(error => {
-        if (error.name === OUTGOING_KEY_ERROR) {
-          return {
-            ...error,
-            message: i18n('icu:newIdentity'),
-          };
-        }
-
-        return error;
-      });
-
-      // If an error has a specific number it's associated with, we'll show it next to
-      //   that contact. Otherwise, it will be a standalone entry.
-      const errors = allErrors.filter(error =>
-        Boolean(error.serviceId || error.number)
-      );
-      const errorsGroupedById = groupBy(allErrors, error => {
-        const serviceId = error.serviceId || error.number;
-        if (!serviceId) {
-          return null;
-        }
-
-        return window.ConversationController.getConversationId(serviceId);
-      });
-
-      const contacts: ReadonlyArray<SmartMessageDetailContact> =
-        conversationIds.map(id => {
-          const errorsForContact = getOwn(errorsGroupedById, id);
-          const isOutgoingKeyError = Boolean(
-            errorsForContact?.some(error => error.name === OUTGOING_KEY_ERROR)
-          );
-
-          let isUnidentifiedDelivery = false;
-          if (hasUnidentifiedDeliveryIndicators) {
-            isUnidentifiedDelivery = isIncoming(message)
-              ? Boolean(unidentifiedDeliveryReceived)
-              : unidentifiedDeliveriesSet.has(id);
-          }
-
-          const sendState = getOwn(sendStateByConversationId, id);
-
-          let status = sendState?.status;
-
-          // If a message was only sent to yourself (Note to Self or a lonely group), it
-          //   is shown read.
-          if (id === ourConversationId && status && isSent(status)) {
-            status = SendStatus.Read;
-          }
-
-          const statusTimestamp = sendState?.updatedAt;
-
-          return {
-            ...conversationSelector(id),
-            errors: errorsForContact,
-            isOutgoingKeyError,
-            isUnidentifiedDelivery,
-            status,
-            statusTimestamp:
-              statusTimestamp === message.timestamp
-                ? undefined
-                : statusTimestamp,
-          };
+      if (message.deletedForEveryone) {
+        errors = [];
+        contacts = getDeleteDetailRecipients(message, {
+          conversationSelector,
         });
+      } else {
+        const allErrors = getMessageDetailErrors(message, i18n);
+        // If an error has a specific number it's associated with, we'll show
+        // it next to that contact. Otherwise, it will be a standalone entry.
+        errors = allErrors.filter(error =>
+          Boolean(error.serviceId || error.number)
+        );
+        contacts = getMessageDetailRecipients(message, allErrors, {
+          conversationSelector,
+          hasUnidentifiedDeliveryIndicators,
+          ourAci,
+          ourConversationId,
+          ourNumber,
+        });
+      }
 
       return {
         contacts,

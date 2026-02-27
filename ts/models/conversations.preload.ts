@@ -211,7 +211,10 @@ import {
 } from '../util/zkgroup.node.js';
 import { incrementMessageCounter } from '../util/incrementMessageCounter.preload.js';
 import { generateMessageId } from '../util/generateMessageId.node.js';
-import { getMessageAuthorText } from '../util/getMessageAuthorText.preload.js';
+import {
+  getMessageAuthorAci,
+  getMessageAuthorText,
+} from '../util/getMessageAuthorText.preload.js';
 import { downscaleOutgoingAttachment } from '../util/attachments.preload.js';
 import {
   MessageRequestResponseSource,
@@ -4502,6 +4505,8 @@ export class ConversationModel {
     | 'lastMessageReceivedAtMs'
     | 'timestamp'
     | 'lastMessageDeletedForEveryone'
+    | 'lastMessageDeletedForEveryoneByAdminAci'
+    | 'lastMessageAuthorAci'
   > {
     const ourConversationId =
       window.ConversationController.getOurConversationId();
@@ -4543,6 +4548,10 @@ export class ConversationModel {
       lastMessageReceivedAtMs,
       timestamp,
       lastMessageDeletedForEveryone: preview?.deletedForEveryone || false,
+      lastMessageDeletedForEveryoneByAdminAci:
+        preview?.deletedForEveryoneByAdminAci,
+      lastMessageAuthorAci:
+        preview != null ? getMessageAuthorAci(preview) : undefined,
     };
   }
 
@@ -5401,6 +5410,7 @@ export class ConversationModel {
     this.set({
       lastMessage: null,
       lastMessageAuthor: null,
+      lastMessageAuthorAci: undefined,
       timestamp: null,
       active_at: null,
       pendingUniversalTimer: undefined,

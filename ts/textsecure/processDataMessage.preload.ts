@@ -29,6 +29,7 @@ import type {
   ProcessedPollVote,
   ProcessedPollTerminate,
   ProcessedDelete,
+  ProcessedAdminDelete,
   ProcessedGiftBadge,
   ProcessedStoryContext,
   ProcessedPinMessage,
@@ -424,6 +425,25 @@ export function processDelete(
   };
 }
 
+export function processAdminDelete(
+  adminDelete?: Proto.DataMessage.IAdminDelete | null
+): ProcessedAdminDelete | undefined {
+  if (!adminDelete) {
+    return undefined;
+  }
+
+  const targetSentTimestamp = adminDelete.targetSentTimestamp?.toNumber();
+  strictAssert(targetSentTimestamp, 'AdminDelete missing targetSentTimestamp');
+
+  const targetAuthorAci = fromAciUuidBytes(adminDelete.targetAuthorAciBinary);
+  strictAssert(targetAuthorAci, 'AdminDelete missing targetAuthorAciBinary');
+
+  return {
+    targetSentTimestamp,
+    targetAuthorAci,
+  };
+}
+
 export function processGiftBadge(
   giftBadge: Proto.DataMessage.IGiftBadge | null | undefined
 ): ProcessedGiftBadge | undefined {
@@ -534,6 +554,7 @@ export function processDataMessage(
     pollVote: processPollVote(message.pollVote),
     pollTerminate: processPollTerminate(message.pollTerminate),
     delete: processDelete(message.delete),
+    adminDelete: processAdminDelete(message.adminDelete),
     bodyRanges: filterAndClean(message.bodyRanges),
     groupCallUpdate: dropNull(message.groupCallUpdate),
     storyContext: processStoryContext(message.storyContext),

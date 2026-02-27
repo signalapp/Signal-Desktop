@@ -231,6 +231,8 @@ export function GroupMemberLabelEditor({
               previews={[]}
               isPinned={false}
               canDeleteForEveryone={false}
+              canRetryDeleteForEveryone={false}
+              retryDeleteForEveryone={noop}
               isBlocked={false}
               isMessageRequestAccepted={false}
               containerElementRef={messageContainer}

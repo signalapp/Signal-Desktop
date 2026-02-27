@@ -115,7 +115,7 @@ export async function sendNullMessage(
               attachments: [],
               bodyRanges: [],
               contact: [],
-              deletedForEveryoneTimestamp: undefined,
+              deleteForEveryone: undefined,
               expireTimer: undefined,
               groupV2: groupV2Info,
               body: undefined,

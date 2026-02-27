@@ -2948,6 +2948,22 @@
     "messageformat": "Delete failed",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone"
   },
+  "icu:deleteFailedClickForDetails": {
+    "messageformat": "Delete failed, click for details",
+    "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to anyone and can be retried"
+  },
+  "icu:retryDeleteForEveryone--title": {
+    "messageformat": "Retry failed delete?",
+    "description": "Title of dialog shown when user clicks on a failed delete for everyone message to retry (screen reader only)"
+  },
+  "icu:retryDeleteForEveryone--body": {
+    "messageformat": "Message failed to delete. Check your connection and try again.",
+    "description": "Body text of dialog shown when user clicks on a failed delete for everyone message to retry"
+  },
+  "icu:retryDeleteForEveryone--tryAgain": {
+    "messageformat": "Try again",
+    "description": "Button text to retry a failed delete for everyone"
+  },
   "icu:editFailed": {
     "messageformat": "Edit failed, click for details",
     "description": "Shown on a message which was edited if the edit wasn't successfully sent to anyone"
@@ -2962,6 +2978,10 @@
   },
   "icu:partiallyDeleted": {
     "messageformat": "Partially deleted, click to retry",
+    "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
+  },
+  "icu:partiallyDeleted--clickForDetails": {
+    "messageformat": "Partially deleted, click for details",
     "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
   },
   "icu:expiredWarning": {
@@ -3483,6 +3503,18 @@
   "icu:message--deletedForEveryone": {
     "messageformat": "This message was deleted.",
     "description": "Shown in a message's bubble when the message has been deleted for everyone."
+  },
+  "icu:message--deletedByAdmin": {
+    "messageformat": "Admin {admin} deleted this message",
+    "description": "Shown in a message's bubble when the message has been deleted by a group admin."
+  },
+  "icu:message--deletedForEveryone--incoming": {
+    "messageformat": "{name} deleted this message",
+    "description": "Shown in a message bubble when an incoming message was deleted for everyone by its author."
+  },
+  "icu:message--deletedForEveryone--outgoing": {
+    "messageformat": "You deleted this message",
+    "description": "Shown in a message bubble when you deleted your own message for everyone."
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "Attachment too large to display.",
@@ -6640,6 +6672,10 @@
     "messageformat": "Delete {count, plural, one {message} other {# messages}}?",
     "description": "delete selected messages > confirmation modal > title"
   },
+  "icu:DeleteMessagesModal--title-2": {
+    "messageformat": "Delete selected {count, plural, one {message} other {# messages}}?",
+    "description": "delete selected messages > confirmation modal > title"
+  },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "Who would you like to delete {count, plural, one {this message} other {these messages}} for?",
     "description": "delete selected messages > confirmation modal > description"
@@ -6663,6 +6699,14 @@
   "icu:DeleteMessagesModal--deleteForEveryone": {
     "messageformat": "Delete for everyone",
     "description": "delete selected messages > confirmation modal > delete for everyone"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
+    "messageformat": "Delete for everyone?",
+    "description": "delete selected messages > admin delete confirmation modal > title"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
+    "messageformat": "As an admin, group members will see that you deleted {count, plural, one {this message} other {these messages}}.",
+    "description": "delete selected messages > admin delete confirmation modal > description"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Delete from all devices",

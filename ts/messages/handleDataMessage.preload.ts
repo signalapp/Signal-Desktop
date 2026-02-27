@@ -57,7 +57,10 @@ import { hydrateStoryContext } from '../util/hydrateStoryContext.preload.js';
 import { isMessageEmpty } from '../util/isMessageEmpty.preload.js';
 import { isValidTapToView } from '../util/isValidTapToView.std.js';
 import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage.preload.js';
-import { getMessageAuthorText } from '../util/getMessageAuthorText.preload.js';
+import {
+  getMessageAuthorAci,
+  getMessageAuthorText,
+} from '../util/getMessageAuthorText.preload.js';
 import { GiftBadgeStates } from '../types/GiftBadgeStates.std.js';
 import { parseBoostBadgeListFromServer } from '../badges/parseBadgesFromServer.std.js';
 import { SignalService as Proto } from '../protobuf/index.std.js';
@@ -752,6 +755,7 @@ export async function handleDataMessage(
         conversation.set({
           lastMessage: getNotificationTextForMessage(message.attributes),
           lastMessageAuthor: getMessageAuthorText(message.attributes),
+          lastMessageAuthorAci: getMessageAuthorAci(message.attributes),
           timestamp: message.get('sent_at'),
         });
       }

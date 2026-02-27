@@ -212,6 +212,11 @@ export type ProcessedDelete = {
   targetSentTimestamp?: number;
 };
 
+export type ProcessedAdminDelete = Readonly<{
+  targetSentTimestamp: number;
+  targetAuthorAci: AciString;
+}>;
+
 export type ProcessedBodyRange = RawBodyRange;
 
 export type ProcessedGroupCallUpdate = Proto.DataMessage.IGroupCallUpdate;
@@ -259,6 +264,7 @@ export type ProcessedDataMessage = {
   pollVote?: ProcessedPollVote;
   pollTerminate?: ProcessedPollTerminate;
   delete?: ProcessedDelete;
+  adminDelete?: ProcessedAdminDelete;
   bodyRanges?: ReadonlyArray<ProcessedBodyRange>;
   groupCallUpdate?: ProcessedGroupCallUpdate;
   storyContext?: ProcessedStoryContext;

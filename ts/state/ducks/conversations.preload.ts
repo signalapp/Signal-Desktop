@@ -157,8 +157,8 @@ import {
 import { getMessageById } from '../../messages/getMessageById.preload.js';
 import type { PanelArgsType } from '../../types/Panels.std.js';
 import type { ConversationQueueJobData } from '../../jobs/conversationJobQueue.preload.js';
-import { isOlderThan } from '../../util/timestamp.std.js';
-import { DAY } from '../../util/durations/index.std.js';
+import { areWeAdmin } from '../../util/areWeAdmin.preload.js';
+import { canRetrySendDeleteForEveryone } from '../../util/canDeleteForEveryone.preload.js';
 import { isNotNil } from '../../util/isNotNil.std.js';
 import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp.std.js';
 import { removeLinkPreview } from '../../services/LinkPreview.preload.js';
@@ -295,13 +295,18 @@ export type ConversationTypeType = ReadonlyDeep<
 export type LastMessageType = ReadonlyDeep<
   | {
       deletedForEveryone: false;
-      author?: string;
+      author?: string | null;
       bodyRanges?: HydratedBodyRangesType;
       prefix?: string;
       status?: LastMessageStatus;
       text: string;
     }
-  | { deletedForEveryone: true }
+  | {
+      deletedForEveryone: true;
+      deletedByAdminName?: string | null;
+      isOutgoing?: boolean;
+      authorName?: string | null;
+    }
 >;
 export type DraftPreviewType = ReadonlyDeep<{
   text: string;
@@ -2669,29 +2674,37 @@ export function retryDeleteForEveryone(
       throw new Error(`retryDeleteForEveryone: Message ${messageId} missing!`);
     }
 
-    if (isOlderThan(message.get('sent_at'), DAY)) {
+    const conversation = window.ConversationController.get(
+      message.get('conversationId')
+    );
+    if (!conversation) {
       throw new Error(
-        'retryDeleteForEveryone: Message too old to retry delete for everyone!'
+        `retryDeleteForEveryone: Conversation for ${messageId} missing!`
       );
     }
 
-    try {
-      const conversation = window.ConversationController.get(
-        message.get('conversationId')
-      );
-      if (!conversation) {
-        throw new Error(
-          `retryDeleteForEveryone: Conversation for ${messageId} missing!`
-        );
-      }
+    const isAdminDelete = message.get('deletedForEveryoneByAdminAci') != null;
+    const ourAci = itemStorage.user.getCheckedAci();
 
+    const result = canRetrySendDeleteForEveryone({
+      targetMessage: message.attributes,
+      targetConversation: conversation.attributes,
+      isAdminDelete,
+      isDeleterGroupAdmin: areWeAdmin(conversation.attributes),
+      ourAci,
+    });
+    if (!result.ok) {
+      throw new Error(`retryDeleteForEveryone: Cannot retry: ${result.reason}`);
+    }
+
+    try {
       const jobData: ConversationQueueJobData = {
         type: conversationQueueJobEnum.enum.DeleteForEveryone,
         conversationId: conversation.id,
-        messageId,
+        isAdminDelete,
+        targetMessageId: messageId,
         recipients: conversation.getRecipients(),
         revision: conversation.get('revision'),
-        targetTimestamp: message.get('sent_at'),
       };
 
       log.info(

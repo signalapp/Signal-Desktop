@@ -6,6 +6,7 @@
 @import 'tailwindcss' source(none);
 @import './tailwind-plugins/animate-general.css';
 @import './tailwind-plugins/animate-enter-exit.css';
+@import './tailwind-plugins/container-scroll-state.css';
 @import './tailwind-plugins/scrollbar.css';
 @import './tailwind-plugins/superellipse.css';
 

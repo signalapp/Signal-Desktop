@@ -313,3 +313,9 @@ export const getSeenPinMessageDisappearingMessagesWarningCount: StateSelector<nu
     getItems,
     state => state.seenPinMessageDisappearingMessagesWarningCount ?? 0
   );
+
+export const getHasSeenAdminDeleteEducationDialog: StateSelector<boolean> =
+  createSelector(
+    getItems,
+    state => state.hasSeenAdminDeleteEducationDialog ?? false
+  );

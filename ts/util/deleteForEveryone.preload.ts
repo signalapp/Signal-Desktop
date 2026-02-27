@@ -2,77 +2,97 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { DeleteAttributesType } from '../messageModifiers/Deletes.preload.js';
+import type { MessageAttributesType } from '../model-types.d.ts';
 import type { MessageModel } from '../models/messages.preload.js';
 import { createLogger } from '../logging/log.std.js';
 import { isMe } from './whatTypeOfConversation.dom.js';
-import { getAuthorId } from '../messages/sources.preload.js';
+import { getSourceServiceId } from '../messages/sources.preload.js';
 import { isStory } from '../state/selectors/message.preload.js';
-import { isTooOldToModifyMessage } from './isTooOldToModifyMessage.std.js';
+import { canReceiveDeleteForEveryone } from './canDeleteForEveryone.preload.js';
+import { isAciString } from './isAciString.std.js';
 import { eraseMessageContents } from './cleanup.preload.js';
 import { notificationService } from '../services/notifications.preload.js';
 import { DataWriter } from '../sql/Client.preload.js';
 
 const log = createLogger('deleteForEveryone');
 
-export async function deleteForEveryone(
+/**
+ * Receive path: validate an incoming delete-for-everyone, then apply it.
+ */
+export async function receiveDeleteForEveryone(
   message: MessageModel,
   doe: Pick<
     DeleteAttributesType,
-    'fromId' | 'targetSentTimestamp' | 'serverTimestamp'
+    | 'isAdminDelete'
+    | 'targetSentTimestamp'
+    | 'deleteServerTimestamp'
+    | 'deleteSentByAci'
+    | 'targetConversationId'
   >,
   { shouldPersist = true }: { shouldPersist?: boolean } = {}
 ): Promise<void> {
-  if (isDeletionByMe(message, doe)) {
-    const conversation = window.ConversationController.get(
-      message.get('conversationId')
-    );
+  const conversation = window.ConversationController.get(
+    message.get('conversationId')
+  );
 
-    // Our 1:1 stories are deleted through ts/util/onStoryRecipientUpdate.ts
-    if (
-      isStory(message.attributes) &&
-      conversation &&
-      isMe(conversation.attributes)
-    ) {
-      return;
-    }
-
-    await handleDeleteForEveryone(message, doe, { shouldPersist });
+  // Our 1:1 stories are deleted through ts/util/onStoryRecipientUpdate.ts
+  if (
+    isStory(message.attributes) &&
+    conversation &&
+    isMe(conversation.attributes)
+  ) {
     return;
   }
 
-  if (isTooOldToModifyMessage(doe.serverTimestamp, message.attributes)) {
-    log.warn('Received late DOE. Dropping.', {
-      fromId: doe.fromId,
+  const messageAuthorAci = getSourceServiceId(message.attributes);
+  if (!messageAuthorAci || !isAciString(messageAuthorAci)) {
+    log.warn('receiveDeleteForEveryone: Cannot determine message author ACI');
+    return;
+  }
+
+  if (!conversation) {
+    log.warn('receiveDeleteForEveryone: No conversation found');
+    return;
+  }
+
+  const result = canReceiveDeleteForEveryone({
+    isAdminDelete: doe.isAdminDelete,
+    targetMessage: message.attributes,
+    targetConversation: conversation.attributes,
+    deleteSentByAci: doe.deleteSentByAci,
+    deleteServerTimestamp: doe.deleteServerTimestamp,
+  });
+
+  if (!result.ok) {
+    log.warn('receiveDeleteForEveryone: Rejected.', {
+      reason: result.reason,
+      targetConversationId: doe.targetConversationId,
       targetSentTimestamp: doe.targetSentTimestamp,
       messageServerTimestamp: message.get('serverTimestamp'),
       messageSentAt: message.get('sent_at'),
-      deleteServerTimestamp: doe.serverTimestamp,
+      deleteServerTimestamp: doe.deleteServerTimestamp,
     });
     return;
   }
 
-  await handleDeleteForEveryone(message, doe, { shouldPersist });
+  await applyDeleteForEveryone(message, doe, { shouldPersist });
 }
 
-function isDeletionByMe(
-  message: Readonly<MessageModel>,
-  doe: Pick<DeleteAttributesType, 'fromId'>
-): boolean {
-  const ourConversationId =
-    window.ConversationController.getOurConversationIdOrThrow();
-  return (
-    getAuthorId(message.attributes) === ourConversationId &&
-    doe.fromId === ourConversationId
-  );
-}
-
-export async function handleDeleteForEveryone(
+/**
+ * Apply a delete-for-everyone to a message. No validation — caller is
+ * responsible for checking canDeleteForEveryone first.
+ */
+export async function applyDeleteForEveryone(
   message: MessageModel,
   del: Pick<
     DeleteAttributesType,
-    'fromId' | 'targetSentTimestamp' | 'serverTimestamp'
+    | 'isAdminDelete'
+    | 'targetSentTimestamp'
+    | 'deleteServerTimestamp'
+    | 'deleteSentByAci'
+    | 'targetConversationId'
   >,
-  { shouldPersist = true }: { shouldPersist?: boolean }
+  { shouldPersist = true }: { shouldPersist?: boolean } = {}
 ): Promise<void> {
   if (message.deletingForEveryone || message.get('deletedForEveryone')) {
     return;
@@ -80,10 +100,11 @@ export async function handleDeleteForEveryone(
 
   log.info('Handling DOE.', {
     messageId: message.id,
-    fromId: del.fromId,
+    isAdminDelete: del.isAdminDelete,
+    targetConversationId: del.targetConversationId,
     targetSentTimestamp: del.targetSentTimestamp,
     messageServerTimestamp: message.get('serverTimestamp'),
-    deleteServerTimestamp: del.serverTimestamp,
+    deleteServerTimestamp: del.deleteServerTimestamp,
   });
 
   try {
@@ -94,10 +115,14 @@ export async function handleDeleteForEveryone(
     notificationService.removeBy({ messageId: message.get('id') });
 
     // Erase the contents of this message
-    await eraseMessageContents(message, 'delete-for-everyone', {
+    const additionalProps: Partial<MessageAttributesType> = {
       deletedForEveryone: true,
       reactions: [],
-    });
+    };
+    if (del.isAdminDelete) {
+      additionalProps.deletedForEveryoneByAdminAci = del.deleteSentByAci;
+    }
+    await eraseMessageContents(message, 'delete-for-everyone', additionalProps);
 
     if (shouldPersist) {
       // We delete the message first, before re-saving it -- this causes any foreign key

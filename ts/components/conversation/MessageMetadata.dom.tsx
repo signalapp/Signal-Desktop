@@ -14,6 +14,7 @@ import { ExpireTimer } from './ExpireTimer.dom.js';
 import { MessageTimestamp } from './MessageTimestamp.dom.js';
 import { PanelType } from '../../types/Panels.std.js';
 import { Spinner } from '../Spinner.dom.js';
+import { AxoAlertDialog } from '../../axo/AxoAlertDialog.dom.js';
 import { ConfirmationDialog } from '../ConfirmationDialog.dom.js';
 import { refMerger } from '../../util/refMerger.std.js';
 import type { Size } from '../../hooks/useSizeObserver.dom.js';
@@ -22,6 +23,7 @@ import { AxoSymbol } from '../../axo/AxoSymbol.dom.js';
 import { tw } from '../../axo/tw.dom.js';
 
 type PropsType = {
+  canRetryDeleteForEveryone: boolean;
   deletedForEveryone?: boolean;
   direction: DirectionType;
   expirationLength?: number;
@@ -38,6 +40,7 @@ type PropsType = {
   isSticker?: boolean;
   onWidthMeasured?: (width: number) => unknown;
   pushPanelForConversation: PushPanelForConversationActionType;
+  retryDeleteForEveryone: (messageId: string) => unknown;
   retryMessageSend: (messageId: string) => unknown;
   showEditHistoryModal?: (id: string) => unknown;
   status?: MessageStatusType;
@@ -47,11 +50,13 @@ type PropsType = {
 
 enum ConfirmationType {
   EditError = 'EditError',
+  DeleteError = 'DeleteError',
 }
 
 export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
   function MessageMetadataInner(
     {
+      canRetryDeleteForEveryone,
       deletedForEveryone,
       direction,
       expirationLength,
@@ -68,6 +73,7 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
       isSticker,
       onWidthMeasured,
       pushPanelForConversation,
+      retryDeleteForEveryone,
       retryMessageSend,
       showEditHistoryModal,
       status,
@@ -86,15 +92,32 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
 
     let timestampNode: ReactNode;
     {
-      const isError = status === 'error' && direction === 'outgoing';
-      const isPartiallySent =
-        status === 'partial-sent' && direction === 'outgoing';
+      // When deletedForEveryone, the status reflects our delete send,
+      // not the original message direction
+      const isOutgoingOrDelete = direction === 'outgoing' || deletedForEveryone;
+      const isError = status === 'error' && isOutgoingOrDelete;
+      const isPartiallySent = status === 'partial-sent' && isOutgoingOrDelete;
       const isPaused = status === 'paused';
 
       if (isError || isPartiallySent || isPaused) {
         let statusInfo: React.ReactNode;
         if (isError) {
-          if (deletedForEveryone) {
+          if (deletedForEveryone && canRetryDeleteForEveryone) {
+            statusInfo = (
+              <button
+                type="button"
+                className="module-message__metadata__tapable"
+                onClick={(event: React.MouseEvent) => {
+                  event.stopPropagation();
+                  event.preventDefault();
+
+                  setConfirmationType(ConfirmationType.DeleteError);
+                }}
+              >
+                {i18n('icu:deleteFailedClickForDetails')}
+              </button>
+            );
+          } else if (deletedForEveryone) {
             statusInfo = i18n('icu:deleteFailed');
           } else if (isEditedMessage) {
             statusInfo = (
@@ -132,7 +155,7 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
               }}
             >
               {deletedForEveryone
-                ? i18n('icu:partiallyDeleted')
+                ? i18n('icu:partiallyDeleted--clickForDetails')
                 : i18n('icu:partiallySent')}
             </button>
           );
@@ -180,6 +203,38 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
         >
           {i18n('icu:ResendMessageEdit__body')}
         </ConfirmationDialog>
+      );
+    } else if (confirmationType === ConfirmationType.DeleteError) {
+      confirmation = (
+        <AxoAlertDialog.Root
+          open
+          onOpenChange={() => setConfirmationType(undefined)}
+        >
+          <AxoAlertDialog.Content escape="cancel-is-noop">
+            <AxoAlertDialog.Body>
+              <AxoAlertDialog.Title screenReaderOnly>
+                {i18n('icu:retryDeleteForEveryone--title')}
+              </AxoAlertDialog.Title>
+              <AxoAlertDialog.Description>
+                {i18n('icu:retryDeleteForEveryone--body')}
+              </AxoAlertDialog.Description>
+            </AxoAlertDialog.Body>
+            <AxoAlertDialog.Footer>
+              <AxoAlertDialog.Cancel>
+                {i18n('icu:cancel')}
+              </AxoAlertDialog.Cancel>
+              <AxoAlertDialog.Action
+                variant="primary"
+                onClick={() => {
+                  retryDeleteForEveryone(id);
+                  setConfirmationType(undefined);
+                }}
+              >
+                {i18n('icu:retryDeleteForEveryone--tryAgain')}
+              </AxoAlertDialog.Action>
+            </AxoAlertDialog.Footer>
+          </AxoAlertDialog.Content>
+        </AxoAlertDialog.Root>
       );
     } else {
       throw missingCaseError(confirmationType);
@@ -231,7 +286,7 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
         ) : null}
         {(!deletedForEveryone || status === 'sending') &&
         !textPending &&
-        direction === 'outgoing' &&
+        (direction === 'outgoing' || deletedForEveryone) &&
         status !== 'error' &&
         status !== 'partial-sent' ? (
           <div

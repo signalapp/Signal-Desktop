@@ -20,6 +20,8 @@ import type { StorageAccessType } from '../../types/Storage.d.ts';
 import { actions as conversationActions } from './conversations.preload.js';
 import type { ConfigMapType as RemoteConfigType } from '../../RemoteConfig.dom.js';
 import type { EmojiSkinTone } from '../../components/fun/data/emojis.std.js';
+import type { StateThunk } from '../types.std.js';
+import { storageServiceUploadJob } from '../../services/storage.preload.js';
 
 const { omit } = lodash;
 
@@ -81,6 +83,7 @@ export const actions = {
   setGlobalDefaultConversationColor,
   toggleNavTabsCollapse,
   setEmojiSkinToneDefault,
+  onSeenAdminDeleteEducationDialog,
   putItem,
   putItemExternal,
   removeItem,
@@ -284,6 +287,13 @@ function toggleNavTabsCollapse(
 ): ThunkAction<void, RootStateType, unknown, ItemPutAction> {
   return dispatch => {
     dispatch(putItem('navTabsCollapsed', navTabsCollapsed));
+  };
+}
+
+function onSeenAdminDeleteEducationDialog(): StateThunk<ItemPutAction> {
+  return dispatch => {
+    dispatch(putItem('hasSeenAdminDeleteEducationDialog', true));
+    storageServiceUploadJob({ reason: 'onSeenAdminDeleteEducationDialog' });
   };
 }
 

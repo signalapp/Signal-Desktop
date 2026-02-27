@@ -202,6 +202,12 @@ export const singleProtoJobDataSchema = z.object({
 
 export type SingleProtoJobData = z.infer<typeof singleProtoJobDataSchema>;
 
+export type SendDeleteForEveryoneType = Readonly<{
+  isAdminDelete: boolean;
+  targetSentTimestamp: number;
+  targetAuthorAci: AciString;
+}>;
+
 export type SharedMessageOptionsType = Readonly<{
   // required
   timestamp: number;
@@ -210,7 +216,7 @@ export type SharedMessageOptionsType = Readonly<{
   body?: string;
   bodyRanges?: ReadonlyArray<RawBodyRange>;
   contact?: ReadonlyArray<EmbeddedContactWithUploadedAvatar>;
-  deletedForEveryoneTimestamp?: number;
+  deleteForEveryone?: SendDeleteForEveryoneType;
   expireTimer?: DurationInSeconds;
   flags?: number;
   groupCallUpdate?: GroupCallUpdateType;
@@ -306,7 +312,7 @@ class Message {
 
   dataMessage?: Proto.DataMessage;
 
-  deletedForEveryoneTimestamp?: number;
+  deleteForEveryone?: SendDeleteForEveryoneType;
 
   groupCallUpdate?: GroupCallUpdateType;
 
@@ -333,7 +339,7 @@ class Message {
     this.pollCreate = options.pollCreate;
     this.pollTerminate = options.pollTerminate;
     this.timestamp = options.timestamp;
-    this.deletedForEveryoneTimestamp = options.deletedForEveryoneTimestamp;
+    this.deleteForEveryone = options.deleteForEveryone;
     this.groupCallUpdate = options.groupCallUpdate;
     this.storyContext = options.storyContext;
     // Polls
@@ -609,10 +615,19 @@ class Message {
     if (this.isViewOnce) {
       proto.isViewOnce = true;
     }
-    if (this.deletedForEveryoneTimestamp) {
-      proto.delete = {
-        targetSentTimestamp: Long.fromNumber(this.deletedForEveryoneTimestamp),
-      };
+    if (this.deleteForEveryone) {
+      const { isAdminDelete, targetSentTimestamp, targetAuthorAci } =
+        this.deleteForEveryone;
+      if (isAdminDelete) {
+        proto.adminDelete = {
+          targetSentTimestamp: Long.fromNumber(targetSentTimestamp),
+          targetAuthorAciBinary: uuidToBytes(targetAuthorAci),
+        };
+      } else {
+        proto.delete = {
+          targetSentTimestamp: Long.fromNumber(targetSentTimestamp),
+        };
+      }
     }
     if (this.bodyRanges) {
       proto.requiredProtocolVersion =
@@ -1144,10 +1159,10 @@ export class MessageSender {
     options: Readonly<GroupMessageOptionsType>
   ): MessageOptionsType {
     const {
+      deleteForEveryone,
       attachments,
       bodyRanges,
       contact,
-      deletedForEveryoneTimestamp,
       expireTimer,
       flags,
       groupCallUpdate,
@@ -1191,11 +1206,11 @@ export class MessageSender {
     );
 
     return {
+      deleteForEveryone,
       attachments,
       bodyRanges,
       body,
       contact,
-      deletedForEveryoneTimestamp,
       expireTimer,
       expireTimerVersion: undefined,
       flags,

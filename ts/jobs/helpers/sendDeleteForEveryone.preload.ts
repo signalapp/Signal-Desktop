@@ -36,6 +36,10 @@ import type { LoggerType } from '../../types/Logging.std.js';
 import type { ServiceIdString } from '../../types/ServiceId.std.js';
 import { isStory } from '../../messages/helpers.std.js';
 import { sendToGroup } from '../../util/sendToGroup.preload.js';
+import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp.std.js';
+import { getSourceServiceId } from '../../messages/sources.preload.js';
+import { isAciString } from '../../util/isAciString.std.js';
+import type { SendDeleteForEveryoneType } from '../../textsecure/SendMessage.preload.js';
 import { shouldSendToDirectConversation } from './shouldSendToConversation.preload.js';
 
 const { isNumber } = lodash;
@@ -53,19 +57,21 @@ export async function sendDeleteForEveryone(
   data: DeleteForEveryoneJobData
 ): Promise<void> {
   const {
-    messageId,
+    isAdminDelete,
+    targetMessageId,
     recipients: recipientsFromJob,
     revision,
-    targetTimestamp,
   } = data;
 
-  const logId = `sendDeleteForEveryone(${conversation.idForLogging()}, ${messageId})`;
+  const logId = `sendDeleteForEveryone(${conversation.idForLogging()}, ${targetMessageId}, isAdminDelete=${isAdminDelete})`;
 
-  const message = await getMessageById(messageId);
+  const message = await getMessageById(targetMessageId);
   if (!message) {
     log.error(`${logId}: Failed to fetch message. Failing job.`);
     return;
   }
+
+  const targetTimestamp = getMessageSentTimestamp(message.attributes, { log });
 
   const story = isStory(message.attributes);
   if (story && !isGroupV2(conversation.attributes)) {
@@ -85,7 +91,7 @@ export async function sendDeleteForEveryone(
 
   const sendType = 'deleteForEveryone';
   const contentHint = ContentHint.Resendable;
-  const messageIds = [messageId];
+  const messageIds = [targetMessageId];
 
   const deletedForEveryoneSendStatus = message.get(
     'deletedForEveryoneSendStatus'
@@ -109,12 +115,25 @@ export async function sendDeleteForEveryone(
     );
   }
 
+  // Build the delete for everyone options
+  const targetAuthorServiceId = getSourceServiceId(message.attributes);
+  strictAssert(
+    targetAuthorServiceId != null && isAciString(targetAuthorServiceId),
+    `${logId}: Could not get target author ACI`
+  );
+
+  const deleteForEveryone: SendDeleteForEveryoneType = {
+    isAdminDelete,
+    targetSentTimestamp: targetTimestamp,
+    targetAuthorAci: targetAuthorServiceId,
+  };
+
   await conversation.queueJob(
     'conversationQueue/sendDeleteForEveryone',
     async abortSignal => {
       log.info(
         `${logId}: Sending deleteForEveryone with timestamp ${timestamp}` +
-          `for message ${targetTimestamp}, isStory=${story}`
+          ` for message ${targetTimestamp}, isStory=${story}`
       );
 
       let profileKey: Uint8Array | undefined;
@@ -129,7 +148,7 @@ export async function sendDeleteForEveryone(
       try {
         if (isMe(conversation.attributes)) {
           const proto = await messaging.getContentMessage({
-            deletedForEveryoneTimestamp: targetTimestamp,
+            deleteForEveryone,
             profileKey,
             recipients: conversation.getRecipients(),
             timestamp,
@@ -172,7 +191,7 @@ export async function sendDeleteForEveryone(
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 serviceId: conversation.getSendTarget()!,
                 messageOptions: {
-                  deletedForEveryoneTimestamp: targetTimestamp,
+                  deleteForEveryone,
                   timestamp,
                   profileKey,
                 },
@@ -212,11 +231,11 @@ export async function sendDeleteForEveryone(
                 contentHint,
                 groupSendOptions: {
                   groupV2: groupV2Info,
-                  deletedForEveryoneTimestamp: targetTimestamp,
+                  deleteForEveryone,
                   timestamp,
                   profileKey,
                 },
-                messageId,
+                messageId: targetMessageId,
                 sendOptions,
                 sendTarget: conversation.toSenderKeyTarget(),
                 sendType: 'deleteForEveryone',

@@ -103,10 +103,10 @@ export type CallingMessageJobData = z.infer<typeof callingMessageJobDataSchema>;
 const deleteForEveryoneJobDataSchema = z.object({
   type: z.literal(conversationQueueJobEnum.enum.DeleteForEveryone),
   conversationId: z.string(),
-  messageId: z.string(),
+  isAdminDelete: z.boolean(),
+  targetMessageId: z.string(),
   recipients: z.array(z.string()),
   revision: z.number().optional(),
-  targetTimestamp: z.number(),
 });
 export type DeleteForEveryoneJobData = z.infer<
   typeof deleteForEveryoneJobDataSchema
