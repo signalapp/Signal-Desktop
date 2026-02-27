@@ -16,15 +16,11 @@ const SUPPORT_CONFIG = new Set([
 
 const RELEASE_DIR = join(__dirname, '..', '..', 'release');
 
+// TODO: DESKTOP-9836
 async function main(): Promise<void> {
   const config = process.argv[2];
   if (!SUPPORT_CONFIG.has(config)) {
     throw new Error(`Invalid argument: ${config}`);
-  }
-
-  const { DD_API_KEY } = process.env;
-  if (DD_API_KEY == null) {
-    throw new Error('Missing DD_API_KEY env variable');
   }
 
   let fileName: string;
@@ -57,41 +53,7 @@ async function main(): Promise<void> {
   const filePath = join(RELEASE_DIR, fileName);
   const { size } = await stat(filePath);
 
-  const res = await fetch('https://api.datadoghq.com/api/v2/series', {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      'DD-API-KEY': DD_API_KEY,
-    },
-    body: JSON.stringify({
-      series: [
-        {
-          metric: 'desktop.ci.installerSize',
-          type: 0,
-          points: [
-            {
-              timestamp: Math.floor(Date.now() / 1000),
-              value: size,
-            },
-          ],
-          tags: [
-            `hash:${process.env.GITHUB_SHA ?? ''}`,
-            `platform:${platform}`,
-            `arch:${arch}`,
-          ],
-        },
-      ],
-    }),
-  });
-
-  if (!res.ok) {
-    throw new Error(
-      `Failed to submit metrics, status: ${res.status}, ` +
-        `body: ${await res.text()}`
-    );
-  }
-
-  console.log(`Submitted: ${size}`);
+  console.log(`${platform} ${arch} release size: ${size}`);
 }
 
 main().catch(err => {

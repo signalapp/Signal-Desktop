@@ -138,11 +138,9 @@ jobs:
     - name: Upload installer size
       if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && github.ref == 'refs/heads/main' }}
       run: |
-        node ts/scripts/dd-installer-size.node.js macos-arm64
-        node ts/scripts/dd-installer-size.node.js macos-x64
-        node ts/scripts/dd-installer-size.node.js macos-universal
-      env:
-        DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+        node ts/scripts/publish-installer-size.node.js macos-arm64
+        node ts/scripts/publish-installer-size.node.js macos-x64
+        node ts/scripts/publish-installer-size.node.js macos-universal
     - run: pnpm run test-release
       env:
         NODE_ENV: production
@@ -224,9 +222,7 @@ jobs:
 
     - name: Upload installer size
       if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && github.ref == 'refs/heads/main' }}
-      run: node ts/scripts/dd-installer-size.node.js linux
-      env:
-        DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+      run: node ts/scripts/publish-installer-size.node.js linux
 
     - run: xvfb-run --auto-servernum pnpm run test-node
 
@@ -306,9 +302,7 @@ jobs:
 
     - name: Upload installer size
       if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && github.ref == 'refs/heads/main' }}
-      run: node ts/scripts/dd-installer-size.node.js windows
-      env:
-        DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+      run: node ts/scripts/publish-installer-size.node.js windows
 
     - run: pnpm run test-electron
       env:
