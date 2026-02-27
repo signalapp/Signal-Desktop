@@ -16,7 +16,7 @@ export async function afterPack({
   );
 
   let localesPath: string;
-  if (electronPlatformName === 'darwin') {
+  if (electronPlatformName === 'darwin' || electronPlatformName === 'mas') {
     const { productFilename } = packager.appInfo;
 
     // en.lproj/*

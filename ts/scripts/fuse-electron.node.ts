@@ -13,7 +13,7 @@ export async function afterPack({
   const { productFilename } = packager.appInfo;
 
   let target;
-  if (electronPlatformName === 'darwin') {
+  if (electronPlatformName === 'darwin' || electronPlatformName === 'mas') {
     target = `${productFilename}.app`;
   } else if (electronPlatformName === 'win32') {
     target = `${productFilename}.exe`;
@@ -43,9 +43,11 @@ export async function afterPack({
     [FuseV1Options.EnableNodeOptionsEnvironmentVariable]: false,
     // Disables the --inspect and --inspect-brk family of CLI options
     [FuseV1Options.EnableNodeCliInspectArguments]: enableInspectArguments,
-    // Enables validation of the app.asar archive on macOS/Windows
+    // Enables validation of the app.asar archive on macOS/Windows.
     [FuseV1Options.EnableEmbeddedAsarIntegrityValidation]:
-      electronPlatformName === 'darwin' || electronPlatformName === 'win32',
+      electronPlatformName === 'darwin' ||
+      electronPlatformName === 'mas' ||
+      electronPlatformName === 'win32',
     // Enforces that Electron will only load your app from "app.asar" instead of
     // its normal search paths
     [FuseV1Options.OnlyLoadAppFromAsar]: true,

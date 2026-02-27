@@ -21,7 +21,7 @@ export async function afterPack({
   packager,
   electronPlatformName,
 }: AfterPackContext): Promise<void> {
-  if (electronPlatformName !== 'darwin') {
+  if (electronPlatformName !== 'darwin' && electronPlatformName !== 'mas') {
     return;
   }
 

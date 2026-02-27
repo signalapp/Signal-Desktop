@@ -308,16 +308,15 @@ Then, run the tests using `pnpm run test-release`.
 macOS requires apps to be code signed with an Apple certificate. To test development builds
 you can ad-hoc sign the packaged app which will let you run it locally.
 
-1. In `package.json` remove the macOS signing script: `"sign": "./ts/scripts/sign-macos.node.js",`
-2. Build the app and ad-hoc sign the app bundle:
+1. Build the app while skipping the custom macOS signing script:
 
 ```
 pnpm run generate
-pnpm run build
+SKIP_SIGNING_SCRIPT=1 pnpm run build
 cd release
 # Pick the desired app bundle: mac, mac-arm64, or mac-universal
 cd mac-arm64
 codesign --force --deep --sign - Signal.app
 ```
 
-3. Now you can run the app locally.
+2. Now you can run the app locally.

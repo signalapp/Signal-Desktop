@@ -100,6 +100,7 @@
     "build:styles:tailwind": "tailwindcss -i ./stylesheets/tailwind-config.css -o ./stylesheets/tailwind.css",
     "build:electron": "electron-builder --config.extraMetadata.environment=$SIGNAL_ENV",
     "build:release": "cross-env SIGNAL_ENV=production pnpm run build:electron --config.directories.output=release",
+    "build:mas-dev": "bash ./scripts/build-mas-dev.sh",
     "build:release-win32-all": "pnpm run build:release --arm64 --x64",
     "build:preload-cache": "node ts/scripts/generate-preload-cache.node.js",
     "build:emoji": "run-p build:emoji:32 build:emoji:64",
@@ -442,12 +443,12 @@
         }
       ],
       "mergeASARs": true,
+      "sign": "./ts/scripts/sign-macos.node.js",
       "releaseInfo": {
         "vendor": {
           "minOSVersion": "21.0.1"
         }
       },
-      "sign": "./ts/scripts/sign-macos.node.js",
       "singleArchFiles": "node_modules/@signalapp/{libsignal-client/prebuilds/**,ringrtc/build/**,sqlcipher/prebuilds/**}",
       "target": [
         {
@@ -467,6 +468,20 @@
       "bundleVersion": "1",
       "extendInfo": {
         "NSAutoFillRequiresTextContentTypeForOneTimeCodeOnMac": true
+      }
+    },
+    "masDev": {
+      "type": "development",
+      "sign": null,
+      "hardenedRuntime": false,
+      "entitlements": "./build/entitlements.mas-dev.plist",
+      "entitlementsInherit": "./build/entitlements.mas-dev.inherit.plist",
+      "preAutoEntitlements": false,
+      "extendInfo": {
+        "ElectronTeamID": "U68MSDN6DR",
+        "NSCameraUsageDescription": "Signal uses your camera for video calling.",
+        "NSMicrophoneUsageDescription": "Signal uses your microphone for voice and video calling.",
+        "ITSAppUsesNonExemptEncryption": true
       }
     },
     "win": {
