@@ -15,6 +15,7 @@ import { getHasStoriesSelector } from '../selectors/stories2.dom.js';
 import {
   getActiveCallState,
   isInFullScreenCall as getIsInFullScreenCall,
+  getParticipantInActiveCall,
 } from '../selectors/calling.std.js';
 import { useStoriesActions } from '../ducks/stories.preload.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
@@ -26,11 +27,18 @@ import { strictAssert } from '../../util/assert.std.js';
 export const SmartContactModal = memo(function SmartContactModal() {
   const i18n = useSelector(getIntl);
   const theme = useSelector(getTheme);
-  const { conversationId, contactId } = useSelector(getContactModalState) ?? {};
+  const { conversationId, contactId, activeCallDemuxId } =
+    useSelector(getContactModalState) ?? {};
   const conversationSelector = useSelector(getConversationSelector);
   const hasStoriesSelector = useSelector(getHasStoriesSelector);
+
   const activeCallState = useSelector(getActiveCallState);
   const isInFullScreenCall = useSelector(getIsInFullScreenCall);
+  const getCallParticipant = useSelector(getParticipantInActiveCall);
+  const callParticipant = getCallParticipant(activeCallDemuxId);
+  const isRemoteMuteVisible = Boolean(callParticipant);
+  const isMuted = !callParticipant?.hasRemoteAudio;
+
   const badgesSelector = useSelector(getBadgesSelector);
   const areWeASubscriber = useSelector(getAreWeASubscriber);
 
@@ -78,6 +86,7 @@ export const SmartContactModal = memo(function SmartContactModal() {
     onOutgoingVideoCallInConversation,
     onOutgoingAudioCallInConversation,
     togglePip,
+    sendRemoteMute,
   } = useCallingActions();
 
   const handleOpenEditNicknameAndNoteModal = useCallback(() => {
@@ -103,10 +112,14 @@ export const SmartContactModal = memo(function SmartContactModal() {
       isAdmin={isAdmin}
       isInFullScreenCall={isInFullScreenCall}
       isMember={isMember}
+      isMuted={isMuted}
+      isRemoteMuteVisible={isRemoteMuteVisible}
+      activeCallDemuxId={activeCallDemuxId}
       onOpenEditNicknameAndNoteModal={handleOpenEditNicknameAndNoteModal}
       onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
       onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
       removeMemberFromGroup={removeMemberFromGroup}
+      sendRemoteMute={sendRemoteMute}
       showConversation={showConversation}
       startAvatarDownload={() => startAvatarDownload(contact.id)}
       theme={theme}

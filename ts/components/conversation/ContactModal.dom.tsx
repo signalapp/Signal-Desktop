@@ -31,18 +31,20 @@ import {
   InAnotherCallTooltip,
   getTooltipContent,
 } from './InAnotherCallTooltip.dom.js';
-import type {
-  ContactModalStateType,
-  ToggleGroupMemberLabelInfoModalType,
-} from '../../state/ducks/globalModals.preload.js';
+import type { ToggleGroupMemberLabelInfoModalType } from '../../state/ducks/globalModals.preload.js';
+import type { ContactModalStateType } from '../../types/globalModals.std.js';
 import { GroupMemberLabel } from './ContactName.dom.js';
 import { SignalService as Proto } from '../../protobuf/index.std.js';
+import { AxoSymbol } from '../../axo/AxoSymbol.dom.js';
+import { tw } from '../../axo/tw.dom.js';
+import { strictAssert } from '../../util/assert.std.js';
 
 const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
 
 const log = createLogger('ContactModal');
 
 export type PropsDataType = {
+  activeCallDemuxId?: number;
   areWeASubscriber: boolean;
   areWeAdmin: boolean;
   badges: ReadonlyArray<BadgeType>;
@@ -55,6 +57,8 @@ export type PropsDataType = {
   readonly i18n: LocalizerType;
   isAdmin: boolean;
   isMember: boolean;
+  isMuted: boolean;
+  isRemoteMuteVisible: boolean;
   theme: ThemeType;
   hasActiveCall: boolean;
   isInFullScreenCall: boolean;
@@ -67,6 +71,7 @@ type PropsActionType = {
   onOutgoingAudioCallInConversation: (conversationId: string) => unknown;
   onOutgoingVideoCallInConversation: (conversationId: string) => unknown;
   removeMemberFromGroup: (conversationId: string, contactId: string) => void;
+  sendRemoteMute: (demuxId: number) => void;
   showConversation: ShowConversationType;
   startAvatarDownload: () => void;
   toggleAboutContactModal: (options: ContactModalStateType) => unknown;
@@ -91,9 +96,11 @@ enum SubModalState {
   ToggleAdmin = 'ToggleAdmin',
   MemberRemove = 'MemberRemove',
   ConfirmingBlock = 'ConfirmingBlock',
+  ConfirmingMute = 'ConfirmingMute',
 }
 
 export function ContactModal({
+  activeCallDemuxId,
   areWeAdmin,
   areWeASubscriber,
   badges,
@@ -110,10 +117,13 @@ export function ContactModal({
   i18n,
   isAdmin,
   isMember,
+  isMuted,
+  isRemoteMuteVisible,
   onOpenEditNicknameAndNoteModal,
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
   removeMemberFromGroup,
+  sendRemoteMute,
   showConversation,
   startAvatarDownload,
   theme,
@@ -326,6 +336,33 @@ export function ContactModal({
         </ConfirmationDialog>
       );
       break;
+    case SubModalState.ConfirmingMute:
+      modalNode = (
+        <ConfirmationDialog
+          dialogName="ContactModal.confirmMute"
+          actions={[
+            {
+              text: i18n('icu:ContactModal--confirm-mute-primary-button'),
+              action: () => {
+                strictAssert(
+                  activeCallDemuxId != null,
+                  'activeCallDemuxId must exist'
+                );
+                hideContactModal();
+                sendRemoteMute(activeCallDemuxId);
+              },
+              style: 'affirmative',
+            },
+          ]}
+          i18n={i18n}
+          onClose={() => setSubModalState(SubModalState.None)}
+        >
+          {i18n('icu:ContactModal--confirm-mute-body', {
+            contact: contact.title,
+          })}
+        </ConfirmationDialog>
+      );
+      break;
     default: {
       const state: never = subModalState;
       log.warn(`unexpected ${state}!`);
@@ -529,6 +566,19 @@ export function ContactModal({
                     <span>{i18n('icu:ContactModal--remove-from-group')}</span>
                   </button>
                 </>
+              )}
+              {isRemoteMuteVisible && (
+                <button
+                  type="button"
+                  className="ContactModal__button"
+                  onClick={() => setSubModalState(SubModalState.ConfirmingMute)}
+                  disabled={isMuted}
+                >
+                  <AxoSymbol.Icon symbol="mic-slash" size={20} label={null} />
+                  <span className={tw('ms-[12px]')}>
+                    {i18n('icu:ContactModal--mute-audio')}
+                  </span>
+                </button>
               )}
             </div>
             {modalNode}

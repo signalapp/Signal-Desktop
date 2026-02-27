@@ -45,6 +45,7 @@ import { useConfirmDiscard } from '../hooks/useConfirmDiscard.dom.js';
 import { AxoContextMenu } from '../axo/AxoContextMenu.dom.js';
 import type { AxoMenuBuilder } from '../axo/AxoMenuBuilder.dom.js';
 import { drop } from '../util/drop.std.js';
+import type { ContactModalStateType } from '../types/globalModals.std.js';
 
 const { noop, orderBy } = lodash;
 
@@ -124,7 +125,7 @@ export type PropsType = {
   ourConversationId: string | undefined;
   preferredReactionEmoji: ReadonlyArray<string>;
   replies: ReadonlyArray<ReplyType>;
-  showContactModal: (contactId: string, conversationId?: string) => void;
+  showContactModal: (payload: ContactModalStateType) => void;
   emojiSkinToneDefault: EmojiSkinTone | null;
   sortedGroupMembers?: ReadonlyArray<ConversationType>;
   views: ReadonlyArray<StorySendStateType>;
@@ -545,7 +546,7 @@ type ReplyOrReactionMessageProps = {
   reply: ReplyType;
   shouldCollapseAbove: boolean;
   shouldCollapseBelow: boolean;
-  showContactModal: (contactId: string, conversationId?: string) => void;
+  showContactModal: (payload: ContactModalStateType) => void;
   messageExpanded: (messageId: string, displayLimit: number) => void;
   showSpoiler: (messageId: string, data: Record<number, boolean>) => void;
 };

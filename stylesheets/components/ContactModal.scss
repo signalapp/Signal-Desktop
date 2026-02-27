@@ -126,6 +126,10 @@
         background-color: variables.$color-gray-80;
       }
     }
+
+    &[disabled] {
+      opacity: 0.5;
+    }
   }
 
   &__bubble-icon {

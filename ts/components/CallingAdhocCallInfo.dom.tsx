@@ -21,6 +21,7 @@ import { Button } from './Button.dom.js';
 import { Modal } from './Modal.dom.js';
 import { Theme } from '../util/theme.std.js';
 import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
+import type { ContactModalStateType } from '../types/globalModals.std.js';
 
 const { partition } = lodash;
 
@@ -46,10 +47,7 @@ export type PropsType = {
   readonly onShareCallLinkViaSignal: () => void;
   readonly removeClient: (payload: RemoveClientType) => void;
   readonly blockClient: (payload: RemoveClientType) => void;
-  readonly showContactModal: (
-    contactId: string,
-    conversationId?: string
-  ) => void;
+  readonly showContactModal: (payload: ContactModalStateType) => void;
 };
 
 type UnknownContactsPropsType = {
@@ -204,7 +202,10 @@ export function CallingAdhocCallInfo({
           }
 
           onClose();
-          showContactModal(participant.id);
+          showContactModal({
+            activeCallDemuxId: participant.demuxId,
+            contactId: participant.id,
+          });
         }}
         type="button"
       >
