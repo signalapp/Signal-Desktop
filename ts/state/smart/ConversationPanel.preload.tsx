@@ -316,6 +316,10 @@ const PanelContainer = forwardRef<
       return;
     }
 
+    if (panel.type === PanelType.GroupMemberLabelEditor) {
+      return;
+    }
+
     const focusNode = focusRef.current;
     if (!focusNode) {
       return;

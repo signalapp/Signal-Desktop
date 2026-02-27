@@ -40,9 +40,9 @@ export function GroupMemberLabelInfoModal(props: PropsType): JSX.Element {
             />
             <img
               src="images/tag_dark.svg"
-              className={tw('mx-auto hidden dark:inline')}
+              className={tw('mx-auto hidden dark:block')}
               height="32"
-              width="110"
+              width="32"
               alt=""
             />
           </div>
