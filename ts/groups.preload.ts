@@ -857,9 +857,6 @@ export function buildAccessControlAttributesChange(
   group: ConversationAttributesType,
   newValue: AccessRequiredEnum
 ): Proto.GroupChange.Actions {
-  const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
-  const ROLE_ENUM = Proto.Member.Role;
-
   const accessControlAction =
     new Proto.GroupChange.Actions.ModifyAttributesAccessControlAction();
   accessControlAction.attributesAccess = newValue;
@@ -873,40 +870,6 @@ export function buildAccessControlAttributesChange(
   const actions = new Proto.GroupChange.Actions();
   actions.version = (group.revision || 0) + 1;
   actions.modifyAttributesAccess = accessControlAction;
-
-  // Clear out all non-admin labels
-  const previousValue = group.accessControl?.attributes;
-  if (
-    previousValue !== ACCESS_ENUM.ADMINISTRATOR &&
-    newValue === ACCESS_ENUM.ADMINISTRATOR
-  ) {
-    const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
-
-    const modifyLabelActions = (group.membersV2 || [])
-      .map(member => {
-        if (member.role === ROLE_ENUM.ADMINISTRATOR) {
-          return undefined;
-        }
-
-        if (!member.labelString && !member.labelEmoji) {
-          return undefined;
-        }
-
-        const modifyLabel =
-          new Proto.GroupChange.Actions.ModifyMemberLabelAction();
-        modifyLabel.userId = encryptServiceId(clientZkGroupCipher, member.aci);
-
-        return modifyLabel;
-      })
-      .filter(isNotNil);
-
-    if (modifyLabelActions.length) {
-      log.info(
-        `buildAccessControlAttributesChange: Found ${modifyLabelActions.length} non-admins with labels. Clearing.`
-      );
-      actions.modifyMemberLabels = modifyLabelActions;
-    }
-  }
 
   return actions;
 }
@@ -1270,25 +1233,6 @@ export function buildModifyMemberRoleChange({
 
   actions.version = (group.revision || 0) + 1;
   actions.modifyMemberRoles = [toggleAdmin];
-
-  const membership = group.membersV2?.find(member => member.aci === serviceId);
-  const onlyAdminsCanChangeAttributes =
-    group.accessControl?.attributes ===
-    Proto.AccessControl.AccessRequired.ADMINISTRATOR;
-  const wasPreviouslyAnAdmin =
-    membership?.role === Proto.Member.Role.ADMINISTRATOR;
-  const nowNotAnAdmin = role !== Proto.Member.Role.ADMINISTRATOR;
-
-  if (
-    membership?.labelString &&
-    onlyAdminsCanChangeAttributes &&
-    wasPreviouslyAnAdmin &&
-    nowNotAnAdmin
-  ) {
-    const modifyLabel = new Proto.GroupChange.Actions.ModifyMemberLabelAction();
-    modifyLabel.userId = userIdCipherText;
-    actions.modifyMemberLabels = [modifyLabel];
-  }
 
   return actions;
 }

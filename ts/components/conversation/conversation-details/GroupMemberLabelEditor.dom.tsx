@@ -26,7 +26,6 @@ import {
 import { ConversationColors } from '../../../types/Colors.std.js';
 import { WidthBreakpoint } from '../../_util.std.js';
 import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.js';
-import { SignalService as Proto } from '../../../protobuf/index.std.js';
 import { Avatar, AvatarSize } from '../../Avatar.dom.js';
 import { UserText } from '../../UserText.dom.js';
 import { GroupMemberLabel } from '../ContactName.dom.js';
@@ -105,8 +104,6 @@ export function GroupMemberLabelEditor({
 }: PropsType): React.JSX.Element {
   const [isShowingGeneralError, setIsShowingGeneralError] =
     React.useState(false);
-  const [isShowingPermissionsError, setIsShowingPermissionsError] =
-    React.useState(false);
 
   const messageContainer = useRef<HTMLDivElement | null>(null);
 
@@ -133,17 +130,6 @@ export function GroupMemberLabelEditor({
   const contactLabelForMessage = labelStringForSave
     ? { labelEmoji, labelString: labelStringForSave }
     : undefined;
-
-  useEffect(() => {
-    if (
-      !group.areWeAdmin &&
-      group.accessControlAttributes ===
-        Proto.AccessControl.AccessRequired.ADMINISTRATOR &&
-      !isShowingPermissionsError
-    ) {
-      setIsShowingPermissionsError(true);
-    }
-  }, [group, isShowingPermissionsError, setIsShowingPermissionsError]);
 
   const tryClose = React.useRef<() => void | undefined>();
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
@@ -431,38 +417,6 @@ export function GroupMemberLabelEditor({
               arrow={false}
               onClick={() => {
                 setIsShowingGeneralError(false);
-              }}
-            >
-              {i18n('icu:ok')}
-            </AxoAlertDialog.Action>
-          </AxoAlertDialog.Footer>
-        </AxoAlertDialog.Content>
-      </AxoAlertDialog.Root>
-      <AxoAlertDialog.Root
-        open={isShowingPermissionsError}
-        onOpenChange={value => {
-          if (!value) {
-            setIsShowingPermissionsError(false);
-            popPanelForConversation();
-          }
-        }}
-      >
-        <AxoAlertDialog.Content escape="cancel-is-noop">
-          <AxoAlertDialog.Body>
-            <AxoAlertDialog.Title>
-              {i18n('icu:ConversationDetails--member-label--error-title')}
-            </AxoAlertDialog.Title>
-            <AxoAlertDialog.Description>
-              {i18n('icu:ConversationDetails--member-label--error-permissions')}
-            </AxoAlertDialog.Description>
-          </AxoAlertDialog.Body>
-          <AxoAlertDialog.Footer>
-            <AxoAlertDialog.Action
-              variant="primary"
-              arrow={false}
-              onClick={() => {
-                popPanelForConversation();
-                setIsShowingPermissionsError(false);
               }}
             >
               {i18n('icu:ok')}
