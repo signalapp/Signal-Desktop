@@ -2541,7 +2541,12 @@ function recipientToConversationId(
 ): string {
   let match: ConversationModel | undefined;
   if (recipient.contact != null) {
-    match = window.ConversationController.get(recipient.contact.serviceId);
+    const serviceId = fromServiceIdBinaryOrString(
+      recipient.contact.serviceIdBinary,
+      recipient.contact.serviceId,
+      `${logPrefix}.recipientToConversationId`
+    );
+    match = window.ConversationController.get(serviceId);
     match ??= window.ConversationController.get(recipient.contact.e164);
   } else if (
     recipient.groupMasterKey != null &&
