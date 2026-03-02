@@ -157,6 +157,7 @@ import type {
   PollVoteReadResultType,
   ReactionResultType,
   ReadableDB,
+  SASType,
   SenderKeyIdType,
   SenderKeyType,
   SentMessageDBType,
@@ -322,6 +323,9 @@ const {
   sortBy,
 } = lodash;
 
+
+const DEBUG_ALWAYS_HANDSHAKE = true;
+
 type ConversationRow = Readonly<{
   json: string;
   profileLastFetchedAt: null | number;
@@ -421,6 +425,8 @@ export const DataReader: ServerReadableInterface = {
 
   getPreKeyById,
   getAllPreKeys,
+
+  getAllSAS,
 
   getSignedPreKeyById,
   getAllSignedPreKeys,
@@ -1121,6 +1127,7 @@ function removeAllIdentityKeys(db: WritableDB): number {
   return removeAllFromTable(db, IDENTITY_KEYS_TABLE);
 }
 function getAllIdentityKeys(db: ReadableDB): Array<StoredIdentityKeyType> {
+  if (DEBUG_ALWAYS_HANDSHAKE) return [];
   return getAllFromTable(db, IDENTITY_KEYS_TABLE);
 }
 
@@ -1188,6 +1195,7 @@ function removeAllKyberPreKeys(db: WritableDB): number {
   return removeAllFromTable(db, KYBER_PRE_KEYS_TABLE);
 }
 function getAllKyberPreKeys(db: ReadableDB): Array<StoredKyberPreKeyType> {
+  if (DEBUG_ALWAYS_HANDSHAKE) return [];
   return getAllFromTable(db, KYBER_PRE_KEYS_TABLE);
 }
 
@@ -1222,6 +1230,7 @@ function removeAllPreKeys(db: WritableDB): number {
   return removeAllFromTable(db, PRE_KEYS_TABLE);
 }
 function getAllPreKeys(db: ReadableDB): Array<StoredPreKeyType> {
+  if (DEBUG_ALWAYS_HANDSHAKE) return [];
   return getAllFromTable(db, PRE_KEYS_TABLE);
 }
 
@@ -1264,6 +1273,7 @@ function removeAllSignedPreKeys(db: WritableDB): number {
   return removeAllFromTable(db, SIGNED_PRE_KEYS_TABLE);
 }
 function getAllSignedPreKeys(db: ReadableDB): Array<StoredSignedPreKeyType> {
+  if (DEBUG_ALWAYS_HANDSHAKE) return [];
   const rows: JSONRows = db
     .prepare(
       `
@@ -1275,6 +1285,11 @@ function getAllSignedPreKeys(db: ReadableDB): Array<StoredSignedPreKeyType> {
     .all();
 
   return rows.map(row => jsonToObject(row.json));
+}
+
+const SAS_TABLE = 'shortAuthenticatedStrings';
+function getAllSAS(db: ReadableDB): Array<SASType> {
+  return getAllFromTable(db, SAS_TABLE);
 }
 
 const ITEMS_TABLE = 'items';
@@ -1350,6 +1365,7 @@ function removeAllSenderKeys(db: WritableDB): void {
   db.prepare('DELETE FROM senderKeys').run();
 }
 function getAllSenderKeys(db: ReadableDB): Array<SenderKeyType> {
+  if (DEBUG_ALWAYS_HANDSHAKE) return [];
   return db.prepare('SELECT * FROM senderKeys').all<SenderKeyType>();
 }
 function removeSenderKeyById(db: WritableDB, id: SenderKeyIdType): void {
@@ -1866,9 +1882,11 @@ function removeAllSessions(db: WritableDB): number {
   return removeAllFromTable(db, SESSIONS_TABLE);
 }
 function getAllSessions(db: ReadableDB): Array<SessionType> {
+  if (DEBUG_ALWAYS_HANDSHAKE) return [];
   return db.prepare('SELECT * FROM sessions').all();
 }
 function getAllKyberTriples(db: ReadableDB): Array<KyberPreKeyTripleType> {
+  if (DEBUG_ALWAYS_HANDSHAKE) return [];
   return db.prepare('SELECT * FROM kyberPreKey_triples').all();
 }
 // Conversations
