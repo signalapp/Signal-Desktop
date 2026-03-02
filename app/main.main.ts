@@ -2639,8 +2639,24 @@ app.on(
   }
 );
 
-app.setAsDefaultProtocolClient('sgnl');
-app.setAsDefaultProtocolClient('signalcaptcha');
+if (!app.isDefaultProtocolClient('sgnl')) {
+  log.info('setting signal as the default app for the sgnl url scheme');
+  app.setAsDefaultProtocolClient('sgnl');
+} else {
+  log.info(
+    'signal is already registered as the default app for the sgnl url scheme.'
+  );
+}
+if (!app.isDefaultProtocolClient('signalcaptcha')) {
+  log.info(
+    'setting signal as the default app for the signalcaptcha url scheme'
+  );
+  app.setAsDefaultProtocolClient('signalcaptcha');
+} else {
+  log.info(
+    'signal is already registered as the default app for the sgnl url scheme.'
+  );
+}
 
 ipc.on(
   'set-badge',
