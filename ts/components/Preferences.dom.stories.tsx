@@ -411,7 +411,6 @@ export default {
     availableLocales: ['en'],
     availableMicrophones,
     availableSpeakers,
-    backupFeatureEnabled: false,
     chatFoldersFeatureEnabled: true,
     backupFreeMediaDays: 45,
     backupKeyViewed: false,
@@ -1034,7 +1033,6 @@ PNPDiscoverabilityDisabled.args = {
 export const BackupDetailsMediaDownloadActive = Template.bind({});
 BackupDetailsMediaDownloadActive.args = {
   settingsLocation: { page: SettingsPage.BackupsDetails },
-  backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   cloudBackupStatus: {
     protoSize: 100_000_000,
@@ -1059,7 +1057,6 @@ BackupDetailsMediaDownloadActive.args = {
 export const BackupDetailsMediaDownloadPaused = Template.bind({});
 BackupDetailsMediaDownloadPaused.args = {
   settingsLocation: { page: SettingsPage.BackupsDetails },
-  backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   cloudBackupStatus: {
     protoSize: 100_000_000,
@@ -1085,7 +1082,6 @@ BackupDetailsMediaDownloadPaused.args = {
 export const BackupDetailsFree = Template.bind({});
 BackupDetailsFree.args = {
   settingsLocation: { page: SettingsPage.BackupsDetails },
-  backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   cloudBackupStatus: {
     protoSize: 100_000_000,
@@ -1102,7 +1098,6 @@ export const BackupsPaidActive = Template.bind({});
 BackupsPaidActive.args = {
   settingsLocation: { page: SettingsPage.Backups },
   backupTier: BackupLevel.Paid,
-  backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   cloudBackupStatus: {
     protoSize: 100_000_000,
@@ -1122,7 +1117,6 @@ export const BackupsPaidLoadingSubscription = Template.bind({});
 BackupsPaidLoadingSubscription.args = {
   settingsLocation: { page: SettingsPage.Backups },
   backupTier: BackupLevel.Paid,
-  backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   cloudBackupStatus: {
     protoSize: 100_000_000,
@@ -1144,7 +1138,6 @@ export const BackupsPaidLoadingFirstTime = Template.bind({});
 BackupsPaidLoadingFirstTime.args = {
   settingsLocation: { page: SettingsPage.Backups },
   backupTier: BackupLevel.Paid,
-  backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   cloudBackupStatus: {
     protoSize: 100_000_000,
@@ -1159,7 +1152,6 @@ BackupsPaidLoadingFirstTime.args = {
 export const BackupsPaidCanceled = Template.bind({});
 BackupsPaidCanceled.args = {
   settingsLocation: { page: SettingsPage.Backups },
-  backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   backupTier: BackupLevel.Paid,
   cloudBackupStatus: {
@@ -1180,13 +1172,11 @@ export const BackupsFree = Template.bind({});
 BackupsFree.args = {
   settingsLocation: { page: SettingsPage.Backups },
   backupTier: BackupLevel.Free,
-  backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
 };
 export const BackupsFreeNoLocal = Template.bind({});
 BackupsFreeNoLocal.args = {
   settingsLocation: { page: SettingsPage.Backups },
-  backupFeatureEnabled: true,
   backupLocalBackupsEnabled: false,
   backupTier: BackupLevel.Free,
 };
@@ -1194,7 +1184,6 @@ BackupsFreeNoLocal.args = {
 export const BackupsOff = Template.bind({});
 BackupsOff.args = {
   settingsLocation: { page: SettingsPage.Backups },
-  backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   backupTier: null,
 };
@@ -1202,21 +1191,18 @@ BackupsOff.args = {
 export const BackupsLocalBackups = Template.bind({});
 BackupsLocalBackups.args = {
   settingsLocation: { page: SettingsPage.Backups },
-  backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
 };
 
 export const BackupsRemoteEnabledLocalDisabled = Template.bind({});
 BackupsRemoteEnabledLocalDisabled.args = {
   settingsLocation: { page: SettingsPage.Backups },
-  backupFeatureEnabled: true,
   backupLocalBackupsEnabled: false,
 };
 
 export const BackupsPaidSubscriptionNotFound = Template.bind({});
 BackupsPaidSubscriptionNotFound.args = {
   settingsLocation: { page: SettingsPage.Backups },
-  backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   backupSubscriptionStatus: {
     status: 'not-found',
@@ -1231,7 +1217,6 @@ BackupsPaidSubscriptionNotFound.args = {
 export const BackupsSubscriptionExpired = Template.bind({});
 BackupsSubscriptionExpired.args = {
   settingsLocation: { page: SettingsPage.Backups },
-  backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   backupTier: null,
   backupSubscriptionStatus: {
@@ -1242,7 +1227,6 @@ BackupsSubscriptionExpired.args = {
 export const LocalBackups = Template.bind({});
 LocalBackups.args = {
   settingsLocation: { page: SettingsPage.LocalBackups },
-  backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   backupKeyViewed: true,
   lastLocalBackup: {
@@ -1256,7 +1240,6 @@ LocalBackups.args = {
 export const LocalBackupsNeverBackedUp = Template.bind({});
 LocalBackupsNeverBackedUp.args = {
   settingsLocation: { page: SettingsPage.LocalBackups },
-  backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   backupKeyViewed: true,
   lastLocalBackup: undefined,
@@ -1266,14 +1249,12 @@ LocalBackupsNeverBackedUp.args = {
 export const LocalBackupsSetupChooseFolder = Template.bind({});
 LocalBackupsSetupChooseFolder.args = {
   settingsLocation: { page: SettingsPage.LocalBackupsSetupFolder },
-  backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
 };
 
 export const LocalBackupsSetupViewBackupKey = Template.bind({});
 LocalBackupsSetupViewBackupKey.args = {
   settingsLocation: { page: SettingsPage.LocalBackupsSetupKey },
-  backupFeatureEnabled: true,
   backupLocalBackupsEnabled: true,
   localBackupFolder: '/home/signaluser/Signal Backups/',
 };

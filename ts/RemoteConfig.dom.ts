@@ -66,8 +66,6 @@ const ScalarKeys = [
   'desktop.chatFolders.beta',
   'desktop.chatFolders.prod',
   'desktop.clientExpiration',
-  'desktop.backups.beta',
-  'desktop.backups.prod',
   'desktop.internalUser',
   'desktop.loggingErrorToasts',
   'desktop.mediaQuality.levels',

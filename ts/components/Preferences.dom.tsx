@@ -112,7 +112,6 @@ export type PropsDataType = {
   // Settings
   accountEntropyPool: string | undefined;
   autoDownloadAttachment: AutoDownloadAttachmentType;
-  backupFeatureEnabled: boolean;
   backupFreeMediaDays: number;
   backupKeyViewed: boolean;
   backupLocalBackupsEnabled: boolean;
@@ -385,7 +384,6 @@ export function Preferences({
   availableLocales,
   availableMicrophones,
   availableSpeakers,
-  backupFeatureEnabled,
   backupMediaDownloadStatus,
   chatFoldersFeatureEnabled,
   pauseBackupMediaDownload,
@@ -588,15 +586,7 @@ export function Preferences({
     setLanguageDialog(null);
     setSelectedLanguageLocale(localeOverride);
   }
-  const shouldShowBackupsPage =
-    backupFeatureEnabled || backupLocalBackupsEnabled;
 
-  if (
-    settingsLocation.page === SettingsPage.Backups &&
-    !shouldShowBackupsPage
-  ) {
-    setSettingsLocation({ page: SettingsPage.General });
-  }
   if (settingsLocation.page === SettingsPage.Internal && !isInternalUser) {
     setSettingsLocation({ page: SettingsPage.General });
   }
@@ -2282,7 +2272,6 @@ export function Preferences({
         cloudBackupStatus={cloudBackupStatus}
         i18n={i18n}
         isLocalBackupsEnabled={backupLocalBackupsEnabled}
-        isRemoteBackupsEnabled={backupFeatureEnabled}
         lastLocalBackup={lastLocalBackup}
         locale={resolvedLocale}
         localBackupFolder={localBackupFolder}
@@ -2534,23 +2523,21 @@ export function Preferences({
               >
                 {i18n('icu:Preferences__button--data-usage')}
               </button>
-              {shouldShowBackupsPage ? (
-                <button
-                  type="button"
-                  className={classNames({
-                    Preferences__button: true,
-                    'Preferences__button--backups': true,
-                    'Preferences__button--selected': isBackupPage(
-                      settingsLocation.page
-                    ),
-                  })}
-                  onClick={() =>
-                    setSettingsLocation({ page: SettingsPage.Backups })
-                  }
-                >
-                  {i18n('icu:Preferences__button--backups')}
-                </button>
-              ) : null}
+              <button
+                type="button"
+                className={classNames({
+                  Preferences__button: true,
+                  'Preferences__button--backups': true,
+                  'Preferences__button--selected': isBackupPage(
+                    settingsLocation.page
+                  ),
+                })}
+                onClick={() =>
+                  setSettingsLocation({ page: SettingsPage.Backups })
+                }
+              >
+                {i18n('icu:Preferences__button--backups')}
+              </button>
               <button
                 type="button"
                 className={classNames({
