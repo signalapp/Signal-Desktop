@@ -1,4 +1,4 @@
 #!/bin/bash
-rm -rf /Users/phoenixchangkachith/Library/Application\ Support/Signal-development
 pnpm run generate
+rm -rf /Users/natashajha/Library/Application\ Support/Signal-development
 pnpm start

@@ -1,6 +1,6 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-
+import * as Bytes from '../Bytes.std.js';
 import lodash from 'lodash';
 import type { z } from 'zod';
 
@@ -83,6 +83,35 @@ import { itemStorage } from '../textsecure/Storage.preload.js';
 const { isNumber } = lodash;
 
 const log = createLogger('handleDataMessage');
+
+const PVRF_PREFIX = '[PVRF_BASIS_V0:';
+
+function tryExtractPvrfPayload(body: string): {
+  payloadObj?: unknown;
+  strippedBody?: string;
+} {
+  if (!body.startsWith(PVRF_PREFIX)) {
+    return {};
+  }
+
+  const end = body.indexOf(']');
+  if (end <= PVRF_PREFIX.length) {
+    return {};
+  }
+
+  const b64 = body.slice(PVRF_PREFIX.length, end);
+
+  try {
+    const json = new TextDecoder().decode(Bytes.fromBase64(b64));
+    const obj = JSON.parse(json);
+
+    const stripped = body.slice(end + 1).trimStart();
+    return { payloadObj: obj, strippedBody: stripped };
+  } catch {
+    return {};
+  }
+}
+
 
 const CURRENT_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.CURRENT;
 const INITIAL_PROTOCOL_VERSION = Proto.DataMessage.ProtocolVersion.INITIAL;
@@ -502,6 +531,16 @@ export async function handleDataMessage(
     // There are type conflicts between ModelAttributesType and protos passed in here
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const dataMessage = await upgradeMessageSchema(withQuoteReference as any);
+
+    if (typeof dataMessage.body === 'string' && dataMessage.body.length > 0) 
+    {
+      const { payloadObj, strippedBody } = tryExtractPvrfPayload(dataMessage.body);
+      if(payloadObj) 
+      {
+        log.info(`${idLog}: PVRF demo: received payload`, payloadObj);
+        if (typeof strippedBody === 'string') {dataMessage.body = strippedBody;}
+      }
+    }
 
     const isGroupStoryReply =
       isGroup(conversation.attributes) && dataMessage.storyId;

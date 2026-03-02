@@ -34,7 +34,16 @@ import { onFailedToSendWithEndorsements } from '../util/groupSendEndorsements.pr
 import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
 import { itemStorage } from './Storage.preload.js';
 
+import * as Bytes from '../Bytes.std.js';
+import { setPendingBasis } from './pvrfPendingBasisStorage.preload.js';
+
+
 const log = createLogger('getKeysForServiceId');
+
+function pendingBasisKey(serviceId: string, deviceId: number) {
+  return `pvrf_basis_pending:${serviceId}:${deviceId}`;
+}
+
 
 type ServerType = Readonly<{
   getKeysForServiceId: typeof doGetKeysForServiceId;
@@ -201,6 +210,26 @@ async function handleServerKeys(
           signalProtocolStore
         );
         debugger; // eslint-disable-line no-debugger
+
+        // 1) check if we already had a session before running X3DH
+        const existingSession = await sessionStore.getSession(protocolAddress);
+        if (!existingSession) 
+        {
+          // 2) create "sender-specific" SAS / basis for demo, Use env var if available; otherwise derive from ourAci so Alice/Bob differ.
+          const demoSas=(typeof process!=='undefined' && process.env && process.env.SIGNAL_DEMO_SAS)||ourAci.slice(-4); 
+          const payloadObj={
+            v:0,
+            sas: demoSas,
+            from: ourAci,
+            ts: Date.now(),
+          };
+
+          const payloadBytes = new TextEncoder().encode(JSON.stringify(payloadObj));
+          const payloadB64 = Bytes.toBase64(payloadBytes);
+          await setPendingBasis(serviceId, deviceId, payloadB64);
+          log.info( `PVRF demo: stored pending payload for ${serviceId}.${deviceId} sas=${demoSas}`);
+        }
+
         await signalProtocolStore.enqueueSessionJob(address, () =>
           processPreKeyBundle(
             preKeyBundle,
