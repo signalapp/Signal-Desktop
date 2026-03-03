@@ -1116,7 +1116,7 @@
     "messageformat": "Добавить значок участника"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "Ваш QR-код"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Заметка"
@@ -7944,6 +7944,6 @@
     "messageformat": "Безопасное резервное копирование уже здесь! Теперь вам доступно резервное копирование со сквозным автошифрованием, и вы не потеряете ни одно сообщение при покупке нового телефона или переустановке Signal. Бесплатно создавайте резервные копии всех ваших сообщений, а также медиафайлов за последние 45 дней или за небольшую ежемесячную плату получите 100 ГБ для всех вложений. Нажмите на резервное копирование в настройках Signal, чтобы начать. Спасибо всем, кто помогал тестировать эту функцию!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Теперь вы можете по желанию добавить значок участника, чтобы описать себя или свою роль в этом групповом чате. Установите себе значок участника группы «Судья» или «Вратарь» в чате местной футбольной лиги, а затем выберите себе другой значок с должностью уже в корпоративном чате. Значки участников появляются рядом с вашим именем профиля в этой группе, при этом её администраторы могут разрешать участникам устанавливать значки на вкладке «Редактировать информацию о группе»."
   }
 }

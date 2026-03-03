@@ -1116,7 +1116,7 @@
     "messageformat": "Катышуучунун энбелгисин кошуу"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "QR кодуңуз"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Эскертме"
@@ -7944,6 +7944,6 @@
     "messageformat": "Signal коопсуз камдык көчүрмөлөрү бул жерде! Эми сиз жаңы телефон алганда же Signal'ды кайра орноткондо билдирүүнү жоготпоо үчүн автоматтык түрдө баштан аяк шифрленген камдык көчүрмөлөрдү иштетүүнү тандай аласыз. Бардык билдирүүлөрүңүздүн жана акыркы 45 күндүк медиа файлдарыңыздын камдык көчүрмөсүн бекер сактай аласыз же ар бир тиркеменин камдык көчүрмөсүн сактоо үчүн 100 ГБ сактагыч алуу үчүн ай сайын аз өлчөмдөгү төлөм төлөй аласыз. Баштоо үчүн Signal колдонмосунун орнотуулар барагындагы камдык көчүрмөлөрдү таптаңыз. Бул функцияны сыноого жардам бергениңизге рахмат!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Эми өзүңүздү же топтук маектеги ролуңузду сүрөттөө үчүн катышуучунун энбелгисин кошо аласыз. Жаңы топтун мүчөлөрү кошулганда ишти баштоого жардам берүү үчүн жергиликтүү футбол лигасынын маегинде топ мүчөсүнүн энбелгисин \"Рефери\" же \"Дарбазачы\" деп коюңуз, андан соң компаниянын маегинде кызмат ордуңуз жазылган башка энбелгини тандаңыз. Катышуучу энбелгилери ал топто профилиңиздин атынын жанында чыгат жана топ админдери \"Топ маалыматын түзөтүү\" уруксаты менен ким энбелги коё аларын көзөмөлдөйт."
   }
 }

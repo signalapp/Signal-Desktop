@@ -1116,7 +1116,7 @@
     "messageformat": "Lisää jäsentunniste"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "QR-koodisi"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Huomautus"
@@ -7944,6 +7944,6 @@
     "messageformat": "Signal Secure -varmuuskopiointi on nyt saatavilla! Nyt voit ottaa käyttöön automaattisen, päästä päähän salatun varmuuskopioinnin. Näin et koskaan menetä viestejä, kun hankit uuden puhelimen tai asennat Signalin uudelleen. Voit varmuuskopioida kaikki viestisi ja viimeisten 45 päivän mediasisällön veloituksetta. Pienellä kuukausimaksulla saat 100 Gt tallennustilaa kaikkien liitteiden varmuuskopiointiin. Aloita napauttamalla Varmuuskopiointi Signal-asetuksissa. Kiitos beta-vaiheen testaajille!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Voit nyt halutessasi lisätä jäsenroolin kuvaamaan itseäsi tai rooliasi ryhmäkeskustelussa. Jäsenroolit näkyvät ryhmässä, profiilin nimen vieressä. Ryhmän ylläpitäjät voivat hallita Muokkaa ryhmän tietoja -asetuksen avulla, kuka voi asettaa rooleja ryhmässä."
   }
 }

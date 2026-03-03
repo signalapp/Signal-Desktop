@@ -1116,7 +1116,7 @@
     "messageformat": "Mitgliedslabel hinzufügen"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "Dein QR-Code"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Notiz"
@@ -7944,6 +7944,6 @@
     "messageformat": "Signal Secure Backups ist da! Jetzt kannst du automatische Ende-zu-Ende-verschlüsselte Backups aktivieren, damit du nie wieder eine Nachricht verlierst, wenn du dir ein neues Telefon zulegst oder Signal neu installierst. Du kannst all deine Nachrichten und die Medien der letzten 45 Tage kostenlos sichern oder dir gegen eine geringe monatliche Gebühr 100 GB Speicherplatz holen und all deine Anhänge sichern. Tippe in deinen Signal-Einstellungen einfach auf »Backups«, um loszulegen. Danke an alle, die während der Beta-Phase beim Testen dieser Funktion mitgeholfen haben!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Jetzt kannst du ein Mitgliedslabel hinzufügen, um dich oder deine Rolle in einem Gruppenchat zu beschreiben. Label dich im Fußballclub-Chat als „Schiedsrichterin“ oder „Torwart“, damit neue Mitspieler*innen Bescheid wissen – und im Firmenchat ist wohl eher ein Label mit deiner beruflichen Position angesagt. Mitgliedslabels werden in einer Gruppe neben deinem Profilnamen angezeigt; Gruppenadmins können mit der Berechtigung »Gruppendetails bearbeiten« festlegen, wer ein Label erstellen darf."
   }
 }

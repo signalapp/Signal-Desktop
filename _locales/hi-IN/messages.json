@@ -1116,7 +1116,7 @@
     "messageformat": "कोई मेंबर लेबल जोड़ें"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "आपका QR कोड"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "नोट"
@@ -7944,6 +7944,6 @@
     "messageformat": "पेश है Signal सिक्योर बैकअप! ऑटोमैटिक एंड-टू-एंड एनक्रिप्टेड बैकअप चालू करने की सहूलियत पाएं, ताकि नया फ़ोन लेने या Signal फिर से इंस्टॉल करने पर आपका एक भी मैसेज गायब न हो। अपने सारे मैसेज और पिछले 45 दिनों के मीडिया का बैकअप मुफ़्त में लें, या अगर हर अटैचमेंट का बैकअप लेने के लिए 100 GB स्टोरेज पाना है, तो हर महीने एक मामूली राशि का पेमेंट करें। शुरू करने के लिए अपनी Signal सेटिंग में जाकर बैकअप पर टैप करें। बीटा पीरियड में यह फ़ीचर टेस्ट करके हमारी मदद करने वाले सभी लोगों का धन्यवाद!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "अब ग्रुप चैट में अपने बारे में या अपने रोल के बारे में बताने के लिए, आपके पास मेंबर लेबल जोड़ने का विकल्प मौजूद है। नए साथियों के जुड़ने पर बातचीत का माहौल जमाने के लिए, अपनी लोकल फुटबॉल लीग चैट में अपना ग्रुप मेंबर लेबल 'रेफ़री' या 'गोलकीपर' सेट करें, और फिर कंपनी चैट में अपने ज़ॉब टाइटल वाला कोई दूसरा लेबल चुन लें। ग्रुप में मेंबर लेबल आपके प्रोफ़ाइल नेम के आगे दिखते हैं, और ग्रुप ऐडमिन 'ग्रुप जानकारी एडिट करें' वाली अनुमति के ज़रिए यह कंट्रोल कर सकते हैं कि कौन लेबल सेट कर सकता है।"
   }
 }

@@ -1116,7 +1116,7 @@
     "messageformat": "Добавяне на етикет на член"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "Вашият QR код"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Бележка"
@@ -7944,6 +7944,6 @@
     "messageformat": "Сигурните резервни копия на Signal са тук! Сега можете да изберете да активирате автоматични резервни копия, криптирани от край до край, така че никога да не губите съобщения, когато си вземете нов телефон или преинсталирате Signal. Можете безплатно да архивирате всичките си съобщения и мултимедията от последните 45 дни или да плащате малка месечна такса, за да получите 100 GB място за съхранение, в което да архивирате всички прикачени файлове. Докоснете резервните копия в настройките на Signal, за да започнете. Благодарим на всички, които помогнаха за тестването на тази функция по време на бета-периода!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Вече по желание можете да добавите етикет на член, за да опишете себе си или ролята си в груповия чат. Етикетите на членовете се появяват до името на профила ви в групата, а администраторите на групи могат да управляват кой може да задава етикети с разрешението „Редактиране на информацията за групата“."
   }
 }

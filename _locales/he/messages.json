@@ -1116,7 +1116,7 @@
     "messageformat": "הוספת תווית"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "קוד ה–QR שלך"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "הערה"
@@ -7944,6 +7944,6 @@
     "messageformat": "הגיבויים המאובטחים של Signal כבר כאן! אפשר להפעיל גיבויים אוטומטיים מוצפנים מקצה לקצה כדי שלא תאבדו הודעות במעבר לטלפון חדש או בהתקנה מחדש של Signal. אפשר לגבות את כל ההודעות ואת 45 ימי המדיה האחרונים בחינם, או לשלם תשלום חודשי קטן כדי לקבל 100GB של אחסון לגיבוי כל הקבצים המצורפים. יש ללחוץ על גיבויים בהגדרות Signal שלך כדי להתחיל. תודה לכל מי שעזרו לבדוק את הפיצ׳ר הזה במהלך תקופת הבטא!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "עכשיו אפשר להוסיף תווית חבר/ה כדי לתאר את עצמך או את התפקיד שלך בצ׳אט הקבוצתי. תוויות חברים מופיעות ליד שם הפרופיל באותה קבוצה, ומנהלי קבוצות יכולים לשלוט במי שיכולים להגדיר תווית באמצעות הרשאת ״עריכת מידע קבוצה״."
   }
 }

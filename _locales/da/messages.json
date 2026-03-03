@@ -1116,7 +1116,7 @@
     "messageformat": "Tilføj en medlemsetiket"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "Din QR-kode"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Note"
@@ -7944,6 +7944,6 @@
     "messageformat": "Sikre sikkerhedskopier er landet! Nu kan du vælge at aktivere automatiske E2E-krypterede sikkerhedskopier, så du aldrig mister en besked, når du får en ny telefon eller geninstallerer Signal. Du kan sikkerhedskopier alle dine beskeder og de sidste 45 dages medier gratis, eller få 100 GB plads til alle vedhæftede filer mod et lille månedligt gebyr. Tryk på Sikkerhedskopier i dine Signal-indstillinger for at komme i gang. Tak til alle, der testede denne funktion under betaperioden!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Nu kan du valgfrit tilføje en medlemstitel for at beskrive dig selv eller din rolle i gruppechatten. Brug medlemstitler som “Dommer” eller “Målmand” i din lokale fodboldgruppe for at komme i gang, når nye holdkammerater joiner. Skift derefter til en anden titel med din stilling i virksomhedschatten. Medlemstitler vises ved dit profilnavn i gruppen, og gruppeadministratorer kan styre, hvem der kan tildele en titel via tilladelse i “Rediger gruppeinfo”."
   }
 }

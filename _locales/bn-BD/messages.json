@@ -1116,7 +1116,7 @@
     "messageformat": "একটি সদস্য লেবেল যোগ করুন"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "আপনার QR কোড"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "নোট"
@@ -7944,6 +7944,6 @@
     "messageformat": "চলে এলো Signal নিরাপদ ব্যাকআপ! এখন আপনি স্বয়ংক্রিয় এন্ড-টু-এন্ড এনক্রিপ্ট করা ব্যাকআপ সচল করতে পারবেন যাতে আপনি কোনো নতুন ফোন নিলে বা Signal পুনরায় ইনস্টল করলে কোনো মেসেজ হারাবেন না। আপনি আপনার সব মেসেজ এবং গত 45 দিনের মিডিয়া বিনামূল্যে ব্যাকআপ করতে পারবেন, অথবা প্রতিটি সংযুক্তির ব্যাকআপ নেওয়ার জন্য 100 GB স্টোরেজ পেতে আপনি একটি ছোট মাসিক ফি দিতে পারবেন। চালু করতে আপনার Signal সেটিংসে ব্যাকআপ-এ ট্যাপ করুন। বিটা পিরিয়ডের সময় এই ফিচারটি পরীক্ষা করতে সাহায্য করেছেন এমন সবাইকে ধন্যবাদ!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "এখন আপনি ইচ্ছা হলে একটি সদস্য লেবেল যোগ করতে পারেন যাতে আপনি নিজের বা কোনো গ্রুপ চ্যাটে আপনার ভূমিকা বর্ণনা করতে পারেন। সদস্য লেবেল সেই গ্রুপে আপনার প্রোফাইল নামের পাশে প্রদর্শিত হয় এবং গ্রুপ অ্যাডমিনরা \"গ্রুপের তথ্য এডিট করুন\" অনুমতি নিয়ে কে লেবেল নির্ধারণ করতে পারবেন তা নিয়ন্ত্রণ করতে পারবেন।"
   }
 }

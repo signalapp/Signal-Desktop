@@ -1116,7 +1116,7 @@
     "messageformat": "新增成員標籤"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "你的二維碼"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "備註"
@@ -7944,6 +7944,6 @@
     "messageformat": "• Signal 安全備份登場！現在你可以選擇啟用自動端對端加密備份服務，這樣當你使用新手機或重新安裝 Signal 時，就不會遺失訊息。你可以免費備份所有訊息和最近 45 天的媒體，也可以支付少量月費獲得 100 GB 儲存空間來備份全部附件。輕按 Signal 設定中的備份即可開始。感謝所有在測試期間協助測試此功能的人！"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "現在你可以隨意地新增一個成員標籤來描述你自己或你在群組聊天中的角色。例如在你當地的足球聯賽聊天中，將你的群組成員標籤設定為「裁判」或「守門員」，以協助新隊友加入時展開討論，而在公司聊天中則選擇你工作職位的標籤。成員標籤會顯示在該群組中的個人檔案名稱旁邊，群組管理員可以透過「編輯群組資訊」權限控制誰可以設定標籤。"
   }
 }

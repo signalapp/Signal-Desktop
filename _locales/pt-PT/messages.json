@@ -1116,7 +1116,7 @@
     "messageformat": "Adicionar uma etiqueta de membro"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "O seu código QR"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Nota"
@@ -7944,6 +7944,6 @@
     "messageformat": "Chegaram as cópias de segurança do Signal! Agora pode optar por ativar cópias de segurança automáticas encriptadas de ponta a ponta, para nunca perder uma mensagem quando troca de telemóvel ou reinstala o Signal. Pode fazer cópias de segurança de todas as suas mensagens e dos últimos 45 dias de ficheiros multimédia gratuitamente, ou pode pagar uma pequena taxa mensal para obter 100 GB de armazenamento para fazer cópias de segurança de todos os anexos. Toque em \"cópias de segurança\" nas suas definições do Signal para começar. Agradecemos a toda a gente que ajudou a testar esta funcionalidade durante o período beta!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Agora pode opcionalmente adicionar uma etiqueta de membro para se descrever ou descrever a sua função num chat de grupo. As etiquetas de membro aparecem junto ao nome do seu perfil nesse grupo e os administradores do grupo podem controlar quem pode definir uma etiqueta com a permissão \"Editar informações do grupo\"."
   }
 }

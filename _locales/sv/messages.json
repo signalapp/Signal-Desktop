@@ -1116,7 +1116,7 @@
     "messageformat": "Lägg till en medlemsetikett"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "Din QR-kod"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Anteckning"
@@ -7944,6 +7944,6 @@
     "messageformat": "Signals säkra säkerhetskopior är här! Nu kan du välja att aktivera automatiska säkerhetskopior med totalsträckskryptering, så att du aldrig förlorar ett meddelande när du skaffar en ny telefon eller installerar om Signal. Du kan säkerhetskopiera alla dina meddelanden och de senaste 45 dagarnas media gratis, eller så kan du betala en liten månadsavgift för att få 100 GB lagringsutrymme för att säkerhetskopiera varje bilaga. Tryck på Säkerhetskopior i dina Signal-inställningar för att komma igång. Tack till alla som hjälpte till att testa den här funktionen under betaperioden!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Nu kan du välja att lägga till en medlemsetikett för att beskriva dig själv eller din roll i en gruppchatt. Medlemsetiketter visas bredvid ditt profilnamn i gruppen, och gruppadministratörer kan styra vem som får ange en etikett med behörigheten ”Redigera gruppinfo”."
   }
 }

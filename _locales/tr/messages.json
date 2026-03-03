@@ -1116,7 +1116,7 @@
     "messageformat": "Bir üye etiketi ekle"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "Karekodun"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Not"
@@ -7944,6 +7944,6 @@
     "messageformat": "Signal güvenli yedeklemeler burada! Artık otomatik uçtan uca şifrelenmiş yedeklemeleri etkinleştirmeyi seçebilirsin, böylece yeni bir telefon aldığında veya Signal'ı yeniden yüklediğinde hiçbir mesajı kaybetmezsin. Tüm mesajlarını ve son 45 günlük medyayı ücretsiz olarak yedekleyebilir ya da aylık küçük bir ücret ödeyerek her eklentiyi yedeklemek için 100 GB depolama alanına sahip olabilirsin. Başlamak için Signal ayarlarındaki yedeklemelere dokunun. Beta dönemi boyunca bu özelliğin test edilmesine yardımcı olan herkese teşekkürler!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Artık bir grup sohbetinde kendini veya rolünü tanımlamak amacıyla isteğe bağlı bir üye etiketi ekleyebilirsin. Örneğin, mahalle futbol takımı grubunda üye etiketini “Hakem” veya “Kaleci” olarak ayarlayabilir ya da şirket grubunda üye etiketini unvanın olarak belirleyebilirsin. Üye etiketleri o gruptaki profil adının yanında görünür ve grup yöneticileri \"Grup Bilgilerini Düzenle\" izniyle kimlerin etiket belirleyebileceğini kontrol edebilir."
   }
 }

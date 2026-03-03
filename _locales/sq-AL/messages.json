@@ -1116,7 +1116,7 @@
     "messageformat": "Shto emërtimin e anëtarit"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "Kodi QR"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Shënim"
@@ -7944,6 +7944,6 @@
     "messageformat": "Kopjeruajtjet e sigurta erdhën! Mund të aktivizosh kopjeruajtjet automatike të koduara nga skaji në skaj, që të mos humbisësh asnjë mesazh kur merr telefon të ri ose riinstalo Signal. Mund të krijosh falas kopjeruajtje të gjitha mesazheve dhe medias të 45 ditëve të fundit, ose të paguash një tarifë mujore për të marrë 100 GB hapësirë për të ruajtur çdo bashkëngjitje. Kliko te kopjeruajtjet te parametrat e Signal për të nisur. Faleminderit atyre që testuan veçorinë gjatë periudhës beta!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Tani mund të shtosh opsionalisht emërtimin e anëtarit për të përshkruar veten ose rolin tënd në bisedat në grup. Vendos emërtimin e anëtarit të grupit në \"Arbitër\" ose \"Portier\" në bisedën lokale të futbollit të ligës argëtuese për të ndihmuar në fillimin e punës kur bashkohen shokët e rinj të ekipit, pastaj zgjidh një emërtim tjetër me titullin e punës në bisedën e kompanisë. Emërtimet e anëtarit shfaqen pranë emrit të profilit në atë grup dhe administratorët e grupit mund të kontrollojnë se kush mund të vendosë emërtim me lejen \"Përpuno informacionin e grupit\"."
   }
 }

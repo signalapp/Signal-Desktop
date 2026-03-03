@@ -1116,7 +1116,7 @@
     "messageformat": "Afegir categoria de membre"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "El teu codi QR"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Nota"
@@ -7944,6 +7944,6 @@
     "messageformat": "Ja són aquí les còpies de seguretat segures de Signal! Ara pots activar còpies de seguretat automàtiques amb xifratge d’extrem a extrem per no perdre cap missatge quan canviïs de telèfon o reinstal·lis l’aplicació. Pots fer còpies de seguretat gratuïtes de tots els teus missatges i dels darrers 45 dies de contingut multimèdia, o bé pagar una petita quota mensual per disposar de 100 GB d’emmagatzematge i desar tots els teus fitxers adjunts. Per començar, ves als ajustos de Signal i toca Còpies de seguretat. Gràcies a tothom que ha ajudat a provar aquesta funció durant el període beta!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Ara tens l'opció d'afegir una categoria de membre per descriure't a tu mateix o el teu rol en un xat grupal. La categoria de membre apareix al costat del teu nom de perfil al grup, i els admins decideixen qui pot afegir una categoria amb el permís \"Editar informació del grup\"."
   }
 }

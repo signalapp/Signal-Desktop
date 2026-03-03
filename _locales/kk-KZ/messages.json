@@ -1116,7 +1116,7 @@
     "messageformat": "Қатысушы белгішесін қосу"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "QR кодыңыз"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Ескертпе"
@@ -7944,6 +7944,6 @@
     "messageformat": "Signal қауіпсіз сақтық көшірмесі шықты! Автоматты тура шифрланған сақтық көшірмелерді іске қосу арқылы енді жаңа телефон алғанда не Signal-ды қайта орнатқанда, хабарларды мүлдем жоғалтпайсыз. Барлық хабардың және соңғы 45 күндегі мультимедиа файлдарының сақтық көшірмесін тегін жасауға немесе ай сайын азғантай ақша төлеп, 100 ГБ алуға болады. Бастау үшін Signal параметрлеріндегі сақтық көшірмелерді басыңыз. Бета кезеңінде бұл функцияны сынақтан өткізген пайдаланушыларға алғысымыз шексіз!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Енді топтық чатта қатысушы белгішесін қосып, өзіңізді немесе рөліңізді сипаттай аласыз. Жергілікті әуесқой футбол лигасының чатында жаңа ойыншылар қосылған кезде, қатысушы белгішеңізді \"Төреші\" немесе \"Қақпашы\" деп қойыңыз. Ал жұмыс істейтін компанияңыздың чатында өз лауазымыңды көрсететін басқа атауды таңдаңыз. Қатысушы белгішелері сол топтағы профиль атауының жанында көрсетіледі және топ әкімшілері \"Топ туралы ақпаратты өзгерту\" рұқсатымен белгішені кім орната алатынын басқарады."
   }
 }

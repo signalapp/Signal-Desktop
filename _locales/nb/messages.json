@@ -1116,7 +1116,7 @@
     "messageformat": "Legg til et medlemsmerke"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "Din QR-kode"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Notat"
@@ -7944,6 +7944,6 @@
     "messageformat": "Sikre sikkerhetskopier på Signal er her! Nå kan du aktivere automatisk ende-til-ende-kryptert sikkerhetskopiering og slippe å miste meldingene dine når du bytter mobil eller installerer Signal på nytt. Du kan sikkerhetskopiere alle meldingene dine fra de siste 45 dagene uten kostnad, eller betale en liten sum hver måned for å få 100 GB lagringsplass. Trykk på «Sikkerhetskopiering» i Signal-innstillingene for å komme i gang. Takk til alle som hjalp oss med å teste ut funksjonen i betamodus!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Nå kan du legge til medlemsmerker som beskriver deg eller rollen din, i gruppesamtaler. Medlemsmerket vises ved siden av profilnavnet ditt, og gruppeadministratorene styrer hvem som kan velge merker, via innstillingen «Rediger gruppeinformasjon»."
   }
 }

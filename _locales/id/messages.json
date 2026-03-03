@@ -1116,7 +1116,7 @@
     "messageformat": "Tambahkan label anggota"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "Kode QR Anda"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Catatan"
@@ -7944,6 +7944,6 @@
     "messageformat": "Signal Secure Backups telah hadir! Sekarang Anda bisa mengaktifkan pencadangan otomatis yang terenkripsi secara menyeluruh, jadi pesan tidak akan hilang saat Anda memakai ponsel baru atau setelah menginstal ulang aplikasi Signal. Anda bisa mencadangkan semua pesan dan media hingga 45 hari terakhir secara gratis, atau bayar biaya bulanan yang murah untuk mendapatkan penyimpanan 100 GB agar bisa mencadangkan setiap lampiran. Ketuk Cadangan di pengaturan Signal untuk memulai. Terima kasih untuk semua pengguna yang telah membantu menguji fitur ini selama periode beta!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Sekarang tersedia opsi menambahkan label anggota untuk mendeskripsikan diri atau peran Anda dalam sebuah chat grup. Label anggota ditampilkan di samping nama profil Anda dalam grup tersebut dan admin grup bisa mengontrol siapa yang bisa menetapkan label melalui izin “Edit Info Grup”."
   }
 }

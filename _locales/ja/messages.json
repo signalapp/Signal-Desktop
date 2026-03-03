@@ -1116,7 +1116,7 @@
     "messageformat": "メンバーラベルを追加"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "QRコード"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "メモ"
@@ -7944,6 +7944,6 @@
     "messageformat": "Signalセキュアバックアップが登場しました！エンドツーエンドの暗号化された自動バックアップを有効にできるようになりました。有効にしておけば、機種変更をしてもSignalを再インストールしてもメッセージが失われることはありません。すべてのメッセージと過去45日間のメディアを無料でバックアップすることも、少額の月額料金を支払って100GBのストレージを取得し、すべての添付ファイルをバックアップすることもできます。開始するには、Signalの設定で「バックアップ」をタップしてください。ベータ期間中にこの機能のテストに協力してくださった皆様にお礼を申し上げます！"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "グループチャット内で、自分自身についてや自分の役割について説明するメンバーラベルを任意で追加できるようになりました。メンバーラベルは、そのグループ内であなたのプロフィールネームの横に表示されます。また、「グループ情報を編集する」の権限を持つグループ管理者は、誰がラベルを設定できるかを管理できます。"
   }
 }

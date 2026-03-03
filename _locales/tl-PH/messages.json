@@ -1116,7 +1116,7 @@
     "messageformat": "Maglagay ng member label"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "Ang QR code mo"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Note"
@@ -7944,6 +7944,6 @@
     "messageformat": "Narito na ang Signal secure backups! Maaari mo nang i-enable ang automatic end-to-end encrypted backups para walang mawawalang message kapag nagpalit ka ng phone o nag-reinstall ka ng Signal. Maaari mong i-back up nang libre ang lahat ng messages mo at ang huling 45 araw ng iyong media, o maaari kang magbayad nang maliit na monthly fee para makakuha ng 100 GB storage para ma-back up mo ng bawat attachment. I-tap ang backups sa Signal settings mo para magsimula. Maraming salamat sa lahat ng taong tumulong sa pag-test ng feature na ito noong beta period!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Kung gusto mo, pwede ka nang maglagay ng member label para ilarawan ang sarili mo o ang role mo sa group chat. Ang member labels ay makikita sa tabi ng profile name mo sa group, at may kontrol ang group admins kung sinong maaaring maglagay ng label sa pamamagitan ng \"Edit Group Info\" permission."
   }
 }

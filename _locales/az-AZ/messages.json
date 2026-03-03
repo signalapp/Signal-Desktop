@@ -1116,7 +1116,7 @@
     "messageformat": "Üzv etiketi əlavə edin"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "QR kodunuz"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Qeyd"
@@ -7944,6 +7944,6 @@
     "messageformat": "Signal təhlükəsiz ehtiyat nüsxələri burada! Artıq yeni telefon aldıqda və ya Signal-ı təkrar quraşdırdıqda avtomatik ucdan-uca şifrələnən ehtiyat nüsxələri aktivləşdirsəniz mesajlar silinməz. Bütün mesajlar və son 45 günlük media faylların ehtiyat nüsxəsini pulsuz çıxara və ya hər bir qoşmanın ehtiyat nüsxəsi üçün aylıq kiçik bir ödənişlə 100 GB yaddaş qazana bilərsiniz. Signal parametrlərində ehtiyat nüsxələrə toxunun. Beta mərhələsində bu xüsusiyyətin sınağına kömək edənlərə təşəkkürlər!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Artıq qrup çatında özünüzü və ya rolunuzu təsvir etmək üçün üzv etiketi də əlavə edə bilərsiniz. Qrupa yeni insanlar qoşulduqda işləri tezləşdirməyə kömək etmək üçün yerli futbol liqası qrup çatınızdakı üzv etiketinizi \"Hakim\" və ya \"Qapıçı\" kimi təyin edin, şirkət çatında isə fərqli bir etiket seçin. Üzv etiketi həmin qrupdakı profil adınızın yanında görünür və qrup adminləri \"Qrup məlumatını redaktə et\" icazəsi ilə kimin etiket təyin edəcəyinə nəzarət edə bilər."
   }
 }

@@ -1116,7 +1116,7 @@
     "messageformat": "ایک ممبر لیبل شامل کریں"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "آپ کا QR کوڈ"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "نوٹ"
@@ -7944,6 +7944,6 @@
     "messageformat": "Signal محفوظ بیک اپس یہاں ہیں! اب آپ خودکار آخر سے آخر تک انکرپٹ کردہ بیک اپس کو فعال کرنے کا انتخاب کر سکتے ہیں تاکہ جب آپ نیا فون لیں یا Signal ری انسٹال کریں تو آپ کا میسج کبھی غائب نہ ہو۔ آپ اپنے تمام میسجز اور پچھلے 45 دنوں کا میڈیا مفت میں بیک اپ کر سکتے ہیں، یا آپ ہر منسلکہ کے بیک اپ کیلیے 100 GB کی اسٹوریج حاصل کرنے کے لیے مختصر ماہانہ فیس ادا کر سکتے ہیں۔ آغاز کے لیے اپنے Signal کی سیٹنگز میں بیک اپس پر ٹیپ کریں۔ ہر کسی کا شکریہ جنہوں نے بیٹا پیریڈ کے دوران اس فیچر کو ٹیسٹ کرنے میں مدد کی!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "• اب آپ اختیاری طور پر گروپ چیٹ میں اپنے بارے میں یا اپنے کردار کو بیان کرنے کے لیے ایک ممبر لیبل شامل کر سکتے ہیں۔ اپنے گروپ ممبر لیبل کو \"ریفری\" یا \"گولی\" رکھیں تاکہ آپ کے نئے تیم ممبرز کے ساتھ کام شروع کریں، اور پھر کمپنی چیٹ میں اپنی جاب ٹائٹل کے ساتھ لیبل رکھیں۔ اس گروپ میں ممبر لیبلز آپ کے پروفائل نام کے ساتھ ظاہر ہوتے ہیں اور گروپ ایڈمنز یہ کنٹرول کر سکتے ہیں کہ کون \"گروپ کی معلومات میں ترمیم کریں\" کی اجازت کے ذریعے لیبل سیٹ کر سکتا ہے۔"
   }
 }

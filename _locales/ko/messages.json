@@ -1116,7 +1116,7 @@
     "messageformat": "멤버 라벨 추가"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "내 QR 코드"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "메모"
@@ -3279,7 +3279,7 @@
     "messageformat": "가짜 이름과 계정"
   },
   "icu:SafetyTipsModal__TipDescription--Fake": {
-    "messageformat": "Signal은 절대 사용자의 등록 코드나 PIN을 요청하지 않습니다. 사칭 계정에 유의하세요. 프로필 이름은 해당 계정 보유자가 선택하며, 프로필 이름이 확인되지 않았습니다."
+    "messageformat": "Signal은 절대 사용자의 등록 코드나 PIN을 요청하지 않습니다. 타인을 사칭하는 요청에 주의하세요. 프로필 이름은 계정 소유자가 직접 설정하며 별도의 인증 과정을 거치지 않습니다."
   },
   "icu:SafetyTipsModal__TipTitle--Crypto": {
     "messageformat": "암호화폐 또는 금융 사기"
@@ -6307,7 +6307,7 @@
     "messageformat": "메시징"
   },
   "icu:Preferences--read-receipts": {
-    "messageformat": "읽은 메시지"
+    "messageformat": "읽음 표시"
   },
   "icu:Preferences--typing-indicators": {
     "messageformat": "메시지 입력 중 표시"
@@ -7526,10 +7526,10 @@
     "messageformat": "Signal은 독립적인 비영리단체로, 메시지와 통화의 프라이버시 보호를 핵심 가치로 삼고 있습니다. 광고도, 추적도, 감시도 없습니다. Signal의 사명을 지지하신다면 지금 후원해 주세요."
   },
   "icu:PreferencesDonations__privacy-modal-list-1": {
-    "messageformat": "후원하면 프로필에 표시되는 배지를 받을 수 있어요"
+    "messageformat": "후원하면 프로필에 표시되는 배지를 받을 수 있어요."
   },
   "icu:PreferencesDonations__privacy-modal-list-2": {
-    "messageformat": "개인정보 보호는 Signal의 사명입니다"
+    "messageformat": "개인정보 보호는 Signal의 사명입니다."
   },
   "icu:PreferencesDonations__privacy-modal-list-3": {
     "messageformat": "Signal은 비영리단체입니다."
@@ -7944,6 +7944,6 @@
     "messageformat": "Signal 안전 백업을 지금 만나보세요! 이제 엔드투엔드 자동 암호화 백업을 사용하여, 휴대폰을 새로 구매하거나 Signal을 다시 설치할 경우 메시지가 손실되는 상황을 방지할 수 있습니다. 모든 메시지와 지난 45일간의 미디어를 무료로 백업하거나, 소액의 월 사용료를 지불하고 100GB 저장 공간에 모든 첨부 파일을 백업하세요. 백업은 Signal 설정에서 백업을 탭하여 시작할 수 있습니다. 베타 기간 동안 이 기능을 테스트하는 데 도움을 주신 모든 분들께 감사드립니다."
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "이제 원하는 경우 멤버 라벨을 추가하여 그룹 채팅 내에서 본인을 소개하거나 본인의 역할을 명시할 수 있습니다. 멤버 라벨은 해당 그룹의 내 프로필 이름 옆에 표시되며, 그룹 관리자는 '그룹 정보 수정' 권한을 사용하여 라벨을 설정할 수 있는 멤버를 관리할 수 있습니다."
   }
 }

@@ -1116,7 +1116,7 @@
     "messageformat": "Ledenlabel toevoegen"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "Je QR-code"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Notitie"
@@ -7944,6 +7944,6 @@
     "messageformat": "Signal Secure Backups is nu beschikbaar! Je kunt nu automatische end-to-end versleutelde back-ups inschakelen zodat je nooit berichten kwijtraakt als je overstapt op een nieuwe telefoon of als je Signal opnieuw installeert. Je kunt gratis een back-up maken van al je berichten en de laatste 45 dagen aan media. Voor een klein maandelijks bedrag ontvang je 100 GB opslag zodat je van al je bijlages een back-up kunt maken. Tik op Back-ups in Signal-instellingen om te beginnen. Iedereen bedankt die deze functie in de bètaperiode heeft getest!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Je kunt in groepschats nu een ledenlabel aanmaken waarmee je iets over jezelf zegt of over je rol. Maak een label aan met ‘Coach’ in de groepschat van je voetbalteam, dan weten nieuwe teamgenoten direct wie je bent. Voor de groepschat met je collega's maak je een ander label aan, bijvoorbeeld met je functietitel. Ledenlabels verschijnen naast je profielnaam in de betreffende groep. Groepsbeheerders kunnen bepalen wie een label mag aanmaken met de machtiging ‘Groepsinformatie bewerken’."
   }
 }

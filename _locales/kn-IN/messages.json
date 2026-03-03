@@ -1116,7 +1116,7 @@
     "messageformat": "ಸದಸ್ಯರ ಲೇಬಲ್ ಸೇರಿಸಿ"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "ನಿಮ್ಮ QR ಕೋಡ್"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "ಟಿಪ್ಪಣಿ"
@@ -7944,6 +7944,6 @@
     "messageformat": "Signal ಸುರಕ್ಷಿತ ಬ್ಯಾಕಪ್‌ಗಳು ಇಲ್ಲಿವೆ! ನೀವು ಸ್ವಯಂಚಾಲಿತ ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್ಕ್ರಿಪ್ಟ್ ಆಗಿರುವ ಬ್ಯಾಕಪ್ ಸಕ್ರಿಯಗೊಳಿಲು ಆಯ್ಕೆಮಾಡಬಹುದು, ಇದರಿಂದ ಹೊಸ ಫೋನ್ ಪಡೆದಾಗ ಅಥವಾ Signal ರೀಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಿದಾಗ ನೀವು ಮೆಸೇಜ್ ಕಳೆದುಕೊಳ್ಳುವುದಿಲ್ಲ. ನೀವು ನಿಮ್ಮ ಎಲ್ಲಾ ಮೆಸೇಜ್‍ಗಳನ್ನು ಮತ್ತು ಕಳೆದ 45 ದಿನಗಳ ಮೀಡಿಯಾವನ್ನು ಉಚಿತವಾಗಿ ಬ್ಯಾಕಪ್ ಮಾಡಬಹುದು ಅಥವಾ ಪ್ರತಿ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್ ಬ್ಯಾಕಪ್ ಮಾಡಲು 100 GB ಸಂಗ್ರಹಣೆಗಾಗಿ ಸಣ್ಣ ಮಾಸಿಕ ಶುಲ್ಕ ಪಾವತಿಸಬಹುದು. ಪ್ರಾರಂಭಿಸಲು Signal ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಎಂಬುದರಲ್ಲಿ ಬ್ಯಾಕಪ್ ಟ್ಯಾಪ್ ಮಾಡಿ. ಬೀಟಾ ಅವಧಿಯಲ್ಲಿ ಈ ಫೀಚರ್ ಪರೀಕ್ಷಿಸಲು ಸಹಾಯಮಾಡಿದ ಎಲ್ಲರಿಗೂ ಧನ್ಯವಾದ!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "ಈಗ ನೀವು ಗುಂಪು ಚಾಟ್‌ನಲ್ಲಿ ನಿಮ್ಮನ್ನು ಅಥವಾ ನಿಮ್ಮ ಪಾತ್ರವನ್ನು ವಿವರಿಸಲು ಐಚ್ಛಿಕವಾಗಿ ಸದಸ್ಯರ ಲೇಬಲ್ ಸೇರಿಸಬಹುದು. ನಿಮ್ಮ ಸ್ಥಳೀಯ ರೆಕ್ ಲೀಗ್ ಸಾಕರ್ ಚಾಟ್‌ನಲ್ಲಿ ತಂಡದ ಹೊಸ ಸದಸ್ಯರು ಸೇರಿದಾಗ ಆರಂಭಿಸಲು ಸಹಾಯವಾಗುವಂತೆ ಗುಂಪಿನ ಸದಸ್ಯರ ಲೇಬಲ್ ಅನ್ನು \"ರೆಫರಿ\" ಅಥವಾ \"ಗೋಲಿ\" ಎಂದು ಸೆಟ್ ಮಾಡಿ, ನಂತರ ಕಂಪನಿ ಚಾಟ್‌ನಲ್ಲಿ ಕೆಲಸದ ಶೀರ್ಷಿಕೆಯೊಂದಿಗೆ ಬೇರೆ ಲೇಬಲ್ ಆಯ್ಕೆಮಾಡಿ. ಗುಂಪಿನಲ್ಲಿ ಪ್ರೊಫೈಲ್ ಹೆಸರಿನ ಪಕ್ಕದಲ್ಲಿ ಸದಸ್ಯರ ಲೇಬಲ್‌ಗಳು ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತವೆ, ಗುಂಪಿನ ಅಡ್ಮಿನ್ \"ಗುಂಪು ಮಾಹಿತಿ ಎಡಿಟ್ ಮಾಡಿ\" ಅನುಮತಿಯೊಂದಿಗೆ ಯಾರು ಲೇಬಲ್ ಸೆಟ್ ಮಾಡಬಹುದು ಎಂಬುದನ್ನು ನಿಯಂತ್ರಿಸಬಹುದು."
   }
 }

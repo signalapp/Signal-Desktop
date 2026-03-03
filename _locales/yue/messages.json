@@ -1116,7 +1116,7 @@
     "messageformat": "加成員標籤"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "你嘅二維碼"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "備註"
@@ -7944,6 +7944,6 @@
     "messageformat": "• Signal 安全備份嚟咗啦！而家你可以揀啟用自動端對端加密備份功能，咁樣當你換新手機或者重新安裝 Signal 嗰陣，就唔會冇晒啲訊息。你可以免費備份全部訊息同最近 45 日嘅媒體，或者可以俾少少月費就有 100 GB 儲存空間嚟備份全部附件。㩒一下 Signal 設定入面嘅備份就可以即刻開始。多謝每個喺測試期間幫手測試呢個功能嘅用家！"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "而家 Singal 可以任你揀加唔加個成員標籤嚟形容你自己，或者你喺個聊天谷入面嘅角色。例如喺你個本地足球聯賽聊天谷入面，將你個成員標籤設定做「裁判」或者「守門員」，幫新隊友了解你係乜水；而喺公司個聊天谷度，你又可以加個標籤話俾人知你做咩職位。成員標籤會顯示喺個谷嘅個人檔名隔離，個谷嘅管理員可以用「編輯聊天谷資料」嘅權限嚟控制邊個可以設定標籤。"
   }
 }

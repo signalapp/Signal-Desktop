@@ -1116,7 +1116,7 @@
     "messageformat": "Přidat štítek člena"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "Váš QR kód"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Poznámka"
@@ -7944,6 +7944,6 @@
     "messageformat": "Zabezpečené zálohování Signal je tu! Nyní můžete povolit automatické koncově šifrované zálohování, abyste při pořízení nového telefonu nebo přeinstalování aplikace Signal nepřišli o žádné zprávy. Všechny zprávy a média za posledních 45 dní můžete zálohovat zdarma, nebo můžete za malý měsíční poplatek získat 100GB úložiště pro zálohování každé přílohy. Klepněte na zálohování v nastavení aplikace Signal a můžete začít. Děkujeme všem, kteří se podíleli na testování této funkce ve fázi beta verze!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Nyní lze volitelně přidat štítek člena, kterým popíšete sebe nebo svou roli ve skupině. Štítek člena se zobrazuje vedle vašeho profilového jména ve skupině a správci skupin mohou kontrolovat, kdo štítek nastavil, pomocí oprávnění v nastavení informací o skupině."
   }
 }

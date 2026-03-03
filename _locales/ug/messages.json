@@ -1116,7 +1116,7 @@
     "messageformat": "ئەزا بەلگىسى قوشۇش"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "QR كودىڭىز"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "خاتىرە"
@@ -7944,6 +7944,6 @@
     "messageformat": "• Signal بىخەتەر زاپاسلانمىللىرى بۇ يەردە! ئەمدى سىز يېڭى تېلېفون ئالغاندا ياكى Signalنى قايتا قاچىلىغاندا، ھېچقانداق ئۇچۇرنى يوقاتماسلىق ئۈچۈن، ئاخىرىغىچە مەخپىيلەشتۈرۈلگەن ئاپتوماتىك زاپاسلاشنى قوزغىتىشنى تاللىيالايسىز. بارلىق ئۇچۇرلىرىڭىزنى ۋە ئاخىرقى 45 كۈنلۈك مېدىيانى ھەقسىز زاپاسلىسىڭىز بولىدۇ، ياكى ھەر بىر قوشۇمچە ھۆججەتنى زاپاسلاش ئۈچۈن 100 گىگابايتلىق(GB) ساقلاش بوشلۇقىغا ئېرىشىش ئۈچۈن ئاز مىقداردا ئايلىق ھەق تۆلىسىڭىزمۇ بولىدۇ. باشلاش ئۈچۈن Signal تەڭشەكلىرىڭىزدىكى زاپاسلاشلارنى چېكىڭ. سىناق مەزگىلىدە بۇ ئىقتىدارنى سىناق قىلىشقا ياردەم قىلغان ھەممەيلەنگە رەھمەت!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "ھازىر سىز ئۆزىڭىزنى ياكى گۇرۇپپا سۆھبىتىدىكى رولىڭىزنى تەسۋىرلەش ئۈچۈن ئەزا بەلگىسىنى ئىختىيارىي قوشالايسىز. يېڭى كوماندا ئەزالىرى قوشۇلغاندا، گۇرۇپپا ئەزا بەلگىسىنى يەرلىك پۇتبول بىرلەشمىسى گۇرۇپپىسىدا «رېپېر» ياكى «ۋارتا» قىلىپ تەڭشەش ئارقىلىق گۇرۇپپىغا ھەمكارلىشىپ ئىشلارنى يۈرۈشتۈرۈپ بېرىڭ، ئاندىن شىركەت گۇرۇپپىسىدا خىزمىتىڭىزنىڭ نامى بىلەن باشقا بەلگە تاللاڭ. ئەزا بەلگىللىرى شۇ گۇرۇپپىدا سىزنىڭ ئارخىپ نامىڭىزنىڭ يېنىدا كۆرۈنىدۇ، ھەمدە گۇرۇپپا باشقۇرغۇچىلىرى «گۇرۇپپا ئۇچۇرىنى تەھرىرلەش» رۇخسىتى بىلەن كىمنىڭ بەلگىنى تەڭشىيەلەيدىغانلىقىنى كونترول قىلالايدۇ."
   }
 }

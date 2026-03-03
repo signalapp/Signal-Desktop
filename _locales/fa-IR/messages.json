@@ -1116,7 +1116,7 @@
     "messageformat": "افزودن برچسب عضو"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "کد QR شما"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "یادداشت"
@@ -7944,6 +7944,6 @@
     "messageformat": "• پشتیبان‌گیری امن سیگنال اینجاست! اکنون می‌توانید پشتیبان‌گیری‌های رمزگذاری‌شده سرتاسری خودکار را فعال کنید تا هنگام دریافت تلفن جدید یا نصب مجدد سیگنال، هیچ‌وقت پیامی را از دست ندهید. می‌توانید رایگان از همه پیام‌ها و ۴۵ روز اخیر فایل‌های رسانه‌ای خود پشتیبان بگیرید، یا با پرداخت مبلغ اندک ماهانه‌ای ۱۰۰ گیگابایت فضای ذخیره‌سازی برای پشتیبان‌گیری از همه پیوست‌ها دریافت کنید. برای شروع، در «تنظیمات سیگنال» روی پشتیبان‌گیری ضربه بزنید. با تشکر از همه کسانی که در دوره بتا به آزمایش این قابلیت کمک کردند!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "اکنون می‌توانید به‌صورت اختیاری یک برچسب عضو برای معرفی خود یا نقش‌تان در گفتگوی گروهی اضافه کنید. برچسب‌های عضو در آن گروه کنار نام نمایه‌تان نمایش داده می‌شوند و مدیران گروه می‌توانند با استفاده از مجوز «ویرایش اطلاعات گروه» کنترل کنند چه کسانی امکان تنظیم برچسب را داشته باشند."
   }
 }

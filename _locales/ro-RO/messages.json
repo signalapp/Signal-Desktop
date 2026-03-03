@@ -1116,7 +1116,7 @@
     "messageformat": "Adaugă o etichetă de membru"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "Codul tău QR"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Notă"
@@ -7944,6 +7944,6 @@
     "messageformat": "S-au lansat backup-urile securizate Signal! Acum poți alege să activezi backup-urile criptate automate end-to-end, ca să nu pierzi niciun mesaj când ai un telefon nou sau reinstalezi Signal. Poți face backup-uri gratuite pentru toate mesajele și fișierele media din ultimele 45 de zile sau poți plăti o mică taxă lunară ca să obții 100 GB de stocare pentru backup-uri la fiecare atașament. Apasă pe backup-uri în setările Signal pentru a începe. Mulțumim celor care au testat funcția în beta!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Acum poți adăuga opțional un rol de membru pentru a te descrie pe tine sau rolul tău într-un chat de grup. Setează rolul de membru în grupul tău la „Arbitru” sau „Portar” în chat-ul local de fotbal din liga recreativă pentru a te ajuta să începi jocul atunci când se alătură noi coechipieri, apoi alege un rol cu funcția ta în chat-ul companiei. Rolurile de membru apar lângă numele profilului în grupul respectiv, iar administratorii grupului pot controla cine poate seta un rol cu permisiunea „Modifică informațiile grupului”."
   }
 }

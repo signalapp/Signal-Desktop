@@ -1116,7 +1116,7 @@
     "messageformat": "Cuir lipéad baill leis"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "Do chód QR"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Nóta"
@@ -7944,6 +7944,6 @@
     "messageformat": "Tá cúltacaí slána Signal anseo! Anois is féidir leat cumasú cúltacaí criptithe ó cheann ceann go huathoibríoch a roghnú ionas nach gcaillfidh tú teachtaireacht choíche nuair a fhaigheann tú guthán nua nó nuair a athshuiteálann tú Signal. Is féidir leat do theachtaireachtaí uile agus na 45 lá anuas de mheáin a chúltacú saor in aisce, nó is féidir leat táille bheag a íoc gach mí le 100 GB de stóras a fháil chun gach ceangaltán a chúltacú. Tapáil ar chúltacaí i do shocruithe Signal le tosú air. Buíochas le gach duine a chabhraigh le tástáil na gné seo le linn na tréimhse béite!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Anois tá rogha agat lipéad baill a chur leis le cur síos a dhéanamh ort féin nó ar do ról i ngrúpchomhrá. Taispeántar lipéid na mball taobh le hainm próifíle sa ghrúpa sin, agus is féidir le riarthóirí an ghrúpa rialú a dhéanamh ar na daoine atá in ann lipéad a shocrú leis an gcead \"Cuir Faisnéis faoin nGrúpa in Eagar\"."
   }
 }

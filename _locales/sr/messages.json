@@ -1116,7 +1116,7 @@
     "messageformat": "Додајте ознаку члана"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "Ваш QR код"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Белешка"
@@ -7944,6 +7944,6 @@
     "messageformat": "Стигле су безбедне резервне копије Signal-а! Сада можете одабрати да укључите аутоматске, потпуно шифроване резервне копије тако да вам никада не зафали ни порука када набавите нови телефон или поново инсталирате Signal. Сада можете да направите бесплатну резервну копију свих својих порука и последњих 45 дана медија, или се можете одлучити на симболичну месечну претплату да добијете 100 GB меморијског простора за све медије. Додирните „резервне копије“ у подешавањима Signal-а. Захваљујемо се свима који су допринели тестирању ове функције током бета периода!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Сада по жељи можете додати ознаку члана која ће описати вас или вашу улогу у групном ћаскању. Ознака члана ће се појавити поред имена вашег профила у тој групи. Администратори групе контролишу ко може да постави ознаку преко дозвола у одељку „Измени информације о групи“."
   }
 }

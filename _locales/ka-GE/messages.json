@@ -1116,7 +1116,7 @@
     "messageformat": "დაამატე წევრის იარლიყი"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "შენი QR კოდი"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "ჩანიშვნა"
@@ -7944,6 +7944,6 @@
     "messageformat": "Signal-ის უსაფრთხო სათადარიგო ასლები უკვე აქაა! ახლა უკვე შეგიძლია ავტომატური, ბოლომდე დაშიფრული სათადარიგო ასლები ჩართო, რათა აღარასდროს დაკარგო შეტყობინება, თუ ახალი მობილური გექნება, ან Signal-ს თავიდან გადმოიწერ. შეგიძლია შენი ყველა წერილისა და ბოლო 45 დღის მედია ფაილების სათადარიგო ასლები უფასოდ შექმნა, ან მცირე ყოველთვიური გადასახადი გადაიხადო 100გბ მეხსიერებისთვის და ყველა დანართის სათადარიგო ასლი გააკეთო. დასაწყებად შენი Signal-ის პარამეტრებში სათადარიგო ასლებს დააჭირე. მადლობა ყველას, ვინც ბეტა პერიოდში ამ ფუნქციის ტესტირებაში დაგვეხმარა!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "ახლა შეგიძლია, სურვილის შემთხვევაში, წევრის იარლიყი დაამატო, რათა შენი თავი ან შენი როლი აღწერო ჯგუფის ჩატში. დაიყენე ჯგუფის წევრის იარლიყი სამსახურის ჩატში შენი პოზიციის მიხედვით. წევრების იარლიყები ჯგუფში შენი პროფილის სახელის გვერდით ჩნდება და ჯგუფის ადმინისტრატორებს შეუძლიათ გააკონტროლონ, ვინ შეძლებს იარლიყების დაყენებას \"ჯგუფის ინფორმაციის რედაქტირების\" ნებართვით."
   }
 }

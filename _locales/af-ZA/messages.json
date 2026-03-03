@@ -1116,7 +1116,7 @@
     "messageformat": "Voeg 'n lidfunksie-etiket by"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "Jou QR-kode"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Nota"
@@ -7944,6 +7944,6 @@
     "messageformat": "Signal se veilige rugsteun is hier! Jy kan nou kies om outomatiese end-tot-end-geënkripteerde rugsteun te aktiveer sodat jy nooit 'n boodskap verloor wanneer jy 'n nuwe foon kry of Signal herinstalleer nie. Jy kan al jou boodskappe en die laaste 45 dae se media gratis rugsteun, of jy kan 'n klein maandelikse bedraggie betaal om 100 GB se stoorruimte te kry om alle aanhangsels te rugsteun. Tik op rugsteun in jou Signal-instellings om te begin. Dankie aan almal wat hierdie kenmerk tydens die beta-tydperk help toets het!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Nou kan jy opsioneel 'n lidfunksie-etiket byvoeg om jouself of jou rol in 'n groepklets te beskryf. Lidfunksie-etikette verskyn langs jou profielnaam in daardie groep, en groepadmins kan beheer wie met die \"Wysig groepinligting\"-toestemming 'n etiket kan opstel."
   }
 }

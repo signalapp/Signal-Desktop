@@ -1116,7 +1116,7 @@
     "messageformat": "Ongeza lebo ya mwanachama"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "Code yako ya QR"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Kidokezo"
@@ -7944,6 +7944,6 @@
     "messageformat": "Tunakuletea hifadhi nakala salama! Sasa unaweza kuchagua kuwezesha uhifadhi nakala wa kiotomatiki uliosimbwa fiche kuanzia mwanzo hadi mwisho, ili usipoteze ujumbe wowote unapopata simu mpya au kusakinisha upya Signal. Unaweza kuhifadhi nakala za jumbe zako zote na picha na video za siku 45 zilizopita bila malipo au unaweza kulipa ada ndogo ya kila mwezi ili upate hifadhi ya GB 100 kwa ajili ya kuhifadhi kila kiambatisho. Gusa sehemu ya kuhifadhi nakala kwenye mipangilio ya Signal ili uanze. Asante kwa kila mtu aliyesaidia kujaribu kipengele hiki wakati wa kipindi cha beta!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Ukipenda unaweza kuweka cheo cha mwanachama kwa hiari ili kujielezea mwenyewe au nafasi yako kwenye gumzo la kikundi. Weka cheo cha mwanachama wa kikundi chako kuwa “Referee” au “Goalie” kwenye gumzo la timu ya eneo lako ili uweze kuzungumza na wachezaji wapya wanapojiunga, kisha chagua cheo tofauti cha kazi kwenye gumzo la kampuni. Vyeo vya wanachama huonekana kando ya jina la wasifu wako kwenye kikundi, na admins wa kikundi wanaweza kudhibiti anayeruhusiwa kuweka cheo kupitia ruhusa ya “Hariri taarifa.”"
   }
 }

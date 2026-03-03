@@ -1116,7 +1116,7 @@
     "messageformat": "Tagsági címke hozzáadása"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "A QR-kódod"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Megjegyzés"
@@ -7944,6 +7944,6 @@
     "messageformat": "Itt a Signal biztonsági mentés funkciója! Mostantól engedélyezheted az automatikus, végponttól végpontig titkosított biztonsági mentéseket, így soha nem veszítesz el egy üzenetet sem! Ingyen biztonsági másolatot készíthetsz az üzeneteidről és az elmúlt 45 nap médiatartalmairól, vagy egy kisebb havi díjért 100 GB tárhelyet kapsz minden melléklet biztonsági mentéséhez. Koppints a biztonsági mentésekre a Signal beállításaiban. Köszönjük mindenkinek, aki segített tesztelni a funkciót!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Mostantól opcionálisan hozzáadhatsz egy tagsági címkét, amellyel leírhatod magadat vagy a szerepedet egy csoportos csevegésben. A tagsági címkék a profilneved mellett jelennek meg az adott csoportban, és a csoport adminisztrátorai szabályozhatják, hogy ki állíthat be címkét a „Csoportadatok szerkesztése” engedéllyel."
   }
 }

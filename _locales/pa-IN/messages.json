@@ -1116,7 +1116,7 @@
     "messageformat": "ਮੈਂਬਰ ਲੇਬਲ ਸ਼ਾਮਲ ਕਰੋ"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "ਤੁਹਾਡਾ QR ਕੋਡ"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "ਨੋਟ"
@@ -7944,6 +7944,6 @@
     "messageformat": "Signal ਸਿਕਿਓਰ ਬੈਕਅੱਪ ਹੁਣ ਉਪਲਬਧ ਹੈ! ਹੁਣ ਤੁਸੀਂ ਆਪਣੇ-ਆਪ ਸਿਰੇ-ਤੋਂ-ਸਿਰੇ ਤੱਕ ਇਨਕ੍ਰਿਪਟਡ ਬੈਕਅੱਪ ਨੂੰ ਸਮਰੱਥ ਬਣਾਉਣ ਦੀ ਚੋਣ ਕਰ ਸਕਦੇ ਹੋ ਤਾਂ ਜੋ ਨਵਾਂ ਫ਼ੋਨ ਲੈਣ 'ਤੇ ਜਾਂ Signal ਨੂੰ ਮੁੜ ਇੰਸਟਾਲ ਕਰਨ 'ਤੇ ਤੁਸੀਂ ਕਦੇ ਵੀ ਕੋਈ ਸੁਨੇਹਾ ਨਾ ਗੁਆਓ। ਤੁਸੀਂ ਆਪਣੇ ਸਾਰੇ ਸੁਨੇਹਿਆਂ ਅਤੇ ਪਿਛਲੇ 45 ਦਿਨਾਂ ਦੇ ਮੀਡੀਆ ਦਾ ਮੁਫ਼ਤ ਵਿੱਚ ਬੈਕਅੱਪ ਲੈ ਸਕਦੇ ਹੋ, ਜਾਂ ਤੁਸੀਂ ਹਰੇਕ ਅਟੈਚਮੈਂਟ ਦਾ ਬੈਕਅੱਪ ਲੈਣ ਲਈ 100 GB ਸਟੋਰੇਜ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ ਇੱਕ ਛੋਟੀ ਜਿਹੀ ਮਹੀਨਾਵਾਰ ਫੀਸ ਦੇ ਸਕਦੇ ਹੋ। ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਆਪਣੀਆਂ Signal ਸੈਟਿੰਗਾਂ ਵਿੱਚ ਬੈਕਅੱਪ 'ਤੇ ਟੈਪ ਕਰੋ। ਬੀਟਾ ਪੀਰੀਅਡ ਦੌਰਾਨ ਇਸ ਫੀਚਰ ਦੀ ਜਾਂਚ ਕਰਨ ਵਿੱਚ ਮਦਦ ਕਰਨ ਵਾਲੇ ਸਾਰਿਆਂ ਦਾ ਧੰਨਵਾਦ!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "ਹੁਣ ਤੁਸੀਂ ਵਿਕਲਪਿਕ ਤੌਰ 'ਤੇ ਆਪਣੇ ਬਾਰੇ ਜਾਂ ਕਿਸੇ ਗਰੁੱਪ ਚੈਟ ਵਿੱਚ ਆਪਣੀ ਭੂਮਿਕਾ ਦਾ ਵਰਣਨ ਕਰਨ ਲਈ ਇੱਕ ਮੈਂਬਰ ਲੇਬਲ ਜੋੜ ਸਕਦੇ ਹੋ। ਉਸ ਗਰੁੱਪ ਵਿੱਚ ਮੈਂਬਰ ਲੇਬਲ ਨੂੰ ਤੁਹਾਡੇ ਪ੍ਰੋਫ਼ਾਈਲ ਨਾਂ ਦੇ ਅੱਗੇ ਦਿਖਾਇਆ ਜਾਂਦਾ ਹੈ, ਅਤੇ ਗਰੁੱਪ ਦੇ ਐਡਮਿਨ \"ਗਰੁੱਪ ਦੀ ਜਾਣਕਾਰੀ ਸੋਧੋ\" ਇਜਾਜ਼ਤ ਨਾਲ ਇਹ ਕੰਟਰੋਲ ਕਰ ਸਕਦੇ ਹਨ ਕਿ ਲੇਬਲ ਕੌਣ ਸੈੱਟ ਕਰ ਸਕਦਾ ਹੈ।"
   }
 }

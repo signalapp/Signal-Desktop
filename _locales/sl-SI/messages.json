@@ -1116,7 +1116,7 @@
     "messageformat": "Dodaj vlogo člana"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "Vaša QR koda"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Zaznamek"
@@ -7944,6 +7944,6 @@
     "messageformat": "Varne varnostne kopije Signal so tukaj! Zdaj lahko omogočite samodejno varnostno kopiranje s celovitim šifriranjem, tako da ne boste nikoli izgubili sporočila, ko dobite nov telefon ali ponovno namestite Signal. Vsa sporočila in zadnjih 45 dni medijev lahko varnostno kopirate brezplačno ali pa plačate majhno mesečno naročnino, da dobite 100 GB prostora za varnostno kopiranje vsake priloge. Za začetek v nastavitvah Signala tapnite na varnostne kopije. Hvala vsem, ki ste pomagali pri testiranju te funkcije med beta obdobjem!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Zdaj lahko dodate vlogo člana, s katero opišete sebe ali svojo vlogo v skupinskem klepetu. Vloge članov se prikažejo poleg imena profila v skupini, administratorji skupine pa lahko nadzorujejo, kdo lahko nastavi oznako z dovoljenjem »Urejanje podatkov o skupini«."
   }
 }

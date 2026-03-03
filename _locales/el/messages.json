@@ -1116,7 +1116,7 @@
     "messageformat": "Προσθήκη ετικέτας μέλους"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "Ο κωδικός QR σου"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Σημείωση"
@@ -7944,6 +7944,6 @@
     "messageformat": "Τα ασφαλή αντίγραφα Signal είναι εδώ! Τώρα μπορείς να δημιουργείς αυτόματα αντίγραφα, ώστε να μην χάσεις μήνυμα αν αλλάξεις τηλέφωνο ή επανεγκαταστήσεις το Signal. Μπορείς να αποθηκεύεις τα μηνύματα και τα πολυμέσα των τελευταίων 45 ημερών δωρεάν ή να πληρώσεις μια μηνιαία χρέωση για 100 GB αποθηκευτικού χώρου για να έχεις αντίγραφα κάθε συνημμένου. Πάτα στα αντίγραφα ασφαλείας στις ρυθμίσεις Signal για έναρξη. Ευχαριστούμε για τη βοήθεια στη δοκιμή της λειτουργίας κατά την περίοδο beta!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Τώρα μπορείς προαιρετικά να προσθέσεις μια ετικέτα μέλους για να περιγράψεις τον εαυτό σου ή τον ρόλο σου σε μια ομαδική συνομιλία. Οι ετικέτες μελών εμφανίζονται δίπλα στο όνομα του προφίλ σου σε αυτήν την ομάδα και οι διαχειριστές της ομάδας μπορούν να ελέγχουν ποιος μπορεί να ορίσει μια ετικέτα με το δικαίωμα «Επεξεργασία πληροφοριών ομάδας»."
   }
 }

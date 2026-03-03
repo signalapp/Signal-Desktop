@@ -1116,7 +1116,7 @@
     "messageformat": "Thêm Nhãn thành viên"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "Mã QR của bạn"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Ghi chú"
@@ -7944,6 +7944,6 @@
     "messageformat": "Ra mắt Sao lưu bảo mật Signal! Giờ đây, bạn có thể chọn kích hoạt sao lưu mã hóa đầu cuối tự động để không bao giờ mất tin nhắn khi sử dụng điện thoại mới hoặc cài lại Signal. Bạn có thể sao lưu tất cả tin nhắn của mình và tập tin đa phương tiện của 45 ngày gần nhất miễn phí, hoặc trả một khoản phí nhỏ mỗi tháng để nhận 100 GB để sao lưu mọi tập tin đính kèm. Nhấn vào sao lưu trong cài đặt Signal để bắt đầu. Cảm ơn tất đã giúp chúng tôi thử nghiệm tính năng này trong giai đoạn beta!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Giờ đây, bạn có thể tùy chọn thêm nhãn thành viên để mô tả bản thân hoặc vai trò của mình trong cuộc trò chuyện nhóm. Nhãn thành viên sẽ hiển thị ở cạnh tên hồ sơ của bạn trong nhóm đó và quản trị viên nhóm có thể kiểm soát ai có thể đặt nhãn bằng quyền \"Sửa thông tin nhóm\"."
   }
 }

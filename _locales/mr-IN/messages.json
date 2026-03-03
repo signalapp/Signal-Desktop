@@ -1116,7 +1116,7 @@
     "messageformat": "सदस्य लेबल समाविष्ट करा"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "तुमचा QR कोड"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "टीप"
@@ -7944,6 +7944,6 @@
     "messageformat": "सादर आहेत Signal सिक्युअर बॅकअप्स! आता तुम्ही स्वयंचलित एंड-टू-एंड कूटबद्ध केलेले बॅकअप्स सक्रिय करू शकता ज्यामुळे तुम्ही नवीन फोन घेतल्यावर किंवा Signal पुन्हा इन्स्टॉल केल्यावर एकही संदेश गमावणार नाही. तुम्ही तुमचे सगळे संदेश आणि मागील 45 दिवसांचा मीडिया विनामूल्य बॅकअप करू शकता, किंवा तुम्ही एक छोटे मासिक शुल्क भरून प्रत्येक अटॅचमेंट बॅकअप करण्यासाठी 100 GB साठवण प्राप्त करू शकता. सुरु करायला तुमच्या Signal सेटिंग्ज मधील बॅकअप्स टॅप करून चालू करा. बीटा कालावधीत या वैशिष्ट्याची चाचणी करण्यास ज्यांनी मदत केली त्या सर्वांचे आभार!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "आता तुमच्याकडे तुमचे किंवा गट चॅटमधील तुमच्या भूमिकेचे वर्णन करण्यासाठी एक सदस्य लेबल समाविष्ट करण्याचा पर्याय आहे. तुमच्या वस्तीतल्या फूटबॉल टीमच्या चॅटमधले तुमचे गट सदस्य लेबल \"रेफरी\" किंवा \"गोलकीपर\" सेट करा, म्हणजे टीममध्ये नवे सदस्य सामील झाले की त्यांना गोष्टी सुरू करण्यास मदत होईल, आणि कंपनीच्या चॅटमध्ये तुमच्या पदाचे नाव निवडा. सदस्य लेबल्स गटामध्ये तुमच्या प्रोफाइल नावाच्या शेजारी दिसतात, आणि लेबल कोण सेट करू शकते हे गट ॲडमिन \"गट माहिती संपादित करून\" अनुमतीमधून निवडू शकतात."
   }
 }

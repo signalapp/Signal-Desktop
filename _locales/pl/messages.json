@@ -1116,7 +1116,7 @@
     "messageformat": "Podaj rolę w grupie"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "Twój kod QR"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Notatka"
@@ -2442,7 +2442,7 @@
     "messageformat": "{atUsername} nie jest użytkownikiem Signal. Upewnij się, że podajesz pełną nazwę użytkownika."
   },
   "icu:startConversation--username-not-valid": {
-    "messageformat": "{atUsername} to nieprawidłowa nazwa użytkownika. Upewnij się, że wprowadzasz pełną nazwę użytkownika wraz z ciągiem cyfr."
+    "messageformat": "{atUsername} to nieprawidłowa nazwa użytkownika. Upewnij się, że wprowadzasz pełną nazwę użytkownika wraz z zestawem cyfr."
   },
   "icu:startConversation--phone-number-not-found": {
     "messageformat": "Nikogo nie znaleziono. {phoneNumber} nie używa aplikacji Signal."
@@ -2628,7 +2628,7 @@
     "messageformat": "Niektóre załączniki są zbyt duże, aby je wyświetlić."
   },
   "icu:message--call-link-description": {
-    "messageformat": "Aby dołączyć do rozmowy w aplikacji Signal, użyj tego linku"
+    "messageformat": "Aby dołączyć do połączenia Signal, użyj tego linku"
   },
   "icu:donation--missing": {
     "messageformat": "Nie można pobrać szczegółów darowizny"
@@ -5517,7 +5517,7 @@
     "messageformat": "Nie udało się zapisać Twojej nazwy użytkownika. Sprawdź, czy masz połączenie z internetem, i spróbuj ponownie."
   },
   "icu:ProfileEditor--username--reservation-gone": {
-    "messageformat": "Nazwa użytkownika „{username}” nie jest już dostępna. Do Twojej nazwy zostanie przypisany nowy ciąg cyfr. Spróbuj zapisać ją ponownie."
+    "messageformat": "Nazwa użytkownika „{username}” nie jest już dostępna. Do Twojej nazwy zostanie przypisany nowy zestaw cyfr. Spróbuj zapisać ją ponownie."
   },
   "icu:ProfileEditor--username--delete-general-error": {
     "messageformat": "Nie udało się usunąć Twojej nazwy użytkownika. Sprawdź, czy masz połączenie z internetem, i spróbuj ponownie."
@@ -6091,13 +6091,13 @@
     "messageformat": "Automatyczne tworzenie kopii zapasowych w usłudze bezpiecznego przechowywania Signal, szyfrowanej metodą end-to-end. Skonfiguruj na telefonie. <learnMoreLink>Dowiedz się więcej.</learnMoreLink>"
   },
   "icu:Preferences--backup-section-description": {
-    "messageformat": "Stwórz kopię zapasową historii wiadomości, aby ich nie stracić nawet po zmianie telefonu czy ponownej instalacji aplikacji Signal."
+    "messageformat": "Twórz kopie zapasowe wiadomości, aby ich nie stracić nawet po zmianie telefonu czy ponownej instalacji Signal."
   },
   "icu:Preferences--backup-details__header": {
     "messageformat": "Szczegóły kopii zapasowej"
   },
   "icu:Preferences--backup-media-plan__description": {
-    "messageformat": "Wiadomości tekstowe i wszystkie multimedia"
+    "messageformat": "Wiadomości tekstowe + wszystkie multimedia"
   },
   "icu:Preferences--backup-plan-not-found__description": {
     "messageformat": "Subskrypcja jest nieaktywna. Szczegóły kopii zapasowej możesz wyświetlić w aplikacji na telefonie."
@@ -6106,7 +6106,7 @@
     "messageformat": "{cost} miesięcznie"
   },
   "icu:Preferences--backup-messages-plan__description": {
-    "messageformat": "{mediaDayCount, plural, one {Wiadomości tekstowe, w tym multimedia z ostatniego dnia} few {Wiadomości tekstowe, w tym multimedia z ostatnich {mediaDayCount,number} dni} many {Wiadomości tekstowe, w tym multimedia z ostatnich {mediaDayCount,number} dni} other {Wiadomości tekstowe, w tym multimedia z ostatnich {mediaDayCount,number} dni}}"
+    "messageformat": "{mediaDayCount, plural, one {Wiadomości tekstowe + multimedia z {mediaDayCount,number} dnia} few {Wiadomości tekstowe + multimedia z {mediaDayCount,number} dni} many {Wiadomości tekstowe + multimedia z {mediaDayCount,number} dni} other {Wiadomości tekstowe + multimedia z {mediaDayCount,number} dnia}}"
   },
   "icu:Preferences--backup-messages-plan__cost-description": {
     "messageformat": "Korzystasz z bezpłatnego trybu tworzenia kopii zapasowej"
@@ -7202,7 +7202,7 @@
     "messageformat": "Nawiązuj kontakt w nowy sposób"
   },
   "icu:UsernameMegaphone__body": {
-    "messageformat": "Ukrywamy numery telefonu i wprowadzamy opcjonalną nazwę użytkownika oraz linki."
+    "messageformat": "Ukrywamy numery telefonu i wprowadzamy opcjonalną nazwę użytkownika z linkiem do jej udostępniania."
   },
   "icu:UsernameMegaphone__learn-more": {
     "messageformat": "Dowiedz się więcej"
@@ -7944,6 +7944,6 @@
     "messageformat": "Bezpieczne kopie zapasowe Signal są już dostępne. Teraz możesz włączyć automatyczne tworzenie kopii zapasowych szyfrowanych metodą end-to-end. Dzięki temu nie stracisz historii wiadomości, nawet gdy zmienisz telefon czy ponownie zainstalujesz Signal. W trybie bezpłatnym możesz tworzyć kopie zapasowe wszystkich wiadomości, w tym multimediów z ostatnich 45 dni. Za niewielką miesięczną opłatą zyskasz 100 GB miejsca na kopię zapasową wszystkich plików. Aby włączyć tworzenie kopii zapasowych, dotknij opcji „Kopie zapasowe” w ustawieniach aplikacji Signal. Dziękujemy wszystkim, którzy pomogli nam testować tę funkcję w wersji beta."
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Od teraz możesz podać swoją rolę w grupie, aby się przedstawić lub określić funkcję, jaką pełnisz. Bo w życiu, jak w filmie, gramy różne role. Na czacie osiedlowej siłowni można uchodzić za „superkoksa”, na czacie firmowym – za „starszą specjalistką”, ale w grupie rodzinnej już na zawsze pozostanie się „synusiem”. Rola pojawi się w danej grupie obok Twojego imienia podanego w profilu. O tym, kto może ustawiać role w grupie, decydują jej administratorzy w ustawieniach czatu."
   }
 }

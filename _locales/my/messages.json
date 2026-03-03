@@ -1116,7 +1116,7 @@
     "messageformat": "အဖွဲ့ဝင်အမှတ်တံဆိပ် ထည့်ရန်"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "သင့် QR ကုဒ်"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "မှတ်ချက်"
@@ -7944,6 +7944,6 @@
     "messageformat": "Signal လုံခြုံရေးဘက်ခ်အပ် ဤတွင်ရှိသည်။ ယခု ဖုန်းသစ်ဝယ်လျှင် သို့မဟုတ် Signal ကိုပြန်ထည့်သွင်းလျှင် မက်ဆေ့ချ်တစ်ခုမျှမဆုံးရှုံးအောင် အလိုအလျောက် ဟိုဘက်သည်ဘက်ကုဒ်ပြောင်းဝှက်သည့် ဘက်ခ်အပ်ကို ဖွင့်နိုင်ပါပြီ။ မက်ဆေ့ချ်အားလုံးနှင့် နောက်ဆုံး ၄၅ ရက်စာမီဒီယာကို အခမဲ့ဘက်ခ်အပ်လုပ်နိုင်သည် သို့မဟုတ် ပူးတွဲဖိုင်တိုင်းကို ဘက်ခ်အပ်လုပ်ရန် ထားသိုမှု 100 GB ကို လစဉ်ကြေးအနည်းငယ်ဖြင့် ရယူနိုင်သည်။ စတင်ရန် Signal ဆက်တင်တွင် ဘက်ခ်အပ်ကိုနှိပ်ပါ။ Beta ကာလအတွင်း ဤအင်္ဂါရပ်ကိုစမ်းသပ်ရန် ကူညီသူအားလုံးကို ကျေးဇူးတင်ပါသည်။"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "ယခု သင်သည် အဖွဲ့လိုက်ချက်(တ်)တွင် သင့်ကိုယ်သင် သို့မဟုတ် သင့်အခန်းကဏ္ဍကို ဖော်ပြရန် အဖွဲ့ဝင်အမှတ်တံဆိပ်ကို ရွေးချယ်ထည့်သွင်းနိုင်ပါပြီ။ အဖွဲ့ဝင်အမှတ်တံဆိပ်များသည် ထိုအဖွဲ့ရှိ သင့်ပရိုဖိုင်အမည်ဘေးတွင် ပေါ်လာပြီး အဖွဲ့အက်ဒ်မင်များသည် အမှတ်တံဆိပ်သတ်မှတ်နိုင်သူကို ကိုင်တွယ်ထိန်းချုပ်၍ \"အဖွဲ့အချက်အလက်ကို တည်းဖြတ်ရန်\" ခွင့်ပြုချက်ပေးနိုင်သည်။"
   }
 }

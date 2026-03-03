@@ -1116,7 +1116,7 @@
     "messageformat": "أضِف دور للعضو"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "كود QR الخاص بك"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "مُلاحظة"
@@ -7944,6 +7944,6 @@
     "messageformat": "النسخ الاحتياطية الآمنة لسيجنال أصبحت متوفِّرة الآن! يُمكنك الآن اختيار تفعيل النسخ الاحتياطي التلقائي والمُشفَّر تمامًا من طرف إلى طرف، لِضمان عدم فقدان أي رسالة عند اقتناء هاتف جديد أو إعادة تثبيت سيجنال. يُمكنك إجراء نسخ احتياطي لجميع رسائلك وللوسائط الخاصة بآخر 45 يومًا مجانًا، أو يمكنك دفع رسوم شهرية بسيطة للحصول على مساحة 100 جيجابايت لنسخ كافة الملفات المُرفَقة. انقر على النسخ الاحتياطية في إعدادات سيجنال للبدء. شكرًا لِكل من ساهم في اختبار هذه الميزة خلال الفترة التجريبية!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "يمكنك الآن إضافة دور عضو بشكل اختياري لتصف نفسك أو دورك في دردشة جماعية. عيِّن دور عضو المجموعة إلى \"حكم\" أو \"حارس مرمى\" في دردشة دوري كرة القدم المحلي للمساعدة على كسر الجليد عند انضمام زملاء جُدُد، ثم اختر تسمية مختلفة تعكس مسمّاك الوظيفي في دردشة الشركة. تظهر أدوار الأعضاء بجوار اسم حسابك الشخصي في تلك المجموعة، ويمكن لمُشرِفي المجموعة التحكُّم فيمن يحق له وضع دور باستخدام إذن \"تعديل معلومات المجموعة\"."
   }
 }

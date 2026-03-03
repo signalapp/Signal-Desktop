@@ -1116,7 +1116,7 @@
     "messageformat": "Gehitu kide-etiketa bat"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "Zure QR kodea"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Oharra"
@@ -7944,6 +7944,6 @@
     "messageformat": "Hemen dira Babeskopia seguruak! Orain, muturretik muturrera enkriptatutako babeskopia automatikoak gai ditzakezu, telefonoz aldatzean edo Signal berriro instalatzean mezurik ez galtzeko. Mezu guztien eta azken 45 egunetako multimedia-edukien babeskopiak egin ditzakezu doan, edo hilean kuota txiki bat ordain dezakezu 100 GB lortzeko eta den-denaren babeskopiak egiteko, eranskinak barne. Hasteko, sakatu \"Babeskopiak\" Signal-en ezarpenetan. Eskerrik asko beta-eginbidea probatu duzuenoi!"
   },
   "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+    "messageformat": "Orain, nahi baduzu, kide-etiketa bat gehi dezakezu zeure burua edo taldeko txatean duzun funtzioa deskribatzeko. Taldean duzun profileko izenaren alboan agertzen dira, eta taldeko adminek \"Editatu taldeari buruzko informazioa\" baimena erabil dezakete etiketak nork jar ditzakeen kontrolatzeko."
   }
 }
