@@ -285,6 +285,7 @@ import { itemStorage } from './textsecure/Storage.preload.js';
 import { isPinnedMessagesReceiveEnabled } from './util/isPinnedMessagesEnabled.dom.js';
 import { initMessageCleanup } from './services/messageStateCleanup.dom.js';
 import { MessageCache } from './services/MessageCache.preload.js';
+import { saveAndNotify } from './messages/saveAndNotify.preload.js';
 
 const { isNumber, throttle } = lodash;
 
@@ -2706,7 +2707,15 @@ export async function startApp(): Promise<void> {
     }
 
     // Don't wait for handleDataMessage, as it has its own per-conversation queueing
-    drop(handleDataMessage(message, data.message, event.confirm));
+    drop(
+      handleDataMessage(
+        message,
+        data.message,
+        event.confirm,
+        {},
+        { saveAndNotify }
+      )
+    );
   }
 
   async function onProfileKey({
@@ -3261,9 +3270,15 @@ export async function startApp(): Promise<void> {
 
     // Don't wait for handleDataMessage, as it has its own per-conversation queueing
     drop(
-      handleDataMessage(message, data.message, event.confirm, {
-        data,
-      })
+      handleDataMessage(
+        message,
+        data.message,
+        event.confirm,
+        {
+          data,
+        },
+        { saveAndNotify }
+      )
     );
   }
 

@@ -458,7 +458,6 @@ export const DataReader: ServerReadableInterface = {
   getReactionByTimestamp,
   _getAllReactions,
   getMessageByAuthorAciAndSentAt,
-  getMessageBySender,
   getMessageById,
   getMessagesById,
   _getAllMessages,
@@ -3536,55 +3535,6 @@ function getMessageByAuthorAciAndSentAt(
 
     if (rows.length < 1) {
       return null;
-    }
-
-    return hydrateMessage(db, rows[0]);
-  })();
-}
-
-function getMessageBySender(
-  db: ReadableDB,
-  {
-    source,
-    sourceServiceId,
-    sourceDevice,
-    sent_at,
-  }: {
-    source?: string;
-    sourceServiceId?: ServiceIdString;
-    sourceDevice?: number;
-    sent_at: number;
-  }
-): MessageType | undefined {
-  return db.transaction(() => {
-    const rows: Array<MessageTypeUnhydrated> = db
-      .prepare(
-        `
-    SELECT ${MESSAGE_COLUMNS.join(', ')} FROM messages WHERE
-      (source = $source OR sourceServiceId = $sourceServiceId) AND
-      sourceDevice = $sourceDevice AND
-      sent_at = $sent_at
-    LIMIT 2;
-    `
-      )
-      .all({
-        source: source || null,
-        sourceServiceId: sourceServiceId || null,
-        sourceDevice: sourceDevice || null,
-        sent_at,
-      });
-
-    if (rows.length > 1) {
-      logger.warn('getMessageBySender: More than one message found for', {
-        sent_at,
-        source,
-        sourceServiceId,
-        sourceDevice,
-      });
-    }
-
-    if (rows.length < 1) {
-      return undefined;
     }
 
     return hydrateMessage(db, rows[0]);

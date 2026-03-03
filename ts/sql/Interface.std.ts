@@ -910,12 +910,6 @@ type ReadableInterface = {
     sentAtTimestamp: number,
     options: { includeEdits: boolean }
   ) => MessageType | null;
-  getMessageBySender: (options: {
-    source?: string;
-    sourceServiceId?: ServiceIdString;
-    sourceDevice?: number;
-    sent_at: number;
-  }) => MessageType | undefined;
   getMessageById: (id: string) => MessageType | undefined;
   getMessagesById: (messageIds: ReadonlyArray<string>) => Array<MessageType>;
   _getAllMessages: () => Array<MessageType>;
