@@ -2011,9 +2011,12 @@ function getPropsForDeliveryIssue(
 
 // Other utility functions
 
-export function isTapToView(message: MessageWithUIFieldsType): boolean {
+export function isTapToView(
+  message: MessageWithUIFieldsType,
+  ignoreDeletedForEveryone?: boolean
+): boolean {
   // If a message is deleted for everyone, that overrides all other styling
-  if (message.deletedForEveryone) {
+  if (message.deletedForEveryone && !ignoreDeletedForEveryone) {
     return false;
   }
 
