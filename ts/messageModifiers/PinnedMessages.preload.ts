@@ -224,6 +224,10 @@ function validatePinnedMessageTarget(
     return { error: 'Sender does not have access to edit group attributes' };
   }
 
+  if (message.deletedForEveryone) {
+    return { error: 'Cannot pin deleted message' };
+  }
+
   if (isGiftBadge(message)) {
     return { error: 'Cannot pin gift badge messages' };
   }

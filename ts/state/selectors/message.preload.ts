@@ -2622,6 +2622,9 @@ export function canPinMessage(
   if (!canPinMessages(conversation)) {
     return false;
   }
+  if (message.deletedForEveryone) {
+    return false;
+  }
   if (isGiftBadge(message)) {
     return false;
   }
