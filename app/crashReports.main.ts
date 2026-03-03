@@ -105,7 +105,8 @@ export function setup(
   showDebugLogWindow: () => Promise<void>,
   forceEnable = false
 ): void {
-  const isEnabled = !isProduction(app.getVersion()) || forceEnable;
+  const isEnabled =
+    (!isProduction(app.getVersion()) || forceEnable) && !process.mas;
 
   if (isEnabled) {
     logger.info(`crashReporter: ${forceEnable ? 'force ' : ''}enabled`);

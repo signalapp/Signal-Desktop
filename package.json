@@ -480,8 +480,7 @@
       "extendInfo": {
         "ElectronTeamID": "U68MSDN6DR",
         "NSCameraUsageDescription": "Signal uses your camera for video calling.",
-        "NSMicrophoneUsageDescription": "Signal uses your microphone for voice and video calling.",
-        "ITSAppUsesNonExemptEncryption": true
+        "NSMicrophoneUsageDescription": "Signal uses your microphone for voice and video calling."
       }
     },
     "win": {

@@ -151,7 +151,7 @@ export const createTemplate = (
               },
             ]
           : []),
-        ...(devTools && platform !== 'linux'
+        ...(devTools && platform !== 'linux' && !process.mas
           ? [
               {
                 label: i18n('icu:forceUpdate'),

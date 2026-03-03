@@ -108,6 +108,15 @@ export class DesktopCapturer {
         step: Step.NativeMacOS,
         stream: this.#getNativeMacOSStream(),
       };
+    } else if (process.mas) {
+      // MAS without native ScreenCaptureKit support: desktopCapturer.getSources()
+      // is unavailable in the App Store sandbox. Gracefully report an error.
+      this.#state = { step: Step.Error };
+      options.onError(
+        new Error(
+          'Screen sharing requires macOS 15+ on the Mac App Store version'
+        )
+      );
     } else {
       this.#state = { step: Step.RequestingMedia, promise: this.#getStream() };
     }
