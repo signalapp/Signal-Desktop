@@ -3,20 +3,21 @@
 
 @use '../variables';
 
-.ToastManager {
-  display: flex;
-  flex-direction: column;
-  pointer-events: none;
-
-  gap: 16px;
-
+.ToastManagerContainer {
   // Sync inner width with left pane
   position: fixed;
   width: inherit;
   bottom: 0;
   z-index: variables.$z-index-toast;
+  pointer-events: none;
+}
 
-  padding: 16px;
+.ToastManager {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 16px;
+  margin: 16px;
+  pointer-events: none;
 
   & * {
     pointer-events: auto;
@@ -43,6 +44,7 @@
 }
 
 .ToastManager--narrow-sidebar.ToastManager--composition-area-visible {
+  position: fixed;
   inset-inline-start: 0;
   width: 100%;
   align-items: center;
@@ -56,9 +58,9 @@
 }
 
 .ToastManager--megaphones {
-  padding: 12px;
+  margin: 12px;
 }
 
 .ToastManager--megaphones.ToastManager--narrow-sidebar {
-  padding: 10px;
+  margin: 10px;
 }

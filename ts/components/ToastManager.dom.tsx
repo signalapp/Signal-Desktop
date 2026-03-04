@@ -1026,17 +1026,7 @@ export function ToastManager(props: PropsType): React.JSX.Element {
   const toast = renderToast(props);
 
   return (
-    <>
-      {megaphone && (
-        <div
-          className={classNames('ToastManager', 'ToastManager--megaphones', {
-            'ToastManager--narrow-sidebar':
-              containerWidthBreakpoint === WidthBreakpoint.Narrow,
-          })}
-        >
-          {renderMegaphone(props)}
-        </div>
-      )}
+    <div className="ToastManagerContainer">
       <div
         className={classNames('ToastManager', {
           'ToastManager--narrow-sidebar':
@@ -1057,6 +1047,16 @@ export function ToastManager(props: PropsType): React.JSX.Element {
             )
           : toast}
       </div>
-    </>
+      {megaphone && (
+        <div
+          className={classNames('ToastManager', 'ToastManager--megaphones', {
+            'ToastManager--narrow-sidebar':
+              containerWidthBreakpoint === WidthBreakpoint.Narrow,
+          })}
+        >
+          {renderMegaphone(props)}
+        </div>
+      )}
+    </div>
   );
 }
