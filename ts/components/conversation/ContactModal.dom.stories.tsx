@@ -41,6 +41,7 @@ export default {
     areWeASubscriber: false,
     areWeAdmin: false,
     badges: [],
+    blockClientFromCall: action('blockClientFromCall'),
     blockConversation: action('blockConversation'),
     contact: defaultContact,
     contactLabelEmoji: undefined,
@@ -54,12 +55,14 @@ export default {
     isMember: true,
     isMuted: false,
     isRemoteMuteVisible: false,
+    isRemoveFromCallVisible: false,
     onOutgoingAudioCallInConversation: action(
       'onOutgoingAudioCallInConversation'
     ),
     onOutgoingVideoCallInConversation: action(
       'onOutgoingVideoCallInConversation'
     ),
+    removeClientFromCall: action('removeClientFromCall'),
     removeMemberFromGroup: action('removeMemberFromGroup'),
     sendRemoteMute: action('sendRemoteMute'),
     showConversation: action('showConversation'),
@@ -207,4 +210,13 @@ InCallTogetherMuted.args = {
   hasActiveCall: true,
   isMuted: true,
   isRemoteMuteVisible: true,
+};
+
+export const InCallLinkTogetherAsAdmin = Template.bind({});
+InCallLinkTogetherAsAdmin.args = {
+  activeCallDemuxId: 123,
+  hasActiveCall: true,
+  isMuted: true,
+  isRemoteMuteVisible: true,
+  isRemoveFromCallVisible: true,
 };

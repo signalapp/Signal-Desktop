@@ -4483,8 +4483,15 @@ button.module-image__border-overlay:focus {
       border-radius: 6px;
       cursor: auto;
     }
-    &:hover {
+    &:not(.module-calling-participants-list__me):hover {
       background-color: variables.$color-gray-62;
+
+      .module-calling-participants-list__status-icon {
+        display: none;
+      }
+      .module-calling-participants-list__menu-icon {
+        display: flex;
+      }
     }
     &[disabled] {
       cursor: auto;
@@ -4578,9 +4585,10 @@ button.module-image__border-overlay:focus {
     );
   }
 
-  &__remove {
+  &__menu-icon {
+    display: none;
     @include mixins.color-svg(
-      '../images/icons/v3/minus/minus-circle-compact.svg',
+      '../images/icons/v3/more/more.svg',
       variables.$color-white
     );
   }

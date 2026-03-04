@@ -106,7 +106,10 @@ export const CallingParticipantsList = React.memo(
                 (participant: ParticipantType, index: number) => (
                   <button
                     aria-label={i18n('icu:calling__ParticipantInfoButton')}
-                    className="module-calling-participants-list__contact"
+                    className={classNames(
+                      'module-calling-participants-list__contact',
+                      participant.isMe && 'module-calling-participants-list__me'
+                    )}
                     disabled={participant.isMe}
                     // It's tempting to use `participant.serviceId` as the `key`
                     //   here, but that can result in duplicate keys for
@@ -183,6 +186,14 @@ export const CallingParticipantsList = React.memo(
                           'module-calling-participants-list__muted--audio'
                       )}
                     />
+                    {!participant.isMe && (
+                      <span
+                        className={classNames(
+                          'module-calling-participants-list__status-icon',
+                          'module-calling-participants-list__menu-icon'
+                        )}
+                      />
+                    )}
                   </button>
                 )
               )}

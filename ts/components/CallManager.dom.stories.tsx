@@ -126,8 +126,6 @@ const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   notifyForCall: action('notify-for-call'),
   openSystemPreferencesAction: action('open-system-preferences-action'),
   playRingtone: action('play-ringtone'),
-  removeClient: action('remove-client'),
-  blockClient: action('block-client'),
   cancelPresenting: action('cancel-presenting'),
   renderDeviceSelection: () => <div />,
   renderReactionPicker: () => <div />,

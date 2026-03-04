@@ -31,7 +31,6 @@ import type {
   DeclineCallType,
   GroupCallParticipantInfoType,
   PendingUserActionPayloadType,
-  RemoveClientType,
   SendGroupCallRaiseHandType,
   SendGroupCallReactionType,
   SetGroupCallVideoRequestType,
@@ -129,8 +128,6 @@ export type PropsType = {
   ) => unknown;
   openSystemPreferencesAction: () => unknown;
   playRingtone: () => unknown;
-  removeClient: (payload: RemoveClientType) => void;
-  blockClient: (payload: RemoveClientType) => void;
   selectPresentingSource: (id: string) => void;
   sendGroupCallRaiseHand: (payload: SendGroupCallRaiseHandType) => void;
   sendGroupCallReaction: (payload: SendGroupCallReactionType) => void;
@@ -181,7 +178,6 @@ function ActiveCallManager({
   approveUser,
   availableCameras,
   batchUserAction,
-  blockClient,
   callLink,
   cancelCall,
   cancelPresenting,
@@ -198,7 +194,6 @@ function ActiveCallManager({
   openSystemPreferencesAction,
   renderDeviceSelection,
   renderReactionPicker,
-  removeClient,
   selectPresentingSource,
   sendGroupCallRaiseHand,
   sendGroupCallReaction,
@@ -414,15 +409,12 @@ function ActiveCallManager({
             <CallingAdhocCallInfo
               callLink={callLink}
               i18n={i18n}
-              isCallLinkAdmin={isCallLinkAdmin}
               isUnknownContactDiscrete={false}
               ourServiceId={me.serviceId}
               participants={peekedParticipants}
               onClose={toggleParticipants}
               onCopyCallLink={onCopyCallLink}
               onShareCallLinkViaSignal={handleShareCallLinkViaSignal}
-              removeClient={removeClient}
-              blockClient={blockClient}
               showContactModal={showContactModal}
             />
           ) : (
@@ -518,15 +510,12 @@ function ActiveCallManager({
           <CallingAdhocCallInfo
             callLink={callLink}
             i18n={i18n}
-            isCallLinkAdmin={isCallLinkAdmin}
             isUnknownContactDiscrete
             ourServiceId={me.serviceId}
             participants={groupCallParticipantsForParticipantsList}
             onClose={toggleParticipants}
             onCopyCallLink={onCopyCallLink}
             onShareCallLinkViaSignal={handleShareCallLinkViaSignal}
-            removeClient={removeClient}
-            blockClient={blockClient}
             showContactModal={showContactModal}
           />
         ) : (
@@ -550,7 +539,6 @@ export function CallManager({
   approveUser,
   availableCameras,
   batchUserAction,
-  blockClient,
   bounceAppIconStart,
   bounceAppIconStop,
   callLink,
@@ -572,7 +560,6 @@ export function CallManager({
   openSystemPreferencesAction,
   pauseVoiceNotePlayer,
   playRingtone,
-  removeClient,
   renderDeviceSelection,
   renderReactionPicker,
   ringingCall,
@@ -672,7 +659,6 @@ export function CallManager({
           availableCameras={availableCameras}
           approveUser={approveUser}
           batchUserAction={batchUserAction}
-          blockClient={blockClient}
           callLink={callLink}
           cancelCall={cancelCall}
           cancelPresenting={cancelPresenting}
@@ -690,7 +676,6 @@ export function CallManager({
           me={me}
           openSystemPreferencesAction={openSystemPreferencesAction}
           pauseVoiceNotePlayer={pauseVoiceNotePlayer}
-          removeClient={removeClient}
           renderDeviceSelection={renderDeviceSelection}
           renderReactionPicker={renderReactionPicker}
           selectPresentingSource={selectPresentingSource}

@@ -6244,6 +6244,10 @@
     "messageformat": "Mute",
     "description": "Confirm dialog primary button text when muting another call participant's audio from the Contact Details modal in a group or call link call"
   },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Remove from call",
+    "description": "Button text to remove someone from the call, shown in the Contact Details modal when in call link and you are a call admin"
+  },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Member labels",
     "description": "Title of explainer dialog you see when clicking member label in Contact Modal"

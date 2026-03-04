@@ -15,12 +15,10 @@ import { sortByTitle } from '../util/sortByTitle.std.js';
 import type { ConversationType } from '../state/ducks/conversations.preload.js';
 import { ModalHost } from './ModalHost.dom.js';
 import { isInSystemContacts } from '../util/isInSystemContacts.std.js';
-import type { RemoveClientType } from '../state/ducks/calling.preload.js';
 import { AVATAR_COLOR_COUNT, AvatarColors } from '../types/Colors.std.js';
 import { Button } from './Button.dom.js';
 import { Modal } from './Modal.dom.js';
 import { Theme } from '../util/theme.std.js';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
 import type { ContactModalStateType } from '../types/globalModals.std.js';
 
 const { partition } = lodash;
@@ -38,15 +36,12 @@ type ParticipantType = ConversationType & {
 export type PropsType = {
   readonly callLink: CallLinkType;
   readonly i18n: LocalizerType;
-  readonly isCallLinkAdmin: boolean;
   readonly isUnknownContactDiscrete: boolean;
   readonly ourServiceId: ServiceIdString | undefined;
   readonly participants: Array<ParticipantType>;
   readonly onClose: () => void;
   readonly onCopyCallLink: () => void;
   readonly onShareCallLinkViaSignal: () => void;
-  readonly removeClient: (payload: RemoveClientType) => void;
-  readonly blockClient: (payload: RemoveClientType) => void;
   readonly showContactModal: (payload: ContactModalStateType) => void;
 };
 
@@ -143,23 +138,16 @@ function UnknownContacts({
 
 export function CallingAdhocCallInfo({
   i18n,
-  isCallLinkAdmin,
   isUnknownContactDiscrete,
   ourServiceId,
   participants,
-  blockClient,
   onClose,
   onCopyCallLink,
   onShareCallLinkViaSignal,
-  removeClient,
   showContactModal,
 }: PropsType): React.JSX.Element | null {
   const [isUnknownContactDialogVisible, setIsUnknownContactDialogVisible] =
     React.useState(false);
-  const [removeClientDialogState, setRemoveClientDialogState] = React.useState<{
-    demuxId: number;
-    name: string;
-  } | null>(null);
 
   const hideUnknownContactDialog = React.useCallback(
     () => setIsUnknownContactDialogVisible(false),
@@ -190,7 +178,10 @@ export function CallingAdhocCallInfo({
     (participant: ParticipantType, key: React.Key) => (
       <button
         aria-label={i18n('icu:calling__ParticipantInfoButton')}
-        className="module-calling-participants-list__contact"
+        className={classNames(
+          'module-calling-participants-list__contact',
+          participant.isMe && 'module-calling-participants-list__me'
+        )}
         disabled={participant.isMe}
         // It's tempting to use `participant.serviceId` as the `key`
         //   here, but that can result in duplicate keys for
@@ -266,79 +257,21 @@ export function CallingAdhocCallInfo({
               'module-calling-participants-list__muted--audio'
           )}
         />
-        {isCallLinkAdmin &&
-          (participant.demuxId &&
-          !(ourServiceId && participant.serviceId === ourServiceId) ? (
-            <button
-              aria-label={i18n('icu:CallingAdhocCallInfo__RemoveClient')}
-              className={classNames(
-                'CallingAdhocCallInfo__RemoveClient',
-                'module-calling-participants-list__status-icon',
-                'module-calling-participants-list__remove'
-              )}
-              onClick={event => {
-                if (!participant.demuxId) {
-                  return;
-                }
-
-                event.stopPropagation();
-                event.preventDefault();
-                setRemoveClientDialogState({
-                  demuxId: participant.demuxId,
-                  name: participant.title,
-                });
-              }}
-              type="button"
-            />
-          ) : (
-            <span className="module-calling-participants-list__status-icon" />
-          ))}
+        {!participant.isMe && (
+          <span
+            className={classNames(
+              'module-calling-participants-list__status-icon',
+              'module-calling-participants-list__menu-icon'
+            )}
+          />
+        )}
       </button>
     ),
-    [
-      i18n,
-      isCallLinkAdmin,
-      onClose,
-      ourServiceId,
-      setRemoveClientDialogState,
-      showContactModal,
-    ]
+    [i18n, onClose, ourServiceId, showContactModal]
   );
 
   return (
     <>
-      {removeClientDialogState != null ? (
-        <ConfirmationDialog
-          dialogName="CallingAdhocCallInfo.removeClientDialog"
-          moduleClassName="CallingAdhocCallInfo__RemoveClientDialog"
-          actions={[
-            {
-              action: () =>
-                blockClient({ demuxId: removeClientDialogState.demuxId }),
-              style: 'negative',
-              text: i18n(
-                'icu:CallingAdhocCallInfo__RemoveClientDialogButton--block'
-              ),
-            },
-            {
-              action: () =>
-                removeClient({ demuxId: removeClientDialogState.demuxId }),
-              style: 'negative',
-              text: i18n(
-                'icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove'
-              ),
-            },
-          ]}
-          cancelText={i18n('icu:cancel')}
-          i18n={i18n}
-          theme={Theme.Dark}
-          onClose={() => setRemoveClientDialogState(null)}
-        >
-          {i18n('icu:CallingAdhocCallInfo__RemoveClientDialogBody', {
-            name: removeClientDialogState.name,
-          })}
-        </ConfirmationDialog>
-      ) : null}
       {isUnknownContactDialogVisible ? (
         <Modal
           modalName="CallingAdhocCallInfo.UnknownContactInfo"

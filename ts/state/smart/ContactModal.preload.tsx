@@ -14,6 +14,7 @@ import {
 import { getHasStoriesSelector } from '../selectors/stories2.dom.js';
 import {
   getActiveCallState,
+  getCallLinkSelector,
   isInFullScreenCall as getIsInFullScreenCall,
   getParticipantInActiveCall,
 } from '../selectors/calling.std.js';
@@ -23,6 +24,8 @@ import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
 import { useCallingActions } from '../ducks/calling.preload.js';
 import { getContactModalState } from '../selectors/globalModals.std.js';
 import { strictAssert } from '../../util/assert.std.js';
+import { CallMode } from '../../types/CallDisposition.std.js';
+import { isCallLinkAdmin } from '../../types/CallLink.std.js';
 
 export const SmartContactModal = memo(function SmartContactModal() {
   const i18n = useSelector(getIntl);
@@ -38,6 +41,15 @@ export const SmartContactModal = memo(function SmartContactModal() {
   const callParticipant = getCallParticipant(activeCallDemuxId);
   const isRemoteMuteVisible = Boolean(callParticipant);
   const isMuted = !callParticipant?.hasRemoteAudio;
+
+  const callLinkSelector = useSelector(getCallLinkSelector);
+  let isRemoveFromCallVisible = false;
+  if (activeCallState?.callMode === CallMode.Adhoc) {
+    const callLink = callLinkSelector(activeCallState.conversationId);
+    if (callParticipant && callLink && isCallLinkAdmin(callLink)) {
+      isRemoveFromCallVisible = true;
+    }
+  }
 
   const badgesSelector = useSelector(getBadgesSelector);
   const areWeASubscriber = useSelector(getAreWeASubscriber);
@@ -83,9 +95,11 @@ export const SmartContactModal = memo(function SmartContactModal() {
     toggleSafetyNumberModal,
   } = useGlobalModalActions();
   const {
+    blockClient: blockClientFromCall,
     onOutgoingVideoCallInConversation,
     onOutgoingAudioCallInConversation,
     togglePip,
+    removeClient: removeClientFromCall,
     sendRemoteMute,
   } = useCallingActions();
 
@@ -99,6 +113,7 @@ export const SmartContactModal = memo(function SmartContactModal() {
       areWeAdmin={areWeAdmin}
       areWeASubscriber={areWeASubscriber}
       badges={badges}
+      blockClientFromCall={blockClientFromCall}
       blockConversation={blockConversation}
       contact={contact}
       contactLabelEmoji={contactLabelEmoji}
@@ -114,10 +129,12 @@ export const SmartContactModal = memo(function SmartContactModal() {
       isMember={isMember}
       isMuted={isMuted}
       isRemoteMuteVisible={isRemoteMuteVisible}
+      isRemoveFromCallVisible={isRemoveFromCallVisible}
       activeCallDemuxId={activeCallDemuxId}
       onOpenEditNicknameAndNoteModal={handleOpenEditNicknameAndNoteModal}
       onOutgoingAudioCallInConversation={onOutgoingAudioCallInConversation}
       onOutgoingVideoCallInConversation={onOutgoingVideoCallInConversation}
+      removeClientFromCall={removeClientFromCall}
       removeMemberFromGroup={removeMemberFromGroup}
       sendRemoteMute={sendRemoteMute}
       showConversation={showConversation}

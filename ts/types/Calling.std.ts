@@ -229,3 +229,7 @@ export type IceServerCacheType = {
   iceServers: Array<IceServerType>;
   expirationTimestamp: number;
 };
+
+export type RemoveClientType = ReadonlyDeep<{
+  demuxId: number;
+}>;

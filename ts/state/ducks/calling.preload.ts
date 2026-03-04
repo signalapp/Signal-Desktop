@@ -35,6 +35,7 @@ import type {
   ObservedRemoteMuteType,
   PresentedSource,
   PresentableSource,
+  RemoveClientType,
 } from '../../types/Calling.std.js';
 import {
   isCallLinkAdmin,
@@ -392,10 +393,6 @@ export type RemoteAudioChangeType = ReadonlyDeep<{
 type RemoteSharingScreenChangeType = ReadonlyDeep<{
   conversationId: string;
   isSharingScreen: boolean;
-}>;
-
-export type RemoveClientType = ReadonlyDeep<{
-  demuxId: number;
 }>;
 
 // eslint-disable-next-line local-rules/type-alias-readonlydeep

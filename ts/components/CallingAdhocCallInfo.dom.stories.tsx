@@ -45,6 +45,7 @@ function createParticipant(
       title: String(participantProps.title),
       serviceId: aci,
     }),
+    isMe: Boolean(participantProps.isMe),
   };
 }
 
@@ -67,15 +68,12 @@ function getCallLink(overrideProps: Partial<CallLinkType> = {}): CallLinkType {
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   callLink: getCallLink(overrideProps.callLink || {}),
   i18n,
-  isCallLinkAdmin: overrideProps.isCallLinkAdmin || false,
   isUnknownContactDiscrete: overrideProps.isUnknownContactDiscrete || false,
   ourServiceId: OUR_ACI,
   participants: overrideProps.participants || [],
   onClose: action('on-close'),
   onCopyCallLink: action('on-copy-call-link'),
   onShareCallLinkViaSignal: action('on-share-call-link-via-signal'),
-  removeClient: overrideProps.removeClient || action('remove-client'),
-  blockClient: overrideProps.blockClient || action('block-client'),
   showContactModal: action('show-contact-modal'),
 });
 
@@ -138,6 +136,7 @@ export function ManyParticipants(): React.JSX.Element {
       createParticipant({
         title: 'My Name',
         aci: OUR_ACI,
+        isMe: true,
       }),
     ],
   });
@@ -184,7 +183,6 @@ export function AsAdmin(): React.JSX.Element {
         aci: OUR_ACI,
       }),
     ],
-    isCallLinkAdmin: true,
   });
   return <CallingAdhocCallInfo {...props} />;
 }

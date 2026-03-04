@@ -38,6 +38,7 @@ import { SignalService as Proto } from '../../protobuf/index.std.js';
 import { AxoSymbol } from '../../axo/AxoSymbol.dom.js';
 import { tw } from '../../axo/tw.dom.js';
 import { strictAssert } from '../../util/assert.std.js';
+import type { RemoveClientType } from '../../types/Calling.std.js';
 
 const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
 
@@ -59,17 +60,20 @@ export type PropsDataType = {
   isMember: boolean;
   isMuted: boolean;
   isRemoteMuteVisible: boolean;
+  isRemoveFromCallVisible: boolean;
   theme: ThemeType;
   hasActiveCall: boolean;
   isInFullScreenCall: boolean;
 };
 
 type PropsActionType = {
+  blockClientFromCall: (payload: RemoveClientType) => void;
   blockConversation: (id: string) => void;
   hideContactModal: () => void;
   onOpenEditNicknameAndNoteModal: () => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => unknown;
   onOutgoingVideoCallInConversation: (conversationId: string) => unknown;
+  removeClientFromCall: (payload: RemoveClientType) => void;
   removeMemberFromGroup: (conversationId: string, contactId: string) => void;
   sendRemoteMute: (demuxId: number) => void;
   showConversation: ShowConversationType;
@@ -97,6 +101,7 @@ enum SubModalState {
   MemberRemove = 'MemberRemove',
   ConfirmingBlock = 'ConfirmingBlock',
   ConfirmingMute = 'ConfirmingMute',
+  RemoveFromCall = 'RemoveFromCall',
 }
 
 export function ContactModal({
@@ -104,6 +109,7 @@ export function ContactModal({
   areWeAdmin,
   areWeASubscriber,
   badges,
+  blockClientFromCall,
   blockConversation,
   contact,
   contactLabelEmoji,
@@ -119,9 +125,11 @@ export function ContactModal({
   isMember,
   isMuted,
   isRemoteMuteVisible,
+  isRemoveFromCallVisible,
   onOpenEditNicknameAndNoteModal,
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
+  removeClientFromCall,
   removeMemberFromGroup,
   sendRemoteMute,
   showConversation,
@@ -363,6 +371,51 @@ export function ContactModal({
         </ConfirmationDialog>
       );
       break;
+    case SubModalState.RemoveFromCall:
+      modalNode = (
+        <ConfirmationDialog
+          dialogName="CallingAdhocCallInfo.removeClientDialog"
+          moduleClassName="CallingAdhocCallInfo__RemoveClientDialog"
+          actions={[
+            {
+              action: () => {
+                strictAssert(
+                  activeCallDemuxId != null,
+                  'activeCallDemuxId must exist'
+                );
+                hideContactModal();
+                blockClientFromCall({ demuxId: activeCallDemuxId });
+              },
+              style: 'negative',
+              text: i18n(
+                'icu:CallingAdhocCallInfo__RemoveClientDialogButton--block'
+              ),
+            },
+            {
+              action: () => {
+                strictAssert(
+                  activeCallDemuxId != null,
+                  'activeCallDemuxId must exist'
+                );
+                hideContactModal();
+                removeClientFromCall({ demuxId: activeCallDemuxId });
+              },
+              style: 'negative',
+              text: i18n(
+                'icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove'
+              ),
+            },
+          ]}
+          cancelText={i18n('icu:cancel')}
+          i18n={i18n}
+          onClose={() => setSubModalState(SubModalState.None)}
+        >
+          {i18n('icu:CallingAdhocCallInfo__RemoveClientDialogBody', {
+            name: contact.title,
+          })}
+        </ConfirmationDialog>
+      );
+      break;
     default: {
       const state: never = subModalState;
       log.warn(`unexpected ${state}!`);
@@ -577,6 +630,22 @@ export function ContactModal({
                   <AxoSymbol.Icon symbol="mic-slash" size={20} label={null} />
                   <span className={tw('ms-[12px]')}>
                     {i18n('icu:ContactModal--mute-audio')}
+                  </span>
+                </button>
+              )}
+              {isRemoveFromCallVisible && (
+                <button
+                  type="button"
+                  className="ContactModal__button"
+                  onClick={() => setSubModalState(SubModalState.RemoveFromCall)}
+                >
+                  <AxoSymbol.Icon
+                    symbol="minus-circle"
+                    size={20}
+                    label={null}
+                  />
+                  <span className={tw('ms-[12px]')}>
+                    {i18n('icu:ContactModal--remove-from-call')}
                   </span>
                 </button>
               )}
