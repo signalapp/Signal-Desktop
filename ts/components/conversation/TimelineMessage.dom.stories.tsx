@@ -952,6 +952,7 @@ export function DeletedByAdmin(): React.JSX.Element {
       conversationId: 'admin-conversation-id',
       title: 'Alice Smith',
       contactNameColor: '200',
+      isMe: false,
     },
     canForward: false,
     status: 'sent',
@@ -995,6 +996,7 @@ export function AdminDeletedPending(): React.JSX.Element {
       conversationId: 'admin-conversation-id',
       title: 'Alice Smith',
       contactNameColor: '200',
+      isMe: false,
     },
     status: 'sending',
     direction: 'outgoing',
@@ -1008,6 +1010,7 @@ export function AdminDeletedPending(): React.JSX.Element {
       conversationId: 'admin-conversation-id',
       title: 'Alice Smith',
       contactNameColor: '200',
+      isMe: false,
     },
     status: 'sending',
     direction: 'incoming',
@@ -1081,6 +1084,7 @@ export function AdminDeletedWithError(): React.JSX.Element {
       conversationId: 'admin-conversation-id',
       title: 'Alice Smith',
       contactNameColor: '200' as const,
+      isMe: false,
     },
   };
   const propsOutgoingPartialError = createProps({
@@ -1136,6 +1140,7 @@ export function AdminDeletedWithErrorCanRetry(): React.JSX.Element {
       conversationId: 'admin-conversation-id',
       title: 'Alice Smith',
       contactNameColor: '200' as const,
+      isMe: false,
     },
   };
   const propsOutgoingPartialError = createProps({

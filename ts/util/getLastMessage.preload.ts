@@ -44,13 +44,18 @@ export function getLastMessage(
     const { lastMessageAuthorAci, lastMessageDeletedForEveryoneByAdminAci } =
       conversationAttrs;
 
-    // Only show admin name when the admin deleted someone else's message
+    // Don't show admin name when the admin deleted their own message or when
+    // the current user is the admin (show "You deleted this message" instead)
     const isAdminDeletingOwnMessage =
       lastMessageDeletedForEveryoneByAdminAci != null &&
       lastMessageDeletedForEveryoneByAdminAci === lastMessageAuthorAci;
-    const deletedByAdminName = isAdminDeletingOwnMessage
-      ? null
-      : getNameForAci(lastMessageDeletedForEveryoneByAdminAci);
+    const isAdminMe =
+      lastMessageDeletedForEveryoneByAdminAci != null &&
+      lastMessageDeletedForEveryoneByAdminAci === ourAci;
+    const deletedByAdminName =
+      isAdminDeletingOwnMessage || isAdminMe
+        ? null
+        : getNameForAci(lastMessageDeletedForEveryoneByAdminAci);
 
     const authorName =
       getDisplayNameForAci(lastMessageAuthorAci, ourAci) ??
@@ -61,7 +66,7 @@ export function getLastMessage(
     return {
       deletedForEveryone: true,
       deletedByAdminName,
-      isOutgoing: lastMessageAuthorAci === ourAci,
+      isOutgoing: lastMessageAuthorAci === ourAci || isAdminMe,
       authorName,
     };
   }
