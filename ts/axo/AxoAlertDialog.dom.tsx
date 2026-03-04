@@ -143,7 +143,7 @@ export namespace AxoAlertDialog {
       <FlexWrapDetector>
         <div
           className={tw(
-            'flex flex-wrap gap-2 px-6 py-4',
+            'flex flex-wrap-reverse gap-2 px-6 py-4',
             // When actions are not being wrapped:
             // Try to keep all actions equal size, but don't truncate them.
             'container-not-scrollable:*:basis-0',
