@@ -3347,12 +3347,17 @@ export class BackupExportStream extends Readable {
           color.end.lightness
         );
 
+        // Desktop uses a different angle convention than the backup proto. Our degrees
+        // rotate in the opposite direction (sadly!) and our start is shifted by 90
+        // degrees
+        const backupAngle = 360 - ((color.deg ?? 0) + 90);
+
         result.push({
           id,
           gradient: {
             colors: [start, end],
             positions: [0, 1],
-            angle: color.deg,
+            angle: (backupAngle + 360) % 360,
           },
         });
       }
