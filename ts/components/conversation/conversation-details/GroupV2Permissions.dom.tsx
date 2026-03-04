@@ -8,7 +8,6 @@ import { SignalService as Proto } from '../../../protobuf/index.std.js';
 import { PanelRow } from './PanelRow.dom.js';
 import { PanelSection } from './PanelSection.dom.js';
 import { Select } from '../../Select.dom.js';
-import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.js';
 
 export type PropsDataType = {
   conversation?: ConversationType;
@@ -32,8 +31,6 @@ export function GroupV2Permissions({
 }: PropsType): React.JSX.Element {
   const AccessControlEnum = Proto.AccessControl.AccessRequired;
 
-  const [isWarningAboutClearingLabels, setIsWarningAboutClearingLabels] =
-    React.useState(false);
   const addMembersSelectId = useId();
   const groupInfoSelectId = useId();
   const announcementSelectId = useId();
@@ -41,17 +38,8 @@ export function GroupV2Permissions({
   if (conversation === undefined) {
     throw new Error('GroupV2Permissions rendered without a conversation');
   }
-  const nonAdminsHaveLabels = conversation.memberships?.some(
-    membership => !membership.isAdmin && membership.labelString
-  );
 
   const updateAccessControlAttributes = (value: string) => {
-    const newValue = Number(value);
-    if (newValue === AccessControlEnum.ADMINISTRATOR && nonAdminsHaveLabels) {
-      setIsWarningAboutClearingLabels(true);
-      return;
-    }
-
     setAccessControlAttributesSetting(conversation.id, Number(value));
   };
   const updateAccessControlMembers = (value: string) => {
@@ -126,51 +114,6 @@ export function GroupV2Permissions({
           }
         />
       )}
-      <AxoAlertDialog.Root
-        open={isWarningAboutClearingLabels}
-        onOpenChange={value => {
-          if (!value) {
-            setIsWarningAboutClearingLabels(false);
-          }
-        }}
-      >
-        <AxoAlertDialog.Content escape="cancel-is-noop">
-          <AxoAlertDialog.Body>
-            <AxoAlertDialog.Title>
-              {i18n('icu:ConversationDetails--label-clear-warning--title')}
-            </AxoAlertDialog.Title>
-            <AxoAlertDialog.Description>
-              {i18n(
-                'icu:ConversationDetails--label-clear-warning--description'
-              )}
-            </AxoAlertDialog.Description>
-          </AxoAlertDialog.Body>
-          <AxoAlertDialog.Footer>
-            <AxoAlertDialog.Action
-              variant="secondary"
-              arrow={false}
-              onClick={() => {
-                setIsWarningAboutClearingLabels(false);
-              }}
-            >
-              {i18n('icu:cancel')}
-            </AxoAlertDialog.Action>
-            <AxoAlertDialog.Action
-              variant="primary"
-              arrow={false}
-              onClick={() => {
-                setAccessControlAttributesSetting(
-                  conversation.id,
-                  AccessControlEnum.ADMINISTRATOR
-                );
-                setIsWarningAboutClearingLabels(false);
-              }}
-            >
-              {i18n('icu:ConversationDetails--label-clear-warning--continue')}
-            </AxoAlertDialog.Action>
-          </AxoAlertDialog.Footer>
-        </AxoAlertDialog.Content>
-      </AxoAlertDialog.Root>
     </PanelSection>
   );
 }
