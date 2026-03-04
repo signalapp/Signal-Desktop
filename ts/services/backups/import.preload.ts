@@ -3914,16 +3914,21 @@ export class BackupImportStream extends Writable {
 
         const start = color.gradient.colors.at(0);
         const end = color.gradient.colors.at(-1);
-        const deg = color.gradient.angle;
+        const backupAngle = color.gradient.angle;
 
         strictAssert(start != null, 'Missing start color');
         strictAssert(end != null, 'Missing end color');
-        strictAssert(deg != null, 'Missing angle');
+        strictAssert(backupAngle != null, 'Missing angle');
+
+        // Desktop uses a different angle convention than the backup proto. Our degrees
+        // rotate in the opposite direction (sadly!) and our start is shifted by 90
+        // degrees
+        const desktopAngle = 360 - backupAngle - 90;
 
         value = {
           start: rgbIntToDesktopHSL(start),
           end: rgbIntToDesktopHSL(end),
-          deg,
+          deg: (desktopAngle + 360) % 360,
         };
       } else {
         log.error(
