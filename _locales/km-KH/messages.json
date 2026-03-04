@@ -1116,7 +1116,7 @@
     "messageformat": "បញ្ចូលស្លាកសមាជិក"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "កូដ QR របស់អ្នក"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "កំណត់ចំណាំ"
@@ -2219,6 +2219,18 @@
   "icu:deleteFailed": {
     "messageformat": "មិនអាចលុបបានទេ"
   },
+  "icu:deleteFailedClickForDetails": {
+    "messageformat": "Delete failed, click for details"
+  },
+  "icu:retryDeleteForEveryone--title": {
+    "messageformat": "Retry failed delete?"
+  },
+  "icu:retryDeleteForEveryone--body": {
+    "messageformat": "Message failed to delete. Check your connection and try again."
+  },
+  "icu:retryDeleteForEveryone--tryAgain": {
+    "messageformat": "Try again"
+  },
   "icu:editFailed": {
     "messageformat": "មិនអាចកែបាន។ សូមចុចសម្រាប់ព័ត៌មានលម្អិត។"
   },
@@ -2230,6 +2242,9 @@
   },
   "icu:partiallyDeleted": {
     "messageformat": "បានលុបខ្លះ សូមចុចព្យាយាមម្តងទៀត"
+  },
+  "icu:partiallyDeleted--clickForDetails": {
+    "messageformat": "Partially deleted, click for details"
   },
   "icu:expiredWarning": {
     "messageformat": "ជំនាន់ Signal Desktop នេះ បានហួសសុពលភាព។ សូមដំឡើងទីកាន់ជំនាន់ចុងក្រោយ ដើម្បីបន្តការផ្ញើសារ។"
@@ -2435,6 +2450,12 @@
   "icu:ToastManager__CannotAddMemberLabel": {
     "messageformat": "មានតែអ្នកគ្រប់គ្រងទេដែលអាចបញ្ចូលស្លាកសមាជិកនៅក្នុងក្រុមនេះបាន។"
   },
+  "icu:Toast--viewOnceEnabled": {
+    "messageformat": "View once enabled"
+  },
+  "icu:Toast--viewOnceDisabled": {
+    "messageformat": "View once disabled"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ការកែសារអាចធ្វើបានតែក្នុងរយៈពេល 24 ម៉ោងគិតចាប់ពីពេលដែលអ្នកបានផ្ញើសារនេះប៉ុណ្ណោះ។"
   },
@@ -2620,6 +2641,15 @@
   },
   "icu:message--deletedForEveryone": {
     "messageformat": "សារនេះត្រូវបានលុប។"
+  },
+  "icu:message--deletedByAdmin": {
+    "messageformat": "Admin {admin} deleted this message"
+  },
+  "icu:message--deletedForEveryone--incoming": {
+    "messageformat": "{name} deleted this message"
+  },
+  "icu:message--deletedForEveryone--outgoing": {
+    "messageformat": "You deleted this message"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "ឯកសារភ្ជាប់ធំពេកមិនអាចបង្ហាញបាន។"
@@ -2864,14 +2894,8 @@
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "ការមើលស្ទីកគ័រជាមុន"
   },
-  "icu:FunPanelGifs__SearchLabel--Tenor": {
-    "messageformat": "ស្វែងរករូបចលនាតាមរយៈ Tenor"
-  },
   "icu:FunPanelGifs__SearchLabel": {
     "messageformat": "ស្វែងរក GIFs"
-  },
-  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
-    "messageformat": "ស្វែងរកតាម Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
     "messageformat": "ស្វែងរក GIFs"
@@ -4622,6 +4646,12 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "ប្តូរ"
   },
+  "icu:CompositionArea--viewOnceToggle": {
+    "messageformat": "View once"
+  },
+  "icu:CompositionArea--viewOnceMediaPlaceholder": {
+    "messageformat": "View once media"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "កែសារ"
   },
@@ -4654,6 +4684,15 @@
   },
   "icu:ContactModal--voice": {
     "messageformat": "សំឡេង"
+  },
+  "icu:ContactModal--mute-audio": {
+    "messageformat": "Mute audio"
+  },
+  "icu:ContactModal--confirm-mute-body": {
+    "messageformat": "Are you sure you want to mute {contact}?"
+  },
+  "icu:ContactModal--confirm-mute-primary-button": {
+    "messageformat": "Mute"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "ស្លាកសមាជិក"
@@ -4976,6 +5015,9 @@
   "icu:DeleteMessagesModal--title": {
     "messageformat": "{count, plural, other {លុប {count,number} សារឬ?}}"
   },
+  "icu:DeleteMessagesModal--title-2": {
+    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+  },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, other {តើអ្នកចង់លុបសារទាំងនេះសម្រាប់នរណាគេ?}}"
   },
@@ -4993,6 +5035,12 @@
   },
   "icu:DeleteMessagesModal--deleteForEveryone": {
     "messageformat": "លុបសម្រាប់អ្នករាល់គ្នា"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
+    "messageformat": "Delete for everyone?"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
+    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "លុបចេញពីឧបករណ៍ទាំងអស់"
@@ -7486,14 +7534,8 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "អ្វីដែលថ្មី"
   },
-  "icu:PreferencesDonations__title": {
-    "messageformat": "ឯកជនភាពធំជាងប្រាក់ចំណេញ"
-  },
   "icu:PreferencesDonations__title-v2": {
     "messageformat": "មោទនភាពជាស្ថាប័នមិនរកប្រាក់ចំណេញ"
-  },
-  "icu:PreferencesDonations__description": {
-    "messageformat": "ការផ្ញើសារលក្ខណៈឯកជនទទួលបានមូលនិធិពីអ្នក។ គ្មានការផ្សាយពាណិជ្ជកម្ម គ្មានការតាមដាន គ្មានការប៉ះពាល់។ បរិច្ចាគឥឡូវនេះដើម្បីគាំទ្រ Signal។ <readMoreLink>អានបន្ថែម</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
     "messageformat": "បរិច្ចាគដើម្បីគាំទ្រការផ្ញើសារឯកជន។ រក្សា Signal ឱ្យឯករាជ្យ និងគ្មានការផ្សាយពាណិជ្ជកម្ម។ <readMoreLink>អានបន្ថែម</readMoreLink>"
@@ -7943,7 +7985,11 @@
   "icu:WhatsNew__8.0--0": {
     "messageformat": "ការបម្រុងទុកសុវត្ថិភាព Signal បានមកដល់ហើយ! ឥឡូវនេះ អ្នកអាចជ្រើសរើសបើកការបម្រុងទុកដែលបានអ៊ីនគ្រីបដោយស្វ័យប្រវត្តិទាំងសងខាង ដូច្នេះអ្នកនឹងមិនបាត់បង់សារណាមួយឡើយ នៅពេលអ្នកមានទូរសព្ទថ្មី ឬដំឡើង Signal ឡើងវិញ។ អ្នកអាចបម្រុងទុកសាររបស់អ្នកទាំងអស់ និងមេឌៀរយៈពេល 45 ថ្ងៃចុងក្រោយដោយឥតគិតថ្លៃ ឬអ្នកអាចបង់ថ្លៃសេវាប្រចាំខែតិចតួច ដើម្បីទទួលបានទំហំផ្ទុក 100 GB ដើម្បីបម្រុងទុករាល់ឯកសារភ្ជាប់។ ចុចលើការបម្រុងទុកនៅក្នុងការកំណត់ Signal របស់អ្នកដើម្បីចាប់ផ្តើម។ សូមអរគុណដល់អ្នកទាំងអស់គ្នាដែលបានជួយសាកល្បងមុខងារនេះក្នុងអំឡុងពេលបេតា!"
   },
-  "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+  "icu:WhatsNew__8.2--0": {
+    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+  },
+  "icu:WhatsNew__8.3--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "ignoreUnused": true
   }
 }

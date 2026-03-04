@@ -1116,7 +1116,7 @@
     "messageformat": "ഒരു മെമ്പര്‍ ലേബൽ ചേർക്കുക"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "നിങ്ങളുടെ QR കോഡ്"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "കുറിപ്പ്"
@@ -2219,6 +2219,18 @@
   "icu:deleteFailed": {
     "messageformat": "ഇല്ലാതാക്കാനായില്ല"
   },
+  "icu:deleteFailedClickForDetails": {
+    "messageformat": "Delete failed, click for details"
+  },
+  "icu:retryDeleteForEveryone--title": {
+    "messageformat": "Retry failed delete?"
+  },
+  "icu:retryDeleteForEveryone--body": {
+    "messageformat": "Message failed to delete. Check your connection and try again."
+  },
+  "icu:retryDeleteForEveryone--tryAgain": {
+    "messageformat": "Try again"
+  },
   "icu:editFailed": {
     "messageformat": "എഡിറ്റ് ചെയ്യൽ പരാജയപ്പെട്ടു, വിശദാംശങ്ങൾക്ക് ക്ലിക്ക് ചെയ്യുക"
   },
@@ -2230,6 +2242,9 @@
   },
   "icu:partiallyDeleted": {
     "messageformat": "ഭാഗികമായി ഇല്ലാതാക്കി, വീണ്ടും ശ്രമിക്കാൻ ക്ലിക്ക് ചെയ്യുക"
+  },
+  "icu:partiallyDeleted--clickForDetails": {
+    "messageformat": "Partially deleted, click for details"
   },
   "icu:expiredWarning": {
     "messageformat": "Signal Desktop-ന്റെ ഈ പതിപ്പ് കാലഹരണപ്പെട്ടു. സന്ദേശ വിനിമയം തുടരുന്നതിന് ഏറ്റവും പുതിയ പതിപ്പിലേക്ക് അപ്‌ഗ്രേഡുചെയ്യുക."
@@ -2435,6 +2450,12 @@
   "icu:ToastManager__CannotAddMemberLabel": {
     "messageformat": "ഈ ഗ്രൂപ്പിൽ മെമ്പര്‍ ലേബലുകൾ ചേർക്കാൻ അഡ്മിൻമാർക്ക് മാത്രമേ കഴിയൂ."
   },
+  "icu:Toast--viewOnceEnabled": {
+    "messageformat": "View once enabled"
+  },
+  "icu:Toast--viewOnceDisabled": {
+    "messageformat": "View once disabled"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "നിങ്ങൾ ഈ സന്ദേശം അയച്ച് 24 മണിക്കൂറിനുള്ളിൽ മാത്രമേ എഡിറ്റുകൾ ബാധകമാക്കാനാകൂ."
   },
@@ -2620,6 +2641,15 @@
   },
   "icu:message--deletedForEveryone": {
     "messageformat": "ഈ സന്ദേശം ഇല്ലാതാക്കി."
+  },
+  "icu:message--deletedByAdmin": {
+    "messageformat": "Admin {admin} deleted this message"
+  },
+  "icu:message--deletedForEveryone--incoming": {
+    "messageformat": "{name} deleted this message"
+  },
+  "icu:message--deletedForEveryone--outgoing": {
+    "messageformat": "You deleted this message"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "പ്രദർശിപ്പിക്കാൻ കഴിയാത്ത അത്രയും വലുതാണ് അറ്റാച്ച്മെന്റ്."
@@ -2864,14 +2894,8 @@
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "സ്റ്റിക്കർ പ്രിവ്യൂ"
   },
-  "icu:FunPanelGifs__SearchLabel--Tenor": {
-    "messageformat": "Tenor വഴി GIF-കൾ തിരയുക"
-  },
   "icu:FunPanelGifs__SearchLabel": {
     "messageformat": "GIF-കൾ തിരയുക"
-  },
-  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
-    "messageformat": "Tenor തിരയുക"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
     "messageformat": "GIF-കൾ തിരയുക"
@@ -4622,6 +4646,12 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "മാറ്റി പകരം മറ്റൊന്ന് വയ്ക്കുക"
   },
+  "icu:CompositionArea--viewOnceToggle": {
+    "messageformat": "View once"
+  },
+  "icu:CompositionArea--viewOnceMediaPlaceholder": {
+    "messageformat": "View once media"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "സന്ദേശം എഡിറ്റ് ചെയ്യുക"
   },
@@ -4654,6 +4684,15 @@
   },
   "icu:ContactModal--voice": {
     "messageformat": "ശബ്ദം"
+  },
+  "icu:ContactModal--mute-audio": {
+    "messageformat": "Mute audio"
+  },
+  "icu:ContactModal--confirm-mute-body": {
+    "messageformat": "Are you sure you want to mute {contact}?"
+  },
+  "icu:ContactModal--confirm-mute-primary-button": {
+    "messageformat": "Mute"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "മെമ്പര്‍ ലേബലുകൾ"
@@ -4976,6 +5015,9 @@
   "icu:DeleteMessagesModal--title": {
     "messageformat": "{count, plural, one {സന്ദേശം ഇല്ലാക്കണോ?} other {{count,number} സന്ദേശങ്ങൾ ഇല്ലാതാക്കണോ?}}"
   },
+  "icu:DeleteMessagesModal--title-2": {
+    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+  },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {ആർക്കാണ് ഈ സന്ദേശം ഇല്ലാതാക്കാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നത്?} other {ആർക്കാണ് ഈ സന്ദേശം ഇല്ലാതാക്കാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നത്?}}"
   },
@@ -4993,6 +5035,12 @@
   },
   "icu:DeleteMessagesModal--deleteForEveryone": {
     "messageformat": "എല്ലാവർക്കുമായി ഇല്ലാതാക്കൂ"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
+    "messageformat": "Delete for everyone?"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
+    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "എല്ലാ ഉപകരണങ്ങളിൽ നിന്നും ഇല്ലാതാക്കൂ"
@@ -7486,14 +7534,8 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "പുതിയതായി എന്തുണ്ട്"
   },
-  "icu:PreferencesDonations__title": {
-    "messageformat": "ലാഭത്തേക്കാൾ മുഖ്യം സ്വകാര്യത"
-  },
   "icu:PreferencesDonations__title-v2": {
     "messageformat": "അഭിമാനത്തോടെ, ലാഭേച്ഛയില്ലാതെ"
-  },
-  "icu:PreferencesDonations__description": {
-    "messageformat": "നിങ്ങൾ ധനസഹായം നൽകുന്ന, സ്വകാര്യ സന്ദേശമയയ്ക്കൽ. പരസ്യങ്ങളില്ല, ട്രാക്കിംഗില്ല, വിട്ടുവീഴ്‌ചയില്ല. Signal-നെ പിന്തുണയ്ക്കാൻ ഇപ്പോൾ സംഭാവന നൽകൂ. <readMoreLink>കൂടുതൽ വായിക്കുക</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
     "messageformat": "സ്വകാര്യ സന്ദേശമയയ്ക്കലിനെ പിന്തുണയ്ക്കാൻ സംഭാവന നൽകുക. Signal-നെ സ്വതന്ത്രമായും പരസ്യരഹിതമായും നിലനിർത്തുക. <readMoreLink>കൂടുതൽ വായിക്കുക</readMoreLink>"
@@ -7943,7 +7985,11 @@
   "icu:WhatsNew__8.0--0": {
     "messageformat": "Signal സുരക്ഷിത ബാക്കപ്പുകൾ ഇതാ! ഇനി നിങ്ങൾക്ക് ഓട്ടോമാറ്റിക് എൻഡ്-ടു-എൻഡ് എൻക്രിപ്റ്റ് ചെയ്ത ബാക്കപ്പുകൾ പ്രവർത്തനക്ഷമമാക്കാൻ തിരഞ്ഞെടുക്കാം, അതുവഴി നിങ്ങൾക്ക് ഒരു പുതിയ ഫോൺ ലഭിക്കുമ്പോഴോ Signal വീണ്ടും ഇൻസ്റ്റാൾ ചെയ്യുമ്പോഴോ ഒരു സന്ദേശം പോലും നഷ്‌ടമാകില്ല. നിങ്ങളുടെ എല്ലാ സന്ദേശങ്ങളുടെയും അവസാന 45 ദിവസത്തെ മീഡിയ ഫയലുകളുടെയും ബാക്കപ്പ് സൗജന്യമായി എടുക്കാം, അല്ലെങ്കിൽ ഓരോ അറ്റാച്ച്‌മെന്റും ബാക്കപ്പ് ചെയ്യുന്നതിന് 100 GB സ്റ്റോറേജ് ലഭിക്കുന്നതിന് നിങ്ങൾക്ക് ഒരു ചെറിയ പ്രതിമാസ ഫീസ് അടയ്ക്കാം. ആരംഭിക്കുന്നതിന് നിങ്ങളുടെ Signal ക്രമീകരണങ്ങളിലെ ബാക്കപ്പുകളിൽ ടാപ്പ് ചെയ്യുക. ബീറ്റാ കാലയളവിൽ ഈ സവിശേഷത പരീക്ഷിക്കാൻ സഹായിച്ച എല്ലാവർക്കും നന്ദി!"
   },
-  "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+  "icu:WhatsNew__8.2--0": {
+    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+  },
+  "icu:WhatsNew__8.3--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "ignoreUnused": true
   }
 }

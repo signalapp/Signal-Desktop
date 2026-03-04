@@ -1116,7 +1116,7 @@
     "messageformat": "أضِف دور للعضو"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "كود QR الخاص بك"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "مُلاحظة"
@@ -2219,6 +2219,18 @@
   "icu:deleteFailed": {
     "messageformat": "فشل الحذف"
   },
+  "icu:deleteFailedClickForDetails": {
+    "messageformat": "Delete failed, click for details"
+  },
+  "icu:retryDeleteForEveryone--title": {
+    "messageformat": "Retry failed delete?"
+  },
+  "icu:retryDeleteForEveryone--body": {
+    "messageformat": "Message failed to delete. Check your connection and try again."
+  },
+  "icu:retryDeleteForEveryone--tryAgain": {
+    "messageformat": "Try again"
+  },
   "icu:editFailed": {
     "messageformat": "فشل التعديل. اضغط للحصول على التفاصيل."
   },
@@ -2230,6 +2242,9 @@
   },
   "icu:partiallyDeleted": {
     "messageformat": "تمَّ الحذف جزئيًا. يُرجى الضغط لإعادة المحاولة."
+  },
+  "icu:partiallyDeleted--clickForDetails": {
+    "messageformat": "Partially deleted, click for details"
   },
   "icu:expiredWarning": {
     "messageformat": "انتهت صلاحية هذا الإصدار من سيجنال Desktop. يُرجى التحديث لأحدث إصدار للتمكُّن من التراسُل."
@@ -2435,6 +2450,12 @@
   "icu:ToastManager__CannotAddMemberLabel": {
     "messageformat": "فقط المُشرِفون هم من يمكنهم تحديد أدوار الأعضاء في هذه المجموعة."
   },
+  "icu:Toast--viewOnceEnabled": {
+    "messageformat": "View once enabled"
+  },
+  "icu:Toast--viewOnceDisabled": {
+    "messageformat": "View once disabled"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "لا يُمكن إحداث التعديلات إلاّ في غضون 24 ساعة من وقت إرسال هذه الرسالة."
   },
@@ -2620,6 +2641,15 @@
   },
   "icu:message--deletedForEveryone": {
     "messageformat": "حُذِفَت هذه الرسالة."
+  },
+  "icu:message--deletedByAdmin": {
+    "messageformat": "Admin {admin} deleted this message"
+  },
+  "icu:message--deletedForEveryone--incoming": {
+    "messageformat": "{name} deleted this message"
+  },
+  "icu:message--deletedForEveryone--outgoing": {
+    "messageformat": "You deleted this message"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "تعذَّر إظهار الملف المُرفَق لأن حجمه كبير جدًا."
@@ -2864,14 +2894,8 @@
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "استعراض المُلصَق"
   },
-  "icu:FunPanelGifs__SearchLabel--Tenor": {
-    "messageformat": "البحث عن الصور المُتحركة (GIFs) في Tenor"
-  },
   "icu:FunPanelGifs__SearchLabel": {
     "messageformat": "البحث في الصور المتحركة"
-  },
-  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
-    "messageformat": "البحث في Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
     "messageformat": "البحث في الصور المتحركة"
@@ -4622,6 +4646,12 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "استبدال"
   },
+  "icu:CompositionArea--viewOnceToggle": {
+    "messageformat": "View once"
+  },
+  "icu:CompositionArea--viewOnceMediaPlaceholder": {
+    "messageformat": "View once media"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "تعديل الرسالة"
   },
@@ -4654,6 +4684,15 @@
   },
   "icu:ContactModal--voice": {
     "messageformat": "مكالمة صوتية"
+  },
+  "icu:ContactModal--mute-audio": {
+    "messageformat": "Mute audio"
+  },
+  "icu:ContactModal--confirm-mute-body": {
+    "messageformat": "Are you sure you want to mute {contact}?"
+  },
+  "icu:ContactModal--confirm-mute-primary-button": {
+    "messageformat": "Mute"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "دور العضو"
@@ -4976,6 +5015,9 @@
   "icu:DeleteMessagesModal--title": {
     "messageformat": "{count, plural, zero {هل ترغبُ بحذف {count,number} رسائل؟} one {هل ترغبُ بحذف {count,number} رسالة واحدة؟} two {هل ترغبُ بحذف {count,number} رسالتين؟} few {هل ترغبُ بحذف {count,number} رسائل؟} many {هل ترغبُ بحذف {count,number} رسالة؟} other {هل ترغبُ بحذف {count,number} رسالة؟}}"
   },
+  "icu:DeleteMessagesModal--title-2": {
+    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+  },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, zero {من هم الأشخاص الذين تريد حذف هذه الرسائل لديهم؟} one {من هم الأشخاص الذين تريد حذف هذه الرسالة لديهم؟} two {من هم الأشخاص الذين تريد حذف هاتين الرسالتين لديهم؟} few {من هم الأشخاص الذين تريد حذف هذه الرسائل لديهم؟} many {من هم الأشخاص الذين تريد حذف هذه الرسائل لديهم؟} other {من هم الأشخاص الذين تريد حذف هذه الرسائل لديهم؟}}"
   },
@@ -4993,6 +5035,12 @@
   },
   "icu:DeleteMessagesModal--deleteForEveryone": {
     "messageformat": "احذف للجميع"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
+    "messageformat": "Delete for everyone?"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
+    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "احذف من كل الأجهزة"
@@ -7486,14 +7534,8 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "ما هو جديد"
   },
-  "icu:PreferencesDonations__title": {
-    "messageformat": "نفضِّل الخصوصية على الربح"
-  },
   "icu:PreferencesDonations__title-v2": {
     "messageformat": "شركة غير ربحية بالفعل"
-  },
-  "icu:PreferencesDonations__description": {
-    "messageformat": "تراسُل خاص، مُموَّل من طرفك. دون إعلانات، دون مُتعقِّبات، دون مساومة. تبرَّع الآن لدعم سيجنال. <readMoreLink>اقرأ المزيد</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
     "messageformat": "تبرَّع لدعم المراسلة الخصوصية. ساعِد في إبقاء سيجنال مستقلًا وخاليًا من الإعلانات. <readMoreLink>اقرأ المزيد</readMoreLink>"
@@ -7943,7 +7985,11 @@
   "icu:WhatsNew__8.0--0": {
     "messageformat": "النسخ الاحتياطية الآمنة لسيجنال أصبحت متوفِّرة الآن! يُمكنك الآن اختيار تفعيل النسخ الاحتياطي التلقائي والمُشفَّر تمامًا من طرف إلى طرف، لِضمان عدم فقدان أي رسالة عند اقتناء هاتف جديد أو إعادة تثبيت سيجنال. يُمكنك إجراء نسخ احتياطي لجميع رسائلك وللوسائط الخاصة بآخر 45 يومًا مجانًا، أو يمكنك دفع رسوم شهرية بسيطة للحصول على مساحة 100 جيجابايت لنسخ كافة الملفات المُرفَقة. انقر على النسخ الاحتياطية في إعدادات سيجنال للبدء. شكرًا لِكل من ساهم في اختبار هذه الميزة خلال الفترة التجريبية!"
   },
-  "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+  "icu:WhatsNew__8.2--0": {
+    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+  },
+  "icu:WhatsNew__8.3--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "ignoreUnused": true
   }
 }

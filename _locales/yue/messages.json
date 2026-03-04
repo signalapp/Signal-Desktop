@@ -1116,7 +1116,7 @@
     "messageformat": "加成員標籤"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "你嘅二維碼"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "備註"
@@ -2219,6 +2219,18 @@
   "icu:deleteFailed": {
     "messageformat": "刪除失敗"
   },
+  "icu:deleteFailedClickForDetails": {
+    "messageformat": "Delete failed, click for details"
+  },
+  "icu:retryDeleteForEveryone--title": {
+    "messageformat": "Retry failed delete?"
+  },
+  "icu:retryDeleteForEveryone--body": {
+    "messageformat": "Message failed to delete. Check your connection and try again."
+  },
+  "icu:retryDeleteForEveryone--tryAgain": {
+    "messageformat": "Try again"
+  },
   "icu:editFailed": {
     "messageformat": "編輯失敗，㩒一吓了解詳情"
   },
@@ -2230,6 +2242,9 @@
   },
   "icu:partiallyDeleted": {
     "messageformat": "刪除咗一部分，㩒一吓再試多次"
+  },
+  "icu:partiallyDeleted--clickForDetails": {
+    "messageformat": "Partially deleted, click for details"
   },
   "icu:expiredWarning": {
     "messageformat": "呢個 Signal 桌面版本已經過咗期。請你升級到最新版本嚟繼續收發訊息啦。"
@@ -2435,6 +2450,12 @@
   "icu:ToastManager__CannotAddMemberLabel": {
     "messageformat": "只有管理員先可以喺呢個谷度加成員標籤。"
   },
+  "icu:Toast--viewOnceEnabled": {
+    "messageformat": "View once enabled"
+  },
+  "icu:Toast--viewOnceDisabled": {
+    "messageformat": "View once disabled"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "你只可以喺傳送訊息後 24 個鐘內套用編輯。"
   },
@@ -2620,6 +2641,15 @@
   },
   "icu:message--deletedForEveryone": {
     "messageformat": "呢個訊息已經刪除咗。"
+  },
+  "icu:message--deletedByAdmin": {
+    "messageformat": "Admin {admin} deleted this message"
+  },
+  "icu:message--deletedForEveryone--incoming": {
+    "messageformat": "{name} deleted this message"
+  },
+  "icu:message--deletedForEveryone--outgoing": {
+    "messageformat": "You deleted this message"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "附件太大顯示唔到。"
@@ -2864,14 +2894,8 @@
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "貼圖預覽"
   },
-  "icu:FunPanelGifs__SearchLabel--Tenor": {
-    "messageformat": "經 Tenor 搜尋 GIF"
-  },
   "icu:FunPanelGifs__SearchLabel": {
     "messageformat": "搵 GIF"
-  },
-  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
-    "messageformat": "喺 Tenor 度搜尋"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
     "messageformat": "搵 GIF"
@@ -4622,6 +4646,12 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "取代"
   },
+  "icu:CompositionArea--viewOnceToggle": {
+    "messageformat": "View once"
+  },
+  "icu:CompositionArea--viewOnceMediaPlaceholder": {
+    "messageformat": "View once media"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "編輯訊息"
   },
@@ -4654,6 +4684,15 @@
   },
   "icu:ContactModal--voice": {
     "messageformat": "語音"
+  },
+  "icu:ContactModal--mute-audio": {
+    "messageformat": "Mute audio"
+  },
+  "icu:ContactModal--confirm-mute-body": {
+    "messageformat": "Are you sure you want to mute {contact}?"
+  },
+  "icu:ContactModal--confirm-mute-primary-button": {
+    "messageformat": "Mute"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "成員標籤"
@@ -4976,6 +5015,9 @@
   "icu:DeleteMessagesModal--title": {
     "messageformat": "{count, plural, other {係咪要刪除 {count,number} 個訊息呀？}}"
   },
+  "icu:DeleteMessagesModal--title-2": {
+    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+  },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, other {你想喺邊個部機度刪除呢啲訊息呀？}}"
   },
@@ -4993,6 +5035,12 @@
   },
   "icu:DeleteMessagesModal--deleteForEveryone": {
     "messageformat": "喺所有人部機度刪除"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
+    "messageformat": "Delete for everyone?"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
+    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "喺所有裝置度刪除"
@@ -7486,14 +7534,8 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "最新消息"
   },
-  "icu:PreferencesDonations__title": {
-    "messageformat": "重視私隱多過利潤"
-  },
   "icu:PreferencesDonations__title-v2": {
     "messageformat": "堅守非牟利宗旨"
-  },
-  "icu:PreferencesDonations__description": {
-    "messageformat": "由你贊助嘅私密通訊軟件。冇廣告、冇追蹤、絕不妥協。請立即捐款支持 Signal。<readMoreLink>睇多啲</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
     "messageformat": "捐款支持私密通訊。令 Signal 保持獨立營運同埋冇廣告。<readMoreLink>睇多啲</readMoreLink>"
@@ -7943,7 +7985,11 @@
   "icu:WhatsNew__8.0--0": {
     "messageformat": "• Signal 安全備份嚟咗啦！而家你可以揀啟用自動端對端加密備份功能，咁樣當你換新手機或者重新安裝 Signal 嗰陣，就唔會冇晒啲訊息。你可以免費備份全部訊息同最近 45 日嘅媒體，或者可以俾少少月費就有 100 GB 儲存空間嚟備份全部附件。㩒一下 Signal 設定入面嘅備份就可以即刻開始。多謝每個喺測試期間幫手測試呢個功能嘅用家！"
   },
-  "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+  "icu:WhatsNew__8.2--0": {
+    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+  },
+  "icu:WhatsNew__8.3--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "ignoreUnused": true
   }
 }

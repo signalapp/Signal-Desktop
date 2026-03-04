@@ -1116,7 +1116,7 @@
     "messageformat": "Ledenlabel toevoegen"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "Je QR-code"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Notitie"
@@ -2219,6 +2219,18 @@
   "icu:deleteFailed": {
     "messageformat": "Verwijderen is mislukt"
   },
+  "icu:deleteFailedClickForDetails": {
+    "messageformat": "Delete failed, click for details"
+  },
+  "icu:retryDeleteForEveryone--title": {
+    "messageformat": "Retry failed delete?"
+  },
+  "icu:retryDeleteForEveryone--body": {
+    "messageformat": "Message failed to delete. Check your connection and try again."
+  },
+  "icu:retryDeleteForEveryone--tryAgain": {
+    "messageformat": "Try again"
+  },
   "icu:editFailed": {
     "messageformat": "Bewerken mislukt, klik voor details"
   },
@@ -2230,6 +2242,9 @@
   },
   "icu:partiallyDeleted": {
     "messageformat": "Gedeeltelijk verwijderd, klik hier om het opnieuw te proberen"
+  },
+  "icu:partiallyDeleted--clickForDetails": {
+    "messageformat": "Partially deleted, click for details"
   },
   "icu:expiredWarning": {
     "messageformat": "Deze versie van Signal Desktop is verlopen. Werk bij naar de meest recente versie om gesprekken voort te kunnen zetten."
@@ -2435,6 +2450,12 @@
   "icu:ToastManager__CannotAddMemberLabel": {
     "messageformat": "Alleen beheerders kunnen ledenlabels aanmaken in deze groep."
   },
+  "icu:Toast--viewOnceEnabled": {
+    "messageformat": "View once enabled"
+  },
+  "icu:Toast--viewOnceDisabled": {
+    "messageformat": "View once disabled"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Berichten kunnen alleen binnen 24 uur na verzenden bewerkt worden."
   },
@@ -2620,6 +2641,15 @@
   },
   "icu:message--deletedForEveryone": {
     "messageformat": "Dit bericht is verwijderd."
+  },
+  "icu:message--deletedByAdmin": {
+    "messageformat": "Admin {admin} deleted this message"
+  },
+  "icu:message--deletedForEveryone--incoming": {
+    "messageformat": "{name} deleted this message"
+  },
+  "icu:message--deletedForEveryone--outgoing": {
+    "messageformat": "You deleted this message"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "Bijlage te groot om weer te geven."
@@ -2864,14 +2894,8 @@
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Stickervoorbeeld"
   },
-  "icu:FunPanelGifs__SearchLabel--Tenor": {
-    "messageformat": "GIF's zoeken via Tenor"
-  },
   "icu:FunPanelGifs__SearchLabel": {
     "messageformat": "GIF's zoeken"
-  },
-  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
-    "messageformat": "Zoeken in Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
     "messageformat": "GIF's zoeken"
@@ -4622,6 +4646,12 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Vervangen"
   },
+  "icu:CompositionArea--viewOnceToggle": {
+    "messageformat": "View once"
+  },
+  "icu:CompositionArea--viewOnceMediaPlaceholder": {
+    "messageformat": "View once media"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Bericht bewerken"
   },
@@ -4654,6 +4684,15 @@
   },
   "icu:ContactModal--voice": {
     "messageformat": "Audio"
+  },
+  "icu:ContactModal--mute-audio": {
+    "messageformat": "Mute audio"
+  },
+  "icu:ContactModal--confirm-mute-body": {
+    "messageformat": "Are you sure you want to mute {contact}?"
+  },
+  "icu:ContactModal--confirm-mute-primary-button": {
+    "messageformat": "Mute"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Ledenlabels"
@@ -4976,6 +5015,9 @@
   "icu:DeleteMessagesModal--title": {
     "messageformat": "{count, plural, one {{count,number} bericht verwijderen?} other {{count,number} berichten verwijderen?}}"
   },
+  "icu:DeleteMessagesModal--title-2": {
+    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+  },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Voor wie wil je dit bericht verwijderen?} other {Voor wie wil je deze berichten verwijderen?}}"
   },
@@ -4993,6 +5035,12 @@
   },
   "icu:DeleteMessagesModal--deleteForEveryone": {
     "messageformat": "Verwijderen voor iedereen"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
+    "messageformat": "Delete for everyone?"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
+    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Verwijderen van alle apparaten"
@@ -7486,14 +7534,8 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "Wat er nieuw is"
   },
-  "icu:PreferencesDonations__title": {
-    "messageformat": "Privacy boven winst"
-  },
   "icu:PreferencesDonations__title-v2": {
     "messageformat": "Non-profit met een missie"
-  },
-  "icu:PreferencesDonations__description": {
-    "messageformat": "Privéberichten, gefinancierd door jou. Geen advertenties, geen tracking, geen compromissen. Doneer nu om Signal te steunen. <readMoreLink>Meer lezen</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
     "messageformat": "Doneer om veilige privécommunicatie te ondersteunen. Houd Signal onafhankelijk en advertentievrij. <readMoreLink>Meer lezen</readMoreLink>"
@@ -7943,7 +7985,11 @@
   "icu:WhatsNew__8.0--0": {
     "messageformat": "Signal Secure Backups is nu beschikbaar! Je kunt nu automatische end-to-end versleutelde back-ups inschakelen zodat je nooit berichten kwijtraakt als je overstapt op een nieuwe telefoon of als je Signal opnieuw installeert. Je kunt gratis een back-up maken van al je berichten en de laatste 45 dagen aan media. Voor een klein maandelijks bedrag ontvang je 100 GB opslag zodat je van al je bijlages een back-up kunt maken. Tik op Back-ups in Signal-instellingen om te beginnen. Iedereen bedankt die deze functie in de bètaperiode heeft getest!"
   },
-  "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+  "icu:WhatsNew__8.2--0": {
+    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+  },
+  "icu:WhatsNew__8.3--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "ignoreUnused": true
   }
 }

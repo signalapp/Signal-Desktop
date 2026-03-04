@@ -1116,7 +1116,7 @@
     "messageformat": "افزودن برچسب عضو"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "کد QR شما"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "یادداشت"
@@ -2219,6 +2219,18 @@
   "icu:deleteFailed": {
     "messageformat": "پاک کردن ناموفق بود"
   },
+  "icu:deleteFailedClickForDetails": {
+    "messageformat": "Delete failed, click for details"
+  },
+  "icu:retryDeleteForEveryone--title": {
+    "messageformat": "Retry failed delete?"
+  },
+  "icu:retryDeleteForEveryone--body": {
+    "messageformat": "Message failed to delete. Check your connection and try again."
+  },
+  "icu:retryDeleteForEveryone--tryAgain": {
+    "messageformat": "Try again"
+  },
   "icu:editFailed": {
     "messageformat": "ویرایش انجام نشد، برای مشاهده جزئیات کلیک کنید"
   },
@@ -2230,6 +2242,9 @@
   },
   "icu:partiallyDeleted": {
     "messageformat": "به طور کامل پاک نشد، برای تلاش مجدد کلیک کنید"
+  },
+  "icu:partiallyDeleted--clickForDetails": {
+    "messageformat": "Partially deleted, click for details"
   },
   "icu:expiredWarning": {
     "messageformat": "این نسخه‌ی سیگنال قدیمی است. برای ارسال پیام لطفا آن را به آخرین نسخه ارتقاء دهید."
@@ -2435,6 +2450,12 @@
   "icu:ToastManager__CannotAddMemberLabel": {
     "messageformat": "فقط مدیران می‌توانند برچسب‌های عضو را به این گروه اضافه کنند."
   },
+  "icu:Toast--viewOnceEnabled": {
+    "messageformat": "View once enabled"
+  },
+  "icu:Toast--viewOnceDisabled": {
+    "messageformat": "View once disabled"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ویرایش‌ها فقط تا ۲۴ ساعت بعد از ارسال این پیام قابل اعمال هستند."
   },
@@ -2620,6 +2641,15 @@
   },
   "icu:message--deletedForEveryone": {
     "messageformat": "این پیام پاک شد."
+  },
+  "icu:message--deletedByAdmin": {
+    "messageformat": "Admin {admin} deleted this message"
+  },
+  "icu:message--deletedForEveryone--incoming": {
+    "messageformat": "{name} deleted this message"
+  },
+  "icu:message--deletedForEveryone--outgoing": {
+    "messageformat": "You deleted this message"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "فایل پیوست برای نمایش خیلی بزرگ است."
@@ -2864,14 +2894,8 @@
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "پیش‌نمایش استیکر"
   },
-  "icu:FunPanelGifs__SearchLabel--Tenor": {
-    "messageformat": "جستجوی گیف‌ها در Tenor"
-  },
   "icu:FunPanelGifs__SearchLabel": {
     "messageformat": "جستجوی گیف‌ها"
-  },
-  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
-    "messageformat": "جستجو در Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
     "messageformat": "جستجوی گیف‌ها"
@@ -4622,6 +4646,12 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "جایگزینی"
   },
+  "icu:CompositionArea--viewOnceToggle": {
+    "messageformat": "View once"
+  },
+  "icu:CompositionArea--viewOnceMediaPlaceholder": {
+    "messageformat": "View once media"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "ویرایش پیام"
   },
@@ -4654,6 +4684,15 @@
   },
   "icu:ContactModal--voice": {
     "messageformat": "صوتی"
+  },
+  "icu:ContactModal--mute-audio": {
+    "messageformat": "Mute audio"
+  },
+  "icu:ContactModal--confirm-mute-body": {
+    "messageformat": "Are you sure you want to mute {contact}?"
+  },
+  "icu:ContactModal--confirm-mute-primary-button": {
+    "messageformat": "Mute"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "برچسب‌های عضو"
@@ -4976,6 +5015,9 @@
   "icu:DeleteMessagesModal--title": {
     "messageformat": "{count, plural, one {پیام پاک شود؟} other {{count,number} پیام پاک شود؟}}"
   },
+  "icu:DeleteMessagesModal--title-2": {
+    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+  },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {می‌خواهید این پیام را برای چه کسانی پاک کنید؟} other {می‌خواهید این پیام‌ها را برای چه کسانی پاک کنید؟}}"
   },
@@ -4993,6 +5035,12 @@
   },
   "icu:DeleteMessagesModal--deleteForEveryone": {
     "messageformat": "پاک کردن برای همه"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
+    "messageformat": "Delete for everyone?"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
+    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "پاک کردن از همه دستگاه‌ها"
@@ -7486,14 +7534,8 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "تازه‌ها"
   },
-  "icu:PreferencesDonations__title": {
-    "messageformat": "حریم خصوصی بر سود ارجحیت دارد"
-  },
   "icu:PreferencesDonations__title-v2": {
     "messageformat": "با افتخار، غیرانتفاعی هستیم"
-  },
-  "icu:PreferencesDonations__description": {
-    "messageformat": "پیام‌رسانی خصوصی، با حمایت مالی شما. بدون تبلیغات، بدون ردیابی، بدون کاستن از کیفیت. اکنون برای حمایت از سیگنال کمک مالی کنید. <readMoreLink>بیشتر بخوانید</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
     "messageformat": "برای حمایت از پیام‌رسانی خصوصی، کمک مالی اهدا کنید. سیگنال را مستقل و بدون تبلیغات نگه دارید. <readMoreLink>بیشتر بخوانید</readMoreLink>"
@@ -7943,7 +7985,11 @@
   "icu:WhatsNew__8.0--0": {
     "messageformat": "• پشتیبان‌گیری امن سیگنال اینجاست! اکنون می‌توانید پشتیبان‌گیری‌های رمزگذاری‌شده سرتاسری خودکار را فعال کنید تا هنگام دریافت تلفن جدید یا نصب مجدد سیگنال، هیچ‌وقت پیامی را از دست ندهید. می‌توانید رایگان از همه پیام‌ها و ۴۵ روز اخیر فایل‌های رسانه‌ای خود پشتیبان بگیرید، یا با پرداخت مبلغ اندک ماهانه‌ای ۱۰۰ گیگابایت فضای ذخیره‌سازی برای پشتیبان‌گیری از همه پیوست‌ها دریافت کنید. برای شروع، در «تنظیمات سیگنال» روی پشتیبان‌گیری ضربه بزنید. با تشکر از همه کسانی که در دوره بتا به آزمایش این قابلیت کمک کردند!"
   },
-  "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+  "icu:WhatsNew__8.2--0": {
+    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+  },
+  "icu:WhatsNew__8.3--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "ignoreUnused": true
   }
 }

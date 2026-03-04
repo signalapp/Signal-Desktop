@@ -1116,7 +1116,7 @@
     "messageformat": "સભ્ય લેબલ ઉમેરો"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "તમારો QR કોડ"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "નોંધ"
@@ -2219,6 +2219,18 @@
   "icu:deleteFailed": {
     "messageformat": "ડિલીટ કરવાનું નિષ્ફળ થયું"
   },
+  "icu:deleteFailedClickForDetails": {
+    "messageformat": "Delete failed, click for details"
+  },
+  "icu:retryDeleteForEveryone--title": {
+    "messageformat": "Retry failed delete?"
+  },
+  "icu:retryDeleteForEveryone--body": {
+    "messageformat": "Message failed to delete. Check your connection and try again."
+  },
+  "icu:retryDeleteForEveryone--tryAgain": {
+    "messageformat": "Try again"
+  },
   "icu:editFailed": {
     "messageformat": "ફેરફારો નિષ્ફળ થયાં, વિગતો મેળવવા માટે ક્લિક કરો"
   },
@@ -2230,6 +2242,9 @@
   },
   "icu:partiallyDeleted": {
     "messageformat": "આંશિક ડિલીટ થયું, ફરી પ્રયાસ કરવા ક્લિક કરો"
+  },
+  "icu:partiallyDeleted--clickForDetails": {
+    "messageformat": "Partially deleted, click for details"
   },
   "icu:expiredWarning": {
     "messageformat": "Signal ડેસ્કટોપનું આ વર્ઝન સમાપ્ત થઈ ગયું છે. મેસેજિંગ ચાલુ રાખવા માટે કૃપા કરીને નવીનતમ સંસ્કરણ પર અપગ્રેડ કરો."
@@ -2435,6 +2450,12 @@
   "icu:ToastManager__CannotAddMemberLabel": {
     "messageformat": "આ ગ્રૂપમાં ફક્ત એડમિન જ સભ્યના લેબલ ઉમેરી શકે છે."
   },
+  "icu:Toast--viewOnceEnabled": {
+    "messageformat": "View once enabled"
+  },
+  "icu:Toast--viewOnceDisabled": {
+    "messageformat": "View once disabled"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "તમે આ મેસેજ મોકલ્યો હોય ત્યારથી માત્ર 24 કલાકની અંદર જ ફેરફારો લાગુ કરી શકાય છે."
   },
@@ -2620,6 +2641,15 @@
   },
   "icu:message--deletedForEveryone": {
     "messageformat": "આ મેસેજ ડિલીટ કર્યો હતો."
+  },
+  "icu:message--deletedByAdmin": {
+    "messageformat": "Admin {admin} deleted this message"
+  },
+  "icu:message--deletedForEveryone--incoming": {
+    "messageformat": "{name} deleted this message"
+  },
+  "icu:message--deletedForEveryone--outgoing": {
+    "messageformat": "You deleted this message"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "જોડાણ ખૂબ મોટું હોવાથી બતાવી શકાતું નથી."
@@ -2864,14 +2894,8 @@
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "સ્ટીકર પ્રિવ્યૂ"
   },
-  "icu:FunPanelGifs__SearchLabel--Tenor": {
-    "messageformat": "Tenorમાં GIFs શોધો"
-  },
   "icu:FunPanelGifs__SearchLabel": {
     "messageformat": "GIF શોધો"
-  },
-  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
-    "messageformat": "Tenorમાં શોધો"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
     "messageformat": "GIF શોધો"
@@ -4622,6 +4646,12 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "બદલો"
   },
+  "icu:CompositionArea--viewOnceToggle": {
+    "messageformat": "View once"
+  },
+  "icu:CompositionArea--viewOnceMediaPlaceholder": {
+    "messageformat": "View once media"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "મેસેજમાં ફેરફાર કરો"
   },
@@ -4654,6 +4684,15 @@
   },
   "icu:ContactModal--voice": {
     "messageformat": "વૉઇસ"
+  },
+  "icu:ContactModal--mute-audio": {
+    "messageformat": "Mute audio"
+  },
+  "icu:ContactModal--confirm-mute-body": {
+    "messageformat": "Are you sure you want to mute {contact}?"
+  },
+  "icu:ContactModal--confirm-mute-primary-button": {
+    "messageformat": "Mute"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "સભ્યના લેબલ"
@@ -4976,6 +5015,9 @@
   "icu:DeleteMessagesModal--title": {
     "messageformat": "{count, plural, one {{count,number} મેસેજ ડિલીટ કરવો છે?} other {{count,number} મેસેજ ડિલીટ કરવા છે?}}"
   },
+  "icu:DeleteMessagesModal--title-2": {
+    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+  },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {તમે આ મેસેજ કોના માટે ડિલીટ કરવા માગો છો?} other {તમે આ મેસેજ કોના માટે ડિલીટ કરવા માગો છો?}}"
   },
@@ -4993,6 +5035,12 @@
   },
   "icu:DeleteMessagesModal--deleteForEveryone": {
     "messageformat": "બધા માટે ડિલીટ કરો"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
+    "messageformat": "Delete for everyone?"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
+    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "બધા ડિવાઇસમાંથી ડિલીટ કરો"
@@ -7486,14 +7534,8 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "નવું શું છે"
   },
-  "icu:PreferencesDonations__title": {
-    "messageformat": "નફા કરતાં ગોપનીયતા વધુ મહત્વની છે"
-  },
   "icu:PreferencesDonations__title-v2": {
     "messageformat": "ગર્વથી બિનનફાકારક"
-  },
-  "icu:PreferencesDonations__description": {
-    "messageformat": "ખાનગી મેસેજિંગ, તમારા ભંડોળની મદદથી. કોઈ જાહેરાતો નહીં, કોઈ પગેરું નહીં, કોઈ બાંધછોડ નહીં. Signalને સહાય કરવા દાન આપો. <readMoreLink>વધુ વાંચો</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
     "messageformat": "ખાનગી મેસેજિંગને સપોર્ટ કરવા માટે દાન આપો. SIgnalને સ્વતંત્ર અને જાહેરાત-મુક્ત રાખો. <readMoreLink>વધુ વાંચો</readMoreLink>"
@@ -7943,7 +7985,11 @@
   "icu:WhatsNew__8.0--0": {
     "messageformat": "Signal સુરક્ષિત બેકઅપ આવી ગયું છે! હવે તમે ઓટોમેટિક એન્ડ-ટૂ-એન્ડ એન્ક્રિપ્ટેડ બેકઅપને સક્ષમ કરવાનું પસંદ કરી શકો છો જેથી જ્યારે તમે નવો ફોન બદલો કે Signal ફરીથી ઇન્સ્ટોલ કરો ત્યારે તમે ક્યારેય મેસેજ ગુમાવશો નહીં. તમે તમારા બધા મેસેજ અને છેલ્લા 45 દિવસના મીડિયાનો મફતમાં બેકઅપ લઈ શકો છો, અથવા તમે દરેક જોડાણનો બેકઅપ લેવા માટે 100 GB સ્ટોરેજ મેળવવા માટે એક નાની માસિક ફી ચૂકવી શકો છો. શરૂ કરવા માટે તમારા Signal સેટિંગ્સમાં બેકઅપ પર ટેપ કરો. બીટા સમયગાળા દરમિયાન આ ફીચરનું પરીક્ષણ કરવામાં મદદ કરનાર દરેકનો આભાર!"
   },
-  "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+  "icu:WhatsNew__8.2--0": {
+    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+  },
+  "icu:WhatsNew__8.3--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "ignoreUnused": true
   }
 }

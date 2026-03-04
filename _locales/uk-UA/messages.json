@@ -1116,7 +1116,7 @@
     "messageformat": "Додати роль учасника"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "Ваш QR-код"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Примітка"
@@ -2219,6 +2219,18 @@
   "icu:deleteFailed": {
     "messageformat": "Не вдалося видалити"
   },
+  "icu:deleteFailedClickForDetails": {
+    "messageformat": "Delete failed, click for details"
+  },
+  "icu:retryDeleteForEveryone--title": {
+    "messageformat": "Retry failed delete?"
+  },
+  "icu:retryDeleteForEveryone--body": {
+    "messageformat": "Message failed to delete. Check your connection and try again."
+  },
+  "icu:retryDeleteForEveryone--tryAgain": {
+    "messageformat": "Try again"
+  },
   "icu:editFailed": {
     "messageformat": "Помилка редагування, натисніть, щоб дізнатися більше"
   },
@@ -2230,6 +2242,9 @@
   },
   "icu:partiallyDeleted": {
     "messageformat": "Видалено не в усіх, натисніть, щоб повторити"
+  },
+  "icu:partiallyDeleted--clickForDetails": {
+    "messageformat": "Partially deleted, click for details"
   },
   "icu:expiredWarning": {
     "messageformat": "Ця версія Signal Desktop застаріла. Оновіть застосунок до останньої версії, щоб і надалі надсилати повідомлення."
@@ -2435,6 +2450,12 @@
   "icu:ToastManager__CannotAddMemberLabel": {
     "messageformat": "Додавати ролі учасників у цій групі можуть тільки адміністратори."
   },
+  "icu:Toast--viewOnceEnabled": {
+    "messageformat": "View once enabled"
+  },
+  "icu:Toast--viewOnceDisabled": {
+    "messageformat": "View once disabled"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Редагувати повідомлення можна лише протягом 24 годин з моменту надсилання."
   },
@@ -2620,6 +2641,15 @@
   },
   "icu:message--deletedForEveryone": {
     "messageformat": "Це повідомлення видалено."
+  },
+  "icu:message--deletedByAdmin": {
+    "messageformat": "Admin {admin} deleted this message"
+  },
+  "icu:message--deletedForEveryone--incoming": {
+    "messageformat": "{name} deleted this message"
+  },
+  "icu:message--deletedForEveryone--outgoing": {
+    "messageformat": "You deleted this message"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "Вкладений файл завеликий для показу."
@@ -2864,14 +2894,8 @@
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Попередній вигляд стікера"
   },
-  "icu:FunPanelGifs__SearchLabel--Tenor": {
-    "messageformat": "Пошук GIF-зображень у Tenor"
-  },
   "icu:FunPanelGifs__SearchLabel": {
     "messageformat": "Пошук GIF-зображень"
-  },
-  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
-    "messageformat": "Пошук у Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
     "messageformat": "Пошук GIF-зображень"
@@ -4622,6 +4646,12 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Замінити"
   },
+  "icu:CompositionArea--viewOnceToggle": {
+    "messageformat": "View once"
+  },
+  "icu:CompositionArea--viewOnceMediaPlaceholder": {
+    "messageformat": "View once media"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Редагування повідомлення"
   },
@@ -4654,6 +4684,15 @@
   },
   "icu:ContactModal--voice": {
     "messageformat": "Аудіо"
+  },
+  "icu:ContactModal--mute-audio": {
+    "messageformat": "Mute audio"
+  },
+  "icu:ContactModal--confirm-mute-body": {
+    "messageformat": "Are you sure you want to mute {contact}?"
+  },
+  "icu:ContactModal--confirm-mute-primary-button": {
+    "messageformat": "Mute"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Ролі учасників"
@@ -4976,6 +5015,9 @@
   "icu:DeleteMessagesModal--title": {
     "messageformat": "{count, plural, one {Видалити {count,number} повідомлення?} few {Видалити {count,number} повідомлення?} many {Видалити {count,number} повідомлень?} other {Видалити {count,number} повідомлення?}}"
   },
+  "icu:DeleteMessagesModal--title-2": {
+    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+  },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Для кого видалити це повідомлення?} few {Для кого видалити ці повідомлення?} many {Для кого видалити ці повідомлення?} other {Для кого видалити ці повідомлення?}}"
   },
@@ -4993,6 +5035,12 @@
   },
   "icu:DeleteMessagesModal--deleteForEveryone": {
     "messageformat": "Видалити для всіх"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
+    "messageformat": "Delete for everyone?"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
+    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Видалити з усіх пристроїв"
@@ -7486,14 +7534,8 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "Що нового"
   },
-  "icu:PreferencesDonations__title": {
-    "messageformat": "Конфіденційність важливіша за прибуток"
-  },
   "icu:PreferencesDonations__title-v2": {
     "messageformat": "Ми неприбуткова організація і пишаємося цим"
-  },
-  "icu:PreferencesDonations__description": {
-    "messageformat": "Конфіденційний обмін повідомленнями можливий — завдяки вашим коштам. Без реклами, відстежування й поступок. Підтримайте Signal донатом. <readMoreLink>Докладніше</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
     "messageformat": "Підтримайте конфіденційне спілкування донатом. Допоможіть Signal лишатися незалежним месенджером без реклами. <readMoreLink>Докладніше</readMoreLink>"
@@ -7943,7 +7985,11 @@
   "icu:WhatsNew__8.0--0": {
     "messageformat": "Представляємо надійне резервне копіювання від Signal! Тепер ви можете ввімкнути автоматичне резервне копіювання з наскрізним шифруванням і бути впевненими, що не втратите повідомлення, навіть якщо зміните телефон або перевстановите Signal. Ви можете безплатно зберігати повідомлення й медіафайли за минулі 45 днів, а за невеликий місячний внесок ви отримаєте сховище для всіх вкладень на 100 ГБ. Щоб почати, перейдіть у «Резервні копії» в налаштуваннях Signal. Дякуємо всім, хто допомагав тестувати цю функцію!"
   },
-  "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+  "icu:WhatsNew__8.2--0": {
+    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+  },
+  "icu:WhatsNew__8.3--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "ignoreUnused": true
   }
 }
