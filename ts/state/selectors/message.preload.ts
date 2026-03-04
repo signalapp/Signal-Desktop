@@ -2120,26 +2120,30 @@ function getDeletedForEveryoneByAdmin(
   }
 ): PropsData['deletedForEveryoneByAdmin'] {
   const { deletedForEveryoneByAdminAci } = message;
+  const { conversationSelector } = options;
   if (deletedForEveryoneByAdminAci == null) {
-    return undefined;
+    return;
   }
   // If the admin deleted their own message, display it like a normal delete
   const messageAuthorAci = getSourceServiceId(message, options.ourAci);
   if (deletedForEveryoneByAdminAci === messageAuthorAci) {
-    return undefined;
+    return;
   }
-  const adminConversationId =
-    window.ConversationController.getConversationId(
-      deletedForEveryoneByAdminAci
-    ) ?? '';
-  const adminConversation = options.conversationSelector(adminConversationId);
+  const adminConversationId = window.ConversationController.getConversationId(
+    deletedForEveryoneByAdminAci
+  );
+  if (adminConversationId == null) {
+    return;
+  }
+  const adminConversation = conversationSelector(adminConversationId);
   return {
     conversationId: adminConversationId,
-    title: adminConversation?.title ?? '',
+    title: adminConversation.title,
     contactNameColor: getContactNameColor(
       options.contactNameColors,
       adminConversationId
     ),
+    isMe: adminConversation.isMe,
   };
 }
 

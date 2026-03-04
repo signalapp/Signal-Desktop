@@ -345,6 +345,7 @@ export type PropsData = {
     conversationId: string;
     title: string;
     contactNameColor: ContactNameColorType;
+    isMe: boolean;
   };
   attachmentDroppedDueToSize?: boolean;
 
@@ -2376,30 +2377,34 @@ export class Message extends React.PureComponent<Props, State> {
     if (deletedForEveryone) {
       let text: React.JSX.Element | string;
       if (deletedForEveryoneByAdmin != null) {
-        text = (
-          <I18n
-            id="icu:message--deletedByAdmin"
-            i18n={i18n}
-            components={{
-              admin: (
-                <strong>
-                  <ContactName
-                    title={deletedForEveryoneByAdmin.title}
-                    contactNameColor={
-                      deletedForEveryoneByAdmin.contactNameColor
-                    }
-                    onClick={() => {
-                      showContactModal({
-                        conversationId,
-                        contactId: deletedForEveryoneByAdmin.conversationId,
-                      });
-                    }}
-                  />
-                </strong>
-              ),
-            }}
-          />
-        );
+        if (deletedForEveryoneByAdmin.isMe) {
+          text = i18n('icu:message--deletedForEveryone--outgoing');
+        } else {
+          text = (
+            <I18n
+              id="icu:message--deletedByAdmin"
+              i18n={i18n}
+              components={{
+                admin: (
+                  <strong>
+                    <ContactName
+                      title={deletedForEveryoneByAdmin.title}
+                      contactNameColor={
+                        deletedForEveryoneByAdmin.contactNameColor
+                      }
+                      onClick={() => {
+                        showContactModal({
+                          conversationId,
+                          contactId: deletedForEveryoneByAdmin.conversationId,
+                        });
+                      }}
+                    />
+                  </strong>
+                ),
+              }}
+            />
+          );
+        }
       } else if (direction === 'outgoing') {
         text = i18n('icu:message--deletedForEveryone--outgoing');
       } else {
