@@ -538,7 +538,7 @@
       ],
       "releaseInfo": {
         "vendor": {
-          "minGlibcVersion": "2.31"
+          "minGlibcVersion": "2.34"
         }
       },
       "extraResources": [
