@@ -1116,7 +1116,7 @@
     "messageformat": "Üzv etiketi əlavə edin"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "QR kodunuz"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Qeyd"
@@ -2219,6 +2219,18 @@
   "icu:deleteFailed": {
     "messageformat": "Silmə uğursuz oldu"
   },
+  "icu:deleteFailedClickForDetails": {
+    "messageformat": "Delete failed, click for details"
+  },
+  "icu:retryDeleteForEveryone--title": {
+    "messageformat": "Retry failed delete?"
+  },
+  "icu:retryDeleteForEveryone--body": {
+    "messageformat": "Message failed to delete. Check your connection and try again."
+  },
+  "icu:retryDeleteForEveryone--tryAgain": {
+    "messageformat": "Try again"
+  },
   "icu:editFailed": {
     "messageformat": "Redaktə baş tutmadı, təfərrüatlar üçün klikləyin"
   },
@@ -2230,6 +2242,9 @@
   },
   "icu:partiallyDeleted": {
     "messageformat": "Qismən silindi, yenidən sınamaq üçün klikləyin"
+  },
+  "icu:partiallyDeleted--clickForDetails": {
+    "messageformat": "Partially deleted, click for details"
   },
   "icu:expiredWarning": {
     "messageformat": "\"Signal Masaüstü\"nün bu versiyasının istifadə müddəti bitib. Zəhmət olmasa mesajlaşmağa davam etmək üçün son versiyaya yüksəldin."
@@ -2435,6 +2450,12 @@
   "icu:ToastManager__CannotAddMemberLabel": {
     "messageformat": "Bu qrupa üzv etiketlərini yalnız adminlər əlavə edə bilər."
   },
+  "icu:Toast--viewOnceEnabled": {
+    "messageformat": "View once enabled"
+  },
+  "icu:Toast--viewOnceDisabled": {
+    "messageformat": "View once disabled"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Redaktələr yalnız siz bu mesajı göndərdikdən sonra 24 saat ərzində tətbiq oluna bilər."
   },
@@ -2620,6 +2641,15 @@
   },
   "icu:message--deletedForEveryone": {
     "messageformat": "Mesaj silindi."
+  },
+  "icu:message--deletedByAdmin": {
+    "messageformat": "Admin {admin} deleted this message"
+  },
+  "icu:message--deletedForEveryone--incoming": {
+    "messageformat": "{name} deleted this message"
+  },
+  "icu:message--deletedForEveryone--outgoing": {
+    "messageformat": "You deleted this message"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "Qoşma göstərilmək üçün həddən artıq böyükdür."
@@ -2864,14 +2894,8 @@
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Stikerə önbaxış"
   },
-  "icu:FunPanelGifs__SearchLabel--Tenor": {
-    "messageformat": "Tenorda GİF-ləri axtarın"
-  },
   "icu:FunPanelGifs__SearchLabel": {
     "messageformat": "GIF-ləri axtar"
-  },
-  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
-    "messageformat": "Axtarış Tenoru"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
     "messageformat": "GIF-ləri axtar"
@@ -4622,6 +4646,12 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Dəyişdir"
   },
+  "icu:CompositionArea--viewOnceToggle": {
+    "messageformat": "View once"
+  },
+  "icu:CompositionArea--viewOnceMediaPlaceholder": {
+    "messageformat": "View once media"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Mesajı redaktə et"
   },
@@ -4654,6 +4684,15 @@
   },
   "icu:ContactModal--voice": {
     "messageformat": "Səsli"
+  },
+  "icu:ContactModal--mute-audio": {
+    "messageformat": "Mute audio"
+  },
+  "icu:ContactModal--confirm-mute-body": {
+    "messageformat": "Are you sure you want to mute {contact}?"
+  },
+  "icu:ContactModal--confirm-mute-primary-button": {
+    "messageformat": "Mute"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Üzv etiketləri"
@@ -4976,6 +5015,9 @@
   "icu:DeleteMessagesModal--title": {
     "messageformat": "{count, plural, one {{count,number} mesaj silinsin?} other {{count,number} mesaj silinsin?}}"
   },
+  "icu:DeleteMessagesModal--title-2": {
+    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+  },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Bu mesajı kimdən silmək istəyirsiniz?} other {Bu mesajları kimdən silmək istəyirsiniz?}}"
   },
@@ -4993,6 +5035,12 @@
   },
   "icu:DeleteMessagesModal--deleteForEveryone": {
     "messageformat": "Hər kəsdən sil"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
+    "messageformat": "Delete for everyone?"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
+    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Bütün cihazlardan sil"
@@ -7486,14 +7534,8 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "Yeni nə var"
   },
-  "icu:PreferencesDonations__title": {
-    "messageformat": "Məxfiliyiniz mənfəətimizdən daha üstündür"
-  },
   "icu:PreferencesDonations__title-v2": {
     "messageformat": "Qeyri-kommersiya təşkilatı qürurla təqdim edir"
-  },
-  "icu:PreferencesDonations__description": {
-    "messageformat": "Dəstəklərinizlə yaradılmış şəxsi mesajlaşma. Reklamsız, təqibsiz və güzəştsiz. Signal-ı dəstəkləmək üçün indi ianə verin. <readMoreLink>Daha ətraflı</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
     "messageformat": "Məxfi mesajlaşmanı dəstəkləmək üçün ianə ver. Signal-ın yoluna müstəqil və reklamsız davam etməsinə kömək et. <readMoreLink>Daha ətraflı</readMoreLink>"
@@ -7943,7 +7985,11 @@
   "icu:WhatsNew__8.0--0": {
     "messageformat": "Signal təhlükəsiz ehtiyat nüsxələri burada! Artıq yeni telefon aldıqda və ya Signal-ı təkrar quraşdırdıqda avtomatik ucdan-uca şifrələnən ehtiyat nüsxələri aktivləşdirsəniz mesajlar silinməz. Bütün mesajlar və son 45 günlük media faylların ehtiyat nüsxəsini pulsuz çıxara və ya hər bir qoşmanın ehtiyat nüsxəsi üçün aylıq kiçik bir ödənişlə 100 GB yaddaş qazana bilərsiniz. Signal parametrlərində ehtiyat nüsxələrə toxunun. Beta mərhələsində bu xüsusiyyətin sınağına kömək edənlərə təşəkkürlər!"
   },
-  "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+  "icu:WhatsNew__8.2--0": {
+    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+  },
+  "icu:WhatsNew__8.3--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "ignoreUnused": true
   }
 }

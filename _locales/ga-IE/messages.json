@@ -1116,7 +1116,7 @@
     "messageformat": "Cuir lipéad baill leis"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "Your QR code"
+    "messageformat": "Do chód QR"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Nóta"
@@ -2219,6 +2219,18 @@
   "icu:deleteFailed": {
     "messageformat": "Theip ar an scriosadh"
   },
+  "icu:deleteFailedClickForDetails": {
+    "messageformat": "Delete failed, click for details"
+  },
+  "icu:retryDeleteForEveryone--title": {
+    "messageformat": "Retry failed delete?"
+  },
+  "icu:retryDeleteForEveryone--body": {
+    "messageformat": "Message failed to delete. Check your connection and try again."
+  },
+  "icu:retryDeleteForEveryone--tryAgain": {
+    "messageformat": "Try again"
+  },
   "icu:editFailed": {
     "messageformat": "Theip ar an eagarthóireacht, cliceáil le sonraí a fháil"
   },
@@ -2230,6 +2242,9 @@
   },
   "icu:partiallyDeleted": {
     "messageformat": "Cuid di scriosta, cliceáil lena atriail"
+  },
+  "icu:partiallyDeleted--clickForDetails": {
+    "messageformat": "Partially deleted, click for details"
   },
   "icu:expiredWarning": {
     "messageformat": "Tá an leagan Dheasc Signal seo imithe as feidhm. Uasghrádaigh chuig an leagan is déanaí le leanúint le cur teachtaireachtaí."
@@ -2435,6 +2450,12 @@
   "icu:ToastManager__CannotAddMemberLabel": {
     "messageformat": "Ní féidir ach le riarthóirí lipéid na mball a chur leis sa ghrúpa seo."
   },
+  "icu:Toast--viewOnceEnabled": {
+    "messageformat": "View once enabled"
+  },
+  "icu:Toast--viewOnceDisabled": {
+    "messageformat": "View once disabled"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Ní féidir eagarthóireacht a chur i bhfeidhm ach amháin laistigh de 24 uair an chloig ón uair a sheol tú an teachtaireacht seo."
   },
@@ -2620,6 +2641,15 @@
   },
   "icu:message--deletedForEveryone": {
     "messageformat": "Scriosadh an teachtaireacht seo."
+  },
+  "icu:message--deletedByAdmin": {
+    "messageformat": "Admin {admin} deleted this message"
+  },
+  "icu:message--deletedForEveryone--incoming": {
+    "messageformat": "{name} deleted this message"
+  },
+  "icu:message--deletedForEveryone--outgoing": {
+    "messageformat": "You deleted this message"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "Tá an ceangaltán rómhór lena thaispeáint."
@@ -2864,14 +2894,8 @@
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Réamhamharc ar Ghreamán"
   },
-  "icu:FunPanelGifs__SearchLabel--Tenor": {
-    "messageformat": "Cuardaigh GIFanna via Tenor"
-  },
   "icu:FunPanelGifs__SearchLabel": {
     "messageformat": "Cuardaigh GIFeanna"
-  },
-  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
-    "messageformat": "Cuardaigh Tenor"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
     "messageformat": "Cuardaigh GIFeanna"
@@ -4622,6 +4646,12 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Ionadaigh"
   },
+  "icu:CompositionArea--viewOnceToggle": {
+    "messageformat": "View once"
+  },
+  "icu:CompositionArea--viewOnceMediaPlaceholder": {
+    "messageformat": "View once media"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Cuir teachtaireacht in eagar"
   },
@@ -4654,6 +4684,15 @@
   },
   "icu:ContactModal--voice": {
     "messageformat": "Guthghlao"
+  },
+  "icu:ContactModal--mute-audio": {
+    "messageformat": "Mute audio"
+  },
+  "icu:ContactModal--confirm-mute-body": {
+    "messageformat": "Are you sure you want to mute {contact}?"
+  },
+  "icu:ContactModal--confirm-mute-primary-button": {
+    "messageformat": "Mute"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Lipéid na mball"
@@ -4976,6 +5015,9 @@
   "icu:DeleteMessagesModal--title": {
     "messageformat": "{count, plural, one {Scrios an teachtaireacht?} two {Scrios {count,number} theachtaireacht?} few {Scrios {count,number} theachtaireacht?} many {Scrios {count,number} dteachtaireacht?} other {Scrios {count,number} teachtaireacht?}}"
   },
+  "icu:DeleteMessagesModal--title-2": {
+    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+  },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Cé dó ar mhaith leat an teachtaireacht seo a scriosadh?} two {Cé dó ar mhaith leat na teachtaireachtaí seo a scriosadh?} few {Cé dó ar mhaith leat na teachtaireachtaí seo a scriosadh?} many {Cé dó ar mhaith leat na teachtaireachtaí seo a scriosadh?} other {Cé dó ar mhaith leat na teachtaireachtaí seo a scriosadh?}}"
   },
@@ -4993,6 +5035,12 @@
   },
   "icu:DeleteMessagesModal--deleteForEveryone": {
     "messageformat": "Scrios do chách"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
+    "messageformat": "Delete for everyone?"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
+    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Scrios ó na gléasanna uile"
@@ -7486,14 +7534,8 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "Cad Atá Nua"
   },
-  "icu:PreferencesDonations__title": {
-    "messageformat": "Príobháideachas chun tosaigh ar bhrabús"
-  },
   "icu:PreferencesDonations__title-v2": {
     "messageformat": "Eagraíocht neamhbhrabúis agus bródúil as"
-  },
-  "icu:PreferencesDonations__description": {
-    "messageformat": "Teachtaireachtaí príobháideacha, maoinithe agatsa. Gan aon fhógra, gan aon rianaire, gan aon chomhghéilleadh. Tabhair airgead do Signal anois chun tacú leis. <readMoreLink>Tuilleadh faisnéise</readMoreLink>"
   },
   "icu:PreferencesDonations__description-v2": {
     "messageformat": "Tabhair airgead chun tacú le cur teachtaireachtaí príobháideacha. Coinnigh Signal neamhspleách agus saor ó fhógraíocht. <readMoreLink>Tuilleadh faisnéise</readMoreLink>"
@@ -7943,7 +7985,11 @@
   "icu:WhatsNew__8.0--0": {
     "messageformat": "Tá cúltacaí slána Signal anseo! Anois is féidir leat cumasú cúltacaí criptithe ó cheann ceann go huathoibríoch a roghnú ionas nach gcaillfidh tú teachtaireacht choíche nuair a fhaigheann tú guthán nua nó nuair a athshuiteálann tú Signal. Is féidir leat do theachtaireachtaí uile agus na 45 lá anuas de mheáin a chúltacú saor in aisce, nó is féidir leat táille bheag a íoc gach mí le 100 GB de stóras a fháil chun gach ceangaltán a chúltacú. Tapáil ar chúltacaí i do shocruithe Signal le tosú air. Buíochas le gach duine a chabhraigh le tástáil na gné seo le linn na tréimhse béite!"
   },
-  "icu:WhatsNew__8.1--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission."
+  "icu:WhatsNew__8.2--0": {
+    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+  },
+  "icu:WhatsNew__8.3--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "ignoreUnused": true
   }
 }

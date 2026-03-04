@@ -2978,7 +2978,7 @@
   },
   "icu:partiallyDeleted": {
     "messageformat": "Partially deleted, click to retry",
-    "description": "Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
+    "description": "(Deleted 2026/03/04) Shown on a message which was deleted for everyone if the delete wasn't successfully sent to everyone"
   },
   "icu:partiallyDeleted--clickForDetails": {
     "messageformat": "Partially deleted, click for details",
@@ -3502,7 +3502,7 @@
   },
   "icu:message--deletedForEveryone": {
     "messageformat": "This message was deleted.",
-    "description": "Shown in a message's bubble when the message has been deleted for everyone."
+    "description": "(Deleted 2026/03/04) Shown in a message's bubble when the message has been deleted for everyone."
   },
   "icu:message--deletedByAdmin": {
     "messageformat": "Admin {admin} deleted this message",
@@ -3840,17 +3840,9 @@
     "messageformat": "Sticker Preview",
     "description": "FunPicker > Stickers Panel > Lightbox Dialog (long press on sticker to see large preview) > Label"
   },
-  "icu:FunPanelGifs__SearchLabel--Tenor": {
-    "messageformat": "Search GIFs via Tenor",
-    "description": "(Deleted 2026/01/28) FunPicker > GIFs Panel > Search Input > Label (Must use brand name 'Tenor')"
-  },
   "icu:FunPanelGifs__SearchLabel": {
     "messageformat": "Search GIFs",
     "description": "FunPicker > GIFs Panel > Search Input > Label"
-  },
-  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
-    "messageformat": "Search Tenor",
-    "description": "(Deleted 2026/01/28) FunPicker > GIFs Panel > Search Input > Placeholder (Must use brand name 'Tenor')"
   },
   "icu:FunPanelGifs__SearchPlaceholder": {
     "messageformat": "Search GIFs",
@@ -6130,7 +6122,7 @@
   },
   "icu:CompositionArea--attach-file": {
     "messageformat": "Attach file",
-    "description": "Aria label for file attachment button in composition area"
+    "description": "(Deleted 2026/03/04) Aria label for file attachment button in composition area"
   },
   "icu:CompositionArea__AttachMenu__PhotosAndVideos": {
     "messageformat": "Photos & videos",
@@ -6326,7 +6318,7 @@
   },
   "icu:ConversationDetails--member-label--error-permissions": {
     "messageformat": "Only admins can set member labels in this group.",
-    "description": "If Desktop discovers that permissions have changed since entering the screen, it will show this in an error dialog and exit the pane."
+    "description": "(Deleted 2026/03/04) If Desktop discovers that permissions have changed since entering the screen, it will show this in an error dialog and exit the pane."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Disappearing messages",
@@ -6394,15 +6386,15 @@
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Member labels will be cleared",
-    "description": "When the user changes the 'edit group info' permission to 'Admins only', this dialog shows. Title of dialog."
+    "description": "(Deleted 2026/03/04) When the user changes the 'edit group info' permission to 'Admins only', this dialog shows. Title of dialog."
   },
   "icu:ConversationDetails--label-clear-warning--description": {
     "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group.",
-    "description": "When the user changes the 'edit group info' permission to 'Admins only', this dialog shows. Description text of dialog."
+    "description": "(Deleted 2026/03/04) When the user changes the 'edit group info' permission to 'Admins only', this dialog shows. Description text of dialog."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
     "messageformat": "Continue",
-    "description": "When the user changes the 'edit group info' permission to 'Admins only', this dialog shows. Button to continue making the change."
+    "description": "(Deleted 2026/03/04) When the user changes the 'edit group info' permission to 'Admins only', this dialog shows. Button to continue making the change."
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Requests & Invites",
@@ -6674,7 +6666,7 @@
   },
   "icu:DeleteMessagesModal--title": {
     "messageformat": "Delete {count, plural, one {message} other {# messages}}?",
-    "description": "delete selected messages > confirmation modal > title"
+    "description": "(Deleted 2026/03/04) delete selected messages > confirmation modal > title"
   },
   "icu:DeleteMessagesModal--title-2": {
     "messageformat": "Delete selected {count, plural, one {message} other {# messages}}?",
@@ -6686,7 +6678,7 @@
   },
   "icu:DeleteMessagesModal--description--noteToSelf": {
     "messageformat": "What devices would you like to delete {count, plural, one {this message} other {these messages}} from?",
-    "description": "within note to self conversation > delete selected messages > confirmation modal > description"
+    "description": "(Deleted 2026/03/04) within note to self conversation > delete selected messages > confirmation modal > description"
   },
   "icu:DeleteMessagesModal--description--noteToSelf--deleteSync": {
     "messageformat": "{count, plural, one {This message} other {These messages}} will be deleted from all your devices.",
@@ -6698,7 +6690,7 @@
   },
   "icu:DeleteMessagesModal--deleteFromThisDevice": {
     "messageformat": "Delete from this device",
-    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from this device (same as delete for me)"
+    "description": "(Deleted 2026/03/04) within note to self conversation > delete selected messages > confirmation modal > delete from this device (same as delete for me)"
   },
   "icu:DeleteMessagesModal--deleteForEveryone": {
     "messageformat": "Delete for everyone",
@@ -6714,7 +6706,7 @@
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Delete from all devices",
-    "description": "within note to self conversation > delete selected messages > confirmation modal > delete from all devices (same as delete for everyone)"
+    "description": "(Deleted 2026/03/04) within note to self conversation > delete selected messages > confirmation modal > delete from all devices (same as delete for everyone)"
   },
   "icu:DeleteMessagesModal--noteToSelf--deleteSync": {
     "messageformat": "Delete",
@@ -10031,17 +10023,9 @@
     "messageformat": "What's New",
     "description": "Title for the whats new modal"
   },
-  "icu:PreferencesDonations__title": {
-    "messageformat": "Privacy over Profit",
-    "description": "(Deleted 2026/01/28) Title shown at the top of the donations preferences page"
-  },
   "icu:PreferencesDonations__title-v2": {
     "messageformat": "Proudly nonprofit",
     "description": "Title shown at the top of the donations preferences page"
-  },
-  "icu:PreferencesDonations__description": {
-    "messageformat": "Private messaging, funded by you. No ads, no tracking, no compromise. Donate now to support Signal. <readMoreLink>Read more</readMoreLink>",
-    "description": "(Deleted 2026/01/28) Description text explaining Signal's donation model with learn more link"
   },
   "icu:PreferencesDonations__description-v2": {
     "messageformat": "Donate to support private messaging. Keep Signal independent and ad-free. <readMoreLink>Read more</readMoreLink>",
@@ -10636,7 +10620,7 @@
   },
   "icu:WhatsNew__8.0--0": {
     "messageformat": "Signal secure backups are here! Now you can choose to enable automatic end-to-end encrypted backups so you'll never lose a message when you get a new phone or reinstall Signal. You can back up all of your messages and the last 45 days of media for free, or you can pay a small monthly fee to get 100 GB of storage to back up every attachment. Tap on backups in your Signal settings to get started. Thanks to everyone who helped test this feature during the beta period!",
-    "description": "Release notes for 8.0 release"
+    "description": "(Deleted 2026/03/04) Release notes for 8.0 release"
   },
   "icu:WhatsNew__8.2--0": {
     "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed.",
