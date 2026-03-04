@@ -4,8 +4,8 @@
 import React, { memo, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { ContactModal } from '../../components/conversation/ContactModal.dom.js';
-import { getAreWeASubscriber } from '../selectors/items.dom.js';
-import { getIntl, getTheme } from '../selectors/user.std.js';
+import { getAreWeASubscriber, getItems } from '../selectors/items.dom.js';
+import { getIntl, getTheme, getVersion } from '../selectors/user.std.js';
 import { getBadgesSelector } from '../selectors/badges.preload.js';
 import {
   getCachedConversationMemberColorsSelector,
@@ -23,6 +23,7 @@ import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
 import { useCallingActions } from '../ducks/calling.preload.js';
 import { getContactModalState } from '../selectors/globalModals.std.js';
 import { strictAssert } from '../../util/assert.std.js';
+import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.js';
 
 export const SmartContactModal = memo(function SmartContactModal() {
   const i18n = useSelector(getIntl);
@@ -32,11 +33,21 @@ export const SmartContactModal = memo(function SmartContactModal() {
   const conversationSelector = useSelector(getConversationSelector);
   const hasStoriesSelector = useSelector(getHasStoriesSelector);
 
+  const version = useSelector(getVersion);
+  const items = useSelector(getItems);
+  const isRemoteMuteSendEnabled = isFeaturedEnabledSelector({
+    betaKey: 'desktop.remoteMute.send.beta',
+    currentVersion: version,
+    remoteConfig: items.remoteConfig,
+    prodKey: 'desktop.remoteMute.send.prod',
+  });
+
   const activeCallState = useSelector(getActiveCallState);
   const isInFullScreenCall = useSelector(getIsInFullScreenCall);
   const getCallParticipant = useSelector(getParticipantInActiveCall);
   const callParticipant = getCallParticipant(activeCallDemuxId);
-  const isRemoteMuteVisible = Boolean(callParticipant);
+  const isRemoteMuteVisible =
+    isRemoteMuteSendEnabled && Boolean(callParticipant);
   const isMuted = !callParticipant?.hasRemoteAudio;
 
   const badgesSelector = useSelector(getBadgesSelector);

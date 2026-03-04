@@ -48,6 +48,8 @@ const SemverKeys = [
   'desktop.plaintextExport.prod',
   'desktop.remoteMegaphone.beta',
   'desktop.remoteMegaphone.prod',
+  'desktop.remoteMute.send.beta',
+  'desktop.remoteMute.send.prod',
   'desktop.retireAccessKeyGroupSend.beta',
   'desktop.retireAccessKeyGroupSend.prod',
   'desktop.keyTransparency.beta',
