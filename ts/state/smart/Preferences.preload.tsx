@@ -29,7 +29,6 @@ import {
   setPhoneNumberDiscoverability,
 } from '../../textsecure/WebAPI.preload.js';
 import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors.std.js';
-import { isBackupFeatureEnabled } from '../../util/isBackupEnabled.preload.js';
 import { isChatFoldersEnabled } from '../../util/isChatFoldersEnabled.dom.js';
 import { saveAttachmentToDisk } from '../../util/migrations.preload.js';
 import { format } from '../../types/PhoneNumber.std.js';
@@ -581,7 +580,6 @@ export function SmartPreferences(): React.JSX.Element | null {
     Settings.isContentProtectionSupported(OS);
   const isContentProtectionNeeded = Settings.isContentProtectionNeeded(OS);
 
-  const backupFeatureEnabled = isBackupFeatureEnabled(items.remoteConfig);
   const backupLocalBackupsEnabled = isLocalBackupsEnabled(items.remoteConfig);
   const backupFreeMediaDays = getMessageQueueTime(items.remoteConfig) / DAY;
 
@@ -808,7 +806,6 @@ export function SmartPreferences(): React.JSX.Element | null {
           availableLocales={availableLocales}
           availableMicrophones={availableMicrophones}
           availableSpeakers={availableSpeakers}
-          backupFeatureEnabled={backupFeatureEnabled}
           backupKeyViewed={backupKeyViewed}
           backupTier={backupLevelFromNumber(backupTier)}
           backupSubscriptionStatus={

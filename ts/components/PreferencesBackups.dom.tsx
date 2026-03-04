@@ -44,14 +44,11 @@ const LOCAL_BACKUPS_PAGES = new Set([
   SettingsPage.LocalBackupsSetupFolder,
   SettingsPage.LocalBackupsSetupKey,
 ]);
-const REMOTE_BACKUPS_PAGES = new Set([SettingsPage.BackupsDetails]);
 
 function isLocalBackupsPage(page: SettingsPage) {
   return LOCAL_BACKUPS_PAGES.has(page);
 }
-function isRemoteBackupsPage(page: SettingsPage) {
-  return REMOTE_BACKUPS_PAGES.has(page);
-}
+
 export function PreferencesBackups({
   accountEntropyPool,
   backupFreeMediaDays,
@@ -61,7 +58,6 @@ export function PreferencesBackups({
   cloudBackupStatus,
   i18n,
   isLocalBackupsEnabled,
-  isRemoteBackupsEnabled,
   lastLocalBackup,
   locale,
   localBackupFolder,
@@ -88,7 +84,6 @@ export function PreferencesBackups({
   localBackupFolder: string | undefined;
   i18n: LocalizerType;
   isLocalBackupsEnabled: boolean;
-  isRemoteBackupsEnabled: boolean;
   lastLocalBackup: LocalBackupExportMetadata | undefined;
   locale: string;
   onBackupKeyViewedChange: (keyViewed: boolean) => void;
@@ -123,11 +118,6 @@ export function PreferencesBackups({
     refreshBackupSubscriptionStatus,
     refreshCloudBackupStatus,
   ]);
-
-  if (!isRemoteBackupsEnabled && isRemoteBackupsPage(settingsLocation.page)) {
-    setSettingsLocation({ page: SettingsPage.Backups });
-    return null;
-  }
 
   if (!isLocalBackupsEnabled && isLocalBackupsPage(settingsLocation.page)) {
     setSettingsLocation({ page: SettingsPage.Backups });
@@ -335,8 +325,7 @@ export function PreferencesBackups({
           {i18n('icu:Preferences--backup-section-description')}
         </div>
       </div>
-
-      {isRemoteBackupsEnabled ? renderRemoteBackups() : null}
+      {renderRemoteBackups()}
       {isLocalBackupsEnabled ? renderLocalBackups() : null}
     </>
   );
