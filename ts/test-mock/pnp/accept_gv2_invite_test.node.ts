@@ -213,10 +213,14 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
     assert(!group.getPendingMemberByServiceId(desktop.pni));
 
     // Verify that sync message was sent.
-    const { syncMessage } = await phone.waitForSyncMessage(entry =>
-      Boolean(entry.syncMessage.sent?.message?.groupV2?.groupChange)
-    );
-    const groupChangeBuffer = syncMessage.sent?.message?.groupV2?.groupChange;
+    const { syncMessage } = await phone.waitForSyncMessage(entry => {
+      if (entry.syncMessage.content !== 'sent') {
+        return false;
+      }
+      return entry.syncMessage.sent.message?.groupV2?.groupChange != null;
+    });
+    assert.strictEqual(syncMessage.content, 'sent');
+    const groupChangeBuffer = syncMessage.sent.message?.groupV2?.groupChange;
     assert.notEqual(groupChangeBuffer, null);
     const groupChange = Proto.GroupChange.decode(
       groupChangeBuffer ?? new Uint8Array(0)

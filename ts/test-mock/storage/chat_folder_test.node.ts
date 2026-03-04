@@ -1,6 +1,5 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import Long from 'long';
 import { v4 as generateUuid } from 'uuid';
 import { Proto, StorageState } from '@signalapp/mock-server';
 import type { Page } from 'playwright/test';
@@ -16,6 +15,7 @@ import {
 import { bytesToUuid, uuidToBytes } from '../../util/uuidToBytes.std.js';
 import { CHAT_FOLDER_DELETED_POSITION } from '../../types/ChatFolder.std.js';
 import { strictAssert } from '../../util/assert.std.js';
+import { toNumber } from '../../util/toNumber.std.js';
 
 const IdentifierType = Proto.ManifestRecord.Identifier.Type;
 
@@ -68,7 +68,7 @@ function createAllChatsRecord(id: string): StorageStateNewRecord {
         includeAllGroupChats: true,
         includedRecipients: [],
         excludedRecipients: [],
-        deletedAtTimestampMs: Long.fromNumber(0),
+        deletedAtTimestampMs: 0n,
       },
     },
   };
@@ -154,7 +154,7 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
             includeAllGroupChats: true,
             includedRecipients: [],
             excludedRecipients: [],
-            deletedAtTimestampMs: Long.fromNumber(0),
+            deletedAtTimestampMs: 0n,
           },
         },
       });
@@ -175,7 +175,7 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
         getChatFolderRecordPredicate('CUSTOM', ALL_GROUPS_NAME, false),
         item => {
           return {
-            ...item,
+            record: 'chatFolder',
             chatFolder: {
               ...item.chatFolder,
               name: ALL_GROUPS_NAME_UPDATED,
@@ -201,11 +201,11 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
         getChatFolderRecordPredicate('CUSTOM', ALL_GROUPS_NAME_UPDATED, false),
         item => {
           return {
-            ...item,
+            record: 'chatFolder',
             chatFolder: {
               ...item.chatFolder,
               position: CHAT_FOLDER_DELETED_POSITION,
-              deletedAtTimestampMs: Long.fromNumber(Date.now()),
+              deletedAtTimestampMs: BigInt(Date.now()),
             },
           };
         }
@@ -304,7 +304,9 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
       await expect(groupPresetBtn).toBeVisible();
 
       expect(
-        found?.record.chatFolder?.deletedAtTimestampMs?.toNumber()
+        found?.record.chatFolder.deletedAtTimestampMs == null
+          ? null
+          : toNumber(found?.record.chatFolder.deletedAtTimestampMs)
       ).toBeGreaterThan(0);
     }
   });
@@ -314,12 +316,12 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
     const window = await app.getWindow();
 
     let state = await phone.expectStorageState('initial state');
-    expect(state.version).toBe(1);
+    expect(state.version).toBe(1n);
     expect(state.hasRecord(ALL_CHATS_PREDICATE)).toBe(false);
 
     // wait for initial creation of story distribution list and "all chats" chat folder
     state = await phone.waitForStorageState({ after: state });
-    expect(state.version).toBe(2);
+    expect(state.version).toBe(2n);
     expect(state.hasRecord(ALL_CHATS_PREDICATE)).toBe(true);
 
     await openChatFolderSettings(window);
@@ -329,7 +331,7 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
     // update record
     state = state.removeRecord(ALL_CHATS_PREDICATE);
     state = await phone.setStorageState(state);
-    expect(state.version).toBe(3);
+    expect(state.version).toBe(3n);
     expect(state.hasRecord(ALL_CHATS_PREDICATE)).toBe(false);
 
     // sync from phone to app
@@ -342,7 +344,7 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
     await groupPresetAddButton.click();
     state = await phone.waitForStorageState({ after: state });
 
-    expect(state.version).toBe(4);
+    expect(state.version).toBe(4n);
     expect(state.hasRecord(ALL_CHATS_PREDICATE)).toBe(true);
   });
 
@@ -384,7 +386,7 @@ describe('storage service/chat folders', function (this: Mocha.Suite) {
 
     // Make sure we took the updated id
     const item = state.findRecord(ALL_CHATS_PREDICATE);
-    const idBytes = item?.record.chatFolder?.id;
+    const idBytes = item?.record.chatFolder.id;
     strictAssert(idBytes != null, 'Missing all chats record with id');
     const id = bytesToUuid(idBytes);
     strictAssert(id != null, 'All chats record id was not valid uuid');

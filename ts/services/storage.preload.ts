@@ -2250,7 +2250,7 @@ async function sync({
 
     if (window.SignalCI) {
       window.SignalCI.handleEvent('storageServiceComplete', {
-        manifestVersion: version,
+        manifestVersion: BigInt(version),
       });
     }
 

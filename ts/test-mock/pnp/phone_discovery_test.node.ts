@@ -72,6 +72,8 @@ describe('pnp/phone discovery', function (this: Mocha.Suite) {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: true,
           name: MY_STORY_ID,
+          deletedAtTimestamp: null,
+          recipientServiceIdsBinary: null,
         },
       },
     });

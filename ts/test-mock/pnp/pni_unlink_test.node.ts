@@ -88,8 +88,15 @@ describe('pnp/PNI DecryptionError unlink', function (this: Mocha.Suite) {
         desktop,
         {
           syncMessage: {
+            content: 'pniChangeNumber',
             pniChangeNumber,
+            read: null,
+            stickerPackOperation: null,
+            viewed: null,
+            padding: null,
           },
+          pniSignatureMessage: null,
+          senderKeyDistributionMessage: null,
         },
         {
           timestamp: bootstrap.getTimestamp(),
@@ -102,8 +109,15 @@ describe('pnp/PNI DecryptionError unlink', function (this: Mocha.Suite) {
         desktop,
         {
           syncMessage: {
+            content: 'pniChangeNumber',
             pniChangeNumber,
+            read: null,
+            stickerPackOperation: null,
+            viewed: null,
+            padding: null,
           },
+          pniSignatureMessage: null,
+          senderKeyDistributionMessage: null,
         },
         {
           timestamp: bootstrap.getTimestamp(),

@@ -9,7 +9,6 @@ import createDebug from 'debug';
 import { Proto, StorageState } from '@signalapp/mock-server';
 import { assert } from 'chai';
 import { expect } from 'playwright/test';
-import Long from 'long';
 
 import * as Bytes from '../../Bytes.std.js';
 import { generateStoryDistributionId } from '../../types/StoryDistributionId.std.js';
@@ -82,7 +81,7 @@ describe('backups', function (this: Mocha.Suite) {
       givenName: phone.profileName,
       readReceipts: true,
       hasCompletedUsernameOnboarding: true,
-      backupTier: Long.fromNumber(BackupLevel.Paid),
+      backupTier: BigInt(BackupLevel.Paid),
     });
 
     state = state.addContact(friend, {
@@ -108,6 +107,7 @@ describe('backups', function (this: Mocha.Suite) {
           isBlockList: true,
           name: MY_STORY_ID,
           recipientServiceIdsBinary: [pinned.device.aciBinary],
+          deletedAtTimestamp: null,
         },
       },
     });
@@ -121,6 +121,7 @@ describe('backups', function (this: Mocha.Suite) {
           isBlockList: false,
           name: 'friend',
           recipientServiceIdsBinary: [friend.device.aciBinary],
+          deletedAtTimestamp: null,
         },
       },
     });
@@ -134,8 +135,16 @@ describe('backups', function (this: Mocha.Suite) {
           id: Bytes.fromHex(generateNotificationProfileId()),
           name: notificationProfileName1,
           color: 0xffff0000,
-          createdAtMs: Long.fromNumber(now),
+          createdAtMs: BigInt(now),
           allowAllCalls: true,
+          emoji: null,
+          allowAllMentions: null,
+          allowedMembers: null,
+          scheduleEnabled: null,
+          scheduleStartTime: null,
+          scheduleEndTime: null,
+          scheduleDaysEnabled: null,
+          deletedAtTimestampMs: null,
         },
       },
     });
@@ -148,8 +157,16 @@ describe('backups', function (this: Mocha.Suite) {
           id: Bytes.fromHex(generateNotificationProfileId()),
           name: notificationProfileName2,
           color: 0xff00ff00,
-          createdAtMs: Long.fromNumber(now + 1),
+          createdAtMs: BigInt(now + 1),
           allowAllMentions: true,
+          emoji: null,
+          allowAllCalls: null,
+          allowedMembers: null,
+          scheduleEnabled: null,
+          scheduleStartTime: null,
+          scheduleEndTime: null,
+          scheduleDaysEnabled: null,
+          deletedAtTimestampMs: null,
         },
       },
     });

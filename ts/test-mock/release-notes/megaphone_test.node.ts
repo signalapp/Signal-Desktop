@@ -6,7 +6,6 @@ import createDebug from 'debug';
 import { expect } from 'playwright/test';
 import { StorageState } from '@signalapp/mock-server';
 import { BackupLevel } from '@signalapp/libsignal-client/zkgroup.js';
-import Long from 'long';
 
 import type { App } from '../playwright.node.js';
 import { Bootstrap } from '../bootstrap.node.js';
@@ -34,7 +33,7 @@ describe('megaphone', function (this: Mocha.Suite) {
       givenName: phone.profileName,
       readReceipts: true,
       hasCompletedUsernameOnboarding: true,
-      backupTier: Long.fromNumber(BackupLevel.Free),
+      backupTier: BigInt(BackupLevel.Free),
     });
 
     await phone.setStorageState(state);

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import createDebug from 'debug';
-import Long from 'long';
 
 import type { App } from '../playwright.node.js';
 import * as durations from '../../util/durations/index.std.js';
@@ -98,9 +97,7 @@ describe('readSync', function (this: Mocha.Suite) {
         timestamp: bootstrap.getTimestamp(),
       };
 
-      const longTimestamps = timestamps.map(timestamp =>
-        Long.fromNumber(timestamp)
-      );
+      const longTimestamps = timestamps.map(timestamp => BigInt(timestamp));
 
       const senderAciBinary = friend.device.aciRawUuid;
 
@@ -108,11 +105,18 @@ describe('readSync', function (this: Mocha.Suite) {
         desktop,
         {
           syncMessage: {
+            content: null,
             read: longTimestamps.map(timestamp => ({
               senderAciBinary,
               timestamp,
+              senderAci: null,
             })),
+            stickerPackOperation: null,
+            viewed: null,
+            padding: null,
           },
+          pniSignatureMessage: null,
+          senderKeyDistributionMessage: null,
         },
         sendOptions
       );

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import { Proto } from '@signalapp/mock-server';
+import { Proto, type StorageStateRecord } from '@signalapp/mock-server';
 
 import * as durations from '../../util/durations/index.std.js';
 import type { App, Bootstrap } from './fixtures.node.js';
@@ -58,6 +58,15 @@ describe('storage service', function (this: Mocha.Suite) {
             record: {
               groupV2: {
                 masterKey,
+                blocked: null,
+                whitelisted: null,
+                archived: null,
+                markedUnread: null,
+                mutedUntilTimestamp: null,
+                dontNotifyForMentionsIfMuted: null,
+                hideStory: null,
+                storySendMode: null,
+                avatarColor: null,
               },
             },
           })
@@ -82,11 +91,11 @@ describe('storage service', function (this: Mocha.Suite) {
 
       assert.isTrue(
         nextState.hasRecord(({ type, record }) => {
-          if (type !== IdentifierType.GROUPV2) {
+          if (type !== IdentifierType.GROUPV2 || record.record !== 'groupV2') {
             return false;
           }
 
-          if (!record.groupV2?.masterKey) {
+          if (!record.groupV2.masterKey?.length) {
             return false;
           }
           return Buffer.from(masterKey).equals(record.groupV2.masterKey);
@@ -102,9 +111,16 @@ describe('storage service', function (this: Mocha.Suite) {
     debug('duplicating account record');
     const state = await phone.expectStorageState('consistency check');
 
-    const oldAccount = state.findRecord(({ type }) => {
-      return type === IdentifierType.ACCOUNT;
-    });
+    const oldAccount = state.findRecord(
+      (
+        record
+      ): record is StorageStateRecord<{
+        record: 'account';
+        account: Proto.AccountRecord.Params;
+      }> => {
+        return record.type === IdentifierType.ACCOUNT;
+      }
+    );
     if (oldAccount === undefined) {
       throw new Error('should have initial account record');
     }

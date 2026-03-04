@@ -4,10 +4,13 @@
 import createDebug from 'debug';
 import { assert } from 'chai';
 import { expect } from 'playwright/test';
-import { type PrimaryDevice, StorageState } from '@signalapp/mock-server';
+import {
+  type PrimaryDevice,
+  type Proto,
+  StorageState,
+} from '@signalapp/mock-server';
 import { join } from 'node:path';
 import { access, readFile } from 'node:fs/promises';
-import Long from 'long';
 import { v4 } from 'uuid';
 
 import type { App } from '../playwright.node.js';
@@ -23,7 +26,6 @@ import { strictAssert } from '../../util/assert.std.js';
 import { IMAGE_PNG, VIDEO_MP4 } from '../../types/MIME.std.js';
 import { toBase64 } from '../../Bytes.std.js';
 import type { AttachmentType } from '../../types/Attachment.std.js';
-import type { SignalService } from '../../protobuf/index.std.js';
 
 export const debug = createDebug('mock:test:attachments');
 
@@ -408,23 +410,23 @@ describe('attachments', function (this: Mocha.Suite) {
     await page.getByTestId(pinned.device.aci).click();
 
     const plaintextVideo = await readFile(VIDEO_PATH);
-    const recentPointer: SignalService.IAttachmentPointer = {
+    const recentPointer: Proto.AttachmentPointer.Params = {
       ...(await bootstrap.encryptAndStoreAttachmentOnCDN(
         plaintextVideo,
         VIDEO_MP4
       )),
       clientUuid: Buffer.from(v4(), 'utf8'),
-      uploadTimestamp: Long.fromNumber(Date.now() - 2 * durations.DAY),
+      uploadTimestamp: BigInt(Date.now() - 2 * durations.DAY),
       fileName: 'incoming filename',
     };
 
     const plaintextCat = await readFile(CAT_PATH);
-    const stalePointer: SignalService.IAttachmentPointer = {
+    const stalePointer: Proto.AttachmentPointer.Params = {
       ...(await bootstrap.encryptAndStoreAttachmentOnCDN(
         plaintextCat,
         IMAGE_PNG
       )),
-      uploadTimestamp: Long.fromNumber(Date.now() - 4 * durations.DAY),
+      uploadTimestamp: BigInt(Date.now() - 4 * durations.DAY),
     };
 
     const incomingVideoTimestamp = bootstrap.getTimestamp();

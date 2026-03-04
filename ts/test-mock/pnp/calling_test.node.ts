@@ -65,9 +65,19 @@ describe('pnp/calling', function (this: Mocha.Suite) {
       {
         callMessage: {
           offer: {
+            id: null,
+            type: null,
             opaque: new Uint8Array(1),
           },
+          answer: null,
+          iceUpdate: null,
+          busy: null,
+          hangup: null,
+          destinationDeviceId: null,
+          opaque: null,
         },
+        pniSignatureMessage: null,
+        senderKeyDistributionMessage: null,
       },
       {
         timestamp: bootstrap.getTimestamp(),

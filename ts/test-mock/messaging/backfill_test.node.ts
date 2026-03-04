@@ -8,10 +8,10 @@ import { join } from 'node:path';
 import createDebug from 'debug';
 import type { Page } from 'playwright';
 import assert from 'node:assert';
-import Long from 'long';
 
 import { LONG_MESSAGE, IMAGE_JPEG } from '../../types/MIME.std.js';
 import * as durations from '../../util/durations/index.std.js';
+import { toNumber } from '../../util/toNumber.std.js';
 import type { App } from '../playwright.node.js';
 import { Bootstrap } from '../bootstrap.node.js';
 import {
@@ -29,9 +29,20 @@ const SNOW_PATH = join(FIXTURES_PATH, 'snow.jpg');
 const { Status } = Proto.SyncMessage.AttachmentBackfillResponse.AttachmentData;
 
 function createResponse(
-  response: Proto.SyncMessage.IAttachmentBackfillResponse
-): Proto.IContent {
-  return { syncMessage: { attachmentBackfillResponse: response } };
+  response: Proto.SyncMessage.AttachmentBackfillResponse.Params
+): Proto.Content.Params {
+  return {
+    syncMessage: {
+      content: 'attachmentBackfillResponse',
+      attachmentBackfillResponse: response,
+      read: null,
+      stickerPackOperation: null,
+      viewed: null,
+      padding: null,
+    },
+    pniSignatureMessage: null,
+    senderKeyDistributionMessage: null,
+  };
 }
 
 describe('attachment backfill', function (this: Mocha.Suite) {
@@ -41,9 +52,9 @@ describe('attachment backfill', function (this: Mocha.Suite) {
   let app: App;
   let page: Page;
   let unknownContact: PrimaryDevice;
-  let textAttachment: Proto.IAttachmentPointer;
-  let catAttachment: Proto.IAttachmentPointer;
-  let snowAttachment: Proto.IAttachmentPointer;
+  let textAttachment: Proto.AttachmentPointer.Params;
+  let catAttachment: Proto.AttachmentPointer.Params;
+  let snowAttachment: Proto.AttachmentPointer.Params;
 
   beforeEach(async () => {
     bootstrap = new Bootstrap({ contactCount: 1, unknownContactCount: 1 });
@@ -93,9 +104,24 @@ describe('attachment backfill', function (this: Mocha.Suite) {
       desktop,
       text: 'look at this pic!',
       attachments: [
-        { ...textAttachment, cdnKey: 'text-not-found' },
-        { ...catAttachment, cdnKey: 'cat-not-found' },
-        { ...snowAttachment, cdnKey: 'snow-not-found' },
+        {
+          ...textAttachment,
+          attachmentIdentifier: 'cdnKey',
+          cdnKey: 'text-not-found',
+          cdnId: null,
+        },
+        {
+          ...catAttachment,
+          attachmentIdentifier: 'cdnKey',
+          cdnKey: 'cat-not-found',
+          cdnId: null,
+        },
+        {
+          ...snowAttachment,
+          attachmentIdentifier: 'cdnKey',
+          cdnKey: 'snow-not-found',
+          cdnId: null,
+        },
       ],
       timestamp,
     });
@@ -116,22 +142,25 @@ describe('attachment backfill', function (this: Mocha.Suite) {
     await startDownload.click();
 
     debug('waiting for backfill request');
-    const {
-      syncMessage: { attachmentBackfillRequest: request },
-    } = await phone.waitForSyncMessage(entry => {
-      return entry.syncMessage.attachmentBackfillRequest != null;
+    const { syncMessage } = await phone.waitForSyncMessage(entry => {
+      return entry.syncMessage.content === 'attachmentBackfillRequest';
     });
+    assert.strictEqual(syncMessage.content, 'attachmentBackfillRequest');
+    const request = syncMessage.attachmentBackfillRequest;
 
+    assert(request != null);
     assert.deepEqual(
-      request?.targetConversation?.threadServiceIdBinary,
+      request.targetConversation?.threadServiceIdBinary,
       unknownContact.device.aciBinary
     );
     assert.deepEqual(
-      request?.targetMessage?.authorServiceIdBinary,
+      request.targetMessage?.authorServiceIdBinary,
       unknownContact.device.aciBinary
     );
     assert.strictEqual(
-      request?.targetMessage?.sentTimestamp?.toNumber(),
+      request?.targetMessage?.sentTimestamp == null
+        ? null
+        : toNumber(request?.targetMessage?.sentTimestamp),
       timestamp
     );
 
@@ -245,7 +274,14 @@ describe('attachment backfill', function (this: Mocha.Suite) {
       to: desktop,
       desktop,
       text: undefined,
-      attachments: [{ ...catAttachment, cdnKey: 'cat-not-found' }],
+      attachments: [
+        {
+          ...catAttachment,
+          attachmentIdentifier: 'cdnKey',
+          cdnKey: 'cat-not-found',
+          cdnId: null,
+        },
+      ],
       timestamp,
     });
 
@@ -280,7 +316,14 @@ describe('attachment backfill', function (this: Mocha.Suite) {
       to: desktop,
       desktop,
       text: undefined,
-      attachments: [{ ...catAttachment, cdnKey: 'cat-not-found' }],
+      attachments: [
+        {
+          ...catAttachment,
+          attachmentIdentifier: 'cdnKey',
+          cdnKey: 'cat-not-found',
+          cdnId: null,
+        },
+      ],
       timestamp,
     });
 
@@ -300,22 +343,25 @@ describe('attachment backfill', function (this: Mocha.Suite) {
     await startDownload.click();
 
     debug('waiting for request');
-    const {
-      syncMessage: { attachmentBackfillRequest: request },
-    } = await phone.waitForSyncMessage(entry => {
-      return entry.syncMessage.attachmentBackfillRequest != null;
+    const { syncMessage } = await phone.waitForSyncMessage(entry => {
+      return entry.syncMessage.content === 'attachmentBackfillRequest';
     });
+    assert.strictEqual(syncMessage.content, 'attachmentBackfillRequest');
+    const request = syncMessage.attachmentBackfillRequest;
 
+    assert(request != null);
     assert.deepEqual(
-      request?.targetConversation?.threadServiceIdBinary,
+      request.targetConversation?.threadServiceIdBinary,
       unknownContact.device.aciBinary
     );
     assert.deepEqual(
-      request?.targetMessage?.authorServiceIdBinary,
+      request.targetMessage?.authorServiceIdBinary,
       unknownContact.device.aciBinary
     );
     assert.strictEqual(
-      request?.targetMessage?.sentTimestamp?.toNumber(),
+      request.targetMessage?.sentTimestamp == null
+        ? null
+        : toNumber(request.targetMessage?.sentTimestamp),
       timestamp
     );
 
@@ -357,7 +403,12 @@ describe('attachment backfill', function (this: Mocha.Suite) {
         ),
         stickerId: 1,
         emoji: '🐈',
-        data: { ...catAttachment, cdnKey: 'cat-not-found' },
+        data: {
+          ...catAttachment,
+          attachmentIdentifier: 'cdnKey',
+          cdnKey: 'cat-not-found',
+          cdnId: null,
+        },
       },
       timestamp,
     });
@@ -378,22 +429,25 @@ describe('attachment backfill', function (this: Mocha.Suite) {
     await startDownload.click();
 
     debug('waiting for backfill request');
-    const {
-      syncMessage: { attachmentBackfillRequest: request },
-    } = await phone.waitForSyncMessage(entry => {
-      return entry.syncMessage.attachmentBackfillRequest != null;
+    const { syncMessage } = await phone.waitForSyncMessage(entry => {
+      return entry.syncMessage.content === 'attachmentBackfillRequest';
     });
 
+    assert.strictEqual(syncMessage.content, 'attachmentBackfillRequest');
+    const request = syncMessage.attachmentBackfillRequest;
+
     assert.deepEqual(
-      request?.targetConversation?.threadServiceIdBinary,
+      request.targetConversation?.threadServiceIdBinary,
       unknownContact.device.aciBinary
     );
     assert.deepEqual(
-      request?.targetMessage?.authorServiceIdBinary,
+      request.targetMessage?.authorServiceIdBinary,
       unknownContact.device.aciBinary
     );
     assert.strictEqual(
-      request?.targetMessage?.sentTimestamp?.toNumber(),
+      request.targetMessage?.sentTimestamp == null
+        ? null
+        : toNumber(request.targetMessage?.sentTimestamp),
       timestamp
     );
 
@@ -405,6 +459,7 @@ describe('attachment backfill', function (this: Mocha.Suite) {
         targetMessage: request.targetMessage,
         attachments: {
           attachments: [{ status: Status.PENDING }],
+          longText: null,
         },
       }),
       {
@@ -419,7 +474,12 @@ describe('attachment backfill', function (this: Mocha.Suite) {
         targetConversation: request.targetConversation,
         targetMessage: request.targetMessage,
         attachments: {
-          attachments: [{ attachment: catAttachment }],
+          longText: null,
+          attachments: [
+            {
+              attachment: catAttachment,
+            },
+          ],
         },
       }),
       {
@@ -442,22 +502,36 @@ describe('attachment backfill', function (this: Mocha.Suite) {
       to: desktop,
       desktop,
       quote: {
-        id: Long.fromNumber(bootstrap.getTimestamp()),
+        id: BigInt(bootstrap.getTimestamp()),
         authorAciBinary: unknownContact.device.aciRawUuid,
         text: 'quote text',
         attachments: [
           {
             contentType: IMAGE_JPEG,
             fileName: 'snow.jpg',
-            thumbnail: { ...snowAttachment, cdnKey: 'snow-not-found' },
+            thumbnail: {
+              ...snowAttachment,
+              attachmentIdentifier: 'cdnKey',
+              cdnKey: 'snow-not-found',
+              cdnId: null,
+            },
           },
         ],
         type: Proto.DataMessage.Quote.Type.NORMAL,
+        bodyRanges: null,
+        authorAci: null,
       },
       preview: {
         url: 'https://signal.org',
         title: 'Signal',
-        image: { ...catAttachment, cdnKey: 'cat-not-found' },
+        image: {
+          ...catAttachment,
+          attachmentIdentifier: 'cdnKey',
+          cdnKey: 'cat-not-found',
+          cdnId: null,
+        },
+        description: null,
+        date: null,
       },
       text: 'https://signal.org',
       timestamp,

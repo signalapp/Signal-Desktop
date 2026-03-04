@@ -138,7 +138,10 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       const updated = await phone.setStorageState(
         state
           .removeRecord(item => {
-            return item.record.contact?.pniBinary?.length
+            if (item.record.record !== 'contact') {
+              return false;
+            }
+            return item.record.contact.pniBinary?.length
               ? timingSafeEqual(
                   item.record.contact.pniBinary,
                   contactA.device.pniRawUuid
@@ -239,7 +242,10 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       const updated = await phone.setStorageState(
         state
           .removeRecord(item => {
-            return item.record.contact?.pniBinary?.length
+            if (item.record.record !== 'contact') {
+              return false;
+            }
+            return item.record.contact.pniBinary?.length
               ? timingSafeEqual(
                   item.record.contact.pniBinary,
                   contactA.device.pniRawUuid
@@ -345,7 +351,10 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       const updated = await phone.setStorageState(
         state
           .removeRecord(item => {
-            return item.record.contact?.pniBinary?.length
+            if (item.record.record !== 'contact') {
+              return false;
+            }
+            return item.record.contact.pniBinary?.length
               ? timingSafeEqual(
                   item.record.contact.pniBinary,
                   contactA.device.pniRawUuid
@@ -480,7 +489,10 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       const updated = await phone.setStorageState(
         state
           .removeRecord(item => {
-            return item.record.contact?.pniBinary?.length
+            if (item.record.record !== 'contact') {
+              return false;
+            }
+            return item.record.contact.pniBinary?.length
               ? timingSafeEqual(
                   item.record.contact.pniBinary,
                   contactA.device.pniRawUuid
@@ -516,7 +528,10 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       const updated = await phone.setStorageState(
         state
           .removeRecord(item => {
-            return item.record.contact?.pniBinary?.length
+            if (item.record.record !== 'contact') {
+              return false;
+            }
+            return item.record.contact.pniBinary?.length
               ? timingSafeEqual(
                   item.record.contact.pniBinary,
                   contactB.device.pniRawUuid

@@ -13,6 +13,7 @@ import type {
 import type { ReceiptType } from '../types/Receipt.std.js';
 import { SECOND } from '../util/durations/index.std.js';
 import { drop } from '../util/drop.std.js';
+import { toNumber } from '../util/toNumber.std.js';
 import type { MessageAttributesType } from '../model-types.d.ts';
 import type { SocketStatuses } from '../textsecure/SocketManager.preload.js';
 
@@ -39,7 +40,7 @@ export type ReceiptsInfoType = Readonly<{
 }>;
 
 export type StorageServiceInfoType = Readonly<{
-  manifestVersion: number;
+  manifestVersion: bigint;
 }>;
 
 export type AppOptionsType = Readonly<{
@@ -151,7 +152,7 @@ export class App extends EventEmitter {
     return this.#waitForEvent('storageServiceComplete');
   }
 
-  public async waitForManifestVersion(version: number): Promise<void> {
+  public async waitForManifestVersion(version: bigint): Promise<void> {
     // eslint-disable-next-line no-constant-condition
     while (true) {
       // eslint-disable-next-line no-await-in-loop
@@ -280,7 +281,7 @@ export class App extends EventEmitter {
       `window.SignalCI.getPendingEventCount(${JSON.stringify(event)})`
     );
 
-    return Number(result);
+    return toNumber(result as bigint);
   }
 
   //

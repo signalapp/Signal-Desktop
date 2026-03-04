@@ -67,6 +67,8 @@ describe('pnp/username', function (this: Mocha.Suite) {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: true,
           name: MY_STORY_ID,
+          deletedAtTimestamp: null,
+          recipientServiceIdsBinary: null,
         },
       },
     });
@@ -145,17 +147,19 @@ describe('pnp/username', function (this: Mocha.Suite) {
           'only one record must be removed'
         );
 
+        assert.strictEqual(added[0].record, 'contact');
         assert.deepEqual(
-          added[0].contact?.aciBinary,
+          added[0].contact.aciBinary,
           usernameContact.device.aciRawUuid
         );
-        assert.strictEqual(added[0].contact?.username, '');
+        assert.strictEqual(added[0].contact.username, '');
 
+        assert.strictEqual(removed[0].record, 'contact');
         assert.deepEqual(
-          removed[0].contact?.aciBinary,
+          removed[0].contact.aciBinary,
           usernameContact.device.aciRawUuid
         );
-        assert.strictEqual(removed[0].contact?.username, USERNAME);
+        assert.strictEqual(removed[0].contact.username, USERNAME);
       }
 
       if (type === 'system') {
@@ -231,8 +235,9 @@ describe('pnp/username', function (this: Mocha.Suite) {
       assert.strictEqual(added.length, 1, 'only one record must be added');
       assert.strictEqual(removed.length, 1, 'only one record must be removed');
 
-      assert.strictEqual(added[0]?.account?.username, username);
-      const usernameLink = added[0]?.account?.usernameLink;
+      assert.strictEqual(added[0]?.record, 'account');
+      assert.strictEqual(added[0].account.username, username);
+      const { usernameLink } = added[0].account;
       if (!usernameLink) {
         throw new Error('No username link in AccountRecord');
       }
@@ -282,14 +287,19 @@ describe('pnp/username', function (this: Mocha.Suite) {
       assert.strictEqual(added.length, 1, 'only one record must be added');
       assert.strictEqual(removed.length, 1, 'only one record must be removed');
 
-      assert.strictEqual(added[0]?.account?.username, '', 'clears username');
       assert.strictEqual(
-        added[0]?.account?.usernameLink?.entropy?.length ?? 0,
+        added[0]?.record,
+        'account',
+        'expected updated account'
+      );
+      assert.strictEqual(added[0].account.username, '', 'clears username');
+      assert.strictEqual(
+        added[0].account.usernameLink?.entropy?.length ?? 0,
         0,
         'clears usernameLink.entropy'
       );
       assert.strictEqual(
-        added[0]?.account?.usernameLink?.serverId?.length ?? 0,
+        added[0].account.usernameLink?.serverId?.length ?? 0,
         0,
         'clears usernameLink.serverId'
       );

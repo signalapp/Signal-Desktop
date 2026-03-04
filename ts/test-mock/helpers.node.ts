@@ -8,14 +8,14 @@ import {
   PrimaryDevice,
   Proto,
   StorageState,
+  EMPTY_DATA_MESSAGE,
 } from '@signalapp/mock-server';
 import { assert } from 'chai';
-import Long from 'long';
 import type { Locator, Page } from 'playwright';
 import { expect } from 'playwright/test';
-import type { SignalService } from '../protobuf/index.std.js';
 import { strictAssert } from '../util/assert.std.js';
 import { SECOND } from '../util/durations/constants.std.js';
+import { toNumber } from '../util/toNumber.std.js';
 
 const debug = createDebug('mock:test:helpers');
 
@@ -147,8 +147,8 @@ function maybeWrapInSyncMessage({
   isSync: boolean;
   to: PrimaryDevice | Device;
   sentTo?: Array<PrimaryDevice | Device>;
-  dataMessage: Proto.IDataMessage;
-}): Proto.IContent {
+  dataMessage: Proto.DataMessage.Params;
+}): Proto.Content.Params {
   return isSync
     ? {
         syncMessage: {
@@ -159,11 +159,31 @@ function maybeWrapInSyncMessage({
             unidentifiedStatus: (sentTo ?? [to]).map(contact => ({
               destinationServiceIdBinary: getDevice(contact).aciBinary,
               destination: getDevice(contact).number,
+              unidentified: null,
+              destinationPniIdentityKey: null,
+              destinationServiceId: null,
             })),
+            destinationE164: null,
+            expirationStartTimestamp: null,
+            isRecipientUpdate: null,
+            storyMessage: null,
+            storyMessageRecipients: null,
+            editMessage: null,
+            destinationServiceId: null,
           },
+          read: null,
+          stickerPackOperation: null,
+          viewed: null,
+          padding: null,
         },
+        pniSignatureMessage: null,
+        senderKeyDistributionMessage: null,
       }
-    : { dataMessage };
+    : {
+        dataMessage,
+        pniSignatureMessage: null,
+        senderKeyDistributionMessage: null,
+      };
 }
 
 function isToGroup(to: Device | PrimaryDevice | GroupInfo): to is GroupInfo {
@@ -184,10 +204,10 @@ export function sendTextMessage({
   from: PrimaryDevice;
   to: PrimaryDevice | Device | GroupInfo;
   text: string | undefined;
-  attachments?: Array<Proto.IAttachmentPointer>;
-  sticker?: Proto.DataMessage.ISticker;
-  preview?: Proto.IPreview;
-  quote?: Proto.DataMessage.IQuote;
+  attachments?: Array<Proto.AttachmentPointer.Params>;
+  sticker?: Proto.DataMessage.Sticker.Params;
+  preview?: Proto.Preview.Params;
+  quote?: Proto.DataMessage.Quote.Params;
   desktop: Device;
   timestamp?: number;
 }): Promise<void> {
@@ -200,18 +220,20 @@ export function sendTextMessage({
       isSync,
       to: to as PrimaryDevice,
       dataMessage: {
-        body: text,
-        attachments,
-        sticker,
+        ...EMPTY_DATA_MESSAGE,
+        body: text ?? null,
+        attachments: attachments ?? null,
+        sticker: sticker ?? null,
         preview: preview == null ? null : [preview],
-        quote,
-        timestamp: Long.fromNumber(timestamp),
+        quote: quote ?? null,
+        timestamp: BigInt(timestamp),
         groupV2: groupInfo
           ? {
               masterKey: groupInfo.group.masterKey,
               revision: groupInfo.group.revision,
+              groupChange: null,
             }
-          : undefined,
+          : null,
       },
       sentTo: groupInfo ? groupInfo.members : [to as PrimaryDevice | Device],
     }),
@@ -243,11 +265,14 @@ export function sendReaction({
       isSync,
       to,
       dataMessage: {
-        timestamp: Long.fromNumber(reactionTimestamp),
+        ...EMPTY_DATA_MESSAGE,
+        timestamp: BigInt(reactionTimestamp),
         reaction: {
           emoji,
           targetAuthorAciBinary: getDevice(targetAuthor).aciRawUuid,
-          targetSentTimestamp: Long.fromNumber(targetMessageTimestamp),
+          targetSentTimestamp: BigInt(targetMessageTimestamp),
+          remove: null,
+          targetAuthorAci: null,
         },
       },
     }),
@@ -391,10 +416,11 @@ export async function sendMessageWithAttachments(
   text: string,
   filePaths: Array<string>
 ): Promise<{
-  attachments: Array<SignalService.IAttachmentPointer>;
+  attachments: Array<Proto.AttachmentPointer.Params>;
   timestamp: number;
 }> {
   await composerAttachFiles(page, filePaths);
+
   debug('sending message');
   const input = await waitForEnabledComposer(page);
   await typeIntoInput(input, text, '');
@@ -433,7 +459,7 @@ export async function sendMessageWithAttachments(
           );
           return {
             attachments,
-            timestamp: receivedMessage.dataMessage.timestamp.toNumber(),
+            timestamp: toNumber(receivedMessage.dataMessage.timestamp),
           };
         }
       }

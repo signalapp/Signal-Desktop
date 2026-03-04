@@ -2,8 +2,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import createDebug from 'debug';
-import Long from 'long';
-import { Proto, StorageState } from '@signalapp/mock-server';
+import {
+  Proto,
+  StorageState,
+  EMPTY_DATA_MESSAGE,
+} from '@signalapp/mock-server';
 import type { Group } from '@signalapp/mock-server';
 
 import * as durations from '../../util/durations/index.std.js';
@@ -51,6 +54,8 @@ describe('story/messaging', function (this: Mocha.Suite) {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: false,
           name: MY_STORY_ID,
+          deletedAtTimestamp: null,
+          recipientServiceIdsBinary: null,
         },
       },
     });
@@ -65,6 +70,7 @@ describe('story/messaging', function (this: Mocha.Suite) {
           isBlockList: false,
           name: 'first',
           recipientServiceIdsBinary: [first.device.aciBinary],
+          deletedAtTimestamp: null,
         },
       },
     });
@@ -77,6 +83,7 @@ describe('story/messaging', function (this: Mocha.Suite) {
           isBlockList: false,
           name: 'second',
           recipientServiceIdsBinary: [second.device.aciBinary],
+          deletedAtTimestamp: null,
         },
       },
     });
@@ -137,28 +144,51 @@ describe('story/messaging', function (this: Mocha.Suite) {
       {
         syncMessage: {
           sent: {
-            timestamp: Long.fromNumber(sentAt),
-            expirationStartTimestamp: Long.fromNumber(sentAt),
+            timestamp: BigInt(sentAt),
+            expirationStartTimestamp: BigInt(sentAt),
             storyMessage: {
               textAttachment: {
                 text: 'hello',
+                textStyle: null,
+                textForegroundColor: null,
+                textBackgroundColor: null,
+                preview: null,
+                background: null,
               },
               allowsReplies: true,
+              profileKey: null,
+              group: null,
+              bodyRanges: null,
             },
             storyMessageRecipients: [
               {
                 destinationServiceIdBinary: first.device.aciBinary,
                 distributionListIds: [DISTRIBUTION1],
                 isAllowedToReply: true,
+                destinationServiceId: null,
               },
               {
                 destinationServiceIdBinary: second.device.aciBinary,
                 distributionListIds: [DISTRIBUTION2],
                 isAllowedToReply: true,
+                destinationServiceId: null,
               },
             ],
+            destinationE164: null,
+            message: null,
+            unidentifiedStatus: null,
+            isRecipientUpdate: null,
+            editMessage: null,
+            destinationServiceIdBinary: null,
+            destinationServiceId: null,
           },
+          read: null,
+          stickerPackOperation: null,
+          viewed: null,
+          padding: null,
         },
+        pniSignatureMessage: null,
+        senderKeyDistributionMessage: null,
       },
       { timestamp: sentAt }
     );
@@ -168,13 +198,17 @@ describe('story/messaging', function (this: Mocha.Suite) {
       desktop,
       {
         dataMessage: {
+          ...EMPTY_DATA_MESSAGE,
           body: 'first reply',
           storyContext: {
             authorAciBinary: phone.device.aciRawUuid,
-            sentTimestamp: Long.fromNumber(sentAt),
+            sentTimestamp: BigInt(sentAt),
+            authorAci: null,
           },
-          timestamp: Long.fromNumber(sentAt + 1),
+          timestamp: BigInt(sentAt + 1),
         },
+        pniSignatureMessage: null,
+        senderKeyDistributionMessage: null,
       },
       { timestamp: sentAt + 1 }
     );
@@ -182,13 +216,17 @@ describe('story/messaging', function (this: Mocha.Suite) {
       desktop,
       {
         dataMessage: {
+          ...EMPTY_DATA_MESSAGE,
           body: 'second reply',
           storyContext: {
             authorAciBinary: phone.device.aciRawUuid,
-            sentTimestamp: Long.fromNumber(sentAt),
+            sentTimestamp: BigInt(sentAt),
+            authorAci: null,
           },
-          timestamp: Long.fromNumber(sentAt + 2),
+          timestamp: BigInt(sentAt + 2),
         },
+        pniSignatureMessage: null,
+        senderKeyDistributionMessage: null,
       },
       { timestamp: sentAt + 2 }
     );
@@ -242,16 +280,22 @@ describe('story/messaging', function (this: Mocha.Suite) {
       desktop,
       {
         dataMessage: {
+          ...EMPTY_DATA_MESSAGE,
           body: 'first reply',
           storyContext: {
             authorAciBinary: desktop.aciRawUuid,
-            sentTimestamp: Long.fromNumber(sentAt),
+            sentTimestamp: BigInt(sentAt),
+            authorAci: null,
           },
           groupV2: {
             masterKey: group.masterKey,
+            revision: null,
+            groupChange: null,
           },
-          timestamp: Long.fromNumber(sentAt + 1),
+          timestamp: BigInt(sentAt + 1),
         },
+        pniSignatureMessage: null,
+        senderKeyDistributionMessage: null,
       },
       { timestamp: sentAt + 1 }
     );

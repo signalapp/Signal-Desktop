@@ -240,7 +240,7 @@
     "@indutny/parallel-prettier": "3.0.0",
     "@indutny/rezip-electron": "3.0.2",
     "@napi-rs/canvas": "0.1.61",
-    "@signalapp/mock-server": "15.2.3",
+    "@signalapp/mock-server": "17.0.1",
     "@storybook/addon-a11y": "8.4.4",
     "@storybook/addon-actions": "8.4.4",
     "@storybook/addon-controls": "8.4.4",
@@ -399,7 +399,8 @@
       "dmg-builder": "patches/dmg-builder.patch",
       "eslint-plugin-better-tailwindcss": "patches/eslint-plugin-better-tailwindcss.patch",
       "framer-motion@6.5.1": "patches/framer-motion@6.5.1.patch",
-      "fs-xattr": "patches/fs-xattr.patch"
+      "fs-xattr": "patches/fs-xattr.patch",
+      "@types/chai": "patches/@types__chai.patch"
     },
     "onlyBuiltDependencies": [
       "@indutny/mac-screen-share",
