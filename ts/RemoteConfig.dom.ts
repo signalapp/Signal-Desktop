@@ -99,6 +99,8 @@ const KnownDesktopLibsignalNetKeys = [
   'desktop.libsignalNet.grpc.AccountsAnonymousLookupUsernameHash',
   'desktop.libsignalNet.grpc.AccountsAnonymousLookupUsernameLink.beta',
   'desktop.libsignalNet.grpc.AccountsAnonymousLookupUsernameLink',
+  'desktop.libsignalNet.grpc.MessagesAnonymousSendMultiRecipientMessage.beta',
+  'desktop.libsignalNet.grpc.MessagesAnonymousSendMultiRecipientMessage',
   'desktop.libsignalNet.useH2ForUnauthChat.beta',
   'desktop.libsignalNet.useH2ForUnauthChat',
 ] as const;
