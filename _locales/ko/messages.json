@@ -2214,7 +2214,7 @@
     "messageformat": "{sender} 님이 \"{pollQuestion}\" 설문조사에 투표했습니다."
   },
   "icu:sendFailed": {
-    "messageformat": "보내기 실패"
+    "messageformat": "전송 실패"
   },
   "icu:deleteFailed": {
     "messageformat": "삭제 실패"
@@ -3090,7 +3090,7 @@
     "messageformat": "선택한 메시지에 대한 답장 전환"
   },
   "icu:Keyboard--toggle-reaction-picker": {
-    "messageformat": "선택한 메시지에 대한 이모티콘 반응 선택기 토글"
+    "messageformat": "선택한 메시지에 대한 이모지 반응 선택기 토글"
   },
   "icu:Keyboard--save-attachment": {
     "messageformat": "선택된 메시지에서 첨부 파일 저장하기"
@@ -3273,7 +3273,7 @@
     "messageformat": "안전 팁"
   },
   "icu:SafetyTipsModal__Description": {
-    "messageformat": "모르는 사람이 보내는 메시지 요청을 수락할 때 조심하세요. 다음에 유의하세요."
+    "messageformat": "모르는 상대의 메시지 요청을 수락할 때는 주의가 필요합니다. 특히 다음 사항에 유의하세요."
   },
   "icu:SafetyTipsModal__TipTitle--Fake": {
     "messageformat": "가짜 이름과 계정"
@@ -3384,7 +3384,7 @@
     "messageformat": "신고 및 차단"
   },
   "icu:MessageRequests--AcceptedOptionsModal--body": {
-    "messageformat": "{name} 님이 보낸 메시지 요청을 수락했습니다. 실수로 수락한 경우 아래에서 조치를 선택할 수 있습니다."
+    "messageformat": "{name} 님이 보낸 메시지 요청을 수락했습니다. 실수로 수락한 경우 아래에서 원하는 작업을 선택하세요."
   },
   "icu:MessageRequests--report-spam-success-toast": {
     "messageformat": "스팸으로 신고했습니다."
@@ -3585,7 +3585,7 @@
     "messageformat": "참가"
   },
   "icu:callNeedPermission": {
-    "messageformat": "{title}에서 메시지 요청을 받습니다. 메시지 요청이 수락되면 전화를 걸 수 있습니다."
+    "messageformat": "{title} 님께 메시지 요청이 전송됩니다. 메시지 요청이 수락되면 통화를 시작할 수 있습니다."
   },
   "icu:callReconnecting": {
     "messageformat": "다시 연결 중…"
@@ -4053,7 +4053,7 @@
     "messageformat": "{inviterName} 님의 그룹 초대를 수락했습니다."
   },
   "icu:GroupV2--member-add--from-invite--you-no-from": {
-    "messageformat": "내가 그룹 초대를 수락했습니다."
+    "messageformat": "그룹 초대를 수락했습니다."
   },
   "icu:GroupV2--member-add--from-invite--from-you": {
     "messageformat": "{inviteeName} 님이 그룹 초대를 수락했습니다."
@@ -4374,16 +4374,16 @@
     "messageformat": "모든 메시지 기록 및 미디어는 업그레이드 전에 보관됩니다."
   },
   "icu:GroupV1--Migration--info--invited--you": {
-    "messageformat": "그룹에 다시 가입하려면 초대를 수락해야 하며 수락할 때까지 그룹 메시지를 받지 않습니다."
+    "messageformat": "이 그룹에 다시 참가하려면 초대를 수락해야 하며, 수락 전까지는 그룹 메시지를 받을 수 없습니다."
   },
   "icu:GroupV1--Migration--info--invited--many": {
-    "messageformat": "다음 멤버들은 그룹에 다시 참가하려면 초대를 수락해야 하며, 수락 전까지는 그룹 메시지를 받을 수 없습니다."
+    "messageformat": "다음 멤버들은 그룹 초대를 수락해야 다시 참가할 수 있으며, 수락 전까지는 그룹 메시지를 받을 수 없습니다."
   },
   "icu:GroupV1--Migration--info--invited--one": {
     "messageformat": "이 멤버는 그룹에 다시 참가하려면 초대를 수락해야 하며, 수락하기 전까지는 그룹 메시지를 받을 수 없습니다."
   },
   "icu:GroupV1--Migration--info--invited--count": {
-    "messageformat": "{count, plural, other {그룹에 다시 가입하려면 멤버 {count,number}명이 초대를 수락해야 하며 수락할 때까지 그룹 메시지가 전송되지 않습니다.}}"
+    "messageformat": "{count, plural, other {멤버 {count,number}명은 그룹 초대를 수락해야 다시 참가할 수 있으며, 수락 전까지는 그룹 메시지를 받을 수 없습니다.}}"
   },
   "icu:GroupV1--Migration--info--removed--before--many": {
     "messageformat": "이 멤버들은 새 그룹에 가입할 수 없으며 그룹에서 내보내기 처리됩니다."
@@ -5031,10 +5031,10 @@
     "messageformat": "{name} 님을 그룹에 자동으로 추가할 수 없습니다."
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--user-paragraph--many": {
-    "messageformat": "해당 사용자는 사용자가 그룹에 자동으로 추가할 수 없습니다."
+    "messageformat": "사용자들을 그룹에 자동으로 추가할 수 없습니다."
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--info-paragraph": {
-    "messageformat": "가입 초대를 받았으며 수락할 때까지 그룹 메시지가 표시되지 않습니다."
+    "messageformat": "현재 그룹 초대가 발송되었으며, 초대 수락 후에 그룹 메시지 확인이 가능합니다."
   },
   "icu:NewlyCreatedGroupInvitedContactsDialog--body--learn-more": {
     "messageformat": "더 알아보기"
@@ -5193,7 +5193,7 @@
     "messageformat": "검증이 완료되었습니다."
   },
   "icu:verificationFailed": {
-    "messageformat": "검증에 실패했습니다. 나중에 다시 시도하세요."
+    "messageformat": "인증에 실패했습니다. 나중에 다시 시도하세요."
   },
   "icu:deleteForEveryoneFailed": {
     "messageformat": "모든 사람의 메시지를 삭제하지 못했습니다. 나중에 다시 시도하세요."
@@ -6661,7 +6661,7 @@
     "messageformat": "대화 시작"
   },
   "icu:SignalConnectionsModal__bullet--2": {
-    "messageformat": "메시지 요청 수락"
+    "messageformat": "메시지 요청 수락 중"
   },
   "icu:SignalConnectionsModal__bullet--3": {
     "messageformat": "기기 연락처에 포함"
@@ -6709,7 +6709,7 @@
     "messageformat": "보내는 중…"
   },
   "icu:Stories__list--send_failed": {
-    "messageformat": "보내기 실패"
+    "messageformat": "전송 실패"
   },
   "icu:Stories__list--partially-sent": {
     "messageformat": "일부만 전송됐습니다."
@@ -7742,7 +7742,7 @@
     "messageformat": "오류 발생으로 요금이 청구되지 않았습니다. 다시 시도하거나 다른 결제 수단을 사용하세요."
   },
   "icu:Donations__Failed3dsValidation": {
-    "messageformat": "검증 실패"
+    "messageformat": "인증 실패"
   },
   "icu:Donations__Failed3dsValidation__Description": {
     "messageformat": "추가 인증 단계에 실패했습니다. 다시 시도해 주세요."

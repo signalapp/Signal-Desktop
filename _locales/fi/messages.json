@@ -1116,7 +1116,7 @@
     "messageformat": "Lisää jäsentunniste"
   },
   "icu:AboutContactModal__your-qr-code": {
-    "messageformat": "QR-koodisi"
+    "messageformat": "QR-koodi"
   },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Huomautus"
