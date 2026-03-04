@@ -167,7 +167,11 @@ export function CallingPipRemoteVideo({
         }
         return nonRenderedRemoteParticipant(participant);
       });
-      setGroupCallVideoRequest(participants, newHeight);
+      setGroupCallVideoRequest(
+        participants,
+        // When there's a presenter, we do not want the SFU to prioritize the speaker feed
+        activeGroupCallSpeaker.presenting ? 0 : newHeight
+      );
     } else {
       setGroupCallVideoRequest(
         activeCall.remoteParticipants.map(nonRenderedRemoteParticipant),
