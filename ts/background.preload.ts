@@ -37,6 +37,7 @@ import { isWindowDragElement } from './util/isWindowDragElement.std.js';
 import { assertDev, strictAssert } from './util/assert.std.js';
 import { filter } from './util/iterables.std.js';
 import { isNotNil } from './util/isNotNil.std.js';
+import { isAdminDeleteReceiveEnabled } from './util/isAdminDeleteEnabled.dom.js';
 import { areRemoteBackupsTurnedOn } from './util/isBackupEnabled.preload.js';
 import { lightSessionResetQueue } from './util/lightSessionResetQueue.std.js';
 import { setAppLoadingScreenMessage } from './setAppLoadingScreenMessage.dom.js';
@@ -2584,6 +2585,55 @@ export async function startApp(): Promise<void> {
       return;
     }
 
+    if (data.message.adminDelete) {
+      if (!isAdminDeleteReceiveEnabled()) {
+        log.info('Ignoring admin DOE: feature not enabled');
+        confirm();
+        return;
+      }
+
+      const { adminDelete } = data.message;
+      log.info(
+        'Queuing incoming admin DOE for',
+        adminDelete.targetSentTimestamp
+      );
+
+      strictAssert(
+        adminDelete.targetSentTimestamp,
+        'AdminDelete missing targetSentTimestamp'
+      );
+      strictAssert(
+        adminDelete.targetAuthorAci,
+        'AdminDelete missing targetAuthorAci'
+      );
+      strictAssert(data.serverTimestamp, 'AdminDelete missing serverTimestamp');
+      strictAssert(data.sourceAci, 'AdminDelete missing sourceAci');
+
+      const targetAuthorConversation =
+        window.ConversationController.lookupOrCreate({
+          serviceId: adminDelete.targetAuthorAci,
+          reason: 'admin-delete-incoming',
+        });
+      strictAssert(
+        targetAuthorConversation,
+        'AdminDelete: failed to find target author conversation'
+      );
+
+      const attributes: DeleteAttributesType = {
+        envelopeId: data.envelopeId,
+        isAdminDelete: true,
+        targetSentTimestamp: adminDelete.targetSentTimestamp,
+        targetAuthorAci: adminDelete.targetAuthorAci,
+        targetConversationId: targetAuthorConversation.id,
+        deleteServerTimestamp: data.serverTimestamp,
+        deleteSentByAci: data.sourceAci,
+        removeFromMessageReceiverCache: confirm,
+      };
+      drop(Deletes.onDelete(attributes));
+
+      return;
+    }
+
     if (data.message.delete) {
       const { delete: del } = data.message;
       log.info('Queuing incoming DOE for', del.targetSentTimestamp);
@@ -2593,12 +2643,16 @@ export async function startApp(): Promise<void> {
         'Delete missing targetSentTimestamp'
       );
       strictAssert(data.serverTimestamp, 'Delete missing serverTimestamp');
+      strictAssert(data.sourceAci, 'Delete missing sourceAci');
 
       const attributes: DeleteAttributesType = {
         envelopeId: data.envelopeId,
+        isAdminDelete: false,
         targetSentTimestamp: del.targetSentTimestamp,
-        serverTimestamp: data.serverTimestamp,
-        fromId: fromConversation.id,
+        targetAuthorAci: data.sourceAci,
+        targetConversationId: fromConversation.id,
+        deleteServerTimestamp: data.serverTimestamp,
+        deleteSentByAci: data.sourceAci,
         removeFromMessageReceiverCache: confirm,
       };
       drop(Deletes.onDelete(attributes));
@@ -3090,6 +3144,51 @@ export async function startApp(): Promise<void> {
       return;
     }
 
+    if (data.message.adminDelete) {
+      if (!isAdminDeleteReceiveEnabled()) {
+        log.info('Ignoring sent admin DOE sync: feature not enabled');
+        confirm();
+        return;
+      }
+
+      const { adminDelete } = data.message;
+      strictAssert(
+        adminDelete.targetSentTimestamp,
+        'AdminDelete without targetSentTimestamp'
+      );
+      strictAssert(
+        adminDelete.targetAuthorAci,
+        'AdminDelete without targetAuthorAci'
+      );
+      strictAssert(data.serverTimestamp, 'AdminDelete has no serverTimestamp');
+
+      log.info('Queuing sent admin DOE for', adminDelete.targetSentTimestamp);
+
+      const ourAci = itemStorage.user.getCheckedAci();
+      const targetAuthorConversation =
+        window.ConversationController.lookupOrCreate({
+          serviceId: adminDelete.targetAuthorAci,
+          reason: 'admin-delete-sync',
+        });
+      strictAssert(
+        targetAuthorConversation,
+        'AdminDelete sync: failed to find target author conversation'
+      );
+
+      const attributes: DeleteAttributesType = {
+        envelopeId: data.envelopeId,
+        isAdminDelete: true,
+        targetSentTimestamp: adminDelete.targetSentTimestamp,
+        targetAuthorAci: adminDelete.targetAuthorAci,
+        targetConversationId: targetAuthorConversation.id,
+        deleteServerTimestamp: data.serverTimestamp,
+        deleteSentByAci: ourAci,
+        removeFromMessageReceiverCache: confirm,
+      };
+      drop(Deletes.onDelete(attributes));
+      return;
+    }
+
     if (data.message.delete) {
       const { delete: del } = data.message;
       strictAssert(
@@ -3100,11 +3199,16 @@ export async function startApp(): Promise<void> {
 
       log.info('Queuing sent DOE for', del.targetSentTimestamp);
 
+      const ourAci = itemStorage.user.getCheckedAci();
       const attributes: DeleteAttributesType = {
         envelopeId: data.envelopeId,
+        isAdminDelete: false,
         targetSentTimestamp: del.targetSentTimestamp,
-        serverTimestamp: data.serverTimestamp,
-        fromId: window.ConversationController.getOurConversationIdOrThrow(),
+        targetAuthorAci: ourAci,
+        targetConversationId:
+          window.ConversationController.getOurConversationIdOrThrow(),
+        deleteServerTimestamp: data.serverTimestamp,
+        deleteSentByAci: ourAci,
         removeFromMessageReceiverCache: confirm,
       };
       drop(Deletes.onDelete(attributes));

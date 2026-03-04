@@ -1057,6 +1057,9 @@ export class BackupExportStream extends Readable {
         hasSeenGroupStoryEducationSheet: itemStorage.get(
           'hasSeenGroupStoryEducationSheet'
         ),
+        hasSeenAdminDeleteEducationDialog: itemStorage.get(
+          'hasSeenAdminDeleteEducationDialog'
+        ),
         phoneNumberSharingMode,
         // Note that this should be called before `toDefaultChatStyle` because
         // it builds `customColorIdByUuid`
@@ -1553,7 +1556,15 @@ export class BackupExportStream extends Readable {
         message,
       });
     } else if (message.deletedForEveryone) {
-      result.remoteDeletedMessage = {};
+      if (message.deletedForEveryoneByAdminAci) {
+        result.adminDeletedMessage = {
+          adminId: this.#getOrPushPrivateRecipient({
+            serviceId: message.deletedForEveryoneByAdminAci,
+          }),
+        };
+      } else {
+        result.remoteDeletedMessage = {};
+      }
     } else if (messageHasPaymentEvent(message)) {
       const { payment } = message;
       switch (payment.kind) {

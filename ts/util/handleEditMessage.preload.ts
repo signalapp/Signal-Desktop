@@ -27,7 +27,7 @@ import { getMessageIdForLogging } from './idForLogging.preload.js';
 import { hasErrors } from '../state/selectors/message.preload.js';
 import { isIncoming, isOutgoing } from '../messages/helpers.std.js';
 import { isDirectConversation } from './whatTypeOfConversation.dom.js';
-import { isTooOldToModifyMessage } from './isTooOldToModifyMessage.std.js';
+import { isTooOldToEditMessage } from './isTooOldToEditMessage.std.js';
 import { queueAttachmentDownloads } from './queueAttachmentDownloads.preload.js';
 import { modifyTargetMessage } from './modifyTargetMessage.preload.js';
 import { isMessageNoteToSelf } from './isMessageNoteToSelf.dom.js';
@@ -93,7 +93,7 @@ export async function handleEditMessage(
   if (
     serverTimestamp &&
     !isMessageNoteToSelf(mainMessage) &&
-    isTooOldToModifyMessage(serverTimestamp, mainMessage)
+    isTooOldToEditMessage(serverTimestamp, mainMessage)
   ) {
     log.warn(`${idLog}: cannot edit message older than 48h`, serverTimestamp);
     return;

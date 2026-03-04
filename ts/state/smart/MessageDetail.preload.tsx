@@ -58,6 +58,7 @@ export const SmartMessageDetail = memo(function SmartMessageDetail({
     markAttachmentAsCorrupted,
     messageExpanded,
     openGiftBadge,
+    retryDeleteForEveryone,
     retryMessageSend,
     sendPollVote,
     saveAttachment,
@@ -126,6 +127,7 @@ export const SmartMessageDetail = memo(function SmartMessageDetail({
       message={message}
       messageExpanded={messageExpanded}
       openGiftBadge={openGiftBadge}
+      retryDeleteForEveryone={retryDeleteForEveryone}
       retryMessageSend={retryMessageSend}
       sendPollVote={sendPollVote}
       pushPanelForConversation={pushPanelForConversation}

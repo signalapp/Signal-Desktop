@@ -4,13 +4,12 @@
 import type { ConversationAttributesType } from '../model-types.d.ts';
 import type { ConversationQueueJobData } from '../jobs/conversationJobQueue.preload.js';
 import * as Errors from '../types/errors.std.js';
-import { DAY } from './durations/index.std.js';
 import { createLogger } from '../logging/log.std.js';
 import {
   conversationJobQueue,
   conversationQueueJobEnum,
 } from '../jobs/conversationJobQueue.preload.js';
-import { deleteForEveryone } from './deleteForEveryone.preload.js';
+import { applyDeleteForEveryone } from './deleteForEveryone.preload.js';
 import {
   getConversationIdForLogging,
   getMessageIdForLogging,
@@ -19,39 +18,52 @@ import { getMessageById } from '../messages/getMessageById.preload.js';
 import { getRecipientConversationIds } from './getRecipientConversationIds.dom.js';
 import { getRecipients } from './getRecipients.dom.js';
 import { repeat, zipObject } from './iterables.std.js';
-import { isMe } from './whatTypeOfConversation.dom.js';
+import { isOutgoing } from '../state/selectors/message.preload.js';
+import { canSendDeleteForEveryone } from './canDeleteForEveryone.preload.js';
+import { areWeAdmin } from './areWeAdmin.preload.js';
+import { isAciString } from './isAciString.std.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
+import { strictAssert } from './assert.std.js';
 
 const log = createLogger('sendDeleteForEveryoneMessage');
 
 export async function sendDeleteForEveryoneMessage(
   conversationAttributes: ConversationAttributesType,
   options: {
-    deleteForEveryoneDuration?: number;
     id: string;
     timestamp: number;
   }
 ): Promise<void> {
-  const {
-    deleteForEveryoneDuration,
-    timestamp: targetTimestamp,
-    id: messageId,
-  } = options;
+  const { timestamp: targetTimestamp, id: messageId } = options;
   const message = await getMessageById(messageId);
   if (!message) {
     throw new Error('sendDeleteForEveryoneMessage: Cannot find message!');
   }
   const idForLogging = getMessageIdForLogging(message.attributes);
 
-  // If conversation is a Note To Self, no deletion time limits apply.
-  if (!isMe(conversationAttributes)) {
-    const timestamp = Date.now();
-    const maxDuration = deleteForEveryoneDuration || DAY;
-    if (timestamp - targetTimestamp > maxDuration) {
-      throw new Error(
-        `Cannot send DOE for a message older than ${maxDuration}`
-      );
-    }
+  const ourAci = itemStorage.user.getCheckedAci();
+  const { sourceServiceId } = message.attributes;
+  const messageAuthorAci = isOutgoing(message.attributes)
+    ? ourAci
+    : sourceServiceId;
+
+  strictAssert(
+    isAciString(messageAuthorAci),
+    'sendDeleteForEveryoneMessage: Needs message author ACI'
+  );
+
+  const result = canSendDeleteForEveryone({
+    targetMessage: message.attributes,
+    targetConversation: conversationAttributes,
+    ourAci,
+    isDeleterGroupAdmin: areWeAdmin(conversationAttributes),
+  });
+
+  if (!result.ok) {
+    throw new Error(`Cannot send DOE: ${result.reason}`);
   }
+
+  const { needsAdminDelete: isAdminDelete } = result;
 
   message.set({
     deletedForEveryoneSendStatus: zipObject(
@@ -66,17 +78,17 @@ export async function sendDeleteForEveryoneMessage(
 
   log.info(
     `enqueuing DeleteForEveryone: ${idForLogging} ` +
-      `in conversation ${conversationIdForLogging}`
+      `in conversation ${conversationIdForLogging} (isAdminDelete=${isAdminDelete})`
   );
 
   try {
     const jobData: ConversationQueueJobData = {
       type: conversationQueueJobEnum.enum.DeleteForEveryone,
       conversationId: conversationAttributes.id,
-      messageId,
+      isAdminDelete,
+      targetMessageId: messageId,
       recipients: getRecipients(conversationAttributes),
       revision: conversationAttributes.revision,
-      targetTimestamp,
     };
     await conversationJobQueue.add(jobData, async jobToInsert => {
       log.info(
@@ -95,9 +107,12 @@ export async function sendDeleteForEveryoneMessage(
     throw error;
   }
 
-  await deleteForEveryone(message, {
+  await applyDeleteForEveryone(message, {
+    isAdminDelete,
     targetSentTimestamp: targetTimestamp,
-    serverTimestamp: Date.now(),
-    fromId: window.ConversationController.getOurConversationIdOrThrow(),
+    deleteServerTimestamp: Date.now(),
+    deleteSentByAci: ourAci,
+    targetConversationId:
+      window.ConversationController.getOurConversationIdOrThrow(),
   });
 }

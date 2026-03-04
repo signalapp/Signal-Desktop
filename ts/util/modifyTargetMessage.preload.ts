@@ -23,7 +23,7 @@ import {
   sendStateReducer,
 } from '../messages/MessageSendState.std.js';
 import { canConversationBeUnarchived } from './canConversationBeUnarchived.preload.js';
-import { deleteForEveryone } from './deleteForEveryone.preload.js';
+import { receiveDeleteForEveryone } from './deleteForEveryone.preload.js';
 import { drop } from './drop.std.js';
 import { handleEditMessage } from './handleEditMessage.preload.js';
 import { isGroup } from './whatTypeOfConversation.dom.js';
@@ -349,7 +349,9 @@ export async function modifyTargetMessage(
   const deletes = Deletes.forMessage(message.attributes);
   await Promise.all(
     deletes.map(async del => {
-      await deleteForEveryone(message, del, { shouldPersist: !isFirstRun });
+      await receiveDeleteForEveryone(message, del, {
+        shouldPersist: !isFirstRun,
+      });
       changed = true;
     })
   );

@@ -260,6 +260,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   contactLabel: overrideProps.contactLabel,
   // disableMenu: overrideProps.disableMenu,
   deletedForEveryone: overrideProps.deletedForEveryone,
+  deletedForEveryoneByAdmin: overrideProps.deletedForEveryoneByAdmin,
   disableScroll: overrideProps.disableScroll,
   direction: overrideProps.direction || 'incoming',
   showLightboxForViewOnceMedia: action('showLightboxForViewOnceMedia'),
@@ -943,6 +944,22 @@ export function Deleted(): React.JSX.Element {
   );
 }
 
+export function DeletedByAdmin(): React.JSX.Element {
+  const props = createProps({
+    conversationType: 'group',
+    deletedForEveryone: true,
+    deletedForEveryoneByAdmin: {
+      conversationId: 'admin-conversation-id',
+      title: 'Alice Smith',
+      contactNameColor: '200',
+    },
+    canForward: false,
+    status: 'sent',
+  });
+
+  return renderBothDirections(props);
+}
+
 export const DeletedWithExpireTimer = Template.bind({});
 DeletedWithExpireTimer.args = {
   timestamp: Date.now() - 60 * 1000,
@@ -955,10 +972,58 @@ DeletedWithExpireTimer.args = {
   status: 'sent',
 };
 
+export function DeletedPending(): React.JSX.Element {
+  const props = createProps({
+    timestamp: Date.now() - 60 * 1000,
+    conversationType: 'group',
+    contactNameColor: '100',
+    deletedForEveryone: true,
+    status: 'sending',
+    direction: 'outgoing',
+  });
+
+  return <>{renderThree(props)}</>;
+}
+
+export function AdminDeletedPending(): React.JSX.Element {
+  const props = createProps({
+    timestamp: Date.now() - 60 * 1000,
+    conversationType: 'group',
+    contactNameColor: '100',
+    deletedForEveryone: true,
+    deletedForEveryoneByAdmin: {
+      conversationId: 'admin-conversation-id',
+      title: 'Alice Smith',
+      contactNameColor: '200',
+    },
+    status: 'sending',
+    direction: 'outgoing',
+  });
+  const propsIncoming = createProps({
+    timestamp: Date.now() - 60 * 1000,
+    conversationType: 'group',
+    contactNameColor: '100',
+    deletedForEveryone: true,
+    deletedForEveryoneByAdmin: {
+      conversationId: 'admin-conversation-id',
+      title: 'Alice Smith',
+      contactNameColor: '200',
+    },
+    status: 'sending',
+    direction: 'incoming',
+  });
+
+  return (
+    <>
+      {renderThree(props)}
+      {renderThree(propsIncoming)}
+    </>
+  );
+}
+
 export function DeletedWithError(): React.JSX.Element {
   const propsPartialError = createProps({
     timestamp: Date.now() - 60 * 1000,
-    // canDeleteForEveryone: true,
     conversationType: 'group',
     contactNameColor: '100',
     deletedForEveryone: true,
@@ -967,7 +1032,6 @@ export function DeletedWithError(): React.JSX.Element {
   });
   const propsError = createProps({
     timestamp: Date.now() - 60 * 1000,
-    // canDeleteForEveryone: true,
     conversationType: 'group',
     contactNameColor: '100',
     deletedForEveryone: true,
@@ -979,6 +1043,148 @@ export function DeletedWithError(): React.JSX.Element {
     <>
       {renderThree(propsPartialError)}
       {renderThree(propsError)}
+    </>
+  );
+}
+
+export function DeletedWithErrorCanRetry(): React.JSX.Element {
+  const propsPartialError = createProps({
+    timestamp: Date.now() - 60 * 1000,
+    conversationType: 'group',
+    contactNameColor: '100',
+    deletedForEveryone: true,
+    canRetryDeleteForEveryone: true,
+    status: 'partial-sent',
+    direction: 'outgoing',
+  });
+  const propsError = createProps({
+    timestamp: Date.now() - 60 * 1000,
+    conversationType: 'group',
+    contactNameColor: '100',
+    deletedForEveryone: true,
+    canRetryDeleteForEveryone: true,
+    status: 'error',
+    direction: 'outgoing',
+  });
+
+  return (
+    <>
+      {renderThree(propsPartialError)}
+      {renderThree(propsError)}
+    </>
+  );
+}
+
+export function AdminDeletedWithError(): React.JSX.Element {
+  const adminProps = {
+    deletedForEveryoneByAdmin: {
+      conversationId: 'admin-conversation-id',
+      title: 'Alice Smith',
+      contactNameColor: '200' as const,
+    },
+  };
+  const propsOutgoingPartialError = createProps({
+    timestamp: Date.now() - 60 * 1000,
+    conversationType: 'group',
+    contactNameColor: '100',
+    deletedForEveryone: true,
+    ...adminProps,
+    status: 'partial-sent',
+    direction: 'outgoing',
+  });
+  const propsOutgoingError = createProps({
+    timestamp: Date.now() - 60 * 1000,
+    conversationType: 'group',
+    contactNameColor: '100',
+    deletedForEveryone: true,
+    ...adminProps,
+    status: 'error',
+    direction: 'outgoing',
+  });
+  const propsIncomingPartialError = createProps({
+    timestamp: Date.now() - 60 * 1000,
+    conversationType: 'group',
+    contactNameColor: '100',
+    deletedForEveryone: true,
+    ...adminProps,
+    status: 'partial-sent',
+    direction: 'incoming',
+  });
+  const propsIncomingError = createProps({
+    timestamp: Date.now() - 60 * 1000,
+    conversationType: 'group',
+    contactNameColor: '100',
+    deletedForEveryone: true,
+    ...adminProps,
+    status: 'error',
+    direction: 'incoming',
+  });
+
+  return (
+    <>
+      {renderThree(propsOutgoingPartialError)}
+      {renderThree(propsOutgoingError)}
+      {renderThree(propsIncomingPartialError)}
+      {renderThree(propsIncomingError)}
+    </>
+  );
+}
+
+export function AdminDeletedWithErrorCanRetry(): React.JSX.Element {
+  const adminProps = {
+    deletedForEveryoneByAdmin: {
+      conversationId: 'admin-conversation-id',
+      title: 'Alice Smith',
+      contactNameColor: '200' as const,
+    },
+  };
+  const propsOutgoingPartialError = createProps({
+    timestamp: Date.now() - 60 * 1000,
+    conversationType: 'group',
+    contactNameColor: '100',
+    deletedForEveryone: true,
+    canRetryDeleteForEveryone: true,
+    ...adminProps,
+    status: 'partial-sent',
+    direction: 'outgoing',
+  });
+  const propsOutgoingError = createProps({
+    timestamp: Date.now() - 60 * 1000,
+    conversationType: 'group',
+    contactNameColor: '100',
+    deletedForEveryone: true,
+    canRetryDeleteForEveryone: true,
+    ...adminProps,
+    status: 'error',
+    direction: 'outgoing',
+  });
+  const propsIncomingPartialError = createProps({
+    timestamp: Date.now() - 60 * 1000,
+    conversationType: 'group',
+    contactNameColor: '100',
+    deletedForEveryone: true,
+    canRetryDeleteForEveryone: true,
+    ...adminProps,
+    status: 'partial-sent',
+    direction: 'incoming',
+  });
+  const propsIncomingError = createProps({
+    timestamp: Date.now() - 60 * 1000,
+    conversationType: 'group',
+    contactNameColor: '100',
+    deletedForEveryone: true,
+    canRetryDeleteForEveryone: true,
+    ...adminProps,
+    status: 'error',
+    direction: 'incoming',
+  });
+
+  return (
+    <>
+      {renderThree(propsOutgoingPartialError)}
+      {renderThree(propsOutgoingError)}
+      {renderThree(propsIncomingPartialError)}
+      {renderThree(propsIncomingError)}
     </>
   );
 }

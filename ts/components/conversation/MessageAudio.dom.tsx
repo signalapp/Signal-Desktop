@@ -377,6 +377,7 @@ export function MessageAudio(props: Props): React.JSX.Element {
 
       {!withContentBelow && !collapseMetadata && (
         <MessageMetadata
+          canRetryDeleteForEveryone={false}
           direction={direction}
           expirationLength={expirationLength}
           expirationTimestamp={expirationTimestamp}
@@ -387,6 +388,7 @@ export function MessageAudio(props: Props): React.JSX.Element {
           isShowingImage={false}
           isSticker={false}
           pushPanelForConversation={pushPanelForConversation}
+          retryDeleteForEveryone={shouldNeverBeCalled}
           retryMessageSend={shouldNeverBeCalled}
           status={status}
           textPending={textPending}

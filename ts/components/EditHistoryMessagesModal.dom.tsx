@@ -42,6 +42,8 @@ export type PropsType = {
 
 const MESSAGE_DEFAULT_PROPS = {
   canDeleteForEveryone: false,
+  canRetryDeleteForEveryone: false,
+  retryDeleteForEveryone: shouldNeverBeCalled,
   checkForAccount: shouldNeverBeCalled,
   clearSelectedMessage: shouldNeverBeCalled,
   clearTargetedMessage: shouldNeverBeCalled,

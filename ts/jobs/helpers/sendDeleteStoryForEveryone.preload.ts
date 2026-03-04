@@ -30,6 +30,7 @@ import { SendMessageProtoError } from '../../textsecure/Errors.std.js';
 import { strictAssert } from '../../util/assert.std.js';
 import type { LoggerType } from '../../types/Logging.std.js';
 import { isStory } from '../../messages/helpers.std.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { shouldSendToDirectConversation } from './shouldSendToConversation.preload.js';
 
 export async function sendDeleteStoryForEveryone(
@@ -146,11 +147,17 @@ export async function sendDeleteStoryForEveryone(
             const serviceId = conversation.getSendTarget();
             strictAssert(serviceId, 'conversation has no service id');
 
+            const ourAci = itemStorage.user.getCheckedAci();
+
             await handleMessageSend(
               messaging.sendMessageToServiceId({
                 serviceId,
                 messageOptions: {
-                  deletedForEveryoneTimestamp: targetTimestamp,
+                  deleteForEveryone: {
+                    isAdminDelete: false,
+                    targetSentTimestamp: targetTimestamp,
+                    targetAuthorAci: ourAci,
+                  },
                   timestamp,
                   profileKey: conversation.get('profileSharing')
                     ? profileKey

@@ -36,6 +36,10 @@ const SemverKeys = [
   'desktop.donationPaypal.prod',
   'desktop.groupMemberLabels.edit.beta',
   'desktop.groupMemberLabels.edit.prod',
+  'desktop.adminDelete.receive.beta',
+  'desktop.adminDelete.receive.prod',
+  'desktop.adminDelete.send.beta',
+  'desktop.adminDelete.send.prod',
   'desktop.pinnedMessages.receive.beta',
   'desktop.pinnedMessages.receive.prod',
   'desktop.pinnedMessages.send.beta',
@@ -81,6 +85,8 @@ const ScalarKeys = [
   'global.nicknames.min',
   'global.pinned_message_limit',
   'global.textAttachmentLimitBytes',
+  'global.normalDeleteMaxAgeInSeconds',
+  'global.adminDeleteMaxAgeInSeconds',
 ] as const;
 
 // These keys should always match those in Net.REMOTE_CONFIG_KEYS, prefixed by

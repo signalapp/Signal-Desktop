@@ -223,7 +223,6 @@ export async function sendNormalMessage(
       attachments,
       body,
       contact,
-      deletedForEveryoneTimestamp,
       expireTimer,
       isViewOnce,
       bodyRanges,
@@ -302,7 +301,6 @@ export async function sendNormalMessage(
         body,
         bodyRanges,
         contact,
-        deletedForEveryoneTimestamp,
         expireTimer,
         expireTimerVersion: conversation.getExpireTimerVersion(),
         groupV2: conversation.getGroupV2Info({
@@ -356,7 +354,6 @@ export async function sendNormalMessage(
                 attachments,
                 bodyRanges,
                 contact,
-                deletedForEveryoneTimestamp,
                 expireTimer,
                 groupV2: groupV2Info,
                 isViewOnce,
@@ -401,7 +398,6 @@ export async function sendNormalMessage(
             body,
             bodyRanges,
             contact,
-            deletedForEveryoneTimestamp,
             expireTimer,
             expireTimerVersion: conversation.getExpireTimerVersion(),
             isViewOnce,
@@ -599,7 +595,6 @@ async function getMessageSendData({
   attachments: Array<SignalService.IAttachmentPointer>;
   body: undefined | string;
   contact?: Array<EmbeddedContactWithUploadedAvatar>;
-  deletedForEveryoneTimestamp: undefined | number;
   expireTimer: undefined | DurationInSeconds;
   bodyRanges: undefined | ReadonlyArray<RawBodyRange>;
   isViewOnce?: boolean;
@@ -721,7 +716,6 @@ async function getMessageSendData({
     ],
     body,
     contact,
-    deletedForEveryoneTimestamp: message.get('deletedForEveryoneTimestamp'),
     expireTimer: message.get('expireTimer'),
     isViewOnce: message.get('isViewOnce'),
     bodyRanges: getPropForTimestamp({

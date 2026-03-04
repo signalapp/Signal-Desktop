@@ -37,6 +37,7 @@ import { ImageGrid } from './ImageGrid.dom.js';
 import { GIF } from './GIF.dom.js';
 import { CurveType, Image } from './Image.dom.js';
 import { ContactName } from './ContactName.dom.js';
+import { I18n } from '../I18n.dom.js';
 import type { QuotedAttachmentForUIType } from './Quote.dom.js';
 import { Quote } from './Quote.dom.js';
 import { EmbeddedContact } from './EmbeddedContact.dom.js';
@@ -125,6 +126,7 @@ import {
 } from '../fun/data/emojis.std.js';
 import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.dom.js';
 import type { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.js';
+import { AxoSymbol } from '../../axo/AxoSymbol.dom.js';
 import type { RenderAudioAttachmentProps } from '../../state/smart/renderAudioAttachment.preload.js';
 import type { MemberLabelType } from '../../types/GroupMemberLabels.std.js';
 import type { ContactModalStateType } from '../../types/globalModals.std.js';
@@ -339,9 +341,15 @@ export type PropsData = {
   reactions?: ReactionViewerProps['reactions'];
 
   deletedForEveryone?: boolean;
+  deletedForEveryoneByAdmin?: {
+    conversationId: string;
+    title: string;
+    contactNameColor: ContactNameColorType;
+  };
   attachmentDroppedDueToSize?: boolean;
 
   canDeleteForEveryone: boolean;
+  canRetryDeleteForEveryone: boolean;
   isBlocked: boolean;
   isMessageRequestAccepted: boolean;
   bodyRanges?: HydratedBodyRangesType;
@@ -386,6 +394,7 @@ export type PropsActions = {
   showConversation: ShowConversationType;
   openGiftBadge: (messageId: string) => void;
   pushPanelForConversation: PushPanelForConversationActionType;
+  retryDeleteForEveryone: (messageId: string) => unknown;
   retryMessageSend: (messageId: string) => unknown;
   sendPollVote: (params: {
     messageId: string;
@@ -1086,6 +1095,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     const {
       attachmentDroppedDueToSize,
+      canRetryDeleteForEveryone,
       deletedForEveryone,
       direction,
       expirationLength,
@@ -1096,6 +1106,7 @@ export class Message extends React.PureComponent<Props, State> {
       isPinned,
       isSMS,
       isSticker,
+      retryDeleteForEveryone,
       retryMessageSend,
       pushPanelForConversation,
       showEditHistoryModal,
@@ -1109,6 +1120,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     return (
       <MessageMetadata
+        canRetryDeleteForEveryone={canRetryDeleteForEveryone}
         deletedForEveryone={deletedForEveryone}
         direction={direction}
         expirationLength={expirationLength}
@@ -1128,6 +1140,7 @@ export class Message extends React.PureComponent<Props, State> {
         onWidthMeasured={isInline ? this.#updateMetadataWidth : undefined}
         pushPanelForConversation={pushPanelForConversation}
         ref={this.#metadataRef}
+        retryDeleteForEveryone={retryDeleteForEveryone}
         retryMessageSend={retryMessageSend}
         showEditHistoryModal={showEditHistoryModal}
         status={status}
@@ -1170,6 +1183,7 @@ export class Message extends React.PureComponent<Props, State> {
       _forceTapToPlay,
       attachmentDroppedDueToSize,
       attachments,
+      canRetryDeleteForEveryone,
       cancelAttachmentDownload,
       direction,
       expirationLength,
@@ -1185,6 +1199,7 @@ export class Message extends React.PureComponent<Props, State> {
       quote,
       renderAudioAttachment,
       renderingContext,
+      retryDeleteForEveryone,
       retryMessageSend,
       shouldHideMetadata,
       shouldCollapseAbove,
@@ -1436,6 +1451,7 @@ export class Message extends React.PureComponent<Props, State> {
             {text || !willShowMetadata ? undefined : (
               <div className="module-message__simple-attachment__metadata-container">
                 <MessageMetadata
+                  canRetryDeleteForEveryone={canRetryDeleteForEveryone}
                   deletedForEveryone={false}
                   direction={direction}
                   expirationLength={expirationLength}
@@ -1453,6 +1469,7 @@ export class Message extends React.PureComponent<Props, State> {
                   onWidthMeasured={undefined}
                   pushPanelForConversation={pushPanelForConversation}
                   ref={this.#metadataRef}
+                  retryDeleteForEveryone={retryDeleteForEveryone}
                   retryMessageSend={retryMessageSend}
                   showEditHistoryModal={showEditHistoryModal}
                   status={status}
@@ -2344,21 +2361,80 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  #getContents(): string | undefined {
-    const { deletedForEveryone, direction, i18n, status, text } = this.props;
+  #getMessageStatusContents(): React.JSX.Element | string | null {
+    const {
+      author,
+      conversationId,
+      deletedForEveryone,
+      deletedForEveryoneByAdmin,
+      direction,
+      i18n,
+      showContactModal,
+      status,
+    } = this.props;
 
     if (deletedForEveryone) {
-      return i18n('icu:message--deletedForEveryone');
+      let text: React.JSX.Element | string;
+      if (deletedForEveryoneByAdmin != null) {
+        text = (
+          <I18n
+            id="icu:message--deletedByAdmin"
+            i18n={i18n}
+            components={{
+              admin: (
+                <strong>
+                  <ContactName
+                    title={deletedForEveryoneByAdmin.title}
+                    contactNameColor={
+                      deletedForEveryoneByAdmin.contactNameColor
+                    }
+                    onClick={() => {
+                      showContactModal({
+                        conversationId,
+                        contactId: deletedForEveryoneByAdmin.conversationId,
+                      });
+                    }}
+                  />
+                </strong>
+              ),
+            }}
+          />
+        );
+      } else if (direction === 'outgoing') {
+        text = i18n('icu:message--deletedForEveryone--outgoing');
+      } else {
+        text = (
+          <I18n
+            id="icu:message--deletedForEveryone--incoming"
+            i18n={i18n}
+            components={{
+              name: (
+                <ContactName
+                  preferFirstName
+                  title={author.title}
+                  firstName={author.firstName}
+                />
+              ),
+            }}
+          />
+        );
+      }
+      return (
+        <>
+          <AxoSymbol.InlineGlyph symbol="x-circle" label={null} /> {text}
+        </>
+      );
     }
     if (direction === 'incoming' && status === 'error') {
       return i18n('icu:incomingError');
     }
 
-    return text;
+    return null;
   }
 
   public renderText(): React.JSX.Element | null {
     const {
+      text,
       bodyRanges,
       deletedForEveryone,
       direction,
@@ -2377,9 +2453,8 @@ export class Message extends React.PureComponent<Props, State> {
     } = this.props;
     const { metadataWidth } = this.state;
 
-    const contents = this.#getContents();
-
-    if (!contents) {
+    const messageStatusContents = this.#getMessageStatusContents();
+    if (messageStatusContents == null && text == null) {
       return null;
     }
 
@@ -2394,7 +2469,7 @@ export class Message extends React.PureComponent<Props, State> {
         className={classNames(
           'module-message__text',
           `module-message__text--${direction}`,
-          status === 'error' && direction === 'incoming'
+          status === 'error' && direction === 'incoming' && !deletedForEveryone
             ? 'module-message__text--error'
             : null,
           deletedForEveryone
@@ -2419,32 +2494,35 @@ export class Message extends React.PureComponent<Props, State> {
           event.stopPropagation();
         }}
       >
-        <MessageBodyReadMore
-          bodyRanges={bodyRanges}
-          direction={direction}
-          disableLinks={!this.#areLinksEnabled()}
-          displayLimit={displayLimit}
-          i18n={i18n}
-          id={id}
-          isSpoilerExpanded={isSpoilerExpanded || {}}
-          kickOffBodyDownload={() => {
-            if (!textAttachment) {
-              return;
-            }
-            if (isDownloaded(textAttachment)) {
-              return;
-            }
-            kickOffAttachmentDownload({
-              messageId: id,
-            });
-          }}
-          messageExpanded={messageExpanded}
-          showConversation={showConversation}
-          renderLocation={RenderLocation.Timeline}
-          onExpandSpoiler={data => showSpoiler(id, data)}
-          text={contents || ''}
-          textAttachment={textAttachment}
-        />
+        {messageStatusContents != null && messageStatusContents}
+        {messageStatusContents == null && text != null && (
+          <MessageBodyReadMore
+            bodyRanges={bodyRanges}
+            direction={direction}
+            disableLinks={!this.#areLinksEnabled()}
+            displayLimit={displayLimit}
+            i18n={i18n}
+            id={id}
+            isSpoilerExpanded={isSpoilerExpanded || {}}
+            kickOffBodyDownload={() => {
+              if (!textAttachment) {
+                return;
+              }
+              if (isDownloaded(textAttachment)) {
+                return;
+              }
+              kickOffAttachmentDownload({
+                messageId: id,
+              });
+            }}
+            messageExpanded={messageExpanded}
+            showConversation={showConversation}
+            renderLocation={RenderLocation.Timeline}
+            onExpandSpoiler={data => showSpoiler(id, data)}
+            text={text}
+            textAttachment={textAttachment}
+          />
+        )}
         {this.#getMetadataPlacement() === MetadataPlacement.InlineWithText && (
           <MessageTextMetadataSpacer metadataWidth={metadataWidth} />
         )}
@@ -2711,6 +2789,7 @@ export class Message extends React.PureComponent<Props, State> {
     const {
       attachments,
       attachmentDroppedDueToSize,
+      canRetryDeleteForEveryone,
       conversationType,
       direction,
       expirationLength,
@@ -2722,6 +2801,7 @@ export class Message extends React.PureComponent<Props, State> {
       isTapToViewExpired,
       pushPanelForConversation,
       readStatus,
+      retryDeleteForEveryone,
       retryMessageSend,
       showEditHistoryModal,
       status,
@@ -2774,6 +2854,7 @@ export class Message extends React.PureComponent<Props, State> {
             {collapseMetadata ? undefined : (
               <div className="module-message__simple-attachment__metadata-container">
                 <MessageMetadata
+                  canRetryDeleteForEveryone={canRetryDeleteForEveryone}
                   deletedForEveryone={false}
                   direction={direction}
                   expirationLength={expirationLength}
@@ -2791,6 +2872,7 @@ export class Message extends React.PureComponent<Props, State> {
                   onWidthMeasured={undefined}
                   pushPanelForConversation={pushPanelForConversation}
                   ref={this.#metadataRef}
+                  retryDeleteForEveryone={retryDeleteForEveryone}
                   retryMessageSend={retryMessageSend}
                   showEditHistoryModal={showEditHistoryModal}
                   status={status}
@@ -2816,6 +2898,7 @@ export class Message extends React.PureComponent<Props, State> {
           {collapseMetadata ? undefined : (
             <div className="module-message__simple-attachment__metadata-container">
               <MessageMetadata
+                canRetryDeleteForEveryone={canRetryDeleteForEveryone}
                 deletedForEveryone={false}
                 direction={direction}
                 expirationLength={expirationLength}
@@ -2833,6 +2916,7 @@ export class Message extends React.PureComponent<Props, State> {
                 onWidthMeasured={undefined}
                 pushPanelForConversation={pushPanelForConversation}
                 ref={this.#metadataRef}
+                retryDeleteForEveryone={retryDeleteForEveryone}
                 retryMessageSend={retryMessageSend}
                 showEditHistoryModal={showEditHistoryModal}
                 status={status}

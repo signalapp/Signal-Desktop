@@ -59,7 +59,7 @@ export type Contact = Pick<
   isOutgoingKeyError: boolean;
   isUnidentifiedDelivery: boolean;
 
-  errors?: Array<Error>;
+  errors?: ReadonlyArray<Error>;
 };
 
 export type PropsData = {
@@ -69,7 +69,7 @@ export type PropsData = {
   contacts: ReadonlyArray<Contact>;
 
   contactNameColor?: ContactNameColorType;
-  errors: Array<Error>;
+  errors: ReadonlyArray<Error>;
   message: Omit<
     MessagePropsDataType,
     'renderingContext' | 'menu' | 'contextMenu' | 'showMenu'
@@ -111,6 +111,7 @@ export type PropsReduxActions = Pick<
   | 'showLightboxForViewOnceMedia'
   | 'showMediaNoLongerAvailableToast'
   | 'showSpoiler'
+  | 'retryDeleteForEveryone'
   | 'showTapToViewNotAvailableModal'
   | 'startConversation'
   | 'viewStory'
@@ -147,6 +148,7 @@ export function MessageDetail({
   openGiftBadge,
   platform,
   pushPanelForConversation,
+  retryDeleteForEveryone,
   retryMessageSend,
   sendPollVote,
   renderAudioAttachment,
@@ -350,6 +352,7 @@ export function MessageDetail({
             openGiftBadge={openGiftBadge}
             platform={platform}
             pushPanelForConversation={pushPanelForConversation}
+            retryDeleteForEveryone={retryDeleteForEveryone}
             retryMessageSend={retryMessageSend}
             sendPollVote={sendPollVote}
             renderAudioAttachment={renderAudioAttachment}

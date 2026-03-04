@@ -220,6 +220,7 @@ export namespace AxoButton {
     arrow?: boolean;
     experimentalSpinner?: { 'aria-label': string } | null;
     disabled?: GenericButtonProps['disabled'];
+    focusableWhenDisabled?: boolean;
     onClick?: GenericButtonProps['onClick'];
     children: ReactNode;
     // Note: Technically we forward all props for Radix, but we restrict the
@@ -235,6 +236,8 @@ export namespace AxoButton {
         symbol,
         arrow,
         experimentalSpinner,
+        disabled,
+        focusableWhenDisabled,
         children,
         ...rest
       } = props;
@@ -251,6 +254,8 @@ export namespace AxoButton {
       return (
         <button
           ref={ref}
+          disabled={(disabled && !focusableWhenDisabled) || undefined}
+          aria-disabled={(focusableWhenDisabled && disabled) || undefined}
           {...rest}
           type="button"
           className={tw(variantStyles, sizeStyles, widthStyles)}

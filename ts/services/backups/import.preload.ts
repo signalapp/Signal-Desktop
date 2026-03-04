@@ -913,6 +913,10 @@ export class BackupImportStream extends Writable {
       accountSettings?.hasSeenGroupStoryEducationSheet === true
     );
     await itemStorage.put(
+      'hasSeenAdminDeleteEducationDialog',
+      accountSettings?.hasSeenAdminDeleteEducationDialog === true
+    );
+    await itemStorage.put(
       'preferredReactionEmoji',
       accountSettings?.preferredReactionEmoji || []
     );
@@ -2556,6 +2560,32 @@ export class BackupImportStream extends Writable {
             },
           ],
           reactions: this.#fromReactions(chatItem.contactMessage.reactions),
+        },
+        additionalMessages: [],
+      };
+    }
+    if (chatItem.adminDeletedMessage) {
+      strictAssert(
+        chatItem.adminDeletedMessage.adminId != null,
+        'adminDeletedMessage: Missing adminId'
+      );
+      const adminConversation = this.#recipientIdToConvo.get(
+        chatItem.adminDeletedMessage.adminId.toNumber()
+      );
+      strictAssert(
+        adminConversation != null,
+        'adminDeletedMessage: Missing admin conversation'
+      );
+      strictAssert(
+        isAciString(adminConversation.serviceId),
+        'adminConversation: Missing serviceId'
+      );
+
+      return {
+        message: {
+          isErased: true,
+          deletedForEveryone: true,
+          deletedForEveryoneByAdminAci: adminConversation.serviceId,
         },
         additionalMessages: [],
       };

@@ -22,6 +22,7 @@ const defaultMessage: MessageDataPropsType = {
     title: 'Max',
   }),
   canDeleteForEveryone: true,
+  canRetryDeleteForEveryone: false,
   conversationColor: 'crimson',
   conversationId: 'my-convo',
   conversationTitle: 'Conversation Title',

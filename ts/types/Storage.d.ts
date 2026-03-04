@@ -119,6 +119,7 @@ export type StorageAccessType = {
   showStickerPickerHint: boolean;
   showStickersIntroduction: boolean;
   seenPinMessageDisappearingMessagesWarningCount: number;
+  hasSeenAdminDeleteEducationDialog: boolean;
   signedKeyId: number;
   signedKeyIdPNI: number;
   signedKeyUpdateTime: number;

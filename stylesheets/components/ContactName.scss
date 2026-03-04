@@ -7,7 +7,7 @@
 @use '../variables';
 @use '../mixins';
 
-button.module-contact-name {
+:where(button).module-contact-name {
   @include mixins.button-reset;
 
   &:hover,

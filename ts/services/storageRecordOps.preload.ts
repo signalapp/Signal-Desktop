@@ -589,6 +589,14 @@ export function toAccountRecord(
       hasSeenGroupStoryEducationSheet;
   }
 
+  const hasSeenAdminDeleteEducationDialog = itemStorage.get(
+    'hasSeenAdminDeleteEducationDialog'
+  );
+  if (hasSeenAdminDeleteEducationDialog != null) {
+    accountRecord.hasSeenAdminDeleteEducationDialog =
+      hasSeenAdminDeleteEducationDialog;
+  }
+
   const hasKeyTransparencyDisabled = itemStorage.get(
     'hasKeyTransparencyDisabled'
   );
@@ -1645,6 +1653,7 @@ export async function mergeAccountRecord(
     keepMutedChatsArchived,
     hasCompletedUsernameOnboarding,
     hasSeenGroupStoryEducationSheet,
+    hasSeenAdminDeleteEducationDialog,
     hasSetMyStoriesPrivacy,
     hasViewedOnboardingStory,
     storiesDisabled,
@@ -1924,6 +1933,10 @@ export async function mergeAccountRecord(
       hasCompletedUsernameOnboardingBool
     );
   }
+  await itemStorage.put(
+    'hasSeenAdminDeleteEducationDialog',
+    hasSeenAdminDeleteEducationDialog ?? false
+  );
   {
     const hasKeyTransparencyDisabled = Boolean(
       automaticKeyVerificationDisabled
