@@ -1396,15 +1396,19 @@ export class BackupsService {
   }
 
   async pickLocalBackupFolder(): Promise<string | undefined> {
-    const { canceled, dirPath: snapshotDir } = await ipcRenderer.invoke(
+    const { canceled, dirPath: backupsParentDir } = await ipcRenderer.invoke(
       'show-open-folder-dialog'
     );
-    if (canceled || !snapshotDir) {
+    if (canceled || !backupsParentDir) {
       return;
     }
 
-    drop(itemStorage.put('localBackupFolder', snapshotDir));
-    return snapshotDir;
+    const localBackupsBaseDir = join(backupsParentDir, 'SignalBackups');
+
+    await mkdir(localBackupsBaseDir, { recursive: true });
+
+    await itemStorage.put('localBackupFolder', localBackupsBaseDir);
+    return localBackupsBaseDir;
   }
 }
 
