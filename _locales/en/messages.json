@@ -6318,7 +6318,7 @@
   },
   "icu:ConversationDetails--member-label--error-permissions": {
     "messageformat": "Only admins can set member labels in this group.",
-    "description": "(Deleted 2026/03/04) If Desktop discovers that permissions have changed since entering the screen, it will show this in an error dialog and exit the pane."
+    "description": "If Desktop discovers that permissions have changed since entering the screen, it will show this in an error dialog and exit the pane."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Disappearing messages",
@@ -6386,15 +6386,15 @@
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Member labels will be cleared",
-    "description": "(Deleted 2026/03/04) When the user changes the 'edit group info' permission to 'Admins only', this dialog shows. Title of dialog."
+    "description": "When the user changes the 'edit group info' permission to 'Admins only', this dialog shows. Title of dialog."
   },
   "icu:ConversationDetails--label-clear-warning--description": {
     "messageformat": "Changing this permission to “Only admins” will clear member labels set by non-admins in this group.",
-    "description": "(Deleted 2026/03/04) When the user changes the 'edit group info' permission to 'Admins only', this dialog shows. Description text of dialog."
+    "description": "When the user changes the 'edit group info' permission to 'Admins only', this dialog shows. Description text of dialog."
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
     "messageformat": "Continue",
-    "description": "(Deleted 2026/03/04) When the user changes the 'edit group info' permission to 'Admins only', this dialog shows. Button to continue making the change."
+    "description": "When the user changes the 'edit group info' permission to 'Admins only', this dialog shows. Button to continue making the change."
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Requests & Invites",
