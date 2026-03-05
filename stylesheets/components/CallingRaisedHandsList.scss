@@ -89,6 +89,7 @@
   $icon-size: 16px;
   width: $icon-size;
   height: $icon-size;
+  margin-inline: 8px;
   content: '';
 
   @include mixins.color-svg(
