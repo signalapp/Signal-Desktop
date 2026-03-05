@@ -131,6 +131,7 @@ export type PropsDataType = {
   defaultConversationColor: DefaultConversationColorType;
   deviceName?: string;
   emojiSkinToneDefault: EmojiSkinTone;
+  hasAutoPlayGifs: boolean;
   hasAnyCurrentCustomChatFolders: boolean;
   hasAudioNotifications?: boolean;
   hasAutoConvertEmoji: boolean;
@@ -299,6 +300,7 @@ type PropsFunctionType = {
   ) => unknown;
   onAutoDownloadUpdateChange: CheckboxChangeHandlerType;
   onAutoLaunchChange: CheckboxChangeHandlerType;
+  onAutoPlayGifsChange: CheckboxChangeHandlerType;
   onBackupKeyViewedChange: (keyViewed: boolean) => void;
   onCallNotificationsChange: CheckboxChangeHandlerType;
   onCallRingtoneNotificationChange: CheckboxChangeHandlerType;
@@ -412,6 +414,7 @@ export function Preferences({
   hasAutoConvertEmoji,
   hasAutoDownloadUpdate,
   hasAutoLaunch,
+  hasAutoPlayGifs,
   hasCallNotifications,
   hasCallRingtoneNotification,
   hasContentProtection,
@@ -462,6 +465,7 @@ export function Preferences({
   onAutoDownloadAttachmentChange,
   onAutoDownloadUpdateChange,
   onAutoLaunchChange,
+  onAutoPlayGifsChange,
   onBackupKeyViewedChange,
   onCallNotificationsChange,
   onCallRingtoneNotificationChange,
@@ -1100,6 +1104,14 @@ export function Preferences({
               value={zoomFactor}
             />
           }
+        />
+        <Checkbox
+          label={i18n('icu:Preferences--autoplaygifs')}
+          disabled={false}
+          checked={hasAutoPlayGifs}
+          moduleClassName="Preferences__checkbox"
+          name="autoPlayGifs"
+          onChange={onAutoPlayGifsChange}
         />
       </SettingsRow>
     );

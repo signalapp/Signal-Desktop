@@ -8,6 +8,7 @@ import type { ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { Manager, Popper, Reference } from 'react-popper';
 import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow.js';
+import { useSelector } from 'react-redux';
 import { isDownloaded } from '../../util/Attachment.std.js';
 import type { LocalizerType } from '../../types/I18N.std.js';
 import { handleOutsideClick } from '../../util/handleOutsideClick.dom.js';
@@ -37,6 +38,7 @@ import { isNotNil } from '../../util/isNotNil.std.js';
 import type { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.js';
 import { AxoContextMenu } from '../../axo/AxoContextMenu.dom.js';
 import { useDocumentKeyDown } from '../../hooks/useDocumentKeyDown.dom.js';
+import { getGifAutoplay } from '../../state/selectors/gifs.std.js';
 
 const { useAxoContextMenuOutsideKeyboardTrigger } = AxoContextMenu;
 
@@ -317,6 +319,8 @@ export function TimelineMessage(props: Props): React.JSX.Element {
       .filter(isNotNil);
   }, [groupedReactions]);
 
+  const gifAutoplay = useSelector(getGifAutoplay);
+
   const renderMessageContextMenu = useCallback(
     (
       renderer: AxoMenuBuilder.Renderer,
@@ -474,6 +478,7 @@ export function TimelineMessage(props: Props): React.JSX.Element {
   return (
     <Message
       {...props}
+      forceTapToPlay={!gifAutoplay}
       renderingContext="conversation/TimelineItem"
       renderMenu={renderMenu}
       renderMessageContextMenu={renderMessageContextMenu}
