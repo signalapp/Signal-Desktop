@@ -223,6 +223,7 @@ export function getConversation(model: ConversationModel): ConversationType {
     accessControlAddFromInviteLink: attributes.accessControl?.addFromInviteLink,
     accessControlAttributes: attributes.accessControl?.attributes,
     accessControlMembers: attributes.accessControl?.members,
+    accessControlMemberLabel: attributes.accessControl?.memberLabel,
     announcementsOnly: Boolean(attributes.announcementsOnly),
     announcementsOnlyReady: canBeAnnouncementGroup(attributes),
     expireTimer: attributes.expireTimer,

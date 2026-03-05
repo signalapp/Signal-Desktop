@@ -861,12 +861,6 @@ export function buildAccessControlAttributesChange(
     new Proto.GroupChange.Actions.ModifyAttributesAccessControlAction();
   accessControlAction.attributesAccess = newValue;
 
-  if (!group.secretParams) {
-    throw new Error(
-      'buildAccessControlAttributesChange: group was missing secretParams!'
-    );
-  }
-
   const actions = new Proto.GroupChange.Actions();
   actions.version = (group.revision || 0) + 1;
   actions.modifyAttributesAccess = accessControlAction;
@@ -885,6 +879,64 @@ export function buildAccessControlMembersChange(
   const actions = new Proto.GroupChange.Actions();
   actions.version = (group.revision || 0) + 1;
   actions.modifyMemberAccess = accessControlAction;
+
+  return actions;
+}
+
+export function buildAccessControlMemberLabelChange(
+  group: ConversationAttributesType,
+  value: AccessRequiredEnum
+): Proto.GroupChange.Actions {
+  const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
+  const ROLE_ENUM = Proto.Member.Role;
+
+  if (!group.secretParams) {
+    throw new Error(
+      'buildAccessControlMemberLabelChange: group was missing secretParams!'
+    );
+  }
+
+  const accessControlAction =
+    new Proto.GroupChange.Actions.ModifyMemberLabelAccessControlAction();
+  accessControlAction.memberLabelAccess = value;
+
+  const actions = new Proto.GroupChange.Actions();
+  actions.version = (group.revision || 0) + 1;
+  actions.modifyMemberLabelAccess = accessControlAction;
+
+  // Clear out all non-admin labels
+  const previousValue = group.accessControl?.memberLabel;
+  if (
+    previousValue !== ACCESS_ENUM.ADMINISTRATOR &&
+    value === ACCESS_ENUM.ADMINISTRATOR
+  ) {
+    const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
+
+    const modifyLabelActions = (group.membersV2 || [])
+      .map(member => {
+        if (member.role === ROLE_ENUM.ADMINISTRATOR) {
+          return undefined;
+        }
+
+        if (!member.labelString && !member.labelEmoji) {
+          return undefined;
+        }
+
+        const modifyLabel =
+          new Proto.GroupChange.Actions.ModifyMemberLabelAction();
+        modifyLabel.userId = encryptServiceId(clientZkGroupCipher, member.aci);
+
+        return modifyLabel;
+      })
+      .filter(isNotNil);
+
+    if (modifyLabelActions.length) {
+      log.info(
+        `buildAccessControlMemberLabelChange: Found ${modifyLabelActions.length} non-admins with labels. Clearing.`
+      );
+      actions.modifyMemberLabels = modifyLabelActions;
+    }
+  }
 
   return actions;
 }
@@ -1233,6 +1285,25 @@ export function buildModifyMemberRoleChange({
 
   actions.version = (group.revision || 0) + 1;
   actions.modifyMemberRoles = [toggleAdmin];
+
+  const membership = group.membersV2?.find(member => member.aci === serviceId);
+  const onlyAdminsCanAddMemberLabel =
+    group.accessControl?.memberLabel ===
+    Proto.AccessControl.AccessRequired.ADMINISTRATOR;
+  const wasPreviouslyAnAdmin =
+    membership?.role === Proto.Member.Role.ADMINISTRATOR;
+  const nowNotAnAdmin = role !== Proto.Member.Role.ADMINISTRATOR;
+
+  if (
+    membership?.labelString &&
+    onlyAdminsCanAddMemberLabel &&
+    wasPreviouslyAnAdmin &&
+    nowNotAnAdmin
+  ) {
+    const modifyLabel = new Proto.GroupChange.Actions.ModifyMemberLabelAction();
+    modifyLabel.userId = userIdCipherText;
+    actions.modifyMemberLabels = [modifyLabel];
+  }
 
   return actions;
 }
@@ -1836,6 +1907,7 @@ export async function createGroupV2(
       attributes: ACCESS_ENUM.MEMBER,
       members: ACCESS_ENUM.MEMBER,
       addFromInviteLink: ACCESS_ENUM.UNSATISFIABLE,
+      memberLabel: ACCESS_ENUM.MEMBER,
     },
     membersV2,
     pendingMembersV2,
@@ -2351,6 +2423,7 @@ export async function initiateMigrationToGroupV2(
           attributes: ACCESS_ENUM.MEMBER,
           members: ACCESS_ENUM.MEMBER,
           addFromInviteLink: ACCESS_ENUM.UNSATISFIABLE,
+          memberLabel: ACCESS_ENUM.MEMBER,
         },
         membersV2,
         pendingMembersV2,
@@ -4574,6 +4647,17 @@ function extractDiffs({
       newPrivilege: current.accessControl.members,
     });
   }
+  if (
+    current.accessControl &&
+    old.accessControl &&
+    old.accessControl.memberLabel !== undefined &&
+    old.accessControl.memberLabel !== current.accessControl.memberLabel
+  ) {
+    details.push({
+      type: 'access-member-label',
+      newPrivilege: current.accessControl.memberLabel,
+    });
+  }
 
   const linkPreviouslyEnabled = isAccessControlEnabled(
     old.accessControl?.addFromInviteLink
@@ -5446,6 +5530,7 @@ async function applyGroupChange({
     members: ACCESS_ENUM.MEMBER,
     attributes: ACCESS_ENUM.MEMBER,
     addFromInviteLink: ACCESS_ENUM.UNSATISFIABLE,
+    memberLabel: ACCESS_ENUM.MEMBER,
   };
 
   // modifyAttributesAccess?:
@@ -5474,6 +5559,16 @@ async function applyGroupChange({
       addFromInviteLink:
         actions.modifyAddFromInviteLinkAccess.addFromInviteLinkAccess ||
         ACCESS_ENUM.UNSATISFIABLE,
+    };
+  }
+
+  // modify_member_label_access?:
+  //   GroupChange.Actions.ModifyMemberLabelAccessControlAction;
+  if (actions.modifyMemberLabelAccess) {
+    result.accessControl = {
+      ...result.accessControl,
+      memberLabel:
+        actions.modifyMemberLabelAccess.memberLabelAccess || ACCESS_ENUM.MEMBER,
     };
   }
 
@@ -5881,6 +5976,8 @@ async function applyGroupState({
     addFromInviteLink:
       (accessControl && accessControl.addFromInviteLink) ||
       ACCESS_ENUM.UNSATISFIABLE,
+    memberLabel:
+      (accessControl && accessControl.memberLabel) || ACCESS_ENUM.MEMBER,
   };
 
   // Optimization: we assume we have left the group unless we are found in members
@@ -6227,6 +6324,7 @@ type DecryptedGroupChangeActions = {
   | 'modifyAttributesAccess'
   | 'modifyMemberAccess'
   | 'modifyAddFromInviteLinkAccess'
+  | 'modifyMemberLabelAccess'
   | 'modifyAvatar'
 >;
 
@@ -6694,6 +6792,21 @@ function decryptGroupChange(
     };
   }
 
+  // modifyMemberLabelAccess?: GroupChange.Actions.ModifyMemberLabelAccessControlAction;
+  if (actions.modifyMemberLabelAccess) {
+    const memberLabelAccess = dropNull(
+      actions.modifyMemberLabelAccess.memberLabelAccess
+    );
+    strictAssert(
+      isValidAccess(memberLabelAccess),
+      `decryptGroupChange: modifyMemberLabelAccess.memberLabelAccess was not valid: ${actions.modifyMemberLabelAccess.memberLabelAccess}`
+    );
+
+    result.modifyMemberLabelAccess = {
+      memberLabelAccess,
+    };
+  }
+
   // addMemberPendingAdminApprovals?: Array<
   //   GroupChange.Actions.AddMemberPendingAdminApprovalAction
   // >;
@@ -6973,6 +7086,7 @@ type DecryptedGroupState = {
     attributes: number;
     members: number;
     addFromInviteLink: number;
+    memberLabel: number;
   };
   version?: number;
   members?: ReadonlyArray<DecryptedMember>;
@@ -7042,6 +7156,8 @@ function decryptGroupState(
     const addFromInviteLink =
       accessControl.addFromInviteLink ??
       Proto.AccessControl.AccessRequired.UNKNOWN;
+    const memberLabel =
+      accessControl.memberLabel ?? Proto.AccessControl.AccessRequired.UNKNOWN;
 
     strictAssert(
       isValidAccess(attributes),
@@ -7060,6 +7176,7 @@ function decryptGroupState(
       attributes,
       members,
       addFromInviteLink,
+      memberLabel,
     };
   }
 

@@ -1261,6 +1261,9 @@ export class BackupImportStream extends Writable {
             addFromInviteLink:
               dropNull(accessControl.addFromInviteLink) ??
               SignalService.AccessControl.AccessRequired.UNKNOWN,
+            memberLabel:
+              dropNull(accessControl.memberLabel) ??
+              SignalService.AccessControl.AccessRequired.UNKNOWN,
           }
         : undefined,
       membersV2: members?.map(
@@ -3115,6 +3118,19 @@ export class BackupImportStream extends Writable {
         }
         details.push({
           type: 'access-members',
+          newPrivilege:
+            dropNull(accessLevel) ??
+            SignalService.AccessControl.AccessRequired.UNKNOWN,
+        });
+      }
+      if (update.groupMemberLabelAccessLevelChangeUpdate) {
+        const { updaterAci, accessLevel } =
+          update.groupMemberLabelAccessLevelChangeUpdate;
+        if (updaterAci) {
+          from = fromAciObject(Aci.fromUuidBytes(updaterAci));
+        }
+        details.push({
+          type: 'access-member-label',
           newPrivilege:
             dropNull(accessLevel) ??
             SignalService.AccessControl.AccessRequired.UNKNOWN,

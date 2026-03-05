@@ -2390,6 +2390,16 @@ export class BackupExportStream extends Readable {
 
         update.groupInviteLinkAdminApprovalUpdate = innerUpdate;
         updates.push(update);
+      } else if (type === 'access-member-label') {
+        const innerUpdate =
+          new Backups.GroupMemberLabelAccessLevelChangeUpdate();
+        if (from) {
+          innerUpdate.updaterAci = this.#aciToBytesOrUndefined(from);
+        }
+        innerUpdate.accessLevel = detail.newPrivilege;
+
+        update.groupMemberLabelAccessLevelChangeUpdate = innerUpdate;
+        updates.push(update);
       } else if (type === 'announcements-only') {
         const innerUpdate = new Backups.GroupAnnouncementOnlyChangeUpdate();
         if (from) {

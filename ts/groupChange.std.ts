@@ -276,6 +276,36 @@ function renderChangeDetail<T extends string | React.JSX.Element>(
     );
     return '';
   }
+  if (detail.type === 'access-member-label') {
+    const { newPrivilege } = detail;
+
+    if (newPrivilege === AccessControlEnum.ADMINISTRATOR) {
+      if (fromYou) {
+        return i18n('icu:GroupV2--access-member-label--admins--you');
+      }
+      if (from) {
+        return i18n('icu:GroupV2--access-member-label--admins--other', {
+          adminName: renderContact(from),
+        });
+      }
+      return i18n('icu:GroupV2--access-member-label--admins--unknown');
+    }
+    if (newPrivilege === AccessControlEnum.MEMBER) {
+      if (fromYou) {
+        return i18n('icu:GroupV2--access-member-label--all--you');
+      }
+      if (from) {
+        return i18n('icu:GroupV2--access-member-label--all--other', {
+          adminName: renderContact(from),
+        });
+      }
+      return i18n('icu:GroupV2--access-member-label--all--unknown');
+    }
+    log.warn(
+      `access-member-label change type, privilege ${newPrivilege} is unknown`
+    );
+    return '';
+  }
   if (detail.type === 'member-add') {
     const { aci } = detail;
     const weAreJoiner = isOurServiceId(aci);

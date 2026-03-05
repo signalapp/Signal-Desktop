@@ -390,6 +390,7 @@ export type ConversationType = ReadonlyDeep<
     accessControlAddFromInviteLink?: number;
     accessControlAttributes?: number;
     accessControlMembers?: number;
+    accessControlMemberLabel?: number;
     announcementsOnly?: boolean;
     announcementsOnlyReady?: boolean;
     expireTimer?: DurationInSeconds;
@@ -1253,6 +1254,7 @@ export const actions = {
   setAccessControlAddFromInviteLinkSetting,
   setAccessControlAttributesSetting,
   setAccessControlMembersSetting,
+  setAccessControlMemberLabelSetting,
   setAnnouncementsOnly,
   setCenterMessage,
   setComposeGroupAvatar,
@@ -1723,6 +1725,30 @@ function setAccessControlMembersSetting(
       name: 'updateAccessControlMembers',
       idForLogging: conversation.idForLogging(),
       task: async () => conversation.updateAccessControlMembers(value),
+    });
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
+function setAccessControlMemberLabelSetting(
+  conversationId: string,
+  value: number
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error(
+        'setAccessControlMemberLabelSetting: No conversation found'
+      );
+    }
+
+    await longRunningTaskWrapper({
+      name: 'updateAccessControlMemberLabel',
+      idForLogging: conversation.idForLogging(),
+      task: async () => conversation.updateAccessControlMemberLabel(value),
     });
     dispatch({
       type: 'NOOP',

@@ -8,6 +8,7 @@ import { SignalService as Proto } from '../../../protobuf/index.std.js';
 import { PanelRow } from './PanelRow.dom.js';
 import { PanelSection } from './PanelSection.dom.js';
 import { Select } from '../../Select.dom.js';
+import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.js';
 
 export type PropsDataType = {
   conversation?: ConversationType;
@@ -17,6 +18,7 @@ export type PropsDataType = {
 type PropsActionType = {
   setAccessControlAttributesSetting: (id: string, value: number) => void;
   setAccessControlMembersSetting: (id: string, value: number) => void;
+  setAccessControlMemberLabelSetting: (id: string, value: number) => void;
   setAnnouncementsOnly: (id: string, value: boolean) => void;
 };
 
@@ -27,18 +29,34 @@ export function GroupV2Permissions({
   i18n,
   setAccessControlAttributesSetting,
   setAccessControlMembersSetting,
+  setAccessControlMemberLabelSetting,
   setAnnouncementsOnly,
 }: PropsType): React.JSX.Element {
   const AccessControlEnum = Proto.AccessControl.AccessRequired;
 
+  const [isWarningAboutClearingLabels, setIsWarningAboutClearingLabels] =
+    React.useState(false);
   const addMembersSelectId = useId();
   const groupInfoSelectId = useId();
   const announcementSelectId = useId();
+  const memberLabelSelectId = useId();
 
   if (conversation === undefined) {
     throw new Error('GroupV2Permissions rendered without a conversation');
   }
+  const nonAdminsHaveLabels = conversation.memberships?.some(
+    membership => !membership.isAdmin && membership.labelString
+  );
 
+  const updateAccessControlMemberLabel = (value: string) => {
+    const newValue = Number(value);
+    if (newValue === AccessControlEnum.ADMINISTRATOR && nonAdminsHaveLabels) {
+      setIsWarningAboutClearingLabels(true);
+      return;
+    }
+
+    setAccessControlMemberLabelSetting(conversation.id, Number(value));
+  };
   const updateAccessControlAttributes = (value: string) => {
     setAccessControlAttributesSetting(conversation.id, Number(value));
   };
@@ -114,6 +132,68 @@ export function GroupV2Permissions({
           }
         />
       )}
+      <PanelRow
+        label={
+          <label htmlFor={memberLabelSelectId}>
+            {i18n('icu:ConversationDetails--member-label--label')}
+          </label>
+        }
+        info={i18n('icu:ConversationDetails--member-label--info')}
+        right={
+          <Select
+            id={memberLabelSelectId}
+            onChange={updateAccessControlMemberLabel}
+            options={accessControlOptions}
+            value={String(conversation.accessControlMemberLabel)}
+          />
+        }
+      />
+
+      <AxoAlertDialog.Root
+        open={isWarningAboutClearingLabels}
+        onOpenChange={value => {
+          if (!value) {
+            setIsWarningAboutClearingLabels(false);
+          }
+        }}
+      >
+        <AxoAlertDialog.Content escape="cancel-is-noop">
+          <AxoAlertDialog.Body>
+            <AxoAlertDialog.Title>
+              {i18n('icu:ConversationDetails--label-clear-warning--title')}
+            </AxoAlertDialog.Title>
+            <AxoAlertDialog.Description>
+              {i18n(
+                'icu:ConversationDetails--label-clear-warning--description'
+              )}
+            </AxoAlertDialog.Description>
+          </AxoAlertDialog.Body>
+          <AxoAlertDialog.Footer>
+            <AxoAlertDialog.Action
+              variant="secondary"
+              arrow={false}
+              onClick={() => {
+                setIsWarningAboutClearingLabels(false);
+              }}
+            >
+              {i18n('icu:cancel')}
+            </AxoAlertDialog.Action>
+            <AxoAlertDialog.Action
+              variant="primary"
+              arrow={false}
+              onClick={() => {
+                setAccessControlMemberLabelSetting(
+                  conversation.id,
+                  AccessControlEnum.ADMINISTRATOR
+                );
+                setIsWarningAboutClearingLabels(false);
+              }}
+            >
+              {i18n('icu:ConversationDetails--label-clear-warning--continue')}
+            </AxoAlertDialog.Action>
+          </AxoAlertDialog.Footer>
+        </AxoAlertDialog.Content>
+      </AxoAlertDialog.Root>
     </PanelSection>
   );
 }
