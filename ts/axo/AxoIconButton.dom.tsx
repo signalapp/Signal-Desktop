@@ -112,6 +112,7 @@ export namespace AxoIconButton {
     variant: Variant;
     size: Size;
     symbol: AxoSymbol.IconName;
+    iconWeight?: AxoSymbol.Weight;
 
     experimentalSpinner?: { 'aria-label': string } | null;
 
@@ -130,6 +131,7 @@ export namespace AxoIconButton {
         variant,
         size,
         symbol,
+        iconWeight,
         experimentalSpinner,
         ...rest
       } = props;
@@ -166,6 +168,7 @@ export namespace AxoIconButton {
               size={Sizes[size].iconSize}
               symbol={symbol}
               label={null}
+              weight={iconWeight}
             />
           </span>
           {experimentalSpinner != null && (

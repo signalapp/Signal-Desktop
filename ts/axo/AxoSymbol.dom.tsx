@@ -4,6 +4,7 @@ import type { FC } from 'react';
 import React, { memo, useMemo } from 'react';
 import { Direction } from 'radix-ui';
 import { VisuallyHidden } from 'react-aria';
+import type { TailwindStyles } from './tw.dom.js';
 import { tw } from './tw.dom.js';
 import {
   getAxoSymbolIcon,
@@ -21,15 +22,22 @@ const Namespace = 'AxoSymbol';
 export namespace AxoSymbol {
   const symbolStyles = tw('font-symbols select-none');
   const labelStyles = tw('select-none');
+  export type Weight = 300 | 400 | 700;
+  const WeightStyles = {
+    300: tw('font-light'),
+    400: tw(),
+    700: tw('font-semibold'),
+  } as const satisfies Record<Weight, TailwindStyles>;
 
   function useRenderSymbol(
     glyph: string,
-    label: string | null
+    label: string | null,
+    weight: Weight
   ): React.JSX.Element {
     return useMemo(() => {
       return (
         <>
-          <span aria-hidden className={symbolStyles}>
+          <span aria-hidden className={tw(symbolStyles, WeightStyles[weight])}>
             {glyph}
           </span>
           {label != null && (
@@ -37,7 +45,7 @@ export namespace AxoSymbol {
           )}
         </>
       );
-    }, [glyph, label]);
+    }, [glyph, label, weight]);
   }
 
   /**
@@ -55,7 +63,7 @@ export namespace AxoSymbol {
   export const InlineGlyph: FC<InlineGlyphProps> = memo(props => {
     const direction = useDirection();
     const glyph = getAxoSymbolInlineGlyph(props.symbol, direction);
-    const content = useRenderSymbol(glyph, props.label);
+    const content = useRenderSymbol(glyph, props.label, 400);
     return content;
   });
 
@@ -89,6 +97,7 @@ export namespace AxoSymbol {
     size: IconSize;
     symbol: IconName;
     label: string | null;
+    weight?: Weight;
   }>;
 
   const iconStyles = tw(
@@ -98,8 +107,9 @@ export namespace AxoSymbol {
   export const Icon: FC<IconProps> = memo(props => {
     const config = IconSizes[props.size];
     const direction = useDirection();
+    const weight = props.weight ?? 400;
     const glyph = getAxoSymbolIcon(props.symbol, direction);
-    const content = useRenderSymbol(glyph, props.label);
+    const content = useRenderSymbol(glyph, props.label, weight);
 
     const style = useMemo(() => {
       return {

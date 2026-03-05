@@ -40,18 +40,10 @@
       height: 20px;
       width: 20px;
 
-      @include mixins.light-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/mic/mic.svg',
-          variables.$color-gray-75
-        );
-      }
-      @include mixins.dark-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/mic/mic.svg',
-          variables.$color-gray-15
-        );
-      }
+      @include mixins.color-svg(
+        '../images/icons/v3/mic/mic.svg',
+        var(--color-label-primary)
+      );
     }
   }
 
