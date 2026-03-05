@@ -256,6 +256,11 @@ export const getTextFormattingEnabled = createSelector(
   (state: ItemsStateType): boolean => Boolean(state.textFormatting ?? true)
 );
 
+export const getTypingAutoFocus = createSelector(
+  getItems,
+  (state: ItemsStateType): boolean => Boolean(state.typingAutoFocus ?? true)
+);
+
 export const getNavTabsCollapsed = createSelector(
   getItems,
   (state: ItemsStateType): boolean => Boolean(state.navTabsCollapsed ?? false)
