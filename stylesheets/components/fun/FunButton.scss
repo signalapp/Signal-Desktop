@@ -39,13 +39,13 @@
 .FunButton__Icon--EmojiPicker {
   @include mixins.color-svg(
     '../images/icons/v3/emoji/emoji.svg',
-    light-dark(variables.$color-gray-75, variables.$color-gray-15)
+    var(--color-label-primary)
   );
 }
 
 .FunButton__Icon--StickerPicker {
   @include mixins.color-svg(
     '../images/icons/v3/sticker/sticker.svg',
-    light-dark(variables.$color-gray-75, variables.$color-gray-15)
+    var(--color-label-primary)
   );
 }
