@@ -102,11 +102,6 @@ function ciphertextMessageTypeToEnvelopeType(type: number) {
 
 const PADDING_BLOCK = 80;
 
-function pendingBasisKey(serviceId: string, deviceId: number) {
-  return `pvrf_basis_pending:${serviceId}:${deviceId}`;
-}
-
-
 function getPaddedMessageLength(messageLength: number): number {
   const messageLengthWithTerminator = messageLength + 1;
   let messagePartCount = Math.floor(
@@ -510,28 +505,23 @@ export default class OutgoingMessage {
             }*/
 
               const pending = await getPendingBasis(serviceId, destinationDeviceId);
+
               if (typeof pending === 'string' && pending.length > 0) {
                 const header = `[PVRF_BASIS_V0:${pending}]`;
               
                 const content = this.message;
-                const dataMsg = content instanceof Proto.Content ? content.dataMessage : undefined;
+                const dataMsg =content instanceof Proto.Content ? content.dataMessage : undefined;
               
-                if (!dataMsg) {
-                  // IMPORTANT: do NOT clear here
-                  log.info(
-                    'PVRF demo: pending exists, but this outgoing content is not a dataMessage; will wait',
-                    {
-                      hasTyping: content instanceof Proto.Content ? Boolean(content.typingMessage) : false,
-                      hasSync: content instanceof Proto.Content ? Boolean(content.syncMessage) : false,
-                      hasEdit: content instanceof Proto.Content ? Boolean(content.editMessage) : false,
-                    }
-                  );
+                if (!dataMsg) 
+                {
+                  log.info('PVRF demo: pending exists, but not a dataMessage; will wait');
                 } else {
                   const body = dataMsg.body ?? '';
-                  log.info(body);
-                  log.info("case 2")
-                  if (!body.startsWith('[PVRF_BASIS_V0:')) {
-                    dataMsg.body = `${header}\n${body}`;
+              
+                  if (!body.startsWith('[PVRF_BASIS_V0:')) 
+                  {
+                    const safebody = body.length > 0 ? body : ' '; // minimal visible placeholder
+                    dataMsg.body = `${header}\n${safebody}`;
                     this.plaintext = undefined; // force re-serialize
                     await clearPendingBasis(serviceId, destinationDeviceId);
                     log.info(`PVRF demo: attached + cleared pending payload for ${serviceId}.${destinationDeviceId}`);
@@ -541,7 +531,6 @@ export default class OutgoingMessage {
                 }
               }
               
-
             if (sealedSender && senderCertificate) {
               const ciphertextMessage = await this.getCiphertextMessage({
                 identityKeyStore,
