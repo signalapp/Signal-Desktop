@@ -137,7 +137,7 @@ export function CallingRaisedHandsList({
                     {i18n('icu:CallControls__RaiseHands--lower')}
                   </button>
                 )}
-              <div className="module-calling-participants-list__status-icon CallingRaisedHandsList__NameHandIcon" />
+              <div className="CallingRaisedHandsList__NameHandIcon" />
             </li>
           ))}
         </ul>
