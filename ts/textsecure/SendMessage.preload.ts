@@ -1948,11 +1948,22 @@ export class MessageSender {
 
     const syncMessage = MessageSender.createSyncMessage();
     syncMessage.read = [];
-    for (let i = 0; i < reads.length; i += 1) {
-      const proto = new Proto.SyncMessage.Read({
-        ...reads[i],
-        timestamp: Long.fromNumber(reads[i].timestamp),
-      });
+    for (const r of reads) {
+      const proto = new Proto.SyncMessage.Read(
+        isProtoBinaryEncodingEnabled()
+          ? {
+              senderAci: null,
+              senderAciBinary: r.senderAci
+                ? toAciObject(r.senderAci).getRawUuidBytes()
+                : null,
+              timestamp: Long.fromNumber(r.timestamp),
+            }
+          : {
+              senderAci: r.senderAci,
+              senderAciBinary: null,
+              timestamp: Long.fromNumber(r.timestamp),
+            }
+      );
 
       syncMessage.read.push(proto);
     }
@@ -1982,10 +1993,21 @@ export class MessageSender {
     const syncMessage = MessageSender.createSyncMessage();
     syncMessage.viewed = views.map(
       view =>
-        new Proto.SyncMessage.Viewed({
-          ...view,
-          timestamp: Long.fromNumber(view.timestamp),
-        })
+        new Proto.SyncMessage.Viewed(
+          isProtoBinaryEncodingEnabled()
+            ? {
+                senderAci: null,
+                senderAciBinary: view.senderAci
+                  ? toAciObject(view.senderAci).getRawUuidBytes()
+                  : null,
+                timestamp: Long.fromNumber(view.timestamp),
+              }
+            : {
+                senderAci: view.senderAci,
+                senderAciBinary: null,
+                timestamp: Long.fromNumber(view.timestamp),
+              }
+        )
     );
     const contentMessage = new Proto.Content();
     contentMessage.syncMessage = syncMessage;
