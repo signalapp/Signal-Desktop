@@ -659,12 +659,12 @@ function sendMultiMediaMessage(
 
     const {
       draftAttachments,
-      bodyRanges,
       isViewOnce,
-      message = '',
       timestamp = Date.now(),
       voiceNoteAttachment,
     } = options;
+
+    const { message = '', bodyRanges } = isViewOnce ? {} : options;
 
     const state = getState();
 
