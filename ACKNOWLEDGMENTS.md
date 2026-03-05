@@ -15691,7 +15691,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## bytes 1.11.1
+## bytes 1.11.0
 
 ```
 Copyright (c) 2018 Carl Lerche
@@ -16880,7 +16880,7 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
-## num-conv 0.2.0
+## num-conv 0.1.0
 
 ```
 Copyright (c) 2023 Jacob Pratt
@@ -16980,7 +16980,7 @@ SOFTWARE.
 
 ```
 
-## tonic-build 0.14.2, tonic-prost-build 0.14.2, tonic-prost 0.14.2, tonic 0.14.2
+## tonic 0.14.2
 
 ```
 Copyright (c) 2025 Lucio Franco
@@ -17030,7 +17030,7 @@ SOFTWARE.
 
 ```
 
-## time-core 0.1.8, time 0.3.47
+## time-core 0.1.6, time 0.3.44
 
 ```
 Copyright (c) Jacob Pratt et al.
@@ -20699,7 +20699,7 @@ THIS SOFTWARE.
 
 ```
 
-## cubeb-core 0.34.0, cubeb-sys 0.34.0, cubeb 0.34.0
+## cubeb-core 0.33.0, cubeb-sys 0.33.0, cubeb 0.33.0
 
 ```
 Copyright © 2017 Mozilla Foundation
