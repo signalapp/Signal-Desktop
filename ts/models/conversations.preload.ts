@@ -238,6 +238,7 @@ import {
   applyNewAvatar,
   buildAccessControlAddFromInviteLinkChange,
   buildAccessControlAttributesChange,
+  buildAccessControlMemberLabelChange,
   buildAccessControlMembersChange,
   buildAddBannedMemberChange,
   buildAddMember,
@@ -4634,8 +4635,6 @@ export class ConversationModel {
       createGroupChange: async () =>
         buildInviteLinkPasswordChange(this.attributes, groupInviteLinkPassword),
     });
-
-    this.set({ groupInviteLinkPassword });
   }
 
   async toggleGroupLink(value: boolean): Promise<void> {
@@ -4678,18 +4677,6 @@ export class ConversationModel {
           ),
       });
     }
-
-    this.set({
-      accessControl: {
-        addFromInviteLink,
-        attributes: this.get('accessControl')?.attributes || ACCESS_ENUM.MEMBER,
-        members: this.get('accessControl')?.members || ACCESS_ENUM.MEMBER,
-      },
-    });
-
-    if (shouldCreateNewGroupLink) {
-      this.set({ groupInviteLinkPassword });
-    }
   }
 
   async updateAccessControlAddFromInviteLink(value: boolean): Promise<void> {
@@ -4712,14 +4699,6 @@ export class ConversationModel {
           addFromInviteLink
         ),
     });
-
-    this.set({
-      accessControl: {
-        addFromInviteLink,
-        attributes: this.get('accessControl')?.attributes || ACCESS_ENUM.MEMBER,
-        members: this.get('accessControl')?.members || ACCESS_ENUM.MEMBER,
-      },
-    });
   }
 
   async updateAccessControlAttributes(value: number): Promise<void> {
@@ -4732,16 +4711,6 @@ export class ConversationModel {
       usingCredentialsFrom: [],
       createGroupChange: async () =>
         buildAccessControlAttributesChange(this.attributes, value),
-    });
-
-    const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
-    this.set({
-      accessControl: {
-        addFromInviteLink:
-          this.get('accessControl')?.addFromInviteLink || ACCESS_ENUM.MEMBER,
-        attributes: value,
-        members: this.get('accessControl')?.members || ACCESS_ENUM.MEMBER,
-      },
     });
   }
 
@@ -4756,15 +4725,18 @@ export class ConversationModel {
       createGroupChange: async () =>
         buildAccessControlMembersChange(this.attributes, value),
     });
+  }
 
-    const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
-    this.set({
-      accessControl: {
-        addFromInviteLink:
-          this.get('accessControl')?.addFromInviteLink || ACCESS_ENUM.MEMBER,
-        attributes: this.get('accessControl')?.attributes || ACCESS_ENUM.MEMBER,
-        members: value,
-      },
+  async updateAccessControlMemberLabel(value: number): Promise<void> {
+    if (!isGroupV2(this.attributes)) {
+      return;
+    }
+
+    await this.modifyGroupV2({
+      name: 'updateAccessControlMembers',
+      usingCredentialsFrom: [],
+      createGroupChange: async () =>
+        buildAccessControlMemberLabelChange(this.attributes, value),
     });
   }
 
@@ -4779,8 +4751,6 @@ export class ConversationModel {
       createGroupChange: async () =>
         buildAnnouncementsOnlyChange(this.attributes, value),
     });
-
-    this.set({ announcementsOnly: value });
   }
 
   async updateExpirationTimer(

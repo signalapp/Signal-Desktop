@@ -21,6 +21,10 @@ type GroupV2AccessInviteLinkChangeType = {
   type: 'access-invite-link';
   newPrivilege: number;
 };
+type GroupV2AccessMemberLabelChangeType = {
+  type: 'access-member-label';
+  newPrivilege: number;
+};
 type GroupV2AnnouncementsOnlyChangeType = {
   type: 'announcements-only';
   announcementsOnly: boolean;
@@ -127,6 +131,7 @@ export type GroupV2ChangeDetailType =
   | GroupV2AccessAttributesChangeType
   | GroupV2AccessCreateChangeType
   | GroupV2AccessInviteLinkChangeType
+  | GroupV2AccessMemberLabelChangeType
   | GroupV2AccessMembersChangeType
   | GroupV2AdminApprovalAddOneChangeType
   | GroupV2AdminApprovalRemoveOneChangeType

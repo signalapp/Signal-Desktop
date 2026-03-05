@@ -21,6 +21,7 @@ export const SmartGroupV2Permissions = memo(function SmartGroupV2Permissions({
   const {
     setAccessControlAttributesSetting,
     setAccessControlMembersSetting,
+    setAccessControlMemberLabelSetting,
     setAnnouncementsOnly,
   } = useConversationsActions();
   return (
@@ -29,6 +30,7 @@ export const SmartGroupV2Permissions = memo(function SmartGroupV2Permissions({
       conversation={conversation}
       setAccessControlAttributesSetting={setAccessControlAttributesSetting}
       setAccessControlMembersSetting={setAccessControlMembersSetting}
+      setAccessControlMemberLabelSetting={setAccessControlMemberLabelSetting}
       setAnnouncementsOnly={setAnnouncementsOnly}
     />
   );

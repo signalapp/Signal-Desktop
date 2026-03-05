@@ -5,6 +5,7 @@ import type {
   ConversationType,
   MembershipType,
 } from '../state/ducks/conversations.preload.js';
+import { SignalService as Proto } from '../protobuf/index.std.js';
 
 export const missingEmojiPlaceholder = '⍰';
 
@@ -25,5 +26,11 @@ export function getCanAddLabel(
   conversation: ConversationType,
   membership: MembershipType | undefined
 ): boolean {
-  return Boolean(membership && conversation.type === 'group');
+  return Boolean(
+    membership &&
+    conversation.type === 'group' &&
+    (membership.isAdmin ||
+      conversation.accessControlMemberLabel ===
+        Proto.AccessControl.AccessRequired.MEMBER)
+  );
 }

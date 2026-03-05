@@ -44,10 +44,12 @@ import type { Location } from '../../../types/Nav.std.js';
 import { usePrevious } from '../../../hooks/usePrevious.std.js';
 
 export type PropsDataType = {
+  canAddLabel: boolean;
   existingLabelEmoji: string | undefined;
   existingLabelString: string | undefined;
   group: ConversationType;
   i18n: LocalizerType;
+  isActive: boolean;
   me: ConversationType;
   membersWithLabel: Array<{
     contactNameColor: string;
@@ -90,12 +92,14 @@ function getEmojiVariantKey(value: string): EmojiVariantKey | undefined {
 }
 
 export function GroupMemberLabelEditor({
+  canAddLabel,
   group,
   me,
   existingLabelEmoji,
   existingLabelString,
   getPreferredBadge,
   i18n,
+  isActive,
   membersWithLabel,
   ourColor,
   popPanelForConversation,
@@ -103,6 +107,8 @@ export function GroupMemberLabelEditor({
   updateGroupMemberLabel,
 }: PropsType): React.JSX.Element {
   const [isShowingGeneralError, setIsShowingGeneralError] =
+    React.useState(false);
+  const [isShowingPermissionsError, setIsShowingPermissionsError] =
     React.useState(false);
 
   const messageContainer = useRef<HTMLDivElement | null>(null);
@@ -130,6 +136,17 @@ export function GroupMemberLabelEditor({
   const contactLabelForMessage = labelStringForSave
     ? { labelEmoji, labelString: labelStringForSave }
     : undefined;
+
+  useEffect(() => {
+    if (!canAddLabel && isActive) {
+      setIsShowingPermissionsError(true);
+    }
+  }, [
+    canAddLabel,
+    isActive,
+    isShowingPermissionsError,
+    setIsShowingPermissionsError,
+  ]);
 
   const tryClose = React.useRef<() => void | undefined>();
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
@@ -397,7 +414,7 @@ export function GroupMemberLabelEditor({
       </div>
       {confirmDiscardModal}
       <AxoAlertDialog.Root
-        open={isShowingGeneralError}
+        open={isShowingGeneralError && isActive}
         onOpenChange={value => {
           if (!value) {
             setIsShowingGeneralError(false);
@@ -419,6 +436,38 @@ export function GroupMemberLabelEditor({
               arrow={false}
               onClick={() => {
                 setIsShowingGeneralError(false);
+              }}
+            >
+              {i18n('icu:ok')}
+            </AxoAlertDialog.Action>
+          </AxoAlertDialog.Footer>
+        </AxoAlertDialog.Content>
+      </AxoAlertDialog.Root>
+      <AxoAlertDialog.Root
+        open={isShowingPermissionsError && isActive}
+        onOpenChange={value => {
+          if (!value) {
+            setIsShowingPermissionsError(false);
+            popPanelForConversation();
+          }
+        }}
+      >
+        <AxoAlertDialog.Content escape="cancel-is-noop">
+          <AxoAlertDialog.Body>
+            <AxoAlertDialog.Title>
+              {i18n('icu:ConversationDetails--member-label--error-title')}
+            </AxoAlertDialog.Title>
+            <AxoAlertDialog.Description>
+              {i18n('icu:ConversationDetails--member-label--error-permissions')}
+            </AxoAlertDialog.Description>
+          </AxoAlertDialog.Body>
+          <AxoAlertDialog.Footer>
+            <AxoAlertDialog.Action
+              variant="primary"
+              arrow={false}
+              onClick={() => {
+                popPanelForConversation();
+                setIsShowingPermissionsError(false);
               }}
             >
               {i18n('icu:ok')}

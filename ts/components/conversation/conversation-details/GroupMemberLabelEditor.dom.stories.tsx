@@ -23,12 +23,14 @@ export default {
 } satisfies Meta<PropsType>;
 
 const createProps = (): PropsType => ({
-  group: getDefaultConversation({ type: 'group' }),
-  me: getDefaultConversation({ type: 'direct' }),
+  canAddLabel: true,
   existingLabelEmoji: '🐘',
   existingLabelString: 'Good Memory',
   getPreferredBadge: () => undefined,
+  group: getDefaultConversation({ type: 'group' }),
   i18n,
+  isActive: true,
+  me: getDefaultConversation({ type: 'direct' }),
   membersWithLabel: [],
   ourColor: '160',
   popPanelForConversation: action('popPanelForConversation'),
@@ -96,17 +98,7 @@ export function ThrowsErrorOnSave(): React.JSX.Element {
 export function PermissionsError(): React.JSX.Element {
   const props: PropsType = createProps();
 
-  return (
-    <GroupMemberLabelEditor
-      {...props}
-      group={{
-        ...props.group,
-        areWeAdmin: false,
-        accessControlAttributes:
-          Proto.AccessControl.AccessRequired.ADMINISTRATOR,
-      }}
-    />
-  );
+  return <GroupMemberLabelEditor {...props} canAddLabel={false} />;
 }
 
 export function PermissionsRestrictedButAdmin(): React.JSX.Element {
