@@ -51,6 +51,7 @@ import {
   getDeltaToRestartEmoji,
   insertEmojiOps,
   insertFormattingAndMentionsOps,
+  isInsertMentionOp,
 } from '../quill/util.dom.js';
 import { SignalClipboard } from '../quill/signal-clipboard/index.dom.js';
 import { DirectionalBlot } from '../quill/block/blot.dom.js';
@@ -754,6 +755,9 @@ export function CompositionInput(props: Props): React.ReactElement {
     if (ops === undefined) {
       return;
     }
+    if (!ops.some(isInsertMentionOp)) {
+      return;
+    }
 
     const currentMemberAcis = currentMembers
       .map(m => m.serviceId)
@@ -766,17 +770,17 @@ export function CompositionInput(props: Props): React.ReactElement {
     quill.updateContents(newDelta as any);
   };
 
-  const memberIds = sortedGroupMembers ? sortedGroupMembers.map(m => m.id) : [];
+  const memberIdList = React.useMemo(() => {
+    return JSON.stringify(sortedGroupMembers?.map(mem => mem.id));
+  }, [sortedGroupMembers]);
+  const previousMemberIdList = usePrevious(undefined, memberIdList);
 
   React.useEffect(() => {
     memberRepositoryRef.current.updateMembers(sortedGroupMembers || []);
-    removeStaleMentions(sortedGroupMembers || []);
-    // We are still depending on members, but ESLint can't tell
-    // Comparing the actual members list does not work for a couple reasons:
-    //    * Arrays with the same objects are not "equal" to React
-    //    * We only care about added/removed members, ignoring other attributes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(memberIds)]);
+    if (memberIdList !== previousMemberIdList) {
+      removeStaleMentions(sortedGroupMembers || []);
+    }
+  }, [sortedGroupMembers, memberIdList, previousMemberIdList]);
 
   // Placing all of these callbacks inside of a ref since Quill is not able
   // to re-render. We want to make sure that all these callbacks are fresh
