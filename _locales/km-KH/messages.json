@@ -2229,7 +2229,7 @@
     "messageformat": "Message failed to delete. Check your connection and try again."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "ព្យាយាមម្តងទៀត"
   },
   "icu:editFailed": {
     "messageformat": "មិនអាចកែបាន។ សូមចុចសម្រាប់ព័ត៌មានលម្អិត។"
@@ -2643,13 +2643,13 @@
     "messageformat": "សារនេះត្រូវបានលុប។"
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "អ្នកគ្រប់គ្រង {admin} បានលុបសារនេះ"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "{name} បានលុបសារនេះ"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "អ្នកបានលុបសារនេះ"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "ឯកសារភ្ជាប់ធំពេកមិនអាចបង្ហាញបាន។"
@@ -4650,7 +4650,7 @@
     "messageformat": "View once"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "មេឌៀមើលបានតែម្តង"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "កែសារ"
@@ -4692,7 +4692,7 @@
     "messageformat": "Are you sure you want to mute {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "បិទសំឡេង"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "ស្លាកសមាជិក"
@@ -5037,7 +5037,7 @@
     "messageformat": "លុបសម្រាប់អ្នករាល់គ្នា"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "លុបសម្រាប់អ្នករាល់គ្នា?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
     "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
@@ -7989,7 +7989,7 @@
     "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "messageformat": "ឥឡូវនេះ អ្នកអាចដាក់ស្លាកសមាជិកជាជម្រើសបាន ដើម្បីពណ៌នាអំពីខ្លួនអ្នក ឬតួនាទីរបស់អ្នកនៅក្នុងការជជែកជាក្រុម។ កំណត់ស្លាកសមាជិកក្រុមរបស់អ្នកទៅជា \"អាជ្ញាកណ្តាល\" ឬ \"អ្នកចាំទី\" នៅក្នុងការជជែកអំពីការប្រកួតបាល់ទាត់ក្នុងស្រុក ដើម្បីជួយចាប់ផ្តើមនៅពេលដែលមិត្តរួមក្រុមថ្មីចូលរួម បន្ទាប់មកជ្រើសរើសស្លាកផ្សេងដែលមានមុខតំណែងការងាររបស់អ្នកនៅក្នុងការជជែករបស់ក្រុមហ៊ុន។ ស្លាកសមាជិកបង្ហាញនៅជាប់ឈ្មោះប្រូហ្វាល់របស់អ្នកនៅក្នុងក្រុមនោះ ហើយអ្នកគ្រប់គ្រងក្រុមអាចគ្រប់គ្រងថាតើអ្នកណាអាចកំណត់ស្លាកដោយមានការអនុញ្ញាត \"កែព័ត៌មានក្រុម\" បាន។",
     "ignoreUnused": true
   }
 }

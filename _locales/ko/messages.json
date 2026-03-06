@@ -750,7 +750,7 @@
     "messageformat": "파일은 한 번에 한 개만 선택할 수 있습니다."
   },
   "icu:maximumAttachments": {
-    "messageformat": "이 메시지에 더 이상 첨부할 수 없습니다."
+    "messageformat": "이 메시지에 첨부 파일을 더 이상 추가할 수 없습니다."
   },
   "icu:fileSizeWarning": {
     "messageformat": "죄송합니다, 선택된 파일은 메시지의 최대 허용 용량을 초과했습니다. {limit,number} {units}"
@@ -933,7 +933,7 @@
     "messageformat": "첨부 파일 다운로드"
   },
   "icu:reactToMessage": {
-    "messageformat": "메시지에 반응하기"
+    "messageformat": "메시지에 공감 표시하기"
   },
   "icu:replyToMessage": {
     "messageformat": "메시지 답장"
@@ -1155,7 +1155,7 @@
     "messageformat": "답장"
   },
   "icu:MessageContextMenu__react": {
-    "messageformat": "반응하기"
+    "messageformat": "공감 표시하기"
   },
   "icu:MessageContextMenu__download": {
     "messageformat": "다운로드"
@@ -1941,7 +1941,7 @@
     "messageformat": "표시 중단"
   },
   "icu:calling__button--react": {
-    "messageformat": "반응하기"
+    "messageformat": "공감 표시하기"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "단체 참여자가 너무 많아 통화를 진행할 수 없습니다."
@@ -2208,7 +2208,7 @@
     "messageformat": "{group} 내 {sender} 님"
   },
   "icu:notificationReactionMessage": {
-    "messageformat": "{sender} 님이 \"{message}\" 메시지에 {emoji} 이모지로 반응했어요"
+    "messageformat": "{sender} 님이 \"{message}\" 메시지에 {emoji} 이모지로 공감했어요"
   },
   "icu:notificationPollVoteMessage": {
     "messageformat": "{sender} 님이 \"{pollQuestion}\" 설문조사에 투표했습니다."
@@ -2229,7 +2229,7 @@
     "messageformat": "Message failed to delete. Check your connection and try again."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "다시 시도해 주세요."
   },
   "icu:editFailed": {
     "messageformat": "수정하지 못했습니다. 클릭하여 자세한 내용을 확인하세요."
@@ -2643,13 +2643,13 @@
     "messageformat": "삭제된 메시지입니다."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "관리자 {admin} 님이 메시지를 삭제했습니다."
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "{name} 님이 이 메시지를 삭제했습니다."
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "내가 이 메시지를 삭제했습니다."
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "첨부 파일이 너무 커서 표시할 수 없습니다."
@@ -2877,7 +2877,7 @@
     "messageformat": "최근 사용함"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "스티커 팩 추가하기"
+    "messageformat": "스티커 팩 추가"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "검색 결과"
@@ -2985,13 +2985,13 @@
     "messageformat": "취소"
   },
   "icu:Message__reaction-emoji-label--you": {
-    "messageformat": "{emoji} 이모지로 반응했어요"
+    "messageformat": "{emoji} 이모지로 공감했어요"
   },
   "icu:Message__reaction-emoji-label--single": {
-    "messageformat": "{title} 님이 {emoji} 이모지로 반응했어요"
+    "messageformat": "{title} 님이 {emoji} 이모지로 공감했어요"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {{count,number}명이 {emoji} 이모지로 반응했어요}}"
+    "messageformat": "{count, plural, other {{count,number}명이 {emoji} 이모지로 공감했어요}}"
   },
   "icu:Message__role-description": {
     "messageformat": "메시지"
@@ -3495,7 +3495,7 @@
     "messageformat": "<clickable>프로필 이름</clickable>이 확인되지 않음"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "유일한 Signal 공식 채팅입니다"
+    "messageformat": "Signal이 운영하는 유일한 공식 채널입니다."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "최신 소식과 릴리스 노트를 확인하세요."
@@ -4650,7 +4650,7 @@
     "messageformat": "View once"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "한 번만 볼 수 있는 미디어"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "메시지 수정"
@@ -4692,7 +4692,7 @@
     "messageformat": "Are you sure you want to mute {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "음소거"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "멤버 라벨"
@@ -5037,7 +5037,7 @@
     "messageformat": "모두에게서 삭제"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "모두에게서 삭제할까요?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
     "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
@@ -6829,7 +6829,7 @@
     "messageformat": "답장 및 반응 허용"
   },
   "icu:StoriesSettings__replies-reactions--description": {
-    "messageformat": "내 스토리를 볼 수 있는 사람들의 반응과 답장 허용"
+    "messageformat": "내 스토리를 볼 수 있는 사용자의 공감 및 답장 허용"
   },
   "icu:StoriesSettings__delete-list": {
     "messageformat": "맞춤 스토리 삭제"
@@ -7012,10 +7012,10 @@
     "messageformat": "답장"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "스토리에 반응했어요"
+    "messageformat": "스토리에 공감을 표시했어요"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "스토리에 반응했어요"
+    "messageformat": "스토리에 공감을 표시했어요"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "더 이상 이 그룹의 멤버가 아니므로 이 스토리에 답장할 수 없습니다."
@@ -7132,22 +7132,22 @@
     "messageformat": "스토리"
   },
   "icu:Quote__story-reaction": {
-    "messageformat": "{name} 님의 스토리에 반응했어요"
+    "messageformat": "{name} 님의 스토리에 공감을 표시했어요"
   },
   "icu:Quote__story-reaction--you": {
-    "messageformat": "내 스토리에 반응했어요"
+    "messageformat": "내 스토리에 공감을 표시했어요"
   },
   "icu:Quote__story-reaction--single": {
-    "messageformat": "스토리에 반응했어요"
+    "messageformat": "스토리에 공감을 표시했어요"
   },
   "icu:Quote__story-reaction-notification--incoming": {
-    "messageformat": "내 스토리에 {emoji} 이모지로 반응했어요"
+    "messageformat": "내 스토리에 {emoji} 이모지로 공감했어요"
   },
   "icu:Quote__story-reaction-notification--outgoing": {
-    "messageformat": "{name} 님이 보낸 스토리에 {emoji} 이모지로 반응했어요"
+    "messageformat": "{name} 님이 보낸 스토리에 {emoji} 이모지로 공감했어요"
   },
   "icu:Quote__story-reaction-notification--outgoing--nameless": {
-    "messageformat": "스토리에 {emoji} 이모지로 반응했어요"
+    "messageformat": "스토리에 {emoji} 이모지로 공감했어요"
   },
   "icu:Quote__story-unavailable": {
     "messageformat": "더는 사용할 수 없음"
@@ -7989,7 +7989,7 @@
     "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "messageformat": "이제 원하는 경우 멤버 라벨을 추가하여 그룹 채팅 내에서 본인을 소개하거나 본인의 역할을 명시할 수 있습니다. 멤버 라벨은 해당 그룹의 내 프로필 이름 옆에 표시되며, 그룹 관리자는 '그룹 정보 수정' 권한을 사용하여 라벨을 설정할 수 있는 멤버를 관리할 수 있습니다.",
     "ignoreUnused": true
   }
 }

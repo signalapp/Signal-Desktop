@@ -2229,7 +2229,7 @@
     "messageformat": "Message failed to delete. Check your connection and try again."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "Försök igen"
   },
   "icu:editFailed": {
     "messageformat": "Redigeringen misslyckades, klicka för mer information"
@@ -2643,13 +2643,13 @@
     "messageformat": "Det här meddelandet togs bort."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "Admin {admin} tog bort detta meddelande"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "{name} tog bort det här meddelandet"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "Du tog bort detta meddelande"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "Bifogade filen är för stor för att visas."
@@ -4650,7 +4650,7 @@
     "messageformat": "View once"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "Tillfällig mediefil"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Redigera meddelande"
@@ -4692,7 +4692,7 @@
     "messageformat": "Are you sure you want to mute {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "Tysta"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Medlemsetiketter"
@@ -5037,7 +5037,7 @@
     "messageformat": "Ta bort för alla"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "Ta bort för alla?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
     "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
@@ -7989,7 +7989,7 @@
     "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "messageformat": "Nu kan du välja att lägga till en medlemsetikett för att beskriva dig själv eller din roll i en gruppchatt. Medlemsetiketter visas bredvid ditt profilnamn i gruppen, och gruppadministratörer kan styra vem som får ange en etikett med behörigheten ”Redigera gruppinfo”.",
     "ignoreUnused": true
   }
 }

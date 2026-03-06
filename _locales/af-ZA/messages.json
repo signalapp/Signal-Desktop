@@ -2229,7 +2229,7 @@
     "messageformat": "Message failed to delete. Check your connection and try again."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "Probeer weer"
   },
   "icu:editFailed": {
     "messageformat": "Wysiging het misluk, klik vir besonderhede"
@@ -2643,13 +2643,13 @@
     "messageformat": "Hierdie boodskap is geskrap."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "Admin {admin} het hierdie boodskap geskrap"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "{name} het hierdie boodskap geskrap"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "Jy het hierdie boodskap geskrap"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "Aanhegsel te groot om te vertoon."
@@ -4650,7 +4650,7 @@
     "messageformat": "View once"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "Eenkeerkyk-media"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Wysig boodskap"
@@ -4692,7 +4692,7 @@
     "messageformat": "Are you sure you want to mute {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "Demp"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Lidfunksie-etikette"
@@ -5037,7 +5037,7 @@
     "messageformat": "Skrap vir almal"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "Skrap vir almal?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
     "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
@@ -7989,7 +7989,7 @@
     "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "messageformat": "Nou kan jy opsioneel 'n lidfunksie-etiket byvoeg om jouself of jou rol in 'n groepklets te beskryf. Lidfunksie-etikette verskyn langs jou profielnaam in daardie groep, en groepadmins kan beheer wie met die \"Wysig groepinligting\"-toestemming 'n etiket kan opstel.",
     "ignoreUnused": true
   }
 }

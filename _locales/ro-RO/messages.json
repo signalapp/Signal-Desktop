@@ -2229,7 +2229,7 @@
     "messageformat": "Message failed to delete. Check your connection and try again."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "Încearcă din nou"
   },
   "icu:editFailed": {
     "messageformat": "Modificarea a eșuat, dă clic pentru detalii"
@@ -2643,13 +2643,13 @@
     "messageformat": "Acest mesaj a fost șters."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "Administratorul {admin} a eliminat acest mesaj"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "{name} a eliminat acest mesaj"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "Ai eliminat acest mesaj"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "Atașamentul este prea mare pentru a fi afișat."
@@ -4650,7 +4650,7 @@
     "messageformat": "View once"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "Mijloc media vizibil o singură dată"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Editează mesajul"
@@ -4692,7 +4692,7 @@
     "messageformat": "Are you sure you want to mute {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "Silențios"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Roluri de membri"
@@ -5037,7 +5037,7 @@
     "messageformat": "Șterge pentru toată lumea"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "Elimini pentru toată lumea?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
     "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
@@ -7989,7 +7989,7 @@
     "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "messageformat": "Acum poți adăuga opțional un rol de membru pentru a te descrie pe tine sau rolul tău într-un chat de grup. Setează rolul de membru în grupul tău la „Arbitru” sau „Portar” în chat-ul local de fotbal din liga recreativă pentru a te ajuta să începi jocul atunci când se alătură noi coechipieri, apoi alege un rol cu funcția ta în chat-ul companiei. Rolurile de membru apar lângă numele profilului în grupul respectiv, iar administratorii grupului pot controla cine poate seta un rol cu permisiunea „Modifică informațiile grupului”.",
     "ignoreUnused": true
   }
 }

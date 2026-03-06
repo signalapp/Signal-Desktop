@@ -2229,7 +2229,7 @@
     "messageformat": "Message failed to delete. Check your connection and try again."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "Yenidən sına"
   },
   "icu:editFailed": {
     "messageformat": "Redaktə baş tutmadı, təfərrüatlar üçün klikləyin"
@@ -2643,13 +2643,13 @@
     "messageformat": "Mesaj silindi."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "Admin {admin} bu mesajı sildi"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "{name} bu mesajı sildi"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "Bu mesajı sildiniz"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "Qoşma göstərilmək üçün həddən artıq böyükdür."
@@ -4650,7 +4650,7 @@
     "messageformat": "View once"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "Bir dəfə göstərilən media faylı"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Mesajı redaktə et"
@@ -4692,7 +4692,7 @@
     "messageformat": "Are you sure you want to mute {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "Səsi bağla"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Üzv etiketləri"
@@ -5037,7 +5037,7 @@
     "messageformat": "Hər kəsdən sil"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "Hər kəsdən silinsin?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
     "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
@@ -7989,7 +7989,7 @@
     "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "messageformat": "Artıq qrup çatında özünüzü və ya rolunuzu təsvir etmək üçün üzv etiketi də əlavə edə bilərsiniz. Qrupa yeni insanlar qoşulduqda işləri tezləşdirməyə kömək etmək üçün yerli futbol liqası qrup çatınızdakı üzv etiketinizi \"Hakim\" və ya \"Qapıçı\" kimi təyin edin, şirkət çatında isə fərqli bir etiket seçin. Üzv etiketi həmin qrupdakı profil adınızın yanında görünür və qrup adminləri \"Qrup məlumatını redaktə et\" icazəsi ilə kimin etiket təyin edəcəyinə nəzarət edə bilər.",
     "ignoreUnused": true
   }
 }

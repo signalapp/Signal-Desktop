@@ -2229,7 +2229,7 @@
     "messageformat": "Message failed to delete. Check your connection and try again."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "حاوِل مُجدَّدًا"
   },
   "icu:editFailed": {
     "messageformat": "فشل التعديل. اضغط للحصول على التفاصيل."
@@ -2643,13 +2643,13 @@
     "messageformat": "حُذِفَت هذه الرسالة."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "حذفَ المُشرِف {admin} هذه الرسالة."
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "حذفَ {name} هذه الرسالة"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "حذفتَ هذه الرسالة."
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "تعذَّر إظهار الملف المُرفَق لأن حجمه كبير جدًا."
@@ -4650,7 +4650,7 @@
     "messageformat": "View once"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "وسائط للمُشاهدة مرّة واحدة"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "تعديل الرسالة"
@@ -4692,7 +4692,7 @@
     "messageformat": "Are you sure you want to mute {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "كتم"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "دور العضو"
@@ -5037,7 +5037,7 @@
     "messageformat": "احذف للجميع"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "الحذف للجميع؟"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
     "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
@@ -7989,7 +7989,7 @@
     "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "messageformat": "يمكنك الآن إضافة دور عضو بشكل اختياري لتصف نفسك أو دورك في دردشة جماعية. عيِّن دور عضو المجموعة إلى \"حكم\" أو \"حارس مرمى\" في دردشة دوري كرة القدم المحلي للمساعدة على كسر الجليد عند انضمام زملاء جُدُد، ثم اختر تسمية مختلفة تعكس مسمّاك الوظيفي في دردشة الشركة. تظهر أدوار الأعضاء بجوار اسم حسابك الشخصي في تلك المجموعة، ويمكن لمُشرِفي المجموعة التحكُّم فيمن يحق له وضع دور باستخدام إذن \"تعديل معلومات المجموعة\".",
     "ignoreUnused": true
   }
 }

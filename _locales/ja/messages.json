@@ -2229,7 +2229,7 @@
     "messageformat": "Message failed to delete. Check your connection and try again."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "もう一度試す"
   },
   "icu:editFailed": {
     "messageformat": "編集できませんでした。クリックすると詳細が表示されます。"
@@ -2643,13 +2643,13 @@
     "messageformat": "このメッセージは消去されました。"
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "管理者の{admin}がこのメッセージを消去しました"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "{name}がこのメッセージを消去しました"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "メッセージを消去しました"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "添付ファイルが大きすぎて表示できません。"
@@ -4650,7 +4650,7 @@
     "messageformat": "View once"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "使い捨てメディア"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "メッセージの編集"
@@ -4692,7 +4692,7 @@
     "messageformat": "Are you sure you want to mute {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "ミュート"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "メンバーラベル"
@@ -5037,7 +5037,7 @@
     "messageformat": "全員分を消去"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "全員に対して消去しますか？"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
     "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
@@ -7989,7 +7989,7 @@
     "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "messageformat": "グループチャット内で、自分自身についてや自分の役割について説明するメンバーラベルを任意で追加できるようになりました。メンバーラベルは、そのグループ内であなたのプロフィールネームの横に表示されます。また、「グループ情報を編集する」の権限を持つグループ管理者は、誰がラベルを設定できるかを管理できます。",
     "ignoreUnused": true
   }
 }

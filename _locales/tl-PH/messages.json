@@ -2229,7 +2229,7 @@
     "messageformat": "Message failed to delete. Check your connection and try again."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "Subukang muli"
   },
   "icu:editFailed": {
     "messageformat": "Failed ang pag-edit, mag-click para sa detalye"
@@ -2643,13 +2643,13 @@
     "messageformat": "Nabura na ang mensaheng ito."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "Binura ni admin {admin} ang message na ito"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "Binura ni {name} ang message na ito"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "Binura mo ang message na ito"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "Masyadong malaki ang attachment para i-display."
@@ -4650,7 +4650,7 @@
     "messageformat": "View once"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "View-once media"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "I-edit ang message"
@@ -4692,7 +4692,7 @@
     "messageformat": "Are you sure you want to mute {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "I-mute"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Member labels"
@@ -5037,7 +5037,7 @@
     "messageformat": "Burahin sa lahat"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "Burahin para sa lahat?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
     "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
@@ -7989,7 +7989,7 @@
     "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "messageformat": "Kung gusto mo, pwede ka nang maglagay ng member label para ilarawan ang sarili mo o ang role mo sa group chat. Ang member labels ay makikita sa tabi ng profile name mo sa group, at may kontrol ang group admins kung sinong maaaring maglagay ng label sa pamamagitan ng \"Edit Group Info\" permission.",
     "ignoreUnused": true
   }
 }

@@ -2229,7 +2229,7 @@
     "messageformat": "Message failed to delete. Check your connection and try again."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "Újra"
   },
   "icu:editFailed": {
     "messageformat": "A szerkesztés sikertelen, kattints a részletekért"
@@ -2643,13 +2643,13 @@
     "messageformat": "Ez az üzenet ki lett törölve."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "{admin} adminisztrátor törölte ezt az üzenetet"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "{name} törölte ezt az üzenetet"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "Törölted ezt az üzenetet"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "A melléklet túl nagy a megjelenítéshez."
@@ -4650,7 +4650,7 @@
     "messageformat": "View once"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "Egyszer megjelenő médiafájl megtekintése"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Üzenet szerkesztése"
@@ -4692,7 +4692,7 @@
     "messageformat": "Are you sure you want to mute {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "Némítás"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Tagsági címke"
@@ -5037,7 +5037,7 @@
     "messageformat": "Törlés mindenki számára"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "Törlés mindenki számára?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
     "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
@@ -7989,7 +7989,7 @@
     "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "messageformat": "Mostantól opcionálisan hozzáadhatsz egy tagsági címkét, amellyel leírhatod magadat vagy a szerepedet egy csoportos csevegésben. A tagsági címkék a profilneved mellett jelennek meg az adott csoportban, és a csoport adminisztrátorai szabályozhatják, hogy ki állíthat be címkét a „Csoportadatok szerkesztése” engedéllyel.",
     "ignoreUnused": true
   }
 }

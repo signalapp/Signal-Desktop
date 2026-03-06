@@ -2229,7 +2229,7 @@
     "messageformat": "Message failed to delete. Check your connection and try again."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "重试"
   },
   "icu:editFailed": {
     "messageformat": "编辑失败，点击查看详情"
@@ -2643,13 +2643,13 @@
     "messageformat": "消息已删除。"
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "管理员{admin}删除了此消息"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "{name}删除了此消息"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "您删除了此消息"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "附件太大而无法显示。"
@@ -4650,7 +4650,7 @@
     "messageformat": "View once"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "阅后即焚媒体"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "编辑消息"
@@ -4692,7 +4692,7 @@
     "messageformat": "Are you sure you want to mute {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "静音"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "成员标签"
@@ -5037,7 +5037,7 @@
     "messageformat": "对所有人删除"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "要对所有人删除？"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
     "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
@@ -7989,7 +7989,7 @@
     "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "messageformat": "现在您可以选择添加成员标签来描述您自己或您在群组聊天中的角色。成员标签会显示在您的群组昵称旁。群组管理员可通过“编辑群组信息”控制谁可以设置标签。",
     "ignoreUnused": true
   }
 }

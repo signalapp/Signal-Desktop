@@ -2229,7 +2229,7 @@
     "messageformat": "Message failed to delete. Check your connection and try again."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "Zkusit znovu"
   },
   "icu:editFailed": {
     "messageformat": "Úprava se nezdařila, kliknutím zobrazíte podrobnosti"
@@ -2643,13 +2643,13 @@
     "messageformat": "Tato zpráva byla odstraněna."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "Správce {admin} tuto zprávu odstranil"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "{name} tuto zprávu odstranil/a"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "Tuto zprávu jste odstranili"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "Příloha je příliš velká pro zobrazení."
@@ -4650,7 +4650,7 @@
     "messageformat": "View once"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "Média, která lze zobrazit jen jednou"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Upravit zprávu"
@@ -4692,7 +4692,7 @@
     "messageformat": "Are you sure you want to mute {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "Ztlumit"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Štítky členů"
@@ -5037,7 +5037,7 @@
     "messageformat": "Odstranit pro všechny"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "Odstranit pro všechny?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
     "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
@@ -7989,7 +7989,7 @@
     "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "messageformat": "Nyní lze volitelně přidat štítek člena, kterým popíšete sebe nebo svou roli ve skupině. Štítek člena se zobrazuje vedle vašeho profilového jména ve skupině a správci skupin mohou kontrolovat, kdo štítek nastavil, pomocí oprávnění v nastavení informací o skupině.",
     "ignoreUnused": true
   }
 }

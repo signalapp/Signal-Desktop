@@ -2229,7 +2229,7 @@
     "messageformat": "Message failed to delete. Check your connection and try again."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "మళ్ళీ ప్రయత్నించండి"
   },
   "icu:editFailed": {
     "messageformat": "సవరణ విఫలమైంది, వివరాల కొరకు క్లిక్ చేయండి"
@@ -2643,13 +2643,13 @@
     "messageformat": "ఈ సందేశం తొలగించబడింది."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "అడ్మిన్ {admin} ఈ సందేశాన్ని తొలగించారు"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "{name} ఈ సందేశాన్ని తొలగించారు"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "మీరు ఈ సందేశాన్ని తొలగించారు"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "ప్రదర్శించేందుకు అటాచ్‌మెంట్ చాలా పెద్దదిగా ఉంది."
@@ -4650,7 +4650,7 @@
     "messageformat": "View once"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "ఒక్కసారి వీక్షించదగిన మీడియా"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "సందేశాన్ని సవరించండి"
@@ -4692,7 +4692,7 @@
     "messageformat": "Are you sure you want to mute {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "మ్యూట్"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "సభ్యుడి లేబుల్‌లు"
@@ -5037,7 +5037,7 @@
     "messageformat": "ప్రతి ఒక్కరి కొరకు తొలగించండి"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "ప్రతి ఒక్కరి కొరకు తొలగించాలా?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
     "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
@@ -7989,7 +7989,7 @@
     "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "messageformat": "గ్రూప్ చాట్‌లో మిమ్మల్ని లేదా మీ పాత్రను వివరించడానికి ఇప్పుడు మీరు ఐచ్ఛికంగా సభ్యుడి లేబుల్‌ను జోడించవచ్చు. కొత్త జట్టు సహచరులు చేరినప్పుడు విషయాలను ప్రారంభించడానికి మీ స్థానిక రెక్ లీగ్ సాకర్ చాట్‌లో మీ గ్రూప్ సభ్యుని లేబుల్‌ను \"రిఫరీ\" లేదా \"గోలీ\"గా సెట్ చేయండి, ఆపై కంపెనీ చాట్‌లో మీ ఉద్యోగ శీర్షికతో వేరే లేబుల్‌ను ఎంచుకోండి. ఆ గ్రూప్‌లో మీ ప్రొఫైల్ పేరు పక్కన సభ్యుడి లేబుల్స్ కనిపిస్తాయి, గ్రూప్ అడ్మిన్స్ \"గ్రూప్ సమాచారాన్ని సవరించండి\" అనుమతితో ఎవరు లేబుల్ సెట్ చేయవచ్చో నియంత్రించగలరు.",
     "ignoreUnused": true
   }
 }
