@@ -115,6 +115,7 @@ const availableSpeakers = [
 
 const validateBackupResult: ExportResultType = {
   attachmentBackupJobs: [],
+  mediaNames: [],
   totalBytes: 100,
   duration: 10000,
   stats: {

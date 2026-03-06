@@ -291,7 +291,11 @@ export class BackupExportStream extends Readable {
   // array.
   #customColorIdByUuid = new Map<string, Long>();
 
-  constructor(private readonly options: Readonly<BackupExportOptions>) {
+  constructor(
+    private readonly options: Readonly<BackupExportOptions> & {
+      validationRun?: boolean;
+    }
+  ) {
     super();
   }
 
@@ -365,8 +369,8 @@ export class BackupExportStream extends Readable {
     );
   }
 
-  public getMediaNamesIterator(): MapIterator<string> {
-    return this.#mediaNamesToFilePointers.keys();
+  public getMediaNames(): Array<string> {
+    return [...this.#mediaNamesToFilePointers.keys()];
   }
 
   public getStats(): Readonly<StatsType> {
@@ -825,6 +829,11 @@ export class BackupExportStream extends Readable {
             this.#pushFrame({
               chatItem,
             });
+
+            if (this.options.validationRun) {
+              // flush every chatItem to expose all validation errors
+              await this.#flush();
+            }
 
             this.#stats.messages += 1;
           },

@@ -354,10 +354,8 @@ export class BackupsService {
       fnLog.info('offline; skipping wait for empty queues');
     }
 
-    const snapshotDir = join(
-      options.backupsBaseDir,
-      `signal-backup-${getTimestampForFolder()}`
-    );
+    // Just in case it's been deleted, ensure the backup dir exists
+    await mkdir(options.backupsBaseDir, { recursive: true });
 
     const freeSpaceBytes = await getFreeDiskSpace(options.backupsBaseDir);
     const bytesNeeded = MIMINUM_DISK_SPACE_FOR_LOCAL_EXPORT - freeSpaceBytes;
@@ -378,15 +376,31 @@ export class BackupsService {
         backupsBaseDir: options.backupsBaseDir,
       });
 
+    const snapshotDir = join(
+      options.backupsBaseDir,
+      `signal-backup-${getTimestampForFolder()}`
+    );
+
     try {
       await mkdir(snapshotDir, { recursive: true });
 
       const exportResult = await this.exportToDisk(join(snapshotDir, 'main'), {
         type: 'local-encrypted',
-        snapshotDir,
         abortSignal: options.abortSignal,
       });
 
+      log.info('exportLocalBackup: writing local backup files list');
+      const filesWritten = await writeLocalBackupFilesList({
+        snapshotDir,
+        mediaNames: exportResult.mediaNames,
+      });
+      const filesRead = await readLocalBackupFilesList(snapshotDir);
+      strictAssert(
+        isEqual(filesWritten, filesRead),
+        'exportBackup: Local backup files proto must match files written'
+      );
+
+      log.info('exportLocalBackup: writing metadata');
       const metadataArgs = {
         snapshotDir,
         backupId: getBackupId(),
@@ -394,6 +408,7 @@ export class BackupsService {
       };
       await writeLocalBackupMetadata(metadataArgs);
       await verifyLocalBackupMetadata(metadataArgs);
+
       await this.#runLocalAttachmentBackupJobs({
         attachmentBackupJobs: exportResult.attachmentBackupJobs,
         baseDir: options.backupsBaseDir,
@@ -702,14 +717,19 @@ export class BackupsService {
   }
 
   // Test harness
-  public async _internalValidate(): Promise<ValidationResultType> {
+  public async _internalValidate(
+    exportOptions: BackupExportOptions = {
+      type: 'local-encrypted',
+      abortSignal: new AbortController().signal,
+    }
+  ): Promise<ValidationResultType> {
     try {
+      log.info('internal validation: starting');
       const start = Date.now();
 
       const recordStream = new BackupExportStream({
-        type: 'remote',
-        level: BackupLevel.Free,
-        abortSignal: new AbortController().signal,
+        ...exportOptions,
+        validationRun: true,
       });
 
       recordStream.run();
@@ -718,15 +738,21 @@ export class BackupsService {
 
       const duration = Date.now() - start;
 
+      log.info('internal validation: succeeded');
       return {
         result: {
           attachmentBackupJobs: recordStream.getAttachmentBackupJobs(),
+          mediaNames: recordStream.getMediaNames(),
           duration,
           stats: recordStream.getStats(),
           totalBytes,
         },
       };
     } catch (error) {
+      log.warn(
+        'internal validation: failed with errors',
+        Errors.toLogFormat(error)
+      );
       return { error: Errors.toLogFormat(error) };
     }
   }
@@ -1212,22 +1238,10 @@ export class BackupsService {
           throw missingCaseError(type);
       }
 
-      if (type === 'local-encrypted') {
-        log.info('exportBackup: writing local backup files list');
-        const filesWritten = await writeLocalBackupFilesList({
-          snapshotDir: options.snapshotDir,
-          mediaNamesIterator: recordStream.getMediaNamesIterator(),
-        });
-        const filesRead = await readLocalBackupFilesList(options.snapshotDir);
-        strictAssert(
-          isEqual(filesWritten, filesRead),
-          'exportBackup: Local backup files proto must match files written'
-        );
-      }
-
       const duration = Date.now() - start;
       return {
         attachmentBackupJobs: recordStream.getAttachmentBackupJobs(),
+        mediaNames: recordStream.getMediaNames(),
         totalBytes,
         stats: recordStream.getStats(),
         duration,
