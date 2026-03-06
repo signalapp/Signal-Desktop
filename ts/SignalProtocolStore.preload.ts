@@ -2653,7 +2653,7 @@ export class SignalProtocolStore extends EventEmitter {
         [pni]: registrationId,
       }),
       (async () => {
-        const newId = wrappingAdd24(signedPreKey.id(), 1);
+        const newId = Math.max(1, wrappingAdd24(signedPreKey.id(), 1));
         log.warn(`${logId}: Updating next signed pre key id to ${newId}`);
         await itemStorage.put(SIGNED_PRE_KEY_ID_KEY[ServiceIdKind.PNI], newId);
       })(),
@@ -2671,7 +2671,7 @@ export class SignalProtocolStore extends EventEmitter {
         if (!lastResortKyberPreKey) {
           return;
         }
-        const newId = wrappingAdd24(lastResortKyberPreKey.id(), 1);
+        const newId = Math.max(1, wrappingAdd24(lastResortKyberPreKey.id(), 1));
         log.warn(`${logId}: Updating next kyber pre key id to ${newId}`);
         await itemStorage.put(KYBER_KEY_ID_KEY[ServiceIdKind.PNI], newId);
       })(),
