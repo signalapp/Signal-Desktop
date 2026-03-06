@@ -2409,19 +2409,21 @@ export function Preferences({
                     {i18n('icu:ProfileEditor__open')}
                   </span>
                 </button>
-                <button
-                  type="button"
-                  className="Preferences__profile-chip__qr-icon-button"
-                  aria-label={i18n('icu:ProfileEditor__username-link__open')}
-                  onClick={() => {
-                    setSettingsLocation({
-                      page: SettingsPage.Profile,
-                      state: ProfileEditorPage.UsernameLink,
-                    });
-                  }}
-                >
-                  <div className="Preferences__profile-chip__qr-icon" />
-                </button>
+                {me.username && (
+                  <button
+                    type="button"
+                    className="Preferences__profile-chip__qr-icon-button"
+                    aria-label={i18n('icu:ProfileEditor__username-link__open')}
+                    onClick={() => {
+                      setSettingsLocation({
+                        page: SettingsPage.Profile,
+                        state: ProfileEditorPage.UsernameLink,
+                      });
+                    }}
+                  >
+                    <div className="Preferences__profile-chip__qr-icon" />
+                  </button>
+                )}
               </div>
               <button
                 type="button"
