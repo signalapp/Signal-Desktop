@@ -91,39 +91,42 @@ type GroupIconType =
   | 'group-leave'
   | 'group-remove';
 
-const changeToIconMap = new Map<string, GroupIconType>([
-  ['access-attributes', 'group-access'],
-  ['access-invite-link', 'group-access'],
-  ['access-members', 'group-access'],
-  ['admin-approval-add-one', 'group-add'],
-  ['admin-approval-remove-one', 'group-decline'],
-  ['admin-approval-bounce', 'group-decline'],
-  ['announcements-only', 'group-access'],
-  ['avatar', 'group-avatar'],
-  ['description', 'group-edit'],
-  ['group-link-add', 'group-access'],
-  ['group-link-remove', 'group-access'],
-  ['group-link-reset', 'group-access'],
-  ['member-add', 'group-add'],
-  ['member-add-from-admin-approval', 'group-approved'],
-  ['member-add-from-invite', 'group-add'],
-  ['member-add-from-link', 'group-add'],
-  ['member-privilege', 'group-access'],
-  ['member-remove', 'group-remove'],
-  ['pending-add-many', 'group-add'],
-  ['pending-add-one', 'group-add'],
-  ['pending-remove-many', 'group-decline'],
-  ['pending-remove-one', 'group-decline'],
-  ['title', 'group-edit'],
-]);
-
+const changeToIconMap: Record<GroupV2ChangeDetailType['type'], GroupIconType> =
+  {
+    'access-attributes': 'group-access',
+    'access-invite-link': 'group-access',
+    'access-member-label': 'group-access',
+    'access-members': 'group-access',
+    'admin-approval-add-one': 'group-add',
+    'admin-approval-bounce': 'group-decline',
+    'admin-approval-remove-one': 'group-decline',
+    'announcements-only': 'group-access',
+    avatar: 'group-avatar',
+    create: 'group',
+    description: 'group-edit',
+    'group-link-add': 'group-access',
+    'group-link-remove': 'group-access',
+    'group-link-reset': 'group-access',
+    'member-add': 'group-add',
+    'member-add-from-admin-approval': 'group-approved',
+    'member-add-from-invite': 'group-add',
+    'member-add-from-link': 'group-add',
+    'member-privilege': 'group-access',
+    'member-remove': 'group-remove',
+    'pending-add-many': 'group-add',
+    'pending-add-one': 'group-add',
+    'pending-remove-many': 'group-decline',
+    'pending-remove-one': 'group-decline',
+    summary: 'group-summary',
+    title: 'group-edit',
+  };
 function getIcon(
   detail: GroupV2ChangeDetailType,
   isLastText = true,
   fromId?: ServiceIdString
 ): GroupIconType {
   const changeType = detail.type;
-  let possibleIcon = changeToIconMap.get(changeType);
+  let possibleIcon: GroupIconType | undefined = changeToIconMap[changeType];
   const isSameId = fromId === get(detail, 'aci', null);
   if (isSameId) {
     if (changeType === 'member-remove') {
@@ -138,9 +141,7 @@ function getIcon(
   if (changeType === 'admin-approval-bounce' && isLastText) {
     possibleIcon = undefined;
   }
-  if (changeType === 'summary') {
-    possibleIcon = 'group-summary';
-  }
+
   return possibleIcon || 'group';
 }
 
