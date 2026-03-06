@@ -470,7 +470,10 @@ describe('attachments', function (this: Mocha.Suite) {
       ]);
 
     const sentVideo = sentVideoAttachments[0];
-    assert.deepStrictEqual(sentVideo.cdnKey, recentPointer.cdnKey);
+    assert.deepStrictEqual(
+      sentVideo.attachmentIdentifier,
+      recentPointer.attachmentIdentifier
+    );
     assert.deepStrictEqual(sentVideo.cdnNumber, recentPointer.cdnNumber);
     assert.deepStrictEqual(sentVideo.key, recentPointer.key);
     assert.deepStrictEqual(sentVideo.digest, recentPointer.digest);
@@ -483,7 +486,10 @@ describe('attachments', function (this: Mocha.Suite) {
     assert.notDeepEqual(sentVideo.fileName, recentPointer.fileName);
 
     const sentCat = sentCatAttachments[0];
-    assert.notDeepEqual(sentCat.cdnKey, stalePointer.cdnKey);
+    assert.notDeepEqual(
+      sentCat.attachmentIdentifier,
+      stalePointer.attachmentIdentifier
+    );
     assert.notDeepEqual(sentCat.key, stalePointer.key);
     assert.notDeepEqual(sentCat.digest, stalePointer.digest);
   });

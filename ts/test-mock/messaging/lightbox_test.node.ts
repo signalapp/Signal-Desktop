@@ -136,14 +136,14 @@ describe('lightbox', function (this: Mocha.Suite) {
     async function expectLightboxImage(
       attachment: Proto.AttachmentPointer.Params
     ) {
-      assert.strictEqual(
-        attachment.attachmentIdentifier,
-        'cdnKey',
+      assert.ok(
+        attachment.attachmentIdentifier?.cdnKey != null,
         'Must have cdnKey'
       );
-      strictAssert(attachment.cdnKey.length > 0, 'Must have valid cdnKey');
-      const Object = LightboxContent.getByTestId(attachment.cdnKey);
-      debug(`Waiting for attachment with cdnKey ${attachment.cdnKey}`);
+      const { cdnKey } = attachment.attachmentIdentifier;
+      strictAssert(cdnKey.length > 0, 'Must have valid cdnKey');
+      const Object = LightboxContent.getByTestId(cdnKey);
+      debug(`Waiting for attachment with cdnKey ${cdnKey}`);
       await expect(Object).toBeVisible();
     }
 

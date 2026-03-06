@@ -104,16 +104,18 @@ describe('readSync', function (this: Mocha.Suite) {
       await phone.sendRaw(
         desktop,
         {
-          syncMessage: {
-            content: null,
-            read: longTimestamps.map(timestamp => ({
-              senderAciBinary,
-              timestamp,
-              senderAci: null,
-            })),
-            stickerPackOperation: null,
-            viewed: null,
-            padding: null,
+          content: {
+            syncMessage: {
+              content: null,
+              read: longTimestamps.map(timestamp => ({
+                senderAciBinary,
+                timestamp,
+                senderAci: null,
+              })),
+              stickerPackOperation: null,
+              viewed: null,
+              padding: null,
+            },
           },
           pniSignatureMessage: null,
           senderKeyDistributionMessage: null,

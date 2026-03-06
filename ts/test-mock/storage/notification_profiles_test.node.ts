@@ -106,7 +106,7 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
 
     let profileId: Uint8Array | undefined;
     const profilewasAdded = thirdState.hasRecord(record => {
-      if (record.record.record !== 'notificationProfile') {
+      if (record.record.notificationProfile == null) {
         return false;
       }
 
@@ -152,7 +152,7 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
     });
 
     const profileScheduleIsOff = fourthState.hasRecord(record => {
-      if (record.record.record !== 'notificationProfile') {
+      if (record.record.notificationProfile == null) {
         return false;
       }
       assert.ok(record.type === IdentifierType.NOTIFICATION_PROFILE);
@@ -184,18 +184,15 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
     });
 
     const acountRecordHasOverride = fifthState.hasRecord(record => {
-      if (record.record.record !== 'account') {
+      if (record.record.account == null) {
         return false;
       }
       const { notificationProfileManualOverride } = record.record.account;
-      if (notificationProfileManualOverride?.override == null) {
-        return false;
-      }
-      if (notificationProfileManualOverride.override !== 'enabled') {
+      if (notificationProfileManualOverride?.override?.enabled == null) {
         return false;
       }
 
-      const { id } = notificationProfileManualOverride.enabled;
+      const { id } = notificationProfileManualOverride.override.enabled;
 
       return Boolean(
         record.type === IdentifierType.ACCOUNT &&
@@ -297,9 +294,11 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
 
       newState = newState.updateAccount({
         notificationProfileManualOverride: {
-          enabled: {
-            id: notificationProfileId1,
-            endAtTimestampMs: null,
+          override: {
+            enabled: {
+              id: notificationProfileId1,
+              endAtTimestampMs: null,
+            },
           },
         },
       });
@@ -344,18 +343,14 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
         throw new Error('Notification profile sync is disabled!');
       }
 
-      assert.strictEqual(
-        accountRecord?.notificationProfileManualOverride?.override,
-        'enabled'
-      );
       assert.deepEqual(
-        accountRecord.notificationProfileManualOverride.enabled.id,
+        accountRecord.notificationProfileManualOverride?.override?.enabled?.id,
         notificationProfileId1
       );
 
       let countOfProfiles = 0;
       secondState.hasRecord(record => {
-        if (record.record.record !== 'notificationProfile') {
+        if (record.record.notificationProfile == null) {
           return false;
         }
         const deletedTimestamp =
@@ -479,9 +474,11 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
 
       newState = newState.updateAccount({
         notificationProfileManualOverride: {
-          enabled: {
-            id: notificationProfileId1,
-            endAtTimestampMs: null,
+          override: {
+            enabled: {
+              id: notificationProfileId1,
+              endAtTimestampMs: null,
+            },
           },
         },
         notificationProfileSyncDisabled: false,
@@ -524,7 +521,7 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
 
     let countOfProfiles = 0;
     thirdState.hasRecord(record => {
-      if (record.record.record !== 'notificationProfile') {
+      if (record.record?.notificationProfile == null) {
         return false;
       }
 

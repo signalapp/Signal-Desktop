@@ -138,7 +138,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       const updated = await phone.setStorageState(
         state
           .removeRecord(item => {
-            if (item.record.record !== 'contact') {
+            if (item.record.contact == null) {
               return false;
             }
             return item.record.contact.pniBinary?.length
@@ -242,7 +242,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       const updated = await phone.setStorageState(
         state
           .removeRecord(item => {
-            if (item.record.record !== 'contact') {
+            if (item.record.contact == null) {
               return false;
             }
             return item.record.contact.pniBinary?.length
@@ -351,7 +351,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       const updated = await phone.setStorageState(
         state
           .removeRecord(item => {
-            if (item.record.record !== 'contact') {
+            if (item.record.contact == null) {
               return false;
             }
             return item.record.contact.pniBinary?.length
@@ -489,7 +489,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       const updated = await phone.setStorageState(
         state
           .removeRecord(item => {
-            if (item.record.record !== 'contact') {
+            if (item.record.contact == null) {
               return false;
             }
             return item.record.contact.pniBinary?.length
@@ -528,7 +528,7 @@ describe('pnp/PNI Change', function (this: Mocha.Suite) {
       const updated = await phone.setStorageState(
         state
           .removeRecord(item => {
-            if (item.record.record !== 'contact') {
+            if (item.record.contact == null) {
               return false;
             }
             return item.record.contact.pniBinary?.length

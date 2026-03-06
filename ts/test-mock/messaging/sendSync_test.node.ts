@@ -65,30 +65,34 @@ describe('sendSync', function (this: Mocha.Suite) {
       },
     };
     const content: Proto.Content.Params = {
-      syncMessage: {
-        sent: {
-          timestamp: BigInt(timestamp),
-          message: originalDataMessage,
-          unidentifiedStatus: members.map(member => ({
-            destinationServiceIdBinary: member.device.aciBinary,
-            destination: member.device.number,
-            unidentified: null,
-            destinationPniIdentityKey: null,
-            destinationServiceId: null,
-          })),
-          destinationE164: null,
-          expirationStartTimestamp: null,
-          isRecipientUpdate: null,
-          storyMessage: null,
-          storyMessageRecipients: null,
-          editMessage: null,
-          destinationServiceIdBinary: null,
-          destinationServiceId: null,
+      content: {
+        syncMessage: {
+          content: {
+            sent: {
+              timestamp: BigInt(timestamp),
+              message: originalDataMessage,
+              unidentifiedStatus: members.map(member => ({
+                destinationServiceIdBinary: member.device.aciBinary,
+                destination: member.device.number,
+                unidentified: null,
+                destinationPniIdentityKey: null,
+                destinationServiceId: null,
+              })),
+              destinationE164: null,
+              expirationStartTimestamp: null,
+              isRecipientUpdate: null,
+              storyMessage: null,
+              storyMessageRecipients: null,
+              editMessage: null,
+              destinationServiceIdBinary: null,
+              destinationServiceId: null,
+            },
+          },
+          read: null,
+          stickerPackOperation: null,
+          viewed: null,
+          padding: null,
         },
-        read: null,
-        stickerPackOperation: null,
-        viewed: null,
-        padding: null,
       },
       pniSignatureMessage: null,
       senderKeyDistributionMessage: null,

@@ -32,13 +32,16 @@ function createResponse(
   response: Proto.SyncMessage.AttachmentBackfillResponse.Params
 ): Proto.Content.Params {
   return {
-    syncMessage: {
-      content: 'attachmentBackfillResponse',
-      attachmentBackfillResponse: response,
-      read: null,
-      stickerPackOperation: null,
-      viewed: null,
-      padding: null,
+    content: {
+      syncMessage: {
+        content: {
+          attachmentBackfillResponse: response,
+        },
+        read: null,
+        stickerPackOperation: null,
+        viewed: null,
+        padding: null,
+      },
     },
     pniSignatureMessage: null,
     senderKeyDistributionMessage: null,
@@ -106,21 +109,21 @@ describe('attachment backfill', function (this: Mocha.Suite) {
       attachments: [
         {
           ...textAttachment,
-          attachmentIdentifier: 'cdnKey',
-          cdnKey: 'text-not-found',
-          cdnId: null,
+          attachmentIdentifier: {
+            cdnKey: 'text-not-found',
+          },
         },
         {
           ...catAttachment,
-          attachmentIdentifier: 'cdnKey',
-          cdnKey: 'cat-not-found',
-          cdnId: null,
+          attachmentIdentifier: {
+            cdnKey: 'cat-not-found',
+          },
         },
         {
           ...snowAttachment,
-          attachmentIdentifier: 'cdnKey',
-          cdnKey: 'snow-not-found',
-          cdnId: null,
+          attachmentIdentifier: {
+            cdnKey: 'snow-not-found',
+          },
         },
       ],
       timestamp,
@@ -143,18 +146,18 @@ describe('attachment backfill', function (this: Mocha.Suite) {
 
     debug('waiting for backfill request');
     const { syncMessage } = await phone.waitForSyncMessage(entry => {
-      return entry.syncMessage.content === 'attachmentBackfillRequest';
+      return entry.syncMessage.content?.attachmentBackfillRequest != null;
     });
-    assert.strictEqual(syncMessage.content, 'attachmentBackfillRequest');
-    const request = syncMessage.attachmentBackfillRequest;
+    assert.ok(syncMessage.content?.attachmentBackfillRequest != null);
+    const request = syncMessage.content.attachmentBackfillRequest;
 
     assert(request != null);
     assert.deepEqual(
-      request.targetConversation?.threadServiceIdBinary,
+      request.targetConversation?.identifier?.threadServiceIdBinary,
       unknownContact.device.aciBinary
     );
     assert.deepEqual(
-      request.targetMessage?.authorServiceIdBinary,
+      request.targetMessage?.author?.authorServiceIdBinary,
       unknownContact.device.aciBinary
     );
     assert.strictEqual(
@@ -178,9 +181,14 @@ describe('attachment backfill', function (this: Mocha.Suite) {
       createResponse({
         targetConversation: request.targetConversation,
         targetMessage: request.targetMessage,
-        attachments: {
-          longText: { status: Status.PENDING },
-          attachments: [{ status: Status.PENDING }, { status: Status.PENDING }],
+        data: {
+          attachments: {
+            longText: { data: { status: Status.PENDING } },
+            attachments: [
+              { data: { status: Status.PENDING } },
+              { data: { status: Status.PENDING } },
+            ],
+          },
         },
       }),
       {
@@ -194,9 +202,14 @@ describe('attachment backfill', function (this: Mocha.Suite) {
       createResponse({
         targetConversation: request.targetConversation,
         targetMessage: request.targetMessage,
-        attachments: {
-          longText: { attachment: textAttachment },
-          attachments: [{ status: Status.PENDING }, { status: Status.PENDING }],
+        data: {
+          attachments: {
+            longText: { data: { attachment: textAttachment } },
+            attachments: [
+              { data: { status: Status.PENDING } },
+              { data: { status: Status.PENDING } },
+            ],
+          },
         },
       }),
       {
@@ -212,12 +225,14 @@ describe('attachment backfill', function (this: Mocha.Suite) {
       createResponse({
         targetConversation: request.targetConversation,
         targetMessage: request.targetMessage,
-        attachments: {
-          longText: { attachment: textAttachment },
-          attachments: [
-            { attachment: catAttachment },
-            { status: Status.PENDING },
-          ],
+        data: {
+          attachments: {
+            longText: { data: { attachment: textAttachment } },
+            attachments: [
+              { data: { attachment: catAttachment } },
+              { data: { status: Status.PENDING } },
+            ],
+          },
         },
       }),
       {
@@ -238,12 +253,14 @@ describe('attachment backfill', function (this: Mocha.Suite) {
       createResponse({
         targetConversation: request.targetConversation,
         targetMessage: request.targetMessage,
-        attachments: {
-          longText: { attachment: textAttachment },
-          attachments: [
-            { attachment: catAttachment },
-            { status: Status.TERMINAL_ERROR },
-          ],
+        data: {
+          attachments: {
+            longText: { data: { attachment: textAttachment } },
+            attachments: [
+              { data: { attachment: catAttachment } },
+              { data: { status: Status.TERMINAL_ERROR } },
+            ],
+          },
         },
       }),
       {
@@ -277,9 +294,9 @@ describe('attachment backfill', function (this: Mocha.Suite) {
       attachments: [
         {
           ...catAttachment,
-          attachmentIdentifier: 'cdnKey',
-          cdnKey: 'cat-not-found',
-          cdnId: null,
+          attachmentIdentifier: {
+            cdnKey: 'cat-not-found',
+          },
         },
       ],
       timestamp,
@@ -319,9 +336,9 @@ describe('attachment backfill', function (this: Mocha.Suite) {
       attachments: [
         {
           ...catAttachment,
-          attachmentIdentifier: 'cdnKey',
-          cdnKey: 'cat-not-found',
-          cdnId: null,
+          attachmentIdentifier: {
+            cdnKey: 'cat-not-found',
+          },
         },
       ],
       timestamp,
@@ -344,18 +361,18 @@ describe('attachment backfill', function (this: Mocha.Suite) {
 
     debug('waiting for request');
     const { syncMessage } = await phone.waitForSyncMessage(entry => {
-      return entry.syncMessage.content === 'attachmentBackfillRequest';
+      return entry.syncMessage.content?.attachmentBackfillRequest != null;
     });
-    assert.strictEqual(syncMessage.content, 'attachmentBackfillRequest');
-    const request = syncMessage.attachmentBackfillRequest;
+    assert.ok(syncMessage.content?.attachmentBackfillRequest != null);
+    const request = syncMessage.content.attachmentBackfillRequest;
 
     assert(request != null);
     assert.deepEqual(
-      request.targetConversation?.threadServiceIdBinary,
+      request.targetConversation?.identifier?.threadServiceIdBinary,
       unknownContact.device.aciBinary
     );
     assert.deepEqual(
-      request.targetMessage?.authorServiceIdBinary,
+      request.targetMessage?.author?.authorServiceIdBinary,
       unknownContact.device.aciBinary
     );
     assert.strictEqual(
@@ -371,8 +388,11 @@ describe('attachment backfill', function (this: Mocha.Suite) {
       createResponse({
         targetConversation: request.targetConversation,
         targetMessage: request.targetMessage,
-        error:
-          Proto.SyncMessage.AttachmentBackfillResponse.Error.MESSAGE_NOT_FOUND,
+        data: {
+          error:
+            Proto.SyncMessage.AttachmentBackfillResponse.Error
+              .MESSAGE_NOT_FOUND,
+        },
       }),
       {
         timestamp: bootstrap.getTimestamp(),
@@ -405,9 +425,9 @@ describe('attachment backfill', function (this: Mocha.Suite) {
         emoji: '🐈',
         data: {
           ...catAttachment,
-          attachmentIdentifier: 'cdnKey',
-          cdnKey: 'cat-not-found',
-          cdnId: null,
+          attachmentIdentifier: {
+            cdnKey: 'cat-not-found',
+          },
         },
       },
       timestamp,
@@ -430,18 +450,18 @@ describe('attachment backfill', function (this: Mocha.Suite) {
 
     debug('waiting for backfill request');
     const { syncMessage } = await phone.waitForSyncMessage(entry => {
-      return entry.syncMessage.content === 'attachmentBackfillRequest';
+      return entry.syncMessage.content?.attachmentBackfillRequest != null;
     });
 
-    assert.strictEqual(syncMessage.content, 'attachmentBackfillRequest');
-    const request = syncMessage.attachmentBackfillRequest;
+    assert.ok(syncMessage.content?.attachmentBackfillRequest != null);
+    const request = syncMessage.content.attachmentBackfillRequest;
 
     assert.deepEqual(
-      request.targetConversation?.threadServiceIdBinary,
+      request.targetConversation?.identifier?.threadServiceIdBinary,
       unknownContact.device.aciBinary
     );
     assert.deepEqual(
-      request.targetMessage?.authorServiceIdBinary,
+      request.targetMessage?.author?.authorServiceIdBinary,
       unknownContact.device.aciBinary
     );
     assert.strictEqual(
@@ -457,9 +477,11 @@ describe('attachment backfill', function (this: Mocha.Suite) {
       createResponse({
         targetConversation: request.targetConversation,
         targetMessage: request.targetMessage,
-        attachments: {
-          attachments: [{ status: Status.PENDING }],
-          longText: null,
+        data: {
+          attachments: {
+            attachments: [{ data: { status: Status.PENDING } }],
+            longText: null,
+          },
         },
       }),
       {
@@ -473,13 +495,17 @@ describe('attachment backfill', function (this: Mocha.Suite) {
       createResponse({
         targetConversation: request.targetConversation,
         targetMessage: request.targetMessage,
-        attachments: {
-          longText: null,
-          attachments: [
-            {
-              attachment: catAttachment,
-            },
-          ],
+        data: {
+          attachments: {
+            longText: null,
+            attachments: [
+              {
+                data: {
+                  attachment: catAttachment,
+                },
+              },
+            ],
+          },
         },
       }),
       {
@@ -511,9 +537,9 @@ describe('attachment backfill', function (this: Mocha.Suite) {
             fileName: 'snow.jpg',
             thumbnail: {
               ...snowAttachment,
-              attachmentIdentifier: 'cdnKey',
-              cdnKey: 'snow-not-found',
-              cdnId: null,
+              attachmentIdentifier: {
+                cdnKey: 'snow-not-found',
+              },
             },
           },
         ],
@@ -526,9 +552,9 @@ describe('attachment backfill', function (this: Mocha.Suite) {
         title: 'Signal',
         image: {
           ...catAttachment,
-          attachmentIdentifier: 'cdnKey',
-          cdnKey: 'cat-not-found',
-          cdnId: null,
+          attachmentIdentifier: {
+            cdnKey: 'cat-not-found',
+          },
         },
         description: null,
         date: null,

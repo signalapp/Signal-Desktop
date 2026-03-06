@@ -32,7 +32,9 @@ export const debug = createDebug('mock:test:edit');
 const ACI_1 = generateAci();
 const ACI_1_BINARY = Aci.parseFromServiceIdString(ACI_1).getRawUuidBytes();
 const UNPROCESSED_ATTACHMENT: Proto.AttachmentPointer.Params = {
-  cdnId: 123n,
+  attachmentIdentifier: {
+    cdnId: 123n,
+  },
   key: new Uint8Array([1, 2, 3]),
   digest: new Uint8Array([4, 5, 6]),
   contentType: IMAGE_GIF,
@@ -60,13 +62,17 @@ function wrap({
 }>): Proto.Content.Params {
   if (dataMessage != null) {
     return {
-      dataMessage,
+      content: {
+        dataMessage,
+      },
       pniSignatureMessage: null,
       senderKeyDistributionMessage: null,
     };
   }
   return {
-    editMessage,
+    content: {
+      editMessage,
+    },
     pniSignatureMessage: null,
     senderKeyDistributionMessage: null,
   };
@@ -631,9 +637,11 @@ describe('editing', function (this: Mocha.Suite) {
         await friend.sendRaw(
           desktop,
           {
-            receiptMessage: {
-              type: Proto.ReceiptMessage.Type.DELIVERY,
-              timestamp: [originalMessage.timestamp],
+            content: {
+              receiptMessage: {
+                type: Proto.ReceiptMessage.Type.DELIVERY,
+                timestamp: [originalMessage.timestamp],
+              },
             },
             pniSignatureMessage: null,
             senderKeyDistributionMessage: null,
@@ -678,9 +686,11 @@ describe('editing', function (this: Mocha.Suite) {
         await friend.sendRaw(
           desktop,
           {
-            receiptMessage: {
-              type: Proto.ReceiptMessage.Type.READ,
-              timestamp: [originalMessage.timestamp],
+            content: {
+              receiptMessage: {
+                type: Proto.ReceiptMessage.Type.READ,
+                timestamp: [originalMessage.timestamp],
+              },
             },
             pniSignatureMessage: null,
             senderKeyDistributionMessage: null,
@@ -773,9 +783,11 @@ describe('editing', function (this: Mocha.Suite) {
         await friend.sendRaw(
           desktop,
           {
-            receiptMessage: {
-              type: 1,
-              timestamp: [editMessageV3.dataMessage.timestamp],
+            content: {
+              receiptMessage: {
+                type: 1,
+                timestamp: [editMessageV3.dataMessage.timestamp],
+              },
             },
             pniSignatureMessage: null,
             senderKeyDistributionMessage: null,
