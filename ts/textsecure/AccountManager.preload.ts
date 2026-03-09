@@ -477,7 +477,7 @@ export default class AccountManager extends EventTarget {
       signalProtocolStore.storePreKeys(ourServiceId, toSave),
       itemStorage.put(
         PRE_KEY_ID_KEY[serviceIdKind],
-        wrappingAdd24(startId, count)
+        Math.max(1, wrappingAdd24(startId, count))
       ),
     ]);
 
@@ -529,7 +529,7 @@ export default class AccountManager extends EventTarget {
       signalProtocolStore.storeKyberPreKeys(ourServiceId, toSave),
       itemStorage.put(
         KYBER_KEY_ID_KEY[serviceIdKind],
-        wrappingAdd24(startId, count)
+        Math.max(1, wrappingAdd24(startId, count))
       ),
     ]);
 
@@ -689,7 +689,7 @@ export default class AccountManager extends EventTarget {
 
     await itemStorage.put(
       SIGNED_PRE_KEY_ID_KEY[serviceIdKind],
-      wrappingAdd24(signedKeyId, 1)
+      Math.max(1, wrappingAdd24(signedKeyId, 1))
     );
 
     return key;
@@ -761,7 +761,7 @@ export default class AccountManager extends EventTarget {
 
     await itemStorage.put(
       KYBER_KEY_ID_KEY[serviceIdKind],
-      wrappingAdd24(kyberKeyId, 1)
+      Math.max(1, wrappingAdd24(kyberKeyId, 1))
     );
 
     return record;
