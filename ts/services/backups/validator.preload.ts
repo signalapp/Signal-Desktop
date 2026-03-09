@@ -1,18 +1,16 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { Readable } from 'node:stream';
-import { once } from 'node:events';
+import { type Readable, PassThrough } from 'node:stream';
+import { pipeline } from 'node:stream/promises';
 import * as libsignal from '@signalapp/libsignal-client/dist/MessageBackup.js';
 import type { InputStream } from '@signalapp/libsignal-client/dist/io.js';
-import protobufjs from 'protobufjs';
 
 import { strictAssert } from '../../util/assert.std.js';
 import { toAciObject } from '../../util/ServiceId.node.js';
 import { missingCaseError } from '../../util/missingCaseError.std.js';
+import { DelimitedStream } from '../../util/DelimitedStream.node.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
-
-const { Reader } = protobufjs;
 
 export enum ValidationType {
   Export = 'Export',
@@ -62,14 +60,16 @@ export async function validateBackupStream(
 
   let totalBytes = 0;
   let frameCount = 0;
-
   const allErrorMessages: Array<string> = [];
-  readable.on('data', delimitedFrame => {
-    totalBytes += delimitedFrame.byteLength;
-    frameCount += 1;
 
-    const reader = new Reader(delimitedFrame);
-    const frame = reader.bytes();
+  const countBytes = new PassThrough();
+  countBytes.on('data', bytes => {
+    totalBytes += bytes.byteLength;
+  });
+
+  const delimited = new DelimitedStream();
+  delimited.on('data', frame => {
+    frameCount += 1;
 
     // Info frame
     if (frameCount === 1) {
@@ -88,7 +88,8 @@ export async function validateBackupStream(
     }
   });
 
-  await once(readable, 'end');
+  await pipeline(readable, countBytes, delimited);
+
   strictAssert(validator != null, 'no frames');
 
   try {
