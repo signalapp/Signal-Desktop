@@ -196,7 +196,6 @@ describe('stickers', function (this: Mocha.Suite) {
         state.updateRecord(
           getStickerPackRecordPredicate(STICKER_PACKS[0]),
           record => ({
-            record: 'stickerPack',
             stickerPack: {
               ...record.stickerPack,
               packKey: STICKER_PACKS[0].key,
@@ -237,9 +236,8 @@ describe('stickers', function (this: Mocha.Suite) {
       const stickerPack = stateAfter.findRecord(
         getStickerPackRecordPredicate(STICKER_PACKS[1])
       );
-      assert.strictEqual(
-        stickerPack?.record.record,
-        'stickerPack',
+      assert.ok(
+        stickerPack?.record.stickerPack != null,
         'New storage state should have sticker pack record'
       );
       assert.isTrue(

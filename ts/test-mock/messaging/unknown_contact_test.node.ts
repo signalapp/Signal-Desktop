@@ -46,18 +46,20 @@ describe('unknown contacts', function (this: Mocha.Suite) {
 
     debug('sending calling offer message');
     await unknownContact.sendRaw(desktop, {
-      callMessage: {
-        offer: {
-          id: BigInt(Math.floor(Math.random() * 1e10)),
-          type: Proto.CallMessage.Offer.Type.OFFER_AUDIO_CALL,
-          opaque: new Uint8Array(0),
+      content: {
+        callMessage: {
+          offer: {
+            id: BigInt(Math.floor(Math.random() * 1e10)),
+            type: Proto.CallMessage.Offer.Type.OFFER_AUDIO_CALL,
+            opaque: new Uint8Array(0),
+          },
+          answer: null,
+          iceUpdate: null,
+          busy: null,
+          hangup: null,
+          destinationDeviceId: null,
+          opaque: null,
         },
-        answer: null,
-        iceUpdate: null,
-        busy: null,
-        hangup: null,
-        destinationDeviceId: null,
-        opaque: null,
       },
       pniSignatureMessage: null,
       senderKeyDistributionMessage: null,
@@ -102,17 +104,21 @@ describe('unknown contacts', function (this: Mocha.Suite) {
 
     debug('sending message request sync');
     await phone.sendRaw(desktop, {
-      syncMessage: {
-        messageRequestResponse: {
-          type: Proto.SyncMessage.MessageRequestResponse.Type.ACCEPT,
-          threadAciBinary: unknownContact.device.aciRawUuid,
-          groupId: null,
-          threadAci: null,
+      content: {
+        syncMessage: {
+          content: {
+            messageRequestResponse: {
+              type: Proto.SyncMessage.MessageRequestResponse.Type.ACCEPT,
+              threadAciBinary: unknownContact.device.aciRawUuid,
+              groupId: null,
+              threadAci: null,
+            },
+          },
+          read: null,
+          stickerPackOperation: null,
+          viewed: null,
+          padding: null,
         },
-        read: null,
-        stickerPackOperation: null,
-        viewed: null,
-        padding: null,
       },
       pniSignatureMessage: null,
       senderKeyDistributionMessage: null,

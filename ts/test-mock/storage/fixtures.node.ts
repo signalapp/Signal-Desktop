@@ -196,7 +196,6 @@ export function getStickerPackLink(pack: StickerPackType): string {
 }
 
 type StickerRecord = StorageStateRecord<{
-  record: 'stickerPack';
   stickerPack: Proto.StickerPackRecord.Params;
 }>;
 
@@ -205,7 +204,7 @@ export function getStickerPackRecordPredicate(
 ): (record: StorageStateRecord) => record is StickerRecord {
   return (stateRecord: StorageStateRecord): stateRecord is StickerRecord => {
     const { type, record } = stateRecord;
-    if (record.record !== 'stickerPack') {
+    if (record.stickerPack == null) {
       return false;
     }
     if (type !== IdentifierType.STICKER_PACK) {
@@ -241,7 +240,6 @@ export async function storeStickerPacks(
 }
 
 type CallLinkRecord = StorageStateRecord<{
-  record: 'callLink';
   callLink: Proto.CallLinkRecord.Params;
 }>;
 
@@ -250,7 +248,7 @@ export function getCallLinkRecordPredicate(
 ): (record: StorageStateRecord) => record is CallLinkRecord {
   return (stateRecord: StorageStateRecord): stateRecord is CallLinkRecord => {
     const { type, record } = stateRecord;
-    if (record.record !== 'callLink') {
+    if (record.callLink == null) {
       return false;
     }
 
@@ -265,7 +263,6 @@ export function getCallLinkRecordPredicate(
 }
 
 type ChatFolderRecord = StorageStateRecord<{
-  record: 'chatFolder';
   chatFolder: Proto.ChatFolderRecord.Params;
 }>;
 
@@ -276,7 +273,7 @@ export function getChatFolderRecordPredicate(
 ): (record: StorageStateRecord) => record is ChatFolderRecord {
   return (stateRecord): stateRecord is ChatFolderRecord => {
     const { type, record } = stateRecord;
-    if (record.record !== 'chatFolder') {
+    if (record.chatFolder == null) {
       return false;
     }
 

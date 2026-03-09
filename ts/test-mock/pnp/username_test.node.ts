@@ -147,14 +147,14 @@ describe('pnp/username', function (this: Mocha.Suite) {
           'only one record must be removed'
         );
 
-        assert.strictEqual(added[0].record, 'contact');
+        assert.ok(added[0].contact != null);
         assert.deepEqual(
           added[0].contact.aciBinary,
           usernameContact.device.aciRawUuid
         );
         assert.strictEqual(added[0].contact.username, '');
 
-        assert.strictEqual(removed[0].record, 'contact');
+        assert.ok(removed[0].contact != null);
         assert.deepEqual(
           removed[0].contact.aciBinary,
           usernameContact.device.aciRawUuid
@@ -235,7 +235,7 @@ describe('pnp/username', function (this: Mocha.Suite) {
       assert.strictEqual(added.length, 1, 'only one record must be added');
       assert.strictEqual(removed.length, 1, 'only one record must be removed');
 
-      assert.strictEqual(added[0]?.record, 'account');
+      assert.ok(added[0]?.account != null);
       assert.strictEqual(added[0].account.username, username);
       const { usernameLink } = added[0].account;
       if (!usernameLink) {
@@ -287,11 +287,7 @@ describe('pnp/username', function (this: Mocha.Suite) {
       assert.strictEqual(added.length, 1, 'only one record must be added');
       assert.strictEqual(removed.length, 1, 'only one record must be removed');
 
-      assert.strictEqual(
-        added[0]?.record,
-        'account',
-        'expected updated account'
-      );
+      assert.ok(added[0]?.account != null, 'expected updated account');
       assert.strictEqual(added[0].account.username, '', 'clears username');
       assert.strictEqual(
         added[0].account.usernameLink?.entropy?.length ?? 0,

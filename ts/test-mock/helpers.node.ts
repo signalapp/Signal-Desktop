@@ -151,36 +151,42 @@ function maybeWrapInSyncMessage({
 }): Proto.Content.Params {
   return isSync
     ? {
-        syncMessage: {
-          sent: {
-            destinationServiceIdBinary: getDevice(to).aciBinary,
-            message: dataMessage,
-            timestamp: dataMessage.timestamp,
-            unidentifiedStatus: (sentTo ?? [to]).map(contact => ({
-              destinationServiceIdBinary: getDevice(contact).aciBinary,
-              destination: getDevice(contact).number,
-              unidentified: null,
-              destinationPniIdentityKey: null,
-              destinationServiceId: null,
-            })),
-            destinationE164: null,
-            expirationStartTimestamp: null,
-            isRecipientUpdate: null,
-            storyMessage: null,
-            storyMessageRecipients: null,
-            editMessage: null,
-            destinationServiceId: null,
+        content: {
+          syncMessage: {
+            content: {
+              sent: {
+                destinationServiceIdBinary: getDevice(to).aciBinary,
+                message: dataMessage,
+                timestamp: dataMessage.timestamp,
+                unidentifiedStatus: (sentTo ?? [to]).map(contact => ({
+                  destinationServiceIdBinary: getDevice(contact).aciBinary,
+                  destination: getDevice(contact).number,
+                  unidentified: null,
+                  destinationPniIdentityKey: null,
+                  destinationServiceId: null,
+                })),
+                destinationE164: null,
+                expirationStartTimestamp: null,
+                isRecipientUpdate: null,
+                storyMessage: null,
+                storyMessageRecipients: null,
+                editMessage: null,
+                destinationServiceId: null,
+              },
+            },
+            read: null,
+            stickerPackOperation: null,
+            viewed: null,
+            padding: null,
           },
-          read: null,
-          stickerPackOperation: null,
-          viewed: null,
-          padding: null,
         },
         pniSignatureMessage: null,
         senderKeyDistributionMessage: null,
       }
     : {
-        dataMessage,
+        content: {
+          dataMessage,
+        },
         pniSignatureMessage: null,
         senderKeyDistributionMessage: null,
       };

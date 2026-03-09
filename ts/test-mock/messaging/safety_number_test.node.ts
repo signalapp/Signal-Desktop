@@ -194,7 +194,7 @@ describe('safety number', function (this: Mocha.Suite) {
 
     debug('Getting a story');
     const { storyMessage } = await alice.waitForStory();
-    assert.strictEqual(storyMessage.attachment, 'textAttachment');
-    assert.strictEqual(storyMessage.textAttachment.text, '123');
+    assert.ok(storyMessage.attachment?.textAttachment != null);
+    assert.strictEqual(storyMessage.attachment.textAttachment.text, '123');
   });
 });

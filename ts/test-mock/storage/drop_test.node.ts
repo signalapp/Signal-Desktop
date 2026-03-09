@@ -91,7 +91,7 @@ describe('storage service', function (this: Mocha.Suite) {
 
       assert.isTrue(
         nextState.hasRecord(({ type, record }) => {
-          if (type !== IdentifierType.GROUPV2 || record.record !== 'groupV2') {
+          if (type !== IdentifierType.GROUPV2 || record.groupV2 == null) {
             return false;
           }
 

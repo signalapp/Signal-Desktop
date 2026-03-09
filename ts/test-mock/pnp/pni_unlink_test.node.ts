@@ -87,13 +87,16 @@ describe('pnp/PNI DecryptionError unlink', function (this: Mocha.Suite) {
       phone.sendRaw(
         desktop,
         {
-          syncMessage: {
-            content: 'pniChangeNumber',
-            pniChangeNumber,
-            read: null,
-            stickerPackOperation: null,
-            viewed: null,
-            padding: null,
+          content: {
+            syncMessage: {
+              content: {
+                pniChangeNumber,
+              },
+              read: null,
+              stickerPackOperation: null,
+              viewed: null,
+              padding: null,
+            },
           },
           pniSignatureMessage: null,
           senderKeyDistributionMessage: null,
@@ -108,13 +111,16 @@ describe('pnp/PNI DecryptionError unlink', function (this: Mocha.Suite) {
       phone.sendRaw(
         desktop,
         {
-          syncMessage: {
-            content: 'pniChangeNumber',
-            pniChangeNumber,
-            read: null,
-            stickerPackOperation: null,
-            viewed: null,
-            padding: null,
+          content: {
+            syncMessage: {
+              content: {
+                pniChangeNumber,
+              },
+              read: null,
+              stickerPackOperation: null,
+              viewed: null,
+              padding: null,
+            },
           },
           pniSignatureMessage: null,
           senderKeyDistributionMessage: null,
