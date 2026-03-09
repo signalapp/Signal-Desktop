@@ -467,7 +467,6 @@ describe('getFilePointerForAttachment', () => {
           attachment: defaultAttachment,
           backupOptions: {
             type: 'local-encrypted',
-            snapshotDir: '/root/backups/signal-backup-12-12-12',
             abortSignal: new AbortController().signal,
           },
           getBackupCdnInfo: notInBackupCdn,
@@ -507,7 +506,6 @@ describe('getFilePointerForAttachment', () => {
           attachment: { ...defaultAttachment, path: 'no/file/here' },
           backupOptions: {
             type: 'local-encrypted',
-            snapshotDir: '/root/backups/signal-backup-12-12-12',
             abortSignal: new AbortController().signal,
           },
           getBackupCdnInfo: notInBackupCdn,

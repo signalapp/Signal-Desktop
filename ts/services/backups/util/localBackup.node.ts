@@ -153,10 +153,10 @@ export async function verifyLocalBackupMetadata({
 
 export async function writeLocalBackupFilesList({
   snapshotDir,
-  mediaNamesIterator,
+  mediaNames,
 }: {
   snapshotDir: string;
-  mediaNamesIterator: MapIterator<string>;
+  mediaNames: Array<string>;
 }): Promise<ReadonlyArray<string>> {
   const { promise, resolve, reject } = explodePromise<ReadonlyArray<string>>();
 
@@ -167,7 +167,7 @@ export async function writeLocalBackupFilesList({
   });
 
   const files: Array<string> = [];
-  for (const mediaName of mediaNamesIterator) {
+  for (const mediaName of mediaNames) {
     const data = Signal.backup.local.FilesFrame.encodeDelimited({
       mediaName,
     }).finish();

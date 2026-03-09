@@ -62,6 +62,8 @@ export async function validateBackupStream(
 
   let totalBytes = 0;
   let frameCount = 0;
+
+  const allErrorMessages: Array<string> = [];
   readable.on('data', delimitedFrame => {
     totalBytes += delimitedFrame.byteLength;
     frameCount += 1;
@@ -79,12 +81,24 @@ export async function validateBackupStream(
     }
 
     strictAssert(validator != null, 'validator must be already created');
-    validator.addFrame(frame);
+    try {
+      validator.addFrame(frame);
+    } catch (error) {
+      allErrorMessages.push(error.message);
+    }
   });
 
   await once(readable, 'end');
   strictAssert(validator != null, 'no frames');
-  validator.finalize();
 
+  try {
+    validator.finalize();
+  } catch (error) {
+    allErrorMessages.push(error.message);
+  }
+
+  if (allErrorMessages.length) {
+    throw new Error(allErrorMessages.join('\n'));
+  }
   return totalBytes;
 }
