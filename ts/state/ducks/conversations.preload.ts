@@ -407,6 +407,8 @@ export type ConversationType = ReadonlyDeep<
     lastUpdated?: number;
     // This is used by the CompositionInput for @mentions
     sortedGroupMembers?: ReadonlyArray<ConversationType>;
+    // Used to generate contact colors in groups - it includes every member
+    membersV2?: ConversationAttributesType['membersV2'];
     title: string;
     titleNoDefault?: string;
     titleNoNickname?: string;

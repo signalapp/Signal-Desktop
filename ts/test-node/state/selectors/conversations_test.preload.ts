@@ -46,7 +46,10 @@ import { noopAction } from '../../../state/ducks/noop.std.js';
 import type { StateType } from '../../../state/reducer.preload.js';
 import { reducer as rootReducer } from '../../../state/reducer.preload.js';
 import i18n from '../../util/i18n.node.js';
-import type { ServiceIdString } from '../../../types/ServiceId.std.js';
+import type {
+  AciString,
+  ServiceIdString,
+} from '../../../types/ServiceId.std.js';
 import { generateAci, getAciFromPrefix } from '../../../types/ServiceId.std.js';
 import {
   getDefaultConversation,
@@ -1650,17 +1653,42 @@ describe('both/state/selectors/conversations-extra', () => {
 
   describe('#getContactNameColorSelector', () => {
     it('returns the right color order sorted by UUID ASC', () => {
+      const membersV2 = [
+        { aci: 'fff' as AciString, role: 0, joinedAtVersion: 0 },
+        {
+          aci: 'f00' as AciString,
+          role: 0,
+          joinedAtVersion: 0,
+        },
+        {
+          aci: 'e00' as AciString,
+          role: 0,
+          joinedAtVersion: 0,
+        },
+        {
+          aci: 'd00' as AciString,
+          role: 0,
+          joinedAtVersion: 0,
+        },
+        {
+          aci: 'c00' as AciString,
+          role: 0,
+          joinedAtVersion: 0,
+        },
+        {
+          aci: 'b00' as AciString,
+          role: 0,
+          joinedAtVersion: 0,
+        },
+        {
+          aci: 'a00' as AciString,
+          role: 0,
+          joinedAtVersion: 0,
+        },
+      ];
       const group: ConversationType = {
         ...makeGroup('group'),
-        sortedGroupMembers: [
-          makeConversationWithServiceId('fff'),
-          makeConversationWithServiceId('f00'),
-          makeConversationWithServiceId('e00'),
-          makeConversationWithServiceId('d00'),
-          makeConversationWithServiceId('c00'),
-          makeConversationWithServiceId('b00'),
-          makeConversationWithServiceId('a00'),
-        ],
+        membersV2,
       };
       const state = {
         ...getEmptyRootState(),
@@ -1669,18 +1697,27 @@ describe('both/state/selectors/conversations-extra', () => {
           conversationLookup: {
             group,
           },
+          conversationsByServiceId: {
+            [membersV2[0].aci]: makeConversation('c0'),
+            [membersV2[1].aci]: makeConversation('c1'),
+            [membersV2[2].aci]: makeConversation('c2'),
+            [membersV2[3].aci]: makeConversation('c3'),
+            [membersV2[4].aci]: makeConversation('c4'),
+            [membersV2[5].aci]: makeConversation('c5'),
+            [membersV2[6].aci]: makeConversation('c6'),
+          },
         },
       };
 
       const contactNameColorSelector = getContactNameColorSelector(state);
 
-      assert.equal(contactNameColorSelector('group', 'a00'), '200');
-      assert.equal(contactNameColorSelector('group', 'b00'), '120');
-      assert.equal(contactNameColorSelector('group', 'c00'), '300');
-      assert.equal(contactNameColorSelector('group', 'd00'), '010');
-      assert.equal(contactNameColorSelector('group', 'e00'), '210');
-      assert.equal(contactNameColorSelector('group', 'f00'), '330');
-      assert.equal(contactNameColorSelector('group', 'fff'), '230');
+      assert.equal(contactNameColorSelector('group', 'c6'), '200', 'slot 1');
+      assert.equal(contactNameColorSelector('group', 'c5'), '120', 'slot 2');
+      assert.equal(contactNameColorSelector('group', 'c4'), '300', 'slot 3');
+      assert.equal(contactNameColorSelector('group', 'c3'), '010', 'slot 4');
+      assert.equal(contactNameColorSelector('group', 'c2'), '210', 'slot 5');
+      assert.equal(contactNameColorSelector('group', 'c1'), '330', 'slot 6');
+      assert.equal(contactNameColorSelector('group', 'c0'), '230', 'slot 7');
     });
 
     it('returns the right colors for direct conversation', () => {

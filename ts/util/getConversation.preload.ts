@@ -214,6 +214,7 @@ export function getConversation(model: ConversationModel): ConversationType {
     markedUnread: attributes.markedUnread,
     membersCount: getMembersCount(attributes),
     memberships: getMemberships(attributes),
+    membersV2: attributes.membersV2,
     messagesDeleted: Boolean(attributes.messagesDeleted),
     hasMessages: (attributes.messageCount ?? 0) > 0,
     pendingMemberships: getPendingMemberships(attributes),

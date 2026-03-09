@@ -1155,7 +1155,7 @@ export const getCachedConversationMemberColorsSelector = createSelector(
       (conversationId: string | undefined) => {
         const contactNameColors: Map<string, ContactNameColorType> = new Map();
         const {
-          sortedGroupMembers = [],
+          membersV2 = [],
           type,
           id: theirId,
         } = conversationSelector(conversationId);
@@ -1168,13 +1168,18 @@ export const getCachedConversationMemberColorsSelector = createSelector(
           return contactNameColors;
         }
 
-        [...sortedGroupMembers]
+        [...membersV2]
           .sort((left, right) =>
-            String(left.serviceId) > String(right.serviceId) ? 1 : -1
+            String(left.aci) > String(right.aci) ? 1 : -1
           )
           .forEach((member, i) => {
+            const conversation = conversationSelector(member.aci);
+            if (conversation.id === PLACEHOLDER_CONTACT_ID) {
+              return;
+            }
+
             contactNameColors.set(
-              member.id,
+              conversation.id,
               ContactNameColors[i % ContactNameColors.length]
             );
           });
