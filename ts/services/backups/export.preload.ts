@@ -393,13 +393,17 @@ export class BackupExportStream extends Readable {
       currentAppVersion: `Desktop ${window.getVersion()}`,
     };
 
-    this.push(
-      this.#getJsonIfNeeded(
-        this.options.type === 'plaintext-export'
-          ? Backups.BackupInfo.encode(backupInfo).finish()
-          : Backups.BackupInfo.encodeDelimited(backupInfo).finish()
-      )
-    );
+    if (this.options.type === 'plaintext-export') {
+      const { exporter, chunk: initialChunk } = BackupJsonExporter.start(
+        Backups.BackupInfo.encode(backupInfo).finish(),
+        { validate: false }
+      );
+
+      this.#jsonExporter = exporter;
+      this.push(`${initialChunk}\n`);
+    } else {
+      this.push(Backups.BackupInfo.encodeDelimited(backupInfo).finish());
+    }
 
     this.#pushFrame({
       account: await this.#toAccountData(),
@@ -881,18 +885,14 @@ export class BackupExportStream extends Readable {
     this.#buffers.push(buffer);
   }
 
-  #frameToJson(encodedFrame: Uint8Array): string {
-    let lines = '';
-
-    if (!this.#jsonExporter) {
-      const { exporter, chunk: initialChunk } = BackupJsonExporter.start(
-        encodedFrame,
-        { validate: false }
+  #pushFrame(frame: Backups.IFrame): void {
+    const encodedFrame = Backups.Frame.encodeDelimited(frame).finish();
+    if (this.options.type === 'plaintext-export') {
+      strictAssert(
+        this.#jsonExporter != null,
+        'jsonExported must be initialized'
       );
 
-      lines = `${initialChunk}\n`;
-      this.#jsonExporter = exporter;
-    } else {
       const results = this.#jsonExporter.exportFrames(encodedFrame);
       for (const result of results) {
         if (result.errorMessage) {
@@ -904,27 +904,12 @@ export class BackupExportStream extends Readable {
         if (!result.line) {
           log.error('frameToJson: frame was filtered out by libsignal');
         } else {
-          lines += `${result.line}\n`;
+          this.#pushBuffer(Buffer.from(`${result.line}\n`));
         }
       }
+    } else {
+      this.#pushBuffer(encodedFrame);
     }
-
-    return lines;
-  }
-
-  #getJsonIfNeeded(encoded: Uint8Array): Uint8Array {
-    if (this.options.type === 'plaintext-export') {
-      const json = this.#frameToJson(encoded);
-      return Buffer.from(json, 'utf-8');
-    }
-
-    return encoded;
-  }
-
-  #pushFrame(frame: Backups.IFrame): void {
-    const encodedFrame = Backups.Frame.encodeDelimited(frame).finish();
-    const toPush = this.#getJsonIfNeeded(encodedFrame);
-    this.#pushBuffer(toPush);
   }
 
   async #flush(): Promise<void> {
