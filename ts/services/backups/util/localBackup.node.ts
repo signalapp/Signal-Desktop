@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { randomBytes } from 'node:crypto';
-import { dirname, join } from 'node:path';
-import { readdir, readFile, stat, writeFile } from 'node:fs/promises';
+import { basename, dirname, join } from 'node:path';
+import { readdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import { createReadStream, createWriteStream } from 'node:fs';
 import { Readable, Writable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
@@ -19,8 +19,24 @@ import {
   LOCAL_BACKUP_VERSION,
   LOCAL_BACKUP_BACKUP_ID_IV_LENGTH,
 } from '../constants.std.js';
+import { getTimestampForFolder } from '../../../util/timestamp.std.js';
+import { isPathInside } from '../../../util/isPathInside.node.js';
 
 const log = createLogger('localBackup');
+
+const LOCAL_BACKUP_SNAPSHOT_DIR_PREFIX = 'signal-backup-';
+const LOCAL_BACKUP_SNAPSHOT_DIR_PATTERN =
+  /^signal-backup-\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}$/;
+
+export function getLocalBackupSnapshotDirectory(
+  backupsBaseDir: string,
+  timestamp: number
+): string {
+  return join(
+    backupsBaseDir,
+    `${LOCAL_BACKUP_SNAPSHOT_DIR_PREFIX}${getTimestampForFolder(timestamp)}`
+  );
+}
 
 export function getLocalBackupFilesDirectory({
   backupsBaseDir,
@@ -43,6 +59,98 @@ export async function getAllPathsInLocalBackupFilesDirectory({
   return allEntries
     .filter(entry => entry.isFile())
     .map(entry => join(entry.parentPath, entry.name));
+}
+
+async function getSortedLocalBackupSnapshotDirs({
+  backupsBaseDir,
+}: {
+  backupsBaseDir: string;
+}): Promise<Array<string>> {
+  const entries = await readdir(backupsBaseDir, { withFileTypes: true });
+  const snapshotDirs = new Array<string>();
+
+  for (const entry of entries) {
+    if (!entry.isDirectory()) {
+      continue;
+    }
+    if (!entry.name.startsWith(LOCAL_BACKUP_SNAPSHOT_DIR_PREFIX)) {
+      continue;
+    }
+
+    if (LOCAL_BACKUP_SNAPSHOT_DIR_PATTERN.test(entry.name)) {
+      snapshotDirs.push(join(backupsBaseDir, entry.name));
+    }
+  }
+
+  return snapshotDirs.sort().reverse();
+}
+
+export async function pruneLocalBackups({
+  backupsBaseDir,
+  numSnapshotsToKeep,
+}: {
+  backupsBaseDir: string;
+  numSnapshotsToKeep: number;
+}): Promise<void> {
+  const fnLog = log.child('pruneLocalBackups');
+
+  const snapshotDirs = await getSortedLocalBackupSnapshotDirs({
+    backupsBaseDir,
+  });
+
+  const snapshotDirsToKeep = snapshotDirs.slice(0, numSnapshotsToKeep);
+  const snapshotDirsToDelete = snapshotDirs.slice(numSnapshotsToKeep);
+
+  if (snapshotDirsToDelete.length > 0) {
+    if (snapshotDirsToDelete.length === 1) {
+      fnLog.info('pruning one snapshot');
+    } else {
+      fnLog.error(`pruning ${snapshotDirsToDelete.length} snapshots`);
+    }
+
+    await Promise.all(
+      snapshotDirsToDelete.map(snapshotDir => {
+        strictAssert(
+          isPathInside(snapshotDir, backupsBaseDir),
+          'ensure snapshot dir inside backups dir'
+        );
+        return rm(snapshotDir, { recursive: true, force: true });
+      })
+    );
+  }
+
+  const referencedMediaNames = new Set<string>();
+  for (const snapshotDir of snapshotDirsToKeep) {
+    // eslint-disable-next-line no-await-in-loop
+    const mediaNames = await readLocalBackupFilesList(snapshotDir);
+    for (const mediaName of mediaNames) {
+      referencedMediaNames.add(mediaName);
+    }
+  }
+
+  const allMediaPaths = await getAllPathsInLocalBackupFilesDirectory({
+    backupsBaseDir,
+  });
+
+  const mediaPathsToDelete = allMediaPaths.filter(
+    mediaPath => !referencedMediaNames.has(basename(mediaPath))
+  );
+
+  if (mediaPathsToDelete.length > 0) {
+    fnLog.info(
+      `Deleting ${mediaPathsToDelete.length} files no longer referenced`
+    );
+    const filesDirectory = getLocalBackupFilesDirectory({ backupsBaseDir });
+    await Promise.all(
+      mediaPathsToDelete.map(mediaPath => {
+        strictAssert(
+          isPathInside(mediaPath, filesDirectory),
+          'ensure mediaPath inside backup files dir'
+        );
+        return rm(mediaPath, { force: true });
+      })
+    );
+  }
 }
 
 export function getLocalBackupDirectoryForMediaName({

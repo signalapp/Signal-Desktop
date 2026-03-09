@@ -50,7 +50,7 @@ export function addLeadingZero(amount: number): string {
   return amount.toString();
 }
 
-export function getTimestampForFolder(): string {
-  const date = new Date();
-  return `${date.getFullYear()}-${addLeadingZero(date.getMonth() + 1)}-${addLeadingZero(date.getDate())}-${addLeadingZero(date.getHours())}-${addLeadingZero(date.getMinutes())}-${addLeadingZero(date.getSeconds())}`;
+export function getTimestampForFolder(timestamp?: number): string {
+  const date = timestamp != null ? new Date(timestamp) : new Date();
+  return `${date.getUTCFullYear()}-${addLeadingZero(date.getUTCMonth() + 1)}-${addLeadingZero(date.getUTCDate())}-${addLeadingZero(date.getUTCHours())}-${addLeadingZero(date.getUTCMinutes())}-${addLeadingZero(date.getUTCSeconds())}`;
 }
