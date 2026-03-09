@@ -114,7 +114,7 @@ describe('DelimitedStream', () => {
         new DelimitedStream(),
         collect(out)
       ),
-      'Unfinished data'
+      'Unfinished frame'
     );
   });
 

@@ -254,6 +254,9 @@ async function parseContactsWithSmallChunkSize({
   const smallChunksTransform = new SmallChunksTransform(32);
   const parseContactsTransform = new ParseContactsTransform();
 
+  const contacts = new Array<ContactDetailsWithAvatar>();
+  parseContactsTransform.on('data', contact => contacts.push(contact));
+
   try {
     await pipeline(readStream, smallChunksTransform, parseContactsTransform);
   } catch (error) {
@@ -271,5 +274,5 @@ async function parseContactsWithSmallChunkSize({
 
   readStream.close();
 
-  return parseContactsTransform.contacts;
+  return contacts;
 }
