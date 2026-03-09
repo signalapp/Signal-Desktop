@@ -1135,7 +1135,7 @@ function acceptCall(
       return;
     }
 
-    saveDraftRecordingIfNeeded()(dispatch, getState, undefined);
+    saveDraftRecordingIfNeeded(conversationId)(dispatch, getState, undefined);
 
     switch (call.callMode) {
       case CallMode.Direct:

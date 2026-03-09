@@ -1193,6 +1193,34 @@ export class ConversationModel {
     return getDraftPreview(this.attributes);
   }
 
+  async maybeUpdateDraftPreview(): Promise<void> {
+    const logId = `maybeUpdateDraft/${this.idForLogging()}`;
+
+    if (this.get('draftChanged')) {
+      if (this.hasDraft()) {
+        log.info(`${logId}: new draft info needs update`);
+        const now = Date.now();
+        const activeAt = this.get('active_at') || now;
+
+        this.set({
+          active_at: activeAt,
+          draftChanged: false,
+          draftTimestamp: now,
+        });
+      } else {
+        log.info(`${logId}: clearing draft info`);
+        this.set({
+          draftChanged: false,
+          draftTimestamp: null,
+        });
+      }
+
+      await DataWriter.updateConversation(this.attributes);
+
+      drop(this.updateLastMessage());
+    }
+  }
+
   bumpTyping(): void {
     // We don't send typing messages if the setting is disabled
     if (!getTypingIndicatorSetting()) {
