@@ -175,7 +175,6 @@ import {
   setComposerFocus,
   setQuoteByMessageId,
   resetComposer,
-  saveDraftRecordingIfNeeded,
   setViewOnce,
 } from './composer.preload.js';
 import { ReceiptType } from '../../types/Receipt.std.js';
@@ -237,7 +236,6 @@ import { isConversationUnread } from '../../util/isConversationUnread.std.js';
 import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { enqueuePollVoteForSend as enqueuePollVoteForSendHelper } from '../../polls/enqueuePollVoteForSend.preload.js';
-import { updateChatFolderStateOnTargetConversationChanged } from './chatFolders.preload.js';
 import type {
   PinnedMessage,
   PinnedMessagePreloadData,
@@ -4867,18 +4865,7 @@ function showConversation({
       return;
     }
 
-    if (originalLocation.tab !== NavTab.Chats) {
-      const conversation = window.ConversationController.get(conversationId);
-      if (!conversation) {
-        log.warn(`${logId}: Conversation does not exist!`);
-        return;
-      }
-
-      conversation.setMarkedUnread(false);
-    }
-
-    dispatch(updateChatFolderStateOnTargetConversationChanged(conversationId));
-
+    // If the user explicitly tries to open this conversation again
     if (
       originalLocation.tab === NavTab.Chats &&
       originalLocation.details.conversationId === conversationId
@@ -4891,23 +4878,6 @@ function showConversation({
         dispatch(scrollToMessage(conversationId, messageId));
       }
       dispatch(setComposerFocus(conversationId));
-
-      return;
-    }
-
-    // notify composer in case we need to stop recording a voice note
-    if (
-      originalLocation.tab === NavTab.Chats &&
-      originalLocation.details.conversationId &&
-      originalLocation.details.conversationId !== conversationId
-    ) {
-      dispatch(saveDraftRecordingIfNeeded());
-      dispatch(
-        onConversationClosed(
-          originalLocation.details.conversationId,
-          'showConversation'
-        )
-      );
     }
   };
 }
@@ -4937,6 +4907,7 @@ function onConversationOpened(
     }
 
     const logId = `onConversationOpened(${conversation.idForLogging()})`;
+    conversation.setMarkedUnread(false);
 
     log.info(`${logId}: Updating newly opened conversation state`);
 
@@ -5015,7 +4986,6 @@ function onConversationOpened(
         conversation.get('draftAttachments') || []
       )
     );
-    dispatch(resetComposer(conversationId));
     dispatch(
       setViewOnce({
         conversationId,
@@ -5034,7 +5004,12 @@ function onConversationOpened(
 function onConversationClosed(
   conversationId: string,
   reason: string
-): ThunkAction<void, RootStateType, unknown, ConversationUnloadedActionType> {
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ConversationUnloadedActionType | ResetComposerActionType
+> {
   return async (dispatch, getState) => {
     const conversation = window.ConversationController.get(conversationId);
     // Conversation was removed due to the merge
@@ -5060,29 +5035,7 @@ function onConversationClosed(
 
     log.info(`${logId}: unloading due to ${reason}`);
 
-    if (conversation?.get('draftChanged')) {
-      if (conversation.hasDraft()) {
-        log.info(`${logId}: new draft info needs update`);
-        const now = Date.now();
-        const activeAt = conversation.get('active_at') || now;
-
-        conversation.set({
-          active_at: activeAt,
-          draftChanged: false,
-          draftTimestamp: now,
-        });
-      } else {
-        log.info(`${logId}: clearing draft info`);
-        conversation.set({
-          draftChanged: false,
-          draftTimestamp: null,
-        });
-      }
-
-      await DataWriter.updateConversation(conversation.attributes);
-
-      drop(conversation.updateLastMessage());
-    }
+    await conversation?.maybeUpdateDraftPreview();
 
     removeLinkPreview(conversationId);
 
@@ -5093,6 +5046,7 @@ function onConversationClosed(
       },
     });
 
+    dispatch(resetComposer(conversationId));
     dispatch(maybeRemoveReadConversations([conversationId]));
   };
 }

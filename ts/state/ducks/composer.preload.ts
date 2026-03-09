@@ -85,7 +85,6 @@ import { enqueuePollTerminateForSend } from '../../polls/enqueuePollTerminateFor
 import { useBoundActions } from '../../hooks/useBoundActions.std.js';
 import {
   CONVERSATION_UNLOADED,
-  TARGETED_CONVERSATION_CHANGED,
   scrollToMessage,
 } from './conversations.preload.js';
 import type {
@@ -467,15 +466,11 @@ function scrollToPollMessage(
   };
 }
 
-export function saveDraftRecordingIfNeeded(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  never
-> {
+export function saveDraftRecordingIfNeeded(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, never> {
   return (dispatch, getState) => {
     const state = getState();
-    const conversationId = getSelectedConversationId(state);
 
     if (!getIsRecording(state.audioRecorder) || !conversationId) {
       return;
@@ -1733,19 +1728,6 @@ export function reducer(
       ...state,
       conversations: nextConversations,
     };
-  }
-
-  if (action.type === TARGETED_CONVERSATION_CHANGED) {
-    if (action.payload.conversationId) {
-      return {
-        ...state,
-        conversations: {
-          [action.payload.conversationId]: getEmptyComposerState(),
-        },
-      };
-    }
-
-    return getEmptyState();
   }
 
   if (action.type === RESET_COMPOSER) {
