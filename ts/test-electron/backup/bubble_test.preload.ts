@@ -603,6 +603,28 @@ describe('backup/bubble messages', () => {
       []
     );
   });
+  it('drops erased messages', async () => {
+    await asymmetricRoundtripHarness(
+      [
+        {
+          conversationId: gv1.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          isErased: true,
+          sent_at: 3,
+          timestamp: 3,
+          sourceServiceId: CONTACT_A,
+          body: 'd',
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+        },
+      ],
+      []
+    );
+  });
 
   it('drops messages that expire soon', async () => {
     await asymmetricRoundtripHarness(
