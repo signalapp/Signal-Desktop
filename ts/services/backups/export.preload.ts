@@ -1348,8 +1348,12 @@ export class BackupExportStream extends Readable {
           members: convo.membersV2?.map(member => {
             return {
               joinedAtVersion: member.joinedAtVersion,
-              labelEmoji: member.labelEmoji,
-              labelString: member.labelString,
+              ...(member.labelString
+                ? {
+                    labelEmoji: member.labelEmoji,
+                    labelString: member.labelString,
+                  }
+                : undefined),
               role: member.role,
               userId: this.#aciToBytes(member.aci),
             };
@@ -1452,8 +1456,7 @@ export class BackupExportStream extends Readable {
     const isOutgoing = message.type === 'outgoing';
     const isIncoming = message.type === 'incoming';
 
-    // Pacify typescript
-    if (message.sourceServiceId) {
+    if (message.sourceServiceId && isAciString(message.sourceServiceId)) {
       authorId = this.#getOrPushPrivateRecipient({
         serviceId: message.sourceServiceId,
         e164: message.source,
@@ -2003,6 +2006,8 @@ export class BackupExportStream extends Readable {
 
     if (isGroupV2Change(message)) {
       updateMessage.groupChange = await this.toGroupV2Update(message, options);
+      strictAssert(this.#ourConversation?.id, 'our conversation must exist');
+      patch.authorId = this.#getOrPushPrivateRecipient(this.#ourConversation);
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
 

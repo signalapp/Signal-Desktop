@@ -750,7 +750,7 @@ export class BackupsService {
       };
     } catch (error) {
       log.warn(
-        'internal validation: failed with errors',
+        'internal validation: failed with errors\n',
         Errors.toLogFormat(error)
       );
       return { error: Errors.toLogFormat(error) };
