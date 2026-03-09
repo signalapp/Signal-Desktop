@@ -14604,7 +14604,7 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 ```
 
-## libsignal-account-keys 0.1.0, libsignal-core 0.1.0, mrp 2.65.3, protobuf 2.65.3, ringrtc 2.65.3, regex-aot 0.1.0, partial-default-derive 0.1.0, partial-default 0.1.0
+## libsignal-account-keys 0.1.0, libsignal-core 0.1.0, mrp 2.66.0, protobuf 2.66.0, ringrtc 2.66.0, regex-aot 0.1.0, partial-default-derive 0.1.0, partial-default 0.1.0
 
 ```
 GNU AFFERO GENERAL PUBLIC LICENSE
@@ -15466,7 +15466,7 @@ limitations under the License.
 
 ```
 
-## hax-lib-macros 0.3.5, hax-lib 0.3.5, libcrux-intrinsics 0.0.4, libcrux-platform 0.0.2, libcrux-secrets 0.0.4, libcrux-sha3 0.0.4, libcrux-traits 0.0.4
+## hax-lib-macros 0.3.6, hax-lib 0.3.6, libcrux-intrinsics 0.0.5, libcrux-platform 0.0.3, libcrux-secrets 0.0.5, libcrux-sha3 0.0.6, libcrux-traits 0.0.5
 
 ```
 Apache License
@@ -16804,6 +16804,38 @@ DEALINGS IN THE SOFTWARE.
 
 ```
 
+## hex-literal 1.1.0
+
+```
+Copyright (c) 2018-2025 The RustCrypto Project Developers
+Copyright (c) 2018 Artyom Pavlov
+
+Permission is hereby granted, free of charge, to any
+person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the
+Software without restriction, including without
+limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software
+is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice
+shall be included in all copies or substantial portions
+of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
+ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+```
+
 ## getrandom 0.3.4
 
 ```
@@ -18044,7 +18076,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## hpke-rs-crypto 0.4.0, hpke-rs 0.5.0
+## hpke-rs-crypto 0.6.0, hpke-rs 0.6.0
 
 ```
 Mozilla Public License Version 2.0

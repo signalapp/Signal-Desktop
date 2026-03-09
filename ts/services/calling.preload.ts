@@ -1364,6 +1364,7 @@ export class CallingClass {
     log.info(logId);
 
     const groupIdBuffer = Bytes.fromBase64(groupId);
+    const dredDuration = 0;
 
     let isRequestingMembershipProof = false;
 
@@ -1372,6 +1373,7 @@ export class CallingClass {
       this._sfuUrl,
       new Uint8Array(),
       AUDIO_LEVEL_INTERVAL_MS,
+      dredDuration,
       {
         ...this.#getGroupCallObserver(conversationId, CallMode.Group),
         async requestMembershipProof(groupCall) {
@@ -1444,6 +1446,8 @@ export class CallingClass {
       );
     }
 
+    const dredDuration = 0;
+
     const outerGroupCall = RingRTC.getCallLinkCall(
       this._sfuUrl,
       endorsementsPublicKey,
@@ -1452,6 +1456,7 @@ export class CallingClass {
       adminPasskey,
       new Uint8Array(),
       AUDIO_LEVEL_INTERVAL_MS,
+      dredDuration,
       this.#getGroupCallObserver(roomId, CallMode.Adhoc)
     );
 
@@ -3887,6 +3892,7 @@ export class CallingClass {
       hideIp: shouldRelayCalls || isContactUntrusted,
       dataMode: DataMode.Normal,
       audioLevelsIntervalMillis: AUDIO_LEVEL_INTERVAL_MS,
+      dredDuration: 0,
     };
 
     log.info('CallingClass.handleStartCall(): Proceeding');
