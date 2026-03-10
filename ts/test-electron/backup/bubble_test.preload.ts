@@ -28,6 +28,7 @@ import { IMAGE_PNG, TEXT_ATTACHMENT } from '../../types/MIME.std.js';
 import { MY_STORY_ID } from '../../types/Stories.std.js';
 import { generateAttachmentKeys } from '../../AttachmentCrypto.node.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { BodyRange } from '../../types/BodyRange.std.js';
 
 const CONTACT_A = generateAci();
 const CONTACT_B = generateAci();
@@ -607,7 +608,7 @@ describe('backup/bubble messages', () => {
     await asymmetricRoundtripHarness(
       [
         {
-          conversationId: gv1.id,
+          conversationId: contactA.id,
           id: generateGuid(),
           type: 'incoming',
           received_at: 3,
@@ -623,6 +624,62 @@ describe('backup/bubble messages', () => {
         },
       ],
       []
+    );
+  });
+  it('drops invalid body ranges', async () => {
+    await asymmetricRoundtripHarness(
+      [
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          timestamp: 3,
+          sourceServiceId: CONTACT_A,
+          body: 'd',
+          bodyRanges: [
+            {
+              start: 0,
+              length: 1,
+              // @ts-expect-error invalid data
+              style: undefined,
+            },
+            {
+              start: 1,
+              length: 0,
+              style: BodyRange.Style.BOLD,
+            },
+          ],
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+        },
+      ],
+      [
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          timestamp: 3,
+          sourceServiceId: CONTACT_A,
+          body: 'd',
+          bodyRanges: [
+            {
+              start: 1,
+              length: 0,
+              style: BodyRange.Style.BOLD,
+            },
+          ],
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+        },
+      ]
     );
   });
 
