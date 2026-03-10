@@ -62,6 +62,8 @@ export function PreferencesBackups({
   locale,
   localBackupFolder,
   onBackupKeyViewedChange,
+  openFileInFolder,
+  osName,
   pickLocalBackupFolder,
   backupMediaDownloadStatus,
   cancelBackupMediaDownload,
@@ -87,6 +89,8 @@ export function PreferencesBackups({
   lastLocalBackup: LocalBackupExportMetadata | undefined;
   locale: string;
   onBackupKeyViewedChange: (keyViewed: boolean) => void;
+  openFileInFolder: (path: string) => void;
+  osName: 'linux' | 'macos' | 'windows' | undefined;
   settingsLocation: SettingsLocation;
   backupMediaDownloadStatus: BackupMediaDownloadStatusType | undefined;
   cancelBackupMediaDownload: () => void;
@@ -154,6 +158,8 @@ export function PreferencesBackups({
         lastLocalBackup={lastLocalBackup}
         localBackupFolder={localBackupFolder}
         onBackupKeyViewedChange={onBackupKeyViewedChange}
+        openFileInFolder={openFileInFolder}
+        osName={osName}
         settingsLocation={settingsLocation}
         pickLocalBackupFolder={pickLocalBackupFolder}
         promptOSAuth={promptOSAuth}
@@ -258,9 +264,7 @@ export function PreferencesBackups({
                 <label>
                   {i18n('icu:Preferences__local-backups')}{' '}
                   <div className="Preferences__description">
-                    {isLocalBackupsSetup
-                      ? null
-                      : i18n('icu:Preferences--local-backups-off-description')}
+                    {i18n('icu:Preferences--local-backups-off-description')}
                   </div>
                 </label>
               </LightIconLabel>

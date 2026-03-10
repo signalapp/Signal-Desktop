@@ -47,6 +47,8 @@ export function PreferencesLocalBackups({
   i18n,
   lastLocalBackup,
   localBackupFolder,
+  openFileInFolder,
+  osName,
   onBackupKeyViewedChange,
   settingsLocation,
   pickLocalBackupFolder,
@@ -61,6 +63,8 @@ export function PreferencesLocalBackups({
   lastLocalBackup: LocalBackupExportMetadata | undefined;
   localBackupFolder: string | undefined;
   onBackupKeyViewedChange: (keyViewed: boolean) => void;
+  openFileInFolder: (path: string) => void;
+  osName: 'linux' | 'macos' | 'windows' | undefined;
   settingsLocation: SettingsLocation;
   pickLocalBackupFolder: () => Promise<string | undefined>;
   promptOSAuth: (
@@ -120,6 +124,18 @@ export function PreferencesLocalBackups({
       })
     : i18n('icu:Preferences__local-backups-last-backup-never');
 
+  let showInFolderText = i18n(
+    'icu:PlaintextExport--CompleteDialog--ShowFiles--Windows'
+  );
+  if (osName === 'macos') {
+    showInFolderText = i18n(
+      'icu:PlaintextExport--CompleteDialog--ShowFiles--Mac'
+    );
+  } else if (osName === 'linux') {
+    showInFolderText = i18n(
+      'icu:PlaintextExport--CompleteDialog--ShowFiles--Linux'
+    );
+  }
   return (
     <>
       <div className="Preferences__padding">
@@ -170,9 +186,9 @@ export function PreferencesLocalBackups({
             <AxoButton.Root
               variant="secondary"
               size="lg"
-              onClick={pickLocalBackupFolder}
+              onClick={() => openFileInFolder(localBackupFolder)}
             >
-              {i18n('icu:Preferences__local-backups-folder__change')}
+              {showInFolderText}
             </AxoButton.Root>
           </div>
         </FlowingControl>
