@@ -586,6 +586,8 @@ export class CallingClass {
 
   #cameraEnabled: boolean = false;
 
+  #registeredAssets: Map<string, boolean> = new Map();
+
   // Send our profile key to other participants in call link calls to ensure they
   // can see our profile info. Only send once per aci until the next app start.
   #sendProfileKeysForAdhocCallCache: Set<AciString>;
@@ -4247,6 +4249,40 @@ export class CallingClass {
     } catch (error) {
       log.error('enumerateMediaDevices failed:', Errors.toLogFormat(error));
     }
+  }
+
+  async prepareCallingAssets(): Promise<void> {
+    const manifest = {
+      'opus-dred': ['calling-dred_weights-1_6_1-f4aed08a.bin'],
+    };
+
+    await Promise.allSettled(
+      Object.entries(manifest).map(async ([feature, options]) => {
+        await Promise.allSettled(
+          options.map(async opt => {
+            try {
+              if (this.#registeredAssets.has(opt)) {
+                log.info('Already registered calling asset', opt);
+                return;
+              }
+              const content = await ipcRenderer.invoke(
+                'OptionalResourceService:getData',
+                opt
+              );
+              log.info('Attempting to register calling asset', opt);
+              RingRTC.addAsset(feature, { content: new Uint8Array(content) });
+              this.#registeredAssets.set(opt, true);
+            } catch (e) {
+              log.error(
+                'Failed to download and register calling asset',
+                opt,
+                e
+              );
+            }
+          })
+        );
+      })
+    );
   }
 }
 

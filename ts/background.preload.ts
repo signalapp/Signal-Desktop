@@ -2082,6 +2082,8 @@ export async function startApp(): Promise<void> {
       void routineProfileRefresher.start();
     }
 
+    drop(calling.prepareCallingAssets());
+
     drop(usernameIntegrity.start());
 
     drop(
