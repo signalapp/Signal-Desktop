@@ -28,6 +28,8 @@ const LOCAL_BACKUP_SNAPSHOT_DIR_PREFIX = 'signal-backup-';
 const LOCAL_BACKUP_SNAPSHOT_DIR_PATTERN =
   /^signal-backup-\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}$/;
 
+export const LOCAL_BACKUP_DIR_NAME = 'SignalBackups';
+
 export function getLocalBackupSnapshotDirectory(
   backupsBaseDir: string,
   timestamp: number
@@ -55,7 +57,14 @@ export async function getAllPathsInLocalBackupFilesDirectory({
   const allEntries = await readdir(filesDir, {
     withFileTypes: true,
     recursive: true,
+  }).catch(error => {
+    // Be resilient to files folder not exist
+    if ('code' in error && error.code === 'ENOENT') {
+      return [];
+    }
+    throw error;
   });
+
   return allEntries
     .filter(entry => entry.isFile())
     .map(entry => join(entry.parentPath, entry.name));
@@ -105,7 +114,7 @@ export async function pruneLocalBackups({
     if (snapshotDirsToDelete.length === 1) {
       fnLog.info('pruning one snapshot');
     } else {
-      fnLog.error(`pruning ${snapshotDirsToDelete.length} snapshots`);
+      fnLog.warn(`pruning ${snapshotDirsToDelete.length} snapshots`);
     }
 
     await Promise.all(

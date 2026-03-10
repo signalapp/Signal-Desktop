@@ -829,6 +829,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           customColors={customColors}
           defaultConversationColor={defaultConversationColor}
           deviceName={deviceName}
+          disableLocalBackups={backupsService.disableLocalBackups}
           emojiSkinToneDefault={emojiSkinToneDefault}
           phoneNumber={phoneNumber}
           doDeleteAllData={doDeleteAllData}

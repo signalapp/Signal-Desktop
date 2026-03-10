@@ -8365,6 +8365,22 @@
     "messageformat": "Change",
     "description": "Button to change the folder in which local on-device backups are stored."
   },
+  "icu:Preferences__local-backups-turn-off": {
+    "messageformat": "Turn off backups",
+    "description": "Label for settings row to disable local on-device backups."
+  },
+  "icu:Preferences__local-backups-turn-off-action": {
+    "messageformat": "Turn off",
+    "description": "Button text in local backups settings and confirmation modal to disable local backups."
+  },
+  "icu:Preferences__local-backups-turn-off-confirmation": {
+    "messageformat": "You will no longer be able to create backups on this computer without re-enabling.",
+    "description": "Confirmation modal body for disabling local on-device backups."
+  },
+  "icu:Preferences__local-backups-turn-off-delete": {
+    "messageformat": "Delete my backup from this computer",
+    "description": "Checkbox label in confirmation modal for disabling local backups and deleting existing backup files."
+  },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Copy to clipboard",
     "description": "Button label for copying the backup key to clipboard in the settings for local on-device backups"

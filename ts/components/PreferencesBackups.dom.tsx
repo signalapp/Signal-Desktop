@@ -16,7 +16,6 @@ import {
   LightIconLabel,
   SettingsRow,
 } from './PreferencesUtil.dom.js';
-import { ButtonVariant } from './Button.dom.js';
 import type { SettingsLocation } from '../types/Nav.std.js';
 import { SettingsPage } from '../types/Nav.std.js';
 import { I18n } from './I18n.dom.js';
@@ -26,7 +25,6 @@ import type {
   PromptOSAuthReasonType,
   PromptOSAuthResultType,
 } from '../util/os/promptOSAuthMain.main.js';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
 import { AxoButton } from '../axo/AxoButton.dom.js';
 import { BackupLevel } from '../services/backups/types.std.js';
 import {
@@ -65,6 +63,7 @@ export function PreferencesBackups({
   openFileInFolder,
   osName,
   pickLocalBackupFolder,
+  disableLocalBackups,
   backupMediaDownloadStatus,
   cancelBackupMediaDownload,
   pauseBackupMediaDownload,
@@ -94,6 +93,11 @@ export function PreferencesBackups({
   settingsLocation: SettingsLocation;
   backupMediaDownloadStatus: BackupMediaDownloadStatusType | undefined;
   cancelBackupMediaDownload: () => void;
+  disableLocalBackups: ({
+    deleteExistingBackups,
+  }: {
+    deleteExistingBackups: boolean;
+  }) => Promise<void>;
   pauseBackupMediaDownload: () => void;
   resumeBackupMediaDownload: () => void;
   pickLocalBackupFolder: () => Promise<string | undefined>;
@@ -106,8 +110,6 @@ export function PreferencesBackups({
   showToast: ShowToastAction;
   startLocalBackupExport: () => void;
 }): React.JSX.Element | null {
-  const [authError, setAuthError] =
-    useState<Omit<PromptOSAuthResultType, 'success'>>();
   const [isAuthPending, setIsAuthPending] = useState<boolean>(false);
 
   useEffect(() => {
@@ -162,6 +164,7 @@ export function PreferencesBackups({
         osName={osName}
         settingsLocation={settingsLocation}
         pickLocalBackupFolder={pickLocalBackupFolder}
+        disableLocalBackups={disableLocalBackups}
         promptOSAuth={promptOSAuth}
         setSettingsLocation={setSettingsLocation}
         showToast={showToast}
@@ -253,72 +256,54 @@ export function PreferencesBackups({
 
   function renderLocalBackups() {
     return (
-      <>
-        <SettingsRow
-          className="Preferences--BackupsRow"
-          title={i18n('icu:Preferences__backup-other-ways')}
-        >
-          <FlowingControl>
-            <div className="Preferences__two-thirds-flow">
-              <LightIconLabel icon="Preferences__LocalBackupsIcon">
-                <label>
-                  {i18n('icu:Preferences__local-backups')}{' '}
-                  <div className="Preferences__description">
-                    {i18n('icu:Preferences--local-backups-off-description')}
-                  </div>
-                </label>
-              </LightIconLabel>
-            </div>
-            <div
-              className={classNames(
-                'Preferences__flow-button',
-                'Preferences__one-third-flow',
-                'Preferences__one-third-flow--align-right'
-              )}
-            >
-              <AxoButton.Root
-                variant="secondary"
-                size="lg"
-                disabled={isAuthPending}
-                onClick={async () => {
-                  setAuthError(undefined);
-
-                  if (!isLocalBackupsSetup) {
-                    try {
-                      setIsAuthPending(true);
-                      const result = await promptOSAuth('enable-backups');
-                      if (result !== 'success' && result !== 'unsupported') {
-                        setAuthError(result);
-                        return;
-                      }
-                    } finally {
-                      setIsAuthPending(false);
-                    }
-                  }
-
-                  setSettingsLocation({ page: SettingsPage.LocalBackups });
-                }}
-              >
-                {isLocalBackupsSetup
-                  ? i18n('icu:Preferences__button--manage')
-                  : i18n('icu:Preferences__button--set-up')}
-              </AxoButton.Root>
-            </div>
-          </FlowingControl>
-        </SettingsRow>
-
-        {authError && (
-          <ConfirmationDialog
-            i18n={i18n}
-            dialogName="PreferencesLocalBackups--ErrorDialog"
-            onClose={() => setAuthError(undefined)}
-            cancelButtonVariant={ButtonVariant.Secondary}
-            cancelText={i18n('icu:ok')}
+      <SettingsRow
+        className="Preferences--BackupsRow"
+        title={i18n('icu:Preferences__backup-other-ways')}
+      >
+        <FlowingControl>
+          <div className="Preferences__two-thirds-flow">
+            <LightIconLabel icon="Preferences__LocalBackupsIcon">
+              <label>
+                {i18n('icu:Preferences__local-backups')}{' '}
+                <div className="Preferences__description">
+                  {i18n('icu:Preferences--local-backups-off-description')}
+                </div>
+              </label>
+            </LightIconLabel>
+          </div>
+          <div
+            className={classNames(
+              'Preferences__flow-button',
+              'Preferences__one-third-flow',
+              'Preferences__one-third-flow--align-right'
+            )}
           >
-            {getOSAuthErrorString(authError) ?? i18n('icu:error')}
-          </ConfirmationDialog>
-        )}
-      </>
+            <AxoButton.Root
+              variant="secondary"
+              size="lg"
+              disabled={isAuthPending}
+              onClick={async () => {
+                if (!isLocalBackupsSetup) {
+                  try {
+                    setIsAuthPending(true);
+                    const result = await promptOSAuth('enable-backups');
+                    if (result !== 'success' && result !== 'unsupported') {
+                      return;
+                    }
+                  } finally {
+                    setIsAuthPending(false);
+                  }
+                }
+                setSettingsLocation({ page: SettingsPage.LocalBackups });
+              }}
+            >
+              {isLocalBackupsSetup
+                ? i18n('icu:Preferences__button--manage')
+                : i18n('icu:Preferences__button--set-up')}
+            </AxoButton.Root>
+          </div>
+        </FlowingControl>
+      </SettingsRow>
     );
   }
 
@@ -379,23 +364,4 @@ export function renderFreeBackupsSummary({
       </div>
     </div>
   );
-}
-
-export function getOSAuthErrorString(
-  authError: Omit<PromptOSAuthResultType, 'success'> | undefined
-): string | undefined {
-  if (!authError) {
-    return undefined;
-  }
-
-  // TODO: DESKTOP-8895
-  if (authError === 'unauthorized') {
-    return 'This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your backup key.';
-  }
-
-  if (authError === 'unauthorized-no-windows-ucv') {
-    return 'This action could not be completed because Windows Hello is not enabled on your computer. Please set up Windows Hello and try again, or open the Signal app on your mobile device and go to Backup Settings to view your backup key.';
-  }
-
-  return 'The action could not be completed because authentication is not available on this computer. Please open the Signal app on your mobile device and go to Backup Settings to view your backup key.';
 }

@@ -6,8 +6,8 @@ import { PassThrough } from 'node:stream';
 import type { Readable, Writable } from 'node:stream';
 import { createReadStream, createWriteStream } from 'node:fs';
 import { mkdir, rm, stat, unlink, writeFile } from 'node:fs/promises';
-import fsExtra, { exists } from 'fs-extra';
-import { join } from 'node:path';
+import fsExtra from 'fs-extra';
+import { basename, join } from 'node:path';
 import { createGzip, createGunzip } from 'node:zlib';
 import { createCipheriv, createHmac, randomBytes } from 'node:crypto';
 import lodash from 'lodash';
@@ -94,6 +94,7 @@ import {
   validateLocalBackupStructure,
   getLocalBackupFilesDirectory,
   getLocalBackupSnapshotDirectory,
+  LOCAL_BACKUP_DIR_NAME,
 } from './util/localBackup.node.js';
 import {
   AttachmentPermanentlyMissingError,
@@ -118,7 +119,7 @@ import {
 import { getFreeDiskSpace } from '../../util/getFreeDiskSpace.node.js';
 import { isFeaturedEnabledNoRedux } from '../../util/isFeatureEnabled.dom.js';
 
-const { ensureFile } = fsExtra;
+const { ensureFile, exists } = fsExtra;
 
 const { throttle } = lodashFp;
 
@@ -1443,12 +1444,43 @@ export class BackupsService {
       return;
     }
 
-    const localBackupsBaseDir = join(backupsParentDir, 'SignalBackups');
+    const localBackupsBaseDir = join(backupsParentDir, LOCAL_BACKUP_DIR_NAME);
 
     await mkdir(localBackupsBaseDir, { recursive: true });
 
     await itemStorage.put('localBackupFolder', localBackupsBaseDir);
     return localBackupsBaseDir;
+  }
+
+  async disableLocalBackups({
+    deleteExistingBackups,
+  }: {
+    deleteExistingBackups: boolean;
+  }): Promise<void> {
+    const backupsBaseDir = itemStorage.get('localBackupFolder');
+
+    await Promise.all([
+      itemStorage.remove('lastLocalBackup'),
+      itemStorage.remove('localBackupFolder'),
+      itemStorage.remove('backupKeyViewed'),
+    ]);
+
+    if (deleteExistingBackups) {
+      if (!backupsBaseDir) {
+        log.error('disableLocalBackups: backups dir not set');
+        return;
+      }
+
+      if (basename(backupsBaseDir) !== LOCAL_BACKUP_DIR_NAME) {
+        log.warn(
+          'disableLocalBackups: backups dir does not have expected name, bailing on deleting backups'
+        );
+        return;
+      }
+
+      await rm(backupsBaseDir, { force: true, recursive: true });
+      log.info('disableLocalBackups: deleted backups directory');
+    }
   }
 }
 

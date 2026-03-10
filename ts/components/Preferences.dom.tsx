@@ -245,6 +245,11 @@ type PropsFunctionType = {
 
   // Other props
   addCustomColor: (color: CustomColorType) => unknown;
+  disableLocalBackups: ({
+    deleteExistingBackups,
+  }: {
+    deleteExistingBackups: boolean;
+  }) => Promise<void>;
   doDeleteAllData: () => unknown;
   editCustomColor: (colorId: string, color: CustomColorType) => unknown;
   getMessageCountBySchemaVersion: () => Promise<MessageCountBySchemaVersionType>;
@@ -403,6 +408,7 @@ export function Preferences({
   customColors,
   defaultConversationColor,
   deviceName = '',
+  disableLocalBackups,
   doDeleteAllData,
   editCustomColor,
   emojiSkinToneDefault,
@@ -2283,6 +2289,7 @@ export function Preferences({
         openFileInFolder={openFileInFolder}
         osName={osName}
         pickLocalBackupFolder={pickLocalBackupFolder}
+        disableLocalBackups={disableLocalBackups}
         settingsLocation={settingsLocation}
         promptOSAuth={promptOSAuth}
         refreshCloudBackupStatus={refreshCloudBackupStatus}

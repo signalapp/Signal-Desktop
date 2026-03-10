@@ -598,6 +598,7 @@ export default {
     openFileInFolder: action('openFileInFolder'),
     pickLocalBackupFolder: () =>
       Promise.resolve('/home/signaluser/Signal Backups/'),
+    disableLocalBackups: () => Promise.resolve(),
     promptOSAuth: () => Promise.resolve('success'),
     refreshCloudBackupStatus: action('refreshCloudBackupStatus'),
     refreshBackupSubscriptionStatus: action('refreshBackupSubscriptionStatus'),

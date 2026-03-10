@@ -17,11 +17,7 @@ import {
   FlowingSettingsControl as FlowingControl,
   SettingsRow,
 } from './PreferencesUtil.dom.js';
-import { ButtonVariant } from './Button.dom.js';
-import {
-  getOSAuthErrorString,
-  SIGNAL_BACKUPS_LEARN_MORE_URL,
-} from './PreferencesBackups.dom.js';
+import { SIGNAL_BACKUPS_LEARN_MORE_URL } from './PreferencesBackups.dom.js';
 import { I18n } from './I18n.dom.js';
 import type { SettingsLocation } from '../types/Nav.std.js';
 import { SettingsPage } from '../types/Nav.std.js';
@@ -33,17 +29,24 @@ import type {
   PromptOSAuthReasonType,
   PromptOSAuthResultType,
 } from '../util/os/promptOSAuthMain.main.js';
-import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
 import { AxoButton } from '../axo/AxoButton.dom.js';
+import { AxoDialog } from '../axo/AxoDialog.dom.js';
+import { AxoCheckbox } from '../axo/AxoCheckbox.dom.js';
 import { SECOND } from '../util/durations/constants.std.js';
 import { formatTimestamp } from '../util/formatTimestamp.dom.js';
 import type { LocalBackupExportMetadata } from '../types/LocalExport.std.js';
+import { tw } from '../axo/tw.dom.js';
+import { createLogger } from '../logging/log.std.js';
+import { toLogFormat } from '../types/errors.std.js';
+import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.js';
 
 const { noop } = lodash;
+const log = createLogger('PreferencesLocalBackups');
 
 export function PreferencesLocalBackups({
   accountEntropyPool,
   backupKeyViewed,
+  disableLocalBackups,
   i18n,
   lastLocalBackup,
   localBackupFolder,
@@ -59,6 +62,11 @@ export function PreferencesLocalBackups({
 }: {
   accountEntropyPool: string | undefined;
   backupKeyViewed: boolean;
+  disableLocalBackups: ({
+    deleteExistingBackups,
+  }: {
+    deleteExistingBackups: boolean;
+  }) => Promise<void>;
   i18n: LocalizerType;
   lastLocalBackup: LocalBackupExportMetadata | undefined;
   localBackupFolder: string | undefined;
@@ -77,6 +85,7 @@ export function PreferencesLocalBackups({
   const [authError, setAuthError] =
     React.useState<Omit<PromptOSAuthResultType, 'success'>>();
   const [isAuthPending, setIsAuthPending] = useState<boolean>(false);
+  const [isDisablePending, setIsDisablePending] = useState<boolean>(false);
 
   if (!localBackupFolder) {
     return (
@@ -237,6 +246,28 @@ export function PreferencesLocalBackups({
             </AxoButton.Root>
           </div>
         </FlowingControl>
+        <FlowingControl>
+          <div className="Preferences__two-thirds-flow">
+            <label>{i18n('icu:Preferences__local-backups-turn-off')}</label>
+          </div>
+          <div
+            className={classNames(
+              'Preferences__flow-button',
+              'Preferences__one-third-flow',
+              'Preferences__one-third-flow--align-right'
+            )}
+          >
+            <AxoButton.Root
+              variant="subtle-destructive"
+              size="lg"
+              onClick={() => {
+                setIsDisablePending(true);
+              }}
+            >
+              {i18n('icu:Preferences__local-backups-turn-off-action')}
+            </AxoButton.Root>
+          </div>
+        </FlowingControl>
       </SettingsRow>
       <SettingsRow className="Preferences--BackupsRow">
         <div className="Preferences__padding">
@@ -252,18 +283,166 @@ export function PreferencesLocalBackups({
         </div>
       </SettingsRow>
 
-      {authError && (
-        <ConfirmationDialog
+      {isDisablePending ? (
+        <DisableLocalBackupsDialog
           i18n={i18n}
-          dialogName="PreferencesLocalBackups--ErrorDialog"
-          onClose={() => setAuthError(undefined)}
-          cancelButtonVariant={ButtonVariant.Secondary}
-          cancelText={i18n('icu:ok')}
+          disableLocalBackups={disableLocalBackups}
+          onCancel={() => setIsDisablePending(false)}
+          onComplete={() => {
+            setIsDisablePending(false);
+            setSettingsLocation({ page: SettingsPage.Backups });
+          }}
+          onError={() => {
+            showToast({
+              toastType: ToastType.Error,
+            });
+            setIsDisablePending(false);
+            setSettingsLocation({ page: SettingsPage.Backups });
+          }}
+        />
+      ) : null}
+
+      {authError ? (
+        <AxoAlertDialog.Root
+          open
+          onOpenChange={open => {
+            if (!open) {
+              setAuthError(undefined);
+            }
+          }}
         >
-          {getOSAuthErrorString(authError) ?? i18n('icu:error')}
-        </ConfirmationDialog>
-      )}
+          <AxoAlertDialog.Content escape="cancel-is-noop">
+            <AxoAlertDialog.Body>
+              <AxoAlertDialog.Description>
+                {getOSAuthErrorString(authError) ?? i18n('icu:error')}
+              </AxoAlertDialog.Description>
+            </AxoAlertDialog.Body>
+            <AxoAlertDialog.Footer>
+              <AxoAlertDialog.Cancel>{i18n('icu:ok')}</AxoAlertDialog.Cancel>
+            </AxoAlertDialog.Footer>
+          </AxoAlertDialog.Content>
+        </AxoAlertDialog.Root>
+      ) : null}
     </>
+  );
+}
+
+function DisableLocalBackupsDialog({
+  i18n,
+  disableLocalBackups,
+  onComplete,
+  onCancel,
+  onError,
+}: {
+  i18n: LocalizerType;
+  disableLocalBackups: ({
+    deleteExistingBackups,
+  }: {
+    deleteExistingBackups: boolean;
+  }) => Promise<void>;
+  onComplete: () => void;
+  onCancel: () => void;
+  onError: (e: unknown) => void;
+}) {
+  const [isPending, setIsPending] = useState<boolean>(false);
+
+  const [deleteExistingBackups, setDeleteExistingBackups] =
+    useState<boolean>(true);
+
+  const handleDisableLocalBackups = useCallback(async () => {
+    if (isPending) {
+      return;
+    }
+
+    try {
+      setIsPending(true);
+      await disableLocalBackups({ deleteExistingBackups });
+      onComplete();
+    } catch (e) {
+      log.error(
+        'Error when disabling local backups',
+        { deleteExistingBackups },
+        toLogFormat(e)
+      );
+      onError(e);
+    } finally {
+      setIsPending(false);
+    }
+  }, [
+    isPending,
+    deleteExistingBackups,
+    onComplete,
+    onError,
+    disableLocalBackups,
+  ]);
+
+  return (
+    <AxoDialog.Root
+      open
+      onOpenChange={(open: boolean) => {
+        if (isPending) {
+          return;
+        }
+
+        if (!open) {
+          onCancel();
+        }
+      }}
+    >
+      <AxoDialog.Content
+        size="md"
+        escape={isPending ? 'cancel-is-destructive' : 'cancel-is-noop'}
+      >
+        <div className={tw('p-2')}>
+          <AxoDialog.Header>
+            <AxoDialog.Title>
+              {i18n('icu:Preferences__local-backups-turn-off')}
+            </AxoDialog.Title>
+          </AxoDialog.Header>
+          <AxoDialog.Body padding="normal">
+            <AxoDialog.Description>
+              <div className={tw('mb-2 text-label-secondary')}>
+                {i18n('icu:Preferences__local-backups-turn-off-confirmation')}
+              </div>
+            </AxoDialog.Description>
+
+            <label
+              className={tw('flex items-center gap-3 px-4 py-2.5')}
+              htmlFor="deleteLocalBackupsCheckbox"
+            >
+              <AxoCheckbox.Root
+                id="deleteLocalBackupsCheckbox"
+                variant="square"
+                checked={deleteExistingBackups}
+                disabled={isPending}
+                onCheckedChange={setDeleteExistingBackups}
+              />
+              {i18n('icu:Preferences__local-backups-turn-off-delete')}
+            </label>
+          </AxoDialog.Body>
+          <AxoDialog.Footer>
+            <AxoDialog.Actions>
+              <AxoDialog.Action
+                variant="secondary"
+                onClick={onCancel}
+                disabled={isPending}
+              >
+                {i18n('icu:cancel')}
+              </AxoDialog.Action>
+              <AxoDialog.Action
+                variant="destructive"
+                experimentalSpinner={
+                  isPending ? { 'aria-label': i18n('icu:loading') } : null
+                }
+                onClick={handleDisableLocalBackups}
+              >
+                {i18n('icu:Preferences__local-backups-turn-off-action')}
+              </AxoDialog.Action>
+            </AxoDialog.Actions>
+          </AxoDialog.Footer>
+        </div>
+      </AxoDialog.Content>
+    </AxoDialog.Root>
   );
 }
 
@@ -524,4 +703,23 @@ function LocalBackupsBackupKeyTextarea({
       value={isStepViewOrReference ? backupKey : backupKeyInput}
     />
   );
+}
+
+function getOSAuthErrorString(
+  authError: Omit<PromptOSAuthResultType, 'success'> | undefined
+): string | undefined {
+  if (!authError) {
+    return undefined;
+  }
+
+  // TODO: DESKTOP-8895
+  if (authError === 'unauthorized') {
+    return 'This action could not be completed because system authentication failed. Please try again or open the Signal app on your mobile device and go to Backup Settings to view your backup key.';
+  }
+
+  if (authError === 'unauthorized-no-windows-ucv') {
+    return 'This action could not be completed because Windows Hello is not enabled on your computer. Please set up Windows Hello and try again, or open the Signal app on your mobile device and go to Backup Settings to view your backup key.';
+  }
+
+  return 'The action could not be completed because authentication is not available on this computer. Please open the Signal app on your mobile device and go to Backup Settings to view your backup key.';
 }
