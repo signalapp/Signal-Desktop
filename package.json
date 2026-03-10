@@ -133,7 +133,7 @@
     "@react-aria/utils": "3.25.3",
     "@react-spring/web": "10.0.3",
     "@react-types/shared": "3.27.0",
-    "@signalapp/libsignal-client": "file:../libsignal/node",
+    "@signalapp/libsignal-client": "0.86.16",
     "@signalapp/minimask": "1.0.1",
     "@signalapp/mute-state-change": "workspace:1.0.0",
     "@signalapp/quill-cjs": "2.1.2",
@@ -475,8 +475,6 @@
     },
     "win": {
       "signtoolOptions": {
-        "certificateSubjectName": "Signal Messenger, LLC",
-        "certificateSha1": "8D5E3CD800736C5E1FE459A1F5AA48287D4F6EC6",
         "publisherName": "Signal Messenger, LLC",
         "sign": "./ts/scripts/sign-windows.node.js",
         "signingHashAlgorithms": [
