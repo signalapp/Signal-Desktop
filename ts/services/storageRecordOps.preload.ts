@@ -1695,7 +1695,13 @@ export async function mergeAccountRecord(
     const previous = itemStorage.get('preferContactAvatars');
     await itemStorage.put('preferContactAvatars', preferContactAvatars);
 
-    if (Boolean(previous) !== Boolean(preferContactAvatars)) {
+    const postRegistrationSyncsComplete =
+      itemStorage.get('postRegistrationSyncsStatus') !== 'incomplete';
+
+    if (
+      Boolean(previous) !== Boolean(preferContactAvatars) &&
+      postRegistrationSyncsComplete
+    ) {
       await window.ConversationController.forceRerender();
     }
   }
