@@ -224,13 +224,13 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
     timestamp,
   });
   // eslint-disable-next-line prefer-destructuring
-  let contentProto: Proto.IContent | undefined =
+  let contentProto: Proto.Content.Params | undefined =
     addSenderKeyResult.contentProto;
   const { groupId } = addSenderKeyResult;
 
   // Assert that the requesting UUID is still part of a story distribution list that
   //   the message was sent to, and add its sender key distribution message (SKDM).
-  if (contentProto.storyMessage && !groupId) {
+  if (contentProto.content?.storyMessage && !groupId) {
     contentProto = await checkDistributionListAndAddSKDM({
       confirm,
       contentProto,
@@ -243,20 +243,19 @@ export async function onRetryRequest(event: RetryRequestEvent): Promise<void> {
       return;
     }
   }
-  const story = Boolean(contentProto.storyMessage);
+  const story = Boolean(contentProto.content?.storyMessage);
 
   const recipientConversation = window.ConversationController.getOrCreate(
     requesterAci,
     'private'
   );
-  const protoToSend = new Proto.Content(contentProto);
 
   await conversationJobQueue.add({
     type: 'SavedProto',
     conversationId: recipientConversation.id,
     contentHint,
     groupId,
-    protoBase64: Bytes.toBase64(Proto.Content.encode(protoToSend).finish()),
+    protoBase64: Bytes.toBase64(Proto.Content.encode(contentProto)),
     story,
     timestamp,
     urgent,
@@ -481,13 +480,13 @@ async function checkDistributionListAndAddSKDM({
   requesterAci,
   messaging,
 }: {
-  contentProto: Proto.IContent;
+  contentProto: Proto.Content.Params;
   timestamp: number;
   confirm: () => void;
   requesterAci: AciString;
   logId: string;
   messaging: MessageSender;
-}): Promise<Proto.IContent | undefined> {
+}): Promise<Proto.Content.Params | undefined> {
   let distributionList: StoryDistributionListDataType | undefined;
   const { storyDistributionLists } = window.reduxStore.getState();
   const membersByListId = new Map<string, Set<ServiceIdString>>();
@@ -562,14 +561,14 @@ async function maybeAddSenderKeyDistributionMessage({
   requesterAci,
   timestamp,
 }: {
-  contentProto: Proto.IContent;
+  contentProto: Proto.Content.Params;
   logId: string;
   messageIds: Array<string>;
   requestGroupId?: string;
   requesterAci: AciString;
   timestamp: number;
 }): Promise<{
-  contentProto: Proto.IContent;
+  contentProto: Proto.Content.Params;
   groupId?: string;
 }> {
   const conversation = await getRetryConversation({

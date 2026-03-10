@@ -3,7 +3,6 @@
 
 import type { CallingMessage } from '@signalapp/ringrtc';
 import { CallMessageUrgency } from '@signalapp/ringrtc';
-import Long from 'long';
 import { SignalService as Proto } from '../protobuf/index.std.js';
 import { createLogger } from '../logging/log.std.js';
 import { toLogFormat } from '../types/errors.std.js';
@@ -22,17 +21,18 @@ export function callingMessageToProto(
     opaque,
   }: CallingMessage,
   urgency?: CallMessageUrgency
-): Proto.ICallMessage {
-  let opaqueField: undefined | Proto.CallMessage.IOpaque;
+): Proto.CallMessage.Params {
+  let opaqueField: undefined | Proto.CallMessage.Opaque.Params;
   if (opaque) {
     opaqueField = {
       ...opaque,
-      data: opaque.data,
+      urgency: null,
+      data: opaque.data ?? null,
     };
   }
   if (urgency !== undefined) {
     opaqueField = {
-      ...(opaqueField ?? {}),
+      ...(opaqueField ?? { data: null, urgency: null }),
       urgency: urgencyToProto(urgency),
     };
   }
@@ -41,42 +41,42 @@ export function callingMessageToProto(
     offer: offer
       ? {
           ...offer,
-          id: Long.fromValue(offer.callId),
+          id: offer.callId,
           type: offer.type as number,
           opaque: offer.opaque,
         }
-      : undefined,
+      : null,
     answer: answer
       ? {
           ...answer,
-          id: Long.fromValue(answer.callId),
+          id: answer.callId,
           opaque: answer.opaque,
         }
-      : undefined,
+      : null,
     iceUpdate: iceCandidates
-      ? iceCandidates.map((candidate): Proto.CallMessage.IIceUpdate => {
+      ? iceCandidates.map((candidate): Proto.CallMessage.IceUpdate.Params => {
           return {
             ...candidate,
-            id: Long.fromValue(candidate.callId),
+            id: candidate.callId,
             opaque: candidate.opaque,
           };
         })
-      : undefined,
+      : null,
     busy: busy
       ? {
           ...busy,
-          id: Long.fromValue(busy.callId),
+          id: busy.callId,
         }
-      : undefined,
+      : null,
     hangup: hangup
       ? {
           ...hangup,
-          id: Long.fromValue(hangup.callId),
+          id: hangup.callId,
           type: hangup.type as number,
         }
-      : undefined,
-    destinationDeviceId,
-    opaque: opaqueField,
+      : null,
+    destinationDeviceId: destinationDeviceId ?? null,
+    opaque: opaqueField ?? null,
   };
 }
 

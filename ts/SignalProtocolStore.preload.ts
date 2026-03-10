@@ -2105,6 +2105,7 @@ export class SignalProtocolStore extends EventEmitter {
       nonblockingApproval = false;
     }
 
+    strictAssert(publicKey.length > 0, 'Empty public key');
     return this.#_runOnIdentityQueue(
       encodedAddress.serviceId,
       zone,

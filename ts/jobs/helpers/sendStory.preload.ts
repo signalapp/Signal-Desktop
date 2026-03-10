@@ -26,7 +26,7 @@ import type { StoryDistributionIdString } from '../../types/StoryDistributionId.
 import * as Errors from '../../types/errors.std.js';
 import type { StoryMessageRecipientsType } from '../../types/Stories.std.js';
 import { DataReader } from '../../sql/Client.preload.js';
-import { SignalService as Proto } from '../../protobuf/index.std.js';
+import type { SignalService as Proto } from '../../protobuf/index.std.js';
 import { getMessagesById } from '../../messages/getMessagesById.preload.js';
 import {
   getSendOptions,
@@ -132,7 +132,7 @@ export async function sendStory(
   // can reuse it but first we'll need textAttachment | fileAttachment.
   // This function pulls off the attachment and generates the proto from the
   // first message on the list prior to continuing.
-  let originalStoryMessage: Proto.StoryMessage;
+  let originalStoryMessage: Proto.StoryMessage.Params;
   {
     const [originalMessageId] = messageIds;
     const originalMessage = messages.find(
@@ -339,15 +339,15 @@ export async function sendStory(
           `stories.sendStory(${timestamp}): sending story to ${receiverId}`
         );
 
-        const storyMessage = new Proto.StoryMessage();
-        storyMessage.bodyRanges = originalStoryMessage.bodyRanges;
-        storyMessage.profileKey = originalStoryMessage.profileKey;
-        storyMessage.fileAttachment = originalStoryMessage.fileAttachment;
-        storyMessage.textAttachment = originalStoryMessage.textAttachment;
-        storyMessage.group = originalStoryMessage.group;
-        storyMessage.allowsReplies =
-          isGroupV2(conversation.attributes) ||
-          Boolean(distributionList?.allowsReplies);
+        const storyMessage: Proto.StoryMessage.Params = {
+          bodyRanges: originalStoryMessage.bodyRanges,
+          profileKey: originalStoryMessage.profileKey,
+          attachment: originalStoryMessage.attachment,
+          group: originalStoryMessage.group,
+          allowsReplies:
+            isGroupV2(conversation.attributes) ||
+            Boolean(distributionList?.allowsReplies),
+        };
 
         const sendTarget = distributionList
           ? distributionListToSendTarget(
@@ -356,12 +356,15 @@ export async function sendStory(
             )
           : conversation.toSenderKeyTarget();
 
-        const contentMessage = new Proto.Content();
-        contentMessage.storyMessage = storyMessage;
-
         const innerPromise = sendContentMessageToGroup({
           contentHint: ContentHint.Implicit,
-          contentMessage,
+          contentMessage: {
+            content: {
+              storyMessage,
+            },
+            senderKeyDistributionMessage: null,
+            pniSignatureMessage: null,
+          },
           isPartialSend: false,
           messageId: undefined,
           recipients: pendingSendRecipientServiceIds,

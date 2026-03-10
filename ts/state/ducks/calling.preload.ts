@@ -4,7 +4,6 @@
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { ipcRenderer } from 'electron';
 import lodash from 'lodash';
-import Long from 'long';
 import type { ReadonlyDeep } from 'type-fest';
 import {
   CallLinkRootKey,
@@ -2971,24 +2970,24 @@ function submitCallQualitySurvey(
           callQualityIssues.includes(CallQualitySurvey.Issue.OTHER)
             ? additionalIssuesDescription
             : null,
-        debugLogUrl,
-        startTimestamp: Long.fromNumber(callSummary.startTime),
-        endTimestamp: Long.fromNumber(callSummary.endTime),
+        debugLogUrl: debugLogUrl ?? null,
+        startTimestamp: BigInt(callSummary.startTime),
+        endTimestamp: BigInt(callSummary.endTime),
         callType,
         success: !isCallFailure(callSummary.callEndReasonText),
         callEndReason: callSummary.callEndReasonText,
-        connectionRttMedian: qualityStats.rttMedianConnectionMillis,
-        audioRttMedian: audioStats.rttMedianMillis,
-        videoRttMedian: videoStats.rttMedianMillis,
-        audioRecvJitterMedian: audioStats.jitterMedianRecvMillis,
-        videoRecvJitterMedian: videoStats.jitterMedianRecvMillis,
-        audioSendJitterMedian: audioStats.jitterMedianSendMillis,
-        videoSendJitterMedian: videoStats.jitterMedianSendMillis,
-        audioRecvPacketLossFraction: audioStats.packetLossFractionRecv,
-        videoRecvPacketLossFraction: videoStats.packetLossFractionRecv,
-        audioSendPacketLossFraction: audioStats.packetLossFractionSend,
-        videoSendPacketLossFraction: videoStats.packetLossFractionSend,
-        callTelemetry: callSummary.rawStats,
+        connectionRttMedian: qualityStats.rttMedianConnectionMillis ?? null,
+        audioRttMedian: audioStats.rttMedianMillis ?? null,
+        videoRttMedian: videoStats.rttMedianMillis ?? null,
+        audioRecvJitterMedian: audioStats.jitterMedianRecvMillis ?? null,
+        videoRecvJitterMedian: videoStats.jitterMedianRecvMillis ?? null,
+        audioSendJitterMedian: audioStats.jitterMedianSendMillis ?? null,
+        videoSendJitterMedian: videoStats.jitterMedianSendMillis ?? null,
+        audioRecvPacketLossFraction: audioStats.packetLossFractionRecv ?? null,
+        videoRecvPacketLossFraction: videoStats.packetLossFractionRecv ?? null,
+        audioSendPacketLossFraction: audioStats.packetLossFractionSend ?? null,
+        videoSendPacketLossFraction: videoStats.packetLossFractionSend ?? null,
+        callTelemetry: callSummary.rawStats ?? null,
       };
 
       await submitCallQualitySurveyToServer(surveyRequest);

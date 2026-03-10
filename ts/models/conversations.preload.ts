@@ -588,7 +588,7 @@ export class ConversationModel {
 
   async updateExpirationTimerInGroupV2(
     seconds?: DurationInSeconds
-  ): Promise<Proto.GroupChange.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions.Params | undefined> {
     const idLog = this.idForLogging();
     const current = this.get('expireTimer');
     const bothFalsey = Boolean(current) === false && Boolean(seconds) === false;
@@ -608,7 +608,7 @@ export class ConversationModel {
 
   async #promotePendingMember(
     serviceIdKind: ServiceIdKind
-  ): Promise<Proto.GroupChange.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions.Params | undefined> {
     const idLog = this.idForLogging();
 
     const us = window.ConversationController.getOurConversationOrThrow();
@@ -658,7 +658,7 @@ export class ConversationModel {
 
   async #denyPendingApprovalRequest(
     aci: AciString
-  ): Promise<Proto.GroupChange.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions.Params | undefined> {
     const idLog = this.idForLogging();
 
     // This user's pending state may have changed in the time between the user's
@@ -682,7 +682,7 @@ export class ConversationModel {
   }
 
   async addPendingApprovalRequest(): Promise<
-    Proto.GroupChange.Actions | undefined
+    Proto.GroupChange.Actions.Params | undefined
   > {
     const idLog = this.idForLogging();
 
@@ -727,7 +727,7 @@ export class ConversationModel {
 
   async addMember(
     serviceId: ServiceIdString
-  ): Promise<Proto.GroupChange.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions.Params | undefined> {
     const idLog = this.idForLogging();
 
     const toRequest = window.ConversationController.get(serviceId);
@@ -773,13 +773,13 @@ export class ConversationModel {
 
   async #removePendingMember(
     serviceIds: ReadonlyArray<ServiceIdString>
-  ): Promise<Proto.GroupChange.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions.Params | undefined> {
     return removePendingMember(this.attributes, serviceIds);
   }
 
   async #removeMember(
     serviceId: ServiceIdString
-  ): Promise<Proto.GroupChange.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions.Params | undefined> {
     const idLog = this.idForLogging();
 
     // This user's pending state may have changed in the time between the user's
@@ -803,7 +803,7 @@ export class ConversationModel {
 
   async #toggleAdminChange(
     serviceId: ServiceIdString
-  ): Promise<Proto.GroupChange.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions.Params | undefined> {
     if (!isGroupV2(this.attributes)) {
       return undefined;
     }
@@ -839,7 +839,9 @@ export class ConversationModel {
     syncMessageOnly,
   }: {
     usingCredentialsFrom: ReadonlyArray<ConversationModel>;
-    createGroupChange: () => Promise<Proto.GroupChange.Actions | undefined>;
+    createGroupChange: () => Promise<
+      Proto.GroupChange.Actions.Params | undefined
+    >;
     extraConversationsForSend?: ReadonlyArray<string>;
     inviteLinkPassword?: string;
     name: string;
@@ -2843,7 +2845,7 @@ export class ConversationModel {
 
   async addBannedMember(
     serviceId: ServiceIdString
-  ): Promise<Proto.GroupChange.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions.Params | undefined> {
     if (this.isMember(serviceId)) {
       log.warn('addBannedMember: Member is a part of the group!');
 

@@ -12,6 +12,7 @@ import {
   isPniString,
 } from '../types/ServiceId.std.js';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.js';
+import type { StoryMessageRecipientsType } from '../types/Stories.std.js';
 import type {
   ProcessedEnvelope,
   ProcessedDataMessage,
@@ -32,7 +33,7 @@ export class EmptyEvent extends Event {
 }
 
 export type TypingEventData = Readonly<{
-  typingMessage: Proto.ITypingMessage;
+  typingMessage: Proto.TypingMessage;
   timestamp: number;
   started: boolean;
   stopped: boolean;
@@ -290,7 +291,7 @@ export class ViewEvent extends ConfirmableEvent {
 
 export class ConfigurationEvent extends ConfirmableEvent {
   constructor(
-    public readonly configuration: Proto.SyncMessage.IConfiguration,
+    public readonly configuration: Proto.SyncMessage.Configuration,
     confirm: ConfirmCallback
   ) {
     super('configuration', confirm);
@@ -325,7 +326,7 @@ export type MessageRequestResponseOptions = {
   envelopeId: string;
   threadE164?: string;
   threadAci?: AciString;
-  messageRequestResponseType: Proto.SyncMessage.IMessageRequestResponse['type'];
+  messageRequestResponseType: Proto.SyncMessage.MessageRequestResponse.Type;
   groupId?: string;
   groupV2Id?: string;
   receivedAtCounter: number;
@@ -378,7 +379,7 @@ export class MessageRequestResponseEvent extends ConfirmableEvent {
 
 export class FetchLatestEvent extends ConfirmableEvent {
   constructor(
-    public readonly eventType: Proto.SyncMessage.IFetchLatest['type'],
+    public readonly eventType: Proto.SyncMessage.FetchLatest['type'],
     confirm: ConfirmCallback
   ) {
     super('fetchLatest', confirm);
@@ -641,7 +642,7 @@ export class CallLogEventSyncEvent extends ConfirmableEvent {
 
 export type StoryRecipientUpdateData = Readonly<{
   destinationServiceId: ServiceIdString;
-  storyMessageRecipients: Array<Proto.SyncMessage.Sent.IStoryMessageRecipient>;
+  storyMessageRecipients: StoryMessageRecipientsType;
   timestamp: number;
 }>;
 

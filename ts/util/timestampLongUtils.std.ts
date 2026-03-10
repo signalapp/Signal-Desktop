@@ -1,33 +1,32 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import Long from 'long';
-
 import { MAX_SAFE_DATE } from './timestamp.std.js';
+import { toNumber } from './toNumber.std.js';
 
 export function getSafeLongFromTimestamp(
   timestamp = 0,
-  maxValue: Long | number = MAX_SAFE_DATE
-): Long {
+  maxValue: bigint | number = MAX_SAFE_DATE
+): bigint {
   if (timestamp >= MAX_SAFE_DATE) {
     if (typeof maxValue === 'number') {
-      return Long.fromNumber(maxValue);
+      return BigInt(maxValue);
     }
     return maxValue;
   }
 
-  return Long.fromNumber(timestamp);
+  return BigInt(timestamp);
 }
 
 export function getTimestampFromLong(
-  value?: Long | null,
+  value?: bigint | null,
   maxValue = MAX_SAFE_DATE
 ): number {
-  if (!value || value.isNegative()) {
+  if (!value || value < 0n) {
     return 0;
   }
 
-  const num = value.toNumber();
+  const num = toNumber(value);
 
   if (num > MAX_SAFE_DATE) {
     return maxValue;
@@ -42,12 +41,12 @@ export class InvalidTimestampError extends Error {
   }
 }
 
-export function getCheckedTimestampFromLong(value?: Long | null): number {
+export function getCheckedTimestampFromLong(value?: bigint | null): number {
   if (value == null) {
     throw new InvalidTimestampError('No number');
   }
 
-  const num = value.toNumber();
+  const num = toNumber(value);
 
   if (num < 0) {
     throw new InvalidTimestampError('Underflow');
@@ -61,9 +60,9 @@ export function getCheckedTimestampFromLong(value?: Long | null): number {
 }
 
 export function getTimestampOrUndefinedFromLong(
-  value?: Long | null
+  value?: bigint | null
 ): number | undefined {
-  if (!value || value.isZero()) {
+  if (!value || value === 0n) {
     return undefined;
   }
 
@@ -71,9 +70,9 @@ export function getTimestampOrUndefinedFromLong(
 }
 
 export function getCheckedTimestampOrUndefinedFromLong(
-  value?: Long | null
+  value?: bigint | null
 ): number | undefined {
-  if (!value || value.isZero()) {
+  if (!value || value === 0n) {
     return undefined;
   }
 

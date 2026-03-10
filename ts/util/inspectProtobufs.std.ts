@@ -6,7 +6,7 @@ import protobufjs from 'protobufjs';
 const { Reader } = protobufjs;
 
 type MessageWithUnknownFields = {
-  $unknownFields?: ReadonlyArray<Uint8Array>;
+  $unknown?: ReadonlyArray<Uint8Array>;
 };
 
 /**
@@ -38,7 +38,7 @@ export function inspectUnknownFieldTags(
   message: MessageWithUnknownFields
 ): Array<number> {
   return (
-    message.$unknownFields?.map(field => {
+    message.$unknown?.map(field => {
       // https://protobuf.dev/programming-guides/encoding/
       // The first byte of a field is a varint encoding the tag bit-shifted << 3
       // eslint-disable-next-line no-bitwise

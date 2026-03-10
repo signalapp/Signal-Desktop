@@ -3,8 +3,9 @@
 
 import type { SignalService as Proto } from '../protobuf/index.std.js';
 import type { ServiceIdString } from '../types/ServiceId.std.js';
+import { normalizeStoryDistributionId } from '../types/StoryDistributionId.std.js';
 import { fromServiceIdBinaryOrString } from '../util/ServiceId.node.js';
-import type { ProcessedSent, ProcessedSyncMessage } from './Types.d.ts';
+import type { ProcessedSent } from './Types.d.ts';
 
 type ProtoServiceId = Readonly<{
   destinationServiceId?: string | null;
@@ -33,20 +34,17 @@ function processProtoWithDestinationServiceId<Input extends ProtoServiceId>(
   };
 }
 
-function processSent(
-  sent?: Proto.SyncMessage.ISent | null
-): ProcessedSent | undefined {
-  if (!sent) {
-    return undefined;
-  }
-
+export function processSent(sent: Proto.SyncMessage.Sent): ProcessedSent {
   const {
     destinationServiceId: rawDestinationServiceId,
     destinationServiceIdBinary,
     unidentifiedStatus,
     storyMessageRecipients,
+    $unknown,
     ...remaining
   } = sent;
+
+  void $unknown;
 
   return {
     ...remaining,
@@ -57,19 +55,31 @@ function processSent(
       'processSent'
     ),
     unidentifiedStatus: unidentifiedStatus
-      ? unidentifiedStatus.map(processProtoWithDestinationServiceId)
+      ? unidentifiedStatus
+          .map(processProtoWithDestinationServiceId)
+          .map(({ unidentified, destinationPniIdentityKey, ...rest }) => {
+            return {
+              ...rest,
+              unidentified: unidentified ?? false,
+              destinationPniIdentityKey: destinationPniIdentityKey ?? undefined,
+            };
+          })
       : undefined,
     storyMessageRecipients: storyMessageRecipients
-      ? storyMessageRecipients.map(processProtoWithDestinationServiceId)
+      ? storyMessageRecipients
+          .map(processProtoWithDestinationServiceId)
+          .map(recipient => {
+            return {
+              isAllowedToReply: recipient.isAllowedToReply ?? false,
+              destinationServiceId: recipient.destinationServiceId,
+              distributionListIds: recipient.distributionListIds.map(id => {
+                return normalizeStoryDistributionId(
+                  id,
+                  'processSent.storyMessageRecipients'
+                );
+              }),
+            };
+          })
       : undefined,
-  };
-}
-
-export function processSyncMessage(
-  syncMessage: Proto.ISyncMessage
-): ProcessedSyncMessage {
-  return {
-    ...syncMessage,
-    sent: processSent(syncMessage.sent),
   };
 }

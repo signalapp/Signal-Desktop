@@ -9,9 +9,6 @@ import { deriveSecrets } from '../Crypto.node.js';
 
 const { get, isFinite, isInteger, isString } = lodash;
 
-const { RecordStructure, SessionStructure } = signal.proto.storage;
-const { Chain } = SessionStructure;
-
 type KeyPairType = {
   privKey?: string;
   pubKey?: string;
@@ -78,19 +75,15 @@ export type LocalUserDataType = {
 };
 
 export function sessionStructureToBytes(
-  recordStructure: signal.proto.storage.RecordStructure
+  recordStructure: signal.proto.storage.RecordStructure.Params
 ): Uint8Array {
-  return signal.proto.storage.RecordStructure.encode(recordStructure).finish();
+  return signal.proto.storage.RecordStructure.encode(recordStructure);
 }
 
 export function sessionRecordToProtobuf(
   record: SessionRecordType,
   ourData: LocalUserDataType
-): signal.proto.storage.RecordStructure {
-  const proto = new RecordStructure();
-
-  proto.previousSessions = [];
-
+): signal.proto.storage.RecordStructure.Params {
   const sessionGroup = record.sessions || {};
   const sessions = Object.values(sessionGroup);
 
@@ -98,8 +91,11 @@ export function sessionRecordToProtobuf(
     return session?.indexInfo?.closed === -1;
   });
 
+  let currentSession: signal.proto.storage.SessionStructure.Params | null;
   if (first) {
-    proto.currentSession = toProtobufSession(first, ourData);
+    currentSession = toProtobufSession(first, ourData);
+  } else {
+    currentSession = null;
   }
 
   sessions.sort((left, right) => {
@@ -114,69 +110,26 @@ export function sessionRecordToProtobuf(
     throw new Error('toProtobuf: More than one open session!');
   }
 
-  proto.previousSessions = [];
+  const previousSessions =
+    new Array<signal.proto.storage.SessionStructure.Params>();
   onlyClosed.forEach(session => {
-    proto.previousSessions.push(toProtobufSession(session, ourData));
+    previousSessions.push(toProtobufSession(session, ourData));
   });
 
-  if (!proto.currentSession && proto.previousSessions.length === 0) {
+  if (!currentSession && previousSessions.length === 0) {
     throw new Error('toProtobuf: Record had no sessions!');
   }
 
-  return proto;
+  return {
+    currentSession,
+    previousSessions,
+  };
 }
 
 function toProtobufSession(
   session: SessionType,
   ourData: LocalUserDataType
-): signal.proto.storage.SessionStructure {
-  const proto = new SessionStructure();
-
-  // Core Fields
-
-  proto.aliceBaseKey = binaryToUint8Array(session, 'indexInfo.baseKey', 33);
-  proto.localIdentityPublic = ourData.identityKeyPublic;
-  proto.localRegistrationId = ourData.registrationId;
-
-  proto.previousCounter =
-    getInteger(session, 'currentRatchet.previousCounter') + 1;
-  proto.remoteIdentityPublic = binaryToUint8Array(
-    session,
-    'indexInfo.remoteIdentityKey',
-    33
-  );
-  proto.remoteRegistrationId = getInteger(session, 'registrationId');
-  proto.rootKey = binaryToUint8Array(session, 'currentRatchet.rootKey', 32);
-  proto.sessionVersion = 3;
-
-  // Note: currently unused
-  // proto.needsRefresh = null;
-
-  // Pending PreKey
-
-  if (session.pendingPreKey) {
-    proto.pendingPreKey =
-      new signal.proto.storage.SessionStructure.PendingPreKey();
-    proto.pendingPreKey.baseKey = binaryToUint8Array(
-      session,
-      'pendingPreKey.baseKey',
-      33
-    );
-    proto.pendingPreKey.signedPreKeyId = getInteger(
-      session,
-      'pendingPreKey.signedKeyId'
-    );
-
-    if (session.pendingPreKey.preKeyId !== undefined) {
-      proto.pendingPreKey.preKeyId = getInteger(
-        session,
-        'pendingPreKey.preKeyId'
-      );
-    }
-  }
-
-  // Sender Chain
-
+): signal.proto.storage.SessionStructure.Params {
   const senderBaseKey = session.currentRatchet?.ephemeralKeyPair?.pubKey;
   if (!senderBaseKey) {
     throw new Error('toProtobufSession: No sender base key!');
@@ -208,11 +161,7 @@ function toProtobufSession(
     32
   );
 
-  proto.senderChain = protoSenderChain;
-
   // First Receiver Chain
-
-  proto.receiverChains = [];
 
   const firstReceiverChainBaseKey =
     session.currentRatchet?.lastRemoteEphemeralKey;
@@ -224,6 +173,9 @@ function toProtobufSession(
   const firstReceiverChain = (session as any)[firstReceiverChainBaseKey] as
     | ChainType
     | undefined;
+
+  const receiverChains =
+    new Array<signal.proto.storage.SessionStructure.Chain.Params>();
 
   // If the session was just initialized, then there will be no receiver chain
   if (firstReceiverChain) {
@@ -241,7 +193,7 @@ function toProtobufSession(
       33
     );
 
-    proto.receiverChains.push(protoFirstReceiverChain);
+    receiverChains.push(protoFirstReceiverChain);
   }
 
   // Old Receiver Chains
@@ -277,40 +229,79 @@ function toProtobufSession(
       33
     );
 
-    proto.receiverChains.push(protoChain);
+    receiverChains.push(protoChain);
   });
 
-  return proto;
+  return {
+    // Core Fields
+    aliceBaseKey: binaryToUint8Array(session, 'indexInfo.baseKey', 33),
+    localIdentityPublic: ourData.identityKeyPublic,
+    localRegistrationId: ourData.registrationId,
+
+    previousCounter: getInteger(session, 'currentRatchet.previousCounter') + 1,
+    remoteIdentityPublic: binaryToUint8Array(
+      session,
+      'indexInfo.remoteIdentityKey',
+      33
+    ),
+    remoteRegistrationId: getInteger(session, 'registrationId'),
+    rootKey: binaryToUint8Array(session, 'currentRatchet.rootKey', 32),
+    sessionVersion: 3,
+
+    // Note: currently unused
+    needsRefresh: null,
+
+    // Pending PreKey
+    pendingPreKey: session.pendingPreKey
+      ? {
+          baseKey: binaryToUint8Array(session, 'pendingPreKey.baseKey', 33),
+          signedPreKeyId: getInteger(session, 'pendingPreKey.signedKeyId'),
+          preKeyId:
+            session.pendingPreKey.preKeyId !== undefined
+              ? getInteger(session, 'pendingPreKey.preKeyId')
+              : null,
+        }
+      : null,
+
+    // Sender Chain
+
+    senderChain: protoSenderChain,
+
+    receiverChains,
+  };
 }
 
 function toProtobufChain(
   chain: ChainType
-): signal.proto.storage.SessionStructure.Chain {
-  const proto = new Chain();
-
-  const protoChainKey = new Chain.ChainKey();
-  protoChainKey.index = getInteger(chain, 'chainKey.counter') + 1;
-  if (chain.chainKey?.key !== undefined) {
-    protoChainKey.key = binaryToUint8Array(chain, 'chainKey.key', 32);
-  }
-  proto.chainKey = protoChainKey;
-
+): signal.proto.storage.SessionStructure.Chain.Params {
   const messageKeys = Object.entries(chain.messageKeys || {});
-  proto.messageKeys = messageKeys.map(entry => {
-    const protoMessageKey = new SessionStructure.Chain.MessageKey();
-    protoMessageKey.index = getInteger(entry, '0') + 1;
-    const key = binaryToUint8Array(entry, '1', 32);
 
-    const { cipherKey, macKey, iv } = translateMessageKey(key);
+  return {
+    chainKey: {
+      index: getInteger(chain, 'chainKey.counter') + 1,
+      key:
+        chain.chainKey?.key !== undefined
+          ? binaryToUint8Array(chain, 'chainKey.key', 32)
+          : null,
+    },
+    messageKeys: messageKeys.map(
+      (
+        entry
+      ): signal.proto.storage.SessionStructure.Chain.MessageKey.Params => {
+        const key = binaryToUint8Array(entry, '1', 32);
 
-    protoMessageKey.cipherKey = cipherKey;
-    protoMessageKey.macKey = macKey;
-    protoMessageKey.iv = iv;
-
-    return protoMessageKey;
-  });
-
-  return proto;
+        const { cipherKey, macKey, iv } = translateMessageKey(key);
+        return {
+          index: getInteger(entry, '0') + 1,
+          cipherKey,
+          macKey,
+          iv,
+        };
+      }
+    ),
+    senderRatchetKey: null,
+    senderRatchetKeyPrivate: null,
+  };
 }
 
 // Utility functions

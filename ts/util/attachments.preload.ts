@@ -15,6 +15,8 @@ import { canBeTranscoded } from './Attachment.std.js';
 import * as Errors from '../types/errors.std.js';
 import * as Bytes from '../Bytes.std.js';
 
+import { toNumber } from './toNumber.std.js';
+
 const log = createLogger('attachments');
 
 // All outgoing images go through handleImageAttachment before being sent and thus have
@@ -100,8 +102,8 @@ export function copyCdnFields(
     return {};
   }
   return {
-    cdnId: dropNull(uploaded.cdnId)?.toString(),
-    cdnKey: uploaded.cdnKey,
+    cdnId: undefined,
+    cdnKey: uploaded.attachmentIdentifier.cdnKey,
     cdnNumber: dropNull(uploaded.cdnNumber),
     digest: Bytes.toBase64(uploaded.digest),
     incrementalMac: uploaded.incrementalMac
@@ -110,6 +112,6 @@ export function copyCdnFields(
     chunkSize: dropNull(uploaded.chunkSize),
     key: Bytes.toBase64(uploaded.key),
     plaintextHash: uploaded.plaintextHash,
-    uploadTimestamp: uploaded.uploadTimestamp?.toNumber(),
+    uploadTimestamp: toNumber(uploaded.uploadTimestamp) ?? undefined,
   };
 }

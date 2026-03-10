@@ -280,12 +280,11 @@ export default class AccountManager extends EventTarget {
     }
     const encrypted = encryptDeviceName(name, identityKey.publicKey);
 
-    const proto = new Proto.DeviceName();
-    proto.ephemeralPublic = encrypted.ephemeralPublic.serialize();
-    proto.syntheticIv = encrypted.syntheticIv;
-    proto.ciphertext = encrypted.ciphertext;
-
-    const bytes = Proto.DeviceName.encode(proto).finish();
+    const bytes = Proto.DeviceName.encode({
+      ephemeralPublic: encrypted.ephemeralPublic.serialize(),
+      syntheticIv: encrypted.syntheticIv,
+      ciphertext: encrypted.ciphertext,
+    });
     return Bytes.toBase64(bytes);
   }
 

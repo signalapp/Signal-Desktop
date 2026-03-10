@@ -9,6 +9,7 @@ import {
   toTaggedPni,
   isUntaggedPniString,
 } from '../../types/ServiceId.std.js';
+import { isKnownProtoEnumMember } from '../../util/isKnownProtoEnumMember.std.js';
 import { Migrations as Proto } from '../../protobuf/index.std.js';
 import { sql } from '../util.std.js';
 import type { WritableDB } from '../Interface.std.js';
@@ -120,7 +121,9 @@ export default function updateToSchemaVersion1280(
       insertStmt.run({
         ...rest,
         id,
-        type: decoded.type ?? Proto.Envelope.Type.UNKNOWN,
+        type: isKnownProtoEnumMember(Proto.Envelope.Type, decoded.type)
+          ? decoded.type
+          : Proto.Envelope.Type.UNKNOWN,
         content: content ?? null,
         isEncrypted: decrypted ? 0 : 1,
         timestamp: timestamp || Date.now(),

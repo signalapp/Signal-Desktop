@@ -15,7 +15,7 @@ const log = createLogger('removePendingMember');
 export async function removePendingMember(
   conversationAttributes: ConversationAttributesType,
   serviceIds: ReadonlyArray<ServiceIdString>
-): Promise<Proto.GroupChange.Actions | undefined> {
+): Promise<Proto.GroupChange.Actions.Params | undefined> {
   const idLog = getConversationIdForLogging(conversationAttributes);
 
   const pendingServiceIds = serviceIds

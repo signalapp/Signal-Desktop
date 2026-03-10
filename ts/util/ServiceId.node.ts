@@ -80,6 +80,12 @@ export function fromAciUuidBytesOrString(
 
 export function fromAciUuidBytesOrString(
   bytes: Uint8Array | undefined | null,
+  fallback: string,
+  context: string
+): AciString;
+
+export function fromAciUuidBytesOrString(
+  bytes: Uint8Array | undefined | null,
   fallback: string | undefined | null,
   context: string
 ): AciString | undefined;

@@ -232,7 +232,7 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
     const actions = Proto.GroupChange.Actions.decode(
       groupChange?.actions ?? new Uint8Array(0)
     );
-    assert.strictEqual(actions.deletePendingMembers.length, 1);
+    assert.strictEqual(actions.deleteMembersPendingProfileKey.length, 1);
   });
 
   it('should accept ACI invite with extra PNI on the invite list', async () => {

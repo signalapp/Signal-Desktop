@@ -12,6 +12,8 @@ import { isProduction } from './version.std.js';
 
 import type { IncomingWebSocketRequest } from '../textsecure/WebsocketResources.preload.js';
 
+import { toNumber } from './toNumber.std.js';
+
 const { isNumber } = lodash;
 
 const log = createLogger('checkFirstEnvelope');
@@ -33,7 +35,7 @@ export function checkFirstEnvelope(incoming: IncomingWebSocketRequest): void {
   }
 
   const decoded = Proto.Envelope.decode(plaintext);
-  const newEnvelopeTimestamp = decoded.clientTimestamp?.toNumber();
+  const newEnvelopeTimestamp = toNumber(decoded.clientTimestamp);
   if (!isNumber(newEnvelopeTimestamp)) {
     log.warn('timestamp is not a number!');
     return;

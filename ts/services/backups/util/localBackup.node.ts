@@ -13,6 +13,7 @@ import * as Errors from '../../../types/errors.std.js';
 import { Signal } from '../../../protobuf/index.std.js';
 import { DelimitedStream } from '../../../util/DelimitedStream.node.js';
 import { strictAssert } from '../../../util/assert.std.js';
+import { encodeDelimited } from '../../../util/encodeDelimited.std.js';
 import { decryptAesCtr, encryptAesCtr } from '../../../Crypto.node.js';
 import type { LocalBackupMetadataVerificationType } from '../../../types/backups.node.js';
 import {
@@ -220,12 +221,12 @@ export async function writeLocalBackupMetadata({
   const encryptedId = encryptAesCtr(metadataKey, backupId, iv);
 
   const metadataSerialized = Signal.backup.local.Metadata.encode({
-    backupId: new Signal.backup.local.Metadata.EncryptedBackupId({
+    backupId: {
       iv,
       encryptedId,
-    }),
+    },
     version: LOCAL_BACKUP_VERSION,
-  }).finish();
+  });
 
   const metadataPath = join(snapshotDir, 'metadata');
   await writeFile(metadataPath, metadataSerialized);
@@ -279,11 +280,13 @@ export async function writeLocalBackupFilesList({
 
   function* generateFrames() {
     for (const mediaName of mediaNames) {
-      const data = Signal.backup.local.FilesFrame.encodeDelimited({
-        mediaName,
-      }).finish();
+      const data = Signal.backup.local.FilesFrame.encode({
+        item: {
+          mediaName,
+        },
+      });
 
-      yield data;
+      yield* encodeDelimited(data);
 
       files.push(mediaName);
     }
@@ -308,8 +311,8 @@ export async function readLocalBackupFilesList(
     write(data, _enc, callback) {
       try {
         const file = Signal.backup.local.FilesFrame.decode(data);
-        if (file.mediaName) {
-          mediaNames.push(file.mediaName);
+        if (file.item?.mediaName) {
+          mediaNames.push(file.item.mediaName);
         } else {
           log.warn(
             'ParseFilesListTransform: Active file had empty mediaName, ignoring'

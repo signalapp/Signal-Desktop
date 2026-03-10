@@ -14,12 +14,11 @@ import type { ContactAvatarType } from '../types/Avatar.std.js';
 import type { AttachmentType } from '../types/Attachment.std.js';
 import type { AciString } from '../types/ServiceId.std.js';
 import { computeHash } from '../Crypto.node.js';
-import { dropNull } from '../util/dropNull.std.js';
 import { fromAciUuidBytesOrString } from '../util/ServiceId.node.js';
 import * as Bytes from '../Bytes.std.js';
 import { decryptAttachmentV2ToSink } from '../AttachmentCrypto.node.js';
 
-import Avatar = Proto.ContactDetails.IAvatar;
+import Avatar = Proto.ContactDetails.Avatar.Params;
 import { stringToMIMEType } from '../types/MIME.std.js';
 
 const log = createLogger('ContactsParser');
@@ -32,7 +31,7 @@ type OptionalFields = {
 
 type MessageWithAvatar<Message extends OptionalFields> = Omit<
   Message,
-  'avatar' | 'toJSON' | 'aci' | 'aciBinary'
+  'avatar' | 'toJSON' | 'aci' | 'aciBinary' | 'expireTimer'
 > & {
   aci: AciString;
   avatar?: ContactAvatarType;
@@ -41,7 +40,8 @@ type MessageWithAvatar<Message extends OptionalFields> = Omit<
   number?: string | undefined;
 };
 
-export type ContactDetailsWithAvatar = MessageWithAvatar<Proto.IContactDetails>;
+export type ContactDetailsWithAvatar =
+  MessageWithAvatar<Proto.ContactDetails.Params>;
 
 export async function parseContactsV2(
   attachment: AttachmentType
@@ -105,7 +105,11 @@ async function prepareContact(
       ? DurationInSeconds.fromSeconds(proto.expireTimer)
       : undefined;
 
-  const aci = fromAciUuidBytesOrString(aciBinary, rawAci, 'ContactBuffer.aci');
+  const aci = fromAciUuidBytesOrString(
+    aciBinary,
+    rawAci ?? '',
+    'ContactBuffer.aci'
+  );
 
   if ((Bytes.isNotEmpty(aciBinary) || rawAci) && aci == null) {
     log.warn('ParseContactsTransform: Dropping contact with invalid aci');
@@ -132,9 +136,8 @@ async function prepareContact(
   return {
     ...proto,
     expireTimer,
-    expireTimerVersion: proto.expireTimerVersion ?? null,
     aci,
     avatar,
-    number: dropNull(proto.number),
+    number: proto.number ?? '',
   };
 }

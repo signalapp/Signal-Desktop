@@ -43,26 +43,32 @@ async function _sendCallLinkUpdateSync(
   try {
     const ourAci = itemStorage.user.getCheckedAci();
 
-    const callLinkUpdate = new Proto.SyncMessage.CallLinkUpdate({
+    const callLinkUpdate: Proto.SyncMessage.CallLinkUpdate.Params = {
       type: protoType,
       rootKey: toRootKeyBytes(callLink.rootKey),
       adminPasskey: callLink.adminKey
         ? toAdminKeyBytes(callLink.adminKey)
         : null,
+    };
+
+    const syncMessage = MessageSender.padSyncMessage({
+      content: {
+        callLinkUpdate,
+      },
     });
-
-    const syncMessage = MessageSender.createSyncMessage();
-    syncMessage.callLinkUpdate = callLinkUpdate;
-
-    const contentMessage = new Proto.Content();
-    contentMessage.syncMessage = syncMessage;
 
     await singleProtoJobQueue.add({
       contentHint: ContentHint.Resendable,
       serviceId: ourAci,
       isSyncMessage: true,
       protoBase64: Bytes.toBase64(
-        Proto.Content.encode(contentMessage).finish()
+        Proto.Content.encode({
+          content: {
+            syncMessage,
+          },
+          senderKeyDistributionMessage: null,
+          pniSignatureMessage: null,
+        })
       ),
       type: 'callLinkUpdateSync',
       urgent: false,

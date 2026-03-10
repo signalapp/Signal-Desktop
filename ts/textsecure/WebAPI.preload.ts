@@ -3427,9 +3427,9 @@ export async function callLinkCreateAuth(
 }
 
 export async function submitCallQualitySurvey(
-  survey: Proto.ISubmitCallQualitySurveyRequest
+  survey: Proto.SubmitCallQualitySurveyRequest.Params
 ): Promise<void> {
-  const data = Proto.SubmitCallQualitySurveyRequest.encode(survey).finish();
+  const data = Proto.SubmitCallQualitySurveyRequest.encode(survey);
   await _ajax({
     call: 'callQualitySurvey',
     contentType: 'application/octet-stream',
@@ -4327,7 +4327,7 @@ export async function getGroupCredentials({
 
 export async function getExternalGroupCredential(
   options: GroupCredentialsType
-): Promise<Proto.IExternalGroupCredential> {
+): Promise<Proto.ExternalGroupCredential.Params> {
   const basicAuth = generateGroupAuth(
     options.groupPublicParamsHex,
     options.authCredentialPresentationHex
@@ -4346,7 +4346,7 @@ export async function getExternalGroupCredential(
   return Proto.ExternalGroupCredential.decode(response);
 }
 
-function verifyAttributes(attributes: Proto.IAvatarUploadAttributes) {
+function verifyAttributes(attributes: Proto.AvatarUploadAttributes.Params) {
   const { key, credential, acl, algorithm, date, policy, signature } =
     attributes;
 
@@ -4581,14 +4581,14 @@ export function confirmPaypalBoostPayment(
 }
 
 export async function createGroup(
-  group: Proto.IGroup,
+  group: Proto.Group.Params,
   options: GroupCredentialsType
-): Promise<Proto.IGroupResponse> {
+): Promise<Proto.GroupResponse.Params> {
   const basicAuth = generateGroupAuth(
     options.groupPublicParamsHex,
     options.authCredentialPresentationHex
   );
-  const data = Proto.Group.encode(group).finish();
+  const data = Proto.Group.encode(group);
 
   const response = await _ajax({
     basicAuth,
@@ -4606,7 +4606,7 @@ export async function createGroup(
 
 export async function getGroup(
   options: GroupCredentialsType
-): Promise<Proto.IGroupResponse> {
+): Promise<Proto.GroupResponse.Params> {
   const basicAuth = generateGroupAuth(
     options.groupPublicParamsHex,
     options.authCredentialPresentationHex
@@ -4655,15 +4655,15 @@ export async function getGroupFromLink(
 }
 
 export async function modifyGroup(
-  changes: Proto.GroupChange.IActions,
+  changes: Proto.GroupChange.Actions.Params,
   options: GroupCredentialsType,
   inviteLinkBase64?: string
-): Promise<Proto.IGroupChangeResponse> {
+): Promise<Proto.GroupChangeResponse.Params> {
   const basicAuth = generateGroupAuth(
     options.groupPublicParamsHex,
     options.authCredentialPresentationHex
   );
-  const data = Proto.GroupChange.Actions.encode(changes).finish();
+  const data = Proto.GroupChange.Actions.encode(changes);
   const safeInviteLinkPassword = inviteLinkBase64
     ? toWebSafeBase64(inviteLinkBase64)
     : undefined;
