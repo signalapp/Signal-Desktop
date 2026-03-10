@@ -502,7 +502,7 @@ export type ConversationAttributesType = {
     attributes: AccessRequiredEnum;
     members: AccessRequiredEnum;
     addFromInviteLink: AccessRequiredEnum;
-    memberLabel: AccessRequiredEnum;
+    memberLabel: AccessRequiredEnum | undefined;
   };
   announcementsOnly?: boolean;
   avatar?: ContactAvatarType | null;

@@ -4651,11 +4651,15 @@ function extractDiffs({
     current.accessControl &&
     old.accessControl &&
     old.accessControl.memberLabel !== undefined &&
+    old.accessControl.memberLabel !==
+      Proto.AccessControl.AccessRequired.UNKNOWN &&
     old.accessControl.memberLabel !== current.accessControl.memberLabel
   ) {
     details.push({
       type: 'access-member-label',
-      newPrivilege: current.accessControl.memberLabel,
+      newPrivilege:
+        current.accessControl.memberLabel ??
+        Proto.AccessControl.AccessRequired.UNKNOWN,
     });
   }
 
