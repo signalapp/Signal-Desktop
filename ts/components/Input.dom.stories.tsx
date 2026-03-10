@@ -29,18 +29,18 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   whenToShowRemainingCount: overrideProps.whenToShowRemainingCount,
 });
 
-function Controller(props: PropsType): JSX.Element {
+function Controller(props: PropsType): React.JSX.Element {
   const { value: initialValue } = props;
   const [value, setValue] = useState(initialValue);
 
   return <Input {...props} onChange={setValue} value={value} />;
 }
 
-export function Simple(): JSX.Element {
+export function Simple(): React.JSX.Element {
   return <Controller {...createProps()} />;
 }
 
-export function HasClearButton(): JSX.Element {
+export function HasClearButton(): React.JSX.Element {
   return (
     <Controller
       {...createProps({
@@ -50,7 +50,7 @@ export function HasClearButton(): JSX.Element {
   );
 }
 
-export function CharacterCount(): JSX.Element {
+export function CharacterCount(): React.JSX.Element {
   return (
     <Controller
       {...createProps({
@@ -60,7 +60,7 @@ export function CharacterCount(): JSX.Element {
   );
 }
 
-export function CharacterCountCustomizableShow(): JSX.Element {
+export function CharacterCountCustomizableShow(): React.JSX.Element {
   return (
     <Controller
       {...createProps({
@@ -71,7 +71,7 @@ export function CharacterCountCustomizableShow(): JSX.Element {
   );
 }
 
-export function Expandable(): JSX.Element {
+export function Expandable(): React.JSX.Element {
   return (
     <Controller
       {...createProps({
@@ -81,7 +81,7 @@ export function Expandable(): JSX.Element {
   );
 }
 
-export function ExpandableWCount(): JSX.Element {
+export function ExpandableWCount(): React.JSX.Element {
   return (
     <Controller
       {...createProps({
@@ -94,7 +94,7 @@ export function ExpandableWCount(): JSX.Element {
   );
 }
 
-export function Disabled(): JSX.Element {
+export function Disabled(): React.JSX.Element {
   return (
     <Controller
       {...createProps({
@@ -104,7 +104,7 @@ export function Disabled(): JSX.Element {
   );
 }
 
-export function SpellcheckDisabled(): JSX.Element {
+export function SpellcheckDisabled(): React.JSX.Element {
   return (
     <Controller
       {...createProps({

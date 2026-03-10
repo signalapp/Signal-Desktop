@@ -25,10 +25,10 @@ import {
 import { useItemsActions } from '../ducks/items.preload.js';
 import { useGifsActions } from '../ducks/gifs.preload.js';
 import {
-  fetchGifsFeatured,
-  fetchGifsSearch,
-} from '../../components/fun/data/gifs.preload.js';
-import { tenorDownload } from '../../components/fun/data/tenor.preload.js';
+  fetchGiphySearch,
+  fetchGiphyTrending,
+  fetchGiphyFile,
+} from '../../components/fun/data/giphy.preload.js';
 import { usePreferredReactionsActions } from '../ducks/preferredReactions.preload.js';
 import { useEmojisActions } from '../ducks/emojis.preload.js';
 import { useStickersActions } from '../ducks/stickers.preload.js';
@@ -56,7 +56,7 @@ export const SmartFunProvider = memo(function SmartFunProvider(
     usePreferredReactionsActions();
   const { onUseEmoji } = useEmojisActions();
   const { useSticker: onUseSticker } = useStickersActions();
-  const { onAddRecentGif } = useGifsActions();
+  const { onAddRecentGif, onRemoveRecentGif } = useGifsActions();
 
   // Translate recent emojis to keys
   const recentEmojisKeys = useMemo(() => {
@@ -128,9 +128,10 @@ export const SmartFunProvider = memo(function SmartFunProvider(
       onClearStickerPickerHint={handleClearStickerPickerHint}
       onSelectSticker={handleSelectSticker}
       // Gifs
-      fetchGifsSearch={fetchGifsSearch}
-      fetchGifsFeatured={fetchGifsFeatured}
-      fetchGif={tenorDownload}
+      fetchGiphySearch={fetchGiphySearch}
+      fetchGiphyTrending={fetchGiphyTrending}
+      fetchGiphyFile={fetchGiphyFile}
+      onRemoveRecentGif={onRemoveRecentGif}
       onSelectGif={handleSelectGif}
     >
       {props.children}

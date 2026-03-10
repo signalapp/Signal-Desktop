@@ -15,7 +15,6 @@ import type { PollVoteAttributesType } from '../messageModifiers/Polls.preload.j
 import { getMessageSentTimestamp } from '../util/getMessageSentTimestamp.std.js';
 import { getSourceServiceId } from '../messages/sources.preload.js';
 import { isAciString } from '../util/isAciString.std.js';
-import { isGroup } from '../util/whatTypeOfConversation.dom.js';
 import { strictAssert } from '../util/assert.std.js';
 import { createLogger } from '../logging/log.std.js';
 
@@ -37,10 +36,6 @@ export async function enqueuePollVoteForSend({
   strictAssert(
     conversation,
     'enqueuePollVoteForSend: No conversation extracted from target message'
-  );
-  strictAssert(
-    isGroup(conversation.attributes),
-    'enqueuePollVoteForSend: conversation must be a group'
   );
 
   const timestamp = Date.now();

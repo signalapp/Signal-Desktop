@@ -9,6 +9,7 @@ import { videoPixelFormatToEnum } from '@signalapp/ringrtc';
 import type { VideoFrameSender, VideoFrameSource } from '@signalapp/ringrtc';
 import type { RefObject } from 'react';
 import { createLogger } from '../logging/log.std.js';
+import { toLogFormat } from '../types/errors.std.js';
 
 const log = createLogger('VideoSupport');
 
@@ -35,45 +36,83 @@ type GumTrackConstraintSet = {
   maxFrameRate: number;
 };
 
+export type SizeCallbackType = (options: {
+  width: number;
+  height: number;
+}) => unknown;
+
+export type SetLocalPreviewType = {
+  localPreview: HTMLVideoElement | undefined;
+  sizeCallback: SizeCallbackType | undefined;
+};
+
 export class GumVideoCapturer {
-  private defaultCaptureOptions: GumVideoCaptureOptions;
   private localPreview?: HTMLVideoElement;
+  private sizeCallback?: SizeCallbackType;
   private captureOptions?: GumVideoCaptureOptions;
   private sender?: VideoFrameSender;
   private mediaStream?: MediaStream;
   private spawnedSenderRunning = false;
   private preferredDeviceId?: string;
-
-  constructor(defaultCaptureOptions: GumVideoCaptureOptions) {
-    this.defaultCaptureOptions = defaultCaptureOptions;
-  }
+  private reportVideoSizeCallback = this.reportVideoSize.bind(this);
 
   capturing(): boolean {
     return this.captureOptions !== undefined;
   }
 
-  setLocalPreview(localPreview: HTMLVideoElement | undefined): void {
+  setLocalPreview(options: SetLocalPreviewType): void {
     const oldLocalPreview = this.localPreview;
-    if (oldLocalPreview) {
-      oldLocalPreview.srcObject = null;
+
+    if (oldLocalPreview !== options.localPreview) {
+      if (oldLocalPreview) {
+        oldLocalPreview.srcObject = null;
+        oldLocalPreview.removeEventListener(
+          'resize',
+          this.reportVideoSizeCallback
+        );
+      }
+
+      this.localPreview = options.localPreview;
+
+      if (this.localPreview) {
+        this.localPreview.addEventListener(
+          'resize',
+          this.reportVideoSizeCallback
+        );
+      }
+      this.updateLocalPreviewSourceObject();
     }
 
-    this.localPreview = localPreview;
-
-    this.updateLocalPreviewSourceObject();
+    this.sizeCallback = options.sizeCallback;
+    this.reportVideoSize();
   }
 
-  async enableCapture(options?: GumVideoCaptureOptions): Promise<void> {
-    return this.startCapturing(options ?? this.defaultCaptureOptions);
+  reportVideoSize(): void {
+    if (!this.mediaStream || !this.sizeCallback) {
+      return;
+    }
+
+    const settings = this.mediaStream.getVideoTracks()?.[0].getSettings();
+    if (!settings?.width || !settings?.height) {
+      return;
+    }
+
+    const size = {
+      width: settings.width,
+      height: settings.height,
+    };
+    this.sizeCallback(size);
+  }
+
+  async enableCapture(options: GumVideoCaptureOptions): Promise<void> {
+    return this.startCapturing(options);
   }
 
   async enableCaptureAndSend(
-    sender?: VideoFrameSender,
-    options?: GumVideoCaptureOptions
+    sender: VideoFrameSender | undefined,
+    options: GumVideoCaptureOptions
   ): Promise<void> {
-    const startCapturingPromise = this.startCapturing(
-      options ?? this.defaultCaptureOptions
-    );
+    const startCapturingPromise = this.startCapturing(options);
     if (sender) {
       this.startSending(sender);
     }
@@ -223,7 +262,7 @@ export class GumVideoCapturer {
 
       this.updateLocalPreviewSourceObject();
     } catch (e) {
-      log.error(`startCapturing(): ${e}`);
+      log.error(`startCapturing(): ${toLogFormat(e)}`);
 
       // It's possible video was disabled, switched to screenshare, or
       // switched to a different camera while awaiting a response, in
@@ -378,6 +417,7 @@ export const MAX_VIDEO_CAPTURE_BUFFER_SIZE = MAX_VIDEO_CAPTURE_AREA * 4;
 
 export class CanvasVideoRenderer {
   private canvas?: RefObject<HTMLCanvasElement>;
+  private sizeCallback?: SizeCallbackType;
   private buffer: Uint8Array;
   private imageData?: ImageData;
   private source?: VideoFrameSource;
@@ -389,6 +429,16 @@ export class CanvasVideoRenderer {
 
   setCanvas(canvas: RefObject<HTMLCanvasElement> | undefined): void {
     this.canvas = canvas;
+  }
+  setSizer(callback: SizeCallbackType | undefined): void {
+    this.sizeCallback = callback;
+
+    if (this.imageData) {
+      this.sizeCallback?.({
+        width: this.imageData.width,
+        height: this.imageData.height,
+      });
+    }
   }
 
   enable(source: VideoFrameSource): void {
@@ -461,10 +511,10 @@ export class CanvasVideoRenderer {
     const [width, height] = frame;
 
     if (
-      canvas.clientWidth <= 0 ||
-      width <= 0 ||
-      canvas.clientHeight <= 0 ||
-      height <= 0
+      width <= 2 ||
+      height <= 2 ||
+      width > MAX_VIDEO_CAPTURE_WIDTH ||
+      height > MAX_VIDEO_CAPTURE_HEIGHT
     ) {
       return;
     }
@@ -474,6 +524,7 @@ export class CanvasVideoRenderer {
 
     let dx = 0;
     let dy = 0;
+
     if (frameAspectRatio > canvasAspectRatio) {
       // Frame wider than view: We need bars at the top and bottom
       canvas.width = width;
@@ -495,10 +546,17 @@ export class CanvasVideoRenderer {
       context.fillRect(0, 0, canvas.width, canvas.height);
     }
 
-    if (this.imageData?.width !== width || this.imageData?.height !== height) {
+    const sizeChanged =
+      this.imageData?.width !== width || this.imageData?.height !== height;
+
+    if (!this.imageData || sizeChanged) {
       this.imageData = new ImageData(width, height);
     }
     this.imageData.data.set(this.buffer.subarray(0, width * height * 4));
     context.putImageData(this.imageData, dx, dy);
+
+    if (sizeChanged) {
+      this.sizeCallback?.({ width, height });
+    }
   }
 }

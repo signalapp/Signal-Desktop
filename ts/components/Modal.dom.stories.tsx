@@ -22,7 +22,7 @@ const onClose = action('onClose');
 const LOREM_IPSUM =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor. Pellentesque auctor nisi id magna consequat sagittis. Curabitur dapibus enim sit amet elit pharetra tincidunt feugiat nisl imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros. Donec viverra mi quis quam pulvinar at malesuada arcu rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In rutrum accumsan ultricies. Mauris vitae nisi at sem facilisis semper ac in est.';
 
-export function BareBonesShort(): JSX.Element {
+export function BareBonesShort(): React.JSX.Element {
   return (
     <Modal modalName="test" i18n={i18n}>
       Hello world!
@@ -30,7 +30,7 @@ export function BareBonesShort(): JSX.Element {
   );
 }
 
-export function BareBonesLong(): JSX.Element {
+export function BareBonesLong(): React.JSX.Element {
   return (
     <Modal modalName="test" i18n={i18n}>
       <p>{LOREM_IPSUM}</p>
@@ -41,7 +41,7 @@ export function BareBonesLong(): JSX.Element {
   );
 }
 
-export function BareBonesLongWithButton(): JSX.Element {
+export function BareBonesLongWithButton(): React.JSX.Element {
   return (
     <Modal
       modalName="test"
@@ -56,7 +56,7 @@ export function BareBonesLongWithButton(): JSX.Element {
   );
 }
 
-export function TitleXButtonBodyAndButtonFooter(): JSX.Element {
+export function TitleXButtonBodyAndButtonFooter(): React.JSX.Element {
   return (
     <Modal
       modalName="test"
@@ -71,7 +71,7 @@ export function TitleXButtonBodyAndButtonFooter(): JSX.Element {
   );
 }
 
-export function LotsOfButtonsInTheFooter(): JSX.Element {
+export function LotsOfButtonsInTheFooter(): React.JSX.Element {
   return (
     <Modal
       modalName="test"
@@ -98,7 +98,7 @@ export function LotsOfButtonsInTheFooter(): JSX.Element {
   );
 }
 
-export function LongBodyWithTitle(): JSX.Element {
+export function LongBodyWithTitle(): React.JSX.Element {
   return (
     <Modal modalName="test" i18n={i18n} title="Hello world" onClose={onClose}>
       <p>{LOREM_IPSUM}</p>
@@ -109,7 +109,7 @@ export function LongBodyWithTitle(): JSX.Element {
   );
 }
 
-export function LongBodyWithTitleAndButton(): JSX.Element {
+export function LongBodyWithTitleAndButton(): React.JSX.Element {
   return (
     <Modal
       modalName="test"
@@ -126,7 +126,7 @@ export function LongBodyWithTitleAndButton(): JSX.Element {
   );
 }
 
-export function LongBodyWithLongTitleAndXButton(): JSX.Element {
+export function LongBodyWithLongTitleAndXButton(): React.JSX.Element {
   return (
     <Modal
       modalName="test"
@@ -143,7 +143,7 @@ export function LongBodyWithLongTitleAndXButton(): JSX.Element {
   );
 }
 
-export function WithStickyButtonsLongBody(): JSX.Element {
+export function WithStickyButtonsLongBody(): React.JSX.Element {
   return (
     <Modal
       modalName="test"
@@ -165,7 +165,7 @@ export function WithStickyButtonsLongBody(): JSX.Element {
   );
 }
 
-export function WithStickyButtonsShortBody(): JSX.Element {
+export function WithStickyButtonsShortBody(): React.JSX.Element {
   return (
     <Modal
       modalName="test"
@@ -184,7 +184,7 @@ export function WithStickyButtonsShortBody(): JSX.Element {
   );
 }
 
-export function StickyFooterLotsOfButtons(): JSX.Element {
+export function StickyFooterLotsOfButtons(): React.JSX.Element {
   return (
     <Modal
       modalName="test"
@@ -212,7 +212,7 @@ export function StickyFooterLotsOfButtons(): JSX.Element {
   );
 }
 
-export function WithBackButton(): JSX.Element {
+export function WithBackButton(): React.JSX.Element {
   return (
     <Modal
       modalName="test"

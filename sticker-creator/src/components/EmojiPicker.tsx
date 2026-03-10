@@ -23,7 +23,7 @@ function getEmojiUrl() {
 
 export default function EmojiPicker({
   onEmojiClick,
-}: EmojiPickerProps): JSX.Element {
+}: EmojiPickerProps): React.JSX.Element {
   const i18n = useI18n();
 
   const emojiCategories = React.useMemo(() => {

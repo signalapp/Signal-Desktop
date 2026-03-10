@@ -48,7 +48,7 @@ describe('state/selectors/audioPlayer', () => {
         actions.loadVoiceNoteAudio({
           voiceNoteData: voiceNoteDataForMessage('id'),
           position: 0,
-          context: 'context',
+          context: 'AllMedia',
           playbackRate: 1,
         })
       );

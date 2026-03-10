@@ -177,7 +177,6 @@ function DistributionListItem({
             color={me.color}
             conversationType={me.type}
             i18n={i18n}
-            sharedGroupNames={me.sharedGroupNames}
             size={AvatarSize.THIRTY_TWO}
             title={me.title}
           />
@@ -230,7 +229,6 @@ function GroupStoryItem({
           color={groupStory.color}
           conversationType={groupStory.type}
           i18n={i18n}
-          sharedGroupNames={[]}
           size={AvatarSize.THIRTY_TWO}
           title={groupStory.title}
         />
@@ -271,7 +269,7 @@ export function StoriesSettingsModal({
   theme,
   setStoriesDisabled,
   getConversationByServiceId,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const tryClose = useRef<() => void | undefined>();
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,
@@ -596,7 +594,7 @@ export function DistributionListSettingsModal({
   theme,
   toggleSignalConnectionsModal,
   signalConnectionsCount,
-}: DistributionListSettingsModalPropsType): JSX.Element {
+}: DistributionListSettingsModalPropsType): React.JSX.Element {
   const [confirmRemoveMember, setConfirmRemoveMember] = useState<
     | undefined
     | {
@@ -697,7 +695,6 @@ export function DistributionListSettingsModal({
                   color={member.color}
                   conversationType={member.type}
                   i18n={i18n}
-                  sharedGroupNames={member.sharedGroupNames}
                   size={AvatarSize.THIRTY_TWO}
                   theme={theme}
                   title={member.title}
@@ -838,8 +835,8 @@ export function EditMyStoryPrivacy({
   setMyStoriesToAllSignalConnections,
   toggleSignalConnectionsModal,
   signalConnectionsCount,
-}: EditMyStoryPrivacyPropsType): JSX.Element {
-  const learnMoreLink = (parts: Array<JSX.Element | string>) => (
+}: EditMyStoryPrivacyPropsType): React.JSX.Element {
+  const learnMoreLink = (parts: Array<React.JSX.Element | string>) => (
     <button
       className="StoriesSettingsModal__disclaimer__learn-more"
       onClick={toggleSignalConnectionsModal}
@@ -1000,7 +997,7 @@ export function EditDistributionListModal({
   setSelectedContacts,
   theme,
   onBackButtonClick,
-}: EditDistributionListModalPropsType): JSX.Element {
+}: EditDistributionListModalPropsType): React.JSX.Element {
   const [storyName, setStoryName] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -1115,7 +1112,6 @@ export function EditDistributionListModal({
                 color={contact.color}
                 conversationType={contact.type}
                 i18n={i18n}
-                sharedGroupNames={contact.sharedGroupNames}
                 size={AvatarSize.THIRTY_TWO}
                 theme={theme}
                 title={contact.title}
@@ -1146,7 +1142,7 @@ export function EditDistributionListModal({
     };
   };
 
-  let footer: JSX.Element | undefined;
+  let footer: React.JSX.Element | undefined;
   if (isChoosingViewers) {
     footer = (
       <Button
@@ -1213,7 +1209,6 @@ export function EditDistributionListModal({
               isMe={contact.isMe}
               phoneNumber={contact.phoneNumber}
               profileName={contact.profileName}
-              sharedGroupNames={contact.sharedGroupNames}
               title={contact.title}
               onClickRemove={() => toggleSelectedConversation(contact.id)}
             />
@@ -1285,7 +1280,7 @@ export function GroupStorySettingsModal({
   onBackButtonClick,
   getConversationByServiceId,
   onRemoveGroup,
-}: GroupStorySettingsModalProps): JSX.Element {
+}: GroupStorySettingsModalProps): React.JSX.Element {
   const groupMemberships = getGroupMemberships(
     group,
     getConversationByServiceId
@@ -1307,7 +1302,6 @@ export function GroupStorySettingsModal({
           color={group.color}
           conversationType={group.type}
           i18n={i18n}
-          sharedGroupNames={[]}
           size={AvatarSize.THIRTY_TWO}
           title={group.title}
         />
@@ -1335,7 +1329,6 @@ export function GroupStorySettingsModal({
               color={member.color}
               conversationType={member.type}
               i18n={i18n}
-              sharedGroupNames={[]}
               size={AvatarSize.THIRTY_TWO}
               title={member.title}
             />

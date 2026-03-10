@@ -4,8 +4,16 @@ import classNames from 'classnames';
 import type { CSSProperties } from 'react';
 import React, { useMemo } from 'react';
 import MANIFEST from '../../../build/jumbomoji.json';
-import type { EmojiVariantData } from './data/emojis.std.js';
+import {
+  getEmojiDebugLabel,
+  isSafeEmojifyEmoji,
+  type EmojiVariantData,
+  type EmojiVariantValue,
+} from './data/emojis.std.js';
 import type { FunImageAriaProps } from './types.dom.js';
+import { createLogger } from '../../logging/log.std.js';
+
+const log = createLogger('FunEmoji');
 
 export const FUN_STATIC_EMOJI_CLASS = 'FunStaticEmoji';
 export const FUN_INLINE_EMOJI_CLASS = 'FunInlineEmoji';
@@ -31,6 +39,7 @@ function getEmojiJumboBackground(
 
 export type FunStaticEmojiSize =
   | 12
+  | 14
   | 16
   | 18
   | 20
@@ -54,6 +63,7 @@ export enum FunJumboEmojiSize {
 
 const funStaticEmojiSizeClasses = {
   12: 'FunStaticEmoji--Size12',
+  14: 'FunStaticEmoji--Size14',
   16: 'FunStaticEmoji--Size16',
   18: 'FunStaticEmoji--Size18',
   20: 'FunStaticEmoji--Size20',
@@ -74,7 +84,7 @@ export type FunStaticEmojiProps = FunImageAriaProps &
     emoji: EmojiVariantData;
   }>;
 
-export function FunStaticEmoji(props: FunStaticEmojiProps): JSX.Element {
+export function FunStaticEmoji(props: FunStaticEmojiProps): React.JSX.Element {
   const jumboImage = getEmojiJumboBackground(props.emoji, props.size);
   return (
     <div
@@ -113,13 +123,13 @@ const TRANSPARENT_PIXEL =
  * We need to use the `<img>` bec ause
  */
 export function createStaticEmojiBlot(
-  node: HTMLImageElement,
+  nodeParam: HTMLImageElement,
   props: StaticEmojiBlotProps
 ): void {
+  const node = nodeParam;
+
   const jumboImage = getEmojiJumboBackground(props.emoji, props.size);
-  // eslint-disable-next-line no-param-reassign
   node.src = TRANSPARENT_PIXEL;
-  // eslint-disable-next-line no-param-reassign
   node.role = props.role;
   node.classList.add(FUN_STATIC_EMOJI_CLASS);
   if (jumboImage != null) {
@@ -133,15 +143,20 @@ export function createStaticEmojiBlot(
   node.style.setProperty('--fun-emoji-sheet-x', `${props.emoji.sheetX}`);
   node.style.setProperty('--fun-emoji-sheet-y', `${props.emoji.sheetY}`);
   node.style.setProperty('--fun-emoji-jumbo-image', jumboImage);
+
+  // Needed to lookup emoji value in `matchEmojiBlot`
+  node.dataset.emojiKey = props.emoji.key;
+  node.dataset.emojiValue = props.emoji.value;
 }
 
 export type FunInlineEmojiProps = FunImageAriaProps &
   Readonly<{
     size?: number | null;
     emoji: EmojiVariantData;
+    style?: CSSProperties;
   }>;
 
-export function FunInlineEmoji(props: FunInlineEmojiProps): JSX.Element {
+export function FunInlineEmoji(props: FunInlineEmojiProps): React.JSX.Element {
   const jumboImage = useMemo(() => {
     // Note: we don't pass size here because appearance of jumbomoji is decided
     // in cass based on the parent svg container size.
@@ -154,12 +169,14 @@ export function FunInlineEmoji(props: FunInlineEmojiProps): JSX.Element {
       width={64}
       height={64}
       viewBox="0 0 64 64"
+      // Needed to lookup emoji value in `matchEmojiBlot`
       data-emoji-key={props.emoji.key}
       data-emoji-value={props.emoji.value}
       style={
         {
           '--fun-inline-emoji-size':
             props.size != null ? `${props.size}px` : null,
+          ...props.style,
         } as CSSProperties
       }
     >
@@ -191,4 +208,34 @@ export function FunInlineEmoji(props: FunInlineEmojiProps): JSX.Element {
       </foreignObject>
     </svg>
   );
+}
+
+export function isFunEmojiElement(element: HTMLElement): boolean {
+  return (
+    element.classList.contains(FUN_INLINE_EMOJI_CLASS) ||
+    element.classList.contains(FUN_STATIC_EMOJI_CLASS)
+  );
+}
+
+export function getFunEmojiElementValue(
+  element: HTMLElement
+): EmojiVariantValue | null {
+  if (!isFunEmojiElement(element)) {
+    return null;
+  }
+
+  const value = element.dataset.emojiValue;
+  if (value == null) {
+    log.error('Missing a data-emoji-value attribute on emoji element');
+    return null;
+  }
+
+  if (!isSafeEmojifyEmoji(value)) {
+    log.error(
+      `Expected a valid emoji variant value, got ${getEmojiDebugLabel(value)}`
+    );
+    return null;
+  }
+
+  return value;
 }

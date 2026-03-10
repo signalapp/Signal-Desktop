@@ -120,7 +120,7 @@ export function formatDateTimeShort(
     return formatTimestamp(timestamp, { weekday: 'short' });
   }
 
-  if (m.isSame(now, 'year')) {
+  if (Math.abs(m.diff(Date.now())) < 6 * MONTH) {
     return formatTimestamp(timestamp, {
       day: 'numeric',
       month: 'short',
@@ -157,7 +157,7 @@ export function formatDateTimeForAttachment(
     });
   }
 
-  if (m.isSame(now, 'year')) {
+  if (Math.abs(m.diff(Date.now())) < 6 * MONTH) {
     return formatTimestamp(timestamp, {
       day: 'numeric',
       month: 'short',

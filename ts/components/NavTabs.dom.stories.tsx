@@ -47,7 +47,7 @@ export default {
   title: 'Components/NavTabs',
 } satisfies Meta<NavTabsProps>;
 
-export function HasPendingUpdate(): JSX.Element {
+export function HasPendingUpdate(): React.JSX.Element {
   return (
     <NavTabs
       {...createProps({

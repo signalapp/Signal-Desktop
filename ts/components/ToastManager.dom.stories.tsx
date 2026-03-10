@@ -8,7 +8,11 @@ import { action } from '@storybook/addon-actions';
 import { ToastManager } from './ToastManager.dom.js';
 import type { AnyToast } from '../types/Toast.dom.js';
 import { ToastType } from '../types/Toast.dom.js';
-import type { AnyActionableMegaphone } from '../types/Megaphone.std.js';
+import type {
+  AnyActionableMegaphone,
+  MegaphoneCtaId,
+  RemoteMegaphoneId,
+} from '../types/Megaphone.std.js';
 import { MegaphoneType } from '../types/Megaphone.std.js';
 import { missingCaseError } from '../util/missingCaseError.std.js';
 import type { PropsType } from './ToastManager.dom.js';
@@ -45,6 +49,15 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.BlockedGroup };
     case ToastType.CallHistoryCleared:
       return { toastType: ToastType.CallHistoryCleared };
+    case ToastType.CallQualitySurveyFailed:
+      return {
+        toastType: ToastType.CallQualitySurveyFailed,
+        parameters: { canRetry: true },
+      };
+    case ToastType.CallQualitySurveySuccess:
+      return { toastType: ToastType.CallQualitySurveySuccess };
+    case ToastType.CannotAddMemberLabel:
+      return { toastType: ToastType.CannotAddMemberLabel };
     case ToastType.CannotEditMessage:
       return { toastType: ToastType.CannotEditMessage };
     case ToastType.CannotForwardEmptyMessage:
@@ -123,8 +136,14 @@ function getToast(toastType: ToastType): AnyToast {
       return { toastType: ToastType.DonationCompleted };
     case ToastType.DonationConfirmationNeeded:
       return { toastType: ToastType.DonationConfirmationNeeded };
+    case ToastType.DonationPaypalConfirmationNeeded:
+      return { toastType: ToastType.DonationPaypalConfirmationNeeded };
     case ToastType.DonationError:
       return { toastType: ToastType.DonationError };
+    case ToastType.DonationPaypalCanceled:
+      return { toastType: ToastType.DonationPaypalCanceled };
+    case ToastType.DonationPaypalError:
+      return { toastType: ToastType.DonationPaypalError };
     case ToastType.DonationProcessing:
       return { toastType: ToastType.DonationProcessing };
     case ToastType.DonationVerificationFailed:
@@ -256,6 +275,10 @@ function getToast(toastType: ToastType): AnyToast {
           group: 'Hike Group 🏔',
         },
       };
+    case ToastType.ViewOnceDisabled:
+      return { toastType: ToastType.ViewOnceDisabled };
+    case ToastType.ViewOnceEnabled:
+      return { toastType: ToastType.ViewOnceEnabled };
     case ToastType.VoiceNoteLimit:
       return { toastType: ToastType.VoiceNoteLimit };
     case ToastType.VoiceNoteMustBeTheOnlyAttachment:
@@ -274,6 +297,19 @@ function getMegaphone(megaphoneType: MegaphoneType): AnyActionableMegaphone {
         type: megaphoneType,
         onLearnMore: action('onLearnMore'),
         onDismiss: action('onDismiss'),
+      };
+    case MegaphoneType.Remote:
+      return {
+        type: megaphoneType,
+        remoteMegaphoneId: 'a' as RemoteMegaphoneId,
+        primaryCtaId: 'donate' as MegaphoneCtaId,
+        secondaryCtaId: 'snooze' as MegaphoneCtaId,
+        primaryCtaText: 'Donate',
+        secondaryCtaText: 'Not now',
+        title: 'Donate Today',
+        body: 'As a nonprofit, Signal needs your support',
+        imagePath: '/fixtures/orange-heart.svg',
+        onInteractWithMegaphone: action('onInteractWithMegaphone'),
       };
     default:
       throw missingCaseError(megaphoneType);
@@ -304,6 +340,7 @@ export default {
     openFileInFolder: action('openFileInFolder'),
     onShowDebugLog: action('onShowDebugLog'),
     onUndoArchive: action('onUndoArchive'),
+    retryCallQualitySurvey: action('retryCallQualitySurvey'),
     i18n,
     toastType: ToastType.AddingUserToGroup,
     megaphoneType: MegaphoneType.UsernameOnboarding,

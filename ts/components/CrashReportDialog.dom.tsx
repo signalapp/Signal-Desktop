@@ -23,7 +23,7 @@ export function CrashReportDialog({
   isPending,
   writeCrashReportsToLog,
   eraseCrashReports,
-}: Readonly<PropsType>): JSX.Element {
+}: Readonly<PropsType>): React.JSX.Element {
   const onEraseClick = (event: React.MouseEvent) => {
     event.preventDefault();
 

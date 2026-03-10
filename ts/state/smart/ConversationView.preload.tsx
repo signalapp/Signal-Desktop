@@ -8,11 +8,8 @@ import { ConversationView } from '../../components/conversation/ConversationView
 import { SmartCompositionArea } from './CompositionArea.preload.js';
 import { SmartConversationHeader } from './ConversationHeader.preload.js';
 import { SmartTimeline } from './Timeline.preload.js';
-import {
-  getActivePanel,
-  getIsPanelAnimating,
-  getSelectedMessageIds,
-} from '../selectors/conversations.dom.js';
+import { getSelectedMessageIds } from '../selectors/conversations.dom.js';
+import { getActivePanel, getIsPanelAnimating } from '../selectors/nav.std.js';
 import { useComposerActions } from '../ducks/composer.preload.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
 import { isShowingAnyModal } from '../selectors/globalModals.std.js';
@@ -39,7 +36,7 @@ export type SmartConversationViewProps = Readonly<{
 
 export const SmartConversationView = memo(function SmartConversationView(
   props: SmartConversationViewProps
-): JSX.Element {
+): React.JSX.Element {
   const { toggleSelectMode } = useConversationsActions();
   const selectedMessageIds = useSelector(getSelectedMessageIds);
   const isSelectMode = selectedMessageIds != null;

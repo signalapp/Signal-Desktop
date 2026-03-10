@@ -25,7 +25,7 @@ export type MentionCompletionOptions = {
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   memberRepositoryRef: RefObject<MemberRepository>;
-  setMentionPickerElement: (element: JSX.Element | null) => void;
+  setMentionPickerElement: (element: React.JSX.Element | null) => void;
   ourConversationId: string | undefined;
   theme: ThemeType;
 };
@@ -300,7 +300,6 @@ export class MentionCompletion {
                     conversationType="direct"
                     hasAvatar={member.hasAvatar}
                     i18n={this.options.i18n}
-                    sharedGroupNames={member.sharedGroupNames}
                     size={AvatarSize.TWENTY_EIGHT}
                     theme={theme}
                     title={member.title}

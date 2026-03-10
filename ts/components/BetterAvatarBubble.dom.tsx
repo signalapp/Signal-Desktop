@@ -26,7 +26,7 @@ export function BetterAvatarBubble({
   onDelete,
   onSelect,
   style,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   return (
     <div
       className={classNames(

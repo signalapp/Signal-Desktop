@@ -29,7 +29,7 @@ export default {
   title: 'Components/BetterAvatar',
 } satisfies Meta<PropsType>;
 
-export function Text(): JSX.Element {
+export function Text(): React.JSX.Element {
   return (
     <BetterAvatar
       {...createProps({
@@ -42,7 +42,7 @@ export function Text(): JSX.Element {
   );
 }
 
-export function PersonalIcon(): JSX.Element {
+export function PersonalIcon(): React.JSX.Element {
   return (
     <BetterAvatar
       {...createProps({
@@ -55,7 +55,7 @@ export function PersonalIcon(): JSX.Element {
   );
 }
 
-export function GroupIcon(): JSX.Element {
+export function GroupIcon(): React.JSX.Element {
   return (
     <BetterAvatar
       {...createProps({

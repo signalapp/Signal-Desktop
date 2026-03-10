@@ -31,8 +31,14 @@ const toMediaItem = (id: string, date: Date): MediaItemType => {
       receivedAt: date.getTime(),
       receivedAtMs: date.getTime(),
       sentAt: date.getTime(),
+
+      // Unused for now
       source: undefined,
       sourceServiceId: undefined,
+      isErased: false,
+      readStatus: undefined,
+      sendStateByConversationId: undefined,
+      errors: undefined,
     },
     attachment: fakeAttachment({
       fileName: 'fileName',

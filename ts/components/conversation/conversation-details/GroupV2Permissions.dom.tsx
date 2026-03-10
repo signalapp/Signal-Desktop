@@ -28,7 +28,9 @@ export function GroupV2Permissions({
   setAccessControlAttributesSetting,
   setAccessControlMembersSetting,
   setAnnouncementsOnly,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
+  const AccessControlEnum = Proto.AccessControl.AccessRequired;
+
   const addMembersSelectId = useId();
   const groupInfoSelectId = useId();
   const announcementSelectId = useId();
@@ -43,7 +45,6 @@ export function GroupV2Permissions({
   const updateAccessControlMembers = (value: string) => {
     setAccessControlMembersSetting(conversation.id, Number(value));
   };
-  const AccessControlEnum = Proto.AccessControl.AccessRequired;
   const updateAnnouncementsOnly = (value: string) => {
     setAnnouncementsOnly(
       conversation.id,
@@ -85,7 +86,7 @@ export function GroupV2Permissions({
             {i18n('icu:ConversationDetails--group-info-label')}
           </label>
         }
-        info={i18n('icu:ConversationDetails--group-info-info')}
+        info={i18n('icu:ConversationDetails--group-info-info-v2')}
         right={
           <Select
             id={groupInfoSelectId}

@@ -15,6 +15,7 @@ export async function clearConversationDraftAttachments(
 
   conversation.set({
     draftAttachments: [],
+    draftIsViewOnce: false,
     draftChanged: true,
   });
 

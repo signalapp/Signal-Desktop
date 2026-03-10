@@ -49,7 +49,6 @@ export type PropsData = Pick<
   | 'phoneNumber'
   | 'profileName'
   | 'removalStage'
-  | 'sharedGroupNames'
   | 'shouldShowDraft'
   | 'title'
   | 'type'
@@ -69,7 +68,7 @@ type PropsHousekeeping = {
   theme: ThemeType;
   renderConversationListItemContextMenu?: (
     props: RenderConversationListItemContextMenuProps
-  ) => JSX.Element;
+  ) => React.JSX.Element;
 };
 
 export type Props = PropsData & PropsHousekeeping;
@@ -100,7 +99,6 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
     phoneNumber,
     profileName,
     removalStage,
-    sharedGroupNames,
     shouldShowDraft,
     theme,
     title,
@@ -172,15 +170,27 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
       );
       headerDate = draftTimestamp;
     } else if (lastMessage?.deletedForEveryone) {
+      let deletedText: string;
+      if (lastMessage.deletedByAdminName != null) {
+        deletedText = i18n('icu:message--deletedByAdmin', {
+          admin: lastMessage.deletedByAdminName,
+        });
+      } else if (lastMessage.isOutgoing) {
+        deletedText = i18n('icu:message--deletedForEveryone--outgoing');
+      } else {
+        deletedText = i18n('icu:message--deletedForEveryone--incoming', {
+          name: lastMessage.authorName ?? '',
+        });
+      }
       messageText = (
         <span className={`${MESSAGE_TEXT_CLASS_NAME}__deleted-for-everyone`}>
-          {i18n('icu:message--deletedForEveryone')}
+          {deletedText}
         </span>
       );
     } else if (lastMessage) {
       messageText = (
         <MessageBody
-          author={type === 'group' ? lastMessage.author : undefined}
+          author={type === 'group' ? lastMessage.author : null}
           bodyRanges={lastMessage.bodyRanges}
           disableJumbomoji
           disableLinks
@@ -234,7 +244,6 @@ export const ConversationListItem: FunctionComponent<Props> = React.memo(
         onMouseDown={onMouseDownItem}
         phoneNumber={phoneNumber}
         profileName={profileName}
-        sharedGroupNames={sharedGroupNames}
         theme={theme}
         title={title}
         unreadCount={unreadCount}

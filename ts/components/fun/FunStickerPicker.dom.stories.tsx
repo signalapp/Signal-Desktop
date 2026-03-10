@@ -18,7 +18,7 @@ type TemplateProps = Omit<
   'open' | 'onOpenChange' | 'children'
 >;
 
-function Template(props: TemplateProps): JSX.Element {
+function Template(props: TemplateProps): React.JSX.Element {
   const [open, setOpen] = useState(true);
 
   const handleOpenChange = useCallback((openState: boolean) => {
@@ -43,9 +43,10 @@ function Template(props: TemplateProps): JSX.Element {
       onClearStickerPickerHint={() => null}
       onSelectSticker={() => null}
       // Gifs
-      fetchGifsSearch={() => Promise.reject()}
-      fetchGifsFeatured={() => Promise.reject()}
-      fetchGif={() => Promise.reject()}
+      fetchGiphySearch={() => Promise.reject()}
+      fetchGiphyTrending={() => Promise.reject()}
+      fetchGiphyFile={() => Promise.reject()}
+      onRemoveRecentGif={() => null}
       onSelectGif={() => null}
     >
       <FunStickerPicker {...props} open={open} onOpenChange={handleOpenChange}>
@@ -67,6 +68,6 @@ export default {
   },
 } satisfies ComponentMeta<TemplateProps>;
 
-export function Default(props: TemplateProps): JSX.Element {
+export function Default(props: TemplateProps): React.JSX.Element {
   return <Template {...props} />;
 }

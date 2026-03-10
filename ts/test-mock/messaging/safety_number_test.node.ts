@@ -56,6 +56,7 @@ describe('safety number', function (this: Mocha.Suite) {
           isBlockList: false,
           name: MY_STORY_ID,
           recipientServiceIdsBinary: [alice.device.aciBinary],
+          deletedAtTimestamp: null,
         },
       },
     });
@@ -193,6 +194,7 @@ describe('safety number', function (this: Mocha.Suite) {
 
     debug('Getting a story');
     const { storyMessage } = await alice.waitForStory();
-    assert.strictEqual(storyMessage.textAttachment?.text, '123');
+    assert.strictEqual(storyMessage.attachment, 'textAttachment');
+    assert.strictEqual(storyMessage.textAttachment.text, '123');
   });
 });

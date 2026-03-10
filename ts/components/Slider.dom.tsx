@@ -22,7 +22,7 @@ export function Slider({
   moduleClassName,
   onChange,
   value,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const diff = useRef<number>(0);
   const handleRef = useRef<HTMLDivElement | null>(null);
   const sliderRef = useRef<HTMLDivElement | null>(null);

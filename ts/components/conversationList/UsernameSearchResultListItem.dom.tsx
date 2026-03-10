@@ -32,7 +32,7 @@ export function UsernameSearchResultListItem({
   showUserNotFoundModal,
   setIsFetchingUUID,
   showConversation,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const boundOnClick = useCallback(async () => {
     if (isFetchingUsername) {
       return;
@@ -67,7 +67,6 @@ export function UsernameSearchResultListItem({
           title={username}
           size={AvatarSize.THIRTY_TWO}
           badge={undefined}
-          sharedGroupNames={[]}
         />
       }
       title={username}

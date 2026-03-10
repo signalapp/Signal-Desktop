@@ -5,7 +5,7 @@ import { useCallback, useEffect } from 'react';
 import lodash from 'lodash';
 import { useSelector } from 'react-redux';
 import * as KeyboardLayout from '../services/keyboardLayout.dom.js';
-import { getHasPanelOpen } from '../state/selectors/conversations.dom.js';
+import { getHasPanelOpen } from '../state/selectors/nav.std.js';
 import { isInFullScreenCall } from '../state/selectors/calling.std.js';
 import { isShowingAnyModal } from '../state/selectors/globalModals.std.js';
 
@@ -341,24 +341,4 @@ export function useKeyboardShortcuts(
       document.removeEventListener('keydown', handleKeydown);
     };
   }, [eventHandlers]);
-}
-
-export function useKeyboardShortcutsConditionally(
-  condition: boolean,
-  ...eventHandlers: Array<KeyboardShortcutHandlerType>
-): void {
-  useEffect(() => {
-    if (!condition) {
-      return;
-    }
-
-    function handleKeydown(ev: KeyboardEvent): void {
-      eventHandlers.some(eventHandler => eventHandler(ev));
-    }
-
-    document.addEventListener('keydown', handleKeydown);
-    return () => {
-      document.removeEventListener('keydown', handleKeydown);
-    };
-  }, [condition, eventHandlers]);
 }

@@ -45,24 +45,18 @@ function StoryListItemAvatar({
   getPreferredBadge,
   i18n,
   profileName,
-  sharedGroupNames,
   title,
   theme,
 }: Pick<
   ConversationType,
-  | 'avatarPlaceholderGradient'
-  | 'avatarUrl'
-  | 'color'
-  | 'profileName'
-  | 'sharedGroupNames'
-  | 'title'
+  'avatarPlaceholderGradient' | 'avatarUrl' | 'color' | 'profileName' | 'title'
 > & {
   avatarStoryRing?: HasStories;
   badges?: ConversationType['badges'];
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   theme: ThemeType;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <Avatar
       avatarPlaceholderGradient={avatarPlaceholderGradient}
@@ -72,7 +66,6 @@ function StoryListItemAvatar({
       conversationType="direct"
       i18n={i18n}
       profileName={profileName}
-      sharedGroupNames={sharedGroupNames}
       size={AvatarSize.FORTY_EIGHT}
       storyRing={avatarStoryRing}
       theme={theme}
@@ -96,7 +89,7 @@ export function StoryListItem({
   story,
   theme,
   viewUserStories,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [hasConfirmHideStory, setHasConfirmHideStory] = useState(false);
 
   const { attachment, isUnread, sender, timestamp } = story;
@@ -110,7 +103,7 @@ export function StoryListItem({
     avatarStoryRing = isUnread ? HasStories.Unread : HasStories.Read;
   }
 
-  let repliesElement: JSX.Element | undefined;
+  let repliesElement: React.JSX.Element | undefined;
   if (group === undefined && hasRepliesFromSelf) {
     repliesElement = <div className="StoryListItem__info--replies--self" />;
   } else if (group && (hasReplies || hasRepliesFromSelf)) {

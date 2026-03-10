@@ -13,7 +13,7 @@ export type PropsType = {
   onWaitedTooLong: () => void;
 };
 
-export function DonationProgressModal(props: PropsType): JSX.Element {
+export function DonationProgressModal(props: PropsType): React.JSX.Element {
   const { i18n, onWaitedTooLong } = props;
 
   useEffect(() => {

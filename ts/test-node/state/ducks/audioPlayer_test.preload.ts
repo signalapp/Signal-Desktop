@@ -54,7 +54,7 @@ describe('both/state/ducks/audioPlayer', () => {
       actions.loadVoiceNoteAudio({
         voiceNoteData: voiceNoteDataForMessage(MESSAGE_ID),
         position: 0,
-        context: 'context',
+        context: 'AllMedia',
         playbackRate: 1,
       })
     );
@@ -65,7 +65,7 @@ describe('both/state/ducks/audioPlayer', () => {
 
     if (content && AudioPlayerContent.isVoiceNote(content)) {
       assert.strictEqual(content.current.id, MESSAGE_ID);
-      assert.strictEqual(content.context, 'context');
+      assert.strictEqual(content.context, 'AllMedia');
     }
 
     return updated;
@@ -81,7 +81,7 @@ describe('both/state/ducks/audioPlayer', () => {
         actions.loadVoiceNoteAudio({
           voiceNoteData: voiceNoteDataForMessage('test'),
           position: 0,
-          context: 'context',
+          context: 'AllMedia',
           playbackRate: 1,
         })
       );
@@ -91,7 +91,7 @@ describe('both/state/ducks/audioPlayer', () => {
 
       if (content && AudioPlayerContent.isVoiceNote(content)) {
         assert.strictEqual(content.current.id, 'test');
-        assert.strictEqual(content.context, 'context');
+        assert.strictEqual(content.context, 'AllMedia');
       }
     });
   });

@@ -1,0 +1,236 @@
+// Copyright 2025 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+import { DataWriter } from '../sql/Client.preload.js';
+import type { AciString } from '../types/ServiceId.std.js';
+import type { DurationInSeconds } from '../util/durations/duration-in-seconds.std.js';
+import { createLogger } from '../logging/log.std.js';
+import type { MessageModifierTarget } from './helpers/findMessageModifierTarget.preload.js';
+import { findMessageModifierTarget } from './helpers/findMessageModifierTarget.preload.js';
+import { isValidSenderAciForConversation } from './helpers/isValidSenderAciForConversation.preload.js';
+import { isGroupV2 } from '../util/whatTypeOfConversation.dom.js';
+import { SignalService as Proto } from '../protobuf/index.std.js';
+import type { ConversationModel } from '../models/conversations.preload.js';
+import { getPinnedMessagesLimit } from '../util/pinnedMessages.dom.js';
+import { getPinnedMessageExpiresAt } from '../util/pinnedMessages.std.js';
+import { pinnedMessagesCleanupService } from '../services/expiring/pinnedMessagesCleanupService.preload.js';
+import { drop } from '../util/drop.std.js';
+import type { AppendPinnedMessageResult } from '../sql/server/pinnedMessages.std.js';
+import * as Errors from '../types/errors.std.js';
+import { isGiftBadge } from '../state/selectors/message.preload.js';
+
+const { AccessRequired } = Proto.AccessControl;
+const { Role } = Proto.Member;
+
+const parentLog = createLogger('PinnedMessages');
+
+export type PinnedMessageAddProps = Readonly<{
+  targetSentTimestamp: number;
+  targetAuthorAci: AciString;
+  pinDuration: DurationInSeconds | null;
+  pinnedByAci: AciString;
+  sentAtTimestamp: number;
+  receivedAtTimestamp: number;
+  expireTimer: DurationInSeconds | null;
+  expirationStartTimestamp: number | null;
+}>;
+
+export type PinnedMessageRemoveProps = Readonly<{
+  targetSentTimestamp: number;
+  targetAuthorAci: AciString;
+  unpinnedByAci: AciString;
+}>;
+
+export async function onPinnedMessageAdd(
+  props: PinnedMessageAddProps
+): Promise<void> {
+  const logPrefix = `onPinnedMessageAdd(timestamp=${props.targetSentTimestamp}, aci=${props.targetAuthorAci})`;
+  const log = parentLog.child(logPrefix);
+
+  const target = await findMessageModifierTarget(
+    props.targetSentTimestamp,
+    props.targetAuthorAci
+  );
+
+  if (target == null) {
+    // Could potentially happen with out-of-order processing,
+    // or when the targetted message was before we joined a group
+    log.warn('Missing target message, dropping');
+    return;
+  }
+
+  const invalid = validatePinnedMessageTarget(target, props.pinnedByAci);
+  if (invalid != null) {
+    log.info(`Message is invalid target (error: ${invalid.error}), dropping`);
+    return;
+  }
+
+  const { targetMessage, targetConversation } = target;
+
+  const result = await targetConversation.queueJob(logPrefix, async () => {
+    const promises = targetConversation.getSavePromises();
+    log.info(`Waiting for message saves (${promises.length} items)...`);
+    await Promise.all(promises);
+
+    const expiresAt = getPinnedMessageExpiresAt(
+      props.receivedAtTimestamp,
+      props.pinDuration
+    );
+
+    const pinnedMessagesLimit = getPinnedMessagesLimit();
+
+    let appendResult: AppendPinnedMessageResult;
+    try {
+      appendResult = await DataWriter.appendPinnedMessage(pinnedMessagesLimit, {
+        conversationId: targetConversation.id,
+        messageId: targetMessage.id,
+        expiresAt,
+        pinnedAt: props.receivedAtTimestamp,
+      });
+    } catch (error) {
+      log.error(
+        `Failed to append pinned message: ${Errors.toLogFormat(error)}`
+      );
+      throw error;
+    }
+
+    return appendResult;
+  });
+
+  if (result.change == null) {
+    log.warn('Skipped pinning message, existing message may have been newer');
+  } else if (result.change.replaced != null) {
+    log.info(
+      `Replaced pinned message ${result.change.replaced} with ${result.change.inserted.id} for target message ${targetMessage.id}`
+    );
+  } else {
+    log.info(
+      `Created pinned message ${result.change.inserted.id} for target message ${targetMessage.id}`
+    );
+  }
+
+  for (const pinnedMessageId of result.truncated) {
+    if (pinnedMessageId === result.change?.inserted.id) {
+      log.warn(`Pinned message ${pinnedMessageId} was immediately truncated`);
+    } else {
+      log.info(`Truncated older pinned message ${pinnedMessageId}`);
+    }
+  }
+
+  drop(pinnedMessagesCleanupService.trigger('onPinnedMessageAdd'));
+
+  if (result.change?.inserted) {
+    await targetConversation.addPinnedMessageNotification({
+      pinMessage: {
+        targetSentTimestamp: props.targetSentTimestamp,
+        targetAuthorAci: props.targetAuthorAci,
+      },
+      senderAci: props.pinnedByAci,
+      sentAtTimestamp: props.sentAtTimestamp,
+      receivedAtTimestamp: props.receivedAtTimestamp,
+      expireTimer: props.expireTimer,
+      expirationStartTimestamp: props.expirationStartTimestamp,
+    });
+  }
+
+  window.reduxActions.conversations.onPinnedMessagesChanged(
+    targetConversation.id
+  );
+}
+
+export async function onPinnedMessageRemove(
+  props: PinnedMessageRemoveProps
+): Promise<void> {
+  const log = parentLog.child(
+    `onPinnedMessageRemove(timestamp=${props.targetSentTimestamp}, aci=${props.targetAuthorAci})`
+  );
+
+  const target = await findMessageModifierTarget(
+    props.targetSentTimestamp,
+    props.targetAuthorAci
+  );
+
+  if (target == null) {
+    // Could potentially happen with out-of-order processing,
+    // or when the targetted message was before we joined a group
+    log.warn('Missing target message, dropping');
+    return;
+  }
+
+  const invalid = validatePinnedMessageTarget(target, props.unpinnedByAci);
+  if (invalid != null) {
+    log.warn(`Message is invalid target: ${invalid.error}, dropping`);
+    return;
+  }
+
+  const targetMessageId = target.targetMessage.id;
+  const targetConversationId = target.targetConversation.id;
+
+  const deletedPinnedMessageId =
+    await DataWriter.deletePinnedMessageByMessageId(targetMessageId);
+
+  if (deletedPinnedMessageId == null) {
+    log.warn(`Target message ${targetMessageId} was not pinned, dropping`);
+    return;
+  }
+
+  log.info(
+    `Deleted pinned message ${deletedPinnedMessageId} for messageId ${targetMessageId}`
+  );
+  drop(pinnedMessagesCleanupService.trigger('onPinnedMessageRemove'));
+
+  window.reduxActions.conversations.onPinnedMessagesChanged(
+    targetConversationId
+  );
+}
+
+function canSenderEditGroupAttributes(
+  conversation: ConversationModel,
+  sourceAci: AciString
+): boolean {
+  if (!isGroupV2(conversation.attributes)) {
+    // Just ignore direct conversations
+    return true;
+  }
+
+  const membersV2 = conversation.get('membersV2') ?? [];
+  const member = membersV2.find(m => m.aci === sourceAci);
+  if (member == null) {
+    return false;
+  }
+
+  const accessControl = conversation.get('accessControl');
+  if (accessControl == null) {
+    return false;
+  }
+
+  if (member.role === Role.ADMINISTRATOR) {
+    return true;
+  }
+
+  return accessControl.attributes === AccessRequired.MEMBER;
+}
+
+function validatePinnedMessageTarget(
+  target: MessageModifierTarget,
+  sourceAci: AciString
+): { error: string } | null {
+  const message = target.targetMessage.attributes;
+
+  if (!isValidSenderAciForConversation(target.targetConversation, sourceAci)) {
+    return { error: 'Sender cannot send to target conversation' };
+  }
+
+  if (!canSenderEditGroupAttributes(target.targetConversation, sourceAci)) {
+    return { error: 'Sender does not have access to edit group attributes' };
+  }
+
+  if (message.deletedForEveryone) {
+    return { error: 'Cannot pin deleted message' };
+  }
+
+  if (isGiftBadge(message)) {
+    return { error: 'Cannot pin gift badge messages' };
+  }
+
+  return null;
+}

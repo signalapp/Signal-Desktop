@@ -41,7 +41,7 @@ export function CircleCheckbox({
   name,
   onChange,
   onClick,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const getClassName = getClassNamesFor('CircleCheckbox', moduleClassName);
 
   let variantModifier: string;

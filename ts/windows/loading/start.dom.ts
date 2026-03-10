@@ -4,5 +4,5 @@ import '../sandboxedInit.dom.js';
 
 const message = document.getElementById('message');
 if (message) {
-  message.innerHTML = window.SignalContext.i18n('icu:optimizingApplication');
+  message.innerText = window.SignalContext.i18n('icu:optimizingApplication');
 }

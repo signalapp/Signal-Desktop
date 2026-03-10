@@ -28,7 +28,7 @@ export function ConversationNotificationsModal({
   muteExpiresAt,
   onClose,
   setMuteExpiration,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const muteOptions = useMemo(
     () =>
       getMuteOptions(muteExpiresAt, i18n)

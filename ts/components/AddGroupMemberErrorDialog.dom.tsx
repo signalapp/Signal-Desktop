@@ -28,7 +28,7 @@ export type PropsType = {
   onClose: () => void;
 } & PropsDataType;
 
-export function AddGroupMemberErrorDialog(props: PropsType): JSX.Element {
+export function AddGroupMemberErrorDialog(props: PropsType): React.JSX.Element {
   const { i18n, onClose } = props;
 
   let title: string;

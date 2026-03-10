@@ -79,7 +79,7 @@ export function ChatColorPicker({
   selectedColor = ConversationColors[0],
   selectedCustomColor,
   setGlobalDefaultConversationColor,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [confirmResetAll, setConfirmResetAll] = useState(false);
   const [confirmResetWhat, setConfirmResetWhat] = useState(false);
   const [customColorToEdit, setCustomColorToEdit] = useState<
@@ -284,7 +284,7 @@ function CustomColorBubble({
   onDupe,
   onEdit,
   onChoose,
-}: CustomColorBubblePropsType): JSX.Element {
+}: CustomColorBubblePropsType): React.JSX.Element {
   const [confirmDeleteCount, setConfirmDeleteCount] = useState<
     number | undefined
   >(undefined);
@@ -363,7 +363,7 @@ function CustomColorBubbleDropdownMenu(props: {
   onDupe: () => void;
   onDelete: () => void;
   children: ReactNode;
-}): JSX.Element {
+}): React.JSX.Element {
   const { i18n, disabled } = props;
   const [open, setOpen] = useState(false);
 
@@ -406,7 +406,7 @@ function CustomColorEditorWrapper({
   i18n,
   onClose,
   onSave,
-}: CustomColorEditorWrapperPropsType): JSX.Element {
+}: CustomColorEditorWrapperPropsType): React.JSX.Element {
   const editor = (
     <CustomColorEditor
       customColor={customColorToEdit?.value}

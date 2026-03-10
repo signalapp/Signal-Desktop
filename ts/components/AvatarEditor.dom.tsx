@@ -62,7 +62,7 @@ export function AvatarEditor({
   userAvatarData,
   replaceAvatar,
   saveAvatarToDisk,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [provisionalSelectedAvatar, setProvisionalSelectedAvatar] = useState<
     AvatarDataType | undefined
   >();
@@ -171,7 +171,7 @@ export function AvatarEditor({
     setInitialAvatar(avatarBuffer);
   }, []);
 
-  let content: JSX.Element | undefined;
+  let content: React.JSX.Element | undefined;
 
   if (editMode === EditMode.Main) {
     content = (

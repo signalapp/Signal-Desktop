@@ -11,7 +11,6 @@ const PLACEHOLDER_CONTACT: ConversationType = {
   badges: [],
   id: PLACEHOLDER_CONTACT_ID,
   isMe: false,
-  sharedGroupNames: [],
   title: window.SignalContext.i18n('icu:unknownContact'),
   type: 'direct',
 };
@@ -42,7 +41,6 @@ export function findAndFormatContact(identifier?: string): ConversationType {
     id: 'phone-only',
     isMe: false,
     phoneNumber,
-    sharedGroupNames: [],
     title: phoneNumber,
     type: 'direct',
   };

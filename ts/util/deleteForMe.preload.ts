@@ -4,12 +4,7 @@
 import lodash from 'lodash';
 
 import { createLogger } from '../logging/log.std.js';
-import {
-  DataReader,
-  DataWriter,
-  deleteAndCleanup,
-} from '../sql/Client.preload.js';
-import { deleteAllAttachmentFilesOnDisk } from './Attachment.std.js';
+import { DataReader, DataWriter } from '../sql/Client.preload.js';
 
 import type { MessageAttributesType } from '../model-types.d.ts';
 import type { ConversationModel } from '../models/conversations.preload.js';
@@ -22,6 +17,7 @@ import {
   getMessageQueryFromTarget,
 } from './syncIdentifiers.preload.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
+import { cleanupAttachmentFiles } from '../types/Message2.preload.js';
 
 const { last, sortBy } = lodash;
 
@@ -45,15 +41,15 @@ export async function deleteMessage(
   }
 
   const message = window.MessageCache.register(new MessageModel(found));
-  await applyDeleteMessage(message.attributes, logId);
+  await applyDeleteMessage(message.attributes);
 
   return true;
 }
+
 export async function applyDeleteMessage(
-  message: MessageAttributesType,
-  logId: string
+  message: MessageAttributesType
 ): Promise<void> {
-  await deleteAndCleanup([message], logId, {
+  await DataWriter.removeMessageById(message.id, {
     fromSync: true,
     cleanupMessages,
   });
@@ -68,12 +64,8 @@ export async function deleteAttachmentFromMessage(
     fallbackPlaintextHash?: string;
   },
   {
-    deleteAttachmentOnDisk,
-    deleteDownloadOnDisk,
     logId,
   }: {
-    deleteAttachmentOnDisk: (path: string) => Promise<void>;
-    deleteDownloadOnDisk: (path: string) => Promise<void>;
     logId: string;
   }
 ): Promise<boolean> {
@@ -90,8 +82,6 @@ export async function deleteAttachmentFromMessage(
   const message = window.MessageCache.register(new MessageModel(found));
 
   return applyDeleteAttachmentFromMessage(message, deleteAttachmentData, {
-    deleteAttachmentOnDisk,
-    deleteDownloadOnDisk,
     logId,
     shouldSave: true,
   });
@@ -109,13 +99,9 @@ export async function applyDeleteAttachmentFromMessage(
     fallbackPlaintextHash?: string;
   },
   {
-    deleteAttachmentOnDisk,
-    deleteDownloadOnDisk,
     shouldSave,
     logId,
   }: {
-    deleteAttachmentOnDisk: (path: string) => Promise<void>;
-    deleteDownloadOnDisk: (path: string) => Promise<void>;
     shouldSave: boolean;
     logId: string;
   }
@@ -153,10 +139,7 @@ export async function applyDeleteAttachmentFromMessage(
         if (shouldSave) {
           await saveMessage(message.attributes, { ourAci, postSaveUpdates });
         }
-        await deleteAllAttachmentFilesOnDisk({
-          deleteAttachmentOnDisk,
-          deleteDownloadOnDisk,
-        })(attachment);
+        await cleanupAttachmentFiles(attachment);
 
         return true;
       }

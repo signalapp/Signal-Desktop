@@ -5,6 +5,8 @@ import type { ComponentProps } from 'react';
 import React, { useContext } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
+import { times } from 'lodash';
+import { v4 as generateUuid } from 'uuid';
 import {
   getDefaultConversation,
   getDefaultGroup,
@@ -19,6 +21,8 @@ import {
 } from './ConversationHeader.dom.js';
 import { gifUrl } from '../../storybook/Fixtures.std.js';
 import { ThemeType } from '../../types/Util.std.js';
+import { ContactSpoofingType } from '../../util/contactSpoofing.std.js';
+import { CollidingAvatars } from '../CollidingAvatars.dom.js';
 
 export default {
   title: 'Components/Conversation/ConversationHeader',
@@ -30,6 +34,20 @@ type ItemsType = Array<{
   title: string;
   props: Omit<ComponentProps<typeof ConversationHeader>, 'theme'>;
 }>;
+
+const alice = getDefaultConversation();
+const bob = getDefaultConversation();
+
+const renderCollidingAvatars = () => (
+  <CollidingAvatars i18n={i18n} conversations={[alice, bob]} />
+);
+const renderMiniPlayer = () => (
+  <div>If active, this is where smart mini player would be</div>
+);
+
+const renderPinnedMessagesBar = () => (
+  <div>If active, this is where the smart pinned messages bar would be</div>
+);
 
 const commonConversation = getDefaultConversation();
 const commonProps: PropsType = {
@@ -44,9 +62,6 @@ const commonProps: PropsType = {
   isSelectMode: false,
 
   i18n,
-
-  localDeleteWarningShown: true,
-  setLocalDeleteWarningShown: action('setLocalDeleteWarningShown'),
 
   onConversationAccept: action('onConversationAccept'),
   onConversationArchive: action('onConversationArchive'),
@@ -74,9 +89,21 @@ const commonProps: PropsType = {
   onViewAllMedia: action('onViewAllMedia'),
   onViewConversationDetails: action('onViewConversationDetails'),
   onViewUserStories: action('onViewUserStories'),
+
+  contactSpoofingWarning: null,
+  acknowledgeGroupMemberNameCollisions: action(
+    'acknowledgeGroupMemberNameCollisions'
+  ),
+  reviewConversationNameCollision: action('reviewConversationNameCollision'),
+  renderCollidingAvatars,
+
+  shouldShowMiniPlayer: false,
+  renderMiniPlayer,
+
+  renderPinnedMessagesBar,
 };
 
-export function PrivateConvo(): JSX.Element {
+export function PrivateConvo(): React.JSX.Element {
   const items: ItemsType = [
     {
       title: 'With name and profile, verified',
@@ -237,7 +264,7 @@ export function PrivateConvo(): JSX.Element {
   );
 }
 
-export function Group(): JSX.Element {
+export function Group(): React.JSX.Element {
   const items: ItemsType = [
     {
       title: 'Basic',
@@ -328,7 +355,7 @@ export function Group(): JSX.Element {
   );
 }
 
-export function NoteToSelf(): JSX.Element {
+export function NoteToSelf(): React.JSX.Element {
   const items: ItemsType = [
     {
       title: 'In chat with yourself',
@@ -364,7 +391,7 @@ export function NoteToSelf(): JSX.Element {
   );
 }
 
-export function Unaccepted(): JSX.Element {
+export function Unaccepted(): React.JSX.Element {
   const items: ItemsType = [
     {
       title: '1:1 conversation',
@@ -400,7 +427,7 @@ export function Unaccepted(): JSX.Element {
   );
 }
 
-export function Blocked(): JSX.Element {
+export function Blocked(): React.JSX.Element {
   const items: ItemsType = [
     {
       title: 'Unaccepted & Blocked',
@@ -454,20 +481,7 @@ export function Blocked(): JSX.Element {
   );
 }
 
-export function NeedsDeleteConfirmation(): JSX.Element {
-  const [localDeleteWarningShown, setLocalDeleteWarningShown] =
-    React.useState(false);
-  const props = {
-    ...commonProps,
-    localDeleteWarningShown,
-    setLocalDeleteWarningShown: () => setLocalDeleteWarningShown(true),
-  };
-  const theme = useContext(StorybookThemeContext);
-
-  return <ConversationHeader {...props} theme={theme} />;
-}
-
-export function DirectConversationInAnotherCall(): JSX.Element {
+export function DirectConversationInAnotherCall(): React.JSX.Element {
   const props = {
     ...commonProps,
     hasActiveCall: true,
@@ -477,7 +491,7 @@ export function DirectConversationInAnotherCall(): JSX.Element {
   return <ConversationHeader {...props} theme={theme} />;
 }
 
-export function DirectConversationInCurrentCall(): JSX.Element {
+export function DirectConversationInCurrentCall(): React.JSX.Element {
   const props = {
     ...commonProps,
     hasActiveCall: true,
@@ -488,7 +502,7 @@ export function DirectConversationInCurrentCall(): JSX.Element {
   return <ConversationHeader {...props} theme={theme} />;
 }
 
-export function GroupConversationInAnotherCall(): JSX.Element {
+export function GroupConversationInAnotherCall(): React.JSX.Element {
   const props = {
     ...commonProps,
     conversation: getDefaultGroup(),
@@ -500,12 +514,85 @@ export function GroupConversationInAnotherCall(): JSX.Element {
   return <ConversationHeader {...props} theme={theme} />;
 }
 
-export function GroupConversationInCurrentCall(): JSX.Element {
+export function GroupConversationInCurrentCall(): React.JSX.Element {
   const props = {
     ...commonProps,
     conversation: getDefaultGroup(),
     hasActiveCall: true,
     outgoingCallButtonStyle: OutgoingCallButtonStyle.None,
+  };
+  const theme = useContext(StorybookThemeContext);
+
+  return <ConversationHeader {...props} theme={theme} />;
+}
+
+export function WithSameNameInDirectConversationWarning(): React.JSX.Element {
+  const props: PropsType = {
+    ...commonProps,
+    contactSpoofingWarning: {
+      type: ContactSpoofingType.DirectConversationWithSameTitle,
+      safeConversationId: '123',
+    },
+  };
+  const theme = useContext(StorybookThemeContext);
+
+  return <ConversationHeader {...props} theme={theme} />;
+}
+
+export function WithSameNameInGroupConversationWarning(): React.JSX.Element {
+  const props: PropsType = {
+    ...commonProps,
+    contactSpoofingWarning: {
+      type: ContactSpoofingType.MultipleGroupMembersWithSameTitle,
+      acknowledgedGroupNameCollisions: {},
+      groupNameCollisions: {
+        Alice: times(2, () => generateUuid()),
+      },
+    },
+  };
+  const theme = useContext(StorybookThemeContext);
+
+  return <ConversationHeader {...props} theme={theme} />;
+}
+
+export function WithSameNamesInGroupConversationWarning(): React.JSX.Element {
+  const props: PropsType = {
+    ...commonProps,
+    contactSpoofingWarning: {
+      type: ContactSpoofingType.MultipleGroupMembersWithSameTitle,
+      acknowledgedGroupNameCollisions: {},
+      groupNameCollisions: {
+        Alice: times(2, () => generateUuid()),
+        Bob: times(3, () => generateUuid()),
+      },
+    },
+  };
+  const theme = useContext(StorybookThemeContext);
+
+  return <ConversationHeader {...props} theme={theme} />;
+}
+
+export function WithJustMiniPlayer(): React.JSX.Element {
+  const props: PropsType = {
+    ...commonProps,
+    shouldShowMiniPlayer: true,
+  };
+  const theme = useContext(StorybookThemeContext);
+
+  return <ConversationHeader {...props} theme={theme} />;
+}
+
+export function WithJustPinnedMessagesBar(): React.JSX.Element {
+  const props: PropsType = commonProps;
+  const theme = useContext(StorybookThemeContext);
+
+  return <ConversationHeader {...props} theme={theme} />;
+}
+
+export function WithMinPlayerAndPinnedMessagesBar(): React.JSX.Element {
+  const props: PropsType = {
+    ...commonProps,
+    shouldShowMiniPlayer: true,
   };
   const theme = useContext(StorybookThemeContext);
 

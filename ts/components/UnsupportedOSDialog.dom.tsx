@@ -26,8 +26,8 @@ export function UnsupportedOSDialog({
   i18n,
   type,
   OS,
-}: PropsType): JSX.Element | null {
-  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
+}: PropsType): React.JSX.Element | null {
+  const learnMoreLink = (parts: Array<string | React.JSX.Element>) => (
     <a
       key="signal-support"
       href={UNSUPPORTED_OS_URL}
@@ -38,7 +38,7 @@ export function UnsupportedOSDialog({
     </a>
   );
 
-  let body: JSX.Element;
+  let body: React.JSX.Element;
   if (type === 'error') {
     body = (
       <I18n

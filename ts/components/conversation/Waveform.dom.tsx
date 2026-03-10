@@ -19,7 +19,7 @@ export function Waveform({
   barMaxHeight,
   currentTime,
   duration,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const currentTimeOrZero = currentTime ?? 0;
   const peakPosition = peaks.length * (currentTimeOrZero / (duration ?? 1e-23));
 

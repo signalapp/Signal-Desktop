@@ -26,7 +26,7 @@ export function CallLinkAddNameModal({
   callLink,
   onClose,
   onUpdateCallLinkName,
-}: CallLinkAddNameModalProps): JSX.Element {
+}: CallLinkAddNameModalProps): React.JSX.Element {
   const [formId] = useState(() => generateUuid());
   const [nameId] = useState(() => generateUuid());
   const [nameInput, setNameInput] = useState(callLink.name);
@@ -91,7 +91,6 @@ export function CallLinkAddNameModal({
           color={getColorForCallLink(callLink.rootKey)}
           conversationType="callLink"
           size={AvatarSize.SIXTY_FOUR}
-          sharedGroupNames={[]}
           title={
             callLink.name === ''
               ? i18n('icu:calling__call-link-default-title')

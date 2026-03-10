@@ -59,10 +59,10 @@ function Example(args: Args) {
   );
 }
 
-export function Direct(args: Props): JSX.Element {
+export function Direct(args: Props): React.JSX.Element {
   return <Example {...args} conversationType="direct" />;
 }
 
-export function Group(args: Props): JSX.Element {
+export function Group(args: Props): React.JSX.Element {
   return <Example {...args} conversationType="group" />;
 }

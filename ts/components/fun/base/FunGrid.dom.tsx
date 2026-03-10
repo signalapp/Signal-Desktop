@@ -19,7 +19,9 @@ export type FunGridContainerProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunGridContainer(props: FunGridContainerProps): JSX.Element {
+export function FunGridContainer(
+  props: FunGridContainerProps
+): React.JSX.Element {
   return (
     <FocusScope restoreFocus>
       <div
@@ -52,7 +54,7 @@ export type FunGridScrollerSectionProps = Readonly<{
 
 export function FunGridScrollerSection(
   props: FunGridScrollerSectionProps
-): JSX.Element {
+): React.JSX.Element {
   return (
     <FunScrollerSection
       id={props.id}
@@ -80,7 +82,7 @@ export type FunGridHeaderProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunGridHeader(props: FunGridHeaderProps): JSX.Element {
+export function FunGridHeader(props: FunGridHeaderProps): React.JSX.Element {
   return (
     <h3
       id={props.id}
@@ -105,7 +107,9 @@ export type FunGridHeaderTextProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunGridHeaderText(props: FunGridHeaderTextProps): JSX.Element {
+export function FunGridHeaderText(
+  props: FunGridHeaderTextProps
+): React.JSX.Element {
   return <span className="FunGrid__HeaderText">{props.children}</span>;
 }
 
@@ -121,7 +125,7 @@ export type FunGridHeaderButtonProps = Readonly<{
 
 export function FunGridHeaderButton(
   props: FunGridHeaderButtonProps
-): JSX.Element {
+): React.JSX.Element {
   return (
     <Button
       type="button"
@@ -142,7 +146,9 @@ export type FunGridHeaderIconProps = Readonly<{
   iconClassName: `FunGrid__HeaderIcon--${string}`;
 }>;
 
-export function FunGridHeaderIcon(props: FunGridHeaderIconProps): JSX.Element {
+export function FunGridHeaderIcon(
+  props: FunGridHeaderIconProps
+): React.JSX.Element {
   return (
     <div className={classNames('FunGrid__HeaderIcon', props.iconClassName)} />
   );
@@ -158,7 +164,7 @@ export type FunGridHeaderPopoverProps = Readonly<{
 
 export function FunGridHeaderPopover(
   props: FunGridHeaderPopoverProps
-): JSX.Element {
+): React.JSX.Element {
   return (
     <Popover
       data-fun-overlay
@@ -177,7 +183,7 @@ export type FunGridHeaderPopoverTextProps = Readonly<{
 
 export function FunGridHeaderPopoverHeader(
   props: FunGridHeaderPopoverTextProps
-): JSX.Element {
+): React.JSX.Element {
   return (
     <Header className="FunGrid__HeaderPopoverHeader">{props.children}</Header>
   );
@@ -196,7 +202,9 @@ export type FunGridRowGroupProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunGridRowGroup(props: FunGridRowGroupProps): JSX.Element {
+export function FunGridRowGroup(
+  props: FunGridRowGroupProps
+): React.JSX.Element {
   return (
     <div
       role="grid"
@@ -225,7 +233,7 @@ export type FunGridRowProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunGridRow(props: FunGridRowProps): JSX.Element {
+export function FunGridRow(props: FunGridRowProps): React.JSX.Element {
   return (
     <div
       role="row"
@@ -253,7 +261,7 @@ export type FunGridCellProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunGridCell(props: FunGridCellProps): JSX.Element {
+export function FunGridCell(props: FunGridCellProps): React.JSX.Element {
   return (
     <div
       data-key={props['data-key']}

@@ -249,44 +249,4 @@
       }
     }
   }
-
-  &__attach-file {
-    width: 32px;
-    height: 32px;
-    border-radius: 4px;
-    padding: 0;
-    border: none;
-    background: transparent;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    @include mixins.keyboard-mode {
-      &:focus {
-        outline: 2px solid variables.$color-ultramarine;
-      }
-    }
-
-    outline: none;
-
-    &:before {
-      content: '';
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-
-      @include mixins.light-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/attach/attach.svg',
-          variables.$color-gray-75
-        );
-      }
-      @include mixins.dark-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/attach/attach.svg',
-          variables.$color-gray-15
-        );
-      }
-    }
-  }
 }

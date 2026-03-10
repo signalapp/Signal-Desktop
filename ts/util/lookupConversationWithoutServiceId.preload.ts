@@ -1,21 +1,20 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { usernames, LibSignalErrorBase } from '@signalapp/libsignal-client';
+import { usernames } from '@signalapp/libsignal-client';
 
 import type { UserNotFoundModalStateType } from '../state/ducks/globalModals.preload.js';
 import { createLogger } from '../logging/log.std.js';
 import type { AciString } from '../types/ServiceId.std.js';
+import * as Errors from '../types/errors.std.js';
+import { ToastType } from '../types/Toast.dom.js';
+import { strictAssert } from './assert.std.js';
+import type { UUIDFetchStateKeyType } from './uuidFetchState.std.js';
+import { getServiceIdsForE164s } from './getServiceIdsForE164s.dom.js';
 import {
   getAccountForUsername,
   cdsLookup,
 } from '../textsecure/WebAPI.preload.js';
-import * as Errors from '../types/errors.std.js';
-import { ToastType } from '../types/Toast.dom.js';
-import { HTTPError } from '../types/HTTPError.std.js';
-import { strictAssert } from './assert.std.js';
-import type { UUIDFetchStateKeyType } from './uuidFetchState.std.js';
-import { getServiceIdsForE164s } from './getServiceIdsForE164s.dom.js';
 
 const log = createLogger('lookupConversationWithoutServiceId');
 
@@ -155,33 +154,17 @@ export async function checkForUsername(
     return undefined;
   }
 
-  try {
-    const account = await getAccountForUsername({
-      hash,
-    });
+  const accountAci = await getAccountForUsername({
+    hash,
+  });
 
-    if (!account.uuid) {
-      log.error("checkForUsername: Returned account didn't include a uuid");
-      return;
-    }
-
-    return {
-      aci: account.uuid,
-      username: fixedUsername,
-    };
-  } catch (error) {
-    if (error instanceof HTTPError) {
-      if (error.code === 404) {
-        return undefined;
-      }
-    }
-
-    // Invalid username
-    if (error instanceof LibSignalErrorBase) {
-      log.error('checkForUsername: invalid username');
-      return undefined;
-    }
-
-    throw error;
+  if (!accountAci) {
+    log.error("checkForUsername: Returned account didn't include a uuid");
+    return;
   }
+
+  return {
+    aci: accountAci,
+    username: fixedUsername,
+  };
 }

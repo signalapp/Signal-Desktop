@@ -33,7 +33,7 @@ export type DraftGifMessageSendModalProps = Readonly<{
 
 export function DraftGifMessageSendModal(
   props: DraftGifMessageSendModalProps
-): JSX.Element {
+): React.JSX.Element {
   const { i18n, RenderCompositionTextArea } = props;
   const descriptionId = useId();
 

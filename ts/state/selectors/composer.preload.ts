@@ -25,3 +25,10 @@ export const getQuotedMessageSelector = createSelector(
     (conversationId: string): QuotedMessageForComposerType | undefined =>
       composerStateForConversationIdSelector(conversationId).quotedMessage
 );
+
+export const getViewOnceSelector = createSelector(
+  getComposerStateForConversationIdSelector,
+  composerStateForConversationIdSelector =>
+    (conversationId: string): boolean =>
+      composerStateForConversationIdSelector(conversationId).isViewOnce
+);

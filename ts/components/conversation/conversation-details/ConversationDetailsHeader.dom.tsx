@@ -16,6 +16,7 @@ import type { BadgeType } from '../../../badges/types.std.js';
 import { UserText } from '../../UserText.dom.js';
 import { isInSystemContacts } from '../../../util/isInSystemContacts.std.js';
 import { InContactsIcon } from '../../InContactsIcon.dom.js';
+import type { ContactModalStateType } from '../../../types/globalModals.std.js';
 
 export type Props = {
   areWeASubscriber: boolean;
@@ -30,7 +31,7 @@ export type Props = {
   pendingAvatarDownload: boolean;
   startAvatarDownload: () => void;
   startEditing: (isGroupTitle: boolean) => void;
-  toggleAboutContactModal: (contactId: string) => void;
+  toggleAboutContactModal: (options: ContactModalStateType) => void;
   theme: ThemeType;
 };
 
@@ -54,7 +55,7 @@ export function ConversationDetailsHeader({
   startEditing,
   toggleAboutContactModal,
   theme,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const [activeModal, setActiveModal] = useState<
     undefined | ConversationDetailsHeaderActiveModal
   >();
@@ -118,7 +119,6 @@ export function ConversationDetailsHeader({
         }
         setActiveModal(ConversationDetailsHeaderActiveModal.ShowingBadges);
       }}
-      sharedGroupNames={[]}
       theme={theme}
     />
   );
@@ -209,7 +209,7 @@ export function ConversationDetailsHeader({
     );
   }
 
-  let title: JSX.Element;
+  let title: React.JSX.Element;
 
   if (isMe) {
     title = (
@@ -238,7 +238,7 @@ export function ConversationDetailsHeader({
         onClick={ev => {
           ev.preventDefault();
           ev.stopPropagation();
-          toggleAboutContactModal(conversation.id);
+          toggleAboutContactModal({ contactId: conversation.id });
         }}
         className="ConversationDetailsHeader__about-button"
       >

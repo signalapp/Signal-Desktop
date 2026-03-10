@@ -25,14 +25,14 @@ export default {
   },
 } satisfies ComponentMeta<TemplateProps>;
 
-export function Camera(props: TemplateProps): JSX.Element {
+export function Camera(props: TemplateProps): React.JSX.Element {
   return <Template {...props} mediaType="camera" />;
 }
 
-export function Microphone(props: TemplateProps): JSX.Element {
+export function Microphone(props: TemplateProps): React.JSX.Element {
   return <Template {...props} mediaType="microphone" />;
 }
 
-export function VoiceNote(props: TemplateProps): JSX.Element {
+export function VoiceNote(props: TemplateProps): React.JSX.Element {
   return <Template {...props} requestor="voiceNote" mediaType="microphone" />;
 }

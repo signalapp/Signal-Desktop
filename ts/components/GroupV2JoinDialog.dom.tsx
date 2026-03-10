@@ -75,7 +75,6 @@ export const GroupV2JoinDialog = React.memo(function GroupV2JoinDialogInner({
           loading={avatar && !avatar.url}
           conversationType="group"
           title={title}
-          sharedGroupNames={[]}
           size={80}
           i18n={i18n}
         />

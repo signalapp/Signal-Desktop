@@ -33,7 +33,11 @@ export type I18nProps = {
   messages: LocaleMessagesType;
 };
 
-export function I18n({ messages, locale, children }: I18nProps): JSX.Element {
+export function I18n({
+  messages,
+  locale,
+  children,
+}: I18nProps): React.JSX.Element {
   const { icuMessages, legacyMessages } = React.useMemo(() => {
     return classifyMessages(messages);
   }, [messages]);

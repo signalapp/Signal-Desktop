@@ -156,7 +156,7 @@ export function SendStoryModal({
   mostRecentActiveStoryTimestampByGroupOrDistributionList,
   toggleSignalConnectionsModal,
   onMediaPlaybackStart,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [page, setPage] = useState<PageType>(Page.SendStory);
 
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
@@ -576,7 +576,6 @@ export function SendStoryModal({
                       color={group.color}
                       conversationType={group.type}
                       i18n={i18n}
-                      sharedGroupNames={[]}
                       size={AvatarSize.THIRTY_TWO}
                       title={group.title}
                     />
@@ -645,7 +644,7 @@ export function SendStoryModal({
 
     const renderDistributionList = (
       list: StoryDistributionListWithMembersDataType
-    ): JSX.Element => {
+    ): React.JSX.Element => {
       return (
         <Checkbox
           checked={selectedListIds.has(list.id)}
@@ -724,7 +723,6 @@ export function SendStoryModal({
                     color={me.color}
                     conversationType={me.type}
                     i18n={i18n}
-                    sharedGroupNames={me.sharedGroupNames}
                     size={AvatarSize.THIRTY_TWO}
                     storyRing={undefined}
                     title={me.title}
@@ -837,7 +835,6 @@ export function SendStoryModal({
                   color={group.color}
                   conversationType={group.type}
                   i18n={i18n}
-                  sharedGroupNames={[]}
                   size={AvatarSize.THIRTY_TWO}
                   storyRing={group.hasStories}
                   title={group.title}

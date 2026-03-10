@@ -62,7 +62,7 @@ export type Props = Readonly<{
     distributionId: StoryDistributionIdString,
     serviceIds: Array<ServiceIdString>
   ) => unknown;
-  renderSafetyNumber: (props: SafetyNumberProps) => JSX.Element;
+  renderSafetyNumber: (props: SafetyNumberProps) => React.JSX.Element;
   theme: ThemeType;
 }>;
 
@@ -92,7 +92,7 @@ export function SafetyNumberChangeDialog({
   removeFromStory,
   renderSafetyNumber,
   theme,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const totalCount = contacts.reduce(
     (count, item) => count + item.contacts.length,
     0
@@ -457,7 +457,6 @@ function ContactRow({
         profileName={contact.profileName}
         theme={theme}
         title={contact.title}
-        sharedGroupNames={contact.sharedGroupNames}
         size={AvatarSize.THIRTY_TWO}
       />
       <div className="module-SafetyNumberChangeDialog__row--wrapper">

@@ -22,6 +22,6 @@ export default {
   },
 } satisfies ComponentMeta<PropsType>;
 
-export function Defaults(args: PropsType): JSX.Element {
+export function Defaults(args: PropsType): React.JSX.Element {
   return <CollidingAvatars {...args} />;
 }

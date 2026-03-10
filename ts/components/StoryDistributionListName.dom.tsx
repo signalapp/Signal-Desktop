@@ -18,6 +18,6 @@ export function StoryDistributionListName({
   i18n,
   id,
   name,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   return <UserText text={getStoryDistributionListName(i18n, id, name)} />;
 }

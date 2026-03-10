@@ -7,7 +7,10 @@ import lodash from 'lodash';
 
 import { assertDev, strictAssert } from '../util/assert.std.js';
 import { dropNull, shallowDropNull } from '../util/dropNull.std.js';
-import { fromAciUuidBytesOrString } from '../util/ServiceId.node.js';
+import {
+  fromAciUuidBytes,
+  fromAciUuidBytesOrString,
+} from '../util/ServiceId.node.js';
 import { getTimestampFromLong } from '../util/timestampLongUtils.std.js';
 import { SignalService as Proto } from '../protobuf/index.std.js';
 import { deriveGroupFields } from '../groups.preload.js';
@@ -26,15 +29,22 @@ import type {
   ProcessedPollVote,
   ProcessedPollTerminate,
   ProcessedDelete,
+  ProcessedAdminDelete,
   ProcessedGiftBadge,
   ProcessedStoryContext,
+  ProcessedPinMessage,
+  ProcessedUnpinMessage,
 } from './Types.d.ts';
 import { GiftBadgeStates } from '../types/GiftBadgeStates.std.js';
 import {
   APPLICATION_OCTET_STREAM,
   stringToMIMEType,
 } from '../types/MIME.std.js';
-import { SECOND, DurationInSeconds } from '../util/durations/index.std.js';
+import {
+  SECOND,
+  DurationInSeconds,
+  HOUR,
+} from '../util/durations/index.std.js';
 import type { AnyPaymentEvent } from '../types/Payment.std.js';
 import { PaymentEventKind } from '../types/Payment.std.js';
 import { filterAndClean } from '../util/BodyRange.node.js';
@@ -42,8 +52,11 @@ import { bytesToUuid } from '../util/uuidToBytes.std.js';
 import { createName } from '../util/attachmentPath.node.js';
 import { partitionBodyAndNormalAttachments } from '../util/Attachment.std.js';
 import { isNotNil } from '../util/isNotNil.std.js';
+import { createLogger } from '../logging/log.std.js';
 
 const { isNumber } = lodash;
+
+const log = createLogger('processDataMessage');
 
 const FLAGS = Proto.DataMessage.Flags;
 export const ATTACHMENT_MAX = 32;
@@ -80,13 +93,21 @@ export function processAttachment(
     height,
     caption,
     blurHash,
-    uploadTimestamp,
   } = attachmentWithoutNulls;
 
   const hasCdnId = Long.isLong(cdnId) ? !cdnId.isZero() : Boolean(cdnId);
 
   if (!isNumber(size)) {
     throw new Error('Missing size on incoming attachment!');
+  }
+
+  let uploadTimestamp = attachmentWithoutNulls.uploadTimestamp?.toNumber();
+
+  // Make sure uploadTimestamp is not set to an obviously wrong future value (we use
+  // uploadTimestamp to determine whether to re-use CDN pointers)
+  if (uploadTimestamp && uploadTimestamp > Date.now() + 12 * HOUR) {
+    log.warn('uploadTimestamp is in the future, dropping');
+    uploadTimestamp = undefined;
   }
 
   return {
@@ -99,7 +120,7 @@ export function processAttachment(
     height,
     caption,
     blurHash,
-    uploadTimestamp: uploadTimestamp?.toNumber(),
+    uploadTimestamp,
     cdnId: hasCdnId ? String(cdnId) : undefined,
     clientUuid: Bytes.isNotEmpty(clientUuid)
       ? bytesToUuid(clientUuid)
@@ -317,6 +338,34 @@ export function processReaction(
   };
 }
 
+export function processPinMessage(
+  pinMessage?: Proto.DataMessage.IPinMessage | null
+): ProcessedPinMessage | undefined {
+  if (pinMessage == null) {
+    return undefined;
+  }
+
+  const targetSentTimestamp = pinMessage.targetSentTimestamp?.toNumber();
+  strictAssert(targetSentTimestamp, 'Missing targetSentTimestamp');
+
+  const targetAuthorAci = fromAciUuidBytes(pinMessage.targetAuthorAciBinary);
+  strictAssert(targetAuthorAci, 'Missing targetAuthorAciBinary');
+
+  let pinDuration: DurationInSeconds | null;
+  if (pinMessage.pinDurationForever) {
+    pinDuration = null;
+  } else {
+    strictAssert(pinMessage.pinDurationSeconds, 'Missing pinDurationSeconds');
+    pinDuration = DurationInSeconds.fromSeconds(pinMessage.pinDurationSeconds);
+  }
+
+  return {
+    targetSentTimestamp,
+    targetAuthorAci,
+    pinDuration,
+  };
+}
+
 export function processPollCreate(
   pollCreate?: Proto.DataMessage.IPollCreate | null
 ): ProcessedPollCreate | undefined {
@@ -376,6 +425,25 @@ export function processDelete(
   };
 }
 
+export function processAdminDelete(
+  adminDelete?: Proto.DataMessage.IAdminDelete | null
+): ProcessedAdminDelete | undefined {
+  if (!adminDelete) {
+    return undefined;
+  }
+
+  const targetSentTimestamp = adminDelete.targetSentTimestamp?.toNumber();
+  strictAssert(targetSentTimestamp, 'AdminDelete missing targetSentTimestamp');
+
+  const targetAuthorAci = fromAciUuidBytes(adminDelete.targetAuthorAciBinary);
+  strictAssert(targetAuthorAci, 'AdminDelete missing targetAuthorAciBinary');
+
+  return {
+    targetSentTimestamp,
+    targetAuthorAci,
+  };
+}
+
 export function processGiftBadge(
   giftBadge: Proto.DataMessage.IGiftBadge | null | undefined
 ): ProcessedGiftBadge | undefined {
@@ -399,6 +467,25 @@ export function processGiftBadge(
       giftBadge.receiptCredentialPresentation
     ),
     state: GiftBadgeStates.Unopened,
+  };
+}
+
+export function processUnpinMessage(
+  unpinMessage?: Proto.DataMessage.IUnpinMessage | null
+): ProcessedUnpinMessage | undefined {
+  if (unpinMessage == null) {
+    return undefined;
+  }
+
+  const targetSentTimestamp = unpinMessage.targetSentTimestamp?.toNumber();
+  strictAssert(targetSentTimestamp, 'Missing targetSentTimestamp');
+
+  const targetAuthorAci = fromAciUuidBytes(unpinMessage.targetAuthorAciBinary);
+  strictAssert(targetAuthorAci, 'Missing targetAuthorAciBinary');
+
+  return {
+    targetSentTimestamp,
+    targetAuthorAci,
   };
 }
 
@@ -462,14 +549,17 @@ export function processDataMessage(
     requiredProtocolVersion: dropNull(message.requiredProtocolVersion),
     isViewOnce: Boolean(message.isViewOnce),
     reaction: processReaction(message.reaction),
+    pinMessage: processPinMessage(message.pinMessage),
     pollCreate: processPollCreate(message.pollCreate),
     pollVote: processPollVote(message.pollVote),
     pollTerminate: processPollTerminate(message.pollTerminate),
     delete: processDelete(message.delete),
+    adminDelete: processAdminDelete(message.adminDelete),
     bodyRanges: filterAndClean(message.bodyRanges),
     groupCallUpdate: dropNull(message.groupCallUpdate),
     storyContext: processStoryContext(message.storyContext),
     giftBadge: processGiftBadge(message.giftBadge),
+    unpinMessage: processUnpinMessage(message.unpinMessage),
   };
 
   const isEndSession = Boolean(result.flags & FLAGS.END_SESSION);

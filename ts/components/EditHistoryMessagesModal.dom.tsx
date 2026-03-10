@@ -9,7 +9,11 @@ import type { AttachmentType } from '../types/Attachment.std.js';
 import type { LocalizerType } from '../types/Util.std.js';
 import type { MessagePropsType } from '../state/selectors/message.preload.js';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
-import { Message, TextDirection } from './conversation/Message.dom.js';
+import {
+  Message,
+  MessageInteractivity,
+  TextDirection,
+} from './conversation/Message.dom.js';
 import { Modal } from './Modal.dom.js';
 import { WidthBreakpoint } from './_util.std.js';
 import { shouldNeverBeCalled } from '../util/shouldNeverBeCalled.std.js';
@@ -38,6 +42,8 @@ export type PropsType = {
 
 const MESSAGE_DEFAULT_PROPS = {
   canDeleteForEveryone: false,
+  canRetryDeleteForEveryone: false,
+  retryDeleteForEveryone: shouldNeverBeCalled,
   checkForAccount: shouldNeverBeCalled,
   clearSelectedMessage: shouldNeverBeCalled,
   clearTargetedMessage: shouldNeverBeCalled,
@@ -58,7 +64,7 @@ const MESSAGE_DEFAULT_PROPS = {
   endPoll: shouldNeverBeCalled,
   pushPanelForConversation: shouldNeverBeCalled,
   renderAudioAttachment: () => <div />,
-  renderingContext: 'EditHistoryMessagesModal',
+  renderingContext: 'EditHistoryMessagesModal' as const,
   saveAttachment: shouldNeverBeCalled,
   saveAttachments: shouldNeverBeCalled,
   scrollToQuotedMessage: shouldNeverBeCalled,
@@ -88,7 +94,7 @@ export function EditHistoryMessagesModal({
   platform,
   kickOffAttachmentDownload,
   showLightbox,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const containerElementRef = useRef<HTMLDivElement | null>(null);
   const theme = useTheme();
 
@@ -132,6 +138,7 @@ export function EditHistoryMessagesModal({
           displayLimit={displayLimitById[currentMessageId]}
           getPreferredBadge={getPreferredBadge}
           i18n={i18n}
+          interactivity={MessageInteractivity.Static}
           isEditedMessage
           isSpoilerExpanded={revealedSpoilersById[currentMessageId] || {}}
           key={currentMessage.timestamp}
@@ -184,9 +191,9 @@ export function EditHistoryMessagesModal({
 
           const shouldShowDateHeader = Boolean(
             !previousItem ||
-              // This comparison avoids strange header behavior for out-of-order messages.
-              (messageAttributes.timestamp > previousItem.timestamp &&
-                !isSameDay(previousItem.timestamp, messageAttributes.timestamp))
+            // This comparison avoids strange header behavior for out-of-order messages.
+            (messageAttributes.timestamp > previousItem.timestamp &&
+              !isSameDay(previousItem.timestamp, messageAttributes.timestamp))
           );
           const dateHeaderElement = shouldShowDateHeader ? (
             <TimelineDateHeader
@@ -204,6 +211,7 @@ export function EditHistoryMessagesModal({
                 {...MESSAGE_DEFAULT_PROPS}
                 {...messageAttributes}
                 id={syntheticId}
+                interactivity={MessageInteractivity.Static}
                 containerElementRef={containerElementRef}
                 displayLimit={displayLimitById[syntheticId]}
                 getPreferredBadge={getPreferredBadge}

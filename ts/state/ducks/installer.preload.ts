@@ -25,7 +25,7 @@ import {
   type EnvelopeType as ProvisionEnvelopeType,
 } from '../../textsecure/Provisioner.preload.js';
 import { accountManager } from '../../textsecure/AccountManager.preload.js';
-import { getProvisioningResource } from '../../textsecure/WebAPI.preload.js';
+import { getProvisioningConnection } from '../../textsecure/WebAPI.preload.js';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
 import { useBoundActions } from '../../hooks/useBoundActions.std.js';
 import { createLogger } from '../../logging/log.std.js';
@@ -179,7 +179,7 @@ function startInstaller(): ThunkAction<
     if (!provisioner) {
       provisioner = new Provisioner({
         server: {
-          getProvisioningResource,
+          getProvisioningConnection,
         },
       });
     }

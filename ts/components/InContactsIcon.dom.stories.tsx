@@ -12,6 +12,6 @@ export default {
   title: 'Components/InContactsIcon',
 } satisfies Meta<PropsType>;
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return <InContactsIcon i18n={i18n} />;
 }

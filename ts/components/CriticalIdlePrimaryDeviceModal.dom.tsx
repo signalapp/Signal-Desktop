@@ -17,8 +17,8 @@ type PropsType = Readonly<{
 export function CriticalIdlePrimaryDeviceModal({
   i18n,
   onClose,
-}: PropsType): JSX.Element {
-  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
+}: PropsType): React.JSX.Element {
+  const learnMoreLink = (parts: Array<string | React.JSX.Element>) => (
     <a
       href={CRITICAL_IDLE_PRIMARY_DEVICE_SUPPORT_PAGE}
       rel="noreferrer"

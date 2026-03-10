@@ -80,7 +80,7 @@ export function PendingInvites({
   pendingApprovalMemberships,
   revokePendingMembershipsFromGroupV2,
   theme,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   if (!conversation || !ourAci) {
     throw new Error('PendingInvites rendered without a conversation or ourAci');
   }

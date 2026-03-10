@@ -119,6 +119,6 @@ describe('storage service', function (this: Mocha.Suite) {
     debug('Verifying the final manifest version');
     const finalState = await phone.expectStorageState('consistency check');
 
-    assert.strictEqual(finalState.version, 4);
+    assert.strictEqual(finalState.version, 4n);
   });
 });

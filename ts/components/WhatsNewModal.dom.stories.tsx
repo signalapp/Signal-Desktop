@@ -18,6 +18,6 @@ const getDefaultProps = (): PropsType => ({
   i18n,
 });
 
-export function Modal(): JSX.Element {
+export function Modal(): React.JSX.Element {
   return <WhatsNewModal {...getDefaultProps()} />;
 }

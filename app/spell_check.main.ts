@@ -201,7 +201,15 @@ export const setup = (
         template.push({ label: i18n('icu:editMenuPaste'), role: 'paste' });
       }
 
-      if (editFlags.canPaste && !isImage) {
+      // It seems like `canEditRichly` is unreliable for `contenteditable`
+      // But `formControlType` will tell us if the element is some native
+      // input/button/etc, and any `contenteditable` should be "none"
+      const isLikelyRichTextEditor = params.formControlType === 'none';
+      if (
+        editFlags.canPaste &&
+        (editFlags.canEditRichly || isLikelyRichTextEditor) &&
+        !isImage
+      ) {
         template.push({
           label: i18n('icu:editMenuPasteAndMatchStyle'),
           role: 'pasteAndMatchStyle',

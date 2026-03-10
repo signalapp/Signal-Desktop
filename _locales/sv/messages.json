@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Slå på/av utvecklingsverktyg"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Öppna utvecklingsverktyg för samtal"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Ställ in som ny enhet"
   },
@@ -539,6 +536,9 @@
   "icu:debugLogExplanation": {
     "messageformat": "När du klickar på Skicka kommer din logg att läggas upp på nätet i 30 dagar på en unik, opublicerad webbadress. Du kan spara den lokalt först."
   },
+  "icu:debugLogExplanation--close": {
+    "messageformat": "Denna logg kommer att publiceras offentligt online så att bidragsgivare kan se den. Du kan ladda ner den innan du skickar in den."
+  },
   "icu:debugLogError": {
     "messageformat": "Något gick fel med sändningen! Skicka e-post till support@signal.org och bifoga din logg som en textfil."
   },
@@ -575,14 +575,95 @@
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "För att verifiera totalsträckskryptering med {name}, jämför siffrorna ovan med deras enhet. De kan också skanna din kod med sin enhet."
   },
+  "icu:SafetyNumberViewer__hint-v2": {
+    "messageformat": "För att verifiera totalsträckskryptering med {name}, jämför siffrorna ovan med deras enhet. De kan också skanna din kod på sin enhet."
+  },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Läs mer"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__title": {
+    "messageformat": "Automatisk nyckelverifiering"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
+    "messageformat": "Verifiera automatiskt"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--running": {
+    "messageformat": "Verifierar kryptering …"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
+    "messageformat": "Kryptering verifierad"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
+    "messageformat": "Automatisk verifiering är inte tillgänglig"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__hint": {
+    "messageformat": "Automatisk verifiering är inte tillgänglig för alla chattar."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
+    "messageformat": "Läs mer"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
+    "messageformat": "Krypteringen verifierades automatiskt för den här chatten "
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+    "messageformat": "För kontakter som du är ansluten till via telefonnummer kan Signal automatiskt bekräfta om anslutningen är säker med hjälp av en process som kallas nyckeltransparens. För ökad säkerhet, verifiera totalsträckskryptering manuellt genom att jämföra siffrorna på den föregående skärmen eller skanna koden på deras enhet."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
+    "messageformat": "Automatisk verifiering är inte längre tillgänglig för den här chatten"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
+    "messageformat": "Signal kan inte längre automatiskt verifiera krypteringen för den här chatten. Detta beror troligen på att {name} har ändrat sitt telefonnummer. Verifiera totalsträckskryptering manuellt genom att jämföra siffrorna på den föregående skärmen eller skanna koden på deras enhet."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
+    "messageformat": "Signal kan bara automatiskt verifiera krypteringen i chattar där du är ansluten till någon via ett telefonnummer. Om chatten startades med ett användarnamn eller en gemensam grupp, verifiera totalsträckskryptering genom att jämföra siffrorna på den föregående skärmen eller skanna koden på deras enhet."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
+    "messageformat": "Okej"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Ett säkerhetsnummer kommer att skapas med den här personen efter att ni skickar meddelanden till varandra."
   },
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Läs mer"
+  },
+  "icu:KeyTransparencyErrorDialog__Title": {
+    "messageformat": "Automatisk nyckelverifiering är för närvarande inte tillgänglig för din enhet. Skicka felsökningslogg?"
+  },
+  "icu:KeyTransparencyErrorDialog__Description": {
+    "messageformat": "Felsökningsloggar hjälper oss att diagnostisera och åtgärda problemet och innehåller inte identifierande information."
+  },
+  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Stäng"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
+    "messageformat": "Dela felsökningslogg"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
+    "messageformat": "Visa"
+  },
+  "icu:KeyTransparencyErrorDialog__Submit": {
+    "messageformat": "Skicka"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "Nej tack"
+  },
+  "icu:KeyTransparencyErrorDialog__Submitting": {
+    "messageformat": "Skickar in …"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Title": {
+    "messageformat": "Signal kan nu automatiskt verifiera kryptering"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description": {
+    "messageformat": "För kontakter som du är ansluten till via telefonnummer kan Signal automatiskt bekräfta om anslutningen är säker med hjälp av en process som kallas nyckeltransparens. För ökad säkerhet kan du fortfarande verifiera anslutningar manuellt med hjälp av en QR-kod eller genom att jämföra säkerhetsnummer."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Continue": {
+    "messageformat": "Fortsätt"
+  },
+  "icu:KeyTransparencyOnboardingDialog__LearnMore": {
+    "messageformat": "Läs mer"
+  },
+  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Stäng"
   },
   "icu:verified": {
     "messageformat": "Verifierat"
@@ -595,18 +676,6 @@
   },
   "icu:media": {
     "messageformat": "Media"
-  },
-  "icu:mediaEmptyState": {
-    "messageformat": "Du har inga mediafiler i den här chatten"
-  },
-  "icu:allMedia": {
-    "messageformat": "Alla media"
-  },
-  "icu:documents": {
-    "messageformat": "Dokument"
-  },
-  "icu:documentsEmptyState": {
-    "messageformat": "Du har inga dokument i den här chatten"
   },
   "icu:today": {
     "messageformat": "Idag"
@@ -743,12 +812,6 @@
   "icu:screenShareWindow": {
     "messageformat": "Skärmdelning"
   },
-  "icu:callingDeveloperTools": {
-    "messageformat": "Utvecklingsverktyg för samtal"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "Detta fönster används under utveckling för att visa diagnostik från pågående samtal."
-  },
   "icu:speech": {
     "messageformat": "Tal"
   },
@@ -820,6 +883,9 @@
   },
   "icu:whatsNew": {
     "messageformat": "Se {whatsNew} i den här uppdateringen"
+  },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal är en ideell organisation"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "vad som är nytt"
@@ -1046,6 +1112,12 @@
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} finns i dina systemkontakter"
   },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Lägg till en medlemsetikett"
+  },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Din QR-kod"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Anteckning"
   },
@@ -1097,6 +1169,12 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Info"
   },
+  "icu:MessageContextMenu__PinMessage": {
+    "messageformat": "Nåla"
+  },
+  "icu:MessageContextMenu__UnpinMessage": {
+    "messageformat": "Lösgör"
+  },
   "icu:Poll__end-poll": {
     "messageformat": "Avsluta omröstning"
   },
@@ -1137,10 +1215,10 @@
     "messageformat": "Inga röster"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Vinnande"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Det fästa meddelandet hittades inte"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Omröstningen hittades inte"
@@ -1201,6 +1279,141 @@
   },
   "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
     "messageformat": "Innan du lämnar måste du välja minst en ny administratör för den här gruppen."
+  },
+  "icu:PinnedMessageNotification__Message--You": {
+    "messageformat": "Du har fäst ett meddelande"
+  },
+  "icu:PinnedMessageNotification__Message--SomeoneElse": {
+    "messageformat": "{sender} fäste ett meddelande"
+  },
+  "icu:PinnedMessageNotification__Button": {
+    "messageformat": "Gå till Meddelande"
+  },
+  "icu:PinMessageDialog__Title": {
+    "messageformat": "Fäst meddelande i…"
+  },
+  "icu:PinMessageDialog__Close": {
+    "messageformat": "Stäng"
+  },
+  "icu:PinMessageDialog__Option--TIME_24_HOURS": {
+    "messageformat": "24 timmar"
+  },
+  "icu:PinMessageDialog__Option--TIME_7_DAYS": {
+    "messageformat": "7 dagar"
+  },
+  "icu:PinMessageDialog__Option--TIME_30_DAYS": {
+    "messageformat": "30 dagar"
+  },
+  "icu:PinMessageDialog__Option--FOREVER": {
+    "messageformat": "För alltid"
+  },
+  "icu:PinMessageDialog__Cancel": {
+    "messageformat": "Avbryt"
+  },
+  "icu:PinMessageDialog__Pin": {
+    "messageformat": "Nåla"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
+    "messageformat": "Ersätt det äldsta fästa meddelandet?"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
+    "messageformat": "Om du fäster det här meddelandet ersätts det äldsta."
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
+    "messageformat": "Avbryt"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
+    "messageformat": "Fortsätt"
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
+    "messageformat": "Fäster försvinnande meddelanden"
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
+    "messageformat": "Försvinnande meddelanden tas bort när timern löper ut och meddelandet tas bort från chatten."
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
+    "messageformat": "Okej"
+  },
+  "icu:PinnedMessagesBar__AccessibilityLabel": {
+    "messageformat": "{pinsCount, plural, one {Fäst meddelande} other {Fästa meddelanden}}"
+  },
+  "icu:PinnedMessagesBar__Tab__AccessibilityLabel": {
+    "messageformat": "Gå till fäst meddelande {pinNumber,number}"
+  },
+  "icu:PinnedMessagesBar__GoToMessageClickableArea__AccessibilityLabel": {
+    "messageformat": "Gå till Meddelande"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__Button__AccessibilityLabel": {
+    "messageformat": "Fler åtgärder"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
+    "messageformat": "Lösgör"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
+    "messageformat": "Gå till Meddelande"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
+    "messageformat": "Se alla meddelanden"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
+    "messageformat": "Röstmeddelande"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Gif": {
+    "messageformat": "GIF"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
+    "messageformat": "Fil"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
+    "messageformat": "Betalning"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Poll": {
+    "messageformat": "Omröstning"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
+    "messageformat": "Klistermärke"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
+    "messageformat": "Visa-en-gång media"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
+    "messageformat": "Foto"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--Video": {
+    "messageformat": "Video"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--VoiceMessage": {
+    "messageformat": "Röstmeddelande"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--Gif": {
+    "messageformat": "GIF"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--Payment": {
+    "messageformat": "Betalning"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
+    "messageformat": "Klistermärke"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
+    "messageformat": "Visa-en-gång media"
+  },
+  "icu:PinnedMessagesPanel__Title": {
+    "messageformat": "Fästa meddelanden"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages": {
+    "messageformat": "Lösgör alla meddelanden"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
+    "messageformat": "Lösgör alla meddelanden?"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
+    "messageformat": "Meddelanden kommer att lösgöras för medlemmar i den här chatten."
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
+    "messageformat": "Avbryt"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
+    "messageformat": "Lösgör"
   },
   "icu:sessionEnded": {
     "messageformat": "Säker session har återställts"
@@ -1582,6 +1795,15 @@
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Avbryt"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
+    "messageformat": "Automatisk nyckelverifiering"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
+    "messageformat": "När den är aktiverad kommer Signal försöka att automatiskt verifiera krypteringen av 1:1-chattar."
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
+    "messageformat": "Läs mer"
   },
   "icu:initialSync": {
     "messageformat": "Synkroniserar kontakter och grupper"
@@ -1997,6 +2219,18 @@
   "icu:deleteFailed": {
     "messageformat": "Det gick inte att ta bort"
   },
+  "icu:deleteFailedClickForDetails": {
+    "messageformat": "Delete failed, click for details"
+  },
+  "icu:retryDeleteForEveryone--title": {
+    "messageformat": "Retry failed delete?"
+  },
+  "icu:retryDeleteForEveryone--body": {
+    "messageformat": "Message failed to delete. Check your connection and try again."
+  },
+  "icu:retryDeleteForEveryone--tryAgain": {
+    "messageformat": "Try again"
+  },
   "icu:editFailed": {
     "messageformat": "Redigeringen misslyckades, klicka för mer information"
   },
@@ -2008,6 +2242,9 @@
   },
   "icu:partiallyDeleted": {
     "messageformat": "Delvis borttagen, klicka för att försöka igen"
+  },
+  "icu:partiallyDeleted--clickForDetails": {
+    "messageformat": "Partially deleted, click for details"
   },
   "icu:expiredWarning": {
     "messageformat": "Den här versionen av Signal Desktop har upphört att gälla. Uppgradera till den senaste versionen för att fortsätta chatta."
@@ -2208,7 +2445,16 @@
     "messageformat": "Nedladdningen misslyckades"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Nedladdning av bilaga från säkerhetskopia misslyckades"
+    "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Endast administratörer kan lägga till medlemsetiketter i den här gruppen."
+  },
+  "icu:Toast--viewOnceEnabled": {
+    "messageformat": "View once enabled"
+  },
+  "icu:Toast--viewOnceDisabled": {
+    "messageformat": "View once disabled"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Redigeringar kan bara tillämpas inom 24 timmar från det att du skickade det här meddelandet."
@@ -2372,9 +2618,6 @@
   "icu:message--getNotificationText--stickers": {
     "messageformat": "Klistermärkesmeddelande"
   },
-  "icu:message--getNotificationText--poll": {
-    "messageformat": "Omröstning: {pollQuestion}"
-  },
   "icu:Poll--preview": {
     "messageformat": "Omröstning: {pollQuestion}"
   },
@@ -2398,6 +2641,15 @@
   },
   "icu:message--deletedForEveryone": {
     "messageformat": "Det här meddelandet togs bort."
+  },
+  "icu:message--deletedByAdmin": {
+    "messageformat": "Admin {admin} deleted this message"
+  },
+  "icu:message--deletedForEveryone--incoming": {
+    "messageformat": "{name} deleted this message"
+  },
+  "icu:message--deletedForEveryone--outgoing": {
+    "messageformat": "You deleted this message"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "Bifogade filen är för stor för att visas."
@@ -2434,6 +2686,12 @@
   },
   "icu:message--donation--preview--sent": {
     "messageformat": "Du donerade åt {recipient}"
+  },
+  "icu:message--pinned--preview--received": {
+    "messageformat": "{sender} fäste ett meddelande"
+  },
+  "icu:message--pinned--preview--sent": {
+    "messageformat": "Du har fäst ett meddelande"
   },
   "icu:message--donation": {
     "messageformat": "Donation"
@@ -2636,11 +2894,11 @@
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Förhandsvisning av klistermärke"
   },
-  "icu:FunPanelGifs__SearchLabel--Tenor": {
-    "messageformat": "Sök GIF-filer via Tenor"
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "Sök GIF-bilder"
   },
-  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
-    "messageformat": "Sök på Tenor"
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "Sök GIF-bilder"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF-kategorier"
@@ -2686,6 +2944,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "GIF-förhandsvisning"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "Drivs av GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Rensa sökning"
@@ -4385,6 +4646,12 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Ersätt"
   },
+  "icu:CompositionArea--viewOnceToggle": {
+    "messageformat": "View once"
+  },
+  "icu:CompositionArea--viewOnceMediaPlaceholder": {
+    "messageformat": "View once media"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Redigera meddelande"
   },
@@ -4396,6 +4663,9 @@
   },
   "icu:ContactModal--rm-admin": {
     "messageformat": "Ta bort som administratör"
+  },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "Detta kommer också att ta bort deras medlemsetikett."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Gör till administratör"
@@ -4415,6 +4685,27 @@
   "icu:ContactModal--voice": {
     "messageformat": "Röst"
   },
+  "icu:ContactModal--mute-audio": {
+    "messageformat": "Mute audio"
+  },
+  "icu:ContactModal--confirm-mute-body": {
+    "messageformat": "Are you sure you want to mute {contact}?"
+  },
+  "icu:ContactModal--confirm-mute-primary-button": {
+    "messageformat": "Mute"
+  },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Medlemsetiketter"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Använd en medlemsetikett för att beskriva dig själv eller din roll i gruppen. Medlemsetiketter visas bara inom den här gruppen."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Ange en etikett"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Redigera din etikett"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Chattfärg"
   },
@@ -4429,6 +4720,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Grupplänk"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Medlemsetikett"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Ange din medlemsetikett"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Ange en medlemsetikett för att beskriva dig själv eller din roll i gruppen. Medlemsetiketter visas bara inom den här gruppen."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Förhandsvisning"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Hej!"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Gruppmedlemmar med etiketter"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "Inga andra medlemmar har etiketter"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Sparar ändringar …"
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Det går inte att spara medlemsetikett"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Kontrollera din anslutning och försök igen."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Endast administratörer kan ange medlemsetiketter i den här gruppen."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Försvinnande meddelanden"
@@ -4463,6 +4787,9 @@
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "Välj vem som kan redigera gruppens namn, foto, beskrivning och tidsgräns för försvinnande meddelanden."
   },
+  "icu:ConversationDetails--group-info-info-v2": {
+    "messageformat": "Välj vem som kan redigera gruppnamn, bild, beskrivning, timer för försvinnande meddelanden och nålade meddelanden."
+  },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Vem kan lägga till medlemmar"
   },
@@ -4474,6 +4801,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Välj vem som kan skicka meddelanden till gruppen."
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Medlemsetiketter kommer att tas bort"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Om du ändrar denna behörighet till \"Endast administratörer\" rensas medlemsetiketter som angetts av icke-administratörer i den här gruppen."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Fortsätt"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Förfrågningar & inbjudningar"
@@ -4528,6 +4864,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Lägg till medlemmar"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Lägg till medlemsetikett"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Se alla"
@@ -4676,6 +5015,9 @@
   "icu:DeleteMessagesModal--title": {
     "messageformat": "{count, plural, one {Ta bort meddelande?} other {Ta bort {count,number} meddelanden?}}"
   },
+  "icu:DeleteMessagesModal--title-2": {
+    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+  },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Vem vill du ta bort detta meddelande för?} other {Vilka vill du ta bort de här meddelandena för?}}"
   },
@@ -4694,6 +5036,12 @@
   "icu:DeleteMessagesModal--deleteForEveryone": {
     "messageformat": "Ta bort för alla"
   },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
+    "messageformat": "Delete for everyone?"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
+    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+  },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Ta bort från alla enheter"
   },
@@ -4702,6 +5050,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Du kan bara välja upp till {count,number} meddelande som ska tas bort för alla} other {Du kan bara välja upp till {count,number} meddelanden som ska tas bort för alla}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Radera objekt?"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "Detta kommer att radera objektet permanent. All meddelandetext som är associerad med det här objektet kommer också att raderas."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Stäng"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Ta bort"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Avbryt"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Du kan bara vidarebefordra upp till 30 meddelanden"
@@ -5016,46 +5379,82 @@
     "messageformat": "Lägg till gruppbeskrivning …"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Röstmeddelande"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "Ljud"
+  },
+  "icu:ContactListItem__subtitle": {
+    "messageformat": "Kontakt"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Öppna länken i en webbläsare"
+  },
+  "icu:ListItem__show-message": {
+    "messageformat": "Visa meddelande i konversation"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "Ljud"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Filer"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Länkar"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Sortera efter"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Sortera efter"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Datum"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Storlek"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Inga media"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Foton, videor och GIF-filer som du skickar och tar emot visas här"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Inga ljudfiler"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Röstmeddelanden och ljudfiler som du skickar och tar emot visas här"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Inga länkar"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+  "icu:MediaGallery__EmptyState__description--links-2": {
+    "messageformat": "Länkar som du skickar och tar emot kommer att visas här"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Inga filer"
   },
-  "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+  "icu:MediaGallery__EmptyState__description--documents-2": {
+    "messageformat": "Filer som du skickar och tar emot kommer att visas här"
+  },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "Visa i chatten"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Vidarebefordra"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Spara"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Skicka meddelande"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Kopiera länk"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Ta bort"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Välj mediekvalitet"
@@ -5270,6 +5669,10 @@
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "administratörer"
   },
+  "icu:Avatar__View": {
+    "messageformat": "Visa",
+    "limit": 7
+  },
   "icu:AvatarEditor--choose": {
     "messageformat": "Välj en avatar"
   },
@@ -5348,15 +5751,6 @@
   "icu:Preferences__button--set-up": {
     "messageformat": "Ställ in"
   },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Lokala säkerhetskopior"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Exportera …"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Exportera lokal krypterad säkerhetskopia till en mapp och validera den"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Exportera krypterad säkerhetskopia till minnet och kör valideringssvit på den"
   },
@@ -5395,6 +5789,108 @@
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Aviseringsinnehåll"
+  },
+  "icu:PlaintextExport--PreferencesRow--Header": {
+    "messageformat": "Exportera chatthistorik"
+  },
+  "icu:PlaintextExport--PreferencesRow--Description": {
+    "messageformat": "Exportera en maskinläsbar JSON-kopia av alla dina chattar. Försvinnande meddelanden kommer inte att exporteras."
+  },
+  "icu:PlaintextExport--ActionButton": {
+    "messageformat": "Exportera"
+  },
+  "icu:PlaintextExport--Confirmation--Header": {
+    "messageformat": "Exportera chatthistorik?"
+  },
+  "icu:PlaintextExport--Confirmation--Description": {
+    "messageformat": "<bold>VAR FÖRSIKTIG!</bold> Dela INTE den här filen med någon. Din chatthistorik sparas på din dator och andra appar kan komma åt den beroende på din dators behörigheter."
+  },
+  "icu:PlaintextExport--Confirmation--IncludeMedia": {
+    "messageformat": "Inkludera media <secondary>(större filstorlek)</secondary>"
+  },
+  "icu:PlaintextExport--Confirmation--ContinueButton": {
+    "messageformat": "Fortsätt"
+  },
+  "icu:PlaintextExport--Confirmation--WaitingLabel": {
+    "messageformat": "Väntar på inmatning"
+  },
+  "icu:PlaintextExport--OSPrompt--Mac": {
+    "messageformat": "exportera din chatthistorik"
+  },
+  "icu:PlaintextExport--OSPrompt--Windows": {
+    "messageformat": "Verifiera din identitet för att exportera din chatthistorik."
+  },
+  "icu:PlaintextExport--OSPrompt--description--Linux": {
+    "messageformat": "Exportera"
+  },
+  "icu:PlaintextExport--OSPrompt--message--Linux": {
+    "messageformat": "Autentisering krävs för att exportera din chatthistorik."
+  },
+  "icu:PlaintextExport--ProgressDialog--Header": {
+    "messageformat": "Exporterar chatthistorik"
+  },
+  "icu:PlaintextExport--ProgressDialog--Progress": {
+    "messageformat": "Exporterar {currentBytes} av {totalBytes} ({percentage,number,percent}) …"
+  },
+  "icu:PlaintextExport--ProgressDialog--TimeWarning": {
+    "messageformat": "Detta kan ta några minuter"
+  },
+  "icu:PlaintextExport--CompleteDialog--Header": {
+    "messageformat": "Exporten är klar"
+  },
+  "icu:PlaintextExport--CompleteDialog--Description": {
+    "messageformat": "<bold>VAR FÖRSIKTIG</bold> med var du lagrar din chatt-exportfil och dela den inte med någon. Andra appar på din dator kan komma åt den beroende på datorns behörigheter. "
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Mac": {
+    "messageformat": "Visa i Finder"
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Linux": {
+    "messageformat": "Visa i mapp"
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Windows": {
+    "messageformat": "Visa i mapp"
+  },
+  "icu:PlaintextExport--Error--General--Title": {
+    "messageformat": "Det gick inte att exportera chatthistoriken"
+  },
+  "icu:PlaintextExport--Error--General--Description": {
+    "messageformat": "Ett fel uppstod och din chatthistorik kunde inte exporteras."
+  },
+  "icu:PlaintextExport--Error--NotEnoughStorage--Title": {
+    "messageformat": "Det finns inte tillräckligt med lagringsutrymme"
+  },
+  "icu:PlaintextExport--Error--NotEnoughStorage--Detail": {
+    "messageformat": "Din chatthistorik kan inte exporteras eftersom din dator inte har tillräckligt med ledigt lagringsutrymme. Frigör {bytes} utrymme och försök sedan igen."
+  },
+  "icu:PlaintextExport--Error--RanOutOfStorage--Title": {
+    "messageformat": "Det gick inte att exportera chatthistoriken"
+  },
+  "icu:PlaintextExport--Error--RanOutOfStorage--Detail": {
+    "messageformat": "Din chatthistorik kunde inte exporteras eftersom din dator inte har tillräckligt med ledigt lagringsutrymme. Frigör {bytes} utrymme och försök sedan igen."
+  },
+  "icu:PlaintextExport--Error--DiskPermssions--Title": {
+    "messageformat": "Det går inte att exportera chatthistoriken"
+  },
+  "icu:PlaintextExport--Error--DiskPermssions--Detail": {
+    "messageformat": "Din chatthistorik kan inte exporteras eftersom Signal inte har behörighet att skriva filer till disk. Försök att ändra diskens behörigheter eller uppdatera dina systeminställningar och exportera sedan igen."
+  },
+  "icu:LocalBackupExport--ProgressDialog--Header": {
+    "messageformat": "Exporterar säkerhetskopia"
+  },
+  "icu:LocalBackupExport--CompleteDialog--Header": {
+    "messageformat": "Export av säkerhetskopia har slutförts"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
+    "messageformat": "För att återställa den här säkerhetskopian:"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
+    "messageformat": "Överför din säkerhetskopiamapp till telefonens lagringsutrymme"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
+    "messageformat": "Installera en ny kopia av Signal på din telefon"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
+    "messageformat": "Tryck på \"Återställ eller överför\" och välj \"Säkerhetskopiering på enheten\""
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Månikon"
@@ -5711,6 +6207,18 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Klar"
   },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
+    "messageformat": "visa din säkerhetskopieringsnyckel"
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
+    "messageformat": "Verifiera din identitet för att se din säkerhetskopieringsnyckel."
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
+    "messageformat": "Visa säkerhetskopieringsnyckel"
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
+    "messageformat": "Autentisering krävs för att visa din säkerhetskopieringsnyckel."
+  },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Textruta för säkerhetskopieringsnyckel"
   },
@@ -5741,6 +6249,15 @@
   "icu:Preferences--local-backups-see-backup-key-again": {
     "messageformat": "Visa nyckel igen"
   },
+  "icu:Preferences__local-backups-last-backup": {
+    "messageformat": "Senaste säkerhetskopia"
+  },
+  "icu:Preferences__local-backups-last-backup-never": {
+    "messageformat": "Aldrig"
+  },
+  "icu:Preferences__local-backups-backup-now": {
+    "messageformat": "Säkerhetskopiera nu"
+  },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Mapp för säkerhetskopior"
   },
@@ -5752,6 +6269,18 @@
   },
   "icu:Preferences__local-backups-copied-key": {
     "messageformat": "Säkerhetskopieringsnyckel kopierad"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt--mac": {
+    "messageformat": "Aktivera säkerhetskopior"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt--windows": {
+    "messageformat": "Verifiera din identitet för att aktivera säkerhetskopior."
+  },
+  "icu:Preferences__local-backups--enable--os-prompt-description--linux": {
+    "messageformat": "Aktivera säkerhetskopior"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
+    "messageformat": "Autentisering krävs för att aktivera säkerhetskopior."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Visa nyckel"
@@ -6741,6 +7270,9 @@
   "icu:MessageMetadata__edited": {
     "messageformat": "Redigerad"
   },
+  "icu:MessageMetadata__pinned": {
+    "messageformat": "Nålade"
+  },
   "icu:DraftGifMessageSendModal__Title": {
     "messageformat": "Lägg till ett meddelande"
   },
@@ -6754,7 +7286,7 @@
     "messageformat": "Redigeringshistorik"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Kopiera tidsstämpel"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Denna redigering kunde inte skickas. Kontrollera din anslutning och försök igen"
@@ -7002,11 +7534,11 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "Vad är nytt"
   },
-  "icu:PreferencesDonations__title": {
-    "messageformat": "Integritet före profit"
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "Stolt ideell organisation"
   },
-  "icu:PreferencesDonations__description": {
-    "messageformat": "Privata meddelanden, finansierade av dig. Inga annonser, ingen spårning, ingen kompromiss. Donera nu för att stödja Signal. <readMoreLink>Läs mer</readMoreLink>"
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "Donera för att stödja privata meddelanden. Håll Signal oberoende och reklamfritt. <readMoreLink>Läs mer</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Donera"
@@ -7031,6 +7563,21 @@
   },
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal samlar inte in eller lagrar någon av dina personuppgifter när du gör en donation.</paragraph><paragraph>Vi använder Stripe som vår betalningstjänst för att ta emot dina donationer. Vi kommer varken åt, lagrar eller sparar någon av de uppgifter du lämnar till dem.</paragraph><paragraph>Signal kopplar inte och kan inte koppla din donation till ditt Signal-konto.</paragraph><paragraph>Tack för ditt stöd!</paragraph>"
+  },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "Som en oberoende ideell organisation är Signal engagerad i privata meddelanden och samtal. Inga annonser, inga spårare, ingen övervakning. Donera idag för att stödja Signal."
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Få ett valfritt märke på din profil när du donerar"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "Din integritet är vårt uppdrag"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal är en ideell organisation."
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Hjärtikon i stil med Signal-logotypen"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "OK"
@@ -7122,6 +7669,15 @@
   "icu:DonateFlow__discard-dialog-remove-info": {
     "messageformat": "Ta bort information"
   },
+  "icu:DonateFlow__discard-paypal-dialog-body": {
+    "messageformat": "Om du lämnar kommer din donation att annulleras."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Lämna"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Stanna kvar på sidan"
+  },
   "icu:DonateFlow__continue": {
     "messageformat": "Fortsätt"
   },
@@ -7167,6 +7723,15 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Du har en pågående donation som kräver bekräftelse."
   },
+  "icu:Donations__Toast__PaypalConfirmationNeeded": {
+    "messageformat": "Du har en pågående donation som kräver bekräftelse."
+  },
+  "icu:Donations__Toast__PaypalCanceled": {
+    "messageformat": "PayPal-donation avbruten"
+  },
+  "icu:Donations__Toast__PaypalError": {
+    "messageformat": "Fel vid bearbetning av PayPal-donation. Ingen betalning har dragits."
+  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Donationen lyckades, men vi kunde inte uppdatera dina märkesinställningar"
   },
@@ -7182,11 +7747,41 @@
   "icu:Donations__DonationInterrupted__RetryButton": {
     "messageformat": "Försök igen"
   },
+  "icu:Donations__PaymentMethod": {
+    "messageformat": "Betalningsmetod"
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Betalningsmetod avvisad"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "Försök med en annan betalningsmetod eller kontakta din bank för mer information."
+  },
+  "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
+    "messageformat": "Ikon för betalkort"
+  },
+  "icu:DonateFlow__CreditOrDebitCard": {
+    "messageformat": "Betalkort"
+  },
+  "icu:DonateFlow__Paypal__AccessibilityLabel": {
+    "messageformat": "PayPal"
+  },
+  "icu:DonateFlow__Paypal__Cancel": {
+    "messageformat": "Avbryt"
+  },
+  "icu:DonateFlow__Paypal__CompleteDonation": {
+    "messageformat": "Slutför donation"
+  },
+  "icu:Donations__PaypalCanceled": {
+    "messageformat": "PayPal-donation avbruten"
+  },
+  "icu:Donations__PaypalCanceled__Description": {
+    "messageformat": "Ingen betalning har dragits. Försök igen eller använd en annan betalningsmetod."
+  },
+  "icu:Donations__PaypalError": {
+    "messageformat": "Fel vid bearbetning av PayPal-donation"
+  },
+  "icu:Donations__PaypalError__Description": {
+    "messageformat": "Ingen betalning har dragits. Försök igen eller använd en annan betalningsmetod."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Verifiering misslyckades"
@@ -7248,6 +7843,114 @@
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "Du kan justera detta på din mobila enhet under Inställningar → Donera till Signal → Märken"
   },
+  "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
+    "messageformat": "Stäng"
+  },
+  "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
+    "messageformat": "Tillbaka"
+  },
+  "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
+    "messageformat": "Hur var ditt samtal?"
+  },
+  "icu:CallQualitySurvey__HowWasYourCall__PageDescription": {
+    "messageformat": "Detta hjälper oss att förbättra samtal i Signal. Ingen personligt identifierbar information kommer att lagras."
+  },
+  "icu:CallQualitySurvey__HowWasYourCall__Response__HadIssues": {
+    "messageformat": "Hade problem"
+  },
+  "icu:CallQualitySurvey__HowWasYourCall__Response__Great": {
+    "messageformat": "Bra"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__PageTitle": {
+    "messageformat": "Vilka problem hade du?"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__IssuesList__Heading": {
+    "messageformat": "Markera alla som gäller"
+  },
+  "icu:CallQualitySurvey__Issue--AUDIO": {
+    "messageformat": "Ljudproblem"
+  },
+  "icu:CallQualitySurvey__Issue--AUDIO_STUTTERING": {
+    "messageformat": "Ljudet hackar"
+  },
+  "icu:CallQualitySurvey__Issue--AUDIO_LOCAL_ECHO": {
+    "messageformat": "Jag hörde eko"
+  },
+  "icu:CallQualitySurvey__Issue--AUDIO_REMOTE_ECHO": {
+    "messageformat": "Andra hörde eko"
+  },
+  "icu:CallQualitySurvey__Issue--AUDIO_DROP": {
+    "messageformat": "Ljudavbrott"
+  },
+  "icu:CallQualitySurvey__Issue--VIDEO": {
+    "messageformat": "Videoproblem"
+  },
+  "icu:CallQualitySurvey__Issue--VIDEO_NO_CAMERA": {
+    "messageformat": "Kameran fungerade inte"
+  },
+  "icu:CallQualitySurvey__Issue--VIDEO_LOW_QUALITY": {
+    "messageformat": "Dålig videokvalitet"
+  },
+  "icu:CallQualitySurvey__Issue--VIDEO_LOW_RESOLUTION": {
+    "messageformat": "Låg upplösning"
+  },
+  "icu:CallQualitySurvey__Issue--CALL_DROPPED": {
+    "messageformat": "Samtalet avbröts"
+  },
+  "icu:CallQualitySurvey__Issue--OTHER": {
+    "messageformat": "Något annat"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
+    "messageformat": "Problembeskrivning"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
+    "messageformat": "Inkludera alla detaljer som är relevanta för problemet. Allt du delar här kommer att hållas privat och kommer endast att användas för att förbättra samtal i Signal."
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
+    "messageformat": "Beskriv ditt problem"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
+    "messageformat": "Fortsätt"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
+    "messageformat": "Gör ett val för att fortsätta"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
+    "messageformat": "Hjälp oss att förbättra oss"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
+    "messageformat": "När du skickar in delas din feedback tillsammans med <diagnosticInfoLink>diagnostisk information om ditt samtal</diagnosticInfoLink>. Du kan välja att dela en felsökningslogg för att hjälpa oss att förbättra samtalskvaliteten."
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
+    "messageformat": "Dela felsökningslogg"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
+    "messageformat": "Visa"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
+    "messageformat": "Information som delas med oss innehåller appinformation på låg nivå och inkluderar inte innehållet i dina samtal."
+  },
+  "icu:CallDiagnosticWindow__title": {
+    "messageformat": "Diagnostisk information"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
+    "messageformat": "Skicka"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
+    "messageformat": "Skickar in undersökning …"
+  },
+  "icu:CallQualitySurvey__SubmissionFailed": {
+    "messageformat": "Det gick inte att skicka in undersökningen"
+  },
+  "icu:CallQualitySurvey__SubmissionFailed__Retry": {
+    "messageformat": "Försök igen"
+  },
+  "icu:CallQualitySurvey__SubmissionSuccess": {
+    "messageformat": "Tack för din feedback!"
+  },
+  "icu:Megaphone__ExpandNarrowSidebar": {
+    "messageformat": "Expandera sidofältet för att interagera med megafonen"
+  },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Den här versionen innehåller ett antal små justeringar och felrättningar för att Signal ska fungera smidigt.",
     "ignoreUnused": true
@@ -7276,31 +7979,17 @@
     "messageformat": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.76": {
-    "messageformat": "Skapa anpassade aviseringsprofiler för att styra vilka personer och grupper du får aviseringar från när profilen är aktiverad."
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "Fem nya officiella klistermärkespaket för artister."
   },
-  "icu:WhatsNew__7.77-1": {
-    "messageformat": "Nu kan du organisera dina chattar i unika mappar som är lätta att anpassa och ordna om. Använd chattmappar för att visa olästa meddelanden från dina favoritpersoner, filtrera efter chattyp (en-till-en och grupper), eller skapa separata mappar som ”Personligt” och ”Arbete” så att du snabbt kan se de meddelanden som är relevanta för dig."
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Signals säkra säkerhetskopior är här! Nu kan du välja att aktivera automatiska säkerhetskopior med totalsträckskryptering, så att du aldrig förlorar ett meddelande när du skaffar en ny telefon eller installerar om Signal. Du kan säkerhetskopiera alla dina meddelanden och de senaste 45 dagarnas media gratis, eller så kan du betala en liten månadsavgift för att få 100 GB lagringsutrymme för att säkerhetskopiera varje bilaga. Tryck på Säkerhetskopior i dina Signal-inställningar för att komma igång. Tack till alla som hjälpte till att testa den här funktionen under betaperioden!"
   },
-  "icu:WhatsNew__7.77-2": {
-    "messageformat": "Den här uppdateringen innehåller även en buggfix för ett problem som förhindrade att länkförhandsgranskningar genererades när meddelandet även innehöll emoji-tecken. Tack, <elias6></elias6>"
+  "icu:WhatsNew__8.2--0": {
+    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
   },
-  "icu:WhatsNew__7.78-1": {
-    "messageformat": "Tillgänglighetsförbättringar"
-  },
-  "icu:WhatsNew__7.78-2": {
-    "messageformat": "Vi har också åtgärdat ett fel som kunde förhindra att aviseringar visades i Windows."
-  },
-  "icu:WhatsNew__7.79-1": {
-    "messageformat": "Vi har uppdaterat utseendet på rullningslisterna i hela appen för att göra dem mer visuellt enhetliga."
-  },
-  "icu:WhatsNew__7.79-2": {
-    "messageformat": "Förbättringar av formateringen vid kopiering och inklistring. Tack, @brianHarder!"
-  },
-  "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal-omröstningar är här! Omröstningar är ett enkelt sätt att se vad din gruppchatt verkligen tycker. Skapa en omröstning med olika middagsalternativ eller andra viktiga val. Alla i gruppen kan rösta och se varandras svar, och du kan bestämma om du vill tillåta flera röster eller inte."
-  },
-  "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+  "icu:WhatsNew__8.3--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "ignoreUnused": true
   }
 }

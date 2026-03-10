@@ -20,6 +20,6 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return <DonationStillProcessingModal {...defaultProps} />;
 }

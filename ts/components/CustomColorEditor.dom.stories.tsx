@@ -21,6 +21,6 @@ const createProps = (): PropsType => ({
   onSave: action('onSave'),
 });
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return <CustomColorEditor {...createProps()} />;
 }

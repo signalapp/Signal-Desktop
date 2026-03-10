@@ -38,6 +38,8 @@ import {
   decryptAttachmentV1,
   padAndEncryptAttachment,
   CipherType,
+  encryptDeviceCreatedAt,
+  decryptDeviceCreatedAt,
 } from '../Crypto.node.js';
 import {
   _generateAttachmentIv,
@@ -55,7 +57,7 @@ import {
   getAesCbcCiphertextSize,
   getAttachmentCiphertextSize,
 } from '../util/AttachmentCrypto.std.js';
-import { getPath } from '../windows/main/attachments.preload.js';
+import { getAttachmentsPath } from '../windows/main/attachments.preload.js';
 import { MediaTier } from '../types/AttachmentDownload.std.js';
 import { deriveAccessKeyFromProfileKey } from '../util/zkgroup.node.js';
 
@@ -389,6 +391,30 @@ describe('Crypto', () => {
     });
   });
 
+  describe('encrypted device createdAt', () => {
+    it('roundtrips', () => {
+      const deviceId = 2;
+      const registrationId = 123;
+      const identityKey = Curve.generateKeyPair();
+      const createdAt = new Date().getTime();
+
+      const encrypted = encryptDeviceCreatedAt(
+        createdAt,
+        deviceId,
+        registrationId,
+        identityKey.publicKey
+      );
+      const decrypted = decryptDeviceCreatedAt(
+        encrypted,
+        deviceId,
+        registrationId,
+        identityKey.privateKey
+      );
+
+      assert.strictEqual(decrypted, createdAt);
+    });
+  });
+
   describe('verifyHmacSha256', () => {
     it('rejects if their MAC is too short', () => {
       const key = getRandomBytes(32);
@@ -619,7 +645,9 @@ describe('Crypto', () => {
 
     describe('decryptAttachmentV2ToSink', () => {
       afterEach(async () => {
-        await emptyDir(getPath(window.SignalContext.config.userDataPath));
+        await emptyDir(
+          getAttachmentsPath(window.SignalContext.config.userDataPath)
+        );
       });
 
       it('throws if digest is wrong', async () => {

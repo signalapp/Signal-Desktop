@@ -27,6 +27,7 @@ import { retryPlaceholders } from '../../services/retryPlaceholders.std.js';
 import type { LoggerType } from '../../types/Logging.std.js';
 import { startAutomaticSessionReset } from '../../util/handleRetry.preload.js';
 import * as Bytes from '../../Bytes.std.js';
+import { getSelectedConversationId } from '../../state/selectors/nav.std.js';
 
 function failoverToLocalReset(
   logger: LoggerType,
@@ -125,8 +126,9 @@ export async function sendResendRequest(
     if (contentHint === ContentHint.Resendable) {
       log.info('contentHint is RESENDABLE, adding placeholder');
 
-      const state = window.reduxStore.getState();
-      const selectedId = state.conversations.selectedConversationId;
+      const selectedId = getSelectedConversationId(
+        window.reduxStore.getState()
+      );
       const wasOpened = selectedId === targetConversationId;
 
       await retryPlaceholders.add({

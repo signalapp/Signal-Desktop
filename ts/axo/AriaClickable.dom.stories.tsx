@@ -85,7 +85,7 @@ function CardButton(props: {
   );
 }
 
-export function Basic(): JSX.Element | null {
+export function Basic(): React.JSX.Element | null {
   return (
     <Card>
       <CardContent>

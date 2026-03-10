@@ -17,8 +17,8 @@ export function BackupMediaDownloadCancelConfirmationDialog({
   i18n: LocalizerType;
   handleConfirmCancel: VoidFunction;
   handleDialogClose: VoidFunction;
-}): JSX.Element | null {
-  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
+}): React.JSX.Element | null {
+  const learnMoreLink = (parts: Array<string | React.JSX.Element>) => (
     <a href={BACKUP_AND_RESTORE_SUPPORT_PAGE} rel="noreferrer" target="_blank">
       {parts}
     </a>

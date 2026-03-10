@@ -3,6 +3,7 @@
 import React, { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 
+import type { RenderingContextType } from '../../types/RenderingContext.d.ts';
 import { MessageAudio } from '../../components/conversation/MessageAudio.dom.js';
 import type { OwnProps as MessageAudioOwnProps } from '../../components/conversation/MessageAudio.dom.js';
 import type { ActiveAudioPlayerStateType } from '../ducks/audioPlayer.preload.js';
@@ -14,17 +15,15 @@ import {
   selectAudioPlayerActive,
   selectVoiceNoteAndConsecutive,
 } from '../selectors/audioPlayer.preload.js';
-import { useConversationsActions } from '../ducks/conversations.preload.js';
 import { createLogger } from '../../logging/log.std.js';
-import {
-  getConversationByIdSelector,
-  getSelectedConversationId,
-} from '../selectors/conversations.dom.js';
+import { getConversationByIdSelector } from '../selectors/conversations.dom.js';
+import { getSelectedConversationId } from '../selectors/nav.std.js';
+import { useNavActions } from '../ducks/nav.std.js';
 
 const log = createLogger('MessageAudio');
 
 export type Props = Omit<MessageAudioOwnProps, 'active' | 'onPlayMessage'> & {
-  renderingContext: string;
+  renderingContext: RenderingContextType;
 };
 
 export const SmartMessageAudio = memo(function SmartMessageAudio({
@@ -34,7 +33,7 @@ export const SmartMessageAudio = memo(function SmartMessageAudio({
   const active = useSelector(selectAudioPlayerActive);
   const { loadVoiceNoteAudio, setIsPlaying, setPlaybackRate, setPosition } =
     useAudioPlayerActions();
-  const { pushPanelForConversation } = useConversationsActions();
+  const { pushPanelForConversation } = useNavActions();
 
   const getVoiceNoteData = useSelector(selectVoiceNoteAndConsecutive);
   const getConversationById = useSelector(getConversationByIdSelector);

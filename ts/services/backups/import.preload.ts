@@ -134,10 +134,7 @@ import {
   fromAdminKeyBytes,
   toCallHistoryFromUnusedCallLink,
 } from '../../util/callLinks.std.js';
-import {
-  getRoomIdFromRootKey,
-  fromEpochBytes,
-} from '../../util/callLinksRingrtc.node.js';
+import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc.node.js';
 import { loadAllAndReinitializeRedux } from '../allLoaders.preload.js';
 import {
   startBackupMediaDownload,
@@ -166,6 +163,10 @@ import { updateBackupMediaDownloadProgress } from '../../util/updateBackupMediaD
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { ChatFolderType } from '../../types/ChatFolder.std.js';
 import type { ChatFolderId, ChatFolder } from '../../types/ChatFolder.std.js';
+import { expiresTooSoonForBackup } from './util/expiration.std.js';
+import { getPinnedMessagesLimit } from '../../util/pinnedMessages.dom.js';
+import type { PinnedMessageParams } from '../../types/PinnedMessage.std.js';
+import type { ThemeType } from '../../util/preload.preload.js';
 
 const { isNumber } = lodash;
 
@@ -275,7 +276,7 @@ export class BackupImportStream extends Writable {
   #customColorById = new Map<number, CustomColorDataType>();
   #releaseNotesRecipientId: Long | undefined;
   #releaseNotesChatId: Long | undefined;
-  #pendingGroupAvatars = new Map<string, string>();
+  #pinnedMessages: Array<PinnedMessageParams> = [];
   #frameErrorCount: number = 0;
   #backupTier: BackupLevel | undefined;
 
@@ -371,6 +372,23 @@ export class BackupImportStream extends Writable {
       await this.#flushConversations();
       log.info(`${this.#logId}: flushed messages and conversations`);
 
+      // Save pinned messages after messages
+      const pinnedMessageLimit = getPinnedMessagesLimit();
+      const sortedPinnedMessages = this.#pinnedMessages.toSorted((a, b) => {
+        return a.pinnedAt - b.pinnedAt;
+      });
+      for (const params of sortedPinnedMessages) {
+        try {
+          // eslint-disable-next-line no-await-in-loop
+          await DataWriter.appendPinnedMessage(pinnedMessageLimit, params);
+        } catch (error) {
+          log.error(
+            `${this.#logId}: failed to append pinned message`,
+            Errors.toLogFormat(error)
+          );
+        }
+      }
+
       // Store sticker packs and schedule downloads
       await createPacksFromBackup(this.#stickerPacks);
 
@@ -400,7 +418,19 @@ export class BackupImportStream extends Writable {
       // conversation's last message, which uses redux selectors)
       await loadAllAndReinitializeRedux();
 
-      const allConversations = window.ConversationController.getAll();
+      const allConversations = window.ConversationController.getAll().sort(
+        (convoA, convoB) => {
+          if (convoA.get('isPinned')) {
+            return -1;
+          }
+          if (convoB.get('isPinned')) {
+            return 1;
+          }
+          return (
+            (convoB.get('active_at') ?? 0) - (convoA.get('active_at') ?? 0)
+          );
+        }
+      );
 
       // Update last message in every active conversation now that we have
       // them loaded into memory.
@@ -423,12 +453,21 @@ export class BackupImportStream extends Writable {
 
       // Schedule group avatar download.
       await pMap(
-        [...this.#pendingGroupAvatars.entries()],
-        async ([conversationId, newAvatarUrl]) => {
+        allConversations,
+        async conversation => {
           if (this.options.type === 'cross-client-integration-test') {
             return;
           }
-          await groupAvatarJobQueue.add({ conversationId, newAvatarUrl });
+          if (
+            !isGroup(conversation.attributes) ||
+            !conversation.get('remoteAvatarUrl')
+          ) {
+            return;
+          }
+          await groupAvatarJobQueue.add({
+            conversationId: conversation.get('id'),
+            newAvatarUrl: conversation.get('remoteAvatarUrl'),
+          });
         },
         { concurrency: MAX_CONCURRENCY }
       );
@@ -690,11 +729,16 @@ export class BackupImportStream extends Writable {
         const conversation = this.#conversations.get(attributes.conversationId);
         if (conversation && isConversationAccepted(conversation)) {
           const model = new MessageModel(attributes);
+          const attachmentsAreLikelyExpired = expiresTooSoonForBackup({
+            messageExpiresAt: calculateExpirationTimestamp(attributes) ?? null,
+          });
+
           attachmentDownloadJobPromises.push(
             queueAttachmentDownloads(model, {
-              source: this.#isMediaEnabledBackup()
-                ? AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA
-                : AttachmentDownloadSource.BACKUP_IMPORT_NO_MEDIA,
+              source:
+                this.#isMediaEnabledBackup() && !attachmentsAreLikelyExpired
+                  ? AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA
+                  : AttachmentDownloadSource.BACKUP_IMPORT_NO_MEDIA,
               isManualDownload: false,
             })
           );
@@ -725,6 +769,7 @@ export class BackupImportStream extends Writable {
     androidSpecificSettings,
     bioText,
     bioEmoji,
+    keyTransparencyData,
   }: Backups.IAccountData): Promise<void> {
     strictAssert(this.#ourConversation === undefined, 'Duplicate AccountData');
     const me = {
@@ -765,6 +810,15 @@ export class BackupImportStream extends Writable {
     }
     if (bioEmoji != null) {
       me.aboutEmoji = bioEmoji;
+    }
+    if (Bytes.isNotEmpty(keyTransparencyData)) {
+      const ourAci = this.#ourConversation?.serviceId;
+      strictAssert(
+        isAciString(ourAci),
+        'Must have our aci for Key Transparency data'
+      );
+
+      await DataWriter.setKTAccountData(ourAci, keyTransparencyData);
     }
     if (avatarUrlPath != null) {
       await itemStorage.put('avatarUrl', avatarUrlPath);
@@ -838,6 +892,10 @@ export class BackupImportStream extends Writable {
       'hasStoriesDisabled',
       accountSettings?.storiesDisabled === true
     );
+    await itemStorage.put(
+      'hasKeyTransparencyDisabled',
+      accountSettings?.allowAutomaticKeyVerification !== true
+    );
 
     // an undefined value for storyViewReceiptsEnabled is semantically different from
     // false: it causes us to fallback to `read-receipt-setting`
@@ -855,12 +913,20 @@ export class BackupImportStream extends Writable {
       accountSettings?.hasSeenGroupStoryEducationSheet === true
     );
     await itemStorage.put(
+      'hasSeenAdminDeleteEducationDialog',
+      accountSettings?.hasSeenAdminDeleteEducationDialog === true
+    );
+    await itemStorage.put(
       'preferredReactionEmoji',
       accountSettings?.preferredReactionEmoji || []
     );
     if (svrPin) {
       await itemStorage.put('svrPin', svrPin);
     }
+
+    await window.Events.setThemeSetting(
+      toThemeSetting(accountSettings?.appTheme)
+    );
 
     if (isTestOrMockEnvironment()) {
       // Only relevant for tests
@@ -875,6 +941,15 @@ export class BackupImportStream extends Writable {
       await itemStorage.put(
         'screenLockTimeoutMinutes',
         dropNull(accountSettings?.screenLockTimeoutMinutes)
+      );
+
+      await itemStorage.put(
+        'callsUseLessDataSetting',
+        accountSettings?.callsUseLessDataSetting
+      );
+      await itemStorage.put(
+        'allowSealedSenderFromAnyone',
+        accountSettings?.allowSealedSenderFromAnyone
       );
 
       const autoDownload = accountSettings?.autoDownloadSettings;
@@ -1092,6 +1167,15 @@ export class BackupImportStream extends Writable {
       }
     }
 
+    if (Bytes.isNotEmpty(contact.keyTransparencyData)) {
+      strictAssert(
+        isAciString(serviceId),
+        'Must have contact aci for Key Transparency data'
+      );
+
+      await DataWriter.setKTAccountData(serviceId, contact.keyTransparencyData);
+    }
+
     return attrs;
   }
 
@@ -1155,6 +1239,7 @@ export class BackupImportStream extends Writable {
             url: avatarUrl,
           }
         : undefined,
+      remoteAvatarUrl: dropNull(avatarUrl),
       color: fromAvatarColor(group.avatarColor),
       colorFromPrimary: dropNull(group.avatarColor),
 
@@ -1178,18 +1263,22 @@ export class BackupImportStream extends Writable {
               SignalService.AccessControl.AccessRequired.UNKNOWN,
           }
         : undefined,
-      membersV2: members?.map(({ userId, role, joinedAtVersion }) => {
-        strictAssert(Bytes.isNotEmpty(userId), 'Empty gv2 member userId');
+      membersV2: members?.map(
+        ({ joinedAtVersion, labelEmoji, labelString, role, userId }) => {
+          strictAssert(Bytes.isNotEmpty(userId), 'Empty gv2 member userId');
 
-        // Note that we deliberately ignore profile key since it has to be
-        // in the Contact frame
+          // Note that we deliberately ignore profile key since it has to be
+          // in the Contact frame
 
-        return {
-          aci: fromAciObject(Aci.fromUuidBytes(userId)),
-          role: dropNull(role) ?? SignalService.Member.Role.UNKNOWN,
-          joinedAtVersion: dropNull(joinedAtVersion) ?? 0,
-        };
-      }),
+          return {
+            aci: fromAciObject(Aci.fromUuidBytes(userId)),
+            joinedAtVersion: dropNull(joinedAtVersion) ?? 0,
+            labelEmoji: dropNull(labelEmoji),
+            labelString: dropNull(labelString),
+            role: dropNull(role) ?? SignalService.Member.Role.UNKNOWN,
+          };
+        }
+      ),
       pendingMembersV2: membersPendingProfileKey?.map(
         ({ member, addedByUserId, timestamp }) => {
           strictAssert(member != null, 'Missing gv2 pending member');
@@ -1252,9 +1341,7 @@ export class BackupImportStream extends Writable {
         : undefined,
       announcementsOnly: dropNull(announcementsOnly),
     };
-    if (avatarUrl) {
-      this.#pendingGroupAvatars.set(attrs.id, avatarUrl);
-    }
+
     if (group.blocked) {
       await itemStorage.blocked.addBlockedGroup(groupId);
     }
@@ -1365,7 +1452,6 @@ export class BackupImportStream extends Writable {
   ): Promise<void> {
     const {
       rootKey: rootKeyBytes,
-      epoch,
       adminKey,
       name,
       restrictions,
@@ -1380,7 +1466,6 @@ export class BackupImportStream extends Writable {
     const callLink: CallLinkType = {
       roomId: getRoomIdFromRootKey(rootKey),
       rootKey: rootKey.toString(),
-      epoch: epoch?.length ? fromEpochBytes(epoch) : null,
       adminKey: adminKey?.length ? fromAdminKeyBytes(adminKey) : null,
       name,
       restrictions: fromCallLinkRestrictionsProto(restrictions),
@@ -1740,6 +1825,32 @@ export class BackupImportStream extends Writable {
       chatConvo.sentMessageCount = (chatConvo.sentMessageCount ?? 0) + 1;
     } else if (item.incoming != null) {
       chatConvo.messageCount = (chatConvo.messageCount ?? 0) + 1;
+    }
+
+    if (item.pinDetails != null) {
+      strictAssert(
+        item.pinDetails.pinnedAtTimestamp != null,
+        'pinDetails: Missing pinnedAtTimestamp'
+      );
+      const pinnedAt = item.pinDetails.pinnedAtTimestamp.toNumber();
+
+      let expiresAt: number | null;
+      if (item.pinDetails.pinExpiresAtTimestamp != null) {
+        expiresAt = item.pinDetails.pinExpiresAtTimestamp.toNumber();
+      } else {
+        strictAssert(
+          item.pinDetails.pinNeverExpires === true,
+          'pinDetails: pinNeverExpires should be true if theres no pinExpiresAtTimestamp'
+        );
+        expiresAt = null;
+      }
+
+      this.#pinnedMessages.push({
+        conversationId: chatConvo.id,
+        messageId: attributes.id,
+        pinnedAt,
+        expiresAt,
+      });
     }
 
     await this.#updateConversation(chatConvo);
@@ -2453,6 +2564,32 @@ export class BackupImportStream extends Writable {
         additionalMessages: [],
       };
     }
+    if (chatItem.adminDeletedMessage) {
+      strictAssert(
+        chatItem.adminDeletedMessage.adminId != null,
+        'adminDeletedMessage: Missing adminId'
+      );
+      const adminConversation = this.#recipientIdToConvo.get(
+        chatItem.adminDeletedMessage.adminId.toNumber()
+      );
+      strictAssert(
+        adminConversation != null,
+        'adminDeletedMessage: Missing admin conversation'
+      );
+      strictAssert(
+        isAciString(adminConversation.serviceId),
+        'adminConversation: Missing serviceId'
+      );
+
+      return {
+        message: {
+          isErased: true,
+          deletedForEveryone: true,
+          deletedForEveryoneByAdminAci: adminConversation.serviceId,
+        },
+        additionalMessages: [],
+      };
+    }
     if (chatItem.remoteDeletedMessage) {
       return {
         message: {
@@ -2843,8 +2980,43 @@ export class BackupImportStream extends Writable {
       };
     }
 
+    if (updateMessage.pinMessage) {
+      strictAssert(
+        updateMessage.pinMessage.authorId != null,
+        'pinMessage: Missing authorId'
+      );
+      const targetAuthor = this.#recipientIdToConvo.get(
+        updateMessage.pinMessage.authorId.toNumber()
+      );
+      strictAssert(targetAuthor != null, 'pinMessage: Missing target author');
+      const targetAuthorAci = targetAuthor.serviceId;
+      strictAssert(
+        isAciString(targetAuthorAci),
+        'pinMessage: Target author missing aci'
+      );
+
+      strictAssert(
+        updateMessage.pinMessage.targetSentTimestamp != null,
+        'pinMessage: Missing targetSentTimestamp'
+      );
+      const targetSentTimestamp =
+        updateMessage.pinMessage.targetSentTimestamp.toNumber();
+
+      return {
+        message: {
+          type: 'pinned-message-notification',
+          pinMessage: {
+            targetAuthorAci,
+            targetSentTimestamp,
+          },
+        },
+        additionalMessages: [],
+      };
+    }
+
     if (updateMessage.pollTerminate) {
-      log.info('Skipping pollTerminate update (not yet supported)');
+      // TODO (DESKTOP-9282)
+      log.warn('Skipping pollTerminate update (not yet supported)');
       return SKIP;
     }
 
@@ -2860,7 +3032,7 @@ export class BackupImportStream extends Writable {
     }
   ): Promise<ChatItemParseResult | undefined> {
     const { updates } = groupChange;
-    const { aboutMe, timestamp, author } = options;
+    const { aboutMe, timestamp } = options;
     const logId = `fromGroupUpdateMessage${timestamp}`;
 
     const details: Array<GroupV2ChangeDetailType> = [];
@@ -3373,13 +3545,9 @@ export class BackupImportStream extends Writable {
       if (update.groupExpirationTimerUpdate) {
         const { updaterAci, expiresInMs } = update.groupExpirationTimerUpdate;
         let sourceServiceId: AciString | undefined;
-        let source = author?.e164;
 
         if (Bytes.isNotEmpty(updaterAci)) {
           sourceServiceId = fromAciObject(Aci.fromUuidBytes(updaterAci));
-          if (sourceServiceId !== author?.serviceId) {
-            source = undefined;
-          }
         }
 
         const expireTimer = expiresInMs
@@ -3388,7 +3556,6 @@ export class BackupImportStream extends Writable {
         additionalMessages.push({
           type: 'timer-notification',
           sourceServiceId,
-          source,
           flags: SignalService.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
           expirationTimerUpdate: {
             expireTimer,
@@ -3777,16 +3944,21 @@ export class BackupImportStream extends Writable {
 
         const start = color.gradient.colors.at(0);
         const end = color.gradient.colors.at(-1);
-        const deg = color.gradient.angle;
+        const backupAngle = color.gradient.angle;
 
         strictAssert(start != null, 'Missing start color');
         strictAssert(end != null, 'Missing end color');
-        strictAssert(deg != null, 'Missing angle');
+        strictAssert(backupAngle != null, 'Missing angle');
+
+        // Desktop uses a different angle convention than the backup proto. Our degrees
+        // rotate in the opposite direction (sadly!) and our start is shifted by 90
+        // degrees
+        const desktopAngle = 360 - backupAngle - 90;
 
         value = {
           start: rgbIntToDesktopHSL(start),
           end: rgbIntToDesktopHSL(end),
-          deg,
+          deg: (desktopAngle + 360) % 360,
         };
       } else {
         log.error(
@@ -4142,4 +4314,19 @@ function fromAvatarColor(
     default:
       throw missingCaseError(color);
   }
+}
+
+function toThemeSetting(
+  theme: Backups.AccountData.AppTheme | undefined | null
+): ThemeType {
+  const ENUM = Backups.AccountData.AppTheme;
+
+  if (theme === ENUM.LIGHT) {
+    return 'light';
+  }
+  if (theme === ENUM.DARK) {
+    return 'dark';
+  }
+
+  return 'system';
 }

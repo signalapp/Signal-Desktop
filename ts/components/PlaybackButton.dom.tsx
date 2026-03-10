@@ -82,7 +82,7 @@ export const PlaybackButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
       [onClick]
     );
 
-    let content: JSX.Element | null = null;
+    let content: React.JSX.Element | null = null;
     const strokeWidth = variant === 'message' ? 2 : 1;
     if (mod === 'computing' || mod === 'downloading') {
       content = (

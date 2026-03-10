@@ -23,7 +23,7 @@ import { useI18n } from '../../contexts/I18n';
 import styles from './MetaStage.module.scss';
 import { AppStage } from './AppStage';
 
-export function MetaStage(): JSX.Element {
+export function MetaStage(): React.JSX.Element {
   const i18n = useI18n();
   const navigate = useNavigate();
   const dispatch = useDispatch();

@@ -12,7 +12,7 @@ import { getDraftGifMessageSendModalProps } from '../selectors/globalModals.std.
 import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
 import { useComposerActions } from '../ducks/composer.preload.js';
 import type { FunGifSelection } from '../../components/fun/panels/FunPanelGifs.dom.js';
-import { tenorDownload } from '../../components/fun/data/tenor.preload.js';
+import { fetchGiphyFile } from '../../components/fun/data/giphy.preload.js';
 import { drop } from '../../util/drop.std.js';
 import { processAttachment } from '../../util/processAttachment.preload.js';
 import { SignalService as Proto } from '../../protobuf/index.std.js';
@@ -101,7 +101,7 @@ export const SmartDraftGifMessageSendModal = memo(
       async function download() {
         setGifDownloadState({ loadingState: LoadingState.Loading });
         try {
-          const bytes = await tenorDownload(gifUrl, controller.signal);
+          const bytes = await fetchGiphyFile(gifUrl, controller.signal);
           const file = new File([bytes], 'gif.mp4', {
             type: 'video/mp4',
           });

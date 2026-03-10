@@ -50,22 +50,6 @@ const FILES_TO_IGNORE = new Set(
     'js/WebAudioRecorderMp3.js',
     'sticker-creator/src/util/protos.d.ts',
     'sticker-creator/src/util/protos.js',
-    // ignore calling developer tools licensing which use Chromium license
-    'calling_tools.html',
-    'js/calling-tools/assert.js',
-    'js/calling-tools/candidate_grid.js',
-    'js/calling-tools/data_series.js',
-    'js/calling-tools/dump_creator.js',
-    'js/calling-tools/peer_connection_update_table.js',
-    'js/calling-tools/stats_graph_helper.js',
-    'js/calling-tools/stats_helper.js',
-    'js/calling-tools/stats_rates_calculator.js',
-    'js/calling-tools/stats_table.js',
-    'js/calling-tools/tab_view.js',
-    'js/calling-tools/timeline_graph_view.js',
-    'js/calling-tools/user_media_table.js',
-    'js/calling-tools/util.js',
-    'js/calling-tools/webrtc_internals.dom.js',
   ].map(
     // This makes sure the files are correct on Windows.
     path.normalize

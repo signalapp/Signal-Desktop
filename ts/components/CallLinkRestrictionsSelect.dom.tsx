@@ -22,7 +22,7 @@ export function CallLinkRestrictionsSelect({
   id,
   value,
   onChange,
-}: CallLinkRestrictionsSelectProps): JSX.Element {
+}: CallLinkRestrictionsSelectProps): React.JSX.Element {
   return (
     <Select
       disabled={disabled}

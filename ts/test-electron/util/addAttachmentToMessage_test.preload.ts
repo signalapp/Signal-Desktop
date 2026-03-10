@@ -12,7 +12,7 @@ import { composeAttachment } from '../../test-node/util/queueAttachmentDownloads
 import { addAttachmentToMessage } from '../../messageModifiers/AttachmentDownloads.preload.js';
 import { getMessageById } from '../../messages/getMessageById.preload.js';
 import { MessageCache } from '../../services/MessageCache.preload.js';
-import { getPath } from '../../../app/attachments.node.js';
+import { getAttachmentsPath } from '../../../app/attachments.node.js';
 import { getAbsoluteAttachmentPath } from '../../util/migrations.preload.js';
 import { DataWriter } from '../../sql/Client.preload.js';
 import type { MessageAttributesType } from '../../model-types.js';
@@ -27,7 +27,9 @@ describe('addAttachmentToMessage', () => {
   });
 
   afterEach(async () => {
-    await emptyDir(getPath(window.SignalContext.config.userDataPath));
+    await emptyDir(
+      getAttachmentsPath(window.SignalContext.config.userDataPath)
+    );
   });
 
   async function saveMessage(
@@ -53,7 +55,9 @@ describe('addAttachmentToMessage', () => {
   }
 
   async function listAttachmentsOnDisk(): Promise<Array<string>> {
-    return readdir(getPath(window.SignalContext.config.userDataPath));
+    return readdir(
+      getAttachmentsPath(window.SignalContext.config.userDataPath)
+    );
   }
   it('replaces attachment on message', async () => {
     const attachment = composeAttachment({

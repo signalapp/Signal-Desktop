@@ -31,7 +31,7 @@ export const TooltipEventWrapper = React.forwardRef<
 >(function TooltipEvent(
   { className, onHoverChanged, children },
   ref
-): JSX.Element {
+): React.JSX.Element {
   const wrapperRef = React.useRef<HTMLSpanElement | null>(null);
 
   const on = React.useCallback(() => {
@@ -84,7 +84,7 @@ export enum TooltipPlacement {
 }
 
 export type PropsType = {
-  content: string | JSX.Element;
+  content: string | React.JSX.Element;
   className?: string;
   children?: React.ReactNode;
   direction?: TooltipPlacement;
@@ -110,7 +110,7 @@ export function Tooltip({
   wrapperClassName,
   delay,
   hideArrow,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const timeoutRef = useRef<NodeJS.Timeout | undefined>();
   const [active, setActive] = React.useState(false);
 

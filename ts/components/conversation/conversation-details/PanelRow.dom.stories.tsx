@@ -30,11 +30,11 @@ export default {
   },
 } satisfies Meta<Props>;
 
-export function Basic(args: Props): JSX.Element {
+export function Basic(args: Props): React.JSX.Element {
   return <PanelRow {...args} label="this is a panel row" />;
 }
 
-export function Simple(args: Props): JSX.Element {
+export function Simple(args: Props): React.JSX.Element {
   return (
     <PanelRow
       {...args}
@@ -45,7 +45,7 @@ export function Simple(args: Props): JSX.Element {
   );
 }
 
-export function Full(args: Props): JSX.Element {
+export function Full(args: Props): React.JSX.Element {
   return (
     <PanelRow
       {...args}
@@ -58,7 +58,7 @@ export function Full(args: Props): JSX.Element {
   );
 }
 
-export function Button(args: Props): JSX.Element {
+export function Button(args: Props): React.JSX.Element {
   return (
     <PanelRow
       {...args}

@@ -2,18 +2,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import Long from 'long';
 import { Pni } from '@signalapp/libsignal-client';
 import {
   ServiceIdKind,
   Proto,
   ReceiptType,
   StorageState,
+  EMPTY_DATA_MESSAGE,
 } from '@signalapp/mock-server';
 import createDebug from 'debug';
 
 import * as durations from '../../util/durations/index.std.js';
 import { uuidToBytes } from '../../util/uuidToBytes.std.js';
+import { toNumber } from '../../util/toNumber.std.js';
 import { MY_STORY_ID } from '../../types/Stories.std.js';
 import { Bootstrap } from '../bootstrap.node.js';
 import type { App } from '../bootstrap.node.js';
@@ -26,6 +27,7 @@ import {
   acceptConversation,
   expectSystemMessages,
   typeIntoInput,
+  waitForNonProfileKeyUpdateMessage,
   waitForEnabledComposer,
 } from '../helpers.node.js';
 
@@ -60,6 +62,8 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: true,
           name: MY_STORY_ID,
+          deletedAtTimestamp: null,
+          recipientServiceIdsBinary: null,
         },
       },
     });
@@ -94,7 +98,7 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
     await stranger.addSingleUseKey(desktop, ourKey, ServiceIdKind.PNI);
 
     const checkPniSignature = (
-      message: Proto.IPniSignatureMessage | null | undefined,
+      message: Proto.PniSignatureMessage.Params | null | undefined,
       source: string
     ) => {
       if (!message) {
@@ -166,7 +170,10 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
       debug('Send unencrypted receipt', receiptTimestamp);
 
       await stranger.sendUnencryptedReceipt(desktop, {
-        messageTimestamp: dataMessage.timestamp?.toNumber() ?? 0,
+        messageTimestamp:
+          (dataMessage.timestamp == null
+            ? null
+            : toNumber(dataMessage.timestamp)) ?? 0,
         timestamp: receiptTimestamp,
       });
     }
@@ -195,7 +202,11 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
 
       await stranger.sendReceipt(desktop, {
         type: ReceiptType.Delivery,
-        messageTimestamps: [dataMessage.timestamp?.toNumber() ?? 0],
+        messageTimestamps: [
+          (dataMessage.timestamp == null
+            ? null
+            : toNumber(dataMessage.timestamp)) ?? 0,
+        ],
         timestamp: receiptTimestamp,
       });
       // Wait for receipts to be batched and processed (+ buffer)
@@ -260,25 +271,40 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
     const destinationPniIdentityKey = await stranger.device.getIdentityKey(
       ServiceIdKind.PNI
     );
-    const originalDataMessage = {
+    const originalDataMessage: Proto.DataMessage.Params = {
+      ...EMPTY_DATA_MESSAGE,
       body: 'Hello PNI',
-      timestamp: Long.fromNumber(timestamp),
+      timestamp: BigInt(timestamp),
     };
-    const content = {
+    const content: Proto.Content.Params = {
       syncMessage: {
         sent: {
           destinationServiceIdBinary,
           destinationE164,
-          timestamp: Long.fromNumber(timestamp),
+          timestamp: BigInt(timestamp),
           message: originalDataMessage,
           unidentifiedStatus: [
             {
               destinationServiceIdBinary,
               destinationPniIdentityKey: destinationPniIdentityKey.serialize(),
+              unidentified: null,
+              destinationServiceId: null,
             },
           ],
+          expirationStartTimestamp: null,
+          isRecipientUpdate: null,
+          storyMessage: null,
+          storyMessageRecipients: null,
+          editMessage: null,
+          destinationServiceId: null,
         },
+        read: null,
+        stickerPackOperation: null,
+        viewed: null,
+        padding: null,
       },
+      pniSignatureMessage: null,
+      senderKeyDistributionMessage: null,
     };
     const sendOptions = {
       timestamp,
@@ -376,7 +402,8 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
 
     debug('Wait for a ACI message');
     {
-      const { source, body, serviceIdKind } = await stranger.waitForMessage();
+      const { source, body, serviceIdKind } =
+        await waitForNonProfileKeyUpdateMessage(stranger);
 
       assert.strictEqual(source, desktop, 'ACI message has valid source');
       assert.strictEqual(body, 'Hello ACI', 'ACI message has valid body');

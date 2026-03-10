@@ -41,7 +41,7 @@ export function GroupListItem({
   group,
   i18n,
   onSelectGroup,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   let messageText: string;
   switch (group.disabledReason) {
     case DisabledReason.AlreadyMember:
@@ -67,7 +67,6 @@ export function GroupListItem({
           hasAvatar={group.hasAvatar}
           i18n={i18n}
           title={group.title}
-          sharedGroupNames={[]}
           size={AvatarSize.THIRTY_TWO}
           badge={undefined}
         />

@@ -4,14 +4,28 @@
 import React, { useMemo } from 'react';
 import classNames from 'classnames';
 
-import { Emojify } from './Emojify.dom.js';
-import type { ContactNameColorType } from '../../types/Colors.std.js';
+import type { ReactNode } from 'react';
+
 import { getClassNamesFor } from '../../util/getClassNamesFor.std.js';
-import type { ConversationType } from '../../state/ducks/conversations.preload.js';
 import { isSignalConversation as getIsSignalConversation } from '../../util/isSignalConversation.dom.js';
+import {
+  getEmojiVariantByKey,
+  getEmojiVariantKeyByValue,
+  isEmojiVariantValue,
+} from '../fun/data/emojis.std.js';
+import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.dom.js';
+import { FunStaticEmoji } from '../fun/FunEmoji.dom.js';
+import { missingEmojiPlaceholder } from '../../types/GroupMemberLabels.std.js';
+
+import type { MemberLabelType } from '../../types/GroupMemberLabels.std.js';
+import type { ConversationType } from '../../state/ducks/conversations.preload.js';
+import type { ContactNameColorType } from '../../types/Colors.std.js';
+import type { FunStaticEmojiSize } from '../fun/FunEmoji.dom.js';
+import { UserText } from '../UserText.dom.js';
 
 export type ContactNameData = {
   contactNameColor?: ContactNameColorType;
+  contactLabel?: { labelString: string; labelEmoji: string | undefined };
   firstName?: string;
   isSignalConversation?: boolean;
   isMe?: boolean;
@@ -40,6 +54,7 @@ export function useContactNameData(
 }
 
 export type PropsType = ContactNameData & {
+  fontSizeOverride?: number;
   module?: string;
   preferFirstName?: boolean;
   onClick?: VoidFunction;
@@ -47,6 +62,7 @@ export type PropsType = ContactNameData & {
 };
 
 export function ContactName({
+  contactLabel,
   contactNameColor,
   firstName,
   isSignalConversation,
@@ -56,7 +72,7 @@ export function ContactName({
   title,
   onClick,
   largeVerifiedBadge,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const getClassName = getClassNamesFor('module-contact-name', module);
 
   let text: string;
@@ -75,7 +91,7 @@ export function ContactName({
       dir="auto"
       onClick={onClick}
     >
-      <Emojify text={text} />
+      <UserText text={text} />
       {(isSignalConversation || isMe) && (
         <span
           className={
@@ -85,6 +101,108 @@ export function ContactName({
           }
         />
       )}
+      {contactLabel && (
+        <>
+          {' '}
+          <GroupMemberLabel
+            contactLabel={contactLabel}
+            context="bubble"
+            contactNameColor={contactNameColor}
+          />
+        </>
+      )}
     </WrappingElement>
+  );
+}
+
+export type Context = 'bubble' | 'list' | 'quote' | 'contact-modal';
+
+export function GroupMemberLabel({
+  emojiSize = 12,
+  contactLabel,
+  contactNameColor,
+  context,
+  module,
+}: {
+  emojiSize?: FunStaticEmojiSize;
+  contactLabel?: MemberLabelType;
+  contactNameColor?: ContactNameColorType;
+  context: Context;
+  module?: string;
+}): ReactNode {
+  const emojiLocalizer = useFunEmojiLocalizer();
+  const getClassName = getClassNamesFor('module-contact-name', module);
+
+  if (!contactLabel) {
+    return null;
+  }
+
+  const { labelEmoji, labelString } = contactLabel;
+
+  let emojiElement;
+  if (labelEmoji && isEmojiVariantValue(labelEmoji)) {
+    const emojiKey = getEmojiVariantKeyByValue(labelEmoji);
+    const emojiData = getEmojiVariantByKey(emojiKey);
+
+    emojiElement = (
+      <span
+        className={classNames(
+          getClassName('--label-pill--emoji'),
+          getClassName(`--label-pill--${context}--emoji`)
+        )}
+      >
+        <FunStaticEmoji
+          role="img"
+          aria-label={emojiLocalizer.getLocaleShortName(emojiData.key)}
+          size={emojiSize}
+          emoji={emojiData}
+        />
+      </span>
+    );
+  } else if (labelEmoji) {
+    emojiElement = (
+      <span
+        className={classNames(
+          getClassName('--label-pill--emoji'),
+          getClassName(`--label-pill--${context}--emoji`)
+        )}
+      >
+        {missingEmojiPlaceholder}
+      </span>
+    );
+  }
+
+  return (
+    <span
+      className={classNames(
+        getClassName('--label-pill'),
+        getClassName(`--label-pill--${context}`),
+        getClassName(`--${contactNameColor}--label-pill--${context}`)
+      )}
+    >
+      <span
+        className={classNames(
+          getClassName('--label-pill--inner'),
+          getClassName(`--label-pill--inner--${context}`)
+        )}
+      >
+        {emojiElement}
+        <span
+          className={classNames(
+            getClassName('--label-pill--text'),
+            getClassName(`--label-pill--${context}--text`)
+          )}
+        >
+          <UserText
+            fontSizeOverride={emojiSize}
+            style={{
+              verticalAlign: 'top',
+              marginTop: emojiSize / 6,
+            }}
+            text={labelString}
+          />
+        </span>
+      </span>
+    </span>
   );
 }

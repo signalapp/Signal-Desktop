@@ -117,6 +117,7 @@ export async function sendGroupUpdate(
             }),
           sendType,
           timestamp,
+          expirationStartTimestamp: null,
         })
     );
   } catch (error: unknown) {

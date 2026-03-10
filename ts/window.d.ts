@@ -54,7 +54,11 @@ export type IPCType = {
   setMediaPermissions: (value: boolean) => Promise<void>;
   setMediaCameraPermissions: (value: boolean) => Promise<void>;
   setMenuBarVisibility: (value: boolean) => void;
-  showDebugLog: () => void;
+  showDebugLog: (options?: { mode?: 'submit' | 'close' }) => void;
+  showCallDiagnostic: () => void;
+  closeCallDiagnostic: () => void;
+  closeDebugLog: () => void;
+  updateCallDiagnosticData: (data: string) => void;
   showPermissionsPopup: (
     forCalling: boolean,
     forCamera: boolean
@@ -88,6 +92,12 @@ type DebugLogWindowPropsType = {
   downloadLog: (text: string) => unknown;
   fetchLogs: () => Promise<string>;
   uploadLogs: (text: string) => Promise<string>;
+  mode: 'submit' | 'close';
+};
+
+type CallDiagnosticWindowPropsType = {
+  subscribe: (listener: () => void) => () => void;
+  getSnapshot: () => string | null;
 };
 
 type PermissionsWindowPropsType = {
@@ -112,6 +122,7 @@ type SettingsWindowPropsType = {
 
 export type SignalCoreType = {
   AboutWindowProps?: AboutWindowPropsType;
+  CallDiagnosticWindowProps?: CallDiagnosticWindowPropsType;
   DebugLogWindowProps?: DebugLogWindowPropsType;
   PermissionsWindowProps?: PermissionsWindowPropsType;
   ScreenShareWindowProps?: ScreenShareWindowPropsType;
@@ -190,6 +201,12 @@ declare global {
 
     // TODO DESKTOP-4801
     SignalContext: SignalContextType;
+
+    SignalClipboard: {
+      clear: () => void;
+      clearIfNeeded: () => void;
+      copyTextTemporarily: (text: string, clearAfterMs: number) => void;
+    };
 
     // Used only in preload to calculate load time
     preloadCompileStartTime: number;

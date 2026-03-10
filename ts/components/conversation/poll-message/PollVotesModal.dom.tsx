@@ -31,7 +31,7 @@ export function PollVotesModal({
   endPoll,
   canEndPoll,
   messageId,
-}: PollVotesModalProps): JSX.Element {
+}: PollVotesModalProps): React.JSX.Element {
   const maxVoteCount = useMemo(() => {
     return poll.votesByOption.values().reduce((max, voters) => {
       return Math.max(max, voters.length);
@@ -119,7 +119,6 @@ export function PollVotesModal({
                           noteToSelf={false}
                           phoneNumber={vote.from.phoneNumber}
                           profileName={vote.from.profileName}
-                          sharedGroupNames={vote.from.sharedGroupNames}
                           size={AvatarSize.THIRTY_SIX}
                           title={vote.from.title}
                         />

@@ -26,7 +26,7 @@ export type FunEmojiPickerProps = Readonly<{
 
 export const FunEmojiPicker = memo(function FunEmojiPicker(
   props: FunEmojiPickerProps
-): JSX.Element {
+): React.JSX.Element {
   const { onOpenChange } = props;
   const fun = useFunContext();
   const { onOpenChange: onFunOpenChange } = fun;

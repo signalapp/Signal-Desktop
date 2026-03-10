@@ -31,11 +31,11 @@ import { SmartInbox } from './Inbox.preload.js';
 import { getApp } from '../selectors/app.std.js';
 import { SmartFunProvider } from './FunProvider.preload.js';
 
-function renderInbox(): JSX.Element {
+function renderInbox(): React.JSX.Element {
   return <SmartInbox />;
 }
 
-function renderCallManager(): JSX.Element {
+function renderCallManager(): React.JSX.Element {
   return (
     <ModalContainer className="module-calling__modal-container">
       <SmartCallManager />
@@ -43,15 +43,15 @@ function renderCallManager(): JSX.Element {
   );
 }
 
-function renderGlobalModalContainer(): JSX.Element {
+function renderGlobalModalContainer(): React.JSX.Element {
   return <SmartGlobalModalContainer />;
 }
 
-function renderLightbox(): JSX.Element {
+function renderLightbox(): React.JSX.Element {
   return <SmartLightbox />;
 }
 
-function renderStoryViewer(closeView: () => unknown): JSX.Element {
+function renderStoryViewer(closeView: () => unknown): React.JSX.Element {
   return (
     <ErrorBoundary name="App/renderStoryViewer" closeView={closeView}>
       <SmartStoryViewer />

@@ -23,9 +23,11 @@ import type { AnyActionableMegaphone } from '../types/Megaphone.std.js';
 import type { Location } from '../types/Nav.std.js';
 import { I18n } from './I18n.dom.js';
 import { UserText } from './UserText.dom.js';
+import { RemoteMegaphone } from './RemoteMegaphone.dom.js';
 
 export type PropsType = {
   changeLocation: (newLocation: Location) => unknown;
+  expandNarrowLeftPane: () => void;
   hideToast: () => unknown;
   i18n: LocalizerType;
   openFileInFolder: (target: string) => unknown;
@@ -35,6 +37,7 @@ export type PropsType = {
     conversationId: string,
     options?: { wasPinned?: boolean }
   ) => unknown;
+  retryCallQualitySurvey: () => unknown;
   setDidResumeDonation: (didResume: boolean) => unknown;
   toast?: AnyToast;
   megaphone?: AnyActionableMegaphone;
@@ -53,10 +56,11 @@ export function renderToast({
   openFileInFolder,
   onShowDebugLog,
   onUndoArchive,
+  retryCallQualitySurvey,
   setDidResumeDonation,
   OS,
   toast,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   if (toast === undefined) {
     return null;
   }
@@ -127,6 +131,44 @@ export function renderToast({
     return (
       <Toast onClose={hideToast}>
         {i18n('icu:CallsTab__ToastCallHistoryCleared')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.CallQualitySurveyFailed) {
+    const { canRetry } = toast.parameters;
+
+    return (
+      <Toast
+        onClose={hideToast}
+        toastAction={
+          canRetry
+            ? {
+                label: i18n('icu:CallQualitySurvey__SubmissionFailed__Retry'),
+                onClick: () => {
+                  retryCallQualitySurvey();
+                },
+              }
+            : undefined
+        }
+      >
+        {i18n('icu:CallQualitySurvey__SubmissionFailed')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.CallQualitySurveySuccess) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:CallQualitySurvey__SubmissionSuccess')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.CannotAddMemberLabel) {
+    return (
+      <Toast onClose={hideToast}>
+        {i18n('icu:ToastManager__CannotAddMemberLabel')}
       </Toast>
     );
   }
@@ -378,6 +420,9 @@ export function renderToast({
     toastType === ToastType.DonationCanceledWithView ||
     toastType === ToastType.DonationConfirmationNeeded ||
     toastType === ToastType.DonationError ||
+    toastType === ToastType.DonationPaypalCanceled ||
+    toastType === ToastType.DonationPaypalConfirmationNeeded ||
+    toastType === ToastType.DonationPaypalError ||
     toastType === ToastType.DonationVerificationFailed ||
     toastType === ToastType.DonationVerificationNeeded
   ) {
@@ -389,6 +434,15 @@ export function renderToast({
         'icu:Donations__Toast__ConfirmationNeeded'
       ),
       [ToastType.DonationError]: i18n('icu:Donations__Toast__Error'),
+      [ToastType.DonationPaypalCanceled]: i18n(
+        'icu:Donations__Toast__PaypalCanceled'
+      ),
+      [ToastType.DonationPaypalConfirmationNeeded]: i18n(
+        'icu:Donations__Toast__PaypalConfirmationNeeded'
+      ),
+      [ToastType.DonationPaypalError]: i18n(
+        'icu:Donations__Toast__PaypalError'
+      ),
       [ToastType.DonationVerificationFailed]: i18n(
         'icu:Donations__Toast__VerificationFailed'
       ),
@@ -396,6 +450,11 @@ export function renderToast({
         'icu:Donations__Toast__VerificationNeeded'
       ),
     };
+
+    const pageRedirect =
+      toastType === ToastType.DonationPaypalConfirmationNeeded
+        ? SettingsPage.DonationsDonateFlow
+        : SettingsPage.Donations;
 
     const text = mapping[toastType];
 
@@ -409,7 +468,7 @@ export function renderToast({
             changeLocation({
               tab: NavTab.Settings,
               details: {
-                page: SettingsPage.Donations,
+                page: pageRedirect,
               },
             });
           },
@@ -908,13 +967,31 @@ export function renderToast({
     );
   }
 
+  if (toastType === ToastType.ViewOnceEnabled) {
+    return (
+      <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>
+        {i18n('icu:Toast--viewOnceEnabled')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.ViewOnceDisabled) {
+    return (
+      <Toast onClose={hideToast} timeout={SHORT_TIMEOUT}>
+        {i18n('icu:Toast--viewOnceDisabled')}
+      </Toast>
+    );
+  }
+
   throw missingCaseError(toastType);
 }
 
 export function renderMegaphone({
   i18n,
   megaphone,
-}: PropsType): JSX.Element | null {
+  containerWidthBreakpoint,
+  expandNarrowLeftPane,
+}: PropsType): React.JSX.Element | null {
   if (!megaphone) {
     return null;
   }
@@ -923,40 +1000,63 @@ export function renderMegaphone({
     return <UsernameMegaphone i18n={i18n} {...megaphone} />;
   }
 
-  throw missingCaseError(megaphone.type);
+  if (megaphone.type === MegaphoneType.Remote) {
+    return (
+      <RemoteMegaphone
+        {...megaphone}
+        i18n={i18n}
+        isFullSize={containerWidthBreakpoint !== WidthBreakpoint.Narrow}
+        onClickNarrowMegaphone={expandNarrowLeftPane}
+      />
+    );
+  }
+
+  throw missingCaseError(megaphone);
 }
 
-export function ToastManager(props: PropsType): JSX.Element {
+export function ToastManager(props: PropsType): React.JSX.Element {
   const {
     centerToast,
     containerWidthBreakpoint,
     isCompositionAreaVisible,
     isInFullScreenCall,
+    megaphone,
   } = props;
 
   const toast = renderToast(props);
 
   return (
-    <div
-      className={classNames('ToastManager', {
-        'ToastManager--narrow-sidebar':
-          containerWidthBreakpoint === WidthBreakpoint.Narrow,
-        'ToastManager--composition-area-visible': isCompositionAreaVisible,
-      })}
-    >
-      {centerToast
-        ? createPortal(
-            <div
-              className={classNames('ToastManager__root', {
-                'ToastManager--full-screen-call': isInFullScreenCall,
-              })}
-            >
-              {toast}
-            </div>,
-            document.body
-          )
-        : toast}
-      {renderMegaphone(props)}
+    <div className="ToastManagerContainer">
+      <div
+        className={classNames('ToastManager', {
+          'ToastManager--narrow-sidebar':
+            containerWidthBreakpoint === WidthBreakpoint.Narrow,
+          'ToastManager--composition-area-visible': isCompositionAreaVisible,
+        })}
+      >
+        {centerToast
+          ? createPortal(
+              <div
+                className={classNames('ToastManager__root', {
+                  'ToastManager--full-screen-call': isInFullScreenCall,
+                })}
+              >
+                {toast}
+              </div>,
+              document.body
+            )
+          : toast}
+      </div>
+      {megaphone && (
+        <div
+          className={classNames('ToastManager', 'ToastManager--megaphones', {
+            'ToastManager--narrow-sidebar':
+              containerWidthBreakpoint === WidthBreakpoint.Narrow,
+          })}
+        >
+          {renderMegaphone(props)}
+        </div>
+      )}
     </div>
   );
 }

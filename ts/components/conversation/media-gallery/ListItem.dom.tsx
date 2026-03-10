@@ -1,7 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback } from 'react';
+import React, { useCallback, type ReactNode } from 'react';
+import type { ReadonlyDeep } from 'type-fest';
 
 import moment from 'moment';
 import { missingCaseError } from '../../../util/missingCaseError.std.js';
@@ -12,21 +13,26 @@ import { SpinnerV2 } from '../../SpinnerV2.dom.js';
 import { tw } from '../../../axo/tw.dom.js';
 import { AriaClickable } from '../../../axo/AriaClickable.dom.js';
 import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
+import { UserText } from '../../UserText.dom.js';
 import {
   useAttachmentStatus,
   type AttachmentStatusType,
 } from '../../../hooks/useAttachmentStatus.std.js';
 
-export type Props = {
+export type Props = Readonly<{
   i18n: LocalizerType;
   mediaItem: GenericMediaItemType;
   thumbnail: React.ReactNode;
-  title: React.ReactNode;
+  title: string;
   subtitle: React.ReactNode;
   readyLabel: string;
   onClick: (status: AttachmentStatusType['state']) => void;
-  onShowMessage: () => void;
-};
+  showMessage: () => void;
+  renderContextMenu: (
+    mediaItem: ReadonlyDeep<GenericMediaItemType>,
+    children: ReactNode
+  ) => JSX.Element;
+}>;
 
 export function ListItem({
   i18n,
@@ -36,13 +42,16 @@ export function ListItem({
   subtitle,
   readyLabel,
   onClick,
-  onShowMessage,
-}: Props): JSX.Element {
+  showMessage,
+  renderContextMenu,
+}: Props): React.JSX.Element {
   const { message } = mediaItem;
   let attachment: AttachmentForUIType | undefined;
 
   if (mediaItem.type === 'link') {
     attachment = mediaItem.preview.image;
+  } else if (mediaItem.type === 'contact') {
+    attachment = mediaItem.contact.avatar?.avatar;
   } else {
     ({ attachment } = mediaItem);
   }
@@ -66,9 +75,9 @@ export function ListItem({
     (ev: React.MouseEvent) => {
       ev.preventDefault();
       ev.stopPropagation();
-      onShowMessage();
+      showMessage();
     },
-    [onShowMessage]
+    [showMessage]
   );
 
   if (status == null || status.state === 'ReadyToShow') {
@@ -81,7 +90,7 @@ export function ListItem({
     throw missingCaseError(status);
   }
 
-  let button: JSX.Element | undefined;
+  let button: React.JSX.Element | undefined;
   if (
     status != null &&
     status.state !== 'ReadyToShow' &&
@@ -123,18 +132,26 @@ export function ListItem({
   return (
     <AriaClickable.Root
       className={tw(
-        'flex w-full flex-row gap-3 py-2',
+        'mx-2.5 flex flex-row gap-3 rounded-lg px-3.5 py-2',
+        'data-hovered:bg-fill-secondary',
+        'data-focused:bg-fill-secondary',
+        'data-pressed:bg-fill-secondary-pressed',
         mediaItem.type === 'link' ? undefined : 'items-center'
       )}
     >
       <div className={tw('shrink-0')}>{thumbnail}</div>
       <div className={tw('grow overflow-hidden text-start')}>
-        <h3 className={tw('truncate')}>{title}</h3>
+        <h3 className={tw('truncate')}>
+          <UserText text={title} />
+        </h3>
         <div className={tw('type-body-small leading-4 text-label-secondary')}>
           {subtitle}
         </div>
       </div>
-      <AriaClickable.HiddenTrigger aria-label={label} onClick={handleClick} />
+      {renderContextMenu(
+        mediaItem,
+        <AriaClickable.HiddenTrigger aria-label={label} onClick={handleClick} />
+      )}
       <AriaClickable.SubWidget>
         <button
           type="button"

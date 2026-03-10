@@ -32,6 +32,7 @@ export namespace AxoBaseDialog {
    */
 
   export const overlayStyles = tw(
+    'legacy-z-index-modal-host',
     'absolute inset-0 flex items-center-safe justify-center-safe bg-background-overlay p-4',
     // Allow the entire overlay to be scrolled in case the window is extremely small
     'overflow-auto scrollbar-width-none',
@@ -48,7 +49,7 @@ export namespace AxoBaseDialog {
   export const contentStyles = tw(
     'relative',
     'max-h-full min-h-fit max-w-full min-w-fit',
-    'rounded-3xl bg-elevated-background-primary shadow-elevation-3 select-none',
+    'curved-3xl bg-elevated-background-primary shadow-elevation-3 select-none',
     'outline-border-focused not-forced-colors:outline-0 not-forced-colors:focused:outline-[2.5px]',
     'data-[state=closed]:animate-exit data-[state=open]:animate-enter',
     'animate-scale-98 animate-translate-y-1',

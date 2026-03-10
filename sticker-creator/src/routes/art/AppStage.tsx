@@ -41,7 +41,7 @@ const getClassName = ({ noMessage, empty }: Props) => {
   return styles.main;
 };
 
-export function AppStage(props: Props): JSX.Element {
+export function AppStage(props: Props): React.JSX.Element {
   const {
     children,
     next,

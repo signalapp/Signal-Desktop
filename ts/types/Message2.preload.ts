@@ -56,7 +56,16 @@ import { deepClone } from '../util/deepClone.std.js';
 import * as Bytes from '../Bytes.std.js';
 import { isBodyTooLong } from '../util/longAttachment.std.js';
 import type { MessageAttachmentType } from './AttachmentDownload.std.js';
-import { getFilePathsOwnedByMessage } from '../util/messageFilePaths.std.js';
+import {
+  getFilePathsReferencedByAttachment,
+  getFilePathsReferencedByMessage,
+} from '../util/messageFilePaths.std.js';
+import {
+  deleteDownloadFile,
+  maybeDeleteAttachmentFile,
+} from '../util/migrations.preload.js';
+import type { getExistingAttachmentDataForReuse } from '../util/attachments/deduplicateAttachment.preload.js';
+import type { getPlaintextHashForInMemoryAttachment } from '../AttachmentCrypto.node.js';
 
 const { isFunction, isObject, identity } = lodash;
 
@@ -72,6 +81,7 @@ export type ContextType = {
     width: number;
     height: number;
   }>;
+  getPlaintextHashForInMemoryAttachment: typeof getPlaintextHashForInMemoryAttachment;
   getRegionCode: () => string | undefined;
   logger: LoggerType;
   makeImageThumbnail: (params: {
@@ -96,7 +106,8 @@ export type ContextType = {
   ) => Promise<Uint8Array>;
   writeNewAttachmentData: (data: Uint8Array) => Promise<LocalAttachmentV2Type>;
   writeNewStickerData: (data: Uint8Array) => Promise<LocalAttachmentV2Type>;
-  deleteAttachmentOnDisk: (path: string) => Promise<void>;
+  maybeDeleteAttachmentFile: (path: string) => Promise<{ wasDeleted: boolean }>;
+  getExistingAttachmentDataForReuse: typeof getExistingAttachmentDataForReuse;
 };
 
 // Schema version history
@@ -251,7 +262,7 @@ export const _withSchemaVersion = ({
       upgradedMessage = await upgrade(message, context);
     } catch (error) {
       logger.error(
-        `Message._withSchemaVersion: error updating message ${message.id}, 
+        `Message._withSchemaVersion: error updating message ${message.id},
         attempt ${message.schemaMigrationAttempts}:`,
         Errors.toLogFormat(error)
       );
@@ -533,7 +544,11 @@ const toVersion10 = _withSchemaVersion({
           ...stickerMessage,
           sticker: {
             ...sticker,
-            data: await migrateDataToFileSystem(sticker.data, stickerContext),
+            data: await migrateDataToFileSystem(
+              sticker.data,
+              stickerContext,
+              stickerMessage
+            ),
           },
         };
       }
@@ -710,21 +725,7 @@ export const VERSION_NEEDED_FOR_DISPLAY = 9;
 // UpgradeStep
 export const upgradeSchema = async (
   rawMessage: MessageAttributesType,
-  {
-    readAttachmentData,
-    writeNewAttachmentData,
-    doesAttachmentExist,
-    getRegionCode,
-    makeObjectUrl,
-    revokeObjectUrl,
-    getImageDimensions,
-    makeImageThumbnail,
-    makeVideoScreenshot,
-    writeNewStickerData,
-    deleteAttachmentOnDisk,
-    logger,
-    maxVersion = CURRENT_SCHEMA_VERSION,
-  }: ContextType,
+  context: ContextType,
   upgradeOptions: {
     versions: ReadonlyArray<
       (
@@ -734,6 +735,7 @@ export const upgradeSchema = async (
     >;
   } = { versions: VERSIONS }
 ): Promise<MessageAttributesType> => {
+  const { logger, maxVersion = CURRENT_SCHEMA_VERSION } = context;
   const { versions } = upgradeOptions;
   let message = rawMessage;
   const startingVersion = message.schemaVersion ?? 0;
@@ -747,20 +749,7 @@ export const upgradeSchema = async (
       // We really do want this intra-loop await because this is a chained async action,
       //   each step dependent on the previous
       // eslint-disable-next-line no-await-in-loop
-      message = await currentVersion(message, {
-        readAttachmentData,
-        writeNewAttachmentData,
-        makeObjectUrl,
-        revokeObjectUrl,
-        doesAttachmentExist,
-        getImageDimensions,
-        makeImageThumbnail,
-        makeVideoScreenshot,
-        logger,
-        getRegionCode,
-        writeNewStickerData,
-        deleteAttachmentOnDisk,
-      });
+      message = await currentVersion(message, context);
     } catch (e) {
       // Throw the error if we were unable to upgrade the message at all
       if (message.schemaVersion === startingVersion) {
@@ -1055,40 +1044,30 @@ export const loadStickerData = (
   };
 };
 
-export const deleteAllExternalFiles = ({
-  deleteAttachmentOnDisk,
-  deleteDownloadOnDisk,
-}: {
-  deleteAttachmentOnDisk: (path: string) => Promise<void>;
-  deleteDownloadOnDisk: (path: string) => Promise<void>;
-}): ((message: MessageAttributesType) => Promise<void>) => {
-  if (!isFunction(deleteAttachmentOnDisk)) {
-    throw new TypeError(
-      'deleteAllExternalFiles: deleteAttachmentOnDisk must be a function'
-    );
-  }
-
-  if (!isFunction(deleteDownloadOnDisk)) {
-    throw new TypeError(
-      'deleteAllExternalFiles: deleteDownloadOnDisk must be a function'
-    );
-  }
-  return async (message: MessageAttributesType) => {
-    const { externalAttachments, externalDownloads } =
-      getFilePathsOwnedByMessage(message);
-
-    await Promise.all(
-      [...externalAttachments].map(attachmentPath =>
-        deleteAttachmentOnDisk(attachmentPath)
-      )
-    );
-    await Promise.all(
-      [...externalDownloads].map(downloadPath =>
-        deleteDownloadOnDisk(downloadPath)
-      )
-    );
-  };
+export const cleanupAllMessageAttachmentFiles = async (
+  message: MessageAttributesType
+): Promise<void> => {
+  const { externalAttachments, externalDownloads } =
+    getFilePathsReferencedByMessage(message);
+  await Promise.all(
+    [...externalAttachments].map(attachmentPath =>
+      maybeDeleteAttachmentFile(attachmentPath)
+    )
+  );
+  await Promise.all(
+    [...externalDownloads].map(downloadPath => deleteDownloadFile(downloadPath))
+  );
 };
+
+export async function cleanupAttachmentFiles(
+  attachment: AttachmentType
+): Promise<void> {
+  const result = getFilePathsReferencedByAttachment(attachment);
+  await Promise.all(
+    [...result.externalAttachments].map(maybeDeleteAttachmentFile)
+  );
+  await Promise.all([...result.externalDownloads].map(deleteDownloadFile));
+}
 
 export async function migrateBodyAttachmentToDisk(
   message: MessageAttributesType,
@@ -1121,20 +1100,7 @@ export async function migrateBodyAttachmentToDisk(
 export const isUserMessage = (message: MessageAttributesType): boolean =>
   message.type === 'incoming' || message.type === 'outgoing';
 
-// NB: if adding more expiring message types, be sure to also update
-// getUnreadByConversationAndMarkRead &
-// getMessagesUnexpectedlyMissingExpirationStartTimestamp
-export const EXPIRING_MESSAGE_TYPES = new Set([
-  'incoming',
-  'outgoing',
-  'poll-terminate',
-]);
-
 export const isExpiringMessage = (message: MessageAttributesType): boolean => {
-  if (!EXPIRING_MESSAGE_TYPES.has(message.type)) {
-    return false;
-  }
-
   const { expireTimer } = message;
 
   return typeof expireTimer === 'number' && expireTimer > 0;

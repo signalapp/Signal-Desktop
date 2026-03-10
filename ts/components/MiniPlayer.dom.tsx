@@ -43,7 +43,7 @@ export function MiniPlayer({
   onPause,
   onPlaybackRate,
   onClose,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const updatePlaybackRate = useCallback(() => {
     onPlaybackRate(PlaybackRateButton.nextPlaybackRate(playbackRate));
   }, [playbackRate, onPlaybackRate]);

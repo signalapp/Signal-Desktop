@@ -32,7 +32,7 @@ export function StoriesAddStoryButton({
   onAddStory,
   showToast,
   onContextMenuShowingChanged,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [error, setError] = useState<string | undefined>();
 
   const onAddMedia = useCallback(() => {

@@ -1,11 +1,14 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
+import type { ReactNode } from 'react';
 import React, { useState } from 'react';
 import type { Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import type { Pin, PinId } from './PinnedMessagesBar.dom.js';
+import type { Pin, PinMessage } from './PinnedMessagesBar.dom.js';
 import { PinnedMessagesBar } from './PinnedMessagesBar.dom.js';
 import { tw } from '../../../axo/tw.dom.js';
+import type { PinnedMessageId } from '../../../types/PinnedMessage.std.js';
+import { BodyRange } from '../../../types/BodyRange.std.js';
 
 const { i18n } = window.SignalContext;
 
@@ -13,49 +16,81 @@ export default {
   title: 'Components/PinnedMessages/PinnedMessagesBar',
 } satisfies Meta;
 
+type MockPinMessageProps = Partial<
+  Omit<PinMessage, 'id' | 'sentAtTimestamp' | 'receivedAtCounter'>
+>;
+
+function mockPinMessage(id: number, props: MockPinMessageProps): PinMessage {
+  return {
+    id: `message-${id}`,
+    sentAtTimestamp: id,
+    receivedAtCounter: id,
+    text: null,
+    attachment: null,
+    contact: null,
+    payment: false,
+    poll: null,
+    sticker: false,
+    viewOnceMedia: false,
+    ...props,
+  };
+}
+
 const PIN_1: Pin = {
-  id: 'pin-1' as PinId,
+  id: 1 as PinnedMessageId,
   sender: {
     id: 'conversation-1',
     title: 'Jamie',
     isMe: true,
   },
-  message: {
-    id: 'message-1',
-    body: 'What should we get for lunch?',
-  },
+  message: mockPinMessage(1, {
+    poll: {
+      question: 'What should we get for lunch?',
+    },
+  }),
 };
 
 const PIN_2: Pin = {
-  id: 'pin-2' as PinId,
+  id: 2 as PinnedMessageId,
   sender: {
-    id: 'conversation-1',
+    id: 'conversation-2',
     title: 'Tyler',
     isMe: false,
   },
-  message: {
-    id: 'message-2',
-    body: 'We found a cute pottery store close to Inokashira Park that we’re going to check out on Saturday. Anyone want to meet at the south exit at Kichijoji station at 1pm? Too early?',
-  },
+  message: mockPinMessage(2, {
+    text: {
+      body: 'We found a cute pottery store close to Inokashira Park that we’re going to check out on Saturday. Anyone want to meet at the south exit at Kichijoji station at 1pm? Too early?',
+      bodyRanges: [
+        { start: 11, length: 4, style: BodyRange.Style.ITALIC },
+        { start: 39, length: 15, style: BodyRange.Style.SPOILER },
+      ],
+    },
+  }),
 };
 
 const PIN_3: Pin = {
-  id: 'pin-3' as PinId,
+  id: 3 as PinnedMessageId,
   sender: {
-    id: 'conversation-1',
+    id: 'conversation-3',
     title: 'Adrian',
     isMe: false,
   },
-  message: {
-    id: 'message-3',
-    body: 'Photo',
+  message: mockPinMessage(3, {
+    text: {
+      body: 'Photo',
+      bodyRanges: [],
+    },
     attachment: {
+      type: 'image',
       url: '/fixtures/tina-rolf-269345-unsplash.jpg',
     },
-  },
+  }),
 };
 
-function Template(props: { defaultCurrent: PinId; pins: ReadonlyArray<Pin> }) {
+function Template(props: {
+  defaultCurrent: PinnedMessageId;
+  pins: ReadonlyArray<Pin>;
+}) {
   const [current, setCurrent] = useState(props.defaultCurrent);
   return (
     <PinnedMessagesBar
@@ -66,16 +101,109 @@ function Template(props: { defaultCurrent: PinId; pins: ReadonlyArray<Pin> }) {
       onPinGoTo={action('onPinGoTo')}
       onPinRemove={action('onPinRemove')}
       onPinsShowAll={action('onPinsShowAll')}
+      canPinMessages
     />
   );
 }
 
-export function Default(): JSX.Element {
+function Stack(props: { children: ReactNode }) {
   return (
     <div className={tw('flex max-w-4xl flex-col gap-4 bg-fill-inverted p-4')}>
+      {props.children}
+    </div>
+  );
+}
+
+export function Default(): React.JSX.Element {
+  return (
+    <Stack>
       <Template defaultCurrent={PIN_1.id} pins={[PIN_1]} />
       <Template defaultCurrent={PIN_2.id} pins={[PIN_1, PIN_2]} />
       <Template defaultCurrent={PIN_3.id} pins={[PIN_1, PIN_2, PIN_3]} />
-    </div>
+    </Stack>
+  );
+}
+
+function Variant(props: { title: string; message: MockPinMessageProps }) {
+  const pin: Pin = {
+    id: 1 as PinnedMessageId,
+    sender: {
+      id: 'conversation-1',
+      title: props.title,
+      isMe: true,
+    },
+    message: mockPinMessage(1, props.message),
+  };
+  return <Template defaultCurrent={pin.id} pins={[pin]} />;
+}
+
+const SHORT_TEXT = 'Lorem, ipsum dolor sit amet';
+const IMAGE_URL = '/fixtures/tina-rolf-269345-unsplash.jpg';
+
+export function Variants(): React.JSX.Element {
+  return (
+    <Stack>
+      <Variant
+        title="Plain text"
+        message={{ text: { body: SHORT_TEXT, bodyRanges: [] } }}
+      />
+      <Variant
+        title="Image attachment with text"
+        message={{
+          text: { body: SHORT_TEXT, bodyRanges: [] },
+          attachment: { type: 'image', url: IMAGE_URL },
+        }}
+      />
+      <Variant
+        title="Image attachment"
+        message={{ attachment: { type: 'image', url: IMAGE_URL } }}
+      />
+      <Variant
+        title="Video attachment with text"
+        message={{
+          text: { body: SHORT_TEXT, bodyRanges: [] },
+          attachment: { type: 'video', url: IMAGE_URL },
+        }}
+      />
+      <Variant
+        title="Video attachment"
+        message={{ attachment: { type: 'video', url: IMAGE_URL } }}
+      />
+      <Variant
+        title="Voice message"
+        message={{ attachment: { type: 'voiceMessage' } }}
+      />
+      <Variant title="GIF message" message={{ attachment: { type: 'gif' } }} />
+      <Variant
+        title="File"
+        message={{ attachment: { type: 'file', name: 'project.zip' } }}
+      />
+      <Variant
+        title="Poll"
+        message={{ poll: { question: `${SHORT_TEXT}?` } }}
+      />
+      <Variant
+        title="Sticker"
+        message={{
+          sticker: true,
+          attachment: { type: 'image', url: IMAGE_URL },
+        }}
+      />
+      <Variant
+        title="Contact"
+        message={{
+          contact: { name: 'Tyler' },
+          attachment: { type: 'file', name: '' },
+        }}
+      />
+      <Variant title="Payment" message={{ payment: true }} />
+      <Variant
+        title="View-Once Media"
+        message={{
+          viewOnceMedia: true,
+          attachment: { type: 'image', url: IMAGE_URL },
+        }}
+      />
+    </Stack>
   );
 }

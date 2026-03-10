@@ -35,6 +35,7 @@ class ActiveWindowService {
   #changeCallbacks: Array<(isActive: boolean) => void> = [];
   #lastActiveEventAt = -Infinity;
   #lastActiveNonFocusingEventAt = -Infinity;
+  #lastBlurredAt = -Infinity;
   #callActiveCallbacks: () => void;
 
   constructor() {
@@ -68,6 +69,11 @@ class ActiveWindowService {
   isActive(): boolean {
     if (this.#isFocused) {
       return Date.now() < this.#lastActiveEventAt + ACTIVE_TIMEOUT;
+    }
+
+    if (this.#lastBlurredAt >= this.#lastActiveNonFocusingEventAt) {
+      // We are always inactive after blurring
+      return false;
     }
 
     return (
@@ -109,6 +115,9 @@ class ActiveWindowService {
   #setWindowFocus(isFocused: boolean): void {
     this.#updateState(() => {
       this.#isFocused = isFocused;
+      if (!isFocused) {
+        this.#lastBlurredAt = Date.now();
+      }
     });
   }
 

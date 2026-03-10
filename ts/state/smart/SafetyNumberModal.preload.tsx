@@ -3,15 +3,19 @@
 import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { SafetyNumberModal } from '../../components/SafetyNumberModal.dom.js';
-import { getContactSafetyNumberSelector } from '../selectors/safetyNumber.std.js';
 import { getConversationSelector } from '../selectors/conversations.dom.js';
 import { getIntl } from '../selectors/user.std.js';
-import { useSafetyNumberActions } from '../ducks/safetyNumber.preload.js';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
+import type { SafetyNumberProps } from '../../components/SafetyNumberChangeDialog.dom.js';
+import { SmartSafetyNumberViewer } from './SafetyNumberViewer.preload.js';
 
 export type SmartSafetyNumberModalProps = {
   contactID: string;
 };
+
+function renderSafetyNumberViewer(props: SafetyNumberProps): JSX.Element {
+  return <SmartSafetyNumberViewer key={props.contactID} {...props} />;
+}
 
 export const SmartSafetyNumberModal = memo(function SmartSafetyNumberModal({
   contactID,
@@ -19,21 +23,13 @@ export const SmartSafetyNumberModal = memo(function SmartSafetyNumberModal({
   const i18n = useSelector(getIntl);
   const conversationSelector = useSelector(getConversationSelector);
   const contact = conversationSelector(contactID);
-  const contactSafetyNumberSelector = useSelector(
-    getContactSafetyNumberSelector
-  );
-  const contactSafetyNumber = contactSafetyNumberSelector(contactID);
-  const { generateSafetyNumber, toggleVerified } = useSafetyNumberActions();
   const { toggleSafetyNumberModal } = useGlobalModalActions();
   return (
     <SafetyNumberModal
       i18n={i18n}
       contact={contact}
-      safetyNumber={contactSafetyNumber?.safetyNumber ?? null}
-      verificationDisabled={contactSafetyNumber?.verificationDisabled ?? null}
       toggleSafetyNumberModal={toggleSafetyNumberModal}
-      generateSafetyNumber={generateSafetyNumber}
-      toggleVerified={toggleVerified}
+      renderSafetyNumberViewer={renderSafetyNumberViewer}
     />
   );
 });

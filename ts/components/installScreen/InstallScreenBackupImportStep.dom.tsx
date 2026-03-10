@@ -52,7 +52,9 @@ export type PropsType = Readonly<
   )
 >;
 
-export function InstallScreenBackupImportStep(props: PropsType): JSX.Element {
+export function InstallScreenBackupImportStep(
+  props: PropsType
+): React.JSX.Element {
   const {
     i18n,
     backupStep,
@@ -86,13 +88,13 @@ export function InstallScreenBackupImportStep(props: PropsType): JSX.Element {
     setIsConfirmingCancel(false);
   }, [onRetry]);
 
-  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
+  const learnMoreLink = (parts: Array<string | React.JSX.Element>) => (
     <a href={SYNCING_MESSAGES_SECURITY_URL} rel="noreferrer" target="_blank">
       {parts}
     </a>
   );
 
-  let errorElem: JSX.Element | undefined;
+  let errorElem: React.JSX.Element | undefined;
   if (error == null || error === InstallScreenBackupError.Canceled) {
     // no-op
   } else if (error === InstallScreenBackupError.UnsupportedVersion) {
@@ -157,7 +159,7 @@ export function InstallScreenBackupImportStep(props: PropsType): JSX.Element {
   }
 
   const isCanceled = error === InstallScreenBackupError.Canceled;
-  let cancelButton: JSX.Element | undefined;
+  let cancelButton: React.JSX.Element | undefined;
   if (
     !isCanceled &&
     (backupStep === InstallScreenBackupStep.Download ||
@@ -250,7 +252,9 @@ type ProgressBarPropsType = Readonly<
   )
 >;
 
-function ProgressBarAndDescription(props: ProgressBarPropsType): JSX.Element {
+function ProgressBarAndDescription(
+  props: ProgressBarPropsType
+): React.JSX.Element {
   const { backupStep, i18n, isCanceled } = props;
 
   if (isCanceled) {

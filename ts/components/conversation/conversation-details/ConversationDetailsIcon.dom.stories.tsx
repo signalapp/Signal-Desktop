@@ -20,7 +20,7 @@ const createProps = (overrideProps: Partial<Props>): Props => ({
   onClick: overrideProps.onClick,
 });
 
-export function All(): JSX.Element {
+export function All(): React.JSX.Element {
   const icons = Object.values(IconType);
 
   return (
@@ -32,7 +32,7 @@ export function All(): JSX.Element {
   );
 }
 
-export function ClickableIcons(): JSX.Element {
+export function ClickableIcons(): React.JSX.Element {
   const icons = [
     IconType.timer,
     IconType.trash,

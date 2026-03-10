@@ -16,7 +16,7 @@ export type SafetyTipsModalProps = Readonly<{
 export function SafetyTipsModal({
   i18n,
   onClose,
-}: SafetyTipsModalProps): JSX.Element {
+}: SafetyTipsModalProps): React.JSX.Element {
   const pages = useMemo(() => {
     return [
       {

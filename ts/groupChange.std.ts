@@ -23,16 +23,17 @@ import { createLogger } from './logging/log.std.js';
 
 const log = createLogger('groupChange');
 
-type SelectParamsByKeyType<T extends string | JSX.Element> = T extends string
-  ? ICUStringMessageParamsByKeyType
-  : ICUJSXMessageParamsByKeyType;
+type SelectParamsByKeyType<T extends string | React.JSX.Element> =
+  T extends string
+    ? ICUStringMessageParamsByKeyType
+    : ICUJSXMessageParamsByKeyType;
 
-export type SmartContactRendererType<T extends string | JSX.Element> = (
+export type SmartContactRendererType<T extends string | React.JSX.Element> = (
   serviceId: ServiceIdString
-) => T extends string ? string : JSX.Element;
+) => T extends string ? string : React.JSX.Element;
 
 type StringRendererType<
-  T extends string | JSX.Element,
+  T extends string | React.JSX.Element,
   ParamsByKeyType extends SelectParamsByKeyType<T> = SelectParamsByKeyType<T>,
 > = <Key extends keyof ParamsByKeyType>(
   id: Key,
@@ -40,7 +41,7 @@ type StringRendererType<
   components: ParamsByKeyType[Key]
 ) => T;
 
-export type RenderOptionsType<T extends string | JSX.Element> = {
+export type RenderOptionsType<T extends string | React.JSX.Element> = {
   // `from` will be a PNI when the change is "declining a PNI invite".
   from?: ServiceIdString;
   i18n: LocalizerType;
@@ -53,11 +54,11 @@ export type RenderOptionsType<T extends string | JSX.Element> = {
 const AccessControlEnum = Proto.AccessControl.AccessRequired;
 const RoleEnum = Proto.Member.Role;
 
-export type RenderChangeResultType<T extends string | JSX.Element> =
+export type RenderChangeResultType<T extends string | React.JSX.Element> =
   ReadonlyArray<
     Readonly<{
       detail: GroupV2ChangeDetailType;
-      text: T extends string ? string : JSX.Element;
+      text: T extends string ? string : React.JSX.Element;
 
       // Used to differentiate between the multiple texts produced by
       // 'admin-approval-bounce'
@@ -65,7 +66,7 @@ export type RenderChangeResultType<T extends string | JSX.Element> =
     }>
   >;
 
-export function renderChange<T extends string | JSX.Element>(
+export function renderChange<T extends string | React.JSX.Element>(
   change: ReadonlyDeep<GroupV2ChangeType>,
   options: RenderOptionsType<T>
 ): RenderChangeResultType<T> {
@@ -88,7 +89,7 @@ export function renderChange<T extends string | JSX.Element>(
   });
 }
 
-function renderChangeDetail<T extends string | JSX.Element>(
+function renderChangeDetail<T extends string | React.JSX.Element>(
   detail: ReadonlyDeep<GroupV2ChangeDetailType>,
   options: RenderOptionsType<T>
 ): string | T | ReadonlyArray<string | T> {

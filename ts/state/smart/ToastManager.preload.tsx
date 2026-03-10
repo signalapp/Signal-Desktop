@@ -16,12 +16,13 @@ import {
 import { hasSelectedStoryData } from '../selectors/stories.preload.js';
 import { shouldShowLightbox } from '../selectors/lightbox.std.js';
 import { isInFullScreenCall as getIsInFullScreenCall } from '../selectors/calling.std.js';
-import { getSelectedNavTab } from '../selectors/nav.preload.js';
 import {
-  getMe,
   getSelectedConversationId,
-} from '../selectors/conversations.dom.js';
+  getSelectedNavTab,
+} from '../selectors/nav.std.js';
+import { getMe } from '../selectors/conversations.dom.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
+import { useCallingActions } from '../ducks/calling.preload.js';
 import { useToastActions } from '../ducks/toast.preload.js';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
 import { useNavActions } from '../ducks/nav.std.js';
@@ -32,19 +33,36 @@ import type { WidthBreakpoint } from '../../components/_util.std.js';
 import { getToast } from '../selectors/toast.std.js';
 import { useDonationsActions } from '../ducks/donations.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { getVisibleMegaphonesForDisplay } from '../selectors/megaphones.preload.js';
+import { useMegaphonesActions } from '../ducks/megaphones.preload.js';
+import { shouldNeverBeCalled } from '../../util/shouldNeverBeCalled.std.js';
 
 export type SmartPropsType = Readonly<{
   disableMegaphone?: boolean;
   containerWidthBreakpoint: WidthBreakpoint;
+  expandNarrowLeftPane: () => void;
 }>;
 
 function handleShowDebugLog() {
   window.IPC.showDebugLog();
 }
 
+export function renderToastManagerWithoutMegaphone(props: {
+  containerWidthBreakpoint: WidthBreakpoint;
+}): React.JSX.Element {
+  return (
+    <SmartToastManager
+      disableMegaphone
+      expandNarrowLeftPane={shouldNeverBeCalled}
+      {...props}
+    />
+  );
+}
+
 export const SmartToastManager = memo(function SmartToastManager({
   disableMegaphone = false,
   containerWidthBreakpoint,
+  expandNarrowLeftPane,
 }: SmartPropsType) {
   const i18n = useSelector(getIntl);
   const hasCompletedUsernameOnboarding = useSelector(
@@ -59,12 +77,16 @@ export const SmartToastManager = memo(function SmartToastManager({
   const { username } = useSelector(getMe);
   const selectedNavTab = useSelector(getSelectedNavTab);
   const selectedConversationId = useSelector(getSelectedConversationId);
+  const megaphones = useSelector(getVisibleMegaphonesForDisplay);
+
   const { changeLocation } = useNavActions();
   const { setDidResume } = useDonationsActions();
 
   const { onUndoArchive } = useConversationsActions();
+  const { retryCallQualitySurvey } = useCallingActions();
   const { openFileInFolder, hideToast } = useToastActions();
   const { toggleUsernameOnboarding } = useGlobalModalActions();
+  const { interactWithMegaphone } = useMegaphonesActions();
 
   let megaphone: AnyActionableMegaphone | undefined;
 
@@ -79,6 +101,12 @@ export const SmartToastManager = memo(function SmartToastManager({
       onDismiss: () => {
         drop(itemStorage.put('hasCompletedUsernameOnboarding', true));
       },
+    };
+  } else if (megaphones.length > 0) {
+    megaphone = {
+      ...megaphones[0],
+      type: MegaphoneType.Remote,
+      onInteractWithMegaphone: interactWithMegaphone,
     };
   }
 
@@ -100,11 +128,13 @@ export const SmartToastManager = memo(function SmartToastManager({
       megaphone={disableMegaphone ? undefined : megaphone}
       onShowDebugLog={handleShowDebugLog}
       onUndoArchive={onUndoArchive}
+      retryCallQualitySurvey={retryCallQualitySurvey}
       openFileInFolder={openFileInFolder}
       hideToast={hideToast}
       setDidResumeDonation={setDidResume}
       centerToast={centerToast}
       containerWidthBreakpoint={containerWidthBreakpoint}
+      expandNarrowLeftPane={expandNarrowLeftPane}
       isCompositionAreaVisible={isCompositionAreaVisible}
       isInFullScreenCall={isInFullScreenCall}
     />

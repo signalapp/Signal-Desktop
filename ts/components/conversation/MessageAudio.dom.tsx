@@ -49,6 +49,7 @@ export type OwnProps = Readonly<{
   expirationLength?: number;
   expirationTimestamp?: number;
   id: string;
+  isPinned: boolean;
   played: boolean;
   status?: MessageStatusType;
   textPending?: boolean;
@@ -142,7 +143,7 @@ function PlayedDot({
  * `context` is required for displaying separate MessageAudio instances in
  * MessageDetails and Message React components.
  */
-export function MessageAudio(props: Props): JSX.Element {
+export function MessageAudio(props: Props): React.JSX.Element {
   const {
     active,
     buttonRef,
@@ -156,6 +157,7 @@ export function MessageAudio(props: Props): JSX.Element {
     expirationLength,
     expirationTimestamp,
     id,
+    isPinned,
     played,
     status,
     textPending,
@@ -375,15 +377,18 @@ export function MessageAudio(props: Props): JSX.Element {
 
       {!withContentBelow && !collapseMetadata && (
         <MessageMetadata
+          canRetryDeleteForEveryone={false}
           direction={direction}
           expirationLength={expirationLength}
           expirationTimestamp={expirationTimestamp}
           hasText={withContentBelow}
           i18n={i18n}
           id={id}
+          isPinned={isPinned}
           isShowingImage={false}
           isSticker={false}
           pushPanelForConversation={pushPanelForConversation}
+          retryDeleteForEveryone={shouldNeverBeCalled}
           retryMessageSend={shouldNeverBeCalled}
           status={status}
           textPending={textPending}

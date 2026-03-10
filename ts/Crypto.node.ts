@@ -158,6 +158,61 @@ export function decryptDeviceName(
   return Bytes.toString(plaintext);
 }
 
+// For testing
+export function encryptDeviceCreatedAt(
+  createdAt: number,
+  deviceId: number,
+  registrationId: number,
+  identityPublic: PublicKey
+): Uint8Array {
+  const createdAtBuffer = new ArrayBuffer(8);
+  const dataView = new DataView(createdAtBuffer);
+  dataView.setBigUint64(0, BigInt(createdAt), false);
+  const createdAtBytes = new Uint8Array(createdAtBuffer);
+
+  const associatedData = getAssociatedDataForDeviceCreatedAt(
+    deviceId,
+    registrationId
+  );
+
+  return identityPublic.seal(createdAtBytes, 'deviceCreatedAt', associatedData);
+}
+
+// createdAtCiphertext is an Int64, encrypted using the identity key
+// PrivateKey with 5 bytes of associated data (deviceId || registrationId).
+export function decryptDeviceCreatedAt(
+  createdAtCiphertext: Uint8Array,
+  deviceId: number,
+  registrationId: number,
+  identityPrivate: PrivateKey
+): number {
+  const associatedData = getAssociatedDataForDeviceCreatedAt(
+    deviceId,
+    registrationId
+  );
+  const createdAtData = identityPrivate.open(
+    createdAtCiphertext,
+    'deviceCreatedAt',
+    associatedData
+  );
+  return Number(Bytes.readBigUint64BE(createdAtData));
+}
+
+function getAssociatedDataForDeviceCreatedAt(
+  deviceId: number,
+  registrationId: number
+): Uint8Array {
+  if (deviceId > 255) {
+    throw new Error('deviceId above 255, must be 1 byte');
+  }
+
+  const associatedDataBuffer = new ArrayBuffer(5);
+  const dataView = new DataView(associatedDataBuffer);
+  dataView.setUint8(0, deviceId);
+  dataView.setUint32(1, registrationId, false);
+  return new Uint8Array(associatedDataBuffer);
+}
+
 export function deriveMasterKey(accountEntropyPool: string): Uint8Array {
   return AccountEntropyPool.deriveSvrKey(accountEntropyPool);
 }

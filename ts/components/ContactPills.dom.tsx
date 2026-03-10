@@ -16,7 +16,7 @@ type PropsType = {
 export function ContactPills({
   moduleClassName,
   children,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const elRef = useRef<null | HTMLDivElement>(null);
 
   const childCount = Children.count(children);

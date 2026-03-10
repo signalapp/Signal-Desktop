@@ -10,7 +10,7 @@ import { encryptLegacyAttachment } from './encryptLegacyAttachment.preload.js';
 import { AttachmentDisposition } from './getLocalAttachmentUrl.std.js';
 import { isNotNil } from './isNotNil.std.js';
 import {
-  deleteAttachmentData,
+  maybeDeleteAttachmentFile,
   deleteAvatar,
   deleteDraftFile,
   readAttachmentData,
@@ -28,7 +28,7 @@ const log = createLogger('encryptConversationAttachments');
 
 const CONCURRENCY = 32;
 
-type CleanupType = Array<() => Promise<void>>;
+type CleanupType = Array<() => Promise<unknown>>;
 
 export async function encryptConversationAttachments(): Promise<void> {
   const all = await DataReader.getAllConversations();
@@ -100,7 +100,7 @@ async function encryptOne(attributes: ConversationAttributesType): Promise<
     );
     if (result.profileAvatar !== attributes.profileAvatar) {
       const { path } = attributes.profileAvatar;
-      cleanup.push(() => deleteAttachmentData(path));
+      cleanup.push(() => maybeDeleteAttachmentFile(path));
     }
   }
 
@@ -113,7 +113,7 @@ async function encryptOne(attributes: ConversationAttributesType): Promise<
     });
     if (result.avatar !== attributes.avatar) {
       const { path } = attributes.avatar;
-      cleanup.push(() => deleteAttachmentData(path));
+      cleanup.push(() => maybeDeleteAttachmentFile(path));
     }
   }
 

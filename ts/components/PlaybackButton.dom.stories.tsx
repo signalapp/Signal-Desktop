@@ -22,7 +22,7 @@ const rowStyles: CSSProperties = {
   padding: 10,
 };
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   const theme = useContext(StorybookThemeContext);
   const themeIncomingColor = theme === ThemeType.light ? '#e9e9e9' : '#3b3b3b';
 

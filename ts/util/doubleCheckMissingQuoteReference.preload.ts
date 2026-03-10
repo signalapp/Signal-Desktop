@@ -11,8 +11,7 @@ import { createLogger } from '../logging/log.std.js';
 import { isQuoteAMatch } from '../messages/quotes.preload.js';
 import { shouldTryToCopyFromQuotedMessage } from '../messages/helpers.std.js';
 import { copyQuoteContentFromOriginal } from '../messages/copyQuote.preload.js';
-import { queueUpdateMessage } from './messageBatcher.preload.js';
-import { drop } from './drop.std.js';
+import { maybeDeleteAttachmentFile } from './migrations.preload.js';
 
 const log = createLogger('doubleCheckMissingQuoteReference');
 
@@ -68,6 +67,8 @@ export async function doubleCheckMissingQuoteReference(
       return;
     }
 
+    const existingThumbnailPath = quote.attachments[0]?.thumbnail?.path;
+
     message.set({
       quote: {
         ...quote,
@@ -84,6 +85,11 @@ export async function doubleCheckMissingQuoteReference(
         referencedMessageNotFound: false,
       },
     });
-    drop(queueUpdateMessage(message.attributes));
+
+    await window.MessageCache.saveMessage(message.attributes);
+
+    if (existingThumbnailPath) {
+      await maybeDeleteAttachmentFile(existingThumbnailPath);
+    }
   }
 }

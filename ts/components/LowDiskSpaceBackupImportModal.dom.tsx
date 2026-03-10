@@ -14,7 +14,9 @@ export type PropsType = Readonly<{
   onClose: () => void;
 }>;
 
-export function LowDiskSpaceBackupImportModal(props: PropsType): JSX.Element {
+export function LowDiskSpaceBackupImportModal(
+  props: PropsType
+): React.JSX.Element {
   const { i18n, bytesNeeded, onClose } = props;
 
   return (

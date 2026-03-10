@@ -27,7 +27,7 @@ export type SmartPreferencesEditChatFolderPageProps = Readonly<{
 
 export function SmartPreferencesEditChatFolderPage(
   props: SmartPreferencesEditChatFolderPageProps
-): JSX.Element {
+): React.JSX.Element {
   const { existingChatFolderId, initChatFolderParams } = props;
 
   const i18n = useSelector(getIntl);

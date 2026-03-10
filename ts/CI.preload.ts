@@ -20,6 +20,7 @@ import { strictAssert } from './util/assert.std.js';
 import { MessageModel } from './models/messages.preload.js';
 import type { SocketStatuses } from './textsecure/SocketManager.preload.js';
 import { itemStorage } from './textsecure/Storage.preload.js';
+import { BackupLevel } from './services/backups/types.std.js';
 
 const log = createLogger('CI');
 
@@ -52,9 +53,11 @@ export type CIType = {
   uploadBackup(): Promise<void>;
   unlink: () => void;
   print: (...args: ReadonlyArray<unknown>) => void;
-  resetReleaseNotesFetcher(): void;
+  resetReleaseNoteAndMegaphoneFetcher(): void;
   forceUnprocessed: boolean;
   setMediaPermissions(): Promise<void>;
+  maybeUpdateMaxAudioLevel: (level: number) => void;
+  getAndResetMaxAudioLevel: () => number | undefined;
 };
 
 export type GetCIOptionsType = Readonly<{
@@ -201,13 +204,11 @@ export function getCI({
   }
 
   async function exportLocalBackup(backupsBaseDir: string): Promise<string> {
-    const { snapshotDir } = await backupsService.exportLocalBackup(
+    const { snapshotDir } = await backupsService.exportLocalBackup({
       backupsBaseDir,
-      {
-        type: 'local-encrypted',
-        localBackupSnapshotDir: backupsBaseDir,
-      }
-    );
+      onProgress: () => null,
+      abortSignal: new AbortController().signal,
+    });
     return snapshotDir;
   }
 
@@ -220,6 +221,7 @@ export function getCI({
   }
 
   async function uploadBackup() {
+    await itemStorage.put('backupTier', BackupLevel.Paid);
     await backupsService.upload();
     await AttachmentBackupManager.waitForIdle();
 
@@ -239,7 +241,7 @@ export function getCI({
     return window.getSocketStatus();
   }
 
-  async function resetReleaseNotesFetcher() {
+  async function resetReleaseNoteAndMegaphoneFetcher() {
     await Promise.all([
       itemStorage.put('releaseNotesVersionWatermark', '7.0.0-alpha.1'),
       itemStorage.put('releaseNotesPreviousManifestHash', ''),
@@ -249,6 +251,24 @@ export function getCI({
 
   async function setMediaPermissions() {
     await window.IPC.setMediaPermissions(true);
+  }
+
+  let maxAudioLevel: number | undefined;
+
+  function maybeUpdateMaxAudioLevel(level: number) {
+    if (maxAudioLevel === undefined || maxAudioLevel < level) {
+      maxAudioLevel = level;
+    }
+  }
+
+  // Tracker for maximum received audio level in a 1:1 call
+  // We get and reset because:
+  // (a) updates are frequent (every 200ms) and
+  // (b) current test use cases want "max since I last asked"
+  function getAndResetMaxAudioLevel(): number | undefined {
+    const level = maxAudioLevel;
+    maxAudioLevel = undefined;
+    return level;
   }
 
   return {
@@ -270,8 +290,10 @@ export function getCI({
     unlink,
     getPendingEventCount,
     print,
-    resetReleaseNotesFetcher,
+    resetReleaseNoteAndMegaphoneFetcher,
     forceUnprocessed,
     setMediaPermissions,
+    maybeUpdateMaxAudioLevel,
+    getAndResetMaxAudioLevel,
   };
 }

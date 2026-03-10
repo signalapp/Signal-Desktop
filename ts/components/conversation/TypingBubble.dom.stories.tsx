@@ -34,7 +34,6 @@ const CONTACTS = times(10, index => {
     phoneNumber: '(202) 555-0001',
     profileName: `${letter} ${letter}`,
     isMe: false,
-    sharedGroupNames: [],
     title: `${letter} ${letter}`,
   });
 });
@@ -75,13 +74,13 @@ const createProps = (
   };
 };
 
-export function Direct(): JSX.Element {
+export function Direct(): React.JSX.Element {
   const props = createProps();
 
   return <TypingBubble {...props} />;
 }
 
-export function DirectStoppedTyping(): JSX.Element {
+export function DirectStoppedTyping(): React.JSX.Element {
   const props = createProps();
   const [afterTimeoutProps, setAfterTimeoutProps] = useState({});
   useEffect(() => {
@@ -97,12 +96,12 @@ export function DirectStoppedTyping(): JSX.Element {
   return <TypingBubble {...props} {...afterTimeoutProps} />;
 }
 
-export function Group(): JSX.Element {
+export function Group(): React.JSX.Element {
   const props = createProps({ conversationType: 'group' });
   return <TypingBubble {...props} />;
 }
 
-export function GroupStartsTyping(): JSX.Element {
+export function GroupStartsTyping(): React.JSX.Element {
   const props = createProps({
     conversationType: 'group',
     typingContactIdTimestamps: {},
@@ -121,7 +120,7 @@ export function GroupStartsTyping(): JSX.Element {
   return <TypingBubble {...props} {...afterTimeoutProps} />;
 }
 
-export function GroupStoppedTyping(): JSX.Element {
+export function GroupStoppedTyping(): React.JSX.Element {
   const props = createProps({
     conversationType: 'group',
     typingContactIdTimestamps: getTypingContactIdTimestamps(1),
@@ -137,7 +136,7 @@ export function GroupStoppedTyping(): JSX.Element {
   return <TypingBubble {...props} {...afterTimeoutProps} />;
 }
 
-export function GroupWithBadge(): JSX.Element {
+export function GroupWithBadge(): React.JSX.Element {
   const props = createProps({
     conversationType: 'group',
     typingContactIdTimestamps: getTypingContactIdTimestamps(1),
@@ -147,7 +146,7 @@ export function GroupWithBadge(): JSX.Element {
   return <TypingBubble {...props} />;
 }
 
-export function GroupMultiTyping1To2(): JSX.Element {
+export function GroupMultiTyping1To2(): React.JSX.Element {
   const props = createProps({
     conversationType: 'group',
     typingContactIdTimestamps: getTypingContactIdTimestamps(1),
@@ -166,7 +165,7 @@ export function GroupMultiTyping1To2(): JSX.Element {
   return <TypingBubble {...props} {...afterTimeoutProps} />;
 }
 
-export function GroupMultiTyping2Then1PersonStops(): JSX.Element {
+export function GroupMultiTyping2Then1PersonStops(): React.JSX.Element {
   const props = createProps({
     conversationType: 'group',
     typingContactIdTimestamps: getTypingContactIdTimestamps(2),
@@ -185,7 +184,7 @@ export function GroupMultiTyping2Then1PersonStops(): JSX.Element {
   return <TypingBubble {...props} {...afterTimeoutProps} />;
 }
 
-export function GroupMultiTyping3To4(): JSX.Element {
+export function GroupMultiTyping3To4(): React.JSX.Element {
   const props = createProps({
     conversationType: 'group',
     typingContactIdTimestamps: getTypingContactIdTimestamps(3),
@@ -204,7 +203,7 @@ export function GroupMultiTyping3To4(): JSX.Element {
   return <TypingBubble {...props} {...afterTimeoutProps} />;
 }
 
-export function GroupMultiTyping10(): JSX.Element {
+export function GroupMultiTyping10(): React.JSX.Element {
   const props = createProps({
     conversationType: 'group',
     typingContactIdTimestamps: getTypingContactIdTimestamps(10),
@@ -213,7 +212,7 @@ export function GroupMultiTyping10(): JSX.Element {
   return <TypingBubble {...props} />;
 }
 
-export function GroupMultiTypingWithBadges(): JSX.Element {
+export function GroupMultiTypingWithBadges(): React.JSX.Element {
   const props = createProps({
     conversationType: 'group',
     typingContactIdTimestamps: getTypingContactIdTimestamps(3),

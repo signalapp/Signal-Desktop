@@ -43,6 +43,8 @@ import {
   encryptDeviceName,
   generateRegistrationId,
   getRandomBytes,
+  decryptDeviceCreatedAt,
+  encryptDeviceCreatedAt,
 } from '../Crypto.node.js';
 import {
   generateKeyPair,
@@ -309,6 +311,58 @@ export default class AccountManager extends EventTarget {
     );
 
     return name;
+  }
+
+  // For testing
+  async _encryptDeviceCreatedAt(
+    createdAt: number,
+    deviceId: number
+  ): Promise<string> {
+    const ourAci = itemStorage.user.getCheckedAci();
+    const identityKey = signalProtocolStore.getIdentityKeyPair(ourAci);
+    const registrationId =
+      await signalProtocolStore.getLocalRegistrationId(ourAci);
+    strictAssert(identityKey, 'Missing identity key pair');
+    strictAssert(registrationId, 'Missing registrationId for our Aci');
+
+    const createdAtCiphertextBytes = encryptDeviceCreatedAt(
+      createdAt,
+      deviceId,
+      registrationId,
+      identityKey.publicKey
+    );
+
+    return Bytes.toBase64(createdAtCiphertextBytes);
+  }
+
+  async decryptDeviceCreatedAt(
+    createdAtCiphertextBase64: string,
+    deviceId: number
+  ): Promise<number> {
+    const ourAci = itemStorage.user.getCheckedAci();
+    const identityKey = signalProtocolStore.getIdentityKeyPair(ourAci);
+    if (!identityKey) {
+      throw new Error('decryptDeviceCreatedAt: No identity key pair!');
+    }
+
+    const registrationId =
+      await signalProtocolStore.getLocalRegistrationId(ourAci);
+    if (!registrationId) {
+      throw new Error('decryptDeviceCreatedAt: No registrationId for our Aci!');
+    }
+
+    const createdAtCiphertextBytes = Bytes.fromBase64(
+      createdAtCiphertextBase64
+    );
+
+    const createdAt = decryptDeviceCreatedAt(
+      createdAtCiphertextBytes,
+      deviceId,
+      registrationId,
+      identityKey.privateKey
+    );
+
+    return createdAt;
   }
 
   async maybeUpdateDeviceName(): Promise<void> {

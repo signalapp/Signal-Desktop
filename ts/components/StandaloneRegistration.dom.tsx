@@ -19,7 +19,7 @@ function PhoneInput({
   initialValue: string | undefined;
   onValidation: (isValid: boolean) => void;
   onNumberChange: (number?: string) => void;
-}): JSX.Element {
+}): React.JSX.Element {
   const [isValid, setIsValid] = useState(false);
   const pluginRef = useRef<Iti | undefined>();
   const elemRef = useRef<HTMLInputElement | null>(null);
@@ -137,7 +137,7 @@ function PhoneNumberStage({
     transport: VerificationTransport
   ) => Promise<{ sessionId: string }>;
   onNext: (result: { number: string; sessionId: string }) => void;
-}): JSX.Element {
+}): React.JSX.Element {
   const [number, setNumber] = useState<string | undefined>(initialNumber);
 
   const [isValidNumber, setIsValidNumber] = useState(false);
@@ -250,7 +250,7 @@ export function VerificationCodeStage({
   ) => Promise<void>;
   onNext: () => void;
   onBack: () => void;
-}): JSX.Element {
+}): React.JSX.Element {
   const [code, setCode] = useState('');
   const [isValidCode, setIsValidCode] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -348,7 +348,7 @@ export function ProfileNameStage({
     lastName: string;
   }) => Promise<void>;
   onNext: () => void;
-}): JSX.Element {
+}): React.JSX.Element {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [error, setError] = useState<string | undefined>(undefined);
@@ -450,7 +450,7 @@ export function StandaloneRegistration({
   registerSingleDevice,
   uploadProfile,
   readyForUpdates,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   useEffect(() => {
     readyForUpdates();
   }, [readyForUpdates]);
@@ -490,7 +490,7 @@ export function StandaloneRegistration({
     });
   }, []);
 
-  let body: JSX.Element;
+  let body: React.JSX.Element;
   if (stageData.stage === Stage.PhoneNumber) {
     body = (
       <PhoneNumberStage

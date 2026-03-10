@@ -50,7 +50,7 @@ export function NotificationProfilesMenu({
   loading,
   onGoToSettings,
   setProfileOverride,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const enabledOverrideEndTime = currentOverride?.enabled?.endsAtMs;
   const [now, setNow] = React.useState(Date.now());
   const [cachedProfiles, setCachedProfiles] = React.useState<

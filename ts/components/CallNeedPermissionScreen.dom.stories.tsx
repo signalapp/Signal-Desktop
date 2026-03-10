@@ -20,6 +20,6 @@ export default {
   },
 } satisfies ComponentMeta<Props>;
 
-export function Default(args: Props): JSX.Element {
+export function Default(args: Props): React.JSX.Element {
   return <CallNeedPermissionScreen {...args} />;
 }

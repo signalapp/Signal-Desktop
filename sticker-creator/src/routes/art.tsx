@@ -46,7 +46,7 @@ function Index() {
   return <Navigate to="/art/drop" replace />;
 }
 
-export function createArtRoutes(): JSX.Element {
+export function createArtRoutes(): React.JSX.Element {
   return (
     <Route path="/art">
       <Route index loader={startFlow} element={<Index />} />

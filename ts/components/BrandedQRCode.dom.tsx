@@ -107,7 +107,11 @@ function compute(link: string): ComputeResultType {
   };
 }
 
-export function BrandedQRCode({ size, link, color }: PropsType): JSX.Element {
+export function BrandedQRCode({
+  size,
+  link,
+  color,
+}: PropsType): React.JSX.Element {
   const { path, moduleCount, radius } = useMemo(() => compute(link), [link]);
 
   const QR_SCALE = size / 2 / moduleCount;

@@ -6,9 +6,9 @@ import {
   type PrimaryDevice,
   Proto,
   StorageState,
+  EMPTY_DATA_MESSAGE,
 } from '@signalapp/mock-server';
 import createDebug from 'debug';
-import Long from 'long';
 
 import * as durations from '../../util/durations/index.std.js';
 import { uuidToBytes } from '../../util/uuidToBytes.std.js';
@@ -19,6 +19,7 @@ import {
   expectSystemMessages,
   typeIntoInput,
   waitForEnabledComposer,
+  waitForNonProfileKeyUpdateMessage,
 } from '../helpers.node.js';
 
 export const debug = createDebug('mock:test:messaging');
@@ -70,6 +71,8 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: true,
           name: MY_STORY_ID,
+          deletedAtTimestamp: null,
+          recipientServiceIdsBinary: null,
         },
       },
     });
@@ -180,24 +183,41 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
         debug('Send a sync message');
         const timestamp = bootstrap.getTimestamp();
         const destinationServiceIdBinary = stranger.device.aciBinary;
-        const content = {
+        const content: Proto.Content.Params = {
           syncMessage: {
             sent: {
               destinationServiceIdBinary,
-              timestamp: Long.fromNumber(timestamp),
+              timestamp: BigInt(timestamp),
               message: {
+                ...EMPTY_DATA_MESSAGE,
                 body: 'request',
-                timestamp: Long.fromNumber(timestamp),
+                timestamp: BigInt(timestamp),
                 expireTimer: scenario.ourTimer,
                 expireTimerVersion: scenario.ourVersion,
               },
               unidentifiedStatus: [
                 {
                   destinationServiceIdBinary,
+                  unidentified: null,
+                  destinationPniIdentityKey: null,
+                  destinationServiceId: null,
                 },
               ],
+              destinationE164: null,
+              expirationStartTimestamp: null,
+              isRecipientUpdate: null,
+              storyMessage: null,
+              storyMessageRecipients: null,
+              editMessage: null,
+              destinationServiceId: null,
             },
+            read: null,
+            stickerPackOperation: null,
+            viewed: null,
+            padding: null,
           },
+          pniSignatureMessage: null,
+          senderKeyDistributionMessage: null,
         };
         const sendOptions = {
           timestamp,
@@ -208,13 +228,16 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
       const sendResponse = async () => {
         debug('Send a response message');
         const timestamp = bootstrap.getTimestamp();
-        const content = {
+        const content: Proto.Content.Params = {
           dataMessage: {
+            ...EMPTY_DATA_MESSAGE,
             body: 'response',
-            timestamp: Long.fromNumber(timestamp),
+            timestamp: BigInt(timestamp),
             expireTimer: scenario.theirTimer,
             expireTimerVersion: scenario.theirVersion,
           },
+          pniSignatureMessage: null,
+          senderKeyDistributionMessage: null,
         };
         const sendOptions = {
           timestamp,
@@ -255,7 +278,8 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
       }
 
       debug('Getting message to contact');
-      const { body, dataMessage } = await stranger.waitForMessage();
+      const { body, dataMessage } =
+        await waitForNonProfileKeyUpdateMessage(stranger);
 
       assert.strictEqual(body, 'Hello');
       assert.strictEqual(dataMessage.expireTimer, scenario.finalTimer);
@@ -281,9 +305,12 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
     debug('setting timer to 1 week');
     await conversationStack.getByRole('button', { name: 'More Info' }).click();
 
-    await window
-      .getByRole('menuitem', { name: 'Disappearing messages' })
-      .click();
+    const disappearingMessages = window.getByRole('menuitem', {
+      name: 'Disappearing messages',
+    });
+
+    await disappearingMessages.focus();
+    await disappearingMessages.press('ArrowRight');
 
     await window.getByRole('menuitemradio', { name: '1 week' }).click();
 
@@ -301,9 +328,8 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
     debug('setting timer to 4 weeks');
     await conversationStack.getByRole('button', { name: 'More Info' }).click();
 
-    await window
-      .getByRole('menuitem', { name: 'Disappearing messages' })
-      .click();
+    await disappearingMessages.focus();
+    await disappearingMessages.press('ArrowRight');
 
     await window.getByRole('menuitemradio', { name: '4 weeks' }).click();
 

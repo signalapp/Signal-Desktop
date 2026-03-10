@@ -132,6 +132,18 @@ import updateToSchemaVersion1530 from './1530-update-expiring-index.std.js';
 import updateToSchemaVersion1540 from './1540-partial-expiring-index.std.js';
 import updateToSchemaVersion1550 from './1550-has-link-preview.std.js';
 import updateToSchemaVersion1560 from './1560-pinned-messages.std.js';
+import updateToSchemaVersion1561 from './1561-cleanup-polls.std.js';
+import updateToSchemaVersion1570 from './1570-pinned-messages-updates.std.js';
+import updateToSchemaVersion1580 from './1580-expired-group-replies.std.js';
+import updateToSchemaVersion1590 from './1590-megaphones.std.js';
+import updateToSchemaVersion1600 from './1600-deduplicate-usernames.std.js';
+import updateToSchemaVersion1610 from './1610-has-contacts.std.js';
+import updateToSchemaVersion1620 from './1620-sort-bigger-media.std.js';
+import updateToSchemaVersion1630 from './1630-message-pin-message-data.std.js';
+import updateToSchemaVersion1640 from './1640-key-transparency.std.js';
+import updateToSchemaVersion1650 from './1650-protected-attachments.std.js';
+import updateToSchemaVersion1660 from './1660-protected-attachments-non-unique.std.js';
+import updateToSchemaVersion1670 from './1670-drop-call-link-epoch.std.js';
 
 import { DataWriter } from '../Server.node.js';
 
@@ -1622,6 +1634,20 @@ export const SCHEMA_VERSIONS: ReadonlyArray<SchemaUpdateType> = [
   { version: 1540, update: updateToSchemaVersion1540 },
   { version: 1550, update: updateToSchemaVersion1550 },
   { version: 1560, update: updateToSchemaVersion1560 },
+  // 1561, 1551, and 1541 all refer to the same migration
+  { version: 1561, update: updateToSchemaVersion1561 },
+  { version: 1570, update: updateToSchemaVersion1570 },
+  { version: 1580, update: updateToSchemaVersion1580 },
+  { version: 1590, update: updateToSchemaVersion1590 },
+
+  { version: 1600, update: updateToSchemaVersion1600 },
+  { version: 1610, update: updateToSchemaVersion1610 },
+  { version: 1620, update: updateToSchemaVersion1620 },
+  { version: 1630, update: updateToSchemaVersion1630 },
+  { version: 1640, update: updateToSchemaVersion1640 },
+  { version: 1650, update: updateToSchemaVersion1650 },
+  { version: 1660, update: updateToSchemaVersion1660 },
+  { version: 1670, update: updateToSchemaVersion1670 },
 ];
 
 export class DBVersionFromFutureError extends Error {

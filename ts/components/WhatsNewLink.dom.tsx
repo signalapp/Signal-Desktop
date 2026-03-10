@@ -12,7 +12,7 @@ export type PropsType = {
   showWhatsNewModal: () => unknown;
 };
 
-export function WhatsNewLink(props: PropsType): JSX.Element {
+export function WhatsNewLink(props: PropsType): React.JSX.Element {
   const { i18n, showWhatsNewModal } = props;
 
   return (

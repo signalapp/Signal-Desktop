@@ -85,6 +85,17 @@ describe('Privacy', () => {
       `;
       assert.equal(actual, expected);
     });
+
+    it('should not redact hex stack traces', () => {
+      const text = `
+        "address": "0x0000000012345678",
+        "address": "0x12345678",
+        "address": "0x00000000000000f0",
+      `;
+
+      const actual = Privacy.redactCardNumbers(text);
+      assert.equal(actual, text);
+    });
   });
 
   describe('redactPhoneNumbers', () => {

@@ -17,7 +17,7 @@ export default {
 
 const { i18n } = window.SignalContext;
 
-export function Multiple(): JSX.Element {
+export function Multiple(): React.JSX.Element {
   const items = createPreparedMediaItems(createRandomDocuments);
 
   return (
@@ -27,8 +27,10 @@ export function Multiple(): JSX.Element {
           i18n={i18n}
           key={mediaItem.attachment.fileName}
           mediaItem={mediaItem}
+          authorTitle="Alice"
           onClick={action('onClick')}
-          onShowMessage={action('onShowMessage')}
+          showMessage={action('showMessage')}
+          renderContextMenu={(_item, children) => <>{children}</>}
         />
       ))}
     </>

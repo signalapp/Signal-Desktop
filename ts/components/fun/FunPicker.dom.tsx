@@ -41,7 +41,7 @@ export type FunPickerProps = Readonly<{
 
 export const FunPicker = memo(function FunPicker(
   props: FunPickerProps
-): JSX.Element {
+): React.JSX.Element {
   const { onOpenChange } = props;
   const fun = useFunContext();
   const { i18n, onOpenChange: onFunOpenChange, onChangeTab } = fun;

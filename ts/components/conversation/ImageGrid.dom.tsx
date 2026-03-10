@@ -124,7 +124,7 @@ export function ImageGrid({
   theme,
   withContentAbove,
   withContentBelow,
-}: Props): JSX.Element | null {
+}: Props): React.JSX.Element | null {
   const { curveTopLeft, curveTopRight, curveBottomLeft, curveBottomRight } =
     getCurves({
       direction,
@@ -569,7 +569,7 @@ function renderDownloadPill({
   i18n: LocalizerType;
   startDownloadClick: (event: React.MouseEvent) => void;
   startDownloadKeyDown: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
-}): JSX.Element | null {
+}): React.JSX.Element | null {
   const downloadedOrPendingOrIncremental = attachments.some(
     attachment =>
       attachment.path || attachment.pending || isIncremental(attachment)

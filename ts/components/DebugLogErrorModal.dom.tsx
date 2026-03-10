@@ -20,7 +20,7 @@ function focusRef(el: HTMLElement | null) {
   }
 }
 
-export function DebugLogErrorModal(props: PropsType): JSX.Element {
+export function DebugLogErrorModal(props: PropsType): React.JSX.Element {
   const { description, i18n, onClose, onSubmitDebugLog } = props;
 
   const footer = (

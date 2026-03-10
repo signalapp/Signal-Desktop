@@ -49,7 +49,7 @@ import { isNormalNumber } from '../util/isNormalNumber.std.js';
 import { isNotNil } from '../util/isNotNil.std.js';
 import { parseIntOrThrow } from '../util/parseIntOrThrow.std.js';
 import { updateSchema } from './migrations/index.node.js';
-import type { JSONRows } from './util.std.js';
+import type { JSONRows, QueryTemplate, QueryFragment } from './util.std.js';
 import {
   batchMultiVarQuery,
   bulkAdd,
@@ -68,8 +68,8 @@ import {
   sqlConstant,
   sqlFragment,
   sqlJoin,
-  QueryFragment,
   convertOptionalBooleanToInteger,
+  sqlId,
 } from './util.std.js';
 import {
   hydrateMessage,
@@ -137,14 +137,16 @@ import type {
   GetKnownMessageAttachmentsResultType,
   GetNearbyMessageFromDeletedSetOptionsType,
   GetSortedMediaOptionsType,
-  GetOlderLinkPreviewsOptionsType,
+  GetSortedNonAttachmentMediaOptionsType,
+  GetSortedDocumentsOptionsType,
   GetRecentStoryRepliesOptionsType,
   GetUnreadByConversationAndMarkReadResultType,
   IdentityKeyIdType,
   ItemKeyType,
   KyberPreKeyTripleType,
-  LinkPreviewMediaItemDBType,
+  NonAttachmentMediaItemDBType,
   MediaItemDBType,
+  ContactMediaItemDBType,
   MessageAttachmentsCursorType,
   MessageCursorType,
   MessageMetricsType,
@@ -195,10 +197,13 @@ import type {
   BackupAttachmentDownloadProgress,
   GetMessagesBetweenOptions,
   MaybeStaleCallHistory,
+  ExistingAttachmentData,
+  ExistingAttachmentUploadData,
 } from './Interface.std.js';
 import {
   AttachmentDownloadSource,
   MESSAGE_COLUMNS,
+  MESSAGE_COLUMNS_FRAGMENT,
   MESSAGE_ATTACHMENT_COLUMNS,
   MESSAGE_NON_PRIMARY_KEY_COLUMNS,
 } from './Interface.std.js';
@@ -224,7 +229,6 @@ import {
   insertOrUpdateCallLinkFromSync,
   updateCallLink,
   updateCallLinkState,
-  updateCallLinkStateAndEpoch,
   updateDefunctCallLink,
 } from './server/callLinks.node.js';
 import {
@@ -258,12 +262,31 @@ import {
   deleteExpiredChatFolders,
 } from './server/chatFolders.std.js';
 import {
-  getPinnedMessagesForConversation,
+  getAllPinnedMessages,
+  getPinnedMessagesPreloadDataForConversation,
   getNextExpiringPinnedMessageAcrossConversations,
-  createPinnedMessage,
-  deletePinnedMessage,
+  appendPinnedMessage,
+  deletePinnedMessageByMessageId,
   deleteAllExpiredPinnedMessagesBefore,
 } from './server/pinnedMessages.std.js';
+import {
+  getAllMegaphones,
+  getAllMegaphoneIds,
+  createMegaphone,
+  updateMegaphone,
+  deleteMegaphone,
+  finishMegaphone,
+  snoozeMegaphone,
+  internalDeleteAllMegaphones,
+  getAllMegaphoneImageLocalPaths,
+  hasMegaphone,
+} from './server/megaphones.std.js';
+import {
+  getAllKTAcis,
+  getKTAccountData,
+  setKTAccountData,
+  removeAllKTAccountData,
+} from './server/keyTransparency.std.js';
 import { INITIAL_EXPIRE_TIMER_VERSION } from '../util/expirationTimer.std.js';
 import type { GifType } from '../components/fun/panels/FunPanelGifs.dom.js';
 import type { NotificationProfileType } from '../types/NotificationProfile.std.js';
@@ -277,8 +300,9 @@ import type {
 } from '../types/Colors.std.js';
 import { sqlLogger } from './sqlLogger.node.js';
 import { permissiveMessageAttachmentSchema } from './server/messageAttachments.std.js';
-import { getFilePathsOwnedByMessage } from '../util/messageFilePaths.std.js';
+import { getFilePathsReferencedByMessage } from '../util/messageFilePaths.std.js';
 import { createMessagesOnInsertTrigger } from './migrations/1500-search-polls.std.js';
+import { isValidPlaintextHash } from '../types/Crypto.std.js';
 
 const {
   forEach,
@@ -295,6 +319,7 @@ const {
   omit,
   partition,
   pick,
+  sortBy,
 } = lodash;
 
 type ConversationRow = Readonly<{
@@ -432,7 +457,7 @@ export const DataReader: ServerReadableInterface = {
   countStoryReadsByConversation,
   getReactionByTimestamp,
   _getAllReactions,
-  getMessageBySender,
+  getMessageByAuthorAciAndSentAt,
   getMessageById,
   getMessagesById,
   _getAllMessages,
@@ -464,7 +489,8 @@ export const DataReader: ServerReadableInterface = {
 
   hasMedia,
   getSortedMedia,
-  getOlderLinkPreviews,
+  getSortedNonAttachmentMedia,
+  getSortedDocuments,
 
   getAllNotificationProfiles,
   getNotificationProfileById,
@@ -478,7 +504,15 @@ export const DataReader: ServerReadableInterface = {
   hasAllChatsChatFolder,
   getOldestDeletedChatFolder,
 
-  getPinnedMessagesForConversation,
+  getAllMegaphones,
+  getAllMegaphoneIds,
+  hasMegaphone,
+
+  getAllKTAcis,
+  getKTAccountData,
+
+  getAllPinnedMessages,
+  getPinnedMessagesPreloadDataForConversation,
   getNextExpiringPinnedMessageAcrossConversations,
 
   callLinkExists,
@@ -509,6 +543,7 @@ export const DataReader: ServerReadableInterface = {
 
   getAllBadges,
   getAllBadgeImageFileLocalPaths,
+  getAllMegaphoneImageLocalPaths,
   getAllStoryDistributionsWithMembers,
   getStoryDistributionWithMembers,
   _getAllStoryDistributions,
@@ -524,11 +559,14 @@ export const DataReader: ServerReadableInterface = {
 
   getStatisticsForLogging,
 
+  getMostRecentAttachmentUploadData,
   getBackupCdnObjectMetadata,
   getBackupAttachmentDownloadProgress,
   getAttachmentReferencesForMessages,
   getMessageCountBySchemaVersion,
   getMessageSampleForSchemaVersion,
+  isAttachmentSafeToDelete,
+  getAllProtectedAttachmentPaths,
 
   // Server-only
   getKnownMessageAttachments,
@@ -633,7 +671,6 @@ export const DataWriter: ServerWritableInterface = {
   insertOrUpdateCallLinkFromSync,
   updateCallLink,
   updateCallLinkState,
-  updateCallLinkStateAndEpoch,
   beginDeleteAllCallLinks,
   beginDeleteCallLink,
   deleteCallHistoryByRoomId,
@@ -668,6 +705,10 @@ export const DataWriter: ServerWritableInterface = {
   removeAttachmentDownloadJobsForMessage,
   removeAllBackupAttachmentDownloadJobs,
   resetBackupAttachmentDownloadStats,
+
+  getAndProtectExistingAttachmentPath,
+  _protectAttachmentPathFromDeletion,
+  resetProtectedAttachmentPaths,
 
   getNextAttachmentBackupJobs,
   saveAttachmentBackupJob,
@@ -735,8 +776,18 @@ export const DataWriter: ServerWritableInterface = {
   markChatFolderDeleted,
   deleteExpiredChatFolders,
 
-  createPinnedMessage,
-  deletePinnedMessage,
+  createMegaphone,
+  updateMegaphone,
+  deleteMegaphone,
+  finishMegaphone,
+  snoozeMegaphone,
+  internalDeleteAllMegaphones,
+
+  setKTAccountData,
+  removeAllKTAccountData,
+
+  appendPinnedMessage,
+  deletePinnedMessageByMessageId,
   deleteAllExpiredPinnedMessagesBefore,
 
   removeAll,
@@ -764,10 +815,6 @@ export const DataWriter: ServerWritableInterface = {
   removeKnownDraftAttachments,
   runCorruptionChecks,
 };
-
-const MESSAGE_COLUMNS_FRAGMENTS = MESSAGE_COLUMNS.map(
-  column => new QueryFragment(column, [])
-);
 
 function rowToConversation(row: ConversationRow): ConversationType {
   const { expireTimerVersion } = row;
@@ -988,6 +1035,9 @@ export function setupTests(db: WritableDB): void {
   const silentLogger = {
     ...consoleLogger,
     info: noop,
+    child() {
+      return silentLogger;
+    },
   };
   logger = silentLogger;
 
@@ -2170,10 +2220,6 @@ function searchMessages(
         .run({ conversationId, limit });
     }
 
-    const prefixedColumns = sqlJoin(
-      MESSAGE_COLUMNS_FRAGMENTS.map(name => sqlFragment`messages.${name}`)
-    );
-
     // The `MATCH` is necessary in order to for `snippet()` helper function to
     // give us the right results. We can't call `snippet()` in the query above
     // because it would bloat the temporary table with text data and we want
@@ -2181,7 +2227,7 @@ function searchMessages(
     const ftsFragment = sqlFragment`
       SELECT
         messages.rowid,
-        ${prefixedColumns},
+        ${MESSAGE_COLUMNS_FRAGMENT},
         snippet(messages_fts, -1, ${SNIPPET_LEFT_PLACEHOLDER}, ${SNIPPET_RIGHT_PLACEHOLDER}, ${SNIPPET_TRUNCATION_PLACEHOLDER}, 10) AS ftsSnippet
       FROM tmp_filtered_results
       INNER JOIN messages_fts
@@ -2202,10 +2248,13 @@ function searchMessages(
       const [sqlQuery, params] = sql`${ftsFragment};`;
       queryResult = writable.prepare(sqlQuery).all(params);
     } else {
-      const coalescedColumns = MESSAGE_COLUMNS_FRAGMENTS.map(
-        name => sqlFragment`
-          COALESCE(messages.${name}, ftsResults.${name}) AS ${name}
-        `
+      const coalescedColumns = sqlJoin(
+        MESSAGE_COLUMNS.map(name => {
+          const id = sqlId(name);
+          return sqlFragment`
+            COALESCE(messages.${id}, ftsResults.${id}) AS ${id}
+          `;
+        })
       );
 
       // If contactServiceIdsMatchingQuery is not empty, we due an OUTER JOIN
@@ -2220,7 +2269,7 @@ function searchMessages(
       const [sqlQuery, params] = sql`
         SELECT
           messages.rowid as rowid,
-          ${sqlJoin(coalescedColumns)},
+          ${coalescedColumns},
           ftsResults.ftsSnippet,
           mentionAci,
           start as mentionStart,
@@ -2340,8 +2389,7 @@ export function getMostRecentAddressableMessages(
 ): Array<MessageType> {
   return db.transaction(() => {
     const [query, parameters] = sql`
-    SELECT
-      ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
+    SELECT ${MESSAGE_COLUMNS_FRAGMENT}
     FROM messages
     INDEXED BY messages_by_date_addressable
     WHERE
@@ -2364,8 +2412,7 @@ export function getMostRecentAddressableNondisappearingMessages(
 ): Array<MessageType> {
   return db.transaction(() => {
     const [query, parameters] = sql`
-    SELECT
-      ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
+    SELECT ${MESSAGE_COLUMNS_FRAGMENT}
     FROM messages
     INDEXED BY messages_by_date_addressable_nondisappearing
     WHERE
@@ -2878,6 +2925,154 @@ function saveMessageAttachment({
   }
 }
 
+function getAndProtectExistingAttachmentPath(
+  db: WritableDB,
+  {
+    plaintextHash,
+    version,
+    contentType,
+    messageId,
+  }: {
+    plaintextHash: string;
+    version: number;
+    contentType: string;
+    messageId: string;
+  }
+): ExistingAttachmentData | undefined {
+  if (!isValidPlaintextHash(plaintextHash)) {
+    logger.error('getAndProtectExistingAttachmentPath: Invalid plaintextHash');
+    return;
+  }
+
+  if (version < 2) {
+    logger.error(
+      'getAndProtectExistingAttachmentPath: Invalid version',
+      version
+    );
+    return;
+  }
+
+  const [query, params] = sql`
+    SELECT
+      path,
+      version,
+      localKey,
+      width,
+      height,
+      thumbnailPath,
+      thumbnailLocalKey,
+      thumbnailVersion,
+      thumbnailContentType,
+      thumbnailSize,
+      screenshotPath,
+      screenshotLocalKey,
+      screenshotVersion,
+      screenshotContentType,
+      screenshotSize
+    FROM message_attachments 
+    WHERE 
+      plaintextHash = ${plaintextHash} AND 
+      path IS NOT NULL AND
+      version = ${version} AND
+      contentType = ${contentType}
+    LIMIT 1;
+  `;
+
+  const existingData = db.prepare(query).get<ExistingAttachmentData>(params);
+
+  if (!existingData) {
+    return undefined;
+  }
+
+  const [protectQuery, protectParams] = sql`
+      WITH existingMessageAttachmentPaths(path) AS (
+        VALUES
+          (${existingData.path}),
+          (${existingData.thumbnailPath}),
+          (${existingData.screenshotPath})
+      )
+      INSERT OR REPLACE INTO attachments_protected_from_deletion(path, messageId)
+      SELECT path, ${messageId}
+      FROM existingMessageAttachmentPaths
+      WHERE path IS NOT NULL;
+    `;
+  db.prepare(protectQuery).run(protectParams);
+
+  return existingData;
+}
+
+function _protectAttachmentPathFromDeletion(
+  db: WritableDB,
+  { path, messageId }: { path: string; messageId: string }
+): void {
+  const [protectQuery, protectParams] = sql`
+    INSERT OR REPLACE INTO attachments_protected_from_deletion
+      (path, messageId)
+    VALUES 
+      (${path}, ${messageId});
+  `;
+  db.prepare(protectQuery).run(protectParams);
+}
+
+function resetProtectedAttachmentPaths(db: WritableDB): void {
+  db.prepare('DELETE FROM attachments_protected_from_deletion').run();
+}
+
+function getAllProtectedAttachmentPaths(db: ReadableDB): Array<string> {
+  return db
+    .prepare('SELECT path FROM attachments_protected_from_deletion', {
+      pluck: true,
+    })
+    .all<string>();
+}
+
+function isAttachmentSafeToDelete(db: ReadableDB, path: string): boolean {
+  const [query, params] = sql`
+    SELECT EXISTS (
+      SELECT 1 FROM attachments_protected_from_deletion 
+        WHERE path = ${path}
+      UNION ALL
+        SELECT 1 FROM message_attachments 
+          WHERE 
+            path = ${path} OR
+            thumbnailPath = ${path} OR
+            screenshotPath = ${path} OR
+            backupThumbnailPath = ${path}
+    );
+  `;
+
+  return db.prepare(query, { pluck: true }).get(params) === 0;
+}
+
+function getMostRecentAttachmentUploadData(
+  db: ReadableDB,
+  plaintextHash: string
+): ExistingAttachmentUploadData | undefined {
+  const [query, params] = sql`
+    SELECT 
+      key,
+      digest,
+      transitCdnKey AS cdnKey,
+      transitCdnNumber AS cdnNumber,
+      transitCdnUploadTimestamp AS uploadTimestamp,
+      incrementalMac,
+      incrementalMacChunkSize as chunkSize
+    FROM message_attachments
+    INDEXED BY message_attachments_plaintextHash
+    WHERE 
+      plaintextHash = ${plaintextHash} AND
+      key IS NOT NULL AND
+      digest IS NOT NULL AND
+      transitCdnKey IS NOT NULL AND
+      transitCdnNumber IS NOT NULL AND
+      transitCdnUploadTimestamp IS NOT NULL
+    ORDER BY transitCdnUploadTimestamp DESC
+    LIMIT 1
+  `;
+
+  return db.prepare(query).get<ExistingAttachmentUploadData>(params);
+}
+
 function _testOnlyRemoveMessageAttachments(
   db: WritableDB,
   timestamp: number
@@ -3157,6 +3352,15 @@ function saveMessagesIndividually(
   arrayOfMessages: ReadonlyArray<ReadonlyDeep<MessageType>>,
   options: { forceSave?: boolean; ourAci: AciString }
 ): { failedIndices: Array<number> } {
+  try {
+    saveMessages(db, arrayOfMessages, options);
+    return { failedIndices: [] };
+  } catch (e) {
+    logger.error(
+      'saveMessagesIndividually: Failed to save messages in one transaction, falling over to individual saves'
+    );
+  }
+
   return db.transaction(() => {
     const failedIndices: Array<number> = [];
     arrayOfMessages.forEach((message, index) => {
@@ -3281,49 +3485,56 @@ function getAllMessageIds(db: ReadableDB): Array<string> {
   return rows.map(row => row.id);
 }
 
-function getMessageBySender(
+function getMessageByAuthorAciAndSentAt(
   db: ReadableDB,
-  {
-    source,
-    sourceServiceId,
-    sourceDevice,
-    sent_at,
-  }: {
-    source?: string;
-    sourceServiceId?: ServiceIdString;
-    sourceDevice?: number;
-    sent_at: number;
-  }
-): MessageType | undefined {
+  ourAci: AciString,
+  authorAci: AciString,
+  sentAtTimestamp: number,
+  options: { includeEdits: boolean }
+): MessageType | null {
   return db.transaction(() => {
-    const rows: Array<MessageTypeUnhydrated> = db
-      .prepare(
-        `
-    SELECT ${MESSAGE_COLUMNS.join(', ')} FROM messages WHERE
-      (source = $source OR sourceServiceId = $sourceServiceId) AND
-      sourceDevice = $sourceDevice AND
-      sent_at = $sent_at
-    LIMIT 2;
-    `
-      )
-      .all({
-        source: source || null,
-        sourceServiceId: sourceServiceId || null,
-        sourceDevice: sourceDevice || null,
-        sent_at,
-      });
+    const isSentByUs = ourAci === authorAci;
+
+    const senderPredicate = isSentByUs
+      ? sqlFragment`(messages.sourceServiceId = ${authorAci} OR messages.type IS 'outgoing')`
+      : sqlFragment`(messages.sourceServiceId = ${authorAci})`;
+
+    // Return sentAt/readStatus from the messages table, when we edit a message
+    // we add the original message to messages.editHistory and update original
+    // message's sentAt/readStatus columns.
+    //
+    // Make sure to preserve order of SELECT columns in the UNION
+    // In SQL UNION's require that the SELECT columns are in the same order
+    const editedMessagesQuery = sqlFragment`
+      SELECT ${MESSAGE_COLUMNS_FRAGMENT}
+      FROM edited_messages
+      INNER JOIN messages ON
+        messages.id = edited_messages.messageId
+      WHERE ${senderPredicate}
+        AND edited_messages.sentAt = ${sentAtTimestamp}
+    `;
+
+    const messagesQuery = sqlFragment`
+      SELECT ${MESSAGE_COLUMNS_FRAGMENT}
+      FROM messages
+      WHERE ${senderPredicate}
+        AND messages.sent_at = ${sentAtTimestamp}
+    `;
+
+    const [query, params] = options.includeEdits
+      ? sql`${editedMessagesQuery} UNION ${messagesQuery} LIMIT 2;`
+      : sql`${messagesQuery} LIMIT 2;`;
+
+    const rows = db.prepare(query).all<MessageTypeUnhydrated>(params);
 
     if (rows.length > 1) {
-      logger.warn('getMessageBySender: More than one message found for', {
-        sent_at,
-        source,
-        sourceServiceId,
-        sourceDevice,
-      });
+      logger.warn(
+        `getMessageByAuthorAciAndSentAt(${authorAci}, ${sentAtTimestamp}): More than one message found`
+      );
     }
 
     if (rows.length < 1) {
-      return undefined;
+      return null;
     }
 
     return hydrateMessage(db, rows[0]);
@@ -3334,16 +3545,32 @@ export function _storyIdPredicate(
   storyId: string | undefined,
   includeStoryReplies: boolean
 ): QueryFragment {
+  return _storyIdPredicateAndInfo(storyId, includeStoryReplies).predicate;
+}
+
+function _storyIdPredicateAndInfo(
+  storyId: string | undefined,
+  includeStoryReplies: boolean
+): {
+  predicate: QueryFragment;
+  isFilteringOnStoryId: boolean;
+} {
   // This is unintuitive, but 'including story replies' means that we need replies to
   //   lots of different stories. So, we remove the storyId check with a clause that will
   //   always be true. We don't just return TRUE because we want to use our passed-in
   //   $storyId parameter.
   if (includeStoryReplies && storyId === undefined) {
-    return sqlFragment`NULL IS NULL`;
+    return {
+      predicate: sqlFragment`NULL IS NULL`,
+      isFilteringOnStoryId: false,
+    };
   }
 
   // In contrast to: replies to a specific story
-  return sqlFragment`storyId IS ${storyId ?? null}`;
+  return {
+    predicate: sqlFragment`storyId IS ${storyId ?? null}`,
+    isFilteringOnStoryId: true,
+  };
 }
 
 function getUnreadByConversationAndMarkRead(
@@ -3367,6 +3594,9 @@ function getUnreadByConversationAndMarkRead(
   return db.transaction(() => {
     const expirationStartTimestamp = Math.min(now, readAt ?? Infinity);
 
+    const { predicate: storyReplyFilter, isFilteringOnStoryId } =
+      _storyIdPredicateAndInfo(storyId, includeStoryReplies);
+
     const updateExpirationFragment = sqlFragment`
       UPDATE messages
       INDEXED BY messages_conversationId_expirationStartTimestamp
@@ -3374,9 +3604,9 @@ function getUnreadByConversationAndMarkRead(
         expirationStartTimestamp = ${expirationStartTimestamp}
       WHERE
         conversationId = ${conversationId} AND
-        (${_storyIdPredicate(storyId, includeStoryReplies)}) AND
-        type IN ('incoming', 'poll-terminate') AND
-        hasExpireTimer IS 1 AND 
+        ${storyReplyFilter} AND
+        type IS NOT 'outgoing' AND
+        hasExpireTimer IS 1 AND
         received_at <= ${readMessageReceivedAt}
     `;
 
@@ -3403,56 +3633,68 @@ function getUnreadByConversationAndMarkRead(
       updateLateExpirationStartParams
     );
 
+    const indexToUse = isFilteringOnStoryId
+      ? sqlFragment`messages_unseen_with_story`
+      : sqlFragment`messages_unseen_no_story`;
+
     const [selectQuery, selectParams] = sql`
       SELECT
-        ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
+        id, readStatus, expirationStartTimestamp, sent_at, source, sourceServiceId, type
         FROM messages
+        INDEXED BY ${indexToUse}
         WHERE
           conversationId = ${conversationId} AND
           seenStatus = ${SeenStatus.Unseen} AND
           isStory = 0 AND
-          (${_storyIdPredicate(storyId, includeStoryReplies)}) AND
+          ${storyReplyFilter} AND
           received_at <= ${readMessageReceivedAt}
         ORDER BY received_at DESC, sent_at DESC;
     `;
 
     const rows = db
       .prepare(selectQuery)
-      .all<MessageTypeUnhydrated>(selectParams);
-
-    const statusJsonPatch = JSON.stringify({
-      readStatus: ReadStatus.Read,
-      seenStatus: SeenStatus.Seen,
-    });
+      .all<
+        Pick<
+          MessageTypeUnhydrated,
+          | 'id'
+          | 'readStatus'
+          | 'expirationStartTimestamp'
+          | 'sent_at'
+          | 'source'
+          | 'sourceServiceId'
+          | 'type'
+        >
+      >(selectParams);
 
     const [updateStatusQuery, updateStatusParams] = sql`
       UPDATE messages
+        INDEXED BY ${indexToUse}
         SET
           readStatus = ${ReadStatus.Read},
-          seenStatus = ${SeenStatus.Seen},
-          json = json_patch(json, ${statusJsonPatch})
+          seenStatus = ${SeenStatus.Seen}
         WHERE
           conversationId = ${conversationId} AND
           seenStatus = ${SeenStatus.Unseen} AND
           isStory = 0 AND
-          (${_storyIdPredicate(storyId, includeStoryReplies)}) AND
+          ${storyReplyFilter} AND
           received_at <= ${readMessageReceivedAt};
-    `;
+       `;
 
     db.prepare(updateStatusQuery).run(updateStatusParams);
-    return hydrateMessages(db, rows).map(msg => {
+    return rows.map(msg => {
       return {
-        originalReadStatus: msg.readStatus,
+        originalReadStatus:
+          msg.readStatus == null ? undefined : (msg.readStatus as ReadStatus),
         readStatus: ReadStatus.Read,
         seenStatus: SeenStatus.Seen,
-        ...pick(msg, [
-          'expirationStartTimestamp',
-          'id',
-          'sent_at',
-          'source',
-          'sourceServiceId',
-          'type',
-        ]),
+        id: msg.id,
+        expirationStartTimestamp: dropNull(msg.expirationStartTimestamp),
+        sent_at: msg.sent_at || 0,
+        source: dropNull(msg.source),
+        sourceServiceId: dropNull(msg.sourceServiceId) as
+          | ServiceIdString
+          | undefined,
+        type: msg.type as MessageType['type'],
       };
     });
   })();
@@ -3470,46 +3712,30 @@ function getUnreadReactionsAndMarkRead(
     storyId?: string;
   }
 ): Array<ReactionResultType> {
-  return db.transaction(() => {
-    const unreadMessages: Array<ReactionResultType> = db
-      .prepare(
-        `
-        SELECT reactions.rowid, targetAuthorAci, targetTimestamp, messageId
-        FROM reactions
-        INDEXED BY reactions_unread
-        JOIN messages on messages.id IS reactions.messageId
-        WHERE
-          reactions.conversationId IS $conversationId AND
-          reactions.unread > 0 AND
-          messages.received_at <= $readMessageReceivedAt AND
-          messages.storyId IS $storyId
-        ORDER BY messageReceivedAt DESC;
+  return db
+    .prepare(
       `
-      )
-      .all({
-        conversationId,
-        readMessageReceivedAt,
-        storyId: storyId || null,
-      });
-
-    const idsToUpdate = unreadMessages.map(item => item.rowid);
-    batchMultiVarQuery(
-      db,
-      idsToUpdate,
-      (ids: ReadonlyArray<number>, persistent: boolean): void => {
-        db.prepare(
-          `
         UPDATE reactions
+        INDEXED BY reactions_unread
         SET unread = 0
-        WHERE rowid IN ( ${ids.map(() => '?').join(', ')} );
-        `,
-          { persistent }
-        ).run(ids);
-      }
-    );
-
-    return unreadMessages;
-  })();
+        WHERE
+          conversationId = $conversationId AND
+          unread >= 1 AND
+          EXISTS (
+            SELECT 1
+            FROM messages
+            WHERE messages.id = reactions.messageId
+              AND messages.received_at <= $readMessageReceivedAt
+              AND messages.storyId IS $storyId
+          )
+        RETURNING targetAuthorAci, targetTimestamp, messageId;
+      `
+    )
+    .all({
+      conversationId,
+      readMessageReceivedAt,
+      storyId: storyId || null,
+    });
 }
 
 function markReactionAsRead(
@@ -3736,8 +3962,7 @@ function getRecentStoryReplies(
   };
 
   const createQuery = (timeFilter: QueryFragment): QueryFragment => sqlFragment`
-    SELECT
-      ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
+    SELECT ${MESSAGE_COLUMNS_FRAGMENT}
     FROM messages
     WHERE
       (${messageId ?? null} IS NULL OR id IS NOT ${messageId ?? null}) AND
@@ -3746,13 +3971,13 @@ function getRecentStoryReplies(
       (
         ${timeFilter}
       )
-      ORDER BY received_at DESC, sent_at DESC
   `;
 
   const template = sqlFragment`
     SELECT first.* FROM (${createQuery(timeFilters.first)}) as first
     UNION ALL
     SELECT second.* FROM (${createQuery(timeFilters.second)}) as second
+    ORDER BY received_at DESC, sent_at DESC
   `;
 
   const [query, params] = sql`${template} LIMIT ${limit}`;
@@ -3801,8 +4026,7 @@ function getAdjacentMessagesByConversation(
     requireFileAttachments;
 
   const createQuery = (timeFilter: QueryFragment): QueryFragment => sqlFragment`
-    SELECT
-      ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
+    SELECT ${MESSAGE_COLUMNS_FRAGMENT}
     FROM messages WHERE
       conversationId = ${conversationId} AND
       ${
@@ -3869,7 +4093,7 @@ function getAllStories(
 ): GetAllStoriesResultType {
   return db.transaction(() => {
     const [storiesQuery, storiesParams] = sql`
-    SELECT ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
+    SELECT ${MESSAGE_COLUMNS_FRAGMENT}
     FROM messages
     WHERE
       isStory = 1 AND
@@ -4546,7 +4770,7 @@ function getCallHistoryMessageByCallId(
 ): MessageType | undefined {
   return db.transaction(() => {
     const [query, params] = sql`
-    SELECT ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
+    SELECT ${MESSAGE_COLUMNS_FRAGMENT}
     FROM messages
     WHERE conversationId = ${options.conversationId}
       AND type = 'call-history'
@@ -5213,6 +5437,7 @@ function hasMedia(db: ReadableDB, conversationId: string): boolean {
   return db.transaction(() => {
     let hasAttachments: boolean;
     let hasPreviews: boolean;
+    let hasContacts: boolean;
 
     {
       const [query, params] = sql`
@@ -5250,7 +5475,23 @@ function hasMedia(db: ReadableDB, conversationId: string): boolean {
         db.prepare(query, { pluck: true }).get<number>(params) === 1;
     }
 
-    return hasAttachments || hasPreviews;
+    {
+      const [query, params] = sql`
+        SELECT EXISTS(
+          SELECT 1 FROM messages
+          INDEXED BY messages_hasContacts
+          WHERE
+            conversationId IS ${conversationId} AND
+            type IN ('incoming', 'outgoing') AND
+            isViewOnce IS NOT 1 AND
+            hasContacts IS 1
+        );
+      `;
+      hasContacts =
+        db.prepare(query, { pluck: true }).get<number>(params) === 1;
+    }
+
+    return hasAttachments || hasPreviews || hasContacts;
   })();
 }
 
@@ -5265,19 +5506,23 @@ function getSortedMedia(
     messageId,
     receivedAt: givenReceivedAt,
     sentAt: givenSentAt,
+    size: givenSize,
     type,
   }: GetSortedMediaOptionsType
 ): Array<MediaItemDBType> {
-  let timeFilters: {
+  let index: QueryFragment;
+  let sortFilters: {
     first: QueryFragment;
     second: QueryFragment;
+    third?: QueryFragment;
   };
-  let timeOrder: QueryFragment;
+  let orderFragment: QueryFragment;
   if (order === 'older') {
     const maxReceivedAt = givenReceivedAt ?? Number.MAX_VALUE;
     const maxSentAt = givenSentAt ?? Number.MAX_VALUE;
 
-    timeFilters = {
+    index = sqlFragment`message_attachments_getOlderMedia`;
+    sortFilters = {
       first: sqlFragment`
         message_attachments.receivedAt = ${maxReceivedAt}
         AND
@@ -5285,12 +5530,16 @@ function getSortedMedia(
       `,
       second: sqlFragment`message_attachments.receivedAt < ${maxReceivedAt}`,
     };
-    timeOrder = sqlFragment`DESC`;
+    orderFragment = sqlFragment`
+      message_attachments.receivedAt DESC,
+      message_attachments.sentAt DESC
+    `;
   } else if (order === 'newer') {
     const minReceivedAt = givenReceivedAt ?? Number.MIN_VALUE;
     const minSentAt = givenSentAt ?? Number.MIN_VALUE;
 
-    timeFilters = {
+    index = sqlFragment`message_attachments_getOlderMedia`;
+    sortFilters = {
       first: sqlFragment`
         message_attachments.receivedAt = ${minReceivedAt}
         AND
@@ -5298,7 +5547,38 @@ function getSortedMedia(
       `,
       second: sqlFragment`message_attachments.receivedAt > ${minReceivedAt}`,
     };
-    timeOrder = sqlFragment`ASC`;
+    orderFragment = sqlFragment`
+      message_attachments.receivedAt ASC,
+      message_attachments.sentAt ASC
+    `;
+  } else if (order === 'bigger') {
+    const maxSize = givenSize ?? Number.MAX_VALUE;
+    const maxReceivedAt = givenReceivedAt ?? Number.MAX_VALUE;
+    const maxSentAt = givenSentAt ?? Number.MAX_VALUE;
+
+    index = sqlFragment`message_attachments_sortBiggerMedia`;
+    sortFilters = {
+      first: sqlFragment`
+        message_attachments.size = ${maxSize}
+        AND
+        message_attachments.receivedAt = ${maxReceivedAt}
+        AND
+        message_attachments.sentAt < ${maxSentAt}
+      `,
+      second: sqlFragment`
+        message_attachments.size = ${maxSize}
+        AND
+        message_attachments.receivedAt < ${maxReceivedAt}
+      `,
+      third: sqlFragment`
+        message_attachments.size < ${maxSize}
+      `,
+    };
+    orderFragment = sqlFragment`
+      message_attachments.size DESC,
+      message_attachments.receivedAt DESC,
+      message_attachments.sentAt DESC
+    `;
   } else {
     throw missingCaseError(order);
   }
@@ -5334,13 +5614,17 @@ function getSortedMedia(
     throw missingCaseError(type);
   }
 
-  const createQuery = (timeFilter: QueryFragment): QueryFragment => sqlFragment`
+  const createQuery = (sortFilter: QueryFragment): QueryFragment => sqlFragment`
     SELECT
       message_attachments.*,
+      messages.json -> '$.sendStateByConversationId' AS messageSendState,
+      messages.json -> '$.errors' AS messageErrors,
+      messages.isErased AS messageIsErased,
+      messages.readStatus AS messageReadStatus,
       messages.source AS messageSource,
       messages.sourceServiceId AS messageSourceServiceId
     FROM message_attachments
-    INDEXED BY message_attachments_getOlderMedia
+    INDEXED BY ${index}
     INNER JOIN messages ON
       messages.id = message_attachments.messageId
     WHERE
@@ -5348,26 +5632,44 @@ function getSortedMedia(
       message_attachments.editHistoryIndex IS -1 AND
       message_attachments.attachmentType IS 'attachment' AND
       (
-        ${timeFilter}
+        ${sortFilter}
       ) AND
       (${contentFilter}) AND
       message_attachments.isViewOnce IS NOT 1 AND
       message_attachments.messageType IN ('incoming', 'outgoing') AND
       (${messageId ?? null} IS NULL OR message_attachments.messageId IS NOT ${messageId ?? null})
-      ORDER BY
-        message_attachments.receivedAt ${timeOrder},
-        message_attachments.sentAt ${timeOrder}
+      ORDER BY ${orderFragment}
       LIMIT ${limit}
   `;
 
-  const [query, params] = sql`
-    SELECT first.* FROM (${createQuery(timeFilters.first)}) as first
-    UNION ALL
-    SELECT second.* FROM (${createQuery(timeFilters.second)}) as second
-  `;
+  let template: QueryTemplate;
+  if (order === 'older' || order === 'newer') {
+    template = sql`
+      SELECT first.* FROM (${createQuery(sortFilters.first)}) as first
+      UNION ALL
+      SELECT second.* FROM (${createQuery(sortFilters.second)}) as second
+    `;
+  } else if (order === 'bigger') {
+    strictAssert(sortFilters.third != null, 'file size filter is required');
+    template = sql`
+      SELECT first.* FROM (${createQuery(sortFilters.first)}) as first
+      UNION ALL
+      SELECT second.* FROM (${createQuery(sortFilters.second)}) as second
+      UNION ALL
+      SELECT third.* FROM (${createQuery(sortFilters.third)}) as third
+    `;
+  } else {
+    throw missingCaseError(order);
+  }
+
+  const [query, params] = template;
 
   const results: Array<
     MessageAttachmentDBType & {
+      messageSendState: string | null;
+      messageErrors: string | null;
+      messageIsErased: number | null;
+      messageReadStatus: ReadStatus | null;
       messageSource: string | null;
       messageSourceServiceId: ServiceIdString | null;
     }
@@ -5379,12 +5681,17 @@ function getSortedMedia(
       messageType,
       messageSource,
       messageSourceServiceId,
+      messageSendState,
+      messageErrors,
+      messageIsErased,
+      messageReadStatus,
       sentAt,
       receivedAt,
       receivedAtMs,
     } = attachment;
 
     return {
+      type: 'mediaItem',
       message: {
         id: attachment.messageId,
         type: messageType as 'incoming' | 'outgoing',
@@ -5394,6 +5701,11 @@ function getSortedMedia(
         receivedAt,
         receivedAtMs: receivedAtMs ?? undefined,
         sentAt,
+        sendStateByConversationId:
+          messageSendState == null ? undefined : JSON.parse(messageSendState),
+        errors: messageErrors == null ? undefined : JSON.parse(messageErrors),
+        isErased: messageIsErased === 1,
+        readStatus: messageReadStatus ?? undefined,
       },
       index: orderInMessage,
       attachment: convertAttachmentDBFieldsToAttachmentType(attachment),
@@ -5401,7 +5713,7 @@ function getSortedMedia(
   });
 }
 
-function getOlderLinkPreviews(
+function getSortedNonAttachmentMedia(
   db: ReadableDB,
   {
     conversationId,
@@ -5409,21 +5721,33 @@ function getOlderLinkPreviews(
     messageId,
     receivedAt: maxReceivedAt = Number.MAX_VALUE,
     sentAt: maxSentAt = Number.MAX_VALUE,
-  }: GetOlderLinkPreviewsOptionsType
-): Array<LinkPreviewMediaItemDBType> {
+    type,
+  }: GetSortedNonAttachmentMediaOptionsType
+): Array<NonAttachmentMediaItemDBType> {
   const timeFilters = {
     first: sqlFragment`received_at = ${maxReceivedAt} AND sent_at < ${maxSentAt}`,
     second: sqlFragment`received_at < ${maxReceivedAt}`,
   };
 
+  let index: QueryFragment;
+  let predicate: QueryFragment;
+  if (type === 'links') {
+    index = sqlFragment`messages_hasPreviews`;
+    predicate = sqlFragment`hasPreviews IS 1`;
+  } else if (type === 'contacts') {
+    index = sqlFragment`messages_hasContacts`;
+    predicate = sqlFragment`hasContacts IS 1`;
+  } else {
+    throw missingCaseError(type);
+  }
+
   const createQuery = (timeFilter: QueryFragment): QueryFragment => sqlFragment`
-    SELECT
-      ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
+    SELECT ${MESSAGE_COLUMNS_FRAGMENT}
     FROM messages
-    INDEXED BY messages_hasPreviews
+    INDEXED BY ${index}
     WHERE
       conversationId IS ${conversationId} AND
-      hasPreviews IS 1 AND
+      (${predicate}) AND
       isViewOnce IS NOT 1 AND
       type IN ('incoming', 'outgoing') AND
       (${messageId ?? null} IS NULL OR id IS NOT ${messageId ?? null})
@@ -5440,26 +5764,75 @@ function getOlderLinkPreviews(
 
   const rows = db.prepare(query).all<MessageTypeUnhydrated>(params);
 
-  return hydrateMessages(db, rows).map(message => {
-    strictAssert(
-      message.preview != null && message.preview.length >= 1,
-      `getOlderLinkPreviews: got message without previe ${message.id}`
-    );
-
-    return {
-      message: {
-        id: message.id,
-        type: message.type as 'incoming' | 'outgoing',
-        conversationId,
-        source: message.source,
-        sourceServiceId: message.sourceServiceId,
-        receivedAt: message.received_at,
-        receivedAtMs: message.received_at_ms ?? undefined,
-        sentAt: message.sent_at,
-      },
-      preview: message.preview[0],
+  return hydrateMessages(db, rows).map(row => {
+    const message = {
+      id: row.id,
+      type: row.type as 'incoming' | 'outgoing',
+      conversationId,
+      source: row.source,
+      sourceServiceId: row.sourceServiceId,
+      receivedAt: row.received_at,
+      receivedAtMs: row.received_at_ms ?? undefined,
+      sentAt: row.sent_at,
+      errors: dropNull(row.errors),
+      sendStateByConversationId: row.sendStateByConversationId,
+      readStatus: row.readStatus,
+      isErased: !!row.isErased,
     };
+
+    if (type === 'links') {
+      strictAssert(
+        row.preview != null && row.preview.length >= 1,
+        `getSortedNonAttachmentMedia: got message without preview ${row.id}`
+      );
+
+      return {
+        type: 'link',
+        message,
+        preview: row.preview[0],
+      };
+    }
+
+    if (type === 'contacts') {
+      strictAssert(
+        row.contact != null && row.contact.length >= 1,
+        `getSortedNonAttachmentMedia: got message without contact ${row.id}`
+      );
+
+      return {
+        type: 'contact',
+        message,
+        contact: row.contact[0],
+      };
+    }
+
+    throw missingCaseError(type);
   });
+}
+
+function getSortedDocuments(
+  db: ReadableDB,
+  options: GetSortedDocumentsOptionsType
+): Array<MediaItemDBType | ContactMediaItemDBType> {
+  return db.transaction(() => {
+    const documents = getSortedMedia(db, {
+      ...options,
+      order: 'older',
+      type: 'documents',
+    });
+    const contacts = getSortedNonAttachmentMedia(db, {
+      ...options,
+      type: 'contacts',
+    }) as Array<ContactMediaItemDBType>;
+
+    return sortBy(
+      (documents as Array<MediaItemDBType | ContactMediaItemDBType>).concat(
+        contacts
+      ),
+      [raw => raw.message.receivedAt, raw => raw.message.sentAt],
+      ['DESC', 'DESC']
+    ).slice(0, options.limit);
+  })();
 }
 
 function _markCallHistoryMissed(
@@ -5610,22 +5983,20 @@ function getMessagesBySentAt(
   sentAt: number
 ): Array<MessageType> {
   return db.transaction(() => {
-    // Make sure to preserve order of columns
-    const editedColumns = MESSAGE_COLUMNS_FRAGMENTS.map(name => {
-      if (name.fragment === 'received_at' || name.fragment === 'sent_at') {
-        return name;
-      }
-      return sqlFragment`messages.${name}`;
-    });
-
+    // Return sentAt/readStatus from the messages table, when we edit a message
+    // we add the original message to messages.editHistory and update original
+    // message's sentAt/readStatus columns.
+    //
+    // Make sure to preserve order of SELECT columns in the UNION
+    // In SQL UNION's require that the SELECT columns are in the same order
     const [query, params] = sql`
-      SELECT ${sqlJoin(editedColumns)}
+      SELECT ${MESSAGE_COLUMNS_FRAGMENT}
       FROM edited_messages
       INNER JOIN messages ON
         messages.id = edited_messages.messageId
       WHERE edited_messages.sentAt = ${sentAt}
       UNION
-      SELECT ${sqlJoin(MESSAGE_COLUMNS_FRAGMENTS)}
+      SELECT ${MESSAGE_COLUMNS_FRAGMENT}
       FROM messages
       WHERE sent_at = ${sentAt}
       ORDER BY messages.received_at DESC, messages.sent_at DESC;
@@ -5668,16 +6039,11 @@ function getMessagesUnexpectedlyMissingExpirationStartTimestamp(
       INDEXED BY messages_unexpectedly_missing_expiration_start_timestamp
       WHERE
         expireTimer > 0 AND
-        expirationStartTimestamp IS NULL AND
-        (
-          type IS 'outgoing' OR
-          (type IS 'incoming' AND (
-            readStatus = ${ReadStatus.Read} OR
-            readStatus = ${ReadStatus.Viewed} OR
-            readStatus IS NULL
-          )) OR
-          (type IS 'poll-terminate')
-        );
+        expirationStartTimestamp IS NULL AND (
+          readStatus = ${ReadStatus.Read} OR
+          readStatus = ${ReadStatus.Viewed} OR
+          readStatus IS NULL
+        )
       `
       )
       .all();
@@ -7348,10 +7714,10 @@ function addRecentGif(
   })();
 }
 
-function removeRecentGif(db: WritableDB, gif: Pick<GifType, 'id'>): void {
+function removeRecentGif(db: WritableDB, gifId: GifType['id']): void {
   const [query, params] = sql`
     DELETE FROM recentGifs
-    WHERE id = ${gif.id}
+    WHERE id = ${gifId}
   `;
   db.prepare(query).run(params);
 }
@@ -8129,6 +8495,7 @@ function removeAll(db: WritableDB): void {
       DELETE FROM attachment_downloads;
       DELETE FROM attachment_backup_jobs;
       DELETE FROM attachment_downloads_backup_stats;
+      DELETE FROM attachments_protected_from_deletion;
       DELETE FROM backup_cdn_object_metadata;
       DELETE FROM badgeImageFiles;
       DELETE FROM badges;
@@ -8145,7 +8512,9 @@ function removeAll(db: WritableDB): void {
       DELETE FROM identityKeys;
       DELETE FROM items;
       DELETE FROM jobs;
+      DELETE FROM key_transparency_account_data;
       DELETE FROM kyberPreKeys;
+      DELETE FROM megaphones;
       DELETE FROM message_attachments;
       DELETE FROM messages_fts;
       DELETE FROM messages;
@@ -8204,6 +8573,7 @@ function removeAllConfiguration(db: WritableDB): void {
       DELETE FROM groupSendCombinedEndorsement;
       DELETE FROM groupSendMemberEndorsement;
       DELETE FROM jobs;
+      DELETE FROM key_transparency_account_data;
       DELETE FROM kyberPreKeys;
       DELETE FROM preKeys;
       DELETE FROM senderKeys;
@@ -8447,7 +8817,7 @@ function getKnownMessageAttachments(
   const { messages, cursor: newCursor } = pageMessages(db, innerCursor);
   for (const message of messages) {
     const { externalAttachments, externalDownloads } =
-      getFilePathsOwnedByMessage(message);
+      getFilePathsReferencedByMessage(message);
     externalAttachments.forEach(file => attachments.add(file));
     externalDownloads.forEach(file => downloads.add(file));
   }
@@ -9003,13 +9373,19 @@ function getUnreadEditedMessagesAndMarkRead(
   }
 ): GetUnreadByConversationAndMarkReadResultType {
   return db.transaction(() => {
-    const editedColumns = MESSAGE_COLUMNS_FRAGMENTS.filter(
-      name => name.fragment !== 'sent_at' && name.fragment !== 'readStatus'
-    ).map(name => sqlFragment`messages.${name}`);
+    const editedColumns = sqlJoin(
+      MESSAGE_COLUMNS.filter(name => {
+        // We want to use edited_messages.sentAt/readStatus here so that we can
+        // update these rows below.
+        return name !== 'sent_at' && name !== 'readStatus';
+      }).map(name => {
+        return sqlFragment`messages.${sqlId(name)}`;
+      })
+    );
 
     const [selectQuery, selectParams] = sql`
       SELECT
-        ${sqlJoin(editedColumns)},
+        ${editedColumns},
         edited_messages.sentAt as sent_at,
         edited_messages.readStatus
       FROM edited_messages
@@ -9018,7 +9394,7 @@ function getUnreadEditedMessagesAndMarkRead(
       WHERE
         edited_messages.readStatus = ${ReadStatus.Unread} AND
         edited_messages.conversationId = ${conversationId} AND
-        received_at <= ${readMessageReceivedAt}
+        messages.received_at <= ${readMessageReceivedAt}
       ORDER BY messages.received_at DESC, messages.sent_at DESC;
     `;
 

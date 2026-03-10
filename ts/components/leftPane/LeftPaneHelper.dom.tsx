@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ChangeEvent, ReactChild } from 'react';
+import type { ChangeEvent, ReactNode } from 'react';
 
 import type { Row } from '../ConversationList.dom.js';
 import type { LocalizerType } from '../../types/Util.std.js';
@@ -32,7 +32,7 @@ export abstract class LeftPaneHelper<T> {
       startComposing: () => void;
       showChooseGroupMembers: () => void;
     }>
-  ): null | ReactChild {
+  ): null | ReactNode {
     return null;
   }
 
@@ -53,7 +53,7 @@ export abstract class LeftPaneHelper<T> {
       updateFilterByUnread: (filterByUnread: boolean) => void;
     }> &
       LookupConversationWithoutServiceIdActionsType
-  ): null | ReactChild {
+  ): null | ReactNode {
     return null;
   }
 
@@ -71,7 +71,7 @@ export abstract class LeftPaneHelper<T> {
     _: Readonly<{
       i18n: LocalizerType;
     }>
-  ): null | ReactChild {
+  ): null | ReactNode {
     return null;
   }
 
@@ -88,13 +88,13 @@ export abstract class LeftPaneHelper<T> {
       createGroup: () => unknown;
       i18n: LocalizerType;
       removeSelectedContact: (_: string) => unknown;
-      renderLeftPaneChatFolders: () => JSX.Element;
+      renderLeftPaneChatFolders: () => React.JSX.Element;
       setComposeGroupAvatar: (_: undefined | Uint8Array) => unknown;
       setComposeGroupExpireTimer: (_: DurationInSeconds) => void;
       setComposeGroupName: (_: string) => unknown;
       toggleComposeEditingAvatar: () => unknown;
     }>
-  ): null | ReactChild {
+  ): null | ReactNode {
     return null;
   }
 
@@ -108,7 +108,7 @@ export abstract class LeftPaneHelper<T> {
         showConversation: ShowConversationType;
       } & LookupConversationWithoutServiceIdActionsType
     >
-  ): null | ReactChild {
+  ): null | ReactNode {
     return null;
   }
 

@@ -10,7 +10,7 @@ import { getConfirmLeaveCallModalState } from '../selectors/globalModals.std.js'
 import { ConfirmLeaveCallModal } from '../../components/ConfirmLeaveCallModal.dom.js';
 
 export const SmartConfirmLeaveCallModal = memo(
-  function SmartConfirmLeaveCallModal(): JSX.Element | null {
+  function SmartConfirmLeaveCallModal(): React.JSX.Element | null {
     const i18n = useSelector(getIntl);
     const confirmLeaveCallModalState = useSelector(
       getConfirmLeaveCallModalState

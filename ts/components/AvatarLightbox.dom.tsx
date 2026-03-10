@@ -33,7 +33,7 @@ export function AvatarLightbox({
   isGroup,
   noteToSelf,
   onClose,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   return (
     <Lightbox
       closeLightbox={onClose}

@@ -438,30 +438,6 @@
   }
 }
 
-.DonationPrivacyInformationModal {
-  @include donations-modal;
-
-  &__footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 16px;
-  }
-
-  &__faqs-link {
-    @include mixins.button-reset;
-
-    & {
-      color: variables.$color-ultramarine;
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
-}
-
 .PreferencesDonations__badge-list {
   width: 100%;
   margin-block: 4px 8px;
@@ -525,4 +501,28 @@
     variables.$color-black-alpha-50,
     variables.$color-white-alpha-55
   );
+}
+
+.PreferencesDonations__payment-icon {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  @include mixins.color-svg(
+    '../images/icons/v3/payment/payment.svg',
+    variables.$color-white
+  );
+}
+
+.PreferencesDonations__paypal-button {
+  display: flex;
+  width: 280px;
+  height: 36px;
+  background: variables.$color-paypal-yellow;
+  border-radius: 6px;
+  justify-content: center;
+}
+
+.PreferencesDonations__paypal-icon {
+  display: flex;
+  background-image: url('../images/paypal.svg');
 }

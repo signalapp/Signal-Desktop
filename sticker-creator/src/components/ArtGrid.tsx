@@ -38,7 +38,7 @@ function SmartArtFrame({
   id,
   showGuide,
   mode,
-}: SmartArtFrameProps): JSX.Element | null {
+}: SmartArtFrameProps): React.JSX.Element | null {
   const dispatch = useDispatch();
   const data = useArtData(id);
   if (!data) {
@@ -64,7 +64,7 @@ function SmartArtFrame({
 
 export type Props = Pick<ArtFrameProps, 'showGuide' | 'mode'>;
 
-export function ArtGrid({ mode, showGuide }: Props): JSX.Element {
+export function ArtGrid({ mode, showGuide }: Props): React.JSX.Element {
   const order = useArtOrder();
   const i18n = useI18n();
   const dispatch = useDispatch();

@@ -185,6 +185,12 @@ export type ProcessedReaction = {
   targetTimestamp?: number;
 };
 
+export type ProcessedPinMessage = Readonly<{
+  targetAuthorAci: AciString;
+  targetSentTimestamp: number;
+  pinDuration: DurationInSeconds | null;
+}>;
+
 export type ProcessedPollCreate = {
   question?: string;
   options?: Array<string>;
@@ -206,6 +212,11 @@ export type ProcessedDelete = {
   targetSentTimestamp?: number;
 };
 
+export type ProcessedAdminDelete = Readonly<{
+  targetSentTimestamp: number;
+  targetAuthorAci: AciString;
+}>;
+
 export type ProcessedBodyRange = RawBodyRange;
 
 export type ProcessedGroupCallUpdate = Proto.DataMessage.IGroupCallUpdate;
@@ -217,6 +228,11 @@ export type ProcessedGiftBadge = {
   receiptCredentialPresentation: string;
   state: GiftBadgeStates;
 };
+
+export type ProcessedUnpinMessage = Readonly<{
+  targetAuthorAci: AciString;
+  targetSentTimestamp: number;
+}>;
 
 export type ProcessedStoryContext = {
   authorAci: AciString | undefined;
@@ -243,14 +259,17 @@ export type ProcessedDataMessage = {
   isStory?: boolean;
   isViewOnce: boolean;
   reaction?: ProcessedReaction;
+  pinMessage?: ProcessedPinMessage;
   pollCreate?: ProcessedPollCreate;
   pollVote?: ProcessedPollVote;
   pollTerminate?: ProcessedPollTerminate;
   delete?: ProcessedDelete;
+  adminDelete?: ProcessedAdminDelete;
   bodyRanges?: ReadonlyArray<ProcessedBodyRange>;
   groupCallUpdate?: ProcessedGroupCallUpdate;
   storyContext?: ProcessedStoryContext;
   giftBadge?: ProcessedGiftBadge;
+  unpinMessage?: ProcessedUnpinMessage;
   canReplyToStory?: boolean;
 };
 

@@ -5,7 +5,6 @@ import type {
   AriaAttributes,
   CSSProperties,
   MouseEvent,
-  ReactChild,
   ReactNode,
 } from 'react';
 import React, { useEffect, useState } from 'react';
@@ -68,7 +67,6 @@ export type Props = {
   noteToSelf?: boolean;
   phoneNumber?: string;
   profileName?: string;
-  sharedGroupNames: ReadonlyArray<string>;
   size: AvatarSize;
   title: string;
   searchResult?: boolean;
@@ -125,7 +123,7 @@ export function Avatar({
   storyRing,
   blur = AvatarBlur.NoBlur,
   ...ariaProps
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const [imageBroken, setImageBroken] = useState(false);
 
   useEffect(() => {
@@ -192,7 +190,9 @@ export function Avatar({
           }}
         />
         {blur === AvatarBlur.BlurPictureWithClickToView && (
-          <div className="module-Avatar__click-to-view">{i18n('icu:view')}</div>
+          <div className="module-Avatar__click-to-view">
+            {i18n('icu:Avatar__View')}
+          </div>
         )}
       </>
     );
@@ -224,7 +224,9 @@ export function Avatar({
           }}
         />
         {blur === AvatarBlur.BlurPictureWithClickToView && (
-          <div className="module-Avatar__click-to-view">{i18n('icu:view')}</div>
+          <div className="module-Avatar__click-to-view">
+            {i18n('icu:Avatar__View')}
+          </div>
         )}
       </>
     );
@@ -249,7 +251,7 @@ export function Avatar({
     );
   }
 
-  let contents: ReactChild;
+  let contents: ReactNode;
   const contentsClassName = classNames(
     'module-Avatar__contents',
     `module-Avatar__contents--${color}`

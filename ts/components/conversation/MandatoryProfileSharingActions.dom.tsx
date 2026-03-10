@@ -29,7 +29,7 @@ export type Props = {
   | 'deleteConversation'
 >;
 
-const learnMoreLink = (parts: Array<JSX.Element | string>) => (
+const learnMoreLink = (parts: Array<React.JSX.Element | string>) => (
   <a
     href="https://support.signal.org/hc/articles/360007459591"
     target="_blank"
@@ -53,7 +53,7 @@ export function MandatoryProfileSharingActions({
   blockAndReportSpam,
   blockConversation,
   deleteConversation,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const [mrState, setMrState] = React.useState(MessageRequestState.default);
 
   const firstNameContact = (

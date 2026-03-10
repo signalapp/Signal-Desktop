@@ -1,0 +1,66 @@
+diff --git a/dist/index.d.ts b/dist/index.d.ts
+index cf899fa204912a35c556a9fa94c58e6ac37ab6f9..db4f388608b7d0912ab12ac167796cf5df73a44b 100644
+--- a/dist/index.d.ts
++++ b/dist/index.d.ts
+@@ -1,9 +1,15 @@
+ /// <reference types="react" />
+ import * as React$1 from 'react';
+-import { RefObject, CSSProperties, SVGAttributes, ForwardRefExoticComponent, PropsWithoutRef, RefAttributes, ReactHTML, DetailedHTMLFactory, HTMLAttributes, useEffect } from 'react';
++import { JSX, RefObject, CSSProperties, SVGAttributes, ForwardRefExoticComponent, PropsWithoutRef, RefAttributes, DetailedHTMLProps, HTMLAttributes, useEffect } from 'react';
+ import { Easing as Easing$1, SpringOptions } from 'popmotion';
+ import { ScrollOptions, InViewOptions } from '@motionone/dom';
+ 
++type HTMLTagName = {
++	[K in keyof JSX.IntrinsicElements]: JSX.IntrinsicElements[K] extends HTMLAttributes<HTMLElement> ? K : never
++}[keyof JSX.IntrinsicElements];
++
++type HTMLIntrinsicElements = Pick<JSX.IntrinsicElements, HTMLTagName>;
++
+ /**
+  * @public
+  */
+@@ -2670,22 +2676,22 @@ declare type ForwardRefComponent<T, P> = ForwardRefExoticComponent<PropsWithoutR
+ /**
+  * Support for React component props
+  */
+-declare type UnwrapFactoryAttributes<F> = F extends DetailedHTMLFactory<infer P, any> ? P : never;
+-declare type UnwrapFactoryElement<F> = F extends DetailedHTMLFactory<any, infer P> ? P : never;
++declare type UnwrapFactoryAttributes<F> = F extends DetailedHTMLProps<infer P, any> ? P : never;
++declare type UnwrapFactoryElement<F> = F extends DetailedHTMLProps<HTMLAttributes<any>, infer P> ? P : never;
+ declare type HTMLAttributesWithoutMotionProps<Attributes extends HTMLAttributes<Element>, Element extends HTMLElement> = {
+     [K in Exclude<keyof Attributes, keyof MotionProps>]?: Attributes[K];
+ };
+ /**
+  * @public
+  */
+-declare type HTMLMotionProps<TagName extends keyof ReactHTML> = HTMLAttributesWithoutMotionProps<UnwrapFactoryAttributes<ReactHTML[TagName]>, UnwrapFactoryElement<ReactHTML[TagName]>> & MotionProps;
++declare type HTMLMotionProps<TagName extends keyof HTMLIntrinsicElements> = HTMLAttributesWithoutMotionProps<UnwrapFactoryAttributes<HTMLIntrinsicElements[TagName]>, UnwrapFactoryElement<HTMLIntrinsicElements[TagName]>> & MotionProps;
+ /**
+  * Motion-optimised versions of React's HTML components.
+  *
+  * @public
+  */
+ declare type HTMLMotionComponents = {
+-    [K in HTMLElements]: ForwardRefComponent<UnwrapFactoryElement<ReactHTML[K]>, HTMLMotionProps<K>>;
++    [K in HTMLElements]: ForwardRefComponent<UnwrapFactoryElement<HTMLIntrinsicElements[K]>, HTMLMotionProps<K>>;
+ };
+ 
+ interface SVGAttributesWithoutMotionProps<T> extends Pick<SVGAttributes<T>, Exclude<keyof SVGAttributes<T>, keyof MotionProps>> {
+@@ -3023,7 +3029,7 @@ interface Props$1<V> {
+      *
+      * @public
+      */
+-    as?: keyof ReactHTML;
++    as?: keyof HTMLIntrinsicElements;
+     /**
+      * The value in the list that this component represents.
+      *
+@@ -3045,7 +3051,7 @@ interface Props<V> {
+      *
+      * @public
+      */
+-    as?: keyof ReactHTML;
++    as?: keyof HTMLIntrinsicElements;
+     /**
+      * The axis to reorder along. By default, items will be draggable on this axis.
+      * To make draggable on both axes, set `<Reorder.Item drag />`

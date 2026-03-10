@@ -19,9 +19,9 @@ import {
   isIncrementalMacVerificationError,
 } from '../util/downloadAttachment.preload.js';
 import {
-  deleteAttachmentData as doDeleteAttachmentData,
-  deleteDownloadData as doDeleteDownloadData,
-  processNewAttachment as doProcessNewAttachment,
+  maybeDeleteAttachmentFile,
+  deleteDownloadFile,
+  processNewAttachment,
 } from '../util/migrations.preload.js';
 import { DataReader, DataWriter } from '../sql/Client.preload.js';
 import { getValue } from '../RemoteConfig.dom.js';
@@ -40,7 +40,6 @@ import {
   getUndownloadedAttachmentSignature,
   isIncremental,
   hasRequiredInformationForRemoteBackup,
-  deleteAllAttachmentFilesOnDisk,
 } from '../util/Attachment.std.js';
 import type { ReadonlyMessageAttributesType } from '../model-types.d.ts';
 import { backupsService } from '../services/backups/index.preload.js';
@@ -86,6 +85,9 @@ import { getMessageQueueTime as doGetMessageQueueTime } from '../util/getMessage
 import { JobCancelReason } from './types.std.js';
 import { isAbortError } from '../util/isAbortError.std.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
+import { calculateExpirationTimestamp } from '../util/expirationTimer.std.js';
+import { cleanupAttachmentFiles } from '../types/Message2.preload.js';
+import { getExistingAttachmentDataForReuse } from '../util/attachments/deduplicateAttachment.preload.js';
 
 const { noop, omit, throttle } = lodash;
 
@@ -496,10 +498,11 @@ export class AttachmentDownloadManager extends JobManager<CoreAttachmentDownload
 }
 
 type DependenciesType = {
-  deleteAttachmentData: typeof doDeleteAttachmentData;
-  deleteDownloadData: typeof doDeleteDownloadData;
+  cleanupAttachmentFiles: typeof cleanupAttachmentFiles;
+  deleteDownloadFile: typeof deleteDownloadFile;
   downloadAttachment: typeof downloadAttachmentUtil;
-  processNewAttachment: typeof doProcessNewAttachment;
+  maybeDeleteAttachmentFile: typeof maybeDeleteAttachmentFile;
+  processNewAttachment: typeof processNewAttachment;
   runDownloadAttachmentJobInner: typeof runDownloadAttachmentJobInner;
 };
 
@@ -509,10 +512,11 @@ export async function runDownloadAttachmentJob({
   isLastAttempt,
   options,
   dependencies = {
-    deleteAttachmentData: doDeleteAttachmentData,
-    deleteDownloadData: doDeleteDownloadData,
+    cleanupAttachmentFiles,
+    deleteDownloadFile,
     downloadAttachment: downloadAttachmentUtil,
-    processNewAttachment: doProcessNewAttachment,
+    maybeDeleteAttachmentFile,
+    processNewAttachment,
     runDownloadAttachmentJobInner,
   },
 }: {
@@ -541,6 +545,8 @@ export async function runDownloadAttachmentJob({
       maxAttachmentSizeInKib: options.maxAttachmentSizeInKib,
       maxTextAttachmentSizeInKib: options.maxTextAttachmentSizeInKib,
       dependencies,
+      messageExpiresAt:
+        calculateExpirationTimestamp(message.attributes) ?? null,
     });
 
     if (result.downloadedVariant === AttachmentVariant.ThumbnailFromBackup) {
@@ -583,10 +589,7 @@ export async function runDownloadAttachmentJob({
         log.error(`${logId}: attachment not found on message`);
       }
 
-      await deleteAllAttachmentFilesOnDisk({
-        deleteDownloadOnDisk: dependencies.deleteDownloadData,
-        deleteAttachmentOnDisk: dependencies.deleteAttachmentData,
-      })(error.attachment);
+      await dependencies.cleanupAttachmentFiles(error.attachment);
 
       return { status: 'finished' };
     }
@@ -714,10 +717,12 @@ export async function runDownloadAttachmentJobInner({
   maxAttachmentSizeInKib,
   maxTextAttachmentSizeInKib,
   hasMediaBackups,
+  messageExpiresAt,
   dependencies,
 }: {
   job: AttachmentDownloadJobType;
   dependencies: Omit<DependenciesType, 'runDownloadAttachmentJobInner'>;
+  messageExpiresAt: number | null;
 } & RunDownloadAttachmentJobOptions): Promise<DownloadAttachmentResultType> {
   const { messageId, attachment, attachmentType } = job;
 
@@ -778,6 +783,7 @@ export async function runDownloadAttachmentJobInner({
         abortSignal,
         dependencies,
         logId,
+        messageExpiresAt,
       });
       await addAttachmentToMessage(
         messageId,
@@ -847,13 +853,30 @@ export async function runDownloadAttachmentJobInner({
         abortSignal,
         hasMediaBackups,
         logId,
+        messageExpiresAt,
       },
     });
+
+    const existingAttachmentData = await getExistingAttachmentDataForReuse({
+      plaintextHash: downloadedAttachment.plaintextHash,
+      contentType: attachment.contentType,
+      messageId,
+      logId,
+    });
+
+    if (existingAttachmentData) {
+      await dependencies.maybeDeleteAttachmentFile(downloadedAttachment.path);
+    }
+
+    const attachmentDataToUse: Partial<AttachmentType> = {
+      ...downloadedAttachment,
+      ...existingAttachmentData,
+    };
 
     const upgradedAttachment = await dependencies.processNewAttachment(
       {
         ...omit(attachment, ['error', 'pending']),
-        ...downloadedAttachment,
+        ...attachmentDataToUse,
       },
       attachmentType
     );
@@ -878,7 +901,7 @@ export async function runDownloadAttachmentJobInner({
     const shouldDeleteDownload = downloadPath && !isShowingLightbox();
     if (downloadPath) {
       if (shouldDeleteDownload) {
-        await dependencies.deleteDownloadData(downloadPath);
+        await dependencies.deleteDownloadFile(downloadPath);
       } else {
         deleteDownloadsJobQueue.pause();
         await deleteDownloadsJobQueue.add({
@@ -924,6 +947,7 @@ export async function runDownloadAttachmentJobInner({
           abortSignal,
           dependencies,
           logId,
+          messageExpiresAt,
         });
 
         await addAttachmentToMessage(
@@ -981,10 +1005,12 @@ async function downloadBackupThumbnail({
   abortSignal,
   logId,
   dependencies,
+  messageExpiresAt,
 }: {
   attachment: AttachmentType;
   abortSignal: AbortSignal;
   logId: string;
+  messageExpiresAt: number | null;
   dependencies: {
     downloadAttachment: typeof downloadAttachmentUtil;
   };
@@ -995,6 +1021,7 @@ async function downloadBackupThumbnail({
       onSizeUpdate: noop,
       variant: AttachmentVariant.ThumbnailFromBackup,
       abortSignal,
+      messageExpiresAt,
       hasMediaBackups: true,
       logId,
     },

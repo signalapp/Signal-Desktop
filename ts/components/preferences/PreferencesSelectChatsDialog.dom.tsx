@@ -47,7 +47,7 @@ export type PreferencesSelectChatsDialogProps = Readonly<{
 
 export function PreferencesSelectChatsDialog(
   props: PreferencesSelectChatsDialogProps
-): JSX.Element {
+): React.JSX.Element {
   const {
     i18n,
     conversations,
@@ -235,7 +235,6 @@ export function PreferencesSelectChatsDialog(
                 isMe={conversation.isMe}
                 phoneNumber={conversation.phoneNumber}
                 profileName={conversation.profileName}
-                sharedGroupNames={conversation.sharedGroupNames}
                 title={conversation.title}
                 onClickRemove={handleToggleSelectedConversation}
               />

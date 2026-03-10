@@ -21,7 +21,6 @@ export type Props = {
     | 'name'
     | 'phoneNumber'
     | 'profileName'
-    | 'sharedGroupNames'
     | 'title'
   >;
   i18n: LocalizerType;
@@ -34,7 +33,7 @@ export function CallNeedPermissionScreen({
   conversation,
   i18n,
   close,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const title = conversation.title || i18n('icu:unknownContact');
 
   const autoCloseAtRef = useRef<number>(Date.now() + AUTO_CLOSE_MS);
@@ -57,7 +56,6 @@ export function CallNeedPermissionScreen({
         phoneNumber={conversation.phoneNumber}
         profileName={conversation.profileName}
         title={conversation.title}
-        sharedGroupNames={conversation.sharedGroupNames}
         size={AvatarSize.EIGHTY}
       />
 

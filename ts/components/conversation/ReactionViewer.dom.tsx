@@ -18,6 +18,7 @@ import type {
 } from '../fun/data/emojis.std.js';
 import {
   EMOJI_PARENT_KEY_CONSTANTS,
+  getEmojiDebugLabel,
   getEmojiParentKeyByVariantKey,
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
@@ -26,8 +27,11 @@ import {
 import { strictAssert } from '../../util/assert.std.js';
 import { FunStaticEmoji } from '../fun/FunEmoji.dom.js';
 import { useFunEmojiLocalizer } from '../fun/useFunEmojiLocalizer.dom.js';
+import { createLogger } from '../../logging/log.std.js';
 
 const { mapValues, orderBy } = lodash;
+
+const log = createLogger('ReactionViewer');
 
 export type Reaction = {
   emoji: string;
@@ -42,7 +46,6 @@ export type Reaction = {
     | 'isMe'
     | 'phoneNumber'
     | 'profileName'
-    | 'sharedGroupNames'
     | 'title'
   >;
 };
@@ -84,13 +87,17 @@ type ReactionWithEmojiData = Reaction &
 
 function ReactionViewerEmoji(props: {
   emojiVariantValue: string | undefined;
-}): JSX.Element {
+}): React.JSX.Element | null {
   const emojiLocalizer = useFunEmojiLocalizer();
   strictAssert(props.emojiVariantValue != null, 'Expected an emoji');
-  strictAssert(
-    isEmojiVariantValue(props.emojiVariantValue),
-    'Must be valid emoji variant value'
-  );
+
+  if (!isEmojiVariantValue(props.emojiVariantValue)) {
+    log.error(
+      `Must be valid emoji variant value, got ${getEmojiDebugLabel(props.emojiVariantValue)}`
+    );
+    return null;
+  }
+
   const emojiVariantKey = getEmojiVariantKeyByValue(props.emojiVariantValue);
   const emojiVariant = getEmojiVariantByKey(emojiVariantKey);
   return (
@@ -264,7 +271,6 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
                   avatarUrl={from.avatarUrl}
                   badge={getPreferredBadge(from.badges)}
                   conversationType="direct"
-                  sharedGroupNames={from.sharedGroupNames}
                   size={32}
                   color={from.color}
                   profileName={from.profileName}

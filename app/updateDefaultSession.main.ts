@@ -28,6 +28,12 @@ export function updateDefaultSession(
         strictAssert(videoRequested, 'Not requesting video');
         strictAssert(!audioRequested, 'Requesting audio');
 
+        // desktopCapturer.getSources()  will crash in the MAS sandbox.
+        // This should never be reached because MAS requires
+        // macOS 15+ where we use @indutny/mac-screen-share directly
+        // and never call getDisplayMedia().
+        strictAssert(!process.mas, 'Unexpected getDisplayMedia() in MAS build');
+
         // macOS: if screen sharing is actively denied, Sonoma will crash
         // when we try to get the sources.
         if (

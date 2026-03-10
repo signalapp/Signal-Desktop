@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactChild, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import React, { useRef } from 'react';
 import classNames from 'classnames';
 import lodash from 'lodash';
@@ -14,7 +14,7 @@ import type {
   Props as MessagePropsType,
   PropsData as MessagePropsDataType,
 } from './Message.dom.js';
-import { Message } from './Message.dom.js';
+import { Message, MessageInteractivity } from './Message.dom.js';
 import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
 import type { ConversationType } from '../../state/ducks/conversations.preload.js';
 import type { PreferredBadgeSelectorType } from '../../state/selectors/badges.preload.js';
@@ -51,7 +51,6 @@ export type Contact = Pick<
   | 'isMe'
   | 'phoneNumber'
   | 'profileName'
-  | 'sharedGroupNames'
   | 'title'
 > & {
   status?: SendStatus;
@@ -60,7 +59,7 @@ export type Contact = Pick<
   isOutgoingKeyError: boolean;
   isUnidentifiedDelivery: boolean;
 
-  errors?: Array<Error>;
+  errors?: ReadonlyArray<Error>;
 };
 
 export type PropsData = {
@@ -70,7 +69,7 @@ export type PropsData = {
   contacts: ReadonlyArray<Contact>;
 
   contactNameColor?: ContactNameColorType;
-  errors: Array<Error>;
+  errors: ReadonlyArray<Error>;
   message: Omit<
     MessagePropsDataType,
     'renderingContext' | 'menu' | 'contextMenu' | 'showMenu'
@@ -112,6 +111,7 @@ export type PropsReduxActions = Pick<
   | 'showLightboxForViewOnceMedia'
   | 'showMediaNoLongerAvailableToast'
   | 'showSpoiler'
+  | 'retryDeleteForEveryone'
   | 'showTapToViewNotAvailableModal'
   | 'startConversation'
   | 'viewStory'
@@ -148,6 +148,7 @@ export function MessageDetail({
   openGiftBadge,
   platform,
   pushPanelForConversation,
+  retryDeleteForEveryone,
   retryMessageSend,
   sendPollVote,
   renderAudioAttachment,
@@ -168,19 +169,12 @@ export function MessageDetail({
   theme,
   toggleSafetyNumberModal,
   viewStory,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const messageDetailRef = useRef<HTMLDivElement>(null);
 
-  function renderAvatar(contact: Contact): JSX.Element {
-    const {
-      avatarUrl,
-      badges,
-      color,
-      phoneNumber,
-      profileName,
-      sharedGroupNames,
-      title,
-    } = contact;
+  function renderAvatar(contact: Contact): React.JSX.Element {
+    const { avatarUrl, badges, color, phoneNumber, profileName, title } =
+      contact;
 
     return (
       <Avatar
@@ -193,13 +187,12 @@ export function MessageDetail({
         profileName={profileName}
         theme={theme}
         title={title}
-        sharedGroupNames={sharedGroupNames}
         size={AvatarSize.THIRTY_TWO}
       />
     );
   }
 
-  function renderContact(contact: Contact): JSX.Element {
+  function renderContact(contact: Contact): React.JSX.Element {
     const contactErrors = contact.errors || [];
 
     const errorComponent = contact.isOutgoingKeyError ? (
@@ -302,7 +295,7 @@ export function MessageDetail({
     );
   }
 
-  function renderContacts(): ReactChild {
+  function renderContacts(): ReactNode {
     // This assumes that the list either contains one sender (a status of `undefined`) or
     //   1+ contacts with `SendStatus`es, but it doesn't check that assumption.
     const contactsBySendStatus = groupBy(contacts, contact => contact.status);
@@ -351,6 +344,7 @@ export function MessageDetail({
             endPoll={endPoll}
             getPreferredBadge={getPreferredBadge}
             i18n={i18n}
+            interactivity={MessageInteractivity.Static}
             interactionMode={interactionMode}
             kickOffAttachmentDownload={kickOffAttachmentDownload}
             markAttachmentAsCorrupted={markAttachmentAsCorrupted}
@@ -358,6 +352,7 @@ export function MessageDetail({
             openGiftBadge={openGiftBadge}
             platform={platform}
             pushPanelForConversation={pushPanelForConversation}
+            retryDeleteForEveryone={retryDeleteForEveryone}
             retryMessageSend={retryMessageSend}
             sendPollVote={sendPollVote}
             renderAudioAttachment={renderAudioAttachment}

@@ -21,6 +21,6 @@ const defaultProps = {
   onRetryDonation: action('onRetryDonation'),
 };
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return <DonationInterruptedModal {...defaultProps} />;
 }

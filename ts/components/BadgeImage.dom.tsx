@@ -14,7 +14,7 @@ export function BadgeImage({
 }: Readonly<{
   badge: BadgeType;
   size: number;
-}>): JSX.Element {
+}>): React.JSX.Element {
   const { name } = badge;
 
   const imagePath = getBadgeImageFileLocalPath(
@@ -43,6 +43,7 @@ export function BadgeImage({
         width: size,
         height: size,
       }}
+      draggable={false}
     />
   );
 }

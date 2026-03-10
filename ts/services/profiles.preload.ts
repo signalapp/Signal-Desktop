@@ -56,6 +56,7 @@ import {
 import { ProfileDecryptError } from '../types/errors.std.js';
 import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
+import { runMegaphoneCheck } from './megaphone.preload.js';
 
 const log = createLogger('profiles');
 
@@ -765,6 +766,11 @@ async function doGetProfile(
           : {}),
       })),
     });
+
+    // Refresh visible megaphones, since badges may affect conditionals
+    if (isMe(c.attributes)) {
+      drop(runMegaphoneCheck());
+    }
   } else {
     c.set({ badges: undefined });
   }
@@ -808,12 +814,6 @@ async function doGetProfile(
     } else {
       log.warn(`${logId}: No key to decrypt 'name' field; skipping`);
     }
-  } else {
-    log.warn(`${logId}: 'name' field missing; clearing profile name`);
-    c.set({
-      profileName: undefined,
-      profileFamilyName: undefined,
-    });
   }
 
   try {

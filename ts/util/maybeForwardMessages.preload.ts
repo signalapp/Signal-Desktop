@@ -80,7 +80,7 @@ export async function maybeForwardMessages(
     return false;
   }
 
-  const sendMessageOptions = { dontClearDraft: true };
+  const sendMessageOptions = { dontClearDraft: true, isForwarding: true };
   const baseTimestamp = Date.now();
 
   let timestampOffset = 0;
@@ -148,6 +148,9 @@ export async function maybeForwardMessages(
           (attachments || []).map(async item => ({
             ...(await loadAttachmentData(item)),
             path: undefined,
+            thumbnail: undefined,
+            thumbnailFromBackup: undefined,
+            screenshot: undefined,
           }))
         );
         const attachmentsToSend = attachmentsWithData.filter(

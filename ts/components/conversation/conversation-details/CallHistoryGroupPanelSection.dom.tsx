@@ -58,7 +58,7 @@ export type CallHistoryPanelSectionProps = Readonly<{
 export function CallHistoryGroupPanelSection({
   callHistoryGroup,
   i18n,
-}: CallHistoryPanelSectionProps): JSX.Element {
+}: CallHistoryPanelSectionProps): React.JSX.Element {
   return (
     <PanelSection title={formatDate(i18n, callHistoryGroup.timestamp)}>
       <ol className="ConversationDetails__CallHistoryGroup__List">

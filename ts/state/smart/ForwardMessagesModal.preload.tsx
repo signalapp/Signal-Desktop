@@ -33,7 +33,7 @@ import { getForwardMessagesProps } from '../selectors/globalModals.std.js';
 
 const log = createLogger('ForwardMessagesModal');
 
-export function SmartForwardMessagesModal(): JSX.Element | null {
+export function SmartForwardMessagesModal(): React.JSX.Element | null {
   const forwardMessagesProps = useSelector(getForwardMessagesProps);
 
   if (forwardMessagesProps == null) {
@@ -59,7 +59,7 @@ function SmartForwardMessagesModalInner({
   forwardMessagesProps,
 }: {
   forwardMessagesProps: ForwardMessagesPropsType;
-}): JSX.Element | null {
+}): React.JSX.Element | null {
   const { type } = forwardMessagesProps;
 
   const candidateConversations = useSelector(getAllComposableConversations);

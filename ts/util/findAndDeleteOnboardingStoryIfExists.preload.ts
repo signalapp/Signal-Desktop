@@ -49,7 +49,7 @@ export async function findAndDeleteOnboardingStoryIfExists(): Promise<void> {
 
   log.info('removing onboarding stories');
 
-  await DataWriter.removeMessages(existingOnboardingStoryMessageIds, {
+  await DataWriter.removeMessagesById(existingOnboardingStoryMessageIds, {
     cleanupMessages,
   });
 

@@ -10,6 +10,11 @@ const { realpath } = fsExtra;
 // eslint-disable-next-line max-len
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
 export async function sign(configuration: any): Promise<void> {
+  if (process.env.SKIP_SIGNING_SCRIPT === '1') {
+    console.log('SKIP_SIGNING_SCRIPT=1, skipping custom macOS signing script');
+    return;
+  }
+
   const scriptPath = process.env.SIGN_MACOS_SCRIPT;
   if (!scriptPath) {
     throw new Error(

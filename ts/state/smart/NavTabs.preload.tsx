@@ -21,7 +21,7 @@ import {
   getProfileMovedModalNeeded,
   getStoriesEnabled,
 } from '../selectors/items.dom.js';
-import { getSelectedNavTab } from '../selectors/nav.preload.js';
+import { getSelectedNavTab } from '../selectors/nav.std.js';
 import { useNavActions } from '../ducks/nav.std.js';
 import { getHasPendingUpdate } from '../selectors/updates.std.js';
 import { getCallHistoryUnreadCount } from '../selectors/callHistory.std.js';
@@ -46,7 +46,7 @@ export const SmartNavTabs = memo(function SmartNavTabs({
   renderChatsTab,
   renderStoriesTab,
   renderSettingsTab,
-}: SmartNavTabsProps): JSX.Element {
+}: SmartNavTabsProps): React.JSX.Element {
   const i18n = useSelector(getIntl);
   const selectedNavTab = useSelector(getSelectedNavTab);
   const me = useSelector(getMe);

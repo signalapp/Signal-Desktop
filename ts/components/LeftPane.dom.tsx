@@ -36,6 +36,7 @@ import * as KeyboardLayout from '../services/keyboardLayout.dom.js';
 import type { LookupConversationWithoutServiceIdActionsType } from '../util/lookupConversationWithoutServiceId.preload.js';
 import type { ShowConversationType } from '../state/ducks/conversations.preload.js';
 import type { PropsType as UnsupportedOSDialogPropsType } from '../state/smart/UnsupportedOSDialog.preload.js';
+import type { SmartPropsType as SmartToastManagerPropsType } from '../state/smart/ToastManager.preload.js';
 
 import { ConversationList } from './ConversationList.dom.js';
 import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox.dom.js';
@@ -130,6 +131,7 @@ export type PropsType = {
   preferredWidthFromStorage: number;
   selectedChatFolder: ChatFolder | null;
   selectedConversationId: undefined | string;
+  selectedLocation: Location | undefined;
   targetedMessageId: undefined | string;
   challengeStatus: 'idle' | 'required' | 'pending';
   setChallengeStatus: (status: 'idle') => void;
@@ -186,30 +188,32 @@ export type PropsType = {
   updateFilterByUnread: (filterByUnread: boolean) => void;
 
   // Render Props
-  renderMessageSearchResult: (id: string) => JSX.Element;
+  renderMessageSearchResult: (id: string) => React.JSX.Element;
   renderConversationListItemContextMenu: (
     props: RenderConversationListItemContextMenuProps
-  ) => JSX.Element;
+  ) => React.JSX.Element;
   renderNetworkStatus: (
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
-  ) => JSX.Element;
+  ) => React.JSX.Element;
   renderUnsupportedOSDialog: (
     _: Readonly<UnsupportedOSDialogPropsType>
-  ) => JSX.Element;
+  ) => React.JSX.Element;
   renderRelinkDialog: (
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
-  ) => JSX.Element;
+  ) => React.JSX.Element;
   renderUpdateDialog: (
     _: Readonly<{ containerWidthBreakpoint: WidthBreakpoint }>
-  ) => JSX.Element;
-  renderCaptchaDialog: (props: { onSkip(): void }) => JSX.Element;
-  renderCrashReportDialog: () => JSX.Element;
-  renderExpiredBuildDialog: (_: DialogExpiredBuildPropsType) => JSX.Element;
-  renderLeftPaneChatFolders: () => JSX.Element;
-  renderNotificationProfilesMenu: () => JSX.Element;
-  renderToastManager: (_: {
-    containerWidthBreakpoint: WidthBreakpoint;
-  }) => JSX.Element;
+  ) => React.JSX.Element;
+  renderCaptchaDialog: (props: { onSkip(): void }) => React.JSX.Element;
+  renderCrashReportDialog: () => React.JSX.Element;
+  renderExpiredBuildDialog: (
+    _: DialogExpiredBuildPropsType
+  ) => React.JSX.Element;
+  renderLeftPaneChatFolders: () => React.JSX.Element;
+  renderNotificationProfilesMenu: () => React.JSX.Element;
+  renderToastManager: (
+    _: Readonly<SmartToastManagerPropsType>
+  ) => React.JSX.Element;
 } & LookupConversationWithoutServiceIdActionsType;
 
 export function LeftPane({
@@ -278,6 +282,7 @@ export function LeftPane({
   selectedConversationId,
   targetedMessageId,
   toggleNavTabsCollapse,
+  selectedLocation,
   setChallengeStatus,
   setComposeGroupAvatar,
   setComposeGroupExpireTimer,
@@ -305,7 +310,7 @@ export function LeftPane({
   updateSearchTerm,
   dismissBackupMediaDownloadBanner,
   updateFilterByUnread,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const previousModeSpecificProps = usePrevious(
     modeSpecificProps,
     modeSpecificProps
@@ -345,7 +350,7 @@ export function LeftPane({
       shouldRecomputeRowHeights =
         previousModeSpecificProps.mode === modeSpecificProps.mode
           ? inboxHelper.shouldRecomputeRowHeights(previousModeSpecificProps)
-          : true;
+          : false;
       helper = inboxHelper;
       break;
     }
@@ -354,7 +359,7 @@ export function LeftPane({
       shouldRecomputeRowHeights =
         previousModeSpecificProps.mode === modeSpecificProps.mode
           ? searchHelper.shouldRecomputeRowHeights(previousModeSpecificProps)
-          : true;
+          : false;
       helper = searchHelper;
       break;
     }
@@ -363,7 +368,7 @@ export function LeftPane({
       shouldRecomputeRowHeights =
         previousModeSpecificProps.mode === modeSpecificProps.mode
           ? archiveHelper.shouldRecomputeRowHeights(previousModeSpecificProps)
-          : true;
+          : false;
       helper = archiveHelper;
       break;
     }
@@ -372,7 +377,7 @@ export function LeftPane({
       shouldRecomputeRowHeights =
         previousModeSpecificProps.mode === modeSpecificProps.mode
           ? composeHelper.shouldRecomputeRowHeights(previousModeSpecificProps)
-          : true;
+          : false;
       helper = composeHelper;
       break;
     }
@@ -385,7 +390,7 @@ export function LeftPane({
           ? findByUsernameHelper.shouldRecomputeRowHeights(
               previousModeSpecificProps
             )
-          : true;
+          : false;
       helper = findByUsernameHelper;
       break;
     }
@@ -398,7 +403,7 @@ export function LeftPane({
           ? findByPhoneNumberHelper.shouldRecomputeRowHeights(
               previousModeSpecificProps
             )
-          : true;
+          : false;
       helper = findByPhoneNumberHelper;
       break;
     }
@@ -411,7 +416,7 @@ export function LeftPane({
           ? chooseGroupMembersHelper.shouldRecomputeRowHeights(
               previousModeSpecificProps
             )
-          : true;
+          : false;
       helper = chooseGroupMembersHelper;
       break;
     }
@@ -424,7 +429,7 @@ export function LeftPane({
           ? setGroupMetadataHelper.shouldRecomputeRowHeights(
               previousModeSpecificProps
             )
-          : true;
+          : false;
       helper = setGroupMetadataHelper;
       break;
     }
@@ -652,7 +657,7 @@ export function LeftPane({
     commonDialogProps
   );
   // Yellow dialogs
-  let maybeYellowDialog: JSX.Element | undefined;
+  let maybeYellowDialog: React.JSX.Element | undefined;
 
   if (unsupportedOSDialogType === 'warning') {
     maybeYellowDialog = renderUnsupportedOSDialog({
@@ -668,13 +673,13 @@ export function LeftPane({
   }
 
   // Update dialog
-  let maybeUpdateDialog: JSX.Element | undefined;
+  let maybeUpdateDialog: React.JSX.Element | undefined;
   if (hasUpdateDialog && (!hasNetworkDialog || isUpdateDownloaded)) {
     maybeUpdateDialog = renderUpdateDialog(commonDialogProps);
   }
 
   // Red dialogs
-  let maybeRedDialog: JSX.Element | undefined;
+  let maybeRedDialog: React.JSX.Element | undefined;
   if (unsupportedOSDialogType === 'error') {
     maybeRedDialog = renderUnsupportedOSDialog({
       type: 'error',
@@ -684,7 +689,7 @@ export function LeftPane({
     maybeRedDialog = renderExpiredBuildDialog(commonDialogProps);
   }
 
-  const dialogs = new Array<{ key: string; dialog: JSX.Element }>();
+  const dialogs = new Array<{ key: string; dialog: React.JSX.Element }>();
 
   if (maybeRedDialog) {
     dialogs.push({ key: 'red', dialog: maybeRedDialog });
@@ -702,7 +707,7 @@ export function LeftPane({
     }
   }
 
-  let maybeBanner: JSX.Element | undefined;
+  let maybeBanner: React.JSX.Element | undefined;
   if (usernameCorrupted) {
     maybeBanner = (
       <LeftPaneBanner
@@ -906,6 +911,7 @@ export function LeftPane({
             helper.getEmptyViewNode({
               i18n,
               selectedChatFolder,
+              selectedLocation,
               changeLocation,
             })}
           {!isEmpty && (

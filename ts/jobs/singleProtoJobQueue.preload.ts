@@ -25,9 +25,8 @@ import {
   handleMultipleSendErrors,
   maybeExpandErrors,
 } from './helpers/handleMultipleSendErrors.std.js';
-import { isConversationUnregistered } from '../util/isConversationUnregistered.dom.js';
-import { isConversationAccepted } from '../util/isConversationAccepted.preload.js';
 import { parseUnknown } from '../util/schemas.std.js';
+import { shouldSendToDirectConversation } from './helpers/shouldSendToConversation.preload.js';
 
 const { isBoolean } = lodash;
 
@@ -90,22 +89,9 @@ export class SingleProtoJobQueue extends JobQueue<SingleProtoJobData> {
       throw new Error(`Failed to get conversation for serviceId ${serviceId}`);
     }
 
-    if (!isConversationAccepted(conversation.attributes)) {
-      log.info(
-        `conversation ${conversation.idForLogging()} is not accepted; refusing to send`
-      );
-      return undefined;
-    }
-    if (isConversationUnregistered(conversation.attributes)) {
-      log.info(
-        `conversation ${conversation.idForLogging()} is unregistered; refusing to send`
-      );
-      return undefined;
-    }
-    if (conversation.isBlocked()) {
-      log.info(
-        `conversation ${conversation.idForLogging()} is blocked; refusing to send`
-      );
+    const [ok, refusal] = shouldSendToDirectConversation(conversation);
+    if (!ok) {
+      log.info(refusal.logLine);
       return undefined;
     }
 

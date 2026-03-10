@@ -12,6 +12,7 @@ import type {
   DirectCallStateType,
   GroupCallStateType,
   ActiveCallStateType,
+  GroupCallParticipantInfoType,
 } from '../ducks/calling.preload.js';
 import { getRingingCall as getRingingCallHelper } from '../ducks/callingHelpers.std.js';
 import type { PresentedSource } from '../../types/Calling.std.js';
@@ -23,6 +24,7 @@ import {
 import { getUserACI } from './user.std.js';
 import { getOwn } from '../../util/getOwn.std.js';
 import type { AciString } from '../../types/ServiceId.std.js';
+import { isGroupOrAdhocCallState } from '../../util/isGroupOrAdhocCall.std.js';
 
 export type CallStateType = DirectCallStateType | GroupCallStateType;
 
@@ -182,4 +184,22 @@ export const getPresentingSource = createSelector(
   getActiveCallState,
   (activeCallState): PresentedSource | undefined =>
     activeCallState?.presentingSource
+);
+
+type ParticipantByDemuxIdInCallSelectorType = (
+  demuxId: number | undefined
+) => GroupCallParticipantInfoType | undefined;
+
+export const getParticipantInActiveCall = createSelector(
+  getActiveCall,
+  (call: CallStateType | undefined): ParticipantByDemuxIdInCallSelectorType =>
+    (demuxId: number | undefined): GroupCallParticipantInfoType | undefined => {
+      if (demuxId == null || !isGroupOrAdhocCallState(call)) {
+        return undefined;
+      }
+
+      return call.remoteParticipants.find(
+        participant => participant.demuxId === demuxId
+      );
+    }
 );

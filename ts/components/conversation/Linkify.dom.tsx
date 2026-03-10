@@ -326,7 +326,7 @@ export const SUPPORTED_PROTOCOLS = /^(http|https):/i;
 
 const defaultRenderNonLink: RenderTextCallbackType = ({ text }) => text;
 
-export function Linkify(props: Props): JSX.Element {
+export function Linkify(props: Props): React.JSX.Element {
   const { text, renderNonLink = defaultRenderNonLink } = props;
 
   if (!shouldLinkifyMessage(text)) {
@@ -348,7 +348,7 @@ export function Linkify(props: Props): JSX.Element {
     throw missingCaseError(type);
   });
 
-  const results: Array<JSX.Element | string> = [];
+  const results: Array<React.JSX.Element | string> = [];
   let count = 1;
 
   chunkData.forEach(({ chunk, matchData }) => {

@@ -13,7 +13,7 @@ const { i18n } = window.SignalContext;
 
 type PropsType = ComponentProps<typeof BackupMediaDownloadProgress>;
 
-function Template(args: PropsType): JSX.Element {
+function Template(args: PropsType): React.JSX.Element {
   return (
     <>
       <div style={{ width: 350 }}>
@@ -56,44 +56,44 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-export function InProgress(args: PropsType): JSX.Element {
+export function InProgress(args: PropsType): React.JSX.Element {
   return <Template {...args} />;
 }
-export function InProgressAndOffline(args: PropsType): JSX.Element {
+export function InProgressAndOffline(args: PropsType): React.JSX.Element {
   return <Template {...args} isOnline={false} />;
 }
 
-export function Increasing(args: PropsType): JSX.Element {
+export function Increasing(args: PropsType): React.JSX.Element {
   return <Template {...args} {...useIncreasingFractionComplete()} />;
 }
 
-export function Paused(args: PropsType): JSX.Element {
+export function Paused(args: PropsType): React.JSX.Element {
   return <Template {...args} isPaused />;
 }
-export function PausedAndOffline(args: PropsType): JSX.Element {
+export function PausedAndOffline(args: PropsType): React.JSX.Element {
   return <Template {...args} isPaused isOnline={false} />;
 }
 
-export function Idle(args: PropsType): JSX.Element {
+export function Idle(args: PropsType): React.JSX.Element {
   return <Template {...args} isIdle />;
 }
 
-export function IdleAndOffline(args: PropsType): JSX.Element {
+export function IdleAndOffline(args: PropsType): React.JSX.Element {
   return <Template {...args} isIdle isOnline={false} />;
 }
 
-export function PausedAndIdle(args: PropsType): JSX.Element {
+export function PausedAndIdle(args: PropsType): React.JSX.Element {
   return <Template {...args} isPaused isIdle />;
 }
 
-export function PausedAndIdleAndOffline(args: PropsType): JSX.Element {
+export function PausedAndIdleAndOffline(args: PropsType): React.JSX.Element {
   return <Template {...args} isPaused isIdle isOnline={false} />;
 }
 
-export function Complete(args: PropsType): JSX.Element {
+export function Complete(args: PropsType): React.JSX.Element {
   return <Template {...args} downloadedBytes={args.totalBytes} />;
 }
-export function CompleteAndOffline(args: PropsType): JSX.Element {
+export function CompleteAndOffline(args: PropsType): React.JSX.Element {
   return (
     <Template {...args} downloadedBytes={args.totalBytes} isOnline={false} />
   );

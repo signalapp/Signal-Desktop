@@ -14,7 +14,7 @@ export function MessageSticker({
   image,
   kind,
   minutesAgo,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   return (
     <div className={styles.base}>
       <img src={image} alt="Sticker" className={styles.image} />

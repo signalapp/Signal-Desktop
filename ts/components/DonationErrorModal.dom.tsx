@@ -18,7 +18,7 @@ export type PropsType = {
   errorType: DonationErrorType;
 };
 
-export function DonationErrorModal(props: PropsType): JSX.Element {
+export function DonationErrorModal(props: PropsType): React.JSX.Element {
   const { i18n, onClose } = props;
 
   let title: string;
@@ -38,6 +38,16 @@ export function DonationErrorModal(props: PropsType): JSX.Element {
     case donationErrorTypeSchema.Enum.PaymentDeclined: {
       title = i18n('icu:Donations__PaymentMethodDeclined');
       body = i18n('icu:Donations__PaymentMethodDeclined__Description');
+      break;
+    }
+    case donationErrorTypeSchema.Enum.PaypalCanceled: {
+      title = i18n('icu:Donations__PaypalCanceled');
+      body = i18n('icu:Donations__PaypalCanceled__Description');
+      break;
+    }
+    case donationErrorTypeSchema.Enum.PaypalError: {
+      title = i18n('icu:Donations__PaypalError');
+      body = i18n('icu:Donations__PaypalError__Description');
       break;
     }
     case donationErrorTypeSchema.Enum.TimedOut: {

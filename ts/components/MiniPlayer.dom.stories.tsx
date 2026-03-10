@@ -16,7 +16,7 @@ export default {
   component: MiniPlayer,
 } satisfies Meta<Props>;
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   const [active, setActive] = useState(false);
 
   const [playerState, setPlayerState] = useState(PlayerState.loading);

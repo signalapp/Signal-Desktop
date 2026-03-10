@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ReactNode } from 'react';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import type { ConversationType } from '../../state/ducks/conversations.preload.js';
 import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
@@ -21,8 +21,8 @@ export type PropsType = Readonly<{
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   onClick?: () => void;
+  sharedGroupNames: ReadonlyArray<string>;
   toggleSignalConnectionsModal: () => void;
-  updateSharedGroups: (conversationId: string) => void;
   theme: ThemeType;
   oldName: string | undefined;
   isSignalConnection: boolean;
@@ -34,25 +34,20 @@ export function ContactSpoofingReviewDialogPerson({
   getPreferredBadge,
   i18n,
   onClick,
+  sharedGroupNames,
   toggleSignalConnectionsModal,
-  updateSharedGroups,
   theme,
   oldName,
   isSignalConnection,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   assertDev(
     conversation.type === 'direct',
     '<ContactSpoofingReviewDialogPerson> expected a direct conversation'
   );
 
-  useEffect(() => {
-    // Kick off the expensive hydration of the current sharedGroupNames
-    updateSharedGroups(conversation.id);
-  }, [conversation.id, updateSharedGroups]);
-
   const newName = conversation.profileName || conversation.title;
 
-  let callout: JSX.Element | undefined;
+  let callout: React.JSX.Element | undefined;
   if (oldName && oldName !== newName) {
     callout = (
       <div className="module-ContactSpoofingReviewDialogPerson__info__property">
@@ -124,10 +119,10 @@ export function ContactSpoofingReviewDialogPerson({
         <div className="module-ContactSpoofingReviewDialogPerson__info__property">
           <i className="module-ContactSpoofingReviewDialogPerson__info__property__icon module-ContactSpoofingReviewDialogPerson__info__property__icon--group" />
           <div>
-            {conversation.sharedGroupNames?.length ? (
+            {sharedGroupNames.length > 0 ? (
               <SharedGroupNames
                 i18n={i18n}
-                sharedGroupNames={conversation.sharedGroupNames || []}
+                sharedGroupNames={sharedGroupNames}
               />
             ) : (
               i18n(

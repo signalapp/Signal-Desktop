@@ -1,7 +1,7 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import type { ReactNode } from 'react';
 
 import type {
@@ -31,39 +31,59 @@ import {
   InAnotherCallTooltip,
   getTooltipContent,
 } from './InAnotherCallTooltip.dom.js';
+import type { ToggleGroupMemberLabelInfoModalType } from '../../state/ducks/globalModals.preload.js';
+import type { ContactModalStateType } from '../../types/globalModals.std.js';
+import { GroupMemberLabel } from './ContactName.dom.js';
+import { SignalService as Proto } from '../../protobuf/index.std.js';
+import { AxoSymbol } from '../../axo/AxoSymbol.dom.js';
+import { tw } from '../../axo/tw.dom.js';
+import { strictAssert } from '../../util/assert.std.js';
+import type { RemoveClientType } from '../../types/Calling.std.js';
+
+const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
 
 const log = createLogger('ContactModal');
 
 export type PropsDataType = {
+  activeCallDemuxId?: number;
   areWeASubscriber: boolean;
   areWeAdmin: boolean;
   badges: ReadonlyArray<BadgeType>;
   contact?: ConversationType;
+  contactLabelEmoji: string | undefined;
+  contactLabelString: string | undefined;
+  contactNameColor: string | undefined;
   conversation?: ConversationType;
   hasStories?: HasStories;
   readonly i18n: LocalizerType;
   isAdmin: boolean;
   isMember: boolean;
+  isMuted: boolean;
+  isRemoteMuteVisible: boolean;
+  isRemoveFromCallVisible: boolean;
   theme: ThemeType;
   hasActiveCall: boolean;
   isInFullScreenCall: boolean;
 };
 
 type PropsActionType = {
+  blockClientFromCall: (payload: RemoveClientType) => void;
   blockConversation: (id: string) => void;
   hideContactModal: () => void;
   onOpenEditNicknameAndNoteModal: () => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => unknown;
   onOutgoingVideoCallInConversation: (conversationId: string) => unknown;
+  removeClientFromCall: (payload: RemoveClientType) => void;
   removeMemberFromGroup: (conversationId: string, contactId: string) => void;
+  sendRemoteMute: (demuxId: number) => void;
   showConversation: ShowConversationType;
   startAvatarDownload: () => void;
+  toggleAboutContactModal: (options: ContactModalStateType) => unknown;
   toggleAdmin: (conversationId: string, contactId: string) => void;
-  toggleAboutContactModal: (conversationId: string) => unknown;
+  toggleAddUserToAnotherGroupModal: (conversationId: string) => void;
+  toggleGroupMemberLabelInfoModal: ToggleGroupMemberLabelInfoModalType;
   togglePip: () => void;
   toggleSafetyNumberModal: (conversationId: string) => unknown;
-  toggleAddUserToAnotherGroupModal: (conversationId: string) => void;
-  updateConversationModelSharedGroups: (conversationId: string) => void;
   viewUserStories: ViewUserStoriesActionCreatorType;
 };
 
@@ -80,14 +100,21 @@ enum SubModalState {
   ToggleAdmin = 'ToggleAdmin',
   MemberRemove = 'MemberRemove',
   ConfirmingBlock = 'ConfirmingBlock',
+  ConfirmingMute = 'ConfirmingMute',
+  RemoveFromCall = 'RemoveFromCall',
 }
 
 export function ContactModal({
+  activeCallDemuxId,
   areWeAdmin,
   areWeASubscriber,
   badges,
+  blockClientFromCall,
   blockConversation,
   contact,
+  contactLabelEmoji,
+  contactLabelString,
+  contactNameColor,
   conversation,
   hasActiveCall,
   hasStories,
@@ -96,21 +123,26 @@ export function ContactModal({
   i18n,
   isAdmin,
   isMember,
+  isMuted,
+  isRemoteMuteVisible,
+  isRemoveFromCallVisible,
   onOpenEditNicknameAndNoteModal,
   onOutgoingAudioCallInConversation,
   onOutgoingVideoCallInConversation,
+  removeClientFromCall,
   removeMemberFromGroup,
+  sendRemoteMute,
   showConversation,
   startAvatarDownload,
   theme,
   toggleAboutContactModal,
   toggleAddUserToAnotherGroupModal,
   toggleAdmin,
+  toggleGroupMemberLabelInfoModal,
   togglePip,
   toggleSafetyNumberModal,
-  updateConversationModelSharedGroups,
   viewUserStories,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   if (!contact) {
     throw new Error('Contact modal opened without a matching contact');
   }
@@ -120,13 +152,6 @@ export function ContactModal({
     SubModalState.None
   );
   const modalTheme = getThemeByThemeType(theme);
-
-  useEffect(() => {
-    if (contact?.id) {
-      // Kick off the expensive hydration of the current sharedGroupNames
-      updateConversationModelSharedGroups(contact.id);
-    }
-  }, [contact?.id, updateConversationModelSharedGroups]);
 
   const renderQuickActions = React.useCallback(
     (conversationId: string) => {
@@ -223,6 +248,35 @@ export function ContactModal({
         break;
       }
 
+      if (
+        isAdmin &&
+        contactLabelString &&
+        conversation.accessControlAttributes === ACCESS_ENUM.ADMINISTRATOR
+      ) {
+        modalNode = (
+          <ConfirmationDialog
+            dialogName="ContactModal.toggleAdmin"
+            actions={[
+              {
+                action: () => toggleAdmin(conversation.id, contact.id),
+                text: isAdmin
+                  ? i18n('icu:ContactModal--rm-admin')
+                  : i18n('icu:ContactModal--make-admin'),
+                style: 'affirmative',
+              },
+            ]}
+            i18n={i18n}
+            onClose={() => setSubModalState(SubModalState.None)}
+            title={i18n('icu:ContactModal--rm-admin-info', {
+              contact: contact.title,
+            })}
+          >
+            {i18n('icu:ContactModal--rm-admin--clear-label')}
+          </ConfirmationDialog>
+        );
+        break;
+      }
+
       modalNode = (
         <ConfirmationDialog
           dialogName="ContactModal.toggleAdmin"
@@ -232,6 +286,7 @@ export function ContactModal({
               text: isAdmin
                 ? i18n('icu:ContactModal--rm-admin')
                 : i18n('icu:ContactModal--make-admin'),
+              style: 'affirmative',
             },
           ]}
           i18n={i18n}
@@ -289,6 +344,78 @@ export function ContactModal({
         </ConfirmationDialog>
       );
       break;
+    case SubModalState.ConfirmingMute:
+      modalNode = (
+        <ConfirmationDialog
+          dialogName="ContactModal.confirmMute"
+          actions={[
+            {
+              text: i18n('icu:ContactModal--confirm-mute-primary-button'),
+              action: () => {
+                strictAssert(
+                  activeCallDemuxId != null,
+                  'activeCallDemuxId must exist'
+                );
+                hideContactModal();
+                sendRemoteMute(activeCallDemuxId);
+              },
+              style: 'affirmative',
+            },
+          ]}
+          i18n={i18n}
+          onClose={() => setSubModalState(SubModalState.None)}
+        >
+          {i18n('icu:ContactModal--confirm-mute-body', {
+            contact: contact.title,
+          })}
+        </ConfirmationDialog>
+      );
+      break;
+    case SubModalState.RemoveFromCall:
+      modalNode = (
+        <ConfirmationDialog
+          dialogName="CallingAdhocCallInfo.removeClientDialog"
+          moduleClassName="CallingAdhocCallInfo__RemoveClientDialog"
+          actions={[
+            {
+              action: () => {
+                strictAssert(
+                  activeCallDemuxId != null,
+                  'activeCallDemuxId must exist'
+                );
+                hideContactModal();
+                blockClientFromCall({ demuxId: activeCallDemuxId });
+              },
+              style: 'negative',
+              text: i18n(
+                'icu:CallingAdhocCallInfo__RemoveClientDialogButton--block'
+              ),
+            },
+            {
+              action: () => {
+                strictAssert(
+                  activeCallDemuxId != null,
+                  'activeCallDemuxId must exist'
+                );
+                hideContactModal();
+                removeClientFromCall({ demuxId: activeCallDemuxId });
+              },
+              style: 'negative',
+              text: i18n(
+                'icu:CallingAdhocCallInfo__RemoveClientDialogButton--remove'
+              ),
+            },
+          ]}
+          cancelText={i18n('icu:cancel')}
+          i18n={i18n}
+          onClose={() => setSubModalState(SubModalState.None)}
+        >
+          {i18n('icu:CallingAdhocCallInfo__RemoveClientDialogBody', {
+            name: contact.title,
+          })}
+        </ConfirmationDialog>
+      );
+      break;
     default: {
       const state: never = subModalState;
       log.warn(`unexpected ${state}!`);
@@ -343,7 +470,6 @@ export function ContactModal({
               }}
               onClickBadge={() => setView(ContactModalView.ShowingBadges)}
               profileName={contact.profileName}
-              sharedGroupNames={contact.sharedGroupNames}
               size={AvatarSize.EIGHTY}
               storyRing={hasStories}
               theme={theme}
@@ -354,7 +480,7 @@ export function ContactModal({
               className="ContactModal__name"
               onClick={ev => {
                 ev.preventDefault();
-                toggleAboutContactModal(contact.id);
+                toggleAboutContactModal({ contactId: contact.id });
               }}
             >
               <div className="ContactModal__name__text">
@@ -371,6 +497,29 @@ export function ContactModal({
               </div>
               <i className="ContactModal__name__chevron" />
             </button>
+            {contactLabelString && contactNameColor && (
+              <button
+                type="button"
+                className="ContactModal__member-label"
+                onClick={() => {
+                  if (conversation) {
+                    toggleGroupMemberLabelInfoModal({
+                      conversationId: conversation.id,
+                    });
+                  }
+                }}
+              >
+                <GroupMemberLabel
+                  emojiSize={14}
+                  contactLabel={{
+                    labelEmoji: contactLabelEmoji,
+                    labelString: contactLabelString,
+                  }}
+                  contactNameColor={contactNameColor}
+                  context="contact-modal"
+                />
+              </button>
+            )}
             {!contact.isMe && renderQuickActions(contact.id)}
             <div className="ContactModal__divider" />
             <div className="ContactModal__button-container">
@@ -470,6 +619,35 @@ export function ContactModal({
                     <span>{i18n('icu:ContactModal--remove-from-group')}</span>
                   </button>
                 </>
+              )}
+              {isRemoteMuteVisible && (
+                <button
+                  type="button"
+                  className="ContactModal__button"
+                  onClick={() => setSubModalState(SubModalState.ConfirmingMute)}
+                  disabled={isMuted}
+                >
+                  <AxoSymbol.Icon symbol="mic-slash" size={20} label={null} />
+                  <span className={tw('ms-[12px]')}>
+                    {i18n('icu:ContactModal--mute-audio')}
+                  </span>
+                </button>
+              )}
+              {isRemoveFromCallVisible && (
+                <button
+                  type="button"
+                  className="ContactModal__button"
+                  onClick={() => setSubModalState(SubModalState.RemoveFromCall)}
+                >
+                  <AxoSymbol.Icon
+                    symbol="minus-circle"
+                    size={20}
+                    label={null}
+                  />
+                  <span className={tw('ms-[12px]')}>
+                    {i18n('icu:ContactModal--remove-from-call')}
+                  </span>
+                </button>
               )}
             </div>
             {modalNode}

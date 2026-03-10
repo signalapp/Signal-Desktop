@@ -30,15 +30,15 @@ const defaultProps: ComponentProps<typeof BadgeDialog> = {
   title: 'Alice Levine',
 };
 
-export function NoBadgesClosedImmediately(): JSX.Element {
+export function NoBadgesClosedImmediately(): React.JSX.Element {
   return <BadgeDialog {...defaultProps} badges={[]} />;
 }
 
-export function OneBadge(): JSX.Element {
+export function OneBadge(): React.JSX.Element {
   return <BadgeDialog {...defaultProps} badges={getFakeBadges(1)} />;
 }
 
-export function BadgeWithNoImageShouldBeImpossible(): JSX.Element {
+export function BadgeWithNoImageShouldBeImpossible(): React.JSX.Element {
   return (
     <BadgeDialog
       {...defaultProps}
@@ -52,7 +52,7 @@ export function BadgeWithNoImageShouldBeImpossible(): JSX.Element {
   );
 }
 
-export function BadgeWithPendingImage(): JSX.Element {
+export function BadgeWithPendingImage(): React.JSX.Element {
   return (
     <BadgeDialog
       {...defaultProps}
@@ -71,7 +71,7 @@ export function BadgeWithPendingImage(): JSX.Element {
   );
 }
 
-export function BadgeWithOnlyOneLowDetailImage(): JSX.Element {
+export function BadgeWithOnlyOneLowDetailImage(): React.JSX.Element {
   return (
     <BadgeDialog
       {...defaultProps}
@@ -99,15 +99,15 @@ export function BadgeWithOnlyOneLowDetailImage(): JSX.Element {
   );
 }
 
-export function FiveBadges(): JSX.Element {
+export function FiveBadges(): React.JSX.Element {
   return <BadgeDialog {...defaultProps} badges={getFakeBadges(5)} />;
 }
 
-export function ManyBadges(): JSX.Element {
+export function ManyBadges(): React.JSX.Element {
   return <BadgeDialog {...defaultProps} badges={getFakeBadges(50)} />;
 }
 
-export function ManyBadgesUserIsASubscriber(): JSX.Element {
+export function ManyBadgesUserIsASubscriber(): React.JSX.Element {
   return (
     <BadgeDialog
       {...defaultProps}

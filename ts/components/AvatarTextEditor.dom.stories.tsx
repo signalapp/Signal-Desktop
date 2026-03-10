@@ -22,11 +22,11 @@ export default {
   title: 'Components/AvatarTextEditor',
 } satisfies Meta<PropsType>;
 
-export function Empty(): JSX.Element {
+export function Empty(): React.JSX.Element {
   return <AvatarTextEditor {...createProps()} />;
 }
 
-export function WithData(): JSX.Element {
+export function WithData(): React.JSX.Element {
   return (
     <AvatarTextEditor
       {...createProps({
@@ -40,7 +40,7 @@ export function WithData(): JSX.Element {
   );
 }
 
-export function WithWideCharacters(): JSX.Element {
+export function WithWideCharacters(): React.JSX.Element {
   return (
     <AvatarTextEditor
       {...createProps({

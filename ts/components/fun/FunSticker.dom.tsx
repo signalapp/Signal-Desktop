@@ -11,7 +11,7 @@ export type FunStickerProps = FunImageAriaProps &
     ignoreReducedMotion?: boolean;
   }>;
 
-export function FunSticker(props: FunStickerProps): JSX.Element {
+export function FunSticker(props: FunStickerProps): React.JSX.Element {
   const { src, size, ignoreReducedMotion, ...ariaProps } = props;
   return (
     <FunImage

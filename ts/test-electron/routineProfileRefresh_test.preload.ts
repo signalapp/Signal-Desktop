@@ -58,7 +58,6 @@ describe('routineProfileRefresh', () => {
       quotedMessageId: null,
       sealedSender: 1,
       sentMessageCount: 1,
-      sharedGroupNames: [],
       timestamp: Date.now(),
       type: 'private',
       serviceId: generateAci(),

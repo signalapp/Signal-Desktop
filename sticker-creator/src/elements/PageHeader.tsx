@@ -9,7 +9,7 @@ import { H1 } from './Typography';
 
 import styles from './PageHeader.module.scss';
 
-export function PageHeader(): JSX.Element {
+export function PageHeader(): React.JSX.Element {
   const i18n = useI18n();
 
   return (

@@ -8,6 +8,7 @@ import type { LocalizerType } from '../types/Util.std.js';
 export type ConfirmDialogProps = {
   i18n: LocalizerType;
   bodyText?: string;
+  cancelText?: string;
   discardText?: string;
   onClose: () => unknown;
   onDiscard: () => unknown;
@@ -16,13 +17,15 @@ export type ConfirmDialogProps = {
 export function ConfirmDiscardDialog({
   i18n,
   bodyText,
+  cancelText,
   discardText,
   onClose,
   onDiscard,
-}: ConfirmDialogProps): JSX.Element {
+}: ConfirmDialogProps): React.JSX.Element {
   return (
     <ConfirmationDialog
       dialogName="ConfirmDiscardDialog"
+      cancelText={cancelText}
       actions={[
         {
           action: onDiscard,

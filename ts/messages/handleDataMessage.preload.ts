@@ -16,8 +16,6 @@ import {
   deliveryReceiptQueue,
   deliveryReceiptBatcher,
 } from '../util/deliveryReceipt.preload.js';
-import { getSenderIdentifier } from '../util/getSenderIdentifier.dom.js';
-import { isNormalNumber } from '../util/isNormalNumber.std.js';
 import { upgradeMessageSchema } from '../util/migrations.preload.js';
 import { getOwn } from '../util/getOwn.std.js';
 import {
@@ -58,7 +56,10 @@ import { hydrateStoryContext } from '../util/hydrateStoryContext.preload.js';
 import { isMessageEmpty } from '../util/isMessageEmpty.preload.js';
 import { isValidTapToView } from '../util/isValidTapToView.std.js';
 import { getNotificationTextForMessage } from '../util/getNotificationTextForMessage.preload.js';
-import { getMessageAuthorText } from '../util/getMessageAuthorText.preload.js';
+import {
+  getMessageAuthorAci,
+  getMessageAuthorText,
+} from '../util/getMessageAuthorText.preload.js';
 import { GiftBadgeStates } from '../types/GiftBadgeStates.std.js';
 import { parseBoostBadgeListFromServer } from '../badges/parseBadgesFromServer.std.js';
 import { SignalService as Proto } from '../protobuf/index.std.js';
@@ -66,10 +67,10 @@ import {
   modifyTargetMessage,
   ModifyTargetMessageResult,
 } from '../util/modifyTargetMessage.preload.js';
-import { saveAndNotify } from './saveAndNotify.preload.js';
-import { MessageModel } from '../models/messages.preload.js';
+import type { saveAndNotify } from './saveAndNotify.preload.js';
+import type { MessageModel } from '../models/messages.preload.js';
 import { safeParsePartial } from '../util/schemas.std.js';
-import { PollCreateSchema, isPollReceiveEnabled } from '../types/Polls.dom.js';
+import { PollCreateSchema } from '../types/Polls.dom.js';
 
 import type { SentEventData } from '../textsecure/messageReceiverEvents.std.js';
 import type {
@@ -92,7 +93,10 @@ export async function handleDataMessage(
   message: MessageModel,
   initialMessage: ProcessedDataMessage,
   confirm: () => void,
-  options: { data?: SentEventData } = {}
+  options: { data?: SentEventData } = {},
+  dependencies: {
+    saveAndNotify: typeof saveAndNotify;
+  }
 ): Promise<void> {
   const { data } = options;
 
@@ -117,21 +121,12 @@ export async function handleDataMessage(
   await conversation.queueJob(idLog, async () => {
     log.info(`${idLog}: starting processing in queue`);
 
-    // First, check for duplicates. If we find one, stop processing here.
-    const senderIdentifier = getSenderIdentifier(message.attributes);
-    const inMemoryMessage = window.MessageCache.findBySender(senderIdentifier);
-    if (inMemoryMessage) {
-      log.info(`${idLog}: cache hit`, senderIdentifier);
-    } else {
-      log.info(`${idLog}: duplicate check db lookup needed`, senderIdentifier);
-    }
-    let existingMessage = inMemoryMessage;
-    if (!existingMessage) {
-      const fromDb = await DataReader.getMessageBySender(message.attributes);
-      existingMessage = fromDb
-        ? window.MessageCache.register(new MessageModel(fromDb))
-        : undefined;
-    }
+    // First, check for duplicate messages. We dedupe by senderAci + timestamp, in the
+    // same way we address messages in the Signal ecosystem.
+    const existingMessage = await window.MessageCache.findBySentAt(
+      message.attributes.sent_at,
+      msg => msg.attributes.sourceServiceId === sourceServiceId
+    );
 
     const isUpdate = Boolean(data && data.isRecipientUpdate);
 
@@ -150,6 +145,7 @@ export async function handleDataMessage(
       confirm();
       return;
     }
+
     if (type === 'outgoing') {
       if (isUpdate && existingMessage) {
         log.info(
@@ -184,10 +180,7 @@ export async function handleDataMessage(
             return;
           }
 
-          const updatedAt: number =
-            data && isNormalNumber(data.timestamp)
-              ? data.timestamp
-              : Date.now();
+          const updatedAt: number = data?.timestamp ?? Date.now();
 
           const previousSendState = getOwn(
             sendStateByConversationId,
@@ -239,7 +232,6 @@ export async function handleDataMessage(
     }
 
     // GroupV2
-
     if (initialMessage.groupV2) {
       if (isGroupV1(conversation.attributes)) {
         // If we received a GroupV2 message in a GroupV1 group, we migrate!
@@ -476,18 +468,6 @@ export async function handleDataMessage(
 
     let validatedPollCreate: z.infer<typeof PollCreateSchema> | undefined;
     if (initialMessage.pollCreate) {
-      if (!isPollReceiveEnabled()) {
-        log.warn(`${idLog}: Dropping PollCreate because flag is not enabled`);
-        confirm();
-        return;
-      }
-      if (!isGroup(conversation.attributes)) {
-        log.warn(
-          `${idLog}: Dropping PollCreate in non-group conversation ${conversation.idForLogging()}`
-        );
-        confirm();
-        return;
-      }
       const result = safeParsePartial(
         PollCreateSchema,
         initialMessage.pollCreate
@@ -617,7 +597,7 @@ export async function handleDataMessage(
 
       const isSupported = !isUnsupportedMessage(message.attributes);
       if (!isSupported) {
-        await eraseMessageContents(message);
+        await eraseMessageContents(message, 'unsupported-message');
       }
 
       if (isSupported) {
@@ -739,7 +719,7 @@ export async function handleDataMessage(
         }
 
         if (isTapToView(message.attributes) && type === 'outgoing') {
-          await eraseMessageContents(message);
+          await eraseMessageContents(message, 'view-once-sent');
         }
 
         if (
@@ -753,7 +733,7 @@ export async function handleDataMessage(
           message.set({
             isTapToViewInvalid: true,
           });
-          await eraseMessageContents(message);
+          await eraseMessageContents(message, 'view-once-invalid');
         }
       }
 
@@ -768,6 +748,7 @@ export async function handleDataMessage(
         conversation.set({
           lastMessage: getNotificationTextForMessage(message.attributes),
           lastMessageAuthor: getMessageAuthorText(message.attributes),
+          lastMessageAuthorAci: getMessageAuthorAci(message.attributes),
           timestamp: message.get('sent_at'),
         });
       }
@@ -817,7 +798,7 @@ export async function handleDataMessage(
       }
 
       log.info(`${idLog}: Batching save`);
-      drop(saveAndNotify(message, conversation, confirm));
+      drop(dependencies.saveAndNotify(message, conversation, confirm));
     } catch (error) {
       const errorForLog = Errors.toLogFormat(error);
       log.error(`${idLog}: error:`, errorForLog);

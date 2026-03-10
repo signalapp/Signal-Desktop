@@ -17,47 +17,47 @@ export default {
   title: 'Components/CircleCheckbox',
 } satisfies Meta<Props>;
 
-export function Normal(): JSX.Element {
+export function Normal(): React.JSX.Element {
   return <CircleCheckbox {...createProps()} />;
 }
 
-export function Checked(): JSX.Element {
+export function Checked(): React.JSX.Element {
   return <CircleCheckbox {...createProps()} checked />;
 }
 
-export function Disabled(): JSX.Element {
+export function Disabled(): React.JSX.Element {
   return <CircleCheckbox {...createProps()} disabled />;
 }
 
-export function SmallNormal(): JSX.Element {
+export function SmallNormal(): React.JSX.Element {
   return <CircleCheckbox variant={Variant.Small} {...createProps()} />;
 }
 
-export function SmallChecked(): JSX.Element {
+export function SmallChecked(): React.JSX.Element {
   return <CircleCheckbox variant={Variant.Small} {...createProps()} checked />;
 }
 
-export function SmallDisabled(): JSX.Element {
+export function SmallDisabled(): React.JSX.Element {
   return <CircleCheckbox variant={Variant.Small} {...createProps()} disabled />;
 }
 
-export function RadioNormal(): JSX.Element {
+export function RadioNormal(): React.JSX.Element {
   return <CircleCheckbox isRadio {...createProps()} />;
 }
 
-export function RadioChecked(): JSX.Element {
+export function RadioChecked(): React.JSX.Element {
   return <CircleCheckbox isRadio {...createProps()} checked />;
 }
 
-export function RadioDisabled(): JSX.Element {
+export function RadioDisabled(): React.JSX.Element {
   return <CircleCheckbox isRadio {...createProps()} disabled />;
 }
 
-export function SmallRadioNormal(): JSX.Element {
+export function SmallRadioNormal(): React.JSX.Element {
   return <CircleCheckbox variant={Variant.Small} isRadio {...createProps()} />;
 }
 
-export function SmallRadioChecked(): JSX.Element {
+export function SmallRadioChecked(): React.JSX.Element {
   return (
     <CircleCheckbox
       variant={Variant.Small}
@@ -68,7 +68,7 @@ export function SmallRadioChecked(): JSX.Element {
   );
 }
 
-export function SmallRadioDisabled(): JSX.Element {
+export function SmallRadioDisabled(): React.JSX.Element {
   return (
     <CircleCheckbox
       variant={Variant.Small}

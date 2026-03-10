@@ -60,7 +60,7 @@ export function EditConversationAttributesModal({
   replaceAvatar,
   saveAvatarToDisk,
   userAvatarData,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const focusDescriptionRef = useRef<undefined | boolean>(
     initiallyFocusDescription
   );
@@ -153,7 +153,7 @@ export function EditConversationAttributesModal({
 
   const avatarUrlForPreview = hasAvatarChanged ? undefined : externalAvatarUrl;
 
-  let content: JSX.Element;
+  let content: React.JSX.Element;
   if (editingAvatar) {
     content = (
       <AvatarEditor

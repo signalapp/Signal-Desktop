@@ -13,7 +13,7 @@ export default {
   title: 'Components/Conversation/StagedPlaceholderAttachment',
 } satisfies Meta<Props>;
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return (
     <StagedPlaceholderAttachment i18n={i18n} onClick={action('onClick')} />
   );

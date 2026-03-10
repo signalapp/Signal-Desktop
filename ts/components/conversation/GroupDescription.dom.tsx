@@ -20,7 +20,7 @@ export function GroupDescription({
   i18n,
   title,
   text,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const textRef = useRef<HTMLDivElement | null>(null);
   const [hasReadMore, setHasReadMore] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);

@@ -34,19 +34,19 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   onLeave: action('onLeave'),
 });
 
-export function Basic(): JSX.Element {
+export function Basic(): React.JSX.Element {
   const props = createProps();
 
   return <ConversationDetailsActions {...props} />;
 }
 
-export function LeftTheGroup(): JSX.Element {
+export function LeftTheGroup(): React.JSX.Element {
   const props = createProps({ left: true });
 
   return <ConversationDetailsActions {...props} />;
 }
 
-export function BlockedAndLeftTheGroup(): JSX.Element {
+export function BlockedAndLeftTheGroup(): React.JSX.Element {
   const props = createProps({
     left: true,
     isBlocked: true,
@@ -56,16 +56,16 @@ export function BlockedAndLeftTheGroup(): JSX.Element {
   return <ConversationDetailsActions {...props} />;
 }
 
-export function CannotLeaveBecauseYouAreTheLastAdmin(): JSX.Element {
+export function CannotLeaveBecauseYouAreTheLastAdmin(): React.JSX.Element {
   const props = createProps({ cannotLeaveBecauseYouAreLastAdmin: true });
 
   return <ConversationDetailsActions {...props} />;
 }
 
-export const _11 = (): JSX.Element => (
+export const _11 = (): React.JSX.Element => (
   <ConversationDetailsActions {...createProps()} isGroup={false} />
 );
 
-export const _11Blocked = (): JSX.Element => (
+export const _11Blocked = (): React.JSX.Element => (
   <ConversationDetailsActions {...createProps()} isGroup={false} isBlocked />
 );

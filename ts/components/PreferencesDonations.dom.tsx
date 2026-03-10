@@ -6,6 +6,7 @@ import lodash from 'lodash';
 
 import type { MutableRefObject, ReactNode } from 'react';
 import { ListBox, ListBoxItem } from 'react-aria-components';
+import type { ReadonlyDeep } from 'type-fest';
 import { getDateTimeFormatter } from '../util/formatTimestamp.dom.js';
 
 import type { LocalizerType, ThemeType } from '../types/Util.std.js';
@@ -69,6 +70,7 @@ type PropsExternalType = {
 export type PropsDataType = {
   i18n: LocalizerType;
   initialCurrency: string;
+  isDonationPaypalEnabled: boolean;
   isOnline: boolean;
   settingsLocation: SettingsLocation;
   didResumeWorkflowAtStartup: boolean;
@@ -78,7 +80,7 @@ export type PropsDataType = {
   color: AvatarColorType | undefined;
   firstName: string | undefined;
   profileAvatarUrl?: string;
-  donationAmountsConfig: OneTimeDonationHumanAmounts | undefined;
+  donationAmountsConfig: ReadonlyDeep<OneTimeDonationHumanAmounts> | undefined;
   validCurrencies: ReadonlyArray<string>;
   donationReceipts: ReadonlyArray<DonationReceipt>;
   theme: ThemeType;
@@ -131,10 +133,10 @@ type PreferencesHomeProps = Pick<
   | 'donationReceipts'
   | 'workflow'
 > & {
-  renderDonationHero: () => JSX.Element;
+  renderDonationHero: () => React.JSX.Element;
 };
 
-function isDonationPage(page: SettingsPage): page is DonationPage {
+export function isDonationsPage(page: SettingsPage): page is DonationPage {
   return (
     page === SettingsPage.Donations ||
     page === SettingsPage.DonationsDonateFlow ||
@@ -157,9 +159,9 @@ function DonationHero({
   profileAvatarUrl,
   theme,
   showPrivacyModal,
-}: DonationHeroProps): JSX.Element {
+}: DonationHeroProps): React.JSX.Element {
   const privacyReadMoreLink = useCallback(
-    (parts: ReactNode): JSX.Element => {
+    (parts: ReactNode): React.JSX.Element => {
       return (
         <button
           type="button"
@@ -183,13 +185,12 @@ function DonationHero({
           conversationType="direct"
           title={firstName ?? ''}
           i18n={i18n}
-          sharedGroupNames={[]}
           size={AvatarSize.SEVENTY_TWO}
           theme={theme}
         />
       </div>
       <div className="PreferencesDonations__title">
-        {i18n('icu:PreferencesDonations__title')}
+        {i18n('icu:PreferencesDonations__title-v2')}
       </div>
       <div className="PreferencesDonations__description">
         <I18n
@@ -197,7 +198,7 @@ function DonationHero({
             readMoreLink: privacyReadMoreLink,
           }}
           i18n={i18n}
-          id="icu:PreferencesDonations__description"
+          id="icu:PreferencesDonations__description-v2"
         />
       </div>
     </>
@@ -211,7 +212,7 @@ function DonationsHome({
   isOnline,
   donationReceipts,
   workflow,
-}: PreferencesHomeProps): JSX.Element {
+}: PreferencesHomeProps): React.JSX.Element {
   const [isInProgressModalVisible, setIsInProgressVisible] = useState(false);
 
   const inProgressDonationAmount = useMemo<string | undefined>(() => {
@@ -239,7 +240,7 @@ function DonationsHome({
     <span className={tw('mb-8')}>
       <AxoButton.Root
         variant={isOnline ? 'primary' : 'secondary'}
-        size="md"
+        size="lg"
         disabled={!isOnline}
         onClick={handleDonateButtonClicked}
       >
@@ -353,7 +354,7 @@ function PreferencesReceiptList({
     i18n: LocalizerType
   ) => Promise<Blob>;
   showToast: (toast: AnyToast) => void;
-}): JSX.Element {
+}): React.JSX.Element {
   const [selectedReceipt, setSelectedReceipt] =
     useState<DonationReceipt | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
@@ -363,13 +364,17 @@ function PreferencesReceiptList({
     [donationReceipts]
   );
 
-  const receiptsByYear = useMemo(() => {
+  const receiptsByYearEntries = useMemo(() => {
     const sortedReceipts = sortBy(
       donationReceipts,
       receipt => -receipt.timestamp
     );
-    return groupBy(sortedReceipts, receipt =>
+    const yearToReceipts = groupBy(sortedReceipts, receipt =>
       new Date(receipt.timestamp).getFullYear()
+    );
+
+    return Object.entries(yearToReceipts).sort(
+      ([yearA], [yearB]) => parseInt(yearB, 10) - parseInt(yearA, 10)
     );
   }, [donationReceipts]);
 
@@ -427,7 +432,7 @@ function PreferencesReceiptList({
             </div>
           </div>
 
-          {Object.entries(receiptsByYear).map(([year, receipts]) => (
+          {receiptsByYearEntries.map(([year, receipts]) => (
             <div
               key={year}
               className="PreferencesDonations--receiptList-yearContainer"
@@ -543,6 +548,7 @@ export function PreferencesDonations({
   contentsRef,
   i18n,
   initialCurrency,
+  isDonationPaypalEnabled,
   isOnline,
   settingsLocation,
   workflow,
@@ -567,7 +573,7 @@ export function PreferencesDonations({
   updateLastError,
   donationBadge,
   fetchBadgeData,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   const [hasProcessingExpired, setHasProcessingExpired] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -591,6 +597,7 @@ export function PreferencesDonations({
 
     if (
       workflow?.type === donationStateSchema.Enum.INTENT_CONFIRMED ||
+      workflow?.type === donationStateSchema.Enum.PAYMENT_CONFIRMED ||
       workflow?.type === donationStateSchema.Enum.RECEIPT ||
       workflow?.type === donationStateSchema.Enum.DONE
     ) {
@@ -613,7 +620,7 @@ export function PreferencesDonations({
     [badge, color, firstName, i18n, profileAvatarUrl, theme]
   );
 
-  if (!isDonationPage(settingsLocation.page)) {
+  if (!isDonationsPage(settingsLocation.page)) {
     return null;
   }
 
@@ -693,6 +700,7 @@ export function PreferencesDonations({
     settingsLocation.page === SettingsPage.DonationsDonateFlow &&
     (isSubmitted ||
       workflow?.type === donationStateSchema.Enum.INTENT_CONFIRMED ||
+      workflow?.type === donationStateSchema.Enum.PAYMENT_CONFIRMED ||
       workflow?.type === donationStateSchema.Enum.RECEIPT)
   ) {
     // We can't transition away from the payment screen until that payment information
@@ -700,6 +708,7 @@ export function PreferencesDonations({
     if (
       hasProcessingExpired &&
       (workflow?.type === donationStateSchema.Enum.INTENT_CONFIRMED ||
+        workflow?.type === donationStateSchema.Enum.PAYMENT_CONFIRMED ||
         workflow?.type === donationStateSchema.Enum.RECEIPT)
     ) {
       dialog = (
@@ -713,6 +722,9 @@ export function PreferencesDonations({
           }}
         />
       );
+    } else if (workflow?.type === donationStateSchema.Enum.PAYPAL_INTENT) {
+      // No need to show the dialog here because PreferencesDonateFlow already
+      // initiates a dialog when redirecting to PayPal.
     } else {
       dialog = (
         <DonationProgressModal
@@ -740,13 +752,17 @@ export function PreferencesDonations({
         <PreferencesDonateFlow
           contentsRef={contentsRef}
           i18n={i18n}
+          isDonationPaypalEnabled={isDonationPaypalEnabled}
           isOnline={isOnline}
           initialCurrency={initialCurrency}
           donationAmountsConfig={donationAmountsConfig}
           lastError={lastError}
           validCurrencies={validCurrencies}
           workflow={workflow}
-          clearWorkflow={clearWorkflow}
+          clearWorkflow={() => {
+            clearWorkflow();
+            setIsSubmitted(false);
+          }}
           renderDonationHero={renderDonationHero}
           submitDonation={details => {
             setIsSubmitted(true);
@@ -783,7 +799,7 @@ export function PreferencesDonations({
   }
 
   let title: string | undefined;
-  let backButton: JSX.Element | undefined;
+  let backButton: React.JSX.Element | undefined;
   if (settingsLocation.page === SettingsPage.Donations) {
     title = i18n('icu:Preferences__DonateTitle');
   } else if (settingsLocation.page === SettingsPage.DonationsReceiptList) {

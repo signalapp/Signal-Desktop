@@ -7,7 +7,7 @@ export type FunPanelProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunPanel(props: FunPanelProps): JSX.Element {
+export function FunPanel(props: FunPanelProps): React.JSX.Element {
   return <div className="FunPanel">{props.children}</div>;
 }
 
@@ -15,7 +15,7 @@ export type FunPanelHeaderProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunPanelHeader(props: FunPanelHeaderProps): JSX.Element {
+export function FunPanelHeader(props: FunPanelHeaderProps): React.JSX.Element {
   return <div className="FunPanel__Header">{props.children}</div>;
 }
 
@@ -23,7 +23,7 @@ export type FunPanelBodyProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunPanelBody(props: FunPanelBodyProps): JSX.Element {
+export function FunPanelBody(props: FunPanelBodyProps): React.JSX.Element {
   return <div className="FunPanel__Body">{props.children}</div>;
 }
 
@@ -31,6 +31,6 @@ export type FunPanelFooterProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunPanelFooter(props: FunPanelFooterProps): JSX.Element {
+export function FunPanelFooter(props: FunPanelFooterProps): React.JSX.Element {
   return <div className="FunPanel__Footer">{props.children}</div>;
 }

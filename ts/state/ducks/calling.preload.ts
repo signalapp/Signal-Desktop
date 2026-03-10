@@ -2,13 +2,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import { ipcRenderer } from 'electron';
 import lodash from 'lodash';
+import Long from 'long';
 import type { ReadonlyDeep } from 'type-fest';
 import {
-  CallLinkEpoch,
   CallLinkRootKey,
-  GroupCallEndReason,
+  CallEndReason,
   type Reaction as CallReaction,
+  type CallSummary,
 } from '@signalapp/ringrtc';
 import { getOwn } from '../../util/getOwn.std.js';
 import * as Errors from '../../types/errors.std.js';
@@ -33,6 +35,7 @@ import type {
   ObservedRemoteMuteType,
   PresentedSource,
   PresentableSource,
+  RemoveClientType,
 } from '../../types/Calling.std.js';
 import {
   isCallLinkAdmin,
@@ -93,13 +96,20 @@ import {
   isGroupOrAdhocCallState,
 } from '../../util/isGroupOrAdhocCall.std.js';
 import type {
+  CallQualitySurveyPropsType,
+  HideCallQualitySurveyActionType,
+  ShowCallQualitySurveyActionType,
   ShowErrorModalActionType,
   ToggleConfirmLeaveCallModalActionType,
 } from './globalModals.preload.js';
 import {
+  SHOW_CALL_QUALITY_SURVEY,
   SHOW_ERROR_MODAL,
   toggleConfirmLeaveCallModal,
+  hideCallQualitySurvey,
 } from './globalModals.preload.js';
+import { CallQualitySurvey } from '../../types/CallQualitySurvey.std.js';
+import { isCallFailure } from '../../util/callQualitySurvey.dom.js';
 import { ButtonVariant } from '../../components/Button.dom.js';
 import { getConversationIdForLogging } from '../../util/idForLogging.preload.js';
 import { DataReader, DataWriter } from '../../sql/Client.preload.js';
@@ -115,8 +125,13 @@ import {
 import { storageServiceUploadJob } from '../../services/storage.preload.js';
 import { CallLinkFinalizeDeleteManager } from '../../jobs/CallLinkFinalizeDeleteManager.preload.js';
 import { callLinkRefreshJobQueue } from '../../jobs/callLinkRefreshJobQueue.preload.js';
-import { isOnline } from '../../textsecure/WebAPI.preload.js';
+import {
+  isOnline,
+  submitCallQualitySurvey as submitCallQualitySurveyToServer,
+} from '../../textsecure/WebAPI.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
+import type { SizeCallbackType } from '../../calling/VideoSupport.preload.js';
+import type { NoopActionType } from './noop.std.js';
 
 const { omit } = lodash;
 
@@ -228,6 +243,18 @@ export type CallLinksByRoomIdType = ReadonlyDeep<{
   [roomId: string]: CallLinkType;
 }>;
 
+// CQS Submission State
+export type CQSSubmissionStateType = ReadonlyDeep<{
+  failedAttempts: number;
+  state:
+    | { status: 'idle' }
+    | { status: 'loading' }
+    | {
+        status: 'failed';
+        lastSubmissionData: SubmitCallQualitySurveyOptionsType;
+      };
+}>;
+
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type CallingStateType = MediaDeviceSettings & {
   callsByConversation: CallsByConversationType;
@@ -235,6 +262,7 @@ export type CallingStateType = MediaDeviceSettings & {
   callLinks: CallLinksByRoomIdType;
   activeCallState?: ActiveCallStateType | WaitingCallStateType;
   capturerBaton?: DesktopCapturerBaton;
+  callQualitySurveySubmission: CQSSubmissionStateType;
 };
 
 export type AcceptCallType = ReadonlyDeep<{
@@ -301,7 +329,6 @@ type HangUpActionPayloadType = ReadonlyDeep<{
 
 export type HandleCallLinkUpdateType = ReadonlyDeep<{
   rootKey: string;
-  epoch: string | null;
   adminKey: string | null;
 }>;
 
@@ -368,10 +395,6 @@ type RemoteSharingScreenChangeType = ReadonlyDeep<{
   isSharingScreen: boolean;
 }>;
 
-export type RemoveClientType = ReadonlyDeep<{
-  demuxId: number;
-}>;
-
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type SetLocalAudioType = (
   payload?: ReadonlyDeep<{
@@ -417,7 +440,6 @@ export type StartCallingLobbyType = ReadonlyDeep<{
 
 export type StartCallLinkLobbyType = ReadonlyDeep<{
   rootKey: string;
-  epoch: string | null;
 }>;
 
 export type StartCallLinkLobbyByRoomIdType = ReadonlyDeep<{
@@ -466,13 +488,13 @@ type StartCallLinkLobbyPayloadType = {
   remoteParticipants: Array<GroupCallParticipantInfoType>;
   callLinkState: CallLinkStateType;
   callLinkRoomId: string;
-  callLinkEpoch: string | null;
   callLinkRootKey: string;
 };
 
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type SetRendererCanvasType = {
   element: React.RefObject<HTMLCanvasElement> | undefined;
+  sizeCallback: SizeCallbackType | undefined;
 };
 
 // Helpers
@@ -590,12 +612,7 @@ const doGroupCallPeek = ({
         // For adhoc calls, conversationId is actually a roomId.
         const callLink = getOwn(state.calling.callLinks, conversationId);
         const rootKey = callLink?.rootKey;
-        const epoch = callLink?.epoch ?? undefined;
-        peekInfo = await calling.peekCallLinkCall(
-          conversationId,
-          rootKey,
-          epoch
-        );
+        peekInfo = await calling.peekCallLinkCall(conversationId, rootKey);
       }
     } catch (err) {
       log.error('Group call peeking failed', Errors.toLogFormat(err));
@@ -708,6 +725,9 @@ const TOGGLE_SELF_VIEW_EXPANDED = 'calling/TOGGLE_SELF_VIEW_EXPANDED';
 const TOGGLE_SETTINGS = 'calling/TOGGLE_SETTINGS';
 const SWITCH_TO_PRESENTATION_VIEW = 'calling/SWITCH_TO_PRESENTATION_VIEW';
 const SWITCH_FROM_PRESENTATION_VIEW = 'calling/SWITCH_FROM_PRESENTATION_VIEW';
+const CQS_SUBMISSION_STARTED = 'calling/CQS_SUBMISSION_STARTED';
+const CQS_SUBMISSION_FAILED = 'calling/CQS_SUBMISSION_FAILED';
+const RESET_CQS_SUBMISSION_STATE = 'calling/RESET_CQS_SUBMISSION_STATE';
 
 type AcceptCallPendingActionType = ReadonlyDeep<{
   type: 'calling/ACCEPT_CALL_PENDING';
@@ -799,7 +819,7 @@ type DirectCallAudioLevelsChangeActionType = ReadonlyDeep<{
 
 type GroupCallEndedActionPayloadType = ReadonlyDeep<{
   conversationId: string;
-  endedReason: GroupCallEndReason;
+  endedReason: CallEndReason;
 }>;
 
 export type GroupCallEndedActionType = ReadonlyDeep<{
@@ -1023,6 +1043,21 @@ type SwitchFromPresentationViewActionType = ReadonlyDeep<{
   type: 'calling/SWITCH_FROM_PRESENTATION_VIEW';
 }>;
 
+type CQSSubmissionStartedActionType = ReadonlyDeep<{
+  type: 'calling/CQS_SUBMISSION_STARTED';
+}>;
+
+type CQSSubmissionFailedActionType = ReadonlyDeep<{
+  type: 'calling/CQS_SUBMISSION_FAILED';
+  payload: {
+    lastSubmissionData: SubmitCallQualitySurveyOptionsType;
+  };
+}>;
+
+type ResetCQSSubmissionStateActionType = ReadonlyDeep<{
+  type: typeof RESET_CQS_SUBMISSION_STATE;
+}>;
+
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type CallingActionType =
   | ApproveUserActionType
@@ -1080,7 +1115,10 @@ export type CallingActionType =
   | SwitchToPresentationViewActionType
   | SwitchFromPresentationViewActionType
   | WaitingForCallingLobbyActionType
-  | WaitingForCallLinkLobbyActionType;
+  | WaitingForCallLinkLobbyActionType
+  | CQSSubmissionStartedActionType
+  | CQSSubmissionFailedActionType
+  | ResetCQSSubmissionStateActionType;
 
 // Action Creators
 
@@ -1247,6 +1285,27 @@ function blockClient(
   };
 }
 
+function sendRemoteMute(
+  demuxId: number
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return (dispatch, getState) => {
+    const state = getState();
+    const activeCall = getActiveCall(state.calling);
+    if (!isGroupOrAdhocCallState(activeCall)) {
+      log.warn(
+        'sendRemoteMute: Trying to remote mute without active group or adhoc call'
+      );
+      return;
+    }
+
+    calling.sendRemoteMute(activeCall.conversationId, demuxId);
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
 function callStateChange(
   payload: CallStateChangeType
 ): ThunkAction<
@@ -1256,18 +1315,7 @@ function callStateChange(
   CallStateChangeFulfilledActionType
 > {
   return async dispatch => {
-    const { conversationId, callState, acceptedTime, callEndedReason } =
-      payload;
-
-    // This is a special case were we won't update our local call, because we have an
-    // ongoing active call. The ended call would stomp on the active call.
-    if (callEndedReason === CallEndedReason.ReceivedOfferWhileActive) {
-      const conversation = window.ConversationController.get(conversationId);
-      log.info(
-        `callStateChange: Got offer while active for conversation ${conversation?.idForLogging()}`
-      );
-      return;
-    }
+    const { callState, acceptedTime, callEndedReason } = payload;
 
     const wasAccepted = acceptedTime != null;
     const isEnded = callState === CallState.Ended && callEndedReason != null;
@@ -1485,7 +1533,7 @@ function groupCallEnded(
 > {
   return (dispatch, getState) => {
     const { endedReason } = payload;
-    if (endedReason === GroupCallEndReason.DeniedRequestToJoinCall) {
+    if (endedReason === CallEndReason.DeniedRequestToJoinCall) {
       const i18n = getIntl(getState());
       dispatch({
         type: SHOW_ERROR_MODAL,
@@ -1497,7 +1545,7 @@ function groupCallEnded(
       });
       return;
     }
-    if (endedReason === GroupCallEndReason.RemovedFromCall) {
+    if (endedReason === CallEndReason.RemovedFromCall) {
       const i18n = getIntl(getState());
       dispatch({
         type: SHOW_ERROR_MODAL,
@@ -1509,7 +1557,7 @@ function groupCallEnded(
       });
       return;
     }
-    if (endedReason === GroupCallEndReason.HasMaxDevices) {
+    if (endedReason === CallEndReason.HasMaxDevices) {
       const i18n = getIntl(getState());
       dispatch({
         type: SHOW_ERROR_MODAL,
@@ -1624,7 +1672,7 @@ function handleCallLinkUpdate(
   HandleCallLinkUpdateActionType | CallHistoryAdd
 > {
   return async dispatch => {
-    const { rootKey, epoch, adminKey } = payload;
+    const { rootKey, adminKey } = payload;
     const callLinkRootKey = CallLinkRootKey.parse(rootKey);
     const roomId = getRoomIdFromRootKey(callLinkRootKey);
     const logId = `handleCallLinkUpdate(${roomId})`;
@@ -1634,7 +1682,6 @@ function handleCallLinkUpdate(
       storageNeedsSync: false,
       roomId,
       rootKey,
-      epoch,
       adminKey,
     };
 
@@ -1668,7 +1715,6 @@ function handleCallLinkUpdate(
     drop(
       callLinkRefreshJobQueue.add({
         rootKey,
-        epoch,
         source: 'handleCallLinkUpdate',
       })
     );
@@ -1844,41 +1890,33 @@ function joinedAdhocCall(
   };
 }
 
-function peekGroupCallForTheFirstTime(
+function maybePeekGroupCall(
   conversationId: string
 ): ThunkAction<void, RootStateType, unknown, PeekGroupCallFulfilledActionType> {
   return (dispatch, getState) => {
     const call = getOwn(getState().calling.callsByConversation, conversationId);
-    const shouldPeek =
-      !call || (isGroupOrAdhocCallState(call) && !call.peekInfo);
-    const callMode = call?.callMode ?? CallMode.Group;
-    if (callMode === CallMode.Direct) {
+
+    if (call && !isGroupOrAdhocCallState(call)) {
       return;
     }
 
-    if (shouldPeek) {
+    const existingPeekInfo = call?.peekInfo;
+
+    // We peek if:
+    // 1. this is the first time since app has started that we've peeked, or
+    // 2. we've peeked prior and there is an ongoing group call
+    if (existingPeekInfo == null) {
       doGroupCallPeek({
         conversationId,
-        callMode,
+        callMode: call?.callMode ?? CallMode.Group,
         dispatch,
         getState,
       });
-    }
-  };
-}
-
-function peekGroupCallIfItHasMembers(
-  conversationId: string
-): ThunkAction<void, RootStateType, unknown, PeekGroupCallFulfilledActionType> {
-  return (dispatch, getState) => {
-    const call = getOwn(getState().calling.callsByConversation, conversationId);
-    const shouldPeek =
+    } else if (
       call &&
-      isGroupOrAdhocCallState(call) &&
       call.joinState === GroupCallJoinState.NotJoined &&
-      call.peekInfo &&
-      call.peekInfo.deviceCount > 0;
-    if (shouldPeek) {
+      existingPeekInfo.deviceCount > 0
+    ) {
       doGroupCallPeek({
         conversationId,
         callMode: call.callMode,
@@ -1964,6 +2002,7 @@ function setRendererCanvas(
 ): ThunkAction<void, RootStateType, unknown, never> {
   return () => {
     calling.videoRenderer.setCanvas(payload.element);
+    calling.videoRenderer.setSizer(payload.sizeCallback);
   };
 }
 
@@ -2401,28 +2440,25 @@ function startCallLinkLobbyByRoomId({
       `startCallLinkLobbyByRoomId(${roomId}): call link not found`
     );
 
-    const { rootKey, epoch } = callLink;
-    await _startCallLinkLobby({ rootKey, epoch, dispatch, getState });
+    const { rootKey } = callLink;
+    await _startCallLinkLobby({ rootKey, dispatch, getState });
   };
 }
 
 function startCallLinkLobby({
   rootKey,
-  epoch,
 }: StartCallLinkLobbyType): StartCallLinkLobbyThunkActionType {
   return async (dispatch, getState) => {
-    await _startCallLinkLobby({ rootKey, epoch, dispatch, getState });
+    await _startCallLinkLobby({ rootKey, dispatch, getState });
   };
 }
 
 const _startCallLinkLobby = async ({
   rootKey,
-  epoch,
   dispatch,
   getState,
 }: {
   rootKey: string;
-  epoch: string | null;
   dispatch: ThunkDispatch<
     RootStateType,
     unknown,
@@ -2436,7 +2472,6 @@ const _startCallLinkLobby = async ({
   getState: () => RootStateType;
 }) => {
   const callLinkRootKey = CallLinkRootKey.parse(rootKey);
-  const callLinkEpoch = epoch ? CallLinkEpoch.parse(epoch) : undefined;
   const roomId = getRoomIdFromRootKey(callLinkRootKey);
   const state = getState();
 
@@ -2464,7 +2499,6 @@ const _startCallLinkLobby = async ({
       toggleConfirmLeaveCallModal({
         type: 'adhoc-rootKey',
         rootKey,
-        epoch,
       })
     );
     return;
@@ -2480,7 +2514,7 @@ const _startCallLinkLobby = async ({
     });
 
     let callLinkState: CallLinkStateType | null = null;
-    callLinkState = await calling.readCallLink(callLinkRootKey, callLinkEpoch);
+    callLinkState = await calling.readCallLink(callLinkRootKey);
 
     if (callLinkState == null) {
       const i18n = getIntl(getState());
@@ -2514,27 +2548,13 @@ const _startCallLinkLobby = async ({
 
     const callLink = await DataReader.getCallLinkByRoomId(roomId);
     if (callLink) {
-      await DataWriter.updateCallLinkStateAndEpoch(
-        roomId,
-        callLinkState,
-        epoch
-      );
+      await DataWriter.updateCallLinkState(roomId, callLinkState);
       log.info(`${logId}: Updated existing call link`);
-      if (epoch !== callLink.epoch) {
-        drop(
-          sendCallLinkUpdateSync({
-            rootKey,
-            epoch,
-            adminKey: callLink.adminKey,
-          })
-        );
-      }
     } else {
       const { name, restrictions, expiration, revoked } = callLinkState;
       await DataWriter.insertCallLink({
         roomId,
         rootKey,
-        epoch: epoch ?? null,
         adminKey: null,
         name,
         restrictions,
@@ -2556,7 +2576,6 @@ const _startCallLinkLobby = async ({
 
     const callLobbyData = await calling.startCallLinkLobby({
       callLinkRootKey,
-      callLinkEpoch,
       adminPasskey,
       hasLocalAudio:
         groupCallDeviceCount < MAX_CALL_PARTICIPANTS_FOR_DEFAULT_MUTE,
@@ -2572,7 +2591,6 @@ const _startCallLinkLobby = async ({
         callLinkState,
         callLinkRoomId: roomId,
         callLinkRootKey: rootKey,
-        callLinkEpoch: epoch,
         conversationId: roomId,
         isConversationTooBigToRing: false,
       },
@@ -2619,8 +2637,8 @@ function leaveCurrentCallAndStartCallingLobby(
       const { roomId } = data;
       startCallLinkLobbyByRoomId({ roomId })(dispatch, getState, undefined);
     } else if (type === 'adhoc-rootKey') {
-      const { rootKey, epoch } = data;
-      startCallLinkLobby({ rootKey, epoch })(dispatch, getState, undefined);
+      const { rootKey } = data;
+      startCallLinkLobby({ rootKey })(dispatch, getState, undefined);
     } else {
       throw missingCaseError(type);
     }
@@ -2811,7 +2829,6 @@ function startCall(
         await calling.joinCallLinkCall({
           roomId: conversationId,
           rootKey: callLink.rootKey,
-          epoch: callLink.epoch ?? undefined,
           adminKey: callLink.adminKey ?? undefined,
           hasLocalAudio,
           hasLocalVideo,
@@ -2875,6 +2892,158 @@ function switchFromPresentationView(): SwitchFromPresentationViewActionType {
     type: SWITCH_FROM_PRESENTATION_VIEW,
   };
 }
+
+type SubmitCallQualitySurveyOptionsType = ReadonlyDeep<{
+  userSatisfied: boolean;
+  callQualityIssues: ReadonlyArray<CallQualitySurvey.Issue>;
+  additionalIssuesDescription: string;
+  shareDebugLog: boolean;
+  callSummary: CallSummary;
+  callType: CallQualitySurvey.CallType;
+}>;
+
+// eslint-disable-next-line local-rules/type-alias-readonlydeep
+type CQSSubmissionActionType =
+  | CQSSubmissionStartedActionType
+  | CQSSubmissionFailedActionType
+  | ResetCQSSubmissionStateActionType
+  | HideCallQualitySurveyActionType
+  | ShowCallQualitySurveyActionType;
+
+function showCallQualitySurvey(
+  payload: CallQualitySurveyPropsType
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ResetCQSSubmissionStateActionType | ShowCallQualitySurveyActionType
+> {
+  return dispatch => {
+    dispatch({ type: RESET_CQS_SUBMISSION_STATE });
+    dispatch({ type: SHOW_CALL_QUALITY_SURVEY, payload });
+
+    const diagnosticData = JSON.stringify(payload.callSummary);
+    window.IPC.updateCallDiagnosticData(diagnosticData);
+  };
+}
+
+function submitCallQualitySurvey(
+  options: SubmitCallQualitySurveyOptionsType
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  CQSSubmissionActionType | ShowToastActionType
+> {
+  return async (dispatch, getState) => {
+    const {
+      userSatisfied,
+      callQualityIssues,
+      additionalIssuesDescription,
+      shareDebugLog,
+      callSummary,
+      callType,
+    } = options;
+
+    dispatch({ type: CQS_SUBMISSION_STARTED });
+
+    try {
+      let debugLogUrl: string | undefined;
+
+      if (shareDebugLog) {
+        const logData = await ipcRenderer.invoke('fetch-log');
+        const logs: string = await ipcRenderer.invoke(
+          'DebugLogs.getLogs',
+          logData,
+          window.navigator.userAgent
+        );
+        debugLogUrl = await ipcRenderer.invoke('DebugLogs.upload', logs);
+      }
+
+      const { qualityStats } = callSummary;
+      const { audioStats, videoStats } = qualityStats;
+
+      const surveyRequest = {
+        userSatisfied,
+        callQualityIssues: userSatisfied ? [] : Array.from(callQualityIssues),
+        additionalIssuesDescription:
+          !userSatisfied &&
+          callQualityIssues.includes(CallQualitySurvey.Issue.OTHER)
+            ? additionalIssuesDescription
+            : null,
+        debugLogUrl,
+        startTimestamp: Long.fromNumber(callSummary.startTime),
+        endTimestamp: Long.fromNumber(callSummary.endTime),
+        callType,
+        success: !isCallFailure(callSummary.callEndReasonText),
+        callEndReason: callSummary.callEndReasonText,
+        connectionRttMedian: qualityStats.rttMedianConnectionMillis,
+        audioRttMedian: audioStats.rttMedianMillis,
+        videoRttMedian: videoStats.rttMedianMillis,
+        audioRecvJitterMedian: audioStats.jitterMedianRecvMillis,
+        videoRecvJitterMedian: videoStats.jitterMedianRecvMillis,
+        audioSendJitterMedian: audioStats.jitterMedianSendMillis,
+        videoSendJitterMedian: videoStats.jitterMedianSendMillis,
+        audioRecvPacketLossFraction: audioStats.packetLossFractionRecv,
+        videoRecvPacketLossFraction: videoStats.packetLossFractionRecv,
+        audioSendPacketLossFraction: audioStats.packetLossFractionSend,
+        videoSendPacketLossFraction: videoStats.packetLossFractionSend,
+        callTelemetry: callSummary.rawStats,
+      };
+
+      await submitCallQualitySurveyToServer(surveyRequest);
+
+      log.info('Call quality survey submitted successfully');
+      dispatch({ type: RESET_CQS_SUBMISSION_STATE });
+      dispatch({
+        type: SHOW_TOAST,
+        payload: { toastType: ToastType.CallQualitySurveySuccess },
+      });
+    } catch (error) {
+      log.error(
+        'Failed to submit call quality survey:',
+        Errors.toLogFormat(error)
+      );
+      dispatch({
+        type: CQS_SUBMISSION_FAILED,
+        payload: {
+          lastSubmissionData: options,
+        },
+      });
+      const { failedAttempts } = getState().calling.callQualitySurveySubmission;
+      const maxRetries = 3;
+      dispatch({
+        type: SHOW_TOAST,
+        payload: {
+          toastType: ToastType.CallQualitySurveyFailed,
+          parameters: { canRetry: failedAttempts < maxRetries },
+        },
+      });
+    } finally {
+      dispatch(hideCallQualitySurvey());
+    }
+  };
+}
+
+function retryCallQualitySurvey(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  CQSSubmissionActionType
+> {
+  return (dispatch, getState) => {
+    const { state: submissionState } =
+      getState().calling.callQualitySurveySubmission;
+
+    if (submissionState.status !== 'failed') {
+      log.warn('Cannot retry CQS submission: not in failed state');
+      return;
+    }
+
+    dispatch(submitCallQualitySurvey(submissionState.lastSubmissionData));
+  };
+}
+
 export const actions = {
   acceptCall,
   approveUser,
@@ -2903,13 +3072,12 @@ export const actions = {
   handleCallLinkDelete,
   joinedAdhocCall,
   leaveCurrentCallAndStartCallingLobby,
+  maybePeekGroupCall,
   onObservedRemoteMute,
   onOutgoingVideoCallInConversation,
   onOutgoingAudioCallInConversation,
   openSystemPreferencesAction,
   outgoingCall,
-  peekGroupCallForTheFirstTime,
-  peekGroupCallIfItHasMembers,
   peekNotConnectedGroupCall,
   receiveGroupCallReactions,
   receiveIncomingDirectCall,
@@ -2922,6 +3090,7 @@ export const actions = {
   returnToActiveCall,
   sendGroupCallRaiseHand,
   sendGroupCallReaction,
+  sendRemoteMute,
   selectPresentingSource,
   setGroupCallVideoRequest,
   setIsCallActive,
@@ -2936,6 +3105,9 @@ export const actions = {
   startCallLinkLobby,
   startCallLinkLobbyByRoomId,
   startCallingLobby,
+  showCallQualitySurvey,
+  submitCallQualitySurvey,
+  retryCallQualitySurvey,
   switchToPresentationView,
   switchFromPresentationView,
   toggleParticipants,
@@ -2971,6 +3143,10 @@ export function getEmptyState(): CallingStateType {
     adhocCalls: {},
     activeCallState: undefined,
     callLinks: {},
+    callQualitySurveySubmission: {
+      failedAttempts: 0,
+      state: { status: 'idle' },
+    },
   };
 }
 
@@ -3223,9 +3399,6 @@ export function reducer(
                 rootKey:
                   callLinks[conversationId]?.rootKey ??
                   action.payload.callLinkRootKey,
-                epoch:
-                  callLinks[conversationId]?.epoch ??
-                  action.payload.callLinkEpoch,
                 adminKey: callLinks[conversationId]?.adminKey,
                 storageNeedsSync: false,
               },
@@ -4516,6 +4689,39 @@ export function reducer(
       activeCallState: {
         ...activeCallState,
         suggestLowerHand,
+      },
+    };
+  }
+
+  if (action.type === RESET_CQS_SUBMISSION_STATE) {
+    return {
+      ...state,
+      callQualitySurveySubmission: {
+        failedAttempts: 0,
+        state: { status: 'idle' },
+      },
+    };
+  }
+
+  if (action.type === CQS_SUBMISSION_STARTED) {
+    return {
+      ...state,
+      callQualitySurveySubmission: {
+        failedAttempts: state.callQualitySurveySubmission.failedAttempts,
+        state: { status: 'loading' },
+      },
+    };
+  }
+
+  if (action.type === CQS_SUBMISSION_FAILED) {
+    return {
+      ...state,
+      callQualitySurveySubmission: {
+        failedAttempts: state.callQualitySurveySubmission.failedAttempts + 1,
+        state: {
+          status: 'failed',
+          lastSubmissionData: action.payload.lastSubmissionData,
+        },
       },
     };
   }

@@ -23,7 +23,7 @@ export function CountryCodeSelect({
   value,
   defaultRegion,
   countries,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const index = useMemo(() => {
     return new Fuse<CountryDataType>(countries, {
       keys: [
@@ -146,7 +146,7 @@ function CountryButton({
   displayName,
   code,
   onClick,
-}: CountryButtonPropsType): JSX.Element {
+}: CountryButtonPropsType): React.JSX.Element {
   const onButtonClick = useCallback(
     (ev: React.MouseEvent) => {
       ev.preventDefault();

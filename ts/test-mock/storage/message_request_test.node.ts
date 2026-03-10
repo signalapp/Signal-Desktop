@@ -64,7 +64,7 @@ describe('storage service', function (this: Mocha.Suite) {
       after: initialState,
     });
     {
-      assert.strictEqual(postMessageState.version, 2);
+      assert.strictEqual(postMessageState.version, 2n);
       assert.isFalse(postMessageState.getContact(stranger)?.whitelisted);
       assert.strictEqual(
         postMessageState.getContact(stranger)?.profileKey?.length,
@@ -85,7 +85,7 @@ describe('storage service', function (this: Mocha.Suite) {
       const nextState = await phone.waitForStorageState({
         after: postMessageState,
       });
-      assert.strictEqual(nextState.version, 3);
+      assert.strictEqual(nextState.version, 3n);
       assert.isTrue(nextState.getContact(stranger)?.whitelisted);
 
       // ContactRecord
@@ -128,6 +128,6 @@ describe('storage service', function (this: Mocha.Suite) {
 
     debug('Verifying the final manifest version');
     const finalState = await phone.expectStorageState('consistency check');
-    assert.strictEqual(finalState.version, 3);
+    assert.strictEqual(finalState.version, 3n);
   });
 });

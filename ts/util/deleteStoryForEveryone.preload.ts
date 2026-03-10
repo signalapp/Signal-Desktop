@@ -41,7 +41,6 @@ export async function deleteStoryForEveryone(
   );
   if (sourceConversation && isGroupV2(sourceConversation.attributes)) {
     void sendDeleteForEveryoneMessage(sourceConversation.attributes, {
-      deleteForEveryoneDuration: DAY,
       id: story.messageId,
       timestamp: story.timestamp,
     });

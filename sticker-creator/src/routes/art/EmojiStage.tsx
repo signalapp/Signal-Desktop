@@ -9,7 +9,7 @@ import { ArtGrid } from '../../components/ArtGrid';
 import { useArtType, useEmojisReady } from '../../selectors/art';
 import { useI18n } from '../../contexts/I18n';
 
-export function EmojiStage(): JSX.Element {
+export function EmojiStage(): React.JSX.Element {
   const i18n = useI18n();
   const artType = useArtType();
   const emojisReady = useEmojisReady();

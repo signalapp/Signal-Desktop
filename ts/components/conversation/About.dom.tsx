@@ -13,7 +13,7 @@ export type PropsType = {
 export function About({
   className = 'module-about__text',
   text,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   if (!text) {
     return null;
   }

@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Εναλλαγή εργαλείων προγραμματιστή"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Άνοιγμα κλήσης εργαλείων προγραμματιστή"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Παραμετροποίηση ως νέα συσκευή"
   },
@@ -539,6 +536,9 @@
   "icu:debugLogExplanation": {
     "messageformat": "Όταν πατήσεις Υποβολή, το αρχείο καταγραφής θα αναρτηθεί στο διαδίκτυο για 30 ημέρες, σε ένα μοναδικό και μη δημοσιευμένο σύνδεσμο URL. Μπορείς να το αποθηκεύσεις πρώτα τοπικά."
   },
+  "icu:debugLogExplanation--close": {
+    "messageformat": "Αυτό το αρχείο καταγραφής συμβάντων θα αναρτηθεί δημόσια στο διαδίκτυο για προβολή από τους συνεισφέροντες. Μπορείς να το εξετάσεις πριν το υποβάλλεις."
+  },
   "icu:debugLogError": {
     "messageformat": "Κάτι πήγε στραβά με τη φόρτωση του αρχείου! Παρακαλώ στείλε email στο support@signal.org και επισύναψε το αρχείο καταγραφής σου ως αρχείο κειμένου."
   },
@@ -575,14 +575,95 @@
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "Για να επαληθεύσεις την κρυπτογράφηση από άκρο σε άκρο με τον χρήστη {name}, σύγκρινε τους παραπάνω αριθμούς με αυτούς στη συσκευή του. Μπορεί επίσης να σκανάρει τον κωδικό σου με τη συσκευή του."
   },
+  "icu:SafetyNumberViewer__hint-v2": {
+    "messageformat": "Για να επαληθεύσεις την κρυπτογράφηση από άκρο σε άκρο με τον χρήστη {name}, σύγκρινε τους παραπάνω αριθμούς με αυτούς στη συσκευή του. Μπορεί επίσης να σκανάρει τον κωδικό σου με τη συσκευή του."
+  },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Μάθε περισσότερα"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__title": {
+    "messageformat": "Αυτόματη επαλήθευση κλειδιού"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
+    "messageformat": "Αυτόματη επαλήθευση"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--running": {
+    "messageformat": "Επαλήθευση κρυπτογράφησης..."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
+    "messageformat": "Η κρυπτογράφηση επαληθεύτηκε"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
+    "messageformat": "Η αυτόματη επαλήθευση δεν είναι διαθέσιμη"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__hint": {
+    "messageformat": "Η αυτόματη επαλήθευση δεν είναι διαθέσιμη για όλες τις συνομιλίες."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
+    "messageformat": "Μάθε περισσότερα"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
+    "messageformat": "Η κρυπτογράφηση επαληθεύτηκε αυτόματα για αυτήν τη συνομιλία "
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+    "messageformat": "Για τις επαφές με τις οποίες έχεις συνδεθεί μέσω αριθμού τηλεφώνου, το Signal μπορεί να επιβεβαιώσει αυτόματα εάν η σύνδεση είναι ασφαλής χρησιμοποιώντας μια διαδικασία που ονομάζεται διαφάνεια κλειδιού. Για πρόσθετη ασφάλεια, επαλήθευσε την κρυπτογράφηση από άκρο σε άκρο χειροκίνητα συγκρίνοντας τους αριθμούς στην προηγούμενη οθόνη ή σαρώνοντας τον κωδικό στη συσκευή τους."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
+    "messageformat": "Η αυτόματη επαλήθευση δεν είναι πλέον διαθέσιμη για αυτήν τη συνομιλία"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
+    "messageformat": "Το Signal δεν μπορεί πλέον να επαληθεύσει αυτόματα την κρυπτογράφηση για αυτήν τη συνομιλία. Αυτό πιθανότατα οφείλεται στο γεγονός ότι ο χρήστης {name} άλλαξε τον αριθμό τηλεφώνου του. Επαλήθευσε την κρυπτογράφηση από άκρο σε άκρο χειροκίνητα συγκρίνοντας τους αριθμούς στην προηγούμενη οθόνη ή σαρώνοντας τον κωδικό στη συσκευή τους."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
+    "messageformat": "Το Signal μπορεί να επαληθεύσει αυτόματα την κρυπτογράφηση μόνο σε συνομιλίες όπου έχεις συνδεθεί με κάποιον χρήστη μέσω ενός αριθμού τηλεφώνου. Εάν η συνομιλία ξεκίνησε με όνομα χρήστη ή μια κοινή ομάδα, επαλήθευσε την κρυπτογράφηση από άκρο σε άκρο συγκρίνοντας τους αριθμούς στην προηγούμενη οθόνη ή σαρώνοντας τον κωδικό στη συσκευή τους."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
+    "messageformat": "Εντάξει"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Θα δημιουργηθεί ένας αριθμός ασφαλείας με αυτό το άτομο αφού ανταλλάξετε μηνύματα μεταξύ σας."
   },
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Μάθε περισσότερα"
+  },
+  "icu:KeyTransparencyErrorDialog__Title": {
+    "messageformat": "Η Αυτόματη Επαλήθευση Κλειδιού δεν είναι διαθέσιμη προς το παρόν για τη συσκευή σου. Αποστολή αρχείου καταγραφής αποσφαλμάτωσης;"
+  },
+  "icu:KeyTransparencyErrorDialog__Description": {
+    "messageformat": "Τα αρχεία καταγραφής αποσφαλμάτωσης βοηθούν να διαγνώσουμε και να διορθώσουμε το πρόβλημα και δεν περιλαμβάνουν πληροφορίες ταυτοποίησης."
+  },
+  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Κλείσιμο"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
+    "messageformat": "Κοινή χρήση αρχείου καταγραφής αποσφαλμάτωσης"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
+    "messageformat": "Εμφάνιση"
+  },
+  "icu:KeyTransparencyErrorDialog__Submit": {
+    "messageformat": "Υποβολή"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "Όχι, ευχαριστώ"
+  },
+  "icu:KeyTransparencyErrorDialog__Submitting": {
+    "messageformat": "Υποβολή..."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Title": {
+    "messageformat": "Το Signal μπορεί πλέον να επαληθεύσει αυτόματα την κρυπτογράφηση"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description": {
+    "messageformat": "Για τις επαφές με τις οποίες έχεις συνδεθεί μέσω αριθμού τηλεφώνου, το Signal μπορεί να επιβεβαιώσει αυτόματα εάν η σύνδεση είναι ασφαλής χρησιμοποιώντας μια διαδικασία που ονομάζεται διαφάνεια κλειδιού. Για επιπλέον ασφάλεια, μπορείς ακόμα να επαληθεύσεις τις συνδέσεις χειροκίνητα χρησιμοποιώντας έναν κωδικό QR ή ή συγκρίνοντας τους αριθμούς ασφαλείας."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Continue": {
+    "messageformat": "Συνέχεια"
+  },
+  "icu:KeyTransparencyOnboardingDialog__LearnMore": {
+    "messageformat": "Μάθε περισσότερα"
+  },
+  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Κλείσιμο"
   },
   "icu:verified": {
     "messageformat": "Επιβεβαιωμένο"
@@ -595,18 +676,6 @@
   },
   "icu:media": {
     "messageformat": "Μέσα"
-  },
-  "icu:mediaEmptyState": {
-    "messageformat": "Δεν έχεις πολυμέσα σε αυτή τη συνομιλία."
-  },
-  "icu:allMedia": {
-    "messageformat": "Όλα τα Πολυμέσα"
-  },
-  "icu:documents": {
-    "messageformat": "Έγγραφα"
-  },
-  "icu:documentsEmptyState": {
-    "messageformat": "Δεν έχεις έγγραφα σε αυτή τη συνομιλία."
   },
   "icu:today": {
     "messageformat": "Σήμερα"
@@ -743,12 +812,6 @@
   "icu:screenShareWindow": {
     "messageformat": "Διαμοιρασμός οθόνης"
   },
-  "icu:callingDeveloperTools": {
-    "messageformat": "Κλήση εργαλείων προγραμματιστή"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "Αυτό το παράθυρο χρησιμοποιείται κατά τη διάρκεια του προγραμματισμού για την εμφάνιση διαγνωστικών από τρέχουσες κλήσεις."
-  },
   "icu:speech": {
     "messageformat": "Ομιλία"
   },
@@ -820,6 +883,9 @@
   },
   "icu:whatsNew": {
     "messageformat": "Δες {whatsNew} σε αυτή την αναβάθμιση"
+  },
+  "icu:signalNonProfit": {
+    "messageformat": "Το Signal είναι ένας μη κερδοσκοπικός οργανισμός"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "τι είναι καινούργιο"
@@ -1046,6 +1112,12 @@
   "icu:AboutContactModal__system-contact": {
     "messageformat": "Ο χρήστης {name} βρίσκεται στις επαφές του συστήματός σου"
   },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Προσθήκη ετικέτας μέλους"
+  },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "Ο κωδικός QR σου"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Σημείωση"
   },
@@ -1097,6 +1169,12 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Πληροφορίες"
   },
+  "icu:MessageContextMenu__PinMessage": {
+    "messageformat": "Καρφίτσωμα"
+  },
+  "icu:MessageContextMenu__UnpinMessage": {
+    "messageformat": "Ξεκαρφίτσωμα"
+  },
   "icu:Poll__end-poll": {
     "messageformat": "Λήξη δημοσκόπησης"
   },
@@ -1137,10 +1215,10 @@
     "messageformat": "Δεν υπάρχουν ψήφοι"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Κερδίζει"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "Δεν βρέθηκε το καρφιτσωμένο μήνυμα"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "Δεν βρέθηκε δημοσκόπηση"
@@ -1201,6 +1279,141 @@
   },
   "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
     "messageformat": "Πριν αποχωρήσεις, θα πρέπει να επιλέξεις τουλάχιστον νέο διαχειριστή ή διαχειρίστρια για την ομάδα."
+  },
+  "icu:PinnedMessageNotification__Message--You": {
+    "messageformat": "Καρφίτσωσες ένα μήνυμα"
+  },
+  "icu:PinnedMessageNotification__Message--SomeoneElse": {
+    "messageformat": "Ο χρήστης {sender} καρφίτσωσε ένα μήνυμα"
+  },
+  "icu:PinnedMessageNotification__Button": {
+    "messageformat": "Μετάβαση στο Μήνυμα"
+  },
+  "icu:PinMessageDialog__Title": {
+    "messageformat": "Καρφίτσωμα μηνύματος για..."
+  },
+  "icu:PinMessageDialog__Close": {
+    "messageformat": "Κλείσιμο"
+  },
+  "icu:PinMessageDialog__Option--TIME_24_HOURS": {
+    "messageformat": "24 ώρες"
+  },
+  "icu:PinMessageDialog__Option--TIME_7_DAYS": {
+    "messageformat": "7 ημέρες"
+  },
+  "icu:PinMessageDialog__Option--TIME_30_DAYS": {
+    "messageformat": "30 ημέρες"
+  },
+  "icu:PinMessageDialog__Option--FOREVER": {
+    "messageformat": "Για πάντα"
+  },
+  "icu:PinMessageDialog__Cancel": {
+    "messageformat": "Ακύρωση"
+  },
+  "icu:PinMessageDialog__Pin": {
+    "messageformat": "Καρφίτσωμα"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
+    "messageformat": "Αντικατάσταση του παλαιότερου καρφιτσωμένου μηνύματος;"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
+    "messageformat": "Το καρφίτσωμα αυτού του μηνύματος θα αντικαταστήσει το παλαιότερο."
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
+    "messageformat": "Ακύρωση"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
+    "messageformat": "Συνέχεια"
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
+    "messageformat": "Καρφίτσωμα μηνυμάτων που εξαφανίζονται"
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
+    "messageformat": "Τα μηνύματα που εξαφανίζονται θα ξεκαρφιτσώνονται όταν λήξει ο χρόνος τους και το μήνυμα αφαιρεθεί από τη συνομιλία."
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
+    "messageformat": "Εντάξει"
+  },
+  "icu:PinnedMessagesBar__AccessibilityLabel": {
+    "messageformat": "{pinsCount, plural, one {Καρφιτσωμένo μήνυμα} other {Καρφιτσωμένα μηνύματα}}"
+  },
+  "icu:PinnedMessagesBar__Tab__AccessibilityLabel": {
+    "messageformat": "Μετάβαση στο καρφιτσωμένο μήνυμα {pinNumber,number}"
+  },
+  "icu:PinnedMessagesBar__GoToMessageClickableArea__AccessibilityLabel": {
+    "messageformat": "Μετάβαση στο Μήνυμα"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__Button__AccessibilityLabel": {
+    "messageformat": "Περισσότερες ενέργειες"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
+    "messageformat": "Ξεκαρφίτσωμα"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
+    "messageformat": "Μετάβαση στο Μήνυμα"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
+    "messageformat": "Προβολή όλων των μηνυμάτων"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
+    "messageformat": "Μήνυμα φωνής"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Gif": {
+    "messageformat": "GIF"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
+    "messageformat": "Αρχείο"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
+    "messageformat": "Πληρωμή"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Poll": {
+    "messageformat": "Δημοσκόπηση"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
+    "messageformat": "Αυτοκόλλητο"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
+    "messageformat": "Πολυμέσο μιας μόνο προβολής"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
+    "messageformat": "Φωτογραφία"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--Video": {
+    "messageformat": "Βίντεο"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--VoiceMessage": {
+    "messageformat": "Μήνυμα φωνής"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--Gif": {
+    "messageformat": "GIF"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--Payment": {
+    "messageformat": "Πληρωμή"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
+    "messageformat": "Αυτοκόλλητο"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
+    "messageformat": "Πολυμέσο μιας μόνο προβολής"
+  },
+  "icu:PinnedMessagesPanel__Title": {
+    "messageformat": "Καρφιτσωμένα μηνύματα"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages": {
+    "messageformat": "Κατάργηση καρφιτσώματος για όλα τα μηνύματα"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
+    "messageformat": "Κατάργηση καρφιτσώματος για όλα τα μηνύματα;"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
+    "messageformat": "Τα καρφιτσωμένα μηνύματα θα καταργηθούν για τα μέλη αυτής της συνομιλίας."
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
+    "messageformat": "Ακύρωση"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
+    "messageformat": "Ξεκαρφίτσωμα"
   },
   "icu:sessionEnded": {
     "messageformat": "Η ασφαλής σύνδεση επανεκκινήθηκε"
@@ -1582,6 +1795,15 @@
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Ακύρωση"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
+    "messageformat": "Αυτόματη επαλήθευση κλειδιού"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
+    "messageformat": "Όταν είναι ενεργοποιημένο, το Signal θα επιχειρήσει να επαληθεύσει αυτόματα την κρυπτογράφηση των προσωπικών συνομιλιών."
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
+    "messageformat": "Μάθε περισσότερα"
   },
   "icu:initialSync": {
     "messageformat": "Συγχρονισμός ομάδων και επαφών"
@@ -1997,6 +2219,18 @@
   "icu:deleteFailed": {
     "messageformat": "Η διαγραφή απέτυχε"
   },
+  "icu:deleteFailedClickForDetails": {
+    "messageformat": "Delete failed, click for details"
+  },
+  "icu:retryDeleteForEveryone--title": {
+    "messageformat": "Retry failed delete?"
+  },
+  "icu:retryDeleteForEveryone--body": {
+    "messageformat": "Message failed to delete. Check your connection and try again."
+  },
+  "icu:retryDeleteForEveryone--tryAgain": {
+    "messageformat": "Try again"
+  },
   "icu:editFailed": {
     "messageformat": "Η τροποποίηση απέτυχε, κλικ για λεπτομέρειες"
   },
@@ -2008,6 +2242,9 @@
   },
   "icu:partiallyDeleted": {
     "messageformat": "Διαγράφηκε εν μέρει, πάτα για επανάληψη"
+  },
+  "icu:partiallyDeleted--clickForDetails": {
+    "messageformat": "Partially deleted, click for details"
   },
   "icu:expiredWarning": {
     "messageformat": "Αυτή η έκδοση του Signal Desktop έχει λήξει. Αναβάθμισε στην πιο πρόσφατη έκδοση για να συνεχίσεις τις συνομιλίες σου."
@@ -2208,7 +2445,16 @@
     "messageformat": "Η λήψη απέτυχε"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "Η λήψη του συνημμένου από το αντίγραφο ασφαλείας απέτυχε"
+    "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Μόνο οι διαχειριστές μπορούν να προσθέσουν ετικέτες μελών σε αυτήν την ομάδα."
+  },
+  "icu:Toast--viewOnceEnabled": {
+    "messageformat": "View once enabled"
+  },
+  "icu:Toast--viewOnceDisabled": {
+    "messageformat": "View once disabled"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Οι τροποποιήσεις μπορούν να εφαρμοστούν μόνο εντός 24 ωρών από τη στιγμή που έστειλες αυτό το μήνυμα."
@@ -2372,9 +2618,6 @@
   "icu:message--getNotificationText--stickers": {
     "messageformat": "Μήνυμα με αυτοκόλλητο"
   },
-  "icu:message--getNotificationText--poll": {
-    "messageformat": "Δημοσκόπηση: {pollQuestion}"
-  },
   "icu:Poll--preview": {
     "messageformat": "Δημοσκόπηση: {pollQuestion}"
   },
@@ -2398,6 +2641,15 @@
   },
   "icu:message--deletedForEveryone": {
     "messageformat": "Αυτό το μήνυμα διαγράφτηκε."
+  },
+  "icu:message--deletedByAdmin": {
+    "messageformat": "Admin {admin} deleted this message"
+  },
+  "icu:message--deletedForEveryone--incoming": {
+    "messageformat": "{name} deleted this message"
+  },
+  "icu:message--deletedForEveryone--outgoing": {
+    "messageformat": "You deleted this message"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "Το συνημμένο είναι πολύ μεγάλο για εμφάνιση."
@@ -2434,6 +2686,12 @@
   },
   "icu:message--donation--preview--sent": {
     "messageformat": "Έκανες δωρεά για τον/την {recipient}"
+  },
+  "icu:message--pinned--preview--received": {
+    "messageformat": "Ο χρήστης {sender} καρφίτσωσε ένα μήνυμα"
+  },
+  "icu:message--pinned--preview--sent": {
+    "messageformat": "Καρφίτσωσες ένα μήνυμα"
   },
   "icu:message--donation": {
     "messageformat": "Δωρεά"
@@ -2636,11 +2894,11 @@
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Προεπισκόπηση αυτοκόλλητου"
   },
-  "icu:FunPanelGifs__SearchLabel--Tenor": {
-    "messageformat": "Αναζήτηση GIF μέσω Tenor"
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "Αναζήτηση GIF"
   },
-  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
-    "messageformat": "Αναζήτηση Tenor"
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "Αναζήτηση GIF"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Κατηγορίες GIF"
@@ -2686,6 +2944,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "Προεπισκόπηση GIF"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "Με την υποστήριξη του GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Εκκαθάριση αναζήτησης"
@@ -4385,6 +4646,12 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Αντικατάσταση"
   },
+  "icu:CompositionArea--viewOnceToggle": {
+    "messageformat": "View once"
+  },
+  "icu:CompositionArea--viewOnceMediaPlaceholder": {
+    "messageformat": "View once media"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Επεξεργασία μηνύματος"
   },
@@ -4396,6 +4663,9 @@
   },
   "icu:ContactModal--rm-admin": {
     "messageformat": "Αφαίρεση διαχειριστή"
+  },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "Αυτό θα διαγράψει επίσης την ετικέτα μέλους τους."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Ορισμός ως διαχειριστή"
@@ -4415,6 +4685,27 @@
   "icu:ContactModal--voice": {
     "messageformat": "Φωνή"
   },
+  "icu:ContactModal--mute-audio": {
+    "messageformat": "Mute audio"
+  },
+  "icu:ContactModal--confirm-mute-body": {
+    "messageformat": "Are you sure you want to mute {contact}?"
+  },
+  "icu:ContactModal--confirm-mute-primary-button": {
+    "messageformat": "Mute"
+  },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Ετικέτες μέλους"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Χρησιμοποίησε μια ετικέτα μέλους για να περιγράψεις τον εαυτό σου ή τον ρόλο σου σε αυτήν την ομάδα. Οι ετικέτες μέλους είναι ορατές μόνο εντός αυτής της ομάδας."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Ορισμός ετικέτας"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Επεξεργασία της ετικέτας σου"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Χρώμα συνομιλίας"
   },
@@ -4429,6 +4720,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Σύνδεσμος ομάδας"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Ετικέτα μέλους"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Γράψε την ετικέτα μέλους σου"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Όρισε μια ετικέτα μέλους για να περιγράψεις τον εαυτό σου ή τον ρόλο σου σε αυτήν την ομάδα. Οι ετικέτες μέλους είναι ορατές μόνο εντός αυτής της ομάδας."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Προεπισκόπηση"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Γεια σου!"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Μέλη ομάδας με ετικέτες"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "Κανένα άλλο μέλος δεν έχει ετικέτες"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Αποθήκευση αλλαγών..."
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "Δεν είναι δυνατή η αποθήκευση της ετικέτας μέλους"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Έλεγξε τη σύνδεσή σου και δοκίμασε πάλι."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Μόνο οι διαχειριστές μπορούν να ορίσουν ετικέτες μελών σε αυτήν την ομάδα."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Μηνύματα που εξαφανίζονται"
@@ -4463,6 +4787,9 @@
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "Επέλεξε ποιοι θα μπορούν να επεξεργαστούν το όνομα της ομάδας, την περιγραφή της και το χρόνο εξαφάνισης μηνυμάτων."
   },
+  "icu:ConversationDetails--group-info-info-v2": {
+    "messageformat": "Διάλεξε ποιοι θα μπορούν να επεξεργάζονται το όνομα της ομάδας, τη φωτογραφία, τη περιγραφή, τον χρόνο εξαφάνισης μηνυμάτων και τα καρφιτσωμένα μηνύματα."
+  },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Ποιοί μπορούν να προσθέσουν μέλη"
   },
@@ -4474,6 +4801,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Επέλεξε ποιοί μπορούν να στέλνουν μηνύματα στην ομάδα."
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "Οι ετικέτες μελών θα διαγραφούν"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Η αλλαγή αυτού του δικαιώματος σε \"Μόνο Διαχειριστές\" θα διαγράψει τις ετικέτες μελών που ορίστηκαν από άτομα που δεν είναι διαχειριστές σε αυτήν την ομάδα."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Συνέχεια"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Αιτήματα & Προσκλήσεις"
@@ -4528,6 +4864,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Προσθήκη μελών"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Προσθήκη ετικέτας μέλους"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Προβολή όλων"
@@ -4676,6 +5015,9 @@
   "icu:DeleteMessagesModal--title": {
     "messageformat": "{count, plural, one {Διαγραφή μηνύματος;} other {Διαγραφή {count,number} μηνυμάτων;}}"
   },
+  "icu:DeleteMessagesModal--title-2": {
+    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+  },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Για ποια άτομα θα ήθελες να διαγράψεις αυτό το μήνυμα;} other {Για ποια άτομα θα ήθελες να διαγράψεις αυτά τα μηνύματα;}}"
   },
@@ -4694,6 +5036,12 @@
   "icu:DeleteMessagesModal--deleteForEveryone": {
     "messageformat": "Διαγραφή για όλους"
   },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
+    "messageformat": "Delete for everyone?"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
+    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+  },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Διαγραφή από όλες τις συσκευές"
   },
@@ -4702,6 +5050,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Μπορείς να επιλέξεις έως {count,number} μήνυμα για να διαγραφεί για όλους} other {Μπορείς να επιλέξεις έως {count,number} μηνύματα για να διαγραφούν για όλους}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Διαγραφή αντικειμένου;"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "Αυτό θα διαγράψει οριστικά το αντικείμενο. Οποιοδήποτε κείμενο μηνύματος σχετίζεται με αυτό το στοιχείο θα διαγραφεί επίσης."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Κλείσιμο"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Διαγραφή"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Ακύρωση"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Μπορείς να προωθήσεις μόνο έως και 30 μηνύματα"
@@ -5016,46 +5379,82 @@
     "messageformat": "Προσθήκη περιγραφής ομάδας…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Μήνυμα φωνής"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "Ήχος"
+  },
+  "icu:ContactListItem__subtitle": {
+    "messageformat": "Επαφή"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Άνοιγμα του συνδέσμου σε ένα πρόγραμμα περιήγησης"
+  },
+  "icu:ListItem__show-message": {
+    "messageformat": "Εμφάνιση μηνύματος στη συνομιλία"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "Ήχος"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Αρχεία"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Σύνδεσμοι"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Ταξινόμηση κατά"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Ταξινόμηση κατά"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Ημερομηνία"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Μέγεθος"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "Κανένα πολυμέσο"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Οι φωτογραφίες, τα βίντεο και τα GIF που στέλνεις και λαμβάνεις θα εμφανίζονται εδώ"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Χωρίς ήχο"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Τα φωνητικά μηνύματα και τα αρχεία ήχου που στέλνεις και λαμβάνεις θα εμφανίζονται εδώ"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Δεν υπάρχουν σύνδεσμοι"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+  "icu:MediaGallery__EmptyState__description--links-2": {
+    "messageformat": "Οι σύνδεσμοι που στέλνεις και λαμβάνεις θα εμφανίζονται εδώ"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "Δεν υπάρχουν αρχεία"
   },
-  "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+  "icu:MediaGallery__EmptyState__description--documents-2": {
+    "messageformat": "Τα αρχεία που στέλνεις και λαμβάνεις θα εμφανίζονται εδώ"
+  },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "Προβολή στη συνομιλία"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Προώθηση"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Αποθήκευση"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Αποστολή μηνύματος"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Αντιγραφή συνδέσμου"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Διαγραφή"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Επιλογή ποιότητας πολυμέσων"
@@ -5270,6 +5669,10 @@
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "διαχειριστές"
   },
+  "icu:Avatar__View": {
+    "messageformat": "Προβολή",
+    "limit": 7
+  },
   "icu:AvatarEditor--choose": {
     "messageformat": "Επιλογή εικόνας προφίλ"
   },
@@ -5348,15 +5751,6 @@
   "icu:Preferences__button--set-up": {
     "messageformat": "Ρύθμιση"
   },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Τοπικά αντίγραφα ασφαλείας"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Εξαγωγή…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Εξαγωγή τοπικού κρυπτογραφημένου αντιγράφου ασφαλείας σε έναν φάκελο και επικύρωσή"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Εξαγωγή αποκρυπτογραφημένου αντιγράφου ασφαλείας και εκτέλεση σουίτας επικύρωσης σε αυτό"
   },
@@ -5395,6 +5789,108 @@
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Περιεχόμενο ειδοποίησης"
+  },
+  "icu:PlaintextExport--PreferencesRow--Header": {
+    "messageformat": "Εξαγωγή ιστορικού συνομιλιών"
+  },
+  "icu:PlaintextExport--PreferencesRow--Description": {
+    "messageformat": "Κάνε εξαγωγή ενός αντιγράφου JSON που μπορεί να αναγνωστεί από μηχανήματα όλων των συνομιλιών σας. Δεν θα γίνει εξαγωγή των μηνυμάτων που εξαφανίζονται."
+  },
+  "icu:PlaintextExport--ActionButton": {
+    "messageformat": "Εξαγωγή"
+  },
+  "icu:PlaintextExport--Confirmation--Header": {
+    "messageformat": "Εξαγωγή ιστορικού συνομιλιών;"
+  },
+  "icu:PlaintextExport--Confirmation--Description": {
+    "messageformat": "<bold>ΠΡΟΣΟΧΗ!</bold> ΜΗΝ κοινοποιείς αυτό το αρχείο με κανέναν. Το ιστορικό συνομιλιών σου θα αποθηκευτεί στον υπολογιστή σου και άλλες εφαρμογές θα έχουν πρόσβαση σε αυτό, ανάλογα με τα δικαιώματα του υπολογιστή σου."
+  },
+  "icu:PlaintextExport--Confirmation--IncludeMedia": {
+    "messageformat": "Συμπερίληψη πολυμέσων <secondary>(μεγαλύτερο μέγεθος αρχείου)</secondary>"
+  },
+  "icu:PlaintextExport--Confirmation--ContinueButton": {
+    "messageformat": "Συνέχεια"
+  },
+  "icu:PlaintextExport--Confirmation--WaitingLabel": {
+    "messageformat": "Αναμονή για εισαγωγή δεδομένων"
+  },
+  "icu:PlaintextExport--OSPrompt--Mac": {
+    "messageformat": "εξαγωγή του ιστορικού συνομιλιών σου"
+  },
+  "icu:PlaintextExport--OSPrompt--Windows": {
+    "messageformat": "Επαλήθευσε την ταυτότητά σου για να εξαγάγεις το ιστορικό συνομιλιών σου."
+  },
+  "icu:PlaintextExport--OSPrompt--description--Linux": {
+    "messageformat": "Εξαγωγή"
+  },
+  "icu:PlaintextExport--OSPrompt--message--Linux": {
+    "messageformat": "Απαιτείται έλεγχος ταυτότητας για την εξαγωγή του ιστορικού συνομιλιών σου."
+  },
+  "icu:PlaintextExport--ProgressDialog--Header": {
+    "messageformat": "Εξαγωγή ιστορικού συνομιλιών"
+  },
+  "icu:PlaintextExport--ProgressDialog--Progress": {
+    "messageformat": "Εξαγωγή {currentBytes} από {totalBytes} ({percentage,number,percent})..."
+  },
+  "icu:PlaintextExport--ProgressDialog--TimeWarning": {
+    "messageformat": "Αυτό μπορεί να πάρει μερικά λεπτά"
+  },
+  "icu:PlaintextExport--CompleteDialog--Header": {
+    "messageformat": "Ολοκληρώθηκε η εξαγωγή"
+  },
+  "icu:PlaintextExport--CompleteDialog--Description": {
+    "messageformat": "<bold>ΠΡΟΣΟΧΗ</bold> στο πού αποθηκεύεις το αρχείο εξαγωγής συνομιλιών σου. Δεν πρέπει να το μοιράζεσαι με κανέναν. Άλλες εφαρμογές μπορεί να έχουν πρόσβαση στον υπολογιστή σου, ανάλογα με τις άδειες του. "
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Mac": {
+    "messageformat": "Εμφάνιση στο Finder"
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Linux": {
+    "messageformat": "Εμφάνιση στο φάκελο"
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Windows": {
+    "messageformat": "Εμφάνιση στο φάκελο"
+  },
+  "icu:PlaintextExport--Error--General--Title": {
+    "messageformat": "Δεν ήταν δυνατή η εξαγωγή του ιστορικού συνομιλίας"
+  },
+  "icu:PlaintextExport--Error--General--Description": {
+    "messageformat": "Παρουσιάστηκε σφάλμα και η εξαγωγή του ιστορικού συνομιλιών δεν ήταν δυνατό να ολοκληρωθεί."
+  },
+  "icu:PlaintextExport--Error--NotEnoughStorage--Title": {
+    "messageformat": "Δεν υπάρχει αρκετός χώρος αποθήκευσης"
+  },
+  "icu:PlaintextExport--Error--NotEnoughStorage--Detail": {
+    "messageformat": "Δεν είναι δυνατή η εξαγωγή του ιστορικού συνομιλιών σου, επειδή ο υπολογιστής σου δεν διαθέτει αρκετό ελεύθερο χώρο αποθήκευσης. Απελευθέρωσε {bytes} χώρου και δοκίμασε ξανά."
+  },
+  "icu:PlaintextExport--Error--RanOutOfStorage--Title": {
+    "messageformat": "Δεν ήταν δυνατή η εξαγωγή του ιστορικού συνομιλίας"
+  },
+  "icu:PlaintextExport--Error--RanOutOfStorage--Detail": {
+    "messageformat": "Δεν είναι δυνατή η εξαγωγή του ιστορικού συνομιλιών σου, επειδή ο υπολογιστής σου δεν διαθέτει αρκετό ελεύθερο χώρο αποθήκευσης. Απελευθέρωσε {bytes} χώρου και δοκίμασε ξανά."
+  },
+  "icu:PlaintextExport--Error--DiskPermssions--Title": {
+    "messageformat": "Δεν είναι δυνατή η εξαγωγή του ιστορικού συνομιλιών"
+  },
+  "icu:PlaintextExport--Error--DiskPermssions--Detail": {
+    "messageformat": "Δεν είναι δυνατή η εξαγωγή του ιστορικού συνομιλιών σου επειδή το Signal δεν έχει άδεια εγγραφής αρχείων στον δίσκο. Δοκίμασε να αλλάξεις τα δικαιώματα του δίσκου σου ή να ενημερώσεις τις ρυθμίσεις του συστήματός σου και, στη συνέχεια, επανάλαβε την εξαγωγή."
+  },
+  "icu:LocalBackupExport--ProgressDialog--Header": {
+    "messageformat": "Εξαγωγή αντιγράφου ασφαλείας"
+  },
+  "icu:LocalBackupExport--CompleteDialog--Header": {
+    "messageformat": "Η εξαγωγή αντιγράφου ασφαλείας ολοκληρώθηκε"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
+    "messageformat": "Για να επαναφορά αυτού του αντίγραφου ασφαλείας:"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
+    "messageformat": "Μετάφερε τον φάκελο αντιγράφων ασφαλείας στον χώρο αποθήκευσης του τηλεφώνου σου"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
+    "messageformat": "Κάνε εγκατάσταση ενός νέου αντίγραφου του Signal στο τηλέφωνό σου"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
+    "messageformat": "Πάτα «Επαναφορά ή Μεταφορά» και επίλεξε «Δημιουργία αντιγράφων ασφαλείας στη συσκευή»"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Εικονίδιο φεγγαριού"
@@ -5711,6 +6207,18 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Τέλος"
   },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
+    "messageformat": "εμφάνιση του εφεδρικού κλειδιού"
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
+    "messageformat": "Επαλήθευσε την ταυτότητά σου για να δεις το εφεδρικό κλειδί σου."
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
+    "messageformat": "Προβολή εφεδρικού κλειδιού"
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
+    "messageformat": "Απαιτείται έλεγχος ταυτότητας για την προβολή του εφεδρικού κλειδιού σου."
+  },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Πλαίσιο κειμένου εφεδρικού κλειδιού"
   },
@@ -5741,6 +6249,15 @@
   "icu:Preferences--local-backups-see-backup-key-again": {
     "messageformat": "Επαναπροβολή κλειδιού"
   },
+  "icu:Preferences__local-backups-last-backup": {
+    "messageformat": "Τελευταίο αντίγραφο ασφαλείας"
+  },
+  "icu:Preferences__local-backups-last-backup-never": {
+    "messageformat": "Ποτέ"
+  },
+  "icu:Preferences__local-backups-backup-now": {
+    "messageformat": "Δημιουργία αντίγραφου τώρα"
+  },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Φάκελος αντίγραφου ασφαλείας"
   },
@@ -5752,6 +6269,18 @@
   },
   "icu:Preferences__local-backups-copied-key": {
     "messageformat": "Το εφεδρικό κλειδί αντιγράφηκε"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt--mac": {
+    "messageformat": "Ενεργοποίηση αντίγραφων ασφαλείας"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt--windows": {
+    "messageformat": "Επαλήθευσε την ταυτότητά σου για να ενεργοποιήσεις τα αντίγραφα ασφαλείας."
+  },
+  "icu:Preferences__local-backups--enable--os-prompt-description--linux": {
+    "messageformat": "Ενεργοποίηση αντίγραφων ασφαλείας"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
+    "messageformat": "Απαιτείται έλεγχος ταυτότητας για την ενεργοποίηση των αντιγράφων ασφαλείας."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Προβολή κλειδιού"
@@ -6741,6 +7270,9 @@
   "icu:MessageMetadata__edited": {
     "messageformat": "Έγινε επεξεργασία"
   },
+  "icu:MessageMetadata__pinned": {
+    "messageformat": "Καρφιτσωμένο"
+  },
   "icu:DraftGifMessageSendModal__Title": {
     "messageformat": "Προσθήκη μηνύματος"
   },
@@ -6754,7 +7286,7 @@
     "messageformat": "Ιστορικό επεξεργασίας"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Αντιγραφή χρονικής σήμανσης"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "Δεν ήταν δυνατή η αποστολή αυτής της τροποποίησης. Έλεγξε τη σύνδεσή σου και δοκίμασε ξανά"
@@ -7002,11 +7534,11 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "Νέες δυνατότητες"
   },
-  "icu:PreferencesDonations__title": {
-    "messageformat": "Το απόρρητο πάνω από το κέρδος"
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "Με υπερηφάνεια, μη κερδοσκοπικός οργανισμός"
   },
-  "icu:PreferencesDonations__description": {
-    "messageformat": "Ιδιωτικά μηνύματα, χρηματοδότηση από εσένα. Χωρίς διαφημίσεις, παρακολούθηση, συμβιβασμούς. Κάνε τώρα μια δωρεά για να στηρίξεις το Signal. <readMoreLink>Δες περισσότερα</readMoreLink>"
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "Κάνε μια δωρεά για να υποστηρίξεις την ιδιωτική ανταλλαγή μηνυμάτων. Βοήθησε να διατηρήσουμε το Signal ανεξάρτητο και χωρίς διαφημίσεις. <readMoreLink>Δες περισσότερα</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Κάνε δωρεά"
@@ -7031,6 +7563,21 @@
   },
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Το Signal δεν συλλέγει ούτε αποθηκεύει τα προσωπικά στοιχεία σου όταν κάνεις δωρεά.</paragraph><paragraph>Χρησιμοποιούμε τη Stripe για την επεξεργασία πληρωμών, ώστε να λαμβάνουμε τις δωρεές μας. Δεν επεξεργαζόμαστε ούτε αποθηκεύουμε κανένα από τα στοιχεία που της παρέχεις.</paragraph><paragraph>Το Signal δεν μπορεί να συνδέσει τη δωρεά με τον λογαριασμό σου στο Signal.</paragraph><paragraph>Ευχαριστούμε για την υποστήριξή σου!</paragraph>"
+  },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "Ως ανεξάρτητος μη κερδοσκοπικός οργανισμός, το Signal έχει δεσμευτεί για ιδιωτικά μηνύματα και κλήσεις. Χωρίς διαφημίσεις, παρακολούθηση, επιτήρηση. Κάνε σήμερα μια δωρεά για να στηρίξεις το Signal."
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Απόκτησε ένα προαιρετικό σήμα στο προφίλ σου όταν κάνεις δωρεά"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "Η ιδιωτικότητά σου είναι η αποστολή μας"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Το Signal είναι ένας μη κερδοσκοπικός οργανισμός."
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Εικονίδιο καρδιάς στο στυλ του λογότυπου Signal"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "OK"
@@ -7122,6 +7669,15 @@
   "icu:DonateFlow__discard-dialog-remove-info": {
     "messageformat": "Κατάργηση πληροφοριών"
   },
+  "icu:DonateFlow__discard-paypal-dialog-body": {
+    "messageformat": "Η αποχώρηση θα ακυρώσει τη δωρεά σου."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Αποχώρηση"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Παραμονή στη σελίδα"
+  },
   "icu:DonateFlow__continue": {
     "messageformat": "Συνέχεια"
   },
@@ -7167,6 +7723,15 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Έχεις μια δωρεά σε εξέλιξη που χρειάζεται επιβεβαιώση."
   },
+  "icu:Donations__Toast__PaypalConfirmationNeeded": {
+    "messageformat": "Έχεις μια δωρεά σε εξέλιξη που χρειάζεται επιβεβαιώση."
+  },
+  "icu:Donations__Toast__PaypalCanceled": {
+    "messageformat": "Η δωρεά μέσω PayPal ακυρώθηκε"
+  },
+  "icu:Donations__Toast__PaypalError": {
+    "messageformat": "Σφάλμα κατά την επεξεργασία της δωρεάς μέσω PayPal. Δεν έχεις χρεωθεί."
+  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "Η δωρεά ήταν επιτυχής, αλλά δεν μπορέσαμε να ενημερώσουμε τις ρυθμίσεις του σήματος σου"
   },
@@ -7182,11 +7747,41 @@
   "icu:Donations__DonationInterrupted__RetryButton": {
     "messageformat": "Ξαναπροσπάθησε"
   },
+  "icu:Donations__PaymentMethod": {
+    "messageformat": "Τρόπος πληρωμής"
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Η μέθοδος πληρωμής απορρίφθηκε"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "Δοκίμασε άλλο τρόπο πληρωμής ή επικοινώνησε με την τράπεζά σου για περισσότερες πληροφορίες."
+  },
+  "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
+    "messageformat": "Εικονίδιο κάρτας πληρωμής"
+  },
+  "icu:DonateFlow__CreditOrDebitCard": {
+    "messageformat": "Πιστωτική ή χρεωστική κάρτα"
+  },
+  "icu:DonateFlow__Paypal__AccessibilityLabel": {
+    "messageformat": "PayPal"
+  },
+  "icu:DonateFlow__Paypal__Cancel": {
+    "messageformat": "Ακύρωση"
+  },
+  "icu:DonateFlow__Paypal__CompleteDonation": {
+    "messageformat": "Ολοκλήρωση δωρεάς"
+  },
+  "icu:Donations__PaypalCanceled": {
+    "messageformat": "Η δωρεά μέσω PayPal ακυρώθηκε"
+  },
+  "icu:Donations__PaypalCanceled__Description": {
+    "messageformat": "Δεν έχεις χρεωθεί. Δοκίμασε ξανά ή χρησιμοποίησε άλλη μέθοδο πληρωμής."
+  },
+  "icu:Donations__PaypalError": {
+    "messageformat": "Σφάλμα κατά την επεξεργασία της δωρεάς μέσω PayPal"
+  },
+  "icu:Donations__PaypalError__Description": {
+    "messageformat": "Δεν έχεις χρεωθεί. Δοκίμασε ξανά ή χρησιμοποίησε άλλη μέθοδο πληρωμής."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "Η επαλήθευση απέτυχε"
@@ -7248,6 +7843,114 @@
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "Μπορείτε να το προσαρμόσεις στο κινητό σου στις Ρυθμίσεις → Δωρεά στο Signal → Σήματα"
   },
+  "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
+    "messageformat": "Κλείσιμο"
+  },
+  "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
+    "messageformat": "Πίσω"
+  },
+  "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
+    "messageformat": "Πώς ήταν η κλήση σου;"
+  },
+  "icu:CallQualitySurvey__HowWasYourCall__PageDescription": {
+    "messageformat": "Αυτό μας βοηθά να βελτιώσουμε τις κλήσεις στο Signal. Δεν θα αποθηκευτούν προσωπικά αναγνωρίσιμες πληροφορίες."
+  },
+  "icu:CallQualitySurvey__HowWasYourCall__Response__HadIssues": {
+    "messageformat": "Είχε προβλήματα"
+  },
+  "icu:CallQualitySurvey__HowWasYourCall__Response__Great": {
+    "messageformat": "Τέλεια"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__PageTitle": {
+    "messageformat": "Τι προβλήματα αντιμετώπισες;"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__IssuesList__Heading": {
+    "messageformat": "Επίλεξε όλα όσα ισχύουν"
+  },
+  "icu:CallQualitySurvey__Issue--AUDIO": {
+    "messageformat": "Πρόβλημα με τον ήχο"
+  },
+  "icu:CallQualitySurvey__Issue--AUDIO_STUTTERING": {
+    "messageformat": "Ο ήχος είχε διακοπές"
+  },
+  "icu:CallQualitySurvey__Issue--AUDIO_LOCAL_ECHO": {
+    "messageformat": "Άκουσα ηχώ"
+  },
+  "icu:CallQualitySurvey__Issue--AUDIO_REMOTE_ECHO": {
+    "messageformat": "Άλλοι άκουσαν ηχώ"
+  },
+  "icu:CallQualitySurvey__Issue--AUDIO_DROP": {
+    "messageformat": "Ο ήχος διακόπηκε"
+  },
+  "icu:CallQualitySurvey__Issue--VIDEO": {
+    "messageformat": "Πρόβλημα με βίντεο"
+  },
+  "icu:CallQualitySurvey__Issue--VIDEO_NO_CAMERA": {
+    "messageformat": "Η κάμερα δεν λειτούργησε"
+  },
+  "icu:CallQualitySurvey__Issue--VIDEO_LOW_QUALITY": {
+    "messageformat": "Κακή ποιότητα βίντεο"
+  },
+  "icu:CallQualitySurvey__Issue--VIDEO_LOW_RESOLUTION": {
+    "messageformat": "Χαμηλή ανάλυση"
+  },
+  "icu:CallQualitySurvey__Issue--CALL_DROPPED": {
+    "messageformat": "Η κλήση διακόπηκε"
+  },
+  "icu:CallQualitySurvey__Issue--OTHER": {
+    "messageformat": "Κάτι άλλο"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
+    "messageformat": "Περιγραφή προβλημάτων"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
+    "messageformat": "Πρόσθεσε τυχόν λεπτομέρειες σχετικές με το πρόβλημα. Οτιδήποτε κοινοποιείς εδώ θα παραμείνει ιδιωτικό και θα χρησιμοποιηθεί μόνο για τη βελτίωση των κλήσεων στο Signal."
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
+    "messageformat": "Περίγραψε το πρόβλημά σου"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
+    "messageformat": "Συνέχεια"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
+    "messageformat": "Κάνε μία επιλογή για να συνεχίσεις"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
+    "messageformat": "Βοήθησέ μας να βελτιωθούμε"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
+    "messageformat": "Με την υποβολή θα μοιραστείς τα σχόλιά σου μαζί με <diagnosticInfoLink>διαγνωστικές πληροφορίες σχετικά με την κλήση σου</diagnosticInfoLink>. Μπορείς προαιρετικά να κοινοποιήσεις ένα αρχείο καταγραφής αποσφαλμάτωσης για να μας βοηθήσεις να βελτιώσουμε την ποιότητα των κλήσεων."
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
+    "messageformat": "Κοινή χρήση αρχείου καταγραφής αποσφαλμάτωσης"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
+    "messageformat": "Εμφάνιση"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
+    "messageformat": "Οι πληροφορίες που κοινοποιούνται σε εμάς περιέχουν πληροφορίες χαμηλού επιπέδου της εφαρμογής και δεν περιλαμβάνουν το περιεχόμενο των κλήσεών σου."
+  },
+  "icu:CallDiagnosticWindow__title": {
+    "messageformat": "Πληροφορίες διαγνωστικών"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
+    "messageformat": "Υποβολή"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
+    "messageformat": "Υποβολή έρευνας..."
+  },
+  "icu:CallQualitySurvey__SubmissionFailed": {
+    "messageformat": "Αποτυχία υποβολής της έρευνας"
+  },
+  "icu:CallQualitySurvey__SubmissionFailed__Retry": {
+    "messageformat": "Επανάληψη"
+  },
+  "icu:CallQualitySurvey__SubmissionSuccess": {
+    "messageformat": "Ευχαριστούμε για τα σχόλιά σου!"
+  },
+  "icu:Megaphone__ExpandNarrowSidebar": {
+    "messageformat": "Ανάπτυξη της πλαϊνής μπάρας για αλληλεπίδραση με το μεγάφωνο"
+  },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Αυτή η έκδοση περιλαμβάνει διάφορες μικρές βελτιώσεις και αποσφαλματώσεις για να συνεχίσει το Signal να λειτουργεί ομαλά.",
     "ignoreUnused": true
@@ -7276,31 +7979,17 @@
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.76": {
-    "messageformat": "Ρύθμισε προσαρμοσμένα προφίλ ειδοποιήσεων για να ελέγχεις από ποιους χρήστες και ομάδες θα λαμβάνεις ειδοποιήσεις όταν το προφίλ είναι ενεργοποιημένο."
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "Πέντε νέα επίσημα πακέτα αυτοκόλλητων καλλιτεχνών."
   },
-  "icu:WhatsNew__7.77-1": {
-    "messageformat": "Οι φάκελοι συνομιλίας επιτρέπουν να οργανωθείς, να ομαδοποιήσεις και να ξεχωρίσεις σε μοναδικούς φακέλους που μπορείς να προσαρμόσεις και να αναδιατάξεις. Εμφάνισε μη αναγνωσμένα μηνύματα από τα αγαπημένα σου άτομα, φίλτραρε ανά τύπο συνομιλίας (ατομική συνομιλία και ομάδες) ή δημιούργησε ξεχωριστούς φακέλους όπως \"Προσωπικά\" και \"Εργασία\", ώστε να μπορείς να βλέπεις γρήγορα τα μηνύματα που σε αφορούν. Ενεργοποίησε τους φακέλους συνομιλίας στις Ρυθμίσεις > Συνομιλίες για να ξεκινήσεις."
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Τα ασφαλή αντίγραφα Signal είναι εδώ! Τώρα μπορείς να δημιουργείς αυτόματα αντίγραφα, ώστε να μην χάσεις μήνυμα αν αλλάξεις τηλέφωνο ή επανεγκαταστήσεις το Signal. Μπορείς να αποθηκεύεις τα μηνύματα και τα πολυμέσα των τελευταίων 45 ημερών δωρεάν ή να πληρώσεις μια μηνιαία χρέωση για 100 GB αποθηκευτικού χώρου για να έχεις αντίγραφα κάθε συνημμένου. Πάτα στα αντίγραφα ασφαλείας στις ρυθμίσεις Signal για έναρξη. Ευχαριστούμε για τη βοήθεια στη δοκιμή της λειτουργίας κατά την περίοδο beta!"
   },
-  "icu:WhatsNew__7.77-2": {
-    "messageformat": "Αυτή η ενημέρωση περιλαμβάνει επίσης μια διόρθωση σφάλματος για ένα πρόβλημα που εμπόδιζε τη δημιουργία προεπισκόπησης συνδέσμων όταν το μήνυμα περιελάμβανε επίσης χαρακτήρες emoji. Ευχαριστούμε, <elias6></elias6>"
+  "icu:WhatsNew__8.2--0": {
+    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
   },
-  "icu:WhatsNew__7.78-1": {
-    "messageformat": "Βελτιώσεις προσβασιμότητας."
-  },
-  "icu:WhatsNew__7.78-2": {
-    "messageformat": "Διορθώσαμε επίσης ένα σφάλμα που εμπόδιζε την εμφάνιση ειδοποιήσεων στα Windows."
-  },
-  "icu:WhatsNew__7.79-1": {
-    "messageformat": "Ενημερώσαμε την εμφάνιση των γραμμών κύλισης σε όλη την εφαρμογή, ώστε να είναι πιο ομοιόμορφες οπτικά."
-  },
-  "icu:WhatsNew__7.79-2": {
-    "messageformat": "Βελτιώσεις στην αντιγραφή/επικόλληση. Ευχαριστούμε, <brianHarder></brianHarder>!"
-  },
-  "icu:WhatsNew__7.80-1": {
-    "messageformat": "Οι δημοσκοπήσεις Signal είναι εδώ! Οι δημοσκοπήσεις είναι ένας εύκολος τρόπος για να δεις τι πιστεύει πραγματικά η ομαδική συνομιλία σου. Δημιούργησε μια δημοσκόπηση με διαφορετικές επιλογές για δείπνο ή οποιαδήποτε άλλη σημαντική επιλογή. Όλοι οι συμμετέχοντες στην ομάδα μπορούν να ψηφίσουν και να δουν τις απαντήσεις των άλλων, ενώ εσύ μπορείς να αποφασίσεις αν θα επιτρέψεις πολλαπλές ψήφους."
-  },
-  "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+  "icu:WhatsNew__8.3--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "ignoreUnused": true
   }
 }

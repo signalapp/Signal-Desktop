@@ -76,7 +76,7 @@ export function SpinnerV2({
   size,
   strokeWidth,
   ariaLabel,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const sizeInPixels = `${size}px`;
 
   const radius = Math.min(

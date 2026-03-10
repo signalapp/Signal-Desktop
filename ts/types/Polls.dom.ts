@@ -3,18 +3,15 @@
 
 import { z } from 'zod';
 import { hasAtMostGraphemes } from '../util/grapheme.std.js';
-import {
-  Environment,
-  getEnvironment,
-  isMockEnvironment,
-} from '../environment.std.js';
-import * as RemoteConfig from '../RemoteConfig.dom.js';
-import { isAlpha, isBeta, isProduction } from '../util/version.std.js';
+import { isFeaturedEnabledNoRedux } from '../util/isFeatureEnabled.dom.js';
 import type { SendStateByConversationId } from '../messages/MessageSendState.std.js';
 import { aciSchema } from './ServiceId.std.js';
 import { MAX_MESSAGE_BODY_BYTE_LENGTH } from '../util/longAttachment.std.js';
 
-export const POLL_QUESTION_MAX_LENGTH = 100;
+// temporarily limit poll questions to an outbound 100 char and an inbound 200 char
+export const POLL_QUESTION_MAX_LENGTH_RECEIVE = 200;
+export const POLL_QUESTION_MAX_LENGTH_SEND = 100;
+export const POLL_OPTION_MAX_LENGTH = 100;
 export const POLL_OPTIONS_MIN_COUNT = 2;
 export const POLL_OPTIONS_MAX_COUNT = 10;
 
@@ -27,9 +24,12 @@ export const PollCreateSchema = z
     question: z
       .string()
       .min(1)
-      .refine(value => hasAtMostGraphemes(value, POLL_QUESTION_MAX_LENGTH), {
-        message: `question must contain at most ${POLL_QUESTION_MAX_LENGTH} characters`,
-      })
+      .refine(
+        value => hasAtMostGraphemes(value, POLL_QUESTION_MAX_LENGTH_RECEIVE),
+        {
+          message: `question must contain at most ${POLL_QUESTION_MAX_LENGTH_RECEIVE} characters`,
+        }
+      )
       .refine(
         value => Buffer.byteLength(value) <= MAX_MESSAGE_BODY_BYTE_LENGTH,
         {
@@ -41,12 +41,9 @@ export const PollCreateSchema = z
         z
           .string()
           .min(1)
-          .refine(
-            value => hasAtMostGraphemes(value, POLL_QUESTION_MAX_LENGTH),
-            {
-              message: `option must contain at most ${POLL_QUESTION_MAX_LENGTH} characters`,
-            }
-          )
+          .refine(value => hasAtMostGraphemes(value, POLL_OPTION_MAX_LENGTH), {
+            message: `option must contain at most ${POLL_OPTION_MAX_LENGTH} characters`,
+          })
           .refine(
             value => Buffer.byteLength(value) <= MAX_MESSAGE_BODY_BYTE_LENGTH,
             {
@@ -113,60 +110,9 @@ export type PollCreateType = Pick<
   'question' | 'options' | 'allowMultiple'
 >;
 
-export function isPollReceiveEnabled(): boolean {
-  const env = getEnvironment();
-
-  if (
-    env === Environment.Development ||
-    env === Environment.Test ||
-    env === Environment.Staging ||
-    isMockEnvironment()
-  ) {
-    return true;
-  }
-
-  const version = window.getVersion?.();
-
-  if (version != null) {
-    if (isProduction(version)) {
-      return RemoteConfig.isEnabled('desktop.pollReceive.prod1');
-    }
-    if (isBeta(version)) {
-      return RemoteConfig.isEnabled('desktop.pollReceive.beta1');
-    }
-    if (isAlpha(version)) {
-      return RemoteConfig.isEnabled('desktop.pollReceive.alpha');
-    }
-  }
-
-  return false;
-}
-
-export function isPollSendEnabled(): boolean {
-  const env = getEnvironment();
-
-  if (
-    env === Environment.Development ||
-    env === Environment.Test ||
-    env === Environment.Staging ||
-    isMockEnvironment()
-  ) {
-    return true;
-  }
-
-  const version = window.getVersion?.();
-
-  if (version != null) {
-    if (isProduction(version)) {
-      return RemoteConfig.isEnabled('desktop.pollSend.prod');
-    }
-    if (isBeta(version)) {
-      return RemoteConfig.isEnabled('desktop.pollSend.beta');
-    }
-    if (isAlpha(version)) {
-      return RemoteConfig.isEnabled('desktop.pollSend.alpha');
-    }
-  }
-
-  return false;
+export function isPollSend1to1Enabled(): boolean {
+  return isFeaturedEnabledNoRedux({
+    betaKey: 'desktop.pollSend1to1.beta',
+    prodKey: 'desktop.pollSend1to1.prod',
+  });
 }

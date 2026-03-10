@@ -2,24 +2,28 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import type { MessageAttributesType } from '../model-types.d.ts';
+import type { AciString } from '../types/ServiceId.std.js';
 import { getAuthorId } from '../messages/sources.preload.js';
 import { DataReader } from '../sql/Client.preload.js';
 import { createLogger } from '../logging/log.std.js';
 import * as Errors from '../types/errors.std.js';
-import { deleteForEveryone } from '../util/deleteForEveryone.preload.js';
+import { receiveDeleteForEveryone } from '../util/deleteForEveryone.preload.js';
 import { drop } from '../util/drop.std.js';
 import { getMessageSentTimestampSet } from '../util/getMessageSentTimestampSet.std.js';
 import { MessageModel } from '../models/messages.preload.js';
 
 const log = createLogger('Deletes');
 
-export type DeleteAttributesType = {
+export type DeleteAttributesType = Readonly<{
   envelopeId: string;
+  isAdminDelete: boolean;
   targetSentTimestamp: number;
-  serverTimestamp: number;
-  fromId: string;
+  targetAuthorAci: AciString;
+  targetConversationId: string;
+  deleteServerTimestamp: number;
+  deleteSentByAci: AciString;
   removeFromMessageReceiverCache: () => unknown;
-};
+}>;
 
 const deletes = new Map<string, DeleteAttributesType>();
 
@@ -36,7 +40,7 @@ export function forMessage(
 
   const matchingDeletes = deleteValues.filter(item => {
     return (
-      item.fromId === getAuthorId(messageAttributes) &&
+      item.targetConversationId === getAuthorId(messageAttributes) &&
       sentTimestamps.has(item.targetSentTimestamp)
     );
   });
@@ -55,14 +59,14 @@ export function forMessage(
 export async function onDelete(del: DeleteAttributesType): Promise<void> {
   deletes.set(del.envelopeId, del);
 
-  const logId = `Deletes.onDelete(timestamp=${del.targetSentTimestamp})`;
+  const logId = `Deletes.onDelete(timestamp=${del.targetSentTimestamp}, isAdminDelete=${del.isAdminDelete})`;
 
   try {
     // The conversation the deleted message was in; we have to find it in the database
     //   to to figure that out.
     const targetConversation =
       await window.ConversationController.getConversationForTargetMessage(
-        del.fromId,
+        del.targetConversationId,
         del.targetSentTimestamp
       );
 
@@ -80,9 +84,11 @@ export async function onDelete(del: DeleteAttributesType): Promise<void> {
           del.targetSentTimestamp
         );
 
-        const targetMessage = messages.find(
-          m => del.fromId === getAuthorId(m) && !m.deletedForEveryone
-        );
+        const targetMessage = messages.find(m => {
+          return (
+            del.targetConversationId === getAuthorId(m) && !m.deletedForEveryone
+          );
+        });
 
         if (!targetMessage) {
           log.info(`${logId}: No message for DOE 2`);
@@ -93,7 +99,7 @@ export async function onDelete(del: DeleteAttributesType): Promise<void> {
           new MessageModel(targetMessage)
         );
 
-        await deleteForEveryone(message, del);
+        await receiveDeleteForEveryone(message, del);
 
         remove(del);
       })

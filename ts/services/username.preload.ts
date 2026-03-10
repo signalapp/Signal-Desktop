@@ -30,6 +30,7 @@ import {
   deleteUsername as doDeleteUsername,
   resolveUsernameLink,
 } from '../textsecure/WebAPI.preload.js';
+import type { ResolveUsernameByLinkOptionsType } from '../textsecure/WebAPI.preload.js';
 import { HTTPError } from '../types/HTTPError.std.js';
 import { findRetryAfterTimeFromError } from '../jobs/helpers/findRetryAfterTimeFromError.std.js';
 import * as Bytes from '../Bytes.std.js';
@@ -364,28 +365,22 @@ export async function resolveUsernameByLinkBase64(
   const entropy = content.subarray(0, USERNAME_LINK_ENTROPY_SIZE);
   const serverId = content.subarray(USERNAME_LINK_ENTROPY_SIZE);
 
-  return resolveUsernameByLink({ entropy, serverId });
+  const uuid = bytesToUuid(serverId);
+  strictAssert(uuid, 'Failed to re-encode server id as uuid');
+
+  return resolveUsernameByLink({ entropy, uuid });
 }
 
-export type ResolveUsernameByLinkOptionsType = Readonly<{
-  entropy: Uint8Array;
-  serverId: Uint8Array;
-}>;
-
-export async function resolveUsernameByLink({
-  entropy,
-  serverId: serverIdBytes,
-}: ResolveUsernameByLinkOptionsType): Promise<string | undefined> {
-  const serverId = bytesToUuid(serverIdBytes);
-  strictAssert(serverId, 'Failed to re-encode server id as uuid');
-
+export async function resolveUsernameByLink(
+  options: ResolveUsernameByLinkOptionsType
+): Promise<string | undefined> {
   try {
-    const { usernameLinkEncryptedValue } = await resolveUsernameLink(serverId);
+    const result = await resolveUsernameLink(options);
+    if (!result) {
+      return undefined;
+    }
 
-    return usernames.decryptUsernameLink({
-      entropy,
-      encryptedUsername: usernameLinkEncryptedValue,
-    });
+    return result.username;
   } catch (error) {
     if (error instanceof HTTPError && error.code === 404) {
       return undefined;

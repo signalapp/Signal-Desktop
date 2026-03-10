@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import memoizee from 'memoizee';
+import { memoize } from '@indutny/sneequals';
 import lodash from 'lodash';
 import { createSelector } from 'reselect';
 import type { StateType } from '../reducer.preload.js';
@@ -58,13 +59,12 @@ import {
 import {
   getBadgeCountMutedConversations,
   getPinnedConversationIds,
+  getStoriesEnabled,
 } from './items.dom.js';
 import { createLogger } from '../../logging/log.std.js';
 import { TimelineMessageLoadingState } from '../../util/timelineUtil.std.js';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
 import { reduce } from '../../util/iterables.std.js';
-import { getConversationTitleForPanelType } from '../../util/getConversationTitleForPanelType.std.js';
-import type { PanelRenderType } from '../../types/Panels.std.js';
 import type { HasStories } from '../../types/Stories.std.js';
 import { getHasStoriesSelector } from './stories2.dom.js';
 import { canEditMessage } from '../../util/canEditMessage.dom.js';
@@ -90,6 +90,12 @@ import {
 import type { AllChatFoldersMutedStats } from '../../util/countMutedStats.std.js';
 import { countAllChatFoldersMutedStats } from '../../util/countMutedStats.std.js';
 import { getActiveProfile } from './notificationProfiles.dom.js';
+import type { PinnedMessage } from '../../types/PinnedMessage.std.js';
+import { getPinnedMessagesLimit } from '../../util/pinnedMessages.dom.js';
+import { getSelectedConversationId, getSelectedNavTab } from './nav.std.js';
+import { getCallHistoryUnreadCount } from './callHistory.std.js';
+import { NavTab } from '../../types/Nav.std.js';
+import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
 
 const { isNumber, pick } = lodash;
 
@@ -113,7 +119,6 @@ export const getPlaceholderContact = (): ConversationType => {
     type: 'direct',
     title: window.SignalContext.i18n('icu:unknownContact'),
     isMe: false,
-    sharedGroupNames: [],
   };
   return placeholderContact;
 };
@@ -154,12 +159,7 @@ export const getConversationsByGroupId = createSelector(
     return state.conversationsByGroupId;
   }
 );
-export const getHasPanelOpen = createSelector(
-  getConversations,
-  (state: ConversationsStateType): boolean => {
-    return state.targetedConversationPanels.watermark > 0;
-  }
-);
+
 export const getConversationsByUsername = createSelector(
   getConversations,
   (state: ConversationsStateType): ConversationLookupType => {
@@ -202,13 +202,6 @@ export const getSafeConversationWithSameTitle = createSelector(
   }
 );
 
-export const getSelectedConversationId = createSelector(
-  getConversations,
-  (state: ConversationsStateType): string | undefined => {
-    return state.selectedConversationId;
-  }
-);
-
 type TargetedMessageType = {
   id: string;
   counter: number;
@@ -232,6 +225,7 @@ export const getTargetedMessageSource = createSelector(
     return state.targetedMessageSource;
   }
 );
+
 export const getSelectedMessageIds = createSelector(
   getConversations,
   (state: ConversationsStateType): ReadonlyArray<string> | undefined => {
@@ -315,6 +309,34 @@ export const getConversationMessages = createSelector(
     messagesByConversation
   ): ConversationMessageType | undefined => {
     return conversationId ? messagesByConversation[conversationId] : undefined;
+  }
+);
+
+export const getConversationIsReady: StateSelector<boolean> = createSelector(
+  getConversationMessages,
+  conversationMessages => {
+    return conversationMessages != null;
+  }
+);
+
+export const getPinnedMessages: StateSelector<ReadonlyArray<PinnedMessage>> =
+  createSelector(getConversationMessages, conversationMessages => {
+    return conversationMessages?.pinnedMessages ?? [];
+  });
+
+export const getPinnedMessagesMessageIds: StateSelector<ReadonlyArray<string>> =
+  createSelector(getPinnedMessages, pinnedMessages => {
+    return pinnedMessages.map(pinnedMessage => {
+      return pinnedMessage.messageId;
+    });
+  });
+
+export const getHasMaxPinnedMessages: StateSelector<boolean> = createSelector(
+  getPinnedMessages,
+  pinnedMessages => {
+    const pinnedMessagesLimit = getPinnedMessagesLimit();
+    const pinnedMessagesCount = pinnedMessages.length;
+    return pinnedMessagesCount >= pinnedMessagesLimit;
   }
 );
 
@@ -628,16 +650,46 @@ export const getHasContactSpoofingReview = createSelector(
   }
 );
 
-function isTrusted(conversation: ConversationType): boolean {
+/**
+ * Builds a Set of service IDs that appear in any group's memberships.
+ * Used to efficiently check if a contact shares groups with us.
+ * Memoized with sneequals to only recompute when group memberships change.
+ */
+const getServiceIdsInGroups = memoize(
+  (conversationLookup: ConversationLookupType): Set<string> => {
+    const serviceIds = new Set<string>();
+    for (const conversation of Object.values(conversationLookup)) {
+      if (
+        conversation.type === 'group' &&
+        !conversation.left &&
+        conversation.memberships
+      ) {
+        for (const membership of conversation.memberships) {
+          serviceIds.add(membership.aci);
+        }
+      }
+    }
+    return serviceIds;
+  }
+);
+
+function isTrusted(
+  conversation: ConversationType,
+  serviceIdsInGroups: Set<string>
+): boolean {
   if (conversation.type === 'group') {
     return true;
   }
 
+  const hasSharedGroups =
+    conversation.serviceId != null &&
+    serviceIdsInGroups.has(conversation.serviceId);
+
   return Boolean(
     isInSystemContacts(conversation) ||
-      conversation.sharedGroupNames.length > 0 ||
-      conversation.profileSharing ||
-      conversation.isMe
+    hasSharedGroups ||
+    conversation.profileSharing ||
+    conversation.isMe
   );
 }
 
@@ -648,21 +700,24 @@ function hasDisplayInfo(conversation: ConversationType): boolean {
 
   return Boolean(
     conversation.name ||
-      conversation.profileName ||
-      conversation.phoneNumber ||
-      conversation.isMe
+    conversation.profileName ||
+    conversation.phoneNumber ||
+    conversation.isMe
   );
 }
 
-function canComposeConversation(conversation: ConversationType): boolean {
+function canComposeConversation(
+  conversation: ConversationType,
+  serviceIdsInGroups: Set<string>
+): boolean {
   return Boolean(
     !isSignalConversation(conversation) &&
-      !conversation.isBlocked &&
-      !conversation.removalStage &&
-      ((isGroupV2(conversation) && !conversation.left) ||
-        !isConversationUnregistered(conversation)) &&
-      hasDisplayInfo(conversation) &&
-      isTrusted(conversation)
+    !conversation.isBlocked &&
+    !conversation.removalStage &&
+    ((isGroupV2(conversation) && !conversation.left) ||
+      !isConversationUnregistered(conversation)) &&
+    hasDisplayInfo(conversation) &&
+    isTrusted(conversation, serviceIdsInGroups)
   );
 }
 
@@ -763,31 +818,39 @@ export const getAllChatFoldersMutedStats: StateSelector<AllChatFoldersMutedStats
  */
 export const getComposableContacts = createSelector(
   getConversationLookup,
-  (conversationLookup: ConversationLookupType): Array<ConversationType> =>
-    Object.values(conversationLookup).filter(
+  (conversationLookup: ConversationLookupType): Array<ConversationType> => {
+    const serviceIdsInGroups = getServiceIdsInGroups(conversationLookup);
+    return Object.values(conversationLookup).filter(
       conversation =>
-        conversation.type === 'direct' && canComposeConversation(conversation)
-    )
+        conversation.type === 'direct' &&
+        canComposeConversation(conversation, serviceIdsInGroups)
+    );
+  }
 );
 
 export const getCandidateContactsForNewGroup = createSelector(
   getConversationLookup,
-  (conversationLookup: ConversationLookupType): Array<ConversationType> =>
-    Object.values(conversationLookup).filter(
+  (conversationLookup: ConversationLookupType): Array<ConversationType> => {
+    const serviceIdsInGroups = getServiceIdsInGroups(conversationLookup);
+    return Object.values(conversationLookup).filter(
       conversation =>
         conversation.type === 'direct' &&
         !conversation.isMe &&
-        canComposeConversation(conversation)
-    )
+        canComposeConversation(conversation, serviceIdsInGroups)
+    );
+  }
 );
 
 export const getComposableGroups = createSelector(
   getConversationLookup,
-  (conversationLookup: ConversationLookupType): Array<ConversationType> =>
-    Object.values(conversationLookup).filter(
+  (conversationLookup: ConversationLookupType): Array<ConversationType> => {
+    const serviceIdsInGroups = getServiceIdsInGroups(conversationLookup);
+    return Object.values(conversationLookup).filter(
       conversation =>
-        conversation.type === 'group' && canComposeConversation(conversation)
-    )
+        conversation.type === 'group' &&
+        canComposeConversation(conversation, serviceIdsInGroups)
+    );
+  }
 );
 
 const getConversationIdsWithStories = createSelector(
@@ -1281,19 +1344,25 @@ export function isMissingRequiredProfileSharing(
     !conversation.isMe &&
     !conversation.left &&
     !conversation.removalStage &&
+    !isInSystemContacts(conversation) &&
     (isGroupV1(conversation) || isDirectConversation(conversation));
 
   return Boolean(
     doesConversationRequireIt &&
-      !conversation.profileSharing &&
-      conversation.hasMessages
+    !conversation.profileSharing &&
+    conversation.hasMessages
   );
 }
 
+export type AdminMembershipType = {
+  member: ConversationType;
+  labelEmoji: string | undefined;
+  labelString: string | undefined;
+};
 export const getGroupAdminsSelector = createSelector(
   getConversationSelector,
   (conversationSelector: GetConversationByIdType) => {
-    return (conversationId: string): Array<ConversationType> => {
+    return (conversationId: string): Array<AdminMembershipType> => {
       const {
         groupId,
         groupVersion,
@@ -1309,11 +1378,15 @@ export const getGroupAdminsSelector = createSelector(
         return [];
       }
 
-      const admins: Array<ConversationType> = [];
+      const admins: Array<AdminMembershipType> = [];
       memberships.forEach(membership => {
         if (membership.isAdmin) {
           const admin = conversationSelector(membership.aci);
-          admins.push(admin);
+          admins.push({
+            member: admin,
+            labelEmoji: membership.labelEmoji,
+            labelString: membership.labelString,
+          });
         }
       });
       return admins;
@@ -1388,62 +1461,75 @@ export const getHideStoryConversationIds = createSelector(
     )
 );
 
-export const getActivePanel = createSelector(
-  getConversations,
-  (conversations): PanelRenderType | undefined =>
-    conversations.targetedConversationPanels.stack[
-      conversations.targetedConversationPanels.watermark
-    ]
-);
+export const getStoriesState = (state: StateType): StoriesStateType =>
+  state.stories;
 
-type PanelInformationType = {
-  currPanel: PanelRenderType | undefined;
-  direction: 'push' | 'pop';
-  prevPanel: PanelRenderType | undefined;
-};
-
-export const getPanelInformation = createSelector(
-  getConversations,
-  getActivePanel,
-  (conversations, currPanel): PanelInformationType | undefined => {
-    const { direction, watermark } = conversations.targetedConversationPanels;
-
-    if (!direction) {
-      return;
+export const getStoriesNotificationCount = createSelector(
+  getStoriesEnabled,
+  getHideStoryConversationIds,
+  getStoriesState,
+  (
+    storiesEnabled,
+    hideStoryConversationIds,
+    { lastOpenedAtTimestamp, stories }
+  ): number => {
+    if (!storiesEnabled) {
+      return 0;
     }
 
-    const watermarkDirection =
-      direction === 'push' ? watermark - 1 : watermark + 1;
-    const prevPanel =
-      conversations.targetedConversationPanels.stack[watermarkDirection];
+    const hiddenConversationIds = new Set(hideStoryConversationIds);
+
+    return new Set(
+      stories
+        .filter(
+          story =>
+            story.readStatus === ReadStatus.Unread &&
+            !story.deletedForEveryone &&
+            story.timestamp > (lastOpenedAtTimestamp || 0) &&
+            !hiddenConversationIds.has(story.conversationId)
+        )
+        .map(story => story.conversationId)
+    ).size;
+  }
+);
+
+export const getOtherTabsUnreadStats = createSelector(
+  getSelectedNavTab,
+  getAllConversationsUnreadStats,
+  getCallHistoryUnreadCount,
+  getStoriesNotificationCount,
+  (
+    selectedNavTab,
+    conversationsUnreadStats,
+    callHistoryUnreadCount,
+    storiesNotificationCount
+  ): UnreadStats => {
+    let unreadCount = 0;
+    let unreadMentionsCount = 0;
+    let readChatsMarkedUnreadCount = 0;
+
+    if (selectedNavTab !== NavTab.Chats) {
+      unreadCount += conversationsUnreadStats.unreadCount;
+      unreadMentionsCount += conversationsUnreadStats.unreadMentionsCount;
+      readChatsMarkedUnreadCount +=
+        conversationsUnreadStats.readChatsMarkedUnreadCount;
+    }
+
+    // Note: Conversation unread stats includes the call history unread count.
+    if (selectedNavTab !== NavTab.Calls) {
+      unreadCount += callHistoryUnreadCount;
+    }
+
+    if (selectedNavTab !== NavTab.Stories) {
+      unreadCount += storiesNotificationCount;
+    }
 
     return {
-      currPanel,
-      direction,
-      prevPanel,
+      unreadCount,
+      unreadMentionsCount,
+      readChatsMarkedUnreadCount,
     };
   }
-);
-
-export const getIsPanelAnimating = createSelector(
-  getConversations,
-  (conversations): boolean => {
-    return conversations.targetedConversationPanels.isAnimating;
-  }
-);
-
-export const getWasPanelAnimated = createSelector(
-  getConversations,
-  (conversations): boolean => {
-    return conversations.targetedConversationPanels.wasAnimated;
-  }
-);
-
-export const getConversationTitle = createSelector(
-  getIntl,
-  getActivePanel,
-  (i18n, panel): string | undefined =>
-    getConversationTitleForPanelType(i18n, panel?.type)
 );
 
 // Note that this doesn't take into account max edit count. See canEditMessage.

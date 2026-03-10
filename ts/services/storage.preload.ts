@@ -449,7 +449,7 @@ async function generateManifest(
     : notificationProfiles;
   if (notificationProfileSyncDisabled) {
     const localOnlyCount =
-      notificationProfilesToUpload.length - notificationProfiles.length;
+      notificationProfiles.length - notificationProfilesToUpload.length;
     log.info(
       `upload(${version}): ` +
         `sync=OFF; adding notificationProfiles=${notificationProfilesToUpload.length}, excluding ${localOnlyCount} local profiles`
@@ -2250,7 +2250,7 @@ async function sync({
 
     if (window.SignalCI) {
       window.SignalCI.handleEvent('storageServiceComplete', {
-        manifestVersion: version,
+        manifestVersion: BigInt(version),
       });
     }
 

@@ -14,10 +14,16 @@ import {
   getStickerPackRecordPredicate,
   getStickerPackLink,
 } from './fixtures.node.js';
+import {
+  getMessageInTimelineByTimestamp,
+  sendTextMessage,
+} from '../helpers.node.js';
+import { strictAssert } from '../../util/assert.std.js';
+import { toNumber } from '../../util/toNumber.std.js';
 
 const { StickerPackOperation } = Proto.SyncMessage;
 
-describe('storage service', function (this: Mocha.Suite) {
+describe('stickers', function (this: Mocha.Suite) {
   this.timeout(durations.MINUTE);
 
   let bootstrap: Bootstrap;
@@ -78,7 +84,7 @@ describe('storage service', function (this: Mocha.Suite) {
 
       debug('waiting for sync message');
       const { syncMessage } = await phone.waitForSyncMessage(entry =>
-        Boolean(entry.syncMessage.stickerPackOperation?.length)
+        Boolean(entry.syncMessage.stickerPackOperation.length)
       );
       const [syncOp] = syncMessage.stickerPackOperation ?? [];
       assert.isTrue(STICKER_PACKS[0].id.equals(syncOp?.packId ?? EMPTY));
@@ -96,13 +102,13 @@ describe('storage service', function (this: Mocha.Suite) {
       );
       assert.isTrue(
         STICKER_PACKS[0].key.equals(
-          stickerPack?.record.stickerPack?.packKey ?? EMPTY
+          stickerPack.record.stickerPack.packKey ?? EMPTY
         ),
         'Wrong sticker pack key'
       );
       assert.strictEqual(
-        stickerPack?.record.stickerPack?.position,
-        6,
+        stickerPack.record.stickerPack.position,
+        11,
         'Wrong sticker pack position'
       );
     }
@@ -142,12 +148,13 @@ describe('storage service', function (this: Mocha.Suite) {
         'New storage state should have sticker pack record'
       );
       assert.deepStrictEqual(
-        stickerPack?.record.stickerPack?.packKey,
+        stickerPack.record.stickerPack.packKey,
         EMPTY,
         'Sticker pack key should be removed'
       );
-      const deletedAt =
-        stickerPack?.record.stickerPack?.deletedAtTimestamp?.toNumber() ?? 0;
+      const deletedAt = toNumber(
+        stickerPack.record.stickerPack.deletedAtTimestamp ?? 0n
+      );
       assert.isAbove(
         deletedAt,
         Date.now() - durations.HOUR,
@@ -189,12 +196,12 @@ describe('storage service', function (this: Mocha.Suite) {
         state.updateRecord(
           getStickerPackRecordPredicate(STICKER_PACKS[0]),
           record => ({
-            ...record,
+            record: 'stickerPack',
             stickerPack: {
-              ...record?.stickerPack,
+              ...record.stickerPack,
               packKey: STICKER_PACKS[0].key,
               position: 7,
-              deletedAtTimestamp: undefined,
+              deletedAtTimestamp: null,
             },
           })
         )
@@ -230,19 +237,20 @@ describe('storage service', function (this: Mocha.Suite) {
       const stickerPack = stateAfter.findRecord(
         getStickerPackRecordPredicate(STICKER_PACKS[1])
       );
-      assert.ok(
-        stickerPack,
+      assert.strictEqual(
+        stickerPack?.record.record,
+        'stickerPack',
         'New storage state should have sticker pack record'
       );
       assert.isTrue(
         STICKER_PACKS[1].key.equals(
-          stickerPack?.record.stickerPack?.packKey ?? EMPTY
+          stickerPack.record.stickerPack.packKey ?? EMPTY
         ),
         'Wrong sticker pack key'
       );
       assert.strictEqual(
-        stickerPack?.record.stickerPack?.position,
-        7,
+        stickerPack.record.stickerPack.position,
+        12,
         'Wrong sticker pack position'
       );
     }
@@ -250,6 +258,61 @@ describe('storage service', function (this: Mocha.Suite) {
     debug('Verifying the final manifest version');
     const finalState = await phone.expectStorageState('consistency check');
 
-    assert.strictEqual(finalState.version, 5);
+    assert.strictEqual(finalState.version, 5n);
+
+    debug(
+      'verifying that stickers from packs can be received and paths are deduplicated'
+    );
+    const firstTimestamp = bootstrap.getTimestamp();
+    const secondTimestamp = bootstrap.getTimestamp();
+    await sendTextMessage({
+      from: firstContact,
+      to: desktop,
+      desktop,
+      text: undefined,
+      sticker: {
+        packId: STICKER_PACKS[0].id,
+        packKey: STICKER_PACKS[0].key,
+        stickerId: 0,
+        data: null,
+        emoji: null,
+      },
+      timestamp: firstTimestamp,
+    });
+
+    await sendTextMessage({
+      from: firstContact,
+      to: desktop,
+      desktop,
+      text: undefined,
+      sticker: {
+        packId: STICKER_PACKS[0].id,
+        packKey: STICKER_PACKS[0].key,
+        stickerId: 0,
+        data: null,
+        emoji: null,
+      },
+      timestamp: secondTimestamp,
+    });
+
+    await window.getByRole('button', { name: 'Go back' }).click();
+    await getMessageInTimelineByTimestamp(window, firstTimestamp)
+      .locator('.module-image--loaded')
+      .waitFor();
+
+    await getMessageInTimelineByTimestamp(window, secondTimestamp)
+      .locator('.module-image--loaded')
+      .waitFor();
+
+    const firstStickerData = (await app.getMessagesBySentAt(firstTimestamp))[0]
+      .sticker?.data;
+    const secondStickerData = (
+      await app.getMessagesBySentAt(secondTimestamp)
+    )[0].sticker?.data;
+
+    strictAssert(firstStickerData?.path, 'path exists');
+    strictAssert(firstStickerData?.localKey, 'localKey exists');
+    assert.strictEqual(firstStickerData.path, secondStickerData?.path);
+    assert.strictEqual(firstStickerData.localKey, secondStickerData?.localKey);
   });
 });

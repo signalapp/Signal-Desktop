@@ -12,6 +12,6 @@ export default {
   title: 'Components/Conversation/ChatSessionRefreshedNotification',
 } satisfies Meta<PropsType>;
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return <ChatSessionRefreshedNotification i18n={i18n} />;
 }

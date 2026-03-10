@@ -27,7 +27,7 @@ const onRender: ProfilerOnRenderCallback = (
   );
 };
 
-export function Profiler({ id, children }: PropsType): JSX.Element {
+export function Profiler({ id, children }: PropsType): React.JSX.Element {
   return (
     <React.Profiler id={id} onRender={onRender}>
       {children}

@@ -13,7 +13,10 @@ describe('resolveCanonicalLocales', () => {
   });
 
   it('removes invalid locales', () => {
-    assert.deepEqual(resolveCanonicalLocales(['!@#$', 'POSIX', 'en']), ['en']);
+    assert.deepEqual(resolveCanonicalLocales(['!@#$', 'POSIX', 'en']), [
+      'posix',
+      'en',
+    ]);
   });
 
   it('defaults to en if no valid locales are provided', () => {

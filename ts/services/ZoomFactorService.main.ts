@@ -117,14 +117,12 @@ export class ZoomFactorService extends EventEmitter {
         return;
       }
 
-      window.webContents.on('preferred-size-changed', onWindowChange);
       window.webContents.on('zoom-changed', onWindowChange);
       this.on('zoomFactorChanged', onServiceChange);
       this.#isListeningForZoom = true;
     };
 
     const stopListenForZoomEvents = () => {
-      window.webContents.off('preferred-size-changed', onWindowChange);
       window.webContents.off('zoom-changed', onWindowChange);
       this.off('zoomFactorChanged', onServiceChange);
       this.#isListeningForZoom = false;

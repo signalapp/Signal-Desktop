@@ -13,7 +13,8 @@ import { queueUpdateMessage } from './messageBatcher.preload.js';
 import { isMe } from './whatTypeOfConversation.dom.js';
 import { drop } from './drop.std.js';
 import { fromServiceIdBinaryOrString } from './ServiceId.node.js';
-import { handleDeleteForEveryone } from './deleteForEveryone.preload.js';
+import { applyDeleteForEveryone } from './deleteForEveryone.preload.js';
+import { itemStorage } from '../textsecure/Storage.preload.js';
 import { MessageModel } from '../models/messages.preload.js';
 
 const { isEqual } = lodash;
@@ -199,11 +200,17 @@ export async function onStoryRecipientUpdate(
           // sent timestamp doesn't happen (it would return all copies of the
           // story, not just the one we want to delete).
           drop(
-            handleDeleteForEveryone(message, {
-              fromId: ourConversationId,
-              serverTimestamp: Number(item.serverTimestamp),
-              targetSentTimestamp: item.timestamp,
-            })
+            applyDeleteForEveryone(
+              message,
+              {
+                isAdminDelete: false,
+                targetSentTimestamp: item.timestamp,
+                deleteServerTimestamp: Number(item.serverTimestamp),
+                deleteSentByAci: itemStorage.user.getCheckedAci(),
+                targetConversationId: ourConversationId,
+              },
+              { shouldPersist: true }
+            )
           );
         } else {
           message.set({

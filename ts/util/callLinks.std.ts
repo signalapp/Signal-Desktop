@@ -40,24 +40,6 @@ export function getKeyFromCallLink(callLink: string): string {
   return hashParams.get('key') || '';
 }
 
-export function getKeyAndEpochFromCallLink(callLink: string): {
-  key: string;
-  epoch: string;
-} {
-  const url = new URL(callLink);
-  if (url == null) {
-    throw new Error('Failed to parse call link URL');
-  }
-
-  const hash = url.hash.slice(1);
-  const hashParams = new URLSearchParams(hash);
-
-  return {
-    key: hashParams.get('key') || '',
-    epoch: hashParams.get('epoch') || '',
-  };
-}
-
 export function callLinkToConversation(
   callLink: CallLinkType,
   i18n: LocalizerType
@@ -69,7 +51,6 @@ export function callLinkToConversation(
     color: getColorForCallLink(rootKey),
     isMe: false,
     title: name || i18n('icu:calling__call-link-default-title'),
-    sharedGroupNames: [],
     acceptedMessageRequest: true,
     badges: [],
   };
@@ -84,7 +65,6 @@ export function getPlaceholderCallLinkConversation(
     type: 'callLink',
     isMe: false,
     title: i18n('icu:calling__call-link-default-title'),
-    sharedGroupNames: [],
     acceptedMessageRequest: true,
     badges: [],
   };

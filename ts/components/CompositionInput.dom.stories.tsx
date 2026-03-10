@@ -53,16 +53,19 @@ const useProps = (overrideProps: Partial<Props> = {}): Props => {
     inputApi: null,
     shouldHidePopovers: null,
     linkPreviewResult: null,
+    showViewOnceButton: false,
+    isViewOnceActive: false,
+    onToggleViewOnce: action('onToggleViewOnce'),
   };
 };
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   const props = useProps();
 
   return <CompositionInput {...props} />;
 }
 
-export function Large(): JSX.Element {
+export function Large(): React.JSX.Element {
   const props = useProps({
     large: true,
   });
@@ -70,7 +73,7 @@ export function Large(): JSX.Element {
   return <CompositionInput {...props} />;
 }
 
-export function Disabled(): JSX.Element {
+export function Disabled(): React.JSX.Element {
   const props = useProps({
     disabled: true,
   });
@@ -78,7 +81,7 @@ export function Disabled(): JSX.Element {
   return <CompositionInput {...props} />;
 }
 
-export function StartingText(): JSX.Element {
+export function StartingText(): React.JSX.Element {
   const props = useProps({
     draftText: "here's some starting text",
   });
@@ -86,7 +89,7 @@ export function StartingText(): JSX.Element {
   return <CompositionInput {...props} />;
 }
 
-export function MultilineText(): JSX.Element {
+export function MultilineText(): React.JSX.Element {
   const props = useProps({
     draftText: `here's some starting text
 and more on another line
@@ -102,7 +105,7 @@ and we're done`,
   return <CompositionInput {...props} />;
 }
 
-export function Emojis(): JSX.Element {
+export function Emojis(): React.JSX.Element {
   const props = useProps({
     draftText: `⁣😐😐😐😐😐😐😐
 😐😐😐😐😐😐😐
@@ -114,7 +117,7 @@ export function Emojis(): JSX.Element {
   return <CompositionInput {...props} />;
 }
 
-export function Mentions(): JSX.Element {
+export function Mentions(): React.JSX.Element {
   const props = useProps({
     sortedGroupMembers: [
       getDefaultConversation({
@@ -139,6 +142,33 @@ export function Mentions(): JSX.Element {
   return <CompositionInput {...props} />;
 }
 
-export function NoFormattingMenu(): JSX.Element {
+export function NoFormattingMenu(): React.JSX.Element {
   return <CompositionInput {...useProps({ isFormattingEnabled: false })} />;
+}
+
+export function ViewOnceButton(): React.JSX.Element {
+  const [isActive, setIsActive] = React.useState(false);
+  const props = useProps();
+
+  return (
+    <CompositionInput
+      {...props}
+      showViewOnceButton
+      isViewOnceActive={isActive}
+      onToggleViewOnce={() => setIsActive(!isActive)}
+    />
+  );
+}
+
+export function ViewOnceButtonActive(): React.JSX.Element {
+  const props = useProps();
+
+  return (
+    <CompositionInput
+      {...props}
+      showViewOnceButton
+      isViewOnceActive
+      onToggleViewOnce={action('onToggleViewOnce')}
+    />
+  );
 }

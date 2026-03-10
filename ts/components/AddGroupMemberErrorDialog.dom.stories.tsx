@@ -23,7 +23,7 @@ const defaultProps = {
   onClose: action('onClose'),
 };
 
-export function MaximumGroupSize(): JSX.Element {
+export function MaximumGroupSize(): React.JSX.Element {
   return (
     <AddGroupMemberErrorDialog
       {...defaultProps}
@@ -33,7 +33,7 @@ export function MaximumGroupSize(): JSX.Element {
   );
 }
 
-export function MaximumRecommendedGroupSize(): JSX.Element {
+export function MaximumRecommendedGroupSize(): React.JSX.Element {
   return (
     <AddGroupMemberErrorDialog
       {...defaultProps}

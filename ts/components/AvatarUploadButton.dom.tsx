@@ -20,7 +20,7 @@ export function AvatarUploadButton({
   className,
   i18n,
   onChange,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const fileInputRef = useRef<null | HTMLInputElement>(null);
 
   const [processingFile, setProcessingFile] = useState<File | undefined>();

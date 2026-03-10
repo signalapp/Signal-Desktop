@@ -39,31 +39,31 @@ const { throttle } = lodash;
 
 const log = createLogger('groupSendEndorsements');
 
-export function decodeGroupSendEndorsementResponse({
+export function decodeGroupSendEndorsementsResponse({
   groupId,
-  groupSendEndorsementResponse,
+  groupSendEndorsementsResponse,
   groupSecretParamsBase64,
   groupMembersV2,
 }: {
   groupId: string;
-  groupSendEndorsementResponse: Uint8Array;
+  groupSendEndorsementsResponse: Uint8Array;
   groupSecretParamsBase64: string;
   groupMembersV2: ReadonlyArray<GroupV2MemberType>;
 }): GroupSendEndorsementsData {
   const idForLogging = `groupv2(${groupId})`;
 
   strictAssert(
-    groupSendEndorsementResponse != null,
-    'Missing groupSendEndorsementResponse'
+    groupSendEndorsementsResponse != null,
+    'Missing groupSendEndorsementsResponse'
   );
 
   strictAssert(
-    groupSendEndorsementResponse.byteLength > 0,
-    'Received empty groupSendEndorsementResponse'
+    groupSendEndorsementsResponse.byteLength > 0,
+    'Received empty groupSendEndorsementsResponse'
   );
 
   const response = new GroupSendEndorsementsResponse(
-    groupSendEndorsementResponse
+    groupSendEndorsementsResponse
   );
 
   const expiration = response.getExpiration().getTime() / 1000;
@@ -99,7 +99,7 @@ export function decodeGroupSendEndorsementResponse({
   );
 
   log.info(
-    `decodeGroupSendEndorsementResponse: Received endorsements (group: ${idForLogging}, expiration: ${expiration}, members: ${groupMembers.length})`
+    `decodeGroupSendEndorsementsResponse: Received endorsements (group: ${idForLogging}, expiration: ${expiration}, members: ${groupMembers.length})`
   );
 
   return parseStrict(groupSendEndorsementsDataSchema, {

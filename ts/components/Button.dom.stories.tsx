@@ -11,7 +11,7 @@ export default {
   title: 'Components/Button',
 } satisfies Meta<PropsType>;
 
-export function KitchenSink(): JSX.Element {
+export function KitchenSink(): React.JSX.Element {
   return (
     <>
       {Object.values(ButtonVariant).map(variant => (
@@ -55,7 +55,7 @@ export function KitchenSink(): JSX.Element {
   );
 }
 
-export function AriaLabel(): JSX.Element {
+export function AriaLabel(): React.JSX.Element {
   return (
     <Button
       aria-label="hello"
@@ -65,7 +65,7 @@ export function AriaLabel(): JSX.Element {
   );
 }
 
-export function CustomStyles(): JSX.Element {
+export function CustomStyles(): React.JSX.Element {
   return (
     <Button onClick={action('onClick')} style={{ transform: 'rotate(5deg)' }}>
       Hello world

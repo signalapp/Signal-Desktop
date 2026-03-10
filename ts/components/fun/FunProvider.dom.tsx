@@ -16,14 +16,14 @@ import type {
 import type { EmojiSkinTone, EmojiParentKey } from './data/emojis.std.js';
 import type { FunGifSelection, GifType } from './panels/FunPanelGifs.dom.js';
 import { FunPickerTabKey } from './constants.dom.js';
-import type {
-  fetchGifsFeatured,
-  fetchGifsSearch,
-} from './data/gifs.preload.js';
-import type { tenorDownload } from './data/tenor.preload.js';
 import type { FunEmojiSelection } from './panels/FunPanelEmojis.dom.js';
 import type { FunStickerSelection } from './panels/FunPanelStickers.dom.js';
 import { FunEmojiLocalizationProvider } from './FunEmojiLocalizationProvider.dom.js';
+import type {
+  fetchGiphyFile,
+  fetchGiphySearch,
+  fetchGiphyTrending,
+} from './data/giphy.preload.js';
 
 export type FunContextSmartProps = Readonly<{
   i18n: LocalizerType;
@@ -46,9 +46,10 @@ export type FunContextSmartProps = Readonly<{
   onSelectSticker: (stickerSelection: FunStickerSelection) => void;
 
   // GIFs
-  fetchGifsFeatured: typeof fetchGifsFeatured;
-  fetchGifsSearch: typeof fetchGifsSearch;
-  fetchGif: typeof tenorDownload;
+  fetchGiphyTrending: typeof fetchGiphyTrending;
+  fetchGiphySearch: typeof fetchGiphySearch;
+  fetchGiphyFile: typeof fetchGiphyFile;
+  onRemoveRecentGif: (gifId: string) => void;
   onSelectGif: (gifSelection: FunGifSelection) => void;
 }>;
 
@@ -82,7 +83,7 @@ type FunProviderInnerProps = FunContextProps & {
 
 const FunProviderInner = memo(function FunProviderInner(
   props: FunProviderInnerProps
-): JSX.Element {
+): React.JSX.Element {
   return (
     <FunContext.Provider value={props}>{props.children}</FunContext.Provider>
   );
@@ -94,7 +95,7 @@ export type FunProviderProps = FunContextSmartProps & {
 
 export const FunProvider = memo(function FunProvider(
   props: FunProviderProps
-): JSX.Element {
+): React.JSX.Element {
   // Current Tab
   const [tab, setTab] = useState<FunPickerTabKey>(FunPickerTabKey.Emoji);
   const handleChangeTab = useCallback((key: FunPickerTabKey) => {
@@ -157,9 +158,10 @@ export const FunProvider = memo(function FunProvider(
         onClearStickerPickerHint={props.onClearStickerPickerHint}
         onSelectSticker={props.onSelectSticker}
         // GIFs
-        fetchGifsFeatured={props.fetchGifsFeatured}
-        fetchGifsSearch={props.fetchGifsSearch}
-        fetchGif={props.fetchGif}
+        fetchGiphyTrending={props.fetchGiphyTrending}
+        fetchGiphySearch={props.fetchGiphySearch}
+        fetchGiphyFile={props.fetchGiphyFile}
+        onRemoveRecentGif={props.onRemoveRecentGif}
         onSelectGif={props.onSelectGif}
       >
         {props.children}

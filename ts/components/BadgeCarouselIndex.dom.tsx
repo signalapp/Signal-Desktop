@@ -15,7 +15,7 @@ export function BadgeCarouselIndex({
 }: Readonly<{
   currentIndex: number;
   totalCount: number;
-}>): JSX.Element | null {
+}>): React.JSX.Element | null {
   strictAssert(totalCount >= 1, 'Expected 1 or more items');
   strictAssert(
     currentIndex < totalCount,

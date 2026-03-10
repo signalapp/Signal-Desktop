@@ -10,7 +10,7 @@ import { ConversationColors } from '../../types/Colors.std.js';
 import { pngUrl } from '../../storybook/Fixtures.std.js';
 import type { Props as TimelineMessagesProps } from './TimelineMessage.dom.js';
 import { TimelineMessage } from './TimelineMessage.dom.js';
-import { TextDirection } from './Message.dom.js';
+import { MessageInteractivity, TextDirection } from './Message.dom.js';
 import {
   AUDIO_MP3,
   IMAGE_PNG,
@@ -77,6 +77,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   canEditMessage: true,
   canEndPoll: false,
   canForward: true,
+  canPinMessage: true,
   canReact: true,
   canReply: true,
   canRetry: true,
@@ -101,13 +102,17 @@ const defaultMessageProps: TimelineMessagesProps = {
   platform: 'darwin',
   id: 'messageId',
   // renderingContext: 'storybook',
+  interactivity: MessageInteractivity.Normal,
   interactionMode: 'keyboard',
   isBlocked: false,
   isMessageRequestAccepted: true,
+  isPinned: false,
   isSelected: false,
   isSelectMode: false,
   isSMS: false,
   isSpoilerExpanded: {},
+  isVoiceMessagePlayed: false,
+  handleDebugMessage: action('debugMessage'),
   toggleSelectMessage: action('toggleSelectMessage'),
   cancelAttachmentDownload: action('default--cancelAttachmentDownload'),
   kickOffAttachmentDownload: action('default--kickOffAttachmentDownload'),
@@ -135,6 +140,8 @@ const defaultMessageProps: TimelineMessagesProps = {
   shouldCollapseBelow: false,
   shouldHideMetadata: false,
   showSpoiler: action('showSpoiler'),
+  showPinMessageDialog: action('showPinMessageDialog'),
+  onPinnedMessageRemove: action('onPinnedMessageRemove'),
   pushPanelForConversation: action('default--pushPanelForConversation'),
   showContactModal: action('default--showContactModal'),
   showAttachmentDownloadStillInProgressToast: action(
@@ -162,6 +169,7 @@ const defaultMessageProps: TimelineMessagesProps = {
 
 const renderInMessage = ({
   authorTitle,
+  authorLabel,
   conversationColor,
   isFromMe,
   rawAttachment,
@@ -176,6 +184,7 @@ const renderInMessage = ({
     quote: {
       authorId: 'an-author',
       authorTitle,
+      authorLabel,
       conversationColor,
       conversationTitle: getDefaultConversation().title,
       isFromMe,
@@ -217,17 +226,34 @@ IncomingByAnotherAuthor.args = {
   isIncoming: true,
 };
 
+export const IncomingByAnotherWithLabel = Template.bind({});
+IncomingByAnotherWithLabel.args = {
+  authorTitle: getDefaultConversation().title,
+  isIncoming: true,
+  authorLabel: {
+    labelEmoji: '1️⃣',
+    labelString: 'First',
+  },
+};
+
 export const IncomingByMe = Template.bind({});
 IncomingByMe.args = {
   isFromMe: true,
   isIncoming: true,
 };
 
-export function IncomingOutgoingColors(args: Props): JSX.Element {
+export function IncomingOutgoingColors(args: Props): React.JSX.Element {
   return (
     <>
       {ConversationColors.map(color =>
-        renderInMessage({ ...args, conversationColor: color })
+        renderInMessage({
+          ...args,
+          conversationColor: color,
+          authorLabel: {
+            labelEmoji: '1️⃣',
+            labelString: 'First',
+          },
+        })
       )}
     </>
   );
@@ -543,7 +569,7 @@ MentionIncomingMe.args = {
   text: '@Tony Stark sure',
 };
 
-export function CustomColor(args: Props): JSX.Element {
+export function CustomColor(args: Props): React.JSX.Element {
   return (
     <>
       <Quote

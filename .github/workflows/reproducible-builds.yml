@@ -116,9 +116,16 @@ jobs:
       id: build
       run: |
         cd reproducible-builds
-        ./build.sh public
 
-        cd ../release
+        # Try 3 times before the step actually fails
+        (./build.sh public) || \
+        (echo "Retry 1" && ./build.sh public) || \
+        (echo "Retry 2" && ./build.sh public)
+
+    - name: Get checksum of deb
+      id: build_checksum
+      run: |
+        cd release
         BUILT_FILE=$(ls | grep deb | tail -1)
         ACTUAL_SHA512=$(sha512sum $BUILT_FILE | cut -d' ' -f1)
         echo "actual_sha512=$ACTUAL_SHA512" >> $GITHUB_OUTPUT
@@ -127,7 +134,7 @@ jobs:
 
     - name: Compare checksums
       run: |
-        ACTUAL_SHA512="${{ steps.build.outputs.actual_sha512 }}"
+        ACTUAL_SHA512="${{ steps.build_checksum.outputs.actual_sha512 }}"
         EXPECTED_SHA512="${{ steps.download.outputs.expected_sha512 }}"
         echo "Verifying ${{ steps.download.outputs.deb_file }}"
         echo "" >> $GITHUB_STEP_SUMMARY

@@ -79,7 +79,7 @@ export type FunEmptyEmojiLocalizationProviderProps = Readonly<{
 
 export function FunDefaultEnglishEmojiLocalizationProvider(
   props: FunEmptyEmojiLocalizationProviderProps
-): JSX.Element {
+): React.JSX.Element {
   const context = useMemo(() => {
     return {
       emojiSearchIndex: getEmojiDefaultEnglishSearchIndex(),

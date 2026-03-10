@@ -11,15 +11,6 @@
     display: -webkit-box;
     overflow: hidden;
     user-select: text;
-
-    a {
-      @include mixins.light-theme {
-        color: variables.$color-gray-90;
-      }
-      @include mixins.dark-theme {
-        color: variables.$color-gray-02;
-      }
-    }
   }
 
   &__read-more {
@@ -27,6 +18,19 @@
     & {
       display: inline-block;
       font-weight: bold;
+    }
+  }
+}
+
+.GroupDescriptionText {
+  a {
+    text-decoration: underline;
+
+    @include mixins.light-theme {
+      color: variables.$color-gray-90;
+    }
+    @include mixins.dark-theme {
+      color: variables.$color-gray-02;
     }
   }
 }

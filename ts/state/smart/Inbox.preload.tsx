@@ -46,7 +46,7 @@ function renderSettingsTab() {
   return <SmartPreferences />;
 }
 
-export const SmartInbox = memo(function SmartInbox(): JSX.Element {
+export const SmartInbox = memo(function SmartInbox(): React.JSX.Element {
   const i18n = useSelector(getIntl);
   const isCustomizingPreferredReactions = useSelector(
     getIsCustomizingPreferredReactions

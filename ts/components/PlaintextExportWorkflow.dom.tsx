@@ -4,13 +4,13 @@
 import React from 'react';
 
 import {
-  PlaintextExportErrors,
+  LocalExportErrors,
   PlaintextExportSteps,
-} from '../types/Backups.std.js';
+} from '../types/LocalExport.std.js';
 import { AxoDialog } from '../axo/AxoDialog.dom.js';
 import { AxoAlertDialog } from '../axo/AxoAlertDialog.dom.js';
 
-import type { PlaintextExportWorkflowType } from '../types/Backups.std.js';
+import type { PlaintextExportWorkflowType } from '../types/LocalExport.std.js';
 import type { LocalizerType } from '../types/I18N.std.js';
 import { AxoCheckbox } from '../axo/AxoCheckbox.dom.js';
 import { formatFileSize } from '../util/formatFileSize.std.js';
@@ -29,10 +29,10 @@ export type PropsType = {
   workflow: PlaintextExportWorkflowType;
 };
 
-function Bold(parts: Array<string | JSX.Element>) {
+function Bold(parts: Array<string | React.JSX.Element>) {
   return <b>{parts}</b>;
 }
-function Secondary(parts: Array<string | JSX.Element>) {
+function Secondary(parts: Array<string | React.JSX.Element>) {
   return <span className={tw('text-label-secondary')}>{parts}</span>;
 }
 
@@ -44,7 +44,7 @@ export function PlaintextExportWorkflow({
   osName,
   verifyWithOSForExport,
   workflow,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [includeMedia, setIncludeMedia] = React.useState(true);
   const { step } = workflow;
 
@@ -78,7 +78,7 @@ export function PlaintextExportWorkflow({
               </div>
               <label
                 className={tw('mt-2 flex items-center py-[10px] ps-4')}
-                htmlFor="includ eMediaCheckbox"
+                htmlFor="includeMediaCheckbox"
               >
                 <AxoCheckbox.Root
                   id="includeMediaCheckbox"
@@ -265,20 +265,20 @@ export function PlaintextExportWorkflow({
     let title;
     let detail;
 
-    if (type === PlaintextExportErrors.General) {
+    if (type === LocalExportErrors.General) {
       title = i18n('icu:PlaintextExport--Error--General--Title');
       detail = i18n('icu:PlaintextExport--Error--General--Description');
-    } else if (type === PlaintextExportErrors.NotEnoughStorage) {
+    } else if (type === LocalExportErrors.NotEnoughStorage) {
       title = i18n('icu:PlaintextExport--Error--NotEnoughStorage--Title');
       detail = i18n('icu:PlaintextExport--Error--NotEnoughStorage--Detail', {
         bytes: formatFileSize(workflow.errorDetails.bytesNeeded),
       });
-    } else if (type === PlaintextExportErrors.RanOutOfStorage) {
+    } else if (type === LocalExportErrors.RanOutOfStorage) {
       title = i18n('icu:PlaintextExport--Error--RanOutOfStorage--Title');
       detail = i18n('icu:PlaintextExport--Error--RanOutOfStorage--Detail', {
         bytes: formatFileSize(workflow.errorDetails.bytesNeeded),
       });
-    } else if (type === PlaintextExportErrors.StoragePermissions) {
+    } else if (type === LocalExportErrors.StoragePermissions) {
       title = i18n('icu:PlaintextExport--Error--DiskPermssions--Title');
       detail = i18n('icu:PlaintextExport--Error--DiskPermssions--Detail');
     } else {

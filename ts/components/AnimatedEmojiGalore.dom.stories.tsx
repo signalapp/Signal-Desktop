@@ -19,6 +19,6 @@ function getDefaultProps(): PropsType {
   };
 }
 
-export function Hearts(): JSX.Element {
+export function Hearts(): React.JSX.Element {
   return <AnimatedEmojiGalore {...getDefaultProps()} />;
 }

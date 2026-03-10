@@ -1,7 +1,14 @@
+/**
+ * Copyright 2026 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 @import 'tailwindcss' source(none);
 @import './tailwind-plugins/animate-general.css';
 @import './tailwind-plugins/animate-enter-exit.css';
+@import './tailwind-plugins/container-scroll-state.css';
 @import './tailwind-plugins/scrollbar.css';
+@import './tailwind-plugins/superellipse.css';
 
 @import '../ts/axo/_styles.css';
 
@@ -114,6 +121,16 @@
   --color-shadow-elevation-5: light-dark(--alpha(#000 / 20%), --alpha(#000 / 40%));
   --color-shadow-outline:     light-dark(--alpha(#000 / 12%), /*  */ transparent);
   --color-shadow-highlight:   light-dark(/*  */ transparent, --alpha(#FFF / 08%));
+
+
+  /**
+   * Colors/Legacy
+   * -------------
+   * These should all eventually be removed, but in places where we need new
+   * components to specifically match the colors of older components, we can
+   * add them here.
+   */
+  --color-legacy-conversation-header-bg: light-dark(#fff, #121212);
 }
 
 @layer theme {
@@ -266,12 +283,13 @@
   --type-text-body-large: 0.875rem /* 14px */;
   --type-text-body-medium: 0.8125rem /* 13px */;
   --type-text-body-small: 0.75rem /* 12px */;
-  --type-text-caption: 0.6825rem /* 11px */;
+  --type-text-caption: 0.6875rem /* 11px */;
   /* font-weight */
   --font-weight-*: initial; /* reset defaults */
   --font-weight-semibold: 600;
   --font-weight-medium: 500;
   --font-weight-regular: 400;
+  --font-weight-light: 300;
   --type-font-weight-title-large: var(--font-weight-semibold);
   --type-font-weight-title-medium: var(--font-weight-semibold);
   --type-font-weight-title-small: var(--font-weight-semibold);
@@ -314,40 +332,56 @@
  */
 /* prettier-ignore */
 @theme {
+  /* shared shadow styles */
+
+  --base-shadow-outline:
+    inset 0 0 0 0.5px var(--color-shadow-highlight),
+    0 0 0 0.5px var(--color-shadow-outline);
+  --base-shadow-elevation-0: 0  1px  2px 0 var(--color-shadow-elevation-1);
+  --base-shadow-elevation-1: 0  2px  8px 0 var(--color-shadow-elevation-2);
+  --base-shadow-elevation-2: 0  4px 12px 0 var(--color-shadow-elevation-3);
+  --base-shadow-elevation-3: 0  6px 16px 0 var(--color-shadow-elevation-4);
+  --base-shadow-elevation-4: 0 12px 56px 0 var(--color-shadow-elevation-5);
+
   /* box-shadow */
   --shadow-*: initial; /* reset defaults */
-  --shadow-elevation-0:
-    0 1px 2px 0 var(--color-shadow-elevation-1);
-  --shadow-elevation-1:
-    0 0 0 0.5px var(--color-shadow-highlight) inset,
-    0 0 0 0.5px var(--color-shadow-outline),
-    0 2px 8px 0 var(--color-shadow-elevation-2);
-  --shadow-elevation-2:
-    0 0 0 0.5px var(--color-shadow-highlight) inset,
-    0 0 0 0.5px var(--color-shadow-outline),
-    0 4px 12px 0 var(--color-shadow-elevation-3);
-  --shadow-elevation-3:
-    0 0 0 0.5px var(--color-shadow-highlight) inset,
-    0 0 0 0.5px var(--color-shadow-outline),
-    0 6px 16px 0 var(--color-shadow-elevation-4);
-  --shadow-elevation-4:
-    0 0 0 0.5px var(--color-shadow-highlight) inset,
-    0 0 0 0.5px var(--color-shadow-outline),
-    0 12px 56px 0 var(--color-shadow-elevation-5);
+  /* Note: Use 'shadow-no-outline' to remove the outline/highlight shadows */
+  --shadow-elevation-0: var(--axo-shadow-no-outline, var(--base-shadow-outline)), var(--base-shadow-elevation-0);
+  --shadow-elevation-1: var(--axo-shadow-no-outline, var(--base-shadow-outline)), var(--base-shadow-elevation-1);
+  --shadow-elevation-2: var(--axo-shadow-no-outline, var(--base-shadow-outline)), var(--base-shadow-elevation-2);
+  --shadow-elevation-3: var(--axo-shadow-no-outline, var(--base-shadow-outline)), var(--base-shadow-elevation-3);
+  --shadow-elevation-4: var(--axo-shadow-no-outline, var(--base-shadow-outline)), var(--base-shadow-elevation-4);
 
   /* box-shadow: inset */
   --inset-shadow-*: initial; /* reset defaults */
-
   --inset-shadow-on-color:
     inset 0 0.5px 1px 0 --alpha(#000 / 12%);
 
   /* filter: drop-shadow() */
   --drop-shadow-*: initial; /* reset defaults */
-  --drop-shadow-elevation-0: var(--shadow-elevation-0);
-  --drop-shadow-elevation-1: var(--shadow-elevation-1);
-  --drop-shadow-elevation-2: var(--shadow-elevation-2);
-  --drop-shadow-elevation-3: var(--shadow-elevation-3);
-  --drop-shadow-elevation-4: var(--shadow-elevation-4);
+  /* Note: Use 'drop-shadow-no-outline' to remove the outline/highlight shadows */
+  --drop-shadow-elevation-0: var(--axo-drop-shadow-no-outline, var(--base-shadow-outline)), var(--shadow-elevation-0);
+  --drop-shadow-elevation-1: var(--axo-drop-shadow-no-outline, var(--base-shadow-outline)), var(--shadow-elevation-1);
+  --drop-shadow-elevation-2: var(--axo-drop-shadow-no-outline, var(--base-shadow-outline)), var(--shadow-elevation-2);
+  --drop-shadow-elevation-3: var(--axo-drop-shadow-no-outline, var(--base-shadow-outline)), var(--shadow-elevation-3);
+  --drop-shadow-elevation-4: var(--axo-drop-shadow-no-outline, var(--base-shadow-outline)), var(--shadow-elevation-4);
+}
+
+@property --axo-shadow-no-outline {
+  syntax: '*';
+  inherits: false;
+}
+@property --axo-drop-shadow-no-outline {
+  syntax: '*';
+  inherits: false;
+}
+
+@utility shadow-no-outline {
+  --axo-shadow-no-outline: 0 0 #0000; /* invisible shadow */
+}
+
+@utility drop-shadow-no-outline {
+  --axo-drop-shadow-outline: 0 0 #0000; /* invisible shadow */
 }
 
 /**
@@ -437,4 +471,40 @@
   --default-scrollbar-width: thin;
   --default-scrollbar-track: transparent;
   --default-scrollbar-thumb: var(--color-label-placeholder);
+}
+
+/**
+ * Legacy z-index values
+ * Keep in sync with $z-index-* variables in stylesheets/_variables.scss
+ */
+
+@theme {
+  /* General */
+  --legacy-z-index-negative: -1;
+  --legacy-z-index-base: 1;
+  --legacy-z-index-above-base: 2;
+  --legacy-z-index-above-above-base: 3;
+  --legacy-z-index-megaphone: 75;
+  --legacy-z-index-popup-overlay: 99;
+  --legacy-z-index-popup: 100;
+  --legacy-z-index-context-menu: 125;
+  --legacy-z-index-tooltip: 150;
+  --legacy-z-index-toast: 200;
+  --legacy-z-index-on-top-of-everything: 9000;
+  --legacy-z-index-window-controls: 10000;
+
+  /* Component specific */
+  --legacy-z-index-story-meta: 3;
+  --legacy-z-index-scroll-down-button: 10;
+  --legacy-z-index-stories: 98;
+  --legacy-z-index-calling-container: 100;
+  --legacy-z-index-calling: 101;
+  --legacy-z-index-modal-host: 102;
+  --legacy-z-index-above-popup: 103;
+  --legacy-z-index-calling-pip: 104;
+  --legacy-z-index-above-context-menu: 126;
+}
+
+@utility legacy-z-index-* {
+  z-index: --value(--legacy-z-index-*);
 }

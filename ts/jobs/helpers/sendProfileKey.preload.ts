@@ -35,6 +35,7 @@ import {
 import { shouldSendToConversation } from './shouldSendToConversation.preload.js';
 import { sendToGroup } from '../../util/sendToGroup.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { strictAssert } from '../../util/assert.std.js';
 
 const { isNumber } = lodash;
 
@@ -52,13 +53,13 @@ export function canAllErrorsBeIgnored(
 
   return Boolean(
     isGroup(conversation) &&
-      error instanceof SendMessageProtoError &&
-      error.errors?.every(
-        item =>
-          item instanceof OutgoingIdentityKeyError ||
-          item instanceof SendMessageChallengeError ||
-          item instanceof UnregisteredUserError
-      )
+    error instanceof SendMessageProtoError &&
+    error.errors?.every(
+      item =>
+        item instanceof OutgoingIdentityKeyError ||
+        item instanceof SendMessageChallengeError ||
+        item instanceof UnregisteredUserError
+    )
   );
 }
 
@@ -148,7 +149,8 @@ export async function sendProfileKey(
     }
 
     const groupV2Info = conversation.getGroupV2Info();
-    if (groupV2Info && isNumber(revision)) {
+    strictAssert(groupV2Info, 'Missing groupV2Info');
+    if (isNumber(revision)) {
       groupV2Info.revision = revision;
     }
 

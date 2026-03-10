@@ -33,7 +33,7 @@ export type TabsOptionsType =
 
 type TabsProps = {
   selectedTab: string;
-  tabsHeaderElement: JSX.Element;
+  tabsHeaderElement: React.JSX.Element;
 };
 
 export function useTabs(options: TabsOptionsType): TabsProps {

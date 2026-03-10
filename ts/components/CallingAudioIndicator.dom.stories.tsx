@@ -24,7 +24,7 @@ export default {
   },
 } satisfies Meta<Props>;
 
-export function Extreme(args: Props): JSX.Element {
+export function Extreme(args: Props): React.JSX.Element {
   const [audioLevel, setAudioLevel] = useState(1);
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export function Extreme(args: Props): JSX.Element {
   );
 }
 
-export function Random(args: Props): JSX.Element {
+export function Random(args: Props): React.JSX.Element {
   const [audioLevel, setAudioLevel] = useState(1);
 
   useEffect(() => {

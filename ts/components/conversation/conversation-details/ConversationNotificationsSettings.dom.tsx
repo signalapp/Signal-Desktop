@@ -39,7 +39,7 @@ export function ConversationNotificationsSettings({
   muteExpiresAt,
   setMuteExpiration,
   setDontNotifyForMentionsIfMuted,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const muteNotificationsSelectId = useId();
   const mentionsSelectId = useId();
   const muteOptions = useMemo(

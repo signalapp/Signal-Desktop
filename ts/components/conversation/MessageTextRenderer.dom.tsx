@@ -34,6 +34,7 @@ export enum RenderLocation {
   ConversationList = 'ConversationList',
   Quote = 'Quote',
   MediaEditor = 'MediaEditor',
+  PinnedMessagesBar = 'PinnedMessagesBar',
   SearchResult = 'SearchResult',
   StoryViewer = 'StoryViewer',
   Timeline = 'Timeline',
@@ -68,7 +69,7 @@ export function MessageTextRenderer({
   renderLocation,
   textLength,
   originalMessageText,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const finalNodes = React.useMemo(() => {
     const links = disableLinks
       ? []

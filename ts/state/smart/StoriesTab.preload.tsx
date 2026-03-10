@@ -4,12 +4,14 @@
 import React, { memo, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { SmartStoryCreator } from './StoryCreator.preload.js';
-import { SmartToastManager } from './ToastManager.preload.js';
-import type { WidthBreakpoint } from '../../components/_util.std.js';
+import { renderToastManagerWithoutMegaphone } from './ToastManager.preload.js';
 import { StoriesTab } from '../../components/StoriesTab.dom.js';
 import { getMaximumOutgoingAttachmentSizeInKb } from '../../types/AttachmentSize.std.js';
 import type { ConfigKeyType } from '../../RemoteConfig.dom.js';
-import { getMe } from '../selectors/conversations.dom.js';
+import {
+  getMe,
+  getOtherTabsUnreadStats,
+} from '../selectors/conversations.dom.js';
 import { getIntl, getTheme } from '../selectors/user.std.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import {
@@ -31,19 +33,13 @@ import { useToastActions } from '../ducks/toast.preload.js';
 import { useAudioPlayerActions } from '../ducks/audioPlayer.preload.js';
 import { useItemsActions } from '../ducks/items.preload.js';
 import { getHasPendingUpdate } from '../selectors/updates.std.js';
-import { getOtherTabsUnreadStats } from '../selectors/nav.preload.js';
+
 import { getIsStoriesSettingsVisible } from '../selectors/globalModals.std.js';
 import type { StoryViewType } from '../../types/Stories.std.js';
 import { ForwardMessagesModalType } from '../../components/ForwardMessagesModal.dom.js';
 
-function renderStoryCreator(): JSX.Element {
+function renderStoryCreator(): React.JSX.Element {
   return <SmartStoryCreator />;
-}
-
-function renderToastManager(props: {
-  containerWidthBreakpoint: WidthBreakpoint;
-}): JSX.Element {
-  return <SmartToastManager disableMegaphone {...props} />;
 }
 
 export const SmartStoriesTab = memo(function SmartStoriesTab() {
@@ -133,7 +129,7 @@ export const SmartStoriesTab = memo(function SmartStoriesTab() {
       preferredLeftPaneWidth={preferredLeftPaneWidth}
       preferredWidthFromStorage={preferredWidthFromStorage}
       renderStoryCreator={renderStoryCreator}
-      renderToastManager={renderToastManager}
+      renderToastManager={renderToastManagerWithoutMegaphone}
       retryMessageSend={retryMessageSend}
       savePreferredLeftPaneWidth={savePreferredLeftPaneWidth}
       showConversation={showConversation}

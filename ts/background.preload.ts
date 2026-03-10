@@ -37,6 +37,7 @@ import { isWindowDragElement } from './util/isWindowDragElement.std.js';
 import { assertDev, strictAssert } from './util/assert.std.js';
 import { filter } from './util/iterables.std.js';
 import { isNotNil } from './util/isNotNil.std.js';
+import { isAdminDeleteReceiveEnabled } from './util/isAdminDeleteEnabled.dom.js';
 import { areRemoteBackupsTurnedOn } from './util/isBackupEnabled.preload.js';
 import { lightSessionResetQueue } from './util/lightSessionResetQueue.std.js';
 import { setAppLoadingScreenMessage } from './setAppLoadingScreenMessage.dom.js';
@@ -46,6 +47,7 @@ import {
   initialize as initializeExpiringMessageService,
   update as updateExpiringMessagesService,
 } from './services/expiringMessagesDeletion.preload.js';
+import { keyTransparency } from './services/keyTransparency.preload.js';
 import {
   initialize as initializeNotificationProfilesService,
   fastUpdate as updateNotificationProfileService,
@@ -66,11 +68,7 @@ import { RoutineProfileRefresher } from './routineProfileRefresh.preload.js';
 import { isOlderThan } from './util/timestamp.std.js';
 import { isValidReactionEmoji } from './reactions/isValidReactionEmoji.std.js';
 import { safeParsePartial } from './util/schemas.std.js';
-import {
-  PollVoteSchema,
-  PollTerminateSchema,
-  isPollReceiveEnabled,
-} from './types/Polls.dom.js';
+import { PollVoteSchema, PollTerminateSchema } from './types/Polls.dom.js';
 import type { ConversationModel } from './models/conversations.preload.js';
 import { isIncoming } from './messages/helpers.std.js';
 import { getAuthor } from './messages/sources.preload.js';
@@ -130,6 +128,7 @@ import {
   connect as connectWebAPI,
   getConfig,
   getHasSubscription,
+  getMegaphone,
   getReleaseNote,
   getReleaseNoteHash,
   getReleaseNoteImageAttachment,
@@ -162,6 +161,7 @@ import * as Deletes from './messageModifiers/Deletes.preload.js';
 import * as Edits from './messageModifiers/Edits.preload.js';
 import * as MessageReceipts from './messageModifiers/MessageReceipts.preload.js';
 import * as MessageRequests from './messageModifiers/MessageRequests.preload.js';
+import * as PinnedMessages from './messageModifiers/PinnedMessages.preload.js';
 import * as Polls from './messageModifiers/Polls.preload.js';
 import * as Reactions from './messageModifiers/Reactions.preload.js';
 import * as ViewOnceOpenSyncs from './messageModifiers/ViewOnceOpenSyncs.preload.js';
@@ -258,10 +258,11 @@ import {
 } from './services/allLoaders.preload.js';
 import { checkFirstEnvelope } from './util/checkFirstEnvelope.dom.js';
 import { BLOCKED_UUIDS_ID } from './textsecure/storage/Blocked.std.js';
-import { ReleaseNotesFetcher } from './services/releaseNotesFetcher.preload.js';
+import { ReleaseNoteAndMegaphoneFetcher } from './services/releaseNoteAndMegaphoneFetcher.preload.js';
+import { initMegaphoneCheckService } from './services/megaphone.preload.js';
 import { BuildExpirationService } from './services/buildExpiration.preload.js';
 import {
-  maybeQueueDeviceNameFetch,
+  maybeQueueDeviceInfoFetch,
   onDeviceNameChangeSync,
 } from './util/onDeviceNameChangeSync.preload.js';
 import { postSaveUpdates } from './util/cleanup.preload.js';
@@ -281,6 +282,10 @@ import {
 } from './types/Message2.preload.js';
 import { JobCancelReason } from './jobs/types.std.js';
 import { itemStorage } from './textsecure/Storage.preload.js';
+import { isPinnedMessagesReceiveEnabled } from './util/isPinnedMessagesEnabled.dom.js';
+import { initMessageCleanup } from './services/messageStateCleanup.dom.js';
+import { MessageCache } from './services/MessageCache.preload.js';
+import { saveAndNotify } from './messages/saveAndNotify.preload.js';
 
 const { isNumber, throttle } = lodash;
 
@@ -471,6 +476,7 @@ export async function startApp(): Promise<void> {
     drop(itemStorage.put('postRegistrationSyncsStatus', 'incomplete'));
     registrationCompleted?.resolve();
     drop(Registration.markDone());
+    drop(keyTransparency.onRegistrationDone());
   });
 
   const cancelInitializationMessage = setAppLoadingScreenMessage(
@@ -546,6 +552,9 @@ export async function startApp(): Promise<void> {
     restoreRemoteConfigFromStorage({
       storage: itemStorage,
     });
+
+    MessageCache.install();
+    initMessageCleanup();
 
     window.Whisper.events.on('firstEnvelope', checkFirstEnvelope);
 
@@ -756,6 +765,8 @@ export async function startApp(): Promise<void> {
         log.info('shutdown');
 
         flushMessageCounter();
+
+        window.SignalClipboard.clearIfNeeded();
 
         // Hangup active calls
         calling.hangupAllCalls({
@@ -1008,9 +1019,19 @@ export async function startApp(): Promise<void> {
           });
         }
       }
+
+      if (window.isBeforeVersion(lastVersion, 'v7.91.0-beta.1')) {
+        await itemStorage.remove('versionedExpirationTimer');
+        await itemStorage.remove('callQualitySurveyCooldownDisabled');
+        await itemStorage.remove('localDeleteWarningShown');
+      }
     }
 
     setAppLoadingScreenMessage(i18n('icu:optimizingApplication'), i18n);
+
+    // These paths are protected while they are referenced in memory but not in
+    // message_attachments, so we can safely clear them at app start
+    await DataWriter.resetProtectedAttachmentPaths();
 
     if (newVersion || itemStorage.get('needOrphanedAttachmentCheck')) {
       await itemStorage.remove('needOrphanedAttachmentCheck');
@@ -1231,6 +1252,8 @@ export async function startApp(): Promise<void> {
         log.info('reconnecting websocket on user change');
         enqueueReconnectToWebSocket();
       }
+
+      drop(keyTransparency.onKnownIdentifierChange());
     });
 
     window.Whisper.events.on('setMenuOptions', (options: MenuOptionsType) => {
@@ -1376,6 +1399,7 @@ export async function startApp(): Promise<void> {
 
     initializeExpiringMessageService();
     initializeNotificationProfilesService();
+    keyTransparency.start();
 
     log.info('Blocked uuids cleanup: starting...');
     const blockedUuids = itemStorage.get(BLOCKED_UUIDS_ID, []);
@@ -1458,7 +1482,7 @@ export async function startApp(): Promise<void> {
 
     const isCoreDataValid = Boolean(
       itemStorage.user.getAci() &&
-        window.ConversationController.getOurConversation()
+      window.ConversationController.getOurConversation()
     );
 
     if (isCoreDataValid && Registration.everDone()) {
@@ -1801,7 +1825,7 @@ export async function startApp(): Promise<void> {
     //   after connect on every startup
     drop(registerCapabilities());
     drop(ensureAEP());
-    drop(maybeQueueDeviceNameFetch());
+    drop(maybeQueueDeviceInfoFetch());
     Stickers.downloadQueuedPacks();
   }
 
@@ -2050,9 +2074,10 @@ export async function startApp(): Promise<void> {
     drop(usernameIntegrity.start());
 
     drop(
-      ReleaseNotesFetcher.init(
+      ReleaseNoteAndMegaphoneFetcher.init(
         {
           isOnline,
+          getMegaphone,
           getReleaseNote,
           getReleaseNoteHash,
           getReleaseNoteImageAttachment,
@@ -2065,6 +2090,7 @@ export async function startApp(): Promise<void> {
     );
 
     drop(initializeDonationService());
+    initMegaphoneCheckService();
 
     if (isFromMessageReceiver) {
       drop(
@@ -2295,16 +2321,12 @@ export async function startApp(): Promise<void> {
     processBatch(batch) {
       const deduped = new Set(batch);
       deduped.forEach(async sender => {
-        try {
-          if (!(await shouldRespondWithProfileKey(sender))) {
-            return;
-          }
-        } catch (error) {
-          log.error(
-            'respondWithProfileKeyBatcher error',
-            Errors.toLogFormat(error)
-          );
+        if (!shouldRespondWithProfileKey(sender)) {
+          return;
         }
+        sender.enableProfileSharing({
+          reason: 'shouldRespondWithProfileKey',
+        });
 
         drop(
           sender.queueJob('sendProfileKeyUpdate', () =>
@@ -2372,6 +2394,13 @@ export async function startApp(): Promise<void> {
   //   message is processed in handleDataMessage().
   async function onMessageReceived(event: MessageEvent): Promise<void> {
     const { data, confirm } = event;
+
+    const { conversation: fromConversation } =
+      window.ConversationController.maybeMergeContacts({
+        e164: data.source,
+        aci: data.sourceAci,
+        reason: 'onMessageReceived',
+      });
 
     const messageDescriptor = getMessageDescriptor({
       // 'message' event: for 1:1 converations, the conversation is same as sender
@@ -2447,13 +2476,6 @@ export async function startApp(): Promise<void> {
         reaction.targetTimestamp,
         'Reaction without targetTimestamp'
       );
-      const { conversation: fromConversation } =
-        window.ConversationController.maybeMergeContacts({
-          e164: data.source,
-          aci: data.sourceAci,
-          reason: 'onMessageReceived:reaction',
-        });
-      strictAssert(fromConversation, 'Reaction without fromConversation');
 
       log.info('Queuing incoming reaction for', reaction.targetTimestamp);
       const attributes: ReactionAttributesType = {
@@ -2474,12 +2496,27 @@ export async function startApp(): Promise<void> {
       return;
     }
 
-    if (data.message.pollVote) {
-      if (!isPollReceiveEnabled()) {
-        log.warn('Dropping PollVote because the flag is disabled');
+    if (data.message.pinMessage != null) {
+      if (!isPinnedMessagesReceiveEnabled()) {
+        log.warn('Dropping PinMessage because the flag is disabled');
         confirm();
         return;
       }
+      await PinnedMessages.onPinnedMessageAdd({
+        targetSentTimestamp: data.message.pinMessage.targetSentTimestamp,
+        targetAuthorAci: data.message.pinMessage.targetAuthorAci,
+        pinDuration: data.message.pinMessage.pinDuration,
+        pinnedByAci: data.sourceAci,
+        sentAtTimestamp: data.timestamp,
+        receivedAtTimestamp: data.receivedAtDate,
+        expireTimer: data.message.expireTimer,
+        expirationStartTimestamp: null,
+      });
+      confirm();
+      return;
+    }
+
+    if (data.message.pollVote) {
       const { pollVote, timestamp } = data.message;
 
       const parsed = safeParsePartial(PollVoteSchema, pollVote);
@@ -2497,14 +2534,6 @@ export async function startApp(): Promise<void> {
         validatedVote.targetAuthorAci,
         'DataMessage.PollVote.targetAuthorAci'
       );
-
-      const { conversation: fromConversation } =
-        window.ConversationController.maybeMergeContacts({
-          e164: data.source,
-          aci: data.sourceAci,
-          reason: 'onMessageReceived:pollVote',
-        });
-      strictAssert(fromConversation, 'PollVote without fromConversation');
 
       log.info('Queuing incoming poll vote for', pollVote.targetTimestamp);
       const attributes: PollVoteAttributesType = {
@@ -2525,11 +2554,6 @@ export async function startApp(): Promise<void> {
     }
 
     if (data.message.pollTerminate) {
-      if (!isPollReceiveEnabled()) {
-        log.warn('Dropping PollTerminate because the flag is disabled');
-        confirm();
-        return;
-      }
       const { pollTerminate, timestamp, expireTimer } = data.message;
 
       const parsedTerm = safeParsePartial(PollTerminateSchema, pollTerminate);
@@ -2541,14 +2565,6 @@ export async function startApp(): Promise<void> {
         confirm();
         return;
       }
-
-      const { conversation: fromConversation } =
-        window.ConversationController.maybeMergeContacts({
-          e164: data.source,
-          aci: data.sourceAci,
-          reason: 'onMessageReceived:pollTerminate',
-        });
-      strictAssert(fromConversation, 'PollTerminate without fromConversation');
 
       log.info(
         'Queuing incoming poll termination for',
@@ -2570,6 +2586,55 @@ export async function startApp(): Promise<void> {
       return;
     }
 
+    if (data.message.adminDelete) {
+      if (!isAdminDeleteReceiveEnabled()) {
+        log.info('Ignoring admin DOE: feature not enabled');
+        confirm();
+        return;
+      }
+
+      const { adminDelete } = data.message;
+      log.info(
+        'Queuing incoming admin DOE for',
+        adminDelete.targetSentTimestamp
+      );
+
+      strictAssert(
+        adminDelete.targetSentTimestamp,
+        'AdminDelete missing targetSentTimestamp'
+      );
+      strictAssert(
+        adminDelete.targetAuthorAci,
+        'AdminDelete missing targetAuthorAci'
+      );
+      strictAssert(data.serverTimestamp, 'AdminDelete missing serverTimestamp');
+      strictAssert(data.sourceAci, 'AdminDelete missing sourceAci');
+
+      const targetAuthorConversation =
+        window.ConversationController.lookupOrCreate({
+          serviceId: adminDelete.targetAuthorAci,
+          reason: 'admin-delete-incoming',
+        });
+      strictAssert(
+        targetAuthorConversation,
+        'AdminDelete: failed to find target author conversation'
+      );
+
+      const attributes: DeleteAttributesType = {
+        envelopeId: data.envelopeId,
+        isAdminDelete: true,
+        targetSentTimestamp: adminDelete.targetSentTimestamp,
+        targetAuthorAci: adminDelete.targetAuthorAci,
+        targetConversationId: targetAuthorConversation.id,
+        deleteServerTimestamp: data.serverTimestamp,
+        deleteSentByAci: data.sourceAci,
+        removeFromMessageReceiverCache: confirm,
+      };
+      drop(Deletes.onDelete(attributes));
+
+      return;
+    }
+
     if (data.message.delete) {
       const { delete: del } = data.message;
       log.info('Queuing incoming DOE for', del.targetSentTimestamp);
@@ -2579,19 +2644,16 @@ export async function startApp(): Promise<void> {
         'Delete missing targetSentTimestamp'
       );
       strictAssert(data.serverTimestamp, 'Delete missing serverTimestamp');
-      const { conversation: fromConversation } =
-        window.ConversationController.maybeMergeContacts({
-          e164: data.source,
-          aci: data.sourceAci,
-          reason: 'onMessageReceived:delete',
-        });
-      strictAssert(fromConversation, 'Delete missing fromConversation');
+      strictAssert(data.sourceAci, 'Delete missing sourceAci');
 
       const attributes: DeleteAttributesType = {
         envelopeId: data.envelopeId,
+        isAdminDelete: false,
         targetSentTimestamp: del.targetSentTimestamp,
-        serverTimestamp: data.serverTimestamp,
-        fromId: fromConversation.id,
+        targetAuthorAci: data.sourceAci,
+        targetConversationId: fromConversation.id,
+        deleteServerTimestamp: data.serverTimestamp,
+        deleteSentByAci: data.sourceAci,
         removeFromMessageReceiverCache: confirm,
       };
       drop(Deletes.onDelete(attributes));
@@ -2603,13 +2665,6 @@ export async function startApp(): Promise<void> {
       const { editedMessageTimestamp } = data.message;
 
       strictAssert(editedMessageTimestamp, 'Edit missing targetSentTimestamp');
-      const { conversation: fromConversation } =
-        window.ConversationController.maybeMergeContacts({
-          aci: data.sourceAci,
-          e164: data.source,
-          reason: 'onMessageReceived:edit',
-        });
-      strictAssert(fromConversation, 'Edit missing fromConversation');
 
       log.info('Queuing incoming edit for', {
         editedMessageTimestamp,
@@ -2631,13 +2686,36 @@ export async function startApp(): Promise<void> {
       return;
     }
 
+    if (data.message.unpinMessage != null) {
+      if (!isPinnedMessagesReceiveEnabled()) {
+        log.warn('Dropping UnpinMessage because the flag is disabled');
+        confirm();
+        return;
+      }
+      await PinnedMessages.onPinnedMessageRemove({
+        targetSentTimestamp: data.message.unpinMessage.targetSentTimestamp,
+        targetAuthorAci: data.message.unpinMessage.targetAuthorAci,
+        unpinnedByAci: data.sourceAci,
+      });
+      confirm();
+      return;
+    }
+
     if (handleGroupCallUpdateMessage(data.message, messageDescriptor)) {
       confirm();
       return;
     }
 
     // Don't wait for handleDataMessage, as it has its own per-conversation queueing
-    drop(handleDataMessage(message, data.message, event.confirm));
+    drop(
+      handleDataMessage(
+        message,
+        data.message,
+        event.confirm,
+        {},
+        { saveAndNotify }
+      )
+    );
   }
 
   async function onProfileKey({
@@ -2715,7 +2793,7 @@ export async function startApp(): Promise<void> {
     descriptor: MessageDescriptor
   ) {
     const now = Date.now();
-    const timestamp = data.timestamp || now;
+    const { timestamp } = data;
     const logId = `createSentMessage(${timestamp})`;
 
     const ourId = window.ConversationController.getOurConversationIdOrThrow();
@@ -2893,8 +2971,9 @@ export async function startApp(): Promise<void> {
     const { data, confirm } = event;
 
     const source = itemStorage.user.getNumber();
+    strictAssert(source, 'Missing user number');
     const sourceServiceId = itemStorage.user.getAci();
-    strictAssert(source && sourceServiceId, 'Missing user number and uuid');
+    strictAssert(sourceServiceId, 'Missing user aci');
 
     // Make sure destination conversation is created before we hit getMessageDescriptor
     if (
@@ -2977,12 +3056,28 @@ export async function startApp(): Promise<void> {
       return;
     }
 
-    if (data.message.pollVote) {
-      if (!isPollReceiveEnabled()) {
-        log.warn('Dropping PollVote because the flag is disabled');
+    if (data.message.pinMessage != null) {
+      if (!isPinnedMessagesReceiveEnabled()) {
+        log.warn('Dropping PinMessage because the flag is disabled');
         confirm();
         return;
       }
+      strictAssert(data.timestamp != null, 'Missing sent timestamp');
+      await PinnedMessages.onPinnedMessageAdd({
+        targetSentTimestamp: data.message.pinMessage.targetSentTimestamp,
+        targetAuthorAci: data.message.pinMessage.targetAuthorAci,
+        pinDuration: data.message.pinMessage.pinDuration,
+        pinnedByAci: sourceServiceId,
+        sentAtTimestamp: data.timestamp,
+        receivedAtTimestamp: data.receivedAtDate,
+        expireTimer: data.message.expireTimer,
+        expirationStartTimestamp: data.expirationStartTimestamp ?? null,
+      });
+      confirm();
+      return;
+    }
+
+    if (data.message.pollVote) {
       const { pollVote, timestamp } = data.message;
 
       const parsed = safeParsePartial(PollVoteSchema, pollVote);
@@ -3023,11 +3118,6 @@ export async function startApp(): Promise<void> {
     }
 
     if (data.message.pollTerminate) {
-      if (!isPollReceiveEnabled()) {
-        log.warn('Dropping PollTerminate because the flag is disabled');
-        confirm();
-        return;
-      }
       const { pollTerminate, timestamp, expireTimer } = data.message;
 
       const parsedTerm = safeParsePartial(PollTerminateSchema, pollTerminate);
@@ -3063,6 +3153,51 @@ export async function startApp(): Promise<void> {
       return;
     }
 
+    if (data.message.adminDelete) {
+      if (!isAdminDeleteReceiveEnabled()) {
+        log.info('Ignoring sent admin DOE sync: feature not enabled');
+        confirm();
+        return;
+      }
+
+      const { adminDelete } = data.message;
+      strictAssert(
+        adminDelete.targetSentTimestamp,
+        'AdminDelete without targetSentTimestamp'
+      );
+      strictAssert(
+        adminDelete.targetAuthorAci,
+        'AdminDelete without targetAuthorAci'
+      );
+      strictAssert(data.serverTimestamp, 'AdminDelete has no serverTimestamp');
+
+      log.info('Queuing sent admin DOE for', adminDelete.targetSentTimestamp);
+
+      const ourAci = itemStorage.user.getCheckedAci();
+      const targetAuthorConversation =
+        window.ConversationController.lookupOrCreate({
+          serviceId: adminDelete.targetAuthorAci,
+          reason: 'admin-delete-sync',
+        });
+      strictAssert(
+        targetAuthorConversation,
+        'AdminDelete sync: failed to find target author conversation'
+      );
+
+      const attributes: DeleteAttributesType = {
+        envelopeId: data.envelopeId,
+        isAdminDelete: true,
+        targetSentTimestamp: adminDelete.targetSentTimestamp,
+        targetAuthorAci: adminDelete.targetAuthorAci,
+        targetConversationId: targetAuthorConversation.id,
+        deleteServerTimestamp: data.serverTimestamp,
+        deleteSentByAci: ourAci,
+        removeFromMessageReceiverCache: confirm,
+      };
+      drop(Deletes.onDelete(attributes));
+      return;
+    }
+
     if (data.message.delete) {
       const { delete: del } = data.message;
       strictAssert(
@@ -3073,11 +3208,16 @@ export async function startApp(): Promise<void> {
 
       log.info('Queuing sent DOE for', del.targetSentTimestamp);
 
+      const ourAci = itemStorage.user.getCheckedAci();
       const attributes: DeleteAttributesType = {
         envelopeId: data.envelopeId,
+        isAdminDelete: false,
         targetSentTimestamp: del.targetSentTimestamp,
-        serverTimestamp: data.serverTimestamp,
-        fromId: window.ConversationController.getOurConversationIdOrThrow(),
+        targetAuthorAci: ourAci,
+        targetConversationId:
+          window.ConversationController.getOurConversationIdOrThrow(),
+        deleteServerTimestamp: data.serverTimestamp,
+        deleteSentByAci: ourAci,
         removeFromMessageReceiverCache: confirm,
       };
       drop(Deletes.onDelete(attributes));
@@ -3108,6 +3248,21 @@ export async function startApp(): Promise<void> {
       return;
     }
 
+    if (data.message.unpinMessage != null) {
+      if (!isPinnedMessagesReceiveEnabled()) {
+        log.warn('Dropping UnpinMessage because the flag is disabled');
+        confirm();
+        return;
+      }
+      await PinnedMessages.onPinnedMessageRemove({
+        targetSentTimestamp: data.message.unpinMessage.targetSentTimestamp,
+        targetAuthorAci: data.message.unpinMessage.targetAuthorAci,
+        unpinnedByAci: sourceServiceId,
+      });
+      confirm();
+      return;
+    }
+
     if (handleGroupCallUpdateMessage(data.message, messageDescriptor)) {
       event.confirm();
       return;
@@ -3115,9 +3270,15 @@ export async function startApp(): Promise<void> {
 
     // Don't wait for handleDataMessage, as it has its own per-conversation queueing
     drop(
-      handleDataMessage(message, data.message, event.confirm, {
-        data,
-      })
+      handleDataMessage(
+        message,
+        data.message,
+        event.confirm,
+        {
+          data,
+        },
+        { saveAndNotify }
+      )
     );
   }
 
@@ -3240,8 +3401,10 @@ export async function startApp(): Promise<void> {
       const ourConversation =
         window.ConversationController.getOurConversation();
       if (ourConversation) {
-        ourConversation.set({ username: undefined });
-        await DataWriter.updateConversation(ourConversation.attributes);
+        await ourConversation.updateUsername(undefined, {
+          shouldSave: true,
+          fromStorageService: false,
+        });
       }
 
       // Then make sure outstanding conversation saves are flushed
@@ -3312,8 +3475,10 @@ export async function startApp(): Promise<void> {
   }
 
   function onViewOnceOpenSync(ev: ViewOnceOpenSyncEvent): void {
-    const { sourceAci, timestamp } = ev;
-    log.info(`view once open sync ${sourceAci} ${timestamp}`);
+    const { sourceAci, timestamp, envelopeTimestamp } = ev;
+    log.info(
+      `view once open sync ${envelopeTimestamp} for message ${sourceAci} ${timestamp}`
+    );
     strictAssert(sourceAci, 'ViewOnceOpen without sourceAci');
     strictAssert(timestamp, 'ViewOnceOpen without timestamp');
 
@@ -3814,9 +3979,6 @@ export async function startApp(): Promise<void> {
   async function onDeleteForMeSync(ev: DeleteForMeSyncEvent) {
     const { confirm, timestamp, envelopeId, deleteForMeSync } = ev;
     const logId = `onDeleteForMeSync(${timestamp})`;
-
-    // The user clearly knows about this feature; they did it on another device!
-    drop(itemStorage.put('localDeleteWarningShown', true));
 
     log.info(`${logId}: Saving ${deleteForMeSync.length} sync tasks`);
 

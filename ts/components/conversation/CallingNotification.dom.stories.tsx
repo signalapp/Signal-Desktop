@@ -106,7 +106,7 @@ const getCommonProps = (options: {
 />
  */
 
-export function AcceptedIncomingAudioCall(): JSX.Element {
+export function AcceptedIncomingAudioCall(): React.JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -122,7 +122,7 @@ export function AcceptedIncomingAudioCall(): JSX.Element {
   );
 }
 
-export function AcceptedIncomingAudioCallWithActiveCall(): JSX.Element {
+export function AcceptedIncomingAudioCallWithActiveCall(): React.JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -139,7 +139,7 @@ export function AcceptedIncomingAudioCallWithActiveCall(): JSX.Element {
   );
 }
 
-export function AcceptedIncomingAudioCallInCurrentCall(): JSX.Element {
+export function AcceptedIncomingAudioCallInCurrentCall(): React.JSX.Element {
   const props = getCommonProps({
     mode: CallMode.Direct,
     type: CallType.Audio,
@@ -158,7 +158,7 @@ export function AcceptedIncomingAudioCallInCurrentCall(): JSX.Element {
   );
 }
 
-export function AcceptedIncomingVideoCall(): JSX.Element {
+export function AcceptedIncomingVideoCall(): React.JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -174,7 +174,7 @@ export function AcceptedIncomingVideoCall(): JSX.Element {
   );
 }
 
-export function DeclinedIncomingAudioCall(): JSX.Element {
+export function DeclinedIncomingAudioCall(): React.JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -190,7 +190,7 @@ export function DeclinedIncomingAudioCall(): JSX.Element {
   );
 }
 
-export function DeclinedIncomingVideoCall(): JSX.Element {
+export function DeclinedIncomingVideoCall(): React.JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -206,7 +206,7 @@ export function DeclinedIncomingVideoCall(): JSX.Element {
   );
 }
 
-export function AcceptedOutgoingAudioCall(): JSX.Element {
+export function AcceptedOutgoingAudioCall(): React.JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -222,7 +222,7 @@ export function AcceptedOutgoingAudioCall(): JSX.Element {
   );
 }
 
-export function AcceptedOutgoingVideoCall(): JSX.Element {
+export function AcceptedOutgoingVideoCall(): React.JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -238,7 +238,7 @@ export function AcceptedOutgoingVideoCall(): JSX.Element {
   );
 }
 
-export function DeclinedOutgoingAudioCall(): JSX.Element {
+export function DeclinedOutgoingAudioCall(): React.JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -254,7 +254,7 @@ export function DeclinedOutgoingAudioCall(): JSX.Element {
   );
 }
 
-export function DeclinedOutgoingVideoCall(): JSX.Element {
+export function DeclinedOutgoingVideoCall(): React.JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -270,7 +270,7 @@ export function DeclinedOutgoingVideoCall(): JSX.Element {
   );
 }
 
-export function TwoIncomingDirectCallsBackToBack(): JSX.Element {
+export function TwoIncomingDirectCallsBackToBack(): React.JSX.Element {
   return (
     <>
       <CallingNotification
@@ -300,7 +300,7 @@ export function TwoIncomingDirectCallsBackToBack(): JSX.Element {
   );
 }
 
-export function TwoOutgoingDirectCallsBackToBack(): JSX.Element {
+export function TwoOutgoingDirectCallsBackToBack(): React.JSX.Element {
   return (
     <>
       <CallingNotification
@@ -330,7 +330,7 @@ export function TwoOutgoingDirectCallsBackToBack(): JSX.Element {
   );
 }
 
-export function GroupCallByUnknown(): JSX.Element {
+export function GroupCallByUnknown(): React.JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -347,7 +347,7 @@ export function GroupCallByUnknown(): JSX.Element {
   );
 }
 
-export function GroupCallByYou(): JSX.Element {
+export function GroupCallByYou(): React.JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -363,7 +363,7 @@ export function GroupCallByYou(): JSX.Element {
   );
 }
 
-export function GroupCallBySomeone(): JSX.Element {
+export function GroupCallBySomeone(): React.JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -379,7 +379,7 @@ export function GroupCallBySomeone(): JSX.Element {
   );
 }
 
-export function GroupCallStartedBySomeoneWithALongName(): JSX.Element {
+export function GroupCallStartedBySomeoneWithALongName(): React.JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -398,7 +398,7 @@ export function GroupCallStartedBySomeoneWithALongName(): JSX.Element {
   );
 }
 
-export function GroupCallActiveCallFull(): JSX.Element {
+export function GroupCallActiveCallFull(): React.JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -414,7 +414,7 @@ export function GroupCallActiveCallFull(): JSX.Element {
   );
 }
 
-export function GroupCallActiveInAnotherCall(): JSX.Element {
+export function GroupCallActiveInAnotherCall(): React.JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({
@@ -431,7 +431,7 @@ export function GroupCallActiveInAnotherCall(): JSX.Element {
   );
 }
 
-export function GroupCallActiveInCurrentCall(): JSX.Element {
+export function GroupCallActiveInCurrentCall(): React.JSX.Element {
   const props = getCommonProps({
     mode: CallMode.Group,
     type: CallType.Group,
@@ -450,7 +450,7 @@ export function GroupCallActiveInCurrentCall(): JSX.Element {
   );
 }
 
-export function GroupCallEnded(): JSX.Element {
+export function GroupCallEnded(): React.JSX.Element {
   return (
     <CallingNotification
       {...getCommonProps({

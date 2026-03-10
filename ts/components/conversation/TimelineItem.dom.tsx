@@ -1,10 +1,11 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactChild, RefObject } from 'react';
+import type { ReactNode, RefObject } from 'react';
 import React, { memo } from 'react';
 
 import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
+import type { GetSharedGroupNamesType } from '../../util/sharedGroupNames.dom.js';
 
 import type { InteractionModeType } from '../../state/ducks/conversations.preload.js';
 import { TimelineDateHeader } from './TimelineDateHeader.dom.js';
@@ -67,6 +68,8 @@ import {
   type MessageRequestResponseNotificationData,
 } from './MessageRequestResponseNotification.dom.js';
 import type { MessageRequestState } from './MessageRequestActionsConfirmation.dom.js';
+import type { MessageInteractivity } from './Message.dom.js';
+import type { PinMessageData } from '../../model-types.js';
 
 type CallHistoryType = {
   type: 'callHistory';
@@ -198,21 +201,23 @@ export type TimelineItemType = (
 type PropsLocalType = {
   containerElementRef: RefObject<HTMLElement>;
   conversationId: string;
+  getSharedGroupNames: GetSharedGroupNamesType;
   item?: TimelineItemType;
   id: string;
+  interactivity: MessageInteractivity;
   isBlocked: boolean;
   isGroup: boolean;
   isNextItemCallingNotification: boolean;
   isTargeted: boolean;
-  scrollToPinnedMessage: (pinnedMessageId: string) => void;
+  scrollToPinnedMessage: (pinMessage: PinMessageData) => void;
   scrollToPollMessage: (messageId: string, conversationId: string) => unknown;
   targetMessage: (messageId: string, conversationId: string) => unknown;
   shouldRenderDateHeader: boolean;
   onOpenEditNicknameAndNoteModal: (contactId: string) => void;
   onOpenMessageRequestActionsConfirmation: (state: MessageRequestState) => void;
   platform: string;
-  renderContact: SmartContactRendererType<JSX.Element>;
-  renderUniversalTimerNotification: () => JSX.Element;
+  renderContact: SmartContactRendererType<React.JSX.Element>;
+  renderUniversalTimerNotification: () => React.JSX.Element;
   i18n: LocalizerType;
   interactionMode: InteractionModeType;
   theme: ThemeType;
@@ -240,8 +245,10 @@ export const TimelineItem = memo(function TimelineItem({
   containerElementRef,
   conversationId,
   getPreferredBadge,
+  getSharedGroupNames,
   i18n,
   id,
+  interactivity,
   isBlocked,
   isGroup,
   isNextItemCallingNotification,
@@ -264,7 +271,7 @@ export const TimelineItem = memo(function TimelineItem({
   shouldRenderDateHeader,
   theme,
   ...reducedProps
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   if (!item) {
     // This can happen under normal conditions.
     //
@@ -275,12 +282,13 @@ export const TimelineItem = memo(function TimelineItem({
     return null;
   }
 
-  let itemContents: ReactChild;
+  let itemContents: ReactNode;
   if (item.type === 'message') {
     itemContents = (
       <TimelineMessage
         {...reducedProps}
         {...item.data}
+        interactivity={interactivity}
         isTargeted={isTargeted}
         targetMessage={targetMessage}
         setMessageToEdit={setMessageToEdit}
@@ -411,6 +419,7 @@ export const TimelineItem = memo(function TimelineItem({
         <PhoneNumberDiscoveryNotification
           {...reducedProps}
           {...item.data}
+          getSharedGroupNames={getSharedGroupNames}
           i18n={i18n}
         />
       );

@@ -42,8 +42,11 @@ export class JobLogger implements LoggerType {
     this.logger.trace(this.#prefix(), ...args);
   }
 
-  child(): LoggerType {
-    throw new Error('Not supported');
+  child(name: string): JobLogger {
+    return new JobLogger(
+      { id: this.#id, queueType: this.#queueType },
+      this.logger.child(name)
+    );
   }
 
   #prefix(): string {

@@ -22,7 +22,7 @@ export function AtMention({
   name: string;
   onClick: () => void;
   onKeyUp: KeyboardEventHandler;
-}): JSX.Element {
+}): React.JSX.Element {
   const textElement = (
     <>
       @

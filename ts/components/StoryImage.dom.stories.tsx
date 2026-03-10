@@ -38,19 +38,19 @@ function getDefaultProps(): PropsType {
   };
 }
 
-export function GoodStory(): JSX.Element {
+export function GoodStory(): React.JSX.Element {
   return <StoryImage {...getDefaultProps()} />;
 }
 
-export function GoodStoryThumbnail(): JSX.Element {
+export function GoodStoryThumbnail(): React.JSX.Element {
   return <StoryImage {...getDefaultProps()} isThumbnail />;
 }
 
-export function NotDownloaded(): JSX.Element {
+export function NotDownloaded(): React.JSX.Element {
   return <StoryImage {...getDefaultProps()} attachment={fakeAttachment()} />;
 }
 
-export function NotDownloadedThumbnail(): JSX.Element {
+export function NotDownloadedThumbnail(): React.JSX.Element {
   return (
     <StoryImage
       {...getDefaultProps()}
@@ -60,7 +60,7 @@ export function NotDownloadedThumbnail(): JSX.Element {
   );
 }
 
-export function PendingDownload(): JSX.Element {
+export function PendingDownload(): React.JSX.Element {
   return (
     <StoryImage
       {...getDefaultProps()}
@@ -71,7 +71,7 @@ export function PendingDownload(): JSX.Element {
   );
 }
 
-export function PendingDownloadThumbnail(): JSX.Element {
+export function PendingDownloadThumbnail(): React.JSX.Element {
   return (
     <StoryImage
       {...getDefaultProps()}
@@ -83,7 +83,7 @@ export function PendingDownloadThumbnail(): JSX.Element {
   );
 }
 
-export function BrokenImage(): JSX.Element {
+export function BrokenImage(): React.JSX.Element {
   return (
     <StoryImage
       {...getDefaultProps()}
@@ -94,7 +94,7 @@ export function BrokenImage(): JSX.Element {
   );
 }
 
-export function BrokenImageThumbnail(): JSX.Element {
+export function BrokenImageThumbnail(): React.JSX.Element {
   return (
     <StoryImage
       {...getDefaultProps()}
@@ -106,7 +106,7 @@ export function BrokenImageThumbnail(): JSX.Element {
   );
 }
 
-export function Video(): JSX.Element {
+export function Video(): React.JSX.Element {
   return (
     <StoryImage
       {...getDefaultProps()}
@@ -118,7 +118,7 @@ export function Video(): JSX.Element {
   );
 }
 
-export function ErrorImage(): JSX.Element {
+export function ErrorImage(): React.JSX.Element {
   return (
     <StoryImage
       {...getDefaultProps()}
@@ -130,7 +130,7 @@ export function ErrorImage(): JSX.Element {
   );
 }
 
-export function ErrorImageThumbnail(): JSX.Element {
+export function ErrorImageThumbnail(): React.JSX.Element {
   return (
     <StoryImage
       {...getDefaultProps()}
@@ -143,7 +143,7 @@ export function ErrorImageThumbnail(): JSX.Element {
   );
 }
 
-export function ErrorImageYou(): JSX.Element {
+export function ErrorImageYou(): React.JSX.Element {
   return (
     <StoryImage
       {...getDefaultProps()}

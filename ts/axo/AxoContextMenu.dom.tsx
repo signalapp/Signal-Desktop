@@ -18,7 +18,7 @@ import type {
 import { AxoSymbol } from './AxoSymbol.dom.js';
 import { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.js';
 import { tw } from './tw.dom.js';
-import { assert } from './_internal/assert.dom.js';
+import { assert } from './_internal/assert.std.js';
 import {
   createStrictContext,
   useStrictContext,
@@ -115,7 +115,6 @@ export namespace AxoContextMenu {
 
   type TriggerElementGetter = (event: KeyboardEvent) => Element;
 
-  // eslint-disable-next-line no-inner-declarations
   function useContextMenuTriggerKeyboardEventHandler(
     getTriggerElement: TriggerElementGetter
   ) {
@@ -232,12 +231,16 @@ export namespace AxoContextMenu {
    * Uses a portal to render the content part into the `body`.
    */
   export const Content: FC<ContentProps> = memo(props => {
+    const { open } = useStrictContext(RootContext);
     return (
       <ContextMenu.Portal>
         <ContextMenu.Content
           className={AxoBaseMenu.menuContentStyles}
           alignOffset={-6}
           collisionPadding={6}
+          onCloseAutoFocus={props.onCloseAutoFocus}
+          // @ts-expect-error -- React/TS doesn't know about inert
+          inert={open ? undefined : 'true'}
         >
           {props.children}
         </ContextMenu.Content>

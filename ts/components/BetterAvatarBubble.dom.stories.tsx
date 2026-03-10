@@ -26,7 +26,7 @@ export default {
   title: 'Components/BetterAvatarBubble',
 } satisfies Meta<PropsType>;
 
-export function Children(): JSX.Element {
+export function Children(): React.JSX.Element {
   return (
     <BetterAvatarBubble
       {...createProps({
@@ -37,7 +37,7 @@ export function Children(): JSX.Element {
   );
 }
 
-export function Selected(): JSX.Element {
+export function Selected(): React.JSX.Element {
   return (
     <BetterAvatarBubble
       {...createProps({
@@ -48,7 +48,7 @@ export function Selected(): JSX.Element {
   );
 }
 
-export function Style(): JSX.Element {
+export function Style(): React.JSX.Element {
   return (
     <BetterAvatarBubble
       {...createProps({

@@ -1,6 +1,6 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import React, { memo, useMemo } from 'react';
+import React, { memo, useMemo, useState } from 'react';
 import type { CSSProperties, FC, ReactNode } from 'react';
 import type { TailwindStyles } from './tw.dom.js';
 import { tw } from './tw.dom.js';
@@ -8,6 +8,7 @@ import {
   createStrictContext,
   useStrictContext,
 } from './_internal/StrictContext.dom.js';
+import { AxoTooltip } from './AxoTooltip.dom.js';
 
 const Namespace = 'AxoScrollArea';
 
@@ -216,6 +217,7 @@ export namespace AxoScrollArea {
       scrollbarVisibility,
       scrollBehavior,
     } = useStrictContext(ScrollAreaConfigContext);
+    const [boundary, setBoundary] = useState<HTMLDivElement | null>(null);
 
     const style = useMemo((): CSSProperties => {
       const hasVerticalScrollbar = orientation !== 'horizontal';
@@ -261,19 +263,22 @@ export namespace AxoScrollArea {
     }, [orientation, scrollbarWidth, scrollbarGutter]);
 
     return (
-      <div
-        data-axo-scroll-area-viewport
-        className={tw(
-          baseViewportStyles,
-          ViewportScrollbarWidths[scrollbarWidth],
-          ViewportScrollbarGutters[scrollbarGutter],
-          ViewportScrollbarVisibilities[scrollbarVisibility],
-          ViewportScrollBehaviors[scrollBehavior]
-        )}
-        style={style}
-      >
-        {props.children}
-      </div>
+      <AxoTooltip.CollisionBoundary boundary={boundary}>
+        <div
+          ref={setBoundary}
+          data-axo-scroll-area-viewport
+          className={tw(
+            baseViewportStyles,
+            ViewportScrollbarWidths[scrollbarWidth],
+            ViewportScrollbarGutters[scrollbarGutter],
+            ViewportScrollbarVisibilities[scrollbarVisibility],
+            ViewportScrollBehaviors[scrollBehavior]
+          )}
+          style={style}
+        >
+          {props.children}
+        </div>
+      </AxoTooltip.CollisionBoundary>
     );
   });
 

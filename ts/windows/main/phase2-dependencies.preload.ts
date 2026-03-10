@@ -15,6 +15,7 @@ import {
   DRAFT_PATH,
 } from '../../util/basePaths.preload.js';
 import { SignalContext } from '../context.preload.js';
+import '../clipboard.dom.js';
 
 initializeLogging();
 

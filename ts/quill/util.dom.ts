@@ -20,10 +20,14 @@ import {
 import { isNotNil } from '../util/isNotNil.std.js';
 import type { AciString } from '../types/ServiceId.std.js';
 import {
+  getEmojiDebugLabel,
   getEmojiVariantByKey,
   getEmojiVariantKeyByValue,
   isSafeEmojifyEmoji,
 } from '../components/fun/data/emojis.std.js';
+import { createLogger } from '../logging/log.std.js';
+
+const log = createLogger('quill/util');
 
 export type Matcher = (
   node: HTMLElement,
@@ -466,17 +470,21 @@ export const insertEmojiOps = (
       // eslint-disable-next-line no-cond-assign
       while ((match = re.exec(text))) {
         const [emojiMatch] = match;
-        if (isSafeEmojifyEmoji(emojiMatch)) {
-          const variantKey = getEmojiVariantKeyByValue(emojiMatch);
-          const variant = getEmojiVariantByKey(variantKey);
-
-          ops.push({ insert: text.slice(index, match.index), attributes });
-          ops.push({
-            insert: { emoji: { value: variant.value } },
-            attributes: { ...existingAttributes, ...attributes },
-          });
-          index = match.index + variant.value.length;
+        if (!isSafeEmojifyEmoji(emojiMatch)) {
+          log.error(
+            `Expected a valid emoji variant value, got ${getEmojiDebugLabel(emojiMatch)}`
+          );
+          continue;
         }
+        const variantKey = getEmojiVariantKeyByValue(emojiMatch);
+        const variant = getEmojiVariantByKey(variantKey);
+
+        ops.push({ insert: text.slice(index, match.index), attributes });
+        ops.push({
+          insert: { emoji: { value: variant.value } },
+          attributes: { ...existingAttributes, ...attributes },
+        });
+        index = match.index + variant.value.length;
       }
 
       ops.push({ insert: text.slice(index, text.length), attributes });

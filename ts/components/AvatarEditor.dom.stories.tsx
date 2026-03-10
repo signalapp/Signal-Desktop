@@ -80,7 +80,7 @@ export default {
   title: 'Components/AvatarEditor',
 } satisfies Meta<PropsType>;
 
-export function NoAvatarGroup(): JSX.Element {
+export function NoAvatarGroup(): React.JSX.Element {
   return (
     <AvatarEditor
       {...createProps({
@@ -91,13 +91,13 @@ export function NoAvatarGroup(): JSX.Element {
   );
 }
 
-export function NoAvatarMe(): JSX.Element {
+export function NoAvatarMe(): React.JSX.Element {
   return (
     <AvatarEditor {...createProps({ userAvatarData: getDefaultAvatars() })} />
   );
 }
 
-export function HasAvatar(): JSX.Element {
+export function HasAvatar(): React.JSX.Element {
   return (
     <AvatarEditor
       {...createProps({

@@ -26,7 +26,7 @@ export function AudioCapture({
   i18n,
   startRecording,
   showToast,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const recordConversation = useCallback(
     () => startRecording(conversationId),
     [conversationId, startRecording]

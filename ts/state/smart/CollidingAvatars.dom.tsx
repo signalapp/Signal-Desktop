@@ -6,13 +6,13 @@ import { CollidingAvatars } from '../../components/CollidingAvatars.dom.js';
 import { getIntl } from '../selectors/user.std.js';
 import { getConversationSelector } from '../selectors/conversations.dom.js';
 
-export type PropsType = Readonly<{
+export type SmartCollidingAvatarsProps = Readonly<{
   conversationIds: ReadonlyArray<string>;
 }>;
 
 export const SmartCollidingAvatars = memo(function SmartCollidingAvatars({
   conversationIds,
-}: PropsType) {
+}: SmartCollidingAvatarsProps) {
   const i18n = useSelector(getIntl);
   const getConversation = useSelector(getConversationSelector);
 

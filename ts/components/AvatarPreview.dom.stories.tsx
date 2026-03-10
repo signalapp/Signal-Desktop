@@ -41,7 +41,7 @@ export default {
   title: 'Components/AvatarPreview',
 } satisfies Meta<PropsType>;
 
-export function NoStatePersonal(): JSX.Element {
+export function NoStatePersonal(): React.JSX.Element {
   return (
     <AvatarPreview
       {...createProps({
@@ -52,7 +52,7 @@ export function NoStatePersonal(): JSX.Element {
   );
 }
 
-export function NoStateGroup(): JSX.Element {
+export function NoStateGroup(): React.JSX.Element {
   return (
     <AvatarPreview
       {...createProps({
@@ -63,7 +63,7 @@ export function NoStateGroup(): JSX.Element {
   );
 }
 
-export function NoStateGroupUploadMe(): JSX.Element {
+export function NoStateGroupUploadMe(): React.JSX.Element {
   return (
     <AvatarPreview
       {...createProps({
@@ -76,11 +76,11 @@ export function NoStateGroupUploadMe(): JSX.Element {
   );
 }
 
-export function Value(): JSX.Element {
+export function Value(): React.JSX.Element {
   return <AvatarPreview {...createProps({ avatarValue: TEST_IMAGE })} />;
 }
 
-export function Path(): JSX.Element {
+export function Path(): React.JSX.Element {
   return (
     <AvatarPreview
       {...createProps({ avatarUrl: '/fixtures/kitten-3-64-64.jpg' })}
@@ -88,7 +88,7 @@ export function Path(): JSX.Element {
   );
 }
 
-export function ValueAndPath(): JSX.Element {
+export function ValueAndPath(): React.JSX.Element {
   return (
     <AvatarPreview
       {...createProps({
@@ -99,7 +99,7 @@ export function ValueAndPath(): JSX.Element {
   );
 }
 
-export function Style(): JSX.Element {
+export function Style(): React.JSX.Element {
   return (
     <AvatarPreview
       {...createProps({

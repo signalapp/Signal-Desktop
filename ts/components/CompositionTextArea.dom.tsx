@@ -77,7 +77,7 @@ export function CompositionTextArea({
   theme,
   whenToShowRemainingCount = Infinity,
   convertDraftBodyRangesIntoHydrated,
-}: CompositionTextAreaProps): JSX.Element {
+}: CompositionTextAreaProps): React.JSX.Element {
   const inputApiRef = useRef<InputApi | undefined>();
   const [characterCount, setCharacterCount] = useState(
     grapheme.count(draftText)
@@ -187,6 +187,9 @@ export function CompositionTextArea({
         linkPreviewResult={null}
         // Panels appear behind this modal
         shouldHidePopovers={null}
+        showViewOnceButton={false}
+        isViewOnceActive={false}
+        onToggleViewOnce={() => undefined}
       />
       <div className="CompositionTextArea__emoji">
         <FunEmojiPicker

@@ -22,8 +22,6 @@ import type {
 } from '../conversationJobQueue.preload.js';
 import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds.dom.js';
 import { handleMessageSend } from '../../util/handleMessageSend.preload.js';
-import { isConversationAccepted } from '../../util/isConversationAccepted.preload.js';
-import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.js';
 import { getMessageById } from '../../messages/getMessageById.preload.js';
 import { isNotNil } from '../../util/isNotNil.std.js';
 import type { CallbackResultType } from '../../textsecure/Types.d.ts';
@@ -32,6 +30,8 @@ import { SendMessageProtoError } from '../../textsecure/Errors.std.js';
 import { strictAssert } from '../../util/assert.std.js';
 import type { LoggerType } from '../../types/Logging.std.js';
 import { isStory } from '../../messages/helpers.std.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { shouldSendToDirectConversation } from './shouldSendToConversation.preload.js';
 
 export async function sendDeleteStoryForEveryone(
   ourConversation: ConversationModel,
@@ -109,40 +109,10 @@ export async function sendDeleteStoryForEveryone(
         return undefined;
       }
 
-      if (!isConversationAccepted(conversation.attributes)) {
-        log.info(
-          `${logId}: conversation ${conversation.idForLogging()} ` +
-            'is not accepted; refusing to send'
-        );
-        void updateMessageWithFailure(
-          message,
-          [new Error('Message request was not accepted')],
-          log
-        );
-        return undefined;
-      }
-      if (isConversationUnregistered(conversation.attributes)) {
-        log.info(
-          `${logId}: conversation ${conversation.idForLogging()} ` +
-            'is unregistered; refusing to send'
-        );
-        void updateMessageWithFailure(
-          message,
-          [new Error('Contact no longer has a Signal account')],
-          log
-        );
-        return undefined;
-      }
-      if (conversation.isBlocked()) {
-        log.info(
-          `${logId}: conversation ${conversation.idForLogging()} ` +
-            'is blocked; refusing to send'
-        );
-        void updateMessageWithFailure(
-          message,
-          [new Error('Contact is blocked')],
-          log
-        );
+      const [ok, refusal] = shouldSendToDirectConversation(conversation);
+      if (!ok) {
+        log.info(`${logId}: ${refusal.logLine}`);
+        void updateMessageWithFailure(message, [refusal.error], log);
         return undefined;
       }
 
@@ -177,20 +147,24 @@ export async function sendDeleteStoryForEveryone(
             const serviceId = conversation.getSendTarget();
             strictAssert(serviceId, 'conversation has no service id');
 
+            const ourAci = itemStorage.user.getCheckedAci();
+
             await handleMessageSend(
               messaging.sendMessageToServiceId({
                 serviceId,
-                messageText: undefined,
-                attachments: [],
-                deletedForEveryoneTimestamp: targetTimestamp,
-                timestamp,
-                expireTimer: undefined,
-                expireTimerVersion: undefined,
-                contentHint,
+                messageOptions: {
+                  deleteForEveryone: {
+                    isAdminDelete: false,
+                    targetSentTimestamp: targetTimestamp,
+                    targetAuthorAci: ourAci,
+                  },
+                  timestamp,
+                  profileKey: conversation.get('profileSharing')
+                    ? profileKey
+                    : undefined,
+                },
                 groupId: undefined,
-                profileKey: conversation.get('profileSharing')
-                  ? profileKey
-                  : undefined,
+                contentHint,
                 options: sendOptions,
                 urgent: true,
                 story: true,

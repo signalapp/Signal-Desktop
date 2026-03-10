@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactChild, ChangeEvent } from 'react';
+import type { ReactNode, ChangeEvent } from 'react';
 import React from 'react';
 
 import { LeftPaneHelper } from './LeftPaneHelper.dom.js';
@@ -82,7 +82,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
   }: Readonly<{
     i18n: LocalizerType;
     showInbox: () => void;
-  }>): ReactChild {
+  }>): ReactNode {
     return (
       <div className="module-left-pane__header__contents">
         <button
@@ -111,7 +111,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     onChangeComposeSearchTerm: (
       event: ChangeEvent<HTMLInputElement>
     ) => unknown;
-  }>): ReactChild {
+  }>): ReactNode {
     return (
       <SearchInput
         i18n={i18n}
@@ -128,7 +128,7 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
     i18n,
   }: Readonly<{
     i18n: LocalizerType;
-  }>): ReactChild | null {
+  }>): ReactNode | null {
     return this.getRowCount() ? null : (
       <div className="module-left-pane__compose-no-contacts">
         {i18n('icu:noConversationsFound')}

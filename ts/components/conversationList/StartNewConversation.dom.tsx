@@ -70,7 +70,7 @@ export const StartNewConversation: FunctionComponent<Props> = React.memo(
       isFetching,
     ]);
 
-    let modal: JSX.Element | undefined;
+    let modal: React.JSX.Element | undefined;
     if (isModalVisible) {
       modal = (
         <ConfirmationDialog
@@ -98,7 +98,6 @@ export const StartNewConversation: FunctionComponent<Props> = React.memo(
               title={phoneNumber.userInput}
               size={AvatarSize.THIRTY_TWO}
               badge={undefined}
-              sharedGroupNames={[]}
             />
           }
           title={phoneNumber.userInput}

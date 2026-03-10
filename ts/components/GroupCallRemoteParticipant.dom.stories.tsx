@@ -90,7 +90,7 @@ export default {
   args: {},
 } satisfies Meta<PropsType>;
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return (
     <GroupCallRemoteParticipant
       {...createProps({
@@ -104,7 +104,7 @@ export function Default(): JSX.Element {
   );
 }
 
-export function Speaking(): JSX.Element {
+export function Speaking(): React.JSX.Element {
   function createSpeakingProps(
     index: number,
     remoteParticipantsCount: number,
@@ -132,7 +132,7 @@ export function Speaking(): JSX.Element {
   );
 }
 
-export function HandRaised(): JSX.Element {
+export function HandRaised(): React.JSX.Element {
   return (
     <GroupCallRemoteParticipant
       {...createProps(
@@ -149,7 +149,7 @@ export function HandRaised(): JSX.Element {
   );
 }
 
-export function IsInPip(): JSX.Element {
+export function IsInPip(): React.JSX.Element {
   return (
     <GroupCallRemoteParticipant
       {...createProps({
@@ -159,7 +159,7 @@ export function IsInPip(): JSX.Element {
   );
 }
 
-export function Blocked(): JSX.Element {
+export function Blocked(): React.JSX.Element {
   return (
     <GroupCallRemoteParticipant
       {...createProps(
@@ -176,7 +176,7 @@ export function Blocked(): JSX.Element {
   );
 }
 
-export function NoMediaKeys(): JSX.Element {
+export function NoMediaKeys(): React.JSX.Element {
   return (
     <GroupCallRemoteParticipant
       {...createProps(
@@ -197,7 +197,7 @@ export function NoMediaKeys(): JSX.Element {
   );
 }
 
-export function NoMediaKeysBlockedIntermittent(): JSX.Element {
+export function NoMediaKeysBlockedIntermittent(): React.JSX.Element {
   const [isBlocked, setIsBlocked] = React.useState(false);
   React.useEffect(() => {
     const interval = setInterval(() => {

@@ -16,8 +16,9 @@ $inter:
   sans-serif;
 
 // Note: This font-family is checked for in matchMonospace, to support paste scenarios
-$monospace: 'SF Mono', SFMono-Regular, ui-monospace, 'DejaVu Sans Mono', Menlo,
-  Consolas, monospace;
+$monospace:
+  'SF Mono', SFMono-Regular, ui-monospace, 'DejaVu Sans Mono', Menlo, Consolas,
+  monospace;
 
 // -- V3 Colors
 
@@ -53,6 +54,7 @@ $color-white-alpha-12: rgba($color-white, 0.12);
 $color-white-alpha-16: rgba($color-white, 0.16);
 $color-white-alpha-20: rgba($color-white, 0.2);
 $color-white-alpha-30: rgba($color-white, 0.3);
+$color-white-alpha-36: rgba($color-white, 0.36);
 $color-white-alpha-40: rgba($color-white, 0.4);
 $color-white-alpha-50: rgba($color-white, 0.5);
 $color-white-alpha-55: rgba($color-white, 0.55);
@@ -273,6 +275,8 @@ $color-deep-red: #ff261f;
 $color-selected-message-background-light: rgba(44, 107, 237, 0.24);
 $color-selected-message-background-dark: $color-gray-65;
 
+$color-paypal-yellow: #f6c757;
+
 // -- A few layout variables used cross-file
 
 $header-height: 52px;
@@ -286,6 +290,7 @@ $calling-background-color: $color-gray-90;
 $calling-local-preview-normal-width: 106.67px;
 
 // General
+// Keep in sync with --legacy-z-index-* in stylesheets/tailwind-config.css
 
 $z-index-negative: -1;
 $z-index-base: 1;
@@ -303,6 +308,7 @@ $z-index-window-controls: 10000;
 // Component specific
 // The scroll down button should be above everything in the timeline but
 // popups, tooltips, toasts, and other items should stack above it.
+// Keep in sync with --legacy-z-index-* in stylesheets/tailwind-config.css
 $z-index-story-meta: 3;
 $z-index-scroll-down-button: 10;
 $z-index-stories: 98;

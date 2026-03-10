@@ -455,6 +455,13 @@ $secondary-text-color: light-dark(
       text-align: start;
     }
   }
+  &__one-third-flow--justify-end {
+    display: inline-flex;
+    justify-content: flex-end;
+    @container (max-width: 350px) {
+      justify-content: flex-start;
+    }
+  }
   &__full-flow {
     vertical-align: middle;
     display: inline-block;

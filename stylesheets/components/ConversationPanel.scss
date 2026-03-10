@@ -10,7 +10,6 @@
 
   height: 100%;
   inset-inline-start: 0;
-  overflow-y: auto;
   position: absolute;
   top: 0;
   width: 100%;
@@ -28,11 +27,12 @@
     // Used for centering EmptyState in All Media view
     position: relative;
 
+    overflow-y: auto;
     flex-grow: 1;
-    padding-top: calc(
-      #{variables.$header-height} + var(--title-bar-drag-area-height)
-    );
-    padding-inline: 24px;
+
+    &--padding {
+      padding-inline: 24px;
+    }
   }
 
   &__header {
@@ -44,7 +44,6 @@
       #{variables.$header-height} + var(--title-bar-drag-area-height)
     );
     padding-top: var(--title-bar-drag-area-height);
-    position: fixed;
     width: 100%;
     z-index: variables.$z-index-base;
 

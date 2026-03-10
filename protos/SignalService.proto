@@ -394,12 +394,17 @@ message DataMessage {
     optional bytes targetAuthorAciBinary = 1; // 16-byte UUID
     optional uint64 targetSentTimestamp = 2;
     oneof pinDuration {
-      uint32 seconds = 3;
-      bool forever = 4;
+      uint32 pinDurationSeconds = 3;
+      bool pinDurationForever = 4;
     }
   }
 
   message UnpinMessage {
+    optional bytes targetAuthorAciBinary = 1; // 16-byte UUID
+    optional uint64 targetSentTimestamp = 2;
+  }
+
+  message AdminDelete {
     optional bytes targetAuthorAciBinary = 1; // 16-byte UUID
     optional uint64 targetSentTimestamp = 2;
   }
@@ -431,7 +436,8 @@ message DataMessage {
   optional PollVote pollVote = 26;
   optional PinMessage pinMessage = 27;
   optional UnpinMessage unpinMessage = 28;
-  // NEXT ID: 29
+  optional AdminDelete adminDelete = 29;
+  // NEXT ID: 30
 }
 
 message NullMessage {
@@ -737,7 +743,7 @@ message SyncMessage {
     optional bytes rootKey = 1;
     optional bytes adminPasskey = 2;
     optional Type type = 3; // defaults to UPDATE
-    optional bytes epoch = 4;
+    reserved 4; // was epoch, never used
   }
 
   message CallLogEvent {

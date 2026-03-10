@@ -20,7 +20,7 @@ export function AttachmentStatusIcon({
   attachment,
   isIncoming,
   children,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   const status = useAttachmentStatus(attachment);
 
   if (status.state === 'NeedsDownload') {

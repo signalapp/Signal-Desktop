@@ -9,13 +9,15 @@ import {
 import URL from 'node:url';
 import type { RequestInit, Response } from 'node-fetch';
 import { Headers } from 'node-fetch';
-import type { connection as WebSocket } from 'websocket';
-import qs from 'node:querystring';
 import EventListener from 'node:events';
-import type { IncomingMessage } from 'node:http';
 import { setTimeout as sleep } from 'node:timers/promises';
 
-import type { AbortableProcess } from '../util/AbortableProcess.std.js';
+import type {
+  UnauthenticatedChatConnection,
+  ProvisioningConnection,
+  ProvisioningConnectionListener,
+} from '@signalapp/libsignal-client/dist/net/Chat.js';
+
 import { strictAssert } from '../util/assert.std.js';
 import { explodePromise } from '../util/explodePromise.std.js';
 import {
@@ -25,27 +27,25 @@ import {
 } from '../util/BackOff.std.js';
 import * as durations from '../util/durations/index.std.js';
 import { drop } from '../util/drop.std.js';
-import type { ProxyAgent } from '../util/createProxyAgent.node.js';
-import { createProxyAgent } from '../util/createProxyAgent.node.js';
 import { type SocketInfo, SocketStatus } from '../types/SocketStatus.std.js';
 import { HTTPError } from '../types/HTTPError.std.js';
 import * as Errors from '../types/errors.std.js';
 import * as Bytes from '../Bytes.std.js';
 import { createLogger } from '../logging/log.std.js';
 
+import type { AbortableProcess } from '../util/AbortableProcess.std.js';
 import type {
+  ChatKind,
+  IChatConnection,
   IncomingWebSocketRequest,
-  IWebSocketResource,
-  WebSocketResourceOptions,
 } from './WebsocketResources.preload.js';
-import WebSocketResource, {
-  connectAuthenticatedLibsignal,
-  connectUnauthenticatedLibsignal,
+import {
+  connectAuthenticated,
+  connectUnauthenticated,
   ServerRequestType,
 } from './WebsocketResources.preload.js';
 import { ConnectTimeoutError } from './Errors.std.js';
 import type { IRequestHandler, WebAPICredentials } from './Types.d.ts';
-import { connect as connectWebSocket } from './WebSocket.preload.js';
 import type { ServerAlert } from '../types/ServerAlert.std.js';
 import { getUserLanguages } from '../util/userLanguages.std.js';
 
@@ -62,13 +62,6 @@ export const AUTHENTICATED_CHANNEL_NAME = 'authenticated';
 
 export const NORMAL_DISCONNECT_CODE = 3000;
 
-export type SocketManagerOptions = Readonly<{
-  url: string;
-  certificateAuthority: string;
-  version: string;
-  proxyUrl?: string;
-}>;
-
 type SocketStatusUpdate = { status: SocketStatus };
 
 export type SocketStatuses = Record<
@@ -80,9 +73,9 @@ export type SocketExpirationReason = 'remote' | 'build';
 
 // This class manages two websocket resources:
 //
-// - Authenticated IWebSocketResource which uses supplied WebAPICredentials and
+// - Authenticated IChatConnection which uses supplied WebAPICredentials and
 //   automatically reconnects on closed socket (using back off)
-// - Unauthenticated IWebSocketResource that is created on the first outgoing
+// - Unauthenticated IChatConnection that is created on the first outgoing
 //   unauthenticated request and is periodically rotated (5 minutes since first
 //   activity on the socket).
 //
@@ -91,17 +84,16 @@ export type SocketExpirationReason = 'remote' | 'build';
 // least one such request handler becomes available.
 //
 // Incoming requests on unauthenticated resource are not currently supported.
-// IWebSocketResource is responsible for their immediate termination.
+// IChatConnection is responsible for their immediate termination.
 export class SocketManager extends EventListener {
   #backOff = new BackOff(FIBONACCI_TIMEOUTS, {
     jitter: JITTER,
   });
 
-  #authenticated?: AbortableProcess<IWebSocketResource>;
-  #unauthenticated?: AbortableProcess<IWebSocketResource>;
+  #authenticated?: AbortableProcess<IChatConnection<'auth'>>;
+  #unauthenticated?: AbortableProcess<IChatConnection<'unauth'>>;
   #unauthenticatedExpirationTimer?: NodeJS.Timeout;
   #credentials?: WebAPICredentials;
-  #lazyProxyAgent?: Promise<ProxyAgent>;
   #authenticatedStatus: SocketInfo = {
     status: SocketStatus.CLOSED,
   };
@@ -117,10 +109,7 @@ export class SocketManager extends EventListener {
   #reconnectController: AbortController | undefined;
   #envelopeCount = 0;
 
-  constructor(
-    private readonly libsignalNet: Net.Net,
-    private readonly options: SocketManagerOptions
-  ) {
+  constructor(private readonly libsignalNet: Net.Net) {
     super();
   }
 
@@ -198,7 +187,7 @@ export class SocketManager extends EventListener {
       window.SignalContext.getResolvedMessagesLocale()
     );
 
-    const process = connectAuthenticatedLibsignal({
+    const process = connectAuthenticated({
       libsignalNet: this.libsignalNet,
       name: AUTHENTICATED_CHANNEL_NAME,
       credentials: this.#credentials,
@@ -260,7 +249,7 @@ export class SocketManager extends EventListener {
       }
     };
 
-    let authenticated: IWebSocketResource;
+    let authenticated: IChatConnection<'auth'>;
     try {
       authenticated = await process.getResult();
 
@@ -363,8 +352,8 @@ export class SocketManager extends EventListener {
   }
 
   // Either returns currently connecting/active authenticated
-  // IWebSocketResource or connects a fresh one.
-  public async getAuthenticatedResource(): Promise<IWebSocketResource> {
+  // IChatConnection or connects a fresh one.
+  public async getAuthenticatedResource(): Promise<IChatConnection<'auth'>> {
     if (!this.#authenticated) {
       strictAssert(this.#credentials !== undefined, 'Missing credentials');
       await this.authenticate(this.#credentials);
@@ -374,11 +363,11 @@ export class SocketManager extends EventListener {
     return this.#authenticated.getResult();
   }
 
-  // Creates new IWebSocketResource for AccountManager's provisioning
-  public async getProvisioningResource(
-    handler: IRequestHandler,
-    timeout?: number
-  ): Promise<IWebSocketResource> {
+  // Creates new ProvisioningConnection for AccountManager's provisioning
+  public async getProvisioningConnection(
+    listener: ProvisioningConnectionListener,
+    timeout: number
+  ): Promise<ProvisioningConnection> {
     if (this.#expirationReason != null) {
       throw new Error(
         `${this.#expirationReason} expired, ` +
@@ -386,45 +375,24 @@ export class SocketManager extends EventListener {
       );
     }
 
-    return this.#connectResource({
-      name: 'provisioning',
-      path: '/v1/websocket/provisioning/',
-      proxyAgent: await this.#getProxyAgent(),
-      resourceOptions: {
-        name: 'provisioning',
-        handleRequest: (req: IncomingWebSocketRequest): void => {
-          handler.handleRequest(req);
-        },
-        keepalive: { path: '/v1/keepalive/provisioning' },
-      },
-      extraHeaders: {
-        'x-signal-websocket-timeout': 'true',
-      },
-      timeout,
-    }).getResult();
+    const abortController = new AbortController();
+
+    const timer = setTimeout(() => {
+      abortController.abort();
+    }, timeout);
+
+    try {
+      return await this.libsignalNet.connectProvisioning(listener, {
+        abortSignal: abortController.signal,
+      });
+    } finally {
+      clearTimeout(timer);
+    }
   }
 
-  // Creates new WebSocket for Art Creator provisioning
-  public async connectExternalSocket({
-    url,
-    extraHeaders,
-  }: {
-    url: string;
-    extraHeaders?: Record<string, string>;
-  }): Promise<WebSocket> {
-    const proxyAgent = await this.#getProxyAgent();
-
-    return connectWebSocket({
-      name: 'art-creator-provisioning',
-      url,
-      version: this.options.version,
-      proxyAgent,
-      extraHeaders,
-
-      createResource(socket: WebSocket): WebSocket {
-        return socket;
-      },
-    }).getResult();
+  public async getUnauthenticatedApi(): Promise<UnauthenticatedChatConnection> {
+    const resource = await this.#getUnauthenticatedResource();
+    return resource.libsignalWebsocket;
   }
 
   // Fetch-compatible wrapper around underlying unauthenticated/authenticated
@@ -433,7 +401,7 @@ export class SocketManager extends EventListener {
   public async fetch(url: string, init: RequestInit): Promise<Response> {
     const headers = new Headers(init.headers);
 
-    let resource: IWebSocketResource;
+    let resource: IChatConnection<'auth'> | IChatConnection<'unauth'>;
     if (this.#isAuthenticated(headers)) {
       resource = await this.getAuthenticatedResource();
     } else {
@@ -618,7 +586,7 @@ export class SocketManager extends EventListener {
     }
   }
 
-  async #getUnauthenticatedResource(): Promise<IWebSocketResource> {
+  async #getUnauthenticatedResource(): Promise<IChatConnection<'unauth'>> {
     if (this.#expirationReason) {
       throw new HTTPError(`SocketManager ${this.#expirationReason} expired`, {
         code: 0,
@@ -642,8 +610,8 @@ export class SocketManager extends EventListener {
       window.SignalContext.getResolvedMessagesLocale()
     );
 
-    const process: AbortableProcess<IWebSocketResource> =
-      connectUnauthenticatedLibsignal({
+    const process: AbortableProcess<IChatConnection<'unauth'>> =
+      connectUnauthenticated({
         libsignalNet: this.libsignalNet,
         name: UNAUTHENTICATED_CHANNEL_NAME,
         userLanguages,
@@ -652,7 +620,7 @@ export class SocketManager extends EventListener {
 
     this.#unauthenticated = process;
 
-    let unauthenticated: IWebSocketResource;
+    let unauthenticated: IChatConnection<'unauth'>;
     try {
       unauthenticated = await this.#unauthenticated.getResult();
       this.#setUnauthenticatedStatus({
@@ -719,60 +687,8 @@ export class SocketManager extends EventListener {
     return this.#unauthenticated.getResult();
   }
 
-  #connectResource({
-    name,
-    path,
-    proxyAgent,
-    resourceOptions,
-    query = {},
-    extraHeaders = {},
-    onUpgradeResponse,
-    timeout,
-  }: {
-    name: string;
-    path: string;
-    proxyAgent: ProxyAgent | undefined;
-    resourceOptions: WebSocketResourceOptions;
-    query?: Record<string, string>;
-    extraHeaders?: Record<string, string>;
-    onUpgradeResponse?: (response: IncomingMessage) => void;
-    timeout?: number;
-  }): AbortableProcess<IWebSocketResource> {
-    const queryWithDefaults = {
-      agent: 'OWD',
-      version: this.options.version,
-      ...query,
-    };
-
-    const url = `${this.options.url}${path}?${qs.encode(queryWithDefaults)}`;
-    const { version } = this.options;
-
-    const start = performance.now();
-    const webSocketResourceConnection = connectWebSocket({
-      name,
-      url,
-      version,
-      certificateAuthority: this.options.certificateAuthority,
-      proxyAgent,
-      timeout,
-
-      extraHeaders,
-      onUpgradeResponse,
-
-      createResource(socket: WebSocket): WebSocketResource {
-        const duration = (performance.now() - start).toFixed(1);
-        log.info(
-          `WebSocketResource(${resourceOptions.name}) connected in ${duration}ms`
-        );
-        return new WebSocketResource(socket, resourceOptions);
-      },
-    });
-
-    return webSocketResourceConnection;
-  }
-
-  async #checkResource(
-    process?: AbortableProcess<IWebSocketResource>
+  async #checkResource<Chat extends ChatKind>(
+    process?: AbortableProcess<IChatConnection<Chat>>
   ): Promise<void> {
     if (!process) {
       return;
@@ -786,7 +702,7 @@ export class SocketManager extends EventListener {
     );
   }
 
-  #dropAuthenticated(process: AbortableProcess<IWebSocketResource>): void {
+  #dropAuthenticated(process: AbortableProcess<IChatConnection<'auth'>>): void {
     if (this.#authenticated !== process) {
       return;
     }
@@ -807,7 +723,9 @@ export class SocketManager extends EventListener {
     }
   }
 
-  #dropUnauthenticated(process: AbortableProcess<IWebSocketResource>): void {
+  #dropUnauthenticated(
+    process: AbortableProcess<IChatConnection<'unauth'>>
+  ): void {
     if (this.#unauthenticated !== process) {
       return;
     }
@@ -822,7 +740,7 @@ export class SocketManager extends EventListener {
   }
 
   async #startUnauthenticatedExpirationTimer(
-    expected: IWebSocketResource
+    expected: IChatConnection<'unauth'>
   ): Promise<void> {
     const process = this.#unauthenticated;
     strictAssert(
@@ -915,14 +833,6 @@ export class SocketManager extends EventListener {
       username === this.#credentials.username &&
       password === this.#credentials.password
     );
-  }
-
-  async #getProxyAgent(): Promise<ProxyAgent | undefined> {
-    if (this.options.proxyUrl && !this.#lazyProxyAgent) {
-      // Cache the promise so that we don't import concurrently.
-      this.#lazyProxyAgent = createProxyAgent(this.options.proxyUrl);
-    }
-    return this.#lazyProxyAgent;
   }
 
   // EventEmitter types

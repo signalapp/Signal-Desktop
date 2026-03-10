@@ -60,7 +60,7 @@ export function CallLinkDetails({
   onStartCallLinkLobby,
   onShareCallLinkViaSignal,
   onUpdateCallLinkRestrictions,
-}: CallLinkDetailsProps): JSX.Element {
+}: CallLinkDetailsProps): React.JSX.Element {
   const [isDeleteCallLinkModalOpen, setIsDeleteCallLinkModalOpen] =
     useState(false);
 
@@ -70,7 +70,6 @@ export function CallLinkDetails({
 
   const webUrl = linkCallRoute.toWebUrl({
     key: callLink.rootKey,
-    epoch: callLink.epoch,
   });
   const joinButton = (
     <Button
@@ -111,7 +110,6 @@ export function CallLinkDetails({
           color={getColorForCallLink(callLink.rootKey)}
           conversationType="callLink"
           size={AvatarSize.SIXTY_FOUR}
-          sharedGroupNames={[]}
           title={callLink.name ?? i18n('icu:calling__call-link-default-title')}
         />
         <div className="CallLinkDetails__HeaderDetails">
@@ -269,7 +267,7 @@ export function CallLinkDetails({
 function renderMissingCallLink({
   callHistoryGroup,
   i18n,
-}: Pick<CallLinkDetailsProps, 'callHistoryGroup' | 'i18n'>): JSX.Element {
+}: Pick<CallLinkDetailsProps, 'callHistoryGroup' | 'i18n'>): React.JSX.Element {
   return (
     <div className="CallLinkDetails__Container">
       <header className="CallLinkDetails__Header">
@@ -279,7 +277,6 @@ function renderMissingCallLink({
           badge={undefined}
           conversationType="callLink"
           size={AvatarSize.SIXTY_FOUR}
-          sharedGroupNames={[]}
           title={i18n('icu:calling__call-link-default-title')}
         />
         <div className="CallLinkDetails__HeaderDetails">

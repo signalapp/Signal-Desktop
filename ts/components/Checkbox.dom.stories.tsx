@@ -19,17 +19,17 @@ export default {
   title: 'Components/Checkbox',
 } satisfies Meta<PropsType>;
 
-export function Normal(): JSX.Element {
+export function Normal(): React.JSX.Element {
   return <Checkbox {...createProps()} />;
 }
-export function Checked(): JSX.Element {
+export function Checked(): React.JSX.Element {
   return <Checkbox {...createProps()} checked />;
 }
 
-export function Description(): JSX.Element {
+export function Description(): React.JSX.Element {
   return <Checkbox {...createProps()} description="This is a checkbox" />;
 }
 
-export function Disabled(): JSX.Element {
+export function Disabled(): React.JSX.Element {
   return <Checkbox {...createProps()} disabled />;
 }

@@ -22,9 +22,9 @@ import { getNavTabsCollapsed } from '../selectors/items.dom.js';
 import { useItemsActions } from '../ducks/items.preload.js';
 import { getHasAnyFailedStorySends } from '../selectors/stories.preload.js';
 import { getHasPendingUpdate } from '../selectors/updates.std.js';
-import { getOtherTabsUnreadStats } from '../selectors/nav.preload.js';
+import { getSelectedConversationId } from '../selectors/nav.std.js';
 import {
-  getSelectedConversationId,
+  getOtherTabsUnreadStats,
   getTargetedMessage,
   getTargetedMessageSource,
 } from '../selectors/conversations.dom.js';

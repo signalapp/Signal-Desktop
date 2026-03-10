@@ -15,7 +15,6 @@ import type {
   StorySendStateType,
   StoryViewType,
 } from '../../types/Stories.std.js';
-import type { StateType } from '../reducer.preload.js';
 import type {
   SelectedStoryDataType,
   StoryDataType,
@@ -32,7 +31,9 @@ import {
   getHideStoryConversationIds,
   getMe,
   PLACEHOLDER_CONTACT_ID,
+  getStoriesState,
 } from './conversations.dom.js';
+import { getStoriesEnabled } from './items.dom.js';
 import { getUserConversationId } from './user.std.js';
 import { getDistributionListSelector } from './storyDistributionLists.dom.js';
 import { calculateExpirationTimestamp } from '../../util/expirationTimer.std.js';
@@ -45,14 +46,10 @@ import {
 } from '../../util/resolveStorySendStatus.std.js';
 import { BodyRange } from '../../types/BodyRange.std.js';
 import { hydrateRanges } from '../../util/BodyRange.node.js';
-import { getStoriesEnabled } from './items.dom.js';
 
 const { pick } = lodash;
 
 const log = createLogger('stories');
-
-export const getStoriesState = (state: StateType): StoriesStateType =>
-  state.stories;
 
 export const hasSelectedStoryData = createSelector(
   getStoriesState,
@@ -139,7 +136,6 @@ function getAvatarData(
   | 'id'
   | 'name'
   | 'profileName'
-  | 'sharedGroupNames'
   | 'title'
 > {
   return pick(conversation, [
@@ -151,7 +147,6 @@ function getAvatarData(
     'id',
     'name',
     'profileName',
-    'sharedGroupNames',
     'title',
   ]);
 }
@@ -183,7 +178,6 @@ export function getStoryView(
       'isMe',
       'name',
       'profileName',
-      'sharedGroupNames',
       'title',
       'serviceId',
     ]
@@ -281,7 +275,6 @@ export function getConversationStory(
     'id',
     'name',
     'profileName',
-    'sharedGroupNames',
     'sortedGroupMembers',
     'title',
     'left',

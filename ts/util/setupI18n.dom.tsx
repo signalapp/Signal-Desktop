@@ -16,7 +16,9 @@ import { strictAssert } from './assert.std.js';
 
 export { isLocaleMessageType } from './setupI18nMain.std.js';
 
-export function renderEmojify(parts: ReadonlyArray<unknown>): JSX.Element {
+export function renderEmojify(
+  parts: ReadonlyArray<unknown>
+): React.JSX.Element {
   strictAssert(parts.length === 1, '<emojify> must contain only one child');
   const text = parts[0];
   strictAssert(typeof text === 'string', '<emojify> must contain only text');

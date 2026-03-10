@@ -20,7 +20,7 @@ export function getServerAlertDialog(
     containerWidthBreakpoint: WidthBreakpoint;
     i18n: LocalizerType;
   }
-): JSX.Element | null {
+): React.JSX.Element | null {
   if (!alerts) {
     return null;
   }

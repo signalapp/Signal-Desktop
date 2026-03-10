@@ -90,7 +90,7 @@ export function Image({
   width = 0,
   cropWidth = 0,
   cropHeight = 0,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const resolvedBlurHash = blurHash || defaultBlurHash(theme);
 
   const curveStyles: CSSProperties = {
@@ -331,7 +331,7 @@ export function getSpinner({
   ) => void;
   i18n: LocalizerType;
   tabIndex: number | undefined;
-}): JSX.Element | undefined {
+}): React.JSX.Element | undefined {
   if (!attachment.pending) {
     return undefined;
   }

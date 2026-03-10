@@ -18,7 +18,7 @@ export default {
   title: 'Components/TextAttachment',
 } satisfies Meta<PropsType>;
 
-export function SolidBgTextBg(): JSX.Element {
+export function SolidBgTextBg(): React.JSX.Element {
   return (
     <TextAttachment
       {...getDefaultProps()}
@@ -33,7 +33,7 @@ export function SolidBgTextBg(): JSX.Element {
   );
 }
 
-export function Gradient(): JSX.Element {
+export function Gradient(): React.JSX.Element {
   return (
     <TextAttachment
       {...getDefaultProps()}
@@ -52,7 +52,7 @@ export function Gradient(): JSX.Element {
   );
 }
 
-export function TextWithLineBreaksCondensedFont(): JSX.Element {
+export function TextWithLineBreaksCondensedFont(): React.JSX.Element {
   return (
     <TextAttachment
       {...getDefaultProps()}
@@ -71,7 +71,7 @@ export function TextWithLineBreaksCondensedFont(): JSX.Element {
   );
 }
 
-export function TextWithLineBreaksAutowrapSerifFont(): JSX.Element {
+export function TextWithLineBreaksAutowrapSerifFont(): React.JSX.Element {
   return (
     <TextAttachment
       {...getDefaultProps()}
@@ -86,7 +86,7 @@ export function TextWithLineBreaksAutowrapSerifFont(): JSX.Element {
   );
 }
 
-export function AutowrapText(): JSX.Element {
+export function AutowrapText(): React.JSX.Element {
   return (
     <TextAttachment
       {...getDefaultProps()}
@@ -105,7 +105,7 @@ export function AutowrapText(): JSX.Element {
   );
 }
 
-export function RomeoJuliet(): JSX.Element {
+export function RomeoJuliet(): React.JSX.Element {
   return (
     <TextAttachment
       {...getDefaultProps()}
@@ -124,7 +124,7 @@ export function RomeoJuliet(): JSX.Element {
   );
 }
 
-export function OverflowNewlineNumbers(): JSX.Element {
+export function OverflowNewlineNumbers(): React.JSX.Element {
   return (
     <TextAttachment
       {...getDefaultProps()}
@@ -143,7 +143,7 @@ export function OverflowNewlineNumbers(): JSX.Element {
   );
 }
 
-export function CharacterWrapBold(): JSX.Element {
+export function CharacterWrapBold(): React.JSX.Element {
   return (
     <TextAttachment
       {...getDefaultProps()}
@@ -158,7 +158,7 @@ export function CharacterWrapBold(): JSX.Element {
   );
 }
 
-export function MixOfNewlinesOverflowAutowrap(): JSX.Element {
+export function MixOfNewlinesOverflowAutowrap(): React.JSX.Element {
   return (
     <TextAttachment
       {...getDefaultProps()}
@@ -173,7 +173,7 @@ export function MixOfNewlinesOverflowAutowrap(): JSX.Element {
   );
 }
 
-export function LinkPreview(): JSX.Element {
+export function LinkPreview(): React.JSX.Element {
   return (
     <TextAttachment
       {...getDefaultProps()}
@@ -189,7 +189,7 @@ export function LinkPreview(): JSX.Element {
   );
 }
 
-export function LinkPreviewThumbnail(): JSX.Element {
+export function LinkPreviewThumbnail(): React.JSX.Element {
   return (
     <TextAttachment
       {...getDefaultProps()}
@@ -206,7 +206,7 @@ export function LinkPreviewThumbnail(): JSX.Element {
   );
 }
 
-export function LinkPreviewLongTitle(): JSX.Element {
+export function LinkPreviewLongTitle(): React.JSX.Element {
   return (
     <TextAttachment
       {...getDefaultProps()}
@@ -225,7 +225,7 @@ export function LinkPreviewLongTitle(): JSX.Element {
   );
 }
 
-export function LinkPreviewJustUrl(): JSX.Element {
+export function LinkPreviewJustUrl(): React.JSX.Element {
   return (
     <TextAttachment
       {...getDefaultProps()}
@@ -240,7 +240,7 @@ export function LinkPreviewJustUrl(): JSX.Element {
   );
 }
 
-export function LinkPreviewJustUrlText(): JSX.Element {
+export function LinkPreviewJustUrlText(): React.JSX.Element {
   return (
     <TextAttachment
       {...getDefaultProps()}
@@ -256,7 +256,7 @@ export function LinkPreviewJustUrlText(): JSX.Element {
   );
 }
 
-export function LinkPreviewReallyLongDomain(): JSX.Element {
+export function LinkPreviewReallyLongDomain(): React.JSX.Element {
   return (
     <TextAttachment
       {...getDefaultProps()}
@@ -271,7 +271,7 @@ export function LinkPreviewReallyLongDomain(): JSX.Element {
   );
 }
 
-export function LinkPreviewWRJ(): JSX.Element {
+export function LinkPreviewWRJ(): React.JSX.Element {
   return (
     <TextAttachment
       {...getDefaultProps()}
@@ -295,7 +295,7 @@ export function LinkPreviewWRJ(): JSX.Element {
   );
 }
 
-export function TextBackgroundAndLinkPreview(): JSX.Element {
+export function TextBackgroundAndLinkPreview(): React.JSX.Element {
   return (
     <TextAttachment
       {...getDefaultProps()}

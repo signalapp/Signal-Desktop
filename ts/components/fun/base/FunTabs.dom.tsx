@@ -14,7 +14,7 @@ export type FunTabsProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunTabs(props: FunTabsProps): JSX.Element {
+export function FunTabs(props: FunTabsProps): React.JSX.Element {
   const { onChange } = props;
 
   const handleTabChange = useCallback(
@@ -39,7 +39,7 @@ export type FunTabListProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunTabList(props: FunTabListProps): JSX.Element {
+export function FunTabList(props: FunTabListProps): React.JSX.Element {
   return <TabList className="FunTabs__TabList">{props.children}</TabList>;
 }
 
@@ -55,7 +55,7 @@ export type FunTabProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunPickerTab(props: FunTabProps): JSX.Element {
+export function FunPickerTab(props: FunTabProps): React.JSX.Element {
   return (
     <Tab className="FunTabs__Tab" id={props.id}>
       {({ isSelected }) => {
@@ -81,7 +81,7 @@ export type FunTabPanelProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunTabPanel(props: FunTabPanelProps): JSX.Element | null {
+export function FunTabPanel(props: FunTabPanelProps): React.JSX.Element | null {
   const motionKey = useId();
   return (
     <TabPanel className="FunTabs__TabPanel" id={props.id} shouldForceMount>

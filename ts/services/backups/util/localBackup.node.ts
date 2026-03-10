@@ -3,7 +3,7 @@
 
 import { randomBytes } from 'node:crypto';
 import { dirname, join } from 'node:path';
-import { readFile, stat, writeFile } from 'node:fs/promises';
+import { readdir, readFile, stat, writeFile } from 'node:fs/promises';
 import { createReadStream, createWriteStream } from 'node:fs';
 import { Transform } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
@@ -25,6 +25,29 @@ const log = createLogger('localBackup');
 
 const { Reader } = protobuf;
 
+export function getLocalBackupFilesDirectory({
+  backupsBaseDir,
+}: {
+  backupsBaseDir: string;
+}): string {
+  return join(backupsBaseDir, 'files');
+}
+
+export async function getAllPathsInLocalBackupFilesDirectory({
+  backupsBaseDir,
+}: {
+  backupsBaseDir: string;
+}): Promise<Array<string>> {
+  const filesDir = getLocalBackupFilesDirectory({ backupsBaseDir });
+  const allEntries = await readdir(filesDir, {
+    withFileTypes: true,
+    recursive: true,
+  });
+  return allEntries
+    .filter(entry => entry.isFile())
+    .map(entry => join(entry.parentPath, entry.name));
+}
+
 export function getLocalBackupDirectoryForMediaName({
   backupsBaseDir,
   mediaName,
@@ -36,7 +59,10 @@ export function getLocalBackupDirectoryForMediaName({
     throw new Error('Invalid mediaName input');
   }
 
-  return join(backupsBaseDir, 'files', mediaName.substring(0, 2));
+  return join(
+    getLocalBackupFilesDirectory({ backupsBaseDir }),
+    mediaName.substring(0, 2)
+  );
 }
 
 export function getLocalBackupPathForMediaName({

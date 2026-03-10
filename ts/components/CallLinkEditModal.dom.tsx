@@ -89,14 +89,12 @@ export function CallLinkEditModal({
   onUpdateCallLinkRestrictions,
   onShareCallLinkViaSignal,
   onStartCallLinkLobby,
-}: CallLinkEditModalProps): JSX.Element {
+}: CallLinkEditModalProps): React.JSX.Element {
   const [restrictionsId] = useState(() => generateUuid());
 
   const callLinkWebUrl = useMemo(() => {
-    return linkCallRoute
-      .toWebUrl({ key: callLink.rootKey, epoch: callLink.epoch })
-      .toString();
-  }, [callLink.rootKey, callLink.epoch]);
+    return linkCallRoute.toWebUrl({ key: callLink.rootKey }).toString();
+  }, [callLink.rootKey]);
 
   const joinButton = (
     <Button
@@ -132,7 +130,6 @@ export function CallLinkEditModal({
           color={getColorForCallLink(callLink.rootKey)}
           conversationType="callLink"
           size={AvatarSize.SIXTY_FOUR}
-          sharedGroupNames={[]}
           title={
             callLink.name === ''
               ? i18n('icu:calling__call-link-default-title')

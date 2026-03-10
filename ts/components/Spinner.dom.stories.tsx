@@ -20,11 +20,11 @@ export default {
   },
 } satisfies Meta<Props>;
 
-export function Normal(args: Props): JSX.Element {
+export function Normal(args: Props): React.JSX.Element {
   return <Spinner {...args} />;
 }
 
-export function SvgSizes(args: Props): JSX.Element {
+export function SvgSizes(args: Props): React.JSX.Element {
   return (
     <>
       {SpinnerSvgSizes.map(svgSize => (
@@ -34,7 +34,7 @@ export function SvgSizes(args: Props): JSX.Element {
   );
 }
 
-export function Directions(args: Props): JSX.Element {
+export function Directions(args: Props): React.JSX.Element {
   return (
     <>
       {SpinnerDirections.map(direction => (

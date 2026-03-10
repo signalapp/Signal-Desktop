@@ -27,7 +27,7 @@ export function OutgoingGiftBadgeModal({
   badgeId,
   hideOutgoingGiftBadgeModal,
   getPreferredBadge,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const badge = getPreferredBadge([{ id: badgeId }]);
   const badgeSize = 140;
   const badgeImagePath = getBadgeImageFileLocalPath(

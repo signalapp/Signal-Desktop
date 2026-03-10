@@ -39,7 +39,6 @@ const conversation: ConversationType = {
   sortedGroupMembers,
   title: 'Some Conversation',
   type: 'group',
-  sharedGroupNames: [],
   acknowledgedGroupNameCollisions: {},
   storySendMode: StorySendMode.IfActive,
 };
@@ -78,13 +77,13 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   ...overrideProps,
 });
 
-export function Basic(): JSX.Element {
+export function Basic(): React.JSX.Element {
   const props = useProps();
 
   return <PendingInvites {...props} />;
 }
 
-export function WithBadges(): JSX.Element {
+export function WithBadges(): React.JSX.Element {
   const props = useProps({ getPreferredBadge: () => getFakeBadge() });
 
   return <PendingInvites {...props} />;

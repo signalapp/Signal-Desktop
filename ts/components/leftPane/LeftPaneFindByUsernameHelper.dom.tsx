@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactChild } from 'react';
+import type { ReactNode } from 'react';
 import React from 'react';
 
 import { LeftPaneHelper } from './LeftPaneHelper.dom.js';
@@ -53,7 +53,7 @@ export class LeftPaneFindByUsernameHelper extends LeftPaneHelper<LeftPaneFindByU
   }: Readonly<{
     i18n: LocalizerType;
     startComposing: () => void;
-  }>): ReactChild {
+  }>): ReactNode {
     const backButtonLabel = i18n('icu:setGroupMetadata__back-button');
 
     return (
@@ -91,7 +91,7 @@ export class LeftPaneFindByUsernameHelper extends LeftPaneHelper<LeftPaneFindByU
       event: React.ChangeEvent<HTMLInputElement>
     ) => unknown;
   }> &
-    DoLookupActionsType): ReactChild {
+    DoLookupActionsType): ReactNode {
     const placeholder = i18n(
       'icu:LeftPaneFindByHelper__placeholder--findByUsername'
     );
@@ -124,7 +124,7 @@ export class LeftPaneFindByUsernameHelper extends LeftPaneHelper<LeftPaneFindByU
   }: Readonly<{
     i18n: LocalizerType;
   }> &
-    DoLookupActionsType): ReactChild {
+    DoLookupActionsType): ReactNode {
     return (
       <Button
         disabled={this.#isLookupDisabled()}

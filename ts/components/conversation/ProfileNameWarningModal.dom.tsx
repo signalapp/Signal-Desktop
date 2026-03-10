@@ -35,7 +35,7 @@ export function ProfileNameWarningModal({
   conversationType,
   i18n,
   onClose,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   return (
     <Modal
       modalName="ProfileNameWarningModal"

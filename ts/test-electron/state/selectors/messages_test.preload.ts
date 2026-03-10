@@ -11,12 +11,12 @@ import type {
 } from '../../../model-types.d.ts';
 import type { ConversationType } from '../../../state/ducks/conversations.preload.js';
 import {
+  generateGroupId,
   getDefaultConversation,
   getDefaultGroup,
 } from '../../../test-helpers/getDefaultConversation.std.js';
 
 import {
-  canDeleteForEveryone,
   canReact,
   canReply,
   cleanBodyForDirectionCheck,
@@ -26,6 +26,14 @@ import {
   isIncoming,
   isOutgoing,
 } from '../../../state/selectors/message.preload.js';
+import type {
+  DeleteForEveryoneConversation,
+  DeleteForEveryoneMessage,
+} from '../../../util/canDeleteForEveryone.preload.js';
+import { canSendDeleteForEveryone } from '../../../util/canDeleteForEveryone.preload.js';
+import type { AciString } from '../../../types/ServiceId.std.js';
+import { SIGNAL_ACI } from '../../../types/SignalConversation.std.js';
+import { OUR_ACI, setupBasics } from '../../backup/helpers.preload.js';
 
 describe('state/selectors/messages', () => {
   let ourConversationId: string;
@@ -68,99 +76,168 @@ describe('state/selectors/messages', () => {
   });
 
   describe('canDeleteForEveryone', () => {
-    it('returns false for incoming messages', () => {
-      const message = {
-        type: 'incoming' as const,
-        sent_at: Date.now() - 1000,
-      };
-      const isMe = false;
+    const GROUP_ID = generateGroupId();
+    const otherAci = uuid() as AciString;
 
-      assert.isFalse(canDeleteForEveryone(message, isMe));
+    function getDefaultMessage(): DeleteForEveryoneMessage {
+      return {
+        type: 'outgoing',
+        sourceServiceId: OUR_ACI,
+        sent_at: Date.now() - 1000,
+        serverTimestamp: undefined,
+        deletedForEveryone: undefined,
+        sms: undefined,
+      };
+    }
+
+    function getDefaultConvo(): DeleteForEveryoneConversation {
+      return {
+        id: uuid(),
+        e164: undefined,
+        serviceId: undefined,
+        groupId: undefined,
+        groupVersion: undefined,
+      };
+    }
+
+    beforeEach(async () => {
+      await setupBasics();
     });
 
-    it('returns false for messages that were already deleted for everyone', () => {
-      const message = {
-        type: 'outgoing' as const,
-        deletedForEveryone: true,
-        sent_at: Date.now() - 1000,
-        sendStateByConversationId: {
-          [ourConversationId]: {
-            status: SendStatus.Read,
-            updatedAt: Date.now(),
-          },
-          [uuid()]: {
-            status: SendStatus.Delivered,
-            updatedAt: Date.now(),
-          },
-        },
-      };
-      const isMe = false;
-
-      assert.isFalse(canDeleteForEveryone(message, isMe));
+    it('rejects Signal conversation', () => {
+      const result = canSendDeleteForEveryone({
+        targetMessage: getDefaultMessage(),
+        targetConversation: { ...getDefaultConvo(), serviceId: SIGNAL_ACI },
+        ourAci: OUR_ACI,
+        isDeleterGroupAdmin: false,
+      });
+      assert.deepStrictEqual(result, {
+        ok: false,
+        reason: 'signal conversation',
+      });
     });
 
-    it('returns false for messages that were are too old to delete', () => {
-      const message = {
-        type: 'outgoing' as const,
-        sent_at: Date.now() - moment.duration(25, 'hours').asMilliseconds(),
-        sendStateByConversationId: {
-          [ourConversationId]: {
-            status: SendStatus.Read,
-            updatedAt: Date.now(),
-          },
-          [uuid()]: {
-            status: SendStatus.Delivered,
-            updatedAt: Date.now(),
-          },
-        },
-      };
-      const isMe = false;
-
-      assert.isFalse(canDeleteForEveryone(message, isMe));
+    it('rejects Note to Self', () => {
+      const result = canSendDeleteForEveryone({
+        targetMessage: getDefaultMessage(),
+        targetConversation: { ...getDefaultConvo(), serviceId: OUR_ACI },
+        ourAci: OUR_ACI,
+        isDeleterGroupAdmin: false,
+      });
+      assert.deepStrictEqual(result, {
+        ok: false,
+        reason: 'note to self conversation',
+      });
     });
 
-    it("returns false for messages that haven't been sent to anyone", () => {
-      const message = {
-        type: 'outgoing' as const,
-        sent_at: Date.now() - 1000,
-        sendStateByConversationId: {
-          [ourConversationId]: {
-            status: SendStatus.Failed,
-            updatedAt: Date.now(),
-          },
-          [uuid()]: {
-            status: SendStatus.Pending,
-            updatedAt: Date.now(),
-          },
-        },
-      };
-      const isMe = false;
-
-      assert.isFalse(canDeleteForEveryone(message, isMe));
+    it('rejects already deleted messages', () => {
+      const result = canSendDeleteForEveryone({
+        targetMessage: { ...getDefaultMessage(), deletedForEveryone: true },
+        targetConversation: getDefaultConvo(),
+        ourAci: OUR_ACI,
+        isDeleterGroupAdmin: false,
+      });
+      assert.deepStrictEqual(result, {
+        ok: false,
+        reason: 'already deleted',
+      });
     });
 
-    it('returns true for messages that meet all criteria for deletion', () => {
-      const message = {
-        type: 'outgoing' as const,
-        sent_at: Date.now() - 1000,
-        sendStateByConversationId: {
-          [ourConversationId]: {
-            status: SendStatus.Sent,
-            updatedAt: Date.now(),
-          },
-          [uuid()]: {
-            status: SendStatus.Delivered,
-            updatedAt: Date.now(),
-          },
-          [uuid()]: {
-            status: SendStatus.Failed,
-            updatedAt: Date.now(),
-          },
-        },
-      };
-      const isMe = false;
+    it('rejects SMS messages', () => {
+      const result = canSendDeleteForEveryone({
+        targetMessage: { ...getDefaultMessage(), sms: true },
+        targetConversation: getDefaultConvo(),
+        ourAci: OUR_ACI,
+        isDeleterGroupAdmin: false,
+      });
+      assert.deepStrictEqual(result, {
+        ok: false,
+        reason: 'sms message',
+      });
+    });
 
-      assert.isTrue(canDeleteForEveryone(message, isMe));
+    it('rejects messages that are too old', () => {
+      const result = canSendDeleteForEveryone({
+        targetMessage: {
+          ...getDefaultMessage(),
+          sent_at: Date.now() - moment.duration(25, 'hours').asMilliseconds(),
+        },
+        targetConversation: getDefaultConvo(),
+        ourAci: OUR_ACI,
+        isDeleterGroupAdmin: false,
+      });
+      assert.deepStrictEqual(result, {
+        ok: false,
+        reason: 'no permission',
+      });
+    });
+
+    it('rejects when deleter is not the author', () => {
+      const result = canSendDeleteForEveryone({
+        targetMessage: {
+          ...getDefaultMessage(),
+          type: 'incoming',
+          sourceServiceId: otherAci,
+        },
+        targetConversation: getDefaultConvo(),
+        ourAci: OUR_ACI,
+        isDeleterGroupAdmin: false,
+      });
+      assert.deepStrictEqual(result, {
+        ok: false,
+        reason: 'no permission',
+      });
+    });
+
+    it('accepts with isAdminDelete=false for own recent message', () => {
+      const result = canSendDeleteForEveryone({
+        targetMessage: getDefaultMessage(),
+        targetConversation: getDefaultConvo(),
+        ourAci: OUR_ACI,
+        isDeleterGroupAdmin: false,
+      });
+      assert.deepStrictEqual(result, {
+        ok: true,
+        needsAdminDelete: false,
+      });
+    });
+
+    it('accepts with isAdminDelete=true for admin deleting others message', () => {
+      const result = canSendDeleteForEveryone({
+        targetMessage: {
+          ...getDefaultMessage(),
+          type: 'incoming',
+          sourceServiceId: otherAci,
+        },
+        targetConversation: {
+          ...getDefaultConvo(),
+          groupId: GROUP_ID,
+          groupVersion: 2,
+        },
+        ourAci: OUR_ACI,
+        isDeleterGroupAdmin: true,
+      });
+      assert.deepStrictEqual(result, {
+        ok: true,
+        needsAdminDelete: true,
+      });
+    });
+
+    it('prefers normal delete over admin delete for own messages', () => {
+      const result = canSendDeleteForEveryone({
+        targetMessage: getDefaultMessage(),
+        targetConversation: {
+          ...getDefaultConvo(),
+          groupId: GROUP_ID,
+          groupVersion: 2,
+        },
+        ourAci: OUR_ACI,
+        isDeleterGroupAdmin: true,
+      });
+      assert.deepStrictEqual(result, {
+        ok: true,
+        needsAdminDelete: false,
+      });
     });
   });
 
@@ -272,7 +349,6 @@ describe('state/selectors/messages', () => {
       type: 'direct',
       title: 'Test conversation',
       isMe: false,
-      sharedGroupNames: [],
       acceptedMessageRequest: true,
       badges: [],
     };

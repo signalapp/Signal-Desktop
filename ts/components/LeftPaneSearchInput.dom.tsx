@@ -64,7 +64,7 @@ export function LeftPaneSearchInput({
   filterButtonEnabled = false,
   filterPressed = false,
   onFilterClick,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const inputRef = useRef<null | HTMLInputElement>(null);
 
   const prevSearchConversationId = usePrevious(
@@ -182,7 +182,6 @@ export function LeftPaneSearchInput({
               hasAvatar={searchConversation.hasAvatar}
               i18n={i18n}
               noteToSelf={searchConversation.isMe}
-              sharedGroupNames={searchConversation.sharedGroupNames}
               size={AvatarSize.TWENTY}
               title={searchConversation.title}
             />

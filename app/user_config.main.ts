@@ -8,6 +8,7 @@ import { app } from 'electron';
 import { start } from './base_config.node.js';
 import config from './config.main.js';
 import * as Errors from '../ts/types/errors.std.js';
+import OS from '../ts/util/os/osMain.node.js';
 
 let userData: string | undefined;
 // Use separate data directory for benchmarks & development
@@ -18,6 +19,8 @@ if (config.has('storagePath')) {
     app.getPath('appData'),
     `Signal-${config.get('storageProfile')}`
   );
+} else if (OS.isAppImage()) {
+  userData = join(app.getPath('appData'), `${app.getName()} AppImage`);
 }
 
 if (userData !== undefined) {

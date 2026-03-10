@@ -40,17 +40,19 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-export function YouWereInvited(args: PropsType): JSX.Element {
+export function YouWereInvited(args: PropsType): React.JSX.Element {
   return <GroupV1Migration {...args} areWeInvited />;
 }
 
 export function SingleDroppedAndSingleInvitedMember(
   args: PropsType
-): JSX.Element {
+): React.JSX.Element {
   return <GroupV1Migration {...args} />;
 }
 
-export function MultipleDroppedAndInvitedMembers(args: PropsType): JSX.Element {
+export function MultipleDroppedAndInvitedMembers(
+  args: PropsType
+): React.JSX.Element {
   return (
     <GroupV1Migration
       {...args}
@@ -62,7 +64,7 @@ export function MultipleDroppedAndInvitedMembers(args: PropsType): JSX.Element {
   );
 }
 
-export function JustInvitedMembers(args: PropsType): JSX.Element {
+export function JustInvitedMembers(args: PropsType): React.JSX.Element {
   return (
     <GroupV1Migration
       {...args}
@@ -74,7 +76,7 @@ export function JustInvitedMembers(args: PropsType): JSX.Element {
   );
 }
 
-export function JustDroppedMembers(args: PropsType): JSX.Element {
+export function JustDroppedMembers(args: PropsType): React.JSX.Element {
   return (
     <GroupV1Migration
       {...args}
@@ -86,7 +88,7 @@ export function JustDroppedMembers(args: PropsType): JSX.Element {
   );
 }
 
-export function NoDroppedOrInvitedMembers(args: PropsType): JSX.Element {
+export function NoDroppedOrInvitedMembers(args: PropsType): React.JSX.Element {
   return (
     <GroupV1Migration
       {...args}
@@ -98,7 +100,7 @@ export function NoDroppedOrInvitedMembers(args: PropsType): JSX.Element {
   );
 }
 
-export function NoArraysCountIsZero(args: PropsType): JSX.Element {
+export function NoArraysCountIsZero(args: PropsType): React.JSX.Element {
   return (
     <GroupV1Migration
       {...args}
@@ -110,7 +112,7 @@ export function NoArraysCountIsZero(args: PropsType): JSX.Element {
   );
 }
 
-export function NoArraysWithCount(args: PropsType): JSX.Element {
+export function NoArraysWithCount(args: PropsType): React.JSX.Element {
   return (
     <GroupV1Migration
       {...args}

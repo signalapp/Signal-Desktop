@@ -25,7 +25,7 @@ export function PollTerminateNotification({
   conversationId,
   i18n,
   scrollToPollMessage,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const handleViewPoll = () => {
     scrollToPollMessage(pollMessageId, conversationId);
   };

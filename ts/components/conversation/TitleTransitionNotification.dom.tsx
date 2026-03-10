@@ -19,7 +19,7 @@ export type PropsHousekeeping = {
 
 export type Props = PropsData & PropsHousekeeping;
 
-export function TitleTransitionNotification(props: Props): JSX.Element {
+export function TitleTransitionNotification(props: Props): React.JSX.Element {
   const { i18n, oldTitle } = props;
 
   return (

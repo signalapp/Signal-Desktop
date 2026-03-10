@@ -104,6 +104,8 @@ export async function initStorage(
           identifier: uuidToBytes(MY_STORY_ID),
           isBlockList: true,
           name: MY_STORY_ID,
+          deletedAtTimestamp: null,
+          recipientServiceIdsBinary: null,
         },
       },
     });
@@ -120,6 +122,9 @@ export async function initStorage(
           includeAllIndividualChats: true,
           includeAllGroupChats: true,
           folderType: Proto.ChatFolderRecord.FolderType.ALL,
+          includedRecipients: null,
+          excludedRecipients: null,
+          deletedAtTimestampMs: null,
         },
       },
     });
@@ -190,14 +195,23 @@ export function getStickerPackLink(pack: StickerPackType): string {
     .toString();
 }
 
+type StickerRecord = StorageStateRecord<{
+  record: 'stickerPack';
+  stickerPack: Proto.StickerPackRecord.Params;
+}>;
+
 export function getStickerPackRecordPredicate(
   pack: StickerPackType
-): (record: StorageStateRecord) => boolean {
-  return ({ type, record }: StorageStateRecord): boolean => {
+): (record: StorageStateRecord) => record is StickerRecord {
+  return (stateRecord: StorageStateRecord): stateRecord is StickerRecord => {
+    const { type, record } = stateRecord;
+    if (record.record !== 'stickerPack') {
+      return false;
+    }
     if (type !== IdentifierType.STICKER_PACK) {
       return false;
     }
-    return pack.id.equals(record.stickerPack?.packId ?? EMPTY);
+    return pack.id.equals(record.stickerPack.packId ?? EMPTY);
   };
 }
 
@@ -226,11 +240,21 @@ export async function storeStickerPacks(
   );
 }
 
+type CallLinkRecord = StorageStateRecord<{
+  record: 'callLink';
+  callLink: Proto.CallLinkRecord.Params;
+}>;
+
 export function getCallLinkRecordPredicate(
   roomId: string
-): (record: StorageStateRecord) => boolean {
-  return ({ type, record }: StorageStateRecord): boolean => {
-    const rootKeyBytes = record.callLink?.rootKey;
+): (record: StorageStateRecord) => record is CallLinkRecord {
+  return (stateRecord: StorageStateRecord): stateRecord is CallLinkRecord => {
+    const { type, record } = stateRecord;
+    if (record.record !== 'callLink') {
+      return false;
+    }
+
+    const rootKeyBytes = record.callLink.rootKey;
     if (type !== IdentifierType.CALL_LINK || rootKeyBytes == null) {
       return false;
     }
@@ -240,20 +264,29 @@ export function getCallLinkRecordPredicate(
   };
 }
 
+type ChatFolderRecord = StorageStateRecord<{
+  record: 'chatFolder';
+  chatFolder: Proto.ChatFolderRecord.Params;
+}>;
+
 export function getChatFolderRecordPredicate(
   folderType: keyof typeof Proto.ChatFolderRecord.FolderType,
   name: string,
   deleted: boolean
-): (record: StorageStateRecord) => boolean {
-  return ({ type, record }) => {
+): (record: StorageStateRecord) => record is ChatFolderRecord {
+  return (stateRecord): stateRecord is ChatFolderRecord => {
+    const { type, record } = stateRecord;
+    if (record.record !== 'chatFolder') {
+      return false;
+    }
+
     const { chatFolder } = record;
     if (type !== IdentifierType.CHAT_FOLDER || chatFolder == null) {
       return false;
     }
 
-    const deletedAtTimestampMs =
-      chatFolder.deletedAtTimestampMs?.toNumber() ?? 0;
-    const isDeleted = deletedAtTimestampMs > 0;
+    const deletedAtTimestampMs = chatFolder.deletedAtTimestampMs ?? 0n;
+    const isDeleted = deletedAtTimestampMs > 0n;
 
     return (
       chatFolder.folderType === Proto.ChatFolderRecord.FolderType[folderType] &&

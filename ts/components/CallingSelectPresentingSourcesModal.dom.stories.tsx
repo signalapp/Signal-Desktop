@@ -56,6 +56,6 @@ export default {
   title: 'Components/CallingSelectPresentingSourcesModal',
 } satisfies Meta<PropsType>;
 
-export function Modal(): JSX.Element {
+export function Modal(): React.JSX.Element {
   return <CallingSelectPresentingSourcesModal {...createProps()} />;
 }

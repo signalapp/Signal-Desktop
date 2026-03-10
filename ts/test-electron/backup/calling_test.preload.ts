@@ -181,7 +181,6 @@ describe('backup/calling', () => {
       const adminKey = CallLinkRootKey.generateAdminPassKey();
       adminCallLink = {
         rootKey: adminRootKey.toString(),
-        epoch: null,
         roomId: getRoomIdFromRootKey(adminRootKey),
         adminKey: fromAdminKeyBytes(adminKey),
         name: "Let's Talk Rocks",
@@ -197,7 +196,6 @@ describe('backup/calling', () => {
       const rootKey = CallLinkRootKey.generate();
       callLink = {
         rootKey: rootKey.toString(),
-        epoch: null,
         roomId: getRoomIdFromRootKey(rootKey),
         adminKey: null,
         name: "Let's Talk Rocks #2",

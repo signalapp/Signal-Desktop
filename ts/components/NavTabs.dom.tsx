@@ -152,7 +152,7 @@ export function NavTabsToggle({
   navTabsCollapsed,
   otherTabsUnreadStats,
   onToggleNavTabsCollapse,
-}: NavTabsToggleProps): JSX.Element {
+}: NavTabsToggleProps): React.JSX.Element {
   function handleToggle() {
     onToggleNavTabsCollapse(!navTabsCollapsed);
   }
@@ -238,7 +238,7 @@ export function NavTabs({
   unreadCallsCount,
   unreadConversationsStats,
   unreadStoriesCount,
-}: NavTabsProps): JSX.Element {
+}: NavTabsProps): React.JSX.Element {
   const [showingProfileMovedModal, setShowingProfileMovedModal] =
     useState(false);
 
@@ -250,6 +250,13 @@ export function NavTabs({
         details: {
           page: SettingsPage.Profile,
           state: ProfileEditorPage.None,
+        },
+      });
+    } else if (tab === NavTab.Chats) {
+      onChangeLocation({
+        tab: NavTab.Chats,
+        details: {
+          conversationId: undefined,
         },
       });
     } else {
@@ -372,9 +379,6 @@ export function NavTabs({
                       profileName={me.profileName}
                       theme={theme}
                       title={me.title}
-                      // `sharedGroupNames` makes no sense for yourself, but
-                      // `<Avatar>` needs it to determine blurring.
-                      sharedGroupNames={[]}
                       size={AvatarSize.TWENTY_EIGHT}
                     />
                   </span>

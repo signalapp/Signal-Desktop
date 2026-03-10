@@ -79,7 +79,7 @@ type PropsExternalType = {
     profileData: ProfileDataType,
     avatarUpdateOptions: AvatarUpdateOptionsType
   ) => unknown;
-  renderUsernameEditor: (props: { onClose: () => void }) => JSX.Element;
+  renderUsernameEditor: (props: { onClose: () => void }) => React.JSX.Element;
 };
 
 export type PropsDataType = {
@@ -200,7 +200,7 @@ export function ProfileEditor({
   usernameLinkColor,
   usernameLink,
   usernameLinkCorrupted,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const focusInputRef = useRef<HTMLInputElement | null>(null);
   const tryClose = useRef<() => void | undefined>();
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
@@ -352,7 +352,7 @@ export function ProfileEditor({
   }, [confirmDiscardIf, stagedProfile, fullName, fullBio, setStagedProfile]);
   tryClose.current = onTryClose;
 
-  let content: JSX.Element;
+  let content: React.JSX.Element;
 
   if (editState === ProfileEditorPage.BetterAvatar) {
     content = (
@@ -561,7 +561,7 @@ export function ProfileEditor({
       />
     );
   } else if (editState === ProfileEditorPage.None) {
-    let actions: JSX.Element | undefined;
+    let actions: React.JSX.Element | undefined;
     let alwaysShowActions = false;
 
     if (usernameEditState === UsernameEditState.Deleting) {
@@ -621,9 +621,9 @@ export function ProfileEditor({
       }
     }
 
-    let maybeUsernameLinkRow: JSX.Element | undefined;
+    let maybeUsernameLinkRow: React.JSX.Element | undefined;
     if (username && !usernameCorrupted) {
-      let linkActions: JSX.Element | undefined;
+      let linkActions: React.JSX.Element | undefined;
 
       if (usernameLinkCorrupted) {
         linkActions = (

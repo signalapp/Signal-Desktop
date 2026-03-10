@@ -3,7 +3,7 @@
 
 import * as z from 'zod';
 import PQueue from 'p-queue';
-import { CallLinkRootKey, CallLinkEpoch } from '@signalapp/ringrtc';
+import { CallLinkRootKey } from '@signalapp/ringrtc';
 import { createLogger } from '../logging/log.std.js';
 import type { LoggerType } from '../types/Logging.std.js';
 import { exponentialBackoffMaxAttempts } from '../util/exponentialBackoff.std.js';
@@ -38,7 +38,6 @@ const DEFAULT_SLEEP_TIME = 20 * SECOND;
 // the call link is confirmed valid on the calling server.
 const callLinkRefreshJobDataSchema = z.object({
   rootKey: z.string(),
-  epoch: z.string().nullable().optional(),
   adminKey: z.string().nullable().optional(),
   storageID: z.string().nullable().optional(),
   storageVersion: z.number().int().nullable().optional(),
@@ -83,13 +82,11 @@ export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
       storageVersion,
       storageUnknownFields,
       rootKey,
-      epoch,
       adminKey,
     } = parsedData ?? {};
     if (storageID && storageVersion && rootKey) {
       this.#pendingCallLinks.set(rootKey, {
         rootKey,
-        epoch: epoch ?? null,
         adminKey: adminKey ?? null,
         storageID: storageID ?? undefined,
         storageVersion: storageVersion ?? undefined,
@@ -168,9 +165,8 @@ export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
     }: Readonly<{ data: CallLinkRefreshJobData; timestamp: number }>,
     { attempt, log }: Readonly<{ attempt: number; log: LoggerType }>
   ): Promise<typeof JOB_STATUS.NEEDS_RETRY | undefined> {
-    const { rootKey, epoch, source } = data;
+    const { rootKey, source } = data;
     const callLinkRootKey = CallLinkRootKey.parse(rootKey);
-    const callLinkEpoch = epoch ? CallLinkEpoch.parse(epoch) : undefined;
     const roomId = getRoomIdFromRootKey(callLinkRootKey);
 
     const logId = `callLinkRefreshJobQueue(${roomId}, source=${source}).run`;
@@ -191,10 +187,7 @@ export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
     try {
       // This will either return the fresh call link state,
       // null (link deleted from server), or err (connection error)
-      const freshCallLinkState = await calling.readCallLink(
-        callLinkRootKey,
-        callLinkEpoch
-      );
+      const freshCallLinkState = await calling.readCallLink(callLinkRootKey);
       const existingCallLink = await DataReader.getCallLinkByRoomId(roomId);
 
       if (freshCallLinkState != null) {
@@ -218,7 +211,6 @@ export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
             ...freshCallLinkState,
             roomId,
             rootKey,
-            epoch: epoch ?? null,
             adminKey: adminKey ?? null,
             ...storageFields,
             storageNeedsSync: false,
@@ -247,7 +239,6 @@ export class CallLinkRefreshJobQueue extends JobQueue<CallLinkRefreshJobData> {
         await DataWriter.insertDefunctCallLink({
           roomId,
           rootKey,
-          epoch: data.epoch ?? null,
           adminKey: data.adminKey ?? null,
           ...storageFields,
           storageNeedsSync: false,

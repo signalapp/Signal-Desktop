@@ -23,17 +23,20 @@ import {
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import { getComposerStateForConversationIdSelector } from '../selectors/composer.preload.js';
 import {
+  getCachedConversationMemberColorsSelector,
   getConversationSelector,
   getGroupAdminsSelector,
-  getHasPanelOpen,
   getLastEditableMessageId,
   getMessages,
   getSelectedMessageIds,
   isMissingRequiredProfileSharing,
 } from '../selectors/conversations.dom.js';
+import { getHasPanelOpen } from '../selectors/nav.std.js';
+import { getSharedGroupNames } from '../../util/sharedGroupNames.dom.js';
 import {
   getDefaultConversationColor,
   getEmojiSkinToneDefault,
+  getItems,
   getTextFormattingEnabled,
 } from '../selectors/items.dom.js';
 import { canForward, getPropsForQuote } from '../selectors/message.preload.js';
@@ -42,6 +45,7 @@ import {
   getPlatform,
   getTheme,
   getUserConversationId,
+  getVersion,
 } from '../selectors/user.std.js';
 import { SmartCompositionRecording } from './CompositionRecording.preload.js';
 import type { SmartCompositionRecordingDraftProps } from './CompositionRecordingDraft.preload.js';
@@ -57,6 +61,8 @@ import { isConversationEverUnregistered } from '../../util/isConversationUnregis
 import { isDirectConversation } from '../../util/whatTypeOfConversation.dom.js';
 import { isConversationMuted } from '../../util/isConversationMuted.std.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { useNavActions } from '../ducks/nav.std.js';
+import { isFeaturedEnabledSelector } from '../../util/isFeatureEnabled.dom.js';
 
 function renderSmartCompositionRecording() {
   return <SmartCompositionRecording />;
@@ -83,6 +89,8 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
   const selectedMessageIds = useSelector(getSelectedMessageIds);
   const messageLookup = useSelector(getMessages);
   const isFormattingEnabled = useSelector(getTextFormattingEnabled);
+  const items = useSelector(getItems);
+  const version = useSelector(getVersion);
   const lastEditableMessageId = useSelector(getLastEditableMessageId);
   const platform = useSelector(getPlatform);
   const shouldHidePopovers = useSelector(getHasPanelOpen);
@@ -104,6 +112,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
     attachments: draftAttachments,
     focusCounter,
     disabledCounter,
+    isViewOnce,
     linkPreviewLoading,
     linkPreviewResult,
     messageCompositionId,
@@ -130,6 +139,10 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
   const groupAdmins = useMemo(() => {
     return getGroupAdmins(id);
   }, [getGroupAdmins, id]);
+  const getMemberColors = useSelector(
+    getCachedConversationMemberColorsSelector
+  );
+  const memberColors = getMemberColors(id);
 
   const addedBy = useMemo(() => {
     if (conversation.type === 'group') {
@@ -190,6 +203,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
     processAttachments,
     setMediaQualitySetting,
     setQuoteByMessageId,
+    setViewOnce,
     cancelJoinRequest,
     sendStickerMessage,
     sendEditedMessage,
@@ -198,7 +212,6 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
     setComposerFocus,
   } = useComposerActions();
   const {
-    pushPanelForConversation,
     discardEditMessage,
     acceptConversation,
     blockAndReportSpam,
@@ -211,6 +224,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
     setMuteExpiration,
     showConversation,
   } = useConversationsActions();
+  const { pushPanelForConversation } = useNavActions();
   const { cancelRecording, completeRecording, startRecording, errorRecording } =
     useAudioRecorderActions();
   const { onUseEmoji } = useEmojisActions();
@@ -228,12 +242,20 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
     <CompositionArea
       // Base
       conversationId={id}
+      draftBodyRanges={hydratedDraftBodyRanges ?? null}
       draftEditMessage={draftEditMessage ?? null}
+      draftText={conversation.draftText ?? null}
       focusCounter={focusCounter}
       getPreferredBadge={getPreferredBadge}
       i18n={i18n}
       isDisabled={isDisabled}
       isFormattingEnabled={isFormattingEnabled}
+      isPollSend1to1Enabled={isFeaturedEnabledSelector({
+        betaKey: 'desktop.pollSend1to1.beta',
+        prodKey: 'desktop.pollSend1to1.prod',
+        currentVersion: version,
+        remoteConfig: items.remoteConfig,
+      })}
       isActive={isActive}
       lastEditableMessageId={lastEditableMessageId ?? null}
       messageCompositionId={messageCompositionId}
@@ -281,6 +303,9 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       quotedMessageAuthorAci={quotedMessage?.quote?.authorAci ?? null}
       quotedMessageSentAt={quotedMessage?.quote?.id ?? null}
       setQuoteByMessageId={setQuoteByMessageId}
+      // View Once
+      isViewOnce={isViewOnce}
+      setViewOnce={setViewOnce}
       // Fun Picker
       emojiSkinToneDefault={emojiSkinToneDefault}
       onSelectEmoji={onUseEmoji}
@@ -307,7 +332,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       blockConversation={blockConversation}
       reportSpam={reportSpam}
       deleteConversation={deleteConversation}
-      sharedGroupNames={conversation.sharedGroupNames}
+      getSharedGroupNames={getSharedGroupNames}
       // Signal Conversation
       isSignalConversation={isSignalConversation(conversation)}
       isMuted={isConversationMuted(conversation)}
@@ -321,8 +346,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       areWePending={conversation.areWePending ?? null}
       areWePendingApproval={conversation.areWePendingApproval ?? null}
       groupAdmins={groupAdmins}
-      draftText={conversation.draftText ?? null}
-      draftBodyRanges={hydratedDraftBodyRanges ?? null}
+      memberColors={memberColors}
       renderSmartCompositionRecording={renderSmartCompositionRecording}
       renderSmartCompositionRecordingDraft={
         renderSmartCompositionRecordingDraft

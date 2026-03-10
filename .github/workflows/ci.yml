@@ -138,11 +138,9 @@ jobs:
     - name: Upload installer size
       if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && github.ref == 'refs/heads/main' }}
       run: |
-        node ts/scripts/dd-installer-size.node.js macos-arm64
-        node ts/scripts/dd-installer-size.node.js macos-x64
-        node ts/scripts/dd-installer-size.node.js macos-universal
-      env:
-        DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+        node ts/scripts/publish-installer-size.node.js macos-arm64
+        node ts/scripts/publish-installer-size.node.js macos-x64
+        node ts/scripts/publish-installer-size.node.js macos-universal
     - run: pnpm run test-release
       env:
         NODE_ENV: production
@@ -224,9 +222,7 @@ jobs:
 
     - name: Upload installer size
       if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && github.ref == 'refs/heads/main' }}
-      run: node ts/scripts/dd-installer-size.node.js linux
-      env:
-        DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+      run: node ts/scripts/publish-installer-size.node.js linux
 
     - run: xvfb-run --auto-servernum pnpm run test-node
 
@@ -234,7 +230,7 @@ jobs:
       uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
       with:
         repository: 'signalapp/Signal-Message-Backup-Tests'
-        ref: '551f9ad1186d196e8698df4a5750b239f0796a70'
+        ref: 'ec8104da8fed163dc47bd5ec5d048786eccc0dfb'
         path: 'backup-integration-tests'
 
     - run: xvfb-run --auto-servernum pnpm run test-electron
@@ -306,9 +302,7 @@ jobs:
 
     - name: Upload installer size
       if: ${{ github.repository == 'signalapp/Signal-Desktop-Private' && github.ref == 'refs/heads/main' }}
-      run: node ts/scripts/dd-installer-size.node.js windows
-      env:
-        DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+      run: node ts/scripts/publish-installer-size.node.js windows
 
     - run: pnpm run test-electron
       env:
@@ -396,8 +390,11 @@ jobs:
         path: ~/.electron-gyp
         key: electron-gyp-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
+    - name: Update apt
+      run: sudo apt-get update
+
     - name: Install xvfb and libpulse0
-      run: sudo apt-get install -y xvfb libpulse0 || (sudo apt-get update && sudo apt-get install -y xvfb libpulse0)
+      run: sudo apt-get install -y xvfb libpulse0
 
     # - name: Setup sccache
     #   uses: mozilla-actions/sccache-action@054db53350805f83040bf3e6e9b8cf5a139aa7c9 # v0.0.7

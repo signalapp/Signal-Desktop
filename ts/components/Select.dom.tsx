@@ -34,7 +34,7 @@ export const Select = React.forwardRef(function SelectInner(
     value,
   }: PropsType,
   ref: React.Ref<HTMLSelectElement>
-): JSX.Element {
+): React.JSX.Element {
   const onSelectChange = useCallback(
     (event: ChangeEvent<HTMLSelectElement>) => {
       onChange(event.target.value);

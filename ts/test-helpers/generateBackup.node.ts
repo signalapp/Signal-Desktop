@@ -123,6 +123,7 @@ function* createRecords({
         storiesDisabled: false,
         hasSeenGroupStoryEducationSheet: true,
         hasCompletedUsernameOnboarding: true,
+        hasSeenAdminDeleteEducationDialog: false,
         phoneNumberSharingMode:
           Backups.AccountData.PhoneNumberSharingMode.EVERYBODY,
         defaultChatStyle: {

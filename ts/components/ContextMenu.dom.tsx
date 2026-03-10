@@ -37,11 +37,11 @@ type RenderButtonProps = Readonly<{
 export type PropsType<T> = Readonly<{
   ariaLabel?: string;
   // contents of the button OR a function that will render the whole button
-  children?: ReactNode | ((props: RenderButtonProps) => JSX.Element);
+  children?: ReactNode | ((props: RenderButtonProps) => React.JSX.Element);
   i18n: LocalizerType;
   menuOptions: ReadonlyArray<ContextMenuOptionType<T>>;
   moduleClassName?: string;
-  button?: () => JSX.Element;
+  button?: () => React.JSX.Element;
   onClick?: (ev: React.MouseEvent) => unknown;
   onMenuShowingChanged?: (value: boolean) => unknown;
   popperOptions?: Pick<Options, 'placement' | 'strategy'>;
@@ -75,7 +75,7 @@ export function ContextMenu<T>({
   theme,
   title,
   value,
-}: PropsType<T>): JSX.Element {
+}: PropsType<T>): React.JSX.Element {
   const [isMenuShowing, setIsMenuShowing] = useState<boolean>(false);
   const [focusedIndex, setFocusedIndex] = useState<number | undefined>(
     undefined
@@ -224,7 +224,7 @@ export function ContextMenu<T>({
 
   const getClassName = getClassNamesFor('ContextMenu', moduleClassName);
 
-  const optionElements = new Array<JSX.Element>();
+  const optionElements = new Array<React.JSX.Element>();
   const isAnyOptionSelected = typeof value !== 'undefined';
 
   for (const [index, option] of menuOptions.entries()) {
@@ -317,12 +317,12 @@ export function ContextMenu<T>({
     </div>
   ) : undefined;
 
-  let buttonNode: JSX.Element;
+  let buttonNode: React.JSX.Element;
 
   if (typeof children === 'function') {
     buttonNode = (
       <>
-        {(children as (props: RenderButtonProps) => JSX.Element)({
+        {(children as (props: RenderButtonProps) => React.JSX.Element)({
           onClick: onClick || handleClick,
           onKeyDown: handleKeyDown,
           isMenuShowing,

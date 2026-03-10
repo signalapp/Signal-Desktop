@@ -20,6 +20,7 @@ export default {
   component: MediaEditor,
   args: {
     getPreferredBadge: () => undefined,
+    isHighQuality: false,
     i18n,
     imageToBlurHash: input => Promise.resolve(input.toString()),
     imageSrc: IMAGE_2,
@@ -53,6 +54,12 @@ Smol.args = {
 export const Portrait = Template.bind({});
 Portrait.args = {
   imageSrc: IMAGE_4,
+};
+
+export const ViewOnce = Template.bind({});
+ViewOnce.args = {
+  isViewOnce: false,
+  showViewOnceToggle: true,
 };
 
 export const Sending = Template.bind({});

@@ -33,7 +33,6 @@ describe('encryptProfileData', () => {
       badges: [],
       id: '',
       isMe: true,
-      sharedGroupNames: [],
       title: '',
       type: 'direct' as const,
     };

@@ -54,7 +54,7 @@ export default {
   title: 'Components/IncomingCallBar',
 } satisfies Meta<PropsType>;
 
-export function IncomingDirectCallVideo(): JSX.Element {
+export function IncomingDirectCallVideo(): React.JSX.Element {
   return (
     <IncomingCallBar
       {...commonProps}
@@ -65,7 +65,7 @@ export function IncomingDirectCallVideo(): JSX.Element {
   );
 }
 
-export function IncomingDirectCallAudio(): JSX.Element {
+export function IncomingDirectCallAudio(): React.JSX.Element {
   return (
     <IncomingCallBar
       {...commonProps}
@@ -76,7 +76,7 @@ export function IncomingDirectCallAudio(): JSX.Element {
   );
 }
 
-export function IncomingGroupCallOnlyCallingYou(): JSX.Element {
+export function IncomingGroupCallOnlyCallingYou(): React.JSX.Element {
   return (
     <IncomingCallBar
       {...commonProps}
@@ -88,7 +88,7 @@ export function IncomingGroupCallOnlyCallingYou(): JSX.Element {
   );
 }
 
-export function IncomingGroupCallCallingYouAnd1Other(): JSX.Element {
+export function IncomingGroupCallCallingYouAnd1Other(): React.JSX.Element {
   return (
     <IncomingCallBar
       {...commonProps}
@@ -100,7 +100,7 @@ export function IncomingGroupCallCallingYouAnd1Other(): JSX.Element {
   );
 }
 
-export function IncomingGroupCallCallingYouAnd2Others(): JSX.Element {
+export function IncomingGroupCallCallingYouAnd2Others(): React.JSX.Element {
   return (
     <IncomingCallBar
       {...commonProps}
@@ -115,7 +115,7 @@ export function IncomingGroupCallCallingYouAnd2Others(): JSX.Element {
   );
 }
 
-export function IncomingGroupCallCallingYouAnd3Others(): JSX.Element {
+export function IncomingGroupCallCallingYouAnd3Others(): React.JSX.Element {
   return (
     <IncomingCallBar
       {...commonProps}
@@ -131,7 +131,7 @@ export function IncomingGroupCallCallingYouAnd3Others(): JSX.Element {
   );
 }
 
-export function IncomingGroupCallCallingYouAnd4Others(): JSX.Element {
+export function IncomingGroupCallCallingYouAnd4Others(): React.JSX.Element {
   return (
     <IncomingCallBar
       {...commonProps}

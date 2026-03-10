@@ -20,7 +20,7 @@ export function CallParticipantCount({
   isAdhocJoinRequestPending,
   participantCount,
   toggleParticipants,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const isToggleVisible =
     Boolean(participantCount) || callMode === CallMode.Adhoc;
 

@@ -19,78 +19,6 @@
     margin-bottom: 12px;
   }
 
-  &__button {
-    @include mixins.button-reset();
-    & {
-      align-items: center;
-      border-radius: 4px;
-      display: flex;
-      height: 32px;
-      justify-content: center;
-      width: 32px;
-    }
-
-    @include mixins.keyboard-mode {
-      &:focus {
-        outline: 2px solid variables.$color-ultramarine;
-      }
-    }
-
-    & {
-      outline: none;
-    }
-
-    &::after {
-      content: '';
-      display: block;
-      flex-shrink: 0;
-      height: 20px;
-      width: 20px;
-
-      @include mixins.light-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/quality/quality-standard.svg',
-          variables.$color-gray-75
-        );
-      }
-      @include mixins.dark-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/quality/quality-standard.svg',
-          variables.$color-gray-15
-        );
-      }
-    }
-
-    &--hq {
-      &::after {
-        @include mixins.light-theme {
-          @include mixins.color-svg(
-            '../images/icons/v3/quality/quality-high.svg',
-            variables.$color-gray-75
-          );
-        }
-        @include mixins.dark-theme {
-          @include mixins.color-svg(
-            '../images/icons/v3/quality/quality-high.svg',
-            variables.$color-gray-15
-          );
-        }
-      }
-    }
-
-    &--active {
-      opacity: 1;
-
-      @include mixins.light-theme() {
-        background-color: variables.$color-gray-05;
-      }
-
-      @include mixins.dark-theme() {
-        background-color: variables.$color-gray-75;
-      }
-    }
-  }
-
   &__option {
     @include mixins.button-reset();
 
@@ -136,12 +64,12 @@
       }
     }
 
-    &--focused,
-    &:focus,
-    &:active {
-      border-radius: 6px;
-      box-shadow: 0 0 1px 1px variables.$color-ultramarine;
+    &:focus {
       outline: none;
+    }
+
+    &:focus-visible {
+      box-shadow: 0 0 1px 1px variables.$color-ultramarine;
     }
   }
 }

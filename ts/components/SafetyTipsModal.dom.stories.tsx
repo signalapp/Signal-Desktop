@@ -17,6 +17,6 @@ export default {
   },
 } satisfies ComponentMeta<SafetyTipsModalProps>;
 
-export function Default(args: SafetyTipsModalProps): JSX.Element {
+export function Default(args: SafetyTipsModalProps): React.JSX.Element {
   return <SafetyTipsModal {...args} />;
 }

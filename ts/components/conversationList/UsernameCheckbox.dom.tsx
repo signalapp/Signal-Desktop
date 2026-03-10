@@ -71,7 +71,6 @@ export const UsernameCheckbox: FunctionComponent<PropsType> = React.memo(
         searchResult
         i18n={i18n}
         title={title}
-        sharedGroupNames={[]}
         size={AvatarSize.THIRTY_TWO}
         badge={undefined}
       />

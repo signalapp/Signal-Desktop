@@ -12,12 +12,46 @@ import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.st
 import { fakeDraftAttachment } from '../test-helpers/fakeAttachment.std.js';
 import { landscapeGreenUrl } from '../storybook/Fixtures.std.js';
 import { RecordingState } from '../types/AudioRecorder.std.js';
-import { ConversationColors } from '../types/Colors.std.js';
+import { ContactNameColors, ConversationColors } from '../types/Colors.std.js';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
 import { PaymentEventKind } from '../types/Payment.std.js';
 import { EmojiSkinTone } from './fun/data/emojis.std.js';
+import { isNotNil } from '../util/isNotNil.std.js';
 
 const { i18n } = window.SignalContext;
+
+const groupAdmins = [
+  {
+    member: getDefaultConversation(),
+    labelEmoji: undefined,
+    labelString: undefined,
+  },
+  {
+    member: getDefaultConversation(),
+    labelEmoji: '✅',
+    labelString: 'Planner',
+  },
+  {
+    member: getDefaultConversation(),
+    labelEmoji: '#',
+    labelString: 'Invalid Emoji',
+  },
+  {
+    member: getDefaultConversation(),
+    labelEmoji: undefined,
+    labelString: 'No Emoji',
+  },
+];
+const memberColors = new Map(
+  groupAdmins
+    .map((admin, i): [string, string] | null => {
+      if (!admin.member.id) {
+        return null;
+      }
+      return [admin.member.id?.toString(), ContactNameColors[i]];
+    })
+    .filter(isNotNil)
+);
 
 export default {
   title: 'Components/CompositionArea',
@@ -45,6 +79,7 @@ export default {
     i18n,
     isDisabled: false,
     isFormattingEnabled: true,
+    isPollSend1to1Enabled: true,
     messageCompositionId: '456',
     sendEditedMessage: action('sendEditedMessage'),
     sendMultiMediaMessage: action('sendMultiMediaMessage'),
@@ -77,6 +112,9 @@ export default {
     // MediaQualitySelector
     setMediaQualitySetting: action('setMediaQualitySetting'),
     shouldSendHighQualityAttachments: false,
+    // ViewOnce
+    isViewOnce: false,
+    setViewOnce: action('setViewOnce'),
     // CompositionInput
     onEditorStateChange: action('onEditorStateChange'),
     onTextTooLong: action('onTextTooLong'),
@@ -95,13 +133,15 @@ export default {
     blockAndReportSpam: action('blockAndReportSpam'),
     deleteConversation: action('deleteConversation'),
     conversationName: getDefaultConversation(),
+    getSharedGroupNames: () => [],
     // GroupV1 Disabled Actions
     showGV2MigrationDialog: action('showGV2MigrationDialog'),
     // GroupV2
     announcementsOnly: false,
     areWeAdmin: false,
     areWePendingApproval: false,
-    groupAdmins: [],
+    groupAdmins,
+    memberColors,
     cancelJoinRequest: action('cancelJoinRequest'),
     showConversation: action('showConversation'),
     isSmsOnlyOrUnregistered: false,
@@ -119,12 +159,12 @@ export default {
   },
 } satisfies Meta<Props>;
 
-export function Default(args: Props): JSX.Element {
+export function Default(args: Props): React.JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return <CompositionArea {...args} theme={theme} />;
 }
 
-export function StartingText(args: Props): JSX.Element {
+export function StartingText(args: Props): React.JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return (
     <CompositionArea
@@ -135,19 +175,19 @@ export function StartingText(args: Props): JSX.Element {
   );
 }
 
-export function StickerButton(args: Props): JSX.Element {
+export function StickerButton(args: Props): React.JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return <CompositionArea {...args} theme={theme} />;
 }
 
-export function MessageRequest(args: Props): JSX.Element {
+export function MessageRequest(args: Props): React.JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return (
     <CompositionArea {...args} theme={theme} acceptedMessageRequest={false} />
   );
 }
 
-export function SmsOnlyFetchingUuid(args: Props): JSX.Element {
+export function SmsOnlyFetchingUuid(args: Props): React.JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return (
     <CompositionArea
@@ -159,12 +199,12 @@ export function SmsOnlyFetchingUuid(args: Props): JSX.Element {
   );
 }
 
-export function SmsOnly(args: Props): JSX.Element {
+export function SmsOnly(args: Props): React.JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return <CompositionArea {...args} theme={theme} isSmsOnlyOrUnregistered />;
 }
 
-export function Attachments(args: Props): JSX.Element {
+export function Attachments(args: Props): React.JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return (
     <CompositionArea
@@ -180,12 +220,29 @@ export function Attachments(args: Props): JSX.Element {
   );
 }
 
-export function PendingApproval(args: Props): JSX.Element {
+export function ViewOnceEnabled(args: Props): React.JSX.Element {
+  const theme = useContext(StorybookThemeContext);
+  return (
+    <CompositionArea
+      {...args}
+      theme={theme}
+      isViewOnce
+      draftAttachments={[
+        fakeDraftAttachment({
+          contentType: IMAGE_JPEG,
+          url: landscapeGreenUrl,
+        }),
+      ]}
+    />
+  );
+}
+
+export function PendingApproval(args: Props): React.JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return <CompositionArea {...args} theme={theme} areWePendingApproval />;
 }
 
-export function AnnouncementsOnlyGroup(args: Props): JSX.Element {
+export function AnnouncementsOnlyGroup(args: Props): React.JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return (
     <CompositionArea
@@ -197,7 +254,7 @@ export function AnnouncementsOnlyGroup(args: Props): JSX.Element {
   );
 }
 
-export function Quote(args: Props): JSX.Element {
+export function Quote(args: Props): React.JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return (
     <CompositionArea
@@ -217,7 +274,7 @@ export function Quote(args: Props): JSX.Element {
   );
 }
 
-export function QuoteWithPayment(args: Props): JSX.Element {
+export function QuoteWithPayment(args: Props): React.JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return (
     <CompositionArea
@@ -241,14 +298,14 @@ export function QuoteWithPayment(args: Props): JSX.Element {
   );
 }
 
-export function NoFormattingMenu(args: Props): JSX.Element {
+export function NoFormattingMenu(args: Props): React.JSX.Element {
   const theme = useContext(StorybookThemeContext);
   return (
     <CompositionArea {...args} theme={theme} isFormattingEnabled={false} />
   );
 }
 
-export function SignalConversationMuteToggle(args: Props): JSX.Element {
+export function SignalConversationMuteToggle(args: Props): React.JSX.Element {
   const theme = useContext(StorybookThemeContext);
   const [isMuted, setIsMuted] = useState(true);
 

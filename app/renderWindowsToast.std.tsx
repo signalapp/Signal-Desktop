@@ -4,9 +4,10 @@
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 
-import type { WindowsNotificationData } from '../ts/services/notifications.preload.js';
-
-import { NotificationType } from '../ts/types/notifications.std.js';
+import {
+  type WindowsNotificationData,
+  NotificationType,
+} from '../ts/types/notifications.std.js';
 import { missingCaseError } from '../ts/util/missingCaseError.std.js';
 import {
   cancelPresentingRoute,
@@ -78,6 +79,8 @@ export function renderWindowsToast({
     launch = showWindowRoute.toAppUrl({});
   } else if (type === NotificationType.IsPresenting) {
     launch = cancelPresentingRoute.toAppUrl({});
+  } else if (type === NotificationType.MinimizedToTray) {
+    launch = showWindowRoute.toAppUrl({});
   } else {
     throw missingCaseError(type);
   }

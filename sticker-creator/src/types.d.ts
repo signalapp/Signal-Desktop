@@ -85,4 +85,4 @@ export type LocaleType = Readonly<{
 export type RenderTextCallbackType = (options: {
   text: string;
   key: number;
-}) => JSX.Element | string;
+}) => React.JSX.Element | string;

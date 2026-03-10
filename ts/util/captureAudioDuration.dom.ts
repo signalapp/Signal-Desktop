@@ -14,6 +14,10 @@ export async function captureAudioDuration(
     logger: LoggerType;
   }
 ): Promise<AttachmentType> {
+  if (attachment.duration) {
+    return attachment;
+  }
+
   const audio = new window.Audio();
   audio.muted = true;
   audio.src = getLocalAttachmentUrl(attachment);

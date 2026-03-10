@@ -32,12 +32,11 @@ const getCommonProps = () => ({
   onClose: action('onClose'),
   showContactModal: action('showContactModal'),
   toggleSignalConnectionsModal: action('toggleSignalConnectionsModal'),
-  updateSharedGroups: action('updateSharedGroups'),
   removeMember: action('removeMember'),
   theme: ThemeType.light,
 });
 
-export function DirectConversationsWithSameTitle(): JSX.Element {
+export function DirectConversationsWithSameTitle(): React.JSX.Element {
   return (
     <ContactSpoofingReviewDialog
       {...getCommonProps()}
@@ -45,16 +44,18 @@ export function DirectConversationsWithSameTitle(): JSX.Element {
       possiblyUnsafe={{
         conversation: getDefaultConversation(),
         isSignalConnection: false,
+        sharedGroupNames: [],
       }}
       safe={{
         conversation: getDefaultConversation(),
         isSignalConnection: true,
+        sharedGroupNames: [],
       }}
     />
   );
 }
 
-export function NotAdminMany(): JSX.Element {
+export function NotAdminMany(): React.JSX.Element {
   return (
     <ContactSpoofingReviewDialog
       {...getCommonProps()}
@@ -68,21 +69,24 @@ export function NotAdminMany(): JSX.Element {
           oldName: 'Alicia',
           isSignalConnection: false,
           conversation: getDefaultConversation({ title: 'Alice' }),
+          sharedGroupNames: [],
         })),
         Bob: times(3, () => ({
           isSignalConnection: false,
           conversation: getDefaultConversation({ title: 'Bob' }),
+          sharedGroupNames: [],
         })),
         Charlie: times(5, () => ({
           isSignalConnection: false,
           conversation: getDefaultConversation({ title: 'Charlie' }),
+          sharedGroupNames: [],
         })),
       }}
     />
   );
 }
 
-export function NotAdminOne(): JSX.Element {
+export function NotAdminOne(): React.JSX.Element {
   return (
     <ContactSpoofingReviewDialog
       {...getCommonProps()}
@@ -97,11 +101,13 @@ export function NotAdminOne(): JSX.Element {
             oldName: 'Alicia',
             isSignalConnection: false,
             conversation: getDefaultConversation({ title: 'Alice' }),
+            sharedGroupNames: [],
           },
           {
             oldName: 'Alice',
             isSignalConnection: true,
             conversation: getDefaultConversation({ title: 'Alice' }),
+            sharedGroupNames: [],
           },
         ],
       }}
@@ -109,7 +115,7 @@ export function NotAdminOne(): JSX.Element {
   );
 }
 
-export function AdminMany(): JSX.Element {
+export function AdminMany(): React.JSX.Element {
   return (
     <ContactSpoofingReviewDialog
       {...getCommonProps()}
@@ -123,21 +129,24 @@ export function AdminMany(): JSX.Element {
           oldName: 'Alicia',
           isSignalConnection: false,
           conversation: getDefaultConversation({ title: 'Alice' }),
+          sharedGroupNames: [],
         })),
         Bob: times(3, () => ({
           isSignalConnection: false,
           conversation: getDefaultConversation({ title: 'Bob' }),
+          sharedGroupNames: [],
         })),
         Charlie: times(5, () => ({
           isSignalConnection: false,
           conversation: getDefaultConversation({ title: 'Charlie' }),
+          sharedGroupNames: [],
         })),
       }}
     />
   );
 }
 
-export function AdminOne(): JSX.Element {
+export function AdminOne(): React.JSX.Element {
   return (
     <ContactSpoofingReviewDialog
       {...getCommonProps()}
@@ -152,10 +161,12 @@ export function AdminOne(): JSX.Element {
             oldName: 'Alicia',
             isSignalConnection: false,
             conversation: getDefaultConversation({ title: 'Alice' }),
+            sharedGroupNames: [],
           },
           {
             isSignalConnection: true,
             conversation: getDefaultConversation({ title: 'Alice' }),
+            sharedGroupNames: [],
           },
         ],
       }}

@@ -68,7 +68,7 @@ function VerificationNotificationContents({
   }
 }
 
-export function VerificationNotification(props: Props): JSX.Element {
+export function VerificationNotification(props: Props): React.JSX.Element {
   const { type } = props;
   return (
     <SystemMessage

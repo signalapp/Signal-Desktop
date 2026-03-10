@@ -69,7 +69,8 @@ const { throttle } = lodash;
 
 const POLL_INTERVAL = 30 * durations.MINUTE;
 
-type JSONVendorSchema = {
+export type JSONVendorSchema = {
+  minGlibcVersion?: string;
   minOSVersion?: string;
   requireManualUpdate?: 'true' | 'false';
   requireUserConfirmation?: 'true' | 'false';
@@ -242,6 +243,31 @@ export abstract class Updater {
   ): void {
     ipcMain.removeHandler('start-update');
     ipcMain.handleOnce('start-update', performUpdateCallback);
+  }
+
+  protected checkSystemRequirements(vendor: JSONVendorSchema): boolean {
+    if (vendor.requireManualUpdate === 'true') {
+      this.logger.warn('checkSystemRequirements: manual update required');
+      this.markCannotUpdate(
+        new Error('yaml file has requireManualUpdate flag'),
+        DialogType.Cannot_Update_Require_Manual
+      );
+      return false;
+    }
+
+    if (vendor.minOSVersion && lt(osRelease(), vendor.minOSVersion)) {
+      this.logger.warn(
+        `checkSystemRequirements: OS version ${osRelease()} is less than the ` +
+          `minimum supported version ${vendor.minOSVersion}`
+      );
+      this.markCannotUpdate(
+        new Error('yaml file has unsatisfied minOSVersion value'),
+        DialogType.UnsupportedOS
+      );
+      return false;
+    }
+
+    return true;
   }
 
   protected markCannotUpdate(
@@ -563,27 +589,8 @@ export abstract class Updater {
     const parsedYaml = parseYaml(yaml);
 
     const { vendor } = parsedYaml;
-    if (vendor) {
-      if (vendor.requireManualUpdate === 'true') {
-        this.logger.warn('checkForUpdates: manual update required');
-        this.markCannotUpdate(
-          new Error('yaml file has requireManualUpdate flag'),
-          DialogType.Cannot_Update_Require_Manual
-        );
-        return;
-      }
-
-      if (vendor.minOSVersion && lt(osRelease(), vendor.minOSVersion)) {
-        this.logger.warn(
-          `checkForUpdates: OS version ${osRelease()} is less than the ` +
-            `minimum supported version ${vendor.minOSVersion}`
-        );
-        this.markCannotUpdate(
-          new Error('yaml file has unsatisfied minOSVersion value'),
-          DialogType.UnsupportedOS
-        );
-        return;
-      }
+    if (vendor && !this.checkSystemRequirements(vendor)) {
+      return;
     }
 
     const version = getVersion(parsedYaml);

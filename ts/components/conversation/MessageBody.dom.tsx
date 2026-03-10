@@ -40,7 +40,7 @@ function getSizeClass(str: string): FunJumboEmojiSize | null {
 }
 
 export type Props = {
-  author?: string;
+  author?: string | null;
   bodyRanges?: HydratedBodyRangesType;
   direction?: 'incoming' | 'outgoing';
   // If set, all emoji will be the same size. Otherwise, just one emoji will be large.
@@ -86,7 +86,7 @@ export function MessageBody({
   text,
   textAttachment,
   originalText,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const shouldDisableLinks =
     disableLinks || !shouldLinkifyMessage(originalText);
   const textWithSuffix =

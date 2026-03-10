@@ -23,7 +23,7 @@ import {
   sendStateReducer,
 } from '../messages/MessageSendState.std.js';
 import { canConversationBeUnarchived } from './canConversationBeUnarchived.preload.js';
-import { deleteForEveryone } from './deleteForEveryone.preload.js';
+import { receiveDeleteForEveryone } from './deleteForEveryone.preload.js';
 import { drop } from './drop.std.js';
 import { handleEditMessage } from './handleEditMessage.preload.js';
 import { isGroup } from './whatTypeOfConversation.dom.js';
@@ -33,10 +33,6 @@ import { getSourceServiceId } from '../messages/sources.preload.js';
 import { missingCaseError } from './missingCaseError.std.js';
 import { reduce } from './iterables.std.js';
 import { strictAssert } from './assert.std.js';
-import {
-  deleteAttachmentData,
-  deleteDownloadData,
-} from './migrations.preload.js';
 import {
   applyDeleteAttachmentFromMessage,
   applyDeleteMessage,
@@ -87,7 +83,7 @@ export async function modifyTargetMessage(
 
     if (isFullDelete) {
       if (!isFirstRun) {
-        await applyDeleteMessage(message.attributes, logId);
+        await applyDeleteMessage(message.attributes);
       }
 
       return ModifyTargetMessageResult.Deleted;
@@ -111,8 +107,6 @@ export async function modifyTargetMessage(
           {
             logId,
             shouldSave: false,
-            deleteAttachmentOnDisk: deleteAttachmentData,
-            deleteDownloadOnDisk: deleteDownloadData,
           }
         );
         if (result) {
@@ -355,7 +349,9 @@ export async function modifyTargetMessage(
   const deletes = Deletes.forMessage(message.attributes);
   await Promise.all(
     deletes.map(async del => {
-      await deleteForEveryone(message, del, false);
+      await receiveDeleteForEveryone(message, del, {
+        shouldPersist: !isFirstRun,
+      });
       changed = true;
     })
   );

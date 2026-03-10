@@ -30,7 +30,9 @@ type AnimationConfig = {
 
 // values is an array of emojis, which is useful when bursting multi skin tone set of
 // emojis to get the correct representation
-export function CallReactionBurstEmoji({ values }: PropsType): JSX.Element {
+export function CallReactionBurstEmoji({
+  values,
+}: PropsType): React.JSX.Element {
   const [toY, setToY] = React.useState<number>(0);
   const fromY = -50;
 
@@ -124,7 +126,7 @@ export function AnimatedEmoji({
   toY,
   springConfig,
   onAnimationEnd,
-}: AnimatedEmojiProps): JSX.Element {
+}: AnimatedEmojiProps): React.JSX.Element {
   const height = EMOJI_HEIGHT * toScale;
 
   const reducedMotion = useReducedMotion();

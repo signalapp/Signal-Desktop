@@ -24,10 +24,6 @@ import {
 } from './GoogleChrome.std.js';
 import type { LocalizerType } from '../types/Util.std.js';
 import { ThemeType } from '../types/Util.std.js';
-import { ReadStatus } from '../messages/MessageReadStatus.std.js';
-import type { MessageStatusType } from '../types/message/MessageStatus.std.js';
-import { isMoreRecentThan } from './timestamp.std.js';
-import { DAY } from './durations/index.std.js';
 import {
   isValidAttachmentKey,
   isValidDigest,
@@ -35,7 +31,6 @@ import {
 } from '../types/Crypto.std.js';
 import { missingCaseError } from './missingCaseError.std.js';
 import type { MessageAttachmentType } from '../types/AttachmentDownload.std.js';
-import { getFilePathsOwnedByAttachment } from './messageFilePaths.std.js';
 
 const {
   isNumber,
@@ -56,8 +51,6 @@ const MIN_TIMELINE_IMAGE_HEIGHT = 50;
 
 const MAX_DISPLAYABLE_IMAGE_WIDTH = 8192;
 const MAX_DISPLAYABLE_IMAGE_HEIGHT = 8192;
-
-const MAX_DURATION_TO_REUSE_ATTACHMENT_CDN_POINTER = 3 * DAY;
 
 // // Incoming message attachment fields
 // {
@@ -205,32 +198,6 @@ export function loadData(
   };
 }
 
-export function deleteAllAttachmentFilesOnDisk({
-  deleteAttachmentOnDisk,
-  deleteDownloadOnDisk,
-}: {
-  deleteAttachmentOnDisk: (path: string) => Promise<void>;
-  deleteDownloadOnDisk: (path: string) => Promise<void>;
-}): (attachment?: AttachmentType) => Promise<void> {
-  if (!isFunction(deleteAttachmentOnDisk)) {
-    throw new TypeError(
-      'deleteAttachmentOnDisk: deleteAttachmentOnDisk must be a function'
-    );
-  }
-
-  return async (attachment?: AttachmentType): Promise<void> => {
-    if (!isValid(attachment)) {
-      throw new TypeError('deleteData: attachment is not valid');
-    }
-
-    const result = getFilePathsOwnedByAttachment(attachment);
-    await Promise.all(
-      [...result.externalAttachments].map(deleteAttachmentOnDisk)
-    );
-    await Promise.all([...result.externalDownloads].map(deleteDownloadOnDisk));
-  };
-}
-
 // UI-focused functions
 
 export function getExtensionForDisplay({
@@ -263,22 +230,11 @@ export function getExtensionForDisplay({
 export function isAudio(attachments?: ReadonlyArray<AttachmentType>): boolean {
   return Boolean(
     attachments &&
-      attachments[0] &&
-      attachments[0].contentType &&
-      !attachments[0].isCorrupted &&
-      MIME.isAudio(attachments[0].contentType)
+    attachments[0] &&
+    attachments[0].contentType &&
+    !attachments[0].isCorrupted &&
+    MIME.isAudio(attachments[0].contentType)
   );
-}
-
-export function isPlayed(
-  direction: 'outgoing' | 'incoming',
-  status: MessageStatusType | undefined,
-  readStatus: ReadStatus | undefined
-): boolean {
-  if (direction === 'outgoing') {
-    return status === 'viewed';
-  }
-  return readStatus === ReadStatus.Viewed;
 }
 
 export function canRenderAudio(
@@ -303,11 +259,11 @@ export function canDisplayImage(
 
   return Boolean(
     height &&
-      height > 0 &&
-      height <= MAX_DISPLAYABLE_IMAGE_HEIGHT &&
-      width &&
-      width > 0 &&
-      width <= MAX_DISPLAYABLE_IMAGE_WIDTH
+    height > 0 &&
+    height <= MAX_DISPLAYABLE_IMAGE_HEIGHT &&
+    width &&
+    width > 0 &&
+    width <= MAX_DISPLAYABLE_IMAGE_WIDTH
   );
 }
 
@@ -336,9 +292,9 @@ export function getUrl(attachment: AttachmentForUIType): string | undefined {
 export function isImage(attachments?: ReadonlyArray<AttachmentType>): boolean {
   return Boolean(
     attachments &&
-      attachments[0] &&
-      attachments[0].contentType &&
-      isImageTypeSupported(attachments[0].contentType)
+    attachments[0] &&
+    attachments[0].contentType &&
+    isImageTypeSupported(attachments[0].contentType)
   );
 }
 
@@ -347,8 +303,8 @@ export function isImageAttachment(
 ): boolean {
   return Boolean(
     attachment &&
-      attachment.contentType &&
-      isImageTypeSupported(attachment.contentType)
+    attachment.contentType &&
+    isImageTypeSupported(attachment.contentType)
   );
 }
 
@@ -357,16 +313,16 @@ export function canBeTranscoded(
 ): boolean {
   return Boolean(
     attachment &&
-      isImageAttachment(attachment) &&
-      !MIME.isGif(attachment.contentType)
+    isImageAttachment(attachment) &&
+    !MIME.isGif(attachment.contentType)
   );
 }
 
 export function hasImage(attachments?: ReadonlyArray<AttachmentType>): boolean {
   return Boolean(
     attachments &&
-      attachments[0] &&
-      (attachments[0].url || attachments[0].pending || attachments[0].blurHash)
+    attachments[0] &&
+    (attachments[0].url || attachments[0].pending || attachments[0].blurHash)
   );
 }
 
@@ -439,7 +395,7 @@ export function isReadyToView(
   const resolved = resolveNestedAttachment(attachment);
   return Boolean(
     resolved &&
-      (resolved.path || resolved.textAttachment || isIncremental(resolved))
+    (resolved.path || resolved.textAttachment || isIncremental(resolved))
   );
 }
 
@@ -974,23 +930,6 @@ export function partitionBodyAndNormalAttachments<
     bodyAttachment: existingBodyAttachment ?? bodyAttachments[0],
     attachments: normalAttachments,
   };
-}
-
-export function canReuseExistingTransitCdnPointerForEditedMessage(
-  attachment: AttachmentType
-): attachment is AttachmentDownloadableFromTransitTier {
-  // In practice, this should always return true, since the timeframe for editing a
-  // message is less than MAX_DURATION_TO_REUSE_ATTACHMENT_CDN_POINTER
-  return (
-    isValidDigest(attachment.digest) &&
-    isValidAttachmentKey(attachment.key) &&
-    attachment.cdnKey != null &&
-    attachment.cdnNumber != null &&
-    isMoreRecentThan(
-      attachment.uploadTimestamp ?? 0,
-      MAX_DURATION_TO_REUSE_ATTACHMENT_CDN_POINTER
-    )
-  );
 }
 
 const MESSAGE_ATTACHMENT_TYPES_NEEDING_THUMBNAILS: Set<MessageAttachmentType> =

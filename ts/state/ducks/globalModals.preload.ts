@@ -1,6 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { CallSummary } from '@signalapp/ringrtc';
 import type { ThunkAction } from 'redux-thunk';
 import type { ReadonlyDeep } from 'type-fest';
 import OS from '../../util/os/osMain.node.js';
@@ -10,16 +11,18 @@ import type {
   ReadonlyMessageAttributesType,
 } from '../../model-types.d.ts';
 import type {
+  ActionCreator,
   MessageChangedActionType,
   MessageDeletedActionType,
-  MessageExpiredActionType,
 } from './conversations.preload.js';
 import type { MessagePropsType } from '../selectors/message.preload.js';
 import type { RecipientsByConversation } from './stories.preload.js';
 import type { SafetyNumberChangeSource } from '../../types/SafetyNumberChangeSource.std.js';
 import type { StateType as RootStateType } from '../reducer.preload.js';
 import * as SingleServePromise from '../../services/singleServePromise.std.js';
+import { isKeyTransparencyAvailable } from '../../services/keyTransparency.preload.js';
 import * as Stickers from '../../types/Stickers.preload.js';
+import type { ContactModalStateType } from '../../types/globalModals.std.js';
 import { UsernameOnboardingState } from '../../types/globalModals.std.js';
 import { createLogger } from '../../logging/log.std.js';
 import {
@@ -36,7 +39,6 @@ import { getGroupMigrationMembers } from '../../groups.preload.js';
 import {
   MESSAGE_CHANGED,
   MESSAGE_DELETED,
-  MESSAGE_EXPIRED,
   actions as conversationsActions,
 } from './conversations.preload.js';
 import { isDownloaded } from '../../util/Attachment.std.js';
@@ -47,6 +49,7 @@ import type { MessageForwardDraft } from '../../types/ForwardDraft.std.js';
 import { hydrateRanges } from '../../util/BodyRange.node.js';
 import {
   getConversationSelector,
+  getHasMaxPinnedMessages,
   type GetConversationByIdType,
 } from '../selectors/conversations.dom.js';
 import { missingCaseError } from '../../util/missingCaseError.std.js';
@@ -55,11 +58,15 @@ import type { CallLinkType } from '../../types/CallLink.std.js';
 import type { LocalizerType } from '../../types/I18N.std.js';
 import { linkCallRoute } from '../../util/signalRoutes.std.js';
 import type { StartCallData } from '../../components/ConfirmLeaveCallModal.dom.js';
+import type { CallQualitySurvey } from '../../types/CallQualitySurvey.std.js';
 import { getMessageById } from '../../messages/getMessageById.preload.js';
 import type { DataPropsType as TapToViewNotAvailablePropsType } from '../../components/TapToViewNotAvailableModal.dom.js';
 import type { DataPropsType as BackfillFailureModalPropsType } from '../../components/BackfillFailureModal.dom.js';
 import type { SmartDraftGifMessageSendModalProps } from '../smart/DraftGifMessageSendModal.preload.js';
 import { onCriticalIdlePrimaryDeviceModalDismissed } from '../../util/handleServerAlerts.preload.js';
+import type { PinMessageDialogData } from '../smart/PinMessageDialog.preload.js';
+import type { StateThunk } from '../types.std.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 const log = createLogger('globalModals');
 
@@ -102,13 +109,23 @@ type MigrateToGV2PropsType = ReadonlyDeep<{
   invitedMemberIds: Array<string>;
 }>;
 
+export type CallQualitySurveyPropsType = ReadonlyDeep<{
+  callSummary: CallSummary;
+  callType: CallQualitySurvey.CallType;
+}>;
+
+export type GroupMemberLabelInfoPropsType = ReadonlyDeep<{
+  conversationId: string;
+}>;
+
 export type GlobalModalsStateType = ReadonlyDeep<{
   addUserToAnotherGroupModalContactId?: string;
-  aboutContactModalContactId?: string;
+  aboutContactModalState?: ContactModalStateType;
   backfillFailureModalProps: BackfillFailureModalPropsType | undefined;
   callLinkAddNameModalRoomId: string | null;
   callLinkEditModalRoomId: string | null;
   callLinkPendingParticipantContactId: string | undefined;
+  callQualitySurveyProps: CallQualitySurveyPropsType | null;
   confirmLeaveCallModalState: StartCallData | null;
   contactModalState?: ContactModalStateType;
   criticalIdlePrimaryDeviceModal: boolean;
@@ -126,6 +143,7 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   };
   forwardMessagesProps?: ForwardMessagesPropsType;
   gv2MigrationProps?: MigrateToGV2PropsType;
+  groupMemberLabelInfoModalState?: GroupMemberLabelInfoPropsType;
   hasConfirmationModal: boolean;
   isProfileNameWarningModalVisible: boolean;
   profileNameWarningModalConversationType?: string;
@@ -133,11 +151,14 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   isSignalConnectionsVisible: boolean;
   isStoriesSettingsVisible: boolean;
   isWhatsNewVisible: boolean;
+  isKeyTransparencyErrorVisible: boolean;
+  isKeyTransparencyOnboardingVisible: boolean;
   lowDiskSpaceBackupImportModal: {
     bytesNeeded: number;
   } | null;
   messageRequestActionsConfirmationProps: MessageRequestActionsConfirmationPropsType | null;
   notePreviewModalProps: NotePreviewModalPropsType | null;
+  pinMessageDialogData: PinMessageDialogData | null;
   usernameOnboardingState: UsernameOnboardingState;
   mediaPermissionsModalProps?: {
     mediaType: 'camera' | 'microphone';
@@ -163,6 +184,14 @@ const HIDE_CONTACT_MODAL = 'globalModals/HIDE_CONTACT_MODAL';
 const SHOW_CONTACT_MODAL = 'globalModals/SHOW_CONTACT_MODAL';
 const HIDE_WHATS_NEW_MODAL = 'globalModals/HIDE_WHATS_NEW_MODAL_MODAL';
 const SHOW_WHATS_NEW_MODAL = 'globalModals/SHOW_WHATS_NEW_MODAL_MODAL';
+const HIDE_KEY_TRANSPARENCY_ERROR_DIALOG =
+  'globalModals/HIDE_KEY_TRANSPARENCY_ERROR_DIALOG';
+const SHOW_KEY_TRANSPARENCY_ERROR_DIALOG =
+  'globalModals/SHOW_KEY_TRANSPARENCY_ERROR_DIALOG';
+const HIDE_KEY_TRANSPARENCY_ONBOARDING_DIALOG =
+  'globalModals/HIDE_KEY_TRANSPARENCY_ONBOARDING_DIALOG';
+const SHOW_KEY_TRANSPARENCY_ONBOARDING_DIALOG =
+  'globalModals/SHOW_KEY_TRANSPARENCY_ONBOARDING_DIALOG';
 const HIDE_SERVICE_ID_NOT_FOUND_MODAL =
   'globalModals/HIDE_SERVICE_ID_NOT_FOUND_MODAL';
 const SHOW_SERVICE_ID_NOT_FOUND_MODAL =
@@ -186,6 +215,8 @@ const TOGGLE_CALL_LINK_ADD_NAME_MODAL =
 const TOGGLE_CALL_LINK_EDIT_MODAL = 'globalModals/TOGGLE_CALL_LINK_EDIT_MODAL';
 const TOGGLE_CALL_LINK_PENDING_PARTICIPANT_MODAL =
   'globalModals/TOGGLE_CALL_LINK_PENDING_PARTICIPANT_MODAL';
+export const SHOW_CALL_QUALITY_SURVEY = 'globalModals/SHOW_CALL_QUALITY_SURVEY';
+export const HIDE_CALL_QUALITY_SURVEY = 'globalModals/HIDE_CALL_QUALITY_SURVEY';
 const TOGGLE_ABOUT_MODAL = 'globalModals/TOGGLE_ABOUT_MODAL';
 const TOGGLE_SIGNAL_CONNECTIONS_MODAL =
   'globalModals/TOGGLE_SIGNAL_CONNECTIONS_MODAL';
@@ -201,6 +232,8 @@ const CLOSE_DEBUG_LOG_ERROR_MODAL = 'globalModals/CLOSE_DEBUG_LOG_ERROR_MODAL';
 const SHOW_DEBUG_LOG_ERROR_MODAL = 'globalModals/SHOW_DEBUG_LOG_ERROR_MODAL';
 const TOGGLE_EDIT_NICKNAME_AND_NOTE_MODAL =
   'globalModals/TOGGLE_EDIT_NICKNAME_AND_NOTE_MODAL';
+const TOGGLE_GROUP_MEMBER_LABEL_INFO_MODAL =
+  'globalModals/TOGGLE_GROUP_MEMBER_LABEL_INFO_MODAL';
 const TOGGLE_MESSAGE_REQUEST_ACTIONS_CONFIRMATION =
   'globalModals/TOGGLE_MESSAGE_REQUEST_ACTIONS_CONFIRMATION';
 const CLOSE_SHORTCUT_GUIDE_MODAL = 'globalModals/CLOSE_SHORTCUT_GUIDE_MODAL';
@@ -223,11 +256,7 @@ const SHOW_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL =
   'globalModals/SHOW_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL';
 const HIDE_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL =
   'globalModals/HIDE_LOW_DISK_SPACE_BACKUP_IMPORT_MODAL';
-
-export type ContactModalStateType = ReadonlyDeep<{
-  contactId: string;
-  conversationId?: string;
-}>;
+const TOGGLE_PIN_MESSAGE_DIALOG = 'globalModals/TOGGLE_PIN_MESSAGE_DIALOG';
 
 export type UserNotFoundModalStateType = ReadonlyDeep<
   | {
@@ -273,6 +302,22 @@ type HideWhatsNewModalActionType = ReadonlyDeep<{
 
 type ShowWhatsNewModalActionType = ReadonlyDeep<{
   type: typeof SHOW_WHATS_NEW_MODAL;
+}>;
+
+type HideKeyTransparencyErrorDialogActionType = ReadonlyDeep<{
+  type: typeof HIDE_KEY_TRANSPARENCY_ERROR_DIALOG;
+}>;
+
+type ShowKeyTransparencyErrorDialogActionType = ReadonlyDeep<{
+  type: typeof SHOW_KEY_TRANSPARENCY_ERROR_DIALOG;
+}>;
+
+type HideKeyTransparencyOnboardingDialogActionType = ReadonlyDeep<{
+  type: typeof HIDE_KEY_TRANSPARENCY_ONBOARDING_DIALOG;
+}>;
+
+type ShowKeyTransparencyOnboardingDialogActionType = ReadonlyDeep<{
+  type: typeof SHOW_KEY_TRANSPARENCY_ONBOARDING_DIALOG;
 }>;
 
 type HideUserNotFoundModalActionType = ReadonlyDeep<{
@@ -341,9 +386,18 @@ type ToggleCallLinkPendingParticipantModalActionType = ReadonlyDeep<{
   payload: string | undefined;
 }>;
 
+export type ShowCallQualitySurveyActionType = ReadonlyDeep<{
+  type: typeof SHOW_CALL_QUALITY_SURVEY;
+  payload: CallQualitySurveyPropsType;
+}>;
+
+export type HideCallQualitySurveyActionType = ReadonlyDeep<{
+  type: typeof HIDE_CALL_QUALITY_SURVEY;
+}>;
+
 type ToggleAboutContactModalActionType = ReadonlyDeep<{
   type: typeof TOGGLE_ABOUT_MODAL;
-  payload: string | undefined;
+  payload: ContactModalStateType | undefined;
 }>;
 
 type ToggleSignalConnectionsModalActionType = ReadonlyDeep<{
@@ -457,6 +511,11 @@ type ToggleEditNicknameAndNoteModalActionType = ReadonlyDeep<{
   payload: EditNicknameAndNoteModalPropsType | null;
 }>;
 
+type ToggleGroupMemberLabelInfoModalActionType = ReadonlyDeep<{
+  type: typeof TOGGLE_GROUP_MEMBER_LABEL_INFO_MODAL;
+  payload: GroupMemberLabelInfoPropsType | undefined;
+}>;
+
 type ToggleMessageRequestActionsConfirmationActionType = ReadonlyDeep<{
   type: typeof TOGGLE_MESSAGE_REQUEST_ACTIONS_CONFIRMATION;
   payload: MessageRequestActionsConfirmationPropsType | null;
@@ -481,6 +540,11 @@ type CloseEditHistoryModalActionType = ReadonlyDeep<{
   type: typeof CLOSE_EDIT_HISTORY_MODAL;
 }>;
 
+type TogglePinMessageDialogActionType = ReadonlyDeep<{
+  type: typeof TOGGLE_PIN_MESSAGE_DIALOG;
+  payload: PinMessageDialogData | null;
+}>;
+
 export type GlobalModalsActionType = ReadonlyDeep<
   | CloseEditHistoryModalActionType
   | CloseDebugLogErrorModalActionType
@@ -490,8 +554,11 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | CloseShortcutGuideModalActionType
   | CloseStickerPackPreviewActionType
   | HideBackfillFailureModalActionType
+  | HideCallQualitySurveyActionType
   | HideContactModalActionType
   | HideCriticalIdlePrimaryDeviceModalActionType
+  | HideKeyTransparencyErrorDialogActionType
+  | HideKeyTransparencyOnboardingDialogActionType
   | HideLowDiskSpaceBackupImportModalActionType
   | HideSendAnywayDialogActiontype
   | HideStoriesSettingsActionType
@@ -500,13 +567,15 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | HideWhatsNewModalActionType
   | MessageChangedActionType
   | MessageDeletedActionType
-  | MessageExpiredActionType
   | ShowBackfillFailureModalActionType
+  | ShowCallQualitySurveyActionType
   | ShowCriticalIdlePrimaryDeviceModalActionType
   | ShowContactModalActionType
   | ShowDebugLogErrorModalActionType
   | ShowEditHistoryModalActionType
   | ShowErrorModalActionType
+  | ShowKeyTransparencyErrorDialogActionType
+  | ShowKeyTransparencyOnboardingDialogActionType
   | ShowLowDiskSpaceBackupImportModalActionType
   | ShowMediaPermissionsModalActionType
   | ShowSendAnywayDialogActionType
@@ -528,12 +597,14 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ToggleDraftGifMessageSendModalActionType
   | ToggleEditNicknameAndNoteModalActionType
   | ToggleForwardMessagesModalActionType
+  | ToggleGroupMemberLabelInfoModalActionType
   | ToggleMessageRequestActionsConfirmationActionType
   | ToggleNotePreviewModalActionType
   | ToggleProfileNameWarningModalActionType
   | ToggleSafetyNumberModalActionType
   | ToggleSignalConnectionsModalActionType
   | ToggleUsernameOnboardingActionType
+  | TogglePinMessageDialogActionType
 >;
 
 // Action Creators
@@ -547,10 +618,14 @@ export const actions = {
   closeStickerPackPreview,
   closeMediaPermissionsModal,
   ensureSystemMediaPermissions,
+  finishKeyTransparencyOnboarding,
   hideBackfillFailureModal,
   hideBlockingSafetyNumberChangeDialog,
+  hideCallQualitySurvey,
   hideContactModal,
   hideCriticalIdlePrimaryDeviceModal,
+  hideKeyTransparencyErrorDialog,
+  hideKeyTransparencyOnboardingDialog,
   hideLowDiskSpaceBackupImportModal,
   hideStoriesSettings,
   hideTapToViewNotAvailableModal,
@@ -558,12 +633,15 @@ export const actions = {
   hideWhatsNewModal,
   showBackfillFailureModal,
   showBlockingSafetyNumberChangeDialog,
+  showCallQualitySurvey,
   showContactModal,
   showCriticalIdlePrimaryDeviceModal,
   showDebugLogErrorModal,
   showEditHistoryModal,
   showErrorModal,
   showGV2MigrationDialog,
+  showKeyTransparencyErrorDialog,
+  showKeyTransparencyOnboardingDialog,
   showLowDiskSpaceBackupImportModal,
   showShareCallLinkViaSignal,
   showShortcutGuideModal,
@@ -583,12 +661,15 @@ export const actions = {
   toggleDraftGifMessageSendModal,
   toggleEditNicknameAndNoteModal,
   toggleForwardMessagesModal,
+  toggleGroupMemberLabelInfoModal,
   toggleMessageRequestActionsConfirmation,
   toggleNotePreviewModal,
   toggleProfileNameWarningModal,
   toggleSafetyNumberModal,
   toggleSignalConnectionsModal,
   toggleUsernameOnboarding,
+  showPinMessageDialog,
+  hidePinMessageDialog,
 };
 
 export const useGlobalModalActions = (): BoundActionCreatorsMapObject<
@@ -625,19 +706,47 @@ function hideBackfillFailureModal(): HideBackfillFailureModalActionType {
   };
 }
 
+function showCallQualitySurvey(
+  payload: CallQualitySurveyPropsType
+): ShowCallQualitySurveyActionType {
+  return {
+    type: SHOW_CALL_QUALITY_SURVEY,
+    payload,
+  };
+}
+
+export function hideCallQualitySurvey(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  HideCallQualitySurveyActionType
+> {
+  return dispatch => {
+    window.IPC.closeDebugLog();
+    window.IPC.closeCallDiagnostic();
+    dispatch({ type: HIDE_CALL_QUALITY_SURVEY });
+  };
+}
+
 function hideContactModal(): HideContactModalActionType {
   return {
     type: HIDE_CONTACT_MODAL,
   };
 }
 
-function showContactModal(
-  contactId: string,
-  conversationId?: string
-): ShowContactModalActionType {
+function showContactModal({
+  activeCallDemuxId,
+  contactId,
+  conversationId,
+}: {
+  contactId: string;
+  conversationId?: string;
+  activeCallDemuxId?: number;
+}): ShowContactModalActionType {
   return {
     type: SHOW_CONTACT_MODAL,
     payload: {
+      activeCallDemuxId,
       contactId,
       conversationId,
     },
@@ -653,6 +762,30 @@ function hideWhatsNewModal(): HideWhatsNewModalActionType {
 function showWhatsNewModal(): ShowWhatsNewModalActionType {
   return {
     type: SHOW_WHATS_NEW_MODAL,
+  };
+}
+
+function hideKeyTransparencyErrorDialog(): HideKeyTransparencyErrorDialogActionType {
+  return {
+    type: HIDE_KEY_TRANSPARENCY_ERROR_DIALOG,
+  };
+}
+
+function showKeyTransparencyErrorDialog(): ShowKeyTransparencyErrorDialogActionType {
+  return {
+    type: SHOW_KEY_TRANSPARENCY_ERROR_DIALOG,
+  };
+}
+
+function hideKeyTransparencyOnboardingDialog(): HideKeyTransparencyOnboardingDialogActionType {
+  return {
+    type: HIDE_KEY_TRANSPARENCY_ONBOARDING_DIALOG,
+  };
+}
+
+function showKeyTransparencyOnboardingDialog(): ShowKeyTransparencyOnboardingDialogActionType {
+  return {
+    type: SHOW_KEY_TRANSPARENCY_ONBOARDING_DIALOG,
   };
 }
 
@@ -769,7 +902,9 @@ export type ForwardMessagesPayload = ReadonlyDeep<
       messageIds: ReadonlyArray<string>;
     }
   | {
-      type: ForwardMessagesModalType.ShareCallLink;
+      type:
+        | ForwardMessagesModalType.ForwardAttachment
+        | ForwardMessagesModalType.ShareCallLink;
       draft: MessageForwardDraft;
     }
 >;
@@ -844,10 +979,13 @@ function toggleForwardMessagesModal(
           return messageDraft;
         })
       );
-    } else if (payload.type === ForwardMessagesModalType.ShareCallLink) {
+    } else if (
+      payload.type === ForwardMessagesModalType.ForwardAttachment ||
+      payload.type === ForwardMessagesModalType.ShareCallLink
+    ) {
       messageDrafts = [payload.draft];
     } else {
-      throw missingCaseError(payload);
+      throw missingCaseError(payload.type);
     }
 
     dispatch({
@@ -870,7 +1008,6 @@ function showShareCallLinkViaSignal(
     const url = linkCallRoute
       .toWebUrl({
         key: callLink.rootKey,
-        epoch: callLink.epoch,
       })
       .toString();
     dispatch(
@@ -927,10 +1064,25 @@ function toggleProfileNameWarningModal(
 
 function toggleSafetyNumberModal(
   safetyNumberModalContactId?: string
-): ToggleSafetyNumberModalActionType {
-  return {
-    type: TOGGLE_SAFETY_NUMBER_MODAL,
-    payload: safetyNumberModalContactId,
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  | ShowKeyTransparencyOnboardingDialogActionType
+  | ToggleSafetyNumberModalActionType
+> {
+  return dispatch => {
+    if (
+      isKeyTransparencyAvailable() &&
+      safetyNumberModalContactId != null &&
+      !itemStorage.get('hasSeenKeyTransparencyOnboarding')
+    ) {
+      dispatch(showKeyTransparencyOnboardingDialog());
+    }
+    dispatch({
+      type: TOGGLE_SAFETY_NUMBER_MODAL,
+      payload: safetyNumberModalContactId,
+    });
   };
 }
 
@@ -971,11 +1123,11 @@ function toggleCallLinkPendingParticipantModal(
 }
 
 function toggleAboutContactModal(
-  contactId?: string
+  payload?: ContactModalStateType
 ): ToggleAboutContactModalActionType {
   return {
     type: TOGGLE_ABOUT_MODAL,
-    payload: contactId,
+    payload,
   };
 }
 
@@ -1157,6 +1309,18 @@ export function ensureSystemMediaPermissions(
   };
 }
 
+function finishKeyTransparencyOnboarding(): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  HideKeyTransparencyOnboardingDialogActionType
+> {
+  return async dispatch => {
+    await itemStorage.put('hasSeenKeyTransparencyOnboarding', true);
+    dispatch(hideKeyTransparencyOnboardingDialog());
+  };
+}
+
 function showCriticalIdlePrimaryDeviceModal(): ShowCriticalIdlePrimaryDeviceModalActionType {
   return {
     type: SHOW_CRITICAL_IDLE_PRIMARY_DEVICE_MODAL,
@@ -1199,6 +1363,18 @@ function toggleEditNicknameAndNoteModal(
 ): ToggleEditNicknameAndNoteModalActionType {
   return {
     type: TOGGLE_EDIT_NICKNAME_AND_NOTE_MODAL,
+    payload,
+  };
+}
+
+export type ToggleGroupMemberLabelInfoModalType = ReadonlyDeep<
+  ActionCreator<typeof toggleGroupMemberLabelInfoModal>
+>;
+function toggleGroupMemberLabelInfoModal(
+  payload: GroupMemberLabelInfoPropsType | undefined
+): ToggleGroupMemberLabelInfoModalActionType {
+  return {
+    type: TOGGLE_GROUP_MEMBER_LABEL_INFO_MODAL,
     payload,
   };
 }
@@ -1297,6 +1473,30 @@ function copyOverMessageAttributesIntoForwardMessages(
   });
 }
 
+function showPinMessageDialog(
+  messageId: string,
+  isPinningDisappearingMessage: boolean
+): StateThunk<TogglePinMessageDialogActionType> {
+  return async (dispatch, getState) => {
+    const hasMaxPinnedMessages = getHasMaxPinnedMessages(getState());
+    dispatch({
+      type: TOGGLE_PIN_MESSAGE_DIALOG,
+      payload: {
+        messageId,
+        hasMaxPinnedMessages,
+        isPinningDisappearingMessage,
+      },
+    });
+  };
+}
+
+function hidePinMessageDialog(): TogglePinMessageDialogActionType {
+  return {
+    type: TOGGLE_PIN_MESSAGE_DIALOG,
+    payload: null,
+  };
+}
+
 // Reducer
 
 export function getEmptyState(): GlobalModalsStateType {
@@ -1306,6 +1506,7 @@ export function getEmptyState(): GlobalModalsStateType {
     callLinkAddNameModalRoomId: null,
     callLinkEditModalRoomId: null,
     callLinkPendingParticipantContactId: undefined,
+    callQualitySurveyProps: null,
     confirmLeaveCallModalState: null,
     criticalIdlePrimaryDeviceModal: false,
     draftGifMessageSendModalProps: null,
@@ -1316,11 +1517,14 @@ export function getEmptyState(): GlobalModalsStateType {
     isSignalConnectionsVisible: false,
     isStoriesSettingsVisible: false,
     isWhatsNewVisible: false,
+    isKeyTransparencyErrorVisible: false,
+    isKeyTransparencyOnboardingVisible: false,
     lowDiskSpaceBackupImportModal: null,
     usernameOnboardingState: UsernameOnboardingState.NeverShown,
     messageRequestActionsConfirmationProps: null,
     tapToViewNotAvailableModalProps: undefined,
     notePreviewModalProps: null,
+    pinMessageDialogData: null,
   };
 }
 
@@ -1331,7 +1535,7 @@ export function reducer(
   if (action.type === TOGGLE_ABOUT_MODAL) {
     return {
       ...state,
-      aboutContactModalContactId: action.payload,
+      aboutContactModalState: action.payload,
     };
   }
 
@@ -1339,6 +1543,20 @@ export function reducer(
     return {
       ...state,
       confirmLeaveCallModalState: action.payload,
+    };
+  }
+
+  if (action.type === SHOW_CALL_QUALITY_SURVEY) {
+    return {
+      ...state,
+      callQualitySurveyProps: action.payload,
+    };
+  }
+
+  if (action.type === HIDE_CALL_QUALITY_SURVEY) {
+    return {
+      ...state,
+      callQualitySurveyProps: null,
     };
   }
 
@@ -1371,6 +1589,34 @@ export function reducer(
     return {
       ...state,
       isWhatsNewVisible: false,
+    };
+  }
+
+  if (action.type === SHOW_KEY_TRANSPARENCY_ERROR_DIALOG) {
+    return {
+      ...state,
+      isKeyTransparencyErrorVisible: true,
+    };
+  }
+
+  if (action.type === HIDE_KEY_TRANSPARENCY_ERROR_DIALOG) {
+    return {
+      ...state,
+      isKeyTransparencyErrorVisible: false,
+    };
+  }
+
+  if (action.type === SHOW_KEY_TRANSPARENCY_ONBOARDING_DIALOG) {
+    return {
+      ...state,
+      isKeyTransparencyOnboardingVisible: true,
+    };
+  }
+
+  if (action.type === HIDE_KEY_TRANSPARENCY_ONBOARDING_DIALOG) {
+    return {
+      ...state,
+      isKeyTransparencyOnboardingVisible: false,
     };
   }
 
@@ -1423,7 +1669,7 @@ export function reducer(
     if (action.payload.contactId === ourId) {
       return {
         ...state,
-        aboutContactModalContactId: ourId,
+        aboutContactModalState: action.payload,
       };
     }
 
@@ -1602,6 +1848,13 @@ export function reducer(
     };
   }
 
+  if (action.type === TOGGLE_GROUP_MEMBER_LABEL_INFO_MODAL) {
+    return {
+      ...state,
+      groupMemberLabelInfoModalState: action.payload,
+    };
+  }
+
   if (action.type === TOGGLE_MESSAGE_REQUEST_ACTIONS_CONFIRMATION) {
     return {
       ...state,
@@ -1661,12 +1914,8 @@ export function reducer(
   }
 
   if (state.editHistoryMessages != null) {
-    if (
-      action.type === MESSAGE_CHANGED ||
-      action.type === MESSAGE_DELETED ||
-      action.type === MESSAGE_EXPIRED
-    ) {
-      if (action.type === MESSAGE_DELETED || action.type === MESSAGE_EXPIRED) {
+    if (action.type === MESSAGE_CHANGED || action.type === MESSAGE_DELETED) {
+      if (action.type === MESSAGE_DELETED) {
         const hasMessageId = state.editHistoryMessages.some(
           edit => edit.id === action.payload.id
         );
@@ -1749,6 +1998,13 @@ export function reducer(
     return {
       ...state,
       lowDiskSpaceBackupImportModal: null,
+    };
+  }
+
+  if (action.type === TOGGLE_PIN_MESSAGE_DIALOG) {
+    return {
+      ...state,
+      pinMessageDialogData: action.payload,
     };
   }
 

@@ -15,7 +15,7 @@ export function SignalConversationMuteToggle({
   i18n,
   setMuteExpiration,
   conversationId,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const onMuteToggleClicked = () => {
     setMuteExpiration(conversationId, isMuted ? 0 : Number.MAX_SAFE_INTEGER);
   };

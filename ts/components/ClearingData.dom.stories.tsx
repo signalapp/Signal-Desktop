@@ -13,6 +13,6 @@ export default {
   title: 'Components/ClearingData',
 } satisfies Meta<PropsType>;
 
-export function Basic(): JSX.Element {
+export function Basic(): React.JSX.Element {
   return <ClearingData deleteAllData={action('deleteAllData')} i18n={i18n} />;
 }

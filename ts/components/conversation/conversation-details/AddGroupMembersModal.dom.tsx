@@ -33,10 +33,10 @@ type PropsType = {
 
   renderChooseGroupMembersModal: (
     props: SmartChooseGroupMembersModalPropsType
-  ) => JSX.Element;
+  ) => React.JSX.Element;
   renderConfirmAdditionsModal: (
     props: SmartConfirmAdditionsModalPropsType
-  ) => JSX.Element;
+  ) => React.JSX.Element;
 };
 
 enum Stage {
@@ -147,7 +147,7 @@ export function AddGroupMembersModal({
   requestState,
   renderChooseGroupMembersModal,
   renderConfirmAdditionsModal,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const numberOfContactsAlreadyInGroup = conversationIdsAlreadyInGroup.size;
   const isGroupAlreadyFull = numberOfContactsAlreadyInGroup >= maxGroupSize;
   const isGroupAlreadyOverRecommendedMaximum =

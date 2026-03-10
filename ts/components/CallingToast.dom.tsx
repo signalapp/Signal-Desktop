@@ -30,7 +30,7 @@ export type CallingToastType = {
   // If key is provided, calls to showToast will be idempotent; otherwise an
   // auto-generated key will be returned
   key?: string;
-  content: JSX.Element | string;
+  content: React.JSX.Element | string;
   autoClose: boolean;
   dismissable?: boolean;
   lifetime?: number;
@@ -74,7 +74,7 @@ export function CallingToastProvider({
   maxNonPersistentToasts?: number;
   lifetime?: number;
   transitionFrom?: object;
-}): JSX.Element {
+}): React.JSX.Element {
   const [toasts, setToasts] = React.useState<Array<CallingToastStateType>>([]);
   const previousToasts = usePrevious([], toasts);
   const timeouts = React.useRef<Map<string, TimeoutType>>(new Map());
@@ -344,7 +344,7 @@ function CallingToast(
   props: CallingToastType & {
     onClick?: VoidFunction;
   }
-): JSX.Element {
+): React.JSX.Element {
   const className = classNames(
     'CallingToast',
     !props.autoClose && 'CallingToast--persistent',
@@ -411,7 +411,7 @@ export function useCallingToasts(): CallingToastContextType {
 export function PersistentCallingToast({
   children,
 }: {
-  children: string | JSX.Element;
+  children: string | React.JSX.Element;
 }): null {
   const { showToast } = useCallingToasts();
   const toastId = useRef<string>(uuid());

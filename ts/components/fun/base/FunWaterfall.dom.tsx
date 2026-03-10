@@ -14,7 +14,7 @@ export type FunWaterfallContainerProps = Readonly<{
 
 export function FunWaterfallContainer(
   props: FunWaterfallContainerProps
-): JSX.Element {
+): React.JSX.Element {
   return (
     <div
       className="FunWaterfall__Container"
@@ -38,7 +38,9 @@ export type FunWaterfallItemProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunWaterfallItem(props: FunWaterfallItemProps): JSX.Element {
+export function FunWaterfallItem(
+  props: FunWaterfallItemProps
+): React.JSX.Element {
   return (
     <div
       data-key={props['data-key']}

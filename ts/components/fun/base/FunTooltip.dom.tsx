@@ -18,7 +18,7 @@ export type FunTooltipProps = Readonly<{
   children: ReactNode;
 }>;
 
-export function FunTooltip(props: FunTooltipProps): JSX.Element {
+export function FunTooltip(props: FunTooltipProps): React.JSX.Element {
   const ref = useRef<HTMLButtonElement>(null);
   const [collisionBoundary, setCollisionBoundary] = useState<Element | null>(
     null

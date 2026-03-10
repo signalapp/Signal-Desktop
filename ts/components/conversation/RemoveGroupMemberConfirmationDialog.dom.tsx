@@ -25,7 +25,7 @@ export function RemoveGroupMemberConfirmationDialog({
   i18n,
   onClose,
   onRemove,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const accessControlEnabled = isAccessControlEnabled(
     group.accessControlAddFromInviteLink
   );

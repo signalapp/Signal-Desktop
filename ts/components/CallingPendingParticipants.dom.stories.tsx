@@ -28,7 +28,7 @@ export default {
   args: {},
 } satisfies Meta<PropsType>;
 
-export function One(): JSX.Element {
+export function One(): React.JSX.Element {
   return (
     <CallingPendingParticipants
       {...createProps({
@@ -38,7 +38,7 @@ export function One(): JSX.Element {
   );
 }
 
-export function Two(): JSX.Element {
+export function Two(): React.JSX.Element {
   return (
     <CallingPendingParticipants
       {...createProps({
@@ -48,7 +48,7 @@ export function Two(): JSX.Element {
   );
 }
 
-export function Many(): JSX.Element {
+export function Many(): React.JSX.Element {
   return (
     <CallingPendingParticipants
       {...createProps({
@@ -58,7 +58,7 @@ export function Many(): JSX.Element {
   );
 }
 
-export function Changing(): JSX.Element {
+export function Changing(): React.JSX.Element {
   const counts = [0, 1, 2, 3, 2, 1];
   const [countIndex, setCountIndex] = React.useState<number>(0);
   React.useEffect(() => {
@@ -78,7 +78,7 @@ export function Changing(): JSX.Element {
   );
 }
 
-export function ExpandedOne(): JSX.Element {
+export function ExpandedOne(): React.JSX.Element {
   return (
     <CallingPendingParticipants
       {...createProps({
@@ -89,7 +89,7 @@ export function ExpandedOne(): JSX.Element {
   );
 }
 
-export function ExpandedTwo(): JSX.Element {
+export function ExpandedTwo(): React.JSX.Element {
   return (
     <CallingPendingParticipants
       {...createProps({
@@ -100,7 +100,7 @@ export function ExpandedTwo(): JSX.Element {
   );
 }
 
-export function ExpandedMany(): JSX.Element {
+export function ExpandedMany(): React.JSX.Element {
   return (
     <CallingPendingParticipants
       {...createProps({

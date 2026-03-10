@@ -21,7 +21,7 @@ export const StoryProgressSegment = memo(function StoryProgressSegment({
   index,
   playing,
   onFinish,
-}: StoryProgressSegmentProps): JSX.Element {
+}: StoryProgressSegmentProps): React.JSX.Element {
   const onFinishRef = useRef(onFinish);
   useEffect(() => {
     onFinishRef.current = onFinish;

@@ -24,7 +24,7 @@ export default {
     i18n,
     onClick: action('onClick'),
     toggleSignalConnectionsModal: action('toggleSignalConnectionsModal'),
-    updateSharedGroups: action('updateSharedGroups'),
+    sharedGroupNames: [],
     getPreferredBadge: () => undefined,
     conversation: getDefaultConversation(),
     theme: ThemeType.light,
@@ -52,7 +52,5 @@ ProfileNameChanged.args = {
 
 export const WithSharedGroups = Template.bind({});
 WithSharedGroups.args = {
-  conversation: getDefaultConversation({
-    sharedGroupNames: ['A', 'B', 'C'],
-  }),
+  sharedGroupNames: ['A', 'B', 'C'],
 };

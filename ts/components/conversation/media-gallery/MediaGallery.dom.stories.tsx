@@ -1,11 +1,16 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import * as React from 'react';
+import React, { useState, useCallback } from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
+import type {
+  MediaTabType,
+  MediaSortOrderType,
+} from '../../../types/MediaItem.std.js';
 import type { Props } from './MediaGallery.dom.js';
 import { MediaGallery } from './MediaGallery.dom.js';
+import { PanelHeader } from './PanelHeader.dom.js';
 import {
   createPreparedMediaItems,
   createRandomDocuments,
@@ -36,45 +41,92 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   audio: overrideProps.audio || [],
   links: overrideProps.links || [],
   documents: overrideProps.documents || [],
+  tab: overrideProps.tab || 'media',
+  sortOrder: overrideProps.sortOrder || 'date',
 
   initialLoad: action('initialLoad'),
   loadMore: action('loadMore'),
   saveAttachment: action('saveAttachment'),
+  pushPanelForConversation: action('pushPanelForConversation'),
   playAudio: action('playAudio'),
   showLightbox: action('showLightbox'),
   kickOffAttachmentDownload: action('kickOffAttachmentDownload'),
   cancelAttachmentDownload: action('cancelAttachmentDownload'),
 
   renderMediaItem: props => <MediaItem {...props} />,
-  renderMiniPlayer: () => <div />,
 });
 
-export function Populated(): JSX.Element {
-  const documents = createRandomDocuments(Date.now() - days(5), days(5)).slice(
-    0,
-    10
+function Panel(props: Props): React.JSX.Element {
+  const [tab, setTab] = useState<MediaTabType>(props.tab);
+  const [sortOrder, setSortOrder] = useState<MediaSortOrderType>('date');
+
+  const [loading, setLoading] = useState(false);
+
+  const { loadMore: givenLoadMore } = props;
+
+  const loadMore = useCallback(
+    (...args: Parameters<typeof givenLoadMore>) => {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 250);
+      return givenLoadMore(...args);
+    },
+    [givenLoadMore]
   );
+
+  return (
+    <div className="ConversationPanel">
+      <div className="ConversationPanel__header">
+        <button
+          aria-label={i18n('icu:goBack')}
+          className="ConversationPanel__header__back-button"
+          type="button"
+        />
+        <PanelHeader
+          i18n={i18n}
+          tab={tab}
+          setTab={setTab}
+          sortOrder={sortOrder}
+          setSortOrder={setSortOrder}
+        />
+      </div>
+      <div className="ConversationPanel__body">
+        <MediaGallery
+          {...props}
+          tab={tab}
+          loading={loading}
+          loadMore={loadMore}
+          sortOrder={sortOrder}
+        />
+      </div>
+    </div>
+  );
+}
+
+export function Populated(): React.JSX.Element {
+  const documents = createRandomDocuments(Date.now() - days(5), days(5));
   const media = createPreparedMediaItems(createRandomMedia);
   const props = createProps({ documents, media });
 
-  return <MediaGallery {...props} />;
+  return <Panel {...props} />;
 }
 
-export function NoDocuments(): JSX.Element {
+export function NoDocuments(): React.JSX.Element {
   const media = createPreparedMediaItems(createRandomMedia);
-  const props = createProps({ media });
+  const props = createProps({ media, haveOldestDocument: true });
 
-  return <MediaGallery {...props} />;
+  return <Panel {...props} />;
 }
 
-export function NoMedia(): JSX.Element {
+export function NoMedia(): React.JSX.Element {
   const documents = createPreparedMediaItems(createRandomDocuments);
-  const props = createProps({ documents });
+  const props = createProps({ documents, haveOldestMedia: true });
 
-  return <MediaGallery {...props} />;
+  return <Panel {...props} />;
 }
 
-export function OneEach(): JSX.Element {
+export function OneEach(): React.JSX.Element {
   const media = createRandomMedia(Date.now(), days(1)).slice(0, 1);
   const audio = createRandomAudio(Date.now(), days(1)).slice(0, 1);
   const documents = createRandomDocuments(Date.now(), days(1)).slice(0, 1);
@@ -82,11 +134,16 @@ export function OneEach(): JSX.Element {
 
   const props = createProps({ documents, audio, media, links });
 
-  return <MediaGallery {...props} />;
+  return <Panel {...props} />;
 }
 
-export function Empty(): JSX.Element {
-  const props = createProps();
+export function Empty(): React.JSX.Element {
+  const props = createProps({
+    haveOldestMedia: true,
+    haveOldestAudio: true,
+    haveOldestDocument: true,
+    haveOldestLink: true,
+  });
 
-  return <MediaGallery {...props} />;
+  return <Panel {...props} />;
 }

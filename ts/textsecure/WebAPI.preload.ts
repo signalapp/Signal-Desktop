@@ -15,13 +15,25 @@ import { v4 as getGuid } from 'uuid';
 import { z } from 'zod';
 import type { Readable } from 'node:stream';
 import qs from 'node:querystring';
-import type {
-  KEMPublicKey,
-  PublicKey,
-  Aci,
-  Pni,
+import {
+  LibSignalErrorBase,
+  ErrorCode,
+  ServiceId,
+  type KEMPublicKey,
+  type PublicKey,
+  type Aci,
+  type Pni,
 } from '@signalapp/libsignal-client';
 import { AccountAttributes } from '@signalapp/libsignal-client/dist/net.js';
+import type {
+  ProvisioningConnection,
+  ProvisioningConnectionListener,
+} from '@signalapp/libsignal-client/dist/net.js';
+import { GroupSendFullToken } from '@signalapp/libsignal-client/zkgroup.js';
+import type {
+  Request as KTRequest,
+  MonitorMode as KTMonitorMode,
+} from '@signalapp/libsignal-client/dist/net/KeyTransparency.js';
 
 import { assertDev, strictAssert } from '../util/assert.std.js';
 import * as durations from '../util/durations/index.std.js';
@@ -53,10 +65,12 @@ import type {
   UntaggedPniString,
 } from '../types/ServiceId.std.js';
 import {
+  fromAciObject,
   ServiceIdKind,
   serviceIdSchema,
   aciSchema,
   untaggedPniSchema,
+  fromServiceIdObject,
 } from '../types/ServiceId.std.js';
 import type { BackupPresentationHeadersType } from '../types/backups.node.js';
 import { HTTPError } from '../types/HTTPError.std.js';
@@ -73,7 +87,6 @@ import {
 import type { CDSAuthType, CDSResponseType } from './cds/Types.d.ts';
 import { CDSI } from './cds/CDSI.node.js';
 import { SignalService as Proto } from '../protobuf/index.std.js';
-import { isEnabled as isRemoteConfigEnabled } from '../RemoteConfig.dom.js';
 
 import type {
   WebAPICredentials,
@@ -86,7 +99,6 @@ import { createLogger } from '../logging/log.std.js';
 import { maybeParseUrl, urlPathFromComponents } from '../util/url.std.js';
 import { HOUR, MINUTE, SECOND } from '../util/durations/index.std.js';
 import { safeParseNumber } from '../util/numbers.std.js';
-import type { IWebSocketResource } from './WebsocketResources.preload.js';
 import { getLibsignalNet } from './preconnect.preload.js';
 import type { GroupSendToken } from '../types/GroupSendEndorsements.std.js';
 import {
@@ -112,6 +124,12 @@ import type {
 import { badgeFromServerSchema } from '../badges/parseBadgesFromServer.std.js';
 import { ZERO_DECIMAL_CURRENCIES } from '../util/currency.dom.js';
 import type { JobCancelReason } from '../jobs/types.std.js';
+import {
+  RemoteMegaphoneCtaDataSchema,
+  type RemoteMegaphoneId,
+} from '../types/Megaphone.std.js';
+import { bindRemoteConfigToLibsignalNet } from '../LibsignalNetRemoteConfig.preload.js';
+import { KeyTransparencyStore } from '../LibSignalStores.preload.js';
 
 const { escapeRegExp, isNumber, throttle } = lodash;
 
@@ -290,6 +308,9 @@ export const multiRecipient200ResponseSchema = z.object({
 export type MultiRecipient200ResponseType = z.infer<
   typeof multiRecipient200ResponseSchema
 >;
+export type SendMultiResponseType = {
+  uuids404: Array<ServiceIdString>;
+};
 
 export const multiRecipient409ResponseSchema = z.array(
   z.object({
@@ -364,7 +385,9 @@ async function getFetchOptions<Type extends ResponseType, OutputShape>(
     method: options.type,
     body: typeof options.data === 'function' ? options.data() : options.data,
     headers: {
-      'User-Agent': getUserAgent(options.version),
+      'User-Agent': options.socketManager
+        ? undefined
+        : getUserAgent(options.version),
       'X-Signal-Agent': 'OWD',
       ...options.headers,
     } as FetchHeaderListType,
@@ -623,27 +646,34 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
   return result;
 }
 
-async function _retryAjax<Type extends ResponseType, OutputShape>(
-  url: string | null,
-  options: PromiseAjaxOptionsType<Type, OutputShape>,
-  providedLimit?: number,
-  providedCount?: number
-): Promise<unknown> {
-  const count = (providedCount || 0) + 1;
-  const limit = providedLimit || 3;
+async function _retry<R>(
+  f: () => Promise<R>,
+  provided?: { abortSignal?: AbortSignal } & (
+    | { limit: number; count: number }
+    | { limit?: undefined; count?: undefined }
+  )
+): Promise<R> {
+  const count = (provided?.count ?? 0) + 1;
+  const limit = provided?.limit ?? 3;
+  const abortSignal = provided?.abortSignal;
 
   try {
-    return await _promiseAjax(url, options);
+    return await f();
   } catch (e) {
+    const httpNoNetwork = e instanceof HTTPError && e.code === -1;
+    const libsignalNoNetwork =
+      e instanceof LibSignalErrorBase &&
+      (e.code === ErrorCode.IoError ||
+        e.code === ErrorCode.ChatServiceInactive);
+
     if (
-      e instanceof HTTPError &&
-      e.code === -1 &&
       count < limit &&
-      !options.abortSignal?.aborted
+      !abortSignal?.aborted &&
+      (httpNoNetwork || libsignalNoNetwork)
     ) {
       return new Promise(resolve => {
         setTimeout(() => {
-          resolve(_retryAjax(url, options, limit, count));
+          resolve(_retry(f, { abortSignal, limit, count }));
         }, 1000);
       });
     }
@@ -676,7 +706,9 @@ async function _outerAjax<Type extends ResponseType, OutputShape>(
     return _promiseAjax(url, options);
   }
 
-  return _retryAjax(url, options);
+  return _retry(() => _promiseAjax(url, options), {
+    abortSignal: options.abortSignal,
+  });
 }
 
 function makeHTTPError(
@@ -708,7 +740,6 @@ export function makeKeysLowercase<V>(
 }
 
 const CHAT_CALLS = {
-  accountExistence: 'v1/accounts/account',
   attachmentUploadForm: 'v4/attachments/form/upload',
   attestation: 'v1/attestation',
   batchIdentityCheck: 'v1/profile/identity_check/batch',
@@ -716,6 +747,8 @@ const CHAT_CALLS = {
   challenge: 'v1/challenge',
   configV2: 'v2/config',
   createBoost: 'v1/subscription/boost/create',
+  createPaypalBoost: 'v1/subscription/boost/paypal/create',
+  confirmPaypalBoost: 'v1/subscription/boost/paypal/confirm',
   deliveryCert: 'v1/certificate/delivery',
   devices: 'v1/devices',
   directoryAuthV2: 'v2/directory/auth',
@@ -738,6 +771,7 @@ const CHAT_CALLS = {
   backupMediaBatch: 'v1/archives/media/batch',
   backupMediaDelete: 'v1/archives/media/delete',
   callLinkCreateAuth: 'v1/call-link/create-auth',
+  callQualitySurvey: 'v1/call_quality_survey',
   redeemReceipt: 'v1/donation/redeem-receipt',
   registration: 'v1/registration',
   registerCapabilities: 'v1/devices/capabilities',
@@ -862,7 +896,7 @@ export type GetGroupLogOptionsType = Readonly<{
 }>;
 export type GroupLogResponseType = {
   changes: Proto.GroupChanges;
-  groupSendEndorsementResponse: Uint8Array | null;
+  groupSendEndorsementsResponse: Uint8Array | null;
 } & (
   | {
       paginated: false;
@@ -938,13 +972,7 @@ export type GetAccountForUsernameOptionsType = Readonly<{
   hash: Uint8Array;
 }>;
 
-const getAccountForUsernameResultZod = z.object({
-  uuid: aciSchema,
-});
-
-export type GetAccountForUsernameResultType = z.infer<
-  typeof getAccountForUsernameResultZod
->;
+export type GetAccountForUsernameResultType = AciString | null;
 
 const getDevicesResultZod = z.object({
   devices: z.array(
@@ -952,7 +980,7 @@ const getDevicesResultZod = z.object({
       id: z.number(),
       name: z.string().nullish(), // primary devices may not have a name
       lastSeen: z.number().nullish(),
-      created: z.number().nullish(),
+      createdAtCiphertext: z.string(),
     })
   ),
 });
@@ -1057,14 +1085,14 @@ export type ReplaceUsernameLinkResultType = z.infer<
   typeof replaceUsernameLinkResultZod
 >;
 
-const resolveUsernameLinkResultZod = z.object({
-  usernameLinkEncryptedValue: z
-    .string()
-    .transform(x => Bytes.fromBase64(fromWebSafeBase64(x))),
-});
-export type ResolveUsernameLinkResultType = z.infer<
-  typeof resolveUsernameLinkResultZod
->;
+export type ResolveUsernameByLinkOptionsType = Readonly<{
+  entropy: Uint8Array;
+  uuid: string;
+}>;
+export type ResolveUsernameLinkResultType = {
+  username: string;
+  hash: Uint8Array;
+} | null;
 
 export type CreateAccountOptionsType = Readonly<{
   sessionId: string;
@@ -1157,7 +1185,7 @@ export type CreateBoostResultType = z.infer<typeof CreateBoostResultSchema>;
 export type CreateBoostReceiptCredentialsOptionsType = Readonly<{
   paymentIntentId: string;
   receiptCredentialRequest: string;
-  processor: string;
+  processor: 'STRIPE' | 'BRAINTREE';
 }>;
 const CreateBoostReceiptCredentialsResultSchema = z.object({
   receiptCredentialResponse: z.string(),
@@ -1211,6 +1239,36 @@ const ConfirmIntentWithStripeResultSchema = z.object({
 });
 type ConfirmIntentWithStripeResultType = z.infer<
   typeof ConfirmIntentWithStripeResultSchema
+>;
+
+export type CreatePaypalBoostOptionsType = Readonly<{
+  currency: string;
+  amount: StripeDonationAmount;
+  level: number;
+  returnUrl: string;
+  cancelUrl: string;
+}>;
+const CreatePaypalBoostResultSchema = z.object({
+  approvalUrl: z.string(),
+  paymentId: z.string(),
+});
+export type CreatePaypalBoostResultType = z.infer<
+  typeof CreatePaypalBoostResultSchema
+>;
+
+export type ConfirmPaypalBoostOptionsType = Readonly<{
+  currency: string;
+  amount: number;
+  level: number;
+  payerId: string;
+  paymentId: string;
+  paymentToken: string;
+}>;
+const ConfirmPaypalBoostResultSchema = z.object({
+  paymentId: z.string(),
+});
+export type ConfirmPaypalBoostResultType = z.infer<
+  typeof ConfirmPaypalBoostResultSchema
 >;
 
 export type RedeemReceiptOptionsType = Readonly<{
@@ -1374,10 +1432,16 @@ export type GetBackupInfoResponseType = z.infer<
   typeof getBackupInfoResponseSchema
 >;
 
-export type GetReleaseNoteOptionsType = Readonly<{
-  uuid: string;
-  locale: string;
-}>;
+export const megaphoneSchema = z.object({
+  uuid: z.string(),
+  image: z.string().optional(),
+  title: z.string(),
+  body: z.string(),
+  primaryCtaText: z.string().optional(),
+  secondaryCtaText: z.string().optional(),
+});
+
+export type MegaphoneResponseType = z.infer<typeof megaphoneSchema>;
 
 export const releaseNoteSchema = z.object({
   uuid: z.string(),
@@ -1417,6 +1481,22 @@ export const releaseNotesManifestSchema = z.object({
       desktopMinVersion: z.string().optional(),
       link: z.string().optional(),
       ctaId: z.string().optional(),
+    })
+    .array(),
+  megaphones: z
+    .object({
+      uuid: z.intersection(z.string(), z.custom<RemoteMegaphoneId>()),
+      priority: z.number(),
+      countries: z.string().optional(),
+      desktopMinVersion: z.string().optional(),
+      dontShowBeforeEpochSeconds: z.number(),
+      dontShowAfterEpochSeconds: z.number(),
+      showForNumberOfDays: z.number().nonnegative(),
+      conditionalId: z.string().optional(),
+      primaryCtaId: z.string().optional(),
+      primaryCtaData: RemoteMegaphoneCtaDataSchema.optional(),
+      secondaryCtaId: z.string().optional(),
+      secondaryCtaData: RemoteMegaphoneCtaDataSchema.optional(),
     })
     .array(),
 });
@@ -1664,33 +1744,7 @@ const PARSE_RANGE_HEADER = /\/(\d+)$/;
 const PARSE_GROUP_LOG_RANGE_HEADER =
   /^versions\s+(\d{1,10})-(\d{1,10})\/(\d{1,10})/;
 
-const libsignalRemoteConfig = new Map();
-if (isRemoteConfigEnabled('desktop.libsignalNet.enforceMinimumTls')) {
-  log.info('libsignal net will require TLS 1.3');
-  libsignalRemoteConfig.set('enforceMinimumTls', 'true');
-}
-if (isRemoteConfigEnabled('desktop.libsignalNet.shadowUnauthChatWithNoise')) {
-  log.info('libsignal net will shadow unauth chat connections');
-  libsignalRemoteConfig.set('shadowUnauthChatWithNoise', 'true');
-}
-if (isRemoteConfigEnabled('desktop.libsignalNet.shadowAuthChatWithNoise')) {
-  log.info('libsignal net will shadow auth chat connections');
-  libsignalRemoteConfig.set('shadowAuthChatWithNoise', 'true');
-}
-const perMessageDeflateConfigKey = isProduction(version)
-  ? 'desktop.libsignalNet.chatPermessageDeflate.prod'
-  : 'desktop.libsignalNet.chatPermessageDeflate';
-if (isRemoteConfigEnabled(perMessageDeflateConfigKey)) {
-  libsignalRemoteConfig.set('chatPermessageDeflate', 'true');
-}
-libsignalNet.setRemoteConfig(libsignalRemoteConfig);
-
-const socketManager = new SocketManager(libsignalNet, {
-  url: chatServiceUrl,
-  certificateAuthority,
-  version,
-  proxyUrl,
-});
+const socketManager = new SocketManager(libsignalNet);
 
 socketManager.on('statusChange', () => {
   window.Whisper.events.emit('socketStatusChange');
@@ -1739,6 +1793,8 @@ export async function connect({
   hasStoriesDisabled,
   hasBuildExpired,
 }: WebAPIConnectOptionsType): Promise<void> {
+  bindRemoteConfigToLibsignalNet(getLibsignalNet(), window.getVersion());
+
   username = initialUsername;
   password = initialPassword;
 
@@ -2108,6 +2164,24 @@ export async function redeemReceipt(
   });
 }
 
+// Megaphones have the same path format as release notes, but different response schema.
+export async function getMegaphone({
+  uuid,
+  locale,
+}: {
+  uuid: string;
+  locale: string;
+}): Promise<MegaphoneResponseType> {
+  return _ajax({
+    call: 'releaseNotes',
+    host: 'resources',
+    httpType: 'GET',
+    responseType: 'json',
+    urlParameters: `/${uuid}/${locale}.json`,
+    zodSchema: megaphoneSchema,
+  });
+}
+
 export async function getReleaseNoteHash({
   uuid,
   locale,
@@ -2131,6 +2205,7 @@ export async function getReleaseNoteHash({
 
   return etag;
 }
+
 export async function getReleaseNote({
   uuid,
   locale,
@@ -2282,6 +2357,7 @@ export async function postBatchIdentityCheck(
     data: JSON.stringify({ elements }),
     call: 'batchIdentityCheck',
     httpType: 'POST',
+    unauthenticated: true,
     responseType: 'json',
     // TODO DESKTOP-8719
     zodSchema: z.unknown(),
@@ -2403,18 +2479,49 @@ export async function getTransferArchive({
 export async function getAccountForUsername({
   hash,
 }: GetAccountForUsernameOptionsType): Promise<GetAccountForUsernameResultType> {
-  const hashBase64 = toWebSafeBase64(Bytes.toBase64(hash));
-  return _ajax({
-    host: 'chatService',
-    call: 'username',
-    httpType: 'GET',
-    urlParameters: `/${hashBase64}`,
-    responseType: 'json',
-    redactUrl: _createRedactor(hashBase64),
-    unauthenticated: true,
-    accessKey: undefined,
-    groupSendToken: undefined,
-    zodSchema: getAccountForUsernameResultZod,
+  const aci = await _retry(async () => {
+    const chat = await socketManager.getUnauthenticatedApi();
+    return chat.lookUpUsernameHash({ hash });
+  });
+
+  return aci ? fromAciObject(aci) : null;
+}
+
+export async function keyTransparencySearch(
+  request: KTRequest,
+  abortSignal?: AbortSignal
+): Promise<void> {
+  return _retry(async () => {
+    const chat = await socketManager.getUnauthenticatedApi();
+    if (abortSignal?.aborted) {
+      throw new Error('Aborted');
+    }
+    const kt = chat.keyTransparencyClient();
+    const store = new KeyTransparencyStore();
+    return kt.search(request, store, { abortSignal });
+  });
+}
+
+export async function keyTransparencyMonitor(
+  request: KTRequest,
+  mode: KTMonitorMode,
+  abortSignal?: AbortSignal
+): Promise<void> {
+  return _retry(async () => {
+    const chat = await socketManager.getUnauthenticatedApi();
+    if (abortSignal?.aborted) {
+      throw new Error('Aborted');
+    }
+    const kt = chat.keyTransparencyClient();
+    const store = new KeyTransparencyStore();
+    return kt.monitor(
+      {
+        ...request,
+        mode,
+      },
+      store,
+      { abortSignal }
+    );
   });
 }
 
@@ -2621,19 +2728,13 @@ export async function deleteUsernameLink(): Promise<void> {
   });
 }
 
-export async function resolveUsernameLink(
-  serverId: string
-): Promise<ResolveUsernameLinkResultType> {
-  return _ajax({
-    host: 'chatService',
-    httpType: 'GET',
-    call: 'usernameLink',
-    urlParameters: `/${encodeURIComponent(serverId)}`,
-    responseType: 'json',
-    unauthenticated: true,
-    accessKey: undefined,
-    groupSendToken: undefined,
-    zodSchema: resolveUsernameLinkResultZod,
+export async function resolveUsernameLink({
+  entropy,
+  uuid,
+}: ResolveUsernameByLinkOptionsType): Promise<ResolveUsernameLinkResultType> {
+  return _retry(async () => {
+    const chat = await socketManager.getUnauthenticatedApi();
+    return chat.lookUpUsernameLink({ uuid, entropy });
   });
 }
 
@@ -2686,24 +2787,12 @@ export async function requestVerification(
 export async function checkAccountExistence(
   serviceId: ServiceIdString
 ): Promise<boolean> {
-  try {
-    await _ajax({
-      host: 'chatService',
-      httpType: 'HEAD',
-      call: 'accountExistence',
-      urlParameters: `/${serviceId}`,
-      unauthenticated: true,
-      accessKey: undefined,
-      groupSendToken: undefined,
+  return _retry(async () => {
+    const chat = await socketManager.getUnauthenticatedApi();
+    return chat.accountExists({
+      account: ServiceId.parseFromServiceIdString(serviceId),
     });
-    return true;
-  } catch (error) {
-    if (error instanceof HTTPError && error.code === 404) {
-      return false;
-    }
-
-    throw error;
-  }
+  });
 }
 
 export function startRegistration(): unknown {
@@ -3337,6 +3426,20 @@ export async function callLinkCreateAuth(
   });
 }
 
+export async function submitCallQualitySurvey(
+  survey: Proto.ISubmitCallQualitySurveyRequest
+): Promise<void> {
+  const data = Proto.SubmitCallQualitySurveyRequest.encode(survey).finish();
+  await _ajax({
+    call: 'callQualitySurvey',
+    contentType: 'application/octet-stream',
+    data,
+    host: 'chatService',
+    httpType: 'PUT',
+    unauthenticated: true,
+  });
+}
+
 export async function setPhoneNumberDiscoverability(
   newValue: boolean
 ): Promise<void> {
@@ -3487,6 +3590,7 @@ export async function sendMessagesUnauth(
     urgent,
   };
 
+  log.info(`send/${timestamp}/${destination}/sendMessagesUnauth`);
   await _ajax({
     host: 'chatService',
     call: 'messages',
@@ -3519,6 +3623,7 @@ export async function sendMessages(
     urgent,
   };
 
+  log.info(`send/${timestamp}/${destination}/sendMessages`);
   await _ajax({
     host: 'chatService',
     call: 'messages',
@@ -3535,7 +3640,51 @@ function booleanToString(value: boolean | undefined): string {
   return value ? 'true' : 'false';
 }
 
-export async function sendWithSenderKey(
+export async function sendMulti(
+  payload: Uint8Array,
+  groupSendToken: GroupSendToken | null,
+  timestamp: number,
+  {
+    online = false,
+    urgent = true,
+    story = false,
+  }: {
+    online?: boolean;
+    story?: boolean;
+    urgent?: boolean;
+  }
+): Promise<SendMultiResponseType> {
+  log.info(`send/${timestamp}/<multiple>/sendMulti`);
+
+  let auth: 'story' | GroupSendFullToken;
+  if (story) {
+    if (groupSendToken?.length) {
+      log.warn('sendMulti: story=true and groupSendToken was provided');
+    }
+    auth = 'story';
+  } else if (groupSendToken?.length) {
+    auth = new GroupSendFullToken(groupSendToken);
+  } else {
+    throw new Error('sendMulti: missing groupSendToken and story=false');
+  }
+
+  const result = await _retry(async () => {
+    const chat = await socketManager.getUnauthenticatedApi();
+    return chat.sendMultiRecipientMessage({
+      payload,
+      timestamp,
+      auth,
+      onlineOnly: online,
+      urgent,
+    });
+  });
+
+  return {
+    uuids404: result.unregisteredIds.map(fromServiceIdObject),
+  };
+}
+
+export async function sendMultiLegacy(
   data: Uint8Array,
   accessKeys: Uint8Array | null,
   groupSendToken: GroupSendToken | null,
@@ -3554,6 +3703,7 @@ export async function sendWithSenderKey(
   const urgentParam = `&urgent=${booleanToString(urgent)}`;
   const storyParam = `&story=${booleanToString(story)}`;
 
+  log.info(`send/${timestamp}/<multiple>/sendMultiLegacy`);
   const response = await _ajax({
     host: 'chatService',
     call: 'multiRecipient',
@@ -3577,7 +3727,7 @@ export async function sendWithSenderKey(
   }
 
   log.error(
-    'invalid response from sendWithSenderKey',
+    'sendMultiLegacy: invalid response from server',
     toLogFormat(parseResult.error)
   );
   return response as MultiRecipient200ResponseType;
@@ -4402,6 +4552,34 @@ export function createPaymentMethodWithStripe(
   });
 }
 
+export function createPaypalBoostPayment(
+  options: CreatePaypalBoostOptionsType
+): Promise<CreatePaypalBoostResultType> {
+  return _ajax({
+    unauthenticated: true,
+    host: 'chatService',
+    call: 'createPaypalBoost',
+    httpType: 'POST',
+    jsonData: options,
+    responseType: 'json',
+    zodSchema: CreatePaypalBoostResultSchema,
+  });
+}
+
+export function confirmPaypalBoostPayment(
+  options: ConfirmPaypalBoostOptionsType
+): Promise<ConfirmPaypalBoostResultType> {
+  return _ajax({
+    unauthenticated: true,
+    host: 'chatService',
+    call: 'confirmPaypalBoost',
+    httpType: 'POST',
+    jsonData: options,
+    responseType: 'json',
+    zodSchema: ConfirmPaypalBoostResultSchema,
+  });
+}
+
 export async function createGroup(
   group: Proto.IGroup,
   options: GroupCredentialsType
@@ -4569,7 +4747,7 @@ export async function getGroupLog(
   });
   const { data, response } = withDetails;
   const changes = Proto.GroupChanges.decode(data);
-  const { groupSendEndorsementResponse } = changes;
+  const { groupSendEndorsementsResponse } = changes;
 
   if (response && response.status === 206) {
     const range = response.headers.get('Content-Range');
@@ -4591,7 +4769,7 @@ export async function getGroupLog(
         start,
         end,
         currentRevision,
-        groupSendEndorsementResponse,
+        groupSendEndorsementsResponse,
       };
     }
   }
@@ -4599,7 +4777,7 @@ export async function getGroupLog(
   return {
     paginated: false,
     changes,
-    groupSendEndorsementResponse,
+    groupSendEndorsementsResponse,
   };
 }
 
@@ -4631,11 +4809,11 @@ export async function getHasSubscription(
   return data.subscription.active;
 }
 
-export function getProvisioningResource(
-  handler: IRequestHandler,
-  timeout?: number
-): Promise<IWebSocketResource> {
-  return socketManager.getProvisioningResource(handler, timeout);
+export function getProvisioningConnection(
+  listener: ProvisioningConnectionListener,
+  timeout: number
+): Promise<ProvisioningConnection> {
+  return socketManager.getProvisioningConnection(listener, timeout);
 }
 
 export async function cdsLookup({

@@ -2,13 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { AlertDialog } from 'radix-ui';
-import type { FC, ReactNode } from 'react';
+import type { FC, MouseEvent, ReactNode } from 'react';
 import React, { memo } from 'react';
 import { AxoButton } from './AxoButton.dom.js';
 import { tw } from './tw.dom.js';
 import { AxoBaseDialog } from './_internal/AxoBaseDialog.dom.js';
 import { AxoScrollArea } from './AxoScrollArea.dom.js';
 import type { AxoSymbol } from './AxoSymbol.dom.js';
+import { FlexWrapDetector } from './_internal/FlexWrapDetector.dom.js';
 
 const Namespace = 'AxoAlertDialog';
 
@@ -138,7 +139,24 @@ export namespace AxoAlertDialog {
   }>;
 
   export const Footer: FC<FooterProps> = memo(props => {
-    return <div className={tw('flex gap-2 px-6 py-4')}>{props.children}</div>;
+    return (
+      <FlexWrapDetector>
+        <div
+          className={tw(
+            'flex flex-wrap-reverse gap-2 px-6 py-4',
+            // When actions are not being wrapped:
+            // Try to keep all actions equal size, but don't truncate them.
+            'container-not-scrollable:*:basis-0',
+            'container-not-scrollable:*:min-w-fit',
+            // When actions are being wrapped:
+            // Make all of them full width
+            'container-scrollable:*:w-full'
+          )}
+        >
+          {props.children}
+        </div>
+      </FlexWrapDetector>
+    );
   });
 
   Footer.displayName = `${Namespace}.Footer`;
@@ -201,7 +219,7 @@ export namespace AxoAlertDialog {
   export const Cancel: FC<CancelProps> = memo(props => {
     return (
       <AlertDialog.Cancel asChild>
-        <AxoButton.Root variant="secondary" size="md" width="full">
+        <AxoButton.Root variant="secondary" size="md" width="grow">
           {props.children}
         </AxoButton.Root>
       </AlertDialog.Cancel>
@@ -215,25 +233,36 @@ export namespace AxoAlertDialog {
    * ----------------------------------
    */
 
-  export type ActionVariant = 'primary' | 'secondary' | 'destructive';
+  export type ActionVariant =
+    | 'primary'
+    | 'secondary'
+    | 'destructive'
+    | 'subtle-destructive';
 
   export type ActionProps = Readonly<{
     variant: ActionVariant;
     symbol?: AxoSymbol.InlineGlyphName;
     arrow?: boolean;
-    onClick: () => void;
+    onClick: (event: MouseEvent<HTMLButtonElement>) => void;
+    disabled?: boolean;
+    focusableWhenDisabled?: boolean;
     children: ReactNode;
   }>;
 
   export const Action: FC<ActionProps> = memo(props => {
     return (
-      <AlertDialog.Action asChild onClick={props.onClick}>
+      <AlertDialog.Action
+        asChild
+        onClick={props.onClick}
+        disabled={props.disabled}
+      >
         <AxoButton.Root
           variant={props.variant}
           symbol={props.symbol}
           arrow={props.arrow}
           size="md"
-          width="full"
+          width="grow"
+          focusableWhenDisabled
         >
           {props.children}
         </AxoButton.Root>

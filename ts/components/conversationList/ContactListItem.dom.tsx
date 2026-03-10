@@ -32,7 +32,6 @@ export type ContactListItemConversationType = Pick<
   | 'isMe'
   | 'phoneNumber'
   | 'profileName'
-  | 'sharedGroupNames'
   | 'systemGivenName'
   | 'systemFamilyName'
   | 'title'
@@ -77,7 +76,6 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
     onBlock,
     phoneNumber,
     profileName,
-    sharedGroupNames,
     systemGivenName,
     systemFamilyName,
     theme,
@@ -156,7 +154,7 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
     const messageText =
       about && !isMe ? <About className="" text={about} /> : undefined;
 
-    let trailing: JSX.Element | undefined;
+    let trailing: React.JSX.Element | undefined;
     if (hasContextMenu) {
       trailing = (
         <ContextMenu
@@ -170,8 +168,8 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
       );
     }
 
-    let blockConfirmation: JSX.Element | undefined;
-    let removeConfirmation: JSX.Element | undefined;
+    let blockConfirmation: React.JSX.Element | undefined;
+    let removeConfirmation: React.JSX.Element | undefined;
 
     if (isConfirmingBlocking) {
       blockConfirmation = (
@@ -269,7 +267,6 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
               phoneNumber={phoneNumber}
               profileName={profileName}
               title={title}
-              sharedGroupNames={sharedGroupNames}
               size={AvatarSize.THIRTY_TWO}
               // This is here to appease the type checker.
               {...(badge ? { badge, theme } : { badge: undefined })}

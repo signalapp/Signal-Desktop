@@ -56,7 +56,11 @@ const defaultProps = {
 };
 
 // This component is usually rendered on a call screen.
-function Container({ children }: { children: JSX.Element }): JSX.Element {
+function Container({
+  children,
+}: {
+  children: React.JSX.Element;
+}): React.JSX.Element {
   return (
     <div
       style={{
@@ -70,7 +74,7 @@ function Container({ children }: { children: JSX.Element }): JSX.Element {
   );
 }
 
-export function NoOverflowedParticipants(): JSX.Element {
+export function NoOverflowedParticipants(): React.JSX.Element {
   return (
     <Container>
       <GroupCallOverflowArea {...defaultProps} overflowedParticipants={[]} />
@@ -78,7 +82,7 @@ export function NoOverflowedParticipants(): JSX.Element {
   );
 }
 
-export function OneOverflowedParticipant(): JSX.Element {
+export function OneOverflowedParticipant(): React.JSX.Element {
   return (
     <Container>
       <GroupCallOverflowArea
@@ -89,7 +93,7 @@ export function OneOverflowedParticipant(): JSX.Element {
   );
 }
 
-export function ThreeOverflowedParticipants(): JSX.Element {
+export function ThreeOverflowedParticipants(): React.JSX.Element {
   return (
     <Container>
       <GroupCallOverflowArea
@@ -100,7 +104,7 @@ export function ThreeOverflowedParticipants(): JSX.Element {
   );
 }
 
-export function ManyOverflowedParticipants(): JSX.Element {
+export function ManyOverflowedParticipants(): React.JSX.Element {
   return (
     <Container>
       <GroupCallOverflowArea

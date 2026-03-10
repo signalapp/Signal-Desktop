@@ -30,6 +30,7 @@ import { ReadStatus } from '../../../messages/MessageReadStatus.std.js';
 
 import type { StateType } from '../../../state/reducer.preload.js';
 import { reducer as rootReducer } from '../../../state/reducer.preload.js';
+import { NavTab } from '../../../types/Nav.std.js';
 
 describe('both/state/selectors/search', () => {
   const NOW = 1_000_000;
@@ -463,10 +464,17 @@ describe('both/state/selectors/search', () => {
 
       const state: StateType = {
         ...getEmptyRootState(),
+        nav: {
+          selectedLocation: {
+            tab: NavTab.Chats,
+            details: {
+              conversationId: 'selected-id',
+            },
+          },
+        },
         conversations: {
           ...getEmptyConversationState(),
           conversationLookup: makeLookup(conversations, 'id'),
-          selectedConversationId: 'selected-id',
         },
         search: {
           ...getEmptySearchState(),
@@ -502,10 +510,17 @@ describe('both/state/selectors/search', () => {
 
       const state: StateType = {
         ...getEmptyRootState(),
+        nav: {
+          selectedLocation: {
+            tab: NavTab.Chats,
+            details: {
+              conversationId: '2',
+            },
+          },
+        },
         conversations: {
           ...getEmptyConversationState(),
           conversationLookup: makeLookup(conversations, 'id'),
-          selectedConversationId: '2',
         },
         search: {
           ...getEmptySearchState(),

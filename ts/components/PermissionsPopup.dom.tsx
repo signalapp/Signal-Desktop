@@ -24,7 +24,7 @@ export function PermissionsPopup({
   message,
   onAccept,
   onClose,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   useEscapeHandling(onClose);
 
   return (

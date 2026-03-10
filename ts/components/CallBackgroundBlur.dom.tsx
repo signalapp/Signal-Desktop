@@ -16,7 +16,7 @@ export function CallBackgroundBlur({
   children,
   className,
   darken,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   return (
     <div
       className={classNames(

@@ -453,7 +453,12 @@ export default class MessageReceiver
           ),
           timestamp: decoded.clientTimestamp?.toNumber() ?? 0,
           content,
-          serverGuid: decoded.serverGuid ?? getGuid(),
+          serverGuid:
+            (Bytes.isNotEmpty(decoded.serverGuidBinary)
+              ? bytesToUuid(decoded.serverGuidBinary)
+              : undefined) ??
+            decoded.serverGuid ??
+            getGuid(),
           serverTimestamp,
           urgent: isBoolean(decoded.urgent) ? decoded.urgent : true,
           story: decoded.story ?? false,
@@ -2101,12 +2106,14 @@ export default class MessageReceiver
       log.warn(`${logId}: Dropping too-long message. Length: ${length}`);
     }
 
+    strictAssert(timestamp, 'Missing sent timestamp');
+
     const ev = new SentEvent(
       {
         envelopeId: envelope.id,
         destinationE164: dropNull(destinationE164),
         destinationServiceId,
-        timestamp: timestamp?.toNumber(),
+        timestamp: timestamp.toNumber(),
         serverTimestamp: envelope.serverTimestamp,
         device: envelope.sourceDevice,
         unidentifiedStatus,
@@ -3194,6 +3201,7 @@ export default class MessageReceiver
           'handleViewOnceOpen.senderUuid'
         ),
         timestamp: sync.timestamp?.toNumber(),
+        envelopeTimestamp: envelope.timestamp,
       },
       this.#removeFromCache.bind(this, envelope)
     );
@@ -3481,9 +3489,6 @@ export default class MessageReceiver
     const rootKey = Bytes.isNotEmpty(callLinkUpdate.rootKey)
       ? callLinkUpdate.rootKey
       : undefined;
-    const epoch = Bytes.isNotEmpty(callLinkUpdate.epoch)
-      ? callLinkUpdate.epoch
-      : undefined;
     const adminKey = Bytes.isNotEmpty(callLinkUpdate.adminPasskey)
       ? callLinkUpdate.adminPasskey
       : undefined;
@@ -3492,7 +3497,6 @@ export default class MessageReceiver
       {
         type: callLinkUpdateSyncType,
         rootKey,
-        epoch,
         adminKey,
       },
       this.#removeFromCache.bind(this, envelope)

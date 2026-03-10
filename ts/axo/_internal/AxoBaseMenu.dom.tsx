@@ -6,9 +6,9 @@ import { tw } from '../tw.dom.js';
 import { AxoSymbol } from '../AxoSymbol.dom.js';
 import { isTestOrMockEnvironment } from '../../environment.std.js';
 
-// Pulled from $z-index-context-menu. In the future we should be relying more
-// on insert order of dialogs/popovers/menus into portals
-const LEGACY_CONTEXT_MENU_Z_INDEX = tw('z-[125]');
+// In the future we should be relying more on insert order of
+// dialogs/popovers/menus into portals
+const LEGACY_CONTEXT_MENU_Z_INDEX = tw('legacy-z-index-context-menu');
 
 export namespace AxoBaseMenu {
   // <Content/SubContent>
@@ -16,7 +16,7 @@ export namespace AxoBaseMenu {
     LEGACY_CONTEXT_MENU_Z_INDEX,
     'max-w-[300px] min-w-[200px]',
     'select-none',
-    'rounded-xl bg-elevated-background-tertiary shadow-elevation-3',
+    'curved-xl bg-elevated-background-tertiary shadow-elevation-3',
     isTestOrMockEnvironment() ||
       'animate-opacity-0 data-[state=closed]:animate-exit',
     'forced-colors:border',
@@ -40,7 +40,7 @@ export namespace AxoBaseMenu {
   // <Item/RadioItem/CheckboxItem/SubTrigger> (not Label/Separator)
   const navigableItemStyles = tw(
     labeledItemStyles,
-    'rounded-md type-body-medium',
+    'curved-md type-body-medium',
     'outline-0 data-[highlighted]:bg-fill-secondary-pressed',
     'data-[disabled]:text-label-disabled',
     'outline-0 outline-border-focused focused:outline-[2.5px]',
@@ -93,7 +93,9 @@ export namespace AxoBaseMenu {
     children: ReactNode;
   }>;
 
-  export function ItemLeadingSlot(props: ItemLeadingSlotProps): JSX.Element {
+  export function ItemLeadingSlot(
+    props: ItemLeadingSlotProps
+  ): React.JSX.Element {
     return (
       <span
         className={tw('col-start-1 col-end-1 me-1.5 flex items-center gap-1.5')}
@@ -107,7 +109,9 @@ export namespace AxoBaseMenu {
     children: ReactNode;
   }>;
 
-  export function ItemContentSlot(props: ItemContentSlotProps): JSX.Element {
+  export function ItemContentSlot(
+    props: ItemContentSlotProps
+  ): React.JSX.Element {
     return (
       <span className={tw('col-start-2 col-end-2 flex min-w-0 items-center')}>
         {props.children}
@@ -126,7 +130,7 @@ export namespace AxoBaseMenu {
     children: ReactNode;
   }>;
 
-  export function ItemText(props: ItemTextProps): JSX.Element {
+  export function ItemText(props: ItemTextProps): React.JSX.Element {
     return <span className={itemTextStyles}>{props.children}</span>;
   }
 
@@ -136,17 +140,17 @@ export namespace AxoBaseMenu {
 
   export function ItemCheckPlaceholder(
     props: ItemCheckPlaceholderProps
-  ): JSX.Element {
+  ): React.JSX.Element {
     return <span className={tw('w-3.5')}>{props.children}</span>;
   }
 
-  export function ItemCheck(): JSX.Element {
+  export function ItemCheck(): React.JSX.Element {
     return <AxoSymbol.Icon size={14} symbol="check" label={null} />;
   }
 
   export function ItemSymbol(props: {
     symbol: AxoSymbol.IconName;
-  }): JSX.Element {
+  }): React.JSX.Element {
     return <AxoSymbol.Icon size={16} symbol={props.symbol} label={null} />;
   }
 
@@ -156,7 +160,7 @@ export namespace AxoBaseMenu {
 
   export function ItemKeyboardShortcut(
     props: ItemKeyboardShortcutProps
-  ): JSX.Element {
+  ): React.JSX.Element {
     return (
       <span
         dir="auto"
@@ -201,6 +205,7 @@ export namespace AxoBaseMenu {
    */
 
   export type MenuContentProps = Readonly<{
+    onCloseAutoFocus?: (e: Event) => void;
     children: ReactNode;
   }>;
 

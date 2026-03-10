@@ -39,11 +39,7 @@ import type { ConversationType } from '../state/ducks/conversations.preload.js';
 import type { PreferredBadgeSelectorType } from '../state/selectors/badges.preload.js';
 import { isAciString } from '../util/isAciString.std.js';
 import { MentionBlot } from '../quill/mentions/blot.dom.js';
-import {
-  matchEmojiImage,
-  matchEmojiBlot,
-  matchEmojiText,
-} from '../quill/emoji/matchers.dom.js';
+import { matchEmojiBlot, matchEmojiText } from '../quill/emoji/matchers.dom.js';
 import { matchMention } from '../quill/mentions/matchers.std.js';
 import { MemberRepository } from '../quill/memberRepository.std.js';
 import {
@@ -87,6 +83,9 @@ import type { EmojiCompletionOptions } from '../quill/emoji/completion.dom.js';
 import { useFunEmojiLocalizer } from './fun/useFunEmojiLocalizer.dom.js';
 import { MAX_BODY_ATTACHMENT_BYTE_LENGTH } from '../util/longAttachment.std.js';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.js';
+import { AxoSymbol } from '../axo/AxoSymbol.dom.js';
+import { AxoTooltip } from '../axo/AxoTooltip.dom.js';
+import { tw } from '../axo/tw.dom.js';
 
 const log = createLogger('CompositionInput');
 
@@ -108,6 +107,7 @@ Quill.register(
 
 export type InputApi = {
   focus: () => void;
+  hasFocus: () => boolean;
   insertEmoji: (emojiSelection: FunEmojiSelection) => void;
   setContents: (
     text: string,
@@ -162,6 +162,9 @@ export type Props = Readonly<{
   linkPreviewLoading?: boolean;
   linkPreviewResult: LinkPreviewForUIType | null;
   onCloseLinkPreview?(conversationId: string): unknown;
+  showViewOnceButton: boolean;
+  isViewOnceActive: boolean;
+  onToggleViewOnce: () => void;
 }>;
 
 const BASE_CLASS_NAME = 'module-composition-input';
@@ -198,16 +201,19 @@ export function CompositionInput(props: Props): React.ReactElement {
     sendCounter,
     sortedGroupMembers,
     theme,
+    showViewOnceButton,
+    isViewOnceActive,
+    onToggleViewOnce,
   } = props;
 
   const [emojiCompletionElement, setEmojiCompletionElement] =
-    React.useState<JSX.Element | null>();
+    React.useState<React.JSX.Element | null>();
   const [formattingChooserElement, setFormattingChooserElement] =
-    React.useState<JSX.Element>();
+    React.useState<React.JSX.Element>();
   const [lastSelectionRange, setLastSelectionRange] =
     React.useState<RangeStatic | null>(null);
   const [mentionCompletionElement, setMentionCompletionElement] =
-    React.useState<JSX.Element>();
+    React.useState<React.JSX.Element>();
 
   const emojiCompletionRef = React.useRef<EmojiCompletion>();
   const mentionCompletionRef = React.useRef<MentionCompletion>();
@@ -277,7 +283,7 @@ export function CompositionInput(props: Props): React.ReactElement {
     };
   };
 
-  const focus = () => {
+  const focus = React.useCallback(() => {
     const quill = quillRef.current;
 
     if (quill === undefined) {
@@ -285,34 +291,37 @@ export function CompositionInput(props: Props): React.ReactElement {
     }
 
     quill.focus();
-  };
+  }, []);
 
-  const insertEmoji = (emojiSelection: FunEmojiSelection) => {
-    const quill = quillRef.current;
+  const insertEmoji = React.useCallback(
+    (emojiSelection: FunEmojiSelection) => {
+      const quill = quillRef.current;
 
-    if (quill === undefined) {
-      return;
-    }
+      if (quill === undefined) {
+        return;
+      }
 
-    const range = quill.getSelection();
+      const range = quill.getSelection();
 
-    const insertionRange = range || lastSelectionRange;
-    if (insertionRange == null) {
-      return;
-    }
+      const insertionRange = range || lastSelectionRange;
+      if (insertionRange == null) {
+        return;
+      }
 
-    const emojiVariant = getEmojiVariantByKey(emojiSelection.variantKey);
+      const emojiVariant = getEmojiVariantByKey(emojiSelection.variantKey);
 
-    const delta = new Delta()
-      .retain(insertionRange.index)
-      .delete(insertionRange.length)
-      .insert({ emoji: { value: emojiVariant.value } });
+      const delta = new Delta()
+        .retain(insertionRange.index)
+        .delete(insertionRange.length)
+        .insert({ emoji: { value: emojiVariant.value } });
 
-    quill.updateContents(delta, 'user');
-    quill.setSelection(insertionRange.index + 1, 0, 'user');
-  };
+      quill.updateContents(delta, 'user');
+      quill.setSelection(insertionRange.index + 1, 0, 'user');
+    },
+    [lastSelectionRange]
+  );
 
-  const reset = () => {
+  const reset = React.useCallback(() => {
     const quill = quillRef.current;
 
     if (quill === undefined) {
@@ -323,29 +332,32 @@ export function CompositionInput(props: Props): React.ReactElement {
     quill.setText('');
 
     quill.history.clear();
-  };
+  }, []);
 
-  const setContents = (
-    text: string,
-    bodyRanges?: HydratedBodyRangesType,
-    cursorToEnd?: boolean
-  ) => {
-    const quill = quillRef.current;
+  const setContents = React.useCallback(
+    (
+      text: string,
+      bodyRanges?: HydratedBodyRangesType,
+      cursorToEnd?: boolean
+    ) => {
+      const quill = quillRef.current;
 
-    if (quill === undefined) {
-      return;
-    }
+      if (quill === undefined) {
+        return;
+      }
 
-    const delta = generateDelta(text || '', bodyRanges || []);
+      const delta = generateDelta(text || '', bodyRanges || []);
 
-    canSendRef.current = true;
-    quill.setContents(delta);
-    if (cursorToEnd) {
-      quill.setSelection(quill.getLength(), 0);
-    }
-  };
+      canSendRef.current = true;
+      quill.setContents(delta);
+      if (cursorToEnd) {
+        quill.setSelection(quill.getLength(), 0);
+      }
+    },
+    []
+  );
 
-  const submit = () => {
+  const submit = React.useCallback(() => {
     const timestamp = Date.now();
     const quill = quillRef.current;
 
@@ -369,17 +381,22 @@ export function CompositionInput(props: Props): React.ReactElement {
     if (!didSend) {
       canSendRef.current = true;
     }
-  };
+  }, [onSubmit]);
 
-  if (inputApi) {
-    inputApi.current = {
+  const hasFocus = React.useCallback(() => {
+    return quillRef.current?.hasFocus() ?? false;
+  }, []);
+
+  React.useImperativeHandle(inputApi, () => {
+    return {
       focus,
+      hasFocus,
       insertEmoji,
       setContents,
       reset,
       submit,
     };
-  }
+  }, [focus, hasFocus, insertEmoji, reset, setContents, submit]);
 
   React.useEffect(() => {
     propsRef.current = props;
@@ -802,8 +819,6 @@ export function CompositionInput(props: Props): React.ReactElement {
                 [Node.TEXT_NODE, matchNewline],
                 ['br', matchBreak],
                 [Node.ELEMENT_NODE, matchNewline],
-                ['IMG', matchEmojiImage],
-                ['SPAN', matchEmojiImage],
                 ['IMG', matchEmojiBlot],
                 ['SPAN', matchEmojiBlot],
                 ['STRONG', matchBold],
@@ -870,7 +885,7 @@ export function CompositionInput(props: Props): React.ReactElement {
           }}
           formats={getQuillFormats()}
           placeholder={placeholder || i18n('icu:sendMessage')}
-          readOnly={disabled}
+          readOnly={disabled || isViewOnceActive}
           ref={element => {
             if (!element) {
               return;
@@ -982,16 +997,22 @@ export function CompositionInput(props: Props): React.ReactElement {
     };
   }, [isMouseDown]);
 
+  const isInputEnabled = !disabled && !isViewOnceActive;
+
   return (
     <Manager>
       <Reference>
         {({ ref }) => (
           <div
-            className={getClassName('__input')}
+            className={classNames(
+              getClassName('__input'),
+              showViewOnceButton && getClassName('__input--with-view-once'),
+              isViewOnceActive && getClassName('__input--view-once-active')
+            )}
             data-supertab
             ref={ref}
             data-testid="CompositionInput"
-            data-enabled={disabled ? 'false' : 'true'}
+            data-enabled={isInputEnabled ? 'true' : 'false'}
             onMouseDown={onMouseDown}
           >
             {draftEditMessage && (
@@ -1018,6 +1039,11 @@ export function CompositionInput(props: Props): React.ReactElement {
               />
             )}
             {children}
+            {isViewOnceActive && (
+              <div className={getClassName('__view-once-placeholder')}>
+                {i18n('icu:CompositionArea--viewOnceMediaPlaceholder')}
+              </div>
+            )}
             <div
               onClick={focus}
               onScroll={onScroll}
@@ -1039,6 +1065,31 @@ export function CompositionInput(props: Props): React.ReactElement {
                 </>
               )}
             </div>
+            {showViewOnceButton && (
+              <div className={getClassName('__view-once-button')}>
+                <AxoTooltip.Root
+                  label={i18n('icu:CompositionArea--viewOnceToggle')}
+                  tooltipRepeatsTriggerAccessibleName
+                >
+                  <button
+                    type="button"
+                    aria-label={i18n('icu:CompositionArea--viewOnceToggle')}
+                    onClick={onToggleViewOnce}
+                    className={tw(
+                      'flex cursor-default items-center justify-center rounded-full',
+                      'outline-border-focused not-forced-colors:outline-0 not-forced-colors:focused:outline-[2.5px]',
+                      'forced-colors:border forced-colors:border-[ButtonBorder]'
+                    )}
+                  >
+                    <AxoSymbol.Icon
+                      size={20}
+                      symbol={isViewOnceActive ? 'viewonce' : 'viewonce-slash'}
+                      label={null}
+                    />
+                  </button>
+                </AxoTooltip.Root>
+              </div>
+            )}
           </div>
         )}
       </Reference>

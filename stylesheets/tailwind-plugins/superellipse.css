@@ -1,0 +1,10 @@
+/**
+ * Copyright 2026 Signal Messenger, LLC
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+@utility curved-* {
+  border-radius: calc(--value(--radius-*) * 1.15);
+  border-radius: calc(--value(integer) * 1.15px);
+  corner-shape: superellipse(1.25);
+}

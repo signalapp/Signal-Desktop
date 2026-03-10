@@ -23,7 +23,7 @@ export function ProfileChangeNotification({
   changedContact,
   i18n,
   onOpenEditNicknameAndNoteModal,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const message = getStringForProfileChange(change, changedContact, i18n);
   const { id: contactId } = changedContact;
 

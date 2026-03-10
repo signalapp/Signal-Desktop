@@ -65,7 +65,7 @@ describe('ActiveWindowService', () => {
           const service = getActiveWindowService(fakeDocument, fakeIpc);
 
           fakeIpc.emit('set-window-focus', fakeIpcEvent, false);
-
+          this.clock.tick(1);
           fakeDocument.dispatchEvent(new Event(eventName));
           assert.isTrue(service.isActive());
           this.clock.tick(1001);
@@ -104,6 +104,21 @@ describe('ActiveWindowService', () => {
       });
     }
   );
+
+  it('is inactive immediately after a blur event, despite any previous events', function (this: Mocha.Context) {
+    const fakeDocument = createFakeDocument();
+    const fakeIpc = new EventEmitter();
+    const service = getActiveWindowService(fakeDocument, fakeIpc);
+
+    fakeIpc.emit('set-window-focus', fakeIpcEvent, true);
+
+    fakeDocument.dispatchEvent(new Event('click'));
+    // Important to also test a non-focusing event
+    fakeDocument.dispatchEvent(new Event('wheel'));
+    fakeIpc.emit('set-window-focus', fakeIpcEvent, false);
+
+    assert.isFalse(service.isActive());
+  });
 
   it('calls callbacks when going from unfocused to focused', () => {
     const fakeIpc = new EventEmitter();

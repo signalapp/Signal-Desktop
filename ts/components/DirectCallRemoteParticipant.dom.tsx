@@ -9,12 +9,14 @@ import type { LocalizerType } from '../types/Util.std.js';
 import { AvatarColors } from '../types/Colors.std.js';
 import { Avatar, AvatarSize } from './Avatar.dom.js';
 import { CallBackgroundBlur } from './CallBackgroundBlur.dom.js';
+import type { SizeCallbackType } from '../calling/VideoSupport.preload.js';
 
 type PropsType = {
   conversation: ConversationType;
   hasRemoteVideo: boolean;
   i18n: LocalizerType;
   isReconnecting: boolean;
+  handleSize: SizeCallbackType;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
 };
 
@@ -24,15 +26,16 @@ export function DirectCallRemoteParticipant({
   i18n,
   isReconnecting,
   setRendererCanvas,
-}: PropsType): JSX.Element {
+  handleSize,
+}: PropsType): React.JSX.Element {
   const remoteVideoRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
-    setRendererCanvas({ element: remoteVideoRef });
+    setRendererCanvas({ element: remoteVideoRef, sizeCallback: handleSize });
     return () => {
-      setRendererCanvas({ element: undefined });
+      setRendererCanvas({ element: undefined, sizeCallback: undefined });
     };
-  }, [setRendererCanvas]);
+  }, [handleSize, setRendererCanvas]);
 
   return hasRemoteVideo ? (
     <canvas
@@ -57,7 +60,6 @@ function renderAvatar(
     hasAvatar,
     phoneNumber,
     profileName,
-    sharedGroupNames,
     title,
   }: Pick<
     ConversationType,
@@ -69,10 +71,9 @@ function renderAvatar(
     | 'isMe'
     | 'phoneNumber'
     | 'profileName'
-    | 'sharedGroupNames'
     | 'title'
   >
-): JSX.Element {
+): React.JSX.Element {
   return (
     <div className="module-ongoing-call__remote-video-disabled">
       <CallBackgroundBlur avatarUrl={avatarUrl}>
@@ -88,8 +89,7 @@ function renderAvatar(
           phoneNumber={phoneNumber}
           profileName={profileName}
           title={title}
-          sharedGroupNames={sharedGroupNames}
-          size={AvatarSize.EIGHTY}
+          size={AvatarSize.NINETY_SIX}
         />
       </CallBackgroundBlur>
     </div>

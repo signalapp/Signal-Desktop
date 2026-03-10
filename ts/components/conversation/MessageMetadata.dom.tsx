@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactChild } from 'react';
+import type { ReactNode } from 'react';
 import React, { forwardRef, useCallback, useState } from 'react';
 import classNames from 'classnames';
 
@@ -14,12 +14,16 @@ import { ExpireTimer } from './ExpireTimer.dom.js';
 import { MessageTimestamp } from './MessageTimestamp.dom.js';
 import { PanelType } from '../../types/Panels.std.js';
 import { Spinner } from '../Spinner.dom.js';
+import { AxoAlertDialog } from '../../axo/AxoAlertDialog.dom.js';
 import { ConfirmationDialog } from '../ConfirmationDialog.dom.js';
 import { refMerger } from '../../util/refMerger.std.js';
 import type { Size } from '../../hooks/useSizeObserver.dom.js';
 import { SizeObserver } from '../../hooks/useSizeObserver.dom.js';
+import { AxoSymbol } from '../../axo/AxoSymbol.dom.js';
+import { tw } from '../../axo/tw.dom.js';
 
 type PropsType = {
+  canRetryDeleteForEveryone: boolean;
   deletedForEveryone?: boolean;
   direction: DirectionType;
   expirationLength?: number;
@@ -28,6 +32,7 @@ type PropsType = {
   i18n: LocalizerType;
   id: string;
   isEditedMessage?: boolean;
+  isPinned: boolean;
   isSMS?: boolean;
   isInline?: boolean;
   isOutlineOnlyBubble?: boolean;
@@ -35,6 +40,7 @@ type PropsType = {
   isSticker?: boolean;
   onWidthMeasured?: (width: number) => unknown;
   pushPanelForConversation: PushPanelForConversationActionType;
+  retryDeleteForEveryone: (messageId: string) => unknown;
   retryMessageSend: (messageId: string) => unknown;
   showEditHistoryModal?: (id: string) => unknown;
   status?: MessageStatusType;
@@ -44,11 +50,13 @@ type PropsType = {
 
 enum ConfirmationType {
   EditError = 'EditError',
+  DeleteError = 'DeleteError',
 }
 
 export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
   function MessageMetadataInner(
     {
+      canRetryDeleteForEveryone,
       deletedForEveryone,
       direction,
       expirationLength,
@@ -57,6 +65,7 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
       i18n,
       id,
       isEditedMessage,
+      isPinned,
       isSMS,
       isOutlineOnlyBubble,
       isInline,
@@ -64,6 +73,7 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
       isSticker,
       onWidthMeasured,
       pushPanelForConversation,
+      retryDeleteForEveryone,
       retryMessageSend,
       showEditHistoryModal,
       status,
@@ -80,17 +90,34 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
     );
     const metadataDirection = isSticker ? undefined : direction;
 
-    let timestampNode: ReactChild;
+    let timestampNode: ReactNode;
     {
-      const isError = status === 'error' && direction === 'outgoing';
-      const isPartiallySent =
-        status === 'partial-sent' && direction === 'outgoing';
+      // When deletedForEveryone, the status reflects our delete send,
+      // not the original message direction
+      const isOutgoingOrDelete = direction === 'outgoing' || deletedForEveryone;
+      const isError = status === 'error' && isOutgoingOrDelete;
+      const isPartiallySent = status === 'partial-sent' && isOutgoingOrDelete;
       const isPaused = status === 'paused';
 
       if (isError || isPartiallySent || isPaused) {
-        let statusInfo: React.ReactChild;
+        let statusInfo: React.ReactNode;
         if (isError) {
-          if (deletedForEveryone) {
+          if (deletedForEveryone && canRetryDeleteForEveryone) {
+            statusInfo = (
+              <button
+                type="button"
+                className="module-message__metadata__tapable"
+                onClick={(event: React.MouseEvent) => {
+                  event.stopPropagation();
+                  event.preventDefault();
+
+                  setConfirmationType(ConfirmationType.DeleteError);
+                }}
+              >
+                {i18n('icu:deleteFailedClickForDetails')}
+              </button>
+            );
+          } else if (deletedForEveryone) {
             statusInfo = i18n('icu:deleteFailed');
           } else if (isEditedMessage) {
             statusInfo = (
@@ -128,26 +155,14 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
               }}
             >
               {deletedForEveryone
-                ? i18n('icu:partiallyDeleted')
+                ? i18n('icu:partiallyDeleted--clickForDetails')
                 : i18n('icu:partiallySent')}
             </button>
           );
         }
 
         timestampNode = (
-          <span
-            className={classNames({
-              'module-message__metadata__date': true,
-              'module-message__metadata__date--with-sticker': isSticker,
-              'module-message__metadata__date--outline-only-bubble':
-                isOutlineOnlyBubble,
-              [`module-message__metadata__date--${direction}`]: !isSticker,
-              'module-message__metadata__date--with-image-no-caption':
-                withImageNoCaption,
-            })}
-          >
-            {statusInfo}
-          </span>
+          <span className="module-message__metadata__date">{statusInfo}</span>
         );
       } else {
         timestampNode = (
@@ -164,7 +179,7 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
       }
     }
 
-    let confirmation: JSX.Element | undefined;
+    let confirmation: React.JSX.Element | undefined;
     if (confirmationType === undefined) {
       // no-op
     } else if (confirmationType === ConfirmationType.EditError) {
@@ -189,18 +204,60 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
           {i18n('icu:ResendMessageEdit__body')}
         </ConfirmationDialog>
       );
+    } else if (confirmationType === ConfirmationType.DeleteError) {
+      confirmation = (
+        <AxoAlertDialog.Root
+          open
+          onOpenChange={() => setConfirmationType(undefined)}
+        >
+          <AxoAlertDialog.Content escape="cancel-is-noop">
+            <AxoAlertDialog.Body>
+              <AxoAlertDialog.Title screenReaderOnly>
+                {i18n('icu:retryDeleteForEveryone--title')}
+              </AxoAlertDialog.Title>
+              <AxoAlertDialog.Description>
+                {i18n('icu:retryDeleteForEveryone--body')}
+              </AxoAlertDialog.Description>
+            </AxoAlertDialog.Body>
+            <AxoAlertDialog.Footer>
+              <AxoAlertDialog.Cancel>
+                {i18n('icu:cancel')}
+              </AxoAlertDialog.Cancel>
+              <AxoAlertDialog.Action
+                variant="primary"
+                onClick={() => {
+                  retryDeleteForEveryone(id);
+                  setConfirmationType(undefined);
+                }}
+              >
+                {i18n('icu:retryDeleteForEveryone--tryAgain')}
+              </AxoAlertDialog.Action>
+            </AxoAlertDialog.Footer>
+          </AxoAlertDialog.Content>
+        </AxoAlertDialog.Root>
+      );
     } else {
       throw missingCaseError(confirmationType);
     }
 
     const className = classNames(
       'module-message__metadata',
+      direction === 'outgoing' && 'module-message__metadata--outgoing',
       isInline && 'module-message__metadata--inline',
       withImageNoCaption && 'module-message__metadata--with-image-no-caption',
-      isOutlineOnlyBubble && 'module-message__metadata--outline-only-bubble'
+      isOutlineOnlyBubble && 'module-message__metadata--outline-only-bubble',
+      isSticker && 'module-message__metadata--sticker'
     );
     const children = (
       <>
+        {isPinned && (
+          <span className={tw('me-1')}>
+            <AxoSymbol.InlineGlyph
+              symbol="pin-fill"
+              label={i18n('icu:MessageMetadata__pinned')}
+            />
+          </span>
+        )}
         {isEditedMessage && showEditHistoryModal && (
           <button
             className="module-message__metadata__edited"
@@ -212,18 +269,14 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
         )}
         {timestampNode}
         {isSMS ? (
-          <div
-            className={`module-message__metadata__sms module-message__metadata__sms--${direction}`}
-          />
+          <div className="module-message__metadata__sms">
+            <AxoSymbol.InlineGlyph symbol="lock-open" label={null} />
+          </div>
         ) : null}
         {expirationLength ? (
           <ExpireTimer
-            direction={metadataDirection}
-            isOutlineOnlyBubble={isOutlineOnlyBubble}
             expirationLength={expirationLength}
             expirationTimestamp={expirationTimestamp}
-            withImageNoCaption={withImageNoCaption}
-            withSticker={isSticker}
           />
         ) : null}
         {textPending ? (
@@ -233,22 +286,13 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
         ) : null}
         {(!deletedForEveryone || status === 'sending') &&
         !textPending &&
-        direction === 'outgoing' &&
+        (direction === 'outgoing' || deletedForEveryone) &&
         status !== 'error' &&
         status !== 'partial-sent' ? (
           <div
             className={classNames(
               'module-message__metadata__status-icon',
-              `module-message__metadata__status-icon--${status}`,
-              isSticker
-                ? 'module-message__metadata__status-icon--with-sticker'
-                : null,
-              withImageNoCaption
-                ? 'module-message__metadata__status-icon--with-image-no-caption'
-                : null,
-              isOutlineOnlyBubble
-                ? 'module-message__metadata__status-icon--outline-only-bubble'
-                : null
+              `module-message__metadata__status-icon--${status}`
             )}
           />
         ) : null}

@@ -97,7 +97,7 @@ export function ChooseGroupMembersModal({
   lookupConversationWithoutServiceId,
   showUserNotFoundModal,
   username,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [focusRef] = useRestoreFocus();
 
   const isUsernameChecked = selectedContacts.some(
@@ -423,7 +423,6 @@ export function ChooseGroupMembersModal({
                 id={contact.id}
                 phoneNumber={contact.phoneNumber}
                 profileName={contact.profileName}
-                sharedGroupNames={contact.sharedGroupNames}
                 title={contact.title}
                 onClickRemove={() => {
                   removeSelectedContact(contact.id);

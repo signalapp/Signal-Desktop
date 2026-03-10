@@ -31,7 +31,6 @@ import type {
   DeclineCallType,
   GroupCallParticipantInfoType,
   PendingUserActionPayloadType,
-  RemoveClientType,
   SendGroupCallRaiseHandType,
   SendGroupCallReactionType,
   SetGroupCallVideoRequestType,
@@ -59,6 +58,8 @@ import {
 } from '../types/NotificationProfile.std.js';
 import type { NotificationProfileType } from '../types/NotificationProfile.std.js';
 import { strictAssert } from '../util/assert.std.js';
+import type { SetLocalPreviewContainerType } from '../services/calling.preload.js';
+import type { ContactModalStateType } from '../types/globalModals.std.js';
 
 const { noop } = lodash;
 
@@ -102,11 +103,11 @@ export type PropsType = {
   getPresentingSources: () => void;
   isOnline: boolean;
   ringingCall: DirectIncomingCall | GroupIncomingCall | null;
-  renderDeviceSelection: () => JSX.Element;
+  renderDeviceSelection: () => React.JSX.Element;
   renderReactionPicker: (
     props: React.ComponentProps<typeof SmartReactionPicker>
-  ) => JSX.Element;
-  showContactModal: (contactId: string, conversationId?: string) => void;
+  ) => React.JSX.Element;
+  showContactModal: (payload: ContactModalStateType) => void;
   startCall: (payload: StartCallType) => void;
   toggleParticipants: () => void;
   acceptCall: (_: AcceptCallType) => void;
@@ -127,8 +128,6 @@ export type PropsType = {
   ) => unknown;
   openSystemPreferencesAction: () => unknown;
   playRingtone: () => unknown;
-  removeClient: (payload: RemoveClientType) => void;
-  blockClient: (payload: RemoveClientType) => void;
   selectPresentingSource: (id: string) => void;
   sendGroupCallRaiseHand: (payload: SendGroupCallRaiseHandType) => void;
   sendGroupCallReaction: (payload: SendGroupCallReactionType) => void;
@@ -137,7 +136,7 @@ export type PropsType = {
   setLocalAudio: SetLocalAudioType;
   setLocalVideo: SetLocalVideoType;
   setLocalAudioRemoteMuted: SetMutedByType;
-  setLocalPreviewContainer: (container: HTMLDivElement | null) => void;
+  setLocalPreviewContainer: (options: SetLocalPreviewContainerType) => void;
   setOutgoingRing: (_: boolean) => void;
   setRendererCanvas: (_: SetRendererCanvasType) => void;
   showShareCallLinkViaSignal: (
@@ -179,7 +178,6 @@ function ActiveCallManager({
   approveUser,
   availableCameras,
   batchUserAction,
-  blockClient,
   callLink,
   cancelCall,
   cancelPresenting,
@@ -196,7 +194,6 @@ function ActiveCallManager({
   openSystemPreferencesAction,
   renderDeviceSelection,
   renderReactionPicker,
-  removeClient,
   selectPresentingSource,
   sendGroupCallRaiseHand,
   sendGroupCallReaction,
@@ -219,7 +216,7 @@ function ActiveCallManager({
   toggleSelfViewExpanded,
   toggleSettings,
   pauseVoiceNotePlayer,
-}: ActiveCallManagerPropsType): JSX.Element {
+}: ActiveCallManagerPropsType): React.JSX.Element {
   const {
     conversation,
     hasLocalAudio,
@@ -412,15 +409,12 @@ function ActiveCallManager({
             <CallingAdhocCallInfo
               callLink={callLink}
               i18n={i18n}
-              isCallLinkAdmin={isCallLinkAdmin}
               isUnknownContactDiscrete={false}
               ourServiceId={me.serviceId}
               participants={peekedParticipants}
               onClose={toggleParticipants}
               onCopyCallLink={onCopyCallLink}
               onShareCallLinkViaSignal={handleShareCallLinkViaSignal}
-              removeClient={removeClient}
-              blockClient={blockClient}
               showContactModal={showContactModal}
             />
           ) : (
@@ -516,15 +510,12 @@ function ActiveCallManager({
           <CallingAdhocCallInfo
             callLink={callLink}
             i18n={i18n}
-            isCallLinkAdmin={isCallLinkAdmin}
             isUnknownContactDiscrete
             ourServiceId={me.serviceId}
             participants={groupCallParticipantsForParticipantsList}
             onClose={toggleParticipants}
             onCopyCallLink={onCopyCallLink}
             onShareCallLinkViaSignal={handleShareCallLinkViaSignal}
-            removeClient={removeClient}
-            blockClient={blockClient}
             showContactModal={showContactModal}
           />
         ) : (
@@ -548,7 +539,6 @@ export function CallManager({
   approveUser,
   availableCameras,
   batchUserAction,
-  blockClient,
   bounceAppIconStart,
   bounceAppIconStop,
   callLink,
@@ -570,7 +560,6 @@ export function CallManager({
   openSystemPreferencesAction,
   pauseVoiceNotePlayer,
   playRingtone,
-  removeClient,
   renderDeviceSelection,
   renderReactionPicker,
   ringingCall,
@@ -597,7 +586,7 @@ export function CallManager({
   toggleScreenRecordingPermissionsDialog,
   toggleSelfViewExpanded,
   toggleSettings,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   const isCallActive = Boolean(activeCall);
   useEffect(() => {
     setIsCallActive(isCallActive);
@@ -612,7 +601,7 @@ export function CallManager({
           activeProfile: activeNotificationProfile,
           conversationId: ringingCallId,
           isCall: true,
-          isMention: false,
+          isMentionOrReply: false,
         })
       ) {
         const redactedId = redactNotificationProfileId(
@@ -670,7 +659,6 @@ export function CallManager({
           availableCameras={availableCameras}
           approveUser={approveUser}
           batchUserAction={batchUserAction}
-          blockClient={blockClient}
           callLink={callLink}
           cancelCall={cancelCall}
           cancelPresenting={cancelPresenting}
@@ -688,7 +676,6 @@ export function CallManager({
           me={me}
           openSystemPreferencesAction={openSystemPreferencesAction}
           pauseVoiceNotePlayer={pauseVoiceNotePlayer}
-          removeClient={removeClient}
           renderDeviceSelection={renderDeviceSelection}
           renderReactionPicker={renderReactionPicker}
           selectPresentingSource={selectPresentingSource}
@@ -726,7 +713,7 @@ export function CallManager({
     if (
       !shouldNotify({
         isCall: true,
-        isMention: false,
+        isMentionOrReply: false,
         conversationId: ringingCall.conversation.id,
         activeProfile: activeNotificationProfile,
       })

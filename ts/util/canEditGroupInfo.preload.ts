@@ -17,9 +17,12 @@ export function canEditGroupInfo(
     return false;
   }
 
+  if (areWeAdmin(conversationAttrs)) {
+    return true;
+  }
+
   return (
-    areWeAdmin(conversationAttrs) ||
     conversationAttrs.accessControl?.attributes ===
-      Proto.AccessControl.AccessRequired.MEMBER
+    Proto.AccessControl.AccessRequired.MEMBER
   );
 }

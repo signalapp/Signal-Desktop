@@ -83,7 +83,9 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-function renderUsernameEditor(props: { onClose: () => void }): JSX.Element {
+function renderUsernameEditor(props: {
+  onClose: () => void;
+}): React.JSX.Element {
   return (
     <UsernameEditor
       i18n={i18n}

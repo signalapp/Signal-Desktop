@@ -30,7 +30,7 @@ export function BetterAvatar({
   onClick,
   onDelete,
   size = 48,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [avatarBuffer, setAvatarBuffer] = useState<Uint8Array | undefined>(
     avatarData.buffer
   );

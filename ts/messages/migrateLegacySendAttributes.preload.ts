@@ -140,7 +140,7 @@ export function migrateLegacySendAttributes(
 }
 
 function getConversationIdsFromErrors(
-  errors: undefined | ReadonlyArray<LegacyCustomError>,
+  errors: undefined | null | ReadonlyArray<LegacyCustomError>,
   getConversation: GetConversationType
 ): Array<string> {
   const result: Array<string> = [];

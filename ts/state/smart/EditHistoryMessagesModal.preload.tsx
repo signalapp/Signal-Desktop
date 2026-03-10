@@ -15,7 +15,7 @@ import { strictAssert } from '../../util/assert.std.js';
 import { getEditHistoryMessages } from '../selectors/globalModals.std.js';
 
 export const SmartEditHistoryMessagesModal = memo(
-  function SmartEditHistoryMessagesModal(): JSX.Element {
+  function SmartEditHistoryMessagesModal(): React.JSX.Element {
     const i18n = useSelector(getIntl);
     const platform = useSelector(getPlatform);
 

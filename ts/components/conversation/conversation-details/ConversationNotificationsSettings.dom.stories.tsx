@@ -24,11 +24,11 @@ const getCommonProps = () => ({
   setMuteExpiration: action('setMuteExpiration'),
 });
 
-export function GroupConversationAllDefault(): JSX.Element {
+export function GroupConversationAllDefault(): React.JSX.Element {
   return <ConversationNotificationsSettings {...getCommonProps()} />;
 }
 
-export function GroupConversationMuted(): JSX.Element {
+export function GroupConversationMuted(): React.JSX.Element {
   return (
     <ConversationNotificationsSettings
       {...getCommonProps()}
@@ -37,7 +37,7 @@ export function GroupConversationMuted(): JSX.Element {
   );
 }
 
-export function GroupConversationMentionsMuted(): JSX.Element {
+export function GroupConversationMentionsMuted(): React.JSX.Element {
   return (
     <ConversationNotificationsSettings
       {...getCommonProps()}

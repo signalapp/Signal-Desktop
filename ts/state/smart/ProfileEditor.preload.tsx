@@ -27,7 +27,7 @@ import {
   getUsernameLinkState,
 } from '../selectors/username.std.js';
 import { SmartUsernameEditor } from './UsernameEditor.preload.js';
-import { getSelectedLocation } from '../selectors/nav.preload.js';
+import { getSelectedLocation } from '../selectors/nav.std.js';
 import { useNavActions } from '../ducks/nav.std.js';
 import { NavTab, SettingsPage } from '../../types/Nav.std.js';
 
@@ -35,7 +35,9 @@ import type { ProfileEditorPage } from '../../types/Nav.std.js';
 import type { SmartUsernameEditorProps } from './UsernameEditor.preload.js';
 import { ConfirmationDialog } from '../../components/ConfirmationDialog.dom.js';
 
-function renderUsernameEditor(props: SmartUsernameEditorProps): JSX.Element {
+function renderUsernameEditor(
+  props: SmartUsernameEditorProps
+): React.JSX.Element {
   return <SmartUsernameEditor {...props} />;
 }
 
@@ -86,7 +88,7 @@ export const SmartProfileEditor = memo(function SmartProfileEditor(props: {
   const { showToast } = useToastActions();
   const { changeLocation } = useNavActions();
 
-  let errorDialog: JSX.Element | undefined;
+  let errorDialog: React.JSX.Element | undefined;
   if (hasError) {
     errorDialog = (
       <ConfirmationDialog

@@ -59,6 +59,29 @@ describe('storage service', function (this: Mocha.Suite) {
           record: {
             contact: {
               aciBinary: toAciObject(generateAci()).getRawUuidBytes(),
+              e164: null,
+              profileKey: null,
+              identityKey: null,
+              identityState: null,
+              givenName: null,
+              familyName: null,
+              username: null,
+              blocked: null,
+              whitelisted: null,
+              archived: null,
+              markedUnread: null,
+              mutedUntilTimestamp: null,
+              hideStory: null,
+              unregisteredAtTimestamp: null,
+              systemGivenName: null,
+              systemFamilyName: null,
+              systemNickname: null,
+              hidden: null,
+              pniSignatureVerified: null,
+              nickname: null,
+              note: null,
+              avatarColor: null,
+              pniBinary: null,
             },
           },
         });
@@ -83,6 +106,6 @@ describe('storage service', function (this: Mocha.Suite) {
     debug('Verifying the final manifest version');
     const finalState = await phone.expectStorageState('consistency check');
 
-    assert.strictEqual(finalState.version, 2);
+    assert.strictEqual(finalState.version, 2n);
   });
 });

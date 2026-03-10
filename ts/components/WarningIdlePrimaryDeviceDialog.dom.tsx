@@ -24,7 +24,7 @@ export function WarningIdlePrimaryDeviceDialog({
   containerWidthBreakpoint,
   i18n,
   handleClose,
-}: Props & { handleClose?: VoidFunction }): JSX.Element {
+}: Props & { handleClose?: VoidFunction }): React.JSX.Element {
   return (
     <LeftPaneDialog
       containerWidthBreakpoint={containerWidthBreakpoint}

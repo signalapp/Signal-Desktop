@@ -73,9 +73,9 @@ export function shouldPreviewHref(href: string): boolean {
   const url = maybeParseUrl(href);
   return Boolean(
     url &&
-      url.protocol === 'https:' &&
-      !isDomainExcluded(url) &&
-      !isLinkSneaky(href)
+    url.protocol === 'https:' &&
+    !isDomainExcluded(url) &&
+    !isLinkSneaky(href)
   );
 }
 

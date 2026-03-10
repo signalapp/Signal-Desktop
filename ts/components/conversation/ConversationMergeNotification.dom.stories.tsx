@@ -21,11 +21,11 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
     overrideProps.obsoleteConversationTitle || 'John Obsolete',
 });
 
-export function Basic(): JSX.Element {
+export function Basic(): React.JSX.Element {
   return <ConversationMergeNotification {...createProps()} />;
 }
 
-export function WithNoObsoleteNumber(): JSX.Element {
+export function WithNoObsoleteNumber(): React.JSX.Element {
   return (
     <ConversationMergeNotification
       {...createProps()}
@@ -34,7 +34,7 @@ export function WithNoObsoleteNumber(): JSX.Element {
   );
 }
 
-export function WithNoObsoleteTitle(): JSX.Element {
+export function WithNoObsoleteTitle(): React.JSX.Element {
   return (
     <ConversationMergeNotification
       {...createProps()}

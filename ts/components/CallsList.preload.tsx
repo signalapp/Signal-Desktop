@@ -78,7 +78,7 @@ function Timestamp({
 }: {
   i18n: LocalizerType;
   timestamp: number;
-}): JSX.Element {
+}): React.JSX.Element {
   const [now, setNow] = useState(() => Date.now());
 
   useEffect(() => {
@@ -198,7 +198,7 @@ export function CallsList({
   startCallLinkLobbyByRoomId,
   toggleConfirmLeaveCallModal,
   togglePip,
-}: CallsListProps): JSX.Element {
+}: CallsListProps): React.JSX.Element {
   const infiniteLoaderRef = useRef<InfiniteLoader>(null);
   const listRef = useRef<List>(null);
   const [queryInput, setQueryInput] = useState('');
@@ -402,8 +402,8 @@ export function CallsList({
       // For group and adhoc calls
       return Boolean(
         isActive &&
-          conversation &&
-          conversation?.id === activeCallConversationId
+        conversation &&
+        conversation?.id === activeCallConversationId
       );
     },
     []
@@ -915,7 +915,6 @@ export function CallsList({
                 hasAvatar={conversation.hasAvatar}
                 i18n={i18n}
                 title={conversation.title}
-                sharedGroupNames={[]}
                 size={AvatarSize.THIRTY_SIX}
                 badge={undefined}
                 className="CallsList__ItemAvatar"

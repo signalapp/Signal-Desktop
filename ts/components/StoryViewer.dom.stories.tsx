@@ -59,11 +59,11 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-export function SomeonesStory(args: PropsType): JSX.Element {
+export function SomeonesStory(args: PropsType): React.JSX.Element {
   return <StoryViewer {...args} />;
 }
 
-export function WideStory(args: PropsType): JSX.Element {
+export function WideStory(args: PropsType): React.JSX.Element {
   return (
     <StoryViewer
       {...args}
@@ -72,7 +72,7 @@ export function WideStory(args: PropsType): JSX.Element {
   );
 }
 
-export function InAGroup(args: PropsType): JSX.Element {
+export function InAGroup(args: PropsType): React.JSX.Element {
   return (
     <StoryViewer
       {...args}
@@ -85,7 +85,7 @@ export function InAGroup(args: PropsType): JSX.Element {
   );
 }
 
-export function MultiStory(args: PropsType): JSX.Element {
+export function MultiStory(args: PropsType): React.JSX.Element {
   return (
     <StoryViewer
       {...args}
@@ -104,7 +104,7 @@ export function MultiStory(args: PropsType): JSX.Element {
   );
 }
 
-export function Caption(args: PropsType): JSX.Element {
+export function Caption(args: PropsType): React.JSX.Element {
   return (
     <StoryViewer
       {...args}
@@ -120,7 +120,7 @@ export function Caption(args: PropsType): JSX.Element {
   );
 }
 
-export function EmojiCaption(args: PropsType): JSX.Element {
+export function EmojiCaption(args: PropsType): React.JSX.Element {
   return (
     <StoryViewer
       {...args}
@@ -136,7 +136,7 @@ export function EmojiCaption(args: PropsType): JSX.Element {
   );
 }
 
-export function LongCaption(args: PropsType): JSX.Element {
+export function LongCaption(args: PropsType): React.JSX.Element {
   return (
     <StoryViewer
       {...args}
@@ -153,7 +153,7 @@ export function LongCaption(args: PropsType): JSX.Element {
   );
 }
 
-export function YourStory(args: PropsType): JSX.Element {
+export function YourStory(args: PropsType): React.JSX.Element {
   const storyView = getFakeStoryView(
     '/fixtures/nathan-anderson-316188-unsplash.jpg'
   );
@@ -189,7 +189,7 @@ export function YourStory(args: PropsType): JSX.Element {
   );
 }
 
-export function YourStoryFailed(args: PropsType): JSX.Element {
+export function YourStoryFailed(args: PropsType): React.JSX.Element {
   const storyView = getFakeStoryView(
     '/fixtures/nathan-anderson-316188-unsplash.jpg'
   );
@@ -222,7 +222,7 @@ export function YourStoryFailed(args: PropsType): JSX.Element {
   );
 }
 
-export function ReadReceiptsOff(args: PropsType): JSX.Element {
+export function ReadReceiptsOff(args: PropsType): React.JSX.Element {
   const storyView = getFakeStoryView(
     '/fixtures/nathan-anderson-316188-unsplash.jpg'
   );

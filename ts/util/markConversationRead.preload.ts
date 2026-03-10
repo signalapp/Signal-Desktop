@@ -181,11 +181,9 @@ export async function markConversationRead(
         return undefined;
       }
 
+      // This is expected for directionless messages which are inserted as Read but Unseen
+      // (e.g. keyChange)
       if (!isAciString(senderAci)) {
-        log.warn(
-          `${logId}: message sourceServiceId timestamp is not aci` +
-            `type=${messageSyncData.type}`
-        );
         return undefined;
       }
 

@@ -19,10 +19,10 @@ export default {
   },
 } satisfies Meta<Props>;
 
-export function One(args: Props): JSX.Element {
+export function One(args: Props): React.JSX.Element {
   return <LastSeenIndicator {...args} />;
 }
 
-export function MoreThanOne(args: Props): JSX.Element {
+export function MoreThanOne(args: Props): React.JSX.Element {
   return <LastSeenIndicator {...args} count={5} />;
 }

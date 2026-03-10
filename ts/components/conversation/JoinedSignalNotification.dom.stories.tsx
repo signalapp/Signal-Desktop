@@ -12,6 +12,6 @@ export default {
 
 const { i18n } = window.SignalContext;
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return <JoinedSignalNotification timestamp={1618894800000} i18n={i18n} />;
 }

@@ -38,7 +38,7 @@ export type FunItemButtonProps = Readonly<
 export const FunItemButton = forwardRef(function FunItemButton(
   props: FunItemButtonProps,
   ref: ForwardedRef<HTMLButtonElement>
-): JSX.Element {
+): React.JSX.Element {
   const {
     'aria-label': ariaLabel,
     excludeFromTabOrder,

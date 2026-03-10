@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { debounce } from 'lodash';
+import { debounce, throttle } from 'lodash';
 import { ipcRenderer } from 'electron';
 
 import type { ThunkAction } from 'redux-thunk';
@@ -9,28 +9,32 @@ import type { ReadonlyDeep } from 'type-fest';
 
 import { createLogger } from '../../logging/log.std.js';
 import { useBoundActions } from '../../hooks/useBoundActions.std.js';
-import { getBackups, getWorkflow } from '../selectors/backups.std.js';
+import { getBackups, getPlaintextWorkflow } from '../selectors/backups.std.js';
 import { getIntl } from '../selectors/user.std.js';
 import { promptOSAuth } from '../../util/promptOSAuth.preload.js';
 import { missingCaseError } from '../../util/missingCaseError.std.js';
 import { backupsService } from '../../services/backups/index.preload.js';
 import {
   NotEnoughStorageError,
-  PlaintextExportErrors,
+  LocalExportErrors,
   PlaintextExportSteps,
   RanOutOfStorageError,
   StoragePermissionsError,
-  validTransitions,
-} from '../../types/Backups.std.js';
+  plaintextExportValidTransitions,
+  LocalBackupExportSteps,
+  localBackupExportValidTransitions,
+} from '../../types/LocalExport.std.js';
 
 import type { StateType } from '../reducer.preload.js';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
 import type {
-  PlaintextExportErrorDetails,
   PlaintextExportWorkflowType,
-} from '../../types/Backups.std.js';
+  LocalBackupExportWorkflowType,
+  LocalExportErrorDetails,
+} from '../../types/LocalExport.std.js';
 import type { LocalizerType } from '../../types/I18N.std.js';
 import { toLogFormat } from '../../types/errors.std.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 const log = createLogger('ducks/backups');
 
@@ -42,12 +46,34 @@ export type WorkflowContainer = ReadonlyDeep<
       type: 'plaintext-export';
       workflow: PlaintextExportWorkflowType;
     }
+  | {
+      type: 'local-backup';
+      workflow: LocalBackupExportWorkflowType;
+    }
   | undefined
 >;
 
 export type BackupsStateType = ReadonlyDeep<{
   workflow: WorkflowContainer;
 }>;
+
+function isPlaintextExportWorkflow(
+  workflow: WorkflowContainer
+): workflow is ReadonlyDeep<{
+  type: 'plaintext-export';
+  workflow: PlaintextExportWorkflowType;
+}> {
+  return workflow?.type === 'plaintext-export';
+}
+
+function isLocalBackupExportWorkflow(
+  workflow: WorkflowContainer
+): workflow is ReadonlyDeep<{
+  type: 'local-backup';
+  workflow: LocalBackupExportWorkflowType;
+}> {
+  return workflow?.type === 'local-backup';
+}
 
 // Actions
 
@@ -63,9 +89,11 @@ type BackupsActionTGype = ReadonlyDeep<SetWorkflowAction>;
 // Action Creators
 
 export const actions = {
+  cancelLocalBackupWorkflow,
   cancelWorkflow,
   clearWorkflow,
   setWorkflow,
+  startLocalBackupExport,
   startPlaintextExport,
   verifyWithOSForExport,
 };
@@ -88,6 +116,184 @@ function clearWorkflow(): SetWorkflowAction {
     payload: undefined,
   };
 }
+
+// Local Backup Export Actions
+
+export function startLocalBackupExport(): ThunkAction<
+  void,
+  StateType,
+  unknown,
+  SetWorkflowAction
+> {
+  return async (dispatch, getState) => {
+    const state = getBackups(getState());
+    if (state.workflow != null) {
+      log.error(
+        `startLocalBackupExport: Cannot start, workflow is already ${state.workflow.type}/${state.workflow.workflow.step}`
+      );
+      return;
+    }
+
+    const localBackupFolder = itemStorage.get('localBackupFolder');
+    if (!localBackupFolder) {
+      log.error('startLocalBackupExport: Cannot start, no backup folder set');
+      return;
+    }
+
+    const abortController = new AbortController();
+    dispatch({
+      type: SET_WORKFLOW,
+      payload: {
+        type: 'local-backup',
+        workflow: {
+          step: LocalBackupExportSteps.ExportingMessages,
+          abortController,
+          localBackupFolder,
+        },
+      },
+    });
+
+    try {
+      let complete = false;
+      const onProgress = throttle(
+        (currentBytes: number, totalBytes: number) => {
+          if (complete) {
+            return;
+          }
+          if (abortController.signal.aborted) {
+            return;
+          }
+
+          dispatch({
+            type: SET_WORKFLOW,
+            payload: {
+              type: 'local-backup',
+              workflow: {
+                step: LocalBackupExportSteps.ExportingAttachments,
+                abortController,
+                progress: {
+                  currentBytes,
+                  totalBytes,
+                },
+                localBackupFolder,
+              },
+            },
+          });
+        },
+        200,
+        { leading: true, trailing: true }
+      );
+
+      const { snapshotDir } = await backupsService.exportLocalBackup({
+        backupsBaseDir: localBackupFolder,
+        abortSignal: abortController.signal,
+        onProgress,
+      });
+
+      complete = true;
+
+      if (abortController.signal.aborted) {
+        dispatch(clearWorkflow());
+        return;
+      }
+
+      await itemStorage.put('lastLocalBackup', {
+        timestamp: Date.now(),
+        backupsFolder: localBackupFolder,
+        snapshotDir,
+      });
+
+      dispatch({
+        type: SET_WORKFLOW,
+        payload: {
+          type: 'local-backup',
+          workflow: {
+            step: LocalBackupExportSteps.Complete,
+            localBackupFolder,
+          },
+        },
+      });
+    } catch (error) {
+      log.warn('startLocalBackupExport:', toLogFormat(error));
+
+      if (abortController.signal.aborted) {
+        dispatch(clearWorkflow());
+        return;
+      }
+
+      let errorDetails: LocalExportErrorDetails = {
+        type: LocalExportErrors.General,
+      };
+
+      if (error instanceof NotEnoughStorageError) {
+        errorDetails = {
+          type: LocalExportErrors.NotEnoughStorage,
+          bytesNeeded: error.bytesNeeded,
+        };
+      }
+      if (error instanceof RanOutOfStorageError) {
+        errorDetails = {
+          type: LocalExportErrors.RanOutOfStorage,
+          bytesNeeded: error.bytesNeeded,
+        };
+      }
+      if (error instanceof StoragePermissionsError) {
+        errorDetails = {
+          type: LocalExportErrors.StoragePermissions,
+        };
+      }
+
+      dispatch({
+        type: SET_WORKFLOW,
+        payload: {
+          type: 'local-backup',
+          workflow: {
+            step: LocalBackupExportSteps.Error,
+            errorDetails,
+          },
+        },
+      });
+    }
+  };
+}
+
+function cancelLocalBackupWorkflow(): ThunkAction<
+  void,
+  StateType,
+  unknown,
+  SetWorkflowAction
+> {
+  return async (dispatch, getState) => {
+    const state = getBackups(getState());
+    const { workflow } = state;
+
+    if (workflow?.type !== 'local-backup') {
+      log.error(
+        `cancelLocalBackupWorkflow: Cannot cancel, workflow type is ${workflow?.type}`
+      );
+      return;
+    }
+
+    const { step } = workflow.workflow;
+    if (
+      step !== LocalBackupExportSteps.ExportingMessages &&
+      step !== LocalBackupExportSteps.ExportingAttachments
+    ) {
+      log.error(
+        `cancelLocalBackupWorkflow: Cannot cancel, previous state is ${step}`
+      );
+      return;
+    }
+
+    const { abortController } = workflow.workflow;
+    abortController.abort();
+
+    dispatch(clearWorkflow());
+  };
+}
+
+// Plaintext Export Actions
+
 function startPlaintextExport(): ThunkAction<
   void,
   StateType,
@@ -119,7 +325,7 @@ export function verifyWithOSForExport(
   includeMedia: boolean
 ): ThunkAction<void, StateType, unknown, SetWorkflowAction> {
   return async (dispatch, getState) => {
-    const previousWorkflow = getWorkflow(getState());
+    const previousWorkflow = getPlaintextWorkflow(getState());
     if (
       !previousWorkflow ||
       previousWorkflow.step !== PlaintextExportSteps.ConfirmingExport
@@ -171,7 +377,7 @@ function chooseExportLocation(): ThunkAction<
   SetWorkflowAction
 > {
   return async (dispatch, getState) => {
-    const previousWorkflow = getWorkflow(getState());
+    const previousWorkflow = getPlaintextWorkflow(getState());
     if (
       !previousWorkflow ||
       previousWorkflow.step !== PlaintextExportSteps.ConfirmingWithOS
@@ -207,7 +413,7 @@ function doPlaintextExport(
   exportPath: string
 ): ThunkAction<void, StateType, unknown, SetWorkflowAction> {
   return async (dispatch, getState) => {
-    const previousWorkflow = getWorkflow(getState());
+    const previousWorkflow = getPlaintextWorkflow(getState());
     if (
       !previousWorkflow ||
       previousWorkflow.step !== PlaintextExportSteps.ChoosingLocation
@@ -229,7 +435,6 @@ function doPlaintextExport(
           step: PlaintextExportSteps.ExportingMessages,
           abortController,
           exportPath,
-          exportInBackground: false,
         },
       },
     });
@@ -257,7 +462,6 @@ function doPlaintextExport(
                   totalBytes,
                 },
                 exportPath,
-                exportInBackground: false,
               },
             },
           });
@@ -297,25 +501,25 @@ function doPlaintextExport(
         return;
       }
 
-      let errorDetails: PlaintextExportErrorDetails = {
-        type: PlaintextExportErrors.General,
+      let errorDetails: LocalExportErrorDetails = {
+        type: LocalExportErrors.General,
       };
 
       if (error instanceof NotEnoughStorageError) {
         errorDetails = {
-          type: PlaintextExportErrors.NotEnoughStorage,
+          type: LocalExportErrors.NotEnoughStorage,
           bytesNeeded: error.bytesNeeded,
         };
       }
       if (error instanceof RanOutOfStorageError) {
         errorDetails = {
-          type: PlaintextExportErrors.RanOutOfStorage,
+          type: LocalExportErrors.RanOutOfStorage,
           bytesNeeded: error.bytesNeeded,
         };
       }
       if (error instanceof StoragePermissionsError) {
         errorDetails = {
-          type: PlaintextExportErrors.StoragePermissions,
+          type: LocalExportErrors.StoragePermissions,
         };
       }
 
@@ -340,7 +544,7 @@ function cancelWorkflow(): ThunkAction<
   SetWorkflowAction
 > {
   return async (dispatch, getState) => {
-    const previousWorkflow = getWorkflow(getState());
+    const previousWorkflow = getPlaintextWorkflow(getState());
     if (
       !previousWorkflow ||
       (previousWorkflow.step !== PlaintextExportSteps.ExportingMessages &&
@@ -385,19 +589,42 @@ export function reducer(
   if (action.type === SET_WORKFLOW) {
     const { payload } = action;
 
-    const existingType = state.workflow?.type;
-    const existingStep = state.workflow?.workflow?.step;
-    const newType = payload?.type;
-    const newStep = payload?.workflow?.step;
+    const existing = state.workflow;
+    const next = payload;
+
+    // Prevent switching between different workflow types
+    if (existing && next && existing.type !== next.type) {
+      log.error(
+        `backups/SET_WORKFLOW: Cannot switch from ${existing.type} to ${next.type}`
+      );
+      return state;
+    }
+
+    // Validate plaintext-export transitions
     if (
-      existingStep &&
-      newStep &&
-      existingType === 'plaintext-export' &&
-      newType === 'plaintext-export'
+      isPlaintextExportWorkflow(existing) &&
+      isPlaintextExportWorkflow(next)
     ) {
-      if (!validTransitions[existingStep].has(newStep)) {
+      const existingStep = existing.workflow.step;
+      const newStep = next.workflow.step;
+      if (!plaintextExportValidTransitions[existingStep].has(newStep)) {
         log.error(
-          `backups/SET_WORKFLOW: Invalid transition ${existingStep} to ${newStep}`
+          `backups/SET_WORKFLOW: Invalid plaintext transition ${existingStep} to ${newStep}`
+        );
+        return state;
+      }
+    }
+
+    // Validate local-backup transitions
+    if (
+      isLocalBackupExportWorkflow(existing) &&
+      isLocalBackupExportWorkflow(next)
+    ) {
+      const existingStep = existing.workflow.step;
+      const newStep = next.workflow.step;
+      if (!localBackupExportValidTransitions[existingStep].has(newStep)) {
+        log.error(
+          `backups/SET_WORKFLOW: Invalid local-encrypted transition ${existingStep} to ${newStep}`
         );
         return state;
       }

@@ -125,7 +125,7 @@ export function GroupCallRemoteParticipants({
   setGroupCallVideoRequest,
   remoteAudioLevels,
   onClickRaisedHand,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [gridDimensions, setGridDimensions] = useState<Dimensions>({
     width: 0,
     height: 0,
@@ -220,6 +220,10 @@ export function GroupCallRemoteParticipants({
     prioritySortedParticipants,
   ]);
 
+  const isSomeonePresenting =
+    prioritySortedParticipants.length &&
+    prioritySortedParticipants[0].presenting;
+
   // Make sure we're not on a page that no longer exists (e.g. if people left the call)
   if (
     pageIndex >= gridParticipantsByPage.length &&
@@ -295,7 +299,7 @@ export function GroupCallRemoteParticipants({
     Math.round((gridDimensions.height - gridTotalRowHeightWithMargin) / 2)
   );
 
-  const rowElements: Array<Array<JSX.Element>> = gridArrangement.rows.map(
+  const rowElements: Array<Array<React.JSX.Element>> = gridArrangement.rows.map(
     (tiles, index) => {
       const top = gridTopOffset + index * gridParticipantHeightWithMargin;
 
@@ -457,7 +461,10 @@ export function GroupCallRemoteParticipants({
     }
     setGroupCallVideoRequest(
       videoRequest,
-      clamp(gridParticipantHeight, 0, MAX_FRAME_HEIGHT)
+      // When there's a presenter, we do not want the SFU to prioritize the speaker
+      isSomeonePresenting
+        ? 0
+        : clamp(gridParticipantHeight, 0, MAX_FRAME_HEIGHT)
     );
   }, [
     devicePixelRatio,
@@ -469,6 +476,7 @@ export function GroupCallRemoteParticipants({
     setGroupCallVideoRequest,
     videoRequestMode,
     participantsOnOtherPages,
+    isSomeonePresenting,
   ]);
 
   return (

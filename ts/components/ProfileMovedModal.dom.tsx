@@ -19,7 +19,7 @@ export function ProfileMovedModal({
   i18n,
   onClose,
   theme,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const imagePath =
     theme === ThemeType.dark
       ? 'images/profile-moved-dark.svg'

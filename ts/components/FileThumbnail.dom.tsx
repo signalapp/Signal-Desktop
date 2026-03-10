@@ -9,7 +9,7 @@ import { tw } from '../axo/tw.dom.js';
 
 export type PropsType = Readonly<Parameters<typeof getExtensionForDisplay>[0]>;
 
-export function FileThumbnail(props: PropsType): JSX.Element {
+export function FileThumbnail(props: PropsType): React.JSX.Element {
   const extension = getExtensionForDisplay(props) ?? '';
   const isDangerous = isFileDangerous(props.fileName || '');
 
@@ -18,7 +18,7 @@ export function FileThumbnail(props: PropsType): JSX.Element {
       className={tw(
         'flex items-center justify-center',
         'relative',
-        'mx-1.5 h-10 w-7.5',
+        'mx-0.75 h-10 w-7.5',
         'bg-contain bg-center bg-no-repeat',
         'bg-[url(../images/generic-file.svg)]'
       )}

@@ -17,7 +17,10 @@ type Props = {
  * Useful when you want to control the stacking context of all children, by customizing
  * the styles of the container in way that also applies to modals.
  */
-export const ModalContainer = ({ children, className }: Props): JSX.Element => {
+export const ModalContainer = ({
+  children,
+  className,
+}: Props): React.JSX.Element => {
   const containerRef = React.useRef<HTMLDivElement | null>(null);
   return ReactDOM.createPortal(
     <div ref={containerRef} className={className}>

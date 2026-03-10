@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "Activa o desactiva les eines de desenvolupament"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "Obrir Eines de desenvolupament de trucada"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "Configura'l com a dispositiu nou"
   },
@@ -539,6 +536,9 @@
   "icu:debugLogExplanation": {
     "messageformat": "Quan cliqueu a Envia, el registre es penjarà en línia durant 30 dies en un URL únic i no publicat. Primer podeu desar-lo localment."
   },
+  "icu:debugLogExplanation--close": {
+    "messageformat": "Aquest registre es publicarà en línia perquè els col·laboradors el puguin veure. El pots descarregar abans d'enviar-lo."
+  },
   "icu:debugLogError": {
     "messageformat": "S'ha produït un error amb la càrrega! Envieu un correu electrònic a support@signal.org i adjunteu-hi el registre com a fitxer de text."
   },
@@ -575,14 +575,95 @@
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "Per verificar el xifrat amb {name}, compara les xifres de dalt amb les del dispositiu d'aquella persona. També poden escanejar el teu codi amb el seu dispositiu."
   },
+  "icu:SafetyNumberViewer__hint-v2": {
+    "messageformat": "Per verificar el xifrat amb {name}, compara les xifres de dalt amb les del dispositiu d'aquella persona. També poden escanejar el teu codi al el seu dispositiu."
+  },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "Més informació"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__title": {
+    "messageformat": "Verificació automàtica de clau"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
+    "messageformat": "Verificar automàticament"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--running": {
+    "messageformat": "Verificant codificació…"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
+    "messageformat": "Codificació verificada"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
+    "messageformat": "La verificació automàtica no està disponible"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__hint": {
+    "messageformat": "La verificació automàtica no està disponible per a tots els xats."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
+    "messageformat": "Més informació"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
+    "messageformat": "La codificació d'aquest xat s'ha verificat automàticament "
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+    "messageformat": "Per als contactes amb qui hagis connectat a través d'un número de telèfon, Signal pot confirmar automàticament si la connexió és segura mitjançant un procés anomenat transparència de claus. Per a més seguretat, verifica la codificació d'extrem a extrem manualment comparant els números de la pantalla anterior o escanejant el codi al dispositiu de l'altra persona."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
+    "messageformat": "La verificació automàtica ja no està disponible per a aquest xat"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
+    "messageformat": "Signal ja no pot verificar automàticament la codificació d'aquest xat. Probablement, això passa perquè {name} ha canviat el seu número de telèfon. Verifica manualment la codificació d'extrem a extrem comparant els números de la pantalla anterior o escanejant el codi al dispositiu de l'altra persona."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
+    "messageformat": "Signal només pot verificar automàticament la codificació en xats on hagis connectat a través del número de telèfon. Si has iniciat el xat a través d'un àlies o un grup en comú, verifica la codificació d'extrem a extrem comparant els números de la pantalla anterior o escanejant el codi al dispositiu de l'altra persona."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
+    "messageformat": "D'acord"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "Es crearà un número de seguretat amb aquesta persona després d'intercanviar missatges amb ella."
   },
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "Més informació"
+  },
+  "icu:KeyTransparencyErrorDialog__Title": {
+    "messageformat": "Actualment, la verificació automàtica de claus no està disponible al teu dispositiu. Vols enviar un registre de depuració?"
+  },
+  "icu:KeyTransparencyErrorDialog__Description": {
+    "messageformat": "Els registres de depuració ens ajuden a diagnosticar i solucionar el problema i no contenen informació que pugui identificar-te."
+  },
+  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Tanca"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
+    "messageformat": "Compartir registre de depuració"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
+    "messageformat": "Mostra"
+  },
+  "icu:KeyTransparencyErrorDialog__Submit": {
+    "messageformat": "Envia"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "No, gràcies."
+  },
+  "icu:KeyTransparencyErrorDialog__Submitting": {
+    "messageformat": "Enviant…"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Title": {
+    "messageformat": "Ara, Signal pot verificar automàticament la codificació"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description": {
+    "messageformat": "Pels contactes amb qui hagis connectat a través d'un número de telèfon, Signal pot confirmar automàticament si la connexió és segura mitjançant un procés anomenat transparència de claus. Per a més seguretat, pots continuar verificant manualment les teves connexions mitjançant un codi QR o comparant els números de seguretat."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Continue": {
+    "messageformat": "Continua"
+  },
+  "icu:KeyTransparencyOnboardingDialog__LearnMore": {
+    "messageformat": "Més informació"
+  },
+  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "Tanca"
   },
   "icu:verified": {
     "messageformat": "Verificat"
@@ -595,18 +676,6 @@
   },
   "icu:media": {
     "messageformat": "Elements multimèdia"
-  },
-  "icu:mediaEmptyState": {
-    "messageformat": "No tens arxius multimèdia en aquest xat"
-  },
-  "icu:allMedia": {
-    "messageformat": "Tot el contingut"
-  },
-  "icu:documents": {
-    "messageformat": "Documents"
-  },
-  "icu:documentsEmptyState": {
-    "messageformat": "No tens documents en aquest xat"
   },
   "icu:today": {
     "messageformat": "Avui"
@@ -743,12 +812,6 @@
   "icu:screenShareWindow": {
     "messageformat": "Compartició de pantalla"
   },
-  "icu:callingDeveloperTools": {
-    "messageformat": "Eines de desenvolupament de trucada"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "Aquesta finestra s'utilitza durant el desenvolupament per mostrar els diagnòstics de les trucades en curs."
-  },
   "icu:speech": {
     "messageformat": "Discurs"
   },
@@ -820,6 +883,9 @@
   },
   "icu:whatsNew": {
     "messageformat": "Vegeu {whatsNew} d'aquesta actualització."
+  },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal és una organització sense ànim de lucre"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "les novetats"
@@ -1046,6 +1112,12 @@
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} és als contactes del teu sistema"
   },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "Afegir categoria de membre"
+  },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "El teu codi QR"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "Nota"
   },
@@ -1097,6 +1169,12 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "Informació"
   },
+  "icu:MessageContextMenu__PinMessage": {
+    "messageformat": "Fixa"
+  },
+  "icu:MessageContextMenu__UnpinMessage": {
+    "messageformat": "No ho fixis"
+  },
   "icu:Poll__end-poll": {
     "messageformat": "Finalitzar enquesta"
   },
@@ -1137,10 +1215,10 @@
     "messageformat": "Sense vots"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "Opció guanyadora"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "No s'ha trobat el missatge fixat"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "No s'ha trobat l'enquesta"
@@ -1201,6 +1279,141 @@
   },
   "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
     "messageformat": "Abans de sortir, has de designar almenys un administrador."
+  },
+  "icu:PinnedMessageNotification__Message--You": {
+    "messageformat": "Has fixat un missatge"
+  },
+  "icu:PinnedMessageNotification__Message--SomeoneElse": {
+    "messageformat": "{sender} ha fixat un missatge"
+  },
+  "icu:PinnedMessageNotification__Button": {
+    "messageformat": "Ves a Missatge"
+  },
+  "icu:PinMessageDialog__Title": {
+    "messageformat": "Fixar missatge durant…"
+  },
+  "icu:PinMessageDialog__Close": {
+    "messageformat": "Tanca"
+  },
+  "icu:PinMessageDialog__Option--TIME_24_HOURS": {
+    "messageformat": "24 hores"
+  },
+  "icu:PinMessageDialog__Option--TIME_7_DAYS": {
+    "messageformat": "7 dies"
+  },
+  "icu:PinMessageDialog__Option--TIME_30_DAYS": {
+    "messageformat": "30 dies"
+  },
+  "icu:PinMessageDialog__Option--FOREVER": {
+    "messageformat": "Per sempre"
+  },
+  "icu:PinMessageDialog__Cancel": {
+    "messageformat": "Cancel·la"
+  },
+  "icu:PinMessageDialog__Pin": {
+    "messageformat": "Fixa"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
+    "messageformat": "Substituir el missatge fixat més antic?"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
+    "messageformat": "En fixar aquest missatge, aquest substituirà el més antic."
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
+    "messageformat": "Cancel·la"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
+    "messageformat": "Continua"
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
+    "messageformat": "Fixar missatges a desaparèixer"
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
+    "messageformat": "Els missatges a desaparèixer es desenganxaran quan s'acabi el temps i el missatge s'elimini del xat."
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
+    "messageformat": "D'acord"
+  },
+  "icu:PinnedMessagesBar__AccessibilityLabel": {
+    "messageformat": "{pinsCount, plural, one {Missatge fixat} other {Missatges fixats}}"
+  },
+  "icu:PinnedMessagesBar__Tab__AccessibilityLabel": {
+    "messageformat": "Anar al missatge fixat {pinNumber,number}"
+  },
+  "icu:PinnedMessagesBar__GoToMessageClickableArea__AccessibilityLabel": {
+    "messageformat": "Ves a Missatge"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__Button__AccessibilityLabel": {
+    "messageformat": "Més accions"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
+    "messageformat": "No ho fixis"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
+    "messageformat": "Ves a Missatge"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
+    "messageformat": "Veure tots els missatges"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
+    "messageformat": "Missatge de veu"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Gif": {
+    "messageformat": "GIF"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
+    "messageformat": "Fitxer"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
+    "messageformat": "Pagament"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Poll": {
+    "messageformat": "Enquesta"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
+    "messageformat": "Adhesiu"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
+    "messageformat": "Contingut d'una sola visualització"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
+    "messageformat": "Foto"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--Video": {
+    "messageformat": "Vídeo"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--VoiceMessage": {
+    "messageformat": "Missatge de veu"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--Gif": {
+    "messageformat": "GIF"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--Payment": {
+    "messageformat": "Pagament"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
+    "messageformat": "Adhesiu"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
+    "messageformat": "Contingut d'una sola visualització"
+  },
+  "icu:PinnedMessagesPanel__Title": {
+    "messageformat": "Missatges fixats"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages": {
+    "messageformat": "Desenganxar tots els missatges"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
+    "messageformat": "Desenganxar tots els missatges?"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
+    "messageformat": "Els missatges es desenganxaran per a tots els membres d'aquest xat."
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
+    "messageformat": "Cancel·la"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
+    "messageformat": "No ho fixis"
   },
   "icu:sessionEnded": {
     "messageformat": "Restableix la sessió segura"
@@ -1582,6 +1795,15 @@
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "Cancel·la"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
+    "messageformat": "Verificació automàtica de clau"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
+    "messageformat": "Quan aquesta opció està habilitada, Signal intentarà verificar automàticament la codificació dels xats individuals."
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
+    "messageformat": "Més informació"
   },
   "icu:initialSync": {
     "messageformat": "Sincronització de contactes i grups"
@@ -1997,6 +2219,18 @@
   "icu:deleteFailed": {
     "messageformat": "No s'ha pogut suprimir"
   },
+  "icu:deleteFailedClickForDetails": {
+    "messageformat": "Delete failed, click for details"
+  },
+  "icu:retryDeleteForEveryone--title": {
+    "messageformat": "Retry failed delete?"
+  },
+  "icu:retryDeleteForEveryone--body": {
+    "messageformat": "Message failed to delete. Check your connection and try again."
+  },
+  "icu:retryDeleteForEveryone--tryAgain": {
+    "messageformat": "Try again"
+  },
   "icu:editFailed": {
     "messageformat": "No s'ha pogut modificar. Fes clic per saber-ne més."
   },
@@ -2008,6 +2242,9 @@
   },
   "icu:partiallyDeleted": {
     "messageformat": "Suprimit parcialment. Cliqueu per tornar-ho a provar."
+  },
+  "icu:partiallyDeleted--clickForDetails": {
+    "messageformat": "Partially deleted, click for details"
   },
   "icu:expiredWarning": {
     "messageformat": "Aquesta versió del Signal Desktop ha vençut. Actualitzeu-lo a l'última versió per a poder continuar enviant i rebent missatges."
@@ -2208,7 +2445,16 @@
     "messageformat": "Descàrrega fallida"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "La descàrrega del fitxer adjunt de còpia de seguretat ha fallat"
+    "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "Només els admins poden definir categories de membres en aquest grup."
+  },
+  "icu:Toast--viewOnceEnabled": {
+    "messageformat": "View once enabled"
+  },
+  "icu:Toast--viewOnceDisabled": {
+    "messageformat": "View once disabled"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Els canvis només es poden realitzar fins 24 hores després d'enviar el missatge."
@@ -2372,9 +2618,6 @@
   "icu:message--getNotificationText--stickers": {
     "messageformat": "Missatge adhesiu"
   },
-  "icu:message--getNotificationText--poll": {
-    "messageformat": "Enquesta: {pollQuestion}"
-  },
   "icu:Poll--preview": {
     "messageformat": "Enquesta: {pollQuestion}"
   },
@@ -2398,6 +2641,15 @@
   },
   "icu:message--deletedForEveryone": {
     "messageformat": "Aquest missatge s'ha suprimit."
+  },
+  "icu:message--deletedByAdmin": {
+    "messageformat": "Admin {admin} deleted this message"
+  },
+  "icu:message--deletedForEveryone--incoming": {
+    "messageformat": "{name} deleted this message"
+  },
+  "icu:message--deletedForEveryone--outgoing": {
+    "messageformat": "You deleted this message"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "El fitxer adjunt és massa gran per mostrar-lo."
@@ -2434,6 +2686,12 @@
   },
   "icu:message--donation--preview--sent": {
     "messageformat": "Has fet una donació per {recipient}"
+  },
+  "icu:message--pinned--preview--received": {
+    "messageformat": "{sender} ha fixat un missatge"
+  },
+  "icu:message--pinned--preview--sent": {
+    "messageformat": "Has fixat un missatge"
   },
   "icu:message--donation": {
     "messageformat": "Donació"
@@ -2636,11 +2894,11 @@
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "Vista prèvia del sticker"
   },
-  "icu:FunPanelGifs__SearchLabel--Tenor": {
-    "messageformat": "Buscar GIFs a través de Tenor"
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "Cerca de GIF"
   },
-  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
-    "messageformat": "Buscar a Tenor"
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "Cerca de GIF"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "Categories de GIF"
@@ -2686,6 +2944,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "Vista prèvia del GIF"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "Amb la tecnologia de GIPHY"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "Neteja la cerca"
@@ -4385,6 +4646,12 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "Substituir"
   },
+  "icu:CompositionArea--viewOnceToggle": {
+    "messageformat": "View once"
+  },
+  "icu:CompositionArea--viewOnceMediaPlaceholder": {
+    "messageformat": "View once media"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Editar missatge"
   },
@@ -4396,6 +4663,9 @@
   },
   "icu:ContactModal--rm-admin": {
     "messageformat": "Esborra com a administrador"
+  },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "Això també eliminarà la seva categoria de membre."
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "Fes adminstrador"
@@ -4415,6 +4685,27 @@
   "icu:ContactModal--voice": {
     "messageformat": "Veu"
   },
+  "icu:ContactModal--mute-audio": {
+    "messageformat": "Mute audio"
+  },
+  "icu:ContactModal--confirm-mute-body": {
+    "messageformat": "Are you sure you want to mute {contact}?"
+  },
+  "icu:ContactModal--confirm-mute-primary-button": {
+    "messageformat": "Mute"
+  },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "Categories de membres"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "Fes servir una categoria de membre per descriure't a tu o al teu rol dins d'aquest grup. Les categories dels membres només són visibles dins d'aquest grup."
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "Defineix una categoria"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "Editar la teva categoria"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "Color del xat"
   },
@@ -4429,6 +4720,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "Enllaç del grup"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "Categoria de membre"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "Introdueix la teva categoria de membre"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "Defineix una categoria de membre per descriure't a tu o al teu rol dins d'aquest grup. Les categories dels membres només són visibles dins d'aquest grup."
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "Previsualitza"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "Hola!"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "Membres del grup amb categories"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "Cap altre membre té categoria"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "Guardant canvis…"
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "No es pot guardar la categoria de membre"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "Comprova la connexió i torna-ho a provar."
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "Només els admins poden definir categories de membres en aquest grup."
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "Missatges efímers"
@@ -4463,6 +4787,9 @@
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "Trieu qui pot editar el nom del grup, la fotografia, la descripció i el temporitzador dels missatges efímers."
   },
+  "icu:ConversationDetails--group-info-info-v2": {
+    "messageformat": "Tria qui pot editar el nom, la imatge i la descripció del grup, el temporitzador dels missatges a desaparèixer i els missatges fixats."
+  },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "Qui pot afegir membres"
   },
@@ -4474,6 +4801,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Qui pot enviar missatges al grup"
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "S'eliminaran les categories de membres"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "Si canvies aquest permís a \"Només admins\", s'eliminaran les categories de membres establertes pels no administradors d'aquest grup."
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "Continua"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "Sol·licituds i invitacions"
@@ -4528,6 +4864,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Afegeix-hi membres"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "Afegir categoria de membre"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "Mostra-ho tot"
@@ -4676,6 +5015,9 @@
   "icu:DeleteMessagesModal--title": {
     "messageformat": "{count, plural, one {Vols eliminar {count,number} missatge?} other {Vols eliminar {count,number} missatges?}}"
   },
+  "icu:DeleteMessagesModal--title-2": {
+    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+  },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Per a qui vols eliminar aquest missatge?} other {Per a qui vols eliminar aquests missatges?}}"
   },
@@ -4694,6 +5036,12 @@
   "icu:DeleteMessagesModal--deleteForEveryone": {
     "messageformat": "Eliminar per a tothom"
   },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
+    "messageformat": "Delete for everyone?"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
+    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+  },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Eliminar de tots els dispositius"
   },
@@ -4702,6 +5050,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Només pots seleccionar {count,number} missatge per eliminar per a tothom} other {Només pots seleccionar {count,number} missatges per eliminar per a tothom}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "Eliminar element?"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "Aquesta acció esborrarà permanentment aquest element. Qualsevol missatge de text que hi estigui associat també s'esborrarà."
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "Tanca"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "Suprimeix"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "Cancel·la"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "Només pots reenviar fins a 30 missatges"
@@ -5016,46 +5379,82 @@
     "messageformat": "Afegeix-hi una descripció del grup…"
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "Missatge de veu"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "Àudio"
+  },
+  "icu:ContactListItem__subtitle": {
+    "messageformat": "Contacte"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "Obre l'enllaç en un navegador"
+  },
+  "icu:ListItem__show-message": {
+    "messageformat": "Mostra el missatge al xat"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "Àudio"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "Fitxers"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "Enllaços"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "Ordena per"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "Ordena per"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "Data"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "Mida"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "No hi ha cap arxiu multimèdia"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "Les fotos, vídeos i GIFs que enviïs i rebis apareixeran aquí."
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "Sense àudio"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "Els missatges de veu i els arxius d'àudio que enviïs i rebis apareixeran aquí."
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "Sense enllaços"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+  "icu:MediaGallery__EmptyState__description--links-2": {
+    "messageformat": "Els enllaços que enviïs i rebis apareixeran aquí"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "No hi ha arxius"
   },
-  "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+  "icu:MediaGallery__EmptyState__description--documents-2": {
+    "messageformat": "Els arxius que enviïs i rebis apareixeran aquí"
+  },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "Veure al xat"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "Reenvia"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "Desa"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "Envia el missatge"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "Copiar l'enllaç"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "Suprimeix"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "Seleccioneu la qualitat dels mitjans"
@@ -5270,6 +5669,10 @@
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "administradors"
   },
+  "icu:Avatar__View": {
+    "messageformat": "Mostra",
+    "limit": 7
+  },
   "icu:AvatarEditor--choose": {
     "messageformat": "Seleccioneu un avatar"
   },
@@ -5348,15 +5751,6 @@
   "icu:Preferences__button--set-up": {
     "messageformat": "Configurar"
   },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "Còpies de seguretat locals"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "Exportar…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "Exportar còpia de seguretat local xifrada a una carpeta i validar-la"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "Exportar còpia de seguretat xifrada a la memòria i executar-hi la suite de validació"
   },
@@ -5395,6 +5789,108 @@
   },
   "icu:Preferences--notification-content": {
     "messageformat": "Contingut de les notificacions"
+  },
+  "icu:PlaintextExport--PreferencesRow--Header": {
+    "messageformat": "Exportar l'historial del xat"
+  },
+  "icu:PlaintextExport--PreferencesRow--Description": {
+    "messageformat": "Exportar una còpia JSON llegible per màquina de tots els teus xats. Els missatges a desaparèixer no s'exportaran."
+  },
+  "icu:PlaintextExport--ActionButton": {
+    "messageformat": "Exporta"
+  },
+  "icu:PlaintextExport--Confirmation--Header": {
+    "messageformat": "Vols exportar l'historial del xat?"
+  },
+  "icu:PlaintextExport--Confirmation--Description": {
+    "messageformat": "<bold>ATENCIÓ!</bold> NO comparteixis aquest arxiu amb ningú. El teu historial del xat es guardarà a l'ordinador i, segons els teus permisos, altres aplicacions també hi podran accedir."
+  },
+  "icu:PlaintextExport--Confirmation--IncludeMedia": {
+    "messageformat": "Incloure contingut multimèdia <secondary>(mida de fitxer més gran)</secondary>"
+  },
+  "icu:PlaintextExport--Confirmation--ContinueButton": {
+    "messageformat": "Continua"
+  },
+  "icu:PlaintextExport--Confirmation--WaitingLabel": {
+    "messageformat": "Esperant informació"
+  },
+  "icu:PlaintextExport--OSPrompt--Mac": {
+    "messageformat": "exportar el teu historial del xat"
+  },
+  "icu:PlaintextExport--OSPrompt--Windows": {
+    "messageformat": "Verifica la teva identitat per exportar l'historial del xat."
+  },
+  "icu:PlaintextExport--OSPrompt--description--Linux": {
+    "messageformat": "Exporta"
+  },
+  "icu:PlaintextExport--OSPrompt--message--Linux": {
+    "messageformat": "És necessari que t'autentifiquis per exportar el teu historial del xat."
+  },
+  "icu:PlaintextExport--ProgressDialog--Header": {
+    "messageformat": "Exportant l'historial del xat"
+  },
+  "icu:PlaintextExport--ProgressDialog--Progress": {
+    "messageformat": "Exportant {currentBytes} de {totalBytes} ({percentage,number,percent})…"
+  },
+  "icu:PlaintextExport--ProgressDialog--TimeWarning": {
+    "messageformat": "Això pot trigar uns minuts"
+  },
+  "icu:PlaintextExport--CompleteDialog--Header": {
+    "messageformat": "Exportació completada"
+  },
+  "icu:PlaintextExport--CompleteDialog--Description": {
+    "messageformat": "<bold>VES AMB COMPTE</bold> en decidir a on guardar el fitxer d'exportació del xat i no el comparteixis amb ningú. Depenent dels permisos del teu ordinador, altres aplicacions també podrien accedir-hi. "
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Mac": {
+    "messageformat": "Mostrar a Finder"
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Linux": {
+    "messageformat": "Mostra'l a la carpeta"
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Windows": {
+    "messageformat": "Mostra'l a la carpeta"
+  },
+  "icu:PlaintextExport--Error--General--Title": {
+    "messageformat": "No s'ha pogut exportar l'historial del xat"
+  },
+  "icu:PlaintextExport--Error--General--Description": {
+    "messageformat": "S'ha produït un error i no s'ha pogut exportar el teu historial del xat."
+  },
+  "icu:PlaintextExport--Error--NotEnoughStorage--Title": {
+    "messageformat": "No hi ha prou espai d'emmagatzematge"
+  },
+  "icu:PlaintextExport--Error--NotEnoughStorage--Detail": {
+    "messageformat": "No es pot exportar el teu historial del xat perquè l'ordinador no té prou espai lliure d'emmagatzematge. Allibera {bytes} d'espai i torna-ho a provar."
+  },
+  "icu:PlaintextExport--Error--RanOutOfStorage--Title": {
+    "messageformat": "No s'ha pogut exportar l'historial del xat"
+  },
+  "icu:PlaintextExport--Error--RanOutOfStorage--Detail": {
+    "messageformat": "No s'ha pogut exportar el teu historial del xat perquè l'ordinador no té prou espai lliure d'emmagatzematge. Allibera {bytes} d'espai i torna-ho a provar."
+  },
+  "icu:PlaintextExport--Error--DiskPermssions--Title": {
+    "messageformat": "No es pot exportar l'historial del xat"
+  },
+  "icu:PlaintextExport--Error--DiskPermssions--Detail": {
+    "messageformat": "No es pot exportar el teu historial del xat perquè Signal no té permís per crear fitxers al disc. Prova de canviar els permisos del disc o d'actualitzar els teus ajustos del sistema i, a continuació, torna a exportar."
+  },
+  "icu:LocalBackupExport--ProgressDialog--Header": {
+    "messageformat": "Exportant còpia de seguretat"
+  },
+  "icu:LocalBackupExport--CompleteDialog--Header": {
+    "messageformat": "Exportació de còpia de seguretat completada"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
+    "messageformat": "Per restaurar aquesta còpia de seguretat:"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
+    "messageformat": "Transfereix la carpeta de còpia de seguretat a l'emmagatzematge del teu telèfon"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
+    "messageformat": "Instal·la una còpia nova de Signal al teu telèfon"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
+    "messageformat": "Toca \"Restaurar o Transferir\" i tria \"Còpies de seguretat locals\""
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "Icona de lluna"
@@ -5711,6 +6207,18 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "Fet"
   },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
+    "messageformat": "mostrar la teva clau de còpia de seguretat"
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
+    "messageformat": "Verifica la teva identitat per veure la teva clau de còpia de seguretat."
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
+    "messageformat": "Veure la teva clau de còpia de seguretat"
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
+    "messageformat": "És necessari que t'autentifiquis per veure la teva clau de còpia de seguretat."
+  },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "Caixa de text de la clau de còpia de seguretat"
   },
@@ -5741,6 +6249,15 @@
   "icu:Preferences--local-backups-see-backup-key-again": {
     "messageformat": "Tornar a veure la clau"
   },
+  "icu:Preferences__local-backups-last-backup": {
+    "messageformat": "Darrera còpia de seguretat"
+  },
+  "icu:Preferences__local-backups-last-backup-never": {
+    "messageformat": "Mai"
+  },
+  "icu:Preferences__local-backups-backup-now": {
+    "messageformat": "Fes-ne una còpia de seguretat ara"
+  },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "Carpeta de còpia de seguretat"
   },
@@ -5752,6 +6269,18 @@
   },
   "icu:Preferences__local-backups-copied-key": {
     "messageformat": "S'ha copiat la clau de còpia de seguretat"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt--mac": {
+    "messageformat": "Activa les còpies de seguretat"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt--windows": {
+    "messageformat": "Verifica la teva identitat per habilitar les còpies de seguretat."
+  },
+  "icu:Preferences__local-backups--enable--os-prompt-description--linux": {
+    "messageformat": "Activa les còpies de seguretat"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
+    "messageformat": "És necessari que t'autentifiquis per habilitar les còpies de seguretat."
   },
   "icu:Preferences__view-key": {
     "messageformat": "Veure clau"
@@ -6741,6 +7270,9 @@
   "icu:MessageMetadata__edited": {
     "messageformat": "Editat"
   },
+  "icu:MessageMetadata__pinned": {
+    "messageformat": "Fixat"
+  },
   "icu:DraftGifMessageSendModal__Title": {
     "messageformat": "Afegiu-hi un missatge"
   },
@@ -6754,7 +7286,7 @@
     "messageformat": "Historial de canvis"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "Copiar timestamp"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "No s'ha pogut enviar el missatge editat. Comprova la teva connexió i torna-ho a intentar"
@@ -7002,11 +7534,11 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "Què hi ha de nou"
   },
-  "icu:PreferencesDonations__title": {
-    "messageformat": "Privacitat per sobre dels beneficis"
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "Estem orgullosos de ser sense ànim de lucre"
   },
-  "icu:PreferencesDonations__description": {
-    "messageformat": "Missatgeria privada, finançada per tu. Sense anuncis, ni rastrejadors, ni compromís. Fes ja una donació per ajudar a Signal. <readMoreLink>Mes informació</readMoreLink>"
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "Fes una donació per donar suport a la missatgeria privada. Ajuda a Signal a seguir sent independent i sense anuncis. <readMoreLink>Mes informació</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "Fer donació"
@@ -7031,6 +7563,21 @@
   },
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>Signal no recopila ni emmagatzema la teva informació personal quan fas una donació.</paragraph><paragraph>Utilitzem Stripe com a processador de pagaments per rebre les teves donacions. No accedim, emmagatzemem ni desem la informació que els proporciones.</paragraph><paragraph>Signal no connecta i no pot connectar la teva donació al teu compte de Signal.</paragraph><paragraph>Gràcies per comptar amb nosaltres!</paragraph>"
+  },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "Com a organització independent sense ànim de lucre, Signal té un compromís amb la privacitat en missatges i trucades. Sense anuncis, ni rastrejadors, ni vigilància. Fes avui una donació per ajudar a Signal."
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "Aconsegueix una insígnia opcional al teu perfil quan facis una donació"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "La teva privacitat és la nostra missió"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal és una organització sense ànim de lucre."
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Icona de cor a l'estil del logo de Signal"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "D'acord"
@@ -7122,6 +7669,15 @@
   "icu:DonateFlow__discard-dialog-remove-info": {
     "messageformat": "Eliminar informació"
   },
+  "icu:DonateFlow__discard-paypal-dialog-body": {
+    "messageformat": "Si surts, es cancel·larà la teva donació."
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "Surt"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "Quedar-me a la pàgina"
+  },
   "icu:DonateFlow__continue": {
     "messageformat": "Continua"
   },
@@ -7167,6 +7723,15 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "Tens una donació en curs que necessita confirmació."
   },
+  "icu:Donations__Toast__PaypalConfirmationNeeded": {
+    "messageformat": "Tens una donació en curs que necessita confirmació."
+  },
+  "icu:Donations__Toast__PaypalCanceled": {
+    "messageformat": "Donació a través de PayPal cancel·lada"
+  },
+  "icu:Donations__Toast__PaypalError": {
+    "messageformat": "S'ha produït un error en processar la donació a través de PayPal. No se t'ha efectuat el càrrec."
+  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "La donació s'ha realitzat correctament, però no hem pogut actualitzar els ajustos de la teva insígnia"
   },
@@ -7182,11 +7747,41 @@
   "icu:Donations__DonationInterrupted__RetryButton": {
     "messageformat": "Torna a provar-ho"
   },
+  "icu:Donations__PaymentMethod": {
+    "messageformat": "Mètode de pagament"
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "Mètode de pagament rebutjat"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "Prova un altre mètode de pagament o posa't en contacte amb el banc per obtenir-ne més informació."
+  },
+  "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
+    "messageformat": "Icona de tarjeta de pagament"
+  },
+  "icu:DonateFlow__CreditOrDebitCard": {
+    "messageformat": "Targeta de crèdit o dèbit"
+  },
+  "icu:DonateFlow__Paypal__AccessibilityLabel": {
+    "messageformat": "PayPal"
+  },
+  "icu:DonateFlow__Paypal__Cancel": {
+    "messageformat": "Cancel·la"
+  },
+  "icu:DonateFlow__Paypal__CompleteDonation": {
+    "messageformat": "Completar donació"
+  },
+  "icu:Donations__PaypalCanceled": {
+    "messageformat": "Donació a través de PayPal cancel·lada"
+  },
+  "icu:Donations__PaypalCanceled__Description": {
+    "messageformat": "No se t'ha efectuat el càrrec. Torna-ho a provar o utilitza un altre mètode de pagament."
+  },
+  "icu:Donations__PaypalError": {
+    "messageformat": "S'ha produït un error en processar la donació a través de PayPal"
+  },
+  "icu:Donations__PaypalError__Description": {
+    "messageformat": "No se t'ha efectuat el càrrec. Torna-ho a provar o utilitza un altre mètode de pagament."
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "La verificació ha fallat"
@@ -7248,6 +7843,114 @@
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "Pots configurar-ho al teu dispositiu mòbil a Ajustos → Fer donació a Signal → Insígnies"
   },
+  "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
+    "messageformat": "Tanca"
+  },
+  "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
+    "messageformat": "Enrere"
+  },
+  "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
+    "messageformat": "Com ha anat la teva trucada?"
+  },
+  "icu:CallQualitySurvey__HowWasYourCall__PageDescription": {
+    "messageformat": "Això ens ajuda a millorar les trucades a Signal. No s'emmagatzemarà cap dada personal identificable."
+  },
+  "icu:CallQualitySurvey__HowWasYourCall__Response__HadIssues": {
+    "messageformat": "He tingut problemes"
+  },
+  "icu:CallQualitySurvey__HowWasYourCall__Response__Great": {
+    "messageformat": "Genial"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__PageTitle": {
+    "messageformat": "Quins problemes has tingut?"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__IssuesList__Heading": {
+    "messageformat": "Selecciona totes les opcions que corresponguin"
+  },
+  "icu:CallQualitySurvey__Issue--AUDIO": {
+    "messageformat": "Problema d'àudio"
+  },
+  "icu:CallQualitySurvey__Issue--AUDIO_STUTTERING": {
+    "messageformat": "Àudio entretallat"
+  },
+  "icu:CallQualitySurvey__Issue--AUDIO_LOCAL_ECHO": {
+    "messageformat": "He sentit eco"
+  },
+  "icu:CallQualitySurvey__Issue--AUDIO_REMOTE_ECHO": {
+    "messageformat": "Altres persones han sentit eco"
+  },
+  "icu:CallQualitySurvey__Issue--AUDIO_DROP": {
+    "messageformat": "S'ha tallat l'àudio"
+  },
+  "icu:CallQualitySurvey__Issue--VIDEO": {
+    "messageformat": "Problema de vídeo"
+  },
+  "icu:CallQualitySurvey__Issue--VIDEO_NO_CAMERA": {
+    "messageformat": "La càmera no funcionava"
+  },
+  "icu:CallQualitySurvey__Issue--VIDEO_LOW_QUALITY": {
+    "messageformat": "Mala qualitat de vídeo"
+  },
+  "icu:CallQualitySurvey__Issue--VIDEO_LOW_RESOLUTION": {
+    "messageformat": "Baixa resolució"
+  },
+  "icu:CallQualitySurvey__Issue--CALL_DROPPED": {
+    "messageformat": "S'ha tallat la trucada"
+  },
+  "icu:CallQualitySurvey__Issue--OTHER": {
+    "messageformat": "Una altra cosa"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
+    "messageformat": "Descripció del problema"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
+    "messageformat": "Inclou qualsevol detall rellevant sobre el problema. Tot el que comparteixis per aquí es mantindrà privat i només s'utilitzarà per ajudar-nos a millorar les trucades a Signal."
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
+    "messageformat": "Descriu el teu problema"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
+    "messageformat": "Continua"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
+    "messageformat": "Selecciona una opció per continuar"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
+    "messageformat": "Ajuda'ns a millorar"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
+    "messageformat": "Si ho envies, compartiràs els teus comentaris juntament amb <diagnosticInfoLink>informació de diagnòstic sobre la teva trucada</diagnosticInfoLink>. Opcionalment, pots compartir un registre de depuració per ajudar-nos a millorar la qualitat de les trucades."
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
+    "messageformat": "Compartir registre de depuració"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
+    "messageformat": "Mostra"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
+    "messageformat": "La informació que comparteixis amb nosaltres conté informació de baix nivell sobre l'aplicació i no inclou el contingut de les teves trucades."
+  },
+  "icu:CallDiagnosticWindow__title": {
+    "messageformat": "Informació de diagnòstic"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
+    "messageformat": "Envia"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
+    "messageformat": "Enviant l'enquesta…"
+  },
+  "icu:CallQualitySurvey__SubmissionFailed": {
+    "messageformat": "No s'ha pogut enviar l'enquesta"
+  },
+  "icu:CallQualitySurvey__SubmissionFailed__Retry": {
+    "messageformat": "Torna a provar-ho"
+  },
+  "icu:CallQualitySurvey__SubmissionSuccess": {
+    "messageformat": "Gràcies pels teus comentaris!"
+  },
+  "icu:Megaphone__ExpandNarrowSidebar": {
+    "messageformat": "Expandeix la barra lateral per interactuar amb el megàfon"
+  },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "Aquesta versió conté una sèrie de petites modificacions i correccions d'errors per tal que el Signal funcioni sense problemes.",
     "ignoreUnused": true
@@ -7276,31 +7979,17 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.76": {
-    "messageformat": "Configura perfils de notificacions personalitzats per controlar de quines persones i grups reps notificacions mentre aquest perfil estigui activat."
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "Cinc nous paquets d'adhesius d'artistes oficials."
   },
-  "icu:WhatsNew__7.77-1": {
-    "messageformat": "Amb les carpetes de xats, podràs agrupar o separar els teus xats en carpetes fàcils de personalitzar i reorganitzar. Utilitza les carpetes de xats perquè mostrin els missatges no llegits de les teves persones preferides, filtra per tipus de xat (individual o grupal) o separa els xats personals dels de feina per poder veure ràpidament els missatges importants."
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Ja són aquí les còpies de seguretat segures de Signal! Ara pots activar còpies de seguretat automàtiques amb xifratge d’extrem a extrem per no perdre cap missatge quan canviïs de telèfon o reinstal·lis l’aplicació. Pots fer còpies de seguretat gratuïtes de tots els teus missatges i dels darrers 45 dies de contingut multimèdia, o bé pagar una petita quota mensual per disposar de 100 GB d’emmagatzematge i desar tots els teus fitxers adjunts. Per començar, ves als ajustos de Signal i toca Còpies de seguretat. Gràcies a tothom que ha ajudat a provar aquesta funció durant el període beta!"
   },
-  "icu:WhatsNew__7.77-2": {
-    "messageformat": "Aquesta actualització també inclou una correcció d'errors per a un problema que impedia que es generessin vistes prèvies d'enllaços quan el missatge també incloïa caràcters emoji. Gràcies, <elias6></elias6>!"
+  "icu:WhatsNew__8.2--0": {
+    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
   },
-  "icu:WhatsNew__7.78-1": {
-    "messageformat": "Millores d'accessibilitat."
-  },
-  "icu:WhatsNew__7.78-2": {
-    "messageformat": "També hem corregit un error que podia impedir que apareguessin notificacions a Windows."
-  },
-  "icu:WhatsNew__7.79-1": {
-    "messageformat": "Hem actualitzat l'aspecte de les barres de desplaçament a tota l'aplicació perquè tingui més cohesió visualment."
-  },
-  "icu:WhatsNew__7.79-2": {
-    "messageformat": "Millores de format al copiar i enganxar. Gràcies, <brianHarder></brianHarder>!"
-  },
-  "icu:WhatsNew__7.80-1": {
-    "messageformat": "Ja són aquí les enquestes de Signal! Les enquestes són una manera fàcil de veure què pensa realment el teu xat de grup. Crea una enquesta amb diferents opcions de sopar o qualsevol altra decisió important. Tothom del grup pot votar i veure les respostes dels altres, i pots decidir si es permet o no votar més d'una opció."
-  },
-  "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+  "icu:WhatsNew__8.3--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "ignoreUnused": true
   }
 }

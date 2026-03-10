@@ -40,7 +40,7 @@ export function GroupLinkManagement({
   i18n,
   isAdmin,
   setAccessControlAddFromInviteLinkSetting,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const groupLinkSelectId = useId();
   const approveSelectId = useId();
 
@@ -67,7 +67,7 @@ export function GroupLinkManagement({
     conversation.accessControlAddFromInviteLink !==
       AccessControlEnum.UNSATISFIABLE;
 
-  let groupLinkInfo: JSX.Element | undefined;
+  let groupLinkInfo: React.JSX.Element | undefined;
   if (hasGroupLink) {
     groupLinkInfo = (
       <button
@@ -149,7 +149,6 @@ export function GroupLinkManagement({
                 />
               }
               label={i18n('icu:GroupLinkManagement--share')}
-              ref={!isAdmin ? focusRef : undefined}
               onClick={() => {
                 if (conversation.groupLink) {
                   drop(copyGroupLink(conversation.groupLink));

@@ -18,7 +18,7 @@ const MAX_AVATARS = 2;
 export function CollidingAvatars({
   i18n,
   conversations,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const clipId = useMemo(() => uuid(), []);
   const onRef = useCallback(
     (elem: HTMLDivElement | null): void => {

@@ -8,7 +8,7 @@ export default {
   title: 'Components/Fun/FunSticker',
 } satisfies Meta<FunStickerProps>;
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return (
     <>
       <p>with reduce motion:</p>

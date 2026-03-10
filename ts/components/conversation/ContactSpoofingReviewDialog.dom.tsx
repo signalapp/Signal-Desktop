@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReactChild, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import React, { useState } from 'react';
 
 import type { LocalizerType, ThemeType } from '../../types/Util.std.js';
@@ -20,6 +20,7 @@ import { Button, ButtonVariant } from '../Button.dom.js';
 import { assertDev } from '../../util/assert.std.js';
 import { missingCaseError } from '../../util/missingCaseError.std.js';
 import { isInSystemContacts } from '../../util/isInSystemContacts.std.js';
+import type { ContactModalStateType } from '../../types/globalModals.std.js';
 
 export type ReviewPropsType = Readonly<
   | {
@@ -27,10 +28,12 @@ export type ReviewPropsType = Readonly<
       possiblyUnsafe: {
         conversation: ConversationType;
         isSignalConnection: boolean;
+        sharedGroupNames: ReadonlyArray<string>;
       };
       safe: {
         conversation: ConversationType;
         isSignalConnection: boolean;
+        sharedGroupNames: ReadonlyArray<string>;
       };
     }
   | {
@@ -42,6 +45,7 @@ export type ReviewPropsType = Readonly<
           oldName?: string;
           isSignalConnection: boolean;
           conversation: ConversationType;
+          sharedGroupNames: ReadonlyArray<string>;
         }>
       >;
     }
@@ -55,11 +59,10 @@ export type PropsType = {
   blockConversation: (conversationId: string) => unknown;
   deleteConversation: (conversationId: string) => unknown;
   toggleSignalConnectionsModal: () => void;
-  updateSharedGroups: (conversationId: string) => void;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
   onClose: () => void;
-  showContactModal: (contactId: string, conversationId?: string) => unknown;
+  showContactModal: (payload: ContactModalStateType) => unknown;
   removeMember: (
     conversationId: string,
     memberConversationId: string
@@ -73,7 +76,9 @@ enum ConfirmationStateType {
   ConfirmingGroupRemoval,
 }
 
-export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
+export function ContactSpoofingReviewDialog(
+  props: PropsType
+): React.JSX.Element {
   const {
     acceptConversation,
     reportSpam,
@@ -82,7 +87,6 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
     conversationId,
     deleteConversation,
     toggleSignalConnectionsModal,
-    updateSharedGroups,
     getPreferredBadge,
     i18n,
     onClose,
@@ -185,7 +189,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
   }
 
   let title: string;
-  let contents: ReactChild;
+  let contents: ReactNode;
 
   switch (props.type) {
     case ContactSpoofingType.DirectConversationWithSameTitle: {
@@ -210,7 +214,7 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
             conversation={possiblyUnsafe.conversation}
             getPreferredBadge={getPreferredBadge}
             toggleSignalConnectionsModal={toggleSignalConnectionsModal}
-            updateSharedGroups={updateSharedGroups}
+            sharedGroupNames={possiblyUnsafe.sharedGroupNames}
             i18n={i18n}
             theme={theme}
             isSignalConnection={possiblyUnsafe.isSignalConnection}
@@ -247,10 +251,10 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
             conversation={safe.conversation}
             getPreferredBadge={getPreferredBadge}
             toggleSignalConnectionsModal={toggleSignalConnectionsModal}
-            updateSharedGroups={updateSharedGroups}
+            sharedGroupNames={safe.sharedGroupNames}
             i18n={i18n}
             onClick={() => {
-              showContactModal(safe.conversation.id);
+              showContactModal({ contactId: safe.conversation.id });
             }}
             theme={theme}
             isSignalConnection={safe.isSignalConnection}
@@ -341,13 +345,15 @@ export function ContactSpoofingReviewDialog(props: PropsType): JSX.Element {
                       toggleSignalConnectionsModal={
                         toggleSignalConnectionsModal
                       }
-                      updateSharedGroups={updateSharedGroups}
+                      sharedGroupNames={conversationInfo.sharedGroupNames}
                       getPreferredBadge={getPreferredBadge}
                       i18n={i18n}
                       theme={theme}
                       oldName={oldName}
                       onClick={() => {
-                        showContactModal(conversationInfo.conversation.id);
+                        showContactModal({
+                          contactId: conversationInfo.conversation.id,
+                        });
                       }}
                       isSignalConnection={isSignalConnection}
                     >

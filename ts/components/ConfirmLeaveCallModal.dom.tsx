@@ -33,7 +33,7 @@ export function ConfirmLeaveCallModal({
   data,
   leaveCurrentCallAndStartCallingLobby,
   toggleConfirmLeaveCallModal,
-}: Props): JSX.Element | null {
+}: Props): React.JSX.Element | null {
   return (
     <ConfirmationDialog
       dialogName="GroupCallRemoteParticipant.blockInfo"

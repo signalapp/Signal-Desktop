@@ -11,9 +11,10 @@
 @mixin localized-fonts {
   /* Japanese */
   &:lang(ja) {
-    font-family: Inter, 'SF Pro', 'SF Pro JP', 'BIZ UDGothic',
-      'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', メイリオ, Meiryo,
-      'ＭＳ Ｐゴシック', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family:
+      Inter, 'SF Pro', 'SF Pro JP', 'BIZ UDGothic', 'Hiragino Kaku Gothic Pro',
+      'ヒラギノ角ゴ Pro W3', メイリオ, Meiryo, 'ＭＳ Ｐゴシック',
+      'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
   /* Farsi (Persian) */
   &:lang(fa) {
@@ -31,7 +32,8 @@
   }
   /* Urdu */
   &:lang(ur) {
-    font-family: 'Noto Nastaliq Urdu', Gulzar, 'Jameel Noori Nastaleeq',
+    font-family:
+      'Noto Nastaliq Urdu', Gulzar, 'Jameel Noori Nastaleeq',
       'Faiz Lahori Nastaleeq', 'Urdu Typesetting', Helvetica, Arial, sans-serif;
   }
 }
@@ -113,6 +115,10 @@
   font-size: 12px;
   line-height: 16px;
   letter-spacing: 0px;
+}
+@mixin font-body-small-bold {
+  @include font-body-small;
+  font-weight: 600;
 }
 
 @mixin font-subtitle {
@@ -248,18 +254,6 @@
 }
 
 $rtl-icon-map: (
-  'chevron-left-16.svg': 'chevron-right-16.svg',
-  'chevron-right-16.svg': 'chevron-left-16.svg',
-
-  'chevron-left-20.svg': 'chevron-right-20.svg',
-  'chevron-right-20.svg': 'chevron-left-20.svg',
-
-  'chevron-left-24.svg': 'chevron-right-24.svg',
-  'chevron-right-24.svg': 'chevron-left-24.svg',
-
-  'arrow-left-32.svg': 'arrow-right-32.svg',
-  'arrow-right-32.svg': 'arrow-left-32.svg',
-
   // v3 icons
   'chevron-left.svg': 'chevron-right.svg',
   'chevron-right.svg': 'chevron-left.svg',
@@ -269,11 +263,7 @@ $rtl-icon-map: (
   'chevron-right-compact-bold.svg': 'chevron-left-compact-bold.svg',
   'chevron-right-bold.svg': 'chevron-left-bold.svg',
   'arrow-left.svg': 'arrow-right.svg',
-  'arrow-right.svg': 'arrow-left.svg',
-
-  // Ignored cases:
-  'phone-right-outline-24.svg': '',
-  'phone-right-solid-24.svg': '',
+  'arrow-right.svg': 'arrow-left.svg'
 );
 
 @function get-rtl-svg($svg) {
@@ -415,13 +405,13 @@ $rtl-icon-map: (
 
 // Individual traits
 
-@mixin button-focus-outline {
+@mixin button-focus-outline($width: 3px) {
   &:focus {
     @include keyboard-mode {
-      box-shadow: 0px 0px 0px 3px variables.$color-ultramarine;
+      box-shadow: 0px 0px 0px $width variables.$color-ultramarine;
     }
     @include dark-keyboard-mode {
-      box-shadow: 0px 0px 0px 3px variables.$color-ultramarine-light;
+      box-shadow: 0px 0px 0px $width variables.$color-ultramarine-light;
     }
   }
 }
@@ -1045,6 +1035,10 @@ $rtl-icon-map: (
     content: '';
     border-style: solid;
     border-width: 7px;
+    border-color: light-dark(
+      variables.$color-gray-04,
+      variables.$color-gray-80
+    );
   }
 
   &[data-placement='bottom'] .module-tooltip-arrow::before {
@@ -1060,16 +1054,6 @@ $rtl-icon-map: (
       margin-top: -14px;
       /* stylelint-disable-next-line liberty/use-logical-spec */
       margin-left: -7px;
-    }
-  }
-
-  &[data-placement='bottom'] .module-tooltip-arrow::after {
-    @include light-theme {
-      border-bottom-color: variables.$color-gray-04;
-    }
-
-    @include dark-theme {
-      border-bottom-color: variables.$color-gray-80;
     }
   }
 
@@ -1089,13 +1073,35 @@ $rtl-icon-map: (
     }
   }
 
-  &[data-placement='top'] .module-tooltip-arrow::after {
+  &[data-placement='left'] .module-tooltip-arrow::before {
     @include light-theme {
-      border-top-color: variables.$color-gray-04;
+      border-color: transparent transparent transparent variables.$color-gray-20;
     }
 
     @include dark-theme {
-      border-top-color: variables.$color-gray-80;
+      border-color: transparent transparent transparent variables.$color-gray-62;
+    }
+
+    & {
+      margin-top: -7px;
+      /* stylelint-disable-next-line liberty/use-logical-spec */
+      margin-left: 0px;
+    }
+  }
+
+  &[data-placement='right'] .module-tooltip-arrow::before {
+    @include light-theme {
+      border-color: transparent variables.$color-gray-20 transparent transparent;
+    }
+
+    @include dark-theme {
+      border-color: transparent variables.$color-gray-62 transparent transparent;
+    }
+
+    & {
+      margin-top: -7px;
+      /* stylelint-disable-next-line liberty/use-logical-spec */
+      margin-left: -14px;
     }
   }
 }

@@ -6,6 +6,7 @@
 import lodash from 'lodash';
 
 import type {
+  Aci,
   Direction,
   KyberPreKeyRecord,
   PreKeyRecord,
@@ -26,6 +27,7 @@ import {
   SessionStore,
   SignedPreKeyStore,
 } from '@signalapp/libsignal-client';
+import type { Store as KeyTransparencyStoreInterface } from '@signalapp/libsignal-client/dist/net/KeyTransparency.d.ts';
 import { Address } from './types/Address.std.js';
 import { QualifiedAddress } from './types/QualifiedAddress.std.js';
 import type { ServiceIdString } from './types/ServiceId.std.js';
@@ -326,5 +328,25 @@ export class SignedPreKeys extends SignedPreKeyStore {
     }
 
     return signedPreKey;
+  }
+}
+
+export class KeyTransparencyStore implements KeyTransparencyStoreInterface {
+  async getLastDistinguishedTreeHead(): Promise<Uint8Array | null> {
+    return signalProtocolStore.getLastDistinguishedTreeHead();
+  }
+
+  async setLastDistinguishedTreeHead(
+    bytes: Readonly<Uint8Array> | null
+  ): Promise<void> {
+    return signalProtocolStore.setLastDistinguishedTreeHead(bytes);
+  }
+
+  async getAccountData(aci: Aci): Promise<Uint8Array | null> {
+    return signalProtocolStore.getKTAccountData(aci);
+  }
+
+  async setAccountData(aci: Aci, bytes: Readonly<Uint8Array>): Promise<void> {
+    return signalProtocolStore.setKTAccountData(aci, bytes);
   }
 }

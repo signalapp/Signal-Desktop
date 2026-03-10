@@ -14,8 +14,8 @@ export default {
   title: 'Components/IdenticonSVG',
 } satisfies Meta;
 
-export function AllColorsForContact(): JSX.Element {
-  const stories: Array<JSX.Element> = [];
+export function AllColorsForContact(): React.JSX.Element {
+  const stories: Array<React.JSX.Element> = [];
 
   AvatarColorMap.forEach(value =>
     stories.push(
@@ -30,8 +30,8 @@ export function AllColorsForContact(): JSX.Element {
   return <>{stories}</>;
 }
 
-export function AllColorsForGroup(): JSX.Element {
-  const stories: Array<JSX.Element> = [];
+export function AllColorsForGroup(): React.JSX.Element {
+  const stories: Array<React.JSX.Element> = [];
 
   AvatarColorMap.forEach(value =>
     stories.push(
@@ -45,8 +45,8 @@ export function AllColorsForGroup(): JSX.Element {
   return <>{stories}</>;
 }
 
-export function AllColorsForCallLink(): JSX.Element {
-  const stories: Array<JSX.Element> = [];
+export function AllColorsForCallLink(): React.JSX.Element {
+  const stories: Array<React.JSX.Element> = [];
 
   AvatarColorMap.forEach(value =>
     stories.push(

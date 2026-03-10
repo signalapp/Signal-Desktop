@@ -20,7 +20,7 @@ export default {
   },
 } satisfies ComponentMeta<DonateInputCardExpProps>;
 
-export function Default(props: DonateInputCardExpProps): JSX.Element {
+export function Default(props: DonateInputCardExpProps): React.JSX.Element {
   const [value, setValue] = useState('');
   return (
     <DonateInputCardExp {...props} value={value} onValueChange={setValue} />

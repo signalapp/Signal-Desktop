@@ -26,10 +26,10 @@ export default {
   },
 } satisfies ComponentMeta<CallLinkEditModalProps>;
 
-export function Basic(args: CallLinkEditModalProps): JSX.Element {
+export function Basic(args: CallLinkEditModalProps): React.JSX.Element {
   return <CallLinkEditModal {...args} />;
 }
 
-export function InAnotherCall(args: CallLinkEditModalProps): JSX.Element {
+export function InAnotherCall(args: CallLinkEditModalProps): React.JSX.Element {
   return <CallLinkEditModal {...args} hasActiveCall />;
 }

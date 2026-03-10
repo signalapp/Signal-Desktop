@@ -58,7 +58,7 @@ export type PropsActionsType = {
 
 export type PropsHousekeepingType = {
   i18n: LocalizerType;
-  renderContact: SmartContactRendererType<JSX.Element>;
+  renderContact: SmartContactRendererType<React.JSX.Element>;
 };
 
 export type PropsType = PropsDataType &
@@ -69,7 +69,7 @@ function renderStringToIntl<Key extends keyof ICUJSXMessageParamsByKeyType>(
   id: Key,
   i18n: LocalizerType,
   components: ICUJSXMessageParamsByKeyType[Key]
-): JSX.Element {
+): React.JSX.Element {
   return <I18n id={id} i18n={i18n} components={components} />;
 }
 
@@ -176,9 +176,9 @@ function GroupV2Detail({
   i18n: LocalizerType;
   fromId?: ServiceIdString;
   ourAci: AciString | undefined;
-  renderContact: SmartContactRendererType<JSX.Element>;
+  renderContact: SmartContactRendererType<React.JSX.Element>;
   text: ReactNode;
-}): JSX.Element {
+}): React.JSX.Element {
   const icon = getIcon(detail, isLastText, fromId);
   let buttonNode: ReactNode;
 
@@ -313,7 +313,7 @@ export function GroupV2Change(props: PropsType): ReactElement {
 
   return (
     <>
-      {renderChange<JSX.Element>(change, {
+      {renderChange<React.JSX.Element>(change, {
         i18n,
         ourAci,
         ourPni,

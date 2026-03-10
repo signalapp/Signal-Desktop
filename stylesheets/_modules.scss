@@ -1070,24 +1070,18 @@ $message-padding-horizontal: 12px;
 }
 
 .module-message__author {
-  @include mixins.font-body-2-bold;
+  @include mixins.font-body-small-bold;
 
-  height: 18px;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   user-select: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 3px;
 }
 
 .module-message__author_with_sticker {
-  @include mixins.font-body-2-bold;
+  @include mixins.font-body-small-bold;
 
-  height: 18px;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  min-height: 18px;
 
   // Stickers are pretty narrow, so we allow this one element of a sticker
   //   message to go wider than normal.
@@ -1101,6 +1095,10 @@ $message-padding-horizontal: 12px;
   @include mixins.dark-theme {
     color: variables.$color-gray-05;
   }
+}
+
+.module-message__author--with-quote {
+  margin-bottom: 3px;
 }
 
 .module-message__text {
@@ -1183,22 +1181,34 @@ $message-padding-horizontal: 12px;
 }
 .module-message__text--delete-for-everyone {
   user-select: none;
-
-  @include mixins.light-theme {
-    color: variables.$color-gray-90;
-  }
-  @include mixins.dark-theme {
-    color: variables.$color-gray-05;
-  }
+  color: light-dark(variables.$color-gray-60, variables.$color-gray-25);
 }
 
 .module-message__metadata {
+  @include mixins.font-caption;
+
   align-items: center;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   margin-top: 3px;
   font-style: normal;
+  user-select: none;
+  white-space: nowrap;
+  color: light-dark(variables.$color-gray-60, variables.$color-gray-25);
+
+  &--outgoing {
+    color: variables.$color-white-alpha-80;
+  }
+
+  &--outline-only-bubble,
+  &--sticker {
+    color: light-dark(variables.$color-gray-60, variables.$color-gray-25);
+  }
+
+  &--with-image-no-caption {
+    color: light-dark(variables.$color-white, variables.$color-white-alpha-80);
+  }
 
   &--inline {
     float: inline-end;
@@ -1211,43 +1221,14 @@ $message-padding-horizontal: 12px;
 .module-message__metadata__edited {
   @include mixins.button-reset;
   & {
-    @include mixins.font-caption;
-    color: variables.$color-gray-60;
     cursor: pointer;
     margin-inline-end: 6px;
     z-index: variables.$z-index-base;
   }
-
-  @include mixins.dark-theme {
-    color: variables.$color-gray-25;
-  }
 }
 
 .module-message__metadata__sms {
-  width: 12px;
-  height: 12px;
-  display: inline-block;
   margin-inline-start: 6px;
-  // High margin to leave space for the increase when we go to two checks
-  margin-bottom: 2px;
-
-  @include mixins.color-svg(
-    '../images/icons/v2/lock-unlock-outline-12.svg',
-    variables.$color-white
-  );
-}
-
-.module-message__metadata__sms--incoming {
-  @include mixins.light-theme {
-    background-color: variables.$color-gray-60;
-  }
-  @include mixins.dark-theme {
-    background-color: variables.$color-gray-25;
-  }
-}
-
-.module-message__container--outgoing .module-message__metadata__edited {
-  color: variables.$color-white-alpha-80;
 }
 
 // With an image and no caption, this section needs to be on top of the image overlay
@@ -1265,61 +1246,8 @@ $message-padding-horizontal: 12px;
   pointer-events: none;
 }
 
-.module-message__metadata--outline-only-bubble {
-  @include mixins.light-theme {
-    color: variables.$color-gray-60;
-  }
-  @include mixins.dark-theme {
-    color: variables.$color-gray-25;
-  }
-}
-
-.module-message__metadata__date {
-  @include mixins.font-caption;
-  user-select: none;
-  white-space: nowrap;
-
-  @include mixins.light-theme {
-    color: variables.$color-white-alpha-80;
-  }
-  @include mixins.dark-theme {
-    color: variables.$color-white-alpha-80;
-  }
-}
 .module-message__metadata__tapable {
   @include mixins.button-reset;
-}
-.module-message__metadata__date--incoming {
-  color: variables.$color-white-alpha-80;
-
-  @include mixins.light-theme {
-    color: variables.$color-gray-60;
-  }
-  @include mixins.dark-theme {
-    color: variables.$color-gray-25;
-  }
-}
-.module-message__metadata__date--with-image-no-caption {
-  @include mixins.light-theme {
-    color: variables.$color-white;
-  }
-  @include mixins.dark-theme {
-    color: variables.$color-white-alpha-80;
-  }
-}
-.module-message__metadata__date--outline-only-bubble {
-  @include mixins.light-theme {
-    color: variables.$color-gray-60;
-  }
-  @include mixins.dark-theme {
-    color: variables.$color-gray-25;
-  }
-}
-
-.module-message__metadata__date--with-sticker {
-  @include mixins.light-theme {
-    color: variables.$color-gray-60;
-  }
 }
 
 .module-message__metadata__status-icon {
@@ -1338,41 +1266,25 @@ $message-padding-horizontal: 12px;
   }
   @include mixins.color-svg(
     '../images/icons/v3/message_status/messagestatus-sending.svg',
-    variables.$color-white
+    currentColor
   );
 }
 
 .module-message__metadata__status-icon--sent {
-  @include mixins.light-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/message_status/messagestatus-sent.svg',
-      variables.$color-white-alpha-80
-    );
-  }
-  @include mixins.dark-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/message_status/messagestatus-sent.svg',
-      variables.$color-white-alpha-80
-    );
-  }
+  @include mixins.color-svg(
+    '../images/icons/v3/message_status/messagestatus-sent.svg',
+    currentColor
+  );
 }
 .module-message__metadata__status-icon--delivered {
   // We reduce the margin size to keep the overall width the same
   margin-inline-end: 0px;
   width: 18px;
 
-  @include mixins.light-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/message_status/messagestatus-delivered.svg',
-      variables.$color-white-alpha-80
-    );
-  }
-  @include mixins.dark-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/message_status/messagestatus-delivered.svg',
-      variables.$color-white-alpha-80
-    );
-  }
+  @include mixins.color-svg(
+    '../images/icons/v3/message_status/messagestatus-delivered.svg',
+    currentColor
+  );
 }
 .module-message__metadata__status-icon--read,
 .module-message__metadata__status-icon--viewed {
@@ -1380,42 +1292,15 @@ $message-padding-horizontal: 12px;
   margin-inline-end: 0px;
   width: 18px;
 
-  @include mixins.light-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/message_status/messagestatus-read.svg',
-      variables.$color-white-alpha-80
-    );
-  }
-  @include mixins.dark-theme {
-    @include mixins.color-svg(
-      '../images/icons/v3/message_status/messagestatus-read.svg',
-      variables.$color-white-alpha-80
-    );
-  }
+  @include mixins.color-svg(
+    '../images/icons/v3/message_status/messagestatus-read.svg',
+    currentColor
+  );
 }
 
 // When status indicators are overlaid on top of an image, they use different colors
 .module-message__metadata__status-icon--with-image-no-caption {
-  @include mixins.dark-theme {
-    background-color: variables.$color-gray-02;
-  }
-  @include mixins.light-theme {
-    background-color: variables.$color-white;
-  }
-}
-.module-message__metadata__status-icon--with-sticker {
-  @include mixins.light-theme {
-    background-color: variables.$color-gray-60;
-  }
-}
-
-.module-message__metadata__status-icon--outline-only-bubble {
-  @include mixins.light-theme {
-    background-color: variables.$color-gray-60;
-  }
-  @include mixins.dark-theme {
-    background-color: variables.$color-gray-25;
-  }
+  color: light-dark(variables.$color-white, variables.$color-gray-02);
 }
 
 .module-message__metadata__spinner-container {
@@ -1977,81 +1862,17 @@ $message-padding-horizontal: 12px;
   display: inline-block;
   margin-inline-start: 6px;
   margin-bottom: 2px;
-
-  & {
-    @include mixins.dark-theme {
-      @include mixins.color-svg(
-        '../images/icons/v3/message_timer/messagetimer-60.svg',
-        variables.$color-white-alpha-80
-      );
-    }
-  }
-  & {
-    @include mixins.light-theme {
-      @include mixins.color-svg(
-        '../images/icons/v3/message_timer/messagetimer-60.svg',
-        variables.$color-white-alpha-80
-      );
-    }
-  }
 }
 
-$timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
-  '00';
+$timer-icons:
+  '60', '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05', '00';
 
 @each $timer-icon in $timer-icons {
   .module-expire-timer--#{$timer-icon} {
-    & {
-      @include mixins.dark-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/message_timer/messagetimer-#{$timer-icon}.svg',
-          variables.$color-white-alpha-80
-        );
-      }
-    }
-    & {
-      @include mixins.light-theme {
-        @include mixins.color-svg(
-          '../images/icons/v3/message_timer/messagetimer-#{$timer-icon}.svg',
-          variables.$color-white-alpha-80
-        );
-      }
-    }
-  }
-}
-
-.module-expire-timer--incoming {
-  background-color: variables.$color-white-alpha-80;
-
-  @include mixins.light-theme {
-    background-color: variables.$color-gray-60;
-  }
-  @include mixins.dark-theme {
-    background-color: variables.$color-gray-25;
-  }
-}
-.module-expire-timer--with-sticker {
-  @include mixins.light-theme {
-    background-color: variables.$color-gray-60;
-  }
-}
-
-// When status indicators are overlaid on top of an image, they use different colors
-.module-expire-timer--with-image-no-caption {
-  @include mixins.light-theme {
-    background-color: variables.$color-white;
-  }
-  @include mixins.dark-theme {
-    background-color: variables.$color-gray-02;
-  }
-}
-
-.module-expire-timer--outline-only-bubble {
-  @include mixins.light-theme {
-    background-color: variables.$color-gray-60;
-  }
-  @include mixins.dark-theme {
-    background-color: variables.$color-gray-25;
+    @include mixins.color-svg(
+      '../images/icons/v3/message_timer/messagetimer-#{$timer-icon}.svg',
+      currentColor
+    );
   }
 }
 
@@ -2339,10 +2160,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
   font-weight: bold;
 }
 
-.module-safety-number__bold-name {
-  font-weight: bold;
-}
-
 // Module: Error Boundary
 
 .module-error-boundary-notification {
@@ -2462,44 +2279,6 @@ $timer-icons: '55', '50', '45', '40', '35', '30', '25', '20', '15', '10', '05',
 // Brought this up here to add specificity
 button.ConversationDetails__action-button {
   margin-inline-start: 16px;
-}
-
-// Module: Media Gallery
-
-.module-media-gallery {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  width: 100%;
-  height: 100%;
-  outline: none;
-}
-
-.module-media-gallery__content {
-  flex-grow: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 20px;
-}
-
-.module-media-gallery__scroll-observer {
-  position: absolute;
-  bottom: 0;
-  height: 30px;
-
-  &::after {
-    content: '';
-    height: 1px; // Always show the element to not mess with the height of the scroll area
-    display: block;
-  }
-}
-
-.module-media-gallery__sections {
-  min-width: 0;
-
-  display: flex;
-  flex-grow: 1;
-  flex-direction: column;
 }
 
 // Module: Message Request Actions
@@ -3762,7 +3541,6 @@ button.module-image__border-overlay:focus {
 }
 .module-ongoing-call {
   &__remote-video-enabled {
-    // TODO: DESKTOP-8537 remove this; we want blurred avatar not all-black letterboxing
     height: 100%;
     width: 100%;
     position: relative;
@@ -3834,6 +3612,7 @@ button.module-image__border-overlay:focus {
 
   &__direct-call-ringing-spacer {
     flex: 1;
+    z-index: -1;
   }
 
   &__direct-call-speaking-indicator {
@@ -4297,6 +4076,8 @@ button.module-image__border-overlay:focus {
     position: absolute;
 
     display: flex;
+
+    // 960x720 = 1.333 aspect ratio
     height: 80px;
     width: variables.$calling-local-preview-normal-width;
 
@@ -4314,8 +4095,10 @@ button.module-image__border-overlay:focus {
 
     &--expanded {
       bottom: 112px;
-      height: 200px;
+
+      // 960x720 = 1.333 aspect ratio
       width: 312px;
+      height: 234px;
     }
 
     &--controls-hidden {
@@ -4446,7 +4229,7 @@ button.module-image__border-overlay:focus {
       inset-inline-start: 8px;
       // These are the normal widths; the size will change based on whether the window
       // is large, like the overall pip.
-      height: 54px;
+      height: 60px;
       width: 80px;
 
       border-radius: 12px;
@@ -4456,7 +4239,7 @@ button.module-image__border-overlay:focus {
       video {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
       }
     }
 
@@ -4467,14 +4250,18 @@ button.module-image__border-overlay:focus {
 
   &__full-size-local-preview {
     width: 100%;
+    height: 100%;
+    object-fit: contain;
     position: relative;
 
     video {
       width: 100%;
+      height: 100%;
       transform: rotateY(180deg);
+      object-fit: contain;
     }
 
-    &--presenting {
+    &--presenting video {
       transform: none;
     }
   }
@@ -4696,8 +4483,15 @@ button.module-image__border-overlay:focus {
       border-radius: 6px;
       cursor: auto;
     }
-    &:hover {
+    &:not(.module-calling-participants-list__me):hover {
       background-color: variables.$color-gray-62;
+
+      .module-calling-participants-list__status-icon {
+        display: none;
+      }
+      .module-calling-participants-list__menu-icon {
+        display: flex;
+      }
     }
     &[disabled] {
       cursor: auto;
@@ -4791,9 +4585,10 @@ button.module-image__border-overlay:focus {
     );
   }
 
-  &__remove {
+  &__menu-icon {
+    display: none;
     @include mixins.color-svg(
-      '../images/icons/v3/minus/minus-circle-compact.svg',
+      '../images/icons/v3/more/more.svg',
       variables.$color-white
     );
   }
@@ -6396,14 +6191,6 @@ button.module-calling-participants-list__contact {
   }
 }
 
-.module-background-color {
-  &__default {
-    background-color: variables.$color-black-alpha-40;
-  }
-
-  @include mixins.avatar-colors();
-}
-
 .module-tooltip {
   --tooltip-text-color: #{variables.$color-gray-75};
   --tooltip-background-color: #{variables.$color-gray-02};
@@ -6537,10 +6324,10 @@ button.module-calling-participants-list__contact {
   &--with-reactions {
     margin-bottom: -6px;
   }
+}
 
-  &--deleted-for-everyone {
-    font-style: italic;
-  }
+.module-message__container--sticker-like {
+  overflow: initial;
 }
 
 .module-message__context {

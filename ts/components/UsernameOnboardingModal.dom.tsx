@@ -19,7 +19,7 @@ export function UsernameOnboardingModal({
   onNext,
   onSkip,
   onClose,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   return (
     <Modal
       modalName="UsernameOnboardingModal"

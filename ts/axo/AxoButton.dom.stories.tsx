@@ -16,7 +16,7 @@ export default {
   title: 'Axo/AxoButton',
 } satisfies Meta;
 
-export function Basic(): JSX.Element {
+export function Basic(): React.JSX.Element {
   const variants = _getAllAxoButtonVariants();
   const sizes = _getAllAxoButtonSizes();
   return (
@@ -92,7 +92,7 @@ export function Basic(): JSX.Element {
   );
 }
 
-export function Spinner(): JSX.Element {
+export function Spinner(): React.JSX.Element {
   const sizes = _getAllAxoButtonSizes();
   const variants = _getAllAxoButtonVariants();
 
@@ -265,7 +265,7 @@ function WidthTestTemplate(props: {
   );
 }
 
-export function WidthsTest(): JSX.Element {
+export function WidthsTest(): React.JSX.Element {
   return (
     <div className={tw('space-y-16 pb-4')}>
       <WidthTestTemplate title="Block">

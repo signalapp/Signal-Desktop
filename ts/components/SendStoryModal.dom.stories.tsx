@@ -63,7 +63,7 @@ export default {
   },
 } satisfies Meta<PropsType>;
 
-export function Modal(args: PropsType): JSX.Element {
+export function Modal(args: PropsType): React.JSX.Element {
   return (
     <SendStoryModal
       {...args}
@@ -72,7 +72,7 @@ export function Modal(args: PropsType): JSX.Element {
   );
 }
 
-export function BlockList(args: PropsType): JSX.Element {
+export function BlockList(args: PropsType): React.JSX.Element {
   return (
     <SendStoryModal
       {...args}
@@ -84,7 +84,7 @@ export function BlockList(args: PropsType): JSX.Element {
   );
 }
 
-export function AllowList(args: PropsType): JSX.Element {
+export function AllowList(args: PropsType): React.JSX.Element {
   return (
     <SendStoryModal
       {...args}
@@ -100,7 +100,7 @@ export function AllowList(args: PropsType): JSX.Element {
   );
 }
 
-export function FirstTime(args: PropsType): JSX.Element {
+export function FirstTime(args: PropsType): React.JSX.Element {
   return (
     <SendStoryModal
       {...args}
@@ -113,7 +113,7 @@ export function FirstTime(args: PropsType): JSX.Element {
 
 export function FirstTimeAlreadyConfiguredOnMobile(
   args: PropsType
-): JSX.Element {
+): React.JSX.Element {
   return (
     <SendStoryModal
       {...args}

@@ -53,7 +53,7 @@ export function MessageRequestActionsConfirmation({
   reportSpam,
   deleteConversation,
   onChangeState,
-}: MessageRequestActionsConfirmationProps): JSX.Element | null {
+}: MessageRequestActionsConfirmationProps): React.JSX.Element | null {
   if (state === MessageRequestState.blocking) {
     return (
       <ConfirmationDialog

@@ -8,6 +8,7 @@ import { createLogger } from '../../logging/log.std.js';
 import * as Errors from '../../types/errors.std.js';
 import { sleep } from '../sleep.std.js';
 import { FIBONACCI_TIMEOUTS, BackOff } from '../BackOff.std.js';
+import { MINUTE } from '../durations/constants.std.js';
 
 const log = createLogger('tusProtocol');
 
@@ -129,6 +130,7 @@ export async function _tusCreateWithUploadRequest({
           }),
           'Content-Type': 'application/offset+octet-stream',
         },
+        timeout: MINUTE,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         body: readable as any,
       }),
@@ -256,6 +258,7 @@ export async function _tusResumeUploadRequest({
           'Upload-Offset': String(uploadOffset),
           'Content-Type': 'application/offset+octet-stream',
         },
+        timeout: MINUTE,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         body: readable as any,
       }),

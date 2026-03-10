@@ -28,7 +28,7 @@ export default {
   },
 } satisfies Meta<Props>;
 
-export function SetByOther(args: Props): JSX.Element {
+export function SetByOther(args: Props): React.JSX.Element {
   const props: Props = {
     ...args,
     disabled: false,
@@ -46,7 +46,7 @@ export function SetByOther(args: Props): JSX.Element {
   );
 }
 
-export function SetByOtherWithALongName(args: Props): JSX.Element {
+export function SetByOtherWithALongName(args: Props): React.JSX.Element {
   const longName = '🦴🧩📴'.repeat(50);
 
   const props: Props = {
@@ -66,7 +66,7 @@ export function SetByOtherWithALongName(args: Props): JSX.Element {
   );
 }
 
-export function SetByYou(args: Props): JSX.Element {
+export function SetByYou(args: Props): React.JSX.Element {
   const props: Props = {
     ...args,
     disabled: false,
@@ -84,7 +84,7 @@ export function SetByYou(args: Props): JSX.Element {
   );
 }
 
-export function SetBySync(args: Props): JSX.Element {
+export function SetBySync(args: Props): React.JSX.Element {
   const props: Props = {
     ...args,
     disabled: false,
@@ -102,7 +102,7 @@ export function SetBySync(args: Props): JSX.Element {
   );
 }
 
-export function SetByUnknownContact(args: Props): JSX.Element {
+export function SetByUnknownContact(args: Props): React.JSX.Element {
   const props: Props = {
     ...args,
     disabled: false,

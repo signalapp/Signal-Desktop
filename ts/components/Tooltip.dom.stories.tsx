@@ -28,7 +28,7 @@ export default {
     sticky: false,
   },
   decorators: [
-    (Story): JSX.Element => {
+    (Story): React.JSX.Element => {
       return (
         <div
           style={{
@@ -58,7 +58,7 @@ const Trigger = (
   </span>
 );
 
-export function Top(args: PropsType): JSX.Element {
+export function Top(args: PropsType): React.JSX.Element {
   return (
     <Tooltip {...args} direction={TooltipPlacement.Top}>
       {Trigger}
@@ -66,7 +66,7 @@ export function Top(args: PropsType): JSX.Element {
   );
 }
 
-export function Right(args: PropsType): JSX.Element {
+export function Right(args: PropsType): React.JSX.Element {
   return (
     <Tooltip {...args} direction={TooltipPlacement.Right}>
       {Trigger}
@@ -74,7 +74,7 @@ export function Right(args: PropsType): JSX.Element {
   );
 }
 
-export function Bottom(args: PropsType): JSX.Element {
+export function Bottom(args: PropsType): React.JSX.Element {
   return (
     <Tooltip {...args} direction={TooltipPlacement.Bottom}>
       {Trigger}
@@ -82,7 +82,7 @@ export function Bottom(args: PropsType): JSX.Element {
   );
 }
 
-export function Left(args: PropsType): JSX.Element {
+export function Left(args: PropsType): React.JSX.Element {
   return (
     <Tooltip {...args} direction={TooltipPlacement.Left}>
       {Trigger}
@@ -90,7 +90,7 @@ export function Left(args: PropsType): JSX.Element {
   );
 }
 
-export function Sticky(args: PropsType): JSX.Element {
+export function Sticky(args: PropsType): React.JSX.Element {
   return (
     <Tooltip {...args} sticky>
       {Trigger}
@@ -98,7 +98,7 @@ export function Sticky(args: PropsType): JSX.Element {
   );
 }
 
-export function WithAppliedPopperModifiers(args: PropsType): JSX.Element {
+export function WithAppliedPopperModifiers(args: PropsType): React.JSX.Element {
   return (
     <Tooltip
       {...args}
@@ -117,7 +117,7 @@ export function WithAppliedPopperModifiers(args: PropsType): JSX.Element {
   );
 }
 
-export function DarkTheme(args: PropsType): JSX.Element {
+export function DarkTheme(args: PropsType): React.JSX.Element {
   return (
     <Tooltip {...args} sticky theme={Theme.Dark}>
       {Trigger}

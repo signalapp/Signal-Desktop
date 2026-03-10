@@ -28,7 +28,6 @@ import {
   loadStickerData as doLoadStickerData,
   processNewAttachment as doProcessNewAttachment,
   processNewSticker as doProcessNewSticker,
-  deleteAllExternalFiles,
   createAttachmentLoader,
   upgradeSchema,
 } from '../types/Message2.preload.js';
@@ -49,7 +48,11 @@ import {
   TEMP_PATH,
   AVATARS_PATH,
   DOWNLOADS_PATH,
+  MEGAPHONES_PATH,
 } from './basePaths.preload.js';
+import { DataReader } from '../sql/Client.preload.js';
+import { getExistingAttachmentDataForReuse } from './attachments/deduplicateAttachment.preload.js';
+import { getPlaintextHashForInMemoryAttachment } from '../AttachmentCrypto.node.js';
 
 const logger = createLogger('migrations');
 
@@ -111,7 +114,23 @@ export const loadQuoteData = doLoadQuoteData(loadAttachmentData);
 export const loadStickerData = doLoadStickerData(loadAttachmentData);
 export const getAbsoluteAttachmentPath =
   createAbsolutePathGetter(ATTACHMENTS_PATH);
-export const deleteAttachmentData = createDeleter(ATTACHMENTS_PATH);
+
+// eslint-disable-next-line camelcase
+const __DANGEROUS__deleteAttachmentFile = createDeleter(ATTACHMENTS_PATH);
+export const maybeDeleteAttachmentFile = async (
+  relativePath: string
+): Promise<{ wasDeleted: boolean }> => {
+  const isSafeToDelete =
+    await DataReader.isAttachmentSafeToDelete(relativePath);
+
+  if (!isSafeToDelete) {
+    return { wasDeleted: false };
+  }
+
+  await __DANGEROUS__deleteAttachmentFile(relativePath);
+  return { wasDeleted: true };
+};
+
 export const writeNewAttachmentData =
   createEncryptedWriterForNew(ATTACHMENTS_PATH);
 export const doesAttachmentExist = createDoesExist(ATTACHMENTS_PATH);
@@ -120,12 +139,6 @@ export const getAbsoluteStickerPath = createAbsolutePathGetter(STICKERS_PATH);
 export const writeNewStickerData = createEncryptedWriterForNew(STICKERS_PATH);
 export const deleteSticker = createDeleter(STICKERS_PATH);
 export const readStickerData = createEncryptedReader(STICKERS_PATH);
-export const copyStickerIntoAttachmentsDirectory = copyIntoAttachmentsDirectory(
-  {
-    sourceDir: STICKERS_PATH,
-    targetDir: ATTACHMENTS_PATH,
-  }
-);
 
 export const getAbsoluteBadgeImageFilePath =
   createAbsolutePathGetter(BADGES_PATH);
@@ -133,6 +146,11 @@ export const writeNewBadgeImageFileData = createWriterForNew(
   BADGES_PATH,
   '.svg'
 );
+
+export const getAbsoluteMegaphoneImageFilePath =
+  createAbsolutePathGetter(MEGAPHONES_PATH);
+export const writeNewMegaphoneImageFileData =
+  createWriterForNew(MEGAPHONES_PATH);
 
 export const getAbsoluteTempPath = createAbsolutePathGetter(TEMP_PATH);
 const writeNewTempData = createEncryptedWriterForNew(TEMP_PATH);
@@ -151,17 +169,13 @@ export const readDraftData = createEncryptedReader(DRAFT_PATH);
 
 export const getAbsoluteDownloadsPath =
   createAbsolutePathGetter(DOWNLOADS_PATH);
-export const deleteDownloadData = createDeleter(DOWNLOADS_PATH);
+export const deleteDownloadFile = createDeleter(DOWNLOADS_PATH);
 
 export const readAvatarData = createEncryptedReader(AVATARS_PATH);
 export const getAbsoluteAvatarPath = createAbsolutePathGetter(AVATARS_PATH);
 export const writeNewAvatarData = createEncryptedWriterForNew(AVATARS_PATH);
 export const deleteAvatar = createDeleter(AVATARS_PATH);
 
-export const deleteExternalMessageFiles = deleteAllExternalFiles({
-  deleteAttachmentOnDisk: deleteAttachmentData,
-  deleteDownloadOnDisk: deleteDownloadData,
-});
 export const loadMessage = createAttachmentLoader(loadAttachmentData);
 
 export const processNewAttachment = (
@@ -201,9 +215,11 @@ export const upgradeMessageSchema = (
   const { maxVersion } = options;
 
   return upgradeSchema(message, {
-    deleteAttachmentOnDisk: deleteAttachmentData,
+    maybeDeleteAttachmentFile,
     doesAttachmentExist,
+    getExistingAttachmentDataForReuse,
     getImageDimensions,
+    getPlaintextHashForInMemoryAttachment,
     getRegionCode: () => itemStorage.get('regionCode'),
     makeImageThumbnail,
     makeObjectUrl,

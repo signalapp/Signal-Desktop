@@ -13,7 +13,7 @@ export type PropsType = {
   onRetryDonation: () => unknown;
 };
 
-export function DonationInterruptedModal(props: PropsType): JSX.Element {
+export function DonationInterruptedModal(props: PropsType): React.JSX.Element {
   const { i18n, onCancelDonation, onRetryDonation } = props;
 
   const footer = (

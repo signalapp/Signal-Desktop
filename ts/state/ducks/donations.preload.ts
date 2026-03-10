@@ -1,7 +1,7 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ReadonlyDeep } from 'type-fest';
+import type { ReadonlyDeep, Simplify } from 'type-fest';
 import type { ThunkAction } from 'redux-thunk';
 
 import { useBoundActions } from '../../hooks/useBoundActions.std.js';
@@ -10,7 +10,10 @@ import * as Errors from '../../types/errors.std.js';
 import { isStagingServer } from '../../util/isStagingServer.dom.js';
 import { DataWriter } from '../../sql/Client.preload.js';
 import * as donations from '../../services/donations.preload.js';
-import { donationStateSchema } from '../../types/Donations.std.js';
+import {
+  donationStateSchema,
+  DonationProcessor,
+} from '../../types/Donations.std.js';
 import { drop } from '../../util/drop.std.js';
 import { storageServiceUploadJob } from '../../services/storage.preload.js';
 import { getMe } from '../selectors/conversations.dom.js';
@@ -26,11 +29,13 @@ import type {
   DonationErrorType,
   DonationReceipt,
   DonationWorkflow,
+  OneTimeDonationHumanAmounts,
   StripeDonationAmount,
 } from '../../types/Donations.std.js';
 import type { BadgeType } from '../../badges/types.std.js';
 import type { StateType as RootStateType } from '../reducer.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { missingCaseError } from '../../util/missingCaseError.std.js';
 
 const log = createLogger('donations');
 
@@ -40,12 +45,15 @@ export type DonationsStateType = ReadonlyDeep<{
   currentWorkflow: DonationWorkflow | undefined;
   didResumeWorkflowAtStartup: boolean;
   lastError: DonationErrorType | undefined;
+  lastReturnToken: string | undefined;
   receipts: Array<DonationReceipt>;
+  configCache: OneTimeDonationHumanAmounts | undefined;
 }>;
 
 // Actions
 
 export const ADD_RECEIPT = 'donations/ADD_RECEIPT';
+export const HYDRATE_CONFIG_CACHE = 'donations/HYDRATE_CONFIG_CACHE';
 export const SUBMIT_DONATION = 'donations/SUBMIT_DONATION';
 export const UPDATE_WORKFLOW = 'donations/UPDATE_WORKFLOW';
 export const UPDATE_LAST_ERROR = 'donations/UPDATE_LAST_ERROR';
@@ -54,6 +62,11 @@ export const SET_DID_RESUME = 'donations/SET_DID_RESUME';
 export type AddReceiptAction = ReadonlyDeep<{
   type: typeof ADD_RECEIPT;
   payload: { receipt: DonationReceipt };
+}>;
+
+export type HydrateConfigCacheAction = ReadonlyDeep<{
+  type: typeof HYDRATE_CONFIG_CACHE;
+  payload: { configCache: OneTimeDonationHumanAmounts };
 }>;
 
 export type SetDidResumeAction = ReadonlyDeep<{
@@ -78,6 +91,7 @@ export type UpdateWorkflowAction = ReadonlyDeep<{
 
 export type DonationsActionType = ReadonlyDeep<
   | AddReceiptAction
+  | HydrateConfigCacheAction
   | SetDidResumeAction
   | SubmitDonationAction
   | UpdateLastErrorAction
@@ -116,6 +130,15 @@ function internalAddDonationReceipt(
   };
 }
 
+function hydrateConfigCache(
+  configCache: OneTimeDonationHumanAmounts
+): HydrateConfigCacheAction {
+  return {
+    type: HYDRATE_CONFIG_CACHE,
+    payload: { configCache },
+  };
+}
+
 function setDidResume(didResume: boolean): SetDidResumeAction {
   return {
     type: SET_DID_RESUME,
@@ -144,17 +167,58 @@ function resumeWorkflow(): ThunkAction<
   };
 }
 
-export type SubmitDonationType = ReadonlyDeep<{
+type SubmitDonationData = ReadonlyDeep<{
   currencyType: string;
   paymentAmount: StripeDonationAmount;
-  paymentDetail: CardDetail;
 }>;
 
-function submitDonation({
+type SubmitStripeDonationData = ReadonlyDeep<
+  SubmitDonationData & {
+    paymentDetail: CardDetail;
+  }
+>;
+
+export type SubmitDonationType = Simplify<
+  ReadonlyDeep<
+    | ({ processor: DonationProcessor.Stripe } & SubmitStripeDonationData)
+    | ({ processor: DonationProcessor.Paypal } & SubmitDonationData)
+  >
+>;
+
+function submitDonation(
+  data: SubmitDonationType
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  UpdateWorkflowAction | UpdateLastErrorAction
+> {
+  const { currencyType, paymentAmount, processor } = data;
+
+  if (processor === DonationProcessor.Stripe) {
+    const { paymentDetail } = data;
+    return _submitStripeDonation({
+      currencyType,
+      paymentAmount,
+      paymentDetail,
+    });
+  }
+
+  if (processor === DonationProcessor.Paypal) {
+    return _submitPaypalDonation({
+      currencyType,
+      paymentAmount,
+    });
+  }
+
+  throw missingCaseError(processor);
+}
+
+function _submitStripeDonation({
   currencyType,
   paymentAmount,
   paymentDetail,
-}: SubmitDonationType): ThunkAction<
+}: SubmitStripeDonationData): ThunkAction<
   void,
   RootStateType,
   unknown,
@@ -171,7 +235,7 @@ function submitDonation({
         // we can proceed without starting afresh
       } else {
         await donations.clearDonation();
-        await donations.startDonation({
+        await donations.startStripeDonation({
           currencyType,
           paymentAmount,
         });
@@ -179,7 +243,33 @@ function submitDonation({
 
       await donations.finishDonationWithCard(paymentDetail);
     } catch (error) {
-      log.error('submitDonation failed', Errors.toLogFormat(error));
+      log.error('_submitStripeDonation failed', Errors.toLogFormat(error));
+      dispatch({
+        type: UPDATE_LAST_ERROR,
+        payload: { lastError: 'GeneralError' },
+      });
+    }
+  };
+}
+
+function _submitPaypalDonation({
+  currencyType,
+  paymentAmount,
+}: SubmitDonationData): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  UpdateWorkflowAction | UpdateLastErrorAction
+> {
+  return async dispatch => {
+    try {
+      await donations.clearDonation();
+      await donations.startPaypalDonation({
+        currencyType,
+        paymentAmount,
+      });
+    } catch (error) {
+      log.error('_submitPaypalDonation failed', Errors.toLogFormat(error));
       dispatch({
         type: UPDATE_LAST_ERROR,
         payload: { lastError: 'GeneralError' },
@@ -327,6 +417,7 @@ export const actions = {
   applyDonationBadge,
   clearWorkflow,
   internalAddDonationReceipt,
+  hydrateConfigCache,
   setDidResume,
   resumeWorkflow,
   submitDonation,
@@ -345,7 +436,9 @@ export function getEmptyState(): DonationsStateType {
     currentWorkflow: undefined,
     didResumeWorkflowAtStartup: false,
     lastError: undefined,
+    lastReturnToken: undefined,
     receipts: [],
+    configCache: undefined,
   };
 }
 
@@ -357,6 +450,13 @@ export function reducer(
     return {
       ...state,
       receipts: [...state.receipts, action.payload.receipt],
+    };
+  }
+
+  if (action.type === HYDRATE_CONFIG_CACHE) {
+    return {
+      ...state,
+      configCache: action.payload.configCache,
     };
   }
 
@@ -377,6 +477,14 @@ export function reducer(
   if (action.type === UPDATE_WORKFLOW) {
     const { nextWorkflow } = action.payload;
 
+    let lastReturnToken: string | undefined;
+    const { currentWorkflow } = state;
+    if (currentWorkflow && 'returnToken' in currentWorkflow) {
+      lastReturnToken = currentWorkflow.returnToken;
+    } else {
+      lastReturnToken = state.lastReturnToken;
+    }
+
     // If we've cleared the workflow or are starting afresh, we clear the startup flag
     const didResumeWorkflowAtStartup =
       !nextWorkflow || nextWorkflow.type === donationStateSchema.Enum.INTENT
@@ -387,6 +495,7 @@ export function reducer(
       ...state,
       didResumeWorkflowAtStartup,
       currentWorkflow: nextWorkflow,
+      lastReturnToken,
     };
   }
 

@@ -17,7 +17,7 @@ import {
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 
 export const SmartUsernameOnboardingModal = memo(
-  function SmartUsernameOnboardingModal(): JSX.Element {
+  function SmartUsernameOnboardingModal(): React.JSX.Element {
     const i18n = useSelector(getIntl);
     const { toggleUsernameOnboarding } = useGlobalModalActions();
     const { openUsernameReservationModal } = useUsernameActions();

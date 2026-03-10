@@ -206,9 +206,6 @@
   "icu:viewMenuToggleDevTools": {
     "messageformat": "ٹوگل ڈویلپر ٹولز"
   },
-  "icu:viewMenuOpenCallingDevTools": {
-    "messageformat": "کالنگ ڈیولپر ٹولز کھولیں"
-  },
   "icu:menuSetupAsNewDevice": {
     "messageformat": "نئی ڈیوائس کے طور پر مرتب کریں"
   },
@@ -539,6 +536,9 @@
   "icu:debugLogExplanation": {
     "messageformat": "آپ کے جمع کروائیں پر کلک کرنے پر، آپ کا لاگ ایک منفرد، غیر پبلش شدہ URL پر 30 دنوں کے لیے آن لائن پوسٹ کر دیا جائے گا۔ آپ پہلے اسے مقامی طور پر محفوظ کر سکتے ہیں۔"
   },
+  "icu:debugLogExplanation--close": {
+    "messageformat": "یہ لاگ عوامی طور پر آن لائن شائع کیا جائے گا تاکہ معاونین اسے دیکھیں۔ آپ اسے جمع کروانے سے پہلے ڈاؤن لوڈ کر سکتے ہیں۔"
+  },
   "icu:debugLogError": {
     "messageformat": "اپ لوڈ کے ساتھ کوئی خرابی واقع ہو گئی ہے! براہ کرم support@signal.org پر ای میل کریں اور متنی فائل کے طور پر اپنا لاگ منسلک کریں۔"
   },
@@ -575,14 +575,95 @@
   "icu:SafetyNumberViewer__hint": {
     "messageformat": "{name} کے ساتھ اینڈ ٹو اینڈ انکرپشن کی تصدیق کرنے کے لیے، اوپر موجود نمبرز کے ساتھ ان کی ڈیوائس کا موازنہ کریں۔ وہ اپنی ڈیوائس کے ساتھ آپ کے کوڈ کو اسکین بھی کر سکتے ہیں۔"
   },
+  "icu:SafetyNumberViewer__hint-v2": {
+    "messageformat": "{name} کے ساتھ اینڈ ٹو اینڈ انکرپشن کی تصدیق کرنے کے لیے، اوپر موجود نمبرز کے ساتھ ان کی ڈیوائس کا موازنہ کریں۔ وہ اپنی ڈیوائس پر آپ کے کوڈ کو اسکین بھی کر سکتے ہیں۔"
+  },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "مزید جانیں"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__title": {
+    "messageformat": "خودکار کیی کی تصدیق"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--idle": {
+    "messageformat": "خود کار طور پر تصدیق کریں"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--running": {
+    "messageformat": "انکرپشن کی تصدیق کی جا رہی ہے..."
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--ok": {
+    "messageformat": "انکرپشن کی تصدیق ہو گئی"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__button--fail": {
+    "messageformat": "خود کار تصدیق دستیاب نہیں ہے"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__hint": {
+    "messageformat": "تمام چیٹس کے لیے خود کار تصدیق دستیاب نہیں ہے۔"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
+    "messageformat": "مزید جانیں"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
+    "messageformat": "اس چیٹ کے لیے انکرپشن خودکار طور پر تصدیق شدہ تھی "
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
+    "messageformat": "ان رابطوں کے لیے جن کے ساتھ آپ فون نمبر کے ذریعے مربوط ہیں، Signal خود کار طور پر کیی ٹرانسپیرینسی کا طریقہ کار استعمال کرتے ہوئے یہ تصدیق کر سکتا ہے کہ آیا کنیکشن محفوظ ہے۔ اضافی سیکیورٹی کے لیے، پچھلی اسکرین پر موجود نمبرز کا موازنہ کر کے یا ان کی ڈیوائس پر کوڈ اسکین کر کے دستی طور پر آخر سے آخر تک انکرپشن کی تصدیق کریں۔"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
+    "messageformat": "اس چیٹ کے لیے خود کار تصدیق مزید دستیاب نہیں ہے"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
+    "messageformat": "Signal اب اس چیٹ کے لیے انکرپشن کی خودکار تصدیق نہیں کر سکتا۔ ایسا اس لیے ہے کیونکہ {name} نے اپنا فون نمبر تبدیل کر لیا ہے۔ پچھلی اسکرین پر موجود نمبرز کا موازنہ کر کے یا ان کی ڈیوائس پر کوڈ اسکین کر کے دستی طور پر آخر سے آخر تک انکرپشن کی تصدیق کریں۔"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
+    "messageformat": "Signal چیٹس میں انکرپشن کی خودکار تصدیق صرف اس وقت کر سکتا ہے جب آپ کسی کے ساتھ فون نمبر کے ذریعے مربوط ہوں۔ اگر چیٹ کسی یوزر نیم کے ساتھ یا کسی مشترکہ گروپ میں شروع کی گئی تھی، تو پچھلی اسکرین پر موجود نمبرز کا موازنہ کر کے یا ان کی ڈیوائس پر کوڈ اسکین کر کے آخر سے آخر تک انکرپشن کی تصدیق کریں۔"
+  },
+  "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
+    "messageformat": "ٹھیک ہے"
   },
   "icu:SafetyNumberNotReady__body": {
     "messageformat": "اس شخص کے ساتھ میسجز کا تبادلہ کرنے کے بعد اس کے ساتھ ایک حفاظتی نمبر تخلیق کیا جائے گا۔"
   },
   "icu:SafetyNumberNotReady__learn-more": {
     "messageformat": "مزید پڑھیں"
+  },
+  "icu:KeyTransparencyErrorDialog__Title": {
+    "messageformat": "آپ کی ڈیوائس پر خودکار کیی کی تصدیق فی الحال دستیاب نہیں ہے۔ ڈی بگ لاگ جمع کروائیں؟"
+  },
+  "icu:KeyTransparencyErrorDialog__Description": {
+    "messageformat": "ڈی بگ لاگز مسئلے کی نشاندہی کرنے اور اسے حل کرنے میں ہماری مدد کرتے ہیں، اور اس میں شناخت کرنے والی معلومات شامل نہیں ہوتی ہیں۔"
+  },
+  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "بند کریں"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
+    "messageformat": "ڈی بگ لاگ شیئر کریں"
+  },
+  "icu:KeyTransparencyErrorDialog__ShareDebugLog__ViewButton": {
+    "messageformat": "ویو"
+  },
+  "icu:KeyTransparencyErrorDialog__Submit": {
+    "messageformat": "جمح کریں"
+  },
+  "icu:KeyTransparencyErrorDialog__Cancel": {
+    "messageformat": "نہیں شکریہ"
+  },
+  "icu:KeyTransparencyErrorDialog__Submitting": {
+    "messageformat": "جمع کیا جا رہا ہے..."
+  },
+  "icu:KeyTransparencyOnboardingDialog__Title": {
+    "messageformat": "اب Signal خودکار طور پر انکرپشن کی تصدیق کر سکتا ہے"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Description": {
+    "messageformat": "ان رابطوں کے لیے جن کے ساتھ آپ فون نمبر کے ذریعے مربوط ہیں، Signal خود کار طور پر کیی ٹرانسپیرینسی نامی طریقہ کار استعمال کرتے ہوئے یہ تصدیق کر سکتا ہے کہ آیا کنیکشن محفوظ ہے۔ اضافی تحفظ کے لیے، آپ اب بھی کنیکشنز کی دستی طور پر QR کوڈ یا حفاظتی نمبر کا موازنہ کر کے تصدیق کر سکتے ہیں۔"
+  },
+  "icu:KeyTransparencyOnboardingDialog__Continue": {
+    "messageformat": "جاری رکھیں"
+  },
+  "icu:KeyTransparencyOnboardingDialog__LearnMore": {
+    "messageformat": "مزید جانیں"
+  },
+  "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
+    "messageformat": "بند کریں"
   },
   "icu:verified": {
     "messageformat": "تصدیق شدہ"
@@ -595,18 +676,6 @@
   },
   "icu:media": {
     "messageformat": "میڈیا"
-  },
-  "icu:mediaEmptyState": {
-    "messageformat": "اس چیٹ میں آپ کا کوئی میڈیا موجود نہیں ہے"
-  },
-  "icu:allMedia": {
-    "messageformat": "تمام میڈیا"
-  },
-  "icu:documents": {
-    "messageformat": "دستاویزات"
-  },
-  "icu:documentsEmptyState": {
-    "messageformat": "اس چیٹ آپ کے کوئی ڈاکومنٹس نہیں ہیں"
   },
   "icu:today": {
     "messageformat": "آج"
@@ -743,12 +812,6 @@
   "icu:screenShareWindow": {
     "messageformat": "اسکرین کا اشتراک کرنا"
   },
-  "icu:callingDeveloperTools": {
-    "messageformat": "کالنگ ڈیولپر ٹولز"
-  },
-  "icu:callingDeveloperToolsDescription": {
-    "messageformat": "یہ ونڈو ڈیولپمنٹ کے دوران جاری کالز سے تشخیصی ڈیٹا کو ظاہر کرنے کے لیے استعمال ہوتی ہے۔"
-  },
   "icu:speech": {
     "messageformat": "تقریر"
   },
@@ -820,6 +883,9 @@
   },
   "icu:whatsNew": {
     "messageformat": "اس اپ ڈیٹ میں {whatsNew} دیکھیں"
+  },
+  "icu:signalNonProfit": {
+    "messageformat": "Signal ایک غیر منافع بخش ایپ ہے"
   },
   "icu:viewReleaseNotes": {
     "messageformat": "نیا کیا ہے"
@@ -1046,6 +1112,12 @@
   "icu:AboutContactModal__system-contact": {
     "messageformat": "{name} آپ کے سسٹم کانٹیکٹس میں موجود ہے"
   },
+  "icu:AboutContactModal__add-member-label": {
+    "messageformat": "ایک ممبر لیبل شامل کریں"
+  },
+  "icu:AboutContactModal__your-qr-code": {
+    "messageformat": "آپ کا QR کوڈ"
+  },
   "icu:NotePreviewModal__Title": {
     "messageformat": "نوٹ"
   },
@@ -1097,6 +1169,12 @@
   "icu:MessageContextMenu__info": {
     "messageformat": "معلومات"
   },
+  "icu:MessageContextMenu__PinMessage": {
+    "messageformat": "پِن کریں"
+  },
+  "icu:MessageContextMenu__UnpinMessage": {
+    "messageformat": "ان پِن کریں"
+  },
   "icu:Poll__end-poll": {
     "messageformat": "پول ختم کریں"
   },
@@ -1137,10 +1215,10 @@
     "messageformat": "کوئی ووٹس نہیں ہیں"
   },
   "icu:PollVotesModal__winningOption": {
-    "messageformat": "Winning"
+    "messageformat": "جیتنا"
   },
   "icu:Toast--PinnedMessageNotFound": {
-    "messageformat": "Pinned message not found"
+    "messageformat": "پِن شدہ میسج نہیں ملا"
   },
   "icu:Toast--PollNotFound": {
     "messageformat": "پول نہیں ملے"
@@ -1201,6 +1279,141 @@
   },
   "icu:ConversationHeader__CannotLeaveGroupBecauseYouAreLastAdminAlert__description": {
     "messageformat": "چھوڑنے سے قبل، آپ کو اس گروپ کے لیے کم از کم ایک نیا ایڈمن منتخب کرنا ہو گا۔"
+  },
+  "icu:PinnedMessageNotification__Message--You": {
+    "messageformat": "آپ نے ایک میسج پِن کیا ہے"
+  },
+  "icu:PinnedMessageNotification__Message--SomeoneElse": {
+    "messageformat": "{sender} نے ایک میسج پِن کیا ہے"
+  },
+  "icu:PinnedMessageNotification__Button": {
+    "messageformat": "میسج میں جائیں"
+  },
+  "icu:PinMessageDialog__Title": {
+    "messageformat": "میسج کو پِن کریں برائے…"
+  },
+  "icu:PinMessageDialog__Close": {
+    "messageformat": "بند کریں"
+  },
+  "icu:PinMessageDialog__Option--TIME_24_HOURS": {
+    "messageformat": "24 گھنٹے"
+  },
+  "icu:PinMessageDialog__Option--TIME_7_DAYS": {
+    "messageformat": "7 دن"
+  },
+  "icu:PinMessageDialog__Option--TIME_30_DAYS": {
+    "messageformat": "30 دن"
+  },
+  "icu:PinMessageDialog__Option--FOREVER": {
+    "messageformat": "ہمیشہ کے لئے"
+  },
+  "icu:PinMessageDialog__Cancel": {
+    "messageformat": "منسوخ کریں"
+  },
+  "icu:PinMessageDialog__Pin": {
+    "messageformat": "پِن کریں"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Title": {
+    "messageformat": "پرانا پِن تبدیل کریں؟"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Description": {
+    "messageformat": "اس میسج کو پِن کرنے سے سب سے پرانا میسج ہٹ جائے گا۔"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Cancel": {
+    "messageformat": "منسوخ کریں"
+  },
+  "icu:PinMessageDialog--HasMaxPinnedMessages__Continue": {
+    "messageformat": "جاری رکھیں"
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Title": {
+    "messageformat": "غائب ہونے والے میسجز کو پِن کرنا"
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Description": {
+    "messageformat": "جب غائب ہونے والے میسجز کا ٹائمر ختم ہو جائے گا اور میسج چیٹ سے ہٹا دیا جائے گا تو وہ اَن پِن ہو جائیں گے۔"
+  },
+  "icu:PinMessageDisappearingMessagesWarningDialog__Okay": {
+    "messageformat": "ٹھیک ہے"
+  },
+  "icu:PinnedMessagesBar__AccessibilityLabel": {
+    "messageformat": "{pinsCount, plural, one {پِن کردہ میسج} other {پِن کردہ میسجز}}"
+  },
+  "icu:PinnedMessagesBar__Tab__AccessibilityLabel": {
+    "messageformat": "پِن {pinNumber,number} پر جائیں"
+  },
+  "icu:PinnedMessagesBar__GoToMessageClickableArea__AccessibilityLabel": {
+    "messageformat": "میسج میں جائیں"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__Button__AccessibilityLabel": {
+    "messageformat": "مزید افعال"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__UnpinMessage": {
+    "messageformat": "ان پِن کریں"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__GoToMessage": {
+    "messageformat": "میسج میں جائیں"
+  },
+  "icu:PinnedMessagesBar__ActionsMenu__SeeAllMessages": {
+    "messageformat": "تمام میسجز دیکھیں"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--VoiceMessage": {
+    "messageformat": "آڈیو پیغام"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Gif": {
+    "messageformat": "گِف"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--File": {
+    "messageformat": "فائل"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Payment": {
+    "messageformat": "پیمنٹ"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Poll": {
+    "messageformat": "پول"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--Sticker": {
+    "messageformat": "اسٹیکر"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__SymbolLabel--ViewOnceMedia": {
+    "messageformat": "صرف ایک بار دیکھنے کے قابل میڈیا"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--Photo": {
+    "messageformat": "تصویر"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--Video": {
+    "messageformat": "وڈیو"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--VoiceMessage": {
+    "messageformat": "آڈیو پیغام"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--Gif": {
+    "messageformat": "گِف"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--Payment": {
+    "messageformat": "پیمنٹ"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--Sticker": {
+    "messageformat": "اسٹیکر"
+  },
+  "icu:PinnedMessagesBar__MessagePreview__Text--ViewOnceMedia": {
+    "messageformat": "صرف ایک بار دیکھنے کے قابل میڈیا"
+  },
+  "icu:PinnedMessagesPanel__Title": {
+    "messageformat": "پِن کردہ میسجز"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages": {
+    "messageformat": "تمام میسجز اَن پِن کریں"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Title": {
+    "messageformat": "تمام میسجز اَن پِن کریں؟"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Description": {
+    "messageformat": "اس چیٹ کے ممبرز کے لیے میسجز ان پِن کر دیے جائیں گے۔"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Cancel": {
+    "messageformat": "منسوخ کریں"
+  },
+  "icu:PinnedMessagesPanel__UnpinAllMessages__ConfirmDialog__Unpin": {
+    "messageformat": "ان پِن کریں"
   },
   "icu:sessionEnded": {
     "messageformat": "محفوظ سیشن ری سیٹ کریں"
@@ -1582,6 +1795,15 @@
   },
   "icu:Preferences__EditChatFolderPage__CancelButton": {
     "messageformat": "منسوخ کریں"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Label": {
+    "messageformat": "خودکار کیی کی تصدیق"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__Description": {
+    "messageformat": "فعال ہونے پر، Signal خودکار طور پر 1:1 چیٹس کی انکرپشن کی تصدیق کرنے کی کوشش کرے گا۔"
+  },
+  "icu:Preferences__PrivacyPage__KeyTransparency__LearnMore": {
+    "messageformat": "مزید سیکھیں"
   },
   "icu:initialSync": {
     "messageformat": "گروپس اور رابطے ہم آہنگ ہو رہے ہیں "
@@ -1997,6 +2219,18 @@
   "icu:deleteFailed": {
     "messageformat": "حذف کرنا ناکام ہو گیا"
   },
+  "icu:deleteFailedClickForDetails": {
+    "messageformat": "Delete failed, click for details"
+  },
+  "icu:retryDeleteForEveryone--title": {
+    "messageformat": "Retry failed delete?"
+  },
+  "icu:retryDeleteForEveryone--body": {
+    "messageformat": "Message failed to delete. Check your connection and try again."
+  },
+  "icu:retryDeleteForEveryone--tryAgain": {
+    "messageformat": "Try again"
+  },
   "icu:editFailed": {
     "messageformat": "ترمیم ناکام ہو گئی، تفصیلات کے لیے کلک کریں"
   },
@@ -2008,6 +2242,9 @@
   },
   "icu:partiallyDeleted": {
     "messageformat": "جزوی طور پر حذف کر دیا گیا، دوبارہ کوشش کرنے کے لیے کلک کریں"
+  },
+  "icu:partiallyDeleted--clickForDetails": {
+    "messageformat": "Partially deleted, click for details"
   },
   "icu:expiredWarning": {
     "messageformat": "Signal Desktop کا یہ ورژن کی میعاد ختم ہوچکی ہے۔ مہربانی فرما کر پیغامات جاری رکھنے کے لئے حالیہ ورژن میں اپ گریڈ کریں۔"
@@ -2208,7 +2445,16 @@
     "messageformat": "ڈاؤن لوڈ ناکام ہو گیا"
   },
   "icu:Toast--unable-download-from-backup-tier": {
-    "messageformat": "بیک اپ سے اٹیچمنٹ ڈاؤن لوڈ کرنے میں ناکامی ہوئی"
+    "messageformat": "Attachment missing from backup CDN"
+  },
+  "icu:ToastManager__CannotAddMemberLabel": {
+    "messageformat": "اس گروپ میں صرف ایڈمنز ہی ممبر لیبلز شامل کر سکتے ہیں۔"
+  },
+  "icu:Toast--viewOnceEnabled": {
+    "messageformat": "View once enabled"
+  },
+  "icu:Toast--viewOnceDisabled": {
+    "messageformat": "View once disabled"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "آپ کی طرف سے اس میسج کو بھیجنے کے بعد ترامیم کا اطلاق محض 24 گھنٹوں کے اندر کیا جا سکتا ہے۔"
@@ -2372,9 +2618,6 @@
   "icu:message--getNotificationText--stickers": {
     "messageformat": "اسٹیکر پیغام"
   },
-  "icu:message--getNotificationText--poll": {
-    "messageformat": "پول: {pollQuestion}"
-  },
   "icu:Poll--preview": {
     "messageformat": "پول: {pollQuestion}"
   },
@@ -2398,6 +2641,15 @@
   },
   "icu:message--deletedForEveryone": {
     "messageformat": "یہ پیغام حذف کردیا گیا تھا۔"
+  },
+  "icu:message--deletedByAdmin": {
+    "messageformat": "Admin {admin} deleted this message"
+  },
+  "icu:message--deletedForEveryone--incoming": {
+    "messageformat": "{name} deleted this message"
+  },
+  "icu:message--deletedForEveryone--outgoing": {
+    "messageformat": "You deleted this message"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "منسلکہ بہت بڑی ہے کہ ظاہر کی جا سکے۔"
@@ -2434,6 +2686,12 @@
   },
   "icu:message--donation--preview--sent": {
     "messageformat": "آپ نے {recipient} کے لیے عطیہ کیا ہے"
+  },
+  "icu:message--pinned--preview--received": {
+    "messageformat": "{sender} نے ایک میسج پِن کیا ہے"
+  },
+  "icu:message--pinned--preview--sent": {
+    "messageformat": "آپ نے ایک میسج پِن کیا ہے"
   },
   "icu:message--donation": {
     "messageformat": "عطیہ"
@@ -2636,11 +2894,11 @@
   "icu:FunPanelStickers__LightboxDialog__Label": {
     "messageformat": "اسٹکر کا پری ویو"
   },
-  "icu:FunPanelGifs__SearchLabel--Tenor": {
-    "messageformat": "Tenor کے ذریعے GIFs کو تلاش کریں"
+  "icu:FunPanelGifs__SearchLabel": {
+    "messageformat": "GIFs تلاش کریں"
   },
-  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
-    "messageformat": "Tenor کو تلاش کریں"
+  "icu:FunPanelGifs__SearchPlaceholder": {
+    "messageformat": "GIFs تلاش کریں"
   },
   "icu:FunPanelGifs__SubNavLabel": {
     "messageformat": "GIF کی کیٹیگریز"
@@ -2686,6 +2944,9 @@
   },
   "icu:FunPanelGifs__LightboxDialog__Label": {
     "messageformat": "GIF پری ویو"
+  },
+  "icu:FunPanelGifs__GiphyAttribution__AccessibilityLabel": {
+    "messageformat": "GIPHY کی جانب سے معاون یافتہ"
   },
   "icu:FunSearch__ClearButtonLabel": {
     "messageformat": "تلاش صاف کریں"
@@ -4385,6 +4646,12 @@
   "icu:CompositionArea__ConfirmGifSelection__ReplaceButton": {
     "messageformat": "تبدیل کریں"
   },
+  "icu:CompositionArea--viewOnceToggle": {
+    "messageformat": "View once"
+  },
+  "icu:CompositionArea--viewOnceMediaPlaceholder": {
+    "messageformat": "View once media"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "میسج میں ترمیم کریں"
   },
@@ -4396,6 +4663,9 @@
   },
   "icu:ContactModal--rm-admin": {
     "messageformat": "منتظم کی حیثیت سے ہٹائیں"
+  },
+  "icu:ContactModal--rm-admin--clear-label": {
+    "messageformat": "اس سے ان کا ممبر لیبل بھی ختم ہو جائے گا۔"
   },
   "icu:ContactModal--make-admin": {
     "messageformat": "منتظم بنائیں"
@@ -4415,6 +4685,27 @@
   "icu:ContactModal--voice": {
     "messageformat": "آواز"
   },
+  "icu:ContactModal--mute-audio": {
+    "messageformat": "Mute audio"
+  },
+  "icu:ContactModal--confirm-mute-body": {
+    "messageformat": "Are you sure you want to mute {contact}?"
+  },
+  "icu:ContactModal--confirm-mute-primary-button": {
+    "messageformat": "Mute"
+  },
+  "icu:GroupMemberLabelInfoModal--title": {
+    "messageformat": "ممبر لیبلز"
+  },
+  "icu:GroupMemberLabelInfoModal--description": {
+    "messageformat": "اس گروپ میں خود کو یا اپنے کردار کو بیان کرنے کے لیے ایک ممبر لیبل استعمال کریں۔ ممبر لیبلز صرف اس گروپ میں ہی نظر آتے ہیں۔"
+  },
+  "icu:GroupMemberLabelInfoModal--add-label": {
+    "messageformat": "لیبل سیٹ کریں"
+  },
+  "icu:GroupMemberLabelInfoModal--edit-label": {
+    "messageformat": "اپنے لیبل میں ترمیم کریں"
+  },
   "icu:showChatColorEditor": {
     "messageformat": "چیٹ کا رنگ"
   },
@@ -4429,6 +4720,39 @@
   },
   "icu:ConversationDetails--group-link": {
     "messageformat": "گروپ لنک"
+  },
+  "icu:ConversationDetails--member-label": {
+    "messageformat": "ممبر لیبل"
+  },
+  "icu:ConversationDetails--member-label--placeholder": {
+    "messageformat": "اپنا ممبر لیبل درج کریں"
+  },
+  "icu:ConversationDetails--member-label--description": {
+    "messageformat": "اس گروپ میں خود کو یا اپنے کردار کو بیان کرنے کے لیے ایک ممبر لیبل سیٹ کریں۔ ممبر لیبلز صرف اس گروپ میں ہی نظر آتے ہیں۔"
+  },
+  "icu:ConversationDetails--member-label--preview": {
+    "messageformat": "پیش نظارہ"
+  },
+  "icu:ConversationDetails--member-label--hello": {
+    "messageformat": "ہیلو!"
+  },
+  "icu:ConversationDetails--member-label--list-header": {
+    "messageformat": "لیبلز کے حامل گروپ ممبرز"
+  },
+  "icu:ConversationDetails--member-label--no-members": {
+    "messageformat": "دوسرے ممبرز کے پاس لیبلز نہیں ہیں"
+  },
+  "icu:ConversationDetails--member-label--saving": {
+    "messageformat": "تبدیلیاں محفوظ کی جا رہی ہیں..."
+  },
+  "icu:ConversationDetails--member-label--error-title": {
+    "messageformat": "ممبر لیبل محفوظ نہیں کر سکتے"
+  },
+  "icu:ConversationDetails--member-label--error-generic": {
+    "messageformat": "اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں۔"
+  },
+  "icu:ConversationDetails--member-label--error-permissions": {
+    "messageformat": "صرف ایڈمنز ہی اس گروپ میں ممبر لیبلز سیٹ کر سکتے ہیں۔"
   },
   "icu:ConversationDetails--disappearing-messages-label": {
     "messageformat": "پیغامات غائب ہو رہے ہیں"
@@ -4463,6 +4787,9 @@
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "منتخب کریں کہ کون گروپ کے نام ، تصویر ، وضاحت اور غائب پیغامات کے ٹائمر میں ترمیم کرسکتا ہے۔"
   },
+  "icu:ConversationDetails--group-info-info-v2": {
+    "messageformat": "منتخب کریں کہ کون گروپ کا نام، تصویر، وضاحت، غائب ہونے والے میسجز کا ٹائمر، اور پِن شدہ میسجز میں ترمیم کر سکتا ہے۔"
+  },
   "icu:ConversationDetails--add-members-label": {
     "messageformat": "کون ممبر شامل کرسکتا ہے"
   },
@@ -4474,6 +4801,15 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "منتخب کریں کہ کون گروپ کو پیغام بھیج سکتا ہے۔"
+  },
+  "icu:ConversationDetails--label-clear-warning--title": {
+    "messageformat": "ممبر لیبلز کو صاف کر دیا جائے گا"
+  },
+  "icu:ConversationDetails--label-clear-warning--description": {
+    "messageformat": "اس اجازت کو \"صرف ایڈمنز\" پر تبدیل کرنے سے اس گروپ میں غیر ایڈمن افراد کی جانب سے سیٹ کردہ ممبر لیبلز سیٹ جائیں گے۔"
+  },
+  "icu:ConversationDetails--label-clear-warning--continue": {
+    "messageformat": "جاری رکھیں"
   },
   "icu:ConversationDetails--requests-and-invites": {
     "messageformat": "درخواستیں اور دعوت نامے"
@@ -4528,6 +4864,9 @@
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "ممبران شامل کریں"
+  },
+  "icu:ConversationDetailsMembershipList--add-member-label": {
+    "messageformat": "ممبر لیبل شامل کریں"
   },
   "icu:ConversationDetailsMembershipList--show-all": {
     "messageformat": "تمام دیکھیں"
@@ -4676,6 +5015,9 @@
   "icu:DeleteMessagesModal--title": {
     "messageformat": "{count, plural, one {میسج حذف کریں؟} other {{count,number} میسجز حذف کریں؟}}"
   },
+  "icu:DeleteMessagesModal--title-2": {
+    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+  },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {آپ یہ میسج کس کے لیے حذف کرنا چاہتے ہیں؟} other {آپ یہ میسجز کس کے لیے حذف کرنا چاہتے ہیں؟}}"
   },
@@ -4694,6 +5036,12 @@
   "icu:DeleteMessagesModal--deleteForEveryone": {
     "messageformat": "سب کے لیے حذف کریں"
   },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
+    "messageformat": "Delete for everyone?"
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
+    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+  },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "تمام ڈیوائسز سے حذف کریں"
   },
@@ -4702,6 +5050,21 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {آپ سب کے لیے حذف کرنے کی خاطر محض {count,number} تک میسج منتخب کر سکتے ہیں} other {آپ سب کے لیے حذف کرنے کی خاطر محض {count,number} تک میسجز منتخب کر سکتے ہیں}}"
+  },
+  "icu:DeleteAttachmentModal__Title": {
+    "messageformat": "آئٹم حذف کریں؟"
+  },
+  "icu:DeleteAttachmentModal__Body": {
+    "messageformat": "اس سے آئٹم مستقل طور پر حذف ہو جائے گا۔ اس آئٹم سے منسلک کوئی میسج ٹیکسٹ بھی حذف ہو جائے گا۔"
+  },
+  "icu:DeleteAttachmentModal__Close": {
+    "messageformat": "بند کریں"
+  },
+  "icu:DeleteAttachmentModal__Delete": {
+    "messageformat": "حذف کریں"
+  },
+  "icu:DeleteAttachmentModal__Cancel": {
+    "messageformat": "منسوخ کریں"
   },
   "icu:SelectModeActions__toast--TooManyMessagesToForward": {
     "messageformat": "آپ صرف 30 میسجز تک فارورڈ کر سکتے ہیں"
@@ -5016,46 +5379,82 @@
     "messageformat": "گروپ کی تفصیل شامل کریں ..."
   },
   "icu:AudioListItem__subtitle--voice-message": {
-    "messageformat": "Voice Message"
+    "messageformat": "آواز کے ذریعے پیغام"
   },
   "icu:AudioListItem__subtitle--audio": {
-    "messageformat": "Audio"
+    "messageformat": "آڈیو"
+  },
+  "icu:ContactListItem__subtitle": {
+    "messageformat": "رابطہ"
   },
   "icu:LinkPreviewItem__alt": {
-    "messageformat": "Open the link in a browser"
+    "messageformat": "لنک کو براؤزر میں کھولیں"
+  },
+  "icu:ListItem__show-message": {
+    "messageformat": "گفتگو میں میسج دکھائیں"
   },
   "icu:MediaGallery__tab__audio": {
-    "messageformat": "Audio"
+    "messageformat": "آڈیو"
   },
   "icu:MediaGallery__tab__files": {
-    "messageformat": "Files"
+    "messageformat": "فائلز"
   },
   "icu:MediaGallery__tab__links": {
-    "messageformat": "Links"
+    "messageformat": "لنکس"
+  },
+  "icu:MediaGallery__sort": {
+    "messageformat": "ترتیب دیں بلحاظ"
+  },
+  "icu:MediaGallery__sort--header": {
+    "messageformat": "ترتیب دیں بلحاظ"
+  },
+  "icu:MediaGallery__sort__date": {
+    "messageformat": "تاریخ"
+  },
+  "icu:MediaGallery__sort__size": {
+    "messageformat": "سائز"
   },
   "icu:MediaGallery__EmptyState__title--media": {
-    "messageformat": "No Media"
+    "messageformat": "کوئی میڈیا نہیں ہے"
   },
   "icu:MediaGallery__EmptyState__description--media": {
-    "messageformat": "Photos, Videos, and GIFs that you send and receive will appear here"
+    "messageformat": "وہ تصاویر، ویڈیوز اور GIFs جو آپ بھیجتے اور وصول کرتے ہیں وہ یہاں ظاہر ہوں گے"
   },
   "icu:MediaGallery__EmptyState__title--audio": {
-    "messageformat": "No Audio"
+    "messageformat": "کوئی آڈیو نہیں ہے"
   },
   "icu:MediaGallery__EmptyState__description--audio": {
-    "messageformat": "Voice Messages and Audio Files that you send and receive will appear here"
+    "messageformat": "وائس میسجز اور آڈیو فائلز جو آپ بھیجتے اور وصول کرتے ہیں وہ یہاں ظاہر ہوں گے"
   },
   "icu:MediaGallery__EmptyState__title--links": {
-    "messageformat": "No Links"
+    "messageformat": "کوئی لنکس نہیں ہیں"
   },
-  "icu:MediaGallery__EmptyState__description--documents": {
-    "messageformat": "Links that you send and receive will appear here"
+  "icu:MediaGallery__EmptyState__description--links-2": {
+    "messageformat": "وہ لنکس جو آپ بھیجتے اور موصول کرتے ہیں یہاں ظاہر ہوں گے"
   },
   "icu:MediaGallery__EmptyState__title--documents": {
-    "messageformat": "No Files"
+    "messageformat": "کوئی فائلز نہیں ہیں"
   },
-  "icu:MediaGallery__EmptyState__description--links": {
-    "messageformat": "Files that you send and receive will appear here"
+  "icu:MediaGallery__EmptyState__description--documents-2": {
+    "messageformat": "وہ فائلز جو آپ بھیجتے اور موصول کرتے ہیں یہاں ظاہر ہوں گی"
+  },
+  "icu:MediaGallery__ContextMenu__ViewInChat": {
+    "messageformat": "چیٹ میں دیکھیں"
+  },
+  "icu:MediaGallery__ContextMenu__Forward": {
+    "messageformat": "آگے"
+  },
+  "icu:MediaGallery__ContextMenu__Save": {
+    "messageformat": "محفوظ کریں"
+  },
+  "icu:MediaGallery__ContextMenu__Send": {
+    "messageformat": "پیغام بھیجیں"
+  },
+  "icu:MediaGallery__ContextMenu__Copy": {
+    "messageformat": "لنک کاپی کریں"
+  },
+  "icu:MediaGallery__ContextMenu__Delete": {
+    "messageformat": "حذف کریں"
   },
   "icu:MediaQualitySelector--button": {
     "messageformat": "میڈیا کے معیار کو منتخب کریں"
@@ -5270,6 +5669,10 @@
   "icu:AnnouncementsOnlyGroupBanner--admins": {
     "messageformat": "منتظمین"
   },
+  "icu:Avatar__View": {
+    "messageformat": "ویو",
+    "limit": 7
+  },
   "icu:AvatarEditor--choose": {
     "messageformat": "اوتار کا انتخاب کریں"
   },
@@ -5348,15 +5751,6 @@
   "icu:Preferences__button--set-up": {
     "messageformat": "سیٹ اپ"
   },
-  "icu:Preferences__internal__local-backups": {
-    "messageformat": "مقامی بیک اپس"
-  },
-  "icu:Preferences__internal__export-local-backup": {
-    "messageformat": "برآمد کریں…"
-  },
-  "icu:Preferences__internal__export-local-backup--description": {
-    "messageformat": "مقامی انکرپٹ کردہ بیک اپ کو فولڈر میں برآمد کریں اور اس کی توثیق کریں"
-  },
   "icu:Preferences__internal__validate-backup--description": {
     "messageformat": "انکرپٹ کردہ بیک اپ کو میموری میں ایکسپورٹ کریں اور اس پر تصدیقی سوئٹ چلائیں"
   },
@@ -5395,6 +5789,108 @@
   },
   "icu:Preferences--notification-content": {
     "messageformat": "اطلاعی مواد"
+  },
+  "icu:PlaintextExport--PreferencesRow--Header": {
+    "messageformat": "چیٹ ہسٹری ایکسپورٹ کریں"
+  },
+  "icu:PlaintextExport--PreferencesRow--Description": {
+    "messageformat": "اپنی تمام چیٹس کی مشین سے پڑھنے کے قابل JSON کاپی ایکسپورٹ کریں۔ غائب ہونے والے میسجز ایکسپورٹ نہیں کیے جائیں گے۔"
+  },
+  "icu:PlaintextExport--ActionButton": {
+    "messageformat": "ایکسپورٹ کریں"
+  },
+  "icu:PlaintextExport--Confirmation--Header": {
+    "messageformat": "چیٹ ہسٹری ایکسپورٹ کریں؟"
+  },
+  "icu:PlaintextExport--Confirmation--Description": {
+    "messageformat": "<bold>احتیاط کریں!</bold> اس فائل کو کسی کے ساتھ بھی شیئر نہ کریں۔ آپ کی چیٹ ہسٹری آپ کے کمپیوٹر میں محفوظ ہو جائے گی اور آپ کے کمپیوٹر کی اجازتوں کے مطابق دیگر ایپس اس تک رسائی حاصل کر سکتی ہیں۔"
+  },
+  "icu:PlaintextExport--Confirmation--IncludeMedia": {
+    "messageformat": "میڈیا شامل کریں <secondary>(زیادہ فائل سائز)</secondary>"
+  },
+  "icu:PlaintextExport--Confirmation--ContinueButton": {
+    "messageformat": "جاری رکھیں"
+  },
+  "icu:PlaintextExport--Confirmation--WaitingLabel": {
+    "messageformat": "ان پٹ کا انتظار ہو رہا ہے"
+  },
+  "icu:PlaintextExport--OSPrompt--Mac": {
+    "messageformat": "اپنی چیٹ ہسٹری ایکسپورٹ کریں"
+  },
+  "icu:PlaintextExport--OSPrompt--Windows": {
+    "messageformat": "اپنی چیٹ ہسٹری ایکسپورٹ کرنے کے لیے اپنی شناخت کی تصدیق کریں۔"
+  },
+  "icu:PlaintextExport--OSPrompt--description--Linux": {
+    "messageformat": "ایکسپورٹ کریں"
+  },
+  "icu:PlaintextExport--OSPrompt--message--Linux": {
+    "messageformat": "آپ کی چیٹ ہسٹری ایکسپورٹ کرنے کے لیے توثیق درکار ہے۔"
+  },
+  "icu:PlaintextExport--ProgressDialog--Header": {
+    "messageformat": "چیٹ ہسٹری ایکسپورٹ کی جا رہی ہے"
+  },
+  "icu:PlaintextExport--ProgressDialog--Progress": {
+    "messageformat": "{totalBytes} میں سے {currentBytes} ایکسپورٹ ہو رہا ہے ({percentage,number,percent})..."
+  },
+  "icu:PlaintextExport--ProgressDialog--TimeWarning": {
+    "messageformat": "اس میں کچھ منٹ لگ سکتے ہیں"
+  },
+  "icu:PlaintextExport--CompleteDialog--Header": {
+    "messageformat": "منتقلی مکمل ہو گئی"
+  },
+  "icu:PlaintextExport--CompleteDialog--Description": {
+    "messageformat": "<bold>احتیاط کریں</bold> کہ آپ اپنی چیٹ ایکسپورٹ فائل کہاں محفوظ کرتے ہیں اور اسے کسی کے ساتھ شیئر نہ کریں۔ آپ کے کمپیوٹر کی اجازتوں کے مطابق آپ کے کمپیوٹرپر موجود دیگر ایپس اس تک رسائی حاصل کر سکتی ہیں۔ "
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Mac": {
+    "messageformat": "فائنڈر میں دکھائیں"
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Linux": {
+    "messageformat": "فولڈر میں دکھائیں"
+  },
+  "icu:PlaintextExport--CompleteDialog--ShowFiles--Windows": {
+    "messageformat": "فولڈر میں دکھائیں"
+  },
+  "icu:PlaintextExport--Error--General--Title": {
+    "messageformat": "چیٹ ہسٹری ایکسپورٹ نہیں ہو سکی"
+  },
+  "icu:PlaintextExport--Error--General--Description": {
+    "messageformat": "ایک خرابی پیش آ گئی اور آپ کی چیٹ ہسٹری ایکسپورٹ نہیں ہو سکی۔"
+  },
+  "icu:PlaintextExport--Error--NotEnoughStorage--Title": {
+    "messageformat": "اسٹوریج کے لیے جگہ ناکافی ہے"
+  },
+  "icu:PlaintextExport--Error--NotEnoughStorage--Detail": {
+    "messageformat": "آپ کی چیٹ ہسٹری ایکسپورٹ نہیں کی جا سکتی کیونکہ آپ کے کمپیوٹر میں موجود اسٹوریج کی خالی جگہ ناکافی ہے۔ {bytes} جگہ خالی کریں اور پھر دوبارہ کوشش کریں۔"
+  },
+  "icu:PlaintextExport--Error--RanOutOfStorage--Title": {
+    "messageformat": "چیٹ ہسٹری ایکسپورٹ نہیں ہو سکی"
+  },
+  "icu:PlaintextExport--Error--RanOutOfStorage--Detail": {
+    "messageformat": "آپ کی چیٹ ہسٹری ایکسپورٹ نہیں کی جا سکی کیونکہ آپ کے کمپیوٹر میں موجود اسٹوریج کی خالی جگہ ناکافی ہے۔ {bytes} جگہ خالی کریں اور پھر دوبارہ کوشش کریں۔"
+  },
+  "icu:PlaintextExport--Error--DiskPermssions--Title": {
+    "messageformat": "چیٹ ہسٹری ایکسپورٹ نہیں ہو سکتی"
+  },
+  "icu:PlaintextExport--Error--DiskPermssions--Detail": {
+    "messageformat": "آپ کی چیٹ ہسٹری ایکسپورٹ نہیں ہو سکتی کیونکہ Signal کو ڈسک پر فائلز محفوظ کرنے کی اجازت نہیں ہے۔ اپنی ڈسک کی اجازتوں کو تبدیل کرنے یا اپنے سسٹم کی سیٹنگز کو اپ ڈیٹ کرنے کی کوشش کریں اور پھر دوبارہ ایکسپورٹ کریں۔"
+  },
+  "icu:LocalBackupExport--ProgressDialog--Header": {
+    "messageformat": "بیک اپ برآمد کیا جا رہا ہے"
+  },
+  "icu:LocalBackupExport--CompleteDialog--Header": {
+    "messageformat": "بیک اپ برآمد مکمل ہو گیا ہے"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsHeader": {
+    "messageformat": "اس بیک اپ کو بحال کرنے کے لیے:"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsTransfer": {
+    "messageformat": "اپنے فون کی اسٹوریج میں اپنا بیک اپ فولڈر ٹرانسفر کریں"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsInstall": {
+    "messageformat": "اپنے فون پر Signal کی نئی کاپی انسٹال کریں"
+  },
+  "icu:LocalBackupExport--CompleteDialog--RestoreInstructionsRestore": {
+    "messageformat": "\"بحال یا ٹرانسفر\" کریں پر ٹیپ کریں اور \"ڈیوائس پر بیک اپ\" کو منتخب کریں"
   },
   "icu:NotificationProfile--moon-icon": {
     "messageformat": "چاند کا آئیکن"
@@ -5711,6 +6207,18 @@
   "icu:Preferences--local-backups-view-backup-key-done": {
     "messageformat": "ہو گیا"
   },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt--mac": {
+    "messageformat": "اپنی بیک اپ کیی دکھائیں"
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt--windows": {
+    "messageformat": "اپنی بیک اپ کیی دیکھنے کے لیے اپنی شناخت کی تصدیق کریں۔"
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt-description--linux": {
+    "messageformat": "بیک اپ کیی دیکھیں"
+  },
+  "icu:Preferences--local-backups--view-backup-key--os-prompt-message--linux": {
+    "messageformat": "اپنی بیک اپ کیی دیکھنے کے لیے توثیق درکار ہے۔"
+  },
   "icu:Preferences--local-backups-backup-key-text-box": {
     "messageformat": "بیک اپ کیی کا ٹیکسٹ باکس"
   },
@@ -5741,6 +6249,15 @@
   "icu:Preferences--local-backups-see-backup-key-again": {
     "messageformat": "کیی کو دوبارہ دیکھیں"
   },
+  "icu:Preferences__local-backups-last-backup": {
+    "messageformat": "آخری بیک اپ"
+  },
+  "icu:Preferences__local-backups-last-backup-never": {
+    "messageformat": "کبھی نہیں"
+  },
+  "icu:Preferences__local-backups-backup-now": {
+    "messageformat": "اب بیک اپ کریں"
+  },
   "icu:Preferences__local-backups-folder": {
     "messageformat": "بیک اپ فولڈر"
   },
@@ -5752,6 +6269,18 @@
   },
   "icu:Preferences__local-backups-copied-key": {
     "messageformat": "بیک اپ کیی کو کاپی کر لیا گیا"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt--mac": {
+    "messageformat": "بیک اپ فعال کریں"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt--windows": {
+    "messageformat": "بیک اَپس فعال کرنے کے لیے اپنی شناخت کی تصدیق کریں۔"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt-description--linux": {
+    "messageformat": "بیک اپ فعال کریں"
+  },
+  "icu:Preferences__local-backups--enable--os-prompt-message--linux": {
+    "messageformat": "بیک اپس فعال کرنے کے لیے توثیق درکار ہے۔"
   },
   "icu:Preferences__view-key": {
     "messageformat": "کیی دیکھیں"
@@ -6741,6 +7270,9 @@
   "icu:MessageMetadata__edited": {
     "messageformat": "ترمیم کردہ"
   },
+  "icu:MessageMetadata__pinned": {
+    "messageformat": "پِن کیا ہوا"
+  },
   "icu:DraftGifMessageSendModal__Title": {
     "messageformat": "پیغام شامل کریں"
   },
@@ -6754,7 +7286,7 @@
     "messageformat": "ترمیم کی ہسٹری"
   },
   "icu:EditHistoryMessagesModal__Message__ContextMenu__CopyTimestamp": {
-    "messageformat": "Copy timestamp"
+    "messageformat": "ٹائم اسٹیمپ کاپی کریں"
   },
   "icu:ResendMessageEdit__body": {
     "messageformat": "یہ ترمیم نہیں بھیجی جا سکتی۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں"
@@ -7002,11 +7534,11 @@
   "icu:WhatsNew__modal-title": {
     "messageformat": "نیا کیا ہے"
   },
-  "icu:PreferencesDonations__title": {
-    "messageformat": "پیسہ نہیں پرائیویسی"
+  "icu:PreferencesDonations__title-v2": {
+    "messageformat": "فخر کے ساتھ غیر منافع بخش"
   },
-  "icu:PreferencesDonations__description": {
-    "messageformat": "آپ کی جانب سے فنڈ کردہ، نجی میسجنگ۔ کوئی اشتہارات، کوئی ٹریکنگ، کوئی سمجھوتہ نہیں۔ Signal کو سپورٹ کرنے کے لیے ابھی عطیہ کریں۔ <readMoreLink>مزید پڑھیں</readMoreLink>"
+  "icu:PreferencesDonations__description-v2": {
+    "messageformat": "نجی طور پر میسجنگ کو سپورٹ کرنے کے لیے عطیہ کریں۔ Signal کو خود مختار اور اشتہارات سے پاک رکھیں۔ <readMoreLink>مزید پڑھیں</readMoreLink>"
   },
   "icu:PreferencesDonations__donate-button": {
     "messageformat": "عطیہ کریں"
@@ -7031,6 +7563,21 @@
   },
   "icu:PreferencesDonations__privacy-modal-content": {
     "messageformat": "<paragraph>جب آپ عطیہ کرتے ہیں تو Signal آپ کی کوئی بھی ذاتی معلومات جمع یا محفوظ نہیں کرتا۔</paragraph><paragraph>ہم آپ کے عطیات موصول کرنے کے لیے Stripe کو اپنی پیمنٹس کے پروسیسر کے طور پر استعمال کرتے ہیں۔ آپ وہاں جو بھی معلومات فراہم کرتے ہیں ہم ان تک رسائی نہیں رکھتے، اسٹور، یا محفوظ نہیں کرتے۔</paragraph><paragraph>Signal آپ کے عطیے کو آپ کے Signal کے اکاؤنٹ کے ساتھ منسلک نہیں کرتا اور نہ ہی کر سکتا ہے۔</paragraph><paragraph>آپ کی سپورٹ کے لیے آپ کا شکریہ!</paragraph>"
+  },
+  "icu:PreferencesDonations__privacy-modal-intro": {
+    "messageformat": "ایک خود مختار غیر منافع بخش ایپ کے طور پر، Signal نجی میسجنگ اور کالز کی فراہمی کے لیے پُرعزم ہے۔ کوئی اشتہارات، کوئی ٹریکرز، کوئی نگرانی نہیں۔ Signal کو سپورٹ کرنے کے لیے ابھی عطیہ کریں۔"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-1": {
+    "messageformat": "عطیہ کرنے پر اپنی پروفائل پر ایک اختیاری بیج حاصل کریں"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-2": {
+    "messageformat": "آپ کی پرائیویسی ہمارا مشن ہے"
+  },
+  "icu:PreferencesDonations__privacy-modal-list-3": {
+    "messageformat": "Signal ایک غیر منافع بخش ایپ ہے۔"
+  },
+  "icu:PreferencesDonations__privacy-modal-icon-accessibility-label": {
+    "messageformat": "Signal لوگو کے انداز میں دل والا آئیکن"
   },
   "icu:PreferencesDonations__privacy-modal-ok": {
     "messageformat": "ٹھیک ہے"
@@ -7122,6 +7669,15 @@
   "icu:DonateFlow__discard-dialog-remove-info": {
     "messageformat": "معلومات ہٹائیں"
   },
+  "icu:DonateFlow__discard-paypal-dialog-body": {
+    "messageformat": "چھوڑنے سے آپ کا عطیہ منسوخ ہو جائے گا۔"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-discard": {
+    "messageformat": "نکل جائیں"
+  },
+  "icu:DonateFlow__discard-paypal-dialog-cancel": {
+    "messageformat": "صفحے پر رہیں"
+  },
   "icu:DonateFlow__continue": {
     "messageformat": "جاری رکھیں"
   },
@@ -7167,6 +7723,15 @@
   "icu:Donations__Toast__ConfirmationNeeded": {
     "messageformat": "آپ کے ایک عطیے پر پیش رفت کے لیے تصدیق درکار ہے۔"
   },
+  "icu:Donations__Toast__PaypalConfirmationNeeded": {
+    "messageformat": "آپ کے ایک عطیے پر پیش رفت کے لیے تصدیق درکار ہے۔"
+  },
+  "icu:Donations__Toast__PaypalCanceled": {
+    "messageformat": "PayPal کے ذریعے عطیہ منسوخ کر دیا گیا ہے"
+  },
+  "icu:Donations__Toast__PaypalError": {
+    "messageformat": "PayPal کے ذریعے عطیہ میں خرابی پیش آئی۔ آپ سے پیسے نہیں لیے گئے۔"
+  },
   "icu:Donations__BadgeApplicationFailed__Title": {
     "messageformat": "عطیہ کامیابی سے مکمل ہو گیا ہے، لیکن ہم آپ کی بیج سیٹنگز کو اپ ڈیٹ نہیں کر سکے"
   },
@@ -7182,11 +7747,41 @@
   "icu:Donations__DonationInterrupted__RetryButton": {
     "messageformat": "دوبارہ کوشش کریں"
   },
+  "icu:Donations__PaymentMethod": {
+    "messageformat": "پیمنٹ کا طریقہ"
+  },
   "icu:Donations__PaymentMethodDeclined": {
     "messageformat": "پیمنٹ کا طریقہ مسترد کر دیا گیا"
   },
   "icu:Donations__PaymentMethodDeclined__Description": {
     "messageformat": "پیمنٹ کا کوئی دوسرا طریقہ آزمائیں یا مزید معلومات کے لیے اپنے بینک سے رابطہ کریں۔"
+  },
+  "icu:DonateFlow__PaymentCardIcon__AccessibilityLabel": {
+    "messageformat": "پیمنٹ کارڈ کا آئیکن"
+  },
+  "icu:DonateFlow__CreditOrDebitCard": {
+    "messageformat": "کریڈٹ یا ڈیبٹ کارڈ"
+  },
+  "icu:DonateFlow__Paypal__AccessibilityLabel": {
+    "messageformat": "PayPal"
+  },
+  "icu:DonateFlow__Paypal__Cancel": {
+    "messageformat": "منسوخ کریں"
+  },
+  "icu:DonateFlow__Paypal__CompleteDonation": {
+    "messageformat": "عطیہ مکمل کریں"
+  },
+  "icu:Donations__PaypalCanceled": {
+    "messageformat": "PayPal کے ذریعے عطیہ منسوخ کر دیا گیا ہے"
+  },
+  "icu:Donations__PaypalCanceled__Description": {
+    "messageformat": "آپ سے پیسے نہیں لیے گئے۔ دوبارہ کوشش کریں یا کوئی دوسرا پیمنٹ کا طریقہ استعمال کریں۔"
+  },
+  "icu:Donations__PaypalError": {
+    "messageformat": "PayPal کے ذریعے عطیہ کی کارروائی میں خرابی پیش آئی"
+  },
+  "icu:Donations__PaypalError__Description": {
+    "messageformat": "آپ سے پیسے نہیں لیے گئے۔ دوبارہ کوشش کریں یا کوئی دوسرا پیمنٹ کا طریقہ استعمال کریں۔"
   },
   "icu:Donations__Failed3dsValidation": {
     "messageformat": "توثیق ناکام ہوگئی"
@@ -7248,6 +7843,114 @@
   "icu:Donations__badge-modal--help-text": {
     "messageformat": "آپ اپنی موبائل ڈیوائس پر سیٹنگز → Signal کو عطیہ کریں → بیجز کے تحت اس کو ایڈجسٹ کر سکتے ہیں"
   },
+  "icu:CallQualitySurvey__CloseButton__AccessibilityLabel": {
+    "messageformat": "بند کریں"
+  },
+  "icu:CallQualitySurvey__BackButton__AccessibilityLabel": {
+    "messageformat": "واپس جائیں"
+  },
+  "icu:CallQualitySurvey__HowWasYourCall__PageTitle": {
+    "messageformat": "آپ کی کال کا تجربہ کیسا تھا؟"
+  },
+  "icu:CallQualitySurvey__HowWasYourCall__PageDescription": {
+    "messageformat": "اس سے ہمیں Signal میں کالز کو بہتر بنانے میں مدد ملتی ہے۔ کوئی ذاتی قابل شناخت معلومات اسٹور نہیں کی جائیں گی۔"
+  },
+  "icu:CallQualitySurvey__HowWasYourCall__Response__HadIssues": {
+    "messageformat": "مسائل کا سامنا تھا"
+  },
+  "icu:CallQualitySurvey__HowWasYourCall__Response__Great": {
+    "messageformat": "بہترین"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__PageTitle": {
+    "messageformat": "آپ کو کن مسائل کا سامنا کرنا پڑا؟"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__IssuesList__Heading": {
+    "messageformat": "تمام قابل اطلاق کو منتخب کریں"
+  },
+  "icu:CallQualitySurvey__Issue--AUDIO": {
+    "messageformat": "آڈیو کا مسئلہ"
+  },
+  "icu:CallQualitySurvey__Issue--AUDIO_STUTTERING": {
+    "messageformat": "آڈیو کا اٹکنا"
+  },
+  "icu:CallQualitySurvey__Issue--AUDIO_LOCAL_ECHO": {
+    "messageformat": "مجھے گونج سنائی دی"
+  },
+  "icu:CallQualitySurvey__Issue--AUDIO_REMOTE_ECHO": {
+    "messageformat": "دوسروں کو گونج سنائی دی"
+  },
+  "icu:CallQualitySurvey__Issue--AUDIO_DROP": {
+    "messageformat": "آڈیو میں خلل پڑنا"
+  },
+  "icu:CallQualitySurvey__Issue--VIDEO": {
+    "messageformat": "ویڈیو کا مسئلہ"
+  },
+  "icu:CallQualitySurvey__Issue--VIDEO_NO_CAMERA": {
+    "messageformat": "کیمرہ نے کام نہیں کیا"
+  },
+  "icu:CallQualitySurvey__Issue--VIDEO_LOW_QUALITY": {
+    "messageformat": "ویڈیو کا ناقص معیار"
+  },
+  "icu:CallQualitySurvey__Issue--VIDEO_LOW_RESOLUTION": {
+    "messageformat": "کم ریزولوشن"
+  },
+  "icu:CallQualitySurvey__Issue--CALL_DROPPED": {
+    "messageformat": "کال منقطع ہو گئی"
+  },
+  "icu:CallQualitySurvey__Issue--OTHER": {
+    "messageformat": "اس کے علاوہ کچھ اور"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__AccessibilityLabel": {
+    "messageformat": "مسائل کی تفصیل"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__HelpText": {
+    "messageformat": "براہ کرم مسئلے سے متعلق کوئی تفصیلات شامل کریں۔ آپ جو کچھ یہاں شیئر کرتے ہیں اسے مخفی رکھا جائے گا اور صرف Signal میں کالز کو بہتر بنانے میں استعمال کیا جائے گا۔"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__SomethingElse__TextArea__ErrorText": {
+    "messageformat": "براہ کرم اپنا مسئلہ بیان کریں"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton": {
+    "messageformat": "جاری رکھیں"
+  },
+  "icu:CallQualitySurvey__WhatIssuesDidYouHave__ContinueButton__DisabledTooltip": {
+    "messageformat": "جاری رکھنے کے لیے کوئی انتخاب کریں"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__PageTitle": {
+    "messageformat": "بہتر بننے میں ہماری مدد کریں"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__PageDescriptionWithDiagnosticLink": {
+    "messageformat": "جمع کروانے پر <diagnosticInfoLink>آپ کی کال کے بارے میں تشخیصی معلومات</diagnosticInfoLink> کے علاوہ آپ کی رائے بھی شیئر کی جائے گی۔ آپ اختیاری طور پر ڈی بگ لاگ شیئر کر سکتے ہیں تاکہ ہمیں کال کے معیار کو بہتر بنانے میں مدد مل سکے۔"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__Label": {
+    "messageformat": "ڈی بگ لاگ شیئر کریں"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__ShareDebugLog__ViewButton": {
+    "messageformat": "ویو"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__PrivacyNote": {
+    "messageformat": "ہمارے ساتھ شیئر کی گئی معلومات میں ایپ کی بنیادی سطح کی تفصیلات شامل ہیں اور اس میں آپ کی کالز کا مواد شامل نہیں ہے۔"
+  },
+  "icu:CallDiagnosticWindow__title": {
+    "messageformat": "تشخیصی معلومات"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__SubmitButton": {
+    "messageformat": "جمح کریں"
+  },
+  "icu:CallQualitySurvey__ConfirmSubmission__Submitting": {
+    "messageformat": "سروے جمع کروایا جا رہا ہے…"
+  },
+  "icu:CallQualitySurvey__SubmissionFailed": {
+    "messageformat": "سروے جمع کروانے میں ناکامی ہوئی"
+  },
+  "icu:CallQualitySurvey__SubmissionFailed__Retry": {
+    "messageformat": "دوبارہ کوشش کریں"
+  },
+  "icu:CallQualitySurvey__SubmissionSuccess": {
+    "messageformat": "آپ کی رائے کا شکریہ!"
+  },
+  "icu:Megaphone__ExpandNarrowSidebar": {
+    "messageformat": "میگافون کے ساتھ تعامل کرنے کے لیے سائیڈ بار کو بڑھائیں"
+  },
   "icu:WhatsNew__bugfixes": {
     "messageformat": "یہ ورژن Signal کو بے خلل طور پر چلتا رکھنے کے لیے کچھ معمولی تبدیلیوں اور بگ درستگیوں پر مشتمل ہے۔",
     "ignoreUnused": true
@@ -7276,31 +7979,17 @@
     "messageformat": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.76": {
-    "messageformat": "اپنی مرضی کے مطابق پروفائلز کی اطلاع کو ترتیب دیں تاکہ جب یہ پروفائل فعال ہو تو یہ کنٹرول کر سکیں کہ آپ کن لوگوں اور گروپس کی اطلاعات موصول کرنا چاہتے ہیں۔ ’’ورک‘‘ پروفائل بنائیں جو ساتھی ورکرز کو فاصلے پر رکھے گا (آپ کے چاہنے والوں کے علاوہ) اور اس کے ساتھ ایک ’’ڈاؤن ٹائم‘‘ پروفائل جس میں آپ کا باس نہیں ہو گا۔ آپ جب چاہیں اطلاع پروفائل میں سوئچ کر سکتے ہیں یا اسے شیڈول بھی کر سکتے ہیں تاکہ یہ سوئچنگ خود بخود ہوتا رہے۔"
+  "icu:WhatsNew__7.90--0": {
+    "messageformat": "پانچ نئے آفیشل آرٹسٹ اسٹیکر پیکس کے ساتھ نئے پرائیویسی سٹک بنائیں: \"Chug the Mouse\" از امانڈا کوٹان، \"Cozy Season\" از میگوئل اینجل کیمپروبی، \"Croco's Feelings\" از ٹفنی بیوچر، \"My Daily Life 2\" از پلاسٹک تھنگ، اور \"Rocky Talk\" از لیکسی وے۔"
   },
-  "icu:WhatsNew__7.77-1": {
-    "messageformat": "اب آپ اپنی چیٹس کو منفرد فولڈرز میں منظم کر سکتے ہیں جنہیں حسب ضرورت بنانا اور دوبارہ ترتیب دینا آسان ہے۔ چیٹ فولڈرز کا استعمال کریں تاکہ اپنے پسندیدہ افراد کے نا پڑھے پوئے میسجز کو دیکھنے کے لیے چیٹ کی قسم (نجی اور گروپس) کے مطابق فلٹر کر سکیں، یا \"ذاتی\" اور \"کام\" جیسے الگ فولڈرز تخلیق کریں تاکہ آپ اپنے متعلقہ میسجز کو فوراً دیکھ سکیں۔ شروع کرنے کے لیے سیٹنگز > چیٹس میں جا کر چیٹ فولڈرز کو فعال کریں۔"
+  "icu:WhatsNew__8.0--0": {
+    "messageformat": "Signal محفوظ بیک اپس یہاں ہیں! اب آپ خودکار آخر سے آخر تک انکرپٹ کردہ بیک اپس کو فعال کرنے کا انتخاب کر سکتے ہیں تاکہ جب آپ نیا فون لیں یا Signal ری انسٹال کریں تو آپ کا میسج کبھی غائب نہ ہو۔ آپ اپنے تمام میسجز اور پچھلے 45 دنوں کا میڈیا مفت میں بیک اپ کر سکتے ہیں، یا آپ ہر منسلکہ کے بیک اپ کیلیے 100 GB کی اسٹوریج حاصل کرنے کے لیے مختصر ماہانہ فیس ادا کر سکتے ہیں۔ آغاز کے لیے اپنے Signal کی سیٹنگز میں بیک اپس پر ٹیپ کریں۔ ہر کسی کا شکریہ جنہوں نے بیٹا پیریڈ کے دوران اس فیچر کو ٹیسٹ کرنے میں مدد کی!"
   },
-  "icu:WhatsNew__7.77-2": {
-    "messageformat": "اس اپ ڈیٹ میں اس مسئلے کے لیے نقص کی درستگی بھی شامل ہے جس کی وجہ سے لنک کا پیش منظر اس وقت ظاہر نہیں ہوتا تھا جب میسج میں ایموجی کردار بھی شامل ہوتے ہیں۔ شکریہ، <elias6></elias6>"
+  "icu:WhatsNew__8.2--0": {
+    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
   },
-  "icu:WhatsNew__7.78-1": {
-    "messageformat": "یہ اپ ڈیٹ سکرین ریڈر یوزرز کے لیے ہر نیا میسج آنے پر ٹائم اسٹیمپ کا اعلان چھوڑ کر ان کے لیے رسائی کو بہتر بناتا ہے۔"
-  },
-  "icu:WhatsNew__7.78-2": {
-    "messageformat": "ہم نے اس نقص کی بھی درستگی کی جو Windows پر اطلاعات کو ظاہر ہونے سے روک سکتا تھا۔"
-  },
-  "icu:WhatsNew__7.79-1": {
-    "messageformat": "ہم نے پوری ایپ میں اسکرول بارز کے رنگ روپ کو اپ ڈیٹ کیا ہے تاکہ انہیں دیکھنے میں زیادہ ہم آہنگ بنایا جا سکے۔"
-  },
-  "icu:WhatsNew__7.79-2": {
-    "messageformat": "کاپی/پیسٹ کی فارمیٹنگ میں بہتریاں۔ شکریہ، @brianHarder <brianHarder></brianHarder>!"
-  },
-  "icu:WhatsNew__7.80-1": {
-    "messageformat": "Signal کی رائے شماریاں یہاں ہیں! رائے شماریاں یہ جاننے کا ایک آسان طریقہ ہیں کہ آپ کی گروپ چیٹ حقیقت میں کیا سوچتی ہے۔ رات کے کھانے کے مختلف اختیارات یا کسی اور اہم انتخابات کے ساتھ رائے شماری تخلیق کریں۔ گروپ میں موجود ہر فرد ووٹ دے سکتا اور ایک دوسرے کے جوابات دیکھ سکتا ہے، اور آپ یہ فیصلہ کر سکتے ہیں کہ متعدد ووٹس کی اجازت دیں یا نہیں۔"
-  },
-  "icu:WhatsNew__7.81-1": {
-    "messageformat": "The media gallery now includes two new tabs for audio messages and link previews. If a link falls in a group chat, does it make a sound?"
+  "icu:WhatsNew__8.3--0": {
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
+    "ignoreUnused": true
   }
 }

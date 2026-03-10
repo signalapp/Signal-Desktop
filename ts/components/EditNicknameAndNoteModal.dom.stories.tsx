@@ -25,6 +25,6 @@ export default {
   },
 } satisfies ComponentMeta<EditNicknameAndNoteModalProps>;
 
-export function Normal(args: EditNicknameAndNoteModalProps): JSX.Element {
+export function Normal(args: EditNicknameAndNoteModalProps): React.JSX.Element {
   return <EditNicknameAndNoteModal {...args} />;
 }

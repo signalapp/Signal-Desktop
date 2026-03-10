@@ -13,7 +13,7 @@ export default {
 
 const { i18n } = window.SignalContext;
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return (
     <ChangeNumberNotification
       sender={getDefaultConversation()}
@@ -23,7 +23,7 @@ export function Default(): JSX.Element {
   );
 }
 
-export function LongName(): JSX.Element {
+export function LongName(): React.JSX.Element {
   return (
     <ChangeNumberNotification
       sender={getDefaultConversation({

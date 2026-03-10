@@ -10,19 +10,19 @@ export default {
   title: 'FileThumbnail',
 } satisfies Meta;
 
-export function ThreeLetterExtension(): JSX.Element {
+export function ThreeLetterExtension(): React.JSX.Element {
   return (
     <FileThumbnail fileName="a.zip" contentType={APPLICATION_OCTET_STREAM} />
   );
 }
 
-export function FourLetterExtension(): JSX.Element {
+export function FourLetterExtension(): React.JSX.Element {
   return (
     <FileThumbnail fileName="a.abcd" contentType={APPLICATION_OCTET_STREAM} />
   );
 }
 
-export function ManyLetterExtension(): JSX.Element {
+export function ManyLetterExtension(): React.JSX.Element {
   return (
     <FileThumbnail
       fileName="a.abcdefgh"
@@ -31,11 +31,11 @@ export function ManyLetterExtension(): JSX.Element {
   );
 }
 
-export function OnlyContentType(): JSX.Element {
+export function OnlyContentType(): React.JSX.Element {
   return <FileThumbnail contentType={APPLICATION_OCTET_STREAM} />;
 }
 
-export function DangerousExtension(): JSX.Element {
+export function DangerousExtension(): React.JSX.Element {
   return (
     <FileThumbnail fileName="a.exe" contentType={APPLICATION_OCTET_STREAM} />
   );

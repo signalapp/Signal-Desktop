@@ -23,10 +23,10 @@ export function renderAvatar({
   direction?: 'outgoing' | 'incoming';
   i18n: LocalizerType;
   size: 52 | 80;
-}): JSX.Element {
+}): React.JSX.Element {
   const { avatar } = contact;
 
-  const avatarUrl = avatar && avatar.avatar && avatar.avatar.path;
+  const avatarUrl = avatar && avatar.avatar && avatar.avatar.url;
   const title = getName(contact) || '';
   const fallback = (
     <Avatar
@@ -37,7 +37,6 @@ export function renderAvatar({
       conversationType="direct"
       i18n={i18n}
       title={title}
-      sharedGroupNames={[]}
       size={size}
     />
   );
@@ -65,7 +64,7 @@ export function renderName({
   contact: ReadonlyDeep<EmbeddedContactForUIType>;
   isIncoming: boolean;
   module: string;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <div
       className={classNames(
@@ -86,7 +85,7 @@ export function renderContactShorthand({
   contact: ReadonlyDeep<EmbeddedContactForUIType>;
   isIncoming: boolean;
   module: string;
-}): JSX.Element {
+}): React.JSX.Element {
   const { number: phoneNumber, email } = contact;
   const firstNumber = phoneNumber && phoneNumber[0] && phoneNumber[0].value;
   const firstEmail = email && email[0] && email[0].value;

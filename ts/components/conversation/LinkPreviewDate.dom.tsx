@@ -14,7 +14,7 @@ type Props = {
 export function LinkPreviewDate({
   date,
   className = '',
-}: Props): JSX.Element | null {
+}: Props): React.JSX.Element | null {
   const dateMoment: Moment | null = isLinkPreviewDateValid(date)
     ? moment(date)
     : null;

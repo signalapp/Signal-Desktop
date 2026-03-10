@@ -19,7 +19,7 @@ export function InlineNotificationWrapper({
   isTargeted,
   targetMessage,
   children,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const focusRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

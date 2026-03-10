@@ -45,6 +45,7 @@ function createParticipant(
       title: String(participantProps.title),
       serviceId: aci,
     }),
+    isMe: Boolean(participantProps.isMe),
   };
 }
 
@@ -54,7 +55,6 @@ function getCallLink(overrideProps: Partial<CallLinkType> = {}): CallLinkType {
   return {
     roomId: 'abcd1234abcd1234abcd1234abcd1234abcd1234',
     rootKey: 'abcd-abcd-abcd-abcd-abcd-abcd-abcd-abcd',
-    epoch: null,
     adminKey: null,
     name: 'Axolotl Discuss',
     restrictions: CallLinkRestrictions.None,
@@ -68,15 +68,12 @@ function getCallLink(overrideProps: Partial<CallLinkType> = {}): CallLinkType {
 const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   callLink: getCallLink(overrideProps.callLink || {}),
   i18n,
-  isCallLinkAdmin: overrideProps.isCallLinkAdmin || false,
   isUnknownContactDiscrete: overrideProps.isUnknownContactDiscrete || false,
   ourServiceId: OUR_ACI,
   participants: overrideProps.participants || [],
   onClose: action('on-close'),
   onCopyCallLink: action('on-copy-call-link'),
   onShareCallLinkViaSignal: action('on-share-call-link-via-signal'),
-  removeClient: overrideProps.removeClient || action('remove-client'),
-  blockClient: overrideProps.blockClient || action('block-client'),
   showContactModal: action('show-contact-modal'),
 });
 
@@ -84,12 +81,12 @@ export default {
   title: 'Components/CallingAdhocCallInfo',
 } satisfies Meta<PropsType>;
 
-export function NoOne(): JSX.Element {
+export function NoOne(): React.JSX.Element {
   const props = createProps();
   return <CallingAdhocCallInfo {...props} />;
 }
 
-export function SoloCall(): JSX.Element {
+export function SoloCall(): React.JSX.Element {
   const props = createProps({
     participants: [
       createParticipant({
@@ -100,7 +97,7 @@ export function SoloCall(): JSX.Element {
   return <CallingAdhocCallInfo {...props} />;
 }
 
-export function ManyParticipants(): JSX.Element {
+export function ManyParticipants(): React.JSX.Element {
   const props = createProps({
     participants: [
       createParticipant({
@@ -139,13 +136,14 @@ export function ManyParticipants(): JSX.Element {
       createParticipant({
         title: 'My Name',
         aci: OUR_ACI,
+        isMe: true,
       }),
     ],
   });
   return <CallingAdhocCallInfo {...props} />;
 }
 
-export function Overflow(): JSX.Element {
+export function Overflow(): React.JSX.Element {
   const props = createProps({
     participants: Array(50)
       .fill(null)
@@ -154,7 +152,7 @@ export function Overflow(): JSX.Element {
   return <CallingAdhocCallInfo {...props} />;
 }
 
-export function AsAdmin(): JSX.Element {
+export function AsAdmin(): React.JSX.Element {
   const props = createProps({
     participants: [
       createParticipant({
@@ -185,7 +183,6 @@ export function AsAdmin(): JSX.Element {
         aci: OUR_ACI,
       }),
     ],
-    isCallLinkAdmin: true,
   });
   return <CallingAdhocCallInfo {...props} />;
 }

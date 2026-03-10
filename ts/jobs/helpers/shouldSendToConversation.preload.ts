@@ -5,8 +5,14 @@ import type { ConversationModel } from '../../models/conversations.preload.js';
 import type { LoggerType } from '../../types/Logging.std.js';
 import { getRecipients } from '../../util/getRecipients.dom.js';
 import { isConversationAccepted } from '../../util/isConversationAccepted.preload.js';
+import { isConversationUnregistered } from '../../util/isConversationUnregistered.dom.js';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
 import { getUntrustedConversationServiceIds } from './getUntrustedConversationServiceIds.dom.js';
+
+type ConversationForDirectSendType = Pick<
+  ConversationModel,
+  'attributes' | 'isBlocked' | 'idForLogging'
+>;
 
 export function shouldSendToConversation(
   conversation: ConversationModel,
@@ -44,4 +50,49 @@ export function shouldSendToConversation(
   }
 
   return true;
+}
+
+export type DirectConversationSendRefusalType = Readonly<{
+  logLine: string;
+  error: Error;
+}>;
+
+export type ShouldSendToDirectConversationResult =
+  | readonly [ok: true, refusal: undefined]
+  | readonly [ok: false, refusal: DirectConversationSendRefusalType];
+
+export function shouldSendToDirectConversation(
+  conversation: ConversationForDirectSendType
+): ShouldSendToDirectConversationResult {
+  if (!isConversationAccepted(conversation.attributes)) {
+    return [
+      false,
+      {
+        logLine: `conversation ${conversation.idForLogging()} is not accepted; refusing to send`,
+        error: new Error('Message request was not accepted'),
+      },
+    ];
+  }
+
+  if (isConversationUnregistered(conversation.attributes)) {
+    return [
+      false,
+      {
+        logLine: `conversation ${conversation.idForLogging()} is unregistered; refusing to send`,
+        error: new Error('Contact no longer has a Signal account'),
+      },
+    ];
+  }
+
+  if (conversation.isBlocked()) {
+    return [
+      false,
+      {
+        logLine: `conversation ${conversation.idForLogging()} is blocked; refusing to send`,
+        error: new Error('Contact is blocked'),
+      },
+    ];
+  }
+
+  return [true, undefined];
 }

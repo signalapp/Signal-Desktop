@@ -26,7 +26,7 @@ export function NewlyCreatedGroupInvitedContactsDialog({
   i18n,
   onClose,
   theme,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   let body: ReactNode;
   if (contacts.length === 1) {
     const contact = contacts[0];

@@ -67,6 +67,10 @@ const INITIAL_IMAGE_TRANSFORM = {
   scale: 1,
   translateX: 0,
   translateY: 0,
+};
+
+const IMAGE_SPRING_PROPS = {
+  from: INITIAL_IMAGE_TRANSFORM,
   config: {
     clamp: true,
     friction: 20,
@@ -103,7 +107,7 @@ export function Lightbox({
   onSelectAttachment,
   hasNextMessage,
   hasPrevMessage,
-}: PropsType): JSX.Element | null {
+}: PropsType): React.JSX.Element | null {
   const hasThumbnails = media.length > 1;
   const messageId = media.at(0)?.message.id;
   const prevMessageId = usePrevious(messageId, messageId);
@@ -368,7 +372,7 @@ export function Lightbox({
   }, [isViewOnce, isAttachmentGIF, onTimeUpdate, playVideo, videoElement]);
 
   const [{ scale, translateX, translateY }, springApi] = useSpring(
-    () => INITIAL_IMAGE_TRANSFORM
+    () => IMAGE_SPRING_PROPS
   );
 
   const thumbnailsMarginInlineStart =
@@ -586,7 +590,7 @@ export function Lightbox({
 
   const caption = attachment?.caption;
 
-  let content: JSX.Element;
+  let content: React.JSX.Element;
   if (!contentType) {
     content = <>{children}</>;
   } else {
@@ -876,7 +880,7 @@ function LightboxHeader({
   getConversation: (id: string) => ConversationType;
   i18n: LocalizerType;
   item: ReadonlyDeep<MediaItemType>;
-}): JSX.Element {
+}): React.JSX.Element {
   const { message } = item;
   const conversation = getConversation(message.conversationId);
 
@@ -895,7 +899,6 @@ function LightboxHeader({
           i18n={i18n}
           phoneNumber={conversation.e164}
           profileName={conversation.profileName}
-          sharedGroupNames={conversation.sharedGroupNames}
           size={AvatarSize.THIRTY_TWO}
           title={conversation.title}
         />

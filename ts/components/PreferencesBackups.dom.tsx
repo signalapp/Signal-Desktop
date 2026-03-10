@@ -33,6 +33,7 @@ import {
   BackupsDetailsPage,
   renderSubscriptionDetails,
 } from './PreferencesBackupDetails.dom.js';
+import type { LocalBackupExportMetadata } from '../types/LocalExport.std.js';
 
 export const SIGNAL_BACKUPS_LEARN_MORE_URL =
   'https://support.signal.org/hc/articles/360007059752-Backup-and-Restore-Messages';
@@ -43,14 +44,11 @@ const LOCAL_BACKUPS_PAGES = new Set([
   SettingsPage.LocalBackupsSetupFolder,
   SettingsPage.LocalBackupsSetupKey,
 ]);
-const REMOTE_BACKUPS_PAGES = new Set([SettingsPage.BackupsDetails]);
 
 function isLocalBackupsPage(page: SettingsPage) {
   return LOCAL_BACKUPS_PAGES.has(page);
 }
-function isRemoteBackupsPage(page: SettingsPage) {
-  return REMOTE_BACKUPS_PAGES.has(page);
-}
+
 export function PreferencesBackups({
   accountEntropyPool,
   backupFreeMediaDays,
@@ -60,7 +58,7 @@ export function PreferencesBackups({
   cloudBackupStatus,
   i18n,
   isLocalBackupsEnabled,
-  isRemoteBackupsEnabled,
+  lastLocalBackup,
   locale,
   localBackupFolder,
   onBackupKeyViewedChange,
@@ -75,6 +73,7 @@ export function PreferencesBackups({
   refreshBackupSubscriptionStatus,
   setSettingsLocation,
   showToast,
+  startLocalBackupExport,
 }: {
   accountEntropyPool: string | undefined;
   backupFreeMediaDays: number;
@@ -85,7 +84,7 @@ export function PreferencesBackups({
   localBackupFolder: string | undefined;
   i18n: LocalizerType;
   isLocalBackupsEnabled: boolean;
-  isRemoteBackupsEnabled: boolean;
+  lastLocalBackup: LocalBackupExportMetadata | undefined;
   locale: string;
   onBackupKeyViewedChange: (keyViewed: boolean) => void;
   settingsLocation: SettingsLocation;
@@ -101,7 +100,8 @@ export function PreferencesBackups({
   refreshBackupSubscriptionStatus: () => void;
   setSettingsLocation: (settingsLocation: SettingsLocation) => void;
   showToast: ShowToastAction;
-}): JSX.Element | null {
+  startLocalBackupExport: () => void;
+}): React.JSX.Element | null {
   const [authError, setAuthError] =
     useState<Omit<PromptOSAuthResultType, 'success'>>();
   const [isAuthPending, setIsAuthPending] = useState<boolean>(false);
@@ -118,11 +118,6 @@ export function PreferencesBackups({
     refreshBackupSubscriptionStatus,
     refreshCloudBackupStatus,
   ]);
-
-  if (!isRemoteBackupsEnabled && isRemoteBackupsPage(settingsLocation.page)) {
-    setSettingsLocation({ page: SettingsPage.Backups });
-    return null;
-  }
 
   if (!isLocalBackupsEnabled && isLocalBackupsPage(settingsLocation.page)) {
     setSettingsLocation({ page: SettingsPage.Backups });
@@ -156,6 +151,7 @@ export function PreferencesBackups({
         accountEntropyPool={accountEntropyPool}
         backupKeyViewed={backupKeyViewed}
         i18n={i18n}
+        lastLocalBackup={lastLocalBackup}
         localBackupFolder={localBackupFolder}
         onBackupKeyViewedChange={onBackupKeyViewedChange}
         settingsLocation={settingsLocation}
@@ -163,11 +159,12 @@ export function PreferencesBackups({
         promptOSAuth={promptOSAuth}
         setSettingsLocation={setSettingsLocation}
         showToast={showToast}
+        startLocalBackupExport={startLocalBackupExport}
       />
     );
   }
 
-  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
+  const learnMoreLink = (parts: Array<string | React.JSX.Element>) => (
     <a href={SIGNAL_BACKUPS_LEARN_MORE_URL} rel="noreferrer" target="_blank">
       {parts}
     </a>
@@ -328,8 +325,7 @@ export function PreferencesBackups({
           {i18n('icu:Preferences--backup-section-description')}
         </div>
       </div>
-
-      {isRemoteBackupsEnabled ? renderRemoteBackups() : null}
+      {renderRemoteBackups()}
       {isLocalBackupsEnabled ? renderLocalBackups() : null}
     </>
   );
@@ -343,7 +339,7 @@ export function renderPaidBackupsSummary({
   locale: string;
   subscriptionStatus: BackupsSubscriptionType;
   i18n: LocalizerType;
-}): JSX.Element | null {
+}): React.JSX.Element | null {
   return (
     <div className="Preferences--backups-summary__status-container">
       <div>
@@ -364,7 +360,7 @@ export function renderFreeBackupsSummary({
 }: {
   backupFreeMediaDays: number;
   i18n: LocalizerType;
-}): JSX.Element | null {
+}): React.JSX.Element | null {
   return (
     <div className="Preferences--backups-summary__status-container">
       <div>

@@ -16,7 +16,7 @@ export type PropsType = Readonly<{
 
 export const SmartUnsupportedOSDialog = memo(function SmartUnsupportedOSDialog(
   ownProps: PropsType
-): JSX.Element {
+): React.JSX.Element {
   const i18n = useSelector(getIntl);
   const expirationTimestamp = useSelector(getExpirationTimestamp);
   const osName = OS.getName();

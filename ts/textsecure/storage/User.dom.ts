@@ -152,6 +152,14 @@ export class User {
     return parseInt(value, 10);
   }
 
+  public getDeviceCreatedAt(): number | undefined {
+    return this.storage.get('deviceCreatedAt');
+  }
+
+  public async setDeviceCreatedAt(createdAt: number): Promise<void> {
+    return this.storage.put('deviceCreatedAt', createdAt);
+  }
+
   public getDeviceName(): string | undefined {
     return this.storage.get('device_name');
   }

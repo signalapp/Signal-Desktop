@@ -17,7 +17,7 @@ const createProps = (): PropsType => ({
   i18n,
 });
 
-export function Normal(): JSX.Element {
+export function Normal(): React.JSX.Element {
   const props = createProps();
 
   return <ProgressDialog {...props} />;

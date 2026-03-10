@@ -39,7 +39,7 @@ const tallSticker = {
   packId: 'tall',
 };
 
-export function Full(): JSX.Element {
+export function Full(): React.JSX.Element {
   const title = 'Foo';
   const author = 'Foo McBarrington';
 
@@ -75,7 +75,7 @@ export function Full(): JSX.Element {
   );
 }
 
-export function JustFourStickers(): JSX.Element {
+export function JustFourStickers(): React.JSX.Element {
   const title = 'Foo';
   const author = 'Foo McBarrington';
 
@@ -104,7 +104,7 @@ export function JustFourStickers(): JSX.Element {
   );
 }
 
-export function InitialDownload(): JSX.Element {
+export function InitialDownload(): React.JSX.Element {
   return (
     <StickerPreviewModal
       closeStickerPackPreview={action('closeStickerPackPreview')}
@@ -118,7 +118,7 @@ export function InitialDownload(): JSX.Element {
   );
 }
 
-export function PackDeleted(): JSX.Element {
+export function PackDeleted(): React.JSX.Element {
   return (
     <StickerPreviewModal
       closeStickerPackPreview={action('closeStickerPackPreview')}

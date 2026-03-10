@@ -53,10 +53,11 @@ import { arrow } from '../util/keyboard.dom.js';
 import { StoryProgressSegment } from './StoryProgressSegment.dom.js';
 import type { EmojiSkinTone } from './fun/data/emojis.std.js';
 import type { FunEmojiSelection } from './fun/panels/FunPanelEmojis.dom.js';
+import type { ContactModalStateType } from '../types/globalModals.std.js';
 
 const log = createLogger('StoryViewer');
 
-function renderStrong(parts: Array<JSX.Element | string>) {
+function renderStrong(parts: Array<React.JSX.Element | string>) {
   return <strong>{parts}</strong>;
 }
 
@@ -75,7 +76,6 @@ export type PropsType = {
     | 'id'
     | 'name'
     | 'profileName'
-    | 'sharedGroupNames'
     | 'sortedGroupMembers'
     | 'title'
     | 'left'
@@ -111,7 +111,7 @@ export type PropsType = {
   retryMessageSend: (messageId: string) => unknown;
   saveAttachment: SaveAttachmentActionCreatorType;
   setHasAllStoriesUnmuted: (isUnmuted: boolean) => unknown;
-  showContactModal: (contactId: string, conversationId?: string) => void;
+  showContactModal: (payload: ContactModalStateType) => void;
   showToast: ShowToastAction;
   emojiSkinToneDefault: EmojiSkinTone | null;
   story: StoryViewType;
@@ -172,7 +172,7 @@ export function StoryViewer({
   storyViewMode,
   viewStory,
   viewTarget,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [isShowingContextMenu, setIsShowingContextMenu] =
     useState<boolean>(false);
   const [storyDuration, setStoryDuration] = useState<number | undefined>();
@@ -192,15 +192,8 @@ export function StoryViewer({
     sendState,
     timestamp,
   } = story;
-  const {
-    avatarUrl,
-    color,
-    isMe,
-    firstName,
-    profileName,
-    sharedGroupNames,
-    title,
-  } = story.sender;
+  const { avatarUrl, color, isMe, firstName, profileName, title } =
+    story.sender;
 
   const conversationId = group?.id || story.sender.id;
 
@@ -729,7 +722,6 @@ export function StoryViewer({
                   conversationType="direct"
                   i18n={i18n}
                   profileName={profileName}
-                  sharedGroupNames={sharedGroupNames}
                   size={AvatarSize.TWENTY_EIGHT}
                   title={title}
                 />
@@ -742,7 +734,6 @@ export function StoryViewer({
                     conversationType="group"
                     i18n={i18n}
                     profileName={group.profileName}
-                    sharedGroupNames={group.sharedGroupNames}
                     size={AvatarSize.TWENTY_EIGHT}
                     title={group.title}
                   />
@@ -948,7 +939,6 @@ export function StoryViewer({
             onReact={emoji => {
               onReactToStory(emoji, story);
               if (!isGroupStory) {
-                setCurrentViewTarget(null);
                 showToast({ toastType: ToastType.StoryReact });
               }
               setReactionEmoji(emoji);

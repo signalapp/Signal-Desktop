@@ -13,7 +13,7 @@ import { getMessagesById } from '../messages/getMessagesById.preload.js';
 import * as Bytes from '../Bytes.std.js';
 import * as Errors from './errors.std.js';
 import { deriveStickerPackKey, decryptAttachmentV1 } from '../Crypto.node.js';
-import { IMAGE_WEBP } from './MIME.std.js';
+import { IMAGE_WEBP, type MIMEType } from './MIME.std.js';
 import { sniffImageMimeType } from '../util/sniffImageMimeType.std.js';
 import type {
   AttachmentType,
@@ -34,12 +34,10 @@ import {
   processNewEphemeralSticker,
   processNewSticker,
   deleteTempFile,
-  getAbsoluteStickerPath,
-  copyStickerIntoAttachmentsDirectory,
-  readAttachmentData,
   deleteSticker,
   readStickerData,
   writeNewStickerData,
+  writeNewAttachmentData,
 } from '../util/migrations.preload.js';
 import { drop } from '../util/drop.std.js';
 import { isNotNil } from '../util/isNotNil.std.js';
@@ -52,6 +50,7 @@ import {
   getSticker as doGetSticker,
   getStickerPackManifest,
 } from '../textsecure/WebAPI.preload.js';
+import { getExistingAttachmentDataForReuse } from '../util/attachments/deduplicateAttachment.preload.js';
 
 const { isNumber, reject, groupBy, values, chunk } = lodash;
 
@@ -108,26 +107,57 @@ export const STICKERPACK_KEY_BYTE_LEN = 32;
 const RESOLVE_REFERENCES_BATCH_SIZE = 1000;
 
 const BLESSED_PACKS: Record<string, BlessedType> = {
-  '9acc9e8aba563d26a4994e69263e3b25': {
-    key: 'Wm3/OUjCjvubeq+T7MN1xp/DFueAd+0mhnoU0QoPahI=',
+  // Rocky Talk
+  '42fb75e1827c0c945cfb5ca0975db03c': {
+    key: '7uJ+K593PgpV6iTDQLe+hYcRpuK9m27nBEND4OQovmU=',
     status: 'downloaded',
   },
-  fb535407d2f6497ec074df8b9c51dd1d: {
-    key: 'F+lxwTQDViJ4HS7iSeZHO3dFg3ULaMEbuCt1CcaLbf0=',
-    status: 'downloaded',
-  },
-  e61fa0867031597467ccc036cc65d403: {
-    key: 'E657GnQHMYKA6bOMEmHe044OcTi5+WSmzLtz5A9zeps=',
-    status: 'downloaded',
-  },
-  cca32f5b905208b7d0f1e17f23fdc185: {
-    key: 'i/jpX3pFver+DI9bAC7wGrlbjxtbqsQBnM1ra+Cxg3o=',
-    status: 'downloaded',
-  },
+  // My Daily Life 1
   ccc89a05dc077856b57351e90697976c: {
     key: 'RXMOYPCdVWYRUiN0RTemt9nqmc7qy3eh+9aAG5YH+88=',
     status: 'downloaded',
   },
+  // Zozo the French Bulldog
+  fb535407d2f6497ec074df8b9c51dd1d: {
+    key: 'F+lxwTQDViJ4HS7iSeZHO3dFg3ULaMEbuCt1CcaLbf0=',
+    status: 'downloaded',
+  },
+  // Croco's Feelings
+  '3044281a51307306e5442f2e9070953a': {
+    key: 'xMqqhDl+GmMKWWD1SguCdTyIpeUuDe/mFbpN2A8TDL8=',
+    status: 'downloaded',
+  },
+  // My Daily Life 2
+  a2414255948558316f37c1d36c64cd28: {
+    key: '/aEpNxltI28cqeEZalZULh0c72/4TivgOChxf6IK02Y=',
+    status: 'downloaded',
+  },
+  // Cozy Season
+  '684d2b7bcfc2eec6f57f2e7be0078e0f': {
+    key: 'hm4Ny0obJfKwTfJwzXQnI+SmVVwKGrw/PzDcxaIBDFU=',
+    status: 'downloaded',
+  },
+  // Chug the Mouse
+  f19548e5afa38d1ce4f5c3191eba5e30: {
+    key: 'LLMHZ0D2aapExsBjKQskmn0ApLAu2PnppbkCo38bvEE=',
+    status: 'downloaded',
+  },
+  // Bandit the Cat
+  '9acc9e8aba563d26a4994e69263e3b25': {
+    key: 'Wm3/OUjCjvubeq+T7MN1xp/DFueAd+0mhnoU0QoPahI=',
+    status: 'downloaded',
+  },
+  // Swoon / Hands
+  e61fa0867031597467ccc036cc65d403: {
+    key: 'E657GnQHMYKA6bOMEmHe044OcTi5+WSmzLtz5A9zeps=',
+    status: 'downloaded',
+  },
+  // Swoon / Faces
+  cca32f5b905208b7d0f1e17f23fdc185: {
+    key: 'i/jpX3pFver+DI9bAC7wGrlbjxtbqsQBnM1ra+Cxg3o=',
+    status: 'downloaded',
+  },
+  // Day by Day
   cfc50156556893ef9838069d3890fe49: {
     key: 'X1vqt9OCRDywCh5I65Upe2uMrf0GMeXQ2dyUnmmZ/0s=',
     status: 'downloaded',
@@ -978,7 +1008,8 @@ async function resolveReferences(packId: string): Promise<void> {
           try {
             attachments = await pMap(
               messageIds,
-              () => copyStickerToAttachments(packId, stickerId),
+              messageId =>
+                copyStickerToAttachments({ packId, stickerId, messageId }),
               { concurrency: 3 }
             );
           } catch (error) {
@@ -1064,10 +1095,15 @@ export function getSticker(
   return pack.stickers[stickerId];
 }
 
-export async function copyStickerToAttachments(
-  packId: string,
-  stickerId: number
-): Promise<AttachmentType> {
+export async function copyStickerToAttachments({
+  packId,
+  stickerId,
+  messageId,
+}: {
+  packId: string;
+  stickerId: number;
+  messageId: string;
+}): Promise<AttachmentType> {
   const sticker = getSticker(packId, stickerId);
   if (!sticker) {
     throw new Error(
@@ -1075,33 +1111,47 @@ export async function copyStickerToAttachments(
     );
   }
 
-  const { path: stickerPath } = sticker;
-  const absolutePath = getAbsoluteStickerPath(stickerPath);
-  const { path, size } =
-    await copyStickerIntoAttachmentsDirectory(absolutePath);
+  const data = await readStickerData(sticker);
+  const size = data.byteLength;
+  const plaintextHash = getPlaintextHashForInMemoryAttachment(data);
 
-  const newSticker: AttachmentType = {
-    ...sticker,
-    path,
-    size,
-
-    // Fall-back
-    contentType: IMAGE_WEBP,
-  };
-  const data = await readAttachmentData(newSticker);
-
+  let contentType: MIMEType;
   const sniffedMimeType = sniffImageMimeType(data);
   if (sniffedMimeType) {
-    newSticker.contentType = sniffedMimeType;
+    contentType = sniffedMimeType;
   } else {
     log.warn(
       'copyStickerToAttachments: Unable to sniff sticker MIME type; falling back to WebP'
     );
+    contentType = IMAGE_WEBP;
   }
 
-  newSticker.plaintextHash = getPlaintextHashForInMemoryAttachment(data);
+  const newSticker: AttachmentType = {
+    width: sticker.width,
+    height: sticker.height,
+    version: sticker.version,
+    size,
+    contentType,
+    plaintextHash,
+  };
 
-  return newSticker;
+  const existingAttachmentData = await getExistingAttachmentDataForReuse({
+    plaintextHash,
+    contentType,
+    messageId,
+    logId: 'copyStickerToAttachments',
+  });
+
+  if (existingAttachmentData) {
+    return {
+      ...newSticker,
+      ...existingAttachmentData,
+    };
+  }
+
+  const newAttachmentData = await writeNewAttachmentData(data);
+
+  return { ...newSticker, ...newAttachmentData };
 }
 
 // In the case where a sticker pack is uninstalled, we want to delete it if there are no

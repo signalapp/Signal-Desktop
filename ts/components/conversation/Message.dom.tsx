@@ -37,6 +37,7 @@ import { ImageGrid } from './ImageGrid.dom.js';
 import { GIF } from './GIF.dom.js';
 import { CurveType, Image } from './Image.dom.js';
 import { ContactName } from './ContactName.dom.js';
+import { I18n } from '../I18n.dom.js';
 import type { QuotedAttachmentForUIType } from './Quote.dom.js';
 import { Quote } from './Quote.dom.js';
 import { EmbeddedContact } from './EmbeddedContact.dom.js';
@@ -46,6 +47,7 @@ import type {
 } from './ReactionViewer.dom.js';
 import { ReactionViewer } from './ReactionViewer.dom.js';
 import { LinkPreviewDate } from './LinkPreviewDate.dom.js';
+import type { RenderingContextType } from '../../types/RenderingContext.d.ts';
 import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.std.js';
 import type { MessageStatusType } from '../../types/message/MessageStatus.std.js';
 import { shouldUseFullSizeLinkPreviewImage } from '../../linkPreviews/shouldUseFullSizeLinkPreviewImage.std.js';
@@ -70,7 +72,6 @@ import {
   isGIF,
   isImage,
   isImageAttachment,
-  isPlayed,
   isVideo,
 } from '../../util/Attachment.std.js';
 import type { EmbeddedContactForUIType } from '../../types/EmbeddedContact.std.js';
@@ -98,7 +99,6 @@ import { isPaymentNotificationEvent } from '../../types/Payment.std.js';
 import type { AnyPaymentEvent } from '../../types/Payment.std.js';
 import { getPaymentEventDescription } from '../../messages/payments.std.js';
 import { PanelType } from '../../types/Panels.std.js';
-import { isPollReceiveEnabled } from '../../types/Polls.dom.js';
 import type { PollWithResolvedVotersType } from '../../state/selectors/message.preload.js';
 import { PollMessageContents } from './poll-message/PollMessageContents.dom.js';
 import { openLinkInWebBrowser } from '../../util/openLinkInWebBrowser.dom.js';
@@ -108,7 +108,7 @@ import { getColorForCallLink } from '../../util/getColorForCallLink.std.js';
 import { getKeyFromCallLink } from '../../util/callLinks.std.js';
 import { InAnotherCallTooltip } from './InAnotherCallTooltip.dom.js';
 import { formatFileSize } from '../../util/formatFileSize.std.js';
-import { assertDev, strictAssert } from '../../util/assert.std.js';
+import { assertDev } from '../../util/assert.std.js';
 import { AttachmentStatusIcon } from './AttachmentStatusIcon.dom.js';
 import { TapToViewNotAvailableType } from '../TapToViewNotAvailableModal.dom.js';
 import type { DataPropsType as TapToViewNotAvailablePropsType } from '../TapToViewNotAvailableModal.dom.js';
@@ -116,6 +116,7 @@ import { FileThumbnail } from '../FileThumbnail.dom.js';
 import { FunStaticEmoji } from '../fun/FunEmoji.dom.js';
 import {
   type EmojifyData,
+  getEmojiDebugLabel,
   getEmojifyData,
   getEmojiParentByKey,
   getEmojiParentKeyByVariantKey,
@@ -125,6 +126,10 @@ import {
 } from '../fun/data/emojis.std.js';
 import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.dom.js';
 import type { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.js';
+import { AxoSymbol } from '../../axo/AxoSymbol.dom.js';
+import type { RenderAudioAttachmentProps } from '../../state/smart/renderAudioAttachment.preload.js';
+import type { MemberLabelType } from '../../types/GroupMemberLabels.std.js';
+import type { ContactModalStateType } from '../../types/globalModals.std.js';
 
 const { drop, take, unescape } = lodash;
 
@@ -169,8 +174,17 @@ const TextDirectionToDirAttribute = {
 export const Directions = ['incoming', 'outgoing'] as const;
 export type DirectionType = (typeof Directions)[number];
 
+export enum MessageInteractivity {
+  /** Enable all interactions for message type */
+  Normal = 'Normal',
+  /** Disable all interactions for message type */
+  Static = 'Static',
+  /** Enable some interactions for embedded messages (ex: PinnedMessagesPanel) */
+  Embed = 'Embed',
+}
+
 export type AudioAttachmentProps = {
-  renderingContext: string;
+  renderingContext: RenderingContextType;
   i18n: LocalizerType;
   buttonRef: React.RefObject<HTMLButtonElement>;
   theme: ThemeType | undefined;
@@ -210,10 +224,13 @@ export type GiftBadgeType =
     };
 
 function ReactionEmoji(props: { emojiVariantValue: string }) {
-  strictAssert(
-    isEmojiVariantValue(props.emojiVariantValue),
-    'Expected a valid emoji variant value'
-  );
+  if (!isEmojiVariantValue(props.emojiVariantValue)) {
+    log.error(
+      `Expected a valid emoji variant value, got ${getEmojiDebugLabel(props.emojiVariantValue)}`
+    );
+    return null;
+  }
+
   const emojiVariantKey = getEmojiVariantKeyByValue(props.emojiVariantValue);
   const emojiVariant = getEmojiVariantByKey(emojiVariantKey);
   const emojiParentKey = getEmojiParentKeyByVariantKey(emojiVariantKey);
@@ -231,8 +248,9 @@ function ReactionEmoji(props: { emojiVariantValue: string }) {
 
 export type PropsData = {
   id: string;
-  renderingContext: string;
+  renderingContext: RenderingContextType;
   contactNameColor?: ContactNameColorType;
+  contactLabel?: MemberLabelType;
   conversationColor: ConversationColorType;
   conversationTitle: string;
   customColor?: CustomColorType;
@@ -250,6 +268,7 @@ export type PropsData = {
   isSelectMode: boolean;
   isSMS: boolean;
   isSpoilerExpanded?: Record<number, boolean>;
+  isVoiceMessagePlayed: boolean;
   canEndPoll?: boolean;
   direction: DirectionType;
   timestamp: number;
@@ -269,7 +288,6 @@ export type PropsData = {
     | 'isMe'
     | 'phoneNumber'
     | 'profileName'
-    | 'sharedGroupNames'
     | 'title'
   >;
   conversationType: ConversationTypeType;
@@ -290,6 +308,7 @@ export type PropsData = {
     authorPhoneNumber?: string;
     authorProfileName?: string;
     authorTitle: string;
+    authorLabel?: MemberLabelType;
     authorName?: string;
     bodyRanges?: HydratedBodyRangesType;
     referencedMessageNotFound: boolean;
@@ -312,6 +331,8 @@ export type PropsData = {
   isTapToViewExpired?: boolean;
   isTapToViewError?: boolean;
 
+  isPinned: boolean;
+
   readStatus?: ReadStatus;
 
   expirationLength?: number;
@@ -320,18 +341,25 @@ export type PropsData = {
   reactions?: ReactionViewerProps['reactions'];
 
   deletedForEveryone?: boolean;
+  deletedForEveryoneByAdmin?: {
+    conversationId: string;
+    title: string;
+    contactNameColor: ContactNameColorType;
+    isMe: boolean;
+  };
   attachmentDroppedDueToSize?: boolean;
 
   canDeleteForEveryone: boolean;
+  canRetryDeleteForEveryone: boolean;
   isBlocked: boolean;
   isMessageRequestAccepted: boolean;
   bodyRanges?: HydratedBodyRangesType;
 
-  renderMenu?: () => JSX.Element | undefined;
+  renderMenu?: () => React.JSX.Element | undefined;
   renderMessageContextMenu?: (
     renderer: AxoMenuBuilder.Renderer,
     children: ReactNode
-  ) => JSX.Element;
+  ) => React.JSX.Element;
 
   item?: never;
   // test-only, to force GIF's reduced motion experience
@@ -344,9 +372,12 @@ export type PropsHousekeeping = {
   disableScroll?: boolean;
   getPreferredBadge: PreferredBadgeSelectorType;
   i18n: LocalizerType;
+  interactivity: MessageInteractivity;
   interactionMode: InteractionModeType;
   platform: string;
-  renderAudioAttachment: (props: AudioAttachmentProps) => JSX.Element;
+  renderAudioAttachment: (
+    props: RenderAudioAttachmentProps
+  ) => React.JSX.Element;
   shouldCollapseAbove: boolean;
   shouldCollapseBelow: boolean;
   shouldHideMetadata: boolean;
@@ -364,13 +395,14 @@ export type PropsActions = {
   showConversation: ShowConversationType;
   openGiftBadge: (messageId: string) => void;
   pushPanelForConversation: PushPanelForConversationActionType;
+  retryDeleteForEveryone: (messageId: string) => unknown;
   retryMessageSend: (messageId: string) => unknown;
   sendPollVote: (params: {
     messageId: string;
     optionIndexes: ReadonlyArray<number>;
   }) => void;
   endPoll: (messageId: string) => void;
-  showContactModal: (contactId: string, conversationId?: string) => void;
+  showContactModal: (payload: ContactModalStateType) => void;
   showSpoiler: (messageId: string, data: Record<number, boolean>) => void;
 
   cancelAttachmentDownload: (options: { messageId: string }) => void;
@@ -453,7 +485,7 @@ const MessageReactions = forwardRef(function MessageReactions(
     popperPreventOverflowModifier,
   }: MessageReactionsProps,
   parentRef
-): JSX.Element {
+): React.JSX.Element {
   const ordered = useGroupedAndOrderedReactions(reactions, 'parentKey');
 
   const reactionsContainerRefMerger = useRef(createRefMerger());
@@ -811,6 +843,7 @@ export class Message extends React.PureComponent<Props, State> {
       expirationTimestamp,
       giftBadge,
       i18n,
+      isPinned,
       isTapToView,
       isTapToViewError,
       isTapToViewExpired,
@@ -825,6 +858,7 @@ export class Message extends React.PureComponent<Props, State> {
     if (
       !expirationLength &&
       !expirationTimestamp &&
+      !isPinned &&
       (!status || SENT_STATUSES.has(status)) &&
       shouldHideMetadata
     ) {
@@ -980,9 +1014,9 @@ export class Message extends React.PureComponent<Props, State> {
       this.props;
     return Boolean(
       direction === 'incoming' &&
-        conversationType === 'group' &&
-        author.title &&
-        !shouldCollapseAbove
+      conversationType === 'group' &&
+      author.title &&
+      !shouldCollapseAbove
     );
   }
 
@@ -1062,6 +1096,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     const {
       attachmentDroppedDueToSize,
+      canRetryDeleteForEveryone,
       deletedForEveryone,
       direction,
       expirationLength,
@@ -1069,8 +1104,10 @@ export class Message extends React.PureComponent<Props, State> {
       i18n,
       id,
       isEditedMessage,
+      isPinned,
       isSMS,
       isSticker,
+      retryDeleteForEveryone,
       retryMessageSend,
       pushPanelForConversation,
       showEditHistoryModal,
@@ -1084,6 +1121,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     return (
       <MessageMetadata
+        canRetryDeleteForEveryone={canRetryDeleteForEveryone}
         deletedForEveryone={deletedForEveryone}
         direction={direction}
         expirationLength={expirationLength}
@@ -1092,6 +1130,7 @@ export class Message extends React.PureComponent<Props, State> {
         i18n={i18n}
         id={id}
         isEditedMessage={isEditedMessage}
+        isPinned={isPinned}
         isSMS={isSMS}
         isInline={isInline}
         isOutlineOnlyBubble={
@@ -1102,6 +1141,7 @@ export class Message extends React.PureComponent<Props, State> {
         onWidthMeasured={isInline ? this.#updateMetadataWidth : undefined}
         pushPanelForConversation={pushPanelForConversation}
         ref={this.#metadataRef}
+        retryDeleteForEveryone={retryDeleteForEveryone}
         retryMessageSend={retryMessageSend}
         showEditHistoryModal={showEditHistoryModal}
         status={status}
@@ -1112,7 +1152,8 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   #renderAuthor(): ReactNode {
-    const { author, contactNameColor, i18n, isSticker } = this.props;
+    const { author, contactLabel, contactNameColor, i18n, isSticker, quote } =
+      this.props;
 
     if (!this.#shouldRenderAuthor()) {
       return null;
@@ -1122,9 +1163,15 @@ export class Message extends React.PureComponent<Props, State> {
     const moduleName = `module-message__author${stickerSuffix}`;
 
     return (
-      <div className={moduleName}>
+      <div
+        className={classNames(
+          moduleName,
+          quote ? 'module-message__author--with-quote' : undefined
+        )}
+      >
         <ContactName
           contactNameColor={contactNameColor}
+          contactLabel={contactLabel}
           title={author.isMe ? i18n('icu:you') : author.title}
           module={moduleName}
         />
@@ -1132,26 +1179,28 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderAttachment(): JSX.Element | null {
+  public renderAttachment(): React.JSX.Element | null {
     const {
       _forceTapToPlay,
       attachmentDroppedDueToSize,
       attachments,
+      canRetryDeleteForEveryone,
       cancelAttachmentDownload,
-      conversationId,
       direction,
       expirationLength,
       expirationTimestamp,
       i18n,
       id,
+      isPinned,
       isSticker,
+      isVoiceMessagePlayed,
       kickOffAttachmentDownload,
       markAttachmentAsCorrupted,
       pushPanelForConversation,
       quote,
-      readStatus,
       renderAudioAttachment,
       renderingContext,
+      retryDeleteForEveryone,
       retryMessageSend,
       shouldHideMetadata,
       shouldCollapseAbove,
@@ -1178,8 +1227,7 @@ export class Message extends React.PureComponent<Props, State> {
     // For attachments which aren't full-frame
     const withContentBelow = Boolean(text || attachmentDroppedDueToSize);
     const withContentAbove = Boolean(quote) || this.#shouldRenderAuthor();
-    const displayImage =
-      canDisplayImage(attachments) && !attachmentDroppedDueToSize;
+    const displayImage = canDisplayImage(attachments);
 
     // attachmentDroppedDueToSize is handled in renderAttachmentTooBig
     const isAttachmentNotAvailable =
@@ -1282,13 +1330,10 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     if (isAttachmentAudio) {
-      const played = isPlayed(direction, status, readStatus);
-
       return renderAudioAttachment({
         i18n,
         buttonRef: this.audioButtonRef,
         renderingContext,
-        theme,
         attachment: firstAttachment,
         collapseMetadata,
         withContentAbove,
@@ -1298,9 +1343,8 @@ export class Message extends React.PureComponent<Props, State> {
         expirationLength,
         expirationTimestamp,
         id,
-        conversationId,
-        played,
-        pushPanelForConversation,
+        isPinned,
+        played: isVoiceMessagePlayed,
         status,
         textPending: textAttachment?.pending,
         timestamp,
@@ -1323,7 +1367,10 @@ export class Message extends React.PureComponent<Props, State> {
     const isIncoming = direction === 'incoming';
 
     const willShowMetadata =
-      expirationLength || expirationTimestamp || !shouldHideMetadata;
+      expirationLength ||
+      expirationTimestamp ||
+      isPinned ||
+      !shouldHideMetadata;
 
     // Note: this has to be interactive for the case where text comes along with the
     // attachment. But we don't want the user to tab here unless that text exists.
@@ -1405,6 +1452,7 @@ export class Message extends React.PureComponent<Props, State> {
             {text || !willShowMetadata ? undefined : (
               <div className="module-message__simple-attachment__metadata-container">
                 <MessageMetadata
+                  canRetryDeleteForEveryone={canRetryDeleteForEveryone}
                   deletedForEveryone={false}
                   direction={direction}
                   expirationLength={expirationLength}
@@ -1413,6 +1461,7 @@ export class Message extends React.PureComponent<Props, State> {
                   i18n={i18n}
                   id={id}
                   isEditedMessage={false}
+                  isPinned={isPinned}
                   isSMS={false}
                   isInline={false}
                   isOutlineOnlyBubble={false}
@@ -1421,6 +1470,7 @@ export class Message extends React.PureComponent<Props, State> {
                   onWidthMeasured={undefined}
                   pushPanelForConversation={pushPanelForConversation}
                   ref={this.#metadataRef}
+                  retryDeleteForEveryone={retryDeleteForEveryone}
                   retryMessageSend={retryMessageSend}
                   showEditHistoryModal={showEditHistoryModal}
                   status={status}
@@ -1435,7 +1485,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderSimpleAttachmentNotAvailable(): JSX.Element | null {
+  public renderSimpleAttachmentNotAvailable(): React.JSX.Element | null {
     const {
       attachmentDroppedDueToSize,
       attachments,
@@ -1530,7 +1580,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderUndownloadableTextAttachment(): JSX.Element | null {
+  public renderUndownloadableTextAttachment(): React.JSX.Element | null {
     const { i18n, textAttachment } = this.props;
     if (!textAttachment || !textAttachment.isPermanentlyUndownloadable) {
       return null;
@@ -1549,7 +1599,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderPreview(): JSX.Element | null {
+  public renderPreview(): React.JSX.Element | null {
     const {
       attachments,
       conversationType,
@@ -1681,7 +1731,6 @@ export class Message extends React.PureComponent<Props, State> {
                 color={getColorForCallLink(getKeyFromCallLink(first.url))}
                 conversationType="callLink"
                 i18n={i18n}
-                sharedGroupNames={[]}
                 size={64}
                 title={title ?? i18n('icu:calling__call-link-default-title')}
               />
@@ -1742,7 +1791,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderAttachmentTooBig(): JSX.Element | null {
+  public renderAttachmentTooBig(): React.JSX.Element | null {
     const {
       attachments,
       attachmentDroppedDueToSize,
@@ -1798,7 +1847,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderGiftBadge(): JSX.Element | null {
+  public renderGiftBadge(): React.JSX.Element | null {
     const { conversationTitle, direction, getPreferredBadge, giftBadge, i18n } =
       this.props;
     const { showOutgoingGiftBadgeModal } = this.state;
@@ -1987,7 +2036,7 @@ export class Message extends React.PureComponent<Props, State> {
     throw missingCaseError(giftBadge.state);
   }
 
-  public renderPayment(): JSX.Element | null {
+  public renderPayment(): React.JSX.Element | null {
     const {
       payment,
       direction,
@@ -2029,9 +2078,9 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderPoll(): JSX.Element | null {
+  public renderPoll(): React.JSX.Element | null {
     const { poll, direction, i18n, id, endPoll, canEndPoll } = this.props;
-    if (!poll || !isPollReceiveEnabled()) {
+    if (!poll) {
       return null;
     }
     return (
@@ -2051,7 +2100,7 @@ export class Message extends React.PureComponent<Props, State> {
     return this.props.doubleCheckMissingQuoteReference(this.props.id);
   };
 
-  public renderQuote(): JSX.Element | null {
+  public renderQuote(): React.JSX.Element | null {
     const {
       conversationColor,
       conversationId,
@@ -2091,6 +2140,7 @@ export class Message extends React.PureComponent<Props, State> {
         payment={quote.payment}
         isIncoming={isIncoming}
         authorTitle={quote.authorTitle}
+        authorLabel={quote.authorLabel}
         bodyRanges={quote.bodyRanges}
         conversationColor={conversationColor}
         conversationTitle={conversationTitle}
@@ -2106,7 +2156,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderStoryReplyContext(): JSX.Element | null {
+  public renderStoryReplyContext(): React.JSX.Element | null {
     const {
       conversationTitle,
       conversationColor,
@@ -2164,7 +2214,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderEmbeddedContact(): JSX.Element | null {
+  public renderEmbeddedContact(): React.JSX.Element | null {
     const {
       cancelAttachmentDownload,
       contact,
@@ -2227,7 +2277,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderSendMessageButton(): JSX.Element | null {
+  public renderSendMessageButton(): React.JSX.Element | null {
     const { contact, direction, shouldCollapseBelow, startConversation, i18n } =
       this.props;
     const noBottomLeftCurve = direction === 'incoming' && shouldCollapseBelow;
@@ -2299,11 +2349,10 @@ export class Message extends React.PureComponent<Props, State> {
               event.stopPropagation();
               event.preventDefault();
 
-              showContactModal(author.id, conversationId);
+              showContactModal({ contactId: author.id, conversationId });
             }}
             phoneNumber={author.phoneNumber}
             profileName={author.profileName}
-            sharedGroupNames={author.sharedGroupNames}
             size={GROUP_AVATAR_SIZE}
             theme={theme}
             title={author.title}
@@ -2313,21 +2362,84 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  #getContents(): string | undefined {
-    const { deletedForEveryone, direction, i18n, status, text } = this.props;
+  #getMessageStatusContents(): React.JSX.Element | string | null {
+    const {
+      author,
+      conversationId,
+      deletedForEveryone,
+      deletedForEveryoneByAdmin,
+      direction,
+      i18n,
+      showContactModal,
+      status,
+    } = this.props;
 
     if (deletedForEveryone) {
-      return i18n('icu:message--deletedForEveryone');
+      let text: React.JSX.Element | string;
+      if (deletedForEveryoneByAdmin != null) {
+        if (deletedForEveryoneByAdmin.isMe) {
+          text = i18n('icu:message--deletedForEveryone--outgoing');
+        } else {
+          text = (
+            <I18n
+              id="icu:message--deletedByAdmin"
+              i18n={i18n}
+              components={{
+                admin: (
+                  <strong>
+                    <ContactName
+                      title={deletedForEveryoneByAdmin.title}
+                      contactNameColor={
+                        deletedForEveryoneByAdmin.contactNameColor
+                      }
+                      onClick={() => {
+                        showContactModal({
+                          conversationId,
+                          contactId: deletedForEveryoneByAdmin.conversationId,
+                        });
+                      }}
+                    />
+                  </strong>
+                ),
+              }}
+            />
+          );
+        }
+      } else if (direction === 'outgoing') {
+        text = i18n('icu:message--deletedForEveryone--outgoing');
+      } else {
+        text = (
+          <I18n
+            id="icu:message--deletedForEveryone--incoming"
+            i18n={i18n}
+            components={{
+              name: (
+                <ContactName
+                  preferFirstName
+                  title={author.title}
+                  firstName={author.firstName}
+                />
+              ),
+            }}
+          />
+        );
+      }
+      return (
+        <>
+          <AxoSymbol.InlineGlyph symbol="x-circle" label={null} /> {text}
+        </>
+      );
     }
     if (direction === 'incoming' && status === 'error') {
       return i18n('icu:incomingError');
     }
 
-    return text;
+    return null;
   }
 
-  public renderText(): JSX.Element | null {
+  public renderText(): React.JSX.Element | null {
     const {
+      text,
       bodyRanges,
       deletedForEveryone,
       direction,
@@ -2346,9 +2458,8 @@ export class Message extends React.PureComponent<Props, State> {
     } = this.props;
     const { metadataWidth } = this.state;
 
-    const contents = this.#getContents();
-
-    if (!contents) {
+    const messageStatusContents = this.#getMessageStatusContents();
+    if (messageStatusContents == null && text == null) {
       return null;
     }
 
@@ -2363,7 +2474,7 @@ export class Message extends React.PureComponent<Props, State> {
         className={classNames(
           'module-message__text',
           `module-message__text--${direction}`,
-          status === 'error' && direction === 'incoming'
+          status === 'error' && direction === 'incoming' && !deletedForEveryone
             ? 'module-message__text--error'
             : null,
           deletedForEveryone
@@ -2388,32 +2499,35 @@ export class Message extends React.PureComponent<Props, State> {
           event.stopPropagation();
         }}
       >
-        <MessageBodyReadMore
-          bodyRanges={bodyRanges}
-          direction={direction}
-          disableLinks={!this.#areLinksEnabled()}
-          displayLimit={displayLimit}
-          i18n={i18n}
-          id={id}
-          isSpoilerExpanded={isSpoilerExpanded || {}}
-          kickOffBodyDownload={() => {
-            if (!textAttachment) {
-              return;
-            }
-            if (isDownloaded(textAttachment)) {
-              return;
-            }
-            kickOffAttachmentDownload({
-              messageId: id,
-            });
-          }}
-          messageExpanded={messageExpanded}
-          showConversation={showConversation}
-          renderLocation={RenderLocation.Timeline}
-          onExpandSpoiler={data => showSpoiler(id, data)}
-          text={contents || ''}
-          textAttachment={textAttachment}
-        />
+        {messageStatusContents != null && messageStatusContents}
+        {messageStatusContents == null && text != null && (
+          <MessageBodyReadMore
+            bodyRanges={bodyRanges}
+            direction={direction}
+            disableLinks={!this.#areLinksEnabled()}
+            displayLimit={displayLimit}
+            i18n={i18n}
+            id={id}
+            isSpoilerExpanded={isSpoilerExpanded || {}}
+            kickOffBodyDownload={() => {
+              if (!textAttachment) {
+                return;
+              }
+              if (isDownloaded(textAttachment)) {
+                return;
+              }
+              kickOffAttachmentDownload({
+                messageId: id,
+              });
+            }}
+            messageExpanded={messageExpanded}
+            showConversation={showConversation}
+            renderLocation={RenderLocation.Timeline}
+            onExpandSpoiler={data => showSpoiler(id, data)}
+            text={text}
+            textAttachment={textAttachment}
+          />
+        )}
         {this.#getMetadataPlacement() === MetadataPlacement.InlineWithText && (
           <MessageTextMetadataSpacer metadataWidth={metadataWidth} />
         )}
@@ -2432,15 +2546,15 @@ export class Message extends React.PureComponent<Props, State> {
     return Boolean(onlyPreview.isCallLink);
   }
 
-  #renderAction(): JSX.Element | null {
+  #renderAction(): React.JSX.Element | null {
     const { direction, activeCallConversationId, i18n, previews } = this.props;
 
     if (this.#shouldShowJoinButton()) {
       const firstPreview = previews[0];
       const inAnotherCall = Boolean(
         activeCallConversationId &&
-          (!firstPreview.callLinkRoomId ||
-            activeCallConversationId !== firstPreview.callLinkRoomId)
+        (!firstPreview.callLinkRoomId ||
+          activeCallConversationId !== firstPreview.callLinkRoomId)
       );
 
       const joinButton = (
@@ -2578,7 +2692,7 @@ export class Message extends React.PureComponent<Props, State> {
     return Boolean(first.pending);
   }
 
-  public renderTapToViewIcon(): JSX.Element {
+  public renderTapToViewIcon(): React.JSX.Element {
     const { direction, isTapToViewError, isTapToViewExpired, readStatus } =
       this.props;
     const isIncoming = direction === 'incoming';
@@ -2676,20 +2790,23 @@ export class Message extends React.PureComponent<Props, State> {
     };
   }
 
-  public renderTapToView(): JSX.Element | null {
+  public renderTapToView(): React.JSX.Element | null {
     const {
       attachments,
       attachmentDroppedDueToSize,
+      canRetryDeleteForEveryone,
       conversationType,
       direction,
       expirationLength,
       expirationTimestamp,
       i18n,
       id,
+      isPinned,
       isTapToViewError,
       isTapToViewExpired,
       pushPanelForConversation,
       readStatus,
+      retryDeleteForEveryone,
       retryMessageSend,
       showEditHistoryModal,
       status,
@@ -2702,7 +2819,7 @@ export class Message extends React.PureComponent<Props, State> {
     const isViewed = readStatus === ReadStatus.Viewed;
     const isExpired = Boolean(
       !isViewed &&
-        (isTapToViewExpired || firstAttachment?.isPermanentlyUndownloadable)
+      (isTapToViewExpired || firstAttachment?.isPermanentlyUndownloadable)
     );
     const isError = isTapToViewError || attachmentDroppedDueToSize;
 
@@ -2718,7 +2835,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     const text = this.renderTapToViewText();
-    let content: JSX.Element;
+    let content: React.JSX.Element;
     if (text.title && text.detail) {
       content = (
         <div className="module-message__simple-attachment__text">
@@ -2742,6 +2859,7 @@ export class Message extends React.PureComponent<Props, State> {
             {collapseMetadata ? undefined : (
               <div className="module-message__simple-attachment__metadata-container">
                 <MessageMetadata
+                  canRetryDeleteForEveryone={canRetryDeleteForEveryone}
                   deletedForEveryone={false}
                   direction={direction}
                   expirationLength={expirationLength}
@@ -2750,6 +2868,7 @@ export class Message extends React.PureComponent<Props, State> {
                   i18n={i18n}
                   id={id}
                   isEditedMessage={false}
+                  isPinned={isPinned}
                   isSMS={false}
                   isInline={false}
                   isOutlineOnlyBubble={false}
@@ -2758,6 +2877,7 @@ export class Message extends React.PureComponent<Props, State> {
                   onWidthMeasured={undefined}
                   pushPanelForConversation={pushPanelForConversation}
                   ref={this.#metadataRef}
+                  retryDeleteForEveryone={retryDeleteForEveryone}
                   retryMessageSend={retryMessageSend}
                   showEditHistoryModal={showEditHistoryModal}
                   status={status}
@@ -2783,6 +2903,7 @@ export class Message extends React.PureComponent<Props, State> {
           {collapseMetadata ? undefined : (
             <div className="module-message__simple-attachment__metadata-container">
               <MessageMetadata
+                canRetryDeleteForEveryone={canRetryDeleteForEveryone}
                 deletedForEveryone={false}
                 direction={direction}
                 expirationLength={expirationLength}
@@ -2791,6 +2912,7 @@ export class Message extends React.PureComponent<Props, State> {
                 i18n={i18n}
                 id={id}
                 isEditedMessage={false}
+                isPinned={isPinned}
                 isSMS={false}
                 isInline={false}
                 isOutlineOnlyBubble={false}
@@ -2799,6 +2921,7 @@ export class Message extends React.PureComponent<Props, State> {
                 onWidthMeasured={undefined}
                 pushPanelForConversation={pushPanelForConversation}
                 ref={this.#metadataRef}
+                retryDeleteForEveryone={retryDeleteForEveryone}
                 retryMessageSend={retryMessageSend}
                 showEditHistoryModal={showEditHistoryModal}
                 status={status}
@@ -2892,7 +3015,7 @@ export class Message extends React.PureComponent<Props, State> {
     });
   };
 
-  public renderReactions(outgoing: boolean): JSX.Element | null {
+  public renderReactions(outgoing: boolean): React.JSX.Element | null {
     const { getPreferredBadge, reactions = [], i18n, theme } = this.props;
 
     if (!this.#hasReactions()) {
@@ -2918,7 +3041,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderContents(): JSX.Element | null {
+  public renderContents(): React.JSX.Element | null {
     const { deletedForEveryone, giftBadge, isTapToView } = this.props;
 
     if (deletedForEveryone) {
@@ -3169,7 +3292,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public renderContainer(): JSX.Element {
+  public renderContainer(): React.JSX.Element {
     const {
       attachments,
       attachmentDroppedDueToSize,
@@ -3216,6 +3339,7 @@ export class Message extends React.PureComponent<Props, State> {
         : null,
       isTargeted ? 'module-message__container--targeted' : null,
       lighterSelect ? 'module-message__container--targeted-lighter' : null,
+      isStickerLike ? 'module-message__container--sticker-like' : null,
       !isStickerLike ? `module-message__container--${direction}` : null,
       isEmojiOnly ? 'module-message__container--emoji' : null,
       !isStickerLike && direction === 'outgoing'
@@ -3274,7 +3398,7 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  renderAltAccessibilityTree(): JSX.Element {
+  renderAltAccessibilityTree(): React.JSX.Element {
     const { id, i18n, author } = this.props;
     return (
       <span className="module-message__alt-accessibility-tree">
@@ -3293,12 +3417,13 @@ export class Message extends React.PureComponent<Props, State> {
     );
   }
 
-  public override render(): JSX.Element | null {
+  public override render(): React.JSX.Element | null {
     const {
       id,
       attachments,
       direction,
       i18n,
+      interactivity,
       isSticker,
       isSelected,
       isSelectMode,
@@ -3354,6 +3479,10 @@ export class Message extends React.PureComponent<Props, State> {
         // prevent other click handlers from firing.
         onClickCapture: event => {
           if (isMacOS ? event.metaKey : event.ctrlKey) {
+            if (interactivity !== MessageInteractivity.Normal) {
+              return;
+            }
+
             if (this.#hasSelectedTextRef.current) {
               return;
             }

@@ -26,7 +26,6 @@ import type { GetConversationByIdType } from './conversations.dom.js';
 import {
   getConversationLookup,
   getConversationSelector,
-  getSelectedConversationId,
 } from './conversations.dom.js';
 
 import { hydrateRanges } from '../../util/BodyRange.node.js';
@@ -34,6 +33,7 @@ import type { RawBodyRange } from '../../types/BodyRange.std.js';
 import { createLogger } from '../../logging/log.std.js';
 import { getOwn } from '../../util/getOwn.std.js';
 import type { MessageAttributesType } from '../../model-types.js';
+import { getSelectedConversationId } from './nav.std.js';
 
 const log = createLogger('search');
 

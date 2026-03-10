@@ -29,7 +29,7 @@ export function ConversationDetailsGroups({
   groupsInCommon,
   toggleAddUserToAnotherGroupModal,
   showConversation,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const [showAllGroups, setShowAllGroups] = React.useState(false);
 
   const maxShownGroupCount = 5;

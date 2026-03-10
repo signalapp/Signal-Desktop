@@ -27,7 +27,14 @@ const CALL_LINK_ROOT_KEY_PATTERN =
   /([A-Z]{4})-[A-Z]{4}-[A-Z]{4}-[A-Z]{4}-[A-Z]{4}-[A-Z]{4}-[A-Z]{4}-[A-Z]{4}/gi;
 const ATTACHMENT_URL_KEY_PATTERN = /(attachment:\/\/[^\s]+key=)([^\s]+)/gi;
 const REDACTION_PLACEHOLDER = '[REDACTED]';
-const CARD_NUMBER_PATTERN = /\d\d(\d[-]?){11,16}\d/g;
+
+// Since card number pattern has 11-16 decimal digits we cannot use lookback
+// assertion to prevent all-decimal stack traces from matching. For this reason
+// we include both stack trace and number in the same regex and detect stack
+// traces below when doing the replacement.
+const CARD_NUMBER_OR_STACK_TRACE_PATTERN =
+  /0x[0-9a-f]{16}|\d\d(\d[-]?){11,16}\d/g;
+const SAFE_STACK_TRACE_PATTERN = /^0x[0-9a-f]{16}$/;
 
 export type RedactFunction = (value: string) => string;
 
@@ -122,7 +129,12 @@ export const redactCardNumbers = (text: string): string => {
     throw new TypeError("'text' must be a string");
   }
 
-  return text.replace(CARD_NUMBER_PATTERN, '[REDACTED]');
+  return text.replace(CARD_NUMBER_OR_STACK_TRACE_PATTERN, match => {
+    if (SAFE_STACK_TRACE_PATTERN.test(match)) {
+      return match;
+    }
+    return '[REDACTED]';
+  });
 };
 
 export const redactPhoneNumbers = (text: string): string => {

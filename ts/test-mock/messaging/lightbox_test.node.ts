@@ -2,8 +2,13 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import createDebug from 'debug';
+import { assert } from 'chai';
 import { expect } from 'playwright/test';
-import { type PrimaryDevice, StorageState } from '@signalapp/mock-server';
+import {
+  type PrimaryDevice,
+  type Proto,
+  StorageState,
+} from '@signalapp/mock-server';
 import * as path from 'node:path';
 import type { App } from '../playwright.node.js';
 import { Bootstrap } from '../bootstrap.node.js';
@@ -15,7 +20,6 @@ import {
 } from '../helpers.node.js';
 import * as durations from '../../util/durations/index.std.js';
 import { strictAssert } from '../../util/assert.std.js';
-import type { SignalService } from '../../protobuf/index.std.js';
 
 const debug = createDebug('mock:test:lightbox');
 
@@ -64,7 +68,7 @@ describe('lightbox', function (this: Mocha.Suite) {
 
     async function sendAttachmentsBack(
       text: string,
-      attachments: Array<SignalService.IAttachmentPointer>
+      attachments: Array<Proto.AttachmentPointer.Params>
     ) {
       debug(`replying with ${attachments.length} attachments`);
       const timestamp = bootstrap.getTimestamp();
@@ -100,17 +104,15 @@ describe('lightbox', function (this: Mocha.Suite) {
       'koushik-chowdavarapu-105425-unsplash.jpg'
     );
 
-    const [attachmentCat] = await sendMessageWithAttachments(
-      page,
-      pinned,
-      'Message1',
-      [imageCat]
-    );
-    const [attachmentSnow, attachmentWaterfall] =
-      await sendMessageWithAttachments(page, pinned, 'Message2', [
-        imageSnow,
-        imageWaterfall,
-      ]);
+    const {
+      attachments: [attachmentCat],
+    } = await sendMessageWithAttachments(page, pinned, 'Message1', [imageCat]);
+    const {
+      attachments: [attachmentSnow, attachmentWaterfall],
+    } = await sendMessageWithAttachments(page, pinned, 'Message2', [
+      imageSnow,
+      imageWaterfall,
+    ]);
 
     await sendAttachmentsBack('Message3', [attachmentCat]);
     await sendAttachmentsBack('Message4', [
@@ -132,10 +134,13 @@ describe('lightbox', function (this: Mocha.Suite) {
     await Lightbox.waitFor();
 
     async function expectLightboxImage(
-      attachment: SignalService.IAttachmentPointer
+      attachment: Proto.AttachmentPointer.Params
     ) {
-      debug('attachment cdnKey is', typeof attachment.cdnKey);
-      strictAssert(attachment.cdnKey, 'Must have cdnKey');
+      assert.strictEqual(
+        attachment.attachmentIdentifier,
+        'cdnKey',
+        'Must have cdnKey'
+      );
       strictAssert(attachment.cdnKey.length > 0, 'Must have valid cdnKey');
       const Object = LightboxContent.getByTestId(attachment.cdnKey);
       debug(`Waiting for attachment with cdnKey ${attachment.cdnKey}`);

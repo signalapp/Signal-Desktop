@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-export function LoadingIndicator(): JSX.Element {
+export function LoadingIndicator(): React.JSX.Element {
   return (
     <div className="loading-widget">
       {/* eslint-disable-next-line local-rules/enforce-tw */}

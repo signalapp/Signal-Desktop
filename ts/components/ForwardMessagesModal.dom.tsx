@@ -48,6 +48,7 @@ import { EmojiSkinTone } from './fun/data/emojis.std.js';
 
 export enum ForwardMessagesModalType {
   Forward,
+  ForwardAttachment,
   ShareCallLink,
 }
 
@@ -101,7 +102,7 @@ export function ForwardMessagesModal({
   showToast,
   theme,
   regionCode,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const inputRef = useRef<null | HTMLInputElement>(null);
   const [selectedContacts, setSelectedContacts] = useState<
     Array<ConversationType>
@@ -264,13 +265,7 @@ export function ForwardMessagesModal({
   };
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      inputRef.current?.focus();
-    }, 100);
-
-    return () => {
-      clearTimeout(timeout);
-    };
+    inputRef.current?.focus();
   }, []);
 
   const footer = (
@@ -306,7 +301,10 @@ export function ForwardMessagesModal({
   );
 
   let title: string;
-  if (type === ForwardMessagesModalType.Forward) {
+  if (
+    type === ForwardMessagesModalType.Forward ||
+    type === ForwardMessagesModalType.ForwardAttachment
+  ) {
     title = i18n('icu:ForwardMessageModal__title');
   } else if (type === ForwardMessagesModalType.ShareCallLink) {
     title = i18n('icu:ForwardMessageModal__ShareCallLink');
@@ -462,7 +460,7 @@ function ForwardMessageEditor({
   onChangeAttachments,
   onSubmit,
   theme,
-}: ForwardMessageEditorProps): JSX.Element {
+}: ForwardMessageEditorProps): React.JSX.Element {
   const { attachments } = draft;
   return (
     <div className="module-ForwardMessageModal__main-body">

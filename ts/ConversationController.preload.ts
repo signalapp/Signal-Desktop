@@ -20,7 +20,7 @@ import {
 } from './util/whatTypeOfConversation.dom.js';
 import {
   doesAttachmentExist,
-  deleteAttachmentData,
+  maybeDeleteAttachmentFile,
 } from './util/migrations.preload.js';
 import {
   isServiceIdString,
@@ -57,6 +57,7 @@ import type {
   ConversationAttributesType,
   ConversationAttributesTypeType,
   ConversationRenderInfoType,
+  SettableConversationAttributesType,
 } from './model-types.d.ts';
 import type {
   ServiceIdString,
@@ -64,6 +65,7 @@ import type {
   PniString,
 } from './types/ServiceId.std.js';
 import { itemStorage } from './textsecure/Storage.preload.js';
+import { getSelectedConversationId } from './state/selectors/nav.std.js';
 
 const { debounce, pick, uniq, without } = lodash;
 
@@ -483,7 +485,7 @@ export class ConversationController {
   getOrCreate(
     identifier: string | null,
     type: ConversationAttributesTypeType,
-    additionalInitialProps: Partial<ConversationAttributesType> = {}
+    additionalInitialProps: Partial<SettableConversationAttributesType> = {}
   ): ConversationModel {
     if (typeof identifier !== 'string') {
       throw new TypeError("'id' must be a string");
@@ -613,7 +615,7 @@ export class ConversationController {
   async getOrCreateAndWait(
     id: string | null,
     type: ConversationAttributesTypeType,
-    additionalInitialProps: Partial<ConversationAttributesType> = {}
+    additionalInitialProps: Partial<SettableConversationAttributesType> = {}
   ): Promise<ConversationModel> {
     await this.load();
     const conversation = this.getOrCreate(id, type, additionalInitialProps);
@@ -1454,8 +1456,7 @@ export class ConversationController {
     await migrateConversationMessages(obsoleteId, currentId);
 
     if (
-      window.reduxStore.getState().conversations.selectedConversationId ===
-      obsoleteId
+      getSelectedConversationId(window.reduxStore.getState()) === obsoleteId
     ) {
       log.warn(`${logId}: opening new conversation`);
       window.reduxActions.conversations.showConversation({
@@ -1472,8 +1473,7 @@ export class ConversationController {
     drop(current.updateLastMessage());
 
     if (
-      window.reduxStore.getState().conversations.selectedConversationId ===
-      current.id
+      getSelectedConversationId(window.reduxStore.getState()) === current.id
     ) {
       // TODO: DESKTOP-4807
       drop(current.loadNewestMessages(undefined, undefined));
@@ -1639,14 +1639,14 @@ export class ConversationController {
           drop(
             (async () => {
               if (avatarPath && (await doesAttachmentExist(avatarPath))) {
-                await deleteAttachmentData(avatarPath);
+                await maybeDeleteAttachmentFile(avatarPath);
               }
 
               if (
                 profileAvatarPath &&
                 (await doesAttachmentExist(profileAvatarPath))
               ) {
-                await deleteAttachmentData(profileAvatarPath);
+                await maybeDeleteAttachmentFile(profileAvatarPath);
               }
             })()
           );
@@ -1920,6 +1920,33 @@ export class ConversationController {
     } else {
       throw missingCaseError(idProp);
     }
+  }
+
+  async usernameUpdated(conversationModel: ConversationModel): Promise<void> {
+    const username = conversationModel.get('username');
+    if (!username) {
+      return;
+    }
+
+    const otherConversationsWithThisUsername = this.getAll().filter(
+      conversation =>
+        conversation !== conversationModel &&
+        conversation.get('username') === username
+    );
+
+    if (otherConversationsWithThisUsername.length === 0) {
+      return;
+    }
+
+    log.warn(
+      `usernameUpdated(${conversationModel.idForLogging()}): detected ${otherConversationsWithThisUsername.length}` +
+        ' with the same username, clearing'
+    );
+    await Promise.all(
+      otherConversationsWithThisUsername.map(conversation =>
+        conversation.updateUsername(undefined)
+      )
+    );
   }
 
   #resetLookups(): void {

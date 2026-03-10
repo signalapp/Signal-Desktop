@@ -12,6 +12,7 @@ import { CallManager } from '../../components/CallManager.dom.js';
 import { isConversationTooBigToRing as getIsConversationTooBigToRing } from '../../conversations/isConversationTooBigToRing.dom.js';
 import { createLogger } from '../../logging/log.std.js';
 import { calling as callingService } from '../../services/calling.preload.js';
+import type { SetLocalPreviewContainerType } from '../../services/calling.preload.js';
 import {
   bounceAppIconStart,
   bounceAppIconStop,
@@ -60,7 +61,7 @@ const { memoize } = lodash;
 
 const log = createLogger('CallManager');
 
-function renderDeviceSelection(): JSX.Element {
+function renderDeviceSelection(): React.JSX.Element {
   return <SmartCallingDeviceSelection />;
 }
 
@@ -69,8 +70,8 @@ const getGroupCallVideoFrameSource =
 
 const notifyForCall = callingService.notifyForCall.bind(callingService);
 
-function setLocalPreviewContainer(container: HTMLDivElement | null): void {
-  callingService.setLocalPreviewContainer(container);
+function setLocalPreviewContainer(options: SetLocalPreviewContainerType): void {
+  callingService.setLocalPreviewContainer(options);
 }
 
 const playRingtone = callingTones.playRingtone.bind(callingTones);
@@ -425,8 +426,6 @@ export const SmartCallManager = memo(function SmartCallManager() {
     acceptCall,
     declineCall,
     openSystemPreferencesAction,
-    removeClient,
-    blockClient,
     cancelPresenting,
     sendGroupCallRaiseHand,
     sendGroupCallReaction,
@@ -461,7 +460,6 @@ export const SmartCallManager = memo(function SmartCallManager() {
       approveUser={approveUser}
       availableCameras={availableCameras}
       batchUserAction={batchUserAction}
-      blockClient={blockClient}
       bounceAppIconStart={bounceAppIconStart}
       bounceAppIconStop={bounceAppIconStop}
       callLink={callLink}
@@ -485,7 +483,6 @@ export const SmartCallManager = memo(function SmartCallManager() {
       openSystemPreferencesAction={openSystemPreferencesAction}
       pauseVoiceNotePlayer={pauseVoiceNotePlayer}
       playRingtone={playRingtone}
-      removeClient={removeClient}
       renderDeviceSelection={renderDeviceSelection}
       renderReactionPicker={renderReactionPicker}
       ringingCall={ringingCall}

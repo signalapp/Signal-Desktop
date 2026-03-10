@@ -38,7 +38,6 @@ export const createTemplate = (
     forceUpdate,
     showAbout,
     showDebugLog,
-    showCallingDevTools,
     showKeyboardShortcuts,
     showSettings,
     openArtCreator,
@@ -150,13 +149,9 @@ export const createTemplate = (
                 role: 'toggleDevTools' as const,
                 label: i18n('icu:viewMenuToggleDevTools'),
               },
-              {
-                label: i18n('icu:viewMenuOpenCallingDevTools'),
-                click: showCallingDevTools,
-              },
             ]
           : []),
-        ...(devTools && platform !== 'linux'
+        ...(devTools && platform !== 'linux' && !process.mas
           ? [
               {
                 label: i18n('icu:forceUpdate'),

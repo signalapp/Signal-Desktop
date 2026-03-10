@@ -16,7 +16,7 @@ export default {
   args: {},
 } satisfies Meta<PropsType>;
 
-export function Basic(): JSX.Element {
+export function Basic(): React.JSX.Element {
   const containerWidthBreakpoint = WidthBreakpoint.Wide;
 
   return (

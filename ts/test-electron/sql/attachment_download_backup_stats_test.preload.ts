@@ -138,7 +138,7 @@ describe('sql/AttachmentDownloadBackupStats', () => {
       { totalBytes: 128, completedBytes: 0 }
     );
 
-    await DataWriter.removeMessage('message0', {
+    await DataWriter.removeMessageById('message0', {
       cleanupMessages,
     });
     assert.deepStrictEqual(
@@ -194,7 +194,7 @@ describe('sql/AttachmentDownloadBackupStats', () => {
     );
     assert.strictEqual(savedJob?.source, AttachmentDownloadSource.STANDARD);
 
-    await DataWriter.removeMessage('message0', {
+    await DataWriter.removeMessageById('message0', {
       cleanupMessages,
     });
     assert.deepStrictEqual(

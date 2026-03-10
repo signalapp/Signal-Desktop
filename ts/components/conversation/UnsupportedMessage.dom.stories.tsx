@@ -26,7 +26,7 @@ const createContact = (props: Partial<ContactType> = {}): ContactType => ({
   isMe: props.isMe ?? false,
 });
 
-export function FromSomeone(args: Props): JSX.Element {
+export function FromSomeone(args: Props): React.JSX.Element {
   const contact = createContact({
     title: 'Alice',
     name: 'Alice',
@@ -35,7 +35,7 @@ export function FromSomeone(args: Props): JSX.Element {
   return <UnsupportedMessage {...args} contact={contact} />;
 }
 
-export function AfterUpgrade(args: Props): JSX.Element {
+export function AfterUpgrade(args: Props): React.JSX.Element {
   const contact = createContact({
     title: 'Alice',
     name: 'Alice',
@@ -44,7 +44,7 @@ export function AfterUpgrade(args: Props): JSX.Element {
   return <UnsupportedMessage {...args} contact={contact} canProcessNow />;
 }
 
-export function FromYourself(args: Props): JSX.Element {
+export function FromYourself(args: Props): React.JSX.Element {
   const contact = createContact({
     title: 'Alice',
     name: 'Alice',
@@ -54,7 +54,7 @@ export function FromYourself(args: Props): JSX.Element {
   return <UnsupportedMessage {...args} contact={contact} />;
 }
 
-export function FromYourselfAfterUpgrade(args: Props): JSX.Element {
+export function FromYourselfAfterUpgrade(args: Props): React.JSX.Element {
   const contact = createContact({
     title: 'Alice',
     name: 'Alice',

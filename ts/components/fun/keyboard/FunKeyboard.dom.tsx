@@ -38,7 +38,7 @@ export type FunKeyboardProps<State> = Readonly<{
 
 export function FunKeyboard<State>(
   props: FunKeyboardProps<State>
-): JSX.Element {
+): React.JSX.Element {
   const keyboardRef = useRef(props.keyboard);
   useEffect(() => {
     keyboardRef.current = props.keyboard;

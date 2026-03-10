@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import pTimeout, { TimeoutError as PTimeoutError } from 'p-timeout';
+import type { LibSignalError } from '@signalapp/libsignal-client';
+import type { ProvisioningConnection } from '@signalapp/libsignal-client/dist/net/Chat.js';
 
 import { createLogger } from '../logging/log.std.js';
 import * as Errors from '../types/errors.std.js';
@@ -25,13 +27,8 @@ import {
 import ProvisioningCipher, {
   type ProvisionDecryptResult,
 } from './ProvisioningCipher.node.js';
-import {
-  type IWebSocketResource,
-  type IncomingWebSocketRequest,
-  ServerRequestType,
-} from './WebsocketResources.preload.js';
 import { ConnectTimeoutError } from './Errors.std.js';
-import type { getProvisioningResource } from './WebAPI.preload.js';
+import type { getProvisioningConnection } from './WebAPI.preload.js';
 
 const log = createLogger('Provisioner');
 
@@ -45,7 +42,7 @@ export enum EventKind {
 }
 
 export type ProvisionerOptionsType = Readonly<{
-  server: { getProvisioningResource: typeof getProvisioningResource };
+  server: { getProvisioningConnection: typeof getProvisioningConnection };
 }>;
 
 export type EnvelopeType = ProvisionDecryptResult;
@@ -106,10 +103,12 @@ const QR_CODE_TIMEOUTS = [10 * SECOND, 20 * SECOND, 30 * SECOND, 60 * SECOND];
 
 export class Provisioner {
   readonly #subscribers = new Set<SubscriberType>();
-  readonly #server: { getProvisioningResource: typeof getProvisioningResource };
+  readonly #server: {
+    getProvisioningConnection: typeof getProvisioningConnection;
+  };
   readonly #retryBackOff = new BackOff(FIBONACCI_TIMEOUTS);
 
-  #sockets: Array<IWebSocketResource> = [];
+  #sockets: Array<ProvisioningConnection> = [];
   #abortController: AbortController | undefined;
   #attemptCount = 0;
   #isRunning = false;
@@ -326,60 +325,43 @@ export class Provisioner {
 
     const timeoutAt = Date.now() + timeout;
 
-    const resource = await this.#server.getProvisioningResource(
+    const connection = await this.#server.getProvisioningConnection(
       {
-        handleRequest: (request: IncomingWebSocketRequest) => {
-          const { requestType, body } = request;
-          if (!body) {
-            log.warn('connect: no request body');
-            request.respond(400, 'Missing body');
+        onReceivedAddress: (address, ack) => {
+          if (state !== SocketState.WaitingForUuid) {
+            log.error('onReceivedAddress: duplicate uuid');
+            drop(connection.disconnect());
             return;
           }
 
-          try {
-            if (requestType === ServerRequestType.ProvisioningAddress) {
-              strictAssert(
-                state === SocketState.WaitingForUuid,
-                'Provisioner.connect: duplicate uuid'
-              );
-
-              const proto = Proto.ProvisioningAddress.decode(body);
-              strictAssert(
-                proto.address,
-                'Provisioner.connect: expected a UUID'
-              );
-
-              state = SocketState.WaitingForEnvelope;
-              uuidPromise.resolve(proto.address);
-              request.respond(200, 'OK');
-            } else if (requestType === ServerRequestType.ProvisioningMessage) {
-              strictAssert(
-                state === SocketState.WaitingForEnvelope,
-                'Provisioner.connect: duplicate envelope or not ready'
-              );
-
-              const ciphertext = Proto.ProvisionEnvelope.decode(body);
-              const envelope = cipher.decrypt(ciphertext);
-
-              state = SocketState.Done;
-              this.#notify({
-                kind: EventKind.Envelope,
-                envelope,
-                isLinkAndSync:
-                  isLinkAndSyncEnabled() &&
-                  Bytes.isNotEmpty(envelope.ephemeralBackupKey),
-              });
-            } else {
-              log.warn('connect: unsupported request type', requestType);
-              request.respond(404, 'Unsupported');
-            }
-          } catch (error) {
-            log.error('connect: error', Errors.toLogFormat(error));
-            resource.close();
-          }
+          state = SocketState.WaitingForEnvelope;
+          uuidPromise.resolve(address);
+          ack.send(200);
         },
-        handleDisconnect() {
-          // No-op
+        onReceivedEnvelope: (body, ack) => {
+          if (state !== SocketState.WaitingForEnvelope) {
+            log.error('onReceivedEnvelope: duplicate envelope or not ready');
+            drop(connection.disconnect());
+            return;
+          }
+
+          const ciphertext = Proto.ProvisionEnvelope.decode(body);
+          const envelope = cipher.decrypt(ciphertext);
+
+          state = SocketState.Done;
+          this.#notify({
+            kind: EventKind.Envelope,
+            envelope,
+            isLinkAndSync:
+              isLinkAndSyncEnabled() &&
+              Bytes.isNotEmpty(envelope.ephemeralBackupKey),
+          });
+          ack.send(200);
+        },
+
+        onConnectionInterrupted: (cause: LibSignalError | null) => {
+          signal.removeEventListener('abort', onAbort);
+          this.#handleClose(connection, state, cause);
         },
       },
       timeout
@@ -392,15 +374,10 @@ export class Provisioner {
     // Setup listeners on the socket
 
     const onAbort = () => {
-      resource.close();
+      drop(connection.disconnect());
       uuidPromise.reject(new Error('aborted'));
     };
     signal.addEventListener('abort', onAbort);
-
-    resource.addEventListener('close', ({ code, reason }) => {
-      signal.removeEventListener('abort', onAbort);
-      this.#handleClose(resource, state, code, reason);
-    });
 
     // But only register it once we get the uuid from server back.
 
@@ -420,28 +397,28 @@ export class Provisioner {
 
     this.#notify({ kind: EventKind.URL, url });
 
-    this.#sockets.push(resource);
+    this.#sockets.push(connection);
 
     while (this.#sockets.length > MAX_OPEN_SOCKETS) {
       log.info('closing extra socket');
-      this.#sockets.shift()?.close();
+      drop(this.#sockets.shift()?.disconnect());
     }
   }
 
   #handleClose(
-    resource: IWebSocketResource,
+    connection: ProvisioningConnection,
     state: SocketState,
-    code: number,
-    reason: string
+    cause: LibSignalError | null
   ): void {
-    const index = this.#sockets.indexOf(resource);
+    const reason = cause && Errors.toLogFormat(cause);
+    const index = this.#sockets.indexOf(connection);
     if (index === -1) {
-      log.info(`ignoring socket closed, code=${code}, reason=${reason}`);
+      log.info(`ignoring socket closed, reason=${reason}`);
       return;
     }
 
-    const logId = `Provisioner.#handleClose(${index})`;
-    log.info(`${logId}: closed, code=${code}, reason=${reason}`);
+    const logId = `Provisioner.#handleClose(${index}): reason=${reason}`;
+    log.info(`${logId}: closed`);
 
     // Is URL from the socket displayed as a QR code?
     const isActive = index === this.#sockets.length - 1;
@@ -460,9 +437,7 @@ export class Provisioner {
           state === SocketState.WaitingForUuid
             ? EventKind.ConnectError
             : EventKind.EnvelopeError,
-        error: new Error(
-          `Socket ${index} closed, code=${code}, reason=${reason}`
-        ),
+        error: new Error(`Socket ${index} closed, reason=${reason}`),
       });
     }
   }

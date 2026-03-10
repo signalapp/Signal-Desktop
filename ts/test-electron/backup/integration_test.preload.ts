@@ -10,7 +10,7 @@ import {
   ComparableBackup,
   Purpose,
 } from '@signalapp/libsignal-client/dist/MessageBackup.js';
-import { assert } from 'chai';
+import assert from 'node:assert/strict';
 
 import { clearData } from './helpers.preload.js';
 import { loadAllAndReinitializeRedux } from '../../services/allLoaders.preload.js';
@@ -59,6 +59,7 @@ describe('backup/integration', () => {
       const { data: exported } = await backupsService.exportBackupData({
         type: 'cross-client-integration-test',
         level: BackupLevel.Paid,
+        abortSignal: new AbortController().signal,
       });
 
       const actualStream = new MemoryStream(Buffer.from(exported));
@@ -87,8 +88,13 @@ describe('backup/integration', () => {
         return;
       }
 
-      // We need "deep*" for fancy diffs
-      assert.deepStrictEqual(actualString, expectedString);
+      if (actualString !== expectedString) {
+        const actualJson = JSON.parse(actualString);
+        const expectedJson = JSON.parse(expectedString);
+
+        // parsing as json produces a more detailed diff
+        assert.deepEqual(actualJson, expectedJson);
+      }
     });
   }
 });

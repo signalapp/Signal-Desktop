@@ -19,6 +19,6 @@ export default {
   title: 'Components/Conversation/GroupV2PendingApprovalActions',
 } satisfies Meta<GroupV2PendingApprovalActionsPropsType>;
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return <GroupV2PendingApprovalActions {...createProps()} />;
 }

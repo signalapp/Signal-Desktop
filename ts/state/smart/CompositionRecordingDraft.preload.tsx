@@ -11,10 +11,8 @@ import {
 } from '../ducks/audioPlayer.preload.js';
 import { useComposerActions } from '../ducks/composer.preload.js';
 import { selectAudioPlayerActive } from '../selectors/audioPlayer.preload.js';
-import {
-  getConversationByIdSelector,
-  getSelectedConversationId,
-} from '../selectors/conversations.dom.js';
+import { getConversationByIdSelector } from '../selectors/conversations.dom.js';
+import { getSelectedConversationId } from '../selectors/nav.std.js';
 import { getIntl } from '../selectors/user.std.js';
 
 export type SmartCompositionRecordingDraftProps = {

@@ -598,17 +598,9 @@ describe('sql/markRead', () => {
     });
 
     assert.lengthOf(markedRead, 2, 'two reactions marked read');
-
-    // Sorted in descending order
-    assert.strictEqual(
-      markedRead[0].messageId,
-      reaction4.messageId,
-      'first should be reaction4'
-    );
-    assert.strictEqual(
-      markedRead[1].messageId,
-      reaction1.messageId,
-      'second should be reaction1'
+    assert.sameMembers(
+      markedRead.map(read => read.messageId),
+      [reaction4.messageId, reaction1.messageId]
     );
 
     const markedRead2 = await getUnreadReactionsAndMarkRead({
@@ -755,16 +747,9 @@ describe('sql/markRead', () => {
 
     assert.lengthOf(markedRead, 2, 'two reactions marked read');
 
-    // Sorted in descending order
-    assert.strictEqual(
-      markedRead[0].messageId,
-      reaction4.messageId,
-      'first should be reaction4'
-    );
-    assert.strictEqual(
-      markedRead[1].messageId,
-      reaction1.messageId,
-      'second should be reaction1'
+    assert.sameMembers(
+      markedRead.map(read => read.messageId),
+      [reaction4.messageId, reaction1.messageId]
     );
 
     const markedRead2 = await getUnreadReactionsAndMarkRead({

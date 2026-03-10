@@ -16,7 +16,7 @@ import {
 import { useNavActions } from '../ducks/nav.std.js';
 import { NavTab, SettingsPage } from '../../types/Nav.std.js';
 
-export function SmartNotificationProfilesMenu(): JSX.Element {
+export function SmartNotificationProfilesMenu(): React.JSX.Element {
   const i18n = useSelector(getIntl);
 
   const allProfiles = useSelector(getProfiles);

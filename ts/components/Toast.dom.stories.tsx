@@ -36,11 +36,11 @@ export default {
   },
 } satisfies ComponentMeta<PropsType>;
 
-export function Defaults(args: PropsType): JSX.Element {
+export function Defaults(args: PropsType): React.JSX.Element {
   return <Toast {...args} />;
 }
 
-export function Long(args: PropsType): JSX.Element {
+export function Long(args: PropsType): React.JSX.Element {
   return (
     <Toast {...args}>
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis deserunt

@@ -5,7 +5,7 @@ import { assert } from 'chai';
 import lodash from 'lodash';
 import * as sinon from 'sinon';
 
-import { getRandomBytes } from '../../Crypto.node.js';
+import { generateRegistrationId, getRandomBytes } from '../../Crypto.node.js';
 import { generateKeyPair } from '../../Curve.node.js';
 import AccountManager from '../../textsecure/AccountManager.preload.js';
 import type {
@@ -32,6 +32,7 @@ describe('AccountManager', () => {
 
   const ourAci = generateAci();
   const ourPni = generatePni();
+  const ourRegistrationId = generateRegistrationId();
   const identityKey = generateKeyPair();
   const pubKey = getRandomBytes(33);
   const privKey = getRandomBytes(32);
@@ -42,6 +43,9 @@ describe('AccountManager', () => {
     sandbox
       .stub(signalProtocolStore, 'getIdentityKeyPair')
       .returns(identityKey);
+    sandbox
+      .stub(signalProtocolStore, 'getLocalRegistrationId')
+      .resolves(ourRegistrationId);
     const { user } = itemStorage;
     sandbox.stub(user, 'getAci').returns(ourAci);
     sandbox.stub(user, 'getPni').returns(ourPni);
@@ -74,6 +78,29 @@ describe('AccountManager', () => {
     it('handles falsey deviceName', () => {
       const encrypted = accountManager.encryptDeviceName('', identityKey);
       assert.strictEqual(encrypted, undefined);
+    });
+  });
+
+  describe('encrypted device createdAt', () => {
+    it('roundtrips', async () => {
+      const deviceId = 2;
+      const createdAt = new Date().getTime();
+
+      const encrypted = await accountManager._encryptDeviceCreatedAt(
+        createdAt,
+        deviceId
+      );
+      if (!encrypted) {
+        throw new Error('failed to encrypt!');
+      }
+
+      assert.strictEqual(typeof encrypted, 'string');
+      const decrypted = await accountManager.decryptDeviceCreatedAt(
+        encrypted,
+        deviceId
+      );
+
+      assert.strictEqual(decrypted, createdAt);
     });
   });
 

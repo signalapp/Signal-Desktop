@@ -3,6 +3,7 @@
 
 import PQueue from 'p-queue';
 import { batch } from 'react-redux';
+import { pick } from 'lodash';
 
 import type { MessageAttributesType } from '../model-types.d.ts';
 import { MessageModel } from '../models/messages.preload.js';
@@ -25,11 +26,12 @@ import { getMessageIdForLogging } from './idForLogging.preload.js';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.preload.js';
 import { MINUTE } from './durations/index.std.js';
 import { drop } from './drop.std.js';
-import { deleteExternalMessageFiles } from './migrations.preload.js';
 import { hydrateStoryContext } from './hydrateStoryContext.preload.js';
 import { update as updateExpiringMessagesService } from '../services/expiringMessagesDeletion.preload.js';
 import { tapToViewMessagesDeletionService } from '../services/tapToViewMessagesDeletionService.preload.js';
 import { throttledUpdateBackupMediaDownloadProgress } from './updateBackupMediaDownloadProgress.preload.js';
+import { messageAttrsToPreserveAfterErase } from '../types/Message.std.js';
+import { cleanupAllMessageAttachmentFiles } from '../types/Message2.preload.js';
 
 const log = createLogger('cleanup');
 
@@ -40,43 +42,49 @@ export async function postSaveUpdates(): Promise<void> {
 
 export async function eraseMessageContents(
   message: MessageModel,
-  additionalProperties = {},
-  shouldPersist = true
+  reason:
+    | 'view-once-viewed'
+    | 'view-once-invalid'
+    | 'view-once-expired'
+    | 'view-once-sent'
+    | 'unsupported-message'
+    | 'delete-for-everyone',
+  additionalProperties: Partial<MessageAttributesType> = {}
 ): Promise<void> {
   log.info(
-    `Erasing data for message ${getMessageIdForLogging(message.attributes)}`
+    `Erasing data for message ${getMessageIdForLogging(message.attributes)}: ${reason}`
   );
 
   // Note: There are cases where we want to re-erase a given message. For example, when
   //   a viewed (or outgoing) View-Once message is deleted for everyone.
 
+  const originalAttributes = message.attributes;
+  const preservedAttributes = pick(
+    message.attributes,
+    ...messageAttrsToPreserveAfterErase
+  );
+
+  message.resetAllAttributes({
+    ...preservedAttributes,
+    isErased: true,
+    ...additionalProperties,
+  });
+
+  window.ConversationController.get(
+    message.attributes.conversationId
+  )?.debouncedUpdateLastMessage();
+
+  await window.MessageCache.saveMessage(message.attributes);
+
+  // Cleanup files only after saving message so any files only referenced by that message
+  // are properly deleted
   try {
-    await deleteMessageData(message.attributes);
+    await cleanupFilesAndReferencesToMessage(originalAttributes);
   } catch (error) {
     log.error(
       `Error erasing data for message ${getMessageIdForLogging(message.attributes)}:`,
       Errors.toLogFormat(error)
     );
-  }
-
-  message.set({
-    attachments: [],
-    body: '',
-    bodyRanges: undefined,
-    contact: [],
-    editHistory: undefined,
-    isErased: true,
-    preview: [],
-    quote: undefined,
-    sticker: undefined,
-    ...additionalProperties,
-  });
-  window.ConversationController.get(
-    message.attributes.conversationId
-  )?.debouncedUpdateLastMessage();
-
-  if (shouldPersist) {
-    await window.MessageCache.saveMessage(message.attributes);
   }
 
   await DataWriter.deleteSentProtoByMessageId(message.id);
@@ -113,7 +121,7 @@ export async function cleanupMessages(
   drop(
     unloadedQueue.addAll(
       messages.map((message: MessageAttributesType) => async () => {
-        await deleteMessageData(message);
+        await cleanupFilesAndReferencesToMessage(message);
       })
     )
   );
@@ -124,6 +132,12 @@ export async function cleanupMessages(
       DataReader.getBackupAttachmentDownloadProgress
     )
   );
+
+  if (window.SignalCI) {
+    messages.forEach(msg => {
+      window.SignalCI?.handleEvent(`message:cleaned-up:${msg.id}`, null);
+    });
+  }
 }
 
 /** Removes a message from redux caches & MessageCache, but does NOT delete files on disk,
@@ -178,17 +192,14 @@ async function cleanupStoryReplies(
   }
 
   if (isGroupConversation) {
-    // Cleanup all group replies
-    await Promise.all(
-      replies.map(reply => {
-        const replyMessageModel = window.MessageCache.register(
-          new MessageModel(reply)
-        );
-        return eraseMessageContents(replyMessageModel);
-      })
+    // Delete all group replies
+    await DataWriter.removeMessagesById(
+      replies.map(reply => reply.id),
+      { cleanupMessages }
     );
   } else {
-    // Refresh the storyReplyContext data for 1:1 conversations
+    // Clean out the storyReplyContext data for 1:1 conversations; these remain in the
+    // 1:1 timeline with a "story not found" message
     await Promise.all(
       replies.map(async reply => {
         const model = window.MessageCache.register(new MessageModel(reply));
@@ -206,10 +217,10 @@ async function cleanupStoryReplies(
   });
 }
 
-export async function deleteMessageData(
+export async function cleanupFilesAndReferencesToMessage(
   message: MessageAttributesType
 ): Promise<void> {
-  await deleteExternalMessageFiles(message);
+  await cleanupAllMessageAttachmentFiles(message);
 
   if (isStory(message)) {
     await cleanupStoryReplies(message);

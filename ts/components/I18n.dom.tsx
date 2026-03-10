@@ -9,6 +9,8 @@ import type {
 } from '../types/Util.std.js';
 import { strictAssert } from '../util/assert.std.js';
 
+export type I18nComponentParts = ReadonlyArray<string | React.JSX.Element>;
+
 export type Props<Key extends keyof ICUJSXMessageParamsByKeyType> = {
   /** The translation string id */
   id: Key;
@@ -26,7 +28,7 @@ export function I18n<Key extends keyof ICUJSXMessageParamsByKeyType>({
   id,
   // Indirection for linter/migration tooling
   i18n: localizer,
-}: Props<Key>): JSX.Element | null {
+}: Props<Key>): React.JSX.Element | null {
   strictAssert(id != null, 'Error: <I18n> id prop not provided');
   const intl = localizer.getIntl();
   return <>{intl.formatMessage({ id }, components, {})}</>;

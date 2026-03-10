@@ -35,6 +35,9 @@ import type {
 } from '../util/os/promptOSAuthMain.main.js';
 import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
 import { AxoButton } from '../axo/AxoButton.dom.js';
+import { SECOND } from '../util/durations/constants.std.js';
+import { formatTimestamp } from '../util/formatTimestamp.dom.js';
+import type { LocalBackupExportMetadata } from '../types/LocalExport.std.js';
 
 const { noop } = lodash;
 
@@ -42,6 +45,7 @@ export function PreferencesLocalBackups({
   accountEntropyPool,
   backupKeyViewed,
   i18n,
+  lastLocalBackup,
   localBackupFolder,
   onBackupKeyViewedChange,
   settingsLocation,
@@ -49,10 +53,12 @@ export function PreferencesLocalBackups({
   promptOSAuth,
   setSettingsLocation,
   showToast,
+  startLocalBackupExport,
 }: {
   accountEntropyPool: string | undefined;
   backupKeyViewed: boolean;
   i18n: LocalizerType;
+  lastLocalBackup: LocalBackupExportMetadata | undefined;
   localBackupFolder: string | undefined;
   onBackupKeyViewedChange: (keyViewed: boolean) => void;
   settingsLocation: SettingsLocation;
@@ -62,7 +68,8 @@ export function PreferencesLocalBackups({
   ) => Promise<PromptOSAuthResultType>;
   setSettingsLocation: (settingsLocation: SettingsLocation) => void;
   showToast: ShowToastAction;
-}): JSX.Element {
+  startLocalBackupExport: () => void;
+}): React.JSX.Element {
   const [authError, setAuthError] =
     React.useState<Omit<PromptOSAuthResultType, 'success'>>();
   const [isAuthPending, setIsAuthPending] = useState<boolean>(false);
@@ -100,11 +107,18 @@ export function PreferencesLocalBackups({
     );
   }
 
-  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
+  const learnMoreLink = (parts: Array<string | React.JSX.Element>) => (
     <a href={SIGNAL_BACKUPS_LEARN_MORE_URL} rel="noreferrer" target="_blank">
       {parts}
     </a>
   );
+
+  const lastBackupText = lastLocalBackup
+    ? formatTimestamp(lastLocalBackup.timestamp, {
+        dateStyle: 'medium',
+        timeStyle: 'short',
+      })
+    : i18n('icu:Preferences__local-backups-last-backup-never');
 
   return (
     <>
@@ -114,6 +128,29 @@ export function PreferencesLocalBackups({
         </div>
       </div>
       <SettingsRow className="Preferences--BackupsRow">
+        <FlowingControl>
+          <div className="Preferences__two-thirds-flow">
+            <label>
+              {i18n('icu:Preferences__local-backups-last-backup')}
+              <div className="Preferences__description">{lastBackupText}</div>
+            </label>
+          </div>
+          <div
+            className={classNames(
+              'Preferences__flow-button',
+              'Preferences__one-third-flow',
+              'Preferences__one-third-flow--align-right'
+            )}
+          >
+            <AxoButton.Root
+              variant="secondary"
+              size="lg"
+              onClick={startLocalBackupExport}
+            >
+              {i18n('icu:Preferences__local-backups-backup-now')}
+            </AxoButton.Root>
+          </div>
+        </FlowingControl>
         <FlowingControl>
           <div className="Preferences__two-thirds-flow">
             <label>
@@ -220,7 +257,7 @@ function LocalBackupsSetupFolderPicker({
 }: {
   i18n: LocalizerType;
   pickLocalBackupFolder: () => Promise<string | undefined>;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <div className="Preferences--LocalBackupsSetupScreen Preferences__padding">
       <div className="Preferences--LocalBackupsSetupScreenPaneContent">
@@ -257,7 +294,7 @@ function LocalBackupsBackupKeyViewer({
   isReferencing: boolean;
   onBackupKeyViewed: () => void;
   showToast: ShowToastAction;
-}): JSX.Element {
+}): React.JSX.Element {
   const [isBackupKeyConfirmed, setIsBackupKeyConfirmed] =
     useState<boolean>(false);
   const [step, setStep] = useState<BackupKeyStep>(
@@ -275,22 +312,22 @@ function LocalBackupsBackupKeyViewer({
   const onCopyBackupKey = useCallback(
     async function handleCopyBackupKey(e: React.MouseEvent) {
       e.preventDefault();
-      await window.navigator.clipboard.writeText(backupKey);
+      await window.SignalClipboard.copyTextTemporarily(backupKey, 45 * SECOND);
       showToast({ toastType: ToastType.CopiedBackupKey });
     },
     [backupKey, showToast]
   );
 
-  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
+  const learnMoreLink = (parts: Array<string | React.JSX.Element>) => (
     <a href={SIGNAL_BACKUPS_LEARN_MORE_URL} rel="noreferrer" target="_blank">
       {parts}
     </a>
   );
 
   let title: string;
-  let description: JSX.Element | string;
-  let footerLeft: JSX.Element | undefined;
-  let footerRight: JSX.Element;
+  let description: React.JSX.Element | string;
+  let footerLeft: React.JSX.Element | undefined;
+  let footerRight: React.JSX.Element;
   if (isStepViewOrReference) {
     title = i18n('icu:Preferences--local-backups-record-backup-key');
     description = (
@@ -430,7 +467,7 @@ function LocalBackupsBackupKeyTextarea({
   i18n: LocalizerType;
   onValidate: (isValid: boolean) => void;
   isStepViewOrReference: boolean;
-}): JSX.Element {
+}): React.JSX.Element {
   const backupKeyTextareaRef = useRef<HTMLTextAreaElement>(null);
   const [backupKeyInput, setBackupKeyInput] = useState<string>('');
 

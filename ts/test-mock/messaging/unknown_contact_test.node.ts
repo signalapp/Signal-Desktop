@@ -4,7 +4,6 @@
 import type { PrimaryDevice } from '@signalapp/mock-server';
 import { Proto } from '@signalapp/mock-server';
 import createDebug from 'debug';
-import Long from 'long';
 import type { Page } from 'playwright';
 import assert from 'node:assert';
 import * as durations from '../../util/durations/index.std.js';
@@ -49,11 +48,19 @@ describe('unknown contacts', function (this: Mocha.Suite) {
     await unknownContact.sendRaw(desktop, {
       callMessage: {
         offer: {
-          id: new Long(Math.floor(Math.random() * 1e10)),
+          id: BigInt(Math.floor(Math.random() * 1e10)),
           type: Proto.CallMessage.Offer.Type.OFFER_AUDIO_CALL,
           opaque: new Uint8Array(0),
         },
+        answer: null,
+        iceUpdate: null,
+        busy: null,
+        hangup: null,
+        destinationDeviceId: null,
+        opaque: null,
       },
+      pniSignatureMessage: null,
+      senderKeyDistributionMessage: null,
     });
 
     debug('opening conversation');
@@ -99,8 +106,16 @@ describe('unknown contacts', function (this: Mocha.Suite) {
         messageRequestResponse: {
           type: Proto.SyncMessage.MessageRequestResponse.Type.ACCEPT,
           threadAciBinary: unknownContact.device.aciRawUuid,
+          groupId: null,
+          threadAci: null,
         },
+        read: null,
+        stickerPackOperation: null,
+        viewed: null,
+        padding: null,
       },
+      pniSignatureMessage: null,
+      senderKeyDistributionMessage: null,
     });
 
     debug('verifying that compose is now visible');

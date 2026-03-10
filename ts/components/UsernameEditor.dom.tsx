@@ -91,7 +91,7 @@ export function UsernameEditor({
   state,
   recoveredUsername,
   onClose,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const currentNickname = useMemo(() => {
     if (!currentUsername) {
       return undefined;
@@ -304,7 +304,7 @@ export function UsernameEditor({
     confirmDiscardIf(
       Boolean(
         currentNickname !== nickname ||
-          (customDiscriminator && customDiscriminator !== currentDiscriminator)
+        (customDiscriminator && customDiscriminator !== currentDiscriminator)
       ),
       onDiscard
     );

@@ -12,14 +12,16 @@ import type {
   ConversationLastProfileType,
   ConversationRenderInfoType,
   MessageAttributesType,
+  PinMessageData,
   QuotedMessageType,
   SenderKeyInfoType,
+  SettableConversationAttributesType,
 } from '../model-types.d.ts';
 import { DataReader, DataWriter } from '../sql/Client.preload.js';
 import { getConversation } from '../util/getConversation.preload.js';
 import {
   copyAttachmentIntoTempDirectory,
-  deleteAttachmentData,
+  maybeDeleteAttachmentFile,
   doesAttachmentExist,
   getAbsoluteAttachmentPath,
   getAbsoluteTempPath,
@@ -48,7 +50,6 @@ import {
 import { getDraftPreview } from '../util/getDraftPreview.preload.js';
 import { hasDraft } from '../util/hasDraft.std.js';
 import { hydrateStoryContext } from '../util/hydrateStoryContext.preload.js';
-import * as Conversation from '../types/Conversation.node.js';
 import type {
   StickerType,
   StickerWithHydratedData,
@@ -210,7 +211,10 @@ import {
 } from '../util/zkgroup.node.js';
 import { incrementMessageCounter } from '../util/incrementMessageCounter.preload.js';
 import { generateMessageId } from '../util/generateMessageId.node.js';
-import { getMessageAuthorText } from '../util/getMessageAuthorText.preload.js';
+import {
+  getMessageAuthorAci,
+  getMessageAuthorText,
+} from '../util/getMessageAuthorText.preload.js';
 import { downscaleOutgoingAttachment } from '../util/attachments.preload.js';
 import {
   MessageRequestResponseSource,
@@ -244,6 +248,7 @@ import {
   buildDisappearingMessagesTimerChange,
   buildGroupLink,
   buildInviteLinkPasswordChange,
+  buildModifyMemberLabelChange,
   buildModifyMemberRoleChange,
   buildNewGroupLinkChange,
   buildPromoteMemberChange,
@@ -274,6 +279,7 @@ const {
   getMostRecentAddressableMessages,
   getMostRecentAddressableNondisappearingMessages,
   getNewerMessagesByConversation,
+  getPinnedMessagesPreloadDataForConversation,
 } = DataReader;
 const { addStickerPackReference } = DataWriter;
 
@@ -347,8 +353,6 @@ export class ConversationModel {
 
   lastSuccessfulGroupFetch?: number;
 
-  throttledUpdateSharedGroups?: () => Promise<void>;
-
   #cachedIdenticon?: CachedIdenticon;
 
   public isFetchingUUID?: boolean;
@@ -368,7 +372,15 @@ export class ConversationModel {
   ): ConversationAttributesType[keyName] {
     return this.attributes[key];
   }
+
   public set(
+    attributes: Partial<SettableConversationAttributesType>,
+    { noTrigger }: { noTrigger?: boolean } = {}
+  ): void {
+    this.#doSet(attributes, { noTrigger });
+  }
+
+  #doSet(
     attributes: Partial<ConversationAttributesType>,
     { noTrigger }: { noTrigger?: boolean } = {}
   ): void {
@@ -498,10 +510,6 @@ export class ConversationModel {
 
     this.throttledBumpTyping = throttle(this.bumpTyping, 300);
     this.throttledUpdateUnread = throttle(this.#updateUnread, 300);
-    this.throttledUpdateSharedGroups = throttle(
-      this.updateSharedGroups.bind(this),
-      FIVE_MINUTES
-    );
     this.throttledFetchSMSOnlyUUID = throttle(
       this.fetchSMSOnlyUUID.bind(this),
       FIVE_MINUTES
@@ -1688,10 +1696,14 @@ export class ConversationModel {
           `latest timestamp=${cleaned.at(-1)?.sent_at}`
       );
 
+      const pinnedMessagesPreloadData =
+        await getPinnedMessagesPreloadDataForConversation(this.id);
+
       addPreloadData({
         conversationId: this.id,
         messages: cleaned,
         metrics,
+        pinnedMessagesPreloadData,
         unboundedFetch,
       });
     } finally {
@@ -1803,6 +1815,11 @@ export class ConversationModel {
           `latest timestamp=${cleaned.at(-1)?.sent_at}`
       );
 
+      const pinnedMessagesPreloadData =
+        await DataReader.getPinnedMessagesPreloadDataForConversation(
+          conversationId
+        );
+
       // Because our `getOlderMessages` fetch above didn't specify a receivedAt, we got
       //   the most recent N messages in the conversation. If it has a conflict with
       //   metrics, fetched a bit before, that's likely a race condition. So we tell our
@@ -1813,6 +1830,7 @@ export class ConversationModel {
         conversationId,
         messages: cleaned,
         metrics,
+        pinnedMessagesPreloadData,
         scrollToMessageId,
         unboundedFetch,
       });
@@ -1977,10 +1995,14 @@ export class ConversationModel {
       const scrollToMessageId =
         options && options.disableScroll ? undefined : messageId;
 
+      const pinnedMessagesPreloadData =
+        await getPinnedMessagesPreloadDataForConversation(conversationId);
+
       messagesReset({
         conversationId,
         messages: cleaned,
         metrics,
+        pinnedMessagesPreloadData,
         scrollToMessageId,
       });
     } catch (error) {
@@ -2120,7 +2142,7 @@ export class ConversationModel {
     this.set({ e164: e164 || undefined });
 
     // This user changed their phone number
-    if (oldValue && e164 && this.get('sharingPhoneNumber')) {
+    if (oldValue && e164) {
       void this.addChangeNumberNotification(oldValue, e164);
     }
 
@@ -3537,6 +3559,38 @@ export class ConversationModel {
     await maybeNotify({ message: message.attributes, conversation: this });
   }
 
+  async addPinnedMessageNotification(params: {
+    pinMessage: PinMessageData;
+    senderAci: AciString;
+    sentAtTimestamp: number;
+    receivedAtTimestamp: number;
+    expireTimer: DurationInSeconds | null;
+    expirationStartTimestamp: number | null;
+  }): Promise<void> {
+    const ourAci = itemStorage.user.getCheckedAci();
+    const senderIsMe = params.senderAci === ourAci;
+
+    const message = new MessageModel({
+      ...generateMessageId(incrementMessageCounter()),
+      conversationId: this.id,
+      type: 'pinned-message-notification',
+      sent_at: params.sentAtTimestamp,
+      received_at_ms: params.receivedAtTimestamp,
+      timestamp: params.sentAtTimestamp,
+      readStatus: senderIsMe ? ReadStatus.Read : ReadStatus.Unread,
+      seenStatus: senderIsMe ? SeenStatus.Seen : SeenStatus.Unseen,
+      sourceServiceId: params.senderAci,
+      expireTimer: params.expireTimer ?? undefined,
+      expirationStartTimestamp: params.expirationStartTimestamp,
+      pinMessage: params.pinMessage,
+    });
+
+    await window.MessageCache.saveMessage(message, { forceSave: true });
+    window.MessageCache.register(message);
+
+    drop(this.onNewMessage(message));
+  }
+
   async addNotification(
     type: MessageAttributesType['type'],
     extra: Partial<MessageAttributesType> = {}
@@ -3639,7 +3693,7 @@ export class ConversationModel {
 
     const message = window.MessageCache.getById(notificationId);
     if (message) {
-      await DataWriter.removeMessage(message.id, {
+      await DataWriter.removeMessageById(message.id, {
         cleanupMessages,
       });
     }
@@ -3682,7 +3736,7 @@ export class ConversationModel {
 
     const message = window.MessageCache.getById(notificationId);
     if (message) {
-      await DataWriter.removeMessage(message.id, {
+      await DataWriter.removeMessageById(message.id, {
         cleanupMessages,
       });
     }
@@ -3848,6 +3902,7 @@ export class ConversationModel {
     return buildGroupLink(this.attributes);
   }
 
+  // TODO(DESKTOP-9497): This will not include `ourAci` in 1:1 chats
   getMembers(
     options: { includePendingMembers?: boolean } = {}
   ): Array<ConversationModel> {
@@ -4028,6 +4083,7 @@ export class ConversationModel {
           draft: '',
           draftEditMessage: undefined,
           draftBodyRanges: [],
+          draftIsViewOnce: false,
           draftTimestamp: null,
           quotedMessageId: undefined,
         };
@@ -4062,6 +4118,7 @@ export class ConversationModel {
       body,
       contact,
       bodyRanges,
+      isViewOnce,
       preview,
       quote,
       sticker,
@@ -4071,6 +4128,7 @@ export class ConversationModel {
       body: string | undefined;
       contact?: Array<EmbeddedContactWithHydratedAvatar>;
       bodyRanges?: DraftBodyRanges;
+      isViewOnce?: boolean;
       preview?: Array<LinkPreviewWithHydratedData>;
       quote?: QuotedMessageType;
       sticker?: StickerWithHydratedData;
@@ -4078,12 +4136,14 @@ export class ConversationModel {
     },
     {
       dontClearDraft = false,
+      isForwarding = false,
       sendHQImages,
       storyId,
       timestamp,
       extraReduxActions,
     }: {
       dontClearDraft?: boolean;
+      isForwarding?: boolean;
       sendHQImages?: boolean;
       storyId?: string;
       timestamp?: number;
@@ -4118,6 +4178,23 @@ export class ConversationModel {
       expireTimer = this.get('expireTimer');
     }
 
+    if (storyId && isGroup(this.attributes)) {
+      const story = await getMessageById(storyId);
+      strictAssert(story, 'story being replied to must exist');
+      strictAssert(
+        story.expireTimer != null && story.expireTimer > 0,
+        'story missing expireTimer'
+      );
+      strictAssert(
+        story.expirationStartTimestamp != null &&
+          story.expirationStartTimestamp > 0,
+        'story missing expirationStartTimestamp'
+      );
+
+      expireTimer = story.expireTimer;
+      expirationStartTimestamp = story.expirationStartTimestamp;
+    }
+
     const recipientMaybeConversations = map(
       this.getRecipients({
         isStoryReply: storyId !== undefined,
@@ -4137,10 +4214,10 @@ export class ConversationModel {
     // any attachments as well.
     let attachmentsToSend = preview && preview.length ? [] : attachments;
 
-    if (preview && preview.length) {
+    if (preview && preview.length && !isForwarding) {
       attachments.forEach(attachment => {
         if (attachment.path) {
-          void deleteAttachmentData(attachment.path);
+          drop(maybeDeleteAttachmentFile(attachment.path));
         }
       });
     }
@@ -4158,13 +4235,13 @@ export class ConversationModel {
      * All draft attachments (with a path or just in-memory) will be written to disk for
      * real in `upgradeMessageSchema`.
      */
-    if (!sendHQImages) {
+    if (!sendHQImages && !isForwarding) {
       attachmentsToSend = await Promise.all(
         attachmentsToSend.map(async attachment => {
           const downscaledAttachment =
             await downscaleOutgoingAttachment(attachment);
           if (downscaledAttachment !== attachment && attachment.path) {
-            drop(deleteAttachmentData(attachment.path));
+            drop(maybeDeleteAttachmentFile(attachment.path));
           }
           return downscaledAttachment;
         })
@@ -4186,6 +4263,7 @@ export class ConversationModel {
       received_at_ms: now,
       expirationStartTimestamp,
       expireTimer,
+      isViewOnce,
       readStatus: ReadStatus.Read,
       seenStatus: SeenStatus.NotApplicable,
       sticker,
@@ -4297,7 +4375,7 @@ export class ConversationModel {
 
     log.info(`maybeClearUsername(${this.idForLogging()}): clearing username`);
 
-    this.set({ username: undefined });
+    this.#doSet({ username: undefined });
 
     if (this.get('needsTitleTransition') && getProfileName(this.attributes)) {
       log.info(
@@ -4326,7 +4404,13 @@ export class ConversationModel {
 
   async updateUsername(
     username: string | undefined,
-    { shouldSave = true }: { shouldSave?: boolean } = {}
+    {
+      shouldSave = true,
+      fromStorageService = false,
+    }: {
+      shouldSave?: boolean;
+      fromStorageService?: boolean;
+    } = {}
   ): Promise<void> {
     const ourConversationId =
       window.ConversationController.getOurConversationId();
@@ -4341,8 +4425,12 @@ export class ConversationModel {
 
     log.info(`updateUsername(${this.idForLogging()}): updating username`);
 
-    this.set({ username });
-    this.captureChange('updateUsername');
+    this.#doSet({ username });
+    await window.ConversationController.usernameUpdated(this);
+
+    if (!fromStorageService) {
+      this.captureChange('updateUsername');
+    }
 
     if (shouldSave) {
       await DataWriter.updateConversation(this.attributes);
@@ -4417,6 +4505,8 @@ export class ConversationModel {
     | 'lastMessageReceivedAtMs'
     | 'timestamp'
     | 'lastMessageDeletedForEveryone'
+    | 'lastMessageDeletedForEveryoneByAdminAci'
+    | 'lastMessageAuthorAci'
   > {
     const ourConversationId =
       window.ConversationController.getOurConversationId();
@@ -4458,6 +4548,10 @@ export class ConversationModel {
       lastMessageReceivedAtMs,
       timestamp,
       lastMessageDeletedForEveryone: preview?.deletedForEveryone || false,
+      lastMessageDeletedForEveryoneByAdminAci:
+        preview?.deletedForEveryoneByAdminAci,
+      lastMessageAuthorAci:
+        preview != null ? getMessageAuthorAci(preview) : undefined,
     };
   }
 
@@ -4493,6 +4587,34 @@ export class ConversationModel {
       this.set({ messagesDeleted: false });
       await DataWriter.updateConversation(this.attributes);
     }
+  }
+
+  async updateGroupMemberLabel({
+    labelEmoji,
+    labelString,
+  }: {
+    labelEmoji: string | undefined;
+    labelString: string | undefined;
+  }): Promise<void> {
+    if (!isGroupV2(this.attributes)) {
+      return;
+    }
+
+    log.info('updateGroupMemberLabel for conversation', this.idForLogging());
+
+    const ourServiceId = itemStorage.user.getCheckedAci();
+
+    await this.modifyGroupV2({
+      name: 'updateGroupMemberLabel',
+      usingCredentialsFrom: [],
+      createGroupChange: async () =>
+        buildModifyMemberLabelChange({
+          serviceId: ourServiceId,
+          group: this.attributes,
+          labelEmoji,
+          labelString,
+        }),
+    });
   }
 
   async refreshGroupLink(): Promise<void> {
@@ -4931,22 +5053,6 @@ export class ConversationModel {
       );
   }
 
-  // This is an expensive operation we use to populate the message request hero row. It
-  //   shows groups the current user has in common with this potential new contact.
-  async updateSharedGroups(): Promise<void> {
-    const sharedGroups = await this.#getSharedGroups();
-
-    if (sharedGroups == null) {
-      return;
-    }
-
-    const sharedGroupNames = sharedGroups.map(conversation =>
-      conversation.getTitle()
-    );
-
-    this.set({ sharedGroupNames });
-  }
-
   onChangeProfileKey(): void {
     if (isDirectConversation(this.attributes)) {
       drop(this.getProfiles());
@@ -5034,6 +5140,16 @@ export class ConversationModel {
       return;
     }
 
+    const existingProfileAvatar = this.get('profileAvatar');
+
+    if (
+      existingProfileAvatar?.path &&
+      (await doesAttachmentExist(existingProfileAvatar.path)) &&
+      existingProfileAvatar.url === avatarUrl
+    ) {
+      return;
+    }
+
     const avatar = await doGetAvatar(avatarUrl);
 
     // If decryptionKey isn't provided, use the one from the model
@@ -5052,18 +5168,16 @@ export class ConversationModel {
     // decrypt
     const decrypted = decryptProfile(avatar, updatedDecryptionKey);
 
-    // update the conversation avatar only if hash differs
-    if (decrypted) {
-      const newAttributes = await Conversation.maybeUpdateProfileAvatar(
-        this.attributes,
-        {
-          data: decrypted,
-          writeNewAttachmentData,
-          deleteAttachmentData,
-          doesAttachmentExist,
-        }
-      );
-      this.set(newAttributes);
+    const newAttachment = await writeNewAttachmentData(decrypted);
+    this.set({
+      profileAvatar: {
+        url: avatarUrl,
+        ...newAttachment,
+      },
+    });
+
+    if (existingProfileAvatar?.path) {
+      await maybeDeleteAttachmentFile(existingProfileAvatar.path);
     }
   }
 
@@ -5258,6 +5372,7 @@ export class ConversationModel {
     await DataWriter.updateConversation(this.attributes);
   }
 
+  // TODO(DESKTOP-9497): This will return false for `ourAci` in 1:1 chats
   hasMember(serviceId: ServiceIdString): boolean {
     const members = this.getMembers();
 
@@ -5295,6 +5410,7 @@ export class ConversationModel {
     this.set({
       lastMessage: null,
       lastMessageAuthor: null,
+      lastMessageAuthorAci: undefined,
       timestamp: null,
       active_at: null,
       pendingUniversalTimer: undefined,
@@ -5591,7 +5707,7 @@ export class ConversationModel {
       );
       return getAbsoluteTempPath(tempPath);
     } finally {
-      await deleteAttachmentData(plaintextPath);
+      await maybeDeleteAttachmentFile(plaintextPath);
     }
   }
 

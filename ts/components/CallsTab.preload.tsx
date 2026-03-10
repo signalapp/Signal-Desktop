@@ -19,12 +19,12 @@ import type {
 } from '../state/ducks/calling.preload.js';
 import { ConfirmationDialog } from './ConfirmationDialog.dom.js';
 import type { UnreadStats } from '../util/countUnreadStats.std.js';
-import type { WidthBreakpoint } from './_util.std.js';
 import type { CallLinkType } from '../types/CallLink.std.js';
 import type { CallStateType } from '../state/selectors/calling.std.js';
 import type { StartCallData } from './ConfirmLeaveCallModal.dom.js';
 import { I18n } from './I18n.dom.js';
 import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.js';
+import type { SmartPropsType as SmartToastManagerPropsType } from '../state/smart/ToastManager.preload.js';
 
 enum CallsTabSidebarView {
   CallsListView,
@@ -65,14 +65,12 @@ type CallsTabProps = Readonly<{
     roomId: string,
     callHistoryGroup: CallHistoryGroup,
     onClose: () => void
-  ) => JSX.Element;
+  ) => React.JSX.Element;
   renderConversationDetails: (
     conversationId: string,
     callHistoryGroup: CallHistoryGroup | null
-  ) => JSX.Element;
-  renderToastManager: (_: {
-    containerWidthBreakpoint: WidthBreakpoint;
-  }) => JSX.Element;
+  ) => React.JSX.Element;
+  renderToastManager: (_: SmartToastManagerPropsType) => React.JSX.Element;
   regionCode: string | undefined;
   savePreferredLeftPaneWidth: (preferredLeftPaneWidth: number) => void;
   startCallLinkLobbyByRoomId: (options: { roomId: string }) => void;
@@ -125,7 +123,7 @@ export function CallsTab({
   startCallLinkLobbyByRoomId,
   toggleConfirmLeaveCallModal,
   togglePip,
-}: CallsTabProps): JSX.Element {
+}: CallsTabProps): React.JSX.Element {
   const [sidebarView, setSidebarView] = useState(
     CallsTabSidebarView.CallsListView
   );

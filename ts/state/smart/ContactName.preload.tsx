@@ -4,10 +4,8 @@ import React, { memo, useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { ContactName } from '../../components/conversation/ContactName.dom.js';
 import { getIntl } from '../selectors/user.std.js';
-import {
-  getConversationSelector,
-  getSelectedConversationId,
-} from '../selectors/conversations.dom.js';
+import { getConversationSelector } from '../selectors/conversations.dom.js';
+import { getSelectedConversationId } from '../selectors/nav.std.js';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
 
 type ExternalProps = {
@@ -19,7 +17,7 @@ export const SmartContactName = memo(function SmartContactName({
 }: ExternalProps) {
   const i18n = useSelector(getIntl);
   const getConversation = useSelector(getConversationSelector);
-  const currentConversationId = useSelector(getSelectedConversationId);
+  const conversationId = useSelector(getSelectedConversationId);
 
   const { showContactModal } = useGlobalModalActions();
 
@@ -28,8 +26,8 @@ export const SmartContactName = memo(function SmartContactName({
   }, [getConversation, contactId]);
 
   const handleClick = useCallback(() => {
-    showContactModal(contactId, currentConversationId);
-  }, [showContactModal, contactId, currentConversationId]);
+    showContactModal({ contactId, conversationId });
+  }, [showContactModal, contactId, conversationId]);
 
   return (
     <ContactName

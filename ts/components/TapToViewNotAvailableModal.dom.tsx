@@ -32,7 +32,9 @@ function focusRef(el: HTMLElement | null) {
   }
 }
 
-export function TapToViewNotAvailableModal(props: PropsType): JSX.Element {
+export function TapToViewNotAvailableModal(
+  props: PropsType
+): React.JSX.Element {
   const { i18n, onClose, parameters, type } = props;
 
   const footer = (

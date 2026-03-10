@@ -18,7 +18,8 @@ import { getEmojiVariantByKey } from './fun/data/emojis.std.js';
 import { strictAssert } from '../util/assert.std.js';
 import {
   type PollCreateType,
-  POLL_QUESTION_MAX_LENGTH,
+  POLL_QUESTION_MAX_LENGTH_SEND,
+  POLL_OPTION_MAX_LENGTH,
   POLL_OPTIONS_MIN_COUNT,
   POLL_OPTIONS_MAX_COUNT,
 } from '../types/Polls.dom.js';
@@ -40,13 +41,13 @@ export function PollCreateModal({
   i18n,
   onClose,
   onSendPoll,
-}: PollCreateModalProps): JSX.Element {
+}: PollCreateModalProps): React.JSX.Element {
   const [question, setQuestion] = useState('');
   const [options, setOptions] = useState<Array<PollOption>>([
     { id: generateUuid(), value: '' },
     { id: generateUuid(), value: '' },
   ]);
-  const [allowMultiple, setAllowMultiple] = useState(false);
+  const [allowMultiple, setAllowMultiple] = useState(true);
   const [emojiPickerOpenForOption, setEmojiPickerOpenForOption] = useState<
     string | null
   >(null);
@@ -256,7 +257,7 @@ export function PollCreateModal({
         }
 
         // Don't insert if it would exceed the max grapheme length
-        if (countGraphemes(newValue) > POLL_QUESTION_MAX_LENGTH) {
+        if (countGraphemes(newValue) > POLL_OPTION_MAX_LENGTH) {
           return opt; // Return unchanged
         }
 
@@ -382,8 +383,8 @@ export function PollCreateModal({
               value={question}
               onChange={handleQuestionChange}
               placeholder={i18n('icu:PollCreateModal__questionPlaceholder')}
-              maxLengthCount={POLL_QUESTION_MAX_LENGTH}
-              whenToShowRemainingCount={POLL_QUESTION_MAX_LENGTH - 30}
+              maxLengthCount={POLL_QUESTION_MAX_LENGTH_SEND}
+              whenToShowRemainingCount={POLL_QUESTION_MAX_LENGTH_SEND - 30}
               aria-invalid={validationErrors.question || undefined}
               aria-errormessage={
                 validationErrors.question ? 'poll-question-error' : undefined
@@ -412,8 +413,8 @@ export function PollCreateModal({
                   placeholder={i18n('icu:PollCreateModal__optionPlaceholder', {
                     number: String(index + 1),
                   })}
-                  maxLengthCount={POLL_QUESTION_MAX_LENGTH}
-                  whenToShowRemainingCount={POLL_QUESTION_MAX_LENGTH - 30}
+                  maxLengthCount={POLL_OPTION_MAX_LENGTH}
+                  whenToShowRemainingCount={POLL_OPTION_MAX_LENGTH - 30}
                   aria-invalid={validationErrors.options || undefined}
                   aria-errormessage={
                     validationErrors.options ? 'poll-options-error' : undefined

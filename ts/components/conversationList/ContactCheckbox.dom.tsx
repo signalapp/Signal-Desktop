@@ -34,7 +34,6 @@ export type PropsDataType = {
   | 'isMe'
   | 'phoneNumber'
   | 'profileName'
-  | 'sharedGroupNames'
   | 'title'
   | 'type'
   | 'serviceId'
@@ -65,7 +64,6 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
     onClick,
     phoneNumber,
     profileName,
-    sharedGroupNames,
     theme,
     title,
     type,
@@ -82,7 +80,7 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
       <ContactName module={HEADER_CONTACT_NAME_CLASS_NAME} title={title} />
     );
 
-    let messageText: undefined | string | JSX.Element;
+    let messageText: undefined | string | React.JSX.Element;
     if (disabledReason === ContactCheckboxDisabledReason.AlreadyAdded) {
       messageText = i18n('icu:alreadyAMember');
     } else if (about) {
@@ -108,7 +106,6 @@ export const ContactCheckbox: FunctionComponent<PropsType> = React.memo(
             phoneNumber={phoneNumber}
             profileName={profileName}
             title={title}
-            sharedGroupNames={sharedGroupNames}
             size={AvatarSize.THIRTY_TWO}
             // appease the type checker.
             {...(badge ? { badge, theme } : { badge: undefined })}

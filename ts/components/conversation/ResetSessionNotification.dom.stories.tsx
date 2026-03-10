@@ -12,6 +12,6 @@ export default {
   title: 'Components/Conversation/ResetSessionNotification',
 } satisfies Meta<Props>;
 
-export function Notification(): JSX.Element {
+export function Notification(): React.JSX.Element {
   return <ResetSessionNotification i18n={i18n} />;
 }

@@ -39,7 +39,6 @@ import {
   getMaximumGroupSizeModalState,
   getPlaceholderContact,
   getRecommendedGroupSizeModalState,
-  getSelectedConversationId,
   hasGroupCreationError,
   isCreatingGroup,
 } from '../../../state/selectors/conversations.dom.js';
@@ -1646,35 +1645,6 @@ describe('both/state/selectors/conversations-extra', () => {
         possiblyUnsafeConversation: unique,
       });
       assert.strictEqual(rick, undefined);
-    });
-  });
-
-  describe('#getSelectedConversationId', () => {
-    it('returns undefined if no conversation is selected', () => {
-      const state = {
-        ...getEmptyRootState(),
-        conversations: {
-          ...getEmptyState(),
-          conversationLookup: {
-            abc123: makeConversation('abc123'),
-          },
-        },
-      };
-      assert.isUndefined(getSelectedConversationId(state));
-    });
-
-    it('returns the selected conversation ID', () => {
-      const state = {
-        ...getEmptyRootState(),
-        conversations: {
-          ...getEmptyState(),
-          conversationLookup: {
-            abc123: makeConversation('abc123'),
-          },
-          selectedConversationId: 'abc123',
-        },
-      };
-      assert.strictEqual(getSelectedConversationId(state), 'abc123');
     });
   });
 

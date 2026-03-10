@@ -21,7 +21,7 @@ import { drop } from '../../util/drop.std.js';
 const log = createLogger('CallLinkEditModal');
 
 export const SmartCallLinkEditModal = memo(
-  function SmartCallLinkEditModal(): JSX.Element | null {
+  function SmartCallLinkEditModal(): React.JSX.Element | null {
     const roomId = useSelector(getCallLinkEditModalRoomId);
     strictAssert(roomId, 'Expected roomId to be set');
 
@@ -49,7 +49,6 @@ export const SmartCallLinkEditModal = memo(
       const callLinkWebUrl = linkCallRoute
         .toWebUrl({
           key: callLink?.rootKey,
-          epoch: callLink?.epoch,
         })
         .toString();
       drop(copyCallLink(callLinkWebUrl));
@@ -73,7 +72,7 @@ export const SmartCallLinkEditModal = memo(
 
     const handleStartCallLinkLobby = useCallback(() => {
       strictAssert(callLink != null, 'callLink not found');
-      startCallLinkLobby({ rootKey: callLink.rootKey, epoch: callLink.epoch });
+      startCallLinkLobby({ rootKey: callLink.rootKey });
       toggleCallLinkEditModal(null);
     }, [callLink, startCallLinkLobby, toggleCallLinkEditModal]);
 

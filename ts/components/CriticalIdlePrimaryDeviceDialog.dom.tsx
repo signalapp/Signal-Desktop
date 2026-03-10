@@ -19,8 +19,8 @@ export const CRITICAL_IDLE_PRIMARY_DEVICE_SUPPORT_PAGE =
 export function CriticalIdlePrimaryDeviceDialog({
   containerWidthBreakpoint,
   i18n,
-}: PropsType): JSX.Element {
-  const learnMoreLink = (parts: Array<string | JSX.Element>) => (
+}: PropsType): React.JSX.Element {
+  const learnMoreLink = (parts: Array<string | React.JSX.Element>) => (
     <a
       href={CRITICAL_IDLE_PRIMARY_DEVICE_SUPPORT_PAGE}
       rel="noreferrer"

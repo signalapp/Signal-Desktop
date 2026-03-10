@@ -14,7 +14,7 @@ type PropsType = Readonly<{
   data: string;
 }>;
 
-export function QrCode(props: PropsType): JSX.Element {
+export function QrCode(props: PropsType): React.JSX.Element {
   const { alt, data } = props;
 
   const src = useMemo(() => {

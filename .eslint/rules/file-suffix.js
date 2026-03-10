@@ -77,7 +77,6 @@ const NODE_PACKAGES = new Set([
   'proxy-agent',
   'read-last-lines',
   'split2',
-  'websocket',
   'write-file-atomic',
 
   // Dev dependencies

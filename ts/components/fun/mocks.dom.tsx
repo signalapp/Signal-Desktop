@@ -9,7 +9,7 @@ import {
   getEmojiVariantKeyByParentKeyAndSkinTone,
   isEmojiEnglishShortName,
 } from './data/emojis.std.js';
-import type { GifsPaginated } from './data/gifs.preload.js';
+import type { PaginatedGifResults } from './panels/FunPanelGifs.dom.js';
 
 function getEmoji(input: string): EmojiParentKey {
   strictAssert(
@@ -75,12 +75,7 @@ export const MOCK_RECENT_EMOJIS: ReadonlyArray<EmojiParentKey> = [
   getEmoji('zipper_mouth_face'),
 ];
 
-export const MOCK_GIFS_PAGINATED_EMPTY: GifsPaginated = {
-  next: null,
-  gifs: [],
-};
-
-export const MOCK_GIFS_PAGINATED_ONE_PAGE: GifsPaginated = {
+export const MOCK_GIFS_PAGINATED_ONE_PAGE: PaginatedGifResults = {
   next: null,
   gifs: Array.from({ length: 30 }, (_, i) => {
     return {
@@ -88,14 +83,14 @@ export const MOCK_GIFS_PAGINATED_ONE_PAGE: GifsPaginated = {
       title: '',
       description: '',
       previewMedia: {
-        url: 'https://media.tenor.com/ihqN6a3iiYEAAAPo/pikachu-shocked-face-stunned.mp4',
-        width: 640,
-        height: 640,
+        url: 'https://media2.giphy.com/media/v1.Y2lkPTZhNGNmY2JhaXFlbXZxcHVjNXlmaGdlYWs1dTlwYnNrb2I5aGttbXViYjh4Z2hqbyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3kzJvEciJa94SMW3hN/200w.mp4',
+        width: 200,
+        height: 178,
       },
       attachmentMedia: {
-        url: 'https://media.tenor.com/ihqN6a3iiYEAAAPo/pikachu-shocked-face-stunned.mp4',
-        width: 640,
-        height: 640,
+        url: 'https://media2.giphy.com/media/v1.Y2lkPTZhNGNmY2JhaXFlbXZxcHVjNXlmaGdlYWs1dTlwYnNrb2I5aGttbXViYjh4Z2hqbyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3kzJvEciJa94SMW3hN/giphy.mp4',
+        width: 480,
+        height: 418,
       },
     };
   }),

@@ -24,7 +24,7 @@ import {
 } from '../../selectors/art';
 import { useI18n } from '../../contexts/I18n';
 
-export function ShareStage(): JSX.Element {
+export function ShareStage(): React.JSX.Element {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const navigate = useNavigate();

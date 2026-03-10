@@ -10,7 +10,6 @@ import type { MediaItemType } from '../../types/MediaItem.std.js';
 import type {
   MessageChangedActionType,
   MessageDeletedActionType,
-  MessageExpiredActionType,
 } from './conversations.preload.js';
 import type { ShowStickerPackPreviewActionType } from './globalModals.preload.js';
 import type { ShowToastActionType } from './toast.preload.js';
@@ -45,7 +44,6 @@ import { ToastType } from '../../types/Toast.dom.js';
 import {
   MESSAGE_CHANGED,
   MESSAGE_DELETED,
-  MESSAGE_EXPIRED,
   saveAttachmentFromMessage,
 } from './conversations.preload.js';
 import { showStickerPackPreview } from './globalModals.preload.js';
@@ -111,7 +109,6 @@ type LightboxActionType =
   | CloseLightboxActionType
   | MessageChangedActionType
   | MessageDeletedActionType
-  | MessageExpiredActionType
   | ShowLightboxActionType
   | SetSelectedLightboxIndexActionType
   | SetLightboxPlaybackDisabledActionType;
@@ -233,6 +230,10 @@ function showLightboxForViewOnceMedia(
           sentAt: message.get('sent_at'),
           source: message.get('source'),
           sourceServiceId: message.get('sourceServiceId'),
+          isErased: !!message.get('isErased'),
+          readStatus: message.get('readStatus'),
+          sendStateByConversationId: message.get('sendStateByConversationId'),
+          errors: message.get('errors') ?? undefined,
         },
       },
     ];
@@ -338,6 +339,10 @@ function showLightbox(opts: {
           source: message.get('source'),
           sourceServiceId: message.get('sourceServiceId'),
           sentAt,
+          isErased: !!message.get('isErased'),
+          errors: message.get('errors') ?? undefined,
+          readStatus: message.get('readStatus'),
+          sendStateByConversationId: message.get('sendStateByConversationId'),
         },
         type: 'media' as const,
         attachment: getPropsForAttachment(
@@ -593,16 +598,8 @@ export function reducer(
     };
   }
 
-  if (
-    action.type === MESSAGE_CHANGED ||
-    action.type === MESSAGE_DELETED ||
-    action.type === MESSAGE_EXPIRED
-  ) {
+  if (action.type === MESSAGE_CHANGED || action.type === MESSAGE_DELETED) {
     if (!state.isShowingLightbox) {
-      return state;
-    }
-
-    if (action.type === MESSAGE_EXPIRED && !state.isViewOnce) {
       return state;
     }
 

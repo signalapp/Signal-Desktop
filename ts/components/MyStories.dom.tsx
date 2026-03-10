@@ -43,7 +43,7 @@ export type PropsType = {
   preferredLeftPaneWidth: number;
   renderToastManager: (_: {
     containerWidthBreakpoint: WidthBreakpoint;
-  }) => JSX.Element;
+  }) => React.JSX.Element;
   savePreferredLeftPaneWidth: (preferredLeftPaneWidth: number) => void;
   theme: ThemeType;
 };
@@ -69,7 +69,7 @@ export function MyStories({
   renderToastManager,
   savePreferredLeftPaneWidth,
   theme,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const [confirmDeleteStory, setConfirmDeleteStory] = useState<
     StoryViewType | undefined
   >();
@@ -173,7 +173,7 @@ function StorySent({
   story,
   theme,
   viewStory,
-}: StorySentPropsType): JSX.Element {
+}: StorySentPropsType): React.JSX.Element {
   const sendStatus = resolveStorySendStatus(story.sendState ?? []);
   const { renderAlert, setWasManuallyRetried, wasManuallyRetried } =
     useRetryStorySend(i18n, sendStatus);

@@ -40,7 +40,7 @@ type PropsHousekeeping = {
 
 export type Props = PropsData & PropsHousekeeping;
 
-export function TimerNotification(props: Props): JSX.Element {
+export function TimerNotification(props: Props): React.JSX.Element {
   const { disabled, i18n, title, type } = props;
 
   let timespan: string;

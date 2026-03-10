@@ -24,7 +24,7 @@ export type Props = {
   withContentBelow: boolean;
 };
 
-export function EmbeddedContact(props: Props): JSX.Element {
+export function EmbeddedContact(props: Props): React.JSX.Element {
   const {
     contact,
     i18n,

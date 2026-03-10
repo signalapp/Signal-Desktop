@@ -1,9 +1,9 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React, { useCallback } from 'react';
-
+import React, { useCallback, type ReactNode } from 'react';
 import type { ReadonlyDeep } from 'type-fest';
+
 import { formatFileSize } from '../../../util/formatFileSize.std.js';
 import { formatDuration } from '../../../util/formatDuration.std.js';
 import { missingCaseError } from '../../../util/missingCaseError.std.js';
@@ -28,17 +28,24 @@ import {
 
 export type Props = Readonly<{
   mediaItem: ReadonlyDeep<MediaItemType>;
+  showSize: boolean;
   onClick?: (attachmentState: AttachmentStatusType['state']) => void;
   i18n: LocalizerType;
   theme?: ThemeType;
+  renderContextMenu: (
+    mediaItem: ReadonlyDeep<MediaItemType>,
+    children: ReactNode
+  ) => JSX.Element;
 }>;
 
-export function MediaGridItem(props: Props): JSX.Element {
+export function MediaGridItem(props: Props): React.JSX.Element {
   const {
     mediaItem: { attachment },
+    showSize,
     i18n,
     theme,
     onClick,
+    renderContextMenu,
   } = props;
 
   const resolvedBlurHash = attachment.blurHash || defaultBlurHash(theme);
@@ -78,11 +85,15 @@ export function MediaGridItem(props: Props): JSX.Element {
     [onClick, status.state]
   );
 
-  return (
+  return renderContextMenu(
+    props.mediaItem,
     <button
       type="button"
       className={tw(
-        'relative size-30 overflow-hidden rounded-md',
+        'relative',
+        'shrink grow',
+        'aspect-square',
+        'overflow-hidden rounded-md',
         'flex items-center justify-center'
       )}
       onClick={handleClick}
@@ -90,7 +101,12 @@ export function MediaGridItem(props: Props): JSX.Element {
     >
       {imageOrBlurHash}
 
-      <MetadataOverlay i18n={i18n} status={status} attachment={attachment} />
+      <MetadataOverlay
+        i18n={i18n}
+        status={status}
+        attachment={attachment}
+        showSize={showSize}
+      />
       <SpinnerOverlay status={status} />
     </button>
   );
@@ -100,7 +116,9 @@ type SpinnerOverlayProps = Readonly<{
   status: AttachmentStatusType;
 }>;
 
-function SpinnerOverlay(props: SpinnerOverlayProps): JSX.Element | undefined {
+function SpinnerOverlay(
+  props: SpinnerOverlayProps
+): React.JSX.Element | undefined {
   const { status } = props;
 
   if (status.state === 'ReadyToShow') {
@@ -140,23 +158,31 @@ type MetadataOverlayProps = Readonly<{
   i18n: LocalizerType;
   status: AttachmentStatusType;
   attachment: AttachmentForUIType;
+  showSize: boolean;
 }>;
 
-function MetadataOverlay(props: MetadataOverlayProps): JSX.Element | undefined {
-  const { i18n, status, attachment } = props;
+function MetadataOverlay(
+  props: MetadataOverlayProps
+): React.JSX.Element | undefined {
+  const { i18n, status, attachment, showSize } = props;
 
   if (
     status.state === 'ReadyToShow' &&
     !isGIF([attachment]) &&
-    !isVideoAttachment(attachment)
+    !isVideoAttachment(attachment) &&
+    !showSize
   ) {
     return undefined;
   }
 
   let text: string;
-  if (isGIF([attachment]) && status.state === 'ReadyToShow') {
+  if (!showSize && isGIF([attachment]) && status.state === 'ReadyToShow') {
     text = i18n('icu:message--getNotificationText--gif');
-  } else if (isVideoAttachment(attachment) && attachment.duration != null) {
+  } else if (
+    !showSize &&
+    isVideoAttachment(attachment) &&
+    attachment.duration != null
+  ) {
     text = formatDuration(attachment.duration);
   } else {
     text = formatFileSize(attachment.size);

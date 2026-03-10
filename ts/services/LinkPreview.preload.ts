@@ -3,7 +3,7 @@
 
 import lodash from 'lodash';
 
-import { CallLinkRootKey, CallLinkEpoch } from '@signalapp/ringrtc';
+import { CallLinkRootKey } from '@signalapp/ringrtc';
 import type { LinkPreviewWithHydratedData } from '../types/message/LinkPreviews.std.js';
 import type {
   LinkPreviewImage,
@@ -41,7 +41,7 @@ import { maybeParseUrl } from '../util/url.std.js';
 import { sniffImageMimeType } from '../util/sniffImageMimeType.std.js';
 import { drop } from '../util/drop.std.js';
 import { calling } from './calling.preload.js';
-import { getKeyAndEpochFromCallLink } from '../util/callLinks.std.js';
+import { getKeyFromCallLink } from '../util/callLinks.std.js';
 import { getRoomIdFromCallLink } from '../util/callLinksRingrtc.node.js';
 import {
   fetchLinkPreviewImage,
@@ -593,13 +593,9 @@ async function getCallLinkPreview(
   url: string,
   _abortSignal: Readonly<AbortSignal>
 ): Promise<null | LinkPreviewResult> {
-  const { key, epoch } = getKeyAndEpochFromCallLink(url);
+  const key = getKeyFromCallLink(url);
   const callLinkRootKey = CallLinkRootKey.parse(key);
-  const callLinkEpoch = epoch ? CallLinkEpoch.parse(epoch) : undefined;
-  const callLinkState = await calling.readCallLink(
-    callLinkRootKey,
-    callLinkEpoch
-  );
+  const callLinkState = await calling.readCallLink(callLinkRootKey);
   if (callLinkState == null || callLinkState.revoked) {
     return null;
   }

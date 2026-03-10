@@ -21,11 +21,15 @@ function uploadLogs(logs: string) {
   return ipcRenderer.invoke('DebugLogs.upload', logs);
 }
 
+const urlParams = new URLSearchParams(window.location.search);
+const mode = urlParams.get('mode') === 'close' ? 'close' : 'submit';
+
 const Signal = {
   DebugLogWindowProps: {
     downloadLog,
     fetchLogs,
     uploadLogs,
+    mode,
   },
 };
 contextBridge.exposeInMainWorld('Signal', Signal);

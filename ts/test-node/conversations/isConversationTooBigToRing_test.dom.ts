@@ -14,9 +14,15 @@ const CONFIG_KEY = 'global.calling.maxGroupCallRingSize';
 
 describe('isConversationTooBigToRing', () => {
   const fakeMemberships = (count: number) =>
-    times(count, () => ({ aci: generateAci(), isAdmin: false }));
+    times(count, () => ({
+      aci: generateAci(),
+      isAdmin: false,
+      labelEmoji: undefined,
+      labelString: undefined,
+    }));
 
-  it('returns false if there are no memberships (i.e., for a direct conversation)', () => {
+  it('returns false if there are no memberships (i.e., for a direct conversation)', async () => {
+    await updateRemoteConfig([]);
     assert.isFalse(isConversationTooBigToRing({}));
     assert.isFalse(isConversationTooBigToRing({ memberships: [] }));
   });

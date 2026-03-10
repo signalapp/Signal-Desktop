@@ -73,15 +73,12 @@ const bundleDefaults = {
     'fsevents',
     'mac-screen-capture-permissions',
     'sass',
-    'bufferutil',
-    'utf-8-validate',
 
     // Things that don't bundle well
     'got',
     'node-fetch',
     'pino',
     'proxy-agent',
-    'websocket',
 
     // Large libraries (3.7mb total)
     // See: https://esbuild.github.io/api/#analyze
@@ -178,17 +175,11 @@ async function sandboxedEnv() {
       mainFields: ['browser', 'main'],
       entryPoints: [
         path.join(ROOT_DIR, 'ts', 'windows', 'about', 'app.dom.tsx'),
+        path.join(ROOT_DIR, 'ts', 'windows', 'calldiagnostic', 'app.dom.tsx'),
         path.join(ROOT_DIR, 'ts', 'windows', 'debuglog', 'app.dom.tsx'),
         path.join(ROOT_DIR, 'ts', 'windows', 'loading', 'start.dom.ts'),
         path.join(ROOT_DIR, 'ts', 'windows', 'permissions', 'app.dom.tsx'),
         path.join(ROOT_DIR, 'ts', 'windows', 'screenShare', 'app.dom.tsx'),
-        path.join(
-          ROOT_DIR,
-          'ts',
-          'windows',
-          'calling-tools',
-          'webrtc_internals.dom.ts'
-        ),
       ],
     },
     preloadConfig: {
@@ -196,6 +187,13 @@ async function sandboxedEnv() {
       mainFields: ['browser', 'main'],
       entryPoints: [
         path.join(ROOT_DIR, 'ts', 'windows', 'about', 'preload.preload.ts'),
+        path.join(
+          ROOT_DIR,
+          'ts',
+          'windows',
+          'calldiagnostic',
+          'preload.preload.ts'
+        ),
         path.join(ROOT_DIR, 'ts', 'windows', 'debuglog', 'preload.preload.ts'),
         path.join(ROOT_DIR, 'ts', 'windows', 'loading', 'preload.preload.ts'),
         path.join(
@@ -203,13 +201,6 @@ async function sandboxedEnv() {
           'ts',
           'windows',
           'permissions',
-          'preload.preload.ts'
-        ),
-        path.join(
-          ROOT_DIR,
-          'ts',
-          'windows',
-          'calling-tools',
           'preload.preload.ts'
         ),
         path.join(

@@ -17,7 +17,7 @@ export function AvatarColorPicker({
   i18n,
   onColorSelected,
   selectedColor,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   return (
     <>
       <div className="AvatarEditor__avatar-selector-title">

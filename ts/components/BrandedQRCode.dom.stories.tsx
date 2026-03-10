@@ -10,7 +10,7 @@ export default {
   title: 'Components/BrandedQRCode',
 } satisfies Meta<PropsType>;
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return (
     <svg
       role="img"

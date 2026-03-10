@@ -1,0 +1,13 @@
+diff --git a/index.d.ts b/index.d.ts
+index f1cdab73a0635bd87322d75bcc0efdb83b57b790..c695f174320f34e5f8fd6367ebd9ded4a727b819 100644
+--- a/index.d.ts
++++ b/index.d.ts
+@@ -480,7 +480,7 @@ declare namespace Chai {
+          * @param expected   Potential expected value.
+          * @param message   Message to display on error.
+          */
+-        strictEqual<T>(actual: T, expected: T, message?: string): void;
++        strictEqual<T>(actual: unknown, expected: T, message?: string): asserts actual is T;
+ 
+         /**
+          * Asserts strict inequality (!==) of actual and expected.

@@ -14,7 +14,7 @@ export default {
   title: 'Components/Conversation/ReactionPicker',
 } satisfies Meta<ReactionPickerProps>;
 
-export function Base(): JSX.Element {
+export function Base(): React.JSX.Element {
   return (
     <ReactionPicker
       i18n={i18n}
@@ -24,7 +24,7 @@ export function Base(): JSX.Element {
   );
 }
 
-export function SelectedReaction(): JSX.Element {
+export function SelectedReaction(): React.JSX.Element {
   return (
     <>
       {['❤️', '👍', '👎', '😂', '😮', '😢', '😡'].map(e => (

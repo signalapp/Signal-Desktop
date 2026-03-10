@@ -23,10 +23,10 @@ const defaultProps = {
   onTimedOut: action('onTimedOut'),
 };
 
-export function Default(): JSX.Element {
+export function Default(): React.JSX.Element {
   return <DonationVerificationModal {...defaultProps} />;
 }
 
-export function FiveSecondTimeout(): JSX.Element {
+export function FiveSecondTimeout(): React.JSX.Element {
   return <DonationVerificationModal {...defaultProps} _timeout={5 * SECOND} />;
 }

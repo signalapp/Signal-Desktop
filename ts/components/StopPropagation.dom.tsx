@@ -11,7 +11,7 @@ export function StopPropagation({
 }: {
   children: ReactNode;
   className?: string;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div

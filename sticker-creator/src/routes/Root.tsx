@@ -7,7 +7,7 @@ import { useLoaderData, Outlet } from 'react-router-dom';
 import { type LoadLocaleResult } from '../util/i18n';
 import { I18n } from '../contexts/I18n';
 
-export function Root(): JSX.Element {
+export function Root(): React.JSX.Element {
   const { locale, messages } = useLoaderData() as LoadLocaleResult;
 
   if (messages.title && 'message' in messages.title) {

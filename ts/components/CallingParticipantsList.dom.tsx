@@ -16,12 +16,14 @@ import { sortByTitle } from '../util/sortByTitle.std.js';
 import type { ConversationType } from '../state/ducks/conversations.preload.js';
 import { isInSystemContacts } from '../util/isInSystemContacts.std.js';
 import { ModalContainerContext } from './ModalHost.dom.js';
+import type { ContactModalStateType } from '../types/globalModals.std.js';
 
 type ParticipantType = ConversationType & {
   hasRemoteAudio?: boolean;
   hasRemoteVideo?: boolean;
   isHandRaised?: boolean;
   presenting?: boolean;
+  demuxId?: number;
 };
 
 export type PropsType = {
@@ -30,10 +32,7 @@ export type PropsType = {
   readonly onClose: () => void;
   readonly ourServiceId: ServiceIdString | undefined;
   readonly participants: Array<ParticipantType>;
-  readonly showContactModal: (
-    contactId: string,
-    conversationId?: string
-  ) => void;
+  readonly showContactModal: (payload: ContactModalStateType) => void;
 };
 
 export const CallingParticipantsList = React.memo(
@@ -107,7 +106,10 @@ export const CallingParticipantsList = React.memo(
                 (participant: ParticipantType, index: number) => (
                   <button
                     aria-label={i18n('icu:calling__ParticipantInfoButton')}
-                    className="module-calling-participants-list__contact"
+                    className={classNames(
+                      'module-calling-participants-list__contact',
+                      participant.isMe && 'module-calling-participants-list__me'
+                    )}
                     disabled={participant.isMe}
                     // It's tempting to use `participant.serviceId` as the `key`
                     //   here, but that can result in duplicate keys for
@@ -119,7 +121,11 @@ export const CallingParticipantsList = React.memo(
                       }
 
                       onClose();
-                      showContactModal(participant.id, conversationId);
+                      showContactModal({
+                        activeCallDemuxId: participant.demuxId,
+                        contactId: participant.id,
+                        conversationId,
+                      });
                     }}
                     type="button"
                   >
@@ -135,7 +141,6 @@ export const CallingParticipantsList = React.memo(
                         i18n={i18n}
                         profileName={participant.profileName}
                         title={participant.title}
-                        sharedGroupNames={participant.sharedGroupNames}
                         size={AvatarSize.THIRTY_TWO}
                       />
                       {ourServiceId &&
@@ -181,6 +186,14 @@ export const CallingParticipantsList = React.memo(
                           'module-calling-participants-list__muted--audio'
                       )}
                     />
+                    {!participant.isMe && (
+                      <span
+                        className={classNames(
+                          'module-calling-participants-list__status-icon',
+                          'module-calling-participants-list__menu-icon'
+                        )}
+                      />
+                    )}
                   </button>
                 )
               )}

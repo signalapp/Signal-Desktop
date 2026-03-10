@@ -10,13 +10,13 @@ export default {
   title: 'Axo/AxoIconButton',
 } satisfies Meta;
 
-export function Basic(): JSX.Element {
+export function Basic(): React.JSX.Element {
   return (
     <AxoIconButton.Root
       variant="secondary"
       size="lg"
       symbol="more"
-      aria-label="More"
+      label="More actions"
     />
   );
 }
@@ -44,7 +44,7 @@ function getRows() {
   });
 }
 
-export function Variants(): JSX.Element {
+export function Variants(): React.JSX.Element {
   const variants = AxoIconButton._getAllVariants();
   return (
     <div className={tw('grid min-w-full')}>
@@ -80,7 +80,7 @@ export function Variants(): JSX.Element {
                     variant={variant}
                     size="lg"
                     symbol="more"
-                    aria-label="More"
+                    label="More actions"
                   />
                 </div>
               );
@@ -92,7 +92,7 @@ export function Variants(): JSX.Element {
   );
 }
 
-export function Sizes(): JSX.Element {
+export function Sizes(): React.JSX.Element {
   return (
     <div className={tw('grid min-w-full')}>
       {AxoIconButton._getAllSizes().map((size, sizeIndex) => {
@@ -121,7 +121,7 @@ export function Sizes(): JSX.Element {
                     variant={variant}
                     size={size}
                     symbol="more"
-                    aria-label="More"
+                    label="More actions"
                   />
                 </div>
               );
@@ -139,7 +139,7 @@ const AllStates: Record<string, Partial<AxoIconButton.RootProps>> = {
   'aria-pressed=true': { 'aria-pressed': true },
 };
 
-export function States(): JSX.Element {
+export function States(): React.JSX.Element {
   return (
     <div className={tw('grid min-w-full')}>
       {Object.keys(AllStates).map((state, stateIndex) => {
@@ -168,7 +168,7 @@ export function States(): JSX.Element {
                     variant={variant}
                     size="lg"
                     symbol="more"
-                    aria-label="More"
+                    label="More actions"
                     {...AllStates[state]}
                   />
                 </div>
@@ -181,7 +181,7 @@ export function States(): JSX.Element {
   );
 }
 
-export function Spinners(): JSX.Element {
+export function Spinners(): React.JSX.Element {
   return (
     <div className={tw('grid min-w-full')}>
       {AxoIconButton._getAllSizes().map((size, sizeIndex) => {
@@ -210,7 +210,7 @@ export function Spinners(): JSX.Element {
                     variant={variant}
                     size={size}
                     symbol="more"
-                    aria-label="More"
+                    label="More actions"
                     experimentalSpinner={{ 'aria-label': 'Loading' }}
                   />
                 </div>

@@ -21,13 +21,13 @@ const createProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
   value: overrideProps.value ?? '',
 });
 
-function Controller(props: PropsType): JSX.Element {
+function Controller(props: PropsType): React.JSX.Element {
   const { value: initialValue } = props;
   const [value, setValue] = useState(initialValue);
 
   return <AutoSizeInput {...props} onChange={setValue} value={value} />;
 }
 
-export function Simple(): JSX.Element {
+export function Simple(): React.JSX.Element {
   return <Controller {...createProps()} />;
 }

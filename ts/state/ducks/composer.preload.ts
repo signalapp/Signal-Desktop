@@ -17,14 +17,18 @@ import type {
   InMemoryAttachmentDraftType,
 } from '../../types/Attachment.std.js';
 import {
-  isVideoAttachment,
   isImageAttachment,
+  isVideoAttachment,
 } from '../../util/Attachment.std.js';
+import { isViewOnceEligible } from '../../util/viewOnceEligibility.std.js';
 import { DataReader, DataWriter } from '../../sql/Client.preload.js';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
 import type { DraftBodyRanges } from '../../types/BodyRange.std.js';
 import type { LinkPreviewForUIType } from '../../types/message/LinkPreviews.std.js';
-import type { ReadonlyMessageAttributesType } from '../../model-types.d.ts';
+import type {
+  PinMessageData,
+  ReadonlyMessageAttributesType,
+} from '../../model-types.d.ts';
 import type { NoopActionType } from './noop.std.js';
 import type { ShowToastActionType } from './toast.preload.js';
 import type { StateType as RootStateType } from '../reducer.preload.js';
@@ -75,10 +79,7 @@ import { writeDraftAttachment } from '../../util/writeDraftAttachment.preload.js
 import { getMessageById } from '../../messages/getMessageById.preload.js';
 import { canReply, isNormalBubble } from '../selectors/message.preload.js';
 import { getAuthorId } from '../../messages/sources.preload.js';
-import {
-  getConversationSelector,
-  getSelectedConversationId,
-} from '../selectors/conversations.dom.js';
+import { getConversationSelector } from '../selectors/conversations.dom.js';
 import { enqueueReactionForSend } from '../../reactions/enqueueReactionForSend.preload.js';
 import { enqueuePollTerminateForSend } from '../../polls/enqueuePollTerminateForSend.preload.js';
 import { useBoundActions } from '../../hooks/useBoundActions.std.js';
@@ -103,6 +104,11 @@ import {
   isVideoTypeSupported,
 } from '../../util/GoogleChrome.std.js';
 import type { StateThunk } from '../types.std.js';
+import { itemStorage } from '../../textsecure/Storage.preload.js';
+import {
+  getActivePanel,
+  getSelectedConversationId,
+} from '../selectors/nav.std.js';
 
 const { debounce, isEqual } = lodash;
 
@@ -114,6 +120,7 @@ type ComposerStateByConversationType = {
   attachments: ReadonlyArray<AttachmentDraftType>;
   focusCounter: number;
   disabledCounter: number;
+  isViewOnce: boolean;
   linkPreviewLoading: boolean;
   linkPreviewResult?: LinkPreviewForUIType;
   messageCompositionId: string;
@@ -139,6 +146,7 @@ function getEmptyComposerState(): ComposerStateByConversationType {
     attachments: [],
     focusCounter: 0,
     disabledCounter: 0,
+    isViewOnce: false,
     linkPreviewLoading: false,
     messageCompositionId: generateUuid(),
     sendCounter: 0,
@@ -161,6 +169,7 @@ const RESET_COMPOSER = 'composer/RESET_COMPOSER';
 export const SET_FOCUS = 'composer/SET_FOCUS';
 const SET_HIGH_QUALITY_SETTING = 'composer/SET_HIGH_QUALITY_SETTING';
 const SET_QUOTED_MESSAGE = 'composer/SET_QUOTED_MESSAGE';
+const SET_VIEW_ONCE = 'composer/SET_VIEW_ONCE';
 const UPDATE_COMPOSER_DISABLED = 'composer/UPDATE_COMPOSER_DISABLED';
 
 type AddPendingAttachmentActionType = ReadonlyDeep<{
@@ -226,6 +235,14 @@ export type SetQuotedMessageActionType = {
   };
 };
 
+export type SetViewOnceActionType = ReadonlyDeep<{
+  type: typeof SET_VIEW_ONCE;
+  payload: {
+    conversationId: string;
+    value: boolean;
+  };
+}>;
+
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 type ComposerActionType =
   | AddLinkPreviewActionType
@@ -239,7 +256,8 @@ type ComposerActionType =
   | UpdateComposerDisabledActionType
   | SetFocusActionType
   | SetHighQualitySettingActionType
-  | SetQuotedMessageActionType;
+  | SetQuotedMessageActionType
+  | SetViewOnceActionType;
 
 // Action Creators
 
@@ -270,6 +288,7 @@ export const actions = {
   setMediaQualitySetting,
   setQuoteByMessageId,
   setQuotedMessage,
+  setViewOnce,
   updateComposerDisabled,
 };
 
@@ -359,8 +378,8 @@ function scrollToQuotedMessage({
     const message = messages.find(item =>
       Boolean(
         item.conversationId === conversationId &&
-          authorId &&
-          getAuthorId(item) === authorId
+        authorId &&
+        getAuthorId(item) === authorId
       )
     );
 
@@ -374,7 +393,7 @@ function scrollToQuotedMessage({
       return;
     }
 
-    if (getState().conversations.selectedConversationId !== conversationId) {
+    if (getSelectedConversationId(getState()) !== conversationId) {
       return;
     }
 
@@ -383,10 +402,17 @@ function scrollToQuotedMessage({
 }
 
 function scrollToPinnedMessage(
-  pinnedMessageId: string
+  pinMessage: PinMessageData
 ): StateThunk<ShowToastActionType | ScrollToMessageActionType> {
   return async (dispatch, getState) => {
-    const pinnedMessage = await getMessageById(pinnedMessageId);
+    const ourAci = itemStorage.user.getCheckedAci();
+
+    const pinnedMessage = await DataReader.getMessageByAuthorAciAndSentAt(
+      ourAci,
+      pinMessage.targetAuthorAci,
+      pinMessage.targetSentTimestamp,
+      { includeEdits: true }
+    );
 
     if (!pinnedMessage) {
       dispatch(
@@ -398,13 +424,12 @@ function scrollToPinnedMessage(
     }
 
     const selectedConversationId = getSelectedConversationId(getState());
-    const pinnedMessageConversationId = pinnedMessage.get('conversationId');
 
-    if (selectedConversationId !== pinnedMessageConversationId) {
+    if (selectedConversationId !== pinnedMessage.conversationId) {
       return;
     }
 
-    dispatch(scrollToMessage(pinnedMessageConversationId, pinnedMessageId));
+    dispatch(scrollToMessage(pinnedMessage.conversationId, pinnedMessage.id));
   };
 }
 
@@ -430,7 +455,7 @@ function scrollToPollMessage(
       return;
     }
 
-    if (getState().conversations.selectedConversationId !== conversationId) {
+    if (getSelectedConversationId(getState()) !== conversationId) {
       return;
     }
 
@@ -449,10 +474,10 @@ export function saveDraftRecordingIfNeeded(): ThunkAction<
   never
 > {
   return (dispatch, getState) => {
-    const { conversations, audioRecorder } = getState();
-    const { selectedConversationId: conversationId } = conversations;
+    const state = getState();
+    const conversationId = getSelectedConversationId(state);
 
-    if (!getIsRecording(audioRecorder) || !conversationId) {
+    if (!getIsRecording(state.audioRecorder) || !conversationId) {
       return;
     }
 
@@ -612,6 +637,7 @@ function sendMultiMediaMessage(
   options: WithPreSendChecksOptions & {
     bodyRanges?: DraftBodyRanges;
     draftAttachments?: ReadonlyArray<AttachmentDraftType>;
+    isViewOnce?: boolean;
     timestamp?: number;
   }
 ): ThunkAction<
@@ -634,6 +660,7 @@ function sendMultiMediaMessage(
     const {
       draftAttachments,
       bodyRanges,
+      isViewOnce,
       message = '',
       timestamp = Date.now(),
       voiceNoteAttachment,
@@ -675,6 +702,7 @@ function sendMultiMediaMessage(
             quote,
             preview: getLinkPreviewForSend(message),
             bodyRanges,
+            isViewOnce,
           },
           {
             sendHQImages,
@@ -835,6 +863,13 @@ export function setQuoteByMessageId(
       throw new Error('setQuoteByMessageId: No conversation found');
     }
 
+    const activePanel = getActivePanel(getState());
+    if (activePanel != null && messageId != null) {
+      // Reset the conversation panels and scroll to the message
+      // in case we're inside of a conversation panel like pinned messages
+      dispatch(scrollToMessage(conversationId, messageId));
+    }
+
     const draftEditMessage = conversation.get('draftEditMessage');
     // We can remove quotes, but we can't add them
     if (draftEditMessage && messageId) {
@@ -894,7 +929,7 @@ export function setQuoteByMessageId(
     const quote = await makeQuote(message.attributes);
 
     // In case the conversation changed while we were about to set the quote
-    if (getState().conversations.selectedConversationId !== conversationId) {
+    if (getSelectedConversationId(getState()) !== conversationId) {
       return;
     }
 
@@ -904,6 +939,7 @@ export function setQuoteByMessageId(
         quote,
       })
     );
+    dispatch(disableViewOnceIfIneligible(conversationId));
 
     dispatch(setComposerFocus(conversation.id));
   };
@@ -922,7 +958,7 @@ function addAttachment(
     const state = getState();
 
     const isSelectedConversation =
-      state.conversations.selectedConversationId === conversationId;
+      getSelectedConversationId(state) === conversationId;
 
     const conversationComposerState = getComposerStateForConversation(
       state.composer,
@@ -996,7 +1032,7 @@ function addPendingAttachment(
     const state = getState();
 
     const isSelectedConversation =
-      state.conversations.selectedConversationId === conversationId;
+      getSelectedConversationId(state) === conversationId;
 
     const conversationComposerState = getComposerStateForConversation(
       state.composer,
@@ -1032,7 +1068,7 @@ export function setComposerFocus(
   conversationId: string
 ): ThunkAction<void, RootStateType, unknown, SetFocusActionType> {
   return async (dispatch, getState) => {
-    if (getState().conversations.selectedConversationId !== conversationId) {
+    if (getSelectedConversationId(getState()) !== conversationId) {
       return;
     }
 
@@ -1128,7 +1164,7 @@ function processAttachments({
 
     // If the call came from a conversation we are no longer in we do not
     // update the state.
-    if (getState().conversations.selectedConversationId !== conversationId) {
+    if (getSelectedConversationId(getState()) !== conversationId) {
       return;
     }
 
@@ -1204,7 +1240,7 @@ function processAttachments({
           } catch (err) {
             log.error(
               'handleAttachmentsProcessing: failed to process attachment:',
-              err.stack
+              Errors.toLogFormat(err)
             );
             removeAttachment(conversationId, pendingAttachment)(
               dispatch,
@@ -1356,11 +1392,16 @@ function removeAttachment(
 export function replaceAttachments(
   conversationId: string,
   attachments: ReadonlyArray<AttachmentDraftType>
-): ThunkAction<void, RootStateType, unknown, ReplaceAttachmentsActionType> {
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ReplaceAttachmentsActionType | SetViewOnceActionType | ShowToastActionType
+> {
   return (dispatch, getState) => {
     // If the call came from a conversation we are no longer in we do not
     // update the state.
-    if (getState().conversations.selectedConversationId !== conversationId) {
+    if (getSelectedConversationId(getState()) !== conversationId) {
       return;
     }
 
@@ -1376,6 +1417,7 @@ export function replaceAttachments(
       },
     });
     dispatch(setComposerFocus(conversationId));
+    dispatch(disableViewOnceIfIneligible(conversationId));
   };
 }
 
@@ -1544,6 +1586,95 @@ function setQuotedMessage(
   };
 }
 
+export function setViewOnce({
+  conversationId,
+  value,
+  toastNotify,
+}: {
+  conversationId: string;
+  value: boolean;
+  toastNotify: boolean;
+}): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  SetViewOnceActionType | ShowToastActionType
+> {
+  return async (dispatch, getState) => {
+    const composerState = getComposerStateForConversation(
+      getState().composer,
+      conversationId
+    );
+    const nextValue =
+      value &&
+      isViewOnceEligible(
+        composerState.attachments,
+        Boolean(composerState.quotedMessage)
+      );
+
+    if (composerState.isViewOnce !== nextValue) {
+      dispatch({
+        type: SET_VIEW_ONCE,
+        payload: {
+          conversationId,
+          value: nextValue,
+        },
+      });
+
+      if (toastNotify) {
+        dispatch(
+          showToast({
+            toastType: nextValue
+              ? ToastType.ViewOnceEnabled
+              : ToastType.ViewOnceDisabled,
+          })
+        );
+      }
+    }
+
+    const conversation = window.ConversationController.get(conversationId);
+    if (conversation && conversation.get('draftIsViewOnce') !== nextValue) {
+      conversation.set({
+        draftIsViewOnce: nextValue,
+        draftChanged: true,
+      });
+      await DataWriter.updateConversation(conversation.attributes);
+    }
+  };
+}
+
+function disableViewOnceIfIneligible(
+  conversationId: string,
+  toastNotify = true
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  SetViewOnceActionType | ShowToastActionType
+> {
+  return (dispatch, getState) => {
+    const composerState = getComposerStateForConversation(
+      getState().composer,
+      conversationId
+    );
+    if (
+      composerState.isViewOnce &&
+      !isViewOnceEligible(
+        composerState.attachments,
+        Boolean(composerState.quotedMessage)
+      )
+    ) {
+      dispatch(
+        setViewOnce({
+          conversationId,
+          value: false,
+          toastNotify,
+        })
+      );
+    }
+  };
+}
+
 // Reducer
 
 export function getEmptyState(): ComposerStateType {
@@ -1678,6 +1809,12 @@ export function reducer(
   if (action.type === ADD_PENDING_ATTACHMENT) {
     return updateComposerState(state, action, prevState => ({
       attachments: [...prevState.attachments, action.payload.attachment],
+    }));
+  }
+
+  if (action.type === SET_VIEW_ONCE) {
+    return updateComposerState(state, action, () => ({
+      isViewOnce: action.payload.value,
     }));
   }
 

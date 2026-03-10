@@ -4,13 +4,17 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-import type { Props } from './SafetyNumberChangeDialog.dom.js';
+import type {
+  Props,
+  SafetyNumberProps,
+} from './SafetyNumberChangeDialog.dom.js';
 import { SafetyNumberChangeDialog } from './SafetyNumberChangeDialog.dom.js';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
 import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.std.js';
 import { getFakeBadge } from '../test-helpers/getFakeBadge.std.js';
 import { MY_STORY_ID } from '../types/Stories.std.js';
 import { generateStoryDistributionId } from '../types/StoryDistributionId.std.js';
+import { SafetyNumber } from './SafetyNumberViewer.dom.stories.js';
 
 const { i18n } = window.SignalContext;
 
@@ -58,7 +62,11 @@ export default {
   title: 'Components/SafetyNumberChangeDialog',
 } satisfies Meta<Props>;
 
-export function SingleContactDialog(): JSX.Element {
+function renderSafetyNumber({ onClose }: SafetyNumberProps): JSX.Element {
+  return <SafetyNumber onClose={onClose} />;
+}
+
+export function SingleContactDialog(): React.JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -73,16 +81,13 @@ export function SingleContactDialog(): JSX.Element {
       onCancel={action('cancel')}
       onConfirm={action('confirm')}
       removeFromStory={action('removeFromStory')}
-      renderSafetyNumber={() => {
-        action('renderSafetyNumber');
-        return <div>This is a mock Safety Number View</div>;
-      }}
+      renderSafetyNumber={renderSafetyNumber}
       theme={theme}
     />
   );
 }
 
-export function DifferentConfirmationText(): JSX.Element {
+export function DifferentConfirmationText(): React.JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -98,16 +103,13 @@ export function DifferentConfirmationText(): JSX.Element {
       onCancel={action('cancel')}
       onConfirm={action('confirm')}
       removeFromStory={action('removeFromStory')}
-      renderSafetyNumber={() => {
-        action('renderSafetyNumber');
-        return <div>This is a mock Safety Number View</div>;
-      }}
+      renderSafetyNumber={renderSafetyNumber}
       theme={theme}
     />
   );
 }
 
-export function MultiContactDialog(): JSX.Element {
+export function MultiContactDialog(): React.JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -126,16 +128,13 @@ export function MultiContactDialog(): JSX.Element {
       onCancel={action('cancel')}
       onConfirm={action('confirm')}
       removeFromStory={action('removeFromStory')}
-      renderSafetyNumber={() => {
-        action('renderSafetyNumber');
-        return <div>This is a mock Safety Number View</div>;
-      }}
+      renderSafetyNumber={renderSafetyNumber}
       theme={theme}
     />
   );
 }
 
-export function AllVerified(): JSX.Element {
+export function AllVerified(): React.JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -153,16 +152,13 @@ export function AllVerified(): JSX.Element {
       onCancel={action('cancel')}
       onConfirm={action('confirm')}
       removeFromStory={action('removeFromStory')}
-      renderSafetyNumber={() => {
-        action('renderSafetyNumber');
-        return <div>This is a mock Safety Number View</div>;
-      }}
+      renderSafetyNumber={renderSafetyNumber}
       theme={theme}
     />
   );
 }
 
-export function MultipleContactsAllWithBadges(): JSX.Element {
+export function MultipleContactsAllWithBadges(): React.JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -182,16 +178,13 @@ export function MultipleContactsAllWithBadges(): JSX.Element {
       onCancel={action('cancel')}
       onConfirm={action('confirm')}
       removeFromStory={action('removeFromStory')}
-      renderSafetyNumber={() => {
-        action('renderSafetyNumber');
-        return <div>This is a mock Safety Number View</div>;
-      }}
+      renderSafetyNumber={renderSafetyNumber}
       theme={theme}
     />
   );
 }
 
-export function TenContacts(): JSX.Element {
+export function TenContacts(): React.JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -217,16 +210,13 @@ export function TenContacts(): JSX.Element {
       onCancel={action('cancel')}
       onConfirm={action('confirm')}
       removeFromStory={action('removeFromStory')}
-      renderSafetyNumber={() => {
-        action('renderSafetyNumber');
-        return <div>This is a mock Safety Number View</div>;
-      }}
+      renderSafetyNumber={renderSafetyNumber}
       theme={theme}
     />
   );
 }
 
-export function NoContacts(): JSX.Element {
+export function NoContacts(): React.JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -253,16 +243,13 @@ export function NoContacts(): JSX.Element {
       onCancel={action('cancel')}
       onConfirm={action('confirm')}
       removeFromStory={action('removeFromStory')}
-      renderSafetyNumber={() => {
-        action('renderSafetyNumber');
-        return <div>This is a mock Safety Number View</div>;
-      }}
+      renderSafetyNumber={renderSafetyNumber}
       theme={theme}
     />
   );
 }
 
-export function InMultipleStories(): JSX.Element {
+export function InMultipleStories(): React.JSX.Element {
   const theme = useTheme();
   return (
     <SafetyNumberChangeDialog
@@ -304,10 +291,7 @@ export function InMultipleStories(): JSX.Element {
       onCancel={action('cancel')}
       onConfirm={action('confirm')}
       removeFromStory={action('removeFromStory')}
-      renderSafetyNumber={() => {
-        action('renderSafetyNumber');
-        return <div>This is a mock Safety Number View</div>;
-      }}
+      renderSafetyNumber={renderSafetyNumber}
       theme={theme}
     />
   );

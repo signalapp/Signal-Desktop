@@ -4,7 +4,7 @@
 import type { FC } from 'react';
 import React, { memo } from 'react';
 import type { AxoBaseMenu } from './_internal/AxoBaseMenu.dom.js';
-import { unreachable } from './_internal/assert.dom.js';
+import { unreachable } from './_internal/assert.std.js';
 import { AxoDropdownMenu } from './AxoDropdownMenu.dom.js';
 import { AxoContextMenu } from './AxoContextMenu.dom.js';
 import {
@@ -27,7 +27,7 @@ export namespace AxoMenuBuilder {
   export const Root: FC<RootProps> = memo(props => {
     const { renderer, ...rest } = props;
 
-    let child: JSX.Element;
+    let child: React.JSX.Element;
     if (renderer === 'AxoDropdownMenu') {
       child = <AxoDropdownMenu.Root {...rest} />;
     } else if (renderer === 'AxoContextMenu') {

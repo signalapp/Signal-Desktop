@@ -15,7 +15,7 @@ export type FunSearchProps = Readonly<{
   onSearchInputChange: (newSearchInput: string) => void;
 }>;
 
-export function FunSearch(props: FunSearchProps): JSX.Element {
+export function FunSearch(props: FunSearchProps): React.JSX.Element {
   const { i18n, onSearchInputChange } = props;
   const { shouldAutoFocus, onChangeShouldAutoFocus } = useFunContext();
 

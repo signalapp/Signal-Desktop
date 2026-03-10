@@ -53,8 +53,8 @@ export function doesMessageMatch({
 
   return Boolean(
     conversationMatches &&
-      timestampMatches &&
-      (aciMatches || e164Matches || pniMatches)
+    timestampMatches &&
+    (aciMatches || e164Matches || pniMatches)
   );
 }
 

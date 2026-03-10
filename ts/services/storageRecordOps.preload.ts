@@ -73,11 +73,9 @@ import type {
 } from '../types/CallLink.std.js';
 import {
   callLinkFromRecord,
-  fromEpochBytes,
   fromRootKeyBytes,
   getRoomIdFromRootKeyString,
   toRootKeyBytes,
-  toEpochBytes,
 } from '../util/callLinksRingrtc.node.js';
 import { fromAdminKeyBytes, toAdminKeyBytes } from '../util/callLinks.std.js';
 import { isOlderThan } from '../util/timestamp.std.js';
@@ -131,6 +129,7 @@ import {
 } from '../types/NotificationProfile-node.node.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
 import { onHasStoriesDisabledChange } from '../textsecure/WebAPI.preload.js';
+import { keyTransparency } from './keyTransparency.preload.js';
 
 const { isEqual } = lodash;
 
@@ -590,6 +589,20 @@ export function toAccountRecord(
       hasSeenGroupStoryEducationSheet;
   }
 
+  const hasSeenAdminDeleteEducationDialog = itemStorage.get(
+    'hasSeenAdminDeleteEducationDialog'
+  );
+  if (hasSeenAdminDeleteEducationDialog != null) {
+    accountRecord.hasSeenAdminDeleteEducationDialog =
+      hasSeenAdminDeleteEducationDialog;
+  }
+
+  const hasKeyTransparencyDisabled = itemStorage.get(
+    'hasKeyTransparencyDisabled'
+  );
+  accountRecord.automaticKeyVerificationDisabled =
+    hasKeyTransparencyDisabled === true;
+
   const hasStoriesDisabled = itemStorage.get('hasStoriesDisabled');
   accountRecord.storiesDisabled = hasStoriesDisabled === true;
 
@@ -799,9 +812,6 @@ export function toCallLinkRecord(
       'toCallLinkRecord: no adminPasskey'
     );
     callLinkRecord.adminPasskey = callLinkDbRecord.adminKey;
-    if (callLinkDbRecord.epoch) {
-      callLinkRecord.epoch = callLinkDbRecord.epoch;
-    }
   }
 
   if (callLinkDbRecord.storageUnknownFields) {
@@ -820,7 +830,6 @@ export function toDefunctOrPendingCallLinkRecord(
   const adminKey = callLink.adminKey
     ? toAdminKeyBytes(callLink.adminKey)
     : null;
-  const epoch = callLink.epoch ? toEpochBytes(callLink.epoch) : null;
 
   strictAssert(rootKey, 'toDefunctOrPendingCallLinkRecord: no rootKey');
   strictAssert(adminKey, 'toDefunctOrPendingCallLinkRecord: no adminPasskey');
@@ -829,10 +838,6 @@ export function toDefunctOrPendingCallLinkRecord(
 
   callLinkRecord.rootKey = rootKey;
   callLinkRecord.adminPasskey = adminKey;
-
-  if (epoch) {
-    callLinkRecord.epoch = epoch;
-  }
 
   if (callLink.storageUnknownFields) {
     callLinkRecord.$unknownFields = fromStorageUnknownFields(
@@ -846,11 +851,14 @@ export function toDefunctOrPendingCallLinkRecord(
 function toRecipient(
   conversationId: string,
   logPrefix: string
-): Proto.Recipient {
+): Proto.Recipient | undefined {
   const conversation = window.ConversationController.get(conversationId);
 
   if (conversation == null) {
-    throw new Error(`${logPrefix}/toRecipient: Missing conversation`);
+    log.error(
+      `${logPrefix}/toRecipient: Missing conversation with id ${conversationId}`
+    );
+    return undefined;
   }
 
   const logId = `${logPrefix}/toRecipient(${conversation.idForLogging()})`;
@@ -896,9 +904,11 @@ function toRecipients(
   conversationIds: ReadonlyArray<string>,
   logPrefix: string
 ): Array<Proto.Recipient> {
-  return conversationIds.map(conversationId => {
-    return toRecipient(conversationId, logPrefix);
-  });
+  return conversationIds
+    .map(conversationId => {
+      return toRecipient(conversationId, logPrefix);
+    })
+    .filter(isNotNil);
 }
 
 function toChatFolderRecordFolderType(
@@ -994,24 +1004,32 @@ export function toNotificationProfileRecord(
 
 type MessageRequestCapableRecord = Proto.IContactRecord | Proto.IGroupV2Record;
 
-function applyMessageRequestState(
+async function applyMessageRequestState(
   record: MessageRequestCapableRecord,
   conversation: ConversationModel
-): void {
+): Promise<void> {
   const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
 
   if (record.blocked) {
-    void conversation.applyMessageRequestResponse(messageRequestEnum.BLOCK, {
-      source: MessageRequestResponseSource.STORAGE_SERVICE,
-      learnedAtMs: Date.now(),
-    });
+    await conversation.applyMessageRequestResponse(
+      messageRequestEnum.BLOCK,
+      {
+        source: MessageRequestResponseSource.STORAGE_SERVICE,
+        learnedAtMs: Date.now(),
+      },
+      { shouldSave: false }
+    );
   } else if (record.whitelisted) {
     // unblocking is also handled by this function which is why the next
     // condition is part of the else-if and not separate
-    void conversation.applyMessageRequestResponse(messageRequestEnum.ACCEPT, {
-      source: MessageRequestResponseSource.STORAGE_SERVICE,
-      learnedAtMs: Date.now(),
-    });
+    await conversation.applyMessageRequestResponse(
+      messageRequestEnum.ACCEPT,
+      {
+        source: MessageRequestResponseSource.STORAGE_SERVICE,
+        learnedAtMs: Date.now(),
+      },
+      { shouldSave: false }
+    );
   } else if (!record.blocked) {
     // if the condition above failed the state could still be blocked=false
     // in which case we should unblock the conversation
@@ -1048,7 +1066,12 @@ function logRecordChanges(
     return details;
   }
 
-  for (const key of Object.keys(remoteRecord)) {
+  const allKeys = new Set([
+    ...Object.keys(remoteRecord),
+    ...Object.keys(localRecord),
+  ]);
+
+  for (const key of allKeys) {
     const localValue = localRecord[key];
     const remoteValue = remoteRecord[key];
 
@@ -1339,7 +1362,7 @@ export async function mergeGroupV2Record(
     }
   );
 
-  applyMessageRequestState(groupV2Record, conversation);
+  await applyMessageRequestState(groupV2Record, conversation);
 
   applyAvatarColor(conversation, groupV2Record.avatarColor);
 
@@ -1459,6 +1482,7 @@ export async function mergeContactRecord(
 
   await conversation.updateUsername(dropNull(contactRecord.username), {
     shouldSave: false,
+    fromStorageService: true,
   });
 
   let needsProfileFetch = false;
@@ -1538,7 +1562,7 @@ export async function mergeContactRecord(
     }
   }
 
-  applyMessageRequestState(contactRecord, conversation);
+  await applyMessageRequestState(contactRecord, conversation);
 
   addUnknownFieldsToConversation(contactRecord, conversation, details);
 
@@ -1629,6 +1653,7 @@ export async function mergeAccountRecord(
     keepMutedChatsArchived,
     hasCompletedUsernameOnboarding,
     hasSeenGroupStoryEducationSheet,
+    hasSeenAdminDeleteEducationDialog,
     hasSetMyStoriesPrivacy,
     hasViewedOnboardingStory,
     storiesDisabled,
@@ -1637,6 +1662,7 @@ export async function mergeAccountRecord(
     usernameLink,
     notificationProfileManualOverride,
     notificationProfileSyncDisabled,
+    automaticKeyVerificationDisabled,
   } = accountRecord;
 
   const conversation =
@@ -1720,10 +1746,19 @@ export async function mergeAccountRecord(
   const discoverability = unlistedPhoneNumber
     ? PhoneNumberDiscoverability.NotDiscoverable
     : PhoneNumberDiscoverability.Discoverable;
+
+  // Key Transparancy parameters for self request change whenever
+  // discoverability changes. Make sure we don't do self check prematurely
+  if (discoverability !== itemStorage.get('phoneNumberDiscoverability')) {
+    drop(keyTransparency.onKnownIdentifierChange());
+  }
   await itemStorage.put('phoneNumberDiscoverability', discoverability);
 
   if (profileKey && profileKey.byteLength > 0) {
-    void ourProfileKeyService.set(profileKey);
+    // Access key is part of Key Transparency request and changing it must
+    // delay self monitoring.
+    drop(keyTransparency.onKnownIdentifierChange());
+    drop(ourProfileKeyService.set(profileKey));
   }
 
   if (pinnedConversations) {
@@ -1898,6 +1933,22 @@ export async function mergeAccountRecord(
       hasCompletedUsernameOnboardingBool
     );
   }
+  await itemStorage.put(
+    'hasSeenAdminDeleteEducationDialog',
+    hasSeenAdminDeleteEducationDialog ?? false
+  );
+  {
+    const hasKeyTransparencyDisabled = Boolean(
+      automaticKeyVerificationDisabled
+    );
+    await itemStorage.put(
+      'hasKeyTransparencyDisabled',
+      hasKeyTransparencyDisabled
+    );
+    if (hasKeyTransparencyDisabled) {
+      await keyTransparency.disable();
+    }
+  }
   {
     const hasStoriesDisabled = Boolean(storiesDisabled);
     await itemStorage.put('hasStoriesDisabled', hasStoriesDisabled);
@@ -2002,21 +2053,27 @@ export async function mergeAccountRecord(
   const oldStorageID = conversation.get('storageID');
   const oldStorageVersion = conversation.get('storageVersion');
 
-  if (
-    itemStorage.get('usernameCorrupted') &&
-    username !== conversation.get('username')
-  ) {
-    details.push('clearing username corruption');
-    await itemStorage.remove('usernameCorrupted');
+  if (username !== conversation.get('username')) {
+    // Username is part of key transparency self monitor parameters. Make sure
+    // we delay self-check until the changes fully propagate to the log.
+    drop(keyTransparency.onKnownIdentifierChange());
+    if (itemStorage.get('usernameCorrupted')) {
+      details.push('clearing username corruption');
+      await itemStorage.remove('usernameCorrupted');
+    }
   }
 
   conversation.set({
     isArchived: Boolean(noteToSelfArchived),
     markedUnread: Boolean(noteToSelfMarkedUnread),
-    username: dropNull(username),
     storageID,
     storageVersion,
     needsStorageServiceSync: false,
+  });
+
+  await conversation.updateUsername(dropNull(username), {
+    shouldSave: false,
+    fromStorageService: true,
   });
 
   let needsProfileFetch = false;
@@ -2343,9 +2400,6 @@ export async function mergeCallLinkRecord(
   }
 
   const rootKeyString = fromRootKeyBytes(callLinkRecord.rootKey);
-  const epochString = callLinkRecord.epoch
-    ? fromEpochBytes(callLinkRecord.epoch)
-    : null;
   const adminKeyString = callLinkRecord.adminPasskey
     ? fromAdminKeyBytes(callLinkRecord.adminPasskey)
     : null;
@@ -2378,7 +2432,6 @@ export async function mergeCallLinkRecord(
   const callLinkDbRecord: CallLinkRecord = {
     roomId,
     rootKey: callLinkRecord.rootKey,
-    epoch: callLinkRecord.epoch ?? null,
     adminKey: callLinkRecord.adminPasskey ?? null,
     name: localCallLinkDbRecord?.name ?? '',
     restrictions: localCallLinkDbRecord?.restrictions ?? 0,
@@ -2422,7 +2475,6 @@ export async function mergeCallLinkRecord(
         callLinkRefreshJobQueue.add({
           rootKey: callLink.rootKey,
           adminKey: callLink.adminKey,
-          epoch: callLink.epoch,
           storageID: callLink.storageID,
           storageVersion: callLink.storageVersion,
           storageUnknownFields: callLink.storageUnknownFields,
@@ -2474,7 +2526,6 @@ export async function mergeCallLinkRecord(
   } else {
     window.reduxActions.calling.handleCallLinkUpdate({
       rootKey: rootKeyString,
-      epoch: epochString,
       adminKey: adminKeyString,
     });
   }
@@ -2503,7 +2554,12 @@ function recipientToConversationId(
 ): string {
   let match: ConversationModel | undefined;
   if (recipient.contact != null) {
-    match = window.ConversationController.get(recipient.contact.serviceId);
+    const serviceId = fromServiceIdBinaryOrString(
+      recipient.contact.serviceIdBinary,
+      recipient.contact.serviceId,
+      `${logPrefix}.recipientToConversationId`
+    );
+    match = window.ConversationController.get(serviceId);
     match ??= window.ConversationController.get(recipient.contact.e164);
   } else if (
     recipient.groupMasterKey != null &&

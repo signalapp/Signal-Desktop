@@ -47,6 +47,23 @@
     overflow: hidden;
     word-break: break-word;
 
+    &--with-view-once {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    &--view-once-active {
+      .ql-editor {
+        visibility: hidden;
+      }
+
+      .module-composition-input__input__scroller {
+        height: 32px;
+        overflow: hidden;
+      }
+    }
+
     // Override Quill styles
     .ql-container {
       // Inherit global font stack
@@ -78,8 +95,11 @@
 
     &__scroller {
       $padding-top: 6px;
+      position: relative;
       padding-block: $padding-top;
       padding-inline: 0;
+      flex: 1;
+      min-width: 0;
 
       min-height: calc(32px - 2 * $border-size);
       max-height: calc(72px - 2 * $border-size);
@@ -451,6 +471,24 @@
       top: 8px;
       width: 18px;
     }
+  }
+
+  &__view-once-button {
+    flex-shrink: 0;
+    align-self: center;
+    margin-inline-end: 8px;
+    margin-inline-start: 4px;
+  }
+
+  &__view-once-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+
+    color: light-dark(variables.$color-gray-45, variables.$color-gray-25);
   }
 }
 

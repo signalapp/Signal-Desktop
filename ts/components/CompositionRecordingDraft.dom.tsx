@@ -39,7 +39,7 @@ export function CompositionRecordingDraft({
   onPlay,
   onPause,
   onScrub,
-}: Props): JSX.Element {
+}: Props): React.JSX.Element {
   const [state, setState] = useState<{
     calculatingWidth: boolean;
     width: undefined | number;

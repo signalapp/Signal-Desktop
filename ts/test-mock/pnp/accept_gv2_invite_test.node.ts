@@ -161,7 +161,8 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
     debug('Leave the group through settings');
 
     await conversationStack
-      .locator('.conversation-details-panel >> "Leave group"')
+      .locator('.conversation-details-panel')
+      .getByRole('button', { name: 'Leave group' })
       .click();
 
     await window
@@ -212,10 +213,14 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
     assert(!group.getPendingMemberByServiceId(desktop.pni));
 
     // Verify that sync message was sent.
-    const { syncMessage } = await phone.waitForSyncMessage(entry =>
-      Boolean(entry.syncMessage.sent?.message?.groupV2?.groupChange)
-    );
-    const groupChangeBuffer = syncMessage.sent?.message?.groupV2?.groupChange;
+    const { syncMessage } = await phone.waitForSyncMessage(entry => {
+      if (entry.syncMessage.content !== 'sent') {
+        return false;
+      }
+      return entry.syncMessage.sent.message?.groupV2?.groupChange != null;
+    });
+    assert.strictEqual(syncMessage.content, 'sent');
+    const groupChangeBuffer = syncMessage.sent.message?.groupV2?.groupChange;
     assert.notEqual(groupChangeBuffer, null);
     const groupChange = Proto.GroupChange.decode(
       groupChangeBuffer ?? new Uint8Array(0)
@@ -277,10 +282,7 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
       .locator('.module-ConversationHeader__header__info__title')
       .click();
     await conversationStack
-      .locator(
-        '.ConversationDetails-panel-row__root--button >> ' +
-          'text=Requests & Invites'
-      )
+      .getByRole('button', { name: 'Requests & Invites' })
       .click();
     await conversationStack
       .locator('.ConversationDetails__tabs__tab >> text=Invites (1)')
