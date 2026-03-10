@@ -32,7 +32,10 @@ import {
   type AciString,
   type ServiceIdString,
 } from '../../types/ServiceId.std.js';
-import type { RawBodyRange } from '../../types/BodyRange.std.js';
+import {
+  bodyRangeSchema,
+  type RawBodyRange,
+} from '../../types/BodyRange.std.js';
 import { PaymentEventKind } from '../../types/Payment.std.js';
 import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent.std.js';
 import type {
@@ -183,6 +186,7 @@ import { ChatFolderType } from '../../types/ChatFolder.std.js';
 import { expiresTooSoonForBackup } from './util/expiration.std.js';
 import type { PinnedMessage } from '../../types/PinnedMessage.std.js';
 import type { ThemeType } from '../../util/preload.preload.js';
+import { safeParseStrict } from '../../util/schemas.std.js';
 
 const { isNumber } = lodash;
 
@@ -1675,7 +1679,7 @@ export class BackupExportStream extends Readable {
           state,
         };
       }
-    } else if (message.storyReplyContext) {
+    } else if (message.storyReplyContext || message.storyReaction) {
       result.directStoryReplyMessage = await this.#toDirectStoryReplyMessage({
         message,
       });
@@ -2787,9 +2791,7 @@ export class BackupExportStream extends Readable {
         quote.text != null
           ? {
               body: trimBody(quote.text, BACKUP_QUOTE_BODY_LIMIT),
-              bodyRanges: quote.bodyRanges?.map(range =>
-                this.#toBodyRange(range)
-              ),
+              bodyRanges: this.#toBodyRanges(quote.bodyRanges),
             }
           : null,
       attachments: await Promise.all(
@@ -2814,20 +2816,43 @@ export class BackupExportStream extends Readable {
     };
   }
 
-  #toBodyRange(range: RawBodyRange): Backups.IBodyRange {
-    return {
-      start: range.start,
-      length: range.length,
+  #toBodyRange(range: RawBodyRange): Backups.IBodyRange | null {
+    const { data: parsedRange, error } = safeParseStrict(
+      bodyRangeSchema,
+      range
+    );
 
-      ...('mentionAci' in range
+    if (error) {
+      log.warn('toBodyRange: Dropping invalid body range', toLogFormat(error));
+      return null;
+    }
+
+    return {
+      start: parsedRange.start,
+      length: parsedRange.length,
+
+      ...('mentionAci' in parsedRange
         ? {
-            mentionAci: this.#aciToBytes(range.mentionAci),
+            mentionAci: this.#aciToBytes(parsedRange.mentionAci),
           }
         : {
             // Numeric values are compatible between backup and message protos
-            style: range.style,
+            style: parsedRange.style,
           }),
     };
+  }
+
+  #toBodyRanges(
+    ranges: ReadonlyArray<RawBodyRange> | undefined
+  ): Array<Backups.IBodyRange> | undefined {
+    if (!ranges?.length) {
+      return undefined;
+    }
+
+    const result = ranges
+      .map(range => this.#toBodyRange(range))
+      .filter(isNotNil);
+    return result.length > 0 ? result : undefined;
   }
 
   #getMessageAttachmentFlag(
@@ -3194,8 +3219,8 @@ export class BackupExportStream extends Readable {
   }> {
     const includeLongTextAttachment =
       message.bodyAttachment && !isDownloaded(message.bodyAttachment);
-    const includeText =
-      Boolean(message.body) || Boolean(message.bodyRanges?.length);
+    const bodyRanges = this.#toBodyRanges(message.bodyRanges);
+    const includeText = Boolean(message.body) || Boolean(bodyRanges?.length);
 
     return {
       longText:
@@ -3217,9 +3242,7 @@ export class BackupExportStream extends Readable {
                     : MAX_BACKUP_MESSAGE_BODY_BYTE_LENGTH
                 )
               : undefined,
-            bodyRanges: message.bodyRanges?.map(range =>
-              this.#toBodyRange(range)
-            ),
+            bodyRanges,
           }
         : undefined,
     };
