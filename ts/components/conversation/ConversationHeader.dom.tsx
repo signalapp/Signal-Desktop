@@ -91,7 +91,7 @@ function HeaderInfoTitle({
     );
   }
 
-    return (
+  return (
     <>
       <div className="module-ConversationHeader__header__info__title">
         <UserText text={title} />

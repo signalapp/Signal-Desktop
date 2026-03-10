@@ -49,4 +49,3 @@ ts/protobuf/*.d.ts
 /.zed
 *.sublime*
 *.map
-apply.sh
