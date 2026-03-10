@@ -8262,7 +8262,7 @@
     "description": "Section title and button text for the on-device backups feature (also known as local backups)."
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backups are encrypted with a key and stored on your computer.",
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer.",
     "description": "Description in the settings view for on-device backups."
   },
   "icu:Preferences--local-backups-off-description": {
@@ -8270,7 +8270,7 @@
     "description": "Description for on-device local message backups when the feature is off."
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal. Open the app and tap Restore backup, then locate the backup folder. <learnMoreLink>Learn more.</learnMoreLink>",
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>",
     "description": "Description for how to restore on-device local message backups."
   },
   "icu:Preferences--local-backups-setup-folder": {

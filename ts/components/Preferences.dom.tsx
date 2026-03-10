@@ -161,6 +161,7 @@ export type PropsDataType = {
   settingsLocation: SettingsLocation;
   lastSyncTime?: number;
   notificationContent: NotificationSettingType;
+  osName: 'linux' | 'macos' | 'windows' | undefined;
   phoneNumber: string | undefined;
   selectedCamera?: string;
   selectedMicrophone?: AudioDevice;
@@ -333,6 +334,7 @@ type PropsFunctionType = {
   onWhoCanSeeMeChange: SelectChangeHandlerType<PhoneNumberSharingMode>;
   onWhoCanFindMeChange: SelectChangeHandlerType<PhoneNumberDiscoverability>;
   onZoomFactorChange: SelectChangeHandlerType<ZoomFactorType>;
+  openFileInFolder: (path: string) => void;
   internalDeleteAllMegaphones: () => Promise<number>;
   __dangerouslyRunAbitraryReadOnlySqlQuery: (
     readonlySqlQuery: string
@@ -514,6 +516,8 @@ export function Preferences({
   renderUpdateDialog,
   renderPreferencesChatFoldersPage,
   renderPreferencesEditChatFolderPage,
+  openFileInFolder,
+  osName,
   promptOSAuth,
   resetAllChatColors,
   resetDefaultChatColor,
@@ -2276,6 +2280,8 @@ export function Preferences({
         locale={resolvedLocale}
         localBackupFolder={localBackupFolder}
         onBackupKeyViewedChange={onBackupKeyViewedChange}
+        openFileInFolder={openFileInFolder}
+        osName={osName}
         pickLocalBackupFolder={pickLocalBackupFolder}
         settingsLocation={settingsLocation}
         promptOSAuth={promptOSAuth}

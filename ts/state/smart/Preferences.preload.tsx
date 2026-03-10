@@ -35,6 +35,7 @@ import { format } from '../../types/PhoneNumber.std.js';
 import {
   getIntl,
   getTheme,
+  getUser,
   getUserDeviceId,
   getUserNumber,
 } from '../selectors/user.std.js';
@@ -222,7 +223,7 @@ export function SmartPreferences(): React.JSX.Element | null {
     useConversationsActions();
   const { startUpdate } = useUpdatesActions();
   const { changeLocation } = useNavActions();
-  const { showToast } = useToastActions();
+  const { showToast, openFileInFolder } = useToastActions();
   const { internalAddDonationReceipt } = useDonationsActions();
   const { startPlaintextExport, startLocalBackupExport } = useBackupActions();
   const { addVisibleMegaphone } = useMegaphonesActions();
@@ -255,6 +256,7 @@ export function SmartPreferences(): React.JSX.Element | null {
   const hasAnyCurrentCustomChatFolders = useSelector(
     getHasAnyCurrentCustomChatFolders
   );
+  const { osName } = useSelector(getUser);
 
   // The weird ones
 
@@ -935,6 +937,8 @@ export function SmartPreferences(): React.JSX.Element | null {
           onWhoCanFindMeChange={onWhoCanFindMeChange}
           onWhoCanSeeMeChange={onWhoCanSeeMeChange}
           onZoomFactorChange={onZoomFactorChange}
+          openFileInFolder={openFileInFolder}
+          osName={osName}
           otherTabsUnreadStats={otherTabsUnreadStats}
           settingsLocation={settingsLocation}
           pickLocalBackupFolder={pickLocalBackupFolder}
