@@ -537,11 +537,26 @@ export class BackupsService {
     const { success, error } = result;
     if (success) {
       this.#localBackupSnapshotDir = snapshotDir;
+
+      if (!isTestOrMockEnvironment()) {
+        // Regenerate QR code without link & sync option
+        window.reduxActions.installer.startInstaller();
+
+        // eslint-disable-next-line no-alert
+        window.alert(
+          'Staged backup successfully. Please link to perform import.'
+        );
+      }
+
       log.info(
         `stageLocalBackupForImport: Staged ${snapshotDir} for import. Please link to perform import.`
       );
     } else {
       this.#localBackupSnapshotDir = undefined;
+      // eslint-disable-next-line no-alert
+      window.alert(
+        'Invalid backup snapshot directory; make sure you choose a snapshot directory (e.g. `signal-backup-2026-01-01-12-00-00`)'
+      );
       log.info(
         `stageLocalBackupForImport: Invalid snapshot ${snapshotDir}. Error: ${error}.`
       );
