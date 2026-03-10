@@ -61,6 +61,80 @@ export function PollCreateModal({
   const optionRefsMap = useRef<Map<string, HTMLTextAreaElement | null>>(
     new Map()
   );
+  const optionContainerRefsMap = useRef<Map<string, HTMLDivElement | null>>(
+    new Map()
+  );
+  const emojiPickerOpenForOptionRef = useRef<string | null>(null);
+
+  const cleanupOptionsOnBlur = useCallback(
+    (
+      currentOptions: Array<PollOption>,
+      changedOptionId: string
+    ): { options: Array<PollOption>; removedIndex?: number } => {
+      const resultOptions = [...currentOptions];
+      const changedIndex = resultOptions.findIndex(
+        opt => opt.id === changedOptionId
+      );
+      if (changedIndex === -1) {
+        return { options: resultOptions };
+      }
+
+      const isLastOption = changedIndex === resultOptions.length - 1;
+      const changedOption = resultOptions[changedIndex];
+      const hasText = changedOption?.value.trim().length > 0;
+      const canRemove = resultOptions.length > POLL_OPTIONS_MIN_COUNT;
+      let removedIndex: number | undefined;
+
+      if (!isLastOption && !hasText && canRemove) {
+        resultOptions.splice(changedIndex, 1);
+        removedIndex = changedIndex;
+
+        // Ensure there's always an empty option at the end
+        const lastOption = resultOptions[resultOptions.length - 1];
+        const lastOptionEmpty = !lastOption || !lastOption.value.trim();
+        if (!lastOptionEmpty && resultOptions.length < POLL_OPTIONS_MAX_COUNT) {
+          resultOptions.push({ id: generateUuid(), value: '' });
+        }
+      }
+
+      return { options: resultOptions, removedIndex };
+    },
+    []
+  );
+
+  const cleanupOptionIfFocusLeftRow = useCallback(
+    (id: string) => {
+      const optionContainer = optionContainerRefsMap.current.get(id);
+      const activeElement = document.activeElement;
+
+      if (
+        optionContainer &&
+        activeElement instanceof Node &&
+        optionContainer.contains(activeElement)
+      ) {
+        return;
+      }
+
+      if (emojiPickerOpenForOptionRef.current === id) {
+        return;
+      }
+
+      setOptions(prevOptions => {
+        const result = cleanupOptionsOnBlur(prevOptions, id);
+        return result.options;
+      });
+    },
+    [cleanupOptionsOnBlur]
+  );
+
+  const scheduleOptionCleanup = useCallback(
+    (id: string) => {
+      requestAnimationFrame(() => {
+        cleanupOptionIfFocusLeftRow(id);
+      });
+    },
+    [cleanupOptionIfFocusLeftRow]
+  );
 
   const computeOptionsAfterChange = useCallback(
     (
@@ -91,42 +165,6 @@ export function PollCreateModal({
         if (lastOptionEmpty) {
           resultOptions.pop();
           removedIndex = resultOptions.length;
-        }
-      }
-
-      return { options: resultOptions, removedIndex };
-    },
-    []
-  );
-
-  const cleanupOptionsOnBlur = useCallback(
-    (
-      currentOptions: Array<PollOption>,
-      changedOptionId: string
-    ): { options: Array<PollOption>; removedIndex?: number } => {
-      const resultOptions = [...currentOptions];
-      const changedIndex = resultOptions.findIndex(
-        opt => opt.id === changedOptionId
-      );
-      if (changedIndex === -1) {
-        return { options: resultOptions };
-      }
-
-      const isLastOption = changedIndex === resultOptions.length - 1;
-      const changedOption = resultOptions[changedIndex];
-      const hasText = changedOption?.value.trim().length > 0;
-      const canRemove = resultOptions.length > POLL_OPTIONS_MIN_COUNT;
-      let removedIndex: number | undefined;
-
-      if (!isLastOption && !hasText && canRemove) {
-        resultOptions.splice(changedIndex, 1);
-        removedIndex = changedIndex;
-
-        // Ensure there's always an empty option at the end
-        const lastOption = resultOptions[resultOptions.length - 1];
-        const lastOptionEmpty = !lastOption || !lastOption.value.trim();
-        if (!lastOptionEmpty && resultOptions.length < POLL_OPTIONS_MAX_COUNT) {
-          resultOptions.push({ id: generateUuid(), value: '' });
         }
       }
 
@@ -175,14 +213,11 @@ export function PollCreateModal({
     [computeOptionsAfterChange, validationErrors, options]
   );
 
-  const handleOptionBlur = useCallback(
+  const handleOptionRowBlur = useCallback(
     (id: string) => {
-      setOptions(prevOptions => {
-        const result = cleanupOptionsOnBlur(prevOptions, id);
-        return result.options;
-      });
+      scheduleOptionCleanup(id);
     },
-    [cleanupOptionsOnBlur]
+    [scheduleOptionCleanup]
   );
 
   const handleEnterKey = useCallback(
@@ -362,14 +397,17 @@ export function PollCreateModal({
 
           <div className={tw('mt-5 flex flex-col gap-4')}>
             {options.map((option, index) => (
-              <div key={option.id}>
+              <div
+                key={option.id}
+                ref={el => optionContainerRefsMap.current.set(option.id, el)}
+                onBlur={() => handleOptionRowBlur(option.id)}
+              >
                 <AutoSizeTextArea
                   ref={el => optionRefsMap.current.set(option.id, el)}
                   i18n={i18n}
                   moduleClassName="PollCreateModalInput"
                   value={option.value}
                   onChange={value => handleOptionChange(option.id, value)}
-                  onBlur={() => handleOptionBlur(option.id)}
                   onEnter={e => handleEnterKey(e, index)}
                   placeholder={i18n('icu:PollCreateModal__optionPlaceholder', {
                     number: String(index + 1),
@@ -384,6 +422,9 @@ export function PollCreateModal({
                   <FunEmojiPicker
                     open={emojiPickerOpenForOption === option.id}
                     onOpenChange={open => {
+                      emojiPickerOpenForOptionRef.current = open
+                        ? option.id
+                        : null;
                       setEmojiPickerOpenForOption(open ? option.id : null);
                     }}
                     onSelectEmoji={emojiSelection =>

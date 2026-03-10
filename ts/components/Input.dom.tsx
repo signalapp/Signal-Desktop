@@ -1,7 +1,12 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { ClipboardEvent, KeyboardEvent, ReactNode } from 'react';
+import type {
+  ClipboardEvent,
+  FocusEvent,
+  KeyboardEvent,
+  ReactNode,
+} from 'react';
 import React, {
   forwardRef,
   useCallback,
@@ -33,7 +38,9 @@ export type PropsType = {
   maxLengthCount?: number;
   moduleClassName?: string;
   onChange: (value: string) => unknown;
-  onBlur?: () => unknown;
+  onBlur?: (
+    event: FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => unknown;
   onFocus?: () => unknown;
   onEnter?: (event: KeyboardEvent) => unknown;
   placeholder: string;
