@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Poista varmennus"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "Varmenna päästä päähän -salaus henkilön {name} kanssa vertaamalla yllä olevia numeroita hänen laitteeseensa. Henkilö voi myös skannata koodisi laitteellaan."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "Varmenna päästä päähän -salaus henkilön {name} kanssa vertaamalla yllä olevia numeroita hänen laitteeseensa. Henkilö voi myös skannata koodisi laitteellaan."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Vianetsintälokit auttavat meitä diagnosoimaan ja korjaamaan ongelman, eivätkä ne sisällä tunnistetietoja."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Sulje"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Jaa vianetsintäloki"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Lähetä"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "Ei kiitos"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Lähetetään..."
@@ -2220,16 +2211,16 @@
     "messageformat": "Poisto epäonnistui"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Poistaminen epäonnistui. Saat lisätietoja napsauttamalla."
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Yritetäänkö epäonnistunutta poistoa uudelleen?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Viestin poistaminen epäonnistui. Tarkista verkkoyhteys ja yritä uudelleen."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "Yritä uudelleen"
   },
   "icu:editFailed": {
     "messageformat": "Muokkaus epäonnistui, katso lisätietoja napsauttamalla"
@@ -2244,7 +2235,7 @@
     "messageformat": "Poistettiin osittain, yritä uudelleen napauttamalla"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Viesti osittain poistettu. Saat lisätietoja napsauttamalla."
   },
   "icu:expiredWarning": {
     "messageformat": "Käyttämäsi versio Signal Desktopista on vanhentunut. Voit lähettää ja vastaanottaa viestejä päivittämällä uusimpaan versioon."
@@ -2451,10 +2442,10 @@
     "messageformat": "Vain ylläpitäjät voivat määrittää ryhmän jäsenroolit."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Kerran katsottava sisältö käytössä"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Kerran katsottava sisältö pois käytöstä"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Muokkauksia voidaan tehdä vain 24 tunnin kuluessa tämän viestin lähettämisestä."
@@ -2643,13 +2634,13 @@
     "messageformat": "Tämä viesti poistettiin."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "Ylläpitäjä {admin} poisti viestin"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "{name} poisti viestin"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "Poistit viestin"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "Liitetiedosto on liian suuri näytettäväksi."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "Ylläpitäjä muutti kaikki jäsenet ryhmän tietojen muokkaajiksi."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName}muutti vain ylläpitäjät ryhmän jäsenyyden muokkaajiksi."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Muutit vain ylläpitäjät ryhmän jäsenyyden muokkaajiksi. "
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName}muutti vain ylläpitäjät ryhmän jäsenyyden muokkaajiksi."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "Ylläpitäjä muutti vain ylläpitäjät ryhmän jäsenyyden muokkaajiksi. "
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} muutti vain ylläpitäjät ryhmän jäsenyyden muokkaajiksi. "
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Muutit kaikki jäsenet ryhmän jäsenyyden muokkaajiksi."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} muutti vain ylläpitäjät ryhmän jäsenyyden muokkaajiksi. "
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "Ylläpitäjä muutti kaikki jäsenet ryhmän jäsenyyden muokkaajiksi. "
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Poistit ylläpitäjän hyväksynnän ryhmälinkillä liittyttäessä."
@@ -4647,10 +4656,10 @@
     "messageformat": "Korvaa"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Kerran katsottava sisältö"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "Kerran katsottava media"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Muokkaa viestiä"
@@ -4686,13 +4695,16 @@
     "messageformat": "Ääni"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Mykistä ääni"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Haluatko varmasti mykistää käyttäjän {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "Mykistä"
+  },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Remove from call"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Jäsenroolit"
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Ryhmän tietojen muokkaaminen"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Valitse, kuka voi muokata ryhmän nimeä, valokuvaa, kuvausta ja katoavien viestien ajastusta."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Valitse, kuka voi muokata ryhmän nimeä, kuvaa, kuvausta, katoavien viestien ajastusta sekä kiinnitettyjä viestejä."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Valitse, kuka voi lähettää viestejä ryhmään."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Jäsenroolit poistetaan"
@@ -5016,7 +5031,7 @@
     "messageformat": "{count, plural, one {Poistetaanko viesti?} other {Poistetaanko {count,number} viestiä?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Poistetaanko valittu viesti?} other {Poistetaanko valitut {count,number} viestiä?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Keneltä haluat poistaa tämän viestin?} other {Keneltä haluat poistaa nämä viestit?}}"
@@ -5037,10 +5052,10 @@
     "messageformat": "Poista kaikilta"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "Poistetaanko kaikilta?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Koska olet ylläpitäjä, ryhmän jäsenet näkevät, että olet poistanut viestin.} other {Koska olet ylläpitäjä, ryhmän jäsenet näkevät, että olet poistanut viestit.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Poista kaikilta laitteilta"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Voit valita enintään {count,number} viestin poistettavaksi kaikilta} other {Voit valita enintään {count,number} viestiä poistettavaksi kaikilta}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Discard draft?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "This action can't be undone."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Poistetaanko kohde?"
@@ -6187,13 +6208,13 @@
     "messageformat": "Desktop-version varmuuskopiot"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Varmuuskopiot salataan avaimella ja tallennetaan tietokoneellesi."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Luo päästä päähän salattu varmuuskopio, jonka voit palauttaa puhelimeesi. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Palauta varmuuskopio asentamalla uusi kopio Signalista. Avaa sovellus, napauta Palauta varmuuskopio ja etsi sitten varmuuskopiokansio. <learnMoreLink>Lue lisää.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Valitse kansio"
@@ -7986,10 +8007,9 @@
     "messageformat": "Signal Secure -varmuuskopiointi on nyt saatavilla! Nyt voit ottaa käyttöön automaattisen, päästä päähän salatun varmuuskopioinnin. Näin et koskaan menetä viestejä, kun hankit uuden puhelimen tai asennat Signalin uudelleen. Voit varmuuskopioida kaikki viestisi ja viimeisten 45 päivän mediasisällön veloituksetta. Pienellä kuukausimaksulla saat 100 Gt tallennustilaa kaikkien liitteiden varmuuskopiointiin. Aloita napauttamalla Varmuuskopiointi Signal-asetuksissa. Kiitos beta-vaiheen testaajille!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Nyt voit lähettää kerran katsottavia mediaviestejä myös Signal Desktopista. Yksittäiset valokuvat ja videot, jotka lähetetään kerran katsottavina viesteinä, poistetaan keskusteluketjusta automaattisesti niiden katselun jälkeen."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

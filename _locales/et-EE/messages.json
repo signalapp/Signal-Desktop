@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Tühista kontrollimine"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "Kasutajaga {name} otspunktkrüpteerimise kontrollimiseks võrdle ülalpool olevaid numbreid tema seadmes olevatega. Võid ka paluda tal skannida oma seadmega sinu koodi."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "Kasutajaga {name} otspunktkrüpteerimise kontrollimiseks võrdle ülalpool olevaid numbreid tema seadmes olevatega. Võid ka paluda tal skannida oma seadmega sinu koodi."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Silumislogid aitavad meil probleemi diagnoosida ja lahendada ega sisalda isikuandmeid."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Sulge"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Jaga silumislogi"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Postita"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "Tänan, ei"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Saatmine …"
@@ -2220,16 +2211,16 @@
     "messageformat": "Kustutamine nurjus"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Kustutamine nurjus, klõpsa täpsema info nägemiseks"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Kas proovida ebaõnnestunud kustutamist uuesti?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Sõnumit ei saanud kustutada. Kontrolli oma ühendust ja proovi uuesti."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "Proovi uuesti"
   },
   "icu:editFailed": {
     "messageformat": "Muutmine nurjus, klõpsa täpsema info nägemiseks"
@@ -2244,7 +2235,7 @@
     "messageformat": "Osaliselt kustutatud, klõpsa uuesti proovimiseks"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Osaliselt kustutatud, üksikasjade nägemiseks klõpsa"
   },
   "icu:expiredWarning": {
     "messageformat": "See Signal Desktopi versioon on aegunud. Palun uuenda uusimale versioonile sõnumite saatmiseks jätkamiseks."
@@ -2451,10 +2442,10 @@
     "messageformat": "Ainult administraatorid saavad selles grupis liikmesilte lisada."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Ühekordne vaatamine sees"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Ühekordne vaatamine väljas"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Muutmine on võimalik vaid 24 tunni jooksul alates sõnumi saatmisest."
@@ -2643,13 +2634,13 @@
     "messageformat": "See sõnum kustutati."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "Administraator {admin} kustutas selle sõnumi"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "{name} kustutas selle sõnumi"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "Sa kustutasid selle sõnumi"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "Manus on kuvamiseks liiga suur."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "Administraator muutis grupi info muutmise tasemeks “Kõik liikmed“."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} muutis grupi liikmelisuse muutjateks \"Ainult administraatorid\"."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Sa muutsid grupi liikmelisuseks \"Ainult administraatoritele\"."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} muutis grupi liikmelisuse muutjateks \"Ainult administraatorid\"."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "Administraator muutis grupi liikmelisuseks \"Ainult administraatoritele\"."
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} muutis grupi liikmelisuse muutjateks \"Kõik liikmed\"."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Sa muutsid grupi liikmelisuse muutjateks \"Kõik liikmed\"."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} muutis grupi liikmelisuse muutjateks \"Kõik liikmed\"."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "Administraator muutis grupi liikmelisuse muutjateks \"Kõik liikmed\"."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Sa lülitasid grupilingi administraatori kinnituse välja."
@@ -4647,10 +4656,10 @@
     "messageformat": "Asenda"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Ühekordne vaatamine"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "Ühekordselt vaadatav meediasisu"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Muuda sõnumit"
@@ -4686,13 +4695,16 @@
     "messageformat": "Hääl"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Vaigista heli"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Kas sa tõesti soovid kasutaja {contact} vaigistada?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "Vaigista"
+  },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Remove from call"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Liikmesildid"
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Kes saavad muuta grupi infot"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Vali, kes saavad muuta grupi nime, fotot, kirjeldust ja kaduvate sõnumite kestust."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Vali, kes saavad muuta grupi nime, fotot, kirjeldust, kaduvate sõnumite kestust ja esiletõstetud sõnumeid."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Vali, kes saavad gruppi sõnumeid saata."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Liikmete sildid kustutatakse"
@@ -5016,7 +5031,7 @@
     "messageformat": "{count, plural, one {Kas kustutada sõnum?} other {Kas kustutada {count,number} sõnumit?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Kas kustutada valitud sõnum?} other {Kas kustutada valitud {count,number} sõnumit?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Kelle jaoks soovid seda sõnumit kustutada?} other {Kelle jaoks soovid neid sõnumeid kustutada?}}"
@@ -5037,10 +5052,10 @@
     "messageformat": "Kustuta kõigi jaoks"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "Kas kustutada kõigi jaoks?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Kuna oled administraator, näevad grupi liikmed, et kustutasid selle sõnumi.} other {Kuna oled administraator, näevad grupi liikmed, et kustutasid need sõnumid.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Kustuta kõigist seadmetest"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Saad valida kõigi jaoks kustutamiseks vaid kuni {count,number} sõnumi} other {Saad valida kõigi jaoks kustutamiseks vaid kuni {count,number} sõnumit}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Discard draft?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "This action can't be undone."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Kas kustutada üksus?"
@@ -6187,13 +6208,13 @@
     "messageformat": "Töölaua varukoopiad"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Varukoopiad krüptitakse võtmega ja salvestatakse sinu arvutisse."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Loo otspunktkrüptitud varukoopia, mille saad oma telefonis taastada. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Varukoopia taastamiseks installi Signali uus versioon. Ava rakendus ja klõpsa „Taasta varukoopia“, seejärel vali varukoopia kaust. <learnMoreLink>Rohkem teavet.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Vali kaust"
@@ -7986,10 +8007,9 @@
     "messageformat": "Signali turvalised varukoopiad on kohal! Nüüd saad lubada automaatsed otspunktkrüptitud varukoopiad, et kunagi ükski sõnum kaotsi ei läheks, kui sa uue telefoni saad või Signali uuesti paigaldad. Saad tasuta varundada kõik oma sõnumid ja viimase 45 päeva meediafailid või maksta väikese kuutasu, mille eest anname sulle 100 GB salvestusruumi kõigi manuste varundamiseks. Alustamiseks vali oma Signali sätete alt varukoopiad. Aitäh kõigile, kes aitasid seda funktsiooni beetaperioodil testida!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Nüüd saad ka Signal Desktopist ühekordselt vaadatavaid meediasõnumeid saata. Ühekordseks vaatamiseks saadetud fotod ja videod eemaldatakse vestluslõimest automaatselt pärast nende vaatamist."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

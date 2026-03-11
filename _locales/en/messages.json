@@ -774,10 +774,6 @@
     "messageformat": "Clear verification",
     "description": "Safety number viewer, verification toggle button, when verified, clears verification state"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code with their device.",
-    "description": "(Deleted 2026/02/04) Safety number viewer, text of the hint"
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "To verify end-to-end encryption with {name}, compare the numbers above with their device. They can also scan your code on their device.",
     "description": "Safety number viewer, text of the hint"
@@ -854,10 +850,6 @@
     "messageformat": "Debug logs helps us diagnose and fix the issue, and do not contain identifying information.",
     "description": "Key Transparency Error Dialog > Description"
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close",
-    "description": "(Deleted 2026/02/04) Key Transparency Error Dialog > Dialog Close Button (Accessibility Label)"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Share debug log",
     "description": "Key Transparency Error Dialog > Share debug log > Label"
@@ -869,10 +861,6 @@
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Submit",
     "description": "Primary button text in the dialog shown when an unexpected key transparency error occurs. Clicking it will open a support page"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No thanks",
-    "description": "(Deleted 2026/02/04) Secondary button text in the dialog shown when an unexpected key transparency error occurs. Clicking the button will dismiss the error dialog."
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Submitting...",
@@ -5014,7 +5002,7 @@
   },
   "icu:CallingAdhocCallInfo__RemoveClient": {
     "messageformat": "Remove this person from the call",
-    "description": "Button in the in-call info popup for call link calls showing all participants. The action is to remove the participant from the call."
+    "description": "(Deleted 2026/03/11) Button in the in-call info popup for call link calls showing all participants. The action is to remove the participant from the call."
   },
   "icu:CallingAdhocCallInfo__RemoveClientDialogBody": {
     "messageformat": "Remove {name} from the call?",
@@ -6383,10 +6371,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Who can edit group info",
     "description": "This is the label for the 'who can edit the group' panel"
-  },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Choose who can edit group name, photo, description, and disappearing messages timer.",
-    "description": "(Deleted 2026/02/04) This is the additional info for the 'who can edit the group' panel"
   },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Choose who can edit group name, photo, description, disappearing messages timer, and pinned messages.",
@@ -8371,7 +8355,7 @@
   },
   "icu:Preferences__local-backups-folder__change": {
     "messageformat": "Change",
-    "description": "Button to change the folder in which local on-device backups are stored."
+    "description": "(Deleted 2026/03/11) Button to change the folder in which local on-device backups are stored."
   },
   "icu:Preferences__local-backups-turn-off": {
     "messageformat": "Turn off backups",
@@ -10680,7 +10664,7 @@
   },
   "icu:WhatsNew__8.2--0": {
     "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed.",
-    "description": "Release notes for 8.2 release"
+    "description": "(Deleted 2026/03/11) Release notes for 8.2 release"
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone.",

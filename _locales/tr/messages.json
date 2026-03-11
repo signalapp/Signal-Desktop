@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Doğrulamayı temizle"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "{name} ile uçtan uca şifrelemeyi doğrulamak için yukarıdaki sayıları onun cihazlarındakilerle karşılaştır. Cihazlarıyla kodunu da tarayabilirler."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "{name} ile uçtan uca şifrelemeyi doğrulamak için yukarıdaki rakamları onun cihazlarındakilerle karşılaştır. Cihazlarıyla kodunu da tarayabilirler."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Hata ayıklama günlükleri, sorunu teşhis etmemize ve düzeltmemize yardımcı olur ve tanımlayıcı bilgiler içermezler."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Kapat"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Hata ayıklama günlüğünü paylaş"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Gönder"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "Hayır teşekkürler"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Gönderiliyor..."
@@ -2220,16 +2211,16 @@
     "messageformat": "Silme başarısız"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Silme başarısız oldu, ayrıntılar için tıkla"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Başarısız silme işlemi yeniden denensin mi?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Mesaj silinemedi. Bağlantını kontrol edip tekrar dene."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "Tekrar dene"
   },
   "icu:editFailed": {
     "messageformat": "Düzenleme başarısız oldu, ayrıntılar için tıkla"
@@ -2244,7 +2235,7 @@
     "messageformat": "Kısmen silindi, tekrar denemek için tıkla"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Kısmen silindi, ayrıntılar için tıkla"
   },
   "icu:expiredWarning": {
     "messageformat": "Signal Desktop'ın bu sürümü kullanım dışı kaldı. İletişime devam etmek için lütfen en son sürüme yükseltin."
@@ -2451,10 +2442,10 @@
     "messageformat": "Bu gruptaki üye etiketlerini yalnızca yöneticiler ekleyebilir."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Bir kez görüntüle etkinleştirildi"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Bir kez görüntüle devre dışı bırakıldı"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Düzenlemeler yalnızca bu mesajı gönderdikten sonraki 24 saat içinde uygulanabilir."
@@ -2643,13 +2634,13 @@
     "messageformat": "Bu ileti silindi."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "Yönetici {admin} bu mesajı sildi"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "{name} bu mesajı sildi"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "Bu mesajı sildin"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "Ek, görüntülenemeyecek kadar büyük."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "Bir yönetici grup bilgisini kimlerin düzenleyebileceğini \"Tüm üyeler\" olarak ayarladı."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} grup üyelerini kimlerin düzenleyebileceğini \"Yalnızca yöneticiler\" olarak ayarladı."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Grup üyelerini kimlerin düzenleyebileceğini \"Yalnızca yöneticiler\" olarak ayarladınız."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} grup üyelerini kimlerin düzenleyebileceğini \"Yalnızca yöneticiler\" olarak ayarladı."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "Bir yönetici grup üyelerini kimlerin düzenleyebileceğini \"Yalnızca yöneticiler\" olarak ayarladı."
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} grup üyelerini kimlerin düzenleyebileceğini \"Tüm üyeler\" olarak ayarladı."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Grup üyelerini kimlerin düzenleyebileceğini \"Tüm üyeler\" olarak ayarladınız."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} grup üyelerini kimlerin düzenleyebileceğini \"Tüm üyeler\" olarak ayarladı."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "Bir yönetici grup üyelerini kimlerin düzenleyebileceğini \"Tüm üyeler\" olarak ayarladı."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Grup bağlantısı için yönetici onayını devre dışı bıraktınız."
@@ -4647,10 +4656,10 @@
     "messageformat": "Değiştir"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Bir kez görüntüle"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "Bir kez görünür medya"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Mesajı düzenle"
@@ -4686,13 +4695,16 @@
     "messageformat": "Sesli"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Sesi kapat"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "{contact} kişisini sessize almak istediğinden emin misin?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "Sessize al"
+  },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Remove from call"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Üye etiketleri"
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Grup bilgisini kimler düzenleyebilir"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Grup adını, fotoğrafını, açıklamasını ve kaybolan ileti zamanlayıcısını kimlerin düzenleyebileceğini seçin."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Grup adını, fotoğrafını, açıklamasını, kaybolan mesaj zamanlayıcısını ve sabitlenmiş mesajları kimin düzenleyebileceğini seç."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Gruba kimlerin ileti gönderebileceğini seçin."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Üye etiketleri silinecektir"
@@ -5016,7 +5031,7 @@
     "messageformat": "{count, plural, one {Mesaj silinsin mi?} other {{count,number} mesaj silinsin mi?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Seçilen mesaj silinsin mi?} other {Seçilen {count,number} mesaj silinsin mi?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Bu mesajı kimin cihazından silmek istiyorsun?} other {Bu mesajları kimin cihazından silmek istiyorsun?}}"
@@ -5037,10 +5052,10 @@
     "messageformat": "Herkesten sil"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "Herkesten silinsin mi?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Grup üyeleri, bu mesajı yönetici olarak sildiğini görecektir.} other {Grup üyeleri, bu mesajları yönetici olarak sildiğini görecektir.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Tüm cihazlardan sil"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Herkesten silmek için en fazla {count,number} mesaj seçebilirsin} other {Herkesten silmek için en fazla {count,number} mesaj seçebilirsin}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Discard draft?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "This action can't be undone."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Öğe silinsin mi?"
@@ -6187,13 +6208,13 @@
     "messageformat": "Masaüstü yedeklemeleri"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Yedeklemeler bir anahtarla şifrelenir ve bilgisayarında saklanır."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Telefonuna geri yükleyebileceğin uçtan uca şifrelenmiş bir yedekleme oluştur. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Bir yedeklemeyi geri yüklemek için Signal'ın yeni bir kopyasını yükle. Uygulamayı aç ve Yedeklemeyi geri yükle'ye dokun, ardından yedekleme klasörünü bul. <learnMoreLink>Dahasını öğren.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Klasör seç"
@@ -7986,10 +8007,9 @@
     "messageformat": "Signal güvenli yedeklemeler burada! Artık otomatik uçtan uca şifrelenmiş yedeklemeleri etkinleştirmeyi seçebilirsin, böylece yeni bir telefon aldığında veya Signal'ı yeniden yüklediğinde hiçbir mesajı kaybetmezsin. Tüm mesajlarını ve son 45 günlük medyayı ücretsiz olarak yedekleyebilir ya da aylık küçük bir ücret ödeyerek her eklentiyi yedeklemek için 100 GB depolama alanına sahip olabilirsin. Başlamak için Signal ayarlarındaki yedeklemelere dokunun. Beta dönemi boyunca bu özelliğin test edilmesine yardımcı olan herkese teşekkürler!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Artık Signal Desktop'tan da bir kez görünür medya mesajları gönderebilirsin. Bir kez görünür mesajlar olarak gönderilen bireysel fotoğraflar ve videolar, görüntülendikten sonra konuşma dizisinden otomatik olarak kaldırılacaktır."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

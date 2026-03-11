@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Annuler la confirmation"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "Pour vérifier le chiffrement de bout en bout de vos communications avec {name}, comparez les chiffres ci-dessus avec ceux de son appareil. Vous pouvez aussi scanner le code QR qui s’affiche sur son appareil."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "Pour vérifier le chiffrement de bout en bout de vos communications avec {name}, comparez les chiffres ci-dessus avec ceux qui s'affichent sur son appareil. S'il le souhaite, votre contact peut aussi scanner votre code QR avec son appareil."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Les journaux de débogage nous permettent de diagnostiquer et de résoudre les problèmes. Ils ne contiennent aucune donnée d'identification."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Fermer"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Partager le journal de débogage"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Envoyer"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "Non merci"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Envoi en cours..."
@@ -2220,16 +2211,16 @@
     "messageformat": "Impossible de supprimer le message"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Non supprimé. En savoir plus."
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Réessayer ?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Impossible de supprimer le message. Vérifiez votre connexion et réessayez."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "Réessayer"
   },
   "icu:editFailed": {
     "messageformat": "Échec de la modification. Cliquez pour en savoir plus."
@@ -2244,7 +2235,7 @@
     "messageformat": "Suppression partielle. Cliquez pour réessayer."
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Suppression partielle. En savoir plus."
   },
   "icu:expiredWarning": {
     "messageformat": "Cette version de Signal Desktop est arrivée à expiration. Pour continuer d'échanger des messages, passez à la nouvelle version."
@@ -2451,10 +2442,10 @@
     "messageformat": "Dans ce groupe, seuls les admins peuvent créer des étiquettes de membre."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Vue unique activée"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Vue unique désactivée"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Une fois envoyés, les messages ne peuvent être modifiés que pendant 24 heures."
@@ -2643,13 +2634,13 @@
     "messageformat": "Ce message a été supprimé."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "L'admin {admin} a supprimé ce message"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "{name} a supprimé ce message"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "Vous avez supprimé ce message"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "Pièce jointe trop volumineuse pour être affichée."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "Un admin a défini l'autorisation de modifier les infos du groupe sur \"Tous les membres\"."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} a défini l'autorisation d'ajouter des membres sur \"Les administrateurs\"."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Vous avez défini l'autorisation d'ajouter des membres sur \"Les administrateurs\"."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} a défini l'autorisation d'ajouter des membres sur \"Les administrateurs\"."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "Un admin a défini l'autorisation d'ajouter des membres sur \"Les administrateurs\"."
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} a défini l'autorisation d'ajouter des membres sur \"Tous les membres\"."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Vous avez défini l'autorisation d'ajouter des membres sur \"Tous les membres\"."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} a défini l'autorisation d'ajouter des membres sur \"Tous les membres\"."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "Un administrateur a défini l'autorisation d'ajouter des membres sur \"Tous les membres\"."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Vous avez désactivé l'approbation des adhésions via le lien du groupe."
@@ -4647,10 +4656,10 @@
     "messageformat": "Remplacer"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Vue unique"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "Média à vue unique"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Modifier le message"
@@ -4686,13 +4695,16 @@
     "messageformat": "Audio"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Couper le micro"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Voulez-vous vraiment couper le micro de {contact} ?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "Oui"
+  },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Remove from call"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Étiquettes de membre"
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Qui peut modifier les infos du groupe"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Choisissez qui peut modifier le nom, la photo et la présentation du groupe, ou encore le délai avant disparition des messages éphémères."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Choisissez qui peut modifier le nom, la photo et la présentation du groupe, ainsi que les messages épinglés et le délai avant disparition des messages éphémères."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Choisissez qui peut envoyer des messages au groupe."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Les étiquettes de membre seront supprimées"
@@ -5016,7 +5031,7 @@
     "messageformat": "{count, plural, one {Supprimer {count,number} message ?} other {Supprimer {count,number} messages ?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Supprimer le message sélectionné ?} other {Supprimer les {count,number} messages sélectionnés ?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Pour qui voulez-vous supprimer ce message ?} other {Pour qui voulez-vous supprimer ces messages ?}}"
@@ -5037,10 +5052,10 @@
     "messageformat": "Supprimer pour tout le monde"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "Supprimer pour tout le monde ?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Les membres du groupe verront que vous avez supprimé ce message en tant qu'admin.} other {Les membres du groupe verront que vous avez supprimé ces messages en tant qu'admin.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Supprimer sur tous les appareils"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Vous ne pouvez sélectionner que {count,number} message à supprimer pour tout le monde.} other {Vous ne pouvez sélectionner qu'un maximum de {count,number} messages à supprimer pour tout le monde.}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Discard draft?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "This action can't be undone."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Supprimer cet élément ?"
@@ -6187,13 +6208,13 @@
     "messageformat": "Sauvegardes locales"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Les sauvegardes sont chiffrées au moyen d'une clé et stockées sur votre ordinateur."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Créez une sauvegarde chiffrée de bout en bout, que vous pouvez restaurer sur votre téléphone. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Pour restaurer une sauvegarde, réinstallez Signal, puis ouvrez l'appli. Touchez &quot;Restaurer une sauvegarde&quot; et recherchez votre dossier de sauvegarde. <learnMoreLink>En savoir plus</learnMoreLink>."
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Choisir un dossier"
@@ -7986,10 +8007,9 @@
     "messageformat": "Les sauvegardes sécurisées Signal sont là ! Chiffrées de bout en bout, les sauvegardes sécurisées permettent de sauvegarder tous vos messages automatiquement. Besoin de changer de téléphone ou de réinstaller Signal ? Vos contenus restent à portée de main. Vous pouvez sauvegarder gratuitement tous vos messages ainsi que vos médias des 45 derniers jours. Ou opter pour le forfait payant et stocker jusqu'à 100 Go de médias en contrepartie d'un petit montant mensuel. Prêt à vous lancer ? Cliquez sur \"Sauvegardes\" dans les paramètres Signal. Merci à toutes celles et ceux qui nous ont aidés à tester la version bêta !"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Maintenant, vous pouvez aussi envoyer des médias à vue unique depuis Signal Desktop. Une fois vues, les photos et vidéos envoyées sous forme de messages éphémères sont automatiquement supprimées du fil de conversation."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

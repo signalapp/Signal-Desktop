@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Верификацияны тазалау"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "{name} деген контактімен өтпелі шифрлау қауіпсіздігін тексеру үшін, жоғарыдағы сандарды оның құрылғысымен салыстырып көріңіз. Сонымен қатар ол өз құрылғысымен сіздің кодыңызды сканерлей алады."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "{name} атты пайдаланушымен тура шифрлауды растау үшін, жоғарыдағы сандарды оның құрылғысымен салыстырып көріңіз. Сонымен қатар ол өз құрылғысымен сіздің кодыңызды сканерлей алады."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Ақауларды түзету журналдары диагностика жасап, ақауларды түзетуге мүмкіндік береді және онда жеке басты анықтайтын ақпарат болмайды."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Жабу"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Ақауларды түзету журналын бөлісу"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Жіберу"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "Жоқ, рақмет"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Жіберіліп жатыр..."
@@ -2220,16 +2211,16 @@
     "messageformat": "Жойылмады"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Жойылмады, толық мәлімет алу үшін басыңыз"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Орындалмаған жою процесін қайталау керек пе?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Хабар жойылмады. Байланысты тексеріп, қайталап көріңіз."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "Қайталап көру"
   },
   "icu:editFailed": {
     "messageformat": "Өңделмеді, толық мәлімет алу үшін басыңыз"
@@ -2244,7 +2235,7 @@
     "messageformat": "Ішінара жойылды, қайталап көру үшін басыңыз"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Ішінара жойылды, толық мәлімет алу үшін басыңыз"
   },
   "icu:expiredWarning": {
     "messageformat": "Signal-дың компьютерлік нұсқасы ескірді. Әрі қарай хат алмасуды жалғастыру үшін соңғы нұсқаға жаңартыңыз."
@@ -2451,10 +2442,10 @@
     "messageformat": "Бұл топта қатысушы белгішелерін тек әкімшілер қоса алады."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "\"Бір рет көру\" функциясы қосылды"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "\"Бір рет көру\" функциясы өшірілді"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Бұл хатты жіберген соң, оны 24 сағаттың ішінде ғана өзгертуге болады."
@@ -2643,13 +2634,13 @@
     "messageformat": "Бұл хат жойылды."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "{admin} атты әкімші бұл хабарды жойды"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "{name} бұл хабарды жойды"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "Сіз бұл хабарды жойдыңыз"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "Тіркеме өте үлкен болғандықтан, оны көрсету мүмкін емес."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "Әкімші топ ақпаратын \"Барлық мүшелер\" өзгерте алатын етіп орнатты."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} топ мүшелігін \"Тек әкімшілер\" өзгерте алатын етіп орнатты."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Сіз топ мүшелігін \"Тек әкімшілер\" өзгерте алатын етіп орнаттыңыз."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} топ мүшелігін \"Тек әкімшілер\" өзгерте алатын етіп орнатты."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "Әкімші топ мүшелігін \"Тек әкімшілер\" өзгерте алатын етіп орнатты."
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} топ мүшелігін \"Барлық мүшелер\" өзгерте алатын етіп орнатты."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Сіз топ мүшелігін \"Барлық мүшелер\" өзгерте алатын етіп орнаттыңыз."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} топ мүшелігін \"Барлық мүшелер\" өзгерте алатын етіп орнатты."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "Әкімші топ мүшелігін \"Барлық мүшелер\" өзгерте алатын етіп орнатты."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Топ сілтемесі үшін әкімшінің мақұлдауын өшірдіңіз."
@@ -4647,10 +4656,10 @@
     "messageformat": "Ауыстыру"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Бір рет көру"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "Бір рет көрілетін мультимедиа"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Хатты өзгерту"
@@ -4686,13 +4695,16 @@
     "messageformat": "Дауыс"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Аудионың дыбысын өшіру"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "{contact} деген қатысушының қоңыраудағы аудиосының дыбысын өшіргіңіз келе ме?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "Дыбысын өшіру"
+  },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Remove from call"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Қатысушы белгішелері"
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Топ ақпаратын кім өзгерте алады"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Топ атын, фотосуретті, сипаттамасын және жоғалатын хаттар таймерін өзгерте алатын адамды таңдаңыз."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Топтың атын, фотосуретін, сипаттамасын, жойылатын хабар таймерін және бекітілген хабарларды кім өзгерте алатынын таңдаңыз."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Бұл топқа хаттарды кім жібере алатынын таңдаңыз."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Қатысушы белгішелері өшіріледі"
@@ -5016,7 +5031,7 @@
     "messageformat": "{count, plural, one {Хатты жою керек пе?} other {{count,number} хатты жою керек пе?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Таңдалған хабарды жою керек пе?} other {Таңдалған {count,number} хабарды жою керек пе?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Бұл хаттың кімде жойылғанын қалайсыз?} other {Бұл хаттардың кімде жойылғанын қалайсыз?}}"
@@ -5037,10 +5052,10 @@
     "messageformat": "Барлығынан жою"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "Барлығы үшін жою керек пе?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Топ мүшелері сіздің бұл хабарды әкімші ретінде жойғаныңызды көреді.} other {Топ мүшелері сіздің бұл хабарларды әкімші ретінде жойғаныңызды көреді.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Барлық құрылғыдан жою"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Барлығында {count,number} хатқа дейін ғана жоюға болады} other {Барлығында {count,number} хатқа дейін ғана жоюға болады}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Discard draft?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "This action can't be undone."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Элементті жою керек пе?"
@@ -6187,13 +6208,13 @@
     "messageformat": "Жұмыс үстелінің сақтық көшірмелері"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Сақтық көшірмелер кілтпен шифрланады және компьютеріңізде сақталады."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Телефоныңызда қалпына келтіруге болатын тура шифрланған сақтық көшірме жасаңыз. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Сақтық көшірмені қалпына келтіру үшін Signal-дың жаңа нұсқасын орнатыңыз. Қолданбаны ашып, &quot;Сақтық көшірмені қалпына келтіру&quot; опциясын басыңыз да, сақтық көшірме қалтасын тауып алыңыз. <learnMoreLink>Толық ақпарат алыңыз.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Қалта таңдаңыз"
@@ -7986,10 +8007,9 @@
     "messageformat": "Signal қауіпсіз сақтық көшірмесі шықты! Автоматты тура шифрланған сақтық көшірмелерді іске қосу арқылы енді жаңа телефон алғанда не Signal-ды қайта орнатқанда, хабарларды мүлдем жоғалтпайсыз. Барлық хабардың және соңғы 45 күндегі мультимедиа файлдарының сақтық көшірмесін тегін жасауға немесе ай сайын азғантай ақша төлеп, 100 ГБ алуға болады. Бастау үшін Signal параметрлеріндегі сақтық көшірмелерді басыңыз. Бета кезеңінде бұл функцияны сынақтан өткізген пайдаланушыларға алғысымыз шексіз!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Енді Signal Desktop арқылы хабар алмасқанда да бір рет көрінетін мультимедиа жібере аласыз. Бір рет көрінетін хабар ретінде жіберілген жеке фотосуреттер мен бейнелер көрілгеннен кейін әңгіме тізбегінен автоматты түрде жойылады."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

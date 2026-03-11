@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Cofnij weryfikację"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "Aby upewnić się, że Ty i {name} komunikujecie się w środowisku szyfrowanym metodą end-to-end, porównaj numer wyświetlany powyżej z numerem na urządzeniu tej osoby. Może ona też zeskanować kod wyświetlany na Twoim urządzeniu."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "Aby upewnić się, że Ty i {name} komunikujecie się w środowisku szyfrowanym metodą end-to-end, porównaj numer powyżej z numerem na urządzeniu tej osoby. Może ona też zeskanować Twój kod za pomocą swojego urządzenia."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Dzienniki debugowania ułatwiają nam namierzenie i naprawę błędu. Nie zawierają danych umożliwiających identyfikację."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Zamknij"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Udostępnij dziennik debugowania"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Prześlij"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "Odrzuć"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Przesyłanie…"
@@ -2220,16 +2211,16 @@
     "messageformat": "Nie udało się pobrać"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Nie udało się usunąć. Kliknij, aby dowiedzieć się więcej."
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Nie udało się usunąć – chcesz spróbować jeszcze raz?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Nie udało się usunąć wiadomości. Sprawdź, czy masz dostęp do internetu, i spróbuj ponownie."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "Spróbuj ponownie"
   },
   "icu:editFailed": {
     "messageformat": "Nie udało się edytować. Kliknij, aby dowiedzieć się więcej"
@@ -2244,7 +2235,7 @@
     "messageformat": "Częściowo usunięto. Kliknij, aby spróbować ponownie"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Usunięta częściowo. Kliknij, aby dowiedzieć się więcej."
   },
   "icu:expiredWarning": {
     "messageformat": "Ta wersja Signal Desktop jest przestarzała. Aby dalej wysyłać i otrzymywać wiadomości, zaktualizuj aplikację do najnowszej wersji."
@@ -2451,10 +2442,10 @@
     "messageformat": "W tej grupie role mogą ustawiać tylko administratorzy."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Wyświetlanie jednorazowe włączone"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Jednorazowe wyświetlanie wyłączone"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Wiadomość można edytować tylko w ciągu 24 godzin od jej wysłania."
@@ -2643,13 +2634,13 @@
     "messageformat": "Wiadomość została usunięta."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "Administrator {admin} usunął wiadomość"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "Wiadomość usunął uczestnik czatu ({name})"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "Wiadomość została przez Ciebie usunięta"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "Załącznik jest zbyt duży, aby go wyświetlić."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "Administrator zmienia uprawnienia do edycji informacji o grupie na „Wszyscy członkowie”."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} zmienia uprawnienia do edycji składu grupy na „Tylko administratorzy”."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Zmieniasz uprawnienia do edycji składu grupy na „Tylko administratorzy”."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} zmienia uprawnienia do edycji składu grupy na „Tylko administratorzy”."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "Administrator zmienia uprawnienia do edycji składu grupy na „Tylko administratorzy”."
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} zmienia uprawnienia do edycji składu grupy na „Wszyscy członkowie”."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Zmieniasz uprawnienia do edycji składu grupy na „Wszyscy członkowie”."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} zmienia uprawnienia do edycji składu grupy na „Wszyscy członkowie”."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "Administrator zmienia uprawnienia do edycji składu grupy na „Wszyscy członkowie”."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Wyłączasz w ustawieniach linku do grupy wymaganie zatwierdzania nowych osób przez administratora."
@@ -4647,10 +4656,10 @@
     "messageformat": "Zastąp"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Wyświetl jednorazowo"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "Multimedia jednorazowe"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Edytuj wiadomość"
@@ -4686,13 +4695,16 @@
     "messageformat": "Audio"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Wycisz dźwięk"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Czy na pewno {contact} ma mieć wyciszony dźwięk?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "Wycisz"
+  },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Remove from call"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Rola w grupie"
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Kto może edytować informacje o grupie"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Wybierz, kto może edytować nazwę, zdjęcie i opis tej grupy oraz ustalać czas, po którym wiadomości będą znikać."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Wybierz, kto może edytować nazwę, zdjęcie i opis tej grupy, przypięte wiadomości oraz czas, po którym wiadomości będą znikać."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Wybierz, kto w grupie może wysyłać wiadomości."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Role w grupie zostaną usunięte"
@@ -5016,7 +5031,7 @@
     "messageformat": "{count, plural, one {Usunąć {count,number} wiadomość?} few {Usunąć {count,number} wiadomości?} many {Usunąć {count,number} wiadomości?} other {Usunąć {count,number} wiadomości?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Usunąć zaznaczoną wiadomość?} few {Usunąć zaznaczone {count,number} wiadomości?} many {Usunąć zaznaczone {count,number} wiadomości?} other {Usunąć zaznaczone {count,number} wiadomości?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {U kogo chcesz usunąć tę wiadomość?} few {U kogo chcesz usunąć te wiadomości?} many {U kogo chcesz usunąć te wiadomości?} other {U kogo chcesz usunąć te wiadomości?}}"
@@ -5037,10 +5052,10 @@
     "messageformat": "Usuń u wszystkich"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "Usunąć u wszystkich?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Osoby w grupie zobaczą, że wiadomość została usunięta przez Ciebie jako administratora.} few {Osoby w grupie zobaczą, że wiadomości zostały usunięte przez Ciebie jako administratora.} many {Osoby w grupie zobaczą, że wiadomości zostały usunięte przez Ciebie jako administratora.} other {Osoby w grupie zobaczą, że wiadomości zostały usunięte przez Ciebie jako administratora.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Usuń ze wszystkich urządzeń"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Możesz usunąć u wszystkich maksymalnie {count,number} wiadomość naraz} few {Możesz usunąć u wszystkich maksymalnie {count,number} wiadomości naraz} many {Możesz usunąć u wszystkich maksymalnie {count,number} wiadomości naraz} other {Możesz usunąć u wszystkich maksymalnie {count,number} wiadomości naraz}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Discard draft?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "This action can't be undone."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Usunąć plik?"
@@ -6187,13 +6208,13 @@
     "messageformat": "Lokalne kopie zapasowe"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Kopie zapasowe są szyfrowane za pomocą kodu i przechowywane na Twoim komputerze."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Utwórz kopię zapasową zabezpieczoną szyfrowaniem end-to-end, którą możesz przywrócić na swoim telefonie. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Aby przywrócić kopię zapasową, zainstaluj ponownie aplikację Signal. Otwórz aplikację i wybierz opcję „Przywróć kopię zapasową”, a następnie wskaż folder z plikiem kopii zapasowej. <learnMoreLink>Dowiedz się więcej.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Wybierz folder"
@@ -7986,10 +8007,9 @@
     "messageformat": "Bezpieczne kopie zapasowe Signal są już dostępne. Teraz możesz włączyć automatyczne tworzenie kopii zapasowych szyfrowanych metodą end-to-end. Dzięki temu nie stracisz historii wiadomości, nawet gdy zmienisz telefon czy ponownie zainstalujesz Signal. W trybie bezpłatnym możesz tworzyć kopie zapasowe wszystkich wiadomości, w tym multimediów z ostatnich 45 dni. Za niewielką miesięczną opłatą zyskasz 100 GB miejsca na kopię zapasową wszystkich plików. Aby włączyć tworzenie kopii zapasowych, dotknij opcji „Kopie zapasowe” w ustawieniach aplikacji Signal. Dziękujemy wszystkim, którzy pomogli nam testować tę funkcję w wersji beta."
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Od teraz możesz wysyłać wiadomości jednorazowe również w aplikacji Signal Desktop. Jeśli wyślesz zdjęcie lub film jako wiadomość jednorazową, zostanie ona automatycznie usunięta z czatu po wyświetleniu."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }
