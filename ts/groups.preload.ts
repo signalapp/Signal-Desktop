@@ -6214,7 +6214,9 @@ function isValidAccess(
 ): access is AccessRequired.ADMINISTRATOR | AccessRequired.MEMBER {
   // TODO(DESKTOP-9868)
   return (
-    access === AccessRequired.ADMINISTRATOR || access === AccessRequired.MEMBER
+    access === AccessRequired.ADMINISTRATOR ||
+    access === AccessRequired.MEMBER ||
+    access === AccessRequired.UNKNOWN
   );
 }
 
