@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "ధృవీకరణను క్లియర్ చేయండి"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "{name}‌తో పూర్తి స్థాయి ఎన్‌క్రిప్షన్‌ను ధృవీకరించడానికి, పైన ఉన్న సంఖ్యలను వాటి పరికరంతో పోల్చండి. వారు మీ కోడ్‌ను వారి పరికరంతో కూడా స్కాన్ చేయవచ్చు."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "{name}‌తో ఎండ్-టు-ఎండ్ గుప్తీకరణను ధృవీకరించడానికి, పైన ఉన్న సంఖ్యలను వాటి పరికరంతో పోల్చండి. వారు మీ కోడ్‌ను వారి పరికరంలో కూడా స్కాన్ చేయవచ్చు."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "సమస్యను గుర్తించడానికి మరియు పరిష్కరించడానికి డీబగ్ లాగ్‌లు మాకు సహాయపడతాయి, మరియు గుర్తించే సమాచారం కలిగి ఉండవు."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "మూసివెయ్యి"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "డీబగ్ లాగ్‌ను పంచుకోండి"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "సమర్పించండి"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "వద్దు ధన్యవాదాలు"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "సమర్పిస్తోంది..."
@@ -2220,16 +2211,16 @@
     "messageformat": "తొలగించడం విఫలమైంది"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "తొలగింపు విఫలమైంది, వివరాల కోసం క్లిక్ చేయండి"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "మళ్ళీ తొలగించడానికి ప్రయత్నించడం విఫలమైందా?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "సందేశాన్ని తొలగించడంలో విఫలమైంది. మీ కనెక్షన్‌ను తనిఖీ చేసుకొని మళ్ళీ ప్రయత్నించండి."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "మళ్ళీ ప్రయత్నించండి"
   },
   "icu:editFailed": {
     "messageformat": "సవరణ విఫలమైంది, వివరాల కొరకు క్లిక్ చేయండి"
@@ -2244,7 +2235,7 @@
     "messageformat": "పాక్షికంగా తొలగించబడింది, మళ్ళీ ప్రయత్నించడానికి క్లిక్ చేయండి"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "పాక్షికంగా తొలగించబడింది, వివరాల కోసం క్లిక్ చేయండి"
   },
   "icu:expiredWarning": {
     "messageformat": "Signal Desktop యొక్క ఈ వెర్షన్ గడువు ముగిసింది. సందేశాన్ని కొనసాగించడానికి దయచేసి తాజా సంస్కరణకు అభివృద్ధి చేయండి."
@@ -2451,10 +2442,10 @@
     "messageformat": "ఈ గ్రూప్‌లో సభ్యుని లేబుల్‌లను అడ్మిన్‌లు మాత్రమే జోడించగలరు."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "ఒకసారి వీక్షణ ప్రారంభించబడినది"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "ఒకసారి వీక్షణ నిలిపివేయబడినది"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ఈ సందేశాన్ని మీరు పంపిన సమయం నుంచి 24 గంటలలోపు మాత్రమే సవరణలు వర్తింపజేయబడతాయి."
@@ -2643,13 +2634,13 @@
     "messageformat": "ఈ సందేశం తొలగించబడింది."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "అడ్మిన్ {admin} ఈ సందేశాన్ని తొలగించారు"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "{name} ఈ సందేశాన్ని తొలగించారు"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "మీరు ఈ సందేశాన్ని తొలగించారు"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "ప్రదర్శించేందుకు అటాచ్‌మెంట్ చాలా పెద్దదిగా ఉంది."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "నిర్వాహకుడు సమూహ సమాచారాన్ని \"సభ్యులందరికీ\" సవరించగల మార్చబడింది."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "సమూహ సభ్యత్వాన్ని \"నిర్వాహకులు మాత్రమే\" గా సవరించగల {adminName} మార్చారు."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "సమూహ సభ్యత్వాన్ని ఎవరు \"నిర్వాహకులు మాత్రమే\" గా సవరించవచ్చో మీరు మార్చారు."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "సమూహ సభ్యత్వాన్ని \"నిర్వాహకులు మాత్రమే\" గా సవరించగల {adminName} మార్చారు."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "సమూహ సభ్యత్వాన్ని ఎవరు \"నిర్వాహకులు మాత్రమే\" గా సవరించగలరని నిర్వాహకుడు మార్చారు."
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "సమూహ సభ్యత్వాన్ని \"సభ్యులందరికీ\" సవరించగల {adminName}మార్చారు."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "సమూహ సభ్యత్వాన్ని ఎవరు \"అన్ని సభ్యులకు\" సవరించవచ్చో మీరు మార్చారు."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "సమూహ సభ్యత్వాన్ని \"సభ్యులందరికీ\" సవరించగల {adminName}మార్చారు."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "నిర్వాహకుడు సమూహ సభ్యత్వాన్ని \"సభ్యులందరికీ\" సవరించగల మార్చారు."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "సమూహ లింక్ కోసం మీరు నిర్వాహక ఆమోదాన్ని నిలిపివేశారు."
@@ -4647,10 +4656,10 @@
     "messageformat": "రీప్లేస్"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "ఒకసారి వీక్షించండి"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "ఒక్కసారి వీక్షించదగిన మీడియా"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "సందేశాన్ని సవరించండి"
@@ -4686,13 +4695,16 @@
     "messageformat": "స్వరం"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "ఆడియోను మ్యూట్ చేయండి"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "మీరు ఖచ్చితంగా {contact}ను మ్యూట్ చేయాలనుకుంటున్నారా?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "మ్యూట్"
+  },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Remove from call"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "సభ్యుడి లేబుల్‌లు"
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "సమూహ సమాచారాన్ని ఎవరు సవరించగలరు"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "సమూహ పేరు, ఫోటో, వివరణ మరియు అదృశ్యమగు సందేశాల టైమర్‌ను ఎవరు సవరించవచ్చో ఎంచుకోండి."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "గ్రూప్ పేరు, ఫోటో, వివరణ, అదృశ్యమయ్యే సందేశాల టైమర్ మరియు పిన్ చేసిన సందేశాలను ఎవరు సవరించవచ్చో ఎంచుకోండి."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "గ్రూపుకు ఎవరు సందేశాలు పంపాలనేది ఎంచుకోండి."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "సభ్యుల లేబుల్‌లు తొలగించబడతాయి"
@@ -5016,7 +5031,7 @@
     "messageformat": "{count, plural, one {సందేశం తొలగించేదా?} other {{count,number} సందేశాలు తొలగించేదా?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {ఎంచుకున్న సందేశాన్ని తొలగించాలా?} other {ఎంచుకున్న {count,number} సందేశాలను తొలగించాలా?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {ఈ సందేశాన్ని మీరు ఎవరి కోసం తొలగించాలని అనుకుంటున్నారు?} other {ఈ సందేశాలను మీరు ఎవరి కోసం తొలగించాలని అనుకుంటున్నారు?}}"
@@ -5037,10 +5052,10 @@
     "messageformat": "ప్రతి ఒక్కరి కొరకు తొలగించండి"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "ప్రతి ఒక్కరి కొరకు తొలగించాలా?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {ఒక అడ్మిన్‌గా, మీరు ఈ సందేశాన్ని తొలగించారని గ్రూప్ సభ్యులు చూస్తారు.} other {ఒక అడ్మిన్‌గా, మీరు ఈ సందేశాలను తొలగించారని గ్రూప్ సభ్యులు చూస్తారు.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "అన్ని పరికరాాల నుంచి తొలగించండి"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {ప్రతి ఒక్కరి కొరకు తొలగించడానికి మీరు కేవలం {count,number} సందేశం వరకు ఎంచుకోవచ్చు} other {ప్రతి ఒక్కరి కొరకు తొలగించడానికి మీరు కేవలం {count,number} సందేశాల వరకు ఎంచుకోవచ్చు}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Discard draft?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "This action can't be undone."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "అంశాన్ని తొలగించాలా?"
@@ -6187,13 +6208,13 @@
     "messageformat": "డెస్క్‌టాప్ బ్యాకప్‌లు"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "బ్యాకప్‌లు కీతో గుప్తీకరించబడతాయి మరియు మీ కంప్యూటర్‌లో నిల్వ చేయబడతాయి."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "మీరు మీ ఫోన్‌లో పునరుద్ధరించగల ఎండ్-టు-ఎండ్ గుప్తీకరించిన బ్యాకప్‌ను సృష్టించండి. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "బ్యాకప్‌ను పునరుద్ధరించడానికి, Signal యొక్క కొత్త కాపీని ఇన్‌స్టాల్ చేయండి. యాప్‌ను తెరవండి మరియు బ్యాకప్‌ను పునరుద్ధరించండిని తట్టండి, ఆపై బ్యాకప్ ఫోల్డర్‌ను గుర్తించండి. <learnMoreLink>మరింత తెలుసుకోండి.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "ఒక ఫోల్డర్‌ను ఎంచుకోండి"
@@ -7986,10 +8007,9 @@
     "messageformat": "Signal సురక్షిత బ్యాకప్‌లు ఇక్కడ ఉన్నాయి! మీరు ఆటోమేటిక్ ఎండ్-టు-ఎండ్ గుప్తీకరించిన బ్యాకప్‌లను ప్రారంభించడాన్ని ఇప్పుడు ఎంచుకోవచ్చు, తద్వారా మీరు కొత్త ఫోన్‌ను పొందినప్పుడు లేదా Signal ను తిరిగి ఇన్‌స్టాల్ చేసినప్పుడు మీరు ఎప్పటికీ సందేశాన్ని కోల్పోరు. మీరు మీ సందేశాలు అన్నింటిని మరియు చివరి 45 రోజుల మీడియాను ఉచితంగా బ్యాకప్ చేయవచ్చు లేదా ప్రతి అటాచ్‌మెంట్ బ్యాకప్‌కు 100 GB నిల్వను పొందడానికి చిన్న నెలవారీ రుసుము చెల్లించవచ్చు. ప్రారంభించడానికి మీ Signal సెట్టింగ్‌లలో బ్యాకప్‌లపై తట్టండి. బీటా కాలంలో ఈ ఫీచర్‌ను పరీక్షించడంలో సహాయపడిన ప్రతి ఒక్కరికీ ధన్యవాదములు!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "ఇప్పుడు మీరు Signal Desktop నుండి కూడా ఒకసారి చూసే మీడియా సందేశాలను పంపవచ్చు. ఒకసారి చూసే సందేశాలుగా పంపబడిన వ్యక్తిగత ఫోటోలు మరియు వీడియోలు వీక్షించబడిన తర్వాత సంభాషణ థ్రెడ్ నుండి స్వయంచాలకంగా తీసివేయబడతాయి."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Garbitu egiaztapena"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "{name} erabiltzailearekin muturretik muturrerako enkriptatzea egiaztatzeko, alderatu goiko zenbakiak haren gailukoekin. Halaber, zure kodea eskanea dezake bere gailuarekin."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "{name} erabiltzailearekin muturretik muturrerako enkriptatzea egiaztatzeko, alderatu goiko zenbakiak haren gailukoekin. Halaber, zure kodea bere gailuarekin eskanea dezake."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Arazketa-erregistroak arazoa diagnostikatzen eta konpontzen laguntzen digu, eta ez dute identifikazio-informaziorik."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Itxi"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Partekatu arazketa-erregistroa"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Bidali"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "Ez eskerrik asko"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Bidaltzen…"
@@ -2220,16 +2211,16 @@
     "messageformat": "Ezin izan da ezabatu"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Ezin izan da ezabatu; sakatu xehetasunak ikusteko"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Ezabatu ezin izan den mezua berriro ezabatzen saiatu nahi duzu?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Ezin izan da ezabatu mezua. Egiaztatu Internetera konektatuta zaudela eta saiatu berriro."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "Saiatu berriro"
   },
   "icu:editFailed": {
     "messageformat": "Ezin izan da editatu. Egin klik xehetasunak ikusteko."
@@ -2244,7 +2235,7 @@
     "messageformat": "Partzialki ezabatu da. Egin klik berriro saiatzeko."
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Partzialki ezabatuta; sakatu xehetasunak ikusteko"
   },
   "icu:expiredWarning": {
     "messageformat": "Signal Desktop bertsio hau iraungi da. Mesedez, mezuak bidaltzen jarraitzeko, eguneratu azken bertsiora."
@@ -2451,10 +2442,10 @@
     "messageformat": "Adminek bakarrik ezar ditzakete kide-etiketak talde honetan."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Behin ikusteko aukera gaitu da"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Behin ikusteko aukera desgaitu da"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Mezu hau bidali eta 24 orduko epean soilik aplika daitezke aldaketak."
@@ -2643,13 +2634,13 @@
     "messageformat": "Mezu hau ezabatu egin da."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "{admin} adminak mezu hau ezabatu du"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "{name}(e)k mezu hau ezabatu du"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "Mezu hau ezabatu duzu"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "Eranskina handiegia da eta ezin da bistaratu."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "Kudeatzaile batek taldearen informazioa nork editatu dezakeen \"Taldekide guztiek\"era aldatu du."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} erabiltzaileak taldearen kideak nork editatu ditzakeen \"Kudeatzaileek bakarrik\"era aldatu du."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Taldearen kideak nork editatu ditzakeen \"Kudeatzaileek bakarrik\"era aldatu duzu."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} erabiltzaileak taldearen kideak nork editatu ditzakeen \"Kudeatzaileek bakarrik\"era aldatu du."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "Kudeatzaile batek taldearen kideak nork editatu ditzakeen \"Kudeatzaileek bakarrik\"era aldatu du."
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} erabiltzaileak taldearen kideak nork editatu ditzakeen \"Taldekide guztiek\"era aldatu du."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Taldearen kideak nork editatu ditzakeen \"Taldekide guztiek\"era aldatu duzu."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} erabiltzaileak taldearen kideak nork editatu ditzakeen \"Taldekide guztiek\"era aldatu du."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "Kudeatzaile batek taldearen kideak nork editatu ditzakeen \"Taldekide guztiek\"era aldatu du."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Administratzaile baimenaren beharra desaktibatu duzu talde estekarako."
@@ -4647,10 +4656,10 @@
     "messageformat": "Ordeztu"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Ikusi behin"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "Behin ikusteko multimedia-elementua"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Editatu mezua"
@@ -4686,13 +4695,16 @@
     "messageformat": "Ahotsa"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Desaktibatu audioa"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Ziur {contact} erabiltzailearen jakinarazpenak desaktibatu nahi dituzula?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "Desaktibatu jakinarazpenak"
+  },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Remove from call"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Kide-etiketak"
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Taldearen informazioa edita dezakeena"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Aukeratu nork edita ditzakeen taldearen izena, argazkia, deskribapena eta desagertzen diren mezuen tenporizadorea."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Aukeratu nork edita ditzakeen taldearen izena, argazkia, azalpena, desagertzen diren mezuen tenporizadoreak eta ainguratutako mezuak."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Aukeratu nork bidal ditzakeen mezuak taldera."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Kide-etiketak garbitu egingo dira"
@@ -5016,7 +5031,7 @@
     "messageformat": "{count, plural, one {Mezua ezabatu nahi duzu?} other {{count,number} mezu ezabatu nahi dituzu?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Hautatutako mezua ezabatu nahi duzu?} other {Hautatutako {count,number} mezuak ezabatu nahi dituzu?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Norentzat ezabatu nahi duzu mezu hau?} other {Norentzat ezabatu nahi dituzu mezu hauek?}}"
@@ -5037,10 +5052,10 @@
     "messageformat": "Ezabatu guztientzat"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "Guztientzat ezabatu nahi duzu?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Admina zarenez, taldeko kideek mezu hauek ezabatu dituzula ikusi ahalko dute.} other {Admina zarenez, taldeko kideek mezu hauek ezabatu dituzula ikusi ahalko dute.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Ezabatu gailu guztietatik"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Gehienez {count,number} mezu hauta dezakezu guztientzat ezabatzeko} other {Gehienez {count,number} mezu hauta ditzakezu guztientzat ezabatzeko}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Discard draft?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "This action can't be undone."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Elementua ezabatu nahi duzu?"
@@ -6187,13 +6208,13 @@
     "messageformat": "Ordenagailuko babeskopiak"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Babeskopiak gako batekin enkriptatzen dira, eta ordenagailuan gordetzen."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Sortu muturretik muturrera enkriptatutako babeskopia bat, telefonoan leheneratu ahalko duzuna. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Babeskopia bat leheneratzeko, instalatu Signal-en kopia berri bat. Ireki aplikazioa eta sakatu Leheneratu babeskopia; ondoren, bilatu babeskopiaren karpeta. <learnMoreLink>Lortu informazio gehiago</learnMoreLink>."
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Aukeratu karpeta bat"
@@ -7986,10 +8007,9 @@
     "messageformat": "Hemen dira Babeskopia seguruak! Orain, muturretik muturrera enkriptatutako babeskopia automatikoak gai ditzakezu, telefonoz aldatzean edo Signal berriro instalatzean mezurik ez galtzeko. Mezu guztien eta azken 45 egunetako multimedia-edukien babeskopiak egin ditzakezu doan, edo hilean kuota txiki bat ordain dezakezu 100 GB lortzeko eta den-denaren babeskopiak egiteko, eranskinak barne. Hasteko, sakatu \"Babeskopiak\" Signal-en ezarpenetan. Eskerrik asko beta-eginbidea probatu duzuenoi!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Orain, Signal Desktop-etik ere bidal ditzakezu behin ikusteko multimedia-elementuak. Behin ikusteko mezu gisa bidaltzen diren banako argazki eta bideoak automatikoki kenduko dira elkarrizketa-haritik haiek ikusi ondoren."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

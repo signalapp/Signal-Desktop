@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Αφαίρεση επιβεβαίωσης"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "Για να επαληθεύσεις την κρυπτογράφηση από άκρο σε άκρο με τον χρήστη {name}, σύγκρινε τους παραπάνω αριθμούς με αυτούς στη συσκευή του. Μπορεί επίσης να σκανάρει τον κωδικό σου με τη συσκευή του."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "Για να επαληθεύσεις την κρυπτογράφηση από άκρο σε άκρο με τον χρήστη {name}, σύγκρινε τους παραπάνω αριθμούς με αυτούς στη συσκευή του. Μπορεί επίσης να σκανάρει τον κωδικό σου με τη συσκευή του."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Τα αρχεία καταγραφής αποσφαλμάτωσης βοηθούν να διαγνώσουμε και να διορθώσουμε το πρόβλημα και δεν περιλαμβάνουν πληροφορίες ταυτοποίησης."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Κλείσιμο"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Κοινή χρήση αρχείου καταγραφής αποσφαλμάτωσης"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Υποβολή"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "Όχι, ευχαριστώ"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Υποβολή..."
@@ -2220,16 +2211,16 @@
     "messageformat": "Η διαγραφή απέτυχε"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Η διαγραφή απέτυχε, πάτα για λεπτομέρειες"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Επανάληψη αποτυχημένης διαγραφής;"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Η διαγραφή του μηνύματος απέτυχε. Έλεγξε τη σύνδεσή σου και δοκίμασε πάλι."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "Ξαναπροσπάθησε"
   },
   "icu:editFailed": {
     "messageformat": "Η τροποποίηση απέτυχε, κλικ για λεπτομέρειες"
@@ -2244,7 +2235,7 @@
     "messageformat": "Διαγράφηκε εν μέρει, πάτα για επανάληψη"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Διαγράφηκε μερικώς, πάτα για λεπτομέρειες"
   },
   "icu:expiredWarning": {
     "messageformat": "Αυτή η έκδοση του Signal Desktop έχει λήξει. Αναβάθμισε στην πιο πρόσφατη έκδοση για να συνεχίσεις τις συνομιλίες σου."
@@ -2451,10 +2442,10 @@
     "messageformat": "Μόνο οι διαχειριστές μπορούν να προσθέσουν ετικέτες μελών σε αυτήν την ομάδα."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Προβολή μία φορά ενεργοποιημένη"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Προβολή μία φορά απενεργοποιημένη"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Οι τροποποιήσεις μπορούν να εφαρμοστούν μόνο εντός 24 ωρών από τη στιγμή που έστειλες αυτό το μήνυμα."
@@ -2643,13 +2634,13 @@
     "messageformat": "Αυτό το μήνυμα διαγράφτηκε."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "Ο διαχειριστής {admin} διέγραψε αυτό το μήνυμα"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "Ο χρήστης {name} διέγραψε αυτό το μήνυμα"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "Διέγραψες αυτό το μήνυμα"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "Το συνημμένο είναι πολύ μεγάλο για εμφάνιση."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "Ένας διαχειριστής άλλαξε το ποιός μπορεί να επεξεργάζεται τις πληροφορίες της ομάδας σε \"Όλα τα μέλη.\""
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "Ο/Η {adminName} άλλαξε το ποιός έχει τη δυνατότητα αλλαγών στα μέλη της ομάδας σε \"Μόνο οι διαχειριστές.\""
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Άλλαξες το ποιός έχει τη δυνατότητα αλλαγών στα μέλη της ομάδας σε \"Μόνο οι διαχειριστές.\""
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "Ο/Η {adminName} άλλαξε το ποιός έχει τη δυνατότητα αλλαγών στα μέλη της ομάδας σε \"Μόνο οι διαχειριστές.\""
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "Ένας διαχειριστής άλλαξε το ποιός έχει τη δυνατότητα αλλαγών στα μέλη της ομάδας σε \"Μόνο οι διαχειριστές.\""
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "Ο/Η {adminName} άλλαξε το ποιός έχει τη δυνατότητα αλλαγών στα μέλη της ομάδας σε \"Όλα τα μέλη.\""
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Άλλαξες το ποιός έχει τη δυνατότητα αλλαγών στα μέλη της ομάδας σε \"Όλα τα μέλη.\""
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "Ο/Η {adminName} άλλαξε το ποιός έχει τη δυνατότητα αλλαγών στα μέλη της ομάδας σε \"Όλα τα μέλη.\""
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "Ένας διαχειριστής άλλαξε το ποιός έχει τη δυνατότητα αλλαγών στα μέλη της ομάδας σε \"Όλα τα μέλη.\""
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Απενεργοποίησες την έγκριση διαχειριστή για το σύνδεσμο ομάδας."
@@ -4647,10 +4656,10 @@
     "messageformat": "Αντικατάσταση"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Προβολή μία φορά"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "Πολυμέσα μιας μόνο προβολής"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Επεξεργασία μηνύματος"
@@ -4686,13 +4695,16 @@
     "messageformat": "Φωνή"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Σίγαση ήχου"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Θέλεις σίγουρα να θέσεις σε σίγαση τον χρήστη {contact};"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "Σίγαση"
+  },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Remove from call"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Ετικέτες μέλους"
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Ποιοί μπορούν να επεξεργαστούν τις πληροφορίες της ομάδας"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Επέλεξε ποιοι θα μπορούν να επεξεργαστούν το όνομα της ομάδας, την περιγραφή της και το χρόνο εξαφάνισης μηνυμάτων."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Διάλεξε ποιοι θα μπορούν να επεξεργάζονται το όνομα της ομάδας, τη φωτογραφία, τη περιγραφή, τον χρόνο εξαφάνισης μηνυμάτων και τα καρφιτσωμένα μηνύματα."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Επέλεξε ποιοί μπορούν να στέλνουν μηνύματα στην ομάδα."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Οι ετικέτες μελών θα διαγραφούν"
@@ -5016,7 +5031,7 @@
     "messageformat": "{count, plural, one {Διαγραφή μηνύματος;} other {Διαγραφή {count,number} μηνυμάτων;}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Διαγραφή επιλεγμένου μηνύματος;} other {Διαγραφή {count,number} επιλεγμένων μηνυμάτων;}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Για ποια άτομα θα ήθελες να διαγράψεις αυτό το μήνυμα;} other {Για ποια άτομα θα ήθελες να διαγράψεις αυτά τα μηνύματα;}}"
@@ -5037,10 +5052,10 @@
     "messageformat": "Διαγραφή για όλους"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "Διαγραφή για όλους;"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Ως διαχειριστής, τα μέλη της ομάδας θα δουν ότι διέγραψες αυτό το μήνυμα.} other {Ως διαχειριστής, τα μέλη της ομάδας θα δουν ότι διέγραψες αυτά τα μηνύματα.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Διαγραφή από όλες τις συσκευές"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Μπορείς να επιλέξεις έως {count,number} μήνυμα για να διαγραφεί για όλους} other {Μπορείς να επιλέξεις έως {count,number} μηνύματα για να διαγραφούν για όλους}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Discard draft?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "This action can't be undone."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Διαγραφή αντικειμένου;"
@@ -6187,13 +6208,13 @@
     "messageformat": "Αντίγραφα ασφαλείας desktop"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Τα αντίγραφα ασφαλείας κρυπτογραφούνται με ένα κλειδί και αποθηκεύονται στον υπολογιστή σου."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Δημιούργησε ένα κρυπτογραφημένο αντίγραφο ασφαλείας από άκρο σε άκρο που μπορείς να επαναφέρεις στο τηλέφωνό σου. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Για να ανακτήσεις ένα αντίγραφο ασφαλείας, εγκατέστησε από την αρχή το Signal. Άνοιξε την εφαρμογή, πάτα &quot;Επαναφορά αντίγραφου ασφαλείας&quot; και εντόπισε τον φάκελο αντιγράφου ασφαλείας. <learnMoreLink>Μάθε περισσότερα.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Επιλογή φακέλου"
@@ -7986,10 +8007,9 @@
     "messageformat": "Τα ασφαλή αντίγραφα Signal είναι εδώ! Τώρα μπορείς να δημιουργείς αυτόματα αντίγραφα, ώστε να μην χάσεις μήνυμα αν αλλάξεις τηλέφωνο ή επανεγκαταστήσεις το Signal. Μπορείς να αποθηκεύεις τα μηνύματα και τα πολυμέσα των τελευταίων 45 ημερών δωρεάν ή να πληρώσεις μια μηνιαία χρέωση για 100 GB αποθηκευτικού χώρου για να έχεις αντίγραφα κάθε συνημμένου. Πάτα στα αντίγραφα ασφαλείας στις ρυθμίσεις Signal για έναρξη. Ευχαριστούμε για τη βοήθεια στη δοκιμή της λειτουργίας κατά την περίοδο beta!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Τώρα μπορείς επίσης να στέλνεις μηνύματα πολυμέσων μιας μόνο προβολής από το Signal Desktop. Οι μεμονωμένες φωτογραφίες και τα βίντεο που αποστέλλονται ως μηνύματα μίας μόνο προβολής θα καταργούνται αυτόματα από ένα νήμα συνομιλίας μετά την προβολή τους."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

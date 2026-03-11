@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Maak verifiëring skoon"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "Om end-tot-end-enkriptering met {name} te verifieer, vergelyk die nommers hierbo met hul toestel. Hulle kan ook jou kode met hul toestel skandeer."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "Om end-tot-end-enkriptering met {name} te verifieer, vergelyk die nommers hierbo met hul toestel. Hulle kan ook jou kode op hul toestel skandeer."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Ontfout-logs help ons om die probleem te diagnoseer en reg te stel, en bevat nie identifiserende inligting nie."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Maak toe"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Deel ontfout-log"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Dien in"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "Nee dankie"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Dien tans in…"
@@ -2220,16 +2211,16 @@
     "messageformat": "Skrapping het misluk"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Skrapping het misluk, klik hier vir besonderhede"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Probeer weer mislukte skrapping?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Kon nie boodskap skrap nie. Gaan jou verbinding na en probeer weer."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "Probeer weer"
   },
   "icu:editFailed": {
     "messageformat": "Wysiging het misluk, klik vir besonderhede"
@@ -2244,7 +2235,7 @@
     "messageformat": "Gedeeltelik geskrap, klik om weer te probeer"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Gedeeltelik geskrap, klik hier vir besonderhede"
   },
   "icu:expiredWarning": {
     "messageformat": "Hierdie weergawe van Signal Desktop het verval. Gradeer asseblief op na die jongste weergawe om voort te gaan om boodskappe te stuur en ontvang."
@@ -2451,10 +2442,10 @@
     "messageformat": "Slegs admins kan lidfunksie-etikette in hierdie groep byvoeg."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Eenkeerkyk geaktiveer"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Eenkeerkyk gedeaktiveer"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Wysigings kan slegs aangebring word binne 24 uur vanaf die tyd wat jy hierdie boodskap gestuur het."
@@ -2643,13 +2634,13 @@
     "messageformat": "Hierdie boodskap is geskrap."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "Admin {admin} het hierdie boodskap geskrap"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "{name} het hierdie boodskap geskrap"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "Jy het hierdie boodskap geskrap"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "Aanhegsel te groot om te vertoon."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "'n Admin het mense wat die groepinligting kan wysig na \"Alle lede\" verander."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} het mense wat die groeplidmaatskap kan wysig na \"Slegs admins\" verander."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Jy  het mense wat die groeplidmaatskap kan wysig na \"Slegs admins\" verander."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} het mense wat die groeplidmaatskap kan wysig na \"Slegs admins\" verander."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "'n Admin het mense wat die groeplidmaatskap kan wysig na \"Slegs admins\" verander."
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} het mense wat die groeplidmaatskap kan wysig na \"Alle lede\" verander."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Jy  het mense wat die groeplidmaatskap kan wysig na \"Alle lede\" verander."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} het mense wat die groeplidmaatskap kan wysig na \"Alle lede\" verander."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "'n Admin het mense wat die groeplidmaatskap kan wysig na \"Alle lede\" verander."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Jy het admingoedkeuring vir die groepskakel gedeaktiveer."
@@ -4647,10 +4656,10 @@
     "messageformat": "Vervang"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Eenkeerkyk"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "Eenkeerkyk-media"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Wysig boodskap"
@@ -4686,13 +4695,16 @@
     "messageformat": "Stem"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Demp oudio"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Is jy seker jy wil {contact} demp?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "Demp"
+  },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Remove from call"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Lidfunksie-etikette"
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Wie kan groepinligting wysig"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Kies wie die groepnaam, -foto, -beskrywing en verdwynboodskap-afteller kan wysig."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Kies wie die groepnaam, -foto, -beskrywing en verdwynboodskap-tydhouer en boodskappe met 'n speld gemerk, kan wysig."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Kies wie boodskappe na die groep mag stuur."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Lidfunksie-etikette sal uitgevee word"
@@ -5016,7 +5031,7 @@
     "messageformat": "{count, plural, one {Skrap boodskap?} other {Delete {count,number} boodskappe?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Skrap geselekteerde boodskap?} other {Skrap {count,number} geselekteerde boodskappe?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Vir wie wil jy hierdie boodskap skrap?} other {Vir wie wil jy hierdie boodskappe skrap?}}"
@@ -5037,10 +5052,10 @@
     "messageformat": "Skrap vir almal"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "Skrap vir almal?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Groeplede sal sien dat jy as admin hierdie boodskap geskrap het.} other {Groeplede sal sien dat jy as admin hierdie boodskappe geskrap het.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Skrap van alle toestelle"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Jy kan slegs tot {count,number} boodskap kies om vir almal uit te vee} other {Jy kan slegs tot {count,number} boodskappe kies om vir almal uit te vee}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Discard draft?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "This action can't be undone."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Skrap item?"
@@ -6187,13 +6208,13 @@
     "messageformat": "Rugsteun op rekenaar"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Rugsteun word met 'n sleutel geënkripteer en op jou rekenaar gestoor."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Skep 'n end-tot-end geënkripteerde rugsteun wat jy op jou foon kan herwin. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Om 'n rugsteun te herwin, installeer 'n nuwe kopie van Signal. Maak die toepassing oop, tik op &quot;Herwin&quot; en spoor dan die rugsteunvouer op. <learnMoreLink>Vind meer uit.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Kies 'n vouer"
@@ -7986,10 +8007,9 @@
     "messageformat": "Signal se veilige rugsteun is hier! Jy kan nou kies om outomatiese end-tot-end-geënkripteerde rugsteun te aktiveer sodat jy nooit 'n boodskap verloor wanneer jy 'n nuwe foon kry of Signal herinstalleer nie. Jy kan al jou boodskappe en die laaste 45 dae se media gratis rugsteun, of jy kan 'n klein maandelikse bedraggie betaal om 100 GB se stoorruimte te kry om alle aanhangsels te rugsteun. Tik op rugsteun in jou Signal-instellings om te begin. Dankie aan almal wat hierdie kenmerk tydens die beta-tydperk help toets het!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Nou kan jy ook eenkeerkyk-mediaboodskappe van Signal Desktop af stuur. Individuele foto's en video's wat as eenkeerkyk-boodskappe gestuur word, sal outomaties uit 'n gesprekstring verwyder word nadat daar na hulle gekyk is."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

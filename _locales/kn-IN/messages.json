@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "ದೃಢೀಕರಣವನ್ನು ತೆರವುಗೊಳಿಸಿ"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "{name} ಅವರೊಂದಿಗೆ ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್‌ಕ್ರಿಪ್ಶನ್ ದೃಢೀಕರಿಸಲು, ಮೇಲಿನ ಸಂಖ್ಯೆಗಳನ್ನು ಅವರ ಸಾಧನದೊಂದಿಗೆ ಹೋಲಿಕೆ ಮಾಡಿ. ಅವರು ಕೂಡಾ ತಮ್ಮ ಸಾಧನದೊಂದಿಗೆ ನಿಮ್ಮ ಕೋಡ್ ಅನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡಬಹುದು."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "{name} ಅವರೊಂದಿಗೆ ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್‌ಕ್ರಿಪ್ಶನ್ ದೃಢೀಕರಿಸಲು, ಮೇಲಿನ ಸಂಖ್ಯೆಗಳನ್ನು ಅವರ ಸಾಧನದೊಂದಿಗೆ ಹೋಲಿಕೆ ಮಾಡಿ. ಅವರು ತಮ್ಮ ಸಾಧನದಲ್ಲಿ ನಿಮ್ಮ ಕೋಡ್ ಅನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡಬಹುದು."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "ಡೀಬಗ್ ಲಾಗ್‌ಗಳು ಸಮಸ್ಯೆಯನ್ನು ನಿರ್ಣಯಿಸಲು ಮತ್ತು ಸರಿಪಡಿಸಲು ಸಹಾಯ ಮಾಡುತ್ತವೆ ಮತ್ತು ಗುರುತಿಸುವ ಮಾಹಿತಿಯನ್ನು ಹೊಂದಿರುವುದಿಲ್ಲ."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "ಮುಚ್ಚಿ"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "ಡೀಬಗ್ ಲಾಗ್ ಹಂಚಿಕೊಳ್ಳಿ"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "ಸಲ್ಲಿಸಿ"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "ಇಲ್ಲ, ಧನ್ಯವಾದಗಳು"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "ಸಲ್ಲಿಸಲಾಗುತ್ತಿದೆ..."
@@ -2220,16 +2211,16 @@
     "messageformat": "ಅಳಿಸುವಿಕೆ ವಿಫಲವಾಗಿದೆ"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "ಅಳಿಸುವಿಕೆ ವಿಫಲವಾಗಿದೆ, ವಿವರಗಳಿಗಾಗಿ ಕ್ಲಿಕ್ ಮಾಡಿ"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "ವಿಫಲವಾದ ಅಳಿಸುವಿಕೆಯನ್ನು ಮರುಪ್ರಯತ್ನಿಸಬೇಕೇ?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "ಮೆಸೇಜ್ ಅಳಿಸಲು ವಿಫಲವಾಗಿದೆ. ನಿಮ್ಮ ಕನೆಕ್ಷನ್ ಅನ್ನು ಪರಿಶೀಲಿಸಿ ಹಾಗೂ ಪುನಃ ಪ್ರಯತ್ನಿಸಿ."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ"
   },
   "icu:editFailed": {
     "messageformat": "ಎಡಿಟ್ ವಿಫಲವಾಗಿದೆ, ವಿವರಗಳಿಗಾಗಿ ಕ್ಲಿಕ್ ಮಾಡಿ"
@@ -2244,7 +2235,7 @@
     "messageformat": "ಭಾಗಶಃ ಅಳಿಸಲಾಗಿದೆ, ಮರುಪ್ರಯತ್ನಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "ಭಾಗಶಃ ಅಳಿಸಲಾಗಿದೆ, ವಿವರಗಳಿಗಾಗಿ ಕ್ಲಿಕ್ ಮಾಡಿ"
   },
   "icu:expiredWarning": {
     "messageformat": "Signal ಡೆಸ್ಕ್ಟಾಪ್ ಈ ಆವೃತ್ತಿಯ ಅವಧಿ ಮುಗಿದಿದೆ. ಸಂದೇಶ ಮುಂದುವರೆಸಲು ಹೊಸ ಆವೃತ್ತಿಗೆ ಅಪ್ಗ್ರೇಡ್ ಮಾಡಿ."
@@ -2451,10 +2442,10 @@
     "messageformat": "ಈ ಗುಂಪಿನಲ್ಲಿ ಅಡ್ಮಿನ್‌ಗಳು ಮಾತ್ರ ಸದಸ್ಯರ ಲೇಬಲ್‌ಗಳನ್ನು ಸೇರಿಸಬಹುದು."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "ಒಮ್ಮೆ ವೀಕ್ಷಿಸಿ ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "ಒಮ್ಮೆ ವೀಕ್ಷಿಸಿ ಅನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ನೀವು ಈ ಮೆಸೇಜ್ ಕಳುಹಿಸಿದ 24 ಗಂಟೆಗಳ ಒಳಗೆ ಮಾತ್ರ ಎಡಿಟ್‌ಗಳು ಅನ್ವಯಿಸಬಹುದು."
@@ -2643,13 +2634,13 @@
     "messageformat": "ಈ ಸಂದೇಶವನ್ನು ಅಳಿಸಲಾಗಿದೆ."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "ಅಡ್ಮಿನ್ {admin} ಈ ಮೆಸೇಜ್ ಅನ್ನು ಅಳಿಸಿದ್ದಾರೆ"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "{name} ಈ ಮೆಸೇಜ್ ಅನ್ನು ಅಳಿಸಿದ್ದಾರೆ"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "ನೀವು ಈ ಮೆಸೇಜ್ ಅನ್ನು ಅಳಿಸಿದ್ದೀರಿ"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "ಪ್ರದರ್ಶಿಸಲು ಲಗತ್ತು ತೀರಾ ದೊಡ್ಡದಾಗಿದೆ."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "ಗ್ರೂಪ್ ಮಾಹಿತಿಯನ್ನು ಯಾರು ಎಡಿಟ್ ಮಾಡಬಹುದು ಎಂಬುದನ್ನು \"ಎಲ್ಲ ಸದಸ್ಯರು\" ಎಂಬುದಕ್ಕೆ ಒಬ್ಬ ಅಡ್ಮಿನ್‌ ಬದಲಿಸಿದ್ದಾರೆ."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} ಅವರು ಗ್ರೂಪ್ ಸದಸ್ಯತ್ವವನ್ನು ಯಾರು ಎಡಿಟ್ ಮಾಡಬಹುದು ಎಂಬುದನ್ನು \"ಕೇವಲ ಅಡ್ಮಿನ್‌ಗಳು\" ಎಂಬುದಕ್ಕೆ ಬದಲಿಸಿದ್ದಾರೆ."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "ಗ್ರೂಪ್ ಸದಸ್ಯತ್ವವನ್ನು ಯಾರು ಎಡಿಟ್ ಮಾಡಬಹುದು ಎಂಬುದನ್ನು \"ಕೇವಲ ಅಡ್ಮಿನ್‌ಗಳು\" ಎಂಬುದಕ್ಕೆ ನೀವು ಬದಲಿಸಿದ್ದೀರಿ."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} ಅವರು ಗ್ರೂಪ್ ಸದಸ್ಯತ್ವವನ್ನು ಯಾರು ಎಡಿಟ್ ಮಾಡಬಹುದು ಎಂಬುದನ್ನು \"ಕೇವಲ ಅಡ್ಮಿನ್‌ಗಳು\" ಎಂಬುದಕ್ಕೆ ಬದಲಿಸಿದ್ದಾರೆ."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "ಗ್ರೂಪ್ ಸದಸ್ಯತ್ವವನ್ನು ಯಾರು ಎಡಿಟ್ ಮಾಡಬಹುದು ಎಂಬುದನ್ನು \"ಕೇವಲ ಅಡ್ಮಿನ್‌ಗಳು\" ಎಂಬುದಕ್ಕೆ ಒಬ್ಬ ಅಡ್ಮಿನ್‌ ಬದಲಿಸಿದ್ದಾರೆ."
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} ಅವರು ಗ್ರೂಪ್ ಸದಸ್ಯತ್ವವನ್ನು ಯಾರು ಎಡಿಟ್ ಮಾಡಬಹುದು ಎಂಬುದನ್ನು \"ಎಲ್ಲ ಸದಸ್ಯರು\" ಎಂಬುದಕ್ಕೆ ಬದಲಿಸಿದ್ದಾರೆ."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "ಗ್ರೂಪ್ ಸದಸ್ಯತ್ವವನ್ನು ಯಾರು ಎಡಿಟ್ ಮಾಡಬಹುದು ಎಂಬುದನ್ನು \"ಎಲ್ಲ ಸದಸ್ಯರು\" ಎಂಬುದಕ್ಕೆ ನೀವು ಬದಲಿಸಿದ್ದೀರಿ."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} ಅವರು ಗ್ರೂಪ್ ಸದಸ್ಯತ್ವವನ್ನು ಯಾರು ಎಡಿಟ್ ಮಾಡಬಹುದು ಎಂಬುದನ್ನು \"ಎಲ್ಲ ಸದಸ್ಯರು\" ಎಂಬುದಕ್ಕೆ ಬದಲಿಸಿದ್ದಾರೆ."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "ಗ್ರೂಪ್ ಸದಸ್ಯತ್ವವನ್ನು ಯಾರು ಎಡಿಟ್ ಮಾಡಬಹುದು ಎಂಬುದನ್ನು \"ಎಲ್ಲ ಸದಸ್ಯರು\" ಎಂಬುದಕ್ಕೆ ಒಬ್ಬ ಅಡ್ಮಿನ್‌ ಬದಲಿಸಿದ್ದಾರೆ."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "ಗ್ರೂಪ್‌ ಲಿಂಕ್‌ಗೆ ಅಡ್ಮಿನ್ ಅನುಮತಿಯನ್ನು ನೀವು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿದ್ದೀರಿ."
@@ -4647,10 +4656,10 @@
     "messageformat": "ಬದಲಾಯಿಸಿ"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "ಒಮ್ಮೆ ವೀಕ್ಷಿಸಿ"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "ಒಮ್ಮೆ ವೀಕ್ಷಿಸಬಹುದಾದ ಮೀಡಿಯಾ"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "ಮೆಸೇಜ್ ಎಡಿಟ್ ಮಾಡಿ"
@@ -4686,13 +4695,16 @@
     "messageformat": "ಧ್ವನಿ"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "ಆಡಿಯೊ ಮ್ಯೂಟ್ ಮಾಡಿ"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "ನೀವು {contact} ಮ್ಯೂಟ್ ಮಾಡಲು ಖಚಿತವಾಗಿ ಬಯಸುವಿರಾ?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "ಮ್ಯೂಟ್ ಮಾಡಿ"
+  },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Remove from call"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "ಸದಸ್ಯರ ಲೇಬಲ್‌ಗಳು"
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "ಗ್ರೂಪ್ ಮಾಹಿತಿಯನ್ನು ಯಾರು ಎಡಿಟ್ ಮಾಡಬಹುದು"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "ಗುಂಪಿನ ಹೆಸರು, ಫೋಟೋ, ವಿವರಣೆ ಮತ್ತು ಸಂದೇಶಗಳ ಕಣ್ಮರೆಯಾಗುವಿಕೆಯ ಸಮಯವನ್ನು ಯಾರು ಎಡಿಟ್ ಮಾಡಬಹುದು ಎಂಬುದನ್ನು ಆಯ್ಕೆ ಮಾಡಿ."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "ಗುಂಪಿನ ಹೆಸರು, ಫೋಟೋ, ವಿವರಣೆ, ಮಾಯವಾಗುವ ಸಂದೇಶಗಳ ಟೈಮರ್ ಮತ್ತು ಪಿನ್ ಮಾಡಿದ ಮೆಸೇಜ್‌ಗಳನ್ನು ಯಾರು ಎಡಿಟ್ ಮಾಡಬಹುದು ಎಂಬುದನ್ನು ಆಯ್ಕೆಮಾಡಿ."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "ಈ ಗ್ರೂಪ್‌ಗೆ ಯಾರು ಮೆಸೇಜ್‌ಗಳನ್ನು ಕಳುಹಿಸಬಹುದು ಎಂಬುದನ್ನು ಆರಿಸಿ."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "ಸದಸ್ಯರ ಲೇಬಲ್‌ಗಳನ್ನು ತೆರವುಗೊಳಿಸಲಾಗುತ್ತದೆ"
@@ -5016,7 +5031,7 @@
     "messageformat": "{count, plural, one {ಮೆಸೇಜ್ ಅನ್ನು ಅಳಿಸಬೇಕೇ?} other {{count,number} ಮೆಸೇಜ್‌ಗಳನ್ನು ಅಳಿಸಬೇಕೇ?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {ಆಯ್ಕೆಮಾಡಿದ ಮೆಸೇಜ್ ಅಳಿಸುವುದೇ?} other {ಆಯ್ಕೆಮಾಡಿದ {count,number} ಮೆಸೇಜ್‌ಗಳನ್ನು ಅಳಿಸುವುದೇ?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {ನೀವು ಯಾರಿಗಾಗಿ ಈ ಮೆಸೇಜ್ ಅನ್ನು ಅಳಿಸಲು ಬಯಸುತ್ತೀರಿ?} other {ನೀವು ಯಾರಿಗಾಗಿ ಈ ಮೆಸೇಜ್‌ಗಳನ್ನು ಅಳಿಸಲು ಬಯಸುತ್ತೀರಿ?}}"
@@ -5037,10 +5052,10 @@
     "messageformat": "ಎಲ್ಲರಿಗೂ ಅಳಿಸಿ"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "ಎಲ್ಲರಿಗೂ ಅಳಿಸುವುದೇ?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {ಒಬ್ಬ ಅಡ್ಮಿನ್ ಆಗಿ, ನೀವು ಈ ಮೆಸೇಜ್ ಅನ್ನು ಅಳಿಸಿದ್ದೀರಿ ಎಂದು ಗುಂಪಿನ ಸದಸ್ಯರು ನೋಡುತ್ತಾರೆ.} other {ಒಬ್ಬ ಅಡ್ಮಿನ್ ಆಗಿ, ನೀವು ಈ ಮೆಸೇಜ್‌ಗಳನ್ನು ಅಳಿಸಿದ್ದೀರಿ ಎಂದು ಗುಂಪಿನ ಸದಸ್ಯರು ನೋಡುತ್ತಾರೆ.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "ಎಲ್ಲಾ ಸಾಧನಗಳಿಂದ ಅಳಿಸಿ"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {ಎಲ್ಲರಿಗೂ ಅಳಿಸಲು ನೀವು {count,number} ತನಕ ಮಾತ್ರ ಮೆಸೇಜ್‌ ಅನ್ನು ಆಯ್ಕೆ ಮಾಡಬಹುದು} other {ಎಲ್ಲರಿಗೂ ಅಳಿಸಲು ನೀವು {count,number} ತನಕ ಮಾತ್ರ ಮೆಸೇಜ್‌ಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಬಹುದು}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Discard draft?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "This action can't be undone."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "ಐಟಂ ಅಳಿಸಬೇಕೇ?"
@@ -6187,13 +6208,13 @@
     "messageformat": "ಡೆಸ್ಕ್‌ಟಾಪ್ ಬ್ಯಾಕಪ್‌ಗಳು"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ಕೀಯೊಂದಿಗೆ ಎನ್ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗುತ್ತದೆ ಮತ್ತು ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್‌ನಲ್ಲಿ ಸಂಗ್ರಹಿಸಲಾಗುತ್ತದೆ."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ ನೀವು ರಿಸ್ಟೋರ್ ಮಾಡಬಹುದಾದ ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್ಕ್ರಿಪ್ಟ್ ಆಗಿರುವ ಬ್ಯಾಕಪ್ ಅನ್ನು ರಚಿಸಿ. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "ಬ್ಯಾಕಪ್ ಅನ್ನು ರಿಸ್ಟೋರ್ ಮಾಡಲು, Signal ನ ಹೊಸ ಕಾಪಿಯನ್ನು ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಿ. ಆ್ಯಪ್ ತೆರೆಯಿರಿ ಮತ್ತು ಬ್ಯಾಕಪ್ ರಿಸ್ಟೋರ್ ಮಾಡಿ ಎಂಬುದನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ, ನಂತರ ಬ್ಯಾಕಪ್ ಫೋಲ್ಡರ್ ಅನ್ನು ಪತ್ತೆಹಚ್ಚಿ. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "ಫೋಲ್ಡರ್ ಆಯ್ಕೆ ಮಾಡಿ"
@@ -7986,10 +8007,9 @@
     "messageformat": "Signal ಸುರಕ್ಷಿತ ಬ್ಯಾಕಪ್‌ಗಳು ಇಲ್ಲಿವೆ! ನೀವು ಸ್ವಯಂಚಾಲಿತ ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್ಕ್ರಿಪ್ಟ್ ಆಗಿರುವ ಬ್ಯಾಕಪ್ ಸಕ್ರಿಯಗೊಳಿಲು ಆಯ್ಕೆಮಾಡಬಹುದು, ಇದರಿಂದ ಹೊಸ ಫೋನ್ ಪಡೆದಾಗ ಅಥವಾ Signal ರೀಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಿದಾಗ ನೀವು ಮೆಸೇಜ್ ಕಳೆದುಕೊಳ್ಳುವುದಿಲ್ಲ. ನೀವು ನಿಮ್ಮ ಎಲ್ಲಾ ಮೆಸೇಜ್‍ಗಳನ್ನು ಮತ್ತು ಕಳೆದ 45 ದಿನಗಳ ಮೀಡಿಯಾವನ್ನು ಉಚಿತವಾಗಿ ಬ್ಯಾಕಪ್ ಮಾಡಬಹುದು ಅಥವಾ ಪ್ರತಿ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್ ಬ್ಯಾಕಪ್ ಮಾಡಲು 100 GB ಸಂಗ್ರಹಣೆಗಾಗಿ ಸಣ್ಣ ಮಾಸಿಕ ಶುಲ್ಕ ಪಾವತಿಸಬಹುದು. ಪ್ರಾರಂಭಿಸಲು Signal ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಎಂಬುದರಲ್ಲಿ ಬ್ಯಾಕಪ್ ಟ್ಯಾಪ್ ಮಾಡಿ. ಬೀಟಾ ಅವಧಿಯಲ್ಲಿ ಈ ಫೀಚರ್ ಪರೀಕ್ಷಿಸಲು ಸಹಾಯಮಾಡಿದ ಎಲ್ಲರಿಗೂ ಧನ್ಯವಾದ!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "ಈಗ ನೀವು Signal ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಿಂದಲೂ ಏಕ ವೀಕ್ಷಣೆ ಮೀಡಿಯಾ ಮೆಸೇಜ್‌ಗಳನ್ನು ಕಳುಹಿಸಬಹುದು. ಏಕ ವೀಕ್ಷಣೆ ಸಂದೇಶಗಳು ಎಂಬುದಾಗಿ ಕಳುಹಿಸಲಾದ ಮೆಸೇಜ್‌ಗಳನ್ನು ವೈಯಕ್ತಿಕ ಫೋಟೋಗಳು ಮತ್ತು ವೀಡಿಯೊಗಳನ್ನು ವೀಕ್ಷಿಸಿದ ನಂತರ ಸಂಭಾಷಣೆಯ ಥ್ರೆಡ್‌ನಿಂದ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ತೆಗೆದುಹಾಕಲಾಗುತ್ತದೆ."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }
