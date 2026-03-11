@@ -38,6 +38,7 @@ import {
   getEmojiSkinToneDefault,
   getItems,
   getTextFormattingEnabled,
+  getTypingAutoFocus,
 } from '../selectors/items.dom.js';
 import { canForward, getPropsForQuote } from '../selectors/message.preload.js';
 import {
@@ -89,6 +90,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
   const selectedMessageIds = useSelector(getSelectedMessageIds);
   const messageLookup = useSelector(getMessages);
   const isFormattingEnabled = useSelector(getTextFormattingEnabled);
+  const isTypingAutoFocusEnabled = useSelector(getTypingAutoFocus);
   const items = useSelector(getItems);
   const version = useSelector(getVersion);
   const lastEditableMessageId = useSelector(getLastEditableMessageId);
@@ -250,6 +252,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       i18n={i18n}
       isDisabled={isDisabled}
       isFormattingEnabled={isFormattingEnabled}
+      isTypingAutoFocusEnabled={isTypingAutoFocusEnabled}
       isPollSend1to1Enabled={isFeaturedEnabledSelector({
         betaKey: 'desktop.pollSend1to1.beta',
         prodKey: 'desktop.pollSend1to1.prod',

@@ -709,6 +709,10 @@ export function SmartPreferences(): React.JSX.Element | null {
     'textFormatting',
     true
   );
+  const [hasTypingAutoFocus, onTypingAutoFocusChange] = createItemsAccess(
+    'typingAutoFocus',
+    true
+  );
   const [lastSyncTime, onLastSyncTimeChange] = createItemsAccess(
     'synced_at',
     undefined
@@ -868,6 +872,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           hasSpellCheck={hasSpellCheck}
           hasStoriesDisabled={hasStoriesDisabled}
           hasTextFormatting={hasTextFormatting}
+          hasTypingAutoFocus={hasTypingAutoFocus}
           hasTypingIndicators={hasTypingIndicators}
           i18n={i18n}
           initialSpellCheckSetting={initialSpellCheckSetting}
@@ -932,6 +937,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           onSentMediaQualityChange={onSentMediaQualityChange}
           onSpellCheckChange={onSpellCheckChange}
           onTextFormattingChange={onTextFormattingChange}
+          onTypingAutoFocusChange={onTypingAutoFocusChange}
           onThemeChange={onThemeChange}
           onToggleNavTabsCollapse={toggleNavTabsCollapse}
           onUniversalExpireTimerChange={onUniversalExpireTimerChange}

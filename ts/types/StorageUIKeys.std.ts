@@ -38,6 +38,7 @@ export const STORAGE_UI_KEYS: ReadonlyArray<keyof StorageAccessType> = [
   'showStickersIntroduction',
   'emojiSkinToneDefault',
   'textFormatting',
+  'typingAutoFocus',
   'version',
   'zoomFactor',
 ];
