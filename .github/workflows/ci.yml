@@ -147,7 +147,7 @@ jobs:
 
     - name: Upload artifacts on failure
       if: failure()
-      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
       with:
         path: artifacts
 
@@ -247,7 +247,7 @@ jobs:
 
     - name: Upload artifacts on failure
       if: failure()
-      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
       with:
         path: artifacts
 
@@ -315,7 +315,7 @@ jobs:
 
     - name: Upload artifacts on failure
       if: failure()
-      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
       with:
         path: artifacts
 
@@ -452,7 +452,7 @@ jobs:
 
     - name: Upload mock server test logs on failure
       if: failure()
-      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
       with:
         name: logs-${{ matrix.workerIndex }}
         path: artifacts
