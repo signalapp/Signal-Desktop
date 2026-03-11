@@ -108,6 +108,13 @@
       );
     }
 
+    &--arrow::after {
+      @include mixins.color-svg(
+    '../images/icons/v2/arrow-24.svg',
+    variables.$color-white
+  );
+    }
+
     &--undo {
       &::after {
         @include mixins.color-svg(

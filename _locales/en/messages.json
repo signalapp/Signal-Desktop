@@ -8687,6 +8687,10 @@
     "messageformat": "Draw",
     "description": "Label for the draw button in the media editor"
   },
+   "icu:MediaEditor__control--arrow": {
+    "messageformat": "Arrow",
+    "description": "Label for the arrow drawing tool in the media editor"
+  },
   "icu:MediaEditor__control--text": {
     "messageformat": "Add text",
     "description": "Label for the text button in the media editor"

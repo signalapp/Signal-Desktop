@@ -31,6 +31,7 @@ import { MediaEditorFabricDigitalTimeSticker } from '../mediaEditor/MediaEditorF
 import { MediaEditorFabricIText } from '../mediaEditor/MediaEditorFabricIText.dom.js';
 import { MediaEditorFabricPencilBrush } from '../mediaEditor/MediaEditorFabricPencilBrush.dom.js';
 import { MediaEditorFabricSticker } from '../mediaEditor/MediaEditorFabricSticker.dom.js';
+import { MediaEditorFabricArrow } from '../mediaEditor/MediaEditorFabricArrow.dom.js';
 import { fabricEffectListener } from '../mediaEditor/fabricEffectListener.std.js';
 import { getRGBA, getHSL } from '../mediaEditor/util/color.std.js';
 import {
@@ -124,6 +125,7 @@ enum EditMode {
   Crop = 'Crop',
   Draw = 'Draw',
   Text = 'Text',
+  Arrow = 'Arrow',
 }
 
 enum DrawWidth {
@@ -720,6 +722,113 @@ export function MediaEditor({
     fabricCanvas.requestRenderAll();
   }, [drawTool, drawWidth, editMode, fabricCanvas, sliderValue, zoom]);
 
+ // Toggle arrow mode
+useEffect(() => {
+  if (!fabricCanvas) return;
+  if (editMode !== EditMode.Arrow) return;
+
+  fabricCanvas.isDrawingMode = false;
+  fabricCanvas.discardActiveObject();
+
+  let isDrawingArrow = false;
+  let currentArrow: MediaEditorFabricArrow | null = null;
+  let startPoint: fabric.Point | null = null;
+  let maxPerp = 0;
+  let intermediatePoints: fabric.Point[] = [];
+
+  const onMouseDown = (event: fabric.IEvent) => {
+  if (!event.e) return;
+
+  const pointer = fabricCanvas.getPointer(event.e, false);
+  if (pointer.x <= 0 && pointer.y <= 0) return; // expanded guard
+
+  isDrawingArrow = true;
+  maxPerp = 0;
+  intermediatePoints = [];
+  startPoint = new fabric.Point(pointer.x, pointer.y);
+
+  currentArrow = new MediaEditorFabricArrow(
+    startPoint,
+    new fabric.Point(pointer.x, pointer.y),
+    drawTool === DrawTool.Highlighter
+      ? getRGBA(sliderValue, 0.5)
+      : getHSL(sliderValue),
+    drawTool === DrawTool.Highlighter
+      ? (drawWidth / zoom) * 2
+      : drawWidth / zoom
+  );
+
+  fabricCanvas.add(currentArrow.path);
+  fabricCanvas.requestRenderAll();
+};
+
+  const onMouseMove = (event: fabric.IEvent) => {
+    if (!isDrawingArrow || !currentArrow || !startPoint) return;
+    const pointer = fabricCanvas.getPointer(event.e, false);
+    const end = new fabric.Point(pointer.x, pointer.y);
+
+    intermediatePoints.push(new fabric.Point(pointer.x, pointer.y));
+
+    const dx = end.x - startPoint.x;
+    const dy = end.y - startPoint.y;
+    const len = Math.sqrt(dx * dx + dy * dy);
+
+    if (len > 5) {
+      let maxDev = 0;
+      for (const pt of intermediatePoints) {
+        // Perpendicular distance from pt to line startPoint->end
+        const t =
+          ((pt.x - startPoint.x) * dx + (pt.y - startPoint.y) * dy) /
+          (len * len);
+        const projX = startPoint.x + t * dx;
+        const projY = startPoint.y + t * dy;
+        const dev =
+          (pt.x - projX) * (-dy / len) + (pt.y - projY) * (dx / len);
+        if (Math.abs(dev) > Math.abs(maxDev)) {
+          maxDev = dev;
+        }
+      }
+      maxPerp = maxDev;
+    }
+
+    currentArrow.updateEnd(end, maxPerp);
+    fabricCanvas.requestRenderAll();
+  };
+
+  const onMouseUp = (event: fabric.IEvent) => {
+  if (!isDrawingArrow || !currentArrow || !startPoint) return;
+
+  const pointer = fabricCanvas.getPointer(event.e, false);
+  const dx = pointer.x - startPoint.x;
+  const dy = pointer.y - startPoint.y;
+  const distance = Math.sqrt(dx * dx + dy * dy);
+
+  if (distance < 10) {
+    fabricCanvas.remove(currentArrow.path);
+  } else {
+    fabricCanvas.setActiveObject(currentArrow.path);
+    takeSnapshot('arrow', imageState, fabricCanvas);
+  }
+
+  fabricCanvas.requestRenderAll();
+  isDrawingArrow = false;
+  startPoint = null;
+  maxPerp = 0;
+  intermediatePoints = [];
+  currentArrow = null;
+};
+
+  fabricCanvas.on('mouse:down', onMouseDown);
+  fabricCanvas.on('mouse:move', onMouseMove);
+  fabricCanvas.on('mouse:up', onMouseUp);
+
+  return () => {
+    fabricCanvas.off('mouse:down', onMouseDown);
+    fabricCanvas.off('mouse:move', onMouseMove);
+    fabricCanvas.off('mouse:up', onMouseUp);
+  };
+}, [editMode, fabricCanvas, sliderValue, drawWidth, drawTool, zoom, imageState, takeSnapshot]);
+
   // Change text style
   useEffect(() => {
     if (!fabricCanvas) {
@@ -949,7 +1058,7 @@ export function MediaEditor({
         </div>
       </>
     );
-  } else if (editMode === EditMode.Draw) {
+  } else if (editMode === EditMode.Draw || editMode === EditMode.Arrow) {
     toolElement = (
       <>
         <div className="MediaEditor__tools-row-1" />
@@ -1296,6 +1405,20 @@ export function MediaEditor({
                 onClick={() => {
                   setEditMode(
                     editMode === EditMode.Draw ? undefined : EditMode.Draw
+                  );
+                }}
+                type="button"
+              />
+              <button
+                aria-label={i18n('icu:MediaEditor__control--arrow')}
+                className={classNames({
+                  MediaEditor__control: true,
+                  'MediaEditor__control--arrow': true,
+                  'MediaEditor__control--selected': editMode === EditMode.Arrow,
+                })}
+                onClick={() => {
+                  setEditMode(
+                    editMode === EditMode.Arrow ? undefined : EditMode.Arrow
                   );
                 }}
                 type="button"

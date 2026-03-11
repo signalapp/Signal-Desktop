@@ -1,6 +1,6 @@
 {
   "$schema": "./package.schema.json",
-  "packageManager": "pnpm@10.18.1",
+  "packageManager": "pnpm@10.30.3",
   "name": "signal-desktop",
   "productName": "Signal",
   "description": "Private messaging from your desktop",
@@ -60,7 +60,7 @@
     "lint-license-comments": "ts-node ts/util/lint/license_comments.node.ts",
     "lint-prettier": "pprettier --check '**/*.{ts,tsx,d.ts,js,json,html,scss,md,yml,yaml}' '!node_modules/**'",
     "lint-intl": "ts-node ./build/intl-linter/linter.node.ts",
-    "lint-css": "stylelint '**/*.scss' --cache",
+    "lint-css": "stylelint \"**/*.scss\" --cache",
     "danger:local": "./danger/danger.sh local --base main",
     "danger:ci": "./danger/danger.sh ci --base origin/main",
     "format": "pprettier --write '**/*.{ts,tsx,d.ts,js,json,html,scss,md,yml,yaml}' '!node_modules/**'",

@@ -1,0 +1,89 @@
+[18:56:28.247] [INFO] Storybook upgrade - v10.2.16
+[18:56:28.258] [INFO] detect-projects-spinner-start: Detecting projects...
+[18:56:28.264] [DEBUG] Finding Storybook projects...
+[18:56:28.971] [DEBUG] Found 1 Storybook projects
+[18:56:28.973] [INFO] detect-projects-spinner: Detecting projects: 1 projects
+[18:56:28.973] [DEBUG] Getting Storybook data...
+[18:56:28.973] [DEBUG] Getting Storybook info...
+[18:56:29.268] [DEBUG] SB_CORE-SERVER_0007 (MainFileEvaluationError): Storybook couldn't evaluate your [33m.storybook\main.ts[39m file.
+
+Original error:
+[37mfile:///C:/Users/91763/Signal-Desktop/.storybook/main.ts:1
+import { ProvidePlugin } from "webpack";
+         ^^^^^^^^^^^^^
+SyntaxError: Named export 'ProvidePlugin' not found. The requested module 'webpack' is a CommonJS module, which may not support all module.exports as named exports.
+CommonJS modules can always be imported via the default export, for example using:
+
+import pkg from 'webpack';
+const { ProvidePlugin } = pkg;
+
+    at #asyncInstantiate (node:internal/modules/esm/module_job:319:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:422:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)
+    at async importModule (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/storybook/dist/_node-chunks/chunk-EBZ4DOUR.js:737:11)
+    at async loadMainConfig (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/storybook/dist/_node-chunks/chunk-UXMBIWPQ.js:11678:12)
+    at async getStorybookInfo (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/storybook/dist/_node-chunks/chunk-UXMBIWPQ.js:11798:59)
+    at async getStorybookData (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/@storybook/cli/dist/_node-chunks/chunk-R6EEYLSO.js:169:7)
+    at async processProject (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/@storybook/cli/dist/_node-chunks/chunk-R6EEYLSO.js:304:9)[39m
+[18:56:29.269] [INFO] detect-projects-spinner-stop: 1 project detected
+[18:56:29.270] [DEBUG] Found 0 valid projects and 1 error projects
+[18:56:29.271] [ERROR] Failed to get projects
+[18:56:29.272] [ERROR] [38;2;241;97;97mError: ❌ Storybook found errors while collecting data for the following projects:
+C:/Users/91763/Signal-Desktop/.storybook:
+SB_CORE-SERVER_0007 (MainFileEvaluationError): Storybook couldn't evaluate your [33m.storybook\main.ts[39m file.
+
+Original error:
+[37mfile:///C:/Users/91763/Signal-Desktop/.storybook/main.ts:1
+import { ProvidePlugin } from "webpack";
+         ^^^^^^^^^^^^^
+SyntaxError: Named export 'ProvidePlugin' not found. The requested module 'webpack' is a CommonJS module, which may not support all module.exports as named exports.
+CommonJS modules can always be imported via the default export, for example using:
+
+import pkg from 'webpack';
+const { ProvidePlugin } = pkg;
+
+    at #asyncInstantiate (node:internal/modules/esm/module_job:319:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:422:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)
+    at async importModule (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/storybook/dist/_node-chunks/chunk-EBZ4DOUR.js:737:11)
+    at async loadMainConfig (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/storybook/dist/_node-chunks/chunk-UXMBIWPQ.js:11678:12)
+    at async getStorybookInfo (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/storybook/dist/_node-chunks/chunk-UXMBIWPQ.js:11798:59)
+    at async getStorybookData (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/@storybook/cli/dist/_node-chunks/chunk-R6EEYLSO.js:169:7)
+    at async processProject (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/@storybook/cli/dist/_node-chunks/chunk-R6EEYLSO.js:304:9)[39m
+    at loadMainConfig (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/storybook/dist/_node-chunks/chunk-UXMBIWPQ.js:11709:11)
+    at async getStorybookInfo (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/storybook/dist/_node-chunks/chunk-UXMBIWPQ.js:11798:59)
+    at async getStorybookData (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/@storybook/cli/dist/_node-chunks/chunk-R6EEYLSO.js:169:7)
+    at async processProject (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/@storybook/cli/dist/_node-chunks/chunk-R6EEYLSO.js:304:9)
+Please fix the errors and run the upgrade command again.[39m
+    at getProjects (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/@storybook/cli/dist/_node-chunks/chunk-R6EEYLSO.js:477:13)
+    at async upgrade (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/@storybook/cli/dist/_node-chunks/run-WYO5D2BM.js:9470:24)
+    at async file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/@storybook/cli/dist/_node-chunks/run-WYO5D2BM.js:9669:70
+    at async withTelemetry (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/storybook/dist/_node-chunks/chunk-CSGMAQQ4.js:218:12)
+    at async Command.<anonymous> (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/@storybook/cli/dist/_node-chunks/run-WYO5D2BM.js:9665:3)
+[18:56:31.905] [ERROR] Error: ❌ Storybook found errors while collecting data for the following projects:
+C:/Users/91763/Signal-Desktop/.storybook:
+SB_CORE-SERVER_0007 (MainFileEvaluationError): Storybook couldn't evaluate your [33m.storybook\main.ts[39m file.
+
+Original error:
+[37mfile:///C:/Users/91763/Signal-Desktop/.storybook/main.ts:1
+import { ProvidePlugin } from "webpack";
+         ^^^^^^^^^^^^^
+SyntaxError: Named export 'ProvidePlugin' not found. The requested module 'webpack' is a CommonJS module, which may not support all module.exports as named exports.
+CommonJS modules can always be imported via the default export, for example using:
+
+import pkg from 'webpack';
+const { ProvidePlugin } = pkg;
+
+    at #asyncInstantiate (node:internal/modules/esm/module_job:319:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:422:5)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:661:26)
+    at async importModule (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/storybook/dist/_node-chunks/chunk-EBZ4DOUR.js:737:11)
+    at async loadMainConfig (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/storybook/dist/_node-chunks/chunk-UXMBIWPQ.js:11678:12)
+    at async getStorybookInfo (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/storybook/dist/_node-chunks/chunk-UXMBIWPQ.js:11798:59)
+    at async getStorybookData (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/@storybook/cli/dist/_node-chunks/chunk-R6EEYLSO.js:169:7)
+    at async processProject (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/@storybook/cli/dist/_node-chunks/chunk-R6EEYLSO.js:304:9)[39m
+    at loadMainConfig (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/storybook/dist/_node-chunks/chunk-UXMBIWPQ.js:11709:11)
+    at async getStorybookInfo (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/storybook/dist/_node-chunks/chunk-UXMBIWPQ.js:11798:59)
+    at async getStorybookData (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/@storybook/cli/dist/_node-chunks/chunk-R6EEYLSO.js:169:7)
+    at async processProject (file:///C:/Users/91763/AppData/Local/npm-cache/_npx/8a3a56b39c182c4a/node_modules/@storybook/cli/dist/_node-chunks/chunk-R6EEYLSO.js:304:9)
+Please fix the errors and run the upgrade command again.
