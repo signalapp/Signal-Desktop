@@ -436,8 +436,8 @@ importers:
         specifier: 0.1.61
         version: 0.1.61
       '@signalapp/mock-server':
-        specifier: 18.1.0
-        version: 18.1.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+        specifier: 18.2.0
+        version: 18.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       '@storybook/addon-a11y':
         specifier: 8.4.4
         version: 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
@@ -1701,10 +1701,6 @@ packages:
     hasBin: true
     peerDependencies:
       prettier: ^3.0.0
-
-  '@indutny/protopiler@2.0.6':
-    resolution: {integrity: sha512-FJvX8bGpuanAXvYZkKY4cmrn+gpxx+oFJ3fyxP18WHhC6jLUQ8KuWMfxaZU/K+1IBQeRbh67wtC0iAshX0Tnjw==}
-    hasBin: true
 
   '@indutny/protopiler@3.1.1':
     resolution: {integrity: sha512-EOlIbOOSOiQrkXGNS2mRZRr6mOueYBF1F/Q4oPNn0lK0Cd01R4T0mfrPUysXALnmcNn/D0AENmx+g4xG5W7keQ==}
@@ -3490,8 +3486,8 @@ packages:
   '@signalapp/minimask@1.0.1':
     resolution: {integrity: sha512-QAwo0joA60urTNbW9RIz6vLKQjy+jdVtH7cvY0wD9PVooD46MAjE40MLssp4xUJrph91n2XvtJ3pbEUDrmT2AA==}
 
-  '@signalapp/mock-server@18.1.0':
-    resolution: {integrity: sha512-kM8zkjmWjf3vvX/rEsBwZP/K/oX1gXBxAb4eudsxks6zBg++5aNftVljw50gVMMJaaawNdHg0pDHp+3t6wzpzA==}
+  '@signalapp/mock-server@18.2.0':
+    resolution: {integrity: sha512-5oEurM6VXswK1krLRbcLR8270Gh9QS1Pw3hsSbdJteSnbtNusYvK4lYbMlJECmfhTtVRPJbGTcIGtV5lPumQSA==}
 
   '@signalapp/parchment-cjs@3.0.1':
     resolution: {integrity: sha512-hSBMQ1M7wE4GcC8ZeNtvpJF+DAJg3eIRRf1SiHS3I3Algav/sgJJNm6HIYm6muHuK7IJmuEjkL3ILSXgmu0RfQ==}
@@ -11763,8 +11759,6 @@ snapshots:
       prettier: 3.7.4
       rxjs: 6.6.7
 
-  '@indutny/protopiler@2.0.6': {}
-
   '@indutny/protopiler@3.1.1': {}
 
   '@indutny/range-finder@1.3.4':
@@ -14188,10 +14182,10 @@ snapshots:
 
   '@signalapp/minimask@1.0.1': {}
 
-  '@signalapp/mock-server@18.1.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
+  '@signalapp/mock-server@18.2.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)':
     dependencies:
       '@indutny/parallel-prettier': 3.0.0(prettier@3.7.4)
-      '@indutny/protopiler': 2.0.6
+      '@indutny/protopiler': 3.1.1
       '@signalapp/libsignal-client': 0.76.7
       '@tus/file-store': 1.5.1
       '@tus/server': 1.10.2
