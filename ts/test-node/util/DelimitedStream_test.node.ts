@@ -4,9 +4,9 @@
 import { assert } from 'chai';
 import { Readable, Writable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
-import { BufferWriter } from 'protobufjs';
 
 import { DelimitedStream } from '../../util/DelimitedStream.node.js';
+import { encodeDelimited } from '../../util/encodeDelimited.std.js';
 
 describe('DelimitedStream', () => {
   function collect(out: Array<string>): Writable {
@@ -46,39 +46,43 @@ describe('DelimitedStream', () => {
   }
 
   it('should parse single-byte delimited data', async () => {
-    const w = new BufferWriter();
-    w.string('a');
-    w.string('bc');
+    const data = Buffer.concat([
+      ...encodeDelimited(Buffer.from('a')),
+      ...encodeDelimited(Buffer.from('bc')),
+    ]);
 
-    await strideTest(w.finish(), ['a', 'bc']);
+    await strideTest(data, ['a', 'bc']);
   });
 
   it('should parse two-byte delimited data', async () => {
-    const w = new BufferWriter();
-    w.string('a'.repeat(129));
-    w.string('b'.repeat(154));
+    const data = Buffer.concat([
+      ...encodeDelimited(Buffer.from('a'.repeat(129))),
+      ...encodeDelimited(Buffer.from('b'.repeat(154))),
+    ]);
 
-    await strideTest(w.finish(), ['a'.repeat(129), 'b'.repeat(154)]);
+    await strideTest(data, ['a'.repeat(129), 'b'.repeat(154)]);
   });
 
   it('should parse three-byte delimited data', async () => {
-    const w = new BufferWriter();
-    w.string('a'.repeat(32000));
-    w.string('b'.repeat(32500));
+    const data = Buffer.concat([
+      ...encodeDelimited(Buffer.from('a'.repeat(32000))),
+      ...encodeDelimited(Buffer.from('b'.repeat(32500))),
+    ]);
 
-    await strideTest(w.finish(), ['a'.repeat(32000), 'b'.repeat(32500)]);
+    await strideTest(data, ['a'.repeat(32000), 'b'.repeat(32500)]);
   });
 
   it('should parse mixed delimited data', async () => {
-    const w = new BufferWriter();
-    w.string('a');
-    w.string('b'.repeat(129));
-    w.string('c'.repeat(32000));
-    w.string('d'.repeat(32));
-    w.string('e'.repeat(415));
-    w.string('f'.repeat(33321));
+    const data = Buffer.concat([
+      ...encodeDelimited(Buffer.from('a')),
+      ...encodeDelimited(Buffer.from('b'.repeat(129))),
+      ...encodeDelimited(Buffer.from('c'.repeat(32000))),
+      ...encodeDelimited(Buffer.from('d'.repeat(32))),
+      ...encodeDelimited(Buffer.from('e'.repeat(415))),
+      ...encodeDelimited(Buffer.from('f'.repeat(33321))),
+    ]);
 
-    await strideTest(w.finish(), [
+    await strideTest(data, [
       'a',
       'b'.repeat(129),
       'c'.repeat(32000),
@@ -89,13 +93,14 @@ describe('DelimitedStream', () => {
   });
 
   it('should error on incomplete prefix', async () => {
-    const w = new BufferWriter();
-    w.string('a'.repeat(32000));
+    const data = Buffer.concat([
+      ...encodeDelimited(Buffer.from('a'.repeat(32000))),
+    ]);
 
     const out = new Array<string>();
     await assert.isRejected(
       pipeline(
-        Readable.from(w.finish().subarray(0, 1)),
+        Readable.from(data.subarray(0, 1)),
         new DelimitedStream(),
         collect(out)
       ),
@@ -104,13 +109,14 @@ describe('DelimitedStream', () => {
   });
 
   it('should error on incomplete data', async () => {
-    const w = new BufferWriter();
-    w.string('a'.repeat(32000));
+    const data = Buffer.concat([
+      ...encodeDelimited(Buffer.from('a'.repeat(32000))),
+    ]);
 
     const out = new Array<string>();
     await assert.isRejected(
       pipeline(
-        Readable.from(w.finish().subarray(0, 10)),
+        Readable.from(data.subarray(0, 10)),
         new DelimitedStream(),
         collect(out)
       ),

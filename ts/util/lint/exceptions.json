@@ -709,51 +709,6 @@
     "updated": "2024-06-24T19:19:28.335Z"
   },
   {
-    "rule": "eval",
-    "path": "node_modules/protobufjs/dist/light/protobuf.js",
-    "line": "        var mod = eval(\"quire\".replace(/^/,\"re\"))(moduleName); // eslint-disable-line no-eval",
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-09T00:08:44.242Z",
-    "reasonDetail": "Eval is used here to produce and evaluate the expression 'require'"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/protobufjs/dist/light/protobuf.min.js",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "Hard-coded string"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/protobufjs/dist/minimal/protobuf.js",
-    "line": "        var mod = eval(\"quire\".replace(/^/,\"re\"))(moduleName); // eslint-disable-line no-eval",
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-09T00:08:44.242Z",
-    "reasonDetail": "Eval is used here to produce and evaluate the expression 'require'"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/protobufjs/dist/minimal/protobuf.min.js",
-    "reasonCategory": "falseMatch",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "Inside of regular expression"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/protobufjs/dist/protobuf.js",
-    "line": "        var mod = eval(\"quire\".replace(/^/,\"re\"))(moduleName); // eslint-disable-line no-eval",
-    "reasonCategory": "usageTrusted",
-    "updated": "2019-03-09T00:08:44.242Z",
-    "reasonDetail": "Eval is used here to produce and evaluate the expression 'require'"
-  },
-  {
-    "rule": "eval",
-    "path": "node_modules/protobufjs/dist/protobuf.min.js",
-    "reasonCategory": "usageTrusted",
-    "updated": "2018-09-18T19:19:27.699Z",
-    "reasonDetail": "Hard-coded string"
-  },
-  {
     "rule": "DOM-document.write(",
     "path": "node_modules/qrcode-generator/sample.js",
     "line": "  document.write(create_qrcode(text, typeNumber, errorCorrectionLevel) );",

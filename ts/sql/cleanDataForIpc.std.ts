@@ -18,7 +18,7 @@ const log = createLogger('cleanDataForIpc');
  *
  * This cleans the data so it's roughly JSON-serializable, though it does not handle
  * every case. You can see the expected behavior in the tests. Notably, we try to convert
- * protobufjs numbers to JavaScript numbers, and we don't touch ArrayBuffers.
+ * bigint numbers to plain numbers, and we don't touch ArrayBuffers.
  *
  * [0]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm
  */

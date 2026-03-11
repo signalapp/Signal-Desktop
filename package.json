@@ -193,7 +193,6 @@
     "parsecurrency": "1.1.1",
     "pify": "3.0.0",
     "pino": "9.8.0",
-    "protobufjs": "7.3.2",
     "proxy-agent": "6.4.0",
     "qrcode-generator": "1.4.4",
     "radix-ui": "1.4.2",
@@ -414,8 +413,7 @@
     "ignoredBuiltDependencies": [
       "core-js",
       "electron-winstaller",
-      "es5-ext",
-      "protobufjs"
+      "es5-ext"
     ]
   },
   "engines": {
@@ -699,8 +697,6 @@
       "!node_modules/@react-stately/**",
       "!node_modules/@popperjs/**",
       "!node_modules/@internationalized/**",
-      "!node_modules/protobufjs/dist/**",
-      "node_modules/protobufjs/dist/minimal/**",
       "!**/node_modules/react-dom/*/*.development.js",
       "!node_modules/mp4box/**",
       "node_modules/mp4box/package.json",

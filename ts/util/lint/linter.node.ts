@@ -241,7 +241,6 @@ const excludedFilesRegexp = RegExp(
     '^node_modules/preserve/.+',
     '^node_modules/prettier/.+',
     '^node_modules/prop-types/.+',
-    '^node_modules/protobufjs/cli/.+',
     '^node_modules/ramda/.+',
     '^node_modules/rambda/.+',
     '^node_modules/react-devtools/.+',

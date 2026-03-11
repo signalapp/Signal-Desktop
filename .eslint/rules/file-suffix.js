@@ -260,7 +260,6 @@ const STD_PACKAGES = new Set([
   'pify',
   'pino',
   'pngjs',
-  'protobufjs',
   'qrcode-generator',
   'react',
   'react-intl',
