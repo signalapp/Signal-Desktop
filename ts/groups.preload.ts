@@ -5576,6 +5576,8 @@ async function applyGroupChange({
       : AccessRequired.MEMBER;
   }
 
+  result.accessControl = accessControl;
+
   // addMembersPendingAdminApproval?: Array<
   //   GroupChange.Actions.AddMemberPendingAdminApprovalAction
   // >;
