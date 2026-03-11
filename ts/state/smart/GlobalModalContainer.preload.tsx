@@ -21,6 +21,7 @@ import { getConversationsStoppingSend } from '../selectors/conversations.dom.js'
 import { getIntl, getTheme } from '../selectors/user.std.js';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
 import { SmartDeleteMessagesModal } from './DeleteMessagesModal.preload.js';
+import { SmartDiscardDraftDialog } from './DiscardDraftDialog.preload.js';
 import { SmartMessageRequestActionsConfirmation } from './MessageRequestActionsConfirmation.preload.js';
 import { getGlobalModalsState } from '../selectors/globalModals.std.js';
 import { SmartEditNicknameAndNoteModal } from './EditNicknameAndNoteModal.preload.js';
@@ -85,6 +86,10 @@ function renderContactModal(): React.JSX.Element {
 
 function renderDeleteMessagesModal(): React.JSX.Element {
   return <SmartDeleteMessagesModal />;
+}
+
+function renderDiscardDraftDialog(): React.JSX.Element {
+  return <SmartDiscardDraftDialog />;
 }
 
 function renderDraftGifMessageSendModal(): React.JSX.Element {
@@ -166,6 +171,7 @@ export const SmartGlobalModalContainer = memo(
       criticalIdlePrimaryDeviceModal,
       debugLogErrorModalProps,
       deleteMessagesProps,
+      discardDraftDialogProps,
       draftGifMessageSendModalProps,
       editHistoryMessages,
       editNicknameAndNoteModalProps,
@@ -287,6 +293,7 @@ export const SmartGlobalModalContainer = memo(
         editNicknameAndNoteModalProps={editNicknameAndNoteModalProps}
         errorModalProps={errorModalProps}
         deleteMessagesProps={deleteMessagesProps}
+        discardDraftDialogProps={discardDraftDialogProps}
         draftGifMessageSendModalProps={draftGifMessageSendModalProps}
         forwardMessagesProps={forwardMessagesProps}
         groupMemberLabelInfoModalState={groupMemberLabelInfoModalState}
@@ -333,6 +340,7 @@ export const SmartGlobalModalContainer = memo(
         renderEditNicknameAndNoteModal={renderEditNicknameAndNoteModal}
         renderErrorModal={renderErrorModal}
         renderDeleteMessagesModal={renderDeleteMessagesModal}
+        renderDiscardDraftDialog={renderDiscardDraftDialog}
         renderDraftGifMessageSendModal={renderDraftGifMessageSendModal}
         renderForwardMessagesModal={renderForwardMessagesModal}
         renderGroupMemberLabelInfoModal={renderGroupMemberLabelInfoModal}

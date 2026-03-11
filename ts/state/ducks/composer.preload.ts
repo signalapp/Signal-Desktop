@@ -266,6 +266,7 @@ export const actions = {
   cancelJoinRequest,
   endPoll,
   incrementSendCounter,
+  onClearDraft,
   onClearAttachments,
   onCloseLinkPreview,
   onEditorStateChange,
@@ -303,6 +304,23 @@ function incrementSendCounter(conversationId: string): IncrementSendActionType {
 export const useComposerActions = (): BoundActionCreatorsMapObject<
   typeof actions
 > => useBoundActions(actions);
+
+function onClearDraft(conversationId: string): StateThunk<NoopActionType> {
+  return dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('onClearDraft: No conversation found');
+    }
+
+    conversation.set({
+      draft: '',
+      draftBodyRanges: [],
+      quotedMessageId: null,
+    });
+
+    dispatch(onClearAttachments(conversation.id));
+  };
+}
 
 function onClearAttachments(conversationId: string): NoopActionType {
   const conversation = window.ConversationController.get(conversationId);
