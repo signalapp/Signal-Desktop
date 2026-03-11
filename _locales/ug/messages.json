@@ -2220,13 +2220,13 @@
     "messageformat": "ئۆچۈرەلمىدى"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "ئۆچۈرۈش مەغلۇپ بولدى، چېكىپ تەپسىلاتلىرىنى كۆرۈڭ"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "ئۆچۈرۈش مەغلۇپ بولغان ئۇچۇرنى قايتا سىناپ باقامسىز؟"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "ئۇچۇرنى ئۆچۈرگىلى بولمىدى. تور ئۇلىنىشىڭىزنى تەكشۈرۈپ قايتا سىناڭ."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "قايتا سىناڭ"
@@ -2244,7 +2244,7 @@
     "messageformat": "قىسمەن ئۆچۈرۈلدى، چېكىپ قايتا سىناڭ"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "قىسمەن ئۆچۈرۈلدى، تەپسىلاتلارنى چېكىپ كۆرۈڭ"
   },
   "icu:expiredWarning": {
     "messageformat": "بۇ Signal ئۈستەليۈزى نەشرىنىڭ ۋاقتى توشقان. ئۇچۇر يوللاش ۋە قوبۇل قىلىش ئۈچۈن ئۇنى يېڭىلاڭ."
@@ -2451,10 +2451,10 @@
     "messageformat": "بۇ گۇرۇپپىدا، پەقەت باشقۇرغۇچىلارلا ئەزا بەلگىلىرىنى قوشالايدۇ."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "بىر قېتىملا كۆرۈش قوزغىتىلدى"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "بىر قېتىملا كۆرۈش تاقالدى"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "بۇ ئۇچۇرنى يوللاپ 24 سائەت ئىچىدىلا تەھرىرلەشكە بولىدۇ."
@@ -4647,7 +4647,7 @@
     "messageformat": "ئالماشتۇرۇش"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "بىر قېتىملا كۆرۈش"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "بىرلا قېتىم كۆرۈلىدىغان مېدىيا"
@@ -4686,10 +4686,10 @@
     "messageformat": "ئاۋازلىق"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "ئاۋازنى ئۈنسىزلاندۇرۇش"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "{contact} نىڭ ئاۋازىنى راستىنلا ئۈنسىزلاندۇرامسىز؟"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "ئۈنسىز"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, other {{count,number} ئۇچۇرنى ئۆچۈرەمسىز؟}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, other {تاللانغان {count,number} ئۇچۇرلارنى ئۆچۈرەمسىز؟}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, other {بۇ ئۇچۇرنى كىم ئۈچۈن ئۆچۈرمەكچىسىز؟}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "ھەممەيلەن ئۈچۈن ئۆچۈرەمسىز؟"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, other {باشقۇرغۇچى سالاھىيىتىڭىز بىلەن، گۇرۇپپا ئەزالىرى سىزنىڭ بۇ ئۇچۇرلارنى ئۆچۈرگەنلىكىڭىزنى كۆرىدۇ.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "بارلىق ئۈسكۈنىلەردىن ئ‍ۆچۈرۈش"
@@ -7986,7 +7986,7 @@
     "messageformat": "• Signal بىخەتەر زاپاسلانمىللىرى بۇ يەردە! ئەمدى سىز يېڭى تېلېفون ئالغاندا ياكى Signalنى قايتا قاچىلىغاندا، ھېچقانداق ئۇچۇرنى يوقاتماسلىق ئۈچۈن، ئاخىرىغىچە مەخپىيلەشتۈرۈلگەن ئاپتوماتىك زاپاسلاشنى قوزغىتىشنى تاللىيالايسىز. بارلىق ئۇچۇرلىرىڭىزنى ۋە ئاخىرقى 45 كۈنلۈك مېدىيانى ھەقسىز زاپاسلىسىڭىز بولىدۇ، ياكى ھەر بىر قوشۇمچە ھۆججەتنى زاپاسلاش ئۈچۈن 100 گىگابايتلىق(GB) ساقلاش بوشلۇقىغا ئېرىشىش ئۈچۈن ئاز مىقداردا ئايلىق ھەق تۆلىسىڭىزمۇ بولىدۇ. باشلاش ئۈچۈن Signal تەڭشەكلىرىڭىزدىكى زاپاسلاشلارنى چېكىڭ. سىناق مەزگىلىدە بۇ ئىقتىدارنى سىناق قىلىشقا ياردەم قىلغان ھەممەيلەنگە رەھمەت!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "ئەمدى سىز، Signal ئۈستەليۈزى نۇسخىسىدىن، بىر قېتىملا كۆرۈلىدىغان مېدىيا ئۇچۇرلىرىنىمۇ ئەۋەتەلەيسىز. بىر قېتىملا كۆرۈلىدىغان ئۇچۇر سۈپىتىدە ئەۋەتىلگەن يەككە رەسىملار ۋە سىنلار كۆرۈلگەندىن كېيىن، ئۇلار سۆھبەت تېمىسىدىن ئاپتوماتىك ئۆچۈرۈلىدۇ."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "ھازىر سىز ئۆزىڭىزنى ياكى گۇرۇپپا سۆھبىتىدىكى رولىڭىزنى تەسۋىرلەش ئۈچۈن ئەزا بەلگىسىنى ئىختىيارىي قوشالايسىز. يېڭى كوماندا ئەزالىرى قوشۇلغاندا، گۇرۇپپا ئەزا بەلگىسىنى يەرلىك پۇتبول بىرلەشمىسى گۇرۇپپىسىدا «رېپېر» ياكى «ۋارتا» قىلىپ تەڭشەش ئارقىلىق گۇرۇپپىغا ھەمكارلىشىپ ئىشلارنى يۈرۈشتۈرۈپ بېرىڭ، ئاندىن شىركەت گۇرۇپپىسىدا خىزمىتىڭىزنىڭ نامى بىلەن باشقا بەلگە تاللاڭ. ئەزا بەلگىللىرى شۇ گۇرۇپپىدا سىزنىڭ ئارخىپ نامىڭىزنىڭ يېنىدا كۆرۈنىدۇ، ھەمدە گۇرۇپپا باشقۇرغۇچىلىرى «گۇرۇپپا ئۇچۇرىنى تەھرىرلەش» رۇخسىتى بىلەن كىمنىڭ بەلگىنى تەڭشىيەلەيدىغانلىقىنى كونترول قىلالايدۇ.",

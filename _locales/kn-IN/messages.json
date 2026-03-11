@@ -2220,13 +2220,13 @@
     "messageformat": "ಅಳಿಸುವಿಕೆ ವಿಫಲವಾಗಿದೆ"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "ಅಳಿಸುವಿಕೆ ವಿಫಲವಾಗಿದೆ, ವಿವರಗಳಿಗಾಗಿ ಕ್ಲಿಕ್ ಮಾಡಿ"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "ವಿಫಲವಾದ ಅಳಿಸುವಿಕೆಯನ್ನು ಮರುಪ್ರಯತ್ನಿಸಬೇಕೇ?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "ಮೆಸೇಜ್ ಅಳಿಸಲು ವಿಫಲವಾಗಿದೆ. ನಿಮ್ಮ ಕನೆಕ್ಷನ್ ಅನ್ನು ಪರಿಶೀಲಿಸಿ ಹಾಗೂ ಪುನಃ ಪ್ರಯತ್ನಿಸಿ."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ"
@@ -2244,7 +2244,7 @@
     "messageformat": "ಭಾಗಶಃ ಅಳಿಸಲಾಗಿದೆ, ಮರುಪ್ರಯತ್ನಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "ಭಾಗಶಃ ಅಳಿಸಲಾಗಿದೆ, ವಿವರಗಳಿಗಾಗಿ ಕ್ಲಿಕ್ ಮಾಡಿ"
   },
   "icu:expiredWarning": {
     "messageformat": "Signal ಡೆಸ್ಕ್ಟಾಪ್ ಈ ಆವೃತ್ತಿಯ ಅವಧಿ ಮುಗಿದಿದೆ. ಸಂದೇಶ ಮುಂದುವರೆಸಲು ಹೊಸ ಆವೃತ್ತಿಗೆ ಅಪ್ಗ್ರೇಡ್ ಮಾಡಿ."
@@ -2451,10 +2451,10 @@
     "messageformat": "ಈ ಗುಂಪಿನಲ್ಲಿ ಅಡ್ಮಿನ್‌ಗಳು ಮಾತ್ರ ಸದಸ್ಯರ ಲೇಬಲ್‌ಗಳನ್ನು ಸೇರಿಸಬಹುದು."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "ಒಮ್ಮೆ ವೀಕ್ಷಿಸಿ ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "ಒಮ್ಮೆ ವೀಕ್ಷಿಸಿ ಅನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ನೀವು ಈ ಮೆಸೇಜ್ ಕಳುಹಿಸಿದ 24 ಗಂಟೆಗಳ ಒಳಗೆ ಮಾತ್ರ ಎಡಿಟ್‌ಗಳು ಅನ್ವಯಿಸಬಹುದು."
@@ -4647,7 +4647,7 @@
     "messageformat": "ಬದಲಾಯಿಸಿ"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "ಒಮ್ಮೆ ವೀಕ್ಷಿಸಿ"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "ಒಮ್ಮೆ ವೀಕ್ಷಿಸಬಹುದಾದ ಮೀಡಿಯಾ"
@@ -4686,10 +4686,10 @@
     "messageformat": "ಧ್ವನಿ"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "ಆಡಿಯೊ ಮ್ಯೂಟ್ ಮಾಡಿ"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "ನೀವು {contact} ಮ್ಯೂಟ್ ಮಾಡಲು ಖಚಿತವಾಗಿ ಬಯಸುವಿರಾ?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "ಮ್ಯೂಟ್ ಮಾಡಿ"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {ಮೆಸೇಜ್ ಅನ್ನು ಅಳಿಸಬೇಕೇ?} other {{count,number} ಮೆಸೇಜ್‌ಗಳನ್ನು ಅಳಿಸಬೇಕೇ?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {ಆಯ್ಕೆಮಾಡಿದ ಮೆಸೇಜ್ ಅಳಿಸುವುದೇ?} other {ಆಯ್ಕೆಮಾಡಿದ {count,number} ಮೆಸೇಜ್‌ಗಳನ್ನು ಅಳಿಸುವುದೇ?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {ನೀವು ಯಾರಿಗಾಗಿ ಈ ಮೆಸೇಜ್ ಅನ್ನು ಅಳಿಸಲು ಬಯಸುತ್ತೀರಿ?} other {ನೀವು ಯಾರಿಗಾಗಿ ಈ ಮೆಸೇಜ್‌ಗಳನ್ನು ಅಳಿಸಲು ಬಯಸುತ್ತೀರಿ?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "ಎಲ್ಲರಿಗೂ ಅಳಿಸುವುದೇ?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {ಒಬ್ಬ ಅಡ್ಮಿನ್ ಆಗಿ, ನೀವು ಈ ಮೆಸೇಜ್ ಅನ್ನು ಅಳಿಸಿದ್ದೀರಿ ಎಂದು ಗುಂಪಿನ ಸದಸ್ಯರು ನೋಡುತ್ತಾರೆ.} other {ಒಬ್ಬ ಅಡ್ಮಿನ್ ಆಗಿ, ನೀವು ಈ ಮೆಸೇಜ್‌ಗಳನ್ನು ಅಳಿಸಿದ್ದೀರಿ ಎಂದು ಗುಂಪಿನ ಸದಸ್ಯರು ನೋಡುತ್ತಾರೆ.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "ಎಲ್ಲಾ ಸಾಧನಗಳಿಂದ ಅಳಿಸಿ"
@@ -7986,7 +7986,7 @@
     "messageformat": "Signal ಸುರಕ್ಷಿತ ಬ್ಯಾಕಪ್‌ಗಳು ಇಲ್ಲಿವೆ! ನೀವು ಸ್ವಯಂಚಾಲಿತ ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್ಕ್ರಿಪ್ಟ್ ಆಗಿರುವ ಬ್ಯಾಕಪ್ ಸಕ್ರಿಯಗೊಳಿಲು ಆಯ್ಕೆಮಾಡಬಹುದು, ಇದರಿಂದ ಹೊಸ ಫೋನ್ ಪಡೆದಾಗ ಅಥವಾ Signal ರೀಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಿದಾಗ ನೀವು ಮೆಸೇಜ್ ಕಳೆದುಕೊಳ್ಳುವುದಿಲ್ಲ. ನೀವು ನಿಮ್ಮ ಎಲ್ಲಾ ಮೆಸೇಜ್‍ಗಳನ್ನು ಮತ್ತು ಕಳೆದ 45 ದಿನಗಳ ಮೀಡಿಯಾವನ್ನು ಉಚಿತವಾಗಿ ಬ್ಯಾಕಪ್ ಮಾಡಬಹುದು ಅಥವಾ ಪ್ರತಿ ಅಟ್ಯಾಚ್‌ಮೆಂಟ್ ಬ್ಯಾಕಪ್ ಮಾಡಲು 100 GB ಸಂಗ್ರಹಣೆಗಾಗಿ ಸಣ್ಣ ಮಾಸಿಕ ಶುಲ್ಕ ಪಾವತಿಸಬಹುದು. ಪ್ರಾರಂಭಿಸಲು Signal ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಎಂಬುದರಲ್ಲಿ ಬ್ಯಾಕಪ್ ಟ್ಯಾಪ್ ಮಾಡಿ. ಬೀಟಾ ಅವಧಿಯಲ್ಲಿ ಈ ಫೀಚರ್ ಪರೀಕ್ಷಿಸಲು ಸಹಾಯಮಾಡಿದ ಎಲ್ಲರಿಗೂ ಧನ್ಯವಾದ!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "ಈಗ ನೀವು Signal ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಿಂದಲೂ ಏಕ ವೀಕ್ಷಣೆ ಮೀಡಿಯಾ ಮೆಸೇಜ್‌ಗಳನ್ನು ಕಳುಹಿಸಬಹುದು. ಏಕ ವೀಕ್ಷಣೆ ಸಂದೇಶಗಳು ಎಂಬುದಾಗಿ ಕಳುಹಿಸಲಾದ ಮೆಸೇಜ್‌ಗಳನ್ನು ವೈಯಕ್ತಿಕ ಫೋಟೋಗಳು ಮತ್ತು ವೀಡಿಯೊಗಳನ್ನು ವೀಕ್ಷಿಸಿದ ನಂತರ ಸಂಭಾಷಣೆಯ ಥ್ರೆಡ್‌ನಿಂದ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ತೆಗೆದುಹಾಕಲಾಗುತ್ತದೆ."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "ಈಗ ನೀವು ಗುಂಪು ಚಾಟ್‌ನಲ್ಲಿ ನಿಮ್ಮನ್ನು ಅಥವಾ ನಿಮ್ಮ ಪಾತ್ರವನ್ನು ವಿವರಿಸಲು ಐಚ್ಛಿಕವಾಗಿ ಸದಸ್ಯರ ಲೇಬಲ್ ಸೇರಿಸಬಹುದು. ನಿಮ್ಮ ಸ್ಥಳೀಯ ರೆಕ್ ಲೀಗ್ ಸಾಕರ್ ಚಾಟ್‌ನಲ್ಲಿ ತಂಡದ ಹೊಸ ಸದಸ್ಯರು ಸೇರಿದಾಗ ಆರಂಭಿಸಲು ಸಹಾಯವಾಗುವಂತೆ ಗುಂಪಿನ ಸದಸ್ಯರ ಲೇಬಲ್ ಅನ್ನು \"ರೆಫರಿ\" ಅಥವಾ \"ಗೋಲಿ\" ಎಂದು ಸೆಟ್ ಮಾಡಿ, ನಂತರ ಕಂಪನಿ ಚಾಟ್‌ನಲ್ಲಿ ಕೆಲಸದ ಶೀರ್ಷಿಕೆಯೊಂದಿಗೆ ಬೇರೆ ಲೇಬಲ್ ಆಯ್ಕೆಮಾಡಿ. ಗುಂಪಿನಲ್ಲಿ ಪ್ರೊಫೈಲ್ ಹೆಸರಿನ ಪಕ್ಕದಲ್ಲಿ ಸದಸ್ಯರ ಲೇಬಲ್‌ಗಳು ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತವೆ, ಗುಂಪಿನ ಅಡ್ಮಿನ್ \"ಗುಂಪು ಮಾಹಿತಿ ಎಡಿಟ್ ಮಾಡಿ\" ಅನುಮತಿಯೊಂದಿಗೆ ಯಾರು ಲೇಬಲ್ ಸೆಟ್ ಮಾಡಬಹುದು ಎಂಬುದನ್ನು ನಿಯಂತ್ರಿಸಬಹುದು.",

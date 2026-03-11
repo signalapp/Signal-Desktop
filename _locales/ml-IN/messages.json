@@ -2220,13 +2220,13 @@
     "messageformat": "ഇല്ലാതാക്കാനായില്ല"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "ഇല്ലാതാക്കാനായില്ല, വിശദാംശങ്ങൾക്ക് ക്ലിക്ക് ചെയ്യുക"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "വീണ്ടും ശ്രമിച്ച് ഇല്ലാതാക്കാനായില്ലേ?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "സന്ദേശം ഇല്ലാതാക്കാനായില്ല. നിങ്ങളുടെ കണക്ഷൻ പരിശോധിച്ച ശേഷം വീണ്ടും ശ്രമിക്കുക."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "വീണ്ടും ശ്രമിക്കുക"
@@ -2244,7 +2244,7 @@
     "messageformat": "ഭാഗികമായി ഇല്ലാതാക്കി, വീണ്ടും ശ്രമിക്കാൻ ക്ലിക്ക് ചെയ്യുക"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "ഭാഗികമായി ഇല്ലാതാക്കി, വിശദാംശങ്ങൾക്ക് ക്ലിക്ക് ചെയ്യുക"
   },
   "icu:expiredWarning": {
     "messageformat": "Signal Desktop-ന്റെ ഈ പതിപ്പ് കാലഹരണപ്പെട്ടു. സന്ദേശ വിനിമയം തുടരുന്നതിന് ഏറ്റവും പുതിയ പതിപ്പിലേക്ക് അപ്‌ഗ്രേഡുചെയ്യുക."
@@ -2451,10 +2451,10 @@
     "messageformat": "ഈ ഗ്രൂപ്പിൽ മെമ്പര്‍ ലേബലുകൾ ചേർക്കാൻ അഡ്മിൻമാർക്ക് മാത്രമേ കഴിയൂ."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "ഒരിക്കൽ മാത്രം കാണുക പ്രവർത്തനക്ഷമമാക്കി"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "ഒരിക്കൽ മാത്രം കാണുക പ്രവർത്തനരഹിതമാക്കി"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "നിങ്ങൾ ഈ സന്ദേശം അയച്ച് 24 മണിക്കൂറിനുള്ളിൽ മാത്രമേ എഡിറ്റുകൾ ബാധകമാക്കാനാകൂ."
@@ -4647,10 +4647,10 @@
     "messageformat": "മാറ്റി പകരം മറ്റൊന്ന് വയ്ക്കുക"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "ഒരിക്കൽ മാത്രം കാണുക"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "ഒറ്റത്തവണ വീഡിയോ കാണുക"
+    "messageformat": "ഒരിക്കല്‍ മാത്രം കാണുന്ന മീഡിയ"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "സന്ദേശം എഡിറ്റ് ചെയ്യുക"
@@ -4686,10 +4686,10 @@
     "messageformat": "ശബ്ദം"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "ഓഡിയോ മ്യൂട്ട് ചെയ്യുക"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "{contact} മ്യൂട്ട് ചെയ്യണമെന്ന് നിങ്ങൾക്ക് ഉറപ്പാണോ?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "മ്യൂട്ട് ചെയ്യുക"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {സന്ദേശം ഇല്ലാക്കണോ?} other {{count,number} സന്ദേശങ്ങൾ ഇല്ലാതാക്കണോ?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {തിരഞ്ഞെടുത്ത സന്ദേശം ഇല്ലാതാക്കണോ?} other {തിരഞ്ഞെടുത്ത {count,number} സന്ദേശങ്ങൾ ഇല്ലാതാക്കണോ?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {ആർക്കാണ് ഈ സന്ദേശം ഇല്ലാതാക്കാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നത്?} other {ആർക്കാണ് ഈ സന്ദേശം ഇല്ലാതാക്കാൻ നിങ്ങൾ ആഗ്രഹിക്കുന്നത്?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "എല്ലാവർക്കും ഇല്ലാതാക്കണോ?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {ഒരു അഡ്മിൻ എന്ന നിലയിൽ, നിങ്ങൾ ഈ സന്ദേശം ഇല്ലാതാക്കി എന്ന് ഗ്രൂപ്പ് അംഗങ്ങൾക്ക് കാണാൻ കഴിയും.} other {ഒരു അഡ്മിൻ എന്ന നിലയിൽ, നിങ്ങൾ ഈ സന്ദേശങ്ങൾ ഇല്ലാതാക്കി എന്ന് ഗ്രൂപ്പ് അംഗങ്ങൾക്ക് കാണാൻ കഴിയും.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "എല്ലാ ഉപകരണങ്ങളിൽ നിന്നും ഇല്ലാതാക്കൂ"
@@ -7986,7 +7986,7 @@
     "messageformat": "Signal സുരക്ഷിത ബാക്കപ്പുകൾ ഇതാ! ഇനി നിങ്ങൾക്ക് ഓട്ടോമാറ്റിക് എൻഡ്-ടു-എൻഡ് എൻക്രിപ്റ്റ് ചെയ്ത ബാക്കപ്പുകൾ പ്രവർത്തനക്ഷമമാക്കാൻ തിരഞ്ഞെടുക്കാം, അതുവഴി നിങ്ങൾക്ക് ഒരു പുതിയ ഫോൺ ലഭിക്കുമ്പോഴോ Signal വീണ്ടും ഇൻസ്റ്റാൾ ചെയ്യുമ്പോഴോ ഒരു സന്ദേശം പോലും നഷ്‌ടമാകില്ല. നിങ്ങളുടെ എല്ലാ സന്ദേശങ്ങളുടെയും അവസാന 45 ദിവസത്തെ മീഡിയ ഫയലുകളുടെയും ബാക്കപ്പ് സൗജന്യമായി എടുക്കാം, അല്ലെങ്കിൽ ഓരോ അറ്റാച്ച്‌മെന്റും ബാക്കപ്പ് ചെയ്യുന്നതിന് 100 GB സ്റ്റോറേജ് ലഭിക്കുന്നതിന് നിങ്ങൾക്ക് ഒരു ചെറിയ പ്രതിമാസ ഫീസ് അടയ്ക്കാം. ആരംഭിക്കുന്നതിന് നിങ്ങളുടെ Signal ക്രമീകരണങ്ങളിലെ ബാക്കപ്പുകളിൽ ടാപ്പ് ചെയ്യുക. ബീറ്റാ കാലയളവിൽ ഈ സവിശേഷത പരീക്ഷിക്കാൻ സഹായിച്ച എല്ലാവർക്കും നന്ദി!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "ഇനി നിങ്ങൾക്ക് Signal ഡെസ്ക്ടോപ്പിൽ നിന്നും ഒരിക്കൽ മാത്രം കാണുന്ന മീഡിയ സന്ദേശങ്ങൾ അയയ്ക്കാം. ഒരിക്കൽ മാത്രം കാണാൻ കഴിയുന്ന സന്ദേശങ്ങളായി അയയ്ക്കുന്ന വ്യക്തിഗത ഫോട്ടോകളും വീഡിയോകളും, അവ കണ്ടുകഴിഞ്ഞാൽ, ഒരു സംഭാഷണ ത്രെഡിൽ നിന്ന് ഓട്ടോമാറ്റിയ്ക്കായി നീക്കം ചെയ്യപ്പെടും."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "ഇപ്പോൾ നിങ്ങൾക്ക് നിങ്ങളെക്കുറിച്ചോ ഗ്രൂപ്പ് ചാറ്റിലെ നിങ്ങളുടെ പങ്കിനെക്കുറിച്ചോ വിവരിക്കുന്നതിന് ഒരു മെമ്പര്‍ ലേബൽ ഓപ്ഷണലായി ചേർക്കാൻ കഴിയും. പുതിയ ടീമംഗങ്ങൾ ചേരുമ്പോൾ കാര്യങ്ങൾ ആരംഭിക്കാൻ സഹായിക്കുന്നതിന് നിങ്ങളുടെ ലോക്കല്‍ റിക്രിയേഷണൽ ലീഗ് സോക്കർ ചാറ്റിൽ നിങ്ങളുടെ ഗ്രൂപ്പ് മെമ്പര്‍ ലേബൽ \"റഫറി\" അല്ലെങ്കിൽ \"ഗോളി\" എന്ന് സജ്ജമാക്കുക, തുടർന്ന് കമ്പനി ചാറ്റിൽ നിങ്ങളുടെ ജോലിയുടെ പേര് ഉപയോഗിച്ച് മറ്റൊരു ലേബൽ തിരഞ്ഞെടുക്കുക. ആ ഗ്രൂപ്പിൽ നിങ്ങളുടെ പ്രൊഫൈൽ പേരിന് അടുത്തായി മെമ്പര്‍ ലേബലുകൾ ദൃശ്യമാകും, കൂടാതെ \"ഗ്രൂപ്പ് വിവരങ്ങൾ എഡിറ്റ് ചെയ്യുക\" എന്ന അനുമതിയോടെ ആർക്കൊക്കെ ലേബൽ സജ്ജീകരിക്കാമെന്ന് ഗ്രൂപ്പ് അഡ്മിൻമാർക്ക് നിയന്ത്രിക്കാനാകും.",

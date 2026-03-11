@@ -2220,13 +2220,13 @@
     "messageformat": "刪除失敗"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "刪除失敗，點擊以獲得詳細資訊"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "要重試失敗的刪除動作嗎？"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "刪除訊息失敗。請檢查網路連線，然後再試一次。"
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "再試一次"
@@ -2244,7 +2244,7 @@
     "messageformat": "部分已刪除，點擊以重試"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "已部分刪除，點擊以獲得詳細資訊"
   },
   "icu:expiredWarning": {
     "messageformat": "您使用的 Signal 桌面版已經過期，請更新到最新版來傳送訊息。"
@@ -2451,10 +2451,10 @@
     "messageformat": "只有管理員可以在此群組新增成員標籤。"
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "已開啟閱後即焚"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "已停用閱後即焚"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "編輯只能在你傳送此訊息後的 24 小時內套用。"
@@ -4647,7 +4647,7 @@
     "messageformat": "取代"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "閱後即焚"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "閱後即焚媒體檔案"
@@ -4686,10 +4686,10 @@
     "messageformat": "語音"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "將音訊靜音"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "您確定要將{contact}設為靜音嗎？"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "靜音"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, other {要刪除 {count,number} 則訊息嗎？}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, other {要刪除選取的 {count,number} 則訊息嗎？}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, other {你想對誰刪除這些訊息？}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "要為所有人刪除嗎？"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, other {因你是管理員，群組成員會看到你已刪除這些訊息。}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "從所有裝置中刪除"
@@ -7986,7 +7986,7 @@
     "messageformat": "• Signal 安全備份登場！現在你可以選擇啟用自動端對端加密備份服務，這樣當你使用新手機或重新安裝 Signal 時，就不會遺失訊息。你可以免費備份所有訊息和最近 45 天的媒體，也可以支付少量月費獲得 100 GB 儲存空間來備份全部附件。輕按 Signal 設定中的備份即可開始。感謝所有在測試期間協助測試此功能的人！"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "現在你也可以從 Signal 桌面版傳送閱後即焚媒體訊息。以閱後即焚訊息方式傳送的個別相片和影片，會在被觀看後自動從對話主題中移除。"
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "現在你可以隨意地新增一個成員標籤來描述你自己或你在群組聊天中的角色。例如在你當地的足球聯賽聊天中，將你的群組成員標籤設定為「裁判」或「守門員」，以協助新隊友加入時展開討論，而在公司聊天中則選擇你工作職位的標籤。成員標籤會顯示在該群組中的個人檔案名稱旁邊，群組管理員可以透過「編輯群組資訊」權限控制誰可以設定標籤。",

@@ -2220,13 +2220,13 @@
     "messageformat": "消去できませんでした"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "消去できませんでした。詳細を表示"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "もう一度、消去を試しますか？"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "メッセージを消去できませんでした。インターネット接続を確認して再度試してください。"
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "もう一度試す"
@@ -2244,7 +2244,7 @@
     "messageformat": "一部だけ消去済み、クリックして再実行"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "一部消去されました。詳細を表示"
   },
   "icu:expiredWarning": {
     "messageformat": "アプリのバージョンが古すぎます。最新版にアップデートしてください。"
@@ -2451,10 +2451,10 @@
     "messageformat": "このグループのメンバーラベルを追加できるのは管理者のみです。"
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "一度きりの表示が有効になりました"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "一度きりの表示が無効になりました"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "編集は、このメッセージを送信後24時間以内のみ可能です。"
@@ -4647,7 +4647,7 @@
     "messageformat": "置き換え"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "一度きりの表示"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "使い捨てメディア"
@@ -4686,10 +4686,10 @@
     "messageformat": "音声通話"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "音声をミュート"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "{contact}をミュートしますか？"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "ミュート"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, other {{count,number} 件のメッセージを消去しますか？}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, other {選択した{count,number}件のメッセージを削除しますか？}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, other {このメッセージを誰に対して消去しますか？}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "全員に対して消去しますか？"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, other {管理者がメッセージを消去したことは、グループメンバー全員に表示されます。}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "すべての端末から消去する"
@@ -7986,7 +7986,7 @@
     "messageformat": "Signalセキュアバックアップが登場しました！エンドツーエンドの暗号化された自動バックアップを有効にできるようになりました。有効にしておけば、機種変更をしてもSignalを再インストールしてもメッセージが失われることはありません。すべてのメッセージと過去45日間のメディアを無料でバックアップすることも、少額の月額料金を支払って100GBのストレージを取得し、すべての添付ファイルをバックアップすることもできます。開始するには、Signalの設定で「バックアップ」をタップしてください。ベータ期間中にこの機能のテストに協力してくださった皆様にお礼を申し上げます！"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Signal Desktopでも、一度きりの表示メディアメッセージを送信できるようになりました。一度きりの表示メッセージとして送信された写真やビデオは、表示された後に会話スレッドから自動的に削除されます。"
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "グループチャット内で、自分自身についてや自分の役割について説明するメンバーラベルを任意で追加できるようになりました。メンバーラベルは、そのグループ内であなたのプロフィールネームの横に表示されます。また、「グループ情報を編集する」の権限を持つグループ管理者は、誰がラベルを設定できるかを管理できます。",

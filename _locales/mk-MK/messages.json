@@ -2220,13 +2220,13 @@
     "messageformat": "Неуспешно бришење"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Бришењето е неуспешно, кликнете за повеќе детали"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Да се направи повторен обид за бришење?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Пораката не успеа да се избрише. Проверете ја интернет врската и обидете се повторно."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Обиди се повторно"
@@ -2244,7 +2244,7 @@
     "messageformat": "Делумно избришано, кликнете за да се обидете повторно"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Делумно избришано, кликнете за детали"
   },
   "icu:expiredWarning": {
     "messageformat": "Оваа верзија на Signal Desktop е истечена. Ве молиме надградете на најновата верзија за да продолжите со употреба."
@@ -2451,10 +2451,10 @@
     "messageformat": "Само администраторите можат да додаваат ознаки на членови во оваа група."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Овозможен е еднократен преглед"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Оневозможен е еднократен преглед"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Може да се применуваат измени само во рок од 3 часа откако ја имате испратено пораката."
@@ -4647,7 +4647,7 @@
     "messageformat": "Замени"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Еднократен преглед"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Еднократно видлива медиумска датотека"
@@ -4686,10 +4686,10 @@
     "messageformat": "Гласовен повик"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Исклучете аудио"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Сигурно сакате да го исклучите аудиото на {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Исклучи известувања"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Сакате да избришете {count,number} порака?} other {Сакате да избришете {count,number} пораки?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Да се избрише избраната порака?} other {Да се избришат избраните {count,number} пораки?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {За кого сакате да ја избришете оваа порака?} other {За кого сакате да ги избришете овие пораки?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Да се избрише за сите?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Поради тоа што сте администратор, членовите на групата ќе видат дека сте ја избришале оваа порака.} other {Поради тоа што сте администратор, членовите на групата ќе видат дека сте ги избришале овие пораки.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Избриши од сите уреди"
@@ -7986,7 +7986,7 @@
     "messageformat": "Имаме безбедни резервни копии! Отсега, овозможете автоматски и шифрирани резервни копии за да не изгубите ниту една порака кога ќе смените телефон или ќе ја реинсталирате апликацијата. Можете бесплатно да направите резервна копија на пораките и медиумските датотеки од последните 45 дена, или со месечна претплата да добиете 100 GB простор за складирање на секој прилог. Допрете на резервни копии во поставувањата за да почнете. Благодарност до сите што помогнаа да се тестира ова во Бета фаза!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Сега можете и од Signal Desktop да испраќате пораки со еднократно видлива медиумска датотека. Поединечните фотографии и видеа што се испраќаат како еднократно видливи пораки автоматски ќе бидат отстранети од разговорот откако ќе бидат прегледани."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Сега можете да додадете ознака на член за да се опишете себеси или вашата улога во оваа група. Ознаките на членовите се појавуваат веднаш до името на вашиот профил во таа група, а администраторите на групата можат да контролираат кој може да постави ознака преку дозволите за „Измени ги информациите за групата“.",

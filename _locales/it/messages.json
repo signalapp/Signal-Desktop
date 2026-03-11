@@ -2220,13 +2220,13 @@
     "messageformat": "Eliminazione fallita"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Rimozione non riuscita, clicca per più info"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Riprovare la rimozione?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Impossibile eliminare il messaggio. Controlla la tua connessione e riprova."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Riprova"
@@ -2244,7 +2244,7 @@
     "messageformat": "Parzialmente eliminato, clicca per riprovare"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Rimosso in parte, clicca per più info"
   },
   "icu:expiredWarning": {
     "messageformat": "Questa versione di Signal Desktop è scaduta. Per continuare a conversare aggiornala all'ultima versione."
@@ -2451,10 +2451,10 @@
     "messageformat": "Solo gli admin possono aggiungere i ruoli degli utenti in questo gruppo."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Attivato \"Visibile solo una volta\""
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Disattivato \"Visibile solo una volta\""
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Puoi modificare questo messaggio solo entro 24 ore dall'invio."
@@ -4647,7 +4647,7 @@
     "messageformat": "Sostituisci"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Visibile solo una volta"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Media visibile una sola volta"
@@ -4686,10 +4686,10 @@
     "messageformat": "Voce"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Silenzia l'audio"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Confermi di voler silenziare {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Silenzia"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Vuoi eliminare il messaggio?} other {Vuoi eliminare {count,number} messaggi?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Eliminare il messaggio selezionato?} other {Eliminare i {count,number} messaggi selezionati?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Per chi vuoi eliminare questo messaggio?} other {Per chi vuoi eliminare questi messaggi?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Eliminare per tutti?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {In qualità di admin, gli utenti del gruppo potranno vedere che hai eliminato questo messaggio.} other {In qualità di admin, gli utenti del gruppo potranno vedere che hai eliminato questi messaggi.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Elimina da tutti i dispositivi"
@@ -7986,10 +7986,10 @@
     "messageformat": "I backup sicuri di Signal sono arrivati! Da ora puoi scegliere di abilitare i backup automatici crittografati end-to-end così non perderai neanche un messaggio se cambi telefono o reinstalli Signal. Puoi salvare sul backup tutti i tuoi messaggi e gli ultimi 45 giorni di media gratuitamente. Oppure, per un piccolo costo mensile, puoi ricevere 100 GB di archiviazione per il backup di tutti gli allegati. Tocca sull'opzione backup nelle Impostazioni di Signal per cominciare. Grazie a tutti gli utenti che ci hanno aiutato a testare questa funzione nel periodo di beta!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Da ora puoi inviare messaggi con media visualizzabili una volta anche da Signal Desktop. Le foto e i video che vengono inviati in questo modo verranno poi rimossi in automatico dalla chat dopo la visualizzazione."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Da ora puoi aggiungere un tag per il ruolo dell'utente per descrivere il tuo ruolo in una chat di gruppo o per dare delle info su di te. Nel gruppo del calcetto potrai così impostare un ruolo per ogni persona che gioca (scommettiamo che trovare il portiere sarà difficile come al solito). Ricorda che i ruoli degli utenti appaiono vicino al nome del profilo all'interno di una chat di gruppo. Gli admin possono decidere chi può impostare questi ruoli modificando le autorizzazioni tramite l'opzione \"Modifica info del gruppo\".",
+    "messageformat": "Da ora puoi aggiungere un tag per il ruolo dell'utente per descrivere il tuo ruolo in una chat di gruppo o per dare delle info su di te. Per esempio, nel gruppo del calcetto potrai impostare un ruolo per ogni persona che gioca (scommettiamo che trovare il portiere sarà difficile come al solito). Ricorda che i ruoli degli utenti appaiono vicino al nome del profilo all'interno di una chat di gruppo. Gli admin possono decidere chi può impostare questi ruoli modificando le autorizzazioni tramite l'opzione \"Modifica info del gruppo\".",
     "ignoreUnused": true
   }
 }

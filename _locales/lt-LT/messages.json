@@ -2220,13 +2220,13 @@
     "messageformat": "Nepavyko ištrinti"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Ištrinti nepavyko, spustelėkite, jei norite sužinoti daugiau"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Bandyti dar kartą ištrinti žinutę, kurios ištrinti nepavyko?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Nepavyko ištrinti žinutės. Patikrinkite interneto ryšį ir bandykite dar kartą."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Bandykite dar kartą"
@@ -2244,7 +2244,7 @@
     "messageformat": "Dalinai ištrinta, spustelėk, kad bandytum dar kartą"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Iš dalies ištrinta, spustelėkite, jei norite sužinoti daugiau"
   },
   "icu:expiredWarning": {
     "messageformat": "Pasibaigė šios Signal Desktop skirtos versijos galiojimas. Norint tęsti susirašinėjimą, prašome atsinaujinti iki naujausios versijos."
@@ -2451,10 +2451,10 @@
     "messageformat": "Šioje grupėje narių kategorijas gali pridėti tik administratoriai."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Vienkartinė peržiūra įjungta"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Vienkartinė peržiūra išjungta"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Redaguoti galima ne vėliau kaip per 24 val. nuo šios žinutės išsiuntimo."
@@ -4647,7 +4647,7 @@
     "messageformat": "Pakeisti"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Vienkartinė peržiūra"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Medija, kurią galima peržiūrėti vieną kartą"
@@ -4686,10 +4686,10 @@
     "messageformat": "Skambutis"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Nutildyti garsą"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Ar tikrai norite nutildyti {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Nutildyti"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Ištrinti žinutę?} few {Ištrinti {count,number} žinutes?} many {Ištrinti {count,number} žinutės?} other {Ištrinti {count,number} žinučių?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Ištrinti pažymėtą žinutę?} few {Ištrinti {count,number} pažymėtas žinutes?} many {Ištrinti {count,number} pažymėtos žinutės?} other {Ištrinti {count,number} pažymėtų žinučių?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Kokiam žmogui norėtum ištrinti šią žinutę?} few {Kokiam žmogui norėtum ištrinti šias žinutes?} many {Kokiam žmogui norėtum ištrinti šias žinutes?} other {Kokiam žmogui norėtum ištrinti šias žinutes?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Ištrinti visiems?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Kadangi esate administratorius, grupės nariai matys, kad ištrynėte šią žinutę.} few {Kadangi esate administratorius, grupės nariai matys, kad ištrynėte šias žinutes.} many {Kadangi esate administratorius, grupės nariai matys, kad ištrynėte šias žinutes.} other {Kadangi esate administratorius, grupės nariai matys, kad ištrynėte šias žinutes.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Ištrinti iš visų įrenginių"
@@ -7986,7 +7986,7 @@
     "messageformat": "„Signal“ atsarginės kopijos jau čia! Jau galite įjungti automatines užšifruotas atsargines kopijas, kad neprarastumėte žinučių įsigiję naują telefoną arba iš naujo įdiegę „Signal“. Galite nemokamai kurti visų žinučių ir paskutinių 45 d. įrašų atsargines kopijas arba sumokėti nedidelį mėnesinį mokestį ir gauti 100 GB saugyklos vietos kurti priedų atsargines kopijas. Norėdami pradėti „Signal“ nustatymuose palieskite atsargines kopijas. Dėkojame visiems, padėjusiems išbandyti šią funkciją!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Dabar iš „Signal Desktop“ taip pat galite siųsti mediją, kurią galima peržiūrėti vieną kartą. Atskiros nuotraukos ir vaizdo įrašai, kurie siunčiami kaip žinutės, kurias galima peržiūrėti vieną kartą, peržiūrėjus bus automatiškai pašalinti iš pokalbio."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Dabar galite apibūdinti save arba savo vaidmenį šiame grupės pokalbyje pridėdami nario kategoriją. Narių kategorijos rodomos šalia jūsų profilio vardo toje grupėje, o grupės administratoriai gali kontroliuoti, kas gali nustatyti kategoriją su leidimu „Redaguoti grupės informaciją“.",

@@ -2220,13 +2220,13 @@
     "messageformat": "डिलीट नहीं किया जा सका"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "डिलीट नहीं हो पाया? जानकारी के लिए क्लिक करें"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "डिलीट नहीं हुआ? दोबारा कोशिश करनी है?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "मैसेज डिलीट नहीं हो पाया। अपना इंटरनेट कनेक्शन देखें और दोबारा कोशिश करें।"
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "फिर से कोशिश करें"
@@ -2244,7 +2244,7 @@
     "messageformat": "पूरी तरह डिलीट नहीं हुआ, दोबारा कोशिश करने के लिए क्लिक करें"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "कुछ लोगों के लिए ही डिलीट हो सका है, जानकारी के लिए क्लिक करें"
   },
   "icu:expiredWarning": {
     "messageformat": "Signal डेस्कटॉप का यह वर्ज़न एक्सपायर हो गया है। मैसेज भेजने और पाने के लिए इसे अभी अपडेट करें।"
@@ -2451,10 +2451,10 @@
     "messageformat": "इस ग्रुप में सिर्फ़ ऐडमिन ही मेंबर लेबल जोड़ सकते हैं।"
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "'सिर्फ़ एक बार देखने' वाली सुविधा चालू है"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "'सिर्फ़ एक बार देखने' वाली सुविधा बंद है"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "आपके द्वारा इस संदेश को भेजे जाने के 24 घंटे के भीतर ही संपादन लागू किए जा सकते हैं।"
@@ -4647,10 +4647,10 @@
     "messageformat": "बदलें"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "सिर्फ़ एक बार देखें"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "एक बार मीडिया देखें"
+    "messageformat": "सिर्फ़ एक बार देखे जा सकने वाला मीडिया"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "संदेश संपादित करें"
@@ -4686,10 +4686,10 @@
     "messageformat": "वॉयस"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "ऑडियो म्यूट करें"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "क्या आपको वाकई {contact} को म्यूट करना है?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "म्यूट करें"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {संदेश डिलीट करना है?} other {{count,number} संदेश डिलीट करने हैं?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {चुना गया मैसेज डिलीट करना है?} other {चुने गए {count,number} मैसेज डिलीट करने हैं?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {आप यह संदेश किसके लिए डिलीट करना चाहेंगे?} other {आप ये संदेश किसके लिए डिलीट करना चाहेंगे?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "सभी के लिए डिलीट करना है?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {ग्रुप के सदस्य यह देख पाएंगे कि ऐडमिन के रूप में आपने यह मैसेज डिलीट किया है।} other {ग्रुप के सदस्य यह देख पाएंगे कि ऐडमिन के रूप में आपने ये मैसेज डिलीट किए हैं।}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "सभी उपकरणों से डिलीट करें"
@@ -7986,7 +7986,7 @@
     "messageformat": "पेश है Signal सिक्योर बैकअप! ऑटोमैटिक एंड-टू-एंड एनक्रिप्टेड बैकअप चालू करने की सहूलियत पाएं, ताकि नया फ़ोन लेने या Signal फिर से इंस्टॉल करने पर आपका एक भी मैसेज गायब न हो। अपने सारे मैसेज और पिछले 45 दिनों के मीडिया का बैकअप मुफ़्त में लें, या अगर हर अटैचमेंट का बैकअप लेने के लिए 100 GB स्टोरेज पाना है, तो हर महीने एक मामूली राशि का पेमेंट करें। शुरू करने के लिए अपनी Signal सेटिंग में जाकर बैकअप पर टैप करें। बीटा पीरियड में यह फ़ीचर टेस्ट करके हमारी मदद करने वाले सभी लोगों का धन्यवाद!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "अब Signal डेस्कटॉप से भी सिर्फ़ एक बार देखे जा सकने वाले मीडिया मैसेज भेजे जा सकते हैं। सिर्फ़ एक बार देखे जा सकने वाले मैसेज के रूप में भेजे गए फ़ोटो और वीडियो, एक बार देखे जाने के बाद बातचीत थ्रेड से अपने-आप हट जाएंगे।"
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "अब ग्रुप चैट में अपने बारे में या अपने रोल के बारे में बताने के लिए, आपके पास मेंबर लेबल जोड़ने का विकल्प मौजूद है। नए साथियों के जुड़ने पर बातचीत का माहौल जमाने के लिए, अपनी लोकल फुटबॉल लीग चैट में अपना ग्रुप मेंबर लेबल 'रेफ़री' या 'गोलकीपर' सेट करें, और फिर कंपनी चैट में अपने ज़ॉब टाइटल वाला कोई दूसरा लेबल चुन लें। ग्रुप में मेंबर लेबल आपके प्रोफ़ाइल नेम के आगे दिखते हैं, और ग्रुप ऐडमिन 'ग्रुप जानकारी एडिट करें' वाली अनुमति के ज़रिए यह कंट्रोल कर सकते हैं कि कौन लेबल सेट कर सकता है।",

@@ -2220,13 +2220,13 @@
     "messageformat": "מחיקה נכשלה"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "המחיקה נכשלה, יש ללחוץ לפרטים"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "לנסות למחוק שוב?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "מחיקת ההודעה נכשלה. כדאי לבדוק את החיבור שלך ולנסות שוב."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "נסה שוב"
@@ -2244,7 +2244,7 @@
     "messageformat": "נמחקה חלקית, אפשר ללחוץ כדי לנסות שוב"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "נמחק חלקית, יש ללחוץ לפרטים"
   },
   "icu:expiredWarning": {
     "messageformat": "גרסה זו של Signal Desktop פגה. אנא שדרג אל הגרסה האחרונה כדי להמשיך בשליחת הודעות."
@@ -2451,10 +2451,10 @@
     "messageformat": "רק מנהלים יכולים להגדיר תוויות חברים בקבוצה זו."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "צפייה חד–פעמית מופעלת"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "צפייה חד–פעמית מושבתת"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ניתן לערוך את ההודעה הזו רק עד 24 שעות מזמן השליחה שלה."
@@ -4647,7 +4647,7 @@
     "messageformat": "החלפה"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "צפייה חד–פעמית"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "מדיה לצפייה חד פעמית"
@@ -4686,10 +4686,10 @@
     "messageformat": "שיחה קולית"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "השתקת שמע"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "בטוח שבא לך להשתיק את {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "השתקה"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {למחוק הודעה?} two {למחוק {count,number} הודעות?} many {למחוק {count,number} הודעות?} other {למחוק {count,number} הודעות?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {למחוק הודעה שנבחרה?} two {למחוק {count,number} הודעות שנבחרו?} many {למחוק {count,number} הודעות שנבחרו?} other {למחוק {count,number} הודעות שנבחרו?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {עבור מי בא לך למחוק את ההודעה זו?} two {עבור מי בא לך למחוק את ההודעות האלה?} many {עבור מי בא לך למחוק את ההודעות האלה?} other {עבור מי בא לך למחוק את ההודעות האלה?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "למחוק עבור כולם?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {כמנהל/ת, חברי הקבוצה יראו שמחקת את ההודעה הזו.} two {כמנהל/ת, חברי הקבוצה יראו שמחקת את ההודעות האלה.} many {כמנהל/ת, חברי הקבוצה יראו שמחקת את ההודעות האלה.} other {כמנהל/ת, חברי הקבוצה יראו שמחקת את ההודעות האלה.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "מחיקה מכל המכשירים"
@@ -7986,7 +7986,7 @@
     "messageformat": "הגיבויים המאובטחים של Signal כבר כאן! אפשר להפעיל גיבויים אוטומטיים מוצפנים מקצה לקצה כדי שלא תאבדו הודעות במעבר לטלפון חדש או בהתקנה מחדש של Signal. אפשר לגבות את כל ההודעות ואת 45 ימי המדיה האחרונים בחינם, או לשלם תשלום חודשי קטן כדי לקבל 100GB של אחסון לגיבוי כל הקבצים המצורפים. יש ללחוץ על גיבויים בהגדרות Signal שלך כדי להתחיל. תודה לכל מי שעזרו לבדוק את הפיצ׳ר הזה במהלך תקופת הבטא!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "עכשיו אפשר לשלוח מדיה לצפייה חד–פעמית גם מ–Signal לשולחן העבודה. תמונות וסרטונים בודדים שנשלחו כהודעות לצפייה חד–פעמית יוסרו אוטומטית משרשור השיחה לאחר שנצפו."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "עכשיו אפשר להוסיף תווית חבר/ה כדי לתאר את עצמך או את התפקיד שלך בצ׳אט הקבוצתי. תוויות חברים מופיעות ליד שם הפרופיל באותה קבוצה, ומנהלי קבוצות יכולים לשלוט במי שיכולים להגדיר תווית באמצעות הרשאת ״עריכת מידע קבוצה״.",

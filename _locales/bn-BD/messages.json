@@ -2220,13 +2220,13 @@
     "messageformat": "মুছে ফেলা সফল হয়নি"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "মুছে ফেলা সফল হয়নি, বিস্তারিত জানতে ক্লিক করুন"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "আবারো মুছে ফেলার চেষ্টা করবেন?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "মেসেজটি মুছে ফেলা যায়নি। আপনার নেটওয়ার্ক সংযোগ ঠিক আছে কিনা দেখুন এবং আবার চেষ্টা করুন।"
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "আবার চেষ্টা করুন"
@@ -2244,7 +2244,7 @@
     "messageformat": "আংশিক মুছে ফেলা হয়েছে, আবার চেষ্টা করতে ক্লিক করুন"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "আংশিকভাবে মুছে ফেলা হয়েছে, বিস্তারিত জানার জন্য ক্লিক করুন"
   },
   "icu:expiredWarning": {
     "messageformat": "Signal ডেস্কটপের এই সংস্করণটির মেয়াদ শেষ হয়ে গেছে। বার্তা আদান-প্রদান চালিয়ে যেতে দয়া করে সর্বশেষতম সংস্করণে আপগ্রেড করুন।"
@@ -2451,10 +2451,10 @@
     "messageformat": "এই গ্রুপে শুধুমাত্র অ্যাডমিনরাই সদস্যদের লেবেল যোগ করতে পারবেন।"
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "'একবার দেখুন' সক্রিয় করা হয়েছে"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "'একবার দেখুন' বন্ধ আছে"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "এই ম্যাসেজটি পাঠানোর পর শুধুমাত্র পরবর্তী 24 ঘন্টার মধ্যে এটি এডিট করা যাবে।"
@@ -4647,7 +4647,7 @@
     "messageformat": "প্রতিস্থাপন করুন"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "একবার দেখুন"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "একবার-দেখার উপযোগী মিডিয়া"
@@ -4686,10 +4686,10 @@
     "messageformat": "ভয়েস"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "অডিও মিউট করুন"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "আপনি কি {contact}-কে মিউট করার ব্যাপারে নিশ্চিত?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "মিউট"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {ম্যাসেজ মুছবেন?} other {{count,number}টি ম্যাসেজ মুছবেন?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {নির্বাচিত মেসেজটি মুছে ফেলবেন?} other {নির্বাচিত {count,number}-টি মেসেজ মুছে ফেলবেন?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {আপনি কার জন্য ম্যাসেজটি মুছে ফেলতে চান?} other {আপনি কার জন্য ম্যাসেজগুলো মুছে ফেলতে চান?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "সবার জন্য মুছে ফেলবেন?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {একজন অ্যাডমিন হিসেবে, গ্রুপের সদস্যরা দেখতে পাবেন যে আপনি এই মেসেজটি মুছে ফেলেছেন।} other {একজন অ্যাডমিন হিসেবে, গ্রুপের সদস্যরা দেখতে পাবেন যে আপনি এই মেসেজগুলো মুছে ফেলেছেন।}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "সকল ডিভাইস থেকে মুছে ফেলুন"
@@ -7986,7 +7986,7 @@
     "messageformat": "চলে এলো Signal নিরাপদ ব্যাকআপ! এখন আপনি স্বয়ংক্রিয় এন্ড-টু-এন্ড এনক্রিপ্ট করা ব্যাকআপ সচল করতে পারবেন যাতে আপনি কোনো নতুন ফোন নিলে বা Signal পুনরায় ইনস্টল করলে কোনো মেসেজ হারাবেন না। আপনি আপনার সব মেসেজ এবং গত 45 দিনের মিডিয়া বিনামূল্যে ব্যাকআপ করতে পারবেন, অথবা প্রতিটি সংযুক্তির ব্যাকআপ নেওয়ার জন্য 100 GB স্টোরেজ পেতে আপনি একটি ছোট মাসিক ফি দিতে পারবেন। চালু করতে আপনার Signal সেটিংসে ব্যাকআপ-এ ট্যাপ করুন। বিটা পিরিয়ডের সময় এই ফিচারটি পরীক্ষা করতে সাহায্য করেছেন এমন সবাইকে ধন্যবাদ!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "এখন আপনি Signal Desktop থেকেও একবার দেখা যাবে এমন মিডিয়া মেসেজ পাঠাতে পারবেন। একবার দেখা যাবে এমন মেসেজ হিসেবে পাঠানো ব্যক্তিগত ছবি ও ভিডিও দেখার পর তা কথোপকথনের থ্রেড থেকে স্বয়ংক্রিয়ভাবে মুছে ফেলা হবে।"
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "এখন আপনি ইচ্ছা হলে একটি সদস্য লেবেল যোগ করতে পারেন যাতে আপনি নিজের বা কোনো গ্রুপ চ্যাটে আপনার ভূমিকা বর্ণনা করতে পারেন। সদস্য লেবেল সেই গ্রুপে আপনার প্রোফাইল নামের পাশে প্রদর্শিত হয় এবং গ্রুপ অ্যাডমিনরা \"গ্রুপের তথ্য এডিট করুন\" অনুমতি নিয়ে কে লেবেল নির্ধারণ করতে পারবেন তা নিয়ন্ত্রণ করতে পারবেন।",

@@ -2220,13 +2220,13 @@
     "messageformat": "Skrapping het misluk"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Skrapping het misluk, klik hier vir besonderhede"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Probeer weer mislukte skrapping?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Kon nie boodskap skrap nie. Gaan jou verbinding na en probeer weer."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Probeer weer"
@@ -2244,7 +2244,7 @@
     "messageformat": "Gedeeltelik geskrap, klik om weer te probeer"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Gedeeltelik geskrap, klik hier vir besonderhede"
   },
   "icu:expiredWarning": {
     "messageformat": "Hierdie weergawe van Signal Desktop het verval. Gradeer asseblief op na die jongste weergawe om voort te gaan om boodskappe te stuur en ontvang."
@@ -2451,10 +2451,10 @@
     "messageformat": "Slegs admins kan lidfunksie-etikette in hierdie groep byvoeg."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Eenkeerkyk geaktiveer"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Eenkeerkyk gedeaktiveer"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Wysigings kan slegs aangebring word binne 24 uur vanaf die tyd wat jy hierdie boodskap gestuur het."
@@ -4647,7 +4647,7 @@
     "messageformat": "Vervang"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Eenkeerkyk"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Eenkeerkyk-media"
@@ -4686,10 +4686,10 @@
     "messageformat": "Stem"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Demp oudio"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Is jy seker jy wil {contact} demp?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Demp"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Skrap boodskap?} other {Delete {count,number} boodskappe?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Skrap geselekteerde boodskap?} other {Skrap {count,number} geselekteerde boodskappe?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Vir wie wil jy hierdie boodskap skrap?} other {Vir wie wil jy hierdie boodskappe skrap?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Skrap vir almal?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Groeplede sal sien dat jy as admin hierdie boodskap geskrap het.} other {Groeplede sal sien dat jy as admin hierdie boodskappe geskrap het.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Skrap van alle toestelle"
@@ -7986,7 +7986,7 @@
     "messageformat": "Signal se veilige rugsteun is hier! Jy kan nou kies om outomatiese end-tot-end-geënkripteerde rugsteun te aktiveer sodat jy nooit 'n boodskap verloor wanneer jy 'n nuwe foon kry of Signal herinstalleer nie. Jy kan al jou boodskappe en die laaste 45 dae se media gratis rugsteun, of jy kan 'n klein maandelikse bedraggie betaal om 100 GB se stoorruimte te kry om alle aanhangsels te rugsteun. Tik op rugsteun in jou Signal-instellings om te begin. Dankie aan almal wat hierdie kenmerk tydens die beta-tydperk help toets het!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Nou kan jy ook eenkeerkyk-mediaboodskappe van Signal Desktop af stuur. Individuele foto's en video's wat as eenkeerkyk-boodskappe gestuur word, sal outomaties uit 'n gesprekstring verwyder word nadat daar na hulle gekyk is."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Nou kan jy opsioneel 'n lidfunksie-etiket byvoeg om jouself of jou rol in 'n groepklets te beskryf. Lidfunksie-etikette verskyn langs jou profielnaam in daardie groep, en groepadmins kan beheer wie met die \"Wysig groepinligting\"-toestemming 'n etiket kan opstel.",

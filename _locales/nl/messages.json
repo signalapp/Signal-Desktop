@@ -2220,13 +2220,13 @@
     "messageformat": "Verwijderen is mislukt"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Verwijderen mislukt, klik voor details"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Verwijderen opnieuw proberen?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Het bericht kon niet worden verwijderd. Controleer je internetverbinding en probeer het opnieuw."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Opnieuw proberen"
@@ -2244,7 +2244,7 @@
     "messageformat": "Gedeeltelijk verwijderd, klik hier om het opnieuw te proberen"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Gedeeltelijk verwijderd, klik voor details"
   },
   "icu:expiredWarning": {
     "messageformat": "Deze versie van Signal Desktop is verlopen. Werk bij naar de meest recente versie om gesprekken voort te kunnen zetten."
@@ -2451,10 +2451,10 @@
     "messageformat": "Alleen beheerders kunnen ledenlabels aanmaken in deze groep."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Eenmalige weergave ingeschakeld"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Eenmalige weergave uitgeschakeld"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Berichten kunnen alleen binnen 24 uur na verzenden bewerkt worden."
@@ -4647,7 +4647,7 @@
     "messageformat": "Vervangen"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Eenmalige weergave"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Eenmaligeweergave-media"
@@ -4686,10 +4686,10 @@
     "messageformat": "Audio"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Audio dempen"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Weet je zeker dat je {contact} wilt dempen?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Dempen"
@@ -4911,10 +4911,10 @@
     "messageformat": "Vermeldingen"
   },
   "icu:ConversationNotificationsSettings__mentions__info": {
-    "messageformat": "Meldingen ontvangen wanneer je wordt vermeld in een gedempte chat"
+    "messageformat": "Ontvang meldingen wanneer je wordt vermeld in een gedempte chat"
   },
   "icu:ConversationNotificationsSettings__mentions__select__always-notify": {
-    "messageformat": "Geef me altijd een melding"
+    "messageformat": "Altijd een melding"
   },
   "icu:ConversationNotificationsSettings__mentions__select__dont-notify-for-mentions-if-muted": {
     "messageformat": "Geen meldingen als gedempt"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {{count,number} bericht verwijderen?} other {{count,number} berichten verwijderen?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Geselecteerd bericht verwijderen?} other {Geselecteerde {count,number} berichten verwijderen?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Voor wie wil je dit bericht verwijderen?} other {Voor wie wil je deze berichten verwijderen?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Verwijderen voor iedereen?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Groepsleden kunnen zien dat jij als beheerder dit bericht hebt verwijderd.} other {Groepsleden kunnen zien dat jij als beheerder deze berichten hebt verwijderd.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Verwijderen van alle apparaten"
@@ -7986,7 +7986,7 @@
     "messageformat": "Signal Secure Backups is nu beschikbaar! Je kunt nu automatische end-to-end versleutelde back-ups inschakelen zodat je nooit berichten kwijtraakt als je overstapt op een nieuwe telefoon of als je Signal opnieuw installeert. Je kunt gratis een back-up maken van al je berichten en de laatste 45 dagen aan media. Voor een klein maandelijks bedrag ontvang je 100 GB opslag zodat je van al je bijlages een back-up kunt maken. Tik op Back-ups in Signal-instellingen om te beginnen. Iedereen bedankt die deze functie in de bètaperiode heeft getest!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Je kunt media voor eenmalige weergave nu ook vanuit Signal Desktop verzenden. Foto's en video's die als eenmaligeweergave-berichten worden verzonden, worden automatisch uit de chat verwijderd nadat ze zijn bekeken."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Je kunt in groepschats nu een ledenlabel aanmaken waarmee je iets over jezelf zegt of over je rol. Maak een label aan met ‘Coach’ in de groepschat van je voetbalteam, dan weten nieuwe teamgenoten direct wie je bent. Voor de groepschat met je collega's maak je een ander label aan, bijvoorbeeld met je functietitel. Ledenlabels verschijnen naast je profielnaam in de betreffende groep. Groepsbeheerders kunnen bepalen wie een label mag aanmaken met de machtiging ‘Groepsinformatie bewerken’.",

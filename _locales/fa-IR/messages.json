@@ -2220,13 +2220,13 @@
     "messageformat": "پاک کردن ناموفق بود"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "حذف نشد، برای جزئیات، کلیک کنید"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "دوباره برای حذف تلاش شود؟"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "پیام حذف نشد. اتصال خود را بررسی و دوباره تلاش کنید."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "دوباره تلاش کنید"
@@ -2244,7 +2244,7 @@
     "messageformat": "به طور کامل پاک نشد، برای تلاش مجدد کلیک کنید"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "تا حدودی حذف شد، برای جزئیات، کلیک کنید"
   },
   "icu:expiredWarning": {
     "messageformat": "این نسخه‌ی سیگنال قدیمی است. برای ارسال پیام لطفا آن را به آخرین نسخه ارتقاء دهید."
@@ -2451,10 +2451,10 @@
     "messageformat": "فقط مدیران می‌توانند برچسب‌های عضو را به این گروه اضافه کنند."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "یک‌بار مشاهده فعال شد"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "یک‌بار مشاهده غیرفعال شد"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ویرایش‌ها فقط تا ۲۴ ساعت بعد از ارسال این پیام قابل اعمال هستند."
@@ -4647,7 +4647,7 @@
     "messageformat": "جایگزینی"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "یک‌بار مشاهده"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "فایل رسانه با قابلیت یک‌بار مشاهده"
@@ -4686,10 +4686,10 @@
     "messageformat": "صوتی"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "بی‌صدا کردن صوت"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "مطمئن هستید می‌خواهید {contact} بی‌صدا شود؟"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "بی‌صدا"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {پیام پاک شود؟} other {{count,number} پیام پاک شود؟}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {پیام انتخاب‌شده حذف شود؟} other {‏{count,number} پیام انتخاب‌شده حذف شود؟}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {می‌خواهید این پیام را برای چه کسانی پاک کنید؟} other {می‌خواهید این پیام‌ها را برای چه کسانی پاک کنید؟}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "برای همه حذف شود؟"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {اعضای گروه خواهند دید که به‌عنوان مدیر این پیام‌ها را حذف کرده‌اید.} other {اعضای گروه خواهند دید که به‌عنوان مدیر این پیام‌ها را حذف کرده‌اید.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "پاک کردن از همه دستگاه‌ها"
@@ -7986,7 +7986,7 @@
     "messageformat": "• پشتیبان‌گیری امن سیگنال اینجاست! اکنون می‌توانید پشتیبان‌گیری‌های رمزگذاری‌شده سرتاسری خودکار را فعال کنید تا هنگام دریافت تلفن جدید یا نصب مجدد سیگنال، هیچ‌وقت پیامی را از دست ندهید. می‌توانید رایگان از همه پیام‌ها و ۴۵ روز اخیر فایل‌های رسانه‌ای خود پشتیبان بگیرید، یا با پرداخت مبلغ اندک ماهانه‌ای ۱۰۰ گیگابایت فضای ذخیره‌سازی برای پشتیبان‌گیری از همه پیوست‌ها دریافت کنید. برای شروع، در «تنظیمات سیگنال» روی پشتیبان‌گیری ضربه بزنید. با تشکر از همه کسانی که در دوره بتا به آزمایش این قابلیت کمک کردند!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "اکنون می‌توانید از سیگنال دسک‌تاپ نیز پیام‌های رسانه‌ای با قابلیت «یک‌بار مشاهده» ارسال کنید. عکس‌ها و ویدئوهای تکی که به‌صورت پیام‌هایی با قابلیت «یک‌بار مشاهده» ارسال می‌شوند، پس از مشاهده به‌طور خودکار از رشته گفت‌وگو حذف خواهند شد."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "اکنون می‌توانید به‌صورت اختیاری یک برچسب عضو برای معرفی خود یا نقش‌تان در گفتگوی گروهی اضافه کنید. برچسب‌های عضو در آن گروه کنار نام نمایه‌تان نمایش داده می‌شوند و مدیران گروه می‌توانند با استفاده از مجوز «ویرایش اطلاعات گروه» کنترل کنند چه کسانی امکان تنظیم برچسب را داشته باشند.",

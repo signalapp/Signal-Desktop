@@ -2220,13 +2220,13 @@
     "messageformat": "Izbris ni uspel"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Brisanje ni uspelo, kliknite za podrobnosti"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Ponovni poskus neuspešnega brisanja?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Sporočila ni bilo mogoče izbrisati. Preverite povezavo in poskusite znova."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Poskusi znova"
@@ -2244,7 +2244,7 @@
     "messageformat": "Delno izbrisano, kliknite za nov poskus"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Delno izbrisano, kliknite za podrobnosti"
   },
   "icu:expiredWarning": {
     "messageformat": "Pričujoča različica programa Signal Desktop je potekla. Za ponovno delovanje morate program posodobiti na zadnjo različico."
@@ -2451,10 +2451,10 @@
     "messageformat": "Vloge članov v tej skupini lahko dodajo samo skrbniki."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Enkratni ogled omogočen"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Enkratni ogled onemogočen"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Urejanje je mogoče uporabiti samo v 24 urah od trenutka, ko ste poslali to sporočilo."
@@ -4647,7 +4647,7 @@
     "messageformat": "Zamenjaj"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Enkratni ogled"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Datoteka za enkratni ogled"
@@ -4686,10 +4686,10 @@
     "messageformat": "Zvočni klic"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Izklopi zvok"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Ali ste prepričani, da želite utišati osebo {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Utišaj"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Izbrišem sporočilo?} two {Izbrišem {count,number} sporočili?} few {Izbrišem {count,number} sporočila?} other {Izbrišem {count,number} sporočil?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Želite izbrisati izbrano sporočilo?} two {Želite izbrisati {count,number} izbrani sporočili?} few {Želite izbrisati {count,number} izbrana sporočila?} other {Želite izbrisati {count,number} izbranih sporočil?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Za koga želite izbrisati to sporočilo?} two {Za koga želite izbrisati ti sporočili?} few {Za koga želite izbrisati ta sporočila?} other {Za koga želite izbrisati ta sporočila?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Želite izbrisati za vse?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Ker ste administrator, bodo člani skupine videli, da ste to sporočilo izbrisali.} two {Ker ste administrator, bodo člani skupine videli, da ste ti dve sporočili izbrisali.} few {Ker ste administrator, bodo člani skupine videli, da ste ta sporočila izbrisali.} other {Ker ste administrator, bodo člani skupine videli, da ste ta sporočila izbrisali.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Izbriši iz vseh naprav"
@@ -7986,7 +7986,7 @@
     "messageformat": "Varne varnostne kopije Signal so tukaj! Zdaj lahko omogočite samodejno varnostno kopiranje s celovitim šifriranjem, tako da ne boste nikoli izgubili sporočila, ko dobite nov telefon ali ponovno namestite Signal. Vsa sporočila in zadnjih 45 dni medijev lahko varnostno kopirate brezplačno ali pa plačate majhno mesečno naročnino, da dobite 100 GB prostora za varnostno kopiranje vsake priloge. Za začetek v nastavitvah Signala tapnite na varnostne kopije. Hvala vsem, ki ste pomagali pri testiranju te funkcije med beta obdobjem!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Zdaj lahko iz aplikacije Signal Desktop pošiljate tudi medijske datoteke za enkraten ogled. Posamezne fotografije in videi, poslani kot sporočila za enkraten ogled, bodo po ogledu samodejno odstranjeni iz niti pogovora."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Zdaj lahko dodate vlogo člana, s katero opišete sebe ali svojo vlogo v skupinskem klepetu. Vloge članov se prikažejo poleg imena profila v skupini, administratorji skupine pa lahko nadzorujejo, kdo lahko nastavi oznako z dovoljenjem »Urejanje podatkov o skupini«.",

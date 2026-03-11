@@ -999,7 +999,7 @@
     "messageformat": "Silenciar"
   },
   "icu:cannotUpdateDetail-v2": {
-    "messageformat": "No se ha podido actualizar Signal. <retryUpdateButton>Intenta actualizar de nuevo</retryUpdateButton> o ve a {url} para instalar la aplicación manualmente. Luego, puedes <contactSupportLink>contactar con asistencia</contactSupportLink> para informar del problema."
+    "messageformat": "No se ha podido actualizar Signal. Selecciona <retryUpdateButton>Intentar actualizar de nuevo</retryUpdateButton> o ve a {url} para instalar la aplicación manualmente. Luego, puedes <contactSupportLink>contactar con asistencia</contactSupportLink> para informar del problema."
   },
   "icu:cannotUpdateRequireManualDetail-v2": {
     "messageformat": "No se ha podido actualizar Signal. Ve a {url} para instalar la aplicación manualmente. Luego, <contactSupportLink>contacta con asistencia</contactSupportLink> para informar sobre el problema."
@@ -1143,7 +1143,7 @@
     "messageformat": "Spoiler"
   },
   "icu:retrySend": {
-    "messageformat": "Volver a enviar"
+    "messageformat": "Intentar enviar de nuevo"
   },
   "icu:retryDeleteForEveryone": {
     "messageformat": "Reintentar eliminar para todos"
@@ -2220,13 +2220,13 @@
     "messageformat": "No eliminado"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "No se ha podido eliminar el mensaje. Haz clic para ver más."
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "¿Intentar eliminar de nuevo?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "No se ha podido eliminar el mensaje. Comprueba tu conexión e inténtalo de nuevo."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Reintentar"
@@ -2244,7 +2244,7 @@
     "messageformat": "Eliminado parcialmente. Haz clic para reintentar."
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Eliminado parcialmente. Haz clic para ver más."
   },
   "icu:expiredWarning": {
     "messageformat": "Esta versión de Signal Desktop ha caducado. Actualiza a la última versión para seguir chateando."
@@ -2451,10 +2451,10 @@
     "messageformat": "Solo los admins pueden añadir categorías de participantes en este grupo."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Visualización única activada"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Visualización única desactivada"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Solo puedes hacer cambios hasta 24 horas después del momento en que enviaste este mensaje."
@@ -2532,7 +2532,7 @@
     "messageformat": "Actualización disponible"
   },
   "icu:autoUpdateRetry": {
-    "messageformat": "Intenta actualizar de nuevo"
+    "messageformat": "Intentar actualizar de nuevo"
   },
   "icu:autoUpdateNewVersionMessage": {
     "messageformat": "Haz clic para reiniciar Signal"
@@ -4647,7 +4647,7 @@
     "messageformat": "Reemplazar"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Visualización única"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Archivo multimedia"
@@ -4686,10 +4686,10 @@
     "messageformat": "Audio"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Silenciar audio"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "¿Seguro que quieres silenciar a {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Silenciar"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {¿Eliminar mensaje?} other {¿Eliminar {count,number} mensajes?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {¿Eliminar el mensaje seleccionado?} other {¿Eliminar los {count,number} mensajes seleccionados?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {¿Para quién quieres eliminar este mensaje?} other {¿Para quién quieres eliminar estos mensajes?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "¿Eliminar para todos?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Como admin, los participantes del grupo verán que has eliminado este mensaje.} other {Como admin, los participantes del grupo verán que has eliminado estos mensajes.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Eliminar de todos los dispositivos"
@@ -7983,10 +7983,10 @@
     "messageformat": "¿Te encantan los stickers? Disfruta de nuestros cinco nuevos paquetes de stickers, creados por artistas especialmente para Signal. Y, como todo en la aplicación, están cifrados de extremo a extremo."
   },
   "icu:WhatsNew__8.0--0": {
-    "messageformat": "¡Las Copias Seguras de Signal ya están aquí! Ahora puedes activar copias de seguridad automáticas y cifradas de extremo a extremo para no perder ni un solo mensaje cuando cambies de teléfono o reinstales Signal. Puedes hacer copias gratuitas de todos tus mensajes y de los últimos 45 días de archivos multimedia, o pagar una pequeña cuota mensual para obtener 100 GB de almacenamiento y hacer una copia de todos tus archivos adjuntos. Para empezar, ve a Ajustes de Signal y toca Copias de seguridad. ¡Gracias a todas las personas que nos ayudaron a probar esta función en la versión beta!"
+    "messageformat": "¡Las Copias Seguras de Signal ya están aquí! Ahora puedes activar copias de seguridad automáticas y cifradas de extremo a extremo para no perder ni un solo mensaje cuando cambias de teléfono o reinstalas Signal. Puedes hacer copias gratuitas de todos tus mensajes y de los últimos 45 días de archivos multimedia, o pagar una pequeña cuota mensual para obtener 100 GB de almacenamiento y hacer una copia de todos tus archivos adjuntos. Para empezar, ve a Ajustes de Signal y toca Copias de seguridad. ¡Gracias a todas las personas que nos ayudaron a probar esta función en la versión beta!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Ahora también puedes enviar mensajes multimedia de visualización única en Signal Desktop. Las fotos y los vídeos individuales que se envían como mensajes de visualización única se eliminan automáticamente del chat una vez vistos."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "En los grupos, cada persona tiene un papel distinto. Por eso lanzamos las \"categorías de participante\", una función que te permite añadir tu rol en cada grupo. ¿Tienes un grupo del trabajo? Indica tu cargo para que cuando se unan nuevos participantes sepan de inmediato quién eres. En tu grupo familiar, quizá prefieras algo más divertido como \"El tío favorito\" o \"La consentida de mamá\". Las categorías de participante aparecen junto a tu nombre de perfil y solo son visibles dentro de cada grupo. Además, los admins eligen quién puede añadir una categoría mediante el permiso \"Editar detalles del grupo\".",

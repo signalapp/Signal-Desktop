@@ -2220,13 +2220,13 @@
     "messageformat": "Ștergerea a eșuat"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Ștergerea a eșuat, dă clic pentru detalii."
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Reîncerci eliminarea eșuată?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Mesajul nu a putut fi șters. Verifică-ți conexiunea și încearcă din nou."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Încearcă din nou"
@@ -2244,7 +2244,7 @@
     "messageformat": "Șters parțial, fă click pentru a reîncerca"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Eliminat parțial, dă clic pentru detalii"
   },
   "icu:expiredWarning": {
     "messageformat": "Această versiune de Signal Desktop a expirat. Te rugăm actualizează la cea mai recentă versiune pentru a putea trimite mesaje în continuare."
@@ -2451,10 +2451,10 @@
     "messageformat": "Doar administratorii pot seta roluri de membru în acest grup."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Vizualizare o singură dată activată"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Vizualizare o singură dată dezactivată"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Editările pot fi făcute numai în termen de 24 de ore de la trimiterea acestui mesaj."
@@ -4647,7 +4647,7 @@
     "messageformat": "Înlocuiește"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Vizualizare o singură dată"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Mijloc media vizibil o singură dată"
@@ -4686,10 +4686,10 @@
     "messageformat": "Voce"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Dezactivează sunetul"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Sigur vrei să dezactivezi sunetul {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Silențios"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Ștergi {count,number} mesaj?} few {Ștergi {count,number} mesaje?} other {Ștergi {count,number} de mesaje?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Ștergi mesajul selectat?} few {Ștergi cele {count,number} mesaje selectate?} other {Ștergi cele {count,number} de mesaje selectate?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Pentru cine vrei să ștergi acest mesaj?} few {Pentru cine vrei să ștergi aceste mesaje?} other {Pentru cine vrei să ștergi aceste mesaje?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Elimini pentru toată lumea?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Ca administrator, membrii grupului vor vedea că ai eliminat acest mesaj.} few {Ca administrator, membrii grupului vor vedea că ai eliminat aceste mesaje.} other {Ca administrator, membrii grupului vor vedea că ai eliminat aceste mesaje.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Șterge de pe toate dispozitivele"
@@ -7986,7 +7986,7 @@
     "messageformat": "S-au lansat backup-urile securizate Signal! Acum poți alege să activezi backup-urile criptate automate end-to-end, ca să nu pierzi niciun mesaj când ai un telefon nou sau reinstalezi Signal. Poți face backup-uri gratuite pentru toate mesajele și fișierele media din ultimele 45 de zile sau poți plăti o mică taxă lunară ca să obții 100 GB de stocare pentru backup-uri la fiecare atașament. Apasă pe backup-uri în setările Signal pentru a începe. Mulțumim celor care au testat funcția în beta!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Acum poți trimite mesaje media cu vizualizare o singură dată și din Signal Desktop. Fotografiile și videoclipurile individuale trimise ca mesaje cu vizualizare unică vor fi eliminate automat dintr-un fir de conversație după ce au fost vizualizate."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Acum poți adăuga opțional un rol de membru pentru a te descrie pe tine sau rolul tău într-un chat de grup. Setează rolul de membru în grupul tău la „Arbitru” sau „Portar” în chat-ul local de fotbal din liga recreativă pentru a te ajuta să începi jocul atunci când se alătură noi coechipieri, apoi alege un rol cu funcția ta în chat-ul companiei. Rolurile de membru apar lângă numele profilului în grupul respectiv, iar administratorii grupului pot controla cine poate seta un rol cu permisiunea „Modifică informațiile grupului”.",

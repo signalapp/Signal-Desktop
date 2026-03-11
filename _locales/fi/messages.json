@@ -2220,13 +2220,13 @@
     "messageformat": "Poisto epäonnistui"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Poistaminen epäonnistui. Saat lisätietoja napsauttamalla."
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Yritetäänkö epäonnistunutta poistoa uudelleen?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Viestin poistaminen epäonnistui. Tarkista verkkoyhteys ja yritä uudelleen."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Yritä uudelleen"
@@ -2244,7 +2244,7 @@
     "messageformat": "Poistettiin osittain, yritä uudelleen napauttamalla"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Viesti osittain poistettu. Saat lisätietoja napsauttamalla."
   },
   "icu:expiredWarning": {
     "messageformat": "Käyttämäsi versio Signal Desktopista on vanhentunut. Voit lähettää ja vastaanottaa viestejä päivittämällä uusimpaan versioon."
@@ -2451,10 +2451,10 @@
     "messageformat": "Vain ylläpitäjät voivat määrittää ryhmän jäsenroolit."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Kerran katsottava sisältö käytössä"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Kerran katsottava sisältö pois käytöstä"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Muokkauksia voidaan tehdä vain 24 tunnin kuluessa tämän viestin lähettämisestä."
@@ -4647,7 +4647,7 @@
     "messageformat": "Korvaa"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Kerran katsottava sisältö"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Kerran katsottava media"
@@ -4686,10 +4686,10 @@
     "messageformat": "Ääni"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Mykistä ääni"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Haluatko varmasti mykistää käyttäjän {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Mykistä"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Poistetaanko viesti?} other {Poistetaanko {count,number} viestiä?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Poistetaanko valittu viesti?} other {Poistetaanko valitut {count,number} viestiä?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Keneltä haluat poistaa tämän viestin?} other {Keneltä haluat poistaa nämä viestit?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Poistetaanko kaikilta?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Koska olet ylläpitäjä, ryhmän jäsenet näkevät, että olet poistanut viestin.} other {Koska olet ylläpitäjä, ryhmän jäsenet näkevät, että olet poistanut viestit.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Poista kaikilta laitteilta"
@@ -7986,7 +7986,7 @@
     "messageformat": "Signal Secure -varmuuskopiointi on nyt saatavilla! Nyt voit ottaa käyttöön automaattisen, päästä päähän salatun varmuuskopioinnin. Näin et koskaan menetä viestejä, kun hankit uuden puhelimen tai asennat Signalin uudelleen. Voit varmuuskopioida kaikki viestisi ja viimeisten 45 päivän mediasisällön veloituksetta. Pienellä kuukausimaksulla saat 100 Gt tallennustilaa kaikkien liitteiden varmuuskopiointiin. Aloita napauttamalla Varmuuskopiointi Signal-asetuksissa. Kiitos beta-vaiheen testaajille!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Nyt voit lähettää kerran katsottavia mediaviestejä myös Signal Desktopista. Yksittäiset valokuvat ja videot, jotka lähetetään kerran katsottavina viesteinä, poistetaan keskusteluketjusta automaattisesti niiden katselun jälkeen."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Voit nyt halutessasi lisätä jäsenroolin kuvaamaan itseäsi tai rooliasi ryhmäkeskustelussa. Jäsenroolit näkyvät ryhmässä, profiilin nimen vieressä. Ryhmän ylläpitäjät voivat hallita Muokkaa ryhmän tietoja -asetuksen avulla, kuka voi asettaa rooleja ryhmässä.",

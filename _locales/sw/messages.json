@@ -186,7 +186,7 @@
     "messageformat": "Punguza"
   },
   "icu:windowMenuZoom": {
-    "messageformat": "Angaza Karibu na"
+    "messageformat": "Angaza Karibu"
   },
   "icu:windowMenuBringAllToFront": {
     "messageformat": "Leta Yote Mbele"
@@ -270,7 +270,7 @@
     "messageformat": "Tafuta kwa nambari ya simu"
   },
   "icu:LeftPaneFindByHelper__title--findByUsername": {
-    "messageformat": "Tafuta kwa jina la mtumiaji"
+    "messageformat": "Tafuta kutumia jina la mtumiaji"
   },
   "icu:LeftPaneFindByHelper__title--findByPhoneNumber": {
     "messageformat": "Tafuta kwa nambari ya simu"
@@ -300,16 +300,16 @@
     "messageformat": "+{maxCount,number}"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MarkAllRead": {
-    "messageformat": "Alamisha zote zilimesomwa"
+    "messageformat": "Alamisha zote zimesomwa"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications": {
     "messageformat": "Nyamazisha arifa"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__MuteNotifications__UnmuteAll": {
-    "messageformat": "Weka sauti"
+    "messageformat": "Weka sauti kwa zote"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__UnmuteAll": {
-    "messageformat": "Weka sauti"
+    "messageformat": "Weka sauti kwa zote"
   },
   "icu:LeftPaneChatFolders__Item__ContextMenu__EditFolder": {
     "messageformat": "Badili folda"
@@ -2220,13 +2220,13 @@
     "messageformat": "Imeshindikana kufuta"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Imeshindwa kufuta, bofya upate maelezo"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Jaribu tena kufuta ujumbe?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Imeshindwa kufuta ujumbe. Angalia muunganisho wako wa mtandao kisha ujaribu tena."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Jaribu tena"
@@ -2244,7 +2244,7 @@
     "messageformat": "Imefutika nusu, bonyeza kujaribu tena"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Haijafutwa yote, bofya kwa maelezo"
   },
   "icu:expiredWarning": {
     "messageformat": "Toleo hili la Signal Desktop limeisha. Tafadhali boresha hadi kwenye toleo la hivi punde zaidi  ili uendelee kutuma ujumbe."
@@ -2451,10 +2451,10 @@
     "messageformat": "Admins pekee ndio wanaweza kuongeza vyeo vya wanachama katika kikundi."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Kipengele cha angalia mara moja kimewashwa"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Kipengele cha angalia mara moja kimezimwa"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Mabadiliko yanaweza kufanywa ndani ya saa 3 kutoka muda uliotuma ujumbe huu."
@@ -4647,7 +4647,7 @@
     "messageformat": "Badilisha"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Angalia mara moja"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Tazama mara moja"
@@ -4686,10 +4686,10 @@
     "messageformat": "Sauti"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Zima sauti"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Una uhakika ungependa kutopokea arifa zilizozimwa sauti {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Nyamazisha"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Futa ujumbe {count,number}?} other {Futa jumbe {count,number}?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Futa ujumbe uliochaguliwa?} other {Futa jumbe {count,number} zilizochaguliwa?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Ungependa kufuta ujumbe huu kwa nani?} other {Ungependa kufuta jumbe hizi kwa nani?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Futa kwa kila mtu?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Kama admin, wanakikundi wataona kuwa umefuta ujumbe huu.} other {Kama admin, wanakikundi wataona kuwa umefuta jumbe hizi.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Futa kwenye vifaa vyote"
@@ -7986,7 +7986,7 @@
     "messageformat": "Tunakuletea hifadhi nakala salama! Sasa unaweza kuchagua kuwezesha uhifadhi nakala wa kiotomatiki uliosimbwa fiche kuanzia mwanzo hadi mwisho, ili usipoteze ujumbe wowote unapopata simu mpya au kusakinisha upya Signal. Unaweza kuhifadhi nakala za jumbe zako zote na picha na video za siku 45 zilizopita bila malipo au unaweza kulipa ada ndogo ya kila mwezi ili upate hifadhi ya GB 100 kwa ajili ya kuhifadhi kila kiambatisho. Gusa sehemu ya kuhifadhi nakala kwenye mipangilio ya Signal ili uanze. Asante kwa kila mtu aliyesaidia kujaribu kipengele hiki wakati wa kipindi cha beta!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Sasa unaweza kutuma jumbe za picha na video za angalia mara moja kutoka Signal Desktop pia. Picha na video moja moja zinazotumwa kama jumbe za angalia mara moja zitaondolewa kiotomatiki kwenye mazungumzo baada ya kutazamwa."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Ukipenda unaweza kuweka cheo cha mwanachama kwa hiari ili kujielezea mwenyewe au nafasi yako kwenye gumzo la kikundi. Weka cheo cha mwanachama wa kikundi chako kuwa “Referee” au “Goalie” kwenye gumzo la timu ya eneo lako ili uweze kuzungumza na wachezaji wapya wanapojiunga, kisha chagua cheo tofauti cha kazi kwenye gumzo la kampuni. Vyeo vya wanachama huonekana kando ya jina la wasifu wako kwenye kikundi, na admins wa kikundi wanaweza kudhibiti anayeruhusiwa kuweka cheo kupitia ruhusa ya “Hariri taarifa.”",

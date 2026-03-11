@@ -2220,13 +2220,13 @@
     "messageformat": "Жойылмады"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Жойылмады, толық мәлімет алу үшін басыңыз"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Орындалмаған жою процесін қайталау керек пе?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Хабар жойылмады. Байланысты тексеріп, қайталап көріңіз."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Қайталап көру"
@@ -2244,7 +2244,7 @@
     "messageformat": "Ішінара жойылды, қайталап көру үшін басыңыз"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Ішінара жойылды, толық мәлімет алу үшін басыңыз"
   },
   "icu:expiredWarning": {
     "messageformat": "Signal-дың компьютерлік нұсқасы ескірді. Әрі қарай хат алмасуды жалғастыру үшін соңғы нұсқаға жаңартыңыз."
@@ -2451,10 +2451,10 @@
     "messageformat": "Бұл топта қатысушы белгішелерін тек әкімшілер қоса алады."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "\"Бір рет көру\" функциясы қосылды"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "\"Бір рет көру\" функциясы өшірілді"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Бұл хатты жіберген соң, оны 24 сағаттың ішінде ғана өзгертуге болады."
@@ -4647,7 +4647,7 @@
     "messageformat": "Ауыстыру"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Бір рет көру"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Бір рет көрілетін мультимедиа"
@@ -4686,10 +4686,10 @@
     "messageformat": "Дауыс"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Аудионың дыбысын өшіру"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "{contact} деген қатысушының қоңыраудағы аудиосының дыбысын өшіргіңіз келе ме?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Дыбысын өшіру"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Хатты жою керек пе?} other {{count,number} хатты жою керек пе?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Таңдалған хабарды жою керек пе?} other {Таңдалған {count,number} хабарды жою керек пе?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Бұл хаттың кімде жойылғанын қалайсыз?} other {Бұл хаттардың кімде жойылғанын қалайсыз?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Барлығы үшін жою керек пе?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Топ мүшелері сіздің бұл хабарды әкімші ретінде жойғаныңызды көреді.} other {Топ мүшелері сіздің бұл хабарларды әкімші ретінде жойғаныңызды көреді.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Барлық құрылғыдан жою"
@@ -7986,7 +7986,7 @@
     "messageformat": "Signal қауіпсіз сақтық көшірмесі шықты! Автоматты тура шифрланған сақтық көшірмелерді іске қосу арқылы енді жаңа телефон алғанда не Signal-ды қайта орнатқанда, хабарларды мүлдем жоғалтпайсыз. Барлық хабардың және соңғы 45 күндегі мультимедиа файлдарының сақтық көшірмесін тегін жасауға немесе ай сайын азғантай ақша төлеп, 100 ГБ алуға болады. Бастау үшін Signal параметрлеріндегі сақтық көшірмелерді басыңыз. Бета кезеңінде бұл функцияны сынақтан өткізген пайдаланушыларға алғысымыз шексіз!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Енді Signal Desktop арқылы хабар алмасқанда да бір рет көрінетін мультимедиа жібере аласыз. Бір рет көрінетін хабар ретінде жіберілген жеке фотосуреттер мен бейнелер көрілгеннен кейін әңгіме тізбегінен автоматты түрде жойылады."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Енді топтық чатта қатысушы белгішесін қосып, өзіңізді немесе рөліңізді сипаттай аласыз. Жергілікті әуесқой футбол лигасының чатында жаңа ойыншылар қосылған кезде, қатысушы белгішеңізді \"Төреші\" немесе \"Қақпашы\" деп қойыңыз. Ал жұмыс істейтін компанияңыздың чатында өз лауазымыңды көрсететін басқа атауды таңдаңыз. Қатысушы белгішелері сол топтағы профиль атауының жанында көрсетіледі және топ әкімшілері \"Топ туралы ақпаратты өзгерту\" рұқсатымен белгішені кім орната алатынын басқарады.",

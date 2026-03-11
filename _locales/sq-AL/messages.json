@@ -2220,13 +2220,13 @@
     "messageformat": "Fshirja dështoi"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Fshirja dështoi, kliko për detaje"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Riprovo fshirjen e dështuar?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Mesazhi nuk u fshi. Kontrollo lidhjen e internetit dhe riprovo."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Riprovo"
@@ -2244,7 +2244,7 @@
     "messageformat": "Fshirë pjesërisht, kliko për ta provuar sërish"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Është fshirë pjesërisht, kliko për detaje"
   },
   "icu:expiredWarning": {
     "messageformat": "Ky version i Signal-it për Desktop ka skaduar. Ju lutemi, që të vazhdoni të shkëmbeni mesazhe, përmirësojeni me versionin më të ri."
@@ -2451,10 +2451,10 @@
     "messageformat": "Vetëm administratorët mund të caktojnë emërtimet e anëtarëve në këtë grup."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "\"Shiko vetëm një herë\" u aktivizua"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "\"Shiko vetëm një herë\" u aktivizua"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Përpunimet mund të zbatohen vetëm brenda 24 orëve nga momenti që dërgove këtë mesazh."
@@ -4647,7 +4647,7 @@
     "messageformat": "Zëvendëso"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Shiko vetëm një herë"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Media që mund të shihet vetëm një herë"
@@ -4686,10 +4686,10 @@
     "messageformat": "Zëri"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Bëje audion pa zë"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Je i sigurt që dëshiron ta bësh pa zë {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Hiqi zërin"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Dëshiron të fshish mesazhin?} other {Dëshiron të fshish {count,number} mesazhe?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Të fshihet mesazhi i përzgjedhur?} other {Të fshihen {count,number} mesazhet e përzgjedhura?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Për kë do të donit të fshihet ky mesazh?} other {Për kë do të donit të fshihen këto mesazhe?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Të fshihet për të gjithë?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Si administrator, anëtarët e grupit do të shohin që e ke fshirë mesazhin.} other {Si administrator, anëtarët e grupit do të shohin që i ke fshirë mesazhet.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Fshi nga të gjitha pajisjet"
@@ -7986,7 +7986,7 @@
     "messageformat": "Kopjeruajtjet e sigurta erdhën! Mund të aktivizosh kopjeruajtjet automatike të koduara nga skaji në skaj, që të mos humbisësh asnjë mesazh kur merr telefon të ri ose riinstalo Signal. Mund të krijosh falas kopjeruajtje të gjitha mesazheve dhe medias të 45 ditëve të fundit, ose të paguash një tarifë mujore për të marrë 100 GB hapësirë për të ruajtur çdo bashkëngjitje. Kliko te kopjeruajtjet te parametrat e Signal për të nisur. Faleminderit atyre që testuan veçorinë gjatë periudhës beta!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Tani mund të dërgosh mesazhe me media që mund të shikohen vetëm një herë edhe nga Signal Desktop. Fotot dhe videot individuale që dërgohen si mesazhe që mund të shikohen vetëm një herë do të hiqen automatikisht nga biseda pasi të jenë parë."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Tani mund të shtosh opsionalisht emërtimin e anëtarit për të përshkruar veten ose rolin tënd në bisedat në grup. Vendos emërtimin e anëtarit të grupit në \"Arbitër\" ose \"Portier\" në bisedën lokale të futbollit të ligës argëtuese për të ndihmuar në fillimin e punës kur bashkohen shokët e rinj të ekipit, pastaj zgjidh një emërtim tjetër me titullin e punës në bisedën e kompanisë. Emërtimet e anëtarit shfaqen pranë emrit të profilit në atë grup dhe administratorët e grupit mund të kontrollojnë se kush mund të vendosë emërtim me lejen \"Përpuno informacionin e grupit\".",

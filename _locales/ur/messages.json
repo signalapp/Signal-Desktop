@@ -2220,13 +2220,13 @@
     "messageformat": "حذف کرنا ناکام ہو گیا"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "حذف کرنے میں ناکامی، تفصیلات کے لیے کلک کریں"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "ناکام حذف کو دوبارہ آزمائیں؟"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "میسج حذف کرنے میں ناکامی۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں۔"
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "دوبارہ کوشش کریں"
@@ -2244,7 +2244,7 @@
     "messageformat": "جزوی طور پر حذف کر دیا گیا، دوبارہ کوشش کرنے کے لیے کلک کریں"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "جزوی طور پر حذف کیا گیا، تفصیلات کے لیے کلک کریں"
   },
   "icu:expiredWarning": {
     "messageformat": "Signal Desktop کا یہ ورژن کی میعاد ختم ہوچکی ہے۔ مہربانی فرما کر پیغامات جاری رکھنے کے لئے حالیہ ورژن میں اپ گریڈ کریں۔"
@@ -2451,10 +2451,10 @@
     "messageformat": "اس گروپ میں صرف ایڈمنز ہی ممبر لیبلز شامل کر سکتے ہیں۔"
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "ایک بار دیکھیں کو فعال کر دیا گیا"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "ایک بار دیکھیں کو غیر فعال کر دیا گیا"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "آپ کی طرف سے اس میسج کو بھیجنے کے بعد ترامیم کا اطلاق محض 24 گھنٹوں کے اندر کیا جا سکتا ہے۔"
@@ -4647,7 +4647,7 @@
     "messageformat": "تبدیل کریں"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "ایک بار دیکھیں"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "ایک مرتبہ دیکھا جانے والا میڈیا"
@@ -4686,10 +4686,10 @@
     "messageformat": "آواز"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "آڈیو میوٹ کریں"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "کیا آپ واقعی {contact} کو میوٹ کرنا چاہتے ہیں؟"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "خاموش کریں"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {میسج حذف کریں؟} other {{count,number} میسجز حذف کریں؟}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {منتخب شدہ میسج کو حذف کریں؟} other {منتخب شدہ {count,number} میسجز کو حذف کریں؟}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {آپ یہ میسج کس کے لیے حذف کرنا چاہتے ہیں؟} other {آپ یہ میسجز کس کے لیے حذف کرنا چاہتے ہیں؟}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "سب کے لیے حذف کریں؟"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {بطور ایڈمن، گروپ ممبرز دیکھ سکیں گے کہ آپ نے یہ میسج حذف کیا ہے۔} other {بطور ایڈمن، گروپ ممبرز دیکھ سکیں گے کہ آپ نے یہ میسجز حذف کیے ہیں۔}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "تمام ڈیوائسز سے حذف کریں"
@@ -7986,7 +7986,7 @@
     "messageformat": "Signal محفوظ بیک اپس یہاں ہیں! اب آپ خودکار آخر سے آخر تک انکرپٹ کردہ بیک اپس کو فعال کرنے کا انتخاب کر سکتے ہیں تاکہ جب آپ نیا فون لیں یا Signal ری انسٹال کریں تو آپ کا میسج کبھی غائب نہ ہو۔ آپ اپنے تمام میسجز اور پچھلے 45 دنوں کا میڈیا مفت میں بیک اپ کر سکتے ہیں، یا آپ ہر منسلکہ کے بیک اپ کیلیے 100 GB کی اسٹوریج حاصل کرنے کے لیے مختصر ماہانہ فیس ادا کر سکتے ہیں۔ آغاز کے لیے اپنے Signal کی سیٹنگز میں بیک اپس پر ٹیپ کریں۔ ہر کسی کا شکریہ جنہوں نے بیٹا پیریڈ کے دوران اس فیچر کو ٹیسٹ کرنے میں مدد کی!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "اب آپ Signal ڈیسک ٹاپ سے بھی صرف ایک بار دیکھنے والے میڈیا میسجز بھیج سکتے ہیں۔ وہ انفرادی تصاویر اور ویڈیوز جو صرف ایک بار دیکھنے کے میسجز کے طور پر بھیجی جائیں، دیکھے جانے کے بعد خودکار طور پر گفتگو کے سلسلے سے حذف ہو جائیں گی۔"
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "• اب آپ اختیاری طور پر گروپ چیٹ میں اپنے بارے میں یا اپنے کردار کو بیان کرنے کے لیے ایک ممبر لیبل شامل کر سکتے ہیں۔ اپنے گروپ ممبر لیبل کو \"ریفری\" یا \"گولی\" رکھیں تاکہ آپ کے نئے تیم ممبرز کے ساتھ کام شروع کریں، اور پھر کمپنی چیٹ میں اپنی جاب ٹائٹل کے ساتھ لیبل رکھیں۔ اس گروپ میں ممبر لیبلز آپ کے پروفائل نام کے ساتھ ظاہر ہوتے ہیں اور گروپ ایڈمنز یہ کنٹرول کر سکتے ہیں کہ کون \"گروپ کی معلومات میں ترمیم کریں\" کی اجازت کے ذریعے لیبل سیٹ کر سکتا ہے۔",

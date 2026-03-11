@@ -2220,13 +2220,13 @@
     "messageformat": "Erro ao borrar"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Erro ao eliminar, preme para obter máis información"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Queres tentar eliminala de novo?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Non se puido eliminar a mensaxe. Comproba a túa conexión e inténtao de novo."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Volver tentar"
@@ -2244,7 +2244,7 @@
     "messageformat": "Borrado parcialmente, preme para volver intentalo"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Eliminación parcial, preme para obter máis información"
   },
   "icu:expiredWarning": {
     "messageformat": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging."
@@ -2451,10 +2451,10 @@
     "messageformat": "Só os administradores poden engadir as categorías de membro do grupo."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Unha soa visualización activada"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Unha soa visualización desactivada"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "As edicións só poden facerse no termo de 24 horas dende que se enviou esta mensaxe."
@@ -4647,7 +4647,7 @@
     "messageformat": "Substituír"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Unha soa visualización"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Arquivo dunha soa visualización"
@@ -4686,10 +4686,10 @@
     "messageformat": "Voz"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Silenciar audio"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Seguro que queres silenciar a «{contact}»?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Silenciar"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Borrar mensaxe?} other {Borrar {count,number} mensaxes?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Eliminar a mensaxe seleccionada?} other {Eliminar as {count,number} mensaxes seleccionadas?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Para quen queres borrar esta mensaxe?} other {Para quen queres borrar estas mensaxes?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Borrar para todos?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Como tes cargo de administrador, os membros do grupo poderán ver que eliminaches esta mensaxe.} other {Como tes cargo de administrador, os membros do grupo poderán ver que eliminaches estas mensaxes.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Borrar en todos os dispositivos"
@@ -7986,7 +7986,7 @@
     "messageformat": "Xa podes usar as Copias seguras de Signal! Activa as copias automáticas cifradas de extremo a extremo para non perder as mensaxes ao cambiar de dispositivo ou reinstalar Signal. Podes facer unha copia das mensaxes e dos arquivos multimedia dos últimos 45 días de balde, ou pagar unha pequena tarifa mensual para ter 100 GB de almacenamento. Vai a «Copias de seguranza» na configuración de Signal para comezar. Graciñas a quen axudou a probar esta función durante a fase beta!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Agora tamén podes enviar mensaxes multimedia dunha soa visualización dende Signal Desktop. As fotos e vídeos enviados como mensaxes dunha soa visualización eliminaranse automaticamente unha vez vistos."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Agora tes a opción de configurar unha categoría de membro para describirte a ti ou o teu rol dentro da conversa grupal. Estas aparecen xunto ao teu nome de perfil nese grupo, e os administradores poden decidir quen pode engadilas a través do permiso «Editar a información do grupo».",

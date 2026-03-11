@@ -2220,13 +2220,13 @@
     "messageformat": "Neizdevās izdzēst"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Dzēšana neizdevās, klikšķiniet, lai skatītu sīkāku informāciju"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Mēģināt dzēst vēlreiz?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Ziņu neizdevās dzēst. Pārbaudiet savienojumu un mēģiniet vēlreiz."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Mēģiniet vēlreiz"
@@ -2244,7 +2244,7 @@
     "messageformat": "Daļēji dzēsta, noklikšķiniet, lai mēģinātu vēlreiz"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Daļēji dzēsts, klikšķiniet, lai skatītu sīkāku informāciju"
   },
   "icu:expiredWarning": {
     "messageformat": "Šī Signāla galdvirsmas (desktop) versija ir novecojusi. Lai turpinātu ziņapmaiņu, lūdzu, paaugstiniet to uz jaunāko versiju."
@@ -2451,10 +2451,10 @@
     "messageformat": "Šajā grupā lietotāja emblēmas var pievienot tikai administratori."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Režīms \"Skatīt vienreiz\" ieslēgts"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Režīms \"Skatīt vienreiz\" izslēgts"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Labojumus var veikt tikai 24 stundu laikā pēc šīs ziņas nosūtīšanas."
@@ -4647,7 +4647,7 @@
     "messageformat": "Aizvietot"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Skatīt vienreiz"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Vienreiz skatāma multivide"
@@ -4686,10 +4686,10 @@
     "messageformat": "Balss"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Izslēgt audio skaņu"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Vai tiešām vēlaties izslēgt skaņu lietotājam {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Izslēgt"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, zero {Vai izdzēst {count,number} ziņas?} one {Vai izdzēst ziņu?} other {Vai izdzēst {count,number} ziņas?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, zero {Vai dzēst atlasītās {count,number} ziņas?} one {Vai dzēst atlasīto ziņu?} other {Vai dzēst atlasītās {count,number} ziņas?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, zero {Kuram šīs ziņas izdzēst?} one {Kuram šo ziņu izdzēst?} other {Kuram šīs ziņas izdzēst?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Dzēst visiem?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, zero {Grupas dalībnieki redzēs, ka jūs kā administrators izdzēsāt šīs ziņas.} one {Grupas dalībnieki redzēs, ka jūs kā administrators izdzēsāt šo ziņu.} other {Grupas dalībnieki redzēs, ka jūs kā administrators izdzēsāt šīs ziņas.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Dzēst no visām ierīcēm"
@@ -7986,7 +7986,7 @@
     "messageformat": "Signal drošās rezerves kopijas ir klāt! Tagad varat ieslēgt automātisku pilnīgi šifrētu rezerves kopiju veidošanu, lai nekad nezaudētu nevienu ziņu ar jaunu tālruni vai pārinstalējot Signal. Bez maksas varat izveidot rezerves kopijas visām ziņām un pēdējo 45 dienu radītajai multividei, vai arī maksāt nelielu mēneša maksu, lai saņemtu 100 GB krātuves, kurā iespējams dublēt katru pielikumu. Lai sāktu, Signal iestatījumos pieskarieties pie Rezerves kopijas. Paldies ikvienam, kas veica funkcijas pārbaudi beta versijā!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Tagad varat nosūtīt vienreiz skatāmas multivides ziņas arī no Signal darbvirsmas. Fotoattēli un video, kas nosūtīti kā vienreiz skatāmas ziņas, pēc to skatīšanas tiks automātiski dzēsti no sarakstes."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Tagad varat pievienot lietotāja emblēmu, lai grupas tērzētavā aprakstītu sevi vai savu amata nosaukumu. Ja jūsu futbola komandai ir sava tērzētava, iestatiet emblēmu \"Tiesnesis\" vai \"Vārtsargs\", lai ātrāk iepazītos ar jaunajiem biedriem, savukārt darba tērzētavā varat izvēlēties citu emblēmu, kas raksturo jūsu amatu. Lietotāja emblēmas ir redzamas blakus profila nosaukumam grupā. Grupas administratori var ierobežot vai atļaut lietotājiem iestatīt emblēmas, izmantojot atļauju \"Rediģēt grupas informāciju\".",

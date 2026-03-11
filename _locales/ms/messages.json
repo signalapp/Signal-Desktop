@@ -2220,13 +2220,13 @@
     "messageformat": "Gagal dipadam"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Padam gagal, klik untuk butiran"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Cuba semula gagal memadam?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Mesej gagal dipadamkan. Periksa sambungan anda dan cuba lagi."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Cuba lagi"
@@ -2244,7 +2244,7 @@
     "messageformat": "Sebahagiannya telah dipadamkan, klik untuk cuba semula"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Sebahagiannya dipadamkan, klik untuk butiran"
   },
   "icu:expiredWarning": {
     "messageformat": "Versi Signal Desktop telah tamat tempoh. Sila naik taraf kepada versi terkini untuk meneruskan pemesejan."
@@ -2451,10 +2451,10 @@
     "messageformat": "Hanya pentadbir boleh menambah label ahli dalam kumpulan ini."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Lihat sekali didayakan"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Lihat sekali dinyahdayakan"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Edit hanya boleh digunakan dalam masa 24 jam dari masa anda menghantar mesej ini."
@@ -4647,7 +4647,7 @@
     "messageformat": "Gantikan"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Lihat sekali"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Media lihat sekali"
@@ -4686,10 +4686,10 @@
     "messageformat": "Suara"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Redamkan audio"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Adakah anda pasti anda mahu meredamkan {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Redamkan"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, other {Padam {count,number} mesej?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, other {Padamkan {count,number} mesej yang dipilih?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, other {Untuk siapa anda mahu memadamkan mesej ini?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Padam untuk semua orang?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, other {Sebagai pentadbir, ahli kumpulan akan melihat anda memadam mesej ini.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Padam daripada semua peranti"
@@ -7986,7 +7986,7 @@
     "messageformat": "Sandaran selamat Signal telah tiba! Kini anda boleh memilih untuk mendayakan sandaran automatik yang disulitkan hujung ke hujung, supaya anda tidak akan kehilangan mesej apabila mendapat telefon baharu atau memasang semula Signal. Anda boleh menyandarkan semua mesej anda dan media bagi 45 hari terakhir secara percuma, atau membayar yuran bulanan yang kecil untuk mendapatkan storan 100 GB bagi menyandarkan setiap lampiran. Ketik pada sandaran dalam tetapan Signal untuk mula. Terima kasih kepada semua yang membantu menguji ciri ini sepanjang tempoh beta!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Kini anda boleh menghantar mesej media lihat sekali daripada Signal Desktop juga. Foto dan video individu yang dihantar sebagai mesej lihat sekali akan dialih keluar secara automatik daripada jaluran perbualan selepas ia dilihat."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Kini anda boleh menambah label ahli secara pilihan untuk menerangkan diri atau peranan anda dalam sembang kumpulan. Label ahli muncul di sebelah nama profil anda dalam kumpulan tersebut, dan pentadbir kumpulan boleh mengawal orang yang boleh menetapkan label melalui kebenaran \"Edit Maklumat Kumpulan\".",

@@ -2220,13 +2220,13 @@
     "messageformat": "فشل الحذف"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "فشلت عملية الحذف، انقر للحصول على التفاصيل"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "هل ترغبُ بإعادة محاولة عملية الحذف؟"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "تعذَّر حذف الرسالة. تحقَّق من اتصالك بالشبكة ثم حاوِل مُجدَّدًا."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "حاوِل مُجدَّدًا"
@@ -2244,7 +2244,7 @@
     "messageformat": "تمَّ الحذف جزئيًا. يُرجى الضغط لإعادة المحاولة."
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "حذف جزئي، انقر لعرض التفاصيل"
   },
   "icu:expiredWarning": {
     "messageformat": "انتهت صلاحية هذا الإصدار من سيجنال Desktop. يُرجى التحديث لأحدث إصدار للتمكُّن من التراسُل."
@@ -2451,10 +2451,10 @@
     "messageformat": "فقط المُشرِفون هم من يمكنهم تحديد أدوار الأعضاء في هذه المجموعة."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "تفعيل وضع \"عرض لمرة واحدة\""
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "تعطيل وضع \"عرض لمرة واحدة\""
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "لا يُمكن إحداث التعديلات إلاّ في غضون 24 ساعة من وقت إرسال هذه الرسالة."
@@ -4647,7 +4647,7 @@
     "messageformat": "استبدال"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "عرض لمرة واحدة"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "وسائط للمُشاهدة مرّة واحدة"
@@ -4686,10 +4686,10 @@
     "messageformat": "مكالمة صوتية"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "كتم الصوت"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "هل أنت مُتأكَّد من أنك تريد كتم {contact}؟"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "كتم"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, zero {هل ترغبُ بحذف {count,number} رسائل؟} one {هل ترغبُ بحذف {count,number} رسالة واحدة؟} two {هل ترغبُ بحذف {count,number} رسالتين؟} few {هل ترغبُ بحذف {count,number} رسائل؟} many {هل ترغبُ بحذف {count,number} رسالة؟} other {هل ترغبُ بحذف {count,number} رسالة؟}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, zero {هل ترغبُ بحذف الـ {count,number} رسائل المُحدَّدة؟} one {هل ترغبُ بحذف الرسالة المُحدَّدة؟} two {هل ترغبُ بحذف الـ {count,number} رسالتين المُحدَّدتين؟} few {هل ترغبُ بحذف الـ {count,number} رسائل المُحدَّدة؟} many {هل ترغبُ بحذف الـ {count,number} رسالة المُحدَّدة؟} other {هل ترغبُ بحذف الـ {count,number} رسالة المُحدَّدة؟}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, zero {من هم الأشخاص الذين تريد حذف هذه الرسائل لديهم؟} one {من هم الأشخاص الذين تريد حذف هذه الرسالة لديهم؟} two {من هم الأشخاص الذين تريد حذف هاتين الرسالتين لديهم؟} few {من هم الأشخاص الذين تريد حذف هذه الرسائل لديهم؟} many {من هم الأشخاص الذين تريد حذف هذه الرسائل لديهم؟} other {من هم الأشخاص الذين تريد حذف هذه الرسائل لديهم؟}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "الحذف للجميع؟"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, zero {بصفتك مُشرِفًا، سيرى أعضاء المجموعة أنك حذفت هذه الرسائل.} one {بصفتك مُشرِفًا، سيرى أعضاء المجموعة أنك حذفت هذه الرسائل.} two {بصفتك مُشرِفًا، سيرى أعضاء المجموعة أنك حذفت هاتين الرسالتين.} few {بصفتك مُشرِفًا، سيرى أعضاء المجموعة أنك حذفت هذه الرسائل.} many {بصفتك مُشرِفًا، سيرى أعضاء المجموعة أنك حذفت هذه الرسائل.} other {بصفتك مُشرِفًا، سيرى أعضاء المجموعة أنك حذفت هذه الرسائل.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "احذف من كل الأجهزة"
@@ -7986,10 +7986,10 @@
     "messageformat": "النسخ الاحتياطية الآمنة لسيجنال أصبحت متوفِّرة الآن! يُمكنك الآن اختيار تفعيل النسخ الاحتياطي التلقائي والمُشفَّر تمامًا من طرف إلى طرف، لِضمان عدم فقدان أي رسالة عند اقتناء هاتف جديد أو إعادة تثبيت سيجنال. يُمكنك إجراء نسخ احتياطي لجميع رسائلك وللوسائط الخاصة بآخر 45 يومًا مجانًا، أو يمكنك دفع رسوم شهرية بسيطة للحصول على مساحة 100 جيجابايت لنسخ كافة الملفات المُرفَقة. انقر على النسخ الاحتياطية في إعدادات سيجنال للبدء. شكرًا لِكل من ساهم في اختبار هذه الميزة خلال الفترة التجريبية!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "يمكنك الآن إرسال ملف وسائط للعرض لمرّة واحدة عبر سيجنال Desktop أيضًا. يتم حذف الصور ومقاطع الفيديو المُرسَلة كرسائل تُعرض لمرّة واحدة تلقائيًا من المحادثة بعد مشاهدتها."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "يمكنك الآن إضافة دور عضو بشكل اختياري لتصف نفسك أو دورك في دردشة جماعية. عيِّن دور عضو المجموعة إلى \"حكم\" أو \"حارس مرمى\" في دردشة دوري كرة القدم المحلي للمساعدة على كسر الجليد عند انضمام زملاء جُدُد، ثم اختر تسمية مختلفة تعكس مسمّاك الوظيفي في دردشة الشركة. تظهر أدوار الأعضاء بجوار اسم حسابك الشخصي في تلك المجموعة، ويمكن لمُشرِفي المجموعة التحكُّم فيمن يحق له وضع دور باستخدام إذن \"تعديل معلومات المجموعة\".",
+    "messageformat": "يمكنك الآن إضافة دور عضو بشكل اختياري لتصف نفسك أو دورك في دردشة جماعية. عيِّن دور عضو المجموعة إلى \"حكم\" أو \"حارس مرمى\" في دردشة دوري كرة القدم المحلي للمساعدة على كسر الجليد عند انضمام زملاء جُدُد، ثم اختر دور مختلف يعكس مسمّاك الوظيفي في دردشة الشركة. تظهر أدوار الأعضاء بجوار اسم حسابك الشخصي في تلك المجموعة، ويمكن لمُشرِفي المجموعة التحكُّم فيمن يحق له وضع دور باستخدام إذن \"تعديل معلومات المجموعة\".",
     "ignoreUnused": true
   }
 }

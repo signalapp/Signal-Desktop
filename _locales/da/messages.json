@@ -2220,13 +2220,13 @@
     "messageformat": "Sletning mislykkedes"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Kunne ikke slette, tryk for flere oplysninger"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Vil du forsøge at slette igen?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Kunne ikke slette beskeden. Tjek din forbindelse, og prøv igen."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Prøv igen"
@@ -2244,7 +2244,7 @@
     "messageformat": "Delvist slettet, klik for at forsøge igen"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Delvist slettet, tryk for flere oplysninger"
   },
   "icu:expiredWarning": {
     "messageformat": "Denne version af Signal Desktop er forældet. Opgrader venligst til den nyeste version for at fortsætte"
@@ -2451,10 +2451,10 @@
     "messageformat": "Det er kun administratorer, der kan tildele medlemstitler i denne gruppe."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Engangsvisning aktiveret"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Engangsvisning deaktiveret"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Ændringer kan kun foretages indenfor 24 timer efter at du har sendt denne besked."
@@ -4647,7 +4647,7 @@
     "messageformat": "Erstat"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Engangsvisning"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Se medier én gang"
@@ -4686,10 +4686,10 @@
     "messageformat": "Stemme"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Slå lyd fra"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Er du sikker på, at du vil slå {contact} fra?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Ignorer"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Slet besked?} other {Slet {count,number} beskeder?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Vil du slette den valgte besked?} other {Vil du slette de valgte {count,number} beskeder?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Hvem vil du gerne slette denne besked for?} other {Hvem vil du gerne slette disse beskeder for?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Slet for alles vedkommende?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Som administrator vil gruppemedlemmet se, at du har slettet disse beskeder.} other {Som administrator vil gruppemedlemmerne se, at du har slettet disse beskeder.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Slet fra alle enheder"
@@ -7986,7 +7986,7 @@
     "messageformat": "Sikre sikkerhedskopier er landet! Nu kan du vælge at aktivere automatiske E2E-krypterede sikkerhedskopier, så du aldrig mister en besked, når du får en ny telefon eller geninstallerer Signal. Du kan sikkerhedskopier alle dine beskeder og de sidste 45 dages medier gratis, eller få 100 GB plads til alle vedhæftede filer mod et lille månedligt gebyr. Tryk på Sikkerhedskopier i dine Signal-indstillinger for at komme i gang. Tak til alle, der testede denne funktion under betaperioden!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Nu kan du også sende medier, der kun kan ses én gang, fra Signal Desktop. Enkeltbilleder og -videoer, der sendes som engangsbeskeder, fjernes automatisk fra samtalen, når de er blevet set."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Nu kan du valgfrit tilføje en medlemstitel for at beskrive dig selv eller din rolle i gruppechatten. Brug medlemstitler som “Dommer” eller “Målmand” i din lokale fodboldgruppe for at komme i gang, når nye holdkammerater joiner. Skift derefter til en anden titel med din stilling i virksomhedschatten. Medlemstitler vises ved dit profilnavn i gruppen, og gruppeadministratorer kan styre, hvem der kan tildele en titel via tilladelse i “Rediger gruppeinfo”.",

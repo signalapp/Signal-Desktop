@@ -2220,13 +2220,13 @@
     "messageformat": "Неуспешно изтриване"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Неуспешно изтриване, кликнете за подробности"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Повторен опит за изтриване?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Неуспешно изтриване на съобщение. Проверете връзката си и опитайте отново."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Опитайте отново"
@@ -2244,7 +2244,7 @@
     "messageformat": "Изтриването е частично, кликнете, за да опитате отново"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Частично изтрито, кликнете за повече информация"
   },
   "icu:expiredWarning": {
     "messageformat": "Тази версия на Сигнал за компютър вече е остаряла. Моля, обновете до последната версия, за да можете да изпращате съобщения."
@@ -2451,10 +2451,10 @@
     "messageformat": "Само администраторите могат да добавят етикети на членове в тази група."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Активиране на еднократното гледане"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Деактивиране на еднократното гледане"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Редакциите могат да се прилагат само в рамките на 24 часа от момента на изпращане на това съобщение."
@@ -4647,7 +4647,7 @@
     "messageformat": "Заменяне"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Еднократно гледане"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Мултимедия за еднократно гледане"
@@ -4686,10 +4686,10 @@
     "messageformat": "Обаждане"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Заглушаване на аудио"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Наистина ли искате да заглушите {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Заглушаване"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Изтриване на {count,number} съобщение?} other {Изтриване на {count,number} съобщения?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Изтриване на избраното съобщение?} other {Изтриване на {count,number} избрани съобщения?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {За кого искате да изтриете това съобщение?} other {За кого искате да изтриете тези съобщения?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Изтриване за всички?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Тъй като сте администратор, членовете на групата ще видят, че сте изтрили това съобщение.} other {Тъй като сте администратор, членовете на групата ще видят, че сте изтрили тези съобщения.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Изтриване от всички устройства"
@@ -7986,10 +7986,10 @@
     "messageformat": "Сигурните резервни копия на Signal са тук! Сега можете да изберете да активирате автоматични резервни копия, криптирани от край до край, така че никога да не губите съобщения, когато си вземете нов телефон или преинсталирате Signal. Можете безплатно да архивирате всичките си съобщения и мултимедията от последните 45 дни или да плащате малка месечна такса, за да получите 100 GB място за съхранение, в което да архивирате всички прикачени файлове. Докоснете резервните копия в настройките на Signal, за да започнете. Благодарим на всички, които помогнаха за тестването на тази функция по време на бета-периода!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Вече можете да изпращате съобщения с мултимедия за еднократно гледане и от Signal Desktop. Отделните снимки и видеоклипове, които са изпратени като съобщения за еднократно гледане, ще бъдат автоматично премахнати от чата, след като бъдат прегледани."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Вече по желание можете да добавите етикет на член, за да опишете себе си или ролята си в груповия чат. Етикетите на членовете се появяват до името на профила ви в групата, а администраторите на групи могат да управляват кой може да задава етикети с разрешението „Редактиране на информацията за групата“.",
+    "messageformat": "Вече по желание можете да добавите етикет на член, за да опишете себе си или ролята си в груповия чат. В чата на местната футболна лига задайте етикета си като „Рефер“ или “Вратар“, за да улесните стартирането, когато се присъединят нови съотборници, а след това изберете друг етикет с длъжността си в чата на компанията ви. Етикетите на членовете се появяват до името на профила ви в групата, а администраторите на групи могат да управляват кой може да задава етикети с разрешението „Редактиране на информацията за групата“.",
     "ignoreUnused": true
   }
 }

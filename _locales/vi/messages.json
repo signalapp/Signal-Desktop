@@ -2220,13 +2220,13 @@
     "messageformat": "Xóa không thành công"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Xóa không thành công, bấm để xem chi tiết"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Thử xóa lại?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Không thể xóa tin nhắn. Kiểm tra kết nối của bạn và thử lại."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Thử lại"
@@ -2244,7 +2244,7 @@
     "messageformat": "Đã xóa một phần, bấm để thử lại"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Đã xóa một phần, bấm để xem chi tiết"
   },
   "icu:expiredWarning": {
     "messageformat": "Phiên bản này của Signal Desktop đã hết hạn. Vui lòng nâng cấp lên phiên bản mới nhất để tiếp tục nhắn tin."
@@ -2451,10 +2451,10 @@
     "messageformat": "Chỉ quản trị viên mới có thể thêm nhãn thành viên trong nhóm này."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Đã bật xem một lần"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Đã tắt xem một lần"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Các chỉnh sửa chỉ có thể được thực hiện trong vòng 24 giờ kể từ lúc bạn gửi tin nhắn này."
@@ -4647,7 +4647,7 @@
     "messageformat": "Thay thế"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Xem một lần"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Đa phương tiện xem một lần"
@@ -4686,10 +4686,10 @@
     "messageformat": "Thoại"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Tắt tiếng"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Bạn có chắc chắn muốn tắt tiếng \"{contact}\"?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Tắt tiếng"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, other {Xóa {count,number} tin nhắn?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, other {Xóa {count,number} tin nhắn đã chọn?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, other {Bạn muốn xoá các tin nhắn này cho ai?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Xóa cho mọi người?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, other {Với tư cách là quản trị viên, các thành viên nhóm sẽ thấy rằng bạn đã xóa những tin nhắn này.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Xóa trên tất cả thiết bị"
@@ -7986,7 +7986,7 @@
     "messageformat": "Ra mắt Sao lưu bảo mật Signal! Giờ đây, bạn có thể chọn kích hoạt sao lưu mã hóa đầu cuối tự động để không bao giờ mất tin nhắn khi sử dụng điện thoại mới hoặc cài lại Signal. Bạn có thể sao lưu tất cả tin nhắn của mình và tập tin đa phương tiện của 45 ngày gần nhất miễn phí, hoặc trả một khoản phí nhỏ mỗi tháng để nhận 100 GB để sao lưu mọi tập tin đính kèm. Nhấn vào sao lưu trong cài đặt Signal để bắt đầu. Cảm ơn tất đã giúp chúng tôi thử nghiệm tính năng này trong giai đoạn beta!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Giờ đây bạn cũng có thể gửi tin nhắn đa phương tiện xem một lần từ Signal Desktop. Ảnh và video riêng lẻ được gửi dưới dạng tin nhắn xem một lần sẽ được tự động xóa khỏi cuộc trò chuyện sau khi đã được xem."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Giờ đây, bạn có thể tùy chọn thêm nhãn thành viên để mô tả bản thân hoặc vai trò của mình trong cuộc trò chuyện nhóm. Nhãn thành viên sẽ hiển thị ở cạnh tên hồ sơ của bạn trong nhóm đó và quản trị viên nhóm có thể kiểm soát ai có thể đặt nhãn bằng quyền \"Sửa thông tin nhóm\".",

@@ -2220,13 +2220,13 @@
     "messageformat": "Falha ao excluir"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Erro ao apagar, clique para ver detalhes"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Tentar apagar novamente?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "A mensagem não pôde ser apagada. Verifique a sua conexão e tente novamente."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Tentar novamente"
@@ -2244,7 +2244,7 @@
     "messageformat": "Apagada parcialmente, clique para tentar novamente"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Parcialmente apagado, clique para ver detalhes"
   },
   "icu:expiredWarning": {
     "messageformat": "Esta versão do Signal Desktop não é mais suportada. Por favor, atualize-o para a versão mais recente para continuar enviando mensagens."
@@ -2451,10 +2451,10 @@
     "messageformat": "Somente administradores podem adicionar rótulos de membros neste grupo."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Mensagem temporária ativada"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Mensagem temporária desativada"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Só é possível fazer edições no período de 24 horas após enviar esta mensagem."
@@ -2643,7 +2643,7 @@
     "messageformat": "Essa mensagem foi apagada."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "O admin {admin} apagou esta mensagem"
+    "messageformat": "Admin {admin} apagou esta mensagem"
   },
   "icu:message--deletedForEveryone--incoming": {
     "messageformat": "{name} apagou esta mensagem"
@@ -4647,7 +4647,7 @@
     "messageformat": "Substituir"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Mensagem temporária"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Mídia temporária"
@@ -4686,10 +4686,10 @@
     "messageformat": "Voz"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Silenciar áudio"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Tem certeza que você quer silenciar {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Silenciar"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Excluir {count,number} mensagem?} other {Excluir {count,number} mensagens?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Apagar mensagem selecionada?} other {Apagar {count,number} mensagens selecionadas?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Para quem você quer excluir essa mensagem?} other {Para quem você quer excluir essas mensagens?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Apagar para todos?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Como admin, os membros do grupo verão que você apagou essa mensagem.} other {Como admin, os membros do grupo verão que você apagou essas mensagens.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Excluir de todos dispositivos"
@@ -7986,10 +7986,10 @@
     "messageformat": "Os backups seguros do Signal chegaram! Agora você pode optar por ativar backups automáticos criptografados de ponta a ponta para nunca perder uma mensagem ao trocar de celular ou reinstalar o Signal. Você pode fazer backup de todas as suas mensagens e dos últimos 45 dias de arquivos de mídia gratuitamente, ou pode pagar uma pequena taxa mensal para obter 100 GB de armazenamento e fazer backup de todos os seus anexos. Toque em Backups nas configurações do Signal para começar. Agradecemos a todos que ajudaram a testar este recurso durante o período beta!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Agora você também pode enviar arquivos de mídia de visualização temporária pelo Signal Desktop. Fotos e vídeos individuais enviados como mensagens temporárias serão removidos automaticamente da conversa após serem visualizados."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Agora você pode adicionar uma etiqueta de membro para descrever quem você é ou qual é a sua função no grupo. Defina algo como “Juiz” ou “Goleiro” em um grupo de futebol com amigos, ou use uma etiqueta diferente no grupo do trabalho.  As etiquetas de membro aparecem ao lado do seu nome de perfil no grupo, e os administradores podem controlar quem pode defini-las com a permissão “Editar informações do grupo. ",
+    "messageformat": "Agora você pode adicionar uma etiqueta de membro para descrever quem você é ou qual é a sua função no grupo. Defina algo como “Juiz” ou “Goleiro” em um grupo de futebol com amigos, ou use uma etiqueta diferente no grupo do trabalho. As etiquetas de membro aparecem ao lado do seu nome de perfil no grupo, e os administradores podem controlar quem pode defini-las com a permissão “Editar informações do grupo\".",
     "ignoreUnused": true
   }
 }

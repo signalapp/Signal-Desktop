@@ -2220,13 +2220,13 @@
     "messageformat": "Hindi nabura"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Failed ang pagbura, i-click para sa mga detalye"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Subukang burahin ulit?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Failed ang pagbura ng message. I-check ang iyong connection at subukan ulit."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Subukang muli"
@@ -2244,7 +2244,7 @@
     "messageformat": "Hindi nabura lahat, i-click para masubukan ulit"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Hindi lahat nabura, i-click para sa detalye"
   },
   "icu:expiredWarning": {
     "messageformat": "Expired na ang version na ito ng Signal Desktop. Mangyaring mag-upgrade sa pinakabagong version upang magpatuloy na makapagpadala ng mensahe."
@@ -2451,10 +2451,10 @@
     "messageformat": "Admins lang ang makakapaglagay ng member labels sa group na ito."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Naka-enable ang view once"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Naka-disable ang view once"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "May 3 oras ka lang para i-edit ang message pagkatapos mo itong i-send."
@@ -4686,10 +4686,10 @@
     "messageformat": "Voice"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "I-mute ang audio"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Sigurado ka bang gusto mong i-mute si {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "I-mute"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Gusto mo bang burahin ang message?} other {Gusto mo bang burahin ang {count,number} messages?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Burahin ang piniling message?} other {Burahin ang {count,number} piniling messages?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Para kanino mo gustong burahin ang message na ito?} other {Para kanino mo gustong burahin ang messages na ito?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Burahin para sa lahat?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Bilang admin, makikita ng group members na binura mo ang message na ito.} other {Bilang admin, makikita ng group members na binura mo ang messages na ito.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Burahin sa lahat ng devices"
@@ -7986,7 +7986,7 @@
     "messageformat": "Narito na ang Signal secure backups! Maaari mo nang i-enable ang automatic end-to-end encrypted backups para walang mawawalang message kapag nagpalit ka ng phone o nag-reinstall ka ng Signal. Maaari mong i-back up nang libre ang lahat ng messages mo at ang huling 45 araw ng iyong media, o maaari kang magbayad nang maliit na monthly fee para makakuha ng 100 GB storage para ma-back up mo ng bawat attachment. I-tap ang backups sa Signal settings mo para magsimula. Maraming salamat sa lahat ng taong tumulong sa pag-test ng feature na ito noong beta period!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Pwede ka nang mag-send ng view-once media messages mula sa Signal Desktop. Ang individual photos at videos na ipinadala bilang view-once messages ay automatic na tatanggalin mula sa conversation thread pagkatapos nilang makita."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Kung gusto mo, pwede ka nang maglagay ng member label para ilarawan ang sarili mo o ang role mo sa group chat. Ang member labels ay makikita sa tabi ng profile name mo sa group, at may kontrol ang group admins kung sinong maaaring maglagay ng label sa pamamagitan ng \"Edit Group Info\" permission.",

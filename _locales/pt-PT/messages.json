@@ -2220,13 +2220,13 @@
     "messageformat": "Falha ao eliminar"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "A eliminação falhou, clique para ver detalhes"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Repetir a eliminação falhada?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Falha ao eliminar a mensagem. Verifique a sua ligação e tente novamente."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Tentar novamente"
@@ -2244,7 +2244,7 @@
     "messageformat": "Eliminada parcialmente, clique para tentar de novo"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Parcialmente eliminado, clique para ver detalhes"
   },
   "icu:expiredWarning": {
     "messageformat": "Esta versão do Signal Desktop expirou. Para poder continuar a enviar mensagens, actualize para a última versão ."
@@ -2451,10 +2451,10 @@
     "messageformat": "Apenas os administradores podem definir etiquetas de membros neste grupo."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Visualização única ativada"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Visualização única desativada"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "As edições só podem ser aplicadas dentro de 24 horas a partir do momento em que enviou esta mensagem."
@@ -4647,7 +4647,7 @@
     "messageformat": "Substituir"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Visualização única"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Ver multimédia de visualização única"
@@ -4686,10 +4686,10 @@
     "messageformat": "Voz"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Silenciar áudio"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Tem a certeza de que quer silenciar {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Silenciar"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Eliminar mensagem?} other {Eliminar {count,number} mensagens?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Eliminar mensagem selecionada?} other {Eliminar as {count,number} mensagens selecionadas?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Para quem deseja eliminar esta mensagem?} other {Para quem deseja eliminar estas mensagens?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Eliminar para todos?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Como administrador, os membros do grupo irão ver que eliminou esta mensagem.} other {Como administrador, os membros do grupo irão ver que eliminou estas mensagens.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Eliminar de todos os dispositivos"
@@ -7986,7 +7986,7 @@
     "messageformat": "Chegaram as cópias de segurança do Signal! Agora pode optar por ativar cópias de segurança automáticas encriptadas de ponta a ponta, para nunca perder uma mensagem quando troca de telemóvel ou reinstala o Signal. Pode fazer cópias de segurança de todas as suas mensagens e dos últimos 45 dias de ficheiros multimédia gratuitamente, ou pode pagar uma pequena taxa mensal para obter 100 GB de armazenamento para fazer cópias de segurança de todos os anexos. Toque em \"cópias de segurança\" nas suas definições do Signal para começar. Agradecemos a toda a gente que ajudou a testar esta funcionalidade durante o período beta!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Agora também pode enviar mensagens multimédia de visualização única a partir do Signal Desktop. As fotos e vídeos individuais enviados como mensagens de visualização única serão automaticamente removidos de um tópico de conversa depois de terem sido visualizados."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Agora pode opcionalmente adicionar uma etiqueta de membro para se descrever ou descrever a sua função num chat de grupo. As etiquetas de membro aparecem junto ao nome do seu perfil nesse grupo e os administradores do grupo podem controlar quem pode definir uma etiqueta com a permissão \"Editar informações do grupo\".",

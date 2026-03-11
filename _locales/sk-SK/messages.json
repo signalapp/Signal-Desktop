@@ -2220,13 +2220,13 @@
     "messageformat": "Odstránenie zlyhalo"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Vymazanie zlyhalo, kliknite pre podrobnosti"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Skúsiť vymazať znovu?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Správu sa nepodarilo vymazať. Skontrolujte svoje pripojenie a skúste to znovu."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Skúsiť znova"
@@ -2244,7 +2244,7 @@
     "messageformat": "Čiastočne odstránená, kliknutím to skúsite znova"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Čiastočne vymazané, kliknite pre podrobnosti"
   },
   "icu:expiredWarning": {
     "messageformat": "Táto verzia aplikácie Signal Desktop je zastaralá. Pre pokračovanie ju prosím aktualizujte na najnovšiu verziu."
@@ -2451,10 +2451,10 @@
     "messageformat": "Iba administrátori môžu pridávať role používateľov v tejto skupine."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Režim jedného pozretia je zapnutý"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Režim jedného pozretia je vypnutý"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Úpravy je možné vykonať len do 24 hodín od odoslania tejto správy."
@@ -4647,7 +4647,7 @@
     "messageformat": "Nahradiť"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Pozrieť raz"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Médiá na jedno pozretie"
@@ -4686,10 +4686,10 @@
     "messageformat": "Hlas"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Stlmiť zvuk"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Naozaj chcete stlmiť používateľa {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Stlmiť"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Vymazať {count,number} správu?} few {Vymazať {count,number} správy?} many {Vymazať {count,number} správy?} other {Vymazať {count,number} správ?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Vymazať vybranú správu?} few {Vymazať {count,number} vybrané správy?} many {Vymazať {count,number} vybranej správy?} other {Vymazať {count,number} vybraných správ?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Pre koho by ste chceli túto správu vymazať?} few {Pre koho by ste chceli tieto správy vymazať?} many {Pre koho by ste chceli tieto správy vymazať?} other {Pre koho by ste chceli tieto správy vymazať?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Vymazať pre všetkých?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Členovia skupiny uvidia, že ste túto správu vymazali z pozície administrátora.} few {Členovia skupiny uvidia, že ste tieto správy vymazali z pozície administrátora.} many {Členovia skupiny uvidia, že ste tieto správy vymazali z pozície administrátora.} other {Členovia skupiny uvidia, že ste tieto správy vymazali z pozície administrátora.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Vymazať zo všetkých zariadení"
@@ -7986,7 +7986,7 @@
     "messageformat": "Bezpečné zálohy Signal sú tu! Teraz môžete povoliť automatické zálohovanie chránené end-to-end šifrovaním, takže pri výmene telefónu alebo opätovnom nainštalovaní Signalu už neprídete ani o jednu správu. Všetky správy a médiá za posledných 45 dní si môžete zálohovať zadarmo alebo si môžete za malý mesačný poplatok zakúpiť 100 GB úložiska na zálohovanie každej prílohy. Začnite ťuknutím na zálohy v nastaveniach Signalu. Ďakujeme všetkým, ktorí pomohli otestovať túto funkciu počas beta verzie!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Teraz môžete posielať médiá na jedno pozretie aj zo Signal Desktop. Jednotlivé fotky a videá odoslané ako správy na jedno pozretie sa po pozretí automaticky odstránia z konverzačného vlákna."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Teraz môžete voliteľne pridať rolu používateľa, ktorá opíše vás alebo vašu úlohu v skupinovom čete. Role používateľov sa v danej skupine zobrazujú vedľa mena profilu a administrátori skupiny majú pod kontrolou, kto môže nastaviť rolu s povolením „Upraviť informácie o skupine“.",

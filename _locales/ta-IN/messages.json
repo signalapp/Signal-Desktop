@@ -2220,13 +2220,13 @@
     "messageformat": "நீக்குவது தோல்வியடைந்தது"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "நீக்கு முடியவில்லை, விவரங்களுக்குக் கிளிக் செய்யவும்"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "தோல்வியடைந்த நீக்குதலை மீண்டும் முயலவா?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "மெசேஜை நீக்க முடியவில்லை. உங்கள் இணைப்பைச் சரிபார்த்துவிட்டு மீண்டும் முயலவும்."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "மீண்டும் முயற்சிக்கவும்"
@@ -2244,7 +2244,7 @@
     "messageformat": "ஓரளவு நீக்கப்பட்டது, மீண்டும் முயற்சிக்க கிளிக் செய்யவும்"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "பகுதியளவு நீக்கப்பட்டது, விவரங்களுக்குக் கிளிக் செய்யவும்"
   },
   "icu:expiredWarning": {
     "messageformat": "Signal Desktop ப்பின் இந்த பதிப்பு காலாவதியானது. செய்தியைத் தொடர சமீபத்திய பதிப்பிற்கு மேம்படுத்தவும்."
@@ -2451,10 +2451,10 @@
     "messageformat": "இந்தத் தொகுப்பில் நிர்வாகிகள் மட்டுமே உறுப்பினரின் பதவி நிலையைச் சேர்க்க முடியும்."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "'ஒருமுறை மட்டும் காண்க' இயக்கப்பட்டது"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "'ஒருமுறை மட்டும் காண்க' முடக்கப்பட்டது"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "நீங்கள் இந்த மெசேஜை அனுப்பியதிலிருந்து 24 மணிநேரத்திற்குள் மட்டுமே திருத்தங்களைச் செய்ய முடியும்."
@@ -4647,7 +4647,7 @@
     "messageformat": "மாற்று"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "ஒருமுறை மட்டும் காண்க"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "ஒரு முறை பார்க்கக்கூடிய மீடியா"
@@ -4686,10 +4686,10 @@
     "messageformat": "குரல்"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "ஆடியோவை ஒலியடக்குக"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "{contact} என்பவரை நிச்சயமாக ஒலியடக்க விரும்புகிறீர்களா?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "ஒலியடக்கு"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {{count,number} மெசேஜை நீக்க வேண்டுமா?} other {{count,number} மெசேஜ்களை நீக்க வேண்டுமா?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {தேர்ந்தெடுக்கப்பட்ட மெசேஜை நீக்கவா?} other {தேர்ந்தெடுக்கப்பட்ட {count,number} மெசேஜ்களை நீக்கவா?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {இந்த மெசேஜை யாருக்காக நீக்க விரும்புகிறீர்கள்?} other {இந்த மெசேஜ்களை யாருக்காக நீக்க விரும்புகிறீர்கள்?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "அனைவருக்கும் நீக்கவா?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {ஒரு நிர்வாகியாக, நீங்கள் இந்த மெசேஜை நீக்கியதைக் குழு உறுப்பினர்கள் காண்பார்கள்.} other {ஒரு நிர்வாகியாக, நீங்கள் இந்த மெசேஜ்களை நீக்கியதைக் குழு உறுப்பினர்கள் காண்பார்கள்.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "அனைத்து டிவைஸ்களிலிருந்தும் நீக்குக"
@@ -7986,7 +7986,7 @@
     "messageformat": "சிக்னலின் பாதுகாப்பு காப்புப்பிரதிகள் இதோ! இப்போது நீங்கள் தானியங்கு எண்டு-டூ-எண்டு மறைகுறியாக்கம் செய்யப்பட்ட காப்புப்பிரதிகளைச் செயல்படுத்திக்கொள்ளலாம், எனவே நீங்கள் புதிய தொலைபேசியை வாங்கும்போதோ அல்லது சிக்னலை மீண்டும் நிறுவும்போதோ எந்தவொரு மெசேஜையும் இழக்க மாட்டீர்கள். உங்களின் அனைத்து மெசேஜ்களையும் கடந்த 45 நாட்களுக்கான ஊடகங்களையும் நீங்கள் இலவசமாகக் காப்புப்பிரதி எடுத்துக்கொள்ளலாம், அல்லது சிறிய மாதாந்திரக் கட்டணத்தைச் செலுத்தி 100 GB சேமிப்பகத்தைப் பெற்று ஒவ்வொரு இணைப்பையும் காப்புப்பிரதி எடுத்துக்கொள்ளலாம். தொடங்க, உங்கள் சிக்னல் அமைப்புகளில் உள்ள காப்புப்பிரதிகளைத் தட்டவும். பீட்டா காலகட்டத்தில் இந்த அம்சத்தைச் சோதிக்க உதவிய அனைவருக்கும் நன்றி தெரிவித்துக்கொள்கிறோம்!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "இப்போது நீங்கள் சிக்னல் டெஸ்க்டாப்பில் இருந்தும் 'ஒருமுறை மட்டும் காண்க' ஊடக மெசேஜ்களை அனுப்பலாம். 'ஒருமுறை மட்டும் காண்க' மெசேஜ்களாக அனுப்பப்படும் தனிப்பட்ட படங்கள் மற்றும் வீடியோக்கள், பார்க்கப்பட்ட பிறகு அரட்டைத் தொடரிலிருந்து தானாகவே அகற்றப்படும்."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "இப்போது ஒரு சாட் தொகுப்பில் உங்களை அல்லது உங்கள் பதவி நிலையை விவரிக்க, விருப்பத்தின் பேரில் ஒரு உறுப்பினர் லேபிளைச் சேர்க்கலாம். அந்தத் தொகுப்பில் உங்கள் சுயவிவரப் பெயருக்கு அருகில் உறுப்பினரின் பதவி நிலைகள் தோன்றும்; மேலும் \"தொகுப்பு விவரத்தைத் திருத்துக\" என்ற அனுமதியைப் பயன்படுத்தி யார் பதவி நிலையை அமைக்கலாம் என்பதைத் தொகுப்பு நிர்வாகிகள் கட்டுப்படுத்தலாம்.",

@@ -2220,13 +2220,13 @@
     "messageformat": "წაშლა ვერ მოხერხდა"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "წაშლა ვერ მოხერხდა, დეტალებისთვის დააჭირე"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "გსურს, წაშლა თავიდან სცადო?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "წერილი ვერ წაიშალა. შეამოწმე შენი კავშირი და თავიდან სცადე."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "სცადეთ ახლიდან"
@@ -2244,7 +2244,7 @@
     "messageformat": "ნაწილობრივ წაიშალა, დააჭირე თავიდან საცდელად"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "ნაწილობრივ წაიშალა, დეტალებისთვის დააჭირე"
   },
   "icu:expiredWarning": {
     "messageformat": "This version of Signal Desktop has expired. Please upgrade to the latest version to continue messaging."
@@ -2451,10 +2451,10 @@
     "messageformat": "ამ ჯგუფში წევრის იარლიყების დაყენება მხოლოდ ადმინისტრატორებს შეუძლიათ."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "ერთხელ ნახვა ჩართულია"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "ერთხელ ნახვა გამორთულია"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "შეტყობინების რედაქტირება მისი გაგზავნიდან მხოლოდ 24 საათის განმავლობაშია შესაძლებელი."
@@ -4647,7 +4647,7 @@
     "messageformat": "ჩანაცვლება"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "ერთხელ ნახვა"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "ერთხელ სანახავი მედია-ფაილი"
@@ -4686,10 +4686,10 @@
     "messageformat": "ხმოვანი ზარი"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "აუდიოს დადუმება"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "დარწმუნებული ხარ, რომ {contact}-(ი)ს დადუმება გსურს?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "დადუმება"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {წავშალოთ შეტყობინება?} other {წავშალოთ {count,number} შეტყობინება?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {გსურს, არჩეული წერილი წაშალო?} other {გსურს, არჩეული {count,number} წერილი წაშალო?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {ვისთვის გსურს ამ შეტყობინების წაშლა?} other {ვისთვის გსურს ამ წერილების წაშლა?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "ყველასთან წაიშალოს?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {ჯგუფის წევრები ნახავენ, რომ ეს წერილები წაშალე, როგორც ადმინისტრატორმა.} other {ჯგუფის წევრები ნახავენ, რომ ეს წერილები წაშალე, როგორც ადმინისტრატორმა.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "ყველა მოწყობილობიდან წაშლა"
@@ -7986,7 +7986,7 @@
     "messageformat": "Signal-ის უსაფრთხო სათადარიგო ასლები უკვე აქაა! ახლა უკვე შეგიძლია ავტომატური, ბოლომდე დაშიფრული სათადარიგო ასლები ჩართო, რათა აღარასდროს დაკარგო შეტყობინება, თუ ახალი მობილური გექნება, ან Signal-ს თავიდან გადმოიწერ. შეგიძლია შენი ყველა წერილისა და ბოლო 45 დღის მედია ფაილების სათადარიგო ასლები უფასოდ შექმნა, ან მცირე ყოველთვიური გადასახადი გადაიხადო 100გბ მეხსიერებისთვის და ყველა დანართის სათადარიგო ასლი გააკეთო. დასაწყებად შენი Signal-ის პარამეტრებში სათადარიგო ასლებს დააჭირე. მადლობა ყველას, ვინც ბეტა პერიოდში ამ ფუნქციის ტესტირებაში დაგვეხმარა!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "ახლა ერთჯერადი მედია-ფაილების შემცველი წერილების გაგზავნას Signal Desktop-იდანაც შეძლებ. ინდივიდუალური ფოტოები და ვიდეოები, რომლებიც ერთჯერადი წერილების სახით გაიგზავნება, მათი ნახვის შემდეგ მიმოწერიდან ავტომატურად ამოიშლება."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "ახლა შეგიძლია, სურვილის შემთხვევაში, წევრის იარლიყი დაამატო, რათა შენი თავი ან შენი როლი აღწერო ჯგუფის ჩატში. დაიყენე ჯგუფის წევრის იარლიყი სამსახურის ჩატში შენი პოზიციის მიხედვით. წევრების იარლიყები ჯგუფში შენი პროფილის სახელის გვერდით ჩნდება და ჯგუფის ადმინისტრატორებს შეუძლიათ გააკონტროლონ, ვინ შეძლებს იარლიყების დაყენებას \"ჯგუფის ინფორმაციის რედაქტირების\" ნებართვით.",

@@ -2220,13 +2220,13 @@
     "messageformat": "Η διαγραφή απέτυχε"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Η διαγραφή απέτυχε, πάτα για λεπτομέρειες"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Επανάληψη αποτυχημένης διαγραφής;"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Η διαγραφή του μηνύματος απέτυχε. Έλεγξε τη σύνδεσή σου και δοκίμασε πάλι."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Ξαναπροσπάθησε"
@@ -2244,7 +2244,7 @@
     "messageformat": "Διαγράφηκε εν μέρει, πάτα για επανάληψη"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Διαγράφηκε μερικώς, πάτα για λεπτομέρειες"
   },
   "icu:expiredWarning": {
     "messageformat": "Αυτή η έκδοση του Signal Desktop έχει λήξει. Αναβάθμισε στην πιο πρόσφατη έκδοση για να συνεχίσεις τις συνομιλίες σου."
@@ -2451,10 +2451,10 @@
     "messageformat": "Μόνο οι διαχειριστές μπορούν να προσθέσουν ετικέτες μελών σε αυτήν την ομάδα."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Προβολή μία φορά ενεργοποιημένη"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Προβολή μία φορά απενεργοποιημένη"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Οι τροποποιήσεις μπορούν να εφαρμοστούν μόνο εντός 24 ωρών από τη στιγμή που έστειλες αυτό το μήνυμα."
@@ -4647,7 +4647,7 @@
     "messageformat": "Αντικατάσταση"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Προβολή μία φορά"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Πολυμέσα μιας μόνο προβολής"
@@ -4686,10 +4686,10 @@
     "messageformat": "Φωνή"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Σίγαση ήχου"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Θέλεις σίγουρα να θέσεις σε σίγαση τον χρήστη {contact};"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Σίγαση"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Διαγραφή μηνύματος;} other {Διαγραφή {count,number} μηνυμάτων;}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Διαγραφή επιλεγμένου μηνύματος;} other {Διαγραφή {count,number} επιλεγμένων μηνυμάτων;}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Για ποια άτομα θα ήθελες να διαγράψεις αυτό το μήνυμα;} other {Για ποια άτομα θα ήθελες να διαγράψεις αυτά τα μηνύματα;}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Διαγραφή για όλους;"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Ως διαχειριστής, τα μέλη της ομάδας θα δουν ότι διέγραψες αυτό το μήνυμα.} other {Ως διαχειριστής, τα μέλη της ομάδας θα δουν ότι διέγραψες αυτά τα μηνύματα.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Διαγραφή από όλες τις συσκευές"
@@ -7986,7 +7986,7 @@
     "messageformat": "Τα ασφαλή αντίγραφα Signal είναι εδώ! Τώρα μπορείς να δημιουργείς αυτόματα αντίγραφα, ώστε να μην χάσεις μήνυμα αν αλλάξεις τηλέφωνο ή επανεγκαταστήσεις το Signal. Μπορείς να αποθηκεύεις τα μηνύματα και τα πολυμέσα των τελευταίων 45 ημερών δωρεάν ή να πληρώσεις μια μηνιαία χρέωση για 100 GB αποθηκευτικού χώρου για να έχεις αντίγραφα κάθε συνημμένου. Πάτα στα αντίγραφα ασφαλείας στις ρυθμίσεις Signal για έναρξη. Ευχαριστούμε για τη βοήθεια στη δοκιμή της λειτουργίας κατά την περίοδο beta!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Τώρα μπορείς επίσης να στέλνεις μηνύματα πολυμέσων μιας μόνο προβολής από το Signal Desktop. Οι μεμονωμένες φωτογραφίες και τα βίντεο που αποστέλλονται ως μηνύματα μίας μόνο προβολής θα καταργούνται αυτόματα από ένα νήμα συνομιλίας μετά την προβολή τους."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Τώρα μπορείς προαιρετικά να προσθέσεις μια ετικέτα μέλους για να περιγράψεις τον εαυτό σου ή τον ρόλο σου σε μια ομαδική συνομιλία. Οι ετικέτες μελών εμφανίζονται δίπλα στο όνομα του προφίλ σου σε αυτήν την ομάδα και οι διαχειριστές της ομάδας μπορούν να ελέγχουν ποιος μπορεί να ορίσει μια ετικέτα με το δικαίωμα «Επεξεργασία πληροφοριών ομάδας».",

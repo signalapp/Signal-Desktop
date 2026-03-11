@@ -2220,13 +2220,13 @@
     "messageformat": "No s'ha pogut suprimir"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "No s'ha pogut eliminar. Fes clic per saber-ne més."
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Intentar eliminar de nou?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "No s'ha pogut eliminar el missatge. Comprova la connexió i torna-ho a provar."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Torna a provar-ho"
@@ -2244,7 +2244,7 @@
     "messageformat": "Suprimit parcialment. Cliqueu per tornar-ho a provar."
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Parcialment eliminat, fes clic per obtenir més informació"
   },
   "icu:expiredWarning": {
     "messageformat": "Aquesta versió del Signal Desktop ha vençut. Actualitzeu-lo a l'última versió per a poder continuar enviant i rebent missatges."
@@ -2451,10 +2451,10 @@
     "messageformat": "Només els admins poden definir categories de membres en aquest grup."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Visualització única activada"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Visualització única desactivada"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Els canvis només es poden realitzar fins 24 hores després d'enviar el missatge."
@@ -4647,7 +4647,7 @@
     "messageformat": "Substituir"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Visualització única"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Contingut d'una sola visualització"
@@ -4686,10 +4686,10 @@
     "messageformat": "Veu"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Silenciar àudio"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Segur que vols silenciar a {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Silenciats"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Vols eliminar {count,number} missatge?} other {Vols eliminar {count,number} missatges?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Vols eliminar el missatge seleccionat?} other {Vols eliminar els {count,number} missatges seleccionats?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Per a qui vols eliminar aquest missatge?} other {Per a qui vols eliminar aquests missatges?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Eliminar per a tothom?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Com a admin, els membres del grup veuran que has eliminat aquest missatge.} other {Com a admin, els membres del grup veuran que has eliminat aquests missatges.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Eliminar de tots els dispositius"
@@ -7986,7 +7986,7 @@
     "messageformat": "Ja són aquí les còpies de seguretat segures de Signal! Ara pots activar còpies de seguretat automàtiques amb xifratge d’extrem a extrem per no perdre cap missatge quan canviïs de telèfon o reinstal·lis l’aplicació. Pots fer còpies de seguretat gratuïtes de tots els teus missatges i dels darrers 45 dies de contingut multimèdia, o bé pagar una petita quota mensual per disposar de 100 GB d’emmagatzematge i desar tots els teus fitxers adjunts. Per començar, ves als ajustos de Signal i toca Còpies de seguretat. Gràcies a tothom que ha ajudat a provar aquesta funció durant el període beta!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Ara també pots enviar missatges multimèdia d'una única visualització des de Signal Desktop. Les fotos i vídeos individuals que s'enviïn com a missatges de visualització única s'eliminaran automàticament de la conversa un cop s'hagin vist."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Ara tens l'opció d'afegir una categoria de membre per descriure't a tu mateix o el teu rol en un xat grupal. La categoria de membre apareix al costat del teu nom de perfil al grup, i els admins decideixen qui pot afegir una categoria amb el permís \"Editar informació del grup\".",

@@ -2220,13 +2220,13 @@
     "messageformat": "Sikertelen törlés"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "A törlés sikertelen. Kattints a részletekért!"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Újból megpróbálod a sikertelen törlést?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Az üzenet törlése sikertelen. Ellenőrizd az internetkapcsolatodat, és próbáld újra!"
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Újra"
@@ -2244,7 +2244,7 @@
     "messageformat": "Csak részben törölve, kattints a teljeshez"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Részben törölve. Kattints a részletekért!"
   },
   "icu:expiredWarning": {
     "messageformat": "A Signal Desktop ezen verziója elavult. Kérlek frissíts a legújabb verzióra, hogy folytatni tudd a beszélgetést!"
@@ -2451,10 +2451,10 @@
     "messageformat": "Csak az adminisztrátorok állíthatnak be tagsági címkéket ebben a csoportban."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Megtekintés egyszer engedélyezve"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Megtekintés egyszer letiltva"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "A módosításokat csak az üzenet elküldésétől számított 24 órán belül lehet alkalmazni."
@@ -4647,7 +4647,7 @@
     "messageformat": "Csere"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Megtekintés egyszer"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Egyszer megjelenő médiafájl megtekintése"
@@ -4686,10 +4686,10 @@
     "messageformat": "Hang"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Hang némítása"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Biztosan némítani szeretnéd {contact} felhasználót?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Némítás"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Üzenet törlése?} other {{count,number} üzenet törlése?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Kiválasztott üzenet törlése?} other {Kiválasztott {count,number} üzenet törlése?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Ki számára törölnéd az üzenetet?} other {Ki számára törölnéd az üzeneteket?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Törlés mindenki számára?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Adminisztrátorként a csoport tagjai látni fogják, hogy törölted ezt az üzenetet.} other {Adminisztrátorként a csoport tagjai látni fogják, hogy törölted ezeket az üzeneteket.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Törlés az összes eszközről"
@@ -7986,7 +7986,7 @@
     "messageformat": "Itt a Signal biztonsági mentés funkciója! Mostantól engedélyezheted az automatikus, végponttól végpontig titkosított biztonsági mentéseket, így soha nem veszítesz el egy üzenetet sem! Ingyen biztonsági másolatot készíthetsz az üzeneteidről és az elmúlt 45 nap médiatartalmairól, vagy egy kisebb havi díjért 100 GB tárhelyet kapsz minden melléklet biztonsági mentéséhez. Koppints a biztonsági mentésekre a Signal beállításaiban. Köszönjük mindenkinek, aki segített tesztelni a funkciót!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Mostantól egyszer megtekinthető médiaüzeneteket is küldhetsz a Signal Desktopból. Az egyszer megtekinthető üzenetként elküldött egyes fotók és videók a megtekintésük után automatikusan eltávolításra kerülnek a beszélgetésből."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Mostantól opcionálisan hozzáadhatsz egy tagsági címkét, amellyel leírhatod magadat vagy a szerepedet egy csoportos csevegésben. A tagsági címkék a profilneved mellett jelennek meg az adott csoportban, és a csoport adminisztrátorai szabályozhatják, hogy ki állíthat be címkét a „Csoportadatok szerkesztése” engedéllyel.",

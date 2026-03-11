@@ -2220,13 +2220,13 @@
     "messageformat": "Nie udało się pobrać"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Nie udało się usunąć. Kliknij, aby dowiedzieć się więcej."
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Nie udało się usunąć – chcesz spróbować jeszcze raz?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Nie udało się usunąć wiadomości. Sprawdź, czy masz dostęp do internetu, i spróbuj ponownie."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Spróbuj ponownie"
@@ -2244,7 +2244,7 @@
     "messageformat": "Częściowo usunięto. Kliknij, aby spróbować ponownie"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Usunięta częściowo. Kliknij, aby dowiedzieć się więcej."
   },
   "icu:expiredWarning": {
     "messageformat": "Ta wersja Signal Desktop jest przestarzała. Aby dalej wysyłać i otrzymywać wiadomości, zaktualizuj aplikację do najnowszej wersji."
@@ -2451,10 +2451,10 @@
     "messageformat": "W tej grupie role mogą ustawiać tylko administratorzy."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Wyświetlanie jednorazowe włączone"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Jednorazowe wyświetlanie wyłączone"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Wiadomość można edytować tylko w ciągu 24 godzin od jej wysłania."
@@ -4647,7 +4647,7 @@
     "messageformat": "Zastąp"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Wyświetl jednorazowo"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Multimedia jednorazowe"
@@ -4686,10 +4686,10 @@
     "messageformat": "Audio"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Wycisz dźwięk"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Czy na pewno {contact} ma mieć wyciszony dźwięk?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Wycisz"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Usunąć {count,number} wiadomość?} few {Usunąć {count,number} wiadomości?} many {Usunąć {count,number} wiadomości?} other {Usunąć {count,number} wiadomości?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Usunąć zaznaczoną wiadomość?} few {Usunąć zaznaczone {count,number} wiadomości?} many {Usunąć zaznaczone {count,number} wiadomości?} other {Usunąć zaznaczone {count,number} wiadomości?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {U kogo chcesz usunąć tę wiadomość?} few {U kogo chcesz usunąć te wiadomości?} many {U kogo chcesz usunąć te wiadomości?} other {U kogo chcesz usunąć te wiadomości?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Usunąć u wszystkich?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Osoby w grupie zobaczą, że wiadomość została usunięta przez Ciebie jako administratora.} few {Osoby w grupie zobaczą, że wiadomości zostały usunięte przez Ciebie jako administratora.} many {Osoby w grupie zobaczą, że wiadomości zostały usunięte przez Ciebie jako administratora.} other {Osoby w grupie zobaczą, że wiadomości zostały usunięte przez Ciebie jako administratora.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Usuń ze wszystkich urządzeń"
@@ -7986,7 +7986,7 @@
     "messageformat": "Bezpieczne kopie zapasowe Signal są już dostępne. Teraz możesz włączyć automatyczne tworzenie kopii zapasowych szyfrowanych metodą end-to-end. Dzięki temu nie stracisz historii wiadomości, nawet gdy zmienisz telefon czy ponownie zainstalujesz Signal. W trybie bezpłatnym możesz tworzyć kopie zapasowe wszystkich wiadomości, w tym multimediów z ostatnich 45 dni. Za niewielką miesięczną opłatą zyskasz 100 GB miejsca na kopię zapasową wszystkich plików. Aby włączyć tworzenie kopii zapasowych, dotknij opcji „Kopie zapasowe” w ustawieniach aplikacji Signal. Dziękujemy wszystkim, którzy pomogli nam testować tę funkcję w wersji beta."
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Od teraz możesz wysyłać wiadomości jednorazowe również w aplikacji Signal Desktop. Jeśli wyślesz zdjęcie lub film jako wiadomość jednorazową, zostanie ona automatycznie usunięta z czatu po wyświetleniu."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Od teraz możesz podać swoją rolę w grupie, aby się przedstawić lub określić funkcję, jaką pełnisz. Bo w życiu, jak w filmie, gramy różne role. Na czacie osiedlowej siłowni można uchodzić za „superkoksa”, na czacie firmowym – za „starszą specjalistką”, ale w grupie rodzinnej już na zawsze pozostanie się „synusiem”. Rola pojawi się w danej grupie obok Twojego imienia podanego w profilu. O tym, kto może ustawiać role w grupie, decydują jej administratorzy w ustawieniach czatu.",

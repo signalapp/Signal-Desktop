@@ -2220,13 +2220,13 @@
     "messageformat": "Brisanje nije uspjelo"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Brisanje nije uspjelo, kliknite za više detalja"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Želite li ponovno pokušati izbrisati poruku?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Brisanje poruke nije uspjelo. Provjerite internetsku vezu i pokušajte ponovno."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Pokušajte ponovo"
@@ -2244,7 +2244,7 @@
     "messageformat": "Djelomično izbrisano, kliknite za ponovni pokušaj"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Djelomično izbrisano, kliknite za detalje"
   },
   "icu:expiredWarning": {
     "messageformat": "Vaša verzija Signala za Desktop je istekla. Ažurirajte kako bi nastavili slati poruke."
@@ -2451,10 +2451,10 @@
     "messageformat": "Samo administratori mogu postavljati uloge članova u ovoj grupi."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Uključena je opcija nestanka nakon prikaza"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Isključena je opcija nestanka nakon prikaza"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Poruke je moguće uređivati samo u roku od 24 sata od trenutka slanja."
@@ -4647,7 +4647,7 @@
     "messageformat": "Zamijeni"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Nestaje nakon prikaza"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Medijski zapis koji nestaje nakon prikaza"
@@ -4686,13 +4686,13 @@
     "messageformat": "Glasovni poziv"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Isključi zvuk"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Sigurno želite isključiti zvuk kontakta {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Utišaj priču"
+    "messageformat": "Utišaj"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Uloge članova"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Izbrisati {count,number} poruku?} few {Izbrisati {count,number} poruke?} many {Izbrisati {count,number} poruka?} other {Izbrisati {count,number} poruka?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Želite li izbrisati odabranu poruku?} few {Želite li izbrisati {count,number} odabrane poruke?} many {Želite li izbrisati {count,number} odabranih poruka?} other {Želite li izbrisati {count,number} odabranih poruka?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Za koga želite izbrisati ovu poruku?} few {Za koga želite izbrisati ove poruke?} many {Za koga želite izbrisati ove poruke?} other {Za koga želite izbrisati ove poruke?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Izbrisati za sve?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Članovi grupe će vidjeti da ste vi izbrisali ovu poruku kao administrator.} few {Članovi grupe će vidjeti da ste vi izbrisali ove poruke kao administrator.} many {Članovi grupe će vidjeti da ste vi izbrisali ove poruke kao administrator.} other {Članovi grupe će vidjeti da ste vi izbrisali ove poruke kao administrator.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Izbriši sa svih uređaja"
@@ -7986,7 +7986,7 @@
     "messageformat": "Zaštićene sigurnosne kopije podataka stigle su na Signal! Sada možete omogućiti automatsko sigurnosno kopiranje, koje štiti vaše podatke sveobuhvatnim šifriranjem, kako nikada ne biste izgubili svoje poruke prilikom kupnje novog telefona ili ponovnog instaliranja Signal aplikacije. Možete besplatno izraditi sigurnosnu kopiju svih svojih razgovora i medijskih zapisa iz posljednjih 45 dana ili možete platiti malu mjesečnu naknadu kako biste dobili 100 GB prostora za pohranu za sigurnosno kopiranje svakog privitka. Dodirnite „Sigurnosne kopije“ u postavkama Signala za postavljanje. Hvala svima koji su pomogli u testiranju ove značajke tijekom razdoblja beta testiranja!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Sada možete slati medijske poruke koje nestaju nakon prikaza i iz Signala za desktop. Pojedinačne fotografije i videozapisi koji se šalju kao poruke koje nestaju nakon prikaza automatski će se ukloniti iz razgovora nakon prikazivanja."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Sada možete dodati ulogu člana kako biste opisali svoju ulogu u grupnom razgovoru. Uloge članova prikazivat će se pored vašeg imena profila u toj grupi. Administratori grupe upravljaju time tko može postaviti uloge članova putem dopuštenja u odjeljku „Uredi detalje o grupi“.",

@@ -2220,13 +2220,13 @@
     "messageformat": "Det gick inte att ta bort"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Raderingen misslyckades, klicka för mer information"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Försök igen att radera?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Meddelandet kunde inte raderas. Kontrollera din anslutning och försök igen."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Försök igen"
@@ -2244,7 +2244,7 @@
     "messageformat": "Delvis borttagen, klicka för att försöka igen"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Delvis raderad, klicka för mer information"
   },
   "icu:expiredWarning": {
     "messageformat": "Den här versionen av Signal Desktop har upphört att gälla. Uppgradera till den senaste versionen för att fortsätta chatta."
@@ -2451,10 +2451,10 @@
     "messageformat": "Endast administratörer kan lägga till medlemsetiketter i den här gruppen."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Visa en gång aktiverat"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Visa en gång inaktiverat"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Redigeringar kan bara tillämpas inom 24 timmar från det att du skickade det här meddelandet."
@@ -4647,7 +4647,7 @@
     "messageformat": "Ersätt"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Visa en gång"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Tillfällig mediefil"
@@ -4686,10 +4686,10 @@
     "messageformat": "Röst"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Stäng av ljudet"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Är du säker på att du vill tysta {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Tysta"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Ta bort meddelande?} other {Ta bort {count,number} meddelanden?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Radera valt meddelande?} other {Radera {count,number} valda meddelanden?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Vem vill du ta bort detta meddelande för?} other {Vilka vill du ta bort de här meddelandena för?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Ta bort för alla?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Som administratör kommer gruppmedlemmar att se att du har tagit bort detta meddelande.} other {Som administratör kommer gruppmedlemmar att se att du har tagit bort dessa meddelanden.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Ta bort från alla enheter"
@@ -7986,7 +7986,7 @@
     "messageformat": "Signals säkra säkerhetskopior är här! Nu kan du välja att aktivera automatiska säkerhetskopior med totalsträckskryptering, så att du aldrig förlorar ett meddelande när du skaffar en ny telefon eller installerar om Signal. Du kan säkerhetskopiera alla dina meddelanden och de senaste 45 dagarnas media gratis, eller så kan du betala en liten månadsavgift för att få 100 GB lagringsutrymme för att säkerhetskopiera varje bilaga. Tryck på Säkerhetskopior i dina Signal-inställningar för att komma igång. Tack till alla som hjälpte till att testa den här funktionen under betaperioden!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Nu kan du även skicka mediemeddelanden som visas en gång från Signal Desktop. Enskilda foton och videor som skickas som visa en gång-meddelanden tas automatiskt bort från en konversationstråd efter att de har visats."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Nu kan du välja att lägga till en medlemsetikett för att beskriva dig själv eller din roll i en gruppchatt. Medlemsetiketter visas bredvid ditt profilnamn i gruppen, och gruppadministratörer kan styra vem som får ange en etikett med behörigheten ”Redigera gruppinfo”.",

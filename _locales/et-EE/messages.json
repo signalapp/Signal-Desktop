@@ -2220,13 +2220,13 @@
     "messageformat": "Kustutamine nurjus"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Kustutamine nurjus, klõpsa täpsema info nägemiseks"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Kas proovida ebaõnnestunud kustutamist uuesti?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Sõnumit ei saanud kustutada. Kontrolli oma ühendust ja proovi uuesti."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Proovi uuesti"
@@ -2244,7 +2244,7 @@
     "messageformat": "Osaliselt kustutatud, klõpsa uuesti proovimiseks"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Osaliselt kustutatud, üksikasjade nägemiseks klõpsa"
   },
   "icu:expiredWarning": {
     "messageformat": "See Signal Desktopi versioon on aegunud. Palun uuenda uusimale versioonile sõnumite saatmiseks jätkamiseks."
@@ -2451,10 +2451,10 @@
     "messageformat": "Ainult administraatorid saavad selles grupis liikmesilte lisada."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Ühekordne vaatamine sees"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Ühekordne vaatamine väljas"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Muutmine on võimalik vaid 24 tunni jooksul alates sõnumi saatmisest."
@@ -4647,7 +4647,7 @@
     "messageformat": "Asenda"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Ühekordne vaatamine"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Ühekordselt vaadatav meediasisu"
@@ -4686,10 +4686,10 @@
     "messageformat": "Hääl"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Vaigista heli"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Kas sa tõesti soovid kasutaja {contact} vaigistada?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Vaigista"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Kas kustutada sõnum?} other {Kas kustutada {count,number} sõnumit?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Kas kustutada valitud sõnum?} other {Kas kustutada valitud {count,number} sõnumit?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Kelle jaoks soovid seda sõnumit kustutada?} other {Kelle jaoks soovid neid sõnumeid kustutada?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Kas kustutada kõigi jaoks?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Kuna oled administraator, näevad grupi liikmed, et kustutasid selle sõnumi.} other {Kuna oled administraator, näevad grupi liikmed, et kustutasid need sõnumid.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Kustuta kõigist seadmetest"
@@ -7986,7 +7986,7 @@
     "messageformat": "Signali turvalised varukoopiad on kohal! Nüüd saad lubada automaatsed otspunktkrüptitud varukoopiad, et kunagi ükski sõnum kaotsi ei läheks, kui sa uue telefoni saad või Signali uuesti paigaldad. Saad tasuta varundada kõik oma sõnumid ja viimase 45 päeva meediafailid või maksta väikese kuutasu, mille eest anname sulle 100 GB salvestusruumi kõigi manuste varundamiseks. Alustamiseks vali oma Signali sätete alt varukoopiad. Aitäh kõigile, kes aitasid seda funktsiooni beetaperioodil testida!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Nüüd saad ka Signal Desktopist ühekordselt vaadatavaid meediasõnumeid saata. Ühekordseks vaatamiseks saadetud fotod ja videod eemaldatakse vestluslõimest automaatselt pärast nende vaatamist."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Nüüd on sul võimalus lisada liikme silt, et kirjeldada ennast või oma rolli selles grupivestluses. Liikmete sildid kuvatakse selles grupis teie profiilinime kõrval ja grupi administraatorid saavad kontrollida, kes saab sildi määrata loaga „Muuda grupi teavet”.",

@@ -2220,13 +2220,13 @@
     "messageformat": "Не вдалося видалити"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Не вдалося видалити, натисніть для інформації"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Повторити спробу видалення?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Не вдалося видалити повідомлення. Перевірте з'єднання і спробуйте ще раз."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Спробувати знов"
@@ -2244,7 +2244,7 @@
     "messageformat": "Видалено не в усіх, натисніть, щоб повторити"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Видалено частково, натисніть для інформації"
   },
   "icu:expiredWarning": {
     "messageformat": "Ця версія Signal Desktop застаріла. Оновіть застосунок до останньої версії, щоб і надалі надсилати повідомлення."
@@ -2451,10 +2451,10 @@
     "messageformat": "Додавати ролі учасників у цій групі можуть тільки адміністратори."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Вибрано одноразове повідомлення"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Вибрано звичайне повідомлення"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Редагувати повідомлення можна лише протягом 24 годин з моменту надсилання."
@@ -4647,7 +4647,7 @@
     "messageformat": "Замінити"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Одноразове повідомлення"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Одноразовий файл"
@@ -4686,13 +4686,13 @@
     "messageformat": "Аудіо"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Вимкнути звук"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Вимкнути звук користувача {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Вимкнути сповіщення"
+    "messageformat": "Вимкнути"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Ролі учасників"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Видалити {count,number} повідомлення?} few {Видалити {count,number} повідомлення?} many {Видалити {count,number} повідомлень?} other {Видалити {count,number} повідомлення?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Видалити вибране повідомлення?} few {Видалити {count,number} вибрані повідомлення?} many {Видалити {count,number} вибраних повідомлень?} other {Видалити {count,number} вибраного повідомлення?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Для кого видалити це повідомлення?} few {Для кого видалити ці повідомлення?} many {Для кого видалити ці повідомлення?} other {Для кого видалити ці повідомлення?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Видалити для всіх?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Оскільки ви адміністратор, учасники групи побачать, що ви видалили це повідомлення.} few {Оскільки ви адміністратор, учасники групи побачать, що ви видалили ці повідомлення.} many {Оскільки ви адміністратор, учасники групи побачать, що ви видалили ці повідомлення.} other {Оскільки ви адміністратор, учасники групи побачать, що ви видалили ці повідомлення.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Видалити з усіх пристроїв"
@@ -7986,7 +7986,7 @@
     "messageformat": "Представляємо надійне резервне копіювання від Signal! Тепер ви можете ввімкнути автоматичне резервне копіювання з наскрізним шифруванням і бути впевненими, що не втратите повідомлення, навіть якщо зміните телефон або перевстановите Signal. Ви можете безплатно зберігати повідомлення й медіафайли за минулі 45 днів, а за невеликий місячний внесок ви отримаєте сховище для всіх вкладень на 100 ГБ. Щоб почати, перейдіть у «Резервні копії» в налаштуваннях Signal. Дякуємо всім, хто допомагав тестувати цю функцію!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Тепер ви можете надсилати одноразові повідомлення також і в Signal Desktop. Якщо надіслати окреме фото або відео як одноразове повідомлення, його буде автоматично видалено з чату після перегляду."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Тепер у груповому чаті можна додати роль учасника, щоб описати себе й те, чим ви займаєтеся. Наприклад, у чаті вашої футбольної команди доречно підписати себе як «суддя» або «воротар», щоб новачкам було легше зорієнтуватись, а в робочому чаті — зазначити свою посаду. Роль учасника показано поруч з назвою профілю в конкретній групі. Можливість встановлювати ролі надають адміністратори групи: для цього потрібен дозвіл на редагування інформації про групу.",

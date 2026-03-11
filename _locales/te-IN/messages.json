@@ -2220,13 +2220,13 @@
     "messageformat": "తొలగించడం విఫలమైంది"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "తొలగింపు విఫలమైంది, వివరాల కోసం క్లిక్ చేయండి"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "మళ్ళీ తొలగించడానికి ప్రయత్నించడం విఫలమైందా?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "సందేశాన్ని తొలగించడంలో విఫలమైంది. మీ కనెక్షన్‌ను తనిఖీ చేసుకొని మళ్ళీ ప్రయత్నించండి."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "మళ్ళీ ప్రయత్నించండి"
@@ -2244,7 +2244,7 @@
     "messageformat": "పాక్షికంగా తొలగించబడింది, మళ్ళీ ప్రయత్నించడానికి క్లిక్ చేయండి"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "పాక్షికంగా తొలగించబడింది, వివరాల కోసం క్లిక్ చేయండి"
   },
   "icu:expiredWarning": {
     "messageformat": "Signal Desktop యొక్క ఈ వెర్షన్ గడువు ముగిసింది. సందేశాన్ని కొనసాగించడానికి దయచేసి తాజా సంస్కరణకు అభివృద్ధి చేయండి."
@@ -2451,10 +2451,10 @@
     "messageformat": "ఈ గ్రూప్‌లో సభ్యుని లేబుల్‌లను అడ్మిన్‌లు మాత్రమే జోడించగలరు."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "ఒకసారి వీక్షణ ప్రారంభించబడినది"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "ఒకసారి వీక్షణ నిలిపివేయబడినది"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ఈ సందేశాన్ని మీరు పంపిన సమయం నుంచి 24 గంటలలోపు మాత్రమే సవరణలు వర్తింపజేయబడతాయి."
@@ -4647,7 +4647,7 @@
     "messageformat": "రీప్లేస్"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "ఒకసారి వీక్షించండి"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "ఒక్కసారి వీక్షించదగిన మీడియా"
@@ -4686,10 +4686,10 @@
     "messageformat": "స్వరం"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "ఆడియోను మ్యూట్ చేయండి"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "మీరు ఖచ్చితంగా {contact}ను మ్యూట్ చేయాలనుకుంటున్నారా?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "మ్యూట్"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {సందేశం తొలగించేదా?} other {{count,number} సందేశాలు తొలగించేదా?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {ఎంచుకున్న సందేశాన్ని తొలగించాలా?} other {ఎంచుకున్న {count,number} సందేశాలను తొలగించాలా?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {ఈ సందేశాన్ని మీరు ఎవరి కోసం తొలగించాలని అనుకుంటున్నారు?} other {ఈ సందేశాలను మీరు ఎవరి కోసం తొలగించాలని అనుకుంటున్నారు?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "ప్రతి ఒక్కరి కొరకు తొలగించాలా?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {ఒక అడ్మిన్‌గా, మీరు ఈ సందేశాన్ని తొలగించారని గ్రూప్ సభ్యులు చూస్తారు.} other {ఒక అడ్మిన్‌గా, మీరు ఈ సందేశాలను తొలగించారని గ్రూప్ సభ్యులు చూస్తారు.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "అన్ని పరికరాాల నుంచి తొలగించండి"
@@ -7986,7 +7986,7 @@
     "messageformat": "Signal సురక్షిత బ్యాకప్‌లు ఇక్కడ ఉన్నాయి! మీరు ఆటోమేటిక్ ఎండ్-టు-ఎండ్ గుప్తీకరించిన బ్యాకప్‌లను ప్రారంభించడాన్ని ఇప్పుడు ఎంచుకోవచ్చు, తద్వారా మీరు కొత్త ఫోన్‌ను పొందినప్పుడు లేదా Signal ను తిరిగి ఇన్‌స్టాల్ చేసినప్పుడు మీరు ఎప్పటికీ సందేశాన్ని కోల్పోరు. మీరు మీ సందేశాలు అన్నింటిని మరియు చివరి 45 రోజుల మీడియాను ఉచితంగా బ్యాకప్ చేయవచ్చు లేదా ప్రతి అటాచ్‌మెంట్ బ్యాకప్‌కు 100 GB నిల్వను పొందడానికి చిన్న నెలవారీ రుసుము చెల్లించవచ్చు. ప్రారంభించడానికి మీ Signal సెట్టింగ్‌లలో బ్యాకప్‌లపై తట్టండి. బీటా కాలంలో ఈ ఫీచర్‌ను పరీక్షించడంలో సహాయపడిన ప్రతి ఒక్కరికీ ధన్యవాదములు!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "ఇప్పుడు మీరు Signal Desktop నుండి కూడా ఒకసారి చూసే మీడియా సందేశాలను పంపవచ్చు. ఒకసారి చూసే సందేశాలుగా పంపబడిన వ్యక్తిగత ఫోటోలు మరియు వీడియోలు వీక్షించబడిన తర్వాత సంభాషణ థ్రెడ్ నుండి స్వయంచాలకంగా తీసివేయబడతాయి."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "గ్రూప్ చాట్‌లో మిమ్మల్ని లేదా మీ పాత్రను వివరించడానికి ఇప్పుడు మీరు ఐచ్ఛికంగా సభ్యుడి లేబుల్‌ను జోడించవచ్చు. కొత్త జట్టు సహచరులు చేరినప్పుడు విషయాలను ప్రారంభించడానికి మీ స్థానిక రెక్ లీగ్ సాకర్ చాట్‌లో మీ గ్రూప్ సభ్యుని లేబుల్‌ను \"రిఫరీ\" లేదా \"గోలీ\"గా సెట్ చేయండి, ఆపై కంపెనీ చాట్‌లో మీ ఉద్యోగ శీర్షికతో వేరే లేబుల్‌ను ఎంచుకోండి. ఆ గ్రూప్‌లో మీ ప్రొఫైల్ పేరు పక్కన సభ్యుడి లేబుల్స్ కనిపిస్తాయి, గ్రూప్ అడ్మిన్స్ \"గ్రూప్ సమాచారాన్ని సవరించండి\" అనుమతితో ఎవరు లేబుల్ సెట్ చేయవచ్చో నియంత్రించగలరు.",

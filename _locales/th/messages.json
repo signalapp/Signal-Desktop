@@ -2220,13 +2220,13 @@
     "messageformat": "ลบไม่สำเร็จ"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "ลบไม่สำเร็จ คลิกเพื่อดูรายละเอียด"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "ลองลบอีกครั้งใช่หรือไม่"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "ไม่สามารถลบข้อความได้ โปรดตรวจสอบการเชื่อมต่อของคุณแล้วลองอีกครั้ง"
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "ลองอีกครั้ง"
@@ -2244,7 +2244,7 @@
     "messageformat": "ลบแล้วบางส่วน คลิกเพื่อลองอีกครั้ง"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "ลบแล้วบางส่วน คลิกเพื่อดูรายละเอียด"
   },
   "icu:expiredWarning": {
     "messageformat": "Signal Desktop รุ่นนี้หมดอายุแล้ว โปรดปรับรุ่นเป็นรุ่นล่าสุดเพื่อรับส่งข้อความต่อ"
@@ -2451,10 +2451,10 @@
     "messageformat": "มีแค่ผู้ดูแลกลุ่มเท่านั้นที่จะสามารถเพิ่มป้ายกำกับสมาชิกในกลุ่มนี้"
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "เปิดใช้งานตัวเลือกการดูได้ครั้งเดียวแล้ว"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "ปิดใช้งานตัวเลือกการดูได้ครั้งเดียวแล้ว"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "สามารถแก้ไขข้อความนี้ได้ภายใน 24 ชั่วโมงนับจากเวลาที่คุณส่ง"
@@ -4647,7 +4647,7 @@
     "messageformat": "แทนที่"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "ดูได้ครั้งเดียว"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "ไฟล์สื่อแบบที่ดูได้ครั้งเดียว"
@@ -4686,10 +4686,10 @@
     "messageformat": "เสียง"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "ปิดเสียง"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "คุณแน่ใจหรือไม่ว่าต้องการปิดเสียง {contact}"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "ปิดเสียง"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, other {ลบข้อความ {count,number} รายการหรือไม่}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, other {ลบ {count,number} ข้อความที่เลือกใช่หรือไม่}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, other {คุณต้องการลบข้อความนี้สำหรับใคร}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "ลบสำหรับทุกคนใช่หรือไม่"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, other {ในฐานะผู้ดูแล สมาชิกกลุ่มจะเห็นว่าคุณลบข้อความเหล่านี้}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "ลบจากอุปกรณ์ทุกเครื่อง"
@@ -7986,7 +7986,7 @@
     "messageformat": "การสำรองข้อมูลที่ปลอดภัยของ Signal พร้อมให้บริการแล้ว! ขอแนะนำแพ็กเกจสำรองข้อมูลแบบอัตโนมัติที่ถูกเข้ารหัสตั้งแต่ต้นทางถึงปลายทาง ตัวเลือกใหม่ซึ่งจะช่วยคุณเก็บรักษาทุกข้อความแม้ในกรณีที่เปลี่ยนโทรศัพท์เครื่องใหม่หรือติดตั้ง Signal อีกครั้ง เปิดใช้งานการสำรองข้อความทั้งหมดและไฟล์สื่อของ 45 วันล่าสุดได้ฟรี หรือเลือกชำระค่าบริการรายเดือนสุดคุ้มเพื่อสำรองข้อความรวมถึงไฟล์ทั้งหมดได้ถึง 100 GB เริ่มใช้งานได้แล้ววันนี้ เพียงไปที่การตั้งค่า Signal แล้วแตะข้อมูลสำรอง ขอขอบคุณผู้ใช้ที่ร่วมทดสอบรุ่นเบต้าของฟีเจอร์นี้!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "ให้คุณส่งข้อความไฟล์สื่อแบบที่ดูได้ครั้งเดียวจาก Signal เดสก์ท็อปได้แล้ว! รูปภาพและวิดีโอแบบดูได้ครั้งเดียวที่ส่งเป็นไฟล์แยกต่างหากจะถูกลบออกจากหน้าแชทโดยอัตโนมัติหลังจากที่เปิดดูไฟล์แล้ว"
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "ขอแนะนำป้ายกำกับสมาชิก ฟีเจอร์ใหม่ที่ให้คุณเลือกเพิ่มคำบรรยายหรือระบุบทบาทของตัวเองในแชทกลุ่ม ป้ายกำกับนี้จะแสดงอยู่ข้างชื่อโปรไฟล์ของคุณในกลุ่มนั้น และผู้ดูแลกลุ่มจะจัดการได้ว่าจะอนุญาตให้ใครกำหนดป้ายกำกับสมาชิกในหน้าสิทธิ์ \"แก้ไขข้อมูลกลุ่ม\"",

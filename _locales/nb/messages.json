@@ -2220,16 +2220,16 @@
     "messageformat": "Sletting mislyktes"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Kunne ikke slettes. Trykk for å lese mer."
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Vil du prøve å slette meldingen igjen?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Meldingen kunne ikke slettes. Sjekk internettilkoblingen, og prøv på nytt."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Prøv igjen"
+    "messageformat": "Prøv på nytt"
   },
   "icu:editFailed": {
     "messageformat": "Kunne ikke redigere. Klikk for å lese mer."
@@ -2244,7 +2244,7 @@
     "messageformat": "Delvis slettet, klikk for å prøve igjen"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Delvis slettet. Trykk for å lese mer."
   },
   "icu:expiredWarning": {
     "messageformat": "Denne versjonen av Signal Desktop er utdatert. Oppdater til den nyeste versjonen for å fortsette å sende meldinger."
@@ -2451,10 +2451,10 @@
     "messageformat": "Medlemsmerker kan kun legge til av gruppeadministratorene."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Flyktig melding aktivert"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Flyktig melding deaktivert"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Meldinger kan kun redigeres de første 24 timene etter at de ble sendt."
@@ -4647,10 +4647,10 @@
     "messageformat": "Bytt ut"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Flyktig melding"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "Mediefiler som vises én gang"
+    "messageformat": "Flyktige mediefiler"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Rediger melding"
@@ -4686,13 +4686,13 @@
     "messageformat": "Tale"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Slå av lyden"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Er du sikker på at du vil slå av lyden på samtalen med {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Demp"
+    "messageformat": "Slå av lyden"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Medlemsmerker"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Vil du slette meldingen?} other {Vil du slette {count,number} meldinger?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Vil du slette den valgte meldingen?} other {Vil du slette de {count,number} valgte meldingene?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Hvem vil du slette meldingen for?} other {Hvem vil du slette meldingene for?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Vil du slette for alle?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Siden du er administrator, kan andre gruppemedlemmer se at du slettet disse meldingene.} other {Siden du er administrator, kan andre gruppemedlemmer se at du slettet disse meldingene.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Slett fra alle enhetene"
@@ -7986,7 +7986,7 @@
     "messageformat": "Sikre sikkerhetskopier på Signal er her! Nå kan du aktivere automatisk ende-til-ende-kryptert sikkerhetskopiering og slippe å miste meldingene dine når du bytter mobil eller installerer Signal på nytt. Du kan sikkerhetskopiere alle meldingene dine fra de siste 45 dagene uten kostnad, eller betale en liten sum hver måned for å få 100 GB lagringsplass. Trykk på «Sikkerhetskopiering» i Signal-innstillingene for å komme i gang. Takk til alle som hjalp oss med å teste ut funksjonen i betamodus!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Nå kan du sende flyktige meldinger og mediefiler i Signal Desktop. Bildene og videoene du sender som flyktige meldinger, slettes automatisk fra samtaletråden etter at de er sett av andre."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Nå kan du legge til medlemsmerker som beskriver deg eller rollen din, i gruppesamtaler. Medlemsmerket vises ved siden av profilnavnet ditt, og gruppeadministratorene styrer hvem som kan velge merker, via innstillingen «Rediger gruppeinformasjon».",

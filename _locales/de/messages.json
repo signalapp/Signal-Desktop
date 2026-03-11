@@ -2220,13 +2220,13 @@
     "messageformat": "Löschen gescheitert"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Löschvorgang fehlgeschlagen, für Details klicken"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Fehlgeschlagenen Löschvorgang wiederholen?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Nachricht konnte nicht gelöscht werden. Überprüfe deine Internetverbindung und versuche es erneut."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Erneut versuchen"
@@ -2244,7 +2244,7 @@
     "messageformat": "Teilweise gelöscht. Anklicken, um es erneut zu versuchen."
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Teilweise gelöscht, für Details klicken"
   },
   "icu:expiredWarning": {
     "messageformat": "Diese Version von Signal Desktop ist veraltet. Bitte führe eine Aktualisierung auf die aktuellste Version durch, um weiterhin Nachrichten austauschen zu können."
@@ -2451,10 +2451,10 @@
     "messageformat": "In dieser Gruppe können nur Administratoren Mitgliedslabels hinzufügen."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Einmalansicht aktiviert"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Einmalansicht deaktiviert"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Bearbeitungen können nur innerhalb von 24 Stunden ab dem Senden dieser Nachricht vorgenommen werden."
@@ -4647,7 +4647,7 @@
     "messageformat": "Ersetzen"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Einmalansicht"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Medien zur Einmalansicht"
@@ -4686,10 +4686,10 @@
     "messageformat": "Audio"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Audio stummschalten"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Bist du sicher, dass du {contact} stummschalten willst?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Stummschalten"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Nachricht löschen?} other {{count,number} Nachrichten löschen?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Ausgewählte Nachricht löschen?} other {Die ausgewählten {count,number} Nachrichten löschen?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Für wen möchtest du diese Nachricht löschen?} other {Für wen möchtest du diese Nachrichten löschen?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Für alle löschen?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Gruppenmitglieder können sehen, dass du als Administrator diese Nachricht gelöscht hast.} other {Gruppenmitglieder können sehen, dass du als Administrator diese Nachrichten gelöscht hast.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Von allen Geräten löschen"
@@ -7986,7 +7986,7 @@
     "messageformat": "Signal Secure Backups ist da! Jetzt kannst du automatische Ende-zu-Ende-verschlüsselte Backups aktivieren, damit du nie wieder eine Nachricht verlierst, wenn du dir ein neues Telefon zulegst oder Signal neu installierst. Du kannst all deine Nachrichten und die Medien der letzten 45 Tage kostenlos sichern oder dir gegen eine geringe monatliche Gebühr 100 GB Speicherplatz holen und all deine Anhänge sichern. Tippe in deinen Signal-Einstellungen einfach auf »Backups«, um loszulegen. Danke an alle, die während der Beta-Phase beim Testen dieser Funktion mitgeholfen haben!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Jetzt kannst du auch von Signal Desktop aus Mediennachrichten zur Einmalansicht verschicken. Einzelne, als Nachricht zur Einmalansicht versendete Fotos und Videos werden automatisch aus der Unterhaltung entfernt, sobald sie angesehen wurden."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Jetzt kannst du ein Mitgliedslabel hinzufügen, um dich oder deine Rolle in einem Gruppenchat zu beschreiben. Label dich im Fußballclub-Chat als „Schiedsrichterin“ oder „Torwart“, damit neue Mitspieler*innen Bescheid wissen – und im Firmenchat ist wohl eher ein Label mit deiner beruflichen Position angesagt. Mitgliedslabels werden in einer Gruppe neben deinem Profilnamen angezeigt; Gruppenadmins können mit der Berechtigung »Gruppendetails bearbeiten« festlegen, wer ein Label erstellen darf.",

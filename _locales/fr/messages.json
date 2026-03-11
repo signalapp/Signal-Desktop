@@ -2220,13 +2220,13 @@
     "messageformat": "Impossible de supprimer le message"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Non supprimé. En savoir plus."
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Réessayer ?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Impossible de supprimer le message. Vérifiez votre connexion et réessayez."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Réessayer"
@@ -2244,7 +2244,7 @@
     "messageformat": "Suppression partielle. Cliquez pour réessayer."
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Suppression partielle. En savoir plus."
   },
   "icu:expiredWarning": {
     "messageformat": "Cette version de Signal Desktop est arrivée à expiration. Pour continuer d'échanger des messages, passez à la nouvelle version."
@@ -2451,10 +2451,10 @@
     "messageformat": "Dans ce groupe, seuls les admins peuvent créer des étiquettes de membre."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Vue unique activée"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Vue unique désactivée"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Une fois envoyés, les messages ne peuvent être modifiés que pendant 24 heures."
@@ -4647,7 +4647,7 @@
     "messageformat": "Remplacer"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Vue unique"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Média à vue unique"
@@ -4686,13 +4686,13 @@
     "messageformat": "Audio"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Couper le micro"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Voulez-vous vraiment couper le micro de {contact} ?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Sourdine"
+    "messageformat": "Oui"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Étiquettes de membre"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Supprimer {count,number} message ?} other {Supprimer {count,number} messages ?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Supprimer le message sélectionné ?} other {Supprimer les {count,number} messages sélectionnés ?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Pour qui voulez-vous supprimer ce message ?} other {Pour qui voulez-vous supprimer ces messages ?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Supprimer pour tout le monde ?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Les membres du groupe verront que vous avez supprimé ce message en tant qu'admin.} other {Les membres du groupe verront que vous avez supprimé ces messages en tant qu'admin.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Supprimer sur tous les appareils"
@@ -7986,7 +7986,7 @@
     "messageformat": "Les sauvegardes sécurisées Signal sont là ! Chiffrées de bout en bout, les sauvegardes sécurisées permettent de sauvegarder tous vos messages automatiquement. Besoin de changer de téléphone ou de réinstaller Signal ? Vos contenus restent à portée de main. Vous pouvez sauvegarder gratuitement tous vos messages ainsi que vos médias des 45 derniers jours. Ou opter pour le forfait payant et stocker jusqu'à 100 Go de médias en contrepartie d'un petit montant mensuel. Prêt à vous lancer ? Cliquez sur \"Sauvegardes\" dans les paramètres Signal. Merci à toutes celles et ceux qui nous ont aidés à tester la version bêta !"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Maintenant, vous pouvez aussi envoyer des médias à vue unique depuis Signal Desktop. Une fois vues, les photos et vidéos envoyées sous forme de messages éphémères sont automatiquement supprimées du fil de conversation."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Dans les conversations de groupe, vous pouvez maintenant créer une étiquette de membre pour vous décrire ou indiquer votre rôle. Comme dans la vraie vie, vous pouvez porter plusieurs casquettes : affichez votre intitulé de poste dans vos conversations pros et autoproclamez-vous \"L'artiste\" ou \"La chouchoute de Mamie\" dans votre groupe familial. Ces étiquettes n'apparaissent que dans le groupe concerné, à côté de votre nom de profil. Et les admins peuvent choisir qui peut créer des étiquettes via l'autorisation \"Modifier les infos du groupe\".",

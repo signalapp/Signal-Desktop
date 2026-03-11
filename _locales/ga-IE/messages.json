@@ -2220,16 +2220,16 @@
     "messageformat": "Theip ar an scriosadh"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Theip ar scriosadh, cliceáil le sonraí a fháil"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Atriail an scriosadh teipthe?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Theip ar scriosadh na teachtaireachta. Seiceáil do nasc agus triail arís."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Triail arís é"
+    "messageformat": "Triail arís"
   },
   "icu:editFailed": {
     "messageformat": "Theip ar an eagarthóireacht, cliceáil le sonraí a fháil"
@@ -2244,7 +2244,7 @@
     "messageformat": "Cuid di scriosta, cliceáil lena atriail"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Cuid di scriosta, cliceáil le sonraí a fháil"
   },
   "icu:expiredWarning": {
     "messageformat": "Tá an leagan Dheasc Signal seo imithe as feidhm. Uasghrádaigh chuig an leagan is déanaí le leanúint le cur teachtaireachtaí."
@@ -2451,10 +2451,10 @@
     "messageformat": "Ní féidir ach le riarthóirí lipéid na mball a chur leis sa ghrúpa seo."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Amharc aonuaire cumasaithe"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Amharc aonuaire díchumasaithe"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Ní féidir eagarthóireacht a chur i bhfeidhm ach amháin laistigh de 24 uair an chloig ón uair a sheol tú an teachtaireacht seo."
@@ -2643,7 +2643,7 @@
     "messageformat": "Scriosadh an teachtaireacht seo."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Scrios riarthóir {admin} an teachtaireacht seo"
+    "messageformat": "Scrios an riarthóir {admin} an teachtaireacht seo"
   },
   "icu:message--deletedForEveryone--incoming": {
     "messageformat": "Scrios {name} an teachtaireacht seo"
@@ -4647,7 +4647,7 @@
     "messageformat": "Ionadaigh"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Amharc aonuaire"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Meáin amhairc aonuaire"
@@ -4686,10 +4686,10 @@
     "messageformat": "Guthghlao"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Balbhaigh an fhuaim"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "An bhfuil tú cinnte go bhfuil fonn ort {contact} a bhalbhú?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Balbhaigh"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Scrios an teachtaireacht?} two {Scrios {count,number} theachtaireacht?} few {Scrios {count,number} theachtaireacht?} many {Scrios {count,number} dteachtaireacht?} other {Scrios {count,number} teachtaireacht?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Scrios an teachtaireacht roghnaithe?} two {Scrios {count,number} theachtaireacht roghnaithe?} few {Scrios {count,number} theachtaireacht roghnaithe?} many {Scrios {count,number} dteachtaireacht roghnaithe?} other {Scrios {count,number} teachtaireacht roghnaithe?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Cé dó ar mhaith leat an teachtaireacht seo a scriosadh?} two {Cé dó ar mhaith leat na teachtaireachtaí seo a scriosadh?} few {Cé dó ar mhaith leat na teachtaireachtaí seo a scriosadh?} many {Cé dó ar mhaith leat na teachtaireachtaí seo a scriosadh?} other {Cé dó ar mhaith leat na teachtaireachtaí seo a scriosadh?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Scrios do chách?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Agus tú mar riarthóir, feicfidh baill den ghrúpa gur scrios tú an teachtaireacht seo.} two {Agus tú mar riarthóir, feicfidh baill den ghrúpa gur scrios tú na teachtaireachtaí seo.} few {Agus tú mar riarthóir, feicfidh baill den ghrúpa gur scrios tú na teachtaireachtaí seo.} many {Agus tú mar riarthóir, feicfidh baill den ghrúpa gur scrios tú na teachtaireachtaí seo.} other {Agus tú mar riarthóir, feicfidh baill den ghrúpa gur scrios tú na teachtaireachtaí seo.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Scrios ó na gléasanna uile"
@@ -7986,7 +7986,7 @@
     "messageformat": "Tá cúltacaí slána Signal anseo! Anois is féidir leat cumasú cúltacaí criptithe ó cheann ceann go huathoibríoch a roghnú ionas nach gcaillfidh tú teachtaireacht choíche nuair a fhaigheann tú guthán nua nó nuair a athshuiteálann tú Signal. Is féidir leat do theachtaireachtaí uile agus na 45 lá anuas de mheáin a chúltacú saor in aisce, nó is féidir leat táille bheag a íoc gach mí le 100 GB de stóras a fháil chun gach ceangaltán a chúltacú. Tapáil ar chúltacaí i do shocruithe Signal le tosú air. Buíochas le gach duine a chabhraigh le tástáil na gné seo le linn na tréimhse béite!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Anois, beidh tú in ann teachtaireachtaí meán amhairc aonuaire a sheoladh ó Signal Desktop freisin. Grianghraif agus físeáin a sheoltar mar theachtaireachtaí amhairc aonuaire; bainfear go huathoibríoch de shnáithe comhrá iad agus gach duine tar éis féachaint orthu."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Anois tá rogha agat lipéad baill a chur leis le cur síos a dhéanamh ort féin nó ar do ról i ngrúpchomhrá. Taispeántar lipéid na mball taobh le hainm próifíle sa ghrúpa sin, agus is féidir le riarthóirí an ghrúpa rialú a dhéanamh ar na daoine atá in ann lipéad a shocrú leis an gcead \"Cuir Faisnéis faoin nGrúpa in Eagar\".",

@@ -2220,13 +2220,13 @@
     "messageformat": "Не удалось удалить"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Удалить не удалось, нажмите для более подробной информации"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Попробовать удалить снова?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Не удалось удалить сообщение. Проверьте ваше подключение к интернету и попробуйте ещё раз."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
     "messageformat": "Попробовать ещё раз"
@@ -2244,7 +2244,7 @@
     "messageformat": "Частично удалено. Нажмите, чтобы попробовать ещё раз"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Частично удалено, нажмите для более подробной информации"
   },
   "icu:expiredWarning": {
     "messageformat": "Эта версия Signal Desktop устарела. Пожалуйста, выполните обновление до последней версии, чтобы продолжить обмен сообщениями."
@@ -2451,10 +2451,10 @@
     "messageformat": "Только администраторы могут добавлять значки участников в этой группе."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Одноразовый просмотр включён"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Одноразовый просмотр отключён"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Изменения могут быть внесены только в течение 24 часов с момента отправки этого сообщения."
@@ -4647,7 +4647,7 @@
     "messageformat": "Заменить"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Одноразовый просмотр"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
     "messageformat": "Просмотреть одноразовые медиа"
@@ -4686,10 +4686,10 @@
     "messageformat": "Аудио"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Отключить звук"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Вы действительно хотите отключить звук у {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Откл. звук"
@@ -5016,7 +5016,7 @@
     "messageformat": "{count, plural, one {Удалить {count,number} сообщение?} few {Удалить {count,number} сообщения?} many {Удалить {count,number} сообщений?} other {Удалить {count,number} сообщения?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Удалить выбранное сообщение?} few {Удалить {count,number} выбранных сообщения?} many {Удалить {count,number} выбранных сообщений?} other {Удалить {count,number} выбранного сообщения?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Для кого вы хотите удалить это сообщение?} few {Для кого вы хотите удалить эти сообщения?} many {Для кого вы хотите удалить эти сообщения?} other {Для кого вы хотите удалить эти сообщения?}}"
@@ -5040,7 +5040,7 @@
     "messageformat": "Удалить для всех?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Если вы администратор, участники группы увидят, что вы удалили это сообщение.} few {Если вы администратор, участники группы увидят, что вы удалили эти сообщения.} many {Если вы администратор, участники группы увидят, что вы удалили эти сообщения.} other {Если вы администратор, участники группы увидят, что вы удалили эти сообщения.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Удалить со всех устройств"
@@ -7986,7 +7986,7 @@
     "messageformat": "Безопасное резервное копирование уже здесь! Теперь вам доступно резервное копирование со сквозным автошифрованием, и вы не потеряете ни одно сообщение при покупке нового телефона или переустановке Signal. Бесплатно создавайте резервные копии всех ваших сообщений, а также медиафайлов за последние 45 дней или за небольшую ежемесячную плату получите 100 ГБ для всех вложений. Нажмите на резервное копирование в настройках Signal, чтобы начать. Спасибо всем, кто помогал тестировать эту функцию!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Теперь можно отправлять одноразовое медиа также с Signal Desktop. Отдельные фото и видео, отправленные в виде одноразовых сообщений, автоматически удаляются из ветви дискуссии после просмотра."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Теперь вы можете по желанию добавить значок участника, чтобы описать себя или свою роль в этом групповом чате. Установите себе значок участника группы «Судья» или «Вратарь» в чате местной футбольной лиги, а затем выберите себе другой значок с должностью уже в корпоративном чате. Значки участников появляются рядом с вашим именем профиля в этой группе, при этом её администраторы могут разрешать участникам устанавливать значки на вкладке «Редактировать информацию о группе».",
