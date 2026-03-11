@@ -566,8 +566,6 @@ export function toAccountRecord(
         ? donorSubscriptionManuallyCanceled
         : null,
 
-    // TODO: DESKTOP-9870
-    hasBackup: null,
     backupSubscriberData: generateBackupsSubscriberData(),
     backupTier: backupTier != null ? BigInt(backupTier) : null,
 

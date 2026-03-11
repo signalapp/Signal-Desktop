@@ -1952,9 +1952,8 @@ export class BackupExportStream extends Readable {
       );
 
       if (!conversation) {
-        throw new Error(
-          `${logId}: callHistory message had unknown conversationId!`
-        );
+        log.error(`${logId}: callHistory message had unknown conversationId!`);
+        return { kind: NonBubbleResultKind.Drop };
       }
 
       const { callId } = message;
