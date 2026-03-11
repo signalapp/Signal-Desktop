@@ -15,6 +15,7 @@ import { createLogger } from '../../logging/log.std.js';
 import { calling } from '../../services/calling.preload.js';
 import { retryPlaceholders } from '../../services/retryPlaceholders.std.js';
 import { getOwn } from '../../util/getOwn.std.js';
+import { hasDraft } from '../../util/hasDraft.std.js';
 import { assertDev, strictAssert } from '../../util/assert.std.js';
 import { drop } from '../../util/drop.std.js';
 import {
@@ -35,10 +36,12 @@ import { instance as libphonenumberInstance } from '../../util/libphonenumberIns
 import type {
   ShowSendAnywayDialogActionType,
   ShowErrorModalActionType,
+  ToggleDiscardDraftDialogActionType,
 } from './globalModals.preload.js';
 import {
   SHOW_SEND_ANYWAY_DIALOG,
   SHOW_ERROR_MODAL,
+  TOGGLE_DISCARD_DRAFT_DIALOG,
 } from './globalModals.preload.js';
 import {
   MODIFY_LIST,
@@ -2057,12 +2060,22 @@ function setMessageToEdit(
   void,
   RootStateType,
   unknown,
-  SetFocusActionType | ShowErrorModalActionType
+  | SetFocusActionType
+  | ShowErrorModalActionType
+  | ToggleDiscardDraftDialogActionType
 > {
   return async (dispatch, getState) => {
     const conversation = window.ConversationController.get(conversationId);
 
     if (!conversation) {
+      return;
+    }
+
+    if (hasDraft(conversation.attributes)) {
+      dispatch({
+        type: TOGGLE_DISCARD_DRAFT_DIALOG,
+        payload: { conversationId, messageId },
+      });
       return;
     }
 

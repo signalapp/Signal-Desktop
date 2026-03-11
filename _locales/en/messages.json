@@ -6748,6 +6748,14 @@
     "messageformat": "You can only select up to {count, plural, one {# message} other {# messages}} to delete for everyone",
     "description": "delete selected messages > confirmation modal > deleted for everyone (disabled) > toast > too many messages to 'delete for everyone'"
   },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Discard draft?",
+    "description": "Title of confirmation dialog when discarding a draft to edit a message"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "This action can't be undone.",
+    "description": "Description text in confirmation dialog when discarding a draft to edit a message"
+  },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Delete item?",
     "description": "Title of confirmation modal when deleting an attachment from media gallery"
