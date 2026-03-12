@@ -3348,7 +3348,7 @@ export class BackupExportStream extends Readable {
                   url: preview.url,
                   title: preview.title ?? null,
                   description: preview.description ?? null,
-                  date: getSafeLongFromTimestamp(preview.date),
+                  date: getSafeLongFromTimestamp(preview.date ?? 0),
                   image: preview.image
                     ? await this.#processAttachment({
                         attachment: preview.image,
