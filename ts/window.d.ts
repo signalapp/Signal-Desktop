@@ -65,6 +65,7 @@ export type IPCType = {
   ) => Promise<void>;
   showSettings: () => void;
   showWindow: () => void;
+  autoPlayGifs: (value: boolean) => Promise<void>;
   showWindowsNotification: (data: WindowsNotificationData) => Promise<void>;
   shutdown: () => void;
   startTrackingQueryStats: () => void;

@@ -61,6 +61,7 @@ export type StorageAccessType = {
   'audio-notification': boolean;
   'auto-download-update': boolean;
   'auto-download-attachment': AutoDownloadAttachmentType;
+  'auto-play-gifs': boolean;
   autoConvertEmoji: boolean;
   'badge-count-muted-conversations': boolean;
   'blocked-groups': ReadonlyArray<string>;

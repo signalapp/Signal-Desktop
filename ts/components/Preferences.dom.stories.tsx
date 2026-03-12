@@ -431,6 +431,7 @@ export default {
     hasAutoConvertEmoji: true,
     hasAutoDownloadUpdate: true,
     hasAutoLaunch: true,
+    hasAutoPlayGifs: true,
     hasCallNotifications: true,
     hasCallRingtoneNotification: false,
     hasContentProtection: false,
@@ -552,6 +553,7 @@ export default {
     onAutoDownloadAttachmentChange: action('onAutoDownloadAttachmentChange'),
     onAutoDownloadUpdateChange: action('onAutoDownloadUpdateChange'),
     onAutoLaunchChange: action('onAutoLaunchChange'),
+    onAutoPlayGifsChange: action('onAutoPlayGifsChange'),
     onBackupKeyViewedChange: action('onBackupKeyViewedChange'),
     onCallNotificationsChange: action('onCallNotificationsChange'),
     onCallRingtoneNotificationChange: action(

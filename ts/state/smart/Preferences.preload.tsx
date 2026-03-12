@@ -681,6 +681,14 @@ export function SmartPreferences(): React.JSX.Element | null {
     );
   };
 
+  const [hasAutoplayGifs, onAutoPlayGifsChange] = createItemsAccess(
+    'auto-play-gifs',
+    true,
+    value => {
+      void window.IPC.autoPlayGifs(value);
+    }
+  );
+
   const [hasRelayCalls, onRelayCallsChange] = createItemsAccess(
     'always-relay-calls',
     false
@@ -846,6 +854,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           hasAutoConvertEmoji={hasAutoConvertEmoji}
           hasAutoDownloadUpdate={hasAutoDownloadUpdate}
           hasAutoLaunch={hasAutoLaunch}
+          hasAutoPlayGifs={hasAutoplayGifs}
           hasKeepMutedChatsArchived={hasKeepMutedChatsArchived}
           hasCallNotifications={hasCallNotifications}
           hasCallRingtoneNotification={hasCallRingtoneNotification}
@@ -899,6 +908,7 @@ export function SmartPreferences(): React.JSX.Element | null {
           onAutoDownloadAttachmentChange={onAutoDownloadAttachmentChange}
           onAutoDownloadUpdateChange={onAutoDownloadUpdateChange}
           onAutoLaunchChange={onAutoLaunchChange}
+          onAutoPlayGifsChange={onAutoPlayGifsChange}
           onBackupKeyViewedChange={onBackupKeyViewedChange}
           onCallNotificationsChange={onCallNotificationsChange}
           onCallRingtoneNotificationChange={onCallRingtoneNotificationChange}
