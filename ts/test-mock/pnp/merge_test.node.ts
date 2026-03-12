@@ -427,7 +427,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       }
       assert.strictEqual(aciContacts, 1);
       assert.strictEqual(pniContacts, 1);
-      assert.ok(removed[0].contact != null);
+      assert.ok(removed[0]?.contact != null);
 
       assert.deepEqual(
         removed[0].contact.pniBinary,

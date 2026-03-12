@@ -170,7 +170,7 @@ describe('sql/notificationProfiles', () => {
 
     const twoProfiles = await getAllNotificationProfiles();
     assert.lengthOf(twoProfiles, 2);
-    assert.strictEqual(twoProfiles[1].deletedAtTimestampMs, timestamp);
+    assert.strictEqual(twoProfiles[1]?.deletedAtTimestampMs, timestamp);
   });
 
   it('can update a profile', async () => {

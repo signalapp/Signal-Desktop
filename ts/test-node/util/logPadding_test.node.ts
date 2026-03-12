@@ -35,12 +35,13 @@ const BUCKET_SIZES = [
   40453710, 42476396, 44600216, 46830227, 49171738, 51630325, 54211841,
   56922433, 59768555, 62756983, 65894832, 69189573, 72649052, 76281505,
   80095580, 84100359, 88305377, 92720646, 97356678, 102224512, 107335738,
-];
+] as const;
 
 describe('logPadSize', () => {
   it('properly calculates first bucket', () => {
-    for (let size = 0, max = BUCKET_SIZES[0]; size < max; size += 1) {
-      assert.strictEqual(BUCKET_SIZES[0], logPadSize(size));
+    const max = BUCKET_SIZES[0];
+    for (let size = 0; size < max; size += 1) {
+      assert.strictEqual(max, logPadSize(size));
     }
   });
 
@@ -48,29 +49,27 @@ describe('logPadSize', () => {
     let count = 0;
 
     const failures = new Array<string>();
-    for (let i = 0, max = BUCKET_SIZES.length - 1; i < max; i += 1) {
+    for (const [i, bucketSize] of BUCKET_SIZES.slice(0, -1).entries()) {
       // Exact
-      if (BUCKET_SIZES[i] !== logPadSize(BUCKET_SIZES[i])) {
+      if (bucketSize !== logPadSize(bucketSize)) {
         count += 1;
-        failures.push(
-          `${BUCKET_SIZES[i]} does not equal ${logPadSize(BUCKET_SIZES[i])}`
-        );
+        failures.push(`${bucketSize} does not equal ${logPadSize(bucketSize)}`);
       }
 
       // Just under
-      if (BUCKET_SIZES[i] !== logPadSize(BUCKET_SIZES[i] - 1)) {
+      if (bucketSize !== logPadSize(bucketSize - 1)) {
         count += 1;
         failures.push(
-          `${BUCKET_SIZES[i]} does not equal ${logPadSize(BUCKET_SIZES[i] - 1)}`
+          `${bucketSize} does not equal ${logPadSize(bucketSize - 1)}`
         );
       }
 
       // Just over
-      if (BUCKET_SIZES[i + 1] !== logPadSize(BUCKET_SIZES[i] + 1)) {
+      if (BUCKET_SIZES[i + 1] !== logPadSize(bucketSize + 1)) {
         count += 1;
         failures.push(
           `${BUCKET_SIZES[i + 1]} does not equal ` +
-            `${logPadSize(BUCKET_SIZES[i] + 1)}`
+            `${logPadSize(bucketSize + 1)}`
         );
       }
     }

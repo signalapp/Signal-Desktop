@@ -3,6 +3,7 @@
 
 import createDebug from 'debug';
 
+import type { PrimaryDevice } from '@signalapp/mock-server';
 import type { App } from '../playwright.node.js';
 import * as durations from '../../util/durations/index.std.js';
 import { Bootstrap } from '../bootstrap.node.js';
@@ -33,7 +34,7 @@ describe('readSync', function (this: Mocha.Suite) {
 
   it('applies out of order read syncs', async () => {
     const { contacts, desktop, phone } = bootstrap;
-    const [friend] = contacts;
+    const [friend] = contacts as [PrimaryDevice];
 
     const page = await app.getWindow();
 

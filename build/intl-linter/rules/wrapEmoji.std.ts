@@ -37,7 +37,8 @@ export default rule('wrapEmoji', context => {
         return;
       }
 
-      const child = element.children[0];
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const child = element.children[0]!;
       if (!isLiteralElement(child)) {
         // non-literal
         context.report(

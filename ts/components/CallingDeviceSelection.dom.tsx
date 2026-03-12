@@ -80,7 +80,8 @@ function createAudioChangeHandler(
   return (value: string): void => {
     changeIODevice({
       type,
-      selectedDevice: devices[Number(value)],
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      selectedDevice: devices[Number(value)]!,
     });
   };
 }

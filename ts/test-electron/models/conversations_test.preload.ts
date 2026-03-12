@@ -163,8 +163,8 @@ describe('Conversations', () => {
       ]
     );
 
-    assert.equal(resultWithImage.contentType, 'image/png');
-    assert.equal(resultWithImage.fileName, null);
+    assert.equal(resultWithImage?.contentType, 'image/png');
+    assert.equal(resultWithImage?.fileName, null);
   });
 
   describe('updateExpirationTimer', () => {

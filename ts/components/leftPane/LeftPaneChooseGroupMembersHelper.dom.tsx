@@ -315,7 +315,8 @@ export class LeftPaneChooseGroupMembersHelper extends LeftPaneHelper<LeftPaneCho
       }
 
       if (virtualRowIndex <= this.#candidateContacts.length) {
-        const contact = this.#candidateContacts[virtualRowIndex - 1];
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const contact = this.#candidateContacts[virtualRowIndex - 1]!;
 
         const isChecked = this.#selectedConversationIdsSet.has(contact.id);
         const disabledReason =

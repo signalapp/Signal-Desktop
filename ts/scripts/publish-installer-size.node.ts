@@ -18,7 +18,8 @@ const RELEASE_DIR = join(__dirname, '..', '..', 'release');
 
 // TODO: DESKTOP-9836
 async function main(): Promise<void> {
-  const config = process.argv[2];
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const config = process.argv[2]!;
   if (!SUPPORT_CONFIG.has(config)) {
     throw new Error(`Invalid argument: ${config}`);
   }

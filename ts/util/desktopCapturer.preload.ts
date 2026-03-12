@@ -338,11 +338,11 @@ export class DesktopCapturer {
       return i18n('icu:calling__SelectPresentingSourcesModal--entireScreen');
     }
 
+    type Match = RegExpMatchArray & { 1: string };
     const match = name.match(/^Screen (\d+)$/);
     if (match) {
-      return i18n('icu:calling__SelectPresentingSourcesModal--screen', {
-        id: match[1],
-      });
+      const [, id] = match as Match;
+      return i18n('icu:calling__SelectPresentingSourcesModal--screen', { id });
     }
 
     return name;

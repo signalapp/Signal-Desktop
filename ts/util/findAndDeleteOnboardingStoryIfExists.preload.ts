@@ -21,7 +21,8 @@ export async function findAndDeleteOnboardingStoryIfExists(): Promise<void> {
   }
 
   const hasExpired = await (async () => {
-    const [storyId] = existingOnboardingStoryMessageIds;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const storyId = existingOnboardingStoryMessageIds[0]!;
     try {
       const message = await getMessageById(storyId);
       if (!message) {

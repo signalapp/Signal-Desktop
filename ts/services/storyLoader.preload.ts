@@ -63,7 +63,8 @@ export function getStoryDataFromMessageAttributes(
       message.preview.length === 1,
       'getStoryDataFromMessageAttributes: story can have only one preview'
     );
-    [preview] = message.preview;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    preview = message.preview[0]!;
 
     strictAssert(
       attachment?.textAttachment,

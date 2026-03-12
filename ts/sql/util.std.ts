@@ -73,7 +73,8 @@ export function sqlFragment(
   const params: Array<QueryTemplateParam> = [];
 
   strings.forEach((string, index) => {
-    const value = values[index];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const value = values[index]!;
 
     query += string;
 

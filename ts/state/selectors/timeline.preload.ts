@@ -41,11 +41,12 @@ import {
 import type { ConversationType } from '../ducks/conversations.preload.js';
 import { missingCaseError } from '../../util/missingCaseError.std.js';
 import { getGroupMemberships } from '../../util/getGroupMemberships.dom.js';
+import type { ContactNameColorType } from '../../types/Colors.std.js';
 
 const getTimelineItem = (
   state: StateType,
   messageId: string | undefined,
-  contactNameColors: Map<string, string>
+  contactNameColors: Map<string, ContactNameColorType>
 ): TimelineItemType | undefined => {
   if (messageId === undefined) {
     return undefined;

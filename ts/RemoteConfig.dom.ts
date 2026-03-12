@@ -166,7 +166,9 @@ export function onChange(
   listeners[key] = keyListeners;
 
   return () => {
-    listeners[key] = listeners[key].filter(l => l !== fn);
+    if (listeners[key]) {
+      listeners[key] = listeners[key].filter(l => l !== fn);
+    }
   };
 }
 

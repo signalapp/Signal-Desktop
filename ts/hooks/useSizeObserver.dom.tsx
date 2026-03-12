@@ -52,7 +52,8 @@ export function useSizeObserver<T extends Element = Element>(
       // We're only ever observing one element, and `ResizeObserver` for some
       // reason is an array of exactly one rect (I assume to support wrapped
       // inline elements in the future)
-      const borderBoxSize = entries[0].borderBoxSize[0];
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const borderBoxSize = entries[0]!.borderBoxSize[0]!;
       // We are assuming a horizontal writing-mode here, we could call
       // `getBoundingClientRect()` here but MDN says not to. In the future if
       // we are adding support for a vertical locale we may need to change this

@@ -119,7 +119,7 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
       const candidateContacts = [
         getDefaultConversation(),
         getDefaultConversation(),
-      ];
+      ] as const;
       const helper = new LeftPaneChooseGroupMembersHelper({
         ...defaults,
         candidateContacts,
@@ -145,7 +145,11 @@ describe('LeftPaneChooseGroupMembersHelper', () => {
     });
 
     it("disables non-selected contact checkboxes if you've selected the maximum number of contacts", () => {
-      const candidateContacts = times(50, () => getDefaultConversation());
+      const candidateContacts = [
+        getDefaultConversation(),
+        getDefaultConversation(),
+        ...times(48, () => getDefaultConversation()),
+      ] as const;
       const helper = new LeftPaneChooseGroupMembersHelper({
         ...defaults,
         candidateContacts,

@@ -75,6 +75,7 @@ export function getRenderDetailsForLimit(limitKb: number): {
 
   return {
     limit: Math.trunc(limit),
-    units: units[u],
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    units: units[u]!,
   };
 }

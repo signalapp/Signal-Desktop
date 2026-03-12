@@ -319,6 +319,7 @@ export function FunPanelGifs({
   const estimateSize = useCallback(
     (index: number) => {
       const gif = items[index];
+      strictAssert(gif, 'Missing gif');
       const aspectRatio = gif.previewMedia.width / gif.previewMedia.height;
       const baseHeight = GIF_WATERFALL_ITEM_WIDTH / aspectRatio;
       return baseHeight + GIF_WATERFALL_ITEM_MARGIN + GIF_WATERFALL_ITEM_MARGIN;
@@ -350,7 +351,8 @@ export function FunPanelGifs({
 
   const getItemKey = useCallback(
     (index: number) => {
-      return items[index].id;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      return items[index]!.id;
     },
     [items]
   );
@@ -578,6 +580,7 @@ export function FunPanelGifs({
                 <FunWaterfallContainer totalSize={virtualizer.getTotalSize()}>
                   {virtualizer.getVirtualItems().map(item => {
                     const gif = items[item.index];
+                    strictAssert(gif, 'Missing gif');
                     const key = String(item.key);
                     const isTabbable =
                       selectedItemKey != null

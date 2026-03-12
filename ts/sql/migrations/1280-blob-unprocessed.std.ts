@@ -14,6 +14,7 @@ import { Migrations as Proto } from '../../protobuf/index.std.js';
 import { sql } from '../util.std.js';
 import type { WritableDB } from '../Interface.std.js';
 import { getOurUuid } from './41-uuid-keys.std.js';
+import { strictAssert } from '../../util/assert.std.js';
 
 export default function updateToSchemaVersion1280(
   db: WritableDB,
@@ -117,6 +118,8 @@ export default function updateToSchemaVersion1280(
       const content = decrypted
         ? Buffer.from(String(decrypted), 'base64')
         : decoded.content;
+
+      strictAssert(id != null, 'Missing id');
 
       insertStmt.run({
         ...rest,

@@ -357,8 +357,8 @@ export function verifyHmacSha256(
   let result = 0;
 
   for (let i = 0; i < theirMac.byteLength; i += 1) {
-    // eslint-disable-next-line no-bitwise
-    result |= ourMac[i] ^ theirMac[i];
+    // eslint-disable-next-line no-bitwise, @typescript-eslint/no-non-null-assertion
+    result |= ourMac[i]! ^ theirMac[i]!;
   }
   if (result !== 0) {
     throw new Error('Bad MAC');
@@ -482,8 +482,8 @@ function verifyDigest(data: Uint8Array, theirDigest: Uint8Array): void {
   const ourDigest = sha256(data);
   let result = 0;
   for (let i = 0; i < theirDigest.byteLength; i += 1) {
-    // eslint-disable-next-line no-bitwise
-    result |= ourDigest[i] ^ theirDigest[i];
+    // eslint-disable-next-line no-bitwise, @typescript-eslint/no-non-null-assertion
+    result |= ourDigest[i]! ^ theirDigest[i]!;
   }
   if (result !== 0) {
     throw new Error('Bad digest');
@@ -744,7 +744,8 @@ export function getIdentifierHash({
   }
 
   const digest = hash(HashType.size256, identifier);
-  return digest[0];
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  return digest[0]!;
 }
 
 export function generateAvatarColor({
@@ -761,8 +762,10 @@ export function generateAvatarColor({
   const hashValue = getIdentifierHash({ aci, e164, pni, groupId });
 
   if (hashValue == null) {
-    return sample(AvatarColors) || AvatarColors[0];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return sample(AvatarColors) || AvatarColors[0]!;
   }
 
-  return AvatarColors[hashValue % AVATAR_COLOR_COUNT];
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  return AvatarColors[hashValue % AVATAR_COLOR_COUNT]!;
 }

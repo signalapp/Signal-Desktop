@@ -404,9 +404,9 @@ function showLightbox(opts: {
         media,
         selectedIndex: index === -1 ? 0 : index,
         hasPrevMessage:
-          older.length > 0 && filterValidAttachments(older[0]).length > 0,
+          older[0] != null && filterValidAttachments(older[0]).length > 0,
         hasNextMessage:
-          newer.length > 0 && filterValidAttachments(newer[0]).length > 0,
+          newer[0] != null && filterValidAttachments(newer[0]).length > 0,
         playbackDisabled: false,
       },
     });
@@ -429,7 +429,7 @@ function showLightboxForAdjacentMessage(
   return async (dispatch, getState) => {
     const { lightbox } = getState();
 
-    if (!lightbox.isShowingLightbox || lightbox.media.length === 0) {
+    if (!lightbox.isShowingLightbox || lightbox.media[0] == null) {
       log.warn('showLightboxForAdjacentMessage: empty lightbox');
       return;
     }
@@ -502,8 +502,10 @@ function showLightboxForAdjacentMessage(
       showLightbox({
         attachment:
           direction === AdjacentMessageDirection.Previous
-            ? attachments[attachments.length - 1]
-            : attachments[0],
+            ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              attachments[attachments.length - 1]!
+            : // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              attachments[0]!,
         messageId: adjacent.id,
       })
     );

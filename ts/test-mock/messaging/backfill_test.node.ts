@@ -66,7 +66,7 @@ describe('attachment backfill', function (this: Mocha.Suite) {
     page = await app.getWindow();
 
     const { unknownContacts } = bootstrap;
-    [unknownContact] = unknownContacts;
+    [unknownContact] = unknownContacts as [PrimaryDevice];
 
     textAttachment = await bootstrap.encryptAndStoreAttachmentOnCDN(
       Buffer.from('look at this pic, it is gorgeous!'),

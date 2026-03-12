@@ -21,7 +21,8 @@ export function formatAcceptLanguageHeader(
 
   const length = Math.min(languages.length, MAX_LANGUAGES_TO_FORMAT);
   for (let i = 0; i < length; i += 1) {
-    const language = languages[i];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const language = languages[i]!;
 
     // ["If no 'q' parameter is present, the default weight is 1."][1]
     //

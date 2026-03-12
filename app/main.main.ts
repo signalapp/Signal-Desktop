@@ -819,10 +819,14 @@ async function createWindow() {
       maximized: mainWindow.isMaximized(),
       autoHideMenuBar: mainWindow.autoHideMenuBar,
       fullscreen: mainWindow.isFullScreen(),
-      width: size[0],
-      height: size[1],
-      x: position[0],
-      y: position[1],
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      width: size[0]!,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      height: size[1]!,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      x: position[0]!,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      y: position[1]!,
     };
 
     if (
@@ -1565,8 +1569,10 @@ function showPermissionsPopupWindow(forCalling: boolean, forCamera: boolean) {
 
     const size = mainWindow.getSize();
     const options = {
-      width: Math.min(400, size[0]),
-      height: Math.min(150, size[1]),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      width: Math.min(400, size[0]!),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      height: Math.min(150, size[1]!),
       resizable: false,
       title: getResolvedMessagesLocale().i18n('icu:allowAccess'),
       titleBarStyle: nonMainTitleBarStyle,

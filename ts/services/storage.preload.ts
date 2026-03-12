@@ -269,10 +269,7 @@ async function generateManifest(
     };
   }
 
-  const conversations = window.ConversationController.getAll();
-  for (let i = 0; i < conversations.length; i += 1) {
-    const conversation = conversations[i];
-
+  for (const conversation of window.ConversationController.getAll()) {
     let identifierType;
     let storageRecord: Proto.StorageRecord.Params | undefined;
 
@@ -2334,6 +2331,7 @@ async function upload({
     uploadBucket.push(Date.now());
     if (uploadBucket.length >= 3) {
       const [firstMostRecentWrite] = uploadBucket;
+      strictAssert(firstMostRecentWrite, 'Missing firstMostRecentWrite');
 
       if (isMoreRecentThan(5 * durations.MINUTE, firstMostRecentWrite)) {
         throw new Error(`${logId}: too many writes too soon.`);

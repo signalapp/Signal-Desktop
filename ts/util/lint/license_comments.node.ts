@@ -162,6 +162,7 @@ async function getCommitFileWasAdded(
 
   const commitYear = new Date(dateString).getFullYear();
   assert(!Number.isNaN(commitYear), `Could not read commit year for ${file}`);
+  assert(commitHash, 'Missing commitHash');
   return { commitYear, commitHash };
 }
 
@@ -196,7 +197,10 @@ async function main() {
 
     const warnings = [];
 
-    if (!/Copyright \d{4} Signal Messenger, LLC/.test(firstLine)) {
+    if (
+      firstLine == null ||
+      !/Copyright \d{4} Signal Messenger, LLC/.test(firstLine)
+    ) {
       const commit = await getCommitFileWasAdded(file);
       warnings.push(
         chalk.red('Missing/Incorrect copyright line'),

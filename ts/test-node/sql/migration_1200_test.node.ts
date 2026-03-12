@@ -172,7 +172,7 @@ describe('SQL/updateToSchemaVersion1200', () => {
     const [query, params] = template;
     const result = db.prepare(query).all(params);
     assert.strictEqual(result.length, 1);
-    assert.deepStrictEqual(result[0].messageId, 'message12');
+    assert.deepStrictEqual(result[0]?.messageId, 'message12');
     const details = explain(db, template);
     assert.equal(
       details,

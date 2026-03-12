@@ -26,6 +26,7 @@ import type {
 } from '../../components/fun/useFunEmojiSearch.dom.js';
 import { type FunEmojiLocalizer } from '../../components/fun/useFunEmojiLocalizer.dom.js';
 import type { FunEmojiSelection } from '../../components/fun/panels/FunPanelEmojis.dom.js';
+import { strictAssert } from '../../util/assert.std.js';
 
 const { isNumber, debounce } = lodash;
 
@@ -164,8 +165,12 @@ export class EmojiCompletion {
       /^([-+0-9\p{Alpha}_]*):/iu
     );
 
+    type LeftTokenMatch = RegExpMatchArray & { 1: string; 2: string };
+    type RightTokenMatch = RegExpMatchArray & { 1: string };
+
     if (leftTokenTextMatch) {
-      const [, leftTokenText, isSelfClosing] = leftTokenTextMatch;
+      const [, leftTokenText, isSelfClosing] =
+        leftTokenTextMatch as LeftTokenMatch;
 
       if (isSelfClosing || justPressedColon) {
         const parentKey =
@@ -186,7 +191,7 @@ export class EmojiCompletion {
       }
 
       if (rightTokenTextMatch) {
-        const [, rightTokenText] = rightTokenTextMatch;
+        const [, rightTokenText] = rightTokenTextMatch as RightTokenMatch;
         const tokenText = leftTokenText + rightTokenText;
         const parentKey =
           this.options.emojiLocalizer.getParentKeyForText(tokenText);
@@ -240,15 +245,20 @@ export class EmojiCompletion {
     }
 
     const result = this.results[this.index];
+    if (result == null) {
+      return;
+    }
+
     const [leafText] = this.getCurrentLeafTextPartitions();
 
     const tokenTextMatch = /:([-+0-9\p{Alpha}_]*)(:?)$/iu.exec(leafText);
+    type TokenTextMatch = RegExpExecArray & { 1: string };
 
     if (tokenTextMatch == null) {
       return;
     }
 
-    const [, tokenText] = tokenTextMatch;
+    const [, tokenText] = tokenTextMatch as TokenTextMatch;
 
     this.insertEmoji({
       emojiParentKey: result.parentKey,
@@ -355,7 +365,9 @@ export class EmojiCompletion {
               `Could not find the beginning of the emoji word to be completed. startOfEmojiText=${startOfEmojiText}, textBeforeCursor.length=${textBeforeCursor?.length}, range.offsets=${range.startOffset}-${range.endOffset}`
             );
           }
-          return range.getClientRects()[0];
+          const [clientRect] = range.getClientRects();
+          strictAssert(clientRect, 'Missing clientRect');
+          return clientRect;
         }
         log.warn('No selection range when auto-completing emoji');
         return new DOMRect(); // don't crash just because we couldn't get a rectangle
@@ -373,7 +385,7 @@ export class EmojiCompletion {
             aria-expanded
             aria-activedescendant={`emoji-result--${
               emojiResults.length
-                ? emojiResults[emojiResultsIndex].parentKey
+                ? emojiResults[emojiResultsIndex]?.parentKey
                 : ''
             }`}
             tabIndex={0}

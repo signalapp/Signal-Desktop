@@ -604,6 +604,7 @@ async function copyToBackupTier({
   });
 
   const response = responses[0];
+  strictAssert(response, 'Missing response');
   if (!response.isSuccess) {
     if (response.status === FILE_NOT_FOUND_ON_TRANSIT_TIER_STATUS) {
       throw new FileNotFoundOnTransitTierError();

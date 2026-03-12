@@ -860,7 +860,7 @@ describe('BodyRanges', () => {
           replacementText: 'Eve',
           conversationID: 'x',
         },
-      ];
+      ] as const;
       const { cleanedSnippet, bodyRanges: processedBodyRanges } =
         processBodyRangesForSearchResult({
           snippet:

@@ -19,6 +19,7 @@ import { storageServiceUploadJob } from '../../services/storage.preload.js';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
 import { useBoundActions } from '../../hooks/useBoundActions.std.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
+import { strictAssert } from '../../util/assert.std.js';
 
 const { omit } = lodash;
 
@@ -530,9 +531,11 @@ function replaceDistributionListData(
     return;
   }
 
+  const list = distributionLists[listIndex];
+  strictAssert(list, 'Missing list');
   return replaceIndex(distributionLists, listIndex, {
-    ...distributionLists[listIndex],
-    ...getNextDistributionListData(distributionLists[listIndex]),
+    ...list,
+    ...getNextDistributionListData(list),
   });
 }
 
@@ -551,6 +554,11 @@ export function reducer(
     );
     if (listIndex >= 0) {
       const existingDistributionList = state.distributionLists[listIndex];
+      strictAssert(
+        existingDistributionList,
+        'Missing existingDistributionList'
+      );
+
       const memberServiceIds = new Set<ServiceIdString>(
         existingDistributionList.memberServiceIds
       );

@@ -212,8 +212,10 @@ async function cleanupStoryReplies(
   }
 
   return cleanupStoryReplies(story, {
-    messageId: lastMessageId,
-    receivedAt: lastReceivedAt,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    messageId: lastMessageId!,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    receivedAt: lastReceivedAt!,
   });
 }
 

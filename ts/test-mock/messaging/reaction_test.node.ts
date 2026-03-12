@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import createDebug from 'debug';
+import type { PrimaryDevice } from '@signalapp/mock-server';
 import { StorageState } from '@signalapp/mock-server';
 import { type Page } from 'playwright';
 import { expect } from 'playwright/test';
@@ -80,7 +81,11 @@ describe('reactions', function (this: Mocha.Suite) {
     await bootstrap.init();
 
     const { phone, contacts } = bootstrap;
-    const [alice, bob, charlie] = contacts;
+    const [alice, bob, charlie] = contacts as [
+      PrimaryDevice,
+      PrimaryDevice,
+      PrimaryDevice,
+    ];
     let state = StorageState.getEmpty();
 
     state = state.addContact(alice, {
@@ -114,7 +119,11 @@ describe('reactions', function (this: Mocha.Suite) {
   it('should correctly match on participant, timestamp, and author in 1:1 conversation', async () => {
     this.timeout(10000);
     const { contacts, phone, desktop } = bootstrap;
-    const [alice, bob, charlie] = contacts;
+    const [alice, bob, charlie] = contacts as [
+      PrimaryDevice,
+      PrimaryDevice,
+      PrimaryDevice,
+    ];
 
     const window = await app.getWindow();
 
@@ -237,7 +246,12 @@ describe('reactions', function (this: Mocha.Suite) {
     this.timeout(10000);
 
     const { contacts, phone, desktop } = bootstrap;
-    const [alice, bob, charlie, danielle] = contacts;
+    const [alice, bob, charlie, danielle] = contacts as [
+      PrimaryDevice,
+      PrimaryDevice,
+      PrimaryDevice,
+      PrimaryDevice,
+    ];
 
     const groupMembers = [alice, bob, charlie];
     const groupForSending = {
@@ -357,7 +371,7 @@ describe('reactions', function (this: Mocha.Suite) {
     this.timeout(30_000);
 
     const { contacts, phone, desktop } = bootstrap;
-    const [alice, bob] = contacts;
+    const [alice, bob] = contacts as [PrimaryDevice, PrimaryDevice];
 
     // Create a group that includes both Alice and Bob
     const groupForSending = {
@@ -421,6 +435,7 @@ describe('reactions', function (this: Mocha.Suite) {
 
     // First row: Bob's 👍🏿
     const firstReaction = reactionRows[0];
+    strictAssert(firstReaction, 'firstReaction exists');
     await expect(
       firstReaction.locator('.module-reaction-viewer__body__row__name')
     ).toHaveText(bob.profileName);
@@ -431,6 +446,7 @@ describe('reactions', function (this: Mocha.Suite) {
 
     // Second row: local user's 👍🏽
     const secondReaction = reactionRows[1];
+    strictAssert(secondReaction, 'secondReaction exists');
     await expect(
       secondReaction.locator('.module-reaction-viewer__body__row__name')
     ).toHaveText('You');

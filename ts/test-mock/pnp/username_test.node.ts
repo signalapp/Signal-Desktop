@@ -147,14 +147,14 @@ describe('pnp/username', function (this: Mocha.Suite) {
           'only one record must be removed'
         );
 
-        assert.ok(added[0].contact != null);
+        assert.ok(added[0]?.contact != null);
         assert.deepEqual(
           added[0].contact.aciBinary,
           usernameContact.device.aciRawUuid
         );
         assert.strictEqual(added[0].contact.username, '');
 
-        assert.ok(removed[0].contact != null);
+        assert.ok(removed[0]?.contact != null);
         assert.deepEqual(
           removed[0].contact.aciBinary,
           usernameContact.device.aciRawUuid

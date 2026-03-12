@@ -916,6 +916,7 @@ const viewUserStories: ViewUserStoriesActionCreatorType = ({
       });
 
     const story = storiesByConversationId[currentIndex];
+    strictAssert(story, 'Missing story');
     const state = getState();
 
     const hiddenConversationIds = new Set(getHideStoryConversationIds(state));
@@ -1081,6 +1082,7 @@ const viewStory: ViewStoryActionCreatorType = (
       const currentDistributionListIndex = myStories.findIndex(item => {
         for (let i = item.stories.length - 1; i >= 0; i -= 1) {
           const myStory = item.stories[i];
+          strictAssert(myStory, 'Missing myStory');
           if (myStory.messageId === storyId) {
             // [1] reversed
             currentStoryIndex = item.stories.length - 1 - i;
@@ -1107,37 +1109,51 @@ const viewStory: ViewStoryActionCreatorType = (
       let nextSentStoryIndex = -1;
       let nextNumStories = numStories;
 
+      const currentSentStoryContainer = myStories[currentDistributionListIndex];
+      strictAssert(
+        currentSentStoryContainer,
+        'Missing currentSentStoryContainer'
+      );
+
       // [2] reversed
-      const currentStories = myStories[currentDistributionListIndex].stories
+      const currentStories = currentSentStoryContainer.stories
         .slice()
         .reverse();
 
       if (viewDirection === StoryViewDirectionType.Next) {
         if (currentStoryIndex < currentStories.length - 1) {
           nextSentStoryIndex = currentStoryIndex + 1;
-          nextSentStoryId = currentStories[nextSentStoryIndex].messageId;
+          nextSentStoryId = currentStories[nextSentStoryIndex]?.messageId;
         } else if (currentDistributionListIndex < myStories.length - 1) {
           const nextSentStoryContainer =
             myStories[currentDistributionListIndex + 1];
+          strictAssert(
+            nextSentStoryContainer,
+            'Missing nextSentStoryContainer'
+          );
 
           nextNumStories = nextSentStoryContainer.stories.length;
           nextSentStoryIndex = 0;
           nextSentStoryId =
-            nextSentStoryContainer.stories[nextNumStories - 1].messageId;
+            nextSentStoryContainer.stories[nextNumStories - 1]?.messageId;
         }
       }
 
       if (viewDirection === StoryViewDirectionType.Previous) {
         if (currentStoryIndex > 0) {
           nextSentStoryIndex = currentStoryIndex - 1;
-          nextSentStoryId = currentStories[nextSentStoryIndex].messageId;
+          nextSentStoryId = currentStories[nextSentStoryIndex]?.messageId;
         } else if (currentDistributionListIndex > 0) {
           const nextSentStoryContainer =
             myStories[currentDistributionListIndex - 1];
+          strictAssert(
+            nextSentStoryContainer,
+            'Missing nextSentStoryContainer'
+          );
 
           nextNumStories = nextSentStoryContainer.stories.length;
           nextSentStoryIndex = nextNumStories - 1;
-          nextSentStoryId = nextSentStoryContainer.stories[0].messageId;
+          nextSentStoryId = nextSentStoryContainer.stories[0]?.messageId;
         }
       }
 
@@ -1169,6 +1185,7 @@ const viewStory: ViewStoryActionCreatorType = (
     ) {
       const nextIndex = currentIndex + 1;
       const nextStory = storiesByConversationId[nextIndex];
+      strictAssert(nextStory, 'Missing nextStory');
 
       dispatch({
         type: VIEW_STORY,
@@ -1187,6 +1204,7 @@ const viewStory: ViewStoryActionCreatorType = (
     if (viewDirection === StoryViewDirectionType.Previous && currentIndex > 0) {
       const nextIndex = currentIndex - 1;
       const nextStory = storiesByConversationId[nextIndex];
+      strictAssert(nextStory, 'Missing nextStory');
 
       dispatch({
         type: VIEW_STORY,
@@ -1245,15 +1263,17 @@ const viewStory: ViewStoryActionCreatorType = (
             onlyFromSelf: false,
           }
         );
+        const nextStory =
+          nextSelectedStoryData.storiesByConversationId[
+            nextSelectedStoryData.currentIndex
+          ];
+        strictAssert(nextStory, 'Missing nextStory');
 
         dispatch({
           type: VIEW_STORY,
           payload: {
             currentIndex: nextSelectedStoryData.currentIndex,
-            messageId:
-              nextSelectedStoryData.storiesByConversationId[
-                nextSelectedStoryData.currentIndex
-              ].messageId,
+            messageId: nextStory.messageId,
             numStories: nextSelectedStoryData.numStories,
             storyViewMode,
             unviewedStoryConversationIdsSorted,
@@ -1298,6 +1318,7 @@ const viewStory: ViewStoryActionCreatorType = (
       // Touch area for tapping right should be 80% of width of the screen
       const nextConversationStoryIndex = conversationStoryIndex + 1;
       const conversationStory = conversationStories[nextConversationStoryIndex];
+      strictAssert(conversationStory, 'Missing conversationStory');
 
       const nextSelectedStoryData = getSelectedStoryDataForConversationId(
         dispatch,
@@ -1308,11 +1329,14 @@ const viewStory: ViewStoryActionCreatorType = (
         }
       );
 
+      const nextStory = nextSelectedStoryData.storiesByConversationId[0];
+      strictAssert(nextStory, 'Missing nextStory');
+
       dispatch({
         type: VIEW_STORY,
         payload: {
           currentIndex: 0,
-          messageId: nextSelectedStoryData.storiesByConversationId[0].messageId,
+          messageId: nextStory.messageId,
           numStories: nextSelectedStoryData.numStories,
           storyViewMode,
           unviewedStoryConversationIdsSorted,
@@ -1336,6 +1360,7 @@ const viewStory: ViewStoryActionCreatorType = (
       // Touch area for tapping left should be 20% of width of the screen
       const nextConversationStoryIndex = conversationStoryIndex - 1;
       const conversationStory = conversationStories[nextConversationStoryIndex];
+      strictAssert(conversationStory, 'Missing conversationStory');
 
       const nextSelectedStoryData = getSelectedStoryDataForConversationId(
         dispatch,
@@ -1346,11 +1371,14 @@ const viewStory: ViewStoryActionCreatorType = (
         }
       );
 
+      const nextStory = nextSelectedStoryData.storiesByConversationId[0];
+      strictAssert(nextStory, 'Missing nextStory');
+
       dispatch({
         type: VIEW_STORY,
         payload: {
           currentIndex: 0,
-          messageId: nextSelectedStoryData.storiesByConversationId[0].messageId,
+          messageId: nextStory.messageId,
           numStories: nextSelectedStoryData.numStories,
           storyViewMode,
           unviewedStoryConversationIdsSorted,
@@ -1558,6 +1586,7 @@ export function reducer(
     );
     if (prevStoryIndex >= 0) {
       const prevStory = state.stories[prevStoryIndex];
+      strictAssert(prevStory, 'Missing prevStory');
 
       // Stories rarely need to change, here are the following exceptions...
 
@@ -1708,17 +1737,20 @@ export function reducer(
         story => story.messageId === replyState.messageId
       );
 
-      const stories =
-        storyIndex >= 0
-          ? replaceIndex(state.stories, storyIndex, {
-              ...state.stories[storyIndex],
-              hasReplies: true,
-              hasRepliesFromSelf:
-                state.stories[storyIndex].hasRepliesFromSelf ||
-                state.stories[storyIndex].conversationId ===
-                  action.payload.conversationId,
-            })
-          : state.stories;
+      let stories: ReadonlyArray<StoryDataType>;
+      if (storyIndex >= 0) {
+        const currentStory = state.stories[storyIndex];
+        strictAssert(currentStory, 'Missing currentStory');
+        stories = replaceIndex(state.stories, storyIndex, {
+          ...currentStory,
+          hasReplies: true,
+          hasRepliesFromSelf:
+            currentStory.hasRepliesFromSelf ||
+            currentStory.conversationId === action.payload.conversationId,
+        });
+      } else {
+        stories = state.stories;
+      }
 
       return {
         ...state,
@@ -1775,6 +1807,7 @@ export function reducer(
     }
 
     const existingStory = state.stories[storyIndex];
+    strictAssert(existingStory, 'Missing existingStory');
 
     return {
       ...state,

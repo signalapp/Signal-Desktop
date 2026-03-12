@@ -27,7 +27,7 @@ export default {
   args: {},
 } satisfies Meta<PropsType>;
 
-const defaultConversations: Array<ConversationListItemPropsType> = [
+const defaultConversations = [
   getDefaultConversation({
     id: 'fred-convo',
     title: 'Fred Willard',
@@ -48,7 +48,7 @@ const defaultConversations: Array<ConversationListItemPropsType> = [
       'Pablo Diego José Francisco de Paula Juan Nepomuceno María de los Remedios Cipriano de la Santísima Trinidad Ruiz y Picasso',
   }),
   getDefaultConversation(),
-];
+] as const satisfies Array<ConversationListItemPropsType>;
 
 function Wrapper({
   rows,

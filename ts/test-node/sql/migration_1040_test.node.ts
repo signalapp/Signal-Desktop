@@ -201,7 +201,7 @@ describe('SQL/updateToSchemaVersion1040', () => {
 
       const attachments = getAttachmentDownloadJobs(db);
       assert.strictEqual(attachments.length, 1);
-      assert.strictEqual(attachments[0].attempts, 0);
+      assert.strictEqual(attachments[0]?.attempts, 0);
     });
 
     it('uses indices searching for next job', () => {

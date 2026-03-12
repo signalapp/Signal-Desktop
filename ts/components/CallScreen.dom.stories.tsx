@@ -36,6 +36,7 @@ import { fakeGetGroupCallVideoFrameSource } from '../test-helpers/fakeGetGroupCa
 import { CallingToastProvider, useCallingToasts } from './CallingToast.dom.js';
 import type { CallingImageDataCache } from './CallManager.dom.js';
 import { MINUTE } from '../util/durations/index.std.js';
+import { strictAssert } from '../util/assert.std.js';
 
 const { sample, shuffle, times } = lodash;
 
@@ -542,7 +543,7 @@ export const allRemoteParticipants = times(MAX_PARTICIPANTS).map(index => {
           : ''
       } ${index + 1}`,
     }),
-  };
+  } satisfies GroupCallRemoteParticipantType;
 });
 
 export function GroupCallManyPaginated(): React.JSX.Element {
@@ -851,6 +852,7 @@ export function GroupCallReactionsManyInOrder(): React.JSX.Element {
       DEFAULT_PREFERRED_REACTION_EMOJI[
         i % DEFAULT_PREFERRED_REACTION_EMOJI.length
       ];
+    strictAssert(value, 'Missing value');
     return { timestamp, demuxId, value };
   });
   const [props] = React.useState(
@@ -886,7 +888,9 @@ function useReactionsEmitter({
         const participantIndex = Math.floor(
           Math.random() * call.remoteParticipants.length
         );
-        const { demuxId } = call.remoteParticipants[participantIndex];
+        const participant = call.remoteParticipants[participantIndex];
+        strictAssert(participant, 'Missing participant');
+        const { demuxId } = participant;
 
         const reactions: ActiveCallReactionsType = [
           ...(state.reactions ?? []).filter(
@@ -986,9 +990,11 @@ function useHandRaiser(
         );
 
         const raisedHands = new Set(
-          participantIndices.map(
-            index => call.remoteParticipants[index].demuxId
-          )
+          participantIndices.map(index => {
+            const participant = call.remoteParticipants[index];
+            strictAssert(participant, 'Missing participant');
+            return participant.demuxId;
+          })
         );
 
         return {

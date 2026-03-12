@@ -62,15 +62,15 @@ describe('sql/searchMessages', () => {
 
     const searchResults = await searchMessages({ query: 'unique' });
     assert.lengthOf(searchResults, 1);
-    assert.strictEqual(searchResults[0].id, message2.id);
+    assert.strictEqual(searchResults[0]?.id, message2.id);
 
     message3.body = 'message 3 - unique string';
     await saveMessage(message3, { ourAci, postSaveUpdates });
 
     const searchResults2 = await searchMessages({ query: 'unique' });
     assert.lengthOf(searchResults2, 2);
-    assert.strictEqual(searchResults2[0].id, message3.id);
-    assert.strictEqual(searchResults2[1].id, message2.id);
+    assert.strictEqual(searchResults2[0]?.id, message3.id);
+    assert.strictEqual(searchResults2[1]?.id, message2.id);
   });
 
   it('excludes messages with isViewOnce = true', async () => {
@@ -119,14 +119,14 @@ describe('sql/searchMessages', () => {
 
     const searchResults = await searchMessages({ query: 'unique' });
     assert.lengthOf(searchResults, 1);
-    assert.strictEqual(searchResults[0].id, message1.id);
+    assert.strictEqual(searchResults[0]?.id, message1.id);
 
     message1.body = 'message 3 - unique string';
     await saveMessage(message3, { ourAci, postSaveUpdates });
 
     const searchResults2 = await searchMessages({ query: 'unique' });
     assert.lengthOf(searchResults2, 1);
-    assert.strictEqual(searchResults2[0].id, message1.id);
+    assert.strictEqual(searchResults2[0]?.id, message1.id);
   });
 
   it('excludes messages with storyId !== null', async () => {
@@ -175,14 +175,14 @@ describe('sql/searchMessages', () => {
 
     const searchResults = await searchMessages({ query: 'unique' });
     assert.lengthOf(searchResults, 1);
-    assert.strictEqual(searchResults[0].id, message1.id);
+    assert.strictEqual(searchResults[0]?.id, message1.id);
 
     message1.body = 'message 3 - unique string';
     await saveMessage(message3, { ourAci, postSaveUpdates });
 
     const searchResults2 = await searchMessages({ query: 'unique' });
     assert.lengthOf(searchResults2, 1);
-    assert.strictEqual(searchResults2[0].id, message1.id);
+    assert.strictEqual(searchResults2[0]?.id, message1.id);
   });
 
   it('limits messages returned to a specific conversation if specified', async () => {
@@ -228,7 +228,7 @@ describe('sql/searchMessages', () => {
       conversationId: otherConversationId,
     });
     assert.lengthOf(searchResultsWithConversationId, 1);
-    assert.strictEqual(searchResultsWithConversationId[0].id, message2.id);
+    assert.strictEqual(searchResultsWithConversationId[0]?.id, message2.id);
   });
 });
 
@@ -262,7 +262,7 @@ describe('sql/searchMessages/withMentions', () => {
   }
 
   it('includes messages with mentions', async () => {
-    const mentionedAcis = [generateAci(), generateAci()];
+    const mentionedAcis = [generateAci(), generateAci()] as const;
     const messages = await storeMessages([
       {
         bodyRanges: [{ start: 0, length: 1, mentionAci: mentionedAcis[0] }],
@@ -286,7 +286,7 @@ describe('sql/searchMessages/withMentions', () => {
 
     assert.sameOrderedMembers(
       searchResults.map(res => res.id),
-      [messages[0].id, messages[2].id]
+      [messages[0]?.id, messages[2]?.id]
     );
 
     const searchResultsForMultipleMatchingUuids = await searchMessages({
@@ -297,12 +297,12 @@ describe('sql/searchMessages/withMentions', () => {
     assert.sameOrderedMembers(
       searchResultsForMultipleMatchingUuids.map(res => res.id),
       // TODO: should only return unique messages
-      [messages[0].id, messages[1].id, messages[2].id]
+      [messages[0]?.id, messages[1]?.id, messages[2]?.id]
     );
   });
 
   it('includes messages with mentions and those that match the body text', async () => {
-    const mentionedAcis = [generateAci(), generateAci()];
+    const mentionedAcis = [generateAci(), generateAci()] as const;
     const messages = await storeMessages([
       {
         body: 'cat',
@@ -326,7 +326,7 @@ describe('sql/searchMessages/withMentions', () => {
 
     assert.sameOrderedMembers(
       searchResults.map(res => res.id),
-      [messages[0].id, messages[1].id]
+      [messages[0]?.id, messages[1]?.id]
     );
 
     // check that results get returned in the right order, independent of whether they
@@ -337,11 +337,11 @@ describe('sql/searchMessages/withMentions', () => {
     });
     assert.sameOrderedMembers(
       searchResultsForDog.map(res => res.id),
-      [messages[1].id, messages[2].id]
+      [messages[1]?.id, messages[2]?.id]
     );
   });
   it('respects conversationId for mention matches', async () => {
-    const mentionedAcis = [generateAci(), generateAci()];
+    const mentionedAcis = [generateAci(), generateAci()] as const;
     const conversationId = generateUuid();
     const messages = await storeMessages([
       {
@@ -370,7 +370,7 @@ describe('sql/searchMessages/withMentions', () => {
 
     assert.sameOrderedMembers(
       searchResults.map(res => res.id),
-      [messages[0].id, messages[1].id]
+      [messages[0]?.id, messages[1]?.id]
     );
 
     const searchResultsWithoutConversationid = await searchMessages({
@@ -380,7 +380,7 @@ describe('sql/searchMessages/withMentions', () => {
 
     assert.sameOrderedMembers(
       searchResultsWithoutConversationid.map(res => res.id),
-      [messages[0].id, messages[1].id, messages[2].id, messages[3].id]
+      [messages[0]?.id, messages[1]?.id, messages[2]?.id, messages[3]?.id]
     );
   });
 });

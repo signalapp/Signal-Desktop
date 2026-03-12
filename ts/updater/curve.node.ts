@@ -3,7 +3,12 @@
 
 import { PrivateKey, PublicKey } from '@signalapp/libsignal-client';
 
-export function keyPair(): Record<string, Uint8Array> {
+type KeyPair = Readonly<{
+  publicKey: Uint8Array;
+  privateKey: Uint8Array;
+}>;
+
+export function keyPair(): KeyPair {
   const privKey = PrivateKey.generate();
   const pubKey = privKey.getPublicKey();
 

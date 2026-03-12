@@ -354,7 +354,7 @@ export function isGIF(attachments?: ReadonlyArray<AttachmentType>): boolean {
   const flag = SignalService.AttachmentPointer.Flags.GIF;
   const hasFlag =
     // eslint-disable-next-line no-bitwise
-    !isUndefined(attachment.flags) && (attachment.flags & flag) === flag;
+    !isUndefined(attachment?.flags) && (attachment.flags & flag) === flag;
 
   return hasFlag && isVideoAttachment(attachment);
 }
@@ -499,7 +499,8 @@ export function getGridDimensions(
   }
 
   if (attachments.length === 1) {
-    return getImageDimensionsForTimeline(attachments[0]);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return getImageDimensionsForTimeline(attachments[0]!);
   }
 
   if (attachments.length === 2) {

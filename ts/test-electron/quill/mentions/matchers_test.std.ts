@@ -109,6 +109,7 @@ describe('matchMention', () => {
     assert.isNotEmpty(ops);
 
     const [op] = ops;
+    assert.exists(op);
     const { insert, attributes } = op;
 
     if (isMention(insert)) {
@@ -138,6 +139,7 @@ describe('matchMention', () => {
     assert.isNotEmpty(ops);
 
     const [op] = ops;
+    assert.exists(op);
     const { insert } = op;
 
     if (isMention(insert)) {
@@ -165,6 +167,7 @@ describe('matchMention', () => {
     assert.isNotEmpty(ops);
 
     const [op] = ops;
+    assert.exists(op);
     const { insert } = op;
 
     if (isMention(insert)) {
@@ -189,6 +192,7 @@ describe('matchMention', () => {
     assert.isNotEmpty(ops);
 
     const [op] = ops;
+    assert.exists(op);
     const { insert } = op;
 
     if (isMention(insert)) {

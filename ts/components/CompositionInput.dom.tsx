@@ -934,9 +934,9 @@ export function CompositionInput(props: Props): React.ReactElement {
               key: tabKey,
               handler: () => callbacksRef.current.onTab(),
             });
-            const ourHandler = quill.keyboard.bindings[tabKey].pop();
+            const ourHandler = quill.keyboard.bindings[tabKey]?.pop();
             if (ourHandler) {
-              quill.keyboard.bindings[tabKey].unshift(ourHandler);
+              quill.keyboard.bindings[tabKey]?.unshift(ourHandler);
             }
 
             const emojiCompletion = quill.getModule('emojiCompletion');

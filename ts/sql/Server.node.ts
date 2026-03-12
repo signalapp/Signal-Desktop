@@ -1415,13 +1415,11 @@ function insertSentProto(
       `
     );
 
-    const recipientServiceIds = Object.keys(recipients);
-    for (const recipientServiceId of recipientServiceIds) {
+    for (const [recipientServiceId, deviceIds] of Object.entries(recipients)) {
       strictAssert(
         isServiceIdString(recipientServiceId),
         'Recipient must be a service id'
       );
-      const deviceIds = recipients[recipientServiceId];
 
       for (const deviceId of deviceIds) {
         recipientStatement.run({
@@ -1550,18 +1548,24 @@ function deleteSentProtoRecipient(
           sendLogRecipients.deviceId = $deviceId;
        `
         )
-        .all({ timestamp, recipientServiceId, deviceId });
-      if (!rows.length) {
+        .all<{ id: string; hasPniSignatureMessage: string }>({
+          timestamp,
+          recipientServiceId,
+          deviceId,
+        });
+
+      const [row, ...others] = rows;
+      if (row == null) {
         continue;
       }
-      if (rows.length > 1) {
+      if (others.length > 0) {
         logger.warn(
           'deleteSentProtoRecipient: More than one payload matches ' +
             `recipient and timestamp ${timestamp}. Using the first.`
         );
       }
 
-      const { id, hasPniSignatureMessage } = rows[0];
+      const { id, hasPniSignatureMessage } = row;
 
       // 2. Delete the recipient/device combination in question.
       db.prepare(
@@ -2309,9 +2313,11 @@ function searchMessages(
       `
     );
     const hydrated = hydrateMessages(db, queryResult);
-    return queryResult.map((row, idx) => {
+    return queryResult.map((row, idx): ServerSearchResultMessageType => {
+      const message = hydrated[idx];
+      strictAssert(message, 'Missing message');
       return {
-        ...hydrated[idx],
+        ...message,
         ftsSnippet: row.ftsSnippet,
         mentionAci: row.mentionAci,
         mentionStart: row.mentionStart,
@@ -3530,17 +3536,19 @@ function getMessageByAuthorAciAndSentAt(
 
     const rows = db.prepare(query).all<MessageTypeUnhydrated>(params);
 
-    if (rows.length > 1) {
+    const [row, ...others] = rows;
+
+    if (others.length > 0) {
       logger.warn(
         `getMessageByAuthorAciAndSentAt(${authorAci}, ${sentAtTimestamp}): More than one message found`
       );
     }
 
-    if (rows.length < 1) {
+    if (row == null) {
       return null;
     }
 
-    return hydrateMessage(db, rows[0]);
+    return hydrateMessage(db, row);
   })();
 }
 
@@ -5784,28 +5792,30 @@ function getSortedNonAttachmentMedia(
     };
 
     if (type === 'links') {
+      const preview = row.preview?.[0];
       strictAssert(
-        row.preview != null && row.preview.length >= 1,
+        preview,
         `getSortedNonAttachmentMedia: got message without preview ${row.id}`
       );
 
       return {
         type: 'link',
         message,
-        preview: row.preview[0],
+        preview,
       };
     }
 
     if (type === 'contacts') {
+      const contact = row.contact?.[0];
       strictAssert(
-        row.contact != null && row.contact.length >= 1,
+        contact,
         `getSortedNonAttachmentMedia: got message without contact ${row.id}`
       );
 
       return {
         type: 'contact',
         message,
-        contact: row.contact[0],
+        contact,
       };
     }
 
@@ -9431,8 +9441,10 @@ function getUnreadEditedMessagesAndMarkRead(
       .prepare(selectQuery)
       .all<MessageTypeUnhydrated>(selectParams);
 
-    if (rows.length) {
-      const newestSentAt = rows[0].sent_at;
+    const [first] = rows;
+
+    if (first != null) {
+      const newestSentAt = first.sent_at;
 
       const [updateStatusQuery, updateStatusParams] = sql`
         UPDATE edited_messages

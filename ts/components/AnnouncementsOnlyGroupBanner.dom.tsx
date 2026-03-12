@@ -12,11 +12,12 @@ import type { PreferredBadgeSelectorType } from '../state/selectors/badges.prelo
 import { tw } from '../axo/tw.dom.js';
 import type { AdminMembershipType } from '../state/selectors/conversations.dom.js';
 import { UserText } from './UserText.dom.js';
+import type { ContactNameColorType } from '../types/Colors.std.js';
 
 type PropsType = {
   getPreferredBadge: PreferredBadgeSelectorType;
   groupAdmins: Array<AdminMembershipType>;
-  memberColors: Map<string, string>;
+  memberColors: Map<string, ContactNameColorType>;
   i18n: LocalizerType;
   showConversation: ShowConversationType;
   theme: ThemeType;

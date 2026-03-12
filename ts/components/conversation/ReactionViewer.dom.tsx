@@ -168,6 +168,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
               // Find the local user's reaction first, then fall back to most recent
               const localUserReaction = groupedReactions.find(r => r.from.isMe);
               const firstReaction = localUserReaction || groupedReactions[0];
+              strictAssert(firstReaction, 'Missing firstReaction');
               return {
                 id: firstReaction.parentKey,
                 index: DEFAULT_EMOJI_ORDER.includes(firstReaction.parentKey)

@@ -185,7 +185,7 @@ export const getBlessedStickerPacks = createSelector(
   ): Array<StickerPackType> => {
     return filterAndTransformPacks(
       packs,
-      pack => blessedPacks[pack.id] && pack.status !== 'installed',
+      pack => blessedPacks[pack.id] != null && pack.status !== 'installed',
       pack => pack.createdAt,
       blessedPacks
     );

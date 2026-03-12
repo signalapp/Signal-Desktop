@@ -1,82 +1,85 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { TextAttachmentStyleType } from '../types/Attachment.std.js';
 import type { LocalizerType } from '../types/Util.std.js';
 import { strictAssert } from './assert.std.js';
 
+const TextStyle = TextAttachmentStyleType;
+
 const FONT_MAP = {
-  base: [
-    'sans-serif',
-    'sans-serif',
-    'sans-serif',
-    'serif',
-    'serif',
-    'sans-serif',
-  ],
-  latin: [
-    'Inter',
-    'Inter',
-    'Inter',
-    '"EB Garamond"',
-    'Parisienne',
-    '"Barlow Condensed"',
-  ],
-  cyrillic: [
-    'Inter',
-    'Inter',
-    'Inter',
-    '"EB Garamond"',
-    '"American Typewriter Semibold", "Cambria Bold"',
-    '"SF Pro Light (System Light)", "Calibri Light"',
-  ],
-  devanagari: [
-    '"Kohinoor Devanagari Regular", "Utsaah Regular"',
-    '"Kohinoor Devanagari Regular", "Utsaah Regular"',
-    '"Kohinoor Devanagari Semibold", "Utsaah Bold"',
-    '"Devanagari Sangam MN Regular", "Kokila Regular"',
-    '"Devanagari Sangam MN Bold", "Kokila Bold"',
-    '"Kohinoor Devanagari Light", "Utsaah Regular"',
-  ],
-  arabic: [
-    '"SF Arabic Regular", "Segoe UI Arabic Regular"',
-    '"SF Arabic Regular", "Segoe UI Arabic Regular"',
-    '"SF Arabic Bold", "Segoe UI Arabic Bold"',
-    '"Geeza Pro Regular", "Sakkal Majalla Regular"',
-    '"Geeza Pro Bold", "Sakkal Majalla Bold"',
-    '"SF Arabic Black", "Segoe UI Arabic Bold"',
-  ],
-  japanese: [
-    '"Hiragino Sans W3"',
-    '"Hiragino Sans W3"',
-    '"Hiragino Sans W7"',
-    '"Hiragino Mincho Pro W3"',
-    '"Hiragino Mincho Pro W6"',
-    '"Hiragino Maru Gothic Pro N"',
-  ],
-  zhhk: [
-    '"PingFang HK Regular", "MingLiU Regular"',
-    '"PingFang HK Regular", "MingLiU Regular"',
-    '"PingFang HK Semibold", "MingLiU Regular"',
-    '"PingFang HK Ultralight", "MingLiU Regular"',
-    '"PingFang HK Thin", "MingLiU Regular"',
-    '"PingFang HK Light", "MingLiU Regular"',
-  ],
-  zhtc: [
-    '"PingFang TC Regular", "JhengHei TC Regular"',
-    '"PingFang TC Regular", "JhengHei TC Regular"',
-    '"PingFang TC Semibold", "JhengHei TC Bold"',
-    '"PingFang TC Ultralight", "JhengHei TC Light"',
-    '"PingFang TC Thin", "JhengHei TC Regular"',
-    '"PingFang TC Light", "JhengHei TC Bold"',
-  ],
-  zhsc: [
-    '"PingFang SC Regular", SimHei',
-    '"PingFang SC Regular", SimHei',
-    '"PingFang SC Semibold", SimHei',
-    '"PingFang SC Ultralight", SimHei',
-    '"PingFang SC Thin", SimHei',
-    '"PingFang SC Light", SimHei',
-  ],
+  base: {
+    [TextStyle.DEFAULT]: 'sans-serif',
+    [TextStyle.REGULAR]: 'sans-serif',
+    [TextStyle.BOLD]: 'sans-serif',
+    [TextStyle.SERIF]: 'serif',
+    [TextStyle.SCRIPT]: 'serif',
+    [TextStyle.CONDENSED]: 'sans-serif',
+  },
+  latin: {
+    [TextStyle.DEFAULT]: 'Inter',
+    [TextStyle.REGULAR]: 'Inter',
+    [TextStyle.BOLD]: 'Inter',
+    [TextStyle.SERIF]: '"EB Garamond"',
+    [TextStyle.SCRIPT]: 'Parisienne',
+    [TextStyle.CONDENSED]: '"Barlow Condensed"',
+  },
+  cyrillic: {
+    [TextStyle.DEFAULT]: 'Inter',
+    [TextStyle.REGULAR]: 'Inter',
+    [TextStyle.BOLD]: 'Inter',
+    [TextStyle.SERIF]: '"EB Garamond"',
+    [TextStyle.SCRIPT]: '"American Typewriter Semibold", "Cambria Bold"',
+    [TextStyle.CONDENSED]: '"SF Pro Light (System Light)", "Calibri Light"',
+  },
+  devanagari: {
+    [TextStyle.DEFAULT]: '"Kohinoor Devanagari Regular", "Utsaah Regular"',
+    [TextStyle.REGULAR]: '"Kohinoor Devanagari Regular", "Utsaah Regular"',
+    [TextStyle.BOLD]: '"Kohinoor Devanagari Semibold", "Utsaah Bold"',
+    [TextStyle.SERIF]: '"Devanagari Sangam MN Regular", "Kokila Regular"',
+    [TextStyle.SCRIPT]: '"Devanagari Sangam MN Bold", "Kokila Bold"',
+    [TextStyle.CONDENSED]: '"Kohinoor Devanagari Light", "Utsaah Regular"',
+  },
+  arabic: {
+    [TextStyle.DEFAULT]: '"SF Arabic Regular", "Segoe UI Arabic Regular"',
+    [TextStyle.REGULAR]: '"SF Arabic Regular", "Segoe UI Arabic Regular"',
+    [TextStyle.BOLD]: '"SF Arabic Bold", "Segoe UI Arabic Bold"',
+    [TextStyle.SERIF]: '"Geeza Pro Regular", "Sakkal Majalla Regular"',
+    [TextStyle.SCRIPT]: '"Geeza Pro Bold", "Sakkal Majalla Bold"',
+    [TextStyle.CONDENSED]: '"SF Arabic Black", "Segoe UI Arabic Bold"',
+  },
+  japanese: {
+    [TextStyle.DEFAULT]: '"Hiragino Sans W3"',
+    [TextStyle.REGULAR]: '"Hiragino Sans W3"',
+    [TextStyle.BOLD]: '"Hiragino Sans W7"',
+    [TextStyle.SERIF]: '"Hiragino Mincho Pro W3"',
+    [TextStyle.SCRIPT]: '"Hiragino Mincho Pro W6"',
+    [TextStyle.CONDENSED]: '"Hiragino Maru Gothic Pro N"',
+  },
+  zhhk: {
+    [TextStyle.DEFAULT]: '"PingFang HK Regular", "MingLiU Regular"',
+    [TextStyle.REGULAR]: '"PingFang HK Regular", "MingLiU Regular"',
+    [TextStyle.BOLD]: '"PingFang HK Semibold", "MingLiU Regular"',
+    [TextStyle.SERIF]: '"PingFang HK Ultralight", "MingLiU Regular"',
+    [TextStyle.SCRIPT]: '"PingFang HK Thin", "MingLiU Regular"',
+    [TextStyle.CONDENSED]: '"PingFang HK Light", "MingLiU Regular"',
+  },
+  zhtc: {
+    [TextStyle.DEFAULT]: '"PingFang TC Regular", "JhengHei TC Regular"',
+    [TextStyle.REGULAR]: '"PingFang TC Regular", "JhengHei TC Regular"',
+    [TextStyle.BOLD]: '"PingFang TC Semibold", "JhengHei TC Bold"',
+    [TextStyle.SERIF]: '"PingFang TC Ultralight", "JhengHei TC Light"',
+    [TextStyle.SCRIPT]: '"PingFang TC Thin", "JhengHei TC Regular"',
+    [TextStyle.CONDENSED]: '"PingFang TC Light", "JhengHei TC Bold"',
+  },
+  zhsc: {
+    [TextStyle.DEFAULT]: '"PingFang SC Regular", SimHei',
+    [TextStyle.REGULAR]: '"PingFang SC Regular", SimHei',
+    [TextStyle.BOLD]: '"PingFang SC Semibold", SimHei',
+    [TextStyle.SERIF]: '"PingFang SC Ultralight", SimHei',
+    [TextStyle.SCRIPT]: '"PingFang SC Thin", SimHei',
+    [TextStyle.CONDENSED]: '"PingFang SC Light", SimHei',
+  },
 };
 
 const rxArabic = /\p{Script=Arab}/u;
@@ -114,46 +117,46 @@ export const fontSniffer = {
 
 export function getFontNameByTextScript(
   text: string,
-  textStyleIndex: number,
+  textStyleType: TextAttachmentStyleType,
   i18n?: LocalizerType
 ): string {
   strictAssert(
-    textStyleIndex >= 0 && textStyleIndex <= 5,
-    'text style is not between 0-5'
+    TextAttachmentStyleType[textStyleType],
+    `Invalid textStyleType: ${textStyleType}`
   );
 
-  const fonts: Array<string> = [FONT_MAP.base[textStyleIndex]];
+  const fonts: Array<string> = [FONT_MAP.base[textStyleType]];
 
   if (fontSniffer.hasArabic(text)) {
-    fonts.push(FONT_MAP.arabic[textStyleIndex]);
+    fonts.push(FONT_MAP.arabic[textStyleType]);
   }
 
   if (fontSniffer.hasCJK(text)) {
     const locale = i18n?.getLocale();
 
     if (locale === 'zh-TW') {
-      fonts.push(FONT_MAP.zhtc[textStyleIndex]);
+      fonts.push(FONT_MAP.zhtc[textStyleType]);
     } else if (locale === 'zh-HK') {
-      fonts.push(FONT_MAP.zhhk[textStyleIndex]);
+      fonts.push(FONT_MAP.zhhk[textStyleType]);
     } else {
-      fonts.push(FONT_MAP.zhsc[textStyleIndex]);
+      fonts.push(FONT_MAP.zhsc[textStyleType]);
     }
   }
 
   if (fontSniffer.hasCyrillic(text)) {
-    fonts.push(FONT_MAP.cyrillic[textStyleIndex]);
+    fonts.push(FONT_MAP.cyrillic[textStyleType]);
   }
 
   if (fontSniffer.hasDevanagari(text)) {
-    fonts.push(FONT_MAP.devanagari[textStyleIndex]);
+    fonts.push(FONT_MAP.devanagari[textStyleType]);
   }
 
   if (fontSniffer.hasJapanese(text)) {
-    fonts.push(FONT_MAP.japanese[textStyleIndex]);
+    fonts.push(FONT_MAP.japanese[textStyleType]);
   }
 
   if (fontSniffer.hasLatin(text)) {
-    fonts.push(FONT_MAP.latin[textStyleIndex]);
+    fonts.push(FONT_MAP.latin[textStyleType]);
   }
 
   return fonts.reverse().join(', ');

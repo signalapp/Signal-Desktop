@@ -243,6 +243,36 @@ declare global {
   interface SharedArrayBuffer {
     __arrayBuffer: never;
   }
+
+  interface StringSplitSplitter<T> {
+    [Symbol.split](string: string, limit?: number): T;
+  }
+
+  interface String {
+    split(splitter: string | RegExp): [string, ...Array<string>];
+    split(splitter: string | RegExp, limit: 0): [];
+    split(splitter: string | RegExp, limit: 1): [string];
+    split(splitter: string | RegExp, limit: 2): [string, string?];
+    split(splitter: string | RegExp, limit: 3): [string, string?, string?];
+    split(
+      splitter: string | RegExp,
+      limit: 4
+    ): [string, string?, string?, string?];
+    split(
+      splitter: string | RegExp,
+      limit: 5
+    ): [string, string?, string?, string?, string?];
+    split(splitter: string | RegExp, limit: number): [string, ...Array<string>];
+    split(
+      splitter: string | RegExp,
+      limit?: number
+    ): [string, ...Array<string>];
+    split<T>(splitter: StringSplitSplitter<T>, limit?: number): T;
+    split(
+      splitter: string | RegExp | StringSplitSplitter<Array<string>>,
+      limit?: number
+    ): [string, ...Array<string>];
+  }
 }
 
 export type WhisperType = {

@@ -135,8 +135,10 @@ function getCredentialsForToday(
   }
 
   return {
-    today: credentials[todayIndex],
-    tomorrow: credentials[todayIndex + 1],
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    today: credentials[todayIndex]!,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    tomorrow: credentials[todayIndex + 1]!,
   };
 }
 

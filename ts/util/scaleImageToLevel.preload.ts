@@ -156,8 +156,7 @@ export async function scaleImageToLevel({
     };
   }
 
-  for (let i = 0; i < SCALABLE_DIMENSIONS.length; i += 1) {
-    const scalableDimensions = SCALABLE_DIMENSIONS[i];
+  for (const scalableDimensions of SCALABLE_DIMENSIONS) {
     if (maxDimensions < scalableDimensions) {
       continue;
     }

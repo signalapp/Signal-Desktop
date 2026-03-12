@@ -23,6 +23,7 @@ import { TimelineDateHeader } from './conversation/TimelineDateHeader.dom.js';
 import { AxoContextMenu } from '../axo/AxoContextMenu.dom.js';
 import { drop } from '../util/drop.std.js';
 import type { AxoMenuBuilder } from '../axo/AxoMenuBuilder.dom.js';
+import { strictAssert } from '../util/assert.std.js';
 
 const { noop } = lodash;
 
@@ -115,6 +116,7 @@ export function EditHistoryMessagesModal({
   >({});
 
   const [currentMessage, ...pastEdits] = editHistoryMessages;
+  strictAssert(currentMessage, 'Missing currentMessage');
   const currentMessageId = `${currentMessage.id}.${currentMessage.timestamp}`;
 
   let previousItem = currentMessage;

@@ -44,7 +44,7 @@ describe('reaction utilities', () => {
         { ...rxn('💬'), fromId: uuid() },
         { ...rxn('🥀', { isPending: true }), timestamp: 1 },
         { ...rxn('🌹', { isPending: true }), timestamp: 2 },
-      ];
+      ] as const;
       const reaction = rxn('😀');
       const newReactions = addOutgoingReaction(oldReactions, reaction);
       assert.deepStrictEqual(newReactions, [oldReactions[1], reaction]);

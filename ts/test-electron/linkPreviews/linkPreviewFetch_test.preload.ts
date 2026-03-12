@@ -157,8 +157,11 @@ describe('link preview fetching', () => {
           tag: '<link rel="icon" href="https://example.com/icon.jpg">',
           expectedHref: 'https://example.com/icon.jpg',
         },
-      ];
-      for (let i = orderedImageHrefSources.length - 1; i >= 0; i -= 1) {
+      ] as const;
+      for (const [i, orderedImageHrefSource] of orderedImageHrefSources
+        .entries()
+        .toArray()
+        .toReversed()) {
         const imageTags = orderedImageHrefSources
           .slice(i)
           .map(({ tag }) => tag)
@@ -180,11 +183,7 @@ describe('link preview fetching', () => {
           'https://example.com',
           new AbortController().signal
         );
-        assert.propertyVal(
-          val,
-          'image',
-          orderedImageHrefSources[i].expectedHref
-        );
+        assert.propertyVal(val, 'image', orderedImageHrefSource.expectedHref);
       }
     });
 

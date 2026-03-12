@@ -46,7 +46,8 @@ const fallbackMessages = JSON.parse(
 
 const nsisStrings = new Array<string>();
 for (const lang of REQUIRED_LANGUAGES) {
-  const langId = LCID[lang] ?? LCID.en_US;
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const langId = LCID[lang] ?? LCID.en_US!;
   if (USED.has(langId)) {
     continue;
   }

@@ -73,8 +73,8 @@ export default class EventTarget {
           return;
         }
       }
+      this.listeners[eventName] = listeners;
     }
-    this.listeners[eventName] = listeners;
   }
 
   extend(source: any): any {

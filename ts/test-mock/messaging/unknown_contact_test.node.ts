@@ -28,7 +28,7 @@ describe('unknown contacts', function (this: Mocha.Suite) {
     page = await app.getWindow();
 
     const { unknownContacts } = bootstrap;
-    [unknownContact] = unknownContacts;
+    [unknownContact] = unknownContacts as [PrimaryDevice];
   });
 
   afterEach(async function (this: Mocha.Context) {

@@ -191,7 +191,8 @@ export function ContextMenu<T>({
 
     if (ev.key === 'Enter') {
       if (focusedIndex !== undefined) {
-        const focusedOption = menuOptions[focusedIndex];
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const focusedOption = menuOptions[focusedIndex]!;
         focusedOption.onClick(focusedOption.value);
       }
       setIsMenuShowing(false);

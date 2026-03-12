@@ -106,10 +106,10 @@ describe('MessageReceipts', () => {
     const messageFromDatabase = await DataReader.getMessageById(id);
     const savedSendState = messageFromDatabase?.sendStateByConversationId;
 
-    assert.equal(savedSendState?.aaaa.status, SendStatus.Read, 'aaaa');
-    assert.equal(savedSendState?.bbbb.status, SendStatus.Delivered, 'bbbb');
-    assert.equal(savedSendState?.cccc.status, SendStatus.Read, 'cccc');
-    assert.equal(savedSendState?.dddd.status, SendStatus.Sent, 'dddd');
+    assert.equal(savedSendState?.aaaa?.status, SendStatus.Read, 'aaaa');
+    assert.equal(savedSendState?.bbbb?.status, SendStatus.Delivered, 'bbbb');
+    assert.equal(savedSendState?.cccc?.status, SendStatus.Read, 'cccc');
+    assert.equal(savedSendState?.dddd?.status, SendStatus.Sent, 'dddd');
   });
 
   it('updates sendStateByConversationId for edits', async () => {
@@ -221,34 +221,34 @@ describe('MessageReceipts', () => {
 
     assert.deepEqual(
       rootSendState,
-      messageFromDatabase?.editHistory?.[0].sendStateByConversationId,
+      messageFromDatabase?.editHistory?.[0]?.sendStateByConversationId,
       'edit history version should match root version'
     );
-    assert.equal(rootSendState?.aaaa.status, SendStatus.Delivered, 'aaaa');
-    assert.equal(rootSendState?.bbbb.status, SendStatus.Read, 'bbbb');
-    assert.equal(rootSendState?.cccc.status, SendStatus.Read, 'cccc');
-    assert.equal(rootSendState?.dddd.status, SendStatus.Sent, 'dddd');
+    assert.equal(rootSendState?.aaaa?.status, SendStatus.Delivered, 'aaaa');
+    assert.equal(rootSendState?.bbbb?.status, SendStatus.Read, 'bbbb');
+    assert.equal(rootSendState?.cccc?.status, SendStatus.Read, 'cccc');
+    assert.equal(rootSendState?.dddd?.status, SendStatus.Sent, 'dddd');
 
     const originalMessageSendState =
-      messageFromDatabase?.editHistory?.[1].sendStateByConversationId;
+      messageFromDatabase?.editHistory?.[1]?.sendStateByConversationId;
 
     assert.equal(
-      originalMessageSendState?.aaaa.status,
+      originalMessageSendState?.aaaa?.status,
       SendStatus.Read,
       'original-aaaa'
     );
     assert.equal(
-      originalMessageSendState?.bbbb.status,
+      originalMessageSendState?.bbbb?.status,
       SendStatus.Delivered,
       'original-bbbb'
     );
     assert.equal(
-      originalMessageSendState?.cccc.status,
+      originalMessageSendState?.cccc?.status,
       SendStatus.Read,
       'original-cccc'
     );
     assert.equal(
-      originalMessageSendState?.dddd.status,
+      originalMessageSendState?.dddd?.status,
       SendStatus.Sent,
       'original-dddd'
     );

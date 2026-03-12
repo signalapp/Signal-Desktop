@@ -24,7 +24,7 @@ describe('serverAlerts', function (this: Mocha.Suite) {
     // Set up a pinned contact to trigger profile fetch to test unauth socket
     let state = StorageState.getEmpty();
     const { phone, contacts } = bootstrap;
-    [pinned] = contacts;
+    [pinned] = contacts as [PrimaryDevice];
 
     state = state.addContact(pinned, {
       identityKey: pinned.publicKey.serialize(),

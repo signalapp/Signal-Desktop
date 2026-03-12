@@ -61,7 +61,8 @@ const expandToIncludeEntireLink = (
     return truncated;
   }
 
-  return original.slice(0, truncatedLink[0].lastIndex);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  return original.slice(0, truncatedLink[0]!.lastIndex);
 };
 
 type LinkRange = {

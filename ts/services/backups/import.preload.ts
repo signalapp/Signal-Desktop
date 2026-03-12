@@ -3425,7 +3425,7 @@ export class BackupImportStream extends Writable {
         if (Bytes.isNotEmpty(updaterAci)) {
           from = fromAciObject(Aci.fromUuidBytes(updaterAci));
         }
-        if (!invitees || invitees.length === 0) {
+        if (!invitees || invitees[0] == null) {
           throw new Error(
             `${logId}: groupInvitationRevokedUpdate had missing invitees list!`
           );
@@ -3707,7 +3707,7 @@ export class BackupImportStream extends Writable {
       additionalMessages.push(migrationMessage);
     }
 
-    if (finalDetails.length === 0 && additionalMessages.length > 0) {
+    if (finalDetails.length === 0 && additionalMessages[0] != null) {
       return {
         message: additionalMessages[0],
         additionalMessages: additionalMessages.slice(1),

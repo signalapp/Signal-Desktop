@@ -3356,6 +3356,10 @@ export function _mergeGroupChangeMessages(
 
   const [firstDetail] = firstChange.details;
   const [secondDetail] = secondChange.details;
+
+  strictAssert(firstDetail, 'Missing firstDetail');
+  strictAssert(secondDetail, 'Missing secondDetail');
+
   let isApprovalPending: boolean;
   if (secondDetail.type === 'admin-approval-add-one') {
     isApprovalPending = true;
@@ -3428,6 +3432,7 @@ export function _isGroupChangeMessageBounceable(
   }
 
   const [first] = groupV2Change.details;
+  strictAssert(first, 'Missing first');
   if (
     first.type === 'admin-approval-add-one' ||
     first.type === 'admin-approval-bounce'
@@ -4267,18 +4272,14 @@ async function integrateGroupChanges({
   const finalMessages: Array<Array<GroupChangeMessageType>> = [];
   const finalNewProfileKeys = new Map<AciString, string>();
 
-  const imax = changes.length;
-  for (let i = 0; i < imax; i += 1) {
-    const { groupChanges } = changes[i];
+  for (const change of changes) {
+    const { groupChanges } = change;
 
     if (!groupChanges) {
       continue;
     }
 
-    const jmax = groupChanges.length;
-    for (let j = 0; j < jmax; j += 1) {
-      const changeState = groupChanges[j];
-
+    for (const changeState of groupChanges) {
       const { groupChange, groupState } = changeState;
 
       if (!groupChange && !groupState) {
@@ -4323,8 +4324,8 @@ async function integrateGroupChanges({
   if (isFirstFetch && moreThanOneVersion) {
     // The first array in finalMessages is from the first revision we could process. It
     //   should contain a message about how we joined the group.
-    const joinMessages = finalMessages[0];
-    const alreadyHaveJoinMessage = joinMessages && joinMessages.length > 0;
+    const joinMessage = finalMessages[0]?.[0];
+    const alreadyHaveJoinMessage = joinMessage != null;
 
     // There have been other changes since that first revision, so we generate diffs for
     //   the whole of the change since then, likely without the initial join message.
@@ -4334,9 +4335,8 @@ async function integrateGroupChanges({
       dropInitialJoinMessage: alreadyHaveJoinMessage,
     });
 
-    const groupChangeMessages = alreadyHaveJoinMessage
-      ? [joinMessages[0], ...otherMessages]
-      : otherMessages;
+    const groupChangeMessages =
+      joinMessage != null ? [joinMessage, ...otherMessages] : otherMessages;
 
     return {
       newAttributes: attributes,
@@ -4897,6 +4897,7 @@ function extractDiffs({
   const removedPendingMemberIds = Array.from(oldPendingMemberLookup.keys());
   if (removedPendingMemberIds.length > 1) {
     const firstUuid = removedPendingMemberIds[0];
+    strictAssert(firstUuid, 'Missing firstUuid');
     const firstRemovedMember = oldPendingMemberLookup.get(firstUuid);
     strictAssert(
       firstRemovedMember !== undefined,
@@ -4913,6 +4914,7 @@ function extractDiffs({
     });
   } else if (removedPendingMemberIds.length === 1) {
     const serviceId = removedPendingMemberIds[0];
+    strictAssert(serviceId, 'Missing serviceId');
     const removedMember = oldPendingMemberLookup.get(serviceId);
     strictAssert(removedMember !== undefined, 'Removed member not found');
 
@@ -5434,7 +5436,7 @@ async function applyGroupChange({
       members[aci] = {
         aci,
         joinedAtVersion: version,
-        role: previousRecord.role || MemberRole.DEFAULT,
+        role: previousRecord?.role || MemberRole.DEFAULT,
       };
 
       newProfileKeys.push({
@@ -5478,7 +5480,7 @@ async function applyGroupChange({
       members[aci] = {
         aci,
         joinedAtVersion: version,
-        role: previousRecord.role || MemberRole.DEFAULT,
+        role: previousRecord?.role || MemberRole.DEFAULT,
       };
 
       newProfileKeys.push({

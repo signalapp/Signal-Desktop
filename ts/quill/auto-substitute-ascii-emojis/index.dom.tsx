@@ -48,6 +48,7 @@ function buildRegexp(obj: EmojiShortcutMap): RegExp {
   return new RegExp(`(${sanitizedKeys.join('|')})$`);
 }
 
+type EmojiRegExpMatch = RegExpExecArray & { 1: string };
 const EMOJI_REGEXP = buildRegexp(emojiShortcutMap);
 
 let isEnabled = true;
@@ -108,7 +109,7 @@ export class AutoSubstituteAsciiEmojis {
       return;
     }
 
-    const [, textEmoji] = match;
+    const [, textEmoji] = match as EmojiRegExpMatch;
     const emojiParentKey = emojiShortcutMap[textEmoji];
 
     if (emojiParentKey != null) {

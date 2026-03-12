@@ -508,7 +508,7 @@ describe('ReleaseNoteAndMegaphoneFetcher', () => {
       const dbMegaphones = await getAllMegaphones();
       const dbMegaphone = dbMegaphones[0];
       assert.strictEqual(dbMegaphones.length, 1);
-      assert.strictEqual(dbMegaphone.id, myMegaphone.uuid);
+      assert.strictEqual(dbMegaphone?.id, myMegaphone.uuid);
       assert.strictEqual(
         dbMegaphone.dontShowBeforeEpochMs,
         myMegaphone.dontShowBeforeEpochSeconds * 1000
@@ -588,8 +588,8 @@ describe('ReleaseNoteAndMegaphoneFetcher', () => {
 
       const dbMegaphones = await getAllMegaphones();
       assert.strictEqual(dbMegaphones.length, 2);
-      assert.strictEqual(dbMegaphones[0].id, megaphoneForMyCountry.uuid);
-      assert.strictEqual(dbMegaphones[1].id, wildcardMegaphone.uuid);
+      assert.strictEqual(dbMegaphones[0]?.id, megaphoneForMyCountry.uuid);
+      assert.strictEqual(dbMegaphones[1]?.id, wildcardMegaphone.uuid);
     });
   });
 
@@ -616,7 +616,7 @@ describe('ReleaseNoteAndMegaphoneFetcher', () => {
     const dbMegaphones = await getAllMegaphones();
     assert.strictEqual(dbMegaphones.length, 1);
     const dbMegaphone = dbMegaphones[0];
-    assert.strictEqual(dbMegaphone.id, fakeMegaphoneUuid);
+    assert.strictEqual(dbMegaphone?.id, fakeMegaphoneUuid);
   });
 
   it('deletes saved megaphones if the manifest has empty megaphones', async () => {

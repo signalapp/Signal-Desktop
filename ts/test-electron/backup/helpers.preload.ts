@@ -267,7 +267,8 @@ export async function asymmetricRoundtripHarness(
     if (options.comparator) {
       assert.strictEqual(actual.length, expected.length);
       for (let i = 0; i < actual.length; i += 1) {
-        options.comparator(expected[i], actual[i]);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        options.comparator(expected[i]!, actual[i]!);
       }
     } else {
       assert.deepEqual(actual, expected);

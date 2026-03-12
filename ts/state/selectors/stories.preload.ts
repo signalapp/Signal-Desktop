@@ -113,15 +113,18 @@ function sortMyStories(storyA: MyStoryType, storyB: MyStoryType): number {
     return 1;
   }
 
-  if (!storyA.stories.length) {
+  const a = storyA.stories[0];
+  const b = storyB.stories[0];
+
+  if (a == null) {
     return 1;
   }
 
-  if (!storyB.stories.length) {
+  if (b == null) {
     return -1;
   }
 
-  return storyA.stories[0].timestamp > storyB.stories[0].timestamp ? -1 : 1;
+  return b.timestamp - a.timestamp;
 }
 
 function getAvatarData(

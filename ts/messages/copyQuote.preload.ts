@@ -185,7 +185,8 @@ export const copyQuoteContentFromOriginal = async (
   }
 
   if (queryPreview.length > 0) {
-    const { image: quotedPreviewImage } = queryPreview[0];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const { image: quotedPreviewImage } = queryPreview[0]!;
     if (quotedPreviewImage && quotedPreviewImage.path) {
       quoteAttachment.thumbnail = {
         ...quotedPreviewImage,

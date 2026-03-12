@@ -109,7 +109,8 @@ Default.play = async (context: any) => {
   const { args, canvasElement } = context;
   const canvas = within(canvasElement);
   const [avatar] = canvas.getAllByRole('button');
-  await userEvent.click(avatar);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  await userEvent.click(avatar!);
   await expect(args.onClick).toHaveBeenCalled();
 };
 

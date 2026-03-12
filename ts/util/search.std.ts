@@ -53,8 +53,10 @@ export function generateSnippetAroundMention({
   // Gradually narrow the substring, word by word, until a snippet of appropriate length
   // is found
   while (leftWordIdx <= rightWordIdx) {
-    const leftWord = words[leftWordIdx];
-    const rightWord = words[rightWordIdx];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const leftWord = words[leftWordIdx]!;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const rightWord = words[rightWordIdx]!;
 
     snippetStartIdx = Math.min(leftWord.index, mentionStart);
     snippetEndIdx = Math.max(

@@ -47,7 +47,7 @@ describe('message send state utilities', () => {
 
     it('orders the statuses', () => {
       times(100, () => {
-        const [a, b] = sampleSize(expectedOrder, 2);
+        const [a, b] = sampleSize(expectedOrder, 2) as [SendStatus, SendStatus];
         const isABigger = expectedOrder.indexOf(a) > expectedOrder.indexOf(b);
         const expected = isABigger ? a : b;
 

@@ -92,7 +92,7 @@ export class GumVideoCapturer {
       return;
     }
 
-    const settings = this.mediaStream.getVideoTracks()?.[0].getSettings();
+    const settings = this.mediaStream.getVideoTracks()?.[0]?.getSettings();
     if (!settings?.width || !settings?.height) {
       return;
     }

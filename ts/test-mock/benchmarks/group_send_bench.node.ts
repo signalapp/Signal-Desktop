@@ -4,6 +4,7 @@
 
 import assert from 'node:assert';
 
+import type { PrimaryDevice } from '@signalapp/mock-server';
 import {
   StorageState,
   EnvelopeType,
@@ -46,7 +47,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
   const app = await bootstrap.link();
 
   const { server, desktop } = bootstrap;
-  const [first] = members;
+  const [first] = members as [PrimaryDevice];
 
   const messages = new Array<Buffer>();
   debug('encrypting');
@@ -94,7 +95,8 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
 
   // Fill group
   for (let i = 0; i < CONVERSATION_SIZE; i += 1) {
-    const contact = unblockedMembers[i % unblockedMembers.length];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const contact = unblockedMembers[i % unblockedMembers.length]!;
     const messageTimestamp = bootstrap.getTimestamp();
 
     const isLast = i === CONVERSATION_SIZE - 1;

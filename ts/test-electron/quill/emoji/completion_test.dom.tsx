@@ -252,7 +252,10 @@ describe('emojiCompletion', () => {
         });
 
         it('inserts the emoji at the current cursor position', () => {
-          const [{ emojiParentKey, index, range }] = insertEmojiStub.args[0];
+          const firstArgs = insertEmojiStub.args[0];
+          assert.exists(firstArgs);
+
+          const [{ emojiParentKey, index, range }] = firstArgs;
 
           assert.equal(emojiParentKey, PARENT_KEYS.SMILE);
           assert.equal(index, 0);
@@ -281,7 +284,10 @@ describe('emojiCompletion', () => {
         });
 
         it('inserts the emoji at the current cursor position', () => {
-          const [{ emojiParentKey, index, range }] = insertEmojiStub.args[0];
+          const firstArgs = insertEmojiStub.args[0];
+          assert.exists(firstArgs);
+
+          const [{ emojiParentKey, index, range }] = firstArgs;
 
           assert.equal(emojiParentKey, PARENT_KEYS.SMILE);
           assert.equal(index, 7);
@@ -341,7 +347,10 @@ describe('emojiCompletion', () => {
         });
 
         it('inserts the emoji at the current cursor position', () => {
-          const [{ emojiParentKey, index, range }] = insertEmojiStub.args[0];
+          const firstArgs = insertEmojiStub.args[0];
+          assert.exists(firstArgs);
+
+          const [{ emojiParentKey, index, range }] = firstArgs;
 
           assert.equal(emojiParentKey, PARENT_KEYS.SMILE);
           assert.equal(index, 0);
@@ -390,7 +399,10 @@ describe('emojiCompletion', () => {
         });
 
         it('inserts the emoji at the current cursor position', () => {
-          const [{ emojiParentKey, index, range }] = insertEmojiStub.args[0];
+          const firstArgs = insertEmojiStub.args[0];
+          assert.exists(firstArgs);
+
+          const [{ emojiParentKey, index, range }] = firstArgs;
 
           assert.equal(emojiParentKey, PARENT_KEYS.SMILE);
           assert.equal(index, 0);
@@ -435,8 +447,10 @@ describe('emojiCompletion', () => {
       });
 
       it('inserts the currently selected emoji at the current cursor position', () => {
-        const [{ emojiParentKey, index: insertIndex, range }] =
-          insertEmojiStub.args[0];
+        const firstArgs = insertEmojiStub.args[0];
+        assert.exists(firstArgs);
+
+        const [{ emojiParentKey, index: insertIndex, range }] = firstArgs;
 
         assert.equal(emojiParentKey, PARENT_KEYS.SMILE_CAT);
         assert.equal(insertIndex, 0);

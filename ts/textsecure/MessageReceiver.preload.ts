@@ -848,10 +848,9 @@ export default class MessageReceiver
     }
 
     for await (const batch of this.#getAllFromCache()) {
-      const max = batch.length;
-      for (let i = 0; i < max; i += 1) {
+      for (const item of batch) {
         // eslint-disable-next-line no-await-in-loop
-        await this.#queueCached(batch[i]);
+        await this.#queueCached(item);
       }
     }
     log.info('queueAllCached - finished');

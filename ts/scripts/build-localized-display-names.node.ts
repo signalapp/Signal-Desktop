@@ -12,14 +12,15 @@ if (type !== 'countries' && type !== 'locales') {
   throw new Error('Invalid first argument, expceted "countries" or "locales"');
 }
 
-const localeDisplayNamesDataPath = process.argv[3];
-if (!localeDisplayNamesDataPath) {
+if (!process.argv[3]) {
   throw new Error('Missing second argument: source csv file');
 }
-const localeDisplayNamesBuildPath = process.argv[4];
-if (!localeDisplayNamesBuildPath) {
+const localeDisplayNamesDataPath = process.argv[3];
+
+if (!process.argv[4]) {
   throw new Error('Missing third argument: output json file');
 }
+const localeDisplayNamesBuildPath = process.argv[4];
 
 const availableLocales = _getAvailableLocales();
 
@@ -68,7 +69,8 @@ function convertData(
 
       result[subKey] = {};
       for (const [index, message] of messages.entries()) {
-        result[subKey][keys[index]] = message;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        result[subKey][keys[index]!] = message;
       }
     }
   } else {
@@ -81,7 +83,8 @@ function convertData(
       const [subKey, ...messages] = row;
 
       for (const [index, message] of messages.entries()) {
-        result[keys[index]][subKey] = message;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        result[keys[index]!]![subKey] = message;
       }
     }
   }
@@ -103,7 +106,8 @@ function assertValuesForAllLocales(result: LocaleDisplayNamesResult) {
 }
 
 function assertValuesForAllCountries(result: LocaleDisplayNamesResult) {
-  const availableCountries = Object.keys(result.en);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const availableCountries = Object.keys(result.en!);
   for (const locale of availableLocales) {
     const values = result[locale];
     if (values == null) {

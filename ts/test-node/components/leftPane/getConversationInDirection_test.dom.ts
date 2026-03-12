@@ -17,7 +17,7 @@ describe('getConversationInDirection', () => {
     fakeConversation(true),
     fakeConversation(true),
     fakeConversation(),
-  ];
+  ] as const;
 
   describe('searching for any conversation', () => {
     const up: ToFindType = {
@@ -107,7 +107,7 @@ describe('getConversationInDirection', () => {
       fakeConversation(),
       fakeConversation(),
       fakeConversation(),
-    ];
+    ] as const;
 
     it('returns undefined if there are no conversations', () => {
       assert.isUndefined(getConversationInDirection([], up, undefined));

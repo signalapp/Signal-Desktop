@@ -208,7 +208,7 @@
     /* Enable error reporting for fallthrough cases in switch statements. */
     "noFallthroughCasesInSwitch": true,
     /* Add 'undefined' to a type when accessed using an index. */
-    "noUncheckedIndexedAccess": false, // TODO: Major migration needed
+    "noUncheckedIndexedAccess": true,
     /* Ensure overriding members in derived classes are marked with an override modifier. */
     "noImplicitOverride": true,
     /* Enforces using indexed accessors for keys declared using an indexed type. */
@@ -232,6 +232,7 @@
    * ts-node
    */
   "ts-node": {
+    "transpileOnly": true,
     // Override TypeScript options for `ts-node` only
     "compilerOptions": {
       // Necessary for `ts-node` to work with CommonJS modules until we migrate to package.json#type: "module"

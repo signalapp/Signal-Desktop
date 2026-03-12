@@ -12,6 +12,7 @@ import type {
   GroupV2Membership,
 } from './ConversationDetailsMembershipList.dom.js';
 import { ConversationDetailsMembershipList } from './ConversationDetailsMembershipList.dom.js';
+import type { ContactNameColorType } from '../../../types/Colors.std.js';
 import { ContactNameColors } from '../../../types/Colors.std.js';
 
 const { i18n } = window.SignalContext;
@@ -33,11 +34,12 @@ const createMemberships = (
 
 const getMemberColors = (
   memberships: Array<GroupV2Membership>
-): Map<string, string> =>
+): Map<string, ContactNameColorType> =>
   new Map(
     memberships.map((membership, i) => [
       membership.member.id,
-      ContactNameColors[i],
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      ContactNameColors[i % ContactNameColors.length]!,
     ])
   );
 

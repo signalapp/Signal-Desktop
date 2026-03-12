@@ -29,6 +29,7 @@ export function SharedGroupNames({
     </strong>
   ));
 
+  /* eslint-disable @typescript-eslint/no-non-null-assertion */
   if (sharedGroupNames.length >= 5) {
     const remainingCount = sharedGroupNames.length - 3;
     return (
@@ -36,9 +37,9 @@ export function SharedGroupNames({
         i18n={i18n}
         id="icu:member-of-more-than-3-groups--multiple-more"
         components={{
-          group1: firstThreeGroups[0],
-          group2: firstThreeGroups[1],
-          group3: firstThreeGroups[2],
+          group1: firstThreeGroups[0]!,
+          group2: firstThreeGroups[1]!,
+          group3: firstThreeGroups[2]!,
           remainingCount,
         }}
       />
@@ -50,9 +51,9 @@ export function SharedGroupNames({
         i18n={i18n}
         id="icu:member-of-more-than-3-groups--one-more"
         components={{
-          group1: firstThreeGroups[0],
-          group2: firstThreeGroups[1],
-          group3: firstThreeGroups[2],
+          group1: firstThreeGroups[0]!,
+          group2: firstThreeGroups[1]!,
+          group3: firstThreeGroups[2]!,
         }}
       />
     );
@@ -63,9 +64,9 @@ export function SharedGroupNames({
         i18n={i18n}
         id="icu:member-of-3-groups"
         components={{
-          group1: firstThreeGroups[0],
-          group2: firstThreeGroups[1],
-          group3: firstThreeGroups[2],
+          group1: firstThreeGroups[0]!,
+          group2: firstThreeGroups[1]!,
+          group3: firstThreeGroups[2]!,
         }}
       />
     );
@@ -76,8 +77,8 @@ export function SharedGroupNames({
         i18n={i18n}
         id="icu:member-of-2-groups"
         components={{
-          group1: firstThreeGroups[0],
-          group2: firstThreeGroups[1],
+          group1: firstThreeGroups[0]!,
+          group2: firstThreeGroups[1]!,
         }}
       />
     );
@@ -88,11 +89,12 @@ export function SharedGroupNames({
         i18n={i18n}
         id="icu:member-of-1-group"
         components={{
-          group: firstThreeGroups[0],
+          group: firstThreeGroups[0]!,
         }}
       />
     );
   }
+  /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
   return <>{i18n('icu:no-groups-in-common')}</>;
 }

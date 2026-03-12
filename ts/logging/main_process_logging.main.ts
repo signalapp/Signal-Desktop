@@ -210,8 +210,10 @@ export function eliminateOutOfDateFiles(
             path: target,
             start: isLineAfterDate(start, date),
             end:
-              isLineAfterDate(end[end.length - 1], date) ||
-              isLineAfterDate(end[end.length - 2], date),
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              isLineAfterDate(end[end.length - 1]!, date) ||
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              isLineAfterDate(end[end.length - 2]!, date),
           };
 
           if (!file.start && !file.end) {

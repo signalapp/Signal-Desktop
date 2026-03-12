@@ -260,6 +260,7 @@ export class Timeline extends React.Component<
     if (setFocus && items && items.length > 0) {
       const lastIndex = items.length - 1;
       const lastMessageId = items[lastIndex];
+      strictAssert(lastMessageId, 'Missing lastMessageId');
       targetMessage(lastMessageId, id);
     } else {
       const containerEl = this.#containerRef.current;
@@ -307,6 +308,7 @@ export class Timeline extends React.Component<
     ) {
       if (setFocus) {
         const messageId = items[oldestUnseenIndex];
+        strictAssert(messageId, 'Missing messageId');
         targetMessage(messageId, id);
       } else {
         this.#lastSeenIndicatorRef.current?.scrollIntoView();
@@ -824,6 +826,7 @@ export class Timeline extends React.Component<
       }
 
       const messageId = items[targetIndex];
+      strictAssert(messageId, 'Missing messageId');
       targetMessage(messageId, id);
 
       event.preventDefault();
@@ -851,6 +854,7 @@ export class Timeline extends React.Component<
       }
 
       const messageId = items[targetIndex];
+      strictAssert(messageId, 'Missing messageId');
       targetMessage(messageId, id);
 
       event.preventDefault();

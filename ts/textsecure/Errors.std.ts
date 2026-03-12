@@ -46,7 +46,7 @@ export class OutgoingIdentityKeyError extends ReplayableError {
 
   // Note: Data to resend message is no longer captured
   constructor(incomingIdentifier: string, cause?: LibSignalErrorBase) {
-    const identifier = incomingIdentifier.split('.')[0];
+    const [identifier] = incomingIdentifier.split('.');
 
     super({
       name: 'OutgoingIdentityKeyError',
@@ -70,7 +70,7 @@ export class OutgoingMessageError extends ReplayableError {
     _t: unknown,
     httpError?: HTTPError
   ) {
-    const identifier = incomingIdentifier.split('.')[0];
+    const [identifier] = incomingIdentifier.split('.', 1);
 
     super({
       name: 'OutgoingMessageError',
@@ -101,7 +101,8 @@ export class SendMessageNetworkError extends ReplayableError {
       message: httpError.message,
     });
 
-    [this.identifier] = identifier.split('.');
+    const [id] = identifier.split('.', 1);
+    this.identifier = id;
     this.httpError = httpError;
 
     appendStack(this, httpError);
@@ -137,7 +138,8 @@ export class SendMessageChallengeError extends ReplayableError {
       cause: httpError,
     });
 
-    [this.identifier] = identifier.split('.');
+    const [id] = identifier.split('.', 1);
+    this.identifier = id;
     this.httpError = httpError;
 
     this.data = httpError.response as SendMessageChallengeData;

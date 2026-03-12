@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import lodash from 'lodash';
-import { type MIMEType, IMAGE_JPEG } from '../../../../types/MIME.std.js';
+import { IMAGE_JPEG, stringToMIMEType } from '../../../../types/MIME.std.js';
 import type {
   MediaItemType,
   ContactMediaItemType,
@@ -21,17 +21,22 @@ export const days = (n: number): number => n * DAY_MS;
 const tokens = ['foo', 'bar', 'baz', 'qux', 'quux'];
 
 const contentTypes = {
-  gif: 'image/gif',
-  jpg: 'image/jpeg',
-  png: 'image/png',
-  mp4: 'video/mp4',
-  docx: 'application/text',
-  pdf: 'application/pdf',
-  exe: 'application/exe',
-  txt: 'application/text',
-} as unknown as Record<string, MIMEType>;
+  gif: stringToMIMEType('image/gif'),
+  jpg: stringToMIMEType('image/jpeg'),
+  png: stringToMIMEType('image/png'),
+  mp3: stringToMIMEType('audio/mp3'),
+  mp4: stringToMIMEType('video/mp4'),
+  docx: stringToMIMEType('application/text'),
+  pdf: stringToMIMEType('application/pdf'),
+  exe: stringToMIMEType('application/exe'),
+  txt: stringToMIMEType('application/text'),
+} as const;
 
-function createRandomAttachment(fileExtension: string): AttachmentForUIType {
+type FileExtension = keyof typeof contentTypes;
+
+function createRandomAttachment(
+  fileExtension: FileExtension
+): AttachmentForUIType {
   const contentType = contentTypes[fileExtension];
   const fileName = `${sample(tokens)}${sample(tokens)}.${fileExtension}`;
 
@@ -101,7 +106,7 @@ function createRandomFile(
   type: 'media' | 'document' | 'audio',
   startTime: number,
   timeWindow: number,
-  fileExtension: string
+  fileExtension: FileExtension
 ): MediaItemType {
   return {
     type,
@@ -154,15 +159,11 @@ function createRandomFiles(
   type: 'media' | 'document' | 'audio',
   startTime: number,
   timeWindow: number,
-  fileExtensions: Array<string>
+  fileExtensions: Array<FileExtension>
 ): Array<MediaItemType> {
   return range(random(5, 20)).map(() =>
-    createRandomFile(
-      type,
-      startTime,
-      timeWindow,
-      sample(fileExtensions) as string
-    )
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    createRandomFile(type, startTime, timeWindow, sample(fileExtensions)!)
   );
 }
 export function createRandomDocuments(

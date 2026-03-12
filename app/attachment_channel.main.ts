@@ -791,13 +791,15 @@ function handleRangeRequest({
   }
 
   // Chromium only sends open-ended ranges: "start-"
+  type Match = RegExpMatchArray & { 1: string };
   const match = range.match(/^bytes=(\d+)-$/);
   if (match == null) {
     log.error(`invalid range header: ${range}`);
     return create200Response();
   }
 
-  const startParam = safeParseInteger(match[1]);
+  const [startInput] = match as Match;
+  const startParam = safeParseInteger(startInput);
   if (startParam == null) {
     log.error(`invalid range header: ${range}`);
     return create200Response();

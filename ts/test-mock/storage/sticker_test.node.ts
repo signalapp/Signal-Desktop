@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import type { PrimaryDevice } from '@signalapp/mock-server';
 import { Proto } from '@signalapp/mock-server';
 import * as durations from '../../util/durations/index.std.js';
 import type { App, Bootstrap } from './fixtures.node.js';
@@ -47,7 +48,7 @@ describe('stickers', function (this: Mocha.Suite) {
 
   it('should install/uninstall stickers', async () => {
     const { phone, desktop, contacts } = bootstrap;
-    const [firstContact] = contacts;
+    const [firstContact] = contacts as [PrimaryDevice];
 
     const window = await app.getWindow();
 
@@ -303,10 +304,10 @@ describe('stickers', function (this: Mocha.Suite) {
       .waitFor();
 
     const firstStickerData = (await app.getMessagesBySentAt(firstTimestamp))[0]
-      .sticker?.data;
+      ?.sticker?.data;
     const secondStickerData = (
       await app.getMessagesBySentAt(secondTimestamp)
-    )[0].sticker?.data;
+    )[0]?.sticker?.data;
 
     strictAssert(firstStickerData?.path, 'path exists');
     strictAssert(firstStickerData?.localKey, 'localKey exists');

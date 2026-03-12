@@ -318,7 +318,8 @@ export function getNotificationDataForMessage(
         }
       } else {
         const joinedContact = window.ConversationController.getOrCreate(
-          groupUpdate.joined[0],
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          groupUpdate.joined[0]!,
           'private'
         );
         if (isMe(joinedContact.attributes)) {
@@ -326,7 +327,8 @@ export function getNotificationDataForMessage(
         } else {
           messages.push(
             i18n('icu:joinedTheGroup', {
-              name: joinedContacts[0].getTitle(),
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              name: joinedContacts[0]!.getTitle(),
             })
           );
         }
@@ -476,7 +478,8 @@ export function getNotificationDataForMessage(
   const { contact: contacts } = attributes;
   if (contacts && contacts.length) {
     return {
-      text: EmbeddedContact.getName(contacts[0]) || i18n('icu:unknownContact'),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      text: EmbeddedContact.getName(contacts[0]!) || i18n('icu:unknownContact'),
       emoji: '👤',
     };
   }

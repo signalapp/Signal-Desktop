@@ -379,7 +379,7 @@ async function getFetchOptions<Type extends ResponseType, OutputShape>(
     };
   }
   const agentEntry = agents[cacheKey];
-  const agent = agentEntry?.agent ?? null;
+  const agent = agentEntry?.agent ?? undefined;
 
   const fetchOptions: FetchOptionsType = {
     method: options.type,
@@ -729,12 +729,11 @@ function makeHTTPError(
 export function makeKeysLowercase<V>(
   headers: Record<string, V>
 ): Record<string, V> {
-  const keys = Object.keys(headers);
   const lowerCase: Record<string, V> = Object.create(null);
 
-  keys.forEach(key => {
-    lowerCase[key.toLowerCase()] = headers[key];
-  });
+  for (const [key, value] of Object.entries(headers)) {
+    lowerCase[key.toLowerCase()] = value;
+  }
 
   return lowerCase;
 }
@@ -3877,7 +3876,9 @@ export async function putStickers(
   });
   await Promise.all(
     stickers.map(async (sticker: ServerV2AttachmentType, index: number) => {
-      const stickerParams = makePutParams(sticker, encryptedStickers[index]);
+      const encryptedSticker = encryptedStickers[index];
+      strictAssert(encryptedSticker, 'Missing encryptedSticker');
+      const stickerParams = makePutParams(sticker, encryptedSticker);
       await queue.add(async () =>
         _outerAjax(`${cdnUrlObject['0']}/`, {
           ...stickerParams,
@@ -4044,7 +4045,8 @@ async function _getAttachment({
 
       const match = PARSE_RANGE_HEADER.exec(range);
       strictAssert(match != null, 'Attachment Content-Range is invalid');
-      const maybeSize = safeParseNumber(match[1]);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const maybeSize = safeParseNumber(match[1]!);
       strictAssert(
         maybeSize != null,
         'Attachment Content-Range[1] is not a number'
@@ -4193,7 +4195,8 @@ export async function putEncryptedAttachment(
     if (range != null) {
       const match = range.match(/^bytes=0-(\d+)$/);
       strictAssert(match != null, `Invalid range header: ${range}`);
-      start = parseInt(match[1], 10);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      start = parseInt(match[1]!, 10);
     } else {
       log.warn(`${logId}: No range header`);
     }
@@ -4753,9 +4756,12 @@ export async function getGroupLog(
     const range = response.headers.get('Content-Range');
     const match = PARSE_GROUP_LOG_RANGE_HEADER.exec(range || '');
 
-    const start = match ? parseInt(match[1], 10) : undefined;
-    const end = match ? parseInt(match[2], 10) : undefined;
-    const currentRevision = match ? parseInt(match[3], 10) : undefined;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const start = match ? parseInt(match[1]!, 10) : undefined;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const end = match ? parseInt(match[2]!, 10) : undefined;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const currentRevision = match ? parseInt(match[3]!, 10) : undefined;
 
     if (
       match &&

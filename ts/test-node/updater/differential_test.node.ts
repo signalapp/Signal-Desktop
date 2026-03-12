@@ -97,7 +97,9 @@ describe('updater/differential', () => {
 
         const fullFile = await fs.readFile(path.join(FIXTURES, file));
 
-        const rangeHeader = req.headers.range?.match(/^bytes=([\d,\s-]+)$/);
+        const rangeHeader = req.headers.range?.match(/^bytes=([\d,\s-]+)$/) as
+          | (RegExpMatchArray & { 1: string })
+          | null;
         if (!rangeHeader) {
           res.writeHead(200);
           res.end(fullFile);
@@ -105,10 +107,12 @@ describe('updater/differential', () => {
         }
 
         const ranges = rangeHeader[1].split(/\s*,\s*/g).map(value => {
-          const range = value.match(/^(\d+)-(\d+)$/);
+          const range = value.match(/^(\d+)-(\d+)$/) as
+            | (RegExpMatchArray & { 1: string; 2: string })
+            | null;
           strictAssert(range, `Invalid header: ${rangeHeader}`);
 
-          return [parseInt(range[1], 10), parseInt(range[2], 10)];
+          return [parseInt(range[1], 10), parseInt(range[2], 10)] as const;
         });
 
         if (ranges.length === 1) {
@@ -120,7 +124,9 @@ describe('updater/differential', () => {
             return;
           }
 
-          const [from, to] = ranges[0];
+          const range = ranges[0];
+          strictAssert(range, 'Missing range');
+          const [from, to] = range;
           res.end(fullFile.slice(from, to + 1));
           return;
         }

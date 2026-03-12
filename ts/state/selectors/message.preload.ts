@@ -72,7 +72,10 @@ import {
   defaultBlurHash,
 } from '../../util/Attachment.std.js';
 import type { MessageAttachmentType } from '../../types/AttachmentDownload.std.js';
-import { type DefaultConversationColorType } from '../../types/Colors.std.js';
+import type {
+  ContactNameColorType,
+  DefaultConversationColorType,
+} from '../../types/Colors.std.js';
 import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
 
 import type { CallingNotificationType } from '../../util/callingNotification.std.js';
@@ -212,7 +215,7 @@ export type GetPropsForBubbleOptions = Readonly<{
   callHistorySelector: CallHistorySelectorType;
   activeCall?: CallStateType;
   accountSelector: AccountSelectorType;
-  contactNameColors: Map<string, string>;
+  contactNameColors: Map<string, ContactNameColorType>;
   defaultConversationColor: DefaultConversationColorType;
 }>;
 
@@ -2115,7 +2118,7 @@ function getDeletedForEveryoneByAdmin(
   message: MessageWithUIFieldsType,
   options: {
     conversationSelector: GetConversationByIdType;
-    contactNameColors: Map<string, string>;
+    contactNameColors: Map<string, ContactNameColorType>;
     ourAci: AciString | undefined;
   }
 ): PropsData['deletedForEveryoneByAdmin'] {
@@ -2157,7 +2160,8 @@ export function getPropsForEmbeddedContact(
     return undefined;
   }
 
-  const firstContact = contacts[0];
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const firstContact = contacts[0]!;
   const numbers = firstContact?.number;
   const firstNumber = numbers && numbers[0] ? numbers[0].value : undefined;
 

@@ -120,13 +120,14 @@ function searchConversations(
   searchTerm: string,
   regionCode: string | undefined
 ): ReadonlyArray<Pick<Fuse.FuseResult<ConversationType>, 'item' | 'score'>> {
+  type CommandMatch = RegExpMatchArray & { 1: string; 2: string | undefined };
   const maybeCommand = searchTerm.match(/^!([^\s:]+)(?::(.*))?$/);
   if (maybeCommand) {
-    const [, commandName, query] = maybeCommand;
+    const [, commandName, query] = maybeCommand as CommandMatch;
 
     const command = COMMANDS.get(commandName);
     if (command) {
-      return command(conversations, query).map(item => ({ item }));
+      return command(conversations, query ?? '').map(item => ({ item }));
     }
   }
 

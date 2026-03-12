@@ -171,6 +171,7 @@ export class MainSQL {
 
     this.#onReady = (async () => {
       const primary = this.#pool[0];
+      strictAssert(primary, 'Missing primary');
       const rest = this.#pool.slice(1);
 
       await this.#send(primary, {
@@ -319,6 +320,7 @@ export class MainSQL {
     }
 
     const primary = this.#pool[0];
+    strictAssert(primary, 'Missing primary');
 
     const { result, duration } = await this.#send<SqlCallResult>(primary, {
       type: 'sqlCall:write',
@@ -393,6 +395,8 @@ export class MainSQL {
 
   async #terminate(request: WorkerRequest): Promise<void> {
     const primary = this.#pool[0];
+    strictAssert(primary, 'Missing primary');
+
     const rest = this.#pool.slice(1);
 
     // Terminate non-primary workers first
@@ -532,6 +536,8 @@ export class MainSQL {
   // Find first pool entry with minimal load
   #getWorker(): PoolEntry {
     let min = this.#pool[0];
+    strictAssert(min, 'Missing min');
+
     for (const entry of this.#pool) {
       if (min && min.load < entry.load) {
         continue;

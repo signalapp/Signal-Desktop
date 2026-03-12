@@ -2814,27 +2814,38 @@ export class CallingClass {
       return false;
     }
     for (let i = 0; i < a.availableCameras.length; i += 1) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const aCamera = a.availableCameras[i]!;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const bCamera = a.availableCameras[i]!;
       if (
-        a.availableCameras[i].deviceId !== b.availableCameras[i].deviceId ||
-        a.availableCameras[i].groupId !== b.availableCameras[i].groupId ||
-        a.availableCameras[i].label !== b.availableCameras[i].label
+        aCamera.deviceId !== bCamera.deviceId ||
+        aCamera.groupId !== bCamera.groupId ||
+        aCamera.label !== bCamera.label
       ) {
         return false;
       }
     }
     for (let i = 0; i < a.availableMicrophones.length; i += 1) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const aMicrophone = a.availableMicrophones[i]!;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const bMicrophone = b.availableMicrophones[i]!;
       if (
-        a.availableMicrophones[i].name !== b.availableMicrophones[i].name ||
-        a.availableMicrophones[i].uniqueId !==
-          b.availableMicrophones[i].uniqueId
+        aMicrophone.name !== bMicrophone.name ||
+        aMicrophone.uniqueId !== bMicrophone.uniqueId
       ) {
         return false;
       }
     }
     for (let i = 0; i < a.availableSpeakers.length; i += 1) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const aSpeaker = a.availableSpeakers[i]!;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const bSpeaker = b.availableSpeakers[i]!;
       if (
-        a.availableSpeakers[i].name !== b.availableSpeakers[i].name ||
-        a.availableSpeakers[i].uniqueId !== b.availableSpeakers[i].uniqueId
+        aSpeaker.name !== bSpeaker.name ||
+        aSpeaker.uniqueId !== bSpeaker.uniqueId
       ) {
         return false;
       }
@@ -3875,11 +3886,15 @@ export class CallingClass {
     if (this._iceServerOverride) {
       if (typeof this._iceServerOverride === 'string') {
         if (ICE_SERVER_IS_IP_LIKE.test(this._iceServerOverride)) {
-          iceServers[0].urls = [this._iceServerOverride];
-          iceServers = [iceServers[0]];
+          const iceServer = iceServers[0];
+          strictAssert(iceServer, 'Missing iceServers[0]');
+          iceServer.urls = [this._iceServerOverride];
+          iceServers = [iceServer];
         } else {
-          iceServers[1].urls = [this._iceServerOverride];
-          iceServers = [iceServers[1]];
+          const iceServer = iceServers[1];
+          strictAssert(iceServer, 'Missing iceServers[1]');
+          iceServer.urls = [this._iceServerOverride];
+          iceServers = [iceServer];
         }
       } else {
         iceServers = iceServerConfigToList(this._iceServerOverride);

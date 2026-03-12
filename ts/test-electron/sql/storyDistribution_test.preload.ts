@@ -233,6 +233,9 @@ describe('sql/storyDistribution', () => {
 
     const allHydratedLists = await getAllStoryDistributionsWithMembers();
     assert.lengthOf(allHydratedLists, 1);
-    assert.deepEqual(allHydratedLists[0].members, [SERVICE_ID_1, SERVICE_ID_2]);
+    assert.deepEqual(allHydratedLists[0]?.members, [
+      SERVICE_ID_1,
+      SERVICE_ID_2,
+    ]);
   });
 });

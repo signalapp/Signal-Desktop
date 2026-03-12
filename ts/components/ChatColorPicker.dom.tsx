@@ -196,8 +196,7 @@ export function ChatColorPicker({
               ref={i === 0 ? focusRef : undefined}
             />
           ))}
-          {Object.keys(customColors).map(colorId => {
-            const colorValues = customColors[colorId];
+          {Object.entries(customColors).map(([colorId, colorValues]) => {
             return (
               <CustomColorBubble
                 color={colorValues}

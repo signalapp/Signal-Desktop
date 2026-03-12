@@ -34,9 +34,13 @@ describe('utils/migrateMessageData', async () => {
     await itemStorage.fetch();
   });
   it('increments attempts for messages which fail to save', async () => {
-    const messages = new Array(5)
-      .fill(null)
-      .map((_, idx) => composeMessage(idx + 1));
+    const messages = [
+      composeMessage(1),
+      composeMessage(2),
+      composeMessage(3),
+      composeMessage(4),
+      composeMessage(5),
+    ] as const;
 
     const CANNOT_UPGRADE_MESSAGE_ID = messages[1].id;
     const CANNOT_SAVE_MESSAGE_ID = messages[2].id;

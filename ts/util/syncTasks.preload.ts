@@ -78,8 +78,7 @@ export async function queueSyncTasks(
 ): Promise<void> {
   const logId = 'queueSyncTasks';
 
-  for (let i = 0, max = tasks.length; i < max; i += 1) {
-    const task = tasks[i];
+  for (const task of tasks) {
     const { id, envelopeId, type, sentAt, data } = task;
     const innerLogId = `${logId}(${toLogId(task)})`;
 
