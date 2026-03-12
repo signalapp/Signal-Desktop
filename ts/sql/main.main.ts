@@ -276,6 +276,12 @@ export class MainSQL {
       duration: number;
     }>;
 
+    if (method === 'pageBackupMessages' && this.#pauseWaiters == null) {
+      throw new Error(
+        'pageBackupMessages can only run after pauseWriteAccess()'
+      );
+    }
+
     // pageMessages runs over several queries and needs to have access to
     // the same temporary table, it also creates temporary insert/update
     // triggers so it has to run on the same connection that updates the tables

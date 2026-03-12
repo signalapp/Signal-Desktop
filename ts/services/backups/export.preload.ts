@@ -17,7 +17,7 @@ import {
   resumeWriteAccess,
 } from '../../sql/Client.preload.js';
 import type {
-  PageMessagesCursorType,
+  PageBackupMessagesCursorType,
   IdentityKeyType,
 } from '../../sql/Interface.std.js';
 import { createLogger } from '../../logging/log.std.js';
@@ -804,7 +804,7 @@ export class BackupExportStream extends Readable {
       this.#stats.chatFolders += 1;
     }
 
-    let cursor: PageMessagesCursorType | undefined;
+    let cursor: PageBackupMessagesCursorType | undefined;
 
     const callHistory = await DataReader.getAllCallHistory();
     const callHistoryByCallId = makeLookup(callHistory, 'callId');
@@ -821,13 +821,20 @@ export class BackupExportStream extends Readable {
       pni: me.get('pni'),
     };
 
-    try {
-      while (!cursor?.done) {
-        const { messages, cursor: newCursor } =
-          // eslint-disable-next-line no-await-in-loop
-          await DataReader.pageMessages(cursor);
+    let lastBatch: Promise<void> = Promise.resolve();
+    while (!cursor?.done) {
+      // Performance optimization: it takes roughly the same time to load and
+      // to process a batch of messages so begin loading the next batch while
+      // processing the current one.
 
-        // eslint-disable-next-line no-await-in-loop
+      // eslint-disable-next-line no-await-in-loop
+      const [{ messages, cursor: newCursor }] = await Promise.all([
+        DataReader.pageBackupMessages(cursor),
+        lastBatch,
+      ]);
+      cursor = newCursor;
+
+      lastBatch = (async () => {
         await pMap(
           messages,
           async message => {
@@ -862,17 +869,11 @@ export class BackupExportStream extends Readable {
           { concurrency: MAX_CONCURRENCY }
         );
 
-        cursor = newCursor;
-
-        // eslint-disable-next-line no-await-in-loop
         await this.#flush();
-      }
-    } finally {
-      if (cursor !== undefined) {
-        await DataReader.finishPageMessages(cursor);
-      }
+      })();
     }
 
+    await lastBatch;
     await this.#flush();
 
     log.warn('final stats', {

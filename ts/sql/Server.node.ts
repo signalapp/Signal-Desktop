@@ -153,6 +153,8 @@ import type {
   MessageType,
   PageMessagesCursorType,
   PageMessagesResultType,
+  PageBackupMessagesCursorType,
+  PageBackupMessagesResultType,
   PreKeyIdType,
   PollVoteReadResultType,
   ReactionResultType,
@@ -573,6 +575,7 @@ export const DataReader: ServerReadableInterface = {
   finishGetKnownMessageAttachments,
   pageMessages,
   finishPageMessages,
+  pageBackupMessages,
   getKnownDownloads,
   getKnownConversationAttachments,
 
@@ -8956,6 +8959,32 @@ function finishPageMessages(
     DROP TRIGGER tmp_${runId}_message_updates;
     DROP TRIGGER tmp_${runId}_message_inserts;
   `);
+}
+
+function pageBackupMessages(
+  db: ReadableDB,
+  cursor?: PageBackupMessagesCursorType
+): PageBackupMessagesResultType {
+  const LIMIT = 10000;
+  const [query, params] = sql`
+    SELECT
+      rowid,
+      ${MESSAGE_COLUMNS_FRAGMENT}
+    FROM messages
+    WHERE
+      rowid >= ${cursor?.nextRowid ?? 0}
+    LIMIT ${LIMIT}
+  `;
+  const rows: Array<MessageTypeUnhydrated & { rowid: number }> = db
+    .prepare(query)
+    .all(params);
+  return {
+    cursor: {
+      nextRowid: rows.at(-1)?.rowid ?? 0,
+      done: rows.length < LIMIT,
+    } as PageBackupMessagesCursorType,
+    messages: hydrateMessages(db, rows),
+  };
 }
 
 function getKnownDownloads(db: ReadableDB): Array<string> {

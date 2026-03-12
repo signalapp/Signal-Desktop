@@ -1174,6 +1174,7 @@ export class BackupsService {
     this.#isRunning = 'export';
 
     const start = Date.now();
+    window.IPC.startTrackingQueryStats();
     try {
       if (options.type === 'remote') {
         strictAssert(
@@ -1274,6 +1275,7 @@ export class BackupsService {
         duration,
       };
     } finally {
+      window.IPC.stopTrackingQueryStats({ epochName: 'Backup Export' });
       log.info('exportBackup: finished...');
       this.#isRunning = false;
     }
