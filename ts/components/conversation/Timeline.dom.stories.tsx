@@ -481,7 +481,10 @@ const useProps = (overrideProps: Partial<PropsType> = {}): PropsType => ({
 });
 
 export function OldestAndNewest(): React.JSX.Element {
-  const props = useProps();
+  const props = useProps({
+    haveOldest: true,
+    haveNewest: true,
+  });
 
   return <Timeline {...props} />;
 }
@@ -541,12 +544,6 @@ export function TargetIndexToTop(): React.JSX.Element {
   const props = useProps({
     scrollToIndex: 0,
   });
-
-  return <Timeline {...props} />;
-}
-
-export function TypingIndicator(): React.JSX.Element {
-  const props = useProps({ isSomeoneTyping: true });
 
   return <Timeline {...props} />;
 }

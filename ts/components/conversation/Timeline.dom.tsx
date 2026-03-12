@@ -309,7 +309,7 @@ export class Timeline extends React.Component<
         const messageId = items[oldestUnseenIndex];
         targetMessage(messageId, id);
       } else {
-        this.#scrollToItemIndex(oldestUnseenIndex);
+        this.#lastSeenIndicatorRef.current?.scrollIntoView();
       }
     } else if (haveNewest) {
       this.#scrollToBottom(setFocus);
@@ -683,6 +683,7 @@ export class Timeline extends React.Component<
       items: newItems,
       messageChangeCounter,
       messageLoadingState,
+      oldestUnseenIndex,
     } = this.props;
 
     const containerEl = this.#containerRef.current;
@@ -742,6 +743,7 @@ export class Timeline extends React.Component<
       const numberToKeepAtTop = this.#maxVisibleRows * 5;
       const shouldDiscardNewerMessages: boolean =
         !this.#isAtBottom() &&
+        oldestUnseenIndex == null &&
         loadingStateThatJustFinished ===
           TimelineMessageLoadingState.LoadingOlderMessages &&
         newItems.length > numberToKeepAtTop;

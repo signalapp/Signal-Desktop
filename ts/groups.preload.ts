@@ -5130,6 +5130,8 @@ function extractDiffs({
         expireTimer,
         sourceServiceId: isReJoin ? undefined : sourceServiceId,
       },
+      readStatus: ReadStatus.Read,
+      seenStatus: isFromUs ? SeenStatus.Seen : SeenStatus.Unseen,
     };
   }
 
