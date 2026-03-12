@@ -246,7 +246,7 @@ export function PreferencesSelectChatsDialog(
         {(ref, size) => {
           return (
             <div ref={ref} className={tw('min-h-[100px] w-full flex-grow')}>
-              {size != null && (
+              {size != null && !size.hidden && (
                 <ConversationList
                   dimensions={size}
                   i18n={i18n}

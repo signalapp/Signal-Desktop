@@ -449,7 +449,7 @@ export function ChooseGroupMembersModal({
                     }
                   }}
                 >
-                  {size != null && (
+                  {size != null && !size.hidden && (
                     <ListView
                       width={size.width}
                       height={size.height}

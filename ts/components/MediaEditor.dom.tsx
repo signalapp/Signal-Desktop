@@ -1259,6 +1259,9 @@ export function MediaEditor({
       <div className="MediaEditor__container">
         <SizeObserver
           onSizeChange={size => {
+            if (size.hidden) {
+              return;
+            }
             setContainerWidth(size.width);
             setContainerHeight(size.height);
           }}

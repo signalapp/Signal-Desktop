@@ -1050,6 +1050,11 @@ export class Timeline extends React.Component<
       <ScrollerLockContext.Provider value={this.#scrollerLock}>
         <SizeObserver
           onSizeChange={size => {
+            if (size.hidden) {
+              // triggered when timeline is hidden via display: none
+              return;
+            }
+
             const { isNearBottom } = this.props;
 
             this.setState({

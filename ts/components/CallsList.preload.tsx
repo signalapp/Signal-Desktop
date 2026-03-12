@@ -1057,7 +1057,7 @@ export function CallsList({
         {(ref, size) => {
           return (
             <div className="CallsList__ListContainer" ref={ref}>
-              {size != null && (
+              {size != null && !size.hidden && (
                 <InfiniteLoader
                   ref={infiniteLoaderRef}
                   isRowLoaded={isRowLoaded}
