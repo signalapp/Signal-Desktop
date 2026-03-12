@@ -754,6 +754,7 @@ export class BackupsService {
       log.info('internal validation: starting');
       const start = Date.now();
 
+      window.IPC.startTrackingQueryStats();
       const recordStream = new BackupExportStream({
         ...exportOptions,
         validationRun: true,
@@ -762,6 +763,9 @@ export class BackupsService {
       recordStream.run();
 
       const totalBytes = await validateBackupStream(recordStream);
+      window.IPC.stopTrackingQueryStats({
+        epochName: 'Internal Validate Backup',
+      });
 
       const duration = Date.now() - start;
 
