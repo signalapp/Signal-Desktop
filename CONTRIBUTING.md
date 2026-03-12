@@ -10,7 +10,7 @@ easily reviewed changes with clear and specific intentions. See below for more
 [guidelines on pull requests](#pull-requests).
 
 It's a good idea to gauge interest in your intended work by finding the current issue
-for it or creating a new one yourself. You can use also that issue as a place to signal
+for it or creating a new one yourself. You can also use that issue as a place to signal
 your intentions and get feedback from the users most likely to appreciate your changes.
 
 Once you've spent a little bit of time planning your solution, you can go
@@ -78,9 +78,9 @@ pnpm run dev:styles    # recompiles when you change .scss files
 
 #### Known issues
 
-##### `yarn install` prints error 'Could not detect abi for version 30.0.6 and runtime electron'
+##### `pnpm install` prints error 'Could not detect abi for version 30.0.6 and runtime electron'
 
-`yarn install` may print an error like the following, but it can be ignored because the overall operation succeeds.
+`pnpm install` may print an error like the following, but it can be ignored because the overall operation succeeds.
 
 ```
 $ ./node_modules/.bin/electron-builder install-app-deps
@@ -303,7 +303,7 @@ pnpm run build
 
 Then, run the tests using `pnpm run test-release`.
 
-### Testing MacOS builds
+### Testing macOS builds
 
 macOS requires apps to be code signed with an Apple certificate. To test development builds
 you can ad-hoc sign the packaged app which will let you run it locally.
