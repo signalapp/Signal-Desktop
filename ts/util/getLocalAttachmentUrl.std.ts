@@ -5,6 +5,7 @@ import lodash from 'lodash';
 import { strictAssert } from './assert.std.js';
 
 import type { AttachmentType } from '../types/Attachment.std.js';
+import { consoleLogger } from './consoleLogger.std.js';
 
 const { isNumber } = lodash;
 
@@ -83,9 +84,9 @@ export function getLocalAttachmentUrl(
 
   if (disposition === AttachmentDisposition.Download) {
     if (!attachment.key) {
-      throw new Error('getLocalAttachmentUrl: Missing attachment key!');
+      consoleLogger.error('getLocalAttachmentUrl: Missing attachment key!');
     }
-    url.searchParams.set('key', attachment.key);
+    url.searchParams.set('key', attachment.key || '');
 
     if (!attachment.digest) {
       throw new Error('getLocalAttachmentUrl: Missing attachment digest!');
