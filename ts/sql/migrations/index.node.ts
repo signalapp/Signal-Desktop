@@ -144,6 +144,7 @@ import updateToSchemaVersion1640 from './1640-key-transparency.std.js';
 import updateToSchemaVersion1650 from './1650-protected-attachments.std.js';
 import updateToSchemaVersion1660 from './1660-protected-attachments-non-unique.std.js';
 import updateToSchemaVersion1670 from './1670-drop-call-link-epoch.std.js';
+import updateToSchemaVersion1680 from './1680-cleanup-empty-strings.std.js';
 
 import { DataWriter } from '../Server.node.js';
 
@@ -1648,6 +1649,7 @@ export const SCHEMA_VERSIONS: ReadonlyArray<SchemaUpdateType> = [
   { version: 1650, update: updateToSchemaVersion1650 },
   { version: 1660, update: updateToSchemaVersion1660 },
   { version: 1670, update: updateToSchemaVersion1670 },
+  { version: 1680, update: updateToSchemaVersion1680 },
 ];
 
 export class DBVersionFromFutureError extends Error {
