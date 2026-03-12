@@ -559,6 +559,18 @@ export type PageMessagesResultType = Readonly<{
   messages: ReadonlyArray<MessageAttributesType>;
 }>;
 
+export type PageBackupMessagesCursorType = Readonly<{
+  __page_backup_messages_cursor: never;
+
+  nextRowid: number;
+  done: boolean;
+}>;
+
+export type PageBackupMessagesResultType = Readonly<{
+  cursor: PageBackupMessagesCursorType;
+  messages: ReadonlyArray<MessageAttributesType>;
+}>;
+
 export type GetAllStoriesResultType = ReadonlyArray<
   MessageType & {
     hasReplies: boolean;
@@ -875,6 +887,12 @@ type ReadableInterface = {
 
   pageMessages: (cursor?: PageMessagesCursorType) => PageMessagesResultType;
   finishPageMessages: (cursor: PageMessagesCursorType) => void;
+
+  // Must not be used when write access is not paused.
+  // See `pauseWriteAccess`
+  pageBackupMessages: (
+    cursor?: PageBackupMessagesCursorType
+  ) => PageBackupMessagesResultType;
 
   getTotalUnreadForConversation: (
     conversationId: string,
