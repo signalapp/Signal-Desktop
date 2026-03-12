@@ -5562,7 +5562,7 @@ async function applyGroupChange({
   if (actions.modifyAddFromInviteLinkAccess) {
     const linkAccess =
       actions.modifyAddFromInviteLinkAccess?.addFromInviteLinkAccess;
-    accessControl.members = isValidLinkAccess(linkAccess)
+    accessControl.addFromInviteLink = isValidLinkAccess(linkAccess)
       ? linkAccess
       : AccessRequired.UNSATISFIABLE;
   }
@@ -5571,7 +5571,7 @@ async function applyGroupChange({
   //   GroupChange.Actions.ModifyMemberLabelAccessControlAction;
   if (actions.modifyMemberLabelAccess) {
     const access = actions.modifyMemberLabelAccess?.memberLabelAccess;
-    accessControl.members = isValidAccess(access)
+    accessControl.memberLabel = isValidAccess(access)
       ? access
       : AccessRequired.MEMBER;
   }
