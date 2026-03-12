@@ -1378,7 +1378,7 @@ export async function mergeContactRecord(
     };
   }
 
-  await conversation.updateUsername(dropNull(contactRecord.username), {
+  await conversation.updateUsername(dropNull(contactRecord.username || null), {
     shouldSave: false,
     fromStorageService: true,
   });
@@ -1986,7 +1986,7 @@ export async function mergeAccountRecord(
     needsStorageServiceSync: false,
   });
 
-  await conversation.updateUsername(dropNull(username), {
+  await conversation.updateUsername(dropNull(username || null), {
     shouldSave: false,
     fromStorageService: true,
   });

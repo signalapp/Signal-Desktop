@@ -1259,7 +1259,7 @@ export class BackupExportStream extends Readable {
             aci,
             pni,
             e164,
-            username: convo.username ?? null,
+            username: convo.username || null,
             blocked: convo.serviceId
               ? itemStorage.blocked.isServiceIdBlocked(convo.serviceId)
               : null,
