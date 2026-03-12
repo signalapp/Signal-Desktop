@@ -15,5 +15,5 @@ export const isInSystemContacts = ({
   // `direct` for redux, `private` for models and the database
   (type === 'direct' || type === 'private') &&
   (typeof name === 'string' ||
-    typeof systemGivenName === 'string' ||
-    typeof systemFamilyName === 'string');
+    (typeof systemGivenName === 'string' && systemGivenName.length > 0) ||
+    (typeof systemFamilyName === 'string' && systemFamilyName.length > 0));
