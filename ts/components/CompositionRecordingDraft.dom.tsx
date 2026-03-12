@@ -49,6 +49,9 @@ export function CompositionRecordingDraft({
 
   const handleResize = useCallback(
     (size: Size) => {
+      if (size.hidden) {
+        return;
+      }
       if (size.width === state.width) {
         return;
       }

@@ -316,6 +316,9 @@ export const ConversationHeader = memo(function ConversationHeader({
       )}
       <SizeObserver
         onSizeChange={size => {
+          if (size.hidden) {
+            return;
+          }
           setIsNarrow(size.width < 500);
         }}
       >

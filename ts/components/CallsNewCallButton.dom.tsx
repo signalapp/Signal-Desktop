@@ -314,7 +314,7 @@ export function CallsNewCall({
           {(ref, size) => {
             return (
               <div ref={ref} className="CallsNewCall__ListContainer">
-                {size != null && (
+                {size != null && !size.hidden && (
                   <List
                     className="CallsNewCall__List"
                     width={size.width}

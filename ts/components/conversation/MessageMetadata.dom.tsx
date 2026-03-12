@@ -302,6 +302,9 @@ export const MessageMetadata = forwardRef<HTMLDivElement, Readonly<PropsType>>(
 
     const onResize = useCallback(
       (size: Size) => {
+        if (size.hidden) {
+          return;
+        }
         onWidthMeasured?.(size.width);
       },
       [onWidthMeasured]

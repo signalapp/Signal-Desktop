@@ -4,15 +4,29 @@ import type { RefObject } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { strictAssert } from '../util/assert.std.js';
 
-export type Size = Readonly<{
-  width: number;
-  height: number;
-}>;
+export type Size = Readonly<
+  { hidden: false; width: number; height: number } | { hidden: true }
+>;
 
 export type SizeChangeHandler = (size: Size) => void;
 
 export function isSameSize(a: Size, b: Size): boolean {
+  if (a.hidden || b.hidden) {
+    if (a.hidden && b.hidden) {
+      return true;
+    }
+    return false;
+  }
   return a.width === b.width && a.height === b.height;
+}
+
+function getNextSize(borderBoxSize: ResizeObserverSize): Size {
+  const width = borderBoxSize.inlineSize;
+  const height = borderBoxSize.blockSize;
+  if (width === 0 && height === 0) {
+    return { hidden: true };
+  }
+  return { hidden: false, width, height };
 }
 
 export function useSizeObserver<T extends Element = Element>(
@@ -42,10 +56,8 @@ export function useSizeObserver<T extends Element = Element>(
       // We are assuming a horizontal writing-mode here, we could call
       // `getBoundingClientRect()` here but MDN says not to. In the future if
       // we are adding support for a vertical locale we may need to change this
-      const next: Size = {
-        width: borderBoxSize.inlineSize,
-        height: borderBoxSize.blockSize,
-      };
+
+      const next = getNextSize(borderBoxSize);
       const prev = sizeRef.current;
       if (prev == null || !isSameSize(prev, next)) {
         sizeRef.current = next;

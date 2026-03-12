@@ -190,7 +190,7 @@ export function AddUserToAnotherGroupModal({
                     className="AddUserToAnotherGroupModal__list-wrapper"
                     ref={ref}
                   >
-                    {size != null && (
+                    {size != null && !size.hidden && (
                       <ListView
                         width={size.width}
                         height={size.height}

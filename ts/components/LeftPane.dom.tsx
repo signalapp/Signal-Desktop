@@ -601,7 +601,9 @@ export function LeftPane({
   const previousMeasureSize = usePrevious(null, measureSize);
 
   const widthBreakpoint = getNavSidebarWidthBreakpoint(
-    measureSize?.width ?? preferredWidthFromStorage
+    measureSize && !measureSize.hidden
+      ? measureSize.width
+      : preferredWidthFromStorage
   );
 
   const commonDialogProps = {
@@ -926,7 +928,9 @@ export function LeftPane({
               >
                 <ConversationList
                   key={modeSpecificProps.mode}
-                  dimensions={measureSize ?? undefined}
+                  dimensions={
+                    measureSize?.hidden === false ? measureSize : undefined
+                  }
                   getPreferredBadge={getPreferredBadge}
                   getRow={getRow}
                   i18n={i18n}

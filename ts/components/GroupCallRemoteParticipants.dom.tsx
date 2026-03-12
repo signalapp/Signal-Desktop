@@ -484,6 +484,9 @@ export function GroupCallRemoteParticipants({
       <div className="module-ongoing-call__participants__grid--wrapper">
         <SizeObserver
           onSizeChange={size => {
+            if (size.hidden) {
+              return;
+            }
             setGridDimensions(size);
           }}
         >

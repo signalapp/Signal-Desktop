@@ -174,7 +174,7 @@ export const TextAttachment = forwardRef<HTMLTextAreaElement, PropsType>(
     const ref = useRef<HTMLDivElement>(null);
     const size = useSizeObserver(ref);
 
-    const scaleFactor = (size?.height || 1) / 1280;
+    const scaleFactor = (size?.hidden === false ? size.height : 1) / 1280;
 
     return (
       // eslint-disable-next-line jsx-a11y/no-static-element-interactions
