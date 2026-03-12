@@ -267,6 +267,7 @@ import { maybeNotify } from '../messages/maybeNotify.preload.js';
 import { missingCaseError } from '../util/missingCaseError.std.js';
 import * as Message from '../types/Message2.preload.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
+import { isUsernameValid } from '../util/Username.dom.js';
 
 const { compact, isNumber, throttle, debounce } = lodash;
 
@@ -4451,6 +4452,16 @@ export class ConversationModel {
     }
 
     if (this.get('username') === username) {
+      return;
+    }
+
+    if (username && !isUsernameValid(username)) {
+      log.error(
+        `updateUsername(${this.idForLogging()}): username is invalid, dropping`,
+        {
+          fromStorageService,
+        }
+      );
       return;
     }
 
