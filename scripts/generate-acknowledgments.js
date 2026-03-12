@@ -4,7 +4,7 @@
 const assert = require('node:assert');
 const fs = require('node:fs');
 const { join } = require('node:path');
-const pMap = require('p-map');
+const { default: pMap } = require('p-map');
 const prettier = require('prettier');
 
 const { default: packageJson } = require('./packageJson.js');

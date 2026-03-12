@@ -187,7 +187,7 @@
     "node-fetch": "2.6.7",
     "nop": "1.0.0",
     "normalize-path": "3.0.0",
-    "p-map": "2.1.0",
+    "p-map": "7.0.4",
     "p-queue": "6.6.2",
     "p-timeout": "4.1.0",
     "parsecurrency": "1.1.1",
