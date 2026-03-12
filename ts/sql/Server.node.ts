@@ -8965,7 +8965,7 @@ function pageBackupMessages(
   db: ReadableDB,
   cursor?: PageBackupMessagesCursorType
 ): PageBackupMessagesResultType {
-  const LIMIT = 10000;
+  const LIMIT = 1000;
   const [query, params] = sql`
     SELECT
       rowid,
