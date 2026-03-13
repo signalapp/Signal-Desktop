@@ -103,6 +103,33 @@ export function StoriesTab({
   viewUserStories,
 }: PropsType): React.JSX.Element {
   const [isMyStories, setIsMyStories] = useState(false);
+  React.useEffect(() => {
+  const handlePaste = (ev: ClipboardEvent) => {
+    if (!ev.clipboardData) return;
+
+    const items = Array.from(ev.clipboardData.items);
+    
+    // Image takes priority over text
+    const imageItem = items.find(item => item.type.startsWith('image/'));
+    if (imageItem) {
+    const file = imageItem.getAsFile();
+    if (!file) return;
+    onAddStory(file);
+    return;
+    }
+
+  // Fall back to text
+  const text = ev.clipboardData.getData('text/plain');
+  if (text?.trim()) {
+    setAddStoryData({ type: 'Text', initialText: text.trim() });
+  }
+  };
+
+  document.addEventListener('paste', handlePaste);
+  return () => {
+    document.removeEventListener('paste', handlePaste);
+  };
+}, []);
 
   function onAddStory(file?: File) {
     if (file) {
