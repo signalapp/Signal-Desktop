@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Rensa verifiering"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "För att verifiera totalsträckskryptering med {name}, jämför siffrorna ovan med deras enhet. De kan också skanna din kod med sin enhet."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "För att verifiera totalsträckskryptering med {name}, jämför siffrorna ovan med deras enhet. De kan också skanna din kod på sin enhet."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Felsökningsloggar hjälper oss att diagnostisera och åtgärda problemet och innehåller inte identifierande information."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Stäng"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Dela felsökningslogg"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Skicka"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "Nej tack"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Skickar in …"
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "En administratör ändrade vem som kan redigera gruppinformation till \"Alla medlemmar.\""
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} ändrat vem som kan redigera gruppmedlemskapet till \"Endast administratörer.\""
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Du ändrade vem som kan redigera gruppmedlemskapet till \"Endast administratörer.\""
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} ändrat vem som kan redigera gruppmedlemskapet till \"Endast administratörer.\""
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "En administratör ändrade vem som kan redigera gruppmedlemskapet till \"Endast administratörer.\""
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} ändrade vem som kan redigera gruppmedlemskap till \"Alla medlemmar.\""
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Du ändrade vem som kan redigera gruppmedlemskapet till \"Alla medlemmar.\""
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} ändrade vem som kan redigera gruppmedlemskap till \"Alla medlemmar.\""
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "En administratör ändrade vem som kan redigera gruppmedlemskapet till \"Alla medlemmar.\""
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Du inaktiverade administratörsgodkännande för grupplänken."
@@ -4694,6 +4703,9 @@
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Tysta"
   },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Ta bort från samtalet"
+  },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Medlemsetiketter"
   },
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Vem kan redigera gruppinformation"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Välj vem som kan redigera gruppens namn, foto, beskrivning och tidsgräns för försvinnande meddelanden."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Välj vem som kan redigera gruppnamn, bild, beskrivning, timer för försvinnande meddelanden och nålade meddelanden."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Välj vem som kan skicka meddelanden till gruppen."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Medlemsetiketter kommer att tas bort"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Du kan bara välja upp till {count,number} meddelande som ska tas bort för alla} other {Du kan bara välja upp till {count,number} meddelanden som ska tas bort för alla}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Släng utkast?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "Denna åtgärd kan inte ångras."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Radera objekt?"
@@ -6187,13 +6208,13 @@
     "messageformat": "Säkerhetskopiering av skrivbordet"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Säkerhetskopior krypteras med en nyckel och lagras på din dator."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Skapa en totalsträckskrypterad säkerhetskopia som du kan återställa på din telefon. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Installera en ny kopia av Signal för att återställa en säkerhetskopia. Öppna appen och tryck på Återställ säkerhetskopia. Leta sedan upp mappen för säkerhetskopian. <learnMoreLink>Läs mer.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Välj en mapp"
@@ -7989,7 +8010,6 @@
     "messageformat": "Nu kan du även skicka mediemeddelanden som visas en gång från Signal Desktop. Enskilda foton och videor som skickas som visa en gång-meddelanden tas automatiskt bort från en konversationstråd efter att de har visats."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Nu kan du välja att lägga till en medlemsetikett för att beskriva dig själv eller din roll i en gruppchatt. Medlemsetiketter visas bredvid ditt profilnamn i gruppen, och gruppadministratörer kan styra vem som får ange en etikett med behörigheten ”Redigera gruppinfo”.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

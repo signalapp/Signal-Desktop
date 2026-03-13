@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Verificatie ongedaan maken"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "Om end-to-end-versleuteling met {name} te verifiëren, vergelijk je bovenstaande nummers met die op het apparaat van je contact. Je contacten kunnen ook jouw code scannen met hun apparaat"
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "Om end-to-end-versleuteling met {name} te verifiëren, vergelijk je bovenstaande nummers met die op het apparaat van je contact. Je contacten kunnen ook jouw code scannen met hun apparaat."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Foutopsporingslogs helpen ons het probleem op te sporen en op te lossen en bevatten geen identificeerbare informatie."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Sluiten"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Foutopsporingslog delen"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Indienen"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "Nee bedankt"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Indienen…"
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "Een beheerder heeft de instelling voor wie de groepsinformatie kan bewerken op ‘Alle leden’ ingesteld."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} heeft de instelling voor wie het groepslidmaatschap kan bewerken op ‘Uitsluitend beheerders’ ingesteld."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Je hebt de instelling voor wie het groepslidmaatschap kan bewerken op ‘Uitsluitend beheerders’ ingesteld."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} heeft de instelling voor wie het groepslidmaatschap kan bewerken op ‘Uitsluitend beheerders’ ingesteld."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "Een beheerder heeft de instelling voor wie het groepslidmaatschap kan bewerken op ‘Uitsluitend beheerders’ ingesteld."
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} heeft de instelling voor wie het groepslidmaatschap kan bewerken op ‘Alle leden’ ingesteld."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Je hebt de instelling voor wie het groepslidmaatschap kan bewerken op ‘Alle leden’ ingesteld."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} heeft de instelling voor wie het groepslidmaatschap kan bewerken op ‘Alle leden’ ingesteld."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "Een beheerder heeft de instelling voor wie het groepslidmaatschap kan bewerken op ‘Alle leden’ ingesteld."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Je hebt beheerdersgoedkeuring van nieuwe leden uitgeschakeld voor de groepslink."
@@ -4694,6 +4703,9 @@
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Dempen"
   },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Uit oproep verwijderen"
+  },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Ledenlabels"
   },
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Groepsinformatie bewerken"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Kies wie de groepsnaam, -afbeelding, -omschrijving en de timer voor verdwijnende berichten kan bewerken."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Kies wie de groepsnaam, -afbeelding, -omschrijving, vastgezette berichten en de timer voor verdwijnende berichten kan bewerken."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Kies wie in deze groep berichten mogen verzenden en oproepen mogen beginnen."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Ledenlabels worden verwijderd"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Je kunt maximaal {count,number} bericht selecteren om voor iedereen te verwijderen} other {Je kunt maximaal {count,number} berichten selecteren om voor iedereen te verwijderen}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Concept verwijderen?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "Dit kan niet ongedaan worden gemaakt."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Item verwijderen?"
@@ -6187,13 +6208,13 @@
     "messageformat": "Lokale back-ups"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Back-ups worden versleuteld met een sleutel en alleen op je eigen computer opgeslagen."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Maak een end-to-end versleutelde back-up die je op je telefoon kunt herstellen. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Om je gegevens uit een back-up terug te zetten, moet je Signal opnieuw installeren. Open vervolgens de app, tik op ‘Back-upgegevens terugzetten’ en zoek de back-upmap. <learnMoreLink>Meer informatie.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Kies een map"
@@ -7989,7 +8010,6 @@
     "messageformat": "Je kunt media voor eenmalige weergave nu ook vanuit Signal Desktop verzenden. Foto's en video's die als eenmaligeweergave-berichten worden verzonden, worden automatisch uit de chat verwijderd nadat ze zijn bekeken."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Je kunt in groepschats nu een ledenlabel aanmaken waarmee je iets over jezelf zegt of over je rol. Maak een label aan met ‘Coach’ in de groepschat van je voetbalteam, dan weten nieuwe teamgenoten direct wie je bent. Voor de groepschat met je collega's maak je een ander label aan, bijvoorbeeld met je functietitel. Ledenlabels verschijnen naast je profielnaam in de betreffende groep. Groepsbeheerders kunnen bepalen wie een label mag aanmaken met de machtiging ‘Groepsinformatie bewerken’.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

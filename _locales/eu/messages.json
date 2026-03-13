@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Garbitu egiaztapena"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "{name} erabiltzailearekin muturretik muturrerako enkriptatzea egiaztatzeko, alderatu goiko zenbakiak haren gailukoekin. Halaber, zure kodea eskanea dezake bere gailuarekin."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "{name} erabiltzailearekin muturretik muturrerako enkriptatzea egiaztatzeko, alderatu goiko zenbakiak haren gailukoekin. Halaber, zure kodea bere gailuarekin eskanea dezake."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Arazketa-erregistroak arazoa diagnostikatzen eta konpontzen laguntzen digu, eta ez dute identifikazio-informaziorik."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Itxi"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Partekatu arazketa-erregistroa"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Bidali"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "Ez eskerrik asko"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Bidaltzen…"
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "Kudeatzaile batek taldearen informazioa nork editatu dezakeen \"Taldekide guztiek\"era aldatu du."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} erabiltzaileak taldearen kideak nork editatu ditzakeen \"Kudeatzaileek bakarrik\"era aldatu du."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Taldearen kideak nork editatu ditzakeen \"Kudeatzaileek bakarrik\"era aldatu duzu."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} erabiltzaileak taldearen kideak nork editatu ditzakeen \"Kudeatzaileek bakarrik\"era aldatu du."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "Kudeatzaile batek taldearen kideak nork editatu ditzakeen \"Kudeatzaileek bakarrik\"era aldatu du."
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} erabiltzaileak taldearen kideak nork editatu ditzakeen \"Taldekide guztiek\"era aldatu du."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Taldearen kideak nork editatu ditzakeen \"Taldekide guztiek\"era aldatu duzu."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} erabiltzaileak taldearen kideak nork editatu ditzakeen \"Taldekide guztiek\"era aldatu du."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "Kudeatzaile batek taldearen kideak nork editatu ditzakeen \"Taldekide guztiek\"era aldatu du."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "Kide-etiketak gehitzeko baimena \"Adminak bakarrik\" gisa ezarri duzu."
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "Kide-etiketak gehitzeko baimena \"Adminak bakarrik\" gisa ezarri du {adminName} erabiltzaileak."
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "Kide-etiketak gehitzeko baimena \"Adminak bakarrik\" gisa ezarri du admin batek."
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "Kide-etiketak gehitzeko baimena \"Kide guztiak\" gisa ezarri duzu."
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "Kide-etiketak gehitzeko baimena \"Kide guztiak\" gisa ezarri du {adminName} erabiltzaileak."
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "Kide-etiketak gehitzeko baimena \"Kide guztiak\" gisa ezarri du admin batek."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Administratzaile baimenaren beharra desaktibatu duzu talde estekarako."
@@ -4694,6 +4703,9 @@
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Desaktibatu jakinarazpenak"
   },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Kendu deitik"
+  },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Kide-etiketak"
   },
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Taldearen informazioa edita dezakeena"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Aukeratu nork edita ditzakeen taldearen izena, argazkia, deskribapena eta desagertzen diren mezuen tenporizadorea."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Aukeratu nork edita ditzakeen taldearen izena, argazkia, azalpena, desagertzen diren mezuen tenporizadoreak eta ainguratutako mezuak."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Aukeratu nork bidal ditzakeen mezuak taldera."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Nork gehi ditzake kide-etiketak?"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Aukeratu talde honetan nork gehi ditzakeen kide-etiketak."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Kide-etiketak garbitu egingo dira"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Gehienez {count,number} mezu hauta dezakezu guztientzat ezabatzeko} other {Gehienez {count,number} mezu hauta ditzakezu guztientzat ezabatzeko}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Zirriborroa baztertu nahi duzu?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "Ekintza hau ezin da desegin."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Elementua ezabatu nahi duzu?"
@@ -6187,13 +6208,13 @@
     "messageformat": "Ordenagailuko babeskopiak"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Babeskopiak gako batekin enkriptatzen dira, eta ordenagailuan gordetzen."
+    "messageformat": "Babeskopia muturretik muturrera enkriptatuta dago, eta ordenagailuan gordeta."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Sortu muturretik muturrera enkriptatutako babeskopia bat, telefonoan leheneratu ahalko duzuna. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Babeskopia bat leheneratzeko, instalatu Signal-en kopia berri bat. Ireki aplikazioa eta sakatu Leheneratu babeskopia; ondoren, bilatu babeskopiaren karpeta. <learnMoreLink>Lortu informazio gehiago</learnMoreLink>."
+    "messageformat": "Babeskopia bat leheneratzeko, instalatu Signal-en kopia berri bat telefonoan. Ireki aplikazioa eta sakatu &quot;Leheneratu edo transferitu&quot;. <learnMoreLink>Lortu informazio gehiago</learnMoreLink>."
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Aukeratu karpeta bat"
@@ -7989,7 +8010,6 @@
     "messageformat": "Orain, Signal Desktop-etik ere bidal ditzakezu behin ikusteko multimedia-elementuak. Behin ikusteko mezu gisa bidaltzen diren banako argazki eta bideoak automatikoki kenduko dira elkarrizketa-haritik haiek ikusi ondoren."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Orain, nahi baduzu, kide-etiketa bat gehi dezakezu zeure burua edo taldeko txatean duzun funtzioa deskribatzeko. Taldean duzun profileko izenaren alboan agertzen dira, eta taldeko adminek \"Editatu taldeari buruzko informazioa\" baimena erabil dezakete etiketak nork jar ditzakeen kontrolatzeko.",
-    "ignoreUnused": true
+    "messageformat": "Orain, nahi baduzu, kide-etiketa bat gehi dezakezu zeure burua deskribatzeko edo taldeko txatean duzun funtzioa azaltzeko. Kide-Talde horretan duzun profil-izenaren alboan agertzen dira kide-etiketak, eta denentzat gaituta dauden ala ez kontrola dezakete taldeko adminek."
   }
 }

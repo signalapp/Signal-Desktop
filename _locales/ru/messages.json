@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Сбросить подтверждение"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "Чтобы подтвердить ваше сквозное шифрование с {name}, сравните цифры, указанные выше, с устройством собеседника. Он также может отсканировать код на вашем устройстве."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "Чтобы подтвердить ваше сквозное шифрование с {name}, сравните цифры, указанные выше, с устройством собеседника. Он также может отсканировать код на вашем устройстве."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Журналы отладки помогают нам диагностировать и устранять проблему и не содержат идентифицирующей информации."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Закрыть"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Поделиться журналом отладки"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Отправить"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "Нет, спасибо"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Отправка..."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "Один из администраторов изменил возможность редактировать информацию группы на «Все участники»."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} изменил(-а) возможность редактировать членство в группе на «Только администраторы»."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Вы изменили возможность редактировать членство в группе на «Только администраторы»."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} изменил(-а) возможность редактировать членство в группе на «Только администраторы»."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "Один из администраторов изменил возможность редактировать членство в группе на «Только администраторы»."
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} изменил(-а) возможность редактировать членство в группе на «Все участники»."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Вы изменили возможность редактировать членство в группе на «Все участники»."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} изменил(-а) возможность редактировать членство в группе на «Все участники»."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "Один из администраторов изменил возможность редактировать членство в группе на «Все участники»."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Вы отключили одобрение администратора для ссылки на группу."
@@ -4694,6 +4703,9 @@
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Откл. звук"
   },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Удалить из звонка"
+  },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Значки участника"
   },
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Кто может редактировать информацию группы"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Выберите, кто может редактировать имя, фото, описание и время исчезновения сообщений группы."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Выберите, кто может редактировать имя, фото, описание, таймер исчезающих сообщений и закреплённые сообщения группы."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Выберите, кто может отправлять сообщения в этой группе."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Значки участников будут очищены"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Вы можете выбрать не более {count,number} сообщения для удаления для всех} few {Вы можете выбрать не более {count,number} сообщений для удаления для всех} many {Вы можете выбрать не более {count,number} сообщений для удаления для всех} other {Вы можете выбрать не более {count,number} сообщения для удаления для всех}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Удалить черновик?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "Это действие не может быть отменено."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Удалить медиафайл?"
@@ -6187,13 +6208,13 @@
     "messageformat": "Резервное копирование на ПК"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Резервные копии шифруются с помощью ключа и хранятся на вашем компьютере."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Создайте резервную копию, защищённую сквозным шифрованием, которую можно восстановить на телефоне. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Чтобы восстановить резервную копию, установите новую версию Signal. Откройте приложение и нажмите «Восстановить резервную копию», затем выберите папку резервной копии. <learnMoreLink>Узнать больше.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Выбрать папку"
@@ -7989,7 +8010,6 @@
     "messageformat": "Теперь можно отправлять одноразовое медиа также с Signal Desktop. Отдельные фото и видео, отправленные в виде одноразовых сообщений, автоматически удаляются из ветви дискуссии после просмотра."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Теперь вы можете по желанию добавить значок участника, чтобы описать себя или свою роль в этом групповом чате. Установите себе значок участника группы «Судья» или «Вратарь» в чате местной футбольной лиги, а затем выберите себе другой значок с должностью уже в корпоративном чате. Значки участников появляются рядом с вашим именем профиля в этой группе, при этом её администраторы могут разрешать участникам устанавливать значки на вкладке «Редактировать информацию о группе».",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

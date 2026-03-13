@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Rimuovi verifica"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "Per verificare la sicurezza della tua crittografia end-to-end con {name}, confronta i numeri qui in alto con quelli sul dispositivo dell'altra persona. È possibile scansionare il tuo codice qui sopra per velocizzare il processo."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "Per verificare la sicurezza della tua crittografia end-to-end con {name}, confronta i numeri qui in alto con quelli sul dispositivo dell'altra persona. L'altra persona può anche scansionare il tuo codice sul suo dispositivo."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "I log di debug ci aiutano a individuare e risolvere il problema. Non preoccuparti, non contengono informazioni identificative o personali."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Chiudi"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Condividi log di debug"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Invia"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No, grazie"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Invio in corso…"
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "Un admin ha cambiato chi può modificare le informazioni del gruppo in \"Tutti gli utenti.\""
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} ha cambiato chi può modificare l'appartenenza al gruppo in \"Solo gli admin.\""
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Hai cambiato chi può modificare l'appartenenza al gruppo in \"Solo gli admin.\""
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} ha cambiato chi può modificare l'appartenenza al gruppo in \"Solo gli admin.\""
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "Un admin ha cambiato chi può modificare l'appartenenza al gruppo in \"Solo gli admin.\""
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} ha cambiato chi può modificare l'appartenenza al gruppo in \"Tutti i membri.\""
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Hai cambiato chi può modificare l'appartenenza al gruppo in \"Tutti i membri.\""
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} ha cambiato chi può modificare l'appartenenza al gruppo in \"Tutti i membri.\""
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "Un admin ha cambiato chi può modificare l'appartenenza al gruppo in \"Tutti gli utenti.\""
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Hai disabilitato l'approvazione degli admin per il link del gruppo."
@@ -4694,6 +4703,9 @@
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Silenzia"
   },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Rimuovi dalla chiamata"
+  },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Ruoli dell'utente"
   },
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Chi può modificare le informazioni del gruppo"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Scegli chi può modificare il nome del gruppo, la foto, la descrizione e il timer dei messaggi temporanei."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Scegli chi può modificare il nome del gruppo, la foto, la descrizione, i messaggi in evidenza e il timer dei messaggi temporanei."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Scegli chi può inviare messaggi al gruppo."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "I ruoli degli utenti verranno rimossi"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Puoi selezionare fino a {count,number} messaggio da eliminare per tutti} other {Puoi selezionare fino a {count,number} messaggi da eliminare per tutti}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Eliminare la bozza?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "Quest'azione non può essere annullata."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Eliminare l'elemento?"
@@ -6187,13 +6208,13 @@
     "messageformat": "Backup del desktop"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "I backup sono crittografati con una chiave di crittografia e sono archiviati sul tuo computer."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Crea un backup crittografato end-to-end che puoi ripristinare sul tuo telefono. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Per ripristinare un backup, installa una nuova copia di Signal. Apri l'app e tocca &quot;Ripristina backup&quot;, quindi individua un file di backup. <learnMoreLink>Scopri di più.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Scegli una cartella"
@@ -7989,7 +8010,6 @@
     "messageformat": "Da ora puoi inviare messaggi con media visualizzabili una volta anche da Signal Desktop. Le foto e i video che vengono inviati in questo modo verranno poi rimossi in automatico dalla chat dopo la visualizzazione."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Da ora puoi aggiungere un tag per il ruolo dell'utente per descrivere il tuo ruolo in una chat di gruppo o per dare delle info su di te. Per esempio, nel gruppo del calcetto potrai impostare un ruolo per ogni persona che gioca (scommettiamo che trovare il portiere sarà difficile come al solito). Ricorda che i ruoli degli utenti appaiono vicino al nome del profilo all'interno di una chat di gruppo. Gli admin possono decidere chi può impostare questi ruoli modificando le autorizzazioni tramite l'opzione \"Modifica info del gruppo\".",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

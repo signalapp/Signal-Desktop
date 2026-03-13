@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "تصدیق ہٹائیں"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "{name} کے ساتھ اینڈ ٹو اینڈ انکرپشن کی تصدیق کرنے کے لیے، اوپر موجود نمبرز کے ساتھ ان کی ڈیوائس کا موازنہ کریں۔ وہ اپنی ڈیوائس کے ساتھ آپ کے کوڈ کو اسکین بھی کر سکتے ہیں۔"
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "{name} کے ساتھ اینڈ ٹو اینڈ انکرپشن کی تصدیق کرنے کے لیے، اوپر موجود نمبرز کے ساتھ ان کی ڈیوائس کا موازنہ کریں۔ وہ اپنی ڈیوائس پر آپ کے کوڈ کو اسکین بھی کر سکتے ہیں۔"
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "ڈی بگ لاگز مسئلے کی نشاندہی کرنے اور اسے حل کرنے میں ہماری مدد کرتے ہیں، اور اس میں شناخت کرنے والی معلومات شامل نہیں ہوتی ہیں۔"
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "بند کریں"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "ڈی بگ لاگ شیئر کریں"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "جمح کریں"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "نہیں شکریہ"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "جمع کیا جا رہا ہے..."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "ایک منتظم تبدیل ہوا جو \"ان تمام ممبروں\" میں گروپ کی معلومات میں ترمیم کرسکتا ہے۔"
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} نے تبدیل کیا جو \"صرف منتظمین\" میں گروپ ممبرشپ میں ترمیم کرسکتا ہے۔"
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "آپ نے تبدیلی کی کہ کون \"صرف منتظمین\" میں گروپ ممبرشپ میں ترمیم کرسکتا ہے۔"
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} نے تبدیل کیا جو \"صرف منتظمین\" میں گروپ ممبرشپ میں ترمیم کرسکتا ہے۔"
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "ایک منتظم تبدیل ہوا جو \"صرف منتظمین\" میں گروپ ممبرشپ میں ترمیم کرسکتا ہے۔"
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} نے یہ بدلا ہے کہ کون گروپ ممبرشپ میں ترمیم \"\"تمام ممبران\" کرسکتا ہے۔"
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "آپ نے یہ بدلا ہے کہ کون گروپ ممبرشپ میں ترمیم \"\"تمام ممبران\" کرسکتا ہے۔"
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} نے یہ بدلا ہے کہ کون گروپ ممبرشپ میں ترمیم \"\"تمام ممبران\" کرسکتا ہے۔"
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "آمنتظم نے یہ بدلا ہے کہ کون گروپ ممبرشپ میں ترمیم \"\"تمام ممبران\" کرسکتا ہے۔"
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "آپ نے گروپ لنک کیلئے منتظم کی منظوری کو غیر فعال کردیا۔"
@@ -4694,6 +4703,9 @@
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "خاموش کریں"
   },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "کال سے ہٹائیں"
+  },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "ممبر لیبلز"
   },
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "کون گروپ کی معلومات میں ترمیم کرسکتا ہے"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "منتخب کریں کہ کون گروپ کے نام ، تصویر ، وضاحت اور غائب پیغامات کے ٹائمر میں ترمیم کرسکتا ہے۔"
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "منتخب کریں کہ کون گروپ کا نام، تصویر، وضاحت، غائب ہونے والے میسجز کا ٹائمر، اور پِن شدہ میسجز میں ترمیم کر سکتا ہے۔"
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "منتخب کریں کہ کون گروپ کو پیغام بھیج سکتا ہے۔"
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "ممبر لیبلز کو صاف کر دیا جائے گا"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {آپ سب کے لیے حذف کرنے کی خاطر محض {count,number} تک میسج منتخب کر سکتے ہیں} other {آپ سب کے لیے حذف کرنے کی خاطر محض {count,number} تک میسجز منتخب کر سکتے ہیں}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "ڈرافٹ مسترد کریں؟"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "اس کارروائی کو کالعدم نہیں کیا جا سکتا۔"
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "آئٹم حذف کریں؟"
@@ -6187,13 +6208,13 @@
     "messageformat": "ڈیسک ٹاپ کے بیک اپس"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "بیک اپس ایک کیی کے ساتھ انکرپٹ کردہ ہوتے ہیں اور آپ کے کمپیوٹر میں اسٹور کیے جاتے ہیں۔"
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "آخر سے آخر تک انکرپٹ کردہ بیک اپ تخلیق کریں جسے آپ اپنے فون میں دوبارہ ری اسٹور کر سکیں۔ "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "بیک اپ کو ری اسٹور کرنے کے لیے، Signal کی نئی کاپی انسٹال کریں۔ ایپ کھولیں اور بیک اپ ری اسٹور کریں پر ٹیپ کریں، اس کے بعد بیک اپ فولڈر کو تلاش کریں۔ <learnMoreLink>مزید جانیں۔</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "ایک فولڈر منتخب کریں"
@@ -7989,7 +8010,6 @@
     "messageformat": "اب آپ Signal ڈیسک ٹاپ سے بھی صرف ایک بار دیکھنے والے میڈیا میسجز بھیج سکتے ہیں۔ وہ انفرادی تصاویر اور ویڈیوز جو صرف ایک بار دیکھنے کے میسجز کے طور پر بھیجی جائیں، دیکھے جانے کے بعد خودکار طور پر گفتگو کے سلسلے سے حذف ہو جائیں گی۔"
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "• اب آپ اختیاری طور پر گروپ چیٹ میں اپنے بارے میں یا اپنے کردار کو بیان کرنے کے لیے ایک ممبر لیبل شامل کر سکتے ہیں۔ اپنے گروپ ممبر لیبل کو \"ریفری\" یا \"گولی\" رکھیں تاکہ آپ کے نئے تیم ممبرز کے ساتھ کام شروع کریں، اور پھر کمپنی چیٹ میں اپنی جاب ٹائٹل کے ساتھ لیبل رکھیں۔ اس گروپ میں ممبر لیبلز آپ کے پروفائل نام کے ساتھ ظاہر ہوتے ہیں اور گروپ ایڈمنز یہ کنٹرول کر سکتے ہیں کہ کون \"گروپ کی معلومات میں ترمیم کریں\" کی اجازت کے ذریعے لیبل سیٹ کر سکتا ہے۔",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

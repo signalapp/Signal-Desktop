@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "إزالة التحقُّق"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "للتحقُّق من أمان التشفير من طرف لِطرف مع {name}، قارِن الأرقام أعلاه بأجهزته. يُمكنه أيضًا مسح الكود الخاص بك باستخدام جهازه."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "للتحقُّق من أمان التشفير من طرف لِطرف مع {name}، قارِن الأرقام أعلاه بجهازه(ا). يُمكنه أيضًا مسح رمزك باستخدام جهازه(ا)."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "تساعدنا سِجلات الأخطاء في تشخيص المشكلة وإصلاحها، وهي لا تحتوي على معلومات تعريفية عن المُستخدِم."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "إغلاق"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "مشاركة سجل الأخطاء"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "إرسال"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "لا، شكرًا"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "جارٍ الإرسال…"
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "قام أحد المُشرِفين بتغيير من يمكنه تحرير معلومات المجموعة إلى \"كل اﻷعضاء\"."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "قام {adminName} بتغيير من يمكنه تحرير معلومات عضوية المجموعة إلى \"المُشرِفون فقط\"."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "قُمتَ بتغيير من يمكنه تحرير معلومات عضوية المجموعة إلى \"المُشرِفون فقط\"."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "قام {adminName} بتغيير من يمكنه تحرير معلومات عضوية المجموعة إلى \"المُشرِفون فقط\"."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "قام أحد المُشرِفين بتغيير من بإمكانه تحرير معلومات عضوية المجموعة إلى \"المُشرِفون فقط\"."
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "قام {adminName} بتغيير من يمكنه تحرير معلومات عضوية المجموعة إلى \"كل الأعضاء\"."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "قُمتَ بتغيير من يمكنه تحرير معلومات عضوية المجموعة إلى \"كل اﻷعضاء\"."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "قام {adminName} بتغيير من يمكنه تحرير معلومات عضوية المجموعة إلى \"كل الأعضاء\"."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "قام أحد المُشرِفين بتغيير من يمكنه تحرير معلومات عضوية المجموعة إلى \"كل اﻷعضاء\"."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "قُمتَ بتعطيل موافقة المُشرِف على رابط المجموعة."
@@ -4694,6 +4703,9 @@
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "كتم"
   },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "إزالة من المكالمة"
+  },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "دور العضو"
   },
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "من يستطيع تعديل معلومات المجموعة"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "اختر الأعضاء الذين يمكنهم تحرير اسم وصورة ووصف المجموعة وكذلك مؤقِّت اختفاء الرسائل."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "اختَر من يمكنه تعديل اسم وصورة المجموعة ووصفها ومؤقِّت اختفاء الرسائل وكذلك الرسائل المُثبَّتة."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "اختر الأشخاص الذين يمكنهم إرسال الرسائل إلى المجموعة."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "سَيتم مسح أدوار الأعضاء"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, zero {يمكنك اختيار فقط ما يصل إلى {count,number} رسائل لتحذفها بالنسبة للجميع} one {يمكنك اختيار فقط ما يصل إلى {count,number} رسالة لتحذفها بالنسبة للجميع} two {يمكنك اختيار فقط ما يصل إلى {count,number} رسالتين لتحذفهما بالنسبة للجميع} few {يمكنك اختيار فقط ما يصل إلى {count,number} رسائل لتحذفها بالنسبة للجميع} many {يمكنك اختيار فقط ما يصل إلى {count,number} رسالة لتحذفها بالنسبة للجميع} other {يمكنك اختيار فقط ما يصل إلى {count,number} رسالة لتحذفها بالنسبة للجميع}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "هل ترغبُ بتجاهل المسودّة؟"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "لا يُمكن التراجُع عن هذا الإجراء."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "هل ترغبُ بحذف الملف المُرفَق؟"
@@ -6187,13 +6208,13 @@
     "messageformat": "النسخ الاحتياطية للحاسوب"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "يتم تشفير النسخ الاحتياطية بمفتاح ويتمُّ تخزينها على حاسوبك."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "أنشِئ نسخة احتياطية مُشفَّرة من طرف لطرف يمكنك الوصول إليها من هاتفك. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "لاستعادة نسخة احتياطية، قُم بتثبيت نسخة جديدة من سيجنال. افتح التطبيق وانقر على &quot;استعادة النسخة الاحتياطية&quot;، ثم حدِّد مكان ملف النسخة الاحتياطية. <learnMoreLink>اعرف المزيد.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "اختر مجلدًا"
@@ -6802,7 +6823,7 @@
     "messageformat": "قِصة مُخصَّصة"
   },
   "icu:StoriesSettings__group-story-subtitle": {
-    "messageformat": "قِصة المجموعة"
+    "messageformat": "قِصة مُخصَّصة للمجموعات"
   },
   "icu:StoriesSettings__viewers": {
     "messageformat": "{count, plural, zero {{count,number} مشاهد} one {1 مشاهد} two {{count,number} مشاهدان} few {{count,number} مشاهدين} many {{count,number} مشاهدًا} other {{count,number} مشاهدٍ}}"
@@ -6877,7 +6898,7 @@
     "messageformat": "يُمكن لأعضاء دردشة المجموعة \"{groupTitle}\" مشاهدة هذه القصة و الرّد عليها. يمكنك تحديث العضوية لهذه الدردشة في المجموعة."
   },
   "icu:GroupStorySettingsModal__remove_group": {
-    "messageformat": "حذف قِصة المجموعة"
+    "messageformat": "حذف القِصة المُخصَّصة للمجموعات"
   },
   "icu:StoriesSettings__remove_group--confirm": {
     "messageformat": "هل أنت مُتأكَّد من أنك تريد حذف \"{groupTitle}\"؟"
@@ -7989,7 +8010,6 @@
     "messageformat": "يمكنك الآن إرسال ملف وسائط للعرض لمرّة واحدة عبر سيجنال Desktop أيضًا. يتم حذف الصور ومقاطع الفيديو المُرسَلة كرسائل تُعرض لمرّة واحدة تلقائيًا من المحادثة بعد مشاهدتها."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "يمكنك الآن إضافة دور عضو بشكل اختياري لتصف نفسك أو دورك في دردشة جماعية. عيِّن دور عضو المجموعة إلى \"حكم\" أو \"حارس مرمى\" في دردشة دوري كرة القدم المحلي للمساعدة على كسر الجليد عند انضمام زملاء جُدُد، ثم اختر دور مختلف يعكس مسمّاك الوظيفي في دردشة الشركة. تظهر أدوار الأعضاء بجوار اسم حسابك الشخصي في تلك المجموعة، ويمكن لمُشرِفي المجموعة التحكُّم فيمن يحق له وضع دور باستخدام إذن \"تعديل معلومات المجموعة\".",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Șterge verificarea"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "Pentru a verifica criptarea integrală cu {name}, compară numerele de mai sus cu cele de pe dispozitivul lor. Ei pot, de asemenea, să scaneze codul tău cu dispozitivul lor."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "Pentru a verifica criptarea integrală cu {name}, compară numerele de mai sus cu cele de pe dispozitivul său. Acesta poate și să scaneze codul tău cu dispozitivul său."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Jurnalele de depanare ne ajută să diagnosticăm și să remediem problema și nu conțin informații de identificare."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Închide"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Trimite jurnalul de depanare"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Trimite"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "Nu, mulțumesc"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Se trimite..."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "Un administrator a modificat cine poate edita informațiile grupului în \"Toți membrii.\""
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} a modificat cine poate edita apartenența la grup în \"Doar administratorii.\""
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Ai modificat cine poate edita apartenența la grup în \"Doar administratorii.\""
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} a modificat cine poate edita apartenența la grup în \"Doar administratorii.\""
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "Un administrator a modificat cine poate edita apartenența la grup în \"Doar administratorii.\""
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} a modificat cine poate edita apartenența la grup în \"Toți membrii.\""
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Ai modificat cine poate edita apartenența la grup în \"Toți membrii.\""
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} a modificat cine poate edita apartenența la grup în \"Toți membrii.\""
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "Un administrator a modificat cine poate edita apartenența la grup în \"Toți membrii.\""
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Ai dezactivat aprobarea administratorului pentru alăturările prin linkul de grup."
@@ -4694,6 +4703,9 @@
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Silențios"
   },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Elimină din apel"
+  },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Roluri de membri"
   },
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Cine poate edita informațiile grupului"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Alege cine poate edita numele grupului, poza, descrierea și perioada pentru dispariția mesajelor."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Alege cine poate edita numele grupului, fotografia, descrierea, cronometrul pentru mesajele care dispar și mesajele fixate."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Alege cine poate trimite mesaje în acest grup."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Rolurile de membru vor fi șterse"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Poți selecta până la {count,number} mesaj de șters pentru toată lumea} few {Poți selecta până la {count,number} mesaje de șters pentru toată lumea} other {Poți selecta până la {count,number} de mesaje de șters pentru toată lumea}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Renunți la schiță?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "Această acțiune este ireversibilă."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Elimini elementul?"
@@ -6187,13 +6208,13 @@
     "messageformat": "Backup-uri pentru desktop"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Backup-urile sunt criptate cu un cod și sunt stocate pe dispozitivul tău."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Creează o copie de rezervă criptată end-to-end pe care o poți restaura pe telefon. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Pentru a restaura o copie de rezervă, instalează o copie nouă de Signal. Deschide aplicația și atinge Restaurare copie de rezervă, apoi localizează folderul de backup. <learnMoreLink>Află mai multe.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Alege dosarul"
@@ -7989,7 +8010,6 @@
     "messageformat": "Acum poți trimite mesaje media cu vizualizare o singură dată și din Signal Desktop. Fotografiile și videoclipurile individuale trimise ca mesaje cu vizualizare unică vor fi eliminate automat dintr-un fir de conversație după ce au fost vizualizate."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Acum poți adăuga opțional un rol de membru pentru a te descrie pe tine sau rolul tău într-un chat de grup. Setează rolul de membru în grupul tău la „Arbitru” sau „Portar” în chat-ul local de fotbal din liga recreativă pentru a te ajuta să începi jocul atunci când se alătură noi coechipieri, apoi alege un rol cu funcția ta în chat-ul companiei. Rolurile de membru apar lângă numele profilului în grupul respectiv, iar administratorii grupului pot controla cine poate seta un rol cu permisiunea „Modifică informațiile grupului”.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

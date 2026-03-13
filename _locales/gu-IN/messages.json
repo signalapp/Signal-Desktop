@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "ચકાસણી દૂર કરો"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "{name} સાથે તમારા એન્ડ-ટૂ-એન્ડ એન્ક્રિપ્શનની ખાતરી કરવા, ઉપર દર્શાવેલા નંબર તેમના ડિવાઇસ સાથે સરખાવો. તેઓ તેમના ડિવાઇસથી પણ તમારો કોડ સ્કેન કરી શકે છે."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "{name} સાથે તમારા એન્ડ-ટુ-એન્ડ એન્ક્રિપ્શનની ખાતરી કરવા, ઉપર દર્શાવેલા નંબર તેમના ડિવાઇસ સાથે સરખાવો. તેઓ તેમના ડિવાઇસથી પણ તમારો કોડ સ્કેન કરી શકે છે."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "ડીબગ લૉગ અમને સમસ્યાને ઉકેલવામાં અને તેને ઠીક કરવામાં મદદ કરે છે અને તેમાં ઓળખ થઈ શકે તેવી માહિતી શામેલ હોતી નથી."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "બંધ"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "ડીબગ લૉગ શેર કરો"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "સબમિટ કરો"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "ના, આભાર"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "સબમિટ કરી રહ્યા છે..."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "એક એડમિન બદલાઈ ગયો જે ગ્રુપ માહિતીને \"બધા મેમ્બર્સ\" માં સંપાદિત કરી શકે."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} બદલાઈ ગયું છે જે જૂથ સભ્યપદને \"ફક્ત એડમીન\" માં સંપાદિત કરી શકે છે."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "તમે ગ્રુપ મેમ્બરશિપ \"ફક્ત એડમિન્સ\" માં કોણ સંપાદિત કરી શકે તે બદલ્યું છે."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} બદલાઈ ગયું છે જે જૂથ સભ્યપદને \"ફક્ત એડમીન\" માં સંપાદિત કરી શકે છે."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "એક એડમિન બદલાઈ ગયું છે જે ગ્રૂપ મેમ્બરશિપને \"માત્ર એડમિન\" માં બદલી શકે છે."
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} બદલાઈ ગયું છે જે ગ્રુપ મેમ્બરશિપને \"બધા મેમ્બર્સ\" માં સંપાદિત કરી શકે છે."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "તમે ગ્રુપ મેમ્બરશીપને  \"બધા મેમ્બર્સ\" માં કોણ સંપાદિત કરી શકે તે બદલ્યું છે."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} બદલાઈ ગયું છે જે ગ્રુપ મેમ્બરશિપને \"બધા મેમ્બર્સ\" માં સંપાદિત કરી શકે છે."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "એક એડમિન બદલાઈ ગયું છે કોણ ગ્રુપ મેમ્બરશિપને \"બધા મેમ્બર્સ\" માં સંપાદિત કરી શકે છે."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "તમે ગ્રુપ લિંક માટે એડમિન મંજૂરીને અક્ષમ કરી છે."
@@ -4694,6 +4703,9 @@
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "મ્યૂટ કરો"
   },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "કૉલમાંથી દૂર કરો"
+  },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "સભ્યના લેબલ"
   },
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "ગ્રુપ માહિતી કોણ સંપાદિત કરી શકે છે"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "ગ્રુપનું નામ, ફોટો, વર્ણન અને અદૃશ્ય થઈ રહેલા મેસેજ ટાઈમર કોણ સંપાદિત કરી શકે તે પસંદ કરો."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "ગ્રૂપનું નામ, ફોટો, વર્ણન, ગાયબ થતાં મેસેજ ટાઇમર અને પિન કરેલા મેસેજમાં કોણ ફેરફાર કરી શકે તે પસંદ કરો."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "ગ્રુપમાં મેસેજ કોણ મોકલી શકે તે પસંદ કરો."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "સભ્યના લેબલ સાફ કરવામાં આવશે"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {તમે બધા માટે ડિલીટ કરવા માટે માત્ર {count,number} મેસેજ સુધી જ પસંદ કરી શકો છો} other {તમે બધા માટે ડિલીટ કરવા માટે માત્ર {count,number} જેટલા મેસેજ પસંદ કરી શકો છો}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "ડ્રાફ્ટ કાઢી નાખવો છે?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "આ ક્રિયાને પૂર્વવત કરી શકાશે નહીં."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "આઇટમ ડિલીટ કરવી છે?"
@@ -6187,13 +6208,13 @@
     "messageformat": "ડેસ્કટોપ બેકઅપ"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "બેકઅપને એક કી વડે એન્ક્રિપ્ટ કરવામાં આવે છે અને તમારા કમ્પ્યૂટર પર સ્ટોર કરવામાં આવે છે."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "એન્ડ-ટૂ-એન્ડ એન્ક્રિપ્ટેડ બેકઅપ બનાવો જેને તમે તમારા ફોન પર રિસ્ટોર કરી શકો. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "બેકઅપ રિસ્ટોર કરવા માટે, Signalની નવી કૉપી ઇન્સ્ટોલ કરો. ઍપ ખોલો અને &quot; બેકઅપ રિસ્ટોર કરો&quot; ટેપ કરો, પછી બેકઅપ ફાઇલ શોધો. <learnMoreLink>વધુ જાણો.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "ફોલ્ડર પસંદ કરો"
@@ -7989,7 +8010,6 @@
     "messageformat": "હવે તમે Signal ડેસ્કટોપ પરથી પણ એકવાર જોઈ શકાય તેવા મીડિયા મેસેજ મોકલી શકો છો. એકવાર જોઈ શકાય તેવા મેસેજ તરીકે મોકલવામાં આવતા વ્યક્તિગત ફોટા અને વીડિયો જોયા પછી વાતચીત થ્રેડમાંથી આપમેળે દૂર કરવામાં આવશે."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "હવે તમે વૈકલ્પિક રીતે ગ્રૂપ ચેટમાં તમારું અથવા તમારી ભૂમિકાનું વર્ણન કરવા માટે સભ્યનું લેબલ ઉમેરી શકો છો. સભ્યના લેબલ તે ગ્રૂપમાં તમારા પ્રોફાઇલ નામની બાજુમાં દેખાય છે, અને ગ્રૂપ એડમિન \"ગ્રૂપની માહિતીમાં ફેરફાર કરો\" પરવાનગી સાથે કોણ લેબલ સેટ કરી શકે છે તે નિયંત્રિત કરી શકે છે.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

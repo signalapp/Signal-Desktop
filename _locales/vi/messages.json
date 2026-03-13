@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Xóa xác nhận"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "Để xác minh bảo mật đầu cuối với {name}, hãy so sánh các số ở trên với thiết bị của họ. Người đó cũng có thể quét mã của bạn với thiết bị của họ."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "Để xác minh mã hóa đầu cuối với {name}, hãy so sánh các số ở trên với thiết bị của họ. Người đó cũng có thể quét mã của bạn trên thiết bị của họ."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Nhật ký gỡ lỗi giúp chúng tôi xác định và khắc phục vấn đề, và không chứa thông tin nhận dạng."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Đóng"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Chia sẻ nhật ký gỡ lỗi"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Gửi"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "Không, cảm ơn"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Đang gửi..."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "Một admin đã thay đổi người có thể chỉnh sửa thông tin nhóm thành \"Tất cả thành viên.\""
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} đã thay đổi người có thể chỉnh sửa thành viên nhóm thành \"Chỉ admin.\""
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Bạn đã thay đổi người có thể chỉnh sửa thành viên nhóm thành \"Chỉ admin.\""
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} đã thay đổi người có thể chỉnh sửa thành viên nhóm thành \"Chỉ admin.\""
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "Một admin đã thay đổi người có thể chỉnh sửa thành viên nhóm thành \"Chỉ admin.\""
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} đã thay đổi người có thể chỉnh sửa thành viên nhóm thành \"Tất cả thành viên.\""
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Bạn đã thay đổi người có thể chỉnh sửa thành viên nhóm thành \"Tất cả thành viên.\""
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} đã thay đổi người có thể chỉnh sửa thành viên nhóm thành \"Tất cả thành viên.\""
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "Một admin đã thay đổi người có thể chỉnh sửa thành viên nhóm thành \"Tất cả thành viên.\""
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Bạn đã tắt chấp duyệt của người quản lý cho đường dẫn nhóm."
@@ -4694,6 +4703,9 @@
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Tắt tiếng"
   },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Gỡ khỏi cuộc gọi"
+  },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Nhãn thành viên"
   },
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Ai có thể sửa thông tin nhóm"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Chọn ai có thể tuỳ chỉnh tên nhóm, ảnh, miêu tả, và đồng hồ đếm tin nhắn biến mất."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Chọn ai có thể chỉnh sửa tên nhóm, ảnh, miêu tả, và đồng hồ đếm tin nhắn tự xóa và tin nhắn ghim."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Chọn người có thể gửi tin nhắn cho nhóm."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Nhãn thành viên sẽ được xóa"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {Bạn chỉ có thể chọn tối đa {count,number} tin nhắn để xóa cho mọi người}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Bỏ bản nháp?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "Không thể hoàn tác hành động này."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Xóa mục này?"
@@ -6187,13 +6208,13 @@
     "messageformat": "Bản sao lưu máy tính"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Các bản sao lưu được mã hóa với mã khóa và được lưu trên thiết bị của bạn."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Tạo một bản sao lưu được mã hóa đầu cuối bạn có thể lưu trên điện thoại. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Để khôi phục bản sao lưu, hãy cài đặt mới Signal. Mở ứng dụng và nhấn Khôi phục bản sao lưu, sau đó tìm thư mục sao lưu. <learnMoreLink>Tìm hiểu thêm.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Chọn thư mục"
@@ -7989,7 +8010,6 @@
     "messageformat": "Giờ đây bạn cũng có thể gửi tin nhắn đa phương tiện xem một lần từ Signal Desktop. Ảnh và video riêng lẻ được gửi dưới dạng tin nhắn xem một lần sẽ được tự động xóa khỏi cuộc trò chuyện sau khi đã được xem."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Giờ đây, bạn có thể tùy chọn thêm nhãn thành viên để mô tả bản thân hoặc vai trò của mình trong cuộc trò chuyện nhóm. Nhãn thành viên sẽ hiển thị ở cạnh tên hồ sơ của bạn trong nhóm đó và quản trị viên nhóm có thể kiểm soát ai có thể đặt nhãn bằng quyền \"Sửa thông tin nhóm\".",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

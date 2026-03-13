@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Избриши верификацију"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "Ради верификације end-to-end шифровања са контактом {name}, упоредите горе приказане бројеве с уређајем вашег контакта. Ваш контакт такође може својим уређајем скенирати ваш кôд."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "Да бисте верификовали потпуно шифровање са корисником {name}, упоредите горе приказане бројеве са уређајем тог корисника. Ваш контакт такође може својим уређајем скенирати ваш кôд."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Извештаји о грешкама нам помажу да откријемо и решимо проблем и они не садрже информације на основу којих можете бити идентификовани."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Затвори"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Пошаљи извештај о грешкама"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Пошаљи"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "Не, хвала"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Слање у току..."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "Администратор је променио ко може да уређује информације о групи на „Сви чланови“."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} је променио/ла ко може да уређује чланство у групи на „Само администратори“."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Променили сте ко може да уређује чланство у групи на „Само администратори“."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} је променио/ла ко може да уређује чланство у групи на „Само администратори“."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "Администратор је променио ко може да уређује чланство у групи на „Само администратори“."
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} је променио/ла ко може да уређује чланство у групи на „Сви чланови“."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Променили сте ко може да уређује чланство у групи на „Сви чланови“."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} је променио/ла ко може да уређује чланство у групи на „Сви чланови“."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "Администратор је променио ко може да уређује чланство у групи на „Сви чланови“."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Искључили сте обавезно одобрење администратора за линк за групу."
@@ -4694,6 +4703,9 @@
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Искључи обавештења"
   },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Уклони из позива"
+  },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Ознаке члана"
   },
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Ко може да уређује информације о групи"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Изаберите ко може да мења назив и слику групе и трајање нестајућих порука у групи."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Изаберите ко може да мења назив, слику и опис групе, као и трајање нестајућих порука и окачене поруке."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Изаберите ко може шаље поруке у овој групи."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Ознаке чланова ће бити обрисане"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Максималан број порука које можете да изаберете за брисање свима је {count,number}} other {Максималан број порука које можете да изаберете за брисање свима је {count,number}}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Желите ли да одбаците нацрт?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "Ова радња се не може опозвати."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Желите ли да избришете ставку?"
@@ -6187,13 +6208,13 @@
     "messageformat": "Резервне копије на рачунару"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Резервне копије су шифроване кључем и чувају се на вашем рачунару."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Направите потпуно шифроване резервне копије које можете вратити на телефон. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Да бисте вратили садржај из резервне копије, инсталирајте нову копију Signal-а. Отворите апликацију и додирните „Врати резервну копију“, а затим пронађите фолдер резервне копије. <learnMoreLink>Сазнајте више.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Изабери фолдер"
@@ -7989,7 +8010,6 @@
     "messageformat": "Сада можеш да шаљеш поруке с једнократним медијима и преко Signal Desktop-а. Појединачне фотографије и видео-записи који се шаљу као једнократне поруке биће аутоматски уклоњени из преписке након што буду прегледани."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Сада по жељи можете додати ознаку члана која ће описати вас или вашу улогу у групном ћаскању. Ознака члана ће се појавити поред имена вашег профила у тој групи. Администратори групе контролишу ко може да постави ознаку преко дозвола у одељку „Измени информације о групи“.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

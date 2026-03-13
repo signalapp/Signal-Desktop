@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Dzēst verifikāciju"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "Lai pārbaudītu pilnīgu šifrēšanu sarunai ar {name}, salīdziniet augstāk redzamos ciparus ar šīs personas ierīcē redzamajiem. Šis sarunu biedrs var arī skenēt jūsu kodu ar savu ierīci."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "Lai pārbaudītu pilnīgu šifrēšanu sarunai ar {name}, salīdziniet augstāk redzamos ciparus ar šīs personas ierīcē redzamajiem cipariem. Šī persona var arī skenēt jūsu kodu ar savu ierīci."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Atkļūdošanas žurnāli palīdz mums diagnosticēt un novērst problēmu, un tie nesatur identificējošu informāciju."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Aizvērt"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Kopīgot atkļūdošanas žurnālu"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Iesniegt"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "Nē, paldies"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Notiek iesniegšana..."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "Administrators mainīja, kurš var rediģēt grupas informāciju, uz “Visi dalībnieki“."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} mainīja, kurš var rediģēt dalību grupā, uz “Tikai administratori“."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Jūs mainījāt, kurš var rediģēt dalību grupā, uz “Tikai administratori“."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} mainīja, kurš var rediģēt dalību grupā, uz “Tikai administratori“."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "Administrators mainīja, kurš var rediģēt dalību grupā, uz “Tikai administratori“."
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} mainīja, kurš var rediģēt dalību grupā, uz “Visi dalībnieki“."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Jūs mainījāt, kurš var rediģēt dalību grupā, uz “Visi dalībnieki“."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} mainīja, kurš var rediģēt dalību grupā, uz “Visi dalībnieki“."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "Administrators mainīja, kurš var rediģēt dalību grupā, uz “Visi dalībnieki“."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Jūs atspējojāt administratora apstiprinājumu grupas saitei."
@@ -4694,6 +4703,9 @@
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Izslēgt"
   },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Noņemt no zvana"
+  },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Lietotāja emblēmas"
   },
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Kas var labot grupas informāciju"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Izvēlieties, kurš drīkst rediģēt grupas nosaukumu, fotoattēlu, aprakstu un ziņu dzēšanas taimeri."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Izvēlieties, kurš var rediģēt grupas nosaukumu, fotoattēlu, aprakstu, gaistošo ziņu taimeri un atzīmētās ziņas."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Izvēlieties, kurš šai grupai var sūtīt ziņas."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Lietotāja emblēmas tiks dzēstas"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, zero {Varat atlasīt ne vairāk kā {count,number} ziņas, ko dzēst visiem} one {Varat atlasīt ne vairāk kā {count,number} ziņu, ko dzēst visiem} other {Varat atlasīt ne vairāk kā {count,number} ziņas, ko dzēst visiem}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Vai dzēst šo uzmetumu?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "Šo darbību nevar atsaukt."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Dzēst vienumu?"
@@ -6187,13 +6208,13 @@
     "messageformat": "Darbvirsmas rezerves kopijas"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Rezerves kopijas tiek šifrētas ar atslēgu un saglabātas jūsu datorā."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Izveidojiet pilnībā šifrētu rezerves kopiju, ko varēsiet atjaunot savā tālrunī. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Lai atjaunotu rezerves kopiju, instalējiet Signal no jauna. Atveriet lietotni un pieskarieties Atjaunot rezerves kopiju, pēc tam norādiet rezerves kopijas mapi. <learnMoreLink>Uzzināt vairāk.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Izvēlēties mapi"
@@ -7989,7 +8010,6 @@
     "messageformat": "Tagad varat nosūtīt vienreiz skatāmas multivides ziņas arī no Signal darbvirsmas. Fotoattēli un video, kas nosūtīti kā vienreiz skatāmas ziņas, pēc to skatīšanas tiks automātiski dzēsti no sarakstes."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Tagad varat pievienot lietotāja emblēmu, lai grupas tērzētavā aprakstītu sevi vai savu amata nosaukumu. Ja jūsu futbola komandai ir sava tērzētava, iestatiet emblēmu \"Tiesnesis\" vai \"Vārtsargs\", lai ātrāk iepazītos ar jaunajiem biedriem, savukārt darba tērzētavā varat izvēlēties citu emblēmu, kas raksturo jūsu amatu. Lietotāja emblēmas ir redzamas blakus profila nosaukumam grupā. Grupas administratori var ierobežot vai atļaut lietotājiem iestatīt emblēmas, izmantojot atļauju \"Rediģēt grupas informāciju\".",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

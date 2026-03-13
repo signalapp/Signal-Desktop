@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "ვერიფიკაციის გასუფთავება"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "{name}-თან ბოლომდე დაშიფვრის დასადასტურებლად, შეედარე მის მოწყობილობაში მოცემული ციფრებს. მას ასევე შეუძლია შენი კოდი თავისი მოწყობილობით დაასკანიროს."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "{name}-თან ბოლომდე დაშიფვრის დასადასტურებლად, შეადარე მის მოწყობილობაში მოცემულ ციფრებს. მას ასევე შეუძლია შენი კოდი თავისი მოწყობილობით დაასკანეროს."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "გაუმართაობის რეესტრი პრობლემის დიაგნოსტიკასა და გამოსწორებაში გვეხმარება და საიდენტიფიკაციო ინფორმაციას არ შეიცავს."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Close"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "გაუმართაობის რეესტრის გაზიარება"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "დადასტურება"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "არა, მადლობა"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "იტვირთება..."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "ადმინმა ჯგუფის ინფორმაციის რედაქტირების უფლება მიანიჭა \"ყველა წევრს\"."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} -მა ჯგუფის წევრობის რედაქტირება მიანიჭა „მხოლოდ ადმინებს“."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "შენ ჯგუფის წევრობის რედაქტირება მიანიჭე „მხოლოდ ადმინებს“."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} -მა ჯგუფის წევრობის რედაქტირება მიანიჭა „მხოლოდ ადმინებს“."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "ადმინმა ჯგუფის წევრობის რედაქტირება მიანიჭა „მხოლოდ ადმინებს“"
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} -მა ჯგუფის წევრობის რედაქტირება მიანიჭა \"ყველა წევრს\"."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "შენ ჯგუფის წევრობის რედაქტირება მიანიჭე \"ყველა წევრს\"."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} -მა ჯგუფის წევრობის რედაქტირება მიანიჭა \"ყველა წევრს\"."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "ადმინმა ჯგუფის წევრობის რედაქტირება მიანიჭა \"ყველა წევრს\"."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "შენ შეცვალე, ვის შეუძლია წევრის იარლიყების დამატება \"მხოლოდ ადმინისტრატორებით\"."
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName}-მ(ა) შეცვალა, ვის შეუძლია წევრის იარლიყების დამატება \"მხოლოდ ადმინისტრატორებით\"."
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "ადმინისტრატორმა შეცვალა, ვის შეუძლია წევრის იარლიყების დამატება \"მხოლოდ ადმინისტრატორებით\"."
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "შენ შეცვალე, ვის შეუძლია წევრის იარლიყების დამატება \"ყველა წევრით\"."
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName}-მ(ა) შეცვალა, ვის შეუძლია წევრის იარლიყების დამატება \"ყველა წევრით\"."
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "ადმინისტრატორმა შეცვალა, ვის შეუძლია წევრის იარლიყების დამატება \"ყველა წევრით\"."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "შენ გამორთე ადმინის დასტური ჯგუფის ბმულისთვის."
@@ -4694,6 +4703,9 @@
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "დადუმება"
   },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "ზარიდან წაშლა"
+  },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "წევრის იარლიყი"
   },
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "ვის შეუძლია ჯგუფის ინფორმაციის რედაქტირება"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "აირჩიე, ვის შეუძლია ჯგუფის სახელის, ფოტოს, აღწეროლობის და გაქრობადი შეტყობინებების ტაიმერის რედაქტირება."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "აირჩიე, ვინ შეძლებს ჯგუფის სახელის, ფოტოს, აღწერის, გაქრობადი შეტყობინებების წამზომისა და აპინული წერილების რედაქტირებას."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "აირჩიე, ვის შეუძლია ჯგუფში შეტყობინებების გაგზავნა"
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "ვის შეუძლია წევრის იარლიყების დამატება"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "აირჩიე, ვის შეუძლია ამ ჯგუფში წევრის იარლიყების დამატება."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "წევრის იარლიყები წაიშლება"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {ყველასთვის წასაშლელად მხოლოდ {count,number} შეტყობინების არჩევა შეგიძლია} other {ყველასთვის წასაშლელად მხოლოდ {count,number}-მდე შეტყობინების არჩევა შეგიძლია}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "გსურს, მონახაზი წაშალო?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "ამ მოქმედებას ვეღარ გააუქმებ."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "გსურს ელემენტი წაშალო?"
@@ -6187,13 +6208,13 @@
     "messageformat": "დესკტოპის სათადარიგო ასლები"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "სარეზერვო ასლები დაშიფრულია გასაღებით და შენს კომპიუტერში ინახება."
+    "messageformat": "შენი სათადარიგო ასლები ბოლომდე დაშიფრულია და შენს კომპიუტერში ინახება."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "შექმენი დაშიფრული სათადარიგო ასლი, რომლის აღდგენაც შეგიძლია შენს ტელეფონზე. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "სათადარიგო ასლის აღსადგენად, დააინსტალირე Signal-ის ახალი ასლი. გახსენი აპი და დააჭირე „სათადარიგო ასლის აღდგენა“-ს, შემდეგ იპოვე სათადარიგო საქაღალდე. <learnMoreLink>გაიგე მეტი.</learnMoreLink>"
+    "messageformat": "სათადარიგო ასლების აღსადგენად შენს მობილურზე Signal ახლიდან გადმოწერე. გახსენი აპი და აირჩიე &quot;აღდგენა ან გადატანა&quot;. <learnMoreLink>გაიგე მეტი.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "აირჩიე საქაღალდე"
@@ -7989,7 +8010,6 @@
     "messageformat": "ახლა ერთჯერადი მედია-ფაილების შემცველი წერილების გაგზავნას Signal Desktop-იდანაც შეძლებ. ინდივიდუალური ფოტოები და ვიდეოები, რომლებიც ერთჯერადი წერილების სახით გაიგზავნება, მათი ნახვის შემდეგ მიმოწერიდან ავტომატურად ამოიშლება."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "ახლა შეგიძლია, სურვილის შემთხვევაში, წევრის იარლიყი დაამატო, რათა შენი თავი ან შენი როლი აღწერო ჯგუფის ჩატში. დაიყენე ჯგუფის წევრის იარლიყი სამსახურის ჩატში შენი პოზიციის მიხედვით. წევრების იარლიყები ჯგუფში შენი პროფილის სახელის გვერდით ჩნდება და ჯგუფის ადმინისტრატორებს შეუძლიათ გააკონტროლონ, ვინ შეძლებს იარლიყების დაყენებას \"ჯგუფის ინფორმაციის რედაქტირების\" ნებართვით.",
-    "ignoreUnused": true
+    "messageformat": "ახლა შეგიძლია, სურვილის შემთხვევაში, წევრის იარლიყი დაამატო, რათა შენი თავი ან შენი როლი აღწერო ჯგუფის ჩატში. დაიყენე ჯგუფის წევრის იარლიყი სამსახურის ჩატში შენი პოზიციის მიხედვით. წევრის იარლიყი იმ ჯგუფში შენი პროფილის სახელის გვერდზე ჩნდება და ჯგუფის ადმინისტრატორებს შეუძლიათ გააკონტროლონ, იქნება თუ არა ის ყველასთვის ჩართული."
   }
 }

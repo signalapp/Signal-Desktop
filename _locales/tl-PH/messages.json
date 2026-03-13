@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Tanggalin ang verification"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "Para i-verify ang end-to-end encryption n'yo ni {name}, pagkumparahin ang numbers sa itaas ng device n'ya. Pwede rin n'yang i-scan ang code mo sa device n'ya."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "Para i-verify ang end-to-end encryption niyo ni {name}, pagkumparahin ang numbers sa itaas ng mga device ninyo. Pwede niya ring i-scan ang code mo sa device niya."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Ang debug logs ay makatutulong sa amin para ma-diagnose at maayos ang issue, at wala itong nilalaman na identifying information."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Isara"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "I-share ang debug log"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Isumite"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "Ayaw ko, salamat na lang"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Sina-submit..."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "Pinalitan ng isang admin kung sinong pwedeng mag-edit ng group info sa \"All members\"."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "Pinalitan ni {adminName} kung sinong pwedeng mag-edit ng group membership sa \"Only admins\"."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Pinalitan mo kung sinong pwedeng mag-edit ng group membership sa \"Only admins\"."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "Pinalitan ni {adminName} kung sinong pwedeng mag-edit ng group membership sa \"Only admins\"."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "Pinalitan ng isang admin kung sinong pwedeng mag-edit ng group membership sa \"Only admins\"."
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "Pinalitan ni {adminName} kung sinong pwedeng mag-edit ng group membership sa \"All members\"."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Pinalitan mo kung sinong pwedeng mag-edit ng group membership sa \"All members\"."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "Pinalitan ni {adminName} kung sinong pwedeng mag-edit ng group membership sa \"All members\"."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "Pinalitan ng isang admin kung sinong pwedeng mag-edit ng group membership sa \"All members\"."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "You disabled admin approval para sa group link."
@@ -4694,6 +4703,9 @@
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "I-mute"
   },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Tanggalin sa tawag"
+  },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Member labels"
   },
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Sinong pwedeng mag-edit ng group info"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Piliin kung sinong pwedeng mag-edit ng group name, photo, description, at disappearing messages timer."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Piliin kung sino ang maaaring mag-edit ng pangalan ng group, photo, description, disappearing messages timer, at pinned messages."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Piliin kung sinong pwedeng mag-send ng messages sa group na ito."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Tatanggalin ang member labels"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Pwede kang pumili ng {count,number} message para burahin sa lahat} other {Pwede kang pumili ng {count,number} messages para burahin sa lahat}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Gusto mo bang burahin ang draft?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "Hindi na pwedeng bawiin ang action na ito."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Burahin ang item?"
@@ -6187,13 +6208,13 @@
     "messageformat": "Backups sa Desktop"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Ang backups ay encrypted gamit ang isang key at nakalagay ito sa computer mo."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Gumawa ng isang end-to-end encrypted backup na pwede mong i-restore sa phone mo. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Para mag-restore ng backup, mag-install ng bagong kopya ng Signal. Buksan ang app at i-tap ang Restore backup, pagkatapos ay hanapin ang backup folder. <learnMoreLink>Matuto pa.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Pumili ng folder"
@@ -7989,7 +8010,6 @@
     "messageformat": "Pwede ka nang mag-send ng view-once media messages mula sa Signal Desktop. Ang individual photos at videos na ipinadala bilang view-once messages ay automatic na tatanggalin mula sa conversation thread pagkatapos nilang makita."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Kung gusto mo, pwede ka nang maglagay ng member label para ilarawan ang sarili mo o ang role mo sa group chat. Ang member labels ay makikita sa tabi ng profile name mo sa group, at may kontrol ang group admins kung sinong maaaring maglagay ng label sa pamamagitan ng \"Edit Group Info\" permission.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

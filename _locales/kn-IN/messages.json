@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "ದೃಢೀಕರಣವನ್ನು ತೆರವುಗೊಳಿಸಿ"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "{name} ಅವರೊಂದಿಗೆ ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್‌ಕ್ರಿಪ್ಶನ್ ದೃಢೀಕರಿಸಲು, ಮೇಲಿನ ಸಂಖ್ಯೆಗಳನ್ನು ಅವರ ಸಾಧನದೊಂದಿಗೆ ಹೋಲಿಕೆ ಮಾಡಿ. ಅವರು ಕೂಡಾ ತಮ್ಮ ಸಾಧನದೊಂದಿಗೆ ನಿಮ್ಮ ಕೋಡ್ ಅನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡಬಹುದು."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "{name} ಅವರೊಂದಿಗೆ ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್‌ಕ್ರಿಪ್ಶನ್ ದೃಢೀಕರಿಸಲು, ಮೇಲಿನ ಸಂಖ್ಯೆಗಳನ್ನು ಅವರ ಸಾಧನದೊಂದಿಗೆ ಹೋಲಿಕೆ ಮಾಡಿ. ಅವರು ತಮ್ಮ ಸಾಧನದಲ್ಲಿ ನಿಮ್ಮ ಕೋಡ್ ಅನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡಬಹುದು."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "ಡೀಬಗ್ ಲಾಗ್‌ಗಳು ಸಮಸ್ಯೆಯನ್ನು ನಿರ್ಣಯಿಸಲು ಮತ್ತು ಸರಿಪಡಿಸಲು ಸಹಾಯ ಮಾಡುತ್ತವೆ ಮತ್ತು ಗುರುತಿಸುವ ಮಾಹಿತಿಯನ್ನು ಹೊಂದಿರುವುದಿಲ್ಲ."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "ಮುಚ್ಚಿ"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "ಡೀಬಗ್ ಲಾಗ್ ಹಂಚಿಕೊಳ್ಳಿ"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "ಸಲ್ಲಿಸಿ"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "ಇಲ್ಲ, ಧನ್ಯವಾದಗಳು"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "ಸಲ್ಲಿಸಲಾಗುತ್ತಿದೆ..."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "ಗ್ರೂಪ್ ಮಾಹಿತಿಯನ್ನು ಯಾರು ಎಡಿಟ್ ಮಾಡಬಹುದು ಎಂಬುದನ್ನು \"ಎಲ್ಲ ಸದಸ್ಯರು\" ಎಂಬುದಕ್ಕೆ ಒಬ್ಬ ಅಡ್ಮಿನ್‌ ಬದಲಿಸಿದ್ದಾರೆ."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} ಅವರು ಗ್ರೂಪ್ ಸದಸ್ಯತ್ವವನ್ನು ಯಾರು ಎಡಿಟ್ ಮಾಡಬಹುದು ಎಂಬುದನ್ನು \"ಕೇವಲ ಅಡ್ಮಿನ್‌ಗಳು\" ಎಂಬುದಕ್ಕೆ ಬದಲಿಸಿದ್ದಾರೆ."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "ಗ್ರೂಪ್ ಸದಸ್ಯತ್ವವನ್ನು ಯಾರು ಎಡಿಟ್ ಮಾಡಬಹುದು ಎಂಬುದನ್ನು \"ಕೇವಲ ಅಡ್ಮಿನ್‌ಗಳು\" ಎಂಬುದಕ್ಕೆ ನೀವು ಬದಲಿಸಿದ್ದೀರಿ."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} ಅವರು ಗ್ರೂಪ್ ಸದಸ್ಯತ್ವವನ್ನು ಯಾರು ಎಡಿಟ್ ಮಾಡಬಹುದು ಎಂಬುದನ್ನು \"ಕೇವಲ ಅಡ್ಮಿನ್‌ಗಳು\" ಎಂಬುದಕ್ಕೆ ಬದಲಿಸಿದ್ದಾರೆ."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "ಗ್ರೂಪ್ ಸದಸ್ಯತ್ವವನ್ನು ಯಾರು ಎಡಿಟ್ ಮಾಡಬಹುದು ಎಂಬುದನ್ನು \"ಕೇವಲ ಅಡ್ಮಿನ್‌ಗಳು\" ಎಂಬುದಕ್ಕೆ ಒಬ್ಬ ಅಡ್ಮಿನ್‌ ಬದಲಿಸಿದ್ದಾರೆ."
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} ಅವರು ಗ್ರೂಪ್ ಸದಸ್ಯತ್ವವನ್ನು ಯಾರು ಎಡಿಟ್ ಮಾಡಬಹುದು ಎಂಬುದನ್ನು \"ಎಲ್ಲ ಸದಸ್ಯರು\" ಎಂಬುದಕ್ಕೆ ಬದಲಿಸಿದ್ದಾರೆ."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "ಗ್ರೂಪ್ ಸದಸ್ಯತ್ವವನ್ನು ಯಾರು ಎಡಿಟ್ ಮಾಡಬಹುದು ಎಂಬುದನ್ನು \"ಎಲ್ಲ ಸದಸ್ಯರು\" ಎಂಬುದಕ್ಕೆ ನೀವು ಬದಲಿಸಿದ್ದೀರಿ."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} ಅವರು ಗ್ರೂಪ್ ಸದಸ್ಯತ್ವವನ್ನು ಯಾರು ಎಡಿಟ್ ಮಾಡಬಹುದು ಎಂಬುದನ್ನು \"ಎಲ್ಲ ಸದಸ್ಯರು\" ಎಂಬುದಕ್ಕೆ ಬದಲಿಸಿದ್ದಾರೆ."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "ಗ್ರೂಪ್ ಸದಸ್ಯತ್ವವನ್ನು ಯಾರು ಎಡಿಟ್ ಮಾಡಬಹುದು ಎಂಬುದನ್ನು \"ಎಲ್ಲ ಸದಸ್ಯರು\" ಎಂಬುದಕ್ಕೆ ಒಬ್ಬ ಅಡ್ಮಿನ್‌ ಬದಲಿಸಿದ್ದಾರೆ."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "ಗ್ರೂಪ್‌ ಲಿಂಕ್‌ಗೆ ಅಡ್ಮಿನ್ ಅನುಮತಿಯನ್ನು ನೀವು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿದ್ದೀರಿ."
@@ -4694,6 +4703,9 @@
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "ಮ್ಯೂಟ್ ಮಾಡಿ"
   },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "ಕರೆಯಿಂದ ತೆಗೆದುಹಾಕಿ"
+  },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "ಸದಸ್ಯರ ಲೇಬಲ್‌ಗಳು"
   },
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "ಗ್ರೂಪ್ ಮಾಹಿತಿಯನ್ನು ಯಾರು ಎಡಿಟ್ ಮಾಡಬಹುದು"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "ಗುಂಪಿನ ಹೆಸರು, ಫೋಟೋ, ವಿವರಣೆ ಮತ್ತು ಸಂದೇಶಗಳ ಕಣ್ಮರೆಯಾಗುವಿಕೆಯ ಸಮಯವನ್ನು ಯಾರು ಎಡಿಟ್ ಮಾಡಬಹುದು ಎಂಬುದನ್ನು ಆಯ್ಕೆ ಮಾಡಿ."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "ಗುಂಪಿನ ಹೆಸರು, ಫೋಟೋ, ವಿವರಣೆ, ಮಾಯವಾಗುವ ಸಂದೇಶಗಳ ಟೈಮರ್ ಮತ್ತು ಪಿನ್ ಮಾಡಿದ ಮೆಸೇಜ್‌ಗಳನ್ನು ಯಾರು ಎಡಿಟ್ ಮಾಡಬಹುದು ಎಂಬುದನ್ನು ಆಯ್ಕೆಮಾಡಿ."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "ಈ ಗ್ರೂಪ್‌ಗೆ ಯಾರು ಮೆಸೇಜ್‌ಗಳನ್ನು ಕಳುಹಿಸಬಹುದು ಎಂಬುದನ್ನು ಆರಿಸಿ."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "ಸದಸ್ಯರ ಲೇಬಲ್‌ಗಳನ್ನು ತೆರವುಗೊಳಿಸಲಾಗುತ್ತದೆ"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {ಎಲ್ಲರಿಗೂ ಅಳಿಸಲು ನೀವು {count,number} ತನಕ ಮಾತ್ರ ಮೆಸೇಜ್‌ ಅನ್ನು ಆಯ್ಕೆ ಮಾಡಬಹುದು} other {ಎಲ್ಲರಿಗೂ ಅಳಿಸಲು ನೀವು {count,number} ತನಕ ಮಾತ್ರ ಮೆಸೇಜ್‌ಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಬಹುದು}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "ಡ್ರಾಫ್ಟ್ ಅನ್ನು ತ್ಯಜಿಸಬೇಕೆ?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "ಈ ಕ್ರಮವನ್ನು ಅನ್‌ಡನ್ ಮಾಡಲು ಆಗುವುದಿಲ್ಲ."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "ಐಟಂ ಅಳಿಸಬೇಕೇ?"
@@ -6187,13 +6208,13 @@
     "messageformat": "ಡೆಸ್ಕ್‌ಟಾಪ್ ಬ್ಯಾಕಪ್‌ಗಳು"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ಕೀಯೊಂದಿಗೆ ಎನ್ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗುತ್ತದೆ ಮತ್ತು ನಿಮ್ಮ ಕಂಪ್ಯೂಟರ್‌ನಲ್ಲಿ ಸಂಗ್ರಹಿಸಲಾಗುತ್ತದೆ."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "ನಿಮ್ಮ ಫೋನ್‌ನಲ್ಲಿ ನೀವು ರಿಸ್ಟೋರ್ ಮಾಡಬಹುದಾದ ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್ಕ್ರಿಪ್ಟ್ ಆಗಿರುವ ಬ್ಯಾಕಪ್ ಅನ್ನು ರಚಿಸಿ. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "ಬ್ಯಾಕಪ್ ಅನ್ನು ರಿಸ್ಟೋರ್ ಮಾಡಲು, Signal ನ ಹೊಸ ಕಾಪಿಯನ್ನು ಇನ್‌ಸ್ಟಾಲ್ ಮಾಡಿ. ಆ್ಯಪ್ ತೆರೆಯಿರಿ ಮತ್ತು ಬ್ಯಾಕಪ್ ರಿಸ್ಟೋರ್ ಮಾಡಿ ಎಂಬುದನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ, ನಂತರ ಬ್ಯಾಕಪ್ ಫೋಲ್ಡರ್ ಅನ್ನು ಪತ್ತೆಹಚ್ಚಿ. <learnMoreLink>ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "ಫೋಲ್ಡರ್ ಆಯ್ಕೆ ಮಾಡಿ"
@@ -7989,7 +8010,6 @@
     "messageformat": "ಈಗ ನೀವು Signal ಡೆಸ್ಕ್‌ಟಾಪ್‌ನಿಂದಲೂ ಏಕ ವೀಕ್ಷಣೆ ಮೀಡಿಯಾ ಮೆಸೇಜ್‌ಗಳನ್ನು ಕಳುಹಿಸಬಹುದು. ಏಕ ವೀಕ್ಷಣೆ ಸಂದೇಶಗಳು ಎಂಬುದಾಗಿ ಕಳುಹಿಸಲಾದ ಮೆಸೇಜ್‌ಗಳನ್ನು ವೈಯಕ್ತಿಕ ಫೋಟೋಗಳು ಮತ್ತು ವೀಡಿಯೊಗಳನ್ನು ವೀಕ್ಷಿಸಿದ ನಂತರ ಸಂಭಾಷಣೆಯ ಥ್ರೆಡ್‌ನಿಂದ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ತೆಗೆದುಹಾಕಲಾಗುತ್ತದೆ."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "ಈಗ ನೀವು ಗುಂಪು ಚಾಟ್‌ನಲ್ಲಿ ನಿಮ್ಮನ್ನು ಅಥವಾ ನಿಮ್ಮ ಪಾತ್ರವನ್ನು ವಿವರಿಸಲು ಐಚ್ಛಿಕವಾಗಿ ಸದಸ್ಯರ ಲೇಬಲ್ ಸೇರಿಸಬಹುದು. ನಿಮ್ಮ ಸ್ಥಳೀಯ ರೆಕ್ ಲೀಗ್ ಸಾಕರ್ ಚಾಟ್‌ನಲ್ಲಿ ತಂಡದ ಹೊಸ ಸದಸ್ಯರು ಸೇರಿದಾಗ ಆರಂಭಿಸಲು ಸಹಾಯವಾಗುವಂತೆ ಗುಂಪಿನ ಸದಸ್ಯರ ಲೇಬಲ್ ಅನ್ನು \"ರೆಫರಿ\" ಅಥವಾ \"ಗೋಲಿ\" ಎಂದು ಸೆಟ್ ಮಾಡಿ, ನಂತರ ಕಂಪನಿ ಚಾಟ್‌ನಲ್ಲಿ ಕೆಲಸದ ಶೀರ್ಷಿಕೆಯೊಂದಿಗೆ ಬೇರೆ ಲೇಬಲ್ ಆಯ್ಕೆಮಾಡಿ. ಗುಂಪಿನಲ್ಲಿ ಪ್ರೊಫೈಲ್ ಹೆಸರಿನ ಪಕ್ಕದಲ್ಲಿ ಸದಸ್ಯರ ಲೇಬಲ್‌ಗಳು ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತವೆ, ಗುಂಪಿನ ಅಡ್ಮಿನ್ \"ಗುಂಪು ಮಾಹಿತಿ ಎಡಿಟ್ ಮಾಡಿ\" ಅನುಮತಿಯೊಂದಿಗೆ ಯಾರು ಲೇಬಲ್ ಸೆಟ್ ಮಾಡಬಹುದು ಎಂಬುದನ್ನು ನಿಯಂತ್ರಿಸಬಹುದು.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

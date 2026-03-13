@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Αφαίρεση επιβεβαίωσης"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "Για να επαληθεύσεις την κρυπτογράφηση από άκρο σε άκρο με τον χρήστη {name}, σύγκρινε τους παραπάνω αριθμούς με αυτούς στη συσκευή του. Μπορεί επίσης να σκανάρει τον κωδικό σου με τη συσκευή του."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "Για να επαληθεύσεις την κρυπτογράφηση από άκρο σε άκρο με τον χρήστη {name}, σύγκρινε τους παραπάνω αριθμούς με αυτούς στη συσκευή του. Μπορεί επίσης να σκανάρει τον κωδικό σου με τη συσκευή του."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Τα αρχεία καταγραφής αποσφαλμάτωσης βοηθούν να διαγνώσουμε και να διορθώσουμε το πρόβλημα και δεν περιλαμβάνουν πληροφορίες ταυτοποίησης."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Κλείσιμο"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Κοινή χρήση αρχείου καταγραφής αποσφαλμάτωσης"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Υποβολή"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "Όχι, ευχαριστώ"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Υποβολή..."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "Ένας διαχειριστής άλλαξε το ποιός μπορεί να επεξεργάζεται τις πληροφορίες της ομάδας σε \"Όλα τα μέλη.\""
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "Ο/Η {adminName} άλλαξε το ποιός έχει τη δυνατότητα αλλαγών στα μέλη της ομάδας σε \"Μόνο οι διαχειριστές.\""
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Άλλαξες το ποιός έχει τη δυνατότητα αλλαγών στα μέλη της ομάδας σε \"Μόνο οι διαχειριστές.\""
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "Ο/Η {adminName} άλλαξε το ποιός έχει τη δυνατότητα αλλαγών στα μέλη της ομάδας σε \"Μόνο οι διαχειριστές.\""
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "Ένας διαχειριστής άλλαξε το ποιός έχει τη δυνατότητα αλλαγών στα μέλη της ομάδας σε \"Μόνο οι διαχειριστές.\""
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "Ο/Η {adminName} άλλαξε το ποιός έχει τη δυνατότητα αλλαγών στα μέλη της ομάδας σε \"Όλα τα μέλη.\""
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Άλλαξες το ποιός έχει τη δυνατότητα αλλαγών στα μέλη της ομάδας σε \"Όλα τα μέλη.\""
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "Ο/Η {adminName} άλλαξε το ποιός έχει τη δυνατότητα αλλαγών στα μέλη της ομάδας σε \"Όλα τα μέλη.\""
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "Ένας διαχειριστής άλλαξε το ποιός έχει τη δυνατότητα αλλαγών στα μέλη της ομάδας σε \"Όλα τα μέλη.\""
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "Άλλαξες το ποιος μπορεί να προσθέτει ετικέτες μέλους σε \"Μόνο διαχειριστές\"."
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "Ο/Η {adminName} άλλαξε το ποιος μπορεί να προσθέτει ετικέτες μέλους σε \"Μόνο διαχειριστές\"."
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "Ένας διαχειριστής άλλαξε το ποιος μπορεί να προσθέτει ετικέτες μέλους σε \"Μόνο διαχειριστές\"."
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "Άλλαξες το ποιος μπορεί να προσθέτει ετικέτες μέλους σε \"Όλα τα μέλη\"."
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "Ο/Η {adminName} άλλαξε το ποιος μπορεί να προσθέτει ετικέτες μέλους σε \"Όλα τα μέλη\"."
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "Ένας διαχειριστής άλλαξε το ποιος μπορεί να προσθέτει ετικέτες μέλους σε \"Όλα τα μέλη\"."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Απενεργοποίησες την έγκριση διαχειριστή για το σύνδεσμο ομάδας."
@@ -4694,6 +4703,9 @@
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Σίγαση"
   },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Αφαίρεση από την κλήση"
+  },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Ετικέτες μέλους"
   },
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Ποιοί μπορούν να επεξεργαστούν τις πληροφορίες της ομάδας"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Επέλεξε ποιοι θα μπορούν να επεξεργαστούν το όνομα της ομάδας, την περιγραφή της και το χρόνο εξαφάνισης μηνυμάτων."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Διάλεξε ποιοι θα μπορούν να επεξεργάζονται το όνομα της ομάδας, τη φωτογραφία, τη περιγραφή, τον χρόνο εξαφάνισης μηνυμάτων και τα καρφιτσωμένα μηνύματα."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Επέλεξε ποιοί μπορούν να στέλνουν μηνύματα στην ομάδα."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Ποιοι μπορούν να προσθέτουν ετικέτες μέλους"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Επίλεξε ποιοι μπορούν να προσθέσουν ετικέτες μέλους στην ομάδα."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Οι ετικέτες μελών θα διαγραφούν"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Μπορείς να επιλέξεις έως {count,number} μήνυμα για να διαγραφεί για όλους} other {Μπορείς να επιλέξεις έως {count,number} μηνύματα για να διαγραφούν για όλους}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Απόρριψη πρόχειρου;"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "Αυτή η ενέργεια δεν μπορεί να αναιρεθεί."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Διαγραφή αντικειμένου;"
@@ -6187,13 +6208,13 @@
     "messageformat": "Αντίγραφα ασφαλείας desktop"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Τα αντίγραφα ασφαλείας κρυπτογραφούνται με ένα κλειδί και αποθηκεύονται στον υπολογιστή σου."
+    "messageformat": "Τα αντίγραφα ασφαλείας είναι κρυπτογραφημένα από άκρο σε άκρο και αποθηκεύονται στον υπολογιστή σου."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Δημιούργησε ένα κρυπτογραφημένο αντίγραφο ασφαλείας από άκρο σε άκρο που μπορείς να επαναφέρεις στο τηλέφωνό σου. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Για να ανακτήσεις ένα αντίγραφο ασφαλείας, εγκατέστησε από την αρχή το Signal. Άνοιξε την εφαρμογή, πάτα &quot;Επαναφορά αντίγραφου ασφαλείας&quot; και εντόπισε τον φάκελο αντιγράφου ασφαλείας. <learnMoreLink>Μάθε περισσότερα.</learnMoreLink>"
+    "messageformat": "Για να ανακτήσεις ένα αντίγραφο ασφαλείας, εγκατάστησε από την αρχή το Signal στο τηλέφωνό σου. Άνοιξε την εφαρμογή και πάτα &quot;Επαναφορά ή μεταφορά&quot;. <learnMoreLink>Μάθε περισσότερα.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Επιλογή φακέλου"
@@ -7989,7 +8010,6 @@
     "messageformat": "Τώρα μπορείς επίσης να στέλνεις μηνύματα πολυμέσων μιας μόνο προβολής από το Signal Desktop. Οι μεμονωμένες φωτογραφίες και τα βίντεο που αποστέλλονται ως μηνύματα μίας μόνο προβολής θα καταργούνται αυτόματα από ένα νήμα συνομιλίας μετά την προβολή τους."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Τώρα μπορείς προαιρετικά να προσθέσεις μια ετικέτα μέλους για να περιγράψεις τον εαυτό σου ή τον ρόλο σου σε μια ομαδική συνομιλία. Οι ετικέτες μελών εμφανίζονται δίπλα στο όνομα του προφίλ σου σε αυτήν την ομάδα και οι διαχειριστές της ομάδας μπορούν να ελέγχουν ποιος μπορεί να ορίσει μια ετικέτα με το δικαίωμα «Επεξεργασία πληροφοριών ομάδας».",
-    "ignoreUnused": true
+    "messageformat": "• Τώρα μπορείς προαιρετικά να προσθέσεις μια ετικέτα μέλους για να περιγράψεις τον εαυτό σου ή τον ρόλο σου σε μια ομαδική συνομιλία. Οι ετικέτες μελών εμφανίζονται δίπλα στο όνομα του προφίλ σου σε αυτήν την ομάδα, ενώ οι διαχειριστές της ομάδας μπορούν να ρυθμίσουν αν θα είναι ενεργοποιημένες για όλους."
   }
 }

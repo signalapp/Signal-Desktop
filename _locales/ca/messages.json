@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Neteja la verificació"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "Per verificar el xifrat amb {name}, compara les xifres de dalt amb les del dispositiu d'aquella persona. També poden escanejar el teu codi amb el seu dispositiu."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "Per verificar el xifrat amb {name}, compara les xifres de dalt amb les del dispositiu d'aquella persona. També poden escanejar el teu codi al el seu dispositiu."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Els registres de depuració ens ajuden a diagnosticar i solucionar el problema i no contenen informació que pugui identificar-te."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Tanca"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Compartir registre de depuració"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Envia"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "No, gràcies."
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Enviant…"
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "Un administrador ha canviat qui pot editar la informació del grup a Tots els membres."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} ha canviat qui pot editar els membres del grup a Només els administradors."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Heu canviat qui pot editar els membres del grup a Només els administradors."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} ha canviat qui pot editar els membres del grup a Només els administradors."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "Un administrador ha canviat qui pot editar els membres del grup a Només els administradors."
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} ha canviat qui pot editar els membres del grup a Tots els membres."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Heu canviat qui pot canviar els membres del grup a Tots els membres."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} ha canviat qui pot editar els membres del grup a Tots els membres."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "Un administrador ha canviat qui pot canviar els membres del grup a Tots els membres."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Heu desactivat l'aprovació de l'administrador per a l'enllaç de grup."
@@ -4694,6 +4703,9 @@
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Silenciats"
   },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Expulsar de la trucada"
+  },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Categories de membres"
   },
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Qui pot editar la informació del grup"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Trieu qui pot editar el nom del grup, la fotografia, la descripció i el temporitzador dels missatges efímers."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Tria qui pot editar el nom, la imatge i la descripció del grup, el temporitzador dels missatges a desaparèixer i els missatges fixats."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Qui pot enviar missatges al grup"
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "S'eliminaran les categories de membres"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Només pots seleccionar {count,number} missatge per eliminar per a tothom} other {Només pots seleccionar {count,number} missatges per eliminar per a tothom}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Descartar l'esborrany?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "Aquesta acció no es pot desfer."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Eliminar element?"
@@ -6187,13 +6208,13 @@
     "messageformat": "Còpies de seguretat d'escriptori"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Les còpies de seguretat es xifren amb una clau i es guarden al teu ordinador."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Crea una còpia de seguretat xifrada d'extrem a extrem que podràs restaurar al teu telèfon. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Per restaurar una còpia de seguretat, torna a instal·lar Signal. Obre l'aplicació, toca &quot;Restaurar còpia de seguretat&quot; i selecciona la carpeta de còpies de seguretat. <learnMoreLink>Més informació.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Tria una carpeta"
@@ -7989,7 +8010,6 @@
     "messageformat": "Ara també pots enviar missatges multimèdia d'una única visualització des de Signal Desktop. Les fotos i vídeos individuals que s'enviïn com a missatges de visualització única s'eliminaran automàticament de la conversa un cop s'hagin vist."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Ara tens l'opció d'afegir una categoria de membre per descriure't a tu mateix o el teu rol en un xat grupal. La categoria de membre apareix al costat del teu nom de perfil al grup, i els admins decideixen qui pot afegir una categoria amb el permís \"Editar informació del grup\".",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Ellenőrzött állapot törlése"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "A végpontok közötti titkosítás ellenőrzéséhez {name} felhasználóval, hasonlítsd össze a fent látható számokat az ő készülékén megjelenő számokkal. A kódodat akár az ő készülékével is beolvashatja."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "A végpontok közötti titkosítás ellenőrzéséhez {name} felhasználóval, hasonlítsd össze a fent látható számokat az ő eszközén megjelenő számokkal. A kódodat akár az ő eszközével is beolvashatja."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "A hibanaplók segítenek diagnosztizálni és kijavítani a problémát, és nem tartalmaznak azonosító információkat."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Bezárás"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Hibanapló megosztása"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Küldés"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "Nem, köszönöm"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Beküldés..."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "Egy admin beállította, hogy a csoport információit az \"Összes tag\" szerkesztheti."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} beállította, hogy a csoport tagságát \"Csak adminok\" szerkeszthetik."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Beállítottad, hogy a csoport tagságát \"Csak adminok\" szerkeszthetik."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} beállította, hogy a csoport tagságát \"Csak adminok\" szerkeszthetik."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "Egy admin beállította, hogy a csoport tagságát \"Csak adminok\" szerkeszthetik."
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} beállította, hogy a csoport tagságát az \"Összes tag\" szerkesztheti."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Beállítottad, hogy a csoport tagságát az \"Összes tag\" szerkesztheti."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} beállította, hogy a csoport tagságát az \"Összes tag\" szerkesztheti."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "Egy admin beállította, hogy a csoport tagságát az \"Összes tag\" szerkesztheti."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Kikapcsoltad az adminisztrátori jóváhagyás kérését a csoporthivatkozás használatához."
@@ -4694,6 +4703,9 @@
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Némítás"
   },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Eltávolítva a hívásból"
+  },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Tagsági címke"
   },
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Ki szerkesztheti a csoport adatait"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Add meg, hogy ki változtathatja meg a csoport nevét, képét, leírását, valamint az eltűnő üzenetekkel kapcsolatos beállításokat!"
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Válaszd ki, hogy kik szerkeszthetik a csoport nevét, fotóját, leírását, az eltűnő üzenetek időzítőjét és a rögzített üzeneteket."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Add meg, hogy ki küldhet üzenetet a csoportba!"
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "A tagsági címkék törlődnek"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Maximum {count,number} üzenetet választhatsz ki, ha mindenki számára szeretnéd törölni} other {Maximum {count,number} üzenetet választhatsz ki, ha mindenki számára szeretnéd törölni}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Piszkozat elvetése?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "Ez a művelet nem vonható vissza."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Elem törlése?"
@@ -6187,13 +6208,13 @@
     "messageformat": "Asztali biztonsági mentések"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "A biztonsági mentések egy kulccsal titkosítva tárolódnak a számítógépeden."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Készíts egy végponttól végpontig titkosított biztonsági mentést, amelyet visszaállíthatsz a telefonodon. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Egy biztonsági mentés visszaállításához először is telepítsd a Signalt! Nyisd meg az alkalmazást, koppints a Biztonsági mentés visszaállítása opcióra, majd keresd ki a biztonsági mentést tartalmazó mappát! <learnMoreLink>Tudj meg többet!</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Válassz egy mappát"
@@ -7989,7 +8010,6 @@
     "messageformat": "Mostantól egyszer megtekinthető médiaüzeneteket is küldhetsz a Signal Desktopból. Az egyszer megtekinthető üzenetként elküldött egyes fotók és videók a megtekintésük után automatikusan eltávolításra kerülnek a beszélgetésből."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Mostantól opcionálisan hozzáadhatsz egy tagsági címkét, amellyel leírhatod magadat vagy a szerepedet egy csoportos csevegésben. A tagsági címkék a profilneved mellett jelennek meg az adott csoportban, és a csoport adminisztrátorai szabályozhatják, hogy ki állíthat be címkét a „Csoportadatok szerkesztése” engedéllyel.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

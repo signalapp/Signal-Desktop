@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Hapus verifikasi"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "Untuk memverifikasi enkripsi end-to-end dengan {name}, bandingkan nomor di atas dengan perangkat mereka. Mereka juga bisa memindai kode Anda dengan perangkat mereka."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "Untuk memverifikasi enkripsi menyeluruh dengan {name}, bandingkan nomor di atas dengan perangkat mereka. Mereka juga bisa memindai kode Anda di perangkat mereka."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Catatan debug membantu kami mendiagnosis dan memperbaiki masalah, catatan ini tidak berisi informasi identifikasi."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Tutup"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Bagikan catatan debug"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Kirimkan"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "Tidak, terima kasih"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Mengirimkan …"
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "Seorang admin mengubah akses menyunting informasi grup ke \"Semua anggota.\""
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} mengubah akses menyunting keanggotaan grup ke \"Hanya admin.\""
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Anda mengubah akses menyunting keanggotaan grup ke \"Hanya admin.\""
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} mengubah akses menyunting keanggotaan grup ke \"Hanya admin.\""
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "Seorang admin mengubah akses menyunting keanggotaan grup ke \"Hanya admin.\""
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} mengubah akses menyunting keanggotaan grup ke \"Semua anggota.\""
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Anda mengubah akses menyunting keanggotaan grup ke \"Semua anggota.\""
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} mengubah akses menyunting keanggotaan grup ke \"Semua anggota.\""
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "Seorang admin mengubah akses menyunting keanggotaan grup ke \"Semua orang,\""
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Anda menonaktifkan persetujuan admin untuk tautan grup."
@@ -4694,6 +4703,9 @@
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Senyapkan"
   },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Keluarkan dari panggilan"
+  },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Label anggota"
   },
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Pemilik akses untuk menyunting informasi grup"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Pilih siapa yang dapat menyunting nama grup, foto, deskripsi, dan penghitung waktu penghilangan pesan."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Pilih siapa yang bisa mengedit nama grup, foto, deskripsi, timer pesan terhapus otomatis, dan pesan yang disematkan."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Pilih siapa yang dapat mengirimkan pesan ke grup."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Label anggota akan dihapus"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {Anda hanya bisa memilih maksimal {count,number} pesan untuk dihapus bagi semua orang}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Hapus Draf?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "Tindakan ini tidak dapat diurungkan."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Hapus item?"
@@ -6187,13 +6208,13 @@
     "messageformat": "Pencadangan desktop"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Cadangan dienkripsi dengan kunci dan disimpan di komputer Anda."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Buat cadangan terenkripsi menyeluruh yang dapat dipulihkan di ponsel Anda. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Silakan instal ulang Signal untuk memulihkan cadangan. Buka aplikasinya dan ketuk &quot;Pulihkan cadangan&quot;, lalu temukan folder cadangannya. <learnMoreLink>Pelajari selengkapnya.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Pilih folder"
@@ -7989,7 +8010,6 @@
     "messageformat": "Sekarang Anda juga bisa mengirim pesan media sekali lihat dari Signal Desktop. Foto dan video individual yang dikirim sebagai pesan sekali lihat akan otomatis dihapus dari utas percakapan setelah dilihat."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Sekarang tersedia opsi menambahkan label anggota untuk mendeskripsikan diri atau peran Anda dalam sebuah chat grup. Label anggota ditampilkan di samping nama profil Anda dalam grup tersebut dan admin grup bisa mengontrol siapa yang bisa menetapkan label melalui izin “Edit Info Grup”.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

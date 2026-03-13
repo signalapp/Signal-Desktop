@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "ล้างการยืนยัน"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "เพื่อยืนยันว่าการติดต่อสื่อสารกับ {name} ถูกเข้ารหัสตั้งแต่ต้นทางถึงปลายทาง ให้เปรียบเทียบหมายเลขด้านบนนี้กับหมายเลขบนอุปกรณ์ของคนคนนั้นว่าตรงกันหรือไม่ หรืออาจให้ผู้ติดต่อใช้อุปกรณ์ในการสแกนรหัสของคุณก็ได้"
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "เพื่อยืนยันว่าการติดต่อสื่อสารกับ {name} ถูกเข้ารหัสตั้งแต่ต้นทางถึงปลายทาง ให้เปรียบเทียบหมายเลขด้านบนนี้กับหมายเลขบนอุปกรณ์ของคนคนนั้นว่าตรงกันหรือไม่ หรืออาจให้ผู้ติดต่อใช้อุปกรณ์ในการสแกนรหัสของคุณก็ได้"
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "บันทึกดีบักจะช่วยให้เราสามารถตรวจสอบและแก้ไขปัญหาได้ โดยที่ในบันทึกจะไม่มีข้อมูลที่ใช้ระบุตัวตน"
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "ปิด"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "แชร์บันทึกดีบัก"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "ส่ง"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "ไม่ ขอบคุณ"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "กำลังส่ง..."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "ผู้ดูแลได้เปลี่ยนคนที่สามารถแก้ไขข้อมูลในกลุ่มเป็น \"สมาชิกทุกคน\""
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} ได้เปลี่ยนคนที่สามารถแก้ไขการเป็นสมาชิกในกลุ่มเป็น  \"เฉพาะผู้ดูแล\""
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "คุณได้เปลี่ยนคนที่สามารถแก้ไขการเป็นสมาชิกในกลุ่มเป็น \"เฉพาะผู้ดูแล\""
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} ได้เปลี่ยนคนที่สามารถแก้ไขการเป็นสมาชิกในกลุ่มเป็น  \"เฉพาะผู้ดูแล\""
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "ผู้ดูแลได้เปลี่ยนคนที่สามารถแก้ไขการเป็นสมาชิกในกลุ่มเป็น \"เฉพาะผู้ดูแล\""
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName}  ได้เปลี่ยนคนที่สามารถแก้ไขการเป็นสมาชิกในกลุ่มเป็น \"สมาชิกทุกคน\""
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "คุณได้เปลี่ยนคนที่สามารถแก้ไขการเป็นสมาชิกในกลุ่มเป็น \"สมาชิกทุกคน\""
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName}  ได้เปลี่ยนคนที่สามารถแก้ไขการเป็นสมาชิกในกลุ่มเป็น \"สมาชิกทุกคน\""
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "ผู้ดูแลได้เปลี่ยนคนที่สามารถแก้ไขการเป็นสมาชิกในกลุ่มเป็น \"สมาชิกทุกคน\""
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "คุณได้ปิดใช้การอนุมัติของผู้ดูแลสำหรับลิงก์กลุ่ม"
@@ -4694,6 +4703,9 @@
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "ปิดเสียง"
   },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "ลบออกจากการโทร"
+  },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "ป้ายกำกับสมาชิก"
   },
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "ใครสามารถแก้ไขข้อมูลของกลุ่ม"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "เลือกว่าใครสามารถแก้ไขชื่อกลุ่ม รูปภาพ และตั้งเวลาให้ข้อความหายไป"
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "เลือกว่าใครสามารถแก้ไขชื่อกลุ่ม รูปภาพ คำอธิบาย รวมถึงตั้งเวลาให้ข้อความหายไปและข้อความที่ปักหมุดไว้"
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "เลือกว่าใครสามารถส่งข้อความไปยังกลุ่มได้"
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "ป้ายกำกับสมาชิกจะถูกล้าง"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {คุณสามารถเลือกลบข้อความสำหรับทุกคนได้สูงสุด {count,number} ข้อความ}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "ยกเลิกฉบับร่างใช่หรือไม่"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "เมื่อดำเนินการแล้วจะไม่สามารถแก้ไขหรือเปลี่ยนแปลงได้"
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "ลบรายการนี้ใช่หรือไม่"
@@ -6187,13 +6208,13 @@
     "messageformat": "สำรองข้อมูลบนเดสก์ท็อป"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "ข้อมูลสำรองจะถูกเข้ารหัสด้วยกุญแจและจัดเก็บในคอมพิวเตอร์ของคุณ"
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "สร้างข้อมูลสำรองที่ถูกเข้ารหัสตั้งแต่ต้นทางถึงปลายทางซึ่งคุณสามารถกู้คืนได้บนโทรศัพท์ "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "กู้คืนข้อมูลสำรองด้วยการติดตั้ง Signal ใหม่ โดยเปิดแอปแล้วแตะเลือกกู้คืนจากข้อมูลสำรอง จากนั้นจึงไปที่โฟลเดอร์ที่สำรองข้อมูลไว้ <learnMoreLink>เรียนรู้เพิ่มเติม</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "เลือกโฟลเดอร์"
@@ -7989,7 +8010,6 @@
     "messageformat": "ให้คุณส่งข้อความไฟล์สื่อแบบที่ดูได้ครั้งเดียวจาก Signal เดสก์ท็อปได้แล้ว! รูปภาพและวิดีโอแบบดูได้ครั้งเดียวที่ส่งเป็นไฟล์แยกต่างหากจะถูกลบออกจากหน้าแชทโดยอัตโนมัติหลังจากที่เปิดดูไฟล์แล้ว"
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "ขอแนะนำป้ายกำกับสมาชิก ฟีเจอร์ใหม่ที่ให้คุณเลือกเพิ่มคำบรรยายหรือระบุบทบาทของตัวเองในแชทกลุ่ม ป้ายกำกับนี้จะแสดงอยู่ข้างชื่อโปรไฟล์ของคุณในกลุ่มนั้น และผู้ดูแลกลุ่มจะจัดการได้ว่าจะอนุญาตให้ใครกำหนดป้ายกำกับสมาชิกในหน้าสิทธิ์ \"แก้ไขข้อมูลกลุ่ม\"",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

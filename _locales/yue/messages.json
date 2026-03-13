@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "清除驗證"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "如果想驗證你同 {name} 之間嘅端對端加密設定，你可以對吓上面嘅號碼同佢部機入面嘅號碼。佢亦可以用佢部機掃你嘅二維碼。"
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "如果想驗證你同 {name} 之間嘅端對端加密設定，你可以對吓上面嘅號碼同佢部機入面嘅號碼。佢亦可以用佢部機掃你嘅二維碼。"
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "除錯紀錄可以幫我哋診斷同修正問題，當中唔會包含任何識別資料。"
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "關閉"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "分享除錯記錄"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "提交"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "唔使喇，唔該"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "提交緊……"
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "有管理員將群組資料嘅編輯權限改咗做「所有成員」。"
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} 將群組成員資格嘅編輯權限改咗做「只限管理員」。"
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "你將群組成員資格嘅編輯權限改咗做「只限管理員」。"
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} 將群組成員資格嘅編輯權限改咗做「只限管理員」。"
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "有管理員將群組成員資格嘅編輯權限改咗做「只限管理員」。"
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} 將群組成員資格嘅編輯權限改咗做「所有成員」。"
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "你將群組成員資格嘅編輯權限改咗做「所有成員」。"
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} 將群組成員資格嘅編輯權限改咗做「所有成員」。"
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "有管理員將群組成員資格嘅編輯權限改咗做「所有成員」。"
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "你停用咗群組連結嘅管理員批准設定。"
@@ -4694,6 +4703,9 @@
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "靜音"
   },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "喺通話度移除"
+  },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "成員標籤"
   },
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "邊個可以編輯群組資料"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "揀選邊個可以編輯群組個名、相、描述同埋自動銷毀訊息嘅時限。"
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "揀選邊個可以編輯個谷名、相、描述、自動銷毀訊息計時器同埋置頂訊息。"
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "揀選邊個可以傳送訊息去群組"
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "成員標籤將會被清走"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {你最多只可以揀 {count,number} 個訊息嚟喺所有人部機度刪除}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "係咪要捨棄草稿呀？"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "做咗就冇得返轉頭㗎喇。"
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "係咪刪除呢個項目呀？"
@@ -6187,13 +6208,13 @@
     "messageformat": "桌面備份"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "啲備份會用一個金鑰加密，然後儲存喺你部電腦度。"
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "建立可以喺手機上面還原嘅端對端加密備份。 "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "要還原一個備份嘅話，請首先重新再裝過 Signal。開返個 APP 出嚟，㩒一下「還原備份」，然後揀返嗰一個備份資料夾。<learnMoreLink>了解詳情。</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "揀一個資料夾"
@@ -7989,7 +8010,6 @@
     "messageformat": "而家你都可以喺 Signal 桌面版傳送閱後即焚媒體訊息啦！用閱後即焚訊息發送個別相同片，對方睇咗之後會自動喺對話紀錄度剷走。"
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "而家 Singal 可以任你揀加唔加個成員標籤嚟形容你自己，或者你喺個聊天谷入面嘅角色。例如喺你個本地足球聯賽聊天谷入面，將你個成員標籤設定做「裁判」或者「守門員」，幫新隊友了解你係乜水；而喺公司個聊天谷度，你又可以加個標籤話俾人知你做咩職位。成員標籤會顯示喺個谷嘅個人檔名隔離，個谷嘅管理員可以用「編輯聊天谷資料」嘅權限嚟控制邊個可以設定標籤。",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

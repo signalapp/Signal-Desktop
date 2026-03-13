@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Spastroje verifikimin"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "Për të verifikuar kodimin nga skaji në skaj me {name}, krahaso numrat e mësipërm me pajisjen e tyre. Ata gjithashtu mund të skanojnë kodin tënd me pajisjen e tyre."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "Për të verifikuar kodimin nga skaji në skaj me {name}, krahaso numrat e mësipërm me pajisjen e tyre. Ata gjithashtu mund ta skanojnë kodin me pajisjen e tyre."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Regjistrat e diagnostifikimeve na ndihmojnë të diagnostikojmë dhe rregullojmë problemin dhe nuk përmbajnë informacion identifikues."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Mbylle"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Ndaj regjistrin e diagnostikimit"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Parashtrojeni"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "Jo, faleminderit"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Po dërgohet..."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "Një përgjegjës ndryshoi se cilët mund të përpunojnë të dhëna grupi në “Krejt anëtarët”."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} ndryshoi se cilët mund të përpunojnë anëtarësi grupi në “Vetëm përgjegjësit”."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Ndryshuat se cilët mund të përpunojnë anëtarësi grupi në “Vetëm përgjegjësit”."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} ndryshoi se cilët mund të përpunojnë anëtarësi grupi në “Vetëm përgjegjësit”."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "Një përgjegjës ndryshoi se cilët mund të përpunojnë anëtarësi grupi në “Vetëm përgjegjësit”."
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} ndryshoi se cilët mund të përpunojnë anëtarësi grupi në “Krejt anëtarët”."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Ndryshuat se cilët mund të përpunojnë anëtarësi grupi në “Krejt anëtarët”."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} ndryshoi se cilët mund të përpunojnë anëtarësi grupi në “Krejt anëtarët”."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "Një përgjegjës ndryshoi se cilët mund të përpunojnë anëtarësi grupi në “Krejt anëtarët”."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Çaktivizuat miratim përgjegjësi për lidhjen e grupit."
@@ -4694,6 +4703,9 @@
   "icu:ContactModal--confirm-mute-primary-button": {
     "messageformat": "Hiqi zërin"
   },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Hiq nga telefonata"
+  },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Emërtimi i anëtarit"
   },
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Cilët mund të përpunojnë të dhëna grupi"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Zgjidhni cilët mund të përpunojnë emër grupi, foto, përshkrim dhe kohëmatës tretjeje mesazhesh."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Zgjidh se kush mund të ndryshojë emrin e grupit, foton, përshkrimin, kohëmatësin e mesazheve që zhduken dhe mesazhet e fiksuara."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Zgjidhni cilët mund të dërgojnë mesazhe te grupi."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Emërtimet e anëtarëve do të fshihen"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Mund të zgjedhësh vetëm deri në {count,number} mesazh për të fshirë për të gjithë} other {Mund të zgjedhësh vetëm deri në {count,number} mesazhe për të fshirë për të gjithë}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Të fshihet drafti?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "Ky veprim nuk mund të zhbëhet."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Të fshihet materiali?"
@@ -6187,13 +6208,13 @@
     "messageformat": "Kopjeruajtjet në Desktop"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Kopjeruajtjet kodohen me një kod dhe ruhen në kompjuter."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Krijo një kopjeruajtje të koduar nga skaji në skaj që mund ta rikthesh në telefon. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Për të rikthyer kopjeruajtjen, instalo kopjen e re të Signal. Hap aplikacionin dhe kliko te &quot;Rikthe kopjeruajtjen&quot;, pastaj gjej dosjen e kopjeruajtjeve. <learnMoreLink>Mëso më shumë.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Zgjidh një dosje"
@@ -7989,7 +8010,6 @@
     "messageformat": "Tani mund të dërgosh mesazhe me media që mund të shikohen vetëm një herë edhe nga Signal Desktop. Fotot dhe videot individuale që dërgohen si mesazhe që mund të shikohen vetëm një herë do të hiqen automatikisht nga biseda pasi të jenë parë."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Tani mund të shtosh opsionalisht emërtimin e anëtarit për të përshkruar veten ose rolin tënd në bisedat në grup. Vendos emërtimin e anëtarit të grupit në \"Arbitër\" ose \"Portier\" në bisedën lokale të futbollit të ligës argëtuese për të ndihmuar në fillimin e punës kur bashkohen shokët e rinj të ekipit, pastaj zgjidh një emërtim tjetër me titullin e punës në bisedën e kompanisë. Emërtimet e anëtarit shfaqen pranë emrit të profilit në atë grup dhe administratorët e grupit mund të kontrollojnë se kush mund të vendosë emërtim me lejen \"Përpuno informacionin e grupit\".",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }
