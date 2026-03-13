@@ -239,8 +239,9 @@ export function reducer(
   if (action.type === GENERATE_FULFILLED) {
     const { contact, safetyNumber } = action.payload;
     const { id } = contact;
-    const record = state.contacts[id];
-    strictAssert(record, 'Missing record');
+    const record = state.contacts[id] || {
+      verificationDisabled: false,
+    };
     return {
       contacts: {
         ...state.contacts,
