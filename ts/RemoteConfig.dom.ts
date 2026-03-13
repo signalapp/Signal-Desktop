@@ -97,8 +97,6 @@ const KnownDesktopLibsignalNetKeys = [
   'desktop.libsignalNet.chatPermessageDeflate.prod',
   'desktop.libsignalNet.chatRequestConnectionCheckTimeoutMillis.beta',
   'desktop.libsignalNet.chatRequestConnectionCheckTimeoutMillis',
-  'desktop.libsignalNet.disableNagleAlgorithm.beta',
-  'desktop.libsignalNet.disableNagleAlgorithm',
   'desktop.libsignalNet.grpc.AccountsAnonymousCheckAccountExistence.beta',
   'desktop.libsignalNet.grpc.AccountsAnonymousCheckAccountExistence',
   'desktop.libsignalNet.grpc.AccountsAnonymousLookupUsernameHash.beta',
@@ -107,6 +105,8 @@ const KnownDesktopLibsignalNetKeys = [
   'desktop.libsignalNet.grpc.AccountsAnonymousLookupUsernameLink',
   'desktop.libsignalNet.grpc.MessagesAnonymousSendMultiRecipientMessage.beta',
   'desktop.libsignalNet.grpc.MessagesAnonymousSendMultiRecipientMessage',
+  'desktop.libsignalNet.useH2ForAuthChat.beta',
+  'desktop.libsignalNet.useH2ForAuthChat',
   'desktop.libsignalNet.useH2ForUnauthChat.beta',
   'desktop.libsignalNet.useH2ForUnauthChat',
 ] as const;
