@@ -3551,7 +3551,7 @@ export class ConversationModel {
 
   async addPollTerminateNotification(params: {
     pollQuestion: string;
-    pollMessageId: string;
+    pollTimestamp: number;
     terminatorId: string;
     timestamp: number;
     isMeTerminating: boolean;
@@ -3573,7 +3573,7 @@ export class ConversationModel {
       sourceServiceId: terminatorServiceId,
       pollTerminateNotification: {
         question: params.pollQuestion,
-        pollMessageId: params.pollMessageId,
+        pollTimestamp: params.pollTimestamp,
       },
       readStatus: params.isMeTerminating ? ReadStatus.Read : ReadStatus.Unread,
       seenStatus: params.isMeTerminating ? SeenStatus.Seen : SeenStatus.Unseen,

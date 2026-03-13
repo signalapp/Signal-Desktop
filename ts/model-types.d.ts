@@ -223,7 +223,7 @@ export type MessageAttributesType = {
   poll?: PollMessageAttribute;
   pollTerminateNotification?: {
     question: string;
-    pollMessageId: string;
+    pollTimestamp: number;
   };
   // This field will only be set to true for outgoing messages
   hasUnreadPollVotes?: boolean;

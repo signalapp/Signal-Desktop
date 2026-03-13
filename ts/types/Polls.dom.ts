@@ -101,6 +101,10 @@ export type PollMessageAttribute = {
   options: ReadonlyArray<string>;
   allowMultiple: boolean;
   votes?: ReadonlyArray<MessagePollVoteType>;
+  /**
+   * The value of the terminatedAt timestamp is not reliable for polls that are imported
+   * from backup; only use this field to determine if a poll has been ended or not
+   */
   terminatedAt?: number;
   terminateSendStatus?: PollTerminateSendStatus;
 };

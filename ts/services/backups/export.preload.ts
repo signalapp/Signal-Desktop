@@ -84,6 +84,7 @@ import {
   isGroupV2Change,
   isKeyChange,
   isNormalBubble,
+  isPollTerminate,
   isPhoneNumberDiscovery,
   isProfileChange,
   isTapToView,
@@ -2186,6 +2187,27 @@ export class BackupExportStream extends Readable {
         pinMessage: {
           targetSentTimestamp,
           authorId: targetAuthorId,
+        },
+      };
+
+      return { kind: NonBubbleResultKind.Directionless, patch };
+    }
+
+    if (isPollTerminate(message)) {
+      const pollTerminate = message.pollTerminateNotification;
+      if (!pollTerminate) {
+        log.warn(
+          `${logId}: poll-terminate message missing pollTerminateNotification data`
+        );
+        return { kind: NonBubbleResultKind.Drop };
+      }
+
+      updateMessage.update = {
+        pollTerminate: {
+          question: pollTerminate.question,
+          targetSentTimestamp: getSafeLongFromTimestamp(
+            pollTerminate.pollTimestamp
+          ),
         },
       };
 

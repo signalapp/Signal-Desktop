@@ -573,19 +573,18 @@ export async function handlePollTerminate(
     `Poll ${getMessageIdForLogging(message.attributes)} terminated at ${terminate.timestamp}`
   );
 
+  await conversation.addPollTerminateNotification({
+    pollQuestion: poll.question,
+    pollTimestamp: message.attributes.timestamp,
+    terminatorId: terminate.fromConversationId,
+    timestamp: terminate.timestamp,
+    isMeTerminating: isMe(author.attributes),
+    expireTimer: terminate.expireTimer,
+    expirationStartTimestamp: terminate.expirationStartTimestamp,
+  });
+
   if (shouldPersist) {
     await window.MessageCache.saveMessage(message.attributes);
-
-    await conversation.addPollTerminateNotification({
-      pollQuestion: poll.question,
-      pollMessageId: message.id,
-      terminatorId: terminate.fromConversationId,
-      timestamp: terminate.timestamp,
-      isMeTerminating: isMe(author.attributes),
-      expireTimer: terminate.expireTimer,
-      expirationStartTimestamp: terminate.expirationStartTimestamp,
-    });
-
     window.reduxActions.conversations.markOpenConversationRead(conversation.id);
   }
 }

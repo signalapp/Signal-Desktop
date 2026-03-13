@@ -108,6 +108,7 @@ import {
   getActivePanel,
   getSelectedConversationId,
 } from '../selectors/nav.std.js';
+import { isPoll } from '../../messages/helpers.std.js';
 
 const { debounce, isEqual } = lodash;
 
@@ -451,7 +452,8 @@ function scrollToPinnedMessage(
 }
 
 function scrollToPollMessage(
-  pollMessageId: string,
+  pollAuthorAci: AciString,
+  pollTimestamp: number,
   conversationId: string
 ): ThunkAction<
   void,
@@ -460,9 +462,16 @@ function scrollToPollMessage(
   ShowToastActionType | ScrollToMessageActionType
 > {
   return async (dispatch, getState) => {
-    const pollMessage = await getMessageById(pollMessageId);
+    const ourAci = itemStorage.user.getCheckedAci();
 
-    if (!pollMessage) {
+    const pollMessage = await DataReader.getMessageByAuthorAciAndSentAt(
+      ourAci,
+      pollAuthorAci,
+      pollTimestamp,
+      { includeEdits: true }
+    );
+
+    if (!pollMessage || !isPoll(pollMessage)) {
       dispatch({
         type: SHOW_TOAST,
         payload: {
@@ -476,7 +485,7 @@ function scrollToPollMessage(
       return;
     }
 
-    scrollToMessage(conversationId, pollMessageId)(
+    scrollToMessage(conversationId, pollMessage.id)(
       dispatch,
       getState,
       undefined

@@ -578,6 +578,26 @@ describe('backup/non-bubble messages', () => {
     ]);
   });
 
+  it('roundtrips poll terminate notification with pollTimestamp', async () => {
+    await symmetricRoundtripHarness([
+      {
+        conversationId: contactA.id,
+        id: generateGuid(),
+        type: 'poll-terminate',
+        received_at: 2,
+        sent_at: 2,
+        timestamp: 2,
+        sourceServiceId: CONTACT_A,
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
+        pollTerminateNotification: {
+          question: 'Question?',
+          pollTimestamp: 12345,
+        },
+      },
+    ]);
+  });
+
   it('creates a tombstone for gv1 update in gv2 group', async () => {
     await asymmetricRoundtripHarness(
       [

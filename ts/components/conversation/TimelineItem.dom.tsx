@@ -53,7 +53,7 @@ import type { PropsType as ProfileChangeNotificationPropsType } from './ProfileC
 import { ProfileChangeNotification } from './ProfileChangeNotification.dom.js';
 import type { PropsType as PaymentEventNotificationPropsType } from './PaymentEventNotification.dom.js';
 import { PaymentEventNotification } from './PaymentEventNotification.dom.js';
-import type { PropsType as PollTerminateNotificationPropsType } from './PollTerminateNotification.dom.js';
+import type { PollTerminateNotificationDataType } from './PollTerminateNotification.dom.js';
 import { PollTerminateNotification } from './PollTerminateNotification.dom.js';
 import type { PropsDataType as ConversationMergeNotificationPropsType } from './ConversationMergeNotification.dom.js';
 import { ConversationMergeNotification } from './ConversationMergeNotification.dom.js';
@@ -70,6 +70,7 @@ import {
 import type { MessageRequestState } from './MessageRequestActionsConfirmation.dom.js';
 import type { MessageInteractivity } from './Message.dom.js';
 import type { PinMessageData } from '../../model-types.js';
+import type { AciString } from '../../types/ServiceId.std.js';
 
 type CallHistoryType = {
   type: 'callHistory';
@@ -165,10 +166,7 @@ type MessageRequestResponseNotificationType = {
 };
 type PollTerminateNotificationType = {
   type: 'pollTerminate';
-  data: Omit<
-    PollTerminateNotificationPropsType,
-    'i18n' | 'scrollToPollMessage'
-  >;
+  data: PollTerminateNotificationDataType;
 };
 
 export type TimelineItemType = (
@@ -210,7 +208,11 @@ type PropsLocalType = {
   isNextItemCallingNotification: boolean;
   isTargeted: boolean;
   scrollToPinnedMessage: (pinMessage: PinMessageData) => void;
-  scrollToPollMessage: (messageId: string, conversationId: string) => unknown;
+  scrollToPollMessage: (
+    pollAuthorAci: AciString,
+    pollTimestamp: number,
+    conversationId: string
+  ) => unknown;
   targetMessage: (messageId: string, conversationId: string) => unknown;
   shouldRenderDateHeader: boolean;
   onOpenEditNicknameAndNoteModal: (contactId: string) => void;

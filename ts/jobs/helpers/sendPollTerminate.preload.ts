@@ -307,7 +307,8 @@ async function markTerminateFailed(
       poll.terminatedAt,
       m =>
         m.get('type') === 'poll-terminate' &&
-        m.get('pollTerminateNotification')?.pollMessageId === message.id
+        m.get('pollTerminateNotification')?.pollTimestamp ===
+          message.attributes.timestamp
     );
 
     if (notificationMessage) {

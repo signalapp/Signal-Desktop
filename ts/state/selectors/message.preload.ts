@@ -177,6 +177,7 @@ import { LONG_MESSAGE } from '../../types/MIME.std.js';
 import type { MessageRequestResponseNotificationData } from '../../components/conversation/MessageRequestResponseNotification.dom.js';
 import type { PinnedMessageNotificationData } from '../../components/conversation/pinned-messages/PinnedMessageNotification.dom.js';
 import { isPinnedMessagesSendEnabled } from '../../util/isPinnedMessagesEnabled.dom.js';
+import type { PollTerminateNotificationDataType } from '../../components/conversation/PollTerminateNotification.dom.js';
 
 const { groupBy, isEmpty, isNumber, isObject, map } = lodash;
 
@@ -1278,6 +1279,7 @@ export function isNormalBubble(message: MessageWithUIFieldsType): boolean {
     !isPhoneNumberDiscovery(message) &&
     !isTitleTransitionNotification(message) &&
     !isPinnedMessageNotification(message) &&
+    !isPollTerminate(message) &&
     !isProfileChange(message) &&
     !isUniversalTimerNotification(message) &&
     !isUnsupportedMessage(message) &&
@@ -1811,7 +1813,7 @@ export function isPollTerminate(message: MessageWithUIFieldsType): boolean {
 function getPropsForPollTerminate(
   message: MessageWithUIFieldsType,
   { conversationSelector }: GetPropsForBubbleOptions
-) {
+): PollTerminateNotificationDataType {
   const { pollTerminateNotification, sourceServiceId, conversationId } =
     message;
 
@@ -1822,11 +1824,12 @@ function getPropsForPollTerminate(
   }
 
   const sender = conversationSelector(sourceServiceId);
+  const { question, pollTimestamp } = pollTerminateNotification;
 
   return {
     sender,
-    pollQuestion: pollTerminateNotification.question,
-    pollMessageId: pollTerminateNotification.pollMessageId,
+    pollQuestion: question,
+    pollTimestamp,
     conversationId,
   };
 }

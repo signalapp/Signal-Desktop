@@ -79,11 +79,7 @@ describe('backup/integration', () => {
       const actualString = actual.comparableString();
       const expectedString = expected.comparableString();
 
-      if (
-        expectedString.includes('ReleaseChannelDonationRequest') ||
-        // TODO (DESKTOP-9209) roundtrip these frames when feature is added
-        fullPath.includes('poll_terminate')
-      ) {
+      if (expectedString.includes('ReleaseChannelDonationRequest')) {
         // Skip the unsupported tests
         return;
       }
