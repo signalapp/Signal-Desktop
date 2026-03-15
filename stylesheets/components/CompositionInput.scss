@@ -325,6 +325,21 @@
           }
         }
 
+        &--codeBlock {
+          @include mixins.dark-theme {
+            @include mixins.color-svg(
+              '../images/icons/v3/text_format/textformat-codeblock-bold.svg',
+              variables.$color-gray-25
+            );
+          }
+          @include mixins.light-theme {
+            @include mixins.color-svg(
+              '../images/icons/v3/text_format/textformat-codeblock-bold.svg',
+              variables.$color-gray-60
+            );
+          }
+        }
+
         // Here we look at hover for the parent so the 2px border is a hover target
         // Note: We can't use the mixins because .mouse-mode would end up after the >
         .mouse-mode #{$parent}:hover & {
@@ -573,6 +588,17 @@ button.CompositionInput__link-preview__close-button {
     @include mixins.dark-theme {
       // vs color/$color-gray-05, background/$color-gray-95
       background-color: variables.$color-gray-45;
+    }
+  }
+  &--codeBlock {
+    font-family: variables.$monospace;
+    border-radius: 4px;
+    padding-inline: 4px;
+    @include mixins.light-theme {
+      background-color: variables.$color-gray-05;
+    }
+    @include mixins.dark-theme {
+      background-color: variables.$color-gray-80;
     }
   }
 }

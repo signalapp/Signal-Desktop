@@ -241,6 +241,7 @@ const STD_PACKAGES = new Set([
   'fuse.js',
   'google-libphonenumber',
   'heic-convert',
+  'highlight.js',
   'humanize-duration',
   'intl-tel-input',
   'js-yaml',

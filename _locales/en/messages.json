@@ -3460,6 +3460,10 @@
     "messageformat": "Sticker message",
     "description": "Shown in notifications and in the left pane instead of sticker image."
   },
+  "icu:message--getNotificationText--code-block": {
+    "messageformat": "Code block",
+    "description": "Shown in notifications and in the left pane instead of code block content."
+  },
   "icu:Poll--preview": {
     "messageformat": "Poll: {pollQuestion}",
     "description": "Shown in notifications, the left pane message preview, and quotes when a poll message is referenced."
@@ -4226,7 +4230,11 @@
   },
   "icu:Keyboard--composer--spoiler": {
     "messageformat": "Mark selected text as a spoiler",
-    "description": "Description of command to bold text in composer"
+    "description": "Description of command to mark text as spoiler in composer"
+  },
+  "icu:Keyboard--composer--codeBlock": {
+    "messageformat": "Mark selected text as a code block",
+    "description": "Description of command to mark text as code block in composer"
   },
   "icu:Keyboard--open-context-menu": {
     "messageformat": "Open context menu for selected message",
@@ -4250,7 +4258,11 @@
   },
   "icu:FormatMenu--guide--spoiler": {
     "messageformat": "Spoiler",
-    "description": "Shown when you hover over the bold button in the popup formatting menu"
+    "description": "Shown when you hover over the spoiler button in the popup formatting menu"
+  },
+  "icu:FormatMenu--guide--codeBlock": {
+    "messageformat": "Code Block",
+    "description": "Shown when you hover over the code block button in the popup formatting menu"
   },
   "icu:Keyboard--scroll-to-top": {
     "messageformat": "Scroll to top of list",

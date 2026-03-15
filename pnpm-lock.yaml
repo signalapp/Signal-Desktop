@@ -251,6 +251,9 @@ importers:
       heic-convert:
         specifier: 2.1.0
         version: 2.1.0
+      highlight.js:
+        specifier: ^11.11.1
+        version: 11.11.1
       humanize-duration:
         specifier: 3.27.1
         version: 3.27.1
@@ -6736,6 +6739,10 @@ packages:
   heic-decode@2.0.0:
     resolution: {integrity: sha512-NU+zsiDvdL+EebyTjrEqjkO2XYI7FgLhQzsbmO8dnnYce3S0PBSDm/ZyI4KpcGPXYEdb5W72vp/AQFuc4F8ASg==}
     engines: {node: '>=8.0.0'}
+
+  highlight.js@11.11.1:
+    resolution: {integrity: sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w==}
+    engines: {node: '>=12.0.0'}
 
   hoist-non-react-statics@3.3.2:
     resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
@@ -18200,6 +18207,8 @@ snapshots:
   heic-decode@2.0.0:
     dependencies:
       libheif-js: 1.18.2
+
+  highlight.js@11.11.1: {}
 
   hoist-non-react-statics@3.3.2:
     dependencies:

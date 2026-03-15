@@ -436,6 +436,7 @@ describe('BodyRanges', () => {
           isItalic: true,
           isStrikethrough: true,
           isMonospace: true,
+          isCodeBlock: true,
           text: 'Monospace Pop!',
           mentions: [],
         },
@@ -553,6 +554,7 @@ describe('BodyRanges', () => {
           isItalic: true,
           isStrikethrough: true,
           isMonospace: true,
+          isCodeBlock: true,
           text: 'Monospace Pop!',
           mentions: [],
         },
@@ -688,6 +690,7 @@ describe('BodyRanges', () => {
           isItalic: true,
           isStrikethrough: true,
           isMonospace: true,
+          isCodeBlock: true,
           text: 'Mono\uFFFcpace Pop!',
           mentions: [
             {
