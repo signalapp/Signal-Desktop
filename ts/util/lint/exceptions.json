@@ -810,5 +810,13 @@
     "path": "node_modules/react-blurhash/docs/demo.f335462148ad584661d8.js",
     "reasonCategory": "usageTrusted",
     "updated": "2024-11-14T18:53:33.345Z"
+  },
+  {
+    "rule": "React-dangerouslySetInnerHTML",
+    "path": "ts/components/conversation/MessageTextRenderer.dom.tsx",
+    "line": "              dangerouslySetInnerHTML={{ __html: highlighted.value }}",
+    "reasonCategory": "usageTrusted",
+    "updated": "2026-03-15T12:38:17.220Z",
+    "reasonDetail": "Highlight.js output is trusted as it only contains syntax-colored spans and we've verified auto-detection is safe."
   }
 ]

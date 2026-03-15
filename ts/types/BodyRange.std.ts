@@ -274,6 +274,7 @@ export type DisplayNode = {
   isBold?: boolean;
   isItalic?: boolean;
   isMonospace?: boolean;
+  isCodeBlock?: boolean;
   isSpoiler?: boolean;
   isStrikethrough?: boolean;
 
@@ -305,7 +306,7 @@ function rangeToPartialNode(
       return { isItalic: true };
     }
     if (range.style === BodyRange.Style.MONOSPACE) {
-      return { isMonospace: true };
+      return { isMonospace: true, isCodeBlock: true };
     }
     if (range.style === BodyRange.Style.SPOILER) {
       return { isSpoiler: true, spoilerId: range.spoilerId };

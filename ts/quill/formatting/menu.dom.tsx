@@ -31,6 +31,7 @@ const MENU_TEXT_BUFFER = 12; // pixels
 const BOLD_CHAR = 'b';
 const ITALIC_CHAR = 'i';
 const MONOSPACE_CHAR = 'e';
+const CODEBLOCK_CHAR = 'e';
 const SPOILER_CHAR = 'b';
 const STRIKETHROUGH_CHAR = 'x';
 
@@ -46,6 +47,7 @@ export enum QuillFormattingStyle {
   bold = 'bold',
   italic = 'italic',
   monospace = 'monospace',
+  codeBlock = 'codeBlock',
   strike = 'strike',
   spoiler = 'spoiler',
 }
@@ -139,6 +141,14 @@ export class FormattingMenu {
       shiftKey: true,
       handler: (_range, context) =>
         this.toggleForStyle(QuillFormattingStyle.strike, context),
+    });
+    this.quill.keyboard.addBinding({
+      // We need to hook both because of windows/linux and the shift key
+      key: [CODEBLOCK_CHAR, CODEBLOCK_CHAR.toUpperCase()],
+      shortKey: true,
+      shiftKey: true,
+      handler: (_range, context) =>
+        this.toggleForStyle(QuillFormattingStyle.codeBlock, context),
     });
     this.quill.keyboard.addBinding({
       // We need to hook both because of windows/linux and the shift key
@@ -403,6 +413,18 @@ export class FormattingMenu {
                 popupGuideShortcut={`${metaKey} + ${MONOSPACE_CHAR.toUpperCase()}`}
                 popupGuideText={i18n('icu:FormatMenu--guide--monospace')}
                 style={QuillFormattingStyle.monospace}
+                toggleForStyle={toggleForStyle}
+              />
+              <FormattingButton
+                hasLongHovered={hasLongHovered}
+                isActive={isStyleEnabledInSelection(
+                  QuillFormattingStyle.codeBlock
+                )}
+                label={i18n('icu:Keyboard--composer--codeBlock')}
+                onLongHover={onLongHover}
+                popupGuideShortcut={`${metaKey} + ${shiftKey} + ${CODEBLOCK_CHAR.toUpperCase()}`}
+                popupGuideText={i18n('icu:FormatMenu--guide--codeBlock')}
+                style={QuillFormattingStyle.codeBlock}
                 toggleForStyle={toggleForStyle}
               />
               <FormattingButton

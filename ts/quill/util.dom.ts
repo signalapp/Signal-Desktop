@@ -160,7 +160,10 @@ function extractAllFormats(
     ...params,
     style: MONOSPACE,
     previousData: result[MONOSPACE],
-    hasStyle: Boolean(op?.attributes?.[QuillFormattingStyle.monospace]),
+    hasStyle: Boolean(
+      op?.attributes?.[QuillFormattingStyle.monospace] ||
+      op?.attributes?.[QuillFormattingStyle.codeBlock]
+    ),
   });
   result[SPOILER] = extractFormatRange({
     ...params,
@@ -398,6 +401,7 @@ export const insertFormattingAndMentionsOps = (
         [QuillFormattingStyle.bold]: node.isBold,
         [QuillFormattingStyle.italic]: node.isItalic,
         [QuillFormattingStyle.monospace]: node.isMonospace,
+        [QuillFormattingStyle.codeBlock]: node.isCodeBlock,
         [QuillFormattingStyle.spoiler]: node.isSpoiler,
         [QuillFormattingStyle.strike]: node.isStrikethrough,
       },

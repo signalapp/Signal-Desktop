@@ -111,3 +111,27 @@ export const matchSpoiler: Matcher = (
   }
   return delta;
 };
+
+export const matchCodeBlock: Matcher = (
+  node,
+  delta,
+  _scroll,
+  attributes
+): Delta => {
+  const classes = [
+    'MessageTextRenderer__formatting--codeBlock',
+    'quill--codeBlock',
+  ];
+
+  if (
+    delta.length() > 0 &&
+    (node.classList.contains(classes[0]) ||
+      node.classList.contains(classes[1]) ||
+      node.tagName === 'PRE' ||
+      node.tagName === 'CODE')
+  ) {
+    return applyStyleToOps(delta, QuillFormattingStyle.codeBlock, attributes);
+  }
+
+  return delta;
+};

@@ -21,6 +21,7 @@ import {
   QuillFormattingStyle,
 } from '../quill/formatting/menu.dom.js';
 import { MonospaceBlot } from '../quill/formatting/monospaceBlot.std.js';
+import { CodeBlockBlot } from '../quill/formatting/codeBlockBlot.std.js';
 import { SpoilerBlot } from '../quill/formatting/spoilerBlot.std.js';
 import { EmojiBlot, EmojiCompletion } from '../quill/emoji/index.dom.js';
 import type {
@@ -68,6 +69,7 @@ import {
   matchMonospace,
   matchSpoiler,
   matchStrikethrough,
+  matchCodeBlock,
 } from '../quill/formatting/matchers.dom.js';
 import { missingCaseError } from '../util/missingCaseError.std.js';
 import type { AutoSubstituteAsciiEmojisOptions } from '../quill/auto-substitute-ascii-emojis/index.dom.js';
@@ -96,6 +98,7 @@ Quill.register(
     'formats/mention': MentionBlot,
     'formats/block': DirectionalBlot,
     'formats/monospace': MonospaceBlot,
+    'formats/codeBlock': CodeBlockBlot,
     'formats/spoiler': SpoilerBlot,
     'modules/autoSubstituteAsciiEmojis': AutoSubstituteAsciiEmojis,
     'modules/emojiCompletion': EmojiCompletion,
@@ -830,6 +833,9 @@ export function CompositionInput(props: Props): React.ReactElement {
                 ['SPAN', matchMonospace],
                 ['S', matchStrikethrough],
                 ['SPAN', matchSpoiler],
+                ['PRE', matchCodeBlock],
+                ['CODE', matchCodeBlock],
+                ['SPAN', matchCodeBlock],
                 [Node.TEXT_NODE, matchEmojiText],
                 ['SPAN', matchMention(memberRepositoryRef)],
               ],
@@ -1110,6 +1116,7 @@ function getQuillFormats(): Array<string> {
     'mention',
     QuillFormattingStyle.spoiler,
     QuillFormattingStyle.monospace,
+    QuillFormattingStyle.codeBlock,
     // Built-in
     QuillFormattingStyle.bold,
     QuillFormattingStyle.italic,

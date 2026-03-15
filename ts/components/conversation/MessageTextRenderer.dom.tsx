@@ -6,6 +6,7 @@ import type { ReactElement } from 'react';
 import classNames from 'classnames';
 import emojiRegex from 'emoji-regex';
 import lodash from 'lodash';
+import hljs from 'highlight.js';
 
 import { linkify, SUPPORTED_PROTOCOLS } from './Linkify.dom.js';
 import type {
@@ -263,11 +264,58 @@ function renderNode({
 
   const formattingClasses = classNames(
     node.isMonospace ? 'MessageTextRenderer__formatting--monospace' : null,
+    node.isCodeBlock ? 'MessageTextRenderer__formatting--codeBlock' : null,
     node.isKeywordHighlight
       ? 'MessageTextRenderer__formatting--keywordHighlight'
       : null,
     isInvisible ? 'MessageTextRenderer__formatting--invisible' : null
   );
+
+  // Syntax-highlighted code block rendering
+  if (node.isCodeBlock && node.text) {
+    if (
+      renderLocation !== RenderLocation.Timeline &&
+      renderLocation !== RenderLocation.StoryViewer
+    ) {
+      return (
+        <span key={key} className={formattingClasses}>
+          {i18n('icu:message--getNotificationText--code-block', undefined)}
+        </span>
+      );
+    }
+
+    try {
+      const highlighted = hljs.highlightAuto(node.text);
+      const detectedLang = highlighted.language || 'text';
+      return (
+        <div key={key} className="MessageTextRenderer__codeBlock">
+          <div className="MessageTextRenderer__codeBlock__header">
+            <span className="MessageTextRenderer__codeBlock__language">
+              {detectedLang}
+            </span>
+            <button
+              type="button"
+              className="MessageTextRenderer__codeBlock__copy"
+              onClick={() => {
+                void navigator.clipboard.writeText(node.text);
+              }}
+            >
+              Copy
+            </button>
+          </div>
+          <pre className="MessageTextRenderer__codeBlock__pre">
+            <code
+              className="MessageTextRenderer__formatting--codeBlock hljs"
+              // eslint-disable-next-line react/no-danger
+              dangerouslySetInnerHTML={{ __html: highlighted.value }}
+            />
+          </pre>
+        </div>
+      );
+    } catch {
+      // Fall through to default rendering if highlighting fails
+    }
+  }
 
   if (
     node.url &&

@@ -113,6 +113,10 @@ export class SignalClipboard {
           ops,
           QuillFormattingStyle.strike
         ),
+        [QuillFormattingStyle.codeBlock]: FormattingMenu.isStyleEnabledForOps(
+          ops,
+          QuillFormattingStyle.codeBlock
+        ),
       };
     }
     const clipboardDelta = signal

@@ -306,6 +306,11 @@ function getComposerShortcuts(i18n: LocalizerType): Array<ShortcutType> {
       description: i18n('icu:Keyboard--composer--spoiler'),
       keys: [['commandOrCtrl', 'shift', 'B']],
     },
+    {
+      id: 'Keyboard--composer--codeBlock',
+      description: i18n('icu:Keyboard--composer--codeBlock'),
+      keys: [['commandOrCtrl', 'shift', 'E']],
+    },
   ];
 
   return shortcuts;
