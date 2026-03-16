@@ -37,7 +37,7 @@ describe('lightbox', function (this: Mocha.Suite) {
     let state = StorageState.getEmpty();
 
     const { phone, contacts } = bootstrap;
-    [pinned] = contacts;
+    [pinned] = contacts as [PrimaryDevice];
 
     state = state.addContact(pinned, {
       identityKey: pinned.publicKey.serialize(),
@@ -113,6 +113,10 @@ describe('lightbox', function (this: Mocha.Suite) {
       imageSnow,
       imageWaterfall,
     ]);
+
+    strictAssert(attachmentCat, 'attachmentCat exists');
+    strictAssert(attachmentSnow, 'attachmentSnow exists');
+    strictAssert(attachmentWaterfall, 'attachmentWaterfall exists');
 
     await sendAttachmentsBack('Message3', [attachmentCat]);
     await sendAttachmentsBack('Message4', [

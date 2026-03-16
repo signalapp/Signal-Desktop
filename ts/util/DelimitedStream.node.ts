@@ -40,7 +40,8 @@ export class DelimitedStream extends Transform {
     let offset = 0;
     while (offset < chunk.length) {
       if (this.#state.kind === 'prefix') {
-        const b = chunk[offset];
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const b = chunk[offset]!;
         offset += 1;
 
         // See: https://protobuf.dev/programming-guides/encoding/

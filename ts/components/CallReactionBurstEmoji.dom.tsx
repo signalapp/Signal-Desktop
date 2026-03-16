@@ -40,7 +40,8 @@ export function CallReactionBurstEmoji({
     (index: number) => {
       return {
         key: uuid(),
-        value: values[index % values.length],
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        value: values[index % values.length]!,
         springConfig: {
           mass: random(10, 20),
           tension: random(45, 60),

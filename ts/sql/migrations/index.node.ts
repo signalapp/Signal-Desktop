@@ -147,6 +147,7 @@ import updateToSchemaVersion1670 from './1670-drop-call-link-epoch.std.js';
 import updateToSchemaVersion1680 from './1680-cleanup-empty-strings.std.js';
 
 import { DataWriter } from '../Server.node.js';
+import { strictAssert } from '../../util/assert.std.js';
 
 const { keyBy } = lodash;
 
@@ -775,7 +776,8 @@ function updateToSchemaVersion20(db: Database): void {
   for (const row of allConversations) {
     const oldId = row.id;
     const newId = generateUuid();
-    allConversationsByOldId[oldId].id = newId;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    allConversationsByOldId[oldId]!.id = newId;
     const patchObj: { id: string; e164?: string; groupId?: string } = {
       id: newId,
     };
@@ -1687,11 +1689,14 @@ export function updateSchema(db: WritableDB, logger: LoggerType): void {
   const startingVersion = getUserVersion(db);
   const schemaVersion = getSchemaVersion(db);
 
-  const MAX_VERSION = SCHEMA_VERSIONS[SCHEMA_VERSIONS.length - 1].version;
+  const MAX_VERSION = SCHEMA_VERSIONS[SCHEMA_VERSIONS.length - 1]?.version;
+  strictAssert(MAX_VERSION, 'Missing MAX_VERSION');
 
   for (let i = 1; i < SCHEMA_VERSIONS.length; i += 1) {
-    const prev = SCHEMA_VERSIONS[i - 1].version;
-    const next = SCHEMA_VERSIONS[i].version;
+    const prev = SCHEMA_VERSIONS[i - 1]?.version;
+    const next = SCHEMA_VERSIONS[i]?.version;
+    strictAssert(prev, 'Missing prev');
+    strictAssert(next, 'Missing next');
     if (prev >= next) {
       throw new Error(
         `Migration versions are not monotonic: ${prev} >= ${next}`
@@ -1722,7 +1727,9 @@ export function updateSchema(db: WritableDB, logger: LoggerType): void {
     // eslint-disable-next-line no-loop-func
     const needsVacuum = db.transaction(() => {
       for (; i < SCHEMA_VERSIONS.length; i += 1) {
-        const { version, update } = SCHEMA_VERSIONS[i];
+        const schema = SCHEMA_VERSIONS[i];
+        strictAssert(schema, 'Missing schema');
+        const { version, update } = schema;
         if (version <= startingVersion) {
           continue;
         }

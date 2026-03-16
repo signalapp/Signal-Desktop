@@ -29,7 +29,6 @@ import {
   ConversationDetailsIcon,
   IconType,
 } from './conversation/conversation-details/ConversationDetailsIcon.dom.js';
-import { isWhitespace, trim } from '../util/whitespaceStringUtil.std.js';
 import { UserText } from './UserText.dom.js';
 import { Tooltip, TooltipPlacement } from './Tooltip.dom.js';
 import { offsetDistanceModifier } from '../util/popperUtil.std.js';
@@ -294,9 +293,9 @@ export function ProfileEditor({
       onProfileChanged(
         {
           ...stagedProfile,
-          firstName: trim(stagedProfile.firstName),
+          firstName: stagedProfile.firstName.trim(),
           familyName: stagedProfile.familyName
-            ? trim(stagedProfile.familyName)
+            ? stagedProfile.familyName.trim()
             : undefined,
         },
         {
@@ -376,7 +375,7 @@ export function ProfileEditor({
       !stagedProfile.firstName ||
       (stagedProfile.firstName === fullName.firstName &&
         stagedProfile.familyName === fullName.familyName) ||
-      isWhitespace(stagedProfile.firstName);
+      stagedProfile.firstName.trim() === '';
 
     content = (
       <>

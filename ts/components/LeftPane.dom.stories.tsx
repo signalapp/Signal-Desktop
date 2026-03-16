@@ -51,7 +51,7 @@ export default {
   args: {},
 } satisfies Meta<PropsType>;
 
-const defaultConversations: Array<ConversationType> = [
+const defaultConversations = [
   getDefaultConversation({
     id: 'fred-convo',
     title: 'Fred Willard',
@@ -61,7 +61,7 @@ const defaultConversations: Array<ConversationType> = [
     isSelected: true,
     title: 'Marc Barraca',
   }),
-];
+] as const satisfies Array<ConversationType>;
 
 const defaultSearchProps = {
   filterByUnread: false,

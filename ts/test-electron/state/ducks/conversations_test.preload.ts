@@ -2217,19 +2217,21 @@ describe('both/state/ducks/conversations', () => {
         const nextState = reducer(getState().conversations, action);
 
         sinon.assert.calledOnce(dispatch);
-        assert.isUndefined(nextState.conversationLookup.abc.conversationColor);
-        assert.isUndefined(nextState.conversationLookup.def.conversationColor);
-        assert.isUndefined(nextState.conversationLookup.ghi.conversationColor);
-        assert.isUndefined(nextState.conversationLookup.jkl.conversationColor);
+        assert.isUndefined(nextState.conversationLookup.abc?.conversationColor);
+        assert.isUndefined(nextState.conversationLookup.def?.conversationColor);
+        assert.isUndefined(nextState.conversationLookup.ghi?.conversationColor);
+        assert.isUndefined(nextState.conversationLookup.jkl?.conversationColor);
         assert.isUndefined(
-          nextState.conversationsByServiceId[abc.serviceId].conversationColor
+          nextState.conversationsByServiceId[abc.serviceId]?.conversationColor
         );
         assert.isUndefined(
-          nextState.conversationsByServiceId[def.serviceId].conversationColor
+          nextState.conversationsByServiceId[def.serviceId]?.conversationColor
         );
-        assert.isUndefined(nextState.conversationsByE164.ghi.conversationColor);
         assert.isUndefined(
-          nextState.conversationsByGroupId.jkl.conversationColor
+          nextState.conversationsByE164.ghi?.conversationColor
+        );
+        assert.isUndefined(
+          nextState.conversationsByGroupId.jkl?.conversationColor
         );
         await itemStorage.remove('defaultConversationColor');
       });

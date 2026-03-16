@@ -141,7 +141,8 @@ export async function deleteStoryForEveryone(
       let recipient = newStoryRecipients.get(destinationServiceId);
       if (!recipient) {
         const isAllowedToReply =
-          sendStateByConversationId[conversationId].isAllowedToReplyToStory;
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          sendStateByConversationId[conversationId]!.isAllowedToReplyToStory;
         recipient = {
           distributionListIds: new Set(),
           isAllowedToReply: isAllowedToReply !== false,

@@ -1269,11 +1269,11 @@ describe('both/state/selectors/conversations-extra', () => {
           stableSelectedConversationIdInChatFolder: null,
         });
 
-      assert.strictEqual(conversations[0].name, 'First!');
-      assert.strictEqual(conversations[1].name, 'Á');
-      assert.strictEqual(conversations[2].name, 'B');
-      assert.strictEqual(conversations[3].name, 'C');
-      assert.strictEqual(conversations[4].name, 'No timestamp');
+      assert.strictEqual(conversations[0]?.name, 'First!');
+      assert.strictEqual(conversations[1]?.name, 'Á');
+      assert.strictEqual(conversations[2]?.name, 'B');
+      assert.strictEqual(conversations[3]?.name, 'C');
+      assert.strictEqual(conversations[4]?.name, 'No timestamp');
       assert.strictEqual(conversations.length, 5);
 
       assert.strictEqual(archivedConversations.length, 0);
@@ -1364,9 +1364,9 @@ describe('both/state/selectors/conversations-extra', () => {
             stableSelectedConversationIdInChatFolder: null,
           });
 
-        assert.strictEqual(pinnedConversations[0].name, 'Pin One');
-        assert.strictEqual(pinnedConversations[1].name, 'Pin Two');
-        assert.strictEqual(pinnedConversations[2].name, 'Pin Three');
+        assert.strictEqual(pinnedConversations[0]?.name, 'Pin One');
+        assert.strictEqual(pinnedConversations[1]?.name, 'Pin Two');
+        assert.strictEqual(pinnedConversations[2]?.name, 'Pin Three');
 
         assert.strictEqual(archivedConversations.length, 0);
 
@@ -1495,12 +1495,12 @@ describe('both/state/selectors/conversations-extra', () => {
             stableSelectedConversationIdInChatFolder: null,
           });
 
-        assert.strictEqual(pinnedConversations[0].name, 'Pin One');
-        assert.strictEqual(pinnedConversations[1].name, 'Pin Two');
-        assert.strictEqual(pinnedConversations[2].name, 'Pin Three');
+        assert.strictEqual(pinnedConversations[0]?.name, 'Pin One');
+        assert.strictEqual(pinnedConversations[1]?.name, 'Pin Two');
+        assert.strictEqual(pinnedConversations[2]?.name, 'Pin Three');
         assert.strictEqual(pinnedConversations.length, 3);
 
-        assert.strictEqual(archivedConversations[0].name, 'Pin Four');
+        assert.strictEqual(archivedConversations[0]?.name, 'Pin Four');
         assert.strictEqual(archivedConversations.length, 1);
 
         assert.strictEqual(conversations.length, 0);
@@ -1685,7 +1685,7 @@ describe('both/state/selectors/conversations-extra', () => {
           role: 0,
           joinedAtVersion: 0,
         },
-      ];
+      ] as const;
       const group: ConversationType = {
         ...makeGroup('group'),
         membersV2,

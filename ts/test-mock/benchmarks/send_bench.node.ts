@@ -4,6 +4,7 @@
 
 import assert from 'node:assert';
 
+import type { PrimaryDevice } from '@signalapp/mock-server';
 import { ReceiptType } from '@signalapp/mock-server';
 
 import { Bootstrap, debug, RUN_COUNT, DISCARD_COUNT } from './fixtures.node.js';
@@ -19,7 +20,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
 
   const { server, contacts, phone, desktop } = bootstrap;
 
-  const [first] = contacts;
+  const [first] = contacts as [PrimaryDevice];
 
   const messages = new Array<Buffer>();
   debug('encrypting');

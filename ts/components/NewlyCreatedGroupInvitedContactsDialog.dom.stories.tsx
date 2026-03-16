@@ -14,10 +14,10 @@ import { ThemeType } from '../types/Util.std.js';
 
 const { i18n } = window.SignalContext;
 
-const conversations: Array<ConversationType> = [
+const conversations = [
   getDefaultConversation({ title: 'Fred Willard' }),
   getDefaultConversation({ title: 'Marc Barraca' }),
-];
+] as const satisfies Array<ConversationType>;
 
 export default {
   title: 'Components/NewlyCreatedGroupInvitedContactsDialog',

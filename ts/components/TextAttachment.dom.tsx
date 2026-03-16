@@ -75,7 +75,7 @@ function getFont(
   textStyle?: TextAttachmentStyleType | null,
   i18n?: LocalizerType
 ): string {
-  const textStyleIndex = Number(textStyle) || 0;
+  const textStyleIndex = textStyle ?? TextAttachmentStyleType.DEFAULT;
   const fontName = getFontNameByTextScript(text, textStyleIndex, i18n);
 
   let fontSize = FONT_SIZE_SMALL;

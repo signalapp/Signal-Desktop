@@ -58,12 +58,5 @@ export function findBestMatchingCameraId(
 
   // By default, pick the first non-IR camera (but allow the user to pick the
   // infrared if they so desire)
-  if (matchingId.length > 0) {
-    return matchingId[0].deviceId;
-  }
-  if (nonInfrared.length > 0) {
-    return nonInfrared[0].deviceId;
-  }
-
-  return undefined;
+  return matchingId[0]?.deviceId ?? nonInfrared[0]?.deviceId;
 }

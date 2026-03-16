@@ -49,7 +49,7 @@ export function format(
   // but humanizeDuration uses an underscore
   const locale: string = i18n.getLocale().replace(/-/g, '_');
 
-  const localeWithoutRegion: string = locale.split('_', 1)[0];
+  const [localeWithoutRegion] = locale.split('_', 1);
   const fallbacks: Array<string> = [];
   if (localeWithoutRegion !== locale) {
     fallbacks.push(localeWithoutRegion);

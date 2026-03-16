@@ -105,8 +105,7 @@ export const PinnedMessagesBar = memo(function PinnedMessagesBar(
       return null;
     }
 
-    for (let index = 0; index < pins.length; index += 1) {
-      const value = pins[index];
+    for (const [index, value] of pins.entries()) {
       if (value.id === current) {
         return { index, value };
       }

@@ -8,6 +8,11 @@ import { isServiceIdString } from './ServiceId.std.js';
 import type { AddressStringType } from './Address.std.js';
 import { Address } from './Address.std.js';
 
+type QualifiedAddressMatch = RegExpMatchArray & {
+  1: string;
+  2: string;
+  3: string;
+};
 const QUALIFIED_ADDRESS_REGEXP =
   /^((?:PNI:)?[:0-9a-f-]+):((?:PNI:)?[:0-9a-f-]+).(\d+)$/i;
 
@@ -41,7 +46,8 @@ export class QualifiedAddress {
   public static parse(value: string): QualifiedAddress {
     const match = value.match(QUALIFIED_ADDRESS_REGEXP);
     strictAssert(match != null, `Invalid QualifiedAddress: ${value}`);
-    const [whole, ourServiceId, serviceId, deviceId] = match;
+    const [whole, ourServiceId, serviceId, deviceId] =
+      match as QualifiedAddressMatch;
     strictAssert(whole === value, 'Integrity check');
     strictAssert(
       isServiceIdString(ourServiceId),

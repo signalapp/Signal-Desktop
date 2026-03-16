@@ -50,7 +50,7 @@ export type PropsType = {
   ringMode: RingMode;
 
   // The following should only be set for group conversations.
-  groupMembers?: Array<
+  groupMembers?: ReadonlyArray<
     Pick<
       ConversationType,
       'id' | 'firstName' | 'systemGivenName' | 'systemNickname' | 'title'
@@ -58,7 +58,7 @@ export type PropsType = {
   >;
   isCallFull?: boolean;
   isConnecting?: boolean;
-  peekedParticipants?: Array<PeekedParticipantType>;
+  peekedParticipants?: ReadonlyArray<PeekedParticipantType>;
 };
 
 export function CallingPreCallInfo({
@@ -110,36 +110,38 @@ export function CallingPreCallInfo({
         }
         return getParticipantName(participant);
       });
+      /* eslint-disable @typescript-eslint/no-non-null-assertion */
       switch (participantNames.length) {
         case 1:
           subtitle = hasYou
             ? i18n('icu:calling__pre-call-info--another-device-in-call')
             : i18n('icu:calling__pre-call-info--1-person-in-call', {
-                first: participantNames[0],
+                first: participantNames[0]!,
               });
           break;
         case 2:
           subtitle = i18n('icu:calling__pre-call-info--2-people-in-call', {
-            first: participantNames[0],
-            second: participantNames[1],
+            first: participantNames[0]!,
+            second: participantNames[1]!,
           });
           break;
         case 3:
           subtitle = i18n('icu:calling__pre-call-info--3-people-in-call', {
-            first: participantNames[0],
-            second: participantNames[1],
-            third: participantNames[2],
+            first: participantNames[0]!,
+            second: participantNames[1]!,
+            third: participantNames[2]!,
           });
           break;
         default:
           subtitle = i18n('icu:calling__pre-call-info--many-people-in-call', {
-            first: participantNames[0],
-            second: participantNames[1],
+            first: participantNames[0]!,
+            second: participantNames[1]!,
             others: participantNames.length - 2,
           });
           break;
       }
     }
+    /* eslint-enable @typescript-eslint/no-non-null-assertion */
   } else {
     let memberNames: Array<string>;
     switch (conversation.type) {
@@ -158,6 +160,7 @@ export function CallingPreCallInfo({
 
     const ring = ringMode === RingMode.WillRing;
 
+    /* eslint-disable @typescript-eslint/no-non-null-assertion */
     switch (memberNames.length) {
       case 0:
         subtitle = i18n('icu:calling__pre-call-info--empty-group');
@@ -165,55 +168,56 @@ export function CallingPreCallInfo({
       case 1: {
         subtitle = ring
           ? i18n('icu:calling__pre-call-info--will-ring-1', {
-              person: memberNames[0],
+              person: memberNames[0]!,
             })
           : i18n('icu:calling__pre-call-info--will-notify-1', {
-              person: memberNames[0],
+              person: memberNames[0]!,
             });
         break;
       }
       case 2: {
         subtitle = ring
           ? i18n('icu:calling__pre-call-info--will-ring-2', {
-              first: memberNames[0],
-              second: memberNames[1],
+              first: memberNames[0]!,
+              second: memberNames[1]!,
             })
           : i18n('icu:calling__pre-call-info--will-notify-2', {
-              first: memberNames[0],
-              second: memberNames[1],
+              first: memberNames[0]!,
+              second: memberNames[1]!,
             });
         break;
       }
       case 3: {
         subtitle = ring
           ? i18n('icu:calling__pre-call-info--will-ring-3', {
-              first: memberNames[0],
-              second: memberNames[1],
-              third: memberNames[2],
+              first: memberNames[0]!,
+              second: memberNames[1]!,
+              third: memberNames[2]!,
             })
           : i18n('icu:calling__pre-call-info--will-notify-3', {
-              first: memberNames[0],
-              second: memberNames[1],
-              third: memberNames[2],
+              first: memberNames[0]!,
+              second: memberNames[1]!,
+              third: memberNames[2]!,
             });
         break;
       }
       default: {
         subtitle = ring
           ? i18n('icu:calling__pre-call-info--will-ring-many', {
-              first: memberNames[0],
-              second: memberNames[1],
+              first: memberNames[0]!,
+              second: memberNames[1]!,
               others: memberNames.length - 2,
             })
           : i18n('icu:calling__pre-call-info--will-notify-many', {
-              first: memberNames[0],
-              second: memberNames[1],
+              first: memberNames[0]!,
+              second: memberNames[1]!,
               others: memberNames.length - 2,
             });
         break;
       }
     }
   }
+  /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
   return (
     <div className="module-CallingPreCallInfo">

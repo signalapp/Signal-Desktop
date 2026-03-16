@@ -334,8 +334,8 @@ describe('iterable utilities', () => {
     it('returns a map of groups', () => {
       assert.deepEqual(
         groupBy(
-          ['apple', 'aardvark', 'orange', 'orange', 'zebra'],
-          str => str[0]
+          ['apple', 'aardvark', 'orange', 'orange', 'zebra'] as const,
+          str => str[0] ?? ''
         ),
         {
           a: ['apple', 'aardvark'],

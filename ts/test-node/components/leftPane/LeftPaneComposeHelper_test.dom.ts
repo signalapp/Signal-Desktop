@@ -244,7 +244,7 @@ describe('LeftPaneComposeHelper', () => {
       const composeContacts = [
         getDefaultConversation(),
         getDefaultConversation(),
-      ];
+      ] as const;
       const helper = new LeftPaneComposeHelper({
         composeContacts,
         composeGroups: [],
@@ -280,11 +280,11 @@ describe('LeftPaneComposeHelper', () => {
       const composeContacts = [
         getDefaultConversation(),
         getDefaultConversation(),
-      ];
+      ] as const;
       const composeGroups = [
         getDefaultGroupListItem(),
         getDefaultGroupListItem(),
-      ];
+      ] as const;
       const helper = new LeftPaneComposeHelper({
         composeContacts,
         composeGroups,
@@ -329,7 +329,7 @@ describe('LeftPaneComposeHelper', () => {
       const composeContacts = [
         getDefaultConversation(),
         getDefaultConversation(),
-      ];
+      ] as const;
       const helper = new LeftPaneComposeHelper({
         composeContacts,
         composeGroups: [],
@@ -407,7 +407,7 @@ describe('LeftPaneComposeHelper', () => {
       const composeContacts = [
         getDefaultConversation(),
         getDefaultConversation(),
-      ];
+      ] as const;
       const helper = new LeftPaneComposeHelper({
         composeContacts,
         composeGroups: [],

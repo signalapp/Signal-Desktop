@@ -17,6 +17,7 @@ import type { NotificationProfileIdString } from '../types/NotificationProfile.s
 import { HOUR } from '../util/durations/index.std.js';
 import { AxoDropdownMenu } from '../axo/AxoDropdownMenu.dom.js';
 import { AxoButton } from '../axo/AxoButton.dom.js';
+import type { ConversationType } from '../state/ducks/conversations.preload.js';
 
 const { i18n } = window.SignalContext;
 
@@ -24,6 +25,11 @@ const conversations = shuffle([
   ...Array.from(Array(20), getDefaultGroup),
   ...Array.from(Array(20), getDefaultConversation),
 ]);
+
+const [conversation1, conversation2] = conversations as [
+  ConversationType,
+  ConversationType,
+];
 
 const threeProfiles = [
   {
@@ -37,7 +43,7 @@ const threeProfiles = [
     allowAllCalls: true,
     allowAllMentions: true,
 
-    allowedMembers: new Set([conversations[0].id, conversations[1].id]),
+    allowedMembers: new Set([conversation1.id, conversation2.id]),
     scheduleEnabled: true,
 
     scheduleStartTime: 1800,
@@ -66,7 +72,7 @@ const threeProfiles = [
     allowAllCalls: true,
     allowAllMentions: true,
 
-    allowedMembers: new Set([conversations[0].id, conversations[1].id]),
+    allowedMembers: new Set([conversation1.id, conversation2.id]),
     scheduleEnabled: true,
 
     scheduleStartTime: 1800,
@@ -95,7 +101,7 @@ const threeProfiles = [
     allowAllCalls: true,
     allowAllMentions: true,
 
-    allowedMembers: new Set([conversations[0].id, conversations[1].id]),
+    allowedMembers: new Set([conversation1.id, conversation2.id]),
     scheduleEnabled: true,
 
     scheduleStartTime: 1800,
@@ -113,7 +119,7 @@ const threeProfiles = [
     deletedAtTimestampMs: undefined,
     storageNeedsSync: true,
   },
-];
+] as const;
 
 export default {
   title: 'Components/NotificationProfilesMenu',

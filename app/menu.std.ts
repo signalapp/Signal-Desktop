@@ -9,6 +9,7 @@ import type {
   MenuOptionsType,
   MenuActionsType,
 } from '../ts/types/menu.std.js';
+import { strictAssert } from '../ts/util/assert.std.js';
 
 const { isString } = lodash;
 
@@ -220,6 +221,7 @@ export const createTemplate = (
 
   if (includeSetup) {
     const fileMenu = template[0];
+    strictAssert(fileMenu, 'Missing fileMenu');
 
     if (Array.isArray(fileMenu.submenu)) {
       // These are in reverse order, since we're prepending them one at a time
@@ -265,6 +267,7 @@ function updateForMac(
 
   // Remove About item and separator from Help menu, since they're in the app menu
   const aboutMenu = template[4];
+  strictAssert(aboutMenu, 'Missing aboutMenu');
   if (Array.isArray(aboutMenu.submenu)) {
     aboutMenu.submenu.pop();
     aboutMenu.submenu.pop();
@@ -275,6 +278,7 @@ function updateForMac(
   // Remove preferences, separator, and quit from the File menu, since they're
   // in the app menu
   const fileMenu = template[0];
+  strictAssert(fileMenu, 'Missing fileMenu');
   if (Array.isArray(fileMenu.submenu)) {
     fileMenu.submenu.pop();
     fileMenu.submenu.pop();
@@ -343,6 +347,7 @@ function updateForMac(
   });
 
   const editMenu = template[2];
+  strictAssert(editMenu, 'Missing editMenu');
   if (Array.isArray(editMenu.submenu)) {
     editMenu.submenu.push(
       {
@@ -366,9 +371,11 @@ function updateForMac(
     throw new Error('updateForMac: edit.submenu was not an array!');
   }
 
+  const windowMenu = template[4];
+  strictAssert(windowMenu, 'Missing windowMenu');
   // Replace Window menu
-  // eslint-disable-next-line no-param-reassign
-  template[4].submenu = [
+
+  windowMenu.submenu = [
     {
       label: i18n('icu:windowMenuMinimize'),
       accelerator: 'CmdOrCtrl+M',

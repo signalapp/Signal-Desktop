@@ -624,10 +624,7 @@ async function queryConversationsAndContacts(
   // Split into two groups - active conversations and items just from address book
   let conversationIds: Array<string> = [];
   let contactIds: Array<string> = [];
-  const max = searchResults.length;
-  for (let i = 0; i < max; i += 1) {
-    const conversation = searchResults[i];
-
+  for (const conversation of searchResults) {
     if (conversation.type === 'direct' && !conversation.lastMessage) {
       contactIds.push(conversation.id);
     } else {

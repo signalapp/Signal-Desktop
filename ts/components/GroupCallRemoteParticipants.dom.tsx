@@ -192,9 +192,12 @@ export function GroupCallRemoteParticipants({
     }
 
     if (isInSpeakerView) {
+      const firstParticipiant = prioritySortedParticipants[0];
+      strictAssert(firstParticipiant, 'Missing firstParticipiant');
+
       return [
         {
-          rows: [[prioritySortedParticipants[0]]],
+          rows: [[firstParticipiant]],
           hasSpaceRemaining: false,
           numParticipants: 1,
         },
@@ -222,7 +225,7 @@ export function GroupCallRemoteParticipants({
 
   const isSomeonePresenting =
     prioritySortedParticipants.length &&
-    prioritySortedParticipants[0].presenting;
+    prioritySortedParticipants[0]?.presenting;
 
   // Make sure we're not on a page that no longer exists (e.g. if people left the call)
   if (
@@ -750,6 +753,10 @@ function getGridParticipantsByPage({
               PARTICIPANTS_TO_REMOVE_PER_ATTEMPT.length - 1
             )
           ];
+        strictAssert(
+          numLeastPrioritizedParticipantsToRemove,
+          'Missing numLeastPrioritizedParticipantsToRemove'
+        );
 
         const leastPrioritizedParticipantIds = new Set(
           priorityParticipantsOnNextPage
@@ -804,7 +811,9 @@ function getGridParticipantsByPage({
 
     // Add a previous page tile if needed
     if (pages.length > 0) {
-      nextPageTiles.rows[0].unshift({
+      const firstRow = nextPageTiles.rows[0];
+      strictAssert(firstRow, 'Missing firstRow');
+      firstRow.unshift({
         isPaginationButton: true,
         paginationButtonType: 'prev',
         videoAspectRatio: PAGINATION_BUTTON_ASPECT_RATIO,
@@ -877,11 +886,11 @@ function getNextPage({
   // Initialize fresh page with empty first row
   const rows: Array<Array<GroupCallRemoteParticipantType>> = [[]];
   let row = rows[0];
+  strictAssert(row, 'Missing row');
   let numParticipants = 0;
 
   // Start looping through participants and adding them to the rows one-by-one
-  for (let i = 0; i < participants.length; i += 1) {
-    const participant = participants[i];
+  for (const [i, participant] of participants.entries()) {
     const isLastParticipant =
       !isSubsetOfAllParticipants && i === participants.length - 1;
 

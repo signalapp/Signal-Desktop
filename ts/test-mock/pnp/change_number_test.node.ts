@@ -1,6 +1,7 @@
 // Copyright 2022 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import type { PrimaryDevice } from '@signalapp/mock-server';
 import { ServiceIdKind } from '@signalapp/mock-server';
 import createDebug from 'debug';
 
@@ -31,7 +32,7 @@ describe('pnp/change number', function (this: Mocha.Suite) {
   it('should accept sync message and update keys', async () => {
     const { server, phone, desktop, contacts } = bootstrap;
 
-    const [first] = contacts;
+    const [first] = contacts as [PrimaryDevice];
 
     const window = await app.getWindow();
 

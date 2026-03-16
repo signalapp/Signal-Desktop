@@ -1527,9 +1527,9 @@ describe('SignalProtocolStore', () => {
 
       // they are in the proper order because the collection comparator is
       // 'receivedAtCounter'
-      assert.strictEqual(Bytes.toString(items[0].content || ZERO), 'first');
-      assert.strictEqual(Bytes.toString(items[1].content || ZERO), 'second');
-      assert.strictEqual(Bytes.toString(items[2].content || ZERO), 'third');
+      assert.strictEqual(Bytes.toString(items[0]?.content || ZERO), 'first');
+      assert.strictEqual(Bytes.toString(items[1]?.content || ZERO), 'second');
+      assert.strictEqual(Bytes.toString(items[2]?.content || ZERO), 'third');
     });
 
     it('removeUnprocessed successfully deletes item', async () => {

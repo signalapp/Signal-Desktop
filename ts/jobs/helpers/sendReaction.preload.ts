@@ -231,7 +231,8 @@ export async function sendReaction(
 
         log.info('sending direct reaction message');
         promise = messaging.sendMessageToServiceId({
-          serviceId: recipientServiceIdsWithoutMe[0],
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          serviceId: recipientServiceIdsWithoutMe[0]!,
           messageOptions: {
             reaction: reactionForSend,
             timestamp: pendingReaction.timestamp,

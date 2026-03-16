@@ -204,7 +204,7 @@ export function CallingPip({
         distanceToRightEdge = innerWidth - (offsetX + width);
       }
 
-      const snapCandidates: Array<SnapCandidate> = [
+      const snapCandidates = [
         {
           mode: PositionMode.SnapToLeft,
           distanceToEdge: distanceToLeftEdge,
@@ -221,7 +221,7 @@ export function CallingPip({
           mode: PositionMode.SnapToBottom,
           distanceToEdge: innerHeight - (offsetY + height),
         },
-      ];
+      ] as const satisfies Array<SnapCandidate>;
 
       // This fallback is mostly for TypeScript, because `minBy` says it can return
       //   `undefined`.
@@ -245,7 +245,7 @@ export function CallingPip({
           });
           break;
         default:
-          throw missingCaseError(snapTo.mode);
+          throw missingCaseError(snapTo);
       }
     }
   }, [height, isRTL, positionState, setPositionState, width]);

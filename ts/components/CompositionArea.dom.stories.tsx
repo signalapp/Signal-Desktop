@@ -12,6 +12,7 @@ import { StorybookThemeContext } from '../../.storybook/StorybookThemeContext.st
 import { fakeDraftAttachment } from '../test-helpers/fakeAttachment.std.js';
 import { landscapeGreenUrl } from '../storybook/Fixtures.std.js';
 import { RecordingState } from '../types/AudioRecorder.std.js';
+import type { ContactNameColorType } from '../types/Colors.std.js';
 import { ContactNameColors, ConversationColors } from '../types/Colors.std.js';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
 import { PaymentEventKind } from '../types/Payment.std.js';
@@ -44,11 +45,15 @@ const groupAdmins = [
 ];
 const memberColors = new Map(
   groupAdmins
-    .map((admin, i): [string, string] | null => {
+    .map((admin, i): [string, ContactNameColorType] | null => {
       if (!admin.member.id) {
         return null;
       }
-      return [admin.member.id?.toString(), ContactNameColors[i]];
+      return [
+        admin.member.id?.toString(),
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        ContactNameColors[i % ContactNameColors.length]!,
+      ];
     })
     .filter(isNotNil)
 );

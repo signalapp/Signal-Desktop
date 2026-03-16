@@ -5,6 +5,7 @@ import { assert } from 'chai';
 import { expect } from 'playwright/test';
 import type {
   Group,
+  PrimaryDevice,
   StorageState,
   StorageStateRecord,
 } from '@signalapp/mock-server';
@@ -45,10 +46,8 @@ describe('storage service', function (this: Mocha.Suite) {
   for (const kind of ['contact', 'group']) {
     // eslint-disable-next-line no-loop-func
     it(`should handle ${kind} conflicts`, async () => {
-      const {
-        phone,
-        contacts: [first],
-      } = bootstrap;
+      const { phone, contacts } = bootstrap;
+      const [first] = contacts as [PrimaryDevice];
 
       const window = await app.getWindow();
 
@@ -132,11 +131,8 @@ describe('storage service', function (this: Mocha.Suite) {
   }
 
   it('should handle account conflicts', async () => {
-    const {
-      phone,
-      desktop,
-      contacts: [first, second],
-    } = bootstrap;
+    const { phone, desktop, contacts } = bootstrap;
+    const [first, second] = contacts as [PrimaryDevice, PrimaryDevice];
 
     const window = await app.getWindow();
 

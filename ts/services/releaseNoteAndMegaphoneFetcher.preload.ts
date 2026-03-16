@@ -474,9 +474,13 @@ export class ReleaseNoteAndMegaphoneFetcher {
               range.length == null ||
               range.start == null ||
               range.style == null ||
-              !STYLE_MAPPING[range.style] ||
               range.start + range.length - 1 >= body.length
             ) {
+              return null;
+            }
+
+            const style = STYLE_MAPPING[range.style];
+            if (style == null) {
               return null;
             }
 
@@ -486,7 +490,7 @@ export class ReleaseNoteAndMegaphoneFetcher {
             return {
               start: relativeStart,
               length: range.length,
-              style: STYLE_MAPPING[range.style],
+              style,
             };
           })
           .filter(isNotNil);

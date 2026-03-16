@@ -34,8 +34,11 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
     await bootstrap.init();
 
     const { phone, contacts, unknownContacts } = bootstrap;
-    const [first, second] = contacts;
-    [unknownContact, unknownPniContact] = unknownContacts;
+    const [first, second] = contacts as [PrimaryDevice, PrimaryDevice];
+    [unknownContact, unknownPniContact] = unknownContacts as [
+      PrimaryDevice,
+      PrimaryDevice,
+    ];
 
     group = await first.createGroup({
       title: 'Invited Desktop PNI',
@@ -96,7 +99,7 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
 
   it('should accept PNI invite and modify the group state', async () => {
     const { phone, contacts, desktop } = bootstrap;
-    const [first, second] = contacts;
+    const [first, second] = contacts as [PrimaryDevice, PrimaryDevice];
 
     const window = await app.getWindow();
 
@@ -237,7 +240,7 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
 
   it('should accept ACI invite with extra PNI on the invite list', async () => {
     const { phone, contacts, desktop } = bootstrap;
-    const [first, second] = contacts;
+    const [first, second] = contacts as [PrimaryDevice, PrimaryDevice];
 
     const window = await app.getWindow();
 
@@ -300,7 +303,7 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
 
   it('should decline ACI invite with extra PNI on the invite list', async () => {
     const { phone, contacts, desktop } = bootstrap;
-    const [, second] = contacts;
+    const [, second] = contacts as [PrimaryDevice, PrimaryDevice];
 
     const window = await app.getWindow();
 
@@ -333,7 +336,7 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
   it('should display a single notification for remote PNI accept', async () => {
     const { phone, contacts, desktop } = bootstrap;
 
-    const [first, second] = contacts;
+    const [first, second] = contacts as [PrimaryDevice, PrimaryDevice];
 
     debug('Creating new group with Desktop');
     group = await phone.createGroup({
@@ -380,7 +383,7 @@ describe('pnp/accept gv2 invite', function (this: Mocha.Suite) {
   it('should display a e164 for a PNI invite', async () => {
     const { phone, contacts, desktop } = bootstrap;
 
-    const [first] = contacts;
+    const [first] = contacts as [PrimaryDevice];
 
     debug('Creating new group with Desktop');
     group = await phone.createGroup({

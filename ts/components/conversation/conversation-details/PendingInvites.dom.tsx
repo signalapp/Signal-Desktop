@@ -18,7 +18,6 @@ import {
 } from './ConversationDetailsIcon.dom.js';
 import { isAccessControlEnabled } from '../../../groups/util.std.js';
 import { Tabs } from '../../Tabs.dom.js';
-import { assertDev } from '../../../util/assert.std.js';
 
 export type PropsDataType = {
   readonly conversation?: ConversationType;
@@ -197,11 +196,13 @@ function MembershipActionConfirmation({
     }
     approvePendingMembershipFromGroupV2(
       conversation.id,
-      stagedMemberships[0].membership.member.id
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      stagedMemberships[0]!.membership.member.id
     );
   };
 
-  const membershipType = stagedMemberships[0].type;
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const membershipType = stagedMemberships[0]!.type;
 
   const modalAction =
     membershipType === StageType.APPROVE_REQUEST
@@ -255,12 +256,13 @@ function getConfirmationMessage({
   ourAci: AciString;
   stagedMemberships: ReadonlyArray<StagedMembershipType>;
 }>): string {
-  if (!stagedMemberships || !stagedMemberships.length) {
+  const [stagedMembership] = stagedMemberships;
+  if (stagedMembership == null) {
     return '';
   }
 
-  const membershipType = stagedMemberships[0].type;
-  const firstMembership = stagedMemberships[0].membership;
+  const membershipType = stagedMembership.type;
+  const firstMembership = stagedMembership.membership;
 
   // Requesting a membership since they weren't added by anyone
   if (membershipType === StageType.DENY_REQUEST) {
@@ -419,19 +421,23 @@ function MembersPendingProfileKey({
   const { [ourAci]: ourPendingMemberships, ...otherPendingMembershipGroups } =
     groupedPendingMemberships;
 
-  const otherPendingMemberships = Object.keys(otherPendingMembershipGroups)
-    .map(id => members.find(member => member.serviceId === id))
-    .filter((member): member is ConversationType => member !== undefined)
-    .map(member => {
-      assertDev(
-        member.serviceId,
-        'We just verified that member has serviceId above'
-      );
-      return {
-        member,
-        pendingMemberships: otherPendingMembershipGroups[member.serviceId],
-      };
+  const otherPendingMemberships: Array<{
+    member: ConversationType;
+    pendingMemberships: Array<GroupV2PendingMembership>;
+  }> = [];
+
+  for (const [id, pendingMemberships] of Object.entries(
+    otherPendingMembershipGroups
+  )) {
+    const member = members.find(m => m.serviceId === id);
+    if (member == null) {
+      continue;
+    }
+    otherPendingMemberships.push({
+      member,
+      pendingMemberships,
     });
+  }
 
   return (
     <PanelSection>

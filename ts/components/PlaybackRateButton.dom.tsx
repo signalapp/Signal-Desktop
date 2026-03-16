@@ -76,7 +76,7 @@ export function PlaybackRateButton({
   };
 
   const label = playbackRate
-    ? playbackRateLabels[playbackRate].toString()
+    ? playbackRateLabels[playbackRate]?.toString()
     : undefined;
 
   return (
@@ -105,7 +105,8 @@ const playbackRates = [1, 1.5, 2, 0.5];
 
 PlaybackRateButton.nextPlaybackRate = (currentRate: number): number => {
   // cycle through the rates
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   return playbackRates[
     (playbackRates.indexOf(currentRate) + 1) % playbackRates.length
-  ];
+  ]!;
 };

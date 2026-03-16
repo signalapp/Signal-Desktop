@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React from 'react';
-import lodash from 'lodash';
 
 import { action } from '@storybook/addon-actions';
 
@@ -13,8 +12,6 @@ import { ContactPill } from './ContactPill.dom.js';
 import { gifUrl } from '../storybook/Fixtures.std.js';
 import { getDefaultConversation } from '../test-helpers/getDefaultConversation.std.js';
 
-const { times } = lodash;
-
 const { i18n } = window.SignalContext;
 
 export default {
@@ -23,15 +20,15 @@ export default {
 
 type ContactType = Omit<ContactPillPropsType, 'i18n' | 'onClickRemove'>;
 
-const contacts: Array<ContactType> = times(50, index =>
-  getDefaultConversation({
+function createContact(index: number) {
+  return getDefaultConversation({
     id: `contact-${index}`,
     name: `Contact ${index}`,
     phoneNumber: '(202) 555-0001',
     profileName: `C${index}`,
     title: `Contact ${index}`,
-  })
-);
+  });
+}
 
 const contactPillProps = (
   overrideProps?: ContactType
@@ -67,9 +64,9 @@ export function OneContact(): React.JSX.Element {
 export function ThreeContacts(): React.JSX.Element {
   return (
     <ContactPills>
-      <ContactPill {...contactPillProps(contacts[0])} />
-      <ContactPill {...contactPillProps(contacts[1])} />
-      <ContactPill {...contactPillProps(contacts[2])} />
+      <ContactPill {...contactPillProps(createContact(0))} />
+      <ContactPill {...contactPillProps(createContact(1))} />
+      <ContactPill {...contactPillProps(createContact(2))} />
     </ContactPills>
   );
 }
@@ -77,16 +74,16 @@ export function ThreeContacts(): React.JSX.Element {
 export function FourContactsOneWithALongName(): React.JSX.Element {
   return (
     <ContactPills>
-      <ContactPill {...contactPillProps(contacts[0])} />
+      <ContactPill {...contactPillProps(createContact(0))} />
       <ContactPill
         {...contactPillProps({
-          ...contacts[1],
+          ...createContact(1),
           title:
             'Pablo Diego José Francisco de Paula Juan Nepomuceno María de los Remedios Cipriano de la Santísima Trinidad Ruiz y Picasso',
         })}
       />
-      <ContactPill {...contactPillProps(contacts[2])} />
-      <ContactPill {...contactPillProps(contacts[3])} />
+      <ContactPill {...contactPillProps(createContact(2))} />
+      <ContactPill {...contactPillProps(createContact(3))} />
     </ContactPills>
   );
 }
@@ -94,8 +91,8 @@ export function FourContactsOneWithALongName(): React.JSX.Element {
 export function FiftyContacts(): React.JSX.Element {
   return (
     <ContactPills>
-      {contacts.map(contact => (
-        <ContactPill key={contact.id} {...contactPillProps(contact)} />
+      {Array.from({ length: 50 }, (_, index) => (
+        <ContactPill key={index} {...contactPillProps(createContact(index))} />
       ))}
     </ContactPills>
   );

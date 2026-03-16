@@ -3111,7 +3111,7 @@ export class ConversationModel {
       return false;
     }
 
-    if (contacts.length === 1 && isMe(contacts[0]?.attributes)) {
+    if (contacts.length === 1 && contacts[0] && isMe(contacts[0].attributes)) {
       return false;
     }
 
@@ -4514,7 +4514,8 @@ export class ConversationModel {
       preview = window.MessageCache.register(
         new MessageModel(previewAttributes)
       );
-      const updates = (await this.cleanAttributes([preview.attributes]))?.[0];
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const updates = (await this.cleanAttributes([preview.attributes]))[0]!;
       preview.set(updates);
     }
 
@@ -4522,7 +4523,8 @@ export class ConversationModel {
       activity = window.MessageCache.register(
         new MessageModel(activityAttributes)
       );
-      const updates = (await this.cleanAttributes([activity.attributes]))?.[0];
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const updates = (await this.cleanAttributes([activity.attributes]))[0]!;
       activity.set(updates);
     }
 
@@ -5809,18 +5811,22 @@ export class ConversationModel {
     }
 
     if (isTyping) {
-      this.contactTypingTimers[typingToken] = this.contactTypingTimers[
-        typingToken
-      ] || {
-        timestamp: Date.now(),
-        senderId,
-        senderDevice,
-      };
-
-      this.contactTypingTimers[typingToken].timer = setTimeout(
+      const timer = setTimeout(
         this.clearContactTypingTimer.bind(this, typingToken),
         15 * 1000
       );
+
+      const prev = this.contactTypingTimers[typingToken];
+      if (prev != null) {
+        prev.timer = timer;
+      } else {
+        this.contactTypingTimers[typingToken] ??= {
+          timestamp: Date.now(),
+          senderId,
+          timer,
+        };
+      }
+
       // User was not previously typing before. State change!
       if (!record) {
         window.ConversationController.conversationUpdated(

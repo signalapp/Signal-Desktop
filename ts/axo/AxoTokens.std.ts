@@ -60,7 +60,8 @@ export namespace AxoTokens {
         Number.isInteger(hash) && hash >= 0,
         'Hash must be positive integer'
       );
-      return ALL_COLOR_NAMES[hash % ALL_COLOR_NAMES.length];
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      return ALL_COLOR_NAMES[hash % ALL_COLOR_NAMES.length]!;
     }
 
     export type GradientValues = Readonly<{
@@ -96,7 +97,8 @@ export namespace AxoTokens {
         Number.isInteger(hash) && hash >= 0,
         'Hash must be positive integer'
       );
-      return Gradients[hash % Gradients.length];
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      return Gradients[hash % Gradients.length]!;
     }
 
     export function getGradientsCount(): number {

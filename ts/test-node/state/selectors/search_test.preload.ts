@@ -457,10 +457,10 @@ describe('both/state/selectors/search', () => {
     });
 
     it('adds isSelected flag to conversations when filterByUnread is true', () => {
-      const conversations: Array<ConversationType> = [
+      const conversations = [
         getDefaultConversation({ id: '1' }),
         getDefaultConversation({ id: 'selected-id' }),
-      ];
+      ] as const;
 
       const state: StateType = {
         ...getEmptyRootState(),

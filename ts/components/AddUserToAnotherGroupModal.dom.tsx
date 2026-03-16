@@ -22,6 +22,7 @@ import { ListView } from './ListView.dom.js';
 import { ListTile } from './ListTile.dom.js';
 import type { ShowToastAction } from '../state/ducks/toast.preload.js';
 import { SizeObserver } from '../hooks/useSizeObserver.dom.js';
+import { strictAssert } from '../util/assert.std.js';
 
 const { pick } = lodash;
 
@@ -111,6 +112,7 @@ export function AddUserToAnotherGroupModal({
   const handleGetRow = React.useCallback(
     (idx: number): GroupListItemConversationType => {
       const convo = filteredConversations[idx];
+      strictAssert(convo, 'Missing conversation');
 
       // these are always populated in the case of a group
       const memberships = convo.memberships ?? [];

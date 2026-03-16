@@ -128,7 +128,8 @@ function renderUsers({
   }
 
   if (members && count === 1) {
-    const contact = <ContactName title={members[0].title} />;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const contact = <ContactName title={members[0]!.title} />;
     return (
       <p>
         {kind === 'invited' && (

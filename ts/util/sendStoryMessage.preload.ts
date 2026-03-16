@@ -141,7 +141,8 @@ export async function sendStoryMessage(
 
   const linkPreview = attachment?.textAttachment?.preview;
   const sanitizedLinkPreview = linkPreview
-    ? sanitizeLinkPreview((await loadPreviewData([linkPreview]))[0])
+    ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      sanitizeLinkPreview((await loadPreviewData([linkPreview]))[0]!)
     : undefined;
   // If a text attachment has a link preview we remove it from the
   // textAttachment data structure and instead process the preview and add

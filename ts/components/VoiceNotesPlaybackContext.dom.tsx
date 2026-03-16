@@ -122,9 +122,9 @@ async function doComputePeaks(
   ) {
     const channel = data.getChannelData(channelNum);
 
-    for (let sample = 0; sample < channel.length; sample += 1) {
+    for (const [sample, sampleData] of channel.entries()) {
       const i = Math.floor(sample / samplesPerPeak);
-      peaks[i] += channel[sample] ** 2;
+      peaks[i] += sampleData ** 2;
       norms[i] += 1;
     }
   }

@@ -31,6 +31,7 @@ export type MentionCompletionOptions = {
 };
 
 const MENTION_REGEX = /(?:^|\W)@([-+\p{L}\p{M}\p{N}]*)$/u;
+type MentionRegexMatch = RegExpMatchArray & { 1: string };
 
 export class MentionCompletion {
   results: ReadonlyArray<MemberType>;
@@ -126,7 +127,7 @@ export class MentionCompletion {
       );
 
       if (leftTokenTextMatch) {
-        const [, leftTokenText] = leftTokenTextMatch;
+        const [, leftTokenText] = leftTokenTextMatch as MentionRegexMatch;
 
         let results: ReadonlyArray<MemberType> = [];
 
@@ -175,6 +176,9 @@ export class MentionCompletion {
     }
 
     const member = this.results[resultIndex];
+    if (member == null) {
+      return;
+    }
 
     const [blot, index] = this.quill.getLeaf(range.index);
 
@@ -185,7 +189,7 @@ export class MentionCompletion {
     );
 
     if (leftTokenTextMatch) {
-      const [, leftTokenText] = leftTokenTextMatch;
+      const [, leftTokenText] = leftTokenTextMatch as MentionRegexMatch;
 
       this.insertMention(
         member,
@@ -267,7 +271,9 @@ export class MentionCompletion {
             role="listbox"
             aria-expanded
             aria-activedescendant={`mention-result--${
-              memberResults.length ? memberResults[memberResultsIndex].name : ''
+              memberResults.length
+                ? (memberResults[memberResultsIndex]?.name ?? '')
+                : ''
             }`}
             tabIndex={0}
           >

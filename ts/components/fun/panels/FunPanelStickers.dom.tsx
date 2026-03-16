@@ -605,6 +605,7 @@ const Cell = memo(function Cell(props: {
 }): React.JSX.Element {
   const { onClickSticker, onClickTimeSticker } = props;
   const stickerLookupItem = props.stickerLookup[props.value];
+  strictAssert(stickerLookupItem, 'Missing stickerLookupItem');
 
   const handleClick = useCallback(
     (event: PointerEvent) => {

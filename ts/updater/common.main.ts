@@ -1065,7 +1065,8 @@ export function getUpdateFileName(
     const candidates = files.filter(fileFilter);
 
     if (candidates.length === 1) {
-      path = candidates[0].url;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      path = candidates[0]!.url;
     }
   }
 

@@ -3398,7 +3398,7 @@ export function reducer(
                 rootKey:
                   callLinks[conversationId]?.rootKey ??
                   action.payload.callLinkRootKey,
-                adminKey: callLinks[conversationId]?.adminKey,
+                adminKey: callLinks[conversationId]?.adminKey ?? null,
                 storageNeedsSync: false,
               },
             }

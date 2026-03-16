@@ -242,7 +242,8 @@ export async function sendPollVote(
 
         promise = messaging.sendMessageProtoAndWait({
           timestamp: currentTimestamp,
-          recipients: [recipientServiceIdsWithoutMe[0]],
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          recipients: [recipientServiceIdsWithoutMe[0]!],
           proto: contentMessage,
           contentHint: ContentHint.Resendable,
           groupId: undefined,

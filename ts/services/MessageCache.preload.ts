@@ -163,7 +163,8 @@ export class MessageCache {
       }
       const { [obsoleteId]: obsoleteSendState, ...rest } = sendState;
       return {
-        [conversationId]: obsoleteSendState,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        [conversationId]: obsoleteSendState!,
         ...rest,
       };
     };

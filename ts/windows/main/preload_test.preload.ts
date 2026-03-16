@@ -160,15 +160,15 @@ window.testUtilities = {
       cwd: __dirname,
     });
 
-    for (let i = 0; i < files.length; i += 1) {
+    for (const [i, file] of files.entries()) {
       if (i % workerCount === worker) {
         try {
           // eslint-disable-next-line import/no-dynamic-require, global-require
-          require(files[i]);
+          require(file);
         } catch (error) {
           window.testUtilities.onTestEvent({
             type: 'fail',
-            title: ['Failed to load test:', files[i]],
+            title: ['Failed to load test:', file],
             error: error.stack || String(error),
           });
         }

@@ -68,6 +68,7 @@ import { BadgeSustainerInstructionsDialog } from '../../BadgeSustainerInstructio
 import type { ContactModalStateType } from '../../../types/globalModals.std.js';
 import type { ShowToastAction } from '../../../state/ducks/toast.preload.js';
 import { ToastType } from '../../../types/Toast.dom.js';
+import type { ContactNameColorType } from '../../../types/Colors.std.js';
 
 enum ModalState {
   AddingGroupMembers,
@@ -101,7 +102,7 @@ export type StateProps = {
   maxGroupSize: number;
   maxRecommendedGroupSize: number;
   memberships: ReadonlyArray<GroupV2Membership>;
-  memberColors: Map<string, string>;
+  memberColors: Map<string, ContactNameColorType>;
   pendingApprovalMemberships: ReadonlyArray<GroupV2RequestingMembership>;
   pendingAvatarDownload?: boolean;
   pendingMemberships: ReadonlyArray<GroupV2PendingMembership>;

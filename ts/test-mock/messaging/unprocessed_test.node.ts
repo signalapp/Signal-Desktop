@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import createDebug from 'debug';
+import type { PrimaryDevice } from '@signalapp/mock-server';
 import { StorageState } from '@signalapp/mock-server';
 
 import * as durations from '../../util/durations/index.std.js';
@@ -23,10 +24,8 @@ describe('unprocessed', function (this: Mocha.Suite) {
 
     let state = StorageState.getEmpty();
 
-    const {
-      phone,
-      contacts: [alice],
-    } = bootstrap;
+    const { phone, contacts } = bootstrap;
+    const [alice] = contacts as [PrimaryDevice];
 
     state = state.addContact(alice, {
       identityKey: alice.publicKey.serialize(),
@@ -51,10 +50,8 @@ describe('unprocessed', function (this: Mocha.Suite) {
   });
 
   it('generates and loads unprocessed envelopes', async () => {
-    const {
-      desktop,
-      contacts: [alice],
-    } = bootstrap;
+    const { desktop, contacts } = bootstrap;
+    const [alice] = contacts as [PrimaryDevice];
 
     debug('closing');
     await app.close();

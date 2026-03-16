@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import createDebug from 'debug';
+import type { PrimaryDevice } from '@signalapp/mock-server';
 import { StorageState, Proto } from '@signalapp/mock-server';
 import { assert } from 'chai';
 
@@ -31,7 +32,7 @@ describe('safety number', function (this: Mocha.Suite) {
     await bootstrap.init();
 
     const { phone, contacts } = bootstrap;
-    const [alice] = contacts;
+    const [alice] = contacts as [PrimaryDevice];
     let state = StorageState.getEmpty();
 
     state = state.updateAccount({
@@ -77,10 +78,8 @@ describe('safety number', function (this: Mocha.Suite) {
   });
 
   async function changeIdentityKey(): Promise<void> {
-    const {
-      phone,
-      contacts: [alice, bob],
-    } = bootstrap;
+    const { phone, contacts } = bootstrap;
+    const [alice, bob] = contacts as [PrimaryDevice, PrimaryDevice];
 
     await app.waitForStorageService();
 
@@ -101,9 +100,8 @@ describe('safety number', function (this: Mocha.Suite) {
   }
 
   it('show safety number change UI on regular send', async () => {
-    const {
-      contacts: [alice],
-    } = bootstrap;
+    const { contacts } = bootstrap;
+    const [alice] = contacts as [PrimaryDevice];
 
     const window = await app.getWindow();
 
@@ -141,9 +139,8 @@ describe('safety number', function (this: Mocha.Suite) {
   });
 
   it('show safety number change UI on story send', async () => {
-    const {
-      contacts: [alice],
-    } = bootstrap;
+    const { contacts } = bootstrap;
+    const [alice] = contacts as [PrimaryDevice];
     const window = await app.getWindow();
 
     const storiesPane = window.locator('.Stories');

@@ -243,7 +243,8 @@ const ARGB_BITS = 0xff000000;
 const A100_BACKGROUND_ARGB = 0xffe3e3fe;
 
 function getRandomColor(): number {
-  const colorName = sample(AvatarColors) || AvatarColors[0];
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const colorName = sample(AvatarColors) || AvatarColors[0]!;
   const color = AvatarColorMap.get(colorName);
   if (!color) {
     return A100_BACKGROUND_ARGB; // A100, background, with bits for ARGB

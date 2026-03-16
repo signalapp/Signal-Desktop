@@ -47,7 +47,8 @@ export async function createProxyAgent(proxyUrl: string): Promise<ProxyAgent> {
     // SOCKS 4/5 resolve target host before sending it to the proxy.
     if (host !== proxyHost) {
       const idx = Math.floor(Math.random() * addresses.length);
-      return addresses[idx];
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      return addresses[idx]!;
     }
 
     const start = Date.now();

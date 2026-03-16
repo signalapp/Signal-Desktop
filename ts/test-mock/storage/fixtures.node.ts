@@ -61,7 +61,7 @@ export async function initStorage(
     // Populate storage service
     const { contacts, phone } = bootstrap;
 
-    const [firstContact] = contacts;
+    const [firstContact] = contacts as [PrimaryDevice];
 
     const members = [...contacts].slice(0, GROUP_SIZE);
 
@@ -137,12 +137,12 @@ export async function initStorage(
     const { desktop } = bootstrap;
 
     // Send a message to the group and the first contact
-    const contactSend = contacts[0].sendText(desktop, 'hello from contact', {
+    const contactSend = contacts[0]?.sendText(desktop, 'hello from contact', {
       timestamp: bootstrap.getTimestamp(),
       sealed: true,
     });
 
-    const groupSend = members[0].sendText(desktop, 'hello in group', {
+    const groupSend = members[0]?.sendText(desktop, 'hello in group', {
       timestamp: bootstrap.getTimestamp(),
       sealed: true,
       group,
@@ -167,7 +167,7 @@ export type StickerPackType = Readonly<{
   stickerCount: number;
 }>;
 
-export const STICKER_PACKS: ReadonlyArray<StickerPackType> = [
+export const STICKER_PACKS = [
   {
     id: Buffer.from('c40ed069cdc2b91eccfccf25e6bcddfc', 'hex'),
     key: Buffer.from(
@@ -184,7 +184,7 @@ export const STICKER_PACKS: ReadonlyArray<StickerPackType> = [
     ),
     stickerCount: 1,
   },
-];
+] as const satisfies ReadonlyArray<StickerPackType>;
 
 export function getStickerPackLink(pack: StickerPackType): string {
   return artAddStickersRoute

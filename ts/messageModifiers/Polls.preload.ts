@@ -436,7 +436,8 @@ export async function handlePollVote(
     );
 
     if (existingVoteIndex !== -1) {
-      const existingVote = currentVotes[existingVoteIndex];
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const existingVote = currentVotes[existingVoteIndex]!;
 
       if (newVote.voteCount > existingVote.voteCount) {
         updatedVotes = [...currentVotes];

@@ -83,8 +83,7 @@ export class BeforeNavigateService {
     const logId = `shouldCancelNavigation/${context}`;
     const entries = Array.from(this.#beforeNavigateCallbacks);
 
-    for (let i = 0, max = entries.length; i < max; i += 1) {
-      const entry = entries[i];
+    for (const entry of entries) {
       // eslint-disable-next-line no-await-in-loop
       const response = await Promise.race([
         entry.callback({ existingLocation, newLocation }),

@@ -41,11 +41,13 @@ export function getTargetOfThisEditTimestamp({
 
   // We want the second-to-last item, because we may have partially sent targetTimestamp
   if (length > 1) {
-    return mostRecent[length - 2].timestamp;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return mostRecent[length - 2]!.timestamp;
   }
   // If there's only one item, we'll use it
   if (length > 0) {
-    return mostRecent[length - 1].timestamp;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return mostRecent[length - 1]!.timestamp;
   }
 
   // This is a good failover in case we ever stop duplicating data in editHistory

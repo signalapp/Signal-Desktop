@@ -91,12 +91,12 @@ describe('sql/stories', () => {
 
       // They are in ASC order
       assert.strictEqual(
-        stories[0].id,
+        stories[0]?.id,
         story1.id,
         'stories first should be story5'
       );
       assert.strictEqual(
-        stories[3].id,
+        stories[3]?.id,
         story5.id,
         'stories last should be story1'
       );
@@ -112,12 +112,12 @@ describe('sql/stories', () => {
 
       // They are in ASC order
       assert.strictEqual(
-        storiesInConversation[0].id,
+        storiesInConversation[0]?.id,
         story1.id,
         'storiesInConversation first should be story4'
       );
       assert.strictEqual(
-        storiesInConversation[1].id,
+        storiesInConversation[1]?.id,
         story4.id,
         'storiesInConversation last should be story1'
       );
@@ -129,12 +129,12 @@ describe('sql/stories', () => {
 
       // They are in ASC order
       assert.strictEqual(
-        storiesByAuthor[0].id,
+        storiesByAuthor[0]?.id,
         story2.id,
         'storiesByAuthor first should be story5'
       );
       assert.strictEqual(
-        storiesByAuthor[1].id,
+        storiesByAuthor[1]?.id,
         story5.id,
         'storiesByAuthor last should be story2'
       );
@@ -230,12 +230,12 @@ describe('sql/stories', () => {
 
       // They are in ASC order
       assert.strictEqual(
-        stories[0].id,
+        stories[0]?.id,
         story1.id,
         'stories first should be story1'
       );
       assert.strictEqual(
-        stories[2].id,
+        stories[2]?.id,
         story3.id,
         'stories last should be story3'
       );
@@ -243,7 +243,7 @@ describe('sql/stories', () => {
       assert.strictEqual(stories[0].hasReplies, true);
       assert.strictEqual(stories[0].hasRepliesFromSelf, true);
 
-      assert.strictEqual(stories[1].hasReplies, true);
+      assert.strictEqual(stories[1]?.hasReplies, true);
       assert.strictEqual(stories[1].hasRepliesFromSelf, false);
 
       assert.strictEqual(stories[2].hasReplies, false);

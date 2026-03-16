@@ -25,7 +25,8 @@ Bootstrap.regressionBenchmark(
     debug('started generating messages');
 
     for (let i = 0; i < messageCount; i += 1) {
-      const contact = contacts[Math.floor(i / 2) % contacts.length];
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const contact = contacts[Math.floor(i / 2) % contacts.length]!;
       const direction = i % 2 ? 'message' : 'reply';
 
       const messageTimestamp = bootstrap.getTimestamp();

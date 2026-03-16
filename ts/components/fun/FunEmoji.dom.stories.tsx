@@ -77,7 +77,8 @@ export function All(props: AllProps): React.JSX.Element {
         }}
       >
         {rowVirtualizer.getVirtualItems().map(rowItem => {
-          const row = rows[rowItem.index];
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          const row = rows[rowItem.index]!;
           return (
             <div
               key={rowItem.index}

@@ -12,8 +12,11 @@ export function getColorForCallLink(
 ): AxoTokens.Avatar.ColorName {
   const rootKeyStart = rootKey.slice(0, 2);
 
-  const upper = (BASE_16_CONSONANT_ALPHABET.indexOf(rootKeyStart[0]) || 0) * 16;
-  const lower = BASE_16_CONSONANT_ALPHABET.indexOf(rootKeyStart[1]) || 0;
+  const upper =
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    (BASE_16_CONSONANT_ALPHABET.indexOf(rootKeyStart[0]!) || 0) * 16;
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const lower = BASE_16_CONSONANT_ALPHABET.indexOf(rootKeyStart[1]!) || 0;
   const firstByte = upper + lower;
 
   return AxoTokens.Avatar.getColorNameByHash(firstByte);

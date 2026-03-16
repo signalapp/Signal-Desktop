@@ -216,6 +216,7 @@ export function ChooseGroupMembersModal({
 
     if (virtualIndex < filteredContacts.length) {
       const contact = filteredContacts[virtualIndex];
+      strictAssert(contact, 'Missing contact');
 
       const isSelected = selectedConversationIdsSet.has(contact.id);
       const isAlreadyInGroup = conversationIdsAlreadyInGroup.has(contact.id);

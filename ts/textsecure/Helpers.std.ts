@@ -69,7 +69,8 @@ const utils = {
     number[0] === '+' && /^[0-9]+$/.test(number.substring(1)),
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   jsonThing: (thing: unknown) => JSON.stringify(ensureStringed(thing)),
-  unencodeNumber: (number: string): Array<string> => number.split('.'),
+  unencodeNumber: (number: string): [string, ...Array<string>] =>
+    number.split('.'),
 };
 
 export default utils;

@@ -778,7 +778,8 @@ export class MessageSender {
   static getRandomPadding(): Uint8Array {
     // Generate a random int from 1 and 512
     const buffer = getRandomBytes(2);
-    const paddingLength = (new Uint16Array(buffer)[0] & 0x1ff) + 1;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const paddingLength = (new Uint16Array(buffer)[0]! & 0x1ff) + 1;
 
     // Generate a random padding buffer of the chosen size
     return getRandomBytes(paddingLength);
@@ -2174,7 +2175,8 @@ export class MessageSender {
         `syncViewOnceOpen: ${viewOnceOpens.length} opens provided. Can only handle one.`
       );
     }
-    const { senderAci, timestamp } = viewOnceOpens[0];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const { senderAci, timestamp } = viewOnceOpens[0]!;
 
     if (!senderAci) {
       throw new Error('syncViewOnceOpen: Missing senderAci');

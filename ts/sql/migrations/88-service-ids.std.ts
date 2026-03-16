@@ -594,6 +594,7 @@ function migrateSessions(
 
   logger.info(`updating ${sessions.length} sessions`);
   for (const { id, serviceId, ourServiceId, json } of sessions) {
+    type Match = RegExpMatchArray & { 1: string; 2: string; 3: string };
     const match = id.match(/^(.*):(.*)\.(.*)$/);
     if (!match) {
       logger.warn(`invalid session id ${id}`);
@@ -607,7 +608,7 @@ function migrateSessions(
       continue;
     }
 
-    const [, from, to, device] = match;
+    const [, from, to, device] = match as Match;
 
     const newId =
       `${migrateServiceId(from, ourServiceIds, logger)}:` +
@@ -844,6 +845,7 @@ function migratePreKeys(
 
   logger.info(`updating ${preKeys.length} ${table}`);
   for (const { id, json } of preKeys) {
+    type Match = RegExpMatchArray & { 1: string; 2: string };
     const match = id.match(/^(.*):(.*)$/);
     if (!match) {
       logger.warn(`invalid ${table} id ${id}`);
@@ -858,7 +860,7 @@ function migratePreKeys(
       continue;
     }
 
-    const [, ourUuid, keyId] = match;
+    const [, ourUuid, keyId] = match as Match;
 
     const ourServiceId = migrateServiceId(ourUuid, ourServiceIds, logger);
     const newId = `${ourServiceId}:${keyId}`;

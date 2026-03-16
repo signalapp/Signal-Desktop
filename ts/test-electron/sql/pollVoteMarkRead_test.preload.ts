@@ -110,7 +110,7 @@ describe('sql/pollVoteMarkRead', () => {
       });
 
       assert.lengthOf(markedRead2, 1, 'only one poll vote remains unread');
-      assert.strictEqual(markedRead2[0].id, pollMessage3.id);
+      assert.strictEqual(markedRead2[0]?.id, pollMessage3.id);
     });
 
     it('respects received_at cutoff', async () => {
@@ -167,7 +167,7 @@ describe('sql/pollVoteMarkRead', () => {
       });
 
       assert.lengthOf(markedRead, 1, 'only one poll vote within cutoff');
-      assert.strictEqual(markedRead[0].id, pollMessage1.id);
+      assert.strictEqual(markedRead[0]?.id, pollMessage1.id);
     });
 
     it('filters by conversationId correctly', async () => {
@@ -224,7 +224,7 @@ describe('sql/pollVoteMarkRead', () => {
       });
 
       assert.lengthOf(markedRead, 1, 'only polls from conversationId1');
-      assert.strictEqual(markedRead[0].id, pollMessage1.id);
+      assert.strictEqual(markedRead[0]?.id, pollMessage1.id);
     });
 
     it('only returns messages with hasUnreadPollVotes = true', async () => {
@@ -280,7 +280,7 @@ describe('sql/pollVoteMarkRead', () => {
       });
 
       assert.lengthOf(markedRead, 1, 'only unread poll votes');
-      assert.strictEqual(markedRead[0].id, pollMessage1.id);
+      assert.strictEqual(markedRead[0]?.id, pollMessage1.id);
     });
 
     it('marks multiple poll votes as read in single call', async () => {
@@ -536,7 +536,7 @@ describe('sql/pollVoteMarkRead', () => {
       });
 
       assert.lengthOf(markedRead, 1, 'second poll still unread');
-      assert.strictEqual(markedRead[0].id, pollMessage2.id);
+      assert.strictEqual(markedRead[0]?.id, pollMessage2.id);
     });
 
     it('returns full MessageAttributesType on success', async () => {
@@ -626,7 +626,7 @@ describe('sql/pollVoteMarkRead', () => {
       const result = await markPollVoteAsRead(start + 2000);
 
       assert.isNotNull(result);
-      assert.strictEqual(result?.id, pollMessages[2].id);
+      assert.strictEqual(result?.id, pollMessages[2]?.id);
 
       // Other polls should still be unread
       const markedRead = await getUnreadPollVotesAndMarkRead({

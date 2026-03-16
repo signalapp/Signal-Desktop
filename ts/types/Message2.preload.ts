@@ -66,6 +66,7 @@ import {
 } from '../util/migrations.preload.js';
 import type { getExistingAttachmentDataForReuse } from '../util/attachments/deduplicateAttachment.preload.js';
 import type { getPlaintextHashForInMemoryAttachment } from '../AttachmentCrypto.node.js';
+import { strictAssert } from '../util/assert.std.js';
 
 const { isFunction, isObject, identity } = lodash;
 
@@ -746,6 +747,7 @@ export const upgradeSchema = async (
 
     const currentVersion = versions[index];
     try {
+      strictAssert(currentVersion, 'Missing currentVersion');
       // We really do want this intra-loop await because this is a chained async action,
       //   each step dependent on the previous
       // eslint-disable-next-line no-await-in-loop

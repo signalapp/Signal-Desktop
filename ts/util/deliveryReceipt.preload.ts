@@ -29,12 +29,12 @@ export const deliveryReceiptBatcher = createBatcher<Receipt>({
   processBatch: async deliveryReceipts => {
     const groups = groupBy(deliveryReceipts, 'conversationId');
     await Promise.all(
-      Object.keys(groups).map(async conversationId => {
+      Object.entries(groups).map(async ([conversationId, receipts]) => {
         await conversationJobQueue.add({
           type: conversationQueueJobEnum.enum.Receipts,
           conversationId,
           receiptsType: ReceiptType.Delivery,
-          receipts: groups[conversationId],
+          receipts,
         });
       })
     );

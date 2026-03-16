@@ -1624,7 +1624,7 @@ async function getAvatarsAndUpdateConversation(
   const { conversationLookup } = conversations;
   const conversationAttrs = conversationLookup[conversationId];
   const avatars =
-    conversationAttrs.avatars || getAvatarData(conversation.attributes);
+    conversationAttrs?.avatars || getAvatarData(conversation.attributes);
 
   const nextAvatarId = getNextAvatarId(avatars);
   const nextAvatars = getNextAvatarsData(avatars, nextAvatarId);
@@ -3224,6 +3224,8 @@ function toggleSelectMessage(
         [toggledMessage, conversations.lastSelectedMessage],
         message => message
       );
+      strictAssert(after, 'Missing after');
+      strictAssert(before, 'Missing before');
 
       const betweenIds = await DataReader.getMessagesBetween(conversationId, {
         after: {
@@ -3738,6 +3740,7 @@ function revokePendingMembershipsFromGroupV2(
     }
 
     const [memberId] = memberIds;
+    strictAssert(memberId, 'Missing memberId');
 
     const pendingMember = window.ConversationController.get(memberId);
     if (!pendingMember) {
@@ -5700,9 +5703,9 @@ function maybeDropMessageIdsFromMessagesLookup(
   }
 
   const updatedMessagesLookup: Record<string, MessageWithUIFieldsType> = {};
-  for (const messageId of Object.keys(messagesLookup)) {
+  for (const [messageId, message] of Object.entries(messagesLookup)) {
     if (!messageIdsToRemove.has(messageId)) {
-      updatedMessagesLookup[messageId] = messagesLookup[messageId];
+      updatedMessagesLookup[messageId] = message;
     }
   }
 
@@ -6334,6 +6337,7 @@ export function reducer(
     }
 
     const conversationAttrs = state.conversationLookup[conversationId];
+    strictAssert(conversationAttrs, 'Missing conversationAttrs');
     const isGroupStoryReply = isGroup(conversationAttrs) && data.storyId;
     if (isGroupStoryReply) {
       return dropPreloadData(state);
@@ -6563,13 +6567,15 @@ export function reducer(
       const lastId = oldIds[oldIds.length - 1];
 
       if (oldest && oldest.id === firstId && firstId === id) {
-        const second = messagesLookup[oldIds[1]];
+        const secondId = oldIds[1];
+        const second = secondId && messagesLookup[secondId];
         oldest = second
           ? pick(second, ['id', 'received_at', 'sent_at'])
           : undefined;
       }
       if (newest && newest.id === lastId && lastId === id) {
-        const penultimate = messagesLookup[oldIds[oldIds.length - 2]];
+        const secondLastId = oldIds[oldIds.length - 2];
+        const penultimate = secondLastId && messagesLookup[secondLastId];
         newest = penultimate
           ? pick(penultimate, ['id', 'received_at', 'sent_at'])
           : undefined;
@@ -6708,7 +6714,11 @@ export function reducer(
       existingConversation.metrics;
 
     const lookup = fromPairs(
-      existingConversation.messageIds.map(id => [id, messagesLookup[id]])
+      existingConversation.messageIds.map(id => {
+        const message = messagesLookup[id];
+        strictAssert(message, 'Missing message');
+        return [id, message];
+      })
     );
     messages.forEach(message => {
       lookup[message.id] = message;
@@ -6724,10 +6734,10 @@ export function reducer(
     const first = sorted[0];
     const last = sorted[sorted.length - 1];
 
-    if (!newest) {
+    if (!newest && first != null) {
       newest = pick(first, ['id', 'received_at', 'sent_at']);
     }
-    if (!oldest) {
+    if (!oldest && last != null) {
       oldest = pick(last, ['id', 'received_at', 'sent_at']);
     }
 
@@ -6801,7 +6811,7 @@ export function reducer(
           ...existingConversation,
           messageIds,
           messageLoadingState: undefined,
-          scrollToMessageId: isJustSent ? last.id : undefined,
+          scrollToMessageId: isJustSent ? last?.id : undefined,
           metrics: {
             ...existingConversation.metrics,
             newest,
@@ -7372,8 +7382,7 @@ export function reducer(
       ...state,
     };
 
-    Object.keys(conversationLookup).forEach(id => {
-      const existing = conversationLookup[id];
+    for (const [id, existing] of Object.entries(conversationLookup)) {
       const added = {
         ...existing,
         conversationColor,
@@ -7391,7 +7400,7 @@ export function reducer(
           },
         }
       );
-    });
+    }
 
     return nextState;
   }
@@ -7431,11 +7440,9 @@ export function reducer(
       ...state,
     };
 
-    Object.keys(conversationLookup).forEach(id => {
-      const existing = conversationLookup[id];
-
+    for (const [id, existing] of Object.entries(conversationLookup)) {
       if (existing.customColorId !== colorId) {
-        return;
+        continue;
       }
 
       const changed = {
@@ -7455,7 +7462,7 @@ export function reducer(
           },
         }
       );
-    });
+    }
 
     return nextState;
   }

@@ -8,5 +8,6 @@ import { AvatarColors } from '../types/Colors.std.js';
 const { sample } = lodash;
 
 export function getRandomColor(): AvatarColorType {
-  return sample(AvatarColors) || AvatarColors[0];
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  return sample(AvatarColors) || AvatarColors[0]!;
 }

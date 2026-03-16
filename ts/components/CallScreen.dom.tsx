@@ -483,7 +483,8 @@ export function CallScreen({
       isRinging =
         activeCall.outgoingRing &&
         !activeCall.remoteParticipants.length &&
-        !(groupMembers?.length === 1 && groupMembers[0].id === me.id);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        !(groupMembers?.length === 1 && groupMembers[0]!.id === me.id);
       hasCallStarted = activeCall.joinState !== GroupCallJoinState.NotJoined;
       participantCount = activeCall.remoteParticipants.length + 1;
       conversationsByDemuxId = activeCall.conversationsByDemuxId;

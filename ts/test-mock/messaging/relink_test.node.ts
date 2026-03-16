@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import createDebug from 'debug';
+import type { PrimaryDevice } from '@signalapp/mock-server';
 import { Proto, StorageState } from '@signalapp/mock-server';
 
 import * as durations from '../../util/durations/index.std.js';
@@ -21,10 +22,12 @@ describe('messaging/relink', function (this: Mocha.Suite) {
     bootstrap = new Bootstrap();
     await bootstrap.init();
 
-    const {
-      phone,
-      contacts: [first, second, third],
-    } = bootstrap;
+    const { phone, contacts } = bootstrap;
+    const [first, second, third] = contacts as [
+      PrimaryDevice,
+      PrimaryDevice,
+      PrimaryDevice,
+    ];
 
     let state = StorageState.getEmpty();
 
@@ -68,12 +71,8 @@ describe('messaging/relink', function (this: Mocha.Suite) {
   });
 
   it('updates pin state on relink', async () => {
-    const {
-      contacts: [first, second],
-      desktop,
-      phone,
-      server,
-    } = bootstrap;
+    const { contacts, desktop, phone, server } = bootstrap;
+    const [first, second] = contacts as [PrimaryDevice, PrimaryDevice];
 
     {
       const window = await app.getWindow();

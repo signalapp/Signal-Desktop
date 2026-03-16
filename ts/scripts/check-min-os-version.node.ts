@@ -62,12 +62,13 @@ async function macosVersionCheck(file: string) {
 
   const { stdout } = await execFile('otool', ['-l', file]);
 
+  type MacosMatch = RegExpMatchArray & { 1: string };
   const match = stdout.match(/minos\s+([\d.]+)/);
   if (match == null) {
     throw new Error(`Failed to detect min OS version of ${file}`);
   }
 
-  const [, macosVersion] = match;
+  const [, macosVersion] = match as MacosMatch;
   const darwinVersion = MACOS_TO_DARWIN_VERSIONS.get(macosVersion);
   if (darwinVersion == null) {
     throw new Error(`No matching darwin version for macOS ${macosVersion}`);
@@ -108,7 +109,9 @@ async function linuxVersionCheck(file: string) {
   });
 
   let minGlibcVersion: string | undefined;
-  for (const [, unpaddedVersion] of stdout.matchAll(/GLIBC_([\d.]+)/g)) {
+  type GlibcMatch = RegExpExecArray & { 1: string };
+  for (const match of stdout.matchAll(/GLIBC_([\d.]+)/g)) {
+    const [, unpaddedVersion] = match as GlibcMatch;
     const glibcVersion = padGlibcVersion(unpaddedVersion);
     if (minGlibcVersion == null || gte(glibcVersion, minGlibcVersion)) {
       minGlibcVersion = glibcVersion;
@@ -126,6 +129,7 @@ async function linuxVersionCheck(file: string) {
     throw new Error('Missing libc6 dependency in package.json');
   }
 
+  type Libc6Match = RegExpMatchArray & { 1: string };
   const match = libc6Dependency.match(/^libc6 \(>= ([\d.]+)\)$/);
   if (match == null) {
     throw new Error(
@@ -133,7 +137,8 @@ async function linuxVersionCheck(file: string) {
     );
   }
 
-  const minSupported = padGlibcVersion(match[1]);
+  const [, unpaddedVersion] = match as Libc6Match;
+  const minSupported = padGlibcVersion(unpaddedVersion);
   if (gte(minSupported, minGlibcVersion)) {
     console.log(`${file}: required version ${minGlibcVersion}`);
     return;

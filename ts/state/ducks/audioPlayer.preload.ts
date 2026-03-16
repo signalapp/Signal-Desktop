@@ -110,7 +110,8 @@ async function getNextVoiceNote({
     return undefined;
   }
 
-  const { message, attachment } = results[0];
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const { message, attachment } = results[0]!;
   return extractVoiceNoteForPlayback(
     {
       ...message,

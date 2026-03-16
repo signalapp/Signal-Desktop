@@ -5,6 +5,5 @@ export function objectMap<T, R>(
   obj: Record<string, T>,
   f: (key: keyof typeof obj, value: (typeof obj)[keyof typeof obj]) => R
 ): Array<R> {
-  const keys: Array<keyof typeof obj> = Object.keys(obj);
-  return keys.map(key => f(key, obj[key]));
+  return Object.entries(obj).map(([key, value]) => f(key, value));
 }

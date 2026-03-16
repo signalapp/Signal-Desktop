@@ -36,6 +36,14 @@ import { allRemoteParticipants } from './CallScreen.dom.stories.js';
 
 const { i18n } = window.SignalContext;
 
+const [participant1, participant2, participant3, participant4] =
+  allRemoteParticipants as [
+    GroupCallRemoteParticipantType,
+    GroupCallRemoteParticipantType,
+    GroupCallRemoteParticipantType,
+    GroupCallRemoteParticipantType,
+  ];
+
 const getConversation = () =>
   getDefaultConversation({
     id: '3051234567',
@@ -344,7 +352,7 @@ export function CallLinkLobbyParticipants1Known1Unknown(): React.JSX.Element {
     <CallManager
       {...createProps({
         activeCall: getActiveCallForCallLink({
-          peekedParticipants: [allRemoteParticipants[0], getUnknownContact()],
+          peekedParticipants: [participant1, getUnknownContact()],
         }),
         callLink: FAKE_CALL_LINK,
       })}
@@ -359,7 +367,7 @@ export function CallLinkLobbyParticipants1Known2Unknown(): React.JSX.Element {
         activeCall: getActiveCallForCallLink({
           peekedParticipants: [
             getUnknownContact(),
-            allRemoteParticipants[0],
+            participant1,
             getUnknownContact(),
           ],
         }),
@@ -370,9 +378,7 @@ export function CallLinkLobbyParticipants1Known2Unknown(): React.JSX.Element {
 }
 
 export function CallLinkLobbyParticipants1Known12Unknown(): React.JSX.Element {
-  const peekedParticipants: Array<ConversationType> = [
-    allRemoteParticipants[0],
-  ];
+  const peekedParticipants: Array<ConversationType> = [participant1];
   for (let n = 12; n > 0; n -= 1) {
     peekedParticipants.push(getUnknownContact());
   }
@@ -412,8 +418,8 @@ export function CallLinkWithJoinRequestsOne(): React.JSX.Element {
         activeCall: getActiveCallForCallLink({
           connectionState: GroupCallConnectionState.Connected,
           joinState: GroupCallJoinState.Joined,
-          peekedParticipants: [allRemoteParticipants[0]],
-          pendingParticipants: [allRemoteParticipants[1]],
+          peekedParticipants: [participant1],
+          pendingParticipants: [participant2],
           showParticipantsList: false,
         }),
         callLink: FAKE_CALL_LINK_WITH_ADMIN_KEY,
@@ -429,7 +435,7 @@ export function CallLinkWithJoinRequestsTwo(): React.JSX.Element {
         activeCall: getActiveCallForCallLink({
           connectionState: GroupCallConnectionState.Connected,
           joinState: GroupCallJoinState.Joined,
-          peekedParticipants: [allRemoteParticipants[0]],
+          peekedParticipants: [participant1],
           pendingParticipants: allRemoteParticipants.slice(1, 3),
           showParticipantsList: false,
         }),
@@ -446,7 +452,7 @@ export function CallLinkWithJoinRequestsMany(): React.JSX.Element {
         activeCall: getActiveCallForCallLink({
           connectionState: GroupCallConnectionState.Connected,
           joinState: GroupCallJoinState.Joined,
-          peekedParticipants: [allRemoteParticipants[0]],
+          peekedParticipants: [participant1],
           pendingParticipants: allRemoteParticipants.slice(1, 11),
           showParticipantsList: false,
         }),
@@ -463,11 +469,11 @@ export function CallLinkWithJoinRequestUnknownContact(): React.JSX.Element {
         activeCall: getActiveCallForCallLink({
           connectionState: GroupCallConnectionState.Connected,
           joinState: GroupCallJoinState.Joined,
-          peekedParticipants: [allRemoteParticipants[0]],
+          peekedParticipants: [participant1],
           pendingParticipants: [
             getUnknownContact(),
-            allRemoteParticipants[1],
-            allRemoteParticipants[2],
+            participant2,
+            participant3,
           ],
           showParticipantsList: false,
         }),
@@ -484,9 +490,9 @@ export function CallLinkWithJoinRequestsSystemContact(): React.JSX.Element {
         activeCall: getActiveCallForCallLink({
           connectionState: GroupCallConnectionState.Connected,
           joinState: GroupCallJoinState.Joined,
-          peekedParticipants: [allRemoteParticipants[0]],
+          peekedParticipants: [participant1],
           pendingParticipants: [
-            { ...allRemoteParticipants[1], name: 'My System Contact Friend' },
+            { ...participant2, name: 'My System Contact Friend' },
           ],
           showParticipantsList: false,
         }),
@@ -503,11 +509,11 @@ export function CallLinkWithJoinRequestsSystemContactMany(): React.JSX.Element {
         activeCall: getActiveCallForCallLink({
           connectionState: GroupCallConnectionState.Connected,
           joinState: GroupCallJoinState.Joined,
-          peekedParticipants: [allRemoteParticipants[0]],
+          peekedParticipants: [participant1],
           pendingParticipants: [
-            { ...allRemoteParticipants[1], name: 'My System Contact Friend' },
-            allRemoteParticipants[2],
-            allRemoteParticipants[3],
+            { ...participant2, name: 'My System Contact Friend' },
+            participant3,
+            participant4,
           ],
           showParticipantsList: false,
         }),
@@ -524,7 +530,7 @@ export function CallLinkWithJoinRequestsParticipantsOpen(): React.JSX.Element {
         activeCall: getActiveCallForCallLink({
           connectionState: GroupCallConnectionState.Connected,
           joinState: GroupCallJoinState.Joined,
-          peekedParticipants: [allRemoteParticipants[0]],
+          peekedParticipants: [participant1],
           pendingParticipants: allRemoteParticipants.slice(1, 4),
         }),
         callLink: FAKE_CALL_LINK_WITH_ADMIN_KEY,
@@ -541,7 +547,7 @@ export function CallLinkWithUnknownContacts(): React.JSX.Element {
           connectionState: GroupCallConnectionState.Connected,
           joinState: GroupCallJoinState.Joined,
           remoteParticipants: [
-            allRemoteParticipants[0],
+            participant1,
             getUnknownParticipant(),
             getUnknownParticipant(),
           ],

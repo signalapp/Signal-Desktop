@@ -1036,9 +1036,9 @@ describe('NotificationProfile', () => {
       const starting = [middle, old, newest];
       const actual = sortProfiles(starting);
 
-      assert.strictEqual(actual[0].name, 'newest');
-      assert.strictEqual(actual[1].name, 'middle');
-      assert.strictEqual(actual[2].name, 'old');
+      assert.strictEqual(actual[0]?.name, 'newest');
+      assert.strictEqual(actual[1]?.name, 'middle');
+      assert.strictEqual(actual[2]?.name, 'old');
     });
   });
 

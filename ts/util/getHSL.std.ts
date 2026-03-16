@@ -1,16 +1,22 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-const LIGHTNESS_TABLE: Record<number, number> = {
+const LIGHTNESS_TABLE = {
   0: 45,
   60: 30,
   180: 30,
   240: 50,
   300: 40,
   360: 45,
-};
+} as const satisfies Record<number, number>;
 
-function getLightnessFromHue(hue: number, min: number, max: number) {
+type LightnessKey = keyof typeof LIGHTNESS_TABLE;
+
+function getLightnessFromHue(
+  hue: number,
+  min: LightnessKey,
+  max: LightnessKey
+) {
   const percentage = ((hue - min) * 100) / (max - min);
   const minValue = LIGHTNESS_TABLE[min];
   const maxValue = LIGHTNESS_TABLE[max];

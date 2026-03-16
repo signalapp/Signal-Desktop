@@ -194,8 +194,8 @@ const mapStateToActiveCallProp = (
         },
       } = call;
 
-      for (let i = 0; i < memberships.length; i += 1) {
-        const { aci } = memberships[i];
+      for (const membership of memberships) {
+        const { aci } = membership;
 
         const member = conversationSelector(aci);
         if (!member) {
@@ -206,9 +206,7 @@ const mapStateToActiveCallProp = (
         groupMembers.push(member);
       }
 
-      for (let i = 0; i < call.remoteParticipants.length; i += 1) {
-        const remoteParticipant = call.remoteParticipants[i];
-
+      for (const remoteParticipant of call.remoteParticipants) {
         const remoteConversation = conversationSelectorByAci(
           remoteParticipant.aci
         );
@@ -248,9 +246,7 @@ const mapStateToActiveCallProp = (
         }
       });
 
-      for (let i = 0; i < peekInfo.acis.length; i += 1) {
-        const peekedParticipantAci = peekInfo.acis[i];
-
+      for (const peekedParticipantAci of peekInfo.acis) {
         const peekedConversation =
           conversationSelectorByAci(peekedParticipantAci);
         if (!peekedConversation) {
@@ -261,9 +257,7 @@ const mapStateToActiveCallProp = (
         peekedParticipants.push(peekedConversation);
       }
 
-      for (let i = 0; i < peekInfo.pendingAcis.length; i += 1) {
-        const aci = peekInfo.pendingAcis[i];
-
+      for (const aci of peekInfo.pendingAcis) {
         // In call links, pending users may be unknown until they share profile keys.
         // conversationSelectorByAci should create conversations for new contacts.
         const pendingConversation = conversationSelectorByAci(aci);

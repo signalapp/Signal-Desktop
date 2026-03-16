@@ -3,7 +3,7 @@
 
 import createDebug from 'debug';
 import { StorageState } from '@signalapp/mock-server';
-import type { Group } from '@signalapp/mock-server';
+import type { Group, PrimaryDevice } from '@signalapp/mock-server';
 
 import * as durations from '../../util/durations/index.std.js';
 import type { App } from '../playwright.node.js';
@@ -23,7 +23,7 @@ describe('senderKey', function (this: Mocha.Suite) {
     await bootstrap.init();
 
     const { contacts, phone } = bootstrap;
-    const [first] = contacts;
+    const [first] = contacts as [PrimaryDevice];
 
     group = await first.createGroup({
       title: 'Group',
@@ -60,7 +60,7 @@ describe('senderKey', function (this: Mocha.Suite) {
 
   it('handles incoming senderKey distributions and messages', async () => {
     const { desktop, contacts } = bootstrap;
-    const [first] = contacts;
+    const [first] = contacts as [PrimaryDevice];
 
     const window = await app.getWindow();
 

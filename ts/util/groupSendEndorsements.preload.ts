@@ -279,6 +279,7 @@ export class GroupSendEndorsementState {
     // Fast path sending to one person
     if (serviceIds.size === 1) {
       const [serviceId] = serviceIds;
+      strictAssert(serviceId, 'Missing serviceId');
       log.info(`${logId}: using single member endorsement (${serviceId})`);
       return this.#getMemberEndorsement(serviceId);
     }

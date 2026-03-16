@@ -161,11 +161,9 @@ export class RetryPlaceholders {
       throw new Error('RetryPlaceholders: not started');
     }
     const expiration = getDeltaIntoPast(this.#retryReceiptLifespan);
-    const max = this.#items.length;
     const result: Array<RetryItemType> = [];
 
-    for (let i = 0; i < max; i += 1) {
-      const item = this.#items[i];
+    for (const item of this.#items) {
       if (item.receivedAt <= expiration) {
         result.push(item);
       } else {

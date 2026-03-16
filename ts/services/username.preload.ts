@@ -129,7 +129,8 @@ export async function reserveUsername(
       return { ok: false, error: ReserveUsernameError.Unprocessable };
     }
 
-    const username = candidates[index];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const username = candidates[index]!;
 
     return {
       ok: true,

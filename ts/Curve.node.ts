@@ -145,10 +145,11 @@ export function setPublicKeyTypeByte(publicKey: Uint8Array): void {
 }
 
 export function clampPrivateKey(privateKey: Uint8Array): void {
-  // eslint-disable-next-line no-bitwise, no-param-reassign
-  privateKey[0] &= 248;
-  // eslint-disable-next-line no-bitwise, no-param-reassign
-  privateKey[31] &= 127;
-  // eslint-disable-next-line no-bitwise, no-param-reassign
-  privateKey[31] |= 64;
+  /* eslint-disable no-bitwise, no-param-reassign */
+  /* eslint-disable @typescript-eslint/no-non-null-assertion */
+  privateKey[0]! &= 248;
+  privateKey[31]! &= 127;
+  privateKey[31]! |= 64;
+  /* eslint-enable no-bitwise, no-param-reassign */
+  /* eslint-enable @typescript-eslint/no-non-null-assertion */
 }

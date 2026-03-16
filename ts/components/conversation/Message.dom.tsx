@@ -108,7 +108,7 @@ import { getColorForCallLink } from '../../util/getColorForCallLink.std.js';
 import { getKeyFromCallLink } from '../../util/callLinks.std.js';
 import { InAnotherCallTooltip } from './InAnotherCallTooltip.dom.js';
 import { formatFileSize } from '../../util/formatFileSize.std.js';
-import { assertDev } from '../../util/assert.std.js';
+import { assertDev, strictAssert } from '../../util/assert.std.js';
 import { AttachmentStatusIcon } from './AttachmentStatusIcon.dom.js';
 import { TapToViewNotAvailableType } from '../TapToViewNotAvailableModal.dom.js';
 import type { DataPropsType as TapToViewNotAvailablePropsType } from '../TapToViewNotAvailableModal.dom.js';
@@ -491,17 +491,19 @@ const MessageReactions = forwardRef(function MessageReactions(
   const reactionsContainerRefMerger = useRef(createRefMerger());
 
   // Take the first three groups for rendering
-  const toRender = take(ordered, 3).map(res => {
-    const isMe = res.some(re => Boolean(re.from.isMe));
-    const count = res.length;
-    const { emoji } = res[0];
+  const toRender = take(ordered, 3).map(group => {
+    const isMe = group.some(re => Boolean(re.from.isMe));
+    const count = group.length;
+    const firstReaction = group[0];
+    strictAssert(firstReaction, 'Missing firstReaction');
+    const { emoji } = firstReaction;
 
     let label: string;
     if (isMe) {
       label = i18n('icu:Message__reaction-emoji-label--you', { emoji });
     } else if (count === 1) {
       label = i18n('icu:Message__reaction-emoji-label--single', {
-        title: res[0].from.title,
+        title: firstReaction.from.title,
         emoji,
       });
     } else {
@@ -2543,6 +2545,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     const onlyPreview = previews[0];
+    strictAssert(onlyPreview, 'Missing onlyPreview');
     return Boolean(onlyPreview.isCallLink);
   }
 
@@ -2551,6 +2554,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     if (this.#shouldShowJoinButton()) {
       const firstPreview = previews[0];
+      strictAssert(firstPreview, 'Missing firstPreview');
       const inAnotherCall = Boolean(
         activeCallConversationId &&
         (!firstPreview.callLinkRoomId ||
@@ -2672,6 +2676,7 @@ export class Message extends React.PureComponent<Props, State> {
 
     if (previews && previews.length) {
       const first = previews[0];
+      strictAssert(first, 'Missing first');
       const { image } = first;
 
       return isImageAttachment(image);
@@ -2688,6 +2693,7 @@ export class Message extends React.PureComponent<Props, State> {
     }
 
     const first = attachments[0];
+    strictAssert(first, 'Missing first');
 
     return Boolean(first.pending);
   }
@@ -3216,6 +3222,7 @@ export class Message extends React.PureComponent<Props, State> {
       event.stopPropagation();
 
       const attachment = attachments[0];
+      strictAssert(attachment, 'Missing attachment');
 
       showLightbox({ attachment, messageId: id });
     }

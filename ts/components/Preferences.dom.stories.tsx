@@ -76,6 +76,10 @@ const conversations = shuffle([
   ...Array.from(Array(20), getDefaultConversation),
 ]);
 
+const [conversation1, conversation2] = conversations;
+strictAssert(conversation1, 'Missing conversation1');
+strictAssert(conversation2, 'Missing conversation2');
+
 function conversationSelector(conversationId?: string) {
   strictAssert(conversationId, 'Missing conversation id');
   const found = conversations.find(conversation => {
@@ -734,7 +738,7 @@ const threeProfiles = [
     allowAllCalls: true,
     allowAllMentions: true,
 
-    allowedMembers: new Set([conversations[0].id, conversations[1].id]),
+    allowedMembers: new Set([conversation1.id, conversation2.id]),
     scheduleEnabled: true,
 
     scheduleStartTime: 1800,
@@ -763,7 +767,7 @@ const threeProfiles = [
     allowAllCalls: true,
     allowAllMentions: true,
 
-    allowedMembers: new Set([conversations[0].id, conversations[1].id]),
+    allowedMembers: new Set([conversation1.id, conversation2.id]),
     scheduleEnabled: true,
 
     scheduleStartTime: 100,
@@ -792,7 +796,7 @@ const threeProfiles = [
     allowAllCalls: true,
     allowAllMentions: true,
 
-    allowedMembers: new Set([conversations[0].id, conversations[1].id]),
+    allowedMembers: new Set([conversation1.id, conversation2.id]),
     scheduleEnabled: true,
 
     scheduleStartTime: 1800,
@@ -810,7 +814,7 @@ const threeProfiles = [
     deletedAtTimestampMs: undefined,
     storageNeedsSync: true,
   },
-];
+] as const;
 
 NotificationsPageWithThreeProfiles.args = {
   settingsLocation: { page: SettingsPage.Notifications },

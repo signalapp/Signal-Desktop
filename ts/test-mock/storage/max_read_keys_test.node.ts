@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
+import type { PrimaryDevice } from '@signalapp/mock-server';
 import { Proto } from '@signalapp/mock-server';
 
 import * as durations from '../../util/durations/index.std.js';
@@ -37,8 +38,8 @@ describe('storage service', function (this: Mocha.Suite) {
     debug('prepare for a slow test');
 
     const { phone, contacts } = bootstrap;
-    const firstContact = contacts[0];
-    const lastContact = contacts[contacts.length - 1];
+    const firstContact = contacts[0] as PrimaryDevice;
+    const lastContact = contacts[contacts.length - 1] as PrimaryDevice;
 
     const window = await app.getWindow();
 

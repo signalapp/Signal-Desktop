@@ -176,8 +176,7 @@ async function _fillCaches<ID, T extends HasIdType<ID>, HydratedType>(
   const items = await itemsPromise;
 
   const cache = new Map<ID, CacheEntryType<T, HydratedType>>();
-  for (let i = 0, max = items.length; i < max; i += 1) {
-    const fromDB = items[i];
+  for (const fromDB of items) {
     const { id } = fromDB;
 
     cache.set(id, {
@@ -304,12 +303,12 @@ export class SignalProtocolStore extends EventEmitter {
           return;
         }
 
-        for (const serviceId of Object.keys(map.value)) {
+        for (const [serviceId, keyPair] of Object.entries(map.value)) {
           strictAssert(
             isServiceIdString(serviceId),
             'Invalid identity key serviceId'
           );
-          const { privKey, pubKey } = map.value[serviceId];
+          const { privKey, pubKey } = keyPair;
           const privateKey = PrivateKey.deserialize(privKey);
           const publicKey = PublicKey.deserialize(pubKey);
           this.#ourIdentityKeys.set(
@@ -327,12 +326,12 @@ export class SignalProtocolStore extends EventEmitter {
           return;
         }
 
-        for (const serviceId of Object.keys(map.value)) {
+        for (const [serviceId, registrationId] of Object.entries(map.value)) {
           strictAssert(
             isServiceIdString(serviceId),
             'Invalid registration id serviceId'
           );
-          this.#ourRegistrationIds.set(serviceId, map.value[serviceId]);
+          this.#ourRegistrationIds.set(serviceId, registrationId);
         }
       })(),
       (async () => {
@@ -1670,10 +1669,7 @@ export class SignalProtocolStore extends EventEmitter {
           `removeSessionsByConversation: Conversation not found: ${identifier}`
         );
 
-        const entries = Array.from(this.sessions.values());
-
-        for (let i = 0, max = entries.length; i < max; i += 1) {
-          const entry = entries[i];
+        for (const entry of this.sessions.values()) {
           if (entry.fromDB.conversationId === id) {
             this.sessions.delete(entry.fromDB.id);
             this.#pendingSessions.delete(entry.fromDB.id);
@@ -1695,10 +1691,7 @@ export class SignalProtocolStore extends EventEmitter {
 
       log.info('removeSessionsByServiceId: deleting sessions for', serviceId);
 
-      const entries = Array.from(this.sessions.values());
-
-      for (let i = 0, max = entries.length; i < max; i += 1) {
-        const entry = entries[i];
+      for (const entry of this.sessions.values()) {
         if (entry.fromDB.serviceId === serviceId) {
           this.sessions.delete(entry.fromDB.id);
           this.#pendingSessions.delete(entry.fromDB.id);

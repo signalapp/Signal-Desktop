@@ -6,7 +6,7 @@ import * as React from 'react';
 type CallbackType = (toFocus: HTMLElement | null | undefined) => void;
 
 // Restore focus on teardown
-export const useRestoreFocus = (): Array<CallbackType> => {
+export const useRestoreFocus = (): [CallbackType] => {
   const toFocusRef = React.useRef<HTMLElement | null>(null);
   const lastFocusedRef = React.useRef<HTMLElement | null>(null);
 
