@@ -8,6 +8,7 @@ import { safeParseUnknown } from '../../util/schemas.std.js';
 
 const toNullable = z
   .string()
+  .or(z.null())
   .optional()
   .transform(value => value || undefined);
 
