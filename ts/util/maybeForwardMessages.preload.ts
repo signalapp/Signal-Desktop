@@ -17,6 +17,7 @@ import { getRecipientsByConversation } from './getRecipientsByConversation.dom.j
 import type { EmbeddedContactWithHydratedAvatar } from '../types/EmbeddedContact.std.js';
 import type { DraftBodyRanges } from '../types/BodyRange.std.js';
 import type { StickerWithHydratedData } from '../types/Stickers.preload.js';
+import { DataReader } from '../sql/Client.preload.js';
 import { drop } from './drop.std.js';
 import {
   loadAttachmentData,
@@ -183,18 +184,35 @@ export async function maybeForwardMessages(
       return;
     }
 
-    sortedMessages.forEach(entry => {
-      const timestamp = baseTimestamp + timestampOffset;
-      timestampOffset += 1;
+    drop(
+      Promise.all(
+        sortedMessages.map(async entry => {
+          const timestamp = baseTimestamp + timestampOffset;
+          timestampOffset += 1;
 
-      const { enqueuedMessage, originalMessage } = entry;
-      drop(
-        conversation
-          .enqueueMessageForSend(enqueuedMessage, {
-            ...sendMessageOptions,
-            timestamp,
-          })
-          .catch(error => {
+          const { enqueuedMessage, originalMessage } = entry;
+          try {
+            const stats = await DataReader.getConversationMessageStats({
+              conversationId: conversation.id,
+              // Not used for computing `hasUserInitiatedMessages`
+              includeStoryReplies: false,
+            });
+
+            // Post a universal disappearing timer notification in case we will
+            // need to set the timer.
+            await conversation.queueJob(
+              'maybeSetPendingUniversalTimer',
+              async () =>
+                conversation.maybeSetPendingUniversalTimer(
+                  stats.hasUserInitiatedMessages
+                )
+            );
+
+            await conversation.enqueueMessageForSend(enqueuedMessage, {
+              ...sendMessageOptions,
+              timestamp,
+            });
+          } catch (error) {
             log.error(
               'maybeForwardMessage: message send error',
               getConversationIdForLogging(conversation.attributes),
@@ -203,9 +221,10 @@ export async function maybeForwardMessages(
                 : '(new message)',
               toLogFormat(error)
             );
-          })
-      );
-    });
+          }
+        })
+      )
+    );
   });
 
   // Cancel any link still pending, even if it didn't make it into the message
