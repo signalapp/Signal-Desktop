@@ -187,6 +187,85 @@ describe('backup/bubble messages', () => {
     ]);
   });
 
+  it('drops messages with neither text nor attachments', async () => {
+    await asymmetricRoundtripHarness(
+      [
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          timestamp: 3,
+          sourceServiceId: CONTACT_A,
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+        },
+      ],
+      []
+    );
+  });
+
+  it('drops edited revisions with neither text nor attachments', async () => {
+    const message: MessageAttributesType = {
+      conversationId: contactA.id,
+      id: generateGuid(),
+      type: 'incoming',
+      received_at: 3,
+      received_at_ms: 3,
+      sent_at: 3,
+      timestamp: 3,
+      sourceServiceId: CONTACT_A,
+      body: 'd',
+      readStatus: ReadStatus.Unread,
+      seenStatus: SeenStatus.Unseen,
+      unidentifiedDeliveryReceived: true,
+      editMessageTimestamp: 5,
+      editMessageReceivedAtMs: 5,
+      editHistory: [
+        {
+          body: 'd',
+          timestamp: 5,
+          received_at: 5,
+          received_at_ms: 5,
+          readStatus: ReadStatus.Unread,
+          unidentifiedDeliveryReceived: true,
+        },
+        {
+          timestamp: 4,
+          received_at: 4,
+          received_at_ms: 4,
+          readStatus: ReadStatus.Unread,
+          unidentifiedDeliveryReceived: false,
+        },
+        {
+          body: 'b',
+          timestamp: 3,
+          received_at: 3,
+          received_at_ms: 3,
+          readStatus: ReadStatus.Read,
+          unidentifiedDeliveryReceived: false,
+        },
+      ],
+    };
+    strictAssert(message.editHistory, 'edit history exists');
+    const [currentRevision, , oldestRevision] = message.editHistory;
+    strictAssert(currentRevision, 'current revision exists');
+    strictAssert(oldestRevision, 'oldest revision exists');
+
+    await asymmetricRoundtripHarness(
+      [message],
+      [
+        {
+          ...message,
+          editHistory: [currentRevision, oldestRevision],
+        },
+      ]
+    );
+  });
+
   it('roundtrips unopened gift badge', async () => {
     await symmetricRoundtripHarness([
       {
@@ -270,6 +349,48 @@ describe('backup/bubble messages', () => {
           unidentifiedDeliveryReceived: true,
           timestamp: 3,
           body: 'hello',
+        },
+      ]
+    );
+  });
+
+  it('updates incoming messages authored by self to outgoing', async () => {
+    const ourConversation = window.ConversationController.get(OUR_ACI);
+    strictAssert(ourConversation, 'our conversation exists');
+
+    await asymmetricRoundtripHarness(
+      [
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          sourceServiceId: OUR_ACI,
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+          timestamp: 3,
+          body: 'hello',
+        },
+      ],
+      [
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'outgoing',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          sourceServiceId: OUR_ACI,
+          readStatus: ReadStatus.Read,
+          seenStatus: SeenStatus.Seen,
+          timestamp: 3,
+          body: 'hello',
+          sendStateByConversationId: {
+            [ourConversation.id]: { status: SendStatus.Read, updatedAt: 3 },
+          },
         },
       ]
     );

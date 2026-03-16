@@ -877,19 +877,15 @@ const bodyRangeOffsetSchema = z.number().int().min(0);
 const bodyRangeStyleSchema = z.nativeEnum(signalservice.BodyRange.Style);
 
 export const bodyRangeSchema = z.union([
-  z
-    .object({
-      start: bodyRangeOffsetSchema,
-      length: bodyRangeOffsetSchema,
-      mentionAci: aciSchema,
-    })
-    .strict(),
-  z
-    .object({
-      start: bodyRangeOffsetSchema,
-      length: bodyRangeOffsetSchema,
-      style: bodyRangeStyleSchema,
-      spoilerId: z.number().optional(),
-    })
-    .strict(),
+  z.object({
+    start: bodyRangeOffsetSchema,
+    length: bodyRangeOffsetSchema,
+    mentionAci: aciSchema,
+  }),
+  z.object({
+    start: bodyRangeOffsetSchema,
+    length: bodyRangeOffsetSchema,
+    style: bodyRangeStyleSchema,
+    spoilerId: z.number().optional(),
+  }),
 ]);

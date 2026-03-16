@@ -1376,7 +1376,7 @@ export class BackupExportStream extends Readable {
                           labelEmoji: null,
                           labelString: null,
                         }),
-                    role: member.role,
+                    role: member.role || SignalService.Member.Role.DEFAULT,
                     userId: this.#aciToBytes(member.aci),
                   };
                 }) ?? null,
@@ -1385,7 +1385,7 @@ export class BackupExportStream extends Readable {
                   return {
                     member: {
                       userId: this.#serviceIdToBytes(member.serviceId),
-                      role: member.role,
+                      role: member.role || SignalService.Member.Role.DEFAULT,
                       joinedAtVersion: 0,
                       labelEmoji: null,
                       labelString: null,
@@ -1478,8 +1478,12 @@ export class BackupExportStream extends Readable {
 
     let authorId: bigint | undefined;
 
-    const isOutgoing = message.type === 'outgoing';
-    const isIncoming = message.type === 'incoming';
+    const me = this.#getOrPushPrivateRecipient({
+      serviceId: aboutMe.aci,
+    });
+
+    let isOutgoing = message.type === 'outgoing';
+    let isIncoming = message.type === 'incoming';
 
     if (message.sourceServiceId && isAciString(message.sourceServiceId)) {
       authorId = this.#getOrPushPrivateRecipient({
@@ -1491,23 +1495,6 @@ export class BackupExportStream extends Readable {
         serviceId: message.sourceServiceId,
         e164: message.source,
       });
-
-      if (
-        isIncoming &&
-        conversation &&
-        isDirectConversation(conversation.attributes)
-      ) {
-        const convoAuthor = this.#getOrPushPrivateRecipient({
-          id: conversation.attributes.id,
-        });
-
-        // Fix conversation id for misattributed e164-only incoming 1:1
-        // messages.
-        if (authorId !== convoAuthor) {
-          authorId = convoAuthor;
-          this.#stats.fixedDirectMessages += 1;
-        }
-      }
     } else {
       strictAssert(!isIncoming, 'Incoming message must have source');
 
@@ -1515,6 +1502,39 @@ export class BackupExportStream extends Readable {
       authorId = this.#getOrPushPrivateRecipient({
         serviceId: aboutMe.aci,
       });
+    }
+
+    // Mark incoming messages from self as outgoing
+    if (isIncoming && authorId === me) {
+      log.warn(
+        `${message.sent_at}: Found incoming message with author self, updating to outgoing`
+      );
+      isOutgoing = true;
+      isIncoming = false;
+
+      // eslint-disable-next-line no-param-reassign
+      message.type = 'outgoing';
+
+      this.#stats.fixedDirectMessages += 1;
+    }
+
+    // Fix authorId for misattributed e164-only incoming 1:1
+    // messages.
+    if (
+      isIncoming &&
+      !message.sourceServiceId &&
+      message.source &&
+      conversation &&
+      isDirectConversation(conversation.attributes)
+    ) {
+      const convoAuthor = this.#getOrPushPrivateRecipient({
+        id: conversation.attributes.id,
+      });
+
+      if (authorId !== convoAuthor) {
+        authorId = convoAuthor;
+        this.#stats.fixedDirectMessages += 1;
+      }
     }
 
     if (isOutgoing || isIncoming) {
@@ -1570,9 +1590,6 @@ export class BackupExportStream extends Readable {
           authorId,
           'Incoming/outgoing non-bubble messages require an author'
         );
-        const me = this.#getOrPushPrivateRecipient({
-          serviceId: aboutMe.aci,
-        });
 
         if (authorId === me) {
           directionalDetails = {
@@ -1849,10 +1866,16 @@ export class BackupExportStream extends Readable {
     } else if (message.isErased) {
       return undefined;
     } else {
+      const standardMessage = await this.#toStandardMessage({
+        message,
+      });
+
+      if (!standardMessage) {
+        return undefined;
+      }
+
       item = {
-        standardMessage: await this.#toStandardMessage({
-          message,
-        }),
+        standardMessage,
       };
 
       revisions = await this.#toChatItemRevisions(base, item, message);
@@ -3339,7 +3362,7 @@ export class BackupExportStream extends Readable {
       | 'received_at'
       | 'timestamp'
     >;
-  }): Promise<Backups.StandardMessage.Params> {
+  }): Promise<Backups.StandardMessage.Params | undefined> {
     if (
       message.body &&
       isBodyTooLong(message.body, MAX_BACKUP_MESSAGE_BODY_BYTE_LENGTH)
@@ -3347,7 +3370,7 @@ export class BackupExportStream extends Readable {
       log.warn(`${message.timestamp}: Message body is too long; will truncate`);
     }
 
-    return {
+    const result = {
       quote: await this.#toQuote({
         message,
       }),
@@ -3384,6 +3407,12 @@ export class BackupExportStream extends Readable {
         : null,
       reactions: this.#getMessageReactions(message),
     };
+
+    if (!result.attachments?.length && !result.text) {
+      log.warn('toStandardMessage: had neither text nor attachments, dropping');
+      return undefined;
+    }
+    return result;
   }
 
   async #toDirectStoryReplyMessage({
@@ -3488,7 +3517,7 @@ export class BackupExportStream extends Readable {
 
     const isOutgoing = message.type === 'outgoing';
 
-    return Promise.all(
+    const revisions = await Promise.all(
       editHistory
         // The first history is the copy of the current message
         .slice(1)
@@ -3526,10 +3555,16 @@ export class BackupExportStream extends Readable {
               }),
             };
           } else {
+            const standardMessage = await this.#toStandardMessage({
+              message: history,
+            });
+            if (!standardMessage) {
+              log.warn('Chat revision was invalid, dropping');
+              return null;
+            }
+
             item = {
-              standardMessage: await this.#toStandardMessage({
-                message: history,
-              }),
+              standardMessage,
             };
           }
           return { ...base, item };
@@ -3537,6 +3572,7 @@ export class BackupExportStream extends Readable {
         // Backups use oldest to newest order
         .reverse()
     );
+    return revisions.filter(isNotNil);
   }
 
   #toCustomChatColors(): Array<Backups.ChatStyle.CustomChatColor.Params> {
