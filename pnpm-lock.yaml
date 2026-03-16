@@ -649,8 +649,8 @@ importers:
         specifier: 4.3.7
         version: 4.3.7(supports-color@8.1.1)
       electron:
-        specifier: 40.8.0
-        version: 40.8.0
+        specifier: 41.0.2
+        version: 41.0.2
       electron-builder:
         specifier: 26.0.14
         version: 26.0.14(electron-builder-squirrel-windows@26.0.14)
@@ -3527,6 +3527,9 @@ packages:
 
   '@sinonjs/text-encoding@0.7.3':
     resolution: {integrity: sha512-DE427ROAphMQzU4ENbliGYrBSYPXF+TtLg9S8vzeA+OF4ZKzoDdzfL8sxuMUGS/lgRhM6j1URSk9ghf7Xo1tyA==}
+    deprecated: |-
+      Deprecated: no longer maintained and no longer used by Sinon packages. See
+        https://github.com/sinonjs/nise/issues/243 for replacement details.
 
   '@storybook/addon-a11y@8.4.4':
     resolution: {integrity: sha512-xXNOG4Bw/v8rg2Zq/ZJnZSLWfpfkfnZjn0sQVLOe5JcDxavkh5o+WvQ6Tc2w/kK/ophCd7nbTotywrtdQYGNKw==}
@@ -4132,11 +4135,8 @@ packages:
   '@types/node@22.13.4':
     resolution: {integrity: sha512-ywP2X0DYtX3y08eFVx5fNIw7/uIv8hYUKgXoK8oayJlLnKcRfEYCxWMVE1XagUdVtCJlZT1AU4LXEABW+L1Peg==}
 
-  '@types/node@22.19.1':
-    resolution: {integrity: sha512-LCCV0HdSZZZb34qifBsyWlUmok6W7ouER+oQIGBScS8EsZsQbrtFTUrDX4hOl+CS6p7cnNC4td+qrSVGSCTUfQ==}
-
-  '@types/node@24.10.9':
-    resolution: {integrity: sha512-ne4A0IpG3+2ETuREInjPNhUGis1SFjv1d5asp8MzEAGtOZeTeHVDOYqOgqfhvseqg/iXty2hjBf1zAOb7RNiNw==}
+  '@types/node@24.11.2':
+    resolution: {integrity: sha512-HTsxyfkxTNxOXBsEdgIOzbMgBjDGPvkTfw0B1m09j1LFPk8u3tSL8SNBRTSc381wXXX/Wp93qPi1kQXwnWuHgA==}
 
   '@types/normalize-path@3.0.2':
     resolution: {integrity: sha512-DO++toKYPaFn0Z8hQ7Tx+3iT9t77IJo/nDiqTXilgEP+kPNIYdpS9kh3fXuc53ugqwp9pxC1PVjCpV1tQDyqMA==}
@@ -4824,6 +4824,7 @@ packages:
   basic-ftp@5.0.5:
     resolution: {integrity: sha512-4Bcg1P8xhUuqcii/S0Z9wiHIrQVPMermM1any+MX5GeGD7faD3/msQUDGLol9wOcz4/jbg/WJnGqoJF6LiBdtg==}
     engines: {node: '>=10.0.0'}
+    deprecated: Security vulnerability fixed in 5.2.0, please upgrade
 
   batch@0.6.1:
     resolution: {integrity: sha512-x+VAiMRL6UPkx+kudNvxTl6hB2XNNCG2r+7wixVfIYwu/2HKRXimwQyaumLjMveWvT2Hkd/cAJw+QBMfJ/EKVw==}
@@ -5829,8 +5830,8 @@ packages:
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
-  electron@40.8.0:
-    resolution: {integrity: sha512-WoPq0Nr9Yx3g7T6VnJXdwa/rr2+VRyH3a+K+ezfMKBlf6WjxE/LmhMQabKbb6yjm9RbZhJBRcYyoLph421O2mQ==}
+  electron@41.0.2:
+    resolution: {integrity: sha512-raotm/aO8kOs1jD8SI8ssJ7EKciQOY295AOOprl1TxW7B0At8m5Ae7qNU1xdMxofiHMR8cNEGi9PKD3U+yT/mA==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -9024,6 +9025,9 @@ packages:
   pump@3.0.3:
     resolution: {integrity: sha512-todwxLMY7/heScKmntwQG8CXVkWUOdYxIvY2s0VWAAMh/nd8SoYiRaKjlr7+iCs984f2P8zvrfWcDDYVb73NfA==}
 
+  pump@3.0.4:
+    resolution: {integrity: sha512-VS7sjc6KR7e1ukRFhQSY5LM2uBWAUPiOPa/A3mkKmiMwSmRFUITt0xuj+/lesgnCv+dPIEYlkzrcyXgquIHMcA==}
+
   pumpify@2.0.1:
     resolution: {integrity: sha512-m7KOje7jZxrmutanlkS1daj1dS6z6BgslzOXmcSEpIlCxM3VJH7lG5QLeck/6hgF6F4crFf01UtQmNsJfweTAw==}
 
@@ -10307,9 +10311,6 @@ packages:
 
   undici-types@6.20.0:
     resolution: {integrity: sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==}
-
-  undici-types@6.21.0:
-    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
   undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
@@ -14324,7 +14325,7 @@ snapshots:
   '@storybook/builder-webpack5@8.4.4(@swc/core@1.10.16(@swc/helpers@0.5.15))(esbuild@0.25.9)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))(typescript@5.6.3)(webpack-cli@5.1.4)':
     dependencies:
       '@storybook/core-webpack': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
-      '@types/node': 22.19.1
+      '@types/node': 22.13.4
       '@types/semver': 7.5.8
       browser-assert: 1.2.1
       case-sensitive-paths-webpack-plugin: 2.4.0
@@ -14381,7 +14382,7 @@ snapshots:
 
   '@storybook/core-webpack@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))':
     dependencies:
-      '@types/node': 22.19.1
+      '@types/node': 22.13.4
       storybook: 8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)
       ts-dedent: 2.2.0
 
@@ -14426,7 +14427,7 @@ snapshots:
       '@storybook/core-webpack': 8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))
       '@storybook/react': 8.4.4(@storybook/test@8.4.4(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.4.4(bufferutil@4.0.9)(prettier@3.7.4)(utf-8-validate@5.0.10))(typescript@5.6.3)
       '@storybook/react-docgen-typescript-plugin': 1.0.6--canary.9.0c3f3b7.0(typescript@5.6.3)(webpack@5.96.1)
-      '@types/node': 22.19.1
+      '@types/node': 22.13.4
       '@types/semver': 7.5.8
       find-up: 5.0.0
       magic-string: 0.30.17
@@ -14989,11 +14990,7 @@ snapshots:
     dependencies:
       undici-types: 6.20.0
 
-  '@types/node@22.19.1':
-    dependencies:
-      undici-types: 6.21.0
-
-  '@types/node@24.10.9':
+  '@types/node@24.11.2':
     dependencies:
       undici-types: 7.16.0
 
@@ -16977,10 +16974,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  electron@40.8.0:
+  electron@41.0.2:
     dependencies:
       '@electron/get': 2.0.3
-      '@types/node': 24.10.9
+      '@types/node': 24.11.2
       extract-zip: 2.0.1
     transitivePeerDependencies:
       - supports-color
@@ -18079,7 +18076,7 @@ snapshots:
 
   get-stream@5.2.0:
     dependencies:
-      pump: 3.0.3
+      pump: 3.0.4
 
   get-stream@6.0.1: {}
 
@@ -20799,6 +20796,11 @@ snapshots:
       end-of-stream: 1.4.5
       once: 1.4.0
 
+  pump@3.0.4:
+    dependencies:
+      end-of-stream: 1.4.5
+      once: 1.4.0
+
   pumpify@2.0.1:
     dependencies:
       duplexify: 4.1.3
@@ -22417,8 +22419,6 @@ snapshots:
   undici-types@6.19.8: {}
 
   undici-types@6.20.0: {}
-
-  undici-types@6.21.0: {}
 
   undici-types@7.16.0: {}
 
