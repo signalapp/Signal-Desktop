@@ -45,7 +45,7 @@ import { createSupportUrl } from '../ts/util/createSupportUrl.std.js';
 import { missingCaseError } from '../ts/util/missingCaseError.std.js';
 import { strictAssert } from '../ts/util/assert.std.js';
 import { drop } from '../ts/util/drop.std.js';
-import type { ThemeSettingType } from '../ts/types/StorageUIKeys.std.js';
+import type { ThemeSettingType } from '../ts/util/theme.std.js';
 import { ThemeType } from '../ts/types/Util.std.js';
 import { NotificationType } from '../ts/types/notifications.std.js';
 import * as Errors from '../ts/types/errors.std.js';

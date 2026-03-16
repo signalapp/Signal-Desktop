@@ -32,7 +32,7 @@ import type { ReactionType } from '../types/Reactions.std.js';
 import { ReactionReadStatus } from '../types/Reactions.std.js';
 import type { AciString, ServiceIdString } from '../types/ServiceId.std.js';
 import { isServiceIdString } from '../types/ServiceId.std.js';
-import { STORAGE_UI_KEYS } from '../types/StorageUIKeys.std.js';
+import { STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK } from '../types/StorageKeys.std.js';
 import type { StoryDistributionIdString } from '../types/StoryDistributionId.std.js';
 import * as Errors from '../types/errors.std.js';
 import { assertDev, strictAssert } from '../util/assert.std.js';
@@ -8606,7 +8606,7 @@ function removeAllConfiguration(db: WritableDB): void {
       })
       .all();
 
-    const allowedSet = new Set<string>(STORAGE_UI_KEYS);
+    const allowedSet = new Set<string>(STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK);
     for (const id of itemIds) {
       if (!allowedSet.has(id)) {
         removeById(db, 'items', id);

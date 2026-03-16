@@ -4,9 +4,9 @@
 import { z } from 'zod';
 
 import { Environment } from '../environment.std.js';
-import { themeSettingSchema } from './StorageUIKeys.std.js';
 import { HourCyclePreferenceSchema } from './I18N.std.js';
 import { DNSFallbackSchema } from './DNSFallback.std.js';
+import { themeSettingSchema } from '../util/theme.std.js';
 
 const environmentSchema = z.nativeEnum(Environment);
 

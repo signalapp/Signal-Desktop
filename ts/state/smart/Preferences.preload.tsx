@@ -102,10 +102,7 @@ import {
 } from './PreferencesNotificationProfiles.preload.js';
 
 import type { SettingsLocation } from '../../types/Nav.std.js';
-import type {
-  StorageAccessType,
-  ZoomFactorType,
-} from '../../types/Storage.d.ts';
+import type { StorageAccessType } from '../../types/Storage.d.ts';
 import type { ThemeType } from '../../util/preload.preload.js';
 import type { WidthBreakpoint } from '../../components/_util.std.js';
 import { DialogType } from '../../types/Dialogs.std.js';
@@ -121,6 +118,7 @@ import type { SmartPreferencesChatFoldersPageProps } from './PreferencesChatFold
 import type { SmartPreferencesEditChatFolderPageProps } from './PreferencesEditChatFolderPage.preload.js';
 import type { ExternalProps as SmartNotificationProfilesProps } from './PreferencesNotificationProfiles.preload.js';
 import { useMegaphonesActions } from '../ducks/megaphones.preload.js';
+import type { ZoomFactorType } from '../../types/StorageKeys.std.js';
 
 const DEFAULT_NOTIFICATION_SETTING = 'message';
 
@@ -606,7 +604,8 @@ export function SmartPreferences(): React.JSX.Element | null {
     defaultValue: StorageAccessType[K],
     callback?: (value: StorageAccessType[K]) => void
   ): [StorageAccessType[K], (value: StorageAccessType[K]) => void] {
-    const value = items[key] ?? defaultValue;
+    const value =
+      (items[key] as StorageAccessType[K] | undefined) ?? defaultValue;
     const setter = (newValue: StorageAccessType[K]) => {
       putItem(key, newValue);
       callback?.(newValue);

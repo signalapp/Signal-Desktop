@@ -63,8 +63,8 @@ import type {
   NotificationSettingType,
   SentMediaQualitySettingType,
   ZoomFactorType,
-} from '../types/Storage.d.ts';
-import type { ThemeSettingType } from '../types/StorageUIKeys.std.js';
+} from '../types/StorageKeys.std.js';
+import type { ThemeSettingType } from '../util/theme.std.js';
 import type { AnyToast } from '../types/Toast.dom.js';
 import { ToastType } from '../types/Toast.dom.js';
 import type { ConversationType } from '../state/ducks/conversations.preload.js';

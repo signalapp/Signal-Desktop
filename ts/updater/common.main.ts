@@ -943,7 +943,7 @@ export abstract class Updater {
         'getItemById',
         'auto-download-update'
       );
-      return result?.value ?? true;
+      return typeof result?.value === 'boolean' ? result.value : true;
     } catch (error) {
       this.logger.warn(
         'getAutoDownloadUpdateSetting: Failed to fetch, returning false',

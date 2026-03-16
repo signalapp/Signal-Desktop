@@ -5,7 +5,7 @@ import { ipcRenderer } from 'electron';
 import type { SystemPreferences } from 'electron';
 import lodash from 'lodash';
 
-import type { ZoomFactorType } from '../types/Storage.d.ts';
+import type { ZoomFactorType } from '../types/StorageKeys.std.js';
 import * as Errors from '../types/errors.std.js';
 import * as Stickers from '../types/Stickers.preload.js';
 import * as Settings from '../types/Settings.std.js';

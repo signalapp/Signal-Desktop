@@ -86,6 +86,8 @@ import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
 import { itemStorage } from './Storage.preload.js';
 import { deriveAccessKeyFromProfileKey } from '../util/zkgroup.node.js';
 import { wrappingAdd24 } from '../util/wrappingAdd.std.js';
+import { everDone as registrationEverDone } from '../util/registration.preload.js';
+import { isAciString } from '../util/isAciString.std.js';
 
 const { isNumber, omit, orderBy } = lodash;
 
@@ -1033,8 +1035,20 @@ export default class AccountManager extends EventTarget {
     const numberChanged =
       !previousACI && previousNumber && previousNumber !== number;
 
-    let cleanStart = !previousACI && !previousPNI && !previousNumber;
-    if (uuidChanged || numberChanged) {
+    let cleanStart =
+      !previousACI &&
+      !previousPNI &&
+      !previousNumber &&
+      !registrationEverDone();
+
+    // To be extra safe, clear everything if we know registration happened but there's no
+    // existing identifier
+    const hadPreviousIdentifier =
+      isAciString(previousACI) || Boolean(previousNumber);
+    const missingCriticalData =
+      registrationEverDone() && !hadPreviousIdentifier;
+
+    if (uuidChanged || numberChanged || missingCriticalData) {
       if (uuidChanged) {
         log.warn(
           'createAccount: New uuid is different from old uuid; deleting all previous data'
@@ -1043,6 +1057,11 @@ export default class AccountManager extends EventTarget {
       if (numberChanged) {
         log.warn(
           'createAccount: New number is different from old number; deleting all previous data'
+        );
+      }
+      if (missingCriticalData) {
+        log.error(
+          'createAccount: device had been registered but had no previous identifier'
         );
       }
 
