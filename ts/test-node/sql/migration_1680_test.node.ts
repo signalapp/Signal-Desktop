@@ -88,7 +88,7 @@ describe('SQL/updateToSchemaVersion1680', () => {
           systemGivenName: '',
           systemFamilyName: '',
           systemNickname: '',
-          nicknameGivenName: '',
+          nicknameGivenName: null,
           nicknameFamilyName: '',
           username: '',
 
