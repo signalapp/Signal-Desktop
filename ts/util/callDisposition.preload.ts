@@ -355,14 +355,16 @@ function shouldSyncStatus(callStatus: CallStatus) {
 // call link peerId. Locally conversationId is Base64 encoded but roomIds
 // are hex encoded.
 export function getBytesForPeerId(callHistory: CallHistoryDetails): Uint8Array {
-  let peerId =
-    callHistory.mode === CallMode.Adhoc
-      ? Bytes.fromHex(callHistory.peerId)
-      : uuidToBytes(callHistory.peerId);
-  if (peerId.length === 0) {
-    peerId = Bytes.fromBase64(callHistory.peerId);
+  if (callHistory.mode === CallMode.Adhoc) {
+    return Bytes.fromHex(callHistory.peerId);
   }
-  return peerId;
+  if (callHistory.mode === CallMode.Group) {
+    return Bytes.fromBase64(callHistory.peerId);
+  }
+  if (callHistory.mode === CallMode.Direct) {
+    return uuidToBytes(callHistory.peerId);
+  }
+  throw missingCaseError(callHistory.mode);
 }
 
 export function getCallIdForProto(
