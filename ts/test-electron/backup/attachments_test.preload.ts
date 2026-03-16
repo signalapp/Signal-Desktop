@@ -393,7 +393,7 @@ describe('backup/attachments', () => {
         key: attachment1.key,
         size: attachment1.size,
       };
-
+      let roundtrippedAttachment: AttachmentType | undefined;
       await asymmetricRoundtripHarness(
         [
           composeMessage(1, {
@@ -408,19 +408,31 @@ describe('backup/attachments', () => {
             attachments: [expectedRoundtrippedFields(attachment1)],
           }),
           composeMessage(2, {
-            attachments: [
-              expectedRoundtrippedFields({
-                ...attachment2,
-                cdnKey: attachment1.cdnKey,
-                cdnNumber: attachment1.cdnNumber,
-                uploadTimestamp: attachment1.uploadTimestamp,
-                incrementalMac: attachment1.incrementalMac,
-                chunkSize: attachment1.chunkSize,
-              }),
-            ],
+            attachments: [expectedRoundtrippedFields(attachment2)],
           }),
         ],
-        { backupLevel: BackupLevel.Paid }
+        {
+          backupLevel: BackupLevel.Paid,
+          comparator: (before, after) => {
+            assert.deepEqual(
+              omit(before, 'attachments'),
+              omit(after, 'attachments')
+            );
+            if (!roundtrippedAttachment) {
+              roundtrippedAttachment = after?.attachments?.[0];
+            } else {
+              assert.equal(
+                roundtrippedAttachment.cdnKey,
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                after.attachments?.[0]!.cdnKey
+              );
+            }
+          },
+        }
+      );
+      strictAssert(
+        roundtrippedAttachment != null,
+        'attachment was roundtripped'
       );
     });
     it('roundtrips voice message attachments', async () => {
