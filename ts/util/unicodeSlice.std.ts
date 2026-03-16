@@ -21,7 +21,7 @@ export function unicodeSlice(
   end: number
 ): string {
   // Optimization: whole string fits into the range, return as is
-  if (begin === 0 && end >= input.length) {
+  if (begin === 0 && end >= Buffer.byteLength(input)) {
     return input;
   }
 

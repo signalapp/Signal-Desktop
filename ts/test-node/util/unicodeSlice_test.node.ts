@@ -31,6 +31,7 @@ describe('unicodeSlice()', () => {
   test('multi-byte char', 'x€x', 1, 4, '€', 3);
   test('multi-byte char slice before end', '€', 1, 3, '', 0);
   test('multi-byte char slice after start', '€', 2, 4, '', 0);
+  test('ignores utf-16 length', '€123', 0, 4, '€1', 4);
 
   test('emoji', 'x👩‍👩‍👧‍👦x', 1, 26, '👩‍👩‍👧‍👦', 25);
   test('emoji slice before end', 'x👩‍👩‍👧‍👦x', 1, 25, '', 0);
