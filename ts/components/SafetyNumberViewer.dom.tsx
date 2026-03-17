@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState, useCallback } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 
 import { AxoSymbol } from '../axo/AxoSymbol.dom.js';
 import { AxoButton } from '../axo/AxoButton.dom.js';
@@ -240,7 +240,7 @@ function KeyTransparency({
           'pressed:bg-fill-secondary-pressed'
         )}
       >
-        <AnimatePresence exitBeforeEnter initial={false}>
+        <AnimatePresence mode="wait" initial={false}>
           <motion.div
             className={tw('flex h-5 items-center')}
             key={status}

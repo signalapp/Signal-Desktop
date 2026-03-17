@@ -3,8 +3,8 @@
 
 import React, { type ReactNode } from 'react';
 import lodash from 'lodash';
-import type { Transition } from 'framer-motion';
-import { motion } from 'framer-motion';
+import type { Transition } from 'motion/react';
+import { motion } from 'motion/react';
 import type { ReadonlyDeep } from 'type-fest';
 
 import { tw } from '../../../axo/tw.dom.js';

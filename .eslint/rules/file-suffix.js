@@ -140,7 +140,6 @@ const NODE_PACKAGES = new Set([
 // Packages that use DOM APIs
 const DOM_PACKAGES = new Set([
   '@popperjs/core',
-  '@radix-ui/react-tooltip',
   '@react-aria/focus',
   '@react-aria/interactions',
   '@react-aria/utils',
@@ -237,7 +236,8 @@ const STD_PACKAGES = new Set([
   'filesize',
   'firstline',
   'form-data',
-  'framer-motion',
+  'motion',
+  'motion/react',
   'fuse.js',
   'google-libphonenumber',
   'heic-convert',

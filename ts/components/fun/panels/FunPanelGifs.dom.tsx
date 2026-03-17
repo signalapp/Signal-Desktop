@@ -14,7 +14,7 @@ import React, {
 } from 'react';
 import { VisuallyHidden } from 'react-aria';
 import { LRUCache } from 'lru-cache';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 import { FunItemButton } from '../base/FunItem.dom.js';
 import {
   FunPanel,

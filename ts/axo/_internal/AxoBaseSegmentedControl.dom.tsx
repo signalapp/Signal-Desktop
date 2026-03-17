@@ -9,8 +9,8 @@ import type {
   ReactNode,
 } from 'react';
 import React, { forwardRef, memo, useId, useMemo } from 'react';
-import type { Transition } from 'framer-motion';
-import { motion } from 'framer-motion';
+import type { Transition } from 'motion/react';
+import { motion } from 'motion/react';
 import type { TailwindStyles } from '../tw.dom.js';
 import { tw } from '../tw.dom.js';
 import { ExperimentalAxoBadge } from '../AxoBadge.dom.js';
@@ -190,7 +190,6 @@ export namespace ExperimentalAxoBaseSegmentedControl {
           {isSelected && (
             <motion.span
               layoutId={`${context.id}.Indicator`}
-              layoutDependency={isSelected}
               className={config.indicatorStyles}
               transition={IndicatorTransition}
               style={{ borderRadius: 14 }}

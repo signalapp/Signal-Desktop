@@ -3,7 +3,7 @@
 
 import React, { memo, useState, useEffect, useRef } from 'react';
 import { Checkbox } from 'radix-ui';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 import { type TailwindStyles, tw } from '../../../axo/tw.dom.js';
 import { AxoButton } from '../../../axo/AxoButton.dom.js';
 import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
@@ -356,7 +356,7 @@ export function PollMessageContents({
       </div>
 
       <div className={tw('mt-4 flex h-10 items-center justify-center')}>
-        <AnimatePresence exitBeforeEnter initial={false}>
+        <AnimatePresence mode="wait" initial={false}>
           {totalVotes > 0 ? (
             <motion.div
               key="view-votes"

@@ -405,6 +405,13 @@ export function FunPanelStickers({
     [onSelectTimeSticker, onClose]
   );
 
+  const showAddStickerPackButton = onAddStickerPack != null;
+  const handleAddStickerPack = useCallback(() => {
+    strictAssert(onAddStickerPack, 'Missing onAddStickerPack');
+    onAddStickerPack();
+    onClose();
+  }, [onAddStickerPack, onClose]);
+
   return (
     <FunPanel>
       <FunPanelHeader>
@@ -454,9 +461,9 @@ export function FunPanelStickers({
                 </FunSubNavListBox>
               )}
             </FunSubNavScroller>
-            {onAddStickerPack != null && (
+            {showAddStickerPackButton && (
               <FunSubNavButtons>
-                <FunSubNavButton onClick={onAddStickerPack}>
+                <FunSubNavButton onClick={handleAddStickerPack}>
                   <VisuallyHidden>
                     {i18n('icu:FunPanelStickers__SubNavButton--AddStickerPack')}
                   </VisuallyHidden>
