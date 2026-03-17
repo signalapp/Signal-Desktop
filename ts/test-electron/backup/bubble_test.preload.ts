@@ -34,6 +34,7 @@ const CONTACT_A = generateAci();
 const CONTACT_B = generateAci();
 const CONTACT_B_E164 = '+12135550123';
 const GV1_ID = Bytes.toBinary(getRandomBytes(ID_V1_LENGTH));
+const GV2_ID = Bytes.toBase64(getRandomBytes(32));
 
 const BADGE_RECEIPT =
   'AEpyZxbRBT+T5PQw9Wcx1QE2aFvL7LoLir9V4UF09Kk9qiP4SpIlHdlWHrAICy6F' +
@@ -48,6 +49,7 @@ describe('backup/bubble messages', () => {
   let contactA: ConversationModel;
   let contactB: ConversationModel;
   let gv1: ConversationModel;
+  let gv2: ConversationModel;
 
   beforeEach(async () => {
     await DataWriter._removeAllMessages();
@@ -72,6 +74,17 @@ describe('backup/bubble messages', () => {
       'group',
       {
         groupVersion: 1,
+        active_at: 1,
+      }
+    );
+
+    gv2 = await window.ConversationController.getOrCreateAndWait(
+      GV2_ID,
+      'group',
+      {
+        groupVersion: 2,
+        masterKey: Bytes.toBase64(getRandomBytes(32)),
+        name: 'Rock Enthusiasts',
         active_at: 1,
       }
     );
@@ -206,6 +219,26 @@ describe('backup/bubble messages', () => {
       ],
       []
     );
+  });
+
+  it('is resilient to ACIs not from known conversations', async () => {
+    const unknownAci = generateAci();
+    await symmetricRoundtripHarness([
+      {
+        conversationId: gv2.id,
+        id: generateGuid(),
+        body: 'body',
+        type: 'incoming',
+        received_at: 3,
+        received_at_ms: 3,
+        sent_at: 3,
+        timestamp: 3,
+        sourceServiceId: unknownAci,
+        readStatus: ReadStatus.Unread,
+        seenStatus: SeenStatus.Unseen,
+        unidentifiedDeliveryReceived: true,
+      },
+    ]);
   });
 
   it('drops edited revisions with neither text nor attachments', async () => {
@@ -415,6 +448,47 @@ describe('backup/bubble messages', () => {
           },
         },
       ]
+    );
+  });
+
+  it('filters out reactions from unknown authors', async () => {
+    const message = {
+      conversationId: contactA.id,
+      id: generateGuid(),
+      type: 'incoming',
+      received_at: 3,
+      received_at_ms: 3,
+      sent_at: 3,
+      sourceServiceId: CONTACT_A,
+      readStatus: ReadStatus.Unread,
+      seenStatus: SeenStatus.Unseen,
+      unidentifiedDeliveryReceived: true,
+      timestamp: 3,
+      reactions: [
+        {
+          emoji: 'first',
+          fromId: contactA.id,
+          targetTimestamp: 3,
+          timestamp: 3,
+        },
+        {
+          emoji: 'second',
+          fromId: generateGuid(),
+          targetTimestamp: 3,
+          timestamp: 3,
+        },
+        {
+          emoji: 'third',
+          fromId: contactB.id,
+          targetTimestamp: 3,
+          timestamp: 3,
+        },
+      ],
+      body: 'hello',
+    } as const;
+    await asymmetricRoundtripHarness(
+      [message],
+      [{ ...message, reactions: [message.reactions[0], message.reactions[2]] }]
     );
   });
 
@@ -1231,7 +1305,7 @@ describe('backup/bubble messages', () => {
           messageId: '',
         },
         sendStateByConversationId: {
-          [CONTACT_A]: {
+          [contactA.id]: {
             status: SendStatus.Read,
             updatedAt: 3,
           },
@@ -1275,7 +1349,7 @@ describe('backup/bubble messages', () => {
           messageId: '',
         },
         sendStateByConversationId: {
-          [CONTACT_A]: {
+          [contactA.id]: {
             status: SendStatus.Read,
             updatedAt: 3,
           },

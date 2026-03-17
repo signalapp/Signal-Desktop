@@ -610,7 +610,7 @@ describe('backup/attachments', () => {
   describe('quotes', () => {
     it('BackupLevel.Free, roundtrips quote attachments', async () => {
       const attachment = composeAttachment(1, { clientUuid: undefined });
-      const authorAci = generateAci();
+      const authorAci = CONTACT_A;
       const quotedMessage: QuotedMessageType = {
         authorAci,
         isViewOnce: false,
@@ -648,7 +648,7 @@ describe('backup/attachments', () => {
     it('BackupLevel.Paid, roundtrips quote attachments', async () => {
       const attachment = composeAttachment(1, { clientUuid: undefined });
       strictAssert(attachment.digest, 'digest exists');
-      const authorAci = generateAci();
+      const authorAci = CONTACT_A;
       const quotedMessage: QuotedMessageType = {
         authorAci,
         isViewOnce: false,

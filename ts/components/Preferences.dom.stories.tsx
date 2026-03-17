@@ -131,9 +131,11 @@ const validateBackupResult: ExportResultType = {
     distributionLists: 5,
     messages: 6,
     notificationProfiles: 2,
+    skippedConversations: 0,
     skippedMessages: 7,
     stickerPacks: 8,
     fixedDirectMessages: 9,
+    unknownConversationReferences: {},
   },
 };
 

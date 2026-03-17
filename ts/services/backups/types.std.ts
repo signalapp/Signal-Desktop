@@ -70,11 +70,13 @@ export type StatsType = {
   chatFolders: number;
   chats: number;
   distributionLists: number;
+  fixedDirectMessages: number;
   messages: number;
   notificationProfiles: number;
+  skippedConversations: number;
   skippedMessages: number;
   stickerPacks: number;
-  fixedDirectMessages: number;
+  unknownConversationReferences: Record<string, number>;
 };
 
 export type ExportResultType = Readonly<{
