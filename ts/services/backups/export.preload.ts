@@ -28,6 +28,7 @@ import { getStickerPacksForBackup } from '../../types/Stickers.preload.js';
 import {
   isPniString,
   isServiceIdString,
+  type PniString,
   type AciString,
   type ServiceIdString,
 } from '../../types/ServiceId.std.js';
@@ -1241,11 +1242,9 @@ export class BackupExportStream extends Readable {
       const maybePni = convo.pni ?? convo.serviceId;
 
       const aci = isAciString(convo.serviceId)
-        ? Aci.parseFromServiceIdString(convo.serviceId).getRawUuidBytes()
+        ? this.#aciToBytes(convo.serviceId)
         : null;
-      const pni = isPniString(maybePni)
-        ? Pni.parseFromServiceIdString(maybePni).getRawUuidBytes()
-        : null;
+      const pni = isPniString(maybePni) ? this.#pniToRawBytes(maybePni) : null;
       const e164 = convo.e164 ? BigInt(convo.e164) : null;
 
       strictAssert(
@@ -1955,8 +1954,14 @@ export class BackupExportStream extends Readable {
     return null;
   }
 
+  /** For fields explicitly marked as PNI (validator will expect 16 bytes) */
+  #pniToRawBytes(pni: PniString | string): Uint8Array {
+    return Pni.parseFromServiceIdString(pni).getRawUuidBytes();
+  }
+
+  /** For fields that can accept either ACI or PNI bytes */
   #serviceIdToBytes(serviceId: ServiceIdString): Uint8Array {
-    return ServiceId.parseFromServiceIdString(serviceId).getRawUuidBytes();
+    return ServiceId.parseFromServiceIdString(serviceId).getServiceIdBinary();
   }
 
   async #toChatItemFromNonBubble(
@@ -2881,7 +2886,7 @@ export class BackupExportStream extends Readable {
                     ? this.#aciToBytes(detail.serviceId)
                     : null,
                   inviteePni: isPniString(detail.serviceId)
-                    ? this.#serviceIdToBytes(detail.serviceId)
+                    ? this.#pniToRawBytes(detail.serviceId)
                     : null,
                 },
               ],
