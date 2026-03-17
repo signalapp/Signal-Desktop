@@ -47,7 +47,7 @@ import { DataReader } from '../../sql/Client.preload.js';
 import { isInternalFeaturesEnabled } from '../../util/isInternalFeaturesEnabled.dom.js';
 
 export type SmartTimelineItemProps = {
-  containerElementRef: RefObject<HTMLElement>;
+  containerElementRef: RefObject<HTMLElement | null>;
   containerWidthBreakpoint: WidthBreakpoint;
   conversationId: string;
   interactivity: MessageInteractivity;

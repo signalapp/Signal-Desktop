@@ -86,7 +86,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   canDownload: true,
   checkForAccount: action('checkForAccount'),
   clearTargetedMessage: action('default--clearTargetedMessage'),
-  containerElementRef: React.createRef<HTMLElement>(),
+  containerElementRef: React.createRef<HTMLElement | null>(),
   containerWidthBreakpoint: WidthBreakpoint.Wide,
   conversationColor: 'crimson',
   conversationId: 'conversationId',

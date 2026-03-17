@@ -22,7 +22,7 @@ const { i18n } = window.SignalContext;
 function renderContextMenu(
   _mediaItem: unknown,
   children: ReactNode
-): JSX.Element {
+): React.JSX.Element {
   return (
     <MediaContextMenu
       i18n={i18n}

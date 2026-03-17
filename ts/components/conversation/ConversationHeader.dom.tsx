@@ -68,7 +68,7 @@ function HeaderInfoTitle({
   i18n: LocalizerType;
   isMe: boolean;
   isSignalConversation: boolean;
-  headerRef: React.RefObject<HTMLDivElement>;
+  headerRef: React.RefObject<HTMLDivElement | null>;
 }) {
   if (isSignalConversation) {
     return (
@@ -479,7 +479,7 @@ function HeaderContent({
   conversation: MinimalConversation;
   badge: BadgeType | null;
   hasStories: HasStories | null;
-  headerRef: RefObject<HTMLDivElement>;
+  headerRef: RefObject<HTMLDivElement | null>;
   i18n: LocalizerType;
   theme: ThemeType;
   isSignalConversation: boolean;

@@ -31,7 +31,7 @@ export type PropsType = Readonly<{
 function renderContextMenu(
   mediaItem: GenericMediaItemType,
   children: ReactNode
-): JSX.Element {
+): React.JSX.Element {
   return (
     <SmartMediaContextMenu mediaItem={mediaItem}>
       {children}

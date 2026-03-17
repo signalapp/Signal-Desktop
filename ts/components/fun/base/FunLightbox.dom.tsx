@@ -19,7 +19,7 @@ export function useFunLightboxKey(): string | null {
  */
 
 export type FunLightboxProviderProps = Readonly<{
-  containerRef: RefObject<HTMLDivElement>;
+  containerRef: RefObject<HTMLDivElement | null>;
   children: ReactNode;
 }>;
 

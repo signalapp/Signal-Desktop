@@ -27,8 +27,10 @@ export type ButtonProps = {
   onMouseUp?: () => void;
 };
 
+type PlaybackButtonRef = HTMLButtonElement | null;
+
 /** Handles animations, key events, and stopping event propagation */
-export const PlaybackButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
+export const PlaybackButton = React.forwardRef<PlaybackButtonRef, ButtonProps>(
   function ButtonInner(props, ref) {
     const {
       context,

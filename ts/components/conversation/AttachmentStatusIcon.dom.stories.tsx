@@ -62,14 +62,14 @@ export function Interactive(args: PropsType): React.JSX.Element {
   const [attachment, setAttachment] = useState(
     fakeAttachment({ path: undefined, size })
   );
-  const intervalRef = useRef<NodeJS.Timeout | undefined>();
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const cancelAttachmentDownload = useCallback(() => {
     const newAttachment = { ...attachment, pending: false };
     setAttachment(newAttachment);
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
-      intervalRef.current = undefined;
+      intervalRef.current = null;
     }
   }, [attachment, setAttachment]);
   const kickOffAttachmentDownload = useCallback(() => {
@@ -86,7 +86,7 @@ export function Interactive(args: PropsType): React.JSX.Element {
       if (totalDownloaded >= size && intervalRef.current) {
         setAttachment({ ...newAttachment, pending: false, path: 'something ' });
         clearInterval(intervalRef.current);
-        intervalRef.current = undefined;
+        intervalRef.current = null;
       }
     }, 300);
   }, [attachment, setAttachment]);

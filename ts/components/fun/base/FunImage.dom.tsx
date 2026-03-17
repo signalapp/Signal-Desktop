@@ -129,7 +129,7 @@ function closestElement(
  * - However, this will break if elements become focusable/unfocusable during
  *   their lifetime (this is generally a sign something is being done wrong).
  */
-export function useIntent(ref: RefObject<HTMLElement>): boolean {
+export function useIntent(ref: RefObject<HTMLElement | null>): boolean {
   const [intent, setIntent] = useState(false);
 
   useEffect(() => {

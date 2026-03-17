@@ -111,7 +111,7 @@ export function Tooltip({
   delay,
   hideArrow,
 }: PropsType): React.JSX.Element {
-  const timeoutRef = useRef<NodeJS.Timeout | undefined>();
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
   const [active, setActive] = React.useState(false);
 
   const showTooltip = active || Boolean(sticky);

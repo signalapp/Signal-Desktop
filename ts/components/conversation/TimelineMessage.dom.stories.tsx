@@ -249,7 +249,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   canRetryDeleteForEveryone: overrideProps.canRetryDeleteForEveryone || false,
   checkForAccount: action('checkForAccount'),
   clearTargetedMessage: action('clearSelectedMessage'),
-  containerElementRef: React.createRef<HTMLElement>(),
+  containerElementRef: React.createRef<HTMLElement | null>(),
   containerWidthBreakpoint: WidthBreakpoint.Wide,
   conversationColor: overrideProps.conversationColor ?? ConversationColors[0],
   conversationTitle: overrideProps.conversationTitle ?? 'Conversation Title',
@@ -601,7 +601,7 @@ Older.args = {
 };
 
 // Render only one message, because reactions break up clusters of messages
-export function ReactionsWiderMessage(): JSX.Element {
+export function ReactionsWiderMessage(): React.JSX.Element {
   const props = createProps({
     text: 'Hello there from a pal!',
     timestamp: Date.now() - 180 * 24 * 60 * 60 * 1000,
@@ -685,7 +685,7 @@ export function ReactionsWiderMessage(): JSX.Element {
 const joyReactions = Array.from({ length: 52 }, () => getJoyReaction());
 
 // Render only one message, because reactions break up clusters of messages
-export function ReactionsShortMessage(): JSX.Element {
+export function ReactionsShortMessage(): React.JSX.Element {
   const props = createProps({
     text: 'h',
     timestamp: Date.now(),

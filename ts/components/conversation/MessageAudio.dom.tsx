@@ -37,7 +37,7 @@ export type OwnProps = Readonly<{
         'currentTime' | 'duration' | 'playing' | 'playbackRate'
       >
     | undefined;
-  buttonRef: RefObject<HTMLButtonElement>;
+  buttonRef: RefObject<HTMLButtonElement | null>;
   i18n: LocalizerType;
   attachment: AttachmentForUIType;
   collapseMetadata: boolean;

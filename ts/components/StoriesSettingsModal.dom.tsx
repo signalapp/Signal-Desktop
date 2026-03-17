@@ -270,7 +270,7 @@ export function StoriesSettingsModal({
   setStoriesDisabled,
   getConversationByServiceId,
 }: PropsType): React.JSX.Element {
-  const tryClose = useRef<() => void | undefined>();
+  const tryClose = useRef<(() => void) | null>(null);
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,
     name: 'StoriesSettingsModal',
@@ -1238,7 +1238,6 @@ export function EditDistributionListModal({
                 onOutgoingVideoCallInConversation={shouldNeverBeCalled}
                 renderMessageSearchResult={() => {
                   shouldNeverBeCalled();
-                  return <div />;
                 }}
                 rowCount={rowCount}
                 setIsFetchingUUID={shouldNeverBeCalled}

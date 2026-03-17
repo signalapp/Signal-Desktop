@@ -9,7 +9,7 @@ import type { LocalizerType } from '../types/Util.std.js';
 
 export type PropsType = {
   className?: string;
-  tooltipContainerRef?: React.RefObject<HTMLElement>;
+  tooltipContainerRef?: React.RefObject<HTMLElement | null>;
   i18n: LocalizerType;
 };
 

@@ -14,7 +14,9 @@ export type PropsType = Readonly<{
   i18n: LocalizerType;
   contact: ConversationType;
   toggleSafetyNumberModal: () => unknown;
-  renderSafetyNumberViewer: (props: SafetyNumberViewerPropsType) => JSX.Element;
+  renderSafetyNumberViewer: (
+    props: SafetyNumberViewerPropsType
+  ) => React.JSX.Element;
 }>;
 
 export function SafetyNumberModal({

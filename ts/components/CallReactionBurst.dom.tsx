@@ -38,7 +38,7 @@ export function CallReactionBurstProvider({
   region,
 }: {
   children: React.ReactNode;
-  region?: React.RefObject<HTMLElement>;
+  region?: React.RefObject<HTMLElement | null>;
 }): React.JSX.Element {
   const [bursts, setBursts] = useState<Array<CallReactionBurstStateType>>([]);
   const timeouts = useRef<Map<string, NodeJS.Timeout>>(new Map());

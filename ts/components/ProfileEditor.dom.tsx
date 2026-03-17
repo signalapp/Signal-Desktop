@@ -201,7 +201,7 @@ export function ProfileEditor({
   usernameLinkCorrupted,
 }: PropsType): React.JSX.Element {
   const focusInputRef = useRef<HTMLInputElement | null>(null);
-  const tryClose = useRef<() => void | undefined>();
+  const tryClose = useRef<(() => void) | null>(null);
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,
     name: 'ProfileEditor',

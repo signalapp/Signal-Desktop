@@ -263,7 +263,7 @@ function ContactContextMenu({
 export function SmartMediaContextMenu({
   mediaItem,
   children,
-}: PropsType): JSX.Element {
+}: PropsType): React.JSX.Element {
   const i18n = useSelector(getIntl);
 
   const { showConversation } = useConversationsActions();

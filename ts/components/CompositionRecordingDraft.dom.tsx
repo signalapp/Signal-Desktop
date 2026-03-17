@@ -45,7 +45,7 @@ export function CompositionRecordingDraft({
     width: undefined | number;
   }>({ calculatingWidth: false, width: undefined });
 
-  const timeout = useRef<undefined | NodeJS.Timeout>(undefined);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleResize = useCallback(
     (size: Size) => {
@@ -60,8 +60,9 @@ export function CompositionRecordingDraft({
         setState({ ...state, calculatingWidth: true });
       }
 
-      if (timeout.current) {
-        clearTimeout(timeout.current);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
       }
 
       const newWidth = size.width;
@@ -71,7 +72,8 @@ export function CompositionRecordingDraft({
       if (state.width === undefined) {
         setState({ calculatingWidth: false, width: newWidth });
       } else {
-        timeout.current = setTimeout(() => {
+        timeoutRef.current = setTimeout(() => {
+          timeoutRef.current = null;
           setState({ calculatingWidth: false, width: newWidth });
         }, 500);
       }

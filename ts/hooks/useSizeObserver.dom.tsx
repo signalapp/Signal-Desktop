@@ -30,7 +30,7 @@ function getNextSize(borderBoxSize: ResizeObserverSize): Size {
 }
 
 export function useSizeObserver<T extends Element = Element>(
-  ref: RefObject<T>,
+  ref: RefObject<T | null>,
   /**
    * Note: If you provide `onSizeChange`, `useSizeObserver()` will always return `null`
    */
@@ -101,7 +101,7 @@ export function SizeObserver({
   children,
 }: SizeObserverProps): React.JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const ref = useRef<any>();
+  const ref = useRef<any>(null);
   const size = useSizeObserver(ref, onSizeChange);
   return children(ref, size);
 }
@@ -203,8 +203,8 @@ export function getScrollRightDistance(scroll: Scroll, clamp: number): number {
  * ```
  */
 export function useScrollObserver(
-  scrollerRef: RefObject<HTMLElement>,
-  scrollerInnerRef: RefObject<HTMLElement>,
+  scrollerRef: RefObject<HTMLElement | null>,
+  scrollerInnerRef: RefObject<HTMLElement | null>,
   onScrollChange: (scroll: Scroll) => void
 ): void {
   const scrollRef = useRef<Scroll | null>(null);

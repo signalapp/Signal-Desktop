@@ -354,7 +354,7 @@ const renderItem = ({
   containerWidthBreakpoint,
 }: {
   messageId: string;
-  containerElementRef: React.RefObject<HTMLElement>;
+  containerElementRef: React.RefObject<HTMLElement | null>;
   containerWidthBreakpoint: WidthBreakpoint;
 }) => (
   <TimelineItem

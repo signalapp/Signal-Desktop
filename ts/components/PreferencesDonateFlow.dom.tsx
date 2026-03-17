@@ -136,7 +136,7 @@ export function PreferencesDonateFlow({
   submitDonation,
   onBack,
 }: PropsType): React.JSX.Element {
-  const tryClose = useRef<() => void | undefined>();
+  const tryClose = useRef<(() => void) | null>(null);
 
   // When returning to the donate flow with a pending PayPal payment, load the pending
   // amount in case the user wants to go back and choose a different payment processor.

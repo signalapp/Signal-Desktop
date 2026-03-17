@@ -13,7 +13,7 @@ export type SmartSafetyNumberModalProps = {
   contactID: string;
 };
 
-function renderSafetyNumberViewer(props: SafetyNumberProps): JSX.Element {
+function renderSafetyNumberViewer(props: SafetyNumberProps): React.JSX.Element {
   return <SmartSafetyNumberViewer key={props.contactID} {...props} />;
 }
 

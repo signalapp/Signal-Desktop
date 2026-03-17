@@ -12,7 +12,7 @@ import creditCardType from 'credit-card-type';
 import { strictAssert } from '../util/assert.std.js';
 
 export function useInputMask(
-  inputRef: RefObject<HTMLInputElement>,
+  inputRef: RefObject<HTMLInputElement | null>,
   formatter: Formatter
 ): void {
   useEffect(() => {

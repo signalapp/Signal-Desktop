@@ -119,7 +119,9 @@ export function Lightbox({
     null
   );
   const [shouldShowDownloadToast, setShouldShowDownloadToast] = useState(false);
-  const downloadToastTimeout = useRef<NodeJS.Timeout | number | undefined>();
+  const downloadToastTimeout = useRef<NodeJS.Timeout | number | undefined>(
+    undefined
+  );
 
   const [videoTime, setVideoTime] = useState<number | undefined>();
   const [isZoomed, setIsZoomed] = useState(false);
@@ -134,7 +136,7 @@ export function Lightbox({
         translateY: number;
       }
     | undefined
-  >();
+  >(undefined);
   const imageRef = useRef<HTMLImageElement | null>(null);
   const zoomCacheRef = useRef<
     | {
@@ -144,7 +146,7 @@ export function Lightbox({
         screenHeight: number;
       }
     | undefined
-  >();
+  >(undefined);
 
   const currentItem = media[selectedIndex];
 

@@ -17,7 +17,7 @@ export type PropsType = {
   showEditMemberLabelScreen: () => unknown;
 };
 
-export function GroupMemberLabelInfoModal(props: PropsType): JSX.Element {
+export function GroupMemberLabelInfoModal(props: PropsType): React.JSX.Element {
   const {
     canAddLabel,
     hasLabel,
