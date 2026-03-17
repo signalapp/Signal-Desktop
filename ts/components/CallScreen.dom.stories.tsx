@@ -235,7 +235,7 @@ const createProps = (
   getPresentingSources: action('get-presenting-sources'),
   hangUpActiveCall: action('hang-up'),
   i18n,
-  imageDataCache: React.createRef<CallingImageDataCache>(),
+  imageDataCache: React.createRef<CallingImageDataCache | null>(),
   isCallLinkAdmin: true,
   me: getDefaultConversation({
     color: AvatarColors[1],

@@ -25,12 +25,12 @@ export abstract class KeyboardDelegate<State> {
 }
 
 export type FunKeyboardNavigationOptions<State> = Readonly<{
-  scrollerRef: RefObject<HTMLElement>;
+  scrollerRef: RefObject<HTMLElement | null>;
   keyboard: KeyboardDelegate<State>;
 }>;
 
 export type FunKeyboardProps<State> = Readonly<{
-  scrollerRef: React.RefObject<HTMLElement>;
+  scrollerRef: React.RefObject<HTMLElement | null>;
   keyboard: KeyboardDelegate<State>;
   onStateChange: (state: State) => void;
   children: ReactNode;

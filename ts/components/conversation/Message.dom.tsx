@@ -367,7 +367,7 @@ export type PropsData = {
 };
 
 export type PropsHousekeeping = {
-  containerElementRef: RefObject<HTMLElement>;
+  containerElementRef: RefObject<HTMLElement | null>;
   containerWidthBreakpoint: WidthBreakpoint;
   disableScroll?: boolean;
   getPreferredBadge: PreferredBadgeSelectorType;
@@ -649,18 +649,19 @@ const MessageReactions = forwardRef(function MessageReactions(
 });
 
 export class Message extends React.PureComponent<Props, State> {
-  public focusRef: React.RefObject<HTMLDivElement> = React.createRef();
+  public focusRef: React.RefObject<HTMLDivElement | null> = React.createRef();
 
-  public audioButtonRef: React.RefObject<HTMLButtonElement> = React.createRef();
+  public audioButtonRef: React.RefObject<HTMLButtonElement | null> =
+    React.createRef();
 
-  public reactionsContainerRef: React.RefObject<HTMLDivElement> =
+  public reactionsContainerRef: React.RefObject<HTMLDivElement | null> =
     React.createRef();
 
   #hasSelectedTextRef: React.MutableRefObject<boolean> = {
     current: false,
   };
 
-  #metadataRef: React.RefObject<HTMLDivElement> = React.createRef();
+  #metadataRef: React.RefObject<HTMLDivElement | null> = React.createRef();
 
   public expirationCheckInterval: NodeJS.Timeout | undefined;
 
@@ -1530,7 +1531,6 @@ export class Message extends React.PureComponent<Props, State> {
         false,
         'renderAttachment(): Invalid case for permanently undownloadable attachment'
       );
-      return null;
     }
 
     const containerClassName = classNames(

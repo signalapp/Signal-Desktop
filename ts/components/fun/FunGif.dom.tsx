@@ -101,7 +101,7 @@ export function FunGifPreview(props: FunGifPreviewProps): React.JSX.Element {
   const [spinner, setSpinner] = useState(false);
   const [playbackError, setPlaybackError] = useState(false);
 
-  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   useEffect(() => {
     const timer = setTimeout(() => {

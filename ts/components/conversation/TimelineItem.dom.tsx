@@ -197,7 +197,7 @@ export type TimelineItemType = (
 ) & { timestamp: number };
 
 type PropsLocalType = {
-  containerElementRef: RefObject<HTMLElement>;
+  containerElementRef: RefObject<HTMLElement | null>;
   conversationId: string;
   getSharedGroupNames: GetSharedGroupNamesType;
   item?: TimelineItemType;

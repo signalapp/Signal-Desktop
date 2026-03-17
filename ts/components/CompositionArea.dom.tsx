@@ -369,7 +369,7 @@ export const CompositionArea = memo(function CompositionArea({
     AttachmentDraftType | undefined
   >();
   const [isPollModalOpen, setIsPollModalOpen] = useState(false);
-  const inputApiRef = useRef<InputApi | undefined>();
+  const inputApiRef = useRef<InputApi | null>(null);
   const fileInputRef = useRef<null | HTMLInputElement>(null);
   const photoVideoInputRef = useRef<null | HTMLInputElement>(null);
 

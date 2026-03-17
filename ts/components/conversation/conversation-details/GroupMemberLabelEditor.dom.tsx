@@ -149,7 +149,7 @@ export function GroupMemberLabelEditor({
     setIsShowingPermissionsError,
   ]);
 
-  const tryClose = React.useRef<() => void | undefined>();
+  const tryClose = React.useRef<(() => void) | null>(null);
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,
     name: 'GroupMemberLabelEditor',

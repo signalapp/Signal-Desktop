@@ -44,7 +44,7 @@ export class MentionCompletion {
 
   options: MentionCompletionOptions;
 
-  suggestionListRef: RefObject<HTMLDivElement>;
+  suggestionListRef: RefObject<HTMLDivElement | null>;
 
   outsideClickDestructor?: () => void;
 

@@ -597,7 +597,7 @@ export function UsernameLinkEditor({
     });
   }, [isResettingLink]);
 
-  const tryClose = useRef<() => void | undefined>();
+  const tryClose = useRef<(() => void) | null>(null);
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,
     name: 'UsernameLinkEditor',

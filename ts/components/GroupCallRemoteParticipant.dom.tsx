@@ -45,7 +45,7 @@ type BasePropsType = {
   getFrameBuffer: () => Uint8Array;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
-  imageDataCache: React.RefObject<CallingImageDataCache>;
+  imageDataCache: React.RefObject<CallingImageDataCache | null>;
   isActiveSpeakerInSpeakerView: boolean;
   isCallReconnecting: boolean;
   isInOverflow?: boolean;

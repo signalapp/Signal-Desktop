@@ -60,7 +60,7 @@ export const SmartChatsTab = memo(function SmartChatsTab() {
     useChatFolderActions();
   const { saveDraftRecordingIfNeeded } = useComposerActions();
 
-  const lastOpenedConversationId = useRef<string | undefined>();
+  const lastOpenedConversationId = useRef<string | undefined>(undefined);
 
   useEffect(() => {
     if (selectedConversationId !== lastOpenedConversationId.current) {

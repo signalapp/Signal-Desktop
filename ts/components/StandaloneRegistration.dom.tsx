@@ -21,7 +21,7 @@ function PhoneInput({
   onNumberChange: (number?: string) => void;
 }): React.JSX.Element {
   const [isValid, setIsValid] = useState(false);
-  const pluginRef = useRef<Iti | undefined>();
+  const pluginRef = useRef<Iti | null>(null);
   const elemRef = useRef<HTMLInputElement | null>(null);
 
   const onRef = useCallback(

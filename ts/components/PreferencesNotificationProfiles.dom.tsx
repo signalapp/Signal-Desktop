@@ -299,7 +299,7 @@ export function NotificationProfilesCreateFlow({
   const [endTime, setEndTime] = React.useState<number>(DEFAULT_END);
   const [color] = React.useState<number>(getRandomColor());
 
-  const tryClose = React.useRef<() => void | undefined>();
+  const tryClose = React.useRef<(() => void) | null>(null);
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,
     name: 'NotificationProfilesCreateFlow',

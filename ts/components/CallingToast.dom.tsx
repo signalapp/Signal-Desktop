@@ -70,7 +70,7 @@ export function CallingToastProvider({
 }: {
   i18n: LocalizerType;
   children: React.ReactNode;
-  region?: React.RefObject<HTMLElement>;
+  region?: React.RefObject<HTMLElement | null>;
   maxNonPersistentToasts?: number;
   lifetime?: number;
   transitionFrom?: object;

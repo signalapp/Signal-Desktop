@@ -492,7 +492,7 @@ type StartCallLinkLobbyPayloadType = {
 
 // eslint-disable-next-line local-rules/type-alias-readonlydeep
 export type SetRendererCanvasType = {
-  element: React.RefObject<HTMLCanvasElement> | undefined;
+  element: React.RefObject<HTMLCanvasElement | null> | undefined;
   sizeCallback: SizeCallbackType | undefined;
 };
 

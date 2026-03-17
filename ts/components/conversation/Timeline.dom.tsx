@@ -106,7 +106,7 @@ type PropsHousekeepingType = {
   ) => React.JSX.Element;
   renderHeroRow: (id: string) => React.JSX.Element;
   renderItem: (props: {
-    containerElementRef: RefObject<HTMLElement>;
+    containerElementRef: RefObject<HTMLElement | null>;
     containerWidthBreakpoint: WidthBreakpoint;
     conversationId: string;
     interactivity: MessageInteractivity;
@@ -651,7 +651,6 @@ export class Timeline extends React.Component<
             false,
             '<Timeline> got "scroll to index" scroll anchor, but no index'
           );
-          return null;
         }
         return { scrollToIndex };
       case ScrollAnchor.ScrollToUnreadIndicator:

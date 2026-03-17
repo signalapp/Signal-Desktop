@@ -128,7 +128,7 @@ export type PropsType = {
   groupMembers?: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
   hangUpActiveCall: (reason: string) => void;
   i18n: LocalizerType;
-  imageDataCache: React.RefObject<CallingImageDataCache>;
+  imageDataCache: React.RefObject<CallingImageDataCache | null>;
   isCallLinkAdmin: boolean;
   me: ConversationType;
   openSystemPreferencesAction: () => unknown;

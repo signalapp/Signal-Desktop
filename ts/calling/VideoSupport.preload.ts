@@ -416,7 +416,7 @@ export const MAX_VIDEO_CAPTURE_AREA =
 export const MAX_VIDEO_CAPTURE_BUFFER_SIZE = MAX_VIDEO_CAPTURE_AREA * 4;
 
 export class CanvasVideoRenderer {
-  private canvas?: RefObject<HTMLCanvasElement>;
+  private canvas?: RefObject<HTMLCanvasElement | null>;
   private sizeCallback?: SizeCallbackType;
   private buffer: Uint8Array;
   private imageData?: ImageData;
@@ -427,7 +427,7 @@ export class CanvasVideoRenderer {
     this.buffer = new Uint8Array(MAX_VIDEO_CAPTURE_BUFFER_SIZE);
   }
 
-  setCanvas(canvas: RefObject<HTMLCanvasElement> | undefined): void {
+  setCanvas(canvas: RefObject<HTMLCanvasElement | null> | undefined): void {
     this.canvas = canvas;
   }
   setSizer(callback: SizeCallbackType | undefined): void {

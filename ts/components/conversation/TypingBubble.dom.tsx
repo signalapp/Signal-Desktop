@@ -277,9 +277,9 @@ export function TypingBubble({
     [typingContactIdTimestamps]
   );
   const [shouldAnimate, setShouldAnimate] = useState(false);
-  const prevTypingContactIds = React.useRef<
-    ReadonlyArray<string> | undefined
-  >();
+  const prevTypingContactIds = React.useRef<ReadonlyArray<string> | undefined>(
+    undefined
+  );
   const isSomeoneTyping = useMemo(
     () => typingContactIds.length > 0,
     [typingContactIds]

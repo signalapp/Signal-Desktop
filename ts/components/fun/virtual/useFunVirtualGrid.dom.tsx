@@ -312,7 +312,7 @@ export type Cell = Readonly<{
 }>;
 
 export type FunVirtualGridOptions = Readonly<{
-  scrollerRef: RefObject<HTMLDivElement>;
+  scrollerRef: RefObject<HTMLDivElement | null>;
   sections: ReadonlyArray<GridSectionNode>;
   columns: number;
   overscan: number;

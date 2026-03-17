@@ -332,7 +332,9 @@ export function PollCreateModal({
             {options.map((option, index) => (
               <div key={option.id}>
                 <AutoSizeTextArea
-                  ref={el => optionRefsMap.current.set(option.id, el)}
+                  ref={el => {
+                    optionRefsMap.current.set(option.id, el);
+                  }}
                   i18n={i18n}
                   moduleClassName="PollCreateModalInput"
                   value={option.value}

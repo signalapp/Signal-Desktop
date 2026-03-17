@@ -56,7 +56,7 @@ const createProps = (
   getGroupCallVideoFrameSource: () => {
     return { receiveVideoFrame: () => undefined };
   },
-  imageDataCache: React.createRef<CallingImageDataCache>(),
+  imageDataCache: React.createRef<CallingImageDataCache | null>(),
   i18n,
   audioLevel: 0,
   remoteParticipant: {

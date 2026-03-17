@@ -101,7 +101,7 @@ export function SafetyNumberViewer({
     </div>
   );
 
-  let keyTransparency: JSX.Element | undefined;
+  let keyTransparency: React.JSX.Element | undefined;
   if (isKeyTransparencyEnabled) {
     keyTransparency = (
       <KeyTransparency
@@ -151,7 +151,7 @@ function KeyTransparency({
   status,
   contact,
   checkKeyTransparency,
-}: KeyTransparencyPropsType): JSX.Element {
+}: KeyTransparencyPropsType): React.JSX.Element {
   const [popup, setPopup] = useState<undefined | PopupPropsType['type']>();
 
   const resetPopup = useCallback(() => {
@@ -184,7 +184,7 @@ function KeyTransparency({
   let disabled = false;
   let arrow = false;
   let extraIconStyles: TailwindStyles | undefined;
-  let spinner: JSX.Element | undefined;
+  let spinner: React.JSX.Element | undefined;
   switch (status) {
     case 'idle':
       icon = 'key';
@@ -320,7 +320,12 @@ type PopupPropsType = Readonly<{
   onClose: () => void;
 }>;
 
-function Popup({ i18n, contact, type, onClose }: PopupPropsType): JSX.Element {
+function Popup({
+  i18n,
+  contact,
+  type,
+  onClose,
+}: PopupPropsType): React.JSX.Element {
   let icon: 'check-circle' | 'info';
   let title: string;
   let body: string;

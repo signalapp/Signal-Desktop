@@ -39,7 +39,7 @@ export type DataProps = Readonly<{
   renderContextMenu: (
     mediaItem: ReadonlyDeep<GenericMediaItemType>,
     children: ReactNode
-  ) => JSX.Element;
+  ) => React.JSX.Element;
 }>;
 
 // Provided by smart layer
