@@ -354,6 +354,28 @@ describe('backup/bubble messages', () => {
     );
   });
 
+  it('drops misattributed incoming 1:1 messages', async () => {
+    await asymmetricRoundtripHarness(
+      [
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          sourceServiceId: CONTACT_B,
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+          timestamp: 3,
+          body: 'hello',
+        },
+      ],
+      []
+    );
+  });
+
   it('updates incoming messages authored by self to outgoing', async () => {
     const ourConversation = window.ConversationController.get(OUR_ACI);
     strictAssert(ourConversation, 'our conversation exists');
@@ -1261,6 +1283,34 @@ describe('backup/bubble messages', () => {
       };
 
       await symmetricRoundtripHarness([incomingReply, outgoingReply]);
+    });
+
+    it('drops direct story text replies with no body', async () => {
+      strictAssert(ourConversation, 'conversation exists');
+
+      await asymmetricRoundtripHarness(
+        [
+          {
+            conversationId: contactA.id,
+            id: generateGuid(),
+            type: 'incoming',
+            body: '',
+            unidentifiedDeliveryReceived: true,
+            sourceServiceId: CONTACT_A,
+            received_at: 3,
+            received_at_ms: 3,
+            sent_at: 3,
+            timestamp: 3,
+            readStatus: ReadStatus.Read,
+            seenStatus: SeenStatus.Seen,
+            storyReplyContext: {
+              authorAci: OUR_ACI,
+              messageId: '',
+            },
+          },
+        ],
+        []
+      );
     });
 
     it('does not export group story replies', async () => {

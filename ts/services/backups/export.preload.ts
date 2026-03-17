@@ -1535,6 +1535,20 @@ export class BackupExportStream extends Readable {
       }
     }
 
+    // Drop messages in the wrong 1:1 chat
+    if (conversation && isDirectConversation(conversation.attributes)) {
+      const convoAuthor = this.#getOrPushPrivateRecipient({
+        id: conversation.attributes.id,
+      });
+
+      if (authorId !== me && authorId !== convoAuthor) {
+        log.warn(
+          `${message.sent_at}: Dropping direct message with mismatched author`
+        );
+        return undefined;
+      }
+    }
+
     if (isOutgoing || isIncoming) {
       strictAssert(authorId, 'Incoming/outgoing messages require an author');
     }
@@ -1791,10 +1805,15 @@ export class BackupExportStream extends Readable {
         };
       }
     } else if (message.storyReplyContext || message.storyReaction) {
+      const directStoryReplyMessage = await this.#toDirectStoryReplyMessage({
+        message,
+      });
+      if (!directStoryReplyMessage) {
+        return undefined;
+      }
+
       item = {
-        directStoryReplyMessage: await this.#toDirectStoryReplyMessage({
-          message,
-        }),
+        directStoryReplyMessage,
       };
 
       revisions = await this.#toChatItemRevisions(base, item, message);
@@ -3410,14 +3429,17 @@ export class BackupExportStream extends Readable {
       | 'received_at'
       | 'reactions'
     >;
-  }): Promise<Backups.DirectStoryReplyMessage.Params> {
+  }): Promise<Backups.DirectStoryReplyMessage.Params | undefined> {
     const reactions = this.#getMessageReactions(message);
 
     let reply: Backups.DirectStoryReplyMessage.Params['reply'];
     if (message.storyReaction) {
       reply = { emoji: message.storyReaction.emoji };
-    } else {
+    } else if (message.body) {
       reply = { textReply: await this.#toTextAndLongTextFields(message) };
+    } else {
+      log.warn('Dropping direct story reply message without reaction or body');
+      return undefined;
     }
 
     return { reply, reactions };
@@ -3532,10 +3554,15 @@ export class BackupExportStream extends Readable {
 
           let item: Backups.ChatItem.Params['item'];
           if (parentItem.directStoryReplyMessage) {
-            item = {
-              directStoryReplyMessage: await this.#toDirectStoryReplyMessage({
+            const directStoryReplyMessage =
+              await this.#toDirectStoryReplyMessage({
                 message: history,
-              }),
+              });
+            if (!directStoryReplyMessage) {
+              return undefined;
+            }
+            item = {
+              directStoryReplyMessage,
             };
           } else {
             const standardMessage = await this.#toStandardMessage({
