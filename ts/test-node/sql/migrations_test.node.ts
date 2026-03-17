@@ -2457,7 +2457,7 @@ describe('SQL migrations test', () => {
       const payload = db.prepare('SELECT * FROM sendLogPayloads LIMIT 1;').get<{
         contentHint: number;
         timestamp: number;
-        proto: Uint8Array;
+        proto: Uint8Array<ArrayBuffer>;
         urgent: number;
       }>();
 

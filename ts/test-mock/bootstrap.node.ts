@@ -617,7 +617,7 @@ export class Bootstrap {
     ) => Promise<void>,
     test?: Mocha.Runnable
   ): Promise<(app: App) => Promise<void>> {
-    const snapshots = new Array<{ name: string; data: Buffer }>();
+    const snapshots = new Array<{ name: string; data: Buffer<ArrayBuffer> }>();
     const viewportSize = { width: 1000, height: 2000 } as const;
     const window = await app.getWindow();
     await window.setViewportSize(viewportSize);
@@ -692,7 +692,7 @@ export class Bootstrap {
   }
 
   public async encryptAndStoreAttachmentOnCDN(
-    data: Buffer,
+    data: Buffer<ArrayBuffer>,
     contentType: MIMEType
   ): Promise<Proto.AttachmentPointer.Params> {
     const cdnKey = uuid();

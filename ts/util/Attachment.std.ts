@@ -171,7 +171,7 @@ export function hasData(attachment: AttachmentType): boolean {
 export function loadData(
   readAttachmentV2Data: (
     attachment: Partial<AddressableAttachmentType>
-  ) => Promise<Uint8Array>
+  ) => Promise<Uint8Array<ArrayBuffer>>
 ): (
   attachment: Partial<AttachmentType>
 ) => Promise<AttachmentWithHydratedData> {
@@ -627,9 +627,9 @@ export const save = async ({
   }) => string;
   readAttachmentData: (
     attachment: Partial<AddressableAttachmentType>
-  ) => Promise<Uint8Array>;
+  ) => Promise<Uint8Array<ArrayBuffer>>;
   saveAttachmentToDisk: (options: {
-    data: Uint8Array;
+    data: Uint8Array<ArrayBuffer>;
     name: string;
     baseDir?: string;
   }) => Promise<{ name: string; fullPath: string } | null>;
@@ -640,7 +640,7 @@ export const save = async ({
    */
   baseDir?: string;
 }): Promise<string | null> => {
-  let data: Uint8Array;
+  let data: Uint8Array<ArrayBuffer>;
   if (attachment.path) {
     data = await readAttachmentData(attachment);
   } else if (attachment.data) {

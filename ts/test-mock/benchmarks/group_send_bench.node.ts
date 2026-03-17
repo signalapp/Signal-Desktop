@@ -49,7 +49,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
   const { server, desktop } = bootstrap;
   const [first] = members as [PrimaryDevice];
 
-  const messages = new Array<Buffer>();
+  const messages = new Array<Buffer<ArrayBuffer>>();
   debug('encrypting');
   // Fill left pane
   for (const contact of members.slice(0, CONVERSATION_SIZE).reverse()) {
@@ -190,7 +190,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     runId,
     delay,
   }: {
-    receipts: Array<Buffer>;
+    receipts: Array<Buffer<ArrayBuffer>>;
     batchSize: number;
     nextBatchSize: number;
     runId: number;
@@ -216,7 +216,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     }
   }
 
-  let receiptsFromPreviousMessage: Array<Buffer> = [];
+  let receiptsFromPreviousMessage: Array<Buffer<ArrayBuffer>> = [];
   for (let runId = 0; runId < RUN_COUNT + DISCARD_COUNT; runId += 1) {
     debug(`sending previous ${receiptsFromPreviousMessage.length} receipts`);
 

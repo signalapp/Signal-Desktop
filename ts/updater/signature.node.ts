@@ -21,7 +21,7 @@ export async function generateSignature(
   updatePackagePath: string,
   version: string,
   privateKeyPath: string
-): Promise<Uint8Array> {
+): Promise<Uint8Array<ArrayBuffer>> {
   const privateKey = await loadHexFromPath(privateKeyPath);
   const message = await generateMessage(updatePackagePath, version);
 
@@ -31,8 +31,8 @@ export async function generateSignature(
 export async function verifySignature(
   updatePackagePath: string,
   version: string,
-  signature: Uint8Array,
-  publicKey: Uint8Array
+  signature: Uint8Array<ArrayBuffer>,
+  publicKey: Uint8Array<ArrayBuffer>
 ): Promise<boolean> {
   const message = await generateMessage(updatePackagePath, version);
 
@@ -44,7 +44,7 @@ export async function verifySignature(
 async function generateMessage(
   updatePackagePath: string,
   version: string
-): Promise<Uint8Array> {
+): Promise<Uint8Array<ArrayBuffer>> {
   const hash = await _getFileHash(updatePackagePath);
   const messageString = `${Buffer.from(hash).toString('hex')}-${version}`;
 
@@ -55,7 +55,7 @@ export async function writeSignature(
   updatePackagePath: string,
   version: string,
   privateKeyPath: string
-): Promise<Uint8Array> {
+): Promise<Uint8Array<ArrayBuffer>> {
   const signaturePath = getSignaturePath(updatePackagePath);
   const signature = await generateSignature(
     updatePackagePath,
@@ -67,7 +67,9 @@ export async function writeSignature(
   return signature;
 }
 
-export async function _getFileHash(updatePackagePath: string): Promise<Buffer> {
+export async function _getFileHash(
+  updatePackagePath: string
+): Promise<Buffer<ArrayBuffer>> {
   const hash = createHash('sha256');
   await pipeline(createReadStream(updatePackagePath), hash);
 
@@ -86,15 +88,17 @@ export function getSignaturePath(updatePackagePath: string): string {
   return join(updateDir, getSignatureFileName(updateFileName));
 }
 
-export function hexToBinary(target: string): Buffer {
+export function hexToBinary(target: string): Buffer<ArrayBuffer> {
   return Buffer.from(target, 'hex');
 }
 
-export function binaryToHex(data: Uint8Array): string {
+export function binaryToHex(data: Uint8Array<ArrayBuffer>): string {
   return Buffer.from(data).toString('hex');
 }
 
-export async function loadHexFromPath(target: string): Promise<Buffer> {
+export async function loadHexFromPath(
+  target: string
+): Promise<Buffer<ArrayBuffer>> {
   const hexString = await readFile(target, 'utf8');
 
   return hexToBinary(hexString);
@@ -102,7 +106,7 @@ export async function loadHexFromPath(target: string): Promise<Buffer> {
 
 export async function writeHexToPath(
   target: string,
-  data: Uint8Array
+  data: Uint8Array<ArrayBuffer>
 ): Promise<void> {
   await writeFile(target, binaryToHex(data));
 }

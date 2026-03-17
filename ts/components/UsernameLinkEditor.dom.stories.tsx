@@ -71,23 +71,26 @@ export default {
 // eslint-disable-next-line react/function-component-definition
 const Template: StoryFn<PropsType> = args => {
   const [attachment, setAttachment] = useState<string | undefined>();
-  const saveAttachment = useCallback(({ data }: { data?: Uint8Array }) => {
-    if (!data) {
-      setAttachment(undefined);
-      return;
-    }
-
-    const blob = new Blob([data], {
-      type: 'image/png',
-    });
-
-    setAttachment(oldURL => {
-      if (oldURL) {
-        URL.revokeObjectURL(oldURL);
+  const saveAttachment = useCallback(
+    ({ data }: { data?: Uint8Array<ArrayBuffer> }) => {
+      if (!data) {
+        setAttachment(undefined);
+        return;
       }
-      return URL.createObjectURL(blob);
-    });
-  }, []);
+
+      const blob = new Blob([data], {
+        type: 'image/png',
+      });
+
+      setAttachment(oldURL => {
+        if (oldURL) {
+          URL.revokeObjectURL(oldURL);
+        }
+        return URL.createObjectURL(blob);
+      });
+    },
+    []
+  );
 
   return (
     <>

@@ -42,12 +42,12 @@ try {
 
 export const createPlaintextReader = (
   root: string
-): ((relativePath: string) => Promise<Uint8Array>) => {
+): ((relativePath: string) => Promise<Uint8Array<ArrayBuffer>>) => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
   }
 
-  return async (relativePath: string): Promise<Uint8Array> => {
+  return async (relativePath: string): Promise<Uint8Array<ArrayBuffer>> => {
     if (!isString(relativePath)) {
       throw new TypeError("'relativePath' must be a string");
     }
@@ -110,12 +110,12 @@ export const copyIntoAttachmentsDirectory = ({
 export const createWriterForNew = (
   root: string,
   suffix?: string
-): ((bytes: Uint8Array) => Promise<string>) => {
+): ((bytes: Uint8Array<ArrayBuffer>) => Promise<string>) => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
   }
 
-  return async (bytes: Uint8Array) => {
+  return async (bytes: Uint8Array<ArrayBuffer>) => {
     if (!isTypedArray(bytes)) {
       throw new TypeError("'bytes' must be a typed array");
     }
@@ -131,7 +131,10 @@ export const createWriterForNew = (
 
 const createWriterForExisting = (
   root: string
-): ((options: { data?: Uint8Array; path?: string }) => Promise<string>) => {
+): ((options: {
+  data?: Uint8Array<ArrayBuffer>;
+  path?: string;
+}) => Promise<string>) => {
   if (!isString(root)) {
     throw new TypeError("'root' must be a path");
   }
@@ -140,7 +143,7 @@ const createWriterForExisting = (
     data: bytes,
     path: relativePath,
   }: {
-    data?: Uint8Array;
+    data?: Uint8Array<ArrayBuffer>;
     path?: string;
   }): Promise<string> => {
     if (!isString(relativePath)) {
@@ -212,7 +215,7 @@ const showSaveDialog = (
 
 async function writeWithAttributes(
   target: string,
-  data: Uint8Array
+  data: Uint8Array<ArrayBuffer>
 ): Promise<void> {
   await fse.writeFile(target, Buffer.from(data));
 
@@ -245,7 +248,7 @@ export const saveAttachmentToDisk = async ({
   name,
   baseDir,
 }: {
-  data: Uint8Array;
+  data: Uint8Array<ArrayBuffer>;
   name: string;
   /**
    * Base directory for saving the attachment.

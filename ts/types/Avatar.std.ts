@@ -57,7 +57,7 @@ export type AvatarIconType = GroupAvatarIconType | PersonalAvatarIconType;
 
 export type AvatarDataType = {
   id: number | string;
-  buffer?: Uint8Array;
+  buffer?: Uint8Array<ArrayBuffer>;
   color?: AvatarColorType;
   icon?: AvatarIconType;
   text?: string;
@@ -86,8 +86,8 @@ export type SaveAvatarToDiskActionType = (
 ) => unknown;
 
 export type AvatarUpdateType = Readonly<{
-  oldAvatar: Uint8Array | undefined;
-  newAvatar: Uint8Array | undefined;
+  oldAvatar: Uint8Array<ArrayBuffer> | undefined;
+  newAvatar: Uint8Array<ArrayBuffer> | undefined;
 }>;
 
 export type AvatarUpdateOptionsType = Readonly<

@@ -3,5 +3,5 @@
 
 export type SafetyNumberType = Readonly<{
   numberBlocks: ReadonlyArray<string>;
-  qrData: Uint8Array;
+  qrData: Uint8Array<ArrayBuffer>;
 }>;

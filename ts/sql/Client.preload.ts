@@ -301,7 +301,7 @@ function specToBytes<Input, Output>(
   spec: ObjectMappingSpecType,
   data: Input
 ): Output {
-  return mapObjectWithSpec<string, Uint8Array>(spec, data, x =>
+  return mapObjectWithSpec<string, Uint8Array<ArrayBuffer>>(spec, data, x =>
     Bytes.fromBase64(x)
   );
 }
@@ -310,7 +310,7 @@ function specFromBytes<Input, Output>(
   spec: ObjectMappingSpecType,
   data: Input
 ): Output {
-  return mapObjectWithSpec<Uint8Array, string>(spec, data, x =>
+  return mapObjectWithSpec<Uint8Array<ArrayBuffer>, string>(spec, data, x =>
     Bytes.toBase64(x)
   );
 }

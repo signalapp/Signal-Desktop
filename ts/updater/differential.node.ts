@@ -64,7 +64,7 @@ export type PrepareDownloadResultType = Readonly<{
   diff: ComputeDiffResultType;
 
   // This could be used by caller to avoid extra download of the blockmap
-  newBlockMap: Buffer;
+  newBlockMap: Buffer<ArrayBuffer>;
 }>;
 
 export type PrepareDownloadOptionsType = Readonly<{
@@ -97,7 +97,9 @@ export function getBlockMapFileName(fileName: string): string {
   return `${fileName}.blockmap`;
 }
 
-export async function parseBlockMap(data: Buffer): Promise<BlockMapType> {
+export async function parseBlockMap(
+  data: Buffer<ArrayBuffer>
+): Promise<BlockMapType> {
   const unpacked = await gunzip(data);
   const json: BlockMapFileJSONType = JSON.parse(unpacked.toString());
 
@@ -216,10 +218,11 @@ export async function prepareDownload({
     await readFile(getBlockMapFileName(oldFile))
   );
 
-  const newBlockMapData = await got(
-    getBlockMapFileName(newUrl),
-    await getGotOptions()
-  ).buffer();
+  const url = getBlockMapFileName(newUrl);
+  const opts = await getGotOptions();
+
+  // @ts-expect-error https://github.com/sindresorhus/got/issues/2418#issuecomment-4071277145
+  const newBlockMapData: Buffer<ArrayBuffer> = await got(url, opts).buffer();
 
   const newBlockMap = await parseBlockMap(newBlockMapData);
 

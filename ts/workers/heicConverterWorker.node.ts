@@ -15,7 +15,11 @@ if (!parentPort) {
 
 const port = parentPort;
 
-function respond(uuid: string, error: Error | undefined, response?: Buffer) {
+function respond(
+  uuid: string,
+  error: Error | undefined,
+  response?: Buffer<ArrayBuffer>
+) {
   const wrappedResponse: WrappedWorkerResponse = {
     uuid,
     error: error?.stack,

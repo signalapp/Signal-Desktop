@@ -67,6 +67,6 @@ export type BackupsSubscriptionType = (
 
 export type LocalBackupMetadataVerificationType = {
   snapshotDir: string;
-  backupId: Uint8Array;
-  metadataKey: Uint8Array;
+  backupId: Uint8Array<ArrayBuffer>;
+  metadataKey: Uint8Array<ArrayBuffer>;
 };

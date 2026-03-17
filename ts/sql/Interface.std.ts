@@ -124,7 +124,7 @@ export type IdentityKeyType = {
   firstUse: boolean;
   id: ServiceIdString | `conversation:${string}`;
   nonblockingApproval: boolean;
-  publicKey: Uint8Array;
+  publicKey: Uint8Array<ArrayBuffer>;
   timestamp: number;
   verified: number;
 };
@@ -239,7 +239,7 @@ export type KyberPreKeyType = {
   id: PreKeyIdType;
 
   createdAt: number;
-  data: Uint8Array;
+  data: Uint8Array<ArrayBuffer>;
   isConfirmed: boolean;
   isLastResort: boolean;
   keyId: number;
@@ -254,8 +254,8 @@ export type PreKeyType = {
   createdAt: number;
   keyId: number;
   ourServiceId: ServiceIdString;
-  privateKey: Uint8Array;
-  publicKey: Uint8Array;
+  privateKey: Uint8Array<ArrayBuffer>;
+  publicKey: Uint8Array<ArrayBuffer>;
 };
 
 export type StoredPreKeyType = PreKeyType & {
@@ -281,14 +281,14 @@ export type ClientSearchResultMessageType = MessageType & {
 
 export type SentProtoType = {
   contentHint: number;
-  proto: Uint8Array;
+  proto: Uint8Array<ArrayBuffer>;
   timestamp: number;
   urgent: boolean;
   hasPniSignatureMessage: boolean;
 };
 export type SentProtoDBType = {
   contentHint: number;
-  proto: Uint8Array;
+  proto: Uint8Array<ArrayBuffer>;
   timestamp: number;
   urgent: number;
   hasPniSignatureMessage: number;
@@ -317,7 +317,7 @@ export type SenderKeyType = {
   senderId: string;
   distributionId: string;
   // Raw data to serialize/deserialize into signal-client SenderKeyRecord
-  data: Uint8Array;
+  data: Uint8Array<ArrayBuffer>;
   lastUpdatedDate: number;
 };
 export type SenderKeyIdType = SenderKeyType['id'];
@@ -327,7 +327,7 @@ export type SessionType = {
   serviceId: ServiceIdString;
   conversationId: string;
   deviceId: number;
-  record: Uint8Array;
+  record: Uint8Array<ArrayBuffer>;
 };
 export type SessionIdType = SessionType['id'];
 export type SignedPreKeyType = {
@@ -336,8 +336,8 @@ export type SignedPreKeyType = {
   ourServiceId: ServiceIdString;
   id: `${ServiceIdString}:${number}`;
   keyId: number;
-  privateKey: Uint8Array;
-  publicKey: Uint8Array;
+  privateKey: Uint8Array<ArrayBuffer>;
+  publicKey: Uint8Array<ArrayBuffer>;
 };
 export type StoredSignedPreKeyType = {
   confirmed: boolean;
@@ -381,7 +381,7 @@ export type StickerPackStatusType = (typeof StickerPackStatuses)[number];
 export type StorageServiceFieldsType = Readonly<{
   storageID?: string | null;
   storageVersion?: number | null;
-  storageUnknownFields?: Uint8Array | null;
+  storageUnknownFields?: Uint8Array<ArrayBuffer> | null;
   storageNeedsSync: boolean;
 }>;
 
@@ -441,7 +441,7 @@ export type UnprocessedType = {
   attempts: number;
   type: number;
   isEncrypted: boolean;
-  content: Uint8Array;
+  content: Uint8Array<ArrayBuffer>;
 
   messageAgeSec: number;
   source: string | undefined;
@@ -453,7 +453,7 @@ export type UnprocessedType = {
   serverTimestamp: number;
   urgent: boolean;
   story: boolean;
-  reportingToken: Uint8Array | undefined;
+  reportingToken: Uint8Array<ArrayBuffer> | undefined;
   groupId: string | undefined;
 };
 
@@ -675,7 +675,7 @@ export type NonAttachmentMediaItemDBType =
 export type KyberPreKeyTripleType = Readonly<{
   id: PreKeyIdType;
   signedPreKeyId: number;
-  baseKey: Uint8Array;
+  baseKey: Uint8Array<ArrayBuffer>;
 }>;
 
 export type GetMessagesBetweenOptions = Readonly<{
@@ -1074,7 +1074,7 @@ type ReadableInterface = {
   hasMegaphone: (megaphoneId: RemoteMegaphoneId) => boolean;
 
   getAllKTAcis: () => ReadonlyArray<AciString>;
-  getKTAccountData: (aci: AciString) => Uint8Array | undefined;
+  getKTAccountData: (aci: AciString) => Uint8Array<ArrayBuffer> | undefined;
 
   getAllPinnedMessages: () => ReadonlyArray<PinnedMessage>;
   getPinnedMessagesPreloadDataForConversation: (
@@ -1450,7 +1450,7 @@ type WritableInterface = {
   internalDeleteAllMegaphones: () => number;
 
   removeAllKTAccountData: () => void;
-  setKTAccountData: (aci: AciString, data: Uint8Array) => void;
+  setKTAccountData: (aci: AciString, data: Uint8Array<ArrayBuffer>) => void;
 
   appendPinnedMessage: (
     pinnedMessagesLimit: number,

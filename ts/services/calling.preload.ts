@@ -622,10 +622,14 @@ export class CallingClass {
     RingRTC.handleRejectedIncomingCallRequest =
       this.#handleRejectedIncomingCallRequest.bind(this);
     RingRTC.handleLogMessage = this.#handleLogMessage.bind(this);
+    // @ts-expect-error needs ringrtc update
     RingRTC.handleSendHttpRequest = this.#handleSendHttpRequest.bind(this);
+    // @ts-expect-error needs ringrtc update
     RingRTC.handleSendCallMessage = this.#handleSendCallMessage.bind(this);
+    // @ts-expect-error needs ringrtc update
     RingRTC.handleSendCallMessageToGroup =
       this.#handleSendCallMessageToGroup.bind(this);
+    // @ts-expect-error needs ringrtc update
     RingRTC.handleGroupCallRingUpdate =
       this.#handleGroupCallRingUpdate.bind(this);
 
@@ -857,15 +861,22 @@ export class CallingClass {
     );
 
     const rootKey = CallLinkRootKey.generate();
+    // @ts-expect-error needs ringrtc update
+    const rootKeyBytes: Uint8Array<ArrayBuffer> = rootKey.bytes;
     const roomId = rootKey.deriveRoomId();
-    const roomIdHex = Bytes.toHex(roomId);
+    // @ts-expect-error needs ringrtc update
+    const roomIdBytes: Uint8Array<ArrayBuffer> = roomId;
+    const roomIdHex = Bytes.toHex(roomIdBytes);
     const logId = `createCallLink(${roomIdHex})`;
 
     log.info(`${logId}: Creating call link`);
 
     const adminKey = CallLinkRootKey.generateAdminPassKey();
+    // @ts-expect-error needs ringrtc update
+    const adminKeyBytes: Uint8Array<ArrayBuffer> = adminKey;
 
-    const context = CreateCallLinkCredentialRequestContext.forRoomId(roomId);
+    const context =
+      CreateCallLinkCredentialRequestContext.forRoomId(roomIdBytes);
     const requestBase64 = Bytes.toBase64(context.getRequest().serialize());
 
     const { credential: credentialBase64 } =
@@ -884,10 +895,10 @@ export class CallingClass {
       genericServerPublicParams
     );
 
-    const secretParams = CallLinkSecretParams.deriveFromRootKey(rootKey.bytes);
+    const secretParams = CallLinkSecretParams.deriveFromRootKey(rootKeyBytes);
 
     const credentialPresentation = credential
-      .present(roomId, userId, genericServerPublicParams, secretParams)
+      .present(roomIdBytes, userId, genericServerPublicParams, secretParams)
       .serialize();
     const serializedPublicParams = secretParams.getPublicParams().serialize();
 
@@ -913,7 +924,7 @@ export class CallingClass {
     const callLink: CallLinkType = {
       roomId: roomIdHex,
       rootKey: maybeUpdatedRootKey,
-      adminKey: Bytes.toBase64(adminKey),
+      adminKey: Bytes.toBase64(adminKeyBytes),
       storageNeedsSync: true,
       ...state,
     };
@@ -1078,7 +1089,7 @@ export class CallingClass {
     preferLocalVideo = true,
   }: Readonly<{
     callLinkRootKey: CallLinkRootKey;
-    adminPasskey: Uint8Array | undefined;
+    adminPasskey: Uint8Array<ArrayBuffer> | undefined;
     hasLocalAudio: boolean;
     preferLocalVideo?: boolean;
   }>): Promise<
@@ -1468,8 +1479,8 @@ export class CallingClass {
     roomId: string;
     authCredentialPresentation: CallLinkAuthCredentialPresentation;
     callLinkRootKey: CallLinkRootKey;
-    adminPasskey: Uint8Array | undefined;
-    endorsementsPublicKey: Uint8Array;
+    adminPasskey: Uint8Array<ArrayBuffer> | undefined;
+    endorsementsPublicKey: Uint8Array<ArrayBuffer>;
   }): GroupCall {
     const existing = this.#getGroupCall(roomId);
     if (existing) {
@@ -1867,7 +1878,13 @@ export class CallingClass {
     const ourAci = itemStorage.user.getCheckedAci();
     const reason = `sendProfileKeysForAdhocCall(${roomId})`;
     peekInfo.devices.forEach(async device => {
-      const aci = device.userId ? this.#formatUserId(device.userId) : null;
+      let aci: AciString | null = null;
+
+      if (device.userId) {
+        // @ts-expect-error needs ringrtc update
+        const userIdBytes: Uint8Array<ArrayBuffer> = device.userId;
+        aci = this.#formatUserId(userIdBytes);
+      }
       if (
         !aci ||
         aci === ourAci ||
@@ -2137,7 +2154,7 @@ export class CallingClass {
     }
   }
 
-  #formatUserId(userId: Uint8Array): AciString | null {
+  #formatUserId(userId: Uint8Array<ArrayBuffer>): AciString | null {
     const uuid = bytesToUuid(userId);
     if (uuid && isAciString(uuid)) {
       return uuid;
@@ -2152,11 +2169,20 @@ export class CallingClass {
   public formatGroupCallPeekInfoForRedux(
     peekInfo: PeekInfo
   ): GroupCallPeekInfoType {
-    const creatorAci = peekInfo.creator && bytesToUuid(peekInfo.creator);
+    let creatorAci: string | undefined;
+
+    if (peekInfo.creator) {
+      // @ts-expect-error needs ringrtc update
+      const creatorBytes: Uint8Array<ArrayBuffer> = peekInfo.creator;
+      creatorAci = bytesToUuid(creatorBytes);
+    }
+
     return {
       acis: peekInfo.devices.map(peekDeviceInfo => {
         if (peekDeviceInfo.userId) {
-          const uuid = this.#formatUserId(peekDeviceInfo.userId);
+          // @ts-expect-error needs ringrtc update
+          const userIdBytes: Uint8Array<ArrayBuffer> = peekDeviceInfo.userId;
+          const uuid = this.#formatUserId(userIdBytes);
           if (uuid) {
             return uuid;
           }
@@ -2171,7 +2197,11 @@ export class CallingClass {
         );
       }),
       pendingAcis: compact(
-        peekInfo.pendingUsers.map(userId => this.#formatUserId(userId))
+        peekInfo.pendingUsers.map(userId => {
+          // @ts-expect-error needs ringrtc update;
+          const userIdBytes: Uint8Array<ArrayBuffer> = userId;
+          return this.#formatUserId(userIdBytes);
+        })
       ),
       creatorAci:
         creatorAci !== undefined
@@ -2217,7 +2247,9 @@ export class CallingClass {
         ? this.formatGroupCallPeekInfoForRedux(peekInfo)
         : undefined,
       remoteParticipants: remoteDeviceStates.map(remoteDeviceState => {
-        let aci = bytesToUuid(remoteDeviceState.userId);
+        // @ts-expect-error needs ringrtc update
+        const userIdBytes: Uint8Array<ArrayBuffer> = remoteDeviceState.userId;
+        let aci = bytesToUuid(userIdBytes);
         if (!aci) {
           log.error(
             'formatGroupCallForRedux: could not convert remote participant UUID Uint8Array to string; using fallback UUID'
@@ -3225,8 +3257,8 @@ export class CallingClass {
   }
 
   async #handleSendCallMessage(
-    recipient: Uint8Array,
-    data: Uint8Array,
+    recipient: Uint8Array<ArrayBuffer>,
+    data: Uint8Array<ArrayBuffer>,
     urgency: CallMessageUrgency
   ): Promise<boolean> {
     const userId = bytesToUuid(recipient);
@@ -3242,10 +3274,10 @@ export class CallingClass {
 
   // Used to send a variety of group call messages, including the initial call message
   async #handleSendCallMessageToGroup(
-    groupIdBytes: Uint8Array,
-    data: Uint8Array,
+    groupIdBytes: Uint8Array<ArrayBuffer>,
+    data: Uint8Array<ArrayBuffer>,
     urgency: CallMessageUrgency,
-    overrideRecipients: Array<Uint8Array> = []
+    overrideRecipients: Array<Uint8Array<ArrayBuffer>> = []
   ): Promise<boolean> {
     const groupId = Bytes.toBase64(groupIdBytes);
     const conversation = window.ConversationController.get(groupId);
@@ -3313,9 +3345,9 @@ export class CallingClass {
   }
 
   async #handleGroupCallRingUpdate(
-    groupIdBytes: Uint8Array,
+    groupIdBytes: Uint8Array<ArrayBuffer>,
     ringId: bigint,
-    ringerBytes: Uint8Array,
+    ringerBytes: Uint8Array<ArrayBuffer>,
     update: RingUpdate
   ): Promise<void> {
     log.info(`handleGroupCallRingUpdate(): got ring update ${update}`);
@@ -3773,7 +3805,7 @@ export class CallingClass {
     url: string,
     method: HttpMethod,
     headers: { [name: string]: string },
-    body: Uint8Array | undefined
+    body: Uint8Array<ArrayBuffer> | undefined
   ) {
     const httpMethod = RINGRTC_HTTP_METHOD_TO_OUR_HTTP_METHOD.get(method);
     if (httpMethod === undefined) {

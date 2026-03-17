@@ -180,7 +180,7 @@ export async function sendNormalMessage(
     return;
   }
 
-  let profileKey: Uint8Array | undefined;
+  let profileKey: Uint8Array<ArrayBuffer> | undefined;
   if (conversation.get('profileSharing')) {
     profileKey = await ourProfileKeyService.get();
   }

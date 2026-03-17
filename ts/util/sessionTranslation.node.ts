@@ -70,13 +70,13 @@ type SessionRecordType = {
 };
 
 export type LocalUserDataType = {
-  identityKeyPublic: Uint8Array;
+  identityKeyPublic: Uint8Array<ArrayBuffer>;
   registrationId: number;
 };
 
 export function sessionStructureToBytes(
   recordStructure: signal.proto.storage.RecordStructure.Params
-): Uint8Array {
+): Uint8Array<ArrayBuffer> {
   return signal.proto.storage.RecordStructure.encode(recordStructure);
 }
 
@@ -308,7 +308,7 @@ function toProtobufChain(
 
 const WHISPER_MESSAGE_KEYS = 'WhisperMessageKeys';
 
-function translateMessageKey(key: Uint8Array) {
+function translateMessageKey(key: Uint8Array<ArrayBuffer>) {
   const input = key;
   const salt = new Uint8Array(32);
   const info = Bytes.fromString(WHISPER_MESSAGE_KEYS);
@@ -327,7 +327,7 @@ function binaryToUint8Array(
   object: any,
   path: string,
   length: number
-): Uint8Array {
+): Uint8Array<ArrayBuffer> {
   const target = get(object, path);
   if (target == null) {
     throw new Error(`binaryToUint8Array: Falsey path ${path}`);

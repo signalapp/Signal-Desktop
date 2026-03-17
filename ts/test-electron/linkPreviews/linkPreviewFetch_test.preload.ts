@@ -18,7 +18,9 @@ import {
   fetchLinkPreviewMetadata,
 } from '../../linkPreviews/linkPreviewFetch.preload.js';
 
-async function readFixtureImage(filename: string): Promise<Uint8Array> {
+async function readFixtureImage(
+  filename: string
+): Promise<Uint8Array<ArrayBuffer>> {
   const result = await fs.promises.readFile(
     path.join(__dirname, '..', '..', '..', 'fixtures', filename)
   );
@@ -60,11 +62,15 @@ describe('link preview fetching', () => {
     }: {
       status?: number;
       headers?: { [key: string]: null | string };
-      body?: null | string | Uint8Array | AsyncIterable<Uint8Array>;
+      body?:
+        | null
+        | string
+        | Uint8Array<ArrayBuffer>
+        | AsyncIterable<Uint8Array<ArrayBuffer>>;
       url?: string;
     } = {}) => {
       let bodyLength: null | number;
-      let bodyStream: null | AsyncIterable<Uint8Array>;
+      let bodyStream: null | AsyncIterable<Uint8Array<ArrayBuffer>>;
       if (!body) {
         bodyLength = 0;
         bodyStream = null;

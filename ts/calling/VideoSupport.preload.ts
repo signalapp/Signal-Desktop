@@ -418,7 +418,7 @@ export const MAX_VIDEO_CAPTURE_BUFFER_SIZE = MAX_VIDEO_CAPTURE_AREA * 4;
 export class CanvasVideoRenderer {
   private canvas?: RefObject<HTMLCanvasElement | null>;
   private sizeCallback?: SizeCallbackType;
-  private buffer: Uint8Array;
+  private buffer: Uint8Array<ArrayBuffer>;
   private imageData?: ImageData;
   private source?: VideoFrameSource;
   private rafId?: ReturnType<typeof requestAnimationFrame>;

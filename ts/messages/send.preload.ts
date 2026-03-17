@@ -276,7 +276,7 @@ export async function sendSyncMessageOnly(
     saveErrors,
   }: {
     targetTimestamp: number;
-    dataMessage: Uint8Array;
+    dataMessage: Uint8Array<ArrayBuffer>;
     saveErrors?: (errors: Array<Error>) => void;
   }
 ): Promise<CallbackResultType | void> {

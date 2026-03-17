@@ -21,7 +21,7 @@ import { itemStorage } from '../textsecure/Storage.preload.js';
 export async function encryptProfileData(
   conversation: ConversationType,
   { oldAvatar, newAvatar }: AvatarUpdateType
-): Promise<[ProfileRequestDataType, Uint8Array | undefined]> {
+): Promise<[ProfileRequestDataType, Uint8Array<ArrayBuffer> | undefined]> {
   const {
     aboutEmoji,
     aboutText,

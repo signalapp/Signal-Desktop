@@ -978,7 +978,7 @@ const getGroupCreationComposerState = createSelector(
     composerState
   ): {
     groupName: string;
-    groupAvatar: undefined | Uint8Array;
+    groupAvatar: undefined | Uint8Array<ArrayBuffer>;
     groupExpireTimer: DurationInSeconds;
     selectedConversationIds: ReadonlyArray<string>;
   } => {
@@ -1003,7 +1003,8 @@ const getGroupCreationComposerState = createSelector(
 
 export const getComposeGroupAvatar = createSelector(
   getGroupCreationComposerState,
-  (composerState): undefined | Uint8Array => composerState.groupAvatar
+  (composerState): undefined | Uint8Array<ArrayBuffer> =>
+    composerState.groupAvatar
 );
 
 export const getComposeGroupName = createSelector(

@@ -72,7 +72,7 @@ const { get, has, noop } = lodash;
 const log = createLogger('MediaEditor');
 
 export type MediaEditorResultType = Readonly<{
-  data: Uint8Array;
+  data: Uint8Array<ArrayBuffer>;
   contentType: MIMEType;
   blurHash: string;
   caption?: string;
@@ -1451,7 +1451,7 @@ export function MediaEditor({
                   setEditMode(undefined);
                   setIsSaving(true);
 
-                  let data: Uint8Array;
+                  let data: Uint8Array<ArrayBuffer>;
                   let blurHash: string;
                   try {
                     const renderFabricCanvas =

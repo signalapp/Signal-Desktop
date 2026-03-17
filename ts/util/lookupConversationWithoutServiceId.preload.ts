@@ -141,7 +141,7 @@ export async function lookupConversationWithoutServiceId(
 export async function checkForUsername(
   username: string
 ): Promise<FoundUsernameType | undefined> {
-  let hash: Uint8Array;
+  let hash: Uint8Array<ArrayBuffer>;
   let fixedUsername = username;
   if (fixedUsername.startsWith('@')) {
     fixedUsername = fixedUsername.slice(1);

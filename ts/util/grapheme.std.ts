@@ -41,7 +41,8 @@ export function isSingleGrapheme(str: string): boolean {
     return false;
   }
   const segments = getSegmenter().segment(str);
-  return segments.containing(0).segment === str;
+  const first = segments.containing(0);
+  return first != null && first.segment === str;
 }
 
 export function hasAtMostGraphemes(str: string, max: number): boolean {

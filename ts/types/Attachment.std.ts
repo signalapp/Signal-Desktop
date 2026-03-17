@@ -27,13 +27,13 @@ export type BackupThumbnailType = WithOptionalProperties<ThumbnailType, 'size'>;
 // These fields do not get saved to the DB.
 export type EphemeralAttachmentFields = {
   totalDownloaded?: number;
-  data?: Uint8Array;
+  data?: Uint8Array<ArrayBuffer>;
   /** Not included in protobuf, needs to be pulled from flags */
   isVoiceMessage?: boolean;
   /** For messages not already on disk, this will be a data url */
   url?: string;
   incrementalUrl?: string;
-  screenshotData?: Uint8Array;
+  screenshotData?: Uint8Array<ArrayBuffer>;
   /** @deprecated Legacy field */
   screenshotPath?: string;
 
@@ -116,7 +116,7 @@ export type AddressableAttachmentType = Readonly<{
   contentType: MIMEType;
 
   // In-memory data, for outgoing attachments that are not saved to disk.
-  data?: Uint8Array;
+  data?: Uint8Array<ArrayBuffer>;
 }>;
 
 export type AttachmentForUIType = AttachmentType & {
@@ -135,15 +135,15 @@ export type UploadedAttachmentType = Omit<
     attachmentIdentifier: Readonly<{
       cdnKey: string;
     }>;
-    key: Uint8Array;
+    key: Uint8Array<ArrayBuffer>;
     size: number;
-    digest: Uint8Array;
+    digest: Uint8Array<ArrayBuffer>;
     contentType: string;
     plaintextHash: string;
   }>;
 
 export type AttachmentWithHydratedData = AttachmentType & {
-  data: Uint8Array;
+  data: Uint8Array<ArrayBuffer>;
 };
 
 export enum TextAttachmentStyleType {
@@ -183,10 +183,10 @@ export type BaseAttachmentDraftType = {
 //   a draft and final save on disk and in conversation.draftAttachments.
 export type InMemoryAttachmentDraftType =
   | ({
-      data: Uint8Array;
+      data: Uint8Array<ArrayBuffer>;
       clientUuid: string;
       pending: false;
-      screenshotData?: Uint8Array;
+      screenshotData?: Uint8Array<ArrayBuffer>;
       duration?: number;
       fileName?: string;
       path?: string;

@@ -29,14 +29,14 @@ const { isEqual } = lodash;
 export type PropsType = {
   avatarColor?: AvatarColorType;
   avatarUrl?: string;
-  avatarValue?: Uint8Array;
+  avatarValue?: Uint8Array<ArrayBuffer>;
   conversationId?: string;
   conversationTitle?: string;
   deleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
   i18n: LocalizerType;
   isGroup?: boolean;
   onCancel: () => unknown;
-  onSave: (buffer: Uint8Array | undefined) => unknown;
+  onSave: (buffer: Uint8Array<ArrayBuffer> | undefined) => unknown;
   userAvatarData: ReadonlyArray<AvatarDataType>;
   replaceAvatar: ReplaceAvatarActionType;
   saveAvatarToDisk: SaveAvatarToDiskActionType;
@@ -66,12 +66,12 @@ export function AvatarEditor({
   const [provisionalSelectedAvatar, setProvisionalSelectedAvatar] = useState<
     AvatarDataType | undefined
   >();
-  const [avatarPreview, setAvatarPreview] = useState<Uint8Array | undefined>(
-    avatarValue
-  );
-  const [initialAvatar, setInitialAvatar] = useState<Uint8Array | undefined>(
-    avatarValue
-  );
+  const [avatarPreview, setAvatarPreview] = useState<
+    Uint8Array<ArrayBuffer> | undefined
+  >(avatarValue);
+  const [initialAvatar, setInitialAvatar] = useState<
+    Uint8Array<ArrayBuffer> | undefined
+  >(avatarValue);
   const [localAvatarData, setLocalAvatarData] = useState<Array<AvatarDataType>>(
     userAvatarData.slice()
   );
@@ -166,10 +166,13 @@ export function AvatarEditor({
     ]
   );
 
-  const handleAvatarLoaded = useCallback((avatarBuffer: Uint8Array) => {
-    setAvatarPreview(avatarBuffer);
-    setInitialAvatar(avatarBuffer);
-  }, []);
+  const handleAvatarLoaded = useCallback(
+    (avatarBuffer: Uint8Array<ArrayBuffer>) => {
+      setAvatarPreview(avatarBuffer);
+      setInitialAvatar(avatarBuffer);
+    },
+    []
+  );
 
   let content: React.JSX.Element | undefined;
 

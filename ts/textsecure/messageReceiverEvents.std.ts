@@ -144,7 +144,7 @@ export class SuccessfulDecryptEvent extends Event {
 }
 
 export type DecryptionErrorEventData = Readonly<{
-  cipherTextBytes: Uint8Array | undefined;
+  cipherTextBytes: Uint8Array<ArrayBuffer> | undefined;
   cipherTextType: number | undefined;
   contentHint: number | undefined;
   groupId: string | undefined;
@@ -387,15 +387,15 @@ export class FetchLatestEvent extends ConfirmableEvent {
 }
 
 export type KeysEventData = Readonly<{
-  masterKey: Uint8Array | undefined;
+  masterKey: Uint8Array<ArrayBuffer> | undefined;
   accountEntropyPool: string | undefined;
-  mediaRootBackupKey: Uint8Array | undefined;
+  mediaRootBackupKey: Uint8Array<ArrayBuffer> | undefined;
 }>;
 
 export class KeysEvent extends ConfirmableEvent {
-  public readonly masterKey: Uint8Array | undefined;
+  public readonly masterKey: Uint8Array<ArrayBuffer> | undefined;
   public readonly accountEntropyPool: string | undefined;
-  public readonly mediaRootBackupKey: Uint8Array | undefined;
+  public readonly mediaRootBackupKey: Uint8Array<ArrayBuffer> | undefined;
 
   constructor(
     { masterKey, accountEntropyPool, mediaRootBackupKey }: KeysEventData,
@@ -478,8 +478,8 @@ export class CallEventSyncEvent extends ConfirmableEvent {
 
 export type CallLinkUpdateSyncEventData = Readonly<{
   type: CallLinkUpdateSyncType;
-  rootKey: Uint8Array | undefined;
-  adminKey: Uint8Array | undefined;
+  rootKey: Uint8Array<ArrayBuffer> | undefined;
+  adminKey: Uint8Array<ArrayBuffer> | undefined;
 }>;
 
 export class CallLinkUpdateSyncEvent extends ConfirmableEvent {

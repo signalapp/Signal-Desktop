@@ -10,7 +10,7 @@ describe('prependStream', () => {
     const stream = prependStream(Buffer.from('prefix:'));
     stream.end('hello');
 
-    const chunks = new Array<Buffer>();
+    const chunks = new Array<Buffer<ArrayBuffer>>();
     for await (const chunk of stream) {
       chunks.push(chunk);
     }

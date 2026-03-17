@@ -112,7 +112,9 @@ function getPaddedMessageLength(messageLength: number): number {
   return messagePartCount * PADDING_BLOCK;
 }
 
-export function padMessage(messageBuffer: Uint8Array): Uint8Array {
+export function padMessage(
+  messageBuffer: Uint8Array<ArrayBuffer>
+): Uint8Array<ArrayBuffer> {
   const plaintext = new Uint8Array(
     getPaddedMessageLength(messageBuffer.byteLength + 1) - 1
   );
@@ -131,7 +133,7 @@ export default class OutgoingMessage {
 
   callback: (result: CallbackResultType) => void;
 
-  plaintext?: Uint8Array;
+  plaintext?: Uint8Array<ArrayBuffer>;
 
   serviceIdsCompleted: number;
 
@@ -210,8 +212,8 @@ export default class OutgoingMessage {
       const proto = this.message;
       const contentProto = this.getContentProtoBytes();
       const { timestamp, contentHint, recipients, urgent } = this;
-      let dataMessage: Uint8Array | undefined;
-      let editMessage: Uint8Array | undefined;
+      let dataMessage: Uint8Array<ArrayBuffer> | undefined;
+      let editMessage: Uint8Array<ArrayBuffer> | undefined;
       let hasPniSignatureMessage = false;
 
       if (!(proto instanceof PlaintextContent)) {
@@ -355,7 +357,7 @@ export default class OutgoingMessage {
     });
   }
 
-  getPlaintext(): Uint8Array {
+  getPlaintext(): Uint8Array<ArrayBuffer> {
     if (!this.plaintext) {
       const { message } = this;
 
@@ -368,7 +370,7 @@ export default class OutgoingMessage {
     return this.plaintext;
   }
 
-  getContentProtoBytes(): Uint8Array | undefined {
+  getContentProtoBytes(): Uint8Array<ArrayBuffer> | undefined {
     if (this.message instanceof PlaintextContent) {
       return undefined;
     }

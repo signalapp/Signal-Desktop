@@ -39,7 +39,7 @@ export type AutoDownloadAttachmentType = {
 
 export type SerializedCertificateType = {
   expires: number;
-  serialized: Uint8Array;
+  serialized: Uint8Array<ArrayBuffer>;
 };
 
 export type ZoomFactorType = 0.75 | 1 | 1.25 | 1.5 | 2 | number;
@@ -51,8 +51,8 @@ export type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
 export type IdentityKeyMap = Record<
   ServiceIdString,
   {
-    privKey: Uint8Array;
-    pubKey: Uint8Array;
+    privKey: Uint8Array<ArrayBuffer>;
+    pubKey: Uint8Array<ArrayBuffer>;
   }
 >;
 
@@ -111,7 +111,7 @@ export type StorageAccessType = {
   maxKyberPreKeyIdPNI: number;
   number_id: string;
   password: string;
-  profileKey: Uint8Array;
+  profileKey: Uint8Array<ArrayBuffer>;
   regionCode: string;
   registrationIdMap: Record<ServiceIdString, number>;
   remoteBuildExpiration: number;
@@ -147,7 +147,7 @@ export type StorageAccessType = {
   storageFetchComplete: boolean;
   avatarUrl: string | undefined;
   manifestVersion: number;
-  manifestRecordIkm: Uint8Array;
+  manifestRecordIkm: Uint8Array<ArrayBuffer>;
   storageCredentials: StorageServiceCredentials;
   'storage-service-error-records': ReadonlyArray<UnknownRecord>;
   'storage-service-unknown-records': ReadonlyArray<UnknownRecord>;
@@ -163,7 +163,7 @@ export type StorageAccessType = {
   callLinkAuthCredentials: ReadonlyArray<GroupCredentialType>;
   backupCombinedCredentials: ReadonlyArray<BackupCredentialWrapperType>;
   backupCombinedCredentialsLastRequestTime: number;
-  backupMediaRootKey: Uint8Array;
+  backupMediaRootKey: Uint8Array<ArrayBuffer>;
   backupMediaDownloadTotalBytes: number;
   backupMediaDownloadCompletedBytes: number;
   backupMediaDownloadPaused: boolean;
@@ -188,11 +188,11 @@ export type StorageAccessType = {
   nextScheduledUpdateKeyTime: number;
   navTabsCollapsed: boolean;
   areWeASubscriber: boolean;
-  subscriberId: Uint8Array;
+  subscriberId: Uint8Array<ArrayBuffer>;
   subscriberCurrencyCode: string;
   // Note: for historical reasons, this has two l's
   donorSubscriptionManuallyCancelled: boolean;
-  backupsSubscriberId: Uint8Array;
+  backupsSubscriberId: Uint8Array<ArrayBuffer>;
   backupsSubscriberPurchaseToken: string;
   backupsSubscriberOriginalTransactionId: string;
   displayBadgesOnProfile: boolean;
@@ -202,8 +202,8 @@ export type StorageAccessType = {
   usernameLinkCorrupted: boolean;
   usernameLinkColor: number;
   usernameLink: {
-    entropy: Uint8Array;
-    serverId: Uint8Array;
+    entropy: Uint8Array<ArrayBuffer>;
+    serverId: Uint8Array<ArrayBuffer>;
   };
   serverAlerts: ServerAlertsType;
   needOrphanedAttachmentCheck: boolean;
@@ -230,7 +230,7 @@ export type StorageAccessType = {
 
   // If present together with backupDownloadPath - we are downloading
   // link-and-sync backup
-  backupEphemeralKey: Uint8Array;
+  backupEphemeralKey: Uint8Array<ArrayBuffer>;
 
   // If present - we are resuming the download of known transfer archive
   backupTransitArchive: {
@@ -274,7 +274,7 @@ export type StorageAccessType = {
   avatarsHaveBeenMigrated: boolean;
 
   // Key Transparency
-  lastDistinguishedTreeHead: Uint8Array;
+  lastDistinguishedTreeHead: Uint8Array<ArrayBuffer>;
   // Meaning of values:
   //
   // - undefined - status unknown or uninitialized
@@ -286,7 +286,7 @@ export type StorageAccessType = {
 
   // Test-only
   // Not used UI, stored as is when imported from backup during tests
-  defaultWallpaperPhotoPointer: Uint8Array;
+  defaultWallpaperPhotoPointer: Uint8Array<ArrayBuffer>;
   defaultWallpaperPreset: number;
   defaultDimWallpaperInDarkMode: boolean;
   defaultAutoBubbleColor: boolean;

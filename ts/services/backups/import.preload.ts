@@ -303,7 +303,7 @@ export class BackupImportStream extends Writable {
   }
 
   override async _write(
-    data: Buffer,
+    data: Buffer<ArrayBuffer>,
     _enc: BufferEncoding,
     done: (error?: Error) => void
   ): Promise<void> {
@@ -4104,7 +4104,7 @@ export class BackupImportStream extends Writable {
       };
     }
 
-    let wallpaperPhotoPointer: Uint8Array | undefined;
+    let wallpaperPhotoPointer: Uint8Array<ArrayBuffer> | undefined;
     let wallpaperPreset: number | undefined;
     const dimWallpaperInDarkMode = dropNull(chatStyle.dimWallpaperInDarkMode);
 

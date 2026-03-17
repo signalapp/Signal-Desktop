@@ -162,8 +162,8 @@ export const FIXTURES = path.join(__dirname, '..', '..', '..', 'fixtures');
 export const EMPTY = new Uint8Array(0);
 
 export type StickerPackType = Readonly<{
-  id: Buffer;
-  key: Buffer;
+  id: Buffer<ArrayBuffer>;
+  key: Buffer<ArrayBuffer>;
   stickerCount: number;
 }>;
 

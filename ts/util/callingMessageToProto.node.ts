@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { CallingMessage } from '@signalapp/ringrtc';
+import type { AnswerMessage, CallingMessage } from '@signalapp/ringrtc';
 import { CallMessageUrgency } from '@signalapp/ringrtc';
 import { SignalService as Proto } from '../protobuf/index.std.js';
 import { createLogger } from '../logging/log.std.js';
@@ -27,7 +27,7 @@ export function callingMessageToProto(
     opaqueField = {
       ...opaque,
       urgency: null,
-      data: opaque.data ?? null,
+      data: opaque.data != null ? opaqueToBytes(opaque.data) : null,
     };
   }
   if (urgency !== undefined) {
@@ -43,14 +43,14 @@ export function callingMessageToProto(
           ...offer,
           id: offer.callId,
           type: offer.type as number,
-          opaque: offer.opaque,
+          opaque: opaqueToBytes(offer.opaque),
         }
       : null,
     answer: answer
       ? {
           ...answer,
           id: answer.callId,
-          opaque: answer.opaque,
+          opaque: opaqueToBytes(answer.opaque),
         }
       : null,
     iceUpdate: iceCandidates
@@ -58,7 +58,7 @@ export function callingMessageToProto(
           return {
             ...candidate,
             id: candidate.callId,
-            opaque: candidate.opaque,
+            opaque: opaqueToBytes(candidate.opaque),
           };
         })
       : null,
@@ -78,6 +78,14 @@ export function callingMessageToProto(
     destinationDeviceId: destinationDeviceId ?? null,
     opaque: opaqueField ?? null,
   };
+}
+
+function opaqueToBytes(
+  opaque: AnswerMessage['opaque']
+): Uint8Array<ArrayBuffer> {
+  // @ts-expect-error needs ringrtc update
+  const bytes: Uint8Array<ArrayBuffer> = opaque;
+  return bytes;
 }
 
 function urgencyToProto(

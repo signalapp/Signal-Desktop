@@ -14,13 +14,13 @@ type State =
   | {
       kind: 'frame';
       remaining: number;
-      parts: Array<Buffer>;
+      parts: Array<Buffer<ArrayBuffer>>;
     }
   | {
       kind: 'trailer';
-      frame: Buffer;
+      frame: Buffer<ArrayBuffer>;
       remaining: number;
-      parts: Array<Buffer>;
+      parts: Array<Buffer<ArrayBuffer>>;
     };
 
 const EMPTY_TRAILER = Buffer.alloc(0);
@@ -33,7 +33,7 @@ export class DelimitedStream extends Transform {
   }
 
   override async _transform(
-    chunk: Buffer,
+    chunk: Buffer<ArrayBuffer>,
     _encoding: BufferEncoding,
     done: (error?: Error) => void
   ): Promise<void> {
@@ -147,11 +147,14 @@ export class DelimitedStream extends Transform {
     done();
   }
 
-  protected getTrailerSize(_frame: Buffer): number {
+  protected getTrailerSize(_frame: Buffer<ArrayBuffer>): number {
     return 0;
   }
 
-  protected async pushFrame(frame: Buffer, _trailer: Buffer): Promise<void> {
+  protected async pushFrame(
+    frame: Buffer<ArrayBuffer>,
+    _trailer: Buffer<ArrayBuffer>
+  ): Promise<void> {
     this.push(frame);
   }
 }

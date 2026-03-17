@@ -3,6 +3,7 @@
 import { focusSafely, getFocusableTreeWalker } from '@react-aria/focus';
 import type { ReactNode, RefObject } from 'react';
 import React, { useEffect, useRef } from 'react';
+// @ts-expect-error - Needs tinykeys to update package.json type resolution
 import { createKeybindingsHandler } from 'tinykeys';
 import { strictAssert } from '../../../util/assert.std.js';
 

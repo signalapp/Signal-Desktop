@@ -22,16 +22,18 @@ export async function handleImageAttachment(
     const uuid = genUuid();
     const bytes = new Uint8Array(await file.arrayBuffer());
 
-    const convertedData = await new Promise<Uint8Array>((resolve, reject) => {
-      ipcRenderer.once(`convert-image:${uuid}`, (_, { error, response }) => {
-        if (response) {
-          resolve(response);
-        } else {
-          reject(error);
-        }
-      });
-      ipcRenderer.send('convert-image', uuid, bytes);
-    });
+    const convertedData = await new Promise<Uint8Array<ArrayBuffer>>(
+      (resolve, reject) => {
+        ipcRenderer.once(`convert-image:${uuid}`, (_, { error, response }) => {
+          if (response) {
+            resolve(response);
+          } else {
+            reject(error);
+          }
+        });
+        ipcRenderer.send('convert-image', uuid, bytes);
+      }
+    );
 
     processedFile = new Blob([convertedData]);
   }

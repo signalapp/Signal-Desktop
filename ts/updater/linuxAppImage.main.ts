@@ -51,7 +51,7 @@ export class LinuxAppImageUpdater extends Updater {
     app.quit();
   }
 
-  override getUpdatesPublicKey(): Buffer {
+  override getUpdatesPublicKey(): Buffer<ArrayBuffer> {
     return hexToBinary(config.get('appImageUpdatesPublicKey'));
   }
 

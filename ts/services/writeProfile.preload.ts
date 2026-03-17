@@ -62,7 +62,7 @@ export async function writeProfile(
   if (options.keepAvatar) {
     const profileAvatarUrl = getLocalAvatarUrl(model.attributes);
 
-    let avatarBuffer: Uint8Array | undefined;
+    let avatarBuffer: Uint8Array<ArrayBuffer> | undefined;
     if (profileAvatarUrl) {
       try {
         avatarBuffer = await imagePathToBytes(profileAvatarUrl);

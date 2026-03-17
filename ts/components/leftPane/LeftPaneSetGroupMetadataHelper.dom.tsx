@@ -27,7 +27,7 @@ import type {
 import { AvatarColors } from '../../types/Colors.std.js';
 
 export type LeftPaneSetGroupMetadataPropsType = {
-  groupAvatar: undefined | Uint8Array;
+  groupAvatar: undefined | Uint8Array<ArrayBuffer>;
   groupName: string;
   groupExpireTimer: DurationInSeconds;
   hasError: boolean;
@@ -38,7 +38,7 @@ export type LeftPaneSetGroupMetadataPropsType = {
 };
 
 export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGroupMetadataPropsType> {
-  readonly #groupAvatar: undefined | Uint8Array;
+  readonly #groupAvatar: undefined | Uint8Array<ArrayBuffer>;
   readonly #groupName: string;
   readonly #groupExpireTimer: DurationInSeconds;
   readonly #hasError: boolean;
@@ -121,7 +121,7 @@ export class LeftPaneSetGroupMetadataHelper extends LeftPaneHelper<LeftPaneSetGr
     composeSaveAvatarToDisk: SaveAvatarToDiskActionType;
     createGroup: () => unknown;
     i18n: LocalizerType;
-    setComposeGroupAvatar: (_: undefined | Uint8Array) => unknown;
+    setComposeGroupAvatar: (_: undefined | Uint8Array<ArrayBuffer>) => unknown;
     setComposeGroupExpireTimer: (_: DurationInSeconds) => void;
     setComposeGroupName: (_: string) => unknown;
     toggleComposeEditingAvatar: () => unknown;

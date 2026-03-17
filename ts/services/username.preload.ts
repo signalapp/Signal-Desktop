@@ -255,7 +255,7 @@ export async function confirmUsername(
     await itemStorage.remove('usernameLink');
 
     let serverIdString: string;
-    let entropy: Uint8Array;
+    let entropy: Uint8Array<ArrayBuffer>;
     if (previousLink && isCaseChange(reservation)) {
       log.info('confirmUsername: updating link only');
 

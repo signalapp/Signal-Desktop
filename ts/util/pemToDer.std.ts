@@ -3,7 +3,7 @@
 
 import * as Bytes from '../Bytes.std.js';
 
-export function pemToDer(pem: string): Uint8Array {
+export function pemToDer(pem: string): Uint8Array<ArrayBuffer> {
   const pemContent = pem
     .replace(/-----BEGIN [^-]+-----/, '')
     .replace(/-----END [^-]+-----/, '')

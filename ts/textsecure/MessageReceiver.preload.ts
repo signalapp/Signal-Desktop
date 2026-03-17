@@ -189,7 +189,7 @@ type UnsealedEnvelope = Readonly<
     unidentifiedDeliveryReceived?: boolean;
     contentHint?: number;
     groupId?: string;
-    cipherTextBytes?: Uint8Array;
+    cipherTextBytes?: Uint8Array<ArrayBuffer>;
     cipherTextType?: number;
     certificate?: SenderCertificate;
     unsealedContent?: UnidentifiedSenderMessageContent;
@@ -199,7 +199,7 @@ type UnsealedEnvelope = Readonly<
 type DecryptResult = Readonly<
   | {
       envelope: UnsealedEnvelope;
-      plaintext: Uint8Array;
+      plaintext: Uint8Array<ArrayBuffer>;
     }
   | {
       envelope?: UnsealedEnvelope;
@@ -208,12 +208,12 @@ type DecryptResult = Readonly<
 >;
 
 type DecryptSealedSenderResult = Readonly<{
-  plaintext: Uint8Array;
+  plaintext: Uint8Array<ArrayBuffer>;
   wasEncrypted: boolean;
 }>;
 
 type InnerDecryptResultType = Readonly<{
-  plaintext: Uint8Array;
+  plaintext: Uint8Array<ArrayBuffer>;
   wasEncrypted: boolean;
 }>;
 
@@ -999,7 +999,7 @@ export default class MessageReceiver
 
     const decrypted: Array<
       Readonly<{
-        plaintext: Uint8Array;
+        plaintext: Uint8Array<ArrayBuffer>;
         data: UnprocessedType;
         envelope: UnsealedEnvelope;
       }>
@@ -1207,7 +1207,7 @@ export default class MessageReceiver
 
   async #queueDecryptedEnvelope(
     envelope: UnsealedEnvelope,
-    plaintext: Uint8Array
+    plaintext: Uint8Array<ArrayBuffer>
   ): Promise<void> {
     const id = getEnvelopeId(envelope);
     log.info('queueing decrypted envelope', id);
@@ -1313,7 +1313,7 @@ export default class MessageReceiver
   // Called after `decryptEnvelope` decrypted the message.
   async #handleDecryptedEnvelope(
     envelope: UnsealedEnvelope,
-    plaintext: Uint8Array
+    plaintext: Uint8Array<ArrayBuffer>
   ): Promise<void> {
     if (this.#stoppingProcessing) {
       return;
@@ -1443,7 +1443,7 @@ export default class MessageReceiver
       return { plaintext: undefined, envelope };
     }
 
-    let ciphertext: Uint8Array;
+    let ciphertext: Uint8Array<ArrayBuffer>;
     if (envelope.content) {
       ciphertext = envelope.content;
     } else {
@@ -1691,7 +1691,7 @@ export default class MessageReceiver
     );
   }
 
-  #unpad(paddedPlaintext: Uint8Array): Uint8Array {
+  #unpad(paddedPlaintext: Uint8Array<ArrayBuffer>): Uint8Array<ArrayBuffer> {
     for (let i = paddedPlaintext.length - 1; i >= 0; i -= 1) {
       if (paddedPlaintext[i] === 0x80) {
         return new Uint8Array(paddedPlaintext.subarray(0, i));
@@ -1833,7 +1833,7 @@ export default class MessageReceiver
   async #innerDecrypt(
     stores: LockedStores,
     envelope: UnsealedEnvelope,
-    ciphertext: Uint8Array,
+    ciphertext: Uint8Array<ArrayBuffer>,
     serviceIdKind: ServiceIdKind
   ): Promise<InnerDecryptResultType | undefined> {
     const {
@@ -1959,7 +1959,7 @@ export default class MessageReceiver
   async #decrypt(
     stores: LockedStores,
     envelope: UnsealedEnvelope,
-    ciphertext: Uint8Array,
+    ciphertext: Uint8Array<ArrayBuffer>,
     serviceIdKind: ServiceIdKind
   ): Promise<InnerDecryptResultType | undefined> {
     const uuid = envelope.sourceServiceId;
@@ -2591,7 +2591,7 @@ export default class MessageReceiver
 
   async #innerHandleContentMessage(
     incomingEnvelope: UnsealedEnvelope,
-    plaintext: Uint8Array
+    plaintext: Uint8Array<ArrayBuffer>
   ): Promise<void> {
     const content = Proto.Content.decode(plaintext);
     const envelope = await this.#maybeUpdateTimestamp(incomingEnvelope);
@@ -2653,7 +2653,7 @@ export default class MessageReceiver
 
   #handleDecryptionError(
     envelope: UnsealedEnvelope,
-    decryptionError: Uint8Array
+    decryptionError: Uint8Array<ArrayBuffer>
   ): void {
     const logId = getEnvelopeId(envelope);
     log.info(`handleDecryptionError: ${logId}`);
@@ -2688,7 +2688,7 @@ export default class MessageReceiver
   async #handleSenderKeyDistributionMessage(
     stores: LockedStores,
     envelope: UnsealedEnvelope,
-    distributionMessage: Uint8Array
+    distributionMessage: Uint8Array<ArrayBuffer>
   ): Promise<void> {
     const envelopeId = getEnvelopeId(envelope);
     log.info(`handleSenderKeyDistributionMessage/${envelopeId}`);

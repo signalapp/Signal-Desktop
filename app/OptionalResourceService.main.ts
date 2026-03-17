@@ -33,7 +33,7 @@ const MAX_CACHE_SIZE = 50 * 1024 * 1024;
 export class OptionalResourceService {
   #maybeDeclaration: OptionalResourcesDictType | undefined;
 
-  readonly #cache = new LRUCache<string, Buffer>({
+  readonly #cache = new LRUCache<string, Buffer<ArrayBuffer>>({
     maxSize: MAX_CACHE_SIZE,
 
     sizeCalculation: buf => buf.length,
@@ -53,7 +53,7 @@ export class OptionalResourceService {
     return new OptionalResourceService(resourcesDir);
   }
 
-  public async getData(name: string): Promise<Buffer | undefined> {
+  public async getData(name: string): Promise<Buffer<ArrayBuffer> | undefined> {
     await this.#lazyInit();
 
     const decl = this.#declaration[name];
@@ -172,8 +172,10 @@ export class OptionalResourceService {
     name: string,
     decl: OptionalResourceType,
     destPath: string
-  ): Promise<Buffer> {
-    const result = await got(decl.url, await getGotOptions()).buffer();
+  ): Promise<Buffer<ArrayBuffer>> {
+    const opts = await getGotOptions();
+    // @ts-expect-error https://github.com/sindresorhus/got/issues/2418#issuecomment-4071277145
+    const result: Buffer<ArrayBuffer> = await got(decl.url, opts).buffer();
 
     const digest = createHash('sha512').update(result).digest();
 

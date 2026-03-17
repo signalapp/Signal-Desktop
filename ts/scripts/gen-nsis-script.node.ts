@@ -59,7 +59,7 @@ for (const lang of REQUIRED_LANGUAGES) {
   if (lang === 'zh_TW') {
     fallbacks.unshift('zh-Hant');
   }
-  let json: Buffer | undefined;
+  let json: Buffer<ArrayBuffer> | undefined;
   for (const f of fallbacks) {
     try {
       json = fs.readFileSync(path.join(LOCALES_DIR, f, 'messages.json'));

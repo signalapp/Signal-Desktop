@@ -213,7 +213,7 @@ export class KeyTransparency {
       };
     }
 
-    let usernameHash: Uint8Array | undefined;
+    let usernameHash: Uint8Array<ArrayBuffer> | undefined;
 
     const username = me.get('username');
     if (username != null && !itemStorage.get('usernameCorrupted')) {

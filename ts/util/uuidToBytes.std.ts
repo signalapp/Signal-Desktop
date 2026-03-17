@@ -11,14 +11,16 @@ const { chunk } = lodash;
 const log = createLogger('uuidToBytes');
 
 export function getBytesSubarray(
-  data: Uint8Array,
+  data: Uint8Array<ArrayBuffer>,
   start: number,
   n: number
-): Uint8Array {
+): Uint8Array<ArrayBuffer> {
   return data.subarray(start, start + n);
 }
 
-export function bytesToUuid(bytes: Uint8Array): undefined | string {
+export function bytesToUuid(
+  bytes: Uint8Array<ArrayBuffer>
+): undefined | string {
   if (bytes.byteLength !== UUID_BYTE_SIZE) {
     log.warn(
       'bytesToUuid: received an Uint8Array of invalid length. ' +
@@ -34,7 +36,9 @@ export function bytesToUuid(bytes: Uint8Array): undefined | string {
   return undefined;
 }
 
-export function splitUuids(buffer: Uint8Array): Array<string | null> {
+export function splitUuids(
+  buffer: Uint8Array<ArrayBuffer>
+): Array<string | null> {
   const uuids = new Array<string | null>();
   for (let i = 0; i < buffer.byteLength; i += UUID_BYTE_SIZE) {
     const bytes = getBytesSubarray(buffer, i, UUID_BYTE_SIZE);
@@ -56,7 +60,7 @@ export function splitUuids(buffer: Uint8Array): Array<string | null> {
   return uuids;
 }
 
-export function uuidToBytes(uuid: string): Uint8Array {
+export function uuidToBytes(uuid: string): Uint8Array<ArrayBuffer> {
   if (uuid.length !== 36) {
     log.warn(
       'received a string of invalid length. Returning an empty Uint8Array'

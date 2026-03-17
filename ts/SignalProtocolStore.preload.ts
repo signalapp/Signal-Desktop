@@ -158,7 +158,7 @@ export type SaveIdentityOptions = Readonly<{
 export type VerifyAlternateIdentityOptionsType = Readonly<{
   aci: AciString;
   pni: PniString;
-  signature: Uint8Array;
+  signature: Uint8Array<ArrayBuffer>;
 }>;
 
 export type SetVerifiedExtra = Readonly<{
@@ -1933,7 +1933,7 @@ export class SignalProtocolStore extends EventEmitter {
   // https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/crypto/storage/SignalBaseIdentityKeyStore.java#L128
   async isTrustedIdentity(
     encodedAddress: Address,
-    publicKey: Uint8Array,
+    publicKey: Uint8Array<ArrayBuffer>,
     direction: number
   ): Promise<boolean> {
     if (!this.identityKeys) {
@@ -1978,7 +1978,7 @@ export class SignalProtocolStore extends EventEmitter {
   // https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/crypto/storage/SignalBaseIdentityKeyStore.java#L233
   isTrustedForSending(
     serviceId: ServiceIdString,
-    publicKey: Uint8Array,
+    publicKey: Uint8Array<ArrayBuffer>,
     identityRecord?: IdentityKeyType
   ): boolean {
     if (!identityRecord) {
@@ -2029,7 +2029,7 @@ export class SignalProtocolStore extends EventEmitter {
 
   async loadIdentityKey(
     serviceId: ServiceIdString
-  ): Promise<Uint8Array | undefined> {
+  ): Promise<Uint8Array<ArrayBuffer> | undefined> {
     if (serviceId == null) {
       throw new Error('loadIdentityKey: serviceId was undefined/null');
     }
@@ -2078,7 +2078,7 @@ export class SignalProtocolStore extends EventEmitter {
   // https://github.com/signalapp/Signal-Android/blob/fc3db538bcaa38dc149712a483d3032c9c1f3998/app/src/main/java/org/thoughtcrime/securesms/crypto/storage/SignalBaseIdentityKeyStore.java#L69
   async saveIdentity(
     encodedAddress: Address,
-    publicKey: Uint8Array,
+    publicKey: Uint8Array<ArrayBuffer>,
     nonblockingApproval = false,
     { zone = GLOBAL_ZONE, noOverwrite = false }: SaveIdentityOptions = {}
   ): Promise<IdentityChange> {
@@ -2350,7 +2350,7 @@ export class SignalProtocolStore extends EventEmitter {
   //   the same!
   checkPreviousKey(
     serviceId: ServiceIdString,
-    publicKey: Uint8Array,
+    publicKey: Uint8Array<ArrayBuffer>,
     context: string
   ): void {
     const conversation = window.ConversationController.get(serviceId);
@@ -2383,7 +2383,7 @@ export class SignalProtocolStore extends EventEmitter {
   async updateIdentityAfterSync(
     serviceId: ServiceIdString,
     verifiedStatus: number,
-    publicKey: Uint8Array
+    publicKey: Uint8Array<ArrayBuffer>
   ): Promise<{ shouldAddVerifiedChangedMessage: boolean }> {
     strictAssert(
       validateVerifiedStatus(verifiedStatus),
@@ -2798,12 +2798,12 @@ export class SignalProtocolStore extends EventEmitter {
 
   // Key Transparency
 
-  getLastDistinguishedTreeHead(): Uint8Array | null {
+  getLastDistinguishedTreeHead(): Uint8Array<ArrayBuffer> | null {
     return itemStorage.get('lastDistinguishedTreeHead') ?? null;
   }
 
   async setLastDistinguishedTreeHead(
-    bytes: Readonly<Uint8Array> | null
+    bytes: Readonly<Uint8Array<ArrayBuffer>> | null
   ): Promise<void> {
     if (bytes == null) {
       await itemStorage.remove('lastDistinguishedTreeHead');
@@ -2812,7 +2812,9 @@ export class SignalProtocolStore extends EventEmitter {
     }
   }
 
-  async getKTAccountData(aciObject: Aci): Promise<Uint8Array | null> {
+  async getKTAccountData(
+    aciObject: Aci
+  ): Promise<Uint8Array<ArrayBuffer> | null> {
     const aci = fromAciObject(aciObject);
     const data = await DataReader.getKTAccountData(aci);
     return data ?? null;
@@ -2820,7 +2822,7 @@ export class SignalProtocolStore extends EventEmitter {
 
   async setKTAccountData(
     aciObject: Aci,
-    bytes: Readonly<Uint8Array>
+    bytes: Readonly<Uint8Array<ArrayBuffer>>
   ): Promise<void> {
     const aci = fromAciObject(aciObject);
     return DataWriter.setKTAccountData(aci, bytes);

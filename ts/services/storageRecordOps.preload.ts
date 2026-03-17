@@ -261,7 +261,7 @@ function addUnknownFieldsToConversation(
 
 function conversationUnknownFieldsToRecord(
   conversation: ConversationModel
-): Array<Uint8Array> | null {
+): Array<Uint8Array<ArrayBuffer>> | null {
   const storageUnknownFields = conversation.get('storageUnknownFields');
   if (storageUnknownFields == null) {
     return null;
@@ -275,8 +275,8 @@ function conversationUnknownFieldsToRecord(
 
 // Other records save a UInt8Array to the database
 function toStorageUnknownFields(
-  unknownFields: ReadonlyArray<Uint8Array> | undefined
-): Uint8Array | null {
+  unknownFields: ReadonlyArray<Uint8Array<ArrayBuffer>> | undefined
+): Uint8Array<ArrayBuffer> | null {
   if (!unknownFields) {
     return null;
   }
@@ -284,8 +284,8 @@ function toStorageUnknownFields(
   return Bytes.concatenate(unknownFields);
 }
 function fromStorageUnknownFields(
-  storageUnknownFields: Uint8Array | null | undefined
-): Array<Uint8Array> | null {
+  storageUnknownFields: Uint8Array<ArrayBuffer> | null | undefined
+): Array<Uint8Array<ArrayBuffer>> | null {
   if (storageUnknownFields == null) {
     return null;
   }
@@ -974,7 +974,7 @@ function logRecordChanges(
 
     // Sometimes we have a ByteBuffer and an Uint8Array, this ensures that we
     // are comparing them both equally by converting them into base64 string.
-    if (localValue instanceof Uint8Array) {
+    if (Bytes.isNonSharedUint8Array(localValue)) {
       const areEqual = Bytes.areEqual(localValue, remoteValue);
       if (!areEqual) {
         details.push(`key=${key}: different bytes`);
@@ -1148,7 +1148,7 @@ export async function mergeGroupV1Record(
 }
 
 function getGroupV2Conversation(
-  masterKeyBuffer: Uint8Array
+  masterKeyBuffer: Uint8Array<ArrayBuffer>
 ): ConversationModel {
   const groupFields = deriveGroupFields(masterKeyBuffer);
 

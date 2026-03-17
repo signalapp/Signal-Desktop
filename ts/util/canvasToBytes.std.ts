@@ -8,7 +8,7 @@ export async function canvasToBytes(
   canvas: HTMLCanvasElement,
   mimeType?: MIMEType,
   quality?: number
-): Promise<Uint8Array> {
+): Promise<Uint8Array<ArrayBuffer>> {
   const blob = await canvasToBlob(canvas, mimeType, quality);
   return new Uint8Array(await blob.arrayBuffer());
 }

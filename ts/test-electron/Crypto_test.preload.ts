@@ -728,9 +728,9 @@ describe('Crypto', () => {
         overrideSize,
       }: {
         path?: string;
-        data: Uint8Array;
-        plaintextHash?: Uint8Array;
-        encryptionKeys?: Uint8Array;
+        data: Uint8Array<ArrayBuffer>;
+        plaintextHash?: Uint8Array<ArrayBuffer>;
+        encryptionKeys?: Uint8Array<ArrayBuffer>;
         modifyIncrementalMac?: boolean;
         overrideSize?: number;
       }): Promise<DecryptedAttachmentV2> {
@@ -986,8 +986,8 @@ describe('Crypto', () => {
         outerKeys,
       }: {
         plaintextAbsolutePath: string;
-        innerKeys: Uint8Array;
-        outerKeys: Uint8Array;
+        innerKeys: Uint8Array<ArrayBuffer>;
+        outerKeys: Uint8Array<ArrayBuffer>;
       }) {
         let innerCiphertextPath;
         let outerCiphertextPath;

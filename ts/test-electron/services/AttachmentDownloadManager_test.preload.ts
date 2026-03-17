@@ -955,6 +955,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
       .returns(Promise.resolve(downloadedAttachment));
     cleanupAttachmentFiles = sandbox.stub();
     maybeDeleteAttachmentFile = sandbox.stub();
+    deleteDownloadFile = sandbox.stub();
     processNewAttachment = sandbox.stub().callsFake(attachment => attachment);
   });
 

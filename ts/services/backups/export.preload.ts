@@ -211,7 +211,7 @@ const BACKUP_QUOTE_BODY_LIMIT = 2048;
 
 type ToRecipientOptionsType = Readonly<{
   identityKeysById: ReadonlyMap<IdentityKeyType['id'], IdentityKeyType>;
-  keyTransparencyData: Uint8Array | undefined;
+  keyTransparencyData: Uint8Array<ArrayBuffer> | undefined;
 }>;
 
 type GetRecipientIdOptionsType =
@@ -300,7 +300,7 @@ export class BackupExportStream extends Readable {
   #attachmentBackupJobs: Array<
     CoreAttachmentBackupJobType | CoreAttachmentLocalBackupJobType
   > = [];
-  #buffers = new Array<Uint8Array>();
+  #buffers = new Array<Uint8Array<ArrayBuffer>>();
   #nextRecipientId = 1n;
   #flushResolve: (() => void) | undefined;
   #jsonExporter: BackupJsonExporter | undefined;
@@ -449,7 +449,7 @@ export class BackupExportStream extends Readable {
 
     const skippedConversationIds = new Set<string>();
     for (const { attributes } of window.ConversationController.getAll()) {
-      let keyTransparencyData: Uint8Array | undefined;
+      let keyTransparencyData: Uint8Array<ArrayBuffer> | undefined;
       if (
         isDirectConversation(attributes) &&
         isAciString(attributes.serviceId) &&
@@ -563,6 +563,8 @@ export class BackupExportStream extends Readable {
 
       const id = this.#getNextRecipientId();
       const rootKey = CallLinkRootKey.parse(rootKeyString);
+      // @ts-expect-error needs ringrtc update
+      const rootKeyBytes: Uint8Array<ArrayBuffer> = rootKey.bytes;
       const roomId = getRoomIdFromRootKey(rootKey);
 
       this.#roomIdToRecipientId.set(roomId, id);
@@ -572,7 +574,7 @@ export class BackupExportStream extends Readable {
           id,
           destination: {
             callLink: {
-              rootKey: rootKey.bytes,
+              rootKey: rootKeyBytes,
               adminKey: adminKey ? toAdminKeyBytes(adminKey) : null,
               name,
               restrictions: toCallLinkRestrictionsProto(restrictions),
@@ -2015,11 +2017,11 @@ export class BackupExportStream extends Readable {
     };
   }
 
-  #aciToBytes(aci: AciString | string): Uint8Array {
+  #aciToBytes(aci: AciString | string): Uint8Array<ArrayBuffer> {
     return Aci.parseFromServiceIdString(aci).getRawUuidBytes();
   }
 
-  #aciToBytesOrNull(aci: AciString | string): Uint8Array | null {
+  #aciToBytesOrNull(aci: AciString | string): Uint8Array<ArrayBuffer> | null {
     if (isAciString(aci)) {
       return Aci.parseFromServiceIdString(aci).getRawUuidBytes();
     }
@@ -2027,13 +2029,13 @@ export class BackupExportStream extends Readable {
   }
 
   /** For fields explicitly marked as PNI (validator will expect 16 bytes) */
-  #pniToRawBytes(pni: PniString | string): Uint8Array {
+  #pniToRawBytes(pni: PniString | string): Uint8Array<ArrayBuffer> {
     return Pni.parseFromServiceIdString(pni).getRawUuidBytes();
   }
 
   /** For fields that can accept either ACI or PNI bytes */
-  #serviceIdToBytes(serviceId: ServiceIdString): Uint8Array {
-    return ServiceId.parseFromServiceIdString(serviceId).getServiceIdBinary();
+  #serviceIdToBytes(serviceId: ServiceIdString): Uint8Array<ArrayBuffer> {
+    return ServiceId.parseFromServiceIdString(serviceId).getRawUuidBytes();
   }
 
   async #toChatItemFromNonBubble(
@@ -2209,7 +2211,7 @@ export class BackupExportStream extends Readable {
         strictAssert(selfId, 'self must exist');
         patch.authorId = selfId;
 
-        let updaterAci: Uint8Array | null = null;
+        let updaterAci: Uint8Array<ArrayBuffer> | null = null;
         if (sourceServiceId && Aci.parseFromServiceIdString(sourceServiceId)) {
           updaterAci = uuidToBytes(sourceServiceId);
         }

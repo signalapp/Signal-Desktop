@@ -3,7 +3,9 @@
 
 import { canvasToBytes } from './canvasToBytes.std.js';
 
-export async function imagePathToBytes(src: string): Promise<Uint8Array> {
+export async function imagePathToBytes(
+  src: string
+): Promise<Uint8Array<ArrayBuffer>> {
   const image = new Image();
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');

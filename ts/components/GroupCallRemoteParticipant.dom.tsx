@@ -42,7 +42,7 @@ const DELAY_TO_SHOW_MISSING_MEDIA_KEYS = 5000;
 const CONTAINER_TRANSITION_TIME = 200;
 
 type BasePropsType = {
-  getFrameBuffer: () => Uint8Array;
+  getFrameBuffer: () => Uint8Array<ArrayBuffer>;
   getGroupCallVideoFrameSource: (demuxId: number) => VideoFrameSource;
   i18n: LocalizerType;
   imageDataCache: React.RefObject<CallingImageDataCache | null>;
@@ -235,7 +235,7 @@ export const GroupCallRemoteParticipant: React.FC<PropsType> = React.memo(
           imageData?.data.buffer !== frameBuffer.buffer ||
           imageData?.data.byteOffset !== frameBuffer.byteOffset
         ) {
-          const view = new Uint8ClampedArray(
+          const view = new Uint8ClampedArray<ArrayBuffer>(
             frameBuffer.buffer,
             frameBuffer.byteOffset,
             frameWidth * frameHeight * 4

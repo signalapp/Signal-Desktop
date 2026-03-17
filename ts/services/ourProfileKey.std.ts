@@ -9,7 +9,7 @@ import type { StorageInterface } from '../types/Storage.d.ts';
 const log = createLogger('ourProfileKey');
 
 export class OurProfileKeyService {
-  private getPromise: undefined | Promise<undefined | Uint8Array>;
+  private getPromise: undefined | Promise<undefined | Uint8Array<ArrayBuffer>>;
 
   #promisesBlockingGet: Array<Promise<unknown>> = [];
   #storage?: StorageInterface;
@@ -28,7 +28,7 @@ export class OurProfileKeyService {
     this.#storage = storage;
   }
 
-  get(): Promise<undefined | Uint8Array> {
+  get(): Promise<undefined | Uint8Array<ArrayBuffer>> {
     if (this.getPromise) {
       log.info(
         'Our profile key service: was already fetching. Piggybacking off of that'
@@ -40,7 +40,7 @@ export class OurProfileKeyService {
     return this.getPromise;
   }
 
-  async set(newValue: undefined | Uint8Array): Promise<void> {
+  async set(newValue: undefined | Uint8Array<ArrayBuffer>): Promise<void> {
     assertDev(this.#storage, 'OurProfileKeyService was not initialized');
     if (newValue != null) {
       strictAssert(
@@ -59,7 +59,7 @@ export class OurProfileKeyService {
     this.#promisesBlockingGet.push(promise);
   }
 
-  async #doGet(): Promise<undefined | Uint8Array> {
+  async #doGet(): Promise<undefined | Uint8Array<ArrayBuffer>> {
     log.info(
       `Our profile key service: waiting for ${this.#promisesBlockingGet.length} promises before fetching`
     );

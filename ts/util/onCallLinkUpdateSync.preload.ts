@@ -27,7 +27,7 @@ export async function onCallLinkUpdateSync(
   let callLinkRootKey: CallLinkRootKey;
   let roomId: string;
   try {
-    callLinkRootKey = CallLinkRootKey.fromBytes(rootKey as Buffer);
+    callLinkRootKey = CallLinkRootKey.fromBytes(rootKey as Buffer<ArrayBuffer>);
     roomId = getRoomIdFromRootKey(callLinkRootKey);
     strictAssert(
       roomId,

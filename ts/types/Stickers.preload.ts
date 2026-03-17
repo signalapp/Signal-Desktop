@@ -444,7 +444,10 @@ function getReduxStickerActions() {
   return actions.stickers;
 }
 
-function decryptSticker(packKey: string, ciphertext: Uint8Array): Uint8Array {
+function decryptSticker(
+  packKey: string,
+  ciphertext: Uint8Array<ArrayBuffer>
+): Uint8Array<ArrayBuffer> {
   const binaryKey = Bytes.fromBase64(packKey);
   const derivedKey = deriveStickerPackKey(binaryKey);
 

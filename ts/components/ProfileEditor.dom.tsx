@@ -230,11 +230,11 @@ export function ProfileEditor({
   const [startingAvatarUrl, setStartingAvatarUrl] = useState(profileAvatarUrl);
 
   const [oldAvatarBuffer, setOldAvatarBuffer] = useState<
-    Uint8Array | undefined
+    Uint8Array<ArrayBuffer> | undefined
   >(undefined);
-  const [avatarBuffer, setAvatarBuffer] = useState<Uint8Array | undefined>(
-    undefined
-  );
+  const [avatarBuffer, setAvatarBuffer] = useState<
+    Uint8Array<ArrayBuffer> | undefined
+  >(undefined);
   const [stagedProfile, setStagedProfile] = useState<ProfileEditorData>({
     aboutEmoji,
     aboutText,
@@ -285,7 +285,7 @@ export function ProfileEditor({
 
   // To make AvatarEditor re-render less often
   const handleAvatarChanged = useCallback(
-    (avatar: Uint8Array | undefined) => {
+    (avatar: Uint8Array<ArrayBuffer> | undefined) => {
       // Do not display stale avatar from disk anymore.
       setStartingAvatarUrl(undefined);
 
@@ -325,7 +325,7 @@ export function ProfileEditor({
 
   // To make AvatarEditor re-render less often
   const handleAvatarLoaded = useCallback(
-    (avatar: Uint8Array) => {
+    (avatar: Uint8Array<ArrayBuffer>) => {
       setAvatarBuffer(avatar);
       setOldAvatarBuffer(avatar);
     },

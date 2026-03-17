@@ -1,0 +1,13 @@
+diff --git a/types/types.d.ts b/types/types.d.ts
+index f6e6165885f0ae32b9d130797c77d5da04fba8cf..961c42536324ae50f48a8fbd0259228869a5487a 100644
+--- a/types/types.d.ts
++++ b/types/types.d.ts
+@@ -4101,7 +4101,7 @@ export interface Page {
+    * Returns the buffer with the captured screenshot.
+    * @param options
+    */
+-  screenshot(options?: PageScreenshotOptions): Promise<Buffer>;
++  screenshot(options?: PageScreenshotOptions): Promise<Buffer<ArrayBuffer>>;
+ 
+   /**
+    * **NOTE** Use locator-based

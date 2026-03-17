@@ -132,7 +132,7 @@ function trayIconValueToText(
 
 async function generateTrayIconImage(
   request: TrayIconImageRequest
-): Promise<Buffer> {
+): Promise<Buffer<ArrayBuffer>> {
   const variant = Variants[request.size];
   if (variant == null) {
     throw new TypeError(`Invalid variant size (${request.size})`);

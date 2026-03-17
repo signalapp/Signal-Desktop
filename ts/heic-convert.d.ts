@@ -3,8 +3,8 @@
 
 declare module 'heic-convert' {
   export default function heicConvert(options: {
-    buffer: Uint8Array;
+    buffer: Uint8Array<ArrayBuffer>;
     format: string;
     quality: number;
-  }): Promise<Buffer>;
+  }): Promise<Buffer<ArrayBuffer>>;
 }

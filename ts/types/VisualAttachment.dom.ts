@@ -120,7 +120,7 @@ const MINIMUM_JPEG_QUALITY = 0.1;
 const ADDITIONAL_QUALITY_DECREASE_PER_ITERATION = 0.1;
 
 export type CreatedThumbnailType = {
-  data: Uint8Array;
+  data: Uint8Array<ArrayBuffer>;
   height: number;
   width: number;
   mimeType: MIMEType;
@@ -285,7 +285,7 @@ export async function makeVideoScreenshot({
 }
 
 export function makeObjectUrl(
-  data: Uint8Array | ArrayBuffer,
+  data: Uint8Array<ArrayBuffer> | ArrayBuffer,
   contentType: MIMEType
 ): string {
   const blob = new Blob([data], {

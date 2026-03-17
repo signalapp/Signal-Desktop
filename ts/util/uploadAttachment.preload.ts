@@ -47,12 +47,12 @@ const log = createLogger('uploadAttachment');
 export async function uploadAttachment(
   attachment: AttachmentWithHydratedData
 ): Promise<UploadedAttachmentType> {
-  let keys: Uint8Array;
+  let keys: Uint8Array<ArrayBuffer>;
   let cdnKey: string;
   let cdnNumber: number;
-  let digest: Uint8Array;
+  let digest: Uint8Array<ArrayBuffer>;
   let plaintextHash: string;
-  let incrementalMac: Uint8Array | undefined;
+  let incrementalMac: Uint8Array<ArrayBuffer> | undefined;
   let chunkSize: number | undefined;
   let uploadTimestamp: number;
 
@@ -130,7 +130,7 @@ export async function encryptAndUploadAttachment({
   plaintext,
   uploadType,
 }: {
-  keys: Uint8Array;
+  keys: Uint8Array<ArrayBuffer>;
   needIncrementalMac: boolean;
   plaintext: PlaintextSourceType;
   uploadType: 'standard' | 'backup';

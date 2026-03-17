@@ -12,7 +12,7 @@ import { sha256 } from '../../../Crypto.node.js';
 
 export function getMediaIdFromMediaName(mediaName: string): {
   string: string;
-  bytes: Uint8Array;
+  bytes: Uint8Array<ArrayBuffer>;
 } {
   const mediaIdBytes = getBackupMediaRootKey().deriveMediaId(mediaName);
   return {
@@ -23,7 +23,7 @@ export function getMediaIdFromMediaName(mediaName: string): {
 
 export function getMediaIdForAttachment(attachment: BackupableAttachmentType): {
   string: string;
-  bytes: Uint8Array;
+  bytes: Uint8Array<ArrayBuffer>;
 } {
   const mediaName = getMediaNameForAttachment(attachment);
   return getMediaIdFromMediaName(mediaName);
@@ -33,7 +33,7 @@ export function getMediaIdForAttachmentThumbnail(
   attachment: BackupableAttachmentType
 ): {
   string: string;
-  bytes: Uint8Array;
+  bytes: Uint8Array<ArrayBuffer>;
 } {
   const mediaName = getMediaNameForAttachmentThumbnail(
     getMediaNameForAttachment(attachment)
@@ -54,8 +54,8 @@ export function getMediaName({
   plaintextHash,
   key,
 }: {
-  plaintextHash: Uint8Array;
-  key: Uint8Array;
+  plaintextHash: Uint8Array<ArrayBuffer>;
+  key: Uint8Array<ArrayBuffer>;
 }): string {
   return Bytes.toHex(Bytes.concatenate([plaintextHash, key]));
 }
@@ -73,8 +73,8 @@ export function getLocalBackupFileName({
   plaintextHash,
   localKey,
 }: {
-  plaintextHash: Uint8Array;
-  localKey: Uint8Array;
+  plaintextHash: Uint8Array<ArrayBuffer>;
+  localKey: Uint8Array<ArrayBuffer>;
 }): string {
   return Bytes.toHex(sha256(Bytes.concatenate([plaintextHash, localKey])));
 }
@@ -85,7 +85,9 @@ export function getMediaNameForAttachmentThumbnail(
   return `${fullsizeMediaName}_thumbnail`;
 }
 
-export function getBytesFromMediaIdString(mediaId: string): Uint8Array {
+export function getBytesFromMediaIdString(
+  mediaId: string
+): Uint8Array<ArrayBuffer> {
   return Bytes.fromBase64url(mediaId);
 }
 

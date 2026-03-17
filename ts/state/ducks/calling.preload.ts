@@ -131,6 +131,7 @@ import {
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import type { SizeCallbackType } from '../../calling/VideoSupport.preload.js';
 import type { NoopActionType } from './noop.std.js';
+import type { SignalService } from '../../protobuf/index.std.js';
 
 const { omit } = lodash;
 
@@ -2962,33 +2963,42 @@ function submitCallQualitySurvey(
       const { qualityStats } = callSummary;
       const { audioStats, videoStats } = qualityStats;
 
-      const surveyRequest = {
-        userSatisfied,
-        callQualityIssues: userSatisfied ? [] : Array.from(callQualityIssues),
-        additionalIssuesDescription:
-          !userSatisfied &&
-          callQualityIssues.includes(CallQualitySurvey.Issue.OTHER)
-            ? additionalIssuesDescription
-            : null,
-        debugLogUrl: debugLogUrl ?? null,
-        startTimestamp: BigInt(callSummary.startTime),
-        endTimestamp: BigInt(callSummary.endTime),
-        callType,
-        success: !isCallFailure(callSummary.callEndReasonText),
-        callEndReason: callSummary.callEndReasonText,
-        connectionRttMedian: qualityStats.rttMedianConnectionMillis ?? null,
-        audioRttMedian: audioStats.rttMedianMillis ?? null,
-        videoRttMedian: videoStats.rttMedianMillis ?? null,
-        audioRecvJitterMedian: audioStats.jitterMedianRecvMillis ?? null,
-        videoRecvJitterMedian: videoStats.jitterMedianRecvMillis ?? null,
-        audioSendJitterMedian: audioStats.jitterMedianSendMillis ?? null,
-        videoSendJitterMedian: videoStats.jitterMedianSendMillis ?? null,
-        audioRecvPacketLossFraction: audioStats.packetLossFractionRecv ?? null,
-        videoRecvPacketLossFraction: videoStats.packetLossFractionRecv ?? null,
-        audioSendPacketLossFraction: audioStats.packetLossFractionSend ?? null,
-        videoSendPacketLossFraction: videoStats.packetLossFractionSend ?? null,
-        callTelemetry: callSummary.rawStats ?? null,
-      };
+      // @ts-expect-error needs ringrtc update
+      const callTelemetry: Uint8Array<ArrayBuffer> | null =
+        callSummary.rawStats ?? null;
+
+      const surveyRequest: SignalService.SubmitCallQualitySurveyRequest.Params =
+        {
+          userSatisfied,
+          callQualityIssues: userSatisfied ? [] : Array.from(callQualityIssues),
+          additionalIssuesDescription:
+            !userSatisfied &&
+            callQualityIssues.includes(CallQualitySurvey.Issue.OTHER)
+              ? additionalIssuesDescription
+              : null,
+          debugLogUrl: debugLogUrl ?? null,
+          startTimestamp: BigInt(callSummary.startTime),
+          endTimestamp: BigInt(callSummary.endTime),
+          callType,
+          success: !isCallFailure(callSummary.callEndReasonText),
+          callEndReason: callSummary.callEndReasonText,
+          connectionRttMedian: qualityStats.rttMedianConnectionMillis ?? null,
+          audioRttMedian: audioStats.rttMedianMillis ?? null,
+          videoRttMedian: videoStats.rttMedianMillis ?? null,
+          audioRecvJitterMedian: audioStats.jitterMedianRecvMillis ?? null,
+          videoRecvJitterMedian: videoStats.jitterMedianRecvMillis ?? null,
+          audioSendJitterMedian: audioStats.jitterMedianSendMillis ?? null,
+          videoSendJitterMedian: videoStats.jitterMedianSendMillis ?? null,
+          audioRecvPacketLossFraction:
+            audioStats.packetLossFractionRecv ?? null,
+          videoRecvPacketLossFraction:
+            videoStats.packetLossFractionRecv ?? null,
+          audioSendPacketLossFraction:
+            audioStats.packetLossFractionSend ?? null,
+          videoSendPacketLossFraction:
+            videoStats.packetLossFractionSend ?? null,
+          callTelemetry,
+        };
 
       await submitCallQualitySurveyToServer(surveyRequest);
 

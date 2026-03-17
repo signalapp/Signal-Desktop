@@ -48,7 +48,11 @@ const BITMAP_HEADER = new Uint8Array([
 const PIXEL_COUNT = 32 * 32;
 
 /* eslint-disable no-bitwise */
-function writeUInt32LE(bytes: Uint8Array, value: number, position: number) {
+function writeUInt32LE(
+  bytes: Uint8Array<ArrayBuffer>,
+  value: number,
+  position: number
+) {
   // eslint-disable-next-line no-param-reassign
   bytes[position + 0] = (value >>> 0) & 0xff;
   // eslint-disable-next-line no-param-reassign

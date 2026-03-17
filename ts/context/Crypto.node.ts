@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { Buffer } from 'node:buffer';
-import type { Decipher } from 'node:crypto';
+import type { Decipheriv } from 'node:crypto';
 import crypto from 'node:crypto';
 
 import { strictAssert } from '../util/assert.std.js';
@@ -12,14 +12,20 @@ import { CipherType } from '../types/Crypto.std.js';
 const AUTH_TAG_SIZE = 16;
 
 export class Crypto {
-  public sign(key: Uint8Array, data: Uint8Array): Uint8Array {
+  public sign(
+    key: Uint8Array<ArrayBuffer>,
+    data: Uint8Array<ArrayBuffer>
+  ): Uint8Array<ArrayBuffer> {
     return crypto
       .createHmac('sha256', Buffer.from(key))
       .update(Buffer.from(data))
       .digest();
   }
 
-  public hash(type: HashType, data: Uint8Array): Uint8Array {
+  public hash(
+    type: HashType,
+    data: Uint8Array<ArrayBuffer>
+  ): Uint8Array<ArrayBuffer> {
     return crypto.createHash(type).update(Buffer.from(data)).digest();
   }
 
@@ -31,12 +37,12 @@ export class Crypto {
       iv,
       aad,
     }: Readonly<{
-      key: Uint8Array;
-      plaintext: Uint8Array;
-      iv: Uint8Array;
-      aad?: Uint8Array;
+      key: Uint8Array<ArrayBuffer>;
+      plaintext: Uint8Array<ArrayBuffer>;
+      iv: Uint8Array<ArrayBuffer>;
+      aad?: Uint8Array<ArrayBuffer>;
     }>
-  ): Uint8Array {
+  ): Uint8Array<ArrayBuffer> {
     if (cipherType === CipherType.AES256GCM) {
       const gcm = crypto.createCipheriv(
         cipherType,
@@ -76,13 +82,13 @@ export class Crypto {
       iv,
       aad,
     }: Readonly<{
-      key: Uint8Array;
-      ciphertext: Uint8Array;
-      iv: Uint8Array;
-      aad?: Uint8Array;
+      key: Uint8Array<ArrayBuffer>;
+      ciphertext: Uint8Array<ArrayBuffer>;
+      iv: Uint8Array<ArrayBuffer>;
+      aad?: Uint8Array<ArrayBuffer>;
     }>
-  ): Uint8Array {
-    let decipher: Decipher;
+  ): Uint8Array<ArrayBuffer> {
+    let decipher: Decipheriv;
     let input = Buffer.from(ciphertext);
     if (cipherType === CipherType.AES256GCM) {
       const gcm = crypto.createDecipheriv(
@@ -123,11 +129,14 @@ export class Crypto {
     return crypto.randomInt(min, max);
   }
 
-  public getRandomBytes(size: number): Uint8Array {
+  public getRandomBytes(size: number): Uint8Array<ArrayBuffer> {
     return crypto.randomBytes(size);
   }
 
-  public constantTimeEqual(left: Uint8Array, right: Uint8Array): boolean {
+  public constantTimeEqual(
+    left: Uint8Array<ArrayBuffer>,
+    right: Uint8Array<ArrayBuffer>
+  ): boolean {
     return crypto.timingSafeEqual(Buffer.from(left), Buffer.from(right));
   }
 }

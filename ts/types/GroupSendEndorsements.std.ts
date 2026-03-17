@@ -15,7 +15,7 @@ export type GroupSendCombinedEndorsementRecord = Readonly<{
   groupId: string;
   /** Unix timestamp in seconds */
   expiration: number;
-  endorsement: Uint8Array;
+  endorsement: Uint8Array<ArrayBuffer>;
 }>;
 
 /**
@@ -33,7 +33,7 @@ export type GroupSendMemberEndorsementRecord = Readonly<{
   memberAci: AciString;
   /** Unix timestamp in seconds */
   expiration: number;
-  endorsement: Uint8Array;
+  endorsement: Uint8Array<ArrayBuffer>;
 }>;
 
 /**
@@ -94,6 +94,8 @@ export const groupSendTokenSchema = z
 
 export type GroupSendToken = z.infer<typeof groupSendTokenSchema>;
 
-export function toGroupSendToken(token: Uint8Array): GroupSendToken {
+export function toGroupSendToken(
+  token: Uint8Array<ArrayBuffer>
+): GroupSendToken {
   return parseStrict(groupSendTokenSchema, token);
 }

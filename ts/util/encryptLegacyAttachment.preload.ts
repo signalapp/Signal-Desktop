@@ -32,8 +32,10 @@ export type EncryptLegacyAttachmentOptionsType = Readonly<{
   disposition?: AttachmentDisposition;
   readAttachmentData: (
     attachment: Partial<AddressableAttachmentType>
-  ) => Promise<Uint8Array>;
-  writeNewAttachmentData: (data: Uint8Array) => Promise<LocalAttachmentV2Type>;
+  ) => Promise<Uint8Array<ArrayBuffer>>;
+  writeNewAttachmentData: (
+    data: Uint8Array<ArrayBuffer>
+  ) => Promise<LocalAttachmentV2Type>;
 }>;
 
 export async function encryptLegacyAttachment<
