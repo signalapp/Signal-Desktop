@@ -80,7 +80,6 @@ import { renderToastManagerWithoutMegaphone } from './ToastManager.preload.js';
 import { useToastActions } from '../ducks/toast.preload.js';
 import { DataReader, DataWriter } from '../../sql/Client.preload.js';
 import { deleteAllMyStories } from '../../util/deleteAllMyStories.preload.js';
-import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled.dom.js';
 import { SmartPreferencesDonations } from './PreferencesDonations.preload.js';
 import { useDonationsActions } from '../ducks/donations.preload.js';
 import { generateDonationReceiptBlob } from '../../util/generateDonationReceipt.dom.js';
@@ -582,7 +581,12 @@ export function SmartPreferences(): React.JSX.Element | null {
     Settings.isContentProtectionSupported(OS);
   const isContentProtectionNeeded = Settings.isContentProtectionNeeded(OS);
 
-  const backupLocalBackupsEnabled = isLocalBackupsEnabled(items.remoteConfig);
+  const backupLocalBackupsEnabled = isFeaturedEnabledSelector({
+    betaKey: 'desktop.localBackups.beta',
+    prodKey: 'desktop.localBackups.prod',
+    currentVersion: version,
+    remoteConfig: items.remoteConfig,
+  });
   const backupFreeMediaDays = getMessageQueueTime(items.remoteConfig) / DAY;
 
   const isPlaintextExportEnabled = isFeaturedEnabledSelector({
