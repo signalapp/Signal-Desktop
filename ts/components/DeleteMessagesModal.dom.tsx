@@ -227,7 +227,7 @@ function DeleteMessagesConfirmAdminDeleteDialog(props: {
           </AxoAlertDialog.Title>
           <AxoAlertDialog.Description>
             {i18n(
-              'icu:DeleteMessagesModal--adminDeleteConfirmation--description',
+              'icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout',
               { count: messageCount }
             )}
           </AxoAlertDialog.Description>
