@@ -266,7 +266,6 @@ function renderDonationsPane(props: {
       clearWorkflow={action('clearWorkflow')}
       initialCurrency="usd"
       resumeWorkflow={action('resumeWorkflow')}
-      isDonationPaypalEnabled
       isOnline
       settingsLocation={props.settingsLocation}
       setSettingsLocation={props.setSettingsLocation}
@@ -418,7 +417,6 @@ export default {
     availableLocales: ['en'],
     availableMicrophones,
     availableSpeakers,
-    chatFoldersFeatureEnabled: true,
     backupFreeMediaDays: 45,
     backupKeyViewed: false,
     backupLocalBackupsEnabled: false,

@@ -118,7 +118,6 @@ export type PropsDataType = {
   backupTier: BackupLevel | null;
   lastLocalBackup: LocalBackupExportMetadata | undefined;
   localBackupFolder: string | undefined;
-  chatFoldersFeatureEnabled: boolean;
   currentChatFoldersCount: number;
   cloudBackupStatus?: BackupStatusType;
   backupSubscriptionStatus: BackupsSubscriptionType;
@@ -392,7 +391,6 @@ export function Preferences({
   availableMicrophones,
   availableSpeakers,
   backupMediaDownloadStatus,
-  chatFoldersFeatureEnabled,
   pauseBackupMediaDownload,
   resumeBackupMediaDownload,
   cancelBackupMediaDownload,
@@ -1198,55 +1196,51 @@ export function Preferences({
             />
           </SettingsRow>
         </SettingsRow>
-        {chatFoldersFeatureEnabled && (
-          <SettingsRow
-            title={i18n(
-              'icu:Preferences__ChatsPage__ChatFoldersSection__Title'
-            )}
-          >
-            <Control
-              left={
-                hasAnyCurrentCustomChatFolders
+        <SettingsRow
+          title={i18n('icu:Preferences__ChatsPage__ChatFoldersSection__Title')}
+        >
+          <Control
+            left={
+              hasAnyCurrentCustomChatFolders
+                ? i18n(
+                    'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders'
+                  )
+                : i18n(
+                    'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title'
+                  )
+            }
+            description={
+              hasAnyCurrentCustomChatFolders
+                ? i18n(
+                    'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders',
+                    { chatFoldersCount: currentChatFoldersCount }
+                  )
+                : i18n(
+                    'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description'
+                  )
+            }
+            right={
+              <AxoButton.Root
+                size="lg"
+                variant="secondary"
+                onClick={() => {
+                  setSettingsLocation({
+                    page: SettingsPage.ChatFolders,
+                    previousLocation: null,
+                  });
+                }}
+              >
+                {hasAnyCurrentCustomChatFolders
                   ? i18n(
-                      'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders'
+                      'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders'
                     )
                   : i18n(
-                      'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title'
-                    )
-              }
-              description={
-                hasAnyCurrentCustomChatFolders
-                  ? i18n(
-                      'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders',
-                      { chatFoldersCount: currentChatFoldersCount }
-                    )
-                  : i18n(
-                      'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description'
-                    )
-              }
-              right={
-                <AxoButton.Root
-                  size="lg"
-                  variant="secondary"
-                  onClick={() => {
-                    setSettingsLocation({
-                      page: SettingsPage.ChatFolders,
-                      previousLocation: null,
-                    });
-                  }}
-                >
-                  {hasAnyCurrentCustomChatFolders
-                    ? i18n(
-                        'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders'
-                      )
-                    : i18n(
-                        'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button'
-                      )}
-                </AxoButton.Root>
-              }
-            />
-          </SettingsRow>
-        )}
+                      'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button'
+                    )}
+              </AxoButton.Root>
+            }
+          />
+        </SettingsRow>
 
         {isPlaintextExportEnabled && (
           <SettingsRow>

@@ -77,7 +77,6 @@ import {
   type ChatFolder,
   isConversationInChatFolder,
 } from '../../types/ChatFolder.std.js';
-import { isChatFoldersEnabled } from '../../util/isChatFoldersEnabled.dom.js';
 import {
   getSelectedChatFolder,
   getCurrentChatFolders,
@@ -458,7 +457,6 @@ export const _getLeftPaneLists = ({
 
   for (let conversation of Object.values(conversationLookup)) {
     if (
-      isChatFoldersEnabled(window.SignalContext.getVersion()) &&
       !_shouldIncludeInChatFolder(
         conversation,
         selectedChatFolder,

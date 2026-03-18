@@ -20,7 +20,6 @@ import { safeSetTimeout } from '../util/timeout.std.js';
 import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
 import { isMoreRecentThan } from '../util/timestamp.std.js';
-import { isFeaturedEnabledNoRedux } from '../util/isFeatureEnabled.dom.js';
 import { maybeHydrateDonationConfigCache } from '../util/subscriptionConfiguration.preload.js';
 
 const log = createLogger('megaphoneService');
@@ -48,11 +47,6 @@ export function initMegaphoneCheckService(): void {
 
 export async function runMegaphoneCheck(): Promise<void> {
   try {
-    if (!isRemoteMegaphoneEnabled()) {
-      log.info('runMegaphoneCheck: not enabled, skipping');
-      return;
-    }
-
     const megaphones = await DataReader.getAllMegaphones();
     const shownIds: Set<RemoteMegaphoneId> = new Set();
 
@@ -90,13 +84,6 @@ export async function runMegaphoneCheck(): Promise<void> {
       drop(runMegaphoneCheck());
     }, CHECK_INTERVAL);
   }
-}
-
-export function isRemoteMegaphoneEnabled(): boolean {
-  return isFeaturedEnabledNoRedux({
-    betaKey: 'desktop.remoteMegaphone.beta',
-    prodKey: 'desktop.remoteMegaphone.prod',
-  });
 }
 
 export function isConditionalActive(conditionalId: string | null): boolean {

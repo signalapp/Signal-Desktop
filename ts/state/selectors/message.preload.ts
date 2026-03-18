@@ -176,7 +176,6 @@ import { getCallIdFromEra } from '../../util/callDisposition.preload.js';
 import { LONG_MESSAGE } from '../../types/MIME.std.js';
 import type { MessageRequestResponseNotificationData } from '../../components/conversation/MessageRequestResponseNotification.dom.js';
 import type { PinnedMessageNotificationData } from '../../components/conversation/pinned-messages/PinnedMessageNotification.dom.js';
-import { isPinnedMessagesSendEnabled } from '../../util/isPinnedMessagesEnabled.dom.js';
 import type { PollTerminateNotificationDataType } from '../../components/conversation/PollTerminateNotification.dom.js';
 
 const { groupBy, isEmpty, isNumber, isObject, map } = lodash;
@@ -2618,9 +2617,6 @@ export function canForward(message: ReadonlyMessageAttributesType): boolean {
 }
 
 export function canPinMessages(conversation: ConversationType): boolean {
-  if (!isPinnedMessagesSendEnabled()) {
-    return false;
-  }
   return (
     conversation.type === 'direct' || conversation.canEditGroupInfo === true
   );

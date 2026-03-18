@@ -86,7 +86,6 @@ const SUPPORT_URL = 'https://support.signal.org/hc/requests/new?desktop';
 export type PropsDataType = {
   i18n: LocalizerType;
   initialCurrency: string;
-  isDonationPaypalEnabled: boolean;
   isOnline: boolean;
   donationAmountsConfig: ReadonlyDeep<OneTimeDonationHumanAmounts> | undefined;
   lastError: DonationErrorType | undefined;
@@ -124,7 +123,6 @@ export function PreferencesDonateFlow({
   contentsRef,
   i18n,
   initialCurrency,
-  isDonationPaypalEnabled,
   isOnline,
   donationAmountsConfig,
   lastError,
@@ -203,13 +201,10 @@ export function PreferencesDonateFlow({
       return false;
     }
 
-    return (
-      isDonationPaypalEnabled &&
-      donationAmountsConfig[currency].supportedPaymentMethods.includes(
-        PaymentMethod.Paypal
-      )
+    return donationAmountsConfig[currency].supportedPaymentMethods.includes(
+      PaymentMethod.Paypal
     );
-  }, [isDonationPaypalEnabled, donationAmountsConfig, currency]);
+  }, [donationAmountsConfig, currency]);
 
   const handleAmountPickerResult = useCallback(
     (result: AmountPickerResult) => {

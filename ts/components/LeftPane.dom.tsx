@@ -127,7 +127,6 @@ export type PropsType = {
   i18n: LocalizerType;
   isMacOS: boolean;
   isNotificationProfileActive: boolean;
-  isChatFoldersEnabled: boolean;
   preferredWidthFromStorage: number;
   selectedChatFolder: ChatFolder | null;
   selectedConversationId: undefined | string;
@@ -248,7 +247,6 @@ export function LeftPane({
   lookupConversationWithoutServiceId,
   isMacOS,
   isNotificationProfileActive,
-  isChatFoldersEnabled,
   isOnline,
   isUpdateDownloaded,
   modeSpecificProps,
@@ -818,7 +816,7 @@ export function LeftPane({
               >
                 {i18n('icu:avatarMenuViewArchive')}
               </AxoDropdownMenu.Item>
-              {isChatFoldersEnabled && !hasAnyCurrentCustomChatFolders && (
+              {!hasAnyCurrentCustomChatFolders && (
                 <AxoDropdownMenu.Item
                   symbol="folder-plus"
                   onSelect={onChatFoldersOpenSettings}
@@ -826,7 +824,7 @@ export function LeftPane({
                   {i18n('icu:LeftPane__MoreActionsMenu__AddChatFolder')}
                 </AxoDropdownMenu.Item>
               )}
-              {isChatFoldersEnabled && hasAnyCurrentCustomChatFolders && (
+              {hasAnyCurrentCustomChatFolders && (
                 <AxoDropdownMenu.Item
                   symbol="folder-settings"
                   onSelect={onChatFoldersOpenSettings}
