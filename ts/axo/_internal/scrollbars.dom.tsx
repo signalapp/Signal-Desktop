@@ -17,8 +17,9 @@ type Listener = () => void;
 type Unsubscribe = () => void;
 
 class ScrollbarGuttersObserver {
+  #container: HTMLDivElement;
   #scroller: HTMLDivElement;
-  #current: ScrollbarGutters;
+  #current: ScrollbarGutters | null;
   #observer: ResizeObserver;
   #listeners = new Set<Listener>();
 
@@ -54,15 +55,27 @@ class ScrollbarGuttersObserver {
     scroller.append(content);
     container.append(scroller);
 
+    this.#container = container;
     this.#scroller = scroller;
     this.#current = this.#compute();
     this.#observer = new ResizeObserver(() => this.#update());
     this.#observer.observe(this.#scroller, { box: 'content-box' });
   }
 
-  #compute(): ScrollbarGutters {
+  destroy() {
+    this.#observer.disconnect();
+    this.#container.remove();
+  }
+
+  #compute(): ScrollbarGutters | null {
     const { offsetWidth, offsetHeight, clientWidth, clientHeight } =
       this.#scroller;
+
+    if (offsetWidth === 0 || offsetHeight === 0) {
+      // If the element is not properly rendered, we might get zero sizes.
+      // In that case, we should return zeros instead of throwing an error.
+      return null;
+    }
 
     assert(offsetWidth === 100, 'offsetWidth must be exactly 100px');
     assert(offsetHeight === 100, 'offsetHeight must be exactly 100px');
@@ -85,8 +98,8 @@ class ScrollbarGuttersObserver {
     const next = this.#compute();
 
     if (
-      next.vertical === this.#current.vertical &&
-      next.horizontal === this.#current.horizontal
+      next?.vertical === this.#current?.vertical &&
+      next?.horizontal === this.#current?.horizontal
     ) {
       return;
     }
@@ -98,7 +111,7 @@ class ScrollbarGuttersObserver {
     });
   }
 
-  current(): ScrollbarGutters {
+  current(): ScrollbarGutters | null {
     return this.#current;
   }
 
@@ -117,30 +130,41 @@ function applyGlobalProperties(
 ): Unsubscribe {
   const root = document.documentElement;
 
+  function removeProperties() {
+    root.style.removeProperty(verticalProperty);
+    root.style.removeProperty(horizontalProperty);
+  }
+
   function update() {
     const value = observer.current();
-    root.style.setProperty(verticalProperty, `${value.vertical}px`);
-    root.style.setProperty(horizontalProperty, `${value.horizontal}px`);
+    if (value != null) {
+      root.style.setProperty(verticalProperty, `${value.vertical}px`);
+      root.style.setProperty(horizontalProperty, `${value.horizontal}px`);
+    } else {
+      removeProperties();
+    }
   }
 
   update();
   const unsubscribe = observer.subscribe(update);
   return () => {
     unsubscribe();
-    root.style.removeProperty(verticalProperty);
-    root.style.removeProperty(horizontalProperty);
+    removeProperties();
   };
 }
 
 export function createScrollbarGutterCssProperties(): Unsubscribe {
+  const autoObserver = new ScrollbarGuttersObserver('auto');
+  const thinObserver = new ScrollbarGuttersObserver('thin');
+
   const autoUnsubscribe = applyGlobalProperties(
-    new ScrollbarGuttersObserver('auto'),
+    autoObserver,
     '--axo-scrollbar-gutter-auto-vertical',
     '--axo-scrollbar-gutter-auto-horizontal'
   );
 
   const thinUnsubscribe = applyGlobalProperties(
-    new ScrollbarGuttersObserver('thin'),
+    thinObserver,
     '--axo-scrollbar-gutter-thin-vertical',
     '--axo-scrollbar-gutter-thin-horizontal'
   );
@@ -148,5 +172,7 @@ export function createScrollbarGutterCssProperties(): Unsubscribe {
   return () => {
     autoUnsubscribe();
     thinUnsubscribe();
+    autoObserver.destroy();
+    thinObserver.destroy();
   };
 }
