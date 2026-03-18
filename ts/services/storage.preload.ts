@@ -154,7 +154,7 @@ const conflictBackOff = new BackOff([
 
 function encryptRecord(
   storageID: string | undefined,
-  recordIkm: Uint8Array | undefined,
+  recordIkm: Uint8Array<ArrayBuffer> | undefined,
   storageRecord: Proto.StorageRecord.Params
 ): Proto.StorageItem.Params {
   const storageKeyBuffer = storageID
@@ -183,13 +183,13 @@ function encryptRecord(
   };
 }
 
-function generateStorageID(): Uint8Array {
+function generateStorageID(): Uint8Array<ArrayBuffer> {
   return getRandomBytes(16);
 }
 
 type GeneratedManifestType = {
   postUploadUpdateFunctions: Array<() => unknown>;
-  recordIkm: Uint8Array | undefined;
+  recordIkm: Uint8Array<ArrayBuffer> | undefined;
   recordsByID: Map<string, GeneratedItemType | RemoteRecord>;
   insertKeys: Set<string>;
   deleteKeys: Set<string>;
@@ -892,7 +892,7 @@ async function generateManifest(
   // If we have a copy of what the current remote manifest is then we run these
   // additional validations comparing our pending manifest to the remote
   // manifest:
-  let recordIkm: Uint8Array | undefined;
+  let recordIkm: Uint8Array<ArrayBuffer> | undefined;
   if (previousManifest) {
     const pendingInserts: Set<string> = new Set();
     const pendingDeletes: Set<string> = new Set();
@@ -984,7 +984,7 @@ async function generateManifest(
 
 type EncryptManifestOptionsType = {
   recordsByID: Map<string, GeneratedItemType | RemoteRecord>;
-  recordIkm: Uint8Array | undefined;
+  recordIkm: Uint8Array<ArrayBuffer> | undefined;
   insertKeys: Set<string>;
 };
 
@@ -1833,7 +1833,7 @@ export type FetchRemoteRecordsResultType = Readonly<{
 
 async function fetchRemoteRecords(
   storageVersion: number,
-  recordIkm: Uint8Array | undefined,
+  recordIkm: Uint8Array<ArrayBuffer> | undefined,
   remoteOnlyRecords: Map<string, RemoteRecord>
 ): Promise<FetchRemoteRecordsResultType> {
   const storageKeyBase64 = itemStorage.get('storageKey');

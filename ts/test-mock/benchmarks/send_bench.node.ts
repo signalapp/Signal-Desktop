@@ -22,7 +22,7 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
 
   const [first] = contacts as [PrimaryDevice];
 
-  const messages = new Array<Buffer>();
+  const messages = new Array<Buffer<ArrayBuffer>>();
   debug('encrypting');
   // Note: make it so that we receive the latest message from the first
   // contact.

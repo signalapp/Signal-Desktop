@@ -15,19 +15,21 @@ export function getAllKTAcis(db: ReadableDB): Array<AciString> {
 export function getKTAccountData(
   db: ReadableDB,
   aci: AciString
-): Uint8Array | undefined {
+): Uint8Array<ArrayBuffer> | undefined {
   const [query, params] = sql`
     SELECT data
     FROM key_transparency_account_data
     WHERE aci IS ${aci}
   `;
-  return db.prepare(query, { pluck: true }).get<Uint8Array>(params);
+  return db
+    .prepare(query, { pluck: true })
+    .get<Uint8Array<ArrayBuffer>>(params);
 }
 
 export function setKTAccountData(
   db: WritableDB,
   aci: AciString,
-  data: Uint8Array
+  data: Uint8Array<ArrayBuffer>
 ): void {
   const [query, params] = sql`
     INSERT OR REPLACE INTO key_transparency_account_data

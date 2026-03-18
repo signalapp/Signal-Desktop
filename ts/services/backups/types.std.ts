@@ -50,12 +50,12 @@ export type BackupImportOptions = (
       localBackupSnapshotDir: string;
     }
 ) & {
-  ephemeralKey?: Uint8Array;
+  ephemeralKey?: Uint8Array<ArrayBuffer>;
   onProgress?: OnProgressCallback;
 };
 
 export type LocalChatStyle = Readonly<{
-  wallpaperPhotoPointer: Uint8Array | undefined;
+  wallpaperPhotoPointer: Uint8Array<ArrayBuffer> | undefined;
   wallpaperPreset: number | undefined;
   color: ConversationColorType | undefined;
   customColorId: string | undefined;

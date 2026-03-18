@@ -1,0 +1,61 @@
+diff --git a/index.d.ts b/index.d.ts
+index 37f233281dac070b5b64ad810d766dce269e095e..3698e98b27ddf4849097811e1e8b25df955fb9b9 100644
+--- a/index.d.ts
++++ b/index.d.ts
+@@ -195,7 +195,7 @@ export class Image {
+   readonly naturalHeight: number
+   readonly complete: boolean
+   alt: string
+-  src: Buffer
++  src: Buffer<ArrayBuffer>
+   onload?(): void
+   onerror?(err: Error): void
+ }
+@@ -296,7 +296,7 @@ export interface SvgCanvas {
+   height: number
+   getContext(contextType: '2d', contextAttributes?: ContextAttributes): SKRSContext2D
+ 
+-  getContent(): Buffer
++  getContent(): Buffer<ArrayBuffer>
+ }
+ 
+ export interface AvifConfig {
+@@ -360,18 +360,18 @@ export class Canvas {
+   width: number
+   height: number
+   getContext(contextType: '2d', contextAttributes?: ContextAttributes): SKRSContext2D
+-  encodeSync(format: 'webp' | 'jpeg', quality?: number): Buffer
+-  encodeSync(format: 'png'): Buffer
+-  encodeSync(format: 'avif', cfg?: AvifConfig): Buffer
+-  encode(format: 'webp' | 'jpeg', quality?: number): Promise<Buffer>
+-  encode(format: 'png'): Promise<Buffer>
+-  encode(format: 'avif', cfg?: AvifConfig): Promise<Buffer>
+-
+-  toBuffer(mime: 'image/png'): Buffer
+-  toBuffer(mime: 'image/jpeg' | 'image/webp', quality?: number): Buffer
+-  toBuffer(mime: 'image/avif', cfg?: AvifConfig): Buffer
++  encodeSync(format: 'webp' | 'jpeg', quality?: number): Buffer<ArrayBuffer>
++  encodeSync(format: 'png'): Buffer<ArrayBuffer>
++  encodeSync(format: 'avif', cfg?: AvifConfig): Buffer<ArrayBuffer>
++  encode(format: 'webp' | 'jpeg', quality?: number): Promise<Buffer<ArrayBuffer>>
++  encode(format: 'png'): Promise<Buffer<ArrayBuffer>>
++  encode(format: 'avif', cfg?: AvifConfig): Promise<Buffer<ArrayBuffer>>
++
++  toBuffer(mime: 'image/png'): Buffer<ArrayBuffer>
++  toBuffer(mime: 'image/jpeg' | 'image/webp', quality?: number): Buffer<ArrayBuffer>
++  toBuffer(mime: 'image/avif', cfg?: AvifConfig): Buffer<ArrayBuffer>
+   // raw pixels
+-  data(): Buffer
++  data(): Buffer<ArrayBuffer>
+   toDataURL(mime?: 'image/png'): string
+   toDataURL(mime: 'image/jpeg' | 'image/webp', quality?: number): string
+   toDataURL(mime?: 'image/jpeg' | 'image/webp' | 'image/png', quality?: number): string
+@@ -439,7 +439,7 @@ export enum SvgExportFlag {
+   RelativePathEncoding = 0x04,
+ }
+ 
+-export function convertSVGTextToPath(svg: Buffer | string): Buffer
++export function convertSVGTextToPath(svg: Buffer | string): Buffer<ArrayBuffer>
+ 
+ export interface LoadImageOptions {
+   alt?: string

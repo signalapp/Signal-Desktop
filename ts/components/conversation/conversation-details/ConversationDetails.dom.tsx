@@ -273,7 +273,7 @@ export function ConversationDetails({
           }
           makeRequest={async (
             options: Readonly<{
-              avatar?: undefined | Uint8Array;
+              avatar?: undefined | Uint8Array<ArrayBuffer>;
               description?: string;
               title?: string;
             }>

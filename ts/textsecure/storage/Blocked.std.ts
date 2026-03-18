@@ -109,7 +109,7 @@ export class Blocked {
   public getBlockedData(): {
     e164s: Array<string>;
     acis: Array<AciString>;
-    groupIds: Array<Uint8Array>;
+    groupIds: Array<Uint8Array<ArrayBuffer>>;
   } {
     const e164s = this.getBlockedNumbers();
     const acis = this.getBlockedServiceIds().filter(item => isAciString(item));

@@ -16,7 +16,10 @@ import { DataWriter } from '../../sql/Client.preload.js';
 import { signalProtocolStore } from '../../SignalProtocolStore.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 
-const assertEqualBuffers = (a: Uint8Array, b: Uint8Array) => {
+const assertEqualBuffers = (
+  a: Uint8Array<ArrayBuffer>,
+  b: Uint8Array<ArrayBuffer>
+) => {
   assert.isTrue(constantTimeEqual(a, b));
 };
 

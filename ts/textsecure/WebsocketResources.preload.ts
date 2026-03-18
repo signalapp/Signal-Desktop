@@ -157,7 +157,7 @@ export enum ServerRequestType {
 export class IncomingWebSocketRequest {
   constructor(
     readonly requestType: ServerRequestType,
-    readonly body: Uint8Array | undefined,
+    readonly body: Uint8Array<ArrayBuffer> | undefined,
     readonly timestamp: number | undefined,
     private readonly ack: Pick<ChatServerMessageAck, 'send'> | undefined
   ) {}
@@ -170,7 +170,7 @@ export class IncomingWebSocketRequest {
 export type SendRequestOptions = Readonly<{
   verb: string;
   path: string;
-  body?: Uint8Array;
+  body?: Uint8Array<ArrayBuffer>;
   timeout?: number;
   headers?: ReadonlyArray<[string, string]>;
 }>;
@@ -178,7 +178,7 @@ export type SendRequestOptions = Readonly<{
 export type SendRequestResult = Readonly<{
   status: number;
   message: string;
-  response?: Uint8Array;
+  response?: Uint8Array<ArrayBuffer>;
   headers: ReadonlyArray<string>;
 }>;
 
@@ -287,7 +287,7 @@ export function connectAuthenticated({
   const listener: WebSocketResourceHandler<'auth'> & ChatServiceListener = {
     resource: undefined,
     onIncomingMessage(
-      envelope: Uint8Array,
+      envelope: Uint8Array<ArrayBuffer>,
       timestamp: number,
       ack: ChatServerMessageAck
     ): void {

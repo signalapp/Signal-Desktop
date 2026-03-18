@@ -81,7 +81,7 @@ async function getFont(text: string): Promise<string> {
 
 export async function avatarDataToBytes(
   avatarData: AvatarDataType
-): Promise<Uint8Array> {
+): Promise<Uint8Array<ArrayBuffer>> {
   const canvas = document.createElement('canvas');
   canvas.width = CANVAS_SIZE;
   canvas.height = CANVAS_SIZE;

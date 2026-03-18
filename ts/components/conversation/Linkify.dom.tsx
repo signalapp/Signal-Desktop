@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import LinkifyIt from 'linkify-it';
+import LinkifyIt, { type Match as LinkifyItMatch } from 'linkify-it';
 
 import type { RenderTextCallbackType } from '../../types/Util.std.js';
 import {
@@ -335,7 +335,7 @@ export function Linkify(props: Props): React.JSX.Element {
 
   const chunkData: Array<{
     chunk: string;
-    matchData: ReadonlyArray<LinkifyIt.Match>;
+    matchData: ReadonlyArray<LinkifyItMatch>;
   }> = splitByEmoji(text).map(({ type, value: chunk }) => {
     if (type === 'text') {
       return { chunk, matchData: linkify.match(chunk) || [] };

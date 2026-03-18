@@ -15,7 +15,7 @@ import { generateAci } from '../../types/ServiceId.std.js';
 import { encryptProfileData } from '../../util/encryptProfileData.preload.js';
 
 describe('encryptProfileData', () => {
-  let keyBuffer: Uint8Array;
+  let keyBuffer: Uint8Array<ArrayBuffer>;
   let conversation: ConversationType;
 
   beforeEach(() => {

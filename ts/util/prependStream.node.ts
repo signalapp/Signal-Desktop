@@ -4,7 +4,7 @@
 import { Transform } from 'node:stream';
 import type { Duplex } from 'node:stream';
 
-export function prependStream(data: Uint8Array): Duplex {
+export function prependStream(data: Uint8Array<ArrayBuffer>): Duplex {
   return new Transform({
     construct(callback) {
       this.push(data);

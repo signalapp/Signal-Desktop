@@ -16,7 +16,9 @@ import {
  *
  * [0]: https://mimesniff.spec.whatwg.org/#matching-an-image-type-pattern
  */
-export function sniffImageMimeType(bytes: Uint8Array): undefined | MIMEType {
+export function sniffImageMimeType(
+  bytes: Uint8Array<ArrayBuffer>
+): undefined | MIMEType {
   for (const type of TYPES) {
     if (matchesType(bytes, type)) {
       return type.mimeType;
@@ -27,8 +29,8 @@ export function sniffImageMimeType(bytes: Uint8Array): undefined | MIMEType {
 
 type Type = {
   mimeType: MIMEType;
-  bytePattern: Uint8Array;
-  patternMask?: Uint8Array;
+  bytePattern: Uint8Array<ArrayBuffer>;
+  patternMask?: Uint8Array<ArrayBuffer>;
 };
 const TYPES: Array<Type> = [
   {
@@ -76,7 +78,7 @@ const TYPES: Array<Type> = [
 
 // This follows the [pattern matching algorithm in the spec][1].
 // [1]: https://mimesniff.spec.whatwg.org/#pattern-matching-algorithm
-function matchesType(input: Uint8Array, type: Type): boolean {
+function matchesType(input: Uint8Array<ArrayBuffer>, type: Type): boolean {
   if (input.byteLength < type.bytePattern.byteLength) {
     return false;
   }

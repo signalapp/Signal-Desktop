@@ -19,10 +19,11 @@ export class StreamTimeoutError extends Error {}
 export function getStreamWithTimeout(
   stream: Readable,
   { name, timeout, abortController }: OptionsType
-): Promise<Uint8Array> {
-  const { promise, resolve, reject } = explodePromise<Uint8Array>();
+): Promise<Uint8Array<ArrayBuffer>> {
+  const { promise, resolve, reject } =
+    explodePromise<Uint8Array<ArrayBuffer>>();
 
-  const chunks = new Array<Uint8Array>();
+  const chunks = new Array<Uint8Array<ArrayBuffer>>();
 
   let timer: NodeJS.Timeout | undefined;
 

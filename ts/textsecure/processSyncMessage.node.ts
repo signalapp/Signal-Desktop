@@ -9,7 +9,7 @@ import type { ProcessedSent } from './Types.d.ts';
 
 type ProtoServiceId = Readonly<{
   destinationServiceId?: string | null;
-  destinationServiceIdBinary?: Uint8Array | null;
+  destinationServiceIdBinary?: Uint8Array<ArrayBuffer> | null;
 }>;
 
 function processProtoWithDestinationServiceId<Input extends ProtoServiceId>(

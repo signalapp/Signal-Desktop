@@ -1,7 +1,7 @@
 // Copyright 2021 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-export function fileToBytes(file: Blob): Promise<Uint8Array> {
+export function fileToBytes(file: Blob): Promise<Uint8Array<ArrayBuffer>> {
   return new Promise((resolve, rejectPromise) => {
     const FR = new FileReader();
     FR.onload = () => {

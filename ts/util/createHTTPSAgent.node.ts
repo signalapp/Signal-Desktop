@@ -65,7 +65,8 @@ export class Agent extends HTTPSAgent {
     });
   }
 
-  public createConnection = callbackify(
+  // @ts-expect-error - callbackify() returns the wrong type
+  public createConnection: HTTPSAgent['createConnection'] = callbackify(
     async (options: RequestOptions): Promise<net.Socket> => {
       const { host = options.hostname, port: portString } = options;
       strictAssert(host, 'Agent.createConnection: Missing options.host');

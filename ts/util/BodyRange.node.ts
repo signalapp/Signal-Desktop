@@ -13,6 +13,7 @@ import { createLogger } from '../logging/log.std.js';
 import { isNotNil } from './isNotNil.std.js';
 import { dropNull } from './dropNull.std.js';
 import { fromAciUuidBytesOrString } from './ServiceId.node.js';
+import { isNonSharedUint8Array } from '../Bytes.std.js';
 
 const { isNumber } = lodash;
 
@@ -55,13 +56,13 @@ export function filterAndClean(
       }
 
       let rawMentionAci: string | undefined;
-      let mentionAciBinary: Uint8Array | undefined;
+      let mentionAciBinary: Uint8Array<ArrayBuffer> | undefined;
       if ('mentionAci' in range) {
         rawMentionAci = dropNull(range.mentionAci);
       }
       if (
         'mentionAciBinary' in range &&
-        range.mentionAciBinary instanceof Uint8Array
+        isNonSharedUint8Array(range.mentionAciBinary)
       ) {
         mentionAciBinary = dropNull(range.mentionAciBinary);
       }

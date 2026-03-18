@@ -32,19 +32,19 @@ export function toPniObject(pni: PniString): Pni {
 }
 
 export function fromServiceIdBinaryOrString(
-  bytes: Uint8Array,
+  bytes: Uint8Array<ArrayBuffer>,
   fallback: string | undefined | null,
   context: string
 ): ServiceIdString;
 
 export function fromServiceIdBinaryOrString(
-  bytes: Uint8Array | undefined | null,
+  bytes: Uint8Array<ArrayBuffer> | undefined | null,
   fallback: string | undefined | null,
   context: string
 ): ServiceIdString | undefined;
 
 export function fromServiceIdBinaryOrString(
-  bytes: Uint8Array | undefined | null,
+  bytes: Uint8Array<ArrayBuffer> | undefined | null,
   fallback: string | undefined | null,
   context: string
 ): ServiceIdString | undefined {
@@ -57,14 +57,14 @@ export function fromServiceIdBinaryOrString(
   return undefined;
 }
 
-export function fromAciUuidBytes(bytes: Uint8Array): AciString;
+export function fromAciUuidBytes(bytes: Uint8Array<ArrayBuffer>): AciString;
 
 export function fromAciUuidBytes(
-  bytes: Uint8Array | undefined | null
+  bytes: Uint8Array<ArrayBuffer> | undefined | null
 ): AciString | undefined;
 
 export function fromAciUuidBytes(
-  bytes: Uint8Array | undefined | null
+  bytes: Uint8Array<ArrayBuffer> | undefined | null
 ): AciString | undefined {
   if (Bytes.isNotEmpty(bytes)) {
     return fromAciObject(Aci.fromUuidBytes(bytes));
@@ -73,25 +73,25 @@ export function fromAciUuidBytes(
 }
 
 export function fromAciUuidBytesOrString(
-  bytes: Uint8Array,
+  bytes: Uint8Array<ArrayBuffer>,
   fallback: string | undefined | null,
   context: string
 ): AciString;
 
 export function fromAciUuidBytesOrString(
-  bytes: Uint8Array | undefined | null,
+  bytes: Uint8Array<ArrayBuffer> | undefined | null,
   fallback: string,
   context: string
 ): AciString;
 
 export function fromAciUuidBytesOrString(
-  bytes: Uint8Array | undefined | null,
+  bytes: Uint8Array<ArrayBuffer> | undefined | null,
   fallback: string | undefined | null,
   context: string
 ): AciString | undefined;
 
 export function fromAciUuidBytesOrString(
-  bytes: Uint8Array | undefined | null,
+  bytes: Uint8Array<ArrayBuffer> | undefined | null,
   fallback: string | undefined | null,
   context: string
 ): AciString | undefined {
@@ -105,7 +105,7 @@ export function fromAciUuidBytesOrString(
 }
 
 export function fromPniUuidBytesOrUntaggedString(
-  bytes: Uint8Array | undefined | null,
+  bytes: Uint8Array<ArrayBuffer> | undefined | null,
   fallback: string | undefined | null,
   context: string
 ): PniString | undefined {

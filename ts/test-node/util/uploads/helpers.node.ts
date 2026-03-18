@@ -20,13 +20,14 @@ export type LastRequestData = Readonly<{
   method?: string;
   url?: string;
   headers: OutgoingHttpHeaders;
-  body: Buffer;
+  body: Buffer<ArrayBuffer>;
 }>;
 
 export class TestServer extends EventEmitter {
   #server: Server;
   #nextResponse: NextResponse = { status: 200, headers: {} };
-  #lastRequest: { request: IncomingMessage; body: Buffer } | null = null;
+  #lastRequest: { request: IncomingMessage; body: Buffer<ArrayBuffer> } | null =
+    null;
 
   constructor() {
     super();
@@ -107,7 +108,7 @@ export class TestServer extends EventEmitter {
 
 export function body(
   server: TestServer,
-  steps: () => AsyncIterator<Uint8Array, void, number>
+  steps: () => AsyncIterator<Uint8Array<ArrayBuffer>, void, number>
 ): Readable {
   const iter = steps();
   let first = true;

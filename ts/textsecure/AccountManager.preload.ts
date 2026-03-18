@@ -151,8 +151,8 @@ type CreateAccountSharedOptionsType = Readonly<{
   verificationCode: string;
   aciKeyPair: KeyPairType;
   pniKeyPair: KeyPairType;
-  profileKey: Uint8Array;
-  masterKey: Uint8Array | undefined;
+  profileKey: Uint8Array<ArrayBuffer>;
+  masterKey: Uint8Array<ArrayBuffer> | undefined;
   accountEntropyPool: string | undefined;
 }>;
 
@@ -164,11 +164,11 @@ type CreatePrimaryDeviceOptionsType = Readonly<{
   ourPni?: undefined;
   userAgent?: undefined;
   ephemeralBackupKey?: undefined;
-  mediaRootBackupKey: Uint8Array;
+  mediaRootBackupKey: Uint8Array<ArrayBuffer>;
 
   readReceipts: true;
 
-  accessKey: Uint8Array;
+  accessKey: Uint8Array<ArrayBuffer>;
   sessionId: string;
 }> &
   CreateAccountSharedOptionsType;
@@ -180,8 +180,8 @@ export type CreateLinkedDeviceOptionsType = Readonly<{
   ourAci: AciString;
   ourPni: PniString;
   userAgent?: string;
-  ephemeralBackupKey: Uint8Array | undefined;
-  mediaRootBackupKey: Uint8Array | undefined;
+  ephemeralBackupKey: Uint8Array<ArrayBuffer> | undefined;
+  mediaRootBackupKey: Uint8Array<ArrayBuffer> | undefined;
 
   readReceipts: boolean;
 
@@ -250,7 +250,7 @@ function signedPreKeyToUploadSignedPreKey({
 
 export type ConfirmNumberResultType = Readonly<{
   deviceName: string;
-  backupFile: Uint8Array | undefined;
+  backupFile: Uint8Array<ArrayBuffer> | undefined;
 }>;
 
 export default class AccountManager extends EventTarget {

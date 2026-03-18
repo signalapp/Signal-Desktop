@@ -552,7 +552,7 @@ export type PreJoinConversationType = ReadonlyDeep<{
 }>;
 
 type ComposerGroupCreationState = ReadonlyDeep<{
-  groupAvatar: undefined | Uint8Array;
+  groupAvatar: undefined | Uint8Array<ArrayBuffer>;
   groupName: string;
   groupExpireTimer: DurationInSeconds;
   maximumGroupSizeModalState: OneTimeModalState;
@@ -1003,7 +1003,7 @@ export type ShowArchivedConversationsActionType = ReadonlyDeep<{
 }>;
 type SetComposeGroupAvatarActionType = ReadonlyDeep<{
   type: 'SET_COMPOSE_GROUP_AVATAR';
-  payload: { groupAvatar: undefined | Uint8Array };
+  payload: { groupAvatar: undefined | Uint8Array<ArrayBuffer> };
 }>;
 type SetComposeGroupNameActionType = ReadonlyDeep<{
   type: 'SET_COMPOSE_GROUP_NAME';
@@ -4474,7 +4474,7 @@ export function scrollToMessage(
 }
 
 function setComposeGroupAvatar(
-  groupAvatar: undefined | Uint8Array
+  groupAvatar: undefined | Uint8Array<ArrayBuffer>
 ): SetComposeGroupAvatarActionType {
   return {
     type: 'SET_COMPOSE_GROUP_AVATAR',
@@ -4649,7 +4649,7 @@ export type UpdateGroupAttributesType = ReadonlyDeep<
 function updateGroupAttributes(
   conversationId: string,
   attributes: Readonly<{
-    avatar?: undefined | Uint8Array;
+    avatar?: undefined | Uint8Array<ArrayBuffer>;
     description?: string;
     title?: string;
   }>,
@@ -6957,7 +6957,7 @@ export function reducer(
     let recommendedGroupSizeModalState: OneTimeModalState;
     let maximumGroupSizeModalState: OneTimeModalState;
     let groupName: string;
-    let groupAvatar: undefined | Uint8Array;
+    let groupAvatar: undefined | Uint8Array<ArrayBuffer>;
     let groupExpireTimer: DurationInSeconds;
     let userAvatarData = getDefaultAvatars(true);
 

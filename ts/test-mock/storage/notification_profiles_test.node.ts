@@ -104,7 +104,7 @@ describe('storage service/notification profiles', function (this: Mocha.Suite) {
       after: secondState,
     });
 
-    let profileId: Uint8Array | undefined;
+    let profileId: Uint8Array<ArrayBuffer> | undefined;
     const profilewasAdded = thirdState.hasRecord(record => {
       if (record.record.notificationProfile == null) {
         return false;

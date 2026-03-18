@@ -7,6 +7,7 @@ import { createLogger } from '../logging/log.std.js';
 import { isIterable } from '../util/iterables.std.js';
 
 import { toNumber } from '../util/toNumber.std.js';
+import { isNonSharedUint8Array } from '../Bytes.std.js';
 
 const { isPlainObject } = lodash;
 
@@ -42,7 +43,7 @@ type CleanedDataValue =
   | boolean
   | null
   | undefined
-  | Uint8Array
+  | Uint8Array<ArrayBuffer>
   | CleanedObject
   | CleanedArray;
 /* eslint-disable no-restricted-syntax */
@@ -129,7 +130,7 @@ function cleanDataInner(
         return undefined;
       }
 
-      if (data instanceof Uint8Array) {
+      if (isNonSharedUint8Array(data)) {
         return data;
       }
 

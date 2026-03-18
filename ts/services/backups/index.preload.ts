@@ -145,7 +145,7 @@ export type DownloadOptionsType = Readonly<{
 
 type DoDownloadOptionsType = Readonly<{
   downloadPath: string;
-  ephemeralKey?: Uint8Array;
+  ephemeralKey?: Uint8Array<ArrayBuffer>;
   onProgress?: (
     backupStep: InstallScreenBackupStep,
     currentBytes: number,
@@ -597,10 +597,10 @@ export class BackupsService {
   // Test harness
   public async exportBackupData(
     options: BackupExportOptions
-  ): Promise<{ data: Uint8Array } & ExportResultType> {
+  ): Promise<{ data: Uint8Array<ArrayBuffer> } & ExportResultType> {
     const sink = new PassThrough();
 
-    const chunks = new Array<Uint8Array>();
+    const chunks = new Array<Uint8Array<ArrayBuffer>>();
     sink.on('data', chunk => chunks.push(chunk));
     const result = await this.#exportBackup(sink, options);
 
@@ -850,7 +850,7 @@ export class BackupsService {
 
         // First pass - don't decrypt, only verify mac
         let hmac = createHmac(HashType.size256, macKey);
-        let theirMac: Uint8Array | undefined;
+        let theirMac: Uint8Array<ArrayBuffer> | undefined;
         let totalBytes = 0;
 
         const sink = new PassThrough();

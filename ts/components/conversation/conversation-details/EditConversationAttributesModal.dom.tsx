@@ -31,7 +31,7 @@ type PropsType = {
   initiallyFocusDescription: boolean;
   makeRequest: (
     _: Readonly<{
-      avatar?: undefined | Uint8Array;
+      avatar?: undefined | Uint8Array<ArrayBuffer>;
       description?: string;
       title?: undefined | string;
     }>
@@ -70,7 +70,7 @@ export function EditConversationAttributesModal({
   const startingAvatarUrlRef = useRef<undefined | string>(externalAvatarUrl);
 
   const [editingAvatar, setEditingAvatar] = useState(false);
-  const [avatar, setAvatar] = useState<undefined | Uint8Array>();
+  const [avatar, setAvatar] = useState<undefined | Uint8Array<ArrayBuffer>>();
   const [rawTitle, setRawTitle] = useState(externalTitle);
   const [rawGroupDescription, setRawGroupDescription] = useState(
     externalGroupDescription
@@ -135,7 +135,7 @@ export function EditConversationAttributesModal({
     event.preventDefault();
 
     const request: {
-      avatar?: undefined | Uint8Array;
+      avatar?: undefined | Uint8Array<ArrayBuffer>;
       description?: string;
       title?: string;
     } = {};

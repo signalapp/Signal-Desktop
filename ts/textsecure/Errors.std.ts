@@ -168,14 +168,14 @@ export class SendMessageProtoError extends Error implements CallbackResultType {
 
   public readonly unidentifiedDeliveries?: Array<ServiceIdString>;
 
-  public readonly dataMessage: Uint8Array | undefined;
+  public readonly dataMessage: Uint8Array<ArrayBuffer> | undefined;
 
-  public readonly editMessage: Uint8Array | undefined;
+  public readonly editMessage: Uint8Array<ArrayBuffer> | undefined;
 
   // Fields necessary for send log save
   public readonly contentHint?: number;
 
-  public readonly contentProto?: Uint8Array;
+  public readonly contentProto?: Uint8Array<ArrayBuffer>;
 
   public readonly timestamp?: number;
 

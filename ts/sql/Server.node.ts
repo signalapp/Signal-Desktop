@@ -346,7 +346,7 @@ type StickerRow = Readonly<{
 type StorageServiceRowFields = Readonly<{
   storageID?: string;
   storageVersion?: number;
-  storageUnknownFields?: Uint8Array | null;
+  storageUnknownFields?: Uint8Array<ArrayBuffer> | null;
   storageNeedsSync: number;
 }>;
 type InstalledStickerPackRow = Readonly<{
@@ -2978,9 +2978,9 @@ function getAndProtectExistingAttachmentPath(
       screenshotVersion,
       screenshotContentType,
       screenshotSize
-    FROM message_attachments 
-    WHERE 
-      plaintextHash = ${plaintextHash} AND 
+    FROM message_attachments
+    WHERE
+      plaintextHash = ${plaintextHash} AND
       path IS NOT NULL AND
       version = ${version} AND
       contentType = ${contentType}
@@ -3017,7 +3017,7 @@ function _protectAttachmentPathFromDeletion(
   const [protectQuery, protectParams] = sql`
     INSERT OR REPLACE INTO attachments_protected_from_deletion
       (path, messageId)
-    VALUES 
+    VALUES
       (${path}, ${messageId});
   `;
   db.prepare(protectQuery).run(protectParams);
@@ -3038,11 +3038,11 @@ function getAllProtectedAttachmentPaths(db: ReadableDB): Array<string> {
 function isAttachmentSafeToDelete(db: ReadableDB, path: string): boolean {
   const [query, params] = sql`
     SELECT EXISTS (
-      SELECT 1 FROM attachments_protected_from_deletion 
+      SELECT 1 FROM attachments_protected_from_deletion
         WHERE path = ${path}
       UNION ALL
-        SELECT 1 FROM message_attachments 
-          WHERE 
+        SELECT 1 FROM message_attachments
+          WHERE
             path = ${path} OR
             thumbnailPath = ${path} OR
             screenshotPath = ${path} OR
@@ -3058,7 +3058,7 @@ function getMostRecentAttachmentUploadData(
   plaintextHash: string
 ): ExistingAttachmentUploadData | undefined {
   const [query, params] = sql`
-    SELECT 
+    SELECT
       key,
       digest,
       transitCdnKey AS cdnKey,
@@ -3068,7 +3068,7 @@ function getMostRecentAttachmentUploadData(
       incrementalMacChunkSize as chunkSize
     FROM message_attachments
     INDEXED BY message_attachments_plaintextHash
-    WHERE 
+    WHERE
       plaintextHash = ${plaintextHash} AND
       key IS NOT NULL AND
       digest IS NOT NULL AND

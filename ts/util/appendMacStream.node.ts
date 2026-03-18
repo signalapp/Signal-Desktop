@@ -12,8 +12,8 @@ export const MAC_KEY_SIZE = 32;
 export const MAC_SIZE = 32;
 
 export function appendMacStream(
-  macKey: Uint8Array,
-  onMac?: (mac: Uint8Array) => undefined
+  macKey: Uint8Array<ArrayBuffer>,
+  onMac?: (mac: Uint8Array<ArrayBuffer>) => undefined
 ): Duplex {
   if (macKey.byteLength !== MAC_KEY_SIZE) {
     throw new Error('appendMacStream: invalid macKey length');

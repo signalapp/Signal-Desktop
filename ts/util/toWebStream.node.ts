@@ -6,8 +6,10 @@ import { once } from 'node:events';
 
 // Note: can be removed once https://github.com/nodejs/node/issues/54205 is
 // resolved and ported to Electron.
-export function toWebStream(readable: Readable): ReadableStream<Buffer> {
-  let controller: ReadableStreamDefaultController<Buffer>;
+export function toWebStream(
+  readable: Readable
+): ReadableStream<Buffer<ArrayBuffer>> {
+  let controller: ReadableStreamDefaultController<Buffer<ArrayBuffer>>;
 
   const cleanup = finished(readable, err => {
     cleanup();

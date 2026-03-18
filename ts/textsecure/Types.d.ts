@@ -59,7 +59,7 @@ export type DeviceType = {
 export type CompatSignedPreKeyType = {
   keyId: number;
   keyPair: KeyPairType;
-  signature: Uint8Array;
+  signature: Uint8Array<ArrayBuffer>;
 };
 
 export type CompatPreKeyType = {
@@ -76,8 +76,8 @@ export type OuterSignedPrekeyType = {
 
   created_at: number;
   keyId: number;
-  privKey: Uint8Array;
-  pubKey: Uint8Array;
+  privKey: Uint8Array<ArrayBuffer>;
+  pubKey: Uint8Array<ArrayBuffer>;
 };
 
 export type SessionResetsType = Record<string, number>;
@@ -96,13 +96,13 @@ export type ProcessedEnvelope = Readonly<{
   destinationServiceId: ServiceIdString;
   updatedPni: PniString | undefined;
   timestamp: number;
-  content: Uint8Array;
+  content: Uint8Array<ArrayBuffer>;
   serverGuid: string;
   serverTimestamp: number;
   groupId: string | undefined;
   urgent: boolean;
   story: boolean;
-  reportingToken: Uint8Array | undefined;
+  reportingToken: Uint8Array<ArrayBuffer> | undefined;
   groupId: string | undefined;
 }>;
 
@@ -277,7 +277,7 @@ export type ProcessedDataMessage = {
 export type ProcessedUnidentifiedDeliveryStatus = Readonly<{
   destinationServiceId?: ServiceIdString;
   isAllowedToReplyToStory?: boolean;
-  destinationPniIdentityKey?: Uint8Array;
+  destinationPniIdentityKey?: Uint8Array<ArrayBuffer>;
   unidentified?: boolean;
 }>;
 
@@ -306,8 +306,8 @@ export type CallbackResultType = {
   failoverServiceIds?: Array<ServiceIdString>;
   errors?: Array<CustomError>;
   unidentifiedDeliveries?: Array<ServiceIdString>;
-  dataMessage: Uint8Array | undefined;
-  editMessage: Uint8Array | undefined;
+  dataMessage: Uint8Array<ArrayBuffer> | undefined;
+  editMessage: Uint8Array<ArrayBuffer> | undefined;
 
   // If this send is not the final step in a multi-step send, we shouldn't treat its
   //   results we would treat a one-step send.
@@ -315,7 +315,7 @@ export type CallbackResultType = {
 
   // Fields necessary for send log save
   contentHint?: number;
-  contentProto?: Uint8Array;
+  contentProto?: Uint8Array<ArrayBuffer>;
   timestamp?: number;
   recipients?: Record<ServiceIdString, Array<number>>;
   urgent?: boolean;
@@ -328,13 +328,13 @@ export type IRequestHandler = {
 };
 
 export type PniKeyMaterialType = Readonly<{
-  identityKeyPair: Uint8Array;
-  signedPreKey: Uint8Array;
-  lastResortKyberPreKey?: Uint8Array;
+  identityKeyPair: Uint8Array<ArrayBuffer>;
+  signedPreKey: Uint8Array<ArrayBuffer>;
+  lastResortKyberPreKey?: Uint8Array<ArrayBuffer>;
   registrationId: number;
 }>;
 
 export type PniSignatureMessageType = Readonly<{
   pni: PniString;
-  signature: Uint8Array;
+  signature: Uint8Array<ArrayBuffer>;
 }>;

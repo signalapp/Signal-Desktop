@@ -14,7 +14,8 @@ import { createLogger } from '../../logging/log.std.js';
 
 const logger = createLogger('uploadDebugLogs_test');
 
-const gzip: (_: zlib.InputType) => Promise<Buffer> = util.promisify(zlib.gzip);
+const gzip: (_: zlib.InputType) => Promise<Buffer<ArrayBuffer>> =
+  util.promisify(zlib.gzip);
 
 describe('upload', () => {
   beforeEach(function (this: Mocha.Context) {

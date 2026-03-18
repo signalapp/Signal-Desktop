@@ -12,7 +12,7 @@ const ERROR_CORRECTION_LEVEL = 'L';
 export type PropsType = Readonly<{
   alt: string;
   className?: string;
-  data: string | Uint8Array;
+  data: string | Uint8Array<ArrayBuffer>;
 }>;
 
 export function QrCode(props: PropsType): ReactElement {

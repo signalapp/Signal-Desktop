@@ -85,7 +85,7 @@ export type PropsDataType = {
   donationReceipts: ReadonlyArray<DonationReceipt>;
   theme: ThemeType;
   saveAttachmentToDisk: (options: {
-    data: Uint8Array;
+    data: Uint8Array<ArrayBuffer>;
     name: string;
     baseDir?: string | undefined;
   }) => Promise<{ fullPath: string; name: string } | null>;
@@ -345,7 +345,7 @@ function PreferencesReceiptList({
   i18n: LocalizerType;
   donationReceipts: ReadonlyArray<DonationReceipt>;
   saveAttachmentToDisk: (options: {
-    data: Uint8Array;
+    data: Uint8Array<ArrayBuffer>;
     name: string;
     baseDir?: string | undefined;
   }) => Promise<{ fullPath: string; name: string } | null>;

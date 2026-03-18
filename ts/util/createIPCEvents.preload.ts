@@ -76,8 +76,8 @@ export type IPCEventsCallbacksType = {
   startCallingLobbyViaToken: (token: string) => void;
   unknownSignalLink: () => void;
   uploadStickerPack: (
-    manifest: Uint8Array,
-    stickers: ReadonlyArray<Uint8Array>
+    manifest: Uint8Array<ArrayBuffer>,
+    stickers: ReadonlyArray<Uint8Array<ArrayBuffer>>
   ) => Promise<string>;
 };
 
@@ -439,8 +439,8 @@ export function createIPCEvents(
       showUnknownSgnlLinkModal();
     },
     uploadStickerPack: (
-      manifest: Uint8Array,
-      stickers: ReadonlyArray<Uint8Array>
+      manifest: Uint8Array<ArrayBuffer>,
+      stickers: ReadonlyArray<Uint8Array<ArrayBuffer>>
     ): Promise<string> => {
       return putStickers(manifest, stickers, () =>
         ipcRenderer.send('art-creator:onUploadProgress')

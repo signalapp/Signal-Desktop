@@ -16,7 +16,7 @@ import {
 import { sniffImageMimeType } from '../../util/sniffImageMimeType.std.js';
 
 describe('sniffImageMimeType', () => {
-  const fixture = (filename: string): Promise<Buffer> => {
+  const fixture = (filename: string): Promise<Buffer<ArrayBuffer>> => {
     const fixturePath = path.join(
       __dirname,
       '..',

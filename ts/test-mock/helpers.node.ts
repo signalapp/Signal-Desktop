@@ -19,7 +19,7 @@ import { toNumber } from '../util/toNumber.std.js';
 
 const debug = createDebug('mock:test:helpers');
 
-export function bufferToUuid(buffer: Buffer): string {
+export function bufferToUuid(buffer: Buffer<ArrayBuffer>): string {
   const hex = buffer.toString('hex');
 
   return [

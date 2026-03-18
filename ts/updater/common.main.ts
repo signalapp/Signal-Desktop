@@ -113,7 +113,7 @@ enum DownloadMode {
 
 type DownloadUpdateResultType = Readonly<{
   updateFilePath: string;
-  signature: Buffer;
+  signature: Buffer<ArrayBuffer>;
 }>;
 
 export type UpdaterOptionsType = Readonly<{
@@ -308,7 +308,7 @@ export abstract class Updater {
     markShouldQuit();
   }
 
-  protected getUpdatesPublicKey(): Buffer {
+  protected getUpdatesPublicKey(): Buffer<ArrayBuffer> {
     return hexToBinary(config.get('updatesPublicKey'));
   }
 

@@ -48,7 +48,7 @@ type NextSessionRowType = Readonly<{
   ourServiceId: string;
   serviceId: string;
   deviceId: number;
-  record: Buffer;
+  record: Buffer<ArrayBuffer>;
 }>;
 
 function migrateSession(

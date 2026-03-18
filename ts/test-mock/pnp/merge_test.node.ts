@@ -34,8 +34,8 @@ describe('pnp/merge', function (this: Mocha.Suite) {
   let bootstrap: Bootstrap;
   let app: App;
   let pniContact: PrimaryDevice;
-  let pniIdentityKey: Uint8Array;
-  let aciIdentityKey: Uint8Array;
+  let pniIdentityKey: Uint8Array<ArrayBuffer>;
+  let aciIdentityKey: Uint8Array<ArrayBuffer>;
 
   beforeEach(async () => {
     bootstrap = new Bootstrap({ contactCount: 0 });

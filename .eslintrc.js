@@ -274,6 +274,8 @@ const typescriptRules = {
       ],
     },
   ],
+
+  'local-rules/enforce-array-buffer': 'error',
 };
 
 const TAILWIND_REPLACEMENTS = [

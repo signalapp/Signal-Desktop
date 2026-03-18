@@ -90,7 +90,7 @@ export async function addAttachmentToMessage(
 
   if (type === 'long-message') {
     let handledAnywhere = false;
-    let attachmentData: Uint8Array | undefined;
+    let attachmentData: Uint8Array<ArrayBuffer> | undefined;
 
     try {
       if (attachment.path) {

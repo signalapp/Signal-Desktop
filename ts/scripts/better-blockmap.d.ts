@@ -10,6 +10,6 @@ declare module 'better-blockmap' {
 
   export class BlockMap extends Writable {
     constructor(options?: BlockMapOptions);
-    compress(compression?: 'gzip' | 'deflate'): Buffer;
+    compress(compression?: 'gzip' | 'deflate'): Buffer<ArrayBuffer>;
   }
 }

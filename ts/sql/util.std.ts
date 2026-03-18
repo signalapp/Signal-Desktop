@@ -38,7 +38,11 @@ export function jsonToObject<T>(json: string): T {
   return JSON.parse(json);
 }
 
-export type QueryTemplateParam = Uint8Array | string | number | null;
+export type QueryTemplateParam =
+  | Uint8Array<ArrayBuffer>
+  | string
+  | number
+  | null;
 export type QueryFragmentValue = QueryFragment | QueryTemplateParam;
 
 export class QueryFragment {

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 type MessageWithUnknownFields = {
-  $unknown?: ReadonlyArray<Uint8Array>;
+  $unknown?: ReadonlyArray<Uint8Array<ArrayBuffer>>;
 };
 
 /**

@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import * as moment from 'moment';
-// @ts-expect-error -- no types
 import 'moment/min/locales.min.js';
 
 import { initialize as initializeLogging } from '../../logging/set_up_renderer_logging.preload.js';

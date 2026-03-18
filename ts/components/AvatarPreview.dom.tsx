@@ -21,13 +21,13 @@ const log = createLogger('AvatarPreview');
 export type PropsType = {
   avatarColor?: AvatarColorType;
   avatarUrl?: string;
-  avatarValue?: Uint8Array;
+  avatarValue?: Uint8Array<ArrayBuffer>;
   conversationTitle?: string;
   i18n: LocalizerType;
   isEditable?: boolean;
   isGroup?: boolean;
   noteToSelf?: boolean;
-  onAvatarLoaded?: (avatarBuffer: Uint8Array) => unknown;
+  onAvatarLoaded?: (avatarBuffer: Uint8Array<ArrayBuffer>) => unknown;
   onClear?: () => unknown;
   onClick?: () => unknown;
   showUploadButton?: boolean;
@@ -58,7 +58,9 @@ export function AvatarPreview({
   showUploadButton,
   style = {},
 }: PropsType): React.JSX.Element {
-  const [avatarPreview, setAvatarPreview] = useState<Uint8Array | undefined>();
+  const [avatarPreview, setAvatarPreview] = useState<
+    Uint8Array<ArrayBuffer> | undefined
+  >();
 
   // Loads the initial avatarUrl if one is provided, but only if we're in editable mode.
   //   If we're not editable, we assume that we either have an avatarUrl or we show a

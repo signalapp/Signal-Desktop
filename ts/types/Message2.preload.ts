@@ -92,7 +92,7 @@ export type ContextType = {
     logger: LoggerType;
   }) => Promise<Blob>;
   makeObjectUrl: (
-    data: Uint8Array | ArrayBuffer,
+    data: Uint8Array<ArrayBuffer> | ArrayBuffer,
     contentType: MIME.MIMEType
   ) => string;
   makeVideoScreenshot: (params: {
@@ -104,9 +104,13 @@ export type ContextType = {
   revokeObjectUrl: (objectUrl: string) => void;
   readAttachmentData: (
     attachment: Partial<AddressableAttachmentType>
-  ) => Promise<Uint8Array>;
-  writeNewAttachmentData: (data: Uint8Array) => Promise<LocalAttachmentV2Type>;
-  writeNewStickerData: (data: Uint8Array) => Promise<LocalAttachmentV2Type>;
+  ) => Promise<Uint8Array<ArrayBuffer>>;
+  writeNewAttachmentData: (
+    data: Uint8Array<ArrayBuffer>
+  ) => Promise<LocalAttachmentV2Type>;
+  writeNewStickerData: (
+    data: Uint8Array<ArrayBuffer>
+  ) => Promise<LocalAttachmentV2Type>;
   maybeDeleteAttachmentFile: (path: string) => Promise<{ wasDeleted: boolean }>;
   getExistingAttachmentDataForReuse: typeof getExistingAttachmentDataForReuse;
 };
@@ -845,7 +849,7 @@ export const processNewAttachment = async (
 };
 
 export const processNewSticker = async (
-  stickerData: Uint8Array,
+  stickerData: Uint8Array<ArrayBuffer>,
   isEphemeral: boolean,
   {
     writeNewStickerData,

@@ -7,45 +7,45 @@
 import { Buffer } from 'buffer';
 
 export class Bytes {
-  public fromBase64(value: string): Uint8Array {
+  public fromBase64(value: string): Uint8Array<ArrayBuffer> {
     return Buffer.from(value, 'base64');
   }
 
-  public fromBase64url(value: string): Uint8Array {
+  public fromBase64url(value: string): Uint8Array<ArrayBuffer> {
     return Buffer.from(value, 'base64url');
   }
 
-  public fromHex(value: string): Uint8Array {
+  public fromHex(value: string): Uint8Array<ArrayBuffer> {
     return Buffer.from(value, 'hex');
   }
 
   // TODO(indutny): deprecate it
-  public fromBinary(value: string): Uint8Array {
+  public fromBinary(value: string): Uint8Array<ArrayBuffer> {
     return Buffer.from(value, 'binary');
   }
 
-  public fromString(value: string): Uint8Array {
+  public fromString(value: string): Uint8Array<ArrayBuffer> {
     return Buffer.from(value);
   }
 
-  public toBase64(data: Uint8Array): string {
+  public toBase64(data: Uint8Array<ArrayBuffer>): string {
     return Buffer.from(data).toString('base64');
   }
 
-  public toBase64url(data: Uint8Array): string {
+  public toBase64url(data: Uint8Array<ArrayBuffer>): string {
     return Buffer.from(data).toString('base64url');
   }
 
-  public toHex(data: Uint8Array): string {
+  public toHex(data: Uint8Array<ArrayBuffer>): string {
     return Buffer.from(data).toString('hex');
   }
 
   // TODO(indutny): deprecate it
-  public toBinary(data: Uint8Array): string {
+  public toBinary(data: Uint8Array<ArrayBuffer>): string {
     return Buffer.from(data).toString('binary');
   }
 
-  public toString(data: Uint8Array): string {
+  public toString(data: Uint8Array<ArrayBuffer>): string {
     return Buffer.from(data).toString();
   }
 
@@ -53,24 +53,28 @@ export class Bytes {
     return Buffer.byteLength(value);
   }
 
-  public concatenate(list: ReadonlyArray<Uint8Array>): Uint8Array {
+  public concatenate(
+    list: ReadonlyArray<Uint8Array<ArrayBuffer>>
+  ): Uint8Array<ArrayBuffer> {
     return Buffer.concat(list);
   }
 
-  public isEmpty(data: Uint8Array | null | undefined): boolean {
+  public isEmpty(data: Uint8Array<ArrayBuffer> | null | undefined): boolean {
     if (!data) {
       return true;
     }
     return data.length === 0;
   }
 
-  public isNotEmpty(data: Uint8Array | null | undefined): data is Uint8Array {
+  public isNotEmpty(
+    data: Uint8Array<ArrayBuffer> | null | undefined
+  ): data is Uint8Array<ArrayBuffer> {
     return !this.isEmpty(data);
   }
 
   public areEqual(
-    a: Uint8Array | null | undefined,
-    b: Uint8Array | null | undefined
+    a: Uint8Array<ArrayBuffer> | null | undefined,
+    b: Uint8Array<ArrayBuffer> | null | undefined
   ): boolean {
     if (!a || !b) {
       return !a && !b;
@@ -79,7 +83,7 @@ export class Bytes {
     return Buffer.compare(a, b) === 0;
   }
 
-  public readBigUint64BE(value: Uint8Array): bigint {
+  public readBigUint64BE(value: Uint8Array<ArrayBuffer>): bigint {
     const buffer = Buffer.from(value);
     return buffer.readBigUint64BE();
   }

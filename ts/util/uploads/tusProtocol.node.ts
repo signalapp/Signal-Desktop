@@ -59,7 +59,7 @@ function addProgressHandler(
   // Explicitly stop the flow, otherwise we might emit 'data' before `fetch()`
   // starts reading the stream.
   readable.pause();
-  readable.on('data', (chunk: Buffer) => {
+  readable.on('data', (chunk: Buffer<ArrayBuffer>) => {
     bytesUploaded += chunk.byteLength;
     onProgress(bytesUploaded);
   });

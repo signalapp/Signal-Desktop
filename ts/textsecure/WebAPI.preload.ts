@@ -219,7 +219,7 @@ type PromiseAjaxOptionsType<Type extends ResponseType, OutputShape> = {
   certificateAuthority?: string;
   chatServiceUrl?: string;
   contentType?: string;
-  data?: Uint8Array | (() => Readable) | string;
+  data?: Uint8Array<ArrayBuffer> | (() => Readable) | string;
   disableRetries?: boolean;
   disableSessionResumption?: boolean;
   headers?: HeaderListType;
@@ -264,7 +264,7 @@ type JSONWithDetailsType<Data = unknown> = {
   response: Response;
 };
 type BytesWithDetailsType = {
-  data: Uint8Array;
+  data: Uint8Array<ArrayBuffer>;
   contentType: string | null;
   response: Response;
 };
@@ -511,7 +511,7 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
     }
   }
 
-  let result: string | Uint8Array | Readable | unknown;
+  let result: string | Uint8Array<ArrayBuffer> | Readable | unknown;
   try {
     if (DEBUG && !isSuccess(response.status)) {
       result = await response.text();
@@ -623,7 +623,10 @@ async function _promiseAjax<Type extends ResponseType, OutputShape>(
   log.info(logId, response.status, 'Success');
 
   if (options.responseType === 'byteswithdetails') {
-    assertDev(result instanceof Uint8Array, 'Expected Uint8Array result');
+    assertDev(
+      Bytes.isNonSharedUint8Array(result),
+      'Expected Uint8Array result'
+    );
     const fullResult: BytesWithDetailsType = {
       data: result,
       contentType: getContentType(response),
@@ -684,7 +687,7 @@ async function _retry<R>(
 type OuterAjaxReturnType<Type extends ResponseType, OutputShape> = {
   json: Promise<OutputShape>;
   jsonwithdetails: Promise<JSONWithDetailsType<OutputShape>>;
-  bytes: Promise<Uint8Array>;
+  bytes: Promise<Uint8Array<ArrayBuffer>>;
   byteswithdetails: Promise<BytesWithDetailsType>;
   stream: Promise<Readable>;
   streamwithdetails: Promise<StreamWithDetailsType>;
@@ -849,7 +852,7 @@ type AjaxOptionsType<Type extends AjaxResponseType, OutputShape = unknown> = (
   | AjaxChatOptionsType
 ) & {
   contentType?: string;
-  data?: Buffer | Uint8Array | string;
+  data?: Buffer<ArrayBuffer> | Uint8Array<ArrayBuffer> | string;
   headers?: HeaderListType;
   httpType: HTTPCodeType;
   jsonData?: unknown;
@@ -872,7 +875,7 @@ export type WebAPIConnectOptionsType = WebAPICredentials & {
   hasBuildExpired: boolean;
 };
 
-type StickerPackManifestType = Uint8Array;
+type StickerPackManifestType = Uint8Array<ArrayBuffer>;
 
 export type GroupCredentialType = {
   credential: string;
@@ -895,7 +898,7 @@ export type GetGroupLogOptionsType = Readonly<{
 }>;
 export type GroupLogResponseType = {
   changes: Proto.GroupChanges;
-  groupSendEndorsementsResponse: Uint8Array | null;
+  groupSendEndorsementsResponse: Uint8Array<ArrayBuffer> | null;
 } & (
   | {
       paginated: false;
@@ -968,7 +971,7 @@ export type ProfileType = Readonly<{
 }>;
 
 export type GetAccountForUsernameOptionsType = Readonly<{
-  hash: Uint8Array;
+  hash: Uint8Array<ArrayBuffer>;
 }>;
 
 export type GetAccountForUsernameResultType = AciString | null;
@@ -1045,19 +1048,19 @@ export type VerifyServiceIdResponseType = z.infer<
 >;
 
 export type ReserveUsernameOptionsType = Readonly<{
-  hashes: ReadonlyArray<Uint8Array>;
+  hashes: ReadonlyArray<Uint8Array<ArrayBuffer>>;
   abortSignal?: AbortSignal;
 }>;
 
 export type ReplaceUsernameLinkOptionsType = Readonly<{
-  encryptedUsername: Uint8Array;
+  encryptedUsername: Uint8Array<ArrayBuffer>;
   keepLinkHandle: boolean;
 }>;
 
 export type ConfirmUsernameOptionsType = Readonly<{
-  hash: Uint8Array;
-  proof: Uint8Array;
-  encryptedUsername: Uint8Array;
+  hash: Uint8Array<ArrayBuffer>;
+  proof: Uint8Array<ArrayBuffer>;
+  encryptedUsername: Uint8Array<ArrayBuffer>;
   abortSignal?: AbortSignal;
 }>;
 
@@ -1085,12 +1088,12 @@ export type ReplaceUsernameLinkResultType = z.infer<
 >;
 
 export type ResolveUsernameByLinkOptionsType = Readonly<{
-  entropy: Uint8Array;
+  entropy: Uint8Array<ArrayBuffer>;
   uuid: string;
 }>;
 export type ResolveUsernameLinkResultType = {
   username: string;
-  hash: Uint8Array;
+  hash: Uint8Array<ArrayBuffer>;
 } | null;
 
 export type CreateAccountOptionsType = Readonly<{
@@ -1100,7 +1103,7 @@ export type CreateAccountOptionsType = Readonly<{
   newPassword: string;
   registrationId: number;
   pniRegistrationId: number;
-  accessKey: Uint8Array;
+  accessKey: Uint8Array<ArrayBuffer>;
   aciPublicKey: PublicKey;
   pniPublicKey: PublicKey;
   aciSignedPreKey: UploadSignedPreKeyType;
@@ -1281,13 +1284,13 @@ export type RequestVerificationResultType = Readonly<{
 }>;
 
 export type SetBackupIdOptionsType = Readonly<{
-  messagesBackupAuthCredentialRequest: Uint8Array;
-  mediaBackupAuthCredentialRequest: Uint8Array;
+  messagesBackupAuthCredentialRequest: Uint8Array<ArrayBuffer>;
+  mediaBackupAuthCredentialRequest: Uint8Array<ArrayBuffer>;
 }>;
 
 export type SetBackupSignatureKeyOptionsType = Readonly<{
   headers: BackupPresentationHeadersType;
-  backupIdPublicKey: Uint8Array;
+  backupIdPublicKey: Uint8Array<ArrayBuffer>;
 }>;
 
 export type UploadBackupOptionsType = Readonly<{
@@ -1302,8 +1305,8 @@ export type BackupMediaItemType = Readonly<{
   }>;
   objectLength: number;
   mediaId: string;
-  hmacKey: Uint8Array;
-  encryptionKey: Uint8Array;
+  hmacKey: Uint8Array<ArrayBuffer>;
+  encryptionKey: Uint8Array<ArrayBuffer>;
 }>;
 
 export type BackupMediaBatchOptionsType = Readonly<{
@@ -1505,7 +1508,7 @@ export type ReleaseNotesManifestResponseType = z.infer<
 >;
 
 export type GetReleaseNoteImageAttachmentResultType = Readonly<{
-  imageData: Uint8Array;
+  imageData: Uint8Array<ArrayBuffer>;
   contentType: string | null;
 }>;
 
@@ -1609,7 +1612,7 @@ export type SubscriptionResponseType = z.infer<
 export type UploadSignedPreKeyType = {
   keyId: number;
   publicKey: PublicKey;
-  signature: Uint8Array;
+  signature: Uint8Array<ArrayBuffer>;
 };
 export type UploadPreKeyType = {
   keyId: number;
@@ -1618,7 +1621,7 @@ export type UploadPreKeyType = {
 export type UploadKyberPreKeyType = {
   keyId: number;
   publicKey: KEMPublicKey;
-  signature: Uint8Array;
+  signature: Uint8Array<ArrayBuffer>;
 };
 
 type SerializedSignedPreKeyType = Readonly<{
@@ -1677,20 +1680,20 @@ export type ServerKeysType = {
     // We'll get a 404 if none of these keys are provided; we'll have at least one
     preKey?: {
       keyId: number;
-      publicKey: Uint8Array;
+      publicKey: Uint8Array<ArrayBuffer>;
     };
     signedPreKey?: {
       keyId: number;
-      publicKey: Uint8Array;
-      signature: Uint8Array;
+      publicKey: Uint8Array<ArrayBuffer>;
+      signature: Uint8Array<ArrayBuffer>;
     };
     pqPreKey?: {
       keyId: number;
-      publicKey: Uint8Array;
-      signature: Uint8Array;
+      publicKey: Uint8Array<ArrayBuffer>;
+      signature: Uint8Array<ArrayBuffer>;
     };
   }>;
-  identityKey: Uint8Array;
+  identityKey: Uint8Array<ArrayBuffer>;
 };
 
 export type ChallengeType = {
@@ -1841,7 +1844,9 @@ const fetchForLinkPreviews: linkPreviewFetch.FetchFn = async (href, init) => {
   return fetch(href, { ...init, agent: fetchAgent });
 };
 
-function _ajax(param: AjaxOptionsType<'bytes', never>): Promise<Uint8Array>;
+function _ajax(
+  param: AjaxOptionsType<'bytes', never>
+): Promise<Uint8Array<ArrayBuffer>>;
 function _ajax(
   param: AjaxOptionsType<'byteswithdetails', never>
 ): Promise<BytesWithDetailsType>;
@@ -2275,7 +2280,7 @@ export async function getReleaseNoteImageAttachment(
 
 export async function getStorageManifest(
   options: StorageServiceCallOptionsType = {}
-): Promise<Uint8Array> {
+): Promise<Uint8Array<ArrayBuffer>> {
   const { credentials, greaterThanVersion } = options;
 
   const { data, response } = await _ajax({
@@ -2302,9 +2307,9 @@ export async function getStorageManifest(
 }
 
 export async function getStorageRecords(
-  data: Uint8Array,
+  data: Uint8Array<ArrayBuffer>,
   options: StorageServiceCallOptionsType = {}
-): Promise<Uint8Array> {
+): Promise<Uint8Array<ArrayBuffer>> {
   const { credentials } = options;
 
   return _ajax({
@@ -2319,9 +2324,9 @@ export async function getStorageRecords(
 }
 
 export async function modifyStorageRecords(
-  data: Uint8Array,
+  data: Uint8Array<ArrayBuffer>,
   options: StorageServiceCallOptionsType = {}
-): Promise<Uint8Array> {
+): Promise<Uint8Array<ArrayBuffer>> {
   const { credentials } = options;
 
   return _ajax({
@@ -2578,7 +2583,7 @@ export async function getProfileUnauth(
 
 export async function getBadgeImageFile(
   imageFileUrl: string
-): Promise<Uint8Array> {
+): Promise<Uint8Array<ArrayBuffer>> {
   strictAssert(
     isBadgeImageFileUrlValid(imageFileUrl, updatesUrl),
     'getBadgeImageFile got an invalid URL. Was bad data saved?'
@@ -2607,7 +2612,7 @@ export async function getBadgeImageFile(
 export async function downloadOnboardingStories(
   manifestVersion: string,
   imageFiles: Array<string>
-): Promise<Array<Uint8Array>> {
+): Promise<Array<Uint8Array<ArrayBuffer>>> {
   return Promise.all(
     imageFiles.map(fileName =>
       _outerAjax(
@@ -2636,7 +2641,9 @@ export async function getSubscriptionConfiguration(): Promise<SubscriptionConfig
   });
 }
 
-export async function getAvatar(path: string): Promise<Uint8Array> {
+export async function getAvatar(
+  path: string
+): Promise<Uint8Array<ArrayBuffer>> {
   // Using _outerAJAX, since it's not hardcoded to the Signal Server. Unlike our
   //   attachment CDN, it uses our self-signed certificate, so we pass it in.
   return _outerAjax(`${cdnUrlObject['0']}/${path}`, {
@@ -2895,11 +2902,11 @@ export async function createAccount({
   function asSignedKey<K>(key: {
     keyId: number;
     publicKey: K;
-    signature: Uint8Array;
+    signature: Uint8Array<ArrayBuffer>;
   }): {
     id: () => number;
     publicKey: () => K;
-    signature: () => Uint8Array;
+    signature: () => Uint8Array<ArrayBuffer>;
   } {
     return {
       id: () => key.keyId,
@@ -3640,7 +3647,7 @@ function booleanToString(value: boolean | undefined): string {
 }
 
 export async function sendMulti(
-  payload: Uint8Array,
+  payload: Uint8Array<ArrayBuffer>,
   groupSendToken: GroupSendToken | null,
   timestamp: number,
   {
@@ -3684,8 +3691,8 @@ export async function sendMulti(
 }
 
 export async function sendMultiLegacy(
-  data: Uint8Array,
-  accessKeys: Uint8Array | null,
+  data: Uint8Array<ArrayBuffer>,
+  accessKeys: Uint8Array<ArrayBuffer> | null,
   groupSendToken: GroupSendToken | null,
   timestamp: number,
   {
@@ -3743,7 +3750,7 @@ function redactStickerUrl(stickerUrl: string): string {
 export async function getSticker(
   packId: string,
   stickerId: number
-): Promise<Uint8Array> {
+): Promise<Uint8Array<ArrayBuffer>> {
   if (!isPackIdValid(packId)) {
     throw new Error('getSticker: pack ID was invalid');
   }
@@ -3796,7 +3803,7 @@ function makePutParams(
     policy,
     signature,
   }: ServerV2AttachmentType,
-  encryptedBin: Uint8Array
+  encryptedBin: Uint8Array<ArrayBuffer>
 ) {
   // Note: when using the boundary string in the POST body, it needs to be prefixed by
   //   an extra --, and the final boundary string at the end gets a -- prefix and a --
@@ -3841,8 +3848,8 @@ function makePutParams(
 }
 
 export async function putStickers(
-  encryptedManifest: Uint8Array,
-  encryptedStickers: ReadonlyArray<Uint8Array>,
+  encryptedManifest: Uint8Array<ArrayBuffer>,
+  encryptedStickers: ReadonlyArray<Uint8Array<ArrayBuffer>>,
   onProgress?: () => void
 ): Promise<string> {
   // Get manifest and sticker upload parameters
@@ -4280,7 +4287,7 @@ export async function makeSfuRequest(
   targetUrl: string,
   type: HTTPCodeType,
   headers: HeaderListType,
-  body: Uint8Array | undefined
+  body: Uint8Array<ArrayBuffer> | undefined
 ): Promise<BytesWithDetailsType> {
   return _outerAjax(targetUrl, {
     certificateAuthority,
@@ -4380,7 +4387,7 @@ function verifyAttributes(attributes: Proto.AvatarUploadAttributes.Params) {
 
 export async function uploadAvatar(
   uploadAvatarRequestHeaders: UploadAvatarHeadersType,
-  avatarData: Uint8Array
+  avatarData: Uint8Array<ArrayBuffer>
 ): Promise<string> {
   const verified = verifyAttributes(uploadAvatarRequestHeaders);
   const { key } = verified;
@@ -4401,7 +4408,7 @@ export async function uploadAvatar(
 }
 
 export async function uploadGroupAvatar(
-  avatarData: Uint8Array,
+  avatarData: Uint8Array<ArrayBuffer>,
   options: GroupCredentialsType
 ): Promise<string> {
   const basicAuth = generateGroupAuth(
@@ -4437,7 +4444,9 @@ export async function uploadGroupAvatar(
   return key;
 }
 
-export async function getGroupAvatar(key: string): Promise<Uint8Array> {
+export async function getGroupAvatar(
+  key: string
+): Promise<Uint8Array<ArrayBuffer>> {
   return _outerAjax(`${cdnUrlObject['0']}/${key}`, {
     certificateAuthority,
     proxyUrl,
@@ -4788,7 +4797,7 @@ export async function getGroupLog(
 }
 
 export async function getSubscription(
-  subscriberId: Uint8Array
+  subscriberId: Uint8Array<ArrayBuffer>
 ): Promise<SubscriptionResponseType> {
   const formattedId = toWebSafeBase64(Bytes.toBase64(subscriberId));
   return _ajax({
@@ -4806,7 +4815,7 @@ export async function getSubscription(
 }
 
 export async function getHasSubscription(
-  subscriberId: Uint8Array
+  subscriberId: Uint8Array<ArrayBuffer>
 ): Promise<boolean> {
   const data = await getSubscription(subscriberId);
   if (!data.subscription) {

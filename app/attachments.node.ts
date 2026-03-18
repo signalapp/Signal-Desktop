@@ -294,10 +294,10 @@ export const readAndDecryptDataFromDisk = async ({
   absolutePath: string;
   keysBase64: string;
   size: number;
-}): Promise<Uint8Array> => {
+}): Promise<Uint8Array<ArrayBuffer>> => {
   const sink = new PassThrough();
 
-  const chunks = new Array<Buffer>();
+  const chunks = new Array<Buffer<ArrayBuffer>>();
 
   sink.on('data', chunk => chunks.push(chunk));
   sink.resume();
@@ -321,7 +321,7 @@ export const writeNewAttachmentData = async ({
   data,
   getAbsoluteAttachmentPath,
 }: {
-  data: Uint8Array;
+  data: Uint8Array<ArrayBuffer>;
   getAbsoluteAttachmentPath: (relativePath: string) => string;
 }): Promise<LocalAttachmentV2Type> => {
   const keys = generateKeys();

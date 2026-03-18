@@ -247,7 +247,7 @@ function renderDonationsPane(props: {
   me: typeof me;
   donationReceipts: ReadonlyArray<DonationReceipt>;
   saveAttachmentToDisk: (options: {
-    data: Uint8Array;
+    data: Uint8Array<ArrayBuffer>;
     name: string;
     baseDir?: string | undefined;
   }) => Promise<{ fullPath: string; name: string } | null>;

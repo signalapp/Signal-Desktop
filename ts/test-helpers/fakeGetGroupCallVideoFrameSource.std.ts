@@ -14,7 +14,7 @@ const COLORS: Array<[number, number, number]> = [
 ];
 
 class FakeGroupCallVideoFrameSource implements VideoFrameSource {
-  readonly #sourceArray: Uint8Array;
+  readonly #sourceArray: Uint8Array<ArrayBuffer>;
   readonly #dimensions: [number, number];
 
   constructor(width: number, height: number, r: number, g: number, b: number) {
@@ -32,7 +32,7 @@ class FakeGroupCallVideoFrameSource implements VideoFrameSource {
   }
 
   receiveVideoFrame(
-    destinationBuffer: Uint8Array,
+    destinationBuffer: Uint8Array<ArrayBuffer>,
     _maxWidth: number,
     _maxHeight: number
   ): [number, number] | undefined {

@@ -25,7 +25,7 @@ import { DAY } from '../../util/durations/constants.std.js';
 
 describe('SenderCertificateService', () => {
   let fakeValidCertificate: SenderCertificate;
-  let fakeValidEncodedCertificate: Uint8Array;
+  let fakeValidEncodedCertificate: Uint8Array<ArrayBuffer>;
   let fakeValidCertificateExpiry: number;
   let fakeServer: any;
   let fakeEvents: Pick<typeof window.Whisper.events, 'on' | 'off'>;

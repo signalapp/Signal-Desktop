@@ -7,18 +7,18 @@ import { app } from 'electron';
 
 export type WrappedWorkerRequest = {
   readonly uuid: string;
-  readonly data: Uint8Array;
+  readonly data: Uint8Array<ArrayBuffer>;
 };
 
 export type WrappedWorkerResponse = {
   readonly uuid: string;
   readonly error: string | undefined;
-  readonly response?: Buffer;
+  readonly response?: Buffer<ArrayBuffer>;
 };
 
 export function getHeicConverter(): (
   uuid: string,
-  data: Uint8Array
+  data: Uint8Array<ArrayBuffer>
 ) => Promise<WrappedWorkerResponse> {
   const scriptDir = join(
     app.getAppPath(),

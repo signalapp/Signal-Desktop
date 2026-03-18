@@ -1370,7 +1370,7 @@ export class ConversationModel {
 
   getGroupV2Info(
     options: Readonly<
-      { groupChange?: Uint8Array } & (
+      { groupChange?: Uint8Array<ArrayBuffer> } & (
         | {
             includePendingMembers?: boolean;
             extraConversationsForSend?: ReadonlyArray<string>;
@@ -1395,7 +1395,7 @@ export class ConversationModel {
     };
   }
 
-  getGroupIdBuffer(): Uint8Array | undefined {
+  getGroupIdBuffer(): Uint8Array<ArrayBuffer> | undefined {
     const groupIdString = this.get('groupId');
 
     if (!groupIdString) {
@@ -2207,7 +2207,7 @@ export class ConversationModel {
     this.captureChange('updateServiceId');
   }
 
-  trackPreviousIdentityKey(publicKey: Uint8Array): void {
+  trackPreviousIdentityKey(publicKey: Uint8Array<ArrayBuffer>): void {
     const logId = `trackPreviousIdentityKey/${this.idForLogging()}`;
     const identityKey = Bytes.toBase64(publicKey);
 
@@ -2314,7 +2314,7 @@ export class ConversationModel {
     }
   }
 
-  async updateReportingToken(token?: Uint8Array): Promise<void> {
+  async updateReportingToken(token?: Uint8Array<ArrayBuffer>): Promise<void> {
     const oldValue = this.get('reportingToken');
     const newValue = token ? Bytes.toBase64(token) : undefined;
 
@@ -5094,7 +5094,7 @@ export class ConversationModel {
 
   async setEncryptedProfileName(
     encryptedName: string,
-    decryptionKey: Uint8Array
+    decryptionKey: Uint8Array<ArrayBuffer>
   ): Promise<void> {
     if (!encryptedName) {
       return;
@@ -5131,7 +5131,7 @@ export class ConversationModel {
 
   async setAndMaybeFetchProfileAvatar(options: {
     avatarUrl: undefined | null | string;
-    decryptionKey?: Uint8Array | null | undefined;
+    decryptionKey?: Uint8Array<ArrayBuffer> | null | undefined;
     forceFetch?: boolean;
   }): Promise<void> {
     const { avatarUrl, decryptionKey, forceFetch } = options;
@@ -5210,7 +5210,7 @@ export class ConversationModel {
       return false;
     }
 
-    let derivedAccessKey: Uint8Array;
+    let derivedAccessKey: Uint8Array<ArrayBuffer>;
     try {
       derivedAccessKey = deriveAccessKeyFromProfileKey(
         Bytes.fromBase64(profileKey)

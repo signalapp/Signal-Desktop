@@ -94,7 +94,7 @@ async function fetchSegment(
   contentLength: number,
   doFetchBytesViaProxy: typeof fetchBytesViaProxy,
   signal?: AbortSignal
-): Promise<ArrayBufferView> {
+): Promise<Uint8Array<ArrayBuffer>> {
   const { data, response } = await doFetchBytesViaProxy({
     method: 'GET',
     url,
@@ -122,7 +122,7 @@ async function fetchSegment(
     'Unexpected response buffer byte length'
   );
 
-  let slice: ArrayBufferView;
+  let slice: Uint8Array<ArrayBuffer>;
   // Trim duplicate bytes from start of last segment
   if (segmentRange.sliceStart > 0) {
     slice = data.subarray(segmentRange.sliceStart);

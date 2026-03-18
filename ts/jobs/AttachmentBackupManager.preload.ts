@@ -529,7 +529,7 @@ async function uploadThumbnailToTransitTier({
   logPrefix,
   dependencies,
 }: {
-  data: Uint8Array;
+  data: Uint8Array<ArrayBuffer>;
   keys: string;
   logPrefix: string;
   dependencies: {
@@ -569,8 +569,8 @@ async function copyToBackupTier({
   cdnKey: string;
   size: number;
   mediaId: string;
-  macKey: Uint8Array;
-  aesKey: Uint8Array;
+  macKey: Uint8Array<ArrayBuffer>;
+  aesKey: Uint8Array<ArrayBuffer>;
   dependencies: {
     backupMediaBatch?: typeof doBackupMediaBatch;
     backupsService: BackupsService;

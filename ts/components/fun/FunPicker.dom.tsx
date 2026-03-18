@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import React, { memo, useCallback, useEffect } from 'react';
 import type { Placement } from 'react-aria';
 import { DialogTrigger } from 'react-aria-components';
+// @ts-expect-error - Needs tinykeys to update package.json type resolution
 import { createKeybindingsHandler } from 'tinykeys';
 import { FunPickerTabKey } from './constants.dom.js';
 import { FunPopover } from './base/FunPopover.dom.js';

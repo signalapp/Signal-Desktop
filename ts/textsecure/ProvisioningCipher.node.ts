@@ -39,11 +39,11 @@ export type ProvisionDecryptResult = Readonly<{
   provisioningCode?: string;
   userAgent?: string;
   readReceipts?: boolean;
-  profileKey?: Uint8Array;
-  masterKey?: Uint8Array;
+  profileKey?: Uint8Array<ArrayBuffer>;
+  masterKey?: Uint8Array<ArrayBuffer>;
   accountEntropyPool: string | undefined;
-  mediaRootBackupKey: Uint8Array | undefined;
-  ephemeralBackupKey: Uint8Array | undefined;
+  mediaRootBackupKey: Uint8Array<ArrayBuffer> | undefined;
+  ephemeralBackupKey: Uint8Array<ArrayBuffer> | undefined;
 }>;
 
 class ProvisioningCipherInner {

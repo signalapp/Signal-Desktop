@@ -19,7 +19,7 @@ describe('DelimitedStream', () => {
   }
 
   async function strideTest(
-    data: Uint8Array,
+    data: Uint8Array<ArrayBuffer>,
     result: ReadonlyArray<string>
   ): Promise<void> {
     // Just to keep reasonable run times

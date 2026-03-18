@@ -21,7 +21,7 @@ Bootstrap.regressionBenchmark(
     const { server, contacts, phone, desktop } = bootstrap;
 
     // Generate messages
-    const messagePromises = new Array<Promise<Buffer>>();
+    const messagePromises = new Array<Promise<Buffer<ArrayBuffer>>>();
     debug('started generating messages');
 
     for (let i = 0; i < messageCount; i += 1) {
