@@ -3,7 +3,6 @@
 
 import type { CallSummary } from '@signalapp/ringrtc';
 import { DAY, SECOND } from './durations/index.std.js';
-import { isFeaturedEnabledNoRedux } from './isFeatureEnabled.dom.js';
 import { isMockEnvironment } from '../environment.std.js';
 import {
   COUNTRY_CODE_FALLBACK,
@@ -30,13 +29,6 @@ export function isCallFailure(callEndReasonText: string): boolean {
   return FAILURE_END_REASONS.has(callEndReasonText);
 }
 
-export function isCallQualitySurveyEnabled(): boolean {
-  return isFeaturedEnabledNoRedux({
-    betaKey: 'desktop.callQualitySurvey.beta',
-    prodKey: 'desktop.callQualitySurvey.prod',
-  });
-}
-
 export function shouldShowCallQualitySurvey({
   callSummary,
   lastSurveyTime,
@@ -50,11 +42,7 @@ export function shouldShowCallQualitySurvey({
   e164: string | undefined;
   cqsTestMode?: boolean;
 }): boolean {
-  if (
-    isMockEnvironment() ||
-    !isCallQualitySurveyEnabled() ||
-    !callSummary.isSurveyCandidate
-  ) {
+  if (isMockEnvironment() || !callSummary.isSurveyCandidate) {
     return false;
   }
 

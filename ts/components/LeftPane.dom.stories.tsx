@@ -207,7 +207,6 @@ const useProps = (overrideProps: OverridePropsType = {}): PropsType => {
     usernameLinkCorrupted: false,
     isUpdateDownloaded,
     isNotificationProfileActive: false,
-    isChatFoldersEnabled: true,
     navTabsCollapsed: false,
 
     setChallengeStatus: action('setChallengeStatus'),

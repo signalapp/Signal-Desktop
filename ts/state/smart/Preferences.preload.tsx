@@ -29,7 +29,6 @@ import {
   setPhoneNumberDiscoverability,
 } from '../../textsecure/WebAPI.preload.js';
 import { DEFAULT_CONVERSATION_COLOR } from '../../types/Colors.std.js';
-import { isChatFoldersEnabled } from '../../util/isChatFoldersEnabled.dom.js';
 import { saveAttachmentToDisk } from '../../util/migrations.preload.js';
 import { format } from '../../types/PhoneNumber.std.js';
 import {
@@ -827,7 +826,6 @@ export function SmartPreferences(): React.JSX.Element | null {
           backupLocalBackupsEnabled={backupLocalBackupsEnabled}
           badge={badge}
           blockedCount={blockedCount}
-          chatFoldersFeatureEnabled={isChatFoldersEnabled(version)}
           currentChatFoldersCount={currentChatFoldersCount}
           cloudBackupStatus={cloudBackupStatus}
           customColors={customColors}

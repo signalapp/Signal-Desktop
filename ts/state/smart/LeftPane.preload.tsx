@@ -17,7 +17,6 @@ import {
 import { LeftPaneMode } from '../../types/leftPane.std.js';
 import { getUsernameFromSearch } from '../../util/Username.dom.js';
 import { getCountryDataForLocale } from '../../util/getCountryData.dom.js';
-import { isChatFoldersEnabled } from '../../util/isChatFoldersEnabled.dom.js';
 import { lookupConversationWithoutServiceId } from '../../util/lookupConversationWithoutServiceId.preload.js';
 import { missingCaseError } from '../../util/missingCaseError.std.js';
 import { isDone as isRegistrationDone } from '../../util/registration.preload.js';
@@ -314,7 +313,6 @@ export const SmartLeftPane = memo(function SmartLeftPane({
   hasPendingUpdate,
   otherTabsUnreadStats,
 }: NavTabPanelProps) {
-  const version = window.SignalContext.getVersion();
   const challengeStatus = useSelector(getChallengeStatus);
   const composerStep = useSelector(getComposerStep);
   const crashReportCount = useSelector(getCrashReportCount);
@@ -474,7 +472,6 @@ export const SmartLeftPane = memo(function SmartLeftPane({
       isMacOS={isMacOS}
       isOnline={isOnline}
       isNotificationProfileActive={isNotificationProfileActive}
-      isChatFoldersEnabled={isChatFoldersEnabled(version)}
       isUpdateDownloaded={isUpdateDownloaded}
       lookupConversationWithoutServiceId={lookupConversationWithoutServiceId}
       modeSpecificProps={modeSpecificProps}
