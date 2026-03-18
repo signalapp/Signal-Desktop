@@ -471,9 +471,8 @@ export const CompositionArea = memo(function CompositionArea({
 
   const [isCameraModalOpen, setIsCameraModalOpen] = useState(false);
   const launchCameraPicker = useCallback(() => {
-  setIsCameraModalOpen(true);
+    setIsCameraModalOpen(true);
   }, []);
-  
 
   const handleOpenPollModal = useCallback(() => {
     setIsPollModalOpen(true);
@@ -1355,7 +1354,7 @@ export const CompositionArea = memo(function CompositionArea({
         acceptMediaOnly
         testId="attachfile-input-media"
       />
-        {isPollModalOpen && (
+      {isPollModalOpen && (
         <PollCreateModal
           i18n={i18n}
           onClose={handleClosePollModal}

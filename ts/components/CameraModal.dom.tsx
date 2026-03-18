@@ -59,14 +59,13 @@ export function CameraModal({
     ctx.drawImage(video, 0, 0);
 
     //Resolved the bug: Stop the camera stream immediately after capture
-   streamRef.current?.getTracks().forEach(track => track.stop());
+    streamRef.current?.getTracks().forEach(track => track.stop());
     streamRef.current = null;
     if (videoRef.current) {
       videoRef.current.srcObject = null;
     }
 
     onClose();
-
 
     canvas.toBlob(blob => {
       if (!blob) return;
