@@ -6144,6 +6144,18 @@
     "messageformat": "File",
     "description": "Menu item to attach a file"
   },
+  "icu:CompositionArea__AttachMenu__Camera": {
+    "messageformat": "Camera",
+    "description": "Opens the camera to take a photo"
+  },
+  "icu:CameraModal__title": {
+    "messageformat": "Camera",
+    "description": "Title of the camera modal"
+  },
+  "icu:CameraModal__capture": {
+    "messageformat": "Take photo",
+    "description": "Button to capture a photo from the camera"
+  },
   "icu:CompositionArea__AttachMenu__Poll": {
     "messageformat": "Poll",
     "description": "Menu item to create a poll"
