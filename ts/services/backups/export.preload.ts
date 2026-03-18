@@ -851,18 +851,12 @@ export class BackupExportStream extends Readable {
         objectMode: true,
         highWaterMark: FLUSH_EVERY,
       }),
-      message => {
-        if (skippedConversationIds.has(message.conversationId)) {
-          this.#stats.skippedMessages += 1;
-          return undefined;
-        }
-
-        return this.#toChatItem(message, {
+      message =>
+        this.#toChatItem(message, {
           aboutMe,
           callHistoryByCallId,
           pinnedMessagesByMessageId,
-        });
-      },
+        }),
       {
         concurrency: MAX_CONCURRENCY,
         backpressure: FLUSH_EVERY,
@@ -1150,7 +1144,7 @@ export class BackupExportStream extends Readable {
       fnLog.warn('recipient convoId missing', reason);
       this.#incrementUnknownConversationReference(reason);
     }
-    return this.#convoIdToRecipientId.get(convoId);
+    return recipientId;
   }
 
   #getRecipientByServiceId(
@@ -1508,6 +1502,47 @@ export class BackupExportStream extends Readable {
       pinnedMessagesByMessageId,
     }: ToChatItemOptionsType
   ): Promise<Backups.ChatItem.Params | undefined> {
+    const chatItem = await this.#toChatItemInner(message, {
+      aboutMe,
+      callHistoryByCallId,
+      pinnedMessagesByMessageId,
+    });
+
+    // Drop messages in the wrong 1:1 chat
+    const conversation = window.ConversationController.get(
+      message.conversationId
+    );
+    const me = this.#getRecipientByServiceId(aboutMe.aci, 'getting self');
+    strictAssert(me, 'self recipient must exist');
+
+    if (
+      chatItem &&
+      conversation &&
+      isDirectConversation(conversation.attributes)
+    ) {
+      const convoAuthor = this.#getRecipientByConversationId(
+        conversation.attributes.id,
+        'message.conversationId'
+      );
+
+      if (chatItem.authorId !== me && chatItem.authorId !== convoAuthor) {
+        log.warn(
+          `${message.sent_at}: Dropping direct message with mismatched author`
+        );
+        return undefined;
+      }
+    }
+    return chatItem;
+  }
+
+  async #toChatItemInner(
+    message: MessageAttributesType,
+    {
+      aboutMe,
+      callHistoryByCallId,
+      pinnedMessagesByMessageId,
+    }: ToChatItemOptionsType
+  ): Promise<Backups.ChatItem.Params | undefined> {
     const conversation = window.ConversationController.get(
       message.conversationId
     );
@@ -1606,22 +1641,10 @@ export class BackupExportStream extends Readable {
 
       if (authorId !== convoAuthor) {
         authorId = convoAuthor;
-        this.#stats.fixedDirectMessages += 1;
-      }
-    }
-
-    // Drop messages in the wrong 1:1 chat
-    if (conversation && isDirectConversation(conversation.attributes)) {
-      const convoAuthor = this.#getRecipientByConversationId(
-        conversation.attributes.id,
-        'message.conversationId'
-      );
-
-      if (authorId !== me && authorId !== convoAuthor) {
         log.warn(
-          `${message.sent_at}: Dropping direct message with mismatched author`
+          `${message.sent_at}: Fixing misattributed e164-only 1:1 message`
         );
-        return undefined;
+        this.#stats.fixedDirectMessages += 1;
       }
     }
 
@@ -3397,7 +3420,11 @@ export class BackupExportStream extends Readable {
     const sendStatuses = new Array<Backups.SendStatus.Params>();
     for (const [id, entry] of Object.entries(sendStateByConversationId)) {
       const target = window.ConversationController.get(id);
-      if (!target) {
+      const recipientId =
+        this.#getRecipientByConversationId(id, 'sendStateByConversationId') ??
+        null;
+
+      if (!target || recipientId == null) {
         log.warn(`no send target for a message ${sentAt}`);
         continue;
       }
@@ -3413,9 +3440,6 @@ export class BackupExportStream extends Readable {
       }
 
       const { serviceId } = target.attributes;
-      const recipientId =
-        this.#getRecipientByConversationId(id, 'sendStateByConversationId') ??
-        null;
       const timestamp =
         entry.updatedAt != null
           ? getSafeLongFromTimestamp(entry.updatedAt)
