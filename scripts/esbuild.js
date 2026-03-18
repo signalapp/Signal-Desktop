@@ -20,9 +20,6 @@ const nodeDefaults = {
   target: 'es2023',
   // Disabled even in dev because the debugger is broken
   sourcemap: false,
-  // Otherwise React components get renamed
-  // See: https://github.com/evanw/esbuild/issues/1147
-  keepNames: true,
   logLevel: 'info',
   plugins: [
     {
