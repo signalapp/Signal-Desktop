@@ -46,8 +46,6 @@ export function Default(): React.JSX.Element {
           onCancel={handleCancel}
           onSend={handleSend}
           errorRecording={_ => action('error')()}
-          addAttachment={action('addAttachment')}
-          completeRecording={action('completeRecording')}
           saveDraftRecordingIfNeeded={action('saveDraftRecordingIfNeeded')}
           showToast={action('showToast')}
           hideToast={action('hideToast')}

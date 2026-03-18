@@ -16,6 +16,7 @@ import type { MIMEType } from '../types/MIME.std.js';
 import type { DurationInSeconds } from '../util/durations/index.std.js';
 import type { AnyPaymentEvent } from '../types/Payment.std.js';
 import type { RawBodyRange } from '../types/BodyRange.std.js';
+import type { StoryMessageRecipientsType } from '../types/Stories.std.js';
 
 export {
   IdentityKeyType,
@@ -158,7 +159,7 @@ export type ProcessedAvatar = {
   isProfile: boolean;
 };
 
-export type ProcessedContact = Omit<Proto.DataMessage.IContact, 'avatar'> & {
+export type ProcessedContact = Omit<Proto.DataMessage.Contact, 'avatar'> & {
   avatar?: ProcessedAvatar;
 };
 
@@ -219,7 +220,7 @@ export type ProcessedAdminDelete = Readonly<{
 
 export type ProcessedBodyRange = RawBodyRange;
 
-export type ProcessedGroupCallUpdate = Proto.DataMessage.IGroupCallUpdate;
+export type ProcessedGroupCallUpdate = Proto.DataMessage.GroupCallUpdate;
 
 export type ProcessedGiftBadge = {
   expiration: number;
@@ -273,37 +274,26 @@ export type ProcessedDataMessage = {
   canReplyToStory?: boolean;
 };
 
-export type ProcessedUnidentifiedDeliveryStatus = Omit<
-  Proto.SyncMessage.Sent.IUnidentifiedDeliveryStatus,
-  'destinationAci' | 'destinationPni'
-> & {
+export type ProcessedUnidentifiedDeliveryStatus = Readonly<{
   destinationServiceId?: ServiceIdString;
   isAllowedToReplyToStory?: boolean;
-};
-
-export type ProcessedStoryMessageRecipient = Omit<
-  Proto.SyncMessage.Sent.IStoryMessageRecipient,
-  'destinationAci' | 'destinationPni'
-> & {
-  destinationServiceId?: ServiceIdString;
-};
+  destinationPniIdentityKey?: Uint8Array;
+  unidentified?: boolean;
+}>;
 
 export type ProcessedSent = Omit<
-  Proto.SyncMessage.ISent,
+  Proto.SyncMessage.Sent,
+  | '$unknown'
   | 'destinationId'
   | 'unidentifiedStatus'
   | 'storyMessageRecipients'
-  | 'destinationAci'
-  | 'destinationPni'
+  | 'destinationServiceId'
+  | 'destinationServiceIdBinary'
 > & {
   destinationId?: string;
   destinationServiceId?: ServiceIdString;
   unidentifiedStatus?: Array<ProcessedUnidentifiedDeliveryStatus>;
-  storyMessageRecipients?: Array<ProcessedStoryMessageRecipient>;
-};
-
-export type ProcessedSyncMessage = Omit<Proto.ISyncMessage, 'sent'> & {
-  sent?: ProcessedSent;
+  storyMessageRecipients?: StoryMessageRecipientsType;
 };
 
 export type CustomError = Error & {

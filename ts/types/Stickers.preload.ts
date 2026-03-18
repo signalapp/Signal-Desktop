@@ -463,7 +463,7 @@ function decryptSticker(packKey: string, ciphertext: Uint8Array): Uint8Array {
 async function downloadSticker(
   packId: string,
   packKey: string,
-  proto: Proto.StickerPack.ISticker,
+  proto: Proto.StickerPack.Sticker.Params,
   { ephemeral }: { ephemeral?: boolean } = {}
 ): Promise<Omit<StickerFromDBType, 'isCoverOnly'>> {
   const { id, emoji } = proto;
@@ -628,7 +628,7 @@ export async function downloadEphemeralPack(
     stickerPackAdded(pack);
 
     const downloadStickerJob = async (
-      stickerProto: Proto.StickerPack.ISticker
+      stickerProto: Proto.StickerPack.Sticker.Params
     ): Promise<boolean> => {
       let stickerInfo;
       try {
@@ -793,10 +793,10 @@ async function doDownloadStickerPack(
     return;
   }
 
-  let coverProto: Proto.StickerPack.ISticker | undefined;
+  let coverProto: Proto.StickerPack.Sticker.Params | undefined;
   let coverStickerId: number | undefined;
   let coverIncludedInList = false;
-  let nonCoverStickers: Array<Proto.StickerPack.ISticker> = [];
+  let nonCoverStickers: Array<Proto.StickerPack.Sticker.Params> = [];
 
   try {
     // Synchronous placeholder to help with race conditions
@@ -891,7 +891,7 @@ async function doDownloadStickerPack(
   //   and we want to preserve more of the pack on an error.
   try {
     const downloadStickerJob = async (
-      stickerProto: Proto.StickerPack.ISticker
+      stickerProto: Proto.StickerPack.Sticker.Params
     ): Promise<boolean> => {
       try {
         const stickerInfo = await downloadSticker(

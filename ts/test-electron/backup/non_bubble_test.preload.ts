@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { v4 as generateGuid } from 'uuid';
-import Long from 'long';
 
 import type { ConversationModel } from '../../models/conversations.preload.js';
 
@@ -258,12 +257,11 @@ describe('backup/non-bubble messages', () => {
           kind: PaymentEventKind.Activation,
         },
         received_at: 1,
-        received_at_ms: 1,
         sent_at: 1,
         timestamp: 1,
-        readStatus: ReadStatus.Unread,
-        seenStatus: SeenStatus.Unseen,
-        unidentifiedDeliveryReceived: true,
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
+        unidentifiedDeliveryReceived: false,
       },
     ]);
   });
@@ -279,12 +277,11 @@ describe('backup/non-bubble messages', () => {
           kind: PaymentEventKind.ActivationRequest,
         },
         received_at: 1,
-        received_at_ms: 1,
         sent_at: 1,
         timestamp: 1,
-        readStatus: ReadStatus.Unread,
-        seenStatus: SeenStatus.Unseen,
-        unidentifiedDeliveryReceived: true,
+        readStatus: ReadStatus.Read,
+        seenStatus: SeenStatus.Seen,
+        unidentifiedDeliveryReceived: false,
       },
     ]);
   });
@@ -334,10 +331,18 @@ describe('backup/non-bubble messages', () => {
           feeMob: '0.01',
           transactionDetailsBase64: Bytes.toBase64(
             Backups.PaymentNotification.TransactionDetails.encode({
-              transaction: {
-                timestamp: Long.fromNumber(Date.now()),
+              payment: {
+                transaction: {
+                  timestamp: BigInt(Date.now()),
+                  status: null,
+                  mobileCoinIdentification: null,
+                  blockIndex: null,
+                  blockTimestamp: null,
+                  transaction: null,
+                  receipt: null,
+                },
               },
-            }).finish()
+            })
           ),
         },
       },

@@ -9,8 +9,8 @@ import {
   mkdir,
   rename,
 } from 'node:fs/promises';
+import { exists } from 'fs-extra';
 
-import { createLogger } from '../logging/log.std.js';
 import {
   getAbsoluteAttachmentPath as doGetAbsoluteAttachmentPath,
   getAbsoluteTempPath as doGetAbsoluteTempPath,
@@ -24,8 +24,6 @@ import { createName } from '../util/attachmentPath.node.js';
 import { redactGenericText } from '../util/privacy.node.js';
 
 import type { CoreAttachmentLocalBackupJobType } from '../types/AttachmentBackup.std.js';
-
-const log = createLogger('AttachmentLocalBackupManager');
 
 export class AttachmentPermanentlyMissingError extends Error {}
 
@@ -50,11 +48,6 @@ export async function runAttachmentBackupJob(
     decryptAttachmentV2ToSink,
   }
 ): Promise<void> {
-  const jobIdForLogging = getJobIdForLogging(job);
-  const logId = `AttachmentLocalBackupManager.runAttachmentBackupJob(${jobIdForLogging})`;
-
-  log.info(`${logId}: starting...`);
-
   const { isPlaintextExport, mediaName } = job;
   const { contentType, fileName, localKey, path, size } = job.data;
 
@@ -97,6 +90,11 @@ export async function runAttachmentBackupJob(
       outFileStream
     );
   } else {
+    if (await exists(destinationLocalBackupFilePath)) {
+      // File already backed up
+      return;
+    }
+
     // File is already encrypted with localKey, so we just copy it to the backup dir
     const tempPath = dependencies.getAbsoluteTempPath(createName());
 
@@ -112,8 +110,6 @@ export async function runAttachmentBackupJob(
     );
     await rename(tempPath, destinationLocalBackupFilePath);
   }
-
-  log.info(`${logId}: complete!`);
 }
 
 function getExtension(

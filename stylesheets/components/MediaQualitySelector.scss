@@ -8,6 +8,7 @@
   &__popper {
     @include mixins.module-composition-popper;
     & {
+      color: var(--color-label-primary);
       padding-block: 12px;
       padding-inline: 16px;
       width: auto;
@@ -42,7 +43,7 @@
     &--selected {
       @include mixins.color-svg(
         '../images/icons/v3/check/check-compact.svg',
-        variables.$color-ultramarine
+        currentColor
       );
     }
 

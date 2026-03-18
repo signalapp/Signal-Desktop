@@ -65,7 +65,8 @@ export function computeBlurHashUrl(
   desiredWidth = 1,
   desiredHeight = 1
 ): string {
-  const invAspect = Math.abs(desiredHeight) / (Math.abs(desiredWidth) + 1e-23);
+  const invAspect =
+    (Math.abs(desiredHeight) + 1e-23) / (Math.abs(desiredWidth) + 1e-23);
 
   // Calculate width and height that roughly satisfy the desired PIXEL_COUNT
   //

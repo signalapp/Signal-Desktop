@@ -85,7 +85,6 @@ import { enqueuePollTerminateForSend } from '../../polls/enqueuePollTerminateFor
 import { useBoundActions } from '../../hooks/useBoundActions.std.js';
 import {
   CONVERSATION_UNLOADED,
-  TARGETED_CONVERSATION_CHANGED,
   scrollToMessage,
 } from './conversations.preload.js';
 import type {
@@ -267,6 +266,7 @@ export const actions = {
   cancelJoinRequest,
   endPoll,
   incrementSendCounter,
+  onClearDraft,
   onClearAttachments,
   onCloseLinkPreview,
   onEditorStateChange,
@@ -304,6 +304,23 @@ function incrementSendCounter(conversationId: string): IncrementSendActionType {
 export const useComposerActions = (): BoundActionCreatorsMapObject<
   typeof actions
 > => useBoundActions(actions);
+
+function onClearDraft(conversationId: string): StateThunk<NoopActionType> {
+  return dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error('onClearDraft: No conversation found');
+    }
+
+    conversation.set({
+      draft: '',
+      draftBodyRanges: [],
+      quotedMessageId: null,
+    });
+
+    dispatch(onClearAttachments(conversation.id));
+  };
+}
 
 function onClearAttachments(conversationId: string): NoopActionType {
   const conversation = window.ConversationController.get(conversationId);
@@ -467,15 +484,11 @@ function scrollToPollMessage(
   };
 }
 
-export function saveDraftRecordingIfNeeded(): ThunkAction<
-  void,
-  RootStateType,
-  unknown,
-  never
-> {
+export function saveDraftRecordingIfNeeded(
+  conversationId: string
+): ThunkAction<void, RootStateType, unknown, never> {
   return (dispatch, getState) => {
     const state = getState();
-    const conversationId = getSelectedConversationId(state);
 
     if (!getIsRecording(state.audioRecorder) || !conversationId) {
       return;
@@ -659,12 +672,12 @@ function sendMultiMediaMessage(
 
     const {
       draftAttachments,
-      bodyRanges,
       isViewOnce,
-      message = '',
       timestamp = Date.now(),
       voiceNoteAttachment,
     } = options;
+
+    const { message = '', bodyRanges } = isViewOnce ? {} : options;
 
     const state = getState();
 
@@ -1733,19 +1746,6 @@ export function reducer(
       ...state,
       conversations: nextConversations,
     };
-  }
-
-  if (action.type === TARGETED_CONVERSATION_CHANGED) {
-    if (action.payload.conversationId) {
-      return {
-        ...state,
-        conversations: {
-          [action.payload.conversationId]: getEmptyComposerState(),
-        },
-      };
-    }
-
-    return getEmptyState();
   }
 
   if (action.type === RESET_COMPOSER) {

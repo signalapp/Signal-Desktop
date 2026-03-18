@@ -182,27 +182,6 @@ describe('cleanDataForIpc', () => {
     ]);
   });
 
-  it('calls `toNumber` when available', () => {
-    assert.deepEqual(
-      cleanDataForIpc([
-        {
-          toNumber() {
-            return 5;
-          },
-        },
-        {
-          toNumber() {
-            return Symbol('bogus');
-          },
-        },
-      ]),
-      {
-        cleaned: [5, undefined],
-        pathsChanged: ['root.1'],
-      }
-    );
-  });
-
   it('deeply cleans objects with a `null` prototype', () => {
     const value = Object.assign(Object.create(null), {
       'key 1': 'value',

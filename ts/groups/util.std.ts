@@ -3,13 +3,14 @@
 
 import { SignalService as Proto } from '../protobuf/index.std.js';
 
-const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
+import AccessRequired = Proto.AccessControl.AccessRequired;
 
+// TODO(DESKTOP-9868)
 export function isAccessControlEnabled(
-  accessControl: number | undefined
-): boolean {
+  accessControl?: Proto.AccessControl.Params['attributes']
+): accessControl is AccessRequired.ANY | AccessRequired.ADMINISTRATOR {
   return (
-    accessControl === ACCESS_ENUM.ANY ||
-    accessControl === ACCESS_ENUM.ADMINISTRATOR
+    accessControl === AccessRequired.ANY ||
+    accessControl === AccessRequired.ADMINISTRATOR
   );
 }

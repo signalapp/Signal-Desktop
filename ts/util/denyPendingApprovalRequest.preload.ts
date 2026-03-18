@@ -15,7 +15,7 @@ const log = createLogger('denyPendingApprovalRequest');
 export async function denyPendingApprovalRequest(
   conversationAttributes: ConversationAttributesType,
   aci: AciString
-): Promise<Proto.GroupChange.Actions | undefined> {
+): Promise<Proto.GroupChange.Actions.Params | undefined> {
   const idLog = getConversationIdForLogging(conversationAttributes);
 
   // This user's pending state may have changed in the time between the user's

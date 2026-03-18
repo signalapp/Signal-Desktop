@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "清除驗證"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "如果想驗證你同 {name} 之間嘅端對端加密設定，你可以對吓上面嘅號碼同佢部機入面嘅號碼。佢亦可以用佢部機掃你嘅二維碼。"
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "如果想驗證你同 {name} 之間嘅端對端加密設定，你可以對吓上面嘅號碼同佢部機入面嘅號碼。佢亦可以用佢部機掃你嘅二維碼。"
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "除錯紀錄可以幫我哋診斷同修正問題，當中唔會包含任何識別資料。"
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "關閉"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "分享除錯記錄"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "提交"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "唔使喇，唔該"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "提交緊……"
@@ -2220,16 +2211,16 @@
     "messageformat": "刪除失敗"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "刪除失敗，㩒一下了解詳情"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "係咪想再試下刪除頭先刪除唔到嘅訊息？"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "刪除唔到訊息。請檢查你嘅連線，然後再試多次。"
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "再試一次"
   },
   "icu:editFailed": {
     "messageformat": "編輯失敗，㩒一吓了解詳情"
@@ -2244,7 +2235,7 @@
     "messageformat": "刪除咗一部分，㩒一吓再試多次"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "刪除咗一部分，㩒一下了解詳情"
   },
   "icu:expiredWarning": {
     "messageformat": "呢個 Signal 桌面版本已經過咗期。請你升級到最新版本嚟繼續收發訊息啦。"
@@ -2451,10 +2442,10 @@
     "messageformat": "只有管理員先可以喺呢個谷度加成員標籤。"
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "開咗閱後即焚"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "停咗閱後即焚"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "你只可以喺傳送訊息後 24 個鐘內套用編輯。"
@@ -2643,13 +2634,13 @@
     "messageformat": "呢個訊息已經刪除咗。"
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "管理員{admin}刪除咗呢個訊息"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "{name}刪除咗呢個訊息"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "你刪除咗呢個訊息"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "附件太大顯示唔到。"
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "有管理員將群組資料嘅編輯權限改咗做「所有成員」。"
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} 將群組成員資格嘅編輯權限改咗做「只限管理員」。"
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "你將群組成員資格嘅編輯權限改咗做「只限管理員」。"
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} 將群組成員資格嘅編輯權限改咗做「只限管理員」。"
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "有管理員將群組成員資格嘅編輯權限改咗做「只限管理員」。"
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} 將群組成員資格嘅編輯權限改咗做「所有成員」。"
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "你將群組成員資格嘅編輯權限改咗做「所有成員」。"
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} 將群組成員資格嘅編輯權限改咗做「所有成員」。"
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "有管理員將群組成員資格嘅編輯權限改咗做「所有成員」。"
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "你停用咗群組連結嘅管理員批准設定。"
@@ -4647,10 +4656,10 @@
     "messageformat": "取代"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "閱後即焚"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "閱後即焚媒體"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "編輯訊息"
@@ -4686,13 +4695,16 @@
     "messageformat": "語音"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "語音靜音"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "係咪確定要將 {contact} 靜音呀？"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "靜音"
+  },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Remove from call"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "成員標籤"
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "邊個可以編輯群組資料"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "揀選邊個可以編輯群組個名、相、描述同埋自動銷毀訊息嘅時限。"
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "揀選邊個可以編輯個谷名、相、描述、自動銷毀訊息計時器同埋置頂訊息。"
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "揀選邊個可以傳送訊息去群組"
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "成員標籤將會被清走"
@@ -5016,7 +5031,7 @@
     "messageformat": "{count, plural, other {係咪要刪除 {count,number} 個訊息呀？}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, other {係咪要刪除揀咗嘅 {count,number} 個訊息？}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, other {你想喺邊個部機度刪除呢啲訊息呀？}}"
@@ -5037,10 +5052,10 @@
     "messageformat": "喺所有人部機度刪除"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "係咪喺所有人部機度刪除？"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, other {因為你係管理員，谷友會睇到你刪除咗呢啲訊息。}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "喺所有裝置度刪除"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {你最多只可以揀 {count,number} 個訊息嚟喺所有人部機度刪除}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Discard draft?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "This action can't be undone."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "係咪刪除呢個項目呀？"
@@ -6187,13 +6208,13 @@
     "messageformat": "桌面備份"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "啲備份會用一個金鑰加密，然後儲存喺你部電腦度。"
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "建立可以喺手機上面還原嘅端對端加密備份。 "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "要還原一個備份嘅話，請首先重新再裝過 Signal。開返個 APP 出嚟，㩒一下「還原備份」，然後揀返嗰一個備份資料夾。<learnMoreLink>了解詳情。</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "揀一個資料夾"
@@ -7986,10 +8007,9 @@
     "messageformat": "• Signal 安全備份嚟咗啦！而家你可以揀啟用自動端對端加密備份功能，咁樣當你換新手機或者重新安裝 Signal 嗰陣，就唔會冇晒啲訊息。你可以免費備份全部訊息同最近 45 日嘅媒體，或者可以俾少少月費就有 100 GB 儲存空間嚟備份全部附件。㩒一下 Signal 設定入面嘅備份就可以即刻開始。多謝每個喺測試期間幫手測試呢個功能嘅用家！"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "而家你都可以喺 Signal 桌面版傳送閱後即焚媒體訊息啦！用閱後即焚訊息發送個別相同片，對方睇咗之後會自動喺對話紀錄度剷走。"
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

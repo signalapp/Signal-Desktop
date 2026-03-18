@@ -1,7 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import Long from 'long';
 import lodash from 'lodash';
 import { Aci, Pni, hkdf } from '@signalapp/libsignal-client';
 import type { PublicKey, PrivateKey } from '@signalapp/libsignal-client';
@@ -223,7 +222,7 @@ export function deriveStorageServiceKey(masterKey: Uint8Array): Uint8Array {
 
 export function deriveStorageManifestKey(
   storageServiceKey: Uint8Array,
-  version: Long = Long.fromNumber(0)
+  version = 0n
 ): Uint8Array {
   return hmacSha256(storageServiceKey, Bytes.fromString(`Manifest_${version}`));
 }

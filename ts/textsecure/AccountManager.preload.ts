@@ -34,7 +34,11 @@ import type {
 import createTaskWithTimeout from './TaskWithTimeout.std.js';
 import * as Bytes from '../Bytes.std.js';
 import * as Errors from '../types/errors.std.js';
-import { isMockEnvironment } from '../environment.std.js';
+import {
+  isTestEnvironment,
+  isMockEnvironment,
+  getEnvironment,
+} from '../environment.std.js';
 import { senderCertificateService } from '../services/senderCertificate.preload.js';
 import {
   decryptDeviceName,
@@ -81,6 +85,7 @@ import { canAttemptRemoteBackupDownload } from '../util/isBackupEnabled.preload.
 import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
 import { itemStorage } from './Storage.preload.js';
 import { deriveAccessKeyFromProfileKey } from '../util/zkgroup.node.js';
+import { wrappingAdd24 } from '../util/wrappingAdd.std.js';
 
 const { isNumber, omit, orderBy } = lodash;
 
@@ -92,7 +97,6 @@ type StorageKeyByServiceIdKind = {
 
 const DAY = 24 * 60 * 60 * 1000;
 
-const STARTING_KEY_ID = 1;
 const PROFILE_KEY_LENGTH = 32;
 const MASTER_KEY_LENGTH = 32;
 const KEY_TOO_OLD_THRESHOLD = 14 * DAY;
@@ -200,12 +204,12 @@ function getNextKeyId(
     return id;
   }
 
-  // For PNI ids, start with existing ACI id
-  if (kind === ServiceIdKind.PNI) {
-    return itemStorage.get(keys[ServiceIdKind.ACI], STARTING_KEY_ID);
+  if (isTestEnvironment(getEnvironment())) {
+    return 1;
   }
 
-  return STARTING_KEY_ID;
+  // eslint-disable-next-line no-bitwise
+  return Buffer.from(getRandomBytes(4)).readUint32LE(0) & 0xffffff;
 }
 
 function kyberPreKeyToUploadSignedPreKey(
@@ -276,12 +280,11 @@ export default class AccountManager extends EventTarget {
     }
     const encrypted = encryptDeviceName(name, identityKey.publicKey);
 
-    const proto = new Proto.DeviceName();
-    proto.ephemeralPublic = encrypted.ephemeralPublic.serialize();
-    proto.syntheticIv = encrypted.syntheticIv;
-    proto.ciphertext = encrypted.ciphertext;
-
-    const bytes = Proto.DeviceName.encode(proto).finish();
+    const bytes = Proto.DeviceName.encode({
+      ephemeralPublic: encrypted.ephemeralPublic.serialize(),
+      syntheticIv: encrypted.syntheticIv,
+      ciphertext: encrypted.ciphertext,
+    });
     return Bytes.toBase64(bytes);
   }
 
@@ -471,7 +474,10 @@ export default class AccountManager extends EventTarget {
 
     await Promise.all([
       signalProtocolStore.storePreKeys(ourServiceId, toSave),
-      itemStorage.put(PRE_KEY_ID_KEY[serviceIdKind], startId + count),
+      itemStorage.put(
+        PRE_KEY_ID_KEY[serviceIdKind],
+        Math.max(1, wrappingAdd24(startId, count))
+      ),
     ]);
 
     return toSave.map(key => ({
@@ -520,7 +526,10 @@ export default class AccountManager extends EventTarget {
 
     await Promise.all([
       signalProtocolStore.storeKyberPreKeys(ourServiceId, toSave),
-      itemStorage.put(KYBER_KEY_ID_KEY[serviceIdKind], startId + count),
+      itemStorage.put(
+        KYBER_KEY_ID_KEY[serviceIdKind],
+        Math.max(1, wrappingAdd24(startId, count))
+      ),
     ]);
 
     return toUpload;
@@ -679,7 +688,7 @@ export default class AccountManager extends EventTarget {
 
     await itemStorage.put(
       SIGNED_PRE_KEY_ID_KEY[serviceIdKind],
-      signedKeyId + 1
+      Math.max(1, wrappingAdd24(signedKeyId, 1))
     );
 
     return key;
@@ -749,7 +758,10 @@ export default class AccountManager extends EventTarget {
     const record = await generateKyberPreKey(identityKey, keyId);
     log.info(`${logId}: Saving new last resort prekey`, keyId);
 
-    await itemStorage.put(KYBER_KEY_ID_KEY[serviceIdKind], kyberKeyId + 1);
+    await itemStorage.put(
+      KYBER_KEY_ID_KEY[serviceIdKind],
+      Math.max(1, wrappingAdd24(kyberKeyId, 1))
+    );
 
     return record;
   }

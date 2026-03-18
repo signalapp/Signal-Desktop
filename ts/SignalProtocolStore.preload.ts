@@ -72,6 +72,7 @@ import {
 } from './textsecure/AccountManager.preload.js';
 import { formatGroups, groupWhile } from './util/groupWhile.std.js';
 import { parseUnknown } from './util/schemas.std.js';
+import { wrappingAdd24 } from './util/wrappingAdd.std.js';
 import { itemStorage } from './textsecure/Storage.preload.js';
 
 const { omit } = lodash;
@@ -2104,6 +2105,7 @@ export class SignalProtocolStore extends EventEmitter {
       nonblockingApproval = false;
     }
 
+    strictAssert(publicKey.length > 0, 'Empty public key');
     return this.#_runOnIdentityQueue(
       encodedAddress.serviceId,
       zone,
@@ -2652,7 +2654,7 @@ export class SignalProtocolStore extends EventEmitter {
         [pni]: registrationId,
       }),
       (async () => {
-        const newId = signedPreKey.id() + 1;
+        const newId = Math.max(1, wrappingAdd24(signedPreKey.id(), 1));
         log.warn(`${logId}: Updating next signed pre key id to ${newId}`);
         await itemStorage.put(SIGNED_PRE_KEY_ID_KEY[ServiceIdKind.PNI], newId);
       })(),
@@ -2670,7 +2672,7 @@ export class SignalProtocolStore extends EventEmitter {
         if (!lastResortKyberPreKey) {
           return;
         }
-        const newId = lastResortKyberPreKey.id() + 1;
+        const newId = Math.max(1, wrappingAdd24(lastResortKyberPreKey.id(), 1));
         log.warn(`${logId}: Updating next kyber pre key id to ${newId}`);
         await itemStorage.put(KYBER_KEY_ID_KEY[ServiceIdKind.PNI], newId);
       })(),

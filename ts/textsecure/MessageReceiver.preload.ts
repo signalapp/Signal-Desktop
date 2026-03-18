@@ -50,6 +50,7 @@ import { clearTimeoutIfNecessary } from '../util/clearTimeoutIfNecessary.std.js'
 import { Zone } from '../util/Zone.std.js';
 import * as durations from '../util/durations/index.std.js';
 import { DurationInSeconds } from '../util/durations/index.std.js';
+import { isKnownProtoEnumMember } from '../util/isKnownProtoEnumMember.std.js';
 import { Address } from '../types/Address.std.js';
 import { QualifiedAddress } from '../types/QualifiedAddress.std.js';
 import { normalizeStoryDistributionId } from '../types/StoryDistributionId.std.js';
@@ -78,10 +79,11 @@ import createTaskWithTimeout from './TaskWithTimeout.std.js';
 import {
   processAttachment,
   processDataMessage,
+  processBodyRange,
   processGroupV2Context,
   processPreview,
 } from './processDataMessage.preload.js';
-import { processSyncMessage } from './processSyncMessage.node.js';
+import { processSent } from './processSyncMessage.node.js';
 import type { EventHandler } from './EventTarget.std.js';
 import EventTarget from './EventTarget.std.js';
 import type { IncomingWebSocketRequest } from './WebsocketResources.preload.js';
@@ -97,7 +99,6 @@ import type {
   ProcessedEnvelope,
   ProcessedPreview,
   ProcessedSent,
-  ProcessedSyncMessage,
   UnprocessedType,
 } from './Types.d.ts';
 import type {
@@ -172,6 +173,8 @@ import {
   type MessageRequestResponseInfo,
   MessageRequestResponseSource,
 } from '../types/MessageRequestResponseEvent.std.js';
+
+import { toNumber } from '../util/toNumber.std.js';
 
 const { isBoolean, isNumber, isString, noop, omit } = lodash;
 
@@ -412,12 +415,11 @@ export default class MessageReceiver
         const plaintext = request.body;
 
         const decoded = Proto.Envelope.decode(plaintext);
-        const serverTimestamp = decoded.serverTimestamp?.toNumber() ?? 0;
+        const serverTimestamp = toNumber(decoded.serverTimestamp) ?? 0;
 
         const ourAci = this.#storage.user.getCheckedAci();
 
         const { content } = decoded;
-        strictAssert(content != null, 'Content is required for envelopes');
 
         const envelope: ProcessedEnvelope = {
           // Make non-private envelope IDs dashless so they don't get redacted
@@ -432,7 +434,9 @@ export default class MessageReceiver
           ),
 
           // Proto.Envelope fields
-          type: decoded.type ?? Proto.Envelope.Type.UNKNOWN,
+          type: isKnownProtoEnumMember(Proto.Envelope.Type, decoded.type)
+            ? decoded.type
+            : Proto.Envelope.Type.UNKNOWN,
           source: undefined,
           sourceServiceId: fromServiceIdBinaryOrString(
             decoded.sourceServiceIdBinary,
@@ -451,8 +455,8 @@ export default class MessageReceiver
             decoded.updatedPni,
             'MessageReceiver.handleRequest.updatedPni'
           ),
-          timestamp: decoded.clientTimestamp?.toNumber() ?? 0,
-          content,
+          timestamp: toNumber(decoded.clientTimestamp) ?? 0,
+          content: content ?? new Uint8Array(0),
           serverGuid:
             (Bytes.isNotEmpty(decoded.serverGuidBinary)
               ? bytesToUuid(decoded.serverGuidBinary)
@@ -1473,7 +1477,10 @@ export default class MessageReceiver
     let inProgressMessageType = '';
     try {
       const content = Proto.Content.decode(plaintext);
-      if (!wasEncrypted && Bytes.isEmpty(content.decryptionErrorMessage)) {
+      if (
+        !wasEncrypted &&
+        Bytes.isEmpty(content.content?.decryptionErrorMessage)
+      ) {
         log.warn(
           `${logId}: dropping plaintext envelope without decryption error message`
         );
@@ -1504,8 +1511,8 @@ export default class MessageReceiver
       }
 
       isGroupV2 =
-        Boolean(content.dataMessage?.groupV2) ||
-        Boolean(content.storyMessage?.group);
+        Boolean(content.content?.dataMessage?.groupV2) ||
+        Boolean(content.content?.storyMessage?.group);
 
       if (
         wasEncrypted &&
@@ -1520,12 +1527,12 @@ export default class MessageReceiver
         );
       }
 
-      const isStoryReply = Boolean(content.dataMessage?.storyContext);
+      const isStoryReply = Boolean(content.content?.dataMessage?.storyContext);
       const isGroupStoryReply = Boolean(
-        isStoryReply && content.dataMessage?.groupV2
+        isStoryReply && content.content?.dataMessage?.groupV2
       );
-      const isStory = Boolean(content.storyMessage);
-      const isDeleteForEveryone = Boolean(content.dataMessage?.delete);
+      const isStory = Boolean(content.content?.storyMessage);
+      const isDeleteForEveryone = Boolean(content.content?.dataMessage?.delete);
 
       if (
         envelope.story &&
@@ -1581,12 +1588,12 @@ export default class MessageReceiver
 
       // Some sync messages have to be fully processed in the middle of
       // decryption queue since subsequent envelopes use their key material.
-      const { syncMessage } = content;
-      if (wasEncrypted && syncMessage?.pniChangeNumber) {
+      const syncMessage = content.content?.syncMessage;
+      if (wasEncrypted && syncMessage?.content?.pniChangeNumber) {
         inProgressMessageType = 'pni change number';
         await this.#handlePNIChangeNumber(
           envelope,
-          syncMessage.pniChangeNumber
+          syncMessage.content.pniChangeNumber
         );
         this.#removeFromCache(envelope);
         return { plaintext: undefined, envelope };
@@ -2111,9 +2118,9 @@ export default class MessageReceiver
     const ev = new SentEvent(
       {
         envelopeId: envelope.id,
-        destinationE164: dropNull(destinationE164),
+        destinationE164: destinationE164 ?? '',
         destinationServiceId,
-        timestamp: timestamp.toNumber(),
+        timestamp: toNumber(timestamp),
         serverTimestamp: envelope.serverTimestamp,
         device: envelope.sourceDevice,
         unidentifiedStatus,
@@ -2121,7 +2128,7 @@ export default class MessageReceiver
         isRecipientUpdate: Boolean(isRecipientUpdate),
         receivedAtCounter: envelope.receivedAtCounter,
         receivedAtDate: envelope.receivedAtDate,
-        expirationStartTimestamp: expirationStartTimestamp?.toNumber(),
+        expirationStartTimestamp: toNumber(expirationStartTimestamp) ?? 0,
       },
       this.#removeFromCache.bind(this, envelope)
     );
@@ -2130,7 +2137,7 @@ export default class MessageReceiver
 
   async #handleStoryMessage(
     envelope: UnsealedEnvelope,
-    msg: Proto.IStoryMessage,
+    msg: Proto.StoryMessage,
     sentMessage?: ProcessedSent
   ): Promise<void> {
     const envelopeId = getEnvelopeId(envelope);
@@ -2155,16 +2162,17 @@ export default class MessageReceiver
     const attachments: Array<ProcessedAttachment> = [];
     let preview: ReadonlyArray<ProcessedPreview> | undefined;
 
-    if (msg.fileAttachment) {
-      const attachment = processAttachment(msg.fileAttachment);
+    if (msg.attachment?.fileAttachment != null) {
+      const attachment = processAttachment(msg.attachment.fileAttachment);
       attachments.push(attachment);
     }
 
-    if (msg.textAttachment) {
+    if (msg.attachment?.textAttachment != null) {
       // If a text attachment has a link preview we remove it from the
       // textAttachment data structure and instead process the preview and add
       // it as a "preview" property for the message attributes.
-      const { text, preview: unprocessedPreview } = msg.textAttachment;
+      const { text, preview: unprocessedPreview } =
+        msg.attachment.textAttachment;
       if (unprocessedPreview) {
         preview = processPreview([unprocessedPreview]);
       } else if (!text) {
@@ -2174,10 +2182,18 @@ export default class MessageReceiver
       attachments.push({
         size: text?.length ?? 0,
         contentType: TEXT_ATTACHMENT,
-        textAttachment: omit(msg.textAttachment, 'preview'),
+        textAttachment: {
+          ...omit(msg.attachment.textAttachment, 'preview'),
+          textStyle: isKnownProtoEnumMember(
+            Proto.TextAttachment.Style,
+            msg.attachment.textAttachment.textStyle
+          )
+            ? msg.attachment.textAttachment.textStyle
+            : 0,
+        },
         blurHash: generateBlurHash(
-          (msg.textAttachment.color ||
-            msg.textAttachment.gradient?.startColor) ??
+          (msg.attachment.textAttachment.background?.color ||
+            msg.attachment.textAttachment.background?.gradient?.startColor) ??
             undefined
         ),
       });
@@ -2204,7 +2220,9 @@ export default class MessageReceiver
     const message: ProcessedDataMessage = {
       attachments,
 
-      bodyRanges: filterAndClean(msg.bodyRanges),
+      bodyRanges: filterAndClean(
+        msg.bodyRanges.map(processBodyRange).filter(isNotNil)
+      ),
       preview,
       canReplyToStory: Boolean(msg.allowsReplies),
       expireTimer: DurationInSeconds.DAY,
@@ -2238,6 +2256,8 @@ export default class MessageReceiver
               return {
                 destinationServiceId,
                 isAllowedToReplyToStory: Boolean(isAllowedToReply),
+                destinationPniIdentityKey: undefined,
+                unidentified: false,
               };
             })
             .filter(isNotNil),
@@ -2298,6 +2318,7 @@ export default class MessageReceiver
                 destinationServiceId,
                 isAllowedToReplyToStory:
                   isAllowedToReply.has(destinationServiceId),
+                unidentified: false,
               })
             ),
             message,
@@ -2341,7 +2362,7 @@ export default class MessageReceiver
 
   async #handleEditMessage(
     envelope: UnsealedEnvelope,
-    msg: Proto.IEditMessage
+    msg: Proto.EditMessage
   ): Promise<void> {
     const logId = `handleEditMessage(${getEnvelopeId(envelope)})`;
     log.info(logId);
@@ -2391,7 +2412,7 @@ export default class MessageReceiver
         ),
         message: {
           ...message,
-          editedMessageTimestamp: msg.targetSentTimestamp.toNumber(),
+          editedMessageTimestamp: toNumber(msg.targetSentTimestamp),
         },
         receivedAtCounter: envelope.receivedAtCounter,
         receivedAtDate: envelope.receivedAtDate,
@@ -2403,7 +2424,7 @@ export default class MessageReceiver
 
   async #handleDataMessage(
     envelope: UnsealedEnvelope,
-    msg: Proto.IDataMessage
+    msg: Proto.DataMessage
   ): Promise<void> {
     const logId = `handleDataMessage/${getEnvelopeId(envelope)}`;
     log.info(logId);
@@ -2577,47 +2598,50 @@ export default class MessageReceiver
     const envelope = await this.#maybeUpdateTimestamp(incomingEnvelope);
 
     if (
-      content.decryptionErrorMessage &&
-      Bytes.isNotEmpty(content.decryptionErrorMessage)
+      content.content?.decryptionErrorMessage &&
+      Bytes.isNotEmpty(content.content.decryptionErrorMessage)
     ) {
-      this.#handleDecryptionError(envelope, content.decryptionErrorMessage);
-      return;
-    }
-    if (content.syncMessage) {
-      await this.#handleSyncMessage(
+      this.#handleDecryptionError(
         envelope,
-        processSyncMessage(content.syncMessage)
+        content.content.decryptionErrorMessage
       );
       return;
     }
-    if (content.dataMessage) {
-      await this.#handleDataMessage(envelope, content.dataMessage);
+    if (content.content?.syncMessage) {
+      await this.#handleSyncMessage(envelope, content.content.syncMessage);
       return;
     }
-    if (content.nullMessage) {
+    if (content.content?.dataMessage) {
+      await this.#handleDataMessage(envelope, content.content.dataMessage);
+      return;
+    }
+    if (content.content?.nullMessage) {
       this.#handleNullMessage(envelope);
       return;
     }
-    if (content.callMessage) {
-      await this.#handleCallingMessage(envelope, content.callMessage);
+    if (content.content?.callMessage) {
+      await this.#handleCallingMessage(envelope, content.content.callMessage);
       return;
     }
-    if (content.receiptMessage) {
-      await this.#handleReceiptMessage(envelope, content.receiptMessage);
+    if (content.content?.receiptMessage) {
+      await this.#handleReceiptMessage(
+        envelope,
+        content.content.receiptMessage
+      );
       return;
     }
-    if (content.typingMessage) {
-      this.#handleTypingMessage(envelope, content.typingMessage);
+    if (content.content?.typingMessage) {
+      this.#handleTypingMessage(envelope, content.content.typingMessage);
       return;
     }
 
-    if (content.storyMessage) {
-      await this.#handleStoryMessage(envelope, content.storyMessage);
+    if (content.content?.storyMessage) {
+      await this.#handleStoryMessage(envelope, content.content.storyMessage);
       return;
     }
 
-    if (content.editMessage) {
-      await this.#handleEditMessage(envelope, content.editMessage);
+    if (content.content?.editMessage) {
+      await this.#handleEditMessage(envelope, content.content.editMessage);
       return;
     }
 
@@ -2710,7 +2734,7 @@ export default class MessageReceiver
 
   async #handlePniSignatureMessage(
     envelope: UnsealedEnvelope,
-    pniSignatureMessage: Proto.IPniSignatureMessage
+    pniSignatureMessage: Proto.PniSignatureMessage
   ): Promise<void> {
     const envelopeId = getEnvelopeId(envelope);
     const logId = `handlePniSignatureMessage/${envelopeId}`;
@@ -2754,7 +2778,7 @@ export default class MessageReceiver
 
   async #handleCallingMessage(
     envelope: UnsealedEnvelope,
-    callingMessage: Proto.ICallMessage
+    callingMessage: Proto.CallMessage
   ): Promise<void> {
     logUnexpectedUrgentValue(envelope, 'callingMessage');
 
@@ -2778,7 +2802,7 @@ export default class MessageReceiver
 
   async #handleReceiptMessage(
     envelope: UnsealedEnvelope,
-    receiptMessage: Proto.IReceiptMessage
+    receiptMessage: Proto.ReceiptMessage
   ): Promise<void> {
     strictAssert(receiptMessage.timestamp, 'Receipt message without timestamp');
 
@@ -2808,7 +2832,7 @@ export default class MessageReceiver
     const logId = getEnvelopeId(envelope);
 
     const receipts = receiptMessage.timestamp.map(rawTimestamp => ({
-      timestamp: rawTimestamp?.toNumber(),
+      timestamp: toNumber(rawTimestamp),
       source: envelope.source,
       sourceServiceId: envelope.sourceServiceId,
       sourceDevice: envelope.sourceDevice,
@@ -2828,7 +2852,7 @@ export default class MessageReceiver
 
   #handleTypingMessage(
     envelope: UnsealedEnvelope,
-    typingMessage: Proto.ITypingMessage
+    typingMessage: Proto.TypingMessage
   ): void {
     this.#removeFromCache(envelope);
 
@@ -2836,7 +2860,7 @@ export default class MessageReceiver
 
     if (envelope.timestamp && typingMessage.timestamp) {
       const envelopeTimestamp = envelope.timestamp;
-      const typingTimestamp = typingMessage.timestamp?.toNumber();
+      const typingTimestamp = toNumber(typingMessage.timestamp);
 
       if (typingTimestamp !== envelopeTimestamp) {
         log.warn(
@@ -2874,7 +2898,7 @@ export default class MessageReceiver
         typing: {
           groupV2Id: groupV2IdString,
           typingMessage,
-          timestamp: timestamp?.toNumber() ?? Date.now(),
+          timestamp: toNumber(timestamp) ?? Date.now(),
           started: action === Proto.TypingMessage.Action.STARTED,
           stopped: action === Proto.TypingMessage.Action.STOPPED,
         },
@@ -2891,7 +2915,7 @@ export default class MessageReceiver
   }
 
   #isInvalidGroupData(
-    message: Proto.IDataMessage,
+    message: Proto.DataMessage,
     envelope: ProcessedEnvelope
   ): boolean {
     const { groupV2 } = message;
@@ -2920,7 +2944,7 @@ export default class MessageReceiver
     return undefined;
   }
 
-  #getGroupId(message: Proto.IDataMessage): string | undefined {
+  #getGroupId(message: Proto.DataMessage): string | undefined {
     if (message.groupV2) {
       strictAssert(message.groupV2.masterKey, 'Missing groupV2.masterKey');
       const { id } = deriveGroupFields(message.groupV2.masterKey);
@@ -2939,7 +2963,7 @@ export default class MessageReceiver
 
   async #handleSyncMessage(
     envelope: UnsealedEnvelope,
-    syncMessage: ProcessedSyncMessage
+    syncMessage: Proto.SyncMessage
   ): Promise<void> {
     const ourNumber = this.#storage.user.getNumber();
     const ourAci = this.#storage.user.getCheckedAci();
@@ -2956,8 +2980,8 @@ export default class MessageReceiver
     if (envelope.sourceDevice == ourDeviceId) {
       throw new Error('Received sync message from our own device');
     }
-    if (syncMessage.sent) {
-      const sentMessage = syncMessage.sent;
+    if (syncMessage.content?.sent) {
+      const sentMessage = processSent(syncMessage.content.sent);
 
       if (sentMessage.editMessage) {
         return this.#handleSentEditMessage(envelope, sentMessage);
@@ -3016,23 +3040,23 @@ export default class MessageReceiver
       log.info(
         'sent message to',
         this.#getDestination(sentMessage),
-        sentMessage.timestamp?.toNumber(),
+        toNumber(sentMessage.timestamp),
         'from',
         getEnvelopeId(envelope)
       );
 
       return this.#handleSentMessage(envelope, sentMessage);
     }
-    if (syncMessage.contacts) {
+    if (syncMessage.content?.contacts) {
       // Note: this method will download attachment and thus might block
       // message processing, but we would like to fully process contact sync
       // before moving on since it updates conversation state.
-      return this.#handleContacts(envelope, syncMessage.contacts);
+      return this.#handleContacts(envelope, syncMessage.content.contacts);
     }
-    if (syncMessage.blocked) {
-      return this.#handleBlocked(envelope, syncMessage.blocked);
+    if (syncMessage.content?.blocked) {
+      return this.#handleBlocked(envelope, syncMessage.content.blocked);
     }
-    if (syncMessage.request) {
+    if (syncMessage.content?.request) {
       log.info('Got SyncMessage Request');
       this.#removeFromCache(envelope);
       return;
@@ -3040,13 +3064,16 @@ export default class MessageReceiver
     if (syncMessage.read && syncMessage.read.length) {
       return this.#handleRead(envelope, syncMessage.read);
     }
-    if (syncMessage.verified) {
+    if (syncMessage.content?.verified) {
       log.info('Got verified sync message, dropping');
       this.#removeFromCache(envelope);
       return;
     }
-    if (syncMessage.configuration) {
-      return this.#handleConfiguration(envelope, syncMessage.configuration);
+    if (syncMessage.content?.configuration) {
+      return this.#handleConfiguration(
+        envelope,
+        syncMessage.content.configuration
+      );
     }
     if (
       syncMessage.stickerPackOperation &&
@@ -3057,46 +3084,58 @@ export default class MessageReceiver
         syncMessage.stickerPackOperation
       );
     }
-    if (syncMessage.viewOnceOpen) {
-      return this.#handleViewOnceOpen(envelope, syncMessage.viewOnceOpen);
-    }
-    if (syncMessage.messageRequestResponse) {
-      return this.#handleMessageRequestResponse(
+    if (syncMessage.content?.viewOnceOpen) {
+      return this.#handleViewOnceOpen(
         envelope,
-        syncMessage.messageRequestResponse
+        syncMessage.content.viewOnceOpen
       );
     }
-    if (syncMessage.fetchLatest) {
-      return this.#handleFetchLatest(envelope, syncMessage.fetchLatest);
+    if (syncMessage.content?.messageRequestResponse) {
+      return this.#handleMessageRequestResponse(
+        envelope,
+        syncMessage.content.messageRequestResponse
+      );
     }
-    if (syncMessage.keys) {
-      return this.#handleKeys(envelope, syncMessage.keys);
+    if (syncMessage.content?.fetchLatest) {
+      return this.#handleFetchLatest(envelope, syncMessage.content.fetchLatest);
+    }
+    if (syncMessage.content?.keys) {
+      return this.#handleKeys(envelope, syncMessage.content.keys);
     }
     if (syncMessage.viewed && syncMessage.viewed.length) {
       return this.#handleViewed(envelope, syncMessage.viewed);
     }
-    if (syncMessage.callEvent) {
-      return this.#handleCallEvent(envelope, syncMessage.callEvent);
+    if (syncMessage.content?.callEvent) {
+      return this.#handleCallEvent(envelope, syncMessage.content.callEvent);
     }
-    if (syncMessage.callLinkUpdate) {
-      return this.#handleCallLinkUpdate(envelope, syncMessage.callLinkUpdate);
-    }
-    if (syncMessage.callLogEvent) {
-      return this.#handleCallLogEvent(envelope, syncMessage.callLogEvent);
-    }
-    if (syncMessage.deleteForMe) {
-      return this.#handleDeleteForMeSync(envelope, syncMessage.deleteForMe);
-    }
-    if (syncMessage.deviceNameChange) {
-      return this.#handleDeviceNameChangeSync(
+    if (syncMessage.content?.callLinkUpdate) {
+      return this.#handleCallLinkUpdate(
         envelope,
-        syncMessage.deviceNameChange
+        syncMessage.content.callLinkUpdate
       );
     }
-    if (syncMessage.attachmentBackfillResponse) {
+    if (syncMessage.content?.callLogEvent) {
+      return this.#handleCallLogEvent(
+        envelope,
+        syncMessage.content.callLogEvent
+      );
+    }
+    if (syncMessage.content?.deleteForMe) {
+      return this.#handleDeleteForMeSync(
+        envelope,
+        syncMessage.content.deleteForMe
+      );
+    }
+    if (syncMessage.content?.deviceNameChange) {
+      return this.#handleDeviceNameChangeSync(
+        envelope,
+        syncMessage.content.deviceNameChange
+      );
+    }
+    if (syncMessage.content?.attachmentBackfillResponse) {
       return this.#handleAttachmentBackfillResponse(
         envelope,
-        syncMessage.attachmentBackfillResponse
+        syncMessage.content.attachmentBackfillResponse
       );
     }
 
@@ -3148,7 +3187,7 @@ export default class MessageReceiver
     const ev = new SentEvent(
       {
         envelopeId: envelope.id,
-        destinationE164: dropNull(destinationE164),
+        destinationE164: destinationE164 ?? '',
         destinationServiceId,
         timestamp: envelope.timestamp,
         serverTimestamp: envelope.serverTimestamp,
@@ -3156,12 +3195,12 @@ export default class MessageReceiver
         unidentifiedStatus,
         message: {
           ...message,
-          editedMessageTimestamp: editMessage.targetSentTimestamp.toNumber(),
+          editedMessageTimestamp: toNumber(editMessage.targetSentTimestamp),
         },
         isRecipientUpdate: Boolean(isRecipientUpdate),
         receivedAtCounter: envelope.receivedAtCounter,
         receivedAtDate: envelope.receivedAtDate,
-        expirationStartTimestamp: expirationStartTimestamp?.toNumber(),
+        expirationStartTimestamp: toNumber(expirationStartTimestamp) ?? 0,
       },
       this.#removeFromCache.bind(this, envelope)
     );
@@ -3170,7 +3209,7 @@ export default class MessageReceiver
 
   async #handleConfiguration(
     envelope: ProcessedEnvelope,
-    configuration: Proto.SyncMessage.IConfiguration
+    configuration: Proto.SyncMessage.Configuration
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
     log.info('got configuration sync message', logId);
@@ -3186,7 +3225,7 @@ export default class MessageReceiver
 
   async #handleViewOnceOpen(
     envelope: ProcessedEnvelope,
-    sync: Proto.SyncMessage.IViewOnceOpen
+    sync: Proto.SyncMessage.ViewOnceOpen
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
     log.info('got view once open sync message', logId);
@@ -3200,7 +3239,7 @@ export default class MessageReceiver
           sync.senderAci,
           'handleViewOnceOpen.senderUuid'
         ),
-        timestamp: sync.timestamp?.toNumber(),
+        timestamp: toNumber(sync.timestamp) ?? 0,
         envelopeTimestamp: envelope.timestamp,
       },
       this.#removeFromCache.bind(this, envelope)
@@ -3211,7 +3250,7 @@ export default class MessageReceiver
 
   async #handleMessageRequestResponse(
     envelope: ProcessedEnvelope,
-    sync: Proto.SyncMessage.IMessageRequestResponse
+    sync: Proto.SyncMessage.MessageRequestResponse
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
     log.info('got message request response sync message', logId);
@@ -3239,7 +3278,12 @@ export default class MessageReceiver
           sync.threadAci,
           'handleMessageRequestResponse.threadUuid'
         ),
-        messageRequestResponseType: sync.type,
+        messageRequestResponseType: isKnownProtoEnumMember(
+          Proto.SyncMessage.MessageRequestResponse.Type,
+          sync.type
+        )
+          ? sync.type
+          : Proto.SyncMessage.MessageRequestResponse.Type.UNKNOWN,
         groupV2Id: groupV2IdString,
         receivedAtCounter: envelope.receivedAtCounter,
         receivedAtMs: envelope.receivedAtDate,
@@ -3253,7 +3297,7 @@ export default class MessageReceiver
 
   async #handleFetchLatest(
     envelope: ProcessedEnvelope,
-    sync: Proto.SyncMessage.IFetchLatest
+    sync: Proto.SyncMessage.FetchLatest
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
     log.info('got fetch latest sync message', logId);
@@ -3270,7 +3314,7 @@ export default class MessageReceiver
 
   async #handleKeys(
     envelope: ProcessedEnvelope,
-    sync: Proto.SyncMessage.IKeys
+    sync: Proto.SyncMessage.Keys
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
     log.info('got keys sync message', logId);
@@ -3300,7 +3344,7 @@ export default class MessageReceiver
       lastResortKyberPreKey,
       registrationId,
       newE164,
-    }: Proto.SyncMessage.IPniChangeNumber
+    }: Proto.SyncMessage.PniChangeNumber
   ): Promise<void> {
     const ourAci = this.#storage.user.getCheckedAci();
 
@@ -3345,7 +3389,7 @@ export default class MessageReceiver
 
   async #handleStickerPackOperation(
     envelope: ProcessedEnvelope,
-    operations: Array<Proto.SyncMessage.IStickerPackOperation>
+    operations: Array<Proto.SyncMessage.StickerPackOperation>
   ): Promise<void> {
     const ENUM = Proto.SyncMessage.StickerPackOperation.Type;
     const logId = getEnvelopeId(envelope);
@@ -3369,7 +3413,7 @@ export default class MessageReceiver
 
   async #handleRead(
     envelope: ProcessedEnvelope,
-    read: Array<Proto.SyncMessage.IRead>
+    read: Array<Proto.SyncMessage.Read>
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
     log.info('handleRead', logId);
@@ -3382,7 +3426,7 @@ export default class MessageReceiver
       return {
         envelopeId: envelope.id,
         envelopeTimestamp: envelope.timestamp,
-        timestamp: timestamp?.toNumber(),
+        timestamp: toNumber(timestamp) ?? 0,
         senderAci: fromAciUuidBytesOrString(
           senderAciBinary,
           rawSenderAci,
@@ -3404,7 +3448,7 @@ export default class MessageReceiver
 
   async #handleViewed(
     envelope: ProcessedEnvelope,
-    viewed: ReadonlyArray<Proto.SyncMessage.IViewed>
+    viewed: ReadonlyArray<Proto.SyncMessage.Viewed>
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
     log.info('handleViewed', logId);
@@ -3415,7 +3459,7 @@ export default class MessageReceiver
       const { timestamp, senderAci: rawSenderAci, senderAciBinary } = data;
 
       return {
-        timestamp: timestamp?.toNumber(),
+        timestamp: toNumber(timestamp) ?? 0,
         senderAci: fromAciUuidBytesOrString(
           senderAciBinary,
           rawSenderAci,
@@ -3437,7 +3481,7 @@ export default class MessageReceiver
 
   async #handleCallEvent(
     envelope: ProcessedEnvelope,
-    callEvent: Proto.SyncMessage.ICallEvent
+    callEvent: Proto.SyncMessage.CallEvent
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
     log.info('handleCallEvent', logId);
@@ -3466,7 +3510,7 @@ export default class MessageReceiver
 
   async #handleCallLinkUpdate(
     envelope: ProcessedEnvelope,
-    callLinkUpdate: Proto.SyncMessage.ICallLinkUpdate
+    callLinkUpdate: Proto.SyncMessage.CallLinkUpdate
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
     log.info('handleCallLinkUpdate', logId);
@@ -3509,7 +3553,7 @@ export default class MessageReceiver
 
   async #handleCallLogEvent(
     envelope: ProcessedEnvelope,
-    callLogEvent: Proto.SyncMessage.ICallLogEvent
+    callLogEvent: Proto.SyncMessage.CallLogEvent
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
     log.info('handleCallLogEvent', logId);
@@ -3534,7 +3578,7 @@ export default class MessageReceiver
 
   async #handleDeleteForMeSync(
     envelope: ProcessedEnvelope,
-    deleteSync: Proto.SyncMessage.IDeleteForMe
+    deleteSync: Proto.SyncMessage.DeleteForMe
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
     log.info('handleDeleteForMeSync', logId);
@@ -3733,7 +3777,7 @@ export default class MessageReceiver
 
   async #handleAttachmentBackfillResponse(
     envelope: ProcessedEnvelope,
-    response: Proto.SyncMessage.IAttachmentBackfillResponse
+    response: Proto.SyncMessage.AttachmentBackfillResponse
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
     log.info('handleAttachmentBackfillResponse', logId);
@@ -3770,14 +3814,19 @@ export default class MessageReceiver
     );
 
     let eventData: AttachmentBackfillResponseSyncEventData;
-    if (response.error != null) {
+    if (response.data?.error != null) {
       eventData = {
-        error: response.error,
+        error: isKnownProtoEnumMember(
+          Proto.SyncMessage.AttachmentBackfillResponse.Error,
+          response.data.error
+        )
+          ? response.data.error
+          : 0,
         targetMessage,
         targetConversation,
       };
     } else {
-      const { attachments } = response;
+      const attachments = response.data?.attachments;
       strictAssert(
         attachments != null,
         'MessageReceiver.handleAttachmentBackfillResponse: no attachments'
@@ -3811,7 +3860,7 @@ export default class MessageReceiver
 
   async #handleDeviceNameChangeSync(
     envelope: ProcessedEnvelope,
-    deviceNameChange: Proto.SyncMessage.IDeviceNameChange
+    deviceNameChange: Proto.SyncMessage.DeviceNameChange
   ): Promise<void> {
     const logId = `handleDeviceNameChangeSync: ${getEnvelopeId(envelope)}`;
     log.info(logId);
@@ -3844,7 +3893,7 @@ export default class MessageReceiver
 
   async #handleContacts(
     envelope: ProcessedEnvelope,
-    contactSyncProto: Proto.SyncMessage.IContacts
+    contactSyncProto: Proto.SyncMessage.Contacts
   ): Promise<void> {
     const logId = getEnvelopeId(envelope);
     log.info(`handleContacts ${logId}`);
@@ -3870,7 +3919,7 @@ export default class MessageReceiver
   // proper before/after logic can be applied within that function.
   async #handleBlocked(
     envelope: ProcessedEnvelope,
-    blocked: Proto.SyncMessage.IBlocked
+    blocked: Proto.SyncMessage.Blocked
   ): Promise<void> {
     const logId = `handleBlocked(${getEnvelopeId(envelope)})`;
     const messageRequestEnum = Proto.SyncMessage.MessageRequestResponse.Type;
@@ -4042,7 +4091,7 @@ export default class MessageReceiver
 
   #processDecrypted(
     envelope: ProcessedEnvelope,
-    decrypted: Proto.IDataMessage
+    decrypted: Proto.DataMessage
   ): ProcessedDataMessage {
     return processDataMessage(decrypted, envelope.timestamp);
   }
@@ -4078,10 +4127,14 @@ function envelopeTypeToCiphertextType(type: number | undefined): number {
 }
 
 function processAddressableMessage(
-  target: Proto.IAddressableMessage,
+  target: Proto.AddressableMessage,
   logId: string
 ): AddressableMessage | undefined {
-  const sentAt = target.sentTimestamp?.toNumber();
+  if (target.author == null) {
+    log.error(`${logId}/processAddressableMessage: no author`);
+    return undefined;
+  }
+  const sentAt = toNumber(target.sentTimestamp);
   if (!isNumber(sentAt)) {
     log.warn(
       `${logId}/processAddressableMessage: No sentTimestamp found! Dropping AddressableMessage.`
@@ -4089,7 +4142,16 @@ function processAddressableMessage(
     return undefined;
   }
 
-  const { authorServiceId: rawAuthorServiceId, authorServiceIdBinary } = target;
+  if (target.author.authorE164 != null) {
+    return {
+      type: 'e164' as const,
+      authorE164: target.author.authorE164,
+      sentAt,
+    };
+  }
+
+  const { authorServiceId: rawAuthorServiceId, authorServiceIdBinary } =
+    target.author;
 
   const authorServiceId = fromServiceIdBinaryOrString(
     authorServiceIdBinary,
@@ -4117,13 +4179,6 @@ function processAddressableMessage(
     );
     return undefined;
   }
-  if (target.authorE164) {
-    return {
-      type: 'e164' as const,
-      authorE164: target.authorE164,
-      sentAt,
-    };
-  }
 
   log.warn(
     `${logId}/processAddressableMessage: No author field found! Dropping AddressableMessage.`
@@ -4132,15 +4187,19 @@ function processAddressableMessage(
 }
 
 function processConversationIdentifier(
-  target: Proto.IConversationIdentifier,
+  target: Proto.ConversationIdentifier,
   logId: string
 ): ConversationIdentifier | undefined {
+  if (target.identifier == null) {
+    log.error(`${logId}/processConversationIdentifier: no identifier`);
+    return undefined;
+  }
   const {
     threadServiceId: rawThreadServiceId,
     threadServiceIdBinary,
     threadGroupId,
     threadE164,
-  } = target;
+  } = target.identifier;
 
   const threadServiceId = fromServiceIdBinaryOrString(
     threadServiceIdBinary,
@@ -4186,13 +4245,20 @@ function processConversationIdentifier(
 }
 
 function processBackfilledAttachment(
-  data: Proto.SyncMessage.AttachmentBackfillResponse.IAttachmentData
+  data: Proto.SyncMessage.AttachmentBackfillResponse.AttachmentData
 ): AttachmentBackfillAttachmentType {
-  if (data.status != null) {
-    return { status: data.status };
+  if (data.data?.status != null) {
+    return {
+      status: isKnownProtoEnumMember(
+        Proto.SyncMessage.AttachmentBackfillResponse.AttachmentData.Status,
+        data.data.status
+      )
+        ? data.data.status
+        : 0,
+    };
   }
 
-  const attachment = processAttachment(data.attachment);
+  const attachment = processAttachment(data.data?.attachment);
   strictAssert(
     attachment != null,
     'MessageReceiver.handleAttachmentBackfillResponse: ' +

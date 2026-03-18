@@ -99,8 +99,8 @@ describe('group add banned member', () => {
       },
     });
 
-    assert.isUndefined(actions.addMembersBanned);
-    assert.isUndefined(actions.deleteMembersBanned);
+    assert.isNull(actions.addMembersBanned);
+    assert.isNull(actions.deleteMembersBanned);
   });
 
   it('should not ban already banned person', () => {
@@ -113,7 +113,7 @@ describe('group add banned member', () => {
       },
     });
 
-    assert.isUndefined(actions.addMembersBanned);
-    assert.isUndefined(actions.deleteMembersBanned);
+    assert.isNull(actions.addMembersBanned);
+    assert.isNull(actions.deleteMembersBanned);
   });
 });

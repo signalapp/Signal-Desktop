@@ -2,13 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { z } from 'zod';
-import Long from 'long';
 import type { AciString } from './ServiceId.std.js';
 import { aciSchema } from './ServiceId.std.js';
 import { bytesToUuid } from '../util/uuidToBytes.std.js';
 import { SignalService as Proto } from '../protobuf/index.std.js';
 import * as Bytes from '../Bytes.std.js';
 import { UUID_BYTE_SIZE } from './Crypto.std.js';
+
+import { toNumber } from '../util/toNumber.std.js';
 
 // These are strings (1) for the backup (2) for Storybook.
 export enum CallMode {
@@ -272,13 +273,9 @@ const roomIdInBytesSchema = z
   .instanceof(Uint8Array)
   .transform(value => Bytes.toHex(value));
 
-const longToStringSchema = z
-  .instanceof(Long)
-  .transform(long => long.toString());
+const longToStringSchema = z.bigint().transform(big => big.toString());
 
-const longToNumberSchema = z
-  .instanceof(Long)
-  .transform(long => long.toNumber());
+const longToNumberSchema = z.bigint().transform(big => toNumber(big));
 
 export const callEventNormalizeSchema = z
   .object({
@@ -293,13 +290,13 @@ export const callEventNormalizeSchema = z
         type: z
           .nativeEnum(Proto.SyncMessage.CallEvent.Type)
           .refine(val => val === Proto.SyncMessage.CallEvent.Type.AD_HOC_CALL),
-        peerId: roomIdInBytesSchema,
+        conversationId: roomIdInBytesSchema,
       }),
       z.object({
         type: z
           .nativeEnum(Proto.SyncMessage.CallEvent.Type)
           .refine(val => val !== Proto.SyncMessage.CallEvent.Type.AD_HOC_CALL),
-        peerId: conversationPeerIdInBytesSchema,
+        conversationId: conversationPeerIdInBytesSchema,
       }),
     ])
   );

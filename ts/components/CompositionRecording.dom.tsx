@@ -8,7 +8,6 @@ import type {
   HideToastAction,
   ShowToastAction,
 } from '../state/ducks/toast.preload.js';
-import type { InMemoryAttachmentDraftType } from '../types/Attachment.std.js';
 import { ErrorDialogAudioRecorderType } from '../types/AudioRecorder.std.js';
 import type { LocalizerType } from '../types/Util.std.js';
 import type { AnyToast } from '../types/Toast.dom.js';
@@ -26,14 +25,6 @@ export type Props = {
   onSend: () => void;
   errorRecording: (e: ErrorDialogAudioRecorderType) => unknown;
   errorDialogAudioRecorderType?: ErrorDialogAudioRecorderType;
-  addAttachment: (
-    conversationId: string,
-    attachment: InMemoryAttachmentDraftType
-  ) => unknown;
-  completeRecording: (
-    conversationId: string,
-    onRecordingComplete: (rec: InMemoryAttachmentDraftType) => unknown
-  ) => unknown;
   saveDraftRecordingIfNeeded: () => void;
   showToast: ShowToastAction;
   hideToast: HideToastAction;

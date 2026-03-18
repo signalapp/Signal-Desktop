@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "인증 초기화하기"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "{name} 님과의 엔드투엔드 암호화를 인증하려면 상기 번호를 상대방 기기의 번호와 비교하세요. 상대방 기기로 나의 코드를 스캔할 수도 있습니다."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "{name} 님과의 엔드투엔드 암호화를 인증하려면 상기 숫자를 상대방 기기의 숫자와 비교하세요. 아니면 상대방 기기로 내 기기의 코드를 스캔할 수도 있습니다."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "디버그 로그를 제출하면 문제를 진단하고 수정하는 데 도움이 됩니다. 디버그 로그에는 식별 정보가 포함되지 않습니다."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "닫기"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "디버그 로그 공유"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "제출"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "아니요"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "제출 중..."
@@ -750,7 +741,7 @@
     "messageformat": "파일은 한 번에 한 개만 선택할 수 있습니다."
   },
   "icu:maximumAttachments": {
-    "messageformat": "이 메시지에 더 이상 첨부할 수 없습니다."
+    "messageformat": "이 메시지에 첨부 파일을 더 이상 추가할 수 없습니다."
   },
   "icu:fileSizeWarning": {
     "messageformat": "죄송합니다, 선택된 파일은 메시지의 최대 허용 용량을 초과했습니다. {limit,number} {units}"
@@ -933,7 +924,7 @@
     "messageformat": "첨부 파일 다운로드"
   },
   "icu:reactToMessage": {
-    "messageformat": "메시지에 반응하기"
+    "messageformat": "메시지에 공감 표시하기"
   },
   "icu:replyToMessage": {
     "messageformat": "메시지 답장"
@@ -1155,7 +1146,7 @@
     "messageformat": "답장"
   },
   "icu:MessageContextMenu__react": {
-    "messageformat": "반응하기"
+    "messageformat": "공감 표시하기"
   },
   "icu:MessageContextMenu__download": {
     "messageformat": "다운로드"
@@ -1854,7 +1845,7 @@
     "messageformat": "전화 알림"
   },
   "icu:calling__call-is-full": {
-    "messageformat": "통화 참가자 수 최대"
+    "messageformat": "통화 최대 참가자 수 도달"
   },
   "icu:calling__cant-join": {
     "messageformat": "통화에 참여할 수 없습니다."
@@ -1890,7 +1881,7 @@
     "messageformat": "이 통화에 대한 최대 참가자 수에 도달했습니다. 나중에 다시 시도하세요."
   },
   "icu:calling__has-max-devices--title": {
-    "messageformat": "통화 참가자 수 최대"
+    "messageformat": "통화 최대 참가자 수 도달"
   },
   "icu:CallingLobby__CallLinkNotice": {
     "messageformat": "이 링크로 통화에 참여하는 모든 사람이 나의 이름과 사진을 볼 수 있습니다."
@@ -1941,7 +1932,7 @@
     "messageformat": "표시 중단"
   },
   "icu:calling__button--react": {
-    "messageformat": "반응하기"
+    "messageformat": "공감 표시하기"
   },
   "icu:calling__button--ring__disabled-because-group-is-too-large": {
     "messageformat": "단체 참여자가 너무 많아 통화를 진행할 수 없습니다."
@@ -2208,7 +2199,7 @@
     "messageformat": "{group} 내 {sender} 님"
   },
   "icu:notificationReactionMessage": {
-    "messageformat": "{sender} 님이 \"{message}\" 메시지에 {emoji} 이모지로 반응했어요"
+    "messageformat": "{sender} 님이 \"{message}\" 메시지에 {emoji} 이모지로 공감했어요"
   },
   "icu:notificationPollVoteMessage": {
     "messageformat": "{sender} 님이 \"{pollQuestion}\" 설문조사에 투표했습니다."
@@ -2220,16 +2211,16 @@
     "messageformat": "삭제 실패"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "삭제 실패, 클릭하여 자세히 알아보기"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "다시 삭제를 시도할까요?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "메시지를 삭제할 수 없습니다. 연결을 확인하고 다시 시도해 주세요."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "다시 시도해 주세요."
   },
   "icu:editFailed": {
     "messageformat": "수정하지 못했습니다. 클릭하여 자세한 내용을 확인하세요."
@@ -2244,7 +2235,7 @@
     "messageformat": "부분 삭제됨. 클릭해서 다시 시도하세요."
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "부분 삭제됨, 클릭하여 자세히 알아보기"
   },
   "icu:expiredWarning": {
     "messageformat": "이 버전의 Signal Desktop이 만료되었습니다. 계속 메시지를 보내려면 최신 버전으로 업데이트하세요."
@@ -2451,10 +2442,10 @@
     "messageformat": "이 그룹의 멤버 라벨은 관리자만 추가할 수 있습니다."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "한 번만 보기 켜짐"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "한 번만 보기 꺼짐"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "메시지 수정은 발송 시간으로부터 24시간 이내에 해야 합니다."
@@ -2643,13 +2634,13 @@
     "messageformat": "삭제된 메시지입니다."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "관리자 {admin} 님이 메시지를 삭제했습니다."
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "{name} 님이 이 메시지를 삭제했습니다."
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "내가 이 메시지를 삭제했습니다."
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "첨부 파일이 너무 커서 표시할 수 없습니다."
@@ -2877,7 +2868,7 @@
     "messageformat": "최근 사용함"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
-    "messageformat": "스티커 팩 추가하기"
+    "messageformat": "스티커 팩 추가"
   },
   "icu:FunPanelStickers__SectionTitle--SearchResults": {
     "messageformat": "검색 결과"
@@ -2985,13 +2976,13 @@
     "messageformat": "취소"
   },
   "icu:Message__reaction-emoji-label--you": {
-    "messageformat": "{emoji} 이모지로 반응했어요"
+    "messageformat": "{emoji} 이모지로 공감했어요"
   },
   "icu:Message__reaction-emoji-label--single": {
-    "messageformat": "{title} 님이 {emoji} 이모지로 반응했어요"
+    "messageformat": "{title} 님이 {emoji} 이모지로 공감했어요"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {{count,number}명이 {emoji} 이모지로 반응했어요}}"
+    "messageformat": "{count, plural, other {{count,number}명이 {emoji} 이모지로 공감했어요}}"
   },
   "icu:Message__role-description": {
     "messageformat": "메시지"
@@ -3495,7 +3486,7 @@
     "messageformat": "<clickable>프로필 이름</clickable>이 확인되지 않음"
   },
   "icu:ConversationHero--signal-official-chat": {
-    "messageformat": "유일한 Signal 공식 채팅입니다"
+    "messageformat": "Signal이 운영하는 유일한 공식 채널입니다."
   },
   "icu:ConversationHero--release-notes": {
     "messageformat": "최신 소식과 릴리스 노트를 확인하세요."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "관리자가 그룹 정보를 수정할 수 있는 사용자를 '모든 멤버'로 변경했습니다."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} 님이 그룹 멤버십을 수정할 수 있는 사람을 '관리자'로 변경했습니다."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "그룹 멤버십을 수정할 수 있는 사람을 '관리자'로 변경했습니다."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} 님이 그룹 멤버십을 수정할 수 있는 사람을 '관리자'로 변경했습니다."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "관리자가 그룹 멤버십을 수정할 수 있는 사람을 '관리자'로 변경했습니다."
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} 님이 그룹 멤버를 수정할 수 있는 사람을 '모든 멤버'로 변경했습니다."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "그룹 멤버를 수정할 수 있는 사람을 '모든 멤버'로 변경했습니다."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} 님이 그룹 멤버를 수정할 수 있는 사람을 '모든 멤버'로 변경했습니다."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "관리자가 그룹 멤버십을 수정할 수 있는 사용자를 '모든 멤버'로 변경했습니다."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "그룹 링크에 대한 관리자 승인을 비활성화했습니다."
@@ -4647,10 +4656,10 @@
     "messageformat": "바꾸기"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "한 번만 보기"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "한 번만 볼 수 있는 미디어"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "메시지 수정"
@@ -4686,13 +4695,16 @@
     "messageformat": "음성"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "음소거"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "{contact} 님의 알림을 끌까요?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "음소거"
+  },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Remove from call"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "멤버 라벨"
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "그룹 정보를 수정할 수 있는 사람"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "그룹 이름과 사진, 설명, 사라지는 메시지 타이머를 수정할 수 있는 사람을 선택하세요."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "그룹 이름, 사진, 설명, 자동 삭제 메시지 시간, 고정 메시지를 수정할 수 있는 사람을 선택하세요."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "그룹에 메시지를 전송할 수 있는 사람을 선택하세요."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "멤버 라벨이 제거됩니다"
@@ -5016,7 +5031,7 @@
     "messageformat": "{count, plural, other {메시지 {count,number}개를 삭제할까요?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, other {메시지 {count,number}개를 삭제할까요?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, other {이 메시지를 누구에게서 삭제하시겠어요?}}"
@@ -5037,10 +5052,10 @@
     "messageformat": "모두에게서 삭제"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "모두에게서 삭제할까요?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, other {그룹 멤버에게 관리자가 이 메시지를 삭제했다는 메시지가 표시됩니다.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "모든 기기에서 삭제"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, other {모든 사용자에 대해 삭제할 메시지를 최대 {count,number}개 까지만 선택할 수 있습니다}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Discard draft?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "This action can't be undone."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "항목을 삭제할까요?"
@@ -6187,13 +6208,13 @@
     "messageformat": "데스크톱 백업"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "백업은 키로 암호화되어 컴퓨터에 저장됩니다."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "휴대폰에서 복원할 수 있는 엔드투엔드 암호화 백업을 만듭니다. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "백업을 복원하려면 Signal의 새 복사본을 설치하세요. 앱을 열고 백업 복원을 탭한 다음 백업 폴더를 찾으세요. <learnMoreLink>자세히 알아보기.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "폴더 선택"
@@ -6829,7 +6850,7 @@
     "messageformat": "답장 및 반응 허용"
   },
   "icu:StoriesSettings__replies-reactions--description": {
-    "messageformat": "내 스토리를 볼 수 있는 사람들의 반응과 답장 허용"
+    "messageformat": "내 스토리를 볼 수 있는 사용자의 공감 및 답장 허용"
   },
   "icu:StoriesSettings__delete-list": {
     "messageformat": "맞춤 스토리 삭제"
@@ -7012,10 +7033,10 @@
     "messageformat": "답장"
   },
   "icu:StoryViewsNRepliesModal__reacted--you": {
-    "messageformat": "스토리에 반응했어요"
+    "messageformat": "스토리에 공감을 표시했어요"
   },
   "icu:StoryViewsNRepliesModal__reacted--someone-else": {
-    "messageformat": "스토리에 반응했어요"
+    "messageformat": "스토리에 공감을 표시했어요"
   },
   "icu:StoryViewsNRepliesModal__not-a-member": {
     "messageformat": "더 이상 이 그룹의 멤버가 아니므로 이 스토리에 답장할 수 없습니다."
@@ -7132,22 +7153,22 @@
     "messageformat": "스토리"
   },
   "icu:Quote__story-reaction": {
-    "messageformat": "{name} 님의 스토리에 반응했어요"
+    "messageformat": "{name} 님의 스토리에 공감을 표시했어요"
   },
   "icu:Quote__story-reaction--you": {
-    "messageformat": "내 스토리에 반응했어요"
+    "messageformat": "내 스토리에 공감을 표시했어요"
   },
   "icu:Quote__story-reaction--single": {
-    "messageformat": "스토리에 반응했어요"
+    "messageformat": "스토리에 공감을 표시했어요"
   },
   "icu:Quote__story-reaction-notification--incoming": {
-    "messageformat": "내 스토리에 {emoji} 이모지로 반응했어요"
+    "messageformat": "내 스토리에 {emoji} 이모지로 공감했어요"
   },
   "icu:Quote__story-reaction-notification--outgoing": {
-    "messageformat": "{name} 님이 보낸 스토리에 {emoji} 이모지로 반응했어요"
+    "messageformat": "{name} 님이 보낸 스토리에 {emoji} 이모지로 공감했어요"
   },
   "icu:Quote__story-reaction-notification--outgoing--nameless": {
-    "messageformat": "스토리에 {emoji} 이모지로 반응했어요"
+    "messageformat": "스토리에 {emoji} 이모지로 공감했어요"
   },
   "icu:Quote__story-unavailable": {
     "messageformat": "더는 사용할 수 없음"
@@ -7986,10 +8007,9 @@
     "messageformat": "Signal 안전 백업을 지금 만나보세요! 이제 엔드투엔드 자동 암호화 백업을 사용하여, 휴대폰을 새로 구매하거나 Signal을 다시 설치할 경우 메시지가 손실되는 상황을 방지할 수 있습니다. 모든 메시지와 지난 45일간의 미디어를 무료로 백업하거나, 소액의 월 사용료를 지불하고 100GB 저장 공간에 모든 첨부 파일을 백업하세요. 백업은 Signal 설정에서 백업을 탭하여 시작할 수 있습니다. 베타 기간 동안 이 기능을 테스트하는 데 도움을 주신 모든 분들께 감사드립니다."
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "이제 Signal 데스크톱에서도 '한 번만 볼 수 있는' 미디어 메시지를 보낼 수 있습니다. 한 번만 볼 수 있는 메시지로 전송된 개별 사진과 동영상은 조회 후 채팅 스레드에서 자동으로 삭제됩니다."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

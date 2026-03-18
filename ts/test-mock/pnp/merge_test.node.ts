@@ -404,7 +404,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       let pniContacts = 0;
       let aciContacts = 0;
       for (const record of added) {
-        assert.strictEqual(record.record, 'contact');
+        assert.ok(record.contact != null);
 
         const { contact } = record;
 
@@ -427,7 +427,7 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       }
       assert.strictEqual(aciContacts, 1);
       assert.strictEqual(pniContacts, 1);
-      assert.strictEqual(removed[0].record, 'contact');
+      assert.ok(removed[0].contact != null);
 
       assert.deepEqual(
         removed[0].contact.pniBinary,
@@ -561,37 +561,41 @@ describe('pnp/merge', function (this: Mocha.Suite) {
       const destinationServiceIdBinary = pniContact.device[`${key}Binary`];
       const destination = key === 'pni' ? pniContact.device.number : undefined;
       const content: Proto.Content.Params = {
-        syncMessage: {
-          sent: {
-            destinationServiceIdBinary,
-            destinationE164: destination ?? null,
-            timestamp: BigInt(timestamp),
-            message: {
-              ...EMPTY_DATA_MESSAGE,
-              timestamp: BigInt(timestamp),
-              flags: Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
-              expireTimer: key === 'pni' ? 90 * 24 * 3600 : 60 * 24 * 3600,
-              expireTimerVersion: key === 'pni' ? 3 : 4,
-            },
-            unidentifiedStatus: [
-              {
+        content: {
+          syncMessage: {
+            content: {
+              sent: {
                 destinationServiceIdBinary,
-                unidentified: null,
-                destinationPniIdentityKey: null,
+                destinationE164: destination ?? null,
+                timestamp: BigInt(timestamp),
+                message: {
+                  ...EMPTY_DATA_MESSAGE,
+                  timestamp: BigInt(timestamp),
+                  flags: Proto.DataMessage.Flags.EXPIRATION_TIMER_UPDATE,
+                  expireTimer: key === 'pni' ? 90 * 24 * 3600 : 60 * 24 * 3600,
+                  expireTimerVersion: key === 'pni' ? 3 : 4,
+                },
+                unidentifiedStatus: [
+                  {
+                    destinationServiceIdBinary,
+                    unidentified: null,
+                    destinationPniIdentityKey: null,
+                    destinationServiceId: null,
+                  },
+                ],
+                expirationStartTimestamp: null,
+                isRecipientUpdate: null,
+                storyMessage: null,
+                storyMessageRecipients: null,
+                editMessage: null,
                 destinationServiceId: null,
               },
-            ],
-            expirationStartTimestamp: null,
-            isRecipientUpdate: null,
-            storyMessage: null,
-            storyMessageRecipients: null,
-            editMessage: null,
-            destinationServiceId: null,
+            },
+            read: null,
+            stickerPackOperation: null,
+            viewed: null,
+            padding: null,
           },
-          read: null,
-          stickerPackOperation: null,
-          viewed: null,
-          padding: null,
         },
         pniSignatureMessage: null,
         senderKeyDistributionMessage: null,

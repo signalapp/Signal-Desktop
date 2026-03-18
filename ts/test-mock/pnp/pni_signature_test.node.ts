@@ -277,31 +277,36 @@ describe('pnp/PNI Signature', function (this: Mocha.Suite) {
       timestamp: BigInt(timestamp),
     };
     const content: Proto.Content.Params = {
-      syncMessage: {
-        sent: {
-          destinationServiceIdBinary,
-          destinationE164,
-          timestamp: BigInt(timestamp),
-          message: originalDataMessage,
-          unidentifiedStatus: [
-            {
+      content: {
+        syncMessage: {
+          content: {
+            sent: {
               destinationServiceIdBinary,
-              destinationPniIdentityKey: destinationPniIdentityKey.serialize(),
-              unidentified: null,
+              destinationE164,
+              timestamp: BigInt(timestamp),
+              message: originalDataMessage,
+              unidentifiedStatus: [
+                {
+                  destinationServiceIdBinary,
+                  destinationPniIdentityKey:
+                    destinationPniIdentityKey.serialize(),
+                  unidentified: null,
+                  destinationServiceId: null,
+                },
+              ],
+              expirationStartTimestamp: null,
+              isRecipientUpdate: null,
+              storyMessage: null,
+              storyMessageRecipients: null,
+              editMessage: null,
               destinationServiceId: null,
             },
-          ],
-          expirationStartTimestamp: null,
-          isRecipientUpdate: null,
-          storyMessage: null,
-          storyMessageRecipients: null,
-          editMessage: null,
-          destinationServiceId: null,
+          },
+          read: null,
+          stickerPackOperation: null,
+          viewed: null,
+          padding: null,
         },
-        read: null,
-        stickerPackOperation: null,
-        viewed: null,
-        padding: null,
       },
       pniSignatureMessage: null,
       senderKeyDistributionMessage: null,

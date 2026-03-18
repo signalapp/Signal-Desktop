@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { callIdFromEra } from '@signalapp/ringrtc';
-import Long from 'long';
 import { v4 as generateUuid } from 'uuid';
 import lodash from 'lodash';
 
@@ -156,7 +155,8 @@ function convertLegacyCallDetails(
     }
     timestamp = details.acceptedTime ?? details.endedTime ?? fallbackTimestamp;
   } else if (mode === CallMode.Group) {
-    callId = Long.fromValue(callIdFromEra(details.eraId)).toString();
+    const callIdBigInt: bigint = callIdFromEra(details.eraId);
+    callId = callIdBigInt.toString();
     type = CallType.Group;
     direction =
       details.creatorUuid === ourUuid

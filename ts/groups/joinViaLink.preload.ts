@@ -123,7 +123,7 @@ export async function joinViaLink(value: string): Promise<void> {
     return;
   }
 
-  if (!isAccessControlEnabled(dropNull(result.addFromInviteLink))) {
+  if (!isAccessControlEnabled(result.addFromInviteLink)) {
     log.error(
       `${logId}: addFromInviteLink value of ${result.addFromInviteLink} is invalid`
     );

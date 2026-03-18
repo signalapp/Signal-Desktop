@@ -94,20 +94,23 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
     await phone.sendRaw(
       desktop,
       {
-        syncMessage: {
-          content: 'callEvent',
-          callEvent: {
-            conversationId: uuidToBytes(contact.device.aci),
-            callId: BigInt(timestamp),
-            timestamp: BigInt(timestamp),
-            type,
-            direction,
-            event,
+        content: {
+          syncMessage: {
+            content: {
+              callEvent: {
+                conversationId: uuidToBytes(contact.device.aci),
+                callId: BigInt(timestamp),
+                timestamp: BigInt(timestamp),
+                type,
+                direction,
+                event,
+              },
+            },
+            read: null,
+            stickerPackOperation: null,
+            viewed: null,
+            padding: null,
           },
-          read: null,
-          stickerPackOperation: null,
-          viewed: null,
-          padding: null,
         },
         pniSignatureMessage: null,
         senderKeyDistributionMessage: null,

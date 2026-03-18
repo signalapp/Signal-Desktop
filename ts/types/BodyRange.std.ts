@@ -4,6 +4,7 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 
 import lodash from 'lodash';
+import * as z from 'zod';
 
 import { SignalService as Proto } from '../protobuf/index.std.js';
 import { createLogger } from '../logging/log.std.js';
@@ -15,7 +16,8 @@ import {
   SNIPPET_TRUNCATION_PLACEHOLDER,
 } from '../util/search.std.js';
 import { assertDev } from '../util/assert.std.js';
-import type { AciString } from './ServiceId.std.js';
+import { aciSchema, type AciString } from './ServiceId.std.js';
+import { signalservice } from '../protobuf/compiled.std.js';
 
 const { isEqual, isNumber, omit, orderBy, partition } = lodash;
 
@@ -869,3 +871,24 @@ export function areBodyRangesEqual(
 
   return isEqual(normalizedLeft, sortedRight);
 }
+
+const bodyRangeOffsetSchema = z.number().int().min(0);
+const bodyRangeStyleSchema = z.nativeEnum(signalservice.BodyRange.Style);
+
+export const bodyRangeSchema = z.union([
+  z
+    .object({
+      start: bodyRangeOffsetSchema,
+      length: bodyRangeOffsetSchema,
+      mentionAci: aciSchema,
+    })
+    .strict(),
+  z
+    .object({
+      start: bodyRangeOffsetSchema,
+      length: bodyRangeOffsetSchema,
+      style: bodyRangeStyleSchema,
+      spoilerId: z.number().optional(),
+    })
+    .strict(),
+]);

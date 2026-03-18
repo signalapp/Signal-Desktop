@@ -17,7 +17,7 @@ export const SmartCompositionRecording = memo(
     const { errorRecording, cancelRecording, completeRecording } =
       useAudioRecorderActions();
 
-    const { sendMultiMediaMessage, addAttachment, saveDraftRecordingIfNeeded } =
+    const { sendMultiMediaMessage, saveDraftRecordingIfNeeded: saveDraft } =
       useComposerActions();
     const { hideToast, showToast } = useToastActions();
 
@@ -34,6 +34,11 @@ export const SmartCompositionRecording = memo(
         });
       }
     }, [selectedConversationId, completeRecording, sendMultiMediaMessage]);
+    const saveDraftRecordingIfNeeded = useCallback(() => {
+      if (selectedConversationId) {
+        saveDraft(selectedConversationId);
+      }
+    }, [saveDraft, selectedConversationId]);
 
     if (!selectedConversationId) {
       return null;
@@ -45,8 +50,6 @@ export const SmartCompositionRecording = memo(
         onCancel={handleCancel}
         onSend={handleSend}
         errorRecording={errorRecording}
-        addAttachment={addAttachment}
-        completeRecording={completeRecording}
         saveDraftRecordingIfNeeded={saveDraftRecordingIfNeeded}
         showToast={showToast}
         hideToast={hideToast}

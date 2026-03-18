@@ -99,7 +99,11 @@ export async function sendCallingMessage(
       await handleMessageSend(
         sendContentMessageToGroup({
           contentHint: ContentHint.Default,
-          contentMessage: new Proto.Content({ callMessage }),
+          contentMessage: {
+            content: { callMessage },
+            senderKeyDistributionMessage: null,
+            pniSignatureMessage: null,
+          },
           isPartialSend,
           messageId: undefined,
           recipients,

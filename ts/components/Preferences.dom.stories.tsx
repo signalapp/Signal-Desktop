@@ -115,6 +115,7 @@ const availableSpeakers = [
 
 const validateBackupResult: ExportResultType = {
   attachmentBackupJobs: [],
+  mediaNames: [],
   totalBytes: 100,
   duration: 10000,
   stats: {
@@ -474,6 +475,7 @@ export default {
     navTabsCollapsed: false,
     notificationContent: 'name',
     notificationProfileCount: 0,
+    osName: 'windows',
     otherTabsUnreadStats: {
       unreadCount: 0,
       unreadMentionsCount: 0,
@@ -593,8 +595,10 @@ export default {
     onWhoCanSeeMeChange: action('onWhoCanSeeMeChange'),
     onWhoCanFindMeChange: action('onWhoCanFindMeChange'),
     onZoomFactorChange: action('onZoomFactorChange'),
+    openFileInFolder: action('openFileInFolder'),
     pickLocalBackupFolder: () =>
       Promise.resolve('/home/signaluser/Signal Backups/'),
+    disableLocalBackups: () => Promise.resolve(),
     promptOSAuth: () => Promise.resolve('success'),
     refreshCloudBackupStatus: action('refreshCloudBackupStatus'),
     refreshBackupSubscriptionStatus: action('refreshBackupSubscriptionStatus'),

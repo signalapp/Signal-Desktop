@@ -214,12 +214,20 @@ export namespace AxoAlertDialog {
 
   export type CancelProps = Readonly<{
     children: ReactNode;
+    disabled?: boolean;
+    focusableWhenDisabled?: boolean;
   }>;
 
   export const Cancel: FC<CancelProps> = memo(props => {
     return (
       <AlertDialog.Cancel asChild>
-        <AxoButton.Root variant="secondary" size="md" width="grow">
+        <AxoButton.Root
+          variant="secondary"
+          size="md"
+          width="grow"
+          disabled={props.disabled}
+          focusableWhenDisabled={props.focusableWhenDisabled}
+        >
           {props.children}
         </AxoButton.Root>
       </AlertDialog.Cancel>

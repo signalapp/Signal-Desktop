@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 /* eslint-disable max-classes-per-file */
 
-import type Long from 'long';
-
 import { InstallScreenBackupError } from '../../types/InstallScreen.std.js';
 
 export class BackupInstallerError extends Error {
@@ -16,7 +14,7 @@ export class BackupInstallerError extends Error {
 }
 
 export class UnsupportedBackupVersion extends BackupInstallerError {
-  constructor(version: Long) {
+  constructor(version: bigint) {
     super(
       `Unsupported backup version: ${version}`,
       InstallScreenBackupError.UnsupportedVersion

@@ -3,7 +3,6 @@
 import React, { memo, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
-import { createLogger } from '../../logging/log.std.js';
 import { ChatsTab } from '../../components/ChatsTab.dom.js';
 import type { SmartConversationViewProps } from './ConversationView.preload.js';
 import { SmartConversationView } from './ConversationView.preload.js';
@@ -12,7 +11,6 @@ import { SmartLeftPane } from './LeftPane.preload.js';
 import type { NavTabPanelProps } from '../../components/NavTabs.dom.js';
 import { useGlobalModalActions } from '../ducks/globalModals.preload.js';
 import { getIntl } from '../selectors/user.std.js';
-import { usePrevious } from '../../hooks/usePrevious.std.js';
 import { TargetedMessageSource } from '../ducks/conversationsEnums.std.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
 import { useToastActions } from '../ducks/toast.preload.js';
@@ -28,8 +26,8 @@ import {
   getTargetedMessage,
   getTargetedMessageSource,
 } from '../selectors/conversations.dom.js';
-
-const log = createLogger('smart/ChatsTab');
+import { useChatFolderActions } from '../ducks/chatFolders.preload.js';
+import { useComposerActions } from '../ducks/composer.preload.js';
 
 function renderConversationView(props: SmartConversationViewProps) {
   return <SmartConversationView {...props} />;
@@ -53,20 +51,28 @@ export const SmartChatsTab = memo(function SmartChatsTab() {
   const targetedMessageId = useSelector(getTargetedMessage)?.id;
   const targetedMessageSource = useSelector(getTargetedMessageSource);
 
-  const {
-    onConversationClosed,
-    onConversationOpened,
-    scrollToMessage,
-    showConversation,
-  } = useConversationsActions();
+  const { onConversationClosed, onConversationOpened, scrollToMessage } =
+    useConversationsActions();
   const { showWhatsNewModal } = useGlobalModalActions();
   const { toggleNavTabsCollapse } = useItemsActions();
   const { showToast } = useToastActions();
+  const { updateChatFolderStateOnTargetConversationChanged } =
+    useChatFolderActions();
+  const { saveDraftRecordingIfNeeded } = useComposerActions();
 
   const lastOpenedConversationId = useRef<string | undefined>();
 
   useEffect(() => {
     if (selectedConversationId !== lastOpenedConversationId.current) {
+      if (lastOpenedConversationId.current) {
+        saveDraftRecordingIfNeeded(lastOpenedConversationId.current);
+        onConversationClosed(
+          lastOpenedConversationId.current,
+          'ChatsTab opened another chat'
+        );
+      }
+      updateChatFolderStateOnTargetConversationChanged(selectedConversationId);
+
       lastOpenedConversationId.current = selectedConversationId;
       if (selectedConversationId) {
         onConversationOpened(
@@ -83,42 +89,26 @@ export const SmartChatsTab = memo(function SmartChatsTab() {
       scrollToMessage(selectedConversationId, targetedMessageId);
     }
   }, [
+    onConversationClosed,
     onConversationOpened,
-    selectedConversationId,
     scrollToMessage,
+    selectedConversationId,
+    saveDraftRecordingIfNeeded,
     targetedMessageId,
     targetedMessageSource,
+    updateChatFolderStateOnTargetConversationChanged,
   ]);
 
-  const prevConversationId = usePrevious(
-    selectedConversationId,
-    selectedConversationId
-  );
-
   useEffect(() => {
-    if (
-      selectedConversationId != null &&
-      selectedConversationId !== prevConversationId
-    ) {
-      const conversation = window.ConversationController.get(
-        selectedConversationId
-      );
-      if (!conversation) {
-        log.error('Conversation not found, returning early');
-        return;
-      }
-      conversation.setMarkedUnread(false);
-    }
-  }, [prevConversationId, selectedConversationId]);
-
-  useEffect(() => {
-    // Close current opened conversation to reload the group information once
-    // linked.
+    // Close current opened conversation to reload the group information once linked.
     function unload() {
-      if (!prevConversationId) {
+      if (!lastOpenedConversationId.current) {
         return;
       }
-      onConversationClosed(prevConversationId, 'force unload requested');
+      onConversationClosed(
+        lastOpenedConversationId.current,
+        'force unload requested'
+      );
     }
 
     function packInstallFailed() {
@@ -132,7 +122,7 @@ export const SmartChatsTab = memo(function SmartChatsTab() {
       window.Whisper.events.off('pack-install-failed', packInstallFailed);
       window.Whisper.events.off('setupAsNewDevice', unload);
     };
-  }, [onConversationClosed, prevConversationId, showConversation, showToast]);
+  }, [onConversationClosed, showToast]);
 
   useEffect(() => {
     if (!selectedConversationId) {

@@ -29,6 +29,7 @@ import type { MessageModel } from '../../models/messages.preload.js';
 import { SendMessageProtoError } from '../../textsecure/Errors.std.js';
 import { strictAssert } from '../../util/assert.std.js';
 import type { LoggerType } from '../../types/Logging.std.js';
+import { normalizeStoryDistributionId } from '../../types/StoryDistributionId.std.js';
 import { isStory } from '../../messages/helpers.std.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { shouldSendToDirectConversation } from './shouldSendToConversation.preload.js';
@@ -221,10 +222,21 @@ export async function sendDeleteStoryForEveryone(
         destinationE164: undefined,
         destinationServiceId,
         storyMessageRecipients: updatedStoryRecipients?.map(
-          ({ destinationServiceId: legacyDestinationUuid, ...rest }) => {
+          ({
+            destinationServiceId: legacyDestinationUuid,
+            distributionListIds,
+            ...rest
+          }) => {
             return {
               // The field was renamed.
               legacyDestinationUuid,
+              distributionListIds: distributionListIds?.map(id => {
+                return normalizeStoryDistributionId(
+                  id,
+                  'sendDeleteStoryForEveryone',
+                  log
+                );
+              }),
               ...rest,
             };
           }

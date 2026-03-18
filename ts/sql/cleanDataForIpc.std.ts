@@ -6,6 +6,8 @@ import { createLogger } from '../logging/log.std.js';
 
 import { isIterable } from '../util/iterables.std.js';
 
+import { toNumber } from '../util/toNumber.std.js';
+
 const { isPlainObject } = lodash;
 
 const log = createLogger('cleanDataForIpc');
@@ -133,13 +135,10 @@ function cleanDataInner(
 
       const dataAsRecord = data as Record<string, unknown>;
 
-      if (
-        'toNumber' in dataAsRecord &&
-        typeof dataAsRecord.toNumber === 'function'
-      ) {
+      if (typeof dataAsRecord === 'bigint') {
         // We clean this just in case `toNumber` returns something bogus.
         return cleanDataInner(
-          dataAsRecord.toNumber(),
+          toNumber(dataAsRecord),
           path,
           pathsChanged,
           depth + 1

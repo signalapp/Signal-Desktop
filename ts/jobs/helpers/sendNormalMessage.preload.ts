@@ -592,7 +592,7 @@ async function getMessageSendData({
   message: MessageModel;
   targetTimestamp: number;
 }>): Promise<{
-  attachments: Array<SignalService.IAttachmentPointer>;
+  attachments: Array<SignalService.AttachmentPointer.Params>;
   body: undefined | string;
   contact?: Array<EmbeddedContactWithUploadedAvatar>;
   expireTimer: undefined | DurationInSeconds;

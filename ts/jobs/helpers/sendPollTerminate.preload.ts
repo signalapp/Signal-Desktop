@@ -118,7 +118,7 @@ export async function sendPollTerminate(
 
       await handleMessageSend(
         messaging.sendSyncMessage({
-          encodedDataMessage: Proto.DataMessage.encode(dataMessage).finish(),
+          encodedDataMessage: Proto.DataMessage.encode(dataMessage),
           destinationE164: conversation.get('e164'),
           destinationServiceId: conversation.getServiceId(),
           expirationStartTimestamp: null,

@@ -78,6 +78,10 @@ export type EditHistoryMessagesType = ReadonlyDeep<
 export type EditNicknameAndNoteModalPropsType = ReadonlyDeep<{
   conversationId: string;
 }>;
+export type DiscardDraftDialogPropsType = ReadonlyDeep<{
+  conversationId: string;
+  messageId: string;
+}>;
 export type DeleteMessagesPropsType = ReadonlyDeep<{
   conversationId: string;
   messageIds: ReadonlyArray<string>;
@@ -130,6 +134,7 @@ export type GlobalModalsStateType = ReadonlyDeep<{
   contactModalState?: ContactModalStateType;
   criticalIdlePrimaryDeviceModal: boolean;
   deleteMessagesProps?: DeleteMessagesPropsType;
+  discardDraftDialogProps: DiscardDraftDialogPropsType | null;
   draftGifMessageSendModalProps: SmartDraftGifMessageSendModalProps | null;
   debugLogErrorModalProps?: {
     description?: string;
@@ -200,6 +205,8 @@ const SHOW_STORIES_SETTINGS = 'globalModals/SHOW_STORIES_SETTINGS';
 const HIDE_STORIES_SETTINGS = 'globalModals/HIDE_STORIES_SETTINGS';
 const TOGGLE_DELETE_MESSAGES_MODAL =
   'globalModals/TOGGLE_DELETE_MESSAGES_MODAL';
+export const TOGGLE_DISCARD_DRAFT_DIALOG =
+  'globalModals/TOGGLE_DISCARD_DRAFT_DIALOG';
 const TOGGLE_DRAFT_GIF_MESSAGE_SEND_MODAL =
   'globalModals/TOGGLE_DRAFT_GIF_MESSAGE_SEND_MODAL';
 const TOGGLE_FORWARD_MESSAGES_MODAL =
@@ -332,6 +339,11 @@ export type ShowUserNotFoundModalActionType = ReadonlyDeep<{
 type ToggleDeleteMessagesModalActionType = ReadonlyDeep<{
   type: typeof TOGGLE_DELETE_MESSAGES_MODAL;
   payload: DeleteMessagesPropsType | undefined;
+}>;
+
+export type ToggleDiscardDraftDialogActionType = ReadonlyDeep<{
+  type: typeof TOGGLE_DISCARD_DRAFT_DIALOG;
+  payload: DiscardDraftDialogPropsType | null;
 }>;
 
 type ToggleDraftGifMessageSendModalActionType = ReadonlyDeep<{
@@ -594,6 +606,7 @@ export type GlobalModalsActionType = ReadonlyDeep<
   | ToggleConfirmationModalActionType
   | ToggleConfirmLeaveCallModalActionType
   | ToggleDeleteMessagesModalActionType
+  | ToggleDiscardDraftDialogActionType
   | ToggleDraftGifMessageSendModalActionType
   | ToggleEditNicknameAndNoteModalActionType
   | ToggleForwardMessagesModalActionType
@@ -658,6 +671,7 @@ export const actions = {
   toggleConfirmationModal,
   toggleConfirmLeaveCallModal,
   toggleDeleteMessagesModal,
+  toggleDiscardDraftDialog,
   toggleDraftGifMessageSendModal,
   toggleEditNicknameAndNoteModal,
   toggleForwardMessagesModal,
@@ -868,6 +882,15 @@ function toggleDeleteMessagesModal(
 ): ToggleDeleteMessagesModalActionType {
   return {
     type: TOGGLE_DELETE_MESSAGES_MODAL,
+    payload: props,
+  };
+}
+
+function toggleDiscardDraftDialog(
+  props: DiscardDraftDialogPropsType | null
+): ToggleDiscardDraftDialogActionType {
+  return {
+    type: TOGGLE_DISCARD_DRAFT_DIALOG,
     payload: props,
   };
 }
@@ -1509,6 +1532,7 @@ export function getEmptyState(): GlobalModalsStateType {
     callQualitySurveyProps: null,
     confirmLeaveCallModalState: null,
     criticalIdlePrimaryDeviceModal: false,
+    discardDraftDialogProps: null,
     draftGifMessageSendModalProps: null,
     editNicknameAndNoteModalProps: null,
     isProfileNameWarningModalVisible: false,
@@ -1725,6 +1749,13 @@ export function reducer(
     return {
       ...state,
       deleteMessagesProps: action.payload,
+    };
+  }
+
+  if (action.type === TOGGLE_DISCARD_DRAFT_DIALOG) {
+    return {
+      ...state,
+      discardDraftDialogProps: action.payload,
     };
   }
 

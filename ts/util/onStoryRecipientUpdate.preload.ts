@@ -12,7 +12,6 @@ import { isStory } from '../state/selectors/message.preload.js';
 import { queueUpdateMessage } from './messageBatcher.preload.js';
 import { isMe } from './whatTypeOfConversation.dom.js';
 import { drop } from './drop.std.js';
-import { fromServiceIdBinaryOrString } from './ServiceId.node.js';
 import { applyDeleteForEveryone } from './deleteForEveryone.preload.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
 import { MessageModel } from '../models/messages.preload.js';
@@ -64,16 +63,7 @@ export async function onStoryRecipientUpdate(
         Set<string>
       >();
       data.storyMessageRecipients.forEach(item => {
-        const {
-          destinationServiceId: rawDestinationServiceId,
-          destinationServiceIdBinary,
-        } = item;
-
-        const recipientServiceId = fromServiceIdBinaryOrString(
-          destinationServiceIdBinary,
-          rawDestinationServiceId,
-          `${logId}.recipientServiceId`
-        );
+        const { destinationServiceId: recipientServiceId } = item;
 
         if (recipientServiceId == null) {
           return;

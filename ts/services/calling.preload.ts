@@ -34,6 +34,7 @@ import {
   HangupType,
   IceCandidateMessage,
   OfferMessage,
+  OfferType,
   OpaqueMessage,
   RingCancelReason,
   RingRTC,
@@ -43,7 +44,6 @@ import {
 } from '@signalapp/ringrtc';
 import * as muteStateChange from '@signalapp/mute-state-change';
 import lodash from 'lodash';
-import Long from 'long';
 import type { CallLinkAuthCredentialPresentation } from '@signalapp/libsignal-client/zkgroup.js';
 import {
   CallLinkSecretParams,
@@ -70,6 +70,7 @@ import type { ConversationType } from '../state/ducks/conversations.preload.js';
 import { getConversationCallMode } from '../state/ducks/conversations.preload.js';
 import { isMe } from '../util/whatTypeOfConversation.dom.js';
 import { getAbsoluteTempPath } from '../util/migrations.preload.js';
+import { isKnownProtoEnumMember } from '../util/isKnownProtoEnumMember.std.js';
 import type {
   AvailableIODevicesType,
   IceServerType,
@@ -364,6 +365,48 @@ function maybeShowCallQualitySurvey(
   }, CALL_QUALITY_SURVEY_DELAY);
 }
 
+function protoOfferTypeToCalling(
+  offer: Proto.CallMessage.Offer['type']
+): OfferType {
+  if (!isKnownProtoEnumMember(Proto.CallMessage.Offer.Type, offer)) {
+    return OfferType.AudioCall;
+  }
+
+  const { Type } = Proto.CallMessage.Offer;
+  switch (offer) {
+    case Type.OFFER_AUDIO_CALL:
+      return OfferType.AudioCall;
+    case Type.OFFER_VIDEO_CALL:
+      return OfferType.VideoCall;
+    default:
+      throw missingCaseError(offer);
+  }
+}
+
+function protoHangupTypeToCalling(
+  hangup: Proto.CallMessage.Hangup['type']
+): HangupType {
+  if (!isKnownProtoEnumMember(Proto.CallMessage.Hangup.Type, hangup)) {
+    return HangupType.Normal;
+  }
+
+  const { Type } = Proto.CallMessage.Hangup;
+  switch (hangup) {
+    case Type.HANGUP_NORMAL:
+      return HangupType.Normal;
+    case Type.HANGUP_ACCEPTED:
+      return HangupType.Accepted;
+    case Type.HANGUP_DECLINED:
+      return HangupType.Declined;
+    case Type.HANGUP_BUSY:
+      return HangupType.Busy;
+    case Type.HANGUP_NEED_PERMISSION:
+      return HangupType.NeedPermission;
+    default:
+      throw missingCaseError(hangup);
+  }
+}
+
 function protoToCallingMessage({
   offer,
   answer,
@@ -372,7 +415,7 @@ function protoToCallingMessage({
   hangup,
   destinationDeviceId,
   opaque,
-}: Proto.ICallMessage): CallingMessage {
+}: Proto.CallMessage): CallingMessage {
   const newIceCandidates: Array<IceCandidateMessage> = [];
   if (iceUpdate) {
     iceUpdate.forEach(candidate => {
@@ -389,7 +432,7 @@ function protoToCallingMessage({
       offer && offer.id && offer.opaque
         ? new OfferMessage(
             offer.id,
-            dropNull(offer.type) as number,
+            protoOfferTypeToCalling(offer.type),
             offer.opaque
           )
         : undefined,
@@ -403,7 +446,7 @@ function protoToCallingMessage({
       hangup && hangup.id
         ? new HangupMessage(
             hangup.id,
-            dropNull(hangup.type) as number,
+            protoHangupTypeToCalling(hangup.type),
             hangup.deviceId || 0
           )
         : undefined,
@@ -542,6 +585,8 @@ export class CallingClass {
   #callsLookup: { [key: string]: Call | GroupCall };
 
   #cameraEnabled: boolean = false;
+
+  #registeredAssets: Map<string, boolean> = new Map();
 
   // Send our profile key to other participants in call link calls to ensure they
   // can see our profile info. Only send once per aci until the next app start.
@@ -1364,6 +1409,7 @@ export class CallingClass {
     log.info(logId);
 
     const groupIdBuffer = Bytes.fromBase64(groupId);
+    const dredDuration = 0;
 
     let isRequestingMembershipProof = false;
 
@@ -1372,6 +1418,7 @@ export class CallingClass {
       this._sfuUrl,
       new Uint8Array(),
       AUDIO_LEVEL_INTERVAL_MS,
+      dredDuration,
       {
         ...this.#getGroupCallObserver(conversationId, CallMode.Group),
         async requestMembershipProof(groupCall) {
@@ -1444,6 +1491,8 @@ export class CallingClass {
       );
     }
 
+    const dredDuration = 0;
+
     const outerGroupCall = RingRTC.getCallLinkCall(
       this._sfuUrl,
       endorsementsPublicKey,
@@ -1452,6 +1501,7 @@ export class CallingClass {
       adminPasskey,
       new Uint8Array(),
       AUDIO_LEVEL_INTERVAL_MS,
+      dredDuration,
       this.#getGroupCallObserver(roomId, CallMode.Adhoc)
     );
 
@@ -2991,7 +3041,7 @@ export class CallingClass {
 
   async handleCallingMessage(
     envelope: ProcessedEnvelope,
-    callingMessage: Proto.ICallMessage
+    callingMessage: Proto.CallMessage
   ): Promise<void> {
     const logId = `CallingClass.handleCallingMessage(${envelope.timestamp})`;
     log.info(logId);
@@ -3227,7 +3277,7 @@ export class CallingClass {
       callingMessage.opaque.data = data;
 
       const proto = callingMessageToProto(callingMessage, urgency);
-      const protoBytes = Proto.CallMessage.encode(proto).finish();
+      const protoBytes = Proto.CallMessage.encode(proto);
       const protoBase64 = Bytes.toBase64(protoBytes);
 
       await conversationJobQueue.add({
@@ -3393,7 +3443,7 @@ export class CallingClass {
 
     try {
       const proto = callingMessageToProto(message, urgency);
-      const protoBytes = Proto.CallMessage.encode(proto).finish();
+      const protoBytes = Proto.CallMessage.encode(proto);
       const protoBase64 = Bytes.toBase64(protoBytes);
 
       const job = await conversationJobQueue.add({
@@ -3525,7 +3575,7 @@ export class CallingClass {
     const callEndedReason =
       this.#convertRingRtcCallRejectReason(callRejectReason);
 
-    const callId = Long.fromValue(callIdValue).toString();
+    const callId = callIdValue.toString();
     const peerId = getPeerIdFromConversation(conversation.attributes);
 
     // This is extra defensive, just in case RingRTC passes us a bad value. (It probably
@@ -3887,6 +3937,7 @@ export class CallingClass {
       hideIp: shouldRelayCalls || isContactUntrusted,
       dataMode: DataMode.Normal,
       audioLevelsIntervalMillis: AUDIO_LEVEL_INTERVAL_MS,
+      dredDuration: 0,
     };
 
     log.info('CallingClass.handleStartCall(): Proceeding');
@@ -4198,6 +4249,40 @@ export class CallingClass {
     } catch (error) {
       log.error('enumerateMediaDevices failed:', Errors.toLogFormat(error));
     }
+  }
+
+  async prepareCallingAssets(): Promise<void> {
+    const manifest = {
+      'opus-dred': ['calling-dred_weights-1_6_1-f4aed08a.bin'],
+    };
+
+    await Promise.allSettled(
+      Object.entries(manifest).map(async ([feature, options]) => {
+        await Promise.allSettled(
+          options.map(async opt => {
+            try {
+              if (this.#registeredAssets.has(opt)) {
+                log.info('Already registered calling asset', opt);
+                return;
+              }
+              const content = await ipcRenderer.invoke(
+                'OptionalResourceService:getData',
+                opt
+              );
+              log.info('Attempting to register calling asset', opt);
+              RingRTC.addAsset(feature, { content: new Uint8Array(content) });
+              this.#registeredAssets.set(opt, true);
+            } catch (e) {
+              log.error(
+                'Failed to download and register calling asset',
+                opt,
+                e
+              );
+            }
+          })
+        );
+      })
+    );
   }
 }
 

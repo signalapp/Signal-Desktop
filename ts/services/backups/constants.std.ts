@@ -4,7 +4,7 @@
 import { Backups } from '../../protobuf/index.std.js';
 import type { ConversationColorType } from '../../types/Colors.std.js';
 
-export const BACKUP_VERSION = 1;
+export const BACKUP_VERSION = 1n;
 
 export const LOCAL_BACKUP_VERSION = 1;
 

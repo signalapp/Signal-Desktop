@@ -155,15 +155,15 @@ export async function sendDeleteForEveryone(
             expireTimerVersion: undefined,
           });
           strictAssert(
-            proto.dataMessage,
+            proto.content?.dataMessage,
             'ContentMessage must have dataMessage'
           );
 
           await handleMessageSend(
             messaging.sendSyncMessage({
               encodedDataMessage: Proto.DataMessage.encode(
-                proto.dataMessage
-              ).finish(),
+                proto.content.dataMessage
+              ),
               destinationE164: conversation.get('e164'),
               destinationServiceId: conversation.getServiceId(),
               expirationStartTimestamp: null,

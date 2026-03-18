@@ -4,8 +4,6 @@
 import { Readable } from 'node:stream';
 import { createGzip } from 'node:zlib';
 import { createCipheriv, randomBytes } from 'node:crypto';
-import { Buffer } from 'node:buffer';
-import Long from 'long';
 import {
   AccountEntropyPool,
   BackupKey,
@@ -19,6 +17,7 @@ import { appendPaddingStream } from '../util/logPadding.node.js';
 import { prependStream } from '../util/prependStream.node.js';
 import { appendMacStream } from '../util/appendMacStream.node.js';
 import { toAciObject } from '../util/ServiceId.node.js';
+import { encodeDelimited } from '../util/encodeDelimited.std.js';
 import { BACKUP_VERSION } from '../services/backups/constants.std.js';
 import { Backups } from '../protobuf/index.std.js';
 
@@ -76,14 +75,20 @@ export function generateBackup(
   return { backupId, stream };
 }
 
-function frame(data: Backups.IFrame): Buffer {
-  return Buffer.from(Backups.Frame.encodeDelimited(data).finish());
+function* frame(
+  item: NonNullable<Backups.Frame.Params['item']>
+): Iterable<Uint8Array> {
+  yield* encodeDelimited(
+    Backups.Frame.encode({
+      item,
+    })
+  );
 }
 
 let now = Date.now();
-function getTimestamp(): Long {
+function getTimestamp(): bigint {
   now += 1;
-  return Long.fromNumber(now);
+  return BigInt(now);
 }
 
 function* createRecords({
@@ -92,17 +97,20 @@ function* createRecords({
   conversationAcis = [],
   messages,
   mediaRootBackupKey,
-}: BackupGeneratorConfigType): Iterable<Buffer> {
-  yield Buffer.from(
-    Backups.BackupInfo.encodeDelimited({
-      version: Long.fromNumber(BACKUP_VERSION),
+}: BackupGeneratorConfigType): Iterable<Uint8Array> {
+  yield* encodeDelimited(
+    Backups.BackupInfo.encode({
+      version: BigInt(BACKUP_VERSION),
       backupTimeMs: getTimestamp(),
       mediaRootBackupKey,
-    }).finish()
+      currentAppVersion: null,
+      firstAppVersion: null,
+      debugInfo: null,
+    })
   );
 
   // Account data
-  yield frame({
+  yield* frame({
     account: {
       profileKey,
       givenName: 'Backup',
@@ -127,30 +135,58 @@ function* createRecords({
         phoneNumberSharingMode:
           Backups.AccountData.PhoneNumberSharingMode.EVERYBODY,
         defaultChatStyle: {
-          autoBubbleColor: {},
+          wallpaper: null,
+          bubbleColor: {
+            autoBubbleColor: {},
+          },
           dimWallpaperInDarkMode: false,
         },
         customChatColors: [],
+        storyViewReceiptsEnabled: null,
+        optimizeOnDeviceStorage: null,
+        backupTier: null,
+        defaultSentMediaQuality: null,
+        autoDownloadSettings: null,
+        screenLockTimeoutMinutes: null,
+        pinReminders: null,
+        appTheme: null,
+        callsUseLessDataSetting: null,
+        allowSealedSenderFromAnyone: null,
+        allowAutomaticKeyVerification: null,
+      },
+      username: null,
+      usernameLink: null,
+      avatarUrlPath: null,
+      donationSubscriberData: null,
+      backupsSubscriberData: null,
+      svrPin: null,
+      androidSpecificSettings: null,
+      bioText: null,
+      bioEmoji: null,
+      keyTransparencyData: null,
+    },
+  });
+
+  const selfId = 0n;
+
+  yield* frame({
+    recipient: {
+      id: selfId,
+      destination: {
+        self: {
+          avatarColor: null,
+        },
       },
     },
   });
 
-  const selfId = Long.fromNumber(0);
-
-  yield frame({
-    recipient: {
-      id: selfId,
-      self: {},
-    },
-  });
-
   const chats = new Array<{
-    id: Long;
+    id: bigint;
     aci: Uint8Array;
   }>();
 
   for (let i = 1; i <= conversations; i += 1) {
-    const id = Long.fromNumber(i);
+    const id = BigInt(i);
     const chatAci = toAciObject(
       conversationAcis.at(i - 1) ?? generateAci()
     ).getRawUuidBytes();
@@ -160,35 +196,55 @@ function* createRecords({
       aci: chatAci,
     });
 
-    yield frame({
+    yield* frame({
       recipient: {
         id,
-        contact: {
-          aci: chatAci,
-          blocked: false,
-          visibility: Backups.Contact.Visibility.VISIBLE,
-          registered: {},
-          profileKey: randomBytes(32),
-          profileSharing: true,
-          profileGivenName: `Contact ${i}`,
-          profileFamilyName: 'Generated',
-          hideStory: false,
+        destination: {
+          contact: {
+            aci: chatAci,
+            blocked: false,
+            visibility: Backups.Contact.Visibility.VISIBLE,
+            registration: {
+              registered: {},
+            },
+            profileKey: randomBytes(32),
+            profileSharing: true,
+            profileGivenName: `Contact ${i}`,
+            profileFamilyName: 'Generated',
+            hideStory: false,
+
+            pni: null,
+            username: null,
+            e164: null,
+            identityKey: null,
+            identityState: null,
+            nickname: null,
+            note: null,
+            systemGivenName: null,
+            systemFamilyName: null,
+            systemNickname: null,
+            avatarColor: null,
+            keyTransparencyData: null,
+          },
         },
       },
     });
 
-    yield frame({
+    yield* frame({
       chat: {
         id,
         recipientId: id,
         archived: false,
         pinnedOrder: 0,
-        expirationTimerMs: Long.fromNumber(0),
-        muteUntilMs: Long.fromNumber(0),
+        expirationTimerMs: 0n,
+        muteUntilMs: 0n,
         markedUnread: false,
         dontNotifyForMentionsIfMuted: false,
         style: {
-          autoBubbleColor: {},
+          wallpaper: null,
+          bubbleColor: {
+            autoBubbleColor: {},
+          },
           dimWallpaperInDarkMode: false,
         },
         expireTimerVersion: 1,
@@ -203,15 +259,18 @@ function* createRecords({
 
     const dateSent = getTimestamp();
 
-    yield frame({
+    yield* frame({
       chatItem: {
         chatId: chat.id,
         authorId: isIncoming ? chat.id : selfId,
         dateSent,
         revisions: [],
         sms: false,
+        expireStartDate: null,
+        expiresInMs: null,
+        pinDetails: null,
 
-        ...(isIncoming
+        directionalDetails: isIncoming
           ? {
               incoming: {
                 dateReceived: getTimestamp(),
@@ -222,19 +281,30 @@ function* createRecords({
             }
           : {
               outgoing: {
+                dateReceived: getTimestamp(),
                 sendStatus: [
                   {
                     recipientId: chat.id,
                     timestamp: dateSent,
-                    delivered: { sealedSender: true },
+                    deliveryStatus: {
+                      delivered: { sealedSender: true },
+                    },
                   },
                 ],
               },
-            }),
+            },
 
-        standardMessage: {
-          text: {
-            body: `Message ${i}`,
+        item: {
+          standardMessage: {
+            text: {
+              body: `Message ${i}`,
+              bodyRanges: null,
+            },
+            quote: null,
+            attachments: null,
+            linkPreview: null,
+            longText: null,
+            reactions: null,
           },
         },
       },

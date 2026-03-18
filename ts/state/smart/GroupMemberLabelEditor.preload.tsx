@@ -15,16 +15,19 @@ import { createLogger } from '../../logging/log.std.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';
 import { isNotNil } from '../../util/isNotNil.std.js';
 import { useNavActions } from '../ducks/nav.std.js';
+import { getCanAddLabel } from '../../types/GroupMemberLabels.std.js';
 
 const log = createLogger('SmartGroupMemberLabelEditor');
 
 export type SmartGroupMemberLabelEditorProps = Readonly<{
   conversationId: string;
+  isActive: boolean;
 }>;
 
 export const SmartGroupMemberLabelEditor = memo(
   function SmartGroupMemberLabelEditor({
     conversationId,
+    isActive,
   }: SmartGroupMemberLabelEditorProps) {
     const i18n = useSelector(getIntl);
     const theme = useSelector(getTheme);
@@ -47,13 +50,9 @@ export const SmartGroupMemberLabelEditor = memo(
     const ourMembership = conversation.memberships?.find(
       membership => membership?.aci === ourAci
     );
-    if (!ourMembership) {
-      log.warn('User was not found in group, leaving this pane!');
-      popPanelForConversation();
-      return null;
-    }
     const { labelEmoji: existingLabelEmoji, labelString: existingLabelString } =
-      ourMembership;
+      ourMembership || {};
+    const canAddLabel = getCanAddLabel(conversation, ourMembership);
 
     const membersWithLabel = (conversation.memberships || [])
       .map(membership => {
@@ -94,11 +93,13 @@ export const SmartGroupMemberLabelEditor = memo(
 
     return (
       <GroupMemberLabelEditor
+        canAddLabel={canAddLabel}
         existingLabelEmoji={existingLabelEmoji}
         existingLabelString={existingLabelString}
         getPreferredBadge={getPreferredBadge}
         group={conversation}
         i18n={i18n}
+        isActive={isActive}
         me={me}
         membersWithLabel={membersWithLabel}
         ourColor={ourColor}

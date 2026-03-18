@@ -6,7 +6,7 @@
   "description": "Private messaging from your desktop",
   "desktopName": "signal.desktop",
   "repository": "https://github.com/signalapp/Signal-Desktop.git",
-  "version": "8.4.0-alpha.1",
+  "version": "8.5.0-alpha.1",
   "license": "AGPL-3.0-only",
   "author": {
     "name": "Signal Messenger, LLC",
@@ -21,7 +21,7 @@
     "generate": "run-s generate:phase-0 generate:phase-1",
     "generate:phase-0": "run-p build:esbuild:scripts",
     "generate:phase-1": "run-p --aggregate-output --print-label generate:phase-1:bundle build:icu-types build:compact-locales build:styles get-expire-time copy-components build:policy-files",
-    "generate:phase-1:bundle": "run-s build-protobuf build:esbuild:bundle",
+    "generate:phase-1:bundle": "run-s build:protobuf build:esbuild:bundle",
     "build-release": "pnpm run build",
     "sign-release": "node ts/updater/generateSignature.js",
     "notarize": "echo 'No longer necessary'",
@@ -33,10 +33,8 @@
     "mark-unusued-strings-deleted": "ts-node ./ts/scripts/mark-unused-strings-deleted.node.ts",
     "get-expire-time": "node ts/scripts/get-expire-time.node.js",
     "copy-components": "node ts/scripts/copy.node.js",
-    "build-module-protobuf": "pbjs --root='signal-desktop' --target static-module --force-long --no-typeurl --no-verify --no-create --no-convert --wrap commonjs --out ts/protobuf/compiled.std.js protos/*.proto && pbts --no-comments --out ts/protobuf/compiled.std.d.ts ts/protobuf/compiled.std.js",
-    "clean-module-protobuf": "rm -f ts/protobuf/compiled.std.d.ts ts/protobuf/compiled.std.js",
-    "build-protobuf": "pnpm run build-module-protobuf",
-    "clean-protobuf": "pnpm run clean-module-protobuf",
+    "build:protobuf": "protopiler --module cjs --output ts/protobuf/compiled.std.js --typedefs ts/protobuf/compiled.std.d.ts protos",
+    "clean:protobuf": "rm -f ts/protobuf/compiled.std.d.ts ts/protobuf/compiled.std.js",
     "prepare-beta-build": "node scripts/prepare_beta_build.js",
     "prepare-alpha-build": "node scripts/prepare_alpha_build.js",
     "prepare-alpha-version": "node scripts/prepare_tagged_version.js alpha",
@@ -69,15 +67,15 @@
     "check:types": "tsc --noEmit",
     "clean-transpile": "node ./scripts/clean-transpile.js",
     "ready": "npm-run-all --print-label clean-transpile generate --parallel lint lint-deps lint-intl test-node test-electron",
-    "dev": "pnpm run build-protobuf && cross-env SIGNAL_ENV=storybook storybook dev --port 6006",
+    "dev": "pnpm run build:protobuf && cross-env SIGNAL_ENV=storybook storybook dev --port 6006",
     "dev:transpile": "run-p \"check:types --watch\" dev:esbuild dev:icu-types dev:protobuf",
     "dev:esbuild": "node scripts/esbuild.js --watch",
     "dev:styles": "pnpm run '/^dev:styles:(sass|tailwind)$/'",
     "dev:styles:sass": "pnpm run build:styles:sass --watch",
     "dev:styles:tailwind": "pnpm run build:styles:tailwind --watch",
     "dev:icu-types": "chokidar ./_locales/en/messages.json --initial --command \"pnpm run build:icu-types\"",
-    "dev:protobuf": "chokidar ./protos/**/*.proto --command \"pnpm run build-protobuf\"",
-    "build:storybook": "pnpm run build-protobuf && cross-env SIGNAL_ENV=storybook storybook build",
+    "dev:protobuf": "chokidar ./protos/**/*.proto --command \"pnpm run build:protobuf\"",
+    "build:storybook": "pnpm run build:protobuf && cross-env SIGNAL_ENV=storybook storybook build",
     "test:storybook": "pnpm run build:storybook && run-p --race test:storybook:*",
     "test:storybook:serve": "http-server storybook-static --port 6006 --silent",
     "test:storybook:test": "wait-on http://127.0.0.1:6006/ --timeout 5000 && test-storybook --testTimeout 60000",
@@ -123,6 +121,7 @@
     "@formatjs/intl-localematcher": "0.2.32",
     "@indutny/dicer": "0.3.2",
     "@indutny/mac-screen-share": "1.0.13",
+    "@indutny/protopiler": "3.1.1",
     "@indutny/range-finder": "1.3.4",
     "@indutny/simple-windows-notifications": "2.0.16",
     "@indutny/sneequals": "4.0.0",
@@ -134,11 +133,11 @@
     "@react-aria/utils": "3.25.3",
     "@react-spring/web": "10.0.3",
     "@react-types/shared": "3.27.0",
-    "@signalapp/libsignal-client": "0.88.0",
+    "@signalapp/libsignal-client": "0.88.1",
     "@signalapp/minimask": "1.0.1",
     "@signalapp/mute-state-change": "workspace:1.0.0",
     "@signalapp/quill-cjs": "2.1.2",
-    "@signalapp/ringrtc": "2.65.2",
+    "@signalapp/ringrtc": "2.66.1",
     "@signalapp/sqlcipher": "2.4.4",
     "@signalapp/windows-ucv": "1.0.1",
     "@tanstack/react-virtual": "3.11.2",
@@ -181,7 +180,6 @@
     "js-yaml": "4.1.0",
     "linkify-it": "5.0.0",
     "lodash": "4.17.21",
-    "long": "5.2.3",
     "lru-cache": "11.0.2",
     "memoizee": "0.4.17",
     "moment": "2.30.1",
@@ -240,7 +238,7 @@
     "@indutny/parallel-prettier": "3.0.0",
     "@indutny/rezip-electron": "3.0.2",
     "@napi-rs/canvas": "0.1.61",
-    "@signalapp/mock-server": "17.0.1",
+    "@signalapp/mock-server": "18.2.0",
     "@storybook/addon-a11y": "8.4.4",
     "@storybook/addon-actions": "8.4.4",
     "@storybook/addon-controls": "8.4.4",
@@ -311,7 +309,7 @@
     "csv-parse": "5.5.6",
     "danger": "12.3.3",
     "debug": "4.3.7",
-    "electron": "40.4.1",
+    "electron": "40.8.0",
     "electron-builder": "26.0.14",
     "electron-mocha": "13.0.1",
     "endanger": "7.0.4",
@@ -345,7 +343,6 @@
     "postcss-loader": "8.1.1",
     "prettier": "3.7.4",
     "prettier-plugin-tailwindcss": "0.7.2",
-    "protobufjs-cli": "1.1.1",
     "react-devtools": "6.0.1",
     "react-devtools-core": "6.0.1",
     "resedit": "2.0.2",
@@ -372,7 +369,7 @@
   },
   "pnpm": {
     "overrides": {
-      "@storybook/core>node-fetch": "$node-fetch",
+      "@storybook/core>node-fetch": "2.6.7",
       "eslint-config-airbnb-typescript-prettier>eslint-plugin-prettier": "5.2.1",
       "canvas": "-",
       "jsdom": "-",
@@ -383,9 +380,7 @@
     },
     "patchedDependencies": {
       "casual@1.6.2": "patches/casual+1.6.2.patch",
-      "protobufjs@7.3.2": "patches/protobufjs+7.3.2.patch",
       "@types/express@4.17.21": "patches/@types+express+4.17.21.patch",
-      "protobufjs-cli@1.1.1": "patches/protobufjs-cli+1.1.1.patch",
       "@types/fabric@4.5.3": "patches/@types+fabric+4.5.3.patch",
       "qrcode-generator@1.4.4": "patches/qrcode-generator+1.4.4.patch",
       "@types/node-fetch@2.6.12": "patches/@types+node-fetch+2.6.12.patch",
@@ -424,7 +419,7 @@
     ]
   },
   "engines": {
-    "node": "24.13.0"
+    "node": "24.14.0"
   },
   "build": {
     "appId": "org.whispersystems.signal-desktop",
@@ -725,6 +720,6 @@
     ]
   },
   "volta": {
-    "node": "24.13.0"
+    "node": "24.14.0"
   }
 }

@@ -263,7 +263,7 @@ function updateChatFolderToggleChat(
   };
 }
 
-export function updateChatFolderStateOnTargetConversationChanged(
+function updateChatFolderStateOnTargetConversationChanged(
   conversationId: string | undefined
 ): ThunkAction<
   void,
@@ -313,6 +313,7 @@ export const actions = {
   updateChatFoldersPositions,
   updateSelectedChatFolderId,
   updateChatFolderToggleChat,
+  updateChatFolderStateOnTargetConversationChanged,
 };
 
 export const useChatFolderActions = (): BoundActionCreatorsMapObject<

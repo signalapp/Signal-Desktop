@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "सत्यापन साफ करा"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "{name} सह एंड-टू-एंड एन्क्रिप्शनची पडताळणी करण्यासाठी, वरील क्रमांकांची त्यांच्या डिव्हाइससह तुलना करा. ते आपल्या डिव्हाइससह तुमच्या कोडला स्कॅन देखील करू शकतात."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "{name} सह एंड-टू-एंड एन्क्रिप्शनची पडताळणी करण्यासाठी, वरील क्रमांकांची त्यांच्या डिव्हाईससह तुलना करा. तेसुद्धा त्यांच्या डिव्हाइसवरून तुमचा कोड स्कॅन करू शकतात."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "डीबग लॉग आम्हाला समस्येचे निदान करण्यास आणि ती दुरुस्त करण्यास मदत करते, आणि त्यामध्ये ओळख उघड करणारी माहिती नसते."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "बंद करा"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "डीबग लॉग शेअर करा"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "प्रविष्ट करा"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "नाही धन्यवाद"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "सबमिट होत आहे..."
@@ -2220,16 +2211,16 @@
     "messageformat": "हटवणे अयशस्वी"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "हटवता आले नाही, तपशील पाहण्यासाठी क्लिक करा"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "पुन्हा हटवायचा प्रयत्न करूया?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "संदेश हटवता आला नाही. तुमचे कनेक्शन तपासा आणि पुन्हा प्रयत्न करा."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "पुन्हा प्रयत्न करा"
   },
   "icu:editFailed": {
     "messageformat": "संपादन अयशस्वी, तपशीलासाठी क्लिक करा"
@@ -2244,7 +2235,7 @@
     "messageformat": "अंशतः हटवले, पुन्हा प्रयत्न करा"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "अंशतः हटवले, तपशील पाहण्यासाठी क्लिक करा"
   },
   "icu:expiredWarning": {
     "messageformat": "Signal Desktop ची ही आवृत्ती कालबाह्य झाली आहे. संदेशन सुरू ठेवण्यासाठी कृपया नवीनतम आवृत्तीवर श्रेणीसुधारित करा."
@@ -2451,10 +2442,10 @@
     "messageformat": "या गटात फक्त अ‍ॅडमिनच सदस्य लेबल समाविष्ट करू शकतात."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "एकदा पाहा चालू केले"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "एकदा पाहा बंद केले"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "आपण हा संदेश पाठवल्यापासून फक्त 24 तासांच्या आत संपादन करणे लागू केले जाऊ शकते."
@@ -2643,13 +2634,13 @@
     "messageformat": "हा संदेश हटविला गेला होता."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "ॲडमिन {admin} यांनी हा संदेश हटवला"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "{name} यांनी हा संदेश हटवला"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "तुम्ही हा संदेश हटवला"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "प्रदर्शित करण्यासाठी संलग्नक फार मोठा आहे."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "एक प्रशासकाने गट माहिती जो संपादित करू शकतो तो \"सर्व सदस्य\" वर बदलला आहे."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName}ने गट सदस्यता जो संपादित करू शकतो तो \"फक्त प्रशासक\" वर बदलला आहे."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "आपण गट सदस्यता जो संपादित करू शकतो तो \"फक्त प्रशासक\" वर बदलला आहे."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName}ने गट सदस्यता जो संपादित करू शकतो तो \"फक्त प्रशासक\" वर बदलला आहे."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "एक प्रशासकाने गट सदस्यता जो संपादित करू शकतो तो \"फक्त प्रशासक\" वर बदलला आहे."
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName}ने गट सदस्यता जो संपादित करू शकतो तो \"सर्व सदस्य\" वर बदलला आहे."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "आपण गट सदस्यता जो संपादित करू शकतो तो \"सर्व सदस्य\" वर बदलला आहे."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName}ने गट सदस्यता जो संपादित करू शकतो तो \"सर्व सदस्य\" वर बदलला आहे."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "एक प्रशासकाने गट सदस्यता जो संपादित करू शकतो तो \"सर्व सदस्य\" वर बदलला आहे."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "आपण गट लिंकसाठी ऍडमिन मान्यता अक्षम केली आहे."
@@ -4647,10 +4656,10 @@
     "messageformat": "बदला"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "एकदा पाहा"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "एकदा मिडिया पहा"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "संदेश संपादित करा"
@@ -4686,13 +4695,16 @@
     "messageformat": "व्हॉईस"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "ऑडिओ म्युट करा"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "तुम्हाला नक्की {contact} यांस म्युट करायचे आहे?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "मूक करा"
+  },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Remove from call"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "सदस्य लेबल्स"
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "गट माहिती कोण संपादित करू शकते"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "गट नाव, फोटो, विवरण आणि हरवणारे संदेश टायमर जो संपादन करू शकतो त्याला निवडा."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "गटाचे नाव, फोटो, वर्णन, लुप्त होणाऱ्या संदेशांचा टायमर, आणि पिन केलेले संदेश कोण संपादित करू शकते ते निवडा."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "गटात कोण संदेश पाठवू शकतो ते निवडा."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "सदस्य लेबल्स नाहीशी होतील"
@@ -5016,7 +5031,7 @@
     "messageformat": "{count, plural, one {संदेश {count,number} हटवायचा?} other {संदेश {count,number} हटवायचे?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {निवडलेला संदेश हटवायचा का?} other {निवडलेले {count,number} संदेश हटवायचे का?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {हा संदेश आपणाला कुणासाठी हटवणे आवडेल?} other {हे संदेश आपणाला कुणासाठी हटवणे आवडेल?}}"
@@ -5037,10 +5052,10 @@
     "messageformat": "प्रत्येकासाठी हटवा"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "सर्वांसाठी हटवायचा?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {एक ॲडमिन म्हणून, तुम्ही हा संदेश हटवल्याचे गट सदस्यांना दिसेल.} other {एक ॲडमिन म्हणून, तुम्ही हे संदेश हटवल्याचे गट सदस्यांना दिसेल.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "सर्व डिव्हाइसेस वरून हटवा"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {आपण प्रत्येकासाठी फक्त {count,number} पर्यंत संदेश हटवण्याचे निडवू शकता} other {आपण प्रत्येकासाठी फक्त {count,number} पर्यंत संदेश हटवण्यासाठी निवडू शकता}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Discard draft?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "This action can't be undone."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "वस्तू हटवायची?"
@@ -6187,13 +6208,13 @@
     "messageformat": "डेस्कटॉप बॅकअप्स"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "बॅकअप्स एका की सह कूटबद्ध केलेले असतात आणि तुमच्या कंप्युटरवर साठवले जातात."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "एक एण्ड-टू-एण्ड कूटबद्ध केलेले बॅकअप तयार करा जो तुम्ही तुमच्या फोनवर रीस्टोर करू शकता. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "बॅकअप रीस्टोर करण्यासाठी, Signal ची नवी आवृत्ती स्थापन करा. ॲप उघडा आणि रीस्टोर बॅकअप वर टॅप करा, मग बॅकअप फोल्डर शोधा. <learnMoreLink>अधिक जाणून घ्या.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "एक फोल्डर निवडा"
@@ -7986,10 +8007,9 @@
     "messageformat": "सादर आहेत Signal सिक्युअर बॅकअप्स! आता तुम्ही स्वयंचलित एंड-टू-एंड कूटबद्ध केलेले बॅकअप्स सक्रिय करू शकता ज्यामुळे तुम्ही नवीन फोन घेतल्यावर किंवा Signal पुन्हा इन्स्टॉल केल्यावर एकही संदेश गमावणार नाही. तुम्ही तुमचे सगळे संदेश आणि मागील 45 दिवसांचा मीडिया विनामूल्य बॅकअप करू शकता, किंवा तुम्ही एक छोटे मासिक शुल्क भरून प्रत्येक अटॅचमेंट बॅकअप करण्यासाठी 100 GB साठवण प्राप्त करू शकता. सुरु करायला तुमच्या Signal सेटिंग्ज मधील बॅकअप्स टॅप करून चालू करा. बीटा कालावधीत या वैशिष्ट्याची चाचणी करण्यास ज्यांनी मदत केली त्या सर्वांचे आभार!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "आता तुम्ही एकदा-बघा मीडिया संदेश Signal डेस्कटॉप वरूनही पाठवू शकता. एकदा-बघा संदेश स्वरूपात पाठवलेले स्वतंत्र फोटो आणि व्हिडिओ पाहण्यात आल्यावर संवादाच्या थ्रेडमधून आपोआप काढले जातील."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

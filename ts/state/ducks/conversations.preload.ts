@@ -15,6 +15,7 @@ import { createLogger } from '../../logging/log.std.js';
 import { calling } from '../../services/calling.preload.js';
 import { retryPlaceholders } from '../../services/retryPlaceholders.std.js';
 import { getOwn } from '../../util/getOwn.std.js';
+import { hasDraft } from '../../util/hasDraft.std.js';
 import { assertDev, strictAssert } from '../../util/assert.std.js';
 import { drop } from '../../util/drop.std.js';
 import {
@@ -35,10 +36,12 @@ import { instance as libphonenumberInstance } from '../../util/libphonenumberIns
 import type {
   ShowSendAnywayDialogActionType,
   ShowErrorModalActionType,
+  ToggleDiscardDraftDialogActionType,
 } from './globalModals.preload.js';
 import {
   SHOW_SEND_ANYWAY_DIALOG,
   SHOW_ERROR_MODAL,
+  TOGGLE_DISCARD_DRAFT_DIALOG,
 } from './globalModals.preload.js';
 import {
   MODIFY_LIST,
@@ -175,7 +178,6 @@ import {
   setComposerFocus,
   setQuoteByMessageId,
   resetComposer,
-  saveDraftRecordingIfNeeded,
   setViewOnce,
 } from './composer.preload.js';
 import { ReceiptType } from '../../types/Receipt.std.js';
@@ -237,7 +239,6 @@ import { isConversationUnread } from '../../util/isConversationUnread.std.js';
 import { CurrentChatFolders } from '../../types/CurrentChatFolders.std.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import { enqueuePollVoteForSend as enqueuePollVoteForSendHelper } from '../../polls/enqueuePollVoteForSend.preload.js';
-import { updateChatFolderStateOnTargetConversationChanged } from './chatFolders.preload.js';
 import type {
   PinnedMessage,
   PinnedMessagePreloadData,
@@ -390,6 +391,7 @@ export type ConversationType = ReadonlyDeep<
     accessControlAddFromInviteLink?: number;
     accessControlAttributes?: number;
     accessControlMembers?: number;
+    accessControlMemberLabel?: number;
     announcementsOnly?: boolean;
     announcementsOnlyReady?: boolean;
     expireTimer?: DurationInSeconds;
@@ -408,6 +410,8 @@ export type ConversationType = ReadonlyDeep<
     lastUpdated?: number;
     // This is used by the CompositionInput for @mentions
     sortedGroupMembers?: ReadonlyArray<ConversationType>;
+    // Used to generate contact colors in groups - it includes every member
+    membersV2?: ConversationAttributesType['membersV2'];
     title: string;
     titleNoDefault?: string;
     titleNoNickname?: string;
@@ -1253,6 +1257,7 @@ export const actions = {
   setAccessControlAddFromInviteLinkSetting,
   setAccessControlAttributesSetting,
   setAccessControlMembersSetting,
+  setAccessControlMemberLabelSetting,
   setAnnouncementsOnly,
   setCenterMessage,
   setComposeGroupAvatar,
@@ -1731,6 +1736,30 @@ function setAccessControlMembersSetting(
   };
 }
 
+function setAccessControlMemberLabelSetting(
+  conversationId: string,
+  value: number
+): ThunkAction<void, RootStateType, unknown, NoopActionType> {
+  return async dispatch => {
+    const conversation = window.ConversationController.get(conversationId);
+    if (!conversation) {
+      throw new Error(
+        'setAccessControlMemberLabelSetting: No conversation found'
+      );
+    }
+
+    await longRunningTaskWrapper({
+      name: 'updateAccessControlMemberLabel',
+      idForLogging: conversation.idForLogging(),
+      task: async () => conversation.updateAccessControlMemberLabel(value),
+    });
+    dispatch({
+      type: 'NOOP',
+      payload: null,
+    });
+  };
+}
+
 function setAccessControlAttributesSetting(
   conversationId: string,
   value: number
@@ -2031,12 +2060,22 @@ function setMessageToEdit(
   void,
   RootStateType,
   unknown,
-  SetFocusActionType | ShowErrorModalActionType
+  | SetFocusActionType
+  | ShowErrorModalActionType
+  | ToggleDiscardDraftDialogActionType
 > {
   return async (dispatch, getState) => {
     const conversation = window.ConversationController.get(conversationId);
 
     if (!conversation) {
+      return;
+    }
+
+    if (hasDraft(conversation.attributes)) {
+      dispatch({
+        type: TOGGLE_DISCARD_DRAFT_DIALOG,
+        payload: { conversationId, messageId },
+      });
       return;
     }
 
@@ -4841,18 +4880,7 @@ function showConversation({
       return;
     }
 
-    if (originalLocation.tab !== NavTab.Chats) {
-      const conversation = window.ConversationController.get(conversationId);
-      if (!conversation) {
-        log.warn(`${logId}: Conversation does not exist!`);
-        return;
-      }
-
-      conversation.setMarkedUnread(false);
-    }
-
-    dispatch(updateChatFolderStateOnTargetConversationChanged(conversationId));
-
+    // If the user explicitly tries to open this conversation again
     if (
       originalLocation.tab === NavTab.Chats &&
       originalLocation.details.conversationId === conversationId
@@ -4865,23 +4893,6 @@ function showConversation({
         dispatch(scrollToMessage(conversationId, messageId));
       }
       dispatch(setComposerFocus(conversationId));
-
-      return;
-    }
-
-    // notify composer in case we need to stop recording a voice note
-    if (
-      originalLocation.tab === NavTab.Chats &&
-      originalLocation.details.conversationId &&
-      originalLocation.details.conversationId !== conversationId
-    ) {
-      dispatch(saveDraftRecordingIfNeeded());
-      dispatch(
-        onConversationClosed(
-          originalLocation.details.conversationId,
-          'showConversation'
-        )
-      );
     }
   };
 }
@@ -4911,6 +4922,7 @@ function onConversationOpened(
     }
 
     const logId = `onConversationOpened(${conversation.idForLogging()})`;
+    conversation.setMarkedUnread(false);
 
     log.info(`${logId}: Updating newly opened conversation state`);
 
@@ -4989,7 +5001,6 @@ function onConversationOpened(
         conversation.get('draftAttachments') || []
       )
     );
-    dispatch(resetComposer(conversationId));
     dispatch(
       setViewOnce({
         conversationId,
@@ -5008,7 +5019,12 @@ function onConversationOpened(
 function onConversationClosed(
   conversationId: string,
   reason: string
-): ThunkAction<void, RootStateType, unknown, ConversationUnloadedActionType> {
+): ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  ConversationUnloadedActionType | ResetComposerActionType
+> {
   return async (dispatch, getState) => {
     const conversation = window.ConversationController.get(conversationId);
     // Conversation was removed due to the merge
@@ -5034,29 +5050,7 @@ function onConversationClosed(
 
     log.info(`${logId}: unloading due to ${reason}`);
 
-    if (conversation?.get('draftChanged')) {
-      if (conversation.hasDraft()) {
-        log.info(`${logId}: new draft info needs update`);
-        const now = Date.now();
-        const activeAt = conversation.get('active_at') || now;
-
-        conversation.set({
-          active_at: activeAt,
-          draftChanged: false,
-          draftTimestamp: now,
-        });
-      } else {
-        log.info(`${logId}: clearing draft info`);
-        conversation.set({
-          draftChanged: false,
-          draftTimestamp: null,
-        });
-      }
-
-      await DataWriter.updateConversation(conversation.attributes);
-
-      drop(conversation.updateLastMessage());
-    }
+    await conversation?.maybeUpdateDraftPreview();
 
     removeLinkPreview(conversationId);
 
@@ -5067,6 +5061,7 @@ function onConversationClosed(
       },
     });
 
+    dispatch(resetComposer(conversationId));
     dispatch(maybeRemoveReadConversations([conversationId]));
   };
 }

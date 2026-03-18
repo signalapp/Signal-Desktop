@@ -238,6 +238,7 @@ import {
   applyNewAvatar,
   buildAccessControlAddFromInviteLinkChange,
   buildAccessControlAttributesChange,
+  buildAccessControlMemberLabelChange,
   buildAccessControlMembersChange,
   buildAddBannedMemberChange,
   buildAddMember,
@@ -587,7 +588,7 @@ export class ConversationModel {
 
   async updateExpirationTimerInGroupV2(
     seconds?: DurationInSeconds
-  ): Promise<Proto.GroupChange.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions.Params | undefined> {
     const idLog = this.idForLogging();
     const current = this.get('expireTimer');
     const bothFalsey = Boolean(current) === false && Boolean(seconds) === false;
@@ -607,7 +608,7 @@ export class ConversationModel {
 
   async #promotePendingMember(
     serviceIdKind: ServiceIdKind
-  ): Promise<Proto.GroupChange.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions.Params | undefined> {
     const idLog = this.idForLogging();
 
     const us = window.ConversationController.getOurConversationOrThrow();
@@ -657,7 +658,7 @@ export class ConversationModel {
 
   async #denyPendingApprovalRequest(
     aci: AciString
-  ): Promise<Proto.GroupChange.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions.Params | undefined> {
     const idLog = this.idForLogging();
 
     // This user's pending state may have changed in the time between the user's
@@ -681,7 +682,7 @@ export class ConversationModel {
   }
 
   async addPendingApprovalRequest(): Promise<
-    Proto.GroupChange.Actions | undefined
+    Proto.GroupChange.Actions.Params | undefined
   > {
     const idLog = this.idForLogging();
 
@@ -726,7 +727,7 @@ export class ConversationModel {
 
   async addMember(
     serviceId: ServiceIdString
-  ): Promise<Proto.GroupChange.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions.Params | undefined> {
     const idLog = this.idForLogging();
 
     const toRequest = window.ConversationController.get(serviceId);
@@ -772,13 +773,13 @@ export class ConversationModel {
 
   async #removePendingMember(
     serviceIds: ReadonlyArray<ServiceIdString>
-  ): Promise<Proto.GroupChange.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions.Params | undefined> {
     return removePendingMember(this.attributes, serviceIds);
   }
 
   async #removeMember(
     serviceId: ServiceIdString
-  ): Promise<Proto.GroupChange.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions.Params | undefined> {
     const idLog = this.idForLogging();
 
     // This user's pending state may have changed in the time between the user's
@@ -802,7 +803,7 @@ export class ConversationModel {
 
   async #toggleAdminChange(
     serviceId: ServiceIdString
-  ): Promise<Proto.GroupChange.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions.Params | undefined> {
     if (!isGroupV2(this.attributes)) {
       return undefined;
     }
@@ -838,7 +839,9 @@ export class ConversationModel {
     syncMessageOnly,
   }: {
     usingCredentialsFrom: ReadonlyArray<ConversationModel>;
-    createGroupChange: () => Promise<Proto.GroupChange.Actions | undefined>;
+    createGroupChange: () => Promise<
+      Proto.GroupChange.Actions.Params | undefined
+    >;
     extraConversationsForSend?: ReadonlyArray<string>;
     inviteLinkPassword?: string;
     name: string;
@@ -1190,6 +1193,34 @@ export class ConversationModel {
 
   getDraftPreview(): DraftPreviewType {
     return getDraftPreview(this.attributes);
+  }
+
+  async maybeUpdateDraftPreview(): Promise<void> {
+    const logId = `maybeUpdateDraft/${this.idForLogging()}`;
+
+    if (this.get('draftChanged')) {
+      if (this.hasDraft()) {
+        log.info(`${logId}: new draft info needs update`);
+        const now = Date.now();
+        const activeAt = this.get('active_at') || now;
+
+        this.set({
+          active_at: activeAt,
+          draftChanged: false,
+          draftTimestamp: now,
+        });
+      } else {
+        log.info(`${logId}: clearing draft info`);
+        this.set({
+          draftChanged: false,
+          draftTimestamp: null,
+        });
+      }
+
+      await DataWriter.updateConversation(this.attributes);
+
+      drop(this.updateLastMessage());
+    }
   }
 
   bumpTyping(): void {
@@ -2814,7 +2845,7 @@ export class ConversationModel {
 
   async addBannedMember(
     serviceId: ServiceIdString
-  ): Promise<Proto.GroupChange.Actions | undefined> {
+  ): Promise<Proto.GroupChange.Actions.Params | undefined> {
     if (this.isMember(serviceId)) {
       log.warn('addBannedMember: Member is a part of the group!');
 
@@ -4634,8 +4665,6 @@ export class ConversationModel {
       createGroupChange: async () =>
         buildInviteLinkPasswordChange(this.attributes, groupInviteLinkPassword),
     });
-
-    this.set({ groupInviteLinkPassword });
   }
 
   async toggleGroupLink(value: boolean): Promise<void> {
@@ -4678,18 +4707,6 @@ export class ConversationModel {
           ),
       });
     }
-
-    this.set({
-      accessControl: {
-        addFromInviteLink,
-        attributes: this.get('accessControl')?.attributes || ACCESS_ENUM.MEMBER,
-        members: this.get('accessControl')?.members || ACCESS_ENUM.MEMBER,
-      },
-    });
-
-    if (shouldCreateNewGroupLink) {
-      this.set({ groupInviteLinkPassword });
-    }
   }
 
   async updateAccessControlAddFromInviteLink(value: boolean): Promise<void> {
@@ -4712,14 +4729,6 @@ export class ConversationModel {
           addFromInviteLink
         ),
     });
-
-    this.set({
-      accessControl: {
-        addFromInviteLink,
-        attributes: this.get('accessControl')?.attributes || ACCESS_ENUM.MEMBER,
-        members: this.get('accessControl')?.members || ACCESS_ENUM.MEMBER,
-      },
-    });
   }
 
   async updateAccessControlAttributes(value: number): Promise<void> {
@@ -4732,16 +4741,6 @@ export class ConversationModel {
       usingCredentialsFrom: [],
       createGroupChange: async () =>
         buildAccessControlAttributesChange(this.attributes, value),
-    });
-
-    const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
-    this.set({
-      accessControl: {
-        addFromInviteLink:
-          this.get('accessControl')?.addFromInviteLink || ACCESS_ENUM.MEMBER,
-        attributes: value,
-        members: this.get('accessControl')?.members || ACCESS_ENUM.MEMBER,
-      },
     });
   }
 
@@ -4756,15 +4755,18 @@ export class ConversationModel {
       createGroupChange: async () =>
         buildAccessControlMembersChange(this.attributes, value),
     });
+  }
 
-    const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
-    this.set({
-      accessControl: {
-        addFromInviteLink:
-          this.get('accessControl')?.addFromInviteLink || ACCESS_ENUM.MEMBER,
-        attributes: this.get('accessControl')?.attributes || ACCESS_ENUM.MEMBER,
-        members: value,
-      },
+  async updateAccessControlMemberLabel(value: number): Promise<void> {
+    if (!isGroupV2(this.attributes)) {
+      return;
+    }
+
+    await this.modifyGroupV2({
+      name: 'updateAccessControlMembers',
+      usingCredentialsFrom: [],
+      createGroupChange: async () =>
+        buildAccessControlMemberLabelChange(this.attributes, value),
     });
   }
 
@@ -4779,8 +4781,6 @@ export class ConversationModel {
       createGroupChange: async () =>
         buildAnnouncementsOnlyChange(this.attributes, value),
     });
-
-    this.set({ announcementsOnly: value });
   }
 
   async updateExpirationTimer(

@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Glan an deimhniú"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "Chun criptiú ó cheann ceann le {name} a fhíorú, cuir na huimhreacha thuas i gcomparáid le gléas an duine sin. Is féidir leis an duine eile do chód a scanadh leis an ngléas aige/aici freisin."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "Chun criptiú ó cheann ceann le {name} a fhíorú, cuir na huimhreacha thuas i gcomparáid le gléas an duine sin. Is féidir leis an duine eile do chód a scanadh ar an ngléas aige/aici freisin."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Cabhraíonn logaí dífhabhtaithe linn an fhadhb a dhiagnóisiú agus a réiteach, agus ní bhíonn faisnéis aitheantais iontu."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Dún"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Comhroinn an loga dífhabhtaithe"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Seol isteach é"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "Níl, go raibh maith agat"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Á chur isteach..."
@@ -2220,16 +2211,16 @@
     "messageformat": "Theip ar an scriosadh"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Theip ar scriosadh, cliceáil le sonraí a fháil"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Atriail an scriosadh teipthe?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Theip ar scriosadh na teachtaireachta. Seiceáil do nasc agus triail arís."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "Triail arís"
   },
   "icu:editFailed": {
     "messageformat": "Theip ar an eagarthóireacht, cliceáil le sonraí a fháil"
@@ -2244,7 +2235,7 @@
     "messageformat": "Cuid di scriosta, cliceáil lena atriail"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Cuid di scriosta, cliceáil le sonraí a fháil"
   },
   "icu:expiredWarning": {
     "messageformat": "Tá an leagan Dheasc Signal seo imithe as feidhm. Uasghrádaigh chuig an leagan is déanaí le leanúint le cur teachtaireachtaí."
@@ -2451,10 +2442,10 @@
     "messageformat": "Ní féidir ach le riarthóirí lipéid na mball a chur leis sa ghrúpa seo."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Amharc aonuaire cumasaithe"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Amharc aonuaire díchumasaithe"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Ní féidir eagarthóireacht a chur i bhfeidhm ach amháin laistigh de 24 uair an chloig ón uair a sheol tú an teachtaireacht seo."
@@ -2643,13 +2634,13 @@
     "messageformat": "Scriosadh an teachtaireacht seo."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "Scrios an riarthóir {admin} an teachtaireacht seo"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "Scrios {name} an teachtaireacht seo"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "Scrios tú an teachtaireacht seo"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "Tá an ceangaltán rómhór lena thaispeáint."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "D'athraigh riarthóir na daoine atá in ann faisnéis an ghrúpa a chur in eagar chuig \"Gach ball\"."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "D'athraigh {adminName} na daoine atá in ann ballraíocht an ghrúpa a chur in eagar chuig \"Riarthóirí amháin\"."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "D'athraigh tú na daoine atá in ann ballraíocht an ghrúpa a chur in eagar chuig \"Riarthóirí amháin\"."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "D'athraigh {adminName} na daoine atá in ann ballraíocht an ghrúpa a chur in eagar chuig \"Riarthóirí amháin\"."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "D'athraigh riarthóir na daoine atá in ann ballraíocht an ghrúpa a chur in eagar chuig \"Riarthóirí amháin\"."
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "D'athraigh {adminName} na daoine atá in ann ballraíocht an ghrúpa a chur in eagar chuig \"Gach ball\"."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "D'athraigh tú na daoine atá in ann ballraíocht an ghrúpa a chur in eagar chuig \"Gach ball\"."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "D'athraigh {adminName} na daoine atá in ann ballraíocht an ghrúpa a chur in eagar chuig \"Gach ball\"."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "D'athraigh riarthóir na daoine atá in ann ballraíocht an ghrúpa a chur in eagar chuig \"Gach ball\"."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Dhíchumasaigh tú faomhadh riarthóra don nasc grúpa."
@@ -4647,10 +4656,10 @@
     "messageformat": "Ionadaigh"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Amharc aonuaire"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "Meáin amhairc aonuaire"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Cuir teachtaireacht in eagar"
@@ -4686,13 +4695,16 @@
     "messageformat": "Guthghlao"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Balbhaigh an fhuaim"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "An bhfuil tú cinnte go bhfuil fonn ort {contact} a bhalbhú?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "Balbhaigh"
+  },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Remove from call"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Lipéid na mball"
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Cé atá in ann sonraí an ghrúpa a chur in eagar"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Roghnaigh cé atá in ann ainm an ghrúpa, grianghraf, cur síos agus amadóir na dteachtaireachtaí sealadacha a chur in eagar."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Roghnaigh cé atá in ann ainm, grianghraf, cur síos, amadóir teachtaireachtaí sealadacha agus teachtaireachtaí pionnáilte an ghrúpa a chur in eagar."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Roghnaigh daoine atá in ann teachtaireachtaí a sheoladh chuig an ngrúpa."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Glanfar lipéid na mball"
@@ -5016,7 +5031,7 @@
     "messageformat": "{count, plural, one {Scrios an teachtaireacht?} two {Scrios {count,number} theachtaireacht?} few {Scrios {count,number} theachtaireacht?} many {Scrios {count,number} dteachtaireacht?} other {Scrios {count,number} teachtaireacht?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Scrios an teachtaireacht roghnaithe?} two {Scrios {count,number} theachtaireacht roghnaithe?} few {Scrios {count,number} theachtaireacht roghnaithe?} many {Scrios {count,number} dteachtaireacht roghnaithe?} other {Scrios {count,number} teachtaireacht roghnaithe?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Cé dó ar mhaith leat an teachtaireacht seo a scriosadh?} two {Cé dó ar mhaith leat na teachtaireachtaí seo a scriosadh?} few {Cé dó ar mhaith leat na teachtaireachtaí seo a scriosadh?} many {Cé dó ar mhaith leat na teachtaireachtaí seo a scriosadh?} other {Cé dó ar mhaith leat na teachtaireachtaí seo a scriosadh?}}"
@@ -5037,10 +5052,10 @@
     "messageformat": "Scrios do chách"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "Scrios do chách?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Agus tú mar riarthóir, feicfidh baill den ghrúpa gur scrios tú an teachtaireacht seo.} two {Agus tú mar riarthóir, feicfidh baill den ghrúpa gur scrios tú na teachtaireachtaí seo.} few {Agus tú mar riarthóir, feicfidh baill den ghrúpa gur scrios tú na teachtaireachtaí seo.} many {Agus tú mar riarthóir, feicfidh baill den ghrúpa gur scrios tú na teachtaireachtaí seo.} other {Agus tú mar riarthóir, feicfidh baill den ghrúpa gur scrios tú na teachtaireachtaí seo.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Scrios ó na gléasanna uile"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Ní féidir leat ach {count,number} teachtaireacht a roghnú lena scriosadh do chách} two {Ní féidir leat ach {count,number} theachtaireacht a roghnú lena scriosadh do chách} few {Ní féidir leat ach {count,number} theachtaireacht a roghnú lena scriosadh do chách} many {Ní féidir leat ach {count,number} dteachtaireacht a roghnú lena scriosadh do chách} other {Ní féidir leat ach {count,number} teachtaireacht a roghnú lena scriosadh do chách}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Discard draft?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "This action can't be undone."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Scrios an mhír?"
@@ -6187,13 +6208,13 @@
     "messageformat": "Cúltacaí deisce"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Déantar cúltacaí a chriptiú le heochair agus stóráiltear ar do ghléas iad."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Cruthaigh cúltaca criptithe ó cheann ceann is féidir leat a aischur ar do ghuthán. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Chun cúltaca a aischur, suiteáil cóip nua de Signal. Oscail an aip agus tapáil Aischuir cúltaca, ansin aimsigh an fillteán cúltaca. <learnMoreLink>Tuilleadh faisnéise.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Roghnaigh fillteán"
@@ -7986,10 +8007,9 @@
     "messageformat": "Tá cúltacaí slána Signal anseo! Anois is féidir leat cumasú cúltacaí criptithe ó cheann ceann go huathoibríoch a roghnú ionas nach gcaillfidh tú teachtaireacht choíche nuair a fhaigheann tú guthán nua nó nuair a athshuiteálann tú Signal. Is féidir leat do theachtaireachtaí uile agus na 45 lá anuas de mheáin a chúltacú saor in aisce, nó is féidir leat táille bheag a íoc gach mí le 100 GB de stóras a fháil chun gach ceangaltán a chúltacú. Tapáil ar chúltacaí i do shocruithe Signal le tosú air. Buíochas le gach duine a chabhraigh le tástáil na gné seo le linn na tréimhse béite!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Anois, beidh tú in ann teachtaireachtaí meán amhairc aonuaire a sheoladh ó Signal Desktop freisin. Grianghraif agus físeáin a sheoltar mar theachtaireachtaí amhairc aonuaire; bainfear go huathoibríoch de shnáithe comhrá iad agus gach duine tar éis féachaint orthu."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

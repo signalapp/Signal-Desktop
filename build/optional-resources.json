@@ -633,5 +633,10 @@
     "digest": "BdMHuS481JdEoe6KBPV/lKPEB4VnG9zW1GehpO/f4mHAYPx5GKtcrHP7VUCeNp5Vouy9ppgPLb24nWJVKg8D2A==",
     "url": "https://updates2.signal.org/static/android/emoji/12/xhdpi/jumbo/Jumbo_59.proto",
     "size": 297274
+  },
+  "calling-dred_weights-1_6_1-f4aed08a.bin": {
+    "digest": "sdfpdb/u3wiTfBr2s0gx1LJX6jii4tquyax/UBThTGWTEXyOCSKjYmYV+9tKQZcO+Q1B1ReoGSW3VbvzeMGKaQ==",
+    "url": "https://updates2.signal.org/static/android/calling/deep_plc-dred_weights-1_6_1-f4aed08a.bin",
+    "size": 1998208
   }
 }

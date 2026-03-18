@@ -1,6 +1,5 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
-import Long from 'long';
 import { createReadStream } from 'node:fs';
 import type {
   AttachmentType,
@@ -100,24 +99,28 @@ export async function uploadAttachment(
   const fileName = shouldStripFilename ? undefined : attachment.fileName;
 
   return {
-    cdnKey,
+    attachmentIdentifier: {
+      cdnKey,
+    },
     cdnNumber,
-    clientUuid: clientUuid ? uuidToBytes(clientUuid) : undefined,
+    clientUuid: clientUuid ? uuidToBytes(clientUuid) : null,
     key: keys,
     size: attachment.data.byteLength,
     digest,
     plaintextHash,
-    incrementalMac,
-    chunkSize,
-    uploadTimestamp: Long.fromNumber(uploadTimestamp),
+    incrementalMac: incrementalMac ?? null,
+    chunkSize: chunkSize ?? null,
+    uploadTimestamp: BigInt(uploadTimestamp),
 
     contentType: MIMETypeToString(attachment.contentType),
-    fileName,
-    flags,
-    width,
-    height,
-    caption,
-    blurHash,
+    fileName: fileName ?? null,
+    flags: flags ?? null,
+    width: width ?? null,
+    height: height ?? null,
+    caption: caption ?? null,
+    blurHash: blurHash ?? null,
+
+    thumbnail: null,
   };
 }
 

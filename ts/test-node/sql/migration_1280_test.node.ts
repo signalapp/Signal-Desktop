@@ -13,6 +13,22 @@ import {
   getTableData,
 } from './helpers.node.js';
 
+const EMPTY_ENVELOPE: Proto.Envelope.Params = {
+  content: null,
+  type: null,
+  sourceServiceId: null,
+  sourceDevice: null,
+  destinationServiceId: null,
+  timestamp: null,
+  serverGuid: null,
+  serverTimestamp: null,
+  ephemeral: null,
+  urgent: null,
+  updatedPni: null,
+  story: null,
+  reportSpamToken: null,
+};
+
 describe('SQL/updateToSchemaVersion1280', () => {
   let db: WritableDB;
 
@@ -62,10 +78,11 @@ describe('SQL/updateToSchemaVersion1280', () => {
         attempts: 5,
         envelope: Buffer.from(
           Proto.Envelope.encode({
+            ...EMPTY_ENVELOPE,
             destinationServiceId: THEIR_ACI,
             content: Buffer.from('encrypted1'),
             reportSpamToken: Buffer.from('token'),
-          }).finish()
+          })
         ).toString('base64'),
         serverTimestamp: 6,
         serverGuid: 'guid1',
@@ -81,9 +98,10 @@ describe('SQL/updateToSchemaVersion1280', () => {
         attempts: 5,
         envelope: Buffer.from(
           Proto.Envelope.encode({
+            ...EMPTY_ENVELOPE,
             type: 3,
             content: Buffer.from('encrypted2'),
-          }).finish()
+          })
         ).toString('base64'),
         serverTimestamp: 7,
         serverGuid: 'guid2',
@@ -99,8 +117,9 @@ describe('SQL/updateToSchemaVersion1280', () => {
         attempts: 6,
         envelope: Buffer.from(
           Proto.Envelope.encode({
+            ...EMPTY_ENVELOPE,
             content: Buffer.from('unused'),
-          }).finish()
+          })
         ).toString('base64'),
         decrypted: 'CAFE',
         serverTimestamp: 8,

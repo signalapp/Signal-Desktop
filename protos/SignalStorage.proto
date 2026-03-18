@@ -294,7 +294,7 @@ message AccountRecord {
   reserved /*backupsSubscriberCurrencyCode*/ 37;
   reserved /*backupsSubscriptionManuallyCancelled*/ 38;
   // Set to true after backups are enabled and one is uploaded.
-  optional bool hasBackup = 39;
+  reserved /*hasBackup*/ 39;
   // See zkgroup for integer particular values. Unset if backups are not enabled.
   optional uint64 backupTier = 40;
   IAPSubscriberData backupSubscriberData = 41;

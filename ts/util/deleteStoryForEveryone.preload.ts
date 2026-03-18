@@ -207,7 +207,12 @@ export async function deleteStoryForEveryone(
     {
       destinationServiceId,
       timestamp: story.timestamp,
-      storyMessageRecipients: newStoryMessageRecipients,
+      storyMessageRecipients: newStoryMessageRecipients.map(recipient => {
+        return {
+          ...recipient,
+          destinationServiceId: recipient.destinationServiceId ?? undefined,
+        };
+      }),
     },
     noop
   );

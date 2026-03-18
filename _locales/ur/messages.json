@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "تصدیق ہٹائیں"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "{name} کے ساتھ اینڈ ٹو اینڈ انکرپشن کی تصدیق کرنے کے لیے، اوپر موجود نمبرز کے ساتھ ان کی ڈیوائس کا موازنہ کریں۔ وہ اپنی ڈیوائس کے ساتھ آپ کے کوڈ کو اسکین بھی کر سکتے ہیں۔"
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "{name} کے ساتھ اینڈ ٹو اینڈ انکرپشن کی تصدیق کرنے کے لیے، اوپر موجود نمبرز کے ساتھ ان کی ڈیوائس کا موازنہ کریں۔ وہ اپنی ڈیوائس پر آپ کے کوڈ کو اسکین بھی کر سکتے ہیں۔"
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "ڈی بگ لاگز مسئلے کی نشاندہی کرنے اور اسے حل کرنے میں ہماری مدد کرتے ہیں، اور اس میں شناخت کرنے والی معلومات شامل نہیں ہوتی ہیں۔"
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "بند کریں"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "ڈی بگ لاگ شیئر کریں"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "جمح کریں"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "نہیں شکریہ"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "جمع کیا جا رہا ہے..."
@@ -2220,16 +2211,16 @@
     "messageformat": "حذف کرنا ناکام ہو گیا"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "حذف کرنے میں ناکامی، تفصیلات کے لیے کلک کریں"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "ناکام حذف کو دوبارہ آزمائیں؟"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "میسج حذف کرنے میں ناکامی۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں۔"
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "دوبارہ کوشش کریں"
   },
   "icu:editFailed": {
     "messageformat": "ترمیم ناکام ہو گئی، تفصیلات کے لیے کلک کریں"
@@ -2244,7 +2235,7 @@
     "messageformat": "جزوی طور پر حذف کر دیا گیا، دوبارہ کوشش کرنے کے لیے کلک کریں"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "جزوی طور پر حذف کیا گیا، تفصیلات کے لیے کلک کریں"
   },
   "icu:expiredWarning": {
     "messageformat": "Signal Desktop کا یہ ورژن کی میعاد ختم ہوچکی ہے۔ مہربانی فرما کر پیغامات جاری رکھنے کے لئے حالیہ ورژن میں اپ گریڈ کریں۔"
@@ -2451,10 +2442,10 @@
     "messageformat": "اس گروپ میں صرف ایڈمنز ہی ممبر لیبلز شامل کر سکتے ہیں۔"
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "ایک بار دیکھیں کو فعال کر دیا گیا"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "ایک بار دیکھیں کو غیر فعال کر دیا گیا"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "آپ کی طرف سے اس میسج کو بھیجنے کے بعد ترامیم کا اطلاق محض 24 گھنٹوں کے اندر کیا جا سکتا ہے۔"
@@ -2643,13 +2634,13 @@
     "messageformat": "یہ پیغام حذف کردیا گیا تھا۔"
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "ایڈمن {admin} نے یہ میسج حذف کر دیا"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "{name} نے یہ میسج حذف کر دیا"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "آپ نے یہ میسج حذف کر دیا"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "منسلکہ بہت بڑی ہے کہ ظاہر کی جا سکے۔"
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "ایک منتظم تبدیل ہوا جو \"ان تمام ممبروں\" میں گروپ کی معلومات میں ترمیم کرسکتا ہے۔"
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} نے تبدیل کیا جو \"صرف منتظمین\" میں گروپ ممبرشپ میں ترمیم کرسکتا ہے۔"
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "آپ نے تبدیلی کی کہ کون \"صرف منتظمین\" میں گروپ ممبرشپ میں ترمیم کرسکتا ہے۔"
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} نے تبدیل کیا جو \"صرف منتظمین\" میں گروپ ممبرشپ میں ترمیم کرسکتا ہے۔"
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "ایک منتظم تبدیل ہوا جو \"صرف منتظمین\" میں گروپ ممبرشپ میں ترمیم کرسکتا ہے۔"
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} نے یہ بدلا ہے کہ کون گروپ ممبرشپ میں ترمیم \"\"تمام ممبران\" کرسکتا ہے۔"
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "آپ نے یہ بدلا ہے کہ کون گروپ ممبرشپ میں ترمیم \"\"تمام ممبران\" کرسکتا ہے۔"
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} نے یہ بدلا ہے کہ کون گروپ ممبرشپ میں ترمیم \"\"تمام ممبران\" کرسکتا ہے۔"
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "آمنتظم نے یہ بدلا ہے کہ کون گروپ ممبرشپ میں ترمیم \"\"تمام ممبران\" کرسکتا ہے۔"
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "آپ نے گروپ لنک کیلئے منتظم کی منظوری کو غیر فعال کردیا۔"
@@ -4647,10 +4656,10 @@
     "messageformat": "تبدیل کریں"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "ایک بار دیکھیں"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "ایک مرتبہ دیکھا جانے والا میڈیا"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "میسج میں ترمیم کریں"
@@ -4686,13 +4695,16 @@
     "messageformat": "آواز"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "آڈیو میوٹ کریں"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "کیا آپ واقعی {contact} کو میوٹ کرنا چاہتے ہیں؟"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "خاموش کریں"
+  },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Remove from call"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "ممبر لیبلز"
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "کون گروپ کی معلومات میں ترمیم کرسکتا ہے"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "منتخب کریں کہ کون گروپ کے نام ، تصویر ، وضاحت اور غائب پیغامات کے ٹائمر میں ترمیم کرسکتا ہے۔"
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "منتخب کریں کہ کون گروپ کا نام، تصویر، وضاحت، غائب ہونے والے میسجز کا ٹائمر، اور پِن شدہ میسجز میں ترمیم کر سکتا ہے۔"
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "منتخب کریں کہ کون گروپ کو پیغام بھیج سکتا ہے۔"
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "ممبر لیبلز کو صاف کر دیا جائے گا"
@@ -5016,7 +5031,7 @@
     "messageformat": "{count, plural, one {میسج حذف کریں؟} other {{count,number} میسجز حذف کریں؟}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {منتخب شدہ میسج کو حذف کریں؟} other {منتخب شدہ {count,number} میسجز کو حذف کریں؟}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {آپ یہ میسج کس کے لیے حذف کرنا چاہتے ہیں؟} other {آپ یہ میسجز کس کے لیے حذف کرنا چاہتے ہیں؟}}"
@@ -5037,10 +5052,10 @@
     "messageformat": "سب کے لیے حذف کریں"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "سب کے لیے حذف کریں؟"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {بطور ایڈمن، گروپ ممبرز دیکھ سکیں گے کہ آپ نے یہ میسج حذف کیا ہے۔} other {بطور ایڈمن، گروپ ممبرز دیکھ سکیں گے کہ آپ نے یہ میسجز حذف کیے ہیں۔}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "تمام ڈیوائسز سے حذف کریں"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {آپ سب کے لیے حذف کرنے کی خاطر محض {count,number} تک میسج منتخب کر سکتے ہیں} other {آپ سب کے لیے حذف کرنے کی خاطر محض {count,number} تک میسجز منتخب کر سکتے ہیں}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Discard draft?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "This action can't be undone."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "آئٹم حذف کریں؟"
@@ -6187,13 +6208,13 @@
     "messageformat": "ڈیسک ٹاپ کے بیک اپس"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "بیک اپس ایک کیی کے ساتھ انکرپٹ کردہ ہوتے ہیں اور آپ کے کمپیوٹر میں اسٹور کیے جاتے ہیں۔"
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "آخر سے آخر تک انکرپٹ کردہ بیک اپ تخلیق کریں جسے آپ اپنے فون میں دوبارہ ری اسٹور کر سکیں۔ "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "بیک اپ کو ری اسٹور کرنے کے لیے، Signal کی نئی کاپی انسٹال کریں۔ ایپ کھولیں اور بیک اپ ری اسٹور کریں پر ٹیپ کریں، اس کے بعد بیک اپ فولڈر کو تلاش کریں۔ <learnMoreLink>مزید جانیں۔</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "ایک فولڈر منتخب کریں"
@@ -7986,10 +8007,9 @@
     "messageformat": "Signal محفوظ بیک اپس یہاں ہیں! اب آپ خودکار آخر سے آخر تک انکرپٹ کردہ بیک اپس کو فعال کرنے کا انتخاب کر سکتے ہیں تاکہ جب آپ نیا فون لیں یا Signal ری انسٹال کریں تو آپ کا میسج کبھی غائب نہ ہو۔ آپ اپنے تمام میسجز اور پچھلے 45 دنوں کا میڈیا مفت میں بیک اپ کر سکتے ہیں، یا آپ ہر منسلکہ کے بیک اپ کیلیے 100 GB کی اسٹوریج حاصل کرنے کے لیے مختصر ماہانہ فیس ادا کر سکتے ہیں۔ آغاز کے لیے اپنے Signal کی سیٹنگز میں بیک اپس پر ٹیپ کریں۔ ہر کسی کا شکریہ جنہوں نے بیٹا پیریڈ کے دوران اس فیچر کو ٹیسٹ کرنے میں مدد کی!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "اب آپ Signal ڈیسک ٹاپ سے بھی صرف ایک بار دیکھنے والے میڈیا میسجز بھیج سکتے ہیں۔ وہ انفرادی تصاویر اور ویڈیوز جو صرف ایک بار دیکھنے کے میسجز کے طور پر بھیجی جائیں، دیکھے جانے کے بعد خودکار طور پر گفتگو کے سلسلے سے حذف ہو جائیں گی۔"
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

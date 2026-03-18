@@ -2,28 +2,44 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { randomBytes } from 'node:crypto';
-import { dirname, join } from 'node:path';
-import { readdir, readFile, stat, writeFile } from 'node:fs/promises';
+import { basename, dirname, join } from 'node:path';
+import { readdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import { createReadStream, createWriteStream } from 'node:fs';
-import { Transform } from 'node:stream';
+import { Readable, Writable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 import { createLogger } from '../../../logging/log.std.js';
 import * as Bytes from '../../../Bytes.std.js';
 import * as Errors from '../../../types/errors.std.js';
 import { Signal } from '../../../protobuf/index.std.js';
-import protobuf from '../../../protobuf/wrap.std.js';
+import { DelimitedStream } from '../../../util/DelimitedStream.node.js';
 import { strictAssert } from '../../../util/assert.std.js';
+import { encodeDelimited } from '../../../util/encodeDelimited.std.js';
 import { decryptAesCtr, encryptAesCtr } from '../../../Crypto.node.js';
 import type { LocalBackupMetadataVerificationType } from '../../../types/backups.node.js';
 import {
   LOCAL_BACKUP_VERSION,
   LOCAL_BACKUP_BACKUP_ID_IV_LENGTH,
 } from '../constants.std.js';
-import { explodePromise } from '../../../util/explodePromise.std.js';
+import { getTimestampForFolder } from '../../../util/timestamp.std.js';
+import { isPathInside } from '../../../util/isPathInside.node.js';
 
 const log = createLogger('localBackup');
 
-const { Reader } = protobuf;
+const LOCAL_BACKUP_SNAPSHOT_DIR_PREFIX = 'signal-backup-';
+const LOCAL_BACKUP_SNAPSHOT_DIR_PATTERN =
+  /^signal-backup-\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}$/;
+
+export const LOCAL_BACKUP_DIR_NAME = 'SignalBackups';
+
+export function getLocalBackupSnapshotDirectory(
+  backupsBaseDir: string,
+  timestamp: number
+): string {
+  return join(
+    backupsBaseDir,
+    `${LOCAL_BACKUP_SNAPSHOT_DIR_PREFIX}${getTimestampForFolder(timestamp)}`
+  );
+}
 
 export function getLocalBackupFilesDirectory({
   backupsBaseDir,
@@ -42,10 +58,109 @@ export async function getAllPathsInLocalBackupFilesDirectory({
   const allEntries = await readdir(filesDir, {
     withFileTypes: true,
     recursive: true,
+  }).catch(error => {
+    // Be resilient to files folder not exist
+    if ('code' in error && error.code === 'ENOENT') {
+      return [];
+    }
+    throw error;
   });
+
   return allEntries
     .filter(entry => entry.isFile())
     .map(entry => join(entry.parentPath, entry.name));
+}
+
+async function getSortedLocalBackupSnapshotDirs({
+  backupsBaseDir,
+}: {
+  backupsBaseDir: string;
+}): Promise<Array<string>> {
+  const entries = await readdir(backupsBaseDir, { withFileTypes: true });
+  const snapshotDirs = new Array<string>();
+
+  for (const entry of entries) {
+    if (!entry.isDirectory()) {
+      continue;
+    }
+    if (!entry.name.startsWith(LOCAL_BACKUP_SNAPSHOT_DIR_PREFIX)) {
+      continue;
+    }
+
+    if (LOCAL_BACKUP_SNAPSHOT_DIR_PATTERN.test(entry.name)) {
+      snapshotDirs.push(join(backupsBaseDir, entry.name));
+    }
+  }
+
+  return snapshotDirs.sort().reverse();
+}
+
+export async function pruneLocalBackups({
+  backupsBaseDir,
+  numSnapshotsToKeep,
+}: {
+  backupsBaseDir: string;
+  numSnapshotsToKeep: number;
+}): Promise<void> {
+  const fnLog = log.child('pruneLocalBackups');
+
+  const snapshotDirs = await getSortedLocalBackupSnapshotDirs({
+    backupsBaseDir,
+  });
+
+  const snapshotDirsToKeep = snapshotDirs.slice(0, numSnapshotsToKeep);
+  const snapshotDirsToDelete = snapshotDirs.slice(numSnapshotsToKeep);
+
+  if (snapshotDirsToDelete.length > 0) {
+    if (snapshotDirsToDelete.length === 1) {
+      fnLog.info('pruning one snapshot');
+    } else {
+      fnLog.warn(`pruning ${snapshotDirsToDelete.length} snapshots`);
+    }
+
+    await Promise.all(
+      snapshotDirsToDelete.map(snapshotDir => {
+        strictAssert(
+          isPathInside(snapshotDir, backupsBaseDir),
+          'ensure snapshot dir inside backups dir'
+        );
+        return rm(snapshotDir, { recursive: true, force: true });
+      })
+    );
+  }
+
+  const referencedMediaNames = new Set<string>();
+  for (const snapshotDir of snapshotDirsToKeep) {
+    // eslint-disable-next-line no-await-in-loop
+    const mediaNames = await readLocalBackupFilesList(snapshotDir);
+    for (const mediaName of mediaNames) {
+      referencedMediaNames.add(mediaName);
+    }
+  }
+
+  const allMediaPaths = await getAllPathsInLocalBackupFilesDirectory({
+    backupsBaseDir,
+  });
+
+  const mediaPathsToDelete = allMediaPaths.filter(
+    mediaPath => !referencedMediaNames.has(basename(mediaPath))
+  );
+
+  if (mediaPathsToDelete.length > 0) {
+    fnLog.info(
+      `Deleting ${mediaPathsToDelete.length} files no longer referenced`
+    );
+    const filesDirectory = getLocalBackupFilesDirectory({ backupsBaseDir });
+    await Promise.all(
+      mediaPathsToDelete.map(mediaPath => {
+        strictAssert(
+          isPathInside(mediaPath, filesDirectory),
+          'ensure mediaPath inside backup files dir'
+        );
+        return rm(mediaPath, { force: true });
+      })
+    );
+  }
 }
 
 export function getLocalBackupDirectoryForMediaName({
@@ -106,12 +221,12 @@ export async function writeLocalBackupMetadata({
   const encryptedId = encryptAesCtr(metadataKey, backupId, iv);
 
   const metadataSerialized = Signal.backup.local.Metadata.encode({
-    backupId: new Signal.backup.local.Metadata.EncryptedBackupId({
+    backupId: {
       iv,
       encryptedId,
-    }),
+    },
     version: LOCAL_BACKUP_VERSION,
-  }).finish();
+  });
 
   const metadataPath = join(snapshotDir, 'metadata');
   await writeFile(metadataPath, metadataSerialized);
@@ -153,38 +268,33 @@ export async function verifyLocalBackupMetadata({
 
 export async function writeLocalBackupFilesList({
   snapshotDir,
-  mediaNamesIterator,
+  mediaNames,
 }: {
   snapshotDir: string;
-  mediaNamesIterator: MapIterator<string>;
+  mediaNames: Array<string>;
 }): Promise<ReadonlyArray<string>> {
-  const { promise, resolve, reject } = explodePromise<ReadonlyArray<string>>();
-
   const filesListPath = join(snapshotDir, 'files');
   const writeStream = createWriteStream(filesListPath);
-  writeStream.on('error', error => {
-    reject(error);
-  });
 
   const files: Array<string> = [];
-  for (const mediaName of mediaNamesIterator) {
-    const data = Signal.backup.local.FilesFrame.encodeDelimited({
-      mediaName,
-    }).finish();
-    if (!writeStream.write(data)) {
-      // eslint-disable-next-line no-await-in-loop
-      await new Promise(resolveStream =>
-        writeStream.once('drain', resolveStream)
-      );
+
+  function* generateFrames() {
+    for (const mediaName of mediaNames) {
+      const data = Signal.backup.local.FilesFrame.encode({
+        item: {
+          mediaName,
+        },
+      });
+
+      yield* encodeDelimited(data);
+
+      files.push(mediaName);
     }
-    files.push(mediaName);
   }
 
-  writeStream.end(() => {
-    resolve(files);
-  });
+  const frameGenerator = Readable.from(generateFrames());
 
-  await promise;
+  await pipeline(frameGenerator, writeStream);
   return files;
 }
 
@@ -193,10 +303,30 @@ export async function readLocalBackupFilesList(
 ): Promise<ReadonlyArray<string>> {
   const filesListPath = join(snapshotDir, 'files');
   const readStream = createReadStream(filesListPath);
-  const parseFilesTransform = new ParseFilesListTransform();
+  const delimitedStream = new DelimitedStream();
+
+  const mediaNames = new Array<string>();
+  const parseFilesWritable = new Writable({
+    objectMode: true,
+    write(data, _enc, callback) {
+      try {
+        const file = Signal.backup.local.FilesFrame.decode(data);
+        if (file.item?.mediaName) {
+          mediaNames.push(file.item.mediaName);
+        } else {
+          log.warn(
+            'ParseFilesListTransform: Active file had empty mediaName, ignoring'
+          );
+        }
+        callback(null);
+      } catch (error) {
+        callback(error);
+      }
+    },
+  });
 
   try {
-    await pipeline(readStream, parseFilesTransform);
+    await pipeline(readStream, delimitedStream, parseFilesWritable);
   } catch (error) {
     try {
       readStream.close();
@@ -212,82 +342,7 @@ export async function readLocalBackupFilesList(
 
   readStream.close();
 
-  return parseFilesTransform.mediaNames;
-}
-
-export class ParseFilesListTransform extends Transform {
-  public mediaNames: Array<string> = [];
-
-  public activeFile: Signal.backup.local.FilesFrame | undefined;
-  #unused: Uint8Array | undefined;
-
-  override async _transform(
-    chunk: Buffer | undefined,
-    _encoding: string,
-    done: (error?: Error) => void
-  ): Promise<void> {
-    if (!chunk || chunk.byteLength === 0) {
-      done();
-      return;
-    }
-
-    try {
-      let data = chunk;
-      if (this.#unused) {
-        data = Buffer.concat([this.#unused, data]);
-        this.#unused = undefined;
-      }
-
-      const reader = Reader.create(data);
-      while (reader.pos < reader.len) {
-        const startPos = reader.pos;
-
-        if (!this.activeFile) {
-          try {
-            this.activeFile =
-              Signal.backup.local.FilesFrame.decodeDelimited(reader);
-          } catch (err) {
-            // We get a RangeError if there wasn't enough data to read the next record.
-            if (err instanceof RangeError) {
-              // Note: A failed decodeDelimited() does in fact update reader.pos, so we
-              //   must reset to startPos
-              this.#unused = data.subarray(startPos);
-              done();
-              return;
-            }
-
-            // Something deeper has gone wrong; the proto is malformed or something
-            done(err);
-            return;
-          }
-        }
-
-        if (!this.activeFile) {
-          done(
-            new Error(
-              'ParseFilesListTransform: No active file after successful decode!'
-            )
-          );
-          return;
-        }
-
-        if (this.activeFile.mediaName) {
-          this.mediaNames.push(this.activeFile.mediaName);
-        } else {
-          log.warn(
-            'ParseFilesListTransform: Active file had empty mediaName, ignoring'
-          );
-        }
-
-        this.activeFile = undefined;
-      }
-    } catch (error) {
-      done(error);
-      return;
-    }
-
-    done();
-  }
+  return mediaNames;
 }
 
 export type ValidateLocalBackupStructureResultType =

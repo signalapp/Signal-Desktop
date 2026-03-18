@@ -81,7 +81,7 @@ export function shouldPreviewHref(href: string): boolean {
 
 export function isValidLinkPreview(
   urlsInBody: Array<string>,
-  preview: LinkPreviewType | Backups.ILinkPreview,
+  preview: LinkPreviewType | Backups.LinkPreview.Params,
   { isStory }: { isStory: boolean }
 ): boolean {
   const { url } = preview;

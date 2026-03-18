@@ -184,37 +184,41 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
         const timestamp = bootstrap.getTimestamp();
         const destinationServiceIdBinary = stranger.device.aciBinary;
         const content: Proto.Content.Params = {
-          syncMessage: {
-            sent: {
-              destinationServiceIdBinary,
-              timestamp: BigInt(timestamp),
-              message: {
-                ...EMPTY_DATA_MESSAGE,
-                body: 'request',
-                timestamp: BigInt(timestamp),
-                expireTimer: scenario.ourTimer,
-                expireTimerVersion: scenario.ourVersion,
-              },
-              unidentifiedStatus: [
-                {
+          content: {
+            syncMessage: {
+              content: {
+                sent: {
                   destinationServiceIdBinary,
-                  unidentified: null,
-                  destinationPniIdentityKey: null,
+                  timestamp: BigInt(timestamp),
+                  message: {
+                    ...EMPTY_DATA_MESSAGE,
+                    body: 'request',
+                    timestamp: BigInt(timestamp),
+                    expireTimer: scenario.ourTimer,
+                    expireTimerVersion: scenario.ourVersion,
+                  },
+                  unidentifiedStatus: [
+                    {
+                      destinationServiceIdBinary,
+                      unidentified: null,
+                      destinationPniIdentityKey: null,
+                      destinationServiceId: null,
+                    },
+                  ],
+                  destinationE164: null,
+                  expirationStartTimestamp: null,
+                  isRecipientUpdate: null,
+                  storyMessage: null,
+                  storyMessageRecipients: null,
+                  editMessage: null,
                   destinationServiceId: null,
                 },
-              ],
-              destinationE164: null,
-              expirationStartTimestamp: null,
-              isRecipientUpdate: null,
-              storyMessage: null,
-              storyMessageRecipients: null,
-              editMessage: null,
-              destinationServiceId: null,
+              },
+              read: null,
+              stickerPackOperation: null,
+              viewed: null,
+              padding: null,
             },
-            read: null,
-            stickerPackOperation: null,
-            viewed: null,
-            padding: null,
           },
           pniSignatureMessage: null,
           senderKeyDistributionMessage: null,
@@ -229,12 +233,14 @@ describe('messaging/expireTimerVersion', function (this: Mocha.Suite) {
         debug('Send a response message');
         const timestamp = bootstrap.getTimestamp();
         const content: Proto.Content.Params = {
-          dataMessage: {
-            ...EMPTY_DATA_MESSAGE,
-            body: 'response',
-            timestamp: BigInt(timestamp),
-            expireTimer: scenario.theirTimer,
-            expireTimerVersion: scenario.theirVersion,
+          content: {
+            dataMessage: {
+              ...EMPTY_DATA_MESSAGE,
+              body: 'response',
+              timestamp: BigInt(timestamp),
+              expireTimer: scenario.theirTimer,
+              expireTimerVersion: scenario.theirVersion,
+            },
           },
           pniSignatureMessage: null,
           senderKeyDistributionMessage: null,

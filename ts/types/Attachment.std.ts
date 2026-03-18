@@ -126,10 +126,15 @@ export type AttachmentForUIType = AttachmentType & {
   };
 };
 
-export type UploadedAttachmentType = Proto.IAttachmentPointer &
+export type UploadedAttachmentType = Omit<
+  Proto.AttachmentPointer.Params,
+  'attachmentIdentifier'
+> &
   Readonly<{
     // Required fields
-    cdnKey: string;
+    attachmentIdentifier: Readonly<{
+      cdnKey: string;
+    }>;
     key: Uint8Array;
     size: number;
     digest: Uint8Array;

@@ -3,10 +3,15 @@
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
 
-export function hasDraft(attributes: ConversationAttributesType): boolean {
-  const draftAttachments = attributes.draftAttachments || [];
-
-  return (attributes.draft ||
-    attributes.quotedMessageId ||
-    draftAttachments.length > 0) as boolean;
+export function hasDraft(
+  attrs: Pick<
+    ConversationAttributesType,
+    'draft' | 'draftAttachments' | 'quotedMessageId'
+  >
+): boolean {
+  return (
+    (attrs.draft != null && attrs.draft.length > 1) ||
+    (attrs.draftAttachments != null && attrs.draftAttachments.length > 1) ||
+    attrs.quotedMessageId != null
+  );
 }

@@ -1183,7 +1183,11 @@ export async function startApp(): Promise<void> {
       );
     } finally {
       setupAppState();
-      drop(start());
+      drop(
+        start().catch(error => {
+          log.error('start: threw an unexpected error', error);
+        })
+      );
       initializeNetworkObserver(
         window.reduxActions.network,
         () => window.getSocketStatus().authenticated.status
@@ -1456,7 +1460,14 @@ export async function startApp(): Promise<void> {
     }
     log.info('Expiration start timestamp cleanup: complete');
 
-    await runAllSyncTasks();
+    try {
+      await runAllSyncTasks();
+    } catch (error) {
+      log.error(
+        'runAllSyncTasks: threw an unexpected error during startup, continuing without processing remaining syncTasks',
+        error
+      );
+    }
 
     cancelInitializationMessage();
 
@@ -2070,6 +2081,8 @@ export async function startApp(): Promise<void> {
 
       void routineProfileRefresher.start();
     }
+
+    drop(calling.prepareCallingAssets());
 
     drop(usernameIntegrity.start());
 

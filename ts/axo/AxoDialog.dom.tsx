@@ -386,6 +386,8 @@ export namespace AxoDialog {
     symbol?: AxoSymbol.InlineGlyphName;
     arrow?: boolean;
     experimentalSpinner?: { 'aria-label': string } | null;
+    disabled?: boolean;
+    focusableWhenDisabled?: boolean;
     onClick: () => void;
     children: ReactNode;
   }>;
@@ -397,6 +399,8 @@ export namespace AxoDialog {
         symbol={props.symbol}
         arrow={props.arrow}
         experimentalSpinner={props.experimentalSpinner}
+        disabled={props.disabled}
+        focusableWhenDisabled={props.focusableWhenDisabled}
         size="md"
         width="grow"
         onClick={props.onClick}

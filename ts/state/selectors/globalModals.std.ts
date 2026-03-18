@@ -80,6 +80,11 @@ export const getDeleteMessagesProps = createSelector(
   ({ deleteMessagesProps }) => deleteMessagesProps
 );
 
+export const getDiscardDraftDialogProps = createSelector(
+  getGlobalModalsState,
+  ({ discardDraftDialogProps }) => discardDraftDialogProps
+);
+
 export const getDraftGifMessageSendModalProps = createSelector(
   getGlobalModalsState,
   ({ draftGifMessageSendModalProps }) => draftGifMessageSendModalProps

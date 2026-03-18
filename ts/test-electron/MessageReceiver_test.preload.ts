@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { assert } from 'chai';
-import Long from 'long';
 
 import MessageReceiver from '../textsecure/MessageReceiver.preload.js';
 import {
@@ -52,11 +51,23 @@ describe('MessageReceiver', () => {
 
       const body = Proto.Envelope.encode({
         type: Proto.Envelope.Type.DOUBLE_RATCHET,
+        sourceServiceId: null,
         sourceServiceIdBinary: toAciObject(someAci).getRawUuidBytes(),
         sourceDeviceId: deviceId,
-        clientTimestamp: Long.fromNumber(Date.now()),
+        clientTimestamp: BigInt(Date.now()),
         content: Crypto.getRandomBytes(200),
-      }).finish();
+        destinationServiceId: null,
+        destinationServiceIdBinary: null,
+        serverGuid: null,
+        serverGuidBinary: null,
+        serverTimestamp: null,
+        ephemeral: null,
+        urgent: null,
+        updatedPni: null,
+        story: null,
+        reportSpamToken: null,
+        updatedPniBinary: null,
+      });
 
       messageReceiver.handleRequest(
         new IncomingWebSocketRequest(

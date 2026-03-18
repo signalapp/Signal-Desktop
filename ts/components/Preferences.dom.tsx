@@ -161,6 +161,7 @@ export type PropsDataType = {
   settingsLocation: SettingsLocation;
   lastSyncTime?: number;
   notificationContent: NotificationSettingType;
+  osName: 'linux' | 'macos' | 'windows' | undefined;
   phoneNumber: string | undefined;
   selectedCamera?: string;
   selectedMicrophone?: AudioDevice;
@@ -244,6 +245,11 @@ type PropsFunctionType = {
 
   // Other props
   addCustomColor: (color: CustomColorType) => unknown;
+  disableLocalBackups: ({
+    deleteExistingBackups,
+  }: {
+    deleteExistingBackups: boolean;
+  }) => Promise<void>;
   doDeleteAllData: () => unknown;
   editCustomColor: (colorId: string, color: CustomColorType) => unknown;
   getMessageCountBySchemaVersion: () => Promise<MessageCountBySchemaVersionType>;
@@ -333,6 +339,7 @@ type PropsFunctionType = {
   onWhoCanSeeMeChange: SelectChangeHandlerType<PhoneNumberSharingMode>;
   onWhoCanFindMeChange: SelectChangeHandlerType<PhoneNumberDiscoverability>;
   onZoomFactorChange: SelectChangeHandlerType<ZoomFactorType>;
+  openFileInFolder: (path: string) => void;
   internalDeleteAllMegaphones: () => Promise<number>;
   __dangerouslyRunAbitraryReadOnlySqlQuery: (
     readonlySqlQuery: string
@@ -401,6 +408,7 @@ export function Preferences({
   customColors,
   defaultConversationColor,
   deviceName = '',
+  disableLocalBackups,
   doDeleteAllData,
   editCustomColor,
   emojiSkinToneDefault,
@@ -514,6 +522,8 @@ export function Preferences({
   renderUpdateDialog,
   renderPreferencesChatFoldersPage,
   renderPreferencesEditChatFolderPage,
+  openFileInFolder,
+  osName,
   promptOSAuth,
   resetAllChatColors,
   resetDefaultChatColor,
@@ -2276,7 +2286,10 @@ export function Preferences({
         locale={resolvedLocale}
         localBackupFolder={localBackupFolder}
         onBackupKeyViewedChange={onBackupKeyViewedChange}
+        openFileInFolder={openFileInFolder}
+        osName={osName}
         pickLocalBackupFolder={pickLocalBackupFolder}
+        disableLocalBackups={disableLocalBackups}
         settingsLocation={settingsLocation}
         promptOSAuth={promptOSAuth}
         refreshCloudBackupStatus={refreshCloudBackupStatus}
@@ -2409,19 +2422,21 @@ export function Preferences({
                     {i18n('icu:ProfileEditor__open')}
                   </span>
                 </button>
-                <button
-                  type="button"
-                  className="Preferences__profile-chip__qr-icon-button"
-                  aria-label={i18n('icu:ProfileEditor__username-link__open')}
-                  onClick={() => {
-                    setSettingsLocation({
-                      page: SettingsPage.Profile,
-                      state: ProfileEditorPage.UsernameLink,
-                    });
-                  }}
-                >
-                  <div className="Preferences__profile-chip__qr-icon" />
-                </button>
+                {me.username && (
+                  <button
+                    type="button"
+                    className="Preferences__profile-chip__qr-icon-button"
+                    aria-label={i18n('icu:ProfileEditor__username-link__open')}
+                    onClick={() => {
+                      setSettingsLocation({
+                        page: SettingsPage.Profile,
+                        state: ProfileEditorPage.UsernameLink,
+                      });
+                    }}
+                  >
+                    <div className="Preferences__profile-chip__qr-icon" />
+                  </button>
+                )}
               </div>
               <button
                 type="button"

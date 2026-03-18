@@ -183,7 +183,7 @@ export async function sendToGroup({
 
 type SendToGroupOptions = Readonly<{
   contentHint: number;
-  contentMessage: Proto.Content;
+  contentMessage: Proto.Content.Params;
   isPartialSend?: boolean;
   messageId: string | undefined;
   online?: boolean;
@@ -249,7 +249,7 @@ export async function sendContentMessageToGroup(
   const sendLogCallback = messageSender.makeSendLogCallback({
     contentHint,
     messageId,
-    proto: Proto.Content.encode(contentMessage).finish(),
+    proto: Proto.Content.encode(contentMessage),
     sendType,
     timestamp,
     urgent,
@@ -563,7 +563,7 @@ export async function sendToGroupViaSenderKey(
       contentHint,
       devices: devicesForSenderKey,
       distributionId,
-      contentMessage: Proto.Content.encode(contentMessage).finish(),
+      contentMessage: Proto.Content.encode(contentMessage),
       groupId,
     });
 
@@ -617,7 +617,7 @@ export async function sendToGroupViaSenderKey(
       sendLogId = await DataWriter.insertSentProto(
         {
           contentHint,
-          proto: Proto.Content.encode(contentMessage).finish(),
+          proto: Proto.Content.encode(contentMessage),
           timestamp,
           urgent,
           hasPniSignatureMessage: false,
@@ -810,18 +810,18 @@ export async function sendToGroupViaSenderKey(
   // 11. Return early if there are no normal send recipients
   if (normalSendRecipients.length === 0) {
     return {
-      dataMessage: contentMessage.dataMessage
-        ? Proto.DataMessage.encode(contentMessage.dataMessage).finish()
+      dataMessage: contentMessage.content?.dataMessage
+        ? Proto.DataMessage.encode(contentMessage.content.dataMessage)
         : undefined,
-      editMessage: contentMessage.editMessage
-        ? Proto.EditMessage.encode(contentMessage.editMessage).finish()
+      editMessage: contentMessage.content?.editMessage
+        ? Proto.EditMessage.encode(contentMessage.content.editMessage)
         : undefined,
       successfulServiceIds: senderKeyRecipients,
       unidentifiedDeliveries: senderKeyRecipients,
 
       contentHint,
       timestamp,
-      contentProto: Proto.Content.encode(contentMessage).finish(),
+      contentProto: Proto.Content.encode(contentMessage),
       recipients: senderKeyRecipientsWithDevices,
       urgent,
     };

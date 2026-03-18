@@ -42,13 +42,6 @@ import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const { clone } = lodash;
 
-const {
-  RecordStructure,
-  SessionStructure,
-  SenderKeyRecordStructure,
-  SenderKeyStateStructure,
-} = signal.proto.storage;
-
 const ZERO = new Uint8Array(0);
 
 describe('SignalProtocolStore', () => {
@@ -84,24 +77,34 @@ describe('SignalProtocolStore', () => {
   };
 
   function getSessionRecord(isOpen?: boolean): SessionRecord {
-    const proto = new RecordStructure();
-
-    proto.previousSessions = [];
+    const proto: signal.proto.storage.RecordStructure.Params = {
+      previousSessions: [],
+      currentSession: null,
+    };
 
     if (isOpen) {
-      proto.currentSession = new SessionStructure();
+      proto.currentSession = {
+        aliceBaseKey: getPublicKey(),
+        localIdentityPublic: getPublicKey(),
+        localRegistrationId: 435,
 
-      proto.currentSession.aliceBaseKey = getPublicKey();
-      proto.currentSession.localIdentityPublic = getPublicKey();
-      proto.currentSession.localRegistrationId = 435;
+        previousCounter: 1,
+        remoteIdentityPublic: getPublicKey(),
+        remoteRegistrationId: 243,
 
-      proto.currentSession.previousCounter = 1;
-      proto.currentSession.remoteIdentityPublic = getPublicKey();
-      proto.currentSession.remoteRegistrationId = 243;
+        rootKey: getPrivateKey(),
+        sessionVersion: 3,
+        senderChain: {
+          senderRatchetKey: null,
+          senderRatchetKeyPrivate: null,
+          chainKey: null,
+          messageKeys: null,
+        },
 
-      proto.currentSession.rootKey = getPrivateKey();
-      proto.currentSession.sessionVersion = 3;
-      proto.currentSession.senderChain = {};
+        receiverChains: null,
+        pendingPreKey: null,
+        needsRefresh: null,
+      };
     }
 
     return SessionRecord.deserialize(
@@ -110,37 +113,30 @@ describe('SignalProtocolStore', () => {
   }
 
   function getSenderKeyRecord(): SenderKeyRecord {
-    const proto = new SenderKeyRecordStructure();
-
-    const state = new SenderKeyStateStructure();
-
-    state.senderKeyId = 4;
-
-    const senderChainKey = new SenderKeyStateStructure.SenderChainKey();
-
-    senderChainKey.iteration = 10;
-    senderChainKey.seed = getPublicKey();
-    state.senderChainKey = senderChainKey;
-
-    const senderSigningKey = new SenderKeyStateStructure.SenderSigningKey();
-    senderSigningKey.public = getPublicKey();
-    senderSigningKey.private = getPrivateKey();
-
-    state.senderSigningKey = senderSigningKey;
-
-    state.senderMessageKeys = [];
-    const messageKey = new SenderKeyStateStructure.SenderMessageKey();
-    messageKey.iteration = 234;
-    messageKey.seed = getPublicKey();
-    state.senderMessageKeys.push(messageKey);
-
-    proto.senderKeyStates = [];
-    proto.senderKeyStates.push(state);
+    const proto: signal.proto.storage.SenderKeyRecordStructure.Params = {
+      senderKeyStates: [
+        {
+          senderKeyId: 4,
+          senderChainKey: {
+            iteration: 10,
+            seed: getPublicKey(),
+          },
+          senderSigningKey: {
+            public: getPublicKey(),
+            private: getPrivateKey(),
+          },
+          senderMessageKeys: [
+            {
+              iteration: 234,
+              seed: getPublicKey(),
+            },
+          ],
+        },
+      ],
+    };
 
     return SenderKeyRecord.deserialize(
-      Buffer.from(
-        signal.proto.storage.SenderKeyRecordStructure.encode(proto).finish()
-      )
+      Buffer.from(signal.proto.storage.SenderKeyRecordStructure.encode(proto))
     );
   }
 

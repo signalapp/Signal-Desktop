@@ -20,11 +20,11 @@ describe('callingMessageToProto', () => {
   describe('hangup field', () => {
     it('leaves the field unset if `hangup` is not provided', () => {
       const result = callingMessageToProto(new CallingMessage());
-      assert.isUndefined(result.hangup);
+      assert.isNull(result.hangup);
     });
 
     it('attaches the type if provided', () => {
-      const callId: CallId = { high: 0, low: 0, unsigned: false };
+      const callId: CallId = 0n;
 
       const callingMessage = new CallingMessage();
       callingMessage.hangup = new HangupMessage(callId, HangupType.Busy, 1);
@@ -38,7 +38,7 @@ describe('callingMessageToProto', () => {
   describe('opaque field', () => {
     it('leaves the field unset if neither `opaque` nor urgency are provided', () => {
       const result = callingMessageToProto(new CallingMessage());
-      assert.isUndefined(result.opaque);
+      assert.isNull(result.opaque);
     });
 
     it('attaches opaque data', () => {

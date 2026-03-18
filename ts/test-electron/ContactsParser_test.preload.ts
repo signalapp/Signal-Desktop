@@ -15,7 +15,6 @@ import { pipeline } from 'node:stream/promises';
 import { Transform } from 'node:stream';
 import fse from 'fs-extra';
 
-import protobuf from '../protobuf/wrap.std.js';
 import { createLogger } from '../logging/log.std.js';
 import * as Bytes from '../Bytes.std.js';
 import * as Errors from '../types/errors.std.js';
@@ -33,6 +32,7 @@ import {
 } from '../textsecure/ContactsParser.preload.js';
 import type { ContactDetailsWithAvatar } from '../textsecure/ContactsParser.preload.js';
 import { strictAssert } from '../util/assert.std.js';
+import { encodeDelimited } from '../util/encodeDelimited.std.js';
 import { toAciObject } from '../util/ServiceId.node.js';
 import {
   generateKeys,
@@ -40,8 +40,6 @@ import {
 } from '../AttachmentCrypto.node.js';
 
 const log = createLogger('ContactsParser_test');
-
-const { Writer } = protobuf;
 
 const DEFAULT_ACI = generateAci();
 
@@ -115,7 +113,7 @@ describe('ContactsParser', () => {
 
       try {
         const bytes = Bytes.concatenate([
-          generatePrefixedContact(undefined),
+          ...generatePrefixedContact(undefined),
           getTestBuffer(),
         ]);
 
@@ -195,7 +193,7 @@ function getTestBuffer(): Uint8Array {
 
   const chunks: Array<Uint8Array> = [];
   for (let i = 0; i < 3; i += 1) {
-    chunks.push(prefixedContact);
+    chunks.push(...prefixedContact);
     chunks.push(avatarBuffer);
   }
 
@@ -205,20 +203,21 @@ function getTestBuffer(): Uint8Array {
 function generatePrefixedContact(
   avatarBuffer: Uint8Array | undefined,
   aci: AciString | null = DEFAULT_ACI
-) {
+): [Uint8Array, Uint8Array] {
   const contactInfoBuffer = Proto.ContactDetails.encode({
     name: 'Zero Cool',
     number: '+10000000000',
+    aci: null,
     aciBinary: aci == null ? null : toAciObject(aci).getRawUuidBytes(),
     avatar: avatarBuffer
       ? { contentType: 'image/jpeg', length: avatarBuffer.length }
-      : undefined,
-  }).finish();
+      : null,
+    expireTimer: null,
+    expireTimerVersion: null,
+    inboxPosition: null,
+  });
 
-  const writer = new Writer();
-  writer.bytes(contactInfoBuffer);
-  const prefixedContact = writer.finish();
-  return prefixedContact;
+  return encodeDelimited(contactInfoBuffer);
 }
 
 async function verifyContact(
@@ -254,6 +253,9 @@ async function parseContactsWithSmallChunkSize({
   const smallChunksTransform = new SmallChunksTransform(32);
   const parseContactsTransform = new ParseContactsTransform();
 
+  const contacts = new Array<ContactDetailsWithAvatar>();
+  parseContactsTransform.on('data', contact => contacts.push(contact));
+
   try {
     await pipeline(readStream, smallChunksTransform, parseContactsTransform);
   } catch (error) {
@@ -271,5 +273,5 @@ async function parseContactsWithSmallChunkSize({
 
   readStream.close();
 
-  return parseContactsTransform.contacts;
+  return contacts;
 }

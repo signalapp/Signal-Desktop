@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "Rensa verifiering"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "För att verifiera totalsträckskryptering med {name}, jämför siffrorna ovan med deras enhet. De kan också skanna din kod med sin enhet."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "För att verifiera totalsträckskryptering med {name}, jämför siffrorna ovan med deras enhet. De kan också skanna din kod på sin enhet."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "Felsökningsloggar hjälper oss att diagnostisera och åtgärda problemet och innehåller inte identifierande information."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "Stäng"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "Dela felsökningslogg"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "Skicka"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "Nej tack"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "Skickar in …"
@@ -2220,16 +2211,16 @@
     "messageformat": "Det gick inte att ta bort"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "Raderingen misslyckades, klicka för mer information"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "Försök igen att radera?"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "Meddelandet kunde inte raderas. Kontrollera din anslutning och försök igen."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "Försök igen"
   },
   "icu:editFailed": {
     "messageformat": "Redigeringen misslyckades, klicka för mer information"
@@ -2244,7 +2235,7 @@
     "messageformat": "Delvis borttagen, klicka för att försöka igen"
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "Delvis raderad, klicka för mer information"
   },
   "icu:expiredWarning": {
     "messageformat": "Den här versionen av Signal Desktop har upphört att gälla. Uppgradera till den senaste versionen för att fortsätta chatta."
@@ -2451,10 +2442,10 @@
     "messageformat": "Endast administratörer kan lägga till medlemsetiketter i den här gruppen."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "Visa en gång aktiverat"
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "Visa en gång inaktiverat"
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Redigeringar kan bara tillämpas inom 24 timmar från det att du skickade det här meddelandet."
@@ -2643,13 +2634,13 @@
     "messageformat": "Det här meddelandet togs bort."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "Admin {admin} tog bort detta meddelande"
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "{name} tog bort det här meddelandet"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "Du tog bort detta meddelande"
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "Bifogade filen är för stor för att visas."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "En administratör ändrade vem som kan redigera gruppinformation till \"Alla medlemmar.\""
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "{adminName} ändrat vem som kan redigera gruppmedlemskapet till \"Endast administratörer.\""
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "Du ändrade vem som kan redigera gruppmedlemskapet till \"Endast administratörer.\""
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "{adminName} ändrat vem som kan redigera gruppmedlemskapet till \"Endast administratörer.\""
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "En administratör ändrade vem som kan redigera gruppmedlemskapet till \"Endast administratörer.\""
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "{adminName} ändrade vem som kan redigera gruppmedlemskap till \"Alla medlemmar.\""
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "Du ändrade vem som kan redigera gruppmedlemskapet till \"Alla medlemmar.\""
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "{adminName} ändrade vem som kan redigera gruppmedlemskap till \"Alla medlemmar.\""
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "En administratör ändrade vem som kan redigera gruppmedlemskapet till \"Alla medlemmar.\""
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Du inaktiverade administratörsgodkännande för grupplänken."
@@ -4647,10 +4656,10 @@
     "messageformat": "Ersätt"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "Visa en gång"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "Tillfällig mediefil"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Redigera meddelande"
@@ -4686,13 +4695,16 @@
     "messageformat": "Röst"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "Stäng av ljudet"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "Är du säker på att du vill tysta {contact}?"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "Tysta"
+  },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Remove from call"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Medlemsetiketter"
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "Vem kan redigera gruppinformation"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "Välj vem som kan redigera gruppens namn, foto, beskrivning och tidsgräns för försvinnande meddelanden."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "Välj vem som kan redigera gruppnamn, bild, beskrivning, timer för försvinnande meddelanden och nålade meddelanden."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "Välj vem som kan skicka meddelanden till gruppen."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Medlemsetiketter kommer att tas bort"
@@ -5016,7 +5031,7 @@
     "messageformat": "{count, plural, one {Ta bort meddelande?} other {Ta bort {count,number} meddelanden?}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, one {Radera valt meddelande?} other {Radera {count,number} valda meddelanden?}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, one {Vem vill du ta bort detta meddelande för?} other {Vilka vill du ta bort de här meddelandena för?}}"
@@ -5037,10 +5052,10 @@
     "messageformat": "Ta bort för alla"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "Ta bort för alla?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Som administratör kommer gruppmedlemmar att se att du har tagit bort detta meddelande.} other {Som administratör kommer gruppmedlemmar att se att du har tagit bort dessa meddelanden.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Ta bort från alla enheter"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, one {Du kan bara välja upp till {count,number} meddelande som ska tas bort för alla} other {Du kan bara välja upp till {count,number} meddelanden som ska tas bort för alla}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Discard draft?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "This action can't be undone."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Radera objekt?"
@@ -6187,13 +6208,13 @@
     "messageformat": "Säkerhetskopiering av skrivbordet"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Säkerhetskopior krypteras med en nyckel och lagras på din dator."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Skapa en totalsträckskrypterad säkerhetskopia som du kan återställa på din telefon. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "Installera en ny kopia av Signal för att återställa en säkerhetskopia. Öppna appen och tryck på Återställ säkerhetskopia. Leta sedan upp mappen för säkerhetskopian. <learnMoreLink>Läs mer.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Välj en mapp"
@@ -7986,10 +8007,9 @@
     "messageformat": "Signals säkra säkerhetskopior är här! Nu kan du välja att aktivera automatiska säkerhetskopior med totalsträckskryptering, så att du aldrig förlorar ett meddelande när du skaffar en ny telefon eller installerar om Signal. Du kan säkerhetskopiera alla dina meddelanden och de senaste 45 dagarnas media gratis, eller så kan du betala en liten månadsavgift för att få 100 GB lagringsutrymme för att säkerhetskopiera varje bilaga. Tryck på Säkerhetskopior i dina Signal-inställningar för att komma igång. Tack till alla som hjälpte till att testa den här funktionen under betaperioden!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "Nu kan du även skicka mediemeddelanden som visas en gång från Signal Desktop. Enskilda foton och videor som skickas som visa en gång-meddelanden tas automatiskt bort från en konversationstråd efter att de har visats."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

@@ -3,7 +3,6 @@
 
 import lodash from 'lodash';
 import pMap from 'p-map';
-import Long from 'long';
 
 import { DataReader, DataWriter } from '../sql/Client.preload.js';
 import * as Bytes from '../Bytes.std.js';
@@ -104,11 +103,13 @@ import { isCurrentAllChatFolder } from '../types/CurrentChatFolders.std.js';
 import type { NotificationProfileType } from '../types/NotificationProfile.std.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
 
+import { toNumber } from '../util/toNumber.std.js';
+
 const { debounce, isNumber, chunk } = lodash;
 
 const log = createLogger('storage');
 
-type IManifestRecordIdentifier = Proto.ManifestRecord.IIdentifier;
+type IManifestRecordIdentifier = Proto.ManifestRecord.Identifier.Params;
 
 const { getItemById } = DataReader;
 
@@ -154,10 +155,8 @@ const conflictBackOff = new BackOff([
 function encryptRecord(
   storageID: string | undefined,
   recordIkm: Uint8Array | undefined,
-  storageRecord: Proto.IStorageRecord
-): Proto.StorageItem {
-  const storageItem = new Proto.StorageItem();
-
+  storageRecord: Proto.StorageRecord.Params
+): Proto.StorageItem.Params {
   const storageKeyBuffer = storageID
     ? Bytes.fromBase64(storageID)
     : generateStorageID();
@@ -174,14 +173,14 @@ function encryptRecord(
   });
 
   const encryptedRecord = encryptProfile(
-    Proto.StorageRecord.encode(storageRecord).finish(),
+    Proto.StorageRecord.encode(storageRecord),
     storageItemKey
   );
 
-  storageItem.key = storageKeyBuffer;
-  storageItem.value = encryptedRecord;
-
-  return storageItem;
+  return {
+    key: storageKeyBuffer,
+    value: encryptedRecord,
+  };
 }
 
 function generateStorageID(): Uint8Array {
@@ -191,14 +190,14 @@ function generateStorageID(): Uint8Array {
 type GeneratedManifestType = {
   postUploadUpdateFunctions: Array<() => unknown>;
   recordIkm: Uint8Array | undefined;
-  recordsByID: Map<string, MergeableItemType | RemoteRecord>;
+  recordsByID: Map<string, GeneratedItemType | RemoteRecord>;
   insertKeys: Set<string>;
   deleteKeys: Set<string>;
 };
 
 async function generateManifest(
   version: number,
-  previousManifest?: Proto.IManifestRecord,
+  previousManifest?: Proto.ManifestRecord,
   isNewManifest = false
 ): Promise<GeneratedManifestType> {
   log.info(`upload(${version}): generating manifest new=${isNewManifest}`);
@@ -214,7 +213,7 @@ async function generateManifest(
   const postUploadUpdateFunctions: Array<() => unknown> = [];
   const insertKeys = new Set<string>();
   const deleteKeys = new Set<string>();
-  const recordsByID = new Map<string, MergeableItemType | RemoteRecord>();
+  const recordsByID = new Map<string, GeneratedItemType | RemoteRecord>();
 
   function processStorageRecord({
     conversation,
@@ -229,7 +228,7 @@ async function generateManifest(
     currentStorageVersion?: number | null;
     identifierType: Proto.ManifestRecord.Identifier.Type;
     storageNeedsSync: boolean;
-    storageRecord: Proto.IStorageRecord;
+    storageRecord: Proto.StorageRecord.Params;
   }) {
     const currentRedactedID = currentStorageID
       ? redactStorageID(currentStorageID, currentStorageVersion)
@@ -275,7 +274,7 @@ async function generateManifest(
     const conversation = conversations[i];
 
     let identifierType;
-    let storageRecord;
+    let storageRecord: Proto.StorageRecord.Params | undefined;
 
     if (isSignalConversation(conversation.attributes)) {
       continue;
@@ -283,11 +282,14 @@ async function generateManifest(
 
     const conversationType = typeofConversation(conversation.attributes);
     if (conversationType === ConversationTypes.Me) {
-      storageRecord = new Proto.StorageRecord();
-      // eslint-disable-next-line no-await-in-loop
-      storageRecord.account = await toAccountRecord(conversation, {
-        notificationProfileSyncDisabled,
-      });
+      storageRecord = {
+        record: {
+          // eslint-disable-next-line no-await-in-loop
+          account: await toAccountRecord(conversation, {
+            notificationProfileSyncDisabled,
+          }),
+        },
+      };
       identifierType = ITEM_TYPE.ACCOUNT;
     } else if (conversationType === ConversationTypes.Direct) {
       // Contacts must have UUID
@@ -332,17 +334,26 @@ async function generateManifest(
         continue;
       }
 
-      storageRecord = new Proto.StorageRecord();
-      // eslint-disable-next-line no-await-in-loop
-      storageRecord.contact = await toContactRecord(conversation);
+      storageRecord = {
+        record: {
+          // eslint-disable-next-line no-await-in-loop
+          contact: await toContactRecord(conversation),
+        },
+      };
       identifierType = ITEM_TYPE.CONTACT;
     } else if (conversationType === ConversationTypes.GroupV2) {
-      storageRecord = new Proto.StorageRecord();
-      storageRecord.groupV2 = toGroupV2Record(conversation);
+      storageRecord = {
+        record: {
+          groupV2: toGroupV2Record(conversation),
+        },
+      };
       identifierType = ITEM_TYPE.GROUPV2;
     } else if (conversationType === ConversationTypes.GroupV1) {
-      storageRecord = new Proto.StorageRecord();
-      storageRecord.groupV1 = toGroupV1Record(conversation);
+      storageRecord = {
+        record: {
+          groupV1: toGroupV1Record(conversation),
+        },
+      };
       identifierType = ITEM_TYPE.GROUPV1;
     } else {
       log.warn(
@@ -393,10 +404,13 @@ async function generateManifest(
   );
 
   for (const storyDistributionList of storyDistributionLists) {
-    const storageRecord = new Proto.StorageRecord();
-    storageRecord.storyDistributionList = toStoryDistributionListRecord(
-      storyDistributionList
-    );
+    const storageRecord: Proto.StorageRecord.Params = {
+      record: {
+        storyDistributionList: toStoryDistributionListRecord(
+          storyDistributionList
+        ),
+      },
+    };
 
     if (
       storyDistributionList.deletedAtTimestamp != null &&
@@ -461,9 +475,11 @@ async function generateManifest(
     );
   }
   for (const notificationProfile of notificationProfilesToUpload) {
-    const storageRecord = new Proto.StorageRecord();
-    storageRecord.notificationProfile =
-      toNotificationProfileRecord(notificationProfile);
+    const storageRecord: Proto.StorageRecord.Params = {
+      record: {
+        notificationProfile: toNotificationProfileRecord(notificationProfile),
+      },
+    };
 
     if (
       notificationProfile.deletedAtTimestampMs != null &&
@@ -520,8 +536,11 @@ async function generateManifest(
 
   let newlyUninstalledPacks = 0;
   uninstalledStickerPacks.forEach(stickerPack => {
-    const storageRecord = new Proto.StorageRecord();
-    storageRecord.stickerPack = toStickerPackRecord(stickerPack);
+    const storageRecord: Proto.StorageRecord.Params = {
+      record: {
+        stickerPack: toStickerPackRecord(stickerPack),
+      },
+    };
 
     uninstalledStickerPackIds.add(stickerPack.id);
 
@@ -561,8 +580,11 @@ async function generateManifest(
       return;
     }
 
-    const storageRecord = new Proto.StorageRecord();
-    storageRecord.stickerPack = toStickerPackRecord(stickerPack);
+    const storageRecord: Proto.StorageRecord.Params = {
+      record: {
+        stickerPack: toStickerPackRecord(stickerPack),
+      },
+    };
 
     const { isNewItem, storageID } = processStorageRecord({
       currentStorageID: stickerPack.storageID,
@@ -605,8 +627,11 @@ async function generateManifest(
       continue;
     }
 
-    const storageRecord = new Proto.StorageRecord();
-    storageRecord.callLink = toCallLinkRecord(callLinkDbRecord);
+    const storageRecord: Proto.StorageRecord.Params = {
+      record: {
+        callLink: toCallLinkRecord(callLinkDbRecord),
+      },
+    };
     const callLink = callLinkFromRecord(callLinkDbRecord);
 
     callLinkRoomIds.add(callLink.roomId);
@@ -649,8 +674,11 @@ async function generateManifest(
   );
 
   defunctCallLinks.forEach(defunctCallLink => {
-    const storageRecord = new Proto.StorageRecord();
-    storageRecord.callLink = toDefunctOrPendingCallLinkRecord(defunctCallLink);
+    const storageRecord: Proto.StorageRecord.Params = {
+      record: {
+        callLink: toDefunctOrPendingCallLinkRecord(defunctCallLink),
+      },
+    };
 
     callLinkRoomIds.add(defunctCallLink.roomId);
 
@@ -682,8 +710,11 @@ async function generateManifest(
   );
 
   pendingCallLinks.forEach(pendingCallLink => {
-    const storageRecord = new Proto.StorageRecord();
-    storageRecord.callLink = toDefunctOrPendingCallLinkRecord(pendingCallLink);
+    const storageRecord: Proto.StorageRecord.Params = {
+      record: {
+        callLink: toDefunctOrPendingCallLinkRecord(pendingCallLink),
+      },
+    };
 
     const roomId = getRoomIdFromRootKeyString(pendingCallLink.rootKey);
     if (callLinkRoomIds.has(roomId)) {
@@ -721,9 +752,11 @@ async function generateManifest(
       currentStorageVersion: chatFolder.storageVersion ?? undefined,
       identifierType: ITEM_TYPE.CHAT_FOLDER,
       storageNeedsSync: chatFolder.storageNeedsSync,
-      storageRecord: new Proto.StorageRecord({
-        chatFolder: toChatFolderRecord(chatFolder),
-      }),
+      storageRecord: {
+        record: {
+          chatFolder: toChatFolderRecord(chatFolder),
+        },
+      },
     });
 
     if (isNewItem) {
@@ -953,14 +986,14 @@ async function generateManifest(
 }
 
 type EncryptManifestOptionsType = {
-  recordsByID: Map<string, MergeableItemType | RemoteRecord>;
+  recordsByID: Map<string, GeneratedItemType | RemoteRecord>;
   recordIkm: Uint8Array | undefined;
   insertKeys: Set<string>;
 };
 
 type EncryptedManifestType = {
-  newItems: Set<Proto.IStorageItem>;
-  storageManifest: Proto.IStorageManifest;
+  newItems: Set<Proto.StorageItem.Params>;
+  storageManifest: Proto.StorageManifest.Params;
 };
 
 async function encryptManifest(
@@ -968,13 +1001,13 @@ async function encryptManifest(
   { recordsByID, recordIkm, insertKeys }: EncryptManifestOptionsType
 ): Promise<EncryptedManifestType> {
   const manifestRecordKeys: Set<IManifestRecordIdentifier> = new Set();
-  const newItems: Set<Proto.IStorageItem> = new Set();
+  const newItems: Set<Proto.StorageItem.Params> = new Set();
 
   for (const [storageID, { itemType, storageRecord }] of recordsByID) {
-    const identifier = new Proto.ManifestRecord.Identifier({
+    const identifier: Proto.ManifestRecord.Identifier.Params = {
       type: itemType,
       raw: Bytes.fromBase64(storageID),
-    });
+    };
 
     manifestRecordKeys.add(identifier);
 
@@ -999,13 +1032,12 @@ async function encryptManifest(
     }
   }
 
-  const manifestRecord = new Proto.ManifestRecord();
-  manifestRecord.version = Long.fromNumber(version);
-  manifestRecord.sourceDevice = itemStorage.user.getDeviceId() ?? 0;
-  manifestRecord.identifiers = Array.from(manifestRecordKeys);
-  if (recordIkm != null) {
-    manifestRecord.recordIkm = recordIkm;
-  }
+  const manifestRecord: Proto.ManifestRecord.Params = {
+    version: BigInt(version),
+    sourceDevice: itemStorage.user.getDeviceId() ?? 0,
+    identifiers: Array.from(manifestRecordKeys),
+    recordIkm: recordIkm ?? null,
+  };
 
   const storageKeyBase64 = itemStorage.get('storageKey');
   if (!storageKeyBase64) {
@@ -1014,20 +1046,19 @@ async function encryptManifest(
   const storageKey = Bytes.fromBase64(storageKeyBase64);
   const storageManifestKey = deriveStorageManifestKey(
     storageKey,
-    Long.fromNumber(version)
+    BigInt(version)
   );
   const encryptedManifest = encryptProfile(
-    Proto.ManifestRecord.encode(manifestRecord).finish(),
+    Proto.ManifestRecord.encode(manifestRecord),
     storageManifestKey
   );
 
-  const storageManifest = new Proto.StorageManifest();
-  storageManifest.version = manifestRecord.version;
-  storageManifest.value = encryptedManifest;
-
   return {
     newItems,
-    storageManifest,
+    storageManifest: {
+      version: manifestRecord.version,
+      value: encryptedManifest,
+    },
   };
 }
 
@@ -1048,19 +1079,18 @@ async function uploadManifest(
         `deleting=${deleteKeys.size}`
     );
 
-    const writeOperation = new Proto.WriteOperation();
-    writeOperation.manifest = storageManifest;
-    writeOperation.insertItem = Array.from(newItems);
-    writeOperation.deleteKey = Array.from(deleteKeys).map(storageID =>
-      Bytes.fromBase64(storageID)
-    );
+    const writeOperation = Proto.WriteOperation.encode({
+      manifest: storageManifest,
+      insertItem: Array.from(newItems),
+      deleteKey: Array.from(deleteKeys).map(storageID =>
+        Bytes.fromBase64(storageID)
+      ),
+      clearAll: false,
+    });
 
-    await modifyStorageRecords(
-      Proto.WriteOperation.encode(writeOperation).finish(),
-      {
-        credentials,
-      }
-    );
+    await modifyStorageRecords(writeOperation, {
+      credentials,
+    });
 
     log.info(
       `upload(${version}): upload complete, updating ` +
@@ -1141,7 +1171,7 @@ async function createNewManifest() {
 }
 
 async function decryptManifest(
-  encryptedManifest: Proto.IStorageManifest
+  encryptedManifest: Proto.StorageManifest
 ): Promise<Proto.ManifestRecord> {
   const { version, value } = encryptedManifest;
 
@@ -1201,10 +1231,16 @@ async function fetchManifest(
   return undefined;
 }
 
+type GeneratedItemType = {
+  itemType: number;
+  storageID: string;
+  storageRecord: Proto.StorageRecord.Params;
+};
+
 type MergeableItemType = {
   itemType: number;
   storageID: string;
-  storageRecord: Proto.IStorageRecord;
+  storageRecord: Proto.StorageRecord;
 };
 
 type MergedRecordType = UnknownRecord & {
@@ -1235,68 +1271,86 @@ async function mergeRecord(
     // Note: when updating this switch, update the validRecordTypes set upfile
     if (itemType === ITEM_TYPE.UNKNOWN) {
       log.warn('mergeRecord: Unknown item type', redactedStorageID);
-    } else if (itemType === ITEM_TYPE.CONTACT && storageRecord.contact) {
+    } else if (
+      itemType === ITEM_TYPE.CONTACT &&
+      storageRecord.record?.contact
+    ) {
       mergeResult = await mergeContactRecord(
         storageID,
         storageVersion,
-        storageRecord.contact
+        storageRecord.record.contact
       );
-    } else if (itemType === ITEM_TYPE.GROUPV1 && storageRecord.groupV1) {
+    } else if (
+      itemType === ITEM_TYPE.GROUPV1 &&
+      storageRecord.record?.groupV1
+    ) {
       mergeResult = await mergeGroupV1Record(
         storageID,
         storageVersion,
-        storageRecord.groupV1
+        storageRecord.record.groupV1
       );
-    } else if (itemType === ITEM_TYPE.GROUPV2 && storageRecord.groupV2) {
+    } else if (
+      itemType === ITEM_TYPE.GROUPV2 &&
+      storageRecord.record?.groupV2
+    ) {
       mergeResult = await mergeGroupV2Record(
         storageID,
         storageVersion,
-        storageRecord.groupV2
+        storageRecord.record.groupV2
       );
-    } else if (itemType === ITEM_TYPE.ACCOUNT && storageRecord.account) {
+    } else if (
+      itemType === ITEM_TYPE.ACCOUNT &&
+      storageRecord.record?.account
+    ) {
       mergeResult = await mergeAccountRecord(
         storageID,
         storageVersion,
-        storageRecord.account
+        storageRecord.record.account
       );
     } else if (
       itemType === ITEM_TYPE.STORY_DISTRIBUTION_LIST &&
-      storageRecord.storyDistributionList
+      storageRecord.record?.storyDistributionList
     ) {
       mergeResult = await mergeStoryDistributionListRecord(
         storageID,
         storageVersion,
-        storageRecord.storyDistributionList
+        storageRecord.record.storyDistributionList
       );
     } else if (
       itemType === ITEM_TYPE.STICKER_PACK &&
-      storageRecord.stickerPack
+      storageRecord.record?.stickerPack
     ) {
       mergeResult = await mergeStickerPackRecord(
         storageID,
         storageVersion,
-        storageRecord.stickerPack
+        storageRecord.record.stickerPack
       );
-    } else if (itemType === ITEM_TYPE.CALL_LINK && storageRecord.callLink) {
+    } else if (
+      itemType === ITEM_TYPE.CALL_LINK &&
+      storageRecord.record?.callLink
+    ) {
       mergeResult = await mergeCallLinkRecord(
         storageID,
         storageVersion,
-        storageRecord.callLink
+        storageRecord.record.callLink
       );
-    } else if (itemType === ITEM_TYPE.CHAT_FOLDER && storageRecord.chatFolder) {
+    } else if (
+      itemType === ITEM_TYPE.CHAT_FOLDER &&
+      storageRecord.record?.chatFolder
+    ) {
       mergeResult = await mergeChatFolderRecord(
         storageID,
         storageVersion,
-        storageRecord.chatFolder
+        storageRecord.record.chatFolder
       );
     } else if (
       itemType === ITEM_TYPE.NOTIFICATION_PROFILE &&
-      storageRecord.notificationProfile
+      storageRecord.record?.notificationProfile
     ) {
       mergeResult = await mergeNotificationProfileRecord(
         storageID,
         storageVersion,
-        storageRecord.notificationProfile
+        storageRecord.record.notificationProfile
       );
     } else {
       isUnsupported = true;
@@ -1394,7 +1448,7 @@ async function getNonConversationRecords(): Promise<NonConversationRecordsResult
 }
 
 async function processManifest(
-  manifest: Proto.IManifestRecord,
+  manifest: Proto.ManifestRecord,
   version: number
 ): Promise<void> {
   const remoteKeysTypeMap = new Map();
@@ -1805,18 +1859,17 @@ async function fetchRemoteRecords(
       batches,
       async (
         batch: ReadonlyArray<string>
-      ): Promise<Array<Proto.IStorageItem>> => {
-        const readOperation = new Proto.ReadOperation();
-        readOperation.readKey = batch.map(Bytes.fromBase64);
-
+      ): Promise<Array<Proto.StorageItem>> => {
         const storageItemsBuffer = await getStorageRecords(
-          Proto.ReadOperation.encode(readOperation).finish(),
+          Proto.ReadOperation.encode({
+            readKey: batch.map(Bytes.fromBase64),
+          }),
           {
             credentials,
           }
         );
 
-        return Proto.StorageItems.decode(storageItemsBuffer).items ?? [];
+        return Proto.StorageItems.decode(storageItemsBuffer).items;
       },
       { concurrency: 5 }
     )
@@ -1827,7 +1880,7 @@ async function fetchRemoteRecords(
   const decryptedItems = await pMap(
     storageItems,
     async (
-      storageRecordWrapper: Proto.IStorageItem
+      storageRecordWrapper: Proto.StorageItem
     ): Promise<MergeableItemType> => {
       const { key, value: storageItemCiphertext } = storageRecordWrapper;
 
@@ -1909,9 +1962,12 @@ async function processRemoteRecords(
   // Drop all GV1 records for which we have GV2 record in the same manifest
   const masterKeys = new Map<string, string>();
   for (const { itemType, storageID, storageRecord } of decryptedItems) {
-    if (itemType === ITEM_TYPE.GROUPV2 && storageRecord.groupV2?.masterKey) {
+    if (
+      itemType === ITEM_TYPE.GROUPV2 &&
+      storageRecord.record?.groupV2?.masterKey
+    ) {
       masterKeys.set(
-        Bytes.toBase64(storageRecord.groupV2.masterKey),
+        Bytes.toBase64(storageRecord.record.groupV2.masterKey),
         storageID
       );
     }
@@ -1941,7 +1997,7 @@ async function processRemoteRecords(
       }
 
       accountItem = item;
-      const record = accountItem?.storageRecord.account;
+      const record = accountItem?.storageRecord.record?.account;
 
       if (!record) {
         log.warn(
@@ -1953,11 +2009,13 @@ async function processRemoteRecords(
       return false;
     }
 
-    if (itemType !== ITEM_TYPE.GROUPV1 || !storageRecord.groupV1?.id) {
+    if (itemType !== ITEM_TYPE.GROUPV1 || !storageRecord.record?.groupV1?.id) {
       return true;
     }
 
-    const masterKey = deriveMasterKeyFromGroupV1(storageRecord.groupV1.id);
+    const masterKey = deriveMasterKeyFromGroupV1(
+      storageRecord.record?.groupV1.id
+    );
     const gv2StorageID = masterKeys.get(Bytes.toBase64(masterKey));
     if (!gv2StorageID) {
       return true;
@@ -1980,7 +2038,7 @@ async function processRemoteRecords(
   const splitPNIContacts = new Array<MergeableItemType>();
   prunedStorageItems = prunedStorageItems.filter(item => {
     const { itemType, storageRecord } = item;
-    const { contact } = storageRecord;
+    const contact = storageRecord.record?.contact;
     if (itemType !== ITEM_TYPE.CONTACT || !contact) {
       return true;
     }
@@ -2224,7 +2282,7 @@ async function sync({
     }
 
     strictAssert(manifest.version != null, 'Manifest without version');
-    const version = manifest.version?.toNumber() ?? 0;
+    const version = toNumber(manifest.version) ?? 0;
 
     await window.waitForEmptyEventQueue();
 
@@ -2446,7 +2504,7 @@ export async function reprocessUnknownFields(): Promise<void> {
               'Inserted records must have storageRecord'
             );
 
-            if (!item.storageRecord.$unknownFields?.length) {
+            if (!item.storageRecord.$unknown?.length) {
               return undefined;
             }
 
@@ -2454,7 +2512,7 @@ export async function reprocessUnknownFields(): Promise<void> {
               ...item,
 
               storageRecord: Proto.StorageRecord.decode(
-                Proto.StorageRecord.encode(item.storageRecord).finish()
+                Proto.StorageRecord.encode(item.storageRecord)
               ),
             };
           }),

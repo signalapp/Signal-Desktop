@@ -5,6 +5,7 @@ import React from 'react';
 import type {
   CallQualitySurveyPropsType,
   DeleteMessagesPropsType,
+  DiscardDraftDialogPropsType,
   EditHistoryMessagesType,
   EditNicknameAndNoteModalPropsType,
   ForwardMessagesPropsType,
@@ -98,6 +99,9 @@ export type PropsType = {
   // DeleteMessageModal
   deleteMessagesProps: DeleteMessagesPropsType | undefined;
   renderDeleteMessagesModal: () => React.JSX.Element;
+  // DiscardDraftDialog
+  discardDraftDialogProps: DiscardDraftDialogPropsType | null;
+  renderDiscardDraftDialog: () => React.JSX.Element;
   // DraftGifMessageSendModal
   draftGifMessageSendModalProps: SmartDraftGifMessageSendModalProps | null;
   renderDraftGifMessageSendModal: () => React.JSX.Element;
@@ -226,6 +230,9 @@ export function GlobalModalContainer({
   // DeleteMessageModal
   deleteMessagesProps,
   renderDeleteMessagesModal,
+  // DiscardDraftDialog
+  discardDraftDialogProps,
+  renderDiscardDraftDialog,
   // DraftGifMessageSendModal
   draftGifMessageSendModalProps,
   renderDraftGifMessageSendModal,
@@ -391,6 +398,10 @@ export function GlobalModalContainer({
 
   if (deleteMessagesProps) {
     return renderDeleteMessagesModal();
+  }
+
+  if (discardDraftDialogProps) {
+    return renderDiscardDraftDialog();
   }
 
   if (draftGifMessageSendModalProps) {

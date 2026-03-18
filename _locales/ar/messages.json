@@ -572,9 +572,6 @@
   "icu:SafetyNumberViewer__clearVerification": {
     "messageformat": "إزالة التحقُّق"
   },
-  "icu:SafetyNumberViewer__hint": {
-    "messageformat": "للتحقُّق من أمان التشفير من طرف لِطرف مع {name}، قارِن الأرقام أعلاه بأجهزته. يُمكنه أيضًا مسح الكود الخاص بك باستخدام جهازه."
-  },
   "icu:SafetyNumberViewer__hint-v2": {
     "messageformat": "للتحقُّق من أمان التشفير من طرف لِطرف مع {name}، قارِن الأرقام أعلاه بجهازه(ا). يُمكنه أيضًا مسح رمزك باستخدام جهازه(ا)."
   },
@@ -632,9 +629,6 @@
   "icu:KeyTransparencyErrorDialog__Description": {
     "messageformat": "تساعدنا سِجلات الأخطاء في تشخيص المشكلة وإصلاحها، وهي لا تحتوي على معلومات تعريفية عن المُستخدِم."
   },
-  "icu:KeyTransparencyErrorDialog__CloseButton__AccessibilityLabel": {
-    "messageformat": "إغلاق"
-  },
   "icu:KeyTransparencyErrorDialog__ShareDebugLog__Label": {
     "messageformat": "مشاركة سجل الأخطاء"
   },
@@ -643,9 +637,6 @@
   },
   "icu:KeyTransparencyErrorDialog__Submit": {
     "messageformat": "إرسال"
-  },
-  "icu:KeyTransparencyErrorDialog__Cancel": {
-    "messageformat": "لا، شكرًا"
   },
   "icu:KeyTransparencyErrorDialog__Submitting": {
     "messageformat": "جارٍ الإرسال…"
@@ -2220,16 +2211,16 @@
     "messageformat": "فشل الحذف"
   },
   "icu:deleteFailedClickForDetails": {
-    "messageformat": "Delete failed, click for details"
+    "messageformat": "فشلت عملية الحذف، انقر للحصول على التفاصيل"
   },
   "icu:retryDeleteForEveryone--title": {
-    "messageformat": "Retry failed delete?"
+    "messageformat": "هل ترغبُ بإعادة محاولة عملية الحذف؟"
   },
   "icu:retryDeleteForEveryone--body": {
-    "messageformat": "Message failed to delete. Check your connection and try again."
+    "messageformat": "تعذَّر حذف الرسالة. تحقَّق من اتصالك بالشبكة ثم حاوِل مُجدَّدًا."
   },
   "icu:retryDeleteForEveryone--tryAgain": {
-    "messageformat": "Try again"
+    "messageformat": "حاوِل مُجدَّدًا"
   },
   "icu:editFailed": {
     "messageformat": "فشل التعديل. اضغط للحصول على التفاصيل."
@@ -2244,7 +2235,7 @@
     "messageformat": "تمَّ الحذف جزئيًا. يُرجى الضغط لإعادة المحاولة."
   },
   "icu:partiallyDeleted--clickForDetails": {
-    "messageformat": "Partially deleted, click for details"
+    "messageformat": "حذف جزئي، انقر لعرض التفاصيل"
   },
   "icu:expiredWarning": {
     "messageformat": "انتهت صلاحية هذا الإصدار من سيجنال Desktop. يُرجى التحديث لأحدث إصدار للتمكُّن من التراسُل."
@@ -2451,10 +2442,10 @@
     "messageformat": "فقط المُشرِفون هم من يمكنهم تحديد أدوار الأعضاء في هذه المجموعة."
   },
   "icu:Toast--viewOnceEnabled": {
-    "messageformat": "View once enabled"
+    "messageformat": "تفعيل وضع \"عرض لمرة واحدة\""
   },
   "icu:Toast--viewOnceDisabled": {
-    "messageformat": "View once disabled"
+    "messageformat": "تعطيل وضع \"عرض لمرة واحدة\""
   },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "لا يُمكن إحداث التعديلات إلاّ في غضون 24 ساعة من وقت إرسال هذه الرسالة."
@@ -2643,13 +2634,13 @@
     "messageformat": "حُذِفَت هذه الرسالة."
   },
   "icu:message--deletedByAdmin": {
-    "messageformat": "Admin {admin} deleted this message"
+    "messageformat": "حذفَ المُشرِف {admin} هذه الرسالة."
   },
   "icu:message--deletedForEveryone--incoming": {
-    "messageformat": "{name} deleted this message"
+    "messageformat": "حذفَ {name} هذه الرسالة"
   },
   "icu:message--deletedForEveryone--outgoing": {
-    "messageformat": "You deleted this message"
+    "messageformat": "حذفتَ هذه الرسالة."
   },
   "icu:message--attachmentTooBig--one": {
     "messageformat": "تعذَّر إظهار الملف المُرفَق لأن حجمه كبير جدًا."
@@ -4022,23 +4013,41 @@
   "icu:GroupV2--access-attributes--all--unknown": {
     "messageformat": "قام أحد المُشرِفين بتغيير من يمكنه تحرير معلومات المجموعة إلى \"كل اﻷعضاء\"."
   },
-  "icu:GroupV2--access-members--admins--other": {
-    "messageformat": "قام {adminName} بتغيير من يمكنه تحرير معلومات عضوية المجموعة إلى \"المُشرِفون فقط\"."
-  },
   "icu:GroupV2--access-members--admins--you": {
     "messageformat": "قُمتَ بتغيير من يمكنه تحرير معلومات عضوية المجموعة إلى \"المُشرِفون فقط\"."
+  },
+  "icu:GroupV2--access-members--admins--other": {
+    "messageformat": "قام {adminName} بتغيير من يمكنه تحرير معلومات عضوية المجموعة إلى \"المُشرِفون فقط\"."
   },
   "icu:GroupV2--access-members--admins--unknown": {
     "messageformat": "قام أحد المُشرِفين بتغيير من بإمكانه تحرير معلومات عضوية المجموعة إلى \"المُشرِفون فقط\"."
   },
-  "icu:GroupV2--access-members--all--other": {
-    "messageformat": "قام {adminName} بتغيير من يمكنه تحرير معلومات عضوية المجموعة إلى \"كل الأعضاء\"."
-  },
   "icu:GroupV2--access-members--all--you": {
     "messageformat": "قُمتَ بتغيير من يمكنه تحرير معلومات عضوية المجموعة إلى \"كل اﻷعضاء\"."
   },
+  "icu:GroupV2--access-members--all--other": {
+    "messageformat": "قام {adminName} بتغيير من يمكنه تحرير معلومات عضوية المجموعة إلى \"كل الأعضاء\"."
+  },
   "icu:GroupV2--access-members--all--unknown": {
     "messageformat": "قام أحد المُشرِفين بتغيير من يمكنه تحرير معلومات عضوية المجموعة إلى \"كل اﻷعضاء\"."
+  },
+  "icu:GroupV2--access-member-label--admins--you": {
+    "messageformat": "You changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--admins--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+  },
+  "icu:GroupV2--access-member-label--all--you": {
+    "messageformat": "You changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--other": {
+    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+  },
+  "icu:GroupV2--access-member-label--all--unknown": {
+    "messageformat": "An admin changed who can add member labels to \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "قُمتَ بتعطيل موافقة المُشرِف على رابط المجموعة."
@@ -4647,10 +4656,10 @@
     "messageformat": "استبدال"
   },
   "icu:CompositionArea--viewOnceToggle": {
-    "messageformat": "View once"
+    "messageformat": "عرض لمرة واحدة"
   },
   "icu:CompositionArea--viewOnceMediaPlaceholder": {
-    "messageformat": "View once media"
+    "messageformat": "وسائط للمُشاهدة مرّة واحدة"
   },
   "icu:CompositionInput__editing-message": {
     "messageformat": "تعديل الرسالة"
@@ -4686,13 +4695,16 @@
     "messageformat": "مكالمة صوتية"
   },
   "icu:ContactModal--mute-audio": {
-    "messageformat": "Mute audio"
+    "messageformat": "كتم الصوت"
   },
   "icu:ContactModal--confirm-mute-body": {
-    "messageformat": "Are you sure you want to mute {contact}?"
+    "messageformat": "هل أنت مُتأكَّد من أنك تريد كتم {contact}؟"
   },
   "icu:ContactModal--confirm-mute-primary-button": {
-    "messageformat": "Mute"
+    "messageformat": "كتم"
+  },
+  "icu:ContactModal--remove-from-call": {
+    "messageformat": "Remove from call"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "دور العضو"
@@ -4784,9 +4796,6 @@
   "icu:ConversationDetails--group-info-label": {
     "messageformat": "من يستطيع تعديل معلومات المجموعة"
   },
-  "icu:ConversationDetails--group-info-info": {
-    "messageformat": "اختر الأعضاء الذين يمكنهم تحرير اسم وصورة ووصف المجموعة وكذلك مؤقِّت اختفاء الرسائل."
-  },
   "icu:ConversationDetails--group-info-info-v2": {
     "messageformat": "اختَر من يمكنه تعديل اسم وصورة المجموعة ووصفها ومؤقِّت اختفاء الرسائل وكذلك الرسائل المُثبَّتة."
   },
@@ -4801,6 +4810,12 @@
   },
   "icu:ConversationDetails--announcement-info": {
     "messageformat": "اختر الأشخاص الذين يمكنهم إرسال الرسائل إلى المجموعة."
+  },
+  "icu:ConversationDetails--member-label--label": {
+    "messageformat": "Who can add member labels"
+  },
+  "icu:ConversationDetails--member-label--info": {
+    "messageformat": "Choose who can add member labels in this group."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "سَيتم مسح أدوار الأعضاء"
@@ -5016,7 +5031,7 @@
     "messageformat": "{count, plural, zero {هل ترغبُ بحذف {count,number} رسائل؟} one {هل ترغبُ بحذف {count,number} رسالة واحدة؟} two {هل ترغبُ بحذف {count,number} رسالتين؟} few {هل ترغبُ بحذف {count,number} رسائل؟} many {هل ترغبُ بحذف {count,number} رسالة؟} other {هل ترغبُ بحذف {count,number} رسالة؟}}"
   },
   "icu:DeleteMessagesModal--title-2": {
-    "messageformat": "{count, plural, one {Delete selected message?} other {Delete selected {count,number} messages?}}"
+    "messageformat": "{count, plural, zero {هل ترغبُ بحذف الـ {count,number} رسائل المُحدَّدة؟} one {هل ترغبُ بحذف الرسالة المُحدَّدة؟} two {هل ترغبُ بحذف الـ {count,number} رسالتين المُحدَّدتين؟} few {هل ترغبُ بحذف الـ {count,number} رسائل المُحدَّدة؟} many {هل ترغبُ بحذف الـ {count,number} رسالة المُحدَّدة؟} other {هل ترغبُ بحذف الـ {count,number} رسالة المُحدَّدة؟}}"
   },
   "icu:DeleteMessagesModal--description": {
     "messageformat": "{count, plural, zero {من هم الأشخاص الذين تريد حذف هذه الرسائل لديهم؟} one {من هم الأشخاص الذين تريد حذف هذه الرسالة لديهم؟} two {من هم الأشخاص الذين تريد حذف هاتين الرسالتين لديهم؟} few {من هم الأشخاص الذين تريد حذف هذه الرسائل لديهم؟} many {من هم الأشخاص الذين تريد حذف هذه الرسائل لديهم؟} other {من هم الأشخاص الذين تريد حذف هذه الرسائل لديهم؟}}"
@@ -5037,10 +5052,10 @@
     "messageformat": "احذف للجميع"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--title": {
-    "messageformat": "Delete for everyone?"
+    "messageformat": "الحذف للجميع؟"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {As an admin, group members will see that you deleted this message.} other {As an admin, group members will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, zero {بصفتك مُشرِفًا، سيرى أعضاء المجموعة أنك حذفت هذه الرسائل.} one {بصفتك مُشرِفًا، سيرى أعضاء المجموعة أنك حذفت هذه الرسائل.} two {بصفتك مُشرِفًا، سيرى أعضاء المجموعة أنك حذفت هاتين الرسالتين.} few {بصفتك مُشرِفًا، سيرى أعضاء المجموعة أنك حذفت هذه الرسائل.} many {بصفتك مُشرِفًا، سيرى أعضاء المجموعة أنك حذفت هذه الرسائل.} other {بصفتك مُشرِفًا، سيرى أعضاء المجموعة أنك حذفت هذه الرسائل.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "احذف من كل الأجهزة"
@@ -5050,6 +5065,12 @@
   },
   "icu:DeleteMessagesModal__toast--TooManyMessagesToDeleteForEveryone": {
     "messageformat": "{count, plural, zero {يمكنك اختيار فقط ما يصل إلى {count,number} رسائل لتحذفها بالنسبة للجميع} one {يمكنك اختيار فقط ما يصل إلى {count,number} رسالة لتحذفها بالنسبة للجميع} two {يمكنك اختيار فقط ما يصل إلى {count,number} رسالتين لتحذفهما بالنسبة للجميع} few {يمكنك اختيار فقط ما يصل إلى {count,number} رسائل لتحذفها بالنسبة للجميع} many {يمكنك اختيار فقط ما يصل إلى {count,number} رسالة لتحذفها بالنسبة للجميع} other {يمكنك اختيار فقط ما يصل إلى {count,number} رسالة لتحذفها بالنسبة للجميع}}"
+  },
+  "icu:DiscardDraftDialog__title": {
+    "messageformat": "Discard draft?"
+  },
+  "icu:DiscardDraftDialog__description": {
+    "messageformat": "This action can't be undone."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "هل ترغبُ بحذف الملف المُرفَق؟"
@@ -6187,13 +6208,13 @@
     "messageformat": "النسخ الاحتياطية للحاسوب"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "يتم تشفير النسخ الاحتياطية بمفتاح ويتمُّ تخزينها على حاسوبك."
+    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "أنشِئ نسخة احتياطية مُشفَّرة من طرف لطرف يمكنك الوصول إليها من هاتفك. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "لاستعادة نسخة احتياطية، قُم بتثبيت نسخة جديدة من سيجنال. افتح التطبيق وانقر على &quot;استعادة النسخة الاحتياطية&quot;، ثم حدِّد مكان ملف النسخة الاحتياطية. <learnMoreLink>اعرف المزيد.</learnMoreLink>"
+    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "اختر مجلدًا"
@@ -7986,10 +8007,9 @@
     "messageformat": "النسخ الاحتياطية الآمنة لسيجنال أصبحت متوفِّرة الآن! يُمكنك الآن اختيار تفعيل النسخ الاحتياطي التلقائي والمُشفَّر تمامًا من طرف إلى طرف، لِضمان عدم فقدان أي رسالة عند اقتناء هاتف جديد أو إعادة تثبيت سيجنال. يُمكنك إجراء نسخ احتياطي لجميع رسائلك وللوسائط الخاصة بآخر 45 يومًا مجانًا، أو يمكنك دفع رسوم شهرية بسيطة للحصول على مساحة 100 جيجابايت لنسخ كافة الملفات المُرفَقة. انقر على النسخ الاحتياطية في إعدادات سيجنال للبدء. شكرًا لِكل من ساهم في اختبار هذه الميزة خلال الفترة التجريبية!"
   },
   "icu:WhatsNew__8.2--0": {
-    "messageformat": "Now you can send view-once media messages from Signal Desktop too. Individual photos and videos that are sent as view-once messages will be automatically removed from a conversation thread after they have been viewed."
+    "messageformat": "يمكنك الآن إرسال ملف وسائط للعرض لمرّة واحدة عبر سيجنال Desktop أيضًا. يتم حذف الصور ومقاطع الفيديو المُرسَلة كرسائل تُعرض لمرّة واحدة تلقائيًا من المحادثة بعد مشاهدتها."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control who can set a label with the \"Edit Group Info\" permission.",
-    "ignoreUnused": true
+    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
   }
 }

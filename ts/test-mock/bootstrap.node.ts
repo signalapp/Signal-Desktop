@@ -716,8 +716,9 @@ export class Bootstrap {
     return {
       size: data.byteLength,
       contentType,
-      attachmentIdentifier: 'cdnKey',
-      cdnKey,
+      attachmentIdentifier: {
+        cdnKey,
+      },
       cdnNumber,
       key: keys,
       digest,

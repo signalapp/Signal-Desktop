@@ -90,6 +90,7 @@ import { tw } from '../axo/tw.dom.js';
 import type { PollCreateType } from '../types/Polls.dom.js';
 import { PollCreateModal } from './PollCreateModal.dom.js';
 import { useDocumentKeyDown } from '../hooks/useDocumentKeyDown.dom.js';
+import { hasDraft } from '../util/hasDraft.std.js';
 
 export type OwnProps = Readonly<{
   acceptedMessageRequest: boolean | null;
@@ -490,11 +491,18 @@ export const CompositionArea = memo(function CompositionArea({
     setAttachmentToEdit(attachment);
   }
 
-  const isComposerEmpty =
-    !draftAttachments.length && !draftText && !draftEditMessage;
-
   const maybeEditMessage = useCallback(() => {
-    if (!isComposerEmpty || !lastEditableMessageId) {
+    if (lastEditableMessageId == null) {
+      return false;
+    }
+
+    const hasDraftMessage = hasDraft({
+      draft: draftText,
+      draftAttachments,
+      quotedMessageId,
+    });
+
+    if (hasDraftMessage) {
       return false;
     }
 
@@ -502,7 +510,9 @@ export const CompositionArea = memo(function CompositionArea({
     return true;
   }, [
     conversationId,
-    isComposerEmpty,
+    draftText,
+    draftAttachments,
+    quotedMessageId,
     lastEditableMessageId,
     setMessageToEdit,
   ]);
@@ -601,7 +611,14 @@ export const CompositionArea = memo(function CompositionArea({
     setLarge(l => !l);
   }, [setLarge]);
 
-  const shouldShowMicrophone = !large && isComposerEmpty;
+  const shouldShowMicrophone =
+    !large &&
+    !hasDraft({
+      draft: draftText,
+      draftAttachments,
+      // ignore quotes, can be sent with voice message
+      quotedMessageId: null,
+    });
 
   const showMediaQualitySelector = draftAttachments.some(isImageAttachment);
 

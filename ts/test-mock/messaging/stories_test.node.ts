@@ -142,50 +142,56 @@ describe('story/messaging', function (this: Mocha.Suite) {
     await phone.sendRaw(
       desktop,
       {
-        syncMessage: {
-          sent: {
-            timestamp: BigInt(sentAt),
-            expirationStartTimestamp: BigInt(sentAt),
-            storyMessage: {
-              textAttachment: {
-                text: 'hello',
-                textStyle: null,
-                textForegroundColor: null,
-                textBackgroundColor: null,
-                preview: null,
-                background: null,
+        content: {
+          syncMessage: {
+            content: {
+              sent: {
+                timestamp: BigInt(sentAt),
+                expirationStartTimestamp: BigInt(sentAt),
+                storyMessage: {
+                  attachment: {
+                    textAttachment: {
+                      text: 'hello',
+                      textStyle: null,
+                      textForegroundColor: null,
+                      textBackgroundColor: null,
+                      preview: null,
+                      background: null,
+                    },
+                  },
+                  allowsReplies: true,
+                  profileKey: null,
+                  group: null,
+                  bodyRanges: null,
+                },
+                storyMessageRecipients: [
+                  {
+                    destinationServiceIdBinary: first.device.aciBinary,
+                    distributionListIds: [DISTRIBUTION1],
+                    isAllowedToReply: true,
+                    destinationServiceId: null,
+                  },
+                  {
+                    destinationServiceIdBinary: second.device.aciBinary,
+                    distributionListIds: [DISTRIBUTION2],
+                    isAllowedToReply: true,
+                    destinationServiceId: null,
+                  },
+                ],
+                destinationE164: null,
+                message: null,
+                unidentifiedStatus: null,
+                isRecipientUpdate: null,
+                editMessage: null,
+                destinationServiceIdBinary: null,
+                destinationServiceId: null,
               },
-              allowsReplies: true,
-              profileKey: null,
-              group: null,
-              bodyRanges: null,
             },
-            storyMessageRecipients: [
-              {
-                destinationServiceIdBinary: first.device.aciBinary,
-                distributionListIds: [DISTRIBUTION1],
-                isAllowedToReply: true,
-                destinationServiceId: null,
-              },
-              {
-                destinationServiceIdBinary: second.device.aciBinary,
-                distributionListIds: [DISTRIBUTION2],
-                isAllowedToReply: true,
-                destinationServiceId: null,
-              },
-            ],
-            destinationE164: null,
-            message: null,
-            unidentifiedStatus: null,
-            isRecipientUpdate: null,
-            editMessage: null,
-            destinationServiceIdBinary: null,
-            destinationServiceId: null,
+            read: null,
+            stickerPackOperation: null,
+            viewed: null,
+            padding: null,
           },
-          read: null,
-          stickerPackOperation: null,
-          viewed: null,
-          padding: null,
         },
         pniSignatureMessage: null,
         senderKeyDistributionMessage: null,
@@ -197,15 +203,17 @@ describe('story/messaging', function (this: Mocha.Suite) {
     await first.sendRaw(
       desktop,
       {
-        dataMessage: {
-          ...EMPTY_DATA_MESSAGE,
-          body: 'first reply',
-          storyContext: {
-            authorAciBinary: phone.device.aciRawUuid,
-            sentTimestamp: BigInt(sentAt),
-            authorAci: null,
+        content: {
+          dataMessage: {
+            ...EMPTY_DATA_MESSAGE,
+            body: 'first reply',
+            storyContext: {
+              authorAciBinary: phone.device.aciRawUuid,
+              sentTimestamp: BigInt(sentAt),
+              authorAci: null,
+            },
+            timestamp: BigInt(sentAt + 1),
           },
-          timestamp: BigInt(sentAt + 1),
         },
         pniSignatureMessage: null,
         senderKeyDistributionMessage: null,
@@ -215,15 +223,17 @@ describe('story/messaging', function (this: Mocha.Suite) {
     await second.sendRaw(
       desktop,
       {
-        dataMessage: {
-          ...EMPTY_DATA_MESSAGE,
-          body: 'second reply',
-          storyContext: {
-            authorAciBinary: phone.device.aciRawUuid,
-            sentTimestamp: BigInt(sentAt),
-            authorAci: null,
+        content: {
+          dataMessage: {
+            ...EMPTY_DATA_MESSAGE,
+            body: 'second reply',
+            storyContext: {
+              authorAciBinary: phone.device.aciRawUuid,
+              sentTimestamp: BigInt(sentAt),
+              authorAci: null,
+            },
+            timestamp: BigInt(sentAt + 2),
           },
-          timestamp: BigInt(sentAt + 2),
         },
         pniSignatureMessage: null,
         senderKeyDistributionMessage: null,
@@ -279,20 +289,22 @@ describe('story/messaging', function (this: Mocha.Suite) {
     await contacts[0].sendRaw(
       desktop,
       {
-        dataMessage: {
-          ...EMPTY_DATA_MESSAGE,
-          body: 'first reply',
-          storyContext: {
-            authorAciBinary: desktop.aciRawUuid,
-            sentTimestamp: BigInt(sentAt),
-            authorAci: null,
+        content: {
+          dataMessage: {
+            ...EMPTY_DATA_MESSAGE,
+            body: 'first reply',
+            storyContext: {
+              authorAciBinary: desktop.aciRawUuid,
+              sentTimestamp: BigInt(sentAt),
+              authorAci: null,
+            },
+            groupV2: {
+              masterKey: group.masterKey,
+              revision: null,
+              groupChange: null,
+            },
+            timestamp: BigInt(sentAt + 1),
           },
-          groupV2: {
-            masterKey: group.masterKey,
-            revision: null,
-            groupChange: null,
-          },
-          timestamp: BigInt(sentAt + 1),
         },
         pniSignatureMessage: null,
         senderKeyDistributionMessage: null,

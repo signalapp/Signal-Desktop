@@ -32,6 +32,9 @@ const createProps = (): PropsType => ({
     'setAccessControlAttributesSetting'
   ),
   setAccessControlMembersSetting: action('setAccessControlMembersSetting'),
+  setAccessControlMemberLabelSetting: action(
+    'setAccessControlMemberLabelSetting'
+  ),
   setAnnouncementsOnly: action('setAnnouncementsOnly'),
 });
 

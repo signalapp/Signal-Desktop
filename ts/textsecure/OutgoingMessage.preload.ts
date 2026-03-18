@@ -8,14 +8,12 @@
 import lodash from 'lodash';
 
 import { z } from 'zod';
-import type {
-  CiphertextMessage,
-  PlaintextContent,
-} from '@signalapp/libsignal-client';
+import type { CiphertextMessage } from '@signalapp/libsignal-client';
 import {
   ErrorCode,
   LibSignalErrorBase,
   CiphertextMessageType,
+  PlaintextContent,
   ProtocolAddress,
   sealedSenderEncrypt,
   SenderCertificate,
@@ -129,7 +127,7 @@ export default class OutgoingMessage {
 
   serviceIds: ReadonlyArray<ServiceIdString>;
 
-  message: Proto.Content | PlaintextContent;
+  message: Proto.Content.Params | PlaintextContent;
 
   callback: (result: CallbackResultType) => void;
 
@@ -177,20 +175,14 @@ export default class OutgoingMessage {
     contentHint: number;
     groupId: string | undefined;
     serviceIds: ReadonlyArray<ServiceIdString>;
-    message: Proto.Content | Proto.DataMessage | PlaintextContent;
+    message: Proto.Content.Params | PlaintextContent;
     options?: OutgoingMessageOptionsType;
     sendLogCallback?: SendLogCallbackType;
     story?: boolean;
     timestamp: number;
     urgent: boolean;
   }) {
-    if (message instanceof Proto.DataMessage) {
-      const content = new Proto.Content();
-      content.dataMessage = message;
-      this.message = content;
-    } else {
-      this.message = message;
-    }
+    this.message = message;
 
     this.timestamp = timestamp;
     this.serviceIds = serviceIds;
@@ -222,17 +214,13 @@ export default class OutgoingMessage {
       let editMessage: Uint8Array | undefined;
       let hasPniSignatureMessage = false;
 
-      if (proto instanceof Proto.Content) {
-        if (proto.dataMessage) {
-          dataMessage = Proto.DataMessage.encode(proto.dataMessage).finish();
-        } else if (proto.editMessage) {
-          editMessage = Proto.EditMessage.encode(proto.editMessage).finish();
+      if (!(proto instanceof PlaintextContent)) {
+        if (proto.content?.dataMessage) {
+          dataMessage = Proto.DataMessage.encode(proto.content.dataMessage);
+        } else if (proto.content?.editMessage) {
+          editMessage = Proto.EditMessage.encode(proto.content.editMessage);
         }
         hasPniSignatureMessage = Boolean(proto.pniSignatureMessage);
-      } else if (proto instanceof Proto.DataMessage) {
-        dataMessage = Proto.DataMessage.encode(proto).finish();
-      } else if (proto instanceof Proto.EditMessage) {
-        editMessage = Proto.EditMessage.encode(proto).finish();
       }
 
       this.callback({
@@ -371,21 +359,21 @@ export default class OutgoingMessage {
     if (!this.plaintext) {
       const { message } = this;
 
-      if (message instanceof Proto.Content) {
-        this.plaintext = padMessage(Proto.Content.encode(message).finish());
-      } else {
+      if (message instanceof PlaintextContent) {
         this.plaintext = message.serialize();
+      } else {
+        this.plaintext = padMessage(Proto.Content.encode(message));
       }
     }
     return this.plaintext;
   }
 
   getContentProtoBytes(): Uint8Array | undefined {
-    if (this.message instanceof Proto.Content) {
-      return new Uint8Array(Proto.Content.encode(this.message).finish());
+    if (this.message instanceof PlaintextContent) {
+      return undefined;
     }
 
-    return undefined;
+    return Proto.Content.encode(this.message);
   }
 
   async getCiphertextMessage({
@@ -399,16 +387,16 @@ export default class OutgoingMessage {
   }): Promise<CiphertextMessage> {
     const { message } = this;
 
-    if (message instanceof Proto.Content) {
-      return signalEncrypt(
-        this.getPlaintext(),
-        protocolAddress,
-        sessionStore,
-        identityKeyStore
-      );
+    if (message instanceof PlaintextContent) {
+      return message.asCiphertextMessage();
     }
 
-    return message.asCiphertextMessage();
+    return signalEncrypt(
+      this.getPlaintext(),
+      protocolAddress,
+      sessionStore,
+      identityKeyStore
+    );
   }
 
   async doSendMessage(

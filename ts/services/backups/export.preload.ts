@@ -1,7 +1,6 @@
 // Copyright 2023 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import Long from 'long';
 import { Aci, Pni, ServiceId } from '@signalapp/libsignal-client';
 import { BackupJsonExporter } from '@signalapp/libsignal-client/dist/MessageBackup.js';
 import pMap from 'p-map';
@@ -32,7 +31,10 @@ import {
   type AciString,
   type ServiceIdString,
 } from '../../types/ServiceId.std.js';
-import type { RawBodyRange } from '../../types/BodyRange.std.js';
+import {
+  bodyRangeSchema,
+  type RawBodyRange,
+} from '../../types/BodyRange.std.js';
 import { PaymentEventKind } from '../../types/Payment.std.js';
 import { MessageRequestResponseEvent } from '../../types/MessageRequestResponseEvent.std.js';
 import type {
@@ -183,6 +185,9 @@ import { ChatFolderType } from '../../types/ChatFolder.std.js';
 import { expiresTooSoonForBackup } from './util/expiration.std.js';
 import type { PinnedMessage } from '../../types/PinnedMessage.std.js';
 import type { ThemeType } from '../../util/preload.preload.js';
+import { MAX_VALUE as LONG_MAX_VALUE } from '../../util/long.std.js';
+import { encodeDelimited } from '../../util/encodeDelimited.std.js';
+import { safeParseStrict } from '../../util/schemas.std.js';
 
 const { isNumber } = lodash;
 
@@ -234,7 +239,7 @@ type NonBubbleOptionsType = Pick<
   'aboutMe' | 'callHistoryByCallId'
 > &
   Readonly<{
-    authorId: Long | undefined;
+    authorId: bigint | undefined;
     message: MessageAttributesType;
   }>;
 
@@ -251,7 +256,10 @@ type NonBubbleResultType = Readonly<
     }
   | {
       kind: NonBubbleResultKind.Directed | NonBubbleResultKind.Directionless;
-      patch: Backups.IChatItem;
+      patch: {
+        item: Backups.ChatItem.Params['item'];
+        authorId?: bigint;
+      };
     }
 >;
 
@@ -260,11 +268,14 @@ export class BackupExportStream extends Readable {
   #now = Date.now();
 
   readonly #backupTimeMs = getSafeLongFromTimestamp(this.#now);
-  readonly #convoIdToRecipientId = new Map<string, number>();
-  readonly #serviceIdToRecipientId = new Map<string, number>();
-  readonly #e164ToRecipientId = new Map<string, number>();
-  readonly #roomIdToRecipientId = new Map<string, number>();
-  readonly #mediaNamesToFilePointers = new Map<string, Backups.FilePointer>();
+  readonly #convoIdToRecipientId = new Map<string, bigint>();
+  readonly #serviceIdToRecipientId = new Map<string, bigint>();
+  readonly #e164ToRecipientId = new Map<string, bigint>();
+  readonly #roomIdToRecipientId = new Map<string, bigint>();
+  readonly #mediaNamesToFilePointers = new Map<
+    string,
+    Backups.FilePointer.Params
+  >();
   readonly #stats: StatsType = {
     adHocCalls: 0,
     callLinks: 0,
@@ -283,15 +294,19 @@ export class BackupExportStream extends Readable {
     CoreAttachmentBackupJobType | CoreAttachmentLocalBackupJobType
   > = [];
   #buffers = new Array<Uint8Array>();
-  #nextRecipientId = 1;
+  #nextRecipientId = 1n;
   #flushResolve: (() => void) | undefined;
   #jsonExporter: BackupJsonExporter | undefined;
 
   // Map from custom color uuid to an index in accountSettings.customColors
   // array.
-  #customColorIdByUuid = new Map<string, Long>();
+  #customColorIdByUuid = new Map<string, bigint>();
 
-  constructor(private readonly options: Readonly<BackupExportOptions>) {
+  constructor(
+    private readonly options: Readonly<BackupExportOptions> & {
+      validationRun?: boolean;
+    }
+  ) {
     super();
   }
 
@@ -365,8 +380,8 @@ export class BackupExportStream extends Readable {
     );
   }
 
-  public getMediaNamesIterator(): MapIterator<string> {
-    return this.#mediaNamesToFilePointers.keys();
+  public getMediaNames(): Array<string> {
+    return [...this.#mediaNamesToFilePointers.keys()];
   }
 
   public getStats(): Readonly<StatsType> {
@@ -381,21 +396,30 @@ export class BackupExportStream extends Readable {
   async #unsafeRun(): Promise<void> {
     this.#ourConversation =
       window.ConversationController.getOurConversationOrThrow().attributes;
-    const backupInfo: Backups.IBackupInfo = {
-      version: Long.fromNumber(BACKUP_VERSION),
+    const backupInfo: Backups.BackupInfo.Params = {
+      version: BACKUP_VERSION,
       backupTimeMs: this.#backupTimeMs,
       mediaRootBackupKey: getBackupMediaRootKey().serialize(),
-      firstAppVersion: itemStorage.get('restoredBackupFirstAppVersion'),
+      firstAppVersion: itemStorage.get('restoredBackupFirstAppVersion') ?? null,
       currentAppVersion: `Desktop ${window.getVersion()}`,
+      debugInfo: null,
     };
 
-    this.push(
-      this.#getJsonIfNeeded(
-        this.options.type === 'plaintext-export'
-          ? Backups.BackupInfo.encode(backupInfo).finish()
-          : Backups.BackupInfo.encodeDelimited(backupInfo).finish()
-      )
-    );
+    if (this.options.type === 'plaintext-export') {
+      const { exporter, chunk: initialChunk } = BackupJsonExporter.start(
+        Backups.BackupInfo.encode(backupInfo),
+        { validate: false }
+      );
+
+      this.#jsonExporter = exporter;
+      this.push(`${initialChunk}\n`);
+    } else {
+      for (const chunk of encodeDelimited(
+        Backups.BackupInfo.encode(backupInfo)
+      )) {
+        this.push(chunk);
+      }
+    }
 
     this.#pushFrame({
       account: await this.#toAccountData(),
@@ -431,7 +455,7 @@ export class BackupExportStream extends Readable {
         identityKeysById,
         keyTransparencyData,
       });
-      if (recipient === undefined) {
+      if (recipient == null) {
         skippedConversationIds.add(attributes.id);
         // Can't be backed up.
         continue;
@@ -448,8 +472,8 @@ export class BackupExportStream extends Readable {
 
     this.#pushFrame({
       recipient: {
-        id: Long.fromNumber(this.#getNextRecipientId()),
-        releaseNotes: {},
+        id: this.#getNextRecipientId(),
+        destination: { releaseNotes: {} },
       },
     });
     await this.#flush();
@@ -477,23 +501,25 @@ export class BackupExportStream extends Readable {
 
       this.#pushFrame({
         recipient: {
-          id: Long.fromNumber(this.#getNextRecipientId()),
-          distributionList: {
-            distributionId: uuidToBytes(list.id),
-            deletionTimestamp: list.deletedAtTimestamp
-              ? Long.fromNumber(list.deletedAtTimestamp)
-              : null,
-
-            distributionList: list.deletedAtTimestamp
-              ? null
-              : {
-                  name: list.name,
-                  allowReplies: list.allowsReplies,
-                  privacyMode,
-                  memberRecipientIds: list.members.map(serviceId =>
-                    this.#getOrPushPrivateRecipient({ serviceId })
-                  ),
-                },
+          id: this.#getNextRecipientId(),
+          destination: {
+            distributionList: {
+              distributionId: uuidToBytes(list.id),
+              item: list.deletedAtTimestamp
+                ? {
+                    deletionTimestamp: BigInt(list.deletedAtTimestamp),
+                  }
+                : {
+                    distributionList: {
+                      name: list.name,
+                      allowReplies: list.allowsReplies,
+                      privacyMode,
+                      memberRecipientIds: list.members.map(serviceId =>
+                        this.#getOrPushPrivateRecipient({ serviceId })
+                      ),
+                    },
+                  },
+            },
           },
         },
       });
@@ -527,15 +553,17 @@ export class BackupExportStream extends Readable {
 
       this.#pushFrame({
         recipient: {
-          id: Long.fromNumber(id),
-          callLink: {
-            rootKey: rootKey.bytes,
-            adminKey: adminKey ? toAdminKeyBytes(adminKey) : null,
-            name,
-            restrictions: toCallLinkRestrictionsProto(restrictions),
-            expirationMs: isNumber(expiration)
-              ? getSafeLongFromTimestamp(expiration)
-              : null,
+          id,
+          destination: {
+            callLink: {
+              rootKey: rootKey.bytes,
+              adminKey: adminKey ? toAdminKeyBytes(adminKey) : null,
+              name,
+              restrictions: toCallLinkRestrictionsProto(restrictions),
+              expirationMs: isNumber(expiration)
+                ? getSafeLongFromTimestamp(expiration)
+                : null,
+            },
           },
         },
       });
@@ -609,13 +637,11 @@ export class BackupExportStream extends Readable {
           pinnedOrder,
           expirationTimerMs:
             attributes.expireTimer != null
-              ? Long.fromNumber(
-                  DurationInSeconds.toMillis(attributes.expireTimer)
-                )
+              ? BigInt(DurationInSeconds.toMillis(attributes.expireTimer))
               : null,
           expireTimerVersion: attributes.expireTimerVersion,
           muteUntilMs: attributes.muteExpiresAt
-            ? getSafeLongFromTimestamp(attributes.muteExpiresAt, Long.MAX_VALUE)
+            ? getSafeLongFromTimestamp(attributes.muteExpiresAt, LONG_MAX_VALUE)
             : null,
           markedUnread: attributes.markedUnread === true,
           dontNotifyForMentionsIfMuted:
@@ -655,7 +681,7 @@ export class BackupExportStream extends Readable {
       }
 
       const recipientId = this.#roomIdToRecipientId.get(roomId);
-      if (!recipientId) {
+      if (recipientId == null) {
         log.warn(
           `Dropping ad-hoc call; recipientId for roomId ${roomId.slice(-2)} not found`
         );
@@ -666,9 +692,9 @@ export class BackupExportStream extends Readable {
         continue;
       }
 
-      let callId: Long;
+      let callId: bigint;
       try {
-        callId = Long.fromString(callIdStr);
+        callId = BigInt(callIdStr);
       } catch (error) {
         log.warn('Dropping ad-hoc call; invalid callId', toLogFormat(error));
         continue;
@@ -677,9 +703,9 @@ export class BackupExportStream extends Readable {
       this.#pushFrame({
         adHocCall: {
           callId,
-          recipientId: Long.fromNumber(recipientId),
+          recipientId,
           state: toAdHocCallStateProto(status),
-          callTimestamp: Long.fromNumber(timestamp),
+          callTimestamp: BigInt(timestamp),
         },
       });
 
@@ -695,15 +721,15 @@ export class BackupExportStream extends Readable {
       const {
         id,
         name,
-        emoji,
+        emoji = null,
         color,
         createdAtMs,
         allowAllCalls,
         allowAllMentions,
         allowedMembers,
         scheduleEnabled,
-        scheduleStartTime,
-        scheduleEndTime,
+        scheduleStartTime = null,
+        scheduleEndTime = null,
         scheduleDaysEnabled,
       } = profile;
 
@@ -733,7 +759,7 @@ export class BackupExportStream extends Readable {
           scheduleEnabled,
           scheduleStartTime,
           scheduleEndTime,
-          scheduleDaysEnabled: toDayOfWeekArray(scheduleDaysEnabled),
+          scheduleDaysEnabled: toDayOfWeekArray(scheduleDaysEnabled) ?? null,
         },
       });
 
@@ -826,6 +852,11 @@ export class BackupExportStream extends Readable {
               chatItem,
             });
 
+            if (this.options.validationRun) {
+              // flush every chatItem to expose all validation errors
+              await this.#flush();
+            }
+
             this.#stats.messages += 1;
           },
           { concurrency: MAX_CONCURRENCY }
@@ -868,23 +899,16 @@ export class BackupExportStream extends Readable {
     this.push(null);
   }
 
-  #pushBuffer(buffer: Uint8Array): void {
-    this.#buffers.push(buffer);
-  }
-
-  #frameToJson(encodedFrame: Uint8Array): string {
-    let lines = '';
-
-    if (!this.#jsonExporter) {
-      const { exporter, chunk: initialChunk } = BackupJsonExporter.start(
-        encodedFrame,
-        { validate: false }
+  #pushFrame(frame: Backups.Frame.Params['item']): void {
+    const encodedFrame = Backups.Frame.encode({ item: frame });
+    if (this.options.type === 'plaintext-export') {
+      const delimitedFrame = Buffer.concat(encodeDelimited(encodedFrame));
+      strictAssert(
+        this.#jsonExporter != null,
+        'jsonExported must be initialized'
       );
 
-      lines = `${initialChunk}\n`;
-      this.#jsonExporter = exporter;
-    } else {
-      const results = this.#jsonExporter.exportFrames(encodedFrame);
+      const results = this.#jsonExporter.exportFrames(delimitedFrame);
       for (const result of results) {
         if (result.errorMessage) {
           log.warn(
@@ -895,27 +919,12 @@ export class BackupExportStream extends Readable {
         if (!result.line) {
           log.error('frameToJson: frame was filtered out by libsignal');
         } else {
-          lines += `${result.line}\n`;
+          this.#buffers.push(Buffer.from(`${result.line}\n`));
         }
       }
+    } else {
+      this.#buffers.push(...encodeDelimited(encodedFrame));
     }
-
-    return lines;
-  }
-
-  #getJsonIfNeeded(encoded: Uint8Array): Uint8Array {
-    if (this.options.type === 'plaintext-export') {
-      const json = this.#frameToJson(encoded);
-      return Buffer.from(json, 'utf-8');
-    }
-
-    return encoded;
-  }
-
-  #pushFrame(frame: Backups.IFrame): void {
-    const encodedFrame = Backups.Frame.encodeDelimited(frame).finish();
-    const toPush = this.#getJsonIfNeeded(encodedFrame);
-    this.#pushBuffer(toPush);
   }
 
   async #flush(): Promise<void> {
@@ -948,7 +957,7 @@ export class BackupExportStream extends Readable {
     this.#flushResolve?.();
   }
 
-  async #toAccountData(): Promise<Backups.IAccountData> {
+  async #toAccountData(): Promise<Backups.AccountData.Params> {
     const me = window.ConversationController.getOurConversationOrThrow();
 
     const rawPreferredReactionEmoji = itemStorage.get('preferredReactionEmoji');
@@ -995,19 +1004,19 @@ export class BackupExportStream extends Readable {
     );
 
     return {
-      profileKey: itemStorage.get('profileKey'),
+      profileKey: itemStorage.get('profileKey') ?? null,
       username: me.get('username') || null,
       usernameLink: usernameLink
         ? {
             ...usernameLink,
 
             // Same numeric value, no conversion needed
-            color: itemStorage.get('usernameLinkColor'),
+            color: itemStorage.get('usernameLinkColor') ?? null,
           }
         : null,
-      givenName: me.get('profileName'),
-      familyName: me.get('profileFamilyName'),
-      avatarUrlPath: itemStorage.get('avatarUrl'),
+      givenName: me.get('profileName') ?? null,
+      familyName: me.get('profileFamilyName') ?? null,
+      avatarUrlPath: itemStorage.get('avatarUrl') ?? null,
       backupsSubscriberData,
       donationSubscriberData:
         Bytes.isNotEmpty(subscriberId) && currencyCode
@@ -1020,52 +1029,54 @@ export class BackupExportStream extends Readable {
               ),
             }
           : null,
-      svrPin: itemStorage.get('svrPin'),
-      bioText: me.get('about'),
-      bioEmoji: me.get('aboutEmoji'),
-      keyTransparencyData,
+      svrPin: itemStorage.get('svrPin') ?? null,
+      bioText: me.get('about') ?? null,
+      bioEmoji: me.get('aboutEmoji') ?? null,
+      keyTransparencyData: keyTransparencyData ?? null,
       // Test only values
-      ...(isTestOrMockEnvironment()
-        ? {
-            androidSpecificSettings: itemStorage.get('androidSpecificSettings'),
-          }
-        : {}),
+      androidSpecificSettings: isTestOrMockEnvironment()
+        ? (itemStorage.get('androidSpecificSettings') ?? null)
+        : null,
       accountSettings: {
-        readReceipts: itemStorage.get('read-receipt-setting'),
-        sealedSenderIndicators: itemStorage.get('sealedSenderIndicators'),
+        readReceipts: itemStorage.get('read-receipt-setting') ?? null,
+        sealedSenderIndicators:
+          itemStorage.get('sealedSenderIndicators') ?? null,
         typingIndicators: getTypingIndicatorSetting(),
         linkPreviews: getLinkPreviewSetting(),
         notDiscoverableByPhoneNumber:
           parsePhoneNumberDiscoverability(
             itemStorage.get('phoneNumberDiscoverability')
           ) === PhoneNumberDiscoverability.NotDiscoverable,
-        preferContactAvatars: itemStorage.get('preferContactAvatars'),
-        universalExpireTimerSeconds: itemStorage.get('universalExpireTimer'),
-        preferredReactionEmoji,
-        displayBadgesOnProfile: itemStorage.get('displayBadgesOnProfile'),
-        keepMutedChatsArchived: itemStorage.get('keepMutedChatsArchived'),
-        hasSetMyStoriesPrivacy: itemStorage.get('hasSetMyStoriesPrivacy'),
-        hasViewedOnboardingStory: itemStorage.get('hasViewedOnboardingStory'),
-        storiesDisabled: itemStorage.get('hasStoriesDisabled'),
+        preferContactAvatars: itemStorage.get('preferContactAvatars') ?? null,
+        universalExpireTimerSeconds:
+          itemStorage.get('universalExpireTimer') ?? null,
+        preferredReactionEmoji: preferredReactionEmoji ?? null,
+        displayBadgesOnProfile:
+          itemStorage.get('displayBadgesOnProfile') ?? null,
+        keepMutedChatsArchived:
+          itemStorage.get('keepMutedChatsArchived') ?? null,
+        hasSetMyStoriesPrivacy:
+          itemStorage.get('hasSetMyStoriesPrivacy') ?? null,
+        hasViewedOnboardingStory:
+          itemStorage.get('hasViewedOnboardingStory') ?? null,
+        storiesDisabled: itemStorage.get('hasStoriesDisabled') ?? null,
         allowAutomaticKeyVerification: !itemStorage.get(
           'hasKeyTransparencyDisabled'
         ),
-        storyViewReceiptsEnabled: itemStorage.get('storyViewReceiptsEnabled'),
-        hasCompletedUsernameOnboarding: itemStorage.get(
-          'hasCompletedUsernameOnboarding'
-        ),
-        hasSeenGroupStoryEducationSheet: itemStorage.get(
-          'hasSeenGroupStoryEducationSheet'
-        ),
-        hasSeenAdminDeleteEducationDialog: itemStorage.get(
-          'hasSeenAdminDeleteEducationDialog'
-        ),
+        storyViewReceiptsEnabled:
+          itemStorage.get('storyViewReceiptsEnabled') ?? null,
+        hasCompletedUsernameOnboarding:
+          itemStorage.get('hasCompletedUsernameOnboarding') ?? null,
+        hasSeenGroupStoryEducationSheet:
+          itemStorage.get('hasSeenGroupStoryEducationSheet') ?? null,
+        hasSeenAdminDeleteEducationDialog:
+          itemStorage.get('hasSeenAdminDeleteEducationDialog') ?? null,
         phoneNumberSharingMode,
         // Note that this should be called before `toDefaultChatStyle` because
         // it builds `customColorIdByUuid`
         customChatColors: this.#toCustomChatColors(),
         defaultChatStyle: this.#toDefaultChatStyle(),
-        backupTier: backupTier != null ? Long.fromNumber(backupTier) : null,
+        backupTier: backupTier != null ? BigInt(backupTier) : null,
         appTheme,
         callsUseLessDataSetting:
           itemStorage.get('callsUseLessDataSetting') ||
@@ -1074,16 +1085,13 @@ export class BackupExportStream extends Readable {
         // Test only values
         ...(isTestOrMockEnvironment()
           ? {
-              optimizeOnDeviceStorage: itemStorage.get(
-                'optimizeOnDeviceStorage'
-              ),
-              allowSealedSenderFromAnyone: itemStorage.get(
-                'allowSealedSenderFromAnyone'
-              ),
-              pinReminders: itemStorage.get('pinReminders'),
-              screenLockTimeoutMinutes: itemStorage.get(
-                'screenLockTimeoutMinutes'
-              ),
+              optimizeOnDeviceStorage:
+                itemStorage.get('optimizeOnDeviceStorage') ?? null,
+              allowSealedSenderFromAnyone:
+                itemStorage.get('allowSealedSenderFromAnyone') ?? null,
+              pinReminders: itemStorage.get('pinReminders') ?? null,
+              screenLockTimeoutMinutes:
+                itemStorage.get('screenLockTimeoutMinutes') ?? null,
               autoDownloadSettings: autoDownloadPrimary
                 ? {
                     images: autoDownloadPrimary.photos,
@@ -1091,9 +1099,15 @@ export class BackupExportStream extends Readable {
                     video: autoDownloadPrimary.videos,
                     documents: autoDownloadPrimary.documents,
                   }
-                : undefined,
+                : null,
             }
-          : {}),
+          : {
+              optimizeOnDeviceStorage: null,
+              allowSealedSenderFromAnyone: null,
+              pinReminders: null,
+              screenLockTimeoutMinutes: null,
+              autoDownloadSettings: null,
+            }),
         defaultSentMediaQuality:
           itemStorage.get('sent-media-quality') === 'high'
             ? Backups.AccountData.SentMediaQuality.HIGH
@@ -1104,8 +1118,8 @@ export class BackupExportStream extends Readable {
 
   #getExistingRecipientId(
     options: GetRecipientIdOptionsType
-  ): Long | undefined {
-    let existing: number | undefined;
+  ): bigint | undefined {
+    let existing: bigint | undefined;
     if (options.serviceId != null) {
       existing = this.#serviceIdToRecipientId.get(options.serviceId);
     }
@@ -1115,13 +1129,10 @@ export class BackupExportStream extends Readable {
     if (existing === undefined && options.id != null) {
       existing = this.#convoIdToRecipientId.get(options.id);
     }
-    if (existing !== undefined) {
-      return Long.fromNumber(existing);
-    }
-    return undefined;
+    return existing;
   }
 
-  #getRecipientId(options: GetRecipientIdOptionsType): Long {
+  #getRecipientId(options: GetRecipientIdOptionsType): bigint {
     const existing = this.#getExistingRecipientId(options);
     if (existing !== undefined) {
       return existing;
@@ -1130,7 +1141,7 @@ export class BackupExportStream extends Readable {
     const { id, serviceId, e164 } = options;
 
     const recipientId = this.#nextRecipientId;
-    this.#nextRecipientId += 1;
+    this.#nextRecipientId += 1n;
 
     if (id !== undefined) {
       this.#convoIdToRecipientId.set(id, recipientId);
@@ -1141,57 +1152,61 @@ export class BackupExportStream extends Readable {
     if (e164 !== undefined) {
       this.#e164ToRecipientId.set(e164, recipientId);
     }
-    const result = Long.fromNumber(recipientId);
 
-    return result;
+    return recipientId;
   }
 
-  #getOrPushPrivateRecipient(options: GetRecipientIdOptionsType): Long {
+  #getOrPushPrivateRecipient(options: GetRecipientIdOptionsType): bigint {
     const existing = this.#getExistingRecipientId(options);
     const needsPush = existing == null;
     const result = this.#getRecipientId(options);
 
     if (needsPush) {
       const { serviceId, e164 } = options;
-      this.#pushFrame({
-        recipient: this.#toRecipient(result, {
-          type: 'private',
-          serviceId,
-          pni: isPniString(serviceId) ? serviceId : undefined,
-          e164,
-        }),
+      const recipient = this.#toRecipient(result, {
+        type: 'private',
+        serviceId,
+        pni: isPniString(serviceId) ? serviceId : undefined,
+        e164,
       });
+
+      if (recipient != null) {
+        this.#pushFrame({ recipient });
+      }
     }
 
     return result;
   }
 
-  #getNextRecipientId(): number {
+  #getNextRecipientId(): bigint {
     const recipientId = this.#nextRecipientId;
-    this.#nextRecipientId += 1;
+    this.#nextRecipientId += 1n;
 
     return recipientId;
   }
 
   #toRecipient(
-    recipientId: Long,
+    recipientId: bigint,
     convo: Omit<
       ConversationAttributesType,
       'id' | 'version' | 'expireTimerVersion'
     >,
     options?: ToRecipientOptionsType
-  ): Backups.IRecipient | undefined {
-    const res: Backups.IRecipient = {
-      id: recipientId,
-    };
-
+  ): Backups.Recipient.Params | null {
     if (isMe(convo)) {
-      res.self = {
-        avatarColor: toAvatarColor(convo.color),
+      return {
+        id: recipientId,
+        destination: {
+          self: {
+            avatarColor: toAvatarColor(convo.color) ?? null,
+          },
+        },
       };
-    } else if (isDirectConversation(convo)) {
+    }
+
+    if (isDirectConversation(convo)) {
       if (convo.serviceId != null && isSignalServiceId(convo.serviceId)) {
-        return undefined;
+        return null;
       }
 
       if (convo.serviceId != null && !isServiceIdString(convo.serviceId)) {
@@ -1199,17 +1214,17 @@ export class BackupExportStream extends Readable {
           'skipping conversation with invalid serviceId',
           convo.serviceId
         );
-        return undefined;
+        return null;
       }
 
       if (convo.e164 != null && !isValidE164(convo.e164, true)) {
         log.warn('skipping conversation with invalid e164', convo.serviceId);
-        return undefined;
+        return null;
       }
 
       if (convo.serviceId == null && convo.e164 == null) {
         log.warn('skipping conversation with neither serviceId nor e164');
-        return undefined;
+        return null;
       }
 
       let visibility: Backups.Contact.Visibility;
@@ -1238,59 +1253,65 @@ export class BackupExportStream extends Readable {
       const pni = isPniString(maybePni)
         ? Pni.parseFromServiceIdString(maybePni).getRawUuidBytes()
         : null;
-      const e164 = convo.e164 ? Long.fromString(convo.e164) : null;
+      const e164 = convo.e164 ? BigInt(convo.e164) : null;
 
       strictAssert(
         aci != null || pni != null || e164 != null,
         'Contact has no identifier'
       );
 
-      res.contact = {
-        aci,
-        pni,
-        e164,
-        username: convo.username,
-        blocked: convo.serviceId
-          ? itemStorage.blocked.isServiceIdBlocked(convo.serviceId)
-          : null,
-        visibility,
-        ...(convo.discoveredUnregisteredAt
-          ? {
-              notRegistered: {
-                unregisteredTimestamp: convo.firstUnregisteredAt
-                  ? getSafeLongFromTimestamp(convo.firstUnregisteredAt)
-                  : null,
-              },
-            }
-          : {
-              registered: {},
-            }),
-        profileKey: convo.profileKey
-          ? Bytes.fromBase64(convo.profileKey)
-          : null,
-        profileSharing: convo.profileSharing,
-        profileGivenName: convo.profileName,
-        profileFamilyName: convo.profileFamilyName,
-        systemFamilyName: convo.systemFamilyName,
-        systemGivenName: convo.systemGivenName,
-        systemNickname: convo.systemNickname,
-        hideStory: convo.hideStory === true,
-        identityKey: identityKey?.publicKey || null,
-        avatarColor: toAvatarColor(convo.color),
-        keyTransparencyData: options?.keyTransparencyData,
+      return {
+        id: recipientId,
+        destination: {
+          contact: {
+            aci,
+            pni,
+            e164,
+            username: convo.username ?? null,
+            blocked: convo.serviceId
+              ? itemStorage.blocked.isServiceIdBlocked(convo.serviceId)
+              : null,
+            visibility,
+            registration: convo.discoveredUnregisteredAt
+              ? {
+                  notRegistered: {
+                    unregisteredTimestamp: convo.firstUnregisteredAt
+                      ? getSafeLongFromTimestamp(convo.firstUnregisteredAt)
+                      : null,
+                  },
+                }
+              : {
+                  registered: {},
+                },
+            profileKey: convo.profileKey
+              ? Bytes.fromBase64(convo.profileKey)
+              : null,
+            profileSharing: convo.profileSharing ?? null,
+            profileGivenName: convo.profileName ?? null,
+            profileFamilyName: convo.profileFamilyName ?? null,
+            systemFamilyName: convo.systemFamilyName ?? null,
+            systemGivenName: convo.systemGivenName ?? null,
+            systemNickname: convo.systemNickname ?? null,
+            hideStory: convo.hideStory === true,
+            identityKey: identityKey?.publicKey || null,
+            avatarColor: toAvatarColor(convo.color) ?? null,
+            keyTransparencyData: options?.keyTransparencyData ?? null,
 
-        // Integer values match so we can use it as is
-        identityState: identityKey?.verified ?? 0,
-        nickname:
-          nicknameGivenName || nicknameFamilyName
-            ? {
-                given: nicknameGivenName,
-                family: nicknameFamilyName,
-              }
-            : null,
-        note,
+            // Integer values match so we can use it as is
+            identityState: identityKey?.verified ?? 0,
+            nickname:
+              nicknameGivenName || nicknameFamilyName
+                ? {
+                    given: nicknameGivenName ?? null,
+                    family: nicknameFamilyName ?? null,
+                  }
+                : null,
+            note: note ?? null,
+          },
+        },
       };
-    } else if (isGroupV2(convo) && convo.masterKey) {
+    }
+    if (isGroupV2(convo) && convo.masterKey) {
       let storySendMode: Backups.Group.StorySendMode;
       switch (convo.storySendMode) {
         case StorySendMode.Always:
@@ -1306,81 +1327,105 @@ export class BackupExportStream extends Readable {
 
       const masterKey = Bytes.fromBase64(convo.masterKey);
 
-      res.group = {
-        masterKey,
-        whitelisted: convo.profileSharing,
-        hideStory: convo.hideStory === true,
-        storySendMode,
-        blocked: convo.groupId
-          ? itemStorage.blocked.isGroupBlocked(convo.groupId)
-          : false,
-        avatarColor: toAvatarColor(convo.color),
-        snapshot: {
-          title: {
-            title: convo.name?.trim() ?? '',
-          },
-          description:
-            convo.description != null
-              ? {
-                  descriptionText: convo.description.trim(),
-                }
-              : null,
-          avatarUrl: convo.avatar?.url,
-          disappearingMessagesTimer:
-            convo.expireTimer != null
-              ? {
-                  disappearingMessagesDuration: DurationInSeconds.toSeconds(
-                    convo.expireTimer
-                  ),
-                }
-              : null,
-          accessControl: convo.accessControl,
-          version: convo.revision || 0,
-          members: convo.membersV2?.map(member => {
-            return {
-              joinedAtVersion: member.joinedAtVersion,
-              labelEmoji: member.labelEmoji,
-              labelString: member.labelString,
-              role: member.role,
-              userId: this.#aciToBytes(member.aci),
-            };
-          }),
-          membersPendingProfileKey: convo.pendingMembersV2?.map(member => {
-            return {
-              member: {
-                userId: this.#serviceIdToBytes(member.serviceId),
-                role: member.role,
-                joinedAtVersion: 0,
+      return {
+        id: recipientId,
+        destination: {
+          group: {
+            masterKey,
+            whitelisted: convo.profileSharing ?? null,
+            hideStory: convo.hideStory === true,
+            storySendMode,
+            blocked: convo.groupId
+              ? itemStorage.blocked.isGroupBlocked(convo.groupId)
+              : false,
+            avatarColor: toAvatarColor(convo.color) ?? null,
+            snapshot: {
+              title: {
+                content: {
+                  title: convo.name?.trim() ?? '',
+                },
               },
-              addedByUserId: this.#aciToBytes(member.addedByUserId),
-              timestamp: getSafeLongFromTimestamp(member.timestamp),
-            };
-          }),
-          membersPendingAdminApproval: convo.pendingAdminApprovalV2?.map(
-            member => {
-              return {
-                userId: this.#aciToBytes(member.aci),
-                timestamp: getSafeLongFromTimestamp(member.timestamp),
-              };
-            }
-          ),
-          membersBanned: convo.bannedMembersV2?.map(member => {
-            return {
-              userId: this.#serviceIdToBytes(member.serviceId),
-              timestamp: getSafeLongFromTimestamp(member.timestamp),
-            };
-          }),
-          inviteLinkPassword: convo.groupInviteLinkPassword
-            ? Bytes.fromBase64(convo.groupInviteLinkPassword)
-            : null,
-          announcementsOnly: convo.announcementsOnly === true,
+              description:
+                convo.description != null
+                  ? {
+                      content: {
+                        descriptionText: convo.description.trim(),
+                      },
+                    }
+                  : null,
+              avatarUrl: convo.avatar?.url ?? null,
+              disappearingMessagesTimer:
+                convo.expireTimer != null
+                  ? {
+                      content: {
+                        disappearingMessagesDuration:
+                          DurationInSeconds.toSeconds(convo.expireTimer),
+                      },
+                    }
+                  : null,
+              accessControl: convo.accessControl
+                ? {
+                    ...convo.accessControl,
+                    memberLabel: convo.accessControl.memberLabel ?? null,
+                  }
+                : null,
+              version: convo.revision || 0,
+              members:
+                convo.membersV2?.map(member => {
+                  return {
+                    joinedAtVersion: member.joinedAtVersion,
+                    ...(member.labelString
+                      ? {
+                          labelEmoji: member.labelEmoji ?? null,
+                          labelString: member.labelString,
+                        }
+                      : {
+                          labelEmoji: null,
+                          labelString: null,
+                        }),
+                    role: member.role,
+                    userId: this.#aciToBytes(member.aci),
+                  };
+                }) ?? null,
+              membersPendingProfileKey:
+                convo.pendingMembersV2?.map(member => {
+                  return {
+                    member: {
+                      userId: this.#serviceIdToBytes(member.serviceId),
+                      role: member.role,
+                      joinedAtVersion: 0,
+                      labelEmoji: null,
+                      labelString: null,
+                    },
+                    addedByUserId: this.#aciToBytes(member.addedByUserId),
+                    timestamp: getSafeLongFromTimestamp(member.timestamp),
+                  };
+                }) ?? null,
+              membersPendingAdminApproval:
+                convo.pendingAdminApprovalV2?.map(member => {
+                  return {
+                    userId: this.#aciToBytes(member.aci),
+                    timestamp: getSafeLongFromTimestamp(member.timestamp),
+                  };
+                }) ?? null,
+              membersBanned:
+                convo.bannedMembersV2?.map(member => {
+                  return {
+                    userId: this.#serviceIdToBytes(member.serviceId),
+                    timestamp: getSafeLongFromTimestamp(member.timestamp),
+                  };
+                }) ?? null,
+              inviteLinkPassword: convo.groupInviteLinkPassword
+                ? Bytes.fromBase64(convo.groupInviteLinkPassword)
+                : null,
+              announcementsOnly: convo.announcementsOnly === true,
+            },
+          },
         },
       };
-    } else {
-      return undefined;
     }
 
-    return res;
+    return null;
   }
 
   async #toChatItem(
@@ -1390,7 +1435,7 @@ export class BackupExportStream extends Readable {
       callHistoryByCallId,
       pinnedMessagesByMessageId,
     }: ToChatItemOptionsType
-  ): Promise<Backups.IChatItem | undefined> {
+  ): Promise<Backups.ChatItem.Params | undefined> {
     const conversation = window.ConversationController.get(
       message.conversationId
     );
@@ -1438,13 +1483,12 @@ export class BackupExportStream extends Readable {
       }
     }
 
-    let authorId: Long | undefined;
+    let authorId: bigint | undefined;
 
     const isOutgoing = message.type === 'outgoing';
     const isIncoming = message.type === 'incoming';
 
-    // Pacify typescript
-    if (message.sourceServiceId) {
+    if (message.sourceServiceId && isAciString(message.sourceServiceId)) {
       authorId = this.#getOrPushPrivateRecipient({
         serviceId: message.sourceServiceId,
         e164: message.source,
@@ -1466,7 +1510,7 @@ export class BackupExportStream extends Readable {
 
         // Fix conversation id for misattributed e164-only incoming 1:1
         // messages.
-        if (authorId.neq(convoAuthor)) {
+        if (authorId !== convoAuthor) {
           authorId = convoAuthor;
           this.#stats.fixedDirectMessages += 1;
         }
@@ -1484,13 +1528,11 @@ export class BackupExportStream extends Readable {
       strictAssert(authorId, 'Incoming/outgoing messages require an author');
     }
 
-    let expireStartDate: Long | undefined;
-    let expiresInMs: Long | undefined;
+    let expireStartDate: bigint | null = null;
+    let expiresInMs: bigint | null = null;
 
     if (message.expireTimer != null) {
-      expiresInMs = Long.fromNumber(
-        DurationInSeconds.toMillis(message.expireTimer)
-      );
+      expiresInMs = BigInt(DurationInSeconds.toMillis(message.expireTimer));
 
       if (message.expirationStartTimestamp != null) {
         expireStartDate = getSafeLongFromTimestamp(
@@ -1499,7 +1541,10 @@ export class BackupExportStream extends Readable {
       }
     }
 
-    const result: Backups.IChatItem = {
+    const base: Omit<
+      Backups.ChatItem.Params,
+      'directionalDetails' | 'item' | 'pinDetails' | 'revisions'
+    > = {
       chatId,
       authorId,
       dateSent: getSafeLongFromTimestamp(
@@ -1507,9 +1552,13 @@ export class BackupExportStream extends Readable {
       ),
       expireStartDate,
       expiresInMs,
-      revisions: [],
       sms: message.sms === true,
     };
+
+    let directionalDetails: Backups.ChatItem.Params['directionalDetails'] =
+      null;
+    let item: Backups.ChatItem.Params['item'];
+    let revisions: Backups.ChatItem.Params['revisions'] = null;
 
     if (!isNormalBubble(message)) {
       const { patch, kind } = await this.#toChatItemFromNonBubble({
@@ -1533,69 +1582,96 @@ export class BackupExportStream extends Readable {
         });
 
         if (authorId === me) {
-          result.outgoing = this.#getOutgoingMessageDetails(
-            message.sent_at,
-            message,
-            { conversationId: message.conversationId }
-          );
+          directionalDetails = {
+            outgoing: this.#getOutgoingMessageDetails(
+              message.sent_at,
+              message,
+              { conversationId: message.conversationId }
+            ),
+          };
         } else {
-          result.incoming = this.#getIncomingMessageDetails(message);
+          directionalDetails = {
+            incoming: this.#getIncomingMessageDetails(message),
+          };
         }
       } else if (kind === NonBubbleResultKind.Directionless) {
-        result.directionless = {};
+        directionalDetails = {
+          directionless: {},
+        };
       } else {
         throw missingCaseError(kind);
       }
 
-      return { ...result, ...patch };
+      return {
+        ...base,
+        directionalDetails,
+        ...patch,
+        revisions: null,
+        pinDetails: null,
+      };
     }
 
     const { contact, sticker } = message;
     if (isTapToView(message)) {
-      result.viewOnceMessage = await this.#toViewOnceMessage({
-        message,
-      });
+      item = {
+        viewOnceMessage: await this.#toViewOnceMessage({
+          message,
+        }),
+      };
     } else if (message.deletedForEveryone) {
       if (message.deletedForEveryoneByAdminAci) {
-        result.adminDeletedMessage = {
-          adminId: this.#getOrPushPrivateRecipient({
-            serviceId: message.deletedForEveryoneByAdminAci,
-          }),
+        item = {
+          adminDeletedMessage: {
+            adminId: this.#getOrPushPrivateRecipient({
+              serviceId: message.deletedForEveryoneByAdminAci,
+            }),
+          },
         };
       } else {
-        result.remoteDeletedMessage = {};
+        item = { remoteDeletedMessage: {} };
       }
     } else if (messageHasPaymentEvent(message)) {
       const { payment } = message;
       switch (payment.kind) {
         case PaymentEventKind.ActivationRequest: {
-          result.directionless = {};
-          result.updateMessage = {
-            simpleUpdate: {
-              type: Backups.SimpleChatUpdate.Type.PAYMENT_ACTIVATION_REQUEST,
+          directionalDetails = { directionless: {} };
+          item = {
+            updateMessage: {
+              update: {
+                simpleUpdate: {
+                  type: Backups.SimpleChatUpdate.Type
+                    .PAYMENT_ACTIVATION_REQUEST,
+                },
+              },
             },
           };
           break;
         }
         case PaymentEventKind.Activation: {
-          result.directionless = {};
-          result.updateMessage = {
-            simpleUpdate: {
-              type: Backups.SimpleChatUpdate.Type.PAYMENTS_ACTIVATED,
+          directionalDetails = { directionless: {} };
+          item = {
+            updateMessage: {
+              update: {
+                simpleUpdate: {
+                  type: Backups.SimpleChatUpdate.Type.PAYMENTS_ACTIVATED,
+                },
+              },
             },
           };
           break;
         }
         case PaymentEventKind.Notification:
-          result.paymentNotification = {
-            note: payment.note ?? null,
-            amountMob: payment.amountMob,
-            feeMob: payment.feeMob,
-            transactionDetails: payment.transactionDetailsBase64
-              ? Backups.PaymentNotification.TransactionDetails.decode(
-                  Bytes.fromBase64(payment.transactionDetailsBase64)
-                )
-              : undefined,
+          item = {
+            paymentNotification: {
+              note: payment.note ?? null,
+              amountMob: payment.amountMob ?? null,
+              feeMob: payment.feeMob ?? null,
+              transactionDetails: payment.transactionDetailsBase64
+                ? Backups.PaymentNotification.TransactionDetails.decode(
+                    Bytes.fromBase64(payment.transactionDetailsBase64)
+                  )
+                : null,
+            },
           };
           break;
         default:
@@ -1603,60 +1679,83 @@ export class BackupExportStream extends Readable {
       }
     } else if (contact && contact[0]) {
       const [contactDetails] = contact;
-      const contactMessage = new Backups.ContactMessage();
 
-      contactMessage.contact = {
-        ...contactDetails,
-        number: contactDetails.number?.map(number => ({
-          ...number,
-          type: numberToPhoneType(number.type),
-        })),
-        email: contactDetails.email?.map(email => ({
-          ...email,
-          type: numberToPhoneType(email.type),
-        })),
-        address: contactDetails.address?.map(address => ({
-          ...address,
-          type: numberToAddressType(address.type),
-        })),
-        avatar: contactDetails.avatar?.avatar
-          ? await this.#processAttachment({
-              attachment: contactDetails.avatar.avatar,
-              messageReceivedAt: message.received_at,
-            })
-          : undefined,
+      item = {
+        contactMessage: {
+          contact: {
+            name: contactDetails.name
+              ? {
+                  givenName: contactDetails.name.givenName ?? null,
+                  familyName: contactDetails.name.familyName ?? null,
+                  prefix: contactDetails.name.prefix ?? null,
+                  suffix: contactDetails.name.suffix ?? null,
+                  middleName: contactDetails.name.middleName ?? null,
+                  nickname: contactDetails.name.nickname ?? null,
+                }
+              : null,
+            number:
+              contactDetails.number?.map(number => ({
+                value: number.value,
+                type: numberToPhoneType(number.type),
+                label: number.label ?? null,
+              })) ?? null,
+            email:
+              contactDetails.email?.map(email => ({
+                value: email.value,
+                type: numberToPhoneType(email.type),
+                label: email.label ?? null,
+              })) ?? null,
+            address:
+              contactDetails.address?.map(address => ({
+                type: numberToAddressType(address.type),
+                label: address.label ?? null,
+                street: address.street ?? null,
+                pobox: address.pobox ?? null,
+                neighborhood: address.neighborhood ?? null,
+                city: address.city ?? null,
+                region: address.region ?? null,
+                postcode: address.postcode ?? null,
+                country: address.country ?? null,
+              })) ?? null,
+            avatar: contactDetails.avatar?.avatar
+              ? await this.#processAttachment({
+                  attachment: contactDetails.avatar.avatar,
+                  messageReceivedAt: message.received_at,
+                })
+              : null,
+            organization: contactDetails.organization ?? null,
+          },
+          reactions: this.#getMessageReactions(message),
+        },
       };
-
-      const reactions = this.#getMessageReactions(message);
-      if (reactions != null) {
-        contactMessage.reactions = reactions;
-      }
-
-      result.contactMessage = contactMessage;
     } else if (sticker) {
-      const stickerProto = new Backups.Sticker();
-      stickerProto.emoji = sticker.emoji;
-      stickerProto.packId = Bytes.fromHex(sticker.packId);
-      stickerProto.packKey = Bytes.fromBase64(sticker.packKey);
-      stickerProto.stickerId = sticker.stickerId;
-      stickerProto.data = sticker.data
-        ? await this.#processAttachment({
-            attachment: sticker.data,
-            messageReceivedAt: message.received_at,
-          })
-        : undefined;
-
-      result.stickerMessage = {
-        sticker: stickerProto,
-        reactions: this.#getMessageReactions(message),
+      item = {
+        stickerMessage: {
+          sticker: {
+            emoji: sticker.emoji ?? null,
+            packId: Bytes.fromHex(sticker.packId),
+            packKey: Bytes.fromBase64(sticker.packKey),
+            stickerId: sticker.stickerId,
+            data: sticker.data
+              ? await this.#processAttachment({
+                  attachment: sticker.data,
+                  messageReceivedAt: message.received_at,
+                })
+              : null,
+          },
+          reactions: this.#getMessageReactions(message),
+        },
       };
     } else if (isGiftBadge(message)) {
       const { giftBadge } = message;
       strictAssert(giftBadge != null, 'Message must have gift badge');
 
       if (giftBadge.state === GiftBadgeStates.Failed) {
-        result.giftBadge = {
-          state: Backups.GiftBadge.State.FAILED,
+        item = {
+          giftBadge: {
+            state: Backups.GiftBadge.State.FAILED,
+            receiptCredentialPresentation: null,
+          },
         };
       } else {
         let state: Backups.GiftBadge.State;
@@ -1674,132 +1773,151 @@ export class BackupExportStream extends Readable {
             throw missingCaseError(giftBadge);
         }
 
-        result.giftBadge = {
-          receiptCredentialPresentation: Bytes.fromBase64(
-            giftBadge.receiptCredentialPresentation
-          ),
-          state,
+        item = {
+          giftBadge: {
+            receiptCredentialPresentation: Bytes.fromBase64(
+              giftBadge.receiptCredentialPresentation
+            ),
+            state,
+          },
         };
       }
-    } else if (message.storyReplyContext) {
-      result.directStoryReplyMessage = await this.#toDirectStoryReplyMessage({
-        message,
-      });
+    } else if (message.storyReplyContext || message.storyReaction) {
+      item = {
+        directStoryReplyMessage: await this.#toDirectStoryReplyMessage({
+          message,
+        }),
+      };
 
-      result.revisions = await this.#toChatItemRevisions(result, message);
+      revisions = await this.#toChatItemRevisions(base, item, message);
     } else if (message.poll) {
       const { poll } = message;
-      const pollMessage = new Backups.Poll();
+      item = {
+        poll: {
+          question: poll.question,
+          allowMultiple: poll.allowMultiple,
+          hasEnded: poll.terminatedAt != null,
+          options: poll.options.map((optionText, optionIndex) => {
+            const votesForThisOption = new Map<string, number>();
 
-      pollMessage.question = poll.question;
-      pollMessage.allowMultiple = poll.allowMultiple;
-      pollMessage.hasEnded = poll.terminatedAt != null;
+            if (poll.votes) {
+              for (const vote of poll.votes) {
+                // Skip votes that have not been sent
+                if (vote.sendStateByConversationId) {
+                  continue;
+                }
 
-      pollMessage.options = poll.options.map((optionText, optionIndex) => {
-        const pollOption = new Backups.Poll.PollOption();
-        pollOption.option = optionText;
-
-        const votesForThisOption = new Map<string, number>();
-
-        if (poll.votes) {
-          for (const vote of poll.votes) {
-            // Skip votes that have not been sent
-            if (vote.sendStateByConversationId) {
-              continue;
+                // If we somehow have multiple votes from the same person
+                // (shouldn't happen, just in case) only keep the highest voteCount
+                const maybeExistingVoteFromThisConversation =
+                  votesForThisOption.get(vote.fromConversationId);
+                if (
+                  vote.optionIndexes.includes(optionIndex) &&
+                  (!maybeExistingVoteFromThisConversation ||
+                    vote.voteCount > maybeExistingVoteFromThisConversation)
+                ) {
+                  votesForThisOption.set(
+                    vote.fromConversationId,
+                    vote.voteCount
+                  );
+                }
+              }
             }
 
-            // If we somehow have multiple votes from the same person
-            // (shouldn't happen, just in case) only keep the highest voteCount
-            const maybeExistingVoteFromThisConversation =
-              votesForThisOption.get(vote.fromConversationId);
-            if (
-              vote.optionIndexes.includes(optionIndex) &&
-              (!maybeExistingVoteFromThisConversation ||
-                vote.voteCount > maybeExistingVoteFromThisConversation)
-            ) {
-              votesForThisOption.set(vote.fromConversationId, vote.voteCount);
-            }
-          }
-        }
+            const votes = Array.from(votesForThisOption.entries()).map(
+              ([conversationId, voteCount]) => {
+                const voterConvo =
+                  window.ConversationController.get(conversationId);
+                let voterId: bigint | null = null;
+                if (voterConvo) {
+                  voterId = this.#getOrPushPrivateRecipient(
+                    voterConvo.attributes
+                  );
+                }
 
-        pollOption.votes = Array.from(votesForThisOption.entries()).map(
-          ([conversationId, voteCount]) => {
-            const pollVote = new Backups.Poll.PollOption.PollVote();
+                return {
+                  voterId,
+                  voteCount,
+                };
+              }
+            );
 
-            const voterConvo =
-              window.ConversationController.get(conversationId);
-            if (voterConvo) {
-              pollVote.voterId = this.#getOrPushPrivateRecipient(
-                voterConvo.attributes
-              );
-            }
-
-            pollVote.voteCount = voteCount;
-            return pollVote;
-          }
-        );
-
-        return pollOption;
-      });
-
-      const reactions = this.#getMessageReactions(message);
-      if (reactions != null) {
-        pollMessage.reactions = reactions;
-      }
-
-      result.poll = pollMessage;
+            return {
+              option: optionText,
+              votes,
+            };
+          }),
+          reactions: this.#getMessageReactions(message),
+        },
+      };
     } else if (message.pollTerminateNotification) {
       // TODO (DESKTOP-9282)
       return undefined;
+    } else if (message.isErased) {
+      return undefined;
     } else {
-      result.standardMessage = await this.#toStandardMessage({
-        message,
-      });
+      item = {
+        standardMessage: await this.#toStandardMessage({
+          message,
+        }),
+      };
 
-      result.revisions = await this.#toChatItemRevisions(result, message);
+      revisions = await this.#toChatItemRevisions(base, item, message);
     }
 
-    if (isOutgoing) {
-      result.outgoing = this.#getOutgoingMessageDetails(
-        message.sent_at,
-        message,
-        { conversationId: message.conversationId }
-      );
-    } else {
-      result.incoming = this.#getIncomingMessageDetails(message);
+    if (directionalDetails == null) {
+      if (isOutgoing) {
+        directionalDetails = {
+          outgoing: this.#getOutgoingMessageDetails(message.sent_at, message, {
+            conversationId: message.conversationId,
+          }),
+        };
+      } else {
+        directionalDetails = {
+          incoming: this.#getIncomingMessageDetails(message),
+        };
+      }
     }
 
     const pinnedMessage = pinnedMessagesByMessageId[message.id];
+
+    let pinDetails: Backups.ChatItem.PinDetails.Params | null;
     if (pinnedMessage != null) {
-      const pinnedAtTimestamp = Long.fromNumber(pinnedMessage.pinnedAt);
+      const pinnedAtTimestamp = BigInt(pinnedMessage.pinnedAt);
 
-      let pinExpiresAtTimestamp: Long | null = null;
-      let pinNeverExpires: true | null = null;
+      let pinExpiry: Backups.ChatItem.PinDetails.Params['pinExpiry'];
       if (pinnedMessage.expiresAt != null) {
-        pinExpiresAtTimestamp = Long.fromNumber(pinnedMessage.expiresAt);
+        pinExpiry = {
+          pinExpiresAtTimestamp: BigInt(pinnedMessage.expiresAt),
+        };
       } else {
-        pinNeverExpires = true;
+        pinExpiry = {
+          pinNeverExpires: true,
+        };
       }
-
-      result.pinDetails = {
-        pinnedAtTimestamp,
-        pinExpiresAtTimestamp,
-        pinNeverExpires,
-      };
+      pinDetails = { pinnedAtTimestamp, pinExpiry };
+    } else {
+      pinDetails = null;
     }
 
-    return result;
+    return {
+      ...base,
+      directionalDetails,
+      item,
+      revisions,
+      pinDetails,
+    };
   }
 
   #aciToBytes(aci: AciString | string): Uint8Array {
     return Aci.parseFromServiceIdString(aci).getRawUuidBytes();
   }
 
-  #aciToBytesOrUndefined(aci: AciString | string): Uint8Array | undefined {
+  #aciToBytesOrNull(aci: AciString | string): Uint8Array | null {
     if (isAciString(aci)) {
       return Aci.parseFromServiceIdString(aci).getRawUuidBytes();
     }
-    return undefined;
+    return null;
   }
 
   #serviceIdToBytes(serviceId: ServiceIdString): Uint8Array {
@@ -1818,10 +1936,14 @@ export class BackupExportStream extends Readable {
     const { authorId, callHistoryByCallId, message } = options;
     const logId = `toChatItemUpdate(${getMessageIdForLogging(message)})`;
 
-    const updateMessage = new Backups.ChatUpdateMessage();
+    const updateMessage: Backups.ChatUpdateMessage.Params = {
+      update: null,
+    };
 
-    const patch: Backups.IChatItem = {
-      updateMessage,
+    const patch: NonBubbleResultType['patch'] = {
+      item: {
+        updateMessage,
+      },
     };
 
     if (isCallHistory(message)) {
@@ -1830,9 +1952,8 @@ export class BackupExportStream extends Readable {
       );
 
       if (!conversation) {
-        throw new Error(
-          `${logId}: callHistory message had unknown conversationId!`
-        );
+        log.error(`${logId}: callHistory message had unknown conversationId!`);
+        return { kind: NonBubbleResultKind.Drop };
       }
 
       const { callId } = message;
@@ -1848,8 +1969,6 @@ export class BackupExportStream extends Readable {
       }
 
       if (isGroup(conversation.attributes)) {
-        const groupCall = new Backups.GroupCall();
-
         strictAssert(
           callHistory.mode === CallMode.Group,
           'in group, should be group call'
@@ -1860,6 +1979,7 @@ export class BackupExportStream extends Readable {
         }
 
         const { ringerId, startedById } = callHistory;
+        let ringerRecipientId: bigint | null = null;
         if (ringerId) {
           const ringerConversation =
             window.ConversationController.get(ringerId);
@@ -1869,12 +1989,12 @@ export class BackupExportStream extends Readable {
             );
           }
 
-          const recipientId = this.#getRecipientId(
+          ringerRecipientId = this.#getRecipientId(
             ringerConversation.attributes
           );
-          groupCall.ringerRecipientId = recipientId;
         }
 
+        let startedCallRecipientId: bigint | null = null;
         if (startedById) {
           const startedByConvo = window.ConversationController.get(startedById);
           if (!startedByConvo) {
@@ -1883,53 +2003,70 @@ export class BackupExportStream extends Readable {
             );
           }
 
-          const recipientId = this.#getRecipientId(startedByConvo.attributes);
-          groupCall.startedCallRecipientId = recipientId;
+          startedCallRecipientId = this.#getRecipientId(
+            startedByConvo.attributes
+          );
         }
 
+        let groupCallId: bigint;
         try {
-          groupCall.callId = Long.fromString(callId);
+          groupCallId = BigInt(callId);
         } catch (e) {
-          // Could not convert callId to long; likely a legacy backfilled callId with uuid
+          // Could not convert callId to bigint
+          // likely a legacy backfilled callId with uuid
           // TODO (DESKTOP-8007)
-          groupCall.callId = Long.fromNumber(0);
+          groupCallId = 0n;
         }
 
-        groupCall.state = toGroupCallStateProto(callHistory.status);
-        groupCall.startedCallTimestamp = Long.fromNumber(callHistory.timestamp);
+        const state = toGroupCallStateProto(callHistory.status);
+        const startedCallTimestamp = BigInt(callHistory.timestamp);
+        let endedCallTimestamp: bigint | null = null;
         if (callHistory.endedTimestamp != null) {
-          groupCall.endedCallTimestamp = getSafeLongFromTimestamp(
+          endedCallTimestamp = getSafeLongFromTimestamp(
             callHistory.endedTimestamp
           );
         }
-        groupCall.read = message.seenStatus === SeenStatus.Seen;
+        const read = message.seenStatus === SeenStatus.Seen;
 
-        updateMessage.groupCall = groupCall;
+        updateMessage.update = {
+          groupCall: {
+            startedCallRecipientId,
+            ringerRecipientId,
+            callId: groupCallId,
+            state,
+            startedCallTimestamp,
+            endedCallTimestamp,
+            read,
+          },
+        };
         return { kind: NonBubbleResultKind.Directionless, patch };
       }
 
-      const individualCall = new Backups.IndividualCall();
       const { direction, type, status, timestamp } = callHistory;
 
       if (status === GroupCallStatus.Deleted) {
         return { kind: NonBubbleResultKind.Drop };
       }
 
+      let individualCallId: bigint;
       try {
-        individualCall.callId = Long.fromString(callId);
+        individualCallId = BigInt(callId);
       } catch (e) {
         // TODO (DESKTOP-8007)
-        // Could not convert callId to long; likely a legacy backfilled callId with uuid
-        individualCall.callId = Long.fromNumber(0);
+        // Could not convert callId to bigint; likely a legacy backfilled callId with uuid
+        individualCallId = 0n;
       }
 
-      individualCall.type = toIndividualCallTypeProto(type);
-      individualCall.direction = toIndividualCallDirectionProto(direction);
-      individualCall.state = toIndividualCallStateProto(status, direction);
-      individualCall.startedCallTimestamp = Long.fromNumber(timestamp);
-      individualCall.read = message.seenStatus === SeenStatus.Seen;
-
-      updateMessage.individualCall = individualCall;
+      updateMessage.update = {
+        individualCall: {
+          callId: individualCallId,
+          type: toIndividualCallTypeProto(type),
+          direction: toIndividualCallDirectionProto(direction),
+          state: toIndividualCallStateProto(status, direction),
+          startedCallTimestamp: BigInt(timestamp),
+          read: message.seenStatus === SeenStatus.Seen,
+        },
+      };
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
 
@@ -1951,22 +2088,26 @@ export class BackupExportStream extends Readable {
         patch.authorId = this.#getRecipientId({
           serviceId: options.aboutMe.aci,
         });
-        const groupChatUpdate = new Backups.GroupChangeChatUpdate();
 
-        const timerUpdate = new Backups.GroupExpirationTimerUpdate();
-        timerUpdate.expiresInMs = Long.fromNumber(expiresInMs);
-
+        let updaterAci: Uint8Array | null = null;
         if (sourceServiceId && Aci.parseFromServiceIdString(sourceServiceId)) {
-          timerUpdate.updaterAci = uuidToBytes(sourceServiceId);
+          updaterAci = uuidToBytes(sourceServiceId);
         }
 
-        const innerUpdate = new Backups.GroupChangeChatUpdate.Update();
-
-        innerUpdate.groupExpirationTimerUpdate = timerUpdate;
-
-        groupChatUpdate.updates = [innerUpdate];
-
-        updateMessage.groupChange = groupChatUpdate;
+        updateMessage.update = {
+          groupChange: {
+            updates: [
+              {
+                update: {
+                  groupExpirationTimerUpdate: {
+                    expiresInMs: BigInt(expiresInMs),
+                    updaterAci,
+                  },
+                },
+              },
+            ],
+          },
+        };
 
         return { kind: NonBubbleResultKind.Directionless, patch };
       }
@@ -1984,23 +2125,25 @@ export class BackupExportStream extends Readable {
         }
       }
 
-      const expirationTimerChange = new Backups.ExpirationTimerChatUpdate();
-      expirationTimerChange.expiresInMs = Long.fromNumber(expiresInMs);
-
-      updateMessage.expirationTimerChange = expirationTimerChange;
+      updateMessage.update = {
+        expirationTimerChange: {
+          expiresInMs: BigInt(expiresInMs),
+        },
+      };
 
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
 
     if (isGroupV2Change(message)) {
-      updateMessage.groupChange = await this.toGroupV2Update(message, options);
+      updateMessage.update = {
+        groupChange: await this.toGroupV2Update(message, options),
+      };
+      strictAssert(this.#ourConversation?.id, 'our conversation must exist');
+      patch.authorId = this.#getOrPushPrivateRecipient(this.#ourConversation);
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
 
     if (isKeyChange(message)) {
-      const simpleUpdate = new Backups.SimpleChatUpdate();
-      simpleUpdate.type = Backups.SimpleChatUpdate.Type.IDENTITY_UPDATE;
-
       const conversation = window.ConversationController.get(
         message.conversationId
       );
@@ -2021,14 +2164,18 @@ export class BackupExportStream extends Readable {
         patch.authorId = this.#getOrPushPrivateRecipient(target.attributes);
       }
 
-      updateMessage.simpleUpdate = simpleUpdate;
+      updateMessage.update = {
+        simpleUpdate: {
+          type: Backups.SimpleChatUpdate.Type.IDENTITY_UPDATE,
+        },
+      };
 
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
 
     if (isPinnedMessageNotification(message)) {
-      let targetAuthorId: Long | null = null;
-      let targetSentTimestamp: Long | null = null;
+      let targetAuthorId: bigint | null = null;
+      let targetSentTimestamp: bigint | null = null;
 
       if (message.pinMessage == null) {
         log.warn(
@@ -2038,23 +2185,22 @@ export class BackupExportStream extends Readable {
         return { kind: NonBubbleResultKind.Drop };
       }
 
-      targetSentTimestamp = Long.fromNumber(
-        message.pinMessage.targetSentTimestamp
-      );
+      targetSentTimestamp = BigInt(message.pinMessage.targetSentTimestamp);
       targetAuthorId = this.#getOrPushPrivateRecipient({
         serviceId: message.pinMessage.targetAuthorAci,
       });
 
-      updateMessage.pinMessage = new Backups.PinMessageUpdate({
-        targetSentTimestamp,
-        authorId: targetAuthorId,
-      });
+      updateMessage.update = {
+        pinMessage: {
+          targetSentTimestamp,
+          authorId: targetAuthorId,
+        },
+      };
 
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
 
     if (isProfileChange(message)) {
-      const profileChange = new Backups.ProfileChangeChatUpdate();
       if (!message.profileChange?.newName || !message.profileChange?.oldName) {
         return { kind: NonBubbleResultKind.Drop };
       }
@@ -2074,10 +2220,13 @@ export class BackupExportStream extends Readable {
       }
 
       const { newName, oldName } = message.profileChange;
-      profileChange.newName = newName;
-      profileChange.previousName = oldName;
 
-      updateMessage.profileChange = profileChange;
+      updateMessage.update = {
+        profileChange: {
+          newName,
+          previousName: oldName,
+        },
+      };
 
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
@@ -2089,12 +2238,13 @@ export class BackupExportStream extends Readable {
         );
       }
 
-      const simpleUpdate = new Backups.SimpleChatUpdate();
-      simpleUpdate.type = message.verified
-        ? Backups.SimpleChatUpdate.Type.IDENTITY_VERIFIED
-        : Backups.SimpleChatUpdate.Type.IDENTITY_DEFAULT;
-
-      updateMessage.simpleUpdate = simpleUpdate;
+      updateMessage.update = {
+        simpleUpdate: {
+          type: message.verified
+            ? Backups.SimpleChatUpdate.Type.IDENTITY_VERIFIED
+            : Backups.SimpleChatUpdate.Type.IDENTITY_DEFAULT,
+        },
+      };
 
       if (message.verifiedChanged) {
         // This will override authorId on the original chatItem
@@ -2107,16 +2257,20 @@ export class BackupExportStream extends Readable {
     }
 
     if (isChangeNumberNotification(message)) {
-      updateMessage.simpleUpdate = {
-        type: Backups.SimpleChatUpdate.Type.CHANGE_NUMBER,
+      updateMessage.update = {
+        simpleUpdate: {
+          type: Backups.SimpleChatUpdate.Type.CHANGE_NUMBER,
+        },
       };
 
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
 
     if (isJoinedSignalNotification(message)) {
-      updateMessage.simpleUpdate = {
-        type: Backups.SimpleChatUpdate.Type.JOINED_SIGNAL,
+      updateMessage.update = {
+        simpleUpdate: {
+          type: Backups.SimpleChatUpdate.Type.JOINED_SIGNAL,
+        },
       };
 
       return { kind: NonBubbleResultKind.Directionless, patch };
@@ -2129,15 +2283,21 @@ export class BackupExportStream extends Readable {
       );
       const { renderInfo } = message.titleTransition;
       if (renderInfo.e164) {
-        updateMessage.learnedProfileChange = {
-          e164: Long.fromString(renderInfo.e164),
+        updateMessage.update = {
+          learnedProfileChange: {
+            previousName: { e164: BigInt(renderInfo.e164) },
+          },
         };
       } else {
         strictAssert(
           renderInfo.username,
           'Title transition must have username or e164'
         );
-        updateMessage.learnedProfileChange = { username: renderInfo.username };
+        updateMessage.update = {
+          learnedProfileChange: {
+            previousName: { username: renderInfo.username },
+          },
+        };
       }
 
       return { kind: NonBubbleResultKind.Directionless, patch };
@@ -2168,26 +2328,26 @@ export class BackupExportStream extends Readable {
           throw missingCaseError(event);
       }
 
-      updateMessage.simpleUpdate = { type };
+      updateMessage.update = { simpleUpdate: { type } };
 
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
 
     if (isDeliveryIssue(message)) {
-      updateMessage.simpleUpdate = {
-        type: Backups.SimpleChatUpdate.Type.BAD_DECRYPT,
+      updateMessage.update = {
+        simpleUpdate: {
+          type: Backups.SimpleChatUpdate.Type.BAD_DECRYPT,
+        },
       };
 
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
 
     if (isConversationMerge(message)) {
-      const threadMerge = new Backups.ThreadMergeChatUpdate();
       const e164 = message.conversationMerge?.renderInfo.e164;
       if (!e164) {
         return { kind: NonBubbleResultKind.Drop };
       }
-      threadMerge.previousE164 = Long.fromString(e164);
 
       // Conversation merges generated on Desktop side never has
       // `sourceServiceId` and thus are attributed to our conversation.
@@ -2197,7 +2357,11 @@ export class BackupExportStream extends Readable {
         id: message.conversationId,
       });
 
-      updateMessage.threadMerge = threadMerge;
+      updateMessage.update = {
+        threadMerge: {
+          previousE164: BigInt(e164),
+        },
+      };
 
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
@@ -2208,8 +2372,10 @@ export class BackupExportStream extends Readable {
         return { kind: NonBubbleResultKind.Drop };
       }
 
-      updateMessage.sessionSwitchover = {
-        e164: Long.fromString(e164),
+      updateMessage.update = {
+        sessionSwitchover: {
+          e164: BigInt(e164),
+        },
       };
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
@@ -2226,27 +2392,31 @@ export class BackupExportStream extends Readable {
 
     // Create a GV2 tombstone for a deprecated GV1 notification
     if (isGroupUpdate(message)) {
-      updateMessage.groupChange = {
-        updates: [
-          {
-            genericGroupUpdate: {
-              updaterAci: message.sourceServiceId
-                ? this.#aciToBytesOrUndefined(message.sourceServiceId)
-                : undefined,
+      updateMessage.update = {
+        groupChange: {
+          updates: [
+            {
+              update: {
+                genericGroupUpdate: {
+                  updaterAci: message.sourceServiceId
+                    ? this.#aciToBytesOrNull(message.sourceServiceId)
+                    : null,
+                },
+              },
             },
-          },
-        ],
+          ],
+        },
       };
 
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
 
     if (isUnsupportedMessage(message)) {
-      const simpleUpdate = new Backups.SimpleChatUpdate();
-      simpleUpdate.type =
-        Backups.SimpleChatUpdate.Type.UNSUPPORTED_PROTOCOL_MESSAGE;
-
-      updateMessage.simpleUpdate = simpleUpdate;
+      updateMessage.update = {
+        simpleUpdate: {
+          type: Backups.SimpleChatUpdate.Type.UNSUPPORTED_PROTOCOL_MESSAGE,
+        },
+      };
 
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
@@ -2254,9 +2424,7 @@ export class BackupExportStream extends Readable {
     if (isGroupV1Migration(message)) {
       const { groupMigration } = message;
 
-      const groupChatUpdate = new Backups.GroupChangeChatUpdate();
-
-      groupChatUpdate.updates = [];
+      const updates: Array<Backups.GroupChangeChatUpdate.Update.Params> = [];
 
       const areWeInvited = groupMigration?.areWeInvited ?? false;
       const droppedMemberCount =
@@ -2272,56 +2440,69 @@ export class BackupExportStream extends Readable {
 
       let addedItem = false;
       if (areWeInvited) {
-        const container = new Backups.GroupChangeChatUpdate.Update();
-        container.groupV2MigrationSelfInvitedUpdate =
-          new Backups.GroupV2MigrationSelfInvitedUpdate();
-        groupChatUpdate.updates.push(container);
+        updates.push({
+          update: {
+            groupV2MigrationSelfInvitedUpdate: {},
+          },
+        });
         addedItem = true;
       }
 
       if (invitedMemberCount > 0) {
-        const container = new Backups.GroupChangeChatUpdate.Update();
-        const update = new Backups.GroupV2MigrationInvitedMembersUpdate();
-        update.invitedMembersCount = invitedMemberCount;
-        container.groupV2MigrationInvitedMembersUpdate = update;
-        groupChatUpdate.updates.push(container);
+        updates.push({
+          update: {
+            groupV2MigrationInvitedMembersUpdate: {
+              invitedMembersCount: invitedMemberCount,
+            },
+          },
+        });
         addedItem = true;
       }
 
       if (droppedMemberCount > 0) {
-        const container = new Backups.GroupChangeChatUpdate.Update();
-        const update = new Backups.GroupV2MigrationDroppedMembersUpdate();
-        update.droppedMembersCount = droppedMemberCount;
-        container.groupV2MigrationDroppedMembersUpdate = update;
-        groupChatUpdate.updates.push(container);
+        updates.push({
+          update: {
+            groupV2MigrationDroppedMembersUpdate: {
+              droppedMembersCount: droppedMemberCount,
+            },
+          },
+        });
         addedItem = true;
       }
 
       if (!addedItem) {
-        const container = new Backups.GroupChangeChatUpdate.Update();
-        container.groupV2MigrationUpdate = new Backups.GroupV2MigrationUpdate();
-        groupChatUpdate.updates.push(container);
+        updates.push({
+          update: {
+            groupV2MigrationUpdate: {},
+          },
+        });
       }
 
-      updateMessage.groupChange = groupChatUpdate;
+      updateMessage.update = {
+        groupChange: {
+          updates,
+        },
+      };
 
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
 
     if (isEndSession(message)) {
-      const simpleUpdate = new Backups.SimpleChatUpdate();
-      simpleUpdate.type = Backups.SimpleChatUpdate.Type.END_SESSION;
-
-      updateMessage.simpleUpdate = simpleUpdate;
+      updateMessage.update = {
+        simpleUpdate: {
+          type: Backups.SimpleChatUpdate.Type.END_SESSION,
+        },
+      };
 
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
 
     if (isChatSessionRefreshed(message)) {
-      const simpleUpdate = new Backups.SimpleChatUpdate();
-      simpleUpdate.type = Backups.SimpleChatUpdate.Type.CHAT_SESSION_REFRESH;
-
-      updateMessage.simpleUpdate = simpleUpdate;
+      updateMessage.update = {
+        simpleUpdate: {
+          type: Backups.SimpleChatUpdate.Type.CHAT_SESSION_REFRESH,
+        },
+      };
 
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
@@ -2336,7 +2517,7 @@ export class BackupExportStream extends Readable {
     options: {
       aboutMe: AboutMe;
     }
-  ): Promise<Backups.GroupChangeChatUpdate | undefined> {
+  ): Promise<Backups.GroupChangeChatUpdate.Params> {
     const logId = `toGroupV2Update(${getMessageIdForLogging(message)})`;
 
     const { groupV2Change } = message;
@@ -2346,122 +2527,133 @@ export class BackupExportStream extends Readable {
     }
 
     const { from, details } = groupV2Change;
-    const updates: Array<Backups.GroupChangeChatUpdate.Update> = [];
+    const updates: Array<Backups.GroupChangeChatUpdate.Update.Params> = [];
 
     details.forEach(detail => {
-      const update = new Backups.GroupChangeChatUpdate.Update();
       const { type } = detail;
 
       if (type === 'create') {
-        const innerUpdate = new Backups.GroupCreationUpdate();
-        if (from) {
-          innerUpdate.updaterAci = this.#aciToBytesOrUndefined(from);
-        }
-        update.groupCreationUpdate = innerUpdate;
-        updates.push(update);
+        updates.push({
+          update: {
+            groupCreationUpdate: {
+              updaterAci: from ? this.#aciToBytesOrNull(from) : null,
+            },
+          },
+        });
       } else if (type === 'access-attributes') {
-        const innerUpdate =
-          new Backups.GroupAttributesAccessLevelChangeUpdate();
-        if (from) {
-          innerUpdate.updaterAci = this.#aciToBytesOrUndefined(from);
-        }
-        innerUpdate.accessLevel = detail.newPrivilege;
-
-        update.groupAttributesAccessLevelChangeUpdate = innerUpdate;
-        updates.push(update);
+        updates.push({
+          update: {
+            groupAttributesAccessLevelChangeUpdate: {
+              updaterAci: from ? this.#aciToBytesOrNull(from) : null,
+              accessLevel: detail.newPrivilege,
+            },
+          },
+        });
       } else if (type === 'access-members') {
-        const innerUpdate =
-          new Backups.GroupMembershipAccessLevelChangeUpdate();
-        if (from) {
-          innerUpdate.updaterAci = this.#aciToBytesOrUndefined(from);
-        }
-        innerUpdate.accessLevel = detail.newPrivilege;
-
-        update.groupMembershipAccessLevelChangeUpdate = innerUpdate;
-        updates.push(update);
+        updates.push({
+          update: {
+            groupMembershipAccessLevelChangeUpdate: {
+              updaterAci: from ? this.#aciToBytesOrNull(from) : null,
+              accessLevel: detail.newPrivilege,
+            },
+          },
+        });
       } else if (type === 'access-invite-link') {
-        const innerUpdate = new Backups.GroupInviteLinkAdminApprovalUpdate();
-        if (from) {
-          innerUpdate.updaterAci = this.#aciToBytesOrUndefined(from);
-        }
-        innerUpdate.linkRequiresAdminApproval =
-          detail.newPrivilege ===
-          SignalService.AccessControl.AccessRequired.ADMINISTRATOR;
-
-        update.groupInviteLinkAdminApprovalUpdate = innerUpdate;
-        updates.push(update);
+        updates.push({
+          update: {
+            groupInviteLinkAdminApprovalUpdate: {
+              updaterAci: from ? this.#aciToBytesOrNull(from) : null,
+              linkRequiresAdminApproval:
+                detail.newPrivilege ===
+                SignalService.AccessControl.AccessRequired.ADMINISTRATOR,
+            },
+          },
+        });
+      } else if (type === 'access-member-label') {
+        updates.push({
+          update: {
+            groupMemberLabelAccessLevelChangeUpdate: {
+              updaterAci: from ? this.#aciToBytesOrNull(from) : null,
+              accessLevel: detail.newPrivilege,
+            },
+          },
+        });
       } else if (type === 'announcements-only') {
-        const innerUpdate = new Backups.GroupAnnouncementOnlyChangeUpdate();
-        if (from) {
-          innerUpdate.updaterAci = this.#aciToBytesOrUndefined(from);
-        }
-        innerUpdate.isAnnouncementOnly = detail.announcementsOnly;
-
-        update.groupAnnouncementOnlyChangeUpdate = innerUpdate;
-        updates.push(update);
+        updates.push({
+          update: {
+            groupAnnouncementOnlyChangeUpdate: {
+              updaterAci: from ? this.#aciToBytesOrNull(from) : null,
+              isAnnouncementOnly: detail.announcementsOnly,
+            },
+          },
+        });
       } else if (type === 'avatar') {
-        const innerUpdate = new Backups.GroupAvatarUpdate();
-        if (from) {
-          innerUpdate.updaterAci = this.#aciToBytesOrUndefined(from);
-        }
-        innerUpdate.wasRemoved = detail.removed;
-
-        update.groupAvatarUpdate = innerUpdate;
-        updates.push(update);
+        updates.push({
+          update: {
+            groupAvatarUpdate: {
+              updaterAci: from ? this.#aciToBytesOrNull(from) : null,
+              wasRemoved: detail.removed,
+            },
+          },
+        });
       } else if (type === 'title') {
-        const innerUpdate = new Backups.GroupNameUpdate();
-        if (from) {
-          innerUpdate.updaterAci = this.#aciToBytesOrUndefined(from);
-        }
-        innerUpdate.newGroupName = detail.newTitle;
-
-        update.groupNameUpdate = innerUpdate;
-        updates.push(update);
+        updates.push({
+          update: {
+            groupNameUpdate: {
+              updaterAci: from ? this.#aciToBytesOrNull(from) : null,
+              newGroupName: detail.newTitle ?? null,
+            },
+          },
+        });
       } else if (type === 'group-link-add') {
-        const innerUpdate = new Backups.GroupInviteLinkEnabledUpdate();
-        if (from) {
-          innerUpdate.updaterAci = this.#aciToBytesOrUndefined(from);
-        }
-        innerUpdate.linkRequiresAdminApproval =
-          detail.privilege ===
-          SignalService.AccessControl.AccessRequired.ADMINISTRATOR;
-
-        update.groupInviteLinkEnabledUpdate = innerUpdate;
-        updates.push(update);
+        updates.push({
+          update: {
+            groupInviteLinkEnabledUpdate: {
+              updaterAci: from ? this.#aciToBytesOrNull(from) : null,
+              linkRequiresAdminApproval:
+                detail.privilege ===
+                SignalService.AccessControl.AccessRequired.ADMINISTRATOR,
+            },
+          },
+        });
       } else if (type === 'group-link-reset') {
-        const innerUpdate = new Backups.GroupInviteLinkResetUpdate();
-        if (from) {
-          innerUpdate.updaterAci = this.#aciToBytesOrUndefined(from);
-        }
-
-        update.groupInviteLinkResetUpdate = innerUpdate;
-        updates.push(update);
+        updates.push({
+          update: {
+            groupInviteLinkResetUpdate: {
+              updaterAci: from ? this.#aciToBytesOrNull(from) : null,
+            },
+          },
+        });
       } else if (type === 'group-link-remove') {
-        const innerUpdate = new Backups.GroupInviteLinkDisabledUpdate();
-        if (from) {
-          innerUpdate.updaterAci = this.#aciToBytesOrUndefined(from);
-        }
-
-        update.groupInviteLinkDisabledUpdate = innerUpdate;
-        updates.push(update);
+        updates.push({
+          update: {
+            groupInviteLinkDisabledUpdate: {
+              updaterAci: from ? this.#aciToBytesOrNull(from) : null,
+            },
+          },
+        });
       } else if (type === 'member-add') {
         if (from && from === detail.aci) {
-          const innerUpdate = new Backups.GroupMemberJoinedUpdate();
-          innerUpdate.newMemberAci = this.#aciToBytes(from);
-
-          update.groupMemberJoinedUpdate = innerUpdate;
-          updates.push(update);
+          updates.push({
+            update: {
+              groupMemberJoinedUpdate: {
+                newMemberAci: this.#aciToBytes(from),
+              },
+            },
+          });
           return;
         }
 
-        const innerUpdate = new Backups.GroupMemberAddedUpdate();
-        if (from) {
-          innerUpdate.updaterAci = this.#aciToBytesOrUndefined(from);
-        }
-        innerUpdate.newMemberAci = this.#aciToBytes(detail.aci);
-
-        update.groupMemberAddedUpdate = innerUpdate;
-        updates.push(update);
+        updates.push({
+          update: {
+            groupMemberAddedUpdate: {
+              updaterAci: from ? this.#aciToBytesOrNull(from) : null,
+              newMemberAci: this.#aciToBytes(detail.aci),
+              hadOpenInvitation: null,
+              inviterAci: null,
+            },
+          },
+        });
       } else if (type === 'member-add-from-invite') {
         const { aci, pni } = detail;
         if (
@@ -2470,87 +2662,92 @@ export class BackupExportStream extends Readable {
             (aci && from === aci) ||
             checkServiceIdEquivalence(from, aci))
         ) {
-          const innerUpdate = new Backups.GroupInvitationAcceptedUpdate();
-          innerUpdate.newMemberAci = this.#aciToBytes(detail.aci);
-          if (detail.inviter) {
-            innerUpdate.inviterAci = this.#aciToBytes(detail.inviter);
-          }
-          update.groupInvitationAcceptedUpdate = innerUpdate;
-          updates.push(update);
+          updates.push({
+            update: {
+              groupInvitationAcceptedUpdate: {
+                newMemberAci: this.#aciToBytes(detail.aci),
+                inviterAci: detail.inviter
+                  ? this.#aciToBytes(detail.inviter)
+                  : null,
+              },
+            },
+          });
           return;
         }
 
-        const innerUpdate = new Backups.GroupMemberAddedUpdate();
-        innerUpdate.newMemberAci = this.#aciToBytes(detail.aci);
-        if (from) {
-          innerUpdate.updaterAci = this.#aciToBytesOrUndefined(from);
-        }
-        if (detail.inviter) {
-          innerUpdate.inviterAci = this.#aciToBytes(detail.inviter);
-        }
-        innerUpdate.hadOpenInvitation = true;
-
-        update.groupMemberAddedUpdate = innerUpdate;
-        updates.push(update);
+        updates.push({
+          update: {
+            groupMemberAddedUpdate: {
+              newMemberAci: this.#aciToBytes(detail.aci),
+              updaterAci: from ? this.#aciToBytesOrNull(from) : null,
+              inviterAci: detail.inviter
+                ? this.#aciToBytes(detail.inviter)
+                : null,
+              hadOpenInvitation: true,
+            },
+          },
+        });
       } else if (type === 'member-add-from-link') {
-        const innerUpdate = new Backups.GroupMemberJoinedByLinkUpdate();
-        innerUpdate.newMemberAci = this.#aciToBytes(detail.aci);
-
-        update.groupMemberJoinedByLinkUpdate = innerUpdate;
-        updates.push(update);
+        updates.push({
+          update: {
+            groupMemberJoinedByLinkUpdate: {
+              newMemberAci: this.#aciToBytes(detail.aci),
+            },
+          },
+        });
       } else if (type === 'member-add-from-admin-approval') {
-        const innerUpdate = new Backups.GroupJoinRequestApprovalUpdate();
-        if (from) {
-          innerUpdate.updaterAci = this.#aciToBytesOrUndefined(from);
-        }
-
-        innerUpdate.requestorAci = this.#aciToBytes(detail.aci);
-        innerUpdate.wasApproved = true;
-
-        update.groupJoinRequestApprovalUpdate = innerUpdate;
-        updates.push(update);
+        updates.push({
+          update: {
+            groupJoinRequestApprovalUpdate: {
+              updaterAci: from ? this.#aciToBytesOrNull(from) : null,
+              requestorAci: this.#aciToBytes(detail.aci),
+              wasApproved: true,
+            },
+          },
+        });
       } else if (type === 'member-privilege') {
-        const innerUpdate = new Backups.GroupAdminStatusUpdate();
-        if (from) {
-          innerUpdate.updaterAci = this.#aciToBytesOrUndefined(from);
-        }
-
-        innerUpdate.memberAci = this.#aciToBytes(detail.aci);
-        innerUpdate.wasAdminStatusGranted =
-          detail.newPrivilege === SignalService.Member.Role.ADMINISTRATOR;
-
-        update.groupAdminStatusUpdate = innerUpdate;
-        updates.push(update);
+        updates.push({
+          update: {
+            groupAdminStatusUpdate: {
+              updaterAci: from ? this.#aciToBytesOrNull(from) : null,
+              memberAci: this.#aciToBytes(detail.aci),
+              wasAdminStatusGranted:
+                detail.newPrivilege === SignalService.Member.Role.ADMINISTRATOR,
+            },
+          },
+        });
       } else if (type === 'member-remove') {
         if (from && from === detail.aci) {
-          const innerUpdate = new Backups.GroupMemberLeftUpdate();
-          innerUpdate.aci = this.#aciToBytes(from);
-
-          update.groupMemberLeftUpdate = innerUpdate;
-          updates.push(update);
+          updates.push({
+            update: {
+              groupMemberLeftUpdate: {
+                aci: this.#aciToBytes(from),
+              },
+            },
+          });
           return;
         }
 
-        const innerUpdate = new Backups.GroupMemberRemovedUpdate();
-        if (from) {
-          innerUpdate.removerAci = this.#aciToBytesOrUndefined(from);
-        }
-        innerUpdate.removedAci = this.#aciToBytes(detail.aci);
-
-        update.groupMemberRemovedUpdate = innerUpdate;
-        updates.push(update);
+        updates.push({
+          update: {
+            groupMemberRemovedUpdate: {
+              removerAci: from ? this.#aciToBytesOrNull(from) : null,
+              removedAci: this.#aciToBytes(detail.aci),
+            },
+          },
+        });
       } else if (type === 'pending-add-one') {
         if (
           (aboutMe.aci && detail.serviceId === aboutMe.aci) ||
           (aboutMe.pni && detail.serviceId === aboutMe.pni)
         ) {
-          const innerUpdate = new Backups.SelfInvitedToGroupUpdate();
-          if (from) {
-            innerUpdate.inviterAci = this.#aciToBytesOrUndefined(from);
-          }
-
-          update.selfInvitedToGroupUpdate = innerUpdate;
-          updates.push(update);
+          updates.push({
+            update: {
+              selfInvitedToGroupUpdate: {
+                inviterAci: from ? this.#aciToBytesOrNull(from) : null,
+              },
+            },
+          });
           return;
         }
         if (
@@ -2558,163 +2755,172 @@ export class BackupExportStream extends Readable {
           ((aboutMe.aci && from === aboutMe.aci) ||
             (aboutMe.pni && from === aboutMe.pni))
         ) {
-          const innerUpdate = new Backups.SelfInvitedOtherUserToGroupUpdate();
-          innerUpdate.inviteeServiceId = this.#serviceIdToBytes(
-            detail.serviceId
-          );
-
-          update.selfInvitedOtherUserToGroupUpdate = innerUpdate;
-          updates.push(update);
+          updates.push({
+            update: {
+              selfInvitedOtherUserToGroupUpdate: {
+                inviteeServiceId: this.#serviceIdToBytes(detail.serviceId),
+              },
+            },
+          });
           return;
         }
 
-        const innerUpdate = new Backups.GroupUnknownInviteeUpdate();
-        if (from) {
-          innerUpdate.inviterAci = this.#aciToBytesOrUndefined(from);
-        }
-        innerUpdate.inviteeCount = 1;
-
-        update.groupUnknownInviteeUpdate = innerUpdate;
-        updates.push(update);
+        updates.push({
+          update: {
+            groupUnknownInviteeUpdate: {
+              inviterAci: from ? this.#aciToBytesOrNull(from) : null,
+              inviteeCount: 1,
+            },
+          },
+        });
       } else if (type === 'pending-add-many') {
-        const innerUpdate = new Backups.GroupUnknownInviteeUpdate();
-        if (from) {
-          innerUpdate.inviterAci = this.#aciToBytesOrUndefined(from);
-        }
-        innerUpdate.inviteeCount = detail.count;
-
-        update.groupUnknownInviteeUpdate = innerUpdate;
-        updates.push(update);
+        updates.push({
+          update: {
+            groupUnknownInviteeUpdate: {
+              inviterAci: from ? this.#aciToBytesOrNull(from) : null,
+              inviteeCount: detail.count,
+            },
+          },
+        });
       } else if (type === 'pending-remove-one') {
         if ((from && from === detail.serviceId) || detail.serviceId == null) {
-          const innerUpdate = new Backups.GroupInvitationDeclinedUpdate();
-          if (detail.inviter) {
-            innerUpdate.inviterAci = this.#aciToBytes(detail.inviter);
-          }
-          if (isAciString(detail.serviceId)) {
-            innerUpdate.inviteeAci = this.#aciToBytes(detail.serviceId);
-          }
-
-          update.groupInvitationDeclinedUpdate = innerUpdate;
-          updates.push(update);
+          updates.push({
+            update: {
+              groupInvitationDeclinedUpdate: {
+                inviterAci: detail.inviter
+                  ? this.#aciToBytes(detail.inviter)
+                  : null,
+                inviteeAci: isAciString(detail.serviceId)
+                  ? this.#aciToBytes(detail.serviceId)
+                  : null,
+              },
+            },
+          });
           return;
         }
         if (
           (aboutMe.aci && detail.serviceId === aboutMe.aci) ||
           (aboutMe.pni && detail.serviceId === aboutMe.pni)
         ) {
-          const innerUpdate = new Backups.GroupSelfInvitationRevokedUpdate();
-          if (from) {
-            innerUpdate.revokerAci = this.#aciToBytesOrUndefined(from);
-          }
-
-          update.groupSelfInvitationRevokedUpdate = innerUpdate;
-          updates.push(update);
+          updates.push({
+            update: {
+              groupSelfInvitationRevokedUpdate: {
+                revokerAci: from ? this.#aciToBytesOrNull(from) : null,
+              },
+            },
+          });
           return;
         }
 
-        const innerUpdate = new Backups.GroupInvitationRevokedUpdate();
-        if (from) {
-          innerUpdate.updaterAci = this.#aciToBytesOrUndefined(from);
-        }
-        innerUpdate.invitees = [
-          {
-            inviterAci: isAciString(detail.inviter)
-              ? this.#aciToBytes(detail.inviter)
-              : undefined,
-            inviteeAci: isAciString(detail.serviceId)
-              ? this.#aciToBytes(detail.serviceId)
-              : undefined,
-            inviteePni: isPniString(detail.serviceId)
-              ? this.#serviceIdToBytes(detail.serviceId)
-              : undefined,
+        updates.push({
+          update: {
+            groupInvitationRevokedUpdate: {
+              updaterAci: from ? this.#aciToBytesOrNull(from) : null,
+              invitees: [
+                {
+                  inviterAci: isAciString(detail.inviter)
+                    ? this.#aciToBytes(detail.inviter)
+                    : null,
+                  inviteeAci: isAciString(detail.serviceId)
+                    ? this.#aciToBytes(detail.serviceId)
+                    : null,
+                  inviteePni: isPniString(detail.serviceId)
+                    ? this.#serviceIdToBytes(detail.serviceId)
+                    : null,
+                },
+              ],
+            },
           },
-        ];
-
-        update.groupInvitationRevokedUpdate = innerUpdate;
-        updates.push(update);
+        });
       } else if (type === 'pending-remove-many') {
-        const innerUpdate = new Backups.GroupInvitationRevokedUpdate();
-        if (from) {
-          innerUpdate.updaterAci = this.#aciToBytesOrUndefined(from);
-        }
-
-        innerUpdate.invitees = [];
-        for (let i = 0, max = detail.count; i < max; i += 1) {
-          // Yes, we're adding totally empty invitees. This is okay.
-          innerUpdate.invitees.push({});
-        }
-
-        update.groupInvitationRevokedUpdate = innerUpdate;
-        updates.push(update);
+        updates.push({
+          update: {
+            groupInvitationRevokedUpdate: {
+              updaterAci: from ? this.#aciToBytesOrNull(from) : null,
+              invitees: Array.from({ length: detail.count }, () => {
+                return {
+                  // Yes, we're adding totally empty invitees. This is okay.
+                  inviterAci: null,
+                  inviteeAci: null,
+                  inviteePni: null,
+                };
+              }),
+            },
+          },
+        });
       } else if (type === 'admin-approval-add-one') {
-        const innerUpdate = new Backups.GroupJoinRequestUpdate();
-        innerUpdate.requestorAci = this.#aciToBytes(detail.aci);
-
-        update.groupJoinRequestUpdate = innerUpdate;
-        updates.push(update);
+        updates.push({
+          update: {
+            groupJoinRequestUpdate: {
+              requestorAci: this.#aciToBytes(detail.aci),
+            },
+          },
+        });
       } else if (type === 'admin-approval-remove-one') {
         if (from && detail.aci && from === detail.aci) {
-          const innerUpdate = new Backups.GroupJoinRequestCanceledUpdate();
-          innerUpdate.requestorAci = this.#aciToBytes(detail.aci);
-
-          update.groupJoinRequestCanceledUpdate = innerUpdate;
-          updates.push(update);
+          updates.push({
+            update: {
+              groupJoinRequestCanceledUpdate: {
+                requestorAci: this.#aciToBytes(detail.aci),
+              },
+            },
+          });
           return;
         }
 
-        const innerUpdate = new Backups.GroupJoinRequestApprovalUpdate();
-        if (from) {
-          innerUpdate.updaterAci = this.#aciToBytesOrUndefined(from);
-        }
-
-        innerUpdate.requestorAci = this.#aciToBytes(detail.aci);
-        innerUpdate.wasApproved = false;
-
-        update.groupJoinRequestApprovalUpdate = innerUpdate;
-        updates.push(update);
+        updates.push({
+          update: {
+            groupJoinRequestApprovalUpdate: {
+              updaterAci: from ? this.#aciToBytesOrNull(from) : null,
+              requestorAci: this.#aciToBytes(detail.aci),
+              wasApproved: false,
+            },
+          },
+        });
       } else if (type === 'admin-approval-bounce') {
         // We can't express all we need in GroupSequenceOfRequestsAndCancelsUpdate, so we
         //   add an additional groupJoinRequestUpdate to express that there
         //   is an approval pending.
         if (detail.isApprovalPending) {
-          const innerUpdate = new Backups.GroupJoinRequestUpdate();
-          innerUpdate.requestorAci = this.#aciToBytes(detail.aci);
-
           // We need to create another update since the items we put in Update are oneof
-          const secondUpdate = new Backups.GroupChangeChatUpdate.Update();
-          secondUpdate.groupJoinRequestUpdate = innerUpdate;
-          updates.push(secondUpdate);
+          updates.push({
+            update: {
+              groupJoinRequestUpdate: {
+                requestorAci: this.#aciToBytes(detail.aci),
+              },
+            },
+          });
 
           // not returning because we really do want both of these
         }
 
-        const innerUpdate =
-          new Backups.GroupSequenceOfRequestsAndCancelsUpdate();
-        innerUpdate.requestorAci = this.#aciToBytes(detail.aci);
-        innerUpdate.count = detail.times;
-
-        update.groupSequenceOfRequestsAndCancelsUpdate = innerUpdate;
-        updates.push(update);
+        updates.push({
+          update: {
+            groupSequenceOfRequestsAndCancelsUpdate: {
+              requestorAci: this.#aciToBytes(detail.aci),
+              count: detail.times,
+            },
+          },
+        });
       } else if (type === 'description') {
-        const innerUpdate = new Backups.GroupDescriptionUpdate();
-        innerUpdate.newDescription = detail.removed
-          ? undefined
-          : detail.description;
-        if (from) {
-          innerUpdate.updaterAci = this.#aciToBytesOrUndefined(from);
-        }
-
-        update.groupDescriptionUpdate = innerUpdate;
-        updates.push(update);
+        updates.push({
+          update: {
+            groupDescriptionUpdate: {
+              newDescription: detail.removed
+                ? null
+                : (detail.description ?? null),
+              updaterAci: from ? this.#aciToBytesOrNull(from) : null,
+            },
+          },
+        });
       } else if (type === 'summary') {
-        const innerUpdate = new Backups.GenericGroupUpdate();
-        if (from) {
-          innerUpdate.updaterAci = this.#aciToBytesOrUndefined(from);
-        }
-
-        update.genericGroupUpdate = innerUpdate;
-        updates.push(update);
+        updates.push({
+          update: {
+            genericGroupUpdate: {
+              updaterAci: from ? this.#aciToBytesOrNull(from) : null,
+            },
+          },
+        });
       } else {
         throw missingCaseError(type);
       }
@@ -2724,23 +2930,20 @@ export class BackupExportStream extends Readable {
       throw new Error(`${logId}: No updates generated from message`);
     }
 
-    const groupUpdate = new Backups.GroupChangeChatUpdate();
-    groupUpdate.updates = updates;
-
-    return groupUpdate;
+    return { updates };
   }
 
   async #toQuote({
     message,
   }: {
     message: Pick<MessageAttributesType, 'quote' | 'received_at' | 'body'>;
-  }): Promise<Backups.IQuote | null> {
+  }): Promise<Backups.Quote.Params | null> {
     const { quote } = message;
     if (!quote) {
       return null;
     }
 
-    let authorId: Long;
+    let authorId: bigint;
     if (quote.authorAci) {
       authorId = this.#getOrPushPrivateRecipient({
         serviceId: quote.authorAci,
@@ -2775,31 +2978,29 @@ export class BackupExportStream extends Readable {
       targetSentTimestamp:
         quote.referencedMessageNotFound || quote.id == null
           ? null
-          : Long.fromNumber(quote.id),
+          : BigInt(quote.id),
       authorId,
       text:
         quote.text != null
           ? {
               body: trimBody(quote.text, BACKUP_QUOTE_BODY_LIMIT),
-              bodyRanges: quote.bodyRanges?.map(range =>
-                this.#toBodyRange(range)
-              ),
+              bodyRanges: this.#toBodyRanges(quote.bodyRanges),
             }
           : null,
       attachments: await Promise.all(
         quote.attachments.map(
           async (
             attachment: QuotedAttachmentType
-          ): Promise<Backups.Quote.IQuotedAttachment> => {
+          ): Promise<Backups.Quote.QuotedAttachment.Params> => {
             return {
               contentType: attachment.contentType,
-              fileName: attachment.fileName,
+              fileName: attachment.fileName ?? null,
               thumbnail: attachment.thumbnail
                 ? await this.#processMessageAttachment({
                     attachment: attachment.thumbnail,
                     message,
                   })
-                : undefined,
+                : null,
             };
           }
         )
@@ -2808,20 +3009,42 @@ export class BackupExportStream extends Readable {
     };
   }
 
-  #toBodyRange(range: RawBodyRange): Backups.IBodyRange {
-    return {
-      start: range.start,
-      length: range.length,
+  #toBodyRange(range: RawBodyRange): Backups.BodyRange.Params | null {
+    const { data: parsedRange, error } = safeParseStrict(
+      bodyRangeSchema,
+      range
+    );
 
-      ...('mentionAci' in range
-        ? {
-            mentionAci: this.#aciToBytes(range.mentionAci),
-          }
-        : {
-            // Numeric values are compatible between backup and message protos
-            style: range.style,
-          }),
+    if (error) {
+      log.warn('toBodyRange: Dropping invalid body range', toLogFormat(error));
+      return null;
+    }
+    return {
+      start: parsedRange.start,
+      length: parsedRange.length,
+      associatedValue:
+        'mentionAci' in parsedRange
+          ? {
+              mentionAci: this.#aciToBytes(parsedRange.mentionAci),
+            }
+          : {
+              // Numeric values are compatible between backup and message protos
+              style: parsedRange.style,
+            },
     };
+  }
+
+  #toBodyRanges(
+    ranges: ReadonlyArray<RawBodyRange> | undefined
+  ): Array<Backups.BodyRange.Params> | null {
+    if (!ranges?.length) {
+      return null;
+    }
+
+    const result = ranges
+      .map(range => this.#toBodyRange(range))
+      .filter(isNotNil);
+    return result.length > 0 ? result : null;
   }
 
   #getMessageAttachmentFlag(
@@ -2858,19 +3081,19 @@ export class BackupExportStream extends Readable {
   }: {
     attachment: AttachmentType;
     message: Pick<MessageAttributesType, 'quote' | 'received_at' | 'body'>;
-  }): Promise<Backups.MessageAttachment> {
+  }): Promise<Backups.MessageAttachment.Params> {
     const { clientUuid } = attachment;
     const filePointer = await this.#processAttachment({
       attachment,
       messageReceivedAt: message.received_at,
     });
 
-    return new Backups.MessageAttachment({
+    return {
       pointer: filePointer,
       flag: this.#getMessageAttachmentFlag(message, attachment),
       wasDownloaded: isDownloaded(attachment),
-      clientUuid: clientUuid ? uuidToBytes(clientUuid) : undefined,
-    });
+      clientUuid: clientUuid ? uuidToBytes(clientUuid) : null,
+    };
   }
 
   async #processAttachment({
@@ -2879,7 +3102,7 @@ export class BackupExportStream extends Readable {
   }: {
     attachment: AttachmentType;
     messageReceivedAt: number;
-  }): Promise<Backups.FilePointer> {
+  }): Promise<Backups.FilePointer.Params> {
     const { filePointer, backupJob } = await getFilePointerForAttachment({
       attachment,
       backupOptions: this.options,
@@ -2924,21 +3147,22 @@ export class BackupExportStream extends Readable {
 
   #getMessageReactions({
     reactions,
-  }: Pick<MessageAttributesType, 'reactions'>):
-    | Array<Backups.IReaction>
-    | undefined {
+  }: Pick<
+    MessageAttributesType,
+    'reactions'
+  >): Array<Backups.Reaction.Params> | null {
     if (reactions == null) {
-      return undefined;
+      return null;
     }
 
-    return reactions?.map((reaction, sortOrder) => {
+    return reactions.map((reaction, sortOrder): Backups.Reaction.Params => {
       return {
-        emoji: reaction.emoji,
+        emoji: reaction.emoji ?? null,
         authorId: this.#getOrPushPrivateRecipient({
           id: reaction.fromId,
         }),
         sentTimestamp: getSafeLongFromTimestamp(reaction.timestamp),
-        sortOrder: Long.fromNumber(sortOrder),
+        sortOrder: BigInt(sortOrder),
       };
     });
   }
@@ -2956,7 +3180,7 @@ export class BackupExportStream extends Readable {
     | 'serverTimestamp'
     | 'readStatus'
     | 'unidentifiedDeliveryReceived'
-  >): Backups.ChatItem.IIncomingMessageDetails {
+  >): Backups.ChatItem.IncomingMessageDetails.Params {
     const dateReceived = editMessageReceivedAtMs || receivedAtMs;
     return {
       dateReceived:
@@ -2987,7 +3211,7 @@ export class BackupExportStream extends Readable {
       | 'editMessageReceivedAtMs'
     >,
     { conversationId }: { conversationId: string }
-  ): Backups.ChatItem.IOutgoingMessageDetails {
+  ): Backups.ChatItem.OutgoingMessageDetails.Params {
     const sealedSenderServiceIds = new Set(unidentifiedDeliveries);
     const errorMap = new Map(
       errors?.map(({ serviceId, name }) => {
@@ -2995,7 +3219,7 @@ export class BackupExportStream extends Readable {
       })
     );
 
-    const sendStatuses = new Array<Backups.ISendStatus>();
+    const sendStatuses = new Array<Backups.SendStatus.Params>();
     for (const [id, entry] of Object.entries(sendStateByConversationId)) {
       const target = window.ConversationController.get(id);
       if (!target) {
@@ -3020,68 +3244,62 @@ export class BackupExportStream extends Readable {
           ? getSafeLongFromTimestamp(entry.updatedAt)
           : null;
 
-      const sendStatus = new Backups.SendStatus({ recipientId, timestamp });
-
       const sealedSender = serviceId
         ? sealedSenderServiceIds.has(serviceId)
         : false;
 
+      let deliveryStatus: Backups.SendStatus.Params['deliveryStatus'];
       switch (entry.status) {
         case SendStatus.Pending:
-          sendStatus.pending = new Backups.SendStatus.Pending();
+          deliveryStatus = { pending: {} };
           break;
         case SendStatus.Sent:
-          sendStatus.sent = new Backups.SendStatus.Sent({
-            sealedSender,
-          });
+          deliveryStatus = { sent: { sealedSender } };
           break;
         case SendStatus.Delivered:
-          sendStatus.delivered = new Backups.SendStatus.Delivered({
-            sealedSender,
-          });
+          deliveryStatus = { delivered: { sealedSender } };
           break;
         case SendStatus.Read:
-          sendStatus.read = new Backups.SendStatus.Read({
-            sealedSender,
-          });
+          deliveryStatus = { read: { sealedSender } };
           break;
         case SendStatus.Viewed:
-          sendStatus.viewed = new Backups.SendStatus.Viewed({
-            sealedSender,
-          });
+          deliveryStatus = { viewed: { sealedSender } };
           break;
         case SendStatus.Skipped:
-          sendStatus.skipped = {};
+          deliveryStatus = { skipped: {} };
           break;
         case SendStatus.Failed: {
-          sendStatus.failed = new Backups.SendStatus.Failed();
+          let reason: Backups.SendStatus.Failed.Params['reason'];
+
           if (!serviceId) {
-            break;
-          }
-          const errorName = errorMap.get(serviceId);
-          if (!errorName) {
-            break;
+            reason = null;
+          } else {
+            const errorName = errorMap.get(serviceId);
+            if (!errorName) {
+              reason = null;
+            } else if (errorName === 'OutgoingIdentityKeyError') {
+              reason =
+                Backups.SendStatus.Failed.FailureReason.IDENTITY_KEY_MISMATCH;
+            } else if (errorName === 'UnknownError') {
+              // See ts/backups/import.ts
+              reason = Backups.SendStatus.Failed.FailureReason.UNKNOWN;
+            } else {
+              reason = Backups.SendStatus.Failed.FailureReason.NETWORK;
+            }
           }
 
-          const identityKeyMismatch = errorName === 'OutgoingIdentityKeyError';
-          if (identityKeyMismatch) {
-            sendStatus.failed.reason =
-              Backups.SendStatus.Failed.FailureReason.IDENTITY_KEY_MISMATCH;
-          } else if (errorName === 'UnknownError') {
-            // See ts/backups/import.ts
-            sendStatus.failed.reason =
-              Backups.SendStatus.Failed.FailureReason.UNKNOWN;
-          } else {
-            sendStatus.failed.reason =
-              Backups.SendStatus.Failed.FailureReason.NETWORK;
-          }
+          deliveryStatus = { failed: { reason } };
           break;
         }
         default:
           throw missingCaseError(entry.status);
       }
 
-      sendStatuses.push(sendStatus);
+      sendStatuses.push({
+        recipientId,
+        timestamp,
+        deliveryStatus,
+      });
     }
 
     const dateReceived = editMessageReceivedAtMs || receivedAtMs;
@@ -3107,7 +3325,7 @@ export class BackupExportStream extends Readable {
       | 'received_at'
       | 'timestamp'
     >;
-  }): Promise<Backups.IStandardMessage> {
+  }): Promise<Backups.StandardMessage.Params> {
     if (
       message.body &&
       isBodyTooLong(message.body, MAX_BACKUP_MESSAGE_BODY_BYTE_LENGTH)
@@ -3128,26 +3346,28 @@ export class BackupExportStream extends Readable {
               });
             })
           )
-        : undefined,
+        : null,
       ...(await this.#toTextAndLongTextFields(message)),
       linkPreview: message.preview
         ? await Promise.all(
-            message.preview.map(async preview => {
-              return {
-                url: preview.url,
-                title: preview.title,
-                description: preview.description,
-                date: getSafeLongFromTimestamp(preview.date),
-                image: preview.image
-                  ? await this.#processAttachment({
-                      attachment: preview.image,
-                      messageReceivedAt: message.received_at,
-                    })
-                  : undefined,
-              };
-            })
+            message.preview.map(
+              async (preview): Promise<Backups.LinkPreview.Params> => {
+                return {
+                  url: preview.url,
+                  title: preview.title ?? null,
+                  description: preview.description ?? null,
+                  date: getSafeLongFromTimestamp(preview.date),
+                  image: preview.image
+                    ? await this.#processAttachment({
+                        attachment: preview.image,
+                        messageReceivedAt: message.received_at,
+                      })
+                    : null,
+                };
+              }
+            )
           )
-        : undefined,
+        : null,
       reactions: this.#getMessageReactions(message),
     };
   }
@@ -3164,17 +3384,17 @@ export class BackupExportStream extends Readable {
       | 'received_at'
       | 'reactions'
     >;
-  }): Promise<Backups.IDirectStoryReplyMessage> {
-    const result = new Backups.DirectStoryReplyMessage({
-      reactions: this.#getMessageReactions(message),
-    });
+  }): Promise<Backups.DirectStoryReplyMessage.Params> {
+    const reactions = this.#getMessageReactions(message);
 
+    let reply: Backups.DirectStoryReplyMessage.Params['reply'];
     if (message.storyReaction) {
-      result.emoji = message.storyReaction.emoji;
+      reply = { emoji: message.storyReaction.emoji };
     } else {
-      result.textReply = await this.#toTextAndLongTextFields(message);
+      reply = { textReply: await this.#toTextAndLongTextFields(message) };
     }
-    return result;
+
+    return { reply, reactions };
   }
 
   async #toTextAndLongTextFields(
@@ -3182,14 +3402,11 @@ export class BackupExportStream extends Readable {
       MessageAttributesType,
       'bodyAttachment' | 'body' | 'bodyRanges' | 'received_at'
     >
-  ): Promise<{
-    longText: Backups.IFilePointer | undefined;
-    text: Backups.IText | undefined;
-  }> {
+  ): Promise<Backups.DirectStoryReplyMessage.TextReply.Params> {
     const includeLongTextAttachment =
       message.bodyAttachment && !isDownloaded(message.bodyAttachment);
-    const includeText =
-      Boolean(message.body) || Boolean(message.bodyRanges?.length);
+    const bodyRanges = this.#toBodyRanges(message.bodyRanges);
+    const includeText = Boolean(message.body) || Boolean(bodyRanges?.length);
 
     return {
       longText:
@@ -3200,7 +3417,7 @@ export class BackupExportStream extends Readable {
               attachment: message.bodyAttachment,
               messageReceivedAt: message.received_at,
             })
-          : undefined,
+          : null,
       text: includeText
         ? {
             body: message.body
@@ -3210,12 +3427,10 @@ export class BackupExportStream extends Readable {
                     ? MAX_MESSAGE_BODY_BYTE_LENGTH
                     : MAX_BACKUP_MESSAGE_BODY_BYTE_LENGTH
                 )
-              : undefined,
-            bodyRanges: message.bodyRanges?.map(range =>
-              this.#toBodyRange(range)
-            ),
+              : null,
+            bodyRanges,
           }
-        : undefined,
+        : null,
     };
   }
 
@@ -3226,7 +3441,7 @@ export class BackupExportStream extends Readable {
       MessageAttributesType,
       'attachments' | 'received_at' | 'reactions'
     >;
-  }): Promise<Backups.IViewOnceMessage> {
+  }): Promise<Backups.ViewOnceMessage.Params> {
     const attachment = message.attachments?.at(0);
     // Integration tests use the 'link-and-sync' version of export, which will include
     // view-once attachments
@@ -3245,12 +3460,16 @@ export class BackupExportStream extends Readable {
   }
 
   async #toChatItemRevisions(
-    parent: Backups.IChatItem,
+    parent: Pick<
+      Backups.ChatItem.Params,
+      'chatId' | 'authorId' | 'expireStartDate' | 'expiresInMs' | 'sms'
+    >,
+    parentItem: NonNullable<Backups.ChatItem.Params['item']>,
     message: MessageAttributesType
-  ): Promise<Array<Backups.IChatItem> | undefined> {
+  ): Promise<Array<Backups.ChatItem.Params> | null> {
     const { editHistory } = message;
     if (editHistory == null) {
-      return undefined;
+      return null;
     }
 
     const isOutgoing = message.type === 'outgoing';
@@ -3260,7 +3479,7 @@ export class BackupExportStream extends Readable {
         // The first history is the copy of the current message
         .slice(1)
         .map(async history => {
-          const result: Backups.IChatItem = {
+          const base: Omit<Backups.ChatItem.Params, 'item'> = {
             // Required fields
             chatId: parent.chatId,
             authorId: parent.authorId,
@@ -3269,35 +3488,44 @@ export class BackupExportStream extends Readable {
             expiresInMs: parent.expiresInMs,
             sms: parent.sms,
 
-            // Directional details
-            outgoing: isOutgoing
-              ? this.#getOutgoingMessageDetails(history.timestamp, history, {
-                  conversationId: message.conversationId,
-                })
-              : undefined,
-            incoming: isOutgoing
-              ? undefined
-              : this.#getIncomingMessageDetails(history),
+            directionalDetails: isOutgoing
+              ? {
+                  outgoing: this.#getOutgoingMessageDetails(
+                    history.timestamp,
+                    history,
+                    { conversationId: message.conversationId }
+                  ),
+                }
+              : {
+                  incoming: this.#getIncomingMessageDetails(history),
+                },
+
+            revisions: null,
+            pinDetails: null,
           };
 
-          if (parent.directStoryReplyMessage) {
-            result.directStoryReplyMessage =
-              await this.#toDirectStoryReplyMessage({
+          let item: Backups.ChatItem.Params['item'];
+          if (parentItem.directStoryReplyMessage) {
+            item = {
+              directStoryReplyMessage: await this.#toDirectStoryReplyMessage({
                 message: history,
-              });
+              }),
+            };
           } else {
-            result.standardMessage = await this.#toStandardMessage({
-              message: history,
-            });
+            item = {
+              standardMessage: await this.#toStandardMessage({
+                message: history,
+              }),
+            };
           }
-          return result;
+          return { ...base, item };
         })
         // Backups use oldest to newest order
         .reverse()
     );
   }
 
-  #toCustomChatColors(): Array<Backups.ChatStyle.ICustomChatColor> {
+  #toCustomChatColors(): Array<Backups.ChatStyle.CustomChatColor.Params> {
     const customColors = itemStorage.get('customColors');
     if (!customColors) {
       return [];
@@ -3324,9 +3552,9 @@ export class BackupExportStream extends Readable {
       map.set(uuid, color);
     }
 
-    const result = new Array<Backups.ChatStyle.ICustomChatColor>();
+    const result = new Array<Backups.ChatStyle.CustomChatColor.Params>();
     for (const [uuid, color] of map.entries()) {
-      const id = Long.fromNumber(result.length + 1);
+      const id = BigInt(result.length + 1);
       this.#customColorIdByUuid.set(uuid, id);
 
       const start = desktopHslToRgbInt(
@@ -3338,7 +3566,7 @@ export class BackupExportStream extends Readable {
       if (color.end == null) {
         result.push({
           id,
-          solid: start,
+          color: { solid: start },
         });
       } else {
         const end = desktopHslToRgbInt(
@@ -3354,10 +3582,12 @@ export class BackupExportStream extends Readable {
 
         result.push({
           id,
-          gradient: {
-            colors: [start, end],
-            positions: [0, 1],
-            angle: (backupAngle + 360) % 360,
+          color: {
+            gradient: {
+              colors: [start, end],
+              positions: [0, 1],
+              angle: (backupAngle + 360) % 360,
+            },
           },
         });
       }
@@ -3366,7 +3596,7 @@ export class BackupExportStream extends Readable {
     return result;
   }
 
-  #toDefaultChatStyle(): Backups.IChatStyle | null {
+  #toDefaultChatStyle(): Backups.ChatStyle.Params | null {
     const defaultColor = itemStorage.get('defaultConversationColor');
     const wallpaperPhotoPointer = itemStorage.get(
       'defaultWallpaperPhotoPointer'
@@ -3395,11 +3625,7 @@ export class BackupExportStream extends Readable {
     customColorId,
     dimWallpaperInDarkMode,
     autoBubbleColor,
-  }: LocalChatStyle): Backups.IChatStyle | null {
-    const result: Backups.IChatStyle = {
-      dimWallpaperInDarkMode,
-    };
-
+  }: LocalChatStyle): Backups.ChatStyle.Params | null {
     // The defaults
     if (
       (color == null || color === 'ultramarine') &&
@@ -3411,18 +3637,21 @@ export class BackupExportStream extends Readable {
       return null;
     }
 
+    let wallpaper: Backups.ChatStyle.Params['wallpaper'];
     if (Bytes.isNotEmpty(wallpaperPhotoPointer)) {
-      result.wallpaperPhoto = Backups.FilePointer.decode(wallpaperPhotoPointer);
+      wallpaper = {
+        wallpaperPhoto: Backups.FilePointer.decode(wallpaperPhotoPointer),
+      };
     } else if (wallpaperPreset) {
-      result.wallpaperPreset = wallpaperPreset;
+      wallpaper = { wallpaperPreset };
+    } else {
+      wallpaper = null;
     }
 
+    let bubbleColor: Backups.ChatStyle.Params['bubbleColor'];
     if (color == null || autoBubbleColor) {
-      result.autoBubbleColor = {};
-      return result;
-    }
-
-    if (color === 'custom') {
+      bubbleColor = { autoBubbleColor: {} };
+    } else if (color === 'custom') {
       strictAssert(
         customColorId != null,
         'No custom color id for custom color'
@@ -3431,84 +3660,90 @@ export class BackupExportStream extends Readable {
       const index = this.#customColorIdByUuid.get(customColorId);
       strictAssert(index != null, 'Missing custom color');
 
-      result.customColorId = index;
-      return result;
+      bubbleColor = { customColorId: index };
+    } else {
+      const { BubbleColorPreset } = Backups.ChatStyle;
+
+      let preset: Backups.ChatStyle.BubbleColorPreset;
+      switch (color) {
+        case 'ultramarine':
+          preset = BubbleColorPreset.SOLID_ULTRAMARINE;
+          break;
+        case 'crimson':
+          preset = BubbleColorPreset.SOLID_CRIMSON;
+          break;
+        case 'vermilion':
+          preset = BubbleColorPreset.SOLID_VERMILION;
+          break;
+        case 'burlap':
+          preset = BubbleColorPreset.SOLID_BURLAP;
+          break;
+        case 'forest':
+          preset = BubbleColorPreset.SOLID_FOREST;
+          break;
+        case 'wintergreen':
+          preset = BubbleColorPreset.SOLID_WINTERGREEN;
+          break;
+        case 'teal':
+          preset = BubbleColorPreset.SOLID_TEAL;
+          break;
+        case 'blue':
+          preset = BubbleColorPreset.SOLID_BLUE;
+          break;
+        case 'indigo':
+          preset = BubbleColorPreset.SOLID_INDIGO;
+          break;
+        case 'violet':
+          preset = BubbleColorPreset.SOLID_VIOLET;
+          break;
+        case 'plum':
+          preset = BubbleColorPreset.SOLID_PLUM;
+          break;
+        case 'taupe':
+          preset = BubbleColorPreset.SOLID_TAUPE;
+          break;
+        case 'steel':
+          preset = BubbleColorPreset.SOLID_STEEL;
+          break;
+        case 'ember':
+          preset = BubbleColorPreset.GRADIENT_EMBER;
+          break;
+        case 'midnight':
+          preset = BubbleColorPreset.GRADIENT_MIDNIGHT;
+          break;
+        case 'infrared':
+          preset = BubbleColorPreset.GRADIENT_INFRARED;
+          break;
+        case 'lagoon':
+          preset = BubbleColorPreset.GRADIENT_LAGOON;
+          break;
+        case 'fluorescent':
+          preset = BubbleColorPreset.GRADIENT_FLUORESCENT;
+          break;
+        case 'basil':
+          preset = BubbleColorPreset.GRADIENT_BASIL;
+          break;
+        case 'sublime':
+          preset = BubbleColorPreset.GRADIENT_SUBLIME;
+          break;
+        case 'sea':
+          preset = BubbleColorPreset.GRADIENT_SEA;
+          break;
+        case 'tangerine':
+          preset = BubbleColorPreset.GRADIENT_TANGERINE;
+          break;
+        default:
+          throw missingCaseError(color);
+      }
+
+      bubbleColor = { bubbleColorPreset: preset };
     }
 
-    const { BubbleColorPreset } = Backups.ChatStyle;
-
-    switch (color) {
-      case 'ultramarine':
-        result.bubbleColorPreset = BubbleColorPreset.SOLID_ULTRAMARINE;
-        break;
-      case 'crimson':
-        result.bubbleColorPreset = BubbleColorPreset.SOLID_CRIMSON;
-        break;
-      case 'vermilion':
-        result.bubbleColorPreset = BubbleColorPreset.SOLID_VERMILION;
-        break;
-      case 'burlap':
-        result.bubbleColorPreset = BubbleColorPreset.SOLID_BURLAP;
-        break;
-      case 'forest':
-        result.bubbleColorPreset = BubbleColorPreset.SOLID_FOREST;
-        break;
-      case 'wintergreen':
-        result.bubbleColorPreset = BubbleColorPreset.SOLID_WINTERGREEN;
-        break;
-      case 'teal':
-        result.bubbleColorPreset = BubbleColorPreset.SOLID_TEAL;
-        break;
-      case 'blue':
-        result.bubbleColorPreset = BubbleColorPreset.SOLID_BLUE;
-        break;
-      case 'indigo':
-        result.bubbleColorPreset = BubbleColorPreset.SOLID_INDIGO;
-        break;
-      case 'violet':
-        result.bubbleColorPreset = BubbleColorPreset.SOLID_VIOLET;
-        break;
-      case 'plum':
-        result.bubbleColorPreset = BubbleColorPreset.SOLID_PLUM;
-        break;
-      case 'taupe':
-        result.bubbleColorPreset = BubbleColorPreset.SOLID_TAUPE;
-        break;
-      case 'steel':
-        result.bubbleColorPreset = BubbleColorPreset.SOLID_STEEL;
-        break;
-      case 'ember':
-        result.bubbleColorPreset = BubbleColorPreset.GRADIENT_EMBER;
-        break;
-      case 'midnight':
-        result.bubbleColorPreset = BubbleColorPreset.GRADIENT_MIDNIGHT;
-        break;
-      case 'infrared':
-        result.bubbleColorPreset = BubbleColorPreset.GRADIENT_INFRARED;
-        break;
-      case 'lagoon':
-        result.bubbleColorPreset = BubbleColorPreset.GRADIENT_LAGOON;
-        break;
-      case 'fluorescent':
-        result.bubbleColorPreset = BubbleColorPreset.GRADIENT_FLUORESCENT;
-        break;
-      case 'basil':
-        result.bubbleColorPreset = BubbleColorPreset.GRADIENT_BASIL;
-        break;
-      case 'sublime':
-        result.bubbleColorPreset = BubbleColorPreset.GRADIENT_SUBLIME;
-        break;
-      case 'sea':
-        result.bubbleColorPreset = BubbleColorPreset.GRADIENT_SEA;
-        break;
-      case 'tangerine':
-        result.bubbleColorPreset = BubbleColorPreset.GRADIENT_TANGERINE;
-        break;
-      default:
-        throw missingCaseError(color);
-    }
-
-    return result;
+    return {
+      dimWallpaperInDarkMode: dimWallpaperInDarkMode ?? null,
+      wallpaper,
+      bubbleColor,
+    };
   }
 }
 
