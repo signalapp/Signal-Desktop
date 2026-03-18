@@ -6718,6 +6718,11 @@
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
     "messageformat": "As an admin, group members will see that you deleted {count, plural, one {this message} other {these messages}}.",
+    "description": "delete selected messages > admin delete confirmation modal > description",
+    "ignoreUnused": true
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
+    "messageformat": "Group members on the latest versions of Signal will see that you deleted {count, plural, one {this message} other {these messages}}.",
     "description": "delete selected messages > admin delete confirmation modal > description"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
