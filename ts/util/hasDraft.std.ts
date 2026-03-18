@@ -10,8 +10,8 @@ export function hasDraft(
   >
 ): boolean {
   return (
-    (attrs.draft != null && attrs.draft.length > 1) ||
-    (attrs.draftAttachments != null && attrs.draftAttachments.length > 1) ||
+    (attrs.draft != null && attrs.draft.length > 0) ||
+    (attrs.draftAttachments != null && attrs.draftAttachments.length > 0) ||
     attrs.quotedMessageId != null
   );
 }
