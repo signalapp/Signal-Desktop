@@ -55,6 +55,7 @@ import { Address } from '../types/Address.std.js';
 import { QualifiedAddress } from '../types/QualifiedAddress.std.js';
 import { normalizeStoryDistributionId } from '../types/StoryDistributionId.std.js';
 import type { ServiceIdString, AciString } from '../types/ServiceId.std.js';
+import type { TextAttachmentType } from '../types/Attachment.std.js';
 import {
   fromPniObject,
   isPniString,
@@ -176,7 +177,7 @@ import {
 
 import { toNumber } from '../util/toNumber.std.js';
 
-const { isBoolean, isNumber, isString, noop, omit } = lodash;
+const { isBoolean, isNumber, isString, noop } = lodash;
 
 const log = createLogger('MessageReceiver');
 
@@ -2170,30 +2171,33 @@ export default class MessageReceiver
       // If a text attachment has a link preview we remove it from the
       // textAttachment data structure and instead process the preview and add
       // it as a "preview" property for the message attributes.
-      const { text, preview: unprocessedPreview } =
-        msg.attachment.textAttachment;
+      const {
+        preview: unprocessedPreview,
+        background,
+        ...textAttachment
+      } = msg.attachment.textAttachment;
       if (unprocessedPreview) {
         preview = processPreview([unprocessedPreview]);
-      } else if (!text) {
+      } else if (!textAttachment.text) {
         throw new Error('Text attachments must have text or link preview!');
       }
 
       attachments.push({
-        size: text?.length ?? 0,
+        size: textAttachment.text?.length ?? 0,
         contentType: TEXT_ATTACHMENT,
         textAttachment: {
-          ...omit(msg.attachment.textAttachment, 'preview'),
+          ...textAttachment,
           textStyle: isKnownProtoEnumMember(
             Proto.TextAttachment.Style,
-            msg.attachment.textAttachment.textStyle
+            textAttachment.textStyle
           )
-            ? msg.attachment.textAttachment.textStyle
+            ? textAttachment.textStyle
             : 0,
-        },
+          gradient: background?.gradient,
+          color: background?.color,
+        } satisfies TextAttachmentType,
         blurHash: generateBlurHash(
-          (msg.attachment.textAttachment.background?.color ||
-            msg.attachment.textAttachment.background?.gradient?.startColor) ??
-            undefined
+          background?.color ?? background?.gradient?.startColor ?? undefined
         ),
       });
     }
