@@ -1515,6 +1515,13 @@ export class BackupExportStream extends Readable {
     const me = this.#getRecipientByServiceId(aboutMe.aci, 'getting self');
     strictAssert(me, 'self recipient must exist');
 
+    if (chatItem?.authorId == null) {
+      log.warn(`${message.sent_at}: Dropping message without known author`);
+      return undefined;
+    }
+
+    strictAssert(chatItem.authorId !== 0n, 'authorId 0 is invalid');
+
     if (
       chatItem &&
       conversation &&
