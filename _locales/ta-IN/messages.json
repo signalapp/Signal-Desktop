@@ -4032,22 +4032,22 @@
     "messageformat": "ஒரு நிர்வாகி யாரால் முடியும் என்பதை மாற்றினார்தொகு குழு உறுப்பினர் \"அனைத்து உறுப்பினர்களுக்கும்.\""
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "உறுப்பினரின் பதவி நிலையை யார் சேர்க்கலாம் என்பதை \"நிர்வாகிகள் மட்டும்\" என நீங்கள் மாற்றியுள்ளீர்கள்."
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "உறுப்பினரின் பதவி நிலையை யார் சேர்க்கலாம் என்பதை \"நிர்வாகிகள் மட்டும்\" என {adminName} மாற்றியுள்ளார்."
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "உறுப்பினரின் பதவி நிலையை யார் சேர்க்கலாம் என்பதை ஒரு நிர்வாகி \"நிர்வாகிகள் மட்டும்\" என மாற்றியுள்ளார்."
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "உறுப்பினரின் பதவி நிலையை யார் சேர்க்கலாம் என்பதை \"அனைத்து உறுப்பினர்கள்\" என நீங்கள் மாற்றியுள்ளீர்கள்."
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "உறுப்பினரின் பதவி நிலையை யார் சேர்க்கலாம் என்பதை \"அனைத்து உறுப்பினர்கள்\" என {adminName} மாற்றியுள்ளார்."
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "உறுப்பினரின் பதவி நிலையை யார் சேர்க்கலாம் என்பதை ஒரு நிர்வாகி \"அனைத்து உறுப்பினர்கள்\" என மாற்றியுள்ளார்."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "நீங்கள் முடக்கப்பட்டது நிர்வாக ஒப்புதல் அதற்காக குழு இணைப்பு."
@@ -4704,7 +4704,7 @@
     "messageformat": "ஒலியடக்கு"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "அழைப்பிலிருந்து அகற்றப்பட்டது"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "உறுப்பினர் லேபிள்கள்"
@@ -4812,10 +4812,10 @@
     "messageformat": "யாரால் முடியும் என்பதைத் தேர்வுசெய்க அனுப்பு செய்திகள் குழு."
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "உறுப்பினரின் பதவி நிலையை யார் சேர்க்கலாம்"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "இந்தத் தொகுப்பில் உள்ள உறுப்பினரின் பதவி நிலையை யார் சேர்க்கலாம் என்பதைத் தேர்வுசெய்யவும்."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "உறுப்பினரின் பதவி நிலை அழிக்கப்படும்"
@@ -5067,10 +5067,10 @@
     "messageformat": "{count, plural, one {அனைவருக்கும் நீக்க {count,number} மெசேஜை மட்டுமே நீங்கள் தேர்ந்தெடுக்க முடியும்} other {அனைவருக்கும் நீக்க {count,number} மெசேஜ்களை மட்டுமே நீங்கள் தேர்ந்தெடுக்க முடியும்}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "டிராஃப்டை நிராகரிப்பதா?"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "இந்த செயலைச் செயல்தவிர்க்க முடியாது."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "உருப்படியை நீக்கவா?"
@@ -6208,13 +6208,13 @@
     "messageformat": "டெஸ்க்டாப் காப்புப்பிரதிகள்"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "உங்கள் காப்புப்பிரதி எண்டு-டு-எண்டு குறியாக்கம் செய்யப்பட்டு உங்கள் கணினியில் சேமிக்கப்பட்டுள்ளது."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "உங்கள் பேசியில் மீட்டெடுக்கக்கூடிய எண்டு-டு-எண்டு குறியாக்கப்பட்ட காப்புப்பிரதியை உருவாக்குங்கள். "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "காப்புப்பிரதியை மீட்டெடுக்க, உங்கள் பேசியில் சிக்னலின் புதிய நகலை நிறுவவும். செயலியைத் திறந்து “மீட்டெடு அல்லது இடமாற்றுக” என்பதைத் தட்டவும். <learnMoreLink>மேலும் அறிக.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "கோப்புறையைத் தேர்வு செய்க"
@@ -8010,6 +8010,6 @@
     "messageformat": "இப்போது நீங்கள் சிக்னல் டெஸ்க்டாப்பில் இருந்தும் 'ஒருமுறை மட்டும் காண்க' ஊடக மெசேஜ்களை அனுப்பலாம். 'ஒருமுறை மட்டும் காண்க' மெசேஜ்களாக அனுப்பப்படும் தனிப்பட்ட படங்கள் மற்றும் வீடியோக்கள், பார்க்கப்பட்ட பிறகு அரட்டைத் தொடரிலிருந்து தானாகவே அகற்றப்படும்."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "இப்போது ஒரு சாட் தொகுப்பில் உங்களை அல்லது உங்கள் பதவி நிலையை விவரிக்க, விருப்பத்தின் பேரில் ஒரு உறுப்பினரின் பதவி நிலையைச் சேர்க்கலாம். அந்தத் தொகுப்பில் உங்கள் சுயவிவரப் பெயருக்கு அருகில் உறுப்பினரின் பதவி நிலைகள் தோன்றும், மேலும் அனைவருக்காகவும் அவற்றைச் செயல்படுத்தலாமா வேண்டாமா என்பதைத் குழு நிர்வாகிகள் கட்டுப்படுத்தலாம்."
   }
 }

@@ -4032,22 +4032,22 @@
     "messageformat": "Un administrator a modificat cine poate edita apartenența la grup în \"Toți membrii.\""
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "Ai schimbat cine poate adăuga roluri de membri la Doar administratorii."
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "{adminName} a schimbat cine poate adăuga roluri de membri la Doar administratorii."
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "Un administrator a modificat cine poate adăuga roluri de membri la Doar administratorii."
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "Ai schimbat cine poate adăuga roluri de membri la Doar administratorii."
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "{adminName} a schimbat cine poate adăuga roluri de membri la Toți membrii."
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "Un administrator a modificat cine poate adăuga roluri de membri la Toți membrii."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Ai dezactivat aprobarea administratorului pentru alăturările prin linkul de grup."
@@ -4704,7 +4704,7 @@
     "messageformat": "Silențios"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "Elimină din apel"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Roluri de membri"
@@ -4812,10 +4812,10 @@
     "messageformat": "Alege cine poate trimite mesaje în acest grup."
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "Cine poate adăuga roluri de membri"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "Alege cine poate adăuga roluri de membri în acest grup."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Rolurile de membru vor fi șterse"
@@ -5067,10 +5067,10 @@
     "messageformat": "{count, plural, one {Poți selecta până la {count,number} mesaj de șters pentru toată lumea} few {Poți selecta până la {count,number} mesaje de șters pentru toată lumea} other {Poți selecta până la {count,number} de mesaje de șters pentru toată lumea}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "Renunți la schiță?"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "Această acțiune este ireversibilă."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Elimini elementul?"
@@ -6208,13 +6208,13 @@
     "messageformat": "Backup-uri pentru desktop"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "Backup-ul tău este criptat end-to-end și sunt stocate pe computerul tău."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Creează o copie de rezervă criptată end-to-end pe care o poți restaura pe telefon. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Pentru a restaura un backup, instalează o copie nouă de Signal pe telefonul tău. Deschide aplicația și atinge Restaurează sau transferă. <learnMoreLink>Află mai multe.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Alege dosarul"
@@ -8010,6 +8010,6 @@
     "messageformat": "Acum poți trimite mesaje media cu vizualizare o singură dată și din Signal Desktop. Fotografiile și videoclipurile individuale trimise ca mesaje cu vizualizare unică vor fi eliminate automat dintr-un fir de conversație după ce au fost vizualizate."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "Acum poți adăuga opțional un rol de membru pentru a te descrie pe tine sau rolul tău într-un chat de grup. Setează rolul de membru în grupul tău la „Arbitru” sau „Portar” în chat-ul local de fotbal din liga recreativă pentru a te ajuta să începi jocul atunci când se alătură noi coechipieri, apoi alege un rol cu funcția ta în chat-ul companiei. Rolurile de membri apar lângă numele de profil din acel grup, iar administratorii grupurilor pot controla dacă ele sunt active pentru toată lumea."
   }
 }

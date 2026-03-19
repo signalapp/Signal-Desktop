@@ -603,13 +603,13 @@
     "messageformat": "El cifrado para este chat se ha verificado automáticamente "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "Para los contactos con los que hayas iniciado la comunicación mediante un número de teléfono, Signal puede confirmar automáticamente si la conexión es segura usando un proceso llamado transparencia de claves. Para mayor seguridad, verifica manualmente el cifrado de extremo a extremo comparando los números en la pantalla anterior o escaneando el código que se muestra en el dispositivo de la otra persona."
+    "messageformat": "Para los contactos con los que hayas iniciado la comunicación mediante un número de teléfono, Signal puede confirmar automáticamente si la conexión es segura usando un proceso llamado transparencia de claves. Para mayor seguridad, verifica el cifrado de extremo a extremo manualmente comparando los números en la pantalla anterior o escaneando el código que se muestra en el dispositivo de la otra persona."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
     "messageformat": "La verificación automática ya no está disponible para este chat"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal ya no puede verificar automáticamente el cifrado de este chat. Es probable que {name} haya cambiado su número de teléfono. Verifica manualmente el cifrado de extremo a extremo comparando los números en la pantalla anterior o escaneando el código que se muestra en su dispositivo."
+    "messageformat": "Signal ya no puede verificar automáticamente el cifrado de este chat. Es probable que {name} haya cambiado su número de teléfono. Verifica el cifrado de extremo a extremo manualmente comparando los números en la pantalla anterior o escaneando el código que se muestra en su dispositivo."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
     "messageformat": "Signal solo puede verificar automáticamente el cifrado en los chats que hayas empezado con alguien mediante un número de teléfono. Si iniciaste un chat con alguien a través de un alias o un grupo en común, verifica el cifrado de extremo a extremo comparando los números en la pantalla anterior o escaneando el código que se muestra en su dispositivo."
@@ -642,10 +642,10 @@
     "messageformat": "Enviando…"
   },
   "icu:KeyTransparencyOnboardingDialog__Title": {
-    "messageformat": "Ahora, Signal puede verificar automáticamente el cifrado"
+    "messageformat": "Ahora, Signal puede verificar el cifrado automáticamente"
   },
   "icu:KeyTransparencyOnboardingDialog__Description": {
-    "messageformat": "Para los contactos con los que hayas iniciado la comunicación mediante un número de teléfono, Signal puede confirmar automáticamente si la conexión es segura usando un proceso llamado transparencia de claves. Para mayor seguridad, puedes seguir verificando manualmente tus contactos usando un código QR o comparando los números de seguridad."
+    "messageformat": "Para los contactos con los que hayas iniciado la comunicación mediante un número de teléfono, Signal puede confirmar automáticamente si la conexión es segura usando un proceso llamado transparencia de claves. Para mayor seguridad, puedes seguir verificando tus contactos manualmente usando un código QR o comparando los números de seguridad."
   },
   "icu:KeyTransparencyOnboardingDialog__Continue": {
     "messageformat": "Continuar"
@@ -4032,22 +4032,22 @@
     "messageformat": "Un admin ha actualizado quién puede editar la lista de participantes del grupo a \"cualquiera\"."
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "Has cambiado quién puede añadir categorías de participante a \"Solo admins\"."
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "{adminName} ha cambiado quién puede añadir categorías de participante a \"Solo admins\"."
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "Un admin ha cambiado quién puede añadir categorías de participante a \"Solo admins\"."
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "Has cambiado quién puede añadir categorías de participante a \"Cualquiera\"."
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "{adminName} ha cambiado quién puede añadir categorías de participante a \"Cualquiera\"."
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "Un admin ha cambiado quién puede añadir categorías de participante a \"Cualquiera\"."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Has desactivado la aprobación de admin para unirse al grupo mediante enlace."
@@ -4704,7 +4704,7 @@
     "messageformat": "Silenciar"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "Eliminar de la llamada"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Categorías de participantes"
@@ -4812,10 +4812,10 @@
     "messageformat": "Elige quién puede enviar mensajes en este grupo."
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "Quién puede añadir categorías de participante"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "Elige quién puede añadir categorías de participante en este grupo."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Se eliminarán las categorías de participantes"
@@ -5067,16 +5067,16 @@
     "messageformat": "{count, plural, one {Solo puedes seleccionar {count,number} mensaje para eliminar para todos} other {Solo puedes seleccionar un máximo de {count,number} mensajes para eliminar para todos}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "¿Descartar borrador?"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "Esta acción no se puede deshacer."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "¿Eliminar elemento?"
   },
   "icu:DeleteAttachmentModal__Body": {
-    "messageformat": "Se eliminará de forma permanente este elemento. También se eliminará cualquier mensaje asociado con este elemento."
+    "messageformat": "Se eliminará este elemento de forma permanente. También se eliminará cualquier mensaje asociado con este elemento."
   },
   "icu:DeleteAttachmentModal__Close": {
     "messageformat": "Cerrar"
@@ -6208,13 +6208,13 @@
     "messageformat": "Copias de seguridad locales"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "Tu copia de seguridad está cifrada de extremo a extremo y se guarda en tu dispositivo de escritorio."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Crea una copia de seguridad cifrada de extremo a extremo que puedes restaurar en tu teléfono. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Para restaurar una copia de seguridad, debes reinstalar Signal en tu teléfono. Abre la aplicación y toca “Restaurar o transferir”. <learnMoreLink>Más información</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Selecciona una carpeta"
@@ -7694,7 +7694,7 @@
     "messageformat": "Si sales de esta página, se cancelará tu donación."
   },
   "icu:DonateFlow__discard-paypal-dialog-discard": {
-    "messageformat": "Salir de la página"
+    "messageformat": "Salir"
   },
   "icu:DonateFlow__discard-paypal-dialog-cancel": {
     "messageformat": "Permanecer en la página"
@@ -8010,6 +8010,6 @@
     "messageformat": "Ahora también puedes enviar mensajes multimedia de visualización única en Signal Desktop. Las fotos y los vídeos individuales que se envían como mensajes de visualización única se eliminan automáticamente del chat una vez vistos."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "En los grupos, cada persona tiene un papel distinto. Por eso lanzamos las \"categorías de participante\", una función que te permite añadir tu rol en cada grupo al que perteneces. ¿Tienes un grupo del trabajo? Indica tu cargo para que cuando se unan nuevos participantes sepan de inmediato quién eres. En tu grupo familiar, quizá prefieras algo más divertido como \"El tío favorito\" o \"La consentida de mamá\". Las categorías de participante aparecen junto a tu nombre de perfil en ese grupo, y los admins pueden decidir si activan esta opción para todos o no."
   }
 }

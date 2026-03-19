@@ -351,7 +351,7 @@
     "messageformat": "通話"
   },
   "icu:NavTabs__ItemLabel--Stories": {
-    "messageformat": "報導"
+    "messageformat": "限時動態"
   },
   "icu:NavTabs__ItemLabel--Settings": {
     "messageformat": "設定"
@@ -2403,7 +2403,7 @@
     "messageformat": "新聊天"
   },
   "icu:stories": {
-    "messageformat": "報導"
+    "messageformat": "限時動態"
   },
   "icu:contactSearchPlaceholder": {
     "messageformat": "姓名、使用者名稱與電話號碼"
@@ -4032,22 +4032,22 @@
     "messageformat": "一位管理員變更了誰可以編輯群組成員資格為\"所有成員”。"
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "你變更了誰可以新增成員標籤為「僅管理員」。"
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "{adminName}變更了誰可以新增成員標籤為「僅管理員」。"
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "一位管理員變更了誰可以新增成員標籤為「僅管理員」。"
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "你變更了誰可以新增成員標籤為「所有成員」。"
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "{adminName}變更了誰可以新增成員標籤為「所有成員」。"
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "一位管理員變更了誰可以新增成員標籤為「所有成員」。"
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "你已停用群組連結的管理員批准。"
@@ -4704,7 +4704,7 @@
     "messageformat": "靜音對話"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "從通話中移除"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "成員標籤"
@@ -4812,10 +4812,10 @@
     "messageformat": "選擇誰可以向群組傳送訊息。"
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "誰可新增成員標籤"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "選擇誰可以在此群組新增成員標籤。"
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "成員標籤將被清除"
@@ -5067,10 +5067,10 @@
     "messageformat": "{count, plural, other {你只能為所有人選取最多 {count,number} 則要刪除的訊息}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "要捨棄草稿嗎？"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "此動作無法復原。"
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "要刪除項目嗎？"
@@ -6208,13 +6208,13 @@
     "messageformat": "桌面備份"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "你的備份會以端對端加密並儲存在你的電腦上。"
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "建立可在手機上還原的端對端加密備份。 "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "如要還原備份，請在你的手機上安裝全新的 Signal 。開啟應用程式並輕按「還原備份或轉移」。<learnMoreLink>了解更多。</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "選擇資料夾"
@@ -6637,16 +6637,16 @@
     "messageformat": "前往「設定」"
   },
   "icu:MyStories__title": {
-    "messageformat": "我的報導"
+    "messageformat": "我的限時動態"
   },
   "icu:MyStories__list_item": {
-    "messageformat": "我的報導"
+    "messageformat": "我的限時動態"
   },
   "icu:MyStories__story": {
-    "messageformat": "你的報導"
+    "messageformat": "你的限時動態"
   },
   "icu:MyStories__download": {
-    "messageformat": "下載報導"
+    "messageformat": "下載限時動態"
   },
   "icu:MyStories__more": {
     "messageformat": "更多選項"
@@ -6664,7 +6664,7 @@
     "messageformat": "{replyCount, plural, other {<strong>{replyCount,number}</strong> 回覆}}"
   },
   "icu:MyStories__delete": {
-    "messageformat": "刪除這個報導嗎？ 對於收到它的每個人，也將被刪除。"
+    "messageformat": "刪除這個限時動態嗎？ 這樣也會為收到它的每個人而刪除。"
   },
   "icu:payment-event-notification-message-you-label": {
     "messageformat": "您已開始向 {receiver} 付款"
@@ -6748,13 +6748,13 @@
     "messageformat": "收到"
   },
   "icu:Stories__title": {
-    "messageformat": "報導"
+    "messageformat": "限時動態"
   },
   "icu:Stories__mine": {
     "messageformat": "我的限時動態"
   },
   "icu:Stories__add": {
-    "messageformat": "新增一個報導"
+    "messageformat": "新增一個限時動態"
   },
   "icu:Stories__add-story--text": {
     "messageformat": "文字限動"
@@ -6766,7 +6766,7 @@
     "messageformat": "已隱藏的限時動態"
   },
   "icu:Stories__list-empty": {
-    "messageformat": "目前沒有可顯示的近期報導"
+    "messageformat": "目前沒有可顯示的近期限時動態"
   },
   "icu:Stories__list__empty--title": {
     "messageformat": "沒有限時動態"
@@ -6787,7 +6787,7 @@
     "messageformat": "點擊以重試"
   },
   "icu:Stories__placeholder--text": {
-    "messageformat": "點擊以檢視報導"
+    "messageformat": "點擊以檢視限時動態"
   },
   "icu:Stories__placeholder-with-icon--text-2": {
     "messageformat": "點擊 <newStoryButtonIcon></newStoryButtonIcon> 以新增最新資訊。"
@@ -6814,7 +6814,7 @@
     "messageformat": "限動會在 24 小時後自動消失。選擇你限動的瀏覽對象，或者建立新的限動並設定特定的瀏覽者或群組。"
   },
   "icu:StoriesSettings__my_stories": {
-    "messageformat": "我的報導"
+    "messageformat": "我的限時動態"
   },
   "icu:StoriesSettings__new-list": {
     "messageformat": "新增限時動態"
@@ -7051,13 +7051,13 @@
     "messageformat": "複製時間戳記"
   },
   "icu:StoryListItem__label": {
-    "messageformat": "報導"
+    "messageformat": "限時動態"
   },
   "icu:StoryListItem__unhide": {
     "messageformat": "取消隱藏限時動態"
   },
   "icu:StoryListItem__hide": {
-    "messageformat": "隱藏報導"
+    "messageformat": "隱藏限時動態"
   },
   "icu:StoryListItem__go-to-chat": {
     "messageformat": "到聊天"
@@ -7069,7 +7069,7 @@
     "messageformat": "資訊"
   },
   "icu:StoryListItem__hide-modal--body": {
-    "messageformat": "要隱藏故事嗎？ 來自{name}的新報導的更新將不再出現在報導清單的頂部。"
+    "messageformat": "要隱藏限時動態嗎？ 來自{name}的最新限時動態更新將不再出現在限時動態清單的頂部。"
   },
   "icu:StoryListItem__hide-modal--confirm": {
     "messageformat": "隱藏"
@@ -7150,7 +7150,7 @@
     "messageformat": "訪問連結"
   },
   "icu:Quote__story": {
-    "messageformat": "報導"
+    "messageformat": "限時動態"
   },
   "icu:Quote__story-reaction": {
     "messageformat": "對{name} 一個限時動態的反應"
@@ -8010,6 +8010,6 @@
     "messageformat": "現在你也可以從 Signal 桌面版傳送閱後即焚媒體訊息。以閱後即焚訊息方式傳送的個別相片和影片，會在被觀看後自動從對話主題中移除。"
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "現在你可以隨意地新增一個成員標籤來描述你自己或你在群組聊天中的角色。例如在你當地的足球聯賽聊天中，將你的群組成員標籤設定為「裁判」或「守門員」，以協助新隊友加入時展開討論，而在公司聊天中則選擇你工作職位的標籤。成員標籤會顯示在該群組中的個人檔案名稱旁邊，群組管理員可以控制是否開放給所有人使用此功能。"
   }
 }

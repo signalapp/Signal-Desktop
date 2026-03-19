@@ -2130,7 +2130,7 @@
     "messageformat": "Sampaikan semua panggilan melalui peladen Signal untuk menghindari pengungkapan alamat IP Anda ke kontak Anda. Mengaktifkannya akan mengurangi kualitas panggilan."
   },
   "icu:permissions": {
-    "messageformat": "Perizinan"
+    "messageformat": "Izin"
   },
   "icu:mediaPermissionsDescription": {
     "messageformat": "Izinkan akses ke mikrofon"
@@ -2781,19 +2781,19 @@
     "messageformat": "Terakhir Digunakan"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--SmileysAndPeople": {
-    "messageformat": "Smiley & Orang"
+    "messageformat": "Smiley dan Orang"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--AnimalsAndNature": {
-    "messageformat": "Binatang & Alam"
+    "messageformat": "Binatang dan Alam"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--FoodAndDrink": {
-    "messageformat": "Makanan & Minuman"
+    "messageformat": "Makanan dan Minuman"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Activities": {
     "messageformat": "Aktivitas"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--TravelAndPlaces": {
-    "messageformat": "Perjalanan & Destinasi"
+    "messageformat": "Wisata dan Destinasi"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Objects": {
     "messageformat": "Objek"
@@ -2829,16 +2829,16 @@
     "messageformat": "Terakhir Digunakan"
   },
   "icu:FunPanelEmojis__SectionTitle--SmileysAndPeople": {
-    "messageformat": "Smiley & Orang"
+    "messageformat": "Smiley dan Orang"
   },
   "icu:FunPanelEmojis__SectionTitle--AnimalsAndNature": {
-    "messageformat": "Binatang & Alam"
+    "messageformat": "Binatang dan Alam"
   },
   "icu:FunPanelEmojis__SectionTitle--FoodAndDrink": {
-    "messageformat": "Makanan & Minuman"
+    "messageformat": "Makanan dan Minuman"
   },
   "icu:FunPanelEmojis__SectionTitle--TravelAndPlaces": {
-    "messageformat": "Perjalanan & Destinasi"
+    "messageformat": "Wisata dan Destinasi"
   },
   "icu:FunPanelEmojis__SectionTitle--Activities": {
     "messageformat": "Aktivitas"
@@ -2976,13 +2976,13 @@
     "messageformat": "Batal"
   },
   "icu:Message__reaction-emoji-label--you": {
-    "messageformat": "Anda menanggapi dengan {emoji}"
+    "messageformat": "Anda memberikan {emoji}"
   },
   "icu:Message__reaction-emoji-label--single": {
-    "messageformat": "{title} menanggapi dengan {emoji}"
+    "messageformat": "{title} memberikan {emoji}"
   },
   "icu:Message__reaction-emoji-label--many": {
-    "messageformat": "{count, plural, other {{count,number} orang menanggapi dengan {emoji}}}"
+    "messageformat": "{count, plural, other {{count,number} orang memberikan {emoji}}}"
   },
   "icu:Message__role-description": {
     "messageformat": "Pesan"
@@ -4032,22 +4032,22 @@
     "messageformat": "Seorang admin mengubah akses menyunting keanggotaan grup ke \"Semua orang,\""
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "Anda mengganti siapa yang bisa menambahkan label anggota menjadi \"Hanya admin\"."
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "{adminName} mengganti siapa yang bisa menambahkan label anggota menjadi \"Hanya admin\"."
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "Admin mengganti siapa yang bisa menambahkan label anggota menjadi \"Hanya admin\"."
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "Anda mengganti siapa yang bisa menambahkan label anggota menjadi \"Semua anggota\"."
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "{adminName} mengganti siapa yang bisa menambahkan label anggota menjadi \"Semua anggota\"."
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "Admin mengganti siapa yang bisa menambahkan label anggota menjadi \"Semua anggota\"."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Anda menonaktifkan persetujuan admin untuk tautan grup."
@@ -4704,7 +4704,7 @@
     "messageformat": "Senyapkan"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "Keluarkan dari panggilan"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Label anggota"
@@ -4812,10 +4812,10 @@
     "messageformat": "Pilih siapa yang dapat mengirimkan pesan ke grup."
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "Siapa yang bisa menambahkan label anggota"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "Pilih siapa yang bisa menambahkan label anggota di grup ini."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Label anggota akan dihapus"
@@ -5067,10 +5067,10 @@
     "messageformat": "{count, plural, other {Anda hanya bisa memilih maksimal {count,number} pesan untuk dihapus bagi semua orang}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "Hapus Draf?"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "Tindakan ini tidak dapat diurungkan."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Hapus item?"
@@ -5797,7 +5797,7 @@
     "messageformat": "Ubah emotikon ketik jadi emoji"
   },
   "icu:Preferences__auto-convert-emoji--description": {
-    "messageformat": "Contoh, :-) akan diubah jadi <emojify>🙂</emojify>"
+    "messageformat": "Contoh: :-) akan diubah jadi <emojify>🙂</emojify>"
   },
   "icu:Preferences__keep-muted-chats-archived--title": {
     "messageformat": "Biarkan obrolan yang dibisukan tetap dalam arsip"
@@ -6208,13 +6208,13 @@
     "messageformat": "Pencadangan desktop"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "Data cadangan dienkripsi secara menyeluruh dan disimpan di komputer Anda."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Buat cadangan terenkripsi menyeluruh yang dapat dipulihkan di ponsel Anda. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Untuk memulihkan data cadangan, instal ulang Signal di ponsel Anda. Buka aplikasi dan ketuk &quot;Pulihkan atau transfer&quot;. <learnMoreLink>Pelajari selengkapnya.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Pilih folder"
@@ -8010,6 +8010,6 @@
     "messageformat": "Sekarang Anda juga bisa mengirim pesan media sekali lihat dari Signal Desktop. Foto dan video individual yang dikirim sebagai pesan sekali lihat akan otomatis dihapus dari utas percakapan setelah dilihat."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "• Sekarang tersedia opsi menambahkan label anggota untuk mendeskripsikan diri atau peran Anda dalam sebuah chat grup. Label anggota ditampilkan di samping nama profil Anda dalam grup tersebut dan admin grup bisa mengontrol siapa yang bisa menetapkan label tersebut."
   }
 }

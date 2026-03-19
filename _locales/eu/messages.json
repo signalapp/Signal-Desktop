@@ -4032,22 +4032,22 @@
     "messageformat": "Kudeatzaile batek taldearen kideak nork editatu ditzakeen \"Taldekide guztiek\"era aldatu du."
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "Kide-etiketak gehitzeko baimena \"Adminak bakarrik\" gisa ezarri duzu."
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "Kide-etiketak gehitzeko baimena \"Adminak bakarrik\" gisa ezarri du {adminName} erabiltzaileak."
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "Kide-etiketak gehitzeko baimena \"Adminak bakarrik\" gisa ezarri du admin batek."
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "Kide-etiketak gehitzeko baimena \"Kide guztiak\" gisa ezarri duzu."
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "Kide-etiketak gehitzeko baimena \"Kide guztiak\" gisa ezarri du {adminName} erabiltzaileak."
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "Kide-etiketak gehitzeko baimena \"Kide guztiak\" gisa ezarri du admin batek."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Administratzaile baimenaren beharra desaktibatu duzu talde estekarako."
@@ -4704,7 +4704,7 @@
     "messageformat": "Desaktibatu jakinarazpenak"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "Kendu deitik"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Kide-etiketak"
@@ -4812,10 +4812,10 @@
     "messageformat": "Aukeratu nork bidal ditzakeen mezuak taldera."
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "Nork gehi ditzake kide-etiketak?"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "Aukeratu talde honetan nork gehi ditzakeen kide-etiketak."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Kide-etiketak garbitu egingo dira"
@@ -5067,10 +5067,10 @@
     "messageformat": "{count, plural, one {Gehienez {count,number} mezu hauta dezakezu guztientzat ezabatzeko} other {Gehienez {count,number} mezu hauta ditzakezu guztientzat ezabatzeko}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "Zirriborroa baztertu nahi duzu?"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "Ekintza hau ezin da desegin."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Elementua ezabatu nahi duzu?"
@@ -6208,13 +6208,13 @@
     "messageformat": "Ordenagailuko babeskopiak"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "Babeskopia muturretik muturrera enkriptatuta dago, eta ordenagailuan gordeta."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Sortu muturretik muturrera enkriptatutako babeskopia bat, telefonoan leheneratu ahalko duzuna. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Babeskopia bat leheneratzeko, instalatu Signal-en kopia berri bat telefonoan. Ireki aplikazioa eta sakatu &quot;Leheneratu edo transferitu&quot;. <learnMoreLink>Lortu informazio gehiago</learnMoreLink>."
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Aukeratu karpeta bat"
@@ -8010,6 +8010,6 @@
     "messageformat": "Orain, Signal Desktop-etik ere bidal ditzakezu behin ikusteko multimedia-elementuak. Behin ikusteko mezu gisa bidaltzen diren banako argazki eta bideoak automatikoki kenduko dira elkarrizketa-haritik haiek ikusi ondoren."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "Orain, nahi baduzu, kide-etiketa bat gehi dezakezu zeure burua deskribatzeko edo taldeko txatean duzun funtzioa azaltzeko. Kide-Talde horretan duzun profil-izenaren alboan agertzen dira kide-etiketak, eta denentzat gaituta dauden ala ez kontrola dezakete taldeko adminek."
   }
 }

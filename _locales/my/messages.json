@@ -4032,22 +4032,22 @@
     "messageformat": "အက်ဒ်မင်သည် အဖွဲ့ မန်ဘာဖြစ်မှုကို ပြင်ခွင့်ရှိသူများအား \"မန်ဘာအားလုံး\" အဖြစ် ပြောင်းခဲ့ပါသည်။"
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "\"အက်ဒ်မင်များသာ\" ကို အဖွဲ့ဝင်အမှတ်တံဆိပ် ထည့်သွင်းနိုင်သူအဖြစ် သင်ပြောင်းလဲလိုက်သည်။"
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "\"အက်ဒ်မင်များသာ\" ကို အဖွဲ့ဝင်အမှတ်တံဆိပ် ထည့်သွင်းနိုင်သူအဖြစ် {adminName} မှ ပြောင်းလိုက်သည်။"
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "\"အက်ဒ်မင်များသာ\" ကို အဖွဲ့ဝင်အမှတ်တံဆိပ် ထည့်သွင်းနိုင်သူအဖြစ် အက်ဒ်မင်မှ ပြောင်းလဲလိုက်သည်။"
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "\"အဖွဲ့ဝင်အားလုံး\" ကို အဖွဲ့ဝင်အမှတ်တံဆိပ် ထည့်သွင်းနိုင်သူအဖြစ် သင်ပြောင်းလဲလိုက်သည်။"
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "\"အဖွဲ့ဝင်အားလုံး\" ကို အဖွဲ့ဝင်အမှတ်တံဆိပ် ထည့်သွင်းနိုင်သူအဖြစ် {adminName} မှ ပြောင်းလဲလိုက်သည်။"
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "\"အဖွဲ့ဝင်အားလုံး\" ကို အဖွဲ့ဝင်အမှတ်တံဆိပ် ထည့်သွင်းနိုင်သူအဖြစ် အက်ဒ်မင်မှ ပြောင်းလဲလိုက်သည်။"
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "သင်သည် အဖွဲ့လင့်ခ်အတွက် အက်ဒ်မင် ခွင့်ပြုချက်ကို ပိတ်ခဲ့ပါသည်။"
@@ -4704,7 +4704,7 @@
     "messageformat": "အသံပိတ်ရန်"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "ကောလ်မှ ဖယ်ရှားရန်"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "အဖွဲ့ဝင်အမှတ်တံဆိပ်"
@@ -4812,10 +4812,10 @@
     "messageformat": "အဖွဲ့သို့ မက်ဆေ့ချ်များ ပို့ခွင့်ရှိသူကို ရွေးချယ်ပါ။"
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "အဖွဲ့ဝင်အမှတ်တံဆိပ် ထည့်သွင်းနိုင်သူ"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "ဤအဖွဲ့တွင် အဖွဲ့ဝင်အမှတ်တံဆိပ် ထည့်သွင်းခွင့်ရှိသူအား ရွေးချယ်ပါ။"
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "အဖွဲ့ဝင်တံဆိပ်များကို ဖယ်ရှားပါမည်"
@@ -5067,10 +5067,10 @@
     "messageformat": "{count, plural, other {လူတိုင်းအတွက် ဖျက်ရန် မက်ဆေ့ချ် {count,number} စောင်အထိသာ ရွေးချယ်နိုင်သည်}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "မူကြမ်းကို ပယ်ဖျက်မလား။"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "ဤလုပ်ဆောင်ချက်ကို ပြန်ရုပ်သိမ်း၍ မရနိုင်ပါ။"
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "ဤအရာကို ဖျက်မည်လား။"
@@ -6208,13 +6208,13 @@
     "messageformat": "Desktop ဘက်ခ်အပ်များ"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "ဘက်ခ်အပ်များကို ဟိုဘက်သည်ဘက် ကုဒ်ပြောင်းဝှက်ထားပြီး သင့်ကွန်ပျူတာပေါ်တွင် သိမ်းဆည်းထားသည်။"
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "သင့်ဖုန်းတွင် သင်ပြန်ယူနိုင်သည့် ဟိုဘက်သည်ဘက် ကုဒ်ပြောင်းဝှက်ထားသော ဘက်ခ်အပ်တစ်ခု ဖန်တီးပါ။ "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "ဘက်ခ်အပ်ကို ပြန်ယူရန် သင့်ဖုန်းတွင် Signal အသစ်ကို ထည့်သွင်းပါ။ အက်ပ်ကိုဖွင့်ပြီး “ပြန်လည်ရယူရန် သို့မဟုတ် လွှဲပြောင်းရန်” ကို နှိပ်ပါ။ <learnMoreLink>ပိုမိုလေ့လာရန်။</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "ဖိုင်တွဲတစ်ခုရွေးချယ်ပါ"
@@ -8010,6 +8010,6 @@
     "messageformat": "ယခုအခါ Signal Desktop မှလည်း တစ်ခါကြည့် မီဒီယာ မက်ဆေ့ချ်များကို ပေးပို့နိုင်ပါပြီ။ မက်ဆေ့ချ်များကို ကြည့်ပြီးသည်နှင့် ပေးပို့သော တစ်ဦးချင်းဓာတ်ပုံများနှင့် ဗီဒီယိုများကို ကြည့်ရှုပြီးသည်နှင့် စကားဝိုင်းမှ အလိုအလျောက် ဖယ်ရှားပါမည်။"
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "ယခု သင်သည် အဖွဲ့လိုက်ချက်(တ်)တွင် သင့်ကိုယ်သင် သို့မဟုတ် သင့်အခန်းကဏ္ဍကို ဖော်ပြရန် အဖွဲ့ဝင်အမှတ်တံဆိပ်ကို ရွေးချယ်ထည့်သွင်းနိုင်ပါပြီ။ အဖွဲ့ဝင်အမှတ်တံဆိပ်များသည် ထိုအဖွဲ့ရှိ သင့်ပရိုဖိုင်အမည်ဘေးတွင် ပေါ်လာပြီး အယောက်တိုင်းအား ခွင့်ပြု မပြုကို အဖွဲ့အက်ဒ်မင်မှ ကိုင်တွယ်ထိန်းချုပ်နိုင်သည်။"
   }
 }

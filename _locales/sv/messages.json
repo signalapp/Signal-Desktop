@@ -4032,22 +4032,22 @@
     "messageformat": "En administratör ändrade vem som kan redigera gruppmedlemskapet till \"Alla medlemmar.\""
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "Du ändrade vem som kan lägga till medlemsetiketter till \"Endast administratörer.\""
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "{adminName} ändrade vem som kan lägga till medlemsetiketter till \"Endast administratörer.\""
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "En administratör ändrade vem som kan lägga till medlemsetiketter till \"Endast administratörer.\""
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "Du ändrade vem som kan lägga till medlemsetiketter till \"Alla medlemmar.\""
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "{adminName} ändrade vem som kan lägga till medlemsetiketter till \"Alla medlemmar.\""
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "En administratör ändrade vem som kan lägga till medlemsetiketter till \"Alla medlemmar.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Du inaktiverade administratörsgodkännande för grupplänken."
@@ -4704,7 +4704,7 @@
     "messageformat": "Tysta"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "Ta bort från samtalet"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Medlemsetiketter"
@@ -4812,10 +4812,10 @@
     "messageformat": "Välj vem som kan skicka meddelanden till gruppen."
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "Vem kan lägga till medlemsetiketter?"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "Välj vem som kan lägga till medlemmar i den här gruppen."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Medlemsetiketter kommer att tas bort"
@@ -5067,10 +5067,10 @@
     "messageformat": "{count, plural, one {Du kan bara välja upp till {count,number} meddelande som ska tas bort för alla} other {Du kan bara välja upp till {count,number} meddelanden som ska tas bort för alla}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "Släng utkast?"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "Denna åtgärd kan inte ångras."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Radera objekt?"
@@ -6208,13 +6208,13 @@
     "messageformat": "Säkerhetskopiering av skrivbordet"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "Din säkerhetskopia är totalsträckskrypterad och lagras på din dator."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Skapa en totalsträckskrypterad säkerhetskopia som du kan återställa på din telefon. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "För att återställa en säkerhetskopia installerar du en ny kopia av Signal på din telefon. Öppna appen och tryck på ”Återställ eller överför”. <learnMoreLink>Läs mer.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Välj en mapp"
@@ -8010,6 +8010,6 @@
     "messageformat": "Nu kan du även skicka mediemeddelanden som visas en gång från Signal Desktop. Enskilda foton och videor som skickas som visa en gång-meddelanden tas automatiskt bort från en konversationstråd efter att de har visats."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "Nu kan du välja att lägga till en medlemsetikett för att beskriva dig själv eller din roll i en gruppchatt. Medlemsetiketter visas bredvid ditt profilnamn i gruppen, och gruppadministratörer kan styra om de är aktiverade för alla."
   }
 }

@@ -4032,22 +4032,22 @@
     "messageformat": "Un administrador cambiou quen pode editar os membros do grupo a «Todos os membros»."
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "Cambiaches quen pode engadir categorías de membro a «Só administradores»."
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "{adminName} cambiou quen pode engadir categorías de membro a «Só administradores»."
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "Un administrador cambiou quen pode engadir categorías de membro a «Só administradores»."
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "Cambiaches quen pode engadir categorías de membro a «Todos os membros»."
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "{adminName} cambiou quen pode engadir categorías de membro a «Todos os membros»."
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "Un administrador cambiou quen pode engadir categorías de membro a «Todos os membros»."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Desactivaches a aprobación dos administradores para a ligazón do grupo."
@@ -4704,7 +4704,7 @@
     "messageformat": "Silenciar"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "Sacar da chamada"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Categorías de membro"
@@ -4812,10 +4812,10 @@
     "messageformat": "Elixe quen pode enviar mensaxes ao grupo"
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "Quen pode engadir categorías de membro"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "Elixe quen pode engadir categoría de membro neste grupo."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Eliminaranse as categorías de membro"
@@ -5067,10 +5067,10 @@
     "messageformat": "{count, plural, one {Só podes seleccionar ata {count,number} mensaxe para borrar para todos} other {Só podes seleccionar ata {count,number} mensaxes para borrar para todos}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "Descartar borrador?"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "Esta acción non se pode desfacer."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Eliminar elemento?"
@@ -6208,13 +6208,13 @@
     "messageformat": "Copias de seguranza do ordenador"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "A túa copia de seguranza cífrase de extremo a extremo e gárdase no teu dispositivo."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Crea una copia de seguranza cifrada de extremo a extremo que podes restaurar no teu teléfono. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Para restaurar a copia, instala unha nova copia de Signal no teléfono. Abre a aplicación e preme «Restaurar ou transferir». <learnMoreLink>Máis información.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Elixe un cartafol"
@@ -8010,6 +8010,6 @@
     "messageformat": "Agora tamén podes enviar mensaxes multimedia dunha soa visualización dende Signal Desktop. As fotos e vídeos enviados como mensaxes dunha soa visualización eliminaranse automaticamente unha vez vistos."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "Agora tes a opción de configurar unha categoría de membro para describirte a ti ou o teu rol dentro da conversa grupal. As categorías de membro aparecen ao carón do teu nome de perfil no grupo, e os administradores poden controlar se están activadas ou non para todos."
   }
 }

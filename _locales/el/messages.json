@@ -4032,22 +4032,22 @@
     "messageformat": "Ένας διαχειριστής άλλαξε το ποιός έχει τη δυνατότητα αλλαγών στα μέλη της ομάδας σε \"Όλα τα μέλη.\""
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "Άλλαξες το ποιος μπορεί να προσθέτει ετικέτες μέλους σε \"Μόνο διαχειριστές\"."
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "Ο/Η {adminName} άλλαξε το ποιος μπορεί να προσθέτει ετικέτες μέλους σε \"Μόνο διαχειριστές\"."
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "Ένας διαχειριστής άλλαξε το ποιος μπορεί να προσθέτει ετικέτες μέλους σε \"Μόνο διαχειριστές\"."
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "Άλλαξες το ποιος μπορεί να προσθέτει ετικέτες μέλους σε \"Όλα τα μέλη\"."
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "Ο/Η {adminName} άλλαξε το ποιος μπορεί να προσθέτει ετικέτες μέλους σε \"Όλα τα μέλη\"."
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "Ένας διαχειριστής άλλαξε το ποιος μπορεί να προσθέτει ετικέτες μέλους σε \"Όλα τα μέλη\"."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Απενεργοποίησες την έγκριση διαχειριστή για το σύνδεσμο ομάδας."
@@ -4704,7 +4704,7 @@
     "messageformat": "Σίγαση"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "Αφαίρεση από την κλήση"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Ετικέτες μέλους"
@@ -4812,10 +4812,10 @@
     "messageformat": "Επέλεξε ποιοί μπορούν να στέλνουν μηνύματα στην ομάδα."
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "Ποιοι μπορούν να προσθέτουν ετικέτες μέλους"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "Επίλεξε ποιοι μπορούν να προσθέσουν ετικέτες μέλους στην ομάδα."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Οι ετικέτες μελών θα διαγραφούν"
@@ -5067,10 +5067,10 @@
     "messageformat": "{count, plural, one {Μπορείς να επιλέξεις έως {count,number} μήνυμα για να διαγραφεί για όλους} other {Μπορείς να επιλέξεις έως {count,number} μηνύματα για να διαγραφούν για όλους}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "Απόρριψη πρόχειρου;"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "Αυτή η ενέργεια δεν μπορεί να αναιρεθεί."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Διαγραφή αντικειμένου;"
@@ -6208,13 +6208,13 @@
     "messageformat": "Αντίγραφα ασφαλείας desktop"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "Τα αντίγραφα ασφαλείας είναι κρυπτογραφημένα από άκρο σε άκρο και αποθηκεύονται στον υπολογιστή σου."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Δημιούργησε ένα κρυπτογραφημένο αντίγραφο ασφαλείας από άκρο σε άκρο που μπορείς να επαναφέρεις στο τηλέφωνό σου. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Για να ανακτήσεις ένα αντίγραφο ασφαλείας, εγκατάστησε από την αρχή το Signal στο τηλέφωνό σου. Άνοιξε την εφαρμογή και πάτα &quot;Επαναφορά ή μεταφορά&quot;. <learnMoreLink>Μάθε περισσότερα.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Επιλογή φακέλου"
@@ -8010,6 +8010,6 @@
     "messageformat": "Τώρα μπορείς επίσης να στέλνεις μηνύματα πολυμέσων μιας μόνο προβολής από το Signal Desktop. Οι μεμονωμένες φωτογραφίες και τα βίντεο που αποστέλλονται ως μηνύματα μίας μόνο προβολής θα καταργούνται αυτόματα από ένα νήμα συνομιλίας μετά την προβολή τους."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "• Τώρα μπορείς προαιρετικά να προσθέσεις μια ετικέτα μέλους για να περιγράψεις τον εαυτό σου ή τον ρόλο σου σε μια ομαδική συνομιλία. Οι ετικέτες μελών εμφανίζονται δίπλα στο όνομα του προφίλ σου σε αυτήν την ομάδα, ενώ οι διαχειριστές της ομάδας μπορούν να ρυθμίσουν αν θα είναι ενεργοποιημένες για όλους."
   }
 }

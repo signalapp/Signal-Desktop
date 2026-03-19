@@ -4032,22 +4032,22 @@
     "messageformat": "Một admin đã thay đổi người có thể chỉnh sửa thành viên nhóm thành \"Tất cả thành viên.\""
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "Bạn đã thay đổi người có thể thêm nhãn thành viên thành \"Chỉ quản trị viên\"."
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "{adminName} đã thay đổi người có thể thêm nhãn thành viên thành \"Chỉ quản trị viên\"."
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "Quản trị viên đã thay đổi người có thể thêm nhãn thành viên thành \"Chỉ quản trị viên\"."
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "Bạn đã thay đổi người có thể thêm nhãn thành viên thành \"Tất cả thành viên\"."
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "{adminName} đã thay đổi người có thể thêm nhãn thành viên thành \"Tất cả thành viên\"."
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "Quản trị viên đã thay đổi người có thể thêm nhãn thành viên thành \"Tất cả thành viên\"."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Bạn đã tắt chấp duyệt của người quản lý cho đường dẫn nhóm."
@@ -4704,7 +4704,7 @@
     "messageformat": "Tắt tiếng"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "Gỡ khỏi cuộc gọi"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Nhãn thành viên"
@@ -4812,10 +4812,10 @@
     "messageformat": "Chọn người có thể gửi tin nhắn cho nhóm."
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "Ai có thể thêm nhãn thành viên"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "Chọn người có thể thêm nhãn thành viên trong nhóm này."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Nhãn thành viên sẽ được xóa"
@@ -5067,10 +5067,10 @@
     "messageformat": "{count, plural, other {Bạn chỉ có thể chọn tối đa {count,number} tin nhắn để xóa cho mọi người}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "Bỏ bản nháp?"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "Không thể hoàn tác hành động này."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Xóa mục này?"
@@ -6208,13 +6208,13 @@
     "messageformat": "Bản sao lưu máy tính"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "Bản sao lưu của bạn được mã hóa và được lưu trên thiết bị của bạn."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Tạo một bản sao lưu được mã hóa đầu cuối bạn có thể lưu trên điện thoại. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Để khôi phục bản sao lưu, hãy cài đặt mới Signal trên điện thoại của bạn. Mở ứng dụng và nhấn &quot;Khôi phục hoặc chuyển&quot;. <learnMoreLink>Tìm hiểu thêm.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Chọn thư mục"
@@ -8010,6 +8010,6 @@
     "messageformat": "Giờ đây bạn cũng có thể gửi tin nhắn đa phương tiện xem một lần từ Signal Desktop. Ảnh và video riêng lẻ được gửi dưới dạng tin nhắn xem một lần sẽ được tự động xóa khỏi cuộc trò chuyện sau khi đã được xem."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "Giờ đây, bạn có thể thêm nhãn thành viên (không bắt buộc) để mô tả bản thân hoặc vai trò của mình trong cuộc trò chuyện nhóm. Nhãn thành viên sẽ xuất hiện bên cạnh tên hồ sơ của bạn trong nhóm đó và quản trị viên nhóm có thể kiểm soát việc bật hay tắt nhãn thành viên cho tất cả mọi người."
   }
 }

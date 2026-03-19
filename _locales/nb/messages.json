@@ -4032,22 +4032,22 @@
     "messageformat": "En administrator endret hvem som kan redigere gruppens medlemmer til \"Alle medlemmer.\""
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "Du endret innstillingen for hvem som kan legge til medlemsmerker, til «Kun administratorer»."
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "{adminName} endret innstillingen for hvem som kan legge til medlemsmerker, til «Kun administratorer»."
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "En administrator endret innstillingen for hvem som kan legge til medlemsmerker, til «Kun administratorer»."
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "Du endret innstillingen for hvem som kan legge til medlemsmerker, til «Alle medlemmer»."
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "{adminName} endret innstillingen for hvem som kan legge til medlemsmerker, til «Alle medlemmer»."
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "En administrator endret innstillingen for hvem som kan legge til medlemsmerker, til «Alle medlemmer»."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Du skrudde av administrativ godkjenning for gruppelenken."
@@ -4704,7 +4704,7 @@
     "messageformat": "Slå av lyden"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "Fjern fra samtalen"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Medlemsmerker"
@@ -4812,10 +4812,10 @@
     "messageformat": "Velg hvem som kan sende meldinger til gruppen."
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "Hvem kan legge til medlemsmerker?"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "Velg hvem som kan legge til medlemsmerker i denne gruppen."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Medlemsmerker slettes"
@@ -5067,10 +5067,10 @@
     "messageformat": "{count, plural, one {Du kan slette opptil {count,number} melding om gangen} other {Du kan slette opptil {count,number} meldinger om gangen}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "Vil du forkaste utkastet?"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "Denne handlingen kan ikke angres."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Vil du slette elementet?"
@@ -6208,13 +6208,13 @@
     "messageformat": "Sikkerhetskopier av skrivebordet"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "Sikkerhetskopien er ende-til-ende-kryptert og lagret på datamaskinen din."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Lag en ende-til-ende-kryptert sikkerhetskopi som kan gjenopprettes på mobilen din. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "For å gjenopprette en sikkerhetskopi må du installere en ny kopi av Signal på mobilen. Åpne appen, og trykk på «Gjenopprett eller overfør». <learnMoreLink>Les mer.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Velg en mappe"
@@ -8010,6 +8010,6 @@
     "messageformat": "Nå kan du sende flyktige meldinger og mediefiler i Signal Desktop. Bildene og videoene du sender som flyktige meldinger, slettes automatisk fra samtaletråden etter at de er sett av andre."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "• Nå kan du legge til medlemsmerker som beskriver deg eller rollen din, i gruppesamtaler. Medlemsmerket vises ved siden av profilnavnet ditt, og gruppeadministratorene styrer hvem som kan legge til og redigere merker."
   }
 }
