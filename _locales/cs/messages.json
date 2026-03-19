@@ -4032,22 +4032,22 @@
     "messageformat": "Správce změnil, kdo může upravovat členství ve skupině, na „Všichni členové“."
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "Změnili jste, kdo může přidávat štítky členů, na „Pouze správci“."
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "{adminName} změnil(a), kdo může přidávat štítky členů, na „Pouze správci“."
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "Správce změnil, kdo může přidávat štítky členů, na „Pouze správci“."
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "Změnili jste, kdo může přidávat štítky členů, na „Všichni“."
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "{adminName} změnil(a), kdo může přidávat štítky členů, na „Všichni“."
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "Správce změnil, kdo může přidávat štítky členů, na „Všichni“."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Zrušili jste schvalování odkazu skupiny správcem."
@@ -4704,7 +4704,7 @@
     "messageformat": "Ztlumit"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "Odebrat z hovoru"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Štítky členů"
@@ -4812,10 +4812,10 @@
     "messageformat": "Vyberte, kdo může posílat zprávy do této skupiny."
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "Kdo může přidávat štítky členů"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "Vyberte, kdo může přidávat štítky členů v této skupině."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Štítky členů budou vymazány"
@@ -5055,7 +5055,11 @@
     "messageformat": "Odstranit pro všechny?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {Členové skupiny uvidí, že jste tuto zprávu jako správce odstranil.} few {Členové skupiny uvidí, že jste tyto zprávy jako správce odstranil.} many {Členové skupiny uvidí, že jste tyto zprávy jako správce odstranil.} other {Členové skupiny uvidí, že jste tyto zprávy jako správce odstranil.}}"
+    "messageformat": "{count, plural, one {Členové skupiny uvidí, že jste tuto zprávu jako správce odstranil.} few {Členové skupiny uvidí, že jste tyto zprávy jako správce odstranil.} many {Členové skupiny uvidí, že jste tyto zprávy jako správce odstranil.} other {Členové skupiny uvidí, že jste tyto zprávy jako správce odstranil.}}",
+    "ignoreUnused": true
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
+    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Odstranit ze všech zařízení"
@@ -5067,10 +5071,10 @@
     "messageformat": "{count, plural, one {Můžete vybrat pouze {count,number} zprávu, kterou chcete odstranit pro všechny.} few {Můžete vybrat pouze {count,number} zprávy, které chcete odstranit pro všechny.} many {Můžete vybrat pouze {count,number} zpráv, které chcete odstranit pro všechny.} other {Můžete vybrat pouze {count,number} zpráv, které chcete odstranit pro všechny.}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "Zahodit koncept?"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "Tuto akci nelze vzít zpět."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Odstranit položku?"
@@ -6208,13 +6212,13 @@
     "messageformat": "Zálohy v počítači"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "Vaše záloha je koncové šifrovaná a uložená ve vašem počítači."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Vytvořte si koncově šifrovanou zálohu, kterou můžete obnovit v telefonu. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Pro obnovení zálohy znovu nainstalujte do telefonu aplikaci Signal. Otevřete aplikaci a klepněte na Obnovit nebo přenést. <learnMoreLink>Víc informací.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Vybrat složku"
@@ -6284,6 +6288,18 @@
   },
   "icu:Preferences__local-backups-folder__change": {
     "messageformat": "Změnit"
+  },
+  "icu:Preferences__local-backups-turn-off": {
+    "messageformat": "Turn off backups"
+  },
+  "icu:Preferences__local-backups-turn-off-action": {
+    "messageformat": "Turn off"
+  },
+  "icu:Preferences__local-backups-turn-off-confirmation": {
+    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+  },
+  "icu:Preferences__local-backups-turn-off-delete": {
+    "messageformat": "Delete my backup from this computer"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Zkopírovat do schránky"
@@ -8010,6 +8026,6 @@
     "messageformat": "Nyní můžete odesílat média, která lze zobrazit jen jednou, také z aplikace Signal Desktop. Fotky a videa odeslané jako zprávy, které lze zobrazit jen jednou, budou po zobrazení automaticky z vlákna konverzace odstraněny."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "Nyní můžete volitelně přidat štítek člena, který popisuje člena nebo jeho roli ve skupinovém chatu. Štítky členů se v dané skupině zobrazují vedle profilového jména a správci skupiny mohou nastavit, zda budou povoleny pro všechny."
   }
 }

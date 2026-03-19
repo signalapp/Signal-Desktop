@@ -4032,22 +4032,22 @@
     "messageformat": "Un administrador ha canviat qui pot canviar els membres del grup a Tots els membres."
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "Has canviat qui pot afegir categories de membres a \"Només els administradors\"."
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "{adminName} ha canviat qui pot afegir categories de membres a \"Només els administradors\"."
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "Un admin ha canviat qui pot afegir categories de membres a \"Només els administradors\"."
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "Has canviat qui pot afegir categories de membres a \"Tots els membres\"."
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "{adminName} ha canviat qui pot afegir categories de membres a \"Tots els membres\"."
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "Un admin ha canviat qui pot afegir categories de membres a \"Tots els membres\"."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Heu desactivat l'aprovació de l'administrador per a l'enllaç de grup."
@@ -4704,7 +4704,7 @@
     "messageformat": "Silenciats"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "Expulsar de la trucada"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Categories de membres"
@@ -4812,10 +4812,10 @@
     "messageformat": "Qui pot enviar missatges al grup"
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "Qui pot afegir categories de membre"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "Tria qui pot afegir categories de membre a aquest grup."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "S'eliminaran les categories de membres"
@@ -5055,7 +5055,11 @@
     "messageformat": "Eliminar per a tothom?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {Com a admin, els membres del grup veuran que has eliminat aquest missatge.} other {Com a admin, els membres del grup veuran que has eliminat aquests missatges.}}"
+    "messageformat": "{count, plural, one {Com a admin, els membres del grup veuran que has eliminat aquest missatge.} other {Com a admin, els membres del grup veuran que has eliminat aquests missatges.}}",
+    "ignoreUnused": true
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
+    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Eliminar de tots els dispositius"
@@ -5067,10 +5071,10 @@
     "messageformat": "{count, plural, one {Només pots seleccionar {count,number} missatge per eliminar per a tothom} other {Només pots seleccionar {count,number} missatges per eliminar per a tothom}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "Descartar l'esborrany?"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "Aquesta acció no es pot desfer."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Eliminar element?"
@@ -6208,13 +6212,13 @@
     "messageformat": "Còpies de seguretat d'escriptori"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "La teva còpia de seguretat es xifra d'extrem a extrem i es guarda al teu ordinador."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Crea una còpia de seguretat xifrada d'extrem a extrem que podràs restaurar al teu telèfon. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Per restaurar una còpia de seguretat, torna a instal·lar Signal al teu telèfon. Obre l'app i toca “Restaurar o transferir”. <learnMoreLink>Més informació.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Tria una carpeta"
@@ -6284,6 +6288,18 @@
   },
   "icu:Preferences__local-backups-folder__change": {
     "messageformat": "Canviar"
+  },
+  "icu:Preferences__local-backups-turn-off": {
+    "messageformat": "Turn off backups"
+  },
+  "icu:Preferences__local-backups-turn-off-action": {
+    "messageformat": "Turn off"
+  },
+  "icu:Preferences__local-backups-turn-off-confirmation": {
+    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+  },
+  "icu:Preferences__local-backups-turn-off-delete": {
+    "messageformat": "Delete my backup from this computer"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Copia al porta-retalls"
@@ -8010,6 +8026,6 @@
     "messageformat": "Ara també pots enviar missatges multimèdia d'una única visualització des de Signal Desktop. Les fotos i vídeos individuals que s'enviïn com a missatges de visualització única s'eliminaran automàticament de la conversa un cop s'hagin vist."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "Ara tens l'opció d'afegir una categoria de membre per descriure't a tu mateix o el teu rol en un xat grupal. La categoria de membre apareix al costat del teu nom de perfil al grup i els admins decideixen si aquesta opció està activa (o no) per a tothom."
   }
 }

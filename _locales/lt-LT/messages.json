@@ -4032,22 +4032,22 @@
     "messageformat": "Administratorius pakeitė asmenis, kurie gali keisti grupės narystes į „Visi nariai“."
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "Jūs pakeitėte asmenis, kurie gali pridėti narių kategorijas, į „Tik administratoriai“."
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "{adminName} pakeitė asmenis, kurie gali pridėti narių kategorijas, į „Tik administratoriai“."
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "Administratorius pakeitė asmenis, kurie gali pridėti narių kategorijas, į „Tik administratoriai“."
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "Jūs pakeitėte asmenis, kurie gali pridėti narių kategorijas, į „Visi nariai“."
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "{adminName} pakeitė asmenis, kurie gali pridėti narių kategorijas, į „Visi nariai“."
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "Administratorius pakeitė asmenis, kurie gali pridėti narių kategorijas, į „Visi nariai“."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Jūs išjungėte administratoriaus patvirtinimus grupės nuorodai."
@@ -4704,7 +4704,7 @@
     "messageformat": "Nutildyti"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "Pašalinti iš skambučio"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Narių kategorijos"
@@ -4812,10 +4812,10 @@
     "messageformat": "Pasirinkite, kas gali siųsti žinutes į grupę."
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "Kas gali pridėti narių kategorijas?"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "Pasirinkite kas gali pridėti narių kategorijas šioje grupėje."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Narių kategorijos bus išvalytos"
@@ -5055,7 +5055,11 @@
     "messageformat": "Ištrinti visiems?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {Kadangi esate administratorius, grupės nariai matys, kad ištrynėte šią žinutę.} few {Kadangi esate administratorius, grupės nariai matys, kad ištrynėte šias žinutes.} many {Kadangi esate administratorius, grupės nariai matys, kad ištrynėte šias žinutes.} other {Kadangi esate administratorius, grupės nariai matys, kad ištrynėte šias žinutes.}}"
+    "messageformat": "{count, plural, one {Kadangi esate administratorius, grupės nariai matys, kad ištrynėte šią žinutę.} few {Kadangi esate administratorius, grupės nariai matys, kad ištrynėte šias žinutes.} many {Kadangi esate administratorius, grupės nariai matys, kad ištrynėte šias žinutes.} other {Kadangi esate administratorius, grupės nariai matys, kad ištrynėte šias žinutes.}}",
+    "ignoreUnused": true
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
+    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Ištrinti iš visų įrenginių"
@@ -5067,10 +5071,10 @@
     "messageformat": "{count, plural, one {Gali pasirinkti ištrinti visiems ne daugiau kaip {count,number} žinutę} few {Gali pasirinkti ištrinti visiems ne daugiau kaip {count,number} žinutes} many {Gali pasirinkti ištrinti visiems ne daugiau kaip {count,number} žinutės} other {Gali pasirinkti ištrinti visiems ne daugiau kaip {count,number} žinučių}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "Atmesti juodraštį?"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "Šio veiksmo nebus galima atšaukti."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Ištrinti elementą?"
@@ -6208,13 +6212,13 @@
     "messageformat": "Darbalaukio atsarginės kopijos"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "Jūsų atsarginė kopija yra visiškai užšifruota ir saugoma jūsų kompiuteryje."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Sukurkite visiškai užšifruotą atsarginę kopiją, kurią galėsite atkurti savo telefone. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Norėdami atkurti atsarginę kopiją, telefone įsidiekite naują „Signal“ kopiją. Atverkite programėlę ir bakstelėkite „Atkurti arba perkelti“. <learnMoreLink>Sužinoti daugiau.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Pasirinkti aplanką"
@@ -6284,6 +6288,18 @@
   },
   "icu:Preferences__local-backups-folder__change": {
     "messageformat": "Keisti"
+  },
+  "icu:Preferences__local-backups-turn-off": {
+    "messageformat": "Turn off backups"
+  },
+  "icu:Preferences__local-backups-turn-off-action": {
+    "messageformat": "Turn off"
+  },
+  "icu:Preferences__local-backups-turn-off-confirmation": {
+    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+  },
+  "icu:Preferences__local-backups-turn-off-delete": {
+    "messageformat": "Delete my backup from this computer"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopijuoti į iškarpinę"
@@ -8010,6 +8026,6 @@
     "messageformat": "Dabar iš „Signal Desktop“ taip pat galite siųsti mediją, kurią galima peržiūrėti vieną kartą. Atskiros nuotraukos ir vaizdo įrašai, kurie siunčiami kaip žinutės, kurias galima peržiūrėti vieną kartą, peržiūrėjus bus automatiškai pašalinti iš pokalbio."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "Dabar galite apibūdinti save arba savo vaidmenį šiame grupės pokalbyje pridėdami nario kategoriją. Narių kategorijos rodomos šalia jūsų profilio vardo toje grupėje, o grupės administratoriai gali kontroliuoti, ar jos įjungtos visiems."
   }
 }
