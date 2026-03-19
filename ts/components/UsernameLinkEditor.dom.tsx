@@ -432,7 +432,7 @@ export function UsernameLinkEditor({
 
   onBack,
 }: PropsType): React.JSX.Element {
-  const [pngData, setPngData] = useState<Uint8Array | undefined>();
+  const [pngData, setPngData] = useState<Uint8Array<ArrayBuffer> | undefined>();
   const [showColors, setShowColors] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
   const [recoveryModalVisibility, setRecoveryModalVisibility] = useState(
@@ -597,7 +597,7 @@ export function UsernameLinkEditor({
     });
   }, [isResettingLink]);
 
-  const tryClose = useRef<() => void | undefined>();
+  const tryClose = useRef<(() => void) | null>(null);
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,
     name: 'UsernameLinkEditor',

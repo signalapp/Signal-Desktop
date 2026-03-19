@@ -182,8 +182,6 @@ type ChatItemParseResult = {
   additionalMessages: Array<Partial<MessageAttributesType>>;
 };
 
-const SKIP = 'SKIP' as const;
-
 function phoneToContactFormType(
   type?: Backups.ContactAttachment.Phone['type']
 ): ContactFormType {
@@ -305,7 +303,7 @@ export class BackupImportStream extends Writable {
   }
 
   override async _write(
-    data: Buffer,
+    data: Buffer<ArrayBuffer>,
     _enc: BufferEncoding,
     done: (error?: Error) => void
   ): Promise<void> {
@@ -1791,10 +1789,6 @@ export class BackupImportStream extends Writable {
         timestamp,
       });
 
-      if (result === SKIP) {
-        return;
-      }
-
       if (!result) {
         throw new Error(`${logId}: fromNonBubbleChat item returned nothing!`);
       }
@@ -2554,7 +2548,7 @@ export class BackupImportStream extends Writable {
       conversation: ConversationAttributesType;
       timestamp: number;
     }
-  ): Promise<ChatItemParseResult | undefined | typeof SKIP> {
+  ): Promise<ChatItemParseResult | undefined> {
     const { timestamp } = options;
     const logId = `fromChatItemToNonBubble(${timestamp})`;
 
@@ -2818,7 +2812,7 @@ export class BackupImportStream extends Writable {
       conversation: ConversationAttributesType;
       timestamp: number;
     }
-  ): Promise<ChatItemParseResult | undefined | typeof SKIP> {
+  ): Promise<ChatItemParseResult | undefined> {
     const { aboutMe, author, conversation } = options;
 
     const { update } = updateMessage;
@@ -3113,9 +3107,18 @@ export class BackupImportStream extends Writable {
     }
 
     if (update.pollTerminate) {
-      // TODO (DESKTOP-9282)
-      log.warn('Skipping pollTerminate update (not yet supported)');
-      return SKIP;
+      const { targetSentTimestamp, question } = update.pollTerminate;
+
+      return {
+        message: {
+          type: 'poll-terminate',
+          pollTerminateNotification: {
+            question,
+            pollTimestamp: toNumber(targetSentTimestamp),
+          },
+        },
+        additionalMessages: [],
+      };
     }
 
     return undefined;
@@ -3425,7 +3428,7 @@ export class BackupImportStream extends Writable {
         if (Bytes.isNotEmpty(updaterAci)) {
           from = fromAciObject(Aci.fromUuidBytes(updaterAci));
         }
-        if (!invitees || invitees.length === 0) {
+        if (!invitees || invitees[0] == null) {
           throw new Error(
             `${logId}: groupInvitationRevokedUpdate had missing invitees list!`
           );
@@ -3707,7 +3710,7 @@ export class BackupImportStream extends Writable {
       additionalMessages.push(migrationMessage);
     }
 
-    if (finalDetails.length === 0 && additionalMessages.length > 0) {
+    if (finalDetails.length === 0 && additionalMessages[0] != null) {
       return {
         message: additionalMessages[0],
         additionalMessages: additionalMessages.slice(1),
@@ -4101,7 +4104,7 @@ export class BackupImportStream extends Writable {
       };
     }
 
-    let wallpaperPhotoPointer: Uint8Array | undefined;
+    let wallpaperPhotoPointer: Uint8Array<ArrayBuffer> | undefined;
     let wallpaperPreset: number | undefined;
     const dimWallpaperInDarkMode = dropNull(chatStyle.dimWallpaperInDarkMode);
 

@@ -27,6 +27,7 @@ import type { EraseStorageServiceStateAction } from './user.preload.js';
 import type { NoopActionType } from './noop.std.js';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
 import { useBoundActions } from '../../hooks/useBoundActions.std.js';
+import { strictAssert } from '../../util/assert.std.js';
 
 const { omit, reject } = lodash;
 
@@ -419,6 +420,7 @@ export function reducer(
   if (action.type === 'stickers/STICKER_ADDED') {
     const { payload } = action;
     const packToUpdate = state.packs[payload.packId];
+    strictAssert(packToUpdate, 'Missing packToUpdate');
 
     return {
       ...state,
@@ -438,6 +440,7 @@ export function reducer(
   if (action.type === 'stickers/STICKER_PACK_UPDATED') {
     const { payload } = action;
     const packToUpdate = state.packs[payload.packId];
+    strictAssert(packToUpdate, 'Missing packToUpdate');
 
     return {
       ...state,
@@ -480,7 +483,7 @@ export function reducer(
       packs: {
         ...packs,
         [packId]: {
-          ...packs[packId],
+          ...existingPack,
           status,
           installedAt,
         },
@@ -515,6 +518,7 @@ export function reducer(
       item => item.packId === packId && item.stickerId === stickerId
     );
     const pack = packs[packId];
+    strictAssert(pack, 'Missing pack');
     const sticker = pack.stickers[stickerId];
 
     return {

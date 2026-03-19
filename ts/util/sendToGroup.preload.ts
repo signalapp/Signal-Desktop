@@ -543,7 +543,7 @@ export async function sendToGroupViaSenderKey(
   });
 
   let groupSendToken: GroupSendToken | null = null;
-  let accessKeys: Buffer | null = null;
+  let accessKeys: Buffer<ArrayBuffer> | null = null;
   if (groupSendEndorsementState != null) {
     groupSendToken = groupSendEndorsementState.buildToken(
       new Set(senderKeyRecipients)
@@ -1228,7 +1228,7 @@ async function handle410Response(
 function getXorOfAccessKeys(
   devices: Array<DeviceType>,
   { story }: { story?: boolean } = {}
-): Buffer {
+): Buffer<ArrayBuffer> {
   const uuids = getServiceIdsFromDevices(devices);
 
   const result = Buffer.alloc(ACCESS_KEY_LENGTH);
@@ -1262,8 +1262,8 @@ function getXorOfAccessKeys(
     }
 
     for (let i = 0; i < ACCESS_KEY_LENGTH; i += 1) {
-      // eslint-disable-next-line no-bitwise
-      result[i] ^= accessKeyBuffer[i];
+      // eslint-disable-next-line no-bitwise, @typescript-eslint/no-non-null-assertion
+      result[i]! ^= accessKeyBuffer[i]!;
     }
   });
 
@@ -1278,11 +1278,11 @@ async function encryptForSenderKey({
   groupId,
 }: {
   contentHint: number;
-  contentMessage: Uint8Array;
+  contentMessage: Uint8Array<ArrayBuffer>;
   devices: Array<DeviceType>;
   distributionId: string;
   groupId?: string;
-}): Promise<Uint8Array> {
+}): Promise<Uint8Array<ArrayBuffer>> {
   const ourAci = itemStorage.user.getCheckedAci();
   const ourDeviceId = itemStorage.user.getDeviceId();
   if (!ourDeviceId) {

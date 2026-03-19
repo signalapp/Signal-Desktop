@@ -41,7 +41,7 @@ const parseTokenBody = (
 };
 
 export type UploadOptionsType = Readonly<{
-  content: string | Buffer | Uint8Array;
+  content: string | Buffer<ArrayBuffer> | Uint8Array<ArrayBuffer>;
   appVersion: string;
   logger: LoggerType;
   extension?: string;

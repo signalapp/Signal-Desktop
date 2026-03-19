@@ -29,7 +29,8 @@ export function getQuoteBodyText({
   const { body, contact: embeddedContact, poll } = messageAttributes;
   const embeddedContactName =
     embeddedContact && embeddedContact.length > 0
-      ? EmbeddedContact.getName(embeddedContact[0])
+      ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        EmbeddedContact.getName(embeddedContact[0]!)
       : '';
 
   const pollText = poll

@@ -56,7 +56,10 @@ export function callLinkRestrictionsToRingRTC(
 }
 
 export function getRoomIdFromRootKey(rootKey: CallLinkRootKey): string {
-  return Bytes.toHex(rootKey.deriveRoomId());
+  const roomId = rootKey.deriveRoomId();
+  // @ts-expect-error needs ringrtc update
+  const roomIdBytes: Uint8Array<ArrayBuffer> = roomId;
+  return Bytes.toHex(roomIdBytes);
 }
 
 export function getRoomIdFromRootKeyString(rootKeyString: string): string {
@@ -64,9 +67,13 @@ export function getRoomIdFromRootKeyString(rootKeyString: string): string {
   return getRoomIdFromRootKey(callLinkRootKey);
 }
 
-export function getCallLinkRootKeyFromUrlKey(key: string): Uint8Array {
-  // Returns `Buffer` which inherits from `Uint8Array`
-  return CallLinkRootKey.parse(key).bytes;
+export function getCallLinkRootKeyFromUrlKey(
+  key: string
+): Uint8Array<ArrayBuffer> {
+  const rootKeyBytes = CallLinkRootKey.parse(key).bytes;
+  // @ts-expect-error needs ringrtc update
+  const result: Uint8Array<ArrayBuffer> = rootKeyBytes;
+  return result;
 }
 
 export function getRoomIdFromCallLink(url: string): string {
@@ -75,12 +82,15 @@ export function getRoomIdFromCallLink(url: string): string {
   return getRoomIdFromRootKey(key);
 }
 
-export function toRootKeyBytes(rootKey: string): Uint8Array {
-  return CallLinkRootKey.parse(rootKey).bytes;
+export function toRootKeyBytes(rootKey: string): Uint8Array<ArrayBuffer> {
+  const rootKeyBytes = CallLinkRootKey.parse(rootKey).bytes;
+  // @ts-expect-error needs ringrtc update
+  const result: Uint8Array<ArrayBuffer> = rootKeyBytes;
+  return result;
 }
 
-export function fromRootKeyBytes(rootKey: Uint8Array): string {
-  return CallLinkRootKey.fromBytes(rootKey as Buffer).toString();
+export function fromRootKeyBytes(rootKey: Uint8Array<ArrayBuffer>): string {
+  return CallLinkRootKey.fromBytes(rootKey as Buffer<ArrayBuffer>).toString();
 }
 
 /**

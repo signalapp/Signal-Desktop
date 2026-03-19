@@ -63,8 +63,8 @@ import type {
   NotificationSettingType,
   SentMediaQualitySettingType,
   ZoomFactorType,
-} from '../types/Storage.d.ts';
-import type { ThemeSettingType } from '../types/StorageUIKeys.std.js';
+} from '../types/StorageKeys.std.js';
+import type { ThemeSettingType } from '../util/theme.std.js';
 import type { AnyToast } from '../types/Toast.dom.js';
 import { ToastType } from '../types/Toast.dom.js';
 import type { ConversationType } from '../state/ducks/conversations.preload.js';
@@ -118,7 +118,6 @@ export type PropsDataType = {
   backupTier: BackupLevel | null;
   lastLocalBackup: LocalBackupExportMetadata | undefined;
   localBackupFolder: string | undefined;
-  chatFoldersFeatureEnabled: boolean;
   currentChatFoldersCount: number;
   cloudBackupStatus?: BackupStatusType;
   backupSubscriptionStatus: BackupsSubscriptionType;
@@ -287,7 +286,7 @@ type PropsFunctionType = {
 
   internalAddDonationReceipt: (receipt: DonationReceipt) => void;
   saveAttachmentToDisk: (options: {
-    data: Uint8Array;
+    data: Uint8Array<ArrayBuffer>;
     name: string;
     baseDir?: string | undefined;
   }) => Promise<{ fullPath: string; name: string } | null>;
@@ -392,7 +391,6 @@ export function Preferences({
   availableMicrophones,
   availableSpeakers,
   backupMediaDownloadStatus,
-  chatFoldersFeatureEnabled,
   pauseBackupMediaDownload,
   resumeBackupMediaDownload,
   cancelBackupMediaDownload,
@@ -1198,55 +1196,51 @@ export function Preferences({
             />
           </SettingsRow>
         </SettingsRow>
-        {chatFoldersFeatureEnabled && (
-          <SettingsRow
-            title={i18n(
-              'icu:Preferences__ChatsPage__ChatFoldersSection__Title'
-            )}
-          >
-            <Control
-              left={
-                hasAnyCurrentCustomChatFolders
+        <SettingsRow
+          title={i18n('icu:Preferences__ChatsPage__ChatFoldersSection__Title')}
+        >
+          <Control
+            left={
+              hasAnyCurrentCustomChatFolders
+                ? i18n(
+                    'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders'
+                  )
+                : i18n(
+                    'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title'
+                  )
+            }
+            description={
+              hasAnyCurrentCustomChatFolders
+                ? i18n(
+                    'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders',
+                    { chatFoldersCount: currentChatFoldersCount }
+                  )
+                : i18n(
+                    'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description'
+                  )
+            }
+            right={
+              <AxoButton.Root
+                size="lg"
+                variant="secondary"
+                onClick={() => {
+                  setSettingsLocation({
+                    page: SettingsPage.ChatFolders,
+                    previousLocation: null,
+                  });
+                }}
+              >
+                {hasAnyCurrentCustomChatFolders
                   ? i18n(
-                      'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title--WithChatFolders'
+                      'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders'
                     )
                   : i18n(
-                      'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Title'
-                    )
-              }
-              description={
-                hasAnyCurrentCustomChatFolders
-                  ? i18n(
-                      'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description--WithChatFolders',
-                      { chatFoldersCount: currentChatFoldersCount }
-                    )
-                  : i18n(
-                      'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Description'
-                    )
-              }
-              right={
-                <AxoButton.Root
-                  size="lg"
-                  variant="secondary"
-                  onClick={() => {
-                    setSettingsLocation({
-                      page: SettingsPage.ChatFolders,
-                      previousLocation: null,
-                    });
-                  }}
-                >
-                  {hasAnyCurrentCustomChatFolders
-                    ? i18n(
-                        'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button--WithChatFolders'
-                      )
-                    : i18n(
-                        'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button'
-                      )}
-                </AxoButton.Root>
-              }
-            />
-          </SettingsRow>
-        )}
+                      'icu:Preferences__ChatsPage__ChatFoldersSection__AddChatFolderItem__Button'
+                    )}
+              </AxoButton.Root>
+            }
+          />
+        </SettingsRow>
 
         {isPlaintextExportEnabled && (
           <SettingsRow>

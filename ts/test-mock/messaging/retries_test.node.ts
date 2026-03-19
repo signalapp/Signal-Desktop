@@ -3,6 +3,7 @@
 
 import { assert } from 'chai';
 import createDebug from 'debug';
+import type { PrimaryDevice } from '@signalapp/mock-server';
 import { EnvelopeType, StorageState } from '@signalapp/mock-server';
 
 import type { App } from '../playwright.node.js';
@@ -24,7 +25,7 @@ describe('retries', function (this: Mocha.Suite) {
     app = await bootstrap.link();
 
     const { contacts, phone } = bootstrap;
-    const [first] = contacts;
+    const [first] = contacts as [PrimaryDevice];
 
     let state = StorageState.getEmpty();
 
@@ -50,7 +51,7 @@ describe('retries', function (this: Mocha.Suite) {
 
   it('sends a retry request on a missing sender key error', async () => {
     const { desktop, contacts } = bootstrap;
-    const [first] = contacts;
+    const [first] = contacts as [PrimaryDevice];
 
     debug('send a sender key message without sending skdm first');
     const distributionId = await first.sendSenderKey(desktop, {
@@ -75,7 +76,7 @@ describe('retries', function (this: Mocha.Suite) {
 
   it('does not send a retry request if message succeeded later', async () => {
     const { desktop, contacts } = bootstrap;
-    const [first] = contacts;
+    const [first] = contacts as [PrimaryDevice];
 
     await app.close();
 
@@ -132,7 +133,7 @@ describe('retries', function (this: Mocha.Suite) {
 
   it('sends only one retry request if many failures with same timestamp', async () => {
     const { desktop, contacts } = bootstrap;
-    const [first] = contacts;
+    const [first] = contacts as [PrimaryDevice];
 
     debug('send a sender key message without sending skdm first');
     const firstDistributionId = await first.sendSenderKey(desktop, {

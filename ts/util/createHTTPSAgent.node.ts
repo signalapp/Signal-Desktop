@@ -65,7 +65,8 @@ export class Agent extends HTTPSAgent {
     });
   }
 
-  public createConnection = callbackify(
+  // @ts-expect-error - callbackify() returns the wrong type
+  public createConnection: HTTPSAgent['createConnection'] = callbackify(
     async (options: RequestOptions): Promise<net.Socket> => {
       const { host = options.hostname, port: portString } = options;
       strictAssert(host, 'Agent.createConnection: Missing options.host');
@@ -137,6 +138,7 @@ export async function happyEyeballs({
   const results = await Promise.allSettled(
     interleaved.map(async (addr, index) => {
       const abortController = abortControllers[index];
+      strictAssert(abortController, 'Missing abortController');
       if (index !== 0) {
         await sleep(index * DELAY_MS, abortController.signal);
       }
@@ -185,17 +187,22 @@ export async function happyEyeballs({
       'Fulfilled promise was not fulfilled'
     );
     const { socket, index } = fulfilled.value;
+    const address = interleaved[index];
+    strictAssert(address, 'Missing address');
 
     return {
       socket,
-      address: interleaved[index],
+      address,
       v4Attempts,
       v6Attempts,
     };
   }
 
+  const firstResult = results[0];
+  strictAssert(firstResult, 'Missing firstResult');
+
   strictAssert(
-    results[0].status === 'rejected',
+    firstResult.status === 'rejected',
     'No fulfilled promises, but no rejected either'
   );
 
@@ -203,7 +210,7 @@ export async function happyEyeballs({
   for (const controller of abortControllers) {
     controller.abort();
   }
-  throw results[0].reason;
+  throw firstResult.reason;
 }
 
 export type ConnectOptionsType = Readonly<{

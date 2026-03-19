@@ -17,7 +17,7 @@ export function arePinnedConversationsEqual(
   }
   return localValue.every(
     (localPinnedConversation: PinnedConversation, index: number) => {
-      const remotePinnedConversation = remoteValue[index].identifier;
+      const remotePinnedConversation = remoteValue[index]?.identifier;
       if (!remotePinnedConversation) {
         return false;
       }

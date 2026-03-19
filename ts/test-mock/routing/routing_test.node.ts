@@ -5,6 +5,7 @@
 // eslint-disable-next-line local-rules/file-suffix
 import { assert } from 'chai';
 
+import type { PrimaryDevice } from '@signalapp/mock-server';
 import * as durations from '../../util/durations/index.std.js';
 import type { Bootstrap, App } from '../bootstrap.node.js';
 import {
@@ -54,7 +55,7 @@ describe('routing', function (this: Mocha.Suite) {
 
   it('showConversationRoute', async () => {
     const { contacts } = bootstrap;
-    const [friend] = contacts;
+    const [friend] = contacts as [PrimaryDevice];
     const page = await app.getWindow();
     await page.locator('#LeftPane').waitFor();
     const token = await page.evaluate(

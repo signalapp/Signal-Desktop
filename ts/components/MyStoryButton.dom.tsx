@@ -28,7 +28,8 @@ export type PropsType = {
 };
 
 function getNewestMyStory(story: MyStoryType): StoryViewType {
-  return story.stories[0];
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  return story.stories[0]!;
 }
 
 export function MyStoryButton({
@@ -45,7 +46,8 @@ export function MyStoryButton({
   const [active, setActive] = useState(false);
 
   const newestStory = myStories.length
-    ? getNewestMyStory(myStories[0])
+    ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      getNewestMyStory(myStories[0]!)
     : undefined;
 
   const { avatarUrl, color, profileName, title } = me;
@@ -85,7 +87,8 @@ export function MyStoryButton({
   }
 
   const hasMultiple = myStories.length
-    ? myStories[0].stories.length > 1
+    ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      myStories[0]!.stories.length > 1
     : false;
 
   const reducedSendStatus: ResolvedSendStatus = myStories.reduce(

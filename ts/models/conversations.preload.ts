@@ -267,6 +267,7 @@ import { maybeNotify } from '../messages/maybeNotify.preload.js';
 import { missingCaseError } from '../util/missingCaseError.std.js';
 import * as Message from '../types/Message2.preload.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
+import { isUsernameValid } from '../util/Username.dom.js';
 
 const { compact, isNumber, throttle, debounce } = lodash;
 
@@ -1369,7 +1370,7 @@ export class ConversationModel {
 
   getGroupV2Info(
     options: Readonly<
-      { groupChange?: Uint8Array } & (
+      { groupChange?: Uint8Array<ArrayBuffer> } & (
         | {
             includePendingMembers?: boolean;
             extraConversationsForSend?: ReadonlyArray<string>;
@@ -1394,7 +1395,7 @@ export class ConversationModel {
     };
   }
 
-  getGroupIdBuffer(): Uint8Array | undefined {
+  getGroupIdBuffer(): Uint8Array<ArrayBuffer> | undefined {
     const groupIdString = this.get('groupId');
 
     if (!groupIdString) {
@@ -2206,7 +2207,7 @@ export class ConversationModel {
     this.captureChange('updateServiceId');
   }
 
-  trackPreviousIdentityKey(publicKey: Uint8Array): void {
+  trackPreviousIdentityKey(publicKey: Uint8Array<ArrayBuffer>): void {
     const logId = `trackPreviousIdentityKey/${this.idForLogging()}`;
     const identityKey = Bytes.toBase64(publicKey);
 
@@ -2313,7 +2314,7 @@ export class ConversationModel {
     }
   }
 
-  async updateReportingToken(token?: Uint8Array): Promise<void> {
+  async updateReportingToken(token?: Uint8Array<ArrayBuffer>): Promise<void> {
     const oldValue = this.get('reportingToken');
     const newValue = token ? Bytes.toBase64(token) : undefined;
 
@@ -3110,7 +3111,7 @@ export class ConversationModel {
       return false;
     }
 
-    if (contacts.length === 1 && isMe(contacts[0]?.attributes)) {
+    if (contacts.length === 1 && contacts[0] && isMe(contacts[0].attributes)) {
       return false;
     }
 
@@ -3550,7 +3551,7 @@ export class ConversationModel {
 
   async addPollTerminateNotification(params: {
     pollQuestion: string;
-    pollMessageId: string;
+    pollTimestamp: number;
     terminatorId: string;
     timestamp: number;
     isMeTerminating: boolean;
@@ -3572,7 +3573,7 @@ export class ConversationModel {
       sourceServiceId: terminatorServiceId,
       pollTerminateNotification: {
         question: params.pollQuestion,
-        pollMessageId: params.pollMessageId,
+        pollTimestamp: params.pollTimestamp,
       },
       readStatus: params.isMeTerminating ? ReadStatus.Read : ReadStatus.Unread,
       seenStatus: params.isMeTerminating ? SeenStatus.Seen : SeenStatus.Unseen,
@@ -4454,6 +4455,16 @@ export class ConversationModel {
       return;
     }
 
+    if (username && !isUsernameValid(username)) {
+      log.error(
+        `updateUsername(${this.idForLogging()}): username is invalid, dropping`,
+        {
+          fromStorageService,
+        }
+      );
+      return;
+    }
+
     log.info(`updateUsername(${this.idForLogging()}): updating username`);
 
     this.#doSet({ username });
@@ -4503,7 +4514,8 @@ export class ConversationModel {
       preview = window.MessageCache.register(
         new MessageModel(previewAttributes)
       );
-      const updates = (await this.cleanAttributes([preview.attributes]))?.[0];
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const updates = (await this.cleanAttributes([preview.attributes]))[0]!;
       preview.set(updates);
     }
 
@@ -4511,7 +4523,8 @@ export class ConversationModel {
       activity = window.MessageCache.register(
         new MessageModel(activityAttributes)
       );
-      const updates = (await this.cleanAttributes([activity.attributes]))?.[0];
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const updates = (await this.cleanAttributes([activity.attributes]))[0]!;
       activity.set(updates);
     }
 
@@ -5081,7 +5094,7 @@ export class ConversationModel {
 
   async setEncryptedProfileName(
     encryptedName: string,
-    decryptionKey: Uint8Array
+    decryptionKey: Uint8Array<ArrayBuffer>
   ): Promise<void> {
     if (!encryptedName) {
       return;
@@ -5118,7 +5131,7 @@ export class ConversationModel {
 
   async setAndMaybeFetchProfileAvatar(options: {
     avatarUrl: undefined | null | string;
-    decryptionKey?: Uint8Array | null | undefined;
+    decryptionKey?: Uint8Array<ArrayBuffer> | null | undefined;
     forceFetch?: boolean;
   }): Promise<void> {
     const { avatarUrl, decryptionKey, forceFetch } = options;
@@ -5197,7 +5210,7 @@ export class ConversationModel {
       return false;
     }
 
-    let derivedAccessKey: Uint8Array;
+    let derivedAccessKey: Uint8Array<ArrayBuffer>;
     try {
       derivedAccessKey = deriveAccessKeyFromProfileKey(
         Bytes.fromBase64(profileKey)
@@ -5798,18 +5811,22 @@ export class ConversationModel {
     }
 
     if (isTyping) {
-      this.contactTypingTimers[typingToken] = this.contactTypingTimers[
-        typingToken
-      ] || {
-        timestamp: Date.now(),
-        senderId,
-        senderDevice,
-      };
-
-      this.contactTypingTimers[typingToken].timer = setTimeout(
+      const timer = setTimeout(
         this.clearContactTypingTimer.bind(this, typingToken),
         15 * 1000
       );
+
+      const prev = this.contactTypingTimers[typingToken];
+      if (prev != null) {
+        prev.timer = timer;
+      } else {
+        this.contactTypingTimers[typingToken] ??= {
+          timestamp: Date.now(),
+          senderId,
+          timer,
+        };
+      }
+
       // User was not previously typing before. State change!
       if (!record) {
         window.ConversationController.conversationUpdated(

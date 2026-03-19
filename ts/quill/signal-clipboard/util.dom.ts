@@ -97,7 +97,8 @@ function getStringFromNode(
   }
   let result = '';
   for (let i = 0; i < childCount; i += 1) {
-    const child = element.childNodes[i];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const child = element.childNodes[i]!;
     const nextChild = element.childNodes[i + 1];
     result += getStringFromNode(child, node, nextChild);
   }
@@ -122,12 +123,12 @@ const STRIKETHROUGH_TAG = 's';
 const MONOSPACE_CLASSES = [
   'quill--monospace',
   'MessageTextRenderer__formatting--monospace',
-];
+] as const;
 const SPOILER_CLASSES = [
   'quill--spoiler',
   'MessageTextRenderer__formatting--spoiler',
   'MessageTextRenderer__formatting--spoiler--revealed',
-];
+] as const;
 
 // When the user cuts/copies single-line text which don't cross any mentions/emojo or
 // formatting boundaries, we don't get the surrounding formatting nodes in our selection.

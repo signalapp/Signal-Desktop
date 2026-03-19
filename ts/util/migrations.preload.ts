@@ -58,9 +58,11 @@ const logger = createLogger('migrations');
 
 type EncryptedReader = (
   attachment: Partial<AddressableAttachmentType>
-) => Promise<Uint8Array>;
+) => Promise<Uint8Array<ArrayBuffer>>;
 
-type EncryptedWriter = (data: Uint8Array) => Promise<LocalAttachmentV2Type>;
+type EncryptedWriter = (
+  data: Uint8Array<ArrayBuffer>
+) => Promise<LocalAttachmentV2Type>;
 
 function createEncryptedReader(basePath: string): EncryptedReader {
   const fallbackReader = createPlaintextReader(basePath);
@@ -68,7 +70,7 @@ function createEncryptedReader(basePath: string): EncryptedReader {
 
   return async (
     attachment: Partial<AddressableAttachmentType>
-  ): Promise<Uint8Array> => {
+  ): Promise<Uint8Array<ArrayBuffer>> => {
     // In-memory
     if (attachment.data != null) {
       return attachment.data;
@@ -192,7 +194,7 @@ export const processNewAttachment = (
     logger,
   });
 export const processNewSticker = (
-  stickerData: Uint8Array
+  stickerData: Uint8Array<ArrayBuffer>
 ): ReturnType<typeof doProcessNewSticker> =>
   doProcessNewSticker(stickerData, false, {
     writeNewStickerData,
@@ -200,7 +202,7 @@ export const processNewSticker = (
     logger,
   });
 export const processNewEphemeralSticker = (
-  stickerData: Uint8Array
+  stickerData: Uint8Array<ArrayBuffer>
 ): ReturnType<typeof doProcessNewSticker> =>
   doProcessNewSticker(stickerData, true, {
     writeNewStickerData: writeNewTempData,

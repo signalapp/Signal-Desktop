@@ -47,7 +47,10 @@ export function updateToVersion(db: WritableDB, version: number): void {
 }
 
 type TableRows = ReadonlyArray<
-  Record<string, string | number | Buffer | null | Record<string, unknown>>
+  Record<
+    string,
+    string | number | Buffer<ArrayBuffer> | null | Record<string, unknown>
+  >
 >;
 
 export function insertData(

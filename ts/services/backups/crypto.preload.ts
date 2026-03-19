@@ -68,8 +68,8 @@ const getMemoizedKeyMaterial = memoizee(
 );
 
 export type BackupKeyMaterialType = Readonly<{
-  macKey: Uint8Array;
-  aesKey: Uint8Array;
+  macKey: Uint8Array<ArrayBuffer>;
+  aesKey: Uint8Array<ArrayBuffer>;
 }>;
 
 export function getKeyMaterial(
@@ -80,8 +80,8 @@ export function getKeyMaterial(
 }
 
 export type BackupMediaKeyMaterialType = Readonly<{
-  macKey: Uint8Array;
-  aesKey: Uint8Array;
+  macKey: Uint8Array<ArrayBuffer>;
+  aesKey: Uint8Array<ArrayBuffer>;
 }>;
 
 const BACKUP_MEDIA_AES_KEY_LEN = 32;
@@ -89,7 +89,7 @@ const BACKUP_MEDIA_MAC_KEY_LEN = 32;
 
 export function deriveBackupMediaKeyMaterial(
   mediaRootKey: BackupKey,
-  mediaId: Uint8Array
+  mediaId: Uint8Array<ArrayBuffer>
 ): BackupMediaKeyMaterialType {
   if (!mediaId.length) {
     throw new Error('deriveBackupMediaKeyMaterial: mediaId missing');
@@ -108,7 +108,7 @@ export function deriveBackupMediaKeyMaterial(
 
 export function deriveBackupThumbnailTransitKeyMaterial(
   mediaRootKey: BackupKey,
-  mediaId: Uint8Array
+  mediaId: Uint8Array<ArrayBuffer>
 ): BackupMediaKeyMaterialType {
   if (!mediaId.length) {
     throw new Error('deriveBackupThumbnailTransitKeyMaterial: mediaId missing');
@@ -125,11 +125,11 @@ export function deriveBackupThumbnailTransitKeyMaterial(
   };
 }
 
-export function getBackupId(): Uint8Array {
+export function getBackupId(): Uint8Array<ArrayBuffer> {
   const aci = itemStorage.user.getCheckedAci();
   return getBackupKey().deriveBackupId(toAciObject(aci));
 }
 
-export function getLocalBackupMetadataKey(): Uint8Array {
+export function getLocalBackupMetadataKey(): Uint8Array<ArrayBuffer> {
   return getBackupKey().deriveLocalBackupMetadataKey();
 }

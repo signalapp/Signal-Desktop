@@ -64,10 +64,12 @@ describe('getFontNameByTextScript', () => {
     const text = 'abc';
 
     assert.throws(() => {
+      // @ts-expect-error invalid text style
       getFontNameByTextScript(text, -1);
     });
 
     assert.throws(() => {
+      // @ts-expect-error invalid text style
       getFontNameByTextScript(text, 99);
     });
   });

@@ -1,8 +1,8 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 import classNames from 'classnames';
-import type { Transition } from 'framer-motion';
-import { motion } from 'framer-motion';
+import type { Transition } from 'motion/react';
+import { motion } from 'motion/react';
 import type { ReactNode, Ref } from 'react';
 import React, {
   createContext,

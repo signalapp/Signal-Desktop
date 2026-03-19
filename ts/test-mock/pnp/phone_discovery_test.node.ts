@@ -28,7 +28,7 @@ describe('pnp/phone discovery', function (this: Mocha.Suite) {
   let bootstrap: Bootstrap;
   let app: App;
   let pniContact: PrimaryDevice;
-  let pniIdentityKey: Uint8Array;
+  let pniIdentityKey: Uint8Array<ArrayBuffer>;
 
   beforeEach(async () => {
     bootstrap = new Bootstrap({ contactCount: 0 });

@@ -7,6 +7,7 @@ import { createLogger } from '../logging/log.std.js';
 import { isIterable } from '../util/iterables.std.js';
 
 import { toNumber } from '../util/toNumber.std.js';
+import { isNonSharedUint8Array } from '../Bytes.std.js';
 
 const { isPlainObject } = lodash;
 
@@ -18,7 +19,7 @@ const log = createLogger('cleanDataForIpc');
  *
  * This cleans the data so it's roughly JSON-serializable, though it does not handle
  * every case. You can see the expected behavior in the tests. Notably, we try to convert
- * protobufjs numbers to JavaScript numbers, and we don't touch ArrayBuffers.
+ * bigint numbers to plain numbers, and we don't touch ArrayBuffers.
  *
  * [0]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm
  */
@@ -42,7 +43,7 @@ type CleanedDataValue =
   | boolean
   | null
   | undefined
-  | Uint8Array
+  | Uint8Array<ArrayBuffer>
   | CleanedObject
   | CleanedArray;
 /* eslint-disable no-restricted-syntax */
@@ -129,7 +130,7 @@ function cleanDataInner(
         return undefined;
       }
 
-      if (data instanceof Uint8Array) {
+      if (isNonSharedUint8Array(data)) {
         return data;
       }
 

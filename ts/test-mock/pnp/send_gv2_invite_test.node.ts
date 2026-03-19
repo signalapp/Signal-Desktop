@@ -152,7 +152,7 @@ describe('pnp/send gv2 invite', function (this: Mocha.Suite) {
       const groups = await phone.getAllGroups(state);
       assert.strictEqual(groups.length, 1);
 
-      [group] = groups;
+      [group] = groups as [Group];
       assert.strictEqual(group.title, 'My group');
       assert.strictEqual(group.revision, 0);
       assert.strictEqual(group.state.members?.length, 2);

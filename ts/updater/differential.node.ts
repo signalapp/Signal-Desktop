@@ -64,7 +64,7 @@ export type PrepareDownloadResultType = Readonly<{
   diff: ComputeDiffResultType;
 
   // This could be used by caller to avoid extra download of the blockmap
-  newBlockMap: Buffer;
+  newBlockMap: Buffer<ArrayBuffer>;
 }>;
 
 export type PrepareDownloadOptionsType = Readonly<{
@@ -97,7 +97,9 @@ export function getBlockMapFileName(fileName: string): string {
   return `${fileName}.blockmap`;
 }
 
-export async function parseBlockMap(data: Buffer): Promise<BlockMapType> {
+export async function parseBlockMap(
+  data: Buffer<ArrayBuffer>
+): Promise<BlockMapType> {
   const unpacked = await gunzip(data);
   const json: BlockMapFileJSONType = JSON.parse(unpacked.toString());
 
@@ -111,11 +113,13 @@ export async function parseBlockMap(data: Buffer): Promise<BlockMapType> {
   );
 
   const [file] = json.files;
+  strictAssert(file, 'Missing file');
   let { offset } = file;
 
   const blocks = new Array<BlockMapBlockType>();
   for (const [i, checksum] of file.checksums.entries()) {
-    const size = file.sizes[i];
+    // TypeScript gets confused about this type for some reason.
+    const size: number | undefined = file.sizes[i];
     strictAssert(size !== undefined, `missing block size: ${i}`);
 
     blocks.push({
@@ -214,10 +218,11 @@ export async function prepareDownload({
     await readFile(getBlockMapFileName(oldFile))
   );
 
-  const newBlockMapData = await got(
-    getBlockMapFileName(newUrl),
-    await getGotOptions()
-  ).buffer();
+  const url = getBlockMapFileName(newUrl);
+  const opts = await getGotOptions();
+
+  // @ts-expect-error https://github.com/sindresorhus/got/issues/2418#issuecomment-4071277145
+  const newBlockMapData: Buffer<ArrayBuffer> = await got(url, opts).buffer();
 
   const newBlockMap = await parseBlockMap(newBlockMapData);
 
@@ -407,7 +412,8 @@ export async function downloadRanges(
     // When the result is single range we might non-multipart response
     if (ranges.length === 1 && !match) {
       await saveDiffStream({
-        diff: ranges[0],
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        diff: ranges[0]!,
         stream,
         abortSignal,
         output,
@@ -466,7 +472,9 @@ async function takeDiffFromPart(
   const contentRange = headers['content-range'];
   strictAssert(contentRange, 'Missing Content-Range header for the part');
 
-  const match = contentRange.join(', ').match(/^bytes\s+(\d+-\d+)/);
+  const match = contentRange.join(', ').match(/^bytes\s+(\d+-\d+)/) as
+    | (RegExpMatchArray & { 1: string })
+    | null;
   strictAssert(
     match,
     `Invalid Content-Range header for the part: "${contentRange}"`

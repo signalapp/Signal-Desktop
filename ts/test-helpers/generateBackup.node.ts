@@ -24,17 +24,17 @@ import { Backups } from '../protobuf/index.std.js';
 export type BackupGeneratorConfigType = Readonly<
   {
     aci: AciString;
-    profileKey: Uint8Array;
+    profileKey: Uint8Array<ArrayBuffer>;
     conversations: number;
     conversationAcis?: ReadonlyArray<AciString>;
     messages: number;
-    mediaRootBackupKey: Uint8Array;
+    mediaRootBackupKey: Uint8Array<ArrayBuffer>;
   } & (
     | {
         accountEntropyPool: string;
       }
     | {
-        backupKey: Uint8Array;
+        backupKey: Uint8Array<ArrayBuffer>;
       }
   )
 >;
@@ -42,7 +42,7 @@ export type BackupGeneratorConfigType = Readonly<
 const IV_LENGTH = 16;
 
 export type GenerateBackupResultType = Readonly<{
-  backupId: Uint8Array;
+  backupId: Uint8Array<ArrayBuffer>;
   stream: Readable;
 }>;
 
@@ -77,7 +77,7 @@ export function generateBackup(
 
 function* frame(
   item: NonNullable<Backups.Frame.Params['item']>
-): Iterable<Uint8Array> {
+): Iterable<Uint8Array<ArrayBuffer>> {
   yield* encodeDelimited(
     Backups.Frame.encode({
       item,
@@ -97,7 +97,7 @@ function* createRecords({
   conversationAcis = [],
   messages,
   mediaRootBackupKey,
-}: BackupGeneratorConfigType): Iterable<Uint8Array> {
+}: BackupGeneratorConfigType): Iterable<Uint8Array<ArrayBuffer>> {
   yield* encodeDelimited(
     Backups.BackupInfo.encode({
       version: BigInt(BACKUP_VERSION),
@@ -182,7 +182,7 @@ function* createRecords({
 
   const chats = new Array<{
     id: bigint;
-    aci: Uint8Array;
+    aci: Uint8Array<ArrayBuffer>;
   }>();
 
   for (let i = 1; i <= conversations; i += 1) {
@@ -253,7 +253,8 @@ function* createRecords({
   }
 
   for (let i = 0; i < messages; i += 1) {
-    const chat = chats[i % chats.length];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const chat = chats[i % chats.length]!;
 
     const isIncoming = i % 2 === 0;
 

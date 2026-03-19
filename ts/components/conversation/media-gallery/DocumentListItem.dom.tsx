@@ -27,7 +27,7 @@ export type Props = {
   renderContextMenu: (
     mediaItem: ReadonlyDeep<GenericMediaItemType>,
     children: ReactNode
-  ) => JSX.Element;
+  ) => React.JSX.Element;
 };
 
 export function DocumentListItem({

@@ -446,7 +446,9 @@ describe('Attachment', () => {
       };
 
       const expectedAttachmentData = Bytes.fromString('Above us only sky');
-      const writeNewAttachmentData = async (attachmentData: Uint8Array) => {
+      const writeNewAttachmentData = async (
+        attachmentData: Uint8Array<ArrayBuffer>
+      ) => {
         assert.deepEqual(attachmentData, expectedAttachmentData);
         return FAKE_LOCAL_ATTACHMENT;
       };

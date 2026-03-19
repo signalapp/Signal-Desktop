@@ -3,7 +3,7 @@
 
 import { Aci, Pni, ServiceId } from '@signalapp/libsignal-client';
 import { BackupJsonExporter } from '@signalapp/libsignal-client/dist/MessageBackup.js';
-import pMap from 'p-map';
+import { pMapIterable } from 'p-map';
 import pTimeout from 'p-timeout';
 import { Readable } from 'node:stream';
 import lodash from 'lodash';
@@ -17,7 +17,7 @@ import {
   resumeWriteAccess,
 } from '../../sql/Client.preload.js';
 import type {
-  PageMessagesCursorType,
+  PageBackupMessagesCursorType,
   IdentityKeyType,
 } from '../../sql/Interface.std.js';
 import { createLogger } from '../../logging/log.std.js';
@@ -28,6 +28,7 @@ import { getStickerPacksForBackup } from '../../types/Stickers.preload.js';
 import {
   isPniString,
   isServiceIdString,
+  type PniString,
   type AciString,
   type ServiceIdString,
 } from '../../types/ServiceId.std.js';
@@ -84,6 +85,7 @@ import {
   isGroupV2Change,
   isKeyChange,
   isNormalBubble,
+  isPollTerminate,
   isPhoneNumberDiscovery,
   isProfileChange,
   isTapToView,
@@ -188,13 +190,14 @@ import type { ThemeType } from '../../util/preload.preload.js';
 import { MAX_VALUE as LONG_MAX_VALUE } from '../../util/long.std.js';
 import { encodeDelimited } from '../../util/encodeDelimited.std.js';
 import { safeParseStrict } from '../../util/schemas.std.js';
+import type { WithRequiredProperties } from '../../types/Util.std.js';
 
 const { isNumber } = lodash;
 
 const log = createLogger('backupExport');
 
-// Temporarily limited to preserve the received_at order
-const MAX_CONCURRENCY = 1;
+// We only run 4 sql workers so going much higher doesn't help
+const MAX_CONCURRENCY = 8;
 
 // We want a very generous timeout to make sure that we always resume write
 // access to the database.
@@ -208,7 +211,7 @@ const BACKUP_QUOTE_BODY_LIMIT = 2048;
 
 type ToRecipientOptionsType = Readonly<{
   identityKeysById: ReadonlyMap<IdentityKeyType['id'], IdentityKeyType>;
-  keyTransparencyData: Uint8Array | undefined;
+  keyTransparencyData: Uint8Array<ArrayBuffer> | undefined;
 }>;
 
 type GetRecipientIdOptionsType =
@@ -276,24 +279,28 @@ export class BackupExportStream extends Readable {
     string,
     Backups.FilePointer.Params
   >();
-  readonly #stats: StatsType = {
+  readonly #stats: Omit<StatsType, 'unknownConversationReferences'> & {
+    unknownConversationReferences: Map<string, number>;
+  } = {
     adHocCalls: 0,
     callLinks: 0,
     conversations: 0,
     chatFolders: 0,
     chats: 0,
     distributionLists: 0,
+    fixedDirectMessages: 0,
     messages: 0,
     notificationProfiles: 0,
+    skippedConversations: 0,
     skippedMessages: 0,
     stickerPacks: 0,
-    fixedDirectMessages: 0,
+    unknownConversationReferences: new Map<string, number>(),
   };
   #ourConversation?: ConversationAttributesType;
   #attachmentBackupJobs: Array<
     CoreAttachmentBackupJobType | CoreAttachmentLocalBackupJobType
   > = [];
-  #buffers = new Array<Uint8Array>();
+  #buffers = new Array<Uint8Array<ArrayBuffer>>();
   #nextRecipientId = 1n;
   #flushResolve: (() => void) | undefined;
   #jsonExporter: BackupJsonExporter | undefined;
@@ -385,7 +392,12 @@ export class BackupExportStream extends Readable {
   }
 
   public getStats(): Readonly<StatsType> {
-    return this.#stats;
+    return {
+      ...this.#stats,
+      unknownConversationReferences: Object.fromEntries(
+        this.#stats.unknownConversationReferences
+      ),
+    };
   }
   public getAttachmentBackupJobs(): ReadonlyArray<
     CoreAttachmentBackupJobType | CoreAttachmentLocalBackupJobType
@@ -437,9 +449,7 @@ export class BackupExportStream extends Readable {
 
     const skippedConversationIds = new Set<string>();
     for (const { attributes } of window.ConversationController.getAll()) {
-      const recipientId = this.#getRecipientId(attributes);
-
-      let keyTransparencyData: Uint8Array | undefined;
+      let keyTransparencyData: Uint8Array<ArrayBuffer> | undefined;
       if (
         isDirectConversation(attributes) &&
         isAciString(attributes.serviceId) &&
@@ -451,12 +461,13 @@ export class BackupExportStream extends Readable {
         );
       }
 
-      const recipient = this.#toRecipient(recipientId, attributes, {
+      const recipient = this.#toRecipient(attributes, {
         identityKeysById,
         keyTransparencyData,
       });
       if (recipient == null) {
         skippedConversationIds.add(attributes.id);
+        this.#stats.skippedConversations += 1;
         // Can't be backed up.
         continue;
       }
@@ -514,9 +525,14 @@ export class BackupExportStream extends Readable {
                       name: list.name,
                       allowReplies: list.allowsReplies,
                       privacyMode,
-                      memberRecipientIds: list.members.map(serviceId =>
-                        this.#getOrPushPrivateRecipient({ serviceId })
-                      ),
+                      memberRecipientIds: list.members
+                        .map(serviceId =>
+                          this.#getRecipientByServiceId(
+                            serviceId,
+                            'distributionList.memberRecipientIds'
+                          )
+                        )
+                        .filter(isNotNil),
                     },
                   },
             },
@@ -547,6 +563,8 @@ export class BackupExportStream extends Readable {
 
       const id = this.#getNextRecipientId();
       const rootKey = CallLinkRootKey.parse(rootKeyString);
+      // @ts-expect-error needs ringrtc update
+      const rootKeyBytes: Uint8Array<ArrayBuffer> = rootKey.bytes;
       const roomId = getRoomIdFromRootKey(rootKey);
 
       this.#roomIdToRecipientId.set(roomId, id);
@@ -556,7 +574,7 @@ export class BackupExportStream extends Readable {
           id,
           destination: {
             callLink: {
-              rootKey: rootKey.bytes,
+              rootKey: rootKeyBytes,
               adminKey: adminKey ? toAdminKeyBytes(adminKey) : null,
               name,
               restrictions: toCallLinkRestrictionsProto(restrictions),
@@ -592,16 +610,17 @@ export class BackupExportStream extends Readable {
       itemStorage.get('pinnedConversationIds') || [];
 
     for (const { attributes } of window.ConversationController.getAll()) {
-      if (isGroupV1(attributes)) {
-        log.warn('skipping gv1 conversation');
-        continue;
-      }
-
       if (skippedConversationIds.has(attributes.id)) {
         continue;
       }
-
-      const recipientId = this.#getRecipientId(attributes);
+      const recipientId = this.#getRecipientByConversationId(
+        attributes.id,
+        'adding chat frames'
+      );
+      strictAssert(
+        recipientId,
+        'recipient conversation must exist if not skipped'
+      );
 
       let pinnedOrder: number | null = null;
       if (attributes.isPinned) {
@@ -734,16 +753,12 @@ export class BackupExportStream extends Readable {
       } = profile;
 
       const allowedRecipients = Array.from(allowedMembers)
-        .map(conversationId => {
-          const conversation =
-            window.ConversationController.get(conversationId);
-          if (!conversation) {
-            return undefined;
-          }
-
-          const { attributes } = conversation;
-          return this.#getRecipientId(attributes);
-        })
+        .map(conversationId =>
+          this.#getRecipientByConversationId(
+            conversationId,
+            'notificationProfile.allowedMembers'
+          )
+        )
         .filter(isNotNil);
 
       this.#pushFrame({
@@ -790,12 +805,22 @@ export class BackupExportStream extends Readable {
           showMutedChats: chatFolder.showMutedChats,
           includeAllIndividualChats: chatFolder.includeAllIndividualChats,
           includeAllGroupChats: chatFolder.includeAllGroupChats,
-          includedRecipientIds: chatFolder.includedConversationIds.map(id => {
-            return this.#getOrPushPrivateRecipient({ id });
-          }),
-          excludedRecipientIds: chatFolder.excludedConversationIds.map(id => {
-            return this.#getOrPushPrivateRecipient({ id });
-          }),
+          includedRecipientIds: chatFolder.includedConversationIds
+            .map(id => {
+              return this.#getRecipientByConversationId(
+                id,
+                'chatFolder.includedRecipientIds'
+              );
+            })
+            .filter(isNotNil),
+          excludedRecipientIds: chatFolder.excludedConversationIds
+            .map(id => {
+              return this.#getRecipientByConversationId(
+                id,
+                'chatFolder.excludedRecipientIds'
+              );
+            })
+            .filter(isNotNil),
         },
       });
 
@@ -803,8 +828,6 @@ export class BackupExportStream extends Readable {
       await this.#flush();
       this.#stats.chatFolders += 1;
     }
-
-    let cursor: PageMessagesCursorType | undefined;
 
     const callHistory = await DataReader.getAllCallHistory();
     const callHistoryByCallId = makeLookup(callHistory, 'callId');
@@ -821,55 +844,43 @@ export class BackupExportStream extends Readable {
       pni: me.get('pni'),
     };
 
-    try {
-      while (!cursor?.done) {
-        const { messages, cursor: newCursor } =
-          // eslint-disable-next-line no-await-in-loop
-          await DataReader.pageMessages(cursor);
+    const FLUSH_EVERY = 10000;
 
-        // eslint-disable-next-line no-await-in-loop
-        await pMap(
-          messages,
-          async message => {
-            if (skippedConversationIds.has(message.conversationId)) {
-              this.#stats.skippedMessages += 1;
-              return;
-            }
-
-            const chatItem = await this.#toChatItem(message, {
-              aboutMe,
-              callHistoryByCallId,
-              pinnedMessagesByMessageId,
-            });
-
-            if (chatItem === undefined) {
-              this.#stats.skippedMessages += 1;
-              // Can't be backed up.
-              return;
-            }
-
-            this.#pushFrame({
-              chatItem,
-            });
-
-            if (this.options.validationRun) {
-              // flush every chatItem to expose all validation errors
-              await this.#flush();
-            }
-
-            this.#stats.messages += 1;
-          },
-          { concurrency: MAX_CONCURRENCY }
-        );
-
-        cursor = newCursor;
-
-        // eslint-disable-next-line no-await-in-loop
-        await this.#flush();
+    const iter = pMapIterable(
+      Readable.from(getAllMessages(), {
+        objectMode: true,
+        highWaterMark: FLUSH_EVERY,
+      }),
+      message =>
+        this.#toChatItem(message, {
+          aboutMe,
+          callHistoryByCallId,
+          pinnedMessagesByMessageId,
+        }),
+      {
+        concurrency: MAX_CONCURRENCY,
+        backpressure: FLUSH_EVERY,
       }
-    } finally {
-      if (cursor !== undefined) {
-        await DataReader.finishPageMessages(cursor);
+    );
+
+    for await (const chatItem of iter) {
+      if (chatItem === undefined) {
+        this.#stats.skippedMessages += 1;
+        // Can't be backed up.
+        continue;
+      }
+
+      this.#pushFrame({
+        chatItem,
+      });
+      this.#stats.messages += 1;
+
+      if (
+        this.options.validationRun ||
+        this.#stats.messages % FLUSH_EVERY === 0
+      ) {
+        // flush every chatItem to expose all validation errors
+        await this.#flush();
       }
     }
 
@@ -1116,28 +1127,76 @@ export class BackupExportStream extends Readable {
     };
   }
 
-  #getExistingRecipientId(
-    options: GetRecipientIdOptionsType
-  ): bigint | undefined {
-    let existing: bigint | undefined;
-    if (options.serviceId != null) {
-      existing = this.#serviceIdToRecipientId.get(options.serviceId);
-    }
-    if (existing === undefined && options.e164 != null) {
-      existing = this.#e164ToRecipientId.get(options.e164);
-    }
-    if (existing === undefined && options.id != null) {
-      existing = this.#convoIdToRecipientId.get(options.id);
-    }
-    return existing;
+  #incrementUnknownConversationReference(reason: string) {
+    this.#stats.unknownConversationReferences.set(
+      reason,
+      (this.#stats.unknownConversationReferences.get(reason) ?? 0) + 1
+    );
   }
 
-  #getRecipientId(options: GetRecipientIdOptionsType): bigint {
-    const existing = this.#getExistingRecipientId(options);
-    if (existing !== undefined) {
-      return existing;
+  #getRecipientByConversationId(
+    convoId: string,
+    reason: string
+  ): bigint | undefined {
+    const fnLog = log.child(`getRecipientByConversationId(${reason})`);
+    const recipientId = this.#convoIdToRecipientId.get(convoId);
+    if (recipientId == null) {
+      fnLog.warn('recipient convoId missing', reason);
+      this.#incrementUnknownConversationReference(reason);
+    }
+    return recipientId;
+  }
+
+  #getRecipientByServiceId(
+    serviceId: ServiceIdString,
+    reason: string
+  ): bigint | undefined {
+    const fnLog = log.child(`getRecipientByServiceId(${reason})`);
+    if (!isServiceIdString(serviceId)) {
+      fnLog.warn('invalid serviceId');
+      return undefined;
     }
 
+    const recipientId = this.#serviceIdToRecipientId.get(serviceId);
+    if (recipientId != null) {
+      return recipientId;
+    }
+
+    fnLog.warn('recipient serviceId missing', reason);
+    this.#incrementUnknownConversationReference(reason);
+
+    const recipient = this.#toRecipient({ serviceId, type: 'private' });
+    if (recipient == null) {
+      return undefined;
+    }
+
+    this.#pushFrame({ recipient });
+    strictAssert(recipient.id != null, 'recipient.id must exist');
+    return recipient.id;
+  }
+
+  #getRecipientByE164(e164: string, reason: string): bigint | undefined {
+    const fnLog = log.child(`getRecipientByE164(${reason})`);
+
+    const recipientId = this.#e164ToRecipientId.get(e164);
+    if (recipientId != null) {
+      return recipientId;
+    }
+
+    fnLog.warn('recipient e164 missing', reason);
+    this.#incrementUnknownConversationReference(reason);
+
+    const recipient = this.#toRecipient({ e164, type: 'private' });
+    if (recipient == null) {
+      return undefined;
+    }
+
+    this.#pushFrame({ recipient });
+    strictAssert(recipient.id != null, 'recipient.id must exist');
+    return recipient.id;
+  }
+
+  #getNewRecipientId(options: GetRecipientIdOptionsType): bigint {
     const { id, serviceId, e164 } = options;
 
     const recipientId = this.#nextRecipientId;
@@ -1156,28 +1215,6 @@ export class BackupExportStream extends Readable {
     return recipientId;
   }
 
-  #getOrPushPrivateRecipient(options: GetRecipientIdOptionsType): bigint {
-    const existing = this.#getExistingRecipientId(options);
-    const needsPush = existing == null;
-    const result = this.#getRecipientId(options);
-
-    if (needsPush) {
-      const { serviceId, e164 } = options;
-      const recipient = this.#toRecipient(result, {
-        type: 'private',
-        serviceId,
-        pni: isPniString(serviceId) ? serviceId : undefined,
-        e164,
-      });
-
-      if (recipient != null) {
-        this.#pushFrame({ recipient });
-      }
-    }
-
-    return result;
-  }
-
   #getNextRecipientId(): bigint {
     const recipientId = this.#nextRecipientId;
     this.#nextRecipientId += 1n;
@@ -1186,14 +1223,16 @@ export class BackupExportStream extends Readable {
   }
 
   #toRecipient(
-    recipientId: bigint,
-    convo: Omit<
-      ConversationAttributesType,
-      'id' | 'version' | 'expireTimerVersion'
-    >,
+    convo: WithRequiredProperties<Partial<ConversationAttributesType>, 'type'>,
     options?: ToRecipientOptionsType
   ): Backups.Recipient.Params | null {
     if (isMe(convo)) {
+      strictAssert(convo.id, 'id must exist');
+      const recipientId = this.#getNewRecipientId({
+        id: convo.id,
+        serviceId: convo.serviceId,
+        e164: convo.e164,
+      });
       return {
         id: recipientId,
         destination: {
@@ -1248,17 +1287,31 @@ export class BackupExportStream extends Readable {
       const maybePni = convo.pni ?? convo.serviceId;
 
       const aci = isAciString(convo.serviceId)
-        ? Aci.parseFromServiceIdString(convo.serviceId).getRawUuidBytes()
+        ? this.#aciToBytes(convo.serviceId)
         : null;
-      const pni = isPniString(maybePni)
-        ? Pni.parseFromServiceIdString(maybePni).getRawUuidBytes()
-        : null;
+      const pni = isPniString(maybePni) ? this.#pniToRawBytes(maybePni) : null;
       const e164 = convo.e164 ? BigInt(convo.e164) : null;
 
       strictAssert(
         aci != null || pni != null || e164 != null,
         'Contact has no identifier'
       );
+
+      let recipientId: bigint | null = null;
+      if (convo.serviceId) {
+        recipientId = this.#getNewRecipientId({
+          id: convo.id,
+          serviceId: convo.serviceId,
+          e164: convo.e164,
+        });
+      } else if (convo.e164) {
+        recipientId = this.#getNewRecipientId({
+          id: convo.id,
+          e164: convo.e164,
+        });
+      }
+
+      strictAssert(recipientId != null, 'recipientId must exist');
 
       return {
         id: recipientId,
@@ -1267,7 +1320,7 @@ export class BackupExportStream extends Readable {
             aci,
             pni,
             e164,
-            username: convo.username ?? null,
+            username: convo.username || null,
             blocked: convo.serviceId
               ? itemStorage.blocked.isServiceIdBlocked(convo.serviceId)
               : null,
@@ -1311,7 +1364,7 @@ export class BackupExportStream extends Readable {
         },
       };
     }
-    if (isGroupV2(convo) && convo.masterKey) {
+    if (isGroupV2(convo)) {
       let storySendMode: Backups.Group.StorySendMode;
       switch (convo.storySendMode) {
         case StorySendMode.Always:
@@ -1325,8 +1378,16 @@ export class BackupExportStream extends Readable {
           break;
       }
 
-      const masterKey = Bytes.fromBase64(convo.masterKey);
+      if (!convo.masterKey) {
+        log.warn('groupV2 convo missing master key, skipping');
+        return null;
+      }
 
+      const masterKey = Bytes.fromBase64(convo.masterKey);
+      strictAssert(convo.id, 'group conversationId must exist');
+      const recipientId = this.#getNewRecipientId({
+        id: convo.id,
+      });
       return {
         id: recipientId,
         destination: {
@@ -1383,7 +1444,7 @@ export class BackupExportStream extends Readable {
                           labelEmoji: null,
                           labelString: null,
                         }),
-                    role: member.role,
+                    role: member.role || SignalService.Member.Role.DEFAULT,
                     userId: this.#aciToBytes(member.aci),
                   };
                 }) ?? null,
@@ -1392,7 +1453,7 @@ export class BackupExportStream extends Readable {
                   return {
                     member: {
                       userId: this.#serviceIdToBytes(member.serviceId),
-                      role: member.role,
+                      role: member.role || SignalService.Member.Role.DEFAULT,
                       joinedAtVersion: 0,
                       labelEmoji: null,
                       labelString: null,
@@ -1425,6 +1486,11 @@ export class BackupExportStream extends Readable {
       };
     }
 
+    if (isGroupV1(convo)) {
+      log.warn('skipping gv1 conversation');
+      return null;
+    }
+
     return null;
   }
 
@@ -1436,16 +1502,63 @@ export class BackupExportStream extends Readable {
       pinnedMessagesByMessageId,
     }: ToChatItemOptionsType
   ): Promise<Backups.ChatItem.Params | undefined> {
+    const chatItem = await this.#toChatItemInner(message, {
+      aboutMe,
+      callHistoryByCallId,
+      pinnedMessagesByMessageId,
+    });
+
+    // Drop messages in the wrong 1:1 chat
+    const conversation = window.ConversationController.get(
+      message.conversationId
+    );
+    const me = this.#getRecipientByServiceId(aboutMe.aci, 'getting self');
+    strictAssert(me, 'self recipient must exist');
+
+    if (chatItem?.authorId == null) {
+      log.warn(`${message.sent_at}: Dropping message without known author`);
+      return undefined;
+    }
+
+    strictAssert(chatItem.authorId !== 0n, 'authorId 0 is invalid');
+
+    if (
+      chatItem &&
+      conversation &&
+      isDirectConversation(conversation.attributes)
+    ) {
+      const convoAuthor = this.#getRecipientByConversationId(
+        conversation.attributes.id,
+        'message.conversationId'
+      );
+
+      if (chatItem.authorId !== me && chatItem.authorId !== convoAuthor) {
+        log.warn(
+          `${message.sent_at}: Dropping direct message with mismatched author`
+        );
+        return undefined;
+      }
+    }
+    return chatItem;
+  }
+
+  async #toChatItemInner(
+    message: MessageAttributesType,
+    {
+      aboutMe,
+      callHistoryByCallId,
+      pinnedMessagesByMessageId,
+    }: ToChatItemOptionsType
+  ): Promise<Backups.ChatItem.Params | undefined> {
     const conversation = window.ConversationController.get(
       message.conversationId
     );
 
-    if (conversation && isGroupV1(conversation.attributes)) {
-      log.warn('skipping gv1 message');
-      return undefined;
-    }
+    const chatId = this.#getRecipientByConversationId(
+      message.conversationId,
+      'message.conversationId'
+    );
 
-    const chatId = this.#getRecipientId({ id: message.conversationId });
     if (chatId === undefined) {
       log.warn('message chat not found');
       return undefined;
@@ -1485,43 +1598,61 @@ export class BackupExportStream extends Readable {
 
     let authorId: bigint | undefined;
 
-    const isOutgoing = message.type === 'outgoing';
-    const isIncoming = message.type === 'incoming';
+    const me = this.#getRecipientByServiceId(aboutMe.aci, 'getting self');
+    strictAssert(me, 'self recipient must exist');
+
+    let isOutgoing = message.type === 'outgoing';
+    let isIncoming = message.type === 'incoming';
 
     if (message.sourceServiceId && isAciString(message.sourceServiceId)) {
-      authorId = this.#getOrPushPrivateRecipient({
-        serviceId: message.sourceServiceId,
-        e164: message.source,
-      });
+      authorId = this.#getRecipientByServiceId(
+        message.sourceServiceId,
+        'message.sourceServiceId'
+      );
     } else if (message.source) {
-      authorId = this.#getOrPushPrivateRecipient({
-        serviceId: message.sourceServiceId,
-        e164: message.source,
-      });
-
-      if (
-        isIncoming &&
-        conversation &&
-        isDirectConversation(conversation.attributes)
-      ) {
-        const convoAuthor = this.#getOrPushPrivateRecipient({
-          id: conversation.attributes.id,
-        });
-
-        // Fix conversation id for misattributed e164-only incoming 1:1
-        // messages.
-        if (authorId !== convoAuthor) {
-          authorId = convoAuthor;
-          this.#stats.fixedDirectMessages += 1;
-        }
-      }
+      authorId = this.#getRecipientByE164(message.source, 'message.source');
     } else {
       strictAssert(!isIncoming, 'Incoming message must have source');
 
       // Author must be always present, even if we are directionless
-      authorId = this.#getOrPushPrivateRecipient({
-        serviceId: aboutMe.aci,
-      });
+      authorId = me;
+    }
+
+    // Mark incoming messages from self as outgoing
+    if (isIncoming && authorId === me) {
+      log.warn(
+        `${message.sent_at}: Found incoming message with author self, updating to outgoing`
+      );
+      isOutgoing = true;
+      isIncoming = false;
+
+      // eslint-disable-next-line no-param-reassign
+      message.type = 'outgoing';
+
+      this.#stats.fixedDirectMessages += 1;
+    }
+
+    // Fix authorId for misattributed e164-only incoming 1:1
+    // messages.
+    if (
+      isIncoming &&
+      !message.sourceServiceId &&
+      message.source &&
+      conversation &&
+      isDirectConversation(conversation.attributes)
+    ) {
+      const convoAuthor = this.#getRecipientByConversationId(
+        conversation.attributes.id,
+        'message.conversationId'
+      );
+
+      if (authorId !== convoAuthor) {
+        authorId = convoAuthor;
+        log.warn(
+          `${message.sent_at}: Fixing misattributed e164-only 1:1 message`
+        );
+        this.#stats.fixedDirectMessages += 1;
+      }
     }
 
     if (isOutgoing || isIncoming) {
@@ -1546,7 +1677,7 @@ export class BackupExportStream extends Readable {
       'directionalDetails' | 'item' | 'pinDetails' | 'revisions'
     > = {
       chatId,
-      authorId,
+      authorId: authorId ?? null,
       dateSent: getSafeLongFromTimestamp(
         message.editMessageTimestamp || message.sent_at
       ),
@@ -1577,9 +1708,6 @@ export class BackupExportStream extends Readable {
           authorId,
           'Incoming/outgoing non-bubble messages require an author'
         );
-        const me = this.#getOrPushPrivateRecipient({
-          serviceId: aboutMe.aci,
-        });
 
         if (authorId === me) {
           directionalDetails = {
@@ -1622,9 +1750,11 @@ export class BackupExportStream extends Readable {
       if (message.deletedForEveryoneByAdminAci) {
         item = {
           adminDeletedMessage: {
-            adminId: this.#getOrPushPrivateRecipient({
-              serviceId: message.deletedForEveryoneByAdminAci,
-            }),
+            adminId:
+              this.#getRecipientByServiceId(
+                message.deletedForEveryoneByAdminAci,
+                'adminDeletedMessage.adminId'
+              ) ?? null,
           },
         };
       } else {
@@ -1783,10 +1913,15 @@ export class BackupExportStream extends Readable {
         };
       }
     } else if (message.storyReplyContext || message.storyReaction) {
+      const directStoryReplyMessage = await this.#toDirectStoryReplyMessage({
+        message,
+      });
+      if (!directStoryReplyMessage) {
+        return undefined;
+      }
+
       item = {
-        directStoryReplyMessage: await this.#toDirectStoryReplyMessage({
-          message,
-        }),
+        directStoryReplyMessage,
       };
 
       revisions = await this.#toChatItemRevisions(base, item, message);
@@ -1824,23 +1959,23 @@ export class BackupExportStream extends Readable {
               }
             }
 
-            const votes = Array.from(votesForThisOption.entries()).map(
-              ([conversationId, voteCount]) => {
-                const voterConvo =
-                  window.ConversationController.get(conversationId);
-                let voterId: bigint | null = null;
-                if (voterConvo) {
-                  voterId = this.#getOrPushPrivateRecipient(
-                    voterConvo.attributes
-                  );
+            const votes = Array.from(votesForThisOption.entries())
+              .map(([conversationId, voteCount]) => {
+                const voterId = this.#getRecipientByConversationId(
+                  conversationId,
+                  'poll.votes.voterId'
+                );
+
+                if (!voterId) {
+                  return null;
                 }
 
                 return {
                   voterId,
                   voteCount,
                 };
-              }
-            );
+              })
+              .filter(isNotNil);
 
             return {
               option: optionText,
@@ -1850,16 +1985,19 @@ export class BackupExportStream extends Readable {
           reactions: this.#getMessageReactions(message),
         },
       };
-    } else if (message.pollTerminateNotification) {
-      // TODO (DESKTOP-9282)
-      return undefined;
     } else if (message.isErased) {
       return undefined;
     } else {
+      const standardMessage = await this.#toStandardMessage({
+        message,
+      });
+
+      if (!standardMessage) {
+        return undefined;
+      }
+
       item = {
-        standardMessage: await this.#toStandardMessage({
-          message,
-        }),
+        standardMessage,
       };
 
       revisions = await this.#toChatItemRevisions(base, item, message);
@@ -1909,18 +2047,24 @@ export class BackupExportStream extends Readable {
     };
   }
 
-  #aciToBytes(aci: AciString | string): Uint8Array {
+  #aciToBytes(aci: AciString | string): Uint8Array<ArrayBuffer> {
     return Aci.parseFromServiceIdString(aci).getRawUuidBytes();
   }
 
-  #aciToBytesOrNull(aci: AciString | string): Uint8Array | null {
+  #aciToBytesOrNull(aci: AciString | string): Uint8Array<ArrayBuffer> | null {
     if (isAciString(aci)) {
       return Aci.parseFromServiceIdString(aci).getRawUuidBytes();
     }
     return null;
   }
 
-  #serviceIdToBytes(serviceId: ServiceIdString): Uint8Array {
+  /** For fields explicitly marked as PNI (validator will expect 16 bytes) */
+  #pniToRawBytes(pni: PniString | string): Uint8Array<ArrayBuffer> {
+    return Pni.parseFromServiceIdString(pni).getRawUuidBytes();
+  }
+
+  /** For fields that can accept either ACI or PNI bytes */
+  #serviceIdToBytes(serviceId: ServiceIdString): Uint8Array<ArrayBuffer> {
     return ServiceId.parseFromServiceIdString(serviceId).getRawUuidBytes();
   }
 
@@ -1989,9 +2133,11 @@ export class BackupExportStream extends Readable {
             );
           }
 
-          ringerRecipientId = this.#getRecipientId(
-            ringerConversation.attributes
-          );
+          ringerRecipientId =
+            this.#getRecipientByConversationId(
+              ringerConversation.id,
+              'callHistory.ringerId'
+            ) ?? null;
         }
 
         let startedCallRecipientId: bigint | null = null;
@@ -2003,9 +2149,11 @@ export class BackupExportStream extends Readable {
             );
           }
 
-          startedCallRecipientId = this.#getRecipientId(
-            startedByConvo.attributes
-          );
+          startedCallRecipientId =
+            this.#getRecipientByConversationId(
+              startedByConvo.id,
+              'callHistory.startedById'
+            ) ?? null;
         }
 
         let groupCallId: bigint;
@@ -2085,11 +2233,15 @@ export class BackupExportStream extends Readable {
       const sourceServiceId = message.expirationTimerUpdate?.sourceServiceId;
 
       if (conversation && isGroup(conversation.attributes)) {
-        patch.authorId = this.#getRecipientId({
-          serviceId: options.aboutMe.aci,
-        });
+        const selfId = this.#getRecipientByServiceId(
+          options.aboutMe.aci,
+          'getting self'
+        );
 
-        let updaterAci: Uint8Array | null = null;
+        strictAssert(selfId, 'self must exist');
+        patch.authorId = selfId;
+
+        let updaterAci: Uint8Array<ArrayBuffer> | null = null;
         if (sourceServiceId && Aci.parseFromServiceIdString(sourceServiceId)) {
           updaterAci = uuidToBytes(sourceServiceId);
         }
@@ -2114,15 +2266,17 @@ export class BackupExportStream extends Readable {
 
       if (!authorId) {
         if (sourceServiceId) {
-          patch.authorId = this.#getOrPushPrivateRecipient({
-            id: source,
-            serviceId: sourceServiceId,
-          });
+          patch.authorId =
+            this.#getRecipientByServiceId(
+              sourceServiceId,
+              'expirationTimerUpdate.sourceServiceId'
+            ) ?? undefined;
         } else if (source) {
-          patch.authorId = this.#getOrPushPrivateRecipient({
-            id: source,
-          });
+          patch.authorId =
+            this.#getRecipientByE164(source, 'expirationTimerUpdate.source') ??
+            undefined;
         }
+        patch.authorId = authorId;
       }
 
       updateMessage.update = {
@@ -2139,7 +2293,12 @@ export class BackupExportStream extends Readable {
         groupChange: await this.toGroupV2Update(message, options),
       };
       strictAssert(this.#ourConversation?.id, 'our conversation must exist');
-      patch.authorId = this.#getOrPushPrivateRecipient(this.#ourConversation);
+      const selfId = this.#getRecipientByConversationId(
+        this.#ourConversation.id,
+        'getting self'
+      );
+      strictAssert(selfId != null, 'self must exist');
+      patch.authorId = selfId;
       return { kind: NonBubbleResultKind.Directionless, patch };
     }
 
@@ -2160,8 +2319,15 @@ export class BackupExportStream extends Readable {
           );
           return { kind: NonBubbleResultKind.Drop };
         }
+        const keyChangeAuthorId = this.#getRecipientByConversationId(
+          target.id,
+          'keyChange.key_changed'
+        );
+        if (!keyChangeAuthorId) {
+          return { kind: NonBubbleResultKind.Drop };
+        }
         // This will override authorId on the original chatItem
-        patch.authorId = this.#getOrPushPrivateRecipient(target.attributes);
+        patch.authorId = keyChangeAuthorId;
       }
 
       updateMessage.update = {
@@ -2186,14 +2352,37 @@ export class BackupExportStream extends Readable {
       }
 
       targetSentTimestamp = BigInt(message.pinMessage.targetSentTimestamp);
-      targetAuthorId = this.#getOrPushPrivateRecipient({
-        serviceId: message.pinMessage.targetAuthorAci,
-      });
+      targetAuthorId =
+        this.#getRecipientByServiceId(
+          message.pinMessage.targetAuthorAci,
+          'pinnedMessageNotification.targetAuthorAci'
+        ) ?? null;
 
       updateMessage.update = {
         pinMessage: {
           targetSentTimestamp,
           authorId: targetAuthorId,
+        },
+      };
+
+      return { kind: NonBubbleResultKind.Directionless, patch };
+    }
+
+    if (isPollTerminate(message)) {
+      const pollTerminate = message.pollTerminateNotification;
+      if (!pollTerminate) {
+        log.warn(
+          `${logId}: poll-terminate message missing pollTerminateNotification data`
+        );
+        return { kind: NonBubbleResultKind.Drop };
+      }
+
+      updateMessage.update = {
+        pollTerminate: {
+          question: pollTerminate.question,
+          targetSentTimestamp: getSafeLongFromTimestamp(
+            pollTerminate.pollTimestamp
+          ),
         },
       };
 
@@ -2211,7 +2400,11 @@ export class BackupExportStream extends Readable {
         );
         if (changedConvo) {
           // This will override authorId on the original chatItem
-          patch.authorId = this.#getOrPushPrivateRecipient(changedConvo);
+          patch.authorId =
+            this.#getRecipientByConversationId(
+              changedConvo.id,
+              'profileChange.changedId'
+            ) ?? undefined;
         } else {
           log.warn(
             `${logId}: failed to resolve changedId ${message.changedId}`
@@ -2248,9 +2441,11 @@ export class BackupExportStream extends Readable {
 
       if (message.verifiedChanged) {
         // This will override authorId on the original chatItem
-        patch.authorId = this.#getOrPushPrivateRecipient({
-          id: message.verifiedChanged,
-        });
+        patch.authorId =
+          this.#getRecipientByConversationId(
+            message.verifiedChanged,
+            'message.verifiedChange'
+          ) ?? undefined;
       }
 
       return { kind: NonBubbleResultKind.Directionless, patch };
@@ -2353,9 +2548,11 @@ export class BackupExportStream extends Readable {
       // `sourceServiceId` and thus are attributed to our conversation.
       // However, we need to include proper `authorId` for compatibility with
       // other clients.
-      patch.authorId = this.#getOrPushPrivateRecipient({
-        id: message.conversationId,
-      });
+      patch.authorId =
+        this.#getRecipientByConversationId(
+          message.conversationId,
+          'conversationMerge.conversationId'
+        ) ?? undefined;
 
       updateMessage.update = {
         threadMerge: {
@@ -2825,7 +3022,7 @@ export class BackupExportStream extends Readable {
                     ? this.#aciToBytes(detail.serviceId)
                     : null,
                   inviteePni: isPniString(detail.serviceId)
-                    ? this.#serviceIdToBytes(detail.serviceId)
+                    ? this.#pniToRawBytes(detail.serviceId)
                     : null,
                 },
               ],
@@ -2943,18 +3140,17 @@ export class BackupExportStream extends Readable {
       return null;
     }
 
-    let authorId: bigint;
+    let authorId: bigint | undefined;
     if (quote.authorAci) {
-      authorId = this.#getOrPushPrivateRecipient({
-        serviceId: quote.authorAci,
-        e164: quote.author,
-      });
+      authorId = this.#getRecipientByServiceId(
+        quote.authorAci,
+        'quote.authorAci'
+      );
     } else if (quote.author) {
-      authorId = this.#getOrPushPrivateRecipient({
-        serviceId: quote.authorAci,
-        e164: quote.author,
-      });
-    } else {
+      authorId = this.#getRecipientByE164(quote.author, 'quote.author');
+    }
+
+    if (authorId == null) {
       log.warn('quote has no author id');
       return null;
     }
@@ -3155,16 +3351,25 @@ export class BackupExportStream extends Readable {
       return null;
     }
 
-    return reactions.map((reaction, sortOrder): Backups.Reaction.Params => {
-      return {
-        emoji: reaction.emoji ?? null,
-        authorId: this.#getOrPushPrivateRecipient({
-          id: reaction.fromId,
-        }),
-        sentTimestamp: getSafeLongFromTimestamp(reaction.timestamp),
-        sortOrder: BigInt(sortOrder),
-      };
-    });
+    return reactions
+      .map((reaction, sortOrder): Backups.Reaction.Params | null => {
+        const authorId = this.#getRecipientByConversationId(
+          reaction.fromId,
+          'reaction.authorId'
+        );
+
+        if (!authorId) {
+          return null;
+        }
+
+        return {
+          emoji: reaction.emoji ?? null,
+          authorId,
+          sentTimestamp: getSafeLongFromTimestamp(reaction.timestamp),
+          sortOrder: BigInt(sortOrder),
+        };
+      })
+      .filter(isNotNil);
   }
 
   #getIncomingMessageDetails({
@@ -3222,7 +3427,11 @@ export class BackupExportStream extends Readable {
     const sendStatuses = new Array<Backups.SendStatus.Params>();
     for (const [id, entry] of Object.entries(sendStateByConversationId)) {
       const target = window.ConversationController.get(id);
-      if (!target) {
+      const recipientId =
+        this.#getRecipientByConversationId(id, 'sendStateByConversationId') ??
+        null;
+
+      if (!target || recipientId == null) {
         log.warn(`no send target for a message ${sentAt}`);
         continue;
       }
@@ -3238,7 +3447,6 @@ export class BackupExportStream extends Readable {
       }
 
       const { serviceId } = target.attributes;
-      const recipientId = this.#getOrPushPrivateRecipient(target.attributes);
       const timestamp =
         entry.updatedAt != null
           ? getSafeLongFromTimestamp(entry.updatedAt)
@@ -3325,7 +3533,7 @@ export class BackupExportStream extends Readable {
       | 'received_at'
       | 'timestamp'
     >;
-  }): Promise<Backups.StandardMessage.Params> {
+  }): Promise<Backups.StandardMessage.Params | undefined> {
     if (
       message.body &&
       isBodyTooLong(message.body, MAX_BACKUP_MESSAGE_BODY_BYTE_LENGTH)
@@ -3333,7 +3541,7 @@ export class BackupExportStream extends Readable {
       log.warn(`${message.timestamp}: Message body is too long; will truncate`);
     }
 
-    return {
+    const result = {
       quote: await this.#toQuote({
         message,
       }),
@@ -3356,7 +3564,7 @@ export class BackupExportStream extends Readable {
                   url: preview.url,
                   title: preview.title ?? null,
                   description: preview.description ?? null,
-                  date: getSafeLongFromTimestamp(preview.date),
+                  date: getSafeLongFromTimestamp(preview.date ?? 0),
                   image: preview.image
                     ? await this.#processAttachment({
                         attachment: preview.image,
@@ -3370,6 +3578,12 @@ export class BackupExportStream extends Readable {
         : null,
       reactions: this.#getMessageReactions(message),
     };
+
+    if (!result.attachments?.length && !result.text) {
+      log.warn('toStandardMessage: had neither text nor attachments, dropping');
+      return undefined;
+    }
+    return result;
   }
 
   async #toDirectStoryReplyMessage({
@@ -3384,14 +3598,17 @@ export class BackupExportStream extends Readable {
       | 'received_at'
       | 'reactions'
     >;
-  }): Promise<Backups.DirectStoryReplyMessage.Params> {
+  }): Promise<Backups.DirectStoryReplyMessage.Params | undefined> {
     const reactions = this.#getMessageReactions(message);
 
     let reply: Backups.DirectStoryReplyMessage.Params['reply'];
     if (message.storyReaction) {
       reply = { emoji: message.storyReaction.emoji };
-    } else {
+    } else if (message.body) {
       reply = { textReply: await this.#toTextAndLongTextFields(message) };
+    } else {
+      log.warn('Dropping direct story reply message without reaction or body');
+      return undefined;
     }
 
     return { reply, reactions };
@@ -3474,7 +3691,7 @@ export class BackupExportStream extends Readable {
 
     const isOutgoing = message.type === 'outgoing';
 
-    return Promise.all(
+    const revisions = await Promise.all(
       editHistory
         // The first history is the copy of the current message
         .slice(1)
@@ -3506,16 +3723,27 @@ export class BackupExportStream extends Readable {
 
           let item: Backups.ChatItem.Params['item'];
           if (parentItem.directStoryReplyMessage) {
-            item = {
-              directStoryReplyMessage: await this.#toDirectStoryReplyMessage({
+            const directStoryReplyMessage =
+              await this.#toDirectStoryReplyMessage({
                 message: history,
-              }),
+              });
+            if (!directStoryReplyMessage) {
+              return undefined;
+            }
+            item = {
+              directStoryReplyMessage,
             };
           } else {
+            const standardMessage = await this.#toStandardMessage({
+              message: history,
+            });
+            if (!standardMessage) {
+              log.warn('Chat revision was invalid, dropping');
+              return null;
+            }
+
             item = {
-              standardMessage: await this.#toStandardMessage({
-                message: history,
-              }),
+              standardMessage,
             };
           }
           return { ...base, item };
@@ -3523,6 +3751,7 @@ export class BackupExportStream extends Readable {
         // Backups use oldest to newest order
         .reverse()
     );
+    return revisions.filter(isNotNil);
   }
 
   #toCustomChatColors(): Array<Backups.ChatStyle.CustomChatColor.Params> {
@@ -3948,4 +4177,17 @@ function toAppTheme(theme: ThemeType): Backups.AccountData.AppTheme {
   }
 
   return ENUM.SYSTEM;
+}
+
+async function* getAllMessages(): AsyncIterable<MessageAttributesType> {
+  let cursor: PageBackupMessagesCursorType | undefined;
+  while (!cursor?.done) {
+    const { messages, cursor: newCursor } =
+      // eslint-disable-next-line no-await-in-loop
+      await DataReader.pageBackupMessages(cursor);
+
+    cursor = newCursor;
+
+    yield* messages;
+  }
 }

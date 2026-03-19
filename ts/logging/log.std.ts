@@ -69,7 +69,8 @@ function getSubsystemColor(name: string): string {
   hash >>>= 0;
   /* eslint-enable no-bitwise */
 
-  const result = COLORS[hash % COLORS.length];
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const result = COLORS[hash % COLORS.length]!;
   SUBSYSTEM_COLORS.set(name, result);
 
   return result;

@@ -154,7 +154,8 @@ describe('updater/signatures', () => {
         version,
         privateKeyPath
       );
-      signature[4] += 3;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      signature[4]! += 3;
 
       const verified = await verifySignature(
         updatePath,

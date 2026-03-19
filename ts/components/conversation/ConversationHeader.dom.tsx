@@ -68,7 +68,7 @@ function HeaderInfoTitle({
   i18n: LocalizerType;
   isMe: boolean;
   isSignalConversation: boolean;
-  headerRef: React.RefObject<HTMLDivElement>;
+  headerRef: React.RefObject<HTMLDivElement | null>;
 }) {
   if (isSignalConversation) {
     return (
@@ -316,6 +316,9 @@ export const ConversationHeader = memo(function ConversationHeader({
       )}
       <SizeObserver
         onSizeChange={size => {
+          if (size.hidden) {
+            return;
+          }
           setIsNarrow(size.width < 500);
         }}
       >
@@ -476,7 +479,7 @@ function HeaderContent({
   conversation: MinimalConversation;
   badge: BadgeType | null;
   hasStories: HasStories | null;
-  headerRef: RefObject<HTMLDivElement>;
+  headerRef: RefObject<HTMLDivElement | null>;
   i18n: LocalizerType;
   theme: ThemeType;
   isSignalConversation: boolean;

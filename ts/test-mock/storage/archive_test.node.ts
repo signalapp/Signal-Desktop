@@ -3,6 +3,7 @@
 
 import { assert } from 'chai';
 
+import type { PrimaryDevice } from '@signalapp/mock-server';
 import * as durations from '../../util/durations/index.std.js';
 import type { App, Bootstrap } from './fixtures.node.js';
 import { initStorage, debug } from './fixtures.node.js';
@@ -29,7 +30,7 @@ describe('storage service', function (this: Mocha.Suite) {
 
   it('should archive/unarchive contacts', async () => {
     const { phone, contacts } = bootstrap;
-    const [firstContact] = contacts;
+    const [firstContact] = contacts as [PrimaryDevice];
 
     const window = await app.getWindow();
 

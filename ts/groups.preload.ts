@@ -146,9 +146,9 @@ const log = createLogger('groups');
 export { joinViaLink } from './groups/joinViaLink.preload.js';
 
 export type GroupFields = {
-  readonly id: Uint8Array;
-  readonly secretParams: Uint8Array;
-  readonly publicParams: Uint8Array;
+  readonly id: Uint8Array<ArrayBuffer>;
+  readonly secretParams: Uint8Array<ArrayBuffer>;
+  readonly publicParams: Uint8Array<ArrayBuffer>;
 };
 
 const MAX_CACHED_GROUP_FIELDS = 100;
@@ -211,7 +211,7 @@ type UpdatesResultType = {
 };
 
 type UploadedAvatarType = {
-  data: Uint8Array;
+  data: Uint8Array<ArrayBuffer>;
   hash: string;
   key: string;
 };
@@ -260,7 +260,7 @@ const GROUP_INVITE_LINK_PASSWORD_LENGTH = 16;
 
 // Group Links
 
-export function generateGroupInviteLinkPassword(): Uint8Array {
+export function generateGroupInviteLinkPassword(): Uint8Array<ArrayBuffer> {
   return getRandomBytes(GROUP_INVITE_LINK_PASSWORD_LENGTH);
 }
 
@@ -357,7 +357,7 @@ async function uploadAvatar(options: {
   logId: string;
   publicParams: string;
   secretParams: string;
-  data: Uint8Array;
+  data: Uint8Array<ArrayBuffer>;
 }): Promise<UploadedAvatarType> {
   const { logId, publicParams, secretParams, data } = options;
 
@@ -397,7 +397,7 @@ async function uploadAvatar(options: {
 function buildGroupTitleBuffer(
   clientZkGroupCipher: ClientZkGroupCipher,
   title: string
-): Uint8Array {
+): Uint8Array<ArrayBuffer> {
   const titleBlobPlaintext = Proto.GroupAttributeBlob.encode({
     content: {
       title,
@@ -416,7 +416,7 @@ function buildGroupTitleBuffer(
 function buildGroupDescriptionBuffer(
   clientZkGroupCipher: ClientZkGroupCipher,
   description: string
-): Uint8Array {
+): Uint8Array<ArrayBuffer> {
   const attrsBlobPlaintext = Proto.GroupAttributeBlob.encode({
     content: {
       descriptionText: description,
@@ -474,7 +474,7 @@ function buildGroupProto(
   const publicKey = Bytes.fromBase64(publicParams);
   const version = attributes.revision || 0;
 
-  let title: Uint8Array | null = null;
+  let title: Uint8Array<ArrayBuffer> | null = null;
   if (attributes.name) {
     title = buildGroupTitleBuffer(clientZkGroupCipher, attributes.name);
   }
@@ -484,7 +484,7 @@ function buildGroupProto(
     avatarUrl = attributes.avatarUrl;
   }
 
-  let disappearingMessagesTimer: Uint8Array | null = null;
+  let disappearingMessagesTimer: Uint8Array<ArrayBuffer> | null = null;
   if (attributes.expireTimer) {
     const timerBlobPlaintext = Proto.GroupAttributeBlob.encode({
       content: {
@@ -737,7 +737,7 @@ export async function buildUpdateAttributesChange(
     'id' | 'revision' | 'publicParams' | 'secretParams'
   >,
   attributes: Readonly<{
-    avatar?: undefined | Uint8Array;
+    avatar?: undefined | Uint8Array<ArrayBuffer>;
     description?: string;
     title?: string;
   }>
@@ -1142,7 +1142,7 @@ export function buildAddMember({
     return member.serviceId === serviceId;
   });
 
-  let deletedUserId: Uint8Array | null = null;
+  let deletedUserId: Uint8Array<ArrayBuffer> | null = null;
   if (doesMemberNeedUnban) {
     const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
     const userIdCipherText = encryptServiceId(clientZkGroupCipher, serviceId);
@@ -1333,8 +1333,8 @@ export function buildModifyMemberLabelChange({
   const clientZkGroupCipher = getClientZkGroupCipher(group.secretParams);
   const userIdCipherText = encryptServiceId(clientZkGroupCipher, serviceId);
 
-  let encryptedLabelEmoji: Uint8Array | null = null;
-  let encryptedLabelString: Uint8Array | null = null;
+  let encryptedLabelEmoji: Uint8Array<ArrayBuffer> | null = null;
+  let encryptedLabelString: Uint8Array<ArrayBuffer> | null = null;
 
   if (labelEmoji) {
     const labelEmojiBytes = Bytes.fromString(labelEmoji);
@@ -1705,7 +1705,9 @@ export function idForLogging(groupId: string | undefined): string {
   return `groupv2(${groupId})`;
 }
 
-export function deriveGroupFields(masterKey: Uint8Array): GroupFields {
+export function deriveGroupFields(
+  masterKey: Uint8Array<ArrayBuffer>
+): GroupFields {
   if (masterKey.length !== MASTER_KEY_LENGTH) {
     throw new Error(
       `deriveGroupFields: masterKey had length ${masterKey.length}, ` +
@@ -1792,7 +1794,7 @@ export async function fetchMembershipProof({
 export async function createGroupV2(
   options: Readonly<{
     name: string;
-    avatar: undefined | Uint8Array;
+    avatar: undefined | Uint8Array<ArrayBuffer>;
     expireTimer: undefined | DurationInSeconds;
     conversationIds: ReadonlyArray<string>;
     avatars?: ReadonlyArray<AvatarDataType>;
@@ -2450,7 +2452,10 @@ export async function initiateMigrationToGroupV2(
         avatarUrl: avatarAttribute?.url,
       });
 
-      let groupSendEndorsementsResponse: Uint8Array | null | undefined;
+      let groupSendEndorsementsResponse:
+        | Uint8Array<ArrayBuffer>
+        | null
+        | undefined;
       try {
         const groupResponse = await makeRequestWithCredentials({
           logId: `initiateMigrationToGroupV2/${logId}`,
@@ -2790,7 +2795,7 @@ export async function respondToGroupV2Migration({
   };
 
   let firstGroupState: Proto.Group.Params | null | undefined;
-  let groupSendEndorsementsResponse: Uint8Array | null | undefined;
+  let groupSendEndorsementsResponse: Uint8Array<ArrayBuffer> | null | undefined;
 
   try {
     const fetchedAt = Date.now();
@@ -3356,6 +3361,10 @@ export function _mergeGroupChangeMessages(
 
   const [firstDetail] = firstChange.details;
   const [secondDetail] = secondChange.details;
+
+  strictAssert(firstDetail, 'Missing firstDetail');
+  strictAssert(secondDetail, 'Missing secondDetail');
+
   let isApprovalPending: boolean;
   if (secondDetail.type === 'admin-approval-add-one') {
     isApprovalPending = true;
@@ -3428,6 +3437,7 @@ export function _isGroupChangeMessageBounceable(
   }
 
   const [first] = groupV2Change.details;
+  strictAssert(first, 'Missing first');
   if (
     first.type === 'admin-approval-add-one' ||
     first.type === 'admin-approval-bounce'
@@ -4074,7 +4084,7 @@ async function updateGroupViaLogs({
   }
 
   let response: GroupLogResponseType;
-  let groupSendEndorsementsResponse: Uint8Array | null = null;
+  let groupSendEndorsementsResponse: Uint8Array<ArrayBuffer> | null = null;
   const changes: Array<Proto.GroupChanges.Params> = [];
   do {
     const fetchedAt = Date.now();
@@ -4267,18 +4277,14 @@ async function integrateGroupChanges({
   const finalMessages: Array<Array<GroupChangeMessageType>> = [];
   const finalNewProfileKeys = new Map<AciString, string>();
 
-  const imax = changes.length;
-  for (let i = 0; i < imax; i += 1) {
-    const { groupChanges } = changes[i];
+  for (const change of changes) {
+    const { groupChanges } = change;
 
     if (!groupChanges) {
       continue;
     }
 
-    const jmax = groupChanges.length;
-    for (let j = 0; j < jmax; j += 1) {
-      const changeState = groupChanges[j];
-
+    for (const changeState of groupChanges) {
       const { groupChange, groupState } = changeState;
 
       if (!groupChange && !groupState) {
@@ -4323,8 +4329,8 @@ async function integrateGroupChanges({
   if (isFirstFetch && moreThanOneVersion) {
     // The first array in finalMessages is from the first revision we could process. It
     //   should contain a message about how we joined the group.
-    const joinMessages = finalMessages[0];
-    const alreadyHaveJoinMessage = joinMessages && joinMessages.length > 0;
+    const joinMessage = finalMessages[0]?.[0];
+    const alreadyHaveJoinMessage = joinMessage != null;
 
     // There have been other changes since that first revision, so we generate diffs for
     //   the whole of the change since then, likely without the initial join message.
@@ -4334,9 +4340,8 @@ async function integrateGroupChanges({
       dropInitialJoinMessage: alreadyHaveJoinMessage,
     });
 
-    const groupChangeMessages = alreadyHaveJoinMessage
-      ? [joinMessages[0], ...otherMessages]
-      : otherMessages;
+    const groupChangeMessages =
+      joinMessage != null ? [joinMessage, ...otherMessages] : otherMessages;
 
     return {
       newAttributes: attributes,
@@ -4897,6 +4902,7 @@ function extractDiffs({
   const removedPendingMemberIds = Array.from(oldPendingMemberLookup.keys());
   if (removedPendingMemberIds.length > 1) {
     const firstUuid = removedPendingMemberIds[0];
+    strictAssert(firstUuid, 'Missing firstUuid');
     const firstRemovedMember = oldPendingMemberLookup.get(firstUuid);
     strictAssert(
       firstRemovedMember !== undefined,
@@ -4913,6 +4919,7 @@ function extractDiffs({
     });
   } else if (removedPendingMemberIds.length === 1) {
     const serviceId = removedPendingMemberIds[0];
+    strictAssert(serviceId, 'Missing serviceId');
     const removedMember = oldPendingMemberLookup.get(serviceId);
     strictAssert(removedMember !== undefined, 'Removed member not found');
 
@@ -5130,6 +5137,8 @@ function extractDiffs({
         expireTimer,
         sourceServiceId: isReJoin ? undefined : sourceServiceId,
       },
+      readStatus: ReadStatus.Read,
+      seenStatus: isFromUs ? SeenStatus.Seen : SeenStatus.Unseen,
     };
   }
 
@@ -5151,7 +5160,7 @@ function profileKeysToMap(items: ReadonlyArray<GroupChangeMemberType>) {
 }
 
 type GroupChangeMemberType = {
-  profileKey: Uint8Array;
+  profileKey: Uint8Array<ArrayBuffer>;
   aci: AciString;
 };
 type GroupApplyResultType = {
@@ -5432,7 +5441,7 @@ async function applyGroupChange({
       members[aci] = {
         aci,
         joinedAtVersion: version,
-        role: previousRecord.role || MemberRole.DEFAULT,
+        role: previousRecord?.role || MemberRole.DEFAULT,
       };
 
       newProfileKeys.push({
@@ -5476,7 +5485,7 @@ async function applyGroupChange({
       members[aci] = {
         aci,
         joinedAtVersion: version,
-        role: previousRecord.role || MemberRole.DEFAULT,
+        role: previousRecord?.role || MemberRole.DEFAULT,
       };
 
       newProfileKeys.push({
@@ -5562,7 +5571,7 @@ async function applyGroupChange({
   if (actions.modifyAddFromInviteLinkAccess) {
     const linkAccess =
       actions.modifyAddFromInviteLinkAccess?.addFromInviteLinkAccess;
-    accessControl.members = isValidLinkAccess(linkAccess)
+    accessControl.addFromInviteLink = isValidLinkAccess(linkAccess)
       ? linkAccess
       : AccessRequired.UNSATISFIABLE;
   }
@@ -5571,7 +5580,7 @@ async function applyGroupChange({
   //   GroupChange.Actions.ModifyMemberLabelAccessControlAction;
   if (actions.modifyMemberLabelAccess) {
     const access = actions.modifyMemberLabelAccess?.memberLabelAccess;
-    accessControl.members = isValidAccess(access)
+    accessControl.memberLabel = isValidAccess(access)
       ? access
       : AccessRequired.MEMBER;
   }
@@ -5772,7 +5781,7 @@ async function applyGroupChange({
 export async function decryptGroupAvatar(
   avatarKey: string,
   secretParamsBase64: string
-): Promise<Uint8Array> {
+): Promise<Uint8Array<ArrayBuffer>> {
   const ciphertext = await getGroupAvatar(avatarKey);
   const clientZkGroupCipher = getClientZkGroupCipher(secretParamsBase64);
   const plaintext = decryptGroupBlob(clientZkGroupCipher, ciphertext);
@@ -5838,7 +5847,7 @@ export async function applyNewAvatar(
         return result;
       }
 
-      const data: Uint8Array = await decryptGroupAvatar(
+      const data: Uint8Array<ArrayBuffer> = await decryptGroupAvatar(
         avatarUrlToUse,
         attributes.secretParams
       );
@@ -5881,7 +5890,7 @@ export async function applyNewAvatar(
 
 function profileKeyHasChanged(
   userId: ServiceIdString,
-  newProfileKey: Uint8Array
+  newProfileKey: Uint8Array<ArrayBuffer>
 ) {
   const conversation = window.ConversationController.get(userId);
   if (!conversation) {
@@ -6238,7 +6247,7 @@ function isValidLinkAccess(
   );
 }
 
-function isValidProfileKey(buffer?: Uint8Array): boolean {
+function isValidProfileKey(buffer?: Uint8Array<ArrayBuffer>): boolean {
   return Boolean(buffer && buffer.length === 32);
 }
 
@@ -6279,7 +6288,7 @@ type DecryptedGroupChangeActions = {
   }>;
   modifyMemberLabels?: ReadonlyArray<DecryptedModifyMemberLabelAction>;
   modifyMemberProfileKeys?: ReadonlyArray<{
-    profileKey: Uint8Array;
+    profileKey: Uint8Array<ArrayBuffer>;
     aci: AciString;
   }>;
   addMembersPendingProfileKey?: ReadonlyArray<{
@@ -6290,11 +6299,11 @@ type DecryptedGroupChangeActions = {
     deletedUserId: ServiceIdString;
   }>;
   promoteMembersPendingProfileKey?: ReadonlyArray<{
-    profileKey: Uint8Array;
+    profileKey: Uint8Array<ArrayBuffer>;
     aci: AciString;
   }>;
   promoteMembersPendingPniAciProfileKey?: ReadonlyArray<{
-    profileKey: Uint8Array;
+    profileKey: Uint8Array<ArrayBuffer>;
     aci: AciString;
     pni: PniString;
   }>;
@@ -6501,7 +6510,7 @@ function decryptGroupChange(
       );
 
       let aci: AciString;
-      let profileKey: Uint8Array;
+      let profileKey: Uint8Array<ArrayBuffer>;
       try {
         aci = decryptAci(clientZkGroupCipher, userId);
 
@@ -6626,7 +6635,7 @@ function decryptGroupChange(
         );
 
         let aci: AciString;
-        let profileKey: Uint8Array;
+        let profileKey: Uint8Array<ArrayBuffer>;
         try {
           aci = decryptAci(clientZkGroupCipher, userId);
 
@@ -6679,7 +6688,7 @@ function decryptGroupChange(
 
         let aci: AciString;
         let pni: PniString;
-        let profileKey: Uint8Array;
+        let profileKey: Uint8Array<ArrayBuffer>;
         try {
           aci = decryptAci(clientZkGroupCipher, promotePendingMember.userId);
           pni = decryptPni(clientZkGroupCipher, promotePendingMember.pni);
@@ -6993,7 +7002,7 @@ function decryptGroupChange(
 }
 
 export function decryptGroupTitle(
-  title: Uint8Array | undefined,
+  title: Uint8Array<ArrayBuffer> | undefined,
   secretParams: string
 ): string | undefined {
   const clientZkGroupCipher = getClientZkGroupCipher(secretParams);
@@ -7008,7 +7017,7 @@ export function decryptGroupTitle(
 }
 
 export function decryptGroupDescription(
-  description: Uint8Array | undefined,
+  description: Uint8Array<ArrayBuffer> | undefined,
   secretParams: string
 ): string | undefined {
   const clientZkGroupCipher = getClientZkGroupCipher(secretParams);
@@ -7277,7 +7286,7 @@ function decryptGroupState(
 
 type DecryptedMember = Readonly<{
   userId: AciString;
-  profileKey: Uint8Array;
+  profileKey: Uint8Array<ArrayBuffer>;
   role: MemberRole;
   joinedAtVersion: number;
   labelEmoji?: string;
@@ -7453,7 +7462,7 @@ function decryptMemberPendingProfileKey(
 
 type DecryptedMemberPendingAdminApproval = {
   userId: AciString;
-  profileKey?: Uint8Array;
+  profileKey?: Uint8Array<ArrayBuffer>;
   timestamp: number;
 };
 
@@ -7485,7 +7494,7 @@ function decryptMemberPendingAdminApproval(
   }
 
   // profileKey
-  let decryptedProfileKey: Uint8Array | undefined;
+  let decryptedProfileKey: Uint8Array<ArrayBuffer> | undefined;
   if (Bytes.isNotEmpty(profileKey)) {
     try {
       decryptedProfileKey = decryptProfileKey(
@@ -7518,7 +7527,7 @@ function decryptMemberPendingAdminApproval(
 
 export function getMembershipList(
   conversationId: string
-): Array<{ aci: AciString; uuidCiphertext: Uint8Array }> {
+): Array<{ aci: AciString; uuidCiphertext: Uint8Array<ArrayBuffer> }> {
   const conversation = window.ConversationController.get(conversationId);
   if (!conversation) {
     throw new Error('getMembershipList: cannot find conversation');

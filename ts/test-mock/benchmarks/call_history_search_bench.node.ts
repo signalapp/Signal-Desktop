@@ -166,7 +166,8 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
 
   async function measure(runId: number): Promise<number> {
     // setup
-    const searchContact = contacts[runId % contacts.length];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const searchContact = contacts[runId % contacts.length]!;
     const OtherCallListItems = CallListItem.filter({
       hasNotText: searchContact.profileName,
     });

@@ -305,7 +305,8 @@ describe('Crypto', () => {
       const key = getRandomBytes(32);
 
       const encrypted = encryptSymmetric(key, plaintext);
-      encrypted[2] += 2;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      encrypted[2]! += 2;
 
       try {
         decryptSymmetric(key, encrypted);
@@ -326,7 +327,8 @@ describe('Crypto', () => {
       const key = getRandomBytes(32);
 
       const encrypted = encryptSymmetric(key, plaintext);
-      encrypted[encrypted.length - 3] += 2;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      encrypted[encrypted.length - 3]! += 2;
 
       try {
         decryptSymmetric(key, encrypted);
@@ -347,7 +349,8 @@ describe('Crypto', () => {
       const key = getRandomBytes(32);
 
       const encrypted = encryptSymmetric(key, plaintext);
-      encrypted[35] += 9;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      encrypted[35]! += 9;
 
       try {
         decryptSymmetric(key, encrypted);
@@ -725,9 +728,9 @@ describe('Crypto', () => {
         overrideSize,
       }: {
         path?: string;
-        data: Uint8Array;
-        plaintextHash?: Uint8Array;
-        encryptionKeys?: Uint8Array;
+        data: Uint8Array<ArrayBuffer>;
+        plaintextHash?: Uint8Array<ArrayBuffer>;
+        encryptionKeys?: Uint8Array<ArrayBuffer>;
         modifyIncrementalMac?: boolean;
         overrideSize?: number;
       }): Promise<DecryptedAttachmentV2> {
@@ -751,7 +754,8 @@ describe('Crypto', () => {
             isNumber(macLength) &&
             encryptedAttachment.incrementalMac
           ) {
-            encryptedAttachment.incrementalMac[macLength / 2] += 1;
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            encryptedAttachment.incrementalMac[macLength / 2]! += 1;
           }
 
           // Decrypt it via plaintextHash first
@@ -982,8 +986,8 @@ describe('Crypto', () => {
         outerKeys,
       }: {
         plaintextAbsolutePath: string;
-        innerKeys: Uint8Array;
-        outerKeys: Uint8Array;
+        innerKeys: Uint8Array<ArrayBuffer>;
+        outerKeys: Uint8Array<ArrayBuffer>;
       }) {
         let innerCiphertextPath;
         let outerCiphertextPath;

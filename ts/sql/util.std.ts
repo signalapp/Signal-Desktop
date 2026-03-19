@@ -38,7 +38,11 @@ export function jsonToObject<T>(json: string): T {
   return JSON.parse(json);
 }
 
-export type QueryTemplateParam = Uint8Array | string | number | null;
+export type QueryTemplateParam =
+  | Uint8Array<ArrayBuffer>
+  | string
+  | number
+  | null;
 export type QueryFragmentValue = QueryFragment | QueryTemplateParam;
 
 export class QueryFragment {
@@ -73,7 +77,8 @@ export function sqlFragment(
   const params: Array<QueryTemplateParam> = [];
 
   strings.forEach((string, index) => {
-    const value = values[index];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const value = values[index]!;
 
     query += string;
 

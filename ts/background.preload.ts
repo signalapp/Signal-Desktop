@@ -282,7 +282,6 @@ import {
 } from './types/Message2.preload.js';
 import { JobCancelReason } from './jobs/types.std.js';
 import { itemStorage } from './textsecure/Storage.preload.js';
-import { isPinnedMessagesReceiveEnabled } from './util/isPinnedMessagesEnabled.dom.js';
 import { initMessageCleanup } from './services/messageStateCleanup.dom.js';
 import { MessageCache } from './services/MessageCache.preload.js';
 import { saveAndNotify } from './messages/saveAndNotify.preload.js';
@@ -2510,11 +2509,6 @@ export async function startApp(): Promise<void> {
     }
 
     if (data.message.pinMessage != null) {
-      if (!isPinnedMessagesReceiveEnabled()) {
-        log.warn('Dropping PinMessage because the flag is disabled');
-        confirm();
-        return;
-      }
       await PinnedMessages.onPinnedMessageAdd({
         targetSentTimestamp: data.message.pinMessage.targetSentTimestamp,
         targetAuthorAci: data.message.pinMessage.targetAuthorAci,
@@ -2700,11 +2694,6 @@ export async function startApp(): Promise<void> {
     }
 
     if (data.message.unpinMessage != null) {
-      if (!isPinnedMessagesReceiveEnabled()) {
-        log.warn('Dropping UnpinMessage because the flag is disabled');
-        confirm();
-        return;
-      }
       await PinnedMessages.onPinnedMessageRemove({
         targetSentTimestamp: data.message.unpinMessage.targetSentTimestamp,
         targetAuthorAci: data.message.unpinMessage.targetAuthorAci,
@@ -3070,11 +3059,6 @@ export async function startApp(): Promise<void> {
     }
 
     if (data.message.pinMessage != null) {
-      if (!isPinnedMessagesReceiveEnabled()) {
-        log.warn('Dropping PinMessage because the flag is disabled');
-        confirm();
-        return;
-      }
       strictAssert(data.timestamp != null, 'Missing sent timestamp');
       await PinnedMessages.onPinnedMessageAdd({
         targetSentTimestamp: data.message.pinMessage.targetSentTimestamp,
@@ -3262,11 +3246,6 @@ export async function startApp(): Promise<void> {
     }
 
     if (data.message.unpinMessage != null) {
-      if (!isPinnedMessagesReceiveEnabled()) {
-        log.warn('Dropping UnpinMessage because the flag is disabled');
-        confirm();
-        return;
-      }
       await PinnedMessages.onPinnedMessageRemove({
         targetSentTimestamp: data.message.unpinMessage.targetSentTimestamp,
         targetAuthorAci: data.message.unpinMessage.targetAuthorAci,
@@ -3395,18 +3374,6 @@ export async function startApp(): Promise<void> {
 
     void Registration.remove();
 
-    const NUMBER_ID_KEY = 'number_id';
-    const UUID_ID_KEY = 'uuid_id';
-    const PNI_KEY = 'pni';
-    const LAST_PROCESSED_INDEX_KEY = 'attachmentMigration_lastProcessedIndex';
-    const IS_MIGRATION_COMPLETE_KEY = 'attachmentMigration_isComplete';
-
-    const previousNumberId = itemStorage.get(NUMBER_ID_KEY);
-    const previousUuidId = itemStorage.get(UUID_ID_KEY);
-    const previousPni = itemStorage.get(PNI_KEY);
-    const lastProcessedIndex = itemStorage.get(LAST_PROCESSED_INDEX_KEY);
-    const isMigrationComplete = itemStorage.get(IS_MIGRATION_COMPLETE_KEY);
-
     try {
       log.info('unlinkAndDisconnect: removing configuration');
 
@@ -3429,30 +3396,6 @@ export async function startApp(): Promise<void> {
       // Finally, conversations in the database, and delete all config tables
       await signalProtocolStore.removeAllConfiguration();
 
-      // These three bits of data are important to ensure that the app loads up
-      //   the conversation list, instead of showing just the QR code screen.
-      if (previousNumberId !== undefined) {
-        await itemStorage.put(NUMBER_ID_KEY, previousNumberId);
-      }
-      if (previousUuidId !== undefined) {
-        await itemStorage.put(UUID_ID_KEY, previousUuidId);
-      }
-      if (previousPni !== undefined) {
-        await itemStorage.put(PNI_KEY, previousPni);
-      }
-
-      // These two are important to ensure we don't rip through every message
-      //   in the database attempting to upgrade it after starting up again.
-      await itemStorage.put(
-        IS_MIGRATION_COMPLETE_KEY,
-        isMigrationComplete || false
-      );
-      if (lastProcessedIndex !== undefined) {
-        await itemStorage.put(LAST_PROCESSED_INDEX_KEY, lastProcessedIndex);
-      } else {
-        await itemStorage.remove(LAST_PROCESSED_INDEX_KEY);
-      }
-
       // Re-hydrate items from memory; removeAllConfiguration above changed database
       await itemStorage.fetch();
 
@@ -3464,8 +3407,6 @@ export async function startApp(): Promise<void> {
         Errors.toLogFormat(eraseError)
       );
     } finally {
-      await Registration.markEverDone();
-
       if (window.SignalCI) {
         window.SignalCI.handleEvent('unlinkCleanupComplete', null);
       }

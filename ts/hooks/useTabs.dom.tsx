@@ -52,7 +52,8 @@ export function useTabs(options: TabsOptionsType): TabsProps {
     // This is enforced by the type system.
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [tabState, setTabState] = useState<string>(
-      options.initialSelectedTab || options.tabs[0].id
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      options.initialSelectedTab || options.tabs[0]!.id
     );
 
     selectedTab = tabState;

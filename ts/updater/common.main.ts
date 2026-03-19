@@ -113,7 +113,7 @@ enum DownloadMode {
 
 type DownloadUpdateResultType = Readonly<{
   updateFilePath: string;
-  signature: Buffer;
+  signature: Buffer<ArrayBuffer>;
 }>;
 
 export type UpdaterOptionsType = Readonly<{
@@ -308,7 +308,7 @@ export abstract class Updater {
     markShouldQuit();
   }
 
-  protected getUpdatesPublicKey(): Buffer {
+  protected getUpdatesPublicKey(): Buffer<ArrayBuffer> {
     return hexToBinary(config.get('updatesPublicKey'));
   }
 
@@ -943,7 +943,7 @@ export abstract class Updater {
         'getItemById',
         'auto-download-update'
       );
-      return result?.value ?? true;
+      return typeof result?.value === 'boolean' ? result.value : true;
     } catch (error) {
       this.logger.warn(
         'getAutoDownloadUpdateSetting: Failed to fetch, returning false',
@@ -1065,7 +1065,8 @@ export function getUpdateFileName(
     const candidates = files.filter(fileFilter);
 
     if (candidates.length === 1) {
-      path = candidates[0].url;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      path = candidates[0]!.url;
     }
   }
 

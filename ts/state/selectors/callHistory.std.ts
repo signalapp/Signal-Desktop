@@ -46,9 +46,7 @@ export const getCallHistoryLatestCall = createSelector(
   callHistory => {
     let latestCall = null;
 
-    for (const callId of Object.keys(callHistory.callHistoryByCallId)) {
-      const call = callHistory.callHistoryByCallId[callId];
-
+    for (const call of Object.values(callHistory.callHistoryByCallId)) {
       // Skip unused call links
       if (
         call.type === CallType.Adhoc &&

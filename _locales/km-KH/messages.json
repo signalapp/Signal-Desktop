@@ -4032,22 +4032,22 @@
     "messageformat": "អ្នកគ្រប់គ្រងម្នាក់បានផ្លាស់ប្តូរអ្នកដែលអាចកែសមាជិកភាពក្រុមបាន ទៅជា \"សមាជិកគ្រប់រូប\"។"
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "អ្នកបានផ្លាស់ប្តូរនរណាដែលអាចបញ្ចូលស្លាកសមាជិកទៅជា \"អ្នកគ្រប់គ្រងតែប៉ុណ្ណោះ\"។"
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "{adminName} បានផ្លាស់ប្តូរនរណាដែលអាចបញ្ចូលស្លាកសមាជិកទៅជា \"អ្នកគ្រប់គ្រងតែប៉ុណ្ណោះ\"។"
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "អ្នកគ្រប់គ្រងម្នាក់បានផ្លាស់ប្តូរនរណាដែលអាចបញ្ចូលស្លាកសមាជិកទៅជា \"អ្នកគ្រប់គ្រងតែប៉ុណ្ណោះ\"។"
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "អ្នកបានផ្លាស់ប្តូរនរណាដែលអាចបញ្ចូលស្លាកសមាជិកទៅជា \"សមាជិកទាំងអស់\"។"
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "{adminName} បានផ្លាស់ប្តូរនរណាដែលអាចបញ្ចូលស្លាកសមាជិកទៅជា \"សមាជិកទាំងអស់\"។"
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "អ្នកគ្រប់គ្រងម្នាក់បានផ្លាស់ប្តូរនរណាដែលអាចបញ្ចូលស្លាកសមាជិកទៅជា \"សមាជិកទាំងអស់\"។"
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "អ្នកបានបិទការឯកភាពពីអ្នកគ្រប់គ្រងចំពោះតំណក្រុម។"
@@ -4704,7 +4704,7 @@
     "messageformat": "បិទសំឡេង"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "ដកចេញពីការហៅ"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "ស្លាកសមាជិក"
@@ -4812,10 +4812,10 @@
     "messageformat": "ជ្រើសរើសអ្នកដែលអាចផ្ញើសារទៅក្រុមនេះ។"
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "នរណាអាចបញ្ចូលស្លាកសមាជិកបាន"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "ជ្រើសរើសនរណាដែលអាចបញ្ចូលស្លាកសមាជិកនៅក្នុងក្រុមនេះ។"
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "ស្លាកសមាជិកនឹងត្រូវបានលុបចោល"
@@ -5055,7 +5055,11 @@
     "messageformat": "លុបសម្រាប់អ្នករាល់គ្នា?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, other {ក្នុងនាមជាអ្នកគ្រប់គ្រង សមាជិកក្រុមនឹងឃើញថាអ្នកបានលុបសារទាំងនេះ។}}"
+    "messageformat": "{count, plural, other {ក្នុងនាមជាអ្នកគ្រប់គ្រង សមាជិកក្រុមនឹងឃើញថាអ្នកបានលុបសារទាំងនេះ។}}",
+    "ignoreUnused": true
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
+    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "លុបចេញពីឧបករណ៍ទាំងអស់"
@@ -5067,10 +5071,10 @@
     "messageformat": "{count, plural, other {អ្នកអាចជ្រើសរើសបានរហូតដល់ {count,number} សារប៉ុណ្ណោះដើម្បីលុបសម្រាប់អ្នករាល់គ្នា}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "បោះបង់សេចក្តីព្រាងឬ?"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "សកម្មភាពនេះមិនអាចត្រឡប់វិញបានទេ។"
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "លុបធាតុ?"
@@ -6208,13 +6212,13 @@
     "messageformat": "ការបម្រុងទុកសម្រាប់ Desktop"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "ការបម្រុងទុករបស់អ្នកត្រូវបានអ៊ីនគ្រីបទាំងសងខាង ហើយត្រូវបានរក្សាទុកនៅលើកុំព្យូទ័ររបស់អ្នក។"
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "បង្កើតការបម្រុងទុកដែលបានអ៊ីនគ្រីបទាំងសងខាង ដែលអ្នកអាចស្តារនៅលើទូរសព្ទរបស់អ្នក។ "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "ដើម្បីស្ដារការបម្រុងទុក សូមដំឡើងច្បាប់ចម្លងថ្មីនៃ Signal នៅលើទូរសព្ទរបស់អ្នក។ បើកកម្មវិធី ហើយចុច “ស្តារ ឬផ្ទេរ”។ <learnMoreLink>ស្វែងយល់បន្ថែម។</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "ជ្រើសរើសថតឯកសារ"
@@ -6284,6 +6288,18 @@
   },
   "icu:Preferences__local-backups-folder__change": {
     "messageformat": "ផ្លាស់ប្តូរ"
+  },
+  "icu:Preferences__local-backups-turn-off": {
+    "messageformat": "Turn off backups"
+  },
+  "icu:Preferences__local-backups-turn-off-action": {
+    "messageformat": "Turn off"
+  },
+  "icu:Preferences__local-backups-turn-off-confirmation": {
+    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+  },
+  "icu:Preferences__local-backups-turn-off-delete": {
+    "messageformat": "Delete my backup from this computer"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "ចម្លងទៅឃ្លីបបត"
@@ -8010,6 +8026,6 @@
     "messageformat": "ឥឡូវនេះ អ្នកក៏អាចផ្ញើសារមេឌៀដែលមើលបានតែម្តងពី Signal Desktop បានដែរ។ រូបថត និងវីដេអូនីមួយៗដែលត្រូវបានផ្ញើជាសារមើលបានតែម្តងនឹងត្រូវបានលុបចេញពីការសន្ទនាដោយស្វ័យប្រវត្តិ បន្ទាប់ពីបានមើលរួច។"
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "ឥឡូវនេះ អ្នកអាចដាក់ស្លាកសមាជិកជាជម្រើសបាន ដើម្បីពណ៌នាអំពីខ្លួនអ្នក ឬតួនាទីរបស់អ្នកនៅក្នុងការជជែកជាក្រុម។ កំណត់ស្លាកសមាជិកក្រុមរបស់អ្នកទៅជា \"អាជ្ញាកណ្តាល\" ឬ \"អ្នកចាំទី\" នៅក្នុងការជជែកអំពីការប្រកួតបាល់ទាត់ក្នុងស្រុក ដើម្បីជួយចាប់ផ្តើមនៅពេលដែលមិត្តរួមក្រុមថ្មីចូលរួម បន្ទាប់មកជ្រើសរើសស្លាកផ្សេងដែលមានមុខតំណែងការងាររបស់អ្នកនៅក្នុងការជជែករបស់ក្រុមហ៊ុន។ ស្លាកសមាជិកបង្ហាញនៅជិតឈ្មោះប្រូហ្វាល់នៅក្នុងក្រុមនោះ ហើយអ្នកគ្រប់គ្រងក្រុមជាអ្នកកំណត់ថាតើមុខងារនេះអាចបើកសម្រាប់មនុស្សគ្រប់គ្នាឬទេ។"
   }
 }

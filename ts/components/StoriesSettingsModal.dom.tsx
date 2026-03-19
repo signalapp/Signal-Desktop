@@ -270,7 +270,7 @@ export function StoriesSettingsModal({
   setStoriesDisabled,
   getConversationByServiceId,
 }: PropsType): React.JSX.Element {
-  const tryClose = useRef<() => void | undefined>();
+  const tryClose = useRef<(() => void) | null>(null);
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,
     name: 'StoriesSettingsModal',
@@ -1220,7 +1220,7 @@ export function EditDistributionListModal({
           {(ref, size) => (
             <div className="StoriesSettingsModal__conversation-list" ref={ref}>
               <ConversationList
-                dimensions={size ?? undefined}
+                dimensions={size?.hidden === false ? size : undefined}
                 getPreferredBadge={getPreferredBadge}
                 getRow={getRow}
                 i18n={i18n}
@@ -1238,7 +1238,6 @@ export function EditDistributionListModal({
                 onOutgoingVideoCallInConversation={shouldNeverBeCalled}
                 renderMessageSearchResult={() => {
                   shouldNeverBeCalled();
-                  return <div />;
                 }}
                 rowCount={rowCount}
                 setIsFetchingUUID={shouldNeverBeCalled}

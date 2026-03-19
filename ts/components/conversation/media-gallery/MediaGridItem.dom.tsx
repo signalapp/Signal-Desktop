@@ -35,7 +35,7 @@ export type Props = Readonly<{
   renderContextMenu: (
     mediaItem: ReadonlyDeep<MediaItemType>,
     children: ReactNode
-  ) => JSX.Element;
+  ) => React.JSX.Element;
 }>;
 
 export function MediaGridItem(props: Props): React.JSX.Element {

@@ -117,7 +117,7 @@ describe('calling duck', () => {
   const remoteAci = generateAci();
   const ringerAci = generateAci();
 
-  const stateWithGroupCall: CallingStateType = {
+  const stateWithGroupCall = {
     ...getEmptyState(),
     callsByConversation: {
       'fake-group-call-conversation-id': {
@@ -148,9 +148,9 @@ describe('calling duck', () => {
         ],
       } satisfies GroupCallStateType,
     },
-  };
+  } as const satisfies CallingStateType;
 
-  const stateWithNotJoinedGroupCall: CallingStateType = {
+  const stateWithNotJoinedGroupCall = {
     ...getEmptyState(),
     callsByConversation: {
       'fake-group-call-conversation-id': {
@@ -170,9 +170,9 @@ describe('calling duck', () => {
         remoteParticipants: [],
       } satisfies GroupCallStateType,
     },
-  };
+  } as const satisfies CallingStateType;
 
-  const stateWithIncomingGroupCall: CallingStateType = {
+  const stateWithIncomingGroupCall = {
     ...stateWithGroupCall,
     callsByConversation: {
       ...stateWithGroupCall.callsByConversation,
@@ -184,7 +184,7 @@ describe('calling duck', () => {
         ringerAci: generateAci(),
       },
     },
-  };
+  } as const satisfies CallingStateType;
 
   const groupCallActiveCallState: ActiveCallStateType = {
     state: 'Active',
@@ -202,10 +202,10 @@ describe('calling duck', () => {
     joinedAt: null,
   };
 
-  const stateWithActiveGroupCall: CallingStateTypeWithActiveCall = {
+  const stateWithActiveGroupCall = {
     ...stateWithGroupCall,
     activeCallState: groupCallActiveCallState,
-  };
+  } as const satisfies CallingStateTypeWithActiveCall;
 
   const ourAci = generateAci();
 

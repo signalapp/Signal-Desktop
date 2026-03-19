@@ -70,11 +70,11 @@ export function getPlaceholderCallLinkConversation(
   };
 }
 
-export function toAdminKeyBytes(adminKey: string): Uint8Array {
+export function toAdminKeyBytes(adminKey: string): Uint8Array<ArrayBuffer> {
   return Bytes.fromBase64(adminKey);
 }
 
-export function fromAdminKeyBytes(adminKey: Uint8Array): string {
+export function fromAdminKeyBytes(adminKey: Uint8Array<ArrayBuffer>): string {
   return Bytes.toBase64(adminKey);
 }
 

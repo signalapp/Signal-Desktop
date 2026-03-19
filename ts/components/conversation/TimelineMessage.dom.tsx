@@ -250,7 +250,8 @@ export function TimelineMessage(props: Props): React.JSX.Element {
       if (attachments.length !== 1) {
         saveAttachments(attachments, timestamp);
       } else {
-        saveAttachment(attachments[0], timestamp);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        saveAttachment(attachments[0]!, timestamp);
       }
     },
     [

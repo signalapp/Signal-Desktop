@@ -375,7 +375,7 @@ export function ForwardMessagesModal({
                     ref={ref}
                   >
                     <ConversationList
-                      dimensions={size ?? undefined}
+                      dimensions={size?.hidden === false ? size : undefined}
                       getPreferredBadge={getPreferredBadge}
                       getRow={getRow}
                       i18n={i18n}

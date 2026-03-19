@@ -102,8 +102,8 @@ describe('sql/getRecentStoryReplies', () => {
       limit: 2,
     });
     assert.lengthOf(searchResultsPage1, 2, 'page 1');
-    assert.strictEqual(searchResultsPage1[0].body, message3.body);
-    assert.strictEqual(searchResultsPage1[1].body, message2.body);
+    assert.strictEqual(searchResultsPage1[0]?.body, message3.body);
+    assert.strictEqual(searchResultsPage1[1]?.body, message2.body);
 
     const searchResultsPage2 = await getRecentStoryReplies(storyId, {
       messageId: message2.id,
@@ -111,6 +111,6 @@ describe('sql/getRecentStoryReplies', () => {
       limit: 2,
     });
     assert.lengthOf(searchResultsPage2, 1, 'page 2');
-    assert.strictEqual(searchResultsPage2[0].body, message1.body);
+    assert.strictEqual(searchResultsPage2[0]?.body, message1.body);
   });
 });

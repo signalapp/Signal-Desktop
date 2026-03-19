@@ -184,7 +184,7 @@ describe('Message', () => {
 
       const errors = message.get('errors') || [];
       assert.lengthOf(errors, 1);
-      assert.strictEqual(errors[0].message, 'foo bar');
+      assert.strictEqual(errors[0]?.message, 'foo bar');
     });
 
     it('saves errors from promise rejections with objects', async () => {
@@ -201,7 +201,7 @@ describe('Message', () => {
 
       const errors = message.get('errors') || [];
       assert.lengthOf(errors, 1);
-      assert.strictEqual(errors[0].message, 'baz qux');
+      assert.strictEqual(errors[0]?.message, 'baz qux');
     });
   });
 

@@ -16,9 +16,10 @@ import {
  *
  * [0]: https://mimesniff.spec.whatwg.org/#matching-an-image-type-pattern
  */
-export function sniffImageMimeType(bytes: Uint8Array): undefined | MIMEType {
-  for (let i = 0; i < TYPES.length; i += 1) {
-    const type = TYPES[i];
+export function sniffImageMimeType(
+  bytes: Uint8Array<ArrayBuffer>
+): undefined | MIMEType {
+  for (const type of TYPES) {
     if (matchesType(bytes, type)) {
       return type.mimeType;
     }
@@ -28,8 +29,8 @@ export function sniffImageMimeType(bytes: Uint8Array): undefined | MIMEType {
 
 type Type = {
   mimeType: MIMEType;
-  bytePattern: Uint8Array;
-  patternMask?: Uint8Array;
+  bytePattern: Uint8Array<ArrayBuffer>;
+  patternMask?: Uint8Array<ArrayBuffer>;
 };
 const TYPES: Array<Type> = [
   {
@@ -77,7 +78,7 @@ const TYPES: Array<Type> = [
 
 // This follows the [pattern matching algorithm in the spec][1].
 // [1]: https://mimesniff.spec.whatwg.org/#pattern-matching-algorithm
-function matchesType(input: Uint8Array, type: Type): boolean {
+function matchesType(input: Uint8Array<ArrayBuffer>, type: Type): boolean {
   if (input.byteLength < type.bytePattern.byteLength) {
     return false;
   }
@@ -85,8 +86,8 @@ function matchesType(input: Uint8Array, type: Type): boolean {
   for (let p = 0; p < type.bytePattern.length; p += 1) {
     const mask = type.patternMask ? type.patternMask[p] : 0xff;
     // We need to use a bitwise operator here, per the spec.
-    // eslint-disable-next-line no-bitwise
-    const maskedData = input[p] & mask;
+    // eslint-disable-next-line no-bitwise, @typescript-eslint/no-non-null-assertion
+    const maskedData = input[p]! & mask!;
     if (maskedData !== type.bytePattern[p]) {
       return false;
     }

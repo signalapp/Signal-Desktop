@@ -89,7 +89,7 @@ describe('LeftPaneSetGroupMetadataHelper', () => {
       const selectedContacts = [
         getDefaultConversation(),
         getDefaultConversation(),
-      ];
+      ] as const;
       const helper = new LeftPaneSetGroupMetadataHelper({
         ...getComposeState(),
         selectedContacts,

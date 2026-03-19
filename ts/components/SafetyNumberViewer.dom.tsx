@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import React, { useState, useCallback } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 
 import { AxoSymbol } from '../axo/AxoSymbol.dom.js';
 import { AxoButton } from '../axo/AxoButton.dom.js';
@@ -101,7 +101,7 @@ export function SafetyNumberViewer({
     </div>
   );
 
-  let keyTransparency: JSX.Element | undefined;
+  let keyTransparency: React.JSX.Element | undefined;
   if (isKeyTransparencyEnabled) {
     keyTransparency = (
       <KeyTransparency
@@ -151,7 +151,7 @@ function KeyTransparency({
   status,
   contact,
   checkKeyTransparency,
-}: KeyTransparencyPropsType): JSX.Element {
+}: KeyTransparencyPropsType): React.JSX.Element {
   const [popup, setPopup] = useState<undefined | PopupPropsType['type']>();
 
   const resetPopup = useCallback(() => {
@@ -184,7 +184,7 @@ function KeyTransparency({
   let disabled = false;
   let arrow = false;
   let extraIconStyles: TailwindStyles | undefined;
-  let spinner: JSX.Element | undefined;
+  let spinner: React.JSX.Element | undefined;
   switch (status) {
     case 'idle':
       icon = 'key';
@@ -240,7 +240,7 @@ function KeyTransparency({
           'pressed:bg-fill-secondary-pressed'
         )}
       >
-        <AnimatePresence exitBeforeEnter initial={false}>
+        <AnimatePresence mode="wait" initial={false}>
           <motion.div
             className={tw('flex h-5 items-center')}
             key={status}
@@ -320,7 +320,12 @@ type PopupPropsType = Readonly<{
   onClose: () => void;
 }>;
 
-function Popup({ i18n, contact, type, onClose }: PopupPropsType): JSX.Element {
+function Popup({
+  i18n,
+  contact,
+  type,
+  onClose,
+}: PopupPropsType): React.JSX.Element {
   let icon: 'check-circle' | 'info';
   let title: string;
   let body: string;

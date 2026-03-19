@@ -14,7 +14,7 @@ export type GeneratedMessageIdType = Readonly<{
 export function generateMessageId(counter: number): GeneratedMessageIdType {
   const uuid = getRandomBytes(16);
 
-  /* eslint-disable no-bitwise */
+  /* eslint-disable no-bitwise, @typescript-eslint/no-non-null-assertion */
 
   // We compose uuid out of 48 bits (6 bytes of) timestamp-like counter:
   // `incrementMessageCounter`. Note big-endian encoding (which ensures proper
@@ -29,16 +29,16 @@ export function generateMessageId(counter: number): GeneratedMessageIdType {
   uuid[5] = (counter / 0x00000000001) & 0xff;
 
   // Mask out 4 bits of version number
-  uuid[6] &= 0x0f;
+  uuid[6]! &= 0x0f;
   // And set the version to 7
-  uuid[6] |= 0x70;
+  uuid[6]! |= 0x70;
 
   // Mask out 2 bits of variant
-  uuid[8] &= 0x3f;
+  uuid[8]! &= 0x3f;
   // And set it to "2"
-  uuid[8] |= 0x80;
+  uuid[8]! |= 0x80;
 
-  /* eslint-enable no-bitwise */
+  /* eslint-enable no-bitwise, @typescript-eslint/no-non-null-assertion */
 
   return {
     id: stringify(uuid),

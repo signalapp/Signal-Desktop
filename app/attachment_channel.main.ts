@@ -98,8 +98,8 @@ type RangeFinderContextType = Readonly<
       }
     | {
         type: 'incremental';
-        digest: Uint8Array;
-        incrementalMac: Uint8Array;
+        digest: Uint8Array<ArrayBuffer>;
+        incrementalMac: Uint8Array<ArrayBuffer>;
         chunkSize: number;
         keysBase64: string;
         size: number;
@@ -113,8 +113,8 @@ type RangeFinderContextType = Readonly<
 >;
 
 type DigestLRUEntryType = Readonly<{
-  key: Buffer;
-  digest: Uint8Array;
+  key: Buffer<ArrayBuffer>;
+  digest: Uint8Array<ArrayBuffer>;
 }>;
 
 const digestLRU = new LRUCache<string, DigestLRUEntryType>({
@@ -792,11 +792,10 @@ function handleRangeRequest({
 
   // Chromium only sends open-ended ranges: "start-"
   const match = range.match(/^bytes=(\d+)-$/);
-  if (match == null) {
+  if (match == null || match[1] == null) {
     log.error(`invalid range header: ${range}`);
     return create200Response();
   }
-
   const startParam = safeParseInteger(match[1]);
   if (startParam == null) {
     log.error(`invalid range header: ${range}`);

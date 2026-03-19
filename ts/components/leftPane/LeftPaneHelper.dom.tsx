@@ -89,7 +89,9 @@ export abstract class LeftPaneHelper<T> {
       i18n: LocalizerType;
       removeSelectedContact: (_: string) => unknown;
       renderLeftPaneChatFolders: () => React.JSX.Element;
-      setComposeGroupAvatar: (_: undefined | Uint8Array) => unknown;
+      setComposeGroupAvatar: (
+        _: undefined | Uint8Array<ArrayBuffer>
+      ) => unknown;
       setComposeGroupExpireTimer: (_: DurationInSeconds) => void;
       setComposeGroupName: (_: string) => unknown;
       toggleComposeEditingAvatar: () => unknown;

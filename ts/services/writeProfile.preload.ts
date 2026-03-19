@@ -15,7 +15,6 @@ import {
   writeNewAttachmentData,
   maybeDeleteAttachmentFile,
 } from '../util/migrations.preload.js';
-import { isWhitespace } from '../util/whitespaceStringUtil.std.js';
 import { imagePathToBytes } from '../util/imagePathToBytes.dom.js';
 import { getLocalAvatarUrl } from '../util/avatarUtils.preload.js';
 import type {
@@ -55,7 +54,7 @@ export async function writeProfile(
   } = conversation;
 
   strictAssert(
-    !isWhitespace(String(conversation.firstName)),
+    conversation.firstName != null && conversation.firstName.trim() !== '',
     'writeProfile: Cannot set an empty profile name'
   );
 
@@ -63,7 +62,7 @@ export async function writeProfile(
   if (options.keepAvatar) {
     const profileAvatarUrl = getLocalAvatarUrl(model.attributes);
 
-    let avatarBuffer: Uint8Array | undefined;
+    let avatarBuffer: Uint8Array<ArrayBuffer> | undefined;
     if (profileAvatarUrl) {
       try {
         avatarBuffer = await imagePathToBytes(profileAvatarUrl);

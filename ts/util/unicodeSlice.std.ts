@@ -20,6 +20,11 @@ export function unicodeSlice(
   begin: number,
   end: number
 ): string {
+  // Optimization: whole string fits into the range, return as is
+  if (begin === 0 && end >= Buffer.byteLength(input)) {
+    return input;
+  }
+
   // Until https://chromium-review.googlesource.com/c/v8/v8/+/4190519 is merged,
   // we should limit the input size to avoid allocating tons of memory.
   // This should be longer than any max length we'd expect to slice.

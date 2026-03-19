@@ -4032,22 +4032,22 @@
     "messageformat": "Администратор је променио ко може да уређује чланство у групи на „Сви чланови“."
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "Променили сте ко може да додаје ознаке чланова на „Само администратори“."
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "Корисник {adminName} је променио ко може да додаје ознаке чланова на „Само администратори“."
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "Администратор је променио ко може да додаје ознаке чланова на „Само администратори“."
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "Променили сте ко може да додаје ознаке чланова на „Сви чланови групе“."
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "Корисник {adminName} је променио ко може да додаје ознаке чланова на „Сви чланови групе“."
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "Администратор је променио ко може да додаје ознаке чланова на „Сви чланови групе“."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Искључили сте обавезно одобрење администратора за линк за групу."
@@ -4704,7 +4704,7 @@
     "messageformat": "Искључи обавештења"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "Уклони из позива"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Ознаке члана"
@@ -4812,10 +4812,10 @@
     "messageformat": "Изаберите ко може шаље поруке у овој групи."
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "Ко може да додаје ознаке чланова"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "Изаберите ко може да дода ознаке чланова у овој групи."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Ознаке чланова ће бити обрисане"
@@ -5055,7 +5055,11 @@
     "messageformat": "Избриши свима?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {Чланови групе моћи ће да виде да си ти као администратор обрисао/-ла ову поруку.} other {Чланови групе моћи ће да виде да си ти као администратор обрисао/-ла ове поруке.}}"
+    "messageformat": "{count, plural, one {Чланови групе моћи ће да виде да си ти као администратор обрисао/-ла ову поруку.} other {Чланови групе моћи ће да виде да си ти као администратор обрисао/-ла ове поруке.}}",
+    "ignoreUnused": true
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
+    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Избриши са свих уређаја"
@@ -5067,10 +5071,10 @@
     "messageformat": "{count, plural, one {Максималан број порука које можете да изаберете за брисање свима је {count,number}} other {Максималан број порука које можете да изаберете за брисање свима је {count,number}}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "Желите ли да одбаците нацрт?"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "Ова радња се не може опозвати."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Желите ли да избришете ставку?"
@@ -6208,13 +6212,13 @@
     "messageformat": "Резервне копије на рачунару"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "Ваша резервна копија је потпуно шифрована и чува се на вашем рачунару."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Направите потпуно шифроване резервне копије које можете вратити на телефон. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Да бисте вратили садржај из резервне копије, инсталирајте нову копију Signal-а на телефону. Отворите апликацију и додирните „Враћање или пренос“. <learnMoreLink>Сазнајте више.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Изабери фолдер"
@@ -6284,6 +6288,18 @@
   },
   "icu:Preferences__local-backups-folder__change": {
     "messageformat": "Промени"
+  },
+  "icu:Preferences__local-backups-turn-off": {
+    "messageformat": "Turn off backups"
+  },
+  "icu:Preferences__local-backups-turn-off-action": {
+    "messageformat": "Turn off"
+  },
+  "icu:Preferences__local-backups-turn-off-confirmation": {
+    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+  },
+  "icu:Preferences__local-backups-turn-off-delete": {
+    "messageformat": "Delete my backup from this computer"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Копирај"
@@ -8010,6 +8026,6 @@
     "messageformat": "Сада можеш да шаљеш поруке с једнократним медијима и преко Signal Desktop-а. Појединачне фотографије и видео-записи који се шаљу као једнократне поруке биће аутоматски уклоњени из преписке након што буду прегледани."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "Сада по жељи можете додати ознаку члана која ће описати вас или вашу улогу у групном ћаскању. Ознака члана ће се појавити поред имена вашег профила у тој групи. Администратори групе контролишу да ли су ознаке чланова омогућене свим члановима."
   }
 }

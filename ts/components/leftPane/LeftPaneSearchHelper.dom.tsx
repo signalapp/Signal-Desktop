@@ -18,7 +18,7 @@ import type {
 import { LeftPaneSearchInput } from '../LeftPaneSearchInput.dom.js';
 
 import { I18n } from '../I18n.dom.js';
-import { assertDev } from '../../util/assert.std.js';
+import { assertDev, strictAssert } from '../../util/assert.std.js';
 import { UserText } from '../UserText.dom.js';
 
 // The "correct" thing to do is to measure the size of the left pane and render enough
@@ -381,6 +381,7 @@ export class LeftPaneSearchHelper extends LeftPaneHelper<LeftPaneSearchPropsType
       }
       if (pointer < list.results.length) {
         const result = list.results[pointer];
+        strictAssert(result, 'Missing result');
         return result.type === 'incoming' || result.type === 'outgoing' // message
           ? {
               conversationId: result.conversationId,

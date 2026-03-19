@@ -8,26 +8,40 @@ import { SystemMessage } from './SystemMessage.dom.js';
 import { Button, ButtonVariant, ButtonSize } from '../Button.dom.js';
 import { UserText } from '../UserText.dom.js';
 import { I18n } from '../I18n.dom.js';
+import type { AciString } from '../../types/ServiceId.std.js';
+import { strictAssert } from '../../util/assert.std.js';
+import { isAciString } from '../../util/isAciString.std.js';
 
-export type PropsType = {
+export type PollTerminateNotificationDataType = {
   sender: ConversationType;
   pollQuestion: string;
-  pollMessageId: string;
+  pollTimestamp: number;
   conversationId: string;
-  i18n: LocalizerType;
-  scrollToPollMessage: (messageId: string, conversationId: string) => unknown;
 };
+export type PollTerminateNotificationPropsType =
+  PollTerminateNotificationDataType & {
+    i18n: LocalizerType;
+    scrollToPollMessage: (
+      pollAuthorAci: AciString,
+      pollTimestamp: number,
+      conversationId: string
+    ) => unknown;
+  };
 
 export function PollTerminateNotification({
   sender,
   pollQuestion,
-  pollMessageId,
+  pollTimestamp,
   conversationId,
   i18n,
   scrollToPollMessage,
-}: PropsType): React.JSX.Element {
+}: PollTerminateNotificationPropsType): React.JSX.Element {
   const handleViewPoll = () => {
-    scrollToPollMessage(pollMessageId, conversationId);
+    strictAssert(
+      isAciString(sender.serviceId),
+      'poll sender serviceId must be ACI'
+    );
+    scrollToPollMessage(sender.serviceId, pollTimestamp, conversationId);
   };
 
   const message = sender.isMe ? (

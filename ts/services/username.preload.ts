@@ -129,7 +129,8 @@ export async function reserveUsername(
       return { ok: false, error: ReserveUsernameError.Unprocessable };
     }
 
-    const username = candidates[index];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const username = candidates[index]!;
 
     return {
       ok: true,
@@ -254,7 +255,7 @@ export async function confirmUsername(
     await itemStorage.remove('usernameLink');
 
     let serverIdString: string;
-    let entropy: Uint8Array;
+    let entropy: Uint8Array<ArrayBuffer>;
     if (previousLink && isCaseChange(reservation)) {
       log.info('confirmUsername: updating link only');
 

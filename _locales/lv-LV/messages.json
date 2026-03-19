@@ -4032,22 +4032,22 @@
     "messageformat": "Administrators mainīja, kurš var rediģēt dalību grupā, uz “Visi dalībnieki“."
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "Jūs mainījāt atļaujas lietotāju emblēmu pievienošanai uz \"Tikai administratori\"."
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "{adminName} mainīja atļaujas lietotāju emblēmu pievienošanai uz ”Tikai administratori”."
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "Administrators mainīja atļaujas lietotāju emblēmu pievienošanai uz ”Tikai administratori”."
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "Jūs mainījāt atļaujas lietotāju emblēmu pievienošanai uz ”Visi lietotāji”."
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "{adminName} mainīja atļaujas lietotāju emblēmu pievienošanai uz ”Visi lietotāji”."
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "Administrators mainīja atļaujas lietotāju emblēmu pievienošanai uz ”Visi lietotāji”."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Jūs atspējojāt administratora apstiprinājumu grupas saitei."
@@ -4704,7 +4704,7 @@
     "messageformat": "Izslēgt"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "Noņemt no zvana"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Lietotāja emblēmas"
@@ -4812,10 +4812,10 @@
     "messageformat": "Izvēlieties, kurš šai grupai var sūtīt ziņas."
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "Kurš var pievienot lietotāja emblēmas"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "Izvēlieties, kuras personas šajā grupai var pievienot lietotāja emblēmas."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Lietotāja emblēmas tiks dzēstas"
@@ -5055,7 +5055,11 @@
     "messageformat": "Dzēst visiem?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, zero {Grupas dalībnieki redzēs, ka jūs kā administrators izdzēsāt šīs ziņas.} one {Grupas dalībnieki redzēs, ka jūs kā administrators izdzēsāt šo ziņu.} other {Grupas dalībnieki redzēs, ka jūs kā administrators izdzēsāt šīs ziņas.}}"
+    "messageformat": "{count, plural, zero {Grupas dalībnieki redzēs, ka jūs kā administrators izdzēsāt šīs ziņas.} one {Grupas dalībnieki redzēs, ka jūs kā administrators izdzēsāt šo ziņu.} other {Grupas dalībnieki redzēs, ka jūs kā administrators izdzēsāt šīs ziņas.}}",
+    "ignoreUnused": true
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
+    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Dzēst no visām ierīcēm"
@@ -5067,10 +5071,10 @@
     "messageformat": "{count, plural, zero {Varat atlasīt ne vairāk kā {count,number} ziņas, ko dzēst visiem} one {Varat atlasīt ne vairāk kā {count,number} ziņu, ko dzēst visiem} other {Varat atlasīt ne vairāk kā {count,number} ziņas, ko dzēst visiem}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "Vai dzēst šo uzmetumu?"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "Šo darbību nevar atsaukt."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Dzēst vienumu?"
@@ -6208,13 +6212,13 @@
     "messageformat": "Darbvirsmas rezerves kopijas"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "Jūsu rezerves kopija ir pilnībā šifrēta un uzglabāta jūsu datorā."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Izveidojiet pilnībā šifrētu rezerves kopiju, ko varēsiet atjaunot savā tālrunī. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Lai rezerves kopiju atjaunotu, instalējiet jaunu Signal kopiju savā tālrunī. Atveriet lietotni un pieskarieties &quot;Atjaunot vai pārsūtīt&quot;. <learnMoreLink>Uzzināt vairāk.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Izvēlēties mapi"
@@ -6284,6 +6288,18 @@
   },
   "icu:Preferences__local-backups-folder__change": {
     "messageformat": "Mainīt"
+  },
+  "icu:Preferences__local-backups-turn-off": {
+    "messageformat": "Turn off backups"
+  },
+  "icu:Preferences__local-backups-turn-off-action": {
+    "messageformat": "Turn off"
+  },
+  "icu:Preferences__local-backups-turn-off-confirmation": {
+    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+  },
+  "icu:Preferences__local-backups-turn-off-delete": {
+    "messageformat": "Delete my backup from this computer"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopēt starpliktuvē"
@@ -8010,6 +8026,6 @@
     "messageformat": "Tagad varat nosūtīt vienreiz skatāmas multivides ziņas arī no Signal darbvirsmas. Fotoattēli un video, kas nosūtīti kā vienreiz skatāmas ziņas, pēc to skatīšanas tiks automātiski dzēsti no sarakstes."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "Tagad varat pievienot lietotāja emblēmu, lai grupas tērzētavā aprakstītu sevi vai savu amata nosaukumu. Ja jūsu futbola komandai ir sava tērzētava, iestatiet emblēmu \"Tiesnesis\" vai \"Vārtsargs\", lai ātrāk iepazītos ar jaunajiem biedriem, savukārt darba tērzētavā varat izvēlēties citu emblēmu, kas raksturo jūsu amatu. Lietotāju emblēmas ir redzamas blakus profila nosaukumam attiecīgajā grupā, un grupas administratori var kontrolēt, vai tās ir iespējotas visiem."
   }
 }

@@ -529,7 +529,7 @@ async function uploadThumbnailToTransitTier({
   logPrefix,
   dependencies,
 }: {
-  data: Uint8Array;
+  data: Uint8Array<ArrayBuffer>;
   keys: string;
   logPrefix: string;
   dependencies: {
@@ -569,8 +569,8 @@ async function copyToBackupTier({
   cdnKey: string;
   size: number;
   mediaId: string;
-  macKey: Uint8Array;
-  aesKey: Uint8Array;
+  macKey: Uint8Array<ArrayBuffer>;
+  aesKey: Uint8Array<ArrayBuffer>;
   dependencies: {
     backupMediaBatch?: typeof doBackupMediaBatch;
     backupsService: BackupsService;
@@ -604,6 +604,7 @@ async function copyToBackupTier({
   });
 
   const response = responses[0];
+  strictAssert(response, 'Missing response');
   if (!response.isSuccess) {
     if (response.status === FILE_NOT_FOUND_ON_TRANSIT_TIER_STATUS) {
       throw new FileNotFoundOnTransitTierError();

@@ -6,6 +6,7 @@ import { randomBytes } from 'node:crypto';
 import { join } from 'node:path';
 import os from 'node:os';
 import createDebug from 'debug';
+import type { PrimaryDevice } from '@signalapp/mock-server';
 import { Proto, StorageState } from '@signalapp/mock-server';
 import { assert } from 'chai';
 import { expect } from 'playwright/test';
@@ -74,7 +75,7 @@ describe('backups', function (this: Mocha.Suite) {
     let state = StorageState.getEmpty();
 
     const { phone, contacts } = bootstrap;
-    const [friend, pinned] = contacts;
+    const [friend, pinned] = contacts as [PrimaryDevice, PrimaryDevice];
 
     state = state.updateAccount({
       profileKey: phone.profileKey.serialize(),
@@ -289,7 +290,7 @@ describe('backups', function (this: Mocha.Suite) {
         .waitFor();
 
       const [catMessage] = await app.getMessagesBySentAt(catTimestamp);
-      const [image] = catMessage.attachments ?? [];
+      const [image] = catMessage?.attachments ?? [];
       strictAssert(image.plaintextHash, 'plaintextHash was calculated');
       strictAssert(image.digest, 'digest was calculated at download time');
       strictAssert(
@@ -395,7 +396,7 @@ describe('backups', function (this: Mocha.Suite) {
 
     {
       const [catMessage] = await app.getMessagesBySentAt(catTimestamp);
-      const [image] = catMessage.attachments ?? [];
+      const [image] = catMessage?.attachments ?? [];
       if (!bootstrapLinkParams.localBackup) {
         strictAssert(
           image.digest,

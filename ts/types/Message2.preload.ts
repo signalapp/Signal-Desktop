@@ -66,6 +66,7 @@ import {
 } from '../util/migrations.preload.js';
 import type { getExistingAttachmentDataForReuse } from '../util/attachments/deduplicateAttachment.preload.js';
 import type { getPlaintextHashForInMemoryAttachment } from '../AttachmentCrypto.node.js';
+import { strictAssert } from '../util/assert.std.js';
 
 const { isFunction, isObject, identity } = lodash;
 
@@ -91,7 +92,7 @@ export type ContextType = {
     logger: LoggerType;
   }) => Promise<Blob>;
   makeObjectUrl: (
-    data: Uint8Array | ArrayBuffer,
+    data: Uint8Array<ArrayBuffer> | ArrayBuffer,
     contentType: MIME.MIMEType
   ) => string;
   makeVideoScreenshot: (params: {
@@ -103,9 +104,13 @@ export type ContextType = {
   revokeObjectUrl: (objectUrl: string) => void;
   readAttachmentData: (
     attachment: Partial<AddressableAttachmentType>
-  ) => Promise<Uint8Array>;
-  writeNewAttachmentData: (data: Uint8Array) => Promise<LocalAttachmentV2Type>;
-  writeNewStickerData: (data: Uint8Array) => Promise<LocalAttachmentV2Type>;
+  ) => Promise<Uint8Array<ArrayBuffer>>;
+  writeNewAttachmentData: (
+    data: Uint8Array<ArrayBuffer>
+  ) => Promise<LocalAttachmentV2Type>;
+  writeNewStickerData: (
+    data: Uint8Array<ArrayBuffer>
+  ) => Promise<LocalAttachmentV2Type>;
   maybeDeleteAttachmentFile: (path: string) => Promise<{ wasDeleted: boolean }>;
   getExistingAttachmentDataForReuse: typeof getExistingAttachmentDataForReuse;
 };
@@ -746,6 +751,7 @@ export const upgradeSchema = async (
 
     const currentVersion = versions[index];
     try {
+      strictAssert(currentVersion, 'Missing currentVersion');
       // We really do want this intra-loop await because this is a chained async action,
       //   each step dependent on the previous
       // eslint-disable-next-line no-await-in-loop
@@ -843,7 +849,7 @@ export const processNewAttachment = async (
 };
 
 export const processNewSticker = async (
-  stickerData: Uint8Array,
+  stickerData: Uint8Array<ArrayBuffer>,
   isEphemeral: boolean,
   {
     writeNewStickerData,

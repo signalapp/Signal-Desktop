@@ -70,7 +70,6 @@ type PropsExternalType = {
 export type PropsDataType = {
   i18n: LocalizerType;
   initialCurrency: string;
-  isDonationPaypalEnabled: boolean;
   isOnline: boolean;
   settingsLocation: SettingsLocation;
   didResumeWorkflowAtStartup: boolean;
@@ -85,7 +84,7 @@ export type PropsDataType = {
   donationReceipts: ReadonlyArray<DonationReceipt>;
   theme: ThemeType;
   saveAttachmentToDisk: (options: {
-    data: Uint8Array;
+    data: Uint8Array<ArrayBuffer>;
     name: string;
     baseDir?: string | undefined;
   }) => Promise<{ fullPath: string; name: string } | null>;
@@ -345,7 +344,7 @@ function PreferencesReceiptList({
   i18n: LocalizerType;
   donationReceipts: ReadonlyArray<DonationReceipt>;
   saveAttachmentToDisk: (options: {
-    data: Uint8Array;
+    data: Uint8Array<ArrayBuffer>;
     name: string;
     baseDir?: string | undefined;
   }) => Promise<{ fullPath: string; name: string } | null>;
@@ -548,7 +547,6 @@ export function PreferencesDonations({
   contentsRef,
   i18n,
   initialCurrency,
-  isDonationPaypalEnabled,
   isOnline,
   settingsLocation,
   workflow,
@@ -752,7 +750,6 @@ export function PreferencesDonations({
         <PreferencesDonateFlow
           contentsRef={contentsRef}
           i18n={i18n}
-          isDonationPaypalEnabled={isDonationPaypalEnabled}
           isOnline={isOnline}
           initialCurrency={initialCurrency}
           donationAmountsConfig={donationAmountsConfig}

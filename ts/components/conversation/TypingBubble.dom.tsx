@@ -277,9 +277,9 @@ export function TypingBubble({
     [typingContactIdTimestamps]
   );
   const [shouldAnimate, setShouldAnimate] = useState(false);
-  const prevTypingContactIds = React.useRef<
-    ReadonlyArray<string> | undefined
-  >();
+  const prevTypingContactIds = React.useRef<ReadonlyArray<string> | undefined>(
+    undefined
+  );
   const isSomeoneTyping = useMemo(
     () => typingContactIds.length > 0,
     [typingContactIds]
@@ -341,8 +341,10 @@ export function TypingBubble({
       return;
     }
 
-    const lastTypingContactId = typingContactIds[0];
-    const lastTypingTimestamp = typingContactIdTimestamps[lastTypingContactId];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const lastTypingContactId = typingContactIds[0]!;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const lastTypingTimestamp = typingContactIdTimestamps[lastTypingContactId]!;
     if (
       lastItemAuthorId === lastTypingContactId &&
       lastItemTimestamp > lastTypingTimestamp

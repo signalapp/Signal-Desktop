@@ -1,9 +1,11 @@
 // Copyright 2026 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-export function encodeDelimited(buf: Uint8Array): [Uint8Array, Uint8Array] {
+export function encodeDelimited(
+  buf: Uint8Array<ArrayBuffer>
+): [Uint8Array<ArrayBuffer>, Uint8Array<ArrayBuffer>] {
   const len = buf.byteLength;
-  let prefix: Uint8Array;
+  let prefix: Uint8Array<ArrayBuffer>;
   /* eslint-disable no-bitwise */
   if (len < 0x80) {
     prefix = new Uint8Array(1);

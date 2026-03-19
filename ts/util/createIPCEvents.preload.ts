@@ -5,7 +5,7 @@ import { ipcRenderer } from 'electron';
 import type { SystemPreferences } from 'electron';
 import lodash from 'lodash';
 
-import type { ZoomFactorType } from '../types/Storage.d.ts';
+import type { ZoomFactorType } from '../types/StorageKeys.std.js';
 import * as Errors from '../types/errors.std.js';
 import * as Stickers from '../types/Stickers.preload.js';
 import * as Settings from '../types/Settings.std.js';
@@ -76,8 +76,8 @@ export type IPCEventsCallbacksType = {
   startCallingLobbyViaToken: (token: string) => void;
   unknownSignalLink: () => void;
   uploadStickerPack: (
-    manifest: Uint8Array,
-    stickers: ReadonlyArray<Uint8Array>
+    manifest: Uint8Array<ArrayBuffer>,
+    stickers: ReadonlyArray<Uint8Array<ArrayBuffer>>
   ) => Promise<string>;
 };
 
@@ -439,8 +439,8 @@ export function createIPCEvents(
       showUnknownSgnlLinkModal();
     },
     uploadStickerPack: (
-      manifest: Uint8Array,
-      stickers: ReadonlyArray<Uint8Array>
+      manifest: Uint8Array<ArrayBuffer>,
+      stickers: ReadonlyArray<Uint8Array<ArrayBuffer>>
     ): Promise<string> => {
       return putStickers(manifest, stickers, () =>
         ipcRenderer.send('art-creator:onUploadProgress')

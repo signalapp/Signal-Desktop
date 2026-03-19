@@ -29,7 +29,8 @@ export function NewlyCreatedGroupInvitedContactsDialog({
 }: PropsType): React.JSX.Element {
   let body: ReactNode;
   if (contacts.length === 1) {
-    const contact = contacts[0];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const contact = contacts[0]!;
 
     body = (
       <>

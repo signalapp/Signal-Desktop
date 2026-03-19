@@ -18,7 +18,9 @@ import {
   fetchLinkPreviewMetadata,
 } from '../../linkPreviews/linkPreviewFetch.preload.js';
 
-async function readFixtureImage(filename: string): Promise<Uint8Array> {
+async function readFixtureImage(
+  filename: string
+): Promise<Uint8Array<ArrayBuffer>> {
   const result = await fs.promises.readFile(
     path.join(__dirname, '..', '..', '..', 'fixtures', filename)
   );
@@ -60,11 +62,15 @@ describe('link preview fetching', () => {
     }: {
       status?: number;
       headers?: { [key: string]: null | string };
-      body?: null | string | Uint8Array | AsyncIterable<Uint8Array>;
+      body?:
+        | null
+        | string
+        | Uint8Array<ArrayBuffer>
+        | AsyncIterable<Uint8Array<ArrayBuffer>>;
       url?: string;
     } = {}) => {
       let bodyLength: null | number;
-      let bodyStream: null | AsyncIterable<Uint8Array>;
+      let bodyStream: null | AsyncIterable<Uint8Array<ArrayBuffer>>;
       if (!body) {
         bodyLength = 0;
         bodyStream = null;
@@ -157,8 +163,11 @@ describe('link preview fetching', () => {
           tag: '<link rel="icon" href="https://example.com/icon.jpg">',
           expectedHref: 'https://example.com/icon.jpg',
         },
-      ];
-      for (let i = orderedImageHrefSources.length - 1; i >= 0; i -= 1) {
+      ] as const;
+      for (const [i, orderedImageHrefSource] of orderedImageHrefSources
+        .entries()
+        .toArray()
+        .toReversed()) {
         const imageTags = orderedImageHrefSources
           .slice(i)
           .map(({ tag }) => tag)
@@ -180,11 +189,7 @@ describe('link preview fetching', () => {
           'https://example.com',
           new AbortController().signal
         );
-        assert.propertyVal(
-          val,
-          'image',
-          orderedImageHrefSources[i].expectedHref
-        );
+        assert.propertyVal(val, 'image', orderedImageHrefSource.expectedHref);
       }
     });
 

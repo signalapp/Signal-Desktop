@@ -42,4 +42,40 @@ describe('Remove all configuration test', () => {
       'Name (and all other fields) should be preserved'
     );
   });
+
+  it('Removes non-preserved storage items', async () => {
+    /** Should be preserved */
+    await DataWriter.createOrUpdateItem({
+      id: 'zoomFactor',
+      value: 1.5,
+    });
+    await DataWriter.createOrUpdateItem({
+      id: 'version',
+      value: 'v1.2.3',
+    });
+    await DataWriter.createOrUpdateItem({
+      id: 'uuid_id',
+      value: 'aci-should-be-retained',
+    });
+
+    /** Should be deleted */
+    await DataWriter.createOrUpdateItem({
+      id: 'storageFetchComplete',
+      value: true,
+    });
+    await DataWriter.createOrUpdateItem({
+      // @ts-expect-error incorrect key
+      id: 'unknown-key',
+      value: 1.5,
+    });
+
+    await DataWriter.removeAllConfiguration();
+
+    const allItems = await DataReader.getAllItems();
+    assert.deepStrictEqual(allItems, {
+      uuid_id: 'aci-should-be-retained',
+      version: 'v1.2.3',
+      zoomFactor: 1.5,
+    });
+  });
 });

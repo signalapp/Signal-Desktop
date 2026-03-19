@@ -29,7 +29,6 @@ import {
   ConversationDetailsIcon,
   IconType,
 } from './conversation/conversation-details/ConversationDetailsIcon.dom.js';
-import { isWhitespace, trim } from '../util/whitespaceStringUtil.std.js';
 import { UserText } from './UserText.dom.js';
 import { Tooltip, TooltipPlacement } from './Tooltip.dom.js';
 import { offsetDistanceModifier } from '../util/popperUtil.std.js';
@@ -202,7 +201,7 @@ export function ProfileEditor({
   usernameLinkCorrupted,
 }: PropsType): React.JSX.Element {
   const focusInputRef = useRef<HTMLInputElement | null>(null);
-  const tryClose = useRef<() => void | undefined>();
+  const tryClose = useRef<(() => void) | null>(null);
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,
     name: 'ProfileEditor',
@@ -231,11 +230,11 @@ export function ProfileEditor({
   const [startingAvatarUrl, setStartingAvatarUrl] = useState(profileAvatarUrl);
 
   const [oldAvatarBuffer, setOldAvatarBuffer] = useState<
-    Uint8Array | undefined
+    Uint8Array<ArrayBuffer> | undefined
   >(undefined);
-  const [avatarBuffer, setAvatarBuffer] = useState<Uint8Array | undefined>(
-    undefined
-  );
+  const [avatarBuffer, setAvatarBuffer] = useState<
+    Uint8Array<ArrayBuffer> | undefined
+  >(undefined);
   const [stagedProfile, setStagedProfile] = useState<ProfileEditorData>({
     aboutEmoji,
     aboutText,
@@ -286,7 +285,7 @@ export function ProfileEditor({
 
   // To make AvatarEditor re-render less often
   const handleAvatarChanged = useCallback(
-    (avatar: Uint8Array | undefined) => {
+    (avatar: Uint8Array<ArrayBuffer> | undefined) => {
       // Do not display stale avatar from disk anymore.
       setStartingAvatarUrl(undefined);
 
@@ -294,9 +293,9 @@ export function ProfileEditor({
       onProfileChanged(
         {
           ...stagedProfile,
-          firstName: trim(stagedProfile.firstName),
+          firstName: stagedProfile.firstName.trim(),
           familyName: stagedProfile.familyName
-            ? trim(stagedProfile.familyName)
+            ? stagedProfile.familyName.trim()
             : undefined,
         },
         {
@@ -326,7 +325,7 @@ export function ProfileEditor({
 
   // To make AvatarEditor re-render less often
   const handleAvatarLoaded = useCallback(
-    (avatar: Uint8Array) => {
+    (avatar: Uint8Array<ArrayBuffer>) => {
       setAvatarBuffer(avatar);
       setOldAvatarBuffer(avatar);
     },
@@ -376,7 +375,7 @@ export function ProfileEditor({
       !stagedProfile.firstName ||
       (stagedProfile.firstName === fullName.firstName &&
         stagedProfile.familyName === fullName.familyName) ||
-      isWhitespace(stagedProfile.firstName);
+      stagedProfile.firstName.trim() === '';
 
     content = (
       <>

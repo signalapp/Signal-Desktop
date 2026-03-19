@@ -462,21 +462,21 @@ function FormattingButton({
   const buttonRef = React.useRef<HTMLButtonElement | null>(null);
 
   const [isHovered, setIsHovered] = React.useState<boolean>(false);
-  const hoverTimerRef = React.useRef<NodeJS.Timeout | undefined>();
+  const hoverTimerRef = React.useRef<NodeJS.Timeout | null>(null);
 
   const [isFadingOut, setIsFadingOut] = React.useState<boolean>(false);
-  const fadeOutTimerRef = React.useRef<NodeJS.Timeout | undefined>();
+  const fadeOutTimerRef = React.useRef<NodeJS.Timeout | null>(null);
 
   React.useEffect(() => {
     return () => {
       if (hoverTimerRef.current) {
         clearTimeout(hoverTimerRef.current);
-        hoverTimerRef.current = undefined;
+        hoverTimerRef.current = null;
       }
 
       if (fadeOutTimerRef.current) {
         clearTimeout(fadeOutTimerRef.current);
-        fadeOutTimerRef.current = undefined;
+        fadeOutTimerRef.current = null;
       }
     };
   }, []);
@@ -522,7 +522,7 @@ function FormattingButton({
         onMouseEnter={() => {
           if (hoverTimerRef.current) {
             clearTimeout(hoverTimerRef.current);
-            hoverTimerRef.current = undefined;
+            hoverTimerRef.current = null;
           }
 
           hoverTimerRef.current = setTimeout(() => {
@@ -534,13 +534,13 @@ function FormattingButton({
         onMouseLeave={() => {
           if (hoverTimerRef.current) {
             clearTimeout(hoverTimerRef.current);
-            hoverTimerRef.current = undefined;
+            hoverTimerRef.current = null;
           }
 
           if (hasLongHovered && isHovered) {
             fadeOutTimerRef.current = setTimeout(() => {
               setIsFadingOut(false);
-              fadeOutTimerRef.current = undefined;
+              fadeOutTimerRef.current = null;
             }, POPUP_GUIDE_FADE_MS);
             setIsFadingOut(true);
           }

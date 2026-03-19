@@ -204,7 +204,7 @@ describe('SQL/updateToSchemaVersion1060', () => {
   describe('Sync Tasks', () => {
     it('creates tasks in bulk, and fetches all', () => {
       const now = Date.now();
-      const expected: Array<SyncTaskType> = [
+      const expected = [
         {
           id: generateGuid(),
           attempts: 1,
@@ -241,7 +241,7 @@ describe('SQL/updateToSchemaVersion1060', () => {
           sentAt: 3,
           type: 'delete-conversation',
         },
-      ];
+      ] as const satisfies Array<SyncTaskType>;
 
       saveSyncTasks(db, expected);
 

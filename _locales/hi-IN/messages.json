@@ -4032,22 +4032,22 @@
     "messageformat": "किसी ऐडमिन ने ग्रुप की मेंबरशिप एडिट करने के अधिकार को बदलकर \"सभी सदस्य\" कर दिया है।"
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "आपने मेंबर लेबल जोड़ने के अधिकार को बदलकर 'सिर्फ़ ऐडमिन' कर दिया है।"
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "{adminName} ने मेंबर लेबल जोड़ने के अधिकार को बदलकर 'सिर्फ़ ऐडमिन' कर दिया है।"
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "किसी ऐडमिन ने मेंबर लेबल जोड़ने के अधिकार को बदलकर 'सिर्फ़ ऐडमिन' कर दिया है।"
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "आपने मेंबर लेबल जोड़ने के अधिकार को बदलकर 'सभी मेंबर' कर दिया है।"
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "{adminName} ने मेंबर लेबल जोड़ने के अधिकार को बदलकर 'सभी मेंबर' कर दिया है।"
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "किसी ऐडमिन ने मेंबर लेबल जोड़ने के अधिकार को बदलकर 'सभी मेंबर' कर दिया है।"
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "आपने ग्रुप लिंक के लिए ऐडमिन की मंज़ूरी बंद कर दी है।"
@@ -4704,7 +4704,7 @@
     "messageformat": "म्यूट करें"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "कॉल से हटाएं"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "मेंबर लेबल"
@@ -4812,10 +4812,10 @@
     "messageformat": "चुनें कि ग्रुप में कौन मैसेज भेज सकता है।"
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "मेंबर लेबल जोड़ने का अधिकार किसके पास है"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "चुनें कि इस ग्रुप में मेंबर लेबल कौन जोड़ सकता है।"
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "मेंबर लेबल हटा दिए जाएंगे"
@@ -5055,7 +5055,11 @@
     "messageformat": "सभी के लिए डिलीट करना है?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {ग्रुप के सदस्य यह देख पाएंगे कि ऐडमिन के रूप में आपने यह मैसेज डिलीट किया है।} other {ग्रुप के सदस्य यह देख पाएंगे कि ऐडमिन के रूप में आपने ये मैसेज डिलीट किए हैं।}}"
+    "messageformat": "{count, plural, one {ग्रुप के सदस्य यह देख पाएंगे कि ऐडमिन के रूप में आपने यह मैसेज डिलीट किया है।} other {ग्रुप के सदस्य यह देख पाएंगे कि ऐडमिन के रूप में आपने ये मैसेज डिलीट किए हैं।}}",
+    "ignoreUnused": true
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
+    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "सभी उपकरणों से डिलीट करें"
@@ -5067,10 +5071,10 @@
     "messageformat": "{count, plural, one {आप सभी के लिए डिलीट करें के लिए केवल {count,number} संदेश तक का चयन कर सकते हैं} other {आप सभी के लिए डिलीट करें के लिए केवल {count,number} संदेश तक का चयन कर सकते हैं}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "ड्राफ़्ट रद्द करना है?"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "ऐसा करने के बाद इसे बदला या कैंसिल नहीं किया जा सकता।"
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "आइटम डिलीट करना है?"
@@ -6208,13 +6212,13 @@
     "messageformat": "डेस्कटॉप बैकअप्स"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "आपका बैकअप एंड-टू-एंड एनक्रिप्टेड है और आपके कंप्यूटर पर स्टोर है।"
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "एंड-टू-एंड एनक्रिप्टेड बैकअप बनाएँ, जिसे आप अपने फ़ोन पर रीस्टोर कर सकते हैं। "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "बैकअप रीस्टोर करने के लिए, अपने फ़ोन में Signal का नया वर्ज़न इंस्टॉल करें। ऐप खोलें और 'रीस्टोर करें या ट्रांसफ़र करें' पर टैप करें। <learnMoreLink>और जानें।</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "कोई फ़ोल्डर चुनें"
@@ -6284,6 +6288,18 @@
   },
   "icu:Preferences__local-backups-folder__change": {
     "messageformat": "बदलें"
+  },
+  "icu:Preferences__local-backups-turn-off": {
+    "messageformat": "Turn off backups"
+  },
+  "icu:Preferences__local-backups-turn-off-action": {
+    "messageformat": "Turn off"
+  },
+  "icu:Preferences__local-backups-turn-off-confirmation": {
+    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+  },
+  "icu:Preferences__local-backups-turn-off-delete": {
+    "messageformat": "Delete my backup from this computer"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "क्लिपबोर्ड पर कॉपी करें"
@@ -8010,6 +8026,6 @@
     "messageformat": "अब Signal डेस्कटॉप से भी सिर्फ़ एक बार देखे जा सकने वाले मीडिया मैसेज भेजे जा सकते हैं। सिर्फ़ एक बार देखे जा सकने वाले मैसेज के रूप में भेजे गए फ़ोटो और वीडियो, एक बार देखे जाने के बाद बातचीत थ्रेड से अपने-आप हट जाएंगे।"
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "अब ग्रुप चैट में अपने बारे में या अपने रोल के बारे में बताने के लिए, आपके पास मेंबर लेबल जोड़ने का विकल्प मौजूद है। नए साथियों के जुड़ने पर बातचीत का माहौल जमाने के लिए, अपनी लोकल फुटबॉल लीग चैट में अपना ग्रुप मेंबर लेबल 'रेफ़री' या 'गोलकीपर' सेट करें। इसके बाद, कंपनी चैट में अपने ज़ॉब टाइटल वाला कोई दूसरा लेबल चुन लें। ग्रुप में मेंबर लेबल आपके प्रोफ़ाइल नेम के आगे दिखते हैं और ग्रुप ऐडमिन यह कंट्रोल कर सकते हैं कि यह सुविधा हर एक के लिए चालू हो या न हो।"
   }
 }

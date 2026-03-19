@@ -75,7 +75,7 @@ export const ContactNameColors = [
   '190',
   '310',
   '110',
-];
+] as const;
 
 export type ContactNameColorType = (typeof ContactNameColors)[number];
 
@@ -112,5 +112,6 @@ export type CustomColorsItemType = {
 };
 
 export function getAvatarColor(color?: AvatarColorType): AvatarColorType {
-  return color || AvatarColors[0];
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  return color || AvatarColors[0]!;
 }

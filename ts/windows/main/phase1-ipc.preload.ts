@@ -550,7 +550,10 @@ ipc.on(
     {
       manifest,
       stickers,
-    }: { manifest: Uint8Array; stickers: ReadonlyArray<Uint8Array> }
+    }: {
+      manifest: Uint8Array<ArrayBuffer>;
+      stickers: ReadonlyArray<Uint8Array<ArrayBuffer>>;
+    }
   ) => {
     const packId = await window.Events?.uploadStickerPack(manifest, stickers);
 

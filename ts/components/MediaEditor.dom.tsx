@@ -72,7 +72,7 @@ const { get, has, noop } = lodash;
 const log = createLogger('MediaEditor');
 
 export type MediaEditorResultType = Readonly<{
-  data: Uint8Array;
+  data: Uint8Array<ArrayBuffer>;
   contentType: MIMEType;
   blurHash: string;
   caption?: string;
@@ -207,7 +207,7 @@ export function MediaEditor({
     [captionBodyRanges, convertDraftBodyRangesIntoHydrated]
   );
 
-  const inputApiRef = useRef<InputApi | undefined>();
+  const inputApiRef = useRef<InputApi | null>(null);
 
   const canvasId = useId();
 
@@ -377,7 +377,7 @@ export function MediaEditor({
 
   const [editMode, setEditMode] = useState<EditMode | undefined>();
 
-  const tryClose = useRef<() => void | undefined>();
+  const tryClose = useRef<(() => void) | null>(null);
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,
     name: 'MediaEditor',
@@ -1259,6 +1259,9 @@ export function MediaEditor({
       <div className="MediaEditor__container">
         <SizeObserver
           onSizeChange={size => {
+            if (size.hidden) {
+              return;
+            }
             setContainerWidth(size.width);
             setContainerHeight(size.height);
           }}
@@ -1448,7 +1451,7 @@ export function MediaEditor({
                   setEditMode(undefined);
                   setIsSaving(true);
 
-                  let data: Uint8Array;
+                  let data: Uint8Array<ArrayBuffer>;
                   let blurHash: string;
                   try {
                     const renderFabricCanvas =

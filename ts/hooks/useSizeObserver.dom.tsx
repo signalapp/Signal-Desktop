@@ -4,19 +4,33 @@ import type { RefObject } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { strictAssert } from '../util/assert.std.js';
 
-export type Size = Readonly<{
-  width: number;
-  height: number;
-}>;
+export type Size = Readonly<
+  { hidden: false; width: number; height: number } | { hidden: true }
+>;
 
 export type SizeChangeHandler = (size: Size) => void;
 
 export function isSameSize(a: Size, b: Size): boolean {
+  if (a.hidden || b.hidden) {
+    if (a.hidden && b.hidden) {
+      return true;
+    }
+    return false;
+  }
   return a.width === b.width && a.height === b.height;
 }
 
+function getNextSize(borderBoxSize: ResizeObserverSize): Size {
+  const width = borderBoxSize.inlineSize;
+  const height = borderBoxSize.blockSize;
+  if (width === 0 && height === 0) {
+    return { hidden: true };
+  }
+  return { hidden: false, width, height };
+}
+
 export function useSizeObserver<T extends Element = Element>(
-  ref: RefObject<T>,
+  ref: RefObject<T | null>,
   /**
    * Note: If you provide `onSizeChange`, `useSizeObserver()` will always return `null`
    */
@@ -38,14 +52,13 @@ export function useSizeObserver<T extends Element = Element>(
       // We're only ever observing one element, and `ResizeObserver` for some
       // reason is an array of exactly one rect (I assume to support wrapped
       // inline elements in the future)
-      const borderBoxSize = entries[0].borderBoxSize[0];
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const borderBoxSize = entries[0]!.borderBoxSize[0]!;
       // We are assuming a horizontal writing-mode here, we could call
       // `getBoundingClientRect()` here but MDN says not to. In the future if
       // we are adding support for a vertical locale we may need to change this
-      const next: Size = {
-        width: borderBoxSize.inlineSize,
-        height: borderBoxSize.blockSize,
-      };
+
+      const next = getNextSize(borderBoxSize);
       const prev = sizeRef.current;
       if (prev == null || !isSameSize(prev, next)) {
         sizeRef.current = next;
@@ -88,7 +101,7 @@ export function SizeObserver({
   children,
 }: SizeObserverProps): React.JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const ref = useRef<any>();
+  const ref = useRef<any>(null);
   const size = useSizeObserver(ref, onSizeChange);
   return children(ref, size);
 }
@@ -190,8 +203,8 @@ export function getScrollRightDistance(scroll: Scroll, clamp: number): number {
  * ```
  */
 export function useScrollObserver(
-  scrollerRef: RefObject<HTMLElement>,
-  scrollerInnerRef: RefObject<HTMLElement>,
+  scrollerRef: RefObject<HTMLElement | null>,
+  scrollerInnerRef: RefObject<HTMLElement | null>,
   onScrollChange: (scroll: Scroll) => void
 ): void {
   const scrollRef = useRef<Scroll | null>(null);

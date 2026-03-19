@@ -62,7 +62,7 @@ export default {
   title: 'Components/SafetyNumberChangeDialog',
 } satisfies Meta<Props>;
 
-function renderSafetyNumber({ onClose }: SafetyNumberProps): JSX.Element {
+function renderSafetyNumber({ onClose }: SafetyNumberProps): React.JSX.Element {
   return <SafetyNumber onClose={onClose} />;
 }
 

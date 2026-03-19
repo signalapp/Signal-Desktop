@@ -458,11 +458,14 @@ async function buildProfileFetchOptions({
   };
 }
 
-function decryptField(field: string, decryptionKey: Uint8Array): Uint8Array {
+function decryptField(
+  field: string,
+  decryptionKey: Uint8Array<ArrayBuffer>
+): Uint8Array<ArrayBuffer> {
   return decryptProfile(Bytes.fromBase64(field), decryptionKey);
 }
 
-function formatTextField(decrypted: Uint8Array): string {
+function formatTextField(decrypted: Uint8Array<ArrayBuffer>): string {
   return Bytes.toString(trimForDisplay(decrypted));
 }
 
@@ -861,7 +864,7 @@ export type UpdateIdentityKeyOptionsType = Readonly<{
 }>;
 
 export async function updateIdentityKey(
-  identityKey: Uint8Array,
+  identityKey: Uint8Array<ArrayBuffer>,
   serviceId: ServiceIdString,
   { noOverwrite = false }: UpdateIdentityKeyOptionsType = {}
 ): Promise<boolean> {

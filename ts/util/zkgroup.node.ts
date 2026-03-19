@@ -39,14 +39,14 @@ export * from '@signalapp/libsignal-client/zkgroup.js';
 
 export function decryptGroupBlob(
   clientZkGroupCipher: ClientZkGroupCipher,
-  ciphertext: Uint8Array
-): Uint8Array {
+  ciphertext: Uint8Array<ArrayBuffer>
+): Uint8Array<ArrayBuffer> {
   return clientZkGroupCipher.decryptBlob(ciphertext);
 }
 
 export function decodeProfileKeyCredentialPresentation(
-  presentationBuffer: Uint8Array
-): { profileKey: Uint8Array; userId: Uint8Array } {
+  presentationBuffer: Uint8Array<ArrayBuffer>
+): { profileKey: Uint8Array<ArrayBuffer>; userId: Uint8Array<ArrayBuffer> } {
   const presentation = new ProfileKeyCredentialPresentation(presentationBuffer);
 
   const userId = presentation.getUuidCiphertext().serialize();
@@ -60,9 +60,9 @@ export function decodeProfileKeyCredentialPresentation(
 
 export function decryptProfileKey(
   clientZkGroupCipher: ClientZkGroupCipher,
-  profileKeyCiphertextBuffer: Uint8Array,
+  profileKeyCiphertextBuffer: Uint8Array<ArrayBuffer>,
   serviceId: ServiceIdString
-): Uint8Array {
+): Uint8Array<ArrayBuffer> {
   const profileKeyCiphertext = new ProfileKeyCiphertext(
     profileKeyCiphertextBuffer
   );
@@ -77,7 +77,7 @@ export function decryptProfileKey(
 
 function decryptServiceIdObj(
   clientZkGroupCipher: ClientZkGroupCipher,
-  uuidCiphertextBuffer: Uint8Array
+  uuidCiphertextBuffer: Uint8Array<ArrayBuffer>
 ): ServiceId {
   const uuidCiphertext = new UuidCiphertext(uuidCiphertextBuffer);
 
@@ -86,7 +86,7 @@ function decryptServiceIdObj(
 
 export function decryptServiceId(
   clientZkGroupCipher: ClientZkGroupCipher,
-  uuidCiphertextBuffer: Uint8Array
+  uuidCiphertextBuffer: Uint8Array<ArrayBuffer>
 ): ServiceIdString {
   return fromServiceIdObject(
     decryptServiceIdObj(clientZkGroupCipher, uuidCiphertextBuffer)
@@ -95,7 +95,7 @@ export function decryptServiceId(
 
 export function decryptAci(
   clientZkGroupCipher: ClientZkGroupCipher,
-  uuidCiphertextBuffer: Uint8Array
+  uuidCiphertextBuffer: Uint8Array<ArrayBuffer>
 ): AciString {
   const obj = decryptServiceIdObj(clientZkGroupCipher, uuidCiphertextBuffer);
   strictAssert(obj instanceof Aci, 'userId is not ACI');
@@ -104,7 +104,7 @@ export function decryptAci(
 
 export function decryptPni(
   clientZkGroupCipher: ClientZkGroupCipher,
-  uuidCiphertextBuffer: Uint8Array
+  uuidCiphertextBuffer: Uint8Array<ArrayBuffer>
 ): PniString {
   const obj = decryptServiceIdObj(clientZkGroupCipher, uuidCiphertextBuffer);
   strictAssert(obj instanceof Pni, 'userId is not PNI');
@@ -126,29 +126,31 @@ export function deriveProfileKeyVersion(
 }
 
 export function deriveAccessKeyFromProfileKey(
-  profileKeyBytes: Uint8Array
-): Uint8Array {
+  profileKeyBytes: Uint8Array<ArrayBuffer>
+): Uint8Array<ArrayBuffer> {
   const profileKey = new ProfileKey(profileKeyBytes);
   return profileKey.deriveAccessKey();
 }
 
 export function deriveGroupPublicParams(
-  groupSecretParamsBuffer: Uint8Array
-): Uint8Array {
+  groupSecretParamsBuffer: Uint8Array<ArrayBuffer>
+): Uint8Array<ArrayBuffer> {
   const groupSecretParams = new GroupSecretParams(groupSecretParamsBuffer);
 
   return groupSecretParams.getPublicParams().serialize();
 }
 
-export function deriveGroupID(groupSecretParamsBuffer: Uint8Array): Uint8Array {
+export function deriveGroupID(
+  groupSecretParamsBuffer: Uint8Array<ArrayBuffer>
+): Uint8Array<ArrayBuffer> {
   const groupSecretParams = new GroupSecretParams(groupSecretParamsBuffer);
 
   return groupSecretParams.getPublicParams().getGroupIdentifier().serialize();
 }
 
 export function deriveGroupSecretParams(
-  masterKeyBuffer: Uint8Array
-): Uint8Array {
+  masterKeyBuffer: Uint8Array<ArrayBuffer>
+): Uint8Array<ArrayBuffer> {
   const masterKey = new GroupMasterKey(masterKeyBuffer);
   const groupSecretParams = GroupSecretParams.deriveFromMasterKey(masterKey);
 
@@ -157,15 +159,15 @@ export function deriveGroupSecretParams(
 
 export function encryptGroupBlob(
   clientZkGroupCipher: ClientZkGroupCipher,
-  plaintext: Uint8Array
-): Uint8Array {
+  plaintext: Uint8Array<ArrayBuffer>
+): Uint8Array<ArrayBuffer> {
   return clientZkGroupCipher.encryptBlob(plaintext);
 }
 
 export function encryptServiceId(
   clientZkGroupCipher: ClientZkGroupCipher,
   serviceIdPlaintext: ServiceIdString
-): Uint8Array {
+): Uint8Array<ArrayBuffer> {
   const uuidCiphertext = clientZkGroupCipher.encryptServiceId(
     toServiceIdObject(serviceIdPlaintext)
   );
@@ -199,7 +201,7 @@ export function getAuthCredentialPresentation(
   clientZkAuthOperations: ClientZkAuthOperations,
   authCredentialBase64: string,
   groupSecretParamsBase64: string
-): Uint8Array {
+): Uint8Array<ArrayBuffer> {
   const authCredential = new AuthCredentialWithPni(
     Bytes.fromBase64(authCredentialBase64)
   );
@@ -219,7 +221,7 @@ export function createProfileKeyCredentialPresentation(
   clientZkProfileCipher: ClientZkProfileOperations,
   profileKeyCredentialBase64: string,
   groupSecretParamsBase64: string
-): Uint8Array {
+): Uint8Array<ArrayBuffer> {
   const profileKeyCredentialArray = Bytes.fromBase64(
     profileKeyCredentialBase64
   );
@@ -307,8 +309,8 @@ export function deriveProfileKeyCommitment(
 
 export function verifyNotarySignature(
   serverPublicParamsBase64: string,
-  message: Uint8Array,
-  signature: Uint8Array
+  message: Uint8Array<ArrayBuffer>,
+  signature: Uint8Array<ArrayBuffer>
 ): void {
   const serverPublicParams = new ServerPublicParams(
     Bytes.fromBase64(serverPublicParamsBase64)

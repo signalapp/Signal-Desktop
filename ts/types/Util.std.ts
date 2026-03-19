@@ -92,9 +92,10 @@ export type AssertProps<Result, Value> = InternalAssertProps<Result, Value>;
 
 export type UnwrapPromise<Value> = Value extends Promise<infer T> ? T : Value;
 
-export type BytesToStrings<Value> = Value extends Uint8Array
-  ? string
-  : { [Key in keyof Value]: BytesToStrings<Value[Key]> };
+export type BytesToStrings<Value> =
+  Value extends Uint8Array<ArrayBuffer>
+    ? string
+    : { [Key in keyof Value]: BytesToStrings<Value[Key]> };
 
 export type JSONWithUnknownFields<Value> =
   Value extends Record<string | symbol | number, unknown>

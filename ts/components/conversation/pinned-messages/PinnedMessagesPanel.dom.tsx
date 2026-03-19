@@ -61,6 +61,9 @@ export const PinnedMessagesPanel = memo(function PinnedMessagesPanel(
   }, []);
 
   useSizeObserver(containerElementRef, size => {
+    if (size.hidden) {
+      return;
+    }
     setContainerWidthBreakpoint(getWidthBreakpoint(size.width));
   });
 

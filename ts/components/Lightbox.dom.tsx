@@ -35,6 +35,7 @@ import { formatFileSize } from '../util/formatFileSize.std.js';
 import { SECOND } from '../util/durations/index.std.js';
 import { Toast } from './Toast.dom.js';
 import { isAbortError } from '../util/isAbortError.std.js';
+import { strictAssert } from '../util/assert.std.js';
 
 const { noop } = lodash;
 
@@ -118,7 +119,9 @@ export function Lightbox({
     null
   );
   const [shouldShowDownloadToast, setShouldShowDownloadToast] = useState(false);
-  const downloadToastTimeout = useRef<NodeJS.Timeout | number | undefined>();
+  const downloadToastTimeout = useRef<NodeJS.Timeout | number | undefined>(
+    undefined
+  );
 
   const [videoTime, setVideoTime] = useState<number | undefined>();
   const [isZoomed, setIsZoomed] = useState(false);
@@ -133,7 +136,7 @@ export function Lightbox({
         translateY: number;
       }
     | undefined
-  >();
+  >(undefined);
   const imageRef = useRef<HTMLImageElement | null>(null);
   const zoomCacheRef = useRef<
     | {
@@ -143,9 +146,10 @@ export function Lightbox({
         screenHeight: number;
       }
     | undefined
-  >();
+  >(undefined);
 
   const currentItem = media[selectedIndex];
+
   const attachment = currentItem?.attachment;
   const url = attachment?.url;
   const incrementalUrl = attachment?.incrementalUrl;
@@ -242,6 +246,7 @@ export function Lightbox({
       event.preventDefault();
 
       const mediaItem = media[selectedIndex];
+      strictAssert(mediaItem, 'Missing mediaItem');
       const { attachment: attachmentToSave, message, index } = mediaItem;
 
       saveAttachment(attachmentToSave, message.sentAt, index + 1);
@@ -261,6 +266,8 @@ export function Lightbox({
 
     closeLightbox();
     const mediaItem = media[selectedIndex];
+    strictAssert(mediaItem, 'Missing mediaItem');
+
     toggleForwardMessagesModal({
       type: ForwardMessagesModalType.Forward,
       messageIds: [mediaItem.message.id],
@@ -473,6 +480,7 @@ export function Lightbox({
   const handleTouchStart = useCallback(
     (ev: TouchEvent) => {
       const [touch] = ev.touches;
+      strictAssert(touch, 'Missing touch');
 
       dragCacheRef.current = {
         startX: touch.clientX,
@@ -493,6 +501,7 @@ export function Lightbox({
       }
 
       const [touch] = ev.touches;
+      strictAssert(touch, 'Missing touch');
 
       const deltaX = touch.clientX - dragCache.startX;
       const deltaY = touch.clientY - dragCache.startY;
@@ -724,7 +733,7 @@ export function Lightbox({
               ref={focusRef}
             >
               <div className="Lightbox__header">
-                {getConversation ? (
+                {getConversation && currentItem != null ? (
                   <LightboxHeader
                     getConversation={getConversation}
                     i18n={i18n}

@@ -137,7 +137,8 @@ export async function sendPollTerminate(
         return;
       }
 
-      const recipientServiceId = recipients[0];
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const recipientServiceId = recipients[0]!;
 
       jobLog.info(
         `${logId}: Sending direct poll terminate for poll timestamp ${targetTimestamp}`
@@ -306,7 +307,8 @@ async function markTerminateFailed(
       poll.terminatedAt,
       m =>
         m.get('type') === 'poll-terminate' &&
-        m.get('pollTerminateNotification')?.pollMessageId === message.id
+        m.get('pollTerminateNotification')?.pollTimestamp ===
+          message.attributes.timestamp
     );
 
     if (notificationMessage) {

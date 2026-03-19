@@ -48,7 +48,6 @@ import { isCountryPpmCsvBucketEnabled } from '../RemoteConfig.dom.js';
 import type { AciString } from '../types/ServiceId.std.js';
 import {
   deleteMegaphoneAndRemoveFromRedux,
-  isRemoteMegaphoneEnabled,
   runMegaphoneCheck,
 } from './megaphone.preload.js';
 
@@ -474,9 +473,13 @@ export class ReleaseNoteAndMegaphoneFetcher {
               range.length == null ||
               range.start == null ||
               range.style == null ||
-              !STYLE_MAPPING[range.style] ||
               range.start + range.length - 1 >= body.length
             ) {
+              return null;
+            }
+
+            const style = STYLE_MAPPING[range.style];
+            if (style == null) {
               return null;
             }
 
@@ -486,7 +489,7 @@ export class ReleaseNoteAndMegaphoneFetcher {
             return {
               start: relativeStart,
               length: range.length,
-              style: STYLE_MAPPING[range.style],
+              style,
             };
           })
           .filter(isNotNil);
@@ -570,18 +573,16 @@ export class ReleaseNoteAndMegaphoneFetcher {
         const manifest = await this.#server.getReleaseNotesManifest();
         const currentVersion = window.getVersion();
 
-        if (isRemoteMegaphoneEnabled()) {
-          // Remote megaphones can be saved prior to desktopMinVersion.
-          // Saved megaphones are periodically checked to see if we should show them.
-          const validMegaphones = manifest.megaphones.filter(
-            (megaphone): megaphone is ManifestMegaphoneType =>
-              megaphone.desktopMinVersion != null
-          );
-          await this.#deleteUnknownMegaphones(validMegaphones);
-          const savedCount = await this.#saveNewMegaphones(validMegaphones);
-          if (savedCount > 0) {
-            drop(runMegaphoneCheck());
-          }
+        // Remote megaphones can be saved prior to desktopMinVersion.
+        // Saved megaphones are periodically checked to see if we should show them.
+        const validMegaphones = manifest.megaphones.filter(
+          (megaphone): megaphone is ManifestMegaphoneType =>
+            megaphone.desktopMinVersion != null
+        );
+        await this.#deleteUnknownMegaphones(validMegaphones);
+        const savedCount = await this.#saveNewMegaphones(validMegaphones);
+        if (savedCount > 0) {
+          drop(runMegaphoneCheck());
         }
 
         const validNotes = manifest.announcements.filter(

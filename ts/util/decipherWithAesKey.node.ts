@@ -1,7 +1,7 @@
 // Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { createDecipheriv, type Decipher } from 'node:crypto';
+import { createDecipheriv, type Decipheriv } from 'node:crypto';
 import { Buffer } from 'node:buffer';
 import { Transform } from 'node:stream';
 
@@ -12,9 +12,9 @@ import { strictAssert } from './assert.std.js';
  * Gets the IV from the start of the stream and creates a decipher.
  * Then deciphers the rest of the stream.
  */
-export function decipherWithAesKey(aesKey: Uint8Array): Transform {
-  let maybeIvBytes: Buffer | null = Buffer.alloc(0);
-  let decipher: Decipher | null = null;
+export function decipherWithAesKey(aesKey: Uint8Array<ArrayBuffer>): Transform {
+  let maybeIvBytes: Buffer<ArrayBuffer> | null = Buffer.alloc(0);
+  let decipher: Decipheriv | null = null;
   return new Transform({
     transform(chunk, _encoding, callback) {
       try {

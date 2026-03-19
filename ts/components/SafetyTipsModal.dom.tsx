@@ -56,7 +56,8 @@ export function SafetyTipsModal({
   const [cardWrapperId] = useState(() => uuid());
 
   function getCardIdForPage(pageIndex: number) {
-    return `${cardWrapperId}_${pages[pageIndex].key}`;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return `${cardWrapperId}_${pages[pageIndex]!.key}`;
   }
 
   const maxPageIndex = pages.length - 1;

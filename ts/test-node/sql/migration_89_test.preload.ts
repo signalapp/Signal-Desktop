@@ -194,8 +194,8 @@ describe('SQL/updateToSchemaVersion89', () => {
     const callHistory = getAllCallHistory();
 
     assert.strictEqual(callHistory.length, 2);
-    assert.strictEqual(callHistory[0].callId, callId1);
-    assert.strictEqual(callHistory[1].callId, getCallIdFromEra(eraId2));
+    assert.strictEqual(callHistory[0]?.callId, callId1);
+    assert.strictEqual(callHistory[1]?.callId, getCallIdFromEra(eraId2));
   });
 
   it('migrates older messages without a callId', () => {
@@ -215,7 +215,7 @@ describe('SQL/updateToSchemaVersion89', () => {
     const callHistory = getAllCallHistory();
 
     assert.strictEqual(callHistory.length, 1);
-    assert.isTrue(isValidUuid(callHistory[0].callId));
+    assert.isTrue(isValidUuid(callHistory[0]?.callId));
   });
 
   it('migrates older messages without a callMode', () => {
@@ -245,8 +245,8 @@ describe('SQL/updateToSchemaVersion89', () => {
     const callHistory = getAllCallHistory();
 
     assert.strictEqual(callHistory.length, 2);
-    assert.strictEqual(callHistory[0].mode, CallMode.Direct);
-    assert.strictEqual(callHistory[1].mode, CallMode.Group);
+    assert.strictEqual(callHistory[0]?.mode, CallMode.Direct);
+    assert.strictEqual(callHistory[1]?.mode, CallMode.Group);
   });
 
   it('handles unique constraint violations', () => {
@@ -298,8 +298,8 @@ describe('SQL/updateToSchemaVersion89', () => {
 
     const callHistory = getAllCallHistory();
     assert.strictEqual(callHistory.length, 2);
-    assert.strictEqual(callHistory[0].peerId, conversation1.serviceId);
-    assert.strictEqual(callHistory[1].peerId, conversation2.groupId);
+    assert.strictEqual(callHistory[0]?.peerId, conversation1.serviceId);
+    assert.strictEqual(callHistory[1]?.peerId, conversation2.groupId);
   });
 
   it('migrates older unregistered conversations with no serviceId', () => {
@@ -318,7 +318,7 @@ describe('SQL/updateToSchemaVersion89', () => {
 
     const callHistory = getAllCallHistory();
     assert.strictEqual(callHistory.length, 1);
-    assert.strictEqual(callHistory[0].peerId, conversation.id);
+    assert.strictEqual(callHistory[0]?.peerId, conversation.id);
   });
 
   it('migrates call-history messages with no timestamp', () => {
@@ -374,14 +374,14 @@ describe('SQL/updateToSchemaVersion89', () => {
 
     const callHistory = getAllCallHistory();
     assert.strictEqual(callHistory.length, 8);
-    assert.strictEqual(callHistory[0].timestamp, 0);
-    assert.strictEqual(callHistory[1].timestamp, 0);
-    assert.strictEqual(callHistory[2].timestamp, 1);
-    assert.strictEqual(callHistory[3].timestamp, 1);
-    assert.strictEqual(callHistory[4].timestamp, 2);
-    assert.strictEqual(callHistory[5].timestamp, 2);
-    assert.strictEqual(callHistory[6].timestamp, 3);
-    assert.strictEqual(callHistory[7].timestamp, 3);
+    assert.strictEqual(callHistory[0]?.timestamp, 0);
+    assert.strictEqual(callHistory[1]?.timestamp, 0);
+    assert.strictEqual(callHistory[2]?.timestamp, 1);
+    assert.strictEqual(callHistory[3]?.timestamp, 1);
+    assert.strictEqual(callHistory[4]?.timestamp, 2);
+    assert.strictEqual(callHistory[5]?.timestamp, 2);
+    assert.strictEqual(callHistory[6]?.timestamp, 3);
+    assert.strictEqual(callHistory[7]?.timestamp, 3);
   });
 
   describe('clients with schema version 87', () => {
@@ -482,8 +482,8 @@ describe('SQL/updateToSchemaVersion89', () => {
 
       const callHistory = getAllCallHistory();
       assert.strictEqual(callHistory.length, 2);
-      assert.strictEqual(callHistory[0].peerId, conversation1.serviceId);
-      assert.strictEqual(callHistory[1].peerId, conversation2.groupId);
+      assert.strictEqual(callHistory[0]?.peerId, conversation1.serviceId);
+      assert.strictEqual(callHistory[1]?.peerId, conversation2.groupId);
     });
 
     it('migrates duplicate call history where the first was already migrated', () => {
@@ -522,12 +522,12 @@ describe('SQL/updateToSchemaVersion89', () => {
       const callHistory = getAllCallHistory();
 
       assert.strictEqual(callHistory.length, 1);
-      assert.strictEqual(callHistory[0].status, DirectCallStatus.Declined);
+      assert.strictEqual(callHistory[0]?.status, DirectCallStatus.Declined);
 
       const messages = getMessages();
       assert.strictEqual(messages.length, 1);
-      assert.strictEqual(messages[0].type, 'call-history');
-      assert.strictEqual(messages[0].callId, '123');
+      assert.strictEqual(messages[0]?.type, 'call-history');
+      assert.strictEqual(messages[0]?.callId, '123');
       assert.notProperty(messages[0], 'callHistoryDetails');
     });
   });

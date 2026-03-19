@@ -271,7 +271,7 @@ describe('Contact', () => {
             ],
           },
         ],
-      };
+      } as const;
       const result = await upgradeVersion(
         message.contact[0],
         defaultContext,
@@ -301,7 +301,7 @@ describe('Contact', () => {
             ],
           },
         ],
-      };
+      } as const;
       const expected = {
         name: {
           nickname: 'Someone Somewhere',
@@ -348,7 +348,7 @@ describe('Contact', () => {
             } as unknown as Avatar,
           },
         ],
-      };
+      } as const;
       const expected = {
         name: {
           nickname: 'Someone Somewhere',
@@ -411,7 +411,7 @@ describe('Contact', () => {
             } as unknown as Avatar,
           },
         ],
-      };
+      } as const;
       const expected = {
         name: {
           nickname: 'Someone Somewhere',
@@ -474,11 +474,11 @@ describe('Contact', () => {
               {
                 type: 0,
                 value: 'someone@somewhere.com',
-              },
+              } as unknown as Email,
             ],
           },
         ],
-      };
+      } as const;
       const expected = {
         name: {
           nickname: 'Someone Somewhere',
@@ -524,7 +524,7 @@ describe('Contact', () => {
             ],
           },
         ],
-      };
+      } as const;
       const expected = {
         name: {
           nickname: 'Someone Somewhere',
@@ -572,7 +572,7 @@ describe('Contact', () => {
             ],
           },
         ],
-      };
+      } as const;
       const expected = {
         name: {
           nickname: 'Someone Somewhere',
@@ -605,7 +605,7 @@ describe('Contact', () => {
             ],
           },
         ],
-      };
+      } as const;
       const result = await upgradeVersion(
         message.contact[0],
         defaultContext,

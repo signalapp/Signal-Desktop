@@ -108,6 +108,7 @@ import {
   getActivePanel,
   getSelectedConversationId,
 } from '../selectors/nav.std.js';
+import { isPoll } from '../../messages/helpers.std.js';
 
 const { debounce, isEqual } = lodash;
 
@@ -451,7 +452,8 @@ function scrollToPinnedMessage(
 }
 
 function scrollToPollMessage(
-  pollMessageId: string,
+  pollAuthorAci: AciString,
+  pollTimestamp: number,
   conversationId: string
 ): ThunkAction<
   void,
@@ -460,9 +462,16 @@ function scrollToPollMessage(
   ShowToastActionType | ScrollToMessageActionType
 > {
   return async (dispatch, getState) => {
-    const pollMessage = await getMessageById(pollMessageId);
+    const ourAci = itemStorage.user.getCheckedAci();
 
-    if (!pollMessage) {
+    const pollMessage = await DataReader.getMessageByAuthorAciAndSentAt(
+      ourAci,
+      pollAuthorAci,
+      pollTimestamp,
+      { includeEdits: true }
+    );
+
+    if (!pollMessage || !isPoll(pollMessage)) {
       dispatch({
         type: SHOW_TOAST,
         payload: {
@@ -476,7 +485,7 @@ function scrollToPollMessage(
       return;
     }
 
-    scrollToMessage(conversationId, pollMessageId)(
+    scrollToMessage(conversationId, pollMessage.id)(
       dispatch,
       getState,
       undefined
@@ -1206,8 +1215,7 @@ function processAttachments({
       file: File;
       pendingAttachment: AttachmentDraftType;
     }> = [];
-    for (let i = 0; i < files.length; i += 1) {
-      const file = files[i];
+    for (const file of files) {
       const processingResult = preProcessAttachment(file, nextDraftAttachments);
       if (processingResult != null) {
         toastToShow = processingResult;
@@ -1374,6 +1382,8 @@ function removeAttachment(
     }
 
     const targetAttachment = attachments[targetAttachmentIndex];
+    strictAssert(targetAttachment, 'Missing targetAttachment');
+
     const nextAttachments = attachments
       .slice(0, targetAttachmentIndex)
       .concat(attachments.slice(targetAttachmentIndex + 1));
@@ -1734,13 +1744,11 @@ export function reducer(
   if (action.type === CONVERSATION_UNLOADED) {
     const nextConversations: Record<string, ComposerStateByConversationType> =
       {};
-    Object.keys(state.conversations).forEach(conversationId => {
-      if (conversationId === action.payload.conversationId) {
-        return;
-      }
-
-      nextConversations[conversationId] = state.conversations[conversationId];
-    });
+    for (const [conversationId, conversation] of Object.entries(
+      state.conversations
+    )) {
+      nextConversations[conversationId] = conversation;
+    }
 
     return {
       ...state,

@@ -46,7 +46,8 @@ export class BackOff {
   ) {}
 
   public get(): number {
-    let result = this.timeouts[this.#count];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    let result = this.timeouts[this.#count]!;
     const { jitter = 0, random = DEFAULT_RANDOM } = this.options;
 
     // Do not apply jitter larger than the timeout value. It is supposed to be

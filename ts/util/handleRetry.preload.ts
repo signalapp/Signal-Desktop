@@ -458,7 +458,8 @@ async function getRetryConversation({
     return window.ConversationController.get(requestGroupId);
   }
 
-  const [messageId] = messageIds;
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const messageId = messageIds[0]!;
   const message = await DataReader.getMessageById(messageId);
   if (!message) {
     log.warn(

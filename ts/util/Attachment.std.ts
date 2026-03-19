@@ -171,7 +171,7 @@ export function hasData(attachment: AttachmentType): boolean {
 export function loadData(
   readAttachmentV2Data: (
     attachment: Partial<AddressableAttachmentType>
-  ) => Promise<Uint8Array>
+  ) => Promise<Uint8Array<ArrayBuffer>>
 ): (
   attachment: Partial<AttachmentType>
 ) => Promise<AttachmentWithHydratedData> {
@@ -354,7 +354,7 @@ export function isGIF(attachments?: ReadonlyArray<AttachmentType>): boolean {
   const flag = SignalService.AttachmentPointer.Flags.GIF;
   const hasFlag =
     // eslint-disable-next-line no-bitwise
-    !isUndefined(attachment.flags) && (attachment.flags & flag) === flag;
+    !isUndefined(attachment?.flags) && (attachment.flags & flag) === flag;
 
   return hasFlag && isVideoAttachment(attachment);
 }
@@ -499,7 +499,8 @@ export function getGridDimensions(
   }
 
   if (attachments.length === 1) {
-    return getImageDimensionsForTimeline(attachments[0]);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return getImageDimensionsForTimeline(attachments[0]!);
   }
 
   if (attachments.length === 2) {
@@ -626,9 +627,9 @@ export const save = async ({
   }) => string;
   readAttachmentData: (
     attachment: Partial<AddressableAttachmentType>
-  ) => Promise<Uint8Array>;
+  ) => Promise<Uint8Array<ArrayBuffer>>;
   saveAttachmentToDisk: (options: {
-    data: Uint8Array;
+    data: Uint8Array<ArrayBuffer>;
     name: string;
     baseDir?: string;
   }) => Promise<{ name: string; fullPath: string } | null>;
@@ -639,7 +640,7 @@ export const save = async ({
    */
   baseDir?: string;
 }): Promise<string | null> => {
-  let data: Uint8Array;
+  let data: Uint8Array<ArrayBuffer>;
   if (attachment.path) {
     data = await readAttachmentData(attachment);
   } else if (attachment.data) {

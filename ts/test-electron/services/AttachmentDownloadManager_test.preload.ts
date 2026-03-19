@@ -180,6 +180,15 @@ describe('AttachmentDownloadManager', () => {
     await itemStorage.fetch();
   });
 
+  function assertAt<T>(array: ReadonlyArray<T>, index: number): T {
+    assert.ok(
+      index >= 0 && index < array.length,
+      `index out of bounds: ${index}`
+    );
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return array[index]!;
+  }
+
   async function addJob(
     job: AttachmentDownloadJobType,
     urgency: AttachmentDownloadUrgency
@@ -306,14 +315,24 @@ describe('AttachmentDownloadManager', () => {
     );
 
     await downloadManager?.start();
-    await waitForJobToBeStarted(jobs[2]);
+    await waitForJobToBeStarted(assertAt(jobs, 2));
 
     assert.strictEqual(runJob.callCount, 3);
-    assertRunJobCalledWith([jobs[4], jobs[3], jobs[2]]);
+    assertRunJobCalledWith([
+      assertAt(jobs, 4),
+      assertAt(jobs, 3),
+      assertAt(jobs, 2),
+    ]);
 
-    await waitForJobToBeStarted(jobs[0]);
+    await waitForJobToBeStarted(assertAt(jobs, 0));
     assert.strictEqual(runJob.callCount, 5);
-    assertRunJobCalledWith([jobs[4], jobs[3], jobs[2], jobs[1], jobs[0]]);
+    assertRunJobCalledWith([
+      assertAt(jobs, 4),
+      assertAt(jobs, 3),
+      assertAt(jobs, 2),
+      assertAt(jobs, 1),
+      assertAt(jobs, 0),
+    ]);
   });
 
   it('runs a job immediately if urgency is IMMEDIATE', async () => {
@@ -330,18 +349,23 @@ describe('AttachmentDownloadManager', () => {
     await waitForJobToBeStarted(urgentJobForOldMessage);
 
     assert.strictEqual(runJob.callCount, 4);
-    assertRunJobCalledWith([jobs[5], jobs[4], jobs[3], urgentJobForOldMessage]);
+    assertRunJobCalledWith([
+      assertAt(jobs, 5),
+      assertAt(jobs, 4),
+      assertAt(jobs, 3),
+      urgentJobForOldMessage,
+    ]);
 
-    await waitForJobToBeStarted(jobs[0]);
+    await waitForJobToBeStarted(assertAt(jobs, 0));
     assert.strictEqual(runJob.callCount, 7);
     assertRunJobCalledWith([
-      jobs[5],
-      jobs[4],
-      jobs[3],
+      assertAt(jobs, 5),
+      assertAt(jobs, 4),
+      assertAt(jobs, 3),
       urgentJobForOldMessage,
-      jobs[2],
-      jobs[1],
-      jobs[0],
+      assertAt(jobs, 2),
+      assertAt(jobs, 1),
+      assertAt(jobs, 0),
     ]);
   });
 
@@ -352,13 +376,23 @@ describe('AttachmentDownloadManager', () => {
 
     await downloadManager?.start();
 
-    await waitForJobToBeStarted(jobs[4]);
+    await waitForJobToBeStarted(assertAt(jobs, 4));
     assert.strictEqual(runJob.callCount, 3);
-    assertRunJobCalledWith([jobs[0], jobs[1], jobs[4]]);
+    assertRunJobCalledWith([
+      assertAt(jobs, 0),
+      assertAt(jobs, 1),
+      assertAt(jobs, 4),
+    ]);
 
-    await waitForJobToBeStarted(jobs[2]);
+    await waitForJobToBeStarted(assertAt(jobs, 2));
     assert.strictEqual(runJob.callCount, 5);
-    assertRunJobCalledWith([jobs[0], jobs[1], jobs[4], jobs[3], jobs[2]]);
+    assertRunJobCalledWith([
+      assertAt(jobs, 0),
+      assertAt(jobs, 1),
+      assertAt(jobs, 4),
+      assertAt(jobs, 3),
+      assertAt(jobs, 2),
+    ]);
   });
 
   it("does not start a job if we're in a call", async () => {
@@ -373,7 +407,7 @@ describe('AttachmentDownloadManager', () => {
     isInCall.callsFake(() => false);
 
     await advanceTime(2 * MINUTE);
-    await waitForJobToBeStarted(jobs[0]);
+    await waitForJobToBeStarted(assertAt(jobs, 0));
     assert.strictEqual(runJob.callCount, 5);
   });
 
@@ -382,12 +416,12 @@ describe('AttachmentDownloadManager', () => {
       source: AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA,
     }));
 
-    const jobAttempts = getPromisesForAttempts(jobs[0], 2);
+    const jobAttempts = getPromisesForAttempts(assertAt(jobs, 0), 2);
 
     statfs.callsFake(() => Promise.resolve({ bavail: 0, bsize: 8 }));
 
     await downloadManager?.start();
-    await jobAttempts[0].completed;
+    await assertAt(jobAttempts, 0).completed;
 
     assert.strictEqual(runJob.callCount, 0);
     assert.strictEqual(onLowDiskSpaceBackupImport.callCount, 1);
@@ -400,18 +434,18 @@ describe('AttachmentDownloadManager', () => {
 
     await advanceTime(2 * MINUTE);
     assert.strictEqual(runJob.callCount, 1);
-    await jobAttempts[1].completed;
+    await assertAt(jobAttempts, 1).completed;
   });
 
   it('handles retries for failed', async () => {
     const jobs = await addJobs(2);
-    const job0Attempts = getPromisesForAttempts(jobs[0], 1);
-    const job1Attempts = getPromisesForAttempts(jobs[1], 5);
+    const job0Attempts = getPromisesForAttempts(assertAt(jobs, 0), 1);
+    const job1Attempts = getPromisesForAttempts(assertAt(jobs, 1), 5);
 
     runJob.callsFake(async ({ job }: { job: AttachmentDownloadJobType }) => {
       return new Promise<{ status: 'finished' | 'retry' }>(resolve => {
         Promise.resolve().then(() => {
-          if (job.messageId === jobs[0].messageId) {
+          if (job.messageId === assertAt(jobs, 0).messageId) {
             resolve({ status: 'finished' });
           } else {
             resolve({ status: 'retry' });
@@ -422,12 +456,16 @@ describe('AttachmentDownloadManager', () => {
 
     await downloadManager?.start();
 
-    await job0Attempts[0].completed;
+    await assertAt(job0Attempts, 0).completed;
     assert.strictEqual(runJob.callCount, 2);
-    assertRunJobCalledWith([jobs[1], jobs[0]]);
+    assertRunJobCalledWith([assertAt(jobs, 1), assertAt(jobs, 0)]);
 
-    const retriedJob = await DataReader._getAttachmentDownloadJob(jobs[1]);
-    const finishedJob = await DataReader._getAttachmentDownloadJob(jobs[0]);
+    const retriedJob = await DataReader._getAttachmentDownloadJob(
+      assertAt(jobs, 1)
+    );
+    const finishedJob = await DataReader._getAttachmentDownloadJob(
+      assertAt(jobs, 0)
+    );
 
     assert.isUndefined(finishedJob);
     assert.strictEqual(retriedJob?.attempts, 1);
@@ -435,32 +473,34 @@ describe('AttachmentDownloadManager', () => {
 
     await advanceTime(MINUTE);
 
-    await job1Attempts[1].completed;
+    await assertAt(job1Attempts, 1).completed;
     assert.strictEqual(runJob.callCount, 3);
     await advanceTime(2 * MINUTE);
 
-    await job1Attempts[2].completed;
+    await assertAt(job1Attempts, 2).completed;
     assert.strictEqual(runJob.callCount, 4);
 
     await advanceTime(4 * MINUTE);
-    await job1Attempts[3].completed;
+    await assertAt(job1Attempts, 3).completed;
     assert.strictEqual(runJob.callCount, 5);
 
     await advanceTime(8 * MINUTE);
-    await job1Attempts[4].completed;
+    await assertAt(job1Attempts, 4).completed;
 
     assert.strictEqual(runJob.callCount, 6);
     assertRunJobCalledWith([
-      jobs[1],
-      jobs[0],
-      jobs[1],
-      jobs[1],
-      jobs[1],
-      jobs[1],
+      assertAt(jobs, 1),
+      assertAt(jobs, 0),
+      assertAt(jobs, 1),
+      assertAt(jobs, 1),
+      assertAt(jobs, 1),
+      assertAt(jobs, 1),
     ]);
 
     // Ensure it's been removed after completed
-    assert.isUndefined(await DataReader._getAttachmentDownloadJob(jobs[1]));
+    assert.isUndefined(
+      await DataReader._getAttachmentDownloadJob(assertAt(jobs, 1))
+    );
   });
 
   it('will reset attempts if addJob is called again', async () => {
@@ -473,47 +513,49 @@ describe('AttachmentDownloadManager', () => {
       });
     });
 
-    let attempts = getPromisesForAttempts(jobs[0], 4);
+    let attempts = getPromisesForAttempts(assertAt(jobs, 0), 4);
     await downloadManager?.start();
 
-    await attempts[0].completed;
+    await assertAt(attempts, 0).completed;
     assert.strictEqual(runJob.callCount, 1);
 
     await advanceTime(1 * MINUTE);
-    await attempts[1].completed;
+    await assertAt(attempts, 1).completed;
     assert.strictEqual(runJob.callCount, 2);
 
     await advanceTime(5 * MINUTE);
-    await attempts[2].completed;
+    await assertAt(attempts, 2).completed;
     assert.strictEqual(runJob.callCount, 3);
 
     // add the same job again and it should retry ASAP and reset attempts
-    attempts = getPromisesForAttempts(jobs[0], 5);
+    attempts = getPromisesForAttempts(assertAt(jobs, 0), 5);
     await downloadManager?.addJob({
-      ...jobs[0],
-      isManualDownload: Boolean(jobs[0].isManualDownload),
+      ...assertAt(jobs, 0),
+      isManualDownload: Boolean(assertAt(jobs, 0).isManualDownload),
     });
-    await attempts[0].completed;
+    await assertAt(attempts, 0).completed;
     assert.strictEqual(runJob.callCount, 4);
 
     await advanceTime(1 * MINUTE);
-    await attempts[1].completed;
+    await assertAt(attempts, 1).completed;
     assert.strictEqual(runJob.callCount, 5);
 
     await advanceTime(2 * MINUTE);
-    await attempts[2].completed;
+    await assertAt(attempts, 2).completed;
     assert.strictEqual(runJob.callCount, 6);
 
     await advanceTime(4 * MINUTE);
-    await attempts[3].completed;
+    await assertAt(attempts, 3).completed;
     assert.strictEqual(runJob.callCount, 7);
 
     await advanceTime(8 * MINUTE);
-    await attempts[4].completed;
+    await assertAt(attempts, 4).completed;
     assert.strictEqual(runJob.callCount, 8);
 
     // Ensure it's been removed
-    assert.isUndefined(await DataReader._getAttachmentDownloadJob(jobs[0]));
+    assert.isUndefined(
+      await DataReader._getAttachmentDownloadJob(assertAt(jobs, 0))
+    );
   });
 
   it('only selects backup_import jobs if the mediaDownload is not paused', async () => {
@@ -528,21 +570,29 @@ describe('AttachmentDownloadManager', () => {
     // make one of the backup job messages visible to test that code path as well
     downloadManager?.updateVisibleTimelineMessages(['message-0', 'message-1']);
     await downloadManager?.start();
-    await waitForJobToBeCompleted(jobs[3]);
-    assertRunJobCalledWith([jobs[1], jobs[5], jobs[3]]);
+    await waitForJobToBeCompleted(assertAt(jobs, 3));
+    assertRunJobCalledWith([
+      assertAt(jobs, 1),
+      assertAt(jobs, 5),
+      assertAt(jobs, 3),
+    ]);
     await advanceTime((downloadManager?.tickInterval ?? MINUTE) * 5);
-    assertRunJobCalledWith([jobs[1], jobs[5], jobs[3]]);
+    assertRunJobCalledWith([
+      assertAt(jobs, 1),
+      assertAt(jobs, 5),
+      assertAt(jobs, 3),
+    ]);
 
     // resume backups
     await itemStorage.put('backupMediaDownloadPaused', false);
     await advanceTime((downloadManager?.tickInterval ?? MINUTE) * 5);
     assertRunJobCalledWith([
-      jobs[1],
-      jobs[5],
-      jobs[3],
-      jobs[0],
-      jobs[4],
-      jobs[2],
+      assertAt(jobs, 1),
+      assertAt(jobs, 5),
+      assertAt(jobs, 3),
+      assertAt(jobs, 0),
+      assertAt(jobs, 4),
+      assertAt(jobs, 2),
     ]);
   });
 
@@ -551,7 +601,7 @@ describe('AttachmentDownloadManager', () => {
     const jobs = await addJobs(1, {
       source: AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA,
     });
-    const jobAttempts = getPromisesForAttempts(jobs[0], 2);
+    const jobAttempts = getPromisesForAttempts(assertAt(jobs, 0), 2);
 
     runJob.callsFake(async () => {
       return new Promise<{ status: 'finished' | 'retry' }>(resolve => {
@@ -562,22 +612,21 @@ describe('AttachmentDownloadManager', () => {
     });
 
     await downloadManager?.start();
-    await jobAttempts[0].completed;
-    assertRunJobCalledWith([jobs[0]]);
+    await assertAt(jobAttempts, 0).completed;
+    assertRunJobCalledWith([assertAt(jobs, 0)]);
 
     await DataWriter.resetBackupAttachmentDownloadJobsRetryAfter();
     await downloadManager.start();
 
-    await jobAttempts[1].completed;
+    await assertAt(jobAttempts, 1).completed;
   });
 
   it('retries job with updated job if provided', async () => {
     strictAssert(downloadManager, 'must exist');
-    const job = (
-      await addJobs(1, {
-        source: AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA,
-      })
-    )[0];
+    const jobs = await addJobs(1, {
+      source: AttachmentDownloadSource.BACKUP_IMPORT_WITH_MEDIA,
+    });
+    const job = assertAt(jobs, 0);
     const jobAttempts = getPromisesForAttempts(job, 3);
 
     runJob.callsFake(async args => {
@@ -595,9 +644,9 @@ describe('AttachmentDownloadManager', () => {
     });
 
     await downloadManager?.start();
-    await jobAttempts[0].completed;
+    await assertAt(jobAttempts, 0).completed;
     assertRunJobCalledWith([job]);
-    await jobAttempts[1].completed;
+    await assertAt(jobAttempts, 1).completed;
     assert.deepStrictEqual(
       runJob.getCall(0).args[0].job.attachment,
       job.attachment
@@ -651,42 +700,47 @@ describe('AttachmentDownloadManager', () => {
     });
     it('will retry a job when aborted b/c of shutdown', async () => {
       const jobs = await addJobs(1);
-      const jobAttempts = getPromisesForAttempts(jobs[0], 2);
+      const jobAttempts = getPromisesForAttempts(assertAt(jobs, 0), 2);
 
       await downloadManager?.start();
-      await jobAttempts[0].started;
+      await assertAt(jobAttempts, 0).started;
       await downloadStarted.promise;
 
       // Shutdown behavior
       downloadManager?.stop();
       inflightRequestAbortController.abort();
 
-      await jobAttempts[0].completed;
+      await assertAt(jobAttempts, 0).completed;
       // Ensure it will be retried
       assert.strictEqual(
-        (await DataReader._getAttachmentDownloadJob(jobs[0]))?.attempts,
+        (await DataReader._getAttachmentDownloadJob(assertAt(jobs, 0)))
+          ?.attempts,
         1
       );
       assert.strictEqual(runJob.callCount, 1);
     });
     it('will not retry a job if manually canceled', async () => {
       const jobs = await addJobs(1);
-      const jobAttempts = getPromisesForAttempts(jobs[0], 2);
+      const jobAttempts = getPromisesForAttempts(assertAt(jobs, 0), 2);
 
       await downloadManager?.start();
       const downloadManagerIdled = downloadManager?.waitForIdle();
 
-      await jobAttempts[0].started;
+      await assertAt(jobAttempts, 0).started;
       await downloadStarted.promise;
 
       // user-canceled behavior
       downloadManager?.cancelJobs(JobCancelReason.UserInitiated, () => true);
 
-      await assert.isRejected(jobAttempts[0].completed as Promise<void>);
+      await assert.isRejected(
+        assertAt(jobAttempts, 0).completed as Promise<void>
+      );
       await downloadManagerIdled;
 
       // Ensure it will not be retried
-      assert.isUndefined(await DataReader._getAttachmentDownloadJob(jobs[0]));
+      assert.isUndefined(
+        await DataReader._getAttachmentDownloadJob(assertAt(jobs, 0))
+      );
       assert.strictEqual(runJob.callCount, 1);
     });
   });
@@ -901,6 +955,7 @@ describe('AttachmentDownloadManager.runDownloadAttachmentJobInner', () => {
       .returns(Promise.resolve(downloadedAttachment));
     cleanupAttachmentFiles = sandbox.stub();
     maybeDeleteAttachmentFile = sandbox.stub();
+    deleteDownloadFile = sandbox.stub();
     processNewAttachment = sandbox.stub().callsFake(attachment => attachment);
   });
 

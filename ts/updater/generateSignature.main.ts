@@ -78,10 +78,8 @@ async function findUpdatePaths(): Promise<Array<string>> {
   const releaseDir = resolve('release');
   const files: Array<string> = await readdir(releaseDir);
 
-  const max = files.length;
   const results = new Array<string>();
-  for (let i = 0; i < max; i += 1) {
-    const file = files[i];
+  for (const file of files) {
     const fullPath = join(releaseDir, file);
 
     if (IS_EXE.test(file) || IS_ZIP.test(file)) {

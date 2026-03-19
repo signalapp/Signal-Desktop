@@ -5,7 +5,9 @@ import type { LoadImageOptions } from 'blueimp-load-image';
 import loadImage from 'blueimp-load-image';
 import { canvasToBytes } from './canvasToBytes.std.js';
 
-export async function processImageFile(file: File): Promise<Uint8Array> {
+export async function processImageFile(
+  file: File
+): Promise<Uint8Array<ArrayBuffer>> {
   const { image } = await loadImage(file, {
     canvas: true,
     cover: true,

@@ -29,7 +29,7 @@ export function useConfirmDiscard({
   cancelText?: string;
   discardText?: string;
   name: string;
-  tryClose?: React.MutableRefObject<(() => void) | undefined>;
+  tryClose?: React.RefObject<(() => void) | null>;
 }): [
   React.JSX.Element | null,
   (condition: boolean, discardChanges: () => void, cancel?: () => void) => void,
@@ -49,7 +49,7 @@ export function useConfirmDiscard({
   ) : null;
   const confirmDiscardPromise = useRef<
     ExplodePromiseResultType<BeforeNavigateResponse> | undefined
-  >();
+  >(undefined);
 
   useEffect(() => {
     if (!tryClose) {

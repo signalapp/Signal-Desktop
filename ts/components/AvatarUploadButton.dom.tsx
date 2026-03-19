@@ -13,7 +13,7 @@ const { noop } = lodash;
 export type PropsType = {
   className: string;
   i18n: LocalizerType;
-  onChange: (avatar: Uint8Array) => unknown;
+  onChange: (avatar: Uint8Array<ArrayBuffer>) => unknown;
 };
 
 export function AvatarUploadButton({
@@ -33,7 +33,7 @@ export function AvatarUploadButton({
     let shouldCancel = false;
 
     void (async () => {
-      let newAvatar: Uint8Array;
+      let newAvatar: Uint8Array<ArrayBuffer>;
       try {
         newAvatar = await processImageFile(processingFile);
       } catch (err) {

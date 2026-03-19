@@ -50,7 +50,8 @@ export function hydrateMessage(
   db: ReadableDB,
   row: MessageTypeUnhydrated
 ): MessageType {
-  return hydrateMessages(db, [row])[0];
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  return hydrateMessages(db, [row])[0]!;
 }
 
 export function hydrateMessages(

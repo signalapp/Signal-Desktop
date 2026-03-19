@@ -72,7 +72,7 @@ export const matchMonospace: Matcher = (
   const classes = [
     'MessageTextRenderer__formatting--monospace',
     'quill--monospace',
-  ];
+  ] as const;
   // Note: This is defined as $monospace in _variables.scss
   const fontFamily =
     'font-family: "SF Mono", SFMono-Regular, ui-monospace, "DejaVu Sans Mono", Menlo, Consolas, monospace;';
@@ -99,7 +99,7 @@ export const matchSpoiler: Matcher = (
     'quill--spoiler',
     'MessageTextRenderer__formatting--spoiler',
     'MessageTextRenderer__formatting--spoiler--revealed',
-  ];
+  ] as const;
 
   if (
     delta.length() > 0 &&

@@ -11,6 +11,7 @@ import { getQuotedMessageSelector } from '../state/selectors/composer.preload.js
 import { removeLinkPreview } from './LinkPreview.preload.js';
 import { ForwardMessagesModalType } from '../components/ForwardMessagesModal.dom.js';
 import { getSelectedConversationId } from '../state/selectors/nav.std.js';
+import { strictAssert } from '../util/assert.std.js';
 
 const log = createLogger('addGlobalKeyboardShortcuts');
 
@@ -96,6 +97,7 @@ export function addGlobalKeyboardShortcuts(): void {
       }
 
       const node = targets[index];
+      strictAssert(node, 'Missing node');
       const firstFocusableElement = matchOrQueryFocusable(node);
 
       if (firstFocusableElement) {

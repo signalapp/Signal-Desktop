@@ -72,10 +72,10 @@
     "messageformat": "Anwani isiyojulikana"
   },
   "icu:unknownContactShort": {
-    "messageformat": "Isiyojulikana"
+    "messageformat": "Asiyejulikana"
   },
   "icu:unknownGroup": {
-    "messageformat": "Kikundi hakijulikani"
+    "messageformat": "Kikundi kisichojulikana"
   },
   "icu:cantOpenSignalError": {
     "messageformat": "Imeshindwa kufungua Signal"
@@ -4032,22 +4032,22 @@
     "messageformat": "Msimamizi amebadilisha mtu ambaye anaweza kubadilisha uanachama wa kikundi kuwa \"Wanachama wote.\""
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "Umebadilisha watu wanaoweza kuweka vyeo vya wanachama kuwa \"Admins pekee.\""
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "{adminName} amebadilisha watu wanaoweza kuweka vyeo vya wanachama kuwa \"Admins pekee.\""
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "Admin amebadilisha watu wanaoweza kuweka vyeo vya wanachama kuwa \"Admins pekee.\""
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "Umebadilisha watu wanaoweza kuweka vyeo vya wanachama kuwa \"Wanachama wote.\""
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "{adminName} amebadilisha watu wanaoweza kuweka vyeo vya wanachama kuwa \"Wanachama wote.\""
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "Admin amebadilisha watu wanaoweza kuweka vyeo vya wanachama kuwa \"Wanachama wote.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Umezima idhini ya msimamizi ya kiungo cha kikundi."
@@ -4704,7 +4704,7 @@
     "messageformat": "Nyamazisha"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "Ondoa kwenye simu"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Lebo za Wanachama"
@@ -4812,10 +4812,10 @@
     "messageformat": "Chagua ni nani anayeweza kutuma ujumbe kwenye kikundi."
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "Nani anaweza kuweka vyeo vya wanachama"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "Chagua nani anayeweza kuweka vyeo vya wanachama katika kikundi hiki."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Vyeo vya wanachama vitafutwa"
@@ -5055,7 +5055,11 @@
     "messageformat": "Futa kwa kila mtu?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {Kama admin, wanakikundi wataona kuwa umefuta ujumbe huu.} other {Kama admin, wanakikundi wataona kuwa umefuta jumbe hizi.}}"
+    "messageformat": "{count, plural, one {Kama admin, wanakikundi wataona kuwa umefuta ujumbe huu.} other {Kama admin, wanakikundi wataona kuwa umefuta jumbe hizi.}}",
+    "ignoreUnused": true
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
+    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Futa kwenye vifaa vyote"
@@ -5067,10 +5071,10 @@
     "messageformat": "{count, plural, one {Unaweza kuchagua hadi ujumbe {count,number} wa kufuta kwa kila mtu} other {Unaweza kuchagua hadi jumbe {count,number} za kufuta kwa kila mtu}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "Je, tupilia rasimu?"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "Kitendo hiki hakiwezi kutenguliwa."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Futa kipengee?"
@@ -6208,13 +6212,13 @@
     "messageformat": "Hifadhi nakala za eneo-kazi"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "Nakala yako iliyohifadhiwa imesimbwa kwa njia fiche kuanzia mwanzo hadi mwisho."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Unda hifadhi nakala iliyosimbwa kwa njia fiche ambayo unaweza kurejesha kwenye simu yako. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Ili urejeshe nakala iliyohifadhiwa, sakinisha nakala mpya ya Signal kwenye simu yako. Fungua programu kisha gusa &quot;Rejesha au hamisha.&quot; <learnMoreLink>Pata maelezo zaidi.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Chagua folda"
@@ -6284,6 +6288,18 @@
   },
   "icu:Preferences__local-backups-folder__change": {
     "messageformat": "Badili"
+  },
+  "icu:Preferences__local-backups-turn-off": {
+    "messageformat": "Turn off backups"
+  },
+  "icu:Preferences__local-backups-turn-off-action": {
+    "messageformat": "Turn off"
+  },
+  "icu:Preferences__local-backups-turn-off-confirmation": {
+    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+  },
+  "icu:Preferences__local-backups-turn-off-delete": {
+    "messageformat": "Delete my backup from this computer"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Nakili kwenye clipbodi"
@@ -8010,6 +8026,6 @@
     "messageformat": "Sasa unaweza kutuma jumbe za picha na video za angalia mara moja kutoka Signal Desktop pia. Picha na video moja moja zinazotumwa kama jumbe za angalia mara moja zitaondolewa kiotomatiki kwenye mazungumzo baada ya kutazamwa."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "Ukipenda unaweza kuweka cheo cha mwanachama kwa hiari ili kujielezea mwenyewe au nafasi yako kwenye gumzo la kikundi. Weka cheo cha mwanachama wa kikundi chako kuwa “Referee” au “Goalie” kwenye gumzo la timu ya eneo lako ili uweze kuzungumza na wachezaji wapya wanapojiunga, kisha chagua cheo tofauti cha kazi kwenye gumzo la kampuni. Vyeo vya wanachama vinaonekana kando ya jina lako la wasifu katika kikundi hiko na admins wa kikundi wanaweza kudhibiti kama vitawekwa kwa kila mtu au la."
   }
 }

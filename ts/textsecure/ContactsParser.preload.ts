@@ -81,14 +81,14 @@ export async function parseContactsV2(
 //   while we wait for more chunks to get to the expected avatar size.
 // Note: exported only for testing
 export class ParseContactsTransform extends DelimitedStream {
-  protected override getTrailerSize(frame: Buffer): number {
+  protected override getTrailerSize(frame: Buffer<ArrayBuffer>): number {
     const contact = Proto.ContactDetails.decode(frame);
     return contact.avatar?.length ?? 0;
   }
 
   protected override async pushFrame(
-    frame: Buffer,
-    avatarData: Buffer
+    frame: Buffer<ArrayBuffer>,
+    avatarData: Buffer<ArrayBuffer>
   ): Promise<void> {
     const contact = Proto.ContactDetails.decode(frame);
 
@@ -98,7 +98,7 @@ export class ParseContactsTransform extends DelimitedStream {
 
 async function prepareContact(
   { aci: rawAci, aciBinary, ...proto }: Proto.ContactDetails,
-  avatarData: Uint8Array
+  avatarData: Uint8Array<ArrayBuffer>
 ): Promise<ContactDetailsWithAvatar | undefined> {
   const expireTimer =
     proto.expireTimer != null

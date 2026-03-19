@@ -54,7 +54,8 @@ const interactionTest: PlayFunction<ReactRenderer, PropsType> = async ({
 }) => {
   const canvas = within(canvasElement);
   const [btnDownload] = canvas.getAllByLabelText('Download story');
-  await userEvent.click(btnDownload);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  await userEvent.click(btnDownload!);
   await expect(args.onSave).toHaveBeenCalled();
 
   const btnBack = canvas.getByText('Back');
@@ -63,10 +64,12 @@ const interactionTest: PlayFunction<ReactRenderer, PropsType> = async ({
 
   const [btnCtxMenu] = canvas.getAllByLabelText('Context menu');
 
-  await userEvent.click(btnCtxMenu);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  await userEvent.click(btnCtxMenu!);
   await sleep(300);
   const [btnFwd] = canvas.getAllByLabelText('Forward');
-  await userEvent.click(btnFwd);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  await userEvent.click(btnFwd!);
   await expect(args.onForward).toHaveBeenCalled();
 };
 

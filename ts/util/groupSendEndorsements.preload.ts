@@ -46,7 +46,7 @@ export function decodeGroupSendEndorsementsResponse({
   groupMembersV2,
 }: {
   groupId: string;
-  groupSendEndorsementsResponse: Uint8Array;
+  groupSendEndorsementsResponse: Uint8Array<ArrayBuffer>;
   groupSecretParamsBase64: string;
   groupMembersV2: ReadonlyArray<GroupV2MemberType>;
 }): GroupSendEndorsementsData {
@@ -114,6 +114,7 @@ export function decodeGroupSendEndorsementsResponse({
         endorsement != null,
         `Missing endorsement at index ${index}`
       );
+
       return {
         groupId,
         memberAci: fromAciObject(groupMember),
@@ -170,7 +171,10 @@ export class GroupSendEndorsementState {
   #memberEndorsementsAcis = new Set<ServiceIdString>();
   #groupSecretParamsBase64: string;
   #ourAci: ServiceIdString;
-  #endorsementCache = new WeakMap<Uint8Array, GroupSendEndorsement>();
+  #endorsementCache = new WeakMap<
+    Uint8Array<ArrayBuffer>,
+    GroupSendEndorsement
+  >();
 
   constructor(
     data: GroupSendEndorsementsData,
@@ -194,7 +198,7 @@ export class GroupSendEndorsementState {
     return this.#memberEndorsements.has(serviceId);
   }
 
-  #toEndorsement(contents: Uint8Array): GroupSendEndorsement {
+  #toEndorsement(contents: Uint8Array<ArrayBuffer>): GroupSendEndorsement {
     let endorsement = this.#endorsementCache.get(contents);
     if (endorsement == null) {
       endorsement = new GroupSendEndorsement(contents);
@@ -279,6 +283,7 @@ export class GroupSendEndorsementState {
     // Fast path sending to one person
     if (serviceIds.size === 1) {
       const [serviceId] = serviceIds;
+      strictAssert(serviceId, 'Missing serviceId');
       log.info(`${logId}: using single member endorsement (${serviceId})`);
       return this.#getMemberEndorsement(serviceId);
     }

@@ -11,11 +11,10 @@ import pMap from 'p-map';
 
 const gunzip = promisify(gunzipCb);
 
-const INPUT_FILE = process.argv[2];
-
-if (!INPUT_FILE) {
+if (!process.argv[2]) {
   throw new Error('Usage: node symbolicate-crash-report.js <input>');
 }
+const INPUT_FILE = process.argv[2];
 
 async function main(): Promise<void> {
   let file = await readFile(INPUT_FILE);
@@ -30,6 +29,7 @@ async function main(): Promise<void> {
     .matchAll(
       /WARN[^\n]*crashReports:\s+dump=\[REDACTED\]([0-9a-z]+).dmp\s+mtime="([\d\-T:.Z]+)"\s+({(\n|.)*?\n})/g
     );
+  type CrashDumpMatch = RegExpExecArray & { 1: string; 2: string; 3: string };
 
   function moduleName(filename: string | undefined): string {
     if (!filename) {
@@ -47,7 +47,8 @@ async function main(): Promise<void> {
   }
 
   const dumps = new Array<string>();
-  for (const [, dump, mtime, json] of matches) {
+  for (const match of matches) {
+    const [, dump, mtime, json] = match as CrashDumpMatch;
     const out = [];
 
     let info;

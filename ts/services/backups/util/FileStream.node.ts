@@ -20,7 +20,7 @@ export class FileStream extends InputStream {
     await this.#file?.close();
   }
 
-  async read(amount: number): Promise<Buffer> {
+  async read(amount: number): Promise<Buffer<ArrayBuffer>> {
     const file = await this.#lazyOpen();
     if (this.#buffer.length < amount) {
       this.#buffer = Buffer.alloc(amount);

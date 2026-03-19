@@ -114,8 +114,8 @@ export function ConversationView({
       });
       if (allVisual) {
         const files: Array<File> = [];
-        for (let i = 0; i < items.length; i += 1) {
-          const file = getAsFile(items[i]);
+        for (const item of items) {
+          const file = getAsFile(item);
           if (file) {
             files.push(file);
           }

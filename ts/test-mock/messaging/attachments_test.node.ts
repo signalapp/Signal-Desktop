@@ -60,7 +60,7 @@ describe('attachments', function (this: Mocha.Suite) {
     let state = StorageState.getEmpty();
 
     const { phone, contacts } = bootstrap;
-    [pinned] = contacts;
+    [pinned] = contacts as [PrimaryDevice];
 
     state = state.addContact(pinned, {
       identityKey: pinned.publicKey.serialize(),
@@ -94,6 +94,7 @@ describe('attachments', function (this: Mocha.Suite) {
     } = await sendMessageWithAttachments(page, pinned, 'This is my cat', [
       CAT_PATH,
     ]);
+    strictAssert(attachmentCat, 'attachment must exist');
 
     const Message = getTimelineMessageWithText(page, 'This is my cat');
     const MessageSent = Message.locator(
@@ -278,12 +279,15 @@ describe('attachments', function (this: Mocha.Suite) {
     strictAssert(sentTimestamp, 'outgoing timestamp must exist');
 
     const phoneDBMessage = (await app.getMessagesBySentAt(phoneTimestamp))[0];
-    const phoneDBAttachment: AttachmentType = phoneDBMessage.attachments?.[0];
-
     const friendDBMessage = (await app.getMessagesBySentAt(friendTimestamp))[0];
-    const friendDBAttachment: AttachmentType = friendDBMessage.attachments?.[0];
-
     const sentDBMessage = (await app.getMessagesBySentAt(sentTimestamp))[0];
+
+    strictAssert(phoneDBMessage, 'outgoing sync message exists in DB');
+    strictAssert(friendDBMessage, 'incoming message exists in DB');
+    strictAssert(sentDBMessage, 'sent message exists in DB');
+
+    const phoneDBAttachment: AttachmentType = phoneDBMessage.attachments?.[0];
+    const friendDBAttachment: AttachmentType = friendDBMessage.attachments?.[0];
     const sentDBAttachment: AttachmentType = sentDBMessage.attachments?.[0];
 
     strictAssert(phoneDBAttachment, 'outgoing sync message exists in DB');
@@ -383,11 +387,11 @@ describe('attachments', function (this: Mocha.Suite) {
 
     const firstAttachment: AttachmentType = (
       await app.getMessagesBySentAt(firstTimestamp)
-    )[0].attachments?.[0];
+    )[0]?.attachments?.[0];
 
     const secondAttachment: AttachmentType = (
       await app.getMessagesBySentAt(secondTimestamp)
-    )[0].attachments?.[0];
+    )[0]?.attachments?.[0];
 
     strictAssert(firstAttachment, 'firstAttachment exists in DB');
     strictAssert(secondAttachment, 'secondAttachment exists in DB');
@@ -470,6 +474,7 @@ describe('attachments', function (this: Mocha.Suite) {
       ]);
 
     const sentVideo = sentVideoAttachments[0];
+    assert.exists(sentVideo);
     assert.deepStrictEqual(
       sentVideo.attachmentIdentifier,
       recentPointer.attachmentIdentifier
@@ -486,6 +491,7 @@ describe('attachments', function (this: Mocha.Suite) {
     assert.notDeepEqual(sentVideo.fileName, recentPointer.fileName);
 
     const sentCat = sentCatAttachments[0];
+    assert.exists(sentCat);
     assert.notDeepEqual(
       sentCat.attachmentIdentifier,
       stalePointer.attachmentIdentifier

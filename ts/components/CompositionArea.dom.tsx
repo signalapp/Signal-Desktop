@@ -91,6 +91,7 @@ import type { PollCreateType } from '../types/Polls.dom.js';
 import { PollCreateModal } from './PollCreateModal.dom.js';
 import { useDocumentKeyDown } from '../hooks/useDocumentKeyDown.dom.js';
 import { hasDraft } from '../util/hasDraft.std.js';
+import type { ContactNameColorType } from '../types/Colors.std.js';
 
 export type OwnProps = Readonly<{
   acceptedMessageRequest: boolean | null;
@@ -139,7 +140,7 @@ export type OwnProps = Readonly<{
   lastEditableMessageId: string | null;
   recordingState: RecordingState;
   messageCompositionId: string;
-  memberColors: Map<string, string>;
+  memberColors: Map<string, ContactNameColorType>;
   shouldHidePopovers: boolean | null;
   isMuted: boolean;
   isSmsOnlyOrUnregistered: boolean | null;
@@ -368,7 +369,7 @@ export const CompositionArea = memo(function CompositionArea({
     AttachmentDraftType | undefined
   >();
   const [isPollModalOpen, setIsPollModalOpen] = useState(false);
-  const inputApiRef = useRef<InputApi | undefined>();
+  const inputApiRef = useRef<InputApi | null>(null);
   const fileInputRef = useRef<null | HTMLInputElement>(null);
   const photoVideoInputRef = useRef<null | HTMLInputElement>(null);
 
@@ -1101,7 +1102,11 @@ export const CompositionArea = memo(function CompositionArea({
     return renderSmartCompositionRecording();
   }
 
-  if (draftAttachments.length === 1 && isVoiceMessage(draftAttachments[0])) {
+  if (
+    draftAttachments.length === 1 &&
+    draftAttachments[0] != null &&
+    isVoiceMessage(draftAttachments[0])
+  ) {
     const voiceNoteAttachment = draftAttachments[0];
 
     if (!voiceNoteAttachment.pending && voiceNoteAttachment.url) {

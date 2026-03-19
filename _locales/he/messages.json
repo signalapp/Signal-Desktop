@@ -4032,22 +4032,22 @@
     "messageformat": "מנהלן שינה מי יכול לערוך חֲבֵרוּת קבוצה אל \"כל חברי הקבוצה\"."
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "שינית את ההרשאה להגדיר תוויות חברים ל״רק מנהלים״."
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "ההרשאה להגדיר תוויות חברים שונתה על ידי {adminName} ל״רק מנהלים״."
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "ההרשאה להגדיר תוויות חברים שונתה על ידי מנהל/ת ל״רק מנהלים״."
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "שינית את ההרשאה להגדיר תוויות חברים ל״כל החברים״."
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "ההרשאה להגדיר תוויות חברים שונתה על ידי {adminName} ל״כל החברים״."
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "ההרשאה להגדיר תוויות חברים שונתה על ידי מנהל/ת ל״כל החברים״."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "הִשְׁבַּתָּ אישור מנהלן עבור קישור הקבוצה."
@@ -4704,7 +4704,7 @@
     "messageformat": "השתקה"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "הסרה מהשיחה"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "תוויות חבר/ה"
@@ -4812,10 +4812,10 @@
     "messageformat": "בחר מי יכול לשלוח הודעות אל הקבוצה."
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "מי יכול להוסיף תוויות חברים"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "אפשר לבחור מי יוכלו להוסיף תוויות חברים בקבוצה זו."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "תוויות החברים יימחקו"
@@ -5055,7 +5055,11 @@
     "messageformat": "למחוק עבור כולם?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {כמנהל/ת, חברי הקבוצה יראו שמחקת את ההודעה הזו.} two {כמנהל/ת, חברי הקבוצה יראו שמחקת את ההודעות האלה.} many {כמנהל/ת, חברי הקבוצה יראו שמחקת את ההודעות האלה.} other {כמנהל/ת, חברי הקבוצה יראו שמחקת את ההודעות האלה.}}"
+    "messageformat": "{count, plural, one {כמנהל/ת, חברי הקבוצה יראו שמחקת את ההודעה הזו.} two {כמנהל/ת, חברי הקבוצה יראו שמחקת את ההודעות האלה.} many {כמנהל/ת, חברי הקבוצה יראו שמחקת את ההודעות האלה.} other {כמנהל/ת, חברי הקבוצה יראו שמחקת את ההודעות האלה.}}",
+    "ignoreUnused": true
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
+    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "מחיקה מכל המכשירים"
@@ -5067,10 +5071,10 @@
     "messageformat": "{count, plural, one {אפשר לבחור עד הודעה {count,number} למחוק עבור כולם} two {אפשר לבחור עד {count,number} הודעות למחוק עבור כולם} many {אפשר לבחור עד {count,number} הודעות למחוק עבור כולם} other {אפשר לבחור עד {count,number} הודעות למחוק עבור כולם}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "למחוק טיוטה?"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "פעולה זו לא ניתנת לביטול."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "למחוק את הפריט?"
@@ -6208,13 +6212,13 @@
     "messageformat": "גיבויים של שולחן העבודה"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "הגיבוי שלך מוצפן מקצה לקצה ומאוחסן במחשב שלך."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "יצירת גיבוי מוצפן מקצה לקצה שאפשר לשחזר בטלפון שלך. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "כדי לשחזר גיבוי, יש להתקין עותק חדש של Signal בטלפון שלך. צריך לפתוח את האפליקציה וללחוץ על ״שחזור או העברה״. <learnMoreLink>למידע נוסף.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "בחירת תיקיה"
@@ -6284,6 +6288,18 @@
   },
   "icu:Preferences__local-backups-folder__change": {
     "messageformat": "שינוי"
+  },
+  "icu:Preferences__local-backups-turn-off": {
+    "messageformat": "Turn off backups"
+  },
+  "icu:Preferences__local-backups-turn-off-action": {
+    "messageformat": "Turn off"
+  },
+  "icu:Preferences__local-backups-turn-off-confirmation": {
+    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+  },
+  "icu:Preferences__local-backups-turn-off-delete": {
+    "messageformat": "Delete my backup from this computer"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "העתק ללוח העריכה"
@@ -8010,6 +8026,6 @@
     "messageformat": "עכשיו אפשר לשלוח מדיה לצפייה חד–פעמית גם מ–Signal לשולחן העבודה. תמונות וסרטונים בודדים שנשלחו כהודעות לצפייה חד–פעמית יוסרו אוטומטית משרשור השיחה לאחר שנצפו."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "עכשיו אפשר להוסיף תווית חבר/ה כדי לתאר את עצמך או את התפקיד שלך בצ׳אט הקבוצתי. תוויות חברים מופיעות ליד שם הפרופיל באותה קבוצה, ומנהלי קבוצות יכולים לשלוט במי שיכולים להגדיר תווית (כל חברי הקבוצה או רק חלק)."
   }
 }

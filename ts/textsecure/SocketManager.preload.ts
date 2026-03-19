@@ -414,10 +414,10 @@ export class SocketManager extends EventListener {
 
     const { method = 'GET', body, timeout, signal } = init;
 
-    let bodyBytes: Uint8Array | undefined;
+    let bodyBytes: Uint8Array<ArrayBuffer> | undefined;
     if (body === undefined) {
       bodyBytes = undefined;
-    } else if (body instanceof Uint8Array) {
+    } else if (Bytes.isNonSharedUint8Array(body)) {
       bodyBytes = body;
     } else if (body instanceof ArrayBuffer) {
       throw new Error('Unsupported body type: ArrayBuffer');

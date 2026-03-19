@@ -615,7 +615,8 @@ export class ConversationJobQueue extends JobQueue<ConversationQueueJobData> {
   #getRetryWithBackoff(attempts: number) {
     return (
       Date.now() +
-      MINUTE * (FIBONACCI[attempts] ?? FIBONACCI[FIBONACCI.length - 1])
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      MINUTE * (FIBONACCI[attempts] ?? FIBONACCI[FIBONACCI.length - 1]!)
     );
   }
 

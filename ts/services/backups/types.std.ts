@@ -50,12 +50,12 @@ export type BackupImportOptions = (
       localBackupSnapshotDir: string;
     }
 ) & {
-  ephemeralKey?: Uint8Array;
+  ephemeralKey?: Uint8Array<ArrayBuffer>;
   onProgress?: OnProgressCallback;
 };
 
 export type LocalChatStyle = Readonly<{
-  wallpaperPhotoPointer: Uint8Array | undefined;
+  wallpaperPhotoPointer: Uint8Array<ArrayBuffer> | undefined;
   wallpaperPreset: number | undefined;
   color: ConversationColorType | undefined;
   customColorId: string | undefined;
@@ -70,11 +70,13 @@ export type StatsType = {
   chatFolders: number;
   chats: number;
   distributionLists: number;
+  fixedDirectMessages: number;
   messages: number;
   notificationProfiles: number;
+  skippedConversations: number;
   skippedMessages: number;
   stickerPacks: number;
-  fixedDirectMessages: number;
+  unknownConversationReferences: Record<string, number>;
 };
 
 export type ExportResultType = Readonly<{

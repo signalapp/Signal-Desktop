@@ -104,7 +104,8 @@ export const SmartToastManager = memo(function SmartToastManager({
     };
   } else if (megaphones.length > 0) {
     megaphone = {
-      ...megaphones[0],
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      ...megaphones[0]!,
       type: MegaphoneType.Remote,
       onInteractWithMegaphone: interactWithMegaphone,
     };

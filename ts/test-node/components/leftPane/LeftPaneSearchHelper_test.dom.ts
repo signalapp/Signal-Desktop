@@ -174,18 +174,18 @@ describe('LeftPaneSearchHelper', () => {
       const conversations = [
         getDefaultConversation(),
         getDefaultConversation(),
-      ];
-      const contacts = [getDefaultConversation()];
-      const messages = [fakeMessage(), fakeMessage()];
+      ] as const;
+      const contacts = [getDefaultConversation()] as const;
+      const messages = [fakeMessage(), fakeMessage()] as const;
 
       const helper = new LeftPaneSearchHelper({
         ...baseSearchHelperArgs,
         conversationResults: {
           isLoading: false,
-          results: conversations,
+          results: [...conversations],
         },
-        contactResults: { isLoading: false, results: contacts },
-        messageResults: { isLoading: false, results: messages },
+        contactResults: { isLoading: false, results: [...contacts] },
+        messageResults: { isLoading: false, results: [...messages] },
       });
 
       assert.deepEqual(
@@ -217,13 +217,13 @@ describe('LeftPaneSearchHelper', () => {
     });
 
     it('omits conversations when there are no conversation results', () => {
-      const contacts = [getDefaultConversation()];
-      const messages = [fakeMessage(), fakeMessage()];
+      const contacts = [getDefaultConversation()] as const;
+      const messages = [fakeMessage(), fakeMessage()] as const;
 
       const helper = new LeftPaneSearchHelper({
         ...baseSearchHelperArgs,
-        contactResults: { isLoading: false, results: contacts },
-        messageResults: { isLoading: false, results: messages },
+        contactResults: { isLoading: false, results: [...contacts] },
+        messageResults: { isLoading: false, results: [...messages] },
       });
 
       assert.deepEqual(_testHeaderText(helper.getRow(0)), 'icu:contactsHeader');
@@ -246,16 +246,16 @@ describe('LeftPaneSearchHelper', () => {
       const conversations = [
         getDefaultConversation(),
         getDefaultConversation(),
-      ];
-      const messages = [fakeMessage(), fakeMessage()];
+      ] as const;
+      const messages = [fakeMessage(), fakeMessage()] as const;
 
       const helper = new LeftPaneSearchHelper({
         ...baseSearchHelperArgs,
         conversationResults: {
           isLoading: false,
-          results: conversations,
+          results: [...conversations],
         },
-        messageResults: { isLoading: false, results: messages },
+        messageResults: { isLoading: false, results: [...messages] },
       });
 
       assert.deepEqual(
@@ -330,16 +330,19 @@ describe('LeftPaneSearchHelper', () => {
   });
 
   it('omits messages when there are no message results', () => {
-    const conversations = [getDefaultConversation(), getDefaultConversation()];
-    const contacts = [getDefaultConversation()];
+    const conversations = [
+      getDefaultConversation(),
+      getDefaultConversation(),
+    ] as const;
+    const contacts = [getDefaultConversation()] as const;
 
     const helper = new LeftPaneSearchHelper({
       ...baseSearchHelperArgs,
       conversationResults: {
         isLoading: false,
-        results: conversations,
+        results: [...conversations],
       },
-      contactResults: { isLoading: false, results: contacts },
+      contactResults: { isLoading: false, results: [...contacts] },
     });
 
     assert.deepEqual(
@@ -605,14 +608,14 @@ describe('LeftPaneSearchHelper', () => {
       const conversations = [
         getDefaultConversation(),
         getDefaultConversation(),
-      ];
+      ] as const;
 
       const helper = new LeftPaneSearchHelper({
         ...baseSearchHelperArgs,
         filterByUnread: true,
         conversationResults: {
           isLoading: false,
-          results: conversations,
+          results: [...conversations],
         },
         contactResults: { isLoading: false, results: [] },
         messageResults: { isLoading: false, results: [] },

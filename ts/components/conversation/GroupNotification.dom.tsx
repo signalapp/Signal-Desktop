@@ -92,7 +92,8 @@ function GroupNotificationChange({
                 <I18n
                   i18n={i18n}
                   id="icu:joinedTheGroup"
-                  components={{ name: otherPeople[0] }}
+                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                  components={{ name: otherPeople[0]! }}
                 />
               ) : (
                 <I18n
@@ -123,7 +124,8 @@ function GroupNotificationChange({
         <I18n
           id="icu:multipleLeftTheGroup"
           i18n={i18n}
-          components={{ name: otherPeople[0] }}
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          components={{ name: otherPeople[0]! }}
         />
       ) : (
         <I18n

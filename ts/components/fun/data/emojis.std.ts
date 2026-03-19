@@ -11,6 +11,9 @@ import type {
 import type { FunEmojiLocalizerIndex } from '../useFunEmojiLocalizer.dom.js';
 import { removeDiacritics } from '../../../util/removeDiacritics.std.js';
 import { createLogger } from '../../../logging/log.std.js';
+import { EmojiSkinTone } from '../../../types/emoji.std.js';
+
+export { EmojiSkinTone } from '../../../types/emoji.std.js';
 
 const log = createLogger('fun/data/emojis');
 
@@ -44,15 +47,6 @@ export enum EmojiPickerCategory {
   Objects = 'EmojiPickerCategory.Objects',
   Symbols = 'EmojiPickerCategory.Symbols',
   Flags = 'EmojiPickerCategory.Flags',
-}
-
-export enum EmojiSkinTone {
-  None = 'EmojiSkinTone.None',
-  Type1 = 'EmojiSkinTone.Type1', // 1F3FB
-  Type2 = 'EmojiSkinTone.Type2', // 1F3FC
-  Type3 = 'EmojiSkinTone.Type3', // 1F3FD
-  Type4 = 'EmojiSkinTone.Type4', // 1F3FE
-  Type5 = 'EmojiSkinTone.Type5', // 1F3FF
 }
 
 export function isValidEmojiSkinTone(value: unknown): value is EmojiSkinTone {

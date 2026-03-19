@@ -106,7 +106,7 @@ type PropsHousekeepingType = {
   ) => React.JSX.Element;
   renderHeroRow: (id: string) => React.JSX.Element;
   renderItem: (props: {
-    containerElementRef: RefObject<HTMLElement>;
+    containerElementRef: RefObject<HTMLElement | null>;
     containerWidthBreakpoint: WidthBreakpoint;
     conversationId: string;
     interactivity: MessageInteractivity;
@@ -260,6 +260,7 @@ export class Timeline extends React.Component<
     if (setFocus && items && items.length > 0) {
       const lastIndex = items.length - 1;
       const lastMessageId = items[lastIndex];
+      strictAssert(lastMessageId, 'Missing lastMessageId');
       targetMessage(lastMessageId, id);
     } else {
       const containerEl = this.#containerRef.current;
@@ -307,9 +308,10 @@ export class Timeline extends React.Component<
     ) {
       if (setFocus) {
         const messageId = items[oldestUnseenIndex];
+        strictAssert(messageId, 'Missing messageId');
         targetMessage(messageId, id);
       } else {
-        this.#scrollToItemIndex(oldestUnseenIndex);
+        this.#lastSeenIndicatorRef.current?.scrollIntoView();
       }
     } else if (haveNewest) {
       this.#scrollToBottom(setFocus);
@@ -649,7 +651,6 @@ export class Timeline extends React.Component<
             false,
             '<Timeline> got "scroll to index" scroll anchor, but no index'
           );
-          return null;
         }
         return { scrollToIndex };
       case ScrollAnchor.ScrollToUnreadIndicator:
@@ -683,6 +684,7 @@ export class Timeline extends React.Component<
       items: newItems,
       messageChangeCounter,
       messageLoadingState,
+      oldestUnseenIndex,
     } = this.props;
 
     const containerEl = this.#containerRef.current;
@@ -742,6 +744,7 @@ export class Timeline extends React.Component<
       const numberToKeepAtTop = this.#maxVisibleRows * 5;
       const shouldDiscardNewerMessages: boolean =
         !this.#isAtBottom() &&
+        oldestUnseenIndex == null &&
         loadingStateThatJustFinished ===
           TimelineMessageLoadingState.LoadingOlderMessages &&
         newItems.length > numberToKeepAtTop;
@@ -822,6 +825,7 @@ export class Timeline extends React.Component<
       }
 
       const messageId = items[targetIndex];
+      strictAssert(messageId, 'Missing messageId');
       targetMessage(messageId, id);
 
       event.preventDefault();
@@ -849,6 +853,7 @@ export class Timeline extends React.Component<
       }
 
       const messageId = items[targetIndex];
+      strictAssert(messageId, 'Missing messageId');
       targetMessage(messageId, id);
 
       event.preventDefault();
@@ -1048,6 +1053,11 @@ export class Timeline extends React.Component<
       <ScrollerLockContext.Provider value={this.#scrollerLock}>
         <SizeObserver
           onSizeChange={size => {
+            if (size.hidden) {
+              // triggered when timeline is hidden via display: none
+              return;
+            }
+
             const { isNearBottom } = this.props;
 
             this.setState({

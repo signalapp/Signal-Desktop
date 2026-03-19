@@ -510,6 +510,9 @@ export function processBodyRangesForSearchResult({
 
   // To format the matches identified by FTS, we create synthetic BodyRanges to mix in
   // with all the other formatting embedded in this message.
+  type HighlightMatch = RegExpExecArray & {
+    indices: Record<0 | 1, [number, number]>;
+  };
   const highlightMatches = snippet.matchAll(
     new RegExp(
       `${SNIPPET_LEFT_PLACEHOLDER}(.*?)${SNIPPET_RIGHT_PLACEHOLDER}`,
@@ -520,9 +523,7 @@ export function processBodyRangesForSearchResult({
   let placeholderCharsSkipped = 0;
   for (const highlightMatch of highlightMatches) {
     // TS < 5 does not have types for RegExpIndicesArray
-    const { indices } = highlightMatch as RegExpMatchArray & {
-      indices: Array<Array<number>>;
-    };
+    const { indices } = highlightMatch as HighlightMatch;
     const [wholeMatchStartIdx] = indices[0];
     const [matchedWordStartIdx, matchedWordEndIdx] = indices[1];
     adjustedBodyRanges.push({
@@ -876,19 +877,15 @@ const bodyRangeOffsetSchema = z.number().int().min(0);
 const bodyRangeStyleSchema = z.nativeEnum(signalservice.BodyRange.Style);
 
 export const bodyRangeSchema = z.union([
-  z
-    .object({
-      start: bodyRangeOffsetSchema,
-      length: bodyRangeOffsetSchema,
-      mentionAci: aciSchema,
-    })
-    .strict(),
-  z
-    .object({
-      start: bodyRangeOffsetSchema,
-      length: bodyRangeOffsetSchema,
-      style: bodyRangeStyleSchema,
-      spoilerId: z.number().optional(),
-    })
-    .strict(),
+  z.object({
+    start: bodyRangeOffsetSchema,
+    length: bodyRangeOffsetSchema,
+    mentionAci: aciSchema,
+  }),
+  z.object({
+    start: bodyRangeOffsetSchema,
+    length: bodyRangeOffsetSchema,
+    style: bodyRangeStyleSchema,
+    spoilerId: z.number().optional(),
+  }),
 ]);

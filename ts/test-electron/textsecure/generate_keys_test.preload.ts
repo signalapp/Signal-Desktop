@@ -16,7 +16,10 @@ import { DataWriter } from '../../sql/Client.preload.js';
 import { signalProtocolStore } from '../../SignalProtocolStore.preload.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 
-const assertEqualBuffers = (a: Uint8Array, b: Uint8Array) => {
+const assertEqualBuffers = (
+  a: Uint8Array<ArrayBuffer>,
+  b: Uint8Array<ArrayBuffer>
+) => {
   assert.isTrue(constantTimeEqual(a, b));
 };
 
@@ -116,7 +119,7 @@ describe('Key generation', function (this: Mocha.Suite) {
     it('result contains the correct keyIds', () => {
       const preKeys = result.preKeys || [];
       for (let i = 0; i < count; i += 1) {
-        assert.strictEqual(preKeys[i].keyId, i + 1);
+        assert.strictEqual(preKeys[i]?.keyId, i + 1);
       }
     });
     it('result contains the correct public keys', async () => {
@@ -153,7 +156,7 @@ describe('Key generation', function (this: Mocha.Suite) {
     it('result contains the correct keyIds', () => {
       const preKeys = result.preKeys || [];
       for (let i = 1; i <= count; i += 1) {
-        assert.strictEqual(preKeys[i - 1].keyId, i + count);
+        assert.strictEqual(preKeys[i - 1]?.keyId, i + count);
       }
     });
     it('result contains the correct public keys', async () => {
@@ -194,7 +197,7 @@ describe('Key generation', function (this: Mocha.Suite) {
     it('result contains the correct keyIds', () => {
       const preKeys = result.preKeys || [];
       for (let i = 1; i <= count; i += 1) {
-        assert.strictEqual(preKeys[i - 1].keyId, i + 2 * count);
+        assert.strictEqual(preKeys[i - 1]?.keyId, i + 2 * count);
       }
     });
     it('result contains the correct public keys', async () => {

@@ -18,7 +18,7 @@ export type PropsType = {
   avatarData: AvatarDataType;
   i18n: LocalizerType;
   isSelected?: boolean;
-  onClick: (avatarBuffer: Uint8Array | undefined) => unknown;
+  onClick: (avatarBuffer: Uint8Array<ArrayBuffer> | undefined) => unknown;
   onDelete: () => unknown;
   size?: AvatarSize;
 };
@@ -31,9 +31,9 @@ export function BetterAvatar({
   onDelete,
   size = 48,
 }: PropsType): React.JSX.Element {
-  const [avatarBuffer, setAvatarBuffer] = useState<Uint8Array | undefined>(
-    avatarData.buffer
-  );
+  const [avatarBuffer, setAvatarBuffer] = useState<
+    Uint8Array<ArrayBuffer> | undefined
+  >(avatarData.buffer);
   const [avatarURL, setAvatarURL] = useState<string | undefined>(undefined);
 
   useEffect(() => {

@@ -224,9 +224,10 @@ export function updateCallLinkAdminKeyByRoomId(
 }
 
 function assertRoomIdMatchesRootKey(roomId: string, rootKey: string): void {
-  const derivedRoomId = Bytes.toHex(
-    CallLinkRootKey.parse(rootKey).deriveRoomId()
-  );
+  const parsedRoomId = CallLinkRootKey.parse(rootKey).deriveRoomId();
+  // @ts-expect-error needs ringrtc update
+  const derivedRoomIdBytes: Uint8Array<ArrayBuffer> = parsedRoomId;
+  const derivedRoomId = Bytes.toHex(derivedRoomIdBytes);
   strictAssert(
     roomId === derivedRoomId,
     'passed roomId must match roomId derived from root key'

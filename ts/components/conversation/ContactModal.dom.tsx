@@ -39,6 +39,7 @@ import { AxoSymbol } from '../../axo/AxoSymbol.dom.js';
 import { tw } from '../../axo/tw.dom.js';
 import { strictAssert } from '../../util/assert.std.js';
 import type { RemoveClientType } from '../../types/Calling.std.js';
+import type { ContactNameColorType } from '../../types/Colors.std.js';
 
 const ACCESS_ENUM = Proto.AccessControl.AccessRequired;
 
@@ -52,7 +53,7 @@ export type PropsDataType = {
   contact?: ConversationType;
   contactLabelEmoji: string | undefined;
   contactLabelString: string | undefined;
-  contactNameColor: string | undefined;
+  contactNameColor: ContactNameColorType | undefined;
   conversation?: ConversationType;
   hasStories?: HasStories;
   readonly i18n: LocalizerType;

@@ -63,7 +63,8 @@ export async function afterAllArtifactBuild({
     return;
   }
 
-  const [dmgPath] = artifactsToStaple;
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const dmgPath = artifactsToStaple[0]!;
   console.log(`Notarizing dmg: ${dmgPath}`);
 
   await notarize({

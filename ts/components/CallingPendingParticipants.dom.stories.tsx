@@ -7,12 +7,18 @@ import type { Meta } from '@storybook/react';
 import type { PropsType } from './CallingPendingParticipants.dom.js';
 import { CallingPendingParticipants } from './CallingPendingParticipants.dom.js';
 import { allRemoteParticipants } from './CallScreen.dom.stories.js';
+import { strictAssert } from '../util/assert.std.js';
 
 const { i18n } = window.SignalContext;
 
+strictAssert(allRemoteParticipants[0], 'Missing allRemoteParticipants[0]');
+strictAssert(allRemoteParticipants[1], 'Missing allRemoteParticipants[1]');
+const participant1 = allRemoteParticipants[0];
+const participant2 = allRemoteParticipants[1];
+
 const createProps = (storyProps: Partial<PropsType> = {}): PropsType => ({
   i18n,
-  participants: [allRemoteParticipants[0], allRemoteParticipants[1]],
+  participants: [participant1, participant2],
   approveUser: action('approve-user'),
   batchUserAction: action('batch-user-action'),
   denyUser: action('deny-user'),
@@ -32,7 +38,7 @@ export function One(): React.JSX.Element {
   return (
     <CallingPendingParticipants
       {...createProps({
-        participants: [allRemoteParticipants[0]],
+        participants: [participant1],
       })}
     />
   );
@@ -83,7 +89,7 @@ export function ExpandedOne(): React.JSX.Element {
     <CallingPendingParticipants
       {...createProps({
         defaultIsExpanded: true,
-        participants: [allRemoteParticipants[0]],
+        participants: [participant1],
       })}
     />
   );

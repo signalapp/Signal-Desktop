@@ -75,7 +75,7 @@ export function PollCreateModal({
       const isLastOption = changedIndex === resultOptions.length - 1;
       const isSecondToLast = changedIndex === resultOptions.length - 2;
       const changedOption = resultOptions[changedIndex];
-      const hasText = changedOption?.value.trim().length > 0;
+      const hasText = (changedOption?.value.trim().length ?? 0) > 0;
       const canAddMore = resultOptions.length < POLL_OPTIONS_MAX_COUNT;
       const canRemove = resultOptions.length > POLL_OPTIONS_MIN_COUNT;
       let removedIndex: number | undefined;
@@ -332,7 +332,9 @@ export function PollCreateModal({
             {options.map((option, index) => (
               <div key={option.id}>
                 <AutoSizeTextArea
-                  ref={el => optionRefsMap.current.set(option.id, el)}
+                  ref={el => {
+                    optionRefsMap.current.set(option.id, el);
+                  }}
                   i18n={i18n}
                   moduleClassName="PollCreateModalInput"
                   value={option.value}

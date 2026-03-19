@@ -99,7 +99,12 @@ const MAX_ROTATIONS = 6;
 
 const TIMEOUT_ERROR = new PTimeoutError();
 
-const QR_CODE_TIMEOUTS = [10 * SECOND, 20 * SECOND, 30 * SECOND, 60 * SECOND];
+const QR_CODE_TIMEOUTS = [
+  10 * SECOND,
+  20 * SECOND,
+  30 * SECOND,
+  60 * SECOND,
+] as const;
 
 export class Provisioner {
   readonly #subscribers = new Set<SubscriberType>();
@@ -242,7 +247,8 @@ export class Provisioner {
       let delay: number;
 
       try {
-        const sleepMs = QR_CODE_TIMEOUTS[this.#attemptCount];
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const sleepMs = QR_CODE_TIMEOUTS[this.#attemptCount]!;
 
         // eslint-disable-next-line no-await-in-loop
         await this.#connect(signal, sleepMs);

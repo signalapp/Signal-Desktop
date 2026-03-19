@@ -4,7 +4,7 @@
 export type UsernameReservationType = Readonly<{
   username: string;
   previousUsername: string | undefined;
-  hash: Uint8Array;
+  hash: Uint8Array<ArrayBuffer>;
 }>;
 
 export enum ReserveUsernameError {

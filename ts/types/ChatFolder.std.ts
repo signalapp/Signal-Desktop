@@ -46,7 +46,7 @@ export type ChatFolder = Simplify<
       deletedAtTimestampMs: number;
       storageID: string | null;
       storageVersion: number | null;
-      storageUnknownFields: Uint8Array | null;
+      storageUnknownFields: Uint8Array<ArrayBuffer> | null;
       storageNeedsSync: boolean;
     }
   >

@@ -128,7 +128,7 @@ export type PropsType = {
   groupMembers?: Array<Pick<ConversationType, 'id' | 'firstName' | 'title'>>;
   hangUpActiveCall: (reason: string) => void;
   i18n: LocalizerType;
-  imageDataCache: React.RefObject<CallingImageDataCache>;
+  imageDataCache: React.RefObject<CallingImageDataCache | null>;
   isCallLinkAdmin: boolean;
   me: ConversationType;
   openSystemPreferencesAction: () => unknown;
@@ -483,7 +483,8 @@ export function CallScreen({
       isRinging =
         activeCall.outgoingRing &&
         !activeCall.remoteParticipants.length &&
-        !(groupMembers?.length === 1 && groupMembers[0].id === me.id);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        !(groupMembers?.length === 1 && groupMembers[0]!.id === me.id);
       hasCallStarted = activeCall.joinState !== GroupCallJoinState.NotJoined;
       participantCount = activeCall.remoteParticipants.length + 1;
       conversationsByDemuxId = activeCall.conversationsByDemuxId;

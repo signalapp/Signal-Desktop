@@ -70,7 +70,7 @@ export function CallingToastProvider({
 }: {
   i18n: LocalizerType;
   children: React.ReactNode;
-  region?: React.RefObject<HTMLElement>;
+  region?: React.RefObject<HTMLElement | null>;
   maxNonPersistentToasts?: number;
   lifetime?: number;
   transitionFrom?: object;
@@ -235,7 +235,8 @@ export function CallingToastProvider({
         toast => toast.key === item.key
       );
       const isToastReplacingAnExistingOneAtThisPosition = toastsRemoved.has(
-        previousToasts[enteringItemIndex]
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        previousToasts[enteringItemIndex]!
       );
       return {
         ...transitionFrom,
@@ -275,7 +276,8 @@ export function CallingToastProvider({
         toast => toast.key === item.key
       );
       const isToastBeingReplacedByANewOneAtThisPosition = toastsAdded.has(
-        toasts[leavingItemIndex]
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        toasts[leavingItemIndex]!
       );
       return {
         zIndex: 0,

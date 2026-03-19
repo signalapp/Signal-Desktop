@@ -29,7 +29,7 @@ function* generatePadding(size: number) {
 // Push as much padding as we can. If we reach the end
 // of the padding, return true.
 function pushPadding(
-  paddingIterator: Iterator<Uint8Array>,
+  paddingIterator: Iterator<Uint8Array<ArrayBuffer>>,
   readable: Readable
 ): boolean {
   // eslint-disable-next-line no-constant-condition

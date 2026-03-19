@@ -322,9 +322,8 @@ export function downloadQueuedPacks(): void {
   log.info('downloadQueuedPacks');
   strictAssert(packsToDownload, 'Stickers not initialized');
 
-  const ids = Object.keys(packsToDownload);
-  for (const id of ids) {
-    const { key, status } = packsToDownload[id];
+  for (const [id, packToDownload] of Object.entries(packsToDownload)) {
+    const { key, status } = packToDownload;
 
     // The queuing is done inside this function, no need to await here
     drop(
@@ -345,8 +344,7 @@ function capturePacksToDownload(
   const toDownload: DownloadMap = Object.create(null);
 
   // First, ensure that blessed packs are in good shape
-  const blessedIds = Object.keys(BLESSED_PACKS);
-  blessedIds.forEach(id => {
+  for (const [id, blessedPack] of Object.entries(BLESSED_PACKS)) {
     const existing = existingPackLookup[id];
     if (
       !existing ||
@@ -354,29 +352,26 @@ function capturePacksToDownload(
     ) {
       toDownload[id] = {
         id,
-        ...BLESSED_PACKS[id],
+        ...blessedPack,
       };
     }
-  });
+  }
 
   // Then, find error cases in packs we already know about
-  const existingIds = Object.keys(existingPackLookup);
-  existingIds.forEach(id => {
+  for (const [id, existing] of Object.entries(existingPackLookup)) {
     if (toDownload[id]) {
-      return;
+      continue;
     }
-
-    const existing = existingPackLookup[id];
 
     // These packs should never end up in the database, but if they do we'll delete them
     if (existing.status === 'ephemeral') {
       void deletePack(id);
-      return;
+      continue;
     }
 
     // We don't automatically download these; not until a user action kicks it off
     if (existing.status === 'known') {
-      return;
+      continue;
     }
 
     if (doesPackNeedDownload(existing)) {
@@ -388,7 +383,7 @@ function capturePacksToDownload(
         status,
       };
     }
-  });
+  }
 
   return toDownload;
 }
@@ -449,7 +444,10 @@ function getReduxStickerActions() {
   return actions.stickers;
 }
 
-function decryptSticker(packKey: string, ciphertext: Uint8Array): Uint8Array {
+function decryptSticker(
+  packKey: string,
+  ciphertext: Uint8Array<ArrayBuffer>
+): Uint8Array<ArrayBuffer> {
   const binaryKey = Bytes.fromBase64(packKey);
   const derivedKey = deriveStickerPackKey(binaryKey);
 

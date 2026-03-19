@@ -72,7 +72,10 @@ import {
   defaultBlurHash,
 } from '../../util/Attachment.std.js';
 import type { MessageAttachmentType } from '../../types/AttachmentDownload.std.js';
-import { type DefaultConversationColorType } from '../../types/Colors.std.js';
+import type {
+  ContactNameColorType,
+  DefaultConversationColorType,
+} from '../../types/Colors.std.js';
 import { ReadStatus } from '../../messages/MessageReadStatus.std.js';
 
 import type { CallingNotificationType } from '../../util/callingNotification.std.js';
@@ -173,7 +176,7 @@ import { getCallIdFromEra } from '../../util/callDisposition.preload.js';
 import { LONG_MESSAGE } from '../../types/MIME.std.js';
 import type { MessageRequestResponseNotificationData } from '../../components/conversation/MessageRequestResponseNotification.dom.js';
 import type { PinnedMessageNotificationData } from '../../components/conversation/pinned-messages/PinnedMessageNotification.dom.js';
-import { isPinnedMessagesSendEnabled } from '../../util/isPinnedMessagesEnabled.dom.js';
+import type { PollTerminateNotificationDataType } from '../../components/conversation/PollTerminateNotification.dom.js';
 
 const { groupBy, isEmpty, isNumber, isObject, map } = lodash;
 
@@ -212,7 +215,7 @@ export type GetPropsForBubbleOptions = Readonly<{
   callHistorySelector: CallHistorySelectorType;
   activeCall?: CallStateType;
   accountSelector: AccountSelectorType;
-  contactNameColors: Map<string, string>;
+  contactNameColors: Map<string, ContactNameColorType>;
   defaultConversationColor: DefaultConversationColorType;
 }>;
 
@@ -1275,6 +1278,7 @@ export function isNormalBubble(message: MessageWithUIFieldsType): boolean {
     !isPhoneNumberDiscovery(message) &&
     !isTitleTransitionNotification(message) &&
     !isPinnedMessageNotification(message) &&
+    !isPollTerminate(message) &&
     !isProfileChange(message) &&
     !isUniversalTimerNotification(message) &&
     !isUnsupportedMessage(message) &&
@@ -1808,7 +1812,7 @@ export function isPollTerminate(message: MessageWithUIFieldsType): boolean {
 function getPropsForPollTerminate(
   message: MessageWithUIFieldsType,
   { conversationSelector }: GetPropsForBubbleOptions
-) {
+): PollTerminateNotificationDataType {
   const { pollTerminateNotification, sourceServiceId, conversationId } =
     message;
 
@@ -1819,11 +1823,12 @@ function getPropsForPollTerminate(
   }
 
   const sender = conversationSelector(sourceServiceId);
+  const { question, pollTimestamp } = pollTerminateNotification;
 
   return {
     sender,
-    pollQuestion: pollTerminateNotification.question,
-    pollMessageId: pollTerminateNotification.pollMessageId,
+    pollQuestion: question,
+    pollTimestamp,
     conversationId,
   };
 }
@@ -2115,7 +2120,7 @@ function getDeletedForEveryoneByAdmin(
   message: MessageWithUIFieldsType,
   options: {
     conversationSelector: GetConversationByIdType;
-    contactNameColors: Map<string, string>;
+    contactNameColors: Map<string, ContactNameColorType>;
     ourAci: AciString | undefined;
   }
 ): PropsData['deletedForEveryoneByAdmin'] {
@@ -2157,7 +2162,8 @@ export function getPropsForEmbeddedContact(
     return undefined;
   }
 
-  const firstContact = contacts[0];
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const firstContact = contacts[0]!;
   const numbers = firstContact?.number;
   const firstNumber = numbers && numbers[0] ? numbers[0].value : undefined;
 
@@ -2611,9 +2617,6 @@ export function canForward(message: ReadonlyMessageAttributesType): boolean {
 }
 
 export function canPinMessages(conversation: ConversationType): boolean {
-  if (!isPinnedMessagesSendEnabled()) {
-    return false;
-  }
   return (
     conversation.type === 'direct' || conversation.canEditGroupInfo === true
   );

@@ -127,7 +127,6 @@ export type PropsType = {
   i18n: LocalizerType;
   isMacOS: boolean;
   isNotificationProfileActive: boolean;
-  isChatFoldersEnabled: boolean;
   preferredWidthFromStorage: number;
   selectedChatFolder: ChatFolder | null;
   selectedConversationId: undefined | string;
@@ -165,7 +164,7 @@ export type PropsType = {
   saveAlerts: (alerts: ServerAlertsType) => Promise<void>;
   savePreferredLeftPaneWidth: (_: number) => void;
   searchInConversation: (conversationId: string) => unknown;
-  setComposeGroupAvatar: (_: undefined | Uint8Array) => void;
+  setComposeGroupAvatar: (_: undefined | Uint8Array<ArrayBuffer>) => void;
   setComposeGroupExpireTimer: (_: DurationInSeconds) => void;
   setComposeGroupName: (_: string) => void;
   setComposeSearchTerm: (composeSearchTerm: string) => void;
@@ -248,7 +247,6 @@ export function LeftPane({
   lookupConversationWithoutServiceId,
   isMacOS,
   isNotificationProfileActive,
-  isChatFoldersEnabled,
   isOnline,
   isUpdateDownloaded,
   modeSpecificProps,
@@ -601,7 +599,9 @@ export function LeftPane({
   const previousMeasureSize = usePrevious(null, measureSize);
 
   const widthBreakpoint = getNavSidebarWidthBreakpoint(
-    measureSize?.width ?? preferredWidthFromStorage
+    measureSize && !measureSize.hidden
+      ? measureSize.width
+      : preferredWidthFromStorage
   );
 
   const commonDialogProps = {
@@ -816,7 +816,7 @@ export function LeftPane({
               >
                 {i18n('icu:avatarMenuViewArchive')}
               </AxoDropdownMenu.Item>
-              {isChatFoldersEnabled && !hasAnyCurrentCustomChatFolders && (
+              {!hasAnyCurrentCustomChatFolders && (
                 <AxoDropdownMenu.Item
                   symbol="folder-plus"
                   onSelect={onChatFoldersOpenSettings}
@@ -824,7 +824,7 @@ export function LeftPane({
                   {i18n('icu:LeftPane__MoreActionsMenu__AddChatFolder')}
                 </AxoDropdownMenu.Item>
               )}
-              {isChatFoldersEnabled && hasAnyCurrentCustomChatFolders && (
+              {hasAnyCurrentCustomChatFolders && (
                 <AxoDropdownMenu.Item
                   symbol="folder-settings"
                   onSelect={onChatFoldersOpenSettings}
@@ -926,7 +926,9 @@ export function LeftPane({
               >
                 <ConversationList
                   key={modeSpecificProps.mode}
-                  dimensions={measureSize ?? undefined}
+                  dimensions={
+                    measureSize?.hidden === false ? measureSize : undefined
+                  }
                   getPreferredBadge={getPreferredBadge}
                   getRow={getRow}
                   i18n={i18n}

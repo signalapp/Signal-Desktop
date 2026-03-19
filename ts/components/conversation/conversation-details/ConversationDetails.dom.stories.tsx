@@ -18,6 +18,7 @@ import { ThemeType } from '../../../types/Util.std.js';
 import { DurationInSeconds } from '../../../util/durations/index.std.js';
 import { NavTab } from '../../../types/Nav.std.js';
 import { getFakeCallHistoryGroup } from '../../../test-helpers/getFakeCallHistoryGroup.std.js';
+import type { ContactNameColorType } from '../../../types/Colors.std.js';
 import { ContactNameColors } from '../../../types/Colors.std.js';
 import { isNotNil } from '../../../util/isNotNil.std.js';
 
@@ -52,16 +53,20 @@ const createProps = (
       isMe: i === 2,
     }),
   }));
-  const memberColors = new Map<string, string>(
+  const memberColors = new Map<string, ContactNameColorType>(
     memberships
-      .map((membership, i): [string, string] | null => {
+      .map((membership, i): [string, ContactNameColorType] | null => {
         const { serviceId } = membership.member;
 
         if (!serviceId) {
           return null;
         }
 
-        return [serviceId.toString(), ContactNameColors[i]];
+        return [
+          serviceId.toString(),
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          ContactNameColors[i % ContactNameColors.length]!,
+        ];
       })
       .filter(isNotNil)
   );

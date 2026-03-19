@@ -147,7 +147,7 @@ class SmallChunksTransform extends Transform {
   }
 
   override _transform(
-    incomingChunk: Buffer | undefined,
+    incomingChunk: Buffer<ArrayBuffer> | undefined,
     _encoding: string,
     done: (error?: Error) => void
   ) {
@@ -179,7 +179,7 @@ class SmallChunksTransform extends Transform {
   }
 }
 
-function generateAvatar(): Uint8Array {
+function generateAvatar(): Uint8Array<ArrayBuffer> {
   const result = new Uint8Array(255);
   for (let i = 0; i < result.length; i += 1) {
     result[i] = i;
@@ -187,11 +187,11 @@ function generateAvatar(): Uint8Array {
   return result;
 }
 
-function getTestBuffer(): Uint8Array {
+function getTestBuffer(): Uint8Array<ArrayBuffer> {
   const avatarBuffer = generateAvatar();
   const prefixedContact = generatePrefixedContact(avatarBuffer);
 
-  const chunks: Array<Uint8Array> = [];
+  const chunks: Array<Uint8Array<ArrayBuffer>> = [];
   for (let i = 0; i < 3; i += 1) {
     chunks.push(...prefixedContact);
     chunks.push(avatarBuffer);
@@ -201,9 +201,9 @@ function getTestBuffer(): Uint8Array {
 }
 
 function generatePrefixedContact(
-  avatarBuffer: Uint8Array | undefined,
+  avatarBuffer: Uint8Array<ArrayBuffer> | undefined,
   aci: AciString | null = DEFAULT_ACI
-): [Uint8Array, Uint8Array] {
+): [Uint8Array<ArrayBuffer>, Uint8Array<ArrayBuffer>] {
   const contactInfoBuffer = Proto.ContactDetails.encode({
     name: 'Zero Cool',
     number: '+10000000000',

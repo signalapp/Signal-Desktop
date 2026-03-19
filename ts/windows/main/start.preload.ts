@@ -132,7 +132,7 @@ if (
         backgroundColor: '#3b82f6',
       });
       const dataURL = canvas.toDataURL({ format: 'png' });
-      const base64Data = dataURL.split(',')[1];
+      const [base64Data] = dataURL.split(',');
       const data = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
 
       await conversation.enqueueMessageForSend(

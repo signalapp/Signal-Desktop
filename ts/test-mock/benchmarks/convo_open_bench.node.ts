@@ -17,9 +17,9 @@ Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
   const app = await bootstrap.link();
   const { server, contacts, phone, desktop } = bootstrap;
 
-  const [first, second] = contacts;
+  const [first, second] = contacts as [PrimaryDevice, PrimaryDevice];
 
-  const messages = new Array<Buffer>();
+  const messages = new Array<Buffer<ArrayBuffer>>();
   debug('encrypting');
   // Send messages from just two contacts
   for (const contact of [second, first]) {

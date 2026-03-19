@@ -101,7 +101,7 @@ describe('LeftPaneArchiveHelper', () => {
       const archivedConversations = [
         getDefaultConversation(),
         getDefaultConversation(),
-      ];
+      ] as const;
       const helper = new LeftPaneArchiveHelper({
         ...defaults,
         archivedConversations,
@@ -125,7 +125,7 @@ describe('LeftPaneArchiveHelper', () => {
       const archivedConversations = [
         getDefaultConversation(),
         getDefaultConversation(),
-      ];
+      ] as const;
       const helper = new LeftPaneArchiveHelper(searchingDefaults);
 
       assert.strictEqual(
@@ -140,7 +140,7 @@ describe('LeftPaneArchiveHelper', () => {
       const archivedConversations = [
         getDefaultConversation(),
         getDefaultConversation(),
-      ];
+      ] as const;
       const helper = new LeftPaneArchiveHelper({
         ...defaults,
         archivedConversations,
@@ -174,7 +174,7 @@ describe('LeftPaneArchiveHelper', () => {
       const archivedConversations = [
         getDefaultConversation(),
         getDefaultConversation(),
-      ];
+      ] as const;
       const helper = new LeftPaneArchiveHelper({
         ...defaults,
         archivedConversations,
@@ -194,7 +194,7 @@ describe('LeftPaneArchiveHelper', () => {
       const archivedConversations = [
         getDefaultConversation(),
         getDefaultConversation(),
-      ];
+      ] as const;
       const helper = new LeftPaneArchiveHelper({
         ...defaults,
         archivedConversations,
@@ -246,7 +246,7 @@ describe('LeftPaneArchiveHelper', () => {
       const archivedConversations = [
         getDefaultConversation(),
         getDefaultConversation(),
-      ];
+      ] as const;
       const helper = new LeftPaneArchiveHelper({
         ...defaults,
         archivedConversations,

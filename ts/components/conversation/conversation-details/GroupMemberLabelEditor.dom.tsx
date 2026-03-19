@@ -23,6 +23,7 @@ import {
   MessageInteractivity,
   TextDirection,
 } from '../Message.dom.js';
+import type { ContactNameColorType } from '../../../types/Colors.std.js';
 import { ConversationColors } from '../../../types/Colors.std.js';
 import { WidthBreakpoint } from '../../_util.std.js';
 import { AxoAlertDialog } from '../../../axo/AxoAlertDialog.dom.js';
@@ -52,13 +53,13 @@ export type PropsDataType = {
   isActive: boolean;
   me: ConversationType;
   membersWithLabel: Array<{
-    contactNameColor: string;
+    contactNameColor: ContactNameColorType;
     isAdmin: boolean;
     labelEmoji: string | undefined;
     labelString: string;
     member: ConversationType;
   }>;
-  ourColor: string | undefined;
+  ourColor: ContactNameColorType | undefined;
   theme: ThemeType;
 };
 
@@ -148,7 +149,7 @@ export function GroupMemberLabelEditor({
     setIsShowingPermissionsError,
   ]);
 
-  const tryClose = React.useRef<() => void | undefined>();
+  const tryClose = React.useRef<(() => void) | null>(null);
   const [confirmDiscardModal, confirmDiscardIf] = useConfirmDiscard({
     i18n,
     name: 'GroupMemberLabelEditor',

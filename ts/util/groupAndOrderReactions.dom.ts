@@ -81,7 +81,8 @@ export function useGroupedAndOrderedReactions(
 
     return orderBy(
       groupedReactions,
-      ['length', ([{ timestamp }]) => timestamp],
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      ['length', ([first]) => first!.timestamp],
       ['desc', 'desc']
     );
   }, [reactions, groupByKey, emojiLocalization]);

@@ -246,8 +246,8 @@ describe('JobQueue', () => {
 
       const queueTypes = groupBy(store.storedJobs, 'queueType');
       assert.hasAllKeys(queueTypes, ['test 1', 'test 2']);
-      assert.lengthOf(queueTypes['test 1'], 3);
-      assert.lengthOf(queueTypes['test 2'], 2);
+      assert.lengthOf(queueTypes['test 1'] ?? [], 3);
+      assert.lengthOf(queueTypes['test 2'] ?? [], 2);
     });
 
     it('can override the insertion logic, skipping storage persistence', async () => {

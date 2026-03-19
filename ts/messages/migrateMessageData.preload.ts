@@ -129,7 +129,8 @@ export async function _migrateMessageData({
   );
 
   const failedToSaveMessageIds = failedToSaveIndices.map(
-    idx => upgradedMessages[idx].id
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    idx => upgradedMessages[idx]!.id
   );
 
   if (failedToUpgradeMessageIds.length || failedToSaveMessageIds.length) {

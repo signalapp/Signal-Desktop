@@ -1587,9 +1587,7 @@ export class ConversationController {
       `forceRerender: Starting to loop through ${conversations.length} conversations`
     );
 
-    for (let i = 0, max = conversations.length; i < max; i += 1) {
-      const conversation = conversations[i];
-
+    for (const conversation of conversations) {
       if (conversation.cachedProps) {
         conversation.oldCachedProps = conversation.cachedProps;
         conversation.cachedProps = null;

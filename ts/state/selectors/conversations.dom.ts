@@ -77,7 +77,6 @@ import {
   type ChatFolder,
   isConversationInChatFolder,
 } from '../../types/ChatFolder.std.js';
-import { isChatFoldersEnabled } from '../../util/isChatFoldersEnabled.dom.js';
 import {
   getSelectedChatFolder,
   getCurrentChatFolders,
@@ -456,13 +455,8 @@ export const _getLeftPaneLists = ({
   const archivedConversations: Array<ConversationType> = [];
   const pinnedConversations: Array<ConversationType> = [];
 
-  const values = Object.values(conversationLookup);
-  const max = values.length;
-  for (let i = 0; i < max; i += 1) {
-    let conversation = values[i];
-
+  for (let conversation of Object.values(conversationLookup)) {
     if (
-      isChatFoldersEnabled(window.SignalContext.getVersion()) &&
       !_shouldIncludeInChatFolder(
         conversation,
         selectedChatFolder,
@@ -982,7 +976,7 @@ const getGroupCreationComposerState = createSelector(
     composerState
   ): {
     groupName: string;
-    groupAvatar: undefined | Uint8Array;
+    groupAvatar: undefined | Uint8Array<ArrayBuffer>;
     groupExpireTimer: DurationInSeconds;
     selectedConversationIds: ReadonlyArray<string>;
   } => {
@@ -1007,7 +1001,8 @@ const getGroupCreationComposerState = createSelector(
 
 export const getComposeGroupAvatar = createSelector(
   getGroupCreationComposerState,
-  (composerState): undefined | Uint8Array => composerState.groupAvatar
+  (composerState): undefined | Uint8Array<ArrayBuffer> =>
+    composerState.groupAvatar
 );
 
 export const getComposeGroupName = createSelector(
@@ -1180,7 +1175,8 @@ export const getCachedConversationMemberColorsSelector = createSelector(
 
             contactNameColors.set(
               conversation.id,
-              ContactNameColors[i % ContactNameColors.length]
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              ContactNameColors[i % ContactNameColors.length]!
             );
           });
 
@@ -1211,9 +1207,9 @@ export const getContactNameColorSelector = createSelector(
 );
 
 export const getContactNameColor = (
-  contactNameColors: Map<string, string>,
+  contactNameColors: Map<string, ContactNameColorType>,
   contactId: string | undefined
-): string => {
+): ContactNameColorType => {
   if (!contactId) {
     log.warn('No color generated for missing contactId');
     return ContactNameColors[0];
@@ -1460,10 +1456,17 @@ export const getConversationsStoppingSend = createSelector(
 
 export const getHideStoryConversationIds = createSelector(
   getConversationLookup,
-  (conversationLookup): Array<string> =>
-    Object.keys(conversationLookup).filter(
-      conversationId => conversationLookup[conversationId].hideStory
-    )
+  (conversationLookup): Array<string> => {
+    const result: Array<string> = [];
+    for (const [conversationId, conversation] of Object.entries(
+      conversationLookup
+    )) {
+      if (conversation.hideStory) {
+        result.push(conversationId);
+      }
+    }
+    return result;
+  }
 );
 
 export const getStoriesState = (state: StateType): StoriesStateType =>
@@ -1546,20 +1549,10 @@ export const getLastEditableMessageId = createSelector(
       return;
     }
 
-    for (let i = conversationMessages.messageIds.length - 1; i >= 0; i -= 1) {
-      const messageId = conversationMessages.messageIds[i];
+    return conversationMessages.messageIds.findLast(messageId => {
       const message = messagesLookup[messageId];
-
-      if (!message) {
-        continue;
-      }
-
-      if (isOutgoing(message)) {
-        return canEditMessage(message) ? message.id : undefined;
-      }
-    }
-
-    return undefined;
+      return message != null && isOutgoing(message) && canEditMessage(message);
+    });
   }
 );
 

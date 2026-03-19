@@ -9,7 +9,7 @@ import path from 'node:path';
 
 import { MONTH } from '../util/durations/index.std.js';
 import { isOlderThan } from '../util/timestamp.std.js';
-import { DELETED_REGEXP } from './constants.std.js';
+import { DELETED_REGEXP, type DeletedMatch } from './constants.std.js';
 
 const ROOT_DIR = path.join(__dirname, '..', '..');
 const MESSAGES_FILE = path.join(ROOT_DIR, '_locales', 'en', 'messages.json');
@@ -33,7 +33,8 @@ async function main() {
           return;
         }
 
-        const deletedAt = new Date(match[1]).getTime();
+        const [deletedAtStr] = match as DeletedMatch;
+        const deletedAt = new Date(deletedAtStr).getTime();
         if (!isOlderThan(deletedAt, MONTH)) {
           return;
         }

@@ -14,6 +14,7 @@ import {
 } from '../components/IdenticonSVG.dom.js';
 import { missingCaseError } from './missingCaseError.std.js';
 import { writeNewPlaintextTempData } from './migrations.preload.js';
+import { strictAssert } from './assert.std.js';
 
 const TARGET_MIME = 'image/png';
 
@@ -35,6 +36,7 @@ export function createIdenticon(
   { saveToDisk }: { saveToDisk?: boolean } = {}
 ): Promise<{ url: string; path?: string }> {
   const [defaultColorValue] = Array.from(AvatarColorMap.values());
+  strictAssert(defaultColorValue, 'Missing defaultColorValue');
   const avatarColor = AvatarColorMap.get(color);
   let html: string;
 

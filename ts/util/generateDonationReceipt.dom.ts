@@ -396,7 +396,7 @@ export async function generateDonationReceiptBlob(
 
   // Extract the base64 encoded data from the data URL
   // Data URL format: "data:image/png;base64,iVBORw0KGgoAAAANS..."
-  const base64Data = dataURL.split(',')[1];
+  const [base64Data] = dataURL.split(',');
 
   // Decode the base64 string to binary data
   const binaryString = atob(base64Data);

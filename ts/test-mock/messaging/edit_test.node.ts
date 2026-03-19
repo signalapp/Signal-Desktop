@@ -3,6 +3,7 @@
 
 // `window` use below is actually executed in the browser.
 // eslint-disable-next-line local-rules/file-suffix
+import type { PrimaryDevice } from '@signalapp/mock-server';
 import { Proto, EMPTY_DATA_MESSAGE } from '@signalapp/mock-server';
 import { Aci } from '@signalapp/libsignal-client';
 import { assert } from 'chai';
@@ -250,7 +251,7 @@ describe('editing', function (this: Mocha.Suite) {
 
       const window = await app.getWindow();
 
-      const [friend] = contacts;
+      const [friend] = contacts as [PrimaryDevice];
 
       const initialMessageBody = 'hey yhere';
       const originalMessage = createMessage(initialMessageBody);
@@ -341,7 +342,7 @@ describe('editing', function (this: Mocha.Suite) {
 
       const window = await app.getWindow();
 
-      const [friend] = contacts;
+      const [friend] = contacts as [PrimaryDevice];
 
       debug('incoming message');
       await friend.sendText(desktop, 'hello', {
@@ -562,14 +563,14 @@ describe('editing', function (this: Mocha.Suite) {
           originalMessageTimestamp
         );
         strictAssert(messages, 'messages does not exist');
-        strictAssert(messages.length === 1, 'message does not exist');
+        strictAssert(messages[0], 'message does not exist');
 
         return messages[0];
       }
 
       const { contacts, desktop } = bootstrap;
 
-      const [friend] = contacts;
+      const [friend] = contacts as [PrimaryDevice];
 
       const page = await app.getWindow();
 
@@ -660,7 +661,7 @@ describe('editing', function (this: Mocha.Suite) {
           'sendStateByConversationId'
         );
         assert.strictEqual(
-          message.sendStateByConversationId[conversationId].status,
+          message.sendStateByConversationId[conversationId]?.status,
           SendStatus.Delivered,
           'send state is delivered for main message'
         );
@@ -706,12 +707,12 @@ describe('editing', function (this: Mocha.Suite) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [_v2, v1] = message.editHistory;
         assert.strictEqual(
-          message.sendStateByConversationId?.[conversationId].status,
+          message.sendStateByConversationId?.[conversationId]?.status,
           SendStatus.Sent,
           'send state is reverted back to sent for main message'
         );
         assert.strictEqual(
-          v1.sendStateByConversationId?.[conversationId].status,
+          v1?.sendStateByConversationId?.[conversationId]?.status,
           SendStatus.Read,
           'original message is marked read'
         );
@@ -806,7 +807,7 @@ describe('editing', function (this: Mocha.Suite) {
           'sendStateByConversationId'
         );
         assert.strictEqual(
-          message.sendStateByConversationId[conversationId].status,
+          message.sendStateByConversationId[conversationId]?.status,
           SendStatus.Sent,
           'original message send state is sent (v4)'
         );
@@ -814,30 +815,30 @@ describe('editing', function (this: Mocha.Suite) {
         strictAssert(message.editHistory, 'edit history exists');
         const [v4, v3, v2, v1] = message.editHistory;
 
-        strictAssert(v1.sendStateByConversationId, 'v1 has send state');
+        strictAssert(v1?.sendStateByConversationId, 'v1 has send state');
         assert.strictEqual(
-          v1.sendStateByConversationId[conversationId].status,
+          v1.sendStateByConversationId[conversationId]?.status,
           SendStatus.Read,
           'send state for first message is read'
         );
 
-        strictAssert(v2.sendStateByConversationId, 'v2 has send state');
+        strictAssert(v2?.sendStateByConversationId, 'v2 has send state');
         assert.strictEqual(
-          v2.sendStateByConversationId[conversationId].status,
+          v2.sendStateByConversationId[conversationId]?.status,
           SendStatus.Sent,
           'send state for v2 message is sent'
         );
 
-        strictAssert(v3.sendStateByConversationId, 'v3 has send state');
+        strictAssert(v3?.sendStateByConversationId, 'v3 has send state');
         assert.strictEqual(
-          v3.sendStateByConversationId[conversationId].status,
+          v3.sendStateByConversationId[conversationId]?.status,
           SendStatus.Read,
           'send state for v3 message is read'
         );
 
-        strictAssert(v4.sendStateByConversationId, 'v4 has send state');
+        strictAssert(v4?.sendStateByConversationId, 'v4 has send state');
         assert.strictEqual(
-          v4.sendStateByConversationId[conversationId].status,
+          v4.sendStateByConversationId[conversationId]?.status,
           SendStatus.Sent,
           'send state for v4 message is sent'
         );

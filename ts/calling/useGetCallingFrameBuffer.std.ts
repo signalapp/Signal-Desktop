@@ -12,8 +12,8 @@ import { FRAME_BUFFER_SIZE } from './constants.std.js';
  * of allocating one per participant. Be careful when using this buffer elsewhere, as it
  * is not cleaned up and may hold stale data.
  */
-export function useGetCallingFrameBuffer(): () => Uint8Array {
-  const ref = useRef<Uint8Array | null>(null);
+export function useGetCallingFrameBuffer(): () => Uint8Array<ArrayBuffer> {
+  const ref = useRef<Uint8Array<ArrayBuffer> | null>(null);
 
   return useCallback(() => {
     if (!ref.current) {

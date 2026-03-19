@@ -40,7 +40,7 @@ export namespace CallQualitySurvey {
     rttMedian: number | null;
     jitterMedian: number | null;
     packetLossFraction: number | null;
-    callTelemetry: Uint8Array | null;
+    callTelemetry: Uint8Array<ArrayBuffer> | null;
   }>;
 
   export type Form = Readonly<{

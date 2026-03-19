@@ -23,7 +23,7 @@ type EmojiEntryType = Readonly<{
   sheet: string;
 }>;
 
-type SheetCacheEntry = Map<string, Uint8Array>;
+type SheetCacheEntry = Map<string, Uint8Array<ArrayBuffer>>;
 
 export class EmojiService {
   readonly #emojiMap = new Map<string, EmojiEntryType>();
@@ -83,10 +83,11 @@ export class EmojiService {
       const pack = Proto.JumbomojiPack.decode(proto);
 
       imageMap = new Map(
-        pack.items.map(({ name, image }) => [
-          name != null ? utf16ToEmoji(name) : '',
-          image || new Uint8Array(0),
-        ])
+        pack.items.map(({ name, image }) => {
+          const key = name != null ? utf16ToEmoji(name) : '';
+          const value: Uint8Array<ArrayBuffer> = image || new Uint8Array(0);
+          return [key, value];
+        })
       );
       this.#sheetCache.set(sheet, imageMap);
     }

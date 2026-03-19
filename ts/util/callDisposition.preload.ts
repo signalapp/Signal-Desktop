@@ -127,7 +127,12 @@ export function formatCallHistoryGroup(
 export function formatPeekInfo(peekInfo: PeekInfo): string {
   const { eraId, deviceCount, creator } = peekInfo;
   const callId = eraId != null ? getCallIdFromEra(eraId) : null;
-  const creatorAci = creator != null ? getCreatorAci(creator) : null;
+  let creatorAci: AciString | null = null;
+  if (creator != null) {
+    // @ts-expect-error needs ringrtc update
+    const creatorBytes: Uint8Array<ArrayBuffer> = creator;
+    creatorAci = getCreatorAci(creatorBytes);
+  }
   return `PeekInfo (${eraId}, ${callId}, ${creatorAci}, ${deviceCount})`;
 }
 
@@ -147,7 +152,7 @@ export function getCallIdFromEra(eraId: string): string {
   return BigInt(callIdFromEra(eraId)).toString();
 }
 
-export function getCreatorAci(creator: Uint8Array): AciString {
+export function getCreatorAci(creator: Uint8Array<ArrayBuffer>): AciString {
   const aci = bytesToUuid(creator);
   strictAssert(aci != null, 'creator uuid buffer was not a valid uuid');
   strictAssert(isAciString(aci), 'creator uuid buffer was not a valid aci');
@@ -161,7 +166,9 @@ export function getGroupCallMeta(
     return null;
   }
   const callId = getCallIdFromEra(peekInfo.eraId);
-  const ringerId = bytesToUuid(peekInfo.creator);
+  // @ts-expect-error needs ringrtc update
+  const creatorBytes: Uint8Array<ArrayBuffer> = peekInfo.creator;
+  const ringerId = bytesToUuid(creatorBytes);
   strictAssert(ringerId != null, 'peekInfo.creator was invalid uuid');
   strictAssert(isAciString(ringerId), 'peekInfo.creator was invalid aci');
   return { callId, ringerId };
@@ -354,15 +361,19 @@ function shouldSyncStatus(callStatus: CallStatus) {
 // For outgoing sync messages. peerId contains direct or group conversationId or
 // call link peerId. Locally conversationId is Base64 encoded but roomIds
 // are hex encoded.
-export function getBytesForPeerId(callHistory: CallHistoryDetails): Uint8Array {
-  let peerId =
-    callHistory.mode === CallMode.Adhoc
-      ? Bytes.fromHex(callHistory.peerId)
-      : uuidToBytes(callHistory.peerId);
-  if (peerId.length === 0) {
-    peerId = Bytes.fromBase64(callHistory.peerId);
+export function getBytesForPeerId(
+  callHistory: CallHistoryDetails
+): Uint8Array<ArrayBuffer> {
+  if (callHistory.mode === CallMode.Adhoc) {
+    return Bytes.fromHex(callHistory.peerId);
   }
-  return peerId;
+  if (callHistory.mode === CallMode.Group) {
+    return Bytes.fromBase64(callHistory.peerId);
+  }
+  if (callHistory.mode === CallMode.Direct) {
+    return uuidToBytes(callHistory.peerId);
+  }
+  throw missingCaseError(callHistory.mode);
 }
 
 export function getCallIdForProto(

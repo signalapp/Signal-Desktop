@@ -127,7 +127,7 @@ export type Props = Readonly<{
   draftEditMessage: DraftEditMessageType | null;
   getPreferredBadge: PreferredBadgeSelectorType;
   large: boolean | null;
-  inputApi: React.MutableRefObject<InputApi | undefined> | null;
+  inputApi: React.RefObject<InputApi | null> | null;
   isFormattingEnabled: boolean;
   isActive: boolean;
   sendCounter: number;
@@ -216,9 +216,9 @@ export function CompositionInput(props: Props): React.ReactElement {
   const [mentionCompletionElement, setMentionCompletionElement] =
     React.useState<React.JSX.Element>();
 
-  const emojiCompletionRef = React.useRef<EmojiCompletion>();
-  const mentionCompletionRef = React.useRef<MentionCompletion>();
-  const quillRef = React.useRef<Quill>();
+  const emojiCompletionRef = React.useRef<EmojiCompletion>(undefined);
+  const mentionCompletionRef = React.useRef<MentionCompletion>(undefined);
+  const quillRef = React.useRef<Quill>(undefined);
 
   const propsRef = React.useRef<Props>(props);
   const canSendRef = React.useRef<boolean>(false);
@@ -934,9 +934,9 @@ export function CompositionInput(props: Props): React.ReactElement {
               key: tabKey,
               handler: () => callbacksRef.current.onTab(),
             });
-            const ourHandler = quill.keyboard.bindings[tabKey].pop();
+            const ourHandler = quill.keyboard.bindings[tabKey]?.pop();
             if (ourHandler) {
-              quill.keyboard.bindings[tabKey].unshift(ourHandler);
+              quill.keyboard.bindings[tabKey]?.unshift(ourHandler);
             }
 
             const emojiCompletion = quill.getModule('emojiCompletion');

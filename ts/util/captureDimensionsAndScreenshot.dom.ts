@@ -26,10 +26,10 @@ export async function captureDimensionsAndScreenshot(
   options: { generateThumbnail: boolean },
   params: {
     writeNewAttachmentData: (
-      data: Uint8Array
+      data: Uint8Array<ArrayBuffer>
     ) => Promise<LocalAttachmentV2Type>;
     makeObjectUrl: (
-      data: Uint8Array | ArrayBuffer,
+      data: Uint8Array<ArrayBuffer> | ArrayBuffer,
       contentType: MIMEType
     ) => string;
     revokeObjectUrl: (path: string) => void;

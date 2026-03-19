@@ -332,21 +332,24 @@ export class SignedPreKeys extends SignedPreKeyStore {
 }
 
 export class KeyTransparencyStore implements KeyTransparencyStoreInterface {
-  async getLastDistinguishedTreeHead(): Promise<Uint8Array | null> {
+  async getLastDistinguishedTreeHead(): Promise<Uint8Array<ArrayBuffer> | null> {
     return signalProtocolStore.getLastDistinguishedTreeHead();
   }
 
   async setLastDistinguishedTreeHead(
-    bytes: Readonly<Uint8Array> | null
+    bytes: Readonly<Uint8Array<ArrayBuffer>> | null
   ): Promise<void> {
     return signalProtocolStore.setLastDistinguishedTreeHead(bytes);
   }
 
-  async getAccountData(aci: Aci): Promise<Uint8Array | null> {
+  async getAccountData(aci: Aci): Promise<Uint8Array<ArrayBuffer> | null> {
     return signalProtocolStore.getKTAccountData(aci);
   }
 
-  async setAccountData(aci: Aci, bytes: Readonly<Uint8Array>): Promise<void> {
+  async setAccountData(
+    aci: Aci,
+    bytes: Readonly<Uint8Array<ArrayBuffer>>
+  ): Promise<void> {
     return signalProtocolStore.setKTAccountData(aci, bytes);
   }
 }

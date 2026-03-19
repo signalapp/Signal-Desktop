@@ -52,6 +52,7 @@ import {
   saveErrorsOnMessage,
 } from '../../test-node/util/messageFailures.preload.js';
 import { send } from '../../messages/send.preload.js';
+import { strictAssert } from '../../util/assert.std.js';
 
 const { isEqual } = lodash;
 
@@ -167,9 +168,9 @@ export async function sendStory(
           preview: undefined,
         };
       } else {
-        const hydratedPreview = (
-          await loadPreviewData([localAttachment.preview])
-        )[0];
+        const previewData = await loadPreviewData([localAttachment.preview]);
+        const hydratedPreview = previewData[0];
+        strictAssert(hydratedPreview, 'Missing hydratedPreview');
 
         textAttachment = {
           ...localAttachment,
@@ -495,57 +496,48 @@ export async function sendStory(
 
       let hasFailedSends = false;
 
-      const newSendStateByConversationId = Object.keys(
-        oldSendStateByConversationId
-      ).reduce((acc, conversationId) => {
-        const sendState = sentConversationIds.get(conversationId);
-        if (sendState) {
-          return {
-            ...acc,
-            [conversationId]: sendState,
-          };
-        }
+      const newSendStateByConversationId: SendStateByConversationId = {};
 
-        const oldSendState = {
-          ...oldSendStateByConversationId[conversationId],
-        };
-        if (!oldSendState) {
-          return acc;
+      for (const [conversationId, oldSendState] of Object.entries(
+        oldSendStateByConversationId
+      )) {
+        const sendState = sentConversationIds.get(conversationId);
+
+        if (sendState) {
+          newSendStateByConversationId[conversationId] = sendState;
+          continue;
         }
 
         const recipient = window.ConversationController.get(conversationId);
         if (!recipient) {
-          return acc;
+          continue;
         }
 
         if (isMe(recipient.attributes)) {
-          return acc;
+          continue;
         }
 
         if (recipient.isEverUnregistered()) {
           if (!isSent(oldSendState.status)) {
             // We should have filtered this out on initial send, but we'll drop them from
             //   send list here if needed.
-            return acc;
+            continue;
           }
 
           // If a previous send to them did succeed, we'll keep that status around
-          return {
-            ...acc,
-            [conversationId]: oldSendState,
-          };
+          newSendStateByConversationId[conversationId] = oldSendState;
         }
 
         hasFailedSends = true;
 
-        return {
-          ...acc,
-          [conversationId]: sendStateReducer(oldSendState, {
+        newSendStateByConversationId[conversationId] = sendStateReducer(
+          oldSendState,
+          {
             type: SendActionType.Failed,
             updatedAt: Date.now(),
-          }),
-        };
-      }, {} as SendStateByConversationId);
+          }
+        );
+      }
 
       if (hasFailedSends) {
         notifyStorySendFailed(message);
@@ -609,8 +601,9 @@ export async function sendStory(
       sendErrors.push(result);
     }
   });
-  if (sendErrors.length) {
-    throw sendErrors[0].reason;
+  const [firstError] = sendErrors;
+  if (firstError != null) {
+    throw firstError.reason;
   }
 }
 

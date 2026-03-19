@@ -617,7 +617,7 @@ export class Bootstrap {
     ) => Promise<void>,
     test?: Mocha.Runnable
   ): Promise<(app: App) => Promise<void>> {
-    const snapshots = new Array<{ name: string; data: Buffer }>();
+    const snapshots = new Array<{ name: string; data: Buffer<ArrayBuffer> }>();
     const viewportSize = { width: 1000, height: 2000 } as const;
     const window = await app.getWindow();
     await window.setViewportSize(viewportSize);
@@ -692,7 +692,7 @@ export class Bootstrap {
   }
 
   public async encryptAndStoreAttachmentOnCDN(
-    data: Buffer,
+    data: Buffer<ArrayBuffer>,
     contentType: MIMEType
   ): Promise<Proto.AttachmentPointer.Params> {
     const cdnKey = uuid();
@@ -888,7 +888,8 @@ export class Bootstrap {
       }
 
       const result: Record<string, number> = Object.create(null);
-      const keys = Object.keys(samples[0].data).filter(
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const keys = Object.keys(samples[0]!.data).filter(
         (key: string): key is `${string}Duration` => key.endsWith('Duration')
       );
       const human = new Array<string>();
@@ -896,7 +897,8 @@ export class Bootstrap {
       let worstError = 0;
       for (const key of keys) {
         const { yIntercept, slope, confidence, outliers, severeOutliers } =
-          regress(samples.map(s => ({ y: s.value, x: s.data[key] })));
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          regress(samples.map(s => ({ y: s.value, x: s.data[key]! })));
 
         const delay = -yIntercept / slope;
         const perSecond = slope * SECOND;

@@ -30,52 +30,42 @@ const log = createLogger('RemoteConfig');
 
 // Semver flags must always be set to a valid semver (no empty enabled-only keys)
 const SemverKeys = [
-  'desktop.callQualitySurvey.beta',
-  'desktop.callQualitySurvey.prod',
-  'desktop.donationPaypal.beta',
-  'desktop.donationPaypal.prod',
-  'desktop.groupMemberLabels.edit.beta',
-  'desktop.groupMemberLabels.edit.prod',
   'desktop.adminDelete.receive.beta',
   'desktop.adminDelete.receive.prod',
   'desktop.adminDelete.send.beta',
   'desktop.adminDelete.send.prod',
-  'desktop.pinnedMessages.receive.beta',
-  'desktop.pinnedMessages.receive.prod',
-  'desktop.pinnedMessages.send.beta',
-  'desktop.pinnedMessages.send.prod',
+  'desktop.binaryServiceId.beta',
+  'desktop.binaryServiceId.prod',
+  'desktop.groupMemberLabels.edit.beta',
+  'desktop.groupMemberLabels.edit.prod',
+  'desktop.keyTransparency.beta',
+  'desktop.keyTransparency.prod',
+  'desktop.localBackups.beta',
+  'desktop.localBackups.prod',
   'desktop.plaintextExport.beta',
   'desktop.plaintextExport.prod',
-  'desktop.remoteMegaphone.beta',
-  'desktop.remoteMegaphone.prod',
+  'desktop.pollSend1to1.beta',
+  'desktop.pollSend1to1.prod',
   'desktop.remoteMute.send.beta',
   'desktop.remoteMute.send.prod',
   'desktop.retireAccessKeyGroupSend.beta',
   'desktop.retireAccessKeyGroupSend.prod',
-  'desktop.keyTransparency.beta',
-  'desktop.keyTransparency.prod',
-  'desktop.binaryServiceId.beta',
-  'desktop.binaryServiceId.prod',
-  'desktop.pollSend1to1.beta',
-  'desktop.pollSend1to1.prod',
 ] as const;
 
 export type SemverKeyType = ArrayValues<typeof SemverKeys>;
 
 const ScalarKeys = [
   'desktop.callQualitySurveyPPM',
-  'desktop.chatFolders.alpha',
-  'desktop.chatFolders.beta',
-  'desktop.chatFolders.prod',
   'desktop.clientExpiration',
   'desktop.internalUser',
   'desktop.loggingErrorToasts',
   'desktop.mediaQuality.levels',
   'desktop.messageCleanup',
+  'desktop.recentGifs.allowLegacyTenorCdnUrls',
   'desktop.retryRespondMaxAge',
   'desktop.senderKey.retry',
   'desktop.senderKeyMaxAge',
-  'desktop.recentGifs.allowLegacyTenorCdnUrls',
+  'global.adminDeleteMaxAgeInSeconds',
   'global.attachments.maxBytes',
   'global.attachments.maxReceiveBytes',
   'global.backups.mediaTierFallbackCdnNumber',
@@ -85,10 +75,9 @@ const ScalarKeys = [
   'global.messageQueueTimeInSeconds',
   'global.nicknames.max',
   'global.nicknames.min',
+  'global.normalDeleteMaxAgeInSeconds',
   'global.pinned_message_limit',
   'global.textAttachmentLimitBytes',
-  'global.normalDeleteMaxAgeInSeconds',
-  'global.adminDeleteMaxAgeInSeconds',
 ] as const;
 
 // These keys should always match those in Net.REMOTE_CONFIG_KEYS, prefixed by
@@ -97,8 +86,6 @@ const KnownDesktopLibsignalNetKeys = [
   'desktop.libsignalNet.chatPermessageDeflate.prod',
   'desktop.libsignalNet.chatRequestConnectionCheckTimeoutMillis.beta',
   'desktop.libsignalNet.chatRequestConnectionCheckTimeoutMillis',
-  'desktop.libsignalNet.disableNagleAlgorithm.beta',
-  'desktop.libsignalNet.disableNagleAlgorithm',
   'desktop.libsignalNet.grpc.AccountsAnonymousCheckAccountExistence.beta',
   'desktop.libsignalNet.grpc.AccountsAnonymousCheckAccountExistence',
   'desktop.libsignalNet.grpc.AccountsAnonymousLookupUsernameHash.beta',
@@ -107,6 +94,8 @@ const KnownDesktopLibsignalNetKeys = [
   'desktop.libsignalNet.grpc.AccountsAnonymousLookupUsernameLink',
   'desktop.libsignalNet.grpc.MessagesAnonymousSendMultiRecipientMessage.beta',
   'desktop.libsignalNet.grpc.MessagesAnonymousSendMultiRecipientMessage',
+  'desktop.libsignalNet.useH2ForAuthChat.beta',
+  'desktop.libsignalNet.useH2ForAuthChat',
   'desktop.libsignalNet.useH2ForUnauthChat.beta',
   'desktop.libsignalNet.useH2ForUnauthChat',
 ] as const;
@@ -166,7 +155,9 @@ export function onChange(
   listeners[key] = keyListeners;
 
   return () => {
-    listeners[key] = listeners[key].filter(l => l !== fn);
+    if (listeners[key]) {
+      listeners[key] = listeners[key].filter(l => l !== fn);
+    }
   };
 }
 

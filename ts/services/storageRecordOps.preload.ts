@@ -261,7 +261,7 @@ function addUnknownFieldsToConversation(
 
 function conversationUnknownFieldsToRecord(
   conversation: ConversationModel
-): Array<Uint8Array> | null {
+): Array<Uint8Array<ArrayBuffer>> | null {
   const storageUnknownFields = conversation.get('storageUnknownFields');
   if (storageUnknownFields == null) {
     return null;
@@ -275,8 +275,8 @@ function conversationUnknownFieldsToRecord(
 
 // Other records save a UInt8Array to the database
 function toStorageUnknownFields(
-  unknownFields: ReadonlyArray<Uint8Array> | undefined
-): Uint8Array | null {
+  unknownFields: ReadonlyArray<Uint8Array<ArrayBuffer>> | undefined
+): Uint8Array<ArrayBuffer> | null {
   if (!unknownFields) {
     return null;
   }
@@ -284,8 +284,8 @@ function toStorageUnknownFields(
   return Bytes.concatenate(unknownFields);
 }
 function fromStorageUnknownFields(
-  storageUnknownFields: Uint8Array | null | undefined
-): Array<Uint8Array> | null {
+  storageUnknownFields: Uint8Array<ArrayBuffer> | null | undefined
+): Array<Uint8Array<ArrayBuffer>> | null {
   if (storageUnknownFields == null) {
     return null;
   }
@@ -330,19 +330,19 @@ export async function toContactRecord(
     identityState: verified ? toRecordVerified(Number(verified)) : null,
     pniSignatureVerified: conversation.get('pniSignatureVerified') ?? false,
     profileKey: profileKey ? Bytes.fromBase64(String(profileKey)) : null,
-    givenName: conversation.get('profileName') ?? null,
-    familyName: conversation.get('profileFamilyName') ?? null,
+    givenName: conversation.get('profileName') || null,
+    familyName: conversation.get('profileFamilyName') || null,
     nickname:
       nicknameGivenName || nicknameFamilyName
         ? {
-            given: nicknameGivenName ?? null,
-            family: nicknameFamilyName ?? null,
+            given: nicknameGivenName || null,
+            family: nicknameFamilyName || null,
           }
         : null,
-    note: conversation.get('note') ?? null,
-    systemGivenName: conversation.get('systemGivenName') ?? null,
-    systemFamilyName: conversation.get('systemFamilyName') ?? null,
-    systemNickname: conversation.get('systemNickname') ?? null,
+    note: conversation.get('note') || null,
+    systemGivenName: conversation.get('systemGivenName') || null,
+    systemFamilyName: conversation.get('systemFamilyName') || null,
+    systemNickname: conversation.get('systemNickname') || null,
     blocked: conversation.isBlocked(),
     hidden: conversation.get('removalStage') !== undefined,
     whitelisted: Boolean(conversation.get('profileSharing')),
@@ -529,10 +529,10 @@ export function toAccountRecord(
 
   return {
     profileKey: profileKey ? Bytes.fromBase64(String(profileKey)) : null,
-    givenName: conversation.get('profileName') ?? null,
-    familyName: conversation.get('profileFamilyName') ?? null,
-    avatarUrlPath: itemStorage.get('avatarUrl') ?? null,
-    username: conversation.get('username') ?? null,
+    givenName: conversation.get('profileName') || null,
+    familyName: conversation.get('profileFamilyName') || null,
+    avatarUrlPath: itemStorage.get('avatarUrl') || null,
+    username: conversation.get('username') || null,
     noteToSelfArchived: Boolean(conversation.get('isArchived')),
     noteToSelfMarkedUnread: Boolean(conversation.get('markedUnread')),
     readReceipts: getReadReceiptSetting(),
@@ -974,7 +974,7 @@ function logRecordChanges(
 
     // Sometimes we have a ByteBuffer and an Uint8Array, this ensures that we
     // are comparing them both equally by converting them into base64 string.
-    if (localValue instanceof Uint8Array) {
+    if (Bytes.isNonSharedUint8Array(localValue)) {
       const areEqual = Bytes.areEqual(localValue, remoteValue);
       if (!areEqual) {
         details.push(`key=${key}: different bytes`);
@@ -1148,7 +1148,7 @@ export async function mergeGroupV1Record(
 }
 
 function getGroupV2Conversation(
-  masterKeyBuffer: Uint8Array
+  masterKeyBuffer: Uint8Array<ArrayBuffer>
 ): ConversationModel {
   const groupFields = deriveGroupFields(masterKeyBuffer);
 
@@ -1323,7 +1323,7 @@ export async function mergeContactRecord(
       ) ?? null,
   } satisfies Proto.ContactRecord.Params;
 
-  const e164 = dropNull(contactRecord.e164);
+  const e164 = dropNull(contactRecord.e164 || null);
   const { aci } = contactRecord;
   const pni = dropNull(contactRecord.pni);
   const pniSignatureVerified = contactRecord.pniSignatureVerified || false;
@@ -1378,7 +1378,7 @@ export async function mergeContactRecord(
     };
   }
 
-  await conversation.updateUsername(dropNull(contactRecord.username), {
+  await conversation.updateUsername(dropNull(contactRecord.username || null), {
     shouldSave: false,
     fromStorageService: true,
   });
@@ -1391,8 +1391,8 @@ export async function mergeContactRecord(
     );
   }
 
-  const remoteName = dropNull(contactRecord.givenName);
-  const remoteFamilyName = dropNull(contactRecord.familyName);
+  const remoteName = dropNull(contactRecord.givenName || null);
+  const remoteFamilyName = dropNull(contactRecord.familyName || null);
   const localName = conversation.get('profileName');
   const localFamilyName = conversation.get('profileFamilyName');
   if (
@@ -1416,11 +1416,11 @@ export async function mergeContactRecord(
     }
   }
   conversation.set({
-    systemGivenName: dropNull(contactRecord.systemGivenName),
-    systemFamilyName: dropNull(contactRecord.systemFamilyName),
-    systemNickname: dropNull(contactRecord.systemNickname),
-    nicknameGivenName: dropNull(contactRecord.nickname?.given),
-    nicknameFamilyName: dropNull(contactRecord.nickname?.family),
+    systemGivenName: dropNull(contactRecord.systemGivenName || null),
+    systemFamilyName: dropNull(contactRecord.systemFamilyName || null),
+    systemNickname: dropNull(contactRecord.systemNickname || null),
+    nicknameGivenName: dropNull(contactRecord.nickname?.given || null),
+    nicknameFamilyName: dropNull(contactRecord.nickname?.family || null),
     note: dropNull(contactRecord.note),
   });
 
@@ -1784,7 +1784,7 @@ export async function mergeAccountRecord(
   if (Bytes.isNotEmpty(donorSubscriberId)) {
     await itemStorage.put('subscriberId', donorSubscriberId);
   }
-  if (typeof donorSubscriberCurrencyCode === 'string') {
+  if (donorSubscriberCurrencyCode) {
     await itemStorage.put(
       'subscriberCurrencyCode',
       donorSubscriberCurrencyCode
@@ -1968,7 +1968,7 @@ export async function mergeAccountRecord(
   const oldStorageID = conversation.get('storageID');
   const oldStorageVersion = conversation.get('storageVersion');
 
-  if (username !== conversation.get('username')) {
+  if ((username || undefined) !== conversation.get('username')) {
     // Username is part of key transparency self monitor parameters. Make sure
     // we delay self-check until the changes fully propagate to the log.
     drop(keyTransparency.onKnownIdentifierChange());
@@ -1986,7 +1986,7 @@ export async function mergeAccountRecord(
     needsStorageServiceSync: false,
   });
 
-  await conversation.updateUsername(dropNull(username), {
+  await conversation.updateUsername(dropNull(username || null), {
     shouldSave: false,
     fromStorageService: true,
   });
@@ -1998,7 +1998,7 @@ export async function mergeAccountRecord(
       { viaStorageServiceSync: true, reason: 'mergeAccountRecord' }
     );
 
-    const avatarUrl = dropNull(accountRecord.avatarUrlPath);
+    const avatarUrl = dropNull(accountRecord.avatarUrlPath || null);
     await conversation.setAndMaybeFetchProfileAvatar({
       avatarUrl,
       decryptionKey: profileKey,

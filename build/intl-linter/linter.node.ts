@@ -174,7 +174,8 @@ async function lintMessages() {
     const key = topProp.key.value;
 
     if (process.argv.includes('--test')) {
-      const test = tests[key];
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const test = tests[key]!;
       const actualErrors = reports.map(report => report.id);
       deepEqual(actualErrors, test.expectErrors);
       continue;

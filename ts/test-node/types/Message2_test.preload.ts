@@ -75,7 +75,7 @@ describe('Message', () => {
         logger: LoggerType;
       }) => new Blob(),
       makeObjectUrl: (
-        _data: Uint8Array | ArrayBuffer,
+        _data: Uint8Array<ArrayBuffer> | ArrayBuffer,
         _contentType: MIME.MIMEType
       ) => 'fake-object-url',
       makeVideoScreenshot: async (_params: {
@@ -86,14 +86,14 @@ describe('Message', () => {
       revokeObjectUrl: (_objectUrl: string) => undefined,
       readAttachmentData: async (
         attachment: Partial<AddressableAttachmentType>
-      ): Promise<Uint8Array> => {
+      ): Promise<Uint8Array<ArrayBuffer>> => {
         assert.strictEqual(attachment.version, 2);
         return Buffer.from('old data');
       },
-      writeNewAttachmentData: async (_data: Uint8Array) => {
+      writeNewAttachmentData: async (_data: Uint8Array<ArrayBuffer>) => {
         return FAKE_LOCAL_ATTACHMENT;
       },
-      writeNewStickerData: async (_data: Uint8Array) => ({
+      writeNewStickerData: async (_data: Uint8Array<ArrayBuffer>) => ({
         version: 2,
         path: 'fake-sticker-path',
         size: 1,

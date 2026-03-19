@@ -3,7 +3,7 @@
 import type { ForwardedRef, ReactNode } from 'react';
 import React, { forwardRef, memo, useCallback, useMemo, useState } from 'react';
 import { Tabs } from 'radix-ui';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 import type { LocalizerType } from '../../../types/I18N.std.js';
 import { tw } from '../../../axo/tw.dom.js';
 import { AxoIconButton } from '../../../axo/AxoIconButton.dom.js';
@@ -105,8 +105,7 @@ export const PinnedMessagesBar = memo(function PinnedMessagesBar(
       return null;
     }
 
-    for (let index = 0; index < pins.length; index += 1) {
-      const value = pins[index];
+    for (const [index, value] of pins.entries()) {
       if (value.id === current) {
         return { index, value };
       }

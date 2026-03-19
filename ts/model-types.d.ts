@@ -191,7 +191,7 @@ export type MessageAttributesType = {
   callId?: string;
   canReplyToStory?: boolean;
   changedId?: string;
-  dataMessage?: Uint8Array | null;
+  dataMessage?: Uint8Array<ArrayBuffer> | null;
   decrypted_at?: number;
   deletedForEveryone?: boolean;
   deletedForEveryoneByAdminAci?: AciString;
@@ -223,7 +223,7 @@ export type MessageAttributesType = {
   poll?: PollMessageAttribute;
   pollTerminateNotification?: {
     question: string;
-    pollMessageId: string;
+    pollTimestamp: number;
   };
   // This field will only be set to true for outgoing messages
   hasUnreadPollVotes?: boolean;

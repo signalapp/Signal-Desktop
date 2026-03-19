@@ -147,7 +147,7 @@ describe('addAttachmentToMessage', () => {
     );
 
     const message = await getMessageById(messageId);
-    assert.deepStrictEqual(message?.attributes.preview?.[0].image, {
+    assert.deepStrictEqual(message?.attributes.preview?.[0]?.image, {
       ...attachment,
       path: '/path/to/attachment',
     });
@@ -181,7 +181,7 @@ describe('addAttachmentToMessage', () => {
 
     const message = await getMessageById(messageId);
     assert.deepStrictEqual(
-      message?.attributes.editHistory?.[0].preview?.[0].image,
+      message?.attributes.editHistory?.[0]?.preview?.[0]?.image,
       {
         ...attachment,
         path: '/path/to/attachment',
@@ -215,7 +215,7 @@ describe('addAttachmentToMessage', () => {
 
     const message = await getMessageById(messageId);
     assert.deepStrictEqual(
-      message?.attributes.quote?.attachments[0].thumbnail,
+      message?.attributes.quote?.attachments[0]?.thumbnail,
       {
         ...attachment,
         path: '/path/to/attachment',
@@ -258,7 +258,7 @@ describe('addAttachmentToMessage', () => {
 
     const message = await getMessageById(messageId);
     assert.deepStrictEqual(
-      message?.attributes.editHistory?.[0].quote?.attachments[0].thumbnail,
+      message?.attributes.editHistory?.[0]?.quote?.attachments[0]?.thumbnail,
       {
         ...attachment,
         path: '/path/to/attachment',
@@ -394,11 +394,11 @@ describe('addAttachmentToMessage', () => {
 
     const message = await getMessageById(messageId);
     assert.deepStrictEqual(
-      message?.attributes.editHistory?.[0].body,
+      message?.attributes.editHistory?.[0]?.body,
       'attachmenttext'
     );
     assert.deepStrictEqual(
-      message?.attributes.editHistory?.[0].bodyAttachment,
+      message?.attributes.editHistory?.[0]?.bodyAttachment,
       {
         ...attachment,
         path: 'bodyAttachmentPath',

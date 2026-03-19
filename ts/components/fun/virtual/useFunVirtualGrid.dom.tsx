@@ -207,11 +207,15 @@ function buildLayout(
   totalHeight: number
 ): Layout {
   const groups = groupBy(virtualItems, virtualItem => {
-    return list.listItems[virtualItem.index].sectionMeta.sectionKey;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return list.listItems[virtualItem.index]!.sectionMeta.sectionKey;
   });
 
   const sections = Object.keys(groups).map((sectionKey): SectionLayoutNode => {
-    const [headerVirtualItem, ...rowVirtualItems] = groups[sectionKey];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const [maybeHeaderVirtualItem, ...rowVirtualItems] = groups[sectionKey]!;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const headerVirtualItem = maybeHeaderVirtualItem!;
     const headerListItem = list.listItems.at(headerVirtualItem.index);
 
     strictAssert(
@@ -308,7 +312,7 @@ export type Cell = Readonly<{
 }>;
 
 export type FunVirtualGridOptions = Readonly<{
-  scrollerRef: RefObject<HTMLDivElement>;
+  scrollerRef: RefObject<HTMLDivElement | null>;
   sections: ReadonlyArray<GridSectionNode>;
   columns: number;
   overscan: number;
@@ -446,7 +450,8 @@ export function useFunVirtualGrid({
 
   const getItemKey = useCallback(
     (index: number) => {
-      return list.listItems[index].key;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      return list.listItems[index]!.key;
     },
     [list]
   );

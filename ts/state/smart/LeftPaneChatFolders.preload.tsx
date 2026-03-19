@@ -16,7 +16,6 @@ import { useChatFolderActions } from '../ducks/chatFolders.preload.js';
 import { NavSidebarWidthBreakpointContext } from '../../components/NavSidebar.dom.js';
 import { useNavActions } from '../ducks/nav.std.js';
 import { NavTab, SettingsPage } from '../../types/Nav.std.js';
-import { isChatFoldersEnabled } from '../../util/isChatFoldersEnabled.dom.js';
 import type { ChatFolderId } from '../../types/ChatFolder.std.js';
 import { getSelectedLocation } from '../selectors/nav.std.js';
 import { useConversationsActions } from '../ducks/conversations.preload.js';
@@ -52,11 +51,6 @@ export const SmartLeftPaneChatFolders = memo(
       },
       [changeLocation, location]
     );
-
-    const version = window.SignalContext.getVersion();
-    if (!isChatFoldersEnabled(version)) {
-      return null;
-    }
 
     return (
       <LeftPaneChatFolders

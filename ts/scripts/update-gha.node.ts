@@ -16,6 +16,12 @@ const WORKFLOWS_DIR = join(__dirname, '..', '..', '.github', 'workflows');
 const REGEXP =
   /uses:\s*(?<path>[^\s]+)@(?<ref>[^\s#]+)(?:\s*#\s*(?<originalRef>[^\n]+))?/g;
 
+type RegexGroups = {
+  path: string;
+  ref: string;
+  originalRef?: string;
+};
+
 const CACHE = new Map<string, string>();
 
 const TagsSchema = z
@@ -32,7 +38,7 @@ async function updateAction(fullPath: string): Promise<void> {
 
   for (const { groups } of source.matchAll(REGEXP)) {
     strictAssert(groups != null, 'Expected regexp to fully match');
-    const { path, ref, originalRef } = groups;
+    const { path, ref, originalRef } = groups as RegexGroups;
 
     // Skip local actions
     if (path.startsWith('.')) {
@@ -50,6 +56,7 @@ async function updateAction(fullPath: string): Promise<void> {
     }
 
     const [org, repo] = path.split('/', 2);
+    strictAssert(repo, 'Missing repo');
 
     const url =
       `https://api.github.com/repos/${encodeURIComponent(org)}/` +

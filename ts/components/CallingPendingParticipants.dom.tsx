@@ -6,7 +6,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import lodash from 'lodash';
 import classNames from 'classnames';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 
 import { Avatar, AvatarSize } from './Avatar.dom.js';
 import { ContactName } from './conversation/ContactName.dom.js';

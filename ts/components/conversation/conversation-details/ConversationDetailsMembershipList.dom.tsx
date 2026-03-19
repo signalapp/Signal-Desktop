@@ -19,6 +19,7 @@ import { PanelSection } from './PanelSection.dom.js';
 import { GroupMemberLabel } from '../ContactName.dom.js';
 import { AriaClickable } from '../../../axo/AriaClickable.dom.js';
 import type { ContactModalStateType } from '../../../types/globalModals.std.js';
+import type { ContactNameColorType } from '../../../types/Colors.std.js';
 
 export type GroupV2Membership = {
   isAdmin: boolean;
@@ -36,7 +37,7 @@ export type Props = {
   isEditMemberLabelEnabled: boolean;
   maxShownMemberCount?: number;
   memberships: ReadonlyArray<GroupV2Membership>;
-  memberColors: Map<string, string>;
+  memberColors: Map<string, ContactNameColorType>;
   showContactModal: (payload: ContactModalStateType) => void;
   showLabelEditor: () => void;
   startAddingNewMembers?: () => void;

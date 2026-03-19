@@ -10,7 +10,7 @@ import {
   Popover,
 } from 'react-aria-components';
 import { VisuallyHidden } from 'react-aria';
-import * as Tooltip from '@radix-ui/react-tooltip';
+import { Tooltip } from 'radix-ui';
 import type { LocalizerType } from '../../../types/I18N.std.js';
 import { strictAssert } from '../../../util/assert.std.js';
 import { missingCaseError } from '../../../util/missingCaseError.std.js';

@@ -51,11 +51,11 @@ export function createSupportUrl({
 
   url.searchParams.set('desktop', '');
 
-  for (const key of Object.keys(query)) {
+  for (const [key, value] of Object.entries(query)) {
     if (key === 'desktop') {
       continue;
     }
-    url.searchParams.set(key, query[key]);
+    url.searchParams.set(key, value);
   }
 
   // Support page requires `?desktop&...` not `?desktop=&...`

@@ -17,6 +17,7 @@ import * as Errors from '../../types/errors.std.js';
 import type { StateType as RootStateType } from '../reducer.preload.js';
 import type { BoundActionCreatorsMapObject } from '../../hooks/useBoundActions.std.js';
 import { useBoundActions } from '../../hooks/useBoundActions.std.js';
+import { strictAssert } from '../../util/assert.std.js';
 
 const { omit } = lodash;
 
@@ -205,6 +206,7 @@ export function reducer(
     const { contact } = action.payload;
     const { id } = contact;
     const record = state.contacts[id];
+    strictAssert(record, 'Missing record');
     return {
       contacts: {
         ...state.contacts,
@@ -221,6 +223,7 @@ export function reducer(
     const { contact, ...restProps } = action.payload;
     const { id } = contact;
     const record = state.contacts[id];
+    strictAssert(record, 'Missing record');
     return {
       contacts: {
         ...state.contacts,
@@ -236,7 +239,9 @@ export function reducer(
   if (action.type === GENERATE_FULFILLED) {
     const { contact, safetyNumber } = action.payload;
     const { id } = contact;
-    const record = state.contacts[id];
+    const record = state.contacts[id] || {
+      verificationDisabled: false,
+    };
     return {
       contacts: {
         ...state.contacts,

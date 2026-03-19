@@ -20,7 +20,7 @@ const contactWithAllData = getDefaultConversation({
   phoneNumber: '(305) 123-4567',
 });
 
-function renderSafetyNumberViewer(): JSX.Element {
+function renderSafetyNumberViewer(): React.JSX.Element {
   return <SafetyNumber />;
 }
 

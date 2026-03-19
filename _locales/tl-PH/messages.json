@@ -4032,22 +4032,22 @@
     "messageformat": "Pinalitan ng isang admin kung sinong pwedeng mag-edit ng group membership sa \"All members\"."
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "Pinalitan mo kung sinong makakapaglagay ng member labels sa \"Only admins.\""
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "Pinalitan ni {adminName} kung sinong makakapaglagay ng member labels sa \"Only admins.\""
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "Pinalitan ng isang admin kung sinong makakapaglagay ng member labels sa \"Only admins.\""
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "Pinalitan mo kung sinong makakapaglagay ng member labels sa \"All members.\""
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "Pinalitan ni {adminName} kung sinong makakapaglagay ng member labels sa \"All members.\""
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "Pinalitan ng isang admin kung sinong makakapaglagay ng member labels sa \"All members.\""
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "You disabled admin approval para sa group link."
@@ -4704,7 +4704,7 @@
     "messageformat": "I-mute"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "Tanggalin sa tawag"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Member labels"
@@ -4812,10 +4812,10 @@
     "messageformat": "Piliin kung sinong pwedeng mag-send ng messages sa group na ito."
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "Sinong makakapaglagay ng member labels"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "Piliin kung sinong makakapaglagay ng member labels sa group na ito."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Tatanggalin ang member labels"
@@ -5055,7 +5055,11 @@
     "messageformat": "Burahin para sa lahat?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {Bilang admin, makikita ng group members na binura mo ang message na ito.} other {Bilang admin, makikita ng group members na binura mo ang messages na ito.}}"
+    "messageformat": "{count, plural, one {Bilang admin, makikita ng group members na binura mo ang message na ito.} other {Bilang admin, makikita ng group members na binura mo ang messages na ito.}}",
+    "ignoreUnused": true
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
+    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Burahin sa lahat ng devices"
@@ -5067,10 +5071,10 @@
     "messageformat": "{count, plural, one {Pwede kang pumili ng {count,number} message para burahin sa lahat} other {Pwede kang pumili ng {count,number} messages para burahin sa lahat}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "Gusto mo bang burahin ang draft?"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "Hindi na pwedeng bawiin ang action na ito."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Burahin ang item?"
@@ -6208,13 +6212,13 @@
     "messageformat": "Backups sa Desktop"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "Ang backup mo ay end-to-end encrypted at nakalagay ito sa computer mo."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Gumawa ng isang end-to-end encrypted backup na pwede mong i-restore sa phone mo. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Para mag-restore ng backup, mag-install ng bagong kopya ng Signal sa phone mo. Buksan ang app at i-tap ang &quot;Restore or transfer.&quot; <learnMoreLink>Matuto pa.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Pumili ng folder"
@@ -6284,6 +6288,18 @@
   },
   "icu:Preferences__local-backups-folder__change": {
     "messageformat": "Baguhin"
+  },
+  "icu:Preferences__local-backups-turn-off": {
+    "messageformat": "Turn off backups"
+  },
+  "icu:Preferences__local-backups-turn-off-action": {
+    "messageformat": "Turn off"
+  },
+  "icu:Preferences__local-backups-turn-off-confirmation": {
+    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+  },
+  "icu:Preferences__local-backups-turn-off-delete": {
+    "messageformat": "Delete my backup from this computer"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopyahin sa clipboard"
@@ -8010,6 +8026,6 @@
     "messageformat": "Pwede ka nang mag-send ng view-once media messages mula sa Signal Desktop. Ang individual photos at videos na ipinadala bilang view-once messages ay automatic na tatanggalin mula sa conversation thread pagkatapos nilang makita."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "Maaari ka nang maglagay ng member label para ilarawan ang sarili mo o ang role mo sa group chat. Ang member labels ay lalabas sa tabi ng profile name mo sa group na ito, at ang group admins ang may kontrol kung magiging enabled ito para sa lahat."
   }
 }

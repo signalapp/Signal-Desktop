@@ -92,7 +92,7 @@ export class GumVideoCapturer {
       return;
     }
 
-    const settings = this.mediaStream.getVideoTracks()?.[0].getSettings();
+    const settings = this.mediaStream.getVideoTracks()?.[0]?.getSettings();
     if (!settings?.width || !settings?.height) {
       return;
     }
@@ -416,9 +416,9 @@ export const MAX_VIDEO_CAPTURE_AREA =
 export const MAX_VIDEO_CAPTURE_BUFFER_SIZE = MAX_VIDEO_CAPTURE_AREA * 4;
 
 export class CanvasVideoRenderer {
-  private canvas?: RefObject<HTMLCanvasElement>;
+  private canvas?: RefObject<HTMLCanvasElement | null>;
   private sizeCallback?: SizeCallbackType;
-  private buffer: Uint8Array;
+  private buffer: Uint8Array<ArrayBuffer>;
   private imageData?: ImageData;
   private source?: VideoFrameSource;
   private rafId?: ReturnType<typeof requestAnimationFrame>;
@@ -427,7 +427,7 @@ export class CanvasVideoRenderer {
     this.buffer = new Uint8Array(MAX_VIDEO_CAPTURE_BUFFER_SIZE);
   }
 
-  setCanvas(canvas: RefObject<HTMLCanvasElement> | undefined): void {
+  setCanvas(canvas: RefObject<HTMLCanvasElement | null> | undefined): void {
     this.canvas = canvas;
   }
   setSizer(callback: SizeCallbackType | undefined): void {

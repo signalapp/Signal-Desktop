@@ -1,9 +1,11 @@
 // Copyright 2025 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { assert } from 'chai';
-import type { MessageAttributesType } from '../../model-types.d.ts';
+import type {
+  EditHistoryType,
+  MessageAttributesType,
+} from '../../model-types.d.ts';
 import type { AttachmentType } from '../../types/Attachment.std.js';
 import { IMAGE_JPEG, LONG_MESSAGE } from '../../types/MIME.std.js';
 import { generateMessageId } from '../../util/generateMessageId.node.js';
@@ -84,80 +86,78 @@ describe('ensureBodyAttachmentsAreSeparated', () => {
     assert.deepEqual(result.bodyAttachment, msg.bodyAttachment);
   });
   it('separates first body attachment out for all editHistory', () => {
+    const normalAttachment = composeAttachment({
+      clientUuid: 'normal attachment',
+      contentType: IMAGE_JPEG,
+    });
+
+    const longMessageAttachment1 = composeAttachment({
+      clientUuid: 'long message attachment 1',
+      contentType: LONG_MESSAGE,
+    });
+
+    const longMessageAttachment2 = composeAttachment({
+      clientUuid: 'long message attachment 2',
+      contentType: LONG_MESSAGE,
+    });
+
+    const editAttachment1 = composeAttachment({
+      clientUuid: 'edit attachment 1',
+      contentType: IMAGE_JPEG,
+    });
+
+    const editAttachment2 = composeAttachment({
+      clientUuid: 'edit attachment 2',
+      contentType: IMAGE_JPEG,
+    });
+
+    const bodyAttachment = composeAttachment({
+      clientUuid: 'long message attachment already as bodyattachment',
+      contentType: LONG_MESSAGE,
+    });
+
+    const edit1: EditHistoryType = {
+      timestamp: Date.now(),
+      received_at: Date.now(),
+      attachments: [
+        editAttachment1,
+        longMessageAttachment1,
+        longMessageAttachment2,
+      ],
+    };
+
+    const edit2: EditHistoryType = {
+      timestamp: Date.now(),
+      received_at: Date.now(),
+      bodyAttachment,
+      attachments: [editAttachment1, editAttachment2],
+    };
+
     const msg = composeMessage({
       attachments: [
-        composeAttachment({
-          clientUuid: 'normal attachment',
-          contentType: IMAGE_JPEG,
-        }),
-        composeAttachment({
-          clientUuid: 'long message attachment 1',
-          contentType: LONG_MESSAGE,
-        }),
-        composeAttachment({
-          clientUuid: 'long message attachment 2',
-          contentType: LONG_MESSAGE,
-        }),
+        normalAttachment,
+        longMessageAttachment1,
+        longMessageAttachment2,
       ],
-      editHistory: [
-        {
-          timestamp: Date.now(),
-          received_at: Date.now(),
-          attachments: [
-            composeAttachment({
-              clientUuid: 'edit attachment',
-              contentType: IMAGE_JPEG,
-            }),
-            composeAttachment({
-              clientUuid: 'long message attachment 1',
-              contentType: LONG_MESSAGE,
-            }),
-            composeAttachment({
-              clientUuid: 'long message attachment 2',
-              contentType: LONG_MESSAGE,
-            }),
-          ],
-        },
-        {
-          timestamp: Date.now(),
-          received_at: Date.now(),
-          bodyAttachment: composeAttachment({
-            clientUuid: 'long message attachment already as bodyattachment',
-            contentType: LONG_MESSAGE,
-          }),
-          attachments: [
-            composeAttachment({
-              clientUuid: 'edit attachment 1',
-              contentType: IMAGE_JPEG,
-            }),
-            composeAttachment({
-              clientUuid: 'edit attachment 2',
-              contentType: IMAGE_JPEG,
-            }),
-          ],
-        },
-      ],
+      editHistory: [edit1, edit2],
     });
     const result = ensureBodyAttachmentsAreSeparated(msg, {
       logId: 'test',
       logger,
     });
 
-    assert.deepEqual(result.attachments, [msg.attachments?.[0]]);
-    assert.deepEqual(result.bodyAttachment, msg.attachments?.[1]);
+    assert.deepEqual(result.attachments, [normalAttachment]);
+    assert.deepEqual(result.bodyAttachment, longMessageAttachment1);
     assert.deepEqual(result.editHistory, [
       {
-        ...msg.editHistory![0],
-        attachments: [msg.editHistory![0].attachments![0]],
-        bodyAttachment: msg.editHistory![0].attachments![1],
+        ...edit1,
+        attachments: [editAttachment1],
+        bodyAttachment: longMessageAttachment1,
       },
       {
-        ...msg.editHistory![1],
-        attachments: [
-          msg.editHistory![1].attachments![0],
-          msg.editHistory![1].attachments![1],
-        ],
-        bodyAttachment: msg.editHistory![1].bodyAttachment,
+        ...edit2,
+        attachments: [editAttachment1, editAttachment2],
+        bodyAttachment,
       },
     ]);
   });
