@@ -40,7 +40,7 @@ patchedDependencies:
     hash: b88b5052437cbdc1882137778b76ca5037f71b2a030ae9ef39dc97f51670d599
     path: patches/casual+1.6.2.patch
   dmg-builder:
-    hash: cb72ed47fa8d45513a36db33fcb41cb75c30cada4737da067bf3fa1f063725f2
+    hash: 7ce1df215d2c4dcbe797485ec0456168d19a4870687b21c489062abd079c7982
     path: patches/dmg-builder.patch
   eslint-plugin-better-tailwindcss:
     hash: a94affa4d170a27c4cfd44f7ac30ea11ae285cb4e270a5d930dd28cc79901b4f
@@ -15468,7 +15468,7 @@ snapshots:
       chromium-pickle-js: 0.2.0
       config-file-ts: 0.2.8-rc1
       debug: 4.3.7(supports-color@8.1.1)
-      dmg-builder: 26.0.14(patch_hash=cb72ed47fa8d45513a36db33fcb41cb75c30cada4737da067bf3fa1f063725f2)(electron-builder-squirrel-windows@26.0.14)
+      dmg-builder: 26.0.14(patch_hash=7ce1df215d2c4dcbe797485ec0456168d19a4870687b21c489062abd079c7982)(electron-builder-squirrel-windows@26.0.14)
       dotenv: 16.4.7
       dotenv-expand: 11.0.7
       ejs: 3.1.10
@@ -16663,7 +16663,7 @@ snapshots:
 
   direction@1.0.4: {}
 
-  dmg-builder@26.0.14(patch_hash=cb72ed47fa8d45513a36db33fcb41cb75c30cada4737da067bf3fa1f063725f2)(electron-builder-squirrel-windows@26.0.14):
+  dmg-builder@26.0.14(patch_hash=7ce1df215d2c4dcbe797485ec0456168d19a4870687b21c489062abd079c7982)(electron-builder-squirrel-windows@26.0.14):
     dependencies:
       app-builder-lib: 26.0.14(patch_hash=bcbaa020b1d47a2b1e6ba770e561454819f95f13e01361cc3b2a25560a607fd5)(dmg-builder@26.0.14)(electron-builder-squirrel-windows@26.0.14)
       builder-util: 26.0.13
@@ -16825,7 +16825,7 @@ snapshots:
       builder-util: 26.0.13
       builder-util-runtime: 9.3.2
       chalk: 4.1.2
-      dmg-builder: 26.0.14(patch_hash=cb72ed47fa8d45513a36db33fcb41cb75c30cada4737da067bf3fa1f063725f2)(electron-builder-squirrel-windows@26.0.14)
+      dmg-builder: 26.0.14(patch_hash=7ce1df215d2c4dcbe797485ec0456168d19a4870687b21c489062abd079c7982)(electron-builder-squirrel-windows@26.0.14)
       fs-extra: 10.1.0
       is-ci: 3.0.1
       lazy-val: 1.0.5
