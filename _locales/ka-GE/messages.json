@@ -4032,22 +4032,22 @@
     "messageformat": "ადმინმა ჯგუფის წევრობის რედაქტირება მიანიჭა \"ყველა წევრს\"."
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "შენ შეცვალე, ვის შეუძლია წევრის იარლიყების დამატება \"მხოლოდ ადმინისტრატორებით\"."
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "{adminName}-მ(ა) შეცვალა, ვის შეუძლია წევრის იარლიყების დამატება \"მხოლოდ ადმინისტრატორებით\"."
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "ადმინისტრატორმა შეცვალა, ვის შეუძლია წევრის იარლიყების დამატება \"მხოლოდ ადმინისტრატორებით\"."
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "შენ შეცვალე, ვის შეუძლია წევრის იარლიყების დამატება \"ყველა წევრით\"."
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "{adminName}-მ(ა) შეცვალა, ვის შეუძლია წევრის იარლიყების დამატება \"ყველა წევრით\"."
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "ადმინისტრატორმა შეცვალა, ვის შეუძლია წევრის იარლიყების დამატება \"ყველა წევრით\"."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "შენ გამორთე ადმინის დასტური ჯგუფის ბმულისთვის."
@@ -4704,7 +4704,7 @@
     "messageformat": "დადუმება"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "ზარიდან წაშლა"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "წევრის იარლიყი"
@@ -4812,10 +4812,10 @@
     "messageformat": "აირჩიე, ვის შეუძლია ჯგუფში შეტყობინებების გაგზავნა"
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "ვის შეუძლია წევრის იარლიყების დამატება"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "აირჩიე, ვის შეუძლია ამ ჯგუფში წევრის იარლიყების დამატება."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "წევრის იარლიყები წაიშლება"
@@ -5055,7 +5055,11 @@
     "messageformat": "ყველასთან წაიშალოს?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {ჯგუფის წევრები ნახავენ, რომ ეს წერილები წაშალე, როგორც ადმინისტრატორმა.} other {ჯგუფის წევრები ნახავენ, რომ ეს წერილები წაშალე, როგორც ადმინისტრატორმა.}}"
+    "messageformat": "{count, plural, one {ჯგუფის წევრები ნახავენ, რომ ეს წერილები წაშალე, როგორც ადმინისტრატორმა.} other {ჯგუფის წევრები ნახავენ, რომ ეს წერილები წაშალე, როგორც ადმინისტრატორმა.}}",
+    "ignoreUnused": true
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
+    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "ყველა მოწყობილობიდან წაშლა"
@@ -5067,10 +5071,10 @@
     "messageformat": "{count, plural, one {ყველასთვის წასაშლელად მხოლოდ {count,number} შეტყობინების არჩევა შეგიძლია} other {ყველასთვის წასაშლელად მხოლოდ {count,number}-მდე შეტყობინების არჩევა შეგიძლია}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "გსურს, მონახაზი წაშალო?"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "ამ მოქმედებას ვეღარ გააუქმებ."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "გსურს ელემენტი წაშალო?"
@@ -6208,13 +6212,13 @@
     "messageformat": "დესკტოპის სათადარიგო ასლები"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "შენი სათადარიგო ასლები ბოლომდე დაშიფრულია და შენს კომპიუტერში ინახება."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "შექმენი დაშიფრული სათადარიგო ასლი, რომლის აღდგენაც შეგიძლია შენს ტელეფონზე. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "სათადარიგო ასლების აღსადგენად შენს მობილურზე Signal ახლიდან გადმოწერე. გახსენი აპი და აირჩიე &quot;აღდგენა ან გადატანა&quot;. <learnMoreLink>გაიგე მეტი.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "აირჩიე საქაღალდე"
@@ -6284,6 +6288,18 @@
   },
   "icu:Preferences__local-backups-folder__change": {
     "messageformat": "შეცვლა"
+  },
+  "icu:Preferences__local-backups-turn-off": {
+    "messageformat": "Turn off backups"
+  },
+  "icu:Preferences__local-backups-turn-off-action": {
+    "messageformat": "Turn off"
+  },
+  "icu:Preferences__local-backups-turn-off-confirmation": {
+    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+  },
+  "icu:Preferences__local-backups-turn-off-delete": {
+    "messageformat": "Delete my backup from this computer"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "ბუფერში ჩაკოპირება"
@@ -8010,6 +8026,6 @@
     "messageformat": "ახლა ერთჯერადი მედია-ფაილების შემცველი წერილების გაგზავნას Signal Desktop-იდანაც შეძლებ. ინდივიდუალური ფოტოები და ვიდეოები, რომლებიც ერთჯერადი წერილების სახით გაიგზავნება, მათი ნახვის შემდეგ მიმოწერიდან ავტომატურად ამოიშლება."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "ახლა შეგიძლია, სურვილის შემთხვევაში, წევრის იარლიყი დაამატო, რათა შენი თავი ან შენი როლი აღწერო ჯგუფის ჩატში. დაიყენე ჯგუფის წევრის იარლიყი სამსახურის ჩატში შენი პოზიციის მიხედვით. წევრის იარლიყი იმ ჯგუფში შენი პროფილის სახელის გვერდზე ჩნდება და ჯგუფის ადმინისტრატორებს შეუძლიათ გააკონტროლონ, იქნება თუ არა ის ყველასთვის ჩართული."
   }
 }

@@ -4032,22 +4032,22 @@
     "messageformat": "Administraator muutis grupi liikmelisuse muutjateks \"Kõik liikmed\"."
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "Sa muutsid liikme siltide lisamise loa valikule „Ainult administraatorid“."
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "{adminName} muutis liikme siltide lisamise loa valikule „Ainult administraatorid“."
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "Administraator muutis liikme siltide lisamise loa valikule „Ainult administraatorid“."
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "Sa muutsid liikme siltide lisamise loa valikule „Kõik liikmed“."
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "{adminName} muutis liikme siltide lisamise loa valikule „Kõik liikmed“."
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "Administraator muutis liikme siltide lisamise loa valikule „Kõik liikmed“."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "Sa lülitasid grupilingi administraatori kinnituse välja."
@@ -4704,7 +4704,7 @@
     "messageformat": "Vaigista"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "Eemalda kõnest"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "Liikmesildid"
@@ -4812,10 +4812,10 @@
     "messageformat": "Vali, kes saavad gruppi sõnumeid saata."
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "Kes saavad liikme silte lisada"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "Vali, kes saavad sellesse gruppi liikme silte lisada."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "Liikmete sildid kustutatakse"
@@ -5055,7 +5055,11 @@
     "messageformat": "Kas kustutada kõigi jaoks?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {Kuna oled administraator, näevad grupi liikmed, et kustutasid selle sõnumi.} other {Kuna oled administraator, näevad grupi liikmed, et kustutasid need sõnumid.}}"
+    "messageformat": "{count, plural, one {Kuna oled administraator, näevad grupi liikmed, et kustutasid selle sõnumi.} other {Kuna oled administraator, näevad grupi liikmed, et kustutasid need sõnumid.}}",
+    "ignoreUnused": true
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
+    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Kustuta kõigist seadmetest"
@@ -5067,10 +5071,10 @@
     "messageformat": "{count, plural, one {Saad valida kõigi jaoks kustutamiseks vaid kuni {count,number} sõnumi} other {Saad valida kõigi jaoks kustutamiseks vaid kuni {count,number} sõnumit}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "Kas loobuda mustandist?"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "Seda toimingut ei saa tagasi võtta."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "Kas kustutada üksus?"
@@ -6208,13 +6212,13 @@
     "messageformat": "Töölaua varukoopiad"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "Sinu varukoopia otspunktkrüptitakse ja salvestatakse sinu arvutisse."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "Loo otspunktkrüptitud varukoopia, mille saad oma telefonis taastada. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "Varukoopia taastamiseks paigalda oma telefoni Signali uus versioon. Ava äpp ja toksa „Taasta või edasta“. <learnMoreLink>Rohkem teavet.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "Vali kaust"
@@ -6284,6 +6288,18 @@
   },
   "icu:Preferences__local-backups-folder__change": {
     "messageformat": "Muuda"
+  },
+  "icu:Preferences__local-backups-turn-off": {
+    "messageformat": "Turn off backups"
+  },
+  "icu:Preferences__local-backups-turn-off-action": {
+    "messageformat": "Turn off"
+  },
+  "icu:Preferences__local-backups-turn-off-confirmation": {
+    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+  },
+  "icu:Preferences__local-backups-turn-off-delete": {
+    "messageformat": "Delete my backup from this computer"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopeeri lõikelauale"
@@ -8010,6 +8026,6 @@
     "messageformat": "Nüüd saad ka Signal Desktopist ühekordselt vaadatavaid meediasõnumeid saata. Ühekordseks vaatamiseks saadetud fotod ja videod eemaldatakse vestluslõimest automaatselt pärast nende vaatamist."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "Nüüd on sul võimalus lisada liikme silt, et kirjeldada ennast või oma rolli selles grupivestluses. Liikme silte kuvatakse grupis sinu profiilinime kõrval ning grupi administraatorid otsustavad, kas igaüks saab neid lisada või mitte."
   }
 }

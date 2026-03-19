@@ -4032,22 +4032,22 @@
     "messageformat": "నిర్వాహకుడు సమూహ సభ్యత్వాన్ని \"సభ్యులందరికీ\" సవరించగల మార్చారు."
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "మీరు సభ్యుడి లేబుల్‌లను ఎవరు జోడించవచ్చు అనే దానిని \"అడ్మిన్‌లు మాత్రమే\" కు మార్చారు."
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "{adminName} సభ్యుడి లేబుల్‌లను ఎవరు జోడించవచ్చు అనే దానిని \"అడ్మిన్‌లు మాత్రమే\" కు మార్చారు."
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "అడ్మిన్ సభ్యుడి లేబుల్‌లను ఎవరు జోడించవచ్చు అనే దానిని \"అడ్మిన్‌లు మాత్రమే\" కు మార్చారు."
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "మీరు సభ్యుడి లేబుల్‌లను ఎవరు జోడించవచ్చు అనే దానిని \"అందరు సభ్యులు\" కు మార్చారు."
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "{adminName} సభ్యుడి లేబుల్‌లను ఎవరు జోడించవచ్చు అనే దానిని \"అందరు సభ్యుల\" కు మార్చారు."
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "అడ్మిన్ సభ్యుడి లేబుల్‌లను ఎవరు జోడించవచ్చు అనే దానిని \"అందరు సభ్యుల\" కు మార్చారు."
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "సమూహ లింక్ కోసం మీరు నిర్వాహక ఆమోదాన్ని నిలిపివేశారు."
@@ -4704,7 +4704,7 @@
     "messageformat": "మ్యూట్"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "కాల్ నుండి తొలగించండి"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "సభ్యుడి లేబుల్‌లు"
@@ -4812,10 +4812,10 @@
     "messageformat": "గ్రూపుకు ఎవరు సందేశాలు పంపాలనేది ఎంచుకోండి."
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "సభ్యుడి లేబుల్‌లను ఎవరు జోడించవచ్చు"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "ఈ గ్రూప్‌లో సభ్యుడి లేబుల్‌లను ఎవరు జోడించవచ్చో ఎంచుకోండి."
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "సభ్యుల లేబుల్‌లు తొలగించబడతాయి"
@@ -5055,7 +5055,11 @@
     "messageformat": "ప్రతి ఒక్కరి కొరకు తొలగించాలా?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {ఒక అడ్మిన్‌గా, మీరు ఈ సందేశాన్ని తొలగించారని గ్రూప్ సభ్యులు చూస్తారు.} other {ఒక అడ్మిన్‌గా, మీరు ఈ సందేశాలను తొలగించారని గ్రూప్ సభ్యులు చూస్తారు.}}"
+    "messageformat": "{count, plural, one {ఒక అడ్మిన్‌గా, మీరు ఈ సందేశాన్ని తొలగించారని గ్రూప్ సభ్యులు చూస్తారు.} other {ఒక అడ్మిన్‌గా, మీరు ఈ సందేశాలను తొలగించారని గ్రూప్ సభ్యులు చూస్తారు.}}",
+    "ignoreUnused": true
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
+    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "అన్ని పరికరాాల నుంచి తొలగించండి"
@@ -5067,10 +5071,10 @@
     "messageformat": "{count, plural, one {ప్రతి ఒక్కరి కొరకు తొలగించడానికి మీరు కేవలం {count,number} సందేశం వరకు ఎంచుకోవచ్చు} other {ప్రతి ఒక్కరి కొరకు తొలగించడానికి మీరు కేవలం {count,number} సందేశాల వరకు ఎంచుకోవచ్చు}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "ముసాయిదాను తీసివేసేదా?"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "ఈ చర్యను రద్దు చేయడం సాధ్యం కాదు."
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "అంశాన్ని తొలగించాలా?"
@@ -6208,13 +6212,13 @@
     "messageformat": "డెస్క్‌టాప్ బ్యాకప్‌లు"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "మీ బ్యాకప్ ఎండ్-టు-ఎండ్ గుప్తీకరణ చేయబడి, మీ కంప్యూటర్‌లో నిల్వ చేయబడింది."
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "మీరు మీ ఫోన్‌లో పునరుద్ధరించగల ఎండ్-టు-ఎండ్ గుప్తీకరించిన బ్యాకప్‌ను సృష్టించండి. "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "ఒక బ్యాకప్‌ను పునరుద్ధరించడానికి, మీ ఫోన్‌లో Signal యొక్క కొత్త కాపీని ఇన్‌స్టాల్ చేయండి. యాప్‌ని తెరిచి, &quot;పునరుద్ధరించండి లేదా బదిలీ చేయండి&quot;ని తట్టండి. <learnMoreLink>మరింత తెలుసుకోండి.</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "ఒక ఫోల్డర్‌ను ఎంచుకోండి"
@@ -6284,6 +6288,18 @@
   },
   "icu:Preferences__local-backups-folder__change": {
     "messageformat": "మార్చండి"
+  },
+  "icu:Preferences__local-backups-turn-off": {
+    "messageformat": "Turn off backups"
+  },
+  "icu:Preferences__local-backups-turn-off-action": {
+    "messageformat": "Turn off"
+  },
+  "icu:Preferences__local-backups-turn-off-confirmation": {
+    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+  },
+  "icu:Preferences__local-backups-turn-off-delete": {
+    "messageformat": "Delete my backup from this computer"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "తాత్కాలికంగా భద్రపరుచు ప్రదేశముకు నకలు చెయ్యి"
@@ -8010,6 +8026,6 @@
     "messageformat": "ఇప్పుడు మీరు Signal Desktop నుండి కూడా ఒకసారి చూసే మీడియా సందేశాలను పంపవచ్చు. ఒకసారి చూసే సందేశాలుగా పంపబడిన వ్యక్తిగత ఫోటోలు మరియు వీడియోలు వీక్షించబడిన తర్వాత సంభాషణ థ్రెడ్ నుండి స్వయంచాలకంగా తీసివేయబడతాయి."
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "గ్రూప్ చాట్‌లో మిమ్మల్ని లేదా మీ పాత్రను వివరించడానికి ఇప్పుడు మీరు ఐచ్ఛికంగా సభ్యుడి లేబుల్‌ను జోడించవచ్చు. కొత్త జట్టు సహచరులు చేరినప్పుడు విషయాలను ప్రారంభించడానికి మీ స్థానిక రెక్ లీగ్ సాకర్ చాట్‌లో మీ గ్రూప్ సభ్యుని లేబుల్‌ను \"రిఫరీ\" లేదా \"గోలీ\" గా సెట్ చేయండి, ఆపై కంపెనీ చాట్‌లో మీ ఉద్యోగ శీర్షికతో వేరే లేబుల్‌ను ఎంచుకోండి. ఆ గ్రూప్‌లో మీ ప్రొఫైల్ పేరు పక్కన సభ్యుల లేబుల్‌లు కనిపిస్తాయి మరియు గ్రూప్ అడ్మిన్‌లు వాటిని అందరికీ ప్రారంభించాలా వద్దా అని నియంత్రించగలరు."
   }
 }

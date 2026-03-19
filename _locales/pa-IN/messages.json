@@ -4032,22 +4032,22 @@
     "messageformat": "ਕਿਸੇ ਐਡਮਿਨ ਨੇ “ਸਾਰੇ ਮੈਂਬਰਾਂ\" ਨੂੰ ਗਰੁੱਪ ਦੀ ਮੈਂਬਰਸ਼ਿਪ ਵਿੱਚ ਸੋਧ ਕਰਨ ਵਾਲੇ ਬਣਾ ਦਿੱਤਾ।"
   },
   "icu:GroupV2--access-member-label--admins--you": {
-    "messageformat": "You changed who can add member labels to \"Only admins.\""
+    "messageformat": "ਮੈਂਬਰ ਲੇਬਲ ਕੌਣ ਸ਼ਾਮਲ ਕਰ ਸਕਦਾ ਹੈ, ਤੁਸੀਂ ਇਸ ਸੈਟਿੰਗ ਨੂੰ \"ਸਿਰਫ਼ ਐਡਮਿਨ\" 'ਤੇ ਬਦਲ ਦਿੱਤਾ ਹੈ।"
   },
   "icu:GroupV2--access-member-label--admins--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"Only admins.\""
+    "messageformat": "ਮੈਂਬਰ ਲੇਬਲ ਕੌਣ ਸ਼ਾਮਲ ਕਰ ਸਕਦਾ ਹੈ, {adminName} ਨੇ ਇਸ ਸੈਟਿੰਗ ਨੂੰ \"ਸਿਰਫ਼ ਐਡਮਿਨ\" 'ਤੇ ਬਦਲ ਦਿੱਤਾ ਹੈ।"
   },
   "icu:GroupV2--access-member-label--admins--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"Only admins.\""
+    "messageformat": "ਮੈਂਬਰ ਲੇਬਲ ਕੌਣ ਸ਼ਾਮਲ ਕਰ ਸਕਦਾ ਹੈ, ਕਿਸੇ ਐਡਮਿਨ ਨੇ ਇਸ ਸੈਟਿੰਗ ਨੂੰ \"ਸਿਰਫ਼ ਐਡਮਿਨ\" 'ਤੇ ਬਦਲ ਦਿੱਤਾ ਹੈ।"
   },
   "icu:GroupV2--access-member-label--all--you": {
-    "messageformat": "You changed who can add member labels to \"All members.\""
+    "messageformat": "ਮੈਂਬਰ ਲੇਬਲ ਕੌਣ ਸ਼ਾਮਲ ਕਰ ਸਕਦਾ ਹੈ, ਤੁਸੀਂ ਇਸ ਸੈਟਿੰਗ ਨੂੰ \"ਸਾਰੇ ਮੈਂਬਰ\" 'ਤੇ ਬਦਲ ਦਿੱਤਾ ਹੈ।"
   },
   "icu:GroupV2--access-member-label--all--other": {
-    "messageformat": "{adminName} changed who can add member labels to \"All members.\""
+    "messageformat": "ਮੈਂਬਰ ਲੇਬਲ ਕੌਣ ਸ਼ਾਮਲ ਕਰ ਸਕਦਾ ਹੈ, {adminName} ਨੇ ਇਸ ਸੈਟਿੰਗ ਨੂੰ \"ਸਾਰੇ ਮੈਂਬਰ\" 'ਤੇ ਬਦਲ ਦਿੱਤਾ ਹੈ।"
   },
   "icu:GroupV2--access-member-label--all--unknown": {
-    "messageformat": "An admin changed who can add member labels to \"All members.\""
+    "messageformat": "ਮੈਂਬਰ ਲੇਬਲ ਕੌਣ ਸ਼ਾਮਲ ਕਰ ਸਕਦਾ ਹੈ, ਕਿਸੇ ਐਡਮਿਨ ਨੇ ਇਸ ਸੈਟਿੰਗ ਨੂੰ \"ਸਾਰੇ ਮੈਂਬਰ\" 'ਤੇ ਬਦਲ ਦਿੱਤਾ ਹੈ।"
   },
   "icu:GroupV2--access-invite-link--disabled--you": {
     "messageformat": "ਤੁਸੀਂ ਗਰੁੱਪ ਲਿੰਕ ਲਈ ਐਡਮਿਨ ਦੀ ਮਨਜ਼ੂਰੀ ਨੂੰ ਅਸਮਰੱਥ  ਬਣਾ ਦਿੱਤਾ।"
@@ -4704,7 +4704,7 @@
     "messageformat": "ਮਿਊਟ ਕਰੋ"
   },
   "icu:ContactModal--remove-from-call": {
-    "messageformat": "Remove from call"
+    "messageformat": "ਕਾਲ ਵਿੱਚੋਂ ਹਟਾਓ"
   },
   "icu:GroupMemberLabelInfoModal--title": {
     "messageformat": "ਮੈਂਬਰ ਲੇਬਲ"
@@ -4812,16 +4812,16 @@
     "messageformat": "ਚੋਣ ਕਰੋ ਕਿ ਕੌਣ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਸੁਨੇਹੇ ਭੇਜ ਸਕਦਾ ਹੈ।"
   },
   "icu:ConversationDetails--member-label--label": {
-    "messageformat": "Who can add member labels"
+    "messageformat": "ਮੈਂਬਰ ਲੇਬਲ ਕੌਣ ਸ਼ਾਮਲ ਕਰ ਸਕਦਾ ਹੈ?"
   },
   "icu:ConversationDetails--member-label--info": {
-    "messageformat": "Choose who can add member labels in this group."
+    "messageformat": "ਚੁਣੋ ਕਿ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਮੈਂਬਰ ਲੇਬਲ ਕੌਣ ਸ਼ਾਮਲ ਕਰ ਸਕਦਾ ਹੈ।"
   },
   "icu:ConversationDetails--label-clear-warning--title": {
     "messageformat": "ਮੈਂਬਰ ਲੇਬਲ ਸਾਫ਼ ਕਰ ਦਿੱਤੇ ਜਾਣਗੇ"
   },
   "icu:ConversationDetails--label-clear-warning--description": {
-    "messageformat": "ਇਸ ਇਜਾਜ਼ਤ ਨੂੰ \"ਸਿਰਫ਼ ਐਡਮਿਨ\" ਵਿੱਚ ਬਦਲਣ ਨਾਲ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਉਹਨਾਂ ਮੈਂਬਰਾਂ ਦੁਆਰਾ ਸੈੱਟ ਕੀਤੇ ਮੈਂਬਰ ਲੇਬਲ ਹਟਾ ਦਿੱਤੇ ਜਾਣਗੇ ਜੋ ਮੈਂਬਰ ਨਹੀਂ ਹਨ।"
+    "messageformat": "ਇਸ ਇਜਾਜ਼ਤ ਨੂੰ \"ਸਿਰਫ਼ ਐਡਮਿਨ\" ਵਿੱਚ ਬਦਲਣ ਨਾਲ ਇਸ ਗਰੁੱਪ ਵਿੱਚ ਉਹਨਾਂ ਮੈਂਬਰਾਂ ਦੁਆਰਾ ਸੈੱਟ ਕੀਤੇ ਮੈਂਬਰ ਲੇਬਲ ਹਟਾ ਦਿੱਤੇ ਜਾਣਗੇ ਜੋ ਐਡਮਿਨ ਨਹੀਂ ਹਨ।"
   },
   "icu:ConversationDetails--label-clear-warning--continue": {
     "messageformat": "ਜਾਰੀ ਰੱਖੋ"
@@ -5055,7 +5055,11 @@
     "messageformat": "ਕੀ ਸਾਰਿਆਂ ਲਈ ਮਿਟਾਉਣਾ ਹੈ?"
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description": {
-    "messageformat": "{count, plural, one {ਇੱਕ ਐਡਮਿਨ ਦੇ ਤੌਰ 'ਤੇ, ਗਰੁੱਪ ਦੇ ਮੈਂਬਰ ਇਹ ਦੇਖ ਸਕਣਗੇ ਕਿ ਤੁਸੀਂ ਇਸ ਸੁਨੇਹੇ ਨੂੰ ਮਿਟਾ ਦਿੱਤਾ ਹੈ।} other {ਇੱਕ ਐਡਮਿਨ ਦੇ ਤੌਰ 'ਤੇ, ਗਰੁੱਪ ਦੇ ਮੈਂਬਰ ਇਹ ਦੇਖ ਸਕਣਗੇ ਕਿ ਤੁਸੀਂ ਇਹਨਾਂ ਸੁਨੇਹਿਆਂ ਨੂੰ ਮਿਟਾ ਦਿੱਤਾ ਹੈ।}}"
+    "messageformat": "{count, plural, one {ਇੱਕ ਐਡਮਿਨ ਦੇ ਤੌਰ 'ਤੇ, ਗਰੁੱਪ ਦੇ ਮੈਂਬਰ ਇਹ ਦੇਖ ਸਕਣਗੇ ਕਿ ਤੁਸੀਂ ਇਸ ਸੁਨੇਹੇ ਨੂੰ ਮਿਟਾ ਦਿੱਤਾ ਹੈ।} other {ਇੱਕ ਐਡਮਿਨ ਦੇ ਤੌਰ 'ਤੇ, ਗਰੁੱਪ ਦੇ ਮੈਂਬਰ ਇਹ ਦੇਖ ਸਕਣਗੇ ਕਿ ਤੁਸੀਂ ਇਹਨਾਂ ਸੁਨੇਹਿਆਂ ਨੂੰ ਮਿਟਾ ਦਿੱਤਾ ਹੈ।}}",
+    "ignoreUnused": true
+  },
+  "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
+    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "ਸਾਰੇ ਡਿਵਾਈਸਾਂ ਵਿੱਚੋਂ ਮਿਟਾਓ"
@@ -5067,10 +5071,10 @@
     "messageformat": "{count, plural, one {ਤੁਸੀਂ ਹਰੇਕ ਲਈ ਮਿਟਾਉਣ ਵਾਸਤੇ ਵੱਧ ਤੋਂ ਵੱਧ {count,number} ਸੁਨੇਹਾ ਚੁਣ ਸਕਦੇ ਹੋ} other {ਤੁਸੀਂ ਹਰੇਕ ਲਈ ਮਿਟਾਉਣ ਵਾਸਤੇ ਵੱਧ ਤੋਂ ਵੱਧ {count,number} ਸੁਨੇਹੇ ਚੁਣ ਸਕਦੇ ਹੋ}}"
   },
   "icu:DiscardDraftDialog__title": {
-    "messageformat": "Discard draft?"
+    "messageformat": "ਕੀ ਡਰਾਫਟ ਨੂੰ ਖਾਰਜ ਕਰਨਾ ਹੈ?"
   },
   "icu:DiscardDraftDialog__description": {
-    "messageformat": "This action can't be undone."
+    "messageformat": "ਇਸ ਕਾਰਵਾਈ ਨੂੰ ਅਣਕੀਤਾ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ।"
   },
   "icu:DeleteAttachmentModal__Title": {
     "messageformat": "ਕੀ ਆਈਟਮ ਮਿਟਾਉਣੀ ਹੈ?"
@@ -6208,13 +6212,13 @@
     "messageformat": "ਡੈਸਕਟੌਪ ਬੈਕਅੱਪ"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "Your backup is end-to-end encrypted and stored on your computer."
+    "messageformat": "ਤੁਹਾਡਾ ਬੈਕਅੱਪ ਸਿਰੇ-ਤੋਂ-ਸਿਰੇ ਤੱਕ ਇਨਕ੍ਰਿਪਟਡ ਹੈ ਅਤੇ ਤੁਹਾਡੇ ਕੰਪਿਊਟਰ ਉੱਤੇ ਸਟੋਰ ਕੀਤਾ ਜਾਂਦਾ ਹੈ।"
   },
   "icu:Preferences--local-backups-off-description": {
     "messageformat": "ਇੱਕ ਸਿਰੇ-ਤੋਂ-ਸਿਰੇ ਤੱਕ ਇਨਕ੍ਰਿਪਟਡ ਬੈਕਅੱਪ ਬਣਾਓ ਜਿਸਨੂੰ ਤੁਸੀਂ ਆਪਣੇ ਫ਼ੋਨ 'ਤੇ ਰੀਸਟੋਰ ਕਰ ਸਕਦੇ ਹੋ। "
   },
   "icu:Preferences--local-backups-restore-info": {
-    "messageformat": "To restore a backup, install a new copy of Signal on your phone. Open the app and tap “Restore or transfer.” <learnMoreLink>Learn more.</learnMoreLink>"
+    "messageformat": "ਬੈਕਅੱਪ ਰੀਸਟੋਰ ਕਰਨ ਲਈ, ਆਪਣੇ ਫ਼ੋਨ ਉੱਤੇ Signal ਦੀ ਇੱਕ ਨਵੀਂ ਕਾਪੀ ਇੰਸਟਾਲ ਕਰੋ। ਐਪ ਨੂੰ ਖੋਲ੍ਹੋ ਅਤੇ &quot;ਰੀਸਟੋਰ ਜਾਂ ਟ੍ਰਾਂਸਫਰ ਕਰੋ&quot; 'ਤੇ ਟੈਪ ਕਰੋ। <learnMoreLink>ਹੋਰ ਜਾਣੋ।</learnMoreLink>"
   },
   "icu:Preferences--local-backups-setup-folder": {
     "messageformat": "ਫੋਲਡਰ ਚੁਣੋ"
@@ -6284,6 +6288,18 @@
   },
   "icu:Preferences__local-backups-folder__change": {
     "messageformat": "ਬਦਲੋ"
+  },
+  "icu:Preferences__local-backups-turn-off": {
+    "messageformat": "Turn off backups"
+  },
+  "icu:Preferences__local-backups-turn-off-action": {
+    "messageformat": "Turn off"
+  },
+  "icu:Preferences__local-backups-turn-off-confirmation": {
+    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+  },
+  "icu:Preferences__local-backups-turn-off-delete": {
+    "messageformat": "Delete my backup from this computer"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "ਕਲਿਪਬੋਰਡ 'ਤੇ ਕਾਪੀ ਕਰੋ"
@@ -8010,6 +8026,6 @@
     "messageformat": "ਹੁਣ ਤੁਸੀਂ Signal Desktop ਤੋਂ ਵੀ ਇੱਕ ਵਾਰ ਦੇਖੇ ਜਾ ਸਕਣ ਵਾਲੇ ਮੀਡੀਆ ਵਾਲੇ ਸੁਨੇਹੇ ਭੇਜ ਸਕਦੇ ਹੋ। ਇੱਕ ਵਾਰ ਦੇਖੇ ਜਾ ਸਕਣ ਵਾਲੇ ਸੁਨੇਹਿਆਂ ਵਜੋਂ ਭੇਜੀਆਂ ਗਈਆਂ ਵਿਅਕਤੀਗਤ ਫ਼ੋਟੋਆਂ ਅਤੇ ਵੀਡੀਓ ਦੇਖਣ ਤੋਂ ਬਾਅਦ ਗੱਲਬਾਤ ਥ੍ਰੈੱਡ ਤੋਂ ਆਪਣੇ ਆਪ ਹਟਾ ਦਿੱਤੀ ਜਾਵੇਗੀ।"
   },
   "icu:WhatsNew__8.3--0": {
-    "messageformat": "Now you can optionally add a member label to describe yourself or your role in a group chat. Set your group member label to \"Referee\" or \"Goalie\" in your local rec league soccer chat to help kick things off when new teammates join, then choose a different label with your job title in the company chat. Member labels appear next to your profile name in that group, and group admins can control whether or not they are enabled for everyone."
+    "messageformat": "ਹੁਣ ਤੁਸੀਂ ਵਿਕਲਪਿਕ ਤੌਰ 'ਤੇ ਆਪਣੇ ਬਾਰੇ ਜਾਂ ਕਿਸੇ ਗਰੁੱਪ ਚੈਟ ਵਿੱਚ ਆਪਣੀ ਭੂਮਿਕਾ ਦਾ ਵਰਣਨ ਕਰਨ ਲਈ ਇੱਕ ਮੈਂਬਰ ਲੇਬਲ ਸ਼ਾਮਲ ਕਰ ਸਕਦੇ ਹੋ। ਉਸ ਗਰੁੱਪ ਵਿੱਚ ਮੈਂਬਰ ਲੇਬਲ ਨੂੰ ਤੁਹਾਡੇ ਪ੍ਰੋਫ਼ਾਈਲ ਨਾਂ ਦੇ ਅੱਗੇ ਦਿਖਾਇਆ ਜਾਂਦਾ ਹੈ, ਅਤੇ ਗਰੁੱਪ ਐਡਮਿਨ ਇਹ ਕੰਟਰੋਲ ਕਰ ਸਕਦੇ ਹਨ ਕਿ ਇਹ ਸਹੂਲਤ ਸਾਰਿਆਂ ਲਈ ਸਮਰੱਥ ਕਰਨੀ ਹੈ ਜਾਂ ਨਹੀਂ।"
   }
 }
