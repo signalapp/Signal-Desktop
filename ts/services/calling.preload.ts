@@ -184,6 +184,9 @@ import {
   isCallFailure,
   shouldShowCallQualitySurvey,
 } from '../util/callQualitySurvey.dom.js';
+import * as RemoteConfig from '../RemoteConfig.dom.js';
+import { isAlpha, isBeta, isProduction } from '../util/version.std.js';
+import { parseIntOrThrow } from '../util/parseIntOrThrow.std.js';
 
 const { i18n } = window.SignalContext;
 
@@ -572,8 +575,11 @@ export class CallingClass {
   #localPreviewContainer: HTMLDivElement | undefined;
   #localPreview: HTMLVideoElement | undefined;
   #reduxInterface?: CallingReduxInterface;
+  #_sfuUrl?: string;
 
-  public _sfuUrl?: string;
+  public get sfuUrl(): string | undefined {
+    return itemStorage.get('sfuUrl') ?? this.#_sfuUrl;
+  }
 
   public _iceServerOverride?: GetIceServersResultType | string;
 
@@ -606,7 +612,7 @@ export class CallingClass {
       throw new Error('CallingClass.initialize: Invalid uxActions.');
     }
 
-    this._sfuUrl = sfuUrl;
+    this.#_sfuUrl = sfuUrl;
 
     RingRTC.setConfig({
       field_trials: undefined,
@@ -851,11 +857,11 @@ export class CallingClass {
 
   async createCallLink(): Promise<CallLinkType> {
     strictAssert(
-      this._sfuUrl,
+      this.sfuUrl,
       'createCallLink() missing SFU URL; not creating call link'
     );
 
-    const sfuUrl = this._sfuUrl;
+    const { sfuUrl } = this;
     const userId = Aci.parseFromServiceIdString(
       itemStorage.user.getCheckedAci()
     );
@@ -936,11 +942,11 @@ export class CallingClass {
 
   async deleteCallLink(callLink: CallLinkType): Promise<void> {
     strictAssert(
-      this._sfuUrl,
+      this.sfuUrl,
       'createCallLink() missing SFU URL; not deleting call link'
     );
 
-    const sfuUrl = this._sfuUrl;
+    const { sfuUrl } = this;
     const logId = `deleteCallLink(${callLink.roomId})`;
     log.info(logId);
 
@@ -973,10 +979,10 @@ export class CallingClass {
     name: string
   ): Promise<CallLinkStateType> {
     strictAssert(
-      this._sfuUrl,
+      this.sfuUrl,
       'updateCallLinkName() missing SFU URL; not update call link name'
     );
-    const sfuUrl = this._sfuUrl;
+    const { sfuUrl } = this;
     const logId = `updateCallLinkName(${callLink.roomId})`;
 
     log.info(`${logId}: Updating call link name`);
@@ -1011,10 +1017,10 @@ export class CallingClass {
     restrictions: CallLinkRestrictions
   ): Promise<CallLinkStateType> {
     strictAssert(
-      this._sfuUrl,
+      this.sfuUrl,
       'updateCallLinkRestrictions() missing SFU URL; not update call link restrictions'
     );
-    const sfuUrl = this._sfuUrl;
+    const { sfuUrl } = this;
     const logId = `updateCallLinkRestrictions(${callLink.roomId})`;
 
     log.info(`${logId}: Updating call link restrictions`);
@@ -1054,7 +1060,7 @@ export class CallingClass {
   async readCallLink(
     callLinkRootKey: CallLinkRootKey
   ): Promise<CallLinkStateType | null> {
-    if (!this._sfuUrl) {
+    if (!this.sfuUrl) {
       throw new Error('readCallLink() missing SFU URL; not handling call link');
     }
 
@@ -1066,7 +1072,7 @@ export class CallingClass {
       await getCallLinkAuthCredentialPresentation(callLinkRootKey);
 
     const result = await RingRTC.readCallLink(
-      this._sfuUrl,
+      this.sfuUrl,
       authCredentialPresentation.serialize(),
       callLinkRootKey
     );
@@ -1315,7 +1321,7 @@ export class CallingClass {
       return statefulPeekInfo;
     }
 
-    if (!this._sfuUrl) {
+    if (!this.sfuUrl) {
       throw new Error('Missing SFU URL; not peeking group call');
     }
 
@@ -1338,7 +1344,7 @@ export class CallingClass {
     const membershipProof = Bytes.fromString(proof);
 
     return RingRTC.peekGroupCall(
-      this._sfuUrl,
+      this.sfuUrl,
       membershipProof,
       this.#getGroupCallMembers(conversationId)
     );
@@ -1360,7 +1366,7 @@ export class CallingClass {
       );
     }
 
-    if (!this._sfuUrl) {
+    if (!this.sfuUrl) {
       throw new Error('Missing SFU URL; not peeking call link call');
     }
 
@@ -1369,7 +1375,7 @@ export class CallingClass {
       await getCallLinkAuthCredentialPresentation(callLinkRootKey);
 
     const result = await RingRTC.peekCallLinkCall(
-      this._sfuUrl,
+      this.sfuUrl,
       authCredentialPresentation.serialize(),
       callLinkRootKey
     );
@@ -1412,7 +1418,7 @@ export class CallingClass {
       return existing;
     }
 
-    if (!this._sfuUrl) {
+    if (!this.sfuUrl) {
       throw new Error('Missing SFU URL; not connecting group call');
     }
 
@@ -1420,16 +1426,16 @@ export class CallingClass {
     log.info(logId);
 
     const groupIdBuffer = Bytes.fromBase64(groupId);
-    const dredDuration = 0;
 
     let isRequestingMembershipProof = false;
+    const config = this.#getRemoteAndOverrideConfigValues();
 
     const outerGroupCall = RingRTC.getGroupCall(
       groupIdBuffer,
-      this._sfuUrl,
+      this.sfuUrl,
       new Uint8Array(),
       AUDIO_LEVEL_INTERVAL_MS,
-      dredDuration,
+      config.dredDuration,
       {
         ...this.#getGroupCallObserver(conversationId, CallMode.Group),
         async requestMembershipProof(groupCall) {
@@ -1496,23 +1502,22 @@ export class CallingClass {
     const logId = `connectCallLinkCall(${roomId}`;
     log.info(logId);
 
-    if (!this._sfuUrl) {
+    if (!this.sfuUrl) {
       throw new Error(
         `${logId}: Missing SFU URL; not connecting group call link call`
       );
     }
-
-    const dredDuration = 0;
+    const config = this.#getRemoteAndOverrideConfigValues();
 
     const outerGroupCall = RingRTC.getCallLinkCall(
-      this._sfuUrl,
+      this.sfuUrl,
       endorsementsPublicKey,
       authCredentialPresentation.serialize(),
       callLinkRootKey,
       adminPasskey,
       new Uint8Array(),
       AUDIO_LEVEL_INTERVAL_MS,
-      dredDuration,
+      config.dredDuration,
       this.#getGroupCallObserver(roomId, CallMode.Adhoc)
     );
 
@@ -3863,6 +3868,59 @@ export class CallingClass {
     return null;
   }
 
+  #getRemoteAndOverrideConfigValues(): {
+    dredDuration: number | undefined;
+    isDirectVp9Enabled: boolean | undefined;
+    directMaxBitrate: number | undefined;
+    isGroupVp9Enabled: boolean | undefined;
+    groupMaxBitrate: number | undefined;
+  } {
+    function dredDuration(version: string): number | undefined {
+      const override = itemStorage.get('dredDuration');
+      if (override) {
+        return override;
+      }
+
+      if (isProduction(version)) {
+        return tryParseInt(
+          RemoteConfig.getValue('desktop.calling.dredDuration.prod')
+        );
+      }
+
+      if (isBeta(version)) {
+        return tryParseInt(
+          RemoteConfig.getValue('desktop.calling.dredDuration.beta')
+        );
+      }
+
+      if (isAlpha(version)) {
+        return tryParseInt(
+          RemoteConfig.getValue('desktop.calling.dredDuration.alpha')
+        );
+      }
+
+      return undefined;
+    }
+
+    function tryParseInt(v: string | undefined): number | undefined {
+      try {
+        return parseIntOrThrow(v, 'invalid');
+      } catch (e) {
+        return undefined;
+      }
+    }
+
+    const version = window.SignalContext.getVersion();
+
+    return {
+      dredDuration: dredDuration(version),
+      isDirectVp9Enabled: itemStorage.get('isDirectVp9Enabled'),
+      directMaxBitrate: itemStorage.get('directMaxBitrate'),
+      isGroupVp9Enabled: itemStorage.get('isGroupVp9Enabled'),
+      groupMaxBitrate: itemStorage.get('directMaxBitrate'),
+    };
+  }
+
   async #getIceServers(): Promise<Array<IceServerType>> {
     function iceServerConfigToList(
       iceServerConfig: GetIceServersResultType
@@ -3964,6 +4022,7 @@ export class CallingClass {
     }
 
     const iceServers = await this.#getIceServers();
+    const config = this.#getRemoteAndOverrideConfigValues();
 
     // We do this again, since getIceServers is a call that can take some time
     if (call.endedReason) {
@@ -3984,7 +4043,7 @@ export class CallingClass {
       hideIp: shouldRelayCalls || isContactUntrusted,
       dataMode: DataMode.Normal,
       audioLevelsIntervalMillis: AUDIO_LEVEL_INTERVAL_MS,
-      dredDuration: 0,
+      dredDuration: config.dredDuration,
     };
 
     log.info('CallingClass.handleStartCall(): Proceeding');

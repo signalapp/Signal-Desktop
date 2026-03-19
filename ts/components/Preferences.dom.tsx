@@ -210,6 +210,14 @@ export type PropsDataType = {
   >;
 
   donationReceipts: ReadonlyArray<DonationReceipt>;
+
+  // calling internal preferences
+  dredDuration: number | undefined;
+  isDirectVp9Enabled: boolean | undefined;
+  directMaxBitrate: number | undefined;
+  isGroupVp9Enabled: boolean | undefined;
+  groupMaxBitrate: number | undefined;
+  sfuUrl: string | undefined;
 } & Omit<MediaDeviceSettings, 'availableCameras'>;
 
 type PropsFunctionType = {
@@ -345,6 +353,12 @@ type PropsFunctionType = {
   ) => Promise<ReadonlyArray<RowType<object>>>;
   cqsTestMode: boolean;
   setCqsTestMode: (value: boolean) => void;
+  setDredDuration: (value: number | undefined) => void;
+  setIsDirectVp9Enabled: (value: boolean | undefined) => void;
+  setDirectMaxBitrate: (value: number | undefined) => void;
+  setIsGroupVp9Enabled: (value: boolean | undefined) => void;
+  setGroupMaxBitrate: (value: number | undefined) => void;
+  setSfuUrl: (value: string | undefined) => void;
 
   // Localization
   i18n: LocalizerType;
@@ -554,6 +568,18 @@ export function Preferences({
   __dangerouslyRunAbitraryReadOnlySqlQuery,
   cqsTestMode,
   setCqsTestMode,
+  setDredDuration,
+  dredDuration,
+  setIsDirectVp9Enabled,
+  isDirectVp9Enabled,
+  setDirectMaxBitrate,
+  directMaxBitrate,
+  setIsGroupVp9Enabled,
+  isGroupVp9Enabled,
+  setGroupMaxBitrate,
+  groupMaxBitrate,
+  setSfuUrl,
+  sfuUrl,
 }: PropsType): React.JSX.Element {
   const storiesId = useId();
   const themeSelectId = useId();
@@ -2333,6 +2359,18 @@ export function Preferences({
             }
             cqsTestMode={cqsTestMode}
             setCqsTestMode={setCqsTestMode}
+            dredDuration={dredDuration}
+            setDredDuration={setDredDuration}
+            setIsDirectVp9Enabled={setIsDirectVp9Enabled}
+            isDirectVp9Enabled={isDirectVp9Enabled}
+            setDirectMaxBitrate={setDirectMaxBitrate}
+            directMaxBitrate={directMaxBitrate}
+            setIsGroupVp9Enabled={setIsGroupVp9Enabled}
+            isGroupVp9Enabled={isGroupVp9Enabled}
+            setGroupMaxBitrate={setGroupMaxBitrate}
+            groupMaxBitrate={groupMaxBitrate}
+            sfuUrl={sfuUrl}
+            setSfuUrl={setSfuUrl}
           />
         }
         contentsRef={settingsPaneRef}

@@ -40,6 +40,19 @@ export function PreferencesInternal({
   __dangerouslyRunAbitraryReadOnlySqlQuery,
   cqsTestMode,
   setCqsTestMode,
+
+  dredDuration,
+  setDredDuration,
+  isDirectVp9Enabled,
+  setIsDirectVp9Enabled,
+  directMaxBitrate,
+  setDirectMaxBitrate,
+  isGroupVp9Enabled,
+  setIsGroupVp9Enabled,
+  groupMaxBitrate,
+  setGroupMaxBitrate,
+  sfuUrl,
+  setSfuUrl,
 }: {
   i18n: LocalizerType;
   validateBackup: () => Promise<BackupValidationResultType>;
@@ -65,6 +78,18 @@ export function PreferencesInternal({
   ) => Promise<ReadonlyArray<RowType<object>>>;
   cqsTestMode: boolean;
   setCqsTestMode: (value: boolean) => void;
+  dredDuration: number | undefined;
+  setDredDuration: (value: number | undefined) => void;
+  isDirectVp9Enabled: boolean | undefined;
+  setIsDirectVp9Enabled: (value: boolean | undefined) => void;
+  directMaxBitrate: number | undefined;
+  setDirectMaxBitrate: (value: number | undefined) => void;
+  isGroupVp9Enabled: boolean | undefined;
+  setIsGroupVp9Enabled: (value: boolean | undefined) => void;
+  groupMaxBitrate: number | undefined;
+  setGroupMaxBitrate: (value: number | undefined) => void;
+  sfuUrl: string | undefined;
+  setSfuUrl: (value: string | undefined) => void;
 }): React.JSX.Element {
   const [messageCountBySchemaVersion, setMessageCountBySchemaVersion] =
     useState<MessageCountBySchemaVersionType>();
@@ -88,6 +113,57 @@ export function PreferencesInternal({
   const [readOnlySqlResults, setReadOnlySqlResults] = useState<ReadonlyArray<
     RowType<object>
   > | null>(null);
+
+  const stripAndParseString = (input: string): number | undefined => {
+    const stripped = input.replace(/\D/g, '');
+    return stripped.length !== 0 ? parseInt(stripped, 10) : undefined;
+  };
+
+  const handleDredDurationUpdate = useCallback(
+    (input: string) => {
+      const parsed = stripAndParseString(input);
+      if (parsed) {
+        setDredDuration(Math.min(100, parsed));
+      } else {
+        setDredDuration(undefined);
+      }
+    },
+    [setDredDuration]
+  );
+  const handleDirectMaxBitrateUpdate = useCallback(
+    (input: string) => {
+      setDirectMaxBitrate(stripAndParseString(input));
+    },
+    [setDirectMaxBitrate]
+  );
+  const handleGroupMaxBitrateUpdate = useCallback(
+    (input: string) => {
+      setGroupMaxBitrate(stripAndParseString(input));
+    },
+    [setGroupMaxBitrate]
+  );
+  const handleSfuUrlUpdate = useCallback(
+    (input: string) => {
+      const url = input.trim();
+      setSfuUrl(url.length !== 0 ? url : undefined);
+    },
+    [setSfuUrl]
+  );
+  const handleResetCallingOverrides = useCallback(() => {
+    setDredDuration(undefined);
+    setIsDirectVp9Enabled(undefined);
+    setDirectMaxBitrate(undefined);
+    setIsGroupVp9Enabled(undefined);
+    setGroupMaxBitrate(undefined);
+    setSfuUrl(undefined);
+  }, [
+    setDredDuration,
+    setIsDirectVp9Enabled,
+    setDirectMaxBitrate,
+    setIsGroupVp9Enabled,
+    setGroupMaxBitrate,
+    setSfuUrl,
+  ]);
 
   const validateBackup = useCallback(async () => {
     setIsValidationPending(true);
@@ -558,6 +634,94 @@ export function PreferencesInternal({
             moduleClassName="Preferences__ReadonlySqlPlayground__Textarea"
           />
         )}
+      </SettingsRow>
+      <SettingsRow title="Calling General">
+        <FlowingSettingsControl>
+          <div className="Preferences__two-thirds-flow">
+            Clear custom calling preferences
+          </div>
+          <div className="Preferences__one-third-flow Preferences__one-third-flow--justify-end">
+            <AxoButton.Root
+              variant="destructive"
+              size="lg"
+              onClick={handleResetCallingOverrides}
+            >
+              Clear
+            </AxoButton.Root>
+          </div>
+        </FlowingSettingsControl>
+        <FlowingSettingsControl>
+          <div className="Preferences__two-thirds-flow">
+            DRED Duration (0 - 100)
+          </div>
+          <div className="Preferences__one-third-flow Preferences__one-third-flow--justify-end">
+            <AutoSizeTextArea
+              i18n={i18n}
+              value={dredDuration?.toString(10)}
+              onChange={handleDredDurationUpdate}
+              placeholder="0 - 100"
+              moduleClassName="Preferences__ReadonlySqlPlayground__Textarea"
+            />
+          </div>
+        </FlowingSettingsControl>
+      </SettingsRow>
+      <SettingsRow title="Direct Calls">
+        <FlowingSettingsControl>
+          <div className="Preferences__two-thirds-flow">Enable VP9</div>
+          <div className="Preferences__one-third-flow Preferences__one-third-flow--justify-end">
+            <AxoSwitch.Root
+              checked={isDirectVp9Enabled ?? true}
+              onCheckedChange={setIsDirectVp9Enabled}
+            />
+          </div>
+        </FlowingSettingsControl>
+        <FlowingSettingsControl>
+          <div className="Preferences__two-thirds-flow">Max bitrate</div>
+          <div className="Preferences__one-third-flow Preferences__one-third-flow--justify-end">
+            <AutoSizeTextArea
+              i18n={i18n}
+              value={directMaxBitrate?.toString(10)}
+              onChange={handleDirectMaxBitrateUpdate}
+              placeholder="Default"
+              moduleClassName="Preferences__ReadonlySqlPlayground__Textarea"
+            />
+          </div>
+        </FlowingSettingsControl>
+      </SettingsRow>
+      <SettingsRow title="Group/Adhoc Calls">
+        <FlowingSettingsControl>
+          <div className="Preferences__two-thirds-flow">Enable VP9</div>
+          <div className="Preferences__one-third-flow Preferences__one-third-flow--justify-end">
+            <AxoSwitch.Root
+              checked={isGroupVp9Enabled ?? false}
+              onCheckedChange={setIsGroupVp9Enabled}
+            />
+          </div>
+        </FlowingSettingsControl>
+        <FlowingSettingsControl>
+          <div className="Preferences__two-thirds-flow">Max bitrate</div>
+          <div className="Preferences__one-third-flow Preferences__one-third-flow--justify-end">
+            <AutoSizeTextArea
+              i18n={i18n}
+              value={groupMaxBitrate?.toString(10)}
+              onChange={handleGroupMaxBitrateUpdate}
+              placeholder="Default"
+              moduleClassName="Preferences__ReadonlySqlPlayground__Textarea"
+            />
+          </div>
+        </FlowingSettingsControl>
+        <FlowingSettingsControl>
+          <div className="Preferences__one-third-flow">SFU URL</div>
+          <div className="Preferences__two-thirds-flow Preferences__two-thirds-flow--justify-end">
+            <AutoSizeTextArea
+              i18n={i18n}
+              value={sfuUrl}
+              onChange={handleSfuUrlUpdate}
+              placeholder="https://sfu.voip.signal.org"
+              moduleClassName="Preferences__ReadonlySqlPlayground__Textarea"
+            />
+          </div>
+        </FlowingSettingsControl>
       </SettingsRow>
     </div>
   );

@@ -87,7 +87,7 @@ if (
       return message?.attributes;
     },
     getReduxState: () => window.reduxStore.getState(),
-    getSfuUrl: () => calling._sfuUrl,
+    getSfuUrl: () => calling.sfuUrl,
     getIceServerOverride: () => calling._iceServerOverride,
     getSocketStatus: () => getSocketStatus(),
     getStorageItem: (name: keyof StorageAccessType) => itemStorage.get(name),
@@ -101,8 +101,8 @@ if (
       }
       window.Flags[name] = value;
     },
-    setSfuUrl: (url: string) => {
-      calling._sfuUrl = url;
+    setSfuUrl: async (url: string) => {
+      await itemStorage.put('sfuUrl', url);
     },
     setIceServerOverride: (
       override: GetIceServersResultType | string | undefined

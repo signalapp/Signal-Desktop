@@ -291,6 +291,14 @@ export type StorageAccessType = {
   defaultDimWallpaperInDarkMode: boolean;
   defaultAutoBubbleColor: boolean;
 
+  // Used for manually controlling calling settings
+  dredDuration: number | undefined;
+  isDirectVp9Enabled: boolean | undefined;
+  directMaxBitrate: number | undefined;
+  isGroupVp9Enabled: boolean | undefined;
+  groupMaxBitrate: number | undefined;
+  sfuUrl: string | undefined;
+
   // Deprecated
   'challenge:retry-message-ids': never;
   nextSignedKeyRotationTime: number;
@@ -514,6 +522,12 @@ const STORAGE_KEYS_TO_REMOVE_AFTER_UNLINK = [
   'backupMediaDownloadIdle',
   'callQualitySurveyCooldownDisabled',
   'localDeleteWarningShown',
+  'dredDuration',
+  'directMaxBitrate',
+  'isDirectVp9Enabled',
+  'groupMaxBitrate',
+  'isGroupVp9Enabled',
+  'sfuUrl',
 ] as const satisfies ReadonlyArray<keyof StorageAccessType>;
 
 // Ensure every storage key is explicitly marked to be preserved or removed on unlink.

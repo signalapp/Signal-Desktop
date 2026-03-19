@@ -56,6 +56,9 @@ export type SemverKeyType = ArrayValues<typeof SemverKeys>;
 
 const ScalarKeys = [
   'desktop.callQualitySurveyPPM',
+  'desktop.calling.dredDuration.alpha',
+  'desktop.calling.dredDuration.beta',
+  'desktop.calling.dredDuration.prod',
   'desktop.clientExpiration',
   'desktop.internalUser',
   'desktop.loggingErrorToasts',

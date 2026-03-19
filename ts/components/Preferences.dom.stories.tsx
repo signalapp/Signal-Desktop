@@ -647,6 +647,18 @@ export default {
     },
     cqsTestMode: false,
     setCqsTestMode: action('setCqsTestMode'),
+    dredDuration: 0,
+    setDredDuration: action('setDredDuration'),
+    directMaxBitrate: 1000000,
+    setDirectMaxBitrate: action('setDirectMaxBitrate'),
+    isDirectVp9Enabled: true,
+    setIsDirectVp9Enabled: action('setIsDirectVp9Enabled'),
+    groupMaxBitrate: 1000000,
+    setGroupMaxBitrate: action('setGroupMaxBitrate'),
+    isGroupVp9Enabled: false,
+    setIsGroupVp9Enabled: action('setIsDirectVp9Enabled'),
+    sfuUrl: 'https://sfu.voip.signal.org',
+    setSfuUrl: action('setSfuUrl'),
   } satisfies PropsType,
 } satisfies Meta<PropsType>;
 

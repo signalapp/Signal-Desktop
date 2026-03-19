@@ -784,6 +784,25 @@ export function SmartPreferences(): React.JSX.Element | null {
     drop(itemStorage.put('cqsTestMode', value));
   }, []);
 
+  const setDredDuration = useCallback((value: number | undefined) => {
+    drop(itemStorage.put('dredDuration', value));
+  }, []);
+  const setIsDirectVp9Enabled = useCallback((value: boolean | undefined) => {
+    drop(itemStorage.put('isDirectVp9Enabled', value));
+  }, []);
+  const setDirectMaxBitrate = useCallback((value: number | undefined) => {
+    drop(itemStorage.put('directMaxBitrate', value));
+  }, []);
+  const setIsGroupVp9Enabled = useCallback((value: boolean | undefined) => {
+    drop(itemStorage.put('isGroupVp9Enabled', value));
+  }, []);
+  const setGroupMaxBitrate = useCallback((value: number | undefined) => {
+    drop(itemStorage.put('groupMaxBitrate', value));
+  }, []);
+  const setSfuUrl = useCallback((value: string | undefined) => {
+    drop(itemStorage.put('sfuUrl', value));
+  }, []);
+
   if (currentLocation.tab !== NavTab.Settings) {
     return null;
   }
@@ -998,6 +1017,18 @@ export function SmartPreferences(): React.JSX.Element | null {
           }
           cqsTestMode={cqsTestMode}
           setCqsTestMode={setCqsTestMode}
+          dredDuration={items.dredDuration}
+          setDredDuration={setDredDuration}
+          setIsDirectVp9Enabled={setIsDirectVp9Enabled}
+          isDirectVp9Enabled={items.isDirectVp9Enabled}
+          setDirectMaxBitrate={setDirectMaxBitrate}
+          directMaxBitrate={items.directMaxBitrate}
+          setIsGroupVp9Enabled={setIsGroupVp9Enabled}
+          isGroupVp9Enabled={items.isGroupVp9Enabled}
+          setGroupMaxBitrate={setGroupMaxBitrate}
+          groupMaxBitrate={items.groupMaxBitrate}
+          sfuUrl={items.sfuUrl}
+          setSfuUrl={setSfuUrl}
         />
       </AxoProvider>
     </StrictMode>
