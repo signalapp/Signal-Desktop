@@ -186,6 +186,11 @@ $inline-emoji-container-name: inline-emoji;
   font-size: 64px;
   line-height: 64px;
   user-select: text;
+
+  &::selection {
+    background-color: transparent;
+    color: transparent;
+  }
 }
 
 .FunInlineEmoji__Image {
