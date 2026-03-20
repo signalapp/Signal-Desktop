@@ -132,8 +132,8 @@ importers:
         specifier: 3.27.0
         version: 3.27.0(react@19.2.4)
       '@signalapp/libsignal-client':
-        specifier: 0.89.0
-        version: 0.89.0
+        specifier: 0.89.1
+        version: 0.89.1
       '@signalapp/minimask':
         specifier: 1.0.1
         version: 1.0.1
@@ -3453,8 +3453,8 @@ packages:
   '@sideway/pinpoint@2.0.0':
     resolution: {integrity: sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==}
 
-  '@signalapp/libsignal-client@0.89.0':
-    resolution: {integrity: sha512-/eiWJuW/k6bwLcW5CodB9NNRSc6kH5ThbT+7NdIAS4Z6NdknbFcgp58452zTZYO2E/3xmP6/UlpeRaXxz2Dh1Q==}
+  '@signalapp/libsignal-client@0.89.1':
+    resolution: {integrity: sha512-e68h7iKC2rWaSAFqMk5Ubl+XTBI6GDCCy70Jybe24KfmK9c0Bz+z7I+jjs9BAj1kpIJkUvb/A9JLMrst295DBg==}
 
   '@signalapp/minimask@1.0.1':
     resolution: {integrity: sha512-QAwo0joA60urTNbW9RIz6vLKQjy+jdVtH7cvY0wD9PVooD46MAjE40MLssp4xUJrph91n2XvtJ3pbEUDrmT2AA==}
@@ -14134,7 +14134,7 @@ snapshots:
 
   '@sideway/pinpoint@2.0.0': {}
 
-  '@signalapp/libsignal-client@0.89.0':
+  '@signalapp/libsignal-client@0.89.1':
     dependencies:
       node-gyp-build: 4.8.4
       type-fest: 4.26.1
@@ -14146,7 +14146,7 @@ snapshots:
     dependencies:
       '@indutny/parallel-prettier': 3.0.0(prettier@3.7.4)
       '@indutny/protopiler': 3.2.1
-      '@signalapp/libsignal-client': 0.89.0
+      '@signalapp/libsignal-client': 0.89.1
       '@tus/file-store': 1.5.1
       '@tus/server': 1.10.2
       debug: 4.3.7(supports-color@8.1.1)
