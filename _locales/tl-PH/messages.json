@@ -6293,7 +6293,7 @@
     "messageformat": "Turn off backups"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Patayin"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
     "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
