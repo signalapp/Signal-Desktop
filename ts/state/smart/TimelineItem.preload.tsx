@@ -45,7 +45,7 @@ import { MessageInteractivity } from '../../components/conversation/Message.dom.
 import { useNavActions } from '../ducks/nav.std.js';
 import { DataReader } from '../../sql/Client.preload.js';
 import { isInternalFeaturesEnabled } from '../../util/isInternalFeaturesEnabled.dom.js';
-import type { CollapseSet } from './Timeline.preload.js';
+import type { CollapseSet } from '../../util/CollapseSet.std.js';
 
 export type RenderItemProps = Omit<SmartTimelineItemProps, 'renderItem'>;
 

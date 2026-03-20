@@ -44,7 +44,7 @@ import {
 } from '../../hooks/useScrollLock.dom.js';
 import { MessageInteractivity } from './Message.dom.js';
 import type { RenderItemProps } from '../../state/smart/TimelineItem.preload.js';
-import type { CollapseSet } from '../../state/smart/Timeline.preload.js';
+import type { CollapseSet } from '../../util/CollapseSet.std.js';
 
 const { first, get, isNumber, last, throttle } = lodash;
 
@@ -442,7 +442,17 @@ export class Timeline extends React.Component<
             maxRowIndex >= 0 &&
             rowIndex >= maxRowIndex - LOAD_NEWER_THRESHOLD
           ) {
-            loadNewerMessages(id, newestBottomVisibleMessageId);
+            let targetMessageId = newestBottomVisibleMessageId;
+            const newestItem = items.find(
+              item => item.id === newestBottomVisibleMessageId
+            );
+            if (newestItem && newestItem.type !== 'none') {
+              const lastItem = last(newestItem.messages);
+              strictAssert(lastItem, 'lastItem in newestItem.messages array');
+              targetMessageId = lastItem.id;
+            }
+
+            loadNewerMessages(id, targetMessageId);
           }
         }
 

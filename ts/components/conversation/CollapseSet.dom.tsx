@@ -18,7 +18,7 @@ import type { WidthBreakpoint } from '../_util.std.js';
 import type {
   CollapsedMessage,
   CollapseSet,
-} from '../../state/smart/Timeline.preload.js';
+} from '../../util/CollapseSet.std.js';
 import type { RenderItemProps } from '../../state/smart/TimelineItem.preload.js';
 import type { LocalizerType } from '../../types/I18N.std.js';
 import type { TargetedMessageType } from '../../state/selectors/conversations.dom.js';

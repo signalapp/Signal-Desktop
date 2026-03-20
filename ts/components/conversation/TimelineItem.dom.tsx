@@ -72,7 +72,7 @@ import type { MessageInteractivity } from './Message.dom.js';
 import type { PinMessageData } from '../../model-types.js';
 import type { AciString } from '../../types/ServiceId.std.js';
 import type { RenderItemProps } from '../../state/smart/TimelineItem.preload.js';
-import type { CollapseSet } from '../../state/smart/Timeline.preload.js';
+import type { CollapseSet } from '../../util/CollapseSet.std.js';
 import { CollapseSetViewer } from './CollapseSet.dom.js';
 import type { TargetedMessageType } from '../../state/selectors/conversations.dom.js';
 
