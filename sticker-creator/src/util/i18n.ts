@@ -12,6 +12,7 @@ import type {
   LocaleMessagesType,
 } from '../types.d';
 import englishMessages from '../assets/locales/en/messages.json';
+import { getResolvedMessagesLocale } from './api';
 import { assert } from './assert';
 
 const debug = createDebug('signal:i18n');
@@ -98,7 +99,7 @@ export type LoadLocaleResult = Readonly<{
 }>;
 
 export async function loadLocale(
-  language = navigator.language
+  language = getResolvedMessagesLocale() ?? navigator.language
 ): Promise<LoadLocaleResult> {
   // Remove region. "en-US" might not be supported, but "en" is.
   const languageWithoutRegion = removeRegion(language);
