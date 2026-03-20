@@ -11,6 +11,7 @@ import {
   InstallScreenStep,
   InstallScreenQRCodeError,
 } from '../../types/InstallScreen.std.js';
+import { DialogType } from '../../types/Dialogs.std.js';
 import { missingCaseError } from '../../util/missingCaseError.std.js';
 import type { Loadable } from '../../util/loadable.std.js';
 import { LoadingState } from '../../util/loadable.std.js';
@@ -69,7 +70,7 @@ export function InstallScreenQrCodeNotScannedStep({
 
       <InstallScreenSignalLogo />
 
-      {hasExpired && (
+      {(hasExpired || updates.dialogType === DialogType.Downloading) && (
         <InstallScreenUpdateDialog
           i18n={i18n}
           {...updates}
