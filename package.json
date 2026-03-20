@@ -463,6 +463,29 @@
         "NSAutoFillRequiresTextContentTypeForOneTimeCodeOnMac": true
       }
     },
+    "dmg": {
+      "title": "${productName} Installer",
+      "background": "build/dmg/background.tiff",
+      "icon": "build/dmg/icon.icns",
+      "iconSize": 96,
+      "window": {
+        "width": 540,
+        "height": 394
+      },
+      "contents": [
+        {
+          "type": "file",
+          "x": 152,
+          "y": 161
+        },
+        {
+          "path": "/Applications",
+          "type": "link",
+          "x": 368,
+          "y": 161
+        }
+      ]
+    },
     "masDev": {
       "type": "development",
       "sign": null,
