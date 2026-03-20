@@ -88,7 +88,7 @@ async function updateConversationFromContactSync(
     await conversation.updateExpirationTimer(details.expireTimer, {
       // Note: because it's our conversationId, this notification will be marked read. But
       //   setting this will make 'isSetByOther' check true.
-      source: window.ConversationController.getOurConversationId(),
+      source: window.ConversationController.getOurConversationIdOrThrow(),
       receivedAt: receivedAtCounter,
       version: details.expireTimerVersion ?? 1,
       fromSync: true,

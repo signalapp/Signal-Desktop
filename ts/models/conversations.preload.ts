@@ -4811,12 +4811,28 @@ export class ConversationModel {
       reason: string;
       receivedAt?: number;
       receivedAtMS?: number;
-      sentAt?: number;
-      source?: string;
-      version: number | undefined;
       fromSync?: boolean;
       isInitialSync?: boolean;
-    }
+    } & (
+      | {
+          // isSetByOther=true
+          sentAt: number;
+          source?: string;
+          version: number;
+        }
+      | {
+          // isSetByOther=true
+          sentAt?: number;
+          source: string;
+          version: number;
+        }
+      | {
+          // isSetByOther=false
+          sentAt?: undefined;
+          source?: undefined;
+          version: undefined;
+        }
+    )
   ): Promise<void> {
     const isSetByOther = providedSource || providedSentAt !== undefined;
 
@@ -4882,21 +4898,24 @@ export class ConversationModel {
       `source=${source ?? '?'} localValue=${this.get('expireTimer')} ` +
       `localVersion=${localVersion}, reason=${reason}, isInitialSync=${isInitialSync}`;
 
-    if (isSetByOther) {
-      if (version) {
-        if (localVersion && version < localVersion) {
-          log.warn(`${logId}: not updating, local version is ${localVersion}`);
-          return;
-        }
+    if (version === 0) {
+      log.warn(`${logId}: not updating, zero version`);
+      return;
+    }
 
-        if (version === localVersion) {
-          if (!timerMatchesLocalValue) {
-            log.warn(`${logId}: expire version glare`);
-          }
-        } else {
-          this.set({ expireTimerVersion: version });
-          log.info(`${logId}: updating expire version`);
+    if (isSetByOther) {
+      if (localVersion && version < localVersion) {
+        log.warn(`${logId}: not updating, local version is ${localVersion}`);
+        return;
+      }
+
+      if (version === localVersion) {
+        if (!timerMatchesLocalValue) {
+          log.warn(`${logId}: expire version glare`);
         }
+      } else {
+        this.set({ expireTimerVersion: version });
+        log.info(`${logId}: updating expire version`);
       }
     }
 
