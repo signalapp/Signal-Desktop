@@ -2065,7 +2065,7 @@ export class BackupExportStream extends Readable {
 
   /** For fields that can accept either ACI or PNI bytes */
   #serviceIdToBytes(serviceId: ServiceIdString): Uint8Array<ArrayBuffer> {
-    return ServiceId.parseFromServiceIdString(serviceId).getRawUuidBytes();
+    return ServiceId.parseFromServiceIdString(serviceId).getServiceIdBinary();
   }
 
   async #toChatItemFromNonBubble(
