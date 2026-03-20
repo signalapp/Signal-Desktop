@@ -71,6 +71,10 @@ import type { MessageRequestState } from './MessageRequestActionsConfirmation.do
 import type { MessageInteractivity } from './Message.dom.js';
 import type { PinMessageData } from '../../model-types.js';
 import type { AciString } from '../../types/ServiceId.std.js';
+import type { RenderItemProps } from '../../state/smart/TimelineItem.preload.js';
+import type { CollapseSet } from '../../state/smart/Timeline.preload.js';
+import { CollapseSetViewer } from './CollapseSet.dom.js';
+import type { TargetedMessageType } from '../../state/selectors/conversations.dom.js';
 
 type CallHistoryType = {
   type: 'callHistory';
@@ -79,6 +83,10 @@ type CallHistoryType = {
 type ChatSessionRefreshedType = {
   type: 'chatSessionRefreshed';
   data: null;
+};
+type CollapseSetType = {
+  type: 'collapseSet';
+  data: CollapseSet;
 };
 type DeliveryIssueType = {
   type: 'deliveryIssue';
@@ -173,6 +181,7 @@ export type TimelineItemType = (
   | CallHistoryType
   | ChangeNumberNotificationType
   | ChatSessionRefreshedType
+  | CollapseSetType
   | ConversationMergeNotificationType
   | DeliveryIssueType
   | GroupNotificationType
@@ -220,8 +229,10 @@ type PropsLocalType = {
   platform: string;
   renderContact: SmartContactRendererType<React.JSX.Element>;
   renderUniversalTimerNotification: () => React.JSX.Element;
+  renderItem: (props: RenderItemProps) => React.JSX.Element;
   i18n: LocalizerType;
   interactionMode: InteractionModeType;
+  targetedMessage: TargetedMessageType | undefined;
   theme: ThemeType;
 };
 
@@ -263,6 +274,7 @@ export const TimelineItem = memo(function TimelineItem({
   platform,
   renderUniversalTimerNotification,
   returnToActiveCall,
+  renderItem,
   scrollToPinnedMessage,
   scrollToPollMessage,
   targetMessage,
@@ -271,6 +283,7 @@ export const TimelineItem = memo(function TimelineItem({
   shouldCollapseBelow,
   shouldHideMetadata,
   shouldRenderDateHeader,
+  targetedMessage,
   theme,
   ...reducedProps
 }: PropsType): React.JSX.Element | null {
@@ -302,6 +315,20 @@ export const TimelineItem = memo(function TimelineItem({
         platform={platform}
         i18n={i18n}
         theme={theme}
+      />
+    );
+  } else if (item.type === 'collapseSet') {
+    itemContents = (
+      <CollapseSetViewer
+        {...item.data}
+        containerElementRef={containerElementRef}
+        containerWidthBreakpoint={reducedProps.containerWidthBreakpoint}
+        conversationId={conversationId}
+        isBlocked={isBlocked}
+        isGroup={isGroup}
+        renderItem={renderItem}
+        targetedMessage={targetedMessage}
+        i18n={i18n}
       />
     );
   } else {

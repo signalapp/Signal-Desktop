@@ -181,6 +181,8 @@ export enum MessageInteractivity {
   Static = 'Static',
   /** Enable some interactions for embedded messages (ex: PinnedMessagesPanel) */
   Embed = 'Embed',
+  /** Hidden, like in a collapsed CollapseSet */
+  Hidden = 'Hidden',
 }
 
 export type AudioAttachmentProps = {
@@ -3465,7 +3467,7 @@ export class Message extends React.PureComponent<Props, State> {
         'aria-checked': isSelected,
         'aria-labelledby': `message-accessibility-label:${id}`,
         'aria-describedby': `message-accessibility-description:${id}`,
-        tabIndex: 0,
+        tabIndex: interactivity !== MessageInteractivity.Hidden ? 0 : undefined,
         onClick: event => {
           event.preventDefault();
           onToggleSelect(!isSelected, event.shiftKey);

@@ -84,7 +84,7 @@ export const SmartChatsTab = memo(function SmartChatsTab() {
     } else if (
       selectedConversationId &&
       targetedMessageId &&
-      targetedMessageSource !== TargetedMessageSource.Focus
+      targetedMessageSource === TargetedMessageSource.NavigateToMessage
     ) {
       scrollToMessage(selectedConversationId, targetedMessageId);
     }

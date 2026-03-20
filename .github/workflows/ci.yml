@@ -62,6 +62,7 @@ jobs:
     - run: pnpm run lint
     - run: pnpm run lint-deps
     - run: pnpm run lint-license-comments
+    - run: pnpm run lint-intl
 
     - name: Check acknowledgments file is up to date
       run: pnpm run build:acknowledgments

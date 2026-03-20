@@ -201,7 +201,7 @@ export const getSafeConversationWithSameTitle = createSelector(
   }
 );
 
-type TargetedMessageType = {
+export type TargetedMessageType = {
   id: string;
   counter: number;
 };
@@ -1223,9 +1223,12 @@ export const getContactNameColor = (
   return color;
 };
 
+type TimelinePropsWithRawItems = Omit<TimelinePropsType, 'items'> & {
+  items: ReadonlyArray<string>;
+};
 export function _conversationMessagesSelector(
   conversation: ConversationMessageType
-): TimelinePropsType {
+): TimelinePropsWithRawItems {
   const {
     isNearBottom = null,
     messageChangeCounter,
@@ -1276,7 +1279,7 @@ export function _conversationMessagesSelector(
 
 type CachedConversationMessagesSelectorType = (
   conversation: ConversationMessageType
-) => TimelinePropsType;
+) => TimelinePropsWithRawItems;
 export const getCachedSelectorForConversationMessages = createSelector(
   getRegionCode,
   getUserNumber,
@@ -1294,7 +1297,7 @@ export const getConversationMessagesSelector = createSelector(
     conversationMessagesSelector: CachedConversationMessagesSelectorType,
     messagesByConversation: MessagesByConversationType
   ) => {
-    return (id: string): TimelinePropsType => {
+    return (id: string): TimelinePropsWithRawItems => {
       const conversation = messagesByConversation[id];
       if (!conversation) {
         // TODO: DESKTOP-2340

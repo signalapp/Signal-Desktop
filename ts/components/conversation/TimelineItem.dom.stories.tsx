@@ -48,6 +48,7 @@ const getDefaultProps = () => ({
   isGroup: false,
   interactivity: MessageInteractivity.Normal,
   interactionMode: 'keyboard' as const,
+  targetedMessage: undefined,
   theme: ThemeType.light,
   platform: 'darwin',
   handleDebugMessage: action('handleDebugMessage'),
@@ -104,6 +105,9 @@ const getDefaultProps = () => ({
   scrollToQuotedMessage: action('scrollToQuotedMessage'),
   showSpoiler: action('showSpoiler'),
   startConversation: action('startConversation'),
+  renderItem: () => {
+    throw new Error('not implemented');
+  },
   returnToActiveCall: action('returnToActiveCall'),
   shouldCollapseAbove: false,
   shouldCollapseBelow: false,

@@ -4914,7 +4914,8 @@ function onConversationOpened(
   | SetQuotedMessageActionType
   | SetViewOnceActionType
 > {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const state = getState().conversations;
     const promises: Array<Promise<void>> = [];
     const conversation = window.ConversationController.get(conversationId);
     if (!conversation) {
@@ -4929,12 +4930,20 @@ function onConversationOpened(
 
     log.info(`${logId}: Updating newly opened conversation state`);
 
+    // Restore scroll position if there are no unread messages.
+    let lastCenterMessageId;
+    if (conversation.get('unreadCount') === 0) {
+      lastCenterMessageId =
+        state.lastCenterMessageByConversation[conversationId];
+    }
+    const targetMessageId = messageId ?? lastCenterMessageId;
+
     let isMessageTargeted = false;
-    if (messageId) {
-      isMessageTargeted = Boolean(await getMessageById(messageId));
+    if (targetMessageId) {
+      isMessageTargeted = Boolean(await getMessageById(targetMessageId));
 
       if (isMessageTargeted) {
-        drop(conversation.loadAndScroll(messageId));
+        drop(conversation.loadAndScroll(targetMessageId));
       } else {
         log.warn(`${logId}: Did not find message ${messageId}`);
       }
@@ -6858,23 +6867,7 @@ export function reducer(
   if (action.type === TARGETED_CONVERSATION_CHANGED) {
     const { payload } = action;
     const { conversationId, messageId, switchToAssociatedView } = payload;
-
-    let conversation: ConversationType | undefined;
-    let lastCenterMessageId: string | undefined;
-
-    if (conversationId) {
-      conversation = getOwn(state.conversationLookup, conversationId);
-      if (!conversation) {
-        log.error(`Unknown conversation selected, id: [${conversationId}]`);
-        return state;
-      }
-
-      // Restore scroll position if there are no unread messages.
-      if (conversation.unreadCount === 0) {
-        lastCenterMessageId =
-          state.lastCenterMessageByConversation[conversationId];
-      }
-    }
+    const { conversationLookup } = state;
 
     const nextState: ConversationsStateType = {
       ...state,
@@ -6883,12 +6876,15 @@ export function reducer(
           ? state.preloadData
           : undefined,
       hasContactSpoofingReview: false,
-      targetedMessage: messageId ?? lastCenterMessageId,
+      targetedMessage: messageId,
       targetedMessageSource: messageId
         ? TargetedMessageSource.NavigateToMessage
         : TargetedMessageSource.Reset,
     };
 
+    const conversation = conversationId
+      ? conversationLookup[conversationId]
+      : undefined;
     if (switchToAssociatedView && conversation) {
       return {
         ...omit(nextState, 'composer', 'selectedMessageIds'),

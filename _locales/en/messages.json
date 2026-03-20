@@ -3384,6 +3384,34 @@
     "messageformat": "You updated the group.",
     "description": "Shown in the conversation history when you update a group"
   },
+  "icu:collapsedGroupUpdates": {
+    "messageformat": "{count, plural, one {# group update} other {# group updates}}",
+    "description": "Label for a button giving access to a collection of group updates (count will always be 2+)"
+  },
+  "icu:collapsedChatUpdates": {
+    "messageformat": "{count, plural, one {# chat update} other {# chat updates}}",
+    "description": "Label for a button giving access to a collection of chat updates (only in 1:1 conversations, count will always be 2+)"
+  },
+  "icu:collapsedTimerChanges": {
+    "messageformat": "{count, plural, one {# disappearing timer change} other {# disappearing message timer changes}} · {endingState}",
+    "description": "Label for a button giving access to a collection of timer updates, also showing the ending state of the timer - like '15 minutes' (count will always be 2+)"
+  },
+  "icu:collapsedTimerChanges--disabled": {
+    "messageformat": "{count, plural, one {# disappearing timer change} other {# disappearing message timer changes}} · Disabled",
+    "description": "Label for a button giving access to a collection of timer updates when the final state of the timer is 'Disabled' (count will always be 2+)"
+  },
+  "icu:collapsedCallEvents": {
+    "messageformat": "{count, plural, one {# call event} other {# call events}}",
+    "description": "Label for button giving access to a collection of call events (count will always be 2+)"
+  },
+  "icu:collapsedItems--collapsed": {
+    "messageformat": "Set of items is collapsed - click to expand",
+    "description": "Accessibility label for the down chevron which shows if the collapsed set of items is closed"
+  },
+  "icu:collapsedItems--expanded": {
+    "messageformat": "Set of items is expanded - click to collapse",
+    "description": "Accessibility label for the up chevron which shows if the collapsed set of items is open"
+  },
   "icu:updatedGroupAvatar": {
     "messageformat": "Group avatar was updated.",
     "description": "Shown in the conversation history when someone updates the group"

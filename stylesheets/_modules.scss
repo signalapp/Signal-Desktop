@@ -5779,6 +5779,46 @@ button.module-calling-participants-list__contact {
   outline: none;
 }
 
+.CollapseSet__height-container {
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 200ms
+    linear(
+      0,
+      0.024 1.7%,
+      0.097 3.7%,
+      0.55 12%,
+      0.75 16.6%,
+      0.887 21.4%,
+      0.935 24%,
+      0.97 26.8%,
+      1.002 31.5%,
+      1.013 37.5%,
+      1.001 62.7%,
+      1
+    );
+
+  visibility: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.CollapseSet__height-container--expanded {
+  visibility: visible;
+  pointer-events: auto;
+  user-select: auto;
+}
+
+.CollapseSet__transparency-container {
+  opacity: 0;
+  transition: opacity 120ms linear 200ms;
+}
+
+.CollapseSet__transparency-container--expanded {
+  opacity: 0;
+  transition: opacity 25ms;
+}
+
 // Module: Last Seen Indicator
 
 .module-last-seen-indicator {
