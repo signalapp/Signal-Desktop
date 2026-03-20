@@ -729,6 +729,9 @@ importers:
       p-limit:
         specifier: 3.1.0
         version: 3.1.0
+      pe-library:
+        specifier: 2.0.1
+        version: 2.0.1
       pixelmatch:
         specifier: 5.3.0
         version: 5.3.0
@@ -756,9 +759,6 @@ importers:
       react-devtools-core:
         specifier: 6.0.1
         version: 6.0.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)
-      resedit:
-        specifier: 2.0.2
-        version: 2.0.2
       resolve-url-loader:
         specifier: 5.0.0
         version: 5.0.0
@@ -8670,9 +8670,9 @@ packages:
     resolution: {integrity: sha512-eRWB5LBz7PpDu4PUlwT0PhnQfTQJlDDdPa35urV4Osrm0t0AqQFGn+UIkU3klZvwJ8KPO3VbBFsXquA6p6kqZw==}
     engines: {node: '>=12', npm: '>=6'}
 
-  pe-library@1.0.1:
-    resolution: {integrity: sha512-nh39Mo1eGWmZS7y+mK/dQIqg7S1lp38DpRxkyoHf0ZcUs/HDc+yyTjuOtTvSMZHmfSLuSQaX945u05Y2Q6UWZg==}
-    engines: {node: '>=14', npm: '>=7'}
+  pe-library@2.0.1:
+    resolution: {integrity: sha512-/qjYFqNSlq59B5DI36am++5/3gMgh02QnzpYigrwrW6s+QpU0mHf09/iA4wjTu21UUxodyV7ZCetV5MiDhaN/A==}
+    engines: {node: '>=20'}
 
   pend@1.2.0:
     resolution: {integrity: sha512-F3asv42UuXchdzt+xXqfW1OGlVBe+mxa2mqI0pg5yAHZPvFmY3Y6drSf/GQ1A86WgWEN9Kzh/WrgKa6iGcHXLg==}
@@ -9358,10 +9358,6 @@ packages:
   resedit@1.7.2:
     resolution: {integrity: sha512-vHjcY2MlAITJhC0eRD/Vv8Vlgmu9Sd3LX9zZvtGzU5ZImdTN3+d6e/4mnTyV8vEbyf1sgNIrWxhWlrys52OkEA==}
     engines: {node: '>=12', npm: '>=6'}
-
-  resedit@2.0.2:
-    resolution: {integrity: sha512-UKTnq602iVe+W5SyRAQx/WdWMnlDiONfXBLFg/ur4QE4EQQ8eP7Jgm5mNXdK12kKawk1vvXPja2iXKqZiGDW6Q==}
-    engines: {node: '>=14', npm: '>=7'}
 
   reselect@5.1.1:
     resolution: {integrity: sha512-K/BG6eIky/SBpzfHZv/dd+9JBFiS4SWV7FIujVyJRux6e45+73RaUHXLmIR1f7WOMaQ0U1km6qwklRQxpJJY0w==}
@@ -20417,7 +20413,7 @@ snapshots:
 
   pe-library@0.4.1: {}
 
-  pe-library@1.0.1: {}
+  pe-library@2.0.1: {}
 
   pend@1.2.0: {}
 
@@ -21230,10 +21226,6 @@ snapshots:
   resedit@1.7.2:
     dependencies:
       pe-library: 0.4.1
-
-  resedit@2.0.2:
-    dependencies:
-      pe-library: 1.0.1
 
   reselect@5.1.1: {}
 

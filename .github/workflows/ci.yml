@@ -463,7 +463,7 @@ jobs:
     continue-on-error: true
     strategy:
       matrix:
-        os: [ubuntu-22.04-8-cores, macos-latest]
+        os: [ubuntu-22.04-8-cores, macos-latest, windows-latest-8-cores]
 
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
