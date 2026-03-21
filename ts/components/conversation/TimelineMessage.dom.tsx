@@ -1,7 +1,6 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import classNames from 'classnames';
 import lodash from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
@@ -9,20 +8,16 @@ import { createPortal } from 'react-dom';
 import { Manager, Popper, Reference } from 'react-popper';
 import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow.js';
 import { isDownloaded } from '../../util/Attachment.std.js';
-import type { LocalizerType } from '../../types/I18N.std.js';
 import { handleOutsideClick } from '../../util/handleOutsideClick.dom.js';
 import { offsetDistanceModifier } from '../../util/popperUtil.std.js';
-import { WidthBreakpoint } from '../_util.std.js';
 import { Message, MessageInteractivity } from './Message.dom.js';
 import type { SmartReactionPicker } from '../../state/smart/ReactionPicker.dom.js';
 import type {
-  Props as MessageProps,
   PropsActions as MessagePropsActions,
   PropsData as MessagePropsData,
   PropsHousekeeping,
 } from './Message.dom.js';
 import type { PushPanelForConversationActionType } from '../../state/ducks/conversations.preload.js';
-import { doesMessageBodyOverflow } from './MessageBodyReadMore.dom.js';
 import { useToggleReactionPicker } from '../../hooks/useKeyboardShortcuts.dom.js';
 import { PanelType } from '../../types/Panels.std.js';
 import type {
@@ -114,9 +109,7 @@ export function TimelineMessage(props: Props): React.JSX.Element {
     canRetryDeleteForEveryone,
     canPinMessage,
     containerElementRef,
-    containerWidthBreakpoint,
     conversationId,
-    direction,
     i18n,
     id,
     interactivity,
@@ -140,7 +133,6 @@ export function TimelineMessage(props: Props): React.JSX.Element {
     selectedReaction,
     setQuoteByMessageId,
     setMessageToEdit,
-    text,
     timestamp,
     toggleDeleteMessagesModal,
     toggleForwardMessagesModal,
@@ -151,8 +143,6 @@ export function TimelineMessage(props: Props): React.JSX.Element {
     HTMLDivElement | undefined
   >(undefined);
 
-  const isWindowWidthNotNarrow =
-    containerWidthBreakpoint !== WidthBreakpoint.Narrow;
 
   const popperPreventOverflowModifier =
     useCallback((): Partial<PreventOverflowModifier> => {
@@ -265,8 +255,6 @@ export function TimelineMessage(props: Props): React.JSX.Element {
     ]
   );
 
-  const shouldShowAdditional =
-    doesMessageBodyOverflow(text || '') || !isWindowWidthNotNarrow;
 
   const canSelect = interactivity === MessageInteractivity.Normal;
 
@@ -327,7 +315,6 @@ export function TimelineMessage(props: Props): React.JSX.Element {
         <MessageContextMenu
           i18n={i18n}
           renderer={renderer}
-          shouldShowAdditional={shouldShowAdditional}
           onDownload={handleDownload}
           onEdit={
             canEditMessage ? () => setMessageToEdit(conversationId, id) : null
@@ -401,230 +388,62 @@ export function TimelineMessage(props: Props): React.JSX.Element {
       retryDeleteForEveryone,
       retryMessageSend,
       setMessageToEdit,
-      shouldShowAdditional,
       toggleDeleteMessagesModal,
       toggleForwardMessagesModal,
       toggleSelectMessage,
     ]
   );
 
-  const renderMenu = useCallback(() => {
-    return (
-      <Manager>
-        <MessageMenu
-          i18n={i18n}
-          isWindowWidthNotNarrow={isWindowWidthNotNarrow}
-          direction={direction}
-          onDownload={handleDownload}
-          onReplyToMessage={canReply ? handleReplyToMessage : null}
-          onReact={canReact ? handleReact : null}
-          renderMessageContextMenu={renderMessageContextMenu}
-        />
-        {reactionPickerRoot &&
-          createPortal(
-            <Popper
-              placement="top"
-              modifiers={[
-                offsetDistanceModifier(4),
-                popperPreventOverflowModifier(),
-              ]}
-            >
-              {({ ref, style }) =>
-                renderReactionPicker({
-                  ref,
-                  style,
-                  selected: selectedReaction,
-                  onClose: toggleReactionPicker,
-                  onPick: emoji => {
-                    toggleReactionPicker(true);
-                    reactToMessage(id, {
-                      emoji,
-                      remove: emoji === selectedReaction,
-                    });
-                  },
-                  messageEmojis,
-                })
-              }
-            </Popper>,
-            reactionPickerRoot
-          )}
-      </Manager>
-    );
-  }, [
-    i18n,
-    isWindowWidthNotNarrow,
-    direction,
-    canReply,
-    canReact,
-    handleDownload,
-    handleReplyToMessage,
-    handleReact,
-    reactionPickerRoot,
-    popperPreventOverflowModifier,
-    renderReactionPicker,
-    selectedReaction,
-    reactToMessage,
-    toggleReactionPicker,
-    id,
-    messageEmojis,
-    renderMessageContextMenu,
-  ]);
 
   const handleWrapperKeyDown = useAxoContextMenuOutsideKeyboardTrigger();
 
   return (
-    <Message
-      {...props}
-      renderingContext="conversation/TimelineItem"
-      renderMenu={renderMenu}
-      renderMessageContextMenu={renderMessageContextMenu}
-      onToggleSelect={(selected, shift) => {
-        toggleSelectMessage(conversationId, id, shift, selected);
-      }}
-      onReplyToMessage={handleReplyToMessage}
-      onWrapperKeyDown={handleWrapperKeyDown}
-    />
-  );
-}
-
-type MessageMenuProps = {
-  i18n: LocalizerType;
-  isWindowWidthNotNarrow: boolean;
-  onDownload: (() => void) | null;
-  onReplyToMessage: (() => void) | null;
-  onReact: (() => void) | null;
-  renderMessageContextMenu: (
-    renderer: AxoMenuBuilder.Renderer,
-    children: ReactNode
-  ) => ReactNode;
-} & Pick<MessageProps, 'i18n' | 'direction'>;
-
-function MessageMenu({
-  i18n,
-  direction,
-  isWindowWidthNotNarrow,
-  onDownload,
-  onReplyToMessage,
-  onReact,
-  renderMessageContextMenu,
-}: MessageMenuProps) {
-  // This a menu meant for mouse use only
-
-  return (
-    <div
-      className={classNames(
-        'module-message__buttons',
-        `module-message__buttons--${direction}`
-      )}
-    >
-      {isWindowWidthNotNarrow && (
-        <>
-          {onReact && (
-            <Reference>
-              {({ ref: popperRef }) => {
-                // Only attach the popper reference to the reaction button if it is
-                //   visible (it is hidden when the timeline is narrow)
-                const maybePopperRef = isWindowWidthNotNarrow
-                  ? popperRef
-                  : undefined;
-
-                return (
-                  // This a menu meant for mouse use only
-                  // eslint-disable-next-line max-len
-                  // eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/click-events-have-key-events
-                  <div
-                    ref={maybePopperRef}
-                    onClick={(event: React.MouseEvent) => {
-                      event.stopPropagation();
-                      event.preventDefault();
-
-                      onReact();
-                    }}
-                    role="button"
-                    className="module-message__buttons__react"
-                    aria-label={i18n('icu:reactToMessage')}
-                    onDoubleClick={ev => {
-                      // Prevent double click from triggering the replyToMessage action
-                      ev.stopPropagation();
-                    }}
-                  />
-                );
-              }}
-            </Reference>
-          )}
-
-          {onDownload && (
-            // This a menu meant for mouse use only
-            // eslint-disable-next-line max-len
-            // eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/click-events-have-key-events
-            <div
-              onClick={onDownload}
-              role="button"
-              aria-label={i18n('icu:downloadAttachment')}
-              className={classNames(
-                'module-message__buttons__download',
-                `module-message__buttons__download--${direction}`
-              )}
-              onDoubleClick={ev => {
-                // Prevent double click from triggering the replyToMessage action
-                ev.stopPropagation();
-              }}
-            />
-          )}
-
-          {onReplyToMessage && (
-            // This a menu meant for mouse use only
-            // eslint-disable-next-line max-len
-            // eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/click-events-have-key-events
-            <div
-              onClick={(event: React.MouseEvent) => {
-                event.stopPropagation();
-                event.preventDefault();
-
-                onReplyToMessage();
-              }}
-              // This a menu meant for mouse use only
-              role="button"
-              aria-label={i18n('icu:replyToMessage')}
-              className={classNames(
-                'module-message__buttons__reply',
-                `module-message__buttons__download--${direction}`
-              )}
-              onDoubleClick={ev => {
-                // Prevent double click from triggering the replyToMessage action
-                ev.stopPropagation();
-              }}
-            />
-          )}
-        </>
-      )}
+    <Manager>
       <Reference>
-        {({ ref: popperRef }) => {
-          // Only attach the popper reference to the collapsed menu button if
-          //   the reaction button is not visible (it is hidden when the
-          //   timeline is narrow)
-          const maybePopperRef = !isWindowWidthNotNarrow
-            ? popperRef
-            : undefined;
-
-          return renderMessageContextMenu(
-            'AxoDropdownMenu',
-            <button
-              ref={maybePopperRef}
-              type="button"
-              aria-label={i18n('icu:messageContextMenuButton')}
-              className={classNames(
-                'module-message__buttons__menu',
-                `module-message__buttons__download--${direction}`
-              )}
-              onDoubleClick={ev => {
-                // Prevent double click from triggering the replyToMessage action
-                ev.stopPropagation();
+        {({ ref: popperRef }) => (
+          <div ref={popperRef}>
+            <Message
+              {...props}
+              renderingContext="conversation/TimelineItem"
+              renderMessageContextMenu={renderMessageContextMenu}
+              onToggleSelect={(selected, shift) => {
+                toggleSelectMessage(conversationId, id, shift, selected);
               }}
+              onReplyToMessage={handleReplyToMessage}
+              onWrapperKeyDown={handleWrapperKeyDown}
             />
-          );
-        }}
+          </div>
+        )}
       </Reference>
-    </div>
+      {reactionPickerRoot &&
+        createPortal(
+          <Popper
+            placement="top"
+            modifiers={[
+              offsetDistanceModifier(4),
+              popperPreventOverflowModifier(),
+            ]}
+          >
+            {({ ref, style }) =>
+              renderReactionPicker({
+                ref,
+                style,
+                selected: selectedReaction,
+                onClose: toggleReactionPicker,
+                onPick: emoji => {
+                  toggleReactionPicker(true);
+                  reactToMessage(id, {
+                    emoji,
+                    remove: emoji === selectedReaction,
+                  });
+                },
+                messageEmojis,
+              })
+            }
+          </Popper>,
+          reactionPickerRoot
+        )}
+    </Manager>
   );
 }
+

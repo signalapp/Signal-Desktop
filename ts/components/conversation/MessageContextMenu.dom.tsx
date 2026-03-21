@@ -11,7 +11,6 @@ type MessageContextMenuProps = Readonly<{
   renderer: AxoMenuBuilder.Renderer;
   onOpenChange?: (open: boolean) => void;
   disabled?: boolean;
-  shouldShowAdditional: boolean;
   onDebugMessage: (() => void) | null;
   onDownload: (() => void) | null;
   onEdit: (() => void) | null;
@@ -35,7 +34,6 @@ export function MessageContextMenu({
   renderer,
   onOpenChange,
   disabled,
-  shouldShowAdditional,
   onDebugMessage,
   onDownload,
   onEdit,
@@ -67,31 +65,27 @@ export function MessageContextMenu({
           }
         }}
       >
-        {shouldShowAdditional && (
-          <>
-            {onDownload && (
-              <AxoMenuBuilder.Item symbol="download" onSelect={onDownload}>
-                {i18n('icu:MessageContextMenu__download')}
-              </AxoMenuBuilder.Item>
-            )}
-            {onReplyToMessage && (
-              <AxoMenuBuilder.Item
-                symbol="reply"
-                onSelect={() => {
-                  // onReplyToMessage will focus the quill input
-                  shouldReturnFocusToTrigger.current = false;
-                  onReplyToMessage();
-                }}
-              >
-                {i18n('icu:MessageContextMenu__reply')}
-              </AxoMenuBuilder.Item>
-            )}
-            {onReact && (
-              <AxoMenuBuilder.Item symbol="heart-plus" onSelect={onReact}>
-                {i18n('icu:MessageContextMenu__react')}
-              </AxoMenuBuilder.Item>
-            )}
-          </>
+        {onDownload && (
+          <AxoMenuBuilder.Item symbol="download" onSelect={onDownload}>
+            {i18n('icu:MessageContextMenu__download')}
+          </AxoMenuBuilder.Item>
+        )}
+        {onReplyToMessage && (
+          <AxoMenuBuilder.Item
+            symbol="reply"
+            onSelect={() => {
+              // onReplyToMessage will focus the quill input
+              shouldReturnFocusToTrigger.current = false;
+              onReplyToMessage();
+            }}
+          >
+            {i18n('icu:MessageContextMenu__reply')}
+          </AxoMenuBuilder.Item>
+        )}
+        {onReact && (
+          <AxoMenuBuilder.Item symbol="heart-plus" onSelect={onReact}>
+            {i18n('icu:MessageContextMenu__react')}
+          </AxoMenuBuilder.Item>
         )}
         {onEndPoll && (
           <AxoMenuBuilder.Item symbol="stop-circle" onSelect={onEndPoll}>
