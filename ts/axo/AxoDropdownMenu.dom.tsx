@@ -199,7 +199,7 @@ export namespace AxoDropdownMenu {
             sideOffset={4}
             align="start"
             collisionPadding={6}
-            className={AxoBaseMenu.menuContentStyles}
+            className={tw(AxoBaseMenu.menuContentStyles, props.className)}
             aria-labelledby={labelId}
             aria-describedby={descriptionId}
             onCloseAutoFocus={props.onCloseAutoFocus}
@@ -222,7 +222,7 @@ export namespace AxoDropdownMenu {
 
   export type CustomItemProps = Pick<
     AxoBaseMenu.MenuItemProps,
-    'disabled' | 'textValue' | 'keyboardShortcut' | 'onSelect'
+    'disabled' | 'textValue' | 'keyboardShortcut' | 'onSelect' | 'variant'
   > &
     Readonly<{
       leading?: ReactNode;
@@ -238,7 +238,10 @@ export namespace AxoDropdownMenu {
         disabled={props.disabled}
         textValue={props.textValue}
         onSelect={props.onSelect}
-        className={AxoBaseMenu.menuItemStyles}
+        className={tw(
+          AxoBaseMenu.menuItemStyles,
+          props.variant === 'destructive' && 'text-color-label-destructive'
+        )}
       >
         {props.leading && (
           <AxoBaseMenu.ItemLeadingSlot>

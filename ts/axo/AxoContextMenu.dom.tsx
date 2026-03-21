@@ -235,7 +235,7 @@ export namespace AxoContextMenu {
     return (
       <ContextMenu.Portal>
         <ContextMenu.Content
-          className={AxoBaseMenu.menuContentStyles}
+          className={tw(AxoBaseMenu.menuContentStyles, props.className)}
           alignOffset={-6}
           collisionPadding={6}
           onCloseAutoFocus={props.onCloseAutoFocus}
@@ -272,7 +272,10 @@ export namespace AxoContextMenu {
         disabled={props.disabled}
         textValue={props.textValue}
         onSelect={props.onSelect}
-        className={AxoBaseMenu.menuItemStyles}
+        className={tw(
+          AxoBaseMenu.menuItemStyles,
+          props.variant === 'destructive' && 'text-color-label-destructive'
+        )}
       >
         {props.symbol && (
           <AxoBaseMenu.ItemLeadingSlot>

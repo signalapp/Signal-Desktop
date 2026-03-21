@@ -5,6 +5,9 @@ import React, { useRef, type ReactNode } from 'react';
 import type { LocalizerType } from '../../types/I18N.std.js';
 import { AxoMenuBuilder } from '../../axo/AxoMenuBuilder.dom.js';
 import { isInternalFeaturesEnabled } from '../../util/isInternalFeaturesEnabled.dom.js';
+import type { EmojiVariantKey } from '../fun/data/emojis.std.js';
+import { tw } from '../../axo/tw.dom.js';
+import type { SmartReactionPicker } from '../../state/smart/ReactionPicker.dom.js';
 
 type MessageContextMenuProps = Readonly<{
   i18n: LocalizerType;
@@ -15,7 +18,7 @@ type MessageContextMenuProps = Readonly<{
   onDownload: (() => void) | null;
   onEdit: (() => void) | null;
   onReplyToMessage: (() => void) | null;
-  onReact: (() => void) | null;
+  onReact?: (() => void) | null;
   onEndPoll: (() => void) | null;
   onRetryMessageSend: (() => void) | null;
   onRetryDeleteForEveryone: (() => void) | null;
@@ -26,6 +29,13 @@ type MessageContextMenuProps = Readonly<{
   onUnpinMessage: (() => void) | null;
   onMoreInfo: (() => void) | null;
   onSelect: (() => void) | null;
+  onPickEmoji: (emoji: string) => void;
+  onShowFullPicker: () => void;
+  renderReactionPicker: (
+    props: React.ComponentProps<typeof SmartReactionPicker>
+  ) => React.JSX.Element;
+  selectedReaction?: string;
+  messageEmojis?: ReadonlyArray<EmojiVariantKey>;
   children: ReactNode;
 }>;
 
@@ -38,17 +48,21 @@ export function MessageContextMenu({
   onDownload,
   onEdit,
   onReplyToMessage,
-  onReact,
-  onEndPoll,
-  onMoreInfo,
-  onCopy,
-  onSelect,
   onRetryMessageSend,
   onRetryDeleteForEveryone,
   onForward,
   onDeleteMessage,
   onPinMessage,
   onUnpinMessage,
+  onEndPoll,
+  onMoreInfo,
+  onCopy,
+  onSelect,
+  onPickEmoji,
+  onShowFullPicker,
+  renderReactionPicker,
+  selectedReaction,
+  messageEmojis,
   children,
 }: MessageContextMenuProps): React.JSX.Element {
   const shouldReturnFocusToTrigger = useRef(true);
@@ -59,12 +73,44 @@ export function MessageContextMenu({
         {children}
       </AxoMenuBuilder.Trigger>
       <AxoMenuBuilder.Content
+        className={tw('!overflow-visible')}
         onCloseAutoFocus={e => {
           if (!shouldReturnFocusToTrigger.current) {
             e.preventDefault();
           }
         }}
       >
+        <div className={tw('col-span-full border-b-[0.5px] border-border-primary pb-0.5 pt-0.5 px-0 overflow-visible')}>
+          {renderReactionPicker({
+            onPick: (emoji: string) => {
+              onPickEmoji(emoji);
+              // Trigger escape to close the menu
+              document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+            },
+            onMore: () => {
+              onShowFullPicker();
+              // Trigger escape to close the menu
+              document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+            },
+            onClose: () => {
+              document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+            },
+            selected: selectedReaction,
+            messageEmojis,
+            style: { 
+              borderRadius: 'var(--curved-xl)',
+              width: '100%',
+              boxShadow: 'none',
+              backgroundColor: 'transparent',
+              overflow: 'visible',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              border: 'none',
+              paddingInline: 0,
+            }
+          })}
+        </div>
         {onDownload && (
           <AxoMenuBuilder.Item symbol="download" onSelect={onDownload}>
             {i18n('icu:MessageContextMenu__download')}
@@ -80,11 +126,6 @@ export function MessageContextMenu({
             }}
           >
             {i18n('icu:MessageContextMenu__reply')}
-          </AxoMenuBuilder.Item>
-        )}
-        {onReact && (
-          <AxoMenuBuilder.Item symbol="heart-plus" onSelect={onReact}>
-            {i18n('icu:MessageContextMenu__react')}
           </AxoMenuBuilder.Item>
         )}
         {onEndPoll && (
@@ -142,7 +183,11 @@ export function MessageContextMenu({
           </AxoMenuBuilder.Item>
         )}
         {onDeleteMessage && (
-          <AxoMenuBuilder.Item symbol="trash" onSelect={onDeleteMessage}>
+          <AxoMenuBuilder.Item
+            symbol="trash"
+            onSelect={onDeleteMessage}
+            variant="destructive"
+          >
             {i18n('icu:MessageContextMenu__deleteMessage')}
           </AxoMenuBuilder.Item>
         )}

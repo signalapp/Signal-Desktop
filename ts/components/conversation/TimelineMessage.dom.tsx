@@ -1,15 +1,9 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import lodash from 'lodash';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import type { ReactNode } from 'react';
-import { createPortal } from 'react-dom';
-import { Manager, Popper, Reference } from 'react-popper';
-import type { PreventOverflowModifier } from '@popperjs/core/lib/modifiers/preventOverflow.js';
 import { isDownloaded } from '../../util/Attachment.std.js';
-import { handleOutsideClick } from '../../util/handleOutsideClick.dom.js';
-import { offsetDistanceModifier } from '../../util/popperUtil.std.js';
 import { Message, MessageInteractivity } from './Message.dom.js';
 import type { SmartReactionPicker } from '../../state/smart/ReactionPicker.dom.js';
 import type {
@@ -24,7 +18,6 @@ import type {
   DeleteMessagesPropsType,
   ForwardMessagesPayload,
 } from '../../state/ducks/globalModals.preload.js';
-import { useScrollerLock } from '../../hooks/useScrollLock.dom.js';
 import { MessageContextMenu } from './MessageContextMenu.dom.js';
 import { ForwardMessagesModalType } from '../ForwardMessagesModal.dom.js';
 import { useGroupedAndOrderedReactions } from '../../util/groupAndOrderReactions.dom.js';
@@ -35,7 +28,6 @@ import { useDocumentKeyDown } from '../../hooks/useDocumentKeyDown.dom.js';
 
 const { useAxoContextMenuOutsideKeyboardTrigger } = AxoContextMenu;
 
-const { noop } = lodash;
 
 export type PropsData = {
   canDownload: boolean;
@@ -108,7 +100,6 @@ export function TimelineMessage(props: Props): React.JSX.Element {
     canRetry,
     canRetryDeleteForEveryone,
     canPinMessage,
-    containerElementRef,
     conversationId,
     i18n,
     id,
@@ -138,79 +129,6 @@ export function TimelineMessage(props: Props): React.JSX.Element {
     toggleForwardMessagesModal,
     toggleSelectMessage,
   } = props;
-
-  const [reactionPickerRoot, setReactionPickerRoot] = useState<
-    HTMLDivElement | undefined
-  >(undefined);
-
-
-  const popperPreventOverflowModifier =
-    useCallback((): Partial<PreventOverflowModifier> => {
-      return {
-        name: 'preventOverflow',
-        options: {
-          altAxis: true,
-          boundary: containerElementRef.current || undefined,
-          padding: {
-            bottom: 16,
-            left: 8,
-            right: 8,
-            top: 16,
-          },
-        },
-      };
-    }, [containerElementRef]);
-
-  const toggleReactionPicker = useCallback(
-    (onlyRemove = false): void => {
-      if (reactionPickerRoot) {
-        document.body.removeChild(reactionPickerRoot);
-        setReactionPickerRoot(undefined);
-        return;
-      }
-
-      if (!onlyRemove) {
-        const root = document.createElement('div');
-        document.body.appendChild(root);
-
-        setReactionPickerRoot(root);
-      }
-    },
-    [reactionPickerRoot]
-  );
-
-  useScrollerLock({
-    reason: 'TimelineMessage reactionPicker',
-    lockScrollWhen: reactionPickerRoot != null,
-    onUserInterrupt() {
-      toggleReactionPicker(true);
-    },
-  });
-
-  useEffect(() => {
-    let cleanUpHandler: (() => void) | undefined;
-    if (reactionPickerRoot) {
-      cleanUpHandler = handleOutsideClick(
-        target => {
-          if (
-            target instanceof Element &&
-            target.closest('[data-fun-overlay]') != null
-          ) {
-            return true;
-          }
-          toggleReactionPicker(true);
-          return true;
-        },
-        {
-          containerElements: [reactionPickerRoot],
-          name: 'Message.reactionPicker',
-        }
-      );
-    }
-    return () => {
-      cleanUpHandler?.();
-    };
-  });
 
   const openGenericAttachment = useCallback(
     (event?: React.MouseEvent): void => {
@@ -267,11 +185,17 @@ export function TimelineMessage(props: Props): React.JSX.Element {
     setQuoteByMessageId(conversationId, id);
   }, [canReply, conversationId, id, setQuoteByMessageId]);
 
-  const handleReact = useCallback(() => {
-    if (canReact) {
-      toggleReactionPicker();
-    }
-  }, [canReact, toggleReactionPicker]);
+  const handleReact = useCallback(
+    (emoji: string) => {
+      if (canReact) {
+        reactToMessage(id, {
+          emoji,
+          remove: emoji === selectedReaction,
+        });
+      }
+    },
+    [canReact, id, reactToMessage, selectedReaction]
+  );
 
   const isDisappearingMessage = expirationLength != null;
 
@@ -283,9 +207,16 @@ export function TimelineMessage(props: Props): React.JSX.Element {
     onPinnedMessageRemove(id);
   }, [onPinnedMessageRemove, id]);
 
-  const toggleReactionPickerKeyboard = useToggleReactionPicker(
-    handleReact || noop
-  );
+  const toggleReactionPickerKeyboard = useToggleReactionPicker(() => {
+    window.dispatchEvent(
+      new CustomEvent('signal:open-reaction-picker', {
+        detail: {
+          messageId: id,
+          conversationId,
+        },
+      })
+    );
+  });
 
   useDocumentKeyDown(event => {
     if (isTargeted) {
@@ -320,7 +251,20 @@ export function TimelineMessage(props: Props): React.JSX.Element {
             canEditMessage ? () => setMessageToEdit(conversationId, id) : null
           }
           onReplyToMessage={handleReplyToMessage}
-          onReact={handleReact}
+          onPickEmoji={handleReact}
+          onShowFullPicker={() => {
+            window.dispatchEvent(
+              new CustomEvent('signal:open-reaction-picker', {
+                detail: {
+                  messageId: id,
+                  conversationId,
+                },
+              })
+            );
+          }}
+          renderReactionPicker={renderReactionPicker}
+          selectedReaction={selectedReaction}
+          messageEmojis={messageEmojis as any}
           onEndPoll={canEndPoll ? () => endPoll(id) : null}
           onRetryMessageSend={canRetry ? () => retryMessageSend(id) : null}
           onRetryDeleteForEveryone={
@@ -377,6 +321,9 @@ export function TimelineMessage(props: Props): React.JSX.Element {
       handleDebugMessage,
       handleDownload,
       handleReact,
+      renderReactionPicker,
+      selectedReaction,
+      messageEmojis,
       handleOpenPinMessageDialog,
       handleUnpinMessage,
       endPoll,
@@ -398,52 +345,16 @@ export function TimelineMessage(props: Props): React.JSX.Element {
   const handleWrapperKeyDown = useAxoContextMenuOutsideKeyboardTrigger();
 
   return (
-    <Manager>
-      <Reference>
-        {({ ref: popperRef }) => (
-          <div ref={popperRef}>
-            <Message
-              {...props}
-              renderingContext="conversation/TimelineItem"
-              renderMessageContextMenu={renderMessageContextMenu}
-              onToggleSelect={(selected, shift) => {
-                toggleSelectMessage(conversationId, id, shift, selected);
-              }}
-              onReplyToMessage={handleReplyToMessage}
-              onWrapperKeyDown={handleWrapperKeyDown}
-            />
-          </div>
-        )}
-      </Reference>
-      {reactionPickerRoot &&
-        createPortal(
-          <Popper
-            placement="top"
-            modifiers={[
-              offsetDistanceModifier(4),
-              popperPreventOverflowModifier(),
-            ]}
-          >
-            {({ ref, style }) =>
-              renderReactionPicker({
-                ref,
-                style,
-                selected: selectedReaction,
-                onClose: toggleReactionPicker,
-                onPick: emoji => {
-                  toggleReactionPicker(true);
-                  reactToMessage(id, {
-                    emoji,
-                    remove: emoji === selectedReaction,
-                  });
-                },
-                messageEmojis,
-              })
-            }
-          </Popper>,
-          reactionPickerRoot
-        )}
-    </Manager>
+    <Message
+      {...props}
+      renderingContext="conversation/TimelineItem"
+      renderMessageContextMenu={renderMessageContextMenu}
+      onToggleSelect={(selected, shift) => {
+        toggleSelectMessage(conversationId, id, shift, selected);
+      }}
+      onReplyToMessage={handleReplyToMessage}
+      onWrapperKeyDown={handleWrapperKeyDown}
+    />
   );
 }
 

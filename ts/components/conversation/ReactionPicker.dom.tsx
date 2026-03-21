@@ -14,12 +14,14 @@ import type { EmojiVariantKey } from '../fun/data/emojis.std.js';
 import { getEmojiVariantByKey } from '../fun/data/emojis.std.js';
 import { FunEmojiPicker } from '../fun/FunEmojiPicker.dom.js';
 import type { FunEmojiSelection } from '../fun/panels/FunPanelEmojis.dom.js';
+import { tw } from '../../axo/tw.dom.js';
 
 export type OwnProps = {
   i18n: LocalizerType;
   selected?: string;
   onClose?: () => unknown;
   onPick: (emoji: string) => unknown;
+  onMore?: () => void;
   preferredReactionEmoji: ReadonlyArray<string>;
   theme?: ThemeType;
   messageEmojis?: ReadonlyArray<EmojiVariantKey>;
@@ -33,6 +35,7 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
       i18n,
       onClose,
       onPick,
+      onMore,
       preferredReactionEmoji,
       selected,
       style,
@@ -110,6 +113,16 @@ export const ReactionPicker = React.forwardRef<HTMLDivElement, Props>(
             }}
             isSelected
             title={i18n('icu:Reactions--remove')}
+          />
+        ) : onMore ? (
+          <Button
+            aria-label={i18n('icu:Reactions--more')}
+            className={tw(
+              'module-ReactionPickerPicker__button',
+              'module-ReactionPickerPicker__button--more',
+              'flex-shrink-0'
+            )}
+            onPress={onMore}
           />
         ) : (
           <FunEmojiPicker

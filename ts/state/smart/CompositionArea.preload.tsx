@@ -210,6 +210,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
     sendMultiMediaMessage,
     sendPoll,
     setComposerFocus,
+    reactToMessage,
   } = useComposerActions();
   const {
     discardEditMessage,
@@ -371,6 +372,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       setComposerFocus={setComposerFocus}
       setMessageToEdit={setMessageToEdit}
       showConversation={showConversation}
+      reactToMessage={reactToMessage}
     />
   );
 });

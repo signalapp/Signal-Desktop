@@ -42,6 +42,7 @@ import { isImageAttachment, isVoiceMessage } from '../util/Attachment.std.js';
 import { isViewOnceEligible } from '../util/viewOnceEligibility.std.js';
 import type { AciString } from '../types/ServiceId.std.js';
 import { AudioCapture } from './conversation/AudioCapture.dom.js';
+import { getEmojiVariantByKey } from './fun/data/emojis.std.js';
 import { CompositionUpload } from './CompositionUpload.dom.js';
 import type {
   ConversationRemovalStage,
@@ -232,6 +233,10 @@ export type OwnProps = Readonly<{
 
   onSelectEmoji: (emojiSelection: FunEmojiSelection) => void;
   emojiSkinToneDefault: EmojiSkinTone | null;
+  reactToMessage: (
+    id: string,
+    { emoji, remove }: { emoji: string; remove: boolean }
+  ) => void;
 }>;
 
 export type Props = Pick<
@@ -362,6 +367,7 @@ export const CompositionArea = memo(function CompositionArea({
   toggleForwardMessagesModal,
   // DraftGifMessageSendModal
   toggleDraftGifMessageSendModal,
+  reactToMessage,
 }: Props): React.JSX.Element | null {
   const [dirty, setDirty] = useState(false);
   const [large, setLarge] = useState(false);
@@ -645,6 +651,35 @@ export const CompositionArea = memo(function CompositionArea({
   }
 
   const [funPickerOpen, setFunPickerOpen] = useState(false);
+  const [reactionMessageId, setReactionMessageId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handleOpenReactionPicker = (event: Event) => {
+      const customEvent = event as CustomEvent<{
+        messageId: string;
+        conversationId: string;
+      }>;
+      const { messageId, conversationId: eventConversationId } =
+        customEvent.detail;
+
+      if (eventConversationId === conversationId) {
+        setReactionMessageId(messageId);
+        setFunPickerOpen(true);
+      }
+    };
+
+    window.addEventListener(
+      'signal:open-reaction-picker',
+      handleOpenReactionPicker
+    );
+
+    return () => {
+      window.removeEventListener(
+        'signal:open-reaction-picker',
+        handleOpenReactionPicker
+      );
+    };
+  }, [conversationId]);
 
   const handleToggleViewOnce = useCallback(() => {
     setFunPickerOpen(false);
@@ -659,6 +694,7 @@ export const CompositionArea = memo(function CompositionArea({
     (open: boolean) => {
       setFunPickerOpen(open);
       if (!open) {
+        setReactionMessageId(null);
         setComposerFocus(conversationId);
       }
     },
@@ -667,11 +703,23 @@ export const CompositionArea = memo(function CompositionArea({
 
   const handleFunPickerSelectEmoji = useCallback(
     (emojiSelection: FunEmojiSelection) => {
+      if (reactionMessageId) {
+        const variant = getEmojiVariantByKey(emojiSelection.variantKey);
+        reactToMessage(reactionMessageId, {
+          emoji: variant.value,
+          remove: false, // For now, assume we're adding. 
+          // We could potentially check the existing reaction if we had access to the message object here.
+        });
+        setReactionMessageId(null);
+        setFunPickerOpen(false);
+        return;
+      }
+
       if (inputApiRef.current) {
         inputApiRef.current.insertEmoji(emojiSelection);
       }
     },
-    []
+    [reactionMessageId, reactToMessage]
   );
   const handleFunPickerSelectSticker = useCallback(
     (stickerSelection: FunStickerSelection) => {

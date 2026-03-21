@@ -60,6 +60,10 @@ export namespace AxoBaseMenu {
      */
     disabled?: boolean;
     /**
+     * The visual style of the item.
+     */
+    variant?: 'default' | 'destructive';
+    /**
      * Optional text used for typeahead purposes. By default the typeahead
      * behavior will use the .textContent of the item. Use this when the
      * content is complex, or you have non-textual content inside.
@@ -128,10 +132,20 @@ export namespace AxoBaseMenu {
 
   export type ItemTextProps = Readonly<{
     children: ReactNode;
+    variant?: 'default' | 'destructive';
   }>;
 
   export function ItemText(props: ItemTextProps): React.JSX.Element {
-    return <span className={itemTextStyles}>{props.children}</span>;
+    return (
+      <span
+        className={tw(
+          itemTextStyles,
+          props.variant === 'destructive' && 'text-color-label-destructive'
+        )}
+      >
+        {props.children}
+      </span>
+    );
   }
 
   export type ItemCheckPlaceholderProps = Readonly<{
@@ -207,6 +221,7 @@ export namespace AxoBaseMenu {
   export type MenuContentProps = Readonly<{
     onCloseAutoFocus?: (e: Event) => void;
     children: ReactNode;
+    className?: string;
   }>;
 
   export const menuContentStyles = tw(
