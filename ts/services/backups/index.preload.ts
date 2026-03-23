@@ -83,7 +83,7 @@ import {
 import { FileStream } from './util/FileStream.node.js';
 import { ToastType } from '../../types/Toast.dom.js';
 import { isAdhoc, isNightly } from '../../util/version.std.js';
-import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled.dom.js';
+import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled.preload.js';
 import type { ValidateLocalBackupStructureResultType } from './util/localBackup.node.js';
 import {
   writeLocalBackupMetadata,

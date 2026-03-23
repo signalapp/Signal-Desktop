@@ -271,7 +271,7 @@ import { MessageModel } from './models/messages.preload.js';
 import { waitForEvent } from './shims/events.dom.js';
 import { sendSyncRequests } from './textsecure/syncRequests.preload.js';
 import { handleServerAlerts } from './util/handleServerAlerts.preload.js';
-import { isLocalBackupsEnabled } from './util/isLocalBackupsEnabled.dom.js';
+import { isLocalBackupsEnabled } from './util/isLocalBackupsEnabled.preload.js';
 import { NavTab, SettingsPage, ProfileEditorPage } from './types/Nav.std.js';
 import { initialize as initializeDonationService } from './services/donations.preload.js';
 import { MessageRequestResponseSource } from './types/MessageRequestResponseEvent.std.js';
