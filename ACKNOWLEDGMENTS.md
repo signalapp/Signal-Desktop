@@ -5923,7 +5923,7 @@ Signal Desktop makes use of the following open source projects.
 
 libsignal makes use of the following open source projects.
 
-## spqr 1.5.0, partial-default-derive 0.1.0, partial-default 0.1.0
+## spqr 1.5.1, partial-default-derive 0.1.0, partial-default 0.1.0
 
 ```
                     GNU AFFERO GENERAL PUBLIC LICENSE
@@ -8355,7 +8355,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ```
 
-## libcrux-hacl-rs 0.0.4, libcrux-hmac 0.0.6, libcrux-intrinsics 0.0.5, libcrux-intrinsics 0.0.6, libcrux-macros 0.0.3, libcrux-ml-kem 0.0.7, libcrux-platform 0.0.3, libcrux-secrets 0.0.5, libcrux-sha2 0.0.6, libcrux-sha3 0.0.6, libcrux-sha3 0.0.7, libcrux-traits 0.0.5, libcrux-traits 0.0.6
+## libcrux-hacl-rs 0.0.4, libcrux-hmac 0.0.6, libcrux-intrinsics 0.0.6, libcrux-macros 0.0.3, libcrux-ml-kem 0.0.8, libcrux-platform 0.0.3, libcrux-secrets 0.0.5, libcrux-sha2 0.0.6, libcrux-sha3 0.0.8, libcrux-traits 0.0.6
 
 ```
                                  Apache License
@@ -9105,7 +9105,7 @@ THIS SOFTWARE.
 
 ```
 
-## rustls-webpki 0.103.8
+## rustls-webpki 0.103.10
 
 ```
 Except as otherwise noted, this project is licensed under the following
@@ -12989,7 +12989,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 ```
 
-## curve25519-dalek-derive 0.1.1, adler2 2.0.1, anyhow 1.0.100, async-trait 0.1.89, atomic-waker 1.1.2, auto_enums 0.8.7, derive_utils 0.15.0, displaydoc 0.2.5, dyn-clone 1.0.20, fastrand 2.3.0, home 0.5.11, itoa 1.0.17, linkme-impl 0.3.35, linkme 0.3.35, linux-raw-sys 0.11.0, linux-raw-sys 0.4.15, minimal-lexical 0.2.1, num_enum 0.7.5, num_enum_derive 0.7.5, once_cell 1.21.3, paste 1.0.15, pin-project-internal 1.1.10, pin-project-lite 0.2.16, pin-project 1.1.10, prettyplease 0.2.37, proc-macro-crate 3.4.0, proc-macro2 1.0.105, quote 1.0.43, ref-cast-impl 1.0.25, ref-cast 1.0.25, rustix 0.38.44, rustix 1.1.3, rustversion 1.0.22, semver 1.0.27, send_wrapper 0.6.0, serde 1.0.228, serde_core 1.0.228, serde_derive 1.0.228, serde_json 1.0.149, syn-mid 0.6.0, syn 2.0.114, thiserror-impl 1.0.69, thiserror-impl 2.0.17, thiserror 1.0.69, thiserror 2.0.17, unicode-ident 1.0.22, utf-8 0.7.6, zmij 1.0.12
+## curve25519-dalek-derive 0.1.1, adler2 2.0.1, anyhow 1.0.100, async-trait 0.1.89, atomic-waker 1.1.2, auto_enums 0.8.7, derive_utils 0.15.0, displaydoc 0.2.5, dyn-clone 1.0.20, fastrand 2.3.0, home 0.5.11, itoa 1.0.17, linkme-impl 0.3.35, linkme 0.3.35, linux-raw-sys 0.11.0, linux-raw-sys 0.4.15, minimal-lexical 0.2.1, num_enum 0.7.5, num_enum_derive 0.7.5, once_cell 1.21.3, paste 1.0.15, pin-project-internal 1.1.10, pin-project-lite 0.2.16, pin-project 1.1.10, prettyplease 0.2.37, proc-macro-crate 3.4.0, proc-macro2 1.0.105, quote 1.0.43, ref-cast-impl 1.0.25, ref-cast 1.0.25, rustix 0.38.44, rustix 1.1.3, rustversion 1.0.22, semver 1.0.27, send_wrapper 0.6.0, serde 1.0.228, serde_core 1.0.228, serde_derive 1.0.228, serde_json 1.0.149, syn-mid 0.6.0, syn 1.0.109, syn 2.0.114, thiserror-impl 1.0.69, thiserror-impl 2.0.17, thiserror 1.0.69, thiserror 2.0.17, unicode-ident 1.0.22, utf-8 0.7.6, zmij 1.0.12
 
 ```
 Permission is hereby granted, free of charge, to any
@@ -13539,7 +13539,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## hpke-rs-crypto 0.6.0, hpke-rs 0.6.0
+## hpke-rs-crypto 0.6.1, hpke-rs 0.6.1
 
 ```
 Mozilla Public License Version 2.0
