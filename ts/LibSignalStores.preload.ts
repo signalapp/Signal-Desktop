@@ -4,6 +4,8 @@
 /* eslint-disable max-classes-per-file */
 
 import lodash from 'lodash';
+import { pqCrypto } from './textsecure/PQWrapper';
+import { log } from './logging/log.std';
 
 import type {
   Direction,
@@ -153,12 +155,20 @@ export class IdentityKeys extends IdentityKeyStore {
     const encodedAddress = encodeAddress(name);
     const publicKey = key.serialize();
 
-    // Pass `zone` to let `saveIdentity` archive sibling sessions when identity
-    // key changes.
+    log.info(
+      `[IdentityKeys] saveIdentity: serviceId=${encodedAddress.serviceId}, ` +
+      `deviceId=${encodedAddress.deviceId ?? "?"}, keyLen=${publicKey.length}`
+    );
+
+    // ❌ DO NOT feed Signal identity keys into PQCrypto
+
     return signalProtocolStore.saveIdentity(encodedAddress, publicKey, false, {
       zone: this.#zone,
     });
   }
+
+
+
 
   async isTrustedIdentity(
     name: ProtocolAddress,

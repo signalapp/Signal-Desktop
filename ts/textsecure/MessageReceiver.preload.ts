@@ -173,6 +173,14 @@ import {
   type MessageRequestResponseInfo,
   MessageRequestResponseSource,
 } from '../types/MessageRequestResponseEvent.std.js';
+import { en } from 'intl-tel-input/i18n';
+import { benchLog } from './pqBenchmarkLogger';
+
+pqCrypto.setDebug(true);
+
+void pqCrypto.initPQ().catch(e => {
+  log.error('[PQ] Failed to initialize PQ crypto', e);
+});
 
 const { isBoolean, isNumber, isString, noop, omit } = lodash;
 
@@ -262,13 +270,9 @@ const CAN_BE_URGENT_TYPES: Array<SendTypesType> = [
   'legacyGroupChange',
 ];
 
-(async () => {
-  try {
-    await pqCrypto.initialize();
-  } catch (e) {
-    log.error('[PQ] Failed to initialize PQ crypto', e);
-  }
-})();
+void pqCrypto.initPQ().catch(e => {
+  log.error('[PQ] Failed to initialize PQ crypto', e);
+});
 
 function logUnexpectedUrgentValue(
   envelope: ProcessedEnvelope,
@@ -1423,236 +1427,220 @@ export default class MessageReceiver
     return newEnvelope;
   }
 
-  async #decryptEnvelope(
-    stores: LockedStores,
-    envelope: UnsealedEnvelope,
-    serviceIdKind: ServiceIdKind
-  ): Promise<DecryptResult> {
-    const logId = `decryptEnvelope(${getEnvelopeId(envelope)})`;
+    async #decryptEnvelope(
+  stores: LockedStores,
+  envelope: UnsealedEnvelope,
+  serviceIdKind: ServiceIdKind
+): Promise<DecryptResult> {
+  const logId = `decryptEnvelope(${getEnvelopeId(envelope)})`;
 
-    if (this.#stoppingProcessing) {
-      log.warn(`${logId}: dropping unsealed`);
-      throw new Error('Unsealed envelope dropped due to stopping processing');
-    }
+  if (this.#stoppingProcessing) {
+    log.warn(`${logId}: dropping unsealed`);
+    throw new Error('Unsealed envelope dropped due to stopping processing');
+  }
 
-    if (envelope.type === Proto.Envelope.Type.SERVER_DELIVERY_RECEIPT) {
-      strictAssert(
-        envelope.sourceServiceId,
-        'Unsealed delivery receipt must have sourceServiceId'
-      );
-      await this.#onDeliveryReceipt(envelope);
-      return { plaintext: undefined, envelope };
-    }
-
-    let ciphertext: Uint8Array;
-    if (envelope.content) {
-      ciphertext = envelope.content;
-    } else {
-      this.#removeFromCache(envelope);
-      strictAssert(
-        false,
-        'Contentless envelope should be handled by unsealEnvelope'
-      );
-    }
-
-    log.info(logId);
-    const decryptResult = await this.#decrypt(
-      stores,
-      envelope,
-      ciphertext,
-      serviceIdKind
+  if (envelope.type === Proto.Envelope.Type.SERVER_DELIVERY_RECEIPT) {
+    strictAssert(
+      envelope.sourceServiceId,
+      'Unsealed delivery receipt must have sourceServiceId'
     );
+    await this.#onDeliveryReceipt(envelope);
+    return { plaintext: undefined, envelope };
+  }
 
-    if (!decryptResult) {
-      log.warn(`${logId}: plaintext was falsey`);
-      return { plaintext: undefined, envelope };
-    }
+  let ciphertext: Uint8Array;
+  if (envelope.content) {
+    ciphertext = envelope.content;
+  } else {
+    this.#removeFromCache(envelope);
+    strictAssert(false, 'Contentless envelope should be handled by unsealEnvelope');
+  }
 
-   // after you get `plaintext` from the normal Signal decryption:
-    const { plaintext, wasEncrypted } = decryptResult;
+  log.info(logId);
 
-    let unwrappedPlaintext = plaintext;
+  const decryptResult = await this.#decrypt(
+    stores,
+    envelope,
+    ciphertext,
+    serviceIdKind
+  );
 
-    // Derive the same contactId we used in OutgoingMessage
-    let contactId: string | undefined;
+  if (!decryptResult) {
+    log.warn(`${logId}: plaintext was falsey`);
+    return { plaintext: undefined, envelope };
+  }
 
-    // Example (you must adjust to your actual types):
-    if (typeof envelope.sourceDevice === 'number') {
-      contactId = String(envelope.sourceDevice);
-    } else if (typeof envelope.sourceServiceId === 'string') {
-      // Only if that matches what you used as recipients[0]
-      contactId = envelope.sourceServiceId;
-    }
+  // After normal Signal decryption:
+  const { plaintext, wasEncrypted } = decryptResult;
 
-    if (contactId) {
+  // Default: what Signal gave us
+  let unwrappedPlaintext = plaintext;
+
+  // Our PQWrapper format:
+  // - kind 0x01 = handshake+plaintext
+  // - kind 0x02 = PQ wrapped
+  const looksLikePQ =
+    plaintext.length > 0 && (plaintext[0] === 0x01 || plaintext[0] === 0x02);
+
+  if (looksLikePQ) {
+    try {
+      // Sender identity for PQ unwrap
+      const senderServiceId =
+        envelope.sourceServiceId ?? (envelope as any).source;
+
+      strictAssert(senderServiceId, 'Missing sourceServiceId/source for PQ unwrap');
+
+      log.info(
+        `[MessageReceiver] [PQ] Attempting to unwrap message from: ${senderServiceId}, length: ${plaintext.length}`
+      );
+
+      // Ensure PQ layer knows *our* serviceId (destination of this envelope)
       try {
-        log.info(
-          `[PQ] Attempting to unwrap message from: ${contactId}, length: ${plaintext.length}`
-        );
-        unwrappedPlaintext = await pqCrypto.unwrapIncoming(contactId, plaintext);
-        log.info(
-          `[PQ] Successfully unwrapped message, new length: ${unwrappedPlaintext.length}`
-        );
-      } catch (error) {
-        log.error('[PQ] Failed to unwrap message:', error);
+        // If your envelope type doesn’t have destinationServiceId, remove this or
+        // set it from whatever your build provides.
+        pqCrypto.setOurServiceId((envelope as any).destinationServiceId);
+      } catch (e) {
+        log.warn('[MessageReceiver][PQ] setOurServiceId failed (non-fatal)', e);
+      }
+
+      const candidate = await pqCrypto.unwrapIncoming(senderServiceId, plaintext);
+
+      if (candidate && candidate.length > 0) {
+        unwrappedPlaintext = candidate;
+      } else {
+        // Safety: keep original if unwrap returns empty
         unwrappedPlaintext = plaintext;
       }
-    }
 
-    //
-    // Then, everywhere below where the file used `plaintext`,
-    // change it to `unwrappedPlaintext`.
-    //
-
-
-
-
-    // Note: we need to process this as part of decryption, because we might need this
-    //   sender key to decrypt the next message in the queue!
-    let isGroupV2 = false;
-
-    let inProgressMessageType = '';
-    try {
-      const content = Proto.Content.decode(unwrappedPlaintext);
-      if (!wasEncrypted && Bytes.isEmpty(content.decryptionErrorMessage)) {
-        log.warn(
-          `${logId}: dropping plaintext envelope without decryption error message`
-        );
-
-        const { sourceServiceId: senderAci } = envelope;
-        strictAssert(isAciString(senderAci), 'Sender uuid must be an ACI');
-
-        const event = new InvalidPlaintextEvent({
-          senderDevice: envelope.sourceDevice ?? 1,
-          senderAci,
-          timestamp: envelope.timestamp,
-        });
-
-        this.#removeFromCache(envelope);
-
-        const envelopeId = getEnvelopeId(envelope);
-
-        // Avoid deadlocks by scheduling processing on decrypted queue
-        drop(
-          this.#addToQueue(
-            async () => this.dispatchEvent(event),
-            `decrypted/dispatchEvent/InvalidPlaintextEvent(${envelopeId})`,
-            TaskType.Decrypted
-          )
-        );
-
-        return { plaintext: undefined, envelope };
-      }
-
-      isGroupV2 =
-        Boolean(content.dataMessage?.groupV2) ||
-        Boolean(content.storyMessage?.group);
-
-      if (
-        wasEncrypted &&
-        content.senderKeyDistributionMessage &&
-        Bytes.isNotEmpty(content.senderKeyDistributionMessage)
-      ) {
-        inProgressMessageType = 'sender key distribution';
-        await this.#handleSenderKeyDistributionMessage(
-          stores,
-          envelope,
-          content.senderKeyDistributionMessage
-        );
-      }
-
-      const isStoryReply = Boolean(content.dataMessage?.storyContext);
-      const isGroupStoryReply = Boolean(
-        isStoryReply && content.dataMessage?.groupV2
+      log.info(
+        `[MessageReceiver] [PQ] unwrap: senderServiceId=${senderServiceId} len=${unwrappedPlaintext.length}`
       );
-      const isStory = Boolean(content.storyMessage);
-      const isDeleteForEveryone = Boolean(content.dataMessage?.delete);
-
-      if (
-        envelope.story &&
-        !(isGroupStoryReply || isStory) &&
-        !isDeleteForEveryone
-      ) {
-        log.warn(
-          `${logId}: Dropping story message - story=true on envelope, but message was not a story send or delete`
-        );
-        this.#removeFromCache(envelope);
-        return { plaintext: undefined, envelope };
-      }
-
-      if (!envelope.story && (isGroupStoryReply || isStory)) {
-        log.warn(
-          `${logId}: Malformed story - story=false on envelope, but was a story send`
-        );
-      }
-
-      const areStoriesBlocked = getStoriesBlocked();
-      // Note that there are other story-related message types which aren't captured
-      //   here. Look for other calls to getStoriesBlocked down-file.
-      if (areStoriesBlocked && (isStoryReply || isStory)) {
-        log.warn(
-          `${logId}: Dropping story message - stories are disabled or unavailable`
-        );
-        this.#removeFromCache(envelope);
-        return { plaintext: undefined, envelope };
-      }
-
-      const sender = window.ConversationController.get(
-        envelope.sourceServiceId || envelope.source
-      );
-      if (
-        (isStoryReply || isStory) &&
-        !isGroupV2 &&
-        (!sender || !sender.get('profileSharing'))
-      ) {
-        log.warn(
-          `${logId}: Dropping story message - !profileSharing for sender`
-        );
-        this.#removeFromCache(envelope);
-        return { plaintext: undefined, envelope };
-      }
-
-      if (wasEncrypted && content.pniSignatureMessage) {
-        inProgressMessageType = 'pni signature';
-        await this.#handlePniSignatureMessage(
-          envelope,
-          content.pniSignatureMessage
-        );
-      }
-
-      // Some sync messages have to be fully processed in the middle of
-      // decryption queue since subsequent envelopes use their key material.
-      const { syncMessage } = content;
-      if (wasEncrypted && syncMessage?.pniChangeNumber) {
-        inProgressMessageType = 'pni change number';
-        await this.#handlePNIChangeNumber(
-          envelope,
-          syncMessage.pniChangeNumber
-        );
-        this.#removeFromCache(envelope);
-        return { plaintext: undefined, envelope };
-      }
-
-      inProgressMessageType = '';
     } catch (error) {
-      log.error(
-        `${logId}: Failed to process ${inProgressMessageType} ` +
-          `message: ${Errors.toLogFormat(error)}`
-      );
+      log.error('[MessageReceiver] [PQ] Failed to unwrap message:', error);
+      unwrappedPlaintext = plaintext;
     }
+  }
+
+  // Decode possibly-unwrapped plaintext ONCE and use throughout.
+  let isGroupV2 = false;
+  let inProgressMessageType = '';
+
+  try {
+    const content = Proto.Content.decode(unwrappedPlaintext);
+
+    if (!wasEncrypted && Bytes.isEmpty(content.decryptionErrorMessage)) {
+      log.warn(`${logId}: dropping plaintext envelope without decryption error message`);
+
+      const { sourceServiceId: senderAci } = envelope;
+      strictAssert(isAciString(senderAci), 'Sender uuid must be an ACI');
+
+      const event = new InvalidPlaintextEvent({
+        senderDevice: envelope.sourceDevice ?? 1,
+        senderAci,
+        timestamp: envelope.timestamp,
+      });
+
+      this.#removeFromCache(envelope);
+
+      const envelopeId = getEnvelopeId(envelope);
+
+      // Avoid deadlocks by scheduling processing on decrypted queue
+      drop(
+        this.#addToQueue(
+          async () => this.dispatchEvent(event),
+          `decrypted/dispatchEvent/InvalidPlaintextEvent(${envelopeId})`,
+          TaskType.Decrypted
+        )
+      );
+
+      return { plaintext: undefined, envelope };
+    }
+
+    isGroupV2 =
+      Boolean(content.dataMessage?.groupV2) ||
+      Boolean(content.storyMessage?.group);
 
     if (
-      (envelope.source && this.#isBlocked(envelope.source)) ||
-      (envelope.sourceServiceId &&
-        this.#isServiceIdBlocked(envelope.sourceServiceId))
+      wasEncrypted &&
+      content.senderKeyDistributionMessage &&
+      Bytes.isNotEmpty(content.senderKeyDistributionMessage)
     ) {
-      log.info(`${logId}: Dropping message from blocked sender`);
+      inProgressMessageType = 'sender key distribution';
+      await this.#handleSenderKeyDistributionMessage(
+        stores,
+        envelope,
+        content.senderKeyDistributionMessage
+      );
+    }
+
+    const isStoryReply = Boolean(content.dataMessage?.storyContext);
+    const isGroupStoryReply = Boolean(isStoryReply && content.dataMessage?.groupV2);
+    const isStory = Boolean(content.storyMessage);
+    const isDeleteForEveryone = Boolean(content.dataMessage?.delete);
+
+    if (envelope.story && !(isGroupStoryReply || isStory) && !isDeleteForEveryone) {
+      log.warn(
+        `${logId}: Dropping story message - story=true on envelope, but message was not a story send or delete`
+      );
       this.#removeFromCache(envelope);
       return { plaintext: undefined, envelope };
     }
 
-    return { plaintext, envelope };
+    if (!envelope.story && (isGroupStoryReply || isStory)) {
+      log.warn(`${logId}: Malformed story - story=false on envelope, but was a story send`);
+    }
+
+    const areStoriesBlocked = getStoriesBlocked();
+    if (areStoriesBlocked && (isStoryReply || isStory)) {
+      log.warn(`${logId}: Dropping story message - stories are disabled or unavailable`);
+      this.#removeFromCache(envelope);
+      return { plaintext: undefined, envelope };
+    }
+
+    const sender = window.ConversationController.get(
+      envelope.sourceServiceId || (envelope as any).source
+    );
+    if ((isStoryReply || isStory) && !isGroupV2 && (!sender || !sender.get('profileSharing'))) {
+      log.warn(`${logId}: Dropping story message - !profileSharing for sender`);
+      this.#removeFromCache(envelope);
+      return { plaintext: undefined, envelope };
+    }
+
+    if (wasEncrypted && content.pniSignatureMessage) {
+      inProgressMessageType = 'pni signature';
+      await this.#handlePniSignatureMessage(envelope, content.pniSignatureMessage);
+    }
+
+    // Some sync messages have to be fully processed in the middle of
+    // decryption queue since subsequent envelopes use their key material.
+    const { syncMessage } = content;
+    if (wasEncrypted && syncMessage?.pniChangeNumber) {
+      inProgressMessageType = 'pni change number';
+      await this.#handlePNIChangeNumber(envelope, syncMessage.pniChangeNumber);
+      this.#removeFromCache(envelope);
+      return { plaintext: undefined, envelope };
+    }
+
+    inProgressMessageType = '';
+  } catch (error) {
+    log.error(
+      `${logId}: Failed to process ${inProgressMessageType} message: ${Errors.toLogFormat(error)}`
+    );
   }
+
+  if (
+    (envelope.source && this.#isBlocked(envelope.source)) ||
+    (envelope.sourceServiceId && this.#isServiceIdBlocked(envelope.sourceServiceId))
+  ) {
+    log.info(`${logId}: Dropping message from blocked sender`);
+    this.#removeFromCache(envelope);
+    return { plaintext: undefined, envelope };
+  }
+
+  // Return the possibly-unwrapped plaintext so the rest of the pipeline uses it.
+  return { plaintext: unwrappedPlaintext, envelope };
+}
+
 
   #validateUnsealedEnvelope(envelope: UnsealedEnvelope): void {
     const {
@@ -2556,6 +2544,17 @@ export default class MessageReceiver
       this.#removeFromCache.bind(this, envelope)
     );
 
+    await benchLog({
+      ts: Date.now(),
+      side: 'recv',
+      stage: 'RECV_DONE',
+      serviceId: envelope.sourceServiceId,
+      values: {
+        bodyLen: msg.body ? msg.body.length : 0,
+      },
+    });
+
+
     return this.#dispatchAndWait(logId, ev);
   }
 
@@ -2613,6 +2612,20 @@ export default class MessageReceiver
     plaintext: Uint8Array
   ): Promise<void> {
     const content = Proto.Content.decode(plaintext);
+    
+    await benchLog({
+      ts: Date.now(),
+      side: 'recv',
+      stage: 'RECV_DONE',
+      serviceId:
+        incomingEnvelope.sourceServiceId ??
+        incomingEnvelope.source ??
+        'unknown',
+      values: {
+        plainLen: plaintext.length,
+      },
+    });
+
     const envelope = await this.#maybeUpdateTimestamp(incomingEnvelope);
 
     if (

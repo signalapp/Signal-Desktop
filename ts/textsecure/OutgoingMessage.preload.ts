@@ -22,7 +22,7 @@ import {
   signalEncrypt,
   UnidentifiedSenderMessageContent,
 } from '@signalapp/libsignal-client';
-
+import { performance } from 'perf_hooks';
 import {
   sendMessages,
   sendMessagesUnauth,
@@ -56,6 +56,8 @@ import { isSignalServiceId } from '../util/isSignalConversation.dom.js';
 import * as Bytes from '../Bytes.std.js';
 import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
 import { itemStorage } from './Storage.preload.js';
+import { benchLog } from './pqBenchmarkLogger';
+import c from 'config';
 
 const { reject } = lodash;
 
@@ -133,7 +135,7 @@ export default class OutgoingMessage {
 
   callback: (result: CallbackResultType) => void;
 
-  plaintext?: Uint8Array;
+  plaintext!: Uint8Array;
 
   serviceIdsCompleted: number;
 
@@ -367,84 +369,89 @@ export default class OutgoingMessage {
     });
   }
 
-      async getPlaintext(): Promise<Uint8Array> {
+  async getPlaintext(): Promise<Uint8Array> {
     if (!this.plaintext) {
       const { message } = this;
 
-      // 1) Build the original Signal plaintext (unchanged behavior)
-      let signalPlaintext: Uint8Array;
-      if (message instanceof Proto.Content) {
-        signalPlaintext = padMessage(Proto.Content.encode(message).finish());
-      } else {
-        signalPlaintext = message.serialize();
+      const isUserMessage =
+        message instanceof Proto.Content &&
+        message.dataMessage?.body != null;
+
+      if (!isUserMessage) {
+        // unchanged
+        this.plaintext = message instanceof Proto.Content
+          ? padMessage(Proto.Content.encode(message).finish())
+          : message.serialize();
+        return this.plaintext;
       }
 
-      // Debug log: base plaintext length
-      log.info(
-        '[OutgoingMessage] [PQ] Outgoing getPlaintext called; base length:',
-        signalPlaintext.length
-      );
+      const recipientServiceId = this.serviceIds[0];
 
-      // 2) Derive a contactId string for PQ
-      let contactId: string | undefined;
-      const self: any = this as any;
+      const tTotalStart = performance.now();
 
-      // (a) Try recipients (may be undefined in this build)
-      if (Array.isArray(self.recipients) && self.recipients.length > 0) {
-        contactId = String(self.recipients[0]);
-      }
+      const tEncodeStart = performance.now();
+      const contentBytes = Proto.Content.encode(message).finish();
+      const tEncodeEnd = performance.now();
 
-      // (b) Try conversationId if present
-      if (!contactId && self.conversationId) {
-        contactId = String(self.conversationId);
-      }
+      let wrappedBytes = contentBytes;
+      let pqMode = 'none';
 
-      // (c) Try destination info on the message object
-      if (!contactId && self.message) {
-        const m: any = self.message;
-        if (m.destinationServiceId || m.destinationUuid || m.destinationId) {
-          contactId = String(
-            m.destinationServiceId || m.destinationUuid || m.destinationId
-          );
-        }
-      }
-
-      // (d) LAST RESORT – hard-code "1" so PQ actually runs.
-      //     Your MessageReceiver logs show "from: 1", so this matches.
-      if (!contactId) {
-        contactId = '1';
-        log.warn(
-          '[OutgoingMessage] [PQ] contactId was undefined; falling back to "1" (lab mode)'
-        );
-      }
-
-      log.info(
-        '[OutgoingMessage] [PQ] Derived contactId:',
-        contactId,
-        'recipients=',
-        self.recipients && self.recipients.length
-      );
-
-      // 3) PQ wrap
+      const tPQStart = performance.now();
       try {
-        const { wrapped } = await pqCrypto.wrapOutgoing(contactId, signalPlaintext);
-        this.plaintext = wrapped;
-        log.info(
-          '[OutgoingMessage] [PQ] Successfully wrapped outgoing message; final length:',
-          wrapped.length
-        );
-      } catch (e) {
-        // Fail open: fall back to unwrapped Signal message
-        log.error(
-          '[OutgoingMessage] [PQ] Failed to wrap outgoing message, sending unwrapped',
-          e
-        );
-        this.plaintext = signalPlaintext;
+        const { wrapped, mode } = await pqCrypto.wrapOutgoing(recipientServiceId, contentBytes);
+        wrappedBytes = wrapped;
+        pqMode = mode;
+      } finally {
+        // even if wrap fails, we still measure time spent trying
       }
+      const tPQEnd = performance.now();
+
+      const tPadStart = performance.now();
+      const padded = padMessage(wrappedBytes);
+      const tPadEnd = performance.now();
+
+      const tTotalEnd = performance.now();
+
+      this.plaintext = padded;
+      
+      const encodeMs = +(tEncodeEnd - tEncodeStart).toFixed(3);
+      const pqWrapMs = +(tPQEnd - tPQStart).toFixed(3);
+      const padMs = +(tPadEnd - tPadStart).toFixed(3);
+      const totalPrepMs = +(tTotalEnd - tTotalStart).toFixed(3);
+
+      log.info('[TIMING][SEND][PREP]', {
+        pqMode,
+        encodeMs,
+        pqWrapMs,
+        padMs,
+        totalPrepMs,
+        contentLen: contentBytes.length,
+        wrappedLen: wrappedBytes.length,
+        paddedLen: padded.length,
+      });
+
+      await benchLog({
+        ts: Date.now(),
+        side: 'send',
+        stage: 'SEND_PREP',
+        serviceId: recipientServiceId,
+        values: {
+          encodeMs,
+          pqWrapMs,
+          padMs,
+          totalPrepMs,
+          contentLen: contentBytes.length,
+          paddedLen: padded.length,
+        },
+      });
+
     }
 
-    return this.plaintext as Uint8Array;
+    (this as any).__benchPlaintextReadyTs = performance.now();
+
+    return this.plaintext;
   }
+
 
 
   getContentProtoBytes(): Uint8Array | undefined {
@@ -497,8 +504,9 @@ export default class OutgoingMessage {
     }
 
     const sealedSender =
-      (accessKey != null || groupSendToken != null) &&
-      senderCertificate != null;
+    false &&
+    (accessKey != null || groupSendToken != null) &&
+    senderCertificate != null;
 
     // We don't send to ourselves unless sealedSender is enabled
     const ourNumber = itemStorage.user.getNumber();
@@ -517,6 +525,9 @@ export default class OutgoingMessage {
 
     const sessionStore = new Sessions({ ourServiceId: ourAci });
     const identityKeyStore = new IdentityKeys({ ourServiceId: ourAci });
+    
+    pqCrypto.setOurServiceId(ourAci);
+    log.info('[PQ] setOurServiceId called', ourAci);
 
     return Promise.all(
       deviceIds.map(async destinationDeviceId => {
@@ -586,6 +597,34 @@ export default class OutgoingMessage {
             });
             const type = ciphertextMessageTypeToEnvelopeType(
               ciphertextMessage.type()
+            );
+            
+            const tNow = performance.now();
+            const tPlaintextReady = (this as any).__benchPlaintextReadyTs;
+
+            if (tPlaintextReady) {
+              const signalEncryptAndQueueMs = +(tNow - tPlaintextReady).toFixed(3);
+
+              log.info('[TIMING][SEND][SIGNAL]', {
+                signalEncryptAndQueueMs,
+                sealedSender,
+                serviceId,
+              });
+
+              await benchLog({
+                ts: Date.now(),
+                side: 'send',
+                stage: 'SIGNAL_SEND',
+                serviceId,
+                values: {
+                  signalEncryptAndQueueMs,
+                  sealedSender,
+                },
+              });
+            }
+
+            log.info(
+              `[PQ][SEND] sealedSender=${sealedSender} serviceId=${serviceId}`
             );
 
             const content = Bytes.toBase64(ciphertextMessage.serialize());
