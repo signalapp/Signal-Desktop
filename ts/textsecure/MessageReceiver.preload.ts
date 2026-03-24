@@ -76,7 +76,7 @@ import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
 import { SignalService as Proto } from '../protobuf/index.std.js';
 import { deriveGroupFields, MASTER_KEY_LENGTH } from '../groups.preload.js';
 
-import createTaskWithTimeout from './TaskWithTimeout.std.js';
+import { runTaskWithTimeout } from './TaskWithTimeout.std.js';
 import {
   processAttachment,
   processDataMessage,
@@ -245,10 +245,6 @@ export type MessageReceiverOptions = {
   serverTrustRoots: Array<string>;
 };
 
-const TASK_WITH_TIMEOUT_OPTIONS = {
-  timeout: 2 * durations.MINUTE,
-};
-
 const LOG_UNEXPECTED_URGENT_VALUES = false;
 const MUST_BE_URGENT_TYPES: Array<SendTypesType> = [
   'message',
@@ -391,13 +387,13 @@ export default class MessageReceiver
 
       if (request.requestType === ServerRequestType.ApiEmptyQueue) {
         drop(
-          this.#incomingQueue.add(
-            createTaskWithTimeout(
+          this.#incomingQueue.add(() =>
+            runTaskWithTimeout(
               async () => {
                 this.#onEmpty();
               },
               'incomingQueue/onEmpty',
-              TASK_WITH_TIMEOUT_OPTIONS
+              'short-lived'
             )
           )
         );
@@ -487,12 +483,8 @@ export default class MessageReceiver
     };
 
     drop(
-      this.#incomingQueue.add(
-        createTaskWithTimeout(
-          job,
-          'incomingQueue/websocket',
-          TASK_WITH_TIMEOUT_OPTIONS
-        )
+      this.#incomingQueue.add(() =>
+        runTaskWithTimeout(job, 'incomingQueue/websocket', 'short-lived')
       )
     );
   }
@@ -510,13 +502,11 @@ export default class MessageReceiver
 
   #addCachedMessagesToQueue(): Promise<void> {
     log.info('addCachedMessagesToQueue');
-    return this.#incomingQueue.add(
-      createTaskWithTimeout(
+    return this.#incomingQueue.add(() =>
+      runTaskWithTimeout(
         async () => this.#queueAllCached(),
         'incomingQueue/queueAllCached',
-        {
-          timeout: 10 * durations.MINUTE,
-        }
+        'long-running'
       )
     );
   }
@@ -547,11 +537,11 @@ export default class MessageReceiver
         TaskType.Encrypted
       );
 
-    return this.#incomingQueue.add(
-      createTaskWithTimeout(
+    return this.#incomingQueue.add(() =>
+      runTaskWithTimeout(
         waitForIncomingQueue,
         'drain/waitForIncoming',
-        TASK_WITH_TIMEOUT_OPTIONS
+        'short-lived'
       )
     );
   }
@@ -732,11 +722,11 @@ export default class MessageReceiver
 
   async #dispatchAndWait(id: string, event: Event): Promise<void> {
     drop(
-      this.#appQueue.add(
-        createTaskWithTimeout(
+      this.#appQueue.add(() =>
+        runTaskWithTimeout(
           async () => Promise.all(this.dispatchEvent(event)),
           `dispatchEvent(${event.type}, ${id})`,
-          TASK_WITH_TIMEOUT_OPTIONS
+          'short-lived'
         )
       )
     );
@@ -764,9 +754,7 @@ export default class MessageReceiver
         ? this.#encryptedQueue
         : this.#decryptedQueue;
 
-    return queue.add(
-      createTaskWithTimeout(task, id, TASK_WITH_TIMEOUT_OPTIONS)
-    );
+    return queue.add(() => runTaskWithTimeout(task, id, 'short-lived'));
   }
 
   #onEmpty(): void {
@@ -796,12 +784,8 @@ export default class MessageReceiver
 
       // We don't await here because we don't want this to gate future message processing
       drop(
-        this.#appQueue.add(
-          createTaskWithTimeout(
-            emitEmpty,
-            'emitEmpty',
-            TASK_WITH_TIMEOUT_OPTIONS
-          )
+        this.#appQueue.add(() =>
+          runTaskWithTimeout(emitEmpty, 'emitEmpty', 'short-lived')
         )
       );
     };
@@ -829,11 +813,11 @@ export default class MessageReceiver
     const waitForCacheAddBatcher = async () => {
       await this.#decryptAndCacheBatcher.onIdle();
       drop(
-        this.#incomingQueue.add(
-          createTaskWithTimeout(
+        this.#incomingQueue.add(() =>
+          runTaskWithTimeout(
             waitForIncomingQueue,
             'onEmpty/waitForIncoming',
-            TASK_WITH_TIMEOUT_OPTIONS
+            'short-lived'
           )
         )
       );
@@ -969,11 +953,11 @@ export default class MessageReceiver
       this.#clearRetryTimeout();
       this.#retryCachedTimeout = setTimeout(() => {
         drop(
-          this.#incomingQueue.add(
-            createTaskWithTimeout(
+          this.#incomingQueue.add(() =>
+            runTaskWithTimeout(
               async () => this.#queueAllCached(),
               'queueAllCached',
-              TASK_WITH_TIMEOUT_OPTIONS
+              'short-lived'
             )
           )
         );
@@ -1214,15 +1198,15 @@ export default class MessageReceiver
     log.info('queueing decrypted envelope', id);
 
     const task = this.#handleDecryptedEnvelope.bind(this, envelope, plaintext);
-    const taskWithTimeout = createTaskWithTimeout(
-      task,
-      `queueDecryptedEnvelope ${id}`,
-      TASK_WITH_TIMEOUT_OPTIONS
-    );
 
     try {
       await this.#addToQueue(
-        taskWithTimeout,
+        () =>
+          runTaskWithTimeout(
+            task,
+            `queueDecryptedEnvelope ${id}`,
+            'short-lived'
+          ),
         `handleDecryptedEnvelope(${id})`,
         TaskType.Decrypted
       );

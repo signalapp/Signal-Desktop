@@ -15,7 +15,8 @@ import type {
   ProcessedDataMessage,
 } from './textsecure/Types.d.ts';
 import { HTTPError } from './types/HTTPError.std.js';
-import createTaskWithTimeout, {
+import {
+  runTaskWithTimeout,
   suspendTasksWithTimeout,
   resumeTasksWithTimeout,
   reportLongRunningTasks,
@@ -603,8 +604,8 @@ export async function startApp(): Promise<void> {
     ): (event: E) => void {
       return (event: E): void => {
         drop(
-          eventHandlerQueue.add(
-            createTaskWithTimeout(
+          eventHandlerQueue.add(() =>
+            runTaskWithTimeout(
               async () => handler(event),
               `queuedEventListener(${event.type}, ${event.timeStamp})`
             )
