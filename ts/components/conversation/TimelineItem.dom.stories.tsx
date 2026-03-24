@@ -43,6 +43,7 @@ const getDefaultProps = () => ({
   id: 'asdf',
   isNextItemCallingNotification: false,
   isPinned: false,
+  isSelectMode: false,
   isTargeted: false,
   isBlocked: false,
   isGroup: false,

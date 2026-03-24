@@ -554,12 +554,18 @@ export class Timeline extends React.Component<
       messageIdToMarkRead &&
       (itemId || lastIndex === newestBottomVisibleItemIndex)
     ) {
-      markMessageRead(id, messageIdToMarkRead);
-      return;
+      const item = items[newestBottomVisibleItemIndex];
+      if (!item || item.type === 'none') {
+        markMessageRead(id, messageIdToMarkRead);
+        return;
+      }
     }
 
     // We can return early if the newest partially-visible item is not a CollapseSet
-    const newestPartiallyVisibleIndex = newestBottomVisibleItemIndex + 1;
+    const newestPartiallyVisibleIndex = Math.min(
+      lastIndex,
+      newestBottomVisibleItemIndex + 1
+    );
     const newestPartiallyVisibleItem = items[newestPartiallyVisibleIndex];
     if (
       newestPartiallyVisibleItem &&

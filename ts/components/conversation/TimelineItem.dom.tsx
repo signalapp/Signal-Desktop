@@ -215,6 +215,7 @@ type PropsLocalType = {
   isBlocked: boolean;
   isGroup: boolean;
   isNextItemCallingNotification: boolean;
+  isSelectMode: boolean;
   isTargeted: boolean;
   scrollToPinnedMessage: (pinMessage: PinMessageData) => void;
   scrollToPollMessage: (
@@ -265,6 +266,7 @@ export const TimelineItem = memo(function TimelineItem({
   isBlocked,
   isGroup,
   isNextItemCallingNotification,
+  isSelectMode,
   isTargeted,
   item,
   onOpenEditNicknameAndNoteModal,
@@ -326,8 +328,10 @@ export const TimelineItem = memo(function TimelineItem({
         conversationId={conversationId}
         isBlocked={isBlocked}
         isGroup={isGroup}
+        isSelectMode={isSelectMode}
         renderItem={renderItem}
         targetedMessage={targetedMessage}
+        toggleDeleteMessagesModal={reducedProps.toggleDeleteMessagesModal}
         i18n={i18n}
       />
     );

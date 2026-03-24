@@ -3384,9 +3384,21 @@
     "messageformat": "You updated the group.",
     "description": "Shown in the conversation history when you update a group"
   },
+  "icu:collapsedContainer": {
+    "messageformat": "{leadingIcon} {text} {trailingIcon}",
+    "description": "This is how all the elements will be assembled: leading icon will be a timer or person, text is the text summary, and trailingIcon is the up/down chevron showing whether the area is expanded or collapsed"
+  },
   "icu:collapsedGroupUpdates": {
     "messageformat": "{count, plural, one {# group update} other {# group updates}}",
-    "description": "Label for a button giving access to a collection of group updates (count will always be 2+)"
+    "description": "Label for a button giving access to a collection of group updates (count will always be 2+"
+  },
+  "icu:multidayCollapse__container": {
+    "messageformat": "{containerDescription} · {dayCountSummary}",
+    "description": "For collapsed multiday sets, this is how the overall summary will be combined with the day count summary."
+  },
+  "icu:multidayCollapse__dayCountSummary": {
+    "messageformat": "{dayCount, plural, one {# day} other {# days}}",
+    "description": "Will be appended to the end of the other collapse strings. dayCount will always be 2+"
   },
   "icu:collapsedChatUpdates": {
     "messageformat": "{count, plural, one {# chat update} other {# chat updates}}",

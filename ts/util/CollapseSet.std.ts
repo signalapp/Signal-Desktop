@@ -25,6 +25,7 @@ export type CollapsedMessage = {
   isUnseen: boolean;
   // A single group-v2-change message can have more than one change in it
   extraItems?: number;
+  atDateBoundary?: boolean;
 };
 
 export type CollapseSet =
@@ -41,8 +42,8 @@ export type CollapseSet =
   | {
       type: 'timer-changes';
       id: string;
-      messages: Array<CollapsedMessage>;
       endingState: DurationInSeconds | undefined;
+      messages: Array<CollapsedMessage>;
     }
   | {
       type: 'call-events';
@@ -119,13 +120,7 @@ export function canCollapseForCallSet(
     conversationCall?.peekInfo?.eraId != null &&
     options.getCallIdFromEra(conversationCall.peekInfo.eraId);
 
-  const deviceCount = conversationCall?.peekInfo?.deviceCount ?? 0;
-
-  // Don't group if current call in the converasation, or there are devices in the call
-  if (
-    callHistory.mode === CallMode.Group &&
-    (callId === conversationCallId || deviceCount > 0)
-  ) {
+  if (callHistory.mode === CallMode.Group && callId === conversationCallId) {
     return false;
   }
 
@@ -134,7 +129,7 @@ export function canCollapseForCallSet(
 
 export function mapItemsIntoCollapseSets({
   activeCall,
-  allowMultidayDaySets,
+  allowMultidaySets,
   callHistorySelector,
   callSelector,
   getCallIdFromEra,
@@ -145,7 +140,7 @@ export function mapItemsIntoCollapseSets({
   scrollToIndex,
 }: {
   activeCall: CallStateType | undefined;
-  allowMultidayDaySets: boolean;
+  allowMultidaySets: boolean;
   callHistorySelector: CallHistorySelectorType;
   callSelector: CallSelectorType;
   getCallIdFromEra: (eraId: string) => string;
@@ -244,13 +239,13 @@ export function mapItemsIntoCollapseSets({
     }
     const canContinueSet =
       !atDateBoundary ||
-      (allowMultidayDaySets && !isToday && havePreviousCompleteDay);
+      (allowMultidaySets && !isToday && havePreviousCompleteDay);
 
     // Start a new set if we just crossed the last seen indicator
     if (i === oldestUnseenIndex) {
       haveCompleteDay &&= atDateBoundary;
 
-      if (allowMultidayDaySets) {
+      if (allowMultidaySets) {
         // If we've just terminated a multiday set, we need to split it; everything from
         // the current day needs to be in its own set.
         const didSplit = maybeSplitLastCollapseSet({
@@ -299,6 +294,7 @@ export function mapItemsIntoCollapseSets({
           id: currentId,
           isUnseen: currentMessage.seenStatus === SeenStatus.Unseen,
           extraItems,
+          atDateBoundary,
         });
       } else if (lastCollapseSet.type === 'none') {
         resultSets.pop();
@@ -315,6 +311,7 @@ export function mapItemsIntoCollapseSets({
               id: currentId,
               isUnseen: currentMessage.seenStatus === SeenStatus.Unseen,
               extraItems,
+              atDateBoundary,
             },
           ],
         });
@@ -348,6 +345,7 @@ export function mapItemsIntoCollapseSets({
         lastCollapseSet.messages.push({
           id: currentId,
           isUnseen: currentMessage.seenStatus === SeenStatus.Unseen,
+          atDateBoundary,
         });
         lastCollapseSet.endingState =
           currentMessage.expirationTimerUpdate?.expireTimer;
@@ -365,6 +363,7 @@ export function mapItemsIntoCollapseSets({
             {
               id: currentId,
               isUnseen: currentMessage.seenStatus === SeenStatus.Unseen,
+              atDateBoundary,
             },
           ],
         });
@@ -408,6 +407,7 @@ export function mapItemsIntoCollapseSets({
         lastCollapseSet.messages.push({
           id: currentId,
           isUnseen: currentMessage.seenStatus === SeenStatus.Unseen,
+          atDateBoundary,
         });
       } else if (lastCollapseSet.type === 'none') {
         resultSets.pop();
@@ -422,6 +422,7 @@ export function mapItemsIntoCollapseSets({
             {
               id: currentId,
               isUnseen: currentMessage.seenStatus === SeenStatus.Unseen,
+              atDateBoundary,
             },
           ],
         });
@@ -441,7 +442,7 @@ export function mapItemsIntoCollapseSets({
 
     haveCompleteDay &&= atDateBoundary;
 
-    if (allowMultidayDaySets) {
+    if (allowMultidaySets) {
       // If we've just terminated a multiday set, we need to split it; everything from
       // the current day needs to be in its own set.
       const didSplit = maybeSplitLastCollapseSet({
@@ -561,6 +562,7 @@ export function maybeSplitLastCollapseSet({
     currentDayMessages.length > 1 ||
     (firstCurrentMessage.extraItems ?? 0) > 0
   ) {
+    firstCurrentMessage.atDateBoundary = false;
     const currentDaySet: CollapseSet = {
       ...lastCollapseSet,
       id: firstCurrentMessage.id,

@@ -139,7 +139,7 @@ export const SmartTimeline = memo(function SmartTimeline({
     React.useMemo(() => {
       const result = mapItemsIntoCollapseSets({
         activeCall,
-        allowMultidayDaySets: true,
+        allowMultidaySets: false,
         callHistorySelector,
         callSelector,
         getCallIdFromEra,

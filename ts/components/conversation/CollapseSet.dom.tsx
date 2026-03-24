@@ -13,6 +13,7 @@ import { missingCaseError } from '../../util/missingCaseError.std.js';
 import { AxoSymbol } from '../../axo/AxoSymbol.dom.js';
 import { tw } from '../../axo/tw.dom.js';
 import { AxoButton } from '../../axo/AxoButton.dom.js';
+import { MessageContextMenu } from './MessageContextMenu.dom.js';
 
 import type { WidthBreakpoint } from '../_util.std.js';
 import type {
@@ -22,6 +23,8 @@ import type {
 import type { RenderItemProps } from '../../state/smart/TimelineItem.preload.js';
 import type { LocalizerType } from '../../types/I18N.std.js';
 import type { TargetedMessageType } from '../../state/selectors/conversations.dom.js';
+import type { DeleteMessagesPropsType } from '../../state/ducks/globalModals.preload.js';
+import { I18n } from '../I18n.dom.js';
 
 export type Props = CollapseSet & {
   containerElementRef: RefObject<HTMLElement | null>;
@@ -30,8 +33,10 @@ export type Props = CollapseSet & {
   i18n: LocalizerType;
   isBlocked: boolean;
   isGroup: boolean;
+  isSelectMode: boolean;
   renderItem: (props: RenderItemProps) => React.JSX.Element;
   targetedMessage: TargetedMessageType | undefined;
+  toggleDeleteMessagesModal: (props: DeleteMessagesPropsType) => void;
 };
 
 export function CollapseSetViewer(props: Props): React.JSX.Element {
@@ -49,6 +54,7 @@ export function CollapseSetViewer(props: Props): React.JSX.Element {
     messages,
     renderItem,
     targetedMessage,
+    toggleDeleteMessagesModal,
   } = props;
   const [isExpanded, setIsExpanded] = useState(false);
   const [messageCache, setMessageCache] = useState<
@@ -99,16 +105,23 @@ export function CollapseSetViewer(props: Props): React.JSX.Element {
 
   let oldestOriginallyUnseenIndex;
   const max = messages?.length;
+  let collapsedCount = 0;
+  let collapsedDayCount = 1;
+
   for (let i = 0; i < max; i += 1) {
     const message = messages[i];
     strictAssert(
       message,
       'CollapseSet finding oldestOriginallyUnseenIndex in messages'
     );
+
     if (messageCache[message.id]?.isUnseen) {
       oldestOriginallyUnseenIndex = i;
       break;
     }
+
+    collapsedCount += 1 + (message.extraItems ?? 0);
+    collapsedDayCount += message.atDateBoundary ? 1 : 0;
   }
 
   // We only want to show the button if we have at least two items
@@ -123,11 +136,6 @@ export function CollapseSetViewer(props: Props): React.JSX.Element {
     0,
     !shouldShowButton ? 0 : oldestOriginallyUnseenIndex
   );
-  let collapsedCount = collapsedMessages.length;
-  collapsedMessages.forEach(message => {
-    collapsedCount += message.extraItems ?? 0;
-  });
-
   const passThroughMessages = messages.slice(
     !shouldShowButton ? 0 : oldestOriginallyUnseenIndex
   );
@@ -141,9 +149,16 @@ export function CollapseSetViewer(props: Props): React.JSX.Element {
           <CollapseSetButton
             {...props}
             count={collapsedCount}
+            dayCount={collapsedDayCount}
             isExpanded={isExpanded}
             onClick={() => {
               setIsExpanded(value => !value);
+            }}
+            onDelete={() => {
+              toggleDeleteMessagesModal({
+                conversationId,
+                messageIds: collapsedMessages.map(item => item.id),
+              });
             }}
           />
         </div>
@@ -188,6 +203,7 @@ export function CollapseSetViewer(props: Props): React.JSX.Element {
                 const indexItem = {
                   type: 'none' as const,
                   id: child.id,
+                  dayCount: undefined,
                   messages: undefined,
                 };
 
@@ -226,6 +242,7 @@ export function CollapseSetViewer(props: Props): React.JSX.Element {
             const indexItem = {
               type: 'none' as const,
               id: child.id,
+              dayCount: undefined,
               messages: undefined,
             };
 
@@ -255,21 +272,24 @@ export function CollapseSetViewer(props: Props): React.JSX.Element {
 function CollapseSetButton(
   props: CollapseSet & {
     count: number;
+    dayCount: number;
     isExpanded: boolean;
     isGroup: boolean;
+    isSelectMode: boolean;
     i18n: LocalizerType;
     onClick: () => unknown;
+    onDelete: () => unknown;
   }
 ): React.JSX.Element {
-  const { count, i18n, isExpanded, onClick, type } = props;
-
-  let leadingIcon;
-  let text;
+  const { count, dayCount, i18n, isExpanded, onClick, onDelete, type } = props;
 
   strictAssert(
     type !== 'none',
-    "CollapseSetViewer should never render a 'none' set"
+    "CollapseSetButton should never render a 'none' set"
   );
+
+  let leadingIcon;
+  let text;
 
   // Note: no need for labels for these icons, since they have full text descriptions
   if (type === 'group-updates') {
@@ -301,6 +321,15 @@ function CollapseSetButton(
     throw missingCaseError(type);
   }
 
+  if (dayCount > 1) {
+    text = i18n('icu:multidayCollapse__container', {
+      containerDescription: text,
+      dayCountSummary: i18n('icu:multidayCollapse__dayCountSummary', {
+        dayCount,
+      }),
+    });
+  }
+
   const trailingIcon = isExpanded ? (
     <AxoSymbol.InlineGlyph
       symbol="chevron-up"
@@ -314,10 +343,40 @@ function CollapseSetButton(
   );
 
   return (
-    <AxoButton.Root size="lg" variant="secondary" onClick={onClick}>
-      <div className={tw('font-semibold text-label-secondary')}>
-        {leadingIcon} {text} {trailingIcon}
-      </div>
-    </AxoButton.Root>
+    <MessageContextMenu
+      renderer="AxoContextMenu"
+      disabled={props.isSelectMode}
+      i18n={i18n}
+      onDeleteMessage={onDelete}
+      shouldShowAdditional={false}
+      onDebugMessage={null}
+      onDownload={null}
+      onEdit={null}
+      onReplyToMessage={null}
+      onReact={null}
+      onEndPoll={null}
+      onRetryMessageSend={null}
+      onRetryDeleteForEveryone={null}
+      onCopy={null}
+      onSelect={null}
+      onForward={null}
+      onMoreInfo={null}
+      onPinMessage={null}
+      onUnpinMessage={null}
+    >
+      <AxoButton.Root size="md" variant="secondary" onClick={onClick}>
+        <div className={tw('font-semibold text-label-secondary')}>
+          <I18n
+            id="icu:collapsedContainer"
+            i18n={i18n}
+            components={{
+              leadingIcon,
+              text,
+              trailingIcon,
+            }}
+          />
+        </div>
+      </AxoButton.Root>
+    </MessageContextMenu>
   );
 }

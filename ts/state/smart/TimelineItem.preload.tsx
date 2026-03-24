@@ -22,6 +22,7 @@ import {
   getPlatform,
 } from '../selectors/user.std.js';
 import {
+  getSelectedMessageIds,
   getTargetedMessage,
   getTargetedMessageSource,
 } from '../selectors/conversations.dom.js';
@@ -95,6 +96,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
   const interactionMode = useSelector(getInteractionMode);
   const theme = useSelector(getTheme);
   const platform = useSelector(getPlatform);
+  const selectedMessageIds = useSelector(getSelectedMessageIds);
 
   const itemFromSelector = useTimelineItem(messageId, conversationId);
   const previousItem = useTimelineItem(previousMessageId, conversationId);
@@ -244,6 +246,7 @@ export const SmartTimelineItem = memo(function SmartTimelineItem(
       getSharedGroupNames={getSharedGroupNames}
       isNextItemCallingNotification={isNextItemCallingNotification}
       isTargeted={isTargeted}
+      isSelectMode={selectedMessageIds != null}
       renderAudioAttachment={renderAudioAttachment}
       renderContact={renderContact}
       renderReactionPicker={renderReactionPicker}
