@@ -11,6 +11,7 @@ import {
 import { createLogger } from '../../logging/log.std.js';
 import OS from './osMain.node.js';
 import { missingCaseError } from '../missingCaseError.std.js';
+import { toLogFormat } from '../../types/errors.std.js';
 
 const log = createLogger('promptOSAuthMain');
 
@@ -92,9 +93,17 @@ async function promptOSAuthWindows(
 async function promptOSAuthLinux(
   reason: PromptOSAuthReasonType
 ): Promise<PromptOSAuthResultType> {
-  const isAvailable = await isPromptOSAuthAvailableLinux();
-  if (!isAvailable) {
-    return 'unsupported';
+  try {
+    const isAvailable = await isPromptOSAuthAvailableLinux(reason);
+    if (!isAvailable) {
+      return 'unsupported';
+    }
+  } catch (e) {
+    log.error(
+      'promptOSAuthLinux: error when checking for os auth availability',
+      toLogFormat(e)
+    );
+    return 'error';
   }
 
   // Avoid string interpolation in exec() command
@@ -125,10 +134,48 @@ async function promptOSAuthLinux(
   });
 }
 
-async function isPromptOSAuthAvailableLinux(): Promise<boolean> {
-  return new Promise((resolve, _reject) => {
+async function isPromptOSAuthAvailableLinux(
+  reason: PromptOSAuthReasonType
+): Promise<boolean> {
+  const isPkCheckInstalled = await new Promise<boolean>((resolve, _reject) => {
     exec('command -v pkcheck').on('exit', code => {
       resolve(code === 0);
     });
   });
+  if (!isPkCheckInstalled) {
+    log.warn('isPromptOsAuthAvailable: pkcheck not installed');
+    return false;
+  }
+
+  // Avoid string interpolation in exec() command
+  let actionCommand: string;
+  if (reason === 'enable-backups') {
+    actionCommand = 'pkaction --action-id org.signalapp.enable-backups';
+  } else if (reason === 'view-aep') {
+    actionCommand = 'pkaction --action-id org.signalapp.view-aep';
+  } else if (reason === 'plaintext-export') {
+    actionCommand = 'pkaction --action-id org.signalapp.plaintext-export';
+  } else {
+    throw missingCaseError(reason);
+  }
+
+  const isActionRegistered = await new Promise<boolean>((resolve, _reject) => {
+    exec(actionCommand).on('exit', code => {
+      resolve(code === 0);
+    });
+  });
+
+  if (!isActionRegistered) {
+    if (OS.isAppImage()) {
+      log.warn(
+        'isPromptOsAuthAvailable: action not registered due to AppImage'
+      );
+    } else {
+      throw new Error(
+        `isPromptOsAuthAvailable: ${reason} action not registered`
+      );
+    }
+  }
+
+  return isActionRegistered;
 }
