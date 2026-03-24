@@ -112,109 +112,100 @@ const sandboxedBrowserDefaults = {
   splitting: true,
 };
 
-async function build({ appConfig, preloadConfig }) {
-  let app;
-  let preload;
-
-  if (!noScripts) {
-    app = await esbuild.context(appConfig);
-  }
-  if (!noBundle) {
-    preload = await esbuild.context(preloadConfig);
-  }
+async function build(config) {
+  const instance = await esbuild.context(config);
 
   if (watch) {
-    await Promise.all([app && app.watch(), preload && preload.watch()]);
+    await instance.watch();
   } else {
-    await Promise.all([app && app.rebuild(), preload && preload.rebuild()]);
-
-    if (app) {
-      await app.dispose();
-    }
-    if (preload) {
-      await preload.dispose();
-    }
+    await instance.rebuild();
+    await instance.dispose();
   }
 }
 
 async function main() {
-  await build({
-    appConfig: {
-      ...nodeDefaults,
-      format: 'cjs',
-      mainFields: ['browser', 'main'],
-      entryPoints: [
-        'preload.wrapper.ts',
-        ...fastGlob
-          .sync('{app,ts,build}/**/*.{ts,tsx}', {
-            onlyFiles: true,
-            cwd: ROOT_DIR,
-          })
-          .filter(file => !file.endsWith('.d.ts')),
-      ],
-      outdir: path.join(ROOT_DIR),
-    },
-    preloadConfig: {
-      ...bundleDefaults,
-      mainFields: ['browser', 'main'],
-      entryPoints: [
-        path.join(ROOT_DIR, 'ts', 'windows', 'main', 'preload.preload.ts'),
-      ],
-      outfile: path.join(ROOT_DIR, 'preload.bundle.js'),
-    },
-  });
+  await Promise.all([
+    !noScripts &&
+      build({
+        ...nodeDefaults,
+        format: 'cjs',
+        mainFields: ['browser', 'main'],
+        entryPoints: [
+          'preload.wrapper.ts',
+          ...fastGlob
+            .sync('{app,ts,build}/**/*.{ts,tsx}', {
+              onlyFiles: true,
+              cwd: ROOT_DIR,
+            })
+            .filter(file => !file.endsWith('.d.ts')),
+        ],
+        outdir: path.join(ROOT_DIR),
+      }),
+    !noBundle &&
+      build({
+        ...bundleDefaults,
+        mainFields: ['browser', 'main'],
+        entryPoints: [
+          path.join(ROOT_DIR, 'ts', 'windows', 'main', 'preload.preload.ts'),
+        ],
+        outfile: path.join(ROOT_DIR, 'preload.bundle.js'),
+      }),
+    !noBundle &&
+      build({
+        ...sandboxedBrowserDefaults,
+        mainFields: ['browser', 'main'],
+        entryPoints: [
+          path.join(ROOT_DIR, 'ts', 'windows', 'about', 'app.dom.tsx'),
+          path.join(ROOT_DIR, 'ts', 'windows', 'calldiagnostic', 'app.dom.tsx'),
+          path.join(ROOT_DIR, 'ts', 'windows', 'debuglog', 'app.dom.tsx'),
+          path.join(ROOT_DIR, 'ts', 'windows', 'loading', 'start.dom.ts'),
+          path.join(ROOT_DIR, 'ts', 'windows', 'permissions', 'app.dom.tsx'),
+          path.join(ROOT_DIR, 'ts', 'windows', 'screenShare', 'app.dom.tsx'),
+        ],
+      }),
+    !noBundle &&
+      build({
+        ...sandboxedPreloadDefaults,
+        mainFields: ['browser', 'main'],
+        entryPoints: [
+          path.join(ROOT_DIR, 'ts', 'windows', 'about', 'preload.preload.ts'),
+          path.join(
+            ROOT_DIR,
+            'ts',
+            'windows',
+            'calldiagnostic',
+            'preload.preload.ts'
+          ),
+          path.join(
+            ROOT_DIR,
+            'ts',
+            'windows',
+            'debuglog',
+            'preload.preload.ts'
+          ),
+          path.join(ROOT_DIR, 'ts', 'windows', 'loading', 'preload.preload.ts'),
+          path.join(
+            ROOT_DIR,
+            'ts',
+            'windows',
+            'permissions',
+            'preload.preload.ts'
+          ),
+          path.join(
+            ROOT_DIR,
+            'ts',
+            'windows',
+            'screenShare',
+            'preload.preload.ts'
+          ),
+        ],
+        format: 'cjs',
+        outdir: 'bundles',
+      }),
+  ]);
 }
 
-async function sandboxedEnv() {
-  await build({
-    appConfig: {
-      ...sandboxedBrowserDefaults,
-      mainFields: ['browser', 'main'],
-      entryPoints: [
-        path.join(ROOT_DIR, 'ts', 'windows', 'about', 'app.dom.tsx'),
-        path.join(ROOT_DIR, 'ts', 'windows', 'calldiagnostic', 'app.dom.tsx'),
-        path.join(ROOT_DIR, 'ts', 'windows', 'debuglog', 'app.dom.tsx'),
-        path.join(ROOT_DIR, 'ts', 'windows', 'loading', 'start.dom.ts'),
-        path.join(ROOT_DIR, 'ts', 'windows', 'permissions', 'app.dom.tsx'),
-        path.join(ROOT_DIR, 'ts', 'windows', 'screenShare', 'app.dom.tsx'),
-      ],
-    },
-    preloadConfig: {
-      ...sandboxedPreloadDefaults,
-      mainFields: ['browser', 'main'],
-      entryPoints: [
-        path.join(ROOT_DIR, 'ts', 'windows', 'about', 'preload.preload.ts'),
-        path.join(
-          ROOT_DIR,
-          'ts',
-          'windows',
-          'calldiagnostic',
-          'preload.preload.ts'
-        ),
-        path.join(ROOT_DIR, 'ts', 'windows', 'debuglog', 'preload.preload.ts'),
-        path.join(ROOT_DIR, 'ts', 'windows', 'loading', 'preload.preload.ts'),
-        path.join(
-          ROOT_DIR,
-          'ts',
-          'windows',
-          'permissions',
-          'preload.preload.ts'
-        ),
-        path.join(
-          ROOT_DIR,
-          'ts',
-          'windows',
-          'screenShare',
-          'preload.preload.ts'
-        ),
-      ],
-      format: 'cjs',
-      outdir: 'bundles',
-    },
-  });
-}
-
-Promise.all([main(), sandboxedEnv()]).catch(error => {
+main().catch(error => {
   console.error(error.stack);
   process.exit(1);
 });
