@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcRenderer } from 'electron';
+import { serialize, deserialize } from 'node:v8';
 import { createLogger } from '../logging/log.std.js';
 import { runTaskWithTimeout } from '../textsecure/TaskWithTimeout.std.js';
 import { explodePromise } from '../util/explodePromise.std.js';
@@ -47,11 +48,11 @@ export async function ipcInvoke<T>(
   activeJobCount += 1;
   return runTaskWithTimeout(async () => {
     try {
-      const result = await ipcRenderer.invoke(channel, name, ...args);
+      const result = await ipcRenderer.invoke(channel, name, serialize(args));
       if (!result.ok) {
         throw result.error;
       }
-      return result.value;
+      return deserialize(result.value);
     } finally {
       activeJobCount -= 1;
       if (activeJobCount === 0) {

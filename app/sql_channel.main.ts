@@ -10,8 +10,8 @@ import { remove as removeEphemeralConfig } from './ephemeral_config.main.js';
 let sql:
   | Pick<
       MainSQL,
-      | 'sqlRead'
-      | 'sqlWrite'
+      | 'sqlReadSerialized'
+      | 'sqlWriteSerialized'
       | 'pauseWriteAccess'
       | 'resumeWriteAccess'
       | 'removeDB'
@@ -57,21 +57,21 @@ export function initialize(mainSQL: typeof sql): void {
 
   ipcMain.handle(
     SQL_READ_KEY,
-    wrapResult(function ipcSqlReadHandler(_event, callName, ...args) {
+    wrapResult(function ipcSqlReadHandler(_event, callName, serialized) {
       if (!sql) {
         throw new Error(`${SQL_READ_KEY}: Not yet initialized!`);
       }
-      return sql.sqlRead(callName, ...args);
+      return sql.sqlReadSerialized(callName, serialized);
     })
   );
 
   ipcMain.handle(
     SQL_WRITE_KEY,
-    wrapResult(function ipcSqlWriteHandler(_event, callName, ...args) {
+    wrapResult(function ipcSqlWriteHandler(_event, callName, serialized) {
       if (!sql) {
         throw new Error(`${SQL_WRITE_KEY}: Not yet initialized!`);
       }
-      return sql.sqlWrite(callName, ...args);
+      return sql.sqlWriteSerialized(callName, serialized);
     })
   );
 
