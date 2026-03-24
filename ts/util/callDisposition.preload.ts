@@ -1219,21 +1219,27 @@ async function saveCallHistory({
     return callHistory;
   }
 
-  let unseen = false;
-  if (callHistory.mode === CallMode.Direct) {
-    unseen =
-      callHistory.direction === CallDirection.Incoming &&
-      (callHistory.status === DirectCallStatus.Missed ||
-        callHistory.status === DirectCallStatus.Pending);
-  } else if (callHistory.mode === CallMode.Group) {
-    unseen =
-      callHistory.direction === CallDirection.Incoming &&
-      (callHistory.status === GroupCallStatus.Ringing ||
-        callHistory.status === GroupCallStatus.GenericGroupCall ||
-        callHistory.status === GroupCallStatus.Missed);
+  let seenStatus: SeenStatus;
+
+  const isUnseenDirectCall =
+    callHistory.mode === CallMode.Direct &&
+    callHistory.direction === CallDirection.Incoming &&
+    (callHistory.status === DirectCallStatus.Missed ||
+      callHistory.status === DirectCallStatus.Pending);
+
+  const isUnseenGroupCall =
+    callHistory.mode === CallMode.Group &&
+    callHistory.direction === CallDirection.Incoming &&
+    (callHistory.status === GroupCallStatus.Ringing ||
+      callHistory.status === GroupCallStatus.GenericGroupCall ||
+      callHistory.status === GroupCallStatus.Missed);
+
+  if (isUnseenDirectCall || isUnseenGroupCall) {
+    seenStatus = SeenStatus.Unseen;
+  } else {
+    seenStatus = SeenStatus.Seen;
   }
 
-  let seenStatus = unseen ? SeenStatus.Unseen : SeenStatus.NotApplicable;
   if (prevMessage?.seenStatus != null) {
     seenStatus = maxSeenStatus(seenStatus, prevMessage.seenStatus);
   }
