@@ -31,7 +31,7 @@ import type {
   KyberPreKeyType,
   PniKeyMaterialType,
 } from './Types.d.ts';
-import createTaskWithTimeout from './TaskWithTimeout.std.js';
+import { runTaskWithTimeout } from './TaskWithTimeout.std.js';
 import * as Bytes from '../Bytes.std.js';
 import * as Errors from '../types/errors.std.js';
 import {
@@ -268,9 +268,10 @@ export default class AccountManager extends EventTarget {
 
   async #queueTask<T>(task: () => Promise<T>): Promise<T> {
     this.pendingQueue = this.pendingQueue || new PQueue({ concurrency: 1 });
-    const taskWithTimeout = createTaskWithTimeout(task, 'AccountManager task');
 
-    return this.pendingQueue.add(taskWithTimeout);
+    return this.pendingQueue.add(() =>
+      runTaskWithTimeout(task, 'AccountManager task')
+    );
   }
 
   encryptDeviceName(

@@ -43,7 +43,7 @@ import {
   toPniObject,
   toServiceIdObject,
 } from '../util/ServiceId.node.js';
-import createTaskWithTimeout from './TaskWithTimeout.std.js';
+import { runTaskWithTimeout } from './TaskWithTimeout.std.js';
 import type { CallbackResultType } from './Types.d.ts';
 import type {
   SerializedCertificateType,
@@ -765,12 +765,9 @@ export class MessageSender {
 
     const queue = this.pendingMessages[id];
 
-    const taskWithTimeout = createTaskWithTimeout(
-      runJob,
-      `queueJobForServiceId ${serviceId} ${id}`
+    return queue.add(() =>
+      runTaskWithTimeout(runJob, `queueJobForServiceId ${serviceId} ${id}`)
     );
-
-    return queue.add(taskWithTimeout);
   }
 
   // Attachment upload functions

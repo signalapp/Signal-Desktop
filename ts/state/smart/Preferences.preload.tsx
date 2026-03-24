@@ -60,7 +60,7 @@ import { writeProfile } from '../../services/writeProfile.preload.js';
 import { keyTransparency } from '../../services/keyTransparency.preload.js';
 import { getConversation } from '../../util/getConversation.preload.js';
 import { waitForEvent } from '../../shims/events.dom.js';
-import { DAY, MINUTE } from '../../util/durations/index.std.js';
+import { DAY } from '../../util/durations/index.std.js';
 import { sendSyncRequests } from '../../textsecure/syncRequests.preload.js';
 import { SmartUpdateDialog } from './UpdateDialog.preload.js';
 import { Preferences } from '../../components/Preferences.dom.js';
@@ -258,10 +258,7 @@ export function SmartPreferences(): React.JSX.Element | null {
   // The weird ones
 
   const makeSyncRequest = async () => {
-    const contactSyncComplete = waitForEvent(
-      'contactSync:complete',
-      5 * MINUTE
-    );
+    const contactSyncComplete = waitForEvent('contactSync:complete');
     return Promise.all([sendSyncRequests(), contactSyncComplete]);
   };
 

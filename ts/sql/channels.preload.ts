@@ -3,7 +3,7 @@
 
 import { ipcRenderer } from 'electron';
 import { createLogger } from '../logging/log.std.js';
-import createTaskWithTimeout from '../textsecure/TaskWithTimeout.std.js';
+import { runTaskWithTimeout } from '../textsecure/TaskWithTimeout.std.js';
 import { explodePromise } from '../util/explodePromise.std.js';
 import { missingCaseError } from '../util/missingCaseError.std.js';
 
@@ -45,7 +45,7 @@ export async function ipcInvoke<T>(
   }
 
   activeJobCount += 1;
-  return createTaskWithTimeout(async () => {
+  return runTaskWithTimeout(async () => {
     try {
       const result = await ipcRenderer.invoke(channel, name, ...args);
       if (!result.ok) {
@@ -58,7 +58,7 @@ export async function ipcInvoke<T>(
         resolveShutdown?.();
       }
     }
-  }, `SQL channel call (${access}, ${fnName})`)();
+  }, `SQL channel call (${access}, ${fnName})`);
 }
 
 export async function doShutdown(): Promise<void> {

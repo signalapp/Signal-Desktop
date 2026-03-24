@@ -66,7 +66,7 @@ import {
   cdsLookup,
   checkAccountExistence,
 } from '../textsecure/WebAPI.preload.js';
-import createTaskWithTimeout from '../textsecure/TaskWithTimeout.std.js';
+import { runTaskWithTimeout } from '../textsecure/TaskWithTimeout.std.js';
 import { MessageSender } from '../textsecure/SendMessage.preload.js';
 import type {
   CallbackResultType,
@@ -3849,8 +3849,6 @@ export class ConversationModel {
 
     this.jobQueue = this.jobQueue || new PQueue({ concurrency: 1 });
 
-    const taskWithTimeout = createTaskWithTimeout(callback, logId);
-
     const abortController = new AbortController();
     const { signal: abortSignal } = abortController;
 
@@ -3864,7 +3862,10 @@ export class ConversationModel {
       }
 
       try {
-        return await taskWithTimeout(abortSignal);
+        return await runTaskWithTimeout(
+          async () => callback(abortSignal),
+          logId
+        );
       } catch (error) {
         abortController.abort();
         throw error;
