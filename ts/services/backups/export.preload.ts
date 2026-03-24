@@ -2174,7 +2174,7 @@ export class BackupExportStream extends Readable {
             callHistory.endedTimestamp
           );
         }
-        const read = message.seenStatus === SeenStatus.Seen;
+        const read = message.seenStatus !== SeenStatus.Unseen;
 
         updateMessage.update = {
           groupCall: {
@@ -2212,7 +2212,7 @@ export class BackupExportStream extends Readable {
           direction: toIndividualCallDirectionProto(direction),
           state: toIndividualCallStateProto(status, direction),
           startedCallTimestamp: BigInt(timestamp),
-          read: message.seenStatus === SeenStatus.Seen,
+          read: message.seenStatus !== SeenStatus.Unseen,
         },
       };
       return { kind: NonBubbleResultKind.Directionless, patch };
