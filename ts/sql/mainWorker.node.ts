@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { parentPort } from 'node:worker_threads';
+import { serialize, deserialize } from 'node:v8';
 
 import type {
   WrappedWorkerRequest,
@@ -109,11 +110,17 @@ const onMessage = (
         throw new Error(`Invalid sql method: ${request.method} ${method}`);
       }
 
-      const start = performance.now();
-      const result = method(db, ...request.args);
-      const end = performance.now();
+      const args =
+        request.encoding === 'js' ? request.args : deserialize(request.data);
 
-      respond(seq, { result, duration: end - start });
+      const start = performance.now();
+      const result = method(db, ...args);
+      const duration = performance.now() - start;
+
+      respond(seq, {
+        result: request.encoding === 'js' ? result : serialize(result),
+        duration,
+      });
     } else {
       throw new Error('Unexpected request type');
     }
