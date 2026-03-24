@@ -1,45 +1,67 @@
-<!-- Copyright 2014 Signal Messenger, LLC -->
-<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+# PQ-Signal: Post-Quantum Encryption for Signal Desktop
 
-# Signal Desktop
+**Final Year Project** — Integrating ML-KEM-768 post-quantum cryptography into Signal Desktop (v7.81.0).
 
-Signal Desktop links with Signal on [Android](https://github.com/signalapp/Signal-Android) or [iOS](https://github.com/signalapp/Signal-iOS) and lets you message from your Windows, macOS, and Linux computers.
+## Overview
 
-[Install the production version](https://signal.org/download/) or help us out by [installing the beta version](https://support.signal.org/hc/articles/360007318471-Signal-Beta).
+This fork adds a hybrid post-quantum encryption layer to Signal Desktop's existing Double Ratchet protocol. Every message is additionally encrypted using **ML-KEM-768** (NIST FIPS 203) key encapsulation combined with **AES-256-GCM** authenticated encryption, providing defense against future quantum computing attacks.
 
-## Got a question?
+## Architecture
 
-You can find answers to a number of frequently asked questions on our [support site](https://support.signal.org/).
-The [community forum](https://community.signalusers.org/) is another good place for questions.
+```
+Plaintext → Signal Protocol (Double Ratchet) → PQ Wrapper (ML-KEM-768 + AES-256-GCM) → Ciphertext
+```
 
-## Found a Bug?
+The PQ layer is implemented as a transparent wrapper (`PQWrapper.ts`) that sits on top of Signal's existing encryption pipeline:
 
-Please search for any [existing issues](https://github.com/signalapp/Signal-Desktop/issues) that describe your bug in order to avoid duplicate submissions.
+- **Sender side** (`OutgoingMessage.preload.ts`): Messages are PQ-encrypted before being queued for delivery
+- **Receiver side** (`MessageReceiver.preload.ts`): Incoming messages are PQ-decrypted before being passed to Signal's decryption
+- **Key exchange**: ML-KEM-768 keypairs are generated per-session; shared secrets are derived via KEM encapsulation/decapsulation
 
-## Have a feature request, question, comment?
+## Key Files
 
-Please use our community forum: https://community.signalusers.org/
+| File | Purpose |
+|------|---------|
+| `ts/textsecure/PQWrapper.ts` | ML-KEM-768 + AES-256-GCM encryption/decryption, `PQ_ENABLED` toggle |
+| `ts/textsecure/OutgoingMessage.preload.ts` | PQ encrypt integration on message send |
+| `ts/textsecure/MessageReceiver.preload.ts` | PQ decrypt integration on message receive |
+| `ts/textsecure/pqBenchmarkLogger.ts` | JSONL benchmark logging for performance analysis |
+| `ts/textsecure/pqSharedDir.ts` | Cross-instance shared directory for local key exchange |
+| `scripts/energy-monitor.sh` | CPU/memory monitoring script for energy analysis |
 
-## Contributing Code
+## Dependencies
 
-Please see [CONTRIBUTING.md](https://github.com/signalapp/Signal-Desktop/blob/main/CONTRIBUTING.md)
-for setup instructions and guidelines for new contributors. Don't forget to sign the [CLA](https://signal.org/cla/).
+- [`@noble/post-quantum`](https://github.com/paulmillr/noble-post-quantum) — ML-KEM-768 implementation
+- [`@noble/ciphers`](https://github.com/paulmillr/noble-ciphers) — AES-256-GCM
 
-## Contributing Funds
+## Running
 
-You can donate to Signal development through the [Signal Technology Foundation](https://signal.org/donate), an independent 501c3 nonprofit.
+```bash
+# Install dependencies
+pnpm install
 
-## Cryptography Notice
+# Build (required after code changes)
+pnpm run build:esbuild
 
-This distribution includes cryptographic software. The country in which you currently reside may have restrictions on the import, possession, use, and/or re-export to another country, of encryption software.
-BEFORE using any encryption software, please check your country's laws, regulations and policies concerning the import, possession, or use, and re-export of encryption software, to see if this is permitted.
-See <http://www.wassenaar.org/> for more information.
+# Run two local instances for testing
+NODE_APP_INSTANCE=alice pnpm start   # Terminal 1
+NODE_APP_INSTANCE=bob pnpm start     # Terminal 2
+```
 
-The U.S. Government Department of Commerce, Bureau of Industry and Security (BIS), has classified this software as Export Commodity Control Number (ECCN) 5D002.C.1, which includes information security software using or performing cryptographic functions with asymmetric algorithms.
-The form and manner of this distribution makes it eligible for export under the License Exception ENC Technology Software Unrestricted (TSU) exception (see the BIS Export Administration Regulations, Section 740.13) for both object code and source code.
+Toggle PQ encryption on/off via the `PQ_ENABLED` flag in `PQWrapper.ts`.
 
-## License
+## Benchmark Results
 
-Copyright 2013-2024 Signal Messenger, LLC
+With PQ enabled, message encryption adds ~2.5ms average overhead per message (ML-KEM-768 encapsulation + AES-256-GCM encryption). See the thesis for full performance analysis including energy consumption measurements.
 
-Licensed under the GNU AGPLv3: https://www.gnu.org/licenses/agpl-3.0.html
+## Branch
+
+All PQ integration work is on the `fyp-signal-7.81.0` branch, based on Signal Desktop v7.81.0.
+
+## Thesis
+
+The full thesis documenting this project is available in the companion repository.
+
+---
+
+*Based on [Signal Desktop](https://github.com/signalapp/Signal-Desktop) by Signal Messenger, LLC. Licensed under AGPL-3.0.*
