@@ -117,6 +117,7 @@ import type { SmartPreferencesEditChatFolderPageProps } from './PreferencesEditC
 import type { ExternalProps as SmartNotificationProfilesProps } from './PreferencesNotificationProfiles.preload.js';
 import { useMegaphonesActions } from '../ducks/megaphones.preload.js';
 import type { ZoomFactorType } from '../../types/StorageKeys.std.js';
+import { isLocalBackupsEnabled } from '../../util/isLocalBackupsEnabled.preload.js';
 
 const DEFAULT_NOTIFICATION_SETTING = 'message';
 
@@ -578,9 +579,7 @@ export function SmartPreferences(): React.JSX.Element | null {
     Settings.isContentProtectionSupported(OS);
   const isContentProtectionNeeded = Settings.isContentProtectionNeeded(OS);
 
-  const backupLocalBackupsEnabled = isFeaturedEnabledSelector({
-    betaKey: 'desktop.localBackups.beta',
-    prodKey: 'desktop.localBackups.prod',
+  const backupLocalBackupsEnabled = isLocalBackupsEnabled({
     currentVersion: version,
     remoteConfig: items.remoteConfig,
   });
