@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Makikita ng group member na may pinakabagong version ng Signal na binura mo ang message na ito.} other {Makikita ng group members na may pinakabagong versions ng Signal na binura mo ang message na ito.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Burahin sa lahat ng devices"
@@ -6290,16 +6290,16 @@
     "messageformat": "Baguhin"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "I-off ang backups"
   },
   "icu:Preferences__local-backups-turn-off-action": {
     "messageformat": "Patayin"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Hindi ka na makakagawa ng backups sa computer na ito hangga't hindi mo ulit ito ine-enable."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Burahin ang backup ko mula sa computer na ito"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopyahin sa clipboard"

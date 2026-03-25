@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Naujausias „Signal“ versijas naudojantys grupės nariai matys, kad jūs ištrynėte šią žinutę.} few {Naujausias „Signal“ versijas naudojantys grupės nariai matys, kad jūs ištrynėte šias žinutes.} many {Naujausias „Signal“ versijas naudojantys grupės nariai matys, kad jūs ištrynėte šias žinutes.} other {Naujausias „Signal“ versijas naudojantys grupės nariai matys, kad jūs ištrynėte šias žinutes.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Ištrinti iš visų įrenginių"
@@ -6290,16 +6290,16 @@
     "messageformat": "Keisti"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Išjungti atsargines kopijas"
   },
   "icu:Preferences__local-backups-turn-off-action": {
     "messageformat": "Išjungti"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Šiame kompiuteryje nebegalėsite kurti atsarginių kopijų, nebent vėl jas įjungsite."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Ištrinti mano atsarginę kopiją iš šio kompiuterio"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopijuoti į iškarpinę"

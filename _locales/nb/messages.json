@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Gruppemedlemmer som bruker den nyeste versjonen av Signal, kan se at du slettet meldingen.} other {Gruppemedlemmer som bruker den nyeste versjonen av Signal, kan se at du slettet disse meldingene.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Slett fra alle enhetene"
@@ -6290,16 +6290,16 @@
     "messageformat": "Bytt"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Slå av sikkerhetskopiering"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Skru av"
+    "messageformat": "Slå av"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Du kan ikke opprette sikkerhetskopier på denne datamaskinen før du aktiverer sikkerhetskopiering på nytt."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Slett sikkerhetskopien min fra denne datamaskinen"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopier til utklippstavlen"

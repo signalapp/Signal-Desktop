@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Signal کے تازہ ترین ورژنز پر موجود گروپ ممبرز دیکھ سکیں گے کہ آپ نے یہ میسج حذف کر دیا ہے۔} other {Signal کے تازہ ترین ورژنز پر موجود گروپ ممبرز دیکھ سکیں گے کہ آپ نے یہ میسجز حذف کر دیے ہیں۔}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "تمام ڈیوائسز سے حذف کریں"
@@ -6290,16 +6290,16 @@
     "messageformat": "تبدیل کریں"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "بیک اپس غیر فعال کریں"
   },
   "icu:Preferences__local-backups-turn-off-action": {
     "messageformat": "بند کریں"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "آپ اس کمپیوٹر پر بیک اپس کو دوبارہ فعال کیے بغیر انہیں تخلیق نہیں کر سکیں گے۔"
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "اس کمپیوٹر سے میرا بیک اپ حذف کریں"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "کلپ بورڈ کو کاپی کریں"

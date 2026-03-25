@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, other {សមាជិកក្រុមដែលប្រើប្រាស់ Signal កំណែចុងក្រោយបំផុតនឹងឃើញថាអ្នកបានលុបសារទាំងនេះ។}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "លុបចេញពីឧបករណ៍ទាំងអស់"
@@ -6290,16 +6290,16 @@
     "messageformat": "ផ្លាស់ប្តូរ"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "បិទការបម្រុងទុក"
   },
   "icu:Preferences__local-backups-turn-off-action": {
     "messageformat": "បិទ"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "អ្នកនឹងលែងអាចបង្កើតការបម្រុងទុកនៅលើកុំព្យូទ័រនេះដោយមិនចាំបាច់បើកដំណើរការឡើងវិញបានទៀតហើយ។"
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "លុបការបម្រុងទុករបស់ខ្ញុំពីកុំព្យូទ័រនេះ"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "ចម្លងទៅឃ្លីបបត"

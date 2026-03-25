@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, other {使用最新版本 Signal 的群组成员将能看到您删除了这些消息。}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "从所有设备中删除"
@@ -6290,16 +6290,16 @@
     "messageformat": "更改"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "关闭备份"
   },
   "icu:Preferences__local-backups-turn-off-action": {
     "messageformat": "关闭"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "如果不重新开启备份功能，您将无法在此电脑中创建备份。"
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "从这台电脑中删除我的备份"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "复制到剪切板"

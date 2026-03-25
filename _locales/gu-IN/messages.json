@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Signalના લેટેસ્ટ વર્ઝન પરના ગ્રૂપના સભ્યો જોશે કે તમે આ મેસેજ ડિલીટ કર્યો છે.} other {Signalના લેટેસ્ટ વર્ઝન પરના ગ્રૂપના સભ્યો જોશે કે તમે આ મેસેજ ડિલીટ કર્યા છે.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "બધા ડિવાઇસમાંથી ડિલીટ કરો"
@@ -6290,16 +6290,16 @@
     "messageformat": "બદલો"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "બેકઅપ બંધ કરો"
   },
   "icu:Preferences__local-backups-turn-off-action": {
     "messageformat": "બંધ કરો"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "તમે હવેથી આ કમ્પ્યુટર પર બેકઅપ બનાવી શકશો નહીં, જ્યાં સુધી તમે તેને ફરીથી સક્ષમ કરો."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "આ કમ્પ્યુટર પરથી મારું બેકઅપ ડિલીટ કરો"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "ક્લિપબોર્ડ પર કૉપિ કરેલું"

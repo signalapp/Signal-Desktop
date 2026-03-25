@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Els membres del grup que tinguin la versió més recent de Signal podran veure que has eliminat aquest missatge.} other {Els membres del grup que tinguin la versió més recent de Signal podran veure que has eliminat aquests missatges.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Eliminar de tots els dispositius"
@@ -6290,16 +6290,16 @@
     "messageformat": "Canviar"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Desactivar les còpies de seguretat"
   },
   "icu:Preferences__local-backups-turn-off-action": {
     "messageformat": "Desactiva"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Si no ho reactives, ja no podràs crear còpies de seguretat en aquest ordinador."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Eliminar la meva còpia de seguretat d'aquest ordinador"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Copia al porta-retalls"

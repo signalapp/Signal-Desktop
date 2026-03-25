@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Чланови групе који користе најновију верзију Signal-а ће видети да сте обрисали ову поруку.} other {Чланови групе који користе најновију верзију Signal-а ће видети да сте обрисали ове поруке.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Избриши са свих уређаја"
@@ -6290,16 +6290,16 @@
     "messageformat": "Промени"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Искључи резервне копије"
   },
   "icu:Preferences__local-backups-turn-off-action": {
     "messageformat": "Искључи"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Док поново не омогућите резервне копије на овом уређају, нећете моћи да их креирате."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Избриши моје резервне копије са овог уређаја"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Копирај"

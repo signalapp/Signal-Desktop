@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {اعضای گروه در جدیدترین نسخه‌های سیگنال خواهند دید که شما این پیام را حذف کردید.} other {اعضای گروه در جدیدترین نسخه‌های سیگنال خواهند دید که شما این پیام‌ها را حذف کردید.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "پاک کردن از همه دستگاه‌ها"
@@ -6290,16 +6290,16 @@
     "messageformat": "تغییر"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "خاموش کردن نسخه‌های پشتیبان"
   },
   "icu:Preferences__local-backups-turn-off-action": {
     "messageformat": "خاموش"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "بدون فعال‌سازی مجدد، دیگر قادر به ایجاد نسخه‌های پشتیبان در این رایانه نخواهید بود."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "نسخه پشتیبان من از این رایانه حذف شود"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "کپی به کلیپ‌بورد"

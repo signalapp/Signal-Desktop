@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {നിങ്ങൾ ഈ സന്ദേശം ഇല്ലാതാക്കിയതായി Signal-ന്റെ ഏറ്റവും പുതിയ പതിപ്പുകൾ ഉപയോഗിക്കുന്ന ഗ്രൂപ്പ് അംഗങ്ങൾ കാണും.} other {നിങ്ങൾ ഈ സന്ദേശങ്ങൾ ഇല്ലാതാക്കിയതായി Signal-ന്റെ ഏറ്റവും പുതിയ പതിപ്പുകൾ ഉപയോഗിക്കുന്ന ഗ്രൂപ്പ് അംഗങ്ങൾ കാണും.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "എല്ലാ ഉപകരണങ്ങളിൽ നിന്നും ഇല്ലാതാക്കൂ"
@@ -6290,16 +6290,16 @@
     "messageformat": "മാറ്റുക"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "ബാക്കപ്പുകൾ ഓഫ് ആക്കുക"
   },
   "icu:Preferences__local-backups-turn-off-action": {
     "messageformat": "ഓഫ് ആക്കുക"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "വീണ്ടും പ്രവർത്തനക്ഷമമാക്കാതെ ഈ കമ്പ്യൂട്ടറിൽ ബാക്കപ്പുകൾ സൃഷ്ടിക്കാൻ നിങ്ങൾക്ക് ഇനി കഴിയില്ല."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "ഈ കമ്പ്യൂട്ടറിൽ നിന്ന് എന്റെ ബാക്കപ്പ് ഇല്ലാതാക്കുക"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തൂ"

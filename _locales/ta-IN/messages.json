@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {நீங்கள் இந்த மெசேஜை நீக்கியதை சிக்னலின் அண்மைய பதிப்புகளில் உள்ள தொகுப்பு உறுப்பினர்கள் காண்பார்கள்.} other {நீங்கள் இந்த மெசேஜ்களை நீக்கியதை சிக்னலின் அண்மைய பதிப்புகளில் உள்ள தொகுப்பு உறுப்பினர்கள் காண்பார்கள்.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "அனைத்து டிவைஸ்களிலிருந்தும் நீக்குக"
@@ -6290,16 +6290,16 @@
     "messageformat": "மாற்றுக"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "காப்புப்பிரதிகளை ஆன் செய்க"
   },
   "icu:Preferences__local-backups-turn-off-action": {
     "messageformat": "அணைக்க"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "மீண்டும் செயல்படுத்தாமல் இந்தக் கணினியில் காப்புப்பிரதிகளை உருவாக்க முடியாது."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "இந்தக் கணினியில் இருந்து எனது காப்புப்பிரதியை நீக்குக"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "கிளிப்போர்டுக்கு நகலெடுக்கவும்"

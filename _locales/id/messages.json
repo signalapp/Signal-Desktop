@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, other {Anggota grup dengan Signal versi terkini bisa melihat bahwa Anda menghapus pesan-pesan ini.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Hapus dari semua perangkat"
@@ -6290,16 +6290,16 @@
     "messageformat": "Ubah"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Nonaktifkan pencadangan"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Matikan"
+    "messageformat": "Nonaktifkan"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Pencadangan data di komputer ini tak dapat dibuat sebelum ini diaktifkan kembali."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Hapus data cadangan dari komputer ini."
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Salin ke papan klip"

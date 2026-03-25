@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Gruppenmitglieder mit der neuesten Version von Signal sehen, dass du diese Nachricht gelöscht hast.} other {Gruppenmitglieder mit der neuesten Version von Signal sehen, dass du diese Nachrichten gelöscht hast.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Von allen Geräten löschen"
@@ -6290,16 +6290,16 @@
     "messageformat": "Ändern"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Backups ausschalten"
   },
   "icu:Preferences__local-backups-turn-off-action": {
     "messageformat": "Ausschalten"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Du kannst auf diesem Computer keine Backups mehr erstellen, ohne diese Funktion erneut zu aktivieren."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Lösche mein Backup von diesem Computer"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "In Zwischenablage kopieren"

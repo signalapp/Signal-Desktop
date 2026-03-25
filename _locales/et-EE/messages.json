@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Signali uuemates versioonides näevad grupiliikmed, et sa kustutasid selle sõnumi.} other {Signali uuemates versioonides näevad grupiliikmed, et sa kustutasid need sõnumid.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Kustuta kõigist seadmetest"
@@ -6290,16 +6290,16 @@
     "messageformat": "Muuda"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Lülita varukoopiad välja"
   },
   "icu:Preferences__local-backups-turn-off-action": {
     "messageformat": "Lülita välja"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Sa ei saa selles arvutis enam varukoopiaid luua ilma neid uuesti sisse lülitamata."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Kustuta mu varukoopia sellest arvutist"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopeeri lõikelauale"

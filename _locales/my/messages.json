@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, other {Signal ၏ နောက်ဆုံးထွက်ဗားရှင်း အသုံးပြုသော အဖွဲ့ဝင်များသည် ဤမက်ဆေ့ချ်အား သင်ဖျက်လိုက်သည်ဆိုသည်ကို မြင်တွေ့ရပါမည်။}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "စက်အားလုံးမှ ဖျက်ရန်"
@@ -6290,16 +6290,16 @@
     "messageformat": "ပြောင်းရန်"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "ဘက်ခ်အပ်ကို ပိတ်ပါ"
   },
   "icu:Preferences__local-backups-turn-off-action": {
     "messageformat": "ပိတ်မည်"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "ပြန်ဖွင့်ခြင်းမပြုဘဲ ဤကွန်ပျူတာတွင် ဘက်ခ်အပ်ကို သင်ဖန်တီးနိုင်တော့မည်မဟုတ်ပါ။"
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "ကျွန်ုပ်၏ဘက်ခ်အပ်ကို ဤကွန်ပျူတာမှ ဖျက်လိုက်ပါ"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "ကလစ်ဘုတ်သို့ ကူးယူမည်"

@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Člani skupine, ki uporabljajo zadnjo različico Signala, bodo videli, da ste izbrisali to sporočilo.} two {Člani skupine, ki uporabljajo zadnjo različico Signala, bodo videli, da ste izbrisali ti dve sporočili.} few {Člani skupine, ki uporabljajo zadnjo različico Signala, bodo videli, da ste izbrisali ta sporočila.} other {Člani skupine, ki uporabljajo zadnjo različico Signala, bodo videli, da ste izbrisali ta sporočila.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Izbriši iz vseh naprav"
@@ -6290,16 +6290,16 @@
     "messageformat": "Spremeni"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Izklopi varnostne kopije"
   },
   "icu:Preferences__local-backups-turn-off-action": {
     "messageformat": "Izklopi"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Če tega znova ne vklopite, ne boste več mogli ustvarjati varnostnih kopij v tem računalniku."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Izbriši mojo varnostno kopijo iz tega računalnika"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopiraj v odložišče"

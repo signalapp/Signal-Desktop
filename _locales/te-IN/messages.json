@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Signal యొక్క తాజా వెర్షన్‌లలోని గ్రూప్ సభ్యులు మీరు ఈ సందేశాన్ని తొలగించారని చూస్తారు.} other {Signal యొక్క తాజా వెర్షన్‌లలోని గ్రూప్ సభ్యులు మీరు ఈ సందేశాలను తొలగించారని చూస్తారు.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "అన్ని పరికరాాల నుంచి తొలగించండి"
@@ -6290,16 +6290,16 @@
     "messageformat": "మార్చండి"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "బ్యాకప్‌లను ఆఫ్ చేయండి"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "తీసివేయు"
+    "messageformat": "ఆఫ్ చేయండి"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "తిరిగి ఎనేబుల్ చేయకుండా మీరు ఇకపై ఈ కంప్యూటర్‌లో బ్యాకప్‌లను సృష్టించలేరు."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "ఈ కంప్యూటర్ నుండి నా బ్యాకప్‌ను తొలగించండి"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "తాత్కాలికంగా భద్రపరుచు ప్రదేశముకు నకలు చెయ్యి"

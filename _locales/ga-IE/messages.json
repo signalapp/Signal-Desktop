@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Feicfidh baill den ghrúpa ar na leaganacha is déanaí de Signal gur scrios tú an teachtaireacht sin.} two {Feicfidh baill den ghrúpa ar na leaganacha is déanaí de Signal gur scrios tú na teachtaireachtaí sin.} few {Feicfidh baill den ghrúpa ar na leaganacha is déanaí de Signal gur scrios tú na teachtaireachtaí sin.} many {Feicfidh baill den ghrúpa ar na leaganacha is déanaí de Signal gur scrios tú na teachtaireachtaí sin.} other {Feicfidh baill den ghrúpa ar na leaganacha is déanaí de Signal gur scrios tú na teachtaireachtaí sin.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Scrios ó na gléasanna uile"
@@ -6290,16 +6290,16 @@
     "messageformat": "Athraigh"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Cas as cúltacaí"
   },
   "icu:Preferences__local-backups-turn-off-action": {
     "messageformat": "Múch"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Ní bheidh tú in ann cúltacaí a chruthú ar an ríomhaire seo a thuilleadh gan iad a athchumasú."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Scrios mo chúltaca ón ríomhaire seo"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Cóipeáil chuig an ghearrthaisce"

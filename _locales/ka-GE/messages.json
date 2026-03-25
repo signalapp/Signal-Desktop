@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Signal-ის ბოლო ვერსიის მქონე ჯგუფის წევრები ნახავენ, რომ ეს წერილი წაშალე.} other {Signal-ის ბოლო ვერსიის მქონე ჯგუფის წევრები ნახავენ, რომ ეს წერილები წაშალე.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "ყველა მოწყობილობიდან წაშლა"
@@ -6290,16 +6290,16 @@
     "messageformat": "შეცვლა"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "სათადარიგო ასლების გამორთვა"
   },
   "icu:Preferences__local-backups-turn-off-action": {
     "messageformat": "გამორთვა"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "ამ კომპიუტერში სათადარიგო ასლების შექმნას ვეღარ შეძლებ, სანამ მათ ისევ არ ჩართავ."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "წაიშალოს ჩემი სათადარიგო ასლები ჩემი კომპიუტერიდან"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "ბუფერში ჩაკოპირება"

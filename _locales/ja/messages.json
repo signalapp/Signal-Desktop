@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, other {Signalの最新版を使用しているグループメンバーは、あなたがこれらのメッセージを消去したことを確認できます。}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "すべての端末から消去する"
@@ -6290,16 +6290,16 @@
     "messageformat": "変更する"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "バックアップの無効化"
   },
   "icu:Preferences__local-backups-turn-off-action": {
     "messageformat": "無効にする"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "再度オンにしない限り、このコンピューター上でバックアップを作成することはできません。"
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "このコンピューターからバックアップを消去する"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "クリップボードにコピー"

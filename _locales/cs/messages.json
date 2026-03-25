@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Členové skupiny s nejnovější verzí aplikace Signal uvidí, že jste tuto zprávu odstranili.} few {Členové skupiny s nejnovější verzí aplikace Signal uvidí, že jste tyto zprávy odstranili.} many {Členové skupiny s nejnovější verzí aplikace Signal uvidí, že jste tyto zprávy odstranili.} other {Členové skupiny s nejnovější verzí aplikace Signal uvidí, že jste tyto zprávy odstranili.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Odstranit ze všech zařízení"
@@ -6290,16 +6290,16 @@
     "messageformat": "Změnit"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Vypnout zálohování"
   },
   "icu:Preferences__local-backups-turn-off-action": {
     "messageformat": "Vypnout"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Bez opětovného povolení již nebude možné na tomto počítači vytvářet zálohy."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Odstranit moji zálohu z tohoto počítače"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Zkopírovat do schránky"

@@ -1104,7 +1104,7 @@
     "messageformat": "{name} fait partie de vos contacts système"
   },
   "icu:AboutContactModal__add-member-label": {
-    "messageformat": "Ajouter une étiquette de membre"
+    "messageformat": "Créer une étiquette de membre"
   },
   "icu:AboutContactModal__your-qr-code": {
     "messageformat": "Votre code QR"
@@ -4710,10 +4710,10 @@
     "messageformat": "Étiquettes de membre"
   },
   "icu:GroupMemberLabelInfoModal--description": {
-    "messageformat": "Ajoutez une étiquette de membre pour vous décrire ou indiquer votre rôle dans ce groupe. Votre étiquette ne s'affichera que dans ce groupe."
+    "messageformat": "Créez une étiquette de membre pour vous décrire ou indiquer votre rôle dans ce groupe. Votre étiquette ne s'affichera que dans ce groupe."
   },
   "icu:GroupMemberLabelInfoModal--add-label": {
-    "messageformat": "Ajouter une étiquette"
+    "messageformat": "Créer une étiquette"
   },
   "icu:GroupMemberLabelInfoModal--edit-label": {
     "messageformat": "Modifier mon étiquette"
@@ -4740,7 +4740,7 @@
     "messageformat": "Saisissez votre étiquette de membre"
   },
   "icu:ConversationDetails--member-label--description": {
-    "messageformat": "Ajoutez une étiquette de membre pour vous décrire ou indiquer votre rôle dans ce groupe. Votre étiquette ne s'affichera que dans ce groupe."
+    "messageformat": "Créez une étiquette de membre pour vous décrire ou indiquer votre rôle dans ce groupe. Votre étiquette ne s'affichera que dans ce groupe."
   },
   "icu:ConversationDetails--member-label--preview": {
     "messageformat": "Aperçu"
@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Les membres du groupe disposant des dernières versions de Signal verront que vous avez supprimé ce message.} other {Les membres du groupe disposant des dernières versions de Signal verront que vous avez supprimé ces messages.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Supprimer sur tous les appareils"
@@ -6290,16 +6290,16 @@
     "messageformat": "Modifier"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Désactiver les sauvegardes"
   },
   "icu:Preferences__local-backups-turn-off-action": {
     "messageformat": "Désactiver"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Vous ne pourrez plus créer de sauvegardes sur cet ordinateur, à moins de les réactiver."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Supprimer ma sauvegarde de cet ordinateur"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Copier dans le presse-papiers"

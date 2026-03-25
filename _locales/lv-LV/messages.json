@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, zero {Grupas biedri, kuri izmanto jaunāko Signal versiju, redzēs, ka izdzēsāt šīs ziņas.} one {Grupas biedri, kuri izmanto jaunāko Signal versiju, redzēs, ka izdzēsāt šo ziņu.} other {Grupas biedri, kuri izmanto jaunāko Signal versiju, redzēs, ka izdzēsāt šīs ziņas.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Dzēst no visām ierīcēm"
@@ -6290,16 +6290,16 @@
     "messageformat": "Mainīt"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Izslēgt rezerves kopijas"
   },
   "icu:Preferences__local-backups-turn-off-action": {
     "messageformat": "Izslēgt"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Jūs vairs nevarēsiet saglabāt rezerves kopijas šajā datorā, ja funkcija netiks iespējota atkārtoti."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Dzēst rezerves kopiju no šī datora"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopēt starpliktuvē"

@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, other {Thành viên nhóm sử dụng phiên bản Signal mới nhất sẽ thấy bạn đã xóa các tin nhắn này.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Xóa trên tất cả thiết bị"
@@ -6290,16 +6290,16 @@
     "messageformat": "Thay đổi"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Tắt sao lưu"
   },
   "icu:Preferences__local-backups-turn-off-action": {
     "messageformat": "Tắt"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Trừ khi bật lại tính năng, bạn sẽ không thể tạo bản sao lưu trên máy tính này."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Xóa bản sao lưu của tôi khỏi máy tính này"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Sao chép vào clipboard"

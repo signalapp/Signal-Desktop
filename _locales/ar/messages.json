@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, zero {سيرى أعضاء المجموعة الذين يستخدمون آخر الإصدارات من سيجنال أنك حذفت هذه الرسائل.} one {سيرى أعضاء المجموعة الذين يستخدمون آخر الإصدارات من سيجنال أنك حذفت هذه الرسالة.} two {سيرى أعضاء المجموعة الذين يستخدمون آخر الإصدارات من سيجنال أنك حذفت هتين الرسالتين.} few {سيرى أعضاء المجموعة الذين يستخدمون آخر الإصدارات من سيجنال أنك حذفت هذه الرسائل.} many {سيرى أعضاء المجموعة الذين يستخدمون آخر الإصدارات من سيجنال أنك حذفت هذه الرسائل.} other {سيرى أعضاء المجموعة الذين يستخدمون آخر الإصدارات من سيجنال أنك حذفت هذه الرسائل.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "احذف من كل الأجهزة"
@@ -6290,16 +6290,16 @@
     "messageformat": "تغيير"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "إيقاف النسخ الاحتياطية"
   },
   "icu:Preferences__local-backups-turn-off-action": {
     "messageformat": "إيقاف"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "لن تبقى قادرًا على إنشاء نسخ احتياطية على هذا الحاسوب دون إعادة التفعيل."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "حذف نسختي الاحتياطية من هذا الحاسوب"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "نسخ إلى الحافظة"
@@ -6827,7 +6827,7 @@
     "messageformat": "إعدادات خصوصية القصة"
   },
   "icu:StoriesSettings__description": {
-    "messageformat": "تختفي القصص تلقائيًا بعد 24 ساعة. اختر من يمكنه مشاهدة قصتك أو إنشاء قصص جديدة مع مشاهدين أو مجموعات معينة."
+    "messageformat": "تختفي القصص تلقائيًا بعد 24 ساعة. اختر من يمكنه مشاهدة قصتك أو أنشِئ قصص جديدة مع مشاهدين أو مجموعات معينة."
   },
   "icu:StoriesSettings__my_stories": {
     "messageformat": "قِصصي"
