@@ -84,20 +84,20 @@ const ScalarKeys = [
 // `desktop.libsignalNet`
 const KnownDesktopLibsignalNetKeys = [
   'desktop.libsignalNet.chatPermessageDeflate.prod',
-  'desktop.libsignalNet.chatRequestConnectionCheckTimeoutMillis.beta',
   'desktop.libsignalNet.chatRequestConnectionCheckTimeoutMillis',
-  'desktop.libsignalNet.grpc.AccountsAnonymousCheckAccountExistence.2.beta',
+  'desktop.libsignalNet.chatRequestConnectionCheckTimeoutMillis.beta',
   'desktop.libsignalNet.grpc.AccountsAnonymousCheckAccountExistence.2',
-  'desktop.libsignalNet.grpc.AccountsAnonymousLookupUsernameHash.beta',
+  'desktop.libsignalNet.grpc.AccountsAnonymousCheckAccountExistence.2.beta',
   'desktop.libsignalNet.grpc.AccountsAnonymousLookupUsernameHash',
-  'desktop.libsignalNet.grpc.AccountsAnonymousLookupUsernameLink.2.beta',
+  'desktop.libsignalNet.grpc.AccountsAnonymousLookupUsernameHash.beta',
   'desktop.libsignalNet.grpc.AccountsAnonymousLookupUsernameLink.2',
-  'desktop.libsignalNet.grpc.MessagesAnonymousSendMultiRecipientMessage.2.beta',
+  'desktop.libsignalNet.grpc.AccountsAnonymousLookupUsernameLink.2.beta',
   'desktop.libsignalNet.grpc.MessagesAnonymousSendMultiRecipientMessage.2',
-  'desktop.libsignalNet.useH2ForAuthChat.beta',
+  'desktop.libsignalNet.grpc.MessagesAnonymousSendMultiRecipientMessage.2.beta',
   'desktop.libsignalNet.useH2ForAuthChat',
-  'desktop.libsignalNet.useH2ForUnauthChat.beta',
+  'desktop.libsignalNet.useH2ForAuthChat.beta',
   'desktop.libsignalNet.useH2ForUnauthChat',
+  'desktop.libsignalNet.useH2ForUnauthChat.beta',
 ] as const;
 
 type KnownLibsignalKeysType = StripPrefix<
