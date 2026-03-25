@@ -59,7 +59,8 @@ export async function handleVideoAttachment(
       contentType: stringToMIMEType(file.type),
       clientUuid: generateUuid(),
       data,
-      fileName: file.name,
+      // We strip fileNames from visual attachments
+      fileName: undefined,
       path: file.name,
       pending: false,
       size: data.byteLength,

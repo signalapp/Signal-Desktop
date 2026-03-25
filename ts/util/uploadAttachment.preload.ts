@@ -38,6 +38,7 @@ import {
   isValidPlaintextHash,
 } from '../types/Crypto.std.js';
 import type { ExistingAttachmentUploadData } from '../sql/Interface.std.js';
+import { assertDev } from './assert.std.js';
 
 const CDNS_SUPPORTING_TUS = new Set([3]);
 const MAX_DURATION_TO_REUSE_ATTACHMENT_CDN_POINTER = 3 * DAY;
@@ -93,10 +94,19 @@ export async function uploadAttachment(
 
   const { blurHash, caption, clientUuid, flags, height, width } = attachment;
 
-  // Strip filename only for renderable visual media to prevent metadata leakage
-  const shouldStripFilename =
-    isImageAttachment(attachment) || isVideoAttachment(attachment);
-  const fileName = shouldStripFilename ? undefined : attachment.fileName;
+  let { fileName } = attachment;
+  if (isImageAttachment(attachment) || isVideoAttachment(attachment)) {
+    assertDev(
+      fileName == null,
+      'Filename should be stripped from visual attachments'
+    );
+
+    if (fileName != null) {
+      // We continue to strip the filename here just in case there are old draft
+      // attachments without filenames stripped
+      fileName = undefined;
+    }
+  }
 
   return {
     attachmentIdentifier: {

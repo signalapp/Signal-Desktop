@@ -374,7 +374,6 @@ async function getPreview(
         file: new Blob([fetchedImage.data], {
           type: fetchedImage.contentType,
         }),
-        fileName: title,
         highQuality: true,
       });
 
