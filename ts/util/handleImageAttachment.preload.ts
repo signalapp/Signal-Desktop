@@ -1,7 +1,6 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import path from 'node:path';
 import { ipcRenderer } from 'electron';
 import { v4 as genUuid } from 'uuid';
 
@@ -38,15 +37,10 @@ export async function handleImageAttachment(
     processedFile = new Blob([convertedData]);
   }
 
-  const {
-    contentType,
-    file: resizedBlob,
-    fileName,
-  } = await autoScale({
+  const { contentType, file: resizedBlob } = await autoScale({
     contentType: isHeic(file.type, file.name)
       ? IMAGE_JPEG
       : stringToMIMEType(file.type),
-    fileName: file.name,
     file: processedFile,
     // We always store draft attachments as HQ
     highQuality: true,
@@ -60,7 +54,8 @@ export async function handleImageAttachment(
     clientUuid: genUuid(),
     contentType,
     data: new Uint8Array(data),
-    fileName: fileName || file.name,
+    // We strip fileNames from visual attachments
+    fileName: undefined,
     path: file.name,
     pending: false,
     size: data.byteLength,
@@ -70,20 +65,17 @@ export async function handleImageAttachment(
 export async function autoScale({
   contentType,
   file,
-  fileName,
   highQuality,
 }: {
   contentType: MIMEType;
   file: File | Blob;
-  fileName: string;
   highQuality: boolean;
 }): Promise<{
   contentType: MIMEType;
   file: Blob;
-  fileName: string;
 }> {
   if (!canBeTranscoded({ contentType })) {
-    return { contentType, file, fileName };
+    return { contentType, file };
   }
 
   const { blob, contentType: newContentType } = await scaleImageToLevel({
@@ -97,15 +89,11 @@ export async function autoScale({
     return {
       contentType,
       file: blob,
-      fileName,
     };
   }
-
-  const { name } = path.parse(fileName);
 
   return {
     contentType: IMAGE_JPEG,
     file: blob,
-    fileName: `${name}.jpg`,
   };
 }
