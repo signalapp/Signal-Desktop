@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Os membros do grupo que teñan a última versión de Signal verán que borraches esta mensaxe.} other {Os membros do grupo que teñan a última versión de Signal verán que borraches estas mensaxes.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Borrar en todos os dispositivos"
@@ -6290,16 +6290,16 @@
     "messageformat": "Cambiar"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Desactivar copias de seguranza"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Desactivar"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Xa non poderás crear copias de seguranza neste ordenador se non o volves activar."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Eliminar a copia de seguranza do ordenador"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Copiar ao portapapeis"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Comprende pequenas modificacións e melloras no rendemento. Moitas grazas por empregar Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Fai que a privacidade teña protagonismo cos cinco novos paquetes de stickers oficiais da Serie de artistas de Signal: «Chug the Mouse» de Amanda Cotan, «Cozy Season\" de Miguel Ángel Camprubí, «Croco's Feelings» de Tiffany Beucher, «My Daily Life 2» de Plastic Thing e «Rocky Talk» de Lexi Vay."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Xa podes usar as Copias seguras de Signal! Activa as copias automáticas cifradas de extremo a extremo para non perder as mensaxes ao cambiar de dispositivo ou reinstalar Signal. Podes facer unha copia das mensaxes e dos arquivos multimedia dos últimos 45 días de balde, ou pagar unha pequena tarifa mensual para ter 100 GB de almacenamento. Vai a «Copias de seguranza» na configuración de Signal para comezar. Graciñas a quen axudou a probar esta función durante a fase beta!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Agora tamén podes enviar mensaxes multimedia dunha soa visualización dende Signal Desktop. As fotos e vídeos enviados como mensaxes dunha soa visualización eliminaranse automaticamente unha vez vistos."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Agora tes a opción de configurar unha categoría de membro para describirte a ti ou o teu rol dentro da conversa grupal. As categorías de membro aparecen ao carón do teu nome de perfil no grupo, e os administradores poden controlar se están activadas ou non para todos."

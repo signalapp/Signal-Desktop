@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Wanakikundi wanaotumia matoleo mapya ya Signal wataona kuwa ulifuta ujumbe huu.} other {Wanakikundi wanaotumia matoleo mapya ya Signal wataona kuwa ulifuta jumbe hizi.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Futa kwenye vifaa vyote"
@@ -6290,16 +6290,16 @@
     "messageformat": "Badili"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Zima uhifadhi nakala"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Zima"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Hautaweza tena kutengeneza nakala za kuhifadhiwa kwenye kompyuta hii bila kuwasha tena."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Futa nakala zangu zilizohifadhiwa kwenye kompyuta hii"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Nakili kwenye clipbodi"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Jihakikishie faragha kwa kutumia pakiti ya vibandiko vipya vitano katika Mfululizo wa Kazi za Wasanii wa Signal: \"Chug the Mouse\" ya Amanda Cotan, \"Cozy Season\" ya Miguel Ángel Camprubí, \"Croco's Feelings\" ya Tiffany Beucher, \"My Daily Life 2\" ya Plastic Thing na \"Rocky Talk\" ya Lexi Vay."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Tunakuletea hifadhi nakala salama! Sasa unaweza kuchagua kuwezesha uhifadhi nakala wa kiotomatiki uliosimbwa fiche kuanzia mwanzo hadi mwisho, ili usipoteze ujumbe wowote unapopata simu mpya au kusakinisha upya Signal. Unaweza kuhifadhi nakala za jumbe zako zote na picha na video za siku 45 zilizopita bila malipo au unaweza kulipa ada ndogo ya kila mwezi ili upate hifadhi ya GB 100 kwa ajili ya kuhifadhi kila kiambatisho. Gusa sehemu ya kuhifadhi nakala kwenye mipangilio ya Signal ili uanze. Asante kwa kila mtu aliyesaidia kujaribu kipengele hiki wakati wa kipindi cha beta!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Sasa unaweza kutuma jumbe za picha na video za angalia mara moja kutoka Signal Desktop pia. Picha na video moja moja zinazotumwa kama jumbe za angalia mara moja zitaondolewa kiotomatiki kwenye mazungumzo baada ya kutazamwa."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Ukipenda unaweza kuweka cheo cha mwanachama kwa hiari ili kujielezea mwenyewe au nafasi yako kwenye gumzo la kikundi. Weka cheo cha mwanachama wa kikundi chako kuwa “Referee” au “Goalie” kwenye gumzo la timu ya eneo lako ili uweze kuzungumza na wachezaji wapya wanapojiunga, kisha chagua cheo tofauti cha kazi kwenye gumzo la kampuni. Vyeo vya wanachama vinaonekana kando ya jina lako la wasifu katika kikundi hiko na admins wa kikundi wanaweza kudhibiti kama vitawekwa kwa kila mtu au la."

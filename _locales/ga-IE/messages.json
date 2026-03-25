@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Feicfidh baill den ghrúpa ar na leaganacha is déanaí de Signal gur scrios tú an teachtaireacht sin.} two {Feicfidh baill den ghrúpa ar na leaganacha is déanaí de Signal gur scrios tú na teachtaireachtaí sin.} few {Feicfidh baill den ghrúpa ar na leaganacha is déanaí de Signal gur scrios tú na teachtaireachtaí sin.} many {Feicfidh baill den ghrúpa ar na leaganacha is déanaí de Signal gur scrios tú na teachtaireachtaí sin.} other {Feicfidh baill den ghrúpa ar na leaganacha is déanaí de Signal gur scrios tú na teachtaireachtaí sin.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Scrios ó na gléasanna uile"
@@ -6290,16 +6290,16 @@
     "messageformat": "Athraigh"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Cas as cúltacaí"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Múch"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Ní bheidh tú in ann cúltacaí a chruthú ar an ríomhaire seo a thuilleadh gan iad a athchumasú."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Scrios mo chúltaca ón ríomhaire seo"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Cóipeáil chuig an ghearrthaisce"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Cúig bheart greamán nua le healaíontóirí oifigiúla."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Tá cúltacaí slána Signal anseo! Anois is féidir leat cumasú cúltacaí criptithe ó cheann ceann go huathoibríoch a roghnú ionas nach gcaillfidh tú teachtaireacht choíche nuair a fhaigheann tú guthán nua nó nuair a athshuiteálann tú Signal. Is féidir leat do theachtaireachtaí uile agus na 45 lá anuas de mheáin a chúltacú saor in aisce, nó is féidir leat táille bheag a íoc gach mí le 100 GB de stóras a fháil chun gach ceangaltán a chúltacú. Tapáil ar chúltacaí i do shocruithe Signal le tosú air. Buíochas le gach duine a chabhraigh le tástáil na gné seo le linn na tréimhse béite!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Anois, beidh tú in ann teachtaireachtaí meán amhairc aonuaire a sheoladh ó Signal Desktop freisin. Grianghraif agus físeáin a sheoltar mar theachtaireachtaí amhairc aonuaire; bainfear go huathoibríoch de shnáithe comhrá iad agus gach duine tar éis féachaint orthu."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Anois tá rogha agat lipéad do bhall a chur leis le cur síos a dhéanamh ort féin nó ar do ról i ngrúpchomhrá.Socraigh do lipéad do bhall grúpa ag “Réiteoir” nó “Cúlaí” i do chomhrá áitiúil sacair mar chabhairt chun tús a chur leis nuair a thagann baill foirne nua isteach, ansin roghnaigh lipéad eile le do jabtheideal i gcomhrá na cuideachta. Taispeántar lipéid do bhaill taobh le d'ainm próifíle sa ghrúpa sin, agus is faoi riarthóirí an ghrúpa atá sé a rialú cibé an gcumasófar iad do chách."

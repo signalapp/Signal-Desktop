@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Gruppmedlemmar med de senaste versionerna av Signal kommer att se att du raderade det här meddelandet.} other {Gruppmedlemmar med de senaste versionerna av Signal kommer att se att du raderade dessa meddelanden.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Ta bort från alla enheter"
@@ -6290,16 +6290,16 @@
     "messageformat": "Ändra"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Stäng av säkerhetskopiering"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Inaktivera"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Du kommer inte längre att kunna skapa säkerhetskopior på den här datorn utan att aktivera funktionen igen."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Radera min säkerhetskopia från den här datorn"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopiera till urklipp"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Fem nya officiella klistermärkespaket för artister."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signals säkra säkerhetskopior är här! Nu kan du välja att aktivera automatiska säkerhetskopior med totalsträckskryptering, så att du aldrig förlorar ett meddelande när du skaffar en ny telefon eller installerar om Signal. Du kan säkerhetskopiera alla dina meddelanden och de senaste 45 dagarnas media gratis, eller så kan du betala en liten månadsavgift för att få 100 GB lagringsutrymme för att säkerhetskopiera varje bilaga. Tryck på Säkerhetskopior i dina Signal-inställningar för att komma igång. Tack till alla som hjälpte till att testa den här funktionen under betaperioden!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Nu kan du även skicka mediemeddelanden som visas en gång från Signal Desktop. Enskilda foton och videor som skickas som visa en gång-meddelanden tas automatiskt bort från en konversationstråd efter att de har visats."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Nu kan du välja att lägga till en medlemsetikett för att beskriva dig själv eller din roll i en gruppchatt. Medlemsetiketter visas bredvid ditt profilnamn i gruppen, och gruppadministratörer kan styra om de är aktiverade för alla."

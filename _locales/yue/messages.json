@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, other {用最新版本 Signal 嘅谷友會見到你刪除咗呢啲訊息。}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "喺所有裝置度刪除"
@@ -6290,16 +6290,16 @@
     "messageformat": "改一改"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "閂咗備份"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "關閉"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "如果你唔重新啟用備份功能，就冇得再喺呢部電腦度建立備份。"
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "喺呢部電腦度刪除我嘅備份"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "複製到剪貼簿"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "我哋做咗啲調整、修復咗一啲錯誤，同埋加強咗程式功能。多謝你使用 Signal！",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "• Signal Artist 系列新出五款官方貼圖包，等你嘅私隱保護更貼心，包括：Amanda Cotan 創作嘅「Chug the Mouse」；Miguel Ángel Camprubí 創作嘅「Cozy Season」；Tiffany Beucher 創作嘅「Croco's Feelings」；Plastic Thing 創作嘅「My Daily Life 2」同埋 Lexi Vay 創作嘅「Rocky Talk」。"
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "• Signal 安全備份嚟咗啦！而家你可以揀啟用自動端對端加密備份功能，咁樣當你換新手機或者重新安裝 Signal 嗰陣，就唔會冇晒啲訊息。你可以免費備份全部訊息同最近 45 日嘅媒體，或者可以俾少少月費就有 100 GB 儲存空間嚟備份全部附件。㩒一下 Signal 設定入面嘅備份就可以即刻開始。多謝每個喺測試期間幫手測試呢個功能嘅用家！"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "而家你都可以喺 Signal 桌面版傳送閱後即焚媒體訊息啦！用閱後即焚訊息發送個別相同片，對方睇咗之後會自動喺對話紀錄度剷走。"
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "而家 Singal 可以任你揀加唔加個成員標籤嚟形容你自己，或者你喺個聊天谷入面嘅角色。例如喺你個本地足球聯賽聊天谷入面，將你個成員標籤設定做「裁判」或者「守門員」，幫新隊友了解你係乜水；而喺公司個聊天谷度，你又可以加個標籤話俾人知你做咩職位。成員標籤會顯示喺個谷嘅個人檔名隔離，個谷嘅管理員可以控制係咪開放俾全部人用呢個功能。"

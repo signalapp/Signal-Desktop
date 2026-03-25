@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Gruppenmitglieder mit der neuesten Version von Signal sehen, dass du diese Nachricht gelöscht hast.} other {Gruppenmitglieder mit der neuesten Version von Signal sehen, dass du diese Nachrichten gelöscht hast.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Von allen Geräten löschen"
@@ -6290,16 +6290,16 @@
     "messageformat": "Ändern"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Backups ausschalten"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Ausschalten"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Du kannst auf diesem Computer keine Backups mehr erstellen, ohne diese Funktion erneut zu aktivieren."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Lösche mein Backup von diesem Computer"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "In Zwischenablage kopieren"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Kleine Optimierungen, Fehlerbehebungen und Leistungsverbesserungen. Danke, dass du Signal nutzt!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Mit den fünf neuen offiziellen Sticker-Sets aus der Signal Artist Series macht Datenschutz noch mehr Spaß: »Chug the Mouse« von Amanda Cotan, »Cozy Season« von Miguel Ángel Camprubí, »Croco's Feelings« von Tiffany Beucher, »My Daily Life 2« von Plastic Thing und »Rocky Talk« von Lexi Vay."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal Secure Backups ist da! Jetzt kannst du automatische Ende-zu-Ende-verschlüsselte Backups aktivieren, damit du nie wieder eine Nachricht verlierst, wenn du dir ein neues Telefon zulegst oder Signal neu installierst. Du kannst all deine Nachrichten und die Medien der letzten 45 Tage kostenlos sichern oder dir gegen eine geringe monatliche Gebühr 100 GB Speicherplatz holen und all deine Anhänge sichern. Tippe in deinen Signal-Einstellungen einfach auf »Backups«, um loszulegen. Danke an alle, die während der Beta-Phase beim Testen dieser Funktion mitgeholfen haben!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Jetzt kannst du auch von Signal Desktop aus Mediennachrichten zur Einmalansicht verschicken. Einzelne, als Nachricht zur Einmalansicht versendete Fotos und Videos werden automatisch aus der Unterhaltung entfernt, sobald sie angesehen wurden."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Jetzt kannst du ein Mitgliedslabel hinzufügen, um dich oder deine Rolle in einem Gruppenchat zu beschreiben. Label dich im Fußballclub-Chat als »Schiedsrichterin« oder »Torwart«, damit neue Mitspieler*innen Bescheid wissen – und im Firmenchat ist wohl eher ein Label mit deiner beruflichen Position angesagt. Mitgliedslabels werden in dieser Gruppe neben deinem Profilnamen angezeigt, und Gruppenadmins können festlegen, ob sie für alle aktiviert sind oder nicht."

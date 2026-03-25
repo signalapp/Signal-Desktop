@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Членовете на групата, които използват най-новите версии на Signal, ще виждат, че сте изтрили това съобщение.} other {Членовете на групата, които използват най-новите версии на Signal, ще виждат, че сте изтрили тези съобщения.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Изтриване от всички устройства"
@@ -6290,16 +6290,16 @@
     "messageformat": "Промяна"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Изключване на резервните копия"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Изключване"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Вече няма да можете да създавате резервни копия на този компютър, ако не ги активирате отново."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Изтриване на резервното ми копие от този компютър"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Копиране"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Дребни корекции, поправки на бъгове и подобрения на работата. Благодарим ви, че използвате Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Пет нови официални пакета със стикери."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Сигурните резервни копия на Signal са тук! Сега можете да изберете да активирате автоматични резервни копия, криптирани от край до край, така че никога да не губите съобщения, когато си вземете нов телефон или преинсталирате Signal. Можете безплатно да архивирате всичките си съобщения и мултимедията от последните 45 дни или да плащате малка месечна такса, за да получите 100 GB място за съхранение, в което да архивирате всички прикачени файлове. Докоснете резервните копия в настройките на Signal, за да започнете. Благодарим на всички, които помогнаха за тестването на тази функция по време на бета-периода!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Вече можете да изпращате съобщения с мултимедия за еднократно гледане и от Signal Desktop. Отделните снимки и видеоклипове, които са изпратени като съобщения за еднократно гледане, ще бъдат автоматично премахнати от чата, след като бъдат прегледани."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Вече по желание можете да добавите етикет на член, за да опишете себе си или ролята си в груповия чат. Етикетите на членовете се появяват до името на профила ви в групата, а администраторите на групи могат да управляват дали те са активирани за всички, или не."

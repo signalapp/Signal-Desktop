@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Signal ਦੇ ਨਵੇਂ ਵਰਜ਼ਨਾਂ ਉੱਤੇ ਗਰੁੱਪ ਮੈਂਬਰ ਇਹ ਦੇਖ ਸਕਣਗੇ ਕਿ ਤੁਸੀਂ ਇਸ ਸੁਨੇਹੇ ਨੂੰ ਮਿਟਾ ਦਿੱਤਾ ਹੈ।} other {Signal ਦੇ ਨਵੇਂ ਵਰਜ਼ਨਾਂ ਉੱਤੇ ਗਰੁੱਪ ਮੈਂਬਰ ਇਹ ਦੇਖ ਸਕਣਗੇ ਕਿ ਤੁਸੀਂ ਇਹਨਾਂ ਸੁਨੇਹਿਆਂ ਨੂੰ ਮਿਟਾ ਦਿੱਤਾ ਹੈ।}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "ਸਾਰੇ ਡਿਵਾਈਸਾਂ ਵਿੱਚੋਂ ਮਿਟਾਓ"
@@ -6290,16 +6290,16 @@
     "messageformat": "ਬਦਲੋ"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "ਬੈਕਅੱਪ ਬੰਦ ਕਰੋ"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "ਬੰਦ ਕਰੋ"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "ਤੁਸੀਂ ਹੁਣ ਇਸ ਕੰਪਿਊਟਰ 'ਤੇ ਦੁਬਾਰਾ ਸਮਰੱਥ ਕੀਤੇ ਬਿਨਾਂ ਬੈਕਅੱਪ ਨਹੀਂ ਬਣਾ ਸਕੋਗੇ।"
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "ਇਸ ਕੰਪਿਊਟਰ ਤੋਂ ਮੇਰਾ ਬੈਕਅੱਪ ਮਿਟਾਓ"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "ਕਲਿਪਬੋਰਡ 'ਤੇ ਕਾਪੀ ਕਰੋ"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "ਛੋਟੇ-ਮੋਟੇ ਸੁਧਾਰ, ਖ਼ਰਾਬੀਆਂ ਨੂੰ ਦਰੁਸਤ ਅਤੇ ਪ੍ਰਦਰਸ਼ਨ ਨੂੰ ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਹੈ। Signal ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਧੰਨਵਾਦ!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "ਪੰਜ ਨਵੇਂ ਅਧਿਕਾਰਤ ਕਲਾਕਾਰ ਸਟਿੱਕਰ ਪੈਕ।"
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal ਸਿਕਿਓਰ ਬੈਕਅੱਪ ਹੁਣ ਉਪਲਬਧ ਹੈ! ਹੁਣ ਤੁਸੀਂ ਆਪਣੇ-ਆਪ ਸਿਰੇ-ਤੋਂ-ਸਿਰੇ ਤੱਕ ਇਨਕ੍ਰਿਪਟਡ ਬੈਕਅੱਪ ਨੂੰ ਸਮਰੱਥ ਬਣਾਉਣ ਦੀ ਚੋਣ ਕਰ ਸਕਦੇ ਹੋ ਤਾਂ ਜੋ ਨਵਾਂ ਫ਼ੋਨ ਲੈਣ 'ਤੇ ਜਾਂ Signal ਨੂੰ ਮੁੜ ਇੰਸਟਾਲ ਕਰਨ 'ਤੇ ਤੁਸੀਂ ਕਦੇ ਵੀ ਕੋਈ ਸੁਨੇਹਾ ਨਾ ਗੁਆਓ। ਤੁਸੀਂ ਆਪਣੇ ਸਾਰੇ ਸੁਨੇਹਿਆਂ ਅਤੇ ਪਿਛਲੇ 45 ਦਿਨਾਂ ਦੇ ਮੀਡੀਆ ਦਾ ਮੁਫ਼ਤ ਵਿੱਚ ਬੈਕਅੱਪ ਲੈ ਸਕਦੇ ਹੋ, ਜਾਂ ਤੁਸੀਂ ਹਰੇਕ ਅਟੈਚਮੈਂਟ ਦਾ ਬੈਕਅੱਪ ਲੈਣ ਲਈ 100 GB ਸਟੋਰੇਜ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ ਇੱਕ ਛੋਟੀ ਜਿਹੀ ਮਹੀਨਾਵਾਰ ਫੀਸ ਦੇ ਸਕਦੇ ਹੋ। ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਆਪਣੀਆਂ Signal ਸੈਟਿੰਗਾਂ ਵਿੱਚ ਬੈਕਅੱਪ 'ਤੇ ਟੈਪ ਕਰੋ। ਬੀਟਾ ਪੀਰੀਅਡ ਦੌਰਾਨ ਇਸ ਫੀਚਰ ਦੀ ਜਾਂਚ ਕਰਨ ਵਿੱਚ ਮਦਦ ਕਰਨ ਵਾਲੇ ਸਾਰਿਆਂ ਦਾ ਧੰਨਵਾਦ!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "ਹੁਣ ਤੁਸੀਂ Signal Desktop ਤੋਂ ਵੀ ਇੱਕ ਵਾਰ ਦੇਖੇ ਜਾ ਸਕਣ ਵਾਲੇ ਮੀਡੀਆ ਵਾਲੇ ਸੁਨੇਹੇ ਭੇਜ ਸਕਦੇ ਹੋ। ਇੱਕ ਵਾਰ ਦੇਖੇ ਜਾ ਸਕਣ ਵਾਲੇ ਸੁਨੇਹਿਆਂ ਵਜੋਂ ਭੇਜੀਆਂ ਗਈਆਂ ਵਿਅਕਤੀਗਤ ਫ਼ੋਟੋਆਂ ਅਤੇ ਵੀਡੀਓ ਦੇਖਣ ਤੋਂ ਬਾਅਦ ਗੱਲਬਾਤ ਥ੍ਰੈੱਡ ਤੋਂ ਆਪਣੇ ਆਪ ਹਟਾ ਦਿੱਤੀ ਜਾਵੇਗੀ।"
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "ਹੁਣ ਤੁਸੀਂ ਵਿਕਲਪਿਕ ਤੌਰ 'ਤੇ ਆਪਣੇ ਬਾਰੇ ਜਾਂ ਕਿਸੇ ਗਰੁੱਪ ਚੈਟ ਵਿੱਚ ਆਪਣੀ ਭੂਮਿਕਾ ਦਾ ਵਰਣਨ ਕਰਨ ਲਈ ਇੱਕ ਮੈਂਬਰ ਲੇਬਲ ਸ਼ਾਮਲ ਕਰ ਸਕਦੇ ਹੋ। ਉਸ ਗਰੁੱਪ ਵਿੱਚ ਮੈਂਬਰ ਲੇਬਲ ਨੂੰ ਤੁਹਾਡੇ ਪ੍ਰੋਫ਼ਾਈਲ ਨਾਂ ਦੇ ਅੱਗੇ ਦਿਖਾਇਆ ਜਾਂਦਾ ਹੈ, ਅਤੇ ਗਰੁੱਪ ਐਡਮਿਨ ਇਹ ਕੰਟਰੋਲ ਕਰ ਸਕਦੇ ਹਨ ਕਿ ਇਹ ਸਹੂਲਤ ਸਾਰਿਆਂ ਲਈ ਸਮਰੱਥ ਕਰਨੀ ਹੈ ਜਾਂ ਨਹੀਂ।"

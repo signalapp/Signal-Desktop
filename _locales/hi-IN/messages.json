@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {जिन ग्रुप मेंबर के पास Signal के सबसे नए वर्ज़न होंगे, उन्हें यह पता चल जाएगा कि यह मैसेज आपने डिलीट किया है।} other {जिन ग्रुप मेंबर के पास Signal के सबसे नए वर्ज़न होंगे, उन्हें यह पता चल जाएगा कि ये मैसेज आपने डिलीट किए हैं।}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "सभी उपकरणों से डिलीट करें"
@@ -6290,16 +6290,16 @@
     "messageformat": "बदलें"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "बैकअप बंद करें"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "बंद करें"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "बैकअप की सुविधा फिर से चालू किए बिना, इस कंप्यूटर पर बैकअप नहीं लिया जा सकेगा।"
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "इस कंप्यूटर से मेरा बैकअप डिलीट करें"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "क्लिपबोर्ड पर कॉपी करें"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "कई छोटे सुधार किए गए हैं, बग हटाए गए हैं, और परफ़ॉर्मेंस बेहतर की गई है। Signal के साथ बने रहने के लिए धन्यवाद!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "अपनी प्राइवेसी को बनाएं और मज़ेदार! पेश है Signal आर्टिस्ट सीरीज़ के पांच नए आधिकारिक स्टिकर पैक: अमांडा कोतान का \"Chug the Mouse\", मिगेल एंजेल काम्प्रुबी का \"Cozy Season\", टिफ़नी बुशेर का \"Croco's Feelings\", प्लास्टिक थिंग का \"My Daily Life 2\", और लेक्सी वे का \"Rocky Talk\"."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "पेश है Signal सिक्योर बैकअप! ऑटोमैटिक एंड-टू-एंड एनक्रिप्टेड बैकअप चालू करने की सहूलियत पाएं, ताकि नया फ़ोन लेने या Signal फिर से इंस्टॉल करने पर आपका एक भी मैसेज गायब न हो। अपने सारे मैसेज और पिछले 45 दिनों के मीडिया का बैकअप मुफ़्त में लें, या अगर हर अटैचमेंट का बैकअप लेने के लिए 100 GB स्टोरेज पाना है, तो हर महीने एक मामूली राशि का पेमेंट करें। शुरू करने के लिए अपनी Signal सेटिंग में जाकर बैकअप पर टैप करें। बीटा पीरियड में यह फ़ीचर टेस्ट करके हमारी मदद करने वाले सभी लोगों का धन्यवाद!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "अब Signal डेस्कटॉप से भी सिर्फ़ एक बार देखे जा सकने वाले मीडिया मैसेज भेजे जा सकते हैं। सिर्फ़ एक बार देखे जा सकने वाले मैसेज के रूप में भेजे गए फ़ोटो और वीडियो, एक बार देखे जाने के बाद बातचीत थ्रेड से अपने-आप हट जाएंगे।"
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "अब ग्रुप चैट में अपने बारे में या अपने रोल के बारे में बताने के लिए, आपके पास मेंबर लेबल जोड़ने का विकल्प मौजूद है। नए साथियों के जुड़ने पर बातचीत का माहौल जमाने के लिए, अपनी लोकल फुटबॉल लीग चैट में अपना ग्रुप मेंबर लेबल 'रेफ़री' या 'गोलकीपर' सेट करें। इसके बाद, कंपनी चैट में अपने ज़ॉब टाइटल वाला कोई दूसरा लेबल चुन लें। ग्रुप में मेंबर लेबल आपके प्रोफ़ाइल नेम के आगे दिखते हैं और ग्रुप ऐडमिन यह कंट्रोल कर सकते हैं कि यह सुविधा हर एक के लिए चालू हो या न हो।"

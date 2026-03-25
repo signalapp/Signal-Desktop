@@ -597,7 +597,7 @@
     "messageformat": "Automatische verificatie is niet beschikbaar voor alle chats."
   },
   "icu:SafetyNumberViewer__KeyTransparency__learn_more": {
-    "messageformat": "Meer lezen"
+    "messageformat": "Meer informatie"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__title": {
     "messageformat": "Versleuteling automatisch geverifieerd voor deze chat "
@@ -651,7 +651,7 @@
     "messageformat": "Doorgaan"
   },
   "icu:KeyTransparencyOnboardingDialog__LearnMore": {
-    "messageformat": "Meer lezen"
+    "messageformat": "Meer informatie"
   },
   "icu:KeyTransparencyOnboardingDialog__CloseButton__AccessibilityLabel": {
     "messageformat": "Sluiten"
@@ -1455,7 +1455,7 @@
     "messageformat": "Je chatgeschiedenis met {conversationTitle} en een andere chat met deze persoon zijn samengevoegd."
   },
   "icu:ConversationMerge--learn-more": {
-    "messageformat": "Meer lezen"
+    "messageformat": "Meer informatie"
   },
   "icu:ConversationMerge--explainer-dialog--line-1": {
     "messageformat": "Na het uitwisselen van berichten met {obsoleteConversationTitle} heb je begrepen dat dit nummer van {conversationTitle} is. Hun telefoonnummer is privé."
@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Groepsleden die een recente versie van Signal gebruiken, kunnen zien dat je dit bericht hebt verwijderd.} other {Groepsleden die een recente versie van Signal gebruiken, kunnen zien dat je deze berichten hebt verwijderd.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Verwijderen van alle apparaten"
@@ -6290,16 +6290,16 @@
     "messageformat": "Aanpassen"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Back-ups uitschakelen"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Uitschakelen"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Je kunt op deze computer geen back-ups meer maken zonder deze functie opnieuw in te schakelen."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Verwijder mijn back-up van deze computer"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopiëren naar klembord"
@@ -6485,7 +6485,7 @@
     "messageformat": "Open Signal op je telefoon om je account actief te houden"
   },
   "icu:IdlePrimaryDevice__learnMore": {
-    "messageformat": "Meer lezen"
+    "messageformat": "Meer informatie"
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal ondervindt momenteel technische problemen. We zijn hard aan het werk om de service zo snel mogelijk te herstellen."
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Vijf nieuwe Signal Artist stickerpakketten: ‘Chug the Mouse’ van Amanda Cotan, ‘Cozy Season’ van Miguel Ángel Camprubí, ‘Croco's Feelings’ van Tiffany Beucher, ‘My Daily Life 2’ van Plastic Thing, en ‘Rocky Talk’ van Lexi Vay."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal Secure Backups is nu beschikbaar! Je kunt nu automatische end-to-end versleutelde back-ups inschakelen zodat je nooit berichten kwijtraakt als je overstapt op een nieuwe telefoon of als je Signal opnieuw installeert. Je kunt gratis een back-up maken van al je berichten en de laatste 45 dagen aan media. Voor een klein maandelijks bedrag ontvang je 100 GB opslag zodat je van al je bijlages een back-up kunt maken. Tik op Back-ups in Signal-instellingen om te beginnen. Iedereen bedankt die deze functie in de bètaperiode heeft getest!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Je kunt media voor eenmalige weergave nu ook vanuit Signal Desktop verzenden. Foto's en video's die als eenmaligeweergave-berichten worden verzonden, worden automatisch uit de chat verwijderd nadat ze zijn bekeken."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Je kunt in groepschats nu een ledenlabel aanmaken waarmee je iets over jezelf zegt of over je rol. Maak een label aan met ‘Coach’ in de groepschat van je voetbalteam, dan weten nieuwe teamgenoten direct wie je bent. Voor de groepschat met je collega's maak je een ander label aan, bijvoorbeeld met je functietitel. Ledenlabels verschijnen naast je profielnaam in de betreffende groep. Groepsbeheerders kunnen bepalen of iedereen een label mag aanmaken."

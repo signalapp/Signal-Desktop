@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Groeplede op die jongste weergawe van Signal sal sien jy het hierdie boodskap geskrap.} other {Groeplede op die jongste weergawe van Signal sal sien jy het hierdie boodskappe geskrap.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Skrap van alle toestelle"
@@ -6290,16 +6290,16 @@
     "messageformat": "Verander"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Skakel rugsteun af"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Skakel af"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Jy sal nie meer rugsteun op hierdie rekenaar kan skep sonder om dit te heraktiveer nie."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Skrap my rugsteun op hierdie rekenaar"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopieer na knipbord"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Klein veranderings, foutregstellings en prestasieverbeterings. Dankie dat jy Signal gebruik!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Laat privaatheid in die koppe vassteek met vyf nuwe amptelike plakkerpakkette in die Signal Kunstenaar-reeks: \"Chug the Mouse\" deur Amanda Cotan, \"Cozy Season\" deur Miguel Ángel Camprubí, \"Croco's Feelings\" deur Tiffany Beucher, \"My Daily Life 2\" deur Plastic Thing, en \"Rocky Talk\" deur Lexi Vay."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal se veilige rugsteun is hier! Jy kan nou kies om outomatiese end-tot-end-geënkripteerde rugsteun te aktiveer sodat jy nooit 'n boodskap verloor wanneer jy 'n nuwe foon kry of Signal herinstalleer nie. Jy kan al jou boodskappe en die laaste 45 dae se media gratis rugsteun, of jy kan 'n klein maandelikse bedraggie betaal om 100 GB se stoorruimte te kry om alle aanhangsels te rugsteun. Tik op rugsteun in jou Signal-instellings om te begin. Dankie aan almal wat hierdie kenmerk tydens die beta-tydperk help toets het!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Nou kan jy ook eenkeerkyk-mediaboodskappe van Signal Desktop af stuur. Individuele foto's en video's wat as eenkeerkyk-boodskappe gestuur word, sal outomaties uit 'n gesprekstring verwyder word nadat daar na hulle gekyk is."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Nou kan jy opsioneel 'n lidfunksie-etiket byvoeg om jouself of jou rol in 'n groepklets te beskryf. Stel jou groeplidfunksie-etiket op \"Skeidsregter\" of \"Doelwagter\" in jou plaaslike ontspanningsliga-sokkerklets om te help om dinge af te skop wanneer nuwe spanmaats by julle aansluit, en kies dan 'n heel ander lidfunksie-etiket met jou postitel in jou maatskappy se klets. Lidfunksie-etikette verskyn langs jou profielnaam in daardie groep, en groepadmins kan beheer of dit vir almal geaktiveer is of nie."

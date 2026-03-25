@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Τα μέλη της ομάδας που χρησιμοποιούν τις πιο πρόσφατες εκδόσεις του Signal θα δουν ότι διέγραψες αυτό το μήνυμα.} other {Τα μέλη της ομάδας που χρησιμοποιούν τις πιο πρόσφατες εκδόσεις του Signal θα δουν ότι διέγραψες αυτά τα μηνύματα.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Διαγραφή από όλες τις συσκευές"
@@ -6290,16 +6290,16 @@
     "messageformat": "Αλλαγή"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Απενεργοποίηση αντιγράφων ασφαλείας"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Απενεργοποίηση"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Δεν θα μπορείς πλέον να δημιουργείς αντίγραφα ασφαλείας σε αυτόν τον υπολογιστή χωρίς να ενεργοποιήσεις εκ νέου την επιλογή."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Διαγραφή αντιγράφων ασφαλείας από αυτόν τον υπολογιστή"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Αντιγραφή στο πρόχειρο"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Μικρές τροποποιήσεις, επιδιορθώσεις σφαλμάτων και βελτιώσεις απόδοσης. Ευχαριστούμε που χρησιμοποιείς το Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Πέντε νέα επίσημα πακέτα αυτοκόλλητων καλλιτεχνών."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Τα ασφαλή αντίγραφα Signal είναι εδώ! Τώρα μπορείς να δημιουργείς αυτόματα αντίγραφα, ώστε να μην χάσεις μήνυμα αν αλλάξεις τηλέφωνο ή επανεγκαταστήσεις το Signal. Μπορείς να αποθηκεύεις τα μηνύματα και τα πολυμέσα των τελευταίων 45 ημερών δωρεάν ή να πληρώσεις μια μηνιαία χρέωση για 100 GB αποθηκευτικού χώρου για να έχεις αντίγραφα κάθε συνημμένου. Πάτα στα αντίγραφα ασφαλείας στις ρυθμίσεις Signal για έναρξη. Ευχαριστούμε για τη βοήθεια στη δοκιμή της λειτουργίας κατά την περίοδο beta!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Τώρα μπορείς επίσης να στέλνεις μηνύματα πολυμέσων μιας μόνο προβολής από το Signal Desktop. Οι μεμονωμένες φωτογραφίες και τα βίντεο που αποστέλλονται ως μηνύματα μίας μόνο προβολής θα καταργούνται αυτόματα από ένα νήμα συνομιλίας μετά την προβολή τους."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "• Τώρα μπορείς προαιρετικά να προσθέσεις μια ετικέτα μέλους για να περιγράψεις τον εαυτό σου ή τον ρόλο σου σε μια ομαδική συνομιλία. Οι ετικέτες μελών εμφανίζονται δίπλα στο όνομα του προφίλ σου σε αυτήν την ομάδα, ενώ οι διαχειριστές της ομάδας μπορούν να ρυθμίσουν αν θα είναι ενεργοποιημένες για όλους."

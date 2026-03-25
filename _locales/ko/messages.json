@@ -573,7 +573,7 @@
     "messageformat": "인증 초기화하기"
   },
   "icu:SafetyNumberViewer__hint-v2": {
-    "messageformat": "{name} 님과의 엔드투엔드 암호화를 인증하려면 상기 숫자를 상대방 기기의 숫자와 비교하세요. 아니면 상대방 기기로 내 기기의 코드를 스캔할 수도 있습니다."
+    "messageformat": "{name} 님과 종단간 암호화가 적용되었는지 확인하려면 위 번호를 상대방의 기기와 대조해 보세요. 아니면 상대방 기기로 내 코드를 스캔하는 방법도 있습니다."
   },
   "icu:SafetyNumberViewer__learn_more": {
     "messageformat": "더 알아보기"
@@ -603,16 +603,16 @@
     "messageformat": "이 채팅에 대한 암호화가 자동 인증되었습니다 "
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--ok__body": {
-    "messageformat": "전화번호를 통해 연결된 연락처의 경우, Signal은 키 투명성이라는 프로세스를 사용하여 연결이 안전한지 자동으로 확인할 수 있습니다. 보안을 강화하려면 이전 화면의 숫자를 대조하거나, 해당 사용자의 기기로 코드를 스캔하여 엔드투엔드 암호화를 수동으로 확인하세요."
+    "messageformat": "전화번호를 통해 연결된 연락처의 경우, Signal은 키 투명성이라는 프로세스를 사용하여 연결이 안전한지 자동으로 확인할 수 있습니다. 보안을 강화하려면 이전 화면의 숫자를 대조하거나, 상대방 기기의 코드를 스캔하여 종단간 암호화를 수동으로 인증해 주세요."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__title": {
     "messageformat": "이 채팅에 더 이상 자동 인증을 사용할 수 없습니다"
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--fail__body": {
-    "messageformat": "Signal이 더 이상 이 채팅에 자동으로 암호화를 인증할 수 없습니다. 이 문제는 {name} 님이 전화번호를 변경하여 발생했을 수 있습니다. 이전 화면의 숫자를 대조하거나, 해당 사용자의 기기로 코드를 스캔하여 엔드투엔드 암호화를 수동으로 인증해 주세요."
+    "messageformat": "Signal이 더 이상 이 채팅의 암호화를 자동으로 인증할 수 없습니다. {name} 님이 전화번호를 변경하여 발생한 문제일 수 있습니다. 이전 화면의 숫자를 대조하거나, 상대방 기기의 코드를 스캔하여 종단간 암호화를 수동으로 인증해 주세요."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup--unavailable__body": {
-    "messageformat": "Signal은 상대방과 전화번호를 통해 연결한 채팅에서만 자동으로 암호화를 인증할 수 있습니다. 사용자 이름이나 공통으로 속한 그룹을 통해 채팅을 시작한 경우, 이전 화면의 숫자를 대조하거나 해당 사용자의 기기로 코드를 스캔하여 엔드투엔드 암호화를 인증해 주세요."
+    "messageformat": "Signal은 상대방과 전화번호를 통해 연결한 채팅에서만 자동으로 암호화를 인증할 수 있습니다. 사용자 이름이나 공통으로 속한 그룹을 통해 채팅을 시작한 경우, 이전 화면의 숫자를 대조하거나 상대방 기기에 있는 코드를 스캔하여 종단간 암호화를 인증해 주세요."
   },
   "icu:SafetyNumberViewer__KeyTransparency__popup__okay": {
     "messageformat": "확인"
@@ -1416,7 +1416,7 @@
     "messageformat": "자세히 알아보기"
   },
   "icu:ChatRefresh--summary": {
-    "messageformat": "Signal은 엔드투엔드 암호화를 사용하며, 대화 세션을 주기적으로 새로 고침할 수 있습니다. 이 과정은 보안에 영향을 주지 않지만, 간혹 메시지가 수신되지 않을 수 있습니다. 이런 경우 상대방에게 메시지 재전송을 요청해 주세요."
+    "messageformat": "Signal은 종단간 암호화를 사용하며, 때에 따라 대화 세션을 새로고침해야 할 수 있습니다. 이 과정은 보안에 영향을 주지 않지만, 간혹 메시지가 수신되지 않을 수 있습니다. 이런 경우 상대방에게 메시지 재전송을 요청해 주세요."
   },
   "icu:ChatRefresh--contactSupport": {
     "messageformat": "고객 지원에 문의하기"
@@ -2559,7 +2559,7 @@
     "messageformat": "이제 그룹 이름은 {name}입니다."
   },
   "icu:youJoinedTheGroup": {
-    "messageformat": "그룹에 참가하였습니다."
+    "messageformat": "그룹에 참가했습니다."
   },
   "icu:joinedTheGroup": {
     "messageformat": "{name} 님이 그룹에 참가했습니다."
@@ -2778,7 +2778,7 @@
     "messageformat": "이모지 카테고리"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Recents": {
-    "messageformat": "최근 사용함"
+    "messageformat": "최근 사용"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--SmileysAndPeople": {
     "messageformat": "웃는 얼굴과 사람"
@@ -2796,7 +2796,7 @@
     "messageformat": "여행과 장소"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Objects": {
-    "messageformat": "물체"
+    "messageformat": "사물"
   },
   "icu:FunPanelEmojis__SubNavCategoryLabel--Symbols": {
     "messageformat": "부호"
@@ -2826,7 +2826,7 @@
     "messageformat": "이 메시지"
   },
   "icu:FunPanelEmojis__SectionTitle--Recents": {
-    "messageformat": "최근 사용함"
+    "messageformat": "최근 사용"
   },
   "icu:FunPanelEmojis__SectionTitle--SmileysAndPeople": {
     "messageformat": "웃는 얼굴과 사람"
@@ -2844,7 +2844,7 @@
     "messageformat": "활동"
   },
   "icu:FunPanelEmojis__SectionTitle--Objects": {
-    "messageformat": "물체"
+    "messageformat": "사물"
   },
   "icu:FunPanelEmojis__SectionTitle--Symbols": {
     "messageformat": "부호"
@@ -2865,7 +2865,7 @@
     "messageformat": "스티커 팩"
   },
   "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
-    "messageformat": "최근 사용함"
+    "messageformat": "최근 사용"
   },
   "icu:FunPanelStickers__SubNavButton--AddStickerPack": {
     "messageformat": "스티커 팩 추가"
@@ -2874,7 +2874,7 @@
     "messageformat": "검색 결과"
   },
   "icu:FunPanelStickers__SectionTitle--Recents": {
-    "messageformat": "최근 사용함"
+    "messageformat": "최근 사용"
   },
   "icu:FunPanelStickers__SectionTitle--Featured": {
     "messageformat": "추천"
@@ -2895,7 +2895,7 @@
     "messageformat": "GIF 카테고리"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Recents": {
-    "messageformat": "최근 사용함"
+    "messageformat": "최근 사용"
   },
   "icu:FunPanelGifs__SubNavCategoryLabel--Trending": {
     "messageformat": "인기"
@@ -4104,7 +4104,7 @@
     "messageformat": "{memberName} 님이 나를 그룹에 추가했습니다."
   },
   "icu:GroupV2--member-add--you--you": {
-    "messageformat": "그룹에 참가하였습니다."
+    "messageformat": "그룹에 참가했습니다."
   },
   "icu:GroupV2--member-add--you--unknown": {
     "messageformat": "그룹에 추가되었습니다."
@@ -4509,7 +4509,7 @@
     "messageformat": "취소"
   },
   "icu:BackupImportScreen__security-description": {
-    "messageformat": "동기화 프로세스를 비롯하여 메시지와 대화 정보는 엔드투엔드 암호화로 보호됩니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"
+    "messageformat": "동기화 프로세스를 비롯하여 메시지와 대화 정보는 종단간 암호화로 보호됩니다. <learnMoreLink>자세히 알아보기</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "기기 연결을 취소하시겠어요?"
@@ -4902,7 +4902,7 @@
     "messageformat": "별칭"
   },
   "icu:EditNicknameAndNoteModal__Description": {
-    "messageformat": "별칭과 메모는 Signal에 엔드투엔드 암호화되어 저장되며, 나에게만 표시됩니다."
+    "messageformat": "별칭과 메모는 Signal에 종단간 암호화로 저장되며, 나에게만 표시됩니다."
   },
   "icu:EditNicknameAndNoteModal__FirstName__Label": {
     "messageformat": "이름"
@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, other {Signal 최신 버전을 사용 중인 그룹 멤버에게 내가 해당 메시지를 삭제했다는 메시지가 표시됩니다.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "모든 기기에서 삭제"
@@ -6161,7 +6161,7 @@
     "messageformat": "Signal 안전 백업"
   },
   "icu:Preferences--signal-backups-off-description": {
-    "messageformat": "Signal의 안전한 엔드투엔드 암호화 저장소 서비스를 사용하는 자동 백업. 휴대폰으로 시작해 보세요. <learnMoreLink>자세히 알아보기</learnMoreLink>."
+    "messageformat": "Signal의 안전한 종단간 암호화 저장 공간 서비스를 이용한 자동 백업. 휴대폰으로 시작해 보세요. <learnMoreLink>자세히 알아보기</learnMoreLink>."
   },
   "icu:Preferences--backup-section-description": {
     "messageformat": "새 휴대폰을 사용하거나 Signal을 다시 설치할 때 데이터를 잃지 않도록 메시지 기록을 백업하세요."
@@ -6212,10 +6212,10 @@
     "messageformat": "데스크톱 백업"
   },
   "icu:Preferences__local-backups-section__description": {
-    "messageformat": "백업은 엔드투엔드로 암호화되어 컴퓨터에 저장됩니다."
+    "messageformat": "백업은 종단간 암호화로 보호되어 컴퓨터에 저장됩니다."
   },
   "icu:Preferences--local-backups-off-description": {
-    "messageformat": "휴대폰에서 복원할 수 있는 엔드투엔드 암호화 백업을 만듭니다. "
+    "messageformat": "휴대폰에서 복원할 수 있는 종단간 암호화 백업을 만듭니다. "
   },
   "icu:Preferences--local-backups-restore-info": {
     "messageformat": "백업을 복원하려면 휴대폰에 새로운 Signal 복사본을 설치한 다음 앱을 열고 '복원 또는 이전'을 탭하세요. <learnMoreLink>자세히 알아보기.</learnMoreLink>"
@@ -6224,7 +6224,7 @@
     "messageformat": "폴더 선택"
   },
   "icu:Preferences--local-backups-setup-folder-description": {
-    "messageformat": "컴퓨터 저장소에서 엔드투엔드 암호화된 백업을 저장할 폴더를 선택하세요."
+    "messageformat": "종단간 암호화로 보호되는 백업 파일을 저장할 컴퓨터 폴더를 선택해 주세요."
   },
   "icu:Preferences--local-backups-setup-next": {
     "messageformat": "다음"
@@ -6290,16 +6290,16 @@
     "messageformat": "변경"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "백업 끄기"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "끄기"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "백업을 다시 활성화하기 전까지 이 컴퓨터에서 백업을 만들 수 없습니다."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "이 컴퓨터의 백업 삭제"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "클립보드에 복사"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "사소한 변경 사항과 버그 수정 및 성능 개선. Signal을 이용해 주셔서 감사합니다!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "• 공식 아티스트 스티커 팩 5종을 새롭게 추가했습니다."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal 안전 백업을 지금 만나보세요! 이제 엔드투엔드 자동 암호화 백업을 사용하여, 휴대폰을 새로 구매하거나 Signal을 다시 설치할 경우 메시지가 손실되는 상황을 방지할 수 있습니다. 모든 메시지와 지난 45일간의 미디어를 무료로 백업하거나, 소액의 월 사용료를 지불하고 100GB 저장 공간에 모든 첨부 파일을 백업하세요. 백업은 Signal 설정에서 백업을 탭하여 시작할 수 있습니다. 베타 기간 동안 이 기능을 테스트하는 데 도움을 주신 모든 분들께 감사드립니다."
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "이제 Signal 데스크톱에서도 '한 번만 볼 수 있는' 미디어 메시지를 보낼 수 있습니다. 한 번만 볼 수 있는 메시지로 전송된 개별 사진과 동영상은 조회 후 채팅 스레드에서 자동으로 삭제됩니다."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "이제 원하는 경우 멤버 라벨을 추가하여 그룹 채팅 내에서 본인을 소개하거나 본인의 역할을 명시할 수 있습니다. 멤버 라벨은 해당 그룹의 내 프로필 이름 옆에 표시되며, 그룹 관리자는 그룹 내 모든 멤버에게 이 권한을 부여할지를 선택할 수 있습니다."

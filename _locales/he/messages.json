@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {חברי קבוצה בגרסאות העדכניות ביותר של Signal יוכלו לראות שמחקת את ההודעה הזו.} two {חברי קבוצה בגרסאות העדכניות ביותר של Signal יוכלו לראות שמחקת את ההודעות האלה.} many {חברי קבוצה בגרסאות העדכניות ביותר של Signal יוכלו לראות שמחקת את ההודעות האלה.} other {חברי קבוצה בגרסאות העדכניות ביותר של Signal יוכלו לראות שמחקת את ההודעות האלה.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "מחיקה מכל המכשירים"
@@ -6290,16 +6290,16 @@
     "messageformat": "שינוי"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "השבתת גיבויים"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "כבה"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "לא תהיה לך יותר אפשרות ליצור גיבויים במחשב זה מבלי להפעיל אותם מחדש."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "מחיקת הגיבוי שלי ממחשב זה"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "העתק ללוח העריכה"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "שמירה על הפרטיות עם חמש חבילות סטיקרים רשמיות חדשות מסדרת האמנים של Signal."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "הגיבויים המאובטחים של Signal כבר כאן! אפשר להפעיל גיבויים אוטומטיים מוצפנים מקצה לקצה כדי שלא תאבדו הודעות במעבר לטלפון חדש או בהתקנה מחדש של Signal. אפשר לגבות את כל ההודעות ואת 45 ימי המדיה האחרונים בחינם, או לשלם תשלום חודשי קטן כדי לקבל 100GB של אחסון לגיבוי כל הקבצים המצורפים. יש ללחוץ על גיבויים בהגדרות Signal שלך כדי להתחיל. תודה לכל מי שעזרו לבדוק את הפיצ׳ר הזה במהלך תקופת הבטא!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "עכשיו אפשר לשלוח מדיה לצפייה חד–פעמית גם מ–Signal לשולחן העבודה. תמונות וסרטונים בודדים שנשלחו כהודעות לצפייה חד–פעמית יוסרו אוטומטית משרשור השיחה לאחר שנצפו."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "עכשיו אפשר להוסיף תווית חבר/ה כדי לתאר את עצמך או את התפקיד שלך בצ׳אט הקבוצתי. תוויות חברים מופיעות ליד שם הפרופיל באותה קבוצה, ומנהלי קבוצות יכולים לשלוט במי שיכולים להגדיר תווית (כל חברי הקבוצה או רק חלק)."

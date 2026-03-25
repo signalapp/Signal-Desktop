@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, other {使用最新版本 Signal 的群组成员将能看到您删除了这些消息。}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "从所有设备中删除"
@@ -6290,16 +6290,16 @@
     "messageformat": "更改"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "关闭备份"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "关闭"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "如果不重新开启备份功能，您将无法在此电脑中创建备份。"
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "从这台电脑中删除我的备份"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "复制到剪切板"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "我们进行了功能微调、漏洞修复和性能强化。感谢使用 Signal！",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "五款全新官方艺术家贴纸包。"
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal 安全备份现已上线！现在您可以选择启用自动端对端加密备份功能，以防在换手机或重装 Signal 时丢失消息记录。您可以免费备份所有消息和 45 天内的媒体，也可以支付小额月费获取 100 GB 存储空间，备份每个附件。在 Signal 设置中点击备份即可开始。感谢在测试阶段帮助测试此功能的每一位用户！"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "现在您使用 Signal 桌面版也可以发送阅后即焚媒体消息了。作为阅后即焚消息发送的照片和视频，每个媒体在被查看后都会自动从对话中移除。"
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "现在您可以选择添加成员标签来描述您自己或您在群组聊天中的角色。成员标签会显示在您的群组昵称旁，群组管理员可以控制成员标签是否对所有成员启用。"

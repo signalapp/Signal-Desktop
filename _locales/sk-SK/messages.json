@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Členovia skupiny v najnovších verziách Signalu uvidia, že ste túto správu vymazali.} few {Členovia skupiny v najnovších verziách Signalu uvidia, že ste tieto správy vymazali.} many {Členovia skupiny v najnovších verziách Signalu uvidia, že ste tieto správy vymazali.} other {Členovia skupiny v najnovších verziách Signalu uvidia, že ste tieto správy vymazali.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Vymazať zo všetkých zariadení"
@@ -6290,16 +6290,16 @@
     "messageformat": "Zmeniť"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Vypnúť zálohy"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Vypnúť"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Bez opätovného povolenia už nebudete môcť na tomto počítači vytvárať zálohy."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Vymazať zálohu z tohto počítača"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Skopírovať"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Malé úpravy, opravy chýb a vylepšenia výkonu. Ďakujeme, že používate Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Päť nových oficiálnych balíčkov nálepiek umelcov."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Bezpečné zálohy Signal sú tu! Teraz môžete povoliť automatické zálohovanie chránené end-to-end šifrovaním, takže pri výmene telefónu alebo opätovnom nainštalovaní Signalu už neprídete ani o jednu správu. Všetky správy a médiá za posledných 45 dní si môžete zálohovať zadarmo alebo si môžete za malý mesačný poplatok zakúpiť 100 GB úložiska na zálohovanie každej prílohy. Začnite ťuknutím na zálohy v nastaveniach Signalu. Ďakujeme všetkým, ktorí pomohli otestovať túto funkciu počas beta verzie!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Teraz môžete posielať médiá na jedno pozretie aj zo Signal Desktop. Jednotlivé fotky a videá odoslané ako správy na jedno pozretie sa po pozretí automaticky odstránia z konverzačného vlákna."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Teraz môžete voliteľne pridať rolu používateľa, ktorá opíše vás alebo vašu úlohu v skupinovom čete. Role používateľov sa v danej skupine zobrazujú vedľa mena profilu a administrátori skupiny majú pod kontrolou, či sú povolené pre všetkých."

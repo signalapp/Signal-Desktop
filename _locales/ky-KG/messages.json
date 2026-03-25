@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, other {Signal'дын соңку версияларындагы топтун катышуучулары ушул билдирүүлөрдү өчүргөнүңүздү көрүшөт.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Бардык түзмөктөрдөн өчүрүү"
@@ -6290,16 +6290,16 @@
     "messageformat": "Өзгөртүү"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Камдык көчүрмөлөрдү сактоону өчүрүү"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Өчүрүү"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Кайра күйгүзүлмөйүнчө, бул компьютерге камдык көчүрмөлөр сакталбайт."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Бул компьютердеги камдык көчүрмөлөр өчүрүлсүн"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Буферге көчүрүү"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Signal Artist Series сериясындагы беш жаңы расмий стикерлер топтому менен купуялуулукту бекемдеңиз: Аманда Котандын \"Chug the Mouse\", Мигель Анхель Кампрубинин \"Cozy Season\", Тиффани Бечердин \"Croco's Feelings\", Plastic Thingдин \"My Daily Life 2\" жана Лекси Вайдын \"Rocky Talk\"."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal коопсуз камдык көчүрмөлөрү бул жерде! Эми сиз жаңы телефон алганда же Signal'ды кайра орноткондо билдирүүнү жоготпоо үчүн автоматтык түрдө баштан аяк шифрленген камдык көчүрмөлөрдү иштетүүнү тандай аласыз. Бардык билдирүүлөрүңүздүн жана акыркы 45 күндүк медиа файлдарыңыздын камдык көчүрмөсүн бекер сактай аласыз же ар бир тиркеменин камдык көчүрмөсүн сактоо үчүн 100 ГБ сактагыч алуу үчүн ай сайын аз өлчөмдөгү төлөм төлөй аласыз. Баштоо үчүн Signal колдонмосунун орнотуулар барагындагы камдык көчүрмөлөрдү таптаңыз. Бул функцияны сыноого жардам бергениңизге рахмат!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Эми компьютердеги Signal'дан бир жолу көрүлүүчү билдирүүлөрдү жөнөтө аласыз. Бир жолу көрүлүүчү билдирүүлөрдөгү сүрөттөр менен видеолор көрүлгөндөн кийин дароо маектен өчүп калат."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Эми өзүңүздү же топтук маектеги ролуңузду катышуучунун энбелгиси аркылуу билдире аласыз. Жаңы топтун мүчөлөрү кошулганда ишти баштоого жардам берүү үчүн жергиликтүү футбол лигасынын маегинде топ мүчөсүнүн энбелгисин \"Рефери\" же \"Дарбазачы\" деп коюңуз, андан соң компаниянын маегинде кызмат ордуңуз жазылган башка энбелгини тандаңыз. Катышуучулардын энбелгилери ошол топтогу профилдин аталышынын жанында көрүнүп, алардын күйгүзүлүп күйгүзүлбөгөнүн топтун администраторлору көзөмөлдөйт."

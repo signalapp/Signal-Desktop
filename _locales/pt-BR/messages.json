@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Membros do grupo nas versões mais recentes do Signal verão que você apagou essa mensagem. } other {Membros do grupo nas versões mais recentes do Signal verão que você apagou essas mensagens. }}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Excluir de todos dispositivos"
@@ -6290,16 +6290,16 @@
     "messageformat": "Alterar"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Desativar backups"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Desativar"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Você não poderá mais criar backups neste computador sem reativar."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Apagar meu backup deste computador"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Copiar para a área de transferência"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Pequenas alterações adicionais, correções de bugs e melhorias de desempenho. Agradecemos por usar o Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Chegaram 5 novos pacotes oficiais de figurinhas na Série de Artistas do Signal: “Chug the Mouse” (Amanda Cotan), “Cozy Season” (Miguel Ángel Camprubí), “Croco’s Feelings” (Tiffany Beucher), “My Daily Life 2” (Plastic Thing) e “Rocky Talk” (Lexi Vay). "
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Os backups seguros do Signal chegaram! Agora você pode optar por ativar backups automáticos criptografados de ponta a ponta para nunca perder uma mensagem ao trocar de celular ou reinstalar o Signal. Você pode fazer backup de todas as suas mensagens e dos últimos 45 dias de arquivos de mídia gratuitamente, ou pode pagar uma pequena taxa mensal para obter 100 GB de armazenamento e fazer backup de todos os seus anexos. Toque em Backups nas configurações do Signal para começar. Agradecemos a todos que ajudaram a testar este recurso durante o período beta!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Agora você também pode enviar arquivos de mídia de visualização temporária pelo Signal Desktop. Fotos e vídeos individuais enviados como mensagens temporárias serão removidos automaticamente da conversa após serem visualizados."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Agora você pode adicionar uma etiqueta de membro para descrever quem você é ou qual é a sua função no grupo. Defina algo como “Juiz” ou “Goleiro” em um grupo de futebol com amigos, ou use uma etiqueta diferente no grupo do trabalho. As etiquetas de membro aparecem ao lado do seu nome de perfil no grupo, e os admins do grupo podem controlar se as etiquetas estão habilitadas para todos."
