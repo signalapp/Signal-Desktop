@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Signal-এর সর্বশেষ সংস্করণের গ্রুপ সদস্যরা দেখতে পাবেন যে আপনি এই মেসেজ মুছে ফেলেছেন।} other {Signal-এর সর্বশেষ সংস্করণের গ্রুপ সদস্যরা দেখতে পাবেন যে আপনি এই মেসেজগুলি মুছে ফেলেছেন।}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "সকল ডিভাইস থেকে মুছে ফেলুন"
@@ -6290,16 +6290,16 @@
     "messageformat": "পরিবর্তন করুন"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "ব্যাকআপ বন্ধ করুন"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "বন্ধ করুন"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "পুনরায় সচল না করলে আপনি এই কম্পিউটারে আর ব্যাকআপ তৈরি করতে পারবেন না।"
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "এই কম্পিউটার থেকে আমার ব্যাকআপ মুছে ফেলুন"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "ক্লিপবোর্ডে অনুলিপি করুন"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "ছোট ছোট কিছু পরিবর্তন, বাগ সংশোধন এবং পারফর্মেন্স সমৃদ্ধ করা হয়েছে। Signal ব্যবহার করার জন্য ধন্যবাদ!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "পাঁচটি নতুন অফিসিয়াল আর্টিস্ট স্টিকার প্যাক: Amanda Cotan-এর \"Chug the Mouse\", Miguel Ángel Camprubí-এর \"Cozy Season\", Tiffany Beucher-এর \"Croco's Feelings\", Plastic Thing-এর \"My Daily Life 2\", এবং Lexi Vay-এর \"Rocky Talk\"।"
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "চলে এলো Signal নিরাপদ ব্যাকআপ! এখন আপনি স্বয়ংক্রিয় এন্ড-টু-এন্ড এনক্রিপ্ট করা ব্যাকআপ সচল করতে পারবেন যাতে আপনি কোনো নতুন ফোন নিলে বা Signal পুনরায় ইনস্টল করলে কোনো মেসেজ হারাবেন না। আপনি আপনার সব মেসেজ এবং গত 45 দিনের মিডিয়া বিনামূল্যে ব্যাকআপ করতে পারবেন, অথবা প্রতিটি সংযুক্তির ব্যাকআপ নেওয়ার জন্য 100 GB স্টোরেজ পেতে আপনি একটি ছোট মাসিক ফি দিতে পারবেন। চালু করতে আপনার Signal সেটিংসে ব্যাকআপ-এ ট্যাপ করুন। বিটা পিরিয়ডের সময় এই ফিচারটি পরীক্ষা করতে সাহায্য করেছেন এমন সবাইকে ধন্যবাদ!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "এখন আপনি Signal Desktop থেকেও একবার দেখা যাবে এমন মিডিয়া মেসেজ পাঠাতে পারবেন। একবার দেখা যাবে এমন মেসেজ হিসেবে পাঠানো ব্যক্তিগত ছবি ও ভিডিও দেখার পর তা কথোপকথনের থ্রেড থেকে স্বয়ংক্রিয়ভাবে মুছে ফেলা হবে।"
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "এখন আপনি ইচ্ছা হলে একটি সদস্য লেবেল যোগ করতে পারবেন যাতে আপনি নিজেকে বা একটি গ্রুপ চ্যাটে আপনার ভূমিকা সম্পর্কে ধারণা দিতে পারেন। সদস্য লেবেল সেই গ্রুপে আপনার প্রোফাইল নামের পাশে প্রদর্শিত হবে এবং সেগুলি সবার জন্য সচল করা হবে কিনা তা গ্রুপ অ্যাডমিনরা নিয়ন্ত্রণ করতে পারবেন।"

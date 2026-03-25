@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Gli utenti del gruppo con le versioni più recenti di Signal vedranno che hai eliminato questo messaggio.} other {Gli utenti del gruppo con le versioni più recenti di Signal vedranno che hai eliminato questi messaggi.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Elimina da tutti i dispositivi"
@@ -6290,16 +6290,16 @@
     "messageformat": "Modifica"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Disattiva i backup"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Disattiva"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Non potrai più creare dei backup su questo computer senza prima riabilitare questa opzione."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Elimina il mio backup da questo computer"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Copia negli appunti"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Da oggi la privacy diventa ancora più divertente con cinque nuovi pacchetti di sticker della serie Signal Artist: \"Chug the Mouse\" di Amanda Cotan, \"Cozy Season\" di Miguel Ángel Camprubí, \"Croco's Feelings\" di Tiffany Beucher, \"My Daily Life 2\" di Plastic Thing e \"Rocky Talk\" di Lexi Vay."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "I backup sicuri di Signal sono arrivati! Da ora puoi scegliere di abilitare i backup automatici crittografati end-to-end così non perderai neanche un messaggio se cambi telefono o reinstalli Signal. Puoi salvare sul backup tutti i tuoi messaggi e gli ultimi 45 giorni di media gratuitamente. Oppure, per un piccolo costo mensile, puoi ricevere 100 GB di archiviazione per il backup di tutti gli allegati. Tocca sull'opzione backup nelle Impostazioni di Signal per cominciare. Grazie a tutti gli utenti che ci hanno aiutato a testare questa funzione nel periodo di beta!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Da ora puoi inviare messaggi con media visualizzabili una volta anche da Signal Desktop. Le foto e i video che vengono inviati in questo modo verranno poi rimossi in automatico dalla chat dopo la visualizzazione."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Da ora puoi aggiungere un tag per il ruolo dell'utente per descrivere il tuo ruolo in una chat di gruppo o per dare delle info su di te. Per esempio, nel gruppo del calcetto potrai impostare un ruolo per ogni persona che gioca (scommettiamo che trovare il portiere sarà difficile come al solito). Ricorda che i ruoli degli utenti appaiono vicino al nome del profilo all'interno di una chat di gruppo. Gli admin possono decidere se tali ruoli sono attivi per tutti gli utenti o meno di un gruppo."

@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Makikita ng group member na may pinakabagong version ng Signal na binura mo ang message na ito.} other {Makikita ng group members na may pinakabagong versions ng Signal na binura mo ang message na ito.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Burahin sa lahat ng devices"
@@ -6290,16 +6290,16 @@
     "messageformat": "Baguhin"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "I-off ang backups"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Patayin"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Hindi ka na makakagawa ng backups sa computer na ito hangga't hindi mo ulit ito ine-enable."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Burahin ang backup ko mula sa computer na ito"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopyahin sa clipboard"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Limang bagong official artist sticker packs."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Narito na ang Signal secure backups! Maaari mo nang i-enable ang automatic end-to-end encrypted backups para walang mawawalang message kapag nagpalit ka ng phone o nag-reinstall ka ng Signal. Maaari mong i-back up nang libre ang lahat ng messages mo at ang huling 45 araw ng iyong media, o maaari kang magbayad nang maliit na monthly fee para makakuha ng 100 GB storage para ma-back up mo ng bawat attachment. I-tap ang backups sa Signal settings mo para magsimula. Maraming salamat sa lahat ng taong tumulong sa pag-test ng feature na ito noong beta period!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Pwede ka nang mag-send ng view-once media messages mula sa Signal Desktop. Ang individual photos at videos na ipinadala bilang view-once messages ay automatic na tatanggalin mula sa conversation thread pagkatapos nilang makita."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Maaari ka nang maglagay ng member label para ilarawan ang sarili mo o ang role mo sa group chat. Ang member labels ay lalabas sa tabi ng profile name mo sa group na ito, at ang group admins ang may kontrol kung magiging enabled ito para sa lahat."

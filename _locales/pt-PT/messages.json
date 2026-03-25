@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Os membros do grupo nas versões mais recentes do Signal poderão ver que eliminou esta mensagem.} other {Os membros do grupo nas versões mais recentes do Signal poderão ver que eliminou estas mensagens.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Eliminar de todos os dispositivos"
@@ -6290,16 +6290,16 @@
     "messageformat": "Alterar"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Desativar cópias de segurança"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Desativar"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Já não poderá criar cópias de segurança neste computador sem as voltar a ativar."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Eliminar a minha cópia de segurança deste computador"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Copiar para a área de transferência"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Pequenos ajustes adicionais, correções de bugs e melhorias de desempenho. Obrigado por usar o Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Cinco novos pacotes de autocolantes oficiais de artistas."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Chegaram as cópias de segurança do Signal! Agora pode optar por ativar cópias de segurança automáticas encriptadas de ponta a ponta, para nunca perder uma mensagem quando troca de telemóvel ou reinstala o Signal. Pode fazer cópias de segurança de todas as suas mensagens e dos últimos 45 dias de ficheiros multimédia gratuitamente, ou pode pagar uma pequena taxa mensal para obter 100 GB de armazenamento para fazer cópias de segurança de todos os anexos. Toque em \"cópias de segurança\" nas suas definições do Signal para começar. Agradecemos a toda a gente que ajudou a testar esta funcionalidade durante o período beta!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Agora também pode enviar mensagens multimédia de visualização única a partir do Signal Desktop. As fotos e vídeos individuais enviados como mensagens de visualização única serão automaticamente removidos de um tópico de conversa depois de terem sido visualizados."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Agora pode opcionalmente adicionar uma etiqueta de membro para se descrever ou descrever a sua função num chat de grupo. As etiquetas de membros aparecem junto ao nome do seu perfil nesse grupo e os administradores do grupo podem controlar se estão ativadas para toda a gente ou não."

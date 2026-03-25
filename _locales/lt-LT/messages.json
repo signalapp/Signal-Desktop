@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Naujausias „Signal“ versijas naudojantys grupės nariai matys, kad jūs ištrynėte šią žinutę.} few {Naujausias „Signal“ versijas naudojantys grupės nariai matys, kad jūs ištrynėte šias žinutes.} many {Naujausias „Signal“ versijas naudojantys grupės nariai matys, kad jūs ištrynėte šias žinutes.} other {Naujausias „Signal“ versijas naudojantys grupės nariai matys, kad jūs ištrynėte šias žinutes.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Ištrinti iš visų įrenginių"
@@ -6290,16 +6290,16 @@
     "messageformat": "Keisti"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Išjungti atsargines kopijas"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Išjungti"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Šiame kompiuteryje nebegalėsite kurti atsarginių kopijų, nebent vėl jas įjungsite."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Ištrinti mano atsarginę kopiją iš šio kompiuterio"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopijuoti į iškarpinę"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Smulkūs patobulinimai, klaidų pataisymai ir veikimo pagerinimas. Ačiū, kad naudoji „Signal“!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Penki nauji oficialūs lipdukų paketai iš „Signal“ menininkų serijos: Amandos Cotan „Chug the Mouse“, Miguelio Ángelio Camprubí „Cozy Season“, Tiffany Beucher „Croco's Feelings“, „Plastic Thing“ „My Daily Life 2“ ir Lexi Vay „Rocky Talk“."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "„Signal“ atsarginės kopijos jau čia! Jau galite įjungti automatines užšifruotas atsargines kopijas, kad neprarastumėte žinučių įsigiję naują telefoną arba iš naujo įdiegę „Signal“. Galite nemokamai kurti visų žinučių ir paskutinių 45 d. įrašų atsargines kopijas arba sumokėti nedidelį mėnesinį mokestį ir gauti 100 GB saugyklos vietos kurti priedų atsargines kopijas. Norėdami pradėti „Signal“ nustatymuose palieskite atsargines kopijas. Dėkojame visiems, padėjusiems išbandyti šią funkciją!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Dabar iš „Signal Desktop“ taip pat galite siųsti mediją, kurią galima peržiūrėti vieną kartą. Atskiros nuotraukos ir vaizdo įrašai, kurie siunčiami kaip žinutės, kurias galima peržiūrėti vieną kartą, peržiūrėjus bus automatiškai pašalinti iš pokalbio."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Dabar galite apibūdinti save arba savo vaidmenį šiame grupės pokalbyje pridėdami nario kategoriją. Narių kategorijos rodomos šalia jūsų profilio vardo toje grupėje, o grupės administratoriai gali kontroliuoti, ar jos įjungtos visiems."

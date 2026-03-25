@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Gruppemedlemmer på de nyeste versioner af Signal vil se, at du har slettet denne besked.} other {Gruppemedlemmer på de nyeste versioner af Signal vil se, at du har slettet disse beskeder.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Slet fra alle enheder"
@@ -6290,16 +6290,16 @@
     "messageformat": "Skift"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Slå sikkerhedskopier fra"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Deaktiver"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Du vil ikke længere kunne oprette sikkerhedskopier på denne computer uden at aktivere det igen."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Slet sikkerhedskopi fra denne computer"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopiér til udklipsholder"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "• Gør privatlivet mere synligt med fem nye officielle klistermærkepakker i Signal Artist Series: \"Chug the Mouse\" af Amanda Cotan, \"Cozy Season\" af Miguel Ángel Camprubí, \"Croco's Feelings\" af Tiffany Beucher, \"My Daily Life 2\" af Plastic Thing og \"Rocky Talk\" af Lexi Vay."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Sikre sikkerhedskopier er landet! Nu kan du vælge at aktivere automatiske E2E-krypterede sikkerhedskopier, så du aldrig mister en besked, når du får en ny telefon eller geninstallerer Signal. Du kan sikkerhedskopier alle dine beskeder og de sidste 45 dages medier gratis, eller få 100 GB plads til alle vedhæftede filer mod et lille månedligt gebyr. Tryk på Sikkerhedskopier i dine Signal-indstillinger for at komme i gang. Tak til alle, der testede denne funktion under betaperioden!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Nu kan du også sende medier, der kun kan ses én gang, fra Signal Desktop. Enkeltbilleder og -videoer, der sendes som engangsbeskeder, fjernes automatisk fra samtalen, når de er blevet set."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Nu kan du valgfrit tilføje en medlemstitel for at beskrive dig selv eller din rolle i gruppechatten. Brug medlemstitler som \"Dommer\" eller \"Målmand\" i din lokale fodboldgruppe for at komme i gang, når nye holdkammerater joiner. Skift derefter til en anden titel med din stilling i virksomhedschatten. Medlemstitler vises ved dit profilnavn i gruppen, og gruppeadministratorer kan bestemme, om de skal være synlige for alle."

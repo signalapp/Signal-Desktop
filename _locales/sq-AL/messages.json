@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Në versionet më të fundit të Signal, anëtarët e grupit do të shohin që e ke fshirë këtë mesazh.} other {Në versionet më të fundit të Signal, anëtarët e grupit do të shohin që i ke fshirë këto mesazhe.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Fshi nga të gjitha pajisjet"
@@ -6290,16 +6290,16 @@
     "messageformat": "Ndrysho"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Çaktivizo kopjeruajtjet"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Çaktivizoje"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Nuk do të mund të krijosh më kopjeruajtje në këtë kompjuter pa i riaktivizuar ato."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Fshi kopjeruajtjen time nga ky kompjuter"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopjoje në të papastër"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Rregullme të vogla, riparime të gabimeve dhe përmirësime të mbarëvajtjes.  Faleminderit që përdorni Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Ruaj privatësinë me pesë pako të reja zyrtare ngjitësesh në serinë Signal Artist: \"Chug the Mouse\" nga Amanda Cotan, \"Cozy Season\" nga Miguel Ángel Camprubí, \"Croco's Feelings\" nga Tiffany Beucher, \"My Daily Life 2\" nga Plastic Thing dhe \"Rocky Talk\" nga Lexi Vay."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Kopjeruajtjet e sigurta erdhën! Mund të aktivizosh kopjeruajtjet automatike të koduara nga skaji në skaj, që të mos humbisësh asnjë mesazh kur merr telefon të ri ose riinstalo Signal. Mund të krijosh falas kopjeruajtje të gjitha mesazheve dhe medias të 45 ditëve të fundit, ose të paguash një tarifë mujore për të marrë 100 GB hapësirë për të ruajtur çdo bashkëngjitje. Kliko te kopjeruajtjet te parametrat e Signal për të nisur. Faleminderit atyre që testuan veçorinë gjatë periudhës beta!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Tani mund të dërgosh mesazhe me media që mund të shikohen vetëm një herë edhe nga Signal Desktop. Fotot dhe videot individuale që dërgohen si mesazhe që mund të shikohen vetëm një herë do të hiqen automatikisht nga biseda pasi të jenë parë."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Tani mund të shtosh opsionalisht emërtimin e anëtarit për të përshkruar veten ose rolin tënd në bisedat në grup. Vendos emërtimin e anëtarit të grupit në \"Arbitër\" ose \"Portier\" në bisedën lokale të futbollit të ligës argëtuese për të ndihmuar në fillimin e punës kur bashkohen shokët e rinj të ekipit, pastaj zgjidh një emërtim tjetër me titullin e punës në bisedën e kompanisë. Emërtimet e anëtarit shfaqen pranë emrit të profilit në atë grup dhe administratorët e grupit mund të kontrollojnë nëse janë të aktivizuara për këdo ose jo."

@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Gruppemedlemmer som bruker den nyeste versjonen av Signal, kan se at du slettet meldingen.} other {Gruppemedlemmer som bruker den nyeste versjonen av Signal, kan se at du slettet disse meldingene.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Slett fra alle enhetene"
@@ -6290,16 +6290,16 @@
     "messageformat": "Bytt"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Slå av sikkerhetskopiering"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Slå av"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Du kan ikke opprette sikkerhetskopier på denne datamaskinen før du aktiverer sikkerhetskopiering på nytt."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Slett sikkerhetskopien min fra denne datamaskinen"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopier til utklippstavlen"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Fem nye offisielle klistremerkepakker fra ulike kunstnere."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Sikre sikkerhetskopier på Signal er her! Nå kan du aktivere automatisk ende-til-ende-kryptert sikkerhetskopiering og slippe å miste meldingene dine når du bytter mobil eller installerer Signal på nytt. Du kan sikkerhetskopiere alle meldingene dine fra de siste 45 dagene uten kostnad, eller betale en liten sum hver måned for å få 100 GB lagringsplass. Trykk på «Sikkerhetskopiering» i Signal-innstillingene for å komme i gang. Takk til alle som hjalp oss med å teste ut funksjonen i betamodus!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Nå kan du sende flyktige meldinger og mediefiler i Signal Desktop. Bildene og videoene du sender som flyktige meldinger, slettes automatisk fra samtaletråden etter at de er sett av andre."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "• Nå kan du legge til medlemsmerker som beskriver deg eller rollen din, i gruppesamtaler. Medlemsmerket vises ved siden av profilnavnet ditt, og gruppeadministratorene styrer hvem som kan legge til og redigere merker."

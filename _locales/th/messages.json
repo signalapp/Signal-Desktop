@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, other {สมาชิกกลุ่มที่ใช้ Signal เวอร์ชันล่าสุดจะเห็นว่าคุณลบข้อความเหล่านี้}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "ลบจากอุปกรณ์ทุกเครื่อง"
@@ -6290,16 +6290,16 @@
     "messageformat": "เปลี่ยน"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "ปิดใช้งานการสำรองข้อมูล"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "ปิด"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "คุณจะไม่สามารถสร้างข้อมูลสำรองบนคอมพิวเตอร์เครื่องนี้ได้อีกต่อไป เว้นแต่ว่าจะเปิดใช้งานการสำรองข้อมูลอีกครั้ง"
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "ลบข้อมูลสำรองของฉันออกจากคอมพิวเตอร์เครื่องนี้"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "คัดลอกไปยังคลิปบอร์ด"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "สนุกไปกับชุดสติกเกอร์อย่างเป็นทางการห้าเซตใหม่ที่ออกแบบโดยศิลปินของ Signal"
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "การสำรองข้อมูลที่ปลอดภัยของ Signal พร้อมให้บริการแล้ว! ขอแนะนำแพ็กเกจสำรองข้อมูลแบบอัตโนมัติที่ถูกเข้ารหัสตั้งแต่ต้นทางถึงปลายทาง ตัวเลือกใหม่ซึ่งจะช่วยคุณเก็บรักษาทุกข้อความแม้ในกรณีที่เปลี่ยนโทรศัพท์เครื่องใหม่หรือติดตั้ง Signal อีกครั้ง เปิดใช้งานการสำรองข้อความทั้งหมดและไฟล์สื่อของ 45 วันล่าสุดได้ฟรี หรือเลือกชำระค่าบริการรายเดือนสุดคุ้มเพื่อสำรองข้อความรวมถึงไฟล์ทั้งหมดได้ถึง 100 GB เริ่มใช้งานได้แล้ววันนี้ เพียงไปที่การตั้งค่า Signal แล้วแตะข้อมูลสำรอง ขอขอบคุณผู้ใช้ที่ร่วมทดสอบรุ่นเบต้าของฟีเจอร์นี้!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "ให้คุณส่งข้อความไฟล์สื่อแบบที่ดูได้ครั้งเดียวจาก Signal เดสก์ท็อปได้แล้ว! รูปภาพและวิดีโอแบบดูได้ครั้งเดียวที่ส่งเป็นไฟล์แยกต่างหากจะถูกลบออกจากหน้าแชทโดยอัตโนมัติหลังจากที่เปิดดูไฟล์แล้ว"
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "ขอแนะนำป้ายกำกับสมาชิก ฟีเจอร์ใหม่ที่ให้คุณเลือกเพิ่มคำบรรยายหรือระบุบทบาทของตัวเองในแชทกลุ่ม ป้ายกำกับนี้จะแสดงอยู่ข้างชื่อโปรไฟล์ของคุณในกลุ่มนั้น และผู้ดูแลกลุ่มจะจัดการได้ว่าจะให้สิทธิ์ในการเข้าถึงป้ายกำกับสมาชิกกับทุกคนในกลุ่มหรือไม่"

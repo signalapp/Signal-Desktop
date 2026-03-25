@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Članovi grupe koji koriste najnoviju verziju Signala vidjet će da ste izbrisali ovu poruku.} few {Članovi grupe koji koriste najnoviju verziju Signala vidjet će da ste izbrisali ove poruke.} many {Članovi grupe koji koriste najnoviju verziju Signala vidjet će da ste izbrisali ove poruke.} other {Članovi grupe koji koriste najnoviju verziju Signala vidjet će da ste izbrisali ove poruke.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Izbriši sa svih uređaja"
@@ -6290,16 +6290,16 @@
     "messageformat": "Promijeni"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Isključi sigurnosno kopiranje"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Isključi"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Dok ponovno ne omogućite sigurnosno kopiranje na ovom uređaju, neće se stvarati nove sigurnosne kopije."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Izbriši sigurnosnu kopiju s ovoga uređaja"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopiraj u međuspremnik"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Manja podešavanja, ispravci grešaka i poboljšanje rada aplikacije. Hvala vam što koristite Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "• Pet novih službenih autorskih paketa naljepnica."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Zaštićene sigurnosne kopije podataka stigle su na Signal! Sada možete omogućiti automatsko sigurnosno kopiranje, koje štiti vaše podatke sveobuhvatnim šifriranjem, kako nikada ne biste izgubili svoje poruke prilikom kupnje novog telefona ili ponovnog instaliranja Signal aplikacije. Možete besplatno izraditi sigurnosnu kopiju svih svojih razgovora i medijskih zapisa iz posljednjih 45 dana ili možete platiti malu mjesečnu naknadu kako biste dobili 100 GB prostora za pohranu za sigurnosno kopiranje svakog privitka. Dodirnite „Sigurnosne kopije“ u postavkama Signala za postavljanje. Hvala svima koji su pomogli u testiranju ove značajke tijekom razdoblja beta testiranja!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Sada možete slati medijske poruke koje nestaju nakon prikaza i iz Signala za desktop. Pojedinačne fotografije i videozapisi koji se šalju kao poruke koje nestaju nakon prikaza automatski će se ukloniti iz razgovora nakon prikazivanja."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Sada možete dodati ulogu člana kako biste opisali sebe ili svoju ulogu u grupnom razgovoru. Uloge članova prikazivat će se pored vašeg imena profila u toj grupi, a administratori grupe odlučuju jesu li uloge članova omogućene svim članovima."

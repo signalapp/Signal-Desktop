@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, other {Signal ၏ နောက်ဆုံးထွက်ဗားရှင်း အသုံးပြုသော အဖွဲ့ဝင်များသည် ဤမက်ဆေ့ချ်အား သင်ဖျက်လိုက်သည်ဆိုသည်ကို မြင်တွေ့ရပါမည်။}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "စက်အားလုံးမှ ဖျက်ရန်"
@@ -6290,16 +6290,16 @@
     "messageformat": "ပြောင်းရန်"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "ဘက်ခ်အပ်ကို ပိတ်ပါ"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "ပိတ်မည်"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "ပြန်ဖွင့်ခြင်းမပြုဘဲ ဤကွန်ပျူတာတွင် ဘက်ခ်အပ်ကို သင်ဖန်တီးနိုင်တော့မည်မဟုတ်ပါ။"
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "ကျွန်ုပ်၏ဘက်ခ်အပ်ကို ဤကွန်ပျူတာမှ ဖျက်လိုက်ပါ"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "ကလစ်ဘုတ်သို့ ကူးယူမည်"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "အနေအထား ပြုပြင်မှုလေးများ၊ ချို့ယွင်းချက် ပြင်ဆင်မှုများနှင့် စွမ်းဆောင်ရည် မြှင့်တင်မှုများ။ Signal ကို သုံးသည့်အတွက် ကျေးဇူးတင်ပါသည်။",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "တရားဝင်ဖန်တီးသူများ၏ စတစ်ကာတွဲအသစ် ငါးခု။"
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal လုံခြုံရေးဘက်ခ်အပ် ဤတွင်ရှိသည်။ ယခု ဖုန်းသစ်ဝယ်လျှင် သို့မဟုတ် Signal ကိုပြန်ထည့်သွင်းလျှင် မက်ဆေ့ချ်တစ်ခုမျှမဆုံးရှုံးအောင် အလိုအလျောက် ဟိုဘက်သည်ဘက်ကုဒ်ပြောင်းဝှက်သည့် ဘက်ခ်အပ်ကို ဖွင့်နိုင်ပါပြီ။ မက်ဆေ့ချ်အားလုံးနှင့် နောက်ဆုံး ၄၅ ရက်စာမီဒီယာကို အခမဲ့ဘက်ခ်အပ်လုပ်နိုင်သည် သို့မဟုတ် ပူးတွဲဖိုင်တိုင်းကို ဘက်ခ်အပ်လုပ်ရန် ထားသိုမှု 100 GB ကို လစဉ်ကြေးအနည်းငယ်ဖြင့် ရယူနိုင်သည်။ စတင်ရန် Signal ဆက်တင်တွင် ဘက်ခ်အပ်ကိုနှိပ်ပါ။ Beta ကာလအတွင်း ဤအင်္ဂါရပ်ကိုစမ်းသပ်ရန် ကူညီသူအားလုံးကို ကျေးဇူးတင်ပါသည်။"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "ယခုအခါ Signal Desktop မှလည်း တစ်ခါကြည့် မီဒီယာ မက်ဆေ့ချ်များကို ပေးပို့နိုင်ပါပြီ။ မက်ဆေ့ချ်များကို ကြည့်ပြီးသည်နှင့် ပေးပို့သော တစ်ဦးချင်းဓာတ်ပုံများနှင့် ဗီဒီယိုများကို ကြည့်ရှုပြီးသည်နှင့် စကားဝိုင်းမှ အလိုအလျောက် ဖယ်ရှားပါမည်။"
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "ယခု သင်သည် အဖွဲ့လိုက်ချက်(တ်)တွင် သင့်ကိုယ်သင် သို့မဟုတ် သင့်အခန်းကဏ္ဍကို ဖော်ပြရန် အဖွဲ့ဝင်အမှတ်တံဆိပ်ကို ရွေးချယ်ထည့်သွင်းနိုင်ပါပြီ။ အဖွဲ့ဝင်အမှတ်တံဆိပ်များသည် ထိုအဖွဲ့ရှိ သင့်ပရိုဖိုင်အမည်ဘေးတွင် ပေါ်လာပြီး အယောက်တိုင်းအား ခွင့်ပြု မပြုကို အဖွဲ့အက်ဒ်မင်မှ ကိုင်တွယ်ထိန်းချုပ်နိုင်သည်။"

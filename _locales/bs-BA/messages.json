@@ -5059,7 +5059,7 @@
     "ignoreUnused": true
   },
   "icu:DeleteMessagesModal--adminDeleteConfirmation--description__rollout": {
-    "messageformat": "{count, plural, one {Group members on the latest versions of Signal will see that you deleted this message.} other {Group members on the latest versions of Signal will see that you deleted these messages.}}"
+    "messageformat": "{count, plural, one {Članovi grupe na najnovijoj verziji Signala će vidjeti da ste izbrisali ovu poruku.} few {Članovi grupe na najnovijoj verziji Signala će vidjeti da ste izbrisali ove poruke.} many {Članovi grupe na najnovijoj verziji Signala će vidjeti da ste izbrisali ove poruke.} other {Članovi grupe na najnovijoj verziji Signala će vidjeti da ste izbrisali ove poruke.}}"
   },
   "icu:DeleteMessagesModal--deleteFromAllDevices": {
     "messageformat": "Izbriši sa svih uređaja"
@@ -6290,16 +6290,16 @@
     "messageformat": "Promijeni"
   },
   "icu:Preferences__local-backups-turn-off": {
-    "messageformat": "Turn off backups"
+    "messageformat": "Isključite sigurnosne kopije"
   },
   "icu:Preferences__local-backups-turn-off-action": {
-    "messageformat": "Turn off"
+    "messageformat": "Isključi"
   },
   "icu:Preferences__local-backups-turn-off-confirmation": {
-    "messageformat": "You will no longer be able to create backups on this computer without re-enabling."
+    "messageformat": "Nećete moći kreirati sigurnosne kopije na ovom računaru dok ih ponovo ne omogućite."
   },
   "icu:Preferences__local-backups-turn-off-delete": {
-    "messageformat": "Delete my backup from this computer"
+    "messageformat": "Izbriši moju sigurnosnu kopiju s ovog računara"
   },
   "icu:Preferences__local-backups-copy-key": {
     "messageformat": "Kopiraj u međuspremnik"
@@ -8015,15 +8015,6 @@
   "icu:WhatsNew__bugfixes--6": {
     "messageformat": "Mala podešavanja, otklanjanje grešaka i poboljšanja performansi. Hvala vam što koristite Signal!",
     "ignoreUnused": true
-  },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Zaštitite privatnost uz pet novih službenih paketa naljepnica u seriji Signal Artist: \"Chug the Mouse\" od Amande Cotan, \"Cozy Season\" od Miguela Ángela Camprubíja, \"Croco's Feelings\" od Tiffany Beucher, \"My Daily Life 2\" od Plastic Thing i \"Rocky Talk\" od Lexi Vay."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Zaštićene kopije podataka su stigle! Sada možete odabrati da omogućite automatske sigurnosne kopije sa sveobuhvatnim šifriranjem kako nikada ne biste izgubili poruku kada dobijete novi telefon ili ponovo instalirate Signal. Možete besplatno napraviti sigurnosnu kopiju svih svojih poruka i medijskih sadržaja za posljednjih 45 dana ili možete platiti malu mjesečnu naknadu da biste dobili 100 GB prostora za pohranu za sigurnosno kopiranje svakog priloga. Dodirnite sigurnosne kopije u postavkama Signala da počnete. Hvala svima koji su pomogli u testiranju ove funkcije tokom beta perioda!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Sada možete slati medijske poruke za jednokratni pregled i iz Signal Desktopa. Pojedinačne fotografije i videozapisi koji se šalju kao poruke za jednokratni pregled bit će automatski uklonjeni iz niti razgovora nakon što budu pregledani."
   },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Sada opcionalno možete dodati oznaku člana kako biste opisali sebe ili svoju ulogu u grupnom chatu. Oznake članova pojavljuju se pored vašeg imena profila u toj grupi, a administratori grupe mogu kontrolirati da li su omogućene za sve članove."
