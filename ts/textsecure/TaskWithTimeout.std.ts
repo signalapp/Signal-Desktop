@@ -32,7 +32,6 @@ function maybeStartTicking(): void {
     return;
   }
 
-  log.info('starting tick');
   tickInterval = setInterval(() => {
     for (const task of tasks) {
       task.ticks += 1;
@@ -53,7 +52,6 @@ export function suspendTasksWithTimeout(): void {
   log.info(`suspending ${tasks.size} tasks`);
   shouldStartTicking = false;
   if (tickInterval != null) {
-    log.info('stopping tick');
     clearInterval(tickInterval);
     tickInterval = undefined;
   }
@@ -109,7 +107,6 @@ export async function runTaskWithTimeout<T>(
   } finally {
     tasks.delete(entry);
     if (tasks.size === 0 && tickInterval != null) {
-      log.info('stopping tick');
       clearInterval(tickInterval);
       tickInterval = undefined;
     }
