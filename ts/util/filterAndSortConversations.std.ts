@@ -43,6 +43,10 @@ const FUSE_OPTIONS: Fuse.IFuseOptions<ConversationType> = {
       weight: 1,
     },
     {
+      name: 'profileName',
+      weight: 1,
+    },
+    {
       name: 'username',
       weight: 1,
     },
