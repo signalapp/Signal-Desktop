@@ -217,50 +217,42 @@ export function addGlobalKeyboardShortcuts(): void {
     // Preferences - handled by Electron-managed keyboard shortcuts
 
     // Open the top-right menu for current conversation
-    if (
-      conversation &&
-      commandOrCtrl &&
-      shiftKey &&
-      (key === 'l' || key === 'L')
-    ) {
-      const button = document.querySelector(
-        '.module-ConversationHeader__button--more'
-      );
-      if (!button) {
-        return;
-      }
-
+	    if (
+	      conversation &&
+	      commandOrCtrl &&
+	      shiftKey &&
+	      (key === 'l' || key === 'L')
+	    ) {
+	      const button = document.querySelector(
+	        '.module-ConversationHeader__button--more'
+	      );
+	      if (!button) {
+	        return;
+	      }
       // Because the menu is shown at a location based on the initiating click, we need
       //   to fake up a mouse event to get the menu to show somewhere other than (0,0).
-      const { x, y, width, height } = button.getBoundingClientRect();
-      const mouseEvent = document.createEvent('MouseEvents');
-      // Types do not match signature
-      /* eslint-disable @typescript-eslint/no-explicit-any */
-      mouseEvent.initMouseEvent(
-        'click',
-        true, // bubbles
-        false, // cancelable
-        null as any, // view
-        null as any, // detail
-        0, // screenX,
-        0, // screenY,
-        x + width / 2,
-        y + height / 2,
-        false, // ctrlKey,
-        false, // altKey,
-        false, // shiftKey,
-        false, // metaKey,
-        false as any, // button,
-        document.body
-      );
-      /* eslint-enable @typescript-eslint/no-explicit-any */
+	      const { x, y, width, height } = button.getBoundingClientRect();
+	      const mouseEvent = new MouseEvent('pointerdown', {
+	        bubbles: true,
+	        cancelable: false,
+	        composed: true,
+	        view: window,
+	        button: 0,
+	        buttons: 1,
+	        clientX: x + width / 2,
+	        clientY: y + height / 2,
+	        ctrlKey: false,
+	        altKey: false,
+	        shiftKey: false,
+	        metaKey: false,
+	      });
 
-      button.dispatchEvent(mouseEvent);
+	      button.dispatchEvent(mouseEvent);
 
-      event.preventDefault();
-      event.stopPropagation();
-      return;
-    }
+	      event.preventDefault();
+	      event.stopPropagation();
+	      return;
+	    }
 
     // Focus composer field
     if (
