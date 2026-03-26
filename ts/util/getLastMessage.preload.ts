@@ -4,12 +4,14 @@
 import type { AciString } from '../types/ServiceId.std.js';
 import type { ConversationAttributesType } from '../model-types.d.ts';
 import type { LastMessageType } from '../state/ducks/conversations.preload.js';
+import { BodyRange } from '../types/BodyRange.std.js';
 import { dropNull } from './dropNull.std.js';
 import { findAndFormatContact } from './findAndFormatContact.preload.js';
 import { hydrateRanges } from './BodyRange.node.js';
 import { stripNewlinesForLeftPane } from './stripNewlinesForLeftPane.std.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
 import { getTitle } from './getTitle.preload.js';
+import { isDirectConversation } from './whatTypeOfConversation.dom.js';
 
 function getNameForAci(
   aci: AciString | null | undefined,
@@ -77,7 +79,10 @@ export function getLastMessage(
   }
 
   const rawBodyRanges = conversationAttrs.lastMessageBodyRanges || [];
-  const bodyRanges = hydrateRanges(rawBodyRanges, findAndFormatContact);
+  const bodyRangesToHydrate = isDirectConversation(conversationAttrs)
+    ? rawBodyRanges.filter(range => !BodyRange.isMention(range))
+    : rawBodyRanges;
+  const bodyRanges = hydrateRanges(bodyRangesToHydrate, findAndFormatContact);
 
   const text = stripNewlinesForLeftPane(lastMessageText);
   const prefix = conversationAttrs.lastMessagePrefix;
