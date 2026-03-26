@@ -20,13 +20,11 @@ import { isConversationSMSOnly } from '../../util/isConversationSMSOnly.std.js';
 import { isGroupOrAdhocCallState } from '../../util/isGroupOrAdhocCall.std.js';
 import { isSignalConversation } from '../../util/isSignalConversation.dom.js';
 import { missingCaseError } from '../../util/missingCaseError.std.js';
+import { getConversationCallMode } from '../../util/getConversationCallMode.std.js';
 import { useCallingActions } from '../ducks/calling.preload.js';
 import { isAnybodyElseInGroupCall } from '../ducks/callingHelpers.std.js';
 import type { ConversationType } from '../ducks/conversations.preload.js';
-import {
-  getConversationCallMode,
-  useConversationsActions,
-} from '../ducks/conversations.preload.js';
+import { useConversationsActions } from '../ducks/conversations.preload.js';
 import { useSearchActions } from '../ducks/search.preload.js';
 import { useStoriesActions } from '../ducks/stories.preload.js';
 import { getPreferredBadgeSelector } from '../selectors/badges.preload.js';

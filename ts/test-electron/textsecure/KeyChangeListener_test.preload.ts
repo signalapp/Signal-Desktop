@@ -14,6 +14,7 @@ import * as KeyChangeListener from '../../textsecure/KeyChangeListener.dom.js';
 import { itemStorage } from '../../textsecure/Storage.preload.js';
 import * as Bytes from '../../Bytes.std.js';
 import { cleanupMessages } from '../../util/cleanup.preload.js';
+import { removeConversation } from '../../util/Conversation.preload.js';
 
 describe('KeyChangeListener', () => {
   let oldNumberId: string | undefined;
@@ -71,7 +72,7 @@ describe('KeyChangeListener', () => {
       logId: ourServiceIdWithKeyChange,
       cleanupMessages,
     });
-    await DataWriter.removeConversation(convo.id);
+    await removeConversation(convo.id);
 
     await store.removeIdentityKey(ourServiceIdWithKeyChange);
   });
@@ -113,7 +114,7 @@ describe('KeyChangeListener', () => {
         logId: ourServiceIdWithKeyChange,
         cleanupMessages,
       });
-      await DataWriter.removeConversation(groupConvo.id);
+      await removeConversation(groupConvo.id);
     });
 
     it('generates a key change notice in the group conversation with this contact', async () => {

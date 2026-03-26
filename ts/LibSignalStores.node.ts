@@ -32,7 +32,7 @@ import { Address } from './types/Address.std.js';
 import { QualifiedAddress } from './types/QualifiedAddress.std.js';
 import type { ServiceIdString } from './types/ServiceId.std.js';
 import { normalizeServiceId } from './types/ServiceId.std.js';
-import { signalProtocolStore } from './SignalProtocolStore.preload.js';
+import type { SignalProtocolStore } from './SignalProtocolStore.preload.js';
 
 import type { Zone } from './util/Zone.std.js';
 
@@ -52,17 +52,20 @@ function toQualifiedAddress(
 }
 
 export type SessionsOptions = Readonly<{
+  signalProtocolStore: SignalProtocolStore;
   ourServiceId: ServiceIdString;
   zone?: Zone;
 }>;
 
 export class Sessions extends SessionStore {
+  readonly #signalProtocolStore: SignalProtocolStore;
   readonly #ourServiceId: ServiceIdString;
   readonly #zone: Zone | undefined;
 
-  constructor({ ourServiceId, zone }: SessionsOptions) {
+  constructor({ signalProtocolStore, ourServiceId, zone }: SessionsOptions) {
     super();
 
+    this.#signalProtocolStore = signalProtocolStore;
     this.#ourServiceId = ourServiceId;
     this.#zone = zone;
   }
@@ -71,7 +74,7 @@ export class Sessions extends SessionStore {
     address: ProtocolAddress,
     record: SessionRecord
   ): Promise<void> {
-    await signalProtocolStore.storeSession(
+    await this.#signalProtocolStore.storeSession(
       toQualifiedAddress(this.#ourServiceId, address),
       record,
       { zone: this.#zone }
@@ -80,7 +83,7 @@ export class Sessions extends SessionStore {
 
   async getSession(name: ProtocolAddress): Promise<SessionRecord | null> {
     const encodedAddress = toQualifiedAddress(this.#ourServiceId, name);
-    const record = await signalProtocolStore.loadSession(encodedAddress, {
+    const record = await this.#signalProtocolStore.loadSession(encodedAddress, {
       zone: this.#zone,
     });
 
@@ -93,30 +96,39 @@ export class Sessions extends SessionStore {
     const encodedAddresses = addresses.map(addr =>
       toQualifiedAddress(this.#ourServiceId, addr)
     );
-    return signalProtocolStore.loadSessions(encodedAddresses, {
+    return this.#signalProtocolStore.loadSessions(encodedAddresses, {
       zone: this.#zone,
     });
   }
 }
 
 export type IdentityKeysOptions = Readonly<{
+  signalProtocolStore: SignalProtocolStore;
   ourServiceId: ServiceIdString;
   zone?: Zone;
 }>;
 
 export class IdentityKeys extends IdentityKeyStore {
+  readonly #signalProtocolStore: SignalProtocolStore;
   readonly #ourServiceId: ServiceIdString;
   readonly #zone: Zone | undefined;
 
-  constructor({ ourServiceId, zone }: IdentityKeysOptions) {
+  constructor({
+    signalProtocolStore,
+    ourServiceId,
+    zone,
+  }: IdentityKeysOptions) {
     super();
 
+    this.#signalProtocolStore = signalProtocolStore;
     this.#ourServiceId = ourServiceId;
     this.#zone = zone;
   }
 
   async getIdentityKey(): Promise<PrivateKey> {
-    const keyPair = signalProtocolStore.getIdentityKeyPair(this.#ourServiceId);
+    const keyPair = this.#signalProtocolStore.getIdentityKeyPair(
+      this.#ourServiceId
+    );
     if (!keyPair) {
       throw new Error('IdentityKeyStore/getIdentityKey: No identity key!');
     }
@@ -124,7 +136,7 @@ export class IdentityKeys extends IdentityKeyStore {
   }
 
   async getLocalRegistrationId(): Promise<number> {
-    const id = await signalProtocolStore.getLocalRegistrationId(
+    const id = await this.#signalProtocolStore.getLocalRegistrationId(
       this.#ourServiceId
     );
     if (!isNumber(id)) {
@@ -137,7 +149,7 @@ export class IdentityKeys extends IdentityKeyStore {
 
   async getIdentity(address: ProtocolAddress): Promise<PublicKey | null> {
     const encodedAddress = encodeAddress(address);
-    const key = await signalProtocolStore.loadIdentityKey(
+    const key = await this.#signalProtocolStore.loadIdentityKey(
       encodedAddress.serviceId
     );
 
@@ -157,9 +169,14 @@ export class IdentityKeys extends IdentityKeyStore {
 
     // Pass `zone` to let `saveIdentity` archive sibling sessions when identity
     // key changes.
-    return signalProtocolStore.saveIdentity(encodedAddress, publicKey, false, {
-      zone: this.#zone,
-    });
+    return this.#signalProtocolStore.saveIdentity(
+      encodedAddress,
+      publicKey,
+      false,
+      {
+        zone: this.#zone,
+      }
+    );
   }
 
   async isTrustedIdentity(
@@ -170,7 +187,7 @@ export class IdentityKeys extends IdentityKeyStore {
     const encodedAddress = encodeAddress(name);
     const publicKey = key.serialize();
 
-    return signalProtocolStore.isTrustedIdentity(
+    return this.#signalProtocolStore.isTrustedIdentity(
       encodedAddress,
       publicKey,
       direction
@@ -179,16 +196,19 @@ export class IdentityKeys extends IdentityKeyStore {
 }
 
 export type PreKeysOptions = Readonly<{
+  signalProtocolStore: SignalProtocolStore;
   ourServiceId: ServiceIdString;
   zone?: Zone;
 }>;
 
 export class PreKeys extends PreKeyStore {
+  readonly #signalProtocolStore: SignalProtocolStore;
   readonly #ourServiceId: ServiceIdString;
   readonly #zone: Zone | undefined;
 
-  constructor({ ourServiceId, zone }: PreKeysOptions) {
+  constructor({ signalProtocolStore, ourServiceId, zone }: PreKeysOptions) {
     super();
+    this.#signalProtocolStore = signalProtocolStore;
     this.#ourServiceId = ourServiceId;
     this.#zone = zone;
   }
@@ -198,7 +218,10 @@ export class PreKeys extends PreKeyStore {
   }
 
   async getPreKey(id: number): Promise<PreKeyRecord> {
-    const preKey = await signalProtocolStore.loadPreKey(this.#ourServiceId, id);
+    const preKey = await this.#signalProtocolStore.loadPreKey(
+      this.#ourServiceId,
+      id
+    );
 
     if (preKey === undefined) {
       throw new Error(`getPreKey: PreKey ${id} not found`);
@@ -208,18 +231,20 @@ export class PreKeys extends PreKeyStore {
   }
 
   async removePreKey(id: number): Promise<void> {
-    await signalProtocolStore.removePreKeys(this.#ourServiceId, [id], {
+    await this.#signalProtocolStore.removePreKeys(this.#ourServiceId, [id], {
       zone: this.#zone,
     });
   }
 }
 
 export class KyberPreKeys extends KyberPreKeyStore {
+  readonly #signalProtocolStore: SignalProtocolStore;
   readonly #ourServiceId: ServiceIdString;
   readonly #zone: Zone | undefined;
 
-  constructor({ ourServiceId, zone }: PreKeysOptions) {
+  constructor({ signalProtocolStore, ourServiceId, zone }: PreKeysOptions) {
     super();
+    this.#signalProtocolStore = signalProtocolStore;
     this.#ourServiceId = ourServiceId;
     this.#zone = zone;
   }
@@ -229,7 +254,7 @@ export class KyberPreKeys extends KyberPreKeyStore {
   }
 
   async getKyberPreKey(id: number): Promise<KyberPreKeyRecord> {
-    const kyberPreKey = await signalProtocolStore.loadKyberPreKey(
+    const kyberPreKey = await this.#signalProtocolStore.loadKyberPreKey(
       this.#ourServiceId,
       id
     );
@@ -246,7 +271,7 @@ export class KyberPreKeys extends KyberPreKeyStore {
     signedPreKeyId: number,
     baseKey: PublicKey
   ): Promise<void> {
-    await signalProtocolStore.maybeRemoveKyberPreKey(
+    await this.#signalProtocolStore.maybeRemoveKyberPreKey(
       this.#ourServiceId,
       { keyId, signedPreKeyId, baseKey },
       { zone: this.#zone }
@@ -255,16 +280,19 @@ export class KyberPreKeys extends KyberPreKeyStore {
 }
 
 export type SenderKeysOptions = Readonly<{
-  readonly ourServiceId: ServiceIdString;
-  readonly zone: Zone | undefined;
+  signalProtocolStore: SignalProtocolStore;
+  ourServiceId: ServiceIdString;
+  zone: Zone | undefined;
 }>;
 
 export class SenderKeys extends SenderKeyStore {
+  readonly #signalProtocolStore: SignalProtocolStore;
   readonly #ourServiceId: ServiceIdString;
   readonly zone: Zone | undefined;
 
-  constructor({ ourServiceId, zone }: SenderKeysOptions) {
+  constructor({ signalProtocolStore, ourServiceId, zone }: SenderKeysOptions) {
     super();
+    this.#signalProtocolStore = signalProtocolStore;
     this.#ourServiceId = ourServiceId;
     this.zone = zone;
   }
@@ -276,7 +304,7 @@ export class SenderKeys extends SenderKeyStore {
   ): Promise<void> {
     const encodedAddress = toQualifiedAddress(this.#ourServiceId, sender);
 
-    await signalProtocolStore.saveSenderKey(
+    await this.#signalProtocolStore.saveSenderKey(
       encodedAddress,
       distributionId,
       record,
@@ -290,7 +318,7 @@ export class SenderKeys extends SenderKeyStore {
   ): Promise<SenderKeyRecord | null> {
     const encodedAddress = toQualifiedAddress(this.#ourServiceId, sender);
 
-    const senderKey = await signalProtocolStore.getSenderKey(
+    const senderKey = await this.#signalProtocolStore.getSenderKey(
       encodedAddress,
       distributionId,
       { zone: this.zone }
@@ -301,15 +329,18 @@ export class SenderKeys extends SenderKeyStore {
 }
 
 export type SignedPreKeysOptions = Readonly<{
+  signalProtocolStore: SignalProtocolStore;
   ourServiceId: ServiceIdString;
 }>;
 
 // No need for zone awareness, since no mutation happens in this store
 export class SignedPreKeys extends SignedPreKeyStore {
+  readonly #signalProtocolStore: SignalProtocolStore;
   readonly #ourServiceId: ServiceIdString;
 
-  constructor({ ourServiceId }: SignedPreKeysOptions) {
+  constructor({ signalProtocolStore, ourServiceId }: SignedPreKeysOptions) {
     super();
+    this.#signalProtocolStore = signalProtocolStore;
     this.#ourServiceId = ourServiceId;
   }
 
@@ -318,7 +349,7 @@ export class SignedPreKeys extends SignedPreKeyStore {
   }
 
   async getSignedPreKey(id: number): Promise<SignedPreKeyRecord> {
-    const signedPreKey = await signalProtocolStore.loadSignedPreKey(
+    const signedPreKey = await this.#signalProtocolStore.loadSignedPreKey(
       this.#ourServiceId,
       id
     );
@@ -332,24 +363,30 @@ export class SignedPreKeys extends SignedPreKeyStore {
 }
 
 export class KeyTransparencyStore implements KeyTransparencyStoreInterface {
+  readonly #signalProtocolStore: SignalProtocolStore;
+
+  constructor(signalProtocolStore: SignalProtocolStore) {
+    this.#signalProtocolStore = signalProtocolStore;
+  }
+
   async getLastDistinguishedTreeHead(): Promise<Uint8Array<ArrayBuffer> | null> {
-    return signalProtocolStore.getLastDistinguishedTreeHead();
+    return this.#signalProtocolStore.getLastDistinguishedTreeHead();
   }
 
   async setLastDistinguishedTreeHead(
     bytes: Readonly<Uint8Array<ArrayBuffer>> | null
   ): Promise<void> {
-    return signalProtocolStore.setLastDistinguishedTreeHead(bytes);
+    return this.#signalProtocolStore.setLastDistinguishedTreeHead(bytes);
   }
 
   async getAccountData(aci: Aci): Promise<Uint8Array<ArrayBuffer> | null> {
-    return signalProtocolStore.getKTAccountData(aci);
+    return this.#signalProtocolStore.getKTAccountData(aci);
   }
 
   async setAccountData(
     aci: Aci,
     bytes: Readonly<Uint8Array<ArrayBuffer>>
   ): Promise<void> {
-    return signalProtocolStore.setKTAccountData(aci, bytes);
+    return this.#signalProtocolStore.setKTAccountData(aci, bytes);
   }
 }

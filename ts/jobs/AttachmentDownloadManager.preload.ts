@@ -86,7 +86,7 @@ import { JobCancelReason } from './types.std.js';
 import { isAbortError } from '../util/isAbortError.std.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
 import { calculateExpirationTimestamp } from '../util/expirationTimer.std.js';
-import { cleanupAttachmentFiles } from '../types/Message2.preload.js';
+import { cleanupAttachmentFiles } from '../util/cleanup.preload.js';
 import { getExistingAttachmentDataForReuse } from '../util/attachments/deduplicateAttachment.preload.js';
 
 const { noop, omit, throttle } = lodash;

@@ -637,7 +637,7 @@ export const DataWriter: ServerWritableInterface = {
   saveConversations,
   updateConversation,
   updateConversations,
-  removeConversation,
+  _removeConversation,
   _removeAllConversations,
   updateAllConversationColors,
   removeAllProfileKeyCredentials,
@@ -2046,37 +2046,10 @@ function updateConversations(
   })();
 }
 
-function removeConversations(
-  db: WritableDB,
-  ids: ReadonlyArray<string>,
-  persistent: boolean
-): void {
-  // Our node interface doesn't seem to allow you to replace one single ? with an array
-  db.prepare(
-    `
-    DELETE FROM conversations
-    WHERE id IN ( ${ids.map(() => '?').join(', ')} );
-    `,
-    { persistent }
-  ).run(ids);
-}
-
-function removeConversation(db: WritableDB, id: Array<string> | string): void {
-  if (!Array.isArray(id)) {
-    db.prepare('DELETE FROM conversations WHERE id = $id;').run({
-      id,
-    });
-
-    return;
-  }
-
-  if (!id.length) {
-    throw new Error('removeConversation: No ids to delete!');
-  }
-
-  batchMultiVarQuery(db, id, (ids, persistent) =>
-    removeConversations(db, ids, persistent)
-  );
+function _removeConversation(db: WritableDB, id: string): void {
+  db.prepare('DELETE FROM conversations WHERE id = $id;').run({
+    id,
+  });
 }
 
 function _removeAllConversations(db: WritableDB): void {

@@ -53,11 +53,7 @@ import {
   UnknownRecipientError,
   UnregisteredUserError,
 } from '../textsecure/Errors.std.js';
-import {
-  IdentityKeys,
-  SenderKeys,
-  Sessions,
-} from '../LibSignalStores.preload.js';
+import { IdentityKeys, SenderKeys, Sessions } from '../LibSignalStores.node.js';
 import type { ConversationModel } from '../models/conversations.preload.js';
 import type { DeviceType, CallbackResultType } from '../textsecure/Types.d.ts';
 import { getKeysForServiceId } from '../textsecure/getKeysForServiceId.preload.js';
@@ -1297,6 +1293,7 @@ async function encryptForSenderKey({
   );
   const ourAddress = getOurAddress();
   const senderKeyStore = new SenderKeys({
+    signalProtocolStore,
     ourServiceId: ourAci,
     zone: GLOBAL_ZONE,
   });
@@ -1341,8 +1338,14 @@ async function encryptForSenderKey({
     .map(device => {
       return ProtocolAddress.new(device.serviceId, device.id);
     });
-  const identityKeyStore = new IdentityKeys({ ourServiceId: ourAci });
-  const sessionStore = new Sessions({ ourServiceId: ourAci });
+  const identityKeyStore = new IdentityKeys({
+    signalProtocolStore,
+    ourServiceId: ourAci,
+  });
+  const sessionStore = new Sessions({
+    signalProtocolStore,
+    ourServiceId: ourAci,
+  });
   return sealedSenderMultiRecipientEncrypt(
     content,
     recipients,

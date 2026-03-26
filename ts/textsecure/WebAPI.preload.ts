@@ -129,7 +129,8 @@ import {
   type RemoteMegaphoneId,
 } from '../types/Megaphone.std.js';
 import { bindRemoteConfigToLibsignalNet } from '../LibsignalNetRemoteConfig.preload.js';
-import { KeyTransparencyStore } from '../LibSignalStores.preload.js';
+import { KeyTransparencyStore } from '../LibSignalStores.node.js';
+import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
 
 const { escapeRegExp, isNumber, throttle } = lodash;
 
@@ -2501,7 +2502,7 @@ export async function keyTransparencySearch(
       throw new Error('Aborted');
     }
     const kt = chat.keyTransparencyClient();
-    const store = new KeyTransparencyStore();
+    const store = new KeyTransparencyStore(signalProtocolStore);
     return kt.search(request, store, { abortSignal });
   });
 }
@@ -2517,7 +2518,7 @@ export async function keyTransparencyMonitor(
       throw new Error('Aborted');
     }
     const kt = chat.keyTransparencyClient();
-    const store = new KeyTransparencyStore();
+    const store = new KeyTransparencyStore(signalProtocolStore);
     return kt.monitor(
       {
         ...request,

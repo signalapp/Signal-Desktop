@@ -657,31 +657,6 @@ export type ConversationsStateType = ReadonlyDeep<{
   hasProfileUpdateError?: boolean;
 }>;
 
-// Helpers
-
-export const getConversationCallMode = (
-  conversation: ConversationType
-): CallMode | null => {
-  if (
-    conversation.left ||
-    conversation.isBlocked ||
-    conversation.isMe ||
-    !conversation.acceptedMessageRequest
-  ) {
-    return null;
-  }
-
-  if (conversation.type === 'direct') {
-    return CallMode.Direct;
-  }
-
-  if (conversation.type === 'group' && conversation.groupVersion === 2) {
-    return CallMode.Group;
-  }
-
-  return null;
-};
-
 // Actions
 
 const CANCEL_CONVERSATION_PENDING_VERIFICATION =

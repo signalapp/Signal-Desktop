@@ -27,7 +27,7 @@ import { uuidToBytes } from '../util/uuidToBytes.std.js';
 import { Address } from '../types/Address.std.js';
 import { QualifiedAddress } from '../types/QualifiedAddress.std.js';
 import type { StoryMessageRecipientsType } from '../types/Stories.std.js';
-import { SenderKeys } from '../LibSignalStores.preload.js';
+import { SenderKeys } from '../LibSignalStores.node.js';
 import type {
   TextAttachmentType,
   UploadedAttachmentType,
@@ -2722,6 +2722,7 @@ export class MessageSender {
     const senderKeyDistributionMessage =
       await signalProtocolStore.enqueueSenderKeyJob(address, async () => {
         const senderKeyStore = new SenderKeys({
+          signalProtocolStore,
           ourServiceId: ourAci,
           zone: GLOBAL_ZONE,
         });

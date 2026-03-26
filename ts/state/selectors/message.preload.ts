@@ -97,7 +97,7 @@ import {
   AttachmentDisposition,
 } from '../../util/getLocalAttachmentUrl.std.js';
 import { isVoiceMessagePlayed } from '../../util/isVoiceMessagePlayed.std.js';
-import { isPermanentlyUndownloadable } from '../../jobs/AttachmentDownloadManager.preload.js';
+import { isPermanentlyUndownloadable } from '../../jobs/helpers/attachmentBackfill.preload.js';
 
 import { getAccountSelector } from './accounts.std.js';
 import {

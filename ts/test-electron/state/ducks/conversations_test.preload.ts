@@ -30,7 +30,6 @@ import {
   actions,
   cancelConversationVerification,
   clearCanceledConversationVerification,
-  getConversationCallMode,
   getEmptyState,
   reducer,
   updateConversationLookups,
@@ -69,6 +68,7 @@ import {
 import { MY_STORY_ID } from '../../../types/Stories.std.js';
 import type { ReadonlyMessageAttributesType } from '../../../model-types.d.ts';
 import { strictAssert } from '../../../util/assert.std.js';
+import { getConversationCallMode } from '../../../util/getConversationCallMode.std.js';
 import { itemStorage } from '../../../textsecure/Storage.preload.js';
 
 const { times } = lodash;

@@ -38,7 +38,7 @@ import {
   SenderKeys,
   Sessions,
   SignedPreKeys,
-} from '../LibSignalStores.preload.js';
+} from '../LibSignalStores.node.js';
 import { createName } from '../util/attachmentPath.node.js';
 import { assertDev, strictAssert } from '../util/assert.std.js';
 import type { BatcherType } from '../util/batcher.std.js';
@@ -1022,6 +1022,7 @@ export default class MessageReceiver
               let stores = storesMap.get(destinationServiceId);
               if (!stores) {
                 const sharedParams = {
+                  signalProtocolStore,
                   ourServiceId: destinationServiceId,
                   zone,
                 };
