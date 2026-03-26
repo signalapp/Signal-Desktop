@@ -49,6 +49,7 @@ import {
 } from '../types/VisualAttachment.dom.js';
 import { UserText } from './UserText.dom.js';
 import { Theme } from '../util/theme.std.js';
+import { strictAssert } from '../util/assert.std.js';
 
 const { noop, sortBy } = lodash;
 
@@ -181,6 +182,11 @@ export function SendStoryModal({
             .map(group => group.title)
         ),
     [distributionLists, groupStories, selectedGroupIds, selectedListIds, i18n]
+  );
+
+  const nonTerminatedGroupStories = useMemo(
+    () => groupStories.filter(group => !group.terminated),
+    [groupStories]
   );
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -629,7 +635,7 @@ export function SendStoryModal({
 
     // my stories always first, the rest sorted by recency
     const fullList = sortBy(
-      [...groupStories, ...distributionLists],
+      [...nonTerminatedGroupStories, ...distributionLists],
       listOrGroup => {
         if (listOrGroup.id === MY_STORY_ID) {
           return Number.NEGATIVE_INFINITY;
@@ -789,6 +795,11 @@ export function SendStoryModal({
               setHasAnnouncementsOnlyAlert(true);
               return;
             }
+
+            strictAssert(
+              !group.terminated,
+              "Can't send story to terminated group"
+            );
 
             setSelectedGroupIds(groupIds => {
               if (value) {

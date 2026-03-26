@@ -912,6 +912,17 @@ function renderChangeDetail<T extends string | React.JSX.Element>(
     }
     return i18n('icu:GroupV2--announcements--member--unknown');
   }
+  if (detail.type === 'terminated') {
+    if (fromYou) {
+      return i18n('icu:GroupV2--terminated--you');
+    }
+    if (from) {
+      return i18n('icu:GroupV2--terminated--other', {
+        memberName: renderContact(from),
+      });
+    }
+    return i18n('icu:GroupV2--terminated--unknown');
+  }
   if (detail.type === 'summary') {
     return i18n('icu:GroupV2--summary');
   }

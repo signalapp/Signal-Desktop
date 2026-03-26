@@ -58,7 +58,8 @@ export async function maybeForwardMessages(
 
   const cannotSend = conversations.some(
     conversation =>
-      conversation?.get('announcementsOnly') && !conversation.areWeAdmin()
+      conversation?.get('terminated') ||
+      (conversation?.get('announcementsOnly') && !conversation.areWeAdmin())
   );
   if (cannotSend) {
     throw new Error('Cannot send to group');

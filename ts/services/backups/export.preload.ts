@@ -1480,6 +1480,7 @@ export class BackupExportStream extends Readable {
                 ? Bytes.fromBase64(convo.groupInviteLinkPassword)
                 : null,
               announcementsOnly: convo.announcementsOnly === true,
+              terminated: convo.terminated === true,
             },
           },
         },
@@ -3114,6 +3115,14 @@ export class BackupExportStream extends Readable {
         updates.push({
           update: {
             genericGroupUpdate: {
+              updaterAci: from ? this.#aciToBytesOrNull(from) : null,
+            },
+          },
+        });
+      } else if (type === 'terminated') {
+        updates.push({
+          update: {
+            groupTerminateChangeUpdate: {
               updaterAci: from ? this.#aciToBytesOrNull(from) : null,
             },
           },

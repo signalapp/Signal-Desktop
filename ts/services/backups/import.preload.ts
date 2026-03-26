@@ -1217,6 +1217,7 @@ export class BackupImportStream extends Writable {
       membersBanned,
       inviteLinkPassword,
       announcementsOnly,
+      terminated,
     } = snapshot;
 
     const expirationTimerS =
@@ -1353,6 +1354,7 @@ export class BackupImportStream extends Writable {
         ? Bytes.toBase64(inviteLinkPassword)
         : undefined,
       announcementsOnly: dropNull(announcementsOnly),
+      terminated: dropNull(terminated),
     };
 
     if (group.blocked) {
@@ -3298,6 +3300,15 @@ export class BackupImportStream extends Writable {
         details.push({
           type: 'member-remove',
           aci: fromAciObject(Aci.fromUuidBytes(removedAci)),
+        });
+      }
+      if (update.groupTerminateChangeUpdate) {
+        const { updaterAci } = update.groupTerminateChangeUpdate;
+        if (updaterAci) {
+          from = fromAciObject(Aci.fromUuidBytes(updaterAci));
+        }
+        details.push({
+          type: 'terminated',
         });
       }
       if (update.selfInvitedToGroupUpdate) {

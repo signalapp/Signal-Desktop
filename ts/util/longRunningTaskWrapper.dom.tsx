@@ -20,11 +20,13 @@ const log = createLogger('longRunningTaskWrapper');
 export async function longRunningTaskWrapper<T>({
   name,
   idForLogging,
+  spinnerText,
   task,
   suppressErrorDialog,
 }: {
   name: string;
   idForLogging: string;
+  spinnerText?: string;
   task: () => Promise<T>;
   suppressErrorDialog?: boolean;
 }): Promise<T> {
@@ -44,7 +46,7 @@ export async function longRunningTaskWrapper<T>({
       <StrictMode>
         <AxoProvider dir={i18n.getLocaleDirection()}>
           <FunDefaultEnglishEmojiLocalizationProvider>
-            <ProgressModal i18n={i18n} />
+            <ProgressModal i18n={i18n} description={spinnerText} />
           </FunDefaultEnglishEmojiLocalizationProvider>
         </AxoProvider>
       </StrictMode>

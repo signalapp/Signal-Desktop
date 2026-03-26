@@ -3152,6 +3152,10 @@
     "messageformat": "Support Center",
     "description": "Label for the support center link in conversation details"
   },
+  "icu:ConversationDetails__GroupTerminatedBanner": {
+    "messageformat": "This group was ended",
+    "description": "Conversation Header banner in conversation details for terminated groups"
+  },
   "icu:SafetyNumberNotification__viewSafetyNumber": {
     "messageformat": "View Safety Number",
     "description": "In conversation, safety number change notification, label for button to view safety number, opens safety number modal"
@@ -5260,6 +5264,10 @@
     "messageformat": "Your request to join has been sent to the group admin. You’ll be notified when they take action.",
     "description": "Shown in composition area when you've requested to join a group"
   },
+  "icu:GroupV2--join--group-terminated": {
+    "messageformat": "Join by link failed, group has ended.",
+    "description": "Shown if you click a group link for a group which was terminated"
+  },
   "icu:GroupV2--join--general-join-failure--title": {
     "messageformat": "Link Error",
     "description": "Shown if something went wrong when you try to join via a group link"
@@ -5267,6 +5275,18 @@
   "icu:GroupV2--join--general-join-failure": {
     "messageformat": "Couldn't join group. Try again later.",
     "description": "Shown if something went wrong when you try to join via a group link"
+  },
+  "icu:GroupV2--terminate-group-in-progress": {
+    "messageformat": "Ending group...",
+    "description": "Shown while waiting for a group terminate request to finish"
+  },
+  "icu:TerminateGroupFailedModal__description": {
+    "messageformat": "Ending the group failed. Check your connection and try again.",
+    "description": "Shown when a group terminate request failed"
+  },
+  "icu:TerminateGroupFailedModal__try-again": {
+    "messageformat": "Try again",
+    "description": "Shown when a group terminate request failed"
   },
   "icu:GroupV2--admin": {
     "messageformat": "Admin",
@@ -5856,6 +5876,18 @@
     "messageformat": "This group's members or settings have changed.",
     "description": "When rejoining a group, any detected changes are collapsed down into this summary"
   },
+  "icu:GroupV2--terminated--you": {
+    "messageformat": "You ended the group",
+    "description": "Shown in timeline or conversation preview when group is terminated by you"
+  },
+  "icu:GroupV2--terminated--other": {
+    "messageformat": "{memberName} ended the group",
+    "description": "Shown in timeline or conversation preview when group is terminated by someone else"
+  },
+  "icu:GroupV2--terminated--unknown": {
+    "messageformat": "This group was ended",
+    "description": "Shown in timeline or conversation preview when group is terminated"
+  },
   "icu:GroupV1--Migration--disabled--link": {
     "messageformat": "Upgrade this group to activate new features like @mentions and admins. Members who have not shared their name or photo in this group will be invited to join. <learnMoreLink>Learn more.</learnMoreLink>",
     "description": "Shown instead of composition area when user is forced to migrate a legacy group (GV1)."
@@ -6224,6 +6256,10 @@
     "messageformat": "Replace",
     "description": "Composition Area > GIF Picker > After selecting a GIF > When you already have an attachment > Confirm Dialog > Replace Button"
   },
+  "icu:CompositionArea--group-terminated": {
+    "messageformat": "You can’t send messages because the group was ended.",
+    "description": "Shown instead of message composer when group is terminated"
+  },
   "icu:CompositionArea--viewOnceToggle": {
     "messageformat": "View once",
     "description": "Aria label for the view once toggle button in the composition input"
@@ -6460,6 +6496,10 @@
     "messageformat": "Leave group",
     "description": "This is a button to leave a group"
   },
+  "icu:ConversationDetailsActions--terminate-group": {
+    "messageformat": "End group",
+    "description": "This is a button to terminate a group permanently"
+  },
   "icu:ConversationDetailsActions--block-group": {
     "messageformat": "Block group",
     "description": "This is a button to block a group"
@@ -6467,6 +6507,18 @@
   "icu:ConversationDetailsActions--unblock-group": {
     "messageformat": "Unblock group",
     "description": "This is a button to unblock a group"
+  },
+  "icu:ConversationDetailsActions--archive": {
+    "messageformat": "Archive chat",
+    "description": "This is a button to archive a chat"
+  },
+  "icu:ConversationDetailsActions--unarchive": {
+    "messageformat": "Unarchive chat",
+    "description": "This is a button to unarchive a chat"
+  },
+  "icu:ConversationDetailsActions--delete": {
+    "messageformat": "Delete chat",
+    "description": "This is a button to delete a chat"
   },
   "icu:ConversationDetailsActions--leave-group-must-choose-new-admin": {
     "messageformat": "Before you leave, you must choose at least one new admin for this group.",
@@ -6483,6 +6535,22 @@
   "icu:ConversationDetailsActions--leave-group-modal-confirm": {
     "messageformat": "Leave",
     "description": "This is the modal button to confirm leaving a group"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-title": {
+    "messageformat": "End \"{groupName}\"?",
+    "description": "This is the modal title for confirming terminating a group"
+  },
+  "icu:ConversationDetailsActions--prompt-terminate-group-modal-content": {
+    "messageformat": "Members will no longer be able to send messages or start calls in the group. They will be notified that you ended the group, and will still have access to message history.",
+    "description": "This is the modal content for terminating a group. After this modal, a second confirmation modal will show."
+  },
+  "icu:ConversationDetailsActions--terminate-group-modal-confirm": {
+    "messageformat": "End group",
+    "description": "This is the modal button to confirm terminating a group"
+  },
+  "icu:ConversationDetailsActions--confirm-terminate-group-confirm-modal-content": {
+    "messageformat": "This will end the group permanently. Are you sure you want to proceed?",
+    "description": "This is the modal content for confirming terminating a group"
   },
   "icu:ConversationDetailsActions--unblock-group-modal-title": {
     "messageformat": "Unblock the \"{groupName}\" Group?",
@@ -6519,6 +6587,10 @@
   "icu:ConversationDetailsMembershipList--title": {
     "messageformat": "{number, plural, one {# member} other {# members}}",
     "description": "The title of the membership list panel"
+  },
+  "icu:ConversationDetailsMembershipList--terminated-title": {
+    "messageformat": "{number, plural, one {# former member} other {# former members}}",
+    "description": "The title of the membership list panel for a terminated group"
   },
   "icu:ConversationDetailsMembershipList--add-members": {
     "messageformat": "Add members",
@@ -8922,6 +8994,10 @@
   },
   "icu:MyStories__delete": {
     "messageformat": "Delete this story? It will also be deleted for everyone who received it.",
+    "description": "Confirmation dialog description text for deleting a story"
+  },
+  "icu:MyStories__delete-group-story-for-me": {
+    "messageformat": "Delete this story? It will only be deleted for you because the group has ended.",
     "description": "Confirmation dialog description text for deleting a story"
   },
   "icu:payment-event-notification-message-you-label": {

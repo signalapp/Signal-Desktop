@@ -8,12 +8,14 @@ import { Spinner } from '../../Spinner.dom.js';
 import { bemGenerator } from './util.std.js';
 
 export enum IconType {
+  'archive' = 'archive',
   'approveAllMembers' = 'approveAllMembers',
   'bell' = 'bell',
   'block' = 'block',
   'edit' = 'edit',
   'unblock' = 'unblock',
   'color' = 'color',
+  'delete' = 'delete',
   'down' = 'down',
   'forward' = 'forward',
   'heart' = 'heart',
@@ -32,6 +34,7 @@ export enum IconType {
   'share' = 'share',
   'spinner' = 'spinner',
   'tag' = 'tag',
+  'terminate' = 'terminate',
   'timer' = 'timer',
   'trash' = 'trash',
   'verify' = 'verify',

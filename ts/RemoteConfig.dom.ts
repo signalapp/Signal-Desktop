@@ -38,6 +38,8 @@ const SemverKeys = [
   'desktop.binaryServiceId.prod',
   'desktop.groupMemberLabels.edit.beta',
   'desktop.groupMemberLabels.edit.prod',
+  'desktop.groupTerminate.send.beta',
+  'desktop.groupTerminate.send.prod',
   'desktop.keyTransparency.beta',
   'desktop.keyTransparency.prod',
   'desktop.localBackups.beta',

@@ -253,6 +253,7 @@ import {
   buildModifyMemberRoleChange,
   buildNewGroupLinkChange,
   buildPromoteMemberChange,
+  buildTerminateChange,
   generateGroupInviteLinkPassword,
   hasV1GroupBeenMigrated,
   joinGroupV2ViaLinkAndMigrate,
@@ -5005,6 +5006,18 @@ export class ConversationModel {
     );
   }
 
+  async terminateGroup(): Promise<void> {
+    if (!isGroupV2(this.attributes)) {
+      return;
+    }
+
+    await this.modifyGroupV2({
+      name: 'terminate',
+      usingCredentialsFrom: [],
+      createGroupChange: async () => buildTerminateChange(this.attributes),
+    });
+  }
+
   isSealedSenderDisabled(): boolean {
     const members = this.getMembers();
     if (
@@ -5818,6 +5831,10 @@ export class ConversationModel {
     // Drop typing indicators for announcement only groups where the sender
     // is not an admin
     if (this.get('announcementsOnly') && !this.isAdmin(senderServiceId)) {
+      return;
+    }
+
+    if (this.get('terminated')) {
       return;
     }
 

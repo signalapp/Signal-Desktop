@@ -554,6 +554,7 @@ const doGroupCallPeek = ({
     );
     if (
       !conversation ||
+      conversation.terminated ||
       getConversationCallMode(conversation) !== CallMode.Group
     ) {
       return;
@@ -2230,6 +2231,16 @@ function onOutgoingVideoCallInConversation(
       isGroupOrAdhocCallState(call) &&
       call.peekInfo &&
       isAnybodyElseInGroupCall(call.peekInfo, ourAci);
+
+    if (conversation.get('terminated')) {
+      dispatch({
+        type: SHOW_TOAST,
+        payload: {
+          toastType: ToastType.CannotStartGroupCall,
+        },
+      });
+      return;
+    }
 
     // If it's a group call on an announcementsOnly group, only allow join if the call
     //   has already been started (presumably by the admin)

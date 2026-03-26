@@ -43,6 +43,7 @@ import {
 } from '../selectors/backups.std.js';
 import { SmartPinMessageDialog } from './PinMessageDialog.preload.js';
 import { SmartGroupMemberLabelInfoModal } from './GroupMemberLabelInfoModal.preload.js';
+import { SmartTerminateGroupFailedModal } from './TerminateGroupFailedModal.preload.js';
 
 function renderCallLinkAddNameModal(): React.JSX.Element {
   return <SmartCallLinkAddNameModal />;
@@ -196,6 +197,7 @@ export const SmartGlobalModalContainer = memo(
       safetyNumberModalContactId,
       stickerPackPreviewId,
       tapToViewNotAvailableModalProps,
+      terminateGroupFailedModal,
       userNotFoundModalState,
     } = useSelector(getGlobalModalsState);
 
@@ -272,6 +274,16 @@ export const SmartGlobalModalContainer = memo(
       [closeDebugLogErrorModal, i18n]
     );
 
+    const renderTerminateGroupFailedModal = useCallback(
+      () =>
+        terminateGroupFailedModal ? (
+          <SmartTerminateGroupFailedModal
+            conversationId={terminateGroupFailedModal.conversationId}
+          />
+        ) : null,
+      [terminateGroupFailedModal]
+    );
+
     return (
       <GlobalModalContainer
         addUserToAnotherGroupModalContactId={
@@ -300,6 +312,7 @@ export const SmartGlobalModalContainer = memo(
         hideCriticalIdlePrimaryDeviceModal={hideCriticalIdlePrimaryDeviceModal}
         hideLowDiskSpaceBackupImportModal={hideLowDiskSpaceBackupImportModal}
         lowDiskSpaceBackupImportModal={lowDiskSpaceBackupImportModal}
+        terminateGroupFailedModal={terminateGroupFailedModal}
         messageRequestActionsConfirmationProps={
           messageRequestActionsConfirmationProps
         }
@@ -359,6 +372,7 @@ export const SmartGlobalModalContainer = memo(
         renderShortcutGuideModal={renderShortcutGuideModal}
         renderStickerPreviewModal={renderStickerPreviewModal}
         renderStoriesSettings={renderStoriesSettings}
+        renderTerminateGroupFailedModal={renderTerminateGroupFailedModal}
         safetyNumberChangedBlockingData={safetyNumberChangedBlockingData}
         safetyNumberModalContactId={safetyNumberModalContactId}
         shouldShowPlaintextExportWorkflow={shouldShowPlaintextExportWorkflow}

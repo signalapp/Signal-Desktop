@@ -89,7 +89,9 @@ type GroupIconType =
   | 'group-edit'
   | 'group-summary'
   | 'group-leave'
-  | 'group-remove';
+  | 'group-remove'
+  // TODO: DESKTOP-9894
+  | 'group-terminate';
 
 const changeToIconMap: Record<GroupV2ChangeDetailType['type'], GroupIconType> =
   {
@@ -119,6 +121,8 @@ const changeToIconMap: Record<GroupV2ChangeDetailType['type'], GroupIconType> =
     'pending-remove-one': 'group-decline',
     summary: 'group-summary',
     title: 'group-edit',
+    // TODO: DESKTOP-9894
+    terminated: 'group-terminate',
   };
 function getIcon(
   detail: GroupV2ChangeDetailType,

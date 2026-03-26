@@ -75,6 +75,7 @@ type PropsHousekeepingType = {
   isBlocked: boolean;
   isConversationSelected: boolean;
   isGroupV1AndDisabled?: boolean;
+  isGroupTerminated: boolean;
   isInFullScreenCall: boolean;
   isIncomingMessageRequest: boolean;
   isSomeoneTyping: boolean;
@@ -660,7 +661,8 @@ export class Timeline extends React.Component<
   public override componentDidMount(): void {
     const containerEl = this.#containerRef.current;
     const messagesEl = this.#messagesRef.current;
-    const { conversationType, isConversationSelected } = this.props;
+    const { conversationType, isConversationSelected, isGroupTerminated } =
+      this.props;
     strictAssert(
       // We don't render anything unless the conversation is selected
       (containerEl && messagesEl) || !isConversationSelected,
@@ -684,7 +686,7 @@ export class Timeline extends React.Component<
       this.#markNewestBottomVisibleMessageReadAfterDelay
     );
 
-    if (conversationType === 'group') {
+    if (conversationType === 'group' && !isGroupTerminated) {
       this.#setupGroupCallPeekTimeouts();
     }
   }

@@ -281,6 +281,7 @@ export function getConversationStory(
     'sortedGroupMembers',
     'title',
     'left',
+    'terminated',
   ]);
 
   const storyView = getStoryView(

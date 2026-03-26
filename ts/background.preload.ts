@@ -2242,6 +2242,13 @@ export async function startApp(): Promise<void> {
       }
     }
 
+    if (conversation?.get('terminated')) {
+      log.info(
+        `onTyping: conversation ${conversation.idForLogging()} is terminated group, dropping typing message`
+      );
+      return;
+    }
+
     if (conversation?.isBlocked()) {
       log.info(
         `onTyping: conversation ${conversation.idForLogging()} is blocked, dropping typing message`

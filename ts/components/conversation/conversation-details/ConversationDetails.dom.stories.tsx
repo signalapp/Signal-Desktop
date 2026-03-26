@@ -21,6 +21,7 @@ import { getFakeCallHistoryGroup } from '../../../test-helpers/getFakeCallHistor
 import type { ContactNameColorType } from '../../../types/Colors.std.js';
 import { ContactNameColors } from '../../../types/Colors.std.js';
 import { isNotNil } from '../../../util/isNotNil.std.js';
+import { strictAssert } from '../../../util/assert.std.js';
 
 const { times } = lodash;
 
@@ -97,6 +98,7 @@ const createProps = (
     isEditMemberLabelEnabled: true,
     isGroup: true,
     isSignalConversation: false,
+    isTerminateGroupEnabled: true,
     leaveGroup: action('leaveGroup'),
     hasMedia: true,
     memberships,
@@ -125,9 +127,13 @@ const createProps = (
     setMuteExpiration: action('setMuteExpiration'),
     showToast: action('showToast'),
     userAvatarData: [],
+    terminateGroup: action('terminateGroup'),
     toggleSafetyNumberModal: action('toggleSafetyNumberModal'),
     toggleAboutContactModal: action('toggleAboutContactModal'),
     toggleAddUserToAnotherGroupModal: action('toggleAddUserToAnotherGroup'),
+    onConversationArchive: action('onConversationArchive'),
+    onConversationDeleteMessages: action('onConversationDeleteMessages'),
+    onConversationUnarchive: action('onConversationUnarchive'),
     onDeleteNicknameAndNote: action('onDeleteNicknameAndNote'),
     onOpenEditNicknameAndNoteModal: action('onOpenEditNicknameAndNoteModal'),
     onOutgoingAudioCallInConversation: action(
@@ -308,5 +314,52 @@ export function SignalConversation(): React.JSX.Element {
 
   return (
     <ConversationDetails {...props} isSignalConversation isGroup={false} />
+  );
+}
+
+export function TerminatedGroup(): React.JSX.Element {
+  const props = createProps();
+  strictAssert(props.conversation, 'conversation must exist');
+
+  return (
+    <ConversationDetails
+      {...props}
+      canAddLabel={false}
+      canAddNewMembers={false}
+      canEditGroupInfo={false}
+      conversation={{
+        ...props.conversation,
+        terminated: true,
+      }}
+    />
+  );
+}
+
+export function TerminatedGroupAsAdmin(): React.JSX.Element {
+  const props = createProps();
+  strictAssert(props.conversation, 'conversation must exist');
+
+  return (
+    <ConversationDetails
+      {...props}
+      conversation={{
+        ...props.conversation,
+        terminated: true,
+      }}
+      canAddLabel={false}
+      canAddNewMembers={false}
+      canEditGroupInfo={false}
+      isAdmin
+      memberships={[
+        {
+          isAdmin: true,
+          labelEmoji: undefined,
+          labelString: undefined,
+          member: getDefaultConversation({
+            isMe: true,
+          }),
+        },
+      ]}
+    />
   );
 }

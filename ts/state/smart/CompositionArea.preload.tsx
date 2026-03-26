@@ -106,8 +106,13 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
     getComposerStateForConversationIdSelector
   );
   const composerState = composerStateForConversationIdSelector(id);
-  const { announcementsOnly, areWeAdmin, draftEditMessage, draftBodyRanges } =
-    conversation;
+  const {
+    announcementsOnly,
+    areWeAdmin,
+    draftEditMessage,
+    draftBodyRanges,
+    terminated,
+  } = conversation;
   const {
     attachments: draftAttachments,
     focusCounter,
@@ -354,6 +359,7 @@ export const SmartCompositionArea = memo(function SmartCompositionArea({
       showGV2MigrationDialog={showGV2MigrationDialog}
       cancelJoinRequest={cancelJoinRequest}
       sortedGroupMembers={conversation.sortedGroupMembers ?? null}
+      terminated={terminated ?? null}
       // Select Mode
       selectedMessageIds={selectedMessageIds}
       areSelectedMessagesForwardable={areSelectedMessagesForwardable}

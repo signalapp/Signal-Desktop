@@ -257,6 +257,8 @@ export const ConversationHeader = memo(function ConversationHeader({
     MessageRequestState.default
   );
 
+  const isTerminated = Boolean(conversation.terminated);
+
   if (hasPanelShowing) {
     return null;
   }
@@ -343,17 +345,19 @@ export const ConversationHeader = memo(function ConversationHeader({
                 onViewConversationDetails={onViewConversationDetails}
                 isSignalConversation={isSignalConversation ?? false}
               />
-              {!isSmsOnlyOrUnregistered && !isSignalConversation && (
-                <OutgoingCallButtons
-                  conversation={conversation}
-                  hasActiveCall={hasActiveCall}
-                  i18n={i18n}
-                  isNarrow={isNarrow}
-                  onOutgoingAudioCall={onOutgoingAudioCall}
-                  onOutgoingVideoCall={onOutgoingVideoCall}
-                  outgoingCallButtonStyle={outgoingCallButtonStyle}
-                />
-              )}
+              {!isSmsOnlyOrUnregistered &&
+                !isSignalConversation &&
+                !isTerminated && (
+                  <OutgoingCallButtons
+                    conversation={conversation}
+                    hasActiveCall={hasActiveCall}
+                    i18n={i18n}
+                    isNarrow={isNarrow}
+                    onOutgoingAudioCall={onOutgoingAudioCall}
+                    onOutgoingVideoCall={onOutgoingVideoCall}
+                    outgoingCallButtonStyle={outgoingCallButtonStyle}
+                  />
+                )}
               <button
                 type="button"
                 onClick={onSearchInConversation}
@@ -378,6 +382,7 @@ export const ConversationHeader = memo(function ConversationHeader({
                 <HeaderDropdownMenuContent
                   i18n={i18n}
                   conversation={conversation}
+                  isTerminated={isTerminated}
                   isMissingMandatoryProfileSharing={
                     isMissingMandatoryProfileSharing ?? false
                   }
@@ -588,6 +593,7 @@ function HeaderDropdownMenuContent({
   isMissingMandatoryProfileSharing,
   isSelectMode,
   isSignalConversation,
+  isTerminated,
   onChangeDisappearingMessages,
   onChangeMuteExpiration,
   onConversationAccept,
@@ -613,6 +619,7 @@ function HeaderDropdownMenuContent({
   isMissingMandatoryProfileSharing: boolean;
   isSelectMode: boolean;
   isSignalConversation: boolean;
+  isTerminated: boolean;
   onChangeDisappearingMessages: (seconds: DurationInSeconds) => void;
   onChangeMuteExpiration: (seconds: number) => void;
   onConversationAccept: () => void;
@@ -912,12 +919,12 @@ function HeaderDropdownMenuContent({
               {i18n('icu:archiveConversation')}
             </AxoDropdownMenu.Item>
           )}
-          {!conversation.isBlocked && (
+          {!conversation.isBlocked && !isTerminated && (
             <AxoDropdownMenu.Item symbol="block" onSelect={onConversationBlock}>
               {i18n('icu:ConversationHeader__MenuItem--Block')}
             </AxoDropdownMenu.Item>
           )}
-          {conversation.isBlocked && (
+          {conversation.isBlocked && !isTerminated && (
             <AxoDropdownMenu.Item
               symbol="message-thread"
               onSelect={onConversationUnblock}
@@ -931,7 +938,7 @@ function HeaderDropdownMenuContent({
           >
             {i18n('icu:deleteConversation')}
           </AxoDropdownMenu.Item>
-          {isGroup && (
+          {isGroup && !isTerminated && (
             <AxoDropdownMenu.Item
               symbol="leave"
               onSelect={onConversationLeaveGroup}
@@ -966,8 +973,8 @@ function OutgoingCallButtons({
 >): React.JSX.Element | null {
   const disabled =
     conversation.type === 'group' &&
-    conversation.announcementsOnly &&
-    !conversation.areWeAdmin;
+    ((conversation.announcementsOnly && !conversation.areWeAdmin) ||
+      conversation.terminated);
   const inAnotherCall = !disabled && hasActiveCall;
 
   const videoButton = (

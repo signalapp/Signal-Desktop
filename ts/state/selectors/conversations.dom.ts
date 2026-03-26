@@ -708,6 +708,7 @@ function canComposeConversation(
     !isSignalConversation(conversation) &&
     !conversation.isBlocked &&
     !conversation.removalStage &&
+    !conversation.terminated &&
     ((isGroupV2(conversation) && !conversation.left) ||
       !isConversationUnregistered(conversation)) &&
     hasDisplayInfo(conversation) &&
@@ -723,6 +724,7 @@ export const getAllComposableConversations = createSelector(
         !isSignalConversation(conversation) &&
         !conversation.isBlocked &&
         !conversation.removalStage &&
+        !conversation.terminated &&
         !conversation.isGroupV1AndDisabled &&
         ((isGroupV2(conversation) && !conversation.left) ||
           !isConversationUnregistered(conversation)) &&

@@ -13,12 +13,13 @@ import { tw } from '../axo/tw.dom.js';
 export type Props = {
   i18n: LocalizerType;
 
+  disabled?: boolean;
   value?: DurationInSeconds;
   onChange(value: DurationInSeconds): void;
 };
 
 export function DisappearingTimerSelect(props: Props): React.JSX.Element {
-  const { i18n, value = DurationInSeconds.ZERO, onChange } = props;
+  const { i18n, disabled, value = DurationInSeconds.ZERO, onChange } = props;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -99,6 +100,7 @@ export function DisappearingTimerSelect(props: Props): React.JSX.Element {
   return (
     <div className={tw('relative')}>
       <AxoSelect.Root
+        disabled={disabled}
         value={String(isCustomTimeSelected ? -1 : value)}
         onValueChange={onSelectChange}
       >

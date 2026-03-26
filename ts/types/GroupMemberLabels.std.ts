@@ -29,6 +29,7 @@ export function getCanAddLabel(
   return Boolean(
     membership &&
     conversation.type === 'group' &&
+    !conversation.terminated &&
     (membership.isAdmin ||
       conversation.accessControlMemberLabel ===
         Proto.AccessControl.AccessRequired.MEMBER)

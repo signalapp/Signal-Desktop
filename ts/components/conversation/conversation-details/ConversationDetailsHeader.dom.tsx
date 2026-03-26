@@ -17,6 +17,8 @@ import { UserText } from '../../UserText.dom.js';
 import { isInSystemContacts } from '../../../util/isInSystemContacts.std.js';
 import { InContactsIcon } from '../../InContactsIcon.dom.js';
 import type { ContactModalStateType } from '../../../types/globalModals.std.js';
+import { tw } from '../../../axo/tw.dom.js';
+import { AxoSymbol } from '../../../axo/AxoSymbol.dom.js';
 
 export type Props = {
   areWeASubscriber: boolean;
@@ -267,6 +269,20 @@ export function ConversationDetailsHeader({
       {modal}
       {avatar}
       {title}
+      {conversation.terminated && (
+        <div
+          className={tw(
+            'mb-3 px-2 py-[5px]',
+            'curved-xl bg-fill-secondary text-label-primary',
+            'text-start type-body-small'
+          )}
+        >
+          <AxoSymbol.InlineGlyph symbol="group-x" label={null} />
+          <span className={tw('ms-1')}>
+            {i18n('icu:ConversationDetails__GroupTerminatedBanner')}
+          </span>
+        </div>
+      )}
       <div className="ConversationDetailsHeader__subtitle">{subtitle}</div>
     </div>
   );

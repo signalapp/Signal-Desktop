@@ -126,6 +126,9 @@ export type GroupV2DescriptionChangeType = {
 export type GroupV2SummaryType = {
   type: 'summary';
 };
+type GroupV2TerminatedChangeType = {
+  type: 'terminated';
+};
 
 export type GroupV2ChangeDetailType =
   | GroupV2AccessAttributesChangeType
@@ -153,6 +156,7 @@ export type GroupV2ChangeDetailType =
   | GroupV2PendingRemoveManyChangeType
   | GroupV2PendingRemoveOneChangeType
   | GroupV2SummaryType
+  | GroupV2TerminatedChangeType
   | GroupV2TitleChangeType;
 
 export type GroupV2ChangeType = {

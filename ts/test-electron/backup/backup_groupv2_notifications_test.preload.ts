@@ -2007,6 +2007,36 @@ describe('backup/groupv2/notifications', () => {
 
       await symmetricRoundtripHarness(messages);
     });
+
+    it('Terminated items', async () => {
+      const messages: Array<MessageAttributesType> = [
+        createMessage({
+          from: OUR_ACI,
+          details: [
+            {
+              type: 'terminated',
+            },
+          ],
+        }),
+        createMessage({
+          from: ADMIN_A,
+          details: [
+            {
+              type: 'terminated',
+            },
+          ],
+        }),
+        createMessage({
+          details: [
+            {
+              type: 'terminated',
+            },
+          ],
+        }),
+      ];
+
+      await symmetricRoundtripHarness(messages);
+    });
   });
 
   describe('roundtrips given a timer change notification', () => {

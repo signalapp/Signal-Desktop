@@ -98,6 +98,7 @@ export type StateProps = {
   isEditMemberLabelEnabled: boolean;
   isGroup: boolean;
   isSignalConversation: boolean;
+  isTerminateGroupEnabled: boolean;
   groupsInCommon: ReadonlyArray<ConversationType>;
   maxGroupSize: number;
   maxRecommendedGroupSize: number;
@@ -133,6 +134,9 @@ type ActionProps = {
   deleteAvatarFromDisk: DeleteAvatarFromDiskActionType;
   getProfilesForConversation: (id: string) => unknown;
   leaveGroup: (conversationId: string) => void;
+  onConversationArchive: () => void;
+  onConversationDeleteMessages: () => void;
+  onConversationUnarchive: () => void;
   onDeleteNicknameAndNote: () => void;
   onOpenEditNicknameAndNoteModal: () => void;
   onOutgoingAudioCallInConversation: (conversationId: string) => unknown;
@@ -145,6 +149,7 @@ type ActionProps = {
   setMuteExpiration: (id: string, muteExpiresAt: undefined | number) => unknown;
   showContactModal: (payload: ContactModalStateType) => void;
   showConversation: ShowConversationType;
+  terminateGroup: (conversationId: string) => void;
   toggleAboutContactModal: (options: ContactModalStateType) => void;
   toggleAddUserToAnotherGroupModal: (contactId?: string) => void;
   toggleSafetyNumberModal: (conversationId: string) => unknown;
@@ -190,11 +195,15 @@ export function ConversationDetails({
   isEditMemberLabelEnabled,
   isGroup,
   isSignalConversation,
+  isTerminateGroupEnabled,
   leaveGroup,
   memberships,
   memberColors,
   maxGroupSize,
   maxRecommendedGroupSize,
+  onConversationArchive,
+  onConversationDeleteMessages,
+  onConversationUnarchive,
   onDeleteNicknameAndNote,
   onOpenEditNicknameAndNoteModal,
   onOutgoingAudioCallInConversation,
@@ -215,6 +224,7 @@ export function ConversationDetails({
   showConversation,
   showToast,
   startAvatarDownload,
+  terminateGroup,
   theme,
   toggleAboutContactModal,
   toggleSafetyNumberModal,
@@ -243,6 +253,10 @@ export function ConversationDetails({
 
   const cannotLeaveBecauseYouAreLastAdmin =
     getCannotLeaveBecauseYouAreLastAdmin(memberships, isAdmin);
+
+  const isGroupTerminated = Boolean(conversation.terminated);
+  const canTerminateGroup =
+    isTerminateGroupEnabled && !isGroupTerminated && isAdmin;
 
   const onCloseModal = useCallback(() => {
     setModalState(ModalState.NothingOpen);
@@ -445,12 +459,16 @@ export function ConversationDetails({
         )}
         {!conversation.isMe && !isSignalConversation && (
           <>
-            <ConversationDetailsCallButton
-              hasActiveCall={hasActiveCall}
-              i18n={i18n}
-              onClick={() => onOutgoingVideoCallInConversation(conversation.id)}
-              type="video"
-            />
+            {!conversation.terminated && (
+              <ConversationDetailsCallButton
+                hasActiveCall={hasActiveCall}
+                i18n={i18n}
+                onClick={() =>
+                  onOutgoingVideoCallInConversation(conversation.id)
+                }
+                type="video"
+              />
+            )}
             {!isGroup && (
               <ConversationDetailsCallButton
                 hasActiveCall={hasActiveCall}
@@ -588,6 +606,7 @@ export function ConversationDetails({
                 <DisappearingTimerSelect
                   i18n={i18n}
                   value={conversation.expireTimer || DurationInSeconds.ZERO}
+                  disabled={conversation.terminated}
                   onChange={value =>
                     setDisappearingMessages(conversation.id, value)
                   }
@@ -735,6 +754,7 @@ export function ConversationDetails({
           getPreferredBadge={getPreferredBadge}
           i18n={i18n}
           isEditMemberLabelEnabled={isEditMemberLabelEnabled}
+          isTerminated={isGroupTerminated}
           memberships={memberships}
           memberColors={memberColors}
           showContactModal={showContactModal}
@@ -750,7 +770,7 @@ export function ConversationDetails({
         />
       )}
 
-      {isGroup && (
+      {isGroup && !isGroupTerminated && (
         <PanelSection>
           {isAdmin || hasGroupLink ? (
             <PanelRow
@@ -852,13 +872,20 @@ export function ConversationDetails({
           acceptConversation={acceptConversation}
           blockConversation={blockConversation}
           cannotLeaveBecauseYouAreLastAdmin={cannotLeaveBecauseYouAreLastAdmin}
+          canTerminateGroup={canTerminateGroup}
           conversationId={conversation.id}
           conversationTitle={conversation.title}
           i18n={i18n}
+          isArchived={Boolean(conversation.isArchived)}
           isBlocked={Boolean(conversation.isBlocked)}
           isGroup={isGroup}
+          isGroupTerminated={isGroupTerminated}
           left={Boolean(conversation.left)}
+          onArchive={onConversationArchive}
+          onDelete={onConversationDeleteMessages}
+          onUnarchive={onConversationUnarchive}
           onLeave={() => leaveGroup(conversation.id)}
+          onTerminateGroup={() => terminateGroup(conversation.id)}
         />
       )}
 

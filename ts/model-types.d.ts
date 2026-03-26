@@ -505,6 +505,7 @@ export type ConversationAttributesType = {
     memberLabel: AccessRequiredEnum | undefined;
   };
   announcementsOnly?: boolean;
+  terminated?: boolean;
   avatar?: ContactAvatarType | null;
   avatars?: ReadonlyArray<Readonly<AvatarDataType>>;
   description?: string;
