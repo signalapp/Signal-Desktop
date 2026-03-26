@@ -3,10 +3,12 @@
 
 import type { ConversationAttributesType } from '../model-types.d.ts';
 import type { DraftPreviewType } from '../state/ducks/conversations.preload.js';
+import { BodyRange } from '../types/BodyRange.std.js';
 import { findAndFormatContact } from './findAndFormatContact.preload.js';
 import { hydrateRanges } from './BodyRange.node.js';
 import { isVoiceMessage } from './Attachment.std.js';
 import { stripNewlinesForLeftPane } from './stripNewlinesForLeftPane.std.js';
+import { isDirectConversation } from './whatTypeOfConversation.dom.js';
 
 const { i18n } = window.SignalContext;
 
@@ -16,7 +18,10 @@ export function getDraftPreview(
   const { draft } = attributes;
 
   const rawBodyRanges = attributes.draftBodyRanges || [];
-  const bodyRanges = hydrateRanges(rawBodyRanges, findAndFormatContact);
+  const bodyRangesToHydrate = isDirectConversation(attributes)
+    ? rawBodyRanges.filter(range => !BodyRange.isMention(range))
+    : rawBodyRanges;
+  const bodyRanges = hydrateRanges(bodyRangesToHydrate, findAndFormatContact);
 
   if (draft) {
     return {
