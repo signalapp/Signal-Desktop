@@ -649,8 +649,8 @@ importers:
         specifier: 4.3.7
         version: 4.3.7(supports-color@8.1.1)
       electron:
-        specifier: 40.8.3
-        version: 40.8.3
+        specifier: 41.0.4
+        version: 41.0.4
       electron-builder:
         specifier: 26.0.14
         version: 26.0.14(electron-builder-squirrel-windows@26.0.14)
@@ -5808,8 +5808,8 @@ packages:
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
-  electron@40.8.3:
-    resolution: {integrity: sha512-MH6LK4xM6VVmmtz0nRE0Fe8l2jTKSYTvH1t0ZfbNLw3o6dlBCVTRqQha6uL8ZQVoMy74JyLguGwK7dU7rCKIhw==}
+  electron@41.0.4:
+    resolution: {integrity: sha512-rO08CxnAsAkKPFj3OZnxFkKrlnpSL3OCOewMDj5kaohVo++7e8hIT5Sl+tNl9WkNKiLvfZSW180ueA9s5zh9dg==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -9007,6 +9007,9 @@ packages:
 
   pump@3.0.3:
     resolution: {integrity: sha512-todwxLMY7/heScKmntwQG8CXVkWUOdYxIvY2s0VWAAMh/nd8SoYiRaKjlr7+iCs984f2P8zvrfWcDDYVb73NfA==}
+
+  pump@3.0.4:
+    resolution: {integrity: sha512-VS7sjc6KR7e1ukRFhQSY5LM2uBWAUPiOPa/A3mkKmiMwSmRFUITt0xuj+/lesgnCv+dPIEYlkzrcyXgquIHMcA==}
 
   pumpify@2.0.1:
     resolution: {integrity: sha512-m7KOje7jZxrmutanlkS1daj1dS6z6BgslzOXmcSEpIlCxM3VJH7lG5QLeck/6hgF6F4crFf01UtQmNsJfweTAw==}
@@ -16889,7 +16892,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  electron@40.8.3:
+  electron@41.0.4:
     dependencies:
       '@electron/get': 2.0.3
       '@types/node': 24.12.0
@@ -17983,7 +17986,7 @@ snapshots:
 
   get-stream@5.2.0:
     dependencies:
-      pump: 3.0.3
+      pump: 3.0.4
 
   get-stream@6.0.1: {}
 
@@ -20678,6 +20681,11 @@ snapshots:
   pseudomap@1.0.2: {}
 
   pump@3.0.3:
+    dependencies:
+      end-of-stream: 1.4.5
+      once: 1.4.0
+
+  pump@3.0.4:
     dependencies:
       end-of-stream: 1.4.5
       once: 1.4.0
