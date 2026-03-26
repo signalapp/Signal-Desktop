@@ -8016,15 +8016,6 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Păstrează-ți intimitatea cu cinci noi pachete oficiale de autocolante din seria Signal Artist: „Chug the Mouse” de Amanda Cotan, „Cozy Season” de Miguel Ángel Camprubí, „Croco's Feelings” de Tiffany Beucher, „My Daily Life 2” de Plastic Thing și „Rocky Talk” de Lexi Vay."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "S-au lansat backup-urile securizate Signal! Acum poți alege să activezi backup-urile criptate automate end-to-end, ca să nu pierzi niciun mesaj când ai un telefon nou sau reinstalezi Signal. Poți face backup-uri gratuite pentru toate mesajele și fișierele media din ultimele 45 de zile sau poți plăti o mică taxă lunară ca să obții 100 GB de stocare pentru backup-uri la fiecare atașament. Apasă pe backup-uri în setările Signal pentru a începe. Mulțumim celor care au testat funcția în beta!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Acum poți trimite mesaje media cu vizualizare o singură dată și din Signal Desktop. Fotografiile și videoclipurile individuale trimise ca mesaje cu vizualizare unică vor fi eliminate automat dintr-un fir de conversație după ce au fost vizualizate."
-  },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Acum poți adăuga opțional un rol de membru pentru a te descrie pe tine sau rolul tău într-un chat de grup. Setează rolul de membru în grupul tău la „Arbitru” sau „Portar” în chat-ul local de fotbal din liga recreativă pentru a te ajuta să începi jocul atunci când se alătură noi coechipieri, apoi alege un rol cu funcția ta în chat-ul companiei. Rolurile de membri apar lângă numele de profil din acel grup, iar administratorii grupurilor pot controla dacă ele sunt active pentru toată lumea."
   }

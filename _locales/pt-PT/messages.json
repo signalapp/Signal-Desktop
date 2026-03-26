@@ -8016,15 +8016,6 @@
     "messageformat": "Pequenos ajustes adicionais, correções de bugs e melhorias de desempenho. Obrigado por usar o Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Cinco novos pacotes de autocolantes oficiais de artistas."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Chegaram as cópias de segurança do Signal! Agora pode optar por ativar cópias de segurança automáticas encriptadas de ponta a ponta, para nunca perder uma mensagem quando troca de telemóvel ou reinstala o Signal. Pode fazer cópias de segurança de todas as suas mensagens e dos últimos 45 dias de ficheiros multimédia gratuitamente, ou pode pagar uma pequena taxa mensal para obter 100 GB de armazenamento para fazer cópias de segurança de todos os anexos. Toque em \"cópias de segurança\" nas suas definições do Signal para começar. Agradecemos a toda a gente que ajudou a testar esta funcionalidade durante o período beta!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Agora também pode enviar mensagens multimédia de visualização única a partir do Signal Desktop. As fotos e vídeos individuais enviados como mensagens de visualização única serão automaticamente removidos de um tópico de conversa depois de terem sido visualizados."
-  },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Agora pode opcionalmente adicionar uma etiqueta de membro para se descrever ou descrever a sua função num chat de grupo. As etiquetas de membros aparecem junto ao nome do seu perfil nesse grupo e os administradores do grupo podem controlar se estão ativadas para toda a gente ou não."
   }

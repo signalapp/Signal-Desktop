@@ -8016,15 +8016,6 @@
     "messageformat": "Små tweaks, rettelser og forbedringer af appens præstation. Tak fordi du bruger Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "• Gør privatlivet mere synligt med fem nye officielle klistermærkepakker i Signal Artist Series: \"Chug the Mouse\" af Amanda Cotan, \"Cozy Season\" af Miguel Ángel Camprubí, \"Croco's Feelings\" af Tiffany Beucher, \"My Daily Life 2\" af Plastic Thing og \"Rocky Talk\" af Lexi Vay."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Sikre sikkerhedskopier er landet! Nu kan du vælge at aktivere automatiske E2E-krypterede sikkerhedskopier, så du aldrig mister en besked, når du får en ny telefon eller geninstallerer Signal. Du kan sikkerhedskopier alle dine beskeder og de sidste 45 dages medier gratis, eller få 100 GB plads til alle vedhæftede filer mod et lille månedligt gebyr. Tryk på Sikkerhedskopier i dine Signal-indstillinger for at komme i gang. Tak til alle, der testede denne funktion under betaperioden!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Nu kan du også sende medier, der kun kan ses én gang, fra Signal Desktop. Enkeltbilleder og -videoer, der sendes som engangsbeskeder, fjernes automatisk fra samtalen, når de er blevet set."
-  },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Nu kan du valgfrit tilføje en medlemstitel for at beskrive dig selv eller din rolle i gruppechatten. Brug medlemstitler som \"Dommer\" eller \"Målmand\" i din lokale fodboldgruppe for at komme i gang, når nye holdkammerater joiner. Skift derefter til en anden titel med din stilling i virksomhedschatten. Medlemstitler vises ved dit profilnavn i gruppen, og gruppeadministratorer kan bestemme, om de skal være synlige for alle."
   }

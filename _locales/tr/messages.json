@@ -8016,15 +8016,6 @@
     "messageformat": "Küçük ince ayarlar, hata düzeltmeleri ve performans geliştirmeleri yaptık. Signal'i kullandığın için teşekkürler!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Beş yeni resmi sanatçı çıkartma paketi: \"Amanda Cotan'dan \"Chug the Mouse\", Miguel Ángel Camprubí'den \"Cozy Season\", Tiffany Beucher'dan \"Croco's Feelings\", Plastic Thing'den \"My Daily Life 2\" ve Lexi Vay'den \"Rocky Talk\"."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal güvenli yedeklemeler burada! Artık otomatik uçtan uca şifrelenmiş yedeklemeleri etkinleştirmeyi seçebilirsin, böylece yeni bir telefon aldığında veya Signal'ı yeniden yüklediğinde hiçbir mesajı kaybetmezsin. Tüm mesajlarını ve son 45 günlük medyayı ücretsiz olarak yedekleyebilir ya da aylık küçük bir ücret ödeyerek her eklentiyi yedeklemek için 100 GB depolama alanına sahip olabilirsin. Başlamak için Signal ayarlarındaki yedeklemelere dokunun. Beta dönemi boyunca bu özelliğin test edilmesine yardımcı olan herkese teşekkürler!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Artık Signal Desktop'tan da bir kez görünür medya mesajları gönderebilirsin. Bir kez görünür mesajlar olarak gönderilen bireysel fotoğraflar ve videolar, görüntülendikten sonra konuşma dizisinden otomatik olarak kaldırılacaktır."
-  },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Artık bir grup sohbetinde kendini veya rolünü tanımlamak amacıyla isteğe bağlı bir üye etiketi ekleyebilirsin. Örneğin, mahalle futbol takımı grubunda üye etiketini “Hakem” veya “Kaleci” olarak ayarlayabilir ya da şirket grubunda üye etiketini unvanın olarak belirleyebilirsin. Üye etiketleri o gruptaki profil adının yanında görünür ve grup yöneticileri herkesin etiket belirleyip belirleyemeyeceğini kontrol edebilir."
   }

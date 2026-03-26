@@ -8016,15 +8016,6 @@
     "messageformat": "Drobná vylepšení, opravy chyb a zvýšení výkonu. Děkujeme, že používáte Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Pět nových oficiálních balíčků nálepek od známých umělců."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Zabezpečené zálohování Signal je tu! Nyní můžete povolit automatické koncově šifrované zálohování, abyste při pořízení nového telefonu nebo přeinstalování aplikace Signal nepřišli o žádné zprávy. Všechny zprávy a média za posledních 45 dní můžete zálohovat zdarma, nebo můžete za malý měsíční poplatek získat 100GB úložiště pro zálohování každé přílohy. Klepněte na zálohování v nastavení aplikace Signal a můžete začít. Děkujeme všem, kteří se podíleli na testování této funkce ve fázi beta verze!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Nyní můžete odesílat média, která lze zobrazit jen jednou, také z aplikace Signal Desktop. Fotky a videa odeslané jako zprávy, které lze zobrazit jen jednou, budou po zobrazení automaticky z vlákna konverzace odstraněny."
-  },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Nyní můžete volitelně přidat štítek člena, který popisuje člena nebo jeho roli ve skupinovém chatu. Štítky členů se v dané skupině zobrazují vedle profilového jména a správci skupiny mohou nastavit, zda budou povoleny pro všechny."
   }

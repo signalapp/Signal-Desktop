@@ -8016,15 +8016,6 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Buat privasi makin melekat dengan lima paket stiker resmi baru dari Signal Artist Series: \"Chug the Mouse\" oleh Amanda Cotan, \"Cozy Season\" oleh Miguel Ángel Camprubí, \"Croco's Feelings\" oleh Tiffany Beucher, \"My Daily Life 2\" oleh Plastic Thing, dan \"Rocky Talk\" oleh Lexi Vay."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal Secure Backups telah hadir! Sekarang Anda bisa mengaktifkan pencadangan otomatis yang terenkripsi secara menyeluruh, jadi pesan tidak akan hilang saat Anda memakai ponsel baru atau setelah menginstal ulang aplikasi Signal. Anda bisa mencadangkan semua pesan dan media hingga 45 hari terakhir secara gratis, atau bayar biaya bulanan yang murah untuk mendapatkan penyimpanan 100 GB agar bisa mencadangkan setiap lampiran. Ketuk Cadangan di pengaturan Signal untuk memulai. Terima kasih untuk semua pengguna yang telah membantu menguji fitur ini selama periode beta!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Sekarang Anda juga bisa mengirim pesan media sekali lihat dari Signal Desktop. Foto dan video individual yang dikirim sebagai pesan sekali lihat akan otomatis dihapus dari utas percakapan setelah dilihat."
-  },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "• Sekarang tersedia opsi menambahkan label anggota untuk mendeskripsikan diri atau peran Anda dalam sebuah chat grup. Label anggota ditampilkan di samping nama profil Anda dalam grup tersebut dan admin grup bisa mengontrol siapa yang bisa menetapkan label tersebut."
   }

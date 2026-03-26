@@ -8016,15 +8016,6 @@
     "messageformat": "Hemos hecho algunos ajustes, correcciones de errores y mejoras en el rendimiento. ¡Gracias por usar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "¿Te encantan los stickers? Disfruta de nuestros cinco nuevos paquetes de stickers, creados por artistas especialmente para Signal. Y, como todo en la aplicación, están cifrados de extremo a extremo."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "¡Las Copias Seguras de Signal ya están aquí! Ahora puedes activar copias de seguridad automáticas y cifradas de extremo a extremo para no perder ni un solo mensaje cuando cambias de teléfono o reinstalas Signal. Puedes hacer copias gratuitas de todos tus mensajes y de los últimos 45 días de archivos multimedia, o pagar una pequeña cuota mensual para obtener 100 GB de almacenamiento y hacer una copia de todos tus archivos adjuntos. Para empezar, ve a Ajustes de Signal y toca Copias de seguridad. ¡Gracias a todas las personas que nos ayudaron a probar esta función en la versión beta!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Ahora también puedes enviar mensajes multimedia de visualización única en Signal Desktop. Las fotos y los vídeos individuales que se envían como mensajes de visualización única se eliminan automáticamente del chat una vez vistos."
-  },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "En los grupos, cada persona tiene un papel distinto. Por eso lanzamos las \"categorías de participante\", una función que te permite añadir tu rol en cada grupo al que perteneces. ¿Tienes un grupo del trabajo? Indica tu cargo para que cuando se unan nuevos participantes sepan de inmediato quién eres. En tu grupo familiar, quizá prefieras algo más divertido como \"El tío favorito\" o \"La consentida de mamá\". Las categorías de participante aparecen junto a tu nombre de perfil en ese grupo, y los admins pueden decidir si activan esta opción para todos o no."
   }

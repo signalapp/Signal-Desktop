@@ -8016,15 +8016,6 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "5 bộ nhãn dán chính thức mới của các nghệ sĩ."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Ra mắt Sao lưu bảo mật Signal! Giờ đây, bạn có thể chọn kích hoạt sao lưu mã hóa đầu cuối tự động để không bao giờ mất tin nhắn khi sử dụng điện thoại mới hoặc cài lại Signal. Bạn có thể sao lưu tất cả tin nhắn của mình và tập tin đa phương tiện của 45 ngày gần nhất miễn phí, hoặc trả một khoản phí nhỏ mỗi tháng để nhận 100 GB để sao lưu mọi tập tin đính kèm. Nhấn vào sao lưu trong cài đặt Signal để bắt đầu. Cảm ơn tất đã giúp chúng tôi thử nghiệm tính năng này trong giai đoạn beta!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Giờ đây bạn cũng có thể gửi tin nhắn đa phương tiện xem một lần từ Signal Desktop. Ảnh và video riêng lẻ được gửi dưới dạng tin nhắn xem một lần sẽ được tự động xóa khỏi cuộc trò chuyện sau khi đã được xem."
-  },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Giờ đây, bạn có thể thêm nhãn thành viên (không bắt buộc) để mô tả bản thân hoặc vai trò của mình trong cuộc trò chuyện nhóm. Nhãn thành viên sẽ xuất hiện bên cạnh tên hồ sơ của bạn trong nhóm đó và quản trị viên nhóm có thể kiểm soát việc bật hay tắt nhãn thành viên cho tất cả mọi người."
   }

@@ -8016,15 +8016,6 @@
     "messageformat": "Drobne ulepszenia, poprawki błędów i większa funkcjonalność. Cieszymy się, że korzystasz z aplikacji Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Do naszej galerii „Sztuka w aplikacji Signal” dołączyło właśnie pięć nowych zestawów naklejek: „Chug the Mouse” autorstwa Amandy Cotan, „Cozy Season” Miguela Ángela Camprubíego, „Croco's Feelings” Tiffany Beucher, „My Daily Life 2” Plastic Thing oraz „Rocky Talk” stworzony przez Lexi Vay."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Bezpieczne kopie zapasowe Signal są już dostępne. Teraz możesz włączyć automatyczne tworzenie kopii zapasowych szyfrowanych metodą end-to-end. Dzięki temu nie stracisz historii wiadomości, nawet gdy zmienisz telefon czy ponownie zainstalujesz Signal. W trybie bezpłatnym możesz tworzyć kopie zapasowe wszystkich wiadomości, w tym multimediów z ostatnich 45 dni. Za niewielką miesięczną opłatą zyskasz 100 GB miejsca na kopię zapasową wszystkich plików. Aby włączyć tworzenie kopii zapasowych, dotknij opcji „Kopie zapasowe” w ustawieniach aplikacji Signal. Dziękujemy wszystkim, którzy pomogli nam testować tę funkcję w wersji beta."
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Od teraz możesz wysyłać wiadomości jednorazowe również w aplikacji Signal Desktop. Jeśli wyślesz zdjęcie lub film jako wiadomość jednorazową, zostanie ona automatycznie usunięta z czatu po wyświetleniu."
-  },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Od teraz możesz podać swoją rolę w grupie, aby się przedstawić lub określić funkcję, jaką pełnisz. Bo w życiu, jak w filmie, gramy różne role. Na czacie osiedlowej siłowni można uchodzić za „superkoksa”, na czacie firmowym – za „starszą specjalistką”, ale w grupie rodzinnej już na zawsze pozostanie się „synusiem”. Rola pojawi się w danej grupie obok Twojego imienia podanego w profilu. O tym, czy uczestnicy czatu mogą sami ustawiać swoje role w grupie, decydują jej administratorzy."
   }

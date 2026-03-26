@@ -8016,15 +8016,6 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Zagotovite si zasebnost s petimi novimi uradnimi paketi nalepk v seriji Signal Artist: »Chug the Mouse« avtorice Amande Cotan, »Cozy Season« avtorja Miguela Ángela Camprubíja, »Croco's Feelings« avtorice Tiffany Beucher, »My Daily Life 2« avtorice Plastic Thing in »Rocky Talk« avtorice Lexi Vay."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Varne varnostne kopije Signal so tukaj! Zdaj lahko omogočite samodejno varnostno kopiranje s celovitim šifriranjem, tako da ne boste nikoli izgubili sporočila, ko dobite nov telefon ali ponovno namestite Signal. Vsa sporočila in zadnjih 45 dni medijev lahko varnostno kopirate brezplačno ali pa plačate majhno mesečno naročnino, da dobite 100 GB prostora za varnostno kopiranje vsake priloge. Za začetek v nastavitvah Signala tapnite na varnostne kopije. Hvala vsem, ki ste pomagali pri testiranju te funkcije med beta obdobjem!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Zdaj lahko iz aplikacije Signal Desktop pošiljate tudi medijske datoteke za enkraten ogled. Posamezne fotografije in videi, poslani kot sporočila za enkraten ogled, bodo po ogledu samodejno odstranjeni iz niti pogovora."
-  },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Zdaj lahko dodate vlogo člana, s katero opišete sebe ali svojo vlogo v skupinskem klepetu. Vloge članov se prikažejo poleg imena profila v skupini, skrbniki skupine pa lahko nadzorujejo, če so te omogočene za vse."
   }

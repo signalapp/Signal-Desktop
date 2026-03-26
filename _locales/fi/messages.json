@@ -8016,15 +8016,6 @@
     "messageformat": "Pieniä säätöjä, virheenkorjauksia ja suorituskykyparannuksia. Kiitos, että käytät Signalia!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "• Suojaa yksityisyyttäsi Signal Artist -sarjan viidellä uudella virallisella tarrapakkauksella: ”Chug the Mouse” Amanda Cotanilta, ”Cozy Season” Miguel Ángel Camprubílta, ”Croco's Feelings” Tiffany Beucherilta, ”My Daily Life 2” Plastic Thingilta ja ”Rocky Talk” Lexi Vaylta."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal Secure -varmuuskopiointi on nyt saatavilla! Nyt voit ottaa käyttöön automaattisen, päästä päähän salatun varmuuskopioinnin. Näin et koskaan menetä viestejä, kun hankit uuden puhelimen tai asennat Signalin uudelleen. Voit varmuuskopioida kaikki viestisi ja viimeisten 45 päivän mediasisällön veloituksetta. Pienellä kuukausimaksulla saat 100 Gt tallennustilaa kaikkien liitteiden varmuuskopiointiin. Aloita napauttamalla Varmuuskopiointi Signal-asetuksissa. Kiitos beta-vaiheen testaajille!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Nyt voit lähettää kerran katsottavia mediaviestejä myös Signal Desktopista. Yksittäiset valokuvat ja videot, jotka lähetetään kerran katsottavina viesteinä, poistetaan keskusteluketjusta automaattisesti niiden katselun jälkeen."
-  },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Voit nyt halutessasi lisätä ryhmäkeskustelussa jäsenroolin kuvaamaan itseäsi tai rooliasi. Jäsenroolit näkyvät ryhmän profiilin nimen vieressä. Ryhmän ylläpitäjät voivat hallita, voivatko kaikki käyttäjät asettaa niitä."
   }

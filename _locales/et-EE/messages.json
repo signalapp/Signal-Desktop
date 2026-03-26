@@ -8016,15 +8016,6 @@
     "messageformat": "Väikesed muudatused, vigade parandused ja jõudluse täiustused. Aitäh, et kasutad Signalit!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Viis uut ametlikku kleebisekomplekti: „Chug the Mouse“ (Amanda Cotan), „Cozy Season“ (Miguel Ángel Camprubí), „Croco's Feelings“ (Tiffany Beucher), „My Daily Life 2“ (Plastic Thing), ja „Rocky Talk“ (Lexi Vay)."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signali turvalised varukoopiad on kohal! Nüüd saad lubada automaatsed otspunktkrüptitud varukoopiad, et kunagi ükski sõnum kaotsi ei läheks, kui sa uue telefoni saad või Signali uuesti paigaldad. Saad tasuta varundada kõik oma sõnumid ja viimase 45 päeva meediafailid või maksta väikese kuutasu, mille eest anname sulle 100 GB salvestusruumi kõigi manuste varundamiseks. Alustamiseks vali oma Signali sätete alt varukoopiad. Aitäh kõigile, kes aitasid seda funktsiooni beetaperioodil testida!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Nüüd saad ka Signal Desktopist ühekordselt vaadatavaid meediasõnumeid saata. Ühekordseks vaatamiseks saadetud fotod ja videod eemaldatakse vestluslõimest automaatselt pärast nende vaatamist."
-  },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Nüüd on sul võimalus lisada liikme silt, et kirjeldada ennast või oma rolli selles grupivestluses. Liikme silte kuvatakse grupis sinu profiilinime kõrval ning grupi administraatorid otsustavad, kas igaüks saab neid lisada või mitte."
   }

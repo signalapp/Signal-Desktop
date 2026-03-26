@@ -8016,15 +8016,6 @@
     "messageformat": "Manja podešavanja, ispravci grešaka i poboljšanje rada aplikacije. Hvala vam što koristite Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "• Pet novih službenih autorskih paketa naljepnica."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Zaštićene sigurnosne kopije podataka stigle su na Signal! Sada možete omogućiti automatsko sigurnosno kopiranje, koje štiti vaše podatke sveobuhvatnim šifriranjem, kako nikada ne biste izgubili svoje poruke prilikom kupnje novog telefona ili ponovnog instaliranja Signal aplikacije. Možete besplatno izraditi sigurnosnu kopiju svih svojih razgovora i medijskih zapisa iz posljednjih 45 dana ili možete platiti malu mjesečnu naknadu kako biste dobili 100 GB prostora za pohranu za sigurnosno kopiranje svakog privitka. Dodirnite „Sigurnosne kopije“ u postavkama Signala za postavljanje. Hvala svima koji su pomogli u testiranju ove značajke tijekom razdoblja beta testiranja!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Sada možete slati medijske poruke koje nestaju nakon prikaza i iz Signala za desktop. Pojedinačne fotografije i videozapisi koji se šalju kao poruke koje nestaju nakon prikaza automatski će se ukloniti iz razgovora nakon prikazivanja."
-  },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Sada možete dodati ulogu člana kako biste opisali sebe ili svoju ulogu u grupnom razgovoru. Uloge članova prikazivat će se pored vašeg imena profila u toj grupi, a administratori grupe odlučuju jesu li uloge članova omogućene svim članovima."
   }

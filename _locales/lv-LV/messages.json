@@ -8016,15 +8016,6 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Piedāvājam piecus jaunus oficiālos uzlīmju komplektus no Signal Artist sērijas: \"Chug the Mouse\", autore Amanda Cotan, \"Cozy Season\", autors Miguel Ángel Camprubí, \"Croco's Feelings\", autore Tiffany Beucher, \"My Daily Life 2\", autors Plastic Thing, un \"Rocky Talk\", autore Lexi Vay."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Signal drošās rezerves kopijas ir klāt! Tagad varat ieslēgt automātisku pilnīgi šifrētu rezerves kopiju veidošanu, lai nekad nezaudētu nevienu ziņu ar jaunu tālruni vai pārinstalējot Signal. Bez maksas varat izveidot rezerves kopijas visām ziņām un pēdējo 45 dienu radītajai multividei, vai arī maksāt nelielu mēneša maksu, lai saņemtu 100 GB krātuves, kurā iespējams dublēt katru pielikumu. Lai sāktu, Signal iestatījumos pieskarieties pie Rezerves kopijas. Paldies ikvienam, kas veica funkcijas pārbaudi beta versijā!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Tagad varat nosūtīt vienreiz skatāmas multivides ziņas arī no Signal darbvirsmas. Fotoattēli un video, kas nosūtīti kā vienreiz skatāmas ziņas, pēc to skatīšanas tiks automātiski dzēsti no sarakstes."
-  },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Tagad varat pievienot lietotāja emblēmu, lai grupas tērzētavā aprakstītu sevi vai savu amata nosaukumu. Ja jūsu futbola komandai ir sava tērzētava, iestatiet emblēmu \"Tiesnesis\" vai \"Vārtsargs\", lai ātrāk iepazītos ar jaunajiem biedriem, savukārt darba tērzētavā varat izvēlēties citu emblēmu, kas raksturo jūsu amatu. Lietotāju emblēmas ir redzamas blakus profila nosaukumam attiecīgajā grupā, un grupas administratori var kontrolēt, vai tās ir iespējotas visiem."
   }

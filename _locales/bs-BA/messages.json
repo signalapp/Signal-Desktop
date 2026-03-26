@@ -8016,15 +8016,6 @@
     "messageformat": "Mala podešavanja, otklanjanje grešaka i poboljšanja performansi. Hvala vam što koristite Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "Zaštitite privatnost uz pet novih službenih paketa naljepnica u seriji Signal Artist: \"Chug the Mouse\" od Amande Cotan, \"Cozy Season\" od Miguela Ángela Camprubíja, \"Croco's Feelings\" od Tiffany Beucher, \"My Daily Life 2\" od Plastic Thing i \"Rocky Talk\" od Lexi Vay."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Zaštićene kopije podataka su stigle! Sada možete odabrati da omogućite automatske sigurnosne kopije sa sveobuhvatnim šifriranjem kako nikada ne biste izgubili poruku kada dobijete novi telefon ili ponovo instalirate Signal. Možete besplatno napraviti sigurnosnu kopiju svih svojih poruka i medijskih sadržaja za posljednjih 45 dana ili možete platiti malu mjesečnu naknadu da biste dobili 100 GB prostora za pohranu za sigurnosno kopiranje svakog priloga. Dodirnite sigurnosne kopije u postavkama Signala da počnete. Hvala svima koji su pomogli u testiranju ove funkcije tokom beta perioda!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Sada možete slati medijske poruke za jednokratni pregled i iz Signal Desktopa. Pojedinačne fotografije i videozapisi koji se šalju kao poruke za jednokratni pregled bit će automatski uklonjeni iz niti razgovora nakon što budu pregledani."
-  },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Sada opcionalno možete dodati oznaku člana kako biste opisali sebe ili svoju ulogu u grupnom chatu. Oznake članova pojavljuju se pored vašeg imena profila u toj grupi, a administratori grupe mogu kontrolirati da li su omogućene za sve članove."
   }

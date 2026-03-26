@@ -8016,15 +8016,6 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__7.90--0": {
-    "messageformat": "• Gondoskodj adataid védelméről öt új hivatalos matricacsomaggal a Signal Artist sorozatból: „Chug the Mouse” Amanda Cotantól, „Cozy Season” Miguel Ángel Camprubítól, „Croco's Feelings” Tiffany Beuchertől, „My Daily Life 2” Plastic Thingtől és „Rocky Talk” Lexi Vaytől."
-  },
-  "icu:WhatsNew__8.0--0": {
-    "messageformat": "Itt a Signal biztonsági mentés funkciója! Mostantól engedélyezheted az automatikus, végponttól végpontig titkosított biztonsági mentéseket, így soha nem veszítesz el egy üzenetet sem! Ingyen biztonsági másolatot készíthetsz az üzeneteidről és az elmúlt 45 nap médiatartalmairól, vagy egy kisebb havi díjért 100 GB tárhelyet kapsz minden melléklet biztonsági mentéséhez. Koppints a biztonsági mentésekre a Signal beállításaiban. Köszönjük mindenkinek, aki segített tesztelni a funkciót!"
-  },
-  "icu:WhatsNew__8.2--0": {
-    "messageformat": "Mostantól egyszer megtekinthető médiaüzeneteket is küldhetsz a Signal Desktopból. Az egyszer megtekinthető üzenetként elküldött egyes fotók és videók a megtekintésük után automatikusan eltávolításra kerülnek a beszélgetésből."
-  },
   "icu:WhatsNew__8.3--0": {
     "messageformat": "Mostantól opcionálisan hozzáadhatsz egy tagsági címkét, amellyel leírhatod magadat vagy a szerepedet egy csoportos csevegésben. A tagsági címkék a profilneved mellett jelennek meg az adott csoportban, és a csoport adminisztrátorai szabályozhatják, hogy mindenki számára engedélyezve legyenek-e."
   }
