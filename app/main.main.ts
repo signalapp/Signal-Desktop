@@ -851,7 +851,11 @@ async function createWindow() {
   mainWindow.on('maximize', captureWindowStats);
   mainWindow.on('unmaximize', captureWindowStats);
 
-  if (!ciMode && config.get<boolean>('openDevTools')) {
+  if (
+    !ciMode &&
+    config.get<boolean>('openDevTools') &&
+    process.env.NODE_ENV !== 'test'
+  ) {
     // Open the DevTools.
     mainWindow.webContents.openDevTools();
   }

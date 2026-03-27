@@ -21,7 +21,7 @@ import type {
 } from '../../types/AttachmentBackup.std.js';
 import { DataWriter } from '../../sql/Client.preload.js';
 import { getRandomBytes } from '../../Crypto.node.js';
-import { APPLICATION_OCTET_STREAM, VIDEO_MP4 } from '../../types/MIME.std.js';
+import { APPLICATION_OCTET_STREAM, IMAGE_JPEG } from '../../types/MIME.std.js';
 import { createName, getRelativePath } from '../../util/attachmentPath.node.js';
 import { getAbsoluteAttachmentPath } from '../../util/migrations.preload.js';
 import {
@@ -40,7 +40,7 @@ const BACKUP_CDN = 3;
 
 const RELATIVE_ATTACHMENT_PATH = getRelativePath(createName());
 const LOCAL_ENCRYPTION_KEYS = Bytes.toBase64(generateKeys());
-const ATTACHMENT_SIZE = 188610;
+const ATTACHMENT_SIZE = 1476;
 
 describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(this: Mocha.Suite) {
   this.timeout(10 * SECOND);
@@ -65,7 +65,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
       receivedAt: index,
       data: {
         path: RELATIVE_ATTACHMENT_PATH,
-        contentType: VIDEO_MP4,
+        contentType: IMAGE_JPEG,
         keys: 'keys=',
         version: 2,
         localKey: LOCAL_ENCRYPTION_KEYS,
@@ -93,7 +93,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
       data: {
         fullsizePath: RELATIVE_ATTACHMENT_PATH,
         fullsizeSize: ATTACHMENT_SIZE,
-        contentType: VIDEO_MP4,
+        contentType: IMAGE_JPEG,
         version: 2,
         localKey: LOCAL_ENCRYPTION_KEYS,
 
@@ -108,7 +108,7 @@ describe('AttachmentBackupManager/JobManager', function attachmentBackupManager(
     await DataWriter.ensureFilePermissions();
     await encryptAttachmentV2({
       plaintext: {
-        absolutePath: join(__dirname, '../../../fixtures/cat-gif.mp4'),
+        absolutePath: join(__dirname, '../../../fixtures/kitten-1-64-64.jpg'),
       },
       keys: Bytes.fromBase64(LOCAL_ENCRYPTION_KEYS),
       needIncrementalMac: false,
