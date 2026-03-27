@@ -3300,7 +3300,7 @@
     "messageformat": "암호화폐 또는 금융 사기"
   },
   "icu:SafetyTipsModal__TipDescription--Crypto": {
-    "messageformat": "모르는 사람이 암호화폐(예: 비트코인) 또는 금융 기회에 관해 메시지 할 경우 조심하세요. 사기일 가능성이 높습니다."
+    "messageformat": "모르는 사람으로부터 암호화폐(비트코인 등)나 금융 투자 제안 메시지를 받으셨다면 스팸일 가능성이 높으니 각별히 주의하시기 바랍니다."
   },
   "icu:SafetyTipsModal__TipTitle--Vague": {
     "messageformat": "모호하거나 관련이 없는 메시지"
@@ -3312,13 +3312,13 @@
     "messageformat": "링크가 있는 메시지"
   },
   "icu:SafetyTipsModal__TipDescription--Links": {
-    "messageformat": "모르는 사람이 보내는 링크나 웹사이트가 있는 메시지를 조심하세요. 신뢰할 수 없는 사람이 보내는 링크를 절대 방문하지 마세요."
+    "messageformat": "모르는 사람이 보낸 웹사이트 링크가 포함된 메시지에 주의하세요. 신뢰할 수 없는 출처의 링크는 절대 클릭하지 마시기 바랍니다."
   },
   "icu:SafetyTipsModal__TipTitle--Business": {
     "messageformat": "가짜 비즈니스 또는 기관"
   },
   "icu:SafetyTipsModal__TipDescription--Business": {
-    "messageformat": "비즈니스 또는 정부 기관에서 오는 연락을 조심하세요. 국세청, 배송 업체 등과 관련된 메시지는 스팸일 수 있습니다."
+    "messageformat": "기업이나 정부 기관을 사칭한 연락에 주의하세요. 국세청 등의 공공기관이나 배송 업체와 관련된 메시지는 스팸일 가능성이 높습니다."
   },
   "icu:SafetyTipsModal__DotLabel": {
     "messageformat": "{page,number}페이지로 이동"
