@@ -1612,9 +1612,25 @@ export class BackupExportStream extends Readable {
       );
     } else if (message.source) {
       authorId = this.#getRecipientByE164(message.source, 'message.source');
+    } else if (isIncoming) {
+      if (conversation && isDirectConversation(conversation.attributes)) {
+        authorId = this.#getRecipientByConversationId(
+          conversation.id,
+          'message-missing-source'
+        );
+      }
+      if (authorId != null) {
+        log.warn(
+          `${message.sent_at}: Incoming message in group missing source, using conversation`
+        );
+      } else {
+        log.warn(
+          `${message.sent_at}: Incoming message in group or unknown conversation` +
+            ' without source, dropping'
+        );
+        return undefined;
+      }
     } else {
-      strictAssert(!isIncoming, 'Incoming message must have source');
-
       // Author must be always present, even if we are directionless
       authorId = me;
     }

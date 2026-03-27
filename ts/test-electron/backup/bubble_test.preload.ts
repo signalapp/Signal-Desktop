@@ -387,6 +387,63 @@ describe('backup/bubble messages', () => {
     );
   });
 
+  it('fixes source-missing incoming 1:1 messages', async () => {
+    await asymmetricRoundtripHarness(
+      [
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+          timestamp: 3,
+          body: 'hello',
+        },
+      ],
+      [
+        {
+          conversationId: contactA.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          sourceServiceId: CONTACT_A,
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+          timestamp: 3,
+          body: 'hello',
+        },
+      ]
+    );
+  });
+
+  it('drops source-missing incoming group messages', async () => {
+    await asymmetricRoundtripHarness(
+      [
+        {
+          conversationId: gv2.id,
+          id: generateGuid(),
+          type: 'incoming',
+          received_at: 3,
+          received_at_ms: 3,
+          sent_at: 3,
+          readStatus: ReadStatus.Unread,
+          seenStatus: SeenStatus.Unseen,
+          unidentifiedDeliveryReceived: true,
+          timestamp: 3,
+          body: 'hello',
+        },
+      ],
+      []
+    );
+  });
+
   it('drops misattributed incoming 1:1 messages', async () => {
     await asymmetricRoundtripHarness(
       [
