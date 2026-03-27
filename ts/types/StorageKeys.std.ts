@@ -242,9 +242,9 @@ export type StorageAccessType = {
   cloudBackupStatus: BackupStatusType | undefined;
   backupSubscriptionStatus: BackupsSubscriptionType | undefined;
 
-  backupKeyViewed: boolean;
   lastLocalBackup: LocalBackupExportMetadata;
   localBackupFolder: string | undefined;
+  backupKeyViewedHash: string | undefined;
 
   // If true Desktop message history was restored from backup
   isRestoredFromBackup: boolean;
@@ -317,6 +317,7 @@ export type StorageAccessType = {
   backupMediaDownloadIdle: never;
   callQualitySurveyCooldownDisabled: never;
   localDeleteWarningShown: never;
+  backupKeyViewed: never;
 };
 
 export const STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK = [
@@ -360,6 +361,9 @@ export const STORAGE_KEYS_TO_PRESERVE_AFTER_UNLINK = [
   'number_id',
   'uuid_id',
   'pni',
+
+  // Local backups
+  'backupKeyViewedHash',
 ] as const satisfies ReadonlyArray<keyof StorageAccessType>;
 
 const STORAGE_KEYS_TO_REMOVE_AFTER_UNLINK = [

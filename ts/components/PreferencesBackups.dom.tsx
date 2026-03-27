@@ -39,8 +39,6 @@ export const SIGNAL_BACKUPS_LEARN_MORE_URL =
 const LOCAL_BACKUPS_PAGES = new Set([
   SettingsPage.LocalBackups,
   SettingsPage.LocalBackupsKeyReference,
-  SettingsPage.LocalBackupsSetupFolder,
-  SettingsPage.LocalBackupsSetupKey,
 ]);
 
 function isLocalBackupsPage(page: SettingsPage) {
@@ -48,9 +46,9 @@ function isLocalBackupsPage(page: SettingsPage) {
 }
 
 export function PreferencesBackups({
-  accountEntropyPool,
+  backupKey,
+  backupKeyHash,
   backupFreeMediaDays,
-  backupKeyViewed,
   backupSubscriptionStatus,
   backupTier,
   cloudBackupStatus,
@@ -59,7 +57,7 @@ export function PreferencesBackups({
   lastLocalBackup,
   locale,
   localBackupFolder,
-  onBackupKeyViewedChange,
+  onBackupKeyViewed,
   openFileInFolder,
   osName,
   pickLocalBackupFolder,
@@ -69,6 +67,7 @@ export function PreferencesBackups({
   pauseBackupMediaDownload,
   resumeBackupMediaDownload,
   settingsLocation,
+  previouslyViewedBackupKeyHash,
   promptOSAuth,
   refreshCloudBackupStatus,
   refreshBackupSubscriptionStatus,
@@ -76,9 +75,9 @@ export function PreferencesBackups({
   showToast,
   startLocalBackupExport,
 }: {
-  accountEntropyPool: string | undefined;
   backupFreeMediaDays: number;
-  backupKeyViewed: boolean;
+  backupKey: string | undefined;
+  backupKeyHash: string | undefined;
   backupSubscriptionStatus: BackupsSubscriptionType;
   backupTier: BackupLevel | null;
   cloudBackupStatus?: BackupStatusType;
@@ -87,7 +86,7 @@ export function PreferencesBackups({
   isLocalBackupsEnabled: boolean;
   lastLocalBackup: LocalBackupExportMetadata | undefined;
   locale: string;
-  onBackupKeyViewedChange: (keyViewed: boolean) => void;
+  onBackupKeyViewed: ({ backupKeyHash }: { backupKeyHash: string }) => void;
   openFileInFolder: (path: string) => void;
   osName: 'linux' | 'macos' | 'windows' | undefined;
   settingsLocation: SettingsLocation;
@@ -101,6 +100,7 @@ export function PreferencesBackups({
   pauseBackupMediaDownload: () => void;
   resumeBackupMediaDownload: () => void;
   pickLocalBackupFolder: () => Promise<string | undefined>;
+  previouslyViewedBackupKeyHash: string | undefined;
   promptOSAuth: (
     reason: PromptOSAuthReasonType
   ) => Promise<PromptOSAuthResultType>;
@@ -152,19 +152,25 @@ export function PreferencesBackups({
   }
 
   if (isLocalBackupsPage(settingsLocation.page)) {
+    if (!backupKey || !backupKeyHash) {
+      setSettingsLocation({ page: SettingsPage.Backups });
+      return null;
+    }
+
     return (
       <PreferencesLocalBackups
-        accountEntropyPool={accountEntropyPool}
-        backupKeyViewed={backupKeyViewed}
+        backupKey={backupKey}
+        backupKeyHash={backupKeyHash}
         i18n={i18n}
         lastLocalBackup={lastLocalBackup}
         localBackupFolder={localBackupFolder}
-        onBackupKeyViewedChange={onBackupKeyViewedChange}
+        onBackupKeyViewed={onBackupKeyViewed}
         openFileInFolder={openFileInFolder}
         osName={osName}
         settingsLocation={settingsLocation}
         pickLocalBackupFolder={pickLocalBackupFolder}
         disableLocalBackups={disableLocalBackups}
+        previouslyViewedBackupKeyHash={previouslyViewedBackupKeyHash}
         promptOSAuth={promptOSAuth}
         setSettingsLocation={setSettingsLocation}
         showToast={showToast}
@@ -179,7 +185,8 @@ export function PreferencesBackups({
     </a>
   );
 
-  const isLocalBackupsSetup = localBackupFolder && backupKeyViewed;
+  const isLocalBackupsSetup =
+    localBackupFolder != null && previouslyViewedBackupKeyHash != null;
 
   function renderRemoteBackups() {
     return (

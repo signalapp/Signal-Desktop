@@ -111,10 +111,11 @@ type SelectChangeHandlerType<T = string | number> = (value: T) => unknown;
 
 export type PropsDataType = {
   // Settings
-  accountEntropyPool: string | undefined;
+  backupKey: string | undefined;
+  backupKeyHash: string | undefined;
   autoDownloadAttachment: AutoDownloadAttachmentType;
   backupFreeMediaDays: number;
-  backupKeyViewed: boolean;
+  previouslyViewedBackupKeyHash: string | undefined;
   backupLocalBackupsEnabled: boolean;
   backupTier: BackupLevel | null;
   lastLocalBackup: LocalBackupExportMetadata | undefined;
@@ -313,7 +314,7 @@ type PropsFunctionType = {
   ) => unknown;
   onAutoDownloadUpdateChange: CheckboxChangeHandlerType;
   onAutoLaunchChange: CheckboxChangeHandlerType;
-  onBackupKeyViewedChange: (keyViewed: boolean) => void;
+  onBackupKeyViewed: ({ backupKeyHash }: { backupKeyHash: string }) => void;
   onCallNotificationsChange: CheckboxChangeHandlerType;
   onCallRingtoneNotificationChange: CheckboxChangeHandlerType;
   onContentProtectionChange: CheckboxChangeHandlerType;
@@ -400,7 +401,6 @@ const DEFAULT_ZOOM_FACTORS = [
 ];
 
 export function Preferences({
-  accountEntropyPool,
   addCustomColor,
   autoDownloadAttachment,
   availableCameras,
@@ -412,7 +412,8 @@ export function Preferences({
   resumeBackupMediaDownload,
   cancelBackupMediaDownload,
   backupFreeMediaDays,
-  backupKeyViewed,
+  backupKey,
+  backupKeyHash,
   backupTier,
   backupSubscriptionStatus,
   backupLocalBackupsEnabled,
@@ -485,7 +486,7 @@ export function Preferences({
   onAutoDownloadAttachmentChange,
   onAutoDownloadUpdateChange,
   onAutoLaunchChange,
-  onBackupKeyViewedChange,
+  onBackupKeyViewed,
   onCallNotificationsChange,
   onCallRingtoneNotificationChange,
   onContentProtectionChange,
@@ -539,6 +540,7 @@ export function Preferences({
   renderPreferencesEditChatFolderPage,
   openFileInFolder,
   osName,
+  previouslyViewedBackupKeyHash,
   promptOSAuth,
   resetAllChatColors,
   resetDefaultChatColor,
@@ -2275,7 +2277,6 @@ export function Preferences({
       pageTitle = i18n('icu:Preferences__local-backups');
     }
     // Local backups setup page titles intentionally left blank
-
     let backPage: PreferencesBackupPage | undefined;
     if (settingsLocation.page === SettingsPage.LocalBackupsKeyReference) {
       backPage = SettingsPage.LocalBackups;
@@ -2295,9 +2296,9 @@ export function Preferences({
     }
     const pageContents = (
       <PreferencesBackups
-        accountEntropyPool={accountEntropyPool}
+        backupKey={backupKey}
+        backupKeyHash={backupKeyHash}
         backupFreeMediaDays={backupFreeMediaDays}
-        backupKeyViewed={backupKeyViewed}
         backupTier={backupTier}
         backupSubscriptionStatus={backupSubscriptionStatus}
         backupMediaDownloadStatus={backupMediaDownloadStatus}
@@ -2310,10 +2311,11 @@ export function Preferences({
         lastLocalBackup={lastLocalBackup}
         locale={resolvedLocale}
         localBackupFolder={localBackupFolder}
-        onBackupKeyViewedChange={onBackupKeyViewedChange}
+        onBackupKeyViewed={onBackupKeyViewed}
         openFileInFolder={openFileInFolder}
         osName={osName}
         pickLocalBackupFolder={pickLocalBackupFolder}
+        previouslyViewedBackupKeyHash={previouslyViewedBackupKeyHash}
         disableLocalBackups={disableLocalBackups}
         settingsLocation={settingsLocation}
         promptOSAuth={promptOSAuth}

@@ -303,6 +303,11 @@ export const getBackupMediaDownloadProgress = createSelector(
   })
 );
 
+export const getBackupKey = createSelector(
+  getItems,
+  (state: ItemsStateType) => state.accountEntropyPool
+);
+
 export const getServerAlerts = createSelector(
   getItems,
   (state: ItemsStateType) => state.serverAlerts ?? {}
