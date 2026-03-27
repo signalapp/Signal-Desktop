@@ -63,6 +63,7 @@ import type {
   NotificationSettingType,
   SentMediaQualitySettingType,
   ZoomFactorType,
+  StorageAccessType,
 } from '../types/StorageKeys.std.js';
 import type { ThemeSettingType } from '../util/theme.std.js';
 import type { AnyToast } from '../types/Toast.dom.js';
@@ -359,6 +360,8 @@ type PropsFunctionType = {
   setIsGroupVp9Enabled: (value: boolean | undefined) => void;
   setGroupMaxBitrate: (value: number | undefined) => void;
   setSfuUrl: (value: string | undefined) => void;
+  forceKeyTransparencyCheck: () => Promise<void>;
+  keyTransparencySelfHealth: StorageAccessType['keyTransparencySelfHealth'];
 
   // Localization
   i18n: LocalizerType;
@@ -580,6 +583,8 @@ export function Preferences({
   groupMaxBitrate,
   setSfuUrl,
   sfuUrl,
+  forceKeyTransparencyCheck,
+  keyTransparencySelfHealth,
 }: PropsType): React.JSX.Element {
   const storiesId = useId();
   const themeSelectId = useId();
@@ -2371,6 +2376,8 @@ export function Preferences({
             groupMaxBitrate={groupMaxBitrate}
             sfuUrl={sfuUrl}
             setSfuUrl={setSfuUrl}
+            forceKeyTransparencyCheck={forceKeyTransparencyCheck}
+            keyTransparencySelfHealth={keyTransparencySelfHealth}
           />
         }
         contentsRef={settingsPaneRef}
