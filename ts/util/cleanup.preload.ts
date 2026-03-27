@@ -26,12 +26,20 @@ import { getMessageIdForLogging } from './idForLogging.preload.js';
 import { singleProtoJobQueue } from '../jobs/singleProtoJobQueue.preload.js';
 import { MINUTE } from './durations/index.std.js';
 import { drop } from './drop.std.js';
+import {
+  getFilePathsReferencedByAttachment,
+  getFilePathsReferencedByMessage,
+} from './messageFilePaths.std.js';
+import {
+  deleteDownloadFile,
+  maybeDeleteAttachmentFile,
+} from './migrations.preload.js';
 import { hydrateStoryContext } from './hydrateStoryContext.preload.js';
 import { update as updateExpiringMessagesService } from '../services/expiringMessagesDeletion.preload.js';
 import { tapToViewMessagesDeletionService } from '../services/tapToViewMessagesDeletionService.preload.js';
 import { throttledUpdateBackupMediaDownloadProgress } from './updateBackupMediaDownloadProgress.preload.js';
 import { messageAttrsToPreserveAfterErase } from '../types/Message.std.js';
-import { cleanupAllMessageAttachmentFiles } from '../types/Message2.preload.js';
+import type { AttachmentType } from '../types/Attachment.std.js';
 
 const log = createLogger('cleanup');
 
@@ -280,4 +288,29 @@ export async function maybeDeleteCall(
   }
   await DataWriter.markCallHistoryDeleted(callId);
   window.reduxActions.callHistory.removeCallHistory(callId);
+}
+
+export const cleanupAllMessageAttachmentFiles = async (
+  message: MessageAttributesType
+): Promise<void> => {
+  const { externalAttachments, externalDownloads } =
+    getFilePathsReferencedByMessage(message);
+  await Promise.all(
+    [...externalAttachments].map(attachmentPath =>
+      maybeDeleteAttachmentFile(attachmentPath)
+    )
+  );
+  await Promise.all(
+    [...externalDownloads].map(downloadPath => deleteDownloadFile(downloadPath))
+  );
+};
+
+export async function cleanupAttachmentFiles(
+  attachment: AttachmentType
+): Promise<void> {
+  const result = getFilePathsReferencedByAttachment(attachment);
+  await Promise.all(
+    [...result.externalAttachments].map(maybeDeleteAttachmentFile)
+  );
+  await Promise.all([...result.externalDownloads].map(deleteDownloadFile));
 }

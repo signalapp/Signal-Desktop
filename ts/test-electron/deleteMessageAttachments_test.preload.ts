@@ -26,14 +26,14 @@ import { strictAssert } from '../util/assert.std.js';
 import {
   cleanupAllMessageAttachmentFiles,
   cleanupAttachmentFiles,
-} from '../types/Message2.preload.js';
+  cleanupMessages,
+} from '../util/cleanup.preload.js';
 import { DataReader, DataWriter } from '../sql/Client.preload.js';
 import { generateAci } from '../types/ServiceId.std.js';
 import {
   testAttachmentLocalKey,
   testPlaintextHash,
 } from '../test-helpers/attachments.node.js';
-import { cleanupMessages } from '../util/cleanup.preload.js';
 
 const { emptyDir, ensureFile } = fsExtra;
 

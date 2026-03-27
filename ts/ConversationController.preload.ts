@@ -51,6 +51,7 @@ import { validateConversation } from './util/validateConversation.dom.js';
 import { ConversationModel } from './models/conversations.preload.js';
 import { INITIAL_EXPIRE_TIMER_VERSION } from './util/expirationTimer.std.js';
 import { missingCaseError } from './util/missingCaseError.std.js';
+import { removeConversation } from './util/Conversation.preload.js';
 import { signalProtocolStore } from './SignalProtocolStore.preload.js';
 
 import type {
@@ -159,7 +160,6 @@ const { getAllConversations, getMessagesBySentAt } = DataReader;
 
 const {
   migrateConversationMessages,
-  removeConversation,
   saveConversation,
   updateConversation,
   updateConversations,
@@ -370,6 +370,7 @@ export class ConversationController {
       conversationsUpdated([conversation.format()]);
     }
   }
+
   #removeConversation(conversation: ConversationModel): void {
     this.#_conversations = without(this.#_conversations, conversation);
     this.#removeFromLookup(conversation);

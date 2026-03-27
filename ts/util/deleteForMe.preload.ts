@@ -11,13 +11,16 @@ import type { ConversationModel } from '../models/conversations.preload.js';
 import type { AddressableMessage } from '../textsecure/messageReceiverEvents.std.js';
 import type { AttachmentType } from '../types/Attachment.std.js';
 import { MessageModel } from '../models/messages.preload.js';
-import { cleanupMessages, postSaveUpdates } from './cleanup.preload.js';
+import {
+  cleanupMessages,
+  cleanupAttachmentFiles,
+  postSaveUpdates,
+} from './cleanup.preload.js';
 import {
   findMatchingMessage,
   getMessageQueryFromTarget,
 } from './syncIdentifiers.preload.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
-import { cleanupAttachmentFiles } from '../types/Message2.preload.js';
 
 const { last, sortBy } = lodash;
 

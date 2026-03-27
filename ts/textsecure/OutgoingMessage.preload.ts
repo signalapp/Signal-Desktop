@@ -45,7 +45,7 @@ import * as Errors from '../types/errors.std.js';
 import { HTTPError } from '../types/HTTPError.std.js';
 import { QualifiedAddress } from '../types/QualifiedAddress.std.js';
 import type { ServiceIdString } from '../types/ServiceId.std.js';
-import { Sessions, IdentityKeys } from '../LibSignalStores.preload.js';
+import { Sessions, IdentityKeys } from '../LibSignalStores.node.js';
 import { getKeysForServiceId } from './getKeysForServiceId.preload.js';
 import { SignalService as Proto } from '../protobuf/index.std.js';
 import { createLogger } from '../logging/log.std.js';
@@ -438,8 +438,14 @@ export default class OutgoingMessage {
       );
     }
 
-    const sessionStore = new Sessions({ ourServiceId: ourAci });
-    const identityKeyStore = new IdentityKeys({ ourServiceId: ourAci });
+    const sessionStore = new Sessions({
+      signalProtocolStore,
+      ourServiceId: ourAci,
+    });
+    const identityKeyStore = new IdentityKeys({
+      signalProtocolStore,
+      ourServiceId: ourAci,
+    });
 
     return Promise.all(
       deviceIds.map(async destinationDeviceId => {

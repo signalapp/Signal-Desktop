@@ -13,11 +13,9 @@ import * as Bytes from '../Bytes.std.js';
 import { createLogger } from '../logging/log.std.js';
 import * as Errors from '../types/errors.std.js';
 
-import { deleteExternalFiles } from '../types/Conversation.std.js';
 import { createBatcher } from '../util/batcher.std.js';
 import { assertDev, softAssert } from '../util/assert.std.js';
 import { mapObjectWithSpec } from '../util/mapObjectWithSpec.std.js';
-import { maybeDeleteAttachmentFile } from '../util/migrations.preload.js';
 import { cleanDataForIpc } from './cleanDataForIpc.std.js';
 import { runTaskWithTimeout } from '../textsecure/TaskWithTimeout.std.js';
 import { isValidUuid, isValidUuidV7 } from '../util/isValidUuid.std.js';
@@ -131,7 +129,6 @@ const clientOnlyWritable: ClientOnlyWritableInterface = {
   createOrUpdateItem,
 
   updateConversation,
-  removeConversation,
 
   removeMessageById,
   removeMessagesById,
@@ -551,19 +548,6 @@ async function updateConversations(
     `Paths were cleaned: ${JSON.stringify(pathsChanged)}`
   );
   await writableChannel.updateConversations(cleaned);
-}
-
-async function removeConversation(id: string): Promise<void> {
-  const existing = await readableChannel.getConversationById(id);
-
-  // Note: It's important to have a fully database-hydrated model to delete here because
-  //   it needs to delete all associated on-disk files along with the database delete.
-  if (existing) {
-    await writableChannel.removeConversation(id);
-    await deleteExternalFiles(existing, {
-      maybeDeleteAttachmentFile,
-    });
-  }
 }
 
 function handleSearchMessageJSON(

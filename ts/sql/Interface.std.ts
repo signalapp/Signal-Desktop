@@ -1190,7 +1190,8 @@ type WritableInterface = {
   saveConversations: (array: Array<ConversationType>) => void;
   // updateConversation is a normal data method on Server, a sync batch-add on Client
   updateConversations: (array: Array<ConversationType>) => void;
-  // removeConversation handles either one id or an array on Server, and one id on Client
+  /** @internal use ts/util/Conversation.preload.ts */
+  _removeConversation: (id: string) => void;
   _removeAllConversations: () => void;
   updateAllConversationColors: (
     conversationColor?: ConversationColorType,
@@ -1583,7 +1584,6 @@ export type ServerWritableDirectInterface = WritableInterface & {
   // Differing signature on client/server
 
   updateConversation: (data: ConversationType) => void;
-  removeConversation: (id: Array<string> | string) => void;
 
   saveMessage: (
     data: ReadonlyDeep<MessageType>,
@@ -1689,7 +1689,6 @@ export type ClientOnlyReadableInterface = ClientInterfaceWrap<{
 export type ClientOnlyWritableInterface = ClientInterfaceWrap<{
   // Differing signature on client/server
   updateConversation: (data: ConversationType) => void;
-  removeConversation: (id: string) => void;
   flushUpdateConversationBatcher: () => void;
 
   saveMessage: (

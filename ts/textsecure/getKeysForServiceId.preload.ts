@@ -15,7 +15,7 @@ import {
   OutgoingIdentityKeyError,
   UnregisteredUserError,
 } from './Errors.std.js';
-import { Sessions, IdentityKeys } from '../LibSignalStores.preload.js';
+import { Sessions, IdentityKeys } from '../LibSignalStores.node.js';
 import { Address } from '../types/Address.std.js';
 import { QualifiedAddress } from '../types/QualifiedAddress.std.js';
 import type { ServiceIdString } from '../types/ServiceId.std.js';
@@ -133,8 +133,14 @@ async function handleServerKeys(
   devicesToUpdate: Array<number> | null
 ): Promise<void> {
   const ourAci = itemStorage.user.getCheckedAci();
-  const sessionStore = new Sessions({ ourServiceId: ourAci });
-  const identityKeyStore = new IdentityKeys({ ourServiceId: ourAci });
+  const sessionStore = new Sessions({
+    signalProtocolStore,
+    ourServiceId: ourAci,
+  });
+  const identityKeyStore = new IdentityKeys({
+    signalProtocolStore,
+    ourServiceId: ourAci,
+  });
 
   await Promise.all(
     response.devices.map(async device => {

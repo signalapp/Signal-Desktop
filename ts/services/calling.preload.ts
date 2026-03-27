@@ -67,7 +67,7 @@ import type {
   GroupCallPeekInfoType,
 } from '../state/ducks/calling.preload.js';
 import type { ConversationType } from '../state/ducks/conversations.preload.js';
-import { getConversationCallMode } from '../state/ducks/conversations.preload.js';
+import { getConversationCallMode } from '../util/getConversationCallMode.std.js';
 import { isMe } from '../util/whatTypeOfConversation.dom.js';
 import { getAbsoluteTempPath } from '../util/migrations.preload.js';
 import { isKnownProtoEnumMember } from '../util/isKnownProtoEnumMember.std.js';

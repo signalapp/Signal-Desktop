@@ -36,6 +36,7 @@ import { dropNull } from '../util/dropNull.std.js';
 import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl.std.js';
 import { type Loadable, LoadingState } from '../util/loadable.std.js';
 import { missingCaseError } from '../util/missingCaseError.std.js';
+import { removeConversation } from '../util/Conversation.preload.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
 
 const log = createLogger('joinViaLink');
@@ -371,7 +372,7 @@ export async function joinViaLink(value: string): Promise<void> {
               window.ConversationController.dangerouslyRemoveById(
                 tempConversation.id
               );
-              await DataWriter.removeConversation(tempConversation.id);
+              await removeConversation(tempConversation.id);
             }
 
             throw error;

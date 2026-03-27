@@ -69,12 +69,10 @@ import type {
   ConversationsUpdatedActionType,
   ConversationRemovedActionType,
 } from './conversations.preload.js';
-import {
-  getConversationCallMode,
-  updateLastMessage,
-} from './conversations.preload.js';
+import { updateLastMessage } from './conversations.preload.js';
 import { createLogger } from '../../logging/log.std.js';
 import { strictAssert } from '../../util/assert.std.js';
+import { getConversationCallMode } from '../../util/getConversationCallMode.std.js';
 import { waitForOnline } from '../../util/waitForOnline.dom.js';
 import * as mapUtil from '../../util/mapUtil.std.js';
 import { isCallSafe } from '../../util/isCallSafe.dom.js';

@@ -56,14 +56,6 @@ import { deepClone } from '../util/deepClone.std.js';
 import * as Bytes from '../Bytes.std.js';
 import { isBodyTooLong } from '../util/longAttachment.std.js';
 import type { MessageAttachmentType } from './AttachmentDownload.std.js';
-import {
-  getFilePathsReferencedByAttachment,
-  getFilePathsReferencedByMessage,
-} from '../util/messageFilePaths.std.js';
-import {
-  deleteDownloadFile,
-  maybeDeleteAttachmentFile,
-} from '../util/migrations.preload.js';
 import type { getExistingAttachmentDataForReuse } from '../util/attachments/deduplicateAttachment.preload.js';
 import type { getPlaintextHashForInMemoryAttachment } from '../AttachmentCrypto.node.js';
 import { strictAssert } from '../util/assert.std.js';
@@ -1049,31 +1041,6 @@ export const loadStickerData = (
     };
   };
 };
-
-export const cleanupAllMessageAttachmentFiles = async (
-  message: MessageAttributesType
-): Promise<void> => {
-  const { externalAttachments, externalDownloads } =
-    getFilePathsReferencedByMessage(message);
-  await Promise.all(
-    [...externalAttachments].map(attachmentPath =>
-      maybeDeleteAttachmentFile(attachmentPath)
-    )
-  );
-  await Promise.all(
-    [...externalDownloads].map(downloadPath => deleteDownloadFile(downloadPath))
-  );
-};
-
-export async function cleanupAttachmentFiles(
-  attachment: AttachmentType
-): Promise<void> {
-  const result = getFilePathsReferencedByAttachment(attachment);
-  await Promise.all(
-    [...result.externalAttachments].map(maybeDeleteAttachmentFile)
-  );
-  await Promise.all([...result.externalDownloads].map(deleteDownloadFile));
-}
 
 export async function migrateBodyAttachmentToDisk(
   message: MessageAttributesType,
