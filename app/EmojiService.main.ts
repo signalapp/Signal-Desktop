@@ -11,8 +11,9 @@ import type { OptionalResourceService } from './OptionalResourceService.main.js'
 import { SignalService as Proto } from '../ts/protobuf/index.std.js';
 import { parseUnknown } from '../ts/util/schemas.std.js';
 import { utf16ToEmoji } from '../ts/util/utf16ToEmoji.node.js';
+import { getAppRootDir } from '../ts/util/appRootDir.main.js';
 
-const MANIFEST_PATH = join(__dirname, '..', 'build', 'jumbomoji.json');
+const MANIFEST_PATH = join(getAppRootDir(), 'build', 'jumbomoji.json');
 
 const manifestSchema = z.record(z.string(), z.string().array());
 

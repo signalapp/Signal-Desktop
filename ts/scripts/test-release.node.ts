@@ -9,7 +9,7 @@ import { mkdtemp, cp } from 'node:fs/promises';
 import { constants as fsConstants } from 'node:fs';
 import { _electron as electron } from 'playwright';
 
-import { productName, name } from '../util/packageJson.node.js';
+import { packageJson } from '../util/packageJson.node.js';
 import { gracefulRmRecursive } from '../util/gracefulFs.node.js';
 import { consoleLogger } from '../util/consoleLogger.std.js';
 
@@ -21,24 +21,24 @@ let exe: string;
 if (process.platform === 'darwin') {
   archive = join(
     'mac-arm64',
-    `${productName}.app`,
+    `${packageJson.productName}.app`,
     'Contents',
     'Resources',
     'app.asar'
   );
   exe = join(
     'mac-arm64',
-    `${productName}.app`,
+    `${packageJson.productName}.app`,
     'Contents',
     'MacOS',
-    productName
+    packageJson.productName
   );
 } else if (process.platform === 'win32') {
   archive = join('win-unpacked', 'resources', 'app.asar');
-  exe = join('win-unpacked', `${productName}.exe`);
+  exe = join('win-unpacked', `${packageJson.productName}.exe`);
 } else if (process.platform === 'linux') {
   archive = join('linux-unpacked', 'resources', 'app.asar');
-  exe = join('linux-unpacked', name);
+  exe = join('linux-unpacked', packageJson.name);
 } else {
   throw new Error(`Unsupported platform: ${process.platform}`);
 }
@@ -87,7 +87,7 @@ const main = async () => {
     );
 
     console.log('Checking window title');
-    assert.strictEqual(await window.title(), productName);
+    assert.strictEqual(await window.title(), packageJson.productName);
 
     await app.close();
   } finally {

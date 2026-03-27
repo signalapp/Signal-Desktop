@@ -14,6 +14,7 @@ import { DialogType } from '../types/Dialogs.std.js';
 import * as Errors from '../types/errors.std.js';
 import type { UpdaterOptionsType } from './common.main.js';
 import { appRelaunch } from '../util/relaunch.main.js';
+import { getAppRootDir } from '../util/appRootDir.main.js';
 
 const MIN_UBUNTU_VERSION = '22.04';
 
@@ -69,7 +70,7 @@ export function initLinux({ logger, getMainWindow }: UpdaterOptionsType): void {
   // See our patch for app-builder-lib.
   //
   // /opt/Signal/resources/app.asar
-  const asarPath = join(__dirname, '..', '..');
+  const asarPath = getAppRootDir();
   if (!asarPath.endsWith('.asar')) {
     throw new Error('updater/linux: not running from ASAR');
   }

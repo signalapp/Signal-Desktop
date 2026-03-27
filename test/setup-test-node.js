@@ -7,7 +7,7 @@ const chaiAsPromised = require('chai-as-promised');
 const { Crypto } = require('../ts/context/Crypto.node.js');
 const { setEnvironment, Environment } = require('../ts/environment.std.js');
 const { HourCyclePreference } = require('../ts/types/I18N.std.js');
-const { default: package } = require('../ts/util/packageJson.node.js');
+const { packageJson } = require('../ts/util/packageJson.node.js');
 
 chai.use(chaiAsPromised);
 
@@ -20,14 +20,14 @@ global.window = {
   SignalContext: {
     i18n: key => `i18n(${key})`,
     getPath: () => '/tmp',
-    getVersion: () => package.version,
+    getVersion: () => packageJson.version,
     config: {
       serverUrl: 'https://127.0.0.1:9',
       storageUrl: 'https://127.0.0.1:9',
       updatesUrl: 'https://127.0.0.1:9',
       resourcesUrl: 'https://127.0.0.1:9',
-      certificateAuthority: package.certificateAuthority,
-      version: package.version,
+      certificateAuthority: packageJson.certificateAuthority,
+      version: packageJson.version,
     },
     crypto: new Crypto(),
     getResolvedMessagesLocale: () => 'en',

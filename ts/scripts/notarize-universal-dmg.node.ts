@@ -5,7 +5,7 @@ import type { BuildResult } from 'electron-builder';
 
 import { notarize } from '@electron/notarize';
 
-import { build } from '../util/packageJson.node.js';
+import { packageJson } from '../util/packageJson.node.js';
 
 export async function afterAllArtifactBuild({
   platformToTargets,
@@ -24,7 +24,7 @@ export async function afterAllArtifactBuild({
     return;
   }
 
-  const appBundleId = build.appId;
+  const appBundleId = packageJson.build.appId;
   if (!appBundleId) {
     throw new Error(
       'appBundleId must be provided in package.json: build.appId'

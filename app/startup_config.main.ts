@@ -3,7 +3,7 @@
 
 import { app } from 'electron';
 
-import { name } from '../ts/util/packageJson.node.js';
+import { packageJson } from '../ts/util/packageJson.main.js';
 import { createLogger } from '../ts/logging/log.std.js';
 import * as GlobalErrors from './global_errors.main.js';
 
@@ -15,7 +15,7 @@ GlobalErrors.addHandler();
 // set such that only we have read access to our files
 process.umask(0o077);
 
-export const AUMID = `org.whispersystems.${name}`;
+export const AUMID = `org.whispersystems.${packageJson.name}`;
 log.info('Set Windows Application User Model ID (AUMID)', {
   AUMID,
 });

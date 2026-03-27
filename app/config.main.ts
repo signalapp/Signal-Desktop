@@ -13,6 +13,7 @@ import {
   parseEnvironment,
 } from '../ts/environment.std.js';
 import { createLogger } from '../ts/logging/log.std.js';
+import { getAppRootDir } from '../ts/util/appRootDir.main.js';
 
 const log = createLogger('config');
 
@@ -28,7 +29,6 @@ if (app.isPackaged) {
 
 // Set environment vars to configure node-config before requiring it
 process.env.NODE_ENV = getEnvironment();
-process.env.NODE_CONFIG_DIR = join(__dirname, '..', 'config');
 
 if (getEnvironment() === Environment.PackagedApp) {
   // harden production config against the local env
@@ -43,7 +43,11 @@ if (getEnvironment() === Environment.PackagedApp) {
   process.env.SIGNAL_CI_CONFIG = '';
   process.env.GENERATE_PRELOAD_CACHE = '';
   process.env.REACT_DEVTOOLS = '';
+  process.env.IS_BUNDLED = '1';
 }
+
+// Call `getAppRootDir()` after hardening since it relies on env variables
+process.env.NODE_CONFIG_DIR = join(getAppRootDir(), 'config');
 
 // We load config after we've made our modifications to NODE_ENV
 // Note: we use `require()` because esbuild moves the imports to the top of

@@ -1,6 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
+import { join } from 'node:path';
 import { assert } from 'chai';
 import { stub } from 'sinon';
 import type { MenuItemConstructorOptions } from 'electron';
@@ -214,6 +215,7 @@ describe('createTemplate', () => {
   };
 
   const { i18n } = loadLocale({
+    rootDir: join(__dirname, '..', '..', '..'),
     hourCyclePreference: HourCyclePreference.UnknownPreference,
     isPackaged: false,
     localeDirectionTestingOverride: null,

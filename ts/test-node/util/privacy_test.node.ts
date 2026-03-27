@@ -4,9 +4,11 @@
 import { assert } from 'chai';
 
 import * as Privacy from '../../util/privacy.node.js';
-import { APP_ROOT_PATH } from '../../util/privacy.node.js';
 
 Privacy.addSensitivePath('sensitive-path');
+
+const APP_ROOT_PATH = __dirname;
+Privacy.addSensitivePath(APP_ROOT_PATH);
 
 describe('Privacy', () => {
   describe('redactCardNumbers', () => {
