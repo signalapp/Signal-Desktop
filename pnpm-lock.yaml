@@ -126,8 +126,8 @@ importers:
         specifier: 3.33.1
         version: 3.33.1(react@19.2.4)
       '@signalapp/libsignal-client':
-        specifier: 0.89.2
-        version: 0.89.2
+        specifier: 0.90.0
+        version: 0.90.0
       '@signalapp/minimask':
         specifier: 1.0.1
         version: 1.0.1
@@ -3424,6 +3424,9 @@ packages:
 
   '@signalapp/libsignal-client@0.89.2':
     resolution: {integrity: sha512-LGvE50XxiCB7vXHtx/TElPXl8sFr6kLO6CkZVh33pc5FME3j/PMtdTZnUE7bFDV15yxW//pCntFrpV0XzV5lSA==}
+
+  '@signalapp/libsignal-client@0.90.0':
+    resolution: {integrity: sha512-jNS5Xy7043QKXlcFYHA5HnxhrVvYHI+zaWgpeRLTKAdJLycYV6OesG6Y1lqxhkOWQcXjiOg/cDWt8ZOGl5pVYw==}
 
   '@signalapp/minimask@1.0.1':
     resolution: {integrity: sha512-QAwo0joA60urTNbW9RIz6vLKQjy+jdVtH7cvY0wD9PVooD46MAjE40MLssp4xUJrph91n2XvtJ3pbEUDrmT2AA==}
@@ -14065,6 +14068,12 @@ snapshots:
   '@sideway/pinpoint@2.0.0': {}
 
   '@signalapp/libsignal-client@0.89.2':
+    dependencies:
+      node-gyp-build: 4.8.4
+      type-fest: 4.26.1
+      uuid: 11.0.2
+
+  '@signalapp/libsignal-client@0.90.0':
     dependencies:
       node-gyp-build: 4.8.4
       type-fest: 4.26.1

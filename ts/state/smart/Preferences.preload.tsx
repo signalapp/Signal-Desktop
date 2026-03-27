@@ -204,6 +204,10 @@ function getSystemTraySettingValues(
   };
 }
 
+async function forceKeyTransparencyCheck(): Promise<void> {
+  await keyTransparency.selfCheck();
+}
+
 export function SmartPreferences(): React.JSX.Element | null {
   const {
     addCustomColor,
@@ -1025,6 +1029,8 @@ export function SmartPreferences(): React.JSX.Element | null {
           groupMaxBitrate={items.groupMaxBitrate}
           sfuUrl={items.sfuUrl}
           setSfuUrl={setSfuUrl}
+          forceKeyTransparencyCheck={forceKeyTransparencyCheck}
+          keyTransparencySelfHealth={items.keyTransparencySelfHealth}
         />
       </AxoProvider>
     </StrictMode>

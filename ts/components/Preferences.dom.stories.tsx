@@ -11,6 +11,7 @@ import { Preferences } from './Preferences.dom.js';
 import { DEFAULT_CONVERSATION_COLOR } from '../types/Colors.std.js';
 import { PhoneNumberSharingMode } from '../types/PhoneNumberSharingMode.std.js';
 import { PhoneNumberDiscoverability } from '../util/phoneNumberDiscoverability.std.js';
+import { sleep } from '../util/sleep.std.js';
 import { EmojiSkinTone } from './fun/data/emojis.std.js';
 import {
   DAY,
@@ -659,6 +660,10 @@ export default {
     setIsGroupVp9Enabled: action('setIsDirectVp9Enabled'),
     sfuUrl: 'https://sfu.voip.signal.org',
     setSfuUrl: action('setSfuUrl'),
+    forceKeyTransparencyCheck: async () => {
+      await sleep(1000);
+    },
+    keyTransparencySelfHealth: 'ok',
   } satisfies PropsType,
 } satisfies Meta<PropsType>;
 

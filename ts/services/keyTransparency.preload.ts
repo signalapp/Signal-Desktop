@@ -11,16 +11,11 @@ import type {
   Request,
   E164Info,
 } from '@signalapp/libsignal-client/dist/net/KeyTransparency.js';
-import { MonitorMode } from '@signalapp/libsignal-client/dist/net/KeyTransparency.js';
 import pTimeout from 'p-timeout';
 
-import {
-  keyTransparencySearch,
-  keyTransparencyMonitor,
-} from '../textsecure/WebAPI.preload.js';
+import { keyTransparencyCheck } from '../textsecure/WebAPI.preload.js';
 import { signalProtocolStore } from '../SignalProtocolStore.preload.js';
 import { itemStorage } from '../textsecure/Storage.preload.js';
-import { fromAciObject } from '../types/ServiceId.std.js';
 import { toLogFormat } from '../types/errors.std.js';
 import { toAciObject } from '../util/ServiceId.node.js';
 import { TaskDeduplicator } from '../util/TaskDeduplicator.std.js';
@@ -142,8 +137,9 @@ export class KeyTransparency {
       };
     }
 
-    await this.#verify(
+    await this.#check(
       {
+        mode: 'contact',
         aciInfo: {
           aci: toAciObject(aci),
           identityKey: PublicKey.deserialize(identityKey),
@@ -195,23 +191,16 @@ export class KeyTransparency {
 
     const me = window.ConversationController.getOurConversationOrThrow();
 
-    let e164Info: E164Info | undefined;
-    if (
+    const isE164Discoverable =
       itemStorage.get('phoneNumberDiscoverability') ===
-      PhoneNumberDiscoverability.Discoverable
-    ) {
-      const ourE164 = itemStorage.user.getNumber();
-      strictAssert(ourE164 != null, 'missing our e164');
+      PhoneNumberDiscoverability.Discoverable;
 
-      me.deriveAccessKeyIfNeeded();
-      const ourAccessKey = me.get('accessKey');
-      strictAssert(ourAccessKey != null, 'missing our access key');
+    const ourE164 = itemStorage.user.getNumber();
+    strictAssert(ourE164 != null, 'missing our e164');
 
-      e164Info = {
-        e164: ourE164,
-        unidentifiedAccessKey: Bytes.fromBase64(ourAccessKey),
-      };
-    }
+    me.deriveAccessKeyIfNeeded();
+    const ourAccessKey = me.get('accessKey');
+    strictAssert(ourAccessKey != null, 'missing our access key');
 
     let usernameHash: Uint8Array<ArrayBuffer> | undefined;
 
@@ -235,13 +224,18 @@ export class KeyTransparency {
     }
 
     try {
-      await this.#verify(
+      await this.#check(
         {
+          mode: 'self',
+          isE164Discoverable,
           aciInfo: {
             aci: toAciObject(ourAci),
             identityKey: keyPair.publicKey,
           },
-          e164Info,
+          e164Info: {
+            e164: ourE164,
+            unidentifiedAccessKey: Bytes.fromBase64(ourAccessKey),
+          },
           usernameHash,
         },
         abortSignal
@@ -312,29 +306,16 @@ export class KeyTransparency {
     }
   }
 
-  async #verify(
+  async #check(
     request: Request,
     abortSignal?: AbortSignal,
     backOff = new BackOff(KEY_TRANSPARENCY_TIMEOUTS)
   ): Promise<void> {
     try {
-      const existing = await signalProtocolStore.getKTAccountData(
-        request.aciInfo.aci
-      );
       if (abortSignal?.aborted) {
         throw new Error('Aborted');
       }
-      const aciString = fromAciObject(request.aciInfo.aci);
-      if (existing == null) {
-        log.info('search', aciString);
-        await keyTransparencySearch(request, abortSignal);
-      } else {
-        const mode = itemStorage.user.isOurServiceId(aciString)
-          ? MonitorMode.Self
-          : MonitorMode.Other;
-        log.info('monitor', aciString);
-        await keyTransparencyMonitor(request, mode, abortSignal);
-      }
+      await keyTransparencyCheck(request, abortSignal);
     } catch (error) {
       if (abortSignal?.aborted) {
         throw new Error('Aborted');
@@ -368,7 +349,7 @@ export class KeyTransparency {
         throw new Error('Aborted');
       }
 
-      return this.#verify(request, abortSignal, backOff);
+      return this.#check(request, abortSignal, backOff);
     }
   }
 }

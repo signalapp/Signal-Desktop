@@ -30,10 +30,7 @@ import type {
   ProvisioningConnectionListener,
 } from '@signalapp/libsignal-client/dist/net.js';
 import { GroupSendFullToken } from '@signalapp/libsignal-client/zkgroup.js';
-import type {
-  Request as KTRequest,
-  MonitorMode as KTMonitorMode,
-} from '@signalapp/libsignal-client/dist/net/KeyTransparency.js';
+import type { Request as KTRequest } from '@signalapp/libsignal-client/dist/net/KeyTransparency.js';
 
 import { assertDev, strictAssert } from '../util/assert.std.js';
 import * as durations from '../util/durations/index.std.js';
@@ -2492,7 +2489,7 @@ export async function getAccountForUsername({
   return aci ? fromAciObject(aci) : null;
 }
 
-export async function keyTransparencySearch(
+export async function keyTransparencyCheck(
   request: KTRequest,
   abortSignal?: AbortSignal
 ): Promise<void> {
@@ -2503,30 +2500,7 @@ export async function keyTransparencySearch(
     }
     const kt = chat.keyTransparencyClient();
     const store = new KeyTransparencyStore(signalProtocolStore);
-    return kt.search(request, store, { abortSignal });
-  });
-}
-
-export async function keyTransparencyMonitor(
-  request: KTRequest,
-  mode: KTMonitorMode,
-  abortSignal?: AbortSignal
-): Promise<void> {
-  return _retry(async () => {
-    const chat = await socketManager.getUnauthenticatedApi();
-    if (abortSignal?.aborted) {
-      throw new Error('Aborted');
-    }
-    const kt = chat.keyTransparencyClient();
-    const store = new KeyTransparencyStore(signalProtocolStore);
-    return kt.monitor(
-      {
-        ...request,
-        mode,
-      },
-      store,
-      { abortSignal }
-    );
+    return kt.check(request, store, { abortSignal });
   });
 }
 
