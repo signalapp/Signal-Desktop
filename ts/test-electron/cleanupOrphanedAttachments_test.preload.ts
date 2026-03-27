@@ -19,6 +19,7 @@ import {
   getDownloadsPath,
   getDraftPath,
   getAttachmentsPath,
+  getMegaphonesPath,
 } from '../windows/main/attachments.preload.js';
 
 import { generateAci } from '../types/ServiceId.std.js';
@@ -75,6 +76,7 @@ describe('cleanupOrphanedAttachments', () => {
     );
     await emptyDir(getDownloadsPath(window.SignalContext.config.userDataPath));
     await emptyDir(getDraftPath(window.SignalContext.config.userDataPath));
+    await emptyDir(getMegaphonesPath(window.SignalContext.config.userDataPath));
   });
 
   afterEach(async () => {
@@ -83,6 +85,7 @@ describe('cleanupOrphanedAttachments', () => {
     );
     await emptyDir(getDownloadsPath(window.SignalContext.config.userDataPath));
     await emptyDir(getDraftPath(window.SignalContext.config.userDataPath));
+    await emptyDir(getMegaphonesPath(window.SignalContext.config.userDataPath));
   });
 
   function getAttachmentFilePath() {
