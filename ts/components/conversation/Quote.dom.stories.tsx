@@ -82,6 +82,7 @@ const defaultMessageProps: TimelineMessagesProps = {
   canReply: true,
   canRetry: true,
   canRetryDeleteForEveryone: true,
+  canSendPollVote: true,
   canDeleteForEveryone: true,
   canDownload: true,
   checkForAccount: action('checkForAccount'),

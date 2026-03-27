@@ -242,6 +242,7 @@ const createProps = (overrideProps: Partial<Props> = {}): Props => ({
   canPinMessage: overrideProps.canPinMessage ?? true,
   canReact: true,
   canReply: true,
+  canSendPollVote: true,
   canDownload: true,
   canDeleteForEveryone: overrideProps.canDeleteForEveryone || false,
   canForward: true,

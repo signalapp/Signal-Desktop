@@ -49,7 +49,7 @@ type PollCheckboxProps = {
 };
 
 const PollCheckbox = memo((props: PollCheckboxProps) => {
-  const { isIncoming, isPending, checked } = props;
+  const { checked, isIncoming, isPending, onCheckedChange } = props;
 
   let bgColor: TailwindStyles;
   let borderColor: TailwindStyles;
@@ -107,8 +107,8 @@ const PollCheckbox = memo((props: PollCheckboxProps) => {
         )}
       </AnimatePresence>
       <Checkbox.Root
-        checked={props.checked}
-        onCheckedChange={props.onCheckedChange}
+        checked={checked}
+        onCheckedChange={onCheckedChange}
         className={tw(
           'flex size-6 items-center justify-center rounded-full',
           isPending ? '' : 'border-[1.5px]',
@@ -146,12 +146,13 @@ export type PollMessageContentsProps = {
   direction: DirectionType;
   i18n: LocalizerType;
   messageId: string;
+  canEndPoll?: boolean;
+  canSendPollVote: boolean;
   sendPollVote: (params: {
     messageId: string;
     optionIndexes: ReadonlyArray<number>;
   }) => void;
   endPoll: (messageId: string) => void;
-  canEndPoll?: boolean;
 };
 
 const DELAY_BEFORE_SHOWING_PENDING_ANIMATION = 500;
@@ -160,9 +161,10 @@ export function PollMessageContents({
   direction,
   i18n,
   messageId,
+  canEndPoll,
+  canSendPollVote,
   sendPollVote,
   endPoll,
-  canEndPoll,
 }: PollMessageContentsProps): React.JSX.Element {
   const [showVotesModal, setShowVotesModal] = useState(false);
   const [isPending, setIsPending] = useState(false);
@@ -281,7 +283,7 @@ export function PollMessageContents({
           return (
             // oxlint-disable-next-line react/no-array-index-key
             <div key={`option-${index}`} className={tw('flex gap-3')}>
-              {poll.terminatedAt == null && (
+              {canSendPollVote && poll.terminatedAt == null && (
                 // 3px offset: type-body-large has 14px font-size and 20px line-height,
                 // creating 3px space above text. This aligns checkbox with text baseline.
                 <div className={tw('mt-[3px] self-start')}>

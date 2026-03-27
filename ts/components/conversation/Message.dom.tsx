@@ -270,6 +270,7 @@ export type PropsData = {
   isSpoilerExpanded?: Record<number, boolean>;
   isVoiceMessagePlayed: boolean;
   canEndPoll?: boolean;
+  canSendPollVote: boolean;
   direction: DirectionType;
   timestamp: number;
   receivedAtMS?: number;
@@ -2082,7 +2083,8 @@ export class Message extends React.PureComponent<Props, State> {
   }
 
   public renderPoll(): React.JSX.Element | null {
-    const { poll, direction, i18n, id, endPoll, canEndPoll } = this.props;
+    const { poll, direction, i18n, id, endPoll, canEndPoll, canSendPollVote } =
+      this.props;
     if (!poll) {
       return null;
     }
@@ -2095,6 +2097,7 @@ export class Message extends React.PureComponent<Props, State> {
         sendPollVote={this.props.sendPollVote}
         endPoll={endPoll}
         canEndPoll={canEndPoll}
+        canSendPollVote={canSendPollVote}
       />
     );
   }

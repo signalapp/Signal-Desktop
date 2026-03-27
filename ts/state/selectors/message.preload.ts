@@ -973,6 +973,7 @@ export const getPropsForMessage = (
       conversation,
       ourAci,
     }),
+    canSendPollVote: !isGroupTerminated,
     contact: getPropsForEmbeddedContact(message, regionCode, accountSelector),
     contactLabel,
     contactNameColor,
